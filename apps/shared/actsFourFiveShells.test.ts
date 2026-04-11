@@ -4,7 +4,10 @@ import {
   BRIDGE_OF_KAEL_POST_CREDITS,
   CADES_FPS_MISSIONS,
   DEAD_MANS_CIRCUIT_TRACKS,
+  act4PrisonerFlagsForCompletedStoryChapters,
   getAct4Chapter,
+  getAct4ChapterByFighterId,
+  getAct4ChapterByStoryTag,
   getCadesMission,
   listAct4Chapters,
   listCadesMissions,
@@ -37,6 +40,56 @@ describe("Act 4 — The Prisoner (§9)", () => {
 
   it("listAct4Chapters returns the 4 chapters", () => {
     expect(listAct4Chapters().length).toBe(4);
+  });
+
+  it("every chapter has a unique fighterId matching gameData", () => {
+    const fighterIds = ACT_4_PRISONER_CHAPTERS.map((c) => c.fighterId);
+    expect(new Set(fighterIds).size).toBe(fighterIds.length);
+    // These must match FighterData.id in apps/client/src/game/gameData.ts
+    expect(fighterIds).toEqual(["jailer", "human", "warlord", "white-oracle"]);
+  });
+
+  it("every chapter has a unique storyModeChapterTag", () => {
+    const tags = ACT_4_PRISONER_CHAPTERS.map((c) => c.storyModeChapterTag);
+    expect(new Set(tags).size).toBe(tags.length);
+    expect(tags).toEqual(["ch2", "ch8", "ch7", "ch6"]);
+  });
+
+  it("getAct4ChapterByFighterId('jailer') returns the_cell", () => {
+    const ch = getAct4ChapterByFighterId("jailer");
+    expect(ch?.id).toBe("the_cell");
+  });
+
+  it("getAct4ChapterByFighterId('white-oracle') returns the_white_oracle_meets", () => {
+    const ch = getAct4ChapterByFighterId("white-oracle");
+    expect(ch?.id).toBe("the_white_oracle_meets");
+  });
+
+  it("getAct4ChapterByFighterId returns undefined for unrelated fighters", () => {
+    expect(getAct4ChapterByFighterId("collector")).toBeUndefined();
+    expect(getAct4ChapterByFighterId("architect")).toBeUndefined();
+  });
+
+  it("getAct4ChapterByStoryTag('ch7') returns the_warlord_rematch", () => {
+    expect(getAct4ChapterByStoryTag("ch7")?.id).toBe("the_warlord_rematch");
+  });
+
+  it("act4PrisonerFlagsForCompletedStoryChapters maps completions to flags", () => {
+    const flags = act4PrisonerFlagsForCompletedStoryChapters([
+      "ch1",
+      "ch2",
+      "ch7",
+    ]);
+    expect(flags).toContain("act4_prisoner_cell_complete");
+    expect(flags).toContain("act4_prisoner_warlord_complete");
+    expect(flags).not.toContain("act4_prisoner_oracle_complete");
+    expect(flags).not.toContain("act4_prisoner_extraction_complete");
+  });
+
+  it("act4PrisonerFlagsForCompletedStoryChapters returns empty for unrelated chapters", () => {
+    expect(
+      act4PrisonerFlagsForCompletedStoryChapters(["ch1", "ch4", "ch5"]),
+    ).toEqual([]);
   });
 });
 

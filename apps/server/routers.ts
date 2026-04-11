@@ -33,6 +33,7 @@ import { moralityLeaderboardRouter } from "./routers/moralityLeaderboard";
 import { companionRouter } from "./routers/companion";
 import { marketplaceRouter } from "./routers/marketplace";
 import { dailyQuestsRouter } from "./routers/dailyQuests";
+import { bonusObjectivesRouter } from "./routers/bonusObjectives";
 import { marketAchievementsRouter } from "./routers/marketAchievements";
 import { notificationRouter } from "./routers/notificationRouter";
 import { guildRouter } from "./routers/guild";
@@ -112,6 +113,7 @@ export const appRouter = router({
   companion: companionRouter,
   marketplace: marketplaceRouter,
   quests: dailyQuestsRouter,
+  bonusObjectives: bonusObjectivesRouter,
   marketAchievements: marketAchievementsRouter,
   notifications: notificationRouter,
   guild: guildRouter,

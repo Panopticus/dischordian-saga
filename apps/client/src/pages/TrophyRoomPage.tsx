@@ -14,6 +14,7 @@ import { ACHIEVEMENT_CHAINS, type AchievementChain } from "@/game/achievementCha
 import { useGame } from "@/contexts/GameContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import LivingBackground from "@/components/LivingBackground";
+import { WitnessingWallPanel } from "@/components/WitnessingWallPanel";
 
 // Trophy room themes
 const ROOM_THEMES = [
@@ -351,6 +352,11 @@ export default function TrophyRoomPage() {
             );
           })}
         </div>
+      </div>
+
+      {/* Witnessing Wall — Appendix A.10 */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-8">
+        <WitnessingWallPanel />
       </div>
 
       {/* Card detail modal */}

@@ -11,6 +11,7 @@ import {
 import StoryArc from "@/components/StoryArc";
 import RelationshipMiniGraph from "@/components/RelationshipMiniGraph";
 import LoreAppearancesTimeline from "@/components/LoreAppearancesTimeline";
+import { LoredexWitnessingXrefs } from "@/components/LoredexWitnessingXrefs";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import ShareButton from "@/components/ShareButton";
 import ZoomableImage from "@/components/ZoomableImage";
@@ -418,6 +419,9 @@ export default function EntityPage() {
             <LoreAppearancesTimeline characterName={entry.name} />
           </motion.section>
         )}
+
+        {/* ═══ WITNESSING CROSS-REFERENCES — §14.3 ═══ */}
+        <LoredexWitnessingXrefs entryId={entry.id} entryName={entry.name} />
 
         {/* ═══ RELATIONSHIP MINI-GRAPH ═══ */}
         {entry.type !== "song" && related.length > 0 && (

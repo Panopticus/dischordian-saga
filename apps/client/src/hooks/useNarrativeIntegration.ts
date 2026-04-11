@@ -30,6 +30,8 @@ import {
   pendingKaelFragmentUnlocks,
   type KaelFragmentWatcherContext,
 } from "@shared/kaelFragmentWatchers";
+import { act4PrisonerFlagsForCompletedStoryChapters } from "@shared/actsFourFiveShells";
+import { loadStoryProgress } from "@/game/storyMode";
 
 /* ─── LORE DISCOVERY TRIGGERS ───
    Automatically discover lore entries based on game state changes.
@@ -555,6 +557,31 @@ export function useNarrativeIntegration() {
     state.narrativeFlags?.empire_archon_offer_accepted,
     fireMilestone,
   ]);
+
+  // ─── §9 — ACT 4 PRISONER CHAPTERS FROM STORY MODE ───
+  // When the player completes a Collectors Arena story mode
+  // chapter that matches one of the four Act 4 Prisoner
+  // chapters, raise the corresponding completedFlag. The
+  // storyProgress state lives in localStorage, so we read
+  // it on every narrativeFlags change — returning to the
+  // Ark from a fight is the natural retrigger.
+  useEffect(() => {
+    let completedChapters: readonly string[] = [];
+    try {
+      completedChapters = loadStoryProgress().completedChapters ?? [];
+    } catch {
+      return;
+    }
+    if (completedChapters.length === 0) return;
+    const pendingFlags = act4PrisonerFlagsForCompletedStoryChapters(
+      completedChapters,
+    );
+    for (const flag of pendingFlags) {
+      if (!state.narrativeFlags?.[flag]) {
+        setNarrativeFlag(flag, true);
+      }
+    }
+  }, [state.narrativeFlags, setNarrativeFlag]);
 
   // ─── APPENDIX B §B.3 — KAEL FRAGMENT F1-F6 WATCHER ───
   // pendingKaelFragmentUnlocks is pure: given flags + a small
