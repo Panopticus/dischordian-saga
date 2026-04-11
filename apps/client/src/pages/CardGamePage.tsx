@@ -122,6 +122,9 @@ export default function CardGamePage() {
   const prevEventCount = useRef(0);
 
   const updateQuestProgress = trpc.quests.updateProgress.useMutation();
+  const saveReplayMut = trpc.replay.saveReplay.useMutation();
+  const replaySavedRef = useRef(false);
+  const battleStartedAtRef = useRef<number | null>(null);
 
   // Fetch cards for deck building
   const { data: allCards } = trpc.cardGame.browse.useQuery({
@@ -131,6 +134,41 @@ export default function CardGamePage() {
     sortBy: "power",
     sortDir: "desc",
   });
+
+  // Save a replay when the battle ends. Only fires once per match
+  // because the winner mutation path happens in multiple places (player
+  // turn end, AI turn end) and we don't want duplicates.
+  useEffect(() => {
+    if (!battle || !battle.winner || replaySavedRef.current) return;
+    if (!user) return;
+    replaySavedRef.current = true;
+    const startedAt = battleStartedAtRef.current ?? Date.now();
+    const duration = Math.max(1, Math.floor((Date.now() - startedAt) / 1000));
+    try {
+      saveReplayMut.mutate({
+        gameType: "card_battle",
+        winnerId: battle.winner === "player" ? user.id : 0,
+        moveData: JSON.stringify({
+          faction: battle.player.faction,
+          difficulty: selectedDifficulty,
+          events: battle.events,
+          turnCount: battle.turn,
+          winReason: battle.winReason ?? null,
+        }),
+        totalMoves: battle.events.length,
+        duration,
+        tags: [
+          battle.winner === "player" ? "win" : "loss",
+          battle.player.faction,
+          selectedDifficulty,
+          ...(battle.turn <= 10 ? ["fast"] : []),
+          ...(battle.turn >= 20 ? ["long"] : []),
+        ],
+      });
+    } catch {
+      // Replay save is best-effort — never block the result screen.
+    }
+  }, [battle?.winner, battle, user, selectedDifficulty, saveReplayMut]);
 
   // Track new events for animation
   useEffect(() => {
@@ -195,6 +233,8 @@ export default function CardGamePage() {
     const withDraw = drawCards(state, "player", selectedFaction === "dreamer" ? 2 : 1);
     setBattle(withDraw);
     prevEventCount.current = withDraw.events.length;
+    battleStartedAtRef.current = Date.now();
+    replaySavedRef.current = false;
 
     // Show narrative toast on battle start
     const narrative = getNarrative("battle_start", selectedFaction);
