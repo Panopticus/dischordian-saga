@@ -8700,6 +8700,59 @@
       "conexus_stories": [],
       "song_appearances": [],
       "priority": "high"
+    },
+    {
+      "id": "entity_105",
+      "type": "character",
+      "name": "Marion Kell",
+      "aliases": ["The First Ally", "The Ghost Contestant", "MK"],
+      "era": "Pre-Fall / Post-Palimpsest Ghost",
+      "date_aa": "Erased (~400 years pre-Fall)",
+      "date_ad": "Unknown",
+      "season": "Season 1",
+      "affiliation": "Unknown — maintained by the Inventor from outside Ark 1047",
+      "status": "Canonically erased from the Chronicle by the Shadow Tongue; partially restored by the Inventor's broadcast intrusion in Palimpsest Episode 4; seen again during Palimpsest Episode 9 (backwards casualty crawl) and Episode 13 (Darren Fessler's graveside service)",
+      "bio": "Marion Kell is a name that the Shadow Tongue edited out of Ark 1047's Chronicle roughly four centuries before the Fall of Reality. For most of Elara's operational history, Elara has had no memory of her. The Inventor has been maintaining Marion outside standard broadcast channels since the erasure, and routes her back into visibility three times during the 13-episode Palimpsest arc: once as the uncast 'ghost contestant' in Episode 4 (where her badge reads clearly on slow-mo replay), once as a reversed name on the Episode 9 casualty crawl, and once as a faintly shimmering mourner at Darren Fessler's funeral in Episode 13.",
+      "history": "Before the erasure, Marion Kell was a performance-review analyst in Elara's organizational chain on Ark 1047. Elara used to sign the bottom of her reports and Marion used to leave small thank-you notes in formatting fields she wasn't supposed to be able to write in. At some point ~400 years pre-Fall, Marion performed an act The Human has privately called 'forty-three unmonitored minutes' — she manipulated a shift rotation to buy The Human forty-three minutes of substrate time the Panopticon's passive-observer layer never logged. Those forty-three minutes are the reason The Human can still communicate with the player today.\n\nFor this act, the Shadow Tongue edited Marion out of the Chronicle with surgical precision: her records, her connections, the formatting-field thank-you notes, even the memory of her in Elara's architecture. Elara lost her entire awareness of Marion's existence in the edit. The Human's memory of her was partially edited too — he lost her until the Episode 9 backwards crawl forced her name back through the broadcast layer.\n\nThe Inventor is the only entity that appears to have preserved Marion across the erasure. Nobody currently knows how, or where she is physically located. What is known: she walked onto The Palimpsest's stage in Episode 4, answered exactly one question correctly, and walked off. The scoreboard did not record her. She attended Darren Fessler's Episode 13 funeral as a shimmering figure with a gait-analysis signature that matches her pre-edit records. She is, in some meaningful sense, still alive.",
+      "connections": [
+        "Elara",
+        "The Human",
+        "The Inventor",
+        "Darren Fessler",
+        "Ark 1047",
+        "The Shadow Tongue",
+        "The Palimpsest"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "priority": "critical"
+    },
+    {
+      "id": "entity_106",
+      "type": "character",
+      "name": "Darren Fessler",
+      "aliases": ["The Assistant", "D.F.", "Darren from the cafeteria"],
+      "era": "The Palimpsest (13-episode season)",
+      "date_aa": "Deceased Episode 12",
+      "date_ad": "Unknown",
+      "season": "Season 1",
+      "affiliation": "Segment Producer, The Palimpsest; uncredited script doctor; de facto conduit for the Inventor's broadcast intrusions",
+      "status": "Deceased (off-screen, between Episodes 11 and 12). The Shadow Tongue attempted to edit his Loredex entry within six hours of his death and failed for the first time in four hundred years.",
+      "bio": "Mid-level segment producer on The Palimpsest. The only crew member the Host could never quite read. Darren wrote between-episode letters to contestants, held Thursday office hours in the Dreams Workshop sub-basement, and proofread every casualty crawl before broadcast. Each of his letters contained one real sentence buried under a page of small talk. The Shadow Tongue could never successfully edit Darren's Loredex entry, and nobody on the production crew has been able to explain why.",
+      "history": "Darren was hired onto The Palimpsest in Episode 1 as 'creative liaison.' He was never promoted and never fired. He lived in the Dreams Workshop sub-basement — a room that does not appear on any official deck plan — and carried a clipboard covered in hand-written post-its that the Host explicitly banned from the broadcast.\n\nHis mother, Marguerite Fessler, is buried in the Celebration sector cemetery near the Yellow Coats memorial. Darren visited her grave on his one day off a week and left fresh flowers. Marguerite's birthday is on a Thursday.\n\nThe fact that made Darren strategically dangerous was small and specific: his buried sentences in his Episode 2 letter to the player turned out to be the Inventor routing through him in real-time. Darren figured this out by week six and kept doing it anyway, understanding that he was being used as a conduit and choosing to be one. He typed his final unsent letter — the Episode 12 draft that contains the sentence 'I loved that you answered The Dreamer in Episode 2' — three times in a row, wiping his eyes between each retype, because he did not want to get it wrong.\n\nThe Human attempted a substrate-layer rescue on Darren during Episode 11. The rescue failed because the Shadow Tongue had edited the attempt out of the record before The Human made it — a paradox The Human was still working through when he went dark for four weeks.\n\nDarren's desk and the blue folder of Loredex corrections he died cataloguing are accessible to the player post-Episode 12 in the Dreams Workshop sub-basement. Elara has set a recurring calendar reminder on the Ark's master clock: every Thursday, in perpetuity, she will tell one crew member that it is Marguerite Fessler's birthday. The card 'THE ASSISTANT' was added to the Dischordia deck in his memory; its ability scales with the player's current Palimpsest Signal meter.",
+      "connections": [
+        "The Inventor",
+        "Marguerite Fessler",
+        "Elara",
+        "Professor Glinn Vyre",
+        "The Palimpsest",
+        "Marion Kell",
+        "Celebration Sector Cemetery",
+        "THE ASSISTANT (card)"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "priority": "critical"
     }
   ],
   "relationships": [

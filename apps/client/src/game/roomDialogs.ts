@@ -434,8 +434,8 @@ export const OBSERVATION_DECK_DIALOG: RoomDialogDef = {
 ═══════════════════════════════════════════════════════ */
 
 export const DARRENS_DESK_DIALOG: RoomDialogDef = {
-  roomId: "dreams_workshop_darrens_desk",
-  roomName: "Darren's Desk",
+  roomId: "dreams_workshop_subbasement",
+  roomName: "Darren's Desk (Dreams Workshop Sub-Basement)",
 
   context: {
     warm:
@@ -552,5 +552,7 @@ export const ALL_ROOM_DIALOGS: Record<string, RoomDialogDef> = {
   archives: ARCHIVES_DIALOG,
   comms_array: COMMS_ARRAY_DIALOG,
   observation_deck: OBSERVATION_DECK_DIALOG,
-  dreams_workshop_darrens_desk: DARRENS_DESK_DIALOG,
+  // Key matches the room id from GameContext.ROOM_DEFINITIONS after the
+  // dash → underscore conversion done by RoomTutorialDialog.
+  dreams_workshop_subbasement: DARRENS_DESK_DIALOG,
 };

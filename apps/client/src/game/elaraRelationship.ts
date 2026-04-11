@@ -225,7 +225,7 @@ export const ELARA_CALLBACKS: ElaraCallback[] = [
   {
     id: "palimpsest_ep1_welcome_mat",
     sourceRoom: "palimpsest_ep_1",
-    playerChoice: "palimpsest_episode_completed",
+    playerChoice: "palimpsest_ep1_completed",
     triggerRooms: ["bridge", "comms_array", "observation_deck"],
     lines: {
       low: "You watched the first episode of that show. I have notes.",
@@ -239,7 +239,7 @@ export const ELARA_CALLBACKS: ElaraCallback[] = [
   {
     id: "palimpsest_ep2_alaric_intro",
     sourceRoom: "palimpsest_ep_2",
-    playerChoice: "palimpsest_episode_completed",
+    playerChoice: "palimpsest_ep2_completed",
     triggerRooms: ["bridge", "archives"],
     lines: {
       low: "General Alaric objected tonight. He does that.",
@@ -253,7 +253,7 @@ export const ELARA_CALLBACKS: ElaraCallback[] = [
   {
     id: "palimpsest_ep3_darren_hello",
     sourceRoom: "palimpsest_ep_3",
-    playerChoice: "palimpsest_episode_completed",
+    playerChoice: "palimpsest_ep3_completed",
     triggerRooms: ["medical_bay", "archives", "observation_deck"],
     lines: {
       low: "Darren Fessler sends you mail. I'm routing it to your inbox uncensored. That's a choice.",
@@ -267,7 +267,7 @@ export const ELARA_CALLBACKS: ElaraCallback[] = [
   {
     id: "palimpsest_ep6_vyre",
     sourceRoom: "palimpsest_ep_6",
-    playerChoice: "palimpsest_episode_completed",
+    playerChoice: "palimpsest_ep6_completed",
     triggerRooms: ["archives", "bridge", "comms_array"],
     lines: {
       low: "Professor Vyre guest-judged. Red goggles. Stern.",
@@ -281,7 +281,7 @@ export const ELARA_CALLBACKS: ElaraCallback[] = [
   {
     id: "palimpsest_ep9_backwards_crawl",
     sourceRoom: "palimpsest_ep_9",
-    playerChoice: "palimpsest_episode_completed",
+    playerChoice: "palimpsest_ep9_completed",
     triggerRooms: ["archives", "observation_deck", "bridge"],
     lines: {
       low: "The casualty crawl ran backwards tonight. Unusual.",
@@ -295,7 +295,7 @@ export const ELARA_CALLBACKS: ElaraCallback[] = [
   {
     id: "palimpsest_ep10_cufflink",
     sourceRoom: "palimpsest_ep_10",
-    playerChoice: "palimpsest_episode_completed",
+    playerChoice: "palimpsest_ep10_completed",
     triggerRooms: ["bridge", "comms_array", "observation_deck"],
     lines: {
       low: "You confronted Alaric at the Thaloria debate. That happened.",
@@ -309,7 +309,7 @@ export const ELARA_CALLBACKS: ElaraCallback[] = [
   {
     id: "palimpsest_ep11_darren_missing",
     sourceRoom: "palimpsest_ep_11",
-    playerChoice: "palimpsest_episode_completed",
+    playerChoice: "palimpsest_ep11_completed",
     triggerRooms: ["medical_bay", "archives", "bridge", "observation_deck"],
     lines: {
       low: "Darren was late to taping. He's a professional. He'll be fine.",
@@ -323,7 +323,7 @@ export const ELARA_CALLBACKS: ElaraCallback[] = [
   {
     id: "palimpsest_ep12_darren_gone",
     sourceRoom: "palimpsest_ep_12",
-    playerChoice: "palimpsest_episode_completed",
+    playerChoice: "palimpsest_ep12_completed",
     triggerRooms: ["cryo_bay", "medical_bay", "bridge", "archives", "comms_array", "observation_deck", "dreams_workshop_darrens_desk"],
     lines: {
       low: "Darren Fessler is deceased. I have updated the Chronicle accordingly.",
@@ -337,7 +337,7 @@ export const ELARA_CALLBACKS: ElaraCallback[] = [
   {
     id: "palimpsest_ep13_funeral",
     sourceRoom: "palimpsest_ep_13",
-    playerChoice: "palimpsest_episode_completed",
+    playerChoice: "palimpsest_ep13_completed",
     triggerRooms: ["cryo_bay", "observation_deck", "archives", "dreams_workshop_darrens_desk"],
     lines: {
       low: "Episode 13 aired as technical difficulties. Nothing broadcast.",

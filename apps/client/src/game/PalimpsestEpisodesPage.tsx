@@ -26,18 +26,15 @@ import {
   rollCasualtyCount,
   type PalimpsestEpisode,
 } from "@shared/palimpsestEpisodes";
-import {
-  DEFAULT_PALIMPSEST_STATE,
-  getPhase,
-  getBalanceDescription,
-  shouldHostMaskSlip,
-  type PalimpsestState,
-} from "@shared/palimpsest";
+import { getBalanceDescription } from "@shared/palimpsest";
 import { getHackForEpisode } from "@shared/theInventor";
 import { getLetterForEpisode, isDarrenGone } from "@shared/darrenFessler";
 import GamemastersArena from "./GamemastersArena";
 import { HostMaskSlip } from "@/components/HostMaskSlip";
 import { trpc } from "@/lib/trpc";
+import { usePalimpsest } from "@/hooks/usePalimpsest";
+import { useGame } from "@/contexts/GameContext";
+import { EPISODE_11_COMPLETED_AT_KEY } from "@/game/humanRelationship";
 
 type Phase = "lobby" | "broadcast" | "crawl" | "letter" | "funeral";
 
@@ -110,19 +107,18 @@ export default function PalimpsestEpisodesPage() {
   const [selected, setSelected] = useState<number | null>(null);
   const [crawlNames, setCrawlNames] = useState<string[]>([]);
 
-  // Server-backed Palimpsest state + completed episodes.
-  const stateQuery = trpc.palimpsest.get.useQuery();
+  // Shared Palimpsest state (dedupes with the Governance Hub panel
+  // and every CorruptibleBio on the page).
+  const { state: palimpsestState, phase: phaseLabel, isMaskSlipping: maskSlipping, refetch: refetchPalimpsest } = usePalimpsest();
   const completedQuery = trpc.palimpsest.listCompletedEpisodes.useQuery();
+  const { setElaraCallback, setHumanCallback, setNarrativeFlag } = useGame();
   const recordEpisode = trpc.palimpsest.recordEpisode.useMutation({
     onSuccess: () => {
-      stateQuery.refetch();
+      refetchPalimpsest();
       completedQuery.refetch();
     },
   });
 
-  const palimpsestState: PalimpsestState = stateQuery.data?.state ?? DEFAULT_PALIMPSEST_STATE;
-  const phaseLabel = getPhase(palimpsestState);
-  const maskSlipping = shouldHostMaskSlip(palimpsestState);
   const completedSet = useMemo(
     () => new Set(completedQuery.data?.completed ?? []),
     [completedQuery.data],
@@ -189,6 +185,30 @@ export default function PalimpsestEpisodesPage() {
       inventorHackLanded: !!hack && !hack.blocked,
     });
 
+    // Fire the dialog callback flags so Elara and The Human start
+    // referencing the episode the next time the player visits an
+    // Ark room that triggers their callbacks. Each episode has its
+    // own flag so callbacks fire selectively, not all at once.
+    const epFlag = `palimpsest_ep${selectedEpisode.episodeNumber}_completed`;
+    setElaraCallback(epFlag);
+    setHumanCallback(epFlag);
+    // Also set a coarse narrative flag so gating systems (rooms,
+    // Loredex unlocks, card drops) can check simple "did episode N
+    // complete" predicates without threading callback state.
+    setNarrativeFlag(epFlag);
+    // Episode 11 starts The Human's 4-week silence window — record
+    // the timestamp so getHumanCallback can suppress his whispers
+    // outside the allowed Ep11/12/13 payloads until bandwidth
+    // recovers. Stored in localStorage so it survives reloads
+    // without requiring a GameState schema change.
+    if (selectedEpisode.episodeNumber === 11) {
+      try {
+        localStorage.setItem(EPISODE_11_COMPLETED_AT_KEY, String(Date.now()));
+      } catch {
+        /* quota / private mode — non-blocking */
+      }
+    }
+
     toast.success(`Episode ${selectedEpisode.episodeNumber} complete`, {
       description: `+${dream} Dream · ${rounds}/10 rounds`,
     });
@@ -210,27 +230,31 @@ export default function PalimpsestEpisodesPage() {
     <div className="min-h-screen bg-black text-white">
       {/* Header */}
       <div className="sticky top-0 z-10 bg-black/95 border-b border-red-500/15 px-4 py-3">
-        <div className="max-w-5xl mx-auto flex items-center gap-3">
+        <div className="max-w-5xl mx-auto flex items-center gap-2 sm:gap-3 min-w-0">
           <button
             onClick={() => navigate("/ark")}
-            className="text-white/30 hover:text-white/60"
+            className="text-white/30 hover:text-white/60 shrink-0"
             aria-label="back"
           >
             <ChevronLeft size={18} />
           </button>
-          <Radio size={16} className="text-red-400" />
-          <div>
-            <h1 className="font-display text-sm font-bold tracking-[0.2em] text-red-400">
+          <Radio size={16} className="text-red-400 shrink-0" />
+          <div className="min-w-0 flex-1">
+            <h1 className="font-display text-sm font-bold tracking-[0.2em] text-red-400 truncate">
               THE PALIMPSEST
             </h1>
-            <p className="font-mono text-[8px] text-white/30">
-              {completedCount}/13 EPISODES WITNESSED · {phaseLabel.toUpperCase()}
+            <p className="font-mono text-[8px] text-white/30 truncate">
+              <span className="hidden xs:inline">{completedCount}/13 EPISODES WITNESSED</span>
+              <span className="xs:hidden">{completedCount}/13</span>
+              <span className="mx-1">·</span>
+              <span className="uppercase">{phaseLabel}</span>
             </p>
           </div>
           {maskSlipping && (
-            <div className="ml-auto flex items-center gap-1 text-red-400">
+            <div className="flex items-center gap-1 text-red-400 shrink-0">
               <AlertTriangle size={12} className="animate-pulse" />
-              <span className="font-mono text-[9px]">MASK SLIPPING</span>
+              <span className="font-mono text-[9px] hidden sm:inline">MASK SLIPPING</span>
+              <span className="font-mono text-[9px] sm:hidden">SLIP</span>
             </div>
           )}
         </div>
@@ -357,6 +381,12 @@ export default function PalimpsestEpisodesPage() {
                 noiseGained: 0,
                 inventorHackLanded: false,
               });
+              // Fire the Ep13 callback flags — Elara/Human dialog
+              // references the shimmering Marion Kell mourner in
+              // subsequent room visits.
+              setElaraCallback("palimpsest_ep13_completed");
+              setHumanCallback("palimpsest_ep13_completed");
+              setNarrativeFlag("palimpsest_ep13_completed");
               setPhase("lobby");
               setSelected(null);
             }}
@@ -468,17 +498,49 @@ function Episode13Funeral({ onDismiss }: { onDismiss: () => void }) {
   const [staticPhase, setStaticPhase] = useState(true);
 
   // Progress through the three stages. Total watch time ~36s.
-  // Users can dismiss at any time; staying through credits is the
-  // in-universe act of bearing witness.
+  // The timer only advances while the tab is visible — a player
+  // who backgrounds the funeral doesn't accidentally skip past
+  // the graveside service while they're away. This mirrors the
+  // in-universe act of *bearing witness*: you have to actually
+  // be present to receive the Signal.
   useEffect(() => {
-    const t1 = setTimeout(() => {
-      setStage("service");
-      setStaticPhase(false);
-    }, 6000);
-    const t2 = setTimeout(() => setStage("credits"), 30000);
+    const VISIBLE_STAGE_MS = [6000, 24000]; // technical → service → credits
+    let visibleElapsed = 0;
+    let lastTick = typeof document !== "undefined" && !document.hidden ? Date.now() : null;
+    let raf: number | null = null;
+
+    const advance = (elapsed: number) => {
+      if (elapsed >= VISIBLE_STAGE_MS[0] + VISIBLE_STAGE_MS[1]) {
+        setStage("credits");
+      } else if (elapsed >= VISIBLE_STAGE_MS[0]) {
+        setStage("service");
+        setStaticPhase(false);
+      }
+    };
+
+    const tick = () => {
+      if (lastTick !== null) {
+        const now = Date.now();
+        visibleElapsed += now - lastTick;
+        lastTick = now;
+        advance(visibleElapsed);
+      }
+      raf = window.setTimeout(tick, 250);
+    };
+
+    const onVisibility = () => {
+      if (document.hidden) {
+        lastTick = null;
+      } else {
+        lastTick = Date.now();
+      }
+    };
+
+    document.addEventListener("visibilitychange", onVisibility);
+    raf = window.setTimeout(tick, 250);
     return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
+      document.removeEventListener("visibilitychange", onVisibility);
+      if (raf !== null) clearTimeout(raf);
     };
   }, []);
 

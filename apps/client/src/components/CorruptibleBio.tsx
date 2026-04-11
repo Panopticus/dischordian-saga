@@ -17,13 +17,7 @@
    ═══════════════════════════════════════════════════════ */
 
 import { useMemo } from "react";
-import { trpc } from "@/lib/trpc";
-import {
-  DEFAULT_PALIMPSEST_STATE,
-  shouldMarkEntryCorrupted,
-  getEntryCorruptionSeverity,
-  type PalimpsestState,
-} from "@shared/palimpsest";
+import { usePalimpsest } from "@/hooks/usePalimpsest";
 
 interface Props {
   entryId: string;
@@ -75,12 +69,7 @@ function corruptText(
 }
 
 export function CorruptibleBio({ entryId, text, className, truncate }: Props) {
-  const palimpsestQuery = trpc.palimpsest.get.useQuery(undefined, {
-    staleTime: 60_000, // Corruption rarely changes mid-read.
-    retry: false,
-  });
-  const state: PalimpsestState =
-    palimpsestQuery.data?.state ?? DEFAULT_PALIMPSEST_STATE;
+  const { isEntryCorrupted, corruptionSeverity } = usePalimpsest();
 
   const displayText = useMemo(() => {
     if (!text) return "";
@@ -88,14 +77,8 @@ export function CorruptibleBio({ entryId, text, className, truncate }: Props) {
     return text;
   }, [text, truncate]);
 
-  const isCorrupted = useMemo(
-    () => shouldMarkEntryCorrupted(entryId, state),
-    [entryId, state],
-  );
-  const severity = useMemo(
-    () => (isCorrupted ? getEntryCorruptionSeverity(entryId, state) : 0),
-    [entryId, state, isCorrupted],
-  );
+  const isCorrupted = isEntryCorrupted(entryId);
+  const severity = isCorrupted ? corruptionSeverity(entryId) : 0;
 
   if (!text) return null;
 

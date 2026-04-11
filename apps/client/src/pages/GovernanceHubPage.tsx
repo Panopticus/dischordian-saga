@@ -36,8 +36,8 @@ import {
   ACTS, getCategoryLabel, getStatusColor, getNextEvents,
 } from "@/data/eventsCalendar";
 import { getDailyVote, generateVoterName } from "@shared/governance";
-import { DEFAULT_PALIMPSEST_STATE, type PalimpsestState } from "@shared/palimpsest";
 import { PalimpsestMeterPanel } from "@/components/PalimpsestMeterPanel";
+import { usePalimpsest } from "@/hooks/usePalimpsest";
 
 /* ─── ICON MAP (for dynamic metric rendering) ─── */
 const ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
@@ -600,12 +600,8 @@ export default function GovernanceHubPage() {
     { id: "pulse" as const, label: "PULSE", icon: BarChart3 },
   ];
 
-  // Server-backed Palimpsest state via the palimpsest tRPC router.
-  const palimpsestQuery = trpc.palimpsest.get.useQuery(undefined, {
-    staleTime: 30_000, // 30s — the manuscript doesn't change by the second.
-  });
-  const palimpsestState: PalimpsestState =
-    palimpsestQuery.data?.state ?? DEFAULT_PALIMPSEST_STATE;
+  // Server-backed Palimpsest state via the shared hook (dedupes across components).
+  const { state: palimpsestState } = usePalimpsest();
 
   return (
     <AtmosphereScope roomKey="guild_sanctum">

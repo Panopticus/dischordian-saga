@@ -90,10 +90,10 @@ export const INVENTOR_HACKS: InventorHack[] = [
   {
     episode: 4,
     level: 2,
-    description: "A ghost contestant walks on set. Nobody casts her.",
-    onAirTell: "She answers one question correctly, then walks offstage. The scoreboard never lists her.",
+    description: "A ghost contestant walks on set. Nobody casts her. The name under her on the monitor, for one frame, reads MARION KELL — a woman the Shadow Tongue erased from the Chronicle four centuries ago. The Inventor has routed her back through the broadcast layer.",
+    onAirTell: "She answers one question correctly, then walks offstage. The scoreboard never lists her. On slow-mo replay, the badge clipped to her coat reads MARION KELL.",
     blocked: false,
-    hiddenPayload: "Your first ally is already on the Ark. Find her. —I.",
+    hiddenPayload: "Your first ally is already on the Ark. Her name is Marion Kell. Find her. —I.",
   },
   {
     episode: 5,

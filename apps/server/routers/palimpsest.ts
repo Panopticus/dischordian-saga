@@ -110,7 +110,10 @@ export const palimpsestRouter = router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const state = await palimpsestService.recordEpisode(ctx.user.id, {
+      // Record the episode into history. The returned state is pre-ripple;
+      // we re-read at the bottom of this procedure after the outcome
+      // events have propagated through the ripple engine.
+      await palimpsestService.recordEpisode(ctx.user.id, {
         episodeNumber: input.episodeNumber,
         winner: input.winner,
         casualties: input.casualties.map((c) => c.playerName),
@@ -196,7 +199,9 @@ export const palimpsestRouter = router({
           source: `episode_${input.episodeNumber}_lost`,
         });
       }
-      return { state };
+      // Return the post-ripple state so clients see the Signal/Noise
+      // numbers they actually earned from this episode's outcome.
+      return { state: await palimpsestService.get(ctx.user.id) };
     }),
 
   /* ─── LIST COMPLETED EPISODES ─── */

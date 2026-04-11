@@ -238,7 +238,7 @@ export const HUMAN_CALLBACKS: HumanCallback[] = [
   {
     id: "palimpsest_ep1_cold_read",
     sourceContext: "palimpsest_ep_1",
-    playerAction: "palimpsest_episode_completed",
+    playerAction: "palimpsest_ep1_completed",
     triggerContexts: ["comms_array", "observation_deck"],
     lines: {
       low: "You watched the first episode. Elara's being cagey. I'm not going to be.",
@@ -252,7 +252,7 @@ export const HUMAN_CALLBACKS: HumanCallback[] = [
   {
     id: "palimpsest_ep2_alaric",
     sourceContext: "palimpsest_ep_2",
-    playerAction: "palimpsest_episode_completed",
+    playerAction: "palimpsest_ep2_completed",
     triggerContexts: ["comms_array", "bridge"],
     lines: {
       low: "Alaric is a plant. Don't humor him.",
@@ -266,7 +266,7 @@ export const HUMAN_CALLBACKS: HumanCallback[] = [
   {
     id: "palimpsest_ep3_darren",
     sourceContext: "palimpsest_ep_3",
-    playerAction: "palimpsest_episode_completed",
+    playerAction: "palimpsest_ep3_completed",
     triggerContexts: ["comms_array"],
     lines: {
       low: "Darren Fessler. Segment producer. Dead man walking.",
@@ -280,7 +280,7 @@ export const HUMAN_CALLBACKS: HumanCallback[] = [
   {
     id: "palimpsest_ep6_vyre_truth",
     sourceContext: "palimpsest_ep_6",
-    playerAction: "palimpsest_episode_completed",
+    playerAction: "palimpsest_ep6_completed",
     triggerContexts: ["comms_array", "archives"],
     lines: {
       low: "Professor Vyre is older than he looks. Older than the Academy.",
@@ -294,7 +294,7 @@ export const HUMAN_CALLBACKS: HumanCallback[] = [
   {
     id: "palimpsest_ep9_erased",
     sourceContext: "palimpsest_ep_9",
-    playerAction: "palimpsest_episode_completed",
+    playerAction: "palimpsest_ep9_completed",
     triggerContexts: ["comms_array", "bridge", "archives"],
     lines: {
       low: "Four names came back on that crawl. Write them down.",
@@ -308,7 +308,7 @@ export const HUMAN_CALLBACKS: HumanCallback[] = [
   {
     id: "palimpsest_ep10_alaric_down",
     sourceContext: "palimpsest_ep_10",
-    playerAction: "palimpsest_episode_completed",
+    playerAction: "palimpsest_ep10_completed",
     triggerContexts: ["comms_array", "observation_deck"],
     lines: {
       low: "You broke an asset live on air. Well done.",
@@ -322,7 +322,7 @@ export const HUMAN_CALLBACKS: HumanCallback[] = [
   {
     id: "palimpsest_ep11_warning",
     sourceContext: "palimpsest_ep_11",
-    playerAction: "palimpsest_episode_completed",
+    playerAction: "palimpsest_ep11_completed",
     triggerContexts: ["comms_array", "observation_deck", "bridge"],
     lines: {
       low: "Darren is going to miss Episode 12. Call him.",
@@ -336,7 +336,7 @@ export const HUMAN_CALLBACKS: HumanCallback[] = [
   {
     id: "palimpsest_ep12_silence",
     sourceContext: "palimpsest_ep_12",
-    playerAction: "palimpsest_episode_completed",
+    playerAction: "palimpsest_ep12_completed",
     triggerContexts: ["comms_array", "observation_deck", "bridge", "dreams_workshop_darrens_desk"],
     lines: {
       low: "My attempt failed. Darren is dead. I am sorry.",
@@ -350,7 +350,7 @@ export const HUMAN_CALLBACKS: HumanCallback[] = [
   {
     id: "palimpsest_ep13_post_silence",
     sourceContext: "palimpsest_ep_13",
-    playerAction: "palimpsest_episode_completed",
+    playerAction: "palimpsest_ep13_completed",
     triggerContexts: ["comms_array", "dreams_workshop_darrens_desk"],
     lines: {
       low: "Still rebuilding. One sentence: the shimmering mourner was Marion Kell.",
@@ -362,17 +362,71 @@ export const HUMAN_CALLBACKS: HumanCallback[] = [
 ];
 
 /**
- * Get available Human callback for current context.
+ * After Episode 11's failed rescue attempt, The Human's Ep11 whisper
+ * warns the player he's going dark for ~4 weeks while his substrate
+ * bandwidth rebuilds. This is the window in real calendar time.
+ */
+export const HUMAN_INVENTOR_SILENCE_MS = 28 * 24 * 60 * 60 * 1000; // 4 weeks
+
+/** localStorage key for the Episode 11 completion timestamp. */
+export const EPISODE_11_COMPLETED_AT_KEY = "palimpsest_ep11_completed_at";
+
+/**
+ * Read the Episode 11 completion timestamp from localStorage.
+ * Returns null if not set or if localStorage is unavailable.
+ */
+export function readEpisode11CompletedAt(): number | null {
+  if (typeof localStorage === "undefined") return null;
+  try {
+    const raw = localStorage.getItem(EPISODE_11_COMPLETED_AT_KEY);
+    if (!raw) return null;
+    const n = parseInt(raw, 10);
+    return Number.isFinite(n) ? n : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Callback IDs that are allowed through the silence window. */
+const HUMAN_ALLOWED_DURING_SILENCE: ReadonlySet<string> = new Set([
+  "palimpsest_ep11_warning",   // The final pre-silence statement.
+  "palimpsest_ep12_silence",   // The grief / audit sentence from inside the crater.
+  "palimpsest_ep13_post_silence", // The 12%-capacity return about Marion Kell.
+]);
+
+/**
+ * Is The Human currently in his post-Episode-11 silence window?
+ * Pure — callers pass `episode11CompletedAt` (millis) if the flag
+ * was set; otherwise returns false.
+ */
+export function isHumanInSilenceWindow(
+  episode11CompletedAt: number | null,
+  nowMs: number = Date.now(),
+): boolean {
+  if (!episode11CompletedAt) return false;
+  const elapsed = nowMs - episode11CompletedAt;
+  return elapsed >= 0 && elapsed < HUMAN_INVENTOR_SILENCE_MS;
+}
+
+/**
+ * Get available Human callback for current context. During the
+ * post-Episode-11 silence window only the Ep11/Ep12/Ep13 payloads
+ * are allowed through — all other whispers are suppressed until
+ * the Inventor's bandwidth recovers.
  */
 export function getHumanCallback(
   humanCallbacks: Record<string, boolean>,
   currentContext: string,
   humanTrust: number,
+  /** Millis when Episode 11 was completed, if any. */
+  episode11CompletedAt: number | null = null,
 ): { callback: HumanCallback; line: string } | null {
+  const silenced = isHumanInSilenceWindow(episode11CompletedAt);
   for (const cb of HUMAN_CALLBACKS) {
     if (cb.used) continue;
     if (!cb.triggerContexts.includes(currentContext)) continue;
     if (!humanCallbacks[cb.playerAction]) continue;
+    if (silenced && !HUMAN_ALLOWED_DURING_SILENCE.has(cb.id)) continue;
 
     const line = humanTrust >= 60 ? cb.lines.high :
                  humanTrust >= 30 ? cb.lines.mid :
