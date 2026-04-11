@@ -95,6 +95,19 @@ const RECIPES: CraftingRecipe[] = [
     dreamCost: 25,
     successRate: 0.50,
   },
+  // Foil upgrade: Convert 5 regular copies into a shiny foil version
+  {
+    id: "foil_upgrade",
+    name: "Foil Upgrade",
+    description: "Convert 5 regular copies of the same card into a shiny foil version",
+    type: "fusion",
+    inputCount: 5,
+    sameCard: true,
+    outputRarity: "same",
+    creditsCost: 0,
+    dreamCost: 50,
+    successRate: 1.0,
+  },
   // Transmute: Convert any 5 cards of same rarity into 1 random card of next rarity
   {
     id: "transmute_common",
@@ -230,16 +243,18 @@ export const craftingRouter = router({
         .limit(input?.limit ?? 20);
     }),
 
-  // Get duplicate cards (for fusion)
+  // Get duplicate cards (for fusion). Returns both foil and non-foil
+  // groupings so the client can target each collection independently.
   getDuplicates: protectedProcedure.query(async ({ ctx }) => {
     const db = await getDb();
     if (!db) return [];
 
-    // Find cards the user has 2+ copies of
+    // Find cards the user has 2+ copies of (either foil or non-foil)
     const dupes = await db
       .select({
         cardId: userCards.cardId,
         quantity: userCards.quantity,
+        isFoil: userCards.isFoil,
         name: cards.name,
         rarity: cards.rarity,
         imageUrl: cards.imageUrl,
@@ -259,6 +274,13 @@ export const craftingRouter = router({
     .input(z.object({
       recipeId: z.string(),
       inputCardIds: z.array(z.string()).min(1).max(5),
+      /**
+       * When true, the craft targets foil copies from the user's collection
+       * instead of non-foil. Required for foil disenchant (3x Dream bonus).
+       * The `foil_upgrade` recipe ignores this flag and always consumes
+       * non-foil copies to produce a foil version.
+       */
+      inputIsFoil: z.boolean().optional(),
     }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -272,6 +294,10 @@ export const craftingRouter = router({
         return { success: false, message: `Recipe requires exactly ${recipe.inputCount} cards` };
       }
 
+      // Foil upgrade always reads non-foil rows. Everything else honours the
+      // caller's flag (defaulting to non-foil for backward compatibility).
+      const targetIsFoil: 0 | 1 = recipe.id === "foil_upgrade" ? 0 : (input.inputIsFoil ? 1 : 0);
+
       // Get Dream balance
       const balRows = await db
         .select()
@@ -284,12 +310,14 @@ export const craftingRouter = router({
         return { success: false, message: `Not enough Dream (need ${recipe.dreamCost}, have ${currentDream})` };
       }
 
-      // Validate user owns the cards
+      // Validate user owns the cards (scoped to the target foil state so
+      // foil and non-foil collections are tracked independently).
       const ownedCards = await db
         .select()
         .from(userCards)
         .where(and(
           eq(userCards.userId, ctx.user.id),
+          eq(userCards.isFoil, targetIsFoil),
           inArray(userCards.cardId, input.inputCardIds)
         ));
 
@@ -297,6 +325,12 @@ export const craftingRouter = router({
       const cardCounts: Record<string, number> = {};
       for (const id of input.inputCardIds) {
         cardCounts[id] = (cardCounts[id] || 0) + 1;
+      }
+
+      // Enforce sameCard: recipes that require duplicates of the same card
+      // (fusion, foil_upgrade) must receive all identical card IDs.
+      if (recipe.sameCard && Object.keys(cardCounts).length > 1) {
+        return { success: false, message: "This recipe requires all inputs to be copies of the same card" };
       }
 
       for (const [cardId, needed] of Object.entries(cardCounts)) {
@@ -328,17 +362,27 @@ export const craftingRouter = router({
           .where(eq(cards.cardId, input.inputCardIds[0]))
           .limit(1);
 
-        const dreamGain = DREAM_PER_RARITY[cardDetail[0]?.rarity ?? "common"] ?? 1;
+        const baseDream = DREAM_PER_RARITY[cardDetail[0]?.rarity ?? "common"] ?? 1;
+        // Foil copies yield 3x Dream on disenchant.
+        const dreamGain = targetIsFoil ? baseDream * 3 : baseDream;
 
-        // Remove card
+        // Remove card (scoped to the foil state being disenchanted)
         const owned = ownedCards.find(c => c.cardId === input.inputCardIds[0]);
         if (owned && owned.quantity > 1) {
           await db.update(userCards)
             .set({ quantity: owned.quantity - 1 })
-            .where(and(eq(userCards.userId, ctx.user.id), eq(userCards.cardId, input.inputCardIds[0])));
+            .where(and(
+              eq(userCards.userId, ctx.user.id),
+              eq(userCards.cardId, input.inputCardIds[0]),
+              eq(userCards.isFoil, targetIsFoil),
+            ));
         } else {
           await db.delete(userCards)
-            .where(and(eq(userCards.userId, ctx.user.id), eq(userCards.cardId, input.inputCardIds[0])));
+            .where(and(
+              eq(userCards.userId, ctx.user.id),
+              eq(userCards.cardId, input.inputCardIds[0]),
+              eq(userCards.isFoil, targetIsFoil),
+            ));
         }
 
         // Add Dream
@@ -369,7 +413,9 @@ export const craftingRouter = router({
 
         return {
           success: true,
-          message: `Disenchanted for ${dreamGain} Dream!`,
+          message: targetIsFoil
+            ? `Disenchanted foil card for ${dreamGain} Dream! (3x bonus)`
+            : `Disenchanted for ${dreamGain} Dream!`,
           dreamGained: dreamGain,
           outputCard: null,
         };
@@ -397,17 +443,25 @@ export const craftingRouter = router({
           .where(eq(dreamBalance.userId, ctx.user.id));
       }
 
-      // Remove input cards
+      // Remove input cards (scoped to the target foil state)
       for (const [cardId, needed] of Object.entries(cardCounts)) {
         const owned = ownedCards.find(c => c.cardId === cardId);
         if (!owned) continue;
         if (owned.quantity > needed) {
           await db.update(userCards)
             .set({ quantity: owned.quantity - needed })
-            .where(and(eq(userCards.userId, ctx.user.id), eq(userCards.cardId, cardId)));
+            .where(and(
+              eq(userCards.userId, ctx.user.id),
+              eq(userCards.cardId, cardId),
+              eq(userCards.isFoil, targetIsFoil),
+            ));
         } else {
           await db.delete(userCards)
-            .where(and(eq(userCards.userId, ctx.user.id), eq(userCards.cardId, cardId)));
+            .where(and(
+              eq(userCards.userId, ctx.user.id),
+              eq(userCards.cardId, cardId),
+              eq(userCards.isFoil, targetIsFoil),
+            ));
         }
       }
 
@@ -448,6 +502,83 @@ export const craftingRouter = router({
           success: true,
           message: "Card enhanced! +1 Power, +1 Health permanently.",
           outputCard: null,
+        };
+      }
+
+      // Handle foil_upgrade: produce a foil copy of the same cardId. The
+      // non-foil copies have already been consumed above. Add (or increment)
+      // a foil row for that same cardId.
+      if (recipe.id === "foil_upgrade") {
+        const foilCardId = input.inputCardIds[0];
+        const foilCardDetail = await db
+          .select()
+          .from(cards)
+          .where(eq(cards.cardId, foilCardId))
+          .limit(1);
+
+        if (!foilCardDetail[0]) {
+          return { success: false, message: "Card not found for foil upgrade" };
+        }
+
+        const existingFoil = await db
+          .select()
+          .from(userCards)
+          .where(and(
+            eq(userCards.userId, ctx.user.id),
+            eq(userCards.cardId, foilCardId),
+            eq(userCards.isFoil, 1),
+          ))
+          .limit(1);
+
+        if (existingFoil.length > 0) {
+          await db.update(userCards)
+            .set({ quantity: existingFoil[0].quantity + 1 })
+            .where(and(
+              eq(userCards.userId, ctx.user.id),
+              eq(userCards.cardId, foilCardId),
+              eq(userCards.isFoil, 1),
+            ));
+        } else {
+          await db.insert(userCards).values({
+            userId: ctx.user.id,
+            cardId: foilCardId,
+            quantity: 1,
+            isFoil: 1,
+            obtainedVia: "crafting_foil",
+          });
+        }
+
+        await db.insert(craftingLog).values({
+          userId: ctx.user.id,
+          recipeType: recipe.id,
+          inputCards: input.inputCardIds.map(id => ({ cardId: id, quantity: cardCounts[id] })),
+          outputCardId: `${foilCardId}_foil`,
+          success: 1,
+          creditsCost: recipe.creditsCost,
+        });
+
+        trackCraftAction(ctx.user.id, foilCardDetail[0].rarity || undefined)
+          .catch(e => logger.error("[Crafting] Achievement error:", e));
+
+        await ripple.emit("craft_result", {
+          userId: ctx.user.id,
+          success: true,
+          recipeId: input.recipeId,
+          rarity: foilCardDetail[0].rarity,
+        });
+
+        return {
+          success: true,
+          message: `Upgraded ${foilCardDetail[0].name} to foil!`,
+          outputCard: {
+            cardId: foilCardDetail[0].cardId,
+            name: foilCardDetail[0].name,
+            rarity: foilCardDetail[0].rarity,
+            imageUrl: foilCardDetail[0].imageUrl,
+            power: foilCardDetail[0].power,
+            health: foilCardDetail[0].health,
+            isFoil: true,
+          },
         };
       }
 
