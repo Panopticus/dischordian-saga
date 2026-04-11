@@ -177,7 +177,7 @@ export const SLIDESHOW_TRIGGERS: ReadonlyArray<{
     // when the player transitions out of the Act 2 interlude.
     triggerFlag: "act_3_starting",
     slideshowId: "i-am-the-eyes-that-watch",
-    completionFlag: "slideshow_i_am_the_eyes_complete",
+    completionFlag: "slideshow_i_am_the_eyes_that_watch_complete",
   },
 ];
 

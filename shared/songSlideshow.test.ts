@@ -8,10 +8,14 @@ import {
 } from "./songSlideshow";
 import {
   getSlideshow,
+  HACKING_REALITY_SLIDESHOW,
   I_AM_THE_EYES_SLIDESHOW,
   LAST_WORDS_SLIDESHOW,
   listSlideshows,
+  OCULARUM_SLIDESHOW,
   SONG_SLIDESHOWS,
+  THE_LION_IN_BLACK_SLIDESHOW,
+  THE_PRISONER_SLIDESHOW,
   TO_BE_THE_HUMAN_SLIDESHOW,
   WELCOME_TO_CELEBRATION_SLIDESHOW,
 } from "./songSlideshows";
@@ -328,5 +332,164 @@ describe("I Am the Eyes That Watch slideshow (§7 / §12 C6)", () => {
 
   it("unlocks the Eyes loredex entry", () => {
     expect(I_AM_THE_EYES_SLIDESHOW.unlockLoredexEntry).toBe("the-eyes");
+  });
+});
+
+describe("Hacking Reality slideshow (§4.5 Cycle C opener)", () => {
+  it("has 8 frames", () => {
+    expect(HACKING_REALITY_SLIDESHOW.frames.length).toBe(8);
+  });
+
+  it("is priority P1 per the §5.5 table", () => {
+    expect(HACKING_REALITY_SLIDESHOW.priority).toBe("P1");
+  });
+
+  it("sets Battle of Nexon flags", () => {
+    const flags = HACKING_REALITY_SLIDESHOW.flagsSetOnComplete;
+    expect(flags).toContain("battle_of_nexon_seen");
+    expect(flags).toContain("seer_deck_at_peak_seen");
+  });
+
+  it("validates cleanly", () => {
+    expect(validateSlideshow(HACKING_REALITY_SLIDESHOW)).toEqual([]);
+  });
+
+  it("rewards +180 light (modest, it's a P1 opener)", () => {
+    expect(HACKING_REALITY_SLIDESHOW.lightEnergyReward).toBe(180);
+  });
+});
+
+describe("Ocularum slideshow (§7 Act 3 mid-point, §12 C7)", () => {
+  it("has 10 frames", () => {
+    expect(OCULARUM_SLIDESHOW.frames.length).toBe(10);
+  });
+
+  it("is priority P0", () => {
+    expect(OCULARUM_SLIDESHOW.priority).toBe("P0");
+  });
+
+  it("sets Watcher origin flags including eyes_death_ordered", () => {
+    const flags = OCULARUM_SLIDESHOW.flagsSetOnComplete;
+    expect(flags).toContain("watcher_origin_seen");
+    expect(flags).toContain("eyes_death_ordered");
+    expect(flags).toContain("ocularum_heard");
+  });
+
+  it("contains the Watcher's signature line in the reduced-motion prose", () => {
+    expect(OCULARUM_SLIDESHOW.reducedMotionFallback.prose).toContain(
+      "giving her back to the grass",
+    );
+  });
+
+  it("rewards +300 light (the heaviest P0 mid-point payoff)", () => {
+    expect(OCULARUM_SLIDESHOW.lightEnergyReward).toBe(300);
+  });
+
+  it("validates cleanly", () => {
+    expect(validateSlideshow(OCULARUM_SLIDESHOW)).toEqual([]);
+  });
+});
+
+describe("The Prisoner slideshow (§9 Act 4 opener, §12 C8)", () => {
+  it("is intentionally short — 3 frames per §12 C8", () => {
+    expect(THE_PRISONER_SLIDESHOW.frames.length).toBe(3);
+  });
+
+  it("is priority P0", () => {
+    expect(THE_PRISONER_SLIDESHOW.priority).toBe("P0");
+  });
+
+  it("every frame has a White Oracle dialog overlay", () => {
+    for (const frame of THE_PRISONER_SLIDESHOW.frames) {
+      expect(frame.dialogOverlay).toBeDefined();
+      expect(frame.dialogSpeakerId).toBe("the_white_oracle");
+    }
+  });
+
+  it("sets the White Oracle transmission flags", () => {
+    const flags = THE_PRISONER_SLIDESHOW.flagsSetOnComplete;
+    expect(flags).toContain("white_oracle_transmission_received");
+    expect(flags).toContain("prisoner_brief_heard");
+  });
+
+  it("has no lyrics (it's a direct-address cutscene)", () => {
+    expect(THE_PRISONER_SLIDESHOW.lyrics).toEqual([]);
+  });
+
+  it("validates cleanly", () => {
+    expect(validateSlideshow(THE_PRISONER_SLIDESHOW)).toEqual([]);
+  });
+});
+
+describe("The Lion in Black slideshow (§11.2 / §12 C9)", () => {
+  it("has 12 frames for the Iron Lion's last broadcast", () => {
+    expect(THE_LION_IN_BLACK_SLIDESHOW.frames.length).toBe(12);
+  });
+
+  it("is priority P0 and sets act_5_opened", () => {
+    expect(THE_LION_IN_BLACK_SLIDESHOW.priority).toBe("P0");
+    expect(THE_LION_IN_BLACK_SLIDESHOW.flagsSetOnComplete).toContain(
+      "act_5_opened",
+    );
+  });
+
+  it("sets the antiquarian_curated_feed_seen flag (§11.2 invariant)", () => {
+    // Per §11.2 this is the first slideshow to mirror the player's
+    // own history. The Antiquarian curator flag locks in that
+    // behavior.
+    expect(THE_LION_IN_BLACK_SLIDESHOW.flagsSetOnComplete).toContain(
+      "antiquarian_curated_feed_seen",
+    );
+  });
+
+  it("the Antiquarian is the dominant narrator reactor", () => {
+    // At least the opener frame and the final couple of frames
+    // should have the Antiquarian marked as the on-shoulder
+    // reactor, since he's curating the feed.
+    const antiquarianFrames = THE_LION_IN_BLACK_SLIDESHOW.frames.filter(
+      (f) => f.narratorReactionId === "antiquarian",
+    );
+    expect(antiquarianFrames.length).toBeGreaterThanOrEqual(3);
+  });
+
+  it("rewards +400 light (Act 5 opener carries the most weight)", () => {
+    expect(THE_LION_IN_BLACK_SLIDESHOW.lightEnergyReward).toBe(400);
+  });
+
+  it("closes on Iron Lion's signature broadcast line", () => {
+    expect(THE_LION_IN_BLACK_SLIDESHOW.reducedMotionFallback.closingLine).toContain(
+      "I broadcast this hoping someone would answer",
+    );
+  });
+
+  it("validates cleanly", () => {
+    expect(validateSlideshow(THE_LION_IN_BLACK_SLIDESHOW)).toEqual([]);
+  });
+});
+
+describe("Full registry invariants", () => {
+  it("registry has 8 slideshows total (4 from §5.5 P0 + 4 from this wave)", () => {
+    expect(Object.keys(SONG_SLIDESHOWS).length).toBe(8);
+  });
+
+  it("every registered slideshow validates cleanly (second-wave audit)", () => {
+    for (const def of Object.values(SONG_SLIDESHOWS)) {
+      const issues = validateSlideshow(def);
+      expect(issues, `Validator issues in ${def.id}: ${JSON.stringify(issues)}`).toEqual([]);
+    }
+  });
+
+  it("every slideshow has a unique id and song id", () => {
+    const ids = Object.values(SONG_SLIDESHOWS).map((s) => s.id);
+    const songIds = Object.values(SONG_SLIDESHOWS).map((s) => s.songId);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(new Set(songIds).size).toBe(songIds.length);
+  });
+
+  it("every slideshow declares its slideshow_*_complete flag", () => {
+    for (const def of Object.values(SONG_SLIDESHOWS)) {
+      const expected = `slideshow_${def.id.replace(/-/g, "_")}_complete`;
+      expect(def.flagsSetOnComplete).toContain(expected);
+    }
   });
 });
