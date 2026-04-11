@@ -20,6 +20,15 @@ describe("useNarrativeIntegration.SLIDESHOW_TRIGGERS", () => {
     expect(entry?.completionFlag).toBe("slideshow_two_witnesses_meet_complete");
   });
 
+  it("has the Thaloria cinematic trigger wired to thaloria_cinematic_unlocked", () => {
+    const entry = SLIDESHOW_TRIGGERS.find(
+      (t) => t.slideshowId === "the-helmet-in-the-grass",
+    );
+    expect(entry).toBeDefined();
+    expect(entry?.triggerFlag).toBe("thaloria_cinematic_unlocked");
+    expect(entry?.completionFlag).toBe("slideshow_the_helmet_in_the_grass_complete");
+  });
+
   it("every slideshow id resolves to a registered slideshow", () => {
     for (const trigger of SLIDESHOW_TRIGGERS) {
       const def = getSlideshow(trigger.slideshowId);

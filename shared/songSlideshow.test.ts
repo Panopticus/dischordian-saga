@@ -14,6 +14,7 @@ import {
   listSlideshows,
   OCULARUM_SLIDESHOW,
   SONG_SLIDESHOWS,
+  THE_HELMET_IN_THE_GRASS_SLIDESHOW,
   THE_LION_IN_BLACK_SLIDESHOW,
   THE_PRISONER_SLIDESHOW,
   TO_BE_THE_HUMAN_SLIDESHOW,
@@ -511,9 +512,49 @@ describe("Two Witnesses Meet slideshow (§1.5 / §12 C10)", () => {
   });
 });
 
+describe("The Helmet in the Grass slideshow (§6.5 / §12 C5)", () => {
+  it("has 6 frames for the Thaloria cinematic", () => {
+    expect(THE_HELMET_IN_THE_GRASS_SLIDESHOW.frames.length).toBe(6);
+  });
+
+  it("is priority P1 (Act 2 interlude beat)", () => {
+    expect(THE_HELMET_IN_THE_GRASS_SLIDESHOW.priority).toBe("P1");
+  });
+
+  it("sets the Shadow Tongue + two Game Masters introduction flags", () => {
+    const flags = THE_HELMET_IN_THE_GRASS_SLIDESHOW.flagsSetOnComplete;
+    expect(flags).toContain("thaloria_cinematic_seen");
+    expect(flags).toContain("two_game_masters_introduced");
+    expect(flags).toContain("shadow_tongue_origin_seen");
+  });
+
+  it("rewards +100 community light", () => {
+    expect(THE_HELMET_IN_THE_GRASS_SLIDESHOW.lightEnergyReward).toBe(100);
+  });
+
+  it("validates cleanly", () => {
+    expect(validateSlideshow(THE_HELMET_IN_THE_GRASS_SLIDESHOW)).toEqual([]);
+  });
+
+  it("has a hardcut transition at the world-inversion beat", () => {
+    // §12 C5 explicitly calls for a camera-tilt hardcut when
+    // the world inverts from emerald canopy to burning violet.
+    const hardcuts = THE_HELMET_IN_THE_GRASS_SLIDESHOW.frames.filter(
+      (f) => f.transition === "hardcut",
+    );
+    expect(hardcuts.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("unlocks the two-game-masters loredex entry", () => {
+    expect(THE_HELMET_IN_THE_GRASS_SLIDESHOW.unlockLoredexEntry).toBe(
+      "the-two-game-masters",
+    );
+  });
+});
+
 describe("Full registry invariants", () => {
-  it("registry has 9 slideshows total (4 P0 openers + 4 second wave + Two Witnesses Meet)", () => {
-    expect(Object.keys(SONG_SLIDESHOWS).length).toBe(9);
+  it("registry has 10 slideshows total", () => {
+    expect(Object.keys(SONG_SLIDESHOWS).length).toBe(10);
   });
 
   it("every registered slideshow validates cleanly (second-wave audit)", () => {

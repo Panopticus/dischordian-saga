@@ -860,6 +860,123 @@ export const THE_LION_IN_BLACK_SLIDESHOW: SongSlideshowDef = {
   },
 };
 
+/* ─── THE HELMET IN THE GRASS (§6.5 + §12 C5) ─── */
+
+/**
+ * "The Helmet in the Grass" — the Act 2 Thaloria cinematic
+ * (P1). Six frames, ~1m 12s. Triggered on the player's third
+ * Collector's Arena match win.
+ *
+ * Structurally this cinematic is the cold-open to the
+ * existing `collectors-arena-intro_c5e8c641.mp4` asset per
+ * §6.5. The slideshow's six frames cover the peaceful
+ * Thaloria opener, the helmet lift, the world-inversion,
+ * the reveal of the two Game Masters, and the moment the
+ * Thalorian's eyes turn red. The existing arena intro video
+ * plays immediately after this slideshow completes.
+ */
+const THALORIA_FRAME_MS = 12_000;
+
+export const THE_HELMET_IN_THE_GRASS_SLIDESHOW: SongSlideshowDef = {
+  id: "the-helmet-in-the-grass",
+  songId: "thaloria_awakening",
+  audioUrl: "/assets/audio/songs/thaloria-awakening.mp3",
+  durationMs: 6 * THALORIA_FRAME_MS, // 72_000ms = 1m 12s
+  title: "The Helmet in the Grass",
+  subtitle: "Thaloria. Morning. A child reaching for a buried helmet.",
+  credits: "Album: The Age of Privacy · Track 3",
+  priority: "P1",
+  frames: [
+    {
+      startMs: 0,
+      endMs: THALORIA_FRAME_MS,
+      imageUrl: "/assets/slideshows/the-helmet-in-the-grass/frame01.webp",
+      transition: "fade",
+      caption: "A Thaloria meadow. Morning. Crystal streams in the distance.",
+      kenBurns: {
+        startScale: 1.0,
+        endScale: 1.05,
+        startPan: [0, 0],
+        endPan: [0.03, 0.01],
+      },
+    },
+    {
+      startMs: THALORIA_FRAME_MS,
+      endMs: THALORIA_FRAME_MS * 2,
+      imageUrl: "/assets/slideshows/the-helmet-in-the-grass/frame02.webp",
+      transition: "dissolve",
+      caption: "A verdant-skinned child kneels. A xenomorph-shaped helmet lies half-buried in the grass.",
+      kenBurns: {
+        startScale: 1.0,
+        endScale: 1.08,
+        startPan: [0, 0],
+        endPan: [0.05, 0.02],
+      },
+    },
+    {
+      startMs: THALORIA_FRAME_MS * 2,
+      endMs: THALORIA_FRAME_MS * 3,
+      imageUrl: "/assets/slideshows/the-helmet-in-the-grass/frame03.webp",
+      transition: "dissolve",
+      caption: "She reaches for it.",
+      kenBurns: {
+        startScale: 1.0,
+        endScale: 1.1,
+        startPan: [0, 0],
+        endPan: [0.0, 0.04],
+      },
+    },
+    {
+      startMs: THALORIA_FRAME_MS * 3,
+      endMs: THALORIA_FRAME_MS * 4,
+      imageUrl: "/assets/slideshows/the-helmet-in-the-grass/frame04.webp",
+      transition: "hardcut",
+      caption: "The camera tilts. The world inverts. The emerald canopy becomes burning violet.",
+    },
+    {
+      startMs: THALORIA_FRAME_MS * 4,
+      endMs: THALORIA_FRAME_MS * 5,
+      imageUrl: "/assets/slideshows/the-helmet-in-the-grass/frame05.webp",
+      transition: "dissolve",
+      caption: "Two Game Masters stand behind her. Identical blue trench coats. Mirrored red goggles.",
+    },
+    {
+      startMs: THALORIA_FRAME_MS * 5,
+      endMs: THALORIA_FRAME_MS * 6,
+      imageUrl: "/assets/slideshows/the-helmet-in-the-grass/frame06.webp",
+      transition: "hardcut",
+      caption: "The Left Game Master places the helmet on her head. Her eyes turn red.",
+    },
+  ],
+  lyrics: [
+    { startMs: 4_000, endMs: 16_000, text: "Life flowed in rhythms of quiet prosperity.", emphasis: "whisper" },
+    { startMs: 36_000, endMs: 48_000, text: "The camera was never alone.", emphasis: "normal" },
+    { startMs: 60_000, endMs: 72_000, text: "The Shadow Tongue was born today.", emphasis: "layered" },
+  ],
+  overlays: [
+    { type: "bloom", startMs: 0, endMs: 36_000, intensity: 0.5 },
+    { type: "particles", startMs: 0, endMs: 36_000, intensity: 0.3 },
+    { type: "vignette", startMs: 36_000, endMs: 72_000, intensity: 0.45 },
+    { type: "corruption", startMs: 36_000, endMs: 48_000, intensity: 0.6 },
+    { type: "scanlines", startMs: 48_000, endMs: 72_000, intensity: 0.25 },
+  ],
+  flagsSetOnComplete: [
+    "slideshow_the_helmet_in_the_grass_complete",
+    "thaloria_cinematic_seen",
+    "two_game_masters_introduced",
+    "shadow_tongue_origin_seen",
+  ],
+  unlockLoredexEntry: "the-two-game-masters",
+  lightEnergyReward: 100,
+  reducedMotionFallback: {
+    heroImageUrl: "/assets/slideshows/the-helmet-in-the-grass/hero.webp",
+    prose:
+      "A verdant-skinned Thalorian child kneels in an emerald meadow under soft morning light. Crystal streams in the distance. A half-buried alien xenomorph-shaped helmet lies in the grass. She reaches for it. As she lifts it, the camera tilts up and over, and the world inverts mid-tilt. The emerald canopy becomes a sky of burning violet. A second pair of masked hands is now holding the helmet from above — gloved, blue trench coat sleeve. The camera pulls back to reveal TWO Game Masters standing behind her: identical blue trench coats, one with red left-lens goggles, one with red right-lens goggles. The Left Game Master places the helmet on her head. The child's eyes turn red. The Shadow Tongue is born.",
+    closingLine:
+      "They were behind the Thalorian the whole time. The Thalorian never noticed. Neither did you.",
+  },
+};
+
 /* ─── TWO WITNESSES MEET (§1.5 + §12 C10) ─── */
 
 /**
@@ -995,6 +1112,7 @@ export const SONG_SLIDESHOWS: Record<string, SongSlideshowDef> = {
   [THE_PRISONER_SLIDESHOW.id]: THE_PRISONER_SLIDESHOW,
   [THE_LION_IN_BLACK_SLIDESHOW.id]: THE_LION_IN_BLACK_SLIDESHOW,
   [TWO_WITNESSES_MEET_SLIDESHOW.id]: TWO_WITNESSES_MEET_SLIDESHOW,
+  [THE_HELMET_IN_THE_GRASS_SLIDESHOW.id]: THE_HELMET_IN_THE_GRASS_SLIDESHOW,
 };
 
 export function getSlideshow(id: string): SongSlideshowDef | undefined {

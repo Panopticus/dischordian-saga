@@ -193,6 +193,14 @@ export const SLIDESHOW_TRIGGERS: ReadonlyArray<{
     slideshowId: "two-witnesses-meet",
     completionFlag: "slideshow_two_witnesses_meet_complete",
   },
+  {
+    // §6.5 / §12 C5 — Act 2 Thaloria cinematic. Gameplay sets
+    // `thaloria_cinematic_unlocked` on the player's third
+    // Collector's Arena match win.
+    triggerFlag: "thaloria_cinematic_unlocked",
+    slideshowId: "the-helmet-in-the-grass",
+    completionFlag: "slideshow_the_helmet_in_the_grass_complete",
+  },
 ];
 
 export function useNarrativeIntegration() {
@@ -477,6 +485,64 @@ export function useNarrativeIntegration() {
       });
     }
 
+    // Witnessing §6.5 — Thaloria cinematic triggers on the
+    // player's third Collector's Arena match win. Gameplay
+    // maintains the counter via localStorage; we just watch
+    // for the threshold and raise the trigger flag.
+    const arenaWins = parseInt(
+      localStorage.getItem("collectors_arena_wins") || "0",
+    );
+    if (
+      arenaWins >= 3 &&
+      !state.narrativeFlags?.thaloria_cinematic_unlocked &&
+      !state.narrativeFlags?.slideshow_the_helmet_in_the_grass_complete
+    ) {
+      setNarrativeFlag("thaloria_cinematic_unlocked", true);
+    }
+
+    // Witnessing §6.6 — Act 2 wrap. Fires act2_complete +
+    // trade_empire_unlocked when all four §6.6 completion
+    // conditions are met:
+    //
+    //   - crafted ≥ 3 cards     → `crafting_mastered`
+    //   - won ≥ 5 chess matches → `chess_mastered`
+    //   - Thaloria cinematic seen
+    //   - lost to a Game Master → `game_master_loss`
+    //
+    // The sub-flags are set here when their underlying
+    // conditions cross threshold. `game_master_loss` is
+    // set by gameplay directly when the player loses to one
+    // of the two Game Masters — no threshold to check.
+    const crafted = state.craftedItems?.length ?? 0;
+    if (
+      crafted >= 3 &&
+      !state.narrativeFlags?.crafting_mastered &&
+      (state.narrativeAct ?? 0) >= 2
+    ) {
+      setNarrativeFlag("crafting_mastered", true);
+    }
+    const chessWins = parseInt(
+      localStorage.getItem("chess_wins") || "0",
+    );
+    if (chessWins >= 5 && !state.narrativeFlags?.chess_mastered) {
+      setNarrativeFlag("chess_mastered", true);
+    }
+    if (
+      (state.narrativeAct ?? 0) >= 2 &&
+      !state.narrativeFlags?.act_2_complete &&
+      state.narrativeFlags?.crafting_mastered &&
+      state.narrativeFlags?.chess_mastered &&
+      state.narrativeFlags?.thaloria_cinematic_seen &&
+      state.narrativeFlags?.game_master_loss
+    ) {
+      setNarrativeFlag("act_2_complete", true);
+      setNarrativeFlag("trade_empire_unlocked", true);
+      toast.info("Act 2 — The Forged Hand", {
+        description:
+          "The Free Ports have opened trade channels with your Ark. An agent wishes to meet.",
+      });
+    }
+
     // Witnessing §7 — Act 3 starts when the narrative act state
     // crosses 3. Gameplay sets `narrativeAct = 3` via the
     // existing `advanceNarrativeAct` action when the player
@@ -497,5 +563,10 @@ export function useNarrativeIntegration() {
       setNarrativeFlag(ev.flag, true);
       toast.info(ev.toast.title, { description: ev.toast.desc });
     }
-  }, [state.narrativeFlags, state.narrativeAct, setNarrativeFlag]);
+  }, [
+    state.narrativeFlags,
+    state.narrativeAct,
+    state.craftedItems,
+    setNarrativeFlag,
+  ]);
 }
