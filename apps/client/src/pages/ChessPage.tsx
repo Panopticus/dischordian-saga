@@ -110,6 +110,18 @@ export default function ChessPage() {
   const [mpLastMove, setMpLastMove] = useState<{ from: string; to: string } | null>(null);
   const [mpGameOver, setMpGameOver] = useState<{ winner: "white" | "black" | "draw"; reason: string; eloChange: number; newElo: number } | null>(null);
   const [mpDrawOffered, setMpDrawOffered] = useState(false);
+
+  // ── Pawn promotion dialog state ──
+  // When a pawn reaches the last rank, we suspend the move until the player
+  // picks a promotion piece. Shared between SP (`isMp: false`) and PvP.
+  const [pendingPromotion, setPendingPromotion] = useState<{
+    from: string;
+    to: string;
+    color: "w" | "b";
+    isMp: boolean;
+    piece: string; // raw piece string from react-chessboard (e.g. "wP")
+  } | null>(null);
+
   const mpWsRef = useRef<WebSocket | null>(null);
   const mpSearchTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const mpChessRef = useRef(new Chess());
@@ -231,7 +243,7 @@ export default function ChessPage() {
     setMpSearchElapsed(0);
   }, []);
 
-  const handleMpMove = useCallback((from: string, to: string) => {
+  const handleMpMove = useCallback((from: string, to: string, promoOverride?: string) => {
     if (!mpWsRef.current || mpWsRef.current.readyState !== WebSocket.OPEN) return false;
     if (!mpOpponent) return false;
 
@@ -243,8 +255,23 @@ export default function ChessPage() {
     const tempChess = new Chess(mpFen);
     const piece = tempChess.get(from as any);
     const needsPromotion = piece?.type === "p" && ((piece.color === "w" && to[1] === "8") || (piece.color === "b" && to[1] === "1"));
-    const promotion = needsPromotion ? "q" : undefined;
 
+    // If promotion is needed and we don't yet know which piece, open dialog.
+    if (needsPromotion && !promoOverride) {
+      // Sanity-check the move is actually legal before prompting.
+      const test = tempChess.move({ from, to, promotion: "q" });
+      if (!test) return false;
+      setPendingPromotion({
+        from,
+        to,
+        color: piece!.color as "w" | "b",
+        isMp: true,
+        piece: (piece!.color === "w" ? "wP" : "bP"),
+      });
+      return false;
+    }
+
+    const promotion = needsPromotion ? promoOverride : undefined;
     const moveResult = tempChess.move({ from, to, promotion });
     if (!moveResult) return false;
 
@@ -374,17 +401,38 @@ export default function ChessPage() {
     return bestMove;
   }, [stockfish.isReady]);
 
-  const handleDrop = useCallback(async (sourceSquare: string, targetSquare: string, piece: string) => {
+  const handleDrop = useCallback(async (sourceSquare: string, targetSquare: string, piece: string, promoOverride?: string) => {
     if (!activeGameId || gameStatus !== "active" || isThinking) return false;
 
     const isPromotion = piece[1] === "P" && (targetSquare[1] === "8" || targetSquare[1] === "1");
+
+    // If promotion is needed and no explicit choice yet, open the dialog
+    // and defer the actual move. The piece will snap back on next render
+    // because we don't update gameFen here.
+    if (isPromotion && !promoOverride) {
+      // Validate the move is actually legal before prompting.
+      const test = new Chess(chessRef.current.fen());
+      if (!test.move({ from: sourceSquare, to: targetSquare, promotion: "q" })) {
+        return false;
+      }
+      setPendingPromotion({
+        from: sourceSquare,
+        to: targetSquare,
+        color: piece[0] as "w" | "b",
+        isMp: false,
+        piece,
+      });
+      return false;
+    }
+
+    const promotionPiece = isPromotion ? promoOverride : undefined;
 
     // Validate move locally first
     const chess = chessRef.current;
     const moveResult = chess.move({
       from: sourceSquare,
       to: targetSquare,
-      promotion: isPromotion ? "q" : undefined,
+      promotion: promotionPiece,
     });
     if (!moveResult) return false;
 
@@ -401,7 +449,7 @@ export default function ChessPage() {
           gameId: activeGameId,
           from: sourceSquare,
           to: targetSquare,
-          promotion: isPromotion ? "q" : undefined,
+          promotion: promotionPiece,
         });
         setGameStatus(result.status);
         if (result.rewards) {
@@ -452,7 +500,7 @@ export default function ChessPage() {
                 gameId: activeGameId,
                 from: sourceSquare,
                 to: targetSquare,
-                promotion: isPromotion ? "q" : undefined,
+                promotion: promotionPiece,
               });
               setGameStatus(result.status);
               if (result.rewards) setRewards(result.rewards);
@@ -466,7 +514,7 @@ export default function ChessPage() {
                 gameId: activeGameId,
                 from: sourceSquare,
                 to: targetSquare,
-                promotion: isPromotion ? "q" : undefined,
+                promotion: promotionPiece,
               }).catch(e => console.warn("Background sync error:", e));
             }
           }
@@ -478,7 +526,7 @@ export default function ChessPage() {
           gameId: activeGameId,
           from: sourceSquare,
           to: targetSquare,
-          promotion: isPromotion ? "q" : undefined,
+          promotion: promotionPiece,
         });
         setGameFen(result.fen);
         chess.load(result.fen);
@@ -504,7 +552,7 @@ export default function ChessPage() {
           gameId: activeGameId,
           from: sourceSquare,
           to: targetSquare,
-          promotion: isPromotion ? "q" : undefined,
+          promotion: promotionPiece,
         });
         setGameFen(result.fen);
         chess.load(result.fen);
@@ -543,6 +591,19 @@ export default function ChessPage() {
 
     return true;
   }, [activeGameId, gameStatus, isThinking, makeMove, utils, useClientAi, stockfish.isReady, requestAiMove]);
+
+  /** Commit a pending pawn promotion after the player picks a piece. */
+  const commitPromotion = useCallback((pieceLetter: "q" | "r" | "b" | "n") => {
+    if (!pendingPromotion) return;
+    const p = pendingPromotion;
+    setPendingPromotion(null);
+    if (p.isMp) {
+      handleMpMove(p.from, p.to, pieceLetter);
+    } else {
+      // Fire-and-forget — handleDrop is async but we don't await here
+      handleDrop(p.from, p.to, p.piece, pieceLetter);
+    }
+  }, [pendingPromotion, handleDrop, handleMpMove]);
 
   const handleResign = async () => {
     if (!activeGameId) return;
@@ -1691,6 +1752,64 @@ export default function ChessPage() {
                 );
               })}
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ═══ PAWN PROMOTION DIALOG ═══ */}
+      <AnimatePresence>
+        {pendingPromotion && (
+          <motion.div
+            key="promotion-dialog"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+            onClick={() => setPendingPromotion(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.85, y: 16 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.85, y: 16 }}
+              onClick={(e) => e.stopPropagation()}
+              className="rounded-lg border border-primary/40 bg-card/95 backdrop-blur-md p-5 shadow-2xl"
+            >
+              <p className="font-display text-sm font-bold tracking-wider text-center mb-3 text-primary">
+                PROMOTE PAWN
+              </p>
+              <p className="font-mono text-[10px] text-center text-muted-foreground mb-4">
+                Choose a piece to promote to
+              </p>
+              <div className="flex gap-2">
+                {(["q", "r", "b", "n"] as const).map((p) => {
+                  const labels: Record<typeof p, string> = { q: "Queen", r: "Rook", b: "Bishop", n: "Knight" };
+                  const unicode: Record<string, string> = pendingPromotion.color === "w"
+                    ? { q: "\u2655", r: "\u2656", b: "\u2657", n: "\u2658" }
+                    : { q: "\u265B", r: "\u265C", b: "\u265D", n: "\u265E" };
+                  return (
+                    <button
+                      key={p}
+                      onClick={() => commitPromotion(p)}
+                      className="flex flex-col items-center gap-1 p-3 rounded-md bg-secondary/40 border border-border/40 hover:bg-primary/10 hover:border-primary/40 transition min-w-[70px]"
+                      aria-label={`Promote to ${labels[p]}`}
+                    >
+                      <span className={`text-4xl leading-none ${pendingPromotion.color === "w" ? "text-white" : "text-black [text-shadow:0_0_2px_white]"}`}>
+                        {unicode[p]}
+                      </span>
+                      <span className="font-mono text-[9px] tracking-wider uppercase text-muted-foreground">
+                        {labels[p]}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+              <button
+                onClick={() => setPendingPromotion(null)}
+                className="mt-3 w-full py-1.5 rounded-md bg-secondary/30 border border-border/30 font-mono text-[10px] text-muted-foreground hover:bg-secondary/50"
+              >
+                CANCEL
+              </button>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

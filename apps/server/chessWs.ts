@@ -90,7 +90,10 @@ type ChessServerMessage =
 /* ─── CONSTANTS ─── */
 const MATCHMAKING_INTERVAL_MS = 3000;
 const DEFAULT_TIME_CONTROL = 600; // 10 minutes per side
-const TURN_TIMEOUT_MS = 120_000; // 2 minutes per move maximum
+// Absolute per-move safety cap — even with 10 minutes on the clock
+// we force a move within this window to prevent idle sessions from
+// hogging server resources. Flag-fall still fires on the actual clock.
+const TURN_TIMEOUT_MS = 120_000;
 const STARTING_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 /* ─── STATE ─── */
@@ -259,12 +262,21 @@ async function startMatch(p1: ChessPlayer, p2: ChessPlayer) {
 function startTurnTimer(match: ActiveChessMatch) {
   if (match.turnTimeout) clearTimeout(match.turnTimeout);
 
+  // Flag-fall: fire when the CURRENT player's clock runs out or when we
+  // hit the absolute per-move safety cap — whichever comes first.
+  const remaining = match.turn === "w" ? match.whiteTimeMs : match.blackTimeMs;
+  const fireIn = Math.max(0, Math.min(TURN_TIMEOUT_MS, remaining));
+
   match.turnTimeout = setTimeout(() => {
-    // Time out: current player loses
-    const loserId = match.turn === "w" ? match.white.userId : match.black.userId;
+    // Decrement the flagged player's clock so the persisted value is correct.
+    if (match.turn === "w") {
+      match.whiteTimeMs = Math.max(0, match.whiteTimeMs - (Date.now() - match.lastMoveTime));
+    } else {
+      match.blackTimeMs = Math.max(0, match.blackTimeMs - (Date.now() - match.lastMoveTime));
+    }
     const winnerId = match.turn === "w" ? match.black.userId : match.white.userId;
     endMatch(match, winnerId, "timeout");
-  }, TURN_TIMEOUT_MS);
+  }, fireIn);
 }
 
 /* ─── MOVE HANDLING ─── */
@@ -307,6 +319,29 @@ async function handleMove(
   match.moves.push(moveResult.san);
   match.turn = chess.turn() as "w" | "b";
   match.moveCount = chess.history().length;
+
+  // Persist per-move snapshot so crash recovery / spectators / reconnect
+  // can read an up-to-date board instead of the starting position.
+  // Fire-and-forget — chess protocol doesn't block on this.
+  if (match.dbId) {
+    (async () => {
+      try {
+        const db = await getDb();
+        if (!db) return;
+        await db.update(chessGames)
+          .set({
+            fen: match.fen,
+            pgn: match.pgn,
+            moveCount: match.moveCount,
+            whiteTimeMs: match.whiteTimeMs,
+            blackTimeMs: match.blackTimeMs,
+          })
+          .where(eq(chessGames.id, match.dbId!));
+      } catch (e) {
+        console.error("[ChessPvP] per-move DB sync failed:", e);
+      }
+    })();
+  }
 
   // Check for game end
   if (chess.isCheckmate()) {
@@ -652,7 +687,9 @@ export function setupChessPvpWebSocket(server: Server) {
             setTimeout(() => {
               if (match.status === "active" && !playerConnections.has(player.userId)) {
                 const winnerId = opponent.userId;
-                endMatch(match, winnerId, "disconnect");
+                // "abandoned" matches the chess_games status enum; "disconnect"
+                // was a silent DB-update failure previously.
+                endMatch(match, winnerId, "abandoned");
               }
             }, 30_000);
           }

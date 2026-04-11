@@ -6,7 +6,7 @@
 import { z } from "zod";
 import { logger } from "../logger";
 import { eq, and, desc, sql, gte, ne } from "drizzle-orm";
-import { protectedProcedure, router } from "../_core/trpc";
+import { protectedProcedure, adminProcedure, router } from "../_core/trpc";
 import { getDb, type DrizzleDb } from "../db";
 import {
   chessGames, chessRankings, chessTournaments,
@@ -17,6 +17,15 @@ import { ripple } from "../services/rippleEngine";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import { getConsequences } from "../services/universeConsequences";
 import { mapDifficultyToChessElo } from "@shared/dynamicDifficulty";
+import {
+  CHESS_PUZZLES,
+  getDailyPuzzle as getDailyPuzzleImpl,
+  validateSolution,
+  getPuzzlesByDifficulty,
+  getPuzzlesByCategory,
+  getPuzzlesByTheme,
+  type ChessPuzzle,
+} from "@shared/chessPuzzles";
 
 // chess.js v1.4 — dynamic import to avoid ESM/CJS mismatch
 type ChessInstance = import("chess.js").Chess;
@@ -951,7 +960,513 @@ export const chessRouter = router({
 
     return { unlockedFighters };
   }),
+
+  /* ─── PUZZLE / TRAINING MODE ─────────────────────────────
+     Lichess-style tactical training backed by the shared
+     CHESS_PUZZLES catalog. Puzzles are stateless definitions;
+     per-user claim history is tracked in memory so a restart
+     wipes it (acceptable for this low-stakes training loop). */
+
+  /** Get today's daily puzzle (solution stripped). */
+  getDailyPuzzle: protectedProcedure.query(async ({ ctx }) => {
+    const now = new Date();
+    const start = new Date(now.getFullYear(), 0, 0);
+    const diff = now.getTime() - start.getTime();
+    const dayOfYear = Math.floor(diff / 86_400_000);
+    const puzzle = getDailyPuzzleImpl(dayOfYear);
+    return {
+      ...stripSolution(puzzle),
+      date: now.toISOString().slice(0, 10),
+      alreadySolved: hasSolvedPuzzle(ctx.user.id, puzzle.id),
+    };
+  }),
+
+  /** List puzzles, optionally filtered by difficulty / category / theme. */
+  listPuzzles: protectedProcedure
+    .input(z.object({
+      difficulty: z.tuple([z.number().int().min(1).max(5), z.number().int().min(1).max(5)]).optional(),
+      category: z.enum(["tactics", "endgame", "opening_traps"]).optional(),
+      theme: z.enum(["mate_in_1", "mate_in_2", "fork", "pin", "skewer"]).optional(),
+      limit: z.number().int().min(1).max(100).default(20),
+    }))
+    .query(async ({ ctx, input }) => {
+      let pool: ChessPuzzle[] = CHESS_PUZZLES;
+      if (input.difficulty) {
+        pool = getPuzzlesByDifficulty(input.difficulty[0], input.difficulty[1]);
+      }
+      if (input.category) {
+        pool = pool.filter(p => p.category === input.category);
+      }
+      if (input.theme) {
+        pool = pool.filter(p => p.theme === input.theme);
+      }
+      const solved = puzzleSolvedByUser.get(ctx.user.id) ?? new Set<string>();
+      return {
+        puzzles: pool.slice(0, input.limit).map(p => ({
+          ...stripSolution(p),
+          alreadySolved: solved.has(p.id),
+        })),
+        total: pool.length,
+      };
+    }),
+
+  /** Get a single puzzle by ID (solution stripped). */
+  getPuzzleById: protectedProcedure
+    .input(z.object({ puzzleId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const puzzle = CHESS_PUZZLES.find(p => p.id === input.puzzleId);
+      if (!puzzle) throw new Error("Puzzle not found");
+      return {
+        ...stripSolution(puzzle),
+        alreadySolved: hasSolvedPuzzle(ctx.user.id, puzzle.id),
+      };
+    }),
+
+  /** Validate a puzzle solution and award rewards on first solve. */
+  solvePuzzle: protectedProcedure
+    .input(z.object({
+      puzzleId: z.string(),
+      moves: z.array(z.string()).min(1).max(10),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const puzzle = CHESS_PUZZLES.find(p => p.id === input.puzzleId);
+      if (!puzzle) throw new Error("Puzzle not found");
+
+      const correct = validateSolution(input.puzzleId, input.moves);
+      if (!correct) {
+        return {
+          correct: false,
+          hint: puzzle.hint,
+          expectedLength: puzzle.solutionMoves.length,
+          awarded: 0,
+        };
+      }
+
+      const alreadySolved = hasSolvedPuzzle(ctx.user.id, puzzle.id);
+      markPuzzleSolved(ctx.user.id, puzzle.id);
+
+      // Only reward first-time solves so there's no farming loop.
+      let awarded = 0;
+      if (!alreadySolved) {
+        const db = (await getDb())!;
+        awarded = puzzle.xpReward;
+
+        // Award Dream tokens equal to the puzzle's XP reward.
+        const bal = await db.select().from(dreamBalance)
+          .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+        if (bal[0]) {
+          await db.update(dreamBalance)
+            .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${awarded}` })
+            .where(eq(dreamBalance.userId, ctx.user.id));
+        } else {
+          await db.insert(dreamBalance).values({
+            userId: ctx.user.id,
+            dreamTokens: awarded,
+            soulBoundDream: 0,
+          });
+        }
+
+        // Award civil skill XP (tactics training counts as chess study).
+        const { awardCivilXp } = await import("../civilSkillHelper");
+        awardCivilXp(ctx.user.id, "chess_puzzle_solved")
+          .catch(e => logger.error("[ChessPuzzle] Civil XP award failed:", e));
+      }
+
+      return {
+        correct: true,
+        alreadySolved,
+        awarded,
+        solutionMoves: puzzle.solutionMoves,
+        title: puzzle.title,
+      };
+    }),
+
+  /** Return how many puzzles the current user has solved (in-memory). */
+  getPuzzleStats: protectedProcedure.query(async ({ ctx }) => {
+    const solved = puzzleSolvedByUser.get(ctx.user.id) ?? new Set<string>();
+    return {
+      solvedCount: solved.size,
+      totalPuzzles: CHESS_PUZZLES.length,
+      solvedIds: Array.from(solved),
+    };
+  }),
+
+  /* ─── TOURNAMENTS ────────────────────────────────────────
+     Minimal Swiss-style tournament runtime. Metadata lives in
+     the chess_tournaments table; live participant/pairing state
+     is held in memory (non-persistent across restarts).
+     The runtime is intentionally simple: a single active round
+     per tournament, score-sorted pairing, player-reported results. */
+
+  listTournaments: protectedProcedure
+    .input(z.object({
+      status: z.enum(["registration", "active", "completed"]).optional(),
+    }).optional())
+    .query(async ({ input }) => {
+      const db = (await getDb())!;
+      const filter = input?.status
+        ? eq(chessTournaments.status, input.status)
+        : undefined;
+      const rows = filter
+        ? await db.select().from(chessTournaments).where(filter).orderBy(desc(chessTournaments.startsAt))
+        : await db.select().from(chessTournaments).orderBy(desc(chessTournaments.startsAt));
+
+      return rows.map(t => {
+        const live = getTournamentState(t.id);
+        return {
+          ...t,
+          registeredPlayers: live.participants.length,
+          isActive: t.status === "active",
+        };
+      });
+    }),
+
+  getTournament: protectedProcedure
+    .input(z.object({ tournamentId: z.number().int() }))
+    .query(async ({ ctx, input }) => {
+      const db = (await getDb())!;
+      const rows = await db.select().from(chessTournaments)
+        .where(eq(chessTournaments.id, input.tournamentId)).limit(1);
+      const row = rows[0];
+      if (!row) throw new Error("Tournament not found");
+
+      const live = getTournamentState(row.id);
+      const youAreIn = live.participants.some(p => p.userId === ctx.user.id);
+      const standings = [...live.participants]
+        .sort((a, b) => b.score - a.score || b.tieBreak - a.tieBreak)
+        .map((p, i) => ({ rank: i + 1, ...p }));
+
+      return {
+        tournament: row,
+        standings,
+        currentPairings: live.pairings,
+        youAreIn,
+        participantCount: live.participants.length,
+      };
+    }),
+
+  /** Admin creates a new tournament. */
+  createTournament: adminProcedure
+    .input(z.object({
+      name: z.string().min(3).max(128),
+      format: z.enum(["swiss", "elimination", "round_robin"]).default("swiss"),
+      maxPlayers: z.number().int().min(2).max(64).default(16),
+      entryFee: z.number().int().min(0).default(0),
+      prizePool: z.number().int().min(0).default(0),
+      timeControl: z.number().int().min(60).max(10_800).default(600),
+      totalRounds: z.number().int().min(1).max(10).default(4),
+      startsAt: z.date().optional(),
+    }))
+    .mutation(async ({ input }) => {
+      const db = (await getDb())!;
+      const result = await db.insert(chessTournaments).values({
+        name: input.name,
+        format: input.format,
+        maxPlayers: input.maxPlayers,
+        entryFee: input.entryFee,
+        prizePool: input.prizePool,
+        timeControl: input.timeControl,
+        totalRounds: input.totalRounds,
+        startsAt: input.startsAt || new Date(Date.now() + 3600_000),
+        status: "registration",
+      });
+      const id = Number((result as any)[0].insertId);
+      return { id };
+    }),
+
+  joinTournament: protectedProcedure
+    .input(z.object({ tournamentId: z.number().int() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = (await getDb())!;
+      const rows = await db.select().from(chessTournaments)
+        .where(eq(chessTournaments.id, input.tournamentId)).limit(1);
+      const t = rows[0];
+      if (!t) throw new Error("Tournament not found");
+      if (t.status !== "registration") {
+        throw new Error("Tournament is no longer accepting registrations");
+      }
+
+      const live = getTournamentState(t.id);
+      if (live.participants.some(p => p.userId === ctx.user.id)) {
+        return { ok: true, alreadyJoined: true };
+      }
+      if (live.participants.length >= t.maxPlayers) {
+        throw new Error("Tournament is full");
+      }
+
+      // Charge entry fee from Dream tokens if any.
+      if (t.entryFee > 0) {
+        const bal = await db.select().from(dreamBalance)
+          .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+        if (!bal[0] || bal[0].dreamTokens < t.entryFee) {
+          throw new Error("Insufficient Dream tokens for entry fee");
+        }
+        await db.update(dreamBalance)
+          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${t.entryFee}` })
+          .where(eq(dreamBalance.userId, ctx.user.id));
+      }
+
+      live.participants.push({
+        userId: ctx.user.id,
+        userName: ctx.user.name || `Player ${ctx.user.id}`,
+        score: 0,
+        tieBreak: 0,
+        active: true,
+      });
+
+      await db.update(chessTournaments)
+        .set({ currentPlayers: live.participants.length })
+        .where(eq(chessTournaments.id, t.id));
+
+      return { ok: true, alreadyJoined: false };
+    }),
+
+  leaveTournament: protectedProcedure
+    .input(z.object({ tournamentId: z.number().int() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = (await getDb())!;
+      const rows = await db.select().from(chessTournaments)
+        .where(eq(chessTournaments.id, input.tournamentId)).limit(1);
+      const t = rows[0];
+      if (!t) throw new Error("Tournament not found");
+
+      const live = getTournamentState(t.id);
+      const before = live.participants.length;
+      if (t.status === "registration") {
+        // Full withdrawal before the event starts.
+        live.participants = live.participants.filter(p => p.userId !== ctx.user.id);
+      } else if (t.status === "active") {
+        // Mark as inactive but keep the record so standings are stable.
+        const p = live.participants.find(p => p.userId === ctx.user.id);
+        if (p) p.active = false;
+      }
+      if (live.participants.length !== before) {
+        await db.update(chessTournaments)
+          .set({ currentPlayers: live.participants.length })
+          .where(eq(chessTournaments.id, t.id));
+      }
+      return { ok: true };
+    }),
+
+  /** Admin starts the tournament — generates round-1 pairings. */
+  startTournament: adminProcedure
+    .input(z.object({ tournamentId: z.number().int() }))
+    .mutation(async ({ input }) => {
+      const db = (await getDb())!;
+      const rows = await db.select().from(chessTournaments)
+        .where(eq(chessTournaments.id, input.tournamentId)).limit(1);
+      const t = rows[0];
+      if (!t) throw new Error("Tournament not found");
+      if (t.status !== "registration") {
+        throw new Error("Tournament has already started");
+      }
+
+      const live = getTournamentState(t.id);
+      if (live.participants.length < 2) {
+        throw new Error("Need at least 2 participants to start");
+      }
+
+      live.pairings = generatePairings(live.participants, /*round*/ 1);
+      await db.update(chessTournaments)
+        .set({ status: "active", currentRound: 1 })
+        .where(eq(chessTournaments.id, t.id));
+
+      return { ok: true, round: 1, pairings: live.pairings };
+    }),
+
+  /** A player reports the result of their current pairing. */
+  reportTournamentResult: protectedProcedure
+    .input(z.object({
+      tournamentId: z.number().int(),
+      result: z.enum(["win", "loss", "draw"]),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = (await getDb())!;
+      const rows = await db.select().from(chessTournaments)
+        .where(eq(chessTournaments.id, input.tournamentId)).limit(1);
+      const t = rows[0];
+      if (!t) throw new Error("Tournament not found");
+      if (t.status !== "active") {
+        throw new Error("Tournament is not in an active round");
+      }
+
+      const live = getTournamentState(t.id);
+      const pairing = live.pairings.find(
+        p => !p.reported && (p.whiteId === ctx.user.id || p.blackId === ctx.user.id),
+      );
+      if (!pairing) throw new Error("No active pairing for you this round");
+
+      const isWhite = pairing.whiteId === ctx.user.id;
+      // Normalise to a white-perspective result.
+      const whiteResult =
+        input.result === "draw" ? "draw"
+        : (input.result === "win") === isWhite ? "win" : "loss";
+
+      pairing.whiteResult = whiteResult;
+      pairing.reported = true;
+
+      // Apply scores.
+      const white = live.participants.find(p => p.userId === pairing.whiteId);
+      const black = live.participants.find(p => p.userId === pairing.blackId);
+      if (white && black) {
+        if (whiteResult === "win") {
+          white.score += 1;
+          black.tieBreak += 0.5; // Buchholz-lite
+        } else if (whiteResult === "loss") {
+          black.score += 1;
+          white.tieBreak += 0.5;
+        } else {
+          white.score += 0.5;
+          black.score += 0.5;
+        }
+      }
+
+      // If every pairing is reported, advance the round or close out.
+      if (live.pairings.every(p => p.reported)) {
+        if (t.currentRound >= t.totalRounds) {
+          await db.update(chessTournaments)
+            .set({ status: "completed" })
+            .where(eq(chessTournaments.id, t.id));
+
+          // Distribute prize pool to top 3 finishers.
+          if (t.prizePool > 0) {
+            const ranked = [...live.participants]
+              .sort((a, b) => b.score - a.score || b.tieBreak - a.tieBreak);
+            const splits = [0.6, 0.25, 0.15];
+            for (let i = 0; i < Math.min(3, ranked.length); i++) {
+              const prize = Math.floor(t.prizePool * splits[i]);
+              if (prize <= 0) continue;
+              await db.update(dreamBalance)
+                .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${prize}` })
+                .where(eq(dreamBalance.userId, ranked[i].userId));
+              await db.insert(notifications).values({
+                userId: ranked[i].userId,
+                type: "achievement",
+                title: `Tournament Finish: ${t.name}`,
+                message: `You placed #${i + 1} and earned ${prize} Dream tokens.`,
+                actionUrl: "/chess",
+              });
+            }
+          }
+        } else {
+          live.pairings = generatePairings(live.participants, t.currentRound + 1);
+          await db.update(chessTournaments)
+            .set({ currentRound: t.currentRound + 1 })
+            .where(eq(chessTournaments.id, t.id));
+        }
+      }
+
+      return { ok: true, whiteResult };
+    }),
+
+  /** What tournament am I currently competing in, if any? */
+  getMyActiveTournament: protectedProcedure.query(async ({ ctx }) => {
+    const db = (await getDb())!;
+    const rows = await db.select().from(chessTournaments)
+      .where(ne(chessTournaments.status, "completed"));
+    for (const t of rows) {
+      const live = getTournamentState(t.id);
+      const me = live.participants.find(p => p.userId === ctx.user.id && p.active);
+      if (me) {
+        return {
+          tournament: t,
+          myScore: me.score,
+          myRank:
+            [...live.participants]
+              .sort((a, b) => b.score - a.score || b.tieBreak - a.tieBreak)
+              .findIndex(p => p.userId === ctx.user.id) + 1,
+          currentPairing: live.pairings.find(
+            p => !p.reported && (p.whiteId === ctx.user.id || p.blackId === ctx.user.id),
+          ) || null,
+        };
+      }
+    }
+    return null;
+  }),
 });
+
+/* ─── PUZZLE STATE (process-local) ──────────────────────── */
+/** Per-user set of solved puzzle IDs. Not persisted — a restart resets it. */
+const puzzleSolvedByUser = new Map<number, Set<string>>();
+
+function hasSolvedPuzzle(userId: number, puzzleId: string): boolean {
+  return puzzleSolvedByUser.get(userId)?.has(puzzleId) ?? false;
+}
+
+function markPuzzleSolved(userId: number, puzzleId: string) {
+  let set = puzzleSolvedByUser.get(userId);
+  if (!set) {
+    set = new Set<string>();
+    puzzleSolvedByUser.set(userId, set);
+  }
+  set.add(puzzleId);
+}
+
+function stripSolution(puzzle: ChessPuzzle) {
+  const { solutionMoves: _s, ...rest } = puzzle;
+  return rest;
+}
+
+/* ─── TOURNAMENT STATE (process-local) ──────────────────── */
+interface TournamentParticipant {
+  userId: number;
+  userName: string;
+  score: number;
+  tieBreak: number;
+  active: boolean;
+}
+interface TournamentPairing {
+  round: number;
+  whiteId: number;
+  blackId: number;
+  whiteResult: "win" | "loss" | "draw" | null;
+  reported: boolean;
+}
+interface TournamentRuntime {
+  participants: TournamentParticipant[];
+  pairings: TournamentPairing[];
+}
+
+const tournamentState = new Map<number, TournamentRuntime>();
+
+function getTournamentState(tournamentId: number): TournamentRuntime {
+  let state = tournamentState.get(tournamentId);
+  if (!state) {
+    state = { participants: [], pairings: [] };
+    tournamentState.set(tournamentId, state);
+  }
+  return state;
+}
+
+/** Simple Swiss-lite pairing: sort by score desc and pair adjacent active players. */
+function generatePairings(
+  participants: TournamentParticipant[],
+  round: number,
+): TournamentPairing[] {
+  const active = participants.filter(p => p.active);
+  const sorted = [...active].sort(
+    (a, b) => b.score - a.score || b.tieBreak - a.tieBreak,
+  );
+
+  const pairings: TournamentPairing[] = [];
+  for (let i = 0; i + 1 < sorted.length; i += 2) {
+    // Alternate colors on odd rounds for a mild fairness boost.
+    const whiteFirst = round % 2 === 1;
+    pairings.push({
+      round,
+      whiteId: whiteFirst ? sorted[i].userId : sorted[i + 1].userId,
+      blackId: whiteFirst ? sorted[i + 1].userId : sorted[i].userId,
+      whiteResult: null,
+      reported: false,
+    });
+  }
+  // Odd player out gets a bye — auto-score 1 for this round.
+  if (sorted.length % 2 === 1) {
+    const bye = sorted[sorted.length - 1];
+    bye.score += 1;
+  }
+  return pairings;
+}
 
 /** Process game end — update ELO, give rewards, advance story */
 async function processGameEnd(
