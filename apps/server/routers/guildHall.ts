@@ -1,8 +1,12 @@
 /**
  * Guild Hall Router — Upgrade tiers, unlock rooms, place decorations.
  *
- * Extends the existing guild router with hall management.
- * Guild hall state stored in guilds table (hallTier, hallData JSON).
+ * Persists state on the `guilds` table via `hallTier` + `hallData` JSON
+ * columns (added in migration 0038). Upgrade + decoration costs are paid
+ * from `treasuryDream`, the primary guild currency pool.
+ *
+ * Canonical tier/room/decoration catalogs live in shared/guildHall.ts —
+ * this router imports them rather than redefining constants locally.
  */
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
@@ -10,45 +14,36 @@ import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import { guilds, guildMembers } from "../../db/schema";
 import { eq, and } from "drizzle-orm";
+import {
+  HALL_TIERS, HALL_ROOMS, GUILD_DECORATIONS,
+  getHallTier, getRoomsForTier, getUpgradeCost,
+  getAllPerks, getTotalPassiveBonuses,
+} from "../../shared/guildHall";
 
 function dbUnavailable(): never {
   throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
 }
 
-// Hall tier costs (Dream from guild treasury)
-const TIER_COSTS = [0, 0, 500, 2000, 5000, 15000]; // index = tier to upgrade TO
-const MAX_ROOMS = [0, 2, 4, 7, 10, 12];
-
-// Room tier requirements
-const ROOM_TIER: Record<string, number> = {
-  main_hall: 1, mess_hall: 1,
-  war_room: 2, training_ground: 2,
-  armory_vault: 3, research_wing: 3, trophy_gallery: 3,
-  guild_vault: 4, guild_shop: 4, diplomatic_chamber: 4,
-  oracle_pool: 5, portal_chamber: 5,
-};
-
-// Decoration costs
-const DECO_COSTS: Record<string, { dream?: number; credits?: number }> = {
-  guild_standard: { dream: 10 }, faction_banner_empire: { dream: 25 },
-  faction_banner_insurgency: { dream: 25 }, command_table: { dream: 50 },
-  war_planning_board: { dream: 75 }, guild_throne: { dream: 200 },
-  meditation_cushions: { dream: 15 }, lounge_couch: { dream: 40 },
-  holographic_fire: { dream: 30 }, neon_guild_sign: { dream: 45 },
-  void_lantern: { dream: 80 }, crystal_chandelier: { dream: 150 },
-  comms_terminal: { dream: 35 }, research_console: { dream: 60 },
-  surveillance_array: { credits: 500 }, fallen_memorial: { dream: 20 },
-  origin_plaque: { dream: 5 }, war_chronicle: { dream: 40 },
-  antiquarian_globe: { dream: 500 }, architects_blueprint: { dream: 250 },
-  dreamers_tapestry: { dream: 350 }, portal_generator: { dream: 300 },
-};
-
+/** The shape stored in guilds.hallData. */
 interface HallData {
   unlockedRooms: string[];
   decorations: { roomId: string; decoId: string; x: number; y: number }[];
 }
 
-const DEFAULT_HALL: HallData = { unlockedRooms: ["main_hall", "mess_hall"], decorations: [] };
+const DEFAULT_HALL: HallData = {
+  unlockedRooms: HALL_ROOMS.filter((r) => r.tierRequired === 1).map((r) => r.id),
+  decorations: [],
+};
+
+/** Look up a decoration's cost from the canonical catalog. */
+function getDecoCost(decoId: string): { dream: number; credits: number } | null {
+  const deco = GUILD_DECORATIONS.find((d) => d.id === decoId);
+  if (!deco) return null;
+  return {
+    dream: deco.cost.dream ?? 0,
+    credits: deco.cost.credits ?? 0,
+  };
+}
 
 async function getGuildForMember(userId: number) {
   const db = await getDb();
@@ -58,60 +53,80 @@ async function getGuildForMember(userId: number) {
   if (!membership[0]) return null;
   const guild = await db.select().from(guilds)
     .where(eq(guilds.id, membership[0].guildId)).limit(1);
-  return guild[0] ?? null;
+  return { guild: guild[0] ?? null, role: membership[0].role };
 }
 
 export const guildHallRouter = router({
+  /** Full hall state for the current user's guild. */
   getHallState: protectedProcedure.query(async ({ ctx }) => {
-    const guild = await getGuildForMember(ctx.user.id);
-    if (!guild) return null;
-    const hallData = (guild as any).hallData as HallData ?? DEFAULT_HALL;
-    const hallTier = (guild as any).hallTier as number ?? 1;
-    return { hallTier, ...hallData, treasury: (guild as any).treasury ?? 0 };
+    const result = await getGuildForMember(ctx.user.id);
+    if (!result?.guild) return null;
+    const { guild } = result;
+
+    const hallData = (guild.hallData as HallData | null) ?? DEFAULT_HALL;
+    const hallTier = guild.hallTier;
+    const tierDef = getHallTier(hallTier);
+    const availableRooms = getRoomsForTier(hallTier);
+    const nextUpgradeCost = hallTier < 5 ? getUpgradeCost(hallTier) : null;
+    const activePerks = getAllPerks(hallTier);
+    const passiveBonuses = getTotalPassiveBonuses(hallData.decorations.map((d) => d.decoId));
+
+    return {
+      hallTier,
+      tierDef,
+      unlockedRooms: hallData.unlockedRooms,
+      decorations: hallData.decorations,
+      treasuryDream: guild.treasuryDream,
+      treasuryCredits: guild.treasuryCredits,
+      nextUpgradeCost,
+      availableRooms,
+      allRooms: HALL_ROOMS,
+      allDecorations: GUILD_DECORATIONS,
+      allTiers: HALL_TIERS,
+      activePerks,
+      passiveBonuses,
+      myRole: result.role,
+    };
   }),
 
+  /** Upgrade the guild hall to the next tier. Leader/officer only. */
   upgradeTier: protectedProcedure.mutation(async ({ ctx }) => {
-    const guild = await getGuildForMember(ctx.user.id);
-    if (!guild) return { success: false, error: "Not in a guild" };
-
-    // Check leadership
     const db = await getDb();
-  if (!db) dbUnavailable();
-    const membership = await db.select().from(guildMembers)
-      .where(and(eq(guildMembers.userId, ctx.user.id), eq(guildMembers.guildId, guild.id)))
-      .limit(1);
-    if (membership[0]?.role !== "leader" && membership[0]?.role !== "officer") {
-      return { success: false, error: "Only leaders/officers can upgrade" };
+    if (!db) dbUnavailable();
+    const result = await getGuildForMember(ctx.user.id);
+    if (!result?.guild) return { success: false as const, error: "Not in a guild" };
+    const { guild, role } = result;
+
+    if (role !== "leader" && role !== "officer") {
+      return { success: false as const, error: "Only leaders/officers can upgrade" };
     }
 
-    const currentTier = (guild as any).hallTier ?? 1;
+    const currentTier = guild.hallTier;
     const nextTier = currentTier + 1;
-    if (nextTier > 5) return { success: false, error: "Already max tier" };
+    if (nextTier > 5) return { success: false as const, error: "Already max tier" };
 
-    const cost = TIER_COSTS[nextTier];
-    const treasury = (guild as any).treasury ?? 0;
-    if (treasury < cost) {
-      return { success: false, error: `Need ${cost} Dream in treasury, have ${treasury}` };
+    const cost = getUpgradeCost(currentTier);
+    if (guild.treasuryDream < cost) {
+      return { success: false as const, error: `Need ${cost} Dream in treasury, have ${guild.treasuryDream}` };
     }
 
-    // Auto-unlock rooms for new tier
-    const hallData = (guild as any).hallData as HallData ?? DEFAULT_HALL;
-    const newRooms = Object.entries(ROOM_TIER)
-      .filter(([_, tier]) => tier <= nextTier)
-      .map(([roomId]) => roomId);
-    hallData.unlockedRooms = [...new Set([...hallData.unlockedRooms, ...newRooms])];
+    // Auto-unlock all rooms whose tier requirement is met by the new tier.
+    const hallData: HallData = (guild.hallData as HallData | null) ?? { ...DEFAULT_HALL };
+    const newRooms = HALL_ROOMS.filter((r) => r.tierRequired <= nextTier).map((r) => r.id);
+    hallData.unlockedRooms = Array.from(new Set([...hallData.unlockedRooms, ...newRooms]));
 
     await db.update(guilds)
       .set({
         hallTier: nextTier,
-        treasury: treasury - cost,
-        hallData: hallData,
-      } as any)
+        treasuryDream: guild.treasuryDream - cost,
+        hallData,
+      })
       .where(eq(guilds.id, guild.id));
 
-    return { success: true, newTier: nextTier, unlockedRooms: hallData.unlockedRooms };
+    return { success: true as const, newTier: nextTier, unlockedRooms: hallData.unlockedRooms };
   }),
 
+  /** Place a decoration in a hall room. Any member can place. */
   placeDecoration: protectedProcedure
     .input(z.object({
       roomId: z.string(),
@@ -120,21 +135,33 @@ export const guildHallRouter = router({
       y: z.number().min(0),
     }))
     .mutation(async ({ ctx, input }) => {
-      const guild = await getGuildForMember(ctx.user.id);
-      if (!guild) return { success: false, error: "Not in a guild" };
+      const db = await getDb();
+      if (!db) dbUnavailable();
+      const result = await getGuildForMember(ctx.user.id);
+      if (!result?.guild) return { success: false as const, error: "Not in a guild" };
+      const { guild } = result;
 
-      const hallData = (guild as any).hallData as HallData ?? DEFAULT_HALL;
+      const hallData: HallData = (guild.hallData as HallData | null) ?? { ...DEFAULT_HALL };
       if (!hallData.unlockedRooms.includes(input.roomId)) {
-        return { success: false, error: "Room not unlocked" };
+        return { success: false as const, error: "Room not unlocked" };
       }
 
-      const cost = DECO_COSTS[input.decoId];
-      if (!cost) return { success: false, error: "Unknown decoration" };
+      const room = HALL_ROOMS.find((r) => r.id === input.roomId);
+      if (!room) return { success: false as const, error: "Unknown room" };
 
-      const treasury = (guild as any).treasury ?? 0;
-      const dreamCost = cost.dream ?? 0;
-      if (treasury < dreamCost) {
-        return { success: false, error: `Need ${dreamCost} Dream, treasury has ${treasury}` };
+      // Enforce decoration slot capacity.
+      const existingInRoom = hallData.decorations.filter((d) => d.roomId === input.roomId).length;
+      if (existingInRoom >= room.decorationSlots) {
+        return { success: false as const, error: `Room has no free decoration slots (${room.decorationSlots} max)` };
+      }
+
+      const cost = getDecoCost(input.decoId);
+      if (!cost) return { success: false as const, error: "Unknown decoration" };
+      if (guild.treasuryDream < cost.dream) {
+        return { success: false as const, error: `Need ${cost.dream} Dream, treasury has ${guild.treasuryDream}` };
+      }
+      if (guild.treasuryCredits < cost.credits) {
+        return { success: false as const, error: `Need ${cost.credits} credits, treasury has ${guild.treasuryCredits}` };
       }
 
       hallData.decorations.push({
@@ -144,38 +171,46 @@ export const guildHallRouter = router({
         y: input.y,
       });
 
-      const db = await getDb();
-  if (!db) dbUnavailable();
       await db.update(guilds)
         .set({
-          treasury: treasury - dreamCost,
-          hallData: hallData,
-        } as any)
+          treasuryDream: guild.treasuryDream - cost.dream,
+          treasuryCredits: guild.treasuryCredits - cost.credits,
+          hallData,
+        })
         .where(eq(guilds.id, guild.id));
 
-      return { success: true, remainingTreasury: treasury - dreamCost };
+      return {
+        success: true as const,
+        remainingDream: guild.treasuryDream - cost.dream,
+        remainingCredits: guild.treasuryCredits - cost.credits,
+      };
     }),
 
+  /** Remove a decoration. Leader/officer only (placement is free to any, but removal is locked to avoid griefing). */
   removeDecoration: protectedProcedure
     .input(z.object({ roomId: z.string(), decoId: z.string(), x: z.number(), y: z.number() }))
     .mutation(async ({ ctx, input }) => {
-      const guild = await getGuildForMember(ctx.user.id);
-      if (!guild) return { success: false, error: "Not in a guild" };
+      const db = await getDb();
+      if (!db) dbUnavailable();
+      const result = await getGuildForMember(ctx.user.id);
+      if (!result?.guild) return { success: false as const, error: "Not in a guild" };
+      if (result.role !== "leader" && result.role !== "officer") {
+        return { success: false as const, error: "Only leaders/officers can remove decorations" };
+      }
+      const { guild } = result;
 
-      const hallData = (guild as any).hallData as HallData ?? DEFAULT_HALL;
+      const hallData: HallData = (guild.hallData as HallData | null) ?? { ...DEFAULT_HALL };
       const idx = hallData.decorations.findIndex(
-        d => d.roomId === input.roomId && d.decoId === input.decoId && d.x === input.x && d.y === input.y
+        (d) => d.roomId === input.roomId && d.decoId === input.decoId && d.x === input.x && d.y === input.y
       );
-      if (idx === -1) return { success: false, error: "Decoration not found" };
+      if (idx === -1) return { success: false as const, error: "Decoration not found" };
 
       hallData.decorations.splice(idx, 1);
 
-      const db = await getDb();
-  if (!db) dbUnavailable();
       await db.update(guilds)
-        .set({ hallData: hallData } as any)
+        .set({ hallData })
         .where(eq(guilds.id, guild.id));
 
-      return { success: true };
+      return { success: true as const };
     }),
 });

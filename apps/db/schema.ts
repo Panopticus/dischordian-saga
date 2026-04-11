@@ -1618,6 +1618,13 @@ export const guilds = mysqlTable("guilds", {
   isRecruiting: boolean("isRecruiting").notNull().default(true),
   /** Minimum level to join */
   minLevelToJoin: int("minLevelToJoin").notNull().default(1),
+  /** Guild hall tier 1-5 (Outpost → Sanctum). See shared/guildHall.ts HALL_TIERS. */
+  hallTier: int("hallTier").notNull().default(1),
+  /** Guild hall state: unlocked rooms + placed decorations. */
+  hallData: json("hallData").$type<{
+    unlockedRooms: string[];
+    decorations: { roomId: string; decoId: string; x: number; y: number }[];
+  }>(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
@@ -1716,6 +1723,57 @@ export const guildWarContributions = mysqlTable("guild_war_contributions", {
   userIdIdx: index("idx_guild_war_contributions_user_id").on(table.userId),
 }));
 export type GuildWarContribution = typeof guildWarContributions.$inferSelect;
+
+/**
+ * Guild-scheduled events — raids, tournaments, roleplay nights, lore
+ * symposiums, PvP practice. Created by a leader or officer; members RSVP
+ * via `guildEventAttendance`. See shared/guildEvents.ts for the event-type
+ * catalog and helpers.
+ */
+export const guildEvents = mysqlTable("guild_events", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull(),
+  createdBy: int("createdBy").notNull(),
+  title: varchar("title", { length: 128 }).notNull(),
+  description: text("description"),
+  /** Event category — drives the icon and any auto-reward logic. */
+  eventType: mysqlEnum("eventType", [
+    "raid", "tournament", "pvp_practice", "roleplay", "lore_night",
+    "recruitment_drive", "trade_fair", "training", "social", "other",
+  ]).notNull().default("social"),
+  /** Scheduled start (UTC). */
+  startsAt: timestamp("startsAt").notNull(),
+  /** Scheduled end (UTC). */
+  endsAt: timestamp("endsAt").notNull(),
+  /** 0 = unlimited. */
+  maxAttendees: int("maxAttendees").notNull().default(0),
+  status: mysqlEnum("status", ["scheduled", "in_progress", "completed", "cancelled"]).notNull().default("scheduled"),
+  /** Optional in-hall room where the event is held (see guildHall rooms). */
+  locationRoomId: varchar("locationRoomId", { length: 64 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  guildIdIdx: index("idx_guild_events_guild_id").on(table.guildId),
+  startsAtIdx: index("idx_guild_events_starts_at").on(table.startsAt),
+  statusIdx: index("idx_guild_events_status").on(table.status),
+}));
+export type GuildEvent = typeof guildEvents.$inferSelect;
+
+/** Per-user RSVP / attendance record for a guild event. */
+export const guildEventAttendance = mysqlTable("guild_event_attendance", {
+  id: int("id").autoincrement().primaryKey(),
+  eventId: int("eventId").notNull(),
+  userId: int("userId").notNull(),
+  rsvpStatus: mysqlEnum("rsvpStatus", ["going", "maybe", "declined"]).notNull().default("going"),
+  /** Set when the server records the user actually showed up. */
+  checkedInAt: timestamp("checkedInAt"),
+  rsvpAt: timestamp("rsvpAt").defaultNow().notNull(),
+}, (table) => ({
+  eventIdIdx: index("idx_guild_event_attendance_event_id").on(table.eventId),
+  userIdIdx: index("idx_guild_event_attendance_user_id").on(table.userId),
+  eventUserUnique: uniqueIndex("uniq_guild_event_attendance_event_user").on(table.eventId, table.userId),
+}));
+export type GuildEventAttendance = typeof guildEventAttendance.$inferSelect;
 
 /** Marketplace tax pool — accumulates taxes for guild wars and season prizes */
 export const marketTaxPool = mysqlTable("market_tax_pool", {

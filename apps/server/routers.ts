@@ -64,6 +64,7 @@ import { eidolonBondRouter } from "./routers/eidolonBond";
 import { techTreeRouter } from "./routers/techTree";
 import { masteryTreeRouter } from "./routers/masteryTree";
 import { guildHallRouter } from "./routers/guildHall";
+import { guildEventsRouter } from "./routers/guildEvents";
 import { tradeEmpireRouter } from "./routers/tradeEmpire";
 import { petBattlesRouter } from "./routers/petBattles";
 import { seedDataRouter } from "./routers/seedData";
@@ -137,6 +138,7 @@ export const appRouter = router({
   techTree: techTreeRouter,
   masteryTree: masteryTreeRouter,
   guildHall: guildHallRouter,
+  guildEvents: guildEventsRouter,
   tradeEmpire: tradeEmpireRouter,
   petBattles: petBattlesRouter,
   seedData: seedDataRouter,

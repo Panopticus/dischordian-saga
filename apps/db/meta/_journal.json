@@ -260,6 +260,13 @@
       "when": 1775880083471,
       "tag": "0037_personal_quarters_lighting_music",
       "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "5",
+      "when": 1775881121184,
+      "tag": "0038_guild_hall_and_events",
+      "breakpoints": true
     }
   ]
 }

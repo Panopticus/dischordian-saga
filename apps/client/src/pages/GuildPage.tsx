@@ -6,8 +6,14 @@ import { useSwipeTabs } from "@/hooks/useSwipeTabs";
 import {
   Users, Shield, Crown, Star, MessageSquare, Send, Settings,
   Plus, Search, ChevronRight, Loader2, Flag, Gem, Coins,
-  Trophy, Swords, UserPlus, LogOut, Check, X, ArrowUp, Clock
+  Trophy, Swords, UserPlus, LogOut, Check, X, ArrowUp, Clock,
+  Home, Calendar, Sparkles, Trash2, Lock,
+  Drama, BookOpen, Store, GraduationCap,
 } from "lucide-react";
+import {
+  GUILD_EVENT_TYPES, getGuildEventTypeDef, GUILD_EVENT_LIMITS,
+  type GuildEventType,
+} from "@shared/guildEvents";
 import { getLoginUrl } from "@/const";
 import { EmptyGuildHall } from "@/components/EmptyStates";
 
@@ -28,7 +34,7 @@ const ROLE_ICONS: Record<string, typeof Crown> = {
 
 export default function GuildPage() {
   const { isAuthenticated, user } = useAuth();
-  const [tab, setTab] = useState<"overview" | "roster" | "chat" | "treasury" | "wars" | "browse">("overview");
+  const [tab, setTab] = useState<"overview" | "roster" | "chat" | "treasury" | "wars" | "hall" | "events" | "browse">("overview");
 
   const { data: myGuild, isLoading: guildLoading, refetch: refetchGuild } = trpc.guild.myGuild.useQuery(undefined, {
     enabled: isAuthenticated,
@@ -68,6 +74,8 @@ export default function GuildPage() {
     { id: "overview" as const, label: "OVERVIEW", icon: Shield },
     { id: "roster" as const, label: "ROSTER", icon: Users },
     { id: "chat" as const, label: "COMMS", icon: MessageSquare },
+    { id: "hall" as const, label: "HALL", icon: Home },
+    { id: "events" as const, label: "EVENTS", icon: Calendar },
     { id: "treasury" as const, label: "TREASURY", icon: Gem },
     { id: "wars" as const, label: "TERRITORY", icon: Swords },
   ];
@@ -148,6 +156,16 @@ export default function GuildPage() {
           {tab === "wars" && (
             <motion.div key="wars" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <GuildTerritoryMap />
+            </motion.div>
+          )}
+          {tab === "hall" && (
+            <motion.div key="hall" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <GuildHallTab myRole={myGuild.membership.role} />
+            </motion.div>
+          )}
+          {tab === "events" && (
+            <motion.div key="events" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <GuildEventsTab myRole={myGuild.membership.role} currentUserId={user?.id ?? 0} />
             </motion.div>
           )}
         </AnimatePresence>
@@ -1113,5 +1131,604 @@ function GuildTerritoryMap() {
         </span>
       </div>
     </div>
+  );
+}
+
+/* ═══ GUILD HALL TAB — tier upgrades + decoration placement ═══ */
+function GuildHallTab({ myRole }: { myRole: string }) {
+  const { data: hall, isLoading, refetch } = trpc.guildHall.getHallState.useQuery();
+  const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+  const [picker, setPicker] = useState<{ roomId: string } | null>(null);
+
+  const upgradeMut = trpc.guildHall.upgradeTier.useMutation({ onSuccess: () => refetch() });
+  const placeMut = trpc.guildHall.placeDecoration.useMutation({
+    onSuccess: () => { setPicker(null); refetch(); },
+  });
+  const removeMut = trpc.guildHall.removeDecoration.useMutation({ onSuccess: () => refetch() });
+
+  const canUpgrade = myRole === "leader" || myRole === "officer";
+  const canRemove = canUpgrade;
+
+  if (isLoading || !hall) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="animate-spin text-primary" size={24} />
+      </div>
+    );
+  }
+
+  const activeRoom = selectedRoom
+    ? hall.allRooms.find((r) => r.id === selectedRoom)
+    : hall.availableRooms[0];
+  const activeRoomId = activeRoom?.id ?? "";
+  const activeDecorations = hall.decorations.filter((d) => d.roomId === activeRoomId);
+  const slotsFree = activeRoom ? activeRoom.decorationSlots - activeDecorations.length : 0;
+
+  return (
+    <div className="space-y-4">
+      {/* Tier bar + upgrade */}
+      <div className="void-surface p-4 space-y-3">
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div>
+            <p className="font-mono text-[10px] text-muted-foreground tracking-wider">HALL TIER</p>
+            <p className="font-display text-lg font-bold tracking-wide">
+              {hall.tierDef?.name ?? `Tier ${hall.hallTier}`}{" "}
+              <span className="font-mono text-xs text-muted-foreground">({hall.hallTier}/5)</span>
+            </p>
+            {hall.tierDef?.description && (
+              <p className="font-mono text-[11px] text-muted-foreground mt-1 max-w-md">
+                {hall.tierDef.description}
+              </p>
+            )}
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="text-right">
+              <p className="font-mono text-[10px] text-muted-foreground">TREASURY</p>
+              <p className="font-mono text-sm text-primary flex items-center gap-1">
+                <Gem size={12} /> {hall.treasuryDream}
+              </p>
+            </div>
+            {hall.nextUpgradeCost !== null && (
+              <button
+                onClick={() => upgradeMut.mutate()}
+                disabled={!canUpgrade || upgradeMut.isPending || hall.treasuryDream < hall.nextUpgradeCost}
+                className="void-btn void-btn-primary font-mono text-xs disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1"
+                title={!canUpgrade ? "Leader/officer only" : undefined}
+              >
+                <ArrowUp size={12} />
+                Upgrade ({hall.nextUpgradeCost} Dream)
+              </button>
+            )}
+          </div>
+        </div>
+        {/* Active perks */}
+        {hall.activePerks.length > 0 && (
+          <div className="flex flex-wrap gap-2 pt-2 border-t border-border/20">
+            {hall.activePerks.map((p) => (
+              <div key={p.id} className="px-2 py-1 rounded-md bg-primary/10 border border-primary/20 font-mono text-[10px] text-primary">
+                <span className="font-semibold">{p.name}:</span> {p.description}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Room selector */}
+      <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin">
+        {hall.allRooms.map((room) => {
+          const unlocked = hall.unlockedRooms.includes(room.id);
+          const available = room.tierRequired <= hall.hallTier;
+          const count = hall.decorations.filter((d) => d.roomId === room.id).length;
+          return (
+            <button
+              key={room.id}
+              onClick={() => unlocked && setSelectedRoom(room.id)}
+              disabled={!unlocked}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-md font-mono text-xs whitespace-nowrap transition-colors border ${
+                activeRoomId === room.id
+                  ? "bg-primary/20 text-primary border-primary/40"
+                  : unlocked
+                    ? "bg-card/30 border-border/30 text-foreground hover:border-primary/30"
+                    : "bg-muted/10 border-border/20 text-muted-foreground/40 cursor-not-allowed"
+              }`}
+              title={!available ? `Requires Tier ${room.tierRequired}` : undefined}
+            >
+              {!unlocked ? <Lock size={11} /> : <Home size={11} />}
+              {room.name.toUpperCase()}
+              {count > 0 && <span className="text-[9px] text-accent">({count}/{room.decorationSlots})</span>}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Room detail */}
+      {activeRoom && (
+        <div className="void-surface p-4 space-y-3">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <div>
+              <p className="font-display text-sm font-bold tracking-wide">{activeRoom.name}</p>
+              <p className="font-mono text-[11px] text-muted-foreground">{activeRoom.description}</p>
+              <p className="font-mono text-[10px] text-muted-foreground mt-1">
+                {activeDecorations.length}/{activeRoom.decorationSlots} slots filled
+              </p>
+            </div>
+            <button
+              onClick={() => setPicker({ roomId: activeRoom.id })}
+              disabled={slotsFree <= 0}
+              className="void-btn font-mono text-xs flex items-center gap-1 disabled:opacity-40"
+            >
+              <Plus size={11} /> Place Decoration
+            </button>
+          </div>
+
+          {activeDecorations.length === 0 ? (
+            <div className="text-center py-6 border border-dashed border-border/30 rounded-md">
+              <Sparkles size={24} className="mx-auto text-muted-foreground/30 mb-1" />
+              <p className="font-mono text-[11px] text-muted-foreground/60">Empty room.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+              {activeDecorations.map((d, i) => {
+                const def = hall.allDecorations.find((x) => x.id === d.decoId);
+                if (!def) return null;
+                return (
+                  <div key={`${d.decoId}-${i}`} className="void-surface p-3 flex items-start gap-2">
+                    <div className="flex-1 min-w-0">
+                      <p className="font-mono text-xs font-semibold truncate">{def.name}</p>
+                      <p className="font-mono text-[10px] text-muted-foreground truncate">
+                        {def.rarity} • {def.category}
+                      </p>
+                      {def.passiveBonus && (
+                        <p className="font-mono text-[10px] text-amber-400/80 mt-1">
+                          +{def.passiveBonus.value} {def.passiveBonus.stat}
+                        </p>
+                      )}
+                    </div>
+                    {canRemove && (
+                      <button
+                        onClick={() => removeMut.mutate({
+                          roomId: d.roomId, decoId: d.decoId, x: d.x, y: d.y,
+                        })}
+                        className="text-muted-foreground/40 hover:text-destructive transition-colors shrink-0"
+                        title="Remove decoration"
+                      >
+                        <Trash2 size={12} />
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Decoration picker modal */}
+      <AnimatePresence>
+        {picker && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm flex items-end sm:items-center justify-center p-4"
+            onClick={() => setPicker(null)}
+          >
+            <motion.div
+              initial={{ y: 20 }}
+              animate={{ y: 0 }}
+              exit={{ y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-2xl max-h-[80vh] overflow-y-auto void-surface p-4"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <p className="font-display text-sm font-bold tracking-wide">PLACE DECORATION</p>
+                <button onClick={() => setPicker(null)} className="text-muted-foreground hover:text-foreground">
+                  <X size={16} />
+                </button>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {hall.allDecorations.map((def) => {
+                  const dreamCost = def.cost.dream ?? 0;
+                  const creditCost = def.cost.credits ?? 0;
+                  const affordable = hall.treasuryDream >= dreamCost && hall.treasuryCredits >= creditCost;
+                  return (
+                    <button
+                      key={def.id}
+                      onClick={() => placeMut.mutate({
+                        roomId: picker.roomId, decoId: def.id, x: 0, y: 0,
+                      })}
+                      disabled={!affordable || placeMut.isPending}
+                      className="text-left p-2 rounded border border-border/30 hover:border-primary/40 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-mono text-xs font-semibold truncate">{def.name}</span>
+                        <span className="font-mono text-[10px] text-muted-foreground ml-2">{def.rarity}</span>
+                      </div>
+                      <p className="font-mono text-[10px] text-muted-foreground line-clamp-2">{def.description}</p>
+                      <p className="font-mono text-[10px] text-primary mt-1 flex items-center gap-2">
+                        {dreamCost > 0 && <span className="flex items-center gap-1"><Gem size={10} /> {dreamCost}</span>}
+                        {creditCost > 0 && <span className="flex items-center gap-1"><Coins size={10} /> {creditCost}</span>}
+                      </p>
+                    </button>
+                  );
+                })}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+/* ═══ GUILD EVENTS TAB — schedule, RSVP, check-in ═══ */
+const EVENT_TYPE_ICONS: Record<GuildEventType, typeof Calendar> = {
+  raid:              Swords,
+  tournament:        Trophy,
+  pvp_practice:      Shield,
+  roleplay:          Drama,
+  lore_night:        BookOpen,
+  recruitment_drive: UserPlus,
+  trade_fair:        Store,
+  training:          GraduationCap,
+  social:            Users,
+  other:             Calendar,
+};
+
+function formatEventTime(ms: number | Date): string {
+  const d = typeof ms === "number" ? new Date(ms) : ms;
+  return d.toLocaleString(undefined, {
+    month: "short", day: "numeric",
+    hour: "numeric", minute: "2-digit",
+  });
+}
+
+function toLocalDatetimeInputValue(date: Date): string {
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
+function GuildEventsTab({ myRole, currentUserId }: { myRole: string; currentUserId: number }) {
+  const { data: upcoming, isLoading: upLoading, refetch: refetchUpcoming } = trpc.guildEvents.listUpcoming.useQuery();
+  const { data: past, refetch: refetchPast } = trpc.guildEvents.listPast.useQuery();
+
+  const rsvpMut = trpc.guildEvents.rsvp.useMutation({
+    onSuccess: () => { refetchUpcoming(); refetchPast(); },
+  });
+  const cancelMut = trpc.guildEvents.cancelEvent.useMutation({
+    onSuccess: () => { refetchUpcoming(); refetchPast(); },
+  });
+  const checkInMut = trpc.guildEvents.checkIn.useMutation({
+    onSuccess: () => { refetchUpcoming(); },
+  });
+
+  const [showCreate, setShowCreate] = useState(false);
+  const canCreate = myRole === "leader" || myRole === "officer";
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="font-display text-sm font-bold tracking-wide">GUILD EVENTS</p>
+          <p className="font-mono text-[10px] text-muted-foreground">
+            Coordinate raids, tournaments, and roleplay nights.
+          </p>
+        </div>
+        {canCreate && (
+          <button
+            onClick={() => setShowCreate(true)}
+            className="void-btn void-btn-primary font-mono text-xs flex items-center gap-1"
+          >
+            <Plus size={11} /> Schedule Event
+          </button>
+        )}
+      </div>
+
+      {upLoading ? (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="animate-spin text-primary" size={24} />
+        </div>
+      ) : (
+        <>
+          <div>
+            <p className="font-mono text-[10px] text-muted-foreground tracking-wider mb-2">UPCOMING & LIVE</p>
+            {!upcoming || upcoming.length === 0 ? (
+              <div className="text-center py-8 border border-dashed border-border/30 rounded-md">
+                <Calendar size={28} className="mx-auto text-muted-foreground/30 mb-2" />
+                <p className="font-mono text-xs text-muted-foreground/60">No upcoming events.</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {upcoming.map((e: any) => (
+                  <GuildEventRow
+                    key={e.id}
+                    event={e}
+                    myRole={myRole}
+                    currentUserId={currentUserId}
+                    onRsvp={(status) => rsvpMut.mutate({ eventId: e.id, status })}
+                    onCancel={() => cancelMut.mutate({ eventId: e.id })}
+                    onCheckIn={() => checkInMut.mutate({ eventId: e.id })}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {past && past.length > 0 && (
+            <div>
+              <p className="font-mono text-[10px] text-muted-foreground tracking-wider mb-2">RECENT</p>
+              <div className="space-y-2 opacity-60">
+                {past.map((e: any) => (
+                  <GuildEventRow
+                    key={e.id}
+                    event={e}
+                    myRole={myRole}
+                    currentUserId={currentUserId}
+                    onRsvp={() => {}}
+                    onCancel={() => {}}
+                    onCheckIn={() => {}}
+                    readOnly
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      {showCreate && (
+        <CreateEventModal
+          onClose={() => setShowCreate(false)}
+          onCreated={() => { refetchUpcoming(); setShowCreate(false); }}
+        />
+      )}
+    </div>
+  );
+}
+
+function GuildEventRow({
+  event, myRole, currentUserId, onRsvp, onCancel, onCheckIn, readOnly,
+}: {
+  event: any;
+  myRole: string;
+  currentUserId: number;
+  onRsvp: (status: "going" | "maybe" | "declined") => void;
+  onCancel: () => void;
+  onCheckIn: () => void;
+  readOnly?: boolean;
+}) {
+  const typeDef = getGuildEventTypeDef(event.eventType);
+  const Icon = EVENT_TYPE_ICONS[event.eventType as GuildEventType] ?? Calendar;
+  const canEdit = !readOnly && (myRole === "leader" || myRole === "officer" || event.createdBy === currentUserId);
+  const isLive = event.liveStatus === "in_progress";
+  const isCancelled = event.status === "cancelled";
+
+  return (
+    <div className={`void-surface p-3 ${isCancelled ? "opacity-40" : ""}`}>
+      <div className="flex items-start justify-between gap-3 flex-wrap">
+        <div className="flex items-start gap-2 flex-1 min-w-0">
+          <div
+            className="w-8 h-8 rounded-md flex items-center justify-center shrink-0"
+            style={{ backgroundColor: `${typeDef.color}20`, border: `1px solid ${typeDef.color}40` }}
+          >
+            <Icon size={14} style={{ color: typeDef.color }} />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <p className="font-mono text-sm font-semibold truncate">{event.title}</p>
+              {isLive && (
+                <span className="font-mono text-[9px] text-red-400 bg-red-400/10 px-1.5 py-0.5 rounded border border-red-400/30 animate-pulse">
+                  LIVE
+                </span>
+              )}
+              {isCancelled && (
+                <span className="font-mono text-[9px] text-muted-foreground">CANCELLED</span>
+              )}
+            </div>
+            <p className="font-mono text-[10px] text-muted-foreground">
+              {typeDef.name} • {formatEventTime(event.startsAt)} → {formatEventTime(event.endsAt)}
+            </p>
+            {event.description && (
+              <p className="font-mono text-[11px] text-muted-foreground/80 mt-1 line-clamp-2">
+                {event.description}
+              </p>
+            )}
+            <p className="font-mono text-[10px] text-muted-foreground mt-1">
+              <Users size={9} className="inline -mt-0.5 mr-0.5" />
+              {event.goingCount ?? 0} going{event.maxAttendees > 0 ? ` / ${event.maxAttendees}` : ""}
+              {event.maybeCount > 0 && <span> • {event.maybeCount} maybe</span>}
+            </p>
+          </div>
+        </div>
+      </div>
+      {!readOnly && !isCancelled && (
+        <div className="mt-2 pt-2 border-t border-border/20 flex items-center gap-1 flex-wrap">
+          {(["going", "maybe", "declined"] as const).map((status) => (
+            <button
+              key={status}
+              onClick={() => onRsvp(status)}
+              className={`px-2 py-1 rounded font-mono text-[10px] border transition-colors ${
+                event.myRsvp === status
+                  ? "bg-primary/20 border-primary/40 text-primary"
+                  : "bg-card/30 border-border/30 text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {status === "going" && <Check size={9} className="inline -mt-0.5 mr-0.5" />}
+              {status.toUpperCase()}
+            </button>
+          ))}
+          {isLive && (
+            <button
+              onClick={onCheckIn}
+              className="px-2 py-1 rounded font-mono text-[10px] bg-red-400/10 border border-red-400/30 text-red-400 hover:bg-red-400/20 transition-colors"
+            >
+              CHECK IN
+            </button>
+          )}
+          {canEdit && (
+            <button
+              onClick={onCancel}
+              className="ml-auto px-2 py-1 rounded font-mono text-[10px] text-muted-foreground hover:text-destructive transition-colors"
+            >
+              Cancel
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CreateEventModal({ onClose, onCreated }: { onClose: () => void; onCreated: () => void }) {
+  const defaultStart = new Date(Date.now() + 60 * 60 * 1000); // +1 hour
+  const defaultEnd = new Date(Date.now() + 2 * 60 * 60 * 1000); // +2 hours
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [eventType, setEventType] = useState<GuildEventType>("social");
+  const [startsAt, setStartsAt] = useState(toLocalDatetimeInputValue(defaultStart));
+  const [endsAt, setEndsAt] = useState(toLocalDatetimeInputValue(defaultEnd));
+  const [maxAttendees, setMaxAttendees] = useState(0);
+  const [error, setError] = useState<string | null>(null);
+
+  const createMut = trpc.guildEvents.createEvent.useMutation({
+    onSuccess: () => onCreated(),
+    onError: (e) => setError(e.message),
+  });
+
+  const submit = () => {
+    setError(null);
+    const startMs = new Date(startsAt).getTime();
+    const endMs = new Date(endsAt).getTime();
+    createMut.mutate({
+      title,
+      description: description || undefined,
+      eventType,
+      startsAt: startMs,
+      endsAt: endMs,
+      maxAttendees,
+    });
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ y: 20 }}
+        animate={{ y: 0 }}
+        exit={{ y: 20 }}
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-lg void-surface p-5 space-y-3"
+      >
+        <div className="flex items-center justify-between">
+          <p className="font-display text-sm font-bold tracking-wide">SCHEDULE EVENT</p>
+          <button onClick={onClose} className="text-muted-foreground hover:text-foreground">
+            <X size={16} />
+          </button>
+        </div>
+
+        <div>
+          <label className="font-mono text-[10px] text-muted-foreground tracking-wider">TITLE</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            maxLength={GUILD_EVENT_LIMITS.titleMaxLen}
+            placeholder="Sentinel raid night"
+            className="w-full mt-1 px-3 py-2 rounded-md bg-card/30 border border-border/30 font-mono text-xs focus:outline-none focus:border-primary/50"
+          />
+        </div>
+
+        <div>
+          <label className="font-mono text-[10px] text-muted-foreground tracking-wider">TYPE</label>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-1 mt-1">
+            {GUILD_EVENT_TYPES.map((t) => {
+              const Icon = EVENT_TYPE_ICONS[t.id];
+              const active = eventType === t.id;
+              return (
+                <button
+                  key={t.id}
+                  onClick={() => setEventType(t.id)}
+                  className={`flex items-center gap-1 px-2 py-1.5 rounded font-mono text-[10px] border transition-colors ${
+                    active
+                      ? "bg-primary/20 border-primary/40 text-primary"
+                      : "bg-card/30 border-border/30 text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <Icon size={10} />
+                  {t.name}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <label className="font-mono text-[10px] text-muted-foreground tracking-wider">STARTS</label>
+            <input
+              type="datetime-local"
+              value={startsAt}
+              onChange={(e) => setStartsAt(e.target.value)}
+              className="w-full mt-1 px-2 py-2 rounded-md bg-card/30 border border-border/30 font-mono text-xs focus:outline-none focus:border-primary/50"
+            />
+          </div>
+          <div>
+            <label className="font-mono text-[10px] text-muted-foreground tracking-wider">ENDS</label>
+            <input
+              type="datetime-local"
+              value={endsAt}
+              onChange={(e) => setEndsAt(e.target.value)}
+              className="w-full mt-1 px-2 py-2 rounded-md bg-card/30 border border-border/30 font-mono text-xs focus:outline-none focus:border-primary/50"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="font-mono text-[10px] text-muted-foreground tracking-wider">
+            MAX ATTENDEES (0 = unlimited)
+          </label>
+          <input
+            type="number"
+            min={0}
+            max={GUILD_EVENT_LIMITS.maxAttendeesHardCap}
+            value={maxAttendees}
+            onChange={(e) => setMaxAttendees(Number(e.target.value))}
+            className="w-full mt-1 px-3 py-2 rounded-md bg-card/30 border border-border/30 font-mono text-xs focus:outline-none focus:border-primary/50"
+          />
+        </div>
+
+        <div>
+          <label className="font-mono text-[10px] text-muted-foreground tracking-wider">DESCRIPTION</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            maxLength={GUILD_EVENT_LIMITS.descriptionMaxLen}
+            placeholder="What's this event about?"
+            rows={3}
+            className="w-full mt-1 px-3 py-2 rounded-md bg-card/30 border border-border/30 font-mono text-xs resize-none focus:outline-none focus:border-primary/50"
+          />
+        </div>
+
+        {error && (
+          <p className="font-mono text-[10px] text-destructive">{error}</p>
+        )}
+
+        <div className="flex items-center justify-end gap-2 pt-2">
+          <button onClick={onClose} className="void-btn font-mono text-xs">Cancel</button>
+          <button
+            onClick={submit}
+            disabled={!title || createMut.isPending}
+            className="void-btn void-btn-primary font-mono text-xs disabled:opacity-40"
+          >
+            {createMut.isPending ? "Scheduling..." : "Schedule"}
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
