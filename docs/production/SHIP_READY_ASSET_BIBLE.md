@@ -932,3 +932,53 @@ Every missing still. Each row gives you a self-contained Nano Banana 2 prompt, o
 
 ---
 
+#### ART-F11 — THE SILENCE (Ne-Yons, Void Assassin)
+- **Output:** `apps/client/public/art/fighters/silence/silence-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets) · **Priority:** P2
+- **Portrait Nano Banana 2 prompt:** A tall Ne-Yon figure wrapped in absolute void — the shape of a person cut directly out of reality, a silhouette-shaped absence through which not even light passes. Only the faintest cold starlight suggests the outline of a slender elegant form. Where the face should be, a single pair of pale grey eyes are visible — the only feature. The figure does not cast a shadow. Deep absolute black #000000 inside the silhouette, pale grey #d4d4d4 eyes, cold starlight rim trace, deep void background. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle:** The silhouette's outline occasionally flickers as if reality can't quite hold its shape; ambient sound fades when near the figure.
+- **Attacks:** Steps through reality — reappearing elsewhere with zero travel time; projects voids that swallow opponent attacks; the grey eyes narrow at the moment of strike.
+- **Reactions:** When hit, the silhouette briefly loses cohesion into a cloud of void-particles before re-forming; when victorious, the grey eyes close and the figure simply ceases to be present.
+
+---
+
+#### ART-F12 — THE STORM (Ne-Yons, Destruction-Powerhouse)
+- **Output:** `apps/client/public/art/fighters/storm/storm-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets) · **Priority:** P2
+- **Portrait Nano Banana 2 prompt:** A Ne-Yon figure composed entirely of living weather — a humanoid silhouette of swirling dark cloud, crackling electric cores at the chest and hands. A face of pure lightning flickers in the upper cloud. Hair is a long cascade of rain streaming down past the shoulders. Long cloud-cape trails behind. Stands at the eye of their own personal storm — a small ring of hail hovering at their feet. Deep storm-blue #1e3a8a, electric white-violet #a855f7 at the core, pale grey rain, silver-white lightning highlights. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle:** Cloud-body churns slowly; occasional silent lightning flickers inside the chest cavity.
+- **Attacks:** Raises both hands — releases sheets of horizontal rain and forks of lightning; the hail ring at the feet scatters outward as projectiles.
+- **Reactions:** When hit, the cloud form briefly dissipates then re-condenses; when victorious, a rainbow very briefly arcs inside the cloud-body before fading.
+
+---
+
+#### ART-F13 — THE ADVOCATE (Independent, Rhetoric)
+- **Output:** `apps/client/public/art/fighters/advocate/advocate-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets) · **Priority:** P2
+- **Portrait Nano Banana 2 prompt:** A mid-thirties figure in a well-cut but slightly rumpled suit — tie loosened, cuffs rolled up, holding a weathered leather briefcase in one hand. Warm brown skin, tight curly dark hair, sharp intelligent eyes, mouth caught mid-sentence as if always about to make an airtight argument. Wears a pair of simple brass-rimmed spectacles. One foot forward, projecting confidence. Around them, floating in the air in a semicircle, are translucent holographic case-file documents (text rendered as abstract glyphs). Warm court-room amber, deep navy suit, warm brown skin tones, cold blue hologram document glow. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle:** Speaks continuously in inaudible rhetoric; case-files re-order themselves around him.
+- **Attacks:** Slams the briefcase open — releases a fan of case-files that fly forward as razor-edged arguments; speech-bubbles of silver light strike with logical precision.
+- **Reactions:** When hit, loses his place mid-sentence and recovers with indignation; when victorious, snaps the briefcase shut and straightens his tie.
+
+---
+
+#### ART-F14 — THE FORGOTTEN (Lost, Amnesia)
+- **Output:** `apps/client/public/art/fighters/forgotten/forgotten-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets) · **Priority:** P2
+- **Portrait Nano Banana 2 prompt:** A figure of hazy uncertain form — their body is rendered clearly at the extremities (hands, feet, shoulders) but the face is a blur of fractured, shifting memories, as if they cannot remember their own identity. Wears simple unbranded traveler's clothes that also seem uncertain — the fabric pattern subtly shifts. A long faded scarf trails behind. Carries a small cracked mirror in one hand, looking into it — the reflection is clearer than the real face. Pale bone #e5e5e5, faded grey, muted amber mirror glow, deep memory-fog shadow. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle:** Face blur shifts through fragments of many different features; clothes subtly re-pattern.
+- **Attacks:** Looks into the mirror, then reflects the opponent's own forgotten memories back at them as psychic strikes; the face briefly solidifies into someone the opponent once knew.
+- **Reactions:** When hit, loses another fragment of the face and trembles; when victorious, the mirror briefly shows a single clear face — perhaps their true one — before clouding over again.
+
+---
+
+#### ART-F15 — THE RESURRECTIONIST (Ne-Yons, Necromancer's Counterpart)
+- **Output:** `apps/client/public/art/fighters/resurrectionist/resurrectionist-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets) · **Priority:** P1
+- **Portrait Nano Banana 2 prompt:** A withered elderly figure of indeterminate gender in worn techno-organic robes made from patched medical fabric and thin copper wiring. Face entirely hidden behind a cracked porcelain mask, kind and gentle despite the cracks. Both hands are wrapped in bandages over surgical gloves. In one hand holds a small glowing lantern containing a single soul (a small luminous figure floating inside the glass). Posture is tired but patient. Pale bone-white porcelain mask, muted beige-brown robes, copper wire accents, warm amber lantern-glow from within the soul, deep exhausted shadow. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle:** The soul inside the lantern drifts slowly; cracked mask's cracks occasionally weep a single tear of light.
+- **Attacks:** Releases souls from the lantern — small glowing figures that fly forward as healing-turned-harmful strikes; extends a bandaged hand that pulls opponent's vitality into the lantern.
+- **Reactions:** When hit, the lantern flickers and the soul inside briefly dims; when victorious, unscrews the lantern lid and the soul flies gently upward, freed.
+
+---
+
