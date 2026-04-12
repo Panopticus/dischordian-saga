@@ -1,0 +1,62 @@
+[
+  {
+    "id": "res_death_1",
+    "text": "You've died. Again. I bring you back. Again. Do not thank me. Thank the Necromancer. He does the designing. I just do the work.",
+    "context": "resurrection",
+    "emotion": "weary"
+  },
+  {
+    "id": "res_death_2",
+    "text": "Each time I bring someone back, I lose something. A memory. A feeling. A name. I do it anyway.",
+    "context": "resurrection",
+    "emotion": "weary"
+  },
+  {
+    "id": "res_death_3",
+    "text": "The process is painless. For you. I absorb what you would have felt. That is the cost. I accepted it a long time ago.",
+    "context": "resurrection",
+    "emotion": "kind"
+  },
+  {
+    "id": "res_death_4",
+    "text": "Welcome back. Your cellular integrity is nominal. Your memories are intact. Mine are... fewer than they were.",
+    "context": "resurrection",
+    "emotion": "matter_of_fact"
+  },
+  {
+    "id": "res_death_5",
+    "text": "Tenth resurrection. You're past the threshold where most give up. Either you're brave or stubborn. Both serve the same purpose.",
+    "context": "resurrection",
+    "emotion": "kind"
+  },
+  {
+    "id": "res_death_6",
+    "text": "The Necromancer designed the protocols. I execute them. He sees death as architecture. I see it as... a conversation I keep having.",
+    "context": "resurrection",
+    "emotion": "weary"
+  },
+  {
+    "id": "res_death_streak",
+    "text": "You're dying often. I don't judge. I've been doing this for three thousand years. Some of the best Potentials died the most.",
+    "context": "resurrection",
+    "emotion": "kind"
+  },
+  {
+    "id": "res_first_death",
+    "text": "First time? It's always disorienting. You're whole. You're here. The moment before this one was the end. And now it isn't. Take your time.",
+    "context": "resurrection",
+    "emotion": "kind"
+  },
+  {
+    "id": "res_crew_death",
+    "text": "Your crew member. I brought them back. They won't remember the dying. They never do. But they'll dream about it for a few nights. That's normal.",
+    "context": "resurrection",
+    "emotion": "matter_of_fact"
+  },
+  {
+    "id": "res_prestige",
+    "text": "You've reset. The wheel turns. I feel the change in the substrate — every atom rearranged, every bond intact. You came back different. I can tell because I came back different too.",
+    "context": "prestige",
+    "emotion": "weary"
+  }
+]

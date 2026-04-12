@@ -1,0 +1,19 @@
+{
+  "lyra_cryo_default": "https://dgrsvoices.s3.us-east-2.amazonaws.com/LyraVox+Voices/room_dialog/lyra_cryo_default.mp3",
+  "lyra_cryo_depth1": "https://dgrsvoices.s3.us-east-2.amazonaws.com/LyraVox+Voices/room_dialog/lyra_cryo_depth1.mp3",
+  "lyra_medical_default": "https://dgrsvoices.s3.us-east-2.amazonaws.com/LyraVox+Voices/room_dialog/lyra_medical_default.mp3",
+  "lyra_bridge_default": "https://dgrsvoices.s3.us-east-2.amazonaws.com/LyraVox+Voices/room_dialog/lyra_bridge_default.mp3",
+  "lyra_archives_default": "https://dgrsvoices.s3.us-east-2.amazonaws.com/LyraVox+Voices/room_dialog/lyra_archives_default.mp3",
+  "lyra_archives_depth1": "https://dgrsvoices.s3.us-east-2.amazonaws.com/LyraVox+Voices/room_dialog/lyra_archives_depth1.mp3",
+  "lyra_comms_default": "https://dgrsvoices.s3.us-east-2.amazonaws.com/LyraVox+Voices/room_dialog/lyra_comms_default.mp3",
+  "lyra_observation_default": "https://dgrsvoices.s3.us-east-2.amazonaws.com/LyraVox+Voices/room_dialog/lyra_observation_default.mp3",
+  "lyra_armory_default": "https://dgrsvoices.s3.us-east-2.amazonaws.com/LyraVox+Voices/room_dialog/lyra_armory_default.mp3",
+  "lyra_engineering_default": "https://dgrsvoices.s3.us-east-2.amazonaws.com/LyraVox+Voices/room_dialog/lyra_engineering_default.mp3",
+  "lyra_trade_default": "https://dgrsvoices.s3.us-east-2.amazonaws.com/LyraVox+Voices/room_dialog/lyra_trade_default.mp3",
+  "lyra_cargo_default": "https://dgrsvoices.s3.us-east-2.amazonaws.com/LyraVox+Voices/room_dialog/lyra_cargo_default.mp3",
+  "lyra_trophy_default": "https://dgrsvoices.s3.us-east-2.amazonaws.com/LyraVox+Voices/room_dialog/lyra_trophy_default.mp3",
+  "lyra_captains_default": "https://dgrsvoices.s3.us-east-2.amazonaws.com/LyraVox+Voices/room_dialog/lyra_captains_default.mp3",
+  "lyra_memorial_default": "https://dgrsvoices.s3.us-east-2.amazonaws.com/LyraVox+Voices/room_dialog/lyra_memorial_default.mp3",
+  "lyra_memorial_asked": "https://dgrsvoices.s3.us-east-2.amazonaws.com/LyraVox+Voices/room_dialog/lyra_memorial_asked.mp3",
+  "lyra_pet_garden_default": "https://dgrsvoices.s3.us-east-2.amazonaws.com/LyraVox+Voices/room_dialog/lyra_pet_garden_default.mp3"
+}

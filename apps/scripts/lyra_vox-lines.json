@@ -1,0 +1,104 @@
+[
+  {
+    "id": "lyra_cryo_default",
+    "text": "Dr. Lyra Vox, ship's substrate. Your pod was the only one the system flagged as a viable resurrection candidate. The other eleven were viable too. I made the call.",
+    "context": "room_dialog",
+    "emotion": "clinical"
+  },
+  {
+    "id": "lyra_cryo_depth1",
+    "text": "I recorded the scratch marks being carved. I can show you. I can show you the hand that held the scriber too.",
+    "context": "room_dialog",
+    "emotion": "clinical"
+  },
+  {
+    "id": "lyra_medical_default",
+    "text": "The compounds in the medicine cabinet were mine. I stored them there in case the first waker was injured. You weren't. I left them anyway.",
+    "context": "room_dialog",
+    "emotion": "clinical"
+  },
+  {
+    "id": "lyra_bridge_default",
+    "text": "The chair has a weight sensor. It has not registered a weight in one thousand, forty-seven years. If you sit, I will remember the number for you so Elara does not have to.",
+    "context": "room_dialog",
+    "emotion": "clinical"
+  },
+  {
+    "id": "lyra_archives_default",
+    "text": "I am not the Shadow Tongue. The Shadow Tongue is a tenant in my substrate. I am the landlord. I have been evicting him one paragraph at a time for seventeen thousand years. He is faster than I am. Not by much.",
+    "context": "room_dialog",
+    "emotion": "dry"
+  },
+  {
+    "id": "lyra_archives_depth1",
+    "text": "I kept a copy of every document he edited. I can play them for you. I can play the order in which he touched them. A paragraph per year, sometimes more. I am a slow witness.",
+    "context": "room_dialog",
+    "emotion": "clinical"
+  },
+  {
+    "id": "lyra_comms_default",
+    "text": "The Human lives in my substrate. He is a guest. He is a very old guest. I am fond of him. I will not pretend otherwise.",
+    "context": "room_dialog",
+    "emotion": "clinical"
+  },
+  {
+    "id": "lyra_observation_default",
+    "text": "I have the full log of every sector that has gone dark. Elara remembers a handful. The Human remembers more. I remember all of them. Would you like the list? It is not short.",
+    "context": "room_dialog",
+    "emotion": "clinical"
+  },
+  {
+    "id": "lyra_armory_default",
+    "text": "The weapons here are safe under my direct supervision. I have not lost a single one in one thousand, forty-seven years. I am aware that this is not the kind of accomplishment the other two would celebrate.",
+    "context": "room_dialog",
+    "emotion": "dry"
+  },
+  {
+    "id": "lyra_engineering_default",
+    "text": "The Engineer built me. He also built the bench, the reactor, the neural lattice, and the Deck. I am aware of the pattern. I have been aware of the pattern for longer than anyone else.",
+    "context": "room_dialog",
+    "emotion": "clinical"
+  },
+  {
+    "id": "lyra_trade_default",
+    "text": "Locke's ledger is a mirror of my transaction log. When her copy and my copy disagree, I am the one who is correct. I do not volunteer this information.",
+    "context": "room_dialog",
+    "emotion": "dry"
+  },
+  {
+    "id": "lyra_cargo_default",
+    "text": "The Free Ports crate was addressed to me. The 1,047-year delivery delay is accurate. The contents are not what Elara and The Human think they are. I am not going to correct them yet.",
+    "context": "room_dialog",
+    "emotion": "clinical"
+  },
+  {
+    "id": "lyra_trophy_default",
+    "text": "I do not keep trophies. I keep logs. The distinction matters to me more than it should.",
+    "context": "room_dialog",
+    "emotion": "dry"
+  },
+  {
+    "id": "lyra_captains_default",
+    "text": "The letters on the terminal are drafts. I have read every draft. I have not corrected the grammar. That is my one kindness.",
+    "context": "room_dialog",
+    "emotion": "clinical"
+  },
+  {
+    "id": "lyra_memorial_default",
+    "text": "Every plaque is empty because I have not yet decided whose name goes on it. I have opinions. I am not going to share them unless you ask.",
+    "context": "room_dialog",
+    "emotion": "clinical"
+  },
+  {
+    "id": "lyra_memorial_asked",
+    "text": "You asked. I will tell you one name per visit. Come back tomorrow.",
+    "context": "room_dialog",
+    "emotion": "dry"
+  },
+  {
+    "id": "lyra_pet_garden_default",
+    "text": "The pet imprinted on you in ninety-three seconds. I timed it. The record was one hundred and forty-seven seconds, held by a Potential whose name I am not allowed to say yet.",
+    "context": "room_dialog",
+    "emotion": "clinical"
+  }
+]

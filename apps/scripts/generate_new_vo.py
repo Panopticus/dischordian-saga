@@ -159,6 +159,28 @@ CHARACTERS = {
         },
     },
 }
+    "lyra_vox": {
+        "voice_id": os.environ.get("LYRA_VOX_VOICE_ID", ""),
+        "s3_prefix": "LyraVox Voices",
+        "lines_file": "lyra_vox-lines.json",
+        "manifest_file": "lyraVoxVoManifest.json",
+        "emotions": {
+            "clinical":  {"stability": 0.55, "similarity_boost": 0.80, "style": 0.15, "prefix": "*clinical, slightly formal, the voice of the ship itself* "},
+            "dry":       {"stability": 0.50, "similarity_boost": 0.80, "style": 0.20, "prefix": "*dry, factual, with the faintest hint of personality underneath* "},
+            "concerned": {"stability": 0.45, "similarity_boost": 0.78, "style": 0.30, "prefix": "*measured concern, as if reporting a system anomaly that happens to involve feelings* "},
+        },
+    },
+    "resurrectionist": {
+        "voice_id": os.environ.get("RESURRECTIONIST_VOICE_ID", ""),
+        "s3_prefix": "Resurrectionist Voices",
+        "lines_file": "resurrectionist-lines.json",
+        "manifest_file": "resurrectionistVoManifest.json",
+        "emotions": {
+            "weary":     {"stability": 0.45, "similarity_boost": 0.78, "style": 0.30, "prefix": "*weary, kind, muffled slightly as if behind a porcelain mask* "},
+            "kind":      {"stability": 0.45, "similarity_boost": 0.78, "style": 0.35, "prefix": "*gentle, tired but patient, carrying millennia of loss* "},
+            "matter_of_fact": {"stability": 0.50, "similarity_boost": 0.80, "style": 0.20, "prefix": "*matter of fact, exhausted but not bitter* "},
+        },
+    },
 
 # ─── CORE FUNCTIONS ─────────────────────────────────
 
