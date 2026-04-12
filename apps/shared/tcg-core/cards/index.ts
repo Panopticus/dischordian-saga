@@ -1,5 +1,5 @@
 /**
- * Card registry barrel — 190 Season 1 cards + 6 token(s) = 196 definitions.
+ * Card registry barrel — 200 Season 1 cards + 6 token(s) = 206 definitions.
  */
 import type { CardDefinition } from "../index";
 
@@ -19,9 +19,16 @@ import { cardDef as s1_char_121_epoch_watcher } from "./definitions/antiquarian/
 import { cardDef as s1_char_122_timeline_splitter } from "./definitions/antiquarian/s1_char_122_timeline_splitter.ts";
 import { cardDef as s1_char_123_relic_scholar } from "./definitions/antiquarian/s1_char_123_relic_scholar.ts";
 import { cardDef as s1_char_124_age_walker } from "./definitions/antiquarian/s1_char_124_age_walker.ts";
+import { cardDef as s1_char_201_chronoguard_sentinel } from "./definitions/antiquarian/s1_char_201_chronoguard_sentinel.ts";
 import { cardDef as s1_spell_120_timeline_collapse } from "./definitions/antiquarian/s1_spell_120_timeline_collapse.ts";
 import { cardDef as s1_spell_121_epoch_rewind } from "./definitions/antiquarian/s1_spell_121_epoch_rewind.ts";
 import { cardDef as s1_spell_122_archaeological_dig } from "./definitions/antiquarian/s1_spell_122_archaeological_dig.ts";
+import { cardDef as s1_spell_230_chrono_anchor } from "./definitions/antiquarian/s1_spell_230_chrono_anchor.ts";
+import { cardDef as s1_spell_231_temporal_fracture } from "./definitions/antiquarian/s1_spell_231_temporal_fracture.ts";
+import { cardDef as s1_spell_232_fossil_record } from "./definitions/antiquarian/s1_spell_232_fossil_record.ts";
+import { cardDef as s1_spell_233_era_shift } from "./definitions/antiquarian/s1_spell_233_era_shift.ts";
+import { cardDef as s1_spell_234_preservation_field } from "./definitions/antiquarian/s1_spell_234_preservation_field.ts";
+import { cardDef as s1_spell_235_age_of_silence } from "./definitions/antiquarian/s1_spell_235_age_of_silence.ts";
 
 /* ─── Architect ─── */
 import { cardDef as gen_architect } from "./definitions/architect/gen_architect.ts";
@@ -75,6 +82,7 @@ import { cardDef as s1_char_109_the_enigma } from "./definitions/dreamer/s1_char
 import { cardDef as s1_char_110_prophecy_keeper } from "./definitions/dreamer/s1_char_110_prophecy_keeper.ts";
 import { cardDef as s1_char_111_vision_walker } from "./definitions/dreamer/s1_char_111_vision_walker.ts";
 import { cardDef as s1_char_112_reality_anchor } from "./definitions/dreamer/s1_char_112_reality_anchor.ts";
+import { cardDef as s1_char_203_astral_warden } from "./definitions/dreamer/s1_char_203_astral_warden.ts";
 import { cardDef as s1_song_082_top_floor_door } from "./definitions/dreamer/s1_song_082_top_floor_door.ts";
 import { cardDef as s1_spell_108_prophetic_collapse } from "./definitions/dreamer/s1_spell_108_prophetic_collapse.ts";
 import { cardDef as s1_spell_109_vision_cascade } from "./definitions/dreamer/s1_spell_109_vision_cascade.ts";
@@ -104,6 +112,7 @@ import { cardDef as s1_char_105_iron_lion } from "./definitions/insurgency/s1_ch
 import { cardDef as s1_char_106_wraith_calder } from "./definitions/insurgency/s1_char_106_wraith_calder.ts";
 import { cardDef as s1_char_107_signal_operative } from "./definitions/insurgency/s1_char_107_signal_operative.ts";
 import { cardDef as s1_char_108_guerrilla_cell } from "./definitions/insurgency/s1_char_108_guerrilla_cell.ts";
+import { cardDef as s1_char_202_saboteur } from "./definitions/insurgency/s1_char_202_saboteur.ts";
 import { cardDef as s1_song_091_i_love_war } from "./definitions/insurgency/s1_song_091_i_love_war.ts";
 import { cardDef as s1_spell_104_signal_intercept } from "./definitions/insurgency/s1_spell_104_signal_intercept.ts";
 import { cardDef as s1_spell_105_guerrilla_strike } from "./definitions/insurgency/s1_spell_105_guerrilla_strike.ts";
@@ -198,6 +207,7 @@ import { cardDef as s1_char_113_terminus_sovereign } from "./definitions/thought
 import { cardDef as s1_char_114_viral_vector } from "./definitions/thought_virus/s1_char_114_viral_vector.ts";
 import { cardDef as s1_char_115_consumed_host } from "./definitions/thought_virus/s1_char_115_consumed_host.ts";
 import { cardDef as s1_char_116_neural_plague_carrier } from "./definitions/thought_virus/s1_char_116_neural_plague_carrier.ts";
+import { cardDef as s1_char_200_cortex_ravager } from "./definitions/thought_virus/s1_char_200_cortex_ravager.ts";
 import { cardDef as s1_spell_112_viral_cascade } from "./definitions/thought_virus/s1_spell_112_viral_cascade.ts";
 import { cardDef as s1_spell_113_memory_consumption } from "./definitions/thought_virus/s1_spell_113_memory_consumption.ts";
 import { cardDef as s1_spell_114_neural_overwrite } from "./definitions/thought_virus/s1_spell_114_neural_overwrite.ts";
@@ -233,9 +243,16 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_122_timeline_splitter,
   s1_char_123_relic_scholar,
   s1_char_124_age_walker,
+  s1_char_201_chronoguard_sentinel,
   s1_spell_120_timeline_collapse,
   s1_spell_121_epoch_rewind,
   s1_spell_122_archaeological_dig,
+  s1_spell_230_chrono_anchor,
+  s1_spell_231_temporal_fracture,
+  s1_spell_232_fossil_record,
+  s1_spell_233_era_shift,
+  s1_spell_234_preservation_field,
+  s1_spell_235_age_of_silence,
   gen_architect,
   s1_char_006_dr_lyra_vox,
   s1_char_007_general_alarik,
@@ -285,6 +302,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_110_prophecy_keeper,
   s1_char_111_vision_walker,
   s1_char_112_reality_anchor,
+  s1_char_203_astral_warden,
   s1_song_082_top_floor_door,
   s1_spell_108_prophetic_collapse,
   s1_spell_109_vision_cascade,
@@ -312,6 +330,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_106_wraith_calder,
   s1_char_107_signal_operative,
   s1_char_108_guerrilla_cell,
+  s1_char_202_saboteur,
   s1_song_091_i_love_war,
   s1_spell_104_signal_intercept,
   s1_spell_105_guerrilla_strike,
@@ -398,6 +417,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_114_viral_vector,
   s1_char_115_consumed_host,
   s1_char_116_neural_plague_carrier,
+  s1_char_200_cortex_ravager,
   s1_spell_112_viral_cascade,
   s1_spell_113_memory_consumption,
   s1_spell_114_neural_overwrite,
