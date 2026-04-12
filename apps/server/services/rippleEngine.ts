@@ -128,6 +128,74 @@ export interface HostMaskSlippedEvent extends RippleEvent {
   cause: string;
 }
 
+/* ─── POTENTIAL IDENTITY SYSTEM EVENTS ─── */
+
+export interface HorrorRevealCompletedEvent extends RippleEvent {
+  optionId: string;
+  skillCheckPassed: boolean;
+  lightEnergyAwarded: number;
+  unityContributionSource?: string;
+  loredexUnlock?: string;
+}
+
+export interface LoredexEntryUnlockedEvent extends RippleEvent {
+  entryId: string;
+  entryType: string;
+  source: string;
+}
+
+export interface UnityPhaseChangedEvent extends RippleEvent {
+  previousPhase: string;
+  newPhase: string;
+  percent: number;
+}
+
+export interface FactionDominanceShiftEvent extends RippleEvent {
+  species: "demagi" | "quarchon";
+  dominantFactionId: string;
+  dominancePercent: number;
+}
+
+export interface ConvergenceThresholdReachedEvent extends RippleEvent {
+  percent: number;
+}
+
+export interface PotentialFactionJoinedEvent extends RippleEvent {
+  factionId: string;
+  recruitedBy?: string;
+}
+
+export interface QuestlineChapterCompletedEvent extends RippleEvent {
+  questlineId: string;
+  chapterId: string;
+  optionId: string;
+  contributionSource?: string;
+  factionId?: string;
+}
+
+export interface CoverIdentityActivatedEvent extends RippleEvent {
+  coverId: string;
+  targetFactionId: string;
+  expiresAt: number;
+}
+
+export interface CoverIdentityBlownEvent extends RippleEvent {
+  coverId: string;
+  targetFactionId: string;
+  detectedBy: string;
+}
+
+export interface GeneralsDilemmaResolvedEvent extends RippleEvent {
+  resolution: "expose" | "protect";
+}
+
+export interface OracleFuturePurchasedEvent extends RippleEvent {
+  sectorId: string;
+  commodity: string;
+  cyclesAhead: number;
+  projectedPrice: number;
+}
+
 /* ─── HANDLER TYPE ─── */
 type RippleHandler = (event: RippleEvent) => Promise<void>;
 
@@ -927,6 +995,100 @@ on("kael_questline_complete", async (ev) => {
     title: "THE MAN WHO CAME BACK",
     message: "The Terminus Swarm has paused for a full real minute. The Ark crew saw it from the Observation Deck. Kael is named. Kael is remembered.",
   }).catch(() => {});
+});
+
+/* ═══════════════════════════════════════════════════════
+   POTENTIAL IDENTITY SYSTEM HANDLERS
+   ═══════════════════════════════════════════════════════ */
+
+on("horror_reveal_completed", async (ev) => {
+  const { userId, unityContributionSource } = ev as HorrorRevealCompletedEvent;
+  // Feed the Living Universe event for the community-wide reveal
+  // and the Unity Meter for the per-player origin processing.
+  await pressureService.increment(userId, "originRevealsSeen", 10, "horror_reveal_completed");
+  if (unityContributionSource) {
+    await pressureService.recordAction(userId, unityContributionSource);
+  }
+});
+
+on("horror_reveal_completed", async (ev) => {
+  const { userId, loredexUnlock } = ev as HorrorRevealCompletedEvent;
+  if (!loredexUnlock) return;
+  await emit("loredex_entry_unlocked", {
+    userId,
+    entryId: loredexUnlock,
+    entryType: "concept",
+    source: "horror_reveal",
+  } as LoredexEntryUnlockedEvent);
+});
+
+on("horror_reveal_completed", async (ev) => {
+  const { userId, optionId, skillCheckPassed } = ev as HorrorRevealCompletedEvent;
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title: "THE POTENTIALS REMEMBER THEIR ORIGIN",
+    message: skillCheckPassed
+      ? "You asked the question the Collector did not want asked. The dossier opens."
+      : `The Human told you what you are. You answered with "${optionId.replace("por_", "").toUpperCase()}". The Antiquarian is taking notes.`,
+  }).catch(() => {});
+});
+
+on("loredex_entry_unlocked", async (ev) => {
+  const { userId } = ev as LoredexEntryUnlockedEvent;
+  await pressureService.increment(userId, "loreDiscoveries", 3, "loredex_entry");
+});
+
+on("unity_phase_changed", async (ev) => {
+  const { userId, previousPhase, newPhase } = ev as UnityPhaseChangedEvent;
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title: `The galaxy is ${newPhase}`,
+    message: `The Unity Meter has shifted from ${previousPhase} to ${newPhase}. The Antiquarian is updating his Chronicle accordingly.`,
+  }).catch(() => {});
+});
+
+on("faction_dominance_shift", async (ev) => {
+  const { userId, species } = ev as FactionDominanceShiftEvent;
+  const src =
+    species === "demagi"
+      ? "faction_dominance_demagi_tick"
+      : "faction_dominance_quarchon_tick";
+  await pressureService.recordAction(userId, src);
+});
+
+on("convergence_threshold_reached", async (ev) => {
+  const { userId, percent } = ev as ConvergenceThresholdReachedEvent;
+  await pressureService.increment(userId, "unityConvergence", Math.floor(percent / 2), "convergence_threshold");
+});
+
+on("potential_faction_joined", async (ev) => {
+  const { userId, factionId } = ev as PotentialFactionJoinedEvent;
+  // Formal affiliation is a -5 Unity delta (spec §6.2).
+  await pressureService.recordAction(userId, "questline_formal_affiliation");
+  // And it pushes the corresponding species' dominance meter.
+  if (factionId.startsWith("demagi_")) {
+    await pressureService.recordAction(userId, "faction_dominance_demagi_tick");
+  } else if (factionId.startsWith("quarchon_")) {
+    await pressureService.recordAction(userId, "faction_dominance_quarchon_tick");
+  }
+});
+
+on("questline_chapter_completed", async (ev) => {
+  const { userId, contributionSource } = ev as QuestlineChapterCompletedEvent;
+  if (contributionSource) {
+    await pressureService.recordAction(userId, contributionSource);
+  }
+});
+
+on("cover_identity_blown", async (ev) => {
+  const { userId } = ev as CoverIdentityBlownEvent;
+  await pressureService.recordAction(userId, "questline_spy_blown_cover");
 });
 
 /* ═══════════════════════════════════════════════════════

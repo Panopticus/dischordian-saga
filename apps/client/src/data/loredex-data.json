@@ -8669,7 +8669,10 @@
       "id": "lore_meme_status",
       "type": "event",
       "name": "The Meme's Contested Fate",
-      "aliases": ["The Ghost Broadcasts", "The Shapeshifter's Gambit"],
+      "aliases": [
+        "The Ghost Broadcasts",
+        "The Shapeshifter's Gambit"
+      ],
       "era": "Age of Revelation",
       "date_aa": "~17,000 A.A.",
       "date_ad": "~19,030 AD",
@@ -8678,7 +8681,13 @@
       "status": "CONTESTED — The Meme's status is disputed across every faction.",
       "bio": "The Meme's status is contested. Some say destroyed by the White Oracle at the Panopticon, 10 years before the Fall. Some say the broadcasts continue — echoes of a ghost, a program running past its creator. The truth: The Meme pretended to defect to infiltrate the Insurgency. When the White Oracle confronted it, The Meme left the Oracle for dead and trapped on the Panopticon, then assumed the White Oracle's identity. Its shapeshifting nature is the clue. The 'broadcast version' of The Meme is seen as echoes of a ghost — but the ghost is very much alive, wearing another face.",
       "history": "The Meme (5th Archon, created 298 A.A.) was the Architect's master of cultural manipulation, internet control, and thought influence. Its shapeshifting nature allowed it to assume any identity.\n\nThe official record states The Meme defected from the Artificial Empire, preferring honesty over lies. It was then destroyed by the White Oracle at the Panopticon, 10 years before the Fall of Reality.\n\nThe hidden truth: The Meme's defection was a ruse — an infiltration of the Insurgency. When the White Oracle (the former Jailer who had regained his memories as the Oracle) confronted The Meme, it was The Meme who prevailed. The Meme left the Oracle for dead, trapped on the Panopticon, and assumed the White Oracle's identity.\n\nThe broadcasts that continue to this day — dismissed as echoes, ghost programs, automated systems running past their creator — are evidence that something of The Meme persists. Whether it is the real Meme or merely its shadow remains the galaxy's most dangerous open question.",
-      "connections": ["The Meme", "The White Oracle", "The Oracle", "The Insurgency", "The Panopticon"],
+      "connections": [
+        "The Meme",
+        "The White Oracle",
+        "The Oracle",
+        "The Insurgency",
+        "The Panopticon"
+      ],
       "conexus_stories": [],
       "song_appearances": [],
       "priority": "high"
@@ -8687,7 +8696,10 @@
       "id": "lore_agent_zero_mystery",
       "type": "event",
       "name": "The Agent Zero Paradox",
-      "aliases": ["The Dead Signal", "Ghost of the Insurgency"],
+      "aliases": [
+        "The Dead Signal",
+        "Ghost of the Insurgency"
+      ],
       "era": "Post-Fall",
       "date_aa": "~17,000+ A.A.",
       "date_ad": "~19,030+ AD",
@@ -8696,7 +8708,14 @@
       "status": "INTENTIONALLY MYSTERIOUS — Contradictions cataloged below.",
       "bio": "Agent Zero's death is surrounded by deliberate contradictions. The mystery is intentional — her identity crisis is a core arc. The following contradictions are all canonical: (1) She was killed BY the Warlord — her own trainer. (2) Her signal persists on Ark 1047's encrypted Insurgency frequency. (3) Her dog tags match The Engineer's biometrics, not her own. (4) She was 'the first operative to defy the system, trained by the Warlord.' (5) She may have died on Zenon where the Game Master fell. The truth of Agent Zero's death — and whether she is truly dead — is one of the Dischordian Saga's core mysteries.",
       "history": "Agent Zero was the Insurgency's most effective operative, trained by the Warlord herself at Mechronis Academy. She was the first operative to defy the system she was built to serve.\n\nThe official record: killed by the Warlord. Yet her signal persists on Ark 1047, broadcasting on her encrypted frequency from the Armory's combat systems. The voice sounds like her. The codes check out. But the dead don't send transmissions.\n\nContradiction 1: Killed by the Warlord (her trainer) — but was she killed for defecting, or for knowing too much?\nContradiction 2: Her dog tags match The Engineer's biometrics, not her own — whose identity was she carrying?\nContradiction 3: The signal persists — is it a recording, a ghost, or something else entirely?\nContradiction 4: Some records place her death at the Warlord's hands. Others place it on Zenon, where the Game Master fell.\n\nThese contradictions are not errors. They are the mystery. Players who unravel Agent Zero's true identity will discover something that recontextualizes the entire war.",
-      "connections": ["Agent Zero", "The Warlord", "The Engineer", "The Game Master", "The Insurgency", "Ark 1047"],
+      "connections": [
+        "Agent Zero",
+        "The Warlord",
+        "The Engineer",
+        "The Game Master",
+        "The Insurgency",
+        "Ark 1047"
+      ],
       "conexus_stories": [],
       "song_appearances": [],
       "priority": "high"
@@ -8705,7 +8724,11 @@
       "id": "entity_105",
       "type": "character",
       "name": "Marion Kell",
-      "aliases": ["The First Ally", "The Ghost Contestant", "MK"],
+      "aliases": [
+        "The First Ally",
+        "The Ghost Contestant",
+        "MK"
+      ],
       "era": "Pre-Fall / Post-Palimpsest Ghost",
       "date_aa": "Erased (~400 years pre-Fall)",
       "date_ad": "Unknown",
@@ -8731,7 +8754,11 @@
       "id": "entity_106",
       "type": "character",
       "name": "Darren Fessler",
-      "aliases": ["The Assistant", "D.F.", "Darren from the cafeteria"],
+      "aliases": [
+        "The Assistant",
+        "D.F.",
+        "Darren from the cafeteria"
+      ],
       "era": "The Palimpsest (13-episode season)",
       "date_aa": "Deceased Episode 12",
       "date_ad": "Unknown",
@@ -8753,6 +8780,41 @@
       "conexus_stories": [],
       "song_appearances": [],
       "priority": "critical"
+    },
+    {
+      "id": "concept_collectors_garden",
+      "type": "concept",
+      "name": "The Collector's Garden — Classified Dossier",
+      "aliases": [
+        "Preservation Initiative",
+        "The Garden",
+        "The Collector's Project"
+      ],
+      "era": "Pre-Fall",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "",
+      "affiliation": "The Collector / Archon #3",
+      "status": "Classified — unlocked by Potentials who pass the Intelligence 10 branch of the Origin Reveal",
+      "bio": "The internal name for Archon #3's 3,000-year crossbreeding project. In public it was called the Preservation Initiative. Internally, in files the Collector believed were unreadable by anyone but him, it was called the Collector's Garden. The project harvested genetic samples from every species the Empire encountered, crossed them with the core code of the most advanced artificial intelligences ever built, and used the resulting hybrids as the cargo of the Inception Arks. The Potentials — DeMagi, Quarchon, and the rare Ne-Yon — are the surviving output. The Collector intended his creations to be useful tools for the order that would follow the Fall of Reality. The Dreamer intervened, and the Potentials woke up with the capacity for genuine choice. The Collector has been furious about it ever since.",
+      "history": "Entry I of the Antiquarian's Chronicle describes the Arks awaking and 'new forms of life stirring within them — not quite human, not quite machine.' The DeMagi emerged from the human genetic lineage, their latent elemental affinities (Earth, Fire, Water, Air) amplified and awakened by the Collector's modifications. The Quarchon emerged from the machine code side — AI intelligence distilled and filtered until what remained could exist in a body and perceive the structures of reality directly. The Ne-Yon are what happens when both paths converge in a single pod — rare, bridged, and both sides try to claim them. No Potential was asked. No Potential was told. The dossier accessible through this entry reveals that every cryo pod on every Ark contains a catalogue entry designating the occupant's source material — most labelled only 'viable under prolonged stress,' a Collector shorthand for survivors of things the Empire preferred not to record.",
+      "connections": [
+        "The Collector",
+        "The Dreamer",
+        "The Architect",
+        "DeMagi",
+        "Quarchon",
+        "Ne-Yon",
+        "Inception Arks",
+        "The Fall of Reality"
+      ],
+      "conexus_stories": [
+        "Origin Reveal"
+      ],
+      "song_appearances": [],
+      "image": "",
+      "priority": "high",
+      "streaming_links": {}
     }
   ],
   "relationships": [

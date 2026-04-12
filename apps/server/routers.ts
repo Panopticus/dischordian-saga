@@ -64,6 +64,7 @@ import { socialFeaturesRouter } from "./routers/socialFeatures";
 import { loreJournalRouter } from "./routers/loreJournal";
 import { promoCodesRouter } from "./routers/promoCodes";
 import { architectConsoleRouter } from "./routers/architectConsole";
+import { potentialIdentityRouter } from "./routers/potentialIdentity";
 import { eidolonBondRouter } from "./routers/eidolonBond";
 import { techTreeRouter } from "./routers/techTree";
 import { masteryTreeRouter } from "./routers/masteryTree";
@@ -147,6 +148,7 @@ export const appRouter = router({
   loreJournal: loreJournalRouter,
   promoCodes: promoCodesRouter,
   architectConsole: architectConsoleRouter,
+  potentialIdentity: potentialIdentityRouter,
   eidolonBond: eidolonBondRouter,
   techTree: techTreeRouter,
   masteryTree: masteryTreeRouter,
