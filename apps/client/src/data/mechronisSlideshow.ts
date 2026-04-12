@@ -5,9 +5,8 @@
    (Dischordian Logic). Plays when the player completes
    the Mechronis Academy semester (Cycle B ending).
 
-   Art: uses arena-mechronis.jpg as the base + celebration
-   art for the graduation photo crossover. Additional
-   classroom art TBD.
+   Art: uses mechronis environment art (grand hall, classroom,
+   graduation) from /art/mechronis/environments/.
 
    See WITNESSING_NARRATIVE_PROPOSAL §4.4
    ═══════════════════════════════════════════════════════ */

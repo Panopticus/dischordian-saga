@@ -31,6 +31,7 @@ import {
   type DecisionOption,
 } from "@shared/celebrationTrial";
 import { getMascoteer } from "@shared/mascoteers";
+import { ResponsiveImage } from "@/components/ResponsiveImage";
 import {
   getBetrayalStage,
   generateBetrayalEvent,
@@ -250,7 +251,7 @@ export default function ApprenticePage() {
               <div className="mt-4 rounded-lg border border-amber-500/40 overflow-hidden relative">
                 {/* Celebration aerial view background */}
                 <div className="absolute inset-0 z-0 overflow-hidden">
-                  <img
+                  <ResponsiveImage
                     src="/art/celebration/environments/celebration_aerial.jpg"
                     alt=""
                     className="w-[115%] h-[115%] object-cover"
@@ -724,7 +725,12 @@ function DailyDecisionCard({ decision, day, onChoose }: {
   onChoose: (option: DecisionOption) => void;
 }) {
   const mascoteer = getMascoteer(decision.mascoteerId);
-  const sceneArt = MASCOTEER_SCENE_ART[decision.mascoteerId];
+  const defaultSceneArt = MASCOTEER_SCENE_ART[decision.mascoteerId];
+  // Trial room appears on exam days (10, 20, 28) and alternating days in the final week
+  const useTrialRoom = day === 10 || day === 20 || day === 28 || (day >= 21 && day % 2 === 1);
+  const sceneArt = useTrialRoom
+    ? "/art/celebration/environments/celebration_trial_room.jpg"
+    : defaultSceneArt;
   const accent = MASCOTEER_ACCENT[decision.mascoteerId] ?? "#c084fc";
   const isNight = day >= 21; // Last week = night scenes
 
@@ -738,7 +744,7 @@ function DailyDecisionCard({ decision, day, onChoose }: {
       {/* Scene art background */}
       {sceneArt && (
         <div className="absolute inset-0 z-0 overflow-hidden">
-          <img
+          <ResponsiveImage
             src={isNight ? "/art/celebration/celebration-by-night.png" : sceneArt}
             alt=""
             className="w-[115%] h-[115%] object-cover celebration-drift"
@@ -805,7 +811,7 @@ function DailyDecisionCard({ decision, day, onChoose }: {
           <div className="relative h-40 -mx-4 mb-3 overflow-hidden">
             {/* Scene art as background layer */}
             {sceneArt && (
-              <img
+              <ResponsiveImage
                 src={isNight ? "/art/celebration/celebration-by-night.png" : sceneArt}
                 alt=""
                 className="absolute inset-0 w-full h-full object-cover"
@@ -819,7 +825,7 @@ function DailyDecisionCard({ decision, day, onChoose }: {
             {/* Mascoteer portrait — centered, prominent */}
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="relative">
-                <img
+                <ResponsiveImage
                   src={mascoteer.portrait}
                   alt={mascoteer.mascotName}
                   className="w-28 h-28 rounded-lg object-cover object-top cel-portrait-breathe border-2 shadow-xl"
@@ -828,6 +834,7 @@ function DailyDecisionCard({ decision, day, onChoose }: {
                     boxShadow: `0 0 24px ${accent}25, 0 4px 16px rgba(0,0,0,0.5)`,
                     filter: isNight ? "brightness(0.75) saturate(0.8)" : undefined,
                   }}
+                  eager
                 />
                 {/* Danger indicator on risky decisions */}
                 {decision.options.some(o => (o.outcome.deathChance ?? 0) > 0.05) && (

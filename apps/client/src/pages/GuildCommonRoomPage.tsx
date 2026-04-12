@@ -23,6 +23,7 @@ import { ARCHON_VOICE_MAPPING, getDominantGuild } from "@/game/archonTrainingVoi
 import { SKILL_VOICES, type SkillId } from "@/game/innerVoices";
 import { getAbilityForArchon } from "@shared/guildSignatureAbilities";
 import { getProfessorByArchon } from "@shared/mechronisProfessors";
+import { ResponsiveImage } from "@/components/ResponsiveImage";
 
 /* ─── AMBIENT PARTICLES CANVAS ─── */
 function AmbientParticles({ color, count = 30 }: { color: string; count?: number }) {
@@ -307,11 +308,12 @@ export default function GuildCommonRoomPage() {
             </div>
             {/* Professor portrait */}
             <div className="relative w-full h-48 sm:h-56 rounded-lg overflow-hidden mb-3 border" style={{ borderColor: `${accentHex}30` }}>
-              <img
+              <ResponsiveImage
                 src={professor.portrait}
                 alt={professor.teacherName}
                 className="w-full h-full object-cover object-top guild-prof-breathe"
                 style={{ filter: "brightness(0.9) saturate(1.1)" }}
+                eager
               />
               <div className="absolute inset-0" style={{
                 background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%),

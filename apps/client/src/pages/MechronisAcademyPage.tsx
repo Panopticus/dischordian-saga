@@ -16,6 +16,7 @@ import {
   ChevronLeft, GraduationCap, ScrollText, Star, AlertTriangle,
 } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
+import { ResponsiveImage } from "@/components/ResponsiveImage";
 import { getDominantGuild } from "@/game/archonTrainingVoices";
 import { getProfessorByArchon } from "@shared/mechronisProfessors";
 import {
@@ -129,13 +130,17 @@ export default function MechronisAcademyPage() {
         backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.006) 2px, rgba(255,255,255,0.006) 4px)",
       }} />
 
-      {/* Background environment art — classroom for lessons, grand hall for results */}
+      {/* Background environment art — classroom / grand hall / graduation */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.img
-            key={lastResult ? "grand-hall" : "classroom"}
+            key={lastResult
+              ? lastResult.grade === "distinction" ? "graduation" : "grand-hall"
+              : "classroom"}
             src={lastResult
-              ? "/art/mechronis/environments/mechronis_grand_hall.jpg"
+              ? lastResult.grade === "distinction"
+                ? "/art/mechronis/environments/mechronis_graduation.jpg"
+                : "/art/mechronis/environments/mechronis_grand_hall.jpg"
               : "/art/mechronis/environments/mechronis_classroom.jpg"}
             alt=""
             initial={{ opacity: 0 }}
@@ -193,10 +198,11 @@ export default function MechronisAcademyPage() {
           >
             <div className="flex items-start gap-4">
               <div className="shrink-0 w-20 h-20 rounded-lg overflow-hidden border border-indigo-500/30 shadow-lg shadow-indigo-500/10 relative">
-                <img
+                <ResponsiveImage
                   src={professor.portrait}
                   alt={professor.teacherName}
                   className="w-full h-full object-cover object-top portrait-breathe"
+                  eager
                 />
                 {/* Grade-reactive glow overlay */}
                 {lastResult && (
