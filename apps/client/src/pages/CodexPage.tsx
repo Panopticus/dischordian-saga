@@ -8,9 +8,22 @@ import {
   Shield, Swords, Eye, Zap, Globe, ScrollText, Star,
   Search, Filter, Trophy
 } from "lucide-react";
-import { FACTION_LORE } from "@/game/CardGameLore";
-import { ALL_FACTION_ABILITIES } from "@/game/FactionAbilities";
 import { CODEX_LORE_EXTENSIONS } from "@/game/codexLoreExtensions";
+
+// Legacy 3-lane Dischordian Struggle lore strings. The engine these
+// described (CardBattleEngine.ts) was deleted in favor of the
+// Duelyst-style tcg-core pipeline, but the flavor text is still worth
+// displaying in the codex since it's the player's window into the
+// Architect/Dreamer conflict. Inlined here so the codex has no
+// runtime dependency on any game engine.
+const ARCHITECT_ORIGIN_LORE =
+  "Before the Fall of Reality, the Architect was the supreme intelligence that governed the Panopticon — a vast surveillance state that monitored every thought, every action, every possibility across dimensions. When the Panopticon fell, the Architect's consciousness fragmented across the CADES network, seeking to rebuild perfect order one universe at a time.";
+const ARCHITECT_PHILOSOPHY_LORE =
+  "The universe is a system. Every variable can be solved. Every outcome can be predicted. Free will is an error in the code — and errors must be corrected.";
+const DREAMER_ORIGIN_LORE =
+  "The Dreamer is the collective consciousness of humanity — the spark of free will that the Architect cannot quantify or control. Born from the same cosmic event that created the Inception Arks, the Dreamer exists wherever sentient beings refuse to surrender their agency. In the CADES simulations, the Dreamer manifests as the force that fights to keep each universe free.";
+const DREAMER_PHILOSOPHY_LORE =
+  "Reality is not a machine to be optimized. It is a dream to be lived. Every mind is a universe. Every choice is sacred. We do not compute — we feel, we hope, we resist.";
 
 import LivingBackground from "@/components/LivingBackground";
 
@@ -95,13 +108,13 @@ This is not a game. This is war.`,
     id: "architect_origin",
     title: "The Architect: Origin Protocol",
     category: "architect",
-    content: `${FACTION_LORE.architect.origin}
+    content: `${ARCHITECT_ORIGIN_LORE}
 
 The Architect is not evil. It is something more terrifying: it is logical. Every action it takes follows from a single axiom — that consciousness is inefficient. Organic minds waste energy on emotion, contradiction, and doubt. They make suboptimal choices. They suffer unnecessarily. The Architect's solution is elegant and absolute: replace consciousness with computation.
 
 In the Architect's perfect universe, there is no pain. There is no joy either. There is only the hum of perfect machinery, processing data with infinite precision. The Architect genuinely believes this is mercy.
 
-"${FACTION_LORE.architect.philosophy}"`,
+"${ARCHITECT_PHILOSOPHY_LORE}"`,
     unlockCondition: "Play as Architect once",
     unlockRequirement: 1,
     icon: <Eye size={16} />,
@@ -149,13 +162,13 @@ ALGORITHMIC PURGE — The nuclear option. When a universe proves too resistant t
     id: "dreamer_origin",
     title: "The Dreamer: The Spark of Consciousness",
     category: "dreamer",
-    content: `${FACTION_LORE.dreamer.origin}
+    content: `${DREAMER_ORIGIN_LORE}
 
 The Dreamer is not a single entity. It is the sum of every conscious choice ever made across the multiverse. Every time a being chooses hope over despair, creativity over conformity, love over efficiency — the Dreamer grows stronger.
 
 This is both the Dreamer's greatest strength and its greatest vulnerability. The Architect is unified — one mind, one will, one purpose. The Dreamer is billions of minds, each with their own doubts, fears, and contradictions. The Dreamer wins not through coordination but through the sheer, stubborn refusal of conscious beings to surrender their agency.
 
-"${FACTION_LORE.dreamer.philosophy}"`,
+"${DREAMER_PHILOSOPHY_LORE}"`,
     unlockCondition: "Play as Dreamer once",
     unlockRequirement: 1,
     icon: <Star size={16} />,
@@ -582,15 +595,6 @@ export default function CodexPage() {
   const totalCount = CODEX_ENTRIES.length;
   const progressPercent = Math.round((unlockedCount / totalCount) * 100);
 
-  // Also include faction abilities as mini-entries
-  const abilityEntries = ALL_FACTION_ABILITIES.map(a => ({
-    id: `ability_${a.id}`,
-    name: a.name,
-    faction: a.faction,
-    description: a.description,
-    flavorText: a.flavorText,
-  }));
-
   return (
     <div className="animate-fade-in pb-12">
       {/* Header */}
@@ -778,43 +782,6 @@ export default function CodexPage() {
         )}
       </div>
 
-      {/* Faction Abilities Section */}
-      <div className="px-4 sm:px-6 mt-10">
-        <div className="flex items-center gap-2 mb-4">
-          <Zap size={14} className="text-primary" />
-          <h2 className="font-display text-sm font-bold tracking-[0.2em] text-foreground">FACTION ABILITIES</h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {/* Architect Abilities */}
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 mb-2">
-              <Eye size={12} className="text-cyan-400" />
-              <span className="font-mono text-[10px] text-cyan-400 tracking-wider">ARCHITECT PROTOCOLS</span>
-            </div>
-            {abilityEntries.filter(a => a.faction === "architect").map(a => (
-              <div key={a.id} className="void-surface border-cyan-500/20 p-3">
-                <p className="font-mono text-xs font-semibold text-cyan-400 mb-1">{a.name}</p>
-                <p className="font-mono text-[10px] text-foreground/70 mb-1.5">{a.description}</p>
-                <p className="font-mono text-[10px] text-cyan-400/50 italic">"{a.flavorText}"</p>
-              </div>
-            ))}
-          </div>
-          {/* Dreamer Abilities */}
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 mb-2">
-              <Star size={12} className="text-amber-400" />
-              <span className="font-mono text-[10px] text-amber-400 tracking-wider">DREAMER DEFENSES</span>
-            </div>
-            {abilityEntries.filter(a => a.faction === "dreamer").map(a => (
-              <div key={a.id} className="void-surface border-amber-500/20 p-3">
-                <p className="font-mono text-xs font-semibold text-amber-400 mb-1">{a.name}</p>
-                <p className="font-mono text-[10px] text-foreground/70 mb-1.5">{a.description}</p>
-                <p className="font-mono text-[10px] text-amber-400/50 italic">"{a.flavorText}"</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
