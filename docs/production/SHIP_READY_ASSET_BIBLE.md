@@ -1036,3 +1036,72 @@ Every missing still. Each row gives you a self-contained Nano Banana 2 prompt, o
 
 ---
 
+## §3.2 — NPC Portraits (NOT NEEDED)
+
+**Status:** All 8 main NPC portraits (Elara, Human, Agent Zero, Locke, Source, Antiquarian, Shadow Tongue, Meme) are already wired up via Cloudinary CDN in `apps/client/src/game/npcPortraits.ts`. Each NPC has full-body portrait + bust + 4 emotional variants (neutral, concerned/emotional1, vulnerable/emotional2, speaking) = 48 URLs, all currently resolving. The 2026-04-07 `FULL_AUDIT_REPORT.md` flagged these as missing but has since been fixed. **No new portraits required for ship.**
+
+If new NPCs are added to the roster later, follow the `NPCPortrait` interface at `apps/client/src/game/npcPortraits.ts:13-25` — 6 images per character (full, bust, neutral, emotional1, emotional2, speaking), 512×768 for full and 256×256 for bust.
+
+---
+
+## §3.3 — Game Mode Environment Backgrounds (27 rows, import verbatim)
+
+**Source:** `docs/production/GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` — every prompt below is already written in Nano Banana 2 prose format. Copy-paste directly from the source bible section referenced in each row's `bible-ref` column. No rewrites needed.
+
+| ID | Bible-ref | Output path | Size | Priority |
+|---|---|---|---|---|
+| ART-E01 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §1 PB-001 | `art/pet-battles/arenas/cargo_pit.jpg` | 1920×1080 | P1 |
+| ART-E02 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §1 PB-002 | `art/pet-battles/arenas/specimen_lab.jpg` | 1920×1080 | P1 |
+| ART-E03 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §1 PB-003 | `art/pet-battles/arenas/matrix_ring.jpg` | 1920×1080 | P1 |
+| ART-E04 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §1 PB-004 | `art/pet-battles/arenas/necromancers_pit.jpg` | 1920×1080 | P1 |
+| ART-E05 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §1 PB-005 | `art/pet-battles/arenas/champions_dome.jpg` | 1920×1080 | P1 |
+| ART-E06 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §2 PVP-001 | `art/pvp/tables/ranked_table.jpg` | 1920×1080 | P1 |
+| ART-E07 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §2 PVP-002 | `art/pvp/tables/tournament_hall.jpg` | 1920×1080 | P1 |
+| ART-E08 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §2 PVP-003 | `art/pvp/tables/draft_chamber.jpg` | 1920×1080 | P1 |
+| ART-E09 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §3 SS-001 | `art/station/modules/command_module.jpg` | 1920×1080 | P1 |
+| ART-E10 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §3 SS-002 | `art/station/modules/resource_processor.jpg` | 1920×1080 | P1 |
+| ART-E11 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §3 SS-003 | `art/station/modules/research_lab.jpg` | 1920×1080 | P1 |
+| ART-E12 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §3 SS-004 | `art/station/modules/defense_array.jpg` | 1920×1080 | P1 |
+| ART-E13 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §3 SS-005 | `art/station/modules/habitation_ring.jpg` | 1920×1080 | P1 |
+| ART-E14 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §3 SS-006 | `art/station/modules/docking_bay.jpg` | 1920×1080 | P1 |
+| ART-E15 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §4 TE-001 | `art/trade/trade_map.jpg` | 1920×1080 | P0 |
+| ART-E16 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §4 TE-002 | `art/trade/market_floor.jpg` | 1920×1080 | P0 |
+| ART-E17 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §4 TE-003 | `art/trade/colony_view.jpg` | 1920×1080 | P0 |
+| ART-E18 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §4 TE-004 | `art/trade/lockes_office.jpg` | 1920×1080 | P0 |
+| ART-E19 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §5 BB-001 | `art/arenas/boss/watchers_panopticon.jpg` | 1920×1080 | P0 |
+| ART-E20 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §5 BB-002 | `art/arenas/boss/architects_throne_room.jpg` | 1920×1080 | P0 |
+| ART-E21 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §5 BB-003 | `art/arenas/boss/castle_of_death.jpg` | 1920×1080 | P0 |
+| ART-E22 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §5 BB-004 | `art/arenas/boss/terminus_core.jpg` | 1920×1080 | P0 |
+| ART-E23 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §6 CR-001 | `art/raids/syndicate_vault.jpg` | 1920×1080 | P1 |
+| ART-E24 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §6 CR-002 | `art/raids/authority_mainframe.jpg` | 1920×1080 | P1 |
+| ART-E25 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §6 CR-003 | `art/raids/shield_generator.jpg` | 1920×1080 | P1 |
+| ART-E26 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §6 CR-004 | `art/raids/hierarchy_boardroom.jpg` | 1920×1080 | P2 |
+| ART-E27 | `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` §7 DC-001 | `art/casino/casino_floor_permanent.jpg` | 1920×1080 | P1 |
+
+**Operator note:** Open `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md` in a split pane next to Nano Banana 2 and walk the table row-by-row. Every prompt begins with `Prompt:` in the bible. Copy the prose between the backticks, paste into Nano Banana 2, render at 1920×1080 JPG, save to the path in column 3.
+
+---
+
+## §3.4 — Eidolons / STRAIN / Spectral / VFX / Rooms / Soul Stones (112 rows, import verbatim)
+
+**Source:** `docs/production/COMPLETE_ART_PROMPT_BIBLE.md` — every prompt below is already written in Nano Banana 2 prose format. Copy-paste directly from the source bible.
+
+| Subsection | Bible-ref | Asset count | Output root | Size |
+|---|---|---|---|---|
+| Soul Stones | `COMPLETE_ART_PROMPT_BIBLE.md` §1 | 3 | `art/soul-stones/` | 256×256 PNG transparent |
+| Auros Lion (Soldier Eidolon) | §2A | 12 | `art/eidolons/auros/` | 256×256 PNG transparent |
+| Nyx Raven (Spy Eidolon) | §2B | 12 | `art/eidolons/nyx/` | 256×256 PNG transparent |
+| Toxis Frog (Assassin Eidolon) | §2C | 12 | `art/eidolons/toxis/` | 256×256 PNG transparent |
+| Cog Golem (Engineer Eidolon) | §2D | 12 | `art/eidolons/cog/` | 256×256 PNG transparent |
+| Sibyl Owl (Oracle Eidolon) | §2E | 12 | `art/eidolons/sibyl/` | 256×256 PNG transparent |
+| STRAIN (Living Infection) | §3 | 12 | `art/eidolons/strain/` | 256×256 PNG transparent |
+| Spectral Forms (Death) | §4 | 13 | `art/spectral/` | 256×256 PNG transparent |
+| Dischordian Companions | §5 | 3 | `art/companions/` | 512×768 PNG transparent |
+| Rooms (player cabin) | §6 | 3 | `art/rooms/` | 1920×1080 JPG |
+| VFX Textures | §7 | 18 | `art/vfx/` | 512×512 PNG transparent |
+| **Total** | — | **112** | — | — |
+
+**Operator note:** Each Eidolon alignment form (Normal, Hierarchy, Dreamer, Scarred Ascended) has 3 evolution stages (Fragment, Companion, Ascended). That's 4 × 3 = 12 images per Eidolon. Walk the bible section per Eidolon and render in batch.
+
+---
+
