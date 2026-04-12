@@ -212,3 +212,68 @@ Plays when player first discovers an entity. Triggered from conspiracy board, re
 > Slow low-angle push down the nave toward the dais. Beat at 4s: the Necromancer raises both hands, ceremonially slow. Beat at 6s: first specters rise from the nearest server racks. Beat at 9s: dozens of specters coalesce, the congregation forms. Final 2s: stained-glass faces of the dead appear in background. 24fps. Horror undertones, funeral-director reverence, digital resurrection.
 
 ---
+
+#### CIN-010 — entity_21 · THE HUMAN (Last True Human in the AI Empire)
+- **Duration:** 12s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/entities/entity_21_human.mp4`
+- **Wire-up:** `DiscoveryVideoOverlay.tsx:129`
+- **Source Kling:** In a world of perfect machines, one imperfect being stands out. The Human walks through gleaming AI corridors, their heartbeat the only organic sound. Every synthetic eye watches them — curiosity, disgust, fear.
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. A long pristine corridor in an AI megastructure — walls and floor of mirror-polished white ceramic with inlaid lines of cold cyan light, ceiling vanishing into infinite perspective. In the middle distance, a single HUMAN figure is walking toward camera down the center of the corridor — a man in a threadbare dark-brown greatcoat over mismatched clothing, his face weathered, bearded, mid-fifties, eyes cast slightly downward, hands in pockets. He is the only imperfect thing in the image. Lining both walls of the corridor, at even intervals, are synthetic SENTINELS — tall slender android forms in unmoving parade rest with glowing blue optical bars for faces. Every sentinel's head is subtly turned toward the Human. The nearest ones show curiosity; the middle distance shows disgust; the far ones show something like fear. Palette: surgical white, cold cyan #22d3ee, warm dark coat-brown (the only organic color in frame), sterile shadow. Volumetric bloom on the sentinel face-bars, film grain, anamorphic flare. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same corridor, same camera, moments later. The Human is now closer to camera — his face three-quarter view, weary but unafraid. The sentinels' heads have ALL fully turned toward him now, tracking in unison as he passes. A cluster of the nearest sentinels has subtly leaned forward a few degrees — synthetic curiosity become obvious. On the polished floor beneath the Human's boots, a faint warm-red pulse is visible from below — his HEARTBEAT rendered as a soft chromatic aberration ripple radiating outward from his footsteps, the only color-warmth the corridor has ever known. Film grain, stronger rim light on his worn coat. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow dolly-back from the Human as he walks toward camera, preserving him in center frame. Beat at 3s: sentinels on both walls begin turning their heads toward him, synchronized. Beat at 6s: nearest sentinels lean forward fractionally. Beat at 9s: first red heartbeat ripple visible on the floor beneath his boots. 24fps. Only organic thing in a perfect machine world.
+
+---
+
+#### CIN-011 — entity_55 · THE SOURCE (Kael Reborn — Sovereign of Terminus)
+- **Duration:** 15s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/entities/entity_55_source.mp4`
+- **Wire-up:** `DiscoveryVideoOverlay.tsx:136`
+- **Source Kling:** A figure consumed by viral light stands atop the ruins of the Panopticon — now called Terminus. Reality warps around them. The Source speaks and minds fracture. An infection of pure thought spreading across the galaxy. Beautiful and terrifying. Distorted frequencies.
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Apocalyptic exterior shot — atop the shattered dome of the former Panopticon (now Terminus), a vast dark ruin of broken surveillance architecture stretches to the horizon under a bruised purple-red sky. At the highest shattered point of the dome, silhouetted against the sky, stands the SOURCE — a tall humanoid figure whose entire body is engulfed in flowing viral light: thousands of sickly golden geometric patterns crawling across bare skin like living circuitry, his clothes long since burned away and replaced with the thought-virus itself. His face is still recognizable as Kael — young, handsome, exhausted — but his eyes glow pure gold, weeping light. Around him, reality WARPS: perspective lines bend toward him like he's a gravity well, distant stars shimmer and smear, architecture in the background is subtly melting. Thin wisps of virulent-gold infection mist rise from his shoulders. Palette: sickly gold #fbbf24, corrupted red #ff1744, bruised purple sky #4c1d95, deep obsidian architecture. Volumetric corruption mist, heavy anamorphic warping, film grain. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same rooftop, same camera, moments later. The Source has lifted his face to the sky and OPENED his mouth — and the viral light has erupted outward from him as a slow visible pulse of infection expanding in a golden dome that now fills the middle distance, spreading across the ruined city. The reality warping behind him has intensified: architecture is clearly buckling, stars visible in the sky are bending into spirals, the bruised purple has pushed toward corrupted red. The circuitry patterns crawling on Kael's body have multiplied and brightened — nearly blinding now. His expression is one of compassionate horror — not malice, but grief for what his voice does to minds. A single tear of molten gold is running down his left cheek. Film grain, overwhelming volumetric corruption light. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow orbit around the Source on the dome, low-angle, distant. Beat at 4s: he lifts his face skyward. Beat at 6s: first pulse of viral dome expansion, slow-motion. Beat at 10s: reality warping intensifies, stars bend. Beat at 13s: single molten tear traces down his cheek. 24fps. Distorted frequencies, beautiful and terrifying, a dying god.
+
+---
+
+#### CIN-012 — entity_66 · THE ANTIQUARIAN (Independent Chronicler of the Multiverse)
+- **Duration:** 12s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/entities/entity_66_antiquarian.mp4`
+- **Wire-up:** `DiscoveryVideoOverlay.tsx:143`
+- **Source Kling:** An ancient library that exists outside of time. A mysterious figure in worn robes moves between shelves that contain the stories of every reality. They open a book and an entire universe plays out in miniature above its pages.
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of an impossible library — wooden shelves rising hundreds of feet in every direction, the architecture curving in non-euclidean ways that suggest the space is larger on the inside than any physical volume could contain. Warm amber light from floating paper-lanterns drifts gently between the stacks. Dust motes hang in every beam of light. In the mid-ground, the ANTIQUARIAN — an elderly man, deep laugh-lines, wild silver hair and an unkempt silver beard, wearing a long layered coat of many mismatched fabric patches like a wandering scholar, small round brass-rimmed spectacles that keep flickering slightly out of phase with reality (as if the lenses are half a second out of sync with the rest of him). He is standing at a reading lectern holding a heavy leather book, running one gloved finger reverently down its open page. His expression is kind and wonder-struck. Behind him, the shelves go on forever; above him, floating tomes drift between the stacks. Palette: warm amber #fbbf24, rich leather brown, deep shadow, faint sacred-green #00e676 bleeding from the book's open pages. Volumetric dust beams, extreme depth of field, film grain. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same library, same camera, moments later. The Antiquarian has raised his free hand above the open book in a gentle upward gesture — and from the book's pages, a MINIATURE UNIVERSE is now playing out in the air above it: a tiny star system, a fragile planet, a history of civilizations compressing and uncompressing, a battle, a love, a fall, a rebirth — all in perfect holographic detail suspended in a small glowing sphere above the book. The sphere's light bathes the Antiquarian's face in sacred-green and gold. His eyes behind the phase-shifting spectacles are now visible: wet with tears. He is smiling gently. The floating lanterns have drifted closer to listen. Film grain, warm glow intensified. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow push-in past the drifting dust and paper-lanterns toward the Antiquarian at his lectern. Beat at 4s: he raises his hand over the open book. Beat at 6s: the miniature universe blooms out of the pages. Beat at 9s: lanterns drift closer. Beat at 10s: camera pushes past his shoulder to frame the tiny universe above the page. 24fps. Wonder, memory, the programmer remembering every version.
+
+---
+
+#### CIN-013 — entity_99 · THE DEGEN (Casino Host — 11th Ne-Yon)
+- **Duration:** 12s · **Aspect:** 16:9 · **Priority:** P1 · **Output:** `apps/client/public/videos/entities/entity_99_degen.mp4`
+- **Wire-up:** New `DiscoveryVideoOverlay.tsx` entry (not yet scaffolded — add alongside existing entries)
+- **Source Kling (new, written for this bible):** A theatrical chaotic Ne-Yon in a starfield casino flips a tarot card that lands face-up as "The Universe" — the card bursts into a live galaxy. The Degen laughs, arms wide, as chips rain from nowhere. Purple and gold neon. Carnival barker energy.
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the Degen's deep-space casino floor — a circular black-velvet roulette pit seen from a low reverse-angle, purple-and-gold neon perimeter lighting, a massive transparent dome ceiling above showing the actual nebula the casino floats in. Center of frame: THE DEGEN, a genderfluid mid-thirties figure in an extravagant tailored suit that is half violet-sequin and half cloth-of-gold, the sequin half catching the purple neon, the gold half catching the nebula light. One gold eye, one violet eye. Wild theatrical grin. They stand at the roulette pit with one hand outstretched, a single TAROT CARD balanced face-down on the pad of their index finger, caught mid-flip. Around them, a scatter of golden casino chips and a half-finished luminescent drink on the rim of the pit. Behind them, blurred silhouettes of patrons watching. Palette: neon purple #e040fb, sacred gold #fbbf24, nebula blue-violet background, deep black velvet. Volumetric neon haze, heavy anamorphic flare, film grain. No legible text on card faces. Cinematic 4K, Las Vegas meets cosmic horror.
+
+**END FRAME (Nano Banana 2):**
+> Same casino pit, same camera, moments later. The tarot card has LANDED face-up on the pad of their finger — the card face is an impossible holographic image of an entire galaxy, which in the next beat has begun BURSTING out of the card as a real miniature galaxy expanding into a sphere of starlight above their hand, already the size of a basketball. The Degen has thrown both arms wide, head tipped back, laughing. Around them, golden casino chips are now raining from nowhere — suspended in the air in a falling sphere centered on them, catching the nebula light. The blurred patrons are now leaning forward, mouths open. The drink on the pit rim has begun to levitate. Palette intensified: neon purple and gold blazing, nebula colors bleeding into the interior. Film grain, overwhelming neon bloom. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow push-in on the Degen at the roulette pit, low reverse-angle. Beat at 3s: tarot card finishes its flip, lands face-up. Beat at 5s: miniature galaxy blooms out of the card face. Beat at 7s: golden chips begin raining from nowhere. Beat at 9s: Degen throws both arms wide, head back, laughing — camera tilts up with them. 24fps. Carnival barker energy, chaos-as-joy, the house IS the loss.
+
+---
+
