@@ -170,6 +170,142 @@ export const PET_SKILL_TREES: Record<string, PetSkillTree> = {
       ],
     },
   },
+
+  /* Spore (Spore Fungus) — viral, healing, symbiosis */
+  spore_fungus: {
+    combat: {
+      name: "COMBAT",
+      nodes: [
+        { id: "spore_burst", name: "Spore Burst", description: "+10% pet battle damage (toxic clouds)", tier: 1, cost: 1, bonus: "damage_10" },
+        { id: "viral_skin", name: "Viral Skin", description: "-8 flat damage reduction from each hit", tier: 1, cost: 1, bonus: "damage_reduction_8" },
+        { id: "infection_cloud", name: "Infection Cloud", description: "+25% burn damage over time (viral bloom)", tier: 2, cost: 2, bonus: "burn_damage_25", requires: "spore_burst" },
+        { id: "rot_armor", name: "Rot Armor", description: "+10% dodge chance — enemies flinch from touching the fungus", tier: 2, cost: 2, bonus: "dodge_10", requires: "viral_skin" },
+        { id: "strain_bloom", name: "Strain Bloom", description: "Ultimate: infect the arena — all enemies take passive damage", tier: 3, cost: 3, bonus: "ultimate_strain_bloom", requires: "infection_cloud" },
+      ],
+    },
+    utility: {
+      name: "UTILITY",
+      nodes: [
+        { id: "mycelium_net", name: "Mycelium Net", description: "Reveals hidden items in any room Spore has entered", tier: 1, cost: 1, bonus: "hidden_reveal" },
+        { id: "sporeling", name: "Sporeling", description: "+15 regen per turn — Spore literally regrows", tier: 1, cost: 1, bonus: "regen_15" },
+        { id: "decay_economy", name: "Decay Economy", description: "+15% dream tokens from pet battles (recycled rot)", tier: 2, cost: 2, bonus: "dream_bonus_15", requires: "mycelium_net" },
+        { id: "viral_purge", name: "Viral Purge", description: "Cleanses status effects at battle start", tier: 2, cost: 2, bonus: "status_cleanse", requires: "sporeling" },
+        { id: "living_archive", name: "Living Archive", description: "Preview enemy's next move at battle start", tier: 3, cost: 3, bonus: "preview_intent", requires: "decay_economy" },
+      ],
+    },
+    social: {
+      name: "SOCIAL",
+      nodes: [
+        { id: "symbiosis", name: "Symbiosis", description: "+8% trust gain with all NPCs (Spore calms them subconsciously)", tier: 1, cost: 1, bonus: "trust_gain_8" },
+        { id: "decay_gift", name: "Decay Gift", description: "+5% gift effectiveness — organics-based gifts preferred", tier: 1, cost: 1, bonus: "gift_boost_5" },
+        { id: "viral_empathy", name: "Viral Empathy", description: "Pet warns you when NPC dialogue is deceptive", tier: 2, cost: 2, bonus: "deception_detect", requires: "symbiosis" },
+        { id: "rot_diplomacy", name: "Rot Diplomacy", description: "Reduces NPC starting hostility by 5", tier: 2, cost: 2, bonus: "hostility_reduce_5", requires: "decay_gift" },
+        { id: "mycelium_chorus", name: "Mycelium Chorus", description: "Strain communicates with other infected crew — secret dialogue unlocked", tier: 3, cost: 3, bonus: "strain_dialogue", requires: "viral_empathy" },
+      ],
+    },
+  },
+
+  /* Gilt (Gilt Beetle) — earth, armor, wealth */
+  gilt_beetle: {
+    combat: {
+      name: "COMBAT",
+      nodes: [
+        { id: "mandible_crunch", name: "Mandible Crunch", description: "+10% pet battle damage", tier: 1, cost: 1, bonus: "damage_10" },
+        { id: "gold_plate", name: "Gold Plate", description: "Ignore 10% of enemy defense (pierce armor with shell-strikes)", tier: 1, cost: 1, bonus: "armor_pen_10" },
+        { id: "burrow_guard", name: "Burrow Guard", description: "-10 flat damage reduction — Gilt digs in", tier: 2, cost: 2, bonus: "damage_reduction_10", requires: "mandible_crunch" },
+        { id: "shell_shock", name: "Shell Shock", description: "+15% crit chance when below 50% HP — the beetle fights hardest cornered", tier: 2, cost: 2, bonus: "crit_15", requires: "gold_plate" },
+        { id: "treasure_rage", name: "Treasure Rage", description: "Ultimate: +50% damage for 3 turns after taking any hit", tier: 3, cost: 3, bonus: "ultimate_treasure_rage", requires: "burrow_guard" },
+      ],
+    },
+    utility: {
+      name: "UTILITY",
+      nodes: [
+        { id: "prospector", name: "Prospector", description: "+20% dream tokens from pet battles (Gilt smells value)", tier: 1, cost: 1, bonus: "dream_bonus_20" },
+        { id: "tremor_sense", name: "Tremor Sense", description: "Reveals adjacent room hotspots via ground vibrations", tier: 1, cost: 1, bonus: "hotspot_reveal" },
+        { id: "appraisal", name: "Appraisal", description: "+25% credits from pet battles", tier: 2, cost: 2, bonus: "credits_bonus_25", requires: "prospector" },
+        { id: "ore_sense", name: "Ore Sense", description: "Reveals hidden items in all rooms", tier: 2, cost: 2, bonus: "hidden_reveal", requires: "tremor_sense" },
+        { id: "gilded_vault", name: "Gilded Vault", description: "+1 bonus item drop per arena victory", tier: 3, cost: 3, bonus: "bonus_drop_1", requires: "appraisal" },
+      ],
+    },
+    social: {
+      name: "SOCIAL",
+      nodes: [
+        { id: "merchant_kin", name: "Merchant Kin", description: "+10% gift effectiveness when giving luxury items", tier: 1, cost: 1, bonus: "gift_boost_10" },
+        { id: "haggler", name: "Haggler", description: "-10% store prices (Gilt intimidates vendors)", tier: 1, cost: 1, bonus: "store_discount_10" },
+        { id: "patron", name: "Patron", description: "+5% trust gain with wealth-aligned NPCs", tier: 2, cost: 2, bonus: "trust_gain_5", requires: "merchant_kin" },
+        { id: "vault_reveal", name: "Vault Reveal", description: "See NPC mood before dialogue", tier: 2, cost: 2, bonus: "mood_reveal", requires: "haggler" },
+        { id: "the_collectors_eye", name: "The Collector's Eye", description: "Unlocks Collector hidden-merchant route", tier: 3, cost: 3, bonus: "collector_merchant", requires: "patron" },
+      ],
+    },
+  },
+
+  /* Glyph (Glyph Moth) — air, prophecy, wings */
+  glyph_moth: {
+    combat: {
+      name: "COMBAT",
+      nodes: [
+        { id: "wing_slash", name: "Wing Slash", description: "+8% pet battle damage (sharp glyph edges)", tier: 1, cost: 1, bonus: "damage_8" },
+        { id: "scale_dust", name: "Scale Dust", description: "+12% dodge chance (the dust obscures vision)", tier: 1, cost: 1, bonus: "dodge_12" },
+        { id: "glyph_curse", name: "Glyph Curse", description: "Ignore 20% of enemy defense (writes weakness into their code)", tier: 2, cost: 2, bonus: "armor_pen_20", requires: "wing_slash" },
+        { id: "foresight_strike", name: "Foresight Strike", description: "+20% crit chance — attacks hit future weak points", tier: 2, cost: 2, bonus: "crit_20", requires: "scale_dust" },
+        { id: "oracles_flight", name: "Oracle's Flight", description: "Ultimate: dodge the next 3 attacks guaranteed", tier: 3, cost: 3, bonus: "ultimate_oracles_flight", requires: "foresight_strike" },
+      ],
+    },
+    utility: {
+      name: "UTILITY",
+      nodes: [
+        { id: "prophecy_wing", name: "Prophecy Wing", description: "Preview enemy's next move at battle start", tier: 1, cost: 1, bonus: "preview_intent" },
+        { id: "chitin_lantern", name: "Chitin Lantern", description: "+5 regen per turn — ambient light heals", tier: 1, cost: 1, bonus: "regen_5" },
+        { id: "rune_reader", name: "Rune Reader", description: "Predicts NPC trust changes from choices before you commit", tier: 2, cost: 2, bonus: "choice_preview", requires: "prophecy_wing" },
+        { id: "wind_glide", name: "Wind Glide", description: "+15% initiative — Glyph moves first", tier: 2, cost: 2, bonus: "initiative_15", requires: "chitin_lantern" },
+        { id: "written_fate", name: "Written Fate", description: "5% chance to re-roll a missed attack", tier: 3, cost: 3, bonus: "reroll_miss_5", requires: "rune_reader" },
+      ],
+    },
+    social: {
+      name: "SOCIAL",
+      nodes: [
+        { id: "glyph_weaver", name: "Glyph Weaver", description: "+10% trust gain with dreamer-aligned NPCs", tier: 1, cost: 1, bonus: "trust_gain_10" },
+        { id: "moth_messenger", name: "Moth Messenger", description: "+10% gift effectiveness (Glyph delivers gifts directly)", tier: 1, cost: 1, bonus: "gift_boost_10" },
+        { id: "scroll_keeper", name: "Scroll Keeper", description: "See NPC mood before dialogue", tier: 2, cost: 2, bonus: "mood_reveal", requires: "glyph_weaver" },
+        { id: "prophet_seat", name: "Prophet's Seat", description: "+10% XP from dialogue choices", tier: 2, cost: 2, bonus: "dialogue_xp_10", requires: "moth_messenger" },
+        { id: "written_name", name: "Written Name", description: "Unlocks Antiquarian's prophecy-read dialogue", tier: 3, cost: 3, bonus: "antiquarian_unlock", requires: "scroll_keeper" },
+      ],
+    },
+  },
+
+  /* Flicker (Flicker Imp) — fire, chaos, mischief */
+  flicker_imp: {
+    combat: {
+      name: "COMBAT",
+      nodes: [
+        { id: "ember_jab", name: "Ember Jab", description: "+12% pet battle damage (burning strikes)", tier: 1, cost: 1, bonus: "damage_12" },
+        { id: "flash_step", name: "Flash Step", description: "+10% dodge chance — Flicker is briefly somewhere else", tier: 1, cost: 1, bonus: "dodge_10" },
+        { id: "wildfire", name: "Wildfire", description: "+30% burn damage over time", tier: 2, cost: 2, bonus: "burn_damage_30", requires: "ember_jab" },
+        { id: "chain_spark", name: "Chain Spark", description: "20% chance attacks chain to a second target", tier: 2, cost: 2, bonus: "chain_20", requires: "flash_step" },
+        { id: "infernal_mischief", name: "Infernal Mischief", description: "Ultimate: 1 extra attack per turn (imp doubles up)", tier: 3, cost: 3, bonus: "extra_attack_1", requires: "wildfire" },
+      ],
+    },
+    utility: {
+      name: "UTILITY",
+      nodes: [
+        { id: "spark_hoard", name: "Spark Hoard", description: "+15% dream tokens from pet battles (Flicker pockets them)", tier: 1, cost: 1, bonus: "dream_bonus_15" },
+        { id: "trickster_luck", name: "Trickster's Luck", description: "10% chance to re-roll a missed attack", tier: 1, cost: 1, bonus: "reroll_miss_10" },
+        { id: "pocket_fire", name: "Pocket Fire", description: "+10 regen per turn — Flicker steals warmth", tier: 2, cost: 2, bonus: "regen_10", requires: "spark_hoard" },
+        { id: "pickpocket", name: "Pickpocket", description: "+1 bonus item drop per arena victory", tier: 2, cost: 2, bonus: "bonus_drop_1", requires: "trickster_luck" },
+        { id: "chaos_cascade", name: "Chaos Cascade", description: "20% cooldown reduction on all moves", tier: 3, cost: 3, bonus: "cooldown_reduce_20", requires: "pocket_fire" },
+      ],
+    },
+    social: {
+      name: "SOCIAL",
+      nodes: [
+        { id: "jester", name: "Jester", description: "+8% trust gain with insurgency-aligned NPCs", tier: 1, cost: 1, bonus: "trust_gain_8" },
+        { id: "spark_gift", name: "Spark Gift", description: "+10% gift effectiveness on chaotic NPCs", tier: 1, cost: 1, bonus: "gift_boost_10" },
+        { id: "mocking_bird", name: "Mocking Bird", description: "Pet warns you when NPC dialogue is deceptive", tier: 2, cost: 2, bonus: "deception_detect", requires: "jester" },
+        { id: "thiefs_bargain", name: "Thief's Bargain", description: "-15% store prices (Flicker distracts vendors)", tier: 2, cost: 2, bonus: "store_discount_15", requires: "spark_gift" },
+        { id: "kindling_friend", name: "Kindling Friend", description: "Unlocks Insurgency cell contact list", tier: 3, cost: 3, bonus: "insurgency_contacts", requires: "mocking_bird" },
+      ],
+    },
+  },
 };
 
 /** Lookup a skill tree by pet species, falling back to the default tree. */
@@ -195,6 +331,8 @@ export interface SkillBonusEffect {
   cooldownMult?: number;
   missRerollChance?: number;
   doubleHitFactor?: number;
+  /** Flat damage reduction subtracted from incoming hits (shell/armor nodes). */
+  damageReduction?: number;
 }
 
 export function parseSkillBonus(bonus: string): SkillBonusEffect {
@@ -234,6 +372,12 @@ export function parseSkillBonus(bonus: string): SkillBonusEffect {
   const doubleHitMatch = /^double_hit_(\d+)$/.exec(bonus);
   if (doubleHitMatch) return { doubleHitFactor: Number(doubleHitMatch[1]) / 100 };
 
+  // Flat damage reduction from shell/armor skills — Gilt "Burrow Guard",
+  // Spore "Viral Skin". Routed through SkillBonusEffect.damageReduction
+  // which the combat engine subtracts from the defender's incoming damage.
+  const damageReductionMatch = /^damage_reduction_(\d+)$/.exec(bonus);
+  if (damageReductionMatch) return { damageReduction: Number(damageReductionMatch[1]) };
+
   return {};
 }
 
@@ -257,6 +401,7 @@ export function aggregateSkillEffects(unlockedNodes: string[], species: string):
     if (parsed.cooldownMult !== undefined) effect.cooldownMult = (effect.cooldownMult ?? 1) * parsed.cooldownMult;
     if (parsed.missRerollChance !== undefined) effect.missRerollChance = Math.max(effect.missRerollChance ?? 0, parsed.missRerollChance);
     if (parsed.doubleHitFactor !== undefined) effect.doubleHitFactor = parsed.doubleHitFactor;
+    if (parsed.damageReduction !== undefined) effect.damageReduction = (effect.damageReduction ?? 0) + parsed.damageReduction;
   }
   return effect;
 }

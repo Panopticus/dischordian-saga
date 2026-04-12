@@ -8,7 +8,7 @@
 
    Only one apprentice at a time. Old must die before new.
    ═══════════════════════════════════════════════════════ */
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import {
@@ -26,10 +26,12 @@ import {
 import {
   generateDailyDecision,
   rollForDeath,
+  computeTrialPacing,
   TRIAL_LENGTH_DAYS,
   type DecisionOption,
 } from "@shared/celebrationTrial";
 import { getMascoteer } from "@shared/mascoteers";
+import { ResponsiveImage } from "@/components/ResponsiveImage";
 import {
   getBetrayalStage,
   generateBetrayalEvent,
@@ -37,6 +39,13 @@ import {
   type BetrayalEvent,
 } from "@shared/apprenticeBetrayal";
 import { computeDailyCorruption } from "@shared/apprentices";
+import { getBattleForDay, type CycleBattle } from "@shared/cycleBattles";
+import SongSlideshow from "@/components/SongSlideshow";
+import {
+  WELCOME_TO_CELEBRATION_FRAMES,
+  WELCOME_TO_CELEBRATION_TITLE,
+  WELCOME_TO_CELEBRATION_AUDIO,
+} from "@/data/celebrationSlideshow";
 
 const STAGE_LABELS: Record<string, string> = {
   recruited: "Recruited",
@@ -57,11 +66,32 @@ const RARITY_BG: Record<Rarity, string> = {
 };
 
 export default function ApprenticePage() {
-  const { state, setApprentice, recordFallenApprentice, addGraduate } = useGame();
+  const { state, setApprentice, recordFallenApprentice, addGraduate, addTrialHistoryEntry } = useGame();
   const currentApprentice = state.apprentice as Apprentice | null;
   const fallen = (state.apprenticeFallen as Apprentice[]) ?? [];
   const [candidate, setCandidate] = useState<Apprentice | null>(null);
   const [nameInput, setNameInput] = useState("");
+  const [showSlideshow, setShowSlideshow] = useState(false);
+  const [pendingBattle, setPendingBattle] = useState<CycleBattle | null>(null);
+
+  // ── Real-time missed-day sync ──
+  // On mount (or when returning to the page), check wall-clock time
+  // and update missedDays if the player has been away.
+  useEffect(() => {
+    if (!currentApprentice) return;
+    if (currentApprentice.stage !== "training") return;
+    const pacing = computeTrialPacing(
+      currentApprentice.recruitedAt,
+      currentApprentice.trialDay,
+    );
+    if (pacing.missedDays > currentApprentice.missedDays) {
+      setApprentice({
+        ...currentApprentice,
+        missedDays: pacing.missedDays,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentApprentice?.stage, currentApprentice?.trialDay]);
 
   const rollCandidate = () => {
     const app = generateApprentice();
@@ -114,6 +144,16 @@ export default function ApprenticePage() {
       });
       return;
     }
+    // Persist trial history for combat buff integration
+    addTrialHistoryEntry({
+      day: currentApprentice.trialDay,
+      mascoteerId: todayDecision?.mascoteerId ?? "",
+      decisionId: todayDecision?.id ?? "",
+      optionId: choice.id,
+      bondDelta: outcome.bondDelta,
+      corruptionDelta: outcome.corruptionDelta,
+      moralityDelta: outcome.moralityDelta,
+    });
     const newDay = currentApprentice.trialDay + 1;
     const newBond = Math.max(0, Math.min(100, currentApprentice.bond + outcome.bondDelta));
     // Daily corruption tick — evil apprentices still gain corruption
@@ -130,6 +170,11 @@ export default function ApprenticePage() {
       missedDays: 0,
       stage: graduated ? "graduated" : "training",
     });
+    // Check if the NEXT day triggers a graduation-exam battle
+    if (!graduated) {
+      const battle = getBattleForDay("A", newDay);
+      if (battle) setPendingBattle(battle);
+    }
   };
 
   // Betrayal event trigger — check corruption on companion apprentice
@@ -203,21 +248,38 @@ export default function ApprenticePage() {
             <CurrentApprenticeCard app={currentApprentice} onMarkFallen={handleFallen} />
             {/* Recruited → send to Celebration */}
             {currentApprentice.stage === "recruited" && (
-              <div className="mt-4 p-3 rounded border border-amber-500/40 bg-amber-500/5">
-                <p className="font-mono text-[10px] italic text-amber-300/80 leading-relaxed mb-2">
-                  Celebration awaits. Four weeks. Twenty-eight days. One graduation, or none. The Mascoteers know you're coming.
-                </p>
-                <button
-                  onClick={sendToCelebration}
-                  className="w-full px-3 py-2 rounded border border-amber-500/50 bg-amber-500/15 text-amber-300 font-mono text-[11px] uppercase tracking-wider hover:bg-amber-500/25"
-                  data-testid="send-to-celebration"
-                >
-                  Send {currentApprentice.name} to Celebration
-                </button>
+              <div className="mt-4 rounded-lg border border-amber-500/40 overflow-hidden relative">
+                {/* Celebration aerial view background */}
+                <div className="absolute inset-0 z-0 overflow-hidden">
+                  <ResponsiveImage
+                    src="/art/celebration/environments/celebration_aerial.jpg"
+                    alt=""
+                    className="w-[115%] h-[115%] object-cover"
+                    style={{
+                      position: "absolute", top: "-7.5%", left: "-7.5%",
+                      opacity: 0.2, filter: "brightness(0.4) saturate(0.8)",
+                    }}
+                  />
+                  <div className="absolute inset-0" style={{
+                    background: "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%)",
+                  }} />
+                </div>
+                <div className="relative z-10 p-3">
+                  <p className="font-mono text-[10px] italic text-amber-300/80 leading-relaxed mb-2">
+                    Celebration awaits. Four weeks. Twenty-eight days. One graduation, or none. The Mascoteers know you're coming.
+                  </p>
+                  <button
+                    onClick={sendToCelebration}
+                    className="w-full px-3 py-2 rounded border border-amber-500/50 bg-amber-500/15 text-amber-300 font-mono text-[11px] uppercase tracking-wider hover:bg-amber-500/25"
+                    data-testid="send-to-celebration"
+                  >
+                    Send {currentApprentice.name} to Celebration
+                  </button>
+                </div>
               </div>
             )}
-            {/* Training → daily decision */}
-            {currentApprentice.stage === "training" && todayDecision && (
+            {/* Training → daily decision (or pending battle) */}
+            {currentApprentice.stage === "training" && !pendingBattle && todayDecision && (
               <div className="mt-4">
                 <DailyDecisionCard
                   decision={todayDecision}
@@ -226,14 +288,66 @@ export default function ApprenticePage() {
                 />
               </div>
             )}
+            {/* Graduation-exam battle card (days 10/20/28) */}
+            {currentApprentice.stage === "training" && pendingBattle && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-4 p-4 rounded-lg border-2 border-red-500/50 bg-gradient-to-br from-red-950/20 to-amber-950/10"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <Zap size={16} className="text-red-400" />
+                  <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-red-400">
+                    Graduation Exam · Day {pendingBattle.triggerDay}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3 mb-1">
+                  {(MASCOTEER_PORTRAIT[pendingBattle.opponentId] || OPPONENT_PORTRAIT[pendingBattle.opponentId]) && (
+                    <img
+                      src={MASCOTEER_PORTRAIT[pendingBattle.opponentId] ?? OPPONENT_PORTRAIT[pendingBattle.opponentId]}
+                      alt={pendingBattle.opponentName}
+                      className="w-12 h-12 rounded-lg object-cover border border-red-500/30"
+                    />
+                  )}
+                  <h3 className="font-display text-lg font-bold text-foreground">{pendingBattle.opponentName}</h3>
+                </div>
+                <p className="font-mono text-[10px] text-foreground/80 leading-relaxed mb-2">{pendingBattle.narrativeBeat}</p>
+                <div className="p-2 rounded border border-border/30 bg-black/20 mb-3">
+                  <span className="font-mono text-[8px] uppercase tracking-wider text-amber-400 block mb-0.5">
+                    Deck Theme: {pendingBattle.deckTheme}
+                  </span>
+                  <p className="font-mono text-[9px] text-foreground/70">{pendingBattle.deckMechanics}</p>
+                </div>
+                <div className="p-2 rounded border border-emerald-500/30 bg-emerald-500/5 mb-3">
+                  <span className="font-mono text-[8px] uppercase tracking-wider text-emerald-400 block mb-0.5">
+                    Card Unlock
+                  </span>
+                  <p className="font-mono text-[10px] text-foreground/85">
+                    <strong className="text-emerald-300">{pendingBattle.cardUnlock.name}</strong> ({pendingBattle.cardUnlock.rarity}) — {pendingBattle.cardUnlock.effect}
+                  </p>
+                </div>
+                <Link
+                  href={`/dischordia?exam=${pendingBattle.id}&opponent=${pendingBattle.opponentId}`}
+                  className="block w-full text-center px-3 py-2 rounded border border-red-500/50 bg-red-500/15 text-red-300 font-mono text-[11px] uppercase tracking-wider hover:bg-red-500/25"
+                >
+                  Enter the Exam
+                </Link>
+                <button
+                  onClick={() => setPendingBattle(null)}
+                  className="block w-full mt-1.5 text-center px-3 py-1.5 font-mono text-[9px] text-muted-foreground/50 hover:text-muted-foreground"
+                >
+                  Skip for now
+                </button>
+              </motion.div>
+            )}
             {/* Betrayal event */}
             {pendingBetrayal && (
               <div className="mt-4">
                 <BetrayalEventCard event={pendingBetrayal} onChoose={resolveBetrayal} />
               </div>
             )}
-            {/* Graduated → celebration */}
-            {currentApprentice.stage === "graduated" && (
+            {/* Graduated → slideshow + welcome */}
+            {currentApprentice.stage === "graduated" && !showSlideshow && (
               <div className="mt-4 p-4 rounded border border-emerald-500/40 bg-gradient-to-br from-emerald-500/10 to-amber-500/5 text-center">
                 <Award size={32} className="mx-auto text-amber-400 mb-2" />
                 <h3 className="font-display text-lg font-bold tracking-wider text-foreground">GRADUATED</h3>
@@ -241,17 +355,39 @@ export default function ApprenticePage() {
                   {currentApprentice.name} survived Celebration. They board your ship now. They remember every choice.
                 </p>
                 <button
+                  onClick={() => setShowSlideshow(true)}
+                  className="mt-3 px-4 py-1.5 rounded border border-amber-500/50 bg-amber-500/15 text-amber-300 font-mono text-[11px] uppercase tracking-wider hover:bg-amber-500/25"
+                >
+                  Watch the Ceremony
+                </button>
+                <button
                   onClick={() => {
                     const graduated = { ...currentApprentice, stage: "companion" as const };
                     setApprentice(graduated);
                     addGraduate(graduated);
                   }}
-                  className="mt-3 px-4 py-1.5 rounded border border-emerald-500/50 bg-emerald-500/15 text-emerald-300 font-mono text-[11px] uppercase tracking-wider hover:bg-emerald-500/25"
+                  className="mt-2 px-4 py-1.5 rounded border border-emerald-500/50 bg-emerald-500/15 text-emerald-300 font-mono text-[11px] uppercase tracking-wider hover:bg-emerald-500/25"
                   data-testid="welcome-aboard"
                 >
-                  Welcome Them Aboard
+                  Skip — Welcome Them Aboard
                 </button>
               </div>
+            )}
+            {/* Graduation slideshow playing */}
+            {showSlideshow && (
+              <SongSlideshow
+                title={WELCOME_TO_CELEBRATION_TITLE}
+                frames={WELCOME_TO_CELEBRATION_FRAMES}
+                audioSrc={WELCOME_TO_CELEBRATION_AUDIO}
+                onEnd={() => {
+                  setShowSlideshow(false);
+                  if (currentApprentice) {
+                    const graduated = { ...currentApprentice, stage: "companion" as const };
+                    setApprentice(graduated);
+                    addGraduate(graduated);
+                  }
+                }}
+              />
             )}
           </>
         ) : candidate ? (
@@ -591,6 +727,31 @@ const MASCOTEER_ACCENT: Record<string, string> = {
   the_seeker_child: "#38bdf8", // sky
 };
 
+/** Mascoteer character portraits — matches actual asset paths from mascoteers.ts */
+const MASCOTEER_PORTRAIT: Record<string, string> = {
+  the_conductor: "/art/celebration/mascoteers/mascoteer_conni.png",
+  mr_unblink: "/art/celebration/mascoteers/mascoteer_unblink.png",
+  little_corey: "/art/celebration/mascoteers/mascoteer_corey.png",
+  vernon: "/art/celebration/mascoteers/mascoteer_vernon.png",
+  minnie: "/art/celebration/mascoteers/mascoteer_minnie.png",
+  wanda_wee: "/art/celebration/mascoteers/mascoteer_wanda.png",
+  senator_sprout: "/art/celebration/mascoteers/mascoteer_sprout.png",
+  wayne: "/art/celebration/mascoteers/mascoteer_wayne.png",
+  gary: "/art/celebration/mascoteers/mascoteer_gary.png",
+  thazu: "/art/celebration/mascoteers/mascoteer_thazu.png",
+  the_prince: "/art/celebration/mascoteers/mascoteer_prince.png",
+  the_seeker_child: "/art/celebration/mascoteers/mascoteer_red.png",
+};
+
+/** Cycle B battle opponent portraits */
+const OPPONENT_PORTRAIT: Record<string, string> = {
+  iron_lion: "/art/opponents/opponent-iron-lion.png",
+  kael: "/art/opponents/opponent-kael.png",
+  agent_zero: "/art/opponents/opponent-agent-zero.png",
+  the_eyes: "/art/opponents/opponent-the-eyes.png",
+  the_human: "/art/opponents/opponent-the-human-young.png",
+};
+
 /* ─── DAILY DECISION CARD ─── */
 function DailyDecisionCard({ decision, day, onChoose }: {
   decision: { mascoteerId: string; prompt: string; options: DecisionOption[] };
@@ -598,7 +759,12 @@ function DailyDecisionCard({ decision, day, onChoose }: {
   onChoose: (option: DecisionOption) => void;
 }) {
   const mascoteer = getMascoteer(decision.mascoteerId);
-  const sceneArt = MASCOTEER_SCENE_ART[decision.mascoteerId];
+  const defaultSceneArt = MASCOTEER_SCENE_ART[decision.mascoteerId];
+  // Trial room appears on exam days (10, 20, 28) and alternating days in the final week
+  const useTrialRoom = day === 10 || day === 20 || day === 28 || (day >= 21 && day % 2 === 1);
+  const sceneArt = useTrialRoom
+    ? "/art/celebration/environments/celebration_trial_room.jpg"
+    : defaultSceneArt;
   const accent = MASCOTEER_ACCENT[decision.mascoteerId] ?? "#c084fc";
   const isNight = day >= 21; // Last week = night scenes
 
@@ -612,7 +778,7 @@ function DailyDecisionCard({ decision, day, onChoose }: {
       {/* Scene art background */}
       {sceneArt && (
         <div className="absolute inset-0 z-0 overflow-hidden">
-          <img
+          <ResponsiveImage
             src={isNight ? "/art/celebration/celebration-by-night.png" : sceneArt}
             alt=""
             className="w-[115%] h-[115%] object-cover celebration-drift"
@@ -668,35 +834,68 @@ function DailyDecisionCard({ decision, day, onChoose }: {
             Day {day} / {TRIAL_LENGTH_DAYS} · Celebration
           </span>
           {mascoteer && (
-            <span className="font-mono text-[9px]" style={{ color: `${accent}cc` }}>
-              ◈ {mascoteer.mascotName}
-            </span>
+            <div className="flex items-center gap-1.5">
+              {portrait && (
+                <img src={portrait} alt="" className="w-6 h-6 rounded-full object-cover border" style={{ borderColor: `${accent}60` }} />
+              )}
+              <span className="font-mono text-[9px]" style={{ color: `${accent}cc` }}>
+                ◈ {mascoteer.mascotName}
+              </span>
+            </div>
           )}
         </div>
 
-        {/* Scene art hero strip */}
-        {sceneArt && (
-          <div className="relative h-28 -mx-4 mb-3 overflow-hidden">
-            <img
-              src={isNight ? "/art/celebration/celebration-by-night.png" : sceneArt}
-              alt={mascoteer?.mascotName || ""}
-              className="w-full h-full object-cover"
-              style={{
-                filter: isNight
-                  ? "brightness(0.5) saturate(0.6)"
-                  : "brightness(0.7) contrast(1.1)",
-              }}
-            />
-            <div className="absolute inset-0" style={{
-              background: `linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%), linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 30%)`,
-            }} />
-            {mascoteer && (
-              <div className="absolute bottom-2 left-4 right-4">
-                <div className="font-display text-sm font-bold tracking-wider" style={{ color: accent, textShadow: `0 2px 12px rgba(0,0,0,0.8)` }}>
-                  {mascoteer.dailyGame.split("—")[0].trim()}
-                </div>
-              </div>
+        {/* Mascoteer portrait hero */}
+        {mascoteer && (
+          <div className="relative h-40 -mx-4 mb-3 overflow-hidden">
+            {/* Scene art as background layer */}
+            {sceneArt && (
+              <ResponsiveImage
+                src={isNight ? "/art/celebration/celebration-by-night.png" : sceneArt}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{
+                  filter: isNight
+                    ? "brightness(0.3) saturate(0.4) hue-rotate(20deg)"
+                    : "brightness(0.4) saturate(0.7)",
+                }}
+              />
             )}
+            {/* Mascoteer portrait — centered, prominent */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative">
+                <ResponsiveImage
+                  src={mascoteer.portrait}
+                  alt={mascoteer.mascotName}
+                  className="w-28 h-28 rounded-lg object-cover object-top cel-portrait-breathe border-2 shadow-xl"
+                  style={{
+                    borderColor: `${accent}50`,
+                    boxShadow: `0 0 24px ${accent}25, 0 4px 16px rgba(0,0,0,0.5)`,
+                    filter: isNight ? "brightness(0.75) saturate(0.8)" : undefined,
+                  }}
+                  eager
+                />
+                {/* Danger indicator on risky decisions */}
+                {decision.options.some(o => (o.outcome.deathChance ?? 0) > 0.05) && (
+                  <div
+                    className="absolute -top-1 -right-1 w-4 h-4 rounded-full border border-red-500/60 bg-red-900/80 flex items-center justify-center"
+                    title="Dangerous day"
+                  >
+                    <AlertTriangle size={8} className="text-red-400" />
+                  </div>
+                )}
+              </div>
+            </div>
+            {/* Gradient overlays */}
+            <div className="absolute inset-0" style={{
+              background: `linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 40%), linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 30%)`,
+            }} />
+            {/* Game name at bottom */}
+            <div className="absolute bottom-2 left-4 right-4">
+              <div className="font-display text-sm font-bold tracking-wider" style={{ color: accent, textShadow: `0 2px 12px rgba(0,0,0,0.8)` }}>
+                {mascoteer.dailyGame.split("—")[0].trim()}
+              </div>
+            </div>
           </div>
         )}
 
@@ -752,6 +951,11 @@ function DailyDecisionCard({ decision, day, onChoose }: {
         .celebration-drift { animation: cel-drift 25s ease-in-out infinite; }
         .celebration-pulse { animation: cel-pulse 4s ease-in-out infinite; }
         .celebration-particle { animation: cel-particle 5s ease-in-out infinite; }
+        @keyframes cel-portrait-breathe {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.008); }
+        }
+        .cel-portrait-breathe { animation: cel-portrait-breathe 3.5s ease-in-out infinite; }
       `}</style>
     </motion.div>
   );

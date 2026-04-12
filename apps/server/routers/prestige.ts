@@ -14,6 +14,7 @@
 
 import { z } from "zod";
 import { logger } from "../logger";
+import { grantCardReward } from "../services/cardRewardService";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import {
@@ -212,6 +213,13 @@ export const prestigeRouter = router({
         title: `Prestige ${newTier}: ${newLevel.titlePrefix}`,
         message: newLevel.loreText,
       });
+
+      // Grant card reward for prestige level up
+      try {
+        await grantCardReward(ctx.user.id, "prestige_tier_" + newTier);
+      } catch (e) {
+        logger.warn("Failed to grant prestige card reward", e);
+      }
 
       logger.info(`[Prestige] User ${ctx.user.id} prestiged to tier ${newTier}`);
 

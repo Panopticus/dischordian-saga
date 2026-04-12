@@ -5,6 +5,8 @@
 import { z } from "zod";
 import { router, protectedProcedure, publicProcedure } from "../_core/trpc";
 import { getDb } from "../db";
+import { logger } from "../logger";
+import { grantCardReward } from "../services/cardRewardService";
 import {
   loreJournalEntries, citizenCharacters, civilSkillProgress,
 } from "../../db/schema";
@@ -70,6 +72,17 @@ export const loreJournalRouter = router({
       await ripple.emit("loredex_entry_discovered", { userId: ctx.user.id, entryId: input.linkedEntityId || "journal_entry", entryType: "journal" });
       // Battle pass XP: lore discovery
       battlePassXp.award(ctx.user.id, "lore_discovery").catch(() => {});
+
+      // Grant card reward at 10 journal entries
+      const entryCount = await db.select({ count: sql<number>`count(*)` }).from(loreJournalEntries)
+        .where(eq(loreJournalEntries.userId, ctx.user.id));
+      if (entryCount[0]?.count === 10) {
+        try {
+          await grantCardReward(ctx.user.id, "lore_journal_10");
+        } catch (e) {
+          logger.warn("Failed to grant lore journal card reward", e);
+        }
+      }
 
       return { entryId: result.id, wordCount, xpEarned };
     }),

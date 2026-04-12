@@ -96,7 +96,7 @@ import { checkEventWindow, CHRISTMAS_IN_JULY_WINDOW } from "../middleware/eventW
 import {
   xmasJulyProgress, xmasJulyGifts, xmasJulyCharityPool,
   xmasJulyCrapsRolls, xmasJulyWheelSpins, notifications, users,
-  featureFlags,
+  featureFlags, casinoState,
 } from "../../db/schema";
 import { eq, and, desc, sql, or, like, ne } from "drizzle-orm";
 import { createRng, randomSeed, rollCraps, spinWheel } from "../../shared/casinoGames";
@@ -215,12 +215,20 @@ async function broadcastMilestone(
   reward: string,
 ) {
   // Find every user who has an xmas_july_progress row — those are the
-  // participants. Batch insert notifications in chunks.
+  // participants. Left-join casinoState so we can exclude anyone
+  // who's specifically opted out of milestone broadcasts. This is a
+  // separate preference from the jackpot opt-out so users can keep
+  // one stream while muting the other.
   const participants = await db
-    .select({ userId: xmasJulyProgress.userId })
-    .from(xmasJulyProgress);
-  if (participants.length === 0) return;
-  const rows = participants.map(p => ({
+    .select({
+      userId: xmasJulyProgress.userId,
+      optOut: casinoState.milestoneBroadcastOptOut,
+    })
+    .from(xmasJulyProgress)
+    .leftJoin(casinoState, eq(casinoState.userId, xmasJulyProgress.userId));
+  const recipients = participants.filter(p => !p.optOut);
+  if (recipients.length === 0) return;
+  const rows = recipients.map(p => ({
     userId: p.userId,
     type: "seasonal_event" as const,
     title: `Christmas in July — ${milestoneName}`,
@@ -671,13 +679,22 @@ export const christmasInJulyRouter = router({
         const moraleDelta = 2 + 5 * newMilestones.length;
         const moraleResult = await applyCrewMoraleDelta(tx, ctx.user.id, moraleDelta);
 
+        // Attribution: the delta tokens the crew bonus is responsible
+        // for (tokens earned minus the pre-bonus base). Lets the client
+        // render an "attributable to …" flash.
+        const baseTokens = CHRISTMAS_EVENT_CONFIG.tokensPerGiftSent;
+        const bonusDelta = tokensEarned - baseTokens;
+
         return {
           sent: true,
           giftId,
           tokensEarned,
+          baseTokens,
+          bonusDelta,
           newMilestonesReached: newMilestones.map(m => m.id),
           crewMoraleDelta: moraleResult.affected > 0 ? moraleDelta : 0,
           crewMembersAffected: moraleResult.affected,
+          crewBonus,
         };
       });
     }),

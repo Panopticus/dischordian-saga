@@ -1699,6 +1699,30 @@ export const architectConsoleRouter = router({
       return db.select().from(adminAuditLog).orderBy(desc(adminAuditLog.createdAt)).limit(limit);
     }),
 
+  /** Manually run audit log rotation (deletes rows older than the
+   *  TTL). Also runs automatically once per 24 hours via the
+   *  startup interval in `_core/index.ts`; this endpoint is for
+   *  ad-hoc cleanup from the admin console. */
+  rotateAuditLog: adminProcedure.mutation(async ({ ctx }) => {
+    const { rotateAuditLog } = await import("../services/auditLogRotation");
+    const result = await rotateAuditLog();
+    // Self-audit — log the rotation itself so admins can see when
+    // cleanup was run manually vs. automatically.
+    const db = await getDb();
+    if (db) {
+      try {
+        await db.insert(adminAuditLog).values({
+          adminId: ctx.user.id,
+          action: "architectConsole.rotateAuditLog",
+          details: { pruned: result.pruned, trigger: "manual" },
+        });
+      } catch {
+        /* best-effort */
+      }
+    }
+    return result;
+  }),
+
   // ═══════════════════════════════════════════════════
   //  MODERATOR APPROVAL FLOW
   //  Two distinct admins must approve before a

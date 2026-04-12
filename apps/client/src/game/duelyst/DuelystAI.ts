@@ -36,9 +36,15 @@ export function getAIActions(state: DuelystGameState): GameAction[] {
     if (worstIdx >= 0) actions.push({ type: "replace_card", cardIndex: worstIdx });
   }
 
+  // Bloodborn spell: score it and insert by priority (before end_turn,
+  // after high-value plays). mana >= 1 + not used yet checked here.
   if (!player.bloodbornUsed && player.mana >= 1) {
-    const bbs = getBBSAction(state, aiPlayer);
-    if (bbs) actions.push(bbs);
+    const bbs = scoreBBS(state, aiPlayer);
+    if (bbs && bbs.score > 0) {
+      // Insert before any moves (moves are low-priority, end_turn is last)
+      const insertIdx = actions.length;
+      actions.splice(insertIdx, 0, bbs.action);
+    }
   }
 
   actions.push({ type: "end_turn" });
@@ -162,21 +168,49 @@ function findWorstCard(hand: DuelystCard[], currentMana: number): number {
   return worstIdx;
 }
 
-function getBBSAction(state: DuelystGameState, aiPlayer: 0 | 1): GameAction | null {
+/**
+ * Score the Bloodborn spell based on the current board state and the
+ * AI's faction. Returns a ScoredAction or null if BBS is not worth
+ * using this turn.
+ *
+ * Scoring heuristics per faction:
+ *   architect:      +2 ATK buff is decent if any friendly exists → 8
+ *   dreamer:        +1/+1 buff is best when a damaged unit exists → 10
+ *   insurgency:     1 damage + draw is always solid → 7
+ *   new_babylon:    2 damage to unit, strong if killable targets → 9
+ *   antiquarian:    teleport is situational → 6
+ *   thought_virus:  3 damage to general is always strong → 12
+ */
+function scoreBBS(state: DuelystGameState, aiPlayer: 0 | 1): ScoredAction | null {
   const player = state.players[aiPlayer];
+  const enemy = aiPlayer === 0 ? 1 : 0;
+  const friendlies = [...state.board.values()].filter(u => u.owner === aiPlayer && !u.isGeneral);
+  const enemies = [...state.board.values()].filter(u => u.owner === enemy);
+
+  let score = 0;
   switch (player.faction) {
-    case "thought_virus": return { type: "bloodborn_spell" };
-    case "new_babylon": {
-      const enemy = aiPlayer === 0 ? 1 : 0;
-      const targets = [...state.board.values()].filter(u => u.owner === enemy && !u.isGeneral);
-      return targets.length > 0 ? { type: "bloodborn_spell" } : null;
-    }
-    case "dreamer": {
-      const friendlies = [...state.board.values()].filter(u => u.owner === aiPlayer && !u.isGeneral);
-      return friendlies.length > 0 ? { type: "bloodborn_spell" } : null;
-    }
-    default: return { type: "bloodborn_spell" };
+    case "architect":
+      score = friendlies.length > 0 ? 8 : 3;
+      break;
+    case "dreamer":
+      score = friendlies.some(u => u.currentHealth < u.maxHealth) ? 10 : 5;
+      break;
+    case "insurgency":
+      score = 7;
+      break;
+    case "new_babylon":
+      score = enemies.filter(u => !u.isGeneral).some(u => u.currentHealth <= 2) ? 12 : 9;
+      break;
+    case "antiquarian":
+      score = friendlies.length > 1 ? 6 : 2;
+      break;
+    case "thought_virus":
+      score = 12;
+      break;
+    default:
+      score = 5;
   }
+  return score > 0 ? { action: { type: "bloodborn_spell" }, score } : null;
 }
 
 export function getAIMulliganIndices(hand: DuelystCard[]): number[] {

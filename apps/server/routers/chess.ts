@@ -5,6 +5,7 @@
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
 import { logger } from "../logger";
+import { grantCardReward } from "../services/cardRewardService";
 import { eq, and, desc, sql, gte, ne } from "drizzle-orm";
 import { protectedProcedure, adminProcedure, router } from "../_core/trpc";
 import { getDb, type DrizzleDb } from "../db";
@@ -1993,6 +1994,15 @@ async function finalizeTournament(tournamentId: number): Promise<void> {
         message: `You placed #${i + 1} and earned ${prize} Dream tokens.`,
         actionUrl: "/chess",
       });
+    }
+
+    // Grant card reward to tournament winner
+    if (ranked.length > 0) {
+      try {
+        await grantCardReward(ranked[0].userId, "chess_tournament");
+      } catch (e) {
+        logger.warn("Failed to grant chess tournament card reward", e);
+      }
     }
   }
 }

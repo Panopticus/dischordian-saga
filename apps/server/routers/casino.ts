@@ -13,12 +13,14 @@
      6. Returns the game result + updated state snapshot
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
-import { router, protectedProcedure, publicProcedure } from "../_core/trpc";
+import { router, protectedProcedure, publicProcedure, adminProcedure } from "../_core/trpc";
 import { getDb, type DrizzleDb } from "../db";
+import { logger } from "../logger";
+import { grantCardReward } from "../services/cardRewardService";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import {
   casinoState, casinoResults, casinoJackpotPool, dreamBalance, userAchievements,
-  warTerritories, warSeasons, notifications,
+  warTerritories, warSeasons, notifications, users, adminAuditLog,
 } from "../../db/schema";
 import { eq, and, sql, desc } from "drizzle-orm";
 
@@ -882,6 +884,98 @@ export const casinoRouter = router({
       return { ok: true };
     }),
 
+  /** Toggle the user's jackpot broadcast opt-out preference. When
+   *  enabled, the user is excluded from the system notification blast
+   *  fanned out on claimJackpot. They can still see the leaderboard. */
+  setJackpotBroadcastOptOut: protectedProcedure
+    .use(checkFeatureFlag("casino"))
+    .input(z.object({ optOut: z.boolean() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      await ensureCasinoState(db, ctx.user.id);
+      await db
+        .update(casinoState)
+        .set({ jackpotBroadcastOptOut: input.optOut })
+        .where(eq(casinoState.userId, ctx.user.id));
+      return { optOut: input.optOut };
+    }),
+
+  /** Toggle the user's milestone broadcast opt-out preference. When
+   *  enabled, the user is excluded from Christmas in July community
+   *  milestone broadcasts specifically. Independent from jackpot
+   *  opt-out so users can tune each stream separately. */
+  setMilestoneBroadcastOptOut: protectedProcedure
+    .use(checkFeatureFlag("casino"))
+    .input(z.object({ optOut: z.boolean() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      await ensureCasinoState(db, ctx.user.id);
+      await db
+        .update(casinoState)
+        .set({ milestoneBroadcastOptOut: input.optOut })
+        .where(eq(casinoState.userId, ctx.user.id));
+      return { optOut: input.optOut };
+    }),
+
+  /** GM-facing seasonal reset. Zeros the session counters, current
+   *  streak, and daily wager without touching lifetime totals,
+   *  collectedTales, gamesPlayed, gamesWon, or unlocked rewards.
+   *  Accepts an optional userId to target a single player; otherwise
+   *  resets every row. */
+  adminResetCasinoSession: adminProcedure
+    .input(z.object({ userId: z.number().int().positive().optional() }).optional())
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      const resetFields = {
+        sessionWins: 0,
+        sessionLosses: 0,
+        currentStreak: 0,
+        dailyWagered: 0,
+        freeSpinsLeft: 3,
+        consecutiveFactionWins: 0,
+        consecutiveGauntletWins: 0,
+      } as const;
+      let reset = 0;
+      let scope: "single" | "all";
+      if (input?.userId) {
+        await db
+          .update(casinoState)
+          .set(resetFields)
+          .where(eq(casinoState.userId, input.userId));
+        reset = 1;
+        scope = "single";
+      } else {
+        const result = await db
+          .update(casinoState)
+          .set(resetFields);
+        // Drizzle MySQL update doesn't return rowCount; return a
+        // sentinel so the admin UI knows it ran.
+        reset = (result as unknown as { affectedRows?: number }).affectedRows ?? 0;
+        scope = "all";
+      }
+      // Admin audit log — any economy-adjacent state change should
+      // be traceable to the admin who executed it. Fire-and-forget
+      // so a logging failure doesn't undo the reset.
+      try {
+        await db.insert(adminAuditLog).values({
+          adminId: ctx.user.id,
+          action: "casino.adminResetCasinoSession",
+          details: {
+            scope,
+            targetUserId: input?.userId ?? null,
+            affectedRows: reset,
+            resetFields,
+          },
+        });
+      } catch {
+        /* audit log is best-effort */
+      }
+      return { reset, scope };
+    }),
+
   /** Public leaderboard of biggest jackpots. */
   jackpotLeaderboard: publicProcedure
     .use(checkFeatureFlag("casino"))
@@ -895,6 +989,83 @@ export const casinoRouter = router({
         .where(eq(casinoResults.jackpot, true))
         .orderBy(desc(casinoResults.payout))
         .limit(input?.limit ?? 10);
+    }),
+
+  /** Leaderboard of players by total casino achievements unlocked.
+   *  Scans the user_achievements table for all rows whose
+   *  achievementId matches a CASINO_ACHIEVEMENTS entry. Returns the
+   *  top N users by count, highest first. */
+  achievementLeaderboard: publicProcedure
+    .use(checkFeatureFlag("casino"))
+    .input(z.object({ limit: z.number().min(1).max(50).default(10) }).optional())
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const limit = input?.limit ?? 10;
+      // CASINO_ACHIEVEMENTS is the canonical set. Filter the
+      // user_achievements table by this list so non-casino
+      // achievements don't pollute the count.
+      const CASINO_ACHIEVEMENT_IDS = [
+        "first_bet", "high_roller", "jackpot", "streak_5", "all_games",
+        "poker_flush", "perfect_21", "chain_10", "vip_3", "whale",
+        "royal_flush", "lucky_7", "all_in", "house_loses", "degens_chosen",
+        "breaking_even", "liars_champion", "tournament_winner", "bingo_caller",
+        "faction_prophet", "dream_survivor", "gauntlet_master", "tale_collector",
+        "degen_favor_max", "scratched_cursed",
+      ];
+      // Group-by + count in a single query, joined against users so we
+      // can return the display name directly. Drizzle's `leftJoin` is
+      // preferable to a separate user lookup round-trip.
+      const rows = await db
+        .select({
+          userId: userAchievements.userId,
+          name: users.name,
+          count: sql<number>`COUNT(*)`.as("count"),
+        })
+        .from(userAchievements)
+        .leftJoin(users, eq(users.id, userAchievements.userId))
+        .where(sql`${userAchievements.achievementId} IN (${sql.join(CASINO_ACHIEVEMENT_IDS.map(id => sql`${id}`), sql`, `)})`)
+        .groupBy(userAchievements.userId, users.name)
+        .orderBy(sql`count DESC`)
+        .limit(limit);
+      return rows;
+    }),
+
+  /** "First to earn" leaderboard for rare achievements. Returns the
+   *  first player to unlock each of the hidden legendary achievements,
+   *  along with when they did so. */
+  achievementFirstClaims: publicProcedure
+    .use(checkFeatureFlag("casino"))
+    .query(async () => {
+      const db = await getDb();
+      if (!db) return [];
+      const RARE_IDS = ["jackpot", "royal_flush", "degens_chosen", "breaking_even", "tale_collector", "degen_favor_max"];
+      const claims: Array<{
+        achievementId: string;
+        userId: number | null;
+        name: string | null;
+        earnedAt: Date | null;
+      }> = [];
+      for (const id of RARE_IDS) {
+        const [row] = await db
+          .select({
+            userId: userAchievements.userId,
+            earnedAt: userAchievements.earnedAt,
+            name: users.name,
+          })
+          .from(userAchievements)
+          .leftJoin(users, eq(users.id, userAchievements.userId))
+          .where(eq(userAchievements.achievementId, id))
+          .orderBy(userAchievements.earnedAt)
+          .limit(1);
+        claims.push({
+          achievementId: id,
+          userId: row?.userId ?? null,
+          name: row?.name ?? null,
+          earnedAt: row?.earnedAt ?? null,
+        });
+      }
+      return claims;
     }),
 
   /** Current progressive jackpot pool balance + last winner. */
@@ -994,9 +1165,11 @@ export const casinoRouter = router({
         const alreadyBroadcast = pool.lastBroadcastAt &&
           Date.now() - pool.lastBroadcastAt.getTime() < 60_000;
         if (!alreadyBroadcast) {
+          // Exclude users who've opted out of jackpot broadcasts.
           const participants = await tx
             .select({ userId: casinoState.userId })
-            .from(casinoState);
+            .from(casinoState)
+            .where(eq(casinoState.jackpotBroadcastOptOut, false));
           if (participants.length > 0) {
             const winnerName = ctx.user.name ?? `Captain #${ctx.user.id}`;
             const rows = participants.map(p => ({
@@ -1021,6 +1194,13 @@ export const casinoRouter = router({
               .set({ lastBroadcastAt: new Date() })
               .where(eq(casinoJackpotPool.poolKey, "main"));
           }
+        }
+
+        // Grant card reward for jackpot win
+        try {
+          await grantCardReward(ctx.user.id, "casino_jackpot");
+        } catch (e) {
+          logger.warn("Failed to grant casino jackpot card reward", e);
         }
 
         return { payout, newBalance: retained, retained };

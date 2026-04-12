@@ -137,11 +137,29 @@ const GAME_LABELS: Record<string, string> = {
 };
 
 export default function CasinoLeaderboardPage() {
+  const utils = trpc.useUtils();
   const leaderboardQuery = trpc.casino.jackpotLeaderboard.useQuery({ limit: 25 });
+  const achievementBoardQuery = trpc.casino.achievementLeaderboard.useQuery({ limit: 10 });
+  const firstClaimsQuery = trpc.casino.achievementFirstClaims.useQuery();
   const poolQuery = trpc.casino.getJackpotPool.useQuery(undefined, { refetchInterval: 10_000 });
+  const stateQuery = trpc.casino.getState.useQuery(undefined, { retry: false });
   const claimMut = trpc.casino.claimJackpot.useMutation({
     onSuccess: () => poolQuery.refetch(),
   });
+  const jackpotOptOutMut = trpc.casino.setJackpotBroadcastOptOut.useMutation({
+    onSuccess: () => {
+      utils.casino.getState.invalidate();
+      toast.success("Updated notification preference");
+    },
+  });
+  const milestoneOptOutMut = trpc.casino.setMilestoneBroadcastOptOut.useMutation({
+    onSuccess: () => {
+      utils.casino.getState.invalidate();
+      toast.success("Updated notification preference");
+    },
+  });
+  const jackpotOptedOut = Boolean(stateQuery.data?.jackpotBroadcastOptOut);
+  const milestoneOptedOut = Boolean(stateQuery.data?.milestoneBroadcastOptOut);
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -201,10 +219,108 @@ export default function CasinoLeaderboardPage() {
               Paid out {claimMut.data?.payout} Dream! Your balance has been credited.
             </p>
           )}
+          <div className="mt-4 pt-4 border-t border-amber-500/20 space-y-2">
+            <p className="text-[10px] font-mono text-amber-400/40 uppercase tracking-widest">
+              Notification preferences
+            </p>
+            <label className="flex items-center gap-2 text-[10px] font-mono text-amber-400/60 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={jackpotOptedOut}
+                onChange={(e) => jackpotOptOutMut.mutate({ optOut: e.target.checked })}
+                disabled={jackpotOptOutMut.isPending}
+                className="accent-amber-400"
+              />
+              Mute jackpot claim broadcasts
+            </label>
+            <label className="flex items-center gap-2 text-[10px] font-mono text-amber-400/60 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={milestoneOptedOut}
+                onChange={(e) => milestoneOptOutMut.mutate({ optOut: e.target.checked })}
+                disabled={milestoneOptOutMut.isPending}
+                className="accent-amber-400"
+              />
+              Mute Christmas in July milestone broadcasts
+            </label>
+          </div>
         </div>
 
         {/* Cosmetic inventory with equip controls */}
         <CosmeticsInventory />
+
+        {/* Achievement leaderboard — top players by count */}
+        <div className="bg-gradient-to-br from-green-950/20 to-gray-900/40 border border-green-500/30 rounded-xl p-5 mb-6">
+          <h2 className="font-display text-lg text-green-300 mb-3 flex items-center gap-2">
+            <Crown className="w-5 h-5 text-green-400" />
+            Most Achievements
+          </h2>
+          {achievementBoardQuery.isLoading && (
+            <p className="font-mono text-sm text-white/40">Loading…</p>
+          )}
+          {achievementBoardQuery.data && achievementBoardQuery.data.length === 0 && (
+            <p className="font-mono text-xs text-white/30">No achievements unlocked yet.</p>
+          )}
+          {achievementBoardQuery.data && achievementBoardQuery.data.length > 0 && (
+            <div className="space-y-2">
+              {achievementBoardQuery.data.map((row, i) => (
+                <div
+                  key={row.userId}
+                  className={`flex items-center gap-3 p-2 rounded-lg border font-mono text-sm ${
+                    i === 0 ? "bg-green-500/10 border-green-500/40" : "bg-gray-900/40 border-gray-700/20"
+                  }`}
+                >
+                  <span className={`w-8 text-center ${i === 0 ? "text-green-300" : "text-white/30"}`}>
+                    #{i + 1}
+                  </span>
+                  <span className="flex-1 text-white/70">
+                    {row.name ?? `Captain #${row.userId}`}
+                  </span>
+                  <span className={i === 0 ? "text-green-300 font-bold" : "text-green-400/70"}>
+                    {row.count} unlocked
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* First-to-earn rare achievements */}
+        <div className="bg-gradient-to-br from-purple-950/20 to-gray-900/40 border border-purple-500/30 rounded-xl p-5 mb-8">
+          <h2 className="font-display text-lg text-purple-300 mb-3 flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-purple-400" />
+            First to Earn
+          </h2>
+          {firstClaimsQuery.isLoading && (
+            <p className="font-mono text-sm text-white/40">Loading…</p>
+          )}
+          {firstClaimsQuery.data && (
+            <div className="space-y-2">
+              {firstClaimsQuery.data.map((claim) => (
+                <div
+                  key={claim.achievementId}
+                  className="flex items-center gap-3 p-2 rounded-lg border border-purple-500/20 bg-gray-900/40 font-mono text-xs"
+                >
+                  <span className="flex-1 text-purple-300 uppercase tracking-widest">
+                    {claim.achievementId.replace(/_/g, " ")}
+                  </span>
+                  {claim.userId != null ? (
+                    <>
+                      <span className="text-white/60">
+                        {claim.name ?? `Captain #${claim.userId}`}
+                      </span>
+                      <span className="text-[10px] text-white/30">
+                        {claim.earnedAt ? new Date(claim.earnedAt).toLocaleDateString() : ""}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-white/20">unclaimed</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* Top jackpots */}
         <h2 className="font-display text-lg text-amber-300 mb-3 flex items-center gap-2">

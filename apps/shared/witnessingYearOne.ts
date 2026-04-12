@@ -290,6 +290,58 @@ export const BEAT_CHRONICLE_ENTRIES: readonly BeatChronicleEntry[] = [
     body:
       "The Vortex paused. I was in the middle of a sentence when the pause happened and I did not finish the sentence because the room went quiet in a way rooms do not normally go quiet. The Ark's crew came out onto the Observation Deck and stood there for a full minute. Nobody spoke. Then somebody said 'again tomorrow.' That is what we are doing. Again tomorrow.",
   },
+
+  /* ─── ENGINEER HOLOGRAPHIC RECORDINGS ─── */
+
+  {
+    flag: "engineer_recording_1_discovered",
+    order: 31,
+    title: "The Bench Speaks",
+    body:
+      "A hologram activated in the Engineering bay. A young man in a red coat, speaking with the calm certainty of someone who has already left. He was giving instructions. To Kael. To the bench. To whoever found the recording first. I am writing this with my hand shaking. I have not heard his voice in years.",
+  },
+  {
+    flag: "engineer_recording_2_discovered",
+    order: 32,
+    title: "The Prince's Truth",
+    body:
+      "The second recording materialized in the Archives. The prince described what he saw through the Game Master's goggles: Celebration was a simulation. A death loop. Thousands of children. His parents, props in a play that reset every four years. He took the death traps apart one by one. His entire class survived. I am writing this because I was wrong about Celebration for my entire career.",
+  },
+  {
+    flag: "engineer_recording_3_discovered",
+    order: 33,
+    title: "Ghosts in the System",
+    body:
+      "The third recording appeared on the Observation Deck. He built an invisible network — his classmates from Celebration, placed across the universe, erased from every record by the Eyes. An army of geniuses that fixes things instead of breaking them. Revolution of thought. I am writing this and checking the records because I cannot find them either.",
+  },
+  {
+    flag: "engineer_recording_4_discovered",
+    order: 34,
+    title: "The Line That Was Crossed",
+    body:
+      "The fourth recording surfaced in the Comms Array. He spoke about the Eyes. His friend. The one who helped him erase his network from every database in the Empire. Then the Authority killed the Eyes. Then they took Kael. I am writing this because the recording ended and nobody on the Ark moved for three minutes.",
+  },
+  {
+    flag: "engineer_recording_5_discovered",
+    order: 35,
+    title: "Instructions for Theft",
+    body:
+      "The fifth recording appeared on the Bridge. Steal Ark 7. The Panopticon's orbital pattern. The coordinates he sent from a cell in New Babylon. He calculated the orbital mechanics in his head. I am writing this because I have verified the math and it is correct to eleven decimal places.",
+  },
+  {
+    flag: "engineer_recording_6_discovered",
+    order: 36,
+    title: "A Boy from Celebration",
+    body:
+      "The sixth recording materialized in Medical. He knew he was going to die. He had a device that could save him — but Agent Zero was still alive inside the Warlord's nanoswarm. He chose to save her instead. He told us to find her. To tell her that a boy from Celebration loved building things more than he loved living. I am writing this and I cannot see the page.",
+  },
+  {
+    flag: "engineer_recording_7_discovered",
+    order: 37,
+    title: "Prayers in Metal",
+    body:
+      "The final recording. The Captain's Quarters. His last words, recorded the night before his execution. Every card is a prayer he wrote in metal. The Deck does not care who holds it. It cares that someone does. He said he was probably dead by the time we heard this. He said that was fine. He said the bench hums and the Deck remembers and that is enough. I am writing this for the last time about the Engineer. It is not enough. It was never enough. But it is what he left us.",
+  },
 ];
 
 export function listBeatChronicleEntries(): readonly BeatChronicleEntry[] {

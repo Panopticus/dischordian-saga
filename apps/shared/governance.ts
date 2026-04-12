@@ -219,3 +219,13 @@ export function generateAntiquarianInscription(
     `we shall see. I inscribe this without judgment. The Dreamer watches. The Architect calculates. ` +
     `I merely write.`;
 }
+
+/* ─── ENGINEER RECORDING VOTES ─── */
+
+/**
+ * Re-export the Engineer's recording-triggered governance votes for
+ * integration with the hub.  See engineerGovernanceVotes.ts for the
+ * full vote definitions.
+ */
+export { ENGINEER_GOVERNANCE_VOTES, getAvailableEngineerVotes } from "./engineerGovernanceVotes";
+export type { EngineerGovernanceVote } from "./engineerGovernanceVotes";

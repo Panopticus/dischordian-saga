@@ -220,9 +220,9 @@ import {
 } from "../shared/livingUniverseEvents";
 
 describe("Living Universe shared library", () => {
-  it("has exactly 6 emergent events", () => {
-    // 5 base events + vox_revelation (added by the thought-virus mechanics branch)
-    expect(ALL_EMERGENT_EVENTS.length).toBe(6);
+  it("has exactly 7 emergent events", () => {
+    // 5 base events + vox_revelation + vortex_stirs (Engineer's Deck resonance)
+    expect(ALL_EMERGENT_EVENTS.length).toBe(7);
   });
 
   it("each event has a typicalCycleDays (used for expiry computation)", () => {

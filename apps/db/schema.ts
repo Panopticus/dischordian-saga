@@ -252,6 +252,14 @@ export const cardGameMatches = mysqlTable("card_game_matches", {
   vpEarned: int("vpEarned").notNull().default(0),
   startedAt: timestamp("startedAt").defaultNow().notNull(),
   endedAt: timestamp("endedAt"),
+  /** Deterministic match seed — used for replay reproduction. */
+  seed: varchar("seed", { length: 64 }),
+  /** Rules engine version the match was played on — for replay pinning. */
+  rulesVersion: varchar("rulesVersion", { length: 16 }),
+  /** Gzipped JSON action log — the full replay data. */
+  actionLog: text("actionLog"),
+  /** SHA-256 hash of the final game state — desync audit + replay verify. */
+  finalStateHash: varchar("finalStateHash", { length: 64 }),
 });
 
 export type CardGameMatch = typeof cardGameMatches.$inferSelect;
@@ -2403,8 +2411,22 @@ export const gameReplays = mysqlTable("game_replays", {
   duration: int("duration").notNull().default(0),
   featured: boolean("featured").notNull().default(false),
   tags: json("tags").$type<string[]>(),
+  /** Deterministic seed — enables pure replay reproduction (WS9). */
+  seed: varchar("seed", { length: 64 }),
+  /** Rules engine version this replay was recorded under. */
+  rulesVersion: varchar("rulesVersion", { length: 16 }),
+  /** SHA-256 hash of the final state — replay verification. */
+  finalStateHash: varchar("finalStateHash", { length: 64 }),
+  /** Player 1 deck/faction config snapshot (JSON). */
+  p1Config: json("p1Config").$type<Record<string, unknown>>(),
+  /** Player 2 deck/faction config snapshot (JSON). */
+  p2Config: json("p2Config").$type<Record<string, unknown>>(),
   playedAt: timestamp("playedAt").defaultNow().notNull(),
-});
+}, (table) => ({
+  gameTypeIdx: index("idx_game_replays_game_type").on(table.gameType),
+  player1Idx: index("idx_game_replays_player1").on(table.player1Id),
+  featuredIdx: index("idx_game_replays_featured").on(table.featured),
+}));
 export type GameReplayRow = typeof gameReplays.$inferSelect;
 
 /* ─── PERSONAL QUARTERS ─── */
@@ -3518,6 +3540,13 @@ export const casinoState = mysqlTable("casino_state", {
    *  cosmetic per slot (title / chip / card_back / table_felt /
    *  companion / loredex). */
   equippedCasinoCosmetics: json("equippedCasinoCosmetics").$type<Record<string, string>>().default({}),
+  /** If true, the player is excluded from the progressive jackpot
+   *  claim broadcast blast. They can still see the leaderboard. */
+  jackpotBroadcastOptOut: boolean("jackpotBroadcastOptOut").notNull().default(false),
+  /** If true, the player is excluded from Christmas in July community
+   *  milestone broadcasts. Independent from jackpot opt-out so users
+   *  can keep one stream of notifications while muting the other. */
+  milestoneBroadcastOptOut: boolean("milestoneBroadcastOptOut").notNull().default(false),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({
@@ -3801,3 +3830,253 @@ export const crewMissions = mysqlTable("crew_missions", {
 
 export type CrewMissionRow = typeof crewMissions.$inferSelect;
 export type InsertCrewMission = typeof crewMissions.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   CAMPAIGN PROGRESS — Story Mode state persistence (WS6)
+   Tracks per-chapter completion, branch choices, morality
+   axis scores, and encounter-specific data.
+   ═══════════════════════════════════════════════════════ */
+
+export const campaignProgress = mysqlTable("campaign_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Which chapter this row tracks (e.g. "ch1_dead_signal"). */
+  chapterId: varchar("chapterId", { length: 64 }).notNull(),
+  /** Current status of this chapter for this user. */
+  status: mysqlEnum("status", ["locked", "unlocked", "in_progress", "completed"]).default("locked").notNull(),
+  /** Star rating 0-3 (0 = not completed, 3 = flawless). */
+  stars: int("stars").notNull().default(0),
+  /** Number of times the player has beaten this chapter. */
+  completionCount: int("completionCount").notNull().default(0),
+  /** Best turn count (lower = better, for leaderboard). */
+  bestTurns: int("bestTurns"),
+  /** Branch choices made during this chapter. */
+  branchChoices: json("branchChoices").$type<Record<string, string>>(),
+  /** Dialog wheel selections — keys chosen by the player. */
+  dialogChoices: json("dialogChoices").$type<string[]>(),
+  /** Morality axis shifts accumulated in this chapter.
+   *  { truth: +2, defiance: -1, empathy: +3, acceptance: 0 } */
+  moralityShifts: json("moralityShifts").$type<Record<string, number>>(),
+  /** Memory fragments unlocked. */
+  memoryFragments: json("memoryFragments").$type<string[]>(),
+  /** Power-ups gained. */
+  powersGained: json("powersGained").$type<string[]>(),
+  /** If a match was played, the cardGameMatch id for replay. */
+  matchId: int("matchId"),
+  firstCompletedAt: timestamp("firstCompletedAt"),
+  lastPlayedAt: timestamp("lastPlayedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userChapterIdx: uniqueIndex("uq_campaign_user_chapter").on(table.userId, table.chapterId),
+  userStatusIdx: index("idx_campaign_user_status").on(table.userId, table.status),
+}));
+
+export type CampaignProgressRow = typeof campaignProgress.$inferSelect;
+export type InsertCampaignProgress = typeof campaignProgress.$inferInsert;
+
+/**
+ * Campaign global state — one row per user.
+ * Tracks aggregate morality axes, current chapter, global branches.
+ */
+export const campaignState = mysqlTable("campaign_state", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  /** Current chapter the player is on (1-12). */
+  currentChapter: int("currentChapter").notNull().default(1),
+  /** Global branch state { branchA: "iron-lion", branchB: "enigma" }. */
+  branches: json("branches").$type<Record<string, string>>(),
+  /** Aggregate morality axes across all chapters.
+   *  { truth: 5, defiance: -2, empathy: 8, acceptance: 3 } */
+  moralityAxes: json("moralityAxes").$type<Record<string, number>>(),
+  /** Corruption arc encounters completed. */
+  corruptionArcCompleted: json("corruptionArcCompleted").$type<string[]>(),
+  /** Source boss defeated. */
+  sourceBossDefeated: int("sourceBossDefeated").notNull().default(0),
+  /** Season finale completed. */
+  finaleCompleted: int("finaleCompleted").notNull().default(0),
+  /** Season finale vote choice. */
+  finaleVote: varchar("finaleVote", { length: 64 }),
+  /** Total stars earned across all chapters. */
+  totalStars: int("totalStars").notNull().default(0),
+  /** Fighters unlocked through story progression. */
+  unlockedFighters: json("unlockedFighters").$type<string[]>(),
+  /** Videos unlocked through story progression. */
+  unlockedVideos: json("unlockedVideos").$type<string[]>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_campaign_state_user_id").on(table.userId),
+}));
+
+export type CampaignStateRow = typeof campaignState.$inferSelect;
+export type InsertCampaignState = typeof campaignState.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   TUTORIAL PROGRESS — 4-gate tutorial tracking (WS7)
+   ═══════════════════════════════════════════════════════ */
+
+export const tutorialProgress = mysqlTable("tutorial_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  /** Which gates have been completed (bitmask: bit0=gate1, bit1=gate2, etc). */
+  completedGates: int("completedGates").notNull().default(0),
+  /** Currently active gate (1-4, or 0 if not started, 5 if all done). */
+  currentGate: int("currentGate").notNull().default(0),
+  /** Has the new player grant been awarded? */
+  grantAwarded: int("grantAwarded").notNull().default(0),
+  /** Per-gate completion timestamps. */
+  gateTimestamps: json("gateTimestamps").$type<Record<string, string>>(),
+  /** Tutorial skip flag (admin/debug only). */
+  skipped: int("skipped").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_tutorial_progress_user_id").on(table.userId),
+}));
+
+export type TutorialProgressRow = typeof tutorialProgress.$inferSelect;
+export type InsertTutorialProgress = typeof tutorialProgress.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   RANKED SEASONS — Competitive TCG ladder (WS8)
+   ═══════════════════════════════════════════════════════ */
+
+export const rankedSeasons = mysqlTable("ranked_seasons", {
+  id: int("id").autoincrement().primaryKey(),
+  seasonNumber: int("seasonNumber").notNull().unique(),
+  name: varchar("name", { length: 128 }).notNull(),
+  /** Ranked tiers: Bronze→Silver→Gold→Diamond→Master→Legend. */
+  tiers: json("tiers").$type<Array<{
+    id: string;
+    name: string;
+    minRating: number;
+    maxRating: number;
+    icon: string;
+  }>>(),
+  /** Starting rating for new players this season. */
+  startingRating: int("startingRating").notNull().default(1000),
+  /** K-factor for ELO calculation. */
+  kFactor: int("kFactor").notNull().default(32),
+  /** Season end rewards per tier (JSON). */
+  tierRewards: json("tierRewards").$type<Record<string, {
+    dreamTokens: number;
+    packCredits: number;
+    cardBackId?: string;
+    titleId?: string;
+  }>>(),
+  status: mysqlEnum("status", ["upcoming", "active", "ended"]).default("upcoming").notNull(),
+  startsAt: timestamp("startsAt").notNull(),
+  endsAt: timestamp("endsAt").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type RankedSeasonRow = typeof rankedSeasons.$inferSelect;
+export type InsertRankedSeason = typeof rankedSeasons.$inferInsert;
+
+/**
+ * Per-user ranked season record.
+ */
+export const rankedRecords = mysqlTable("ranked_records", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  seasonId: int("seasonId").notNull(),
+  rating: int("rating").notNull().default(1000),
+  peakRating: int("peakRating").notNull().default(1000),
+  wins: int("wins").notNull().default(0),
+  losses: int("losses").notNull().default(0),
+  winStreak: int("winStreak").notNull().default(0),
+  bestWinStreak: int("bestWinStreak").notNull().default(0),
+  /** Current tier id (e.g. "gold_3"). */
+  currentTier: varchar("currentTier", { length: 32 }).default("bronze_1"),
+  /** Has this player received end-of-season rewards? */
+  rewardsClaimed: int("rewardsClaimed").notNull().default(0),
+  lastMatchAt: timestamp("lastMatchAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userSeasonIdx: uniqueIndex("uq_ranked_user_season").on(table.userId, table.seasonId),
+  ratingIdx: index("idx_ranked_rating").on(table.seasonId, table.rating),
+}));
+
+export type RankedRecordRow = typeof rankedRecords.$inferSelect;
+export type InsertRankedRecord = typeof rankedRecords.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   CELEBRATION TRIAL — 28-day Apprentice training persistence
+   ═══════════════════════════════════════════════════════ */
+
+export const celebrationTrialState = mysqlTable("celebration_trial_state", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Apprentice id from client (UUID-style) */
+  apprenticeId: varchar("apprenticeId", { length: 64 }).notNull(),
+  trialDay: int("trialDay").notNull().default(1),
+  bond: int("bond").notNull().default(0),
+  corruption: int("corruption").notNull().default(0),
+  missedDays: int("missedDays").notNull().default(0),
+  stage: varchar("stage", { length: 32 }).notNull().default("training"),
+  /** Wall-clock timestamp when trial started (for pacing) */
+  trialStartedAt: timestamp("trialStartedAt").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userApprenticeIdx: uniqueIndex("uq_trial_user_apprentice").on(table.userId, table.apprenticeId),
+  userIdx: index("idx_trial_user").on(table.userId),
+}));
+
+export type CelebrationTrialStateRow = typeof celebrationTrialState.$inferSelect;
+
+/** Per-day decision log — one row per resolved trial day */
+export const celebrationTrialHistory = mysqlTable("celebration_trial_history", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  apprenticeId: varchar("apprenticeId", { length: 64 }).notNull(),
+  day: int("day").notNull(),
+  mascoteerId: varchar("mascoteerId", { length: 64 }).notNull(),
+  decisionId: varchar("decisionId", { length: 128 }).notNull(),
+  optionId: varchar("optionId", { length: 64 }).notNull(),
+  bondDelta: int("bondDelta").notNull().default(0),
+  corruptionDelta: int("corruptionDelta").notNull().default(0),
+  moralityDelta: int("moralityDelta").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userApprenticeIdx: index("idx_trial_history_user_apprentice").on(table.userId, table.apprenticeId),
+  userDayIdx: uniqueIndex("uq_trial_history_day").on(table.userId, table.apprenticeId, table.day),
+}));
+
+export type CelebrationTrialHistoryRow = typeof celebrationTrialHistory.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   MECHRONIS ACADEMY — Lesson transcript + professor approval
+   ═══════════════════════════════════════════════════════ */
+
+export const academyTranscript = mysqlTable("academy_transcript", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  day: int("day").notNull(),
+  professorId: varchar("professorId", { length: 64 }).notNull(),
+  lessonId: varchar("lessonId", { length: 128 }).notNull(),
+  grade: varchar("grade", { length: 16 }).notNull(),
+  skillXpDelta: int("skillXpDelta").notNull().default(0),
+  corruptionDelta: int("corruptionDelta").notNull().default(0),
+  approvalDelta: int("approvalDelta").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_academy_transcript_user").on(table.userId),
+  userDayIdx: uniqueIndex("uq_academy_transcript_day").on(table.userId, table.day),
+}));
+
+export type AcademyTranscriptRow = typeof academyTranscript.$inferSelect;
+
+export const professorApproval = mysqlTable("professor_approval", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  professorId: varchar("professorId", { length: 64 }).notNull(),
+  approval: int("approval").notNull().default(50),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userProfIdx: uniqueIndex("uq_prof_approval_user_prof").on(table.userId, table.professorId),
+}));
+
+export type ProfessorApprovalRow = typeof professorApproval.$inferSelect;

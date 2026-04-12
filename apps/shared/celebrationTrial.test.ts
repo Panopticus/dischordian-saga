@@ -3,9 +3,15 @@ import {
   generateDailyDecision,
   computeDeathProbability,
   rollForDeath,
+  computeTrialPacing,
+  summarizeTrial,
+  trialToCombatBuff,
+  MASCOTEER_DECISIONS,
+  DAY_MS,
   TRIAL_LENGTH_DAYS,
   DEATH_GRACE_DAYS,
   DEATH_PROBABILITY_BASE,
+  type TrialHistoryEntry,
 } from "./celebrationTrial";
 
 describe("celebrationTrial", () => {
@@ -107,6 +113,156 @@ describe("celebrationTrial", () => {
     it("day number matches input", () => {
       const d = generateDailyDecision(15);
       expect(d.day).toBe(15);
+    });
+  });
+
+  describe("MASCOTEER_DECISIONS coverage", () => {
+    const EXPECTED_MASCOTEERS = [
+      "the_conductor", "mr_unblink", "little_corey", "vernon", "minnie",
+      "wanda_wee", "senator_sprout", "wayne", "gary", "thazu",
+      "the_prince", "the_seeker_child",
+    ];
+
+    it("has all 12 canonical Mascoteers", () => {
+      for (const id of EXPECTED_MASCOTEERS) {
+        expect(MASCOTEER_DECISIONS[id]).toBeDefined();
+      }
+      expect(Object.keys(MASCOTEER_DECISIONS).sort()).toEqual([...EXPECTED_MASCOTEERS].sort());
+    });
+
+    it("each Mascoteer has at least 2 decisions so the 28-day trial doesn't loop on one prompt", () => {
+      for (const [id, decisions] of Object.entries(MASCOTEER_DECISIONS)) {
+        expect(decisions.length, `${id} decision count`).toBeGreaterThanOrEqual(2);
+      }
+    });
+
+    it("every decision option has 3 options with outcome deltas", () => {
+      for (const [id, decisions] of Object.entries(MASCOTEER_DECISIONS)) {
+        for (const d of decisions) {
+          expect(d.options.length, `${id}/${d.id} option count`).toBe(3);
+          for (const opt of d.options) {
+            expect(opt.id).toBeTruthy();
+            expect(opt.label).toBeTruthy();
+            expect(opt.description).toBeTruthy();
+            expect(opt.outcome.resultFlavor).toBeTruthy();
+          }
+        }
+      }
+    });
+  });
+
+  describe("computeTrialPacing", () => {
+    it("returns day 1 on the day of recruitment", () => {
+      const recruited = 1_000_000_000;
+      const p = computeTrialPacing(recruited, 1, recruited);
+      expect(p.expectedDay).toBe(1);
+      expect(p.missedDays).toBe(0);
+      expect(p.graduatedByTime).toBe(false);
+    });
+
+    it("advances one expected day per real day", () => {
+      const recruited = 1_000_000_000;
+      const p = computeTrialPacing(recruited, 1, recruited + 3 * DAY_MS);
+      expect(p.expectedDay).toBe(4);
+      expect(p.missedDays).toBe(3);
+    });
+
+    it("caps expectedDay at TRIAL_LENGTH_DAYS + 1 and flags graduation", () => {
+      const recruited = 1_000_000_000;
+      const p = computeTrialPacing(recruited, 1, recruited + 500 * DAY_MS);
+      expect(p.expectedDay).toBe(TRIAL_LENGTH_DAYS + 1);
+      expect(p.graduatedByTime).toBe(true);
+    });
+
+    it("never reports negative missed days when ahead of schedule", () => {
+      const recruited = 1_000_000_000;
+      const p = computeTrialPacing(recruited, 5, recruited + 1 * DAY_MS);
+      expect(p.missedDays).toBe(0);
+    });
+  });
+
+  describe("summarizeTrial", () => {
+    const mk = (over: Partial<TrialHistoryEntry> = {}): TrialHistoryEntry => ({
+      day: 1, mascoteerId: "the_conductor", decisionId: "conductor_1", optionId: "follow_tradition",
+      bondDelta: 0, corruptionDelta: 0, moralityDelta: 0, ...over,
+    });
+
+    it("returns zeros for empty history", () => {
+      const s = summarizeTrial([]);
+      expect(s.totalBond).toBe(0);
+      expect(s.totalCorruption).toBe(0);
+      expect(s.totalMorality).toBe(0);
+      expect(s.daysResolved).toBe(0);
+      expect(s.avgBond).toBe(0);
+      expect(s.favoredMascoteers).toEqual([]);
+    });
+
+    it("sums deltas and averages bond across resolved days", () => {
+      const s = summarizeTrial([
+        mk({ bondDelta: 4, corruptionDelta: 1, moralityDelta: 2 }),
+        mk({ bondDelta: 6, corruptionDelta: -1, moralityDelta: 3 }),
+      ]);
+      expect(s.totalBond).toBe(10);
+      expect(s.totalCorruption).toBe(0);
+      expect(s.totalMorality).toBe(5);
+      expect(s.avgBond).toBe(5);
+      expect(s.daysResolved).toBe(2);
+    });
+
+    it("computes goodnessScore near 1 for righteous paths", () => {
+      const s = summarizeTrial([
+        mk({ moralityDelta: 5, corruptionDelta: -2 }),
+        mk({ moralityDelta: 5, corruptionDelta: -2 }),
+      ]);
+      expect(s.goodnessScore).toBeGreaterThan(0.5);
+    });
+
+    it("computes goodnessScore near 0 for corrupted paths", () => {
+      const s = summarizeTrial([
+        mk({ moralityDelta: -5, corruptionDelta: 5 }),
+        mk({ moralityDelta: -5, corruptionDelta: 5 }),
+      ]);
+      expect(s.goodnessScore).toBeLessThan(0.5);
+    });
+
+    it("sorts favoredMascoteers by cumulative bond descending", () => {
+      const s = summarizeTrial([
+        mk({ mascoteerId: "vernon", bondDelta: 2 }),
+        mk({ mascoteerId: "the_prince", bondDelta: 10 }),
+        mk({ mascoteerId: "the_prince", bondDelta: 5 }),
+        mk({ mascoteerId: "mr_unblink", bondDelta: -3 }),
+      ]);
+      expect(s.favoredMascoteers).toEqual(["the_prince", "vernon"]);
+      expect(s.mascoteerBond.the_prince).toBe(15);
+    });
+  });
+
+  describe("trialToCombatBuff", () => {
+    it("emits light alignment for high-morality runs", () => {
+      const s = summarizeTrial(Array.from({ length: 14 }, () => ({
+        day: 1, mascoteerId: "the_seeker_child", decisionId: "d", optionId: "o",
+        bondDelta: 5, corruptionDelta: 0, moralityDelta: 5,
+      })));
+      const buff = trialToCombatBuff(s);
+      expect(buff.alignment).toBe("light");
+      expect(buff.attackBonus).toBeGreaterThan(0);
+    });
+
+    it("emits dark alignment for high-corruption runs", () => {
+      const s = summarizeTrial(Array.from({ length: 14 }, () => ({
+        day: 1, mascoteerId: "mr_unblink", decisionId: "d", optionId: "o",
+        bondDelta: 3, corruptionDelta: 5, moralityDelta: -5,
+      })));
+      const buff = trialToCombatBuff(s);
+      expect(buff.alignment).toBe("dark");
+    });
+
+    it("clamps attack bonus to the [-10, 25] range", () => {
+      const s = summarizeTrial([{
+        day: 1, mascoteerId: "x", decisionId: "d", optionId: "o",
+        bondDelta: 9999, corruptionDelta: 0, moralityDelta: 0,
+      }]);
+      expect(trialToCombatBuff(s).attackBonus).toBe(25);
     });
   });
 });

@@ -1,0 +1,49 @@
+/**
+ * s1_song_059 — Lip Service
+ *
+ * Rare spell · Neutral faction · 4 cost
+ * Keywords: (none)
+ *
+ * On cast, the player selects a friendly unit. That unit receives 2
+ * forcefield_charges counters, granting it a damage-absorption shield
+ * of 2. The engine's damage pipeline reads `forcefield_charges` on hit
+ * and subtracts incoming damage from the counter before health.
+ *
+ * Golden tests: test/cards/neutral/s1_song_059_lip_service.test.ts
+ */
+import type { CardDefinition } from "../../../index";
+
+export const cardDef: CardDefinition = {
+  id: "s1_song_059" as CardDefinition["id"],
+  name: "Lip Service",
+  faction: "neutral",
+  cardType: "spell",
+  rarity: "rare",
+  cost: 4,
+  keywords: [],
+  abilities: [
+    {
+      id: "ls_grant_shield_2" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_cast" },
+      effect: {
+        op: "with_target",
+        selector: {
+          kind: "single",
+          filter: { controller: "self" },
+          chooser: "player",
+        },
+        do: {
+          op: "add_counter",
+          kind: "forcefield_charges",
+          amount: 2,
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
+  art:
+    "https://d2xsxph8kpxj0f.cloudfront.net/placeholder_s1_song_059.png",
+  flavorText:
+    "Words may be hollow, but the right incantation can turn them into a barrier no blade can breach.",
+  rulesVersion: "1.0.0",
+};

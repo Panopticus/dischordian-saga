@@ -260,13 +260,16 @@ export default function PetBattlesPage() {
     if (!move) return;
 
     // Player gets the party synergy + arena modifier + skill-node
-    // effects; opponent only sees the arena modifier.
+    // effects; opponent only sees the arena modifier. When the opponent
+    // is attacking, pass the player's skill effects as defenderSkillEffects
+    // so Gilt/Spore armor nodes reduce incoming damage.
     const attackerIsPlayer = battle.turn === "player1";
     const entry = executeMove(attacker, defender, move.id, {
       partyBonuses: attackerIsPlayer ? partyBonuses : EMPTY_PARTY_BONUSES,
       arenaModifier,
       attackerIsPlayer,
       skillEffects: attackerIsPlayer ? activePetSkillEffects : {},
+      defenderSkillEffects: attackerIsPlayer ? {} : activePetSkillEffects,
     });
     // End-of-turn regen (Tidal Flow etc. + skill regen) applies to the player.
     if (attackerIsPlayer) applyTurnPassives(playerPet, partyBonuses, activePetSkillEffects);

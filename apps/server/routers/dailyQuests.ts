@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { logger } from "../logger";
+import { grantCardReward } from "../services/cardRewardService";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { dailyQuests, loginCalendar, dreamBalance, notifications, characterSheets } from "../../db/schema";
@@ -570,6 +571,15 @@ export const dailyQuestsRouter = router({
     // Emit streak milestone ripple for key thresholds
     if ([3, 7, 14, 30].includes(newStreak)) {
       await ripple.emit("daily_streak_milestone", { userId: ctx.user.id, streak: newStreak });
+    }
+
+    // Grant card reward on 7-day login streak
+    if (newStreak === 7) {
+      try {
+        await grantCardReward(ctx.user.id, "daily_quests_streak");
+      } catch (e) {
+        logger.warn("Failed to grant daily quests streak card reward", e);
+      }
     }
 
     return {

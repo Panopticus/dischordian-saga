@@ -25,6 +25,8 @@ import {
   type SeasonPhase,
 } from "../../shared/deadMansCircuit";
 import { ripple } from "../services/rippleEngine";
+import { logger } from "../logger";
+import { grantCardReward } from "../services/cardRewardService";
 
 export const deadMansCircuitRouter = router({
 
@@ -265,6 +267,13 @@ export const deadMansCircuitRouter = router({
           bossKey: "nilmorg_circuit",
           difficulty: `phase_${phase}`,
         });
+
+        // Grant card reward for 1st place finish
+        try {
+          await grantCardReward(ctx.user.id, "dead_mans_circuit");
+        } catch (e) {
+          logger.warn("Failed to grant Dead Man's Circuit card reward", e);
+        }
       }
 
       return {

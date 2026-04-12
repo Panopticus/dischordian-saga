@@ -33,7 +33,7 @@ Each NPC needs: full portrait (512x768), bust (256x256), 4 expression variants, 
 
 ### ADJUDICATOR LOCKE — New Babylon Diplomat
 - **P0** `locke_portrait_full.png` (512x768)
-  - Prompt: "Sharp-featured man in purple formal diplomatic attire, New Babylon insignia (scales of justice with one side weighted), predatory smile, manicured appearance, dark trade office background with holographic market data, purple and gold accents, diplomatic menace, sci-fi politician portrait"
+  - Prompt: "Young fierce woman with purple hair in a ponytail, cybernetic steampunk eye patch over left eye, piercing intelligence in her remaining visible eye, purple formal diplomatic attire, New Babylon insignia (scales of justice with one side weighted), predatory confident smile, dark trade office background with holographic market data, purple and gold accents, diplomatic menace meets youthful ambition, sci-fi diplomat portrait"
   - Expressions: mercantile (smile), predatory (narrowed eyes), collegial (open), judicial (stern)
   - Manifestation overlay: clean signal, purple accent glow
 

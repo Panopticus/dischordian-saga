@@ -80,16 +80,16 @@ export function preloadJSON<T = unknown>(url: string): Promise<T | null> {
 const ROUTE_ASSETS: Record<string, () => Promise<void>[]> = {
   "/fight": () => [
     preloadImage("/art/loading/loading-combat.png"),
-    preloadImage("/art/arena/arena-default.png"),
+    preloadImage("/art/arenas/arena-default.jpg"),
     preloadImage("/art/ui/health-bar.png"),
   ],
   "/pvp": () => [
     preloadImage("/art/loading/loading-combat.png"),
-    preloadImage("/art/arena/arena-default.png"),
+    preloadImage("/art/arenas/arena-default.jpg"),
   ],
   "/chess": () => [
     preloadImage("/art/loading/loading-bridge.png"),
-    preloadImage("/art/chess/board.png"),
+    preloadImage("/art/chess/chess-holographic-board.png"),
     preloadImage("/art/chess/pieces-sprite.png"),
   ],
   "/trade": () => [
@@ -153,6 +153,14 @@ const ROUTE_ASSETS: Record<string, () => Promise<void>[]> = {
   ],
   "/common-room": () => [
     preloadImage("/art/loading/loading-matrix-of-dreams.png"),
+  ],
+  "/academy": () => [
+    preloadImage("/art/mechronis/environments/mechronis_classroom.jpg"),
+    preloadImage("/art/mechronis/environments/mechronis_grand_hall.jpg"),
+  ],
+  "/apprentice": () => [
+    preloadImage("/art/celebration/environments/celebration_aerial.jpg"),
+    preloadImage("/art/celebration/environments/celebration_trial_room.jpg"),
   ],
   "/casino": () => {
     // Lazy-import to avoid bundling casino URLs in every route's chunk

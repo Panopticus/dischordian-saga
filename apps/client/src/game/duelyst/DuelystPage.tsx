@@ -3,11 +3,15 @@
    Connects: Menu, Tutorial, Faction Select, Battle,
    Collection, Deck Builder, Pack Opening, Ranked Ladder
    ═══════════════════════════════════════════════════════ */
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { useSearch } from "wouter";
 import type { Faction } from "./types";
+import { ALL_CYCLE_BATTLES } from "@shared/cycleBattles";
+import { useGame } from "@/contexts/GameContext";
 import { FACTION_COLORS, FACTION_NAMES, FACTION_DESCRIPTIONS, FACTION_EMBLEMS } from "./types";
-import { getFactionCardCounts, getAllCardsForCollection } from "./cardAdapter";
+import { getFactionCardCounts, getAllCardsForCollection, adaptAllCards } from "./cardAdapter";
 import { GENERALS } from "./engine";
+import { STARTER_DECK_MAP } from "@shared/tcg-core/decks/starterDecks";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import DuelystGameUI from "./DuelystGameUI";
@@ -25,7 +29,7 @@ import {
   Sparkles,
 } from "lucide-react";
 
-type View = "menu" | "faction_select" | "playing" | "result" | "collection" | "deck_builder" | "pack_opening" | "ranked";
+type View = "menu" | "faction_select" | "deck_preview" | "playing" | "result" | "collection" | "deck_builder" | "pack_opening" | "ranked";
 
 const FACTION_ICONS: Record<Faction, typeof Swords> = {
   architect: Shield, dreamer: Zap, insurgency: Swords,
@@ -54,6 +58,8 @@ function getTierForElo(elo: number) {
 
 export default function DuelystPage() {
   const { isAuthenticated } = useAuth();
+  const searchString = useSearch();
+  const { state: gameState } = useGame();
   const [view, setView] = useState<View>("menu");
   const [playerFaction, setPlayerFaction] = useState<Faction | null>(null);
   const [opponentFaction, setOpponentFaction] = useState<Faction | null>(null);
@@ -61,6 +67,21 @@ export default function DuelystPage() {
   const [wins, setWins] = useState(() => parseInt(localStorage.getItem("dischordia_wins") || "0"));
   const [losses, setLosses] = useState(() => parseInt(localStorage.getItem("dischordia_losses") || "0"));
   const [isTutorial, setIsTutorial] = useState(false);
+  const [examTrialHistory, setExamTrialHistory] = useState<any[] | undefined>(undefined);
+
+  // Auto-load graduation exam if ?exam= query param is present
+  useEffect(() => {
+    const params = new URLSearchParams(searchString);
+    const examId = params.get("exam");
+    if (!examId) return;
+    const battle = ALL_CYCLE_BATTLES.find(b => b.id === examId);
+    if (!battle) return;
+    // Auto-select factions and jump to playing
+    setPlayerFaction("dreamer"); // Engineer's faction
+    setOpponentFaction("architect"); // Academy opponent
+    setExamTrialHistory((gameState.trialHistory as any[]) ?? []);
+    setView("playing");
+  }, [searchString, gameState.trialHistory]);
   const [muted, setMuted] = useState(false);
   const [packCards, setPackCards] = useState<PackCard[]>([]);
   const [elo, setElo] = useState(() => parseInt(localStorage.getItem("dischordia_elo") || "1200"));
@@ -125,7 +146,12 @@ export default function DuelystPage() {
   const handleStartGame = () => {
     if (!playerFaction || !opponentFaction) return;
     dischordiaSounds.play("button_click");
-    setView("playing");
+    // Show deck preview if a starter deck exists for the faction
+    if (STARTER_DECK_MAP[playerFaction]) {
+      setView("deck_preview");
+    } else {
+      setView("playing");
+    }
   };
 
   const handleGameEnd = (winner: "player" | "opponent") => {
@@ -421,6 +447,131 @@ export default function DuelystPage() {
           </motion.div>
         )}
 
+        {/* ═══ DECK PREVIEW ═══ */}
+        {view === "deck_preview" && playerFaction && opponentFaction && (() => {
+          const starterDeck = STARTER_DECK_MAP[playerFaction];
+          if (!starterDeck) return null;
+          // Resolve card def ids to display info via the card adapter
+          const allCards = adaptAllCards();
+          const cardLookup = new Map(allCards.map(c => [c.sagaCardId, c]));
+          // Deduplicate and count
+          const countMap = new Map<string, number>();
+          for (const defId of starterDeck.cardDefIds) {
+            countMap.set(defId, (countMap.get(defId) || 0) + 1);
+          }
+          const deckEntries = [...countMap.entries()]
+            .map(([defId, count]) => ({ card: cardLookup.get(defId), defId, count }))
+            .sort((a, b) => (a.card?.manaCost ?? 0) - (b.card?.manaCost ?? 0));
+          const color = FACTION_COLORS[playerFaction];
+          const general = GENERALS.find(g => g.faction === playerFaction);
+
+          return (
+            <motion.div
+              key="deck_preview"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              className="p-4 sm:p-6 max-w-2xl mx-auto"
+            >
+              <button
+                onClick={() => { setView("faction_select"); dischordiaSounds.play("button_click"); }}
+                className="flex items-center gap-1 text-muted-foreground hover:text-foreground font-mono text-xs mb-6 transition-colors"
+              >
+                <ArrowLeft size={14} /> Back to Faction Select
+              </button>
+
+              {/* Deck header */}
+              <div className="mb-6 p-4 rounded-xl border bg-black/40" style={{ borderColor: color + "40" }}>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: color + "22", border: `2px solid ${color}` }}>
+                    {(() => { const Icon = FACTION_ICONS[playerFaction]; return <Icon size={20} style={{ color }} />; })()}
+                  </div>
+                  <div>
+                    <h2 className="font-display text-lg tracking-[0.15em]" style={{ color }}>{starterDeck.name}</h2>
+                    <p className="font-mono text-[10px] text-muted-foreground tracking-wider">{starterDeck.epochTheme} &middot; {FACTION_NAMES[playerFaction]}</p>
+                  </div>
+                </div>
+                <p className="font-mono text-xs text-muted-foreground leading-relaxed italic">&ldquo;{starterDeck.description}&rdquo;</p>
+                {general && (
+                  <div className="flex items-center gap-2 mt-3 p-2 rounded bg-background/50 border border-border/20">
+                    {general.imageUrl && <img src={general.imageUrl} alt={general.name} className="w-8 h-8 rounded-full object-cover" />}
+                    <div>
+                      <p className="font-mono text-[10px] text-foreground font-semibold">General: {general.name}</p>
+                      <p className="font-mono text-[9px] text-muted-foreground">{general.bloodbornSpell.name} &mdash; {general.bloodbornSpell.description}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Card list */}
+              <div className="mb-6">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="font-mono text-xs text-white/50 tracking-wider">DECK LIST</p>
+                  <p className="font-mono text-[10px] text-white/30">{starterDeck.cardDefIds.length} cards</p>
+                </div>
+                <div className="space-y-1 max-h-[45vh] overflow-y-auto pr-1 scrollbar-thin">
+                  {deckEntries.map(({ card, defId, count }) => (
+                    <div
+                      key={defId}
+                      className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] transition-colors"
+                    >
+                      {/* Mana cost */}
+                      <span className="w-5 h-5 flex items-center justify-center rounded-full bg-blue-500/20 text-blue-300 font-mono text-[10px] font-bold shrink-0">
+                        {card?.manaCost ?? "?"}
+                      </span>
+                      {/* Card name */}
+                      <span className="font-mono text-xs text-white/80 flex-1 truncate">
+                        {card?.name ?? defId}
+                      </span>
+                      {/* Card type */}
+                      <span className="font-mono text-[9px] text-white/30 shrink-0 uppercase">
+                        {card?.cardType ?? "???"}
+                      </span>
+                      {/* Stats for units */}
+                      {card?.cardType === "unit" && (
+                        <span className="font-mono text-[9px] text-white/40 shrink-0 w-8 text-right">
+                          {card.attack}/{card.health}
+                        </span>
+                      )}
+                      {/* Count badge */}
+                      {count > 1 && (
+                        <span className="w-5 h-5 flex items-center justify-center rounded-full font-mono text-[9px] font-bold shrink-0"
+                          style={{ backgroundColor: color + "20", color }}>
+                          x{count}
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Match info + action buttons */}
+              <div className="flex flex-col items-center gap-4">
+                <div className="flex items-center gap-4 font-mono text-sm">
+                  <span style={{ color: FACTION_COLORS[playerFaction] }}>{FACTION_NAMES[playerFaction]}</span>
+                  <span className="text-muted-foreground">vs</span>
+                  <span style={{ color: FACTION_COLORS[opponentFaction!] }}>{FACTION_NAMES[opponentFaction!]}</span>
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => { setView("faction_select"); dischordiaSounds.play("button_click"); }}
+                    className="px-5 py-2 border border-border/30 text-muted-foreground rounded-lg font-mono text-sm hover:text-foreground transition-colors"
+                  >
+                    BACK
+                  </button>
+                  <button
+                    onClick={() => { dischordiaSounds.play("button_click"); setView("playing"); }}
+                    className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-mono text-sm font-bold hover:bg-primary/80 transition-colors"
+                    style={{ boxShadow: `0 0 20px ${color}30` }}
+                  >
+                    CONFIRM &amp; BATTLE
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          );
+        })()}
+
         {/* ═══ PLAYING ═══ */}
         {view === "playing" && playerFaction && opponentFaction && (
           <motion.div key="playing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-screen">
@@ -428,6 +579,7 @@ export default function DuelystPage() {
               playerFaction={playerFaction}
               opponentFaction={opponentFaction}
               isTutorial={isTutorial}
+              trialHistory={examTrialHistory}
               onGameEnd={(winner) => {
                 if (isTutorial && winner === "player") {
                   localStorage.setItem("dischordia_tutorial_complete", "true");
