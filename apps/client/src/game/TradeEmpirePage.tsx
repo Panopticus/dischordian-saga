@@ -38,6 +38,7 @@ import {
 } from "./techTree";
 import { FlaskConical } from "lucide-react";
 import LivingBackground from "@/components/LivingBackground";
+import { getNPCPortrait } from "@/game/npcPortraits";
 
 /* ─── TRADE EMPIRE BACKGROUNDS ─── */
 const TRADE_BACKGROUNDS: Record<string, { url: string; accent: string }> = {
@@ -683,9 +684,14 @@ export default function TradeEmpirePage() {
 
       {/* Header */}
       <div className="flex items-center justify-between mb-4 max-w-6xl mx-auto relative z-10">
-        <div>
-          <h1 className="font-display text-xl tracking-[0.2em] text-white">GALACTIC COMMAND</h1>
-          <p className="font-mono text-[10px] text-white/30">Ark Collective • Empire Level {empire.empireLevel}</p>
+        <div className="flex items-center gap-3">
+          {(() => { const locke = getNPCPortrait("adjudicator_locke"); return locke ? (
+            <img src={locke.bustPortrait} alt={locke.name} className="w-10 h-10 rounded-full border-2 object-cover" style={{ borderColor: locke.color }} />
+          ) : null; })()}
+          <div>
+            <h1 className="font-display text-xl tracking-[0.2em] text-white">GALACTIC COMMAND</h1>
+            <p className="font-mono text-[10px] text-white/30">Ark Collective • Empire Level {empire.empireLevel}</p>
+          </div>
         </div>
         <div className="flex items-center gap-3 font-mono text-[10px]">
           <span className="text-amber-400">{empire.credits} <span className="text-white/20">CRD</span></span>
