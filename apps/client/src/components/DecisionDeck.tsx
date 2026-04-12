@@ -16,7 +16,7 @@
 import { useMemo } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { Sparkles, Brain, Clock, Flag, Users, Swords, Home, Skull, Mail, Radio } from "lucide-react";
+import { Sparkles, Brain, Clock, Flag, Users, Swords, Home, Skull, Mail, Radio, GraduationCap } from "lucide-react";
 import { VOID } from "@/engine/voidPresets";
 import { useGame } from "@/contexts/GameContext";
 import type { Apprentice } from "@shared/apprentices";
@@ -119,6 +119,23 @@ export default function DecisionDeck() {
           title={`${guild.guild.name} · House Cup`}
           subtitle="See where your Guild stands this week."
           cta="Check standing"
+        />
+      ),
+    });
+  }
+
+  // Card: Mechronis Academy daily lesson
+  if (guild) {
+    cards.push({
+      key: "academy-lesson",
+      element: (
+        <DeckCard
+          href="/academy"
+          icon={GraduationCap}
+          color="text-indigo-400"
+          title="Mechronis Academy"
+          subtitle={`${guild.guild.name} — a lesson awaits from your Professor.`}
+          cta="Attend class"
         />
       ),
     });
