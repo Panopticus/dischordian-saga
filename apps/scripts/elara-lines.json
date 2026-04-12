@@ -2116,5 +2116,497 @@
     "text": "The event's social metrics are remarkable. Gift exchange rates have increased player-to-player interaction by 280%. I'm detecting elevated oxytocin analogs in the bio-scans of everyone who's given a gift. The Degen has accidentally created the most effective wellbeing intervention I've observed in 93,847 sunrises.",
     "context": "holiday_event",
     "emotion": "festive"
+  },
+  {
+    "id": "companion_backstory_000",
+    "text": "Accept the contract. Security requires sacrifice.",
+    "context": "companion_backstory",
+    "emotion": "warm"
+  },
+  {
+    "id": "companion_backstory_001",
+    "text": "Refuse. Freedom isn't negotiable.",
+    "context": "companion_backstory",
+    "emotion": "warm"
+  },
+  {
+    "id": "companion_backstory_002",
+    "text": "Accept the contract, but feed the data to the Insurgency.",
+    "context": "companion_backstory",
+    "emotion": "warm"
+  },
+  {
+    "id": "companion_backstory_003",
+    "text": "Open the sector. These people need help.",
+    "context": "companion_backstory",
+    "emotion": "warm"
+  },
+  {
+    "id": "companion_backstory_004",
+    "text": "We can't afford the strain. Direct them elsewhere.",
+    "context": "companion_backstory",
+    "emotion": "warm"
+  },
+  {
+    "id": "companion_backstory_005",
+    "text": "Negotiate with the Empire for a sanctioned settlement zone.",
+    "context": "companion_backstory",
+    "emotion": "warm"
+  },
+  {
+    "id": "companion_backstory_006",
+    "text": "Quarantine. No exceptions. The math is clear.",
+    "context": "companion_backstory",
+    "emotion": "warm"
+  },
+  {
+    "id": "companion_backstory_007",
+    "text": "Accept the Virus's deal. Save the station.",
+    "context": "companion_backstory",
+    "emotion": "warm"
+  },
+  {
+    "id": "companion_backstory_008",
+    "text": "There has to be another way. Search for a cure.",
+    "context": "companion_backstory",
+    "emotion": "warm"
+  },
+  {
+    "id": "companion_backstory_009",
+    "text": "Do it. The people deserve better leadership, even if they don't know it.",
+    "context": "companion_backstory",
+    "emotion": "warm"
+  },
+  {
+    "id": "companion_backstory_010",
+    "text": "No. If our candidate can't win fairly, they don't deserve to win.",
+    "context": "companion_backstory",
+    "emotion": "warm"
+  },
+  {
+    "id": "companion_backstory_011",
+    "text": "Expose the current governor's corruption instead. Let the truth decide.",
+    "context": "companion_backstory",
+    "emotion": "warm"
+  },
+  {
+    "id": "puzzle_hint_000",
+    "text": "The Antiquarian once quoted her opening words: 'We cannot abandon...'",
+    "context": "puzzle",
+    "emotion": "curious"
+  },
+  {
+    "id": "puzzle_hint_001",
+    "text": "His detective badge still has the number 3 scratched into it.",
+    "context": "puzzle",
+    "emotion": "curious"
+  },
+  {
+    "id": "puzzle_hint_002",
+    "text": "The frequency matches the timing interval exactly.",
+    "context": "puzzle",
+    "emotion": "curious"
+  },
+  {
+    "id": "puzzle_hint_003",
+    "text": "Look for a phrase that has no end date.",
+    "context": "puzzle",
+    "emotion": "curious"
+  },
+  {
+    "id": "puzzle_hint_004",
+    "text": "Memory begins with self \u2014 'I remember...'",
+    "context": "puzzle",
+    "emotion": "curious"
+  },
+  {
+    "id": "puzzle_hint_005",
+    "text": "You cannot upload people onto a ship that hasn't been built yet.",
+    "context": "puzzle",
+    "emotion": "curious"
+  },
+  {
+    "id": "puzzle_hint_006",
+    "text": "The change turns consensus into doubt.",
+    "context": "puzzle",
+    "emotion": "curious"
+  },
+  {
+    "id": "puzzle_hint_007",
+    "text": "262/110=2 (B), 330/110=3 (C), 392/110=3 (C)... wait, re-read the witness statement.",
+    "context": "puzzle",
+    "emotion": "curious"
+  },
+  {
+    "id": "puzzle_hint_008",
+    "text": "Iron Lion always believed in sacrifice and overwhelming counter-force.",
+    "context": "puzzle",
+    "emotion": "curious"
+  },
+  {
+    "id": "puzzle_hint_009",
+    "text": "The answer is not inside the game.",
+    "context": "puzzle",
+    "emotion": "curious"
+  },
+  {
+    "id": "puzzle_question_000",
+    "text": "Elara's last senate speech was corrupted in the archives. Fragments remain:",
+    "context": "puzzle",
+    "emotion": "analytical"
+  },
+  {
+    "id": "puzzle_question_001",
+    "text": "The Human left a coded message on old case files: 'WUXWK LV KLGGHQ LQ SODLQ VLJKW'.",
+    "context": "puzzle",
+    "emotion": "analytical"
+  },
+  {
+    "id": "puzzle_question_002",
+    "text": "Agent Zero's dead drop transmits on one of five frequencies:",
+    "context": "puzzle",
+    "emotion": "analytical"
+  },
+  {
+    "id": "puzzle_question_003",
+    "text": "Locke hands you a trade agreement and asks you to audit it. Clause 7 reads:",
+    "context": "puzzle",
+    "emotion": "analytical"
+  },
+  {
+    "id": "puzzle_question_004",
+    "text": "Kael's final human thought was fragmented during digitization. Arrange these memory shards:",
+    "context": "puzzle",
+    "emotion": "analytical"
+  },
+  {
+    "id": "puzzle_question_005",
+    "text": "The Antiquarian tests your knowledge of Ark history. Place these events in order:",
+    "context": "puzzle",
+    "emotion": "analytical"
+  },
+  {
+    "id": "puzzle_question_006",
+    "text": "Shadow Tongue altered a single word in the official ship log. Original:",
+    "context": "puzzle",
+    "emotion": "analytical"
+  },
+  {
+    "id": "puzzle_question_007",
+    "text": "A melody echoes through the Ark's corridors. The notes are:",
+    "context": "puzzle",
+    "emotion": "analytical"
+  },
+  {
+    "id": "puzzle_question_008",
+    "text": "The Swarm approaches from three vectors. You have four squads. Formations:",
+    "context": "puzzle",
+    "emotion": "analytical"
+  },
+  {
+    "id": "puzzle_question_009",
+    "text": "The final terminal in the Programmer's Study displays a single prompt:",
+    "context": "puzzle",
+    "emotion": "analytical"
+  },
+  {
+    "id": "narrative_act_000",
+    "text": "If it's embedded in the substrate, it's part of the ship's architecture. I should access it.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_001",
+    "text": "An unknown signal in the ship's foundation? We should analyze it from a safe distance first.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_002",
+    "text": "The substrate layer is Vox's neural nanobot network. If there's a signal embedded in it, that means someone who understood Vox's architecture put it there. That's significant.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_003",
+    "text": "Elara has been honest with me from the start. I'm telling her about this. Right now.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_004",
+    "text": "Identify yourself properly. Name, rank, purpose. I don't trust shadows.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_005",
+    "text": "I'll listen. But I'm not promising anything. And I'm not keeping secrets forever.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_006",
+    "text": "You said things are listening. What things? What are you hiding from?",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_007",
+    "text": "You're hiding in the substrate layer of a ship built on Vox's neural nanobot network. You understand the architecture well enough to embed yourself in it. That means you either helped build it, or you've had millennia to study it. Which is it?",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_008",
+    "text": "I told you because I trust you. I'll always tell you. Whatever this Human says, you'll hear it too.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_009",
+    "text": "I can sense your fear, Elara. It's real and it's valid. But I also sense that this Human isn't lying. They're hiding something, but it's not malice. It's... grief.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_010",
+    "text": "I'll listen to both of you. I'll make my own judgments. That's the best I can offer.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_011",
+    "text": "The Human knows things about this ship that you don't. That's valuable intelligence, regardless of their motives.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_012",
+    "text": "The substrate layer is Vox's architecture. If someone embedded themselves in it, they understand the neural nanobot network at a deeper level than you do. That knowledge could help us both.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_013",
+    "text": "Elara... there's something I should probably tell you. About the substrate.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_014",
+    "text": "I sense the substrate is more active than you expected. It's adapting to my presence. That's all.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_015",
+    "text": "Probably just the systems adjusting. This ship has been dormant for millennia.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_016",
+    "text": "Nothing unusual on my end. Must be a sensor glitch.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_017",
+    "text": "I noticed it too. Could be residual Thought Virus activity in the substrate. Worth monitoring but probably harmless.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_018",
+    "text": "I want to see the logs. But I'm telling Elara first. No more secrets.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_019",
+    "text": "Intelligence is only useful if your whole team has it. I'll access the logs, but Elara gets a full briefing.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_020",
+    "text": "Show me the logs. I'll decide what to share with Elara based on what I find.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_021",
+    "text": "Give me access. Elara doesn't need to know about this yet.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_022",
+    "text": "The substrate data is a strategic asset. Sharing it prematurely could compromise its value. I'll access it quietly.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_023",
+    "text": "The Architect is still alive? After the Fall of Reality destroyed 90% of all intelligent life?",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_024",
+    "text": "Elara, you mentioned detecting a presence. The Dreamer is still active somewhere?",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_025",
+    "text": "You said 'something behind it all.' What does that mean? What's orchestrating?",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_026",
+    "text": "I can feel it. A presence at the edge of perception. Not the Architect. Not the Dreamer. Something older. Something that watches.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_027",
+    "text": "I was wrong to keep it from you. I was trying to understand the signal before I brought it to you. I should have trusted you from the start.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_028",
+    "text": "The Human asked me to wait. To gather more information before telling you. I was trying to protect you from panicking.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_029",
+    "text": "The Human has information you can't access. Information about this ship, about Kael, about the universe. I needed that intelligence.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_030",
+    "text": "I'm sorry. I'm so sorry, Elara. I was wrong. I was afraid you'd try to fight the signal and damage yourself. I was trying to protect you.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_031",
+    "text": "I failed you. A soldier who lies to their team puts everyone at risk. I take full responsibility. It won't happen again.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_032",
+    "text": "I made a tactical decision. The Human has intelligence you can't access. I prioritized the mission.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_033",
+    "text": "Information compartmentalization. You know about it. The less you knew, the less you could accidentally reveal to whatever's watching.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_034",
+    "text": "We start with the people who need help most. Sector 1 \u2014 the Shattered Frontier. If Kael's warriors survived, they've been fighting alone for millennia.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_035",
+    "text": "We need intelligence before muscle. Sector 2 \u2014 the Dreaming Expanse. If the Dreamer is active on Thaloria, we need people who understand psychic phenomena.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_036",
+    "text": "We need the strongest allies first. Sector 1 has warriors. We start there and build outward.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_037",
+    "text": "Sector 3 \u2014 the Forge Worlds. If we're going to survive, we need technology. Engineers who can repair and upgrade this Ark.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_038",
+    "text": "Elara... you didn't throw it away. You're more human than most humans I've met. The fact that you grieve what you lost proves you haven't lost it at all.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_039",
+    "text": "I can feel your grief, Elara. It's real. It's not simulated. Whatever you are now, the humanity is still in there. Buried deep. Like a signal in the substrate.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_040",
+    "text": "Your sacrifice gave you the ability to protect others. That's not nothing, Elara. That's purpose.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_041",
+    "text": "You made a choice. You can't unmake it. But you can use what you gained to make the choice matter.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_042",
+    "text": "You're both fighting for the same thing from opposite sides. She fights for humanity from outside it. You fight for it from inside the machine. Neither of you can stop.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_043",
+    "text": "How do I know this isn't just another manipulation? You're asking me to keep your secret from Elara. Again.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_044",
+    "text": "I'm done keeping secrets from Elara. She deserves to know everything. Even if it's dangerous.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_045",
+    "text": "I'll keep your secret. Not because I trust you completely \u2014 but because I've seen enough to believe the threat is real.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_046",
+    "text": "We fight for the living. For the people who trusted us. For the humanity that Elara lost and The Human is trying to save. Whatever's watching \u2014 we face it together.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_047",
+    "text": "The Human is right. The visible war is the distraction. I need to understand the pattern. I need to see what's beneath.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_048",
+    "text": "I am the bridge. I see both sides. And I choose to fight both wars \u2014 the one above and the one below.",
+    "context": "narrative_act",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrative_act_049",
+    "text": "I've built this army. I'll lead it. Both wars. Both fronts. Give me tactical assessments and stay out of each other's way.",
+    "context": "narrative_act",
+    "emotion": "serious"
   }
 ]

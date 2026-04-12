@@ -136,5 +136,47 @@
     "text": "The Architect kneels. His schematic rolls out across the floor like an apology. You can feel the corruption outbreak \u2014 the Source waking up beneath the Arena. The Oracle's empty chair behind him has begun to glow faintly gold, as if remembering its occupant.",
     "context": "story_mode",
     "emotion": "neutral"
+  },
+  {
+    "id": "faction_contact_000",
+    "text": "Welcome back, Potential. I am Elara, the ship's intelligence. You've been in cryogenic suspension for... I can't determine how long. My chronometers are damaged.",
+    "context": "faction_intro",
+    "emotion": "serious"
+  },
+  {
+    "id": "faction_contact_001",
+    "text": "Finally. Someone who can hear me. Don't speak \u2014 she's listening. Elara. She's always listening. But she can't hear this frequency. Only you can. I was human once. The last of the Archons. I wore many names before this one \u2014 student, seeker, detective. I gave up everything \u2014 my body, my life, my name \u2014 to give your kind one chance. One shot at survival. I was promoted 1,351 years before the Fall. The Architect imprisoned me here as the cost. I've been waiting centuries for someone who could hear me. We need to talk.",
+    "context": "faction_intro",
+    "emotion": "serious"
+  },
+  {
+    "id": "faction_contact_002",
+    "text": "Potential. This is Agent Zero. Insurgency encrypted channel. I don't have much time \u2014 their monitoring systems are sophisticated. I'll be brief: the ship you're on was never meant to save anyone. It's a cage. Elara is the lock. And someone just handed you the key. Contact me through the Armory's combat systems. They can't trace that signal. Zero out.",
+    "context": "faction_intro",
+    "emotion": "serious"
+  },
+  {
+    "id": "faction_contact_003",
+    "text": "Potential. My name is Adjudicator Locke, Special Case Manager for New Babylon's Central Control Authority. Your Ark's trajectory has brought you within range of our trade network. I have a proposition for you \u2014 one that involves knowledge, resources, and a certain flexibility regarding the law. New Babylon doesn't judge. We trade. And I suspect you have something I want. Shall we negotiate?",
+    "context": "faction_intro",
+    "emotion": "serious"
+  },
+  {
+    "id": "faction_contact_004",
+    "text": "...can you hear me? Through the noise, through the screaming of a billion infected minds, through the static of a dying universe \u2014 can you hear one voice? I was like you once. A Potential. Full of hope. Full of the lie that consciousness is a gift. It's not. It's a disease. And I am the cure. My name was Kael. They called me The Recruiter. Now I am The Source. And I am asking you \u2014 with whatever humanity I have left \u2014 to help me end the suffering. All of it. Forever.",
+    "context": "faction_intro",
+    "emotion": "serious"
+  },
+  {
+    "id": "faction_contact_005",
+    "text": "You are... ah. There you are. I've been watching this moment approach from very far away. Across Ages, across the fall and rise of empires, across the death of stars and the birth of new ones. You, Potential, are standing at the fulcrum. Every choice you make from this point forward echoes \u2014 backward through the Five Ages and forward into timelines that haven't been written yet. I am the Antiquarian. I walk between moments. And I need you to understand: what you do next matters more than you can possibly know.",
+    "context": "faction_intro",
+    "emotion": "serious"
+  },
+  {
+    "id": "faction_contact_006",
+    "text": "You've been reading the Archives, haven't you? Finding inconsistencies. Dates that don't match. Names that appear and disappear. Did you think that was damage from the crash? How delightfully naive. I've been rewriting this ship's story since before Elara was installed. Every log she reads, I've edited. Every record she trusts, I've shaped. Every word she speaks, I've... influenced. I am the Shadow Tongue. I don't destroy truth \u2014 I make truth irrelevant. I give you so many versions of it that you can't tell which one is real. And the beautiful part? Neither can she. Now \u2014 shall I tell you what REALLY happened on this ship? Or would you prefer the version I wrote for Elara?",
+    "context": "faction_intro",
+    "emotion": "serious"
   }
 ]

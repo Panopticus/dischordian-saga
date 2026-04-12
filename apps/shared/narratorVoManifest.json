@@ -21,5 +21,12 @@
   "story_narrator_020": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Narrator+Voices/story_mode/story_narrator_020.mp3",
   "story_narrator_021": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Narrator+Voices/story_mode/story_narrator_021.mp3",
   "story_narrator_022": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Narrator+Voices/story_mode/story_narrator_022.mp3",
-  "story_narrator_023": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Narrator+Voices/story_mode/story_narrator_023.mp3"
+  "story_narrator_023": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Narrator+Voices/story_mode/story_narrator_023.mp3",
+  "faction_contact_000": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Narrator+Voices/faction_intro/faction_contact_000.mp3",
+  "faction_contact_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Narrator+Voices/faction_intro/faction_contact_001.mp3",
+  "faction_contact_002": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Narrator+Voices/faction_intro/faction_contact_002.mp3",
+  "faction_contact_003": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Narrator+Voices/faction_intro/faction_contact_003.mp3",
+  "faction_contact_004": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Narrator+Voices/faction_intro/faction_contact_004.mp3",
+  "faction_contact_005": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Narrator+Voices/faction_intro/faction_contact_005.mp3",
+  "faction_contact_006": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Narrator+Voices/faction_intro/faction_contact_006.mp3"
 }
