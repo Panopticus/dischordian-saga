@@ -460,6 +460,106 @@ export const MASCOTEER_DECISIONS: Record<string, DailyDecision[]> = {
       ],
     },
   ],
+  wayne: [
+    {
+      id: "wayne_1", day: 0, mascoteerId: "wayne",
+      prompt: "Wayne hands you a small brass padlock. 'Put your biggest fear in here,' he says. 'I'll keep it safe. I promise not to open it.'",
+      options: [
+        { id: "lock_real_fear", label: "Lock your real fear inside", description: "Whisper it into the padlock.",
+          outcome: { bondDelta: 4, corruptionDelta: 3, moralityDelta: -2, resultFlavor: "Wayne clicked it shut. The fear stopped hurting. You also stopped recognizing it when it came back wearing a different face." } },
+        { id: "lock_fake_fear", label: "Lock a fake fear inside", description: "Give him a convincing lie.",
+          outcome: { bondDelta: 3, corruptionDelta: -1, moralityDelta: 2, deathChance: 0.1, resultFlavor: "Wayne tilted his head. 'That's not yours — but I'll keep it anyway. People lose fake fears the easiest.'" } },
+        { id: "refuse_lock", label: "Refuse the lock", description: "Tell him you'll keep your fears.",
+          outcome: { bondDelta: -2, corruptionDelta: -2, moralityDelta: 4, deathChance: 0.15, resultFlavor: "Wayne shrugged. Later, you couldn't find the memory of what you were afraid of. You knew you'd had one." } },
+      ],
+    },
+    {
+      id: "wayne_2", day: 0, mascoteerId: "wayne",
+      prompt: "Wayne shows you a room he calls the Small Room. 'Anyone who breaks a rule goes in there. I feed them. I forget them. I asked the rooms to forget them too.' He asks if you want to see inside.",
+      options: [
+        { id: "look_inside", label: "Look inside", description: "Step to the doorway.",
+          outcome: { bondDelta: 4, corruptionDelta: 3, moralityDelta: -3, resultFlavor: "You looked. You wish you hadn't. The Small Room is full of names. None of them are yours yet." } },
+        { id: "refuse_look", label: "Refuse to look", description: "Turn your face away from the door.",
+          outcome: { bondDelta: 2, corruptionDelta: -1, moralityDelta: 2, deathChance: 0.08, resultFlavor: "Wayne nodded. 'Most don't look. That's why the room gets bigger.'" } },
+        { id: "ask_free_them", label: "Ask him to free them", description: "Demand the names inside be released.",
+          outcome: { bondDelta: 6, corruptionDelta: -4, moralityDelta: 5, deathChance: 0.2, resultFlavor: "Wayne blinked once. 'They broke the rules.' You kept asking. By morning, two names were out. You didn't ask which two." } },
+      ],
+    },
+    {
+      id: "wayne_3", day: 0, mascoteerId: "wayne",
+      prompt: "An Apprentice stepped into the wrong breakfast line. Wayne is walking them to the Small Room. He stops and offers to let you decide the punishment instead.",
+      options: [
+        { id: "hand_off", label: "Let Wayne handle it", description: "Step aside.",
+          outcome: { bondDelta: 1, corruptionDelta: 4, moralityDelta: -4, resultFlavor: "Wayne looked relieved. 'I hate having to be the one. Thank you for letting me.' The door closed on the Apprentice." } },
+        { id: "invent_chore", label: "Invent a gentler chore", description: "Pick a manageable punishment.",
+          outcome: { bondDelta: 3, corruptionDelta: 2, moralityDelta: -1, resultFlavor: "They scrubbed the Chorus pavilion for a week. They thanked you. They also stopped making eye contact." } },
+        { id: "take_it_yourself", label: "Take the punishment yourself", description: "Walk into the Small Room in their place.",
+          outcome: { bondDelta: 6, corruptionDelta: -3, moralityDelta: 5, deathChance: 0.15, resultFlavor: "Wayne's eyes went very wide. 'That isn't how this works.' The Small Room was bigger on the inside. You came back. Mostly." } },
+      ],
+    },
+    {
+      id: "wayne_4", day: 0, mascoteerId: "wayne",
+      prompt: "Wayne whispers that he doesn't know who locks the Small Room at night. 'I lock it, and then I lock it again, and it still isn't me.' He asks you to wait with him and see who.",
+      options: [
+        { id: "wait_with_him", label: "Wait with him", description: "Stay until midnight.",
+          outcome: { bondDelta: 5, corruptionDelta: -3, moralityDelta: 4, deathChance: 0.2, resultFlavor: "At midnight the door locked itself with a hand-shaped sound. Wayne held your hand very tight. Neither of you said anything. He was shaking." } },
+        { id: "refuse_wait", label: "Refuse to wait", description: "Tell him you can't. Go.",
+          outcome: { bondDelta: 0, corruptionDelta: 2, moralityDelta: -2, resultFlavor: "In the morning Wayne was still at the door. He didn't remember asking you. He was relieved, then. He hoped he hadn't." } },
+        { id: "tell_him_its_him", label: "Tell him it's him", description: "Name the hand. Gently.",
+          outcome: { bondDelta: 4, corruptionDelta: 2, moralityDelta: 2, deathChance: 0.1, resultFlavor: "Wayne laughed, shocked and quick. 'Oh. Is it? Is it?' He asked it like a child. Wayne IS a child. You keep forgetting." } },
+      ],
+    },
+  ],
+  thazu: [
+    {
+      id: "thazu_1", day: 0, mascoteerId: "thazu",
+      prompt: "Thazu invites you to a tea party with four stuffed animals and a small skeleton cat. She pours tea for everyone and asks who among the guests should stay forever.",
+      options: [
+        { id: "pick_animal", label: "Pick a stuffed animal", description: "Point at the rabbit.",
+          outcome: { bondDelta: 3, corruptionDelta: 3, moralityDelta: -2, resultFlavor: "The rabbit stayed. The others were 'let go.' You watched her throw them in the garden. In the morning the garden was different." } },
+        { id: "pick_yourself", label: "Pick yourself", description: "Say 'me.'",
+          outcome: { bondDelta: 6, corruptionDelta: 5, moralityDelta: -3, deathChance: 0.2, resultFlavor: "Thazu's red goggles went very wide. 'Really?' She poured you more tea. You've been tired since — in a new way. Tired all the way down." } },
+        { id: "refuse_pick", label: "Refuse to pick", description: "Tell her no one has to stay forever.",
+          outcome: { bondDelta: -1, corruptionDelta: -2, moralityDelta: 4, deathChance: 0.12, resultFlavor: "'Everyone eventually stays,' Thazu said, sad and patient. 'I'll ask again when you know.' She never needed to." } },
+      ],
+    },
+    {
+      id: "thazu_2", day: 0, mascoteerId: "thazu",
+      prompt: "Thazu tells you her skeleton cat is sick. She shows you the ritual to heal it. It requires a small piece of you.",
+      options: [
+        { id: "give_piece", label: "Give a piece of yourself", description: "A fingernail. A little blood.",
+          outcome: { bondDelta: 5, corruptionDelta: 5, moralityDelta: -3, resultFlavor: "She accepted it like a crown jewel. The cat stretched and opened its eye sockets. Something else stretched inside you at the same moment." } },
+        { id: "give_thought", label: "Give a thought instead", description: "Trade her an idea.",
+          outcome: { bondDelta: 4, corruptionDelta: 3, moralityDelta: -2, deathChance: 0.1, resultFlavor: "Thazu blinked. 'That's a heavier thing. Are you sure?' The cat watched you with new recognition. You have lost the last time you thought it." } },
+        { id: "refuse_help", label: "Refuse to help", description: "Tell her the cat has to pass.",
+          outcome: { bondDelta: 1, corruptionDelta: -3, moralityDelta: 5, deathChance: 0.12, resultFlavor: "Thazu sighed. 'Then the cat will wait. It has waited before.' The cat never looked at you again. You are uncertain if it ever had eyes." } },
+      ],
+    },
+    {
+      id: "thazu_3", day: 0, mascoteerId: "thazu",
+      prompt: "Thazu hosts a funeral for a flower. She asks you to give the eulogy, and to make everyone cry.",
+      options: [
+        { id: "eulogize_well", label: "Give a beautiful eulogy", description: "Speak of the flower like a grandmother.",
+          outcome: { bondDelta: 5, corruptionDelta: 2, moralityDelta: 2, resultFlavor: "The other Apprentices cried. Thazu clapped her small dark hands. 'You're very good at this. We'll use you again.'" } },
+        { id: "refuse_eulogy", label: "Refuse the eulogy", description: "Tell her you don't do funerals.",
+          outcome: { bondDelta: 2, corruptionDelta: -1, moralityDelta: 2, deathChance: 0.1, resultFlavor: "Thazu said 'You will.' Without threat. As a fact. You have not done a funeral yet. You will." } },
+        { id: "make_them_laugh", label: "Turn the eulogy into a joke", description: "Make everyone laugh instead.",
+          outcome: { bondDelta: 6, corruptionDelta: -2, moralityDelta: 3, deathChance: 0.08, resultFlavor: "Thazu didn't laugh. 'That was a different kind of mourning. The flower would have liked it. I didn't.'" } },
+      ],
+    },
+    {
+      id: "thazu_4", day: 0, mascoteerId: "thazu",
+      prompt: "Thazu asks what QUALITY you want brought back from death someday. Not who — what. She says names are too loud.",
+      options: [
+        { id: "bring_back_youth", label: "Youth", description: "Lost time, returned.",
+          outcome: { bondDelta: 3, corruptionDelta: 4, moralityDelta: -2, resultFlavor: "Thazu wrote it in a small black book. 'Good choice. Most pick bigger. Youth is the only one they actually get.'" } },
+        { id: "bring_back_voice", label: "A voice you loved", description: "The timbre, not the person.",
+          outcome: { bondDelta: 5, corruptionDelta: 2, moralityDelta: 0, resultFlavor: "Thazu nodded. 'I can do that. You won't like what it says.'" } },
+        { id: "refuse_answer", label: "Refuse to answer", description: "Tell her you don't want anything back.",
+          outcome: { bondDelta: 4, corruptionDelta: -2, moralityDelta: 5, deathChance: 0.12, resultFlavor: "Thazu looked sad. 'You'll want something eventually. Everyone does. I'm patient. I am the most patient of us.'" } },
+      ],
+    },
+  ],
 };
 
 /* ─── DAILY DECISION GENERATOR ─── */
