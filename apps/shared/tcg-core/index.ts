@@ -151,3 +151,16 @@ export {
   CardRegistryLoadError,
 } from "./cards/loader";
 export { ALL_CARD_DEFINITIONS } from "./cards/index";
+
+/* ─── Compat (legacy client translation) ─── */
+export {
+  translateClientAction,
+  type TranslateResult,
+} from "./compat/legacyClient";
+export {
+  adaptTcgStateToLegacyView,
+  type LegacyDuelystGameState,
+  type LegacyBoardUnit,
+  type LegacyDuelystCard,
+  type LegacyDuelystPlayer,
+} from "./compat/viewAdapter";
