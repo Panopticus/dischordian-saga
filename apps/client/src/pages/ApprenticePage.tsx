@@ -309,7 +309,7 @@ export default function ApprenticePage() {
                   </p>
                 </div>
                 <Link
-                  href="/dischordia"
+                  href={`/dischordia?exam=${pendingBattle.id}&opponent=${pendingBattle.opponentId}`}
                   className="block w-full text-center px-3 py-2 rounded border border-red-500/50 bg-red-500/15 text-red-300 font-mono text-[11px] uppercase tracking-wider hover:bg-red-500/25"
                 >
                   Enter the Exam

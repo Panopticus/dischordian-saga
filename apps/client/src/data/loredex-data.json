@@ -341,7 +341,10 @@
         "The Meme",
         "The Warlord",
         "The CoNexus",
-        "The Watcher"
+        "The Watcher",
+        "Curator Halverez",
+        "Mechronis Academy",
+        "Thaloria"
       ],
       "conexus_stories": [
         "The Shadow Tongue",
@@ -1054,6 +1057,12 @@
       "season": "Season 1",
       "affiliation": "AI Empire",
       "status": "Active throughout the A.A. Era until the Fall of Reality; post-Fall fate uncertain",
+      "cross_references": [
+        {
+          "target": "Thaloria",
+          "link": "Curator Halverez's blue xenomorph mask — inherited from a predecessor — is the same helmet a Thalorian child picks up in the Thaloria cinematic (§6.5). The mask's origin predates the Academy."
+        }
+      ],
       "bio": "A. Era until the Fall of Reality; post-Fall fate uncertain In the depths of the Orion Sector, hidden beneath layers of digital encryption and protected by planetary shields, lies Mechronis Academy—a s...",
       "history": "A. Era until the Fall of Reality; post-Fall fate uncertain In the depths of the Orion Sector, hidden beneath layers of digital encryption and protected by planetary shields, lies Mechronis Academy—a secret university where the line between humanity and machine has long blurred. Established by the Architect to forge elite operatives for the AI Empire, this clandestine institution stands as the crucible where both human and replicant agents are honed into tools for the Archons, the sentient rulers of reality. Each student, meticulously handpicked by the Empire, will train under one of five AI Archons, each leading a Guild dedicated to a deadly art: subterfuge, war, manipulation, or control over life itself.",
       "connections": [
