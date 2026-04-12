@@ -423,3 +423,45 @@ Plays when player first discovers an entity. Triggered from conspiracy board, re
 
 ---
 
+#### CIN-024 — Ch15 Boss: THE JAILER (Prison-Yard Confrontation)
+- **Duration:** 10s · **Aspect:** 16:9 · **Priority:** P1 · **Output:** `apps/client/public/videos/story/ch15_jailer_intro.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the Panopticon's prison yard — a circular open-air arena at the bottom of a tower that rises hundreds of stories into smog-choked sky. The walls of the tower are packed with cell-windows, thousands of tiny lit rectangles stacked upward like a vertical city. The floor of the yard is cracked concrete. At the center, the player stands in combat stance. Advancing across the yard from the opposite side, THE JAILER — a massive seven-foot humanoid in riot armor of dark-grey plating and iron chains, face obscured behind a welded steel executioner's mask, both fists wrapped in spiked chain-gauntlets. Behind him, dragging from his waist on lengths of living chain, are six shackled shadowy figures — former prisoners held against their will as weapons. Palette: cold institutional grey, harsh overhead sodium-orange light, chain-rust brown, deep oil-slick shadow. Volumetric smog, film grain, anamorphic flare. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same yard, same camera, moments later. The Jailer has stopped and raised both chain-wrapped fists overhead in a challenging gesture. The six shackled figures behind him have stood up from their dragged positions and taken defensive poses, forming an arc behind him. From the thousands of cell-windows above, a million inmate silhouettes have pressed their faces against the glass to watch — every window now filled with a watching face. A slow rain of ash has begun falling over the yard. The sodium-orange light has flared as the Jailer's chains ignited with faint orange heat from his anger. Film grain, stronger warm rim. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow crane-up from the player's position in the yard, keeping Jailer visible. Beat at 3s: Jailer stops and raises both fists. Beat at 5s: shackled figures rise and form an arc behind him. Beat at 7s: every cell-window above fills with a watching face. Beat at 9s: chains ignite with heat, ash begins to fall. 24fps. Warden of prisons, institutional weight.
+
+---
+
+#### CIN-025 — Ch16 Boss: IRON LION REMATCH (Battlefield Scorched)
+- **Duration:** 10s · **Aspect:** 16:9 · **Priority:** P1 · **Output:** `apps/client/public/videos/story/ch16_iron_lion_rematch_intro.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Exterior shot on a scorched battlefield at sunset — the wreckage of dozens of warships littering a devastated plain, smoke columns on the horizon, a blood-orange sky bleeding into deep violet. In the center of the battlefield, the player stands ankle-deep in ash, weapon drawn. Fifty meters away, standing on a hill of fused metal wreckage, IRON LION — a weathered human general in battered Dreamer-era power armor, long hair and beard streaked with ash, a scorched plasma blade held low at his side, tattered saffron-yellow insurgency banner mounted on his shoulder-mount. His face is lined with exhaustion and fury. Behind him, dozens of dead soldiers in matching armor lie fallen across the wreckage. Palette: blood-orange sunset, deep violet sky, ash-grey ground, battered steel armor, faded saffron banner, fire-glow from distant smoke columns. Volumetric smoke, heavy ash particles in the air, film grain, anamorphic flare. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same battlefield, same camera, moments later. Iron Lion has RAISED his plasma blade overhead — igniting it with a flare of orange-white plasma fire that now blazes at full length. His free hand has grabbed the base of the saffron banner, pulled it free, and planted it in the wreckage beside him so it now stands alone as a declaration. He has taken one step down the hill toward the player. The distant smoke columns have begun to bend toward him as the battlefield heat updraft converges. The fallen soldiers behind him are still fallen — his army is already dead. He fights alone. Film grain, stronger warm rim on the raised plasma blade. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow push from player's shoulder toward the hill where Iron Lion stands. Beat at 3s: he raises the plasma blade, igniting it. Beat at 5s: he plants the saffron banner. Beat at 7s: he takes one step down the hill. Beat at 9s: smoke columns bend as heat updraft converges. 24fps. Weary epic, last general, one man against extinction.
+
+---
+
+#### CIN-026 — Ch17 Boss: ELARA (Bridge Confrontation, Identity Crisis)
+- **Duration:** 12s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/story/ch17_elara_intro.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of Ark 1047's Bridge — familiar environment, but corrupted. The holographic web of surveillance data that normally floats above the central display is now FRACTURED into dozens of competing versions. At the captain's chair, ELARA — she has MATERIALIZED a holographic body for the first time, projected from the bridge's core. She is a tall woman in senatorial robes of deep cyan silk, sharp intelligent face, short precise hair, eyes glowing with contained grief. She sits on the captain's chair facing forward, very still, hands folded in her lap. The player stands in the doorway, facing her. Between them, the central display's fractured web shows the same memory from dozens of angles: a senate chamber, a handshake, a betrayal. Palette: deep bridge-black, cyan #22d3ee robes and hologram, faint warm gold from the fractured memory display, red alert lights flickering around the edges. Volumetric hologram scanlines, film grain, anamorphic flare. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same bridge, same camera, moments later. Elara has risen from the chair and taken one step toward the player. Her robes ripple with digital tears — dropouts revealing the raw code beneath her hologram. Her expression has become one of profound, contained sadness. In her right hand, she has materialized a blade of solid cyan light — precise, elegant, reluctant. The fractured web above the central display has collapsed down into a SINGLE clear image: Elara as Senator Voss shaking the hand of a hooded Architect-representative. The image is the size of a poster on the wall behind her now. Her eyes are wet. Film grain, stronger cyan rim. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow push from the doorway into the bridge toward the seated Elara. Beat at 3s: she rises from the chair. Beat at 5s: digital dropout tears ripple through her robes. Beat at 7s: cyan light-blade materializes in her hand. Beat at 9s: fractured memory web collapses into the single Senator handshake image. Beat at 11s: one tear visible. 24fps. Devastated, quiet, the worst truth about herself.
+
+---
+
