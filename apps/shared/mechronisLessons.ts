@@ -105,6 +105,58 @@ export const MECHRONIS_LESSONS: Record<string, Lesson[]> = {
       ],
     },
   ],
+  prof_collector: [
+    {
+      id: "collector_trade_exercise", professorId: "prof_collector", day: 0,
+      prompt: "Curator Halverez sets a belief on the table — 'I am safe here' — and asks you to trade it for a fact. The fact will be useful. The belief will be gone. He adjusts his blue xenomorph mask and waits.",
+      options: [
+        { id: "trade_belief", label: "Trade the belief", description: "Surrender 'I am safe here' for the fact.",
+          outcome: { grade: "honor", corruptionDelta: 4, approvalDelta: 10, skillXpDelta: 15, transcriptNote: "Student surrendered a comfort belief for operational data. Archive standard met." } },
+        { id: "negotiate", label: "Negotiate a partial trade", description: "Offer a weaker belief instead.",
+          outcome: { grade: "pass", corruptionDelta: 1, approvalDelta: 3, skillXpDelta: 8, transcriptNote: "Student attempted bargaining. Halverez notes: 'They think they can keep both. They cannot. They will learn.'" } },
+        { id: "refuse_trade", label: "Refuse the trade", description: "Keep the belief. Reject the fact.",
+          outcome: { grade: "fail", corruptionDelta: -5, approvalDelta: -12, skillXpDelta: -8, transcriptNote: "Student refused the trade exercise. Halverez's margin note: 'This one still believes safety is real. Charming. Expensive.'" } },
+      ],
+    },
+    {
+      id: "collector_cost_question", professorId: "prof_collector", day: 0,
+      prompt: "Halverez holds up a question card. 'This question will give you something you need. Asking it costs you the answer to a question you already know.' He waits for you to choose: ask, or keep what you know.",
+      options: [
+        { id: "ask_question", label: "Ask the question", description: "Pay the cost. Lose a known answer.",
+          outcome: { grade: "honor", corruptionDelta: 3, approvalDelta: 8, skillXpDelta: 14, transcriptNote: "Student paid the cost without knowing the price in advance. Acquisition instinct: developing." } },
+        { id: "ask_what_cost", label: "Ask what the cost is first", description: "Demand to see the price before paying.",
+          outcome: { grade: "pass", corruptionDelta: 0, approvalDelta: 1, skillXpDelta: 6, transcriptNote: "Student wanted price transparency. 'Reasonable,' Halverez notes. 'Also slow. The real cost was the time they spent asking.'" } },
+        { id: "walk_away", label: "Walk away with what you know", description: "Keep all your answers. Get no new ones.",
+          outcome: { grade: "fail", corruptionDelta: -3, approvalDelta: -8, skillXpDelta: -5, transcriptNote: "Student chose retention over acquisition. Will not be invited to the advanced trade seminar." } },
+      ],
+    },
+  ],
+  prof_vortex: [
+    {
+      id: "vortex_door_choosing", professorId: "prof_vortex", day: 0,
+      prompt: "Professor Orphic's classroom has moved again. Seven doors line the hallway. Six lead to oblivion. One leads to the lecture. Orphic's voice comes from all seven at once: 'You have ten seconds.'",
+      options: [
+        { id: "pick_fast", label: "Pick the third door — gut instinct", description: "Don't think. Move.",
+          outcome: { grade: "pass", corruptionDelta: 1, approvalDelta: 5, skillXpDelta: 10, transcriptNote: "Student chose by instinct. Survived. Orphic: 'Instinct is the cheapest map. It is also the least accurate. You were lucky.'" } },
+        { id: "listen", label: "Listen for the real voice", description: "Ignore five. Find the voice that has a body behind it.",
+          outcome: { grade: "distinction", corruptionDelta: -2, approvalDelta: 15, skillXpDelta: 22, transcriptNote: "Student deduced classroom location by vocal resonance analysis. Orphic: 'Finally. Someone who listens to the room, not the door.'" } },
+        { id: "open_none", label: "Sit down in the hallway", description: "Refuse the game. Wait for the lecture to come to you.",
+          outcome: { grade: "fail", corruptionDelta: -4, approvalDelta: -10, skillXpDelta: -8, transcriptNote: "Student refused spatial navigation exercise. 'They will learn there is no hallway either,' Orphic notes. 'Or they won't.'" } },
+      ],
+    },
+    {
+      id: "vortex_late_arrival", professorId: "prof_vortex", day: 0,
+      prompt: "A classmate arrives one second late. The classroom door shuts. Through the wall you hear them knocking. Orphic says: 'The late vanish. Unless someone trades their seat.'",
+      options: [
+        { id: "trade_seat", label: "Trade your seat", description: "Step out. Let them in. You vanish instead.",
+          outcome: { grade: "honor", corruptionDelta: -3, approvalDelta: 6, skillXpDelta: 12, transcriptNote: "Student volunteered dimensional displacement for a classmate. Orphic: 'Returned 4.7 seconds later from a door that wasn't there. Brave. Also disoriented for a week.'" } },
+        { id: "stay_silent", label: "Stay in your seat", description: "The rule is the rule.",
+          outcome: { grade: "pass", corruptionDelta: 3, approvalDelta: 4, skillXpDelta: 10, transcriptNote: "Student accepted the boundary condition without protest. Standard. Expected. Orphic has no notes — which IS a note." } },
+        { id: "open_door", label: "Open the door yourself", description: "Get up and pull it open before Orphic can stop you.",
+          outcome: { grade: "fail", corruptionDelta: -2, approvalDelta: -5, skillXpDelta: -3, transcriptNote: "Student broke the spatial seal. The door opened onto a different room. Both students are now in different classrooms. Neither is correct." } },
+      ],
+    },
+  ],
 };
 
 /* ─── DAILY LESSON GENERATOR ─── */
