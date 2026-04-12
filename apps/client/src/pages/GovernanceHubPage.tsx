@@ -35,9 +35,10 @@ import { SEED_CHRONICLE } from "@/data/antiquarianChronicle";
 import {
   ACTS, getCategoryLabel, getStatusColor, getNextEvents,
 } from "@/data/eventsCalendar";
-import { getDailyVote, generateVoterName } from "@shared/governance";
+import { getDailyVote, generateVoterName, generateAntiquarianInscription } from "@shared/governance";
 import { PalimpsestMeterPanel } from "@/components/PalimpsestMeterPanel";
 import { usePalimpsest } from "@/hooks/usePalimpsest";
+import type { VoteResult } from "@shared/governance";
 
 /* ─── ICON MAP (for dynamic metric rendering) ─── */
 const ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
@@ -169,24 +170,28 @@ function ActiveVotePanel() {
   if (!vote) {
     const upcoming = store.getUpcomingEvents(1);
     return (
-      <div className="void-elevated p-5 text-center">
-        <Vote size={32} className="mx-auto text-muted-foreground/30 mb-3" />
-        <h2 className="font-display text-sm font-bold tracking-wider text-muted-foreground/60 mb-2">
-          NO ACTIVE VOTE
-        </h2>
-        <p className="font-mono text-[9px] text-muted-foreground/40 mb-4">
-          The Antiquarian awaits the next decision.
-        </p>
-        {upcoming[0] && (
-          <div className="void-surface p-3 inline-block">
-            <span className="font-mono text-[8px] text-cyan-400 uppercase tracking-wider">NEXT: </span>
-            <span className="font-mono text-[10px] text-foreground/70">{upcoming[0].title}</span>
-            <span className="font-mono text-[9px] text-amber-400 ml-2">
-              {formatCountdown(upcoming[0].startsAt)}
-            </span>
-          </div>
-        )}
-      </div>
+      <>
+        {/* Show most recent vote result when no active vote */}
+        <VoteResultPanel />
+        <div className="void-elevated p-5 text-center">
+          <Vote size={32} className="mx-auto text-muted-foreground/30 mb-3" />
+          <h2 className="font-display text-sm font-bold tracking-wider text-muted-foreground/60 mb-2">
+            NO ACTIVE VOTE
+          </h2>
+          <p className="font-mono text-[9px] text-muted-foreground/40 mb-4">
+            The Antiquarian awaits the next decision.
+          </p>
+          {upcoming[0] && (
+            <div className="void-surface p-3 inline-block">
+              <span className="font-mono text-[8px] text-cyan-400 uppercase tracking-wider">NEXT: </span>
+              <span className="font-mono text-[10px] text-foreground/70">{upcoming[0].title}</span>
+              <span className="font-mono text-[9px] text-amber-400 ml-2">
+                {formatCountdown(upcoming[0].startsAt)}
+              </span>
+            </div>
+          )}
+        </div>
+      </>
     );
   }
 
@@ -319,6 +324,124 @@ function ActiveVotePanel() {
   );
 }
 
+/* ─── VOTE RESULT PANEL ─── */
+function VoteResultPanel() {
+  const store = useGovernanceStore();
+  const resultsQuery = trpc.architectConsole.getRecentVoteResults.useQuery({ limit: 3 });
+  const results = resultsQuery.data ?? [];
+
+  // Populate store with fetched results and generate tome entries
+  useEffect(() => {
+    if (!results.length) return;
+    for (const r of results) {
+      if (r.winningOptionNumber == null) continue;
+      const existing = store.voteResults.find(vr => vr.voteId === r.voteId);
+      if (existing) continue;
+
+      const inscription = r.antiquarianInscription ?? generateAntiquarianInscription(
+        { question: r.title } as any,
+        { label: r.winningOptionText ?? "" } as any,
+        r.totalVotes,
+      );
+
+      const result: VoteResult = {
+        voteId: r.voteId,
+        winningOptionId: String(r.winningOptionNumber),
+        totalVotes: r.totalVotes,
+        breakdown: r.breakdown,
+        closedAt: new Date(r.closedAt).getTime(),
+        antiquarianInscription: inscription,
+        appliedConsequences: r.appliedConsequences,
+      };
+      store.addVoteResult(result);
+
+      // Auto-generate a tome entry for the chronicle
+      const tomeExists = store.tomeEntries.some(t => t.referenceId === r.voteId);
+      if (!tomeExists) {
+        store.addTomeEntry({
+          id: `tome_vote_${r.voteId}`,
+          week: 0,
+          referenceId: r.voteId,
+          referenceType: "vote",
+          body: inscription,
+          inscribedAt: new Date(r.closedAt).getTime(),
+        });
+      }
+    }
+  }, [results]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (results.length === 0) return null;
+
+  const latest = results[0];
+  if (!latest || latest.winningOptionNumber == null) return null;
+
+  const totalVotes = latest.totalVotes || 1;
+
+  return (
+    <div className="void-elevated p-5 mb-4">
+      <div className="flex items-center gap-2 mb-3">
+        <Check size={14} className="text-emerald-400" />
+        <span className="font-mono text-[8px] uppercase tracking-[0.3em] text-emerald-400">
+          LATEST OUTCOME
+        </span>
+      </div>
+
+      <h2 className="font-display text-base font-bold tracking-wider text-foreground mb-3">
+        {latest.title}
+      </h2>
+
+      {/* Option breakdown bars */}
+      <div className="space-y-1.5 mb-4">
+        {latest.options.map((opt) => {
+          const pct = totalVotes > 0 ? Math.round((opt.voteCount / totalVotes) * 100) : 0;
+          return (
+            <div key={opt.optionNumber} className="relative">
+              <div className="flex items-center gap-2">
+                <div className="flex-1 h-7 rounded bg-white/[0.03] border border-white/5 overflow-hidden relative">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${pct}%` }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="absolute inset-y-0 left-0 rounded"
+                    style={{
+                      background: opt.isWinner
+                        ? "linear-gradient(90deg, rgba(34,211,238,0.15), rgba(34,211,238,0.05))"
+                        : "linear-gradient(90deg, rgba(255,255,255,0.05), transparent)",
+                    }}
+                  />
+                  <div className="relative z-10 flex items-center justify-between h-full px-2.5">
+                    <span className={`font-display text-[10px] font-bold tracking-wider ${opt.isWinner ? "text-cyan-300" : "text-foreground/70"}`}>
+                      {opt.optionText}
+                      {opt.isWinner && <Crown size={10} className="inline ml-1 text-amber-400" />}
+                    </span>
+                    <span className="font-mono text-[9px] text-muted-foreground/60">{pct}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="font-mono text-[9px] text-muted-foreground/50 mb-3 flex items-center gap-1">
+        <Users size={10} /> {totalVotes.toLocaleString()} Potentials voted
+      </div>
+
+      {/* Antiquarian inscription */}
+      {latest.antiquarianInscription && (
+        <div className="p-3 rounded border border-emerald-500/20 bg-emerald-500/5" data-narrative="breathe">
+          <div className="font-mono text-[8px] uppercase tracking-wider text-emerald-400 mb-1">
+            <BookOpen size={10} className="inline mr-1" /> THE ANTIQUARIAN INSCRIBES
+          </div>
+          <p className="font-mono text-[11px] italic text-emerald-300/80 leading-relaxed">
+            <KineticText text={latest.antiquarianInscription} mode="word" speed={25} showCursor={false} />
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ─── CHRONICLE PANEL ─── */
 function ChroniclePanel() {
   const store = useGovernanceStore();
@@ -419,6 +542,19 @@ function ChroniclePanel() {
 function PulsePanel() {
   const store = useGovernanceStore();
   const { metrics, metricsHistory } = store;
+
+  // Fetch real engagement metrics from the server
+  const serverMetrics = trpc.architectConsole.getEngagementMetrics.useQuery(undefined, {
+    refetchInterval: 60_000, // Refresh every minute
+    retry: false,
+  });
+
+  // Merge server metrics into the store when they arrive
+  useEffect(() => {
+    if (serverMetrics.data) {
+      store.updateMetrics(serverMetrics.data);
+    }
+  }, [serverMetrics.data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const previousMetrics = metricsHistory.length > 1
     ? metricsHistory[metricsHistory.length - 2]?.metrics

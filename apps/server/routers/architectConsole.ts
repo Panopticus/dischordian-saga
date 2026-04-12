@@ -48,6 +48,7 @@ import { eq, sql, desc, and, lte, gte, or, isNull, type SQL } from "drizzle-orm"
 import { pressureService } from "../services/pressureService";
 import { ripple } from "../services/rippleEngine";
 import { invalidateFeatureFlagCache } from "../middleware/featureFlag";
+import { generateAntiquarianInscription } from "../../shared/governance";
 
 /* ─── Helper: write audit log ─── */
 async function auditLog(db: NonNullable<Awaited<ReturnType<typeof getDb>>>, adminId: number, action: string, details?: unknown) {
@@ -165,6 +166,58 @@ export const architectConsoleRouter = router({
     return distribution;
   }),
 
+  /** Public engagement metrics for the Governance Hub Pulse panel */
+  getEngagementMetrics: protectedProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) return null;
+
+    const now = new Date();
+    const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+
+    const [
+      [totalFights],
+      [totalMissions],
+      [totalVotesCast],
+      [activePlayers],
+      [totalUserCardCount],
+      [totalFightMatches],
+      [totalCardGames],
+      [totalMarketTx],
+      [totalLoreEntries],
+      [totalAchievements],
+    ] = await Promise.all([
+      db.select({ count: sql<number>`COUNT(*)` }).from(fightMatches),
+      db.select({ count: sql<number>`COUNT(*)` }).from(contentParticipation),
+      db.select({ count: sql<number>`COUNT(*)` }).from(playerVotes),
+      db.select({ count: sql<number>`COUNT(*)` }).from(users).where(gte(users.lastSignedIn, oneDayAgo)),
+      db.select({ count: sql<number>`COUNT(*)` }).from(userCards),
+      db.select({ count: sql<number>`COUNT(*)` }).from(fightMatches),
+      db.select({ count: sql<number>`COUNT(*)` }).from(cardGameMatches),
+      db.select({ count: sql<number>`COUNT(*)` }).from(marketTransactions),
+      db.select({ count: sql<number>`COUNT(*)` }).from(loreJournalEntries),
+      db.select({ count: sql<number>`COUNT(*)` }).from(userAchievements),
+    ]);
+
+    return {
+      totalKills: Number(totalFights?.count ?? 0),
+      totalMissions: Number(totalMissions?.count ?? 0),
+      totalVotesCast: Number(totalVotesCast?.count ?? 0),
+      activePlayers: Number(activePlayers?.count ?? 0),
+      resourcesGathered: 0,
+      cardsForged: Number(totalUserCardCount?.count ?? 0),
+      specimensEvolved: 0,
+      towerWavesCleared: 0,
+      chessMatesDelivered: 0,
+      tradeVolumeCredits: Number(totalMarketTx?.count ?? 0),
+      loredexEntriesRead: Number(totalLoreEntries?.count ?? 0),
+      musicTracksPlayed: 0,
+      trustPointsEarned: 0,
+      deathCount: Number(totalFightMatches?.count ?? 0),
+      betrayalsTriggered: 0,
+      secretsDiscovered: Number(totalAchievements?.count ?? 0),
+    };
+  }),
+
   // ═══════════════════════════════════════════════════
   //  COMMUNITY VOTES
   // ═══════════════════════════════════════════════════
@@ -265,7 +318,7 @@ export const architectConsoleRouter = router({
       };
     }),
 
-  /** Close voting and declare winner */
+  /** Close voting and declare winner — generates Antiquarian inscription and emits result */
   closeVote: adminProcedure
     .input(z.object({
       voteId: z.string(),
@@ -280,9 +333,49 @@ export const architectConsoleRouter = router({
       if (!vote) throw new TRPCError({ code: "NOT_FOUND", message: "Vote not found" });
       if (vote.status !== "active") throw new TRPCError({ code: "BAD_REQUEST", message: "Vote is not active" });
 
-      // Close the vote
+      // Fetch all options with their vote counts for breakdown
+      const allOptions = await db.select().from(voteOptions)
+        .where(eq(voteOptions.voteId, input.voteId))
+        .orderBy(voteOptions.optionNumber);
+
+      const winningOption = allOptions.find(o => o.optionNumber === input.winnerOptionNumber);
+      if (!winningOption) throw new TRPCError({ code: "BAD_REQUEST", message: "Invalid winner option number" });
+
+      const totalVotes = allOptions.reduce((sum, o) => sum + o.voteCount, 0);
+      const breakdown: Record<string, number> = {};
+      for (const opt of allOptions) {
+        breakdown[String(opt.optionNumber)] = opt.voteCount;
+      }
+
+      // Generate the Antiquarian's inscription for this outcome
+      const inscription = generateAntiquarianInscription(
+        { question: vote.title, options: allOptions.map(o => ({ id: String(o.optionNumber), label: o.optionText, description: o.description ?? "", consequences: [] })) } as any,
+        { id: String(winningOption.optionNumber), label: winningOption.optionText, description: winningOption.description ?? "", consequences: [] },
+        totalVotes,
+      );
+
+      // Build the result payload to store alongside the vote
+      const resultPayload = {
+        winningOptionNumber: input.winnerOptionNumber,
+        winningOptionText: winningOption.optionText,
+        totalVotes,
+        breakdown,
+        antiquarianInscription: inscription,
+        appliedConsequences: [] as string[],
+        closedAt: Date.now(),
+      };
+
+      // If the winning option has a rewardOnWin or the vote has impactPayload, record them as applied consequences
+      if (winningOption.rewardOnWin) {
+        resultPayload.appliedConsequences.push(`Reward applied: ${JSON.stringify(winningOption.rewardOnWin)}`);
+      }
+      if (vote.impactType) {
+        resultPayload.appliedConsequences.push(`Impact: ${vote.impactType}`);
+      }
+
+      // Close the vote and store result data
       await db.update(communityVotes)
-        .set({ status: "closed" })
+        .set({ status: "closed", impactPayload: resultPayload })
         .where(eq(communityVotes.voteId, input.voteId));
 
       // Mark the winner
@@ -293,8 +386,26 @@ export const architectConsoleRouter = router({
           eq(voteOptions.optionNumber, input.winnerOptionNumber),
         ));
 
-      await auditLog(db, ctx.user.id, "close_vote", { voteId: input.voteId, winner: input.winnerOptionNumber });
-      return { success: true };
+      // Emit ripple event for vote closure
+      await ripple.emit("governance_vote_closed", {
+        voteId: input.voteId,
+        winningOptionNumber: input.winnerOptionNumber,
+        winningOptionText: winningOption.optionText,
+        totalVotes,
+        impactType: vote.impactType,
+      });
+
+      await auditLog(db, ctx.user.id, "close_vote", {
+        voteId: input.voteId,
+        winner: input.winnerOptionNumber,
+        totalVotes,
+        inscription: inscription.slice(0, 200),
+      });
+
+      return {
+        success: true,
+        result: resultPayload,
+      };
     }),
 
   /** Cast a vote — one per user per vote (player) */
@@ -388,6 +499,68 @@ export const architectConsoleRouter = router({
       userVotedOption: userVoteMap.get(v.voteId) ?? null,
     }));
   }),
+
+  /** Get recent closed vote results for the Governance Hub */
+  getRecentVoteResults: protectedProcedure
+    .input(z.object({ limit: z.number().int().min(1).max(20).default(5) }).optional())
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+
+      const lim = input?.limit ?? 5;
+      const closedVotes = await db.select().from(communityVotes)
+        .where(eq(communityVotes.status, "closed"))
+        .orderBy(desc(communityVotes.updatedAt))
+        .limit(lim);
+
+      if (closedVotes.length === 0) return [];
+
+      const voteIds = closedVotes.map(v => v.voteId);
+      const allOptions = await db.select().from(voteOptions).where(
+        sql`${voteOptions.voteId} IN (${sql.join(voteIds.map(id => sql`${id}`), sql`,`)})`
+      );
+
+      const optionsByVote = new Map<string, typeof allOptions>();
+      for (const opt of allOptions) {
+        const existing = optionsByVote.get(opt.voteId) ?? [];
+        existing.push(opt);
+        optionsByVote.set(opt.voteId, existing);
+      }
+
+      return closedVotes.map(v => {
+        const opts = optionsByVote.get(v.voteId) ?? [];
+        const totalVotes = opts.reduce((sum, o) => sum + o.voteCount, 0);
+        const winnerOpt = opts.find(o => o.isWinner);
+        const breakdown: Record<string, number> = {};
+        for (const o of opts) breakdown[String(o.optionNumber)] = o.voteCount;
+
+        // The impactPayload stores the result data written by closeVote
+        const stored = v.impactPayload as Record<string, unknown> | null;
+        const inscription = (stored?.antiquarianInscription as string) ?? null;
+        const appliedConsequences = (stored?.appliedConsequences as string[]) ?? [];
+
+        return {
+          voteId: v.voteId,
+          title: v.title,
+          description: v.description,
+          category: v.category,
+          closedAt: v.updatedAt,
+          totalVotes,
+          winningOptionNumber: winnerOpt?.optionNumber ?? null,
+          winningOptionText: winnerOpt?.optionText ?? null,
+          breakdown,
+          antiquarianInscription: inscription,
+          appliedConsequences,
+          options: opts.map(o => ({
+            optionNumber: o.optionNumber,
+            optionText: o.optionText,
+            description: o.description,
+            voteCount: o.voteCount,
+            isWinner: o.isWinner,
+          })),
+        };
+      });
+    }),
 
   // ═══════════════════════════════════════════════════
   //  EVENT MANAGEMENT
