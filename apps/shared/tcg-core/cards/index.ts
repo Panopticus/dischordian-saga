@@ -21,8 +21,10 @@ import { cardDef as s1_char_123_relic_scholar } from "./definitions/antiquarian/
 import { cardDef as s1_char_124_age_walker } from "./definitions/antiquarian/s1_char_124_age_walker.ts";
 import { cardDef as s1_char_201_chronoguard_sentinel } from "./definitions/antiquarian/s1_char_201_chronoguard_sentinel.ts";
 import { cardDef as s1_reward_campaign_acceptance } from "./definitions/antiquarian/s1_reward_campaign_acceptance.ts";
+import { cardDef as s1_reward_discovery_all } from "./definitions/antiquarian/s1_reward_discovery_all.ts";
 import { cardDef as s1_reward_lore_archivist } from "./definitions/antiquarian/s1_reward_lore_archivist.ts";
 import { cardDef as s1_reward_outbreak_cure } from "./definitions/antiquarian/s1_reward_outbreak_cure.ts";
+import { cardDef as s1_reward_rpg_quest } from "./definitions/antiquarian/s1_reward_rpg_quest.ts";
 import { cardDef as s1_reward_vote_t1_acceptance } from "./definitions/antiquarian/s1_reward_vote_t1_acceptance.ts";
 import { cardDef as s1_spell_120_timeline_collapse } from "./definitions/antiquarian/s1_spell_120_timeline_collapse.ts";
 import { cardDef as s1_spell_121_epoch_rewind } from "./definitions/antiquarian/s1_spell_121_epoch_rewind.ts";
@@ -144,6 +146,7 @@ import { cardDef as s1_reward_campaign_defiance } from "./definitions/insurgency
 import { cardDef as s1_reward_class_spy } from "./definitions/insurgency/s1_reward_class_spy.ts";
 import { cardDef as s1_reward_companion_zero } from "./definitions/insurgency/s1_reward_companion_zero.ts";
 import { cardDef as s1_reward_crew_mission } from "./definitions/insurgency/s1_reward_crew_mission.ts";
+import { cardDef as s1_reward_eidolon_echo } from "./definitions/insurgency/s1_reward_eidolon_echo.ts";
 import { cardDef as s1_reward_guild_recruit } from "./definitions/insurgency/s1_reward_guild_recruit.ts";
 import { cardDef as s1_reward_trade_insurgency } from "./definitions/insurgency/s1_reward_trade_insurgency.ts";
 import { cardDef as s1_reward_vote_t1_defiance } from "./definitions/insurgency/s1_reward_vote_t1_defiance.ts";
