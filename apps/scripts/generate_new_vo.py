@@ -219,7 +219,7 @@ def upload_to_s3(data, s3_prefix, key):
 
 # ─── MAIN ───────────────────────────────────────────
 
-def process_character(char_name, dry_run=False):
+def process_character(char_name, dry_run=False, skip_check=False, local_mode=False):
     """Generate missing VO for one character."""
     config = CHARACTERS[char_name]
     voice_id = config["voice_id"]
@@ -253,6 +253,9 @@ def process_character(char_name, dry_run=False):
         if not url:
             needs_generation.append(line)
             continue
+        if skip_check:
+            # Assume all lines with URLs already exist on S3
+            continue
         # Check if the S3 file actually exists
         if not check_s3_exists(url):
             needs_generation.append(line)
@@ -278,6 +281,7 @@ def process_character(char_name, dry_run=False):
     # Generate
     generated = 0
     errors = []
+    output_dir = os.path.join(SCRIPTS_DIR, "..", "..", "vo_output", char_name)
     for i, line in enumerate(needs_generation):
         s3_key = f"{line.get('context', 'general')}/{line['id']}.mp3"
         try:
@@ -285,10 +289,29 @@ def process_character(char_name, dry_run=False):
             sys.stdout.flush()
 
             audio = generate_speech(line["text"], line["emotion"], voice_id, config["emotions"])
-            url = upload_to_s3(audio, config["s3_prefix"], s3_key)
-            manifest[line["id"]] = url
-            generated += 1
-            print(f"✓ {len(audio)//1024}KB")
+
+            if local_mode:
+                # Save locally instead of uploading to S3
+                local_path = os.path.join(output_dir, s3_key)
+                os.makedirs(os.path.dirname(local_path), exist_ok=True)
+                with open(local_path, "wb") as f:
+                    f.write(audio)
+                generated += 1
+                print(f"✓ {len(audio)//1024}KB → {local_path}")
+            else:
+                try:
+                    url = upload_to_s3(audio, config["s3_prefix"], s3_key)
+                    manifest[line["id"]] = url
+                    generated += 1
+                    print(f"✓ {len(audio)//1024}KB")
+                except Exception as s3_err:
+                    # S3 failed — save locally as fallback
+                    local_path = os.path.join(output_dir, s3_key)
+                    os.makedirs(os.path.dirname(local_path), exist_ok=True)
+                    with open(local_path, "wb") as f:
+                        f.write(audio)
+                    generated += 1
+                    print(f"⚠️ S3 failed, saved locally → {local_path}")
 
             time.sleep(0.2)  # Rate limit
         except Exception as e:
@@ -315,14 +338,21 @@ def process_character(char_name, dry_run=False):
 def main():
     args = sys.argv[1:]
     dry_run = "--dry" in args
-    args = [a for a in args if a != "--dry"]
+    skip_check = "--skip-check" in args
+    local_mode = "--local" in args
+    args = [a for a in args if not a.startswith("--")]
 
     targets = args if args else list(CHARACTERS.keys())
 
+    mode_str = "DRY RUN" if dry_run else ("LOCAL SAVE" if local_mode else "LIVE (S3 upload)")
     print("═══════════════════════════════════════════════════")
     print("  DISCHORDIAN SAGA — INCREMENTAL VO GENERATION")
     print(f"  Characters: {', '.join(targets)}")
-    print(f"  Mode: {'DRY RUN (preview only)' if dry_run else 'LIVE GENERATION'}")
+    print(f"  Mode: {mode_str}")
+    if skip_check:
+        print("  S3 existence check: SKIPPED")
+    if local_mode:
+        print(f"  Output: ./vo_output/<character>/<context>/")
     print("═══════════════════════════════════════════════════")
 
     total_ok = 0
@@ -333,7 +363,7 @@ def main():
             print(f"\n⚠️  Unknown character: {char}")
             print(f"   Available: {', '.join(CHARACTERS.keys())}")
             continue
-        ok, missing = process_character(char, dry_run)
+        ok, missing = process_character(char, dry_run, skip_check, local_mode)
         total_ok += ok
         total_missing += missing
 
