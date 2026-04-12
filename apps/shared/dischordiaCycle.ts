@@ -460,3 +460,50 @@ export const DISCHORDIA_TIMING = {
   /** Minimum hours between reclamation events (prevent farming). */
   minHoursBetweenReclamations: 24,
 } as const;
+
+/* ─── ENGINEER RECORDING MILESTONES ─── */
+
+/**
+ * Card-battle milestone thresholds that activate Engineer holographic
+ * recordings.  These are checked after every card battle to determine
+ * if a new recording should surface in the Ark.
+ *
+ * See engineerRecordings.ts for the full recording definitions.
+ */
+export interface CardBattleMilestone {
+  readonly recordingOrder: number;
+  readonly minWins: number;
+  readonly dischordiaStep?: number;
+  readonly allAct1Complete?: boolean;
+  readonly discoveryFlag: string;
+}
+
+export const CARD_BATTLE_MILESTONES: readonly CardBattleMilestone[] = [
+  { recordingOrder: 1, minWins: 1, discoveryFlag: "engineer_recording_1_discovered" },
+  { recordingOrder: 2, minWins: 3, discoveryFlag: "engineer_recording_2_discovered" },
+  { recordingOrder: 3, minWins: 4, discoveryFlag: "engineer_recording_3_discovered" },
+  { recordingOrder: 4, minWins: 8, discoveryFlag: "engineer_recording_4_discovered" },
+  { recordingOrder: 5, minWins: 9, discoveryFlag: "engineer_recording_5_discovered" },
+  { recordingOrder: 6, minWins: 10, dischordiaStep: 12, discoveryFlag: "engineer_recording_6_discovered" },
+  { recordingOrder: 7, minWins: 12, allAct1Complete: true, discoveryFlag: "engineer_recording_7_discovered" },
+] as const;
+
+/**
+ * Check whether a new Engineer recording should trigger based on the
+ * player's card battle progress.  Returns the next milestone that hasn't
+ * been discovered yet, or undefined if none are ready.
+ */
+export function getNextRecordingMilestone(
+  totalCardWins: number,
+  dischordiaStep: number,
+  allAct1Complete: boolean,
+  flags: Record<string, unknown>,
+): CardBattleMilestone | undefined {
+  return CARD_BATTLE_MILESTONES.find((m) => {
+    if (flags[m.discoveryFlag]) return false;
+    if (totalCardWins < m.minWins) return false;
+    if (m.dischordiaStep != null && dischordiaStep < m.dischordiaStep) return false;
+    if (m.allAct1Complete && !allAct1Complete) return false;
+    return true;
+  });
+}

@@ -224,6 +224,52 @@ export const VOX_REVELATION_EVENT: EmergentEvent = {
   },
 };
 
+/* ═══ EVENT 7: THE VORTEX STIRS ═══ */
+
+export const VORTEX_STIRS_EVENT: EmergentEvent = {
+  id: "vortex_stirs",
+  name: "The Vortex Stirs",
+  tagline: "The Deck resonates. Something in the dark is listening.",
+  drivingForce: "The Engineer's Deck — residual energy from his original design",
+  fuelSource:
+    "Card game activity (Dischordia wins/losses). As the community plays more " +
+    "card battles, the Deck's residual energy begins resonating, waking dormant systems.",
+  counterForce:
+    "Going dark — ceasing card play reduces the signal. But the Deck was built to be used.",
+  loreTheme:
+    "The Engineer's legacy: a dead prince's prayers written in metal, still " +
+    "humming his frequency. The Vortex senses the Deck being used again.",
+  impactScope: ["engineering", "crafting", "dischordia_cycle", "living_universe"],
+  typicalCycleDays: 21,
+  narrative: {
+    emergenceExplanation:
+      "The community is playing the Deck. Every card battle sends a pulse " +
+      "through the bench — the same frequency the Engineer tuned it to before " +
+      "his execution. The Vortex, which he nearly destroyed at Zenon, is " +
+      "listening. Holographic recordings are activating in Ark rooms as the " +
+      "resonance grows.",
+    npcReactions: {
+      elara:
+        "That frequency. That's not the reactor. The bench is humming on its " +
+        "own. It hasn't done that since... since he was alive.",
+      the_human:
+        "I know that hum. He used to whistle it while he worked. The bench " +
+        "remembers him better than any of us do.",
+      the_meme:
+        "Oh, NOW you're paying attention. I've been broadcasting about this " +
+        "kid for epochs. You're welcome for the heads up.",
+      agent_zero:
+        "Something just changed in my head. I can hear... frequencies I " +
+        "shouldn't be able to hear. What is happening to me?",
+    },
+    resolution:
+      "Either the community keeps playing the Deck (light energy surge, " +
+      "Engineer's final recording unlocks, Vortex confrontation inevitable) " +
+      "or retreats into silence (dark energy spike, bench goes dormant, " +
+      "different narrative path).",
+  },
+};
+
 /* ─── ALL EVENTS REGISTRY ─── */
 
 export const ALL_EMERGENT_EVENTS: EmergentEvent[] = [
@@ -233,6 +279,7 @@ export const ALL_EMERGENT_EVENTS: EmergentEvent[] = [
   ANTIQUARIAN_REVELATION_EVENT,
   SHADOW_TONGUE_EDIT_EVENT,
   VOX_REVELATION_EVENT,
+  VORTEX_STIRS_EVENT,
 ];
 
 /* ─── UNIVERSE-WIDE IMPACT SYSTEMS ─── */
@@ -325,6 +372,8 @@ export const EVENT_SYNERGIES = [
   { events: ["shadow_tongue_edit", "terminus_advance"], effect: "Nihilism and corruption merge — ultimate dark path" },
   { events: ["dreamer_awakening", "necromancer_return"], effect: "The ultimate balance event — life and death in direct conflict" },
   { events: ["vox_revelation", "terminus_advance"], effect: "The plague vessel's origin story accelerates Terminus by 1.5x while it runs" },
+  { events: ["vortex_stirs", "antiquarian_revelation"], effect: "The Engineer's recordings and the Antiquarian's timelines cross-reference — hidden lore unlocks at double rate" },
+  { events: ["vortex_stirs", "necromancer_return"], effect: "The dead prince's frequency attracts the Necromancer's attention — spectral Engineer sightings reported" },
   { events: ["vox_revelation", "antiquarian_revelation"], effect: "The Antiquarian confirms the Vox logs in every timeline — permanent lore unlock" },
 ];
 
@@ -343,6 +392,7 @@ export interface PressureTracker {
   truthRevealed: number; // Resists shadow_tongue
   healingDone: number; // Resists necromancer
   exploration: number; // Strengthens antiquarian
+  deckActivity: number; // Feeds vortex_stirs — Engineer's Deck resonance
 }
 
 export const DEFAULT_PRESSURE: PressureTracker = {
@@ -356,6 +406,7 @@ export const DEFAULT_PRESSURE: PressureTracker = {
   truthRevealed: 0,
   healingDone: 0,
   exploration: 0,
+  deckActivity: 0,
 };
 
 /**
@@ -380,6 +431,15 @@ export function getEmergingEvent(pressure: PressureTracker): { eventId: string; 
         pressure.viralExposures * 0.5 +
         pressure.truthRevealed -
         pressure.betrayals * 0.5,
+    },
+    // Vortex Stirs emerges from Dischordia card battles. The Engineer's Deck
+    // resonates with every battle played — the bench hums his frequency.
+    // Lore discoveries accelerate it (the community is finding his recordings).
+    {
+      eventId: "vortex_stirs",
+      score:
+        pressure.deckActivity * 1.5 +
+        pressure.loreDiscoveries * 0.25,
     },
   ];
   scores.sort((a, b) => b.score - a.score);
@@ -430,6 +490,12 @@ export const PRESSURE_SOURCE_MAP: Record<string, { pressureType: keyof PressureT
   quarantine_cleared: { pressureType: "healingDone", amount: 5 },
   sector_explored: { pressureType: "exploration", amount: 3 },
   room_visited: { pressureType: "exploration", amount: 1 },
+  // Deck activity feeds Vortex Stirs — the Engineer's Deck resonates
+  card_battle_win: { pressureType: "deckActivity", amount: 5 },
+  card_battle_played: { pressureType: "deckActivity", amount: 2 },
+  card_crafted: { pressureType: "deckActivity", amount: 3 },
+  deck_fusion: { pressureType: "deckActivity", amount: 8 },
+  engineer_recording_found: { pressureType: "deckActivity", amount: 15 },
 };
 
 /* ─── EVENT CONSEQUENCE SYSTEM ─── */
@@ -498,6 +564,14 @@ export const EVENT_CONSEQUENCES: EventConsequence[] = [
     dialogOverride: "vox_revelation_active",
     musicOverride: "Lyra's Confession",
     xpMultipliers: { lore: 2.0, insurgency_quests: 1.5 },
+  },
+  {
+    eventId: "vortex_stirs",
+    marketMultipliers: { rare_card: 3, memory_energy: 2, dream_token: 1.5 },
+    combatModifiers: { attack: 1.1, speed: 1.1 },
+    dialogOverride: "vortex_stirs_active",
+    musicOverride: "The Engineer's Frequency",
+    xpMultipliers: { dischordia: 2.0, crafting: 1.5, lore: 1.5 },
   },
 ];
 
