@@ -215,6 +215,7 @@ export function validateStoryFlags(): ValidationIssue[] {
     /^sib_.+_viewed$/i,
     /^epoch\d+_discovery_enabled$/i,
     /^apprentice_.+_graduated$/i,
+    /^engineer_recording_\d+_discovered$/i,
   ];
   const isRuntimeManaged = (flag: string) =>
     RUNTIME_FLAG_PATTERNS.some(re => re.test(flag));

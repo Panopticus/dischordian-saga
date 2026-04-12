@@ -49,6 +49,41 @@ export const ENGINEERS_BENCH_FRAMING: EngineersBenchFraming = {
     "The Memory Energy reserve is empty. The bench will not turn away — it will only wait. If you want more, the Trade Empire is the answer, and you already know it. That is the point of this moment.",
 };
 
+/* ─── §6.1b RECORDING-GATED BENCH HINTS ─── */
+
+/**
+ * After discovering holographic Engineer recordings, the bench plays
+ * contextual one-shot lines from the Engineer when the player crafts.
+ * These are "tech advice from beyond the grave."
+ *
+ * See engineerBenchHints.ts for the full hint definitions and helpers.
+ * This interface extends the bench framing concept to support
+ * recording-gated hints.
+ */
+export interface RecordingGatedBenchHint {
+  readonly requiredRecordingFlag: string;
+  readonly triggerAction: "craft_light" | "craft_dark" | "craft_rare" | "fusion" | "blueprint_unlock";
+  readonly line: string;
+  readonly companionReaction?: Readonly<{
+    elara?: string;
+    the_human?: string;
+  }>;
+}
+
+/**
+ * Determine if a recording-gated bench hint should fire.
+ * Returns true if the required recording flag is set and the hint
+ * hasn't been seen before.
+ */
+export function shouldFireBenchHint(
+  requiredFlag: string,
+  flags: Record<string, unknown>,
+  seenHintIds: ReadonlySet<string>,
+  hintId: string,
+): boolean {
+  return Boolean(flags[requiredFlag]) && !seenHintIds.has(hintId);
+}
+
 /* ─── §6.3 ZEPHYR-9'S CLASSROOM ─── */
 
 export interface ChessDepthUnlock {

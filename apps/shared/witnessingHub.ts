@@ -52,6 +52,12 @@ import {
 import { APPENDIX_A_NOTES, type AppendixANote } from "./appendixACrossSystemNotes";
 import type { PreludeCrewMission } from "./preludeCrewMissions";
 import type { InfiltrationPathDef } from "./act3EyesBiography";
+import {
+  ENGINEER_RECORDINGS,
+  TOTAL_RECORDINGS,
+  getDiscoveredRecordings,
+  getNextPendingRecording,
+} from "./engineerRecordings";
 
 /* ─── PUBLIC TYPES ─── */
 
@@ -114,6 +120,13 @@ export interface WitnessingHubState {
   beatChronicleEntries: readonly BeatChronicleEntry[];
   infiltrationPath: InfiltrationPathDef | null;
   appendixSummaries: readonly AppendixStatusSummary[];
+  /** Engineer holographic recordings panel. */
+  engineerRecordings: {
+    discoveredCount: number;
+    totalCount: number;
+    nextRecordingTitle: string | null;
+    allDiscovered: boolean;
+  };
 }
 
 export interface WitnessingHubInputs {
@@ -268,6 +281,24 @@ function deriveAppendixSummary(
 
 /* ─── ENTRY POINT ─── */
 
+/* ─── ENGINEER RECORDINGS PANEL ─── */
+
+function deriveEngineerRecordingsPanel(
+  flags: Record<string, unknown>,
+  cardWins: number,
+): WitnessingHubState["engineerRecordings"] {
+  const discovered = getDiscoveredRecordings(flags);
+  // Use a simple heuristic for next recording — check with 0 step / false act1
+  // since the hub display doesn't gate on those specifics.
+  const next = getNextPendingRecording(flags, cardWins, 0, false);
+  return {
+    discoveredCount: discovered.length,
+    totalCount: TOTAL_RECORDINGS,
+    nextRecordingTitle: next?.title ?? null,
+    allDiscovered: discovered.length >= TOTAL_RECORDINGS,
+  };
+}
+
 export function deriveWitnessingHubState(
   inputs: WitnessingHubInputs,
 ): WitnessingHubState {
@@ -286,5 +317,6 @@ export function deriveWitnessingHubState(
       deriveAppendixSummary("B", inputs.flags),
       deriveAppendixSummary("C", inputs.flags),
     ],
+    engineerRecordings: deriveEngineerRecordingsPanel(inputs.flags, inputs.act1CardWins),
   };
 }
