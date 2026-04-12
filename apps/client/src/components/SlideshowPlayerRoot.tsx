@@ -13,7 +13,7 @@
    ═══════════════════════════════════════════════════════ */
 
 import { useCallback, useMemo } from "react";
-import { SongSlideshow } from "./SongSlideshow";
+import SongSlideshow from "./SongSlideshow";
 import { MatrixFrame } from "./MatrixFrame";
 import { useWitnessingStore } from "@/stores/witnessingStore";
 import { applySlideshowReward } from "@/stores/dischordiaCycleStore";
@@ -90,10 +90,16 @@ export function SlideshowPlayerRoot() {
 
   const slideshow = (
     <SongSlideshow
-      def={slideshowDef}
-      onComplete={handleComplete}
-      onSkip={handleComplete}
-      onClose={handleClose}
+      frames={slideshowDef.frames.map((f) => ({
+        imageSrc: f.imageUrl,
+        lyric: f.dialogOverlay ?? f.caption,
+        durationMs: f.endMs - f.startMs,
+        subtitle: f.dialogSpeakerId ?? undefined,
+      }))}
+      audioSrc={slideshowDef.audioUrl}
+      title={slideshowDef.title}
+      onEnd={handleComplete}
+      dismissible
     />
   );
 
