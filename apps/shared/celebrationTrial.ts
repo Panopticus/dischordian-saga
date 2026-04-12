@@ -691,3 +691,143 @@ export function rollForDeath(missedDays: number, choiceDeathChance: number = 0):
   const p = computeDeathProbability(missedDays, choiceDeathChance);
   return Math.random() < p;
 }
+
+/* ─── REAL-TIME TRIAL PACING ─────────────────────────────
+
+   One real-world day = one Celebration trial day. Apprentices that go
+   unattended for > DEATH_GRACE_DAYS start rolling for permadeath on
+   each subsequent day missed. Call computeTrialPacing() whenever the
+   client hydrates or the player revisits the ApprenticePage.
+   ────────────────────────────────────────────────────── */
+
+export const DAY_MS = 24 * 60 * 60 * 1000;
+
+export interface TrialPacing {
+  /** The trial day the apprentice SHOULD currently be on based on wall-clock time. */
+  expectedDay: number;
+  /** How many scheduled days have been skipped without a decision. */
+  missedDays: number;
+  /** Whether wall-clock time alone has already pushed the trial past day 28. */
+  graduatedByTime: boolean;
+}
+
+/**
+ * Compute where the trial clock says an apprentice should be right now.
+ *
+ * Pure: does no randomness of its own. The caller decides whether to
+ * fire `rollForDeath(missedDays)` once it knows how many days slipped.
+ */
+export function computeTrialPacing(
+  recruitedAt: number,
+  currentTrialDay: number,
+  now: number = Date.now(),
+): TrialPacing {
+  const elapsedMs = Math.max(0, now - recruitedAt);
+  const elapsedDays = Math.floor(elapsedMs / DAY_MS);
+  // Day 1 is the day of recruitment; cap one past graduation.
+  const expectedDay = Math.min(TRIAL_LENGTH_DAYS + 1, Math.max(1, elapsedDays + 1));
+  const missedDays = Math.max(0, expectedDay - currentTrialDay);
+  const graduatedByTime = expectedDay > TRIAL_LENGTH_DAYS;
+  return { expectedDay, missedDays, graduatedByTime };
+}
+
+/* ─── TRIAL HISTORY + SUMMARY ────────────────────────────
+
+   The client appends one entry per resolved day. summarizeTrial()
+   turns that log into the cumulative score bag that Act 1 card
+   battles and companion-join cinematics read from.
+   ────────────────────────────────────────────────────── */
+
+export interface TrialHistoryEntry {
+  day: number;
+  mascoteerId: string;
+  decisionId: string;
+  optionId: string;
+  bondDelta: number;
+  corruptionDelta: number;
+  moralityDelta: number;
+}
+
+export interface TrialSummary {
+  totalBond: number;
+  totalCorruption: number;
+  totalMorality: number;
+  /** Days the apprentice actually made a decision on. */
+  daysResolved: number;
+  /** Mean bondDelta across resolved days. */
+  avgBond: number;
+  /** 0–1 goodness score (morality vs corruption, normalized). */
+  goodnessScore: number;
+  /** Per-mascoteer bond totals, descending. */
+  mascoteerBond: Record<string, number>;
+  /** Mascoteer ids with positive cumulative bond, sorted best → worst. */
+  favoredMascoteers: string[];
+}
+
+export function summarizeTrial(history: readonly TrialHistoryEntry[]): TrialSummary {
+  const totalBond = history.reduce((s, e) => s + e.bondDelta, 0);
+  const totalCorruption = history.reduce((s, e) => s + e.corruptionDelta, 0);
+  const totalMorality = history.reduce((s, e) => s + e.moralityDelta, 0);
+  const daysResolved = history.length;
+  const avgBond = daysResolved ? totalBond / daysResolved : 0;
+
+  // Normalize goodness: max possible morality across 28 days ≈ 5 × 28 = 140.
+  const MAX_RANGE = TRIAL_LENGTH_DAYS * 5;
+  const rawBalance = totalMorality - totalCorruption;
+  const goodnessScore = Math.max(0, Math.min(1, (rawBalance + MAX_RANGE) / (2 * MAX_RANGE)));
+
+  const mascoteerBond: Record<string, number> = {};
+  for (const e of history) {
+    mascoteerBond[e.mascoteerId] = (mascoteerBond[e.mascoteerId] ?? 0) + e.bondDelta;
+  }
+  const favoredMascoteers = Object.entries(mascoteerBond)
+    .filter(([, v]) => v > 0)
+    .sort(([, a], [, b]) => b - a)
+    .map(([k]) => k);
+
+  return {
+    totalBond, totalCorruption, totalMorality,
+    daysResolved, avgBond, goodnessScore,
+    mascoteerBond, favoredMascoteers,
+  };
+}
+
+/* ─── COMBAT BUFF TRANSLATION ────────────────────────────
+
+   Called by Act 1 Cycle A graduation-exam battles (days 10/20/28)
+   to convert the trial summary into attack/defense buffs on the
+   Engineer's deck. Light alignment powers Light cards, Dark
+   alignment powers Dark cards, Neutral = mid.
+   ────────────────────────────────────────────────────── */
+
+export type TrialAlignment = "light" | "dark" | "neutral";
+
+export interface TrialCombatBuff {
+  /** Added to deck attack; clamped to [-10, 25]. */
+  attackBonus: number;
+  /** Added to deck defense; clamped to [0, 25]. */
+  defenseBonus: number;
+  /** Drives which cards in the hand get buffed. */
+  alignment: TrialAlignment;
+  /** Short human-readable line for the pre-battle banner. */
+  summary: string;
+}
+
+export function trialToCombatBuff(summary: TrialSummary): TrialCombatBuff {
+  const attackBonus = Math.round(Math.min(25, Math.max(-10, summary.avgBond)));
+  const defenseBonus = Math.round(Math.min(25, Math.max(0, summary.goodnessScore * 25)));
+  const alignment: TrialAlignment =
+    summary.goodnessScore >= 0.65 ? "light"
+      : summary.goodnessScore <= 0.35 ? "dark"
+      : "neutral";
+  const label =
+    alignment === "light" ? "Righteous path"
+      : alignment === "dark" ? "Corrupted path"
+      : "Neutral path";
+  return {
+    attackBonus,
+    defenseBonus,
+    alignment,
+    summary: `${label} · +${attackBonus} atk · +${defenseBonus} def`,
+  };
+}
