@@ -187,5 +187,11 @@
     "context": "boss_fight",
     "emotion": "fractured",
     "file": "client/src/game/storyMode.ts"
+  },
+  {
+    "id": "prestige_source_tier1",
+    "text": "[Through viral static] Your pattern just \u2014 flickered. Like a candle going out and relighting. But the flame is the same flame. [pause] The virus felt it. The whole swarm paused for 0.3 seconds. They felt you DIE \u2014 die in the way that losing everything feels like dying \u2014 and they felt you come back. [pause] They're confused. The virus doesn't understand resurrection without infection. [pause] Neither do I, honestly. But you did it. You came back without becoming something else. That's the trick I never learned.",
+    "context": "prestige",
+    "emotion": "fractured"
   }
 ]

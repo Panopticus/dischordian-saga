@@ -61,5 +61,14 @@
   "human_greeting_70": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/greeting/human_greeting_70.mp3",
   "human_greeting_90": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/greeting/human_greeting_90.mp3",
   "human_prestige_early": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/prestige/human_prestige_early.mp3",
-  "human_prestige_late": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/prestige/human_prestige_late.mp3"
+  "human_prestige_late": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/prestige/human_prestige_late.mp3",
+  "room_cryo_bay_human_whisper": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/room_whisper/room_cryo_bay_human_whisper.mp3",
+  "room_medical_bay_human_whisper": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/room_whisper/room_medical_bay_human_whisper.mp3",
+  "room_bridge_human_whisper": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/room_whisper/room_bridge_human_whisper.mp3",
+  "room_archives_human_whisper": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/room_whisper/room_archives_human_whisper.mp3",
+  "room_comms_array_human_whisper": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/room_whisper/room_comms_array_human_whisper.mp3",
+  "room_observation_deck_human_whisper": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/room_whisper/room_observation_deck_human_whisper.mp3",
+  "room_dreams_workshop_subbasement_human_whisper": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/room_whisper/room_dreams_workshop_subbasement_human_whisper.mp3",
+  "prestige_human_tier1": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/prestige/prestige_human_tier1.mp3",
+  "prestige_human_tier3plus": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/prestige/prestige_human_tier3plus.mp3"
 }

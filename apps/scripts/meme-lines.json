@@ -719,5 +719,11 @@
     "context": "episode_outro",
     "emotion": "sardonic",
     "file": "shared/transmissions.ts"
+  },
+  {
+    "id": "prestige_meme_broadcast_1",
+    "text": "BREAKING NEWS: a Potential has PRESTIGED. Gone back to Level 1. Voluntarily. With a SMILE. [pause] This is either the most optimistic or the most masochistic thing I've ever seen. They kept their companions. They kept their trust. They kept their MORALITY. But they gave back their levels, their rooms, their progress. For what? A multiplier? A title? [pause] No. For the experience of walking through doors that have teeth. AGAIN. On PURPOSE. The Human would approve. The Antiquarian is probably writing about it right now. And I'm here, broadcasting the news, wondering if the Potentials are FINALLY understanding what the Dischordian Saga has been trying to teach them since Episode One: the story isn't about the ending. It's about the RETELLING.",
+    "context": "prestige",
+    "emotion": "sardonic"
   }
 ]

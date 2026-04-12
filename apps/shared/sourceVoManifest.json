@@ -25,5 +25,6 @@
   "kael_loss_streak_23": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Source+Voices/battle_reaction/kael_loss_streak_23.mp3",
   "source_prefight": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Source+Voices/boss_fight/source_prefight.mp3",
   "source_postwin": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Source+Voices/boss_fight/source_postwin.mp3",
-  "source_postloss": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Source+Voices/boss_fight/source_postloss.mp3"
+  "source_postloss": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Source+Voices/boss_fight/source_postloss.mp3",
+  "prestige_source_tier1": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Source+Voices/prestige/prestige_source_tier1.mp3"
 }

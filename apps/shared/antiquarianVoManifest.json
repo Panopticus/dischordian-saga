@@ -6,5 +6,7 @@
   "antiq_programmer": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/dialog/antiq_programmer.mp3",
   "antiq_goggles": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/dialog/antiq_goggles.mp3",
   "antiq_identity": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/dialog/antiq_identity.mp3",
-  "antiq_prestige": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/prestige/antiq_prestige.mp3"
+  "antiq_prestige": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/prestige/antiq_prestige.mp3",
+  "prestige_antiquarian_chronicle_1": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/prestige/prestige_antiquarian_chronicle_1.mp3",
+  "prestige_antiquarian_chronicle_3": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/prestige/prestige_antiquarian_chronicle_3.mp3"
 }

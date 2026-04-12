@@ -82,5 +82,11 @@
     "context": "casino_tale",
     "emotion": "knowing",
     "file": "client/src/game/degensCasino.ts"
+  },
+  {
+    "id": "prestige_degen_tier1",
+    "text": "OH! Oh oh oh. [leans in, gold eye and purple eye both focused] You've been RESET. I can TASTE it. Your probability field is layered \u2014 like a parfait of past lives. Most people walk in here with one set of odds. You walk in with multiple sets stacked on top of each other. [pause] This means your luck is WEIRD. Not better. Not worse. WEIRD. I love weird. Weird is the most profitable thing in my casino. [pause] Tell you what \u2014 first spin's on the house. For the layers.",
+    "context": "prestige",
+    "emotion": "manic"
   }
 ]

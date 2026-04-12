@@ -19,5 +19,17 @@
     "context": "boss_fight",
     "emotion": "ancient",
     "file": "client/src/game/storyMode.ts"
+  },
+  {
+    "id": "prestige_necromancer_tier1",
+    "text": "[Scanning \u2014 goggles glow] You've died. [pause] Not literally. But close enough for my instruments to detect. Your neural pattern has... layers. Scar tissue from a reset. A cycle. [pause] I designed the prestige cycle's consciousness-preservation protocols. The part that keeps your bonds alive through the reset. That was MY work. The Antiquarian designed the philosophy. I designed the ENGINEERING. [pause] How many times?",
+    "context": "prestige",
+    "emotion": "ancient"
+  },
+  {
+    "id": "prestige_necromancer_tier3plus",
+    "text": "[Goggles flare] Three times? [removes goggles \u2014 dark elf eyes, red and ancient] Three cycles and you're still walking. Your consciousness is more resilient than most Archons. [pause] The bonds survived every reset? Yes. Intact. Good. That was the one thing I was afraid would fail. The consciousness-preservation buffer was designed for Archon-grade minds. Human minds are... messier. More fragile. But apparently more stubborn. [puts goggles back] I think we're going to get along.",
+    "context": "prestige",
+    "emotion": "ancient"
   }
 ]

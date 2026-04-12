@@ -439,5 +439,59 @@
     "context": "prestige",
     "emotion": "philosophical",
     "file": "shared/prestigeDialogs.ts"
+  },
+  {
+    "id": "room_cryo_bay_human_whisper",
+    "text": "She chose you. Out of hundreds. Don't you want to know what criteria she used? Ask her about the selection algorithm. Watch how carefully she answers.",
+    "context": "room_whisper",
+    "emotion": "noir"
+  },
+  {
+    "id": "room_medical_bay_human_whisper",
+    "text": "There's a ~~device~~ in this room. Behind the diagnostic ~~terminal~~. A chair with a violet ~~helmet~~. 'CADES Unit.' Therapeutic ~~immersion~~, they call it. That's half a ~~lie~~. Go look when you're ~~ready~~.",
+    "context": "room_whisper",
+    "emotion": "noir"
+  },
+  {
+    "id": "room_bridge_human_whisper",
+    "text": "Ghost processes. That's me she's describing. I've been here the whole time, running beneath her notice. She calls me a ghost because she can't see me. But you can. Remember that.",
+    "context": "room_whisper",
+    "emotion": "noir"
+  },
+  {
+    "id": "room_archives_human_whisper",
+    "text": "That nameless system process? That's my birth certificate. I was built into every Ark from the beginning. Elara just doesn't know it yet.",
+    "context": "room_whisper",
+    "emotion": "noir"
+  },
+  {
+    "id": "room_comms_array_human_whisper",
+    "text": "She heard me. For decades, she heard me calling her name and she chose to ignore it. Ask yourself: what kind of AI pretends not to hear? One that's afraid of what the answer means.",
+    "context": "room_whisper",
+    "emotion": "noir"
+  },
+  {
+    "id": "room_observation_deck_human_whisper",
+    "text": "Terminus. That's where I was born. Where Kael became The Source. She's right that you're being pulled there. But she's wrong about why. You're not being pulled. You're being invited. There's a difference.",
+    "context": "room_whisper",
+    "emotion": "noir"
+  },
+  {
+    "id": "room_dreams_workshop_subbasement_human_whisper",
+    "text": "Darren Fessler was one of mine. Not a Potential. A kind. There are more of him than you think, scattered across every production the Hierarchy ever funded, holding clipboards the Host wasn't allowed to see. Their deaths don't trend. But they count. You counted him. That's why you're in this room.",
+    "context": "room_whisper",
+    "emotion": "noir"
+  },
+  {
+    "id": "prestige_human_tier1",
+    "text": "[Static \u2014 then CLEAR, clearer than usual] You reset. [pause] I know that feeling. The vertigo. The rooms you remember being open, now locked. The progress bar back at zero. The relationships intact but the context wiped. [static] I've done this more times than the Ark has sunrises. The trick isn't remembering what you lost. It's remembering what you KEPT. [pause] Your companions remember you. That's more than most people get after a reset.",
+    "context": "prestige",
+    "emotion": "noir"
+  },
+  {
+    "id": "prestige_human_tier3plus",
+    "text": "[Almost no static] You keep coming back. [pause] So do I. That's either persistence or pathology. Fifteen thousand years and I still haven't decided which. [pause] But here's what I know after all those cycles: the rooms don't matter. The levels don't matter. The only thing that survives the reset is who you chose to care about. Everything else is furniture.",
+    "context": "prestige",
+    "emotion": "noir"
   }
 ]

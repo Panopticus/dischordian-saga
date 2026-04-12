@@ -54,5 +54,17 @@
     "context": "prestige",
     "emotion": "proud",
     "file": "shared/prestigeDialogs.ts"
+  },
+  {
+    "id": "prestige_antiquarian_chronicle_1",
+    "text": "The Operative has done something I have witnessed only in Archons and in the Human before them: they have turned the wheel. Reset the clock. Returned to the beginning carrying the weight of the journey. I designed the prestige system \u2014 or rather, I designed the CONCEPT that the Architect turned into a system. The original idea was spiritual, not mechanical. In Thalorian theology, the soul returns to learn what it failed to learn in the previous life. The prestige cycle is reincarnation formalized as game design. [pause] The Operative's companions remain bonded. That was my one condition when the system was built: the bonds must survive. Everything else can reset. The bonds are sacred.",
+    "context": "prestige",
+    "emotion": "warm"
+  },
+  {
+    "id": "prestige_antiquarian_chronicle_3",
+    "text": "Three cycles. The Operative walks rooms they have memorized, fights enemies they have defeated, unlocks doors they already know the code to. And yet they continue. Not because they must \u2014 the game does not require prestige. Because they CHOOSE to. [pause] I have watched civilizations rise and fall across five Ages. The ones that survived were not the strongest or the smartest. They were the ones that chose to begin again after ending. The ones that treated the wheel not as punishment but as curriculum. [pause] The Operative is learning what I have spent five Ages trying to teach: that the beginning is not the opposite of the ending. It is the ending's most honest student.",
+    "context": "prestige",
+    "emotion": "warm"
   }
 ]

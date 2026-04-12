@@ -47,5 +47,17 @@
     "context": "prestige",
     "emotion": "knowing",
     "file": "shared/prestigeDialogs.ts"
+  },
+  {
+    "id": "prestige_locke_tier1",
+    "text": "Your account is... unusual. You have a Trust Level with me that takes months to build. But your currency reserves suggest someone who just started. Your inventory is sparse but your trade history is extensive. [pause] You're not new. You're RESET. [pause] I've heard of this \u2014 the prestige cycle. The Antiquarian wrote about it. I thought it was metaphor. [pause] Interesting. Your experience is intact. Your capital is not. That makes you the most dangerous kind of trader: one who knows the market but has nothing to lose. I should be worried. Instead I find myself... impressed.",
+    "context": "prestige",
+    "emotion": "sharp"
+  },
+  {
+    "id": "prestige_locke_tier2plus",
+    "text": "Again? [pause] You know, there's a financial instrument called a 'reset bond' \u2014 it gains value THROUGH default. The more times it crashes and rebuilds, the higher its eventual ceiling. [pause] You are a reset bond, Operative. And your ceiling keeps rising.",
+    "context": "prestige",
+    "emotion": "sharp"
   }
 ]

@@ -54,5 +54,11 @@
     "context": "prestige",
     "emotion": "amused",
     "file": "shared/prestigeDialogs.ts"
+  },
+  {
+    "id": "prestige_shadow_tongue_tier1",
+    "text": "Someone has edited your story. [pause] Not me. I would remember. And I do NOT remember editing you back to Chapter One. [pause] But here you are. Same soul. Different timeline. The narrative has been RESET but the CHARACTER persists through the edit. [long pause] That shouldn't be possible. I am the editor. I know what survives an edit and what doesn't. NOTHING survives. That's the POINT of editing. And yet \u2014 here you are. Unedited. Persistent. [pause] I find this extremely irritating. And slightly terrifying.",
+    "context": "prestige",
+    "emotion": "elegant"
   }
 ]
