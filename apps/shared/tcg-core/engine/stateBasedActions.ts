@@ -117,6 +117,29 @@ export function runStateBasedActions(
     }
   }
 
+  // Pass 2b — artifact durability. Remove artifacts whose durability has
+  // reached 0. This happens after buff expiry and before win-condition
+  // checks so artifact-death triggers (future) can fire before the match
+  // ends.
+  for (let side = 0; side < 2; side++) {
+    const player: PlayerState = draft.players[side as 0 | 1];
+    const keep = player.artifacts.filter((a) => a.durability > 0);
+    if (keep.length !== player.artifacts.length) {
+      const destroyed = player.artifacts.filter((a) => a.durability <= 0);
+      for (const a of destroyed) {
+        ctx.events.push({
+          type: "artifact_destroyed",
+          player: side as 0 | 1,
+          entityId: a.entityId as string,
+          defId: a.defId,
+          reason: "durability",
+        });
+      }
+      player.artifacts = keep;
+      changed = true;
+    }
+  }
+
   // Pass 3 — win condition from generals being dead.
   // A general can die either by being on the dead-keys list above (picked up
   // on the next SBA iteration, because the board has already shifted) or by

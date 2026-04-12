@@ -33,10 +33,11 @@
  * All of these will be additive — commit here is about the pipeline.
  */
 import type { Draft } from "immer";
-import type { GameState, BoardEntity } from "../types/GameState";
+import type { GameState, BoardEntity, PlayerState } from "../types/GameState";
 import { posKey } from "../types/GameState";
 import type { Action, ReduceError } from "../types/Action";
 import type { ReduceCtx } from "./reducer";
+import type { Side } from "../types/Ids";
 
 export function handleAttack(
   draft: Draft<GameState>,
@@ -124,9 +125,9 @@ export function handleAttack(
   const attackDamage = Math.max(0, attacker.card.currentPower);
   const retaliationDamage = isRangedLike ? 0 : Math.max(0, target.card.currentPower);
 
-  applyCombatDamage(attacker, target, attackDamage, ctx);
+  applyCombatDamage(draft, attacker, target, attackDamage, ctx);
   if (retaliationDamage > 0) {
-    applyCombatDamage(target, attacker, retaliationDamage, ctx);
+    applyCombatDamage(draft, target, attacker, retaliationDamage, ctx);
   }
 
   attacker.hasAttacked = true;
@@ -142,8 +143,13 @@ export function handleAttack(
  * Apply `damage` from `source` to `dest` through the standard damage
  * pipeline: forcefield charges absorb first, then raw HP loss. Emits
  * the damage_dealt event with `absorbed` set appropriately.
+ *
+ * When the dest is a general and damage is not absorbed, all equipped
+ * artifacts on that general lose 1 durability (Duelyst convention).
+ * Artifacts that reach 0 durability are cleaned up by SBA.
  */
 function applyCombatDamage(
+  draft: Draft<GameState>,
   source: Draft<BoardEntity>,
   dest: Draft<BoardEntity>,
   damage: number,
@@ -172,6 +178,15 @@ function applyCombatDamage(
     amount: damage,
     absorbed: false,
   });
+
+  // Artifact durability loss: when a general takes real damage, each
+  // equipped artifact loses 1 durability.
+  if (dest.isGeneral) {
+    const owner: Draft<PlayerState> = draft.players[dest.card.owner as Side];
+    for (const artifact of owner.artifacts) {
+      artifact.durability = artifact.durability - 1;
+    }
+  }
 }
 
 function isKingAdjacent(
