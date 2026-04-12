@@ -89,8 +89,10 @@ import { dischordiaCycleRouter } from "./routers/dischordiaCycle";
 import { crewRouter } from "./routers/crew";
 import { storyModeRouter } from "./routers/storyMode";
 import { tutorialRouter } from "./routers/tutorial";
+import { collectionRouter } from "./routers/collection";
 
 export const appRouter = router({
+  collection: collectionRouter,
   system: systemRouter,
   cardGame: cardGameRouter,
   ark: arkRouter,

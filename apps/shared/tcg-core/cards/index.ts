@@ -1,11 +1,19 @@
 /**
- * Card registry barrel — 63 Season 1 cards + 1 token(s) = 64 definitions.
+ * Card registry barrel — 103 Season 1 cards + 1 token(s) = 104 definitions.
  */
 import type { CardDefinition } from "../index";
 
 /* ─── Antiquarian ─── */
 import { cardDef as s1_char_018_the_antiquarian } from "./definitions/antiquarian/s1_char_018_the_antiquarian.ts";
 import { cardDef as s1_char_043_the_programmer } from "./definitions/antiquarian/s1_char_043_the_programmer.ts";
+import { cardDef as s1_char_058_epoch_walker } from "./definitions/antiquarian/s1_char_058_epoch_walker.ts";
+import { cardDef as s1_char_059_chronosplicer } from "./definitions/antiquarian/s1_char_059_chronosplicer.ts";
+import { cardDef as s1_char_060_relic_keeper } from "./definitions/antiquarian/s1_char_060_relic_keeper.ts";
+import { cardDef as s1_char_061_temporal_archivist } from "./definitions/antiquarian/s1_char_061_temporal_archivist.ts";
+import { cardDef as s1_char_062_hourglass_golem } from "./definitions/antiquarian/s1_char_062_hourglass_golem.ts";
+import { cardDef as s1_char_063_paradox_acolyte } from "./definitions/antiquarian/s1_char_063_paradox_acolyte.ts";
+import { cardDef as s1_char_064_memory_thief } from "./definitions/antiquarian/s1_char_064_memory_thief.ts";
+import { cardDef as s1_char_065_age_ender } from "./definitions/antiquarian/s1_char_065_age_ender.ts";
 
 /* ─── Architect ─── */
 import { cardDef as s1_char_006_dr_lyra_vox } from "./definitions/architect/s1_char_006_dr_lyra_vox.ts";
@@ -56,6 +64,14 @@ import { cardDef as s1_song_091_i_love_war } from "./definitions/insurgency/s1_s
 
 /* ─── Neutral ─── */
 import { cardDef as s1_char_004_ambassador_veron } from "./definitions/neutral/s1_char_004_ambassador_veron.ts";
+import { cardDef as s1_char_086_wandering_merchant } from "./definitions/neutral/s1_char_086_wandering_merchant.ts";
+import { cardDef as s1_char_087_scrapyard_golem } from "./definitions/neutral/s1_char_087_scrapyard_golem.ts";
+import { cardDef as s1_char_088_field_medic } from "./definitions/neutral/s1_char_088_field_medic.ts";
+import { cardDef as s1_char_089_courier_sprite } from "./definitions/neutral/s1_char_089_courier_sprite.ts";
+import { cardDef as s1_char_090_hired_blade } from "./definitions/neutral/s1_char_090_hired_blade.ts";
+import { cardDef as s1_char_091_border_scout } from "./definitions/neutral/s1_char_091_border_scout.ts";
+import { cardDef as s1_char_092_ruin_stalker } from "./definitions/neutral/s1_char_092_ruin_stalker.ts";
+import { cardDef as s1_char_093_ironclad_veteran } from "./definitions/neutral/s1_char_093_ironclad_veteran.ts";
 import { cardDef as s1_song_059_lip_service } from "./definitions/neutral/s1_song_059_lip_service.ts";
 import { cardDef as s1_song_060_nonos } from "./definitions/neutral/s1_song_060_nonos.ts";
 import { cardDef as s1_song_061_the_enigmas_lament } from "./definitions/neutral/s1_song_061_the_enigmas_lament.ts";
@@ -75,10 +91,36 @@ import { cardDef as s1_char_020_the_authority } from "./definitions/new_babylon/
 import { cardDef as s1_char_033_the_human } from "./definitions/new_babylon/s1_char_033_the_human.ts";
 import { cardDef as s1_char_061_vexahlia_the_taskmaster } from "./definitions/new_babylon/s1_char_061_vexahlia_the_taskmaster.ts";
 import { cardDef as s1_char_066_fenra_the_moon_tyrant } from "./definitions/new_babylon/s1_char_066_fenra_the_moon_tyrant.ts";
+import { cardDef as s1_char_078_governor_thane } from "./definitions/new_babylon/s1_char_078_governor_thane.ts";
+import { cardDef as s1_char_079_citadel_guardian } from "./definitions/new_babylon/s1_char_079_citadel_guardian.ts";
+import { cardDef as s1_char_080_district_enforcer } from "./definitions/new_babylon/s1_char_080_district_enforcer.ts";
+import { cardDef as s1_char_081_tribunal_magistrate } from "./definitions/new_babylon/s1_char_081_tribunal_magistrate.ts";
+import { cardDef as s1_char_082_spire_assassin } from "./definitions/new_babylon/s1_char_082_spire_assassin.ts";
+import { cardDef as s1_char_083_propaganda_herald } from "./definitions/new_babylon/s1_char_083_propaganda_herald.ts";
+import { cardDef as s1_char_084_iron_decree } from "./definitions/new_babylon/s1_char_084_iron_decree.ts";
+import { cardDef as s1_char_085_sector_warden } from "./definitions/new_babylon/s1_char_085_sector_warden.ts";
+
+/* ─── Panopticon ─── */
+import { cardDef as s1_char_050_warden_prime } from "./definitions/panopticon/s1_char_050_warden_prime.ts";
+import { cardDef as s1_char_051_oculus_sentinel } from "./definitions/panopticon/s1_char_051_oculus_sentinel.ts";
+import { cardDef as s1_char_052_compliance_officer } from "./definitions/panopticon/s1_char_052_compliance_officer.ts";
+import { cardDef as s1_char_053_data_harvester } from "./definitions/panopticon/s1_char_053_data_harvester.ts";
+import { cardDef as s1_char_054_panoptic_drone } from "./definitions/panopticon/s1_char_054_panoptic_drone.ts";
+import { cardDef as s1_char_055_thought_censor } from "./definitions/panopticon/s1_char_055_thought_censor.ts";
+import { cardDef as s1_char_056_registry_clerk } from "./definitions/panopticon/s1_char_056_registry_clerk.ts";
+import { cardDef as s1_char_057_blacksite_interrogator } from "./definitions/panopticon/s1_char_057_blacksite_interrogator.ts";
 
 /* ─── Thought Virus ─── */
 import { cardDef as s1_char_032_the_host } from "./definitions/thought_virus/s1_char_032_the_host.ts";
 import { cardDef as s1_char_049_the_source } from "./definitions/thought_virus/s1_char_049_the_source.ts";
+import { cardDef as s1_char_070_patient_zero } from "./definitions/thought_virus/s1_char_070_patient_zero.ts";
+import { cardDef as s1_char_071_neural_parasite } from "./definitions/thought_virus/s1_char_071_neural_parasite.ts";
+import { cardDef as s1_char_072_memetic_carrier } from "./definitions/thought_virus/s1_char_072_memetic_carrier.ts";
+import { cardDef as s1_char_073_cognitive_blight } from "./definitions/thought_virus/s1_char_073_cognitive_blight.ts";
+import { cardDef as s1_char_074_vector_swarm } from "./definitions/thought_virus/s1_char_074_vector_swarm.ts";
+import { cardDef as s1_char_075_plague_herald } from "./definitions/thought_virus/s1_char_075_plague_herald.ts";
+import { cardDef as s1_char_076_synaptic_horror } from "./definitions/thought_virus/s1_char_076_synaptic_horror.ts";
+import { cardDef as s1_char_077_mind_rot_drone } from "./definitions/thought_virus/s1_char_077_mind_rot_drone.ts";
 
 /* ─── Tokens ─── */
 import { cardDef as token_wolf_2_2 } from "./tokens/token_wolf_2_2";
@@ -86,6 +128,14 @@ import { cardDef as token_wolf_2_2 } from "./tokens/token_wolf_2_2";
 export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_018_the_antiquarian,
   s1_char_043_the_programmer,
+  s1_char_058_epoch_walker,
+  s1_char_059_chronosplicer,
+  s1_char_060_relic_keeper,
+  s1_char_061_temporal_archivist,
+  s1_char_062_hourglass_golem,
+  s1_char_063_paradox_acolyte,
+  s1_char_064_memory_thief,
+  s1_char_065_age_ender,
   s1_char_006_dr_lyra_vox,
   s1_char_007_general_alarik,
   s1_char_008_general_binath,
@@ -128,6 +178,14 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_047_the_shadow_tongue,
   s1_song_091_i_love_war,
   s1_char_004_ambassador_veron,
+  s1_char_086_wandering_merchant,
+  s1_char_087_scrapyard_golem,
+  s1_char_088_field_medic,
+  s1_char_089_courier_sprite,
+  s1_char_090_hired_blade,
+  s1_char_091_border_scout,
+  s1_char_092_ruin_stalker,
+  s1_char_093_ironclad_veteran,
   s1_song_059_lip_service,
   s1_song_060_nonos,
   s1_song_061_the_enigmas_lament,
@@ -145,7 +203,31 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_033_the_human,
   s1_char_061_vexahlia_the_taskmaster,
   s1_char_066_fenra_the_moon_tyrant,
+  s1_char_078_governor_thane,
+  s1_char_079_citadel_guardian,
+  s1_char_080_district_enforcer,
+  s1_char_081_tribunal_magistrate,
+  s1_char_082_spire_assassin,
+  s1_char_083_propaganda_herald,
+  s1_char_084_iron_decree,
+  s1_char_085_sector_warden,
+  s1_char_050_warden_prime,
+  s1_char_051_oculus_sentinel,
+  s1_char_052_compliance_officer,
+  s1_char_053_data_harvester,
+  s1_char_054_panoptic_drone,
+  s1_char_055_thought_censor,
+  s1_char_056_registry_clerk,
+  s1_char_057_blacksite_interrogator,
   s1_char_032_the_host,
   s1_char_049_the_source,
+  s1_char_070_patient_zero,
+  s1_char_071_neural_parasite,
+  s1_char_072_memetic_carrier,
+  s1_char_073_cognitive_blight,
+  s1_char_074_vector_swarm,
+  s1_char_075_plague_herald,
+  s1_char_076_synaptic_horror,
+  s1_char_077_mind_rot_drone,
   token_wolf_2_2,
 ]);

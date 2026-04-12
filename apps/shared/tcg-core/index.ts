@@ -237,6 +237,9 @@ export type {
 export { CURRENCIES, CURRENCY_MAP, ECONOMY } from "./economy/config";
 export type { CurrencyType, EconomyConfig } from "./economy/config";
 
+/* ─── Campaign AI ─── */
+export { chooseCampaignAction } from "./ai/campaignAI";
+
 /* ─── Compat (legacy client translation) ─── */
 export {
   translateClientAction,

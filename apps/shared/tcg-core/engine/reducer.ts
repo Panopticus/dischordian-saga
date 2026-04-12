@@ -28,7 +28,7 @@ import type { Draft } from "immer";
 import type { GameState, CardRegistry } from "../types/GameState";
 import type { Action, ReduceError } from "../types/Action";
 import type { GameEvent } from "../types/Event";
-import { createRng, type Rng } from "./rng";
+import { createRng, rngShuffle, type Rng } from "./rng";
 import { RULES_VERSION } from "./version";
 import { runStateBasedActions, SBA_SAFETY_CAP } from "./stateBasedActions";
 import { drainTriggerQueue, type TriggerEffectRunner } from "./triggerQueue";
@@ -38,6 +38,11 @@ import { handlePlayCard as handlePlayCardReal } from "./playCard";
 import { handleMove as handleMoveReal } from "./movement";
 import { handleAttack as handleAttackReal } from "./combat";
 import { createDefaultTriggerRunner } from "./defaultTriggerRunner";
+import type { ConcreteAbility } from "../types/Trigger";
+import type { Effect } from "../types/Effect";
+import type { EntityId } from "../types/Ids";
+import { interpret } from "./effectInterpreter";
+import { makeExecCtx } from "./execCtx";
 
 export interface ReduceResult {
   state: GameState;
@@ -251,19 +256,138 @@ function handlePlayCard(
 }
 
 function handleReplaceCard(
-  _draft: Draft<GameState>,
-  _action: Extract<Action, { kind: "replace_card" }>,
-  _ctx: ReduceCtx
+  draft: Draft<GameState>,
+  action: Extract<Action, { kind: "replace_card" }>,
+  ctx: ReduceCtx
 ): ReduceError | undefined {
-  return { code: "illegal_move", message: "replace_card: not implemented yet" };
+  if (draft.phase !== "playing") {
+    return { code: "wrong_phase", message: "replace_card only legal in play phase" };
+  }
+  if (action.actor !== draft.currentPlayer) {
+    return { code: "not_your_turn", message: "replace_card from non-active player" };
+  }
+  const player = draft.players[action.actor];
+  if (player.replaceUsed) {
+    return {
+      code: "action_already_used",
+      message: "already used replace this turn",
+    };
+  }
+  if (action.handIndex < 0 || action.handIndex >= player.hand.length) {
+    return {
+      code: "hand_index_out_of_bounds",
+      message: `replace_card handIndex ${action.handIndex} out of bounds`,
+    };
+  }
+  if (player.deck.length === 0) {
+    return {
+      code: "illegal_move",
+      message: "cannot replace — deck is empty",
+    };
+  }
+
+  // Remove the card from hand, shuffle it into the deck, draw the top.
+  const removed = player.hand[action.handIndex];
+  player.hand = [
+    ...player.hand.slice(0, action.handIndex),
+    ...player.hand.slice(action.handIndex + 1),
+  ];
+  player.deck = [...player.deck, removed];
+  player.deck = rngShuffle(ctx.rng, player.deck);
+
+  // Draw the new top card into the same hand slot position.
+  const drawn = player.deck[0];
+  player.deck = player.deck.slice(1);
+  player.hand = [
+    ...player.hand.slice(0, action.handIndex),
+    drawn,
+    ...player.hand.slice(action.handIndex),
+  ];
+
+  player.replaceUsed = true;
+  ctx.events.push({
+    type: "card_replaced",
+    player: action.actor,
+    handIndex: action.handIndex,
+    newCardDefId: drawn.defId,
+  });
+  return undefined;
 }
 
 function handleBloodborn(
-  _draft: Draft<GameState>,
-  _action: Extract<Action, { kind: "bloodborn_spell" }>,
-  _ctx: ReduceCtx
+  draft: Draft<GameState>,
+  action: Extract<Action, { kind: "bloodborn_spell" }>,
+  ctx: ReduceCtx
 ): ReduceError | undefined {
-  return { code: "illegal_move", message: "bloodborn_spell: not implemented yet" };
+  if (draft.phase !== "playing") {
+    return { code: "wrong_phase", message: "bloodborn_spell only legal in play phase" };
+  }
+  if (action.actor !== draft.currentPlayer) {
+    return { code: "not_your_turn", message: "bloodborn_spell from non-active player" };
+  }
+  const player = draft.players[action.actor];
+  if (player.bloodbornUsed) {
+    return {
+      code: "action_already_used",
+      message: "bloodborn already used this game",
+    };
+  }
+
+  // Resolve the general's card definition for its Bloodborn ability.
+  const generalEntityId = player.generalEntityId;
+  const generalEntry = Object.values(draft.board).find(
+    (e) => e.entityId === generalEntityId
+  );
+  if (!generalEntry) {
+    return { code: "illegal_move", message: "general not on board" };
+  }
+
+  // Look up the general's card definition. If not in the registry
+  // (placeholder generals in tests), the BBS still consumes 1 mana
+  // and sets the flag, but no effect fires.
+  const generalDef = ctx.registry.get(generalEntry.card.defId);
+
+  // Resolve BBS ability from the general's definition if available.
+  let bbsAbility: ConcreteAbility | undefined;
+  if (generalDef) {
+    const abilities = (generalDef.abilities ?? []) as unknown as ConcreteAbility[];
+    bbsAbility = abilities.find(
+      (a) => a.trigger.kind === "activated"
+    );
+  }
+
+  // BBS costs 1 mana (Duelyst convention). Authored generals can
+  // override via the activated ability's manaCost field.
+  const bbsCost = bbsAbility
+    ? (bbsAbility.trigger as { manaCost?: number }).manaCost ?? 1
+    : 1;
+
+  if (player.mana < bbsCost) {
+    return {
+      code: "insufficient_mana",
+      message: `bloodborn costs ${bbsCost}, player has ${player.mana} mana`,
+    };
+  }
+
+  player.mana -= bbsCost;
+  player.bloodbornUsed = true;
+
+  ctx.events.push({
+    type: "bloodborn_cast",
+    player: action.actor,
+    spellName: generalDef?.name ?? generalEntry.card.defId,
+  });
+
+  // Execute the BBS effect if one exists.
+  if (bbsAbility) {
+    const execCtx = makeExecCtx(action.actor, {
+      sourceEntityId: generalEntityId as EntityId,
+      playerChosenTargetId: action.targetEntityId as EntityId | undefined,
+    });
+    interpret(bbsAbility.effect as Effect, execCtx, draft, ctx);
+  }
+
+  return undefined;
 }
 
 function handleEndTurn(

@@ -30,6 +30,7 @@ export const factionSchema = z.enum([
   "new_babylon",
   "antiquarian",
   "thought_virus",
+  "panopticon",
   "neutral",
 ]);
 
