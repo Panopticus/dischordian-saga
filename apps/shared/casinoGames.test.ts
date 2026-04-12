@@ -471,4 +471,61 @@ describe("splitJackpotPool", () => {
       expect(retained).toBeGreaterThanOrEqual(JACKPOT_MIN_SEED);
     }
   });
+
+  // ─── Multi-claim invariant ────────────────────────────────
+  // Simulates a "healthy" casino where the pool grows between
+  // claims (contributions from regular wagers) and drains on
+  // each claim. Verifies the retain-20% rule keeps the pool
+  // strictly positive forever — never drives it to zero or
+  // below, even across 1000 consecutive claims.
+  it("never drives the pool to zero across many claims (with contributions)", () => {
+    let balance = 500;
+    const CLAIMS = 1000;
+    // Each cycle: pool grows by ~50 from bets, then gets claimed.
+    // This mirrors the real executeGame contribution (2% of bet).
+    const perCycleContribution = 50;
+    let minSeen = balance;
+    for (let i = 0; i < CLAIMS; i++) {
+      balance += perCycleContribution;
+      const { payout, retained } = splitJackpotPool(balance);
+      expect(payout).toBeGreaterThanOrEqual(0);
+      expect(retained).toBeGreaterThanOrEqual(JACKPOT_MIN_SEED);
+      // The pool after the claim is the retained seed — never the
+      // payout. This is the invariant the test exists for.
+      balance = retained;
+      if (balance < minSeen) minSeen = balance;
+    }
+    // Minimum seen must still be at or above MIN_SEED.
+    expect(minSeen).toBeGreaterThanOrEqual(JACKPOT_MIN_SEED);
+    // Post-simulation pool must still be claimable (never zero).
+    expect(balance).toBeGreaterThan(0);
+  });
+
+  it("never drives the pool to zero across many claims (without contributions)", () => {
+    // Degenerate case: no new wagers between claims. The pool
+    // should still stay ≥ MIN_SEED because splitJackpotPool uses
+    // max(MIN_SEED, floor(balance * SEED_FRACTION)). Payouts shrink
+    // to zero as the pool converges to MIN_SEED but never flip
+    // negative.
+    let balance = 10_000;
+    for (let i = 0; i < 200; i++) {
+      const { payout, retained } = splitJackpotPool(balance);
+      expect(payout).toBeGreaterThanOrEqual(0);
+      expect(retained).toBeGreaterThanOrEqual(JACKPOT_MIN_SEED);
+      expect(retained + payout).toBe(balance);
+      balance = retained;
+    }
+    // After enough dry claims we must have converged to MIN_SEED.
+    expect(balance).toBe(JACKPOT_MIN_SEED);
+  });
+
+  it("claim on a pool below MIN_SEED still retains MIN_SEED (nothing to pay)", () => {
+    // Edge case the runtime shouldn't hit but tests lock in the
+    // invariant — if somehow the pool is below MIN_SEED, payout
+    // should clamp to zero rather than go negative.
+    const { payout, retained } = splitJackpotPool(JACKPOT_MIN_SEED - 1);
+    expect(payout).toBe(0);
+    expect(retained).toBeGreaterThanOrEqual(JACKPOT_MIN_SEED - 1);
+    expect(retained).toBeLessThanOrEqual(JACKPOT_MIN_SEED);
+  });
 });

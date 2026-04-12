@@ -18,7 +18,7 @@ import { getDb, type DrizzleDb } from "../db";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import {
   casinoState, casinoResults, casinoJackpotPool, dreamBalance, userAchievements,
-  warTerritories, warSeasons, notifications,
+  warTerritories, warSeasons, notifications, users, adminAuditLog,
 } from "../../db/schema";
 import { eq, and, sql, desc } from "drizzle-orm";
 
@@ -906,7 +906,7 @@ export const casinoRouter = router({
    *  resets every row. */
   adminResetCasinoSession: adminProcedure
     .input(z.object({ userId: z.number().int().positive().optional() }).optional())
-    .mutation(async ({ input }) => {
+    .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) throw new Error("DB unavailable");
       const resetFields = {
@@ -918,20 +918,42 @@ export const casinoRouter = router({
         consecutiveFactionWins: 0,
         consecutiveGauntletWins: 0,
       } as const;
+      let reset = 0;
+      let scope: "single" | "all";
       if (input?.userId) {
         await db
           .update(casinoState)
           .set(resetFields)
           .where(eq(casinoState.userId, input.userId));
-        return { reset: 1, scope: "single" as const };
+        reset = 1;
+        scope = "single";
+      } else {
+        const result = await db
+          .update(casinoState)
+          .set(resetFields);
+        // Drizzle MySQL update doesn't return rowCount; return a
+        // sentinel so the admin UI knows it ran.
+        reset = (result as unknown as { affectedRows?: number }).affectedRows ?? 0;
+        scope = "all";
       }
-      const result = await db
-        .update(casinoState)
-        .set(resetFields);
-      // Drizzle MySQL update doesn't return rowCount; return a
-      // sentinel so the admin UI knows it ran.
-      const affected = (result as unknown as { affectedRows?: number }).affectedRows ?? 0;
-      return { reset: affected, scope: "all" as const };
+      // Admin audit log — any economy-adjacent state change should
+      // be traceable to the admin who executed it. Fire-and-forget
+      // so a logging failure doesn't undo the reset.
+      try {
+        await db.insert(adminAuditLog).values({
+          adminId: ctx.user.id,
+          action: "casino.adminResetCasinoSession",
+          details: {
+            scope,
+            targetUserId: input?.userId ?? null,
+            affectedRows: reset,
+            resetFields,
+          },
+        });
+      } catch {
+        /* audit log is best-effort */
+      }
+      return { reset, scope };
     }),
 
   /** Public leaderboard of biggest jackpots. */
@@ -971,16 +993,19 @@ export const casinoRouter = router({
         "faction_prophet", "dream_survivor", "gauntlet_master", "tale_collector",
         "degen_favor_max", "scratched_cursed",
       ];
-      // Group-by + count in a single query. Uses a raw SQL fragment
-      // because drizzle's groupBy + count API is awkward for IN clauses.
+      // Group-by + count in a single query, joined against users so we
+      // can return the display name directly. Drizzle's `leftJoin` is
+      // preferable to a separate user lookup round-trip.
       const rows = await db
         .select({
           userId: userAchievements.userId,
+          name: users.name,
           count: sql<number>`COUNT(*)`.as("count"),
         })
         .from(userAchievements)
+        .leftJoin(users, eq(users.id, userAchievements.userId))
         .where(sql`${userAchievements.achievementId} IN (${sql.join(CASINO_ACHIEVEMENT_IDS.map(id => sql`${id}`), sql`, `)})`)
-        .groupBy(userAchievements.userId)
+        .groupBy(userAchievements.userId, users.name)
         .orderBy(sql`count DESC`)
         .limit(limit);
       return rows;
@@ -995,17 +1020,28 @@ export const casinoRouter = router({
       const db = await getDb();
       if (!db) return [];
       const RARE_IDS = ["jackpot", "royal_flush", "degens_chosen", "breaking_even", "tale_collector", "degen_favor_max"];
-      const claims: Array<{ achievementId: string; userId: number | null; earnedAt: Date | null }> = [];
+      const claims: Array<{
+        achievementId: string;
+        userId: number | null;
+        name: string | null;
+        earnedAt: Date | null;
+      }> = [];
       for (const id of RARE_IDS) {
         const [row] = await db
-          .select()
+          .select({
+            userId: userAchievements.userId,
+            earnedAt: userAchievements.earnedAt,
+            name: users.name,
+          })
           .from(userAchievements)
+          .leftJoin(users, eq(users.id, userAchievements.userId))
           .where(eq(userAchievements.achievementId, id))
           .orderBy(userAchievements.earnedAt)
           .limit(1);
         claims.push({
           achievementId: id,
           userId: row?.userId ?? null,
+          name: row?.name ?? null,
           earnedAt: row?.earnedAt ?? null,
         });
       }

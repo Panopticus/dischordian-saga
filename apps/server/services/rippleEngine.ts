@@ -22,6 +22,7 @@ import {
   guildWarContributions,
   guildMembers,
   contentParticipation,
+  analyticsEvents,
 } from "../../db/schema";
 import { eq, and, sql, gte } from "drizzle-orm";
 import { pressureService } from "./pressureService";
@@ -956,6 +957,7 @@ function bucketKey(userId: number, hourEpoch: number): string {
 on("search_rate_limited", async (ev) => {
   const userId = typeof ev.userId === "number" ? ev.userId : 0;
   const endpoint = typeof ev.endpoint === "string" ? ev.endpoint : "unknown";
+  const query = typeof ev.query === "string" ? ev.query : "";
   const hourEpoch = Math.floor(Date.now() / (60 * 60 * 1000));
   const key = bucketKey(userId, hourEpoch);
   const existing = searchRateLimitBuckets.get(key);
@@ -969,6 +971,29 @@ on("search_rate_limited", async (ev) => {
   const cutoff = hourEpoch - SEARCH_RATE_LIMIT_TTL_HOURS;
   for (const [k, b] of searchRateLimitBuckets) {
     if (b.hourEpoch < cutoff) searchRateLimitBuckets.delete(k);
+  }
+
+  // Persist the throttle event to analytics_events so the record
+  // survives a server restart and shows up in the topEvents admin
+  // query. Fire-and-forget; the in-memory counter is still the
+  // primary read path because it aggregates by hour.
+  try {
+    const db = await getDb();
+    if (db) {
+      await db.insert(analyticsEvents).values({
+        userId,
+        event: "search_rate_limited",
+        sessionId: `rate-limit-${hourEpoch}`,
+        clientTimestamp: new Date(),
+        properties: {
+          endpoint,
+          query: query.slice(0, 64),
+          hourEpoch,
+        },
+      });
+    }
+  } catch {
+    /* analytics is best-effort */
   }
 });
 
