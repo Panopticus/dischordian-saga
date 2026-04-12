@@ -218,6 +218,11 @@ export default function GuildCommonRoomPage() {
         }
         .guild-room-drift { animation: guild-drift 30s ease-in-out infinite; }
         .guild-room-pulse { animation: guild-pulse 4s ease-in-out infinite; }
+        @keyframes guild-prof-breathe {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.005); }
+        }
+        .guild-prof-breathe { animation: guild-prof-breathe 4s ease-in-out infinite; }
       `}</style>
 
       <div className="max-w-4xl mx-auto relative z-10 p-4 sm:p-6">
@@ -295,13 +300,30 @@ export default function GuildCommonRoomPage() {
             transition={{ delay: 0.05 }}
             className={`p-4 rounded-lg border ${aesthetic.borderColor} bg-background/40 mb-4`}
           >
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center gap-2 mb-3">
               <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/70">
                 Your Professor (simulacrum)
               </span>
             </div>
-            <h3 className={`font-display text-lg font-bold ${aesthetic.accent}`}>{professor.teacherName}</h3>
-            <p className="font-mono text-[9px] italic text-foreground/60 mb-2">{professor.title}</p>
+            {/* Professor portrait */}
+            <div className="relative w-full h-48 sm:h-56 rounded-lg overflow-hidden mb-3 border" style={{ borderColor: `${accentHex}30` }}>
+              <img
+                src={professor.portrait}
+                alt={professor.teacherName}
+                className="w-full h-full object-cover object-top guild-prof-breathe"
+                style={{ filter: "brightness(0.9) saturate(1.1)" }}
+              />
+              <div className="absolute inset-0" style={{
+                background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%),
+                  radial-gradient(ellipse at 50% 80%, ${accentHex}15 0%, transparent 60%)`,
+              }} />
+              <div className="absolute bottom-0 inset-x-0 p-4">
+                <h3 className={`font-display text-lg font-bold ${aesthetic.accent}`} style={{ textShadow: "0 2px 12px rgba(0,0,0,0.8)" }}>
+                  {professor.teacherName}
+                </h3>
+                <p className="font-mono text-[9px] italic text-foreground/70">{professor.title}</p>
+              </div>
+            </div>
             <p className="font-mono text-[10px] text-foreground/80 mb-2 leading-relaxed">{professor.appearance}</p>
             <div className="space-y-1.5 mb-2">
               <div className="p-2 rounded border border-border/30 bg-background/40">

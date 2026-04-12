@@ -13,7 +13,7 @@ import { useState, useMemo, useCallback } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ChevronLeft, BookOpen, GraduationCap, ScrollText, Star, AlertTriangle,
+  ChevronLeft, GraduationCap, ScrollText, Star, AlertTriangle,
 } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
 import { getDominantGuild } from "@/game/archonTrainingVoices";
@@ -129,21 +129,45 @@ export default function MechronisAcademyPage() {
         backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.006) 2px, rgba(255,255,255,0.006) 4px)",
       }} />
 
-      {/* Background arena art */}
+      {/* Background environment art — classroom for lessons, grand hall for results */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <img
-          src="/art/arenas/arena-mechronis.jpg"
-          alt=""
-          className="w-[115%] h-[115%] object-cover"
-          style={{
-            position: "absolute", top: "-7.5%", left: "-7.5%",
-            opacity: 0.12, filter: "brightness(0.4) saturate(0.6)",
-          }}
-        />
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={lastResult ? "grand-hall" : "classroom"}
+            src={lastResult
+              ? "/art/mechronis/environments/mechronis_grand_hall.jpg"
+              : "/art/mechronis/environments/mechronis_classroom.jpg"}
+            alt=""
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.14 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2 }}
+            className="w-[115%] h-[115%] object-cover academy-drift"
+            style={{
+              position: "absolute", top: "-7.5%", left: "-7.5%",
+              filter: "brightness(0.4) saturate(0.6)",
+            }}
+          />
+        </AnimatePresence>
         <div className="absolute inset-0" style={{
           background: "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%)",
         }} />
       </div>
+
+      {/* CSS animations */}
+      <style>{`
+        @keyframes academy-drift {
+          0% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(-1.5%, -1%) scale(1.02); }
+          100% { transform: translate(0, 0) scale(1); }
+        }
+        .academy-drift { animation: academy-drift 25s ease-in-out infinite; }
+        @keyframes portrait-breathe {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.005); }
+        }
+        .portrait-breathe { animation: portrait-breathe 4s ease-in-out infinite; }
+      `}</style>
 
       <div className="max-w-4xl mx-auto relative z-10 p-4 sm:p-6">
         {/* Header */}
@@ -167,9 +191,31 @@ export default function MechronisAcademyPage() {
             animate={{ opacity: 1, y: 0 }}
             className="rounded-lg border border-indigo-500/30 bg-indigo-950/20 backdrop-blur-sm p-4 mb-4"
           >
-            <div className="flex items-start gap-3">
-              <div className="shrink-0 w-10 h-10 rounded-full bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center">
-                <BookOpen size={16} className="text-indigo-400" />
+            <div className="flex items-start gap-4">
+              <div className="shrink-0 w-20 h-20 rounded-lg overflow-hidden border border-indigo-500/30 shadow-lg shadow-indigo-500/10 relative">
+                <img
+                  src={professor.portrait}
+                  alt={professor.teacherName}
+                  className="w-full h-full object-cover object-top portrait-breathe"
+                />
+                {/* Grade-reactive glow overlay */}
+                {lastResult && (
+                  <motion.div
+                    initial={{ opacity: 0.6 }}
+                    animate={{ opacity: 0 }}
+                    transition={{ duration: 2 }}
+                    className="absolute inset-0"
+                    style={{
+                      boxShadow: lastResult.grade === "distinction"
+                        ? "inset 0 0 20px rgba(52,211,153,0.5)"
+                        : lastResult.grade === "honor"
+                        ? "inset 0 0 20px rgba(251,191,36,0.4)"
+                        : lastResult.grade === "fail"
+                        ? "inset 0 0 20px rgba(248,113,113,0.5)"
+                        : "none",
+                    }}
+                  />
+                )}
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-display text-sm font-bold text-indigo-300">{professor.teacherName}</h3>

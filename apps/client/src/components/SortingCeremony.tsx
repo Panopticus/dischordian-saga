@@ -45,8 +45,8 @@ export default function SortingCeremony({ skillId, onComplete }: Props) {
         className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-6 overflow-hidden"
         data-testid="sorting-ceremony"
       >
-        {/* Matrix of Dreams art */}
-        <img src="/art/special-maps/special-matrix-sorting-arena.png" alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none" style={{ opacity: 0.2, filter: "brightness(0.4) saturate(1.2)" }} />
+        {/* Mechronis Grand Hall background */}
+        <img src="/art/mechronis/environments/mechronis_grand_hall.jpg" alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none" style={{ opacity: 0.2, filter: "brightness(0.4) saturate(1.2)" }} />
         <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.85) 100%)" }} />
         <div className="max-w-xl w-full text-center relative z-10">
           {/* Phase 1: arrival */}
