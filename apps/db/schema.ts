@@ -252,6 +252,14 @@ export const cardGameMatches = mysqlTable("card_game_matches", {
   vpEarned: int("vpEarned").notNull().default(0),
   startedAt: timestamp("startedAt").defaultNow().notNull(),
   endedAt: timestamp("endedAt"),
+  /** Deterministic match seed — used for replay reproduction. */
+  seed: varchar("seed", { length: 64 }),
+  /** Rules engine version the match was played on — for replay pinning. */
+  rulesVersion: varchar("rulesVersion", { length: 16 }),
+  /** Gzipped JSON action log — the full replay data. */
+  actionLog: text("actionLog"),
+  /** SHA-256 hash of the final game state — desync audit + replay verify. */
+  finalStateHash: varchar("finalStateHash", { length: 64 }),
 });
 
 export type CardGameMatch = typeof cardGameMatches.$inferSelect;

@@ -79,8 +79,9 @@ const EssenceHarvestPage = lazy(() => import("./pages/EssenceHarvestPage"));
 const ConsolePage = lazy(() => import("./pages/ConsolePage"));
 const CardBrowserPage = lazy(() => import("./pages/CardBrowserPage"));
 const TerminusSwarmPage = lazy(() => import("./game/terminus-swarm/TerminusSwarmPage"));
-// CardGamePage removed — Dischordia is the only card game now
-const CardGamePage = lazy(() => import("./game/duelyst/DuelystPage"));
+// The legacy CardGamePage (3-lane "Dischordian Struggle") was removed
+// in favor of the Duelyst-style tcg-core pipeline. /cards/play now
+// routes to the existing DuelystPage alias declared below.
 const InceptionArkPage = lazy(() => import("./pages/InceptionArkPage"));
 const CrewRosterPage = lazy(() => import("./pages/CrewRosterPage"));
 const TrophyRoomPage = lazy(() => import("./pages/TrophyRoomPage"));
@@ -226,7 +227,7 @@ function Router() {
         <Route path="/collectors-ledger">{() => <GameRoute component={EssenceHarvestPage} />}</Route>
         <Route path="/console" component={ConsolePage} />
         <Route path="/cards">{() => <Suspense fallback={<CardGridSkeleton />}><CardBrowserPage /></Suspense>}</Route>
-        <Route path="/cards/play">{() => <GameRoute component={CardGamePage} />}</Route>
+        <Route path="/cards/play">{() => <GameRoute component={DuelystPage} />}</Route>
         <Route path="/duelyst">{() => <GameRoute component={DuelystPage} />}</Route>
         <Route path="/terminus-swarm">{() => <GameRoute component={TerminusSwarmPage} />}</Route>
         <Route path="/ark" component={ArkExplorerPage} />
