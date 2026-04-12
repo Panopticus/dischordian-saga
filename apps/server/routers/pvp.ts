@@ -9,6 +9,7 @@ import {
 } from "../../db/schema";
 import { eq, desc, and, or, sql, asc, inArray } from "drizzle-orm";
 import { logger } from "../logger";
+import { grantCardReward } from "../services/cardRewardService";
 import { getRankTier } from "@shared/pvpBattle";
 import { calculateDecay, getDecayStatus } from "@shared/rankDecay";
 import { classifyDeck, ARCHETYPES } from "@shared/cardArchetypes";
@@ -410,6 +411,13 @@ export const pvpRouter = router({
       }).catch(e => logger.error("[PvP] Season reward notification failed:", e));
 
       await ripple.emit("pvp_match_result", { userId: ctx.user.id, won: true });
+
+      // Grant card reward for season tier achievement
+      try {
+        await grantCardReward(ctx.user.id, "pvp_season_" + record[0].peakTier);
+      } catch (e) {
+        logger.warn("Failed to grant PvP season card reward", e);
+      }
 
       return {
         success: true,

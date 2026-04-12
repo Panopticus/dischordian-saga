@@ -343,6 +343,110 @@ export const ALL_GAME_MODE_REWARDS: readonly GameModeReward[] = Object.freeze([
     description: `Morality-branching card reward at governance vote milestone ${(i + 1) * 4}.`,
     rarity: i < 3 ? "rare" : "epic",
   })),
+
+  /* ─── Companion System ─── */
+  { id: "companion_human", gameMode: "companion", trigger: "Max relationship with The Human", rewardType: "fixed", fixedCardDefId: "s1_reward_companion_human", description: "Earned by reaching max bond with The Human.", rarity: "rare" },
+  { id: "companion_elara", gameMode: "companion", trigger: "Max bond with Elara ship AI", rewardType: "fixed", fixedCardDefId: "s1_reward_companion_elara", description: "Earned by reaching max bond with Elara.", rarity: "uncommon" },
+  { id: "companion_zero", gameMode: "companion", trigger: "Max bond with Agent Zero", rewardType: "fixed", fixedCardDefId: "s1_reward_companion_zero", description: "Earned by reaching max bond with Agent Zero.", rarity: "rare" },
+  { id: "companion_kael", gameMode: "companion", trigger: "Max bond with Kael (pre-infection)", rewardType: "fixed", fixedCardDefId: "s1_reward_companion_kael", description: "Earned by uncovering Kael's pre-infection memories.", rarity: "rare" },
+  { id: "companion_locke", gameMode: "companion", trigger: "Max bond with Adjudicator Locke", rewardType: "fixed", fixedCardDefId: "s1_reward_companion_locke", description: "Earned by reaching max bond with Locke.", rarity: "uncommon" },
+
+  /* ─── Crew System ─── */
+  { id: "crew_bloodline", gameMode: "crew", trigger: "Complete a bloodline chain", rewardType: "fixed", fixedCardDefId: "s1_reward_crew_bloodline", description: "Earned by completing a crew bloodline.", rarity: "rare" },
+  { id: "crew_clone", gameMode: "crew", trigger: "Successfully clone a crew member", rewardType: "fixed", fixedCardDefId: "s1_reward_crew_clone", description: "Earned by successful cloning.", rarity: "uncommon" },
+  { id: "crew_incubator", gameMode: "crew", trigger: "Complete 10 incubation cycles", rewardType: "fixed", fixedCardDefId: "s1_reward_crew_incubator", description: "Earned by operating the incubator.", rarity: "uncommon" },
+  { id: "crew_mission", gameMode: "crew", trigger: "Complete 25 crew missions", rewardType: "fixed", fixedCardDefId: "s1_reward_crew_mission", description: "Earned by completing crew missions.", rarity: "rare" },
+  { id: "crew_sacrifice", gameMode: "crew", trigger: "Sacrifice during Outbreak", rewardType: "fixed", fixedCardDefId: "s1_reward_crew_sacrifice", description: "Earned from apprentice sacrifice.", rarity: "epic" },
+
+  /* ─── Prestige System ─── */
+  { id: "prestige_tier_1", gameMode: "prestige", trigger: "Reach Prestige Tier 1", rewardType: "fixed", fixedCardDefId: "s1_reward_prestige_t1", description: "First Ascension.", rarity: "uncommon" },
+  { id: "prestige_tier_3", gameMode: "prestige", trigger: "Reach Prestige Tier 3", rewardType: "fixed", fixedCardDefId: "s1_reward_prestige_t3", description: "Threefold Reborn.", rarity: "rare" },
+  { id: "prestige_tier_5", gameMode: "prestige", trigger: "Reach Prestige Tier 5", rewardType: "fixed", fixedCardDefId: "s1_reward_prestige_t5", description: "Quintessence Guardian.", rarity: "epic" },
+  { id: "prestige_tier_7", gameMode: "prestige", trigger: "Reach Prestige Tier 7", rewardType: "fixed", fixedCardDefId: "s1_reward_prestige_t7", description: "Transcended One.", rarity: "legendary" },
+
+  /* ─── Class Mastery ─── */
+  { id: "class_mastery_spy", gameMode: "class_mastery", trigger: "Master spy class", rewardType: "fixed", fixedCardDefId: "s1_reward_class_spy", description: "Master Spy.", rarity: "rare" },
+  { id: "class_mastery_oracle", gameMode: "class_mastery", trigger: "Master oracle class", rewardType: "fixed", fixedCardDefId: "s1_reward_class_oracle", description: "Master Oracle.", rarity: "rare" },
+  { id: "class_mastery_assassin", gameMode: "class_mastery", trigger: "Master assassin class", rewardType: "fixed", fixedCardDefId: "s1_reward_class_assassin", description: "Master Assassin.", rarity: "rare" },
+  { id: "class_mastery_engineer", gameMode: "class_mastery", trigger: "Master engineer class", rewardType: "fixed", fixedCardDefId: "s1_reward_class_engineer", description: "Master Engineer.", rarity: "rare" },
+  { id: "class_mastery_soldier", gameMode: "class_mastery", trigger: "Master soldier class", rewardType: "fixed", fixedCardDefId: "s1_reward_class_soldier", description: "Master Soldier.", rarity: "rare" },
+  { id: "class_mastery_neyon", gameMode: "class_mastery", trigger: "Master all classes", rewardType: "fixed", fixedCardDefId: "s1_reward_class_neyon", description: "Awakened Ne-Yon.", rarity: "legendary" },
+
+  /* ─── Coop Raids ─── */
+  { id: "raid_boss_defeat", gameMode: "coop_raids", trigger: "Defeat a raid boss", rewardType: "fixed", fixedCardDefId: "s1_reward_raid_boss", description: "Raid Champion.", rarity: "rare" },
+  { id: "raid_top_contrib", gameMode: "coop_raids", trigger: "Top contribution in 5 raids", rewardType: "fixed", fixedCardDefId: "s1_reward_raid_contrib", description: "Rally the Warband.", rarity: "uncommon" },
+  { id: "raid_perfect", gameMode: "coop_raids", trigger: "Zero-casualty raid", rewardType: "fixed", fixedCardDefId: "s1_reward_raid_perfect", description: "Unscathed Victor.", rarity: "legendary" },
+
+  /* ─── Boss Mastery ─── */
+  { id: "boss_mastery_collector", gameMode: "boss_mastery", trigger: "Master The Collector", rewardType: "fixed", fixedCardDefId: "s1_reward_boss_collector", description: "Collector's Trophy.", rarity: "epic" },
+  { id: "boss_mastery_source", gameMode: "boss_mastery", trigger: "Master The Source", rewardType: "fixed", fixedCardDefId: "s1_reward_boss_source", description: "Source Fragment.", rarity: "legendary" },
+  { id: "boss_mastery_architect", gameMode: "boss_mastery", trigger: "Master The Architect", rewardType: "fixed", fixedCardDefId: "s1_reward_boss_architect", description: "Architect's Schematic.", rarity: "epic" },
+
+  /* ─── Space Station ─── */
+  { id: "station_complete", gameMode: "space_station", trigger: "Complete station construction", rewardType: "fixed", fixedCardDefId: "s1_reward_station_complete", description: "Station Commander.", rarity: "epic" },
+  { id: "station_modules", gameMode: "space_station", trigger: "Install 10 modules", rewardType: "fixed", fixedCardDefId: "s1_reward_station_module", description: "Module Integration.", rarity: "rare" },
+
+  /* ─── Syndicate World ─── */
+  { id: "syndicate_build", gameMode: "syndicate_world", trigger: "Build 20 structures", rewardType: "fixed", fixedCardDefId: "s1_reward_syndicate_build", description: "Syndicate Foreman.", rarity: "rare" },
+  { id: "syndicate_empire", gameMode: "syndicate_world", trigger: "Control 5 worlds", rewardType: "fixed", fixedCardDefId: "s1_reward_syndicate_empire", description: "Syndicate Overlord.", rarity: "epic" },
+
+  /* ─── Terminus Swarm ─── */
+  { id: "swarm_wave25", gameMode: "terminus_swarm", trigger: "Survive wave 25", rewardType: "fixed", fixedCardDefId: "s1_reward_swarm_survive", description: "Swarm Survivor.", rarity: "rare" },
+  { id: "swarm_wave50", gameMode: "terminus_swarm", trigger: "Survive wave 50+", rewardType: "fixed", fixedCardDefId: "s1_reward_swarm_champion", description: "Terminus Protocol.", rarity: "epic" },
+
+  /* ─── Vortex Incursion ─── */
+  { id: "vortex_close_10", gameMode: "vortex_incursion", trigger: "Close 10 incursions", rewardType: "fixed", fixedCardDefId: "s1_reward_vortex_close", description: "Vortex Seal.", rarity: "rare" },
+  { id: "vortex_close_50", gameMode: "vortex_incursion", trigger: "Close 50 incursions", rewardType: "fixed", fixedCardDefId: "s1_reward_vortex_master", description: "Vortex Walker.", rarity: "epic" },
+
+  /* ─── Palimpsest ─── */
+  { id: "palimpsest_signal", gameMode: "palimpsest", trigger: "Max signal", rewardType: "fixed", fixedCardDefId: "s1_reward_palimpsest_signal", description: "Signal Bearer.", rarity: "rare" },
+  { id: "palimpsest_noise", gameMode: "palimpsest", trigger: "Max noise", rewardType: "fixed", fixedCardDefId: "s1_reward_palimpsest_noise", description: "Noise Agent.", rarity: "rare" },
+
+  /* ─── Graduate Legion ─── */
+  { id: "graduate_deploy_10", gameMode: "graduate_legion", trigger: "Deploy 10 graduates", rewardType: "fixed", fixedCardDefId: "s1_reward_graduate_deploy", description: "Graduated Operative.", rarity: "rare" },
+  { id: "graduate_all_academies", gameMode: "graduate_legion", trigger: "Graduate all academies", rewardType: "fixed", fixedCardDefId: "s1_reward_graduate_master", description: "Legion's Wisdom.", rarity: "epic" },
+
+  /* ─── Friendly Challenges ─── */
+  { id: "challenge_streak_10", gameMode: "friendly_challenges", trigger: "Win 10 friendly challenges", rewardType: "fixed", fixedCardDefId: "s1_reward_challenge_streak", description: "Honored Rival.", rarity: "rare" },
+
+  /* ─── Bonus Objectives ─── */
+  { id: "bonus_complete_25", gameMode: "bonus_objectives", trigger: "Complete 25 objectives", rewardType: "fixed", fixedCardDefId: "s1_reward_bonus_complete", description: "Objective Secured.", rarity: "uncommon" },
+
+  /* ─── Casino Expanded ─── */
+  { id: "casino_slots_jackpot3", gameMode: "casino", trigger: "3 jackpots in Void Slots", rewardType: "fixed", fixedCardDefId: "s1_reward_casino_slots", description: "Lucky Spinner.", rarity: "uncommon" },
+  { id: "casino_poker_10", gameMode: "casino", trigger: "Win 10 Nebula Poker hands", rewardType: "fixed", fixedCardDefId: "s1_reward_casino_poker", description: "Nebula Shark.", rarity: "rare" },
+  { id: "casino_dice_7", gameMode: "casino", trigger: "Roll 7 on Entropy Dice 10 times", rewardType: "fixed", fixedCardDefId: "s1_reward_casino_dice", description: "Entropy Roll.", rarity: "uncommon" },
+  { id: "casino_pazaak_25", gameMode: "casino", trigger: "Win 25 Pazaak 21 games", rewardType: "fixed", fixedCardDefId: "s1_reward_casino_pazaak", description: "Pazaak Champion.", rarity: "rare" },
+  { id: "casino_vip", gameMode: "casino", trigger: "Reach VIP status", rewardType: "fixed", fixedCardDefId: "s1_reward_casino_vip", description: "Casino Mogul.", rarity: "legendary" },
+
+  /* ─── Guild Expanded ─── */
+  { id: "guild_founder", gameMode: "guild", trigger: "Found a guild", rewardType: "fixed", fixedCardDefId: "s1_reward_guild_founder", description: "Guild Founder.", rarity: "epic" },
+  { id: "guild_officer", gameMode: "guild", trigger: "Reach officer rank", rewardType: "fixed", fixedCardDefId: "s1_reward_guild_officer", description: "Guild Officer.", rarity: "rare" },
+  { id: "guild_hall_max", gameMode: "guild", trigger: "Max guild hall level", rewardType: "fixed", fixedCardDefId: "s1_reward_guild_hall", description: "Hall's Blessing.", rarity: "rare" },
+  { id: "guild_recruit_10", gameMode: "guild", trigger: "Recruit 10 members", rewardType: "fixed", fixedCardDefId: "s1_reward_guild_recruit", description: "Fresh Recruit.", rarity: "uncommon" },
+
+  /* ─── Trade Empire Expanded ─── */
+  { id: "trade_act1", gameMode: "trade_empire", trigger: "Complete Act 1", rewardType: "fixed", fixedCardDefId: "s1_reward_trade_act1", description: "Trade Scout.", rarity: "uncommon" },
+  { id: "trade_act2", gameMode: "trade_empire", trigger: "Complete Act 2", rewardType: "fixed", fixedCardDefId: "s1_reward_trade_act2", description: "Trade Captain.", rarity: "rare" },
+  { id: "trade_tycoon", gameMode: "trade_empire", trigger: "Earn 1M credits", rewardType: "fixed", fixedCardDefId: "s1_reward_trade_tycoon", description: "Galactic Tycoon.", rarity: "legendary" },
+
+  /* ─── Draft Tournament ─── */
+  { id: "draft_winner", gameMode: "draft", trigger: "Win 5 draft tournaments", rewardType: "fixed", fixedCardDefId: "s1_reward_draft_winner", description: "Draft Master.", rarity: "rare" },
+  { id: "draft_perfect", gameMode: "draft", trigger: "Go undefeated in a draft", rewardType: "fixed", fixedCardDefId: "s1_reward_draft_perfect", description: "Undefeated Drafter.", rarity: "legendary" },
+
+  /* ─── Eidolon Expanded ─── */
+  { id: "eidolon_bond_echo", gameMode: "eidolon_bond", trigger: "Max bond with Echo", rewardType: "fixed", fixedCardDefId: "s1_reward_eidolon_echo", description: "Echo, the Resonance.", rarity: "rare" },
+  { id: "eidolon_bond_auros", gameMode: "eidolon_bond", trigger: "Max bond with Auros", rewardType: "fixed", fixedCardDefId: "s1_reward_eidolon_auros", description: "Auros, the Honor.", rarity: "rare" },
+
+  /* ─── Christmas in July ─── */
+  { id: "xmas_gift", gameMode: "christmas_in_july", trigger: "Gift exchange", rewardType: "fixed", fixedCardDefId: "s1_reward_xmas_gift", description: "Holiday Surprise.", rarity: "common" },
+  { id: "xmas_charity", gameMode: "christmas_in_july", trigger: "Donate to charity pool", rewardType: "fixed", fixedCardDefId: "s1_reward_xmas_charity", description: "Charitable Spirit.", rarity: "uncommon" },
+
+  /* ─── RPG Systems ─── */
+  { id: "rpg_quest_50", gameMode: "rpg_systems", trigger: "Complete 50 RPG quests", rewardType: "fixed", fixedCardDefId: "s1_reward_rpg_quest", description: "Questmaster.", rarity: "rare" },
+
+  /* ─── Discovery ─── */
+  { id: "discovery_all", gameMode: "discovery", trigger: "Discover all loredex entries", rewardType: "fixed", fixedCardDefId: "s1_reward_discovery_all", description: "Complete Archive.", rarity: "legendary" },
 ]);
 
 /* ─── Quick-lookup by id ─── */

@@ -12,6 +12,8 @@ import { eq, and, sql, desc } from "drizzle-orm";
 import { petEvolution } from "../services/petEvolution";
 import { companionDeath } from "../services/companionDeath";
 import { ripple } from "../services/rippleEngine";
+import { logger } from "../logger";
+import { grantCardReward } from "../services/cardRewardService";
 
 export const eidolonBondRouter = router({
   /* ─── GET MY BOND (protected) ─── */
@@ -102,6 +104,15 @@ export const eidolonBondRouter = router({
 
       // Ripple: eidolon trust gain triggers pressure + trust-specific effects
       await ripple.emit("npc_trust_gained", { userId: ctx.user.id, npcId: `eidolon_${bond.eidolonId}`, newTrust: 0, amount: reward.bond });
+
+      // Grant card reward when bond reaches max level (100)
+      if (bond.bond + reward.bond >= 100 && bond.bond < 100) {
+        try {
+          await grantCardReward(ctx.user.id, "eidolon_bond_" + bond.eidolonId);
+        } catch (e) {
+          logger.warn("Failed to grant eidolon bond card reward", e);
+        }
+      }
 
       return {
         success: true,

@@ -1,5 +1,5 @@
 /**
- * Card registry barrel — 237 Season 1 cards + 6 token(s) = 243 definitions.
+ * Card registry barrel — 294 Season 1 cards + 6 token(s) = 300 definitions.
  */
 import type { CardDefinition } from "../index";
 
@@ -57,9 +57,17 @@ import { cardDef as s1_char_101_panoptic_warden_foucault } from "./definitions/a
 import { cardDef as s1_char_102_arena_enforcer } from "./definitions/architect/s1_char_102_arena_enforcer.ts";
 import { cardDef as s1_char_103_inception_ark_sentry } from "./definitions/architect/s1_char_103_inception_ark_sentry.ts";
 import { cardDef as s1_char_104_white_oracle } from "./definitions/architect/s1_char_104_white_oracle.ts";
+import { cardDef as s1_reward_boss_architect } from "./definitions/architect/s1_reward_boss_architect.ts";
+import { cardDef as s1_reward_boss_collector } from "./definitions/architect/s1_reward_boss_collector.ts";
+import { cardDef as s1_reward_casino_pazaak } from "./definitions/architect/s1_reward_casino_pazaak.ts";
 import { cardDef as s1_reward_chess_tourney } from "./definitions/architect/s1_reward_chess_tourney.ts";
 import { cardDef as s1_reward_chess_win } from "./definitions/architect/s1_reward_chess_win.ts";
+import { cardDef as s1_reward_class_engineer } from "./definitions/architect/s1_reward_class_engineer.ts";
+import { cardDef as s1_reward_companion_human } from "./definitions/architect/s1_reward_companion_human.ts";
+import { cardDef as s1_reward_crew_clone } from "./definitions/architect/s1_reward_crew_clone.ts";
 import { cardDef as s1_reward_eidolon_cipher } from "./definitions/architect/s1_reward_eidolon_cipher.ts";
+import { cardDef as s1_reward_station_complete } from "./definitions/architect/s1_reward_station_complete.ts";
+import { cardDef as s1_reward_station_module } from "./definitions/architect/s1_reward_station_module.ts";
 import { cardDef as s1_reward_tower_wave50 } from "./definitions/architect/s1_reward_tower_wave50.ts";
 import { cardDef as s1_spell_100_schematic_override } from "./definitions/architect/s1_spell_100_schematic_override.ts";
 import { cardDef as s1_spell_101_predetermined_outcome } from "./definitions/architect/s1_spell_101_predetermined_outcome.ts";
@@ -93,8 +101,14 @@ import { cardDef as s1_char_112_reality_anchor } from "./definitions/dreamer/s1_
 import { cardDef as s1_char_203_astral_warden } from "./definitions/dreamer/s1_char_203_astral_warden.ts";
 import { cardDef as s1_reward_campaign_finale } from "./definitions/dreamer/s1_reward_campaign_finale.ts";
 import { cardDef as s1_reward_campaign_truth } from "./definitions/dreamer/s1_reward_campaign_truth.ts";
+import { cardDef as s1_reward_casino_dice } from "./definitions/dreamer/s1_reward_casino_dice.ts";
+import { cardDef as s1_reward_class_neyon } from "./definitions/dreamer/s1_reward_class_neyon.ts";
+import { cardDef as s1_reward_class_oracle } from "./definitions/dreamer/s1_reward_class_oracle.ts";
 import { cardDef as s1_reward_cycle_light } from "./definitions/dreamer/s1_reward_cycle_light.ts";
 import { cardDef as s1_reward_eidolon_lux } from "./definitions/dreamer/s1_reward_eidolon_lux.ts";
+import { cardDef as s1_reward_palimpsest_signal } from "./definitions/dreamer/s1_reward_palimpsest_signal.ts";
+import { cardDef as s1_reward_vortex_close } from "./definitions/dreamer/s1_reward_vortex_close.ts";
+import { cardDef as s1_reward_vortex_master } from "./definitions/dreamer/s1_reward_vortex_master.ts";
 import { cardDef as s1_reward_vote_t1_truth } from "./definitions/dreamer/s1_reward_vote_t1_truth.ts";
 import { cardDef as s1_song_082_top_floor_door } from "./definitions/dreamer/s1_song_082_top_floor_door.ts";
 import { cardDef as s1_spell_108_prophetic_collapse } from "./definitions/dreamer/s1_spell_108_prophetic_collapse.ts";
@@ -127,6 +141,10 @@ import { cardDef as s1_char_107_signal_operative } from "./definitions/insurgenc
 import { cardDef as s1_char_108_guerrilla_cell } from "./definitions/insurgency/s1_char_108_guerrilla_cell.ts";
 import { cardDef as s1_char_202_saboteur } from "./definitions/insurgency/s1_char_202_saboteur.ts";
 import { cardDef as s1_reward_campaign_defiance } from "./definitions/insurgency/s1_reward_campaign_defiance.ts";
+import { cardDef as s1_reward_class_spy } from "./definitions/insurgency/s1_reward_class_spy.ts";
+import { cardDef as s1_reward_companion_zero } from "./definitions/insurgency/s1_reward_companion_zero.ts";
+import { cardDef as s1_reward_crew_mission } from "./definitions/insurgency/s1_reward_crew_mission.ts";
+import { cardDef as s1_reward_guild_recruit } from "./definitions/insurgency/s1_reward_guild_recruit.ts";
 import { cardDef as s1_reward_trade_insurgency } from "./definitions/insurgency/s1_reward_trade_insurgency.ts";
 import { cardDef as s1_reward_vote_t1_defiance } from "./definitions/insurgency/s1_reward_vote_t1_defiance.ts";
 import { cardDef as s1_song_091_i_love_war } from "./definitions/insurgency/s1_song_091_i_love_war.ts";
@@ -152,18 +170,38 @@ import { cardDef as s1_char_090_hired_blade } from "./definitions/neutral/s1_cha
 import { cardDef as s1_char_091_border_scout } from "./definitions/neutral/s1_char_091_border_scout.ts";
 import { cardDef as s1_char_092_ruin_stalker } from "./definitions/neutral/s1_char_092_ruin_stalker.ts";
 import { cardDef as s1_char_093_ironclad_veteran } from "./definitions/neutral/s1_char_093_ironclad_veteran.ts";
+import { cardDef as s1_reward_bonus_complete } from "./definitions/neutral/s1_reward_bonus_complete.ts";
 import { cardDef as s1_reward_campaign_balanced } from "./definitions/neutral/s1_reward_campaign_balanced.ts";
 import { cardDef as s1_reward_campaign_empathy } from "./definitions/neutral/s1_reward_campaign_empathy.ts";
 import { cardDef as s1_reward_casino_jackpot } from "./definitions/neutral/s1_reward_casino_jackpot.ts";
+import { cardDef as s1_reward_casino_slots } from "./definitions/neutral/s1_reward_casino_slots.ts";
+import { cardDef as s1_reward_challenge_streak } from "./definitions/neutral/s1_reward_challenge_streak.ts";
 import { cardDef as s1_reward_companion_all } from "./definitions/neutral/s1_reward_companion_all.ts";
+import { cardDef as s1_reward_companion_elara } from "./definitions/neutral/s1_reward_companion_elara.ts";
 import { cardDef as s1_reward_companion_max } from "./definitions/neutral/s1_reward_companion_max.ts";
+import { cardDef as s1_reward_crew_bloodline } from "./definitions/neutral/s1_reward_crew_bloodline.ts";
+import { cardDef as s1_reward_crew_incubator } from "./definitions/neutral/s1_reward_crew_incubator.ts";
 import { cardDef as s1_reward_daily_streak } from "./definitions/neutral/s1_reward_daily_streak.ts";
+import { cardDef as s1_reward_draft_perfect } from "./definitions/neutral/s1_reward_draft_perfect.ts";
+import { cardDef as s1_reward_draft_winner } from "./definitions/neutral/s1_reward_draft_winner.ts";
+import { cardDef as s1_reward_graduate_deploy } from "./definitions/neutral/s1_reward_graduate_deploy.ts";
+import { cardDef as s1_reward_graduate_master } from "./definitions/neutral/s1_reward_graduate_master.ts";
+import { cardDef as s1_reward_guild_founder } from "./definitions/neutral/s1_reward_guild_founder.ts";
+import { cardDef as s1_reward_guild_hall } from "./definitions/neutral/s1_reward_guild_hall.ts";
+import { cardDef as s1_reward_guild_officer } from "./definitions/neutral/s1_reward_guild_officer.ts";
 import { cardDef as s1_reward_pet_evolve } from "./definitions/neutral/s1_reward_pet_evolve.ts";
 import { cardDef as s1_reward_pet_streak } from "./definitions/neutral/s1_reward_pet_streak.ts";
+import { cardDef as s1_reward_prestige_t1 } from "./definitions/neutral/s1_reward_prestige_t1.ts";
+import { cardDef as s1_reward_prestige_t3 } from "./definitions/neutral/s1_reward_prestige_t3.ts";
+import { cardDef as s1_reward_prestige_t5 } from "./definitions/neutral/s1_reward_prestige_t5.ts";
+import { cardDef as s1_reward_prestige_t7 } from "./definitions/neutral/s1_reward_prestige_t7.ts";
 import { cardDef as s1_reward_pvp_bronze } from "./definitions/neutral/s1_reward_pvp_bronze.ts";
 import { cardDef as s1_reward_pvp_diamond } from "./definitions/neutral/s1_reward_pvp_diamond.ts";
 import { cardDef as s1_reward_pvp_gold } from "./definitions/neutral/s1_reward_pvp_gold.ts";
 import { cardDef as s1_reward_pvp_legend } from "./definitions/neutral/s1_reward_pvp_legend.ts";
+import { cardDef as s1_reward_raid_boss } from "./definitions/neutral/s1_reward_raid_boss.ts";
+import { cardDef as s1_reward_raid_contrib } from "./definitions/neutral/s1_reward_raid_contrib.ts";
+import { cardDef as s1_reward_raid_perfect } from "./definitions/neutral/s1_reward_raid_perfect.ts";
 import { cardDef as s1_reward_seasonal_s1 } from "./definitions/neutral/s1_reward_seasonal_s1.ts";
 import { cardDef as s1_reward_vote_t1_balanced } from "./definitions/neutral/s1_reward_vote_t1_balanced.ts";
 import { cardDef as s1_reward_vote_t1_empathy } from "./definitions/neutral/s1_reward_vote_t1_empathy.ts";
@@ -202,9 +240,18 @@ import { cardDef as s1_char_118_trade_enforcer } from "./definitions/new_babylon
 import { cardDef as s1_char_119_syndicate_broker } from "./definitions/new_babylon/s1_char_119_syndicate_broker.ts";
 import { cardDef as s1_char_120_crystal_archive_guard } from "./definitions/new_babylon/s1_char_120_crystal_archive_guard.ts";
 import { cardDef as s1_reward_casino_high_roller } from "./definitions/new_babylon/s1_reward_casino_high_roller.ts";
+import { cardDef as s1_reward_casino_poker } from "./definitions/new_babylon/s1_reward_casino_poker.ts";
+import { cardDef as s1_reward_casino_vip } from "./definitions/new_babylon/s1_reward_casino_vip.ts";
+import { cardDef as s1_reward_class_soldier } from "./definitions/new_babylon/s1_reward_class_soldier.ts";
+import { cardDef as s1_reward_companion_locke } from "./definitions/new_babylon/s1_reward_companion_locke.ts";
 import { cardDef as s1_reward_guild_territory } from "./definitions/new_babylon/s1_reward_guild_territory.ts";
 import { cardDef as s1_reward_guild_victory } from "./definitions/new_babylon/s1_reward_guild_victory.ts";
+import { cardDef as s1_reward_syndicate_build } from "./definitions/new_babylon/s1_reward_syndicate_build.ts";
+import { cardDef as s1_reward_syndicate_empire } from "./definitions/new_babylon/s1_reward_syndicate_empire.ts";
+import { cardDef as s1_reward_trade_act1 } from "./definitions/new_babylon/s1_reward_trade_act1.ts";
+import { cardDef as s1_reward_trade_act2 } from "./definitions/new_babylon/s1_reward_trade_act2.ts";
 import { cardDef as s1_reward_trade_empire } from "./definitions/new_babylon/s1_reward_trade_empire.ts";
+import { cardDef as s1_reward_trade_tycoon } from "./definitions/new_babylon/s1_reward_trade_tycoon.ts";
 import { cardDef as s1_spell_116_blood_tax } from "./definitions/new_babylon/s1_spell_116_blood_tax.ts";
 import { cardDef as s1_spell_117_market_manipulation } from "./definitions/new_babylon/s1_spell_117_market_manipulation.ts";
 import { cardDef as s1_spell_118_syndicate_contract } from "./definitions/new_babylon/s1_spell_118_syndicate_contract.ts";
@@ -243,8 +290,18 @@ import { cardDef as s1_char_114_viral_vector } from "./definitions/thought_virus
 import { cardDef as s1_char_115_consumed_host } from "./definitions/thought_virus/s1_char_115_consumed_host.ts";
 import { cardDef as s1_char_116_neural_plague_carrier } from "./definitions/thought_virus/s1_char_116_neural_plague_carrier.ts";
 import { cardDef as s1_char_200_cortex_ravager } from "./definitions/thought_virus/s1_char_200_cortex_ravager.ts";
+import { cardDef as s1_reward_boss_source } from "./definitions/thought_virus/s1_reward_boss_source.ts";
 import { cardDef as s1_reward_circuit_1st } from "./definitions/thought_virus/s1_reward_circuit_1st.ts";
 import { cardDef as s1_reward_circuit_survive } from "./definitions/thought_virus/s1_reward_circuit_survive.ts";
+import { cardDef as s1_reward_class_assassin } from "./definitions/thought_virus/s1_reward_class_assassin.ts";
+import { cardDef as s1_reward_companion_kael } from "./definitions/thought_virus/s1_reward_companion_kael.ts";
+import { cardDef as s1_reward_crew_sacrifice } from "./definitions/thought_virus/s1_reward_crew_sacrifice.ts";
+import { cardDef as s1_reward_cycle_dark } from "./definitions/thought_virus/s1_reward_cycle_dark.ts";
+import { cardDef as s1_reward_eidolon_strain } from "./definitions/thought_virus/s1_reward_eidolon_strain.ts";
+import { cardDef as s1_reward_outbreak_contain } from "./definitions/thought_virus/s1_reward_outbreak_contain.ts";
+import { cardDef as s1_reward_palimpsest_noise } from "./definitions/thought_virus/s1_reward_palimpsest_noise.ts";
+import { cardDef as s1_reward_swarm_champion } from "./definitions/thought_virus/s1_reward_swarm_champion.ts";
+import { cardDef as s1_reward_swarm_survive } from "./definitions/thought_virus/s1_reward_swarm_survive.ts";
 import { cardDef as s1_spell_112_viral_cascade } from "./definitions/thought_virus/s1_spell_112_viral_cascade.ts";
 import { cardDef as s1_spell_113_memory_consumption } from "./definitions/thought_virus/s1_spell_113_memory_consumption.ts";
 import { cardDef as s1_spell_114_neural_overwrite } from "./definitions/thought_virus/s1_spell_114_neural_overwrite.ts";
@@ -316,9 +373,17 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_102_arena_enforcer,
   s1_char_103_inception_ark_sentry,
   s1_char_104_white_oracle,
+  s1_reward_boss_architect,
+  s1_reward_boss_collector,
+  s1_reward_casino_pazaak,
   s1_reward_chess_tourney,
   s1_reward_chess_win,
+  s1_reward_class_engineer,
+  s1_reward_companion_human,
+  s1_reward_crew_clone,
   s1_reward_eidolon_cipher,
+  s1_reward_station_complete,
+  s1_reward_station_module,
   s1_reward_tower_wave50,
   s1_spell_100_schematic_override,
   s1_spell_101_predetermined_outcome,
@@ -350,8 +415,14 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_203_astral_warden,
   s1_reward_campaign_finale,
   s1_reward_campaign_truth,
+  s1_reward_casino_dice,
+  s1_reward_class_neyon,
+  s1_reward_class_oracle,
   s1_reward_cycle_light,
   s1_reward_eidolon_lux,
+  s1_reward_palimpsest_signal,
+  s1_reward_vortex_close,
+  s1_reward_vortex_master,
   s1_reward_vote_t1_truth,
   s1_song_082_top_floor_door,
   s1_spell_108_prophetic_collapse,
@@ -382,6 +453,10 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_108_guerrilla_cell,
   s1_char_202_saboteur,
   s1_reward_campaign_defiance,
+  s1_reward_class_spy,
+  s1_reward_companion_zero,
+  s1_reward_crew_mission,
+  s1_reward_guild_recruit,
   s1_reward_trade_insurgency,
   s1_reward_vote_t1_defiance,
   s1_song_091_i_love_war,
@@ -405,18 +480,38 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_091_border_scout,
   s1_char_092_ruin_stalker,
   s1_char_093_ironclad_veteran,
+  s1_reward_bonus_complete,
   s1_reward_campaign_balanced,
   s1_reward_campaign_empathy,
   s1_reward_casino_jackpot,
+  s1_reward_casino_slots,
+  s1_reward_challenge_streak,
   s1_reward_companion_all,
+  s1_reward_companion_elara,
   s1_reward_companion_max,
+  s1_reward_crew_bloodline,
+  s1_reward_crew_incubator,
   s1_reward_daily_streak,
+  s1_reward_draft_perfect,
+  s1_reward_draft_winner,
+  s1_reward_graduate_deploy,
+  s1_reward_graduate_master,
+  s1_reward_guild_founder,
+  s1_reward_guild_hall,
+  s1_reward_guild_officer,
   s1_reward_pet_evolve,
   s1_reward_pet_streak,
+  s1_reward_prestige_t1,
+  s1_reward_prestige_t3,
+  s1_reward_prestige_t5,
+  s1_reward_prestige_t7,
   s1_reward_pvp_bronze,
   s1_reward_pvp_diamond,
   s1_reward_pvp_gold,
   s1_reward_pvp_legend,
+  s1_reward_raid_boss,
+  s1_reward_raid_contrib,
+  s1_reward_raid_perfect,
   s1_reward_seasonal_s1,
   s1_reward_vote_t1_balanced,
   s1_reward_vote_t1_empathy,
@@ -453,9 +548,18 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_119_syndicate_broker,
   s1_char_120_crystal_archive_guard,
   s1_reward_casino_high_roller,
+  s1_reward_casino_poker,
+  s1_reward_casino_vip,
+  s1_reward_class_soldier,
+  s1_reward_companion_locke,
   s1_reward_guild_territory,
   s1_reward_guild_victory,
+  s1_reward_syndicate_build,
+  s1_reward_syndicate_empire,
+  s1_reward_trade_act1,
+  s1_reward_trade_act2,
   s1_reward_trade_empire,
+  s1_reward_trade_tycoon,
   s1_spell_116_blood_tax,
   s1_spell_117_market_manipulation,
   s1_spell_118_syndicate_contract,
@@ -490,8 +594,18 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_115_consumed_host,
   s1_char_116_neural_plague_carrier,
   s1_char_200_cortex_ravager,
+  s1_reward_boss_source,
   s1_reward_circuit_1st,
   s1_reward_circuit_survive,
+  s1_reward_class_assassin,
+  s1_reward_companion_kael,
+  s1_reward_crew_sacrifice,
+  s1_reward_cycle_dark,
+  s1_reward_eidolon_strain,
+  s1_reward_outbreak_contain,
+  s1_reward_palimpsest_noise,
+  s1_reward_swarm_champion,
+  s1_reward_swarm_survive,
   s1_spell_112_viral_cascade,
   s1_spell_113_memory_consumption,
   s1_spell_114_neural_overwrite,

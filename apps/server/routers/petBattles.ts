@@ -21,6 +21,8 @@ import { petsToPartyTraits } from "@shared/petSpeciesTraits";
 import { getSkillTreeForSpecies } from "@shared/petSkillTrees";
 import { buildOpponent, ARENA_OPPONENT_POOLS } from "@shared/petArenaOpponents";
 import { petDeath } from "../services/petDeath";
+import { logger } from "../logger";
+import { grantCardReward } from "../services/cardRewardService";
 
 export const petBattlesRouter = router({
   /** Get player's full pet roster */
@@ -257,6 +259,15 @@ export const petBattlesRouter = router({
 
       // Battle pass XP: every pet battle
       battlePassXp.award(ctx.user.id, "pet_battle").catch(() => {});
+
+      // Grant card reward on 5-win streak
+      if (input.won && (pet.wins + 1) % 5 === 0) {
+        try {
+          await grantCardReward(ctx.user.id, "pet_battles_streak");
+        } catch (e) {
+          logger.warn("Failed to grant pet battles streak card reward", e);
+        }
+      }
 
       return {
         success: true,
