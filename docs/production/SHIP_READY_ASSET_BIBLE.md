@@ -465,3 +465,59 @@ Plays when player first discovers an entity. Triggered from conspiracy board, re
 
 ---
 
+#### CIN-027 — Ch18 Boss: AGENT ZERO (Signal Ghost Reveal)
+- **Duration:** 10s · **Aspect:** 16:9 · **Priority:** P1 · **Output:** `apps/client/public/videos/story/ch18_agent_zero_intro.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the Ark's long-range communications array chamber — a tall cylindrical room with signal equipment climbing every wall, bundled cables running the length of the floor, a single active transmission console at the far end. The air is thick with static — visible as a faint fuzzy grey haze throughout the scene. At the far end of the room, standing in the haze, AGENT ZERO — a female figure in battered Insurgency infiltrator gear (tight tactical black with cyan accent plating, broken helmet revealing a fierce scarred face, short-cropped dark hair, dog-tag hanging on a chain), TRANSLUCENT — her body half-present, half-signal. She is holding twin cyan-light blades at the ready. The player approaches down the corridor of cables. Palette: cold comm-blue, cyan #22d3ee translucent haze, dark insurgency black, faint orange emergency lights. Volumetric static haze, heavy scanline artifacts on Agent Zero's body, film grain. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same chamber, same camera, moments later. Agent Zero has stepped forward — but her body has SOLIDIFIED for a brief moment, flickering between translucent signal and solid flesh. Her scarred face is fully visible now — fierce, focused, grief-laced. Both cyan-light blades are now fully materialized. Behind her, the comm console has activated — the static haze has resolved into THOUSANDS of ghosted faces of dead Insurgents watching silently from the signal itself, her fallen comrades present through the transmission. Her dog-tag is now visible close-up: it reads "0" (the single character "0" — render as stylized numeral). Film grain, cyan bloom intensified. No legible text besides "0" on the tag. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow push down the cable corridor toward the translucent Agent Zero. Beat at 3s: she steps forward and solidifies briefly. Beat at 5s: both blades fully materialize. Beat at 7s: comm console activates, signal fills with ghosted Insurgent faces. Beat at 9s: dog-tag "0" visible. 24fps. Haunted tactical, final transmission.
+
+---
+
+#### CIN-028 — Ch19 Boss: THE ANTIQUARIAN (Time-Walker Confrontation)
+- **Duration:** 10s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/story/ch19_antiquarian_intro.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the Antiquarian's library (same space as CIN-012 but seen from a different angle) — impossibly tall shelves, paper-lantern light. But in this shot, the architecture is UNSTABLE: a few of the shelves have started to slowly rotate in place, the floor planks have lifted a few inches, dust motes are frozen in mid-air at impossible angles. At a small round reading table in the middle of frame, the ANTIQUARIAN — elderly man in his patchwork coat, silver hair wild, brass spectacles phase-shifted — sits opposite an empty chair (the player's chair). His face is sad. On the table between them is an open book and a single black pawn chess piece. In the foreground, the player approaches the open chair. Palette: warm amber #fbbf24, rich leather brown, deep shadow, sacred-green #00e676 bleeding from the open book. Time-frozen dust motes, extreme depth of field, film grain. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same library, same camera, moments later. The Antiquarian has NOT moved — but around him, the library architecture has UNFROZEN from its moment: the rotating shelves are now mid-rotation, the floor planks are settling differently, dust motes have begun to fall in impossible directions as if gravity itself has been revised. On the reading table between him and the player's chair, the black pawn chess piece has been moved across the board by an invisible hand — the piece is now mid-move, still lifting. The Antiquarian has removed his brass spectacles and set them gently on the table. His eyes (unfocused without the glasses) are now wet, clear, and ancient. Film grain, warm soft glow. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow push-in from the player's chair toward the Antiquarian across the reading table. Beat at 3s: library architecture unfreezes — shelves rotate, floor settles, dust falls sideways. Beat at 5s: black pawn begins its move by invisible hand. Beat at 7s: Antiquarian removes his spectacles. Beat at 9s: his clear eyes visible, wet, ancient. 24fps. Grief, a chess move across five Ages.
+
+---
+
+#### CIN-029 — Ch20 Boss: THE DREAMER (Matrix of Dreams Final Challenge)
+- **Duration:** 12s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/story/ch20_dreamer_intro.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the Matrix of Dreams — an infinite non-physical space of floating translucent geometric platforms over a deep purple-black void. A crown of flowing sacred-green code cascades through the space above, the raw substrate of the Dreamer's consciousness. The player stands on one of the platforms, far foreground. Across the void, floating on a massive central platform, THE DREAMER — a robed androgynous figure made of pure golden light, face a placid mask of compassionate serenity, eyes closed, hands clasped in a meditative mudra, legs folded. Around them, thousands of smaller golden figures kneel in tiered circles — the collected minds of every Potential that has ever chosen the Dreamer's path. Palette: deep indigo void #1e1b4b, sacred gold #fbbf24, foxfire green #00e676 code cascades, pure white platform edges. Volumetric dream-mist, overwhelming bloom, film grain. No legible text. Cinematic 4K, sacred beauty.
+
+**END FRAME (Nano Banana 2):**
+> Same space, same camera, moments later. The Dreamer has OPENED their eyes — the eyes are pure gold-white lightsource. They have unfolded their hands and extended both arms slowly outward, palms up. The thousands of kneeling golden figures around them have all RISEN to their feet in unison as if pulled upward by a single breath. The central platform has BLOOMED — expanding outward with new platforms crystallizing from the code around it, creating new fighting terrain between the player and the Dreamer. The sacred green cascade overhead has intensified, pouring directly into the Dreamer's crown. Palette intensified. Film grain, blinding bloom. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow circular drift from the player's platform toward the distant Dreamer, camera gains altitude. Beat at 4s: the Dreamer opens their golden eyes. Beat at 6s: they extend both arms outward, palms up. Beat at 8s: the thousand kneeling figures rise in unison. Beat at 10s: platforms crystallize outward from the central dais. 24fps. Sacred beauty, ocean of consciousness.
+
+---
+
+#### CIN-030 — Ch21 Boss: THE ORACLE / MEME (Final, Mask Slips)
+- **Duration:** 15s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/story/ch21_oracle_meme_intro.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the Oracle's temple — a circular stone chamber with a single shaft of pure golden sunlight pouring through an oculus in the high ceiling, illuminating a central reflecting pool. Kneeling at the edge of the pool, facing away from camera, THE ORACLE — a tall, slender figure wrapped in pure white temple-robes, head bowed, long silver hair pooling on the floor. Her reflection in the pool is clear and serene. The player enters from a side archway, weapon reluctant. The Oracle is the game's earliest prophetic ally — the player never expected to fight her. Palette: warm gold sunlight, cool stone grey, pure white robes, deep shadow outside the sunbeam. Volumetric god-rays, still water, film grain, anamorphic flare. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same temple, same camera, moments later. The Oracle has risen and turned to face the player — but her face is now FRACTURING like a broken mirror, pieces of her serene prophetess features pulling apart to reveal the true being beneath: THE MEME — the shimmering void-figure in a suit, pure information where features should be, a mocking smile visible even though it has no face. The silver hair is dissolving into data. The pure white robes are re-tailoring themselves into a well-cut suit. The reflection in the pool is STILL the Oracle, unmoved, smiling peacefully — it has separated from the figure that now stands above it. The shaft of sunlight has flickered and gone out. The temple is now lit only by the pale glow of the Meme itself. Film grain, cold white replacing warm gold. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow dolly from the side archway toward the Oracle at the reflecting pool. Beat at 4s: she rises and turns. Beat at 6s: her face begins fracturing like a broken mirror. Beat at 8s: the Meme's form emerges beneath, robes re-tailoring. Beat at 10s: reflection in pool separates from the Meme standing above it, still Oracle-shaped. Beat at 12s: sunbeam flickers out, temple goes cold. 24fps. Betrayal-reveal, the mask slips, prophet-was-shapeshifter.
+
+---
+
