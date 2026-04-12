@@ -22,6 +22,7 @@ import {
 import { useDegenVO } from "@/hooks/useDegenVO";
 import { CasinoGamePanel, type CasinoGameResultPayload } from "./CasinoGamePanels";
 import { HolidayDialogTicker } from "@/components/HolidayDialogTicker";
+import { CrewBonusStrip } from "@/components/CrewBonusStrip";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 
@@ -314,6 +315,11 @@ export default function DegensCasinoPage() {
 
       {/* Progressive jackpot banner — hits all paid games, not just slots */}
       <JackpotPoolBanner />
+
+      {/* Condensed crew holiday bonus ribbon — hidden unless Christmas
+          in July is active AND the player's crew grants at least one
+          bonus stat. Tells players *why* their rewards are higher. */}
+      <CrewBonusStrip />
 
       {/* Christmas in July ticker — active only during the event window */}
       <div className="px-4 py-2">

@@ -221,7 +221,7 @@ export default function CasinoLeaderboardPage() {
                 disabled={optOutMut.isPending}
                 className="accent-amber-400"
               />
-              Opt out of jackpot claim notifications
+              Opt out of casino broadcasts (jackpot claims, event milestones)
             </label>
           </div>
         </div>
@@ -253,7 +253,9 @@ export default function CasinoLeaderboardPage() {
                   <span className={`w-8 text-center ${i === 0 ? "text-green-300" : "text-white/30"}`}>
                     #{i + 1}
                   </span>
-                  <span className="flex-1 text-white/70">Captain #{row.userId}</span>
+                  <span className="flex-1 text-white/70">
+                    {row.name ?? `Captain #${row.userId}`}
+                  </span>
                   <span className={i === 0 ? "text-green-300 font-bold" : "text-green-400/70"}>
                     {row.count} unlocked
                   </span>
@@ -284,7 +286,9 @@ export default function CasinoLeaderboardPage() {
                   </span>
                   {claim.userId != null ? (
                     <>
-                      <span className="text-white/60">Captain #{claim.userId}</span>
+                      <span className="text-white/60">
+                        {claim.name ?? `Captain #${claim.userId}`}
+                      </span>
                       <span className="text-[10px] text-white/30">
                         {claim.earnedAt ? new Date(claim.earnedAt).toLocaleDateString() : ""}
                       </span>

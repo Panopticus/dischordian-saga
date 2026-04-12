@@ -819,6 +819,86 @@ function ChristmasQaPanel() {
 }
 
 /* ═══ FEATURE FLAGS VIEW ═══ */
+/* ═══ CASINO SEASONAL RESET PANEL ═══
+   Lets a GM zero the casino session counters for a single user
+   or every row at once. Never touches lifetime totals, collected
+   tales, games played/won, or unlocked rewards. Logged to
+   admin_audit_log. */
+function CasinoResetPanel() {
+  const [targetUserId, setTargetUserId] = useState("");
+  const [confirm, setConfirm] = useState(false);
+  const resetMut = trpc.casino.adminResetCasinoSession.useMutation({
+    onSuccess: (data) => {
+      toast.success(
+        data.scope === "single"
+          ? `Reset casino session for user #${targetUserId}`
+          : `Reset casino session for ${data.reset} users`,
+      );
+      setConfirm(false);
+      setTargetUserId("");
+    },
+    onError: (err) => {
+      toast.error(err.message);
+      setConfirm(false);
+    },
+  });
+
+  const onReset = () => {
+    const parsed = targetUserId.trim() === "" ? undefined : Number(targetUserId);
+    if (parsed !== undefined && (!Number.isFinite(parsed) || parsed <= 0)) {
+      toast.error("Invalid user id");
+      return;
+    }
+    if (!confirm) {
+      setConfirm(true);
+      return;
+    }
+    resetMut.mutate(parsed !== undefined ? { userId: parsed } : undefined);
+  };
+
+  return (
+    <div className={`${voidPanel} p-4 border-amber-500/30`}>
+      <h3 className="font-mono text-[10px] text-amber-400/80 tracking-wider mb-3">
+        CASINO — SEASONAL RESET
+      </h3>
+      <p className="font-mono text-[10px] text-white/40 mb-3 leading-relaxed">
+        Zeros session wins/losses, current streak, daily wager, free spins, and consecutive
+        Faction/Gauntlet streaks. Lifetime totals, collected tales, games played/won, and
+        unlocked rewards are preserved. Leave the user id blank to reset every row.
+      </p>
+      <div className="flex items-center gap-2">
+        <input
+          type="number"
+          placeholder="User id (blank = all)"
+          value={targetUserId}
+          onChange={(e) => { setTargetUserId(e.target.value); setConfirm(false); }}
+          disabled={resetMut.isPending}
+          className="flex-1 px-3 py-2 rounded-lg bg-gray-900/60 border border-gray-700/40 text-gray-200 text-xs font-mono"
+        />
+        <button
+          onClick={onReset}
+          disabled={resetMut.isPending}
+          className={`px-4 py-2 rounded-lg border font-mono text-[10px] transition-colors ${
+            confirm
+              ? "bg-red-500/20 border-red-500/50 text-red-200 hover:bg-red-500/30"
+              : "bg-amber-500/10 border-amber-500/30 text-amber-300 hover:bg-amber-500/20"
+          } disabled:opacity-50`}
+        >
+          {resetMut.isPending ? "Resetting..." : confirm ? "Confirm reset" : "Reset session"}
+        </button>
+        {confirm && !resetMut.isPending && (
+          <button
+            onClick={() => setConfirm(false)}
+            className="px-3 py-2 rounded-lg border border-white/20 text-white/40 font-mono text-[10px] hover:text-white/60"
+          >
+            Cancel
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function FlagsView() {
   const flags = trpc.architectConsole.listFeatureFlags.useQuery();
   const setFlag = trpc.architectConsole.setFeatureFlag.useMutation({ onSuccess: () => { flags.refetch(); toast.success("Flag toggled"); } });
@@ -827,6 +907,7 @@ function FlagsView() {
   return (
     <div className="space-y-4">
       <ChristmasQaPanel />
+      <CasinoResetPanel />
       <div className="flex items-center justify-between">
         <h3 className="font-mono text-[10px] text-cyan-400/60 tracking-wider">FEATURE FLAGS</h3>
         <button onClick={() => seedFlags.mutate()} className={voidBtnPrimary}>
