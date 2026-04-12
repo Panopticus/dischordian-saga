@@ -7,10 +7,25 @@
    Client → Server: JOIN_QUEUE, GAME_ACTION, SURRENDER, PING
    Server → Client: QUEUE_JOINED, MATCH_FOUND, GAME_STATE,
                      OPPONENT_DISCONNECTED, MATCH_RESULT, PONG
+
+   State management: the authoritative GameState lives inside the
+   tcg-core reducer (apps/shared/tcg-core). This file is a thin
+   WebSocket wrapper that parses messages, routes them through the
+   matchCore helpers, applies reduce(), and broadcasts the new state.
+   Zero game rules live here — all rules are in tcg-core.
    ═══════════════════════════════════════════════════════ */
 import { WebSocketServer, WebSocket } from "ws";
 import type { Server } from "http";
 import { checkWsRateLimit, sendRateLimitError, storeDisconnectedSession, recoverSession } from "./wsRateLimit";
+import { reduce, type GameState } from "../shared/tcg-core";
+import {
+  buildMatchConfig,
+  createServerMatchState,
+  translateClientAction,
+  serializeForClient,
+  endReasonFromWinReason,
+  serverCardRegistry,
+} from "./tcg/matchCore";
 
 /* ─── TYPES ─── */
 
@@ -28,8 +43,11 @@ interface DuelystMatch {
   matchId: string;
   player1: DuelystPlayer;
   player2: DuelystPlayer;
-  /** Serialized game state from the Duelyst engine */
-  gameState: unknown;
+  /** Authoritative game state from the tcg-core reducer. */
+  gameState: GameState;
+  /** Monotonic action sequence counter — assigned by the server on
+   *  every accepted action. Replay dedup depends on this. */
+  nextSeq: number;
   turnTimeout: ReturnType<typeof setTimeout> | null;
   startedAt: number;
 }
@@ -78,38 +96,51 @@ function tryMatchPlayers() {
   const p1 = queue.shift()!;
   const p2 = queue.shift()!;
 
+  // Build validated MatchConfigs before locking the players in. If
+  // either player's faction + deck fails validation, send them an
+  // error and return them both to the queue.
+  const p1Config = buildMatchConfig({
+    userId: p1.userId,
+    faction: p1.faction,
+    deckCardIds: p1.deckCardIds,
+  });
+  const p2Config = buildMatchConfig({
+    userId: p2.userId,
+    faction: p2.faction,
+    deckCardIds: p2.deckCardIds,
+  });
+  if (p1Config.error || p2Config.error) {
+    if (p1Config.error) {
+      send(p1.ws, { type: "ERROR", message: `invalid queue config: ${p1Config.error}` });
+    }
+    if (p2Config.error) {
+      send(p2.ws, { type: "ERROR", message: `invalid queue config: ${p2Config.error}` });
+    }
+    // Return any valid player to the queue so they don't lose their slot.
+    if (!p1Config.error) queue.unshift(p1);
+    if (!p2Config.error) queue.unshift(p2);
+    return;
+  }
+
   const matchId = generateMatchId();
   p1.matchId = matchId;
   p2.matchId = matchId;
 
-  // Initialize game state using the Duelyst engine
-  // The engine runs server-side for authoritative state
-  let gameState: unknown;
-  try {
-    // Dynamic import to avoid circular dependency issues
-    // Engine is in shared/ so it's available server-side
-    // eslint-disable-next-line @typescript-eslint/no-require-imports -- sync require to skip ESM top-level circular cycle
-    const { createGameState } = require("../shared/duelyst-engine-stub");
-    gameState = createGameState(p1.faction, p2.faction, p1.deckCardIds, p2.deckCardIds);
-  } catch {
-    // Fallback: create minimal placeholder state
-    gameState = {
-      turn: 0,
-      activePlayer: 0,
-      players: [
-        { userId: p1.userId, faction: p1.faction, hp: 25, mana: 2 },
-        { userId: p2.userId, faction: p2.faction, hp: 25, mana: 2 },
-      ],
-      board: Array(45).fill(null), // 9x5 grid
-      status: "active",
-    };
-  }
+  // Initialize the authoritative GameState via the real tcg-core reducer.
+  // Seed is derived deterministically from (matchId, playerIds) so
+  // replays stored under the same matchId reproduce perfectly.
+  const gameState = createServerMatchState({
+    matchId,
+    p1: p1Config.config!,
+    p2: p2Config.config!,
+  });
 
   const match: DuelystMatch = {
     matchId,
     player1: p1,
     player2: p2,
     gameState,
+    nextSeq: 1,
     turnTimeout: null,
     startedAt: Date.now(),
   };
@@ -119,9 +150,13 @@ function tryMatchPlayers() {
   send(p1.ws, { type: "MATCH_FOUND", matchId, opponentName: p2.userName, opponentFaction: p2.faction, yourSide: 0 });
   send(p2.ws, { type: "MATCH_FOUND", matchId, opponentName: p1.userName, opponentFaction: p1.faction, yourSide: 1 });
 
-  // Send initial game state to both players
-  send(p1.ws, { type: "GAME_STATE", state: gameState, isYourTurn: true });
-  send(p2.ws, { type: "GAME_STATE", state: gameState, isYourTurn: false });
+  // Send initial game state to both players. serializeForClient
+  // derives isYourTurn from the actual state.currentPlayer, not a
+  // hardcoded boolean.
+  const p1View = serializeForClient(gameState, 0);
+  const p2View = serializeForClient(gameState, 1);
+  send(p1.ws, { type: "GAME_STATE", state: p1View.state, isYourTurn: p1View.isYourTurn });
+  send(p2.ws, { type: "GAME_STATE", state: p2View.state, isYourTurn: p2View.isYourTurn });
 
   console.log(`[Duelyst] Match started: ${p1.userName} (${p1.faction}) vs ${p2.userName} (${p2.faction})`);
 }
@@ -228,27 +263,44 @@ export function setupDuelystWebSocket(server: Server) {
           const match = activeMatches.get(player.matchId);
           if (!match) break;
 
-          // Process action through Duelyst engine
-          // For now, broadcast the action to the opponent and let both clients process
-          const opponent = match.player1.userId === player.userId ? match.player2 : match.player1;
-          const mySide = match.player1.userId === player.userId ? 0 : 1;
+          // Which side is the sender?
+          const mySide: 0 | 1 = match.player1.userId === player.userId ? 0 : 1;
+          const opponent = mySide === 0 ? match.player2 : match.player1;
 
-          // Broadcast updated state
-          try {
-            // eslint-disable-next-line @typescript-eslint/no-require-imports -- sync require to skip ESM top-level circular cycle
-            const { executeAction } = require("../shared/duelyst-engine-stub");
-            match.gameState = executeAction(match.gameState, msg.action);
-          } catch {
-            // Engine not available server-side — relay action to opponent for client-side processing
+          // Translate the legacy client action payload into the reducer's
+          // Action shape. Rejections are structured errors we surface to
+          // the client.
+          const translated = translateClientAction(msg.action, mySide, match.nextSeq);
+          if (!translated.ok) {
+            send(ws, { type: "ERROR", message: `malformed action: ${translated.error}` });
+            break;
           }
 
-          send(opponent.ws, { type: "GAME_STATE", state: match.gameState || msg.action, isYourTurn: true });
-          send(player.ws, { type: "GAME_STATE", state: match.gameState || msg.action, isYourTurn: false });
+          // Apply the reducer. Reducer is pure + total — it never throws
+          // on validation failures, it returns a structured error.
+          const result = reduce(match.gameState, translated.action, serverCardRegistry);
+          if (result.error) {
+            // Action was rejected by the engine (wrong turn, insufficient
+            // mana, illegal target, etc.). Send the error back to the
+            // offending client. Do NOT advance seq.
+            send(ws, { type: "ERROR", message: `${result.error.code}: ${result.error.message}` });
+            break;
+          }
 
-          // Check for game over
-          const state = match.gameState as any;
-          if (state?.winner !== undefined) {
-            endMatch(match, state.winner, "game_over");
+          // Accepted. Advance seq and replace the authoritative state.
+          match.gameState = result.state;
+          match.nextSeq += 1;
+
+          // Broadcast the new state to both players.
+          const myView = serializeForClient(match.gameState, mySide);
+          const oppView = serializeForClient(match.gameState, mySide === 0 ? 1 : 0);
+          send(player.ws, { type: "GAME_STATE", state: myView.state, isYourTurn: myView.isYourTurn });
+          send(opponent.ws, { type: "GAME_STATE", state: oppView.state, isYourTurn: oppView.isYourTurn });
+
+          // Check for game over via the canonical phase/winner fields.
+          if (match.gameState.phase === "ended") {
+            const winnerSide = match.gameState.winner ?? 0;
+            endMatch(match, winnerSide, endReasonFromWinReason(match.gameState.winReason));
           }
           break;
         }
