@@ -6,8 +6,8 @@ if (!connectionString) {
 }
 
 export default defineConfig({
-  schema: "./drizzle/schema.ts",
-  out: "./drizzle",
+  schema: "./apps/db/schema.ts",
+  out: "./apps/db",
   dialect: "mysql",
   dbCredentials: {
     url: connectionString,

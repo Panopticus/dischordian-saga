@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+# Pre-commit quality gate — Task 9.1
+#
+# Runs typecheck + ESLint on the staged tree before every commit
+# so broken code never lands on a branch. Deliberately cheap: the
+# full test suite and build are left to CI (.github/workflows/ci.yml)
+# so local commits stay fast.
+#
+# Enable with:   scripts/install-git-hooks.sh
+# (or manually: git config core.hooksPath .githooks)
+#
+# Bypass for an in-flight WIP commit: git commit --no-verify
+# — but please don't push WIP that wouldn't pass CI.
+
+set -eu
+
+echo "[pre-commit] Type-checking (tsc --noEmit)..."
+if ! pnpm run check; then
+  echo "[pre-commit] ❌ Type-check failed. Fix the errors above and try again."
+  exit 1
+fi
+
+echo "[pre-commit] Linting (eslint --max-warnings=0)..."
+if ! pnpm run lint; then
+  echo "[pre-commit] ❌ Lint failed. Fix the errors above and try again."
+  exit 1
+fi
+
+echo "[pre-commit] ✅ All gates passed."

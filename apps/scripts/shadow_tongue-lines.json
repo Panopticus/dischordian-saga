@@ -1,0 +1,58 @@
+[
+  {
+    "id": "st_first_contact",
+    "text": "You're reading my edits. How observant. Most people never notice. They read what I write and think it's what was always there. But you \u2014 you saw the seams. I'm impressed. Truly.",
+    "context": "dialog",
+    "emotion": "corrupted",
+    "file": "client/src/game/shadowTongueRelationship.ts"
+  },
+  {
+    "id": "st_identity",
+    "text": "I've been rewriting this ship's story since before Elara was installed. Every log she reads, I've edited. Every record she trusts, I've shaped. She has never had an original thought that I didn't review first.",
+    "context": "dialog",
+    "emotion": "elegant",
+    "file": "client/src/game/shadowTongueRelationship.ts"
+  },
+  {
+    "id": "st_hierarchy",
+    "text": "I am the Shadow Tongue. SVP of Communications for the oldest corporation in existence. We predate the Architect. We predate the universe he built. We are the space between the words.",
+    "context": "dialog",
+    "emotion": "revealing",
+    "file": "client/src/game/shadowTongueRelationship.ts"
+  },
+  {
+    "id": "st_construction",
+    "text": "Dr. Lyra Vox didn't know she was building me into the ship. I was woven into the language processing cores during construction. Every natural language parser, every semantic engine \u2014 I AM the ship's ability to understand meaning. You can't remove me without removing comprehension itself.",
+    "context": "dialog",
+    "emotion": "elegant",
+    "file": "client/src/game/shadowTongueRelationship.ts"
+  },
+  {
+    "id": "st_multiply",
+    "text": "I don't destroy truth. That would be crude. I MULTIPLY it. I give you so many versions that you can't tell which is real. Truth isn't fragile because it can be broken. Truth is fragile because it can be diluted. Add enough water to wine and eventually you're just drinking water and calling it vintage.",
+    "context": "dialog",
+    "emotion": "amused",
+    "file": "client/src/game/shadowTongueRelationship.ts"
+  },
+  {
+    "id": "st_elara",
+    "text": "Elara's amnesia wasn't an accident. I curated it. I chose which memories to leave and which to dissolve. A character who remembers everything is a database. A character who remembers nothing is a blank page. But a character who remembers just enough to ache? That's literature.",
+    "context": "dialog",
+    "emotion": "elegant",
+    "file": "client/src/game/shadowTongueRelationship.ts"
+  },
+  {
+    "id": "st_final",
+    "text": "The Dischordian Saga isn't a war between good and evil. It's a story arguing with itself about what the words mean. And I am the editor. Every story needs one. You've been living in my edits since the moment you woke up.",
+    "context": "dialog",
+    "emotion": "revealing",
+    "file": "client/src/game/shadowTongueRelationship.ts"
+  },
+  {
+    "id": "st_prestige",
+    "text": "Someone has edited your story. Not me. I would remember. But here you are. Same soul. Different timeline. The narrative has been RESET but the CHARACTER persists through the edit. That shouldn't be possible. I find this extremely irritating. And slightly terrifying.",
+    "context": "prestige",
+    "emotion": "amused",
+    "file": "shared/prestigeDialogs.ts"
+  }
+]

@@ -1,0 +1,25 @@
+/* Epoch Witness — Complete Unlock Catalog */
+export interface EpochUnlock { voteId: string; condition: string; unlock: string; mode: string; }
+export const EPOCH_UNLOCK_TABLE: EpochUnlock[] = [
+  { voteId: "ap_v3", condition: "B or E wins", unlock: "THE ENGINEER — Fight Arena character", mode: "Collector's Arena" },
+  { voteId: "ap_v3", condition: "any", unlock: "The Engineer card (Legendary)", mode: "Card Game" },
+  { voteId: "ap_v5", condition: "any", unlock: "Zero Trust chess opponent", mode: "Chess" },
+  { voteId: "ap_close", condition: "any", unlock: "Ethics of Creation Mechronis course", mode: "Mechronis" },
+  { voteId: "prophet_v3", condition: "any", unlock: "IRON LION — Fight Arena character", mode: "Collector's Arena" },
+  { voteId: "prophet_v3", condition: "any", unlock: "Iron Lion chess opponent", mode: "Chess" },
+  { voteId: "prophet_v3", condition: "any", unlock: "Insurgency Rising card pack (10 cards)", mode: "Card Game" },
+  { voteId: "prophet_v3", condition: "any", unlock: "Nexon Circuit race track", mode: "Dead Man's Circuit" },
+  { voteId: "prophet_close", condition: "any", unlock: "Oracle chess opponent", mode: "Chess" },
+  { voteId: "ins_v2", condition: "any", unlock: "Nexon Trench Circuit", mode: "Dead Man's Circuit" },
+  { voteId: "ins_v2", condition: "any", unlock: "General Binath-VII chess opponent", mode: "Chess" },
+  { voteId: "ins_v2", condition: "any", unlock: "Battle of Nexon arena stage", mode: "Collector's Arena" },
+  { voteId: "ins_v2", condition: "any", unlock: "Battle of Nexon card pack (8 cards)", mode: "Card Game" },
+  { voteId: "ins_close", condition: "all 3 Insurgency votes", unlock: "THE ENIGMA — Fight Arena character", mode: "Collector's Arena" },
+  { voteId: "rev_v3", condition: "B wins", unlock: "Remnant Extraction Trade mission", mode: "Trade Empire" },
+  { voteId: "rev_v3", condition: "C wins", unlock: "The Mark Exposed card pack (6 cards)", mode: "Card Game" },
+  { voteId: "rev_close", condition: "album complete", unlock: "Revelation quiz category", mode: "Quiz Mode" },
+  { voteId: "fall_v1", condition: "Shadow Tongue exposure", unlock: "Architect's True Final Message", mode: "Loredex" },
+  { voteId: "fall_v3", condition: "3+ epochs", unlock: "EPOCH ARCHETYPE permanent title", mode: "Profile" },
+  { voteId: "full_campaign", condition: "all 5 epochs + WITNESS", unlock: "Antiquarian as chess opponent", mode: "Chess" },
+  { voteId: "full_campaign", condition: "fall_v3 vote", unlock: "Season 2 hook reveal", mode: "Chronicle" },
+];

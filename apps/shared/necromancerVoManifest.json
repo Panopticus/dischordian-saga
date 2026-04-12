@@ -1,0 +1,5 @@
+{
+  "necro_prefight": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Necromancer+Voices/boss_fight/necro_prefight.mp3",
+  "necro_postwin": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Necromancer+Voices/boss_fight/necro_postwin.mp3",
+  "necro_postloss": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Necromancer+Voices/boss_fight/necro_postloss.mp3"
+}

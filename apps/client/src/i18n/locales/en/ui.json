@@ -1,0 +1,84 @@
+{
+  "settings": {
+    "title": "Ship Systems",
+    "language": "Language",
+    "audio": "Audio",
+    "graphics": "Graphics",
+    "notifications": "Notifications",
+    "accessibility": "Accessibility",
+    "masterVolume": "Master Volume",
+    "musicVolume": "Music Volume",
+    "sfxVolume": "SFX Volume",
+    "voiceVolume": "Voice Volume",
+    "fullscreen": "Fullscreen",
+    "reducedMotion": "Reduced Motion",
+    "highContrast": "High Contrast",
+    "fontSize": "Font Size",
+    "colorblindMode": "Colorblind Mode",
+    "pushNotifications": "Push Notifications",
+    "emailNotifications": "Email Notifications",
+    "soundAlerts": "Sound Alerts",
+    "saveSuccess": "Settings saved successfully.",
+    "resetDefaults": "Reset to Defaults",
+    "resetConfirm": "Are you sure you want to reset all settings to defaults?"
+  },
+  "modal": {
+    "confirmTitle": "Confirm Action",
+    "confirmDescription": "Are you sure you want to proceed?",
+    "deleteTitle": "Confirm Deletion",
+    "deleteDescription": "This action cannot be undone.",
+    "unsavedChanges": "Unsaved Changes",
+    "unsavedDescription": "You have unsaved changes. Discard them?",
+    "discard": "Discard",
+    "keepEditing": "Keep Editing"
+  },
+  "toast": {
+    "saveSuccess": "Changes saved successfully.",
+    "saveError": "Failed to save. Please try again.",
+    "copySuccess": "Copied to clipboard.",
+    "connectionLost": "Connection lost. Reconnecting...",
+    "connectionRestored": "Connection restored.",
+    "newNotification": "New transmission received.",
+    "achievementUnlocked": "Achievement unlocked: {{name}}",
+    "levelUp": "Level up! You are now level {{level}}.",
+    "itemReceived": "Received: {{item}}"
+  },
+  "validation": {
+    "required": "This field is required.",
+    "minLength": "Must be at least {{min}} characters.",
+    "maxLength": "Must be no more than {{max}} characters.",
+    "invalidEmail": "Please enter a valid email address.",
+    "invalidFormat": "Invalid format.",
+    "passwordMismatch": "Passwords do not match.",
+    "nameTaken": "This name is already taken.",
+    "profanity": "This name contains prohibited language."
+  },
+  "tooltip": {
+    "health": "Current health points / maximum health points",
+    "energy": "Energy used for abilities and actions",
+    "experience": "Progress toward next level",
+    "trust": "Your trust level with this NPC",
+    "rarity": "Item rarity determines power and value",
+    "equipped": "Currently equipped",
+    "locked": "Reach level {{level}} to unlock",
+    "cooldown": "Available in {{time}}"
+  },
+  "loading": {
+    "initializing": "Initializing neural link...",
+    "loadingAssets": "Loading holographic assets...",
+    "connectingServer": "Establishing Ark connection...",
+    "syncingData": "Synchronizing quantum data...",
+    "almostReady": "Almost ready, Operative...",
+    "enteringBridge": "Entering the Bridge...",
+    "decryptingSignals": "Decrypting incoming signals...",
+    "calibratingDrive": "Calibrating void drive..."
+  },
+  "empty": {
+    "noItems": "No items found.",
+    "noMessages": "No messages yet.",
+    "noResults": "No results match your search.",
+    "noNotifications": "All clear — no new transmissions.",
+    "noFriends": "No contacts in your comms network.",
+    "noQuests": "No active missions. Check the Bridge for new signals."
+  }
+}

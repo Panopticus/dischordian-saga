@@ -1,0 +1,190 @@
+import { describe, it, expect } from "vitest";
+import {
+  COMPANION_GIFTS,
+  getGiftById,
+  getGiftsByRarity,
+  calculateGiftXp,
+  getRarityColor,
+  type CompanionGift,
+} from "../client/src/data/companionGifts";
+import {
+  FACTION_WAR_EVENTS,
+  DEFAULT_FACTION_WAR_STATE,
+  getNextWarEvent,
+  calculateWarOutcome,
+  getContributionRank,
+  type FactionWarEvent,
+} from "../client/src/data/factionWarData";
+import { ARENAS } from "../client/src/game/gameData";
+import { STORY_CHAPTERS } from "../client/src/game/storyMode";
+
+describe("Phase 72: Companion Gift System", () => {
+  it("should have at least 8 companion gifts defined", () => {
+    expect(COMPANION_GIFTS.length).toBeGreaterThanOrEqual(8);
+  });
+
+  it("every gift should have required fields", () => {
+    COMPANION_GIFTS.forEach((gift: CompanionGift) => {
+      expect(gift.id).toBeTruthy();
+      expect(gift.name).toBeTruthy();
+      expect(gift.description).toBeTruthy();
+      expect(gift.rarity).toBeTruthy();
+      expect(typeof gift.baseXp).toBe("number");
+      expect(gift.baseXp).toBeGreaterThan(0);
+    });
+  });
+
+  it("every gift should have companion-specific dialog responses", () => {
+    COMPANION_GIFTS.forEach((gift: CompanionGift) => {
+      expect(gift.dialogResponses).toBeTruthy();
+      expect(gift.dialogResponses.elara).toBeTruthy();
+      expect(gift.dialogResponses.the_human).toBeTruthy();
+    });
+  });
+
+  it("should have gifts across multiple rarities", () => {
+    const rarities = new Set(COMPANION_GIFTS.map(g => g.rarity));
+    expect(rarities.size).toBeGreaterThanOrEqual(3);
+  });
+
+  it("higher rarity gifts should give more relationship bonus", () => {
+    const byRarity: Record<string, number[]> = {};
+    COMPANION_GIFTS.forEach(g => {
+      if (!byRarity[g.rarity]) byRarity[g.rarity] = [];
+      byRarity[g.rarity].push(g.baseXp);
+    });
+    if (byRarity["legendary"] && byRarity["common"]) {
+      const avgLegendary = byRarity["legendary"].reduce((a, b) => a + b, 0) / byRarity["legendary"].length;
+      const avgCommon = byRarity["common"].reduce((a, b) => a + b, 0) / byRarity["common"].length;
+      expect(avgLegendary).toBeGreaterThan(avgCommon);
+    }
+  });
+
+  it("getGiftById should return the correct gift", () => {
+    const first = COMPANION_GIFTS[0];
+    const found = getGiftById(first.id);
+    expect(found?.id).toBe(first.id);
+    expect(found?.name).toBe(first.name);
+  });
+
+  it("getGiftsByRarity should filter correctly", () => {
+    const common = getGiftsByRarity("common");
+    common.forEach(g => expect(g.rarity).toBe("common"));
+  });
+
+  it("getRarityColor should return a color string", () => {
+    const color = getRarityColor("legendary");
+    expect(color).toBeTruthy();
+    expect(typeof color).toBe("string");
+  });
+
+  it("calculateGiftXp should return a positive number", () => {
+    const gift = COMPANION_GIFTS[0];
+    const xp = calculateGiftXp(gift, "elara");
+    expect(xp).toBeGreaterThan(0);
+  });
+});
+
+describe("Phase 72: Faction War Events", () => {
+  it("should have at least 3 faction war events", () => {
+    expect(FACTION_WAR_EVENTS.length).toBeGreaterThanOrEqual(3);
+  });
+
+  it("every war event should have required fields", () => {
+    FACTION_WAR_EVENTS.forEach((event: FactionWarEvent) => {
+      expect(event.id).toBeTruthy();
+      expect(event.name).toBeTruthy();
+      expect(event.description).toBeTruthy();
+      expect(event.factions).toBeTruthy();
+      expect(event.factions.length).toBe(2);
+      expect(event.contestedSectors).toBeTruthy();
+      expect(event.contestedSectors.length).toBeGreaterThanOrEqual(1);
+    });
+  });
+
+  it("every war event should have two opposing factions as strings", () => {
+    FACTION_WAR_EVENTS.forEach((event: FactionWarEvent) => {
+      expect(typeof event.factions[0]).toBe("string");
+      expect(typeof event.factions[1]).toBe("string");
+      expect(event.factions[0]).not.toBe(event.factions[1]);
+    });
+  });
+
+  it("DEFAULT_FACTION_WAR_STATE should be valid", () => {
+    expect(DEFAULT_FACTION_WAR_STATE).toBeTruthy();
+    expect(DEFAULT_FACTION_WAR_STATE.completedWars).toBeDefined();
+    expect(Array.isArray(DEFAULT_FACTION_WAR_STATE.completedWars)).toBe(true);
+  });
+
+  it("getContributionRank should return a rank", () => {
+    const rank = getContributionRank(100);
+    expect(rank.rank).toBeTruthy();
+    expect(rank.color).toBeTruthy();
+  });
+
+  it("calculateWarOutcome should return a result", () => {
+    const result = calculateWarOutcome(500, 300);
+    expect(result).toBeTruthy();
+  });
+});
+
+describe("Phase 72: Fight Game Story Mode Enhancements", () => {
+  it("core arenas should exist in ARENAS", () => {
+    const arenaIds = ARENAS.map(a => a.id);
+    expect(arenaIds).toContain("crucible");
+    expect(arenaIds).toContain("blood-weave");
+    expect(arenaIds).toContain("shadow-sanctum");
+  });
+
+  it("all story chapter arenaIds should reference valid arenas", () => {
+    const arenaIds = new Set(ARENAS.map(a => a.id));
+    STORY_CHAPTERS.forEach(ch => {
+      expect(arenaIds.has(ch.arenaId)).toBe(true);
+    });
+  });
+
+  it("all shipped boss chapters are present and canonically tagged", () => {
+    const bossChapters = STORY_CHAPTERS.filter(c => c.isBoss === true);
+    // S1 ships 6 bosses: Jailer (ch2), Necromancer (ch5 mandatory loss),
+    // Warlord (ch7 dual portrait), Warden (ch10), Collector (ch11),
+    // Architect (ch12 final).
+    expect(bossChapters.length).toBeGreaterThanOrEqual(6);
+
+    const opponentIds = new Set(bossChapters.map(c => c.opponentId));
+    expect(opponentIds.has("jailer")).toBe(true);
+    expect(opponentIds.has("necromancer")).toBe(true);
+    expect(opponentIds.has("warlord")).toBe(true);
+    expect(opponentIds.has("warden")).toBe(true);
+    expect(opponentIds.has("collector")).toBe(true);
+    expect(opponentIds.has("architect")).toBe(true);
+
+    const chapterNums = STORY_CHAPTERS.map(c => c.chapter);
+    expect(chapterNums).toContain(7);
+    expect(chapterNums).toContain(11);
+    expect(chapterNums).toContain(12);
+  });
+
+  it("every story chapter should have pre and post-victory dialogue", () => {
+    STORY_CHAPTERS.forEach(ch => {
+      expect(ch.preFight.length, `${ch.id} missing preFight dialogue`).toBeGreaterThan(0);
+      expect(ch.postDefeatDialogue.length, `${ch.id} missing postDefeatDialogue`).toBeGreaterThan(0);
+    });
+  });
+
+  it("all arenas should have proper visual properties", () => {
+    for (const arena of ARENAS) {
+      expect(arena.bgGradient, `${arena.id} missing bgGradient`).toBeTruthy();
+      expect(arena.floorColor, `${arena.id} missing floorColor`).toBeTruthy();
+      expect(arena.ambientColor, `${arena.id} missing ambientColor`).toBeTruthy();
+    }
+  });
+
+  // Season 1 ships all 14 chapters: ch1, ch2, ch3a, ch3b, ch4, ch5,
+  // ch6, ch7, ch8, ch9a, ch9b, ch10, ch11, ch12. The upper bound
+  // leaves headroom for the CORRUPTION + SOURCE + FINALE chapters
+  // that live in a follow-up (they'll add 4-6 more entries).
+  it("story mode has the currently-shipped chapter count", () => {
+    expect(STORY_CHAPTERS.length).toBeGreaterThanOrEqual(14);
+    expect(STORY_CHAPTERS.length).toBeLessThanOrEqual(25);
+  });
+});

@@ -1,0 +1,234 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://scenes/levels/Ark1047.gd" id="1_scr"]
+[ext_resource type="PackedScene" path="res://objects/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="3_hud"]
+
+[sub_resource type="Environment" id="env"]
+background_mode = 1
+background_color = Color(0.02, 0.03, 0.06, 1)
+ambient_light_color = Color(0.973, 0.451, 0.086, 1)
+ambient_light_energy = 0.35
+fog_enabled = true
+fog_density = 0.012
+fog_light_color = Color(0.035, 0.03, 0.05, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_engineering"]
+albedo_color = Color(0.976, 0.451, 0.086, 1)
+emission_enabled = true
+emission = Color(0.976, 0.451, 0.086, 1)
+emission_energy_multiplier = 0.8
+
+[sub_resource type="StandardMaterial3D" id="mat_cargo"]
+albedo_color = Color(0.659, 0.333, 0.098, 1)
+emission_enabled = true
+emission = Color(0.659, 0.333, 0.098, 1)
+emission_energy_multiplier = 0.6
+
+[sub_resource type="StandardMaterial3D" id="mat_observation"]
+albedo_color = Color(0.545, 0.361, 0.965, 1)
+emission_enabled = true
+emission = Color(0.545, 0.361, 0.965, 1)
+emission_energy_multiplier = 0.8
+
+[sub_resource type="StandardMaterial3D" id="mat_cades"]
+albedo_color = Color(0.545, 0.361, 0.965, 1)
+emission_enabled = true
+emission = Color(0.545, 0.361, 0.965, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="BoxMesh" id="pad_mesh"]
+size = Vector3(6, 0.15, 6)
+
+[sub_resource type="BoxMesh" id="pillar_mesh"]
+size = Vector3(0.6, 3.0, 0.6)
+
+[sub_resource type="CylinderMesh" id="cades_mesh"]
+top_radius = 0.8
+bottom_radius = 0.8
+height = 1.6
+
+[sub_resource type="SphereShape3D" id="breach_shape"]
+radius = 4.5
+
+[sub_resource type="StandardMaterial3D" id="mat_ark_wall"]
+albedo_color = Color(0.09, 0.08, 0.075, 1)
+emission_enabled = true
+emission = Color(0.18, 0.08, 0.02, 1)
+emission_energy_multiplier = 0.12
+
+[sub_resource type="StandardMaterial3D" id="mat_ark_strut"]
+albedo_color = Color(0.06, 0.06, 0.08, 1)
+emission_enabled = false
+
+[node name="Ark1047" type="Node3D"]
+script = ExtResource("1_scr")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = BoxMesh.new()
+transform = Transform3D(30, 0, 0, 0, 0.1, 0, 0, 0, 30, 0, -0.05, 0)
+
+[node name="ArkGeometry" type="Node3D" parent="."]
+
+[node name="NorthWall" type="MeshInstance3D" parent="ArkGeometry"]
+transform = Transform3D(30, 0, 0, 0, 4, 0, 0, 0, 0.4, 0, 2, -22)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_ark_wall")
+
+[node name="SouthWall" type="MeshInstance3D" parent="ArkGeometry"]
+transform = Transform3D(30, 0, 0, 0, 4, 0, 0, 0, 0.4, 0, 2, 22)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_ark_wall")
+
+[node name="WestWall" type="MeshInstance3D" parent="ArkGeometry"]
+transform = Transform3D(0.4, 0, 0, 0, 4, 0, 0, 0, 30, -22, 2, 0)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_ark_wall")
+
+[node name="EastWall" type="MeshInstance3D" parent="ArkGeometry"]
+transform = Transform3D(0.4, 0, 0, 0, 4, 0, 0, 0, 30, 22, 2, 0)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_ark_wall")
+
+[node name="Strut1" type="MeshInstance3D" parent="ArkGeometry"]
+transform = Transform3D(0.4, 0, 0, 0, 4.5, 0, 0, 0, 0.4, -10, 2.25, 0)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_ark_strut")
+
+[node name="Strut2" type="MeshInstance3D" parent="ArkGeometry"]
+transform = Transform3D(0.4, 0, 0, 0, 4.5, 0, 0, 0, 0.4, 10, 2.25, 0)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_ark_strut")
+
+[node name="Strut3" type="MeshInstance3D" parent="ArkGeometry"]
+transform = Transform3D(0.4, 0, 0, 0, 4.5, 0, 0, 0, 0.4, -10, 2.25, 10)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_ark_strut")
+
+[node name="Strut4" type="MeshInstance3D" parent="ArkGeometry"]
+transform = Transform3D(0.4, 0, 0, 0, 4.5, 0, 0, 0, 0.4, 10, 2.25, 10)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_ark_strut")
+
+[node name="Strut5" type="MeshInstance3D" parent="ArkGeometry"]
+transform = Transform3D(0.4, 0, 0, 0, 4.5, 0, 0, 0, 0.4, 0, 2.25, -12)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_ark_strut")
+
+[node name="Ceiling" type="MeshInstance3D" parent="ArkGeometry"]
+transform = Transform3D(30, 0, 0, 0, 0.2, 0, 0, 0, 30, 0, 5, 0)
+mesh = BoxMesh.new()
+surface_material_override/0 = SubResource("mat_ark_strut")
+
+[node name="DirectionalLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866, -0.5, 0, 0.5, 0.866, 0, 8, 0)
+light_color = Color(0.973, 0.451, 0.086, 1)
+light_energy = 0.4
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="CadesUnit" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="CadesUnit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("cades_mesh")
+surface_material_override/0 = SubResource("mat_cades")
+
+[node name="Light" type="OmniLight3D" parent="CadesUnit"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+light_color = Color(0.545, 0.361, 0.965, 1)
+light_energy = 1.8
+omni_range = 8.0
+
+[node name="BreachZones" type="Node3D" parent="."]
+
+[node name="engineering" type="Node3D" parent="BreachZones"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, -10)
+
+[node name="Pad" type="MeshInstance3D" parent="BreachZones/engineering"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+mesh = SubResource("pad_mesh")
+surface_material_override/0 = SubResource("mat_engineering")
+
+[node name="Pillar" type="MeshInstance3D" parent="BreachZones/engineering"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("pillar_mesh")
+surface_material_override/0 = SubResource("mat_engineering")
+
+[node name="Light" type="OmniLight3D" parent="BreachZones/engineering"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+light_color = Color(0.976, 0.451, 0.086, 1)
+light_energy = 1.4
+omni_range = 8.0
+
+[node name="SpawnMarker" type="Marker3D" parent="BreachZones/engineering"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+
+[node name="DetectArea" type="Area3D" parent="BreachZones/engineering"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BreachZones/engineering/DetectArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("breach_shape")
+
+[node name="cargo" type="Node3D" parent="BreachZones"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, -10)
+
+[node name="Pad" type="MeshInstance3D" parent="BreachZones/cargo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+mesh = SubResource("pad_mesh")
+surface_material_override/0 = SubResource("mat_cargo")
+
+[node name="Pillar" type="MeshInstance3D" parent="BreachZones/cargo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("pillar_mesh")
+surface_material_override/0 = SubResource("mat_cargo")
+
+[node name="Light" type="OmniLight3D" parent="BreachZones/cargo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+light_color = Color(0.659, 0.333, 0.098, 1)
+light_energy = 1.2
+omni_range = 8.0
+
+[node name="SpawnMarker" type="Marker3D" parent="BreachZones/cargo"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+
+[node name="DetectArea" type="Area3D" parent="BreachZones/cargo"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BreachZones/cargo/DetectArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("breach_shape")
+
+[node name="observation" type="Node3D" parent="BreachZones"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 15)
+
+[node name="Pad" type="MeshInstance3D" parent="BreachZones/observation"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08, 0)
+mesh = SubResource("pad_mesh")
+surface_material_override/0 = SubResource("mat_observation")
+
+[node name="Pillar" type="MeshInstance3D" parent="BreachZones/observation"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("pillar_mesh")
+surface_material_override/0 = SubResource("mat_observation")
+
+[node name="Light" type="OmniLight3D" parent="BreachZones/observation"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+light_color = Color(0.545, 0.361, 0.965, 1)
+light_energy = 1.4
+omni_range = 8.0
+
+[node name="SpawnMarker" type="Marker3D" parent="BreachZones/observation"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+
+[node name="DetectArea" type="Area3D" parent="BreachZones/observation"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BreachZones/observation/DetectArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("breach_shape")

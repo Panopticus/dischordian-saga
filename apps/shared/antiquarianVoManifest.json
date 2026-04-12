@@ -1,0 +1,10 @@
+{
+  "antiq_fulcrum": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/dialog/antiq_fulcrum.mp3",
+  "antiq_ages": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/dialog/antiq_ages.mp3",
+  "antiq_variations": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/dialog/antiq_variations.mp3",
+  "antiq_library": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/dialog/antiq_library.mp3",
+  "antiq_programmer": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/dialog/antiq_programmer.mp3",
+  "antiq_goggles": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/dialog/antiq_goggles.mp3",
+  "antiq_identity": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/dialog/antiq_identity.mp3",
+  "antiq_prestige": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Antiquarian+Voices/prestige/antiq_prestige.mp3"
+}
