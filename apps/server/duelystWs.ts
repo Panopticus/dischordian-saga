@@ -101,16 +101,19 @@ function tryMatchPlayers() {
   // Build validated MatchConfigs before locking the players in. If
   // either player's faction + deck fails validation, send them an
   // error and return them both to the queue.
+  // skipValidation: true until the full 216-card set is authored.
+  // Once all cards are in the registry, remove this flag so the PvP
+  // queue enforces STANDARD_S1 deck legality.
   const p1Config = buildMatchConfig({
     userId: p1.userId,
     faction: p1.faction,
     deckCardIds: p1.deckCardIds,
-  });
+  }, { skipValidation: true });
   const p2Config = buildMatchConfig({
     userId: p2.userId,
     faction: p2.faction,
     deckCardIds: p2.deckCardIds,
-  });
+  }, { skipValidation: true });
   if (p1Config.error || p2Config.error) {
     if (p1Config.error) {
       send(p1.ws, { type: "ERROR", message: `invalid queue config: ${p1Config.error}` });

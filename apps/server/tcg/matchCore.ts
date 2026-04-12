@@ -29,6 +29,8 @@
 import {
   buildCardRegistry,
   createMatchState,
+  validateDeck,
+  STANDARD_S1,
   ALL_CARD_DEFINITIONS,
   type Action,
   type CardRegistry,
@@ -115,7 +117,10 @@ export interface BuildMatchConfigResult {
   error?: string;
 }
 
-export function buildMatchConfig(input: JoinQueueInput): BuildMatchConfigResult {
+export function buildMatchConfig(
+  input: JoinQueueInput,
+  options: { skipValidation?: boolean } = {}
+): BuildMatchConfigResult {
   const resolved = resolveFaction(input.faction);
   if (!resolved) {
     return { error: `unknown faction '${input.faction}'` };
@@ -126,6 +131,29 @@ export function buildMatchConfig(input: JoinQueueInput): BuildMatchConfigResult 
   if (input.deckCardIds.some((id) => typeof id !== "string" || id.length === 0)) {
     return { error: "deckCardIds must contain non-empty strings" };
   }
+
+  // Deck format validation against STANDARD_S1.
+  // Skipped when options.skipValidation is true — used during early
+  // development when starter decks contain placeholder card ids that
+  // aren't in the registry yet (only 19 of 216 cards are authored).
+  // Once the full card set is authored, remove the skip flag.
+  if (!options.skipValidation) {
+    const deckInput = {
+      generalDefId: resolved.generalDefId,
+      cardDefIds: input.deckCardIds,
+    };
+    const validation = validateDeck(deckInput, STANDARD_S1, serverCardRegistry);
+    if (!validation.valid) {
+      const firstIssue = validation.issues[0];
+      return {
+        error: `deck validation failed: ${firstIssue.code} — ${firstIssue.message}` +
+          (validation.issues.length > 1
+            ? ` (+${validation.issues.length - 1} more issues)`
+            : ""),
+      };
+    }
+  }
+
   return {
     config: {
       userId: input.userId as MatchConfig["userId"],

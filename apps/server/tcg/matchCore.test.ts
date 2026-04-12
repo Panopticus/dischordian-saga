@@ -47,11 +47,13 @@ describe("resolveFaction", () => {
 
 describe("buildMatchConfig", () => {
   it("constructs a MatchConfig from a well-formed join input", () => {
+    // skipValidation: true because this test checks config builder shape,
+    // not deck format rules (those have their own suite in validateDeck.test.ts)
     const r = buildMatchConfig({
       userId: 7,
       faction: "architect",
       deckCardIds: ["c1", "c2", "c3"],
-    });
+    }, { skipValidation: true });
     expect(r.error).toBeUndefined();
     expect(r.config).toBeDefined();
     expect(r.config!.userId).toBe(7);
