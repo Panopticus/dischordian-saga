@@ -954,6 +954,42 @@ function bucketKey(userId: number, hourEpoch: number): string {
   return `${userId}:${hourEpoch}`;
 }
 
+/** Rate-limit alerting threshold: if a single user trips this
+ *  many buckets inside the same hour, push a notification to
+ *  every admin so they can investigate. */
+const RATE_LIMIT_ALERT_THRESHOLD = 100;
+
+/** Tracks which buckets have already fired an alert in the
+ *  current hour so we don't spam admins for every single hit
+ *  past the threshold. Cleared when the bucket itself rolls. */
+const alertedBuckets = new Set<string>();
+
+/** Insert a system notification for every admin. Fire-and-forget
+ *  so a logging failure doesn't crash the rate-limit handler. */
+async function alertAdminsOfRateLimitAbuse(userId: number, count: number, endpoint: string) {
+  try {
+    const db = await getDb();
+    if (!db) return;
+    const { users } = await import("../../db/schema");
+    const admins = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(eq(users.role, "admin"));
+    if (admins.length === 0) return;
+    const rows = admins.map(a => ({
+      userId: a.id,
+      type: "system" as const,
+      title: "Rate-limit threshold exceeded",
+      message: `User #${userId} hit ${count} ${endpoint} rate-limit events this hour. Possible abuse.`,
+      actionUrl: "/architect/audit-log",
+      metadata: { kind: "rate_limit_alert", targetUserId: userId, count, endpoint },
+    }));
+    await db.insert(notifications).values(rows);
+  } catch {
+    /* best-effort */
+  }
+}
+
 on("search_rate_limited", async (ev) => {
   const userId = typeof ev.userId === "number" ? ev.userId : 0;
   const endpoint = typeof ev.endpoint === "string" ? ev.endpoint : "unknown";
@@ -967,10 +1003,24 @@ on("search_rate_limited", async (ev) => {
   } else {
     searchRateLimitBuckets.set(key, { userId, hourEpoch, count: 1, lastEndpoint: endpoint });
   }
-  // Trim buckets older than 24 hours.
+  // Trim buckets older than 24 hours. Also prune the alerted set
+  // so the next hour starts fresh.
   const cutoff = hourEpoch - SEARCH_RATE_LIMIT_TTL_HOURS;
   for (const [k, b] of searchRateLimitBuckets) {
-    if (b.hourEpoch < cutoff) searchRateLimitBuckets.delete(k);
+    if (b.hourEpoch < cutoff) {
+      searchRateLimitBuckets.delete(k);
+      alertedBuckets.delete(k);
+    }
+  }
+
+  // Threshold alert: fire once per bucket when the count crosses
+  // RATE_LIMIT_ALERT_THRESHOLD. Subsequent hits in the same hour
+  // are silent — admins don't need 50 notifications for the same
+  // abusive user.
+  const bucket = searchRateLimitBuckets.get(key);
+  if (bucket && bucket.count >= RATE_LIMIT_ALERT_THRESHOLD && !alertedBuckets.has(key)) {
+    alertedBuckets.add(key);
+    void alertAdminsOfRateLimitAbuse(userId, bucket.count, endpoint);
   }
 
   // Persist the throttle event to analytics_events so the record

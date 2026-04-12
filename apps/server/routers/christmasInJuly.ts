@@ -216,12 +216,13 @@ async function broadcastMilestone(
 ) {
   // Find every user who has an xmas_july_progress row — those are the
   // participants. Left-join casinoState so we can exclude anyone
-  // who's opted out of broadcasts (via the same preference that
-  // governs jackpot notifications — users expect one toggle).
+  // who's specifically opted out of milestone broadcasts. This is a
+  // separate preference from the jackpot opt-out so users can keep
+  // one stream while muting the other.
   const participants = await db
     .select({
       userId: xmasJulyProgress.userId,
-      optOut: casinoState.jackpotBroadcastOptOut,
+      optOut: casinoState.milestoneBroadcastOptOut,
     })
     .from(xmasJulyProgress)
     .leftJoin(casinoState, eq(casinoState.userId, xmasJulyProgress.userId));
