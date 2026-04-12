@@ -8,7 +8,7 @@
 
    Only one apprentice at a time. Old must die before new.
    ═══════════════════════════════════════════════════════ */
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import {
@@ -26,6 +26,7 @@ import {
 import {
   generateDailyDecision,
   rollForDeath,
+  computeTrialPacing,
   TRIAL_LENGTH_DAYS,
   type DecisionOption,
 } from "@shared/celebrationTrial";
@@ -37,6 +38,13 @@ import {
   type BetrayalEvent,
 } from "@shared/apprenticeBetrayal";
 import { computeDailyCorruption } from "@shared/apprentices";
+import { getBattleForDay, type CycleBattle } from "@shared/cycleBattles";
+import SongSlideshow from "@/components/SongSlideshow";
+import {
+  WELCOME_TO_CELEBRATION_FRAMES,
+  WELCOME_TO_CELEBRATION_TITLE,
+  WELCOME_TO_CELEBRATION_AUDIO,
+} from "@/data/celebrationSlideshow";
 
 const STAGE_LABELS: Record<string, string> = {
   recruited: "Recruited",
@@ -57,11 +65,32 @@ const RARITY_BG: Record<Rarity, string> = {
 };
 
 export default function ApprenticePage() {
-  const { state, setApprentice, recordFallenApprentice, addGraduate } = useGame();
+  const { state, setApprentice, recordFallenApprentice, addGraduate, addTrialHistoryEntry } = useGame();
   const currentApprentice = state.apprentice as Apprentice | null;
   const fallen = (state.apprenticeFallen as Apprentice[]) ?? [];
   const [candidate, setCandidate] = useState<Apprentice | null>(null);
   const [nameInput, setNameInput] = useState("");
+  const [showSlideshow, setShowSlideshow] = useState(false);
+  const [pendingBattle, setPendingBattle] = useState<CycleBattle | null>(null);
+
+  // ── Real-time missed-day sync ──
+  // On mount (or when returning to the page), check wall-clock time
+  // and update missedDays if the player has been away.
+  useEffect(() => {
+    if (!currentApprentice) return;
+    if (currentApprentice.stage !== "training") return;
+    const pacing = computeTrialPacing(
+      currentApprentice.recruitedAt,
+      currentApprentice.trialDay,
+    );
+    if (pacing.missedDays > currentApprentice.missedDays) {
+      setApprentice({
+        ...currentApprentice,
+        missedDays: pacing.missedDays,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentApprentice?.stage, currentApprentice?.trialDay]);
 
   const rollCandidate = () => {
     const app = generateApprentice();
@@ -114,6 +143,16 @@ export default function ApprenticePage() {
       });
       return;
     }
+    // Persist trial history for combat buff integration
+    addTrialHistoryEntry({
+      day: currentApprentice.trialDay,
+      mascoteerId: todayDecision?.mascoteerId ?? "",
+      decisionId: todayDecision?.id ?? "",
+      optionId: choice.id,
+      bondDelta: outcome.bondDelta,
+      corruptionDelta: outcome.corruptionDelta,
+      moralityDelta: outcome.moralityDelta,
+    });
     const newDay = currentApprentice.trialDay + 1;
     const newBond = Math.max(0, Math.min(100, currentApprentice.bond + outcome.bondDelta));
     // Daily corruption tick — evil apprentices still gain corruption
@@ -130,6 +169,11 @@ export default function ApprenticePage() {
       missedDays: 0,
       stage: graduated ? "graduated" : "training",
     });
+    // Check if the NEXT day triggers a graduation-exam battle
+    if (!graduated) {
+      const battle = getBattleForDay("A", newDay);
+      if (battle) setPendingBattle(battle);
+    }
   };
 
   // Betrayal event trigger — check corruption on companion apprentice
@@ -216,8 +260,8 @@ export default function ApprenticePage() {
                 </button>
               </div>
             )}
-            {/* Training → daily decision */}
-            {currentApprentice.stage === "training" && todayDecision && (
+            {/* Training → daily decision (or pending battle) */}
+            {currentApprentice.stage === "training" && !pendingBattle && todayDecision && (
               <div className="mt-4">
                 <DailyDecisionCard
                   decision={todayDecision}
@@ -226,14 +270,57 @@ export default function ApprenticePage() {
                 />
               </div>
             )}
+            {/* Graduation-exam battle card (days 10/20/28) */}
+            {currentApprentice.stage === "training" && pendingBattle && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-4 p-4 rounded-lg border-2 border-red-500/50 bg-gradient-to-br from-red-950/20 to-amber-950/10"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <Zap size={16} className="text-red-400" />
+                  <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-red-400">
+                    Graduation Exam · Day {pendingBattle.triggerDay}
+                  </span>
+                </div>
+                <h3 className="font-display text-lg font-bold text-foreground mb-1">{pendingBattle.opponentName}</h3>
+                <p className="font-mono text-[10px] text-foreground/80 leading-relaxed mb-2">{pendingBattle.narrativeBeat}</p>
+                <div className="p-2 rounded border border-border/30 bg-black/20 mb-3">
+                  <span className="font-mono text-[8px] uppercase tracking-wider text-amber-400 block mb-0.5">
+                    Deck Theme: {pendingBattle.deckTheme}
+                  </span>
+                  <p className="font-mono text-[9px] text-foreground/70">{pendingBattle.deckMechanics}</p>
+                </div>
+                <div className="p-2 rounded border border-emerald-500/30 bg-emerald-500/5 mb-3">
+                  <span className="font-mono text-[8px] uppercase tracking-wider text-emerald-400 block mb-0.5">
+                    Card Unlock
+                  </span>
+                  <p className="font-mono text-[10px] text-foreground/85">
+                    <strong className="text-emerald-300">{pendingBattle.cardUnlock.name}</strong> ({pendingBattle.cardUnlock.rarity}) — {pendingBattle.cardUnlock.effect}
+                  </p>
+                </div>
+                <Link
+                  href="/dischordia"
+                  className="block w-full text-center px-3 py-2 rounded border border-red-500/50 bg-red-500/15 text-red-300 font-mono text-[11px] uppercase tracking-wider hover:bg-red-500/25"
+                >
+                  Enter the Exam
+                </Link>
+                <button
+                  onClick={() => setPendingBattle(null)}
+                  className="block w-full mt-1.5 text-center px-3 py-1.5 font-mono text-[9px] text-muted-foreground/50 hover:text-muted-foreground"
+                >
+                  Skip for now
+                </button>
+              </motion.div>
+            )}
             {/* Betrayal event */}
             {pendingBetrayal && (
               <div className="mt-4">
                 <BetrayalEventCard event={pendingBetrayal} onChoose={resolveBetrayal} />
               </div>
             )}
-            {/* Graduated → celebration */}
-            {currentApprentice.stage === "graduated" && (
+            {/* Graduated → slideshow + welcome */}
+            {currentApprentice.stage === "graduated" && !showSlideshow && (
               <div className="mt-4 p-4 rounded border border-emerald-500/40 bg-gradient-to-br from-emerald-500/10 to-amber-500/5 text-center">
                 <Award size={32} className="mx-auto text-amber-400 mb-2" />
                 <h3 className="font-display text-lg font-bold tracking-wider text-foreground">GRADUATED</h3>
@@ -241,17 +328,39 @@ export default function ApprenticePage() {
                   {currentApprentice.name} survived Celebration. They board your ship now. They remember every choice.
                 </p>
                 <button
+                  onClick={() => setShowSlideshow(true)}
+                  className="mt-3 px-4 py-1.5 rounded border border-amber-500/50 bg-amber-500/15 text-amber-300 font-mono text-[11px] uppercase tracking-wider hover:bg-amber-500/25"
+                >
+                  Watch the Ceremony
+                </button>
+                <button
                   onClick={() => {
                     const graduated = { ...currentApprentice, stage: "companion" as const };
                     setApprentice(graduated);
                     addGraduate(graduated);
                   }}
-                  className="mt-3 px-4 py-1.5 rounded border border-emerald-500/50 bg-emerald-500/15 text-emerald-300 font-mono text-[11px] uppercase tracking-wider hover:bg-emerald-500/25"
+                  className="mt-2 px-4 py-1.5 rounded border border-emerald-500/50 bg-emerald-500/15 text-emerald-300 font-mono text-[11px] uppercase tracking-wider hover:bg-emerald-500/25"
                   data-testid="welcome-aboard"
                 >
-                  Welcome Them Aboard
+                  Skip — Welcome Them Aboard
                 </button>
               </div>
+            )}
+            {/* Graduation slideshow playing */}
+            {showSlideshow && (
+              <SongSlideshow
+                title={WELCOME_TO_CELEBRATION_TITLE}
+                frames={WELCOME_TO_CELEBRATION_FRAMES}
+                audioSrc={WELCOME_TO_CELEBRATION_AUDIO}
+                onEnd={() => {
+                  setShowSlideshow(false);
+                  if (currentApprentice) {
+                    const graduated = { ...currentApprentice, stage: "companion" as const };
+                    setApprentice(graduated);
+                    addGraduate(graduated);
+                  }
+                }}
+              />
             )}
           </>
         ) : candidate ? (
