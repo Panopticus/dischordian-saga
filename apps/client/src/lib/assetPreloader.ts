@@ -80,31 +80,25 @@ export function preloadJSON<T = unknown>(url: string): Promise<T | null> {
 const ROUTE_ASSETS: Record<string, () => Promise<void>[]> = {
   "/fight": () => [
     preloadImage("/art/loading/loading-combat.png"),
-    // TODO(art): generate arena-default.jpg — see docs/production/MISSING_ART_PROMPTS.md #1
-    // preloadImage("/art/arenas/arena-default.jpg"),
-    // TODO(art): generate health-bar.png — see docs/production/MISSING_ART_PROMPTS.md #2
-    // preloadImage("/art/ui/health-bar.png"),
+    preloadImage("/art/arenas/arena-default.jpg"),
+    preloadImage("/art/ui/health-bar.png"),
   ],
   "/pvp": () => [
     preloadImage("/art/loading/loading-combat.png"),
-    // TODO(art): generate arena-default.jpg — see docs/production/MISSING_ART_PROMPTS.md #1
-    // preloadImage("/art/arenas/arena-default.jpg"),
+    preloadImage("/art/arenas/arena-default.jpg"),
   ],
   "/chess": () => [
     preloadImage("/art/loading/loading-bridge.png"),
     preloadImage("/art/chess/chess-holographic-board.png"),
-    // TODO(art): generate pieces-sprite.png — see docs/production/MISSING_ART_PROMPTS.md #3
-    // preloadImage("/art/chess/pieces-sprite.png"),
+    preloadImage("/art/chess/pieces-sprite.png"),
   ],
   "/trade": () => [
     preloadImage("/art/loading/loading-trade.png"),
-    // TODO(art): generate trade-frame.png — see docs/production/MISSING_ART_PROMPTS.md #5
-    // preloadImage("/art/ui/trade-frame.png"),
+    preloadImage("/art/ui/trade-frame.png"),
   ],
   "/terminus": () => [
     preloadImage("/art/loading/loading-terminus.png"),
-    // TODO(art): generate grid-tile.png — see docs/production/MISSING_ART_PROMPTS.md #6
-    // preloadImage("/art/td/grid-tile.png"),
+    preloadImage("/art/td/grid-tile.png"),
     // Terminus enemy sprites
     preloadImage("/art/terminus/enemies/undead-grub.png"),
     preloadImage("/art/terminus/enemies/plague-ant.png"),

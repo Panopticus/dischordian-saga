@@ -262,15 +262,15 @@ THE ASSISTANT card — a memorial-rarity Dischordia card unlocked after Episode 
 
 | # | Asset | Path | Size | Format | Status |
 |---|-------|------|------|--------|--------|
-| 1 | Arena Default | `art/arenas/arena-default.jpg` | 1920×1080 | JPG | Pending |
-| 2 | Health Bar | `art/ui/health-bar.png` | 512×64 | PNG alpha | Pending |
-| 3 | Chess Pieces Sprite | `art/chess/pieces-sprite.png` | 768×256 | PNG alpha | Pending |
-| 4 | Chess Board | `art/chess/board.png` | 1024×1024 | PNG | Pending |
-| 5 | Trade Frame | `art/ui/trade-frame.png` | 1024×768 | PNG alpha | Pending |
-| 6 | Grid Tile | `art/td/grid-tile.png` | 64×64 | PNG alpha | Pending |
-| 7 | Archives Room | `art/rooms/room-archives.png` | 1920×1080 | PNG | Pending |
-| 8 | Bridge Room | `art/rooms/room-bridge.png` | 1920×1080 | PNG | Pending |
-| 9 | Observation Deck | `art/rooms/room-observation-deck.png` | 1920×1080 | PNG | Pending |
-| 10 | Darren Badge | `art/crew/darren-fessler-badge.png` | 512×512 | PNG alpha | Pending |
+| 1 | Arena Default | `art/arenas/arena-default.jpg` | 1920×1080 | JPG | Done |
+| 2 | Health Bar | `art/ui/health-bar.png` | 512×64 | PNG alpha | Done |
+| 3 | Chess Pieces Sprite | `art/chess/pieces-sprite.png` | 768×256 | PNG alpha | Done |
+| 4 | Chess Board | `art/chess/board.png` | 1024×1024 | PNG | Done |
+| 5 | Trade Frame | `art/ui/trade-frame.png` | 1024×768 | PNG alpha | Done |
+| 6 | Grid Tile | `art/td/grid-tile.png` | 64×64 | PNG alpha | Done |
+| 7 | Archives Room | `art/rooms/room-archives.png` | 1920×1080 | PNG | Done |
+| 8 | Bridge Room | `art/rooms/room-bridge.png` | 1920×1080 | PNG | Done |
+| 9 | Observation Deck | `art/rooms/room-observation-deck.png` | 1920×1080 | PNG | Done |
+| 10 | Darren Badge | `art/crew/darren-fessler-badge.png` | 512×512 | PNG alpha | Done |
 
-**Estimated generation time:** ~30 minutes for all 10 assets (2-3 attempts each)
+All 10 assets generated 2026-04-12, processed (chroma key removal + resize), and placed.

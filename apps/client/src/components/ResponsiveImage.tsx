@@ -13,7 +13,7 @@
 
    Usage:
      <ResponsiveImage
-       src="/art/rooms/room-bridge.png"  // TODO(art): generate — see docs/production/MISSING_ART_PROMPTS.md #8
+       src="/art/rooms/room-bridge.png"
        alt="Bridge"
        className="w-full h-full object-cover"
      />
