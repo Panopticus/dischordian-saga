@@ -882,3 +882,53 @@ Every missing still. Each row gives you a self-contained Nano Banana 2 prompt, o
 
 ---
 
+#### ART-F06 — THE DREAMER (Ne-Yons, Sacred Balanced)
+- **Output:** `apps/client/public/art/fighters/dreamer/dreamer-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets) · **Priority:** P1
+- **Portrait Nano Banana 2 prompt:** A tall serene androgynous Ne-Yon figure of pure sacred golden light, robed in flowing pale saffron silk that seems woven from actual sunlight. Face is peaceful, compassionate, eyes closed in eternal meditation. Around the head, a crown of slow-rotating golden fractal geometry hangs weightlessly. Hands held in a prayer mudra at chest level. Bare feet hover an inch above the floor. Sacred gold #fbbf24 dominant, warm cream accents, soft amber volumetric halo, faint foxfire green code threads drifting around the aura. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle:** Fractal crown rotates slowly; saffron robe billows gently as if underwater.
+- **Attacks:** Opens eyes — releases concentric golden prayer-waves; hands unfold and throw fractal sigils that bind the opponent in sacred geometry.
+- **Reactions:** When hit, the golden halo flickers briefly then re-stabilizes; when victorious, bows head in quiet gratitude, fractal crown expanding outward.
+
+---
+
+#### ART-F07 — THE JUDGE (Ne-Yons, Verdict-Powerhouse)
+- **Output:** `apps/client/public/art/fighters/judge/judge-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets) · **Priority:** P1
+- **Portrait Nano Banana 2 prompt:** A towering Ne-Yon figure in heavy ceremonial robes of deep indigo velvet embroidered with silver legal sigils. Face is partially hidden beneath a tall judicial cap; only the lower half of a stern mouth visible. Both hands rest on the pommel of a massive silver ceremonial sword planted point-down before them — the sword is etched with hundreds of verdict-runes along the blade. At the base of the figure, a pair of actual weighing scales (ornate silver, legal) float at knee-height on either side. Deep violet #4c1d95 robes, silver embroidery, cold white rim light, solemn shadow. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle:** Scales tilt very slightly back and forth as if weighing the player's worth in real-time.
+- **Attacks:** Lifts the ceremonial sword and brings it down — the strike causes the scales to TIP fully, and legal verdict-runes launch outward as projectiles.
+- **Reactions:** When hit, the scales oscillate wildly; when victorious, the scales freeze in a single balanced position, sword returns to rest.
+
+---
+
+#### ART-F08 — THE INVENTOR (Ne-Yons, Engineer)
+- **Output:** `apps/client/public/art/fighters/inventor/inventor-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets) · **Priority:** P1
+- **Portrait Nano Banana 2 prompt:** A Ne-Yon figure shaped like an eccentric workshop artisan — wears a long leather apron over mismatched practical work clothes, grease-smudged goggles pushed up on the forehead revealing warm amber eyes. In one hand holds a half-assembled mechanical bird of brass and copper, in the other a small precision tool. Surrounded at waist-height by a floating ring of spare parts (gears, springs, tiny blueprints) orbiting like satellites. Warm amber #f59e0b workshop glow, copper and brass highlights, faint blue logic-light in every joint of the floating parts, deep workshop shadow. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle:** The orbiting ring of parts rotates; the mechanical bird in-hand flexes its wings occasionally.
+- **Attacks:** Throws the mechanical bird — it takes flight and attacks with whirring brass fury; spare parts from the orbiting ring leap forward as rapid-fire projectiles.
+- **Reactions:** When hit, tools drop momentarily then are magnetically recalled to the orbiting ring; when victorious, immediately begins sketching the fight on a new small blueprint mid-air.
+
+---
+
+#### ART-F09 — THE SEER (Ne-Yons, Oracle)
+- **Output:** `apps/client/public/art/fighters/seer/seer-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets) · **Priority:** P1
+- **Portrait Nano Banana 2 prompt:** A Ne-Yon figure wrapped in long layered robes of deep violet and star-patterned silk, face obscured by a silk blindfold embroidered with a single cosmic eye symbol. Long silver-white hair flows past the shoulders. Both hands cup a small floating orb of slowly-shifting possible futures — inside the orb, miniature scenes appear and dissolve. Stands very still, as if listening. Deep cosmic violet #6366f1 robes, silver star embroidery, pale cool rim light, orb glows pure white from within. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle:** The orb in her hands shifts through distinct future-visions; robes drift in a non-existent wind.
+- **Attacks:** Lifts the orb and releases visions outward — opponents are struck by futures they can't unsee; silver-white prophecy-beams emit from the blindfolded eye symbol.
+- **Reactions:** When hit, the orb briefly shows an unwanted future (her own defeat); when victorious, the orb resolves into a single clear golden image — the outcome she chose.
+
+---
+
+#### ART-F10 — THE KNOWLEDGE (Ne-Yons, Scholar-Powerhouse)
+- **Output:** `apps/client/public/art/fighters/knowledge/knowledge-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets) · **Priority:** P2
+- **Portrait Nano Banana 2 prompt:** A Ne-Yon figure so densely covered in floating open books that the figure beneath is barely visible — a slender silhouette at the center of a library-in-the-shape-of-a-person. Books drift around the body like leaves caught in a slow whirlwind, their pages turning themselves. Two emerald-green eyes glow out from beneath the cloud of books — patient, scholarly, ancient. Emerald green #10b981 eye-glow, warm amber book-page cream, leather binding browns, deep study shadow. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle:** Books drift slowly around the body; pages flutter; occasional new book phases into existence from thin air.
+- **Attacks:** Launches books as projectile tomes — each one opens mid-flight to release a different attack-spell written in light; one book becomes a physical shield.
+- **Reactions:** When hit, loose pages flutter out briefly and return; when victorious, the books all close simultaneously and fall into a neat stack at her feet.
+
+---
+
