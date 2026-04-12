@@ -273,6 +273,92 @@ export const MASCOTEER_DECISIONS: Record<string, DailyDecision[]> = {
           outcome: { bondDelta: 7, corruptionDelta: 5, moralityDelta: 3, deathChance: 0.08, resultFlavor: "Gary paused. For the first time, his goggles glinted. 'Oh. Oh, you listen.'" } },
       ],
     },
+    {
+      id: "gary_2", day: 0, mascoteerId: "gary",
+      prompt: "Gary hands you a rulebook for today's game. Every page is blank. 'Fill it in,' he says. 'By noon. The rules bind everyone, including you.'",
+      options: [
+        { id: "write_fair", label: "Write fair rules", description: "Rules that don't favor anyone.",
+          outcome: { bondDelta: 5, corruptionDelta: -2, moralityDelta: 4, deathChance: 0.1, resultFlavor: "Gary watched you write. He erased page 5 after you left. He never told you which rule was gone." } },
+        { id: "write_impossible", label: "Write impossible rules", description: "Rules no one, including you, can follow.",
+          outcome: { bondDelta: 3, corruptionDelta: 5, moralityDelta: -3, resultFlavor: "Gary laughed for a long time. 'Now you're playing.' Everyone lost. Gary won without playing." } },
+        { id: "return_blank", label: "Return it blank", description: "Hand the rulebook back untouched.",
+          outcome: { bondDelta: 2, corruptionDelta: -1, moralityDelta: 2, deathChance: 0.12, resultFlavor: "'Interesting,' Gary said. 'The rules were blank all along.' The book is still enforced. It is still blank." } },
+      ],
+    },
+    {
+      id: "gary_3", day: 0, mascoteerId: "gary",
+      prompt: "Two Apprentices are arguing about a rule Gary invented yesterday. Gary asks you to arbitrate. He whispers the 'real' rule in your ear before you decide.",
+      options: [
+        { id: "follow_whisper", label: "Follow his whisper", description: "Rule Gary's way.",
+          outcome: { bondDelta: 3, corruptionDelta: 4, moralityDelta: -3, resultFlavor: "Both Apprentices lost. Gary nodded. The whisper was already the real rule. He wanted to know if you'd obey before being told." } },
+        { id: "rule_fairly", label: "Ignore the whisper", description: "Decide based on what's fair.",
+          outcome: { bondDelta: 5, corruptionDelta: -3, moralityDelta: 4, deathChance: 0.1, resultFlavor: "Both Apprentices thanked you. Gary's smile didn't thin — it widened. That is worse than thinning." } },
+        { id: "invent_third", label: "Invent a new rule", description: "Arbitrate with neither option. Make a third.",
+          outcome: { bondDelta: 4, corruptionDelta: 2, moralityDelta: 2, deathChance: 0.08, resultFlavor: "Gary stopped smiling for one full second. Then wider. 'Oh. Oh, good.'" } },
+      ],
+    },
+    {
+      id: "gary_4", day: 0, mascoteerId: "gary",
+      prompt: "Gary admits there's a hidden win condition. It's been there all week. He asks if you want him to tell you what it is.",
+      options: [
+        { id: "take_the_answer", label: "Take the answer", description: "Let him tell you.",
+          outcome: { bondDelta: 2, corruptionDelta: 5, moralityDelta: -4, resultFlavor: "He told you. You won instantly. The win felt cheap. The win felt traced." } },
+        { id: "refuse_the_answer", label: "Refuse the answer", description: "Tell him you'll find it yourself or not at all.",
+          outcome: { bondDelta: 5, corruptionDelta: -2, moralityDelta: 4, deathChance: 0.1, resultFlavor: "Gary bowed. 'Rare,' he said. It was the first honest word he'd given you." } },
+        { id: "deduce_it", label: "Deduce it alone", description: "Spend the night with the rulebook.",
+          outcome: { bondDelta: 6, corruptionDelta: 0, moralityDelta: 3, deathChance: 0.15, resultFlavor: "You found it yourself. Gary never confirmed it. But his goggles glinted when you passed him." } },
+      ],
+    },
+  ],
+  vernon: [
+    {
+      id: "vernon_1", day: 0, mascoteerId: "vernon",
+      prompt: "Vernon runs up holding seven doorknobs. 'Pick one,' he says. 'I'll make its door real for exactly one minute. Then it's gone forever.'",
+      options: [
+        { id: "pick_red", label: "Pick the red knob", description: "The one that feels urgent.",
+          outcome: { bondDelta: 3, corruptionDelta: 2, moralityDelta: -1, deathChance: 0.1, resultFlavor: "It opened onto tomorrow. You remember tomorrow now. It's not what you expected, and you can't un-know it." } },
+        { id: "pick_heaviest", label: "Pick the heaviest knob", description: "The one that aches in your hand.",
+          outcome: { bondDelta: 4, corruptionDelta: -2, moralityDelta: 3, deathChance: 0.15, resultFlavor: "It opened onto a room full of children. One of them had your name. You closed the door before any of them saw you." } },
+        { id: "refuse_all", label: "Refuse all seven", description: "Give them back unopened.",
+          outcome: { bondDelta: 5, corruptionDelta: -3, moralityDelta: 4, deathChance: 0.18, resultFlavor: "Vernon shrugged. 'More for me.' He opened them all at once. Only six doorknobs came back." } },
+      ],
+    },
+    {
+      id: "vernon_2", day: 0, mascoteerId: "vernon",
+      prompt: "Vernon is crying. A door is closing behind another Apprentice and Vernon says he can't tell if it leads home or nowhere.",
+      options: [
+        { id: "push_through", label: "Push the door open again", description: "Pull the Apprentice back by any means.",
+          outcome: { bondDelta: 5, corruptionDelta: -3, moralityDelta: 5, deathChance: 0.2, resultFlavor: "You pushed. The Apprentice was still there. So were you. Both of you came back. One of you didn't quite come back whole." } },
+        { id: "let_it_close", label: "Let the door close", description: "Trust that Vernon doesn't know.",
+          outcome: { bondDelta: 1, corruptionDelta: 3, moralityDelta: -4, resultFlavor: "The door closed. Vernon wiped his face. 'I think that one was home,' he said. He didn't sound sure." } },
+        { id: "ask_vernon_choose", label: "Make Vernon choose", description: "Tell him to pick, and you'll accept whatever he says.",
+          outcome: { bondDelta: 3, corruptionDelta: 2, moralityDelta: 0, resultFlavor: "Vernon picked. The door closed. He wouldn't say which it had been. He is still crying." } },
+      ],
+    },
+    {
+      id: "vernon_3", day: 0, mascoteerId: "vernon",
+      prompt: "Vernon gives you a small brass key. 'This one only fits a door you haven't seen yet,' he says. 'Hide it somewhere only you will find.'",
+      options: [
+        { id: "hide_in_memory", label: "Hide it in a memory", description: "Fold the key into a thought, not a place.",
+          outcome: { bondDelta: 4, corruptionDelta: 3, moralityDelta: -2, resultFlavor: "Corey will ask for that memory later. You will say no. You will lose it anyway. The key survives — somewhere." } },
+        { id: "hide_in_room", label: "Hide it in your room", description: "A real place. Under the floorboard.",
+          outcome: { bondDelta: 3, corruptionDelta: -1, moralityDelta: 2, deathChance: 0.08, resultFlavor: "In the morning the key was gone. Your room was one foot wider than the night before." } },
+        { id: "refuse_key", label: "Give it back", description: "Decline the key.",
+          outcome: { bondDelta: -2, corruptionDelta: 1, moralityDelta: 3, deathChance: 0.1, resultFlavor: "Vernon's hand was empty when you set the key down. 'Good,' he said. 'You hid it exactly right.'" } },
+      ],
+    },
+    {
+      id: "vernon_4", day: 0, mascoteerId: "vernon",
+      prompt: "Vernon opens a door onto the Ark's bridge years from now. You can see yourself there. Older. Tireder. He asks: want to talk to yourself?",
+      options: [
+        { id: "talk_to_self", label: "Talk to your future self", description: "Step halfway through the door.",
+          outcome: { bondDelta: 6, corruptionDelta: 4, moralityDelta: -2, deathChance: 0.15, resultFlavor: "'Don't tell them about the Eyes,' you said. Your older self nodded. Neither of you know what that means yet." } },
+        { id: "watch_only", label: "Watch without speaking", description: "Don't cross the threshold.",
+          outcome: { bondDelta: 3, corruptionDelta: 2, moralityDelta: 2, deathChance: 0.1, resultFlavor: "Your older self looked up at the door once. You waved. You didn't wave back." } },
+        { id: "close_door", label: "Close the door", description: "Refuse to look.",
+          outcome: { bondDelta: 4, corruptionDelta: -3, moralityDelta: 4, deathChance: 0.12, resultFlavor: "Vernon nodded. 'Most people look. That's why most people get stuck looking.'" } },
+      ],
+    },
   ],
 };
 
