@@ -982,3 +982,57 @@ Every missing still. Each row gives you a self-contained Nano Banana 2 prompt, o
 
 ---
 
+#### ART-F16 — THE WOLF (Potentials, Beast Form)
+- **Output:** `apps/client/public/art/fighters/wolf/wolf-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets) · **Priority:** P1
+- **Portrait Nano Banana 2 prompt:** A hulking humanoid-wolf hybrid — muscled bipedal frame, iron-grey fur with silver-tipped undercoat, a massive wolf head with amber predator eyes and bared fangs. Wears the torn remains of a Potential's tactical vest over bare fur; one arm bears a reinforced mechanical gauntlet. A silver crescent-moon pendant hangs at the neck. Feral but intelligent posture — balanced on the balls of clawed feet, ready to sprint. Iron-grey fur, silver undercoat, amber #f59e0b eye-glow, tarnished steel gauntlet, deep forest-night shadow. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle:** Shoulders rise and fall with heavy breath; occasionally bares more fangs in a low growl.
+- **Attacks:** Lunges forward on all fours with mechanical gauntlet leading; silver moon pendant briefly flares as a power spike; jaw clamps with crushing force.
+- **Reactions:** When hit, the growl deepens to a snarl; when victorious, tilts head back and howls — silver pendant glowing bright.
+
+---
+
+#### ART-F17 — THE ORACLE (Insurgency, Protagonist Final Form)
+- **Output:** `apps/client/public/art/fighters/oracle/oracle-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets) · **Priority:** P0
+- **Portrait Nano Banana 2 prompt:** A tall slender figure in pristine white temple robes with silver prophetic embroidery flowing to the ankles, long flowing silver-white hair past the waist. Face is serene, ageless, eyes closed in continuous vision. A faint golden halo hovers above the head. The figure holds both palms cupped upward and in them floats a single shimmering sphere of pure possible-futures — miniature scenes of all possible outcomes visible within. The robes emit a soft sacred glow. Pure temple white, silver embroidery accents, sacred gold #fbbf24 halo and sphere, faint cosmic-violet #a855f7 undertones in the robe folds, warm rim light. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle:** The sphere of futures rotates slowly; silver hair drifts as if underwater; halo pulses gently.
+- **Attacks:** Opens eyes — eyes are blazing gold — and releases pulses of prophetic light; the sphere of futures expands rapidly and strikes as a sacred shockwave.
+- **Reactions:** When hit, the halo flickers and the robes briefly darken; when victorious, halo blooms to a full radiant crown and the sphere shows a single clear outcome: the chosen future.
+
+---
+
+#### ART-F18 — KNOWLEDGE VARIANT (Scarred Ascended — Cutting Room Floor)
+- **Output:** `apps/client/public/art/fighters/knowledge_scarred/knowledge_scarred-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets) · **Priority:** P2
+- **Portrait Nano Banana 2 prompt:** A scarred-ascended variant of The Knowledge (§3.1 ART-F10) — most of the floating books are charred at the edges, pages stained with old ink-blood, a few books have visible sword-cuts through them. The central figure is now partially visible beneath the book-cloud — a weary scholar with a single old blade-scar across the cheek, spectacles cracked but still worn. One book in the cloud is open to a blank page. Eyes glow a dimmer emerald than the ART-F10 version. Charred book-edges, old ink-blood stains, duller emerald green #059669, deep study shadow. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle:** Books drift more slowly; the cracked spectacles occasionally mist over; the scholar exhales a small cloud of visible breath.
+- **Attacks:** Charred books crumble to ash mid-flight, leaving raw unwritten knowledge as the strike; blade-cut books become bandaged projectiles.
+- **Reactions:** When hit, a fresh page tears from one of the books; when victorious, opens the blank book and begins to write — the first new entry in years.
+
+---
+
+#### ART-F19 — HOST VARIANT (Cured Host — Redemption Form)
+- **Output:** `apps/client/public/art/fighters/host_cured/host_cured-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets) · **Priority:** P2
+- **Portrait Nano Banana 2 prompt:** A cured version of The Host (§3.1 ART-F05) — the viral gold has been purged, replaced by kintsugi-gold scar lines that trace where the infection once ran beneath the skin. The crystalline claw arm has been replaced by an elegant prosthetic of bright silver and warm wood. The figure's face is calm, present, grateful — a survivor. The crew uniform is clean and fully restored to its original cyan. Sacred kintsugi-gold #fbbf24 scar tracery, cool crew-cyan #22d3ee uniform, warm silver-wood prosthetic, restored-human rim light. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle:** Kintsugi scars occasionally pulse with a faint warm glow; prosthetic arm flexes naturally.
+- **Attacks:** Summons the memory of the viral infection as a controlled strike — turns former curse into weapon; prosthetic extends precision blade.
+- **Reactions:** When hit, the kintsugi scars flare briefly; when victorious, the figure touches the scars on their own face with a soft grateful smile — survival itself is the victory.
+
+---
+
+#### ART-F20 — GENERIC POTENTIAL TEMPLATE (Roster Slot Default)
+- **Output:** `apps/client/public/art/fighters/generic_potential/generic_potential-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets) · **Priority:** P1
+- **Portrait Nano Banana 2 prompt:** A generic unnamed Potential — a gender-ambiguous mid-twenties figure in standard Ark crew uniform (cyan tactical jumpsuit, utility belt, soft boots). Neutral facial features that can be modified via post-processing to match player customization. Short practical dark hair. Holds a standard issue sidearm at rest. Used as the default fighter template when a roster slot has no custom character assigned. Cool crew-cyan #22d3ee accents, neutral skin tones, clean utility-belt steel, soft practical lighting. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle:** Standard ready stance; utility belt straps move naturally.
+- **Attacks:** Sidearm draw and aim; standard combat kick; default archetypal punches.
+- **Reactions:** Generic hit flinch; generic victory fist-pump.
+
+---
+
+**§3.1 Summary:** 20 fighters × 4 sheets = 80 PNG files. Estimated total: 80 Nano Banana 2 rolls at ~3 min each = 4 hours render. Directory: `apps/client/public/art/fighters/<fighter-id>/`
+
+---
+
