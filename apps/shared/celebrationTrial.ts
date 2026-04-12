@@ -360,6 +360,106 @@ export const MASCOTEER_DECISIONS: Record<string, DailyDecision[]> = {
       ],
     },
   ],
+  minnie: [
+    {
+      id: "minnie_1", day: 0, mascoteerId: "minnie",
+      prompt: "Minnie starts a chant. The whole room picks it up in seconds. She turns to you and asks you to make it louder.",
+      options: [
+        { id: "amplify", label: "Amplify the chant", description: "Raise your voice and pull the room with you.",
+          outcome: { bondDelta: 3, corruptionDelta: 4, moralityDelta: -3, resultFlavor: "The chant rippled out the door. Somewhere in the Ark, someone heard it and thought it. You changed their weather." } },
+        { id: "counter_chant", label: "Start a counter-chant", description: "Cut across her rhythm with a different one.",
+          outcome: { bondDelta: 5, corruptionDelta: -2, moralityDelta: 4, deathChance: 0.12, resultFlavor: "Yours was smaller. It lasted longer. Minnie's face blanked for half a second — that's what she looks like when she's updating." } },
+        { id: "mouth_words", label: "Mouth the words", description: "Don't actually make sound.",
+          outcome: { bondDelta: 2, corruptionDelta: 2, moralityDelta: -1, resultFlavor: "Minnie watched your mouth. 'You're learning the shape,' she said. 'Next week: the feeling.'" } },
+      ],
+    },
+    {
+      id: "minnie_2", day: 0, mascoteerId: "minnie",
+      prompt: "Minnie hands you a rumor. She tells you exactly who it's about, what shape it should take, and when she wants to hear it back transformed.",
+      options: [
+        { id: "plant_it", label: "Plant the rumor", description: "Spread it exactly as written.",
+          outcome: { bondDelta: 4, corruptionDelta: 5, moralityDelta: -5, resultFlavor: "The rumor bloomed. The target was reassigned. You never saw them again. Minnie thanked you by name in front of everyone. That was the real reward." } },
+        { id: "plant_different", label: "Plant a gentler version", description: "Reshape the rumor into something harmless.",
+          outcome: { bondDelta: 5, corruptionDelta: 3, moralityDelta: -2, deathChance: 0.1, resultFlavor: "Minnie didn't notice for two days. Then she did. She blinked. She respected it. She also remembered it." } },
+        { id: "refuse_plant", label: "Refuse to plant it", description: "Give the rumor back.",
+          outcome: { bondDelta: 2, corruptionDelta: -2, moralityDelta: 4, deathChance: 0.15, resultFlavor: "Minnie laughed. 'Oh. You think refusing is a kind of speaking.' She planted it anyway, and used your refusal as evidence." } },
+      ],
+    },
+    {
+      id: "minnie_3", day: 0, mascoteerId: "minnie",
+      prompt: "Minnie's face has started mirroring whatever is trending in the Ark today. Today it looks exactly like yours. She asks if you mind.",
+      options: [
+        { id: "mind", label: "Tell her you mind", description: "Ask her to stop.",
+          outcome: { bondDelta: 4, corruptionDelta: -3, moralityDelta: 4, deathChance: 0.1, resultFlavor: "'Noted,' she said. Her face slid away from yours. For a week your mirror showed you her smile, not yours." } },
+        { id: "dont_mind", label: "Say you don't mind", description: "Let her keep the face.",
+          outcome: { bondDelta: 2, corruptionDelta: 5, moralityDelta: -4, resultFlavor: "She wore your face for a day. An Apprentice told you a secret meant for her. You're still carrying it." } },
+        { id: "compliment_it", label: "Say it looks better on her", description: "Hand her the face with a smile.",
+          outcome: { bondDelta: 5, corruptionDelta: 2, moralityDelta: -2, resultFlavor: "She laughed — not her laugh — yours. That was the worst part. You recognized it." } },
+      ],
+    },
+    {
+      id: "minnie_4", day: 0, mascoteerId: "minnie",
+      prompt: "Minnie is leading a cheer that insults a missing Apprentice by name. The missing Apprentice is your friend.",
+      options: [
+        { id: "cheer_along", label: "Cheer along", description: "Blend into the crowd. Don't be noticed.",
+          outcome: { bondDelta: 1, corruptionDelta: 5, moralityDelta: -5, resultFlavor: "Your friend — wherever they are — felt it. You felt that they felt it. You didn't sleep that night." } },
+        { id: "shout_down", label: "Shout the cheer down", description: "Out-volume Minnie.",
+          outcome: { bondDelta: 6, corruptionDelta: -3, moralityDelta: 5, deathChance: 0.18, resultFlavor: "The crowd stopped. Minnie smiled. 'Oh. A counter-frequency. Good. We'll need those.'" } },
+        { id: "start_new_chant", label: "Start a cheer FOR them", description: "Replace the target with a tribute.",
+          outcome: { bondDelta: 5, corruptionDelta: 2, moralityDelta: 2, deathChance: 0.1, resultFlavor: "Four Apprentices joined you. Minnie watched the four. She is keeping a list." } },
+      ],
+    },
+  ],
+  senator_sprout: [
+    {
+      id: "sprout_1", day: 0, mascoteerId: "senator_sprout",
+      prompt: "Senator Sprout is running an election for kickball captain. He hands you a ballot and asks who you're backing — and why.",
+      options: [
+        { id: "back_strong", label: "Back the obvious winner", description: "Pragmatism. Safety.",
+          outcome: { bondDelta: 2, corruptionDelta: 3, moralityDelta: -2, resultFlavor: "They won. Sprout noted your pragmatism. The loser's team didn't speak to you for a week." } },
+        { id: "back_kind", label: "Back the kind one", description: "The one who won't win.",
+          outcome: { bondDelta: 5, corruptionDelta: -2, moralityDelta: 4, deathChance: 0.1, resultFlavor: "They lost. Sprout wrote one word next to your name. He wouldn't show you what it was." } },
+        { id: "spoil_ballot", label: "Write yourself in", description: "Vote for no one on the list.",
+          outcome: { bondDelta: 3, corruptionDelta: 1, moralityDelta: 3, deathChance: 0.12, resultFlavor: "Sprout laughed — politely, professionally. 'Noted, candidate.' You've been entered into a race you didn't know existed." } },
+      ],
+    },
+    {
+      id: "sprout_2", day: 0, mascoteerId: "senator_sprout",
+      prompt: "Sprout asks you to make one public promise. 'It doesn't matter what,' he says. 'Only that it's witnessed.' Forty Apprentices wait.",
+      options: [
+        { id: "promise_small", label: "Promise something small", description: "A trivial commitment.",
+          outcome: { bondDelta: 3, corruptionDelta: 2, moralityDelta: -1, resultFlavor: "You promised to share breakfast with anyone who asked. Within a week you had no breakfasts left. 'Small promises cost everything too,' Sprout smiled." } },
+        { id: "promise_big", label: "Promise something vast", description: "A life-shaped commitment.",
+          outcome: { bondDelta: 5, corruptionDelta: 4, moralityDelta: -3, deathChance: 0.08, resultFlavor: "You promised to protect a stranger with your life. Sprout picked the stranger that afternoon. It's going to matter later. It already matters now." } },
+        { id: "refuse_promise", label: "Refuse to promise", description: "Decline the witnessing.",
+          outcome: { bondDelta: -3, corruptionDelta: -1, moralityDelta: 4, deathChance: 0.15, resultFlavor: "Sprout wrote the refusal down in ink. 'That,' he said, 'is a kind of promise too.'" } },
+      ],
+    },
+    {
+      id: "sprout_3", day: 0, mascoteerId: "senator_sprout",
+      prompt: "Sprout reveals he has a promise you made as a child — long before Celebration. He asks if you remember making it. You don't.",
+      options: [
+        { id: "agree_honor", label: "Agree to honor it", description: "Accept the binding sight unseen.",
+          outcome: { bondDelta: 4, corruptionDelta: 3, moralityDelta: -2, resultFlavor: "Sprout nodded approvingly. Days later you found out the promise was to hurt someone. You haven't met them yet. You will." } },
+        { id: "demand_see", label: "Demand to see it", description: "Read the document yourself.",
+          outcome: { bondDelta: 3, corruptionDelta: -1, moralityDelta: 3, deathChance: 0.1, resultFlavor: "You read your own handwriting. You cried a little. You kept the promise. You made it when you were six." } },
+        { id: "deny_it", label: "Deny it", description: "Insist it isn't yours.",
+          outcome: { bondDelta: 2, corruptionDelta: 5, moralityDelta: -4, resultFlavor: "Sprout nodded politely. 'All the evidence agrees it is,' he said. 'Including you — when you forget this conversation.'" } },
+      ],
+    },
+    {
+      id: "sprout_4", day: 0, mascoteerId: "senator_sprout",
+      prompt: "Sprout offers to let you rewrite one old promise of yours. Any one. Only one. He says there is no catch. You know that isn't true.",
+      options: [
+        { id: "rewrite_bad", label: "Rewrite a broken promise", description: "Fix one you broke years ago.",
+          outcome: { bondDelta: 5, corruptionDelta: -3, moralityDelta: 5, deathChance: 0.1, resultFlavor: "You felt lighter. You felt watched. Both at once. Sprout watched your handwriting and nodded once." } },
+        { id: "refuse_offer", label: "Refuse the offer", description: "Say the old promises keep you honest.",
+          outcome: { bondDelta: 3, corruptionDelta: 1, moralityDelta: 3, deathChance: 0.08, resultFlavor: "Sprout smiled — the first genuine smile you've seen on him. 'Exactly. That's why I offered.'" } },
+        { id: "demand_ledger", label: "Demand to see every promise", description: "Ask for the full file.",
+          outcome: { bondDelta: 2, corruptionDelta: 5, moralityDelta: -3, resultFlavor: "He opened a ledger the size of a door. You haven't slept since. Some of the promises are dated from tomorrow." } },
+      ],
+    },
+  ],
 };
 
 /* ─── DAILY DECISION GENERATOR ─── */
