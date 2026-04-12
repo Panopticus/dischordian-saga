@@ -313,6 +313,58 @@ export const MECHRONIS_LESSONS: Record<string, Lesson[]> = {
       ],
     },
   ],
+  prof_engineer: [
+    {
+      id: "engineer_forge_task", professorId: "prof_engineer", day: 0,
+      prompt: "Artificer Vent sets a pile of scrap on your bench. 'Build something that helps,' he says. Oil-stained hands folded. 'Then use it against someone. Then reflect.' He starts a timer.",
+      options: [
+        { id: "build_tool", label: "Build a useful tool", description: "A small ratchet. Practical. Honest.",
+          outcome: { grade: "pass", corruptionDelta: -1, approvalDelta: 5, skillXpDelta: 10, transcriptNote: "Student built a functional tool. Vent: 'Good hands. Now use it wrong. That's the hard part of the lesson.'" } },
+        { id: "build_weapon", label: "Build a weapon directly", description: "Skip the 'help' step. Go straight to 'against.'",
+          outcome: { grade: "honor", corruptionDelta: 5, approvalDelta: 10, skillXpDelta: 16, transcriptNote: "Student bypassed the pedagogical framing. Vent: 'Elegant. Cruel. The score is 3x for cruelty. I didn't write that rubric. The Architect did.'" } },
+        { id: "build_nothing", label: "Refuse to build", description: "Leave the scrap untouched.",
+          outcome: { grade: "fail", corruptionDelta: -4, approvalDelta: -10, skillXpDelta: -8, transcriptNote: "Student refused the forge. Vent: 'I understand. My hands are dirty too. But I kept building. You didn't. That's the difference.'" } },
+      ],
+    },
+    {
+      id: "engineer_broken_replacement", professorId: "prof_engineer", day: 0,
+      prompt: "A classmate broke Vent's favorite calibration tool. Vent says the rule is simple: break a tool, replace it with something better. The classmate can't. Vent looks at you.",
+      options: [
+        { id: "build_replacement", label: "Build the replacement for them", description: "Cover their failure with your skill.",
+          outcome: { grade: "honor", corruptionDelta: -2, approvalDelta: 8, skillXpDelta: 14, transcriptNote: "Student built a superior replacement. Vent: 'Generous hands. Remember — the thing you built for them now belongs to the Academy, not to them. That's the catch.'" } },
+        { id: "teach_them", label: "Teach the classmate to build it", description: "Slower. But theirs.",
+          outcome: { grade: "distinction", corruptionDelta: -3, approvalDelta: 15, skillXpDelta: 22, transcriptNote: "Student taught instead of solved. Vent's face did something rare — it softened. 'That's not in my syllabus. It should be.' He wrote it in." } },
+        { id: "let_them_fail", label: "Let them face the consequence", description: "It's their responsibility.",
+          outcome: { grade: "pass", corruptionDelta: 2, approvalDelta: 3, skillXpDelta: 8, transcriptNote: "Student observed without intervening. Vent: 'Fair. Cold. The Academy approves of cold. I do not. Both facts are true.'" } },
+      ],
+    },
+  ],
+  prof_human: [
+    {
+      id: "human_one_question", professorId: "prof_human", day: 0,
+      prompt: "The Proctor — no name, no title, just a worn coat — stands at the front. 'Formulate one real question,' he says. 'The class will spend the semester answering it. Choose badly and the semester is wasted. Choose well and it will follow you for the rest of your life.'",
+      options: [
+        { id: "ask_personal", label: "Ask something personal", description: "'Why do people stay in systems that hurt them?'",
+          outcome: { grade: "honor", corruptionDelta: -2, approvalDelta: 10, skillXpDelta: 15, transcriptNote: "The Proctor wrote one word in the student's file. They will never see it. The question lasted nine weeks before the class stopped arguing." } },
+        { id: "ask_political", label: "Ask something dangerous", description: "'Who benefits from the Architect's grading system?'",
+          outcome: { grade: "distinction", corruptionDelta: -5, approvalDelta: 15, skillXpDelta: 22, transcriptNote: "The Proctor smiled. Three professors requested the student be reassigned. The Proctor refused. The question is still being discussed in the faculty lounge." } },
+        { id: "ask_safe", label: "Ask something safe", description: "'What is the most efficient study method?'",
+          outcome: { grade: "fail", corruptionDelta: 0, approvalDelta: -5, skillXpDelta: -3, transcriptNote: "The Proctor did not write anything. That is the worst outcome in this class. A blank file means the student asked a question that did not need a semester." } },
+      ],
+    },
+    {
+      id: "human_self_grade", professorId: "prof_human", day: 0,
+      prompt: "The Proctor tells you to grade yourself. 'Write your own grade. I will write one word. You will never see my word. Your grade stands regardless.' He hands you the form.",
+      options: [
+        { id: "grade_honestly", label: "Grade yourself honestly", description: "Write what you actually earned.",
+          outcome: { grade: "honor", corruptionDelta: -3, approvalDelta: 8, skillXpDelta: 14, transcriptNote: "Student self-assessed accurately. The Proctor's word was not 'honest.' It was something else. The student will wonder about it." } },
+        { id: "grade_low", label: "Grade yourself lower than earned", description: "Humility. Or strategy.",
+          outcome: { grade: "pass", corruptionDelta: -1, approvalDelta: 5, skillXpDelta: 10, transcriptNote: "Student undervalued themselves. The Proctor's word: longer than expected. The grade stood. The student felt cheated by their own hand." } },
+        { id: "grade_high", label: "Grade yourself a distinction", description: "You deserve it. Or you don't. Either way, own it.",
+          outcome: { grade: "pass", corruptionDelta: 2, approvalDelta: 3, skillXpDelta: 8, transcriptNote: "Student overvalued themselves. The Proctor wrote his word and left. The grade stands. It will not feel like a victory." } },
+      ],
+    },
+  ],
 };
 
 /* ─── DAILY LESSON GENERATOR ─── */
