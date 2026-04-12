@@ -521,3 +521,93 @@ Plays when player first discovers an entity. Triggered from conspiracy board, re
 
 ---
 
+## §2.3 — Dead Man's Circuit Cinematics (6 missing)
+
+*Race game mode cinematics — kart racing in "The Trench" (Hierarchy territory). Five that support the core race loop plus one mid-race betrayal reveal.*
+
+---
+
+#### CIN-031 — circuit-opens (Race Intro, First Entry)
+- **Duration:** 10s · **Aspect:** 16:9 · **Priority:** P1 · **Output:** `apps/client/public/videos/game-modes/dead-mans-circuit/circuit_opens.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Exterior wide shot of a massive circular race-track — The Trench — carved into the side of a dead mechanical world. The track is a high-banked canyon lined with flickering neon hazard lights, signal pylons, and massive Hierarchy corporate billboards showing faceless winners. In the distance, the track disappears into tunnels through dead factory architecture. On the starting line in the far foreground, a line of sleek single-seat racing karts in a dozen different color schemes sit revving (no drivers visible yet). Above the starting line, NILMORG — a tall elongated alien figure in an extravagant announcer's suit, holding a microphone — floats a few feet above the line on a small hover-podium, announcer's smile wide. Palette: acid green #84cc16 neon, hazard amber #f59e0b, dead-factory grey, deep oil shadow. Volumetric smoke, anamorphic flare, film grain. No legible text on billboards. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same starting line, same camera, moments later. Each kart now has a DRIVER in it — the player's crew-members pulled from the roster, one per kart. Nilmorg has raised the microphone overhead and the massive holographic countdown "3 / 2 / 1" (render as abstract glyph shapes, not legible numerals) is mid-countdown above the line. The hazard lights along the track have flared bright red in unison. The engines are now visibly blasting heat-distortion out of their rear exhausts. Nilmorg's mouth is open in a wide theatrical "GO!" shape. Film grain, stronger red rim. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow crane-down from above the starting line, sweeping past Nilmorg's podium to frame the line of karts. Beat at 3s: drivers materialize in each kart. Beat at 5s: countdown glyphs flash. Beat at 7s: hazard lights flare red. Beat at 9s: Nilmorg shouts GO. 24fps. Race-day carnival dread, kart-racing-as-circus.
+
+---
+
+#### CIN-032 — clone-awakening (Entering DMC for the First Time as a Clone)
+- **Duration:** 10s · **Aspect:** 16:9 · **Priority:** P1 · **Output:** `apps/client/public/videos/game-modes/dead-mans-circuit/clone_awakening.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of a cloning pod chamber aboard a Hierarchy factory-ship — a long dim corridor lined with vertical glass pods, each containing an inert clone body floating in amber suspension fluid. In the exact center of frame, one pod is OPENING for the first time — the front panel tilting outward, amber fluid pouring out in a small waterfall onto a metal grate floor. Inside the pod, a clone body — identical to the player's chosen crew member — is just beginning to awaken, eyes still closed, fingers twitching. Outside the pod, a single robotic arm holds a racing helmet ready. Palette: amber fluid #fbbf24, cool grey medical bulkheads, deep pod-shadow, faint cyan status lights. Volumetric steam from the draining fluid, film grain, anamorphic flare. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same pod chamber, same camera, moments later. The clone's eyes are open — gold-rimmed, dazed, newly-conscious. They have stepped out of the pod and taken the racing helmet from the robotic arm. Fluid still drips from their hair and the arms of their racing jumpsuit. Behind them, the other pods in the corridor have ALL begun to faintly glow — more clones stirring. The robotic arm is now indicating the doorway at the far end of the corridor — the entrance to the track. The clone's face is one of dawning understanding: "I was made to race." Film grain, warm rim intensified. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow handheld push from the corridor end toward the opening pod. Beat at 3s: pod front tilts open, fluid drains. Beat at 5s: clone's eyes open. Beat at 7s: clone steps out and takes the helmet. Beat at 9s: other pods begin glowing. 24fps. Born-to-race dread, clinical cloning, first awareness.
+
+---
+
+#### CIN-033 — the-race (Mid-Race Highlight Reel)
+- **Duration:** 15s · **Aspect:** 16:9 · **Priority:** P2 · **Output:** `apps/client/public/videos/game-modes/dead-mans-circuit/the_race.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Low tracking shot alongside a racing kart mid-race on a banked neon-lined curve of The Trench. The kart is aggressive, sleek, with exhaust trails of cyan plasma. Its driver leans hard into the turn. Ahead of it, three other karts are visible in single file around the curve, taillights blazing. Behind, two more karts closing in. Massive hazard lights strobe across the track at high frequency. The canyon walls of The Trench blur past in neon streaks. Palette: cyan #22d3ee exhaust, acid green track lighting, hazard amber, blurred motion tail. Volumetric exhaust fumes, heavy motion-blur along the walls, film grain. No legible text. Cinematic 4K, racing photography.
+
+**END FRAME (Nano Banana 2):**
+> Same section of track, same racing angle, seconds later. The lead kart has just entered a tunnel section — the track vanishing into a circular aperture of darkness. Our focal kart is mid-tunnel-entry, the tunnel rim passing overhead. Inside the tunnel, we can see distant hazard lights as red pinpricks. Behind us, one of the closing karts has SPUN OUT — caught in a slow barrel-roll against the canyon wall in a shower of sparks. The focal driver's face is visible in the side mirror: focused, teeth bared. Film grain, strong warm spark-highlights. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Tight tracking side-shot alongside the focal kart. Beat at 5s: enters a banked turn, plasma exhaust flares. Beat at 8s: overtakes one kart ahead. Beat at 11s: enters tunnel section, light dims. Beat at 13s: trailing kart spins out in the background mirror. 24fps. High-speed race-kinetics, neon blur, survival racing.
+
+---
+
+#### CIN-034 — signal-lost (Racer Dies on Track, Crew Member Lost)
+- **Duration:** 8s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/game-modes/dead-mans-circuit/signal_lost.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Wide exterior shot of The Trench — a single racing kart is mid-air at the apex of a jump between two sections of track, silhouetted against a flickering hazard-amber backdrop. The driver is visibly thrown forward in the cockpit from impact. Sparks and small fragments trail the kart. The distant horizon of the dead factory world is visible beyond. Palette: hazard amber #f59e0b, deep oil shadow, white-hot spark trails, faint acid-green neon highlights. Volumetric spark debris, heavy motion blur trail, film grain, anamorphic flare. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same camera angle, moments later. The kart has CRASHED into the canyon wall mid-air and exploded — a large fireball replacing where the kart was. Small flaming fragments arc in slow-motion through the frame. In the corner of the frame, a small signal-strength indicator (treat as abstract glyph icon) has gone from full bars to zero — crossed out. A single racing helmet tumbles through the air away from the fireball. The track below is already racing on — other karts streaming past the debris without stopping. Palette intensified: orange-red fireball, hot white core, debris trails. Film grain, maximum bloom. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow dolly paralleling the airborne kart. Beat at 2s: driver thrown forward in cockpit, impact visible. Beat at 4s: kart crashes into canyon wall. Beat at 5s: explosion, helmet ejects. Beat at 7s: signal indicator flatlines. 24fps. The race does not stop.
+
+---
+
+#### CIN-035 — severance-prize (Race Winner Severed from Crew)
+- **Duration:** 10s · **Aspect:** 16:9 · **Priority:** P1 · **Output:** `apps/client/public/videos/game-modes/dead-mans-circuit/severance_prize.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of a ceremonial winner's podium chamber — a circular red-carpeted platform rising from a pit, framed by holographic confetti falling gently, crowd cheers implied by blurred silhouettes in the darkness beyond. On the center podium, the winning crew-member — still in racing suit, helmet under their arm, exhausted triumphant smile — is being handed a trophy by NILMORG in his announcer's suit. Around them, Hierarchy corporate banners rotate in the air. Above the podium, a holographic certificate of severance is forming (render as abstract glyph block). Palette: celebratory red velvet, warm stage-gold, cool crowd-shadow, holographic cyan for the certificate. Volumetric confetti, strong warm bloom, film grain, anamorphic flare. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same chamber, same camera, moments later. Nilmorg has placed the trophy in the winner's hands and is now stepping back with a gracious smile. But the winner's face has started to change — their eyes have widened with sudden recognition, and around them a faint corona of data is gently dissolving — the crew member is being SEVERED from the player's roster in real-time, converted into a Hierarchy asset. Their racing suit is beginning to gain Hierarchy corporate markings by itself (treat as abstract emblems). The holographic severance certificate above has completed and now hangs over them like a halo. The crowd silhouettes in the darkness have frozen. Nilmorg is still smiling. Film grain, cool-blue dissolve overtaking the warm palette. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow orbit around the podium as trophy is handed over. Beat at 3s: winner takes the trophy, recognition dawns. Beat at 5s: data corona begins dissolving around them. Beat at 7s: racing suit gains Hierarchy emblems. Beat at 9s: severance certificate completes overhead. 24fps. Pyrrhic victory, win-as-loss, the prize IS the severance.
+
+---
+
+#### CIN-036 — nilmorg-speaks (Nilmorg Rule-Explanation Interrupt)
+- **Duration:** 8s · **Aspect:** 16:9 · **Priority:** P2 · **Output:** `apps/client/public/videos/game-modes/dead-mans-circuit/nilmorg_speaks.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Tight close-up on NILMORG's head and shoulders against a blurred neon-trench background. Nilmorg is tall, elongated, alien, with a narrow asymmetrical face painted or naturally marked in carnival-host patterns (one half smooth cream-white, the other half acid-green). Two eye-sets — one horizontal, one vertical. Wide perpetually-smiling mouth with too many neat teeth. He wears an extravagant high-collared announcer's suit in deep violet with gold piping. Holds a retro microphone close to his mouth. His expression is mid-announcement, eyes focused on camera directly. Palette: deep violet #7c3aed, cream-white, acid-green #84cc16, stage-gold accents, blurred neon backdrop. Volumetric bloom off the microphone, film grain, anamorphic flare. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same close-up, moments later. Nilmorg has leaned in closer to the microphone and his wide perpetual smile has sharpened — one side of his mouth has pulled higher than the other, revealing more teeth. His eyes have narrowed slightly — conspiratorial. Behind him, the blurred neon backdrop has SHIFTED color from green-amber to deep red-violet, as if his confiding aside has changed the entire tone of the broadcast. A single subtle glitch artifact has appeared on his face — a momentary duplication of his smile. Film grain, deeper shadows, stronger micro-glitch. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Tight lock on Nilmorg's face, slight handheld drift. Beat at 2s: he leans toward the microphone. Beat at 4s: one side of the smile climbs higher. Beat at 6s: backdrop shifts green-amber to red-violet. Beat at 7s: glitch duplicates his smile. 24fps. Carnival host, rule-changer aside, the host knows something you don't.
+
+---
+
