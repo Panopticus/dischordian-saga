@@ -563,6 +563,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_reward_casino_vip,
   s1_reward_class_soldier,
   s1_reward_companion_locke,
+  s1_reward_eidolon_auros,
   s1_reward_guild_territory,
   s1_reward_guild_victory,
   s1_reward_syndicate_build,
