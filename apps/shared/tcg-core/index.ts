@@ -162,6 +162,47 @@ export type {
 export { STANDARD_S1 } from "./formats/standard";
 export type { Format } from "./formats/standard";
 
+/* ─── Replay ─── */
+export { replayMatch, verifyReplay } from "./replay/replay";
+export type {
+  ReplayInput,
+  ReplayStep,
+  ReplayResult,
+} from "./replay/replay";
+
+/* ─── Story / Campaign (WS6) ─── */
+export {
+  initEncounter,
+  checkNarrativeHooks,
+  checkEncounterOutcome,
+} from "./story/encounter";
+export type {
+  StoryEncounter,
+  WinCondition,
+  LoseCondition,
+  NarrativeHook,
+  NarrativeCondition,
+  NarrativeAction,
+  EncounterInit,
+  EncounterState,
+} from "./story/encounter";
+
+/* ─── Tutorial (WS7) ─── */
+export {
+  TUTORIAL_GATES,
+  TUTORIAL_GATE_1,
+  NEW_PLAYER_GRANT,
+} from "./story/tutorial";
+export type {
+  TutorialGate,
+  TutorialStepDef,
+  NewPlayerGrant,
+} from "./story/tutorial";
+
+/* ─── Economy (WS8) ─── */
+export { openPack, STANDARD_PACK, SOUL_STONE_VALUES } from "./economy/packs";
+export type { PackType, PackResult } from "./economy/packs";
+
 /* ─── Compat (legacy client translation) ─── */
 export {
   translateClientAction,
