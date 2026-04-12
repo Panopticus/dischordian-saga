@@ -3,8 +3,11 @@
    Connects: Menu, Tutorial, Faction Select, Battle,
    Collection, Deck Builder, Pack Opening, Ranked Ladder
    ═══════════════════════════════════════════════════════ */
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { useSearch } from "wouter";
 import type { Faction } from "./types";
+import { ALL_CYCLE_BATTLES } from "@shared/cycleBattles";
+import { useGame } from "@/contexts/GameContext";
 import { FACTION_COLORS, FACTION_NAMES, FACTION_DESCRIPTIONS, FACTION_EMBLEMS } from "./types";
 import { getFactionCardCounts, getAllCardsForCollection } from "./cardAdapter";
 import { GENERALS } from "./engine";
@@ -54,6 +57,8 @@ function getTierForElo(elo: number) {
 
 export default function DuelystPage() {
   const { isAuthenticated } = useAuth();
+  const searchString = useSearch();
+  const { state: gameState } = useGame();
   const [view, setView] = useState<View>("menu");
   const [playerFaction, setPlayerFaction] = useState<Faction | null>(null);
   const [opponentFaction, setOpponentFaction] = useState<Faction | null>(null);
@@ -61,6 +66,21 @@ export default function DuelystPage() {
   const [wins, setWins] = useState(() => parseInt(localStorage.getItem("dischordia_wins") || "0"));
   const [losses, setLosses] = useState(() => parseInt(localStorage.getItem("dischordia_losses") || "0"));
   const [isTutorial, setIsTutorial] = useState(false);
+  const [examTrialHistory, setExamTrialHistory] = useState<any[] | undefined>(undefined);
+
+  // Auto-load graduation exam if ?exam= query param is present
+  useEffect(() => {
+    const params = new URLSearchParams(searchString);
+    const examId = params.get("exam");
+    if (!examId) return;
+    const battle = ALL_CYCLE_BATTLES.find(b => b.id === examId);
+    if (!battle) return;
+    // Auto-select factions and jump to playing
+    setPlayerFaction("dreamer"); // Engineer's faction
+    setOpponentFaction("architect"); // Academy opponent
+    setExamTrialHistory((gameState.trialHistory as any[]) ?? []);
+    setView("playing");
+  }, [searchString, gameState.trialHistory]);
   const [muted, setMuted] = useState(false);
   const [packCards, setPackCards] = useState<PackCard[]>([]);
   const [elo, setElo] = useState(() => parseInt(localStorage.getItem("dischordia_elo") || "1200"));
@@ -428,6 +448,7 @@ export default function DuelystPage() {
               playerFaction={playerFaction}
               opponentFaction={opponentFaction}
               isTutorial={isTutorial}
+              trialHistory={examTrialHistory}
               onGameEnd={(winner) => {
                 if (isTutorial && winner === "player") {
                   localStorage.setItem("dischordia_tutorial_complete", "true");

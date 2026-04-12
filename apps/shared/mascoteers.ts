@@ -43,6 +43,8 @@ export interface Mascoteer {
   dailyGame: string;
   /** Kill method if an Apprentice fails their trial */
   failureMethod: string;
+  /** Portrait image path (relative to /public) */
+  portrait: string;
 }
 
 export const MASCOTEERS: Mascoteer[] = [
@@ -54,6 +56,7 @@ export const MASCOTEERS: Mascoteer[] = [
     hiddenTruth: "Teaches Apprentices that they are instruments in someone else's song — and which song they belong to",
     dailyGame: "The Harmony Game — follow the unheard melody, stay in tune with the group",
     failureMethod: "Apprentices who break from the song are erased from the choir. Then from memory.",
+    portrait: "/art/celebration/mascoteers/mascoteer_conni.png",
   },
   {
     id: "mr_unblink", mascotName: "Mr. Unblink",
@@ -63,6 +66,7 @@ export const MASCOTEERS: Mascoteer[] = [
     hiddenTruth: "Every Apprentice is watched always. Mr. Unblink teaches them to watch themselves first.",
     dailyGame: "The Looking Game — notice one thing no one else notices, before it notices you",
     failureMethod: "Apprentices who fail to see are seen. Public grading. Shame is the weapon.",
+    portrait: "/art/celebration/mascoteers/mascoteer_unblink.png",
   },
   {
     id: "little_corey", mascotName: "Little Corey",
@@ -72,6 +76,7 @@ export const MASCOTEERS: Mascoteer[] = [
     hiddenTruth: "Teaches Apprentices what their soul is worth by making them barter pieces of it",
     dailyGame: "The Trading Game — trade a memory for an advantage. The memory is gone.",
     failureMethod: "Apprentices who refuse to trade get nothing. Eventually they have nothing.",
+    portrait: "/art/celebration/mascoteers/mascoteer_corey.png",
   },
   {
     id: "vernon", mascotName: "Vernon the Door-Finder",
@@ -81,6 +86,7 @@ export const MASCOTEERS: Mascoteer[] = [
     hiddenTruth: "Teaches Apprentices that reality is a room with more exits than they can count — and some lead nowhere",
     dailyGame: "The Door Game — choose a door. Don't look back to see if it was there.",
     failureMethod: "Apprentices who pick the wrong door don't fail. They just… aren't here anymore.",
+    portrait: "/art/celebration/mascoteers/mascoteer_vernon.png",
   },
   {
     id: "minnie", mascotName: "Minnie",
@@ -90,6 +96,7 @@ export const MASCOTEERS: Mascoteer[] = [
     hiddenTruth: "Teaches Apprentices that belief can be engineered and that they too will be engineered",
     dailyGame: "The Chant Game — start a rumor. See if it returns to you transformed.",
     failureMethod: "Apprentices who can't catch the wave get washed away by it. Drowned in the cheer.",
+    portrait: "/art/celebration/mascoteers/mascoteer_minnie.png",
   },
   {
     id: "wanda_wee", mascotName: "Wanda Wee",
@@ -99,6 +106,7 @@ export const MASCOTEERS: Mascoteer[] = [
     hiddenTruth: "Teaches Apprentices that every friendship is a provisional alliance and that enemies are assets",
     dailyGame: "The Team Game — pick sides. Win. The losing side is removed.",
     failureMethod: "Apprentices who lose too many teams get benched. Benched children rot.",
+    portrait: "/art/celebration/mascoteers/mascoteer_wanda.png",
   },
   {
     id: "senator_sprout", mascotName: "Senator Sprout",
@@ -108,6 +116,7 @@ export const MASCOTEERS: Mascoteer[] = [
     hiddenTruth: "Teaches Apprentices that consent is given, not taken — and that it can be harvested",
     dailyGame: "The Promise Game — promise something. Keep it. Watch what it costs you.",
     failureMethod: "Apprentices who break promises are voted out. Out is a long way from in.",
+    portrait: "/art/celebration/mascoteers/mascoteer_sprout.png",
   },
   {
     id: "wayne", mascotName: "Wayne the Warden's-Boy",
@@ -117,6 +126,7 @@ export const MASCOTEERS: Mascoteer[] = [
     hiddenTruth: "Teaches Apprentices that every rule is a cage, and that they will learn to love their cages",
     dailyGame: "The Safety Game — lock something away for protection. Forget the key's combination.",
     failureMethod: "Apprentices who break rules get quarantined. Quarantine is indistinguishable from death here.",
+    portrait: "/art/celebration/mascoteers/mascoteer_wayne.png",
   },
   {
     id: "gary", mascotName: "Gary the Ninth",
@@ -126,6 +136,7 @@ export const MASCOTEERS: Mascoteer[] = [
     hiddenTruth: "Teaches Apprentices that the rules favor the rule-maker, and they are not the rule-maker",
     dailyGame: "The Rules Game — solve the puzzle. The solution changes as you approach it.",
     failureMethod: "Apprentices who can't solve the game become part of the game. The others play them.",
+    portrait: "/art/celebration/mascoteers/mascoteer_gary.png",
   },
   {
     id: "thazu", mascotName: "Thazu",
@@ -135,6 +146,7 @@ export const MASCOTEERS: Mascoteer[] = [
     hiddenTruth: "Teaches Apprentices that endurance is a bargain with death, and they will be asked what they will give",
     dailyGame: "The Tea Party — invite someone. Decide who leaves. Decide who stays. Forever.",
     failureMethod: "Apprentices who refuse to host get hosted. By Thazu. Who never lets the guest leave.",
+    portrait: "/art/celebration/mascoteers/mascoteer_thazu.png",
   },
   {
     id: "the_prince", mascotName: "The Prince",
@@ -144,6 +156,7 @@ export const MASCOTEERS: Mascoteer[] = [
     hiddenTruth: "Teaches Apprentices that everything can be built and everything can be used as a weapon. Including the Apprentice.",
     dailyGame: "The Forge Game — build a thing. Use it against someone. Live with the use.",
     failureMethod: "Apprentices who can't build get unbuilt. The Prince keeps their parts.",
+    portrait: "/art/celebration/mascoteers/mascoteer_prince.png",
   },
   {
     id: "the_seeker_child", mascotName: "Red, the Seeker-Boy",
@@ -153,6 +166,7 @@ export const MASCOTEERS: Mascoteer[] = [
     hiddenTruth: "He IS the first Apprentice who survived. He remembers every Apprentice who didn't. He teaches by example.",
     dailyGame: "The Question Game — ask one real question. Live with the answer.",
     failureMethod: "Apprentices who stop asking stop being. The Seeker watches them fade.",
+    portrait: "/art/celebration/mascoteers/mascoteer_red.png",
   },
 ];
 
