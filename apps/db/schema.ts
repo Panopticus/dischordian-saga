@@ -1552,6 +1552,7 @@ export const notifications = mysqlTable("notifications", {
     "universe_event",
     // ── Companion / eidolon / pet lifecycle ──
     "companion_death", "companion_resurrected", "eidolon_evolved", "pet_evolved",
+    "pet_death", "pet_acquired",
     "apprentice_sacrificed", "crew_cloned",
     // ── Morality + content discovery ──
     "morality_threshold", "morality_market_notice", "content_discovery",
@@ -2767,12 +2768,26 @@ export const playerPets = mysqlTable("player_pets", {
   maxHp: int("maxHp").default(100).notNull(),
   /** Unlocked moves beyond the standard 3 */
   unlockedMoves: json("unlockedMoves").$type<string[]>(),
+  /** Skill tree node IDs the player has unlocked for this pet */
+  unlockedSkillNodes: json("unlockedSkillNodes").$type<string[]>().default([]),
+  /** Completed companion-quest step flags */
+  completedQuestSteps: json("completedQuestSteps").$type<string[]>().default([]),
   /** Evolution XP for pet evolution tracking */
   evolutionXp: int("evolutionXp").default(0).notNull(),
   /** Total wins / losses / kills */
   wins: int("wins").default(0).notNull(),
   losses: int("losses").default(0).notNull(),
   kills: int("kills").default(0).notNull(),
+  /** How many times this pet has died and been revived */
+  deathCount: int("deathCount").default(0).notNull(),
+  /** Is the pet currently in spectral form (died + gained ghost bonus)? */
+  isSpectral: boolean("isSpectral").default(false).notNull(),
+  /** Game system that granted the spectral bonus (pet_battles, card_game, etc.) */
+  spectralBonusSystem: varchar("spectralBonusSystem", { length: 64 }),
+  /** Narrative cause of the most recent death */
+  deathCause: varchar("deathCause", { length: 64 }),
+  /** Whether this pet is part of the active battle party (trait synergy contributor) */
+  isActive: boolean("isActive").default(true).notNull(),
   /** Injury cooldown — timestamp when pet can fight again */
   injuredUntil: timestamp("injuredUntil"),
   acquiredAt: timestamp("acquiredAt").defaultNow().notNull(),
