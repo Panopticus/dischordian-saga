@@ -85,6 +85,8 @@ export type GameEvent =
       abilityId: string;
       cause: string;
     }
+  | { type: "artifact_equipped"; player: Side; entityId: string; defId: string; durability: number }
+  | { type: "artifact_destroyed"; player: Side; entityId: string; defId: string; reason: "durability" | "displaced" }
   | { type: "bloodborn_cast"; player: Side; spellName: string }
   | {
       type: "match_ended";

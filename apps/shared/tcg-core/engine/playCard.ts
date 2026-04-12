@@ -35,9 +35,12 @@ import type { ReduceCtx } from "./reducer";
 import type { ConcreteAbility } from "../types/Trigger";
 import type { Effect } from "../types/Effect";
 import type { EntityId } from "../types/Ids";
+import type { ArtifactInstance } from "../types/GameState";
+import { MAX_ARTIFACTS } from "../types/GameState";
 import { deployCard } from "./deploy";
 import { interpret } from "./effectInterpreter";
 import { makeExecCtx } from "./execCtx";
+import { mintEntityId } from "./init";
 
 export function handlePlayCard(
   draft: Draft<GameState>,
@@ -160,17 +163,53 @@ export function handlePlayCard(
     }
 
     case "artifact": {
-      // Refund — artifact equip lands in commit C.
-      player.hand = [
-        ...player.hand.slice(0, action.handIndex),
-        card,
-        ...player.hand.slice(action.handIndex),
-      ];
-      player.mana += def.cost;
-      return {
-        code: "illegal_move",
-        message: "artifact play not yet implemented",
+      // Artifact equip: create an ArtifactInstance, enforce max-3 cap
+      // (oldest displaced), send card to graveyard, fire on_deploy abilities.
+      const durability = def.artifactDurability ?? 3;
+      const artifactEntityId = mintEntityId(draft);
+      const artifact: ArtifactInstance = {
+        entityId: artifactEntityId,
+        defId: card.defId,
+        durability,
       };
+
+      // Max 3 artifacts: if already at cap, destroy the oldest (index 0).
+      if (player.artifacts.length >= MAX_ARTIFACTS) {
+        const displaced = player.artifacts[0];
+        player.artifacts = player.artifacts.slice(1);
+        ctx.events.push({
+          type: "artifact_destroyed",
+          player: action.actor,
+          entityId: displaced.entityId as string,
+          defId: displaced.defId,
+          reason: "displaced",
+        });
+      }
+
+      player.artifacts = [...player.artifacts, artifact];
+      ctx.events.push({
+        type: "artifact_equipped",
+        player: action.actor,
+        entityId: artifactEntityId as string,
+        defId: card.defId,
+        durability,
+      });
+
+      // Artifacts go to graveyard on equip (same as spells).
+      player.graveyard = [...player.graveyard, card];
+
+      // Fire on_deploy abilities (same pattern as spells with on_cast).
+      const abilities = def.abilities as unknown as readonly ConcreteAbility[];
+      const execCtx = makeExecCtx(action.actor, {
+        sourceEntityId: card.entityId,
+        playerChosenTargetId: action.targetEntityId as EntityId | undefined,
+        chooseIndex: action.chooseIndex,
+      });
+      for (const ability of abilities) {
+        if (ability.trigger.kind !== "on_deploy") continue;
+        interpret(ability.effect as Effect, execCtx, draft, ctx);
+      }
+      return undefined;
     }
 
     case "general": {
