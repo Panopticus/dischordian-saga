@@ -29,7 +29,7 @@ export const cardDef: CardDefinition = {
   cardType: "unit",
   rarity: "rare",
   cost: 3,
-  baseStats: { power: 7, health: 7 },
+  baseStats: { power: 3, health: 4 },
   keywords: ["provoke"],
   abilities: [
     // --- Drain: heal 1 per hit via +0/+1 buff ---

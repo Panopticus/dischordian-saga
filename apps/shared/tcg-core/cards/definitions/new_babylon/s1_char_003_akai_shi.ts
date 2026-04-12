@@ -31,7 +31,7 @@ export const cardDef: CardDefinition = {
   cardType: "unit",
   rarity: "epic",
   cost: 4,
-  baseStats: { power: 7, health: 8 },
+  baseStats: { power: 4, health: 4 },
   keywords: ["pierce"],
   abilities: [
     // --- Stealth: untargetable for 3 turns on deploy ---

@@ -5,6 +5,7 @@ import { campaignProgress, campaignState, notifications } from "../../db/schema"
 import { eq, and, desc, sql } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { logger } from "../logger";
+import { grantCardReward } from "../services/cardRewardService";
 
 /* ═══════════════════════════════════════════════════════
    STORY MODE ROUTER — Campaign persistence (WS6)
@@ -260,11 +261,28 @@ export const storyModeRouter = router({
         }
       }
 
+      // Grant chapter-completion card reward on first completion.
+      let cardReward: string | null = null;
+      if (isFirstCompletion) {
+        try {
+          const chapterNum = input.chapterId.replace(/\D/g, "").slice(0, 2);
+          const result = await grantCardReward(
+            ctx.user.id,
+            `campaign_ch${chapterNum}`,
+            { moralityAxes: input.moralityShifts }
+          );
+          cardReward = result?.cardDefId ?? null;
+        } catch (e) {
+          logger.warn("Failed to grant chapter card reward", e);
+        }
+      }
+
       return {
         ok: true,
         stars: newStars,
         isFirstCompletion,
         nextChaptersUnlocked: isFirstCompletion ? nextChapters : [],
+        cardReward,
       };
     }),
 

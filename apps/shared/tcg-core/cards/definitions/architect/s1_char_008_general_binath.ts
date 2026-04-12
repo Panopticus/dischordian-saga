@@ -19,7 +19,7 @@ export const cardDef: CardDefinition = {
   cardType: "unit",
   rarity: "uncommon",
   cost: 3,
-  baseStats: { power: 3, health: 7 },
+  baseStats: { power: 3, health: 4 },
   keywords: [],
   abilities: [
     // --- Evolve: tick kill counter ---

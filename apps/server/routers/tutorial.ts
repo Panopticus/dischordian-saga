@@ -5,6 +5,7 @@ import { tutorialProgress, dreamBalance, userCards, notifications } from "../../
 import { eq, sql } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { logger } from "../logger";
+import { grantCardReward } from "../services/cardRewardService";
 
 /* ═══════════════════════════════════════════════════════
    TUTORIAL ROUTER — 4-gate onboarding + new player grant (WS7)
@@ -165,6 +166,13 @@ export const tutorialRouter = router({
         } catch (e) {
           logger.warn("Failed to send tutorial completion notification", e);
         }
+      }
+
+      // Grant gate-completion card reward.
+      try {
+        await grantCardReward(ctx.user.id, `tutorial_gate${input.gateNumber}`);
+      } catch (e) {
+        logger.warn("Failed to grant tutorial card reward", e);
       }
 
       return { ok: true, alreadyCompleted: false, grantAwarded, allComplete };

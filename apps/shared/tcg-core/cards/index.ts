@@ -1,5 +1,5 @@
 /**
- * Card registry barrel — 200 Season 1 cards + 6 token(s) = 206 definitions.
+ * Card registry barrel — 223 Season 1 cards + 6 token(s) = 229 definitions.
  */
 import type { CardDefinition } from "../index";
 
@@ -83,6 +83,11 @@ import { cardDef as s1_char_110_prophecy_keeper } from "./definitions/dreamer/s1
 import { cardDef as s1_char_111_vision_walker } from "./definitions/dreamer/s1_char_111_vision_walker.ts";
 import { cardDef as s1_char_112_reality_anchor } from "./definitions/dreamer/s1_char_112_reality_anchor.ts";
 import { cardDef as s1_char_203_astral_warden } from "./definitions/dreamer/s1_char_203_astral_warden.ts";
+import { cardDef as s1_reward_campaign_finale } from "./definitions/dreamer/s1_reward_campaign_finale.ts";
+import { cardDef as s1_reward_campaign_truth } from "./definitions/dreamer/s1_reward_campaign_truth.ts";
+import { cardDef as s1_reward_cycle_light } from "./definitions/dreamer/s1_reward_cycle_light.ts";
+import { cardDef as s1_reward_eidolon_lux } from "./definitions/dreamer/s1_reward_eidolon_lux.ts";
+import { cardDef as s1_reward_vote_t1_truth } from "./definitions/dreamer/s1_reward_vote_t1_truth.ts";
 import { cardDef as s1_song_082_top_floor_door } from "./definitions/dreamer/s1_song_082_top_floor_door.ts";
 import { cardDef as s1_spell_108_prophetic_collapse } from "./definitions/dreamer/s1_spell_108_prophetic_collapse.ts";
 import { cardDef as s1_spell_109_vision_cascade } from "./definitions/dreamer/s1_spell_109_vision_cascade.ts";
@@ -113,6 +118,9 @@ import { cardDef as s1_char_106_wraith_calder } from "./definitions/insurgency/s
 import { cardDef as s1_char_107_signal_operative } from "./definitions/insurgency/s1_char_107_signal_operative.ts";
 import { cardDef as s1_char_108_guerrilla_cell } from "./definitions/insurgency/s1_char_108_guerrilla_cell.ts";
 import { cardDef as s1_char_202_saboteur } from "./definitions/insurgency/s1_char_202_saboteur.ts";
+import { cardDef as s1_reward_campaign_defiance } from "./definitions/insurgency/s1_reward_campaign_defiance.ts";
+import { cardDef as s1_reward_trade_insurgency } from "./definitions/insurgency/s1_reward_trade_insurgency.ts";
+import { cardDef as s1_reward_vote_t1_defiance } from "./definitions/insurgency/s1_reward_vote_t1_defiance.ts";
 import { cardDef as s1_song_091_i_love_war } from "./definitions/insurgency/s1_song_091_i_love_war.ts";
 import { cardDef as s1_spell_104_signal_intercept } from "./definitions/insurgency/s1_spell_104_signal_intercept.ts";
 import { cardDef as s1_spell_105_guerrilla_strike } from "./definitions/insurgency/s1_spell_105_guerrilla_strike.ts";
@@ -136,6 +144,21 @@ import { cardDef as s1_char_090_hired_blade } from "./definitions/neutral/s1_cha
 import { cardDef as s1_char_091_border_scout } from "./definitions/neutral/s1_char_091_border_scout.ts";
 import { cardDef as s1_char_092_ruin_stalker } from "./definitions/neutral/s1_char_092_ruin_stalker.ts";
 import { cardDef as s1_char_093_ironclad_veteran } from "./definitions/neutral/s1_char_093_ironclad_veteran.ts";
+import { cardDef as s1_reward_campaign_balanced } from "./definitions/neutral/s1_reward_campaign_balanced.ts";
+import { cardDef as s1_reward_campaign_empathy } from "./definitions/neutral/s1_reward_campaign_empathy.ts";
+import { cardDef as s1_reward_casino_jackpot } from "./definitions/neutral/s1_reward_casino_jackpot.ts";
+import { cardDef as s1_reward_companion_all } from "./definitions/neutral/s1_reward_companion_all.ts";
+import { cardDef as s1_reward_companion_max } from "./definitions/neutral/s1_reward_companion_max.ts";
+import { cardDef as s1_reward_daily_streak } from "./definitions/neutral/s1_reward_daily_streak.ts";
+import { cardDef as s1_reward_pet_evolve } from "./definitions/neutral/s1_reward_pet_evolve.ts";
+import { cardDef as s1_reward_pet_streak } from "./definitions/neutral/s1_reward_pet_streak.ts";
+import { cardDef as s1_reward_pvp_bronze } from "./definitions/neutral/s1_reward_pvp_bronze.ts";
+import { cardDef as s1_reward_pvp_diamond } from "./definitions/neutral/s1_reward_pvp_diamond.ts";
+import { cardDef as s1_reward_pvp_gold } from "./definitions/neutral/s1_reward_pvp_gold.ts";
+import { cardDef as s1_reward_pvp_legend } from "./definitions/neutral/s1_reward_pvp_legend.ts";
+import { cardDef as s1_reward_seasonal_s1 } from "./definitions/neutral/s1_reward_seasonal_s1.ts";
+import { cardDef as s1_reward_vote_t1_balanced } from "./definitions/neutral/s1_reward_vote_t1_balanced.ts";
+import { cardDef as s1_reward_vote_t1_empathy } from "./definitions/neutral/s1_reward_vote_t1_empathy.ts";
 import { cardDef as s1_song_059_lip_service } from "./definitions/neutral/s1_song_059_lip_service.ts";
 import { cardDef as s1_song_060_nonos } from "./definitions/neutral/s1_song_060_nonos.ts";
 import { cardDef as s1_song_061_the_enigmas_lament } from "./definitions/neutral/s1_song_061_the_enigmas_lament.ts";
@@ -303,6 +326,11 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_111_vision_walker,
   s1_char_112_reality_anchor,
   s1_char_203_astral_warden,
+  s1_reward_campaign_finale,
+  s1_reward_campaign_truth,
+  s1_reward_cycle_light,
+  s1_reward_eidolon_lux,
+  s1_reward_vote_t1_truth,
   s1_song_082_top_floor_door,
   s1_spell_108_prophetic_collapse,
   s1_spell_109_vision_cascade,
@@ -331,6 +359,9 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_107_signal_operative,
   s1_char_108_guerrilla_cell,
   s1_char_202_saboteur,
+  s1_reward_campaign_defiance,
+  s1_reward_trade_insurgency,
+  s1_reward_vote_t1_defiance,
   s1_song_091_i_love_war,
   s1_spell_104_signal_intercept,
   s1_spell_105_guerrilla_strike,
@@ -352,6 +383,21 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_091_border_scout,
   s1_char_092_ruin_stalker,
   s1_char_093_ironclad_veteran,
+  s1_reward_campaign_balanced,
+  s1_reward_campaign_empathy,
+  s1_reward_casino_jackpot,
+  s1_reward_companion_all,
+  s1_reward_companion_max,
+  s1_reward_daily_streak,
+  s1_reward_pet_evolve,
+  s1_reward_pet_streak,
+  s1_reward_pvp_bronze,
+  s1_reward_pvp_diamond,
+  s1_reward_pvp_gold,
+  s1_reward_pvp_legend,
+  s1_reward_seasonal_s1,
+  s1_reward_vote_t1_balanced,
+  s1_reward_vote_t1_empathy,
   s1_song_059_lip_service,
   s1_song_060_nonos,
   s1_song_061_the_enigmas_lament,
