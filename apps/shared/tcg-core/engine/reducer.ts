@@ -35,6 +35,8 @@ import { drainTriggerQueue, type TriggerEffectRunner } from "./triggerQueue";
 import { handleMulligan, handleFinishMulligan } from "./mulligan";
 import { refreshTurnForPlayer } from "./turn";
 import { handlePlayCard as handlePlayCardReal } from "./playCard";
+import { handleMove as handleMoveReal } from "./movement";
+import { handleAttack as handleAttackReal } from "./combat";
 import { createDefaultTriggerRunner } from "./defaultTriggerRunner";
 
 export interface ReduceResult {
@@ -225,19 +227,19 @@ function runFixedPoint(draft: Draft<GameState>, ctx: ReduceCtx): void {
  */
 
 function handleMove(
-  _draft: Draft<GameState>,
-  _action: Extract<Action, { kind: "move" }>,
-  _ctx: ReduceCtx
+  draft: Draft<GameState>,
+  action: Extract<Action, { kind: "move" }>,
+  ctx: ReduceCtx
 ): ReduceError | undefined {
-  return { code: "illegal_move", message: "move: not implemented yet" };
+  return handleMoveReal(draft, action, ctx);
 }
 
 function handleAttack(
-  _draft: Draft<GameState>,
-  _action: Extract<Action, { kind: "attack" }>,
-  _ctx: ReduceCtx
+  draft: Draft<GameState>,
+  action: Extract<Action, { kind: "attack" }>,
+  ctx: ReduceCtx
 ): ReduceError | undefined {
-  return { code: "illegal_attack", message: "attack: not implemented yet" };
+  return handleAttackReal(draft, action, ctx);
 }
 
 function handlePlayCard(

@@ -121,6 +121,10 @@ export { createDefaultTriggerRunner } from "./engine/defaultTriggerRunner";
 export { createMatchState, drawOneCard, mintEntityId } from "./engine/init";
 export type { MatchConfig, CreateMatchOptions } from "./engine/init";
 export { refreshTurnForPlayer } from "./engine/turn";
+export { getValidMoves } from "./engine/movement";
+export type { Coord } from "./engine/movement";
+export { deployCard, isAdjacentToFriendly } from "./engine/deploy";
+export type { DeployError, DeployErrorCode, DeployResult } from "./engine/deploy";
 export { makeExecCtx, withIt } from "./engine/execCtx";
 export type { ExecCtx } from "./engine/execCtx";
 export {
