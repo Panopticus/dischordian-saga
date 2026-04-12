@@ -210,7 +210,7 @@ CHARACTERS = {
         },
     },
     "warden": {
-        "voice_id": os.environ.get("WARDEN_VOICE_ID", ""),
+        "voice_id": os.environ.get("WARDEN_VOICE_ID", "vFjpEDBMRbSY1JrztN5z"),
         "s3_prefix": "Warden Voices",
         "lines_file": "warden-lines.json",
         "manifest_file": "wardenVoManifest.json",
@@ -246,7 +246,7 @@ CHARACTERS = {
         },
     },
     "jailer": {
-        "voice_id": os.environ.get("JAILER_VOICE_ID", ""),
+        "voice_id": os.environ.get("JAILER_VOICE_ID", "xYjWL0MUjpDG64c0YSh3"),
         "s3_prefix": "Jailer Voices",
         "lines_file": "jailer-lines.json",
         "manifest_file": "jailerVoManifest.json",
