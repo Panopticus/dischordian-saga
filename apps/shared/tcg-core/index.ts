@@ -152,6 +152,16 @@ export {
 } from "./cards/loader";
 export { ALL_CARD_DEFINITIONS } from "./cards/index";
 
+/* ─── Formats & deck validation ─── */
+export { validateDeck } from "./formats/validateDeck";
+export type {
+  DeckInput,
+  ValidationIssue,
+  ValidationResult,
+} from "./formats/validateDeck";
+export { STANDARD_S1 } from "./formats/standard";
+export type { Format } from "./formats/standard";
+
 /* ─── Compat (legacy client translation) ─── */
 export {
   translateClientAction,

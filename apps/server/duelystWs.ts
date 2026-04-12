@@ -17,7 +17,7 @@
 import { WebSocketServer, WebSocket } from "ws";
 import type { Server } from "http";
 import { checkWsRateLimit, sendRateLimitError, storeDisconnectedSession, recoverSession } from "./wsRateLimit";
-import { reduce, type GameState } from "../shared/tcg-core";
+import { reduce, hashState, type GameState, type Action } from "../shared/tcg-core";
 import {
   buildMatchConfig,
   createServerMatchState,
@@ -48,6 +48,8 @@ interface DuelystMatch {
   /** Monotonic action sequence counter — assigned by the server on
    *  every accepted action. Replay dedup depends on this. */
   nextSeq: number;
+  /** Accumulated accepted actions for replay persistence. */
+  actionLog: Action[];
   turnTimeout: ReturnType<typeof setTimeout> | null;
   startedAt: number;
 }
@@ -141,6 +143,7 @@ function tryMatchPlayers() {
     player2: p2,
     gameState,
     nextSeq: 1,
+    actionLog: [],
     turnTimeout: null,
     startedAt: Date.now(),
   };
@@ -193,6 +196,29 @@ function endMatch(match: DuelystMatch, winnerSide: 0 | 1, reason: string) {
 
   send(winner.ws, { type: "MATCH_RESULT", result: "win", eloChange: 15 });
   send(loser.ws, { type: "MATCH_RESULT", result: "loss", eloChange: -10 });
+
+  // Persist replay data for future replay() reconstruction.
+  // The action log + seed + rulesVersion + final state hash are
+  // enough to deterministically reproduce the entire match.
+  try {
+    const finalHash = hashState(match.gameState);
+    console.log(
+      `[Duelyst] Replay data: matchId=${match.matchId} seed=${match.gameState.seed} ` +
+      `rulesVersion=${match.gameState.rulesVersion} actions=${match.actionLog.length} ` +
+      `finalHash=${finalHash}`
+    );
+    // TODO: write to cardGameMatches DB table via Drizzle:
+    //   UPDATE card_game_matches SET
+    //     seed = match.gameState.seed,
+    //     rulesVersion = match.gameState.rulesVersion,
+    //     actionLog = gzip(JSON.stringify(match.actionLog)),
+    //     finalStateHash = finalHash
+    //   WHERE matchId = match.matchId
+    // DB write deferred until the tRPC match-creation flow persists
+    // the initial row (currently matches are in-memory only).
+  } catch (e) {
+    console.error(`[Duelyst] Failed to compute replay data:`, e);
+  }
 
   if (match.turnTimeout) clearTimeout(match.turnTimeout);
   activeMatches.delete(match.matchId);
@@ -287,8 +313,9 @@ export function setupDuelystWebSocket(server: Server) {
             break;
           }
 
-          // Accepted. Advance seq and replace the authoritative state.
+          // Accepted. Advance seq, log the action, replace state.
           match.gameState = result.state;
+          match.actionLog.push(translated.action);
           match.nextSeq += 1;
 
           // Broadcast the new state to both players.
