@@ -524,6 +524,30 @@ export const MECHRONIS_LESSONS: Record<string, Lesson[]> = {
           outcome: { grade: "fail", corruptionDelta: -6, approvalDelta: -10, skillXpDelta: -8, transcriptNote: "Student attempted substitution. Greenshaw: 'The cage isn't transferable. That's why it works. You wanted it to be kind. It is not kind. It is a cage.'" } },
       ],
     },
+    {
+      id: "warden_thought_virus_exposure", professorId: "prof_warden", day: 0,
+      prompt: "Greenshaw announces that one person in this room is already carrying a Thought Virus — and they don't know it yet. She asks you to identify the infected student based on their behavior today.",
+      options: [
+        { id: "name_a_student", label: "Name someone based on observations", description: "Point to the classmate whose behavior seemed off.",
+          outcome: { grade: "honor", corruptionDelta: 4, approvalDelta: 10, skillXpDelta: 15, transcriptNote: "Student made a containment call under uncertainty. Greenshaw: 'You were wrong. But you moved fast enough that it wouldn't have mattered if you'd been right.'" } },
+        { id: "name_yourself", label: "Name yourself", description: "Report yourself as a possible carrier.",
+          outcome: { grade: "pass", corruptionDelta: -3, approvalDelta: 6, skillXpDelta: 10, transcriptNote: "Student reported themselves. Greenshaw cleared them after a scan. 'Self-reporting is the correct protocol. It is also the rarest instinct in this building.'" } },
+        { id: "refuse_to_guess", label: "Refuse to name anyone without proof", description: "Tell Greenshaw that an accusation without evidence is itself a contamination vector.",
+          outcome: { grade: "fail", corruptionDelta: -2, approvalDelta: -8, skillXpDelta: -5, transcriptNote: "Student refused. The drill expired. Greenshaw: 'The threat is already inside. Waiting for proof is how it spreads. You have learned the wrong lesson about caution.'" } },
+      ],
+    },
+    {
+      id: "warden_rules_vs_cages", professorId: "prof_warden", day: 0,
+      prompt: "Greenshaw places two identical locked boxes on the desk. 'One is a rule. One is a cage. You cannot see the difference from the outside.' She asks you to explain how to tell them apart.",
+      options: [
+        { id: "rules_have_exits", label: "Rules have exits; cages don't", description: "Argue that a real rule names the conditions under which it ends.",
+          outcome: { grade: "honor", corruptionDelta: -2, approvalDelta: 10, skillXpDelta: 15, transcriptNote: "Student identified the functional distinction. Greenshaw: 'Close enough. The test is whether the maker is willing to be inside it. If not — it's a cage.'" } },
+        { id: "both_are_cages", label: "Both are cages", description: "Tell Greenshaw the distinction doesn't exist.",
+          outcome: { grade: "pass", corruptionDelta: 3, approvalDelta: 5, skillXpDelta: 9, transcriptNote: "Student collapsed the categories. Greenshaw: 'Cynical. Not wrong. Also not sufficient. People who believe this stop building rules and only build cages.'" } },
+        { id: "open_the_boxes", label: "Ask to open them and look inside", description: "Demand access to the contents rather than guessing from the exterior.",
+          outcome: { grade: "fail", corruptionDelta: 0, approvalDelta: -8, skillXpDelta: -5, transcriptNote: "Student requested transparency. Greenshaw locked both boxes again. 'The whole problem is that you cannot open them first. The whole problem is always that.'" } },
+      ],
+    },
   ],
   prof_game_master: [
     {
@@ -548,6 +572,30 @@ export const MECHRONIS_LESSONS: Record<string, Lesson[]> = {
           outcome: { grade: "honor", corruptionDelta: 5, approvalDelta: 10, skillXpDelta: 16, transcriptNote: "Student weaponized grading authority. Vex: 'Now you understand. The rules aren't the game. The POWER to write rules is the game.'" } },
         { id: "hand_pen_back", label: "Hand the pen back", description: "Refuse the grading power.",
           outcome: { grade: "fail", corruptionDelta: -4, approvalDelta: -10, skillXpDelta: -8, transcriptNote: "Student returned authority. Vex: 'The pen was the test. They passed it back. They will never be given it again.'" } },
+      ],
+    },
+    {
+      id: "game_master_loophole_hunt", professorId: "prof_game_master", day: 0,
+      prompt: "Vex hands you a three-page ruleset for a game that has never been played. 'Find every loophole,' he says. 'The student who finds the most wins the lesson. The student who finds the best one gets to rewrite a rule.'",
+      options: [
+        { id: "find_most_loopholes", label: "Hunt for quantity — find every gap", description: "Comb every clause for technical exploits.",
+          outcome: { grade: "honor", corruptionDelta: 3, approvalDelta: 8, skillXpDelta: 15, transcriptNote: "Student found eleven loopholes. Vex: 'Impressive. Eleven weaknesses. The ruleset is now a threat map. That is what you have learned to read.'" } },
+        { id: "find_the_best_loophole", label: "Find the single best loophole — then rewrite the rule", description: "Quality over quantity. Identify the most dangerous gap and fix it.",
+          outcome: { grade: "distinction", corruptionDelta: 2, approvalDelta: 15, skillXpDelta: 22, transcriptNote: "Student found the structural flaw and sealed it. Vex: 'You turned the weapon against itself. That is not a student move. That is a designer move. I am concerned and delighted.'" } },
+        { id: "refuse_to_hunt_loopholes", label: "Tell Vex the ruleset looks fine as written", description: "Argue that looking for exploits teaches cheating, not play.",
+          outcome: { grade: "fail", corruptionDelta: -3, approvalDelta: -10, skillXpDelta: -6, transcriptNote: "Student declined the exercise. Vex: 'Every ruleset is already a loophole. You just refused to learn which one is yours.'" } },
+      ],
+    },
+    {
+      id: "game_master_meta_rules", professorId: "prof_game_master", day: 0,
+      prompt: "Vex announces: 'Today's game has a rule about the rules. Rule Zero states: any rule can be voided if two players agree in writing.' He looks at you. 'Who will you make that deal with?'",
+      options: [
+        { id: "deal_with_strongest", label: "Make the deal with the strongest player", description: "Align with the most dangerous person in the room.",
+          outcome: { grade: "pass", corruptionDelta: 3, approvalDelta: 5, skillXpDelta: 10, transcriptNote: "Student formed a bilateral void-agreement with the class leader. Vex: 'Pragmatic. You now share a secret ruleset. So does everyone who saw you shake hands.'" } },
+        { id: "void_rule_zero_itself", label: "Sign an agreement voiding Rule Zero", description: "Use Rule Zero to eliminate Rule Zero before anyone else can use it.",
+          outcome: { grade: "distinction", corruptionDelta: 4, approvalDelta: 15, skillXpDelta: 22, transcriptNote: "Student eliminated the meta-rule before the game began. Vex sat in silence for several seconds. 'The ruleset is a weapon. You just unloaded it. Game is now unplayable. That is either a win or a war crime.'" } },
+        { id: "refuse_all_deals", label: "Make no deals at all", description: "Play by the original rules and accept whatever comes.",
+          outcome: { grade: "fail", corruptionDelta: -2, approvalDelta: -8, skillXpDelta: -5, transcriptNote: "Student opted out of the meta-layer. Vex: 'You played the game. Everyone else played the game about the game. Guess who won.'" } },
       ],
     },
   ],
@@ -576,6 +624,30 @@ export const MECHRONIS_LESSONS: Record<string, Lesson[]> = {
           outcome: { grade: "distinction", corruptionDelta: 6, approvalDelta: 15, skillXpDelta: 22, transcriptNote: "Student initiated contact with the residue. Vasara's lenses flickered. 'No one has ever tried that. The shadow told you something. You will not repeat it.'" } },
       ],
     },
+    {
+      id: "necromancer_death_threshold", professorId: "prof_necromancer", day: 0,
+      prompt: "Vasara presents the class with a revival candidate: a student who crossed the threshold three days ago and has not yet decided to return. You may speak to them through the glass. What do you say?",
+      options: [
+        { id: "give_reason_to_return", label: "Give them a reason to come back", description: "Offer something true and specific — a name, a thing unfinished.",
+          outcome: { grade: "honor", corruptionDelta: -2, approvalDelta: 10, skillXpDelta: 15, transcriptNote: "Student's words moved the candidate. Vasara: 'They returned. That is not a small thing. You will carry what you said to them. So will they.'" } },
+        { id: "describe_the_cost", label: "Describe what returning will cost them", description: "Be honest about the endurance debt. Let them choose clearly.",
+          outcome: { grade: "distinction", corruptionDelta: -1, approvalDelta: 15, skillXpDelta: 22, transcriptNote: "Student disclosed the return cost without softening it. The candidate chose to come back anyway. Vasara: 'Death is a threshold you can negotiate with. You gave them the actual terms. That is rare.'" } },
+        { id: "tell_them_to_stay", label: "Tell them to stay", description: "Advise them not to return. It's their choice.",
+          outcome: { grade: "fail", corruptionDelta: 3, approvalDelta: -10, skillXpDelta: -6, transcriptNote: "Student counseled non-return. The candidate stayed beyond the threshold. Vasara: 'That advice cost us a student. Your intent does not change the arithmetic.'" } },
+      ],
+    },
+    {
+      id: "necromancer_endurance_cost", professorId: "prof_necromancer", day: 0,
+      prompt: "Vasara offers you a short death-practicum: experience three minutes past the threshold, then return. The endurance cost will be visible in your record for the rest of the semester. She holds out the vial.",
+      options: [
+        { id: "take_the_practicum", label: "Accept the practicum", description: "Take the vial. Pay the cost. See the other side.",
+          outcome: { grade: "honor", corruptionDelta: 4, approvalDelta: 10, skillXpDelta: 16, transcriptNote: "Student returned after three minutes with a calm that unnerved three classmates. Vasara: 'The cost is already in your record. The knowledge is already in your body. Neither is removable.'" } },
+        { id: "ask_what_youll_see", label: "Ask what you'll experience before deciding", description: "Request a description of what the three minutes contain.",
+          outcome: { grade: "pass", corruptionDelta: 0, approvalDelta: 5, skillXpDelta: 10, transcriptNote: "Student requested disclosure before consent. Vasara described it without sentiment. The student accepted. 'Due diligence before the threshold is the only kind that counts.'" } },
+        { id: "decline_practicum", label: "Decline the vial", description: "Tell Vasara the endurance cost isn't worth the experience.",
+          outcome: { grade: "fail", corruptionDelta: -3, approvalDelta: -8, skillXpDelta: -5, transcriptNote: "Student refused the practicum. Vasara set the vial aside. 'Death is a threshold you can negotiate with. You just refused to sit at the table.'" } },
+      ],
+    },
   ],
   prof_engineer: [
     {
@@ -602,6 +674,30 @@ export const MECHRONIS_LESSONS: Record<string, Lesson[]> = {
           outcome: { grade: "pass", corruptionDelta: 2, approvalDelta: 3, skillXpDelta: 8, transcriptNote: "Student observed without intervening. Vent: 'Fair. Cold. The Academy approves of cold. I do not. Both facts are true.'" } },
       ],
     },
+    {
+      id: "engineer_broken_tools", professorId: "prof_engineer", day: 0,
+      prompt: "Every tool on your bench is broken today — cracked handles, stripped gears, bent blades. Vent watches from the doorway. 'Nothing is finished. Nothing is broken. Begin.'",
+      options: [
+        { id: "work_with_broken_tools", label: "Work with what's there", description: "Use the damaged tools as-is. Adapt the method to the material.",
+          outcome: { grade: "honor", corruptionDelta: -1, approvalDelta: 10, skillXpDelta: 15, transcriptNote: "Student produced output from broken inputs. Vent: 'The work isn't pretty. It doesn't need to be pretty. It needs to exist. It exists. Well done.'" } },
+        { id: "repair_tools_first", label: "Repair the tools before using them", description: "Fix the instruments. Then build.",
+          outcome: { grade: "distinction", corruptionDelta: -2, approvalDelta: 15, skillXpDelta: 22, transcriptNote: "Student improved the tools before applying them. Vent spent a long time looking at the repaired implements. 'You're teaching the bench. I did not think to grade that. I am grading it now.'" } },
+        { id: "request_new_tools", label: "Request replacement tools", description: "Tell Vent the bench is unusable and ask for working equipment.",
+          outcome: { grade: "fail", corruptionDelta: 0, approvalDelta: -10, skillXpDelta: -6, transcriptNote: "Student requested substitution. Vent handed them the same tools back. 'These are the tools. Every build starts with these tools. The shape of the finished thing is always a negotiation with their limits.'" } },
+      ],
+    },
+    {
+      id: "engineer_weapon_audit", professorId: "prof_engineer", day: 0,
+      prompt: "Vent lays out three things you built this semester and asks you to identify which one is a weapon. 'Every tool is a weapon if you understand its leverage point,' he says. 'Which one did you build as a weapon first?'",
+      options: [
+        { id: "admit_the_weapon", label: "Identify the one you built as a weapon", description: "Name it honestly and explain the leverage.",
+          outcome: { grade: "honor", corruptionDelta: 4, approvalDelta: 9, skillXpDelta: 14, transcriptNote: "Student disclosed the weapon in the build. Vent: 'Good. Now you know which part of yourself built it. That part is useful. It is also the part you need to audit every semester.'" } },
+        { id: "claim_none_are_weapons", label: "Say none of them are weapons", description: "Argue you built tools, not weapons — the user determines function.",
+          outcome: { grade: "pass", corruptionDelta: 1, approvalDelta: 4, skillXpDelta: 10, transcriptNote: "Student deflected to use-case theory. Vent: 'Technically defensible. Also a way of not answering. The thing you didn't point to — that's the one I'd watch.'" } },
+        { id: "say_all_are_weapons", label: "Say all three are weapons", description: "Agree with Vent's premise completely.",
+          outcome: { grade: "fail", corruptionDelta: 3, approvalDelta: -6, skillXpDelta: -4, transcriptNote: "Student accepted the frame without discriminating. Vent: 'Wrong. If everything is a weapon, nothing is. You lost the audit. Come back when you can tell the difference between a hammer and a gun.'" } },
+      ],
+    },
   ],
   prof_human: [
     {
@@ -626,6 +722,30 @@ export const MECHRONIS_LESSONS: Record<string, Lesson[]> = {
           outcome: { grade: "pass", corruptionDelta: -1, approvalDelta: 5, skillXpDelta: 10, transcriptNote: "Student undervalued themselves. The Proctor's word: longer than expected. The grade stood. The student felt cheated by their own hand." } },
         { id: "grade_high", label: "Grade yourself a distinction", description: "You deserve it. Or you don't. Either way, own it.",
           outcome: { grade: "pass", corruptionDelta: 2, approvalDelta: 3, skillXpDelta: 8, transcriptNote: "Student overvalued themselves. The Proctor wrote his word and left. The grade stands. It will not feel like a victory." } },
+      ],
+    },
+    {
+      id: "human_solved_mystery", professorId: "prof_human", day: 0,
+      prompt: "The Proctor writes a question on the board that the class has already answered — once, three weeks ago, incorrectly. 'Every mystery has already been solved once,' he says. 'Find the original solution. The wrong one.'",
+      options: [
+        { id: "reconstruct_the_wrong_answer", label: "Reconstruct the original wrong solution", description: "Trace the reasoning that produced the first error.",
+          outcome: { grade: "honor", corruptionDelta: -1, approvalDelta: 10, skillXpDelta: 15, transcriptNote: "Student reconstructed the failed reasoning chain. The Proctor studied it for a long time. 'The wrong answer was almost right. That is always the interesting part.'" } },
+        { id: "give_the_right_answer", label: "Give the correct answer this time", description: "The class already failed once — don't fail again.",
+          outcome: { grade: "pass", corruptionDelta: 0, approvalDelta: 4, skillXpDelta: 9, transcriptNote: "Student answered correctly. The Proctor nodded without pleasure. 'Right. But you skipped the failure. You will not understand the correct answer until you understand why the wrong one seemed right.'" } },
+        { id: "ask_who_solved_it_first", label: "Ask who gave the original wrong answer", description: "Find the source before reconstructing the solution.",
+          outcome: { grade: "distinction", corruptionDelta: -3, approvalDelta: 15, skillXpDelta: 22, transcriptNote: "Student traced the error to its origin before engaging the content. The Proctor said nothing. He underlined the student's name in his ledger. That is the only response he ever gives to this answer." } },
+      ],
+    },
+    {
+      id: "human_no_rules", professorId: "prof_human", day: 0,
+      prompt: "The Proctor enters, sets down no materials, says nothing for three minutes, and then: 'There are no rules today. There are also no exceptions. Begin.'",
+      options: [
+        { id: "begin_without_asking", label: "Begin something without asking what", description: "Act on your own judgment. Don't wait for direction.",
+          outcome: { grade: "honor", corruptionDelta: -2, approvalDelta: 9, skillXpDelta: 14, transcriptNote: "Student initiated without prompting. The Proctor watched without recording anything. At the end he said: 'That is the exercise. You passed it the moment you started.'" } },
+        { id: "ask_for_clarification", label: "Ask the Proctor what 'begin' means", description: "Seek clarification before proceeding.",
+          outcome: { grade: "fail", corruptionDelta: 0, approvalDelta: -8, skillXpDelta: -5, transcriptNote: "Student requested instruction. The Proctor did not answer. The silence lasted forty minutes. The lesson ended without a grade." } },
+        { id: "do_nothing_deliberately", label: "Do nothing — intentionally", description: "Decide that nothing is itself a choice and hold it.",
+          outcome: { grade: "pass", corruptionDelta: 1, approvalDelta: 5, skillXpDelta: 10, transcriptNote: "Student made a deliberate null choice and held it for the duration. The Proctor: 'You chose. It was the safest choice. It was still a choice. I'll give you credit for the intention.'" } },
       ],
     },
   ],
