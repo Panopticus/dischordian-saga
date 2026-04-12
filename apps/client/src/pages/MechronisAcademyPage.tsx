@@ -48,7 +48,7 @@ const GRADE_BG: Record<LessonGrade, string> = {
 };
 
 export default function MechronisAcademyPage() {
-  const { state, addCorruption, setInnerVoiceSkill } = useGame();
+  const { state, addCorruption, setInnerVoiceSkill, addAcademyTranscriptEntry, adjustProfessorApproval } = useGame();
   const skills = (state.innerVoiceSkills ?? {}) as Record<SkillId, number>;
   const dominantGuild = useMemo(() => getDominantGuild(skills), [skills]);
 
@@ -84,6 +84,16 @@ export default function MechronisAcademyPage() {
       const currentLevel = skills[dominantGuild.skillId] ?? 0;
       setInnerVoiceSkill(dominantGuild.skillId, Math.max(0, currentLevel + outcome.skillXpDelta));
     }
+
+    // Persist to academy transcript + professor approval
+    addAcademyTranscriptEntry({
+      day: dayIndex,
+      professorId: lesson.professorId,
+      lessonId: lesson.id,
+      grade: outcome.grade,
+      xpDelta: outcome.skillXpDelta,
+    });
+    adjustProfessorApproval(lesson.professorId, outcome.approvalDelta);
 
     setLastResult({
       grade: outcome.grade,

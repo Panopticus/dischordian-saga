@@ -229,6 +229,11 @@ export interface GameState {
   // Sorting Ceremony (one-time gate)
   sortingComplete: boolean;         // True once player has been sorted into a Guild
   sortedIntoArchon: number | null;  // Archon number of the Guild they were sorted into
+  // Mechronis Academy — lesson transcript + professor approval
+  academyTranscript: { day: number; professorId: string; lessonId: string; grade: string; xpDelta: number; timestamp: number }[];
+  professorApproval: Record<string, number>;  // professorId → approval score (0-100)
+  // Celebration trial history (for combat buff integration)
+  trialHistory: { day: number; mascoteerId: string; decisionId: string; optionId: string; bondDelta: number; corruptionDelta: number; moralityDelta: number }[];
   // Meme Broadcasts / Transmissions
   transmissionsWatched: string[];           // list of transmissionId strings
   transmissionsNotified: string[];          // which ones were notified
@@ -962,6 +967,9 @@ const DEFAULT_GAME_STATE: GameState = {
   apprentice: null,
   apprenticeFallen: [],
   apprenticeRecruitCooldownUntil: 0,
+  academyTranscript: [],
+  professorApproval: {},
+  trialHistory: [],
   corruptionLevel: 0,
   darkAbilitiesUsed: [],
   purgeRitualsCompleted: [],
@@ -1096,6 +1104,10 @@ interface GameContextValue {
   setApprentice: (apprentice: unknown | null) => void;
   recordFallenApprentice: (apprentice: unknown) => void;
   setApprenticeRecruitCooldown: (untilTs: number) => void;
+  // Mechronis Academy + Trial History setters
+  addAcademyTranscriptEntry: (entry: { day: number; professorId: string; lessonId: string; grade: string; xpDelta: number }) => void;
+  adjustProfessorApproval: (professorId: string, delta: number) => void;
+  addTrialHistoryEntry: (entry: { day: number; mascoteerId: string; decisionId: string; optionId: string; bondDelta: number; corruptionDelta: number; moralityDelta: number }) => void;
   // Dark Arts setters
   addCorruption: (amount: number) => void;
   recordDarkAbilityUse: (abilityId: string) => void;
@@ -1717,6 +1729,30 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   const setApprenticeRecruitCooldown = useCallback((untilTs: number) => {
     setState(prev => ({ ...prev, apprenticeRecruitCooldownUntil: untilTs }));
+  }, []);
+
+  const addAcademyTranscriptEntry = useCallback((entry: { day: number; professorId: string; lessonId: string; grade: string; xpDelta: number }) => {
+    setState(prev => ({
+      ...prev,
+      academyTranscript: [...(prev.academyTranscript ?? []), { ...entry, timestamp: Date.now() }],
+    }));
+  }, []);
+
+  const adjustProfessorApproval = useCallback((professorId: string, delta: number) => {
+    setState(prev => {
+      const current = (prev.professorApproval ?? {})[professorId] ?? 50;
+      return {
+        ...prev,
+        professorApproval: { ...(prev.professorApproval ?? {}), [professorId]: Math.max(0, Math.min(100, current + delta)) },
+      };
+    });
+  }, []);
+
+  const addTrialHistoryEntry = useCallback((entry: { day: number; mascoteerId: string; decisionId: string; optionId: string; bondDelta: number; corruptionDelta: number; moralityDelta: number }) => {
+    setState(prev => ({
+      ...prev,
+      trialHistory: [...(prev.trialHistory ?? []), entry],
+    }));
   }, []);
 
   const addCorruption = useCallback((amount: number) => {
@@ -2533,6 +2569,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setApprentice,
       recordFallenApprentice,
       setApprenticeRecruitCooldown,
+      addAcademyTranscriptEntry,
+      adjustProfessorApproval,
+      addTrialHistoryEntry,
       addCorruption,
       recordDarkAbilityUse,
       completePurgeRitual,

@@ -65,7 +65,7 @@ const RARITY_BG: Record<Rarity, string> = {
 };
 
 export default function ApprenticePage() {
-  const { state, setApprentice, recordFallenApprentice, addGraduate } = useGame();
+  const { state, setApprentice, recordFallenApprentice, addGraduate, addTrialHistoryEntry } = useGame();
   const currentApprentice = state.apprentice as Apprentice | null;
   const fallen = (state.apprenticeFallen as Apprentice[]) ?? [];
   const [candidate, setCandidate] = useState<Apprentice | null>(null);
@@ -143,6 +143,16 @@ export default function ApprenticePage() {
       });
       return;
     }
+    // Persist trial history for combat buff integration
+    addTrialHistoryEntry({
+      day: currentApprentice.trialDay,
+      mascoteerId: todayDecision?.mascoteerId ?? "",
+      decisionId: todayDecision?.id ?? "",
+      optionId: choice.id,
+      bondDelta: outcome.bondDelta,
+      corruptionDelta: outcome.corruptionDelta,
+      moralityDelta: outcome.moralityDelta,
+    });
     const newDay = currentApprentice.trialDay + 1;
     const newBond = Math.max(0, Math.min(100, currentApprentice.bond + outcome.bondDelta));
     // Daily corruption tick — evil apprentices still gain corruption
