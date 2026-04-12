@@ -118,13 +118,212 @@ export const TUTORIAL_GATE_1: TutorialGate = {
 };
 
 /**
+ * Gate 2: Keywords.
+ *
+ * The player learns how keyword abilities change combat. The AI
+ * deploys a provoke unit the player must deal with, then the player
+ * deploys a rush unit to bypass provoke, and finally the AI
+ * demonstrates forcefield by absorbing a hit.
+ *   1. Explain keywords
+ *   2. Play a provoke unit
+ *   3. Play a rush unit to bypass provoke
+ *   4. Enemy uses forcefield
+ */
+export const TUTORIAL_GATE_2: TutorialGate = {
+  id: "tutorial_gate_2",
+  gateNumber: 2,
+  title: "Keywords",
+  objective: "Learn how Provoke, Rush, and Forcefield change combat.",
+  steps: [
+    {
+      text: "Some units have keyword abilities that change the rules of combat. Let's explore three important ones: Provoke, Rush, and Forcefield.",
+      autoAdvance: true,
+    },
+    {
+      text: "Deploy your Provoke unit. Units with Provoke force nearby enemies to attack them instead of moving freely — they're your front-line guardians.",
+      highlight: "hand",
+      requiredAction: "play_card",
+    },
+    {
+      text: "Now deploy your Rush unit. Rush units can move and attack the same turn they're played — perfect for bypassing a Provoke blocker!",
+      highlight: "hand",
+      requiredAction: "play_card",
+    },
+    {
+      text: "The enemy played a Forcefield unit. Forcefield absorbs the first hit each turn, reducing that damage to zero. You'll need to strike twice!",
+      autoAdvance: true,
+    },
+  ],
+  encounter: {
+    id: "tutorial_g2",
+    chapterId: "tutorial",
+    name: "Tutorial — Keywords",
+    description: "Learn how keyword abilities interact in combat.",
+    bossFaction: "thought_virus",
+    bossGeneralDefId: "gen_thought_virus",
+    bossDeckCardDefIds: Array.from({ length: 39 }, (_, i) => `tutorial_filler_${i}`),
+    seed: "tutorial_gate_2_seed",
+    winConditions: [{ kind: "general_killed" }],
+    loseConditions: [{ kind: "general_killed" }],
+    narrativeHooks: [
+      {
+        id: "g2_welcome",
+        once: true,
+        condition: { kind: "always" },
+        action: { kind: "boss_taunt", text: "You think simple attacks will work? My forces have evolved beyond brute strength." },
+      },
+      {
+        id: "g2_provoke_played",
+        once: true,
+        condition: { kind: "turn_reached", turn: 2 },
+        action: { kind: "boss_taunt", text: "My Forcefield unit is impervious to your first strike. Adapt or be consumed." },
+      },
+      {
+        id: "g2_boss_low",
+        once: true,
+        condition: { kind: "boss_hp_below", percent: 50 },
+        action: { kind: "boss_taunt", text: "You've learned the keywords… but the Thought Virus never truly dies." },
+      },
+    ],
+    preMatchDialog: "dialog_tutorial_g2_pre",
+    postMatchWinDialog: "dialog_tutorial_g2_win",
+    postMatchLossDialog: "dialog_tutorial_g2_loss",
+  },
+};
+
+/**
+ * Gate 3: Spells & Bloodborn.
+ *
+ * The player learns about mana management, spell casting, and the
+ * Bloodborn ability — powerful spells that cost health instead of
+ * (or in addition to) mana.
+ *   1. Explain mana
+ *   2. Cast a damage spell
+ *   3. Explain Bloodborn spell (costs health)
+ *   4. Use Bloodborn
+ */
+export const TUTORIAL_GATE_3: TutorialGate = {
+  id: "tutorial_gate_3",
+  gateNumber: 3,
+  title: "Spells & Bloodborn",
+  objective: "Cast spells and unleash the Bloodborn ability.",
+  steps: [
+    {
+      text: "Each turn you gain mana crystals — they're your resource for playing cards. Spells are powerful one-time effects that go to the graveyard after use.",
+      autoAdvance: true,
+    },
+    {
+      text: "Cast your damage spell on the enemy unit. Select the spell from your hand, then click the target.",
+      highlight: "hand",
+      requiredAction: "play_card",
+    },
+    {
+      text: "Some spells have the Bloodborn keyword — they cost health to cast instead of mana. High risk, high reward.",
+      autoAdvance: true,
+    },
+    {
+      text: "Cast your Bloodborn spell now. Watch your General's health — it will drop, but the effect is devastating.",
+      highlight: "hand",
+      requiredAction: "play_card",
+    },
+  ],
+  encounter: {
+    id: "tutorial_g3",
+    chapterId: "tutorial",
+    name: "Tutorial — Spells & Bloodborn",
+    description: "Learn to cast spells and harness the Bloodborn ability.",
+    bossFaction: "panopticon",
+    bossGeneralDefId: "gen_panopticon",
+    bossDeckCardDefIds: Array.from({ length: 39 }, (_, i) => `tutorial_filler_${i}`),
+    seed: "tutorial_gate_3_seed",
+    winConditions: [{ kind: "general_killed" }],
+    loseConditions: [{ kind: "general_killed" }],
+    narrativeHooks: [
+      {
+        id: "g3_welcome",
+        once: true,
+        condition: { kind: "always" },
+        action: { kind: "boss_taunt", text: "The Panopticon sees all. Your spells are mere parlour tricks before the All-Seeing Eye." },
+      },
+      {
+        id: "g3_bloodborn_hint",
+        once: true,
+        condition: { kind: "turn_reached", turn: 3 },
+        action: { kind: "boss_taunt", text: "You would sacrifice your own lifeforce? Reckless… and intriguing." },
+      },
+      {
+        id: "g3_boss_low",
+        once: true,
+        condition: { kind: "boss_hp_below", percent: 50 },
+        action: { kind: "boss_taunt", text: "Impossible — the Eye's gaze should have shielded me from this!" },
+      },
+    ],
+    preMatchDialog: "dialog_tutorial_g3_pre",
+    postMatchWinDialog: "dialog_tutorial_g3_win",
+    postMatchLossDialog: "dialog_tutorial_g3_loss",
+  },
+};
+
+/**
+ * Gate 4: Deckbuilding.
+ *
+ * This gate is a UI interaction, not a match. The player learns the
+ * basic deckbuilding rules (40 cards, 1 general) and swaps 2 cards
+ * in their starter deck to personalize it.
+ *   1. Explain deck rules (40 cards, 1 general)
+ *   2. Swap 2 cards
+ *   3. Confirm deck
+ */
+export const TUTORIAL_GATE_4: TutorialGate = {
+  id: "tutorial_gate_4",
+  gateNumber: 4,
+  title: "Deckbuilding",
+  objective: "Customize your starter deck by swapping 2 cards.",
+  steps: [
+    {
+      text: "Every deck has exactly 40 cards and 1 General. Your General determines your faction and Bloodborn ability. Choose cards that complement your strategy!",
+      autoAdvance: true,
+    },
+    {
+      text: "Swap 2 cards in your starter deck. Click a card in your deck to remove it, then click a card from your collection to replace it.",
+      highlight: "deckbuilder",
+      requiredAction: "swap_card",
+    },
+    {
+      text: "Your deck is looking good! Click 'Confirm' to lock in your choices and enter the campaign.",
+      highlight: "confirm_button",
+      requiredAction: "confirm_deck",
+    },
+  ],
+  uiInteraction: "deckbuilder_swap",
+};
+
+/* ─── Tutorial Bot AI ─── */
+
+export interface TutorialBotConfig {
+  /** Difficulty 0-1 where 0 = always makes worst move, 1 = optimal */
+  difficulty: number;
+  /** If true, the bot never attacks the player's general directly */
+  neverAttackGeneral: boolean;
+  /** If true, the bot plays cards in hand order (predictable) */
+  playInOrder: boolean;
+}
+
+export const TUTORIAL_BOT: TutorialBotConfig = {
+  difficulty: 0.1,
+  neverAttackGeneral: true,
+  playInOrder: true,
+};
+
+/**
  * All tutorial gates. The UI iterates this array to show progress
  * and unlock gates sequentially.
  */
 export const TUTORIAL_GATES: readonly TutorialGate[] = [
   TUTORIAL_GATE_1,
-  // Gates 2-4 will be authored in follow-up commits as the card pool
-  // grows to support keyword and spell demonstrations.
+  TUTORIAL_GATE_2,
+  TUTORIAL_GATE_3,
+  TUTORIAL_GATE_4,
 ];
 
 /**
