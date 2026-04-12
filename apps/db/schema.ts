@@ -3861,3 +3861,82 @@ export const rankedRecords = mysqlTable("ranked_records", {
 
 export type RankedRecordRow = typeof rankedRecords.$inferSelect;
 export type InsertRankedRecord = typeof rankedRecords.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   CELEBRATION TRIAL — 28-day Apprentice training persistence
+   ═══════════════════════════════════════════════════════ */
+
+export const celebrationTrialState = mysqlTable("celebration_trial_state", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Apprentice id from client (UUID-style) */
+  apprenticeId: varchar("apprenticeId", { length: 64 }).notNull(),
+  trialDay: int("trialDay").notNull().default(1),
+  bond: int("bond").notNull().default(0),
+  corruption: int("corruption").notNull().default(0),
+  missedDays: int("missedDays").notNull().default(0),
+  stage: varchar("stage", { length: 32 }).notNull().default("training"),
+  /** Wall-clock timestamp when trial started (for pacing) */
+  trialStartedAt: timestamp("trialStartedAt").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userApprenticeIdx: uniqueIndex("uq_trial_user_apprentice").on(table.userId, table.apprenticeId),
+  userIdx: index("idx_trial_user").on(table.userId),
+}));
+
+export type CelebrationTrialStateRow = typeof celebrationTrialState.$inferSelect;
+
+/** Per-day decision log — one row per resolved trial day */
+export const celebrationTrialHistory = mysqlTable("celebration_trial_history", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  apprenticeId: varchar("apprenticeId", { length: 64 }).notNull(),
+  day: int("day").notNull(),
+  mascoteerId: varchar("mascoteerId", { length: 64 }).notNull(),
+  decisionId: varchar("decisionId", { length: 128 }).notNull(),
+  optionId: varchar("optionId", { length: 64 }).notNull(),
+  bondDelta: int("bondDelta").notNull().default(0),
+  corruptionDelta: int("corruptionDelta").notNull().default(0),
+  moralityDelta: int("moralityDelta").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userApprenticeIdx: index("idx_trial_history_user_apprentice").on(table.userId, table.apprenticeId),
+  userDayIdx: uniqueIndex("uq_trial_history_day").on(table.userId, table.apprenticeId, table.day),
+}));
+
+export type CelebrationTrialHistoryRow = typeof celebrationTrialHistory.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   MECHRONIS ACADEMY — Lesson transcript + professor approval
+   ═══════════════════════════════════════════════════════ */
+
+export const academyTranscript = mysqlTable("academy_transcript", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  day: int("day").notNull(),
+  professorId: varchar("professorId", { length: 64 }).notNull(),
+  lessonId: varchar("lessonId", { length: 128 }).notNull(),
+  grade: varchar("grade", { length: 16 }).notNull(),
+  skillXpDelta: int("skillXpDelta").notNull().default(0),
+  corruptionDelta: int("corruptionDelta").notNull().default(0),
+  approvalDelta: int("approvalDelta").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_academy_transcript_user").on(table.userId),
+  userDayIdx: uniqueIndex("uq_academy_transcript_day").on(table.userId, table.day),
+}));
+
+export type AcademyTranscriptRow = typeof academyTranscript.$inferSelect;
+
+export const professorApproval = mysqlTable("professor_approval", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  professorId: varchar("professorId", { length: 64 }).notNull(),
+  approval: int("approval").notNull().default(50),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userProfIdx: uniqueIndex("uq_prof_approval_user_prof").on(table.userId, table.professorId),
+}));
+
+export type ProfessorApprovalRow = typeof professorApproval.$inferSelect;
