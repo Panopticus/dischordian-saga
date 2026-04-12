@@ -1,0 +1,128 @@
+[
+  {
+    "id": "collector_decisive_victory_00",
+    "text": "Exquisite. That performance will be catalogued in my finest display case.",
+    "context": "battle_reaction",
+    "emotion": "delighted",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "collector_decisive_victory_01",
+    "text": "A flawless acquisition. I do love it when combat produces museum-quality results.",
+    "context": "battle_reaction",
+    "emotion": "delighted",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "collector_decisive_victory_02",
+    "text": "The original Collector, my progenitor, would be pleased. He always appreciated decisive technique.",
+    "context": "battle_reaction",
+    "emotion": "warm",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "collector_decisive_victory_03",
+    "text": "Victory catalogued. Filed under: remarkable. Cross-referenced with: exceeding expectations.",
+    "context": "battle_reaction",
+    "emotion": "precise",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "collector_close_victory_04",
+    "text": "That was closer than my insurance actuaries would prefer. But a win is an acquisition all the same.",
+    "context": "battle_reaction",
+    "emotion": "warm",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "collector_close_victory_05",
+    "text": "A near thing. In my experience, the most valuable artifacts are always the hardest to obtain.",
+    "context": "battle_reaction",
+    "emotion": "precise",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "collector_close_victory_06",
+    "text": "I was preparing the condolence catalogue. Delighted to file it under: unnecessary.",
+    "context": "battle_reaction",
+    "emotion": "delighted",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "collector_close_victory_07",
+    "text": "Margin of victory: negligible. Margin of relief: considerable. Both noted.",
+    "context": "battle_reaction",
+    "emotion": "precise",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "collector_defeat_08",
+    "text": "A loss. I shall catalogue the tactical failures for future reference. There is value in every defeat.",
+    "context": "battle_reaction",
+    "emotion": "clinical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "collector_defeat_09",
+    "text": "Defeat noted. The Arena teaches even its operators. Especially its operators.",
+    "context": "battle_reaction",
+    "emotion": "clinical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "collector_defeat_10",
+    "text": "Every great collection has a provenance. Yours includes this loss. It will make the eventual triumph richer.",
+    "context": "battle_reaction",
+    "emotion": "warm",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "collector_defeat_11",
+    "text": "I am filing this under 'temporary setbacks.' It's a large folder. But it has a good ending.",
+    "context": "battle_reaction",
+    "emotion": "warm",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "collector_first_win_12",
+    "text": "Your first victory! A collector's most prized item is always the first acquisition. I remember mine fondly.",
+    "context": "battle_reaction",
+    "emotion": "delighted",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "collector_first_win_13",
+    "text": "First blood drawn. First entry in what I hope will be a very long catalogue of victories.",
+    "context": "battle_reaction",
+    "emotion": "precise",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "collector_win_streak_14",
+    "text": "Consecutive victories! You're building a collection of wins. My favorite kind of collection.",
+    "context": "battle_reaction",
+    "emotion": "delighted",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "collector_win_streak_15",
+    "text": "The streak continues. I'm running out of display cases. That's the best problem to have.",
+    "context": "battle_reaction",
+    "emotion": "delighted",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "collector_loss_streak_16",
+    "text": "Multiple losses. I've seen great collections built on worse foundations. The key is persistence.",
+    "context": "battle_reaction",
+    "emotion": "warm",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "collector_loss_streak_17",
+    "text": "My progenitor lost entire worlds before he won the universe. Scale is relative. Keep going.",
+    "context": "battle_reaction",
+    "emotion": "warm",
+    "file": "shared/companionBattleReactions.ts"
+  }
+]

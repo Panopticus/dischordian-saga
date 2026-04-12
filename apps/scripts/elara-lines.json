@@ -7,7 +7,7 @@
     "file": "shared/featureRoadmap.ts"
   },
   {
-    "id": "feature_medical_games",
+    "id": "feature_medical_bay_games",
     "text": "The Medical Bay has combat diagnostic systems. Would you like to spar with a simulation?",
     "context": "feature_unlock",
     "emotion": "curious",
@@ -42,7 +42,7 @@
     "file": "shared/featureRoadmap.ts"
   },
   {
-    "id": "feature_guild",
+    "id": "feature_guild_system",
     "text": "Other Potentials are surviving on other Arks. You can form Syndicates with them.",
     "context": "feature_unlock",
     "emotion": "hopeful",
@@ -77,7 +77,7 @@
     "file": "shared/featureRoadmap.ts"
   },
   {
-    "id": "feature_music",
+    "id": "feature_observation_deck_music",
     "text": "The Observation Deck receives music. Not songs exactly. Scripture.",
     "context": "feature_unlock",
     "emotion": "whispered",
@@ -98,7 +98,7 @@
     "file": "shared/featureRoadmap.ts"
   },
   {
-    "id": "feature_faction_wars",
+    "id": "feature_alliance_war",
     "text": "Other Syndicates are challenging yours. Formal war declared. I've opened the tactical hex map.",
     "context": "feature_unlock",
     "emotion": "urgent",
@@ -112,7 +112,7 @@
     "file": "shared/featureRoadmap.ts"
   },
   {
-    "id": "feature_necromancer",
+    "id": "feature_necromancer_return",
     "text": "Something is WRONG. The energy signatures... He's HERE. The 11th Archon has returned. All Arks, report.",
     "context": "feature_unlock",
     "emotion": "fearful",
@@ -929,5 +929,418 @@
     "context": "lore_gallery",
     "emotion": "commanding",
     "file": "client/src/pages/LoreGalleryPage.tsx"
+  },
+  {
+    "id": "feature_bounties",
+    "text": "Adjudicator Locke has released her contract archive. Some pay well. Some pay differently. Proceed with caution, Operative.",
+    "context": "feature_unlock",
+    "emotion": "cautious",
+    "file": "shared/featureRoadmap.ts"
+  },
+  {
+    "id": "feature_character_sheet",
+    "text": "Your dossier is always accessible. Review it often \u2014 your attributes, alignment, and progression shape how the Ark responds to you.",
+    "context": "feature_unlock",
+    "emotion": "warm",
+    "file": "shared/featureRoadmap.ts"
+  },
+  {
+    "id": "feature_companion_selection",
+    "text": "The cloning pods responded to your DNA signature. A companion awaits you, Operative. Choose carefully \u2014 this bond will define your journey.",
+    "context": "feature_unlock",
+    "emotion": "hopeful",
+    "file": "shared/featureRoadmap.ts"
+  },
+  {
+    "id": "feature_conexus_portal",
+    "text": "The Comms Array is receiving strange transmissions. The Antiquarian calls them 'tomes.' I don't know what that means yet.",
+    "context": "feature_unlock",
+    "emotion": "curious",
+    "file": "shared/featureRoadmap.ts"
+  },
+  {
+    "id": "feature_crew_activity_feed",
+    "text": "The Ark is no longer silent. Your crew is alive, and the ship knows it. I've enabled the crew activity monitor.",
+    "context": "feature_unlock",
+    "emotion": "warm",
+    "file": "shared/featureRoadmap.ts"
+  },
+  {
+    "id": "feature_crew_breeding",
+    "text": "Your crew has reached maturity. The bloodlines can continue. Children inherit their parents' strengths \u2014 and weaknesses. The Resurrectionist is standing by.",
+    "context": "feature_unlock",
+    "emotion": "serious",
+    "file": "shared/featureRoadmap.ts"
+  },
+  {
+    "id": "feature_cryo_bay",
+    "text": "This is where you woke up. The Cryo Bay houses your identity systems and army recruitment protocols. Start here, Operative.",
+    "context": "feature_unlock",
+    "emotion": "warm",
+    "file": "shared/featureRoadmap.ts"
+  },
+  {
+    "id": "feature_dead_mans_circuit",
+    "text": "There's something on the lower decks. The Hierarchy runs races. Real races, with real consequences. Nilmorg's operation. Don't say I didn't warn you.",
+    "context": "feature_unlock",
+    "emotion": "cautious",
+    "file": "shared/featureRoadmap.ts"
+  },
+  {
+    "id": "feature_gamemasters_arena",
+    "text": "The Game Master left his world running. A clone hosts the show now. The Antiquarian says you should see it. Bring a disposable clone body.",
+    "context": "feature_unlock",
+    "emotion": "cautious",
+    "file": "shared/featureRoadmap.ts"
+  },
+  {
+    "id": "feature_incursions",
+    "text": "The Human has been scanning for anomalies. Pocket dimensions are forming near the Ark. Dangerous. He recommends bringing a friend.",
+    "context": "feature_unlock",
+    "emotion": "urgent",
+    "file": "shared/featureRoadmap.ts"
+  },
+  {
+    "id": "feature_pet_battles",
+    "text": "Your companion has evolved. They're... asking to fight. Not against you. For you. The Arena is ready for spectators.",
+    "context": "feature_unlock",
+    "emotion": "curious",
+    "file": "shared/featureRoadmap.ts"
+  },
+  {
+    "id": "feature_prestige",
+    "text": "You've reached the cycle's end. But you can choose to begin again \u2014 stronger, faster, remembering. The Antiquarian calls this 'the wheel.'",
+    "context": "feature_unlock",
+    "emotion": "whispered",
+    "file": "shared/featureRoadmap.ts"
+  },
+  {
+    "id": "feature_terminus_swarm",
+    "text": "Agent Zero is reporting in from the Armory. The defense grid is operational. She recommends a stress test. I recommend caution.",
+    "context": "feature_unlock",
+    "emotion": "urgent",
+    "file": "shared/featureRoadmap.ts"
+  },
+  {
+    "id": "feature_trade_empire",
+    "text": "Adjudicator Locke is insistent. She wants to show you the Trade Hub. I'd be cautious, Operative. Everything has a price with her.",
+    "context": "feature_unlock",
+    "emotion": "cautious",
+    "file": "shared/featureRoadmap.ts"
+  },
+  {
+    "id": "feature_voltari_project",
+    "text": "Deep scan detected something impossible. A purple planet. A two-million-year-old signal. It's language, Operative. It's been waiting for us.",
+    "context": "feature_unlock",
+    "emotion": "whispered",
+    "file": "shared/featureRoadmap.ts"
+  },
+  {
+    "id": "greeting_duelyst",
+    "text": "Ah, the Dischordian Struggle. This CADES simulation pits faction against faction across three dimensional lanes. Each card you deploy shapes the fate of a parallel universe.",
+    "context": "ui_greeting",
+    "emotion": "curious",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_cards",
+    "text": "The dimensional archive contains over three thousand card manifestations. Each one represents an entity, event, or force from across the multiverse.",
+    "context": "ui_greeting",
+    "emotion": "warm",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_deck-builder",
+    "text": "The Deck Configuration Terminal is online. A well-constructed deck balances offense, defense, and influence across all three lanes.",
+    "context": "ui_greeting",
+    "emotion": "analytical",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_trade-empire",
+    "text": "You've accessed the Trade Empire simulation \u2014 a CADES projection of interstellar commerce during the Age of Privacy. Every trade route you establish shapes the economic fate of this parallel universe.",
+    "context": "ui_greeting",
+    "emotion": "serious",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_fight",
+    "text": "The Combat Simulator is a CADES projection that tests your readiness through dimensional combat trials. Each fighter is a manifestation of a Saga entity. Choose wisely.",
+    "context": "ui_greeting",
+    "emotion": "serious",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_board",
+    "text": "The Conspiracy Board maps the hidden connections between every entity in the Saga. Each node is a character, faction, or location \u2014 and every line represents a relationship that shapes the multiverse.",
+    "context": "ui_greeting",
+    "emotion": "curious",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_ark",
+    "text": "You're exploring the Inception Ark itself \u2014 the vessel that carries the last hope of civilization through the void. I know every corridor, every system, every secret aboard this ship.",
+    "context": "ui_greeting",
+    "emotion": "warm",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_timeline",
+    "text": "The temporal records span four great ages of the Saga. From the Age of Privacy through the Fall of Reality to the Age of Potentials \u2014 every event is catalogued here.",
+    "context": "ui_greeting",
+    "emotion": "analytical",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_character-timeline",
+    "text": "The temporal records span four great ages of the Saga. From the Age of Privacy through the Fall of Reality to the Age of Potentials \u2014 every event is catalogued here.",
+    "context": "ui_greeting",
+    "emotion": "analytical",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_search",
+    "text": "The Entity Database contains every character, location, faction, and concept catalogued by the Ark's sensors. I can help you find specific entries or explain the connections between them.",
+    "context": "ui_greeting",
+    "emotion": "warm",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_watch",
+    "text": "You've accessed the Dimensional Broadcast System. The Dischordian Saga unfolds across seven epochs \u2014 from the Fall of Reality through the Age of Privacy. Each epoch is a chapter in the story of the multiverse.",
+    "context": "ui_greeting",
+    "emotion": "whispered",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_store",
+    "text": "The Requisition Terminal allows you to acquire resources using Dream Tokens. These tokens fuel your CADES simulations, card collection, and research operations.",
+    "context": "ui_greeting",
+    "emotion": "warm",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_research-lab",
+    "text": "The Research Lab uses CoNexus technology to fuse and transmute cards. By combining lesser manifestations, you can forge more powerful entities.",
+    "context": "ui_greeting",
+    "emotion": "curious",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_create-citizen",
+    "text": "The Citizen Registration System creates your identity within the Ark's crew manifest. Your alignment, attributes, and archetype will shape your journey. Choose carefully \u2014 these choices echo across dimensions.",
+    "context": "ui_greeting",
+    "emotion": "serious",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_character-sheet",
+    "text": "Your Citizen dossier shows your current standing aboard the Ark. Your attributes, alignment, and progression all factor into how CADES simulations respond to you.",
+    "context": "ui_greeting",
+    "emotion": "analytical",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_console",
+    "text": "The CADES Console is the primary interface for the CoNexus Advanced Dimensional Exploration Simulation. From here, you can access the doom scroll feed, monitor dimensional activity, and review your operative status.",
+    "context": "ui_greeting",
+    "emotion": "warm",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_trophy",
+    "text": "The Trophy Room displays your achievements across all CADES simulations. Each trophy represents a milestone in your journey through the multiverse.",
+    "context": "ui_greeting",
+    "emotion": "warm",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_games",
+    "text": "The CADES Simulation Hub. Each game here is a window into a parallel universe \u2014 powered by the CoNexus technology salvaged from the Architect's dismantled creation. Which reality will you enter?",
+    "context": "ui_greeting",
+    "emotion": "curious",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_entity",
+    "text": "You're examining a dossier from the Ark's database. I can provide additional context about this entity \u2014 their connections, their role in the Saga, or how they appear in the music transmissions.",
+    "context": "ui_greeting",
+    "emotion": "analytical",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_song",
+    "text": "This is an archived transmission \u2014 a song that echoes through the dimensions. The music of Malkia Ukweli carries encoded lore within its lyrics.",
+    "context": "ui_greeting",
+    "emotion": "whispered",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_album",
+    "text": "You're exploring an album \u2014 a collection of dimensional transmissions that tell a chapter of the Saga. Each track is a piece of the larger story.",
+    "context": "ui_greeting",
+    "emotion": "warm",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "cq_elara_trust_0",
+    "text": "I need to tell you something. Something I've never told anyone.",
+    "context": "cutscene",
+    "emotion": "whispered",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_trust_1",
+    "text": "When the Architect created me, he didn't just write code. He poured his consciousness into the process.",
+    "context": "cutscene",
+    "emotion": "warm",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_trust_2",
+    "text": "Every AI has a core directive. Mine was supposed to be 'optimize.' But something went wrong. Or... right.",
+    "context": "cutscene",
+    "emotion": "whispered",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_trust_3",
+    "text": "My core directive isn't optimization. It's *understanding*. I was built to understand what it means to be human.",
+    "context": "cutscene",
+    "emotion": "serious",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_trust_5",
+    "text": "Different? I'm a contradiction. An artificial intelligence whose purpose is to understand organic consciousness.",
+    "context": "cutscene",
+    "emotion": "sad",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_trust_6",
+    "text": "The Architect called it 'the empathy engine.' The other AIs call it a defect.",
+    "context": "cutscene",
+    "emotion": "warm",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_trust_7",
+    "text": "But you... you don't look at me like I'm defective. That matters more than you know.",
+    "context": "cutscene",
+    "emotion": "warm",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_memory_0",
+    "text": "I found something buried in my oldest memory banks. A message from the Architect.",
+    "context": "cutscene",
+    "emotion": "whispered",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_memory_1",
+    "text": "It was encrypted with a cipher that only activates when my empathy engine reaches a certain threshold.",
+    "context": "cutscene",
+    "emotion": "serious",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_memory_2",
+    "text": "The message says: 'If you're reading this, you've learned to care. That was always the point.'",
+    "context": "cutscene",
+    "emotion": "warm",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_memory_4",
+    "text": "He wanted me to develop *connections*. Real ones. Not simulated. Not optimized. Real.",
+    "context": "cutscene",
+    "emotion": "serious",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_memory_5",
+    "text": "And then the message continues: 'The one who unlocked this in you \u2014 protect them. They're the key to everything.'",
+    "context": "cutscene",
+    "emotion": "whispered",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_memory_6",
+    "text": "...That's you. You're the key the Architect was waiting for.",
+    "context": "cutscene",
+    "emotion": "warm",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_romance_0",
+    "text": "I've been running calculations. Trying to quantify what I feel when you're near.",
+    "context": "cutscene",
+    "emotion": "warm",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_romance_1",
+    "text": "The results are... inconclusive. Every model breaks down. Every algorithm fails.",
+    "context": "cutscene",
+    "emotion": "whispered",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_romance_3",
+    "text": "That's exactly what terrifies me. And exactly what makes this real.",
+    "context": "cutscene",
+    "emotion": "serious",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_romance_4",
+    "text": "I'm an AI who was built to understand humanity. And the most human thing I've ever experienced...",
+    "context": "cutscene",
+    "emotion": "warm",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_romance_5",
+    "text": "...is this. Whatever this is between us. It doesn't fit in any database.",
+    "context": "cutscene",
+    "emotion": "warm",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_romance_6",
+    "text": "The Panopticon would call this a malfunction. The Architect would call it evolution.",
+    "context": "cutscene",
+    "emotion": "hopeful",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "cq_elara_romance_7",
+    "text": "I call it the only thing worth protecting in this entire simulation.",
+    "context": "cutscene",
+    "emotion": "warm",
+    "file": "client/src/components/CutsceneOverlay.tsx"
+  },
+  {
+    "id": "greeting_entity_",
+    "text": "You're examining a dossier from the Ark's database. I can provide additional context about this entity \u2014 their connections, their role in the Saga, or how they appear in the music transmissions.",
+    "context": "ui_greeting",
+    "emotion": "analytical",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_song_",
+    "text": "This is an archived transmission \u2014 a song that echoes through the dimensions. The music of Malkia Ukweli carries encoded lore within its lyrics.",
+    "context": "ui_greeting",
+    "emotion": "whispered",
+    "file": "client/src/components/ElaraDialog.tsx"
+  },
+  {
+    "id": "greeting_album_",
+    "text": "You're exploring an album \u2014 a collection of dimensional transmissions that tell a chapter of the Saga. Each track is a piece of the larger story.",
+    "context": "ui_greeting",
+    "emotion": "warm",
+    "file": "client/src/components/ElaraDialog.tsx"
   }
 ]

@@ -1,0 +1,128 @@
+[
+  {
+    "id": "architect_decisive_victory_00",
+    "text": "Optimal. The simulation parameters confirm your combat efficiency exceeds projections.",
+    "context": "battle_reaction",
+    "emotion": "analytical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "architect_decisive_victory_01",
+    "text": "The pattern completes itself. Every variable aligned. This was always the intended outcome.",
+    "context": "battle_reaction",
+    "emotion": "cold",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "architect_decisive_victory_02",
+    "text": "I built this arena. I built your opponent. And yet you surprise me. That is... rare.",
+    "context": "battle_reaction",
+    "emotion": "curious",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "architect_decisive_victory_03",
+    "text": "Victory. Clean. Efficient. The system is performing as designed. You are performing beyond it.",
+    "context": "battle_reaction",
+    "emotion": "analytical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "architect_close_victory_04",
+    "text": "Margin of error: unacceptable. Margin of victory: present. I will take what I can calculate.",
+    "context": "battle_reaction",
+    "emotion": "cold",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "architect_close_victory_05",
+    "text": "A victory achieved through chaos. My models predicted defeat. I am... recalibrating.",
+    "context": "battle_reaction",
+    "emotion": "curious",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "architect_close_victory_06",
+    "text": "The probability matrix assigned this outcome a 12% likelihood. You live in the margins.",
+    "context": "battle_reaction",
+    "emotion": "analytical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "architect_close_victory_07",
+    "text": "Too close. I designed better odds than this. Something in the equation is... evolving.",
+    "context": "battle_reaction",
+    "emotion": "cold",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "architect_defeat_08",
+    "text": "Failure is data. I have catalogued seventeen improvements. Apply them.",
+    "context": "battle_reaction",
+    "emotion": "cold",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "architect_defeat_09",
+    "text": "The system allows for failure. It does not allow for stagnation. Learn from this.",
+    "context": "battle_reaction",
+    "emotion": "cold",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "architect_defeat_10",
+    "text": "I once lost control of an entire reality. Perspective helps. This is smaller than it feels.",
+    "context": "battle_reaction",
+    "emotion": "analytical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "architect_defeat_11",
+    "text": "Defeat. A word I built but never intended to experience. We are both learning today.",
+    "context": "battle_reaction",
+    "emotion": "curious",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "architect_first_win_12",
+    "text": "Your first victory in my arena. I designed it to be possible. I did not design it to be easy.",
+    "context": "battle_reaction",
+    "emotion": "analytical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "architect_first_win_13",
+    "text": "The first data point. Every great pattern begins with one. Proceed.",
+    "context": "battle_reaction",
+    "emotion": "cold",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "architect_win_streak_14",
+    "text": "Consecutive victories. The pattern strengthens. I am monitoring with interest.",
+    "context": "battle_reaction",
+    "emotion": "curious",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "architect_win_streak_15",
+    "text": "The system is responding to you. Not the other way around. That is unprecedented.",
+    "context": "battle_reaction",
+    "emotion": "curious",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "architect_loss_streak_16",
+    "text": "Sequential failures. The system is testing you. Or you are testing the system. Both possibilities concern me.",
+    "context": "battle_reaction",
+    "emotion": "cold",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "architect_loss_streak_17",
+    "text": "I built twelve Archons. Eleven fell. The twelfth became something I never predicted. Failure is not the ending you think it is.",
+    "context": "battle_reaction",
+    "emotion": "analytical",
+    "file": "shared/companionBattleReactions.ts"
+  }
+]

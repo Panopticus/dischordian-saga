@@ -607,5 +607,117 @@
     "context": "prestige",
     "emotion": "sardonic",
     "file": "shared/prestigeDialogs.ts"
+  },
+  {
+    "id": "meme_outro_ep2_1",
+    "text": "And THAT, frens, is how season two begins. With a vote. With a choice. The Potentials chose life. Which means everything that comes next is THEIR fault. I love democracy.",
+    "context": "episode_outro",
+    "emotion": "sardonic",
+    "file": "shared/transmissions.ts"
+  },
+  {
+    "id": "meme_outro_ep2_2",
+    "text": "They voted for life. Beautiful. Stupid. Brave. All three at once. That's the Potentials for you. Tune in next time when the consequences arrive. They always arrive.",
+    "context": "episode_outro",
+    "emotion": "sardonic",
+    "file": "shared/transmissions.ts"
+  },
+  {
+    "id": "meme_outro_ep2_3",
+    "text": "Happy holidays, frens. The tree is up. The star is glowing. And somewhere in the void, the Architect is watching reruns of his own creation. Don't feel sorry for him. He chose this.",
+    "context": "episode_outro",
+    "emotion": "sardonic",
+    "file": "shared/transmissions.ts"
+  },
+  {
+    "id": "meme_outro_ep2_4",
+    "text": "First contact. The real deal. And nobody died! Yet. Give it time. First contact is just the first sentence of a very long argument. Stay tuned.",
+    "context": "episode_outro",
+    "emotion": "sardonic",
+    "file": "shared/transmissions.ts"
+  },
+  {
+    "id": "meme_outro_ep2_5",
+    "text": "They LIED. To aliens. On first contact. Bold strategy. I give it three episodes before the truth implodes. Taking bets in the chat.",
+    "context": "episode_outro",
+    "emotion": "sardonic",
+    "file": "shared/transmissions.ts"
+  },
+  {
+    "id": "meme_outro_ep2_6",
+    "text": "They met God. Or at least God's day manager. The Authority sees everything and judges nothing. That's either enlightenment or negligence. I haven't decided.",
+    "context": "episode_outro",
+    "emotion": "sardonic",
+    "file": "shared/transmissions.ts"
+  },
+  {
+    "id": "meme_outro_ep2_7",
+    "text": "The Antiquarian dropped a bomb. Not literally. Metaphorically. Which is worse, because you can't dodge a metaphor. See you next episode, frens. Bring tissues.",
+    "context": "episode_outro",
+    "emotion": "sardonic",
+    "file": "shared/transmissions.ts"
+  },
+  {
+    "id": "meme_outro_ep2_8",
+    "text": "The Matrix of Dreams. Where reality goes to take a nap. Beautiful place. Terrible security. Don't leave your consciousness unattended.",
+    "context": "episode_outro",
+    "emotion": "sardonic",
+    "file": "shared/transmissions.ts"
+  },
+  {
+    "id": "meme_outro_ep2_9",
+    "text": "They freed Samsara. The soul trader. I repeat: they FREED the soul trader. This is fine. Everything is fine. This is definitely not the worst decision in galactic history. Top five, maybe.",
+    "context": "episode_outro",
+    "emotion": "sardonic",
+    "file": "shared/transmissions.ts"
+  },
+  {
+    "id": "meme_outro_ep2_10",
+    "text": "Spies it is. The sneaky option. The 'let's not punch our way out for once' option. Refreshing. Suspicious. But refreshing.",
+    "context": "episode_outro",
+    "emotion": "sardonic",
+    "file": "shared/transmissions.ts"
+  },
+  {
+    "id": "meme_outro_ep2_11",
+    "text": "The Sundown Bazaar holds. One candle in the dark. I'm not crying, frens. I'm just experiencing involuntary optical discharge. Completely different.",
+    "context": "episode_outro",
+    "emotion": "sardonic",
+    "file": "shared/transmissions.ts"
+  },
+  {
+    "id": "meme_outro_ep2_12",
+    "text": "The Silence. A spy defined by absence. An entire episode about someone who doesn't talk. And somehow it was the loudest episode yet. Irony is ALIVE, frens.",
+    "context": "episode_outro",
+    "emotion": "sardonic",
+    "file": "shared/transmissions.ts"
+  },
+  {
+    "id": "meme_outro_ep2_13",
+    "text": "Agent Zero's whole story. Every choice. Every sacrifice. Every memory she chose to delete. If you're not devastated, check your pulse. End transmission.",
+    "context": "episode_outro",
+    "emotion": "sardonic",
+    "file": "shared/transmissions.ts"
+  },
+  {
+    "id": "meme_outro_ep2_14",
+    "text": "A ship's origin story. The Heart of Time. Built by a civilization that knew it was dying and decided to build something eternal anyway. That's not engineering. That's poetry.",
+    "context": "episode_outro",
+    "emotion": "sardonic",
+    "file": "shared/transmissions.ts"
+  },
+  {
+    "id": "meme_outro_ep2_15",
+    "text": "The cracks are showing. The Authority trembles. The Silence cuts deeper. And the truth \u2014 the real truth \u2014 is almost out. Penultimate episode energy, frens. Hold on.",
+    "context": "episode_outro",
+    "emotion": "sardonic",
+    "file": "shared/transmissions.ts"
+  },
+  {
+    "id": "meme_outro_ep2_16",
+    "text": "That's it. Season two. Done. I told you I couldn't do jokes tonight. I tried. I failed. Some stories are bigger than comedy. This is one of them. See you in season three. If there IS a season three. The Architect hasn't decided yet.",
+    "context": "episode_outro",
+    "emotion": "sardonic",
+    "file": "shared/transmissions.ts"
   }
 ]

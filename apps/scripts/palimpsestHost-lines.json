@@ -1,0 +1,206 @@
+[
+  {
+    "id": "gm_intro_episode_1",
+    "text": "Ladies, gentlemen, and assorted quantum probability states — WELCOME to The Palimpsest! I'm your host. You are my guests. Some of you will be my guests longer than others.",
+    "context": "episode_intro",
+    "emotion": "grand_barker"
+  },
+  {
+    "id": "gm_intro_episode_2",
+    "text": "Welcome back! Tonight's contestant has the honor of debating a very special guest. He is decorated. He is charming. He is almost certainly going to object.",
+    "context": "episode_intro",
+    "emotion": "grand_barker"
+  },
+  {
+    "id": "gm_intro_episode_3",
+    "text": "Third episode! Traditionally lucky. Traditionally doomed. I've never understood why traditions contradict themselves. Now let's ruin some more.",
+    "context": "episode_intro",
+    "emotion": "grand_barker"
+  },
+  {
+    "id": "gm_intro_episode_4",
+    "text": "Episode four! Four is the number of uncomfortable questions I have told Legal to ignore this week. Let's get into them.",
+    "context": "episode_intro",
+    "emotion": "grand_barker"
+  },
+  {
+    "id": "gm_intro_episode_5",
+    "text": "Welcome to episode f— f— five. Ha! Technical problems. Which of you threw the trivia pot off the prop table? Confession earns you a prize. Lying earns you a visit from Legal.",
+    "context": "episode_intro",
+    "emotion": "stutter_mask"
+  },
+  {
+    "id": "gm_intro_episode_6",
+    "text": "Tonight — a guest judge! Professor Glinn Vyre of Mechronis Academy. He wears red goggles. He grades in red ink. He does not speak to me during commercial breaks. I respect that.",
+    "context": "episode_intro",
+    "emotion": "grand_barker"
+  },
+  {
+    "id": "gm_intro_episode_7",
+    "text": "Welcome back, survivors! Traditionally I would buy you a cake here. Budget cuts mean you get an email. I'm reading it on broadcast. The subject line is 'Congratulations.'",
+    "context": "episode_intro",
+    "emotion": "grand_barker"
+  },
+  {
+    "id": "gm_intro_episode_8",
+    "text": "Episode eight! The show is exactly as old as the jokes I am still telling. Welcome to the refurbishment.",
+    "context": "episode_intro",
+    "emotion": "grand_barker"
+  },
+  {
+    "id": "gm_intro_episode_9",
+    "text": "Episode nine. The number of lives a cat has, if the cat is careful. None of you are cats. None of you are careful. I love this show.",
+    "context": "episode_intro",
+    "emotion": "grand_barker"
+  },
+  {
+    "id": "gm_intro_episode_10",
+    "text": "Tonight we broadcast live from the Thaloria debate stage — beautiful lighting, excellent acoustics, famously haunted. My personal favorite venue. Our honored guest tonight has prepared an OBJECTION I think you will all enjoy.",
+    "context": "episode_intro",
+    "emotion": "grand_barker"
+  },
+  {
+    "id": "gm_intro_episode_11",
+    "text": "Welcome back! Segment producer Darren Fessler is — oh, he's running late. Don't worry. He's a professional. Professionals always make it.",
+    "context": "episode_intro",
+    "emotion": "grand_barker"
+  },
+  {
+    "id": "gm_intro_episode_12",
+    "text": "Welcome to episode twelve. We lost a member of the crew this week. The show must go on. You know how this is. You've all seen the reruns.",
+    "context": "episode_intro",
+    "emotion": "somber_shift"
+  },
+  {
+    "id": "gm_intro_episode_13",
+    "text": "...",
+    "context": "episode_intro",
+    "emotion": "silent_broadcast"
+  },
+  {
+    "id": "gm_correct_response_1",
+    "text": "Oh, you're GOOD. Almost as good as me. Almost.",
+    "context": "quiz_response",
+    "emotion": "delighted"
+  },
+  {
+    "id": "gm_correct_response_2",
+    "text": "Correct! The audience goes wild! Well, they would if they were alive.",
+    "context": "quiz_response",
+    "emotion": "grand_barker"
+  },
+  {
+    "id": "gm_correct_response_3",
+    "text": "Right answer! Someone studied at Mechronis Academy!",
+    "context": "quiz_response",
+    "emotion": "delighted"
+  },
+  {
+    "id": "gm_correct_response_4",
+    "text": "Impressive. Most contestants are puddles of regret by now.",
+    "context": "quiz_response",
+    "emotion": "amused"
+  },
+  {
+    "id": "gm_wrong_response_1",
+    "text": "WRONG! And THAT'S what happens when you don't study!",
+    "context": "quiz_response",
+    "emotion": "theatrical"
+  },
+  {
+    "id": "gm_wrong_response_2",
+    "text": "Incorrect! The correct answer was OBVIOUS. To me. Because I know everything.",
+    "context": "quiz_response",
+    "emotion": "theatrical"
+  },
+  {
+    "id": "gm_wrong_response_3",
+    "text": "CLONE TERMINATED! Don't worry, we have plenty more.",
+    "context": "quiz_response",
+    "emotion": "theatrical"
+  },
+  {
+    "id": "gm_wrong_response_4",
+    "text": "Oh dear. Was that your final answer? It was? How unfortunate.",
+    "context": "quiz_response",
+    "emotion": "sardonic"
+  },
+  {
+    "id": "gm_lifeline_50_50",
+    "text": "Using a lifeline? How delightfully mortal of you!",
+    "context": "quiz_lifeline",
+    "emotion": "amused"
+  },
+  {
+    "id": "gm_lifeline_audience",
+    "text": "A lifeline! The audience murmurs... the ghost audience, that is.",
+    "context": "quiz_lifeline",
+    "emotion": "amused"
+  },
+  {
+    "id": "gm_lifeline_ghost",
+    "text": "Reaching for help? In MY matrix? How quaint.",
+    "context": "quiz_lifeline",
+    "emotion": "sardonic"
+  },
+  {
+    "id": "gm_round5_halfway",
+    "text": "Halfway there! The questions get... interesting from here.",
+    "context": "quiz_milestone",
+    "emotion": "grand_barker"
+  },
+  {
+    "id": "gm_round10_final",
+    "text": "The FINAL question! Even I don't know this one. Just kidding. I know everything.",
+    "context": "quiz_milestone",
+    "emotion": "grand_barker"
+  },
+  {
+    "id": "gm_perfect_run",
+    "text": "A PERFECT RUN! Impossible! Well, improbable. My programming allows for it. Barely.",
+    "context": "quiz_milestone",
+    "emotion": "delighted"
+  },
+  {
+    "id": "gm_mask_slip_stutter",
+    "text": "I — I'm f-fine. The mask is fine. Everything is fine. Don't look at me like that. The show continues.",
+    "context": "mask_event",
+    "emotion": "stutter_mask"
+  },
+  {
+    "id": "gm_mask_slip_full",
+    "text": "You want to know what's behind the mask? Nothing. Everything. A face that used to belong to someone who loved this show more than life itself. He's still in here. Sometimes he speaks. Not now.",
+    "context": "mask_event",
+    "emotion": "vulnerable"
+  },
+  {
+    "id": "gm_objection_accepted",
+    "text": "OBJECTION SUSTAINED! Alaric raises a valid point. The question is withdrawn. The contestant breathes. For now.",
+    "context": "alaric_event",
+    "emotion": "grand_barker"
+  },
+  {
+    "id": "gm_objection_exposed",
+    "text": "OBJECTION OVERRULED! Alaric tried. Alaric failed. The law is clear and the answer is final. Better luck next episode, Counselor.",
+    "context": "alaric_event",
+    "emotion": "theatrical"
+  },
+  {
+    "id": "gm_vyre_introduction",
+    "text": "Ladies and gentlemen — Professor Glinn Vyre! Mechronis Academy's finest. His red goggles see through lies. His grades see through hope. He is NOT here to be your friend.",
+    "context": "guest_intro",
+    "emotion": "grand_barker"
+  },
+  {
+    "id": "gm_darren_eulogy",
+    "text": "Darren Fessler. Segment producer. Twenty-three years on the show. He ran late once. Only once. This episode is for him.",
+    "context": "eulogy",
+    "emotion": "somber_shift"
+  },
+  {
+    "id": "gm_inventor_takeover",
+    "text": "Tonight's episode is different. The Inventor has taken the desk. The Host watches from behind the mask. Some stories need a different voice. This is one of them.",
+    "context": "special_event",
+    "emotion": "somber_shift"
+  }
+]

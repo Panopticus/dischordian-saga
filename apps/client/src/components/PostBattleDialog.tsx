@@ -124,14 +124,14 @@ const HUMAN_OUTCOME_VO: Record<Outcome, string> = {
 
 const SOURCE_OUTCOME_VO: Record<Outcome, string> = {
   victory: "kael_decisive_victory_00",
-  defeat: "kael_defeat_00",
-  close: "kael_close_victory_00",
+  defeat: "kael_defeat_09",
+  close: "kael_close_victory_04",
 };
 
 const ZERO_OUTCOME_VO: Record<Outcome, string> = {
   victory: "agent_zero_decisive_victory_00",
-  defeat: "agent_zero_defeat_00",
-  close: "agent_zero_close_victory_00",
+  defeat: "agent_zero_defeat_08",
+  close: "agent_zero_close_victory_04",
 };
 
 export default function PostBattleDialog({

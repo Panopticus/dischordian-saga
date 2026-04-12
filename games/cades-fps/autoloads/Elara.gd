@@ -33,6 +33,37 @@ const VO_URLS = {
 	"gm_contact_1":        VO_BASE + "/game_masters/gm_unauthorized.mp3",
 	"gm_contact_2":        VO_BASE + "/game_masters/gm_stop.mp3",
 	"gm_contact_3":        VO_BASE + "/game_masters/gm_curious.mp3",
+	# Mode 1 — additional narration lines
+	"iron_lion_pause":     VO_BASE + "/elara/cades_iron_lion_pause.mp3",
+	"iron_lion_channel":   VO_BASE + "/elara/cades_iron_lion_channel.mp3",
+	"wave_1":              VO_BASE + "/elara/cades_wave_1.mp3",
+	"wave_4_soldiers":     VO_BASE + "/elara/cades_wave_4_soldiers.mp3",
+	"wave_7":              VO_BASE + "/elara/cades_wave_7.mp3",
+	"wave_10_disruptors":  VO_BASE + "/elara/cades_wave_10_disruptors.mp3",
+	"wave_13":             VO_BASE + "/elara/cades_wave_13.mp3",
+	"token_used":          VO_BASE + "/elara/cades_token_used.mp3",
+	"tokens_3":            VO_BASE + "/elara/cades_tokens_3.mp3",
+	"tokens_0":            VO_BASE + "/elara/cades_tokens_0.mp3",
+	"time_1h":             VO_BASE + "/elara/cades_time_1h.mp3",
+	"open_channel_ready":  VO_BASE + "/elara/cades_open_channel_ready.mp3",
+	# Mode 2 — additional ship defense lines
+	"breach_regained_engineering":  VO_BASE + "/elara/cades_breach_regained_engineering.mp3",
+	"breach_regained_cargo":        VO_BASE + "/elara/cades_breach_regained_cargo.mp3",
+	"breach_regained_observation":  VO_BASE + "/elara/cades_breach_regained_observation.mp3",
+	"thoughtborn_contact":          VO_BASE + "/elara/cades_thoughtborn_contact.mp3",
+	"thoughtborn_gone":             VO_BASE + "/elara/cades_thoughtborn_gone.mp3",
+	"shields_25":                   VO_BASE + "/elara/cades_shields_25.mp3",
+	"shields_50":                   VO_BASE + "/elara/cades_shields_50.mp3",
+	"shields_75":                   VO_BASE + "/elara/cades_shields_75.mp3",
+	# Mode 3 — additional historical incursion lines
+	"pillar_last_stand":   VO_BASE + "/elara/cades_pillar_last_stand.mp3",
+	"pillar_first_breath": VO_BASE + "/elara/cades_pillar_first_breath.mp3",
+	"pillar_severance":    VO_BASE + "/elara/cades_pillar_severance.mp3",
+	"pillar_thaloria":     VO_BASE + "/elara/cades_pillar_thaloria.mp3",
+	"pillar_fall":         VO_BASE + "/elara/cades_pillar_fall.mp3",
+	"pillar_agent_zero":   VO_BASE + "/elara/cades_pillar_agent_zero.mp3",
+	"scenario_enter":      VO_BASE + "/elara/cades_scenario_enter.mp3",
+	"scenario_exit":       VO_BASE + "/elara/cades_scenario_exit.mp3",
 }
 
 const LINES = {

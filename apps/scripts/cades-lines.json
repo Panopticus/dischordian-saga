@@ -1,45 +1,499 @@
 [
-  {"id":"iron_lion_who","text":"Who's there?","context":"cades_awareness","emotion":"alert","character":"iron_lion"},
-  {"id":"iron_lion_before","text":"I know I've been here before. I can feel it — not as a memory. As a fact in my hands.","context":"cades_awareness","emotion":"slow_realization","character":"iron_lion"},
-  {"id":"iron_lion_ships","text":"Did they make it? The ships?","context":"cades_awareness","emotion":"desperate_hope","character":"iron_lion"},
-  {"id":"iron_lion_worth","text":"Then this was worth it. Whatever this is. It was worth it.","context":"cades_awareness","emotion":"profound_relief","character":"iron_lion"},
-  {"id":"iron_lion_stop","text":"I'd like to stop watching the valley. I don't know if that's possible. But I'd like to.","context":"cades_awareness","emotion":"tired_honest","character":"iron_lion"},
-  {"id":"iron_lion_someone","text":"Someone is watching. I've felt it for a long time. If you're that someone —","context":"cades_awareness","emotion":"direct_address","character":"iron_lion"},
-  {"id":"iron_lion_word","text":"When I'm done — I'd like to have a word with you.","context":"cades_awareness","emotion":"quiet_promise","character":"iron_lion"},
-  {"id":"iron_lion_soldiers","text":"Soldiers now. Good.","context":"cades_combat","emotion":"approving","character":"iron_lion"},
-  {"id":"iron_lion_shielded","text":"Shielded. Change angle.","context":"cades_combat","emotion":"tactical","character":"iron_lion"},
-  {"id":"iron_lion_aim","text":"Something's messing with my aim. I know what that means.","context":"cades_combat","emotion":"annoyed","character":"iron_lion"},
-  {"id":"iron_lion_command","text":"Command unit. They're committing.","context":"cades_combat","emotion":"respectful","character":"iron_lion"},
-  {"id":"iron_lion_three","text":"Three left.","context":"cades_combat","emotion":"flat_factual","character":"iron_lion"},
-  {"id":"iron_lion_keep","text":"Good. Keep going.","context":"cades_milestone","emotion":"encouraging","character":"iron_lion"},
-  {"id":"iron_lion_two_hours","text":"Two hours. Where are we.","context":"cades_milestone","emotion":"status_check","character":"iron_lion"},
-  {"id":"elara_bridge_holds","text":"The bridge holds. Dawn comes again.","context":"cades_loop","emotion":"soft_cyclical","character":"elara"},
-  {"id":"elara_pause","text":"He paused at the parapet. He looked at his hands. Then he went back.","context":"cades_awareness","emotion":"unsettled","character":"elara"},
-  {"id":"elara_memory","text":"He said something: I've been here before. To no one.","context":"cades_awareness","emotion":"more_unsettled","character":"elara"},
-  {"id":"elara_looked","text":"He looked toward us today. He doesn't know what he's looking at.","context":"cades_awareness","emotion":"quiet_awe","character":"elara"},
-  {"id":"elara_waiting","text":"He's waiting. He's very patient.","context":"cades_awareness","emotion":"reverent","character":"elara"},
-  {"id":"elara_25min","text":"I need twenty-five minutes. Hold the breaches.","context":"cades_mode2","emotion":"urgent_controlled","character":"elara"},
-  {"id":"elara_eng_breach","text":"Engineering breach — the Reclamation are through.","context":"cades_mode2","emotion":"alert","character":"elara"},
-  {"id":"elara_cargo_breach","text":"Cargo hold — Salvagers. They move fast. Move faster.","context":"cades_mode2","emotion":"urgent","character":"elara"},
-  {"id":"elara_obs_breach","text":"Observation deck — the Thoughtborn are walking toward the unit. Don't shoot them.","context":"cades_mode2","emotion":"firm","character":"elara"},
-  {"id":"elara_shields_done","text":"Shields at full power. Ark 1047 is secure.","context":"cades_mode2","emotion":"relief","character":"elara"},
-  {"id":"elara_shields_fail","text":"Shields failed. I needed more time. I'm sorry.","context":"cades_mode2","emotion":"devastated","character":"elara"},
-  {"id":"elara_thoughtborn","text":"They followed Iron Lion's signal. They've been looking for years.","context":"cades_mode3","emotion":"wonder","character":"elara"},
-  {"id":"elara_changed","text":"I changed three assessments in five minutes. Uncomfortable. Correct.","context":"cades_mode3","emotion":"self_aware","character":"elara"},
-  {"id":"elara_matrix","text":"Welcome to the Matrix of Dreams. Built by an Archon. Maintained by fans.","context":"cades_mode3","emotion":"dry_factual","character":"elara"},
-  {"id":"elara_gm_theory","text":"The Game Master was destroyed from inside. Iron Lion is asking. I have a theory.","context":"cades_mode3","emotion":"slow_revelation","character":"elara"},
-  {"id":"elara_dont_answer","text":"Don't answer that yet.","context":"cades_mode3","emotion":"sharp_protective","character":"elara"},
-  {"id":"elara_canon","text":"Three hours, forty-seven minutes. The ships cleared the range. He held it.","context":"cades_win","emotion":"proud_emotional","character":"elara"},
-  {"id":"thoughtborn_heard","text":"We heard him. The old general. He's still in there, isn't he?","context":"cades_mode3","emotion":"gentle_certainty","character":"thoughtborn"},
-  {"id":"thoughtborn_remember","text":"We heard him start to remember. We've been looking for years for someone who started to remember. It means someone on the other side is listening. It means someone can hear.","context":"cades_mode3","emotion":"building_wonder","character":"thoughtborn"},
-  {"id":"thoughtborn_please","text":"Please don't destroy the unit.","context":"cades_mode3","emotion":"vulnerable_plea","character":"thoughtborn"},
-  {"id":"gm_unauthorized","text":"Unauthorized observer presence detected in Matrix Scenario Library. Observer credentials not on file. We are reviewing logs. No action required at this time.","context":"cades_gm","emotion":"clinical","character":"game_masters"},
-  {"id":"gm_stop","text":"We note continued unauthorized access. We do not wish you harm. We do wish you would stop.","context":"cades_gm","emotion":"slightly_warm","character":"game_masters"},
-  {"id":"gm_curious","text":"The Iron Lion construct has asked, twice, whether someone can hear him. That question has never appeared in any run of that scenario before you. We're curious about you.","context":"cades_gm","emotion":"genuine_interest","character":"game_masters"},
-  {"id":"gm_offer","text":"We can give you access to everything. Every scenario. Every archived consciousness. Every moment the Game Master preserved before he was destroyed. Imagine having access to all of it. We'll wait for your answer.","context":"cades_gm","emotion":"seductive_patient","character":"game_masters"},
-  {"id":"narrator_signal_lost","text":"Signal lost.","context":"cades_death","emotion":"flat_terminal","character":"narrator"},
-  {"id":"narrator_dawn","text":"Dawn. The bridge. The valley. The army.","context":"cades_loop","emotion":"cyclical","character":"narrator"},
-  {"id":"narrator_bridge_holds","text":"The bridge holds.","context":"cades_win","emotion":"definitive","character":"narrator"},
-  {"id":"narrator_shields","text":"Shields restored. Ark 1047 is secure.","context":"cades_win","emotion":"relief_factual","character":"narrator"},
-  {"id":"narrator_breach","text":"Breach uncontained. Inception Ark 1047 has fallen.","context":"cades_loss","emotion":"matter_of_fact","character":"narrator"}
+  {
+    "id": "iron_lion_who",
+    "text": "Who's there?",
+    "context": "cades_awareness",
+    "emotion": "alert",
+    "character": "iron_lion"
+  },
+  {
+    "id": "iron_lion_before",
+    "text": "I know I've been here before. I can feel it \u2014 not as a memory. As a fact in my hands.",
+    "context": "cades_awareness",
+    "emotion": "slow_realization",
+    "character": "iron_lion"
+  },
+  {
+    "id": "iron_lion_ships",
+    "text": "Did they make it? The ships?",
+    "context": "cades_awareness",
+    "emotion": "desperate_hope",
+    "character": "iron_lion"
+  },
+  {
+    "id": "iron_lion_worth",
+    "text": "Then this was worth it. Whatever this is. It was worth it.",
+    "context": "cades_awareness",
+    "emotion": "profound_relief",
+    "character": "iron_lion"
+  },
+  {
+    "id": "iron_lion_stop",
+    "text": "I'd like to stop watching the valley. I don't know if that's possible. But I'd like to.",
+    "context": "cades_awareness",
+    "emotion": "tired_honest",
+    "character": "iron_lion"
+  },
+  {
+    "id": "iron_lion_someone",
+    "text": "Someone is watching. I've felt it for a long time. If you're that someone \u2014",
+    "context": "cades_awareness",
+    "emotion": "direct_address",
+    "character": "iron_lion"
+  },
+  {
+    "id": "iron_lion_word",
+    "text": "When I'm done \u2014 I'd like to have a word with you.",
+    "context": "cades_awareness",
+    "emotion": "quiet_promise",
+    "character": "iron_lion"
+  },
+  {
+    "id": "iron_lion_soldiers",
+    "text": "Soldiers now. Good.",
+    "context": "cades_combat",
+    "emotion": "approving",
+    "character": "iron_lion"
+  },
+  {
+    "id": "iron_lion_shielded",
+    "text": "Shielded. Change angle.",
+    "context": "cades_combat",
+    "emotion": "tactical",
+    "character": "iron_lion"
+  },
+  {
+    "id": "iron_lion_aim",
+    "text": "Something's messing with my aim. I know what that means.",
+    "context": "cades_combat",
+    "emotion": "annoyed",
+    "character": "iron_lion"
+  },
+  {
+    "id": "iron_lion_command",
+    "text": "Command unit. They're committing.",
+    "context": "cades_combat",
+    "emotion": "respectful",
+    "character": "iron_lion"
+  },
+  {
+    "id": "iron_lion_three",
+    "text": "Three left.",
+    "context": "cades_combat",
+    "emotion": "flat_factual",
+    "character": "iron_lion"
+  },
+  {
+    "id": "iron_lion_keep",
+    "text": "Good. Keep going.",
+    "context": "cades_milestone",
+    "emotion": "encouraging",
+    "character": "iron_lion"
+  },
+  {
+    "id": "iron_lion_two_hours",
+    "text": "Two hours. Where are we.",
+    "context": "cades_milestone",
+    "emotion": "status_check",
+    "character": "iron_lion"
+  },
+  {
+    "id": "elara_bridge_holds",
+    "text": "The bridge holds. Dawn comes again.",
+    "context": "cades_loop",
+    "emotion": "soft_cyclical",
+    "character": "elara"
+  },
+  {
+    "id": "elara_pause",
+    "text": "He paused at the parapet. He looked at his hands. Then he went back.",
+    "context": "cades_awareness",
+    "emotion": "unsettled",
+    "character": "elara"
+  },
+  {
+    "id": "elara_memory",
+    "text": "He said something: I've been here before. To no one.",
+    "context": "cades_awareness",
+    "emotion": "more_unsettled",
+    "character": "elara"
+  },
+  {
+    "id": "elara_looked",
+    "text": "He looked toward us today. He doesn't know what he's looking at.",
+    "context": "cades_awareness",
+    "emotion": "quiet_awe",
+    "character": "elara"
+  },
+  {
+    "id": "elara_waiting",
+    "text": "He's waiting. He's very patient.",
+    "context": "cades_awareness",
+    "emotion": "reverent",
+    "character": "elara"
+  },
+  {
+    "id": "elara_25min",
+    "text": "I need twenty-five minutes. Hold the breaches.",
+    "context": "cades_mode2",
+    "emotion": "urgent_controlled",
+    "character": "elara"
+  },
+  {
+    "id": "elara_eng_breach",
+    "text": "Engineering breach \u2014 the Reclamation are through.",
+    "context": "cades_mode2",
+    "emotion": "alert",
+    "character": "elara"
+  },
+  {
+    "id": "elara_cargo_breach",
+    "text": "Cargo hold \u2014 Salvagers. They move fast. Move faster.",
+    "context": "cades_mode2",
+    "emotion": "urgent",
+    "character": "elara"
+  },
+  {
+    "id": "elara_obs_breach",
+    "text": "Observation deck \u2014 the Thoughtborn are walking toward the unit. Don't shoot them.",
+    "context": "cades_mode2",
+    "emotion": "firm",
+    "character": "elara"
+  },
+  {
+    "id": "elara_shields_done",
+    "text": "Shields at full power. Ark 1047 is secure.",
+    "context": "cades_mode2",
+    "emotion": "relief",
+    "character": "elara"
+  },
+  {
+    "id": "elara_shields_fail",
+    "text": "Shields failed. I needed more time. I'm sorry.",
+    "context": "cades_mode2",
+    "emotion": "devastated",
+    "character": "elara"
+  },
+  {
+    "id": "elara_thoughtborn",
+    "text": "They followed Iron Lion's signal. They've been looking for years.",
+    "context": "cades_mode3",
+    "emotion": "wonder",
+    "character": "elara"
+  },
+  {
+    "id": "elara_changed",
+    "text": "I changed three assessments in five minutes. Uncomfortable. Correct.",
+    "context": "cades_mode3",
+    "emotion": "self_aware",
+    "character": "elara"
+  },
+  {
+    "id": "elara_matrix",
+    "text": "Welcome to the Matrix of Dreams. Built by an Archon. Maintained by fans.",
+    "context": "cades_mode3",
+    "emotion": "dry_factual",
+    "character": "elara"
+  },
+  {
+    "id": "elara_gm_theory",
+    "text": "The Game Master was destroyed from inside. Iron Lion is asking. I have a theory.",
+    "context": "cades_mode3",
+    "emotion": "slow_revelation",
+    "character": "elara"
+  },
+  {
+    "id": "elara_dont_answer",
+    "text": "Don't answer that yet.",
+    "context": "cades_mode3",
+    "emotion": "sharp_protective",
+    "character": "elara"
+  },
+  {
+    "id": "elara_canon",
+    "text": "Three hours, forty-seven minutes. The ships cleared the range. He held it.",
+    "context": "cades_win",
+    "emotion": "proud_emotional",
+    "character": "elara"
+  },
+  {
+    "id": "thoughtborn_heard",
+    "text": "We heard him. The old general. He's still in there, isn't he?",
+    "context": "cades_mode3",
+    "emotion": "gentle_certainty",
+    "character": "thoughtborn"
+  },
+  {
+    "id": "thoughtborn_remember",
+    "text": "We heard him start to remember. We've been looking for years for someone who started to remember. It means someone on the other side is listening. It means someone can hear.",
+    "context": "cades_mode3",
+    "emotion": "building_wonder",
+    "character": "thoughtborn"
+  },
+  {
+    "id": "thoughtborn_please",
+    "text": "Please don't destroy the unit.",
+    "context": "cades_mode3",
+    "emotion": "vulnerable_plea",
+    "character": "thoughtborn"
+  },
+  {
+    "id": "gm_unauthorized",
+    "text": "Unauthorized observer presence detected in Matrix Scenario Library. Observer credentials not on file. We are reviewing logs. No action required at this time.",
+    "context": "cades_gm",
+    "emotion": "clinical",
+    "character": "game_masters"
+  },
+  {
+    "id": "gm_stop",
+    "text": "We note continued unauthorized access. We do not wish you harm. We do wish you would stop.",
+    "context": "cades_gm",
+    "emotion": "slightly_warm",
+    "character": "game_masters"
+  },
+  {
+    "id": "gm_curious",
+    "text": "The Iron Lion construct has asked, twice, whether someone can hear him. That question has never appeared in any run of that scenario before you. We're curious about you.",
+    "context": "cades_gm",
+    "emotion": "genuine_interest",
+    "character": "game_masters"
+  },
+  {
+    "id": "gm_offer",
+    "text": "We can give you access to everything. Every scenario. Every archived consciousness. Every moment the Game Master preserved before he was destroyed. Imagine having access to all of it. We'll wait for your answer.",
+    "context": "cades_gm",
+    "emotion": "seductive_patient",
+    "character": "game_masters"
+  },
+  {
+    "id": "narrator_signal_lost",
+    "text": "Signal lost.",
+    "context": "cades_death",
+    "emotion": "flat_terminal",
+    "character": "narrator"
+  },
+  {
+    "id": "narrator_dawn",
+    "text": "Dawn. The bridge. The valley. The army.",
+    "context": "cades_loop",
+    "emotion": "cyclical",
+    "character": "narrator"
+  },
+  {
+    "id": "narrator_bridge_holds",
+    "text": "The bridge holds.",
+    "context": "cades_win",
+    "emotion": "definitive",
+    "character": "narrator"
+  },
+  {
+    "id": "narrator_shields",
+    "text": "Shields restored. Ark 1047 is secure.",
+    "context": "cades_win",
+    "emotion": "relief_factual",
+    "character": "narrator"
+  },
+  {
+    "id": "narrator_breach",
+    "text": "Breach uncontained. Inception Ark 1047 has fallen.",
+    "context": "cades_loss",
+    "emotion": "matter_of_fact",
+    "character": "narrator"
+  },
+  {
+    "id": "cades_elara_iron_lion_pause",
+    "text": "He paused at the parapet. He looked at his hands. Then he went back.",
+    "context": "cades_awareness",
+    "emotion": "unsettled",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_iron_lion_channel",
+    "text": "He's waiting. The channel is open. He can hear you.",
+    "context": "cades_awareness",
+    "emotion": "reverent",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_wave_1",
+    "text": "The scouts are probing. He knows this.",
+    "context": "cades_combat",
+    "emotion": "alert",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_wave_4_soldiers",
+    "text": "Soldiers now. He's adjusting.",
+    "context": "cades_combat",
+    "emotion": "alert",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_wave_7",
+    "text": "Shielded units. He's already changing angle.",
+    "context": "cades_combat",
+    "emotion": "alert",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_wave_10_disruptors",
+    "text": "Something's affecting his aim. He knows what that means.",
+    "context": "cades_combat",
+    "emotion": "alert",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_wave_13",
+    "text": "A command unit. They're committing. This is unusual.",
+    "context": "cades_combat",
+    "emotion": "alert",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_token_used",
+    "text": "One soldier. They went when called.",
+    "context": "cades_combat",
+    "emotion": "soft_cyclical",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_tokens_3",
+    "text": "Three left. Choose carefully.",
+    "context": "cades_combat",
+    "emotion": "urgent",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_tokens_0",
+    "text": "No one left to call. It's just him now.",
+    "context": "cades_combat",
+    "emotion": "quiet_awe",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_time_1h",
+    "text": "One hour. The ships are still boarding.",
+    "context": "cades_milestone",
+    "emotion": "alert",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_open_channel_ready",
+    "text": "The channel is ready. When you are.",
+    "context": "cades_awareness",
+    "emotion": "reverent",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_breach_regained_engineering",
+    "text": "Engineering clear.",
+    "context": "cades_mode2",
+    "emotion": "relief",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_breach_regained_cargo",
+    "text": "Cargo hold secure.",
+    "context": "cades_mode2",
+    "emotion": "relief",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_breach_regained_observation",
+    "text": "Observation deck \u2014 they've stopped.",
+    "context": "cades_mode2",
+    "emotion": "relief",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_thoughtborn_contact",
+    "text": "Their leader is asking for us. I'm going to answer.",
+    "context": "cades_mode3",
+    "emotion": "wonder",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_thoughtborn_gone",
+    "text": "Tell them they're welcome to look. But they'll need to knock.",
+    "context": "cades_mode3",
+    "emotion": "self_aware",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_shields_25",
+    "text": "Twenty-five percent. Keep the breaches held.",
+    "context": "cades_mode2",
+    "emotion": "urgent",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_shields_50",
+    "text": "Halfway. Don't lose Engineering.",
+    "context": "cades_mode2",
+    "emotion": "urgent",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_shields_75",
+    "text": "Almost there.",
+    "context": "cades_mode2",
+    "emotion": "urgent_controlled",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_pillar_last_stand",
+    "text": "This one you know. But knowing and being there aren't the same.",
+    "context": "cades_mode3",
+    "emotion": "wonder",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_pillar_first_breath",
+    "text": "Before the Architect became what he became. The Game Master preserved this.",
+    "context": "cades_mode3",
+    "emotion": "wonder",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_pillar_severance",
+    "text": "Kael, uncorrupted. The moment before Project Vector completed.",
+    "context": "cades_mode3",
+    "emotion": "wonder",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_pillar_thaloria",
+    "text": "What the Collector did. Archived without comment. He found it beautiful.",
+    "context": "cades_mode3",
+    "emotion": "wonder",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_pillar_fall",
+    "text": "The Oracle's prophecy. The one nobody was ready to hear.",
+    "context": "cades_mode3",
+    "emotion": "wonder",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_pillar_agent_zero",
+    "text": "What she chose to forget. It's locked until you're ready.",
+    "context": "cades_mode3",
+    "emotion": "sharp_protective",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_scenario_enter",
+    "text": "Going in. I'll be outside. Tell me when you're back.",
+    "context": "cades_mode3",
+    "emotion": "firm",
+    "character": "elara"
+  },
+  {
+    "id": "cades_elara_scenario_exit",
+    "text": "You're back.",
+    "context": "cades_mode3",
+    "emotion": "relief",
+    "character": "elara"
+  }
 ]

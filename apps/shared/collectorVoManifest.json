@@ -1,1 +1,20 @@
-{}
+{
+  "collector_decisive_victory_00": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Collector+Voices/battle_reaction/collector_decisive_victory_00.mp3",
+  "collector_decisive_victory_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Collector+Voices/battle_reaction/collector_decisive_victory_01.mp3",
+  "collector_decisive_victory_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Collector+Voices/battle_reaction/collector_decisive_victory_02.mp3",
+  "collector_decisive_victory_03": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Collector+Voices/battle_reaction/collector_decisive_victory_03.mp3",
+  "collector_close_victory_04": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Collector+Voices/battle_reaction/collector_close_victory_04.mp3",
+  "collector_close_victory_05": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Collector+Voices/battle_reaction/collector_close_victory_05.mp3",
+  "collector_close_victory_06": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Collector+Voices/battle_reaction/collector_close_victory_06.mp3",
+  "collector_close_victory_07": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Collector+Voices/battle_reaction/collector_close_victory_07.mp3",
+  "collector_defeat_08": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Collector+Voices/battle_reaction/collector_defeat_08.mp3",
+  "collector_defeat_09": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Collector+Voices/battle_reaction/collector_defeat_09.mp3",
+  "collector_defeat_10": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Collector+Voices/battle_reaction/collector_defeat_10.mp3",
+  "collector_defeat_11": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Collector+Voices/battle_reaction/collector_defeat_11.mp3",
+  "collector_first_win_12": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Collector+Voices/battle_reaction/collector_first_win_12.mp3",
+  "collector_first_win_13": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Collector+Voices/battle_reaction/collector_first_win_13.mp3",
+  "collector_win_streak_14": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Collector+Voices/battle_reaction/collector_win_streak_14.mp3",
+  "collector_win_streak_15": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Collector+Voices/battle_reaction/collector_win_streak_15.mp3",
+  "collector_loss_streak_16": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Collector+Voices/battle_reaction/collector_loss_streak_16.mp3",
+  "collector_loss_streak_17": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Collector+Voices/battle_reaction/collector_loss_streak_17.mp3"
+}
