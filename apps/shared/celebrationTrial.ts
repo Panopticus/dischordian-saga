@@ -560,6 +560,106 @@ export const MASCOTEER_DECISIONS: Record<string, DailyDecision[]> = {
       ],
     },
   ],
+  the_prince: [
+    {
+      id: "prince_1", day: 0, mascoteerId: "the_prince",
+      prompt: "The Prince shows you his workshop. He hands you a broken toy and asks you to fix it. Then he tells you it belongs to an Apprentice you don't like.",
+      options: [
+        { id: "fix_anyway", label: "Fix it anyway", description: "Do the good work regardless of who it's for.",
+          outcome: { bondDelta: 5, corruptionDelta: -2, moralityDelta: 5, resultFlavor: "The Prince nodded once. 'Good hands don't care whose toy it is. Remember that when I ask you to build something worse.'" } },
+        { id: "fix_worse", label: "Fix it with a hidden flaw", description: "Rebuild it so it fails later.",
+          outcome: { bondDelta: 3, corruptionDelta: 5, moralityDelta: -4, resultFlavor: "It worked for a week, then broke in their hand. The Prince watched you do it. He smiled. 'Now you're mine.'" } },
+        { id: "refuse_fix", label: "Refuse to fix it", description: "Hand it back unrepaired.",
+          outcome: { bondDelta: -1, corruptionDelta: -2, moralityDelta: 3, deathChance: 0.1, resultFlavor: "'Then I'll fix it. But I'm disappointed. I thought you were a maker.' Later, he stopped showing you the workshop." } },
+      ],
+    },
+    {
+      id: "prince_2", day: 0, mascoteerId: "the_prince",
+      prompt: "The Prince is welding a weapon. He asks you to hold one end of a hot piece of metal. He promises it won't burn you. You don't believe him.",
+      options: [
+        { id: "hold_it", label: "Hold it", description: "Trust his promise.",
+          outcome: { bondDelta: 5, corruptionDelta: 3, moralityDelta: -1, deathChance: 0.15, resultFlavor: "It didn't burn. It weighed more than it should have. 'Good. You held. I trust you now.' You don't know with what." } },
+        { id: "refuse_hold", label: "Refuse to hold it", description: "Step back.",
+          outcome: { bondDelta: 2, corruptionDelta: -1, moralityDelta: 2, resultFlavor: "'Fine. Someone else will.' Later you saw him holding it alone with his bare hand. He didn't burn either." } },
+        { id: "both_hands", label: "Offer both hands", description: "Wrap the metal in a full grip.",
+          outcome: { bondDelta: 6, corruptionDelta: 4, moralityDelta: -3, deathChance: 0.2, resultFlavor: "The Prince's face went still for half a second. 'Oh. You're a builder too.' The weapon is yours now. Also you still can't feel your left palm." } },
+      ],
+    },
+    {
+      id: "prince_3", day: 0, mascoteerId: "the_prince",
+      prompt: "The Prince finishes a small silver compass. 'It points toward someone who loves you,' he says. 'Do you want it to stop pointing when they stop loving you? Or keep pointing so you'll know?'",
+      options: [
+        { id: "stop_pointing", label: "Kind — stop when love stops", description: "Don't make the needle haunt you.",
+          outcome: { bondDelta: 4, corruptionDelta: -2, moralityDelta: 4, resultFlavor: "It has stopped three times so far. 'Useful,' the Prince said, 'but a little cowardly.' You accepted each stop quietly." } },
+        { id: "keep_pointing", label: "Cruel — keep pointing regardless", description: "Always know. Even when it hurts.",
+          outcome: { bondDelta: 5, corruptionDelta: 4, moralityDelta: -2, resultFlavor: "Some days the needle spins. 'You built your own wound,' the Prince said. 'That's the Forge.'" } },
+        { id: "refuse_compass", label: "Give it to someone who needs it more", description: "Refuse the compass.",
+          outcome: { bondDelta: 3, corruptionDelta: 0, moralityDelta: 3, deathChance: 0.08, resultFlavor: "You still think about the compass. You suspect it's pointing at you from somewhere." } },
+      ],
+    },
+    {
+      id: "prince_4", day: 0, mascoteerId: "the_prince",
+      prompt: "The Prince asks you to help him build something he will not tell you the purpose of. He needs two hours and three questions you haven't asked yet.",
+      options: [
+        { id: "help_silent", label: "Help without asking", description: "Work the forge in silence.",
+          outcome: { bondDelta: 6, corruptionDelta: 5, moralityDelta: -3, resultFlavor: "It was a small machine the size of a lark. The Prince released it through a window. 'Hear ye, hear ye,' he said softly. 'Something arrived.'" } },
+        { id: "ask_three", label: "Ask three real questions", description: "Slow him down with inquiry.",
+          outcome: { bondDelta: 5, corruptionDelta: -3, moralityDelta: 4, deathChance: 0.1, resultFlavor: "The machine took longer and came out better. 'You slowed me down in the right direction,' he said. He meant it as a compliment. You took it as one." } },
+        { id: "refuse_help", label: "Refuse to help", description: "Walk out of the workshop.",
+          outcome: { bondDelta: -2, corruptionDelta: -1, moralityDelta: 3, deathChance: 0.12, resultFlavor: "'Then I'll build it wrong, and it will be on me.' Whatever he built, you hear about it later. Always later. Always already done." } },
+      ],
+    },
+  ],
+  the_seeker_child: [
+    {
+      id: "seeker_1", day: 0, mascoteerId: "the_seeker_child",
+      prompt: "Red sits with you at lunch. 'Ask me a question nobody else has asked me,' he says. 'A real one.'",
+      options: [
+        { id: "ask_memories", label: "Do you remember the ones who didn't make it?", description: "Ask about the dead.",
+          outcome: { bondDelta: 5, corruptionDelta: -1, moralityDelta: 3, resultFlavor: "'Yes. All of them. Every face. That's my job. Someone has to. I volunteered.' He smiled, tired." } },
+        { id: "ask_graduation", label: "What happens after graduation?", description: "Ask about after.",
+          outcome: { bondDelta: 4, corruptionDelta: 0, moralityDelta: 2, deathChance: 0.08, resultFlavor: "He went quiet. 'You start asking questions that can't be answered in Celebration. That's graduation.'" } },
+        { id: "refuse_ask", label: "Stay silent", description: "Save the question.",
+          outcome: { bondDelta: 0, corruptionDelta: 2, moralityDelta: -3, resultFlavor: "Red nodded slowly. 'Okay. Saving it for later is a question too. I'll remember.'" } },
+      ],
+    },
+    {
+      id: "seeker_2", day: 0, mascoteerId: "the_seeker_child",
+      prompt: "Red finds you alone. 'I'm going to give you one answer,' he says. 'Any question. Choose carefully.'",
+      options: [
+        { id: "ask_exit", label: "How do I leave Celebration alive?", description: "Ask the survival question.",
+          outcome: { bondDelta: 4, corruptionDelta: -2, moralityDelta: 3, deathChance: 0.1, resultFlavor: "'Keep asking questions. The ones who stop asking are the ones who stop existing.' It is the only answer that was ever correct." } },
+        { id: "ask_truth", label: "What are the Mascoteers really?", description: "Ask the forbidden question.",
+          outcome: { bondDelta: 6, corruptionDelta: -3, moralityDelta: 4, deathChance: 0.15, resultFlavor: "Red took your hand. 'They're us. Or they will be. Or they were. I'm not sure which is worst.'" } },
+        { id: "ask_mundane", label: "What's your favorite food?", description: "Ask something small.",
+          outcome: { bondDelta: 3, corruptionDelta: -1, moralityDelta: 2, resultFlavor: "He laughed, surprised. 'No one ever asks that.' You shared it the next day. He never forgot. Neither did you. Those are the answers that hold." } },
+      ],
+    },
+    {
+      id: "seeker_3", day: 0, mascoteerId: "the_seeker_child",
+      prompt: "Red tells you he has survived Celebration many times. 'Every class. I come back. I start over. I remember everything.' He asks if you want to know why.",
+      options: [
+        { id: "ask_why", label: "Ask why", description: "Let him tell you.",
+          outcome: { bondDelta: 5, corruptionDelta: -2, moralityDelta: 3, deathChance: 0.12, resultFlavor: "He told you. You wish he hadn't. You understand now why the Mascoteers listen when he speaks. You will not sleep well for a week." } },
+        { id: "say_no_thanks", label: "Say no thanks", description: "Refuse the knowledge.",
+          outcome: { bondDelta: 3, corruptionDelta: 0, moralityDelta: 2, resultFlavor: "Red nodded. 'Good. That's a mercy you're giving yourself. Don't spend all your mercies on strangers. Save one.'" } },
+        { id: "ask_to_help", label: "Offer to help him carry it", description: "Ask if you can share the weight.",
+          outcome: { bondDelta: 6, corruptionDelta: -3, moralityDelta: 5, deathChance: 0.15, resultFlavor: "Red's eyes filled with real tears — the first real tears of the trial. 'No one has ever offered.' He hugged you like a brother. You will remember it when it matters." } },
+      ],
+    },
+    {
+      id: "seeker_4", day: 0, mascoteerId: "the_seeker_child",
+      prompt: "Red gives you a small red notebook. 'Write one true thing about yourself,' he says. 'If you die, I'll read it at your funeral. If you live, I'll give it back.'",
+      options: [
+        { id: "write_kind", label: "Write something kind and true", description: "A tender sentence.",
+          outcome: { bondDelta: 6, corruptionDelta: -3, moralityDelta: 5, resultFlavor: "'Good. That's the kind that survives.' He tucked the notebook into his vest. You can still feel the weight of the sentence on your chest." } },
+        { id: "write_cruel", label: "Write something cruel and true", description: "An honest ugly line.",
+          outcome: { bondDelta: 4, corruptionDelta: 3, moralityDelta: -2, resultFlavor: "Red read it. He didn't flinch. 'Also yours. Equally yours. Don't forget the other pages.'" } },
+        { id: "return_blank", label: "Return it blank", description: "Don't write anything.",
+          outcome: { bondDelta: 0, corruptionDelta: 1, moralityDelta: -1, deathChance: 0.08, resultFlavor: "'Fair. Some lives are too new to write.' He kept the blank page in your name. You felt the absence later, when you wanted to go back and fill it in." } },
+      ],
+    },
+  ],
 };
 
 /* ─── DAILY DECISION GENERATOR ─── */
