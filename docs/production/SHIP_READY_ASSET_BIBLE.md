@@ -1553,3 +1553,105 @@ Section §3.3 already covers the 4 major trade-mode backgrounds (ART-E15 to ART-
 
 ---
 
+# Section 4 — VOICE-OVER (ElevenLabs)
+
+Every line the player can hear. 14 voice profiles, 1,174 dialog lines, all in one ElevenLabs-ready CSV block.
+
+**How to use this section:**
+1. Read §4.1 and set up 14 voices in ElevenLabs Voice Library (or clone existing ones and tune stability/similarity/style to the values shown).
+2. Copy the CSV block in §4.2 into a `.csv` file.
+3. Either: paste into ElevenLabs Studio → Projects → Import CSV, or loop over the rows with the ElevenLabs Python SDK (`client.text_to_speech.convert(voice_id=row['voice_profile'], text=row['text'], ...)`).
+4. Each row produces one MP3. Save them to `apps/client/public/audio/vo/<character>/<id>.mp3` by default; the VO manifest JSON files in `apps/shared/*VoManifest.json` tell you where each `id` is wired up.
+
+---
+
+## §4.1 — Voice Profiles (14 voices)
+
+*Each profile ships with an ElevenLabs voice prompt, the four tunable settings (stability / similarity / style / speaker_boost), and a one-line performance direction. Cite the original source on each row.*
+
+#### VP-01 — ELARA · Ship AI / Senator Elara Voss
+- **Settings:** stability 0.55 · similarity 0.80 · style 0.40 · speaker_boost ON
+- **ElevenLabs prompt:** A warm, intelligent female AI voice with a subtle British accent. She speaks with precision and care, like a trusted advisor who genuinely cares about the listener. Slight digital quality, as if transmitted through a holographic system. Measured pace, thoughtful pauses. When afraid, her voice gets quieter, not shakier. When angry, she gets more precise, not louder.
+- **Direction:** Emotional range: clinical efficiency → deep vulnerability. Always under-sells.
+- **Source:** `docs/production/VOICE_OVER_BIBLE.md` §1 · `FULL_AUDIT_REPORT.md` §5
+
+#### VP-02 — THE HUMAN · Last Archon / The Detective
+- **Settings:** stability 0.50 · similarity 0.85 · style 0.35 · speaker_boost ON
+- **ElevenLabs prompt:** A deep, resonant male voice with an ancient quality — as if lived for thousands of years. Intimate and whispered, like speaking directly into your ear through static. Intelligent, seductive, slightly menacing. Each word chosen with lethal precision. Occasional digital glitch artifacts. British accent, timeless quality.
+- **Direction:** Post-process with radio static and occasional digital glitch pops. Always through static.
+- **Source:** `docs/production/VOICE_OVER_BIBLE.md` §2
+
+#### VP-03 — AGENT ZERO · Dead Insurgent Signal
+- **Settings:** stability 0.40 · similarity 0.75 · style 0.50 · speaker_boost ON
+- **ElevenLabs prompt:** A sharp, urgent female military voice with a crisp American accent. Speaks fast, clipped sentences — every word matters. Occasional static bursts and signal degradation. No-nonsense, tactical, but with a haunted quality underneath — like a soldier delivering her final transmission knowing no one might hear it.
+- **Direction:** Radio static pops between sentences. Never pauses for sentiment.
+- **Source:** `docs/production/VOICE_OVER_BIBLE.md` §3
+
+#### VP-04 — ADJUDICATOR LOCKE · New Babylon Diplomat
+- **Settings:** stability 0.60 · similarity 0.80 · style 0.30 · speaker_boost ON
+- **ElevenLabs prompt:** A smooth, cultured male voice with an educated British accent. Diplomatic and seductive — like a corrupt diplomat who makes terrible deals sound reasonable. Measured, never rushes, lets silences build. Warmth concealing something predatory. Every sentence sounds like a negotiation where he already knows the outcome.
+- **Direction:** Clean studio signal. Let silences build.
+- **Source:** `docs/production/VOICE_OVER_BIBLE.md` §4
+
+#### VP-05 — THE SOURCE / KAEL · Patient Zero
+- **Settings:** stability 0.35 · similarity 0.90 · style 0.60 · speaker_boost ON
+- **ElevenLabs prompt:** An impossibly ancient male voice, broken and weary beyond measure. Speaks with extreme deliberation — as if each word costs something to produce. Deep bass with layered harmonic distortion, like a thousand voices speaking through one mouth. Genuinely compassionate despite the horror of what he's become. A dying god offering what he believes is mercy.
+- **Direction:** Post-process with layered reverb — a thousand voices beneath one. Very slow delivery.
+- **Source:** `docs/production/VOICE_OVER_BIBLE.md` §5
+
+#### VP-06 — THE ANTIQUARIAN · Timekeeper / The Programmer
+- **Settings:** stability 0.45 · similarity 0.85 · style 0.55 · speaker_boost ON
+- **ElevenLabs prompt:** An elderly male voice with a warm, whimsical quality — slightly out of sync with reality, as if speaking from multiple time periods simultaneously. Wise and kind, with unexpected playfulness that gives way to profound sorrow. British accent, measured pace with unusual pauses — sometimes pausing mid-sentence as if watching something only he can see. Like a beloved professor who has read the last page of every book ever written.
+- **Direction:** Very slight time-delay echo — voice arrives from slightly different moments. Pause mid-sentence occasionally as if watching something only he can see.
+- **Source:** `docs/production/VOICE_OVER_BIBLE.md` §6
+
+#### VP-07 — SHADOW TONGUE · Demon / SVP Communications
+- **Settings:** stability 0.30 · similarity 0.85 · style 0.70 · speaker_boost OFF
+- **ElevenLabs prompt:** An androgynous, eloquent whisper — ASMR-like quality that draws you in despite the menace. Literary, poetic, treating every sentence like carefully composed verse. Seductive and persuasive beyond reason. No identifiable accent — voice itself made of language rather than coming from a throat. Occasionally words distort or echo, as if editing itself in real-time.
+- **Direction:** Subtle word echoes — "edited" → faint echo of "edited" 0.3s later. Speaker boost OFF for whisper quality.
+- **Source:** `docs/production/VOICE_OVER_BIBLE.md` §7
+
+#### VP-08 — NARRATOR · Two Witnesses / System
+- **Settings:** stability 0.75 · similarity 0.70 · style 0.15 · speaker_boost ON
+- **ElevenLabs prompt:** A neutral, authoritative broadcast voice — clear and professional like an encrypted military transmission. Slight radio processing with occasional static. Used for system alerts, intercepted transmissions, and narrative framing. Neither warm nor cold — factual, like reality itself speaking.
+- **Direction:** Broadcast processing. Factual, never emotional.
+- **Source:** `docs/production/VOICE_OVER_BIBLE.md` §8
+
+#### VP-09 — THE MEME · Shape-Shifter / Late Night Host
+- **Settings:** stability 0.35 · similarity 0.75 · style 0.65 · speaker_boost ON
+- **ElevenLabs prompt:** A theatrical sardonic host voice — mid-range, charismatic, manic showmanship of a late-night comedian. Constantly breaks the fourth wall. Laughs at his own jokes mid-sentence. Cadence shifts suddenly from drawling monologue to rapid-fire delivery. Slight viral-distortion overlay — occasional glitches where his voice briefly becomes someone else's. American broadcast, subtle Southern undertone.
+- **Direction:** Viral-distortion overlay on every 7-10 words. Break character occasionally with "nevermind — don't listen to me — listen to me."
+- **Source:** `docs/production/VOICE_OVER_BIBLE.md` §ExpansionUpdate
+
+#### VP-10 — THE DEGEN · Casino Host / 11th Ne-Yon
+- **Settings:** stability 0.40 · similarity 0.75 · style 0.70 · speaker_boost ON
+- **ElevenLabs prompt:** A theatrical, energetic voice — mid-range, genderfluid, with the manic showmanship of a casino barker crossed with the world-weariness of someone who has seen every hand played a thousand times. Fast-talking but with sudden pauses of unexpected philosophical depth. Laughs frequently. American vaudeville energy.
+- **Direction:** Laugh track your own jokes. Sudden philosophical asides that stop time briefly, then back to manic.
+- **Source:** `docs/production/VOICE_OVER_BIBLE.md` §NewCharacters
+
+#### VP-11 — COLLECTOR CLONE-007 · Arena Operator
+- **Settings:** stability 0.65 · similarity 0.80 · style 0.25 · speaker_boost ON
+- **ElevenLabs prompt:** A refined, cultured voice with precise diction. Male-coded, warm but clinical — like a museum curator who enjoys showing off rare pieces. Slight edge of obsession when discussing acquisitions. British or neutral Atlantic accent. The enthusiasm of a collector who genuinely loves what they catalogue.
+- **Direction:** Museum curator warmth with clinical undertones. Pause reverently between items.
+- **Source:** `docs/production/VOICE_OVER_BIBLE.md` §NewCharacters
+
+#### VP-12 — THE NECROMANCER · 10th Archon
+- **Settings:** stability 0.55 · similarity 0.85 · style 0.45 · speaker_boost ON
+- **ElevenLabs prompt:** An ancient, measured male voice with deep resonance. Slightly reverbed as if speaking from another dimension. Carries gravitas without menace — like a funeral director who genuinely loves their work. Elvish lilt. Never hurries. Every word feels weighed.
+- **Direction:** Dimensional reverb. Funeral-director warmth, not menace. Never hurries.
+- **Source:** `docs/production/VOICE_OVER_BIBLE.md` §NewCharacters
+
+#### VP-13 — THE RESURRECTIONIST · Ne-Yon, Necromancer's Counterpart
+- **Settings:** stability 0.65 · similarity 0.80 · style 0.40 · speaker_boost OFF
+- **ElevenLabs prompt:** An elderly voice, gender-ambiguous due to the mask, muffled as if behind porcelain. Carries deep exhaustion tempered with kindness. Every resurrection costs them something — you can hear it. Measured, patient, carrying weight without complaint.
+- **Direction:** Muffle post-process (porcelain mask effect). Speaker boost OFF for muffled quality.
+- **Source:** `docs/production/VOICE_OVER_BIBLE.md` §NewCharacters
+
+#### VP-14 — NILMORG · Dead Man's Circuit Race Host
+- **Settings:** stability 0.40 · similarity 0.75 · style 0.70 · speaker_boost ON
+- **ElevenLabs prompt:** An alien carnival barker's voice — mid-to-high register, elongated vowels, perpetual theatrical smile audible in every syllable. American-showman cadence stacked on top of something faintly inhuman. Laughs often, at the wrong moments. Slips into genuine menace when rules are broken, then immediately recovers into show-smile.
+- **Direction:** Announce-booth reverb. Smile must be audible. Slip into menace on rule violations.
+- **Source:** `apps/shared/nilmorgVoManifest.json` + inline dmcAssets.ts context
+
+---
+
