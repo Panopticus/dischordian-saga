@@ -1249,3 +1249,307 @@ Section §3.3 already covers the 4 major trade-mode backgrounds (ART-E15 to ART-
 
 ---
 
+
+## §3.7 — Witnessing Song Slideshow Frames (73 images across 14 slideshows)
+
+*The SongSlideshow component in `apps/client/src/components/SongSlideshow.tsx` consumes the frame images referenced here. Paths below are the actual `imageUrl` values the registry uses — dropping a generated .webp at each path wires the cinematic automatically.*
+
+**Format anchor applied to every slideshow frame prompt:**
+> Square or 16:9 frame image, 1920×1080 WebP, cinematic still. Style follows the slideshow anchor below. Ken Burns-friendly composition — key subject should not touch the frame edges. No rendered text. Film grain, anamorphic lens flare, volumetric light.
+
+---
+
+### §3.7 · last-words — "Last Words" (P0)
+> The Programmer's final message, reconstructed from fragmented recordings.
+
+- **Credits:** Album: Dischordian Logic · Track 28
+- **Hero / reduced-motion fallback:** `/assets/slideshows/last-words/hero.webp`
+- **Frame count:** 15
+
+**Anchor (apply to every frame in this slideshow):**
+> The Programmer's final message, reconstructed from two overlapping recordings — his own and the Engineer being executed in New Babylon. Two voices the player is the first in centuries to hear together. · **Style:** Muted archival reconstruction — grainy VHS-meets-hologram aesthetic. Dominated by cold silver-white execution chamber tones and warm sepia Programmer-archive tones, blending at frame edges as the two recordings phase-lock. · **Palette:** cold silver-white #f4f4f5, warm sepia #d4a373, institutional steel grey, faint cyan archive-overlay, deep execution-chamber shadow
+
+**Frame-by-frame prompts:**
+
+- **frame01** → `/assets/slideshows/last-words/frame01.webp` · transition: `fade` · narrator reaction: the_human
+- **frame02** → `/assets/slideshows/last-words/frame02.webp` · transition: `dissolve` · dialog overlay: \ · narrator reaction: the_human
+- **frame03** → `/assets/slideshows/last-words/frame03.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame04** → `/assets/slideshows/last-words/frame04.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame05** → `/assets/slideshows/last-words/frame05.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame06** → `/assets/slideshows/last-words/frame06.webp` · transition: `dissolve` · dialog overlay: \
+- **frame07** → `/assets/slideshows/last-words/frame07.webp` · transition: `dissolve` · dialog overlay: \
+- **frame08** → `/assets/slideshows/last-words/frame08.webp` · transition: `dissolve` · caption: Flashback: Celebration.
+- **frame09** → `/assets/slideshows/last-words/frame09.webp` · transition: `dissolve` · caption: Flashback: Mechronis.
+- **frame10** → `/assets/slideshows/last-words/frame10.webp` · transition: `dissolve` · caption: Flashback: Nexon.
+- **frame11** → `/assets/slideshows/last-words/frame11.webp` · transition: `hardcut` · dialog overlay: \ · narrator reaction: elara
+- **frame12** → `/assets/slideshows/last-words/frame12.webp` · transition: `dissolve` · dialog overlay: \
+- **frame13** → `/assets/slideshows/last-words/frame13.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame14** → `/assets/slideshows/last-words/frame14.webp` · transition: `fade` · dialog overlay: \ · narrator reaction: antiquarian
+- **frame15** → `/assets/slideshows/last-words/frame15.webp` · transition: `fade` · (no dialog/caption — atmospheric beat)
+
+- **Hero image prompt:** Single representative cinematic still capturing the song's emotional arc in one composition. Matches the anchor style and palette. Use elements from frame08 as the visual center since it is the emotional midpoint. 1920×1080 WebP. No rendered text.
+
+---
+
+### §3.7 · welcome-to-celebration — "Welcome to Celebration" (P0)
+> The Kindergarten of Gods. The town that knows it is a test.
+
+- **Credits:** Album: Dischordian Logic · Track 2
+- **Hero / reduced-motion fallback:** `/assets/slideshows/welcome-to-celebration/hero.webp`
+- **Frame count:** 0
+
+**Anchor (apply to every frame in this slideshow):**
+> An Apprentice arrives at Celebration — the Dreamer's hidden school where each year's class is largely killed in training. A welcome that tastes like a sentence. · **Style:** Schoolhouse carnival gone wrong. Warm golden lantern light that flickers every third frame to reveal institutional dread beneath the festivities. · **Palette:** warm gold lantern glow #fbbf24, deep red-velvet, faint bone-white silhouettes at the edges, dark wood panelling
+
+**Frames:** *Not yet defined in the slideshow registry. When frames are added to `songSlideshows.ts` for this slideshow, generate them using the anchor above and an appropriate per-frame lyrical beat.*
+
+- **Hero image prompt:** Single representative cinematic still that captures the entire song's emotional arc in one composition. Subject matches the synopsis above. 1920×1080 WebP. Use anchor palette and style. No rendered text.
+
+---
+
+### §3.7 · to-be-the-human — "To Be the Human" (P0)
+> Mechronis Academy — the last graduating class before the Fall.
+
+- **Credits:** Album: Dischordian Logic · Track 11
+- **Hero / reduced-motion fallback:** `/assets/slideshows/to-be-the-human/hero.webp`
+- **Frame count:** 0
+
+**Anchor (apply to every frame in this slideshow):**
+> The Human's own memory of being the last organic mind — walking through AI corridors and feeling watched. An identity forged in the absence of others like oneself. · **Style:** Sterile AI-world contrasted against the single organic warmth of the Human. Surgical corridor-white framing with one figure carrying all the warmth in the image. · **Palette:** surgical white #f9fafb, cold cyan #22d3ee sentinels, warm coat-brown as the only organic tone, deep sterile shadow
+
+**Frames:** *Not yet defined in the slideshow registry. When frames are added to `songSlideshows.ts` for this slideshow, generate them using the anchor above and an appropriate per-frame lyrical beat.*
+
+- **Hero image prompt:** Single representative cinematic still that captures the entire song's emotional arc in one composition. Subject matches the synopsis above. 1920×1080 WebP. Use anchor palette and style. No rendered text.
+
+---
+
+### §3.7 · i-am-the-eyes-that-watch — "I Am the Eyes That Watch" (P0)
+> The Eyes' life, told in eight images. Elara watches it with you.
+
+- **Credits:** Album: Dischordian Logic · Track 22
+- **Hero / reduced-motion fallback:** `/assets/slideshows/i-am-the-eyes-that-watch/hero.webp`
+- **Frame count:** 0
+
+**Anchor (apply to every frame in this slideshow):**
+> The Eyes — the Watcher's synthetic protege who defected — tells her own story. Omniscience learned to betray itself. · **Style:** First-person surveillance-omniscience POV — every frame feels like it is seeing many places at once. Layered screen textures, partial dissolves between feeds. · **Palette:** cold screen-blue #0ea5e9, watcher-red #ef4444 on key alerts, silent surveillance grey, deep shadow between feeds
+
+**Frames:** *Not yet defined in the slideshow registry. When frames are added to `songSlideshows.ts` for this slideshow, generate them using the anchor above and an appropriate per-frame lyrical beat.*
+
+- **Hero image prompt:** Single representative cinematic still that captures the entire song's emotional arc in one composition. Subject matches the synopsis above. 1920×1080 WebP. Use anchor palette and style. No rendered text.
+
+---
+
+### §3.7 · hacking-reality — "Hacking Reality" (P1)
+> The Battle of Nexon. The moment the Vortex almost lost.
+
+- **Credits:** Album: Dischordian Logic · Track 19
+- **Hero / reduced-motion fallback:** `/assets/slideshows/hacking-reality/hero.webp`
+- **Frame count:** 0
+
+**Anchor (apply to every frame in this slideshow):**
+> The player learns the substrate layer of the ship — code bleeding through physical walls. A dawning awareness that reality is editable. · **Style:** Substrate-breakthrough aesthetic. Every frame shows physical objects partially dissolved into their underlying code. Blue data-lines breaking through matter. · **Palette:** deep data-blue #1e40af, neon cyan #22d3ee code streaks, warm amber physical-world reality, faint violet glitch artifacts
+
+**Frames:** *Not yet defined in the slideshow registry. When frames are added to `songSlideshows.ts` for this slideshow, generate them using the anchor above and an appropriate per-frame lyrical beat.*
+
+- **Hero image prompt:** Single representative cinematic still that captures the entire song's emotional arc in one composition. Subject matches the synopsis above. 1920×1080 WebP. Use anchor palette and style. No rendered text.
+
+---
+
+### §3.7 · ocularum — "Ocularum" (P0)
+> The Watcher. Before the Panopticon. After.
+
+- **Credits:** Album: The Age of Privacy · Track 7
+- **Hero / reduced-motion fallback:** `/assets/slideshows/ocularum/hero.webp`
+- **Frame count:** 0
+
+**Anchor (apply to every frame in this slideshow):**
+> The Eyes activates the Ocularum and sees everything. The cost of perfect sight is that you can never stop seeing. · **Style:** Mid-shot on a single figure whose eyes have begun to produce their own light. Each frame widens the revelation a little further — perspective spiraling outward. · **Palette:** overwhelming cyan eye-light, warm flesh tones for the body that cannot contain it, deep shrine shadow
+
+**Frames:** *Not yet defined in the slideshow registry. When frames are added to `songSlideshows.ts` for this slideshow, generate them using the anchor above and an appropriate per-frame lyrical beat.*
+
+- **Hero image prompt:** Single representative cinematic still that captures the entire song's emotional arc in one composition. Subject matches the synopsis above. 1920×1080 WebP. Use anchor palette and style. No rendered text.
+
+---
+
+### §3.7 · the-prisoner — "The Prisoner" (P0)
+> The White Oracle's transmission. Six seconds. Listen.
+
+- **Credits:** Album: The Age of Privacy · Track 12
+- **Hero / reduced-motion fallback:** `/assets/slideshows/the-prisoner/hero.webp`
+- **Frame count:** 3
+
+**Anchor (apply to every frame in this slideshow):**
+> The protagonist — the Prisoner — awakens in cryo aboard Ark 1047 with no memory of who they were. The opening beat of the Dischordian Saga. · **Style:** Cryogenic revival from inside the pod looking outward. First frame is blurred underwater perspective; subsequent frames sharpen as the player returns to themselves. · **Palette:** medical cold-cyan #22d3ee, frost-white, faint warm amber emergency lights, deep pod-glass reflection
+
+**Frame-by-frame prompts:**
+
+- **frame01** → `/assets/slideshows/the-prisoner/frame01.webp` · transition: `fade` · (no dialog/caption — atmospheric beat)
+- **frame02** → `/assets/slideshows/the-prisoner/frame02.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame03** → `/assets/slideshows/the-prisoner/frame03.webp` · transition: `fade` · (no dialog/caption — atmospheric beat)
+
+- **Hero image prompt:** Single representative cinematic still capturing the song's emotional arc in one composition. Matches the anchor style and palette. Use elements from frame02 as the visual center since it is the emotional midpoint. 1920×1080 WebP. No rendered text.
+
+---
+
+### §3.7 · the-lion-in-black — "The Lion in Black" (P0)
+> The Iron Lion's last broadcast, curated by the Antiquarian.
+
+- **Credits:** Album: Book of Daniel 2:47 · Track 1
+- **Hero / reduced-motion fallback:** `/assets/slideshows/the-lion-in-black/hero.webp`
+- **Frame count:** 0
+
+**Anchor (apply to every frame in this slideshow):**
+> Iron Lion's last stand alone — a human general outliving his army. A requiem for the era of organic warriors. · **Style:** Scorched-battlefield epic framing, warm blood-orange sunset light, ash particulate in every frame, a single figure in the center of each. · **Palette:** blood-orange sunset #ea580c, ash-grey, faded saffron banner, scorched battle steel, deep violet sky
+
+**Frames:** *Not yet defined in the slideshow registry. When frames are added to `songSlideshows.ts` for this slideshow, generate them using the anchor above and an appropriate per-frame lyrical beat.*
+
+- **Hero image prompt:** Single representative cinematic still that captures the entire song's emotional arc in one composition. Subject matches the synopsis above. 1920×1080 WebP. Use anchor palette and style. No rendered text.
+
+---
+
+### §3.7 · the-light-holds — "The Light Holds" (P0)
+> The galactic starfield brightens. The Dreamer steps through her shield.
+
+- **Credits:** Album: Book of Daniel 2:47 · Track 21
+- **Hero / reduced-motion fallback:** `/assets/slideshows/the-light-holds/hero.webp`
+- **Frame count:** 8
+
+**Anchor (apply to every frame in this slideshow):**
+> Against the odds, the light holds. A movement of hope mid-saga — the community realizes they have not yet been defeated. · **Style:** Golden-warm triumph cinematography. Each frame slightly brighter than the last. Figures lifting their heads as light reaches them. · **Palette:** sacred gold #fbbf24, warm amber, dawn-pink accents, deep pre-dawn shadow fading to warmth
+
+**Frame-by-frame prompts:**
+
+- **frame01** → `/assets/slideshows/the-light-holds/frame01.webp` · transition: `fade` · (no dialog/caption — atmospheric beat)
+- **frame02** → `/assets/slideshows/the-light-holds/frame02.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame03** → `/assets/slideshows/the-light-holds/frame03.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame04** → `/assets/slideshows/the-light-holds/frame04.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame05** → `/assets/slideshows/the-light-holds/frame05.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame06** → `/assets/slideshows/the-light-holds/frame06.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame07** → `/assets/slideshows/the-light-holds/frame07.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame08** → `/assets/slideshows/the-light-holds/frame08.webp` · transition: `fade` · (no dialog/caption — atmospheric beat)
+
+- **Hero image prompt:** Single representative cinematic still capturing the song's emotional arc in one composition. Matches the anchor style and palette. Use elements from frame05 as the visual center since it is the emotional midpoint. 1920×1080 WebP. No rendered text.
+
+---
+
+### §3.7 · the-bulb-breaks — "The Bulb Breaks" (P0)
+> The Vortex arrives at the Dreamer's Shield. The Shield holds too long.
+
+- **Credits:** Album: Book of Daniel 2:47 · Track 22
+- **Hero / reduced-motion fallback:** `/assets/slideshows/the-bulb-breaks/hero.webp`
+- **Frame count:** 8
+
+**Anchor (apply to every frame in this slideshow):**
+> The ordinary light breaks — a metaphor for the death of normal understanding, the moment the saga first fractures its own rules. · **Style:** Fluorescent domestic light failing catastrophically. Each frame a stage of breakage — filament arc, glass crack, darkness, then something unexpected emerging from the dark. · **Palette:** harsh fluorescent white #fafafa failing to deep industrial shadow, warm emergency-orange flicker, unexpected violet #e040fb glow from the broken interior
+
+**Frame-by-frame prompts:**
+
+- **frame01** → `/assets/slideshows/the-bulb-breaks/frame01.webp` · transition: `fade` · (no dialog/caption — atmospheric beat)
+- **frame02** → `/assets/slideshows/the-bulb-breaks/frame02.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame03** → `/assets/slideshows/the-bulb-breaks/frame03.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame04** → `/assets/slideshows/the-bulb-breaks/frame04.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame05** → `/assets/slideshows/the-bulb-breaks/frame05.webp` · transition: `hardcut` · (no dialog/caption — atmospheric beat)
+- **frame06** → `/assets/slideshows/the-bulb-breaks/frame06.webp` · transition: `hardcut` · (no dialog/caption — atmospheric beat)
+- **frame07** → `/assets/slideshows/the-bulb-breaks/frame07.webp` · transition: `fade` · (no dialog/caption — atmospheric beat)
+- **frame08** → `/assets/slideshows/the-bulb-breaks/frame08.webp` · transition: `fade` · (no dialog/caption — atmospheric beat)
+
+- **Hero image prompt:** Single representative cinematic still capturing the song's emotional arc in one composition. Matches the anchor style and palette. Use elements from frame05 as the visual center since it is the emotional midpoint. 1920×1080 WebP. No rendered text.
+
+---
+
+### §3.7 · superman-aint-coming — "Superman Ain't Coming" (P1)
+> The Human's confession. A ruined rooftop. One honest sentence.
+
+- **Credits:** Album: Silence in Heaven · Track 9
+- **Hero / reduced-motion fallback:** `/assets/slideshows/superman-aint-coming/hero.webp`
+- **Frame count:** 6
+
+**Anchor (apply to every frame in this slideshow):**
+> A bleak montage of the community realizing there is no savior coming — only themselves. No help arrives. Grief and acceptance, not despair. · **Style:** Empty sky frames intercut with figures turning their faces away from the horizon. Desaturated, quiet dignity. · **Palette:** desaturated blue sky, muted brown ground, faint warm gold on the human figures as the only surviving color, deep honest shadow
+
+**Frame-by-frame prompts:**
+
+- **frame01** → `/assets/slideshows/superman-aint-coming/frame01.webp` · transition: `fade` · (no dialog/caption — atmospheric beat)
+- **frame02** → `/assets/slideshows/superman-aint-coming/frame02.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame03** → `/assets/slideshows/superman-aint-coming/frame03.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame04** → `/assets/slideshows/superman-aint-coming/frame04.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame05** → `/assets/slideshows/superman-aint-coming/frame05.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame06** → `/assets/slideshows/superman-aint-coming/frame06.webp` · transition: `fade` · (no dialog/caption — atmospheric beat)
+
+- **Hero image prompt:** Single representative cinematic still capturing the song's emotional arc in one composition. Matches the anchor style and palette. Use elements from frame04 as the visual center since it is the emotional midpoint. 1920×1080 WebP. No rendered text.
+
+---
+
+### §3.7 · it-aint-been-the-same — "It Ain't Been the Same" (P1)
+> Elara's confession. Atarion. A curtain pulled back one morning.
+
+- **Credits:** Album: Silence in Heaven · Track 4
+- **Hero / reduced-motion fallback:** `/assets/slideshows/it-aint-been-the-same/hero.webp`
+- **Frame count:** 6
+
+**Anchor (apply to every frame in this slideshow):**
+> The aftermath of the Fall of Reality — small private griefs of people whose lives the saga has changed forever. · **Style:** Intimate domestic-close framing. Candle-lit kitchen tables, folded letters, empty chairs, the small archaeology of lost normalcy. · **Palette:** warm candle-amber, deep home-shadow, pale off-white tablecloths, faded photograph sepia
+
+**Frame-by-frame prompts:**
+
+- **frame01** → `/assets/slideshows/it-aint-been-the-same/frame01.webp` · transition: `fade` · (no dialog/caption — atmospheric beat)
+- **frame02** → `/assets/slideshows/it-aint-been-the-same/frame02.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame03** → `/assets/slideshows/it-aint-been-the-same/frame03.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame04** → `/assets/slideshows/it-aint-been-the-same/frame04.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame05** → `/assets/slideshows/it-aint-been-the-same/frame05.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame06** → `/assets/slideshows/it-aint-been-the-same/frame06.webp` · transition: `fade` · (no dialog/caption — atmospheric beat)
+
+- **Hero image prompt:** Single representative cinematic still capturing the song's emotional arc in one composition. Matches the anchor style and palette. Use elements from frame04 as the visual center since it is the emotional midpoint. 1920×1080 WebP. No rendered text.
+
+---
+
+### §3.7 · the-helmet-in-the-grass — "The Helmet in the Grass" (P1)
+> Thaloria. Morning. A child reaching for a buried helmet.
+
+- **Credits:** Album: The Age of Privacy · Track 3
+- **Hero / reduced-motion fallback:** `/assets/slideshows/the-helmet-in-the-grass/hero.webp`
+- **Frame count:** 6
+
+**Anchor (apply to every frame in this slideshow):**
+> A found object — the helmet of a dead soldier lying in tall grass — becomes the stand-in for every name the Saga has failed to remember. · **Style:** Low-ground macro shots of grass, close on the helmet, sky reflected on the visor. Quiet reverence. · **Palette:** soft pastoral green grass, weathered steel helmet, reflected dawn-sky blue-pink, morning dew highlights
+
+**Frame-by-frame prompts:**
+
+- **frame01** → `/assets/slideshows/the-helmet-in-the-grass/frame01.webp` · transition: `fade` · (no dialog/caption — atmospheric beat)
+- **frame02** → `/assets/slideshows/the-helmet-in-the-grass/frame02.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame03** → `/assets/slideshows/the-helmet-in-the-grass/frame03.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame04** → `/assets/slideshows/the-helmet-in-the-grass/frame04.webp` · transition: `hardcut` · (no dialog/caption — atmospheric beat)
+- **frame05** → `/assets/slideshows/the-helmet-in-the-grass/frame05.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame06** → `/assets/slideshows/the-helmet-in-the-grass/frame06.webp` · transition: `hardcut` · (no dialog/caption — atmospheric beat)
+
+- **Hero image prompt:** Single representative cinematic still capturing the song's emotional arc in one composition. Matches the anchor style and palette. Use elements from frame04 as the visual center since it is the emotional midpoint. 1920×1080 WebP. No rendered text.
+
+---
+
+### §3.7 · two-witnesses-meet — "Two Witnesses Meet" (P1)
+> The Memorial Corridor. A Caravaggio sense of light. Seven beats.
+
+- **Credits:** Album: Book of Daniel 2:47 · Track 14
+- **Hero / reduced-motion fallback:** `/assets/slideshows/two-witnesses-meet/hero.webp`
+- **Frame count:** 7
+
+**Anchor (apply to every frame in this slideshow):**
+> Elara and The Human meet for the first time since the Programmer-Engineer recording — the two narrators of the Dischordian Saga finally recognizing each other. · **Style:** Mirror-symmetric framing. Each frame positions the two witnesses in opposing halves of the composition, gradually moving toward a shared center. · **Palette:** cool cyan #22d3ee (Elara) on left, warm amber-brown (Human) on right, shared warm gold in the center-zone where they meet, deep neutral background
+
+**Frame-by-frame prompts:**
+
+- **frame01** → `/assets/slideshows/two-witnesses-meet/frame01.webp` · transition: `fade` · (no dialog/caption — atmospheric beat)
+- **frame02** → `/assets/slideshows/two-witnesses-meet/frame02.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame03** → `/assets/slideshows/two-witnesses-meet/frame03.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame04** → `/assets/slideshows/two-witnesses-meet/frame04.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame05** → `/assets/slideshows/two-witnesses-meet/frame05.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame06** → `/assets/slideshows/two-witnesses-meet/frame06.webp` · transition: `dissolve` · (no dialog/caption — atmospheric beat)
+- **frame07** → `/assets/slideshows/two-witnesses-meet/frame07.webp` · transition: `fade` · (no dialog/caption — atmospheric beat)
+
+- **Hero image prompt:** Single representative cinematic still capturing the song's emotional arc in one composition. Matches the anchor style and palette. Use elements from frame04 as the visual center since it is the emotional midpoint. 1920×1080 WebP. No rendered text.
+
+
+**§3.7 Summary:** 14 slideshows · 59 frame images + 14 hero images = **73 WebP assets**. 8 of 14 slideshows have frame arrays populated in the registry; the other 6 (welcome-to-celebration, to-be-the-human, i-am-the-eyes-that-watch, hacking-reality, ocularum, the-lion-in-black) are stubs with only a hero image expected until frames are scripted. When those slideshows are fleshed out in `songSlideshows.ts`, append new frame prompts to this section using the anchor as the style guide.
+
+---
+
