@@ -6,6 +6,8 @@
 import { z } from "zod";
 import { router, protectedProcedure, publicProcedure } from "../_core/trpc";
 import { getDb } from "../db";
+import { logger } from "../logger";
+import { grantCardReward } from "../services/cardRewardService";
 import { ripple } from "../services/rippleEngine";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import {
@@ -113,6 +115,23 @@ export const seasonalEventsRouter = router({
         .where(eq(seasonalEvents.id, input.eventId));
 
       await ripple.emit("seasonal_event_participation", { userId: ctx.user.id, eventKey: event.eventKey, contribution: input.amount });
+
+      // Grant card reward when a milestone is reached
+      const eventDef = SEASONAL_EVENTS.find(e => e.key === event.eventKey);
+      if (eventDef) {
+        const previousContribution = existing ? existing.contribution : 0;
+        const newContribution = previousContribution + boostedAmount;
+        const crossedMilestone = eventDef.milestones.some(
+          m => previousContribution < m.threshold && newContribution >= m.threshold
+        );
+        if (crossedMilestone) {
+          try {
+            await grantCardReward(ctx.user.id, "seasonal_events_milestone");
+          } catch (e) {
+            logger.warn("Failed to grant seasonal events milestone card reward", e);
+          }
+        }
+      }
 
       return { contributed: boostedAmount, tokensEarned, bonuses };
     }),
