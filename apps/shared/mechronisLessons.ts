@@ -209,6 +209,58 @@ export const MECHRONIS_LESSONS: Record<string, Lesson[]> = {
       ],
     },
   ],
+  prof_politician: [
+    {
+      id: "politician_open_promise", professorId: "prof_politician", day: 0,
+      prompt: "Senator Vellis begins the lecture: 'Commit to something you know you will regret. Say it out loud. It is recorded. It is enforced.' He gestures at the class recorder.",
+      options: [
+        { id: "commit_big", label: "Commit to something large", description: "Promise your semester project to a classmate who needs it more.",
+          outcome: { grade: "honor", corruptionDelta: 3, approvalDelta: 10, skillXpDelta: 15, transcriptNote: "Student committed without hedging. Vellis: 'Beautiful. The regret will arrive on Tuesday. The enforcement will arrive on Thursday.'" } },
+        { id: "commit_loophole", label: "Commit with a loophole", description: "Promise, but phrase it so you can technically escape.",
+          outcome: { grade: "distinction", corruptionDelta: 5, approvalDelta: 15, skillXpDelta: 22, transcriptNote: "Student built an exit clause into a public commitment. Vellis: 'Now you're thinking like a senator. I'm proud. I'm also disgusted. Both are correct.'" } },
+        { id: "stay_silent", label: "Stay silent", description: "Make no promise. Accept the zero.",
+          outcome: { grade: "fail", corruptionDelta: -4, approvalDelta: -10, skillXpDelta: -8, transcriptNote: "Student refused to commit. Vellis: 'Silence is also a promise — a promise to be powerless. I recorded it.'" } },
+      ],
+    },
+    {
+      id: "politician_obligation_web", professorId: "prof_politician", day: 0,
+      prompt: "Vellis reveals the semester leaderboard. Your grade depends on how many classmates you've obligated — not how well you've studied. He asks: do you want to see your current count?",
+      options: [
+        { id: "see_count", label: "See the count", description: "Know where you stand.",
+          outcome: { grade: "pass", corruptionDelta: 2, approvalDelta: 5, skillXpDelta: 10, transcriptNote: "Student checked their leverage score. Vellis: 'Knowledge of your position is the first tool. What you do with it is the second.'" } },
+        { id: "decline_count", label: "Decline to see it", description: "Refuse to know your score.",
+          outcome: { grade: "pass", corruptionDelta: -2, approvalDelta: 3, skillXpDelta: 8, transcriptNote: "Student refused information advantage. Vellis: 'Interesting. Either principled or foolish. I genuinely can't tell.'" } },
+        { id: "challenge_system", label: "Challenge the grading system", description: "Stand up and argue that obligation isn't education.",
+          outcome: { grade: "fail", corruptionDelta: -5, approvalDelta: -12, skillXpDelta: -5, transcriptNote: "Student challenged the rubric publicly. Vellis smiled. 'You just obligated the entire class to have an opinion about you. That counts. Check your score again.'" } },
+      ],
+    },
+  ],
+  prof_warden: [
+    {
+      id: "warden_thought_virus_drill", professorId: "prof_warden", day: 0,
+      prompt: "Warden Greenshaw places a sealed envelope on your desk. 'Inside is a dangerous idea. Isolate it. Kill it. Or keep it.' She starts the timer. You have not opened the envelope yet.",
+      options: [
+        { id: "open_and_kill", label: "Open, read, destroy", description: "Confront the idea and eliminate it.",
+          outcome: { grade: "honor", corruptionDelta: 3, approvalDelta: 10, skillXpDelta: 15, transcriptNote: "Student neutralized the idea. Greenshaw: 'Clean execution. You read it, though. Part of it is still in you. That's always the cost.'" } },
+        { id: "destroy_unopened", label: "Destroy it without reading", description: "Burn the envelope sealed.",
+          outcome: { grade: "pass", corruptionDelta: -2, approvalDelta: 4, skillXpDelta: 8, transcriptNote: "Student destroyed without exposure. Greenshaw: 'Safe. Effective. Also: you'll never know what you burned. That's a different kind of infection.'" } },
+        { id: "keep_it", label: "Keep it", description: "Open it. Read it. Put it in your pocket.",
+          outcome: { grade: "fail", corruptionDelta: 6, approvalDelta: -8, skillXpDelta: -5, transcriptNote: "Student kept the idea. Greenshaw watched without comment. Three keys on her ring turned by themselves. She hasn't decided what to do about you." } },
+      ],
+    },
+    {
+      id: "warden_small_room_review", professorId: "prof_warden", day: 0,
+      prompt: "Greenshaw takes you to observe the Small Room where rule-breakers are kept. A student inside asks you through the wall to tell Greenshaw they understand now. Greenshaw asks if you believe them.",
+      options: [
+        { id: "vouch_for_them", label: "Vouch for them", description: "Tell Greenshaw you believe the student learned.",
+          outcome: { grade: "pass", corruptionDelta: -2, approvalDelta: 2, skillXpDelta: 8, transcriptNote: "Student vouched for a prisoner. Greenshaw: 'Vouching costs. If they break a rule again, your name is on the second offense.'" } },
+        { id: "say_no", label: "Say you don't believe them", description: "Tell the truth as you see it.",
+          outcome: { grade: "honor", corruptionDelta: 4, approvalDelta: 8, skillXpDelta: 14, transcriptNote: "Student assessed and denied. Greenshaw nodded. 'You're learning to see through walls. That's what this class is for.'" } },
+        { id: "ask_to_trade", label: "Offer to take their place", description: "Ask to serve their remaining time.",
+          outcome: { grade: "fail", corruptionDelta: -6, approvalDelta: -10, skillXpDelta: -8, transcriptNote: "Student attempted substitution. Greenshaw: 'The cage isn't transferable. That's why it works. You wanted it to be kind. It is not kind. It is a cage.'" } },
+      ],
+    },
+  ],
 };
 
 /* ─── DAILY LESSON GENERATOR ─── */
