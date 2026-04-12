@@ -317,6 +317,66 @@ export const GALACTIC_MAP: GalacticSector[] = [
     lore: "A substrate-resident cell belonging to The Architect's Echo. Only accessible after completing 'The First Pattern's Warning' chapter.",
     accessRequirement: { flag: "quarchon_firstpattern_ch1" },
   },
+
+  /* ═══ GALACTIC DANCE — Faction home sectors (spec §11.1) ═══ */
+  {
+    id: "violetta_approach_lane", name: "Violetta Approach Lane",
+    controlledBy: "independent",
+    resources: { credits: 0, materials: 15, influence: 50, intelligence: 80 },
+    threat: 20, stability: 90, population: 0, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["dreamer_barrier", "frontier_worlds"],
+    lore: "Voltari space. The rules of Trade Empire do not apply. The storm planet Violetta wraps its inhabitants in perpetual lightning. Contains Signal Beacons, Storm Relic nodes, and Witness Points.",
+  },
+  {
+    id: "new_atarion", name: "New Atarion",
+    controlledBy: "independent",
+    resources: { credits: 60, materials: 50, influence: 50, intelligence: 40 },
+    threat: 30, stability: 70, population: 800, hasRuins: true, hasAnomaly: false,
+    adjacentSectors: ["free_ports", "frontier_worlds", "forward_bastion"],
+    lore: "The largest post-fall human civilization. Eleven years under emergency powers. Three damaged shipping platforms, a Syndicate debt, and a generation of Bridge Seekers. Council Speaker Mirren Hale governs with exhaustion and precision.",
+  },
+  {
+    id: "thaloria", name: "Thaloria",
+    controlledBy: "independent",
+    resources: { credits: 30, materials: 30, influence: 70, intelligence: 60 },
+    threat: 15, stability: 80, population: 200, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["free_ports", "frontier_worlds"],
+    lore: "The storm planet's sister-world. Once the Shadow Tongue's weapon. Now the galaxy's quietest recovery. The Hierophant writes names. The Council of Harmony governs with uncertainty as its highest qualification.",
+  },
+  {
+    id: "clone_collective", name: "The Clone Collective",
+    controlledBy: "independent",
+    resources: { credits: 40, materials: 60, influence: 30, intelligence: 50 },
+    threat: 10, stability: 85, population: 17, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["frontier_worlds", "empire_frontier"],
+    lore: "Seventeen thousand identical faces, seventeen thousand different lives. The Oracle's DNA, the Collector's error, and the proof that identity emerges from choice. General Binath-VII commands.",
+  },
+  {
+    id: "forward_bastion", name: "The Forward's Bastion",
+    controlledBy: "insurgency",
+    resources: { credits: 30, materials: 60, influence: 20, intelligence: 50 },
+    threat: 55, stability: 50, population: 40, hasRuins: true, hasAnomaly: false,
+    adjacentSectors: ["insurgency_haven", "new_atarion", "frontier_worlds"],
+    lore: "Field Commander Renn's operational base. Active cells, joint operations with the Warden's Vanguard and Dimensional Guard. The Vortex is three sectors closer than last month.",
+    contestedBy: ["insurgency_forward", "quarchon_dimguard"],
+  },
+  {
+    id: "remembrance_archive", name: "The Remembrance Archive",
+    controlledBy: "insurgency",
+    resources: { credits: 10, materials: 20, influence: 40, intelligence: 80 },
+    threat: 10, stability: 90, population: 5, hasRuins: false, hasAnomaly: false,
+    adjacentSectors: ["insurgency_haven"],
+    lore: "Every line of Iron Lion's communications. Every speech. Every private transmission. Orin Fell has memorized them all and will quote them whether or not context demands it.",
+  },
+  {
+    id: "new_babylon_lower_tiers", name: "New Babylon Lower Tiers",
+    controlledBy: "new_babylon",
+    resources: { credits: 100, materials: 40, influence: 20, intelligence: 90 },
+    threat: 30, stability: 60, population: 500, hasRuins: false, hasAnomaly: false,
+    adjacentSectors: ["new_babylon_core", "syndicate_route_prime"],
+    lore: "The part of New Babylon that was sealed during the Thought Virus quarantine. The part that died so the upper tiers could continue. Now the Syndicate's unofficial territory. Spy class players can access it first; others by invitation.",
+    accessRequirement: { class: "spy" },
+  },
 ];
 
 /* ─── MISSION SYSTEM (AC Brotherhood Style) ─── */
