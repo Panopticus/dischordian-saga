@@ -116,6 +116,22 @@ export {
   TRIGGER_DRAIN_CAP,
 } from "./engine/triggerQueue";
 export type { TriggerEffectRunner } from "./engine/triggerQueue";
+export { interpret, UnsupportedOpError } from "./engine/effectInterpreter";
+export { createDefaultTriggerRunner } from "./engine/defaultTriggerRunner";
+export { makeExecCtx, withIt } from "./engine/execCtx";
+export type { ExecCtx } from "./engine/execCtx";
+export {
+  resolveTargetRef,
+  resolveTargetSelector,
+  matchesUnitFilter,
+  findBoardEntity,
+  UnsupportedSelectorError,
+} from "./engine/targeting";
+export {
+  evaluateCondition,
+  UnsupportedConditionError,
+} from "./engine/conditions";
+export { evaluateAmount, UnsupportedAmountError } from "./engine/amounts";
 
 /* ─── Cards ─── */
 export {
