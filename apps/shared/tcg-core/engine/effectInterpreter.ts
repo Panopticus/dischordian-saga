@@ -41,6 +41,7 @@ import type { ExecCtx } from "./execCtx";
 import { withIt } from "./execCtx";
 import { resolveTargetRef, resolveTargetSelector, findBoardEntity } from "./targeting";
 import { evaluateCondition } from "./conditions";
+import { evaluateAmount } from "./amounts";
 
 // Re-export so reducer.ts + call sites get a single source of truth.
 export type { Effect } from "../types/Effect";
@@ -178,24 +179,263 @@ export function interpret(
       return;
     }
 
+    /* ─── Primitives: damage, heal, draw (new batch) ─── */
+
+    case "deal_damage": {
+      const amount = evaluateAmount(effect.amount, ctx, draft);
+      const ids = resolveTargetRef(effect.to, ctx, draft);
+      for (const id of ids) {
+        const entity = findBoardEntity(draft, id);
+        if (!entity) continue;
+        const charges = entity.card.counters.forcefield_charges ?? 0;
+        if (charges > 0) {
+          entity.card.counters.forcefield_charges = charges - 1;
+          reduceCtx.events.push({
+            type: "damage_dealt",
+            sourceId: ctx.sourceEntityId ?? null,
+            targetId: id,
+            amount,
+            absorbed: true,
+          });
+        } else {
+          entity.card.currentHealth -= amount;
+          reduceCtx.events.push({
+            type: "damage_dealt",
+            sourceId: ctx.sourceEntityId ?? null,
+            targetId: id,
+            amount,
+            absorbed: false,
+          });
+        }
+      }
+      return;
+    }
+
+    case "heal": {
+      const amount = evaluateAmount(effect.amount, ctx, draft);
+      const ids = resolveTargetRef(effect.to, ctx, draft);
+      for (const id of ids) {
+        const entity = findBoardEntity(draft, id);
+        if (!entity) continue;
+        const before = entity.card.currentHealth;
+        entity.card.currentHealth = Math.min(
+          entity.card.maxHealth,
+          entity.card.currentHealth + amount
+        );
+        const healed = entity.card.currentHealth - before;
+        if (healed > 0) {
+          reduceCtx.events.push({
+            type: "healed",
+            sourceId: ctx.sourceEntityId ?? null,
+            targetId: id,
+            amount: healed,
+          });
+        }
+      }
+      return;
+    }
+
+    case "draw": {
+      const amount = evaluateAmount(effect.amount, ctx, draft);
+      const side = effect.who === "self" ? ctx.actorSide : (ctx.actorSide === 0 ? 1 : 0);
+      const player = draft.players[side];
+      for (let i = 0; i < amount; i++) {
+        if (player.deck.length === 0) {
+          reduceCtx.events.push({
+            type: "card_burned",
+            player: side,
+            reason: "deck_empty",
+          });
+          break;
+        }
+        const top = player.deck[0];
+        player.deck = player.deck.slice(1);
+        if (player.hand.length >= 6) {
+          player.graveyard = [...player.graveyard, top];
+          reduceCtx.events.push({
+            type: "card_burned",
+            player: side,
+            reason: "hand_full",
+          });
+        } else {
+          player.hand = [...player.hand, top];
+          reduceCtx.events.push({
+            type: "card_drawn",
+            player: side,
+            cardDefId: top.defId,
+            entityId: top.entityId,
+          });
+        }
+      }
+      return;
+    }
+
+    case "destroy": {
+      const ids = resolveTargetRef(effect.to, ctx, draft);
+      for (const id of ids) {
+        const entity = findBoardEntity(draft, id);
+        if (!entity || entity.isGeneral) continue;
+        entity.card.currentHealth = 0;
+        // SBA will clean up the 0-HP entity on the next fixed-point pass.
+      }
+      return;
+    }
+
+    case "dispel": {
+      const ids = resolveTargetRef(effect.to, ctx, draft);
+      for (const id of ids) {
+        const entity = findBoardEntity(draft, id);
+        if (!entity) continue;
+        // Strip all buffs and revert stats to base.
+        for (const b of entity.card.buffs) {
+          entity.card.currentPower -= b.powerDelta;
+          entity.card.maxHealth -= b.healthDelta;
+          if (entity.card.currentHealth > entity.card.maxHealth) {
+            entity.card.currentHealth = entity.card.maxHealth;
+          }
+        }
+        // Emit keyword_removed for each stripped keyword.
+        for (const kw of entity.card.activeKeywords) {
+          reduceCtx.events.push({
+            type: "keyword_removed",
+            targetId: id,
+            keyword: kw,
+          });
+        }
+        entity.card.buffs = [];
+        entity.card.activeKeywords = [];
+        entity.card.counters = {};
+        entity.isStunned = false;
+      }
+      return;
+    }
+
+    case "stun": {
+      const ids = resolveTargetRef(effect.to, ctx, draft);
+      for (const id of ids) {
+        const entity = findBoardEntity(draft, id);
+        if (!entity) continue;
+        entity.isStunned = true;
+      }
+      return;
+    }
+
+    case "debuff": {
+      const ids = resolveTargetRef(effect.to, ctx, draft);
+      for (const id of ids) {
+        const entity = findBoardEntity(draft, id);
+        if (!entity) continue;
+        const power = -(effect.stats.power ?? 0);
+        const health = -(effect.stats.health ?? 0);
+        entity.card.currentPower += power;
+        entity.card.maxHealth += health;
+        if (entity.card.currentHealth > entity.card.maxHealth) {
+          entity.card.currentHealth = entity.card.maxHealth;
+        }
+        const expiresAtTurn = expiresAtTurnFor(effect.duration, draft.turnNumber);
+        entity.card.buffs = [
+          ...entity.card.buffs,
+          {
+            source: ctx.sourceEntityId ?? "effect",
+            powerDelta: power,
+            healthDelta: health,
+            expiresAtTurn,
+          },
+        ];
+        reduceCtx.events.push({
+          type: "buff_applied",
+          sourceId: ctx.sourceEntityId ?? "effect",
+          targetId: id,
+          powerDelta: power,
+          healthDelta: health,
+          expiresAtTurn,
+        });
+      }
+      return;
+    }
+
+    case "summon": {
+      // Find an empty tile near the summoner (or at the specified position).
+      const posSelector = effect.at;
+      let row = 0;
+      let col = 0;
+      if (posSelector.kind === "specific") {
+        row = posSelector.row;
+        col = posSelector.col;
+      } else if (posSelector.kind === "random_empty") {
+        // Find all empty tiles and pick one via RNG.
+        const empty: Array<{ row: number; col: number }> = [];
+        for (let r = 0; r < 5; r++) {
+          for (let c = 0; c < 9; c++) {
+            const k = `${r},${c}`;
+            if (!draft.board[k]) empty.push({ row: r, col: c });
+          }
+        }
+        if (empty.length === 0) return;
+        const pick = empty[Math.floor(reduceCtx.rng.next() * empty.length)];
+        row = pick.row;
+        col = pick.col;
+      } else {
+        // origin_offset: offset from the source entity's position.
+        const sourceIds = resolveTargetRef({ kind: "self" }, ctx, draft);
+        const sourceEntity = sourceIds.length > 0 ? findBoardEntity(draft, sourceIds[0]) : null;
+        if (!sourceEntity) return;
+        row = sourceEntity.row + (posSelector.dRow ?? 0);
+        col = sourceEntity.col + (posSelector.dCol ?? 0);
+      }
+      const k = `${row},${col}`;
+      if (draft.board[k]) return; // occupied
+      if (row < 0 || row >= 5 || col < 0 || col >= 9) return; // OOB
+      const side = effect.controller === "self" ? ctx.actorSide : (ctx.actorSide === 0 ? 1 : 0);
+      // Mint a new entity for the token.
+      const counter = draft.nextEntityCounter;
+      draft.nextEntityCounter += 1;
+      const entityId = `e_${draft.matchId}_${counter}`;
+      const tokenDef = reduceCtx.registry.get(effect.tokenId);
+      const tokenCard = {
+        entityId: entityId as any,
+        defId: effect.tokenId as any,
+        owner: side,
+        currentPower: tokenDef?.baseStats?.power ?? 1,
+        currentHealth: tokenDef?.baseStats?.health ?? 1,
+        maxHealth: tokenDef?.baseStats?.health ?? 1,
+        counters: {} as Record<string, number>,
+        activeKeywords: tokenDef?.keywords ? [...tokenDef.keywords] : [] as any[],
+        buffs: [] as any[],
+        flags: {} as Record<string, boolean>,
+      };
+      draft.board[k] = {
+        entityId: entityId as any,
+        card: tokenCard,
+        row,
+        col,
+        actionsRemaining: 0,
+        hasMoved: true,
+        hasAttacked: true,
+        isGeneral: false,
+        isStunned: false,
+      };
+      reduceCtx.events.push({
+        type: "token_summoned",
+        tokenId: effect.tokenId,
+        owner: side,
+        row,
+        col,
+        entityId,
+      });
+      return;
+    }
+
     /* ─── Unsupported (thrown by design) ─── */
 
-    case "deal_damage":
-    case "heal":
-    case "debuff":
-    case "draw":
-    case "discard":
-    case "mill":
-    case "return_to_hand":
-    case "summon":
-    case "transform":
-    case "destroy":
-    case "dispel":
     case "silence":
-    case "stun":
     case "teleport":
     case "push":
     case "gain_mana":
+    case "discard":
+    case "mill":
+    case "return_to_hand":
+    case "transform":
     case "foreach":
     case "choose_one":
     case "repeat":
