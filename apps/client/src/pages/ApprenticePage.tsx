@@ -31,6 +31,7 @@ import {
   type DecisionOption,
 } from "@shared/celebrationTrial";
 import { getMascoteer } from "@shared/mascoteers";
+import { ResponsiveImage } from "@/components/ResponsiveImage";
 import {
   getBetrayalStage,
   generateBetrayalEvent,
@@ -247,17 +248,34 @@ export default function ApprenticePage() {
             <CurrentApprenticeCard app={currentApprentice} onMarkFallen={handleFallen} />
             {/* Recruited → send to Celebration */}
             {currentApprentice.stage === "recruited" && (
-              <div className="mt-4 p-3 rounded border border-amber-500/40 bg-amber-500/5">
-                <p className="font-mono text-[10px] italic text-amber-300/80 leading-relaxed mb-2">
-                  Celebration awaits. Four weeks. Twenty-eight days. One graduation, or none. The Mascoteers know you're coming.
-                </p>
-                <button
-                  onClick={sendToCelebration}
-                  className="w-full px-3 py-2 rounded border border-amber-500/50 bg-amber-500/15 text-amber-300 font-mono text-[11px] uppercase tracking-wider hover:bg-amber-500/25"
-                  data-testid="send-to-celebration"
-                >
-                  Send {currentApprentice.name} to Celebration
-                </button>
+              <div className="mt-4 rounded-lg border border-amber-500/40 overflow-hidden relative">
+                {/* Celebration aerial view background */}
+                <div className="absolute inset-0 z-0 overflow-hidden">
+                  <ResponsiveImage
+                    src="/art/celebration/environments/celebration_aerial.jpg"
+                    alt=""
+                    className="w-[115%] h-[115%] object-cover"
+                    style={{
+                      position: "absolute", top: "-7.5%", left: "-7.5%",
+                      opacity: 0.2, filter: "brightness(0.4) saturate(0.8)",
+                    }}
+                  />
+                  <div className="absolute inset-0" style={{
+                    background: "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%)",
+                  }} />
+                </div>
+                <div className="relative z-10 p-3">
+                  <p className="font-mono text-[10px] italic text-amber-300/80 leading-relaxed mb-2">
+                    Celebration awaits. Four weeks. Twenty-eight days. One graduation, or none. The Mascoteers know you're coming.
+                  </p>
+                  <button
+                    onClick={sendToCelebration}
+                    className="w-full px-3 py-2 rounded border border-amber-500/50 bg-amber-500/15 text-amber-300 font-mono text-[11px] uppercase tracking-wider hover:bg-amber-500/25"
+                    data-testid="send-to-celebration"
+                  >
+                    Send {currentApprentice.name} to Celebration
+                  </button>
+                </div>
               </div>
             )}
             {/* Training → daily decision (or pending battle) */}
@@ -707,7 +725,12 @@ function DailyDecisionCard({ decision, day, onChoose }: {
   onChoose: (option: DecisionOption) => void;
 }) {
   const mascoteer = getMascoteer(decision.mascoteerId);
-  const sceneArt = MASCOTEER_SCENE_ART[decision.mascoteerId];
+  const defaultSceneArt = MASCOTEER_SCENE_ART[decision.mascoteerId];
+  // Trial room appears on exam days (10, 20, 28) and alternating days in the final week
+  const useTrialRoom = day === 10 || day === 20 || day === 28 || (day >= 21 && day % 2 === 1);
+  const sceneArt = useTrialRoom
+    ? "/art/celebration/environments/celebration_trial_room.jpg"
+    : defaultSceneArt;
   const accent = MASCOTEER_ACCENT[decision.mascoteerId] ?? "#c084fc";
   const isNight = day >= 21; // Last week = night scenes
 
@@ -721,7 +744,7 @@ function DailyDecisionCard({ decision, day, onChoose }: {
       {/* Scene art background */}
       {sceneArt && (
         <div className="absolute inset-0 z-0 overflow-hidden">
-          <img
+          <ResponsiveImage
             src={isNight ? "/art/celebration/celebration-by-night.png" : sceneArt}
             alt=""
             className="w-[115%] h-[115%] object-cover celebration-drift"
@@ -783,29 +806,57 @@ function DailyDecisionCard({ decision, day, onChoose }: {
           )}
         </div>
 
-        {/* Scene art hero strip */}
-        {sceneArt && (
-          <div className="relative h-28 -mx-4 mb-3 overflow-hidden">
-            <img
-              src={isNight ? "/art/celebration/celebration-by-night.png" : sceneArt}
-              alt={mascoteer?.mascotName || ""}
-              className="w-full h-full object-cover"
-              style={{
-                filter: isNight
-                  ? "brightness(0.5) saturate(0.6)"
-                  : "brightness(0.7) contrast(1.1)",
-              }}
-            />
-            <div className="absolute inset-0" style={{
-              background: `linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%), linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 30%)`,
-            }} />
-            {mascoteer && (
-              <div className="absolute bottom-2 left-4 right-4">
-                <div className="font-display text-sm font-bold tracking-wider" style={{ color: accent, textShadow: `0 2px 12px rgba(0,0,0,0.8)` }}>
-                  {mascoteer.dailyGame.split("—")[0].trim()}
-                </div>
-              </div>
+        {/* Mascoteer portrait hero */}
+        {mascoteer && (
+          <div className="relative h-40 -mx-4 mb-3 overflow-hidden">
+            {/* Scene art as background layer */}
+            {sceneArt && (
+              <ResponsiveImage
+                src={isNight ? "/art/celebration/celebration-by-night.png" : sceneArt}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{
+                  filter: isNight
+                    ? "brightness(0.3) saturate(0.4) hue-rotate(20deg)"
+                    : "brightness(0.4) saturate(0.7)",
+                }}
+              />
             )}
+            {/* Mascoteer portrait — centered, prominent */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative">
+                <ResponsiveImage
+                  src={mascoteer.portrait}
+                  alt={mascoteer.mascotName}
+                  className="w-28 h-28 rounded-lg object-cover object-top cel-portrait-breathe border-2 shadow-xl"
+                  style={{
+                    borderColor: `${accent}50`,
+                    boxShadow: `0 0 24px ${accent}25, 0 4px 16px rgba(0,0,0,0.5)`,
+                    filter: isNight ? "brightness(0.75) saturate(0.8)" : undefined,
+                  }}
+                  eager
+                />
+                {/* Danger indicator on risky decisions */}
+                {decision.options.some(o => (o.outcome.deathChance ?? 0) > 0.05) && (
+                  <div
+                    className="absolute -top-1 -right-1 w-4 h-4 rounded-full border border-red-500/60 bg-red-900/80 flex items-center justify-center"
+                    title="Dangerous day"
+                  >
+                    <AlertTriangle size={8} className="text-red-400" />
+                  </div>
+                )}
+              </div>
+            </div>
+            {/* Gradient overlays */}
+            <div className="absolute inset-0" style={{
+              background: `linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 40%), linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 30%)`,
+            }} />
+            {/* Game name at bottom */}
+            <div className="absolute bottom-2 left-4 right-4">
+              <div className="font-display text-sm font-bold tracking-wider" style={{ color: accent, textShadow: `0 2px 12px rgba(0,0,0,0.8)` }}>
+                {mascoteer.dailyGame.split("—")[0].trim()}
+              </div>
+            </div>
           </div>
         )}
 
@@ -861,6 +912,11 @@ function DailyDecisionCard({ decision, day, onChoose }: {
         .celebration-drift { animation: cel-drift 25s ease-in-out infinite; }
         .celebration-pulse { animation: cel-pulse 4s ease-in-out infinite; }
         .celebration-particle { animation: cel-particle 5s ease-in-out infinite; }
+        @keyframes cel-portrait-breathe {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.008); }
+        }
+        .cel-portrait-breathe { animation: cel-portrait-breathe 3.5s ease-in-out infinite; }
       `}</style>
     </motion.div>
   );
