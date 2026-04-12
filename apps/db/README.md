@@ -51,3 +51,48 @@ If you hand-write one, remember to:
    `tables` to reflect the new DB state. If you only touched a column,
    it's simpler to run `drizzle-kit generate` afterwards and accept its
    snapshot overwrite.
+
+## Known journal drift (post-0035)
+
+After the reconciliation described above, several concurrent feature
+branches landed hand-written migrations at colliding indices without
+updating `_journal.json`. As of the pet system extension commit, the
+following files exist on disk but are **orphaned** from the journal:
+
+- `0036_admin_approval_requests.sql`
+- `0037_dead_mans_circuit_lifecycle.sql`
+- `0037_pet_system_extension.sql` — renamed to `0048_pet_system_extension.sql`
+  to at least unblock deploys that numerically collide with the other
+  0037s. Journal entry still pending.
+- `0038_premium_currency_gems.sql`
+- `0039_pvp_decay_tracking.sql`
+- `0041_casino_and_xmas_july.sql`
+- `0042_casino_xmas_refinements.sql`
+- `0043_casino_wins_counter.sql`, `0043_chess_persistence.sql`
+- `0044_casino_cosmetics_inventory.sql`, `0044_palimpsest_state.sql`
+- `0045_casino_equipped_cosmetics.sql`
+- `0046_casino_notification_preferences.sql`
+- `0047_casino_milestone_opt_out.sql`
+- `0048_pet_system_extension.sql`
+
+The journal currently lists: 0035, 0037 (`dischordia_cycle`), 0040
+(`crew_tables`), 0045 (`arena_essences`). Snapshots exist up through
+0040; the 0045 entry has no corresponding snapshot file.
+
+Impact: these orphaned migrations are invisible to `drizzle-kit migrate`
+and will not be applied automatically on deploy. Teams have been relying
+on manual `drizzle-kit generate` runs against live DBs (which re-derive
+drift from `schema.ts`) to apply the changes — a pattern that works as
+long as the target schema is idempotent on re-run. Hand-written
+migrations in this range should use `INFORMATION_SCHEMA` guards (see
+`0048_pet_system_extension.sql` for the stored-procedure pattern) so
+they are safe to re-execute.
+
+**Full reconciliation** — adding every orphan to the journal with a
+matching snapshot — is scoped to a dedicated devops cleanup commit and
+should NOT be bundled into a feature PR. Until that lands, any new
+hand-written migration should:
+
+1. Pick an index past the highest file on disk (currently 0048).
+2. Use `INFORMATION_SCHEMA` / `IF NOT EXISTS` guards so re-runs are no-ops.
+3. Document its orphaned status in this section of the README.
