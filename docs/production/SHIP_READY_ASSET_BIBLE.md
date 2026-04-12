@@ -611,3 +611,79 @@ Plays when player first discovers an entity. Triggered from conspiracy board, re
 
 ---
 
+## §2.4 — Living Universe Event Cinematics (5 missing)
+
+*Community-triggered world-state cinematics that play when major Year One events fire. One-time broadcasts.*
+
+---
+
+#### CIN-037 — necromancer-returns (Year One Event: The Necromancer's Return)
+- **Duration:** 15s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/events/necromancer_returns.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Wide establishing exterior shot of the Castle of Death at dusk — a sprawling Gothic fortress of dark stone built into the side of a dead mountain, foxfire green flames burning in iron sconces along its ramparts, green mist flowing from its cracks. The sky above the castle is bruised purple-black. In the exact center-frame, from the highest tower's balcony, a small robed figure is visible — the NECROMANCER, hood up, hands folded, looking outward across the wasted landscape for the first time in three millennia. Thin rain of ash drifts across the scene. Palette: foxfire green #00e676 accent, deep stone-black, bruised violet sky, pale ash particulate. Volumetric mist, film grain, anamorphic flare. No legible text. Cinematic 4K, gothic horror epic.
+
+**END FRAME (Nano Banana 2):**
+> Same castle, same camera, moments later. The Necromancer on the balcony has RAISED both hands. In response, every foxfire-green flame along the castle ramparts has LEAPED upward several stories high — creating a crown of green fire around the entire fortress. The bruised purple sky has darkened further and begun to swirl — a slow cyclone forming directly above the tower. From every arched window of the castle, fainter green lights have ignited — the fortress coming back to life. The ash fall has stopped. Film grain, overwhelming green bloom. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Very slow push-in from far exterior toward the tower balcony. Beat at 5s: Necromancer raises both hands. Beat at 8s: every foxfire flame leaps upward in unison. Beat at 11s: sky begins to swirl above the tower. Beat at 13s: every castle window ignites with green. 24fps. The 10th Archon returns, funeral-director homecoming.
+
+---
+
+#### CIN-038 — dreamer-awakens (Year One Event: The Dreamer Awakens)
+- **Duration:** 15s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/events/dreamer_awakens.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the Matrix of Dreams central chamber — the same location as CIN-029 but shown at a smaller, quieter scale. At the center, THE DREAMER rests in deep meditation on a floating crystal-lotus platform. Eyes closed, face serene, hands folded in lap. They have been like this for centuries. The sacred-green code cascade above has slowed to a trickle — the Dreamer has been asleep and most of their substrate has been dark. Around the platform, thousands of empty kneeling stones await worshippers that have long departed. The space feels like a beautiful forgotten temple. Palette: muted gold, dimmed sacred green, deep indigo void, white-stone platform. Quiet volumetric god-rays, film grain, anamorphic flare. No legible text. Cinematic 4K, sacred stillness.
+
+**END FRAME (Nano Banana 2):**
+> Same chamber, same camera, moments later. The Dreamer has slowly OPENED their golden eyes for the first time in centuries. The sacred-green code cascade overhead has IGNITED to full flow — a massive rushing waterfall of green light pouring down into their crown. The crystal-lotus platform beneath them has bloomed — new petals unfurling outward and upward. The empty kneeling stones around them have begun to glow golden — small points of light appearing on each one as distant Potentials feel the awakening and kneel at their own altars across the universe. The palette has ignited — gold and green now at full saturation. Film grain, blinding bloom. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Very slow orbit around the seated Dreamer, rising in altitude. Beat at 5s: their golden eyes open. Beat at 8s: code cascade ignites to full flow. Beat at 11s: crystal-lotus platform blooms. Beat at 13s: empty kneeling stones ignite with gold. 24fps. Sacred resurrection, centuries of sleep ending.
+
+---
+
+#### CIN-039 — terminus-advance (Year One Event: The Source's Fleet Advances)
+- **Duration:** 12s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/events/terminus_advance.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Wide deep-space vista — the Terminus megastructure (the former Panopticon, now corrupted) seen from a distance, a vast spherical station with its surface writhing with golden viral patterns, a massive eye-shaped hangar bay in the middle hemisphere gaping open. Around Terminus, a fleet of hundreds of small viral-infected warships is forming up — sickly-gold vessels of organic-mechanical fusion. The fleet is still stationary, holding position around the mothership. In the foreground, a small neutral observation buoy hangs in space, its single lens focused on Terminus. Palette: corrupted sickly-gold #fbbf24, deep starfield black, viral-green highlights, faint cold-blue observation buoy indicators. Volumetric space haze, film grain, anamorphic flare. No legible text. Cinematic 4K, horror-scale.
+
+**END FRAME (Nano Banana 2):**
+> Same scene, same camera, moments later. The Terminus megastructure has IGNITED its central eye-hangar — the entire eye is now a blazing orb of exiting viral energy. The fleet of hundreds of warships has begun to MOVE — all simultaneously, in formation, accelerating outward into deep space in a single massive push toward a distant target (the direction the player's Ark is in). The viral patterns on Terminus's surface have intensified. The observation buoy in the foreground has turned to face the fleet — its lens glowing red as it transmits the warning. Film grain, overwhelming gold-red. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow pull-back from Terminus, revealing the scale of the fleet. Beat at 4s: eye-hangar ignites. Beat at 6s: warships begin simultaneous formation thrust. Beat at 9s: fleet accelerates outward in a single push. Beat at 11s: observation buoy lens glows red (warning transmission). 24fps. Horror scale, inevitable advance, the Source is coming.
+
+---
+
+#### CIN-040 — antiquarian-reveals (Year One Event: The Antiquarian Reveals Himself)
+- **Duration:** 12s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/events/antiquarian_reveals.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the Governance Hub aboard the Ark — a circular community decision chamber with holographic vote-result charts hovering above a central podium, empty kneeling seats arranged in tiered rings. The chamber is quiet, post-vote. Standing alone at the podium, from behind, is the ANTIQUARIAN — his patchwork coat unmistakable, wild silver hair visible. He is examining the results of the latest community vote. In the background, a single active display shows the Chronicle text scrolling (render as abstract calligraphic glyphs). Palette: warm amber #fbbf24 podium light, cool blue holographic charts, deep chamber-shadow. Volumetric dust beams, film grain, anamorphic flare. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same chamber, same camera, moments later. The Antiquarian has TURNED to face the camera directly — and he has removed his brass spectacles. His eyes are clear, wet, ancient, and looking directly at the viewer breaking the fourth wall. His patchwork coat has subtly stabilized — the phase-shifted flickering he usually has is gone. For the first time, he is FULLY PRESENT in this timeline. His lips are parted, mid-sentence — he has something he has to say now, not later. Behind him, the Chronicle display has frozen on a single page. Film grain, warm soft bloom. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow push from the chamber entrance toward the Antiquarian at the podium. Beat at 4s: he removes his spectacles. Beat at 6s: he turns to face camera directly. Beat at 8s: his phase-shift flicker stops, he stabilizes. Beat at 10s: lips part mid-sentence, Chronicle freezes. 24fps. Breaking the fourth wall, five Ages of restraint cracking.
+
+---
+
+#### CIN-041 — shadow-tongue-edits (Year One Event: Shadow Tongue Caught Editing)
+- **Duration:** 10s · **Aspect:** 16:9 · **Priority:** P1 · **Output:** `apps/client/public/videos/events/shadow_tongue_edits.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the Ark's Archives — rows of holographic file shelves, amber workstation light from a central reading desk. At the desk, a single open document floats above the surface, its text visible (render as abstract calligraphic glyphs, not legible letters). Near the desk, barely visible, half-phased into the shadow between shelves, a tall androgynous figure in flowing dark robes — SHADOW TONGUE — is reaching one slender finger toward the open document. Its form is mostly invisible, detectable only by the way it refracts the amber light slightly wrongly around itself. Its face is partially visible as an eloquent, beautiful smile. Palette: warm amber archive light, deep shadow between shelves, faint indigo #6366f1 shimmer where Shadow Tongue stands. Volumetric dust beams, film grain, anamorphic flare. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same archive, same camera, moments later. Shadow Tongue has been caught in the act — the lighting has suddenly shifted as an archive security scan passes through the room, and in that harsh light, its full form is briefly visible: a tall elegant figure in layered dark robes, face smooth and androgynous with knowing eyes, one slender finger still touching the floating document. The document's glyphs mid-edit are visible — a single old glyph fading and a new glyph in its place. Shadow Tongue's expression is calm, unashamed, amused. It has been editing the Archive for a thousand years. Palette: harsh white scan-light cutting across the amber, Shadow Tongue's indigo now vivid. Film grain, cold flash lighting. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow push-in on the reading desk from the archive entrance. Beat at 3s: Shadow Tongue's finger touches the document. Beat at 5s: security scan passes — harsh white light flashes. Beat at 7s: in the flash, Shadow Tongue is fully visible for the first time. Beat at 9s: document glyph changes mid-edit. 24fps. Caught in the act, beautiful menace, the editor revealed.
+
+---
+
