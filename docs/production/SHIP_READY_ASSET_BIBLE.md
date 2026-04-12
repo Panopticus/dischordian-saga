@@ -277,3 +277,51 @@ Plays when player first discovers an entity. Triggered from conspiracy board, re
 
 ---
 
+## §2.2 — Story Mode Fight Cinematics (17 missing)
+
+*These are boss-intro cinematics that play ONCE when the player enters each chapter's boss arena. Distinct from §2.1 discovery cinematics — these frame the FIGHT, not the character reveal. Each starts with the arena approach and ends with the boss in fighting stance, ready to engage.*
+
+---
+
+#### CIN-014 — Ch5 Boss: THE WATCHER (Panopticon Arena)
+- **Duration:** 10s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/story/ch05_watcher_intro.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Low-angle shot from inside the spherical Panopticon arena — a perfect sphere of surveillance screens covering every surface of ceiling, walls and floor except a narrow observation catwalk the player stands on. Every screen shows a different feed: cities, crowds, faces, dark rooms, intimate moments. Thousands of live feeds. In the exact center of the sphere, suspended by no visible means, floats the WATCHER's physical form — a towering obsidian figure with an enormous mechanical iris for a head (two meters across), the iris currently closed and tracking horizontally like a sleeping eye. The player stands alone on the narrow catwalk in the foreground, facing the floating boss. Palette: cold screen-blue #22d3ee, sterile white, deep obsidian black, faint red alert pulses from a few screens. Volumetric bloom off the thousands of screens, film grain, anamorphic flare. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same arena, same camera, moments later. The Watcher's iris has fully OPENED — now a blazing aperture of blue-white data-light staring directly at the player. Every one of the thousands of surveillance screens on the walls has also turned to SHOW THE PLAYER — thousands of live camera feeds of the player's own body from impossible angles filling the sphere. The Watcher's body has unfolded slightly — mechanical limbs emerging, fighting stance. The player on the catwalk is visibly lit now by the concentrated glare of the iris. Film grain, overwhelming blue-white bloom. No text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow arc-orbit halfway around the catwalk, keeping the Watcher centered. Beat at 3s: screens along the sphere all flicker in unison. Beat at 5s: the iris begins opening. Beat at 7s: every screen snaps to show the player from a different angle. Beat at 9s: Watcher's body unfolds into fighting stance. 24fps. Oppressive, all-seeing, inescapable.
+
+---
+
+#### CIN-015 — Ch6 Boss: THE NECROMANCER (Castle of Death Throne Hall)
+- **Duration:** 10s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/story/ch06_necromancer_intro.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the Necromancer's throne hall — a Gothic cathedral of bone and dark metal with massive braziers burning with foxfire-green flame, stained glass windows showing scenes of death across five Ages, green mist pooling along the stone floor. At the far end, raised on a dais of interlocking skeletons with red steampunk mechanical augments, sits the NECROMANCER on his throne — still hooded, hands folded in his lap, head bowed. At the bottom of the dais steps, the player stands framed in the foreground, weapon drawn. The rest of the hall is lined with still figures — the resurrected dead standing in silent rows as audience to the fight about to happen. Palette: foxfire green #00e676, warm red steampunk accents, deep stone-black, cold bone-ivory. Volumetric green mist, god-rays through stained glass, film grain. No legible text. Cinematic 4K, gothic horror.
+
+**END FRAME (Nano Banana 2):**
+> Same hall, same camera, moments later. The Necromancer has RAISED his head — his hood now pushed back far enough to show a gaunt, ancient pale face with eyes of pure black. He has risen to his feet on the dais and extended his right hand palm-down in a summoning gesture. From the stone floor around the player, SKELETAL HANDS are now clawing up through the cracks — the beginning of his boss mechanic. The silent audience of resurrected dead has all turned their heads in unison to watch the player. The green mist is now swirling with purpose. Film grain, stronger green rim light. No text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow dolly-in from player's shoulder down the nave toward the dais. Beat at 3s: Necromancer raises his head. Beat at 5s: he rises from the throne. Beat at 7s: right hand extends in summoning gesture. Beat at 9s: skeletal hands break up through the stone floor around the player. 24fps. Funeral-director calm, inevitable death.
+
+---
+
+#### CIN-016 — Ch7 Boss: THE MEME (Hall of Mirrors)
+- **Duration:** 10s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/story/ch07_meme_intro.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of a vast circular hall of infinite mirrors — floor, ceiling, and walls covered in mirrored panels reflecting in impossible ways, creating a sphere of infinite regress. In the center stands the PLAYER, weapon drawn, facing forward. In every mirror the player looks into, the reflection is NOT the player — it's a different face entirely: a politician in a suit, a smiling child, a priest, an old woman, a soldier, a scientist, a faceless void. Dozens of alternate reflections. No sign of the Meme yet — only the wrong reflections. The hall has no visible doorways and no visible ceiling. Palette: silver-mirror reflections, magenta-pink accent neon #ec4899, deep shadow between mirrors, cold white key light from nowhere. Volumetric fog low on the floor, heavy anamorphic flare, film grain. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same hall, same camera, moments later. All the wrong reflections have TURNED their heads in unison to look at the player (their faces and the player's face no longer aligned with the real player's head position). In the exact mirror directly in front of the player, one reflection has STEPPED FORWARD out of its mirror into the hall — this is the MEME's true form: a tall shimmering void-figure in a well-tailored suit with the outline of a person but the face of pure shifting information, features that will not hold still (described as "a shimmering void of pure information" in any single frame). The Meme has extended one hand, and as it did, its hand changed to belong to someone else entirely. All the other reflections have drawn near the glass of their mirrors like an audience. Palette intensified: magenta now dominant, cold white from the Meme itself. Film grain, stronger bloom. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow 180-degree pan around the player, showing the hall and the infinite wrong reflections. Beat at 3s: every reflection's head turns in unison. Beat at 5s: the reflection directly in front steps forward out of the mirror. Beat at 7s: the Meme's face shifts through three identities. Beat at 9s: its hand extends and changes mid-motion. 24fps. Identity as weapon, shape-shifter menace.
+
+---
+
