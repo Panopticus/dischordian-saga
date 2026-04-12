@@ -426,20 +426,150 @@ export function interpret(
       return;
     }
 
-    /* ─── Unsupported (thrown by design) ─── */
+    /* ─── Newly implemented ops ─── */
 
-    case "silence":
+    case "silence": {
+      // Silence = dispel: strip keywords, buffs, counters, unstun.
+      const ids = resolveTargetRef(effect.to, ctx, draft);
+      for (const id of ids) {
+        const entity = findBoardEntity(draft, id);
+        if (!entity) continue;
+        for (const b of entity.card.buffs) {
+          entity.card.currentPower -= b.powerDelta;
+          entity.card.maxHealth -= b.healthDelta;
+          if (entity.card.currentHealth > entity.card.maxHealth) {
+            entity.card.currentHealth = entity.card.maxHealth;
+          }
+        }
+        for (const kw of entity.card.activeKeywords) {
+          reduceCtx.events.push({ type: "keyword_removed", targetId: id, keyword: kw });
+        }
+        entity.card.buffs = [];
+        entity.card.activeKeywords = [];
+        entity.card.counters = {};
+        entity.isStunned = false;
+      }
+      return;
+    }
+
+    case "gain_mana": {
+      const amount = evaluateAmount(effect.amount, ctx, draft);
+      const player = draft.players[ctx.actorSide];
+      if (effect.permanent) {
+        player.maxMana = Math.min(9, player.maxMana + amount);
+      }
+      player.mana = Math.min(player.maxMana, player.mana + amount);
+      return;
+    }
+
+    case "discard": {
+      const amount = evaluateAmount(effect.amount, ctx, draft);
+      const side = effect.from === "self" ? ctx.actorSide : (ctx.actorSide === 0 ? 1 : 0) as 0 | 1;
+      const player = draft.players[side];
+      for (let i = 0; i < amount && player.hand.length > 0; i++) {
+        let idx: number;
+        if (effect.mode === "random") {
+          idx = Math.floor(reduceCtx.rng.next() * player.hand.length);
+        } else {
+          idx = 0; // "choose" falls back to first card for AI
+        }
+        const discarded = player.hand[idx];
+        player.hand = [...player.hand.slice(0, idx), ...player.hand.slice(idx + 1)];
+        player.graveyard = [...player.graveyard, discarded];
+        reduceCtx.events.push({
+          type: "card_discarded",
+          player: side,
+          entityId: discarded.entityId,
+          mode: effect.mode,
+        });
+      }
+      return;
+    }
+
+    case "return_to_hand": {
+      const ids = resolveTargetRef(effect.to, ctx, draft);
+      for (const id of ids) {
+        const entity = findBoardEntity(draft, id);
+        if (!entity || entity.isGeneral) continue;
+        const ownerSide = effect.owner === "self" ? ctx.actorSide : entity.card.owner;
+        const owner = draft.players[ownerSide];
+        // Remove from board.
+        for (const [key, e] of Object.entries(draft.board)) {
+          if (e.entityId === id) {
+            delete draft.board[key];
+            break;
+          }
+        }
+        // Add to hand (or graveyard if hand full).
+        if (owner.hand.length < 6) {
+          owner.hand = [...owner.hand, entity.card];
+        } else {
+          owner.graveyard = [...owner.graveyard, entity.card];
+        }
+      }
+      return;
+    }
+
+    case "transform": {
+      const ids = resolveTargetRef(effect.to, ctx, draft);
+      for (const id of ids) {
+        const entity = findBoardEntity(draft, id);
+        if (!entity || entity.isGeneral) continue;
+        const newDef = reduceCtx.registry.get(effect.into);
+        if (!newDef) continue;
+        // Replace the card data with the new definition's base stats.
+        entity.card.defId = effect.into as typeof entity.card.defId;
+        entity.card.currentPower = newDef.baseStats?.power ?? 1;
+        entity.card.currentHealth = newDef.baseStats?.health ?? 1;
+        entity.card.maxHealth = newDef.baseStats?.health ?? 1;
+        entity.card.activeKeywords = [...newDef.keywords];
+        entity.card.buffs = [];
+        entity.card.counters = {};
+        entity.card.flags = {};
+      }
+      return;
+    }
+
+    case "foreach": {
+      const targets = resolveTargetSelector(effect.over, ctx, draft);
+      for (const targetId of targets) {
+        const newCtx = withIt(ctx, targetId);
+        interpret(effect.do, newCtx, draft, reduceCtx);
+      }
+      return;
+    }
+
+    case "sacrifice_then": {
+      const sacTargets = resolveTargetSelector(effect.sac, ctx, draft);
+      if (sacTargets.length === 0) return;
+      // Sacrifice the first resolved target.
+      const sacId = sacTargets[0];
+      const sacEntity = findBoardEntity(draft, sacId);
+      if (sacEntity && !sacEntity.isGeneral) {
+        sacEntity.card.currentHealth = 0;
+        // SBA will clean up on the next fixed-point pass.
+      }
+      // Execute the "then" effect.
+      interpret(effect.then, ctx, draft, reduceCtx);
+      return;
+    }
+
+    case "mill": {
+      const amount = evaluateAmount(effect.amount, ctx, draft);
+      const side = effect.who === "self" ? ctx.actorSide : (ctx.actorSide === 0 ? 1 : 0) as 0 | 1;
+      const player = draft.players[side];
+      for (let i = 0; i < amount && player.deck.length > 0; i++) {
+        const top = player.deck[0];
+        player.deck = player.deck.slice(1);
+        player.graveyard = [...player.graveyard, top];
+      }
+      return;
+    }
+
     case "teleport":
     case "push":
-    case "gain_mana":
-    case "discard":
-    case "mill":
-    case "return_to_hand":
-    case "transform":
-    case "foreach":
     case "choose_one":
     case "repeat":
-    case "sacrifice_then":
       throw new UnsupportedOpError(
         `effect op '${(effect as { op: string }).op}' not yet implemented`
       );

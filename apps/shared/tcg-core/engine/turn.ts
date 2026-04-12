@@ -30,6 +30,8 @@ import type { GameState } from "../types/GameState";
 import { MAX_MANA } from "../types/GameState";
 import type { Side } from "../types/Ids";
 import type { ReduceCtx } from "./reducer";
+import type { ConcreteAbility } from "../types/Trigger";
+import { enqueueTrigger } from "./triggerQueue";
 
 export function refreshTurnForPlayer(
   draft: Draft<GameState>,
@@ -95,5 +97,29 @@ export function refreshTurnForPlayer(
     entity.actionsRemaining = entity.card.activeKeywords.includes("celerity")
       ? 2
       : 1;
+  }
+
+  // Enqueue on_turn_start triggers for the active player's entities.
+  for (const entity of Object.values(draft.board)) {
+    if (entity.card.owner !== side) continue;
+    const def = ctx.registry.get(entity.card.defId);
+    if (!def) continue;
+    const abilities = def.abilities as unknown as ConcreteAbility[];
+    for (let i = 0; i < abilities.length; i++) {
+      const trigger = abilities[i].trigger;
+      if (
+        trigger.kind === "on_turn_start" &&
+        (trigger.owner === "self" || trigger.owner === "either")
+      ) {
+        enqueueTrigger(draft, {
+          sourceEntityId: entity.entityId,
+          sourceOwner: entity.card.owner,
+          sourceRow: entity.row,
+          sourceCol: entity.col,
+          abilityIdx: i,
+          context: { triggerSourceId: entity.entityId },
+        });
+      }
+    }
   }
 }

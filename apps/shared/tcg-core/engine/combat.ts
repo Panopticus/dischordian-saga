@@ -38,6 +38,8 @@ import { posKey } from "../types/GameState";
 import type { Action, ReduceError } from "../types/Action";
 import type { ReduceCtx } from "./reducer";
 import type { Side } from "../types/Ids";
+import type { ConcreteAbility } from "../types/Trigger";
+import { enqueueTrigger } from "./triggerQueue";
 
 export function handleAttack(
   draft: Draft<GameState>,
@@ -179,12 +181,45 @@ function applyCombatDamage(
     absorbed: false,
   });
 
+  // Enqueue on_damage_dealt triggers for the source entity.
+  enqueueDamageDealtTriggers(draft, source, dest, ctx);
+
   // Artifact durability loss: when a general takes real damage, each
   // equipped artifact loses 1 durability.
   if (dest.isGeneral) {
     const owner: Draft<PlayerState> = draft.players[dest.card.owner as Side];
     for (const artifact of owner.artifacts) {
       artifact.durability = artifact.durability - 1;
+    }
+  }
+}
+
+/**
+ * Enqueue on_damage_dealt triggers for the source entity after dealing damage.
+ */
+function enqueueDamageDealtTriggers(
+  draft: Draft<GameState>,
+  source: Draft<BoardEntity>,
+  victim: Draft<BoardEntity>,
+  ctx: ReduceCtx
+): void {
+  const def = ctx.registry.get(source.card.defId);
+  if (!def) return;
+  const abilities = def.abilities as unknown as ConcreteAbility[];
+  for (let i = 0; i < abilities.length; i++) {
+    const trigger = abilities[i].trigger;
+    if (trigger.kind === "on_damage_dealt" && trigger.by === "self") {
+      enqueueTrigger(draft, {
+        sourceEntityId: source.entityId,
+        sourceOwner: source.card.owner,
+        sourceRow: source.row,
+        sourceCol: source.col,
+        abilityIdx: i,
+        context: {
+          triggerSourceId: source.entityId,
+          triggerVictimId: victim.entityId,
+        },
+      });
     }
   }
 }

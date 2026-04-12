@@ -254,6 +254,33 @@ export {
 } from "./decks/starterDecks";
 export type { StarterDeck } from "./decks/starterDecks";
 
+/* ─── Balance ─── */
+export { STAT_CURVE, KEYWORD_TAX, getExpectedStats } from "./balance/statCurve";
+export { audit as runBalanceAudit } from "./balance/balanceAudit";
+
+/* ─── Card Rewards (WS-D) ─── */
+export type {
+  RewardType,
+  MoralityBranch,
+  VoteBranch,
+  CardRewardSource,
+  MoralityRewardTier,
+  MoralAxis,
+  VoteRewardConfig,
+  GameModeReward,
+} from "./rewards/index";
+export {
+  CARD_REWARD_REGISTRY,
+  REWARD_MAP,
+  MORALITY_REWARD_TIERS,
+  computeDominantAxis,
+  VOTE_REWARD_CONFIGS,
+  VOTE_REWARD_MAP,
+  ALL_GAME_MODE_REWARDS,
+  GAME_MODE_REWARD_MAP,
+  REWARDS_BY_MODE,
+} from "./rewards/index";
+
 /* ─── Compat (legacy client translation) ─── */
 export {
   translateClientAction,
