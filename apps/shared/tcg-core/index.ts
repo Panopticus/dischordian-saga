@@ -116,3 +116,15 @@ export {
   TRIGGER_DRAIN_CAP,
 } from "./engine/triggerQueue";
 export type { TriggerEffectRunner } from "./engine/triggerQueue";
+
+/* ─── Cards ─── */
+export {
+  cardDefinitionSchema,
+  type ValidatedCardDefinition,
+} from "./cards/schema";
+export {
+  buildCardRegistry,
+  assertCardsPresent,
+  CardRegistryLoadError,
+} from "./cards/loader";
+export { ALL_CARD_DEFINITIONS } from "./cards/index";
