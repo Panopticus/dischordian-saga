@@ -22,6 +22,7 @@ export const BOARD_HEIGHT = 5;
 export const MAX_MANA = 9;
 export const STARTING_MANA = 2;
 export const MAX_HAND = 6;
+export const MAX_ARTIFACTS = 3;
 export const GENERAL_HP = 25;
 export const DECK_SIZE = 40; // including general
 export const MULLIGAN_HAND_SIZE = 5;

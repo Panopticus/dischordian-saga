@@ -90,6 +90,7 @@ import { crewRouter } from "./routers/crew";
 import { storyModeRouter } from "./routers/storyMode";
 import { tutorialRouter } from "./routers/tutorial";
 import { collectionRouter } from "./routers/collection";
+import { celebrationRouter } from "./routers/celebration";
 
 export const appRouter = router({
   collection: collectionRouter,
@@ -176,6 +177,7 @@ export const appRouter = router({
   crew: crewRouter,
   storyMode: storyModeRouter,
   tutorial: tutorialRouter,
+  celebration: celebrationRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

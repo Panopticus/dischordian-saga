@@ -24,6 +24,7 @@ export {
   MAX_MANA,
   STARTING_MANA,
   MAX_HAND,
+  MAX_ARTIFACTS,
   GENERAL_HP,
   DECK_SIZE,
   MULLIGAN_HAND_SIZE,
@@ -239,6 +240,19 @@ export type { CurrencyType, EconomyConfig } from "./economy/config";
 
 /* ─── Campaign AI ─── */
 export { chooseCampaignAction } from "./ai/campaignAI";
+
+/* ─── Starter Decks ─── */
+export {
+  ALL_STARTER_DECKS,
+  STARTER_DECK_MAP,
+  ARCHITECT_STARTER,
+  INSURGENCY_STARTER,
+  DREAMER_STARTER,
+  NEW_BABYLON_STARTER,
+  ANTIQUARIAN_STARTER,
+  THOUGHT_VIRUS_STARTER,
+} from "./decks/starterDecks";
+export type { StarterDeck } from "./decks/starterDecks";
 
 /* ─── Compat (legacy client translation) ─── */
 export {

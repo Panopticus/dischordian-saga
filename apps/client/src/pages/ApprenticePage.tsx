@@ -301,7 +301,16 @@ export default function ApprenticePage() {
                     Graduation Exam · Day {pendingBattle.triggerDay}
                   </span>
                 </div>
-                <h3 className="font-display text-lg font-bold text-foreground mb-1">{pendingBattle.opponentName}</h3>
+                <div className="flex items-center gap-3 mb-1">
+                  {(MASCOTEER_PORTRAIT[pendingBattle.opponentId] || OPPONENT_PORTRAIT[pendingBattle.opponentId]) && (
+                    <img
+                      src={MASCOTEER_PORTRAIT[pendingBattle.opponentId] ?? OPPONENT_PORTRAIT[pendingBattle.opponentId]}
+                      alt={pendingBattle.opponentName}
+                      className="w-12 h-12 rounded-lg object-cover border border-red-500/30"
+                    />
+                  )}
+                  <h3 className="font-display text-lg font-bold text-foreground">{pendingBattle.opponentName}</h3>
+                </div>
                 <p className="font-mono text-[10px] text-foreground/80 leading-relaxed mb-2">{pendingBattle.narrativeBeat}</p>
                 <div className="p-2 rounded border border-border/30 bg-black/20 mb-3">
                   <span className="font-mono text-[8px] uppercase tracking-wider text-amber-400 block mb-0.5">
@@ -318,7 +327,7 @@ export default function ApprenticePage() {
                   </p>
                 </div>
                 <Link
-                  href="/dischordia"
+                  href={`/dischordia?exam=${pendingBattle.id}&opponent=${pendingBattle.opponentId}`}
                   className="block w-full text-center px-3 py-2 rounded border border-red-500/50 bg-red-500/15 text-red-300 font-mono text-[11px] uppercase tracking-wider hover:bg-red-500/25"
                 >
                   Enter the Exam
@@ -718,6 +727,31 @@ const MASCOTEER_ACCENT: Record<string, string> = {
   the_seeker_child: "#38bdf8", // sky
 };
 
+/** Mascoteer character portraits — transparent PNGs, shown in decision card header */
+const MASCOTEER_PORTRAIT: Record<string, string> = {
+  the_conductor: "/art/mascoteers/mascoteer-the-conductor.png",
+  mr_unblink: "/art/mascoteers/mascoteer-mr-unblink.png",
+  little_corey: "/art/mascoteers/mascoteer-little-corey.png",
+  vernon: "/art/mascoteers/mascoteer-vernon.png",
+  minnie: "/art/mascoteers/mascoteer-minnie.png",
+  wanda_wee: "/art/mascoteers/mascoteer-wanda-wee.png",
+  senator_sprout: "/art/mascoteers/mascoteer-senator-sprout.png",
+  wayne: "/art/mascoteers/mascoteer-wayne.png",
+  gary: "/art/mascoteers/mascoteer-gary.png",
+  thazu: "/art/mascoteers/mascoteer-thazu.png",
+  the_prince: "/art/mascoteers/mascoteer-the-prince.png",
+  the_seeker_child: "/art/mascoteers/mascoteer-the-seeker-child.png",
+};
+
+/** Cycle B battle opponent portraits */
+const OPPONENT_PORTRAIT: Record<string, string> = {
+  iron_lion: "/art/opponents/opponent-iron-lion.png",
+  kael: "/art/opponents/opponent-kael.png",
+  agent_zero: "/art/opponents/opponent-agent-zero.png",
+  the_eyes: "/art/opponents/opponent-the-eyes.png",
+  the_human: "/art/opponents/opponent-the-human-young.png",
+};
+
 /* ─── DAILY DECISION CARD ─── */
 function DailyDecisionCard({ decision, day, onChoose }: {
   decision: { mascoteerId: string; prompt: string; options: DecisionOption[] };
@@ -800,9 +834,14 @@ function DailyDecisionCard({ decision, day, onChoose }: {
             Day {day} / {TRIAL_LENGTH_DAYS} · Celebration
           </span>
           {mascoteer && (
-            <span className="font-mono text-[9px]" style={{ color: `${accent}cc` }}>
-              ◈ {mascoteer.mascotName}
-            </span>
+            <div className="flex items-center gap-1.5">
+              {portrait && (
+                <img src={portrait} alt="" className="w-6 h-6 rounded-full object-cover border" style={{ borderColor: `${accent}60` }} />
+              )}
+              <span className="font-mono text-[9px]" style={{ color: `${accent}cc` }}>
+                ◈ {mascoteer.mascotName}
+              </span>
+            </div>
           )}
         </div>
 

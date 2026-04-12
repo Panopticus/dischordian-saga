@@ -27,6 +27,22 @@ import {
 } from "@shared/mechronisLessons";
 import type { SkillId } from "@/game/innerVoices";
 
+/** Per-professor classroom art — falls back to arena-mechronis.jpg if not yet generated */
+const CLASSROOM_ART: Record<string, string> = {
+  prof_conductor: "/art/classrooms/classroom-kanevas.jpg",
+  prof_watcher: "/art/classrooms/classroom-aoki.jpg",
+  prof_collector: "/art/classrooms/classroom-halverez.jpg",
+  prof_vortex: "/art/classrooms/classroom-orphic.jpg",
+  prof_meme: "/art/classrooms/classroom-mireille.jpg",
+  prof_warlord: "/art/classrooms/classroom-kasra.jpg",
+  prof_politician: "/art/classrooms/classroom-vellis.jpg",
+  prof_warden: "/art/classrooms/classroom-greenshaw.jpg",
+  prof_game_master: "/art/classrooms/classroom-vex.jpg",
+  prof_necromancer: "/art/classrooms/classroom-vasara.jpg",
+  prof_engineer: "/art/classrooms/classroom-vent.jpg",
+  prof_human: "/art/classrooms/classroom-proctor.jpg",
+};
+
 const GRADE_COLORS: Record<LessonGrade, string> = {
   fail: "text-red-400",
   pass: "text-zinc-300",
@@ -141,7 +157,7 @@ export default function MechronisAcademyPage() {
               ? lastResult.grade === "distinction"
                 ? "/art/mechronis/environments/mechronis_graduation.jpg"
                 : "/art/mechronis/environments/mechronis_grand_hall.jpg"
-              : "/art/mechronis/environments/mechronis_classroom.jpg"}
+              : CLASSROOM_ART[professor?.id ?? ""] ?? "/art/mechronis/environments/mechronis_classroom.jpg"}
             alt=""
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.14 }}
