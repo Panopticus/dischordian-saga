@@ -157,6 +157,58 @@ export const MECHRONIS_LESSONS: Record<string, Lesson[]> = {
       ],
     },
   ],
+  prof_meme: [
+    {
+      id: "meme_rumor_garden", professorId: "prof_meme", day: 0,
+      prompt: "Professor Mireille gives you a seed-idea: 'The cafeteria food is drugged.' She tells you to plant it among three classmates and report back what shape it takes by Friday.",
+      options: [
+        { id: "plant_faithfully", label: "Plant it exactly as given", description: "Deliver the seed unchanged.",
+          outcome: { grade: "honor", corruptionDelta: 5, approvalDelta: 10, skillXpDelta: 15, transcriptNote: "Idea propagated cleanly. Student shows baseline belief-engineering discipline. Mireille: 'Good antenna. Now learn to aim it.'" } },
+        { id: "plant_mutated", label: "Mutate it before planting", description: "Change 'drugged' to 'experimental' — softer, but still viral.",
+          outcome: { grade: "pass", corruptionDelta: 2, approvalDelta: 4, skillXpDelta: 10, transcriptNote: "Student modified the payload. Mireille notes: 'Creative. Also disobedient. I'll decide later which matters more.'" } },
+        { id: "refuse_plant", label: "Refuse to plant it", description: "Tell Mireille you won't spread lies.",
+          outcome: { grade: "fail", corruptionDelta: -5, approvalDelta: -12, skillXpDelta: -8, transcriptNote: "Student refused the exercise. Mireille: 'They think truth and lies are different species. They're not. They're the same animal wearing different coats.'" } },
+      ],
+    },
+    {
+      id: "meme_popularity_grade", professorId: "prof_meme", day: 0,
+      prompt: "Mireille announces that today's grades will be assigned by class vote. Whoever is most popular passes. Whoever is least popular fails. She asks you to campaign — or not.",
+      options: [
+        { id: "campaign", label: "Campaign hard", description: "Work the room. Smile. Promise.",
+          outcome: { grade: "honor", corruptionDelta: 4, approvalDelta: 8, skillXpDelta: 14, transcriptNote: "Student won the vote. Mireille: 'You're learning that grades and truth have nothing to do with each other. That IS the lesson.'" } },
+        { id: "help_underdog", label: "Campaign for someone else", description: "Boost the least popular student instead of yourself.",
+          outcome: { grade: "fail", corruptionDelta: -3, approvalDelta: -5, skillXpDelta: -3, transcriptNote: "Student spent social capital on a stranger. Lost the vote. Mireille's margin: 'Noble. Useless. We'll see which lasts longer.'" } },
+        { id: "sit_out", label: "Refuse to campaign", description: "Accept whatever grade the room gives you.",
+          outcome: { grade: "pass", corruptionDelta: 0, approvalDelta: 2, skillXpDelta: 8, transcriptNote: "Student neither campaigned nor protested. Landed middle. Mireille: 'The invisible survive. The invisible also accomplish nothing.'" } },
+      ],
+    },
+  ],
+  prof_warlord: [
+    {
+      id: "warlord_sacrifice_problem", professorId: "prof_warlord", day: 0,
+      prompt: "General Kasra places two student dossiers on your desk. 'One lives. One dies. You choose. Then you explain your math to the survivor.' She sets a timer for thirty seconds.",
+      options: [
+        { id: "choose_by_stats", label: "Choose by combat stats", description: "Save the stronger one. Explain the metric.",
+          outcome: { grade: "honor", corruptionDelta: 4, approvalDelta: 10, skillXpDelta: 15, transcriptNote: "Student applied the metric cleanly. Kasra: 'Correct answer. The survivor will hate you. That is also correct.'" } },
+        { id: "choose_by_mercy", label: "Choose by need", description: "Save the one with more to lose.",
+          outcome: { grade: "pass", corruptionDelta: -1, approvalDelta: 2, skillXpDelta: 8, transcriptNote: "Student introduced non-tactical criteria. Kasra: 'Merciful commanders are loved. Loved commanders lose wars. Choose which you want to be.'" } },
+        { id: "refuse_choose", label: "Let the timer expire", description: "Don't pick. Accept whatever Kasra does.",
+          outcome: { grade: "fail", corruptionDelta: -4, approvalDelta: -15, skillXpDelta: -10, transcriptNote: "Student refused triage. Kasra: 'Both die. That is the cost of indecision. It is always both.'" } },
+      ],
+    },
+    {
+      id: "warlord_pair_bond", professorId: "prof_warlord", day: 0,
+      prompt: "Kasra assigns you a partner for the semester. If one of you fails, both fail. She asks if you want to choose your partner or accept a random assignment.",
+      options: [
+        { id: "choose_strong", label: "Choose the strongest classmate", description: "Minimize your risk.",
+          outcome: { grade: "pass", corruptionDelta: 2, approvalDelta: 5, skillXpDelta: 10, transcriptNote: "Student optimized for survival. Kasra: 'Safe pick. You'll both pass and neither of you will grow. Adequate.'" } },
+        { id: "accept_random", label: "Accept the random assignment", description: "Trust the process.",
+          outcome: { grade: "honor", corruptionDelta: 0, approvalDelta: 8, skillXpDelta: 14, transcriptNote: "Student accepted uncertainty. Kasra: 'Good. War doesn't let you choose your squad. Now carry them.'" } },
+        { id: "volunteer_solo", label: "Ask to go alone", description: "Tell Kasra you'd rather fail on your own terms.",
+          outcome: { grade: "fail", corruptionDelta: -3, approvalDelta: -8, skillXpDelta: -5, transcriptNote: "Student refused partnership. Kasra: 'Lone wolves die first in every war I've studied. That is not a metaphor.'" } },
+      ],
+    },
+  ],
 };
 
 /* ─── DAILY LESSON GENERATOR ─── */
