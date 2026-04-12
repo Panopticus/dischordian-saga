@@ -13,6 +13,7 @@ import { BoardRenderer } from "./BoardRenderer";
 import { getAIActions, getAIMulliganIndices } from "./DuelystAI";
 import { buildStarterDeck } from "./cardAdapter";
 import { TUTORIAL_STEPS, isTutorialActionComplete, type TutorialStep } from "./tutorial";
+import { summarizeTrial, trialToCombatBuff, type TrialHistoryEntry, type TrialCombatBuff } from "@shared/celebrationTrial";
 import { dischordiaSounds } from "./SoundManager";
 import {
   Swords, Heart, Zap, RotateCcw, SkipForward, Shield,
@@ -24,6 +25,8 @@ interface DuelystGameUIProps {
   playerFaction: Faction;
   opponentFaction: Faction;
   isTutorial?: boolean;
+  /** Celebration trial history — if provided, computes combat buffs for the player's deck */
+  trialHistory?: TrialHistoryEntry[];
   onGameEnd: (winner: "player" | "opponent") => void;
   onBack: () => void;
 }
@@ -79,14 +82,30 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     setLog(prev => [...prev.slice(-50), { text, type }]);
   }, []);
 
-  // Initialize game
+  // Initialize game (with optional trial combat buffs)
   useEffect(() => {
     const playerDeck = buildStarterDeck(playerFaction);
     const opponentDeck = buildStarterDeck(opponentFaction);
+
+    // Apply Celebration trial combat buffs if history is available
+    let trialBuff: TrialCombatBuff | null = null;
+    if (trialHistory && trialHistory.length > 0) {
+      const summary = summarizeTrial(trialHistory);
+      trialBuff = trialToCombatBuff(summary);
+      // Buff player deck cards based on trial performance
+      for (const card of playerDeck) {
+        card.attack = Math.max(0, (card.attack ?? 0) + trialBuff.attackBonus);
+        card.health = Math.max(1, (card.health ?? 0) + trialBuff.defenseBonus);
+      }
+    }
+
     const state = createGameState(playerFaction, playerDeck, opponentFaction, opponentDeck);
     setGameState(state);
+    if (trialBuff) {
+      addLog(`Trial buff applied: ${trialBuff.summary}`, "system");
+    }
     addLog("Game started. Choose cards to mulligan.", "system");
-  }, [playerFaction, opponentFaction, addLog]);
+  }, [playerFaction, opponentFaction, trialHistory, addLog]);
 
   // Initialize renderer
   useEffect(() => {
