@@ -140,4 +140,79 @@ describe("dialogWheel", () => {
       expect(available.map(o => o.id)).toContain("d");
     });
   });
+
+  describe("identity gating", () => {
+    const identityOpts: WheelOption[] = [
+      { id: "demagi_only", segment: "humanity", rarity: "rare", label: "DeMagi", fullText: "...", outcome: {},
+        gateCondition: { requireSpecies: "demagi" } },
+      { id: "quarchon_only", segment: "machine", rarity: "rare", label: "Quarchon", fullText: "...", outcome: {},
+        gateCondition: { requireSpecies: "quarchon" } },
+      { id: "engineer_only", segment: "investigate", rarity: "epic", label: "Eng", fullText: "...", outcome: {},
+        gateCondition: { requireClass: "engineer" } },
+      { id: "fire_only", segment: "aggressive", rarity: "rare", label: "Fire", fullText: "...", outcome: {},
+        gateCondition: { requireElement: "fire" } },
+      { id: "order_only", segment: "compassionate", rarity: "uncommon", label: "Order", fullText: "...", outcome: {},
+        gateCondition: { requireAlignment: "order" } },
+      { id: "forbid_seen", segment: "skill_check", rarity: "legendary", label: "Unseen", fullText: "...", outcome: {},
+        gateCondition: { forbidFlag: "already_saw_reveal" } },
+    ];
+
+    it("hides species-gated options without species context", () => {
+      const avail = getAvailableOptions(identityOpts, { skills: {}, npcTrust: {}, flags: {} });
+      expect(avail.map(o => o.id)).not.toContain("demagi_only");
+    });
+
+    it("shows demagi option to DeMagi players", () => {
+      const avail = getAvailableOptions(identityOpts, { skills: {}, npcTrust: {}, flags: {}, species: "demagi" });
+      expect(avail.map(o => o.id)).toContain("demagi_only");
+      expect(avail.map(o => o.id)).not.toContain("quarchon_only");
+    });
+
+    it("Ne-Yon passes every requireSpecies gate", () => {
+      const avail = getAvailableOptions(identityOpts, { skills: {}, npcTrust: {}, flags: {}, species: "neyon" });
+      expect(avail.map(o => o.id)).toContain("demagi_only");
+      expect(avail.map(o => o.id)).toContain("quarchon_only");
+    });
+
+    it("shows class-gated options to the right class", () => {
+      const avail = getAvailableOptions(identityOpts, { skills: {}, npcTrust: {}, flags: {}, characterClass: "engineer" });
+      expect(avail.map(o => o.id)).toContain("engineer_only");
+    });
+
+    it("hides class-gated options from the wrong class", () => {
+      const avail = getAvailableOptions(identityOpts, { skills: {}, npcTrust: {}, flags: {}, characterClass: "oracle" });
+      expect(avail.map(o => o.id)).not.toContain("engineer_only");
+    });
+
+    it("shows element-gated options to the right element", () => {
+      const avail = getAvailableOptions(identityOpts, { skills: {}, npcTrust: {}, flags: {}, element: "fire" });
+      expect(avail.map(o => o.id)).toContain("fire_only");
+    });
+
+    it("respects alignment gating", () => {
+      const order = getAvailableOptions(identityOpts, { skills: {}, npcTrust: {}, flags: {}, alignment: "order" });
+      const chaos = getAvailableOptions(identityOpts, { skills: {}, npcTrust: {}, flags: {}, alignment: "chaos" });
+      expect(order.map(o => o.id)).toContain("order_only");
+      expect(chaos.map(o => o.id)).not.toContain("order_only");
+    });
+
+    it("forbidFlag hides option when flag present", () => {
+      const unset = getAvailableOptions(identityOpts, { skills: {}, npcTrust: {}, flags: {} });
+      const set = getAvailableOptions(identityOpts, { skills: {}, npcTrust: {}, flags: { already_saw_reveal: true } });
+      expect(unset.map(o => o.id)).toContain("forbid_seen");
+      expect(set.map(o => o.id)).not.toContain("forbid_seen");
+    });
+
+    it("accepts arrays of species/class/element", () => {
+      const arrayOpts: WheelOption[] = [
+        { id: "both_species", segment: "investigate", rarity: "rare", label: "Both", fullText: "...", outcome: {},
+          gateCondition: { requireSpecies: ["demagi", "quarchon"] } },
+        { id: "any_damage_class", segment: "aggressive", rarity: "rare", label: "Damage", fullText: "...", outcome: {},
+          gateCondition: { requireClass: ["assassin", "soldier"] } },
+      ];
+      const demagiAvail = getAvailableOptions(arrayOpts, { skills: {}, npcTrust: {}, flags: {}, species: "demagi", characterClass: "soldier" });
+      expect(demagiAvail.map(o => o.id)).toContain("both_species");
+      expect(demagiAvail.map(o => o.id)).toContain("any_damage_class");
+    });
+  });
 });
