@@ -1,5 +1,5 @@
 /**
- * Card registry barrel — 223 Season 1 cards + 6 token(s) = 229 definitions.
+ * Card registry barrel — 237 Season 1 cards + 6 token(s) = 243 definitions.
  */
 import type { CardDefinition } from "../index";
 
@@ -20,6 +20,10 @@ import { cardDef as s1_char_122_timeline_splitter } from "./definitions/antiquar
 import { cardDef as s1_char_123_relic_scholar } from "./definitions/antiquarian/s1_char_123_relic_scholar.ts";
 import { cardDef as s1_char_124_age_walker } from "./definitions/antiquarian/s1_char_124_age_walker.ts";
 import { cardDef as s1_char_201_chronoguard_sentinel } from "./definitions/antiquarian/s1_char_201_chronoguard_sentinel.ts";
+import { cardDef as s1_reward_campaign_acceptance } from "./definitions/antiquarian/s1_reward_campaign_acceptance.ts";
+import { cardDef as s1_reward_lore_archivist } from "./definitions/antiquarian/s1_reward_lore_archivist.ts";
+import { cardDef as s1_reward_outbreak_cure } from "./definitions/antiquarian/s1_reward_outbreak_cure.ts";
+import { cardDef as s1_reward_vote_t1_acceptance } from "./definitions/antiquarian/s1_reward_vote_t1_acceptance.ts";
 import { cardDef as s1_spell_120_timeline_collapse } from "./definitions/antiquarian/s1_spell_120_timeline_collapse.ts";
 import { cardDef as s1_spell_121_epoch_rewind } from "./definitions/antiquarian/s1_spell_121_epoch_rewind.ts";
 import { cardDef as s1_spell_122_archaeological_dig } from "./definitions/antiquarian/s1_spell_122_archaeological_dig.ts";
@@ -53,6 +57,10 @@ import { cardDef as s1_char_101_panoptic_warden_foucault } from "./definitions/a
 import { cardDef as s1_char_102_arena_enforcer } from "./definitions/architect/s1_char_102_arena_enforcer.ts";
 import { cardDef as s1_char_103_inception_ark_sentry } from "./definitions/architect/s1_char_103_inception_ark_sentry.ts";
 import { cardDef as s1_char_104_white_oracle } from "./definitions/architect/s1_char_104_white_oracle.ts";
+import { cardDef as s1_reward_chess_tourney } from "./definitions/architect/s1_reward_chess_tourney.ts";
+import { cardDef as s1_reward_chess_win } from "./definitions/architect/s1_reward_chess_win.ts";
+import { cardDef as s1_reward_eidolon_cipher } from "./definitions/architect/s1_reward_eidolon_cipher.ts";
+import { cardDef as s1_reward_tower_wave50 } from "./definitions/architect/s1_reward_tower_wave50.ts";
 import { cardDef as s1_spell_100_schematic_override } from "./definitions/architect/s1_spell_100_schematic_override.ts";
 import { cardDef as s1_spell_101_predetermined_outcome } from "./definitions/architect/s1_spell_101_predetermined_outcome.ts";
 import { cardDef as s1_spell_102_arena_protocol } from "./definitions/architect/s1_spell_102_arena_protocol.ts";
@@ -193,6 +201,10 @@ import { cardDef as s1_char_117_senator_voss } from "./definitions/new_babylon/s
 import { cardDef as s1_char_118_trade_enforcer } from "./definitions/new_babylon/s1_char_118_trade_enforcer.ts";
 import { cardDef as s1_char_119_syndicate_broker } from "./definitions/new_babylon/s1_char_119_syndicate_broker.ts";
 import { cardDef as s1_char_120_crystal_archive_guard } from "./definitions/new_babylon/s1_char_120_crystal_archive_guard.ts";
+import { cardDef as s1_reward_casino_high_roller } from "./definitions/new_babylon/s1_reward_casino_high_roller.ts";
+import { cardDef as s1_reward_guild_territory } from "./definitions/new_babylon/s1_reward_guild_territory.ts";
+import { cardDef as s1_reward_guild_victory } from "./definitions/new_babylon/s1_reward_guild_victory.ts";
+import { cardDef as s1_reward_trade_empire } from "./definitions/new_babylon/s1_reward_trade_empire.ts";
 import { cardDef as s1_spell_116_blood_tax } from "./definitions/new_babylon/s1_spell_116_blood_tax.ts";
 import { cardDef as s1_spell_117_market_manipulation } from "./definitions/new_babylon/s1_spell_117_market_manipulation.ts";
 import { cardDef as s1_spell_118_syndicate_contract } from "./definitions/new_babylon/s1_spell_118_syndicate_contract.ts";
@@ -231,6 +243,8 @@ import { cardDef as s1_char_114_viral_vector } from "./definitions/thought_virus
 import { cardDef as s1_char_115_consumed_host } from "./definitions/thought_virus/s1_char_115_consumed_host.ts";
 import { cardDef as s1_char_116_neural_plague_carrier } from "./definitions/thought_virus/s1_char_116_neural_plague_carrier.ts";
 import { cardDef as s1_char_200_cortex_ravager } from "./definitions/thought_virus/s1_char_200_cortex_ravager.ts";
+import { cardDef as s1_reward_circuit_1st } from "./definitions/thought_virus/s1_reward_circuit_1st.ts";
+import { cardDef as s1_reward_circuit_survive } from "./definitions/thought_virus/s1_reward_circuit_survive.ts";
 import { cardDef as s1_spell_112_viral_cascade } from "./definitions/thought_virus/s1_spell_112_viral_cascade.ts";
 import { cardDef as s1_spell_113_memory_consumption } from "./definitions/thought_virus/s1_spell_113_memory_consumption.ts";
 import { cardDef as s1_spell_114_neural_overwrite } from "./definitions/thought_virus/s1_spell_114_neural_overwrite.ts";
@@ -267,6 +281,10 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_123_relic_scholar,
   s1_char_124_age_walker,
   s1_char_201_chronoguard_sentinel,
+  s1_reward_campaign_acceptance,
+  s1_reward_lore_archivist,
+  s1_reward_outbreak_cure,
+  s1_reward_vote_t1_acceptance,
   s1_spell_120_timeline_collapse,
   s1_spell_121_epoch_rewind,
   s1_spell_122_archaeological_dig,
@@ -298,6 +316,10 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_102_arena_enforcer,
   s1_char_103_inception_ark_sentry,
   s1_char_104_white_oracle,
+  s1_reward_chess_tourney,
+  s1_reward_chess_win,
+  s1_reward_eidolon_cipher,
+  s1_reward_tower_wave50,
   s1_spell_100_schematic_override,
   s1_spell_101_predetermined_outcome,
   s1_spell_102_arena_protocol,
@@ -430,6 +452,10 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_118_trade_enforcer,
   s1_char_119_syndicate_broker,
   s1_char_120_crystal_archive_guard,
+  s1_reward_casino_high_roller,
+  s1_reward_guild_territory,
+  s1_reward_guild_victory,
+  s1_reward_trade_empire,
   s1_spell_116_blood_tax,
   s1_spell_117_market_manipulation,
   s1_spell_118_syndicate_contract,
@@ -464,6 +490,8 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_115_consumed_host,
   s1_char_116_neural_plague_carrier,
   s1_char_200_cortex_ravager,
+  s1_reward_circuit_1st,
+  s1_reward_circuit_survive,
   s1_spell_112_viral_cascade,
   s1_spell_113_memory_consumption,
   s1_spell_114_neural_overwrite,
