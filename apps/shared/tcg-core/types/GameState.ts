@@ -55,18 +55,27 @@ export interface BoardEntity {
   isStunned: boolean;
 }
 
-/** Per-player state. */
+/**
+ * Per-player state.
+ *
+ * Array fields (deck/hand/graveyard/artifacts) are declared mutable — not
+ * because the reducer mutates them in place, but because Immer's
+ * `WritableDraft<T>` unwraps `readonly` arrays and plain-array assignments
+ * into draft slots would otherwise be structurally incompatible. The
+ * immutability contract is enforced by the reducer's Immer wrapper, not
+ * by readonly annotations.
+ */
 export interface PlayerState {
   userId: PlayerId;
   faction: Faction;
   /** CardInstance at index 0 is always the general (also tracked in board). */
   generalEntityId: EntityId;
   /** Cards still in deck. Order matters — it's the draw pile. */
-  deck: readonly CardInstance[];
-  hand: readonly CardInstance[];
-  graveyard: readonly CardInstance[];
+  deck: CardInstance[];
+  hand: CardInstance[];
+  graveyard: CardInstance[];
   /** Hand-equipped artifacts (apply to general). */
-  artifacts: readonly ArtifactInstance[];
+  artifacts: ArtifactInstance[];
   mana: number;
   maxMana: number;
   /** Once per match: the general's Bloodborn spell. */
@@ -100,7 +109,7 @@ export interface GameState {
   winner: Side | null;
   winReason: WinReason | null;
   /** In-flight trigger queue — see engine/triggerQueue.ts. */
-  triggerQueue: readonly PendingTrigger[];
+  triggerQueue: PendingTrigger[];
   /** Monotonic action sequence counter for client-server dedup. */
   actionSeq: number;
   /**

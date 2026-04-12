@@ -34,6 +34,8 @@ import { runStateBasedActions, SBA_SAFETY_CAP } from "./stateBasedActions";
 import { drainTriggerQueue, type TriggerEffectRunner } from "./triggerQueue";
 import { handleMulligan, handleFinishMulligan } from "./mulligan";
 import { refreshTurnForPlayer } from "./turn";
+import { handlePlayCard as handlePlayCardReal } from "./playCard";
+import { createDefaultTriggerRunner } from "./defaultTriggerRunner";
 
 export interface ReduceResult {
   state: GameState;
@@ -55,23 +57,21 @@ export interface ReduceCtx {
 /**
  * Pluggable effect runner for the trigger queue.
  *
- * The real runner lives in engine/effectInterpreter.ts (lands with the card
- * loader in WS2). The reducer installs it here so test suites can
- * substitute a recording stub. Default is a no-op that just drops triggers
- * — until WS2 ships, enqueued triggers have no effect bodies to run.
+ * Defaults to `createDefaultTriggerRunner()` — the real bridge from the
+ * trigger queue to the effect interpreter. Tests that want to observe
+ * trigger ordering without running real effects can swap this out via
+ * `setTriggerEffectRunner(recordingStub)` and restore the default via
+ * `resetTriggerEffectRunner()`.
  */
-let triggerEffectRunner: TriggerEffectRunner = (_draft, _pending, _ctx) => {
-  // No-op default. WS2 installs the effectInterpreter runner via
-  // `setTriggerEffectRunner`.
-};
+let triggerEffectRunner: TriggerEffectRunner = createDefaultTriggerRunner();
 
 export function setTriggerEffectRunner(runner: TriggerEffectRunner): void {
   triggerEffectRunner = runner;
 }
 
-/** For tests only — restore the no-op default. */
+/** Restore the production default trigger runner. */
 export function resetTriggerEffectRunner(): void {
-  triggerEffectRunner = () => {};
+  triggerEffectRunner = createDefaultTriggerRunner();
 }
 
 /**
@@ -241,11 +241,11 @@ function handleAttack(
 }
 
 function handlePlayCard(
-  _draft: Draft<GameState>,
-  _action: Extract<Action, { kind: "play_card" }>,
-  _ctx: ReduceCtx
+  draft: Draft<GameState>,
+  action: Extract<Action, { kind: "play_card" }>,
+  ctx: ReduceCtx
 ): ReduceError | undefined {
-  return { code: "illegal_move", message: "play_card: not implemented yet" };
+  return handlePlayCardReal(draft, action, ctx);
 }
 
 function handleReplaceCard(

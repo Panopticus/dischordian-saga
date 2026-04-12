@@ -121,10 +121,16 @@ export interface CardInstance {
   maxHealth: number;
   /** Flat counters keyed by name (e.g. "forcefield_charges", "stealth_turns"). */
   counters: Record<string, number>;
-  /** Runtime keywords: intrinsic + granted + debuffed. */
-  activeKeywords: readonly Keyword[];
+  /**
+   * Runtime keywords: intrinsic + granted + debuffed.
+   * Not declared `readonly` because Immer's Draft<T> unwraps readonly
+   * arrays and plain-array assignments into draft slots become
+   * structurally incompatible. Immutability in practice is enforced by
+   * the reducer's Immer wrapper, not by this annotation.
+   */
+  activeKeywords: Keyword[];
   /** Active buffs tracked by source for proper dispel semantics. */
-  buffs: readonly Buff[];
+  buffs: Buff[];
   /**
    * Per-card-instance flag set. Free-form; used by the effect interpreter
    * for things like "already resurrected once" or "already grew this turn".

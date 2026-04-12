@@ -208,7 +208,7 @@ export function makeCardInstance(
 function drawOpening(
   deck: readonly CardInstance[],
   count: number
-): { hand: readonly CardInstance[]; deck: readonly CardInstance[] } {
+): { hand: CardInstance[]; deck: CardInstance[] } {
   const take = Math.min(count, deck.length);
   return { hand: deck.slice(0, take), deck: deck.slice(take) };
 }
