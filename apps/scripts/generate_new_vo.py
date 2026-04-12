@@ -131,7 +131,7 @@ CHARACTERS = {
         },
     },
     "architect": {
-        "voice_id": os.environ.get("ARCHITECT_VOICE_ID", ""),
+        "voice_id": os.environ.get("ARCHITECT_VOICE_ID", "PmtzUaeg5rMejCZzRqOZ"),
         "s3_prefix": "Architect Voices",
         "lines_file": "architect-lines.json",
         "manifest_file": "architectVoManifest.json",
