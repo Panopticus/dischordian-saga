@@ -17,7 +17,27 @@ export const cardDef: CardDefinition = {
   cost: 2,
   baseStats: { power: 3, health: 2 },
   keywords: ["rally_buff"],
-  abilities: [],
+  abilities: [
+    {
+      id: "rc_rally_power" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "foreach",
+        over: {
+          kind: "radius",
+          origin: { kind: "self" },
+          radius: 1,
+          filter: { controller: "self", except: "self" },
+        },
+        do: {
+          op: "buff",
+          stats: { power: 1 },
+          duration: { kind: "permanent" },
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "Every citizen has a file. Every file has a purpose. Every purpose serves the Spire.",

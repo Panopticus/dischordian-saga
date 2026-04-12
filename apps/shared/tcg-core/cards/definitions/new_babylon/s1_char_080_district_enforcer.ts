@@ -17,7 +17,24 @@ export const cardDef: CardDefinition = {
   cost: 2,
   baseStats: { power: 3, health: 2 },
   keywords: ["rush"],
-  abilities: [],
+  abilities: [
+    {
+      id: "de_district_sweep" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "foreach",
+        over: {
+          kind: "all",
+          filter: { controller: "opponent" },
+        },
+        do: {
+          op: "deal_damage",
+          amount: { kind: "const", value: 1 },
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "Justice in New Babylon is swift. Appeals are slower — by design.",

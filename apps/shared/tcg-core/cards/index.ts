@@ -1,5 +1,5 @@
 /**
- * Card registry barrel — 159 Season 1 cards + 3 token(s) = 162 definitions.
+ * Card registry barrel — 190 Season 1 cards + 6 token(s) = 196 definitions.
  */
 import type { CardDefinition } from "../index";
 
@@ -50,6 +50,12 @@ import { cardDef as s1_spell_100_schematic_override } from "./definitions/archit
 import { cardDef as s1_spell_101_predetermined_outcome } from "./definitions/architect/s1_spell_101_predetermined_outcome.ts";
 import { cardDef as s1_spell_102_arena_protocol } from "./definitions/architect/s1_spell_102_arena_protocol.ts";
 import { cardDef as s1_spell_103_recursive_calibration } from "./definitions/architect/s1_spell_103_recursive_calibration.ts";
+import { cardDef as s1_spell_200_surveillance_grid } from "./definitions/architect/s1_spell_200_surveillance_grid.ts";
+import { cardDef as s1_spell_201_protocol_override } from "./definitions/architect/s1_spell_201_protocol_override.ts";
+import { cardDef as s1_spell_202_system_purge } from "./definitions/architect/s1_spell_202_system_purge.ts";
+import { cardDef as s1_spell_203_calculated_retreat } from "./definitions/architect/s1_spell_203_calculated_retreat.ts";
+import { cardDef as s1_spell_204_architects_mandate } from "./definitions/architect/s1_spell_204_architects_mandate.ts";
+import { cardDef as s1_spell_205_panoptic_lockdown } from "./definitions/architect/s1_spell_205_panoptic_lockdown.ts";
 
 /* ─── Dreamer ─── */
 import { cardDef as gen_dreamer } from "./definitions/dreamer/gen_dreamer.ts";
@@ -74,6 +80,12 @@ import { cardDef as s1_spell_108_prophetic_collapse } from "./definitions/dreame
 import { cardDef as s1_spell_109_vision_cascade } from "./definitions/dreamer/s1_spell_109_vision_cascade.ts";
 import { cardDef as s1_spell_110_dream_walk } from "./definitions/dreamer/s1_spell_110_dream_walk.ts";
 import { cardDef as s1_spell_111_probability_storm } from "./definitions/dreamer/s1_spell_111_probability_storm.ts";
+import { cardDef as s1_spell_212_lucid_clarity } from "./definitions/dreamer/s1_spell_212_lucid_clarity.ts";
+import { cardDef as s1_spell_213_precognition } from "./definitions/dreamer/s1_spell_213_precognition.ts";
+import { cardDef as s1_spell_214_minds_eye } from "./definitions/dreamer/s1_spell_214_minds_eye.ts";
+import { cardDef as s1_spell_215_reality_fracture } from "./definitions/dreamer/s1_spell_215_reality_fracture.ts";
+import { cardDef as s1_spell_216_oracles_blessing } from "./definitions/dreamer/s1_spell_216_oracles_blessing.ts";
+import { cardDef as s1_spell_217_dream_weave } from "./definitions/dreamer/s1_spell_217_dream_weave.ts";
 
 /* ─── Insurgency ─── */
 import { cardDef as gen_insurgency } from "./definitions/insurgency/gen_insurgency.ts";
@@ -97,8 +109,15 @@ import { cardDef as s1_spell_104_signal_intercept } from "./definitions/insurgen
 import { cardDef as s1_spell_105_guerrilla_strike } from "./definitions/insurgency/s1_spell_105_guerrilla_strike.ts";
 import { cardDef as s1_spell_106_encrypted_broadcast } from "./definitions/insurgency/s1_spell_106_encrypted_broadcast.ts";
 import { cardDef as s1_spell_107_dead_frequency_jam } from "./definitions/insurgency/s1_spell_107_dead_frequency_jam.ts";
+import { cardDef as s1_spell_206_supply_drop } from "./definitions/insurgency/s1_spell_206_supply_drop.ts";
+import { cardDef as s1_spell_207_ambush_protocol } from "./definitions/insurgency/s1_spell_207_ambush_protocol.ts";
+import { cardDef as s1_spell_208_rebel_yell } from "./definitions/insurgency/s1_spell_208_rebel_yell.ts";
+import { cardDef as s1_spell_209_safe_house } from "./definitions/insurgency/s1_spell_209_safe_house.ts";
+import { cardDef as s1_spell_210_intel_leak } from "./definitions/insurgency/s1_spell_210_intel_leak.ts";
+import { cardDef as s1_spell_211_scorched_earth } from "./definitions/insurgency/s1_spell_211_scorched_earth.ts";
 
 /* ─── Neutral ─── */
+import { cardDef as gen_neutral } from "./definitions/neutral/gen_neutral.ts";
 import { cardDef as s1_char_004_ambassador_veron } from "./definitions/neutral/s1_char_004_ambassador_veron.ts";
 import { cardDef as s1_char_086_wandering_merchant } from "./definitions/neutral/s1_char_086_wandering_merchant.ts";
 import { cardDef as s1_char_087_scrapyard_golem } from "./definitions/neutral/s1_char_087_scrapyard_golem.ts";
@@ -146,6 +165,12 @@ import { cardDef as s1_spell_116_blood_tax } from "./definitions/new_babylon/s1_
 import { cardDef as s1_spell_117_market_manipulation } from "./definitions/new_babylon/s1_spell_117_market_manipulation.ts";
 import { cardDef as s1_spell_118_syndicate_contract } from "./definitions/new_babylon/s1_spell_118_syndicate_contract.ts";
 import { cardDef as s1_spell_119_hostile_acquisition } from "./definitions/new_babylon/s1_spell_119_hostile_acquisition.ts";
+import { cardDef as s1_spell_224_tax_collector } from "./definitions/new_babylon/s1_spell_224_tax_collector.ts";
+import { cardDef as s1_spell_225_bounty_notice } from "./definitions/new_babylon/s1_spell_225_bounty_notice.ts";
+import { cardDef as s1_spell_226_crystal_vault } from "./definitions/new_babylon/s1_spell_226_crystal_vault.ts";
+import { cardDef as s1_spell_227_leveraged_buyout } from "./definitions/new_babylon/s1_spell_227_leveraged_buyout.ts";
+import { cardDef as s1_spell_228_economic_sanctions } from "./definitions/new_babylon/s1_spell_228_economic_sanctions.ts";
+import { cardDef as s1_spell_229_liquidation_sale } from "./definitions/new_babylon/s1_spell_229_liquidation_sale.ts";
 
 /* ─── Panopticon ─── */
 import { cardDef as s1_char_050_warden_prime } from "./definitions/panopticon/s1_char_050_warden_prime.ts";
@@ -177,9 +202,18 @@ import { cardDef as s1_spell_112_viral_cascade } from "./definitions/thought_vir
 import { cardDef as s1_spell_113_memory_consumption } from "./definitions/thought_virus/s1_spell_113_memory_consumption.ts";
 import { cardDef as s1_spell_114_neural_overwrite } from "./definitions/thought_virus/s1_spell_114_neural_overwrite.ts";
 import { cardDef as s1_spell_115_nihilistic_mercy } from "./definitions/thought_virus/s1_spell_115_nihilistic_mercy.ts";
+import { cardDef as s1_spell_218_infection_vector } from "./definitions/thought_virus/s1_spell_218_infection_vector.ts";
+import { cardDef as s1_spell_219_plague_wind } from "./definitions/thought_virus/s1_spell_219_plague_wind.ts";
+import { cardDef as s1_spell_220_assimilate } from "./definitions/thought_virus/s1_spell_220_assimilate.ts";
+import { cardDef as s1_spell_221_cognitive_decay } from "./definitions/thought_virus/s1_spell_221_cognitive_decay.ts";
+import { cardDef as s1_spell_222_terminal_stage } from "./definitions/thought_virus/s1_spell_222_terminal_stage.ts";
+import { cardDef as s1_spell_223_spore_burst } from "./definitions/thought_virus/s1_spell_223_spore_burst.ts";
 
 /* ─── Tokens ─── */
 import { cardDef as tok_calculation } from "./tokens/tok_calculation";
+import { cardDef as tok_dream_wisp_1_1 } from "./tokens/tok_dream_wisp_1_1";
+import { cardDef as tok_infected_2_2 } from "./tokens/tok_infected_2_2";
+import { cardDef as tok_spore_1_1 } from "./tokens/tok_spore_1_1";
 import { cardDef as token_crystal_senator_5_5 } from "./tokens/token_crystal_senator_5_5";
 import { cardDef as token_wolf_2_2 } from "./tokens/token_wolf_2_2";
 
@@ -228,6 +262,12 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_spell_101_predetermined_outcome,
   s1_spell_102_arena_protocol,
   s1_spell_103_recursive_calibration,
+  s1_spell_200_surveillance_grid,
+  s1_spell_201_protocol_override,
+  s1_spell_202_system_purge,
+  s1_spell_203_calculated_retreat,
+  s1_spell_204_architects_mandate,
+  s1_spell_205_panoptic_lockdown,
   gen_dreamer,
   s1_char_005_destiny,
   s1_char_014_nythera,
@@ -250,6 +290,12 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_spell_109_vision_cascade,
   s1_spell_110_dream_walk,
   s1_spell_111_probability_storm,
+  s1_spell_212_lucid_clarity,
+  s1_spell_213_precognition,
+  s1_spell_214_minds_eye,
+  s1_spell_215_reality_fracture,
+  s1_spell_216_oracles_blessing,
+  s1_spell_217_dream_weave,
   gen_insurgency,
   s1_char_002_agent_zero,
   s1_char_010_iron_lion,
@@ -271,6 +317,13 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_spell_105_guerrilla_strike,
   s1_spell_106_encrypted_broadcast,
   s1_spell_107_dead_frequency_jam,
+  s1_spell_206_supply_drop,
+  s1_spell_207_ambush_protocol,
+  s1_spell_208_rebel_yell,
+  s1_spell_209_safe_house,
+  s1_spell_210_intel_leak,
+  s1_spell_211_scorched_earth,
+  gen_neutral,
   s1_char_004_ambassador_veron,
   s1_char_086_wandering_merchant,
   s1_char_087_scrapyard_golem,
@@ -316,6 +369,12 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_spell_117_market_manipulation,
   s1_spell_118_syndicate_contract,
   s1_spell_119_hostile_acquisition,
+  s1_spell_224_tax_collector,
+  s1_spell_225_bounty_notice,
+  s1_spell_226_crystal_vault,
+  s1_spell_227_leveraged_buyout,
+  s1_spell_228_economic_sanctions,
+  s1_spell_229_liquidation_sale,
   s1_char_050_warden_prime,
   s1_char_051_oculus_sentinel,
   s1_char_052_compliance_officer,
@@ -343,7 +402,16 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_spell_113_memory_consumption,
   s1_spell_114_neural_overwrite,
   s1_spell_115_nihilistic_mercy,
+  s1_spell_218_infection_vector,
+  s1_spell_219_plague_wind,
+  s1_spell_220_assimilate,
+  s1_spell_221_cognitive_decay,
+  s1_spell_222_terminal_stage,
+  s1_spell_223_spore_burst,
   tok_calculation,
+  tok_dream_wisp_1_1,
+  tok_infected_2_2,
+  tok_spore_1_1,
   token_crystal_senator_5_5,
   token_wolf_2_2,
 ]);

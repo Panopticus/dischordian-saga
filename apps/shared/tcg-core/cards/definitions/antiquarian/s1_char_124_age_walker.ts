@@ -35,7 +35,18 @@ export const cardDef: CardDefinition = {
   cost: 3,
   baseStats: { power: 2, health: 3 },
   keywords: ["grow"],
-  abilities: [],
+  abilities: [
+    {
+      id: "aw_grow" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_turn_start", owner: "self" },
+      effect: {
+        op: "buff",
+        stats: { power: 1, health: 1 },
+        duration: { kind: "permanent" },
+        to: { kind: "self" },
+      },
+    },
+  ],
   art:
     "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/124_age_walker.png",
   flavorText:

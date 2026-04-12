@@ -18,7 +18,18 @@ export const cardDef: CardDefinition = {
   cost: 1,
   baseStats: { power: 1, health: 1 },
   keywords: ["flying", "rush"],
-  abilities: [],
+  abilities: [
+    // --- Final Delivery: draw 1 card on death ---
+    {
+      id: "courier_death_draw" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_death" },
+      effect: {
+        op: "draw",
+        amount: { kind: "const", value: 1 },
+        who: "self",
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "It carries messages no one else dares to deliver — and pays for it with its brief, bright life.",

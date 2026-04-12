@@ -18,7 +18,25 @@ export const cardDef: CardDefinition = {
   cost: 7,
   baseStats: { power: 8, health: 10 },
   keywords: ["provoke"],
-  abilities: [],
+  abilities: [
+    {
+      id: "wp_surveillance_shield" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "foreach",
+        over: {
+          kind: "all",
+          filter: { controller: "self" },
+        },
+        do: {
+          op: "buff",
+          stats: { health: 1 },
+          duration: { kind: "permanent" },
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "From the Central Spire, every whisper is heard, every shadow measured. The Warden does not sleep — the Warden is sleep denied to others.",

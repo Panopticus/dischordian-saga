@@ -18,7 +18,36 @@ export const cardDef: CardDefinition = {
   cost: 7,
   baseStats: { power: 8, health: 9 },
   keywords: ["deathwatch", "drain"],
-  abilities: [],
+  abilities: [
+    {
+      id: "pz_deathwatch_drain" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_any_unit_dies" },
+      effect: {
+        op: "sequence",
+        steps: [
+          {
+            op: "deal_damage",
+            amount: { kind: "const", value: 1 },
+            to: { kind: "enemy_general" },
+          },
+          {
+            op: "heal",
+            amount: { kind: "const", value: 1 },
+            to: { kind: "self" },
+          },
+        ],
+      },
+    },
+    {
+      id: "pz_drain" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_damage_dealt", by: "self" },
+      effect: {
+        op: "heal",
+        amount: { kind: "const", value: 2 },
+        to: { kind: "friendly_general" },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "The first mind to crack open and let the signal through. Every infection since has been an echo of that original scream.",

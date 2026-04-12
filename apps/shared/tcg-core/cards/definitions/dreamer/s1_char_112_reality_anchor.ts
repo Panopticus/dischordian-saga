@@ -35,7 +35,19 @@ export const cardDef: CardDefinition = {
   cost: 2,
   baseStats: { power: 1, health: 4 },
   keywords: ["provoke"],
-  abilities: [],
+  abilities: [
+    // --- Probability Lock: add 1 forcefield_charges counter on deploy ---
+    {
+      id: "anchor_deploy_forcefield" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "add_counter",
+        kind: "forcefield_charges",
+        amount: 1,
+        to: { kind: "self" },
+      },
+    },
+  ],
   art:
     "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/112_reality_anchor.png",
   flavorText:

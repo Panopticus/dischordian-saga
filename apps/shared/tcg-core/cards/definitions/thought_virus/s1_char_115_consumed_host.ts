@@ -34,7 +34,27 @@ export const cardDef: CardDefinition = {
   cost: 2,
   baseStats: { power: 3, health: 2 },
   keywords: ["rush"],
-  abilities: [],
+  abilities: [
+    // --- Viral Burst: deal 1 damage to all adjacent enemies on death ---
+    {
+      id: "consumed_death_burst" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_death" },
+      effect: {
+        op: "foreach",
+        over: {
+          kind: "radius",
+          origin: { kind: "self" },
+          radius: 1,
+          filter: { controller: "opponent" },
+        },
+        do: {
+          op: "deal_damage",
+          amount: { kind: "const", value: 1 },
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
   art:
     "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/115_consumed_host.png",
   flavorText:

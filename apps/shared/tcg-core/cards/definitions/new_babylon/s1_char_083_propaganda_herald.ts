@@ -18,7 +18,27 @@ export const cardDef: CardDefinition = {
   cost: 2,
   baseStats: { power: 2, health: 3 },
   keywords: ["rally_buff"],
-  abilities: [],
+  abilities: [
+    {
+      id: "ph_rally_health" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "foreach",
+        over: {
+          kind: "radius",
+          origin: { kind: "self" },
+          radius: 1,
+          filter: { controller: "self", except: "self" },
+        },
+        do: {
+          op: "buff",
+          stats: { health: 1 },
+          duration: { kind: "permanent" },
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "The truth is whatever the Spire says it is. He just makes it rhyme.",

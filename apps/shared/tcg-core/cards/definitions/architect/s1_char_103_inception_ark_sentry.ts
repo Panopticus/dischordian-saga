@@ -31,7 +31,26 @@ export const cardDef: CardDefinition = {
   cost: 2,
   baseStats: { power: 2, health: 3 },
   keywords: ["ranged"],
-  abilities: [],
+  abilities: [
+    // --- Final Salvo: deal 2 damage to a random enemy on death ---
+    {
+      id: "ark_sentry_death_strike" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_death" },
+      effect: {
+        op: "with_target",
+        selector: {
+          kind: "single",
+          filter: { controller: "opponent" },
+          chooser: "random",
+        },
+        do: {
+          op: "deal_damage",
+          amount: { kind: "const", value: 2 },
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
   art:
     "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/103_inception_ark_sentry.png",
   flavorText:
