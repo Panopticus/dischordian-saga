@@ -807,3 +807,78 @@ Plays when player first discovers an entity. Triggered from conspiracy board, re
 
 ---
 
+# Section 3 — ART ASSETS (Nano Banana 2)
+
+Every missing still. Each row gives you a self-contained Nano Banana 2 prompt, output path, and size. Where a prompt already exists verbatim in an established bible (`COMPLETE_ART_PROMPT_BIBLE.md`, `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md`, `CASINO_EXPANSION_ART_BIBLE.md`, etc.), this section cites the bible and line number instead of duplicating — those bibles are the source of truth.
+
+**Global visual anchor** (applies to every prompt unless overridden):
+> Dark sci-fi aesthetic. Deep space blacks (#0a0a1a–#010020) as base. Neon accents: cyan #22d3ee, foxfire green #00e676, corrupted red #ff1744, sacred gold #fbbf24, violet #e040fb. Holographic overlays, scanlines, volumetric fog, anamorphic lens flare, cinematic 4K with film grain. Cyberpunk meets cosmic horror. Dramatic rim lighting. No rendered text in images.
+
+---
+
+## §3.1 — Missing Fighter Sheets (20 fighters × 4 sheets = 80 images)
+
+*These are the 20 playable fighters defined in `apps/client/src/game/gameData.ts` that reference CDN URLs but have NO LOCAL asset sheets. Each fighter needs FOUR 1024×1536 portrait PNGs (transparent background): **(a) portrait, (b) idle/movement, (c) attacks/specials, (d) reactions/victory**. For each fighter, the portrait prompt below is the master — apply the same character design language to the other three sheets, adjusting pose and expression per sheet type.*
+
+**Portrait sheet style anchor (applies to all fighters):**
+> Full-body character portrait centered in 1024×1536 canvas. Transparent PNG background. Character in neutral ready stance, facing 3/4 left. Dramatic rim lighting from upper-right. Subsurface glow under key cloth folds. Subtle floor shadow. No weapon in-hand unless signature (noted per fighter). Physics-based fabric simulation, photoreal skin, anamorphic lens flare, film grain.
+
+**Sheet naming convention:** `art/fighters/<fighter-id>/<fighter-id>-portrait.png`, `-idle.png`, `-attacks.png`, `-reactions.png`
+
+---
+
+#### ART-F01 — SHADOW TONGUE (Empire, Tricky)
+- **Output:** `apps/client/public/art/fighters/shadow_tongue/shadow_tongue-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets)
+- **Priority:** P0
+- **Portrait Nano Banana 2 prompt:** A tall androgynous figure made of elegant shadow and whispered ink. Wears layered flowing robes that seem stitched from folded pages of books — each page faintly inscribed with abstract calligraphic glyphs (never legible). Face is smooth, beautiful, ageless, eyes closed in a knowing half-smile. Subtly refracts the light around them in the wrong direction — their shadow falls TOWARD the light source, not away. Long slender fingers tipped with calligraphy-pen ink stains. Indigo #6366f1 rim light, deep violet shadow, book-page cream accents, faint gold on the glyph edges. 1024×1536 transparent PNG, full-body 3/4 facing left, neutral ready stance.
+- **Idle sheet direction:** Slow graceful shift of the page-robe fabric as if a breeze nobody else can feel moves through them; shadow lags their body by half a second.
+- **Attacks sheet direction:** Summons a scroll of ink that becomes a whip; words unwrite themselves from nearby reality and strike the opponent as visible typographic glyphs.
+- **Reactions sheet direction:** When hit, their form briefly dissolves into falling pages before re-forming; when victorious, they close a book with a soft satisfied smile.
+
+---
+
+#### ART-F02 — THE WATCHER (Empire, Zoner)
+- **Output:** `apps/client/public/art/fighters/watcher/watcher-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets)
+- **Priority:** P0
+- **Portrait Nano Banana 2 prompt:** A tall imposing humanoid figure in an immaculate white ceremonial robe with red Japanese-inspired calligraphic banding along the sleeves and hem. The figure's entire head is replaced by a perfectly smooth white porcelain mask with a single enormous horizontal mechanical aperture across the eye line — an iris the size of the head itself. The iris is currently contracted to a tight black dot. Both hands are hidden inside long flowing sleeves. The robe is pristine, ankle-length. Cold white #f9fafb rim light, deep institutional blue-grey shadow, surveillance-red #ef4444 at the iris center. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle sheet direction:** The iris head slowly rotates, scanning. Robe hem drifts slightly as if under its own watchful attention.
+- **Attacks sheet direction:** Iris blazes open, projecting beams of surveillance data that become physical lasers; hidden hands emerge with mechanical tracking orbs that seek the opponent.
+- **Reactions sheet direction:** When hit, the iris snaps fully wide in surprise; when victorious, the porcelain mask tilts fractionally as if curious about the specimen it just defeated.
+
+---
+
+#### ART-F03 — THE GAME MASTER (Neutral, Tricky)
+- **Output:** `apps/client/public/art/fighters/game_master/game_master-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets)
+- **Priority:** P0
+- **Portrait Nano Banana 2 prompt:** A mid-forties figure in a perfectly tailored emerald-green tuxedo with gold piping and a matching bow tie, slicked-back dark hair, pale pristine skin, mouth caught in a too-wide showman's grin that goes slightly past what is comfortable. Holds a glowing cue card in one hand (card face is a shimmering plane of rule-text rendered as abstract glyphs). Behind him, slightly hovering, a translucent holographic scoreboard frames his shoulders like wings. Deep emerald #10b981 tuxedo, stage-gold accents, hot white spotlight from above, deep red-velvet shadows. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle sheet direction:** Subtle constant tweak of the cue card between his fingers; the scoreboard behind him cycles through impossible score configurations.
+- **Attacks sheet direction:** Tears cue cards in half and throws the fragments, which bloom mid-air into new rules that bind the opponent; the scoreboard flips positions at impact.
+- **Reactions sheet direction:** When hit, the grin briefly falters (only briefly); when victorious, he takes a small showman's bow while the scoreboard rains golden confetti.
+
+---
+
+#### ART-F04 — THE AUTHORITY (Empire, Balanced)
+- **Output:** `apps/client/public/art/fighters/authority/authority-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets)
+- **Priority:** P1
+- **Portrait Nano Banana 2 prompt:** A stern tall figure in the formal robes of a New Babylon high adjudicator — heavy black fabric with silver embroidery at the collar and cuffs, a wide stiff white ruff at the neck. Face is male, gaunt, mid-sixties, with a closely-cropped white beard and eyes of cold institutional grey. Carries a silver gavel in the right hand like a weapon at rest. Wears a silver chain of office with a small pendant depicting the scales of judgement. Posture is unmoving, spine ramrod straight. Cold silver-white rim light, deep institutional black, faint court-room amber glow from below. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle sheet direction:** The gavel taps slowly and evenly against his palm; the silver chain of office sways with each tap.
+- **Attacks sheet direction:** Strikes the ground with the gavel — impact radiates holographic judgment rings; silver chain whips out as a binding tether.
+- **Reactions sheet direction:** When hit, expression flickers to cold surprise briefly; when victorious, he raises the gavel in a single decisive vertical gesture — guilty.
+
+---
+
+#### ART-F05 — THE HOST (Corrupted, Parasitic)
+- **Output:** `apps/client/public/art/fighters/host/host-{portrait|idle|attacks|reactions}.png`
+- **Size:** 1024×1536 transparent PNG each (4 sheets)
+- **Priority:** P1
+- **Portrait Nano Banana 2 prompt:** A formerly-human figure in the tattered remains of a crew uniform — once recognizably a Potential, now deeply parasitized by the Thought Virus. Viral golden-green threads crawl visibly beneath translucent skin. One arm has begun to fuse with a crystalline viral growth that extends outward like a bio-mechanical claw. Eyes glow sickly gold. Mouth is parted in a permanent expression of half-remembered personhood grieving itself. Sickly gold #fbbf24 and plague green #84cc16 skin-glow, deep infection shadow, original crew-cyan still visible at the cuffs of the uniform. 1024×1536 transparent PNG, full-body 3/4 facing left.
+- **Idle sheet direction:** Viral threads pulse slowly beneath the skin; crystalline arm-growth shifts as if breathing.
+- **Attacks sheet direction:** The crystalline claw extends rapidly, and viral filaments erupt from the mouth as projectile strikes; every hit spreads visible infection.
+- **Reactions sheet direction:** When hit, a flash of the original human face surfaces briefly and recedes; when victorious, the viral half shudders in something that might be ecstasy or might be sorrow.
+
+---
+
