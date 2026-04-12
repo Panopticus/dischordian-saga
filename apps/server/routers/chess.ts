@@ -2065,8 +2065,11 @@ async function finalizeTournament(tournamentId: number): Promise<void> {
 
 /** Process-local auto-forfeit timers. Persistent scheduling is out of
  *  scope here (would need a job queue); we re-arm on server restart via
- *  rehydrateAutoForfeitTimers() below. */
-const autoForfeitTimers = new Map<string, ReturnType<typeof setTimeout>>();
+ *  rehydrateAutoForfeitTimers() below.
+ *
+ *  @internal Exported for unit tests that need to verify a timer was
+ *  scheduled (or clean up between test runs). */
+export const autoForfeitTimers = new Map<string, ReturnType<typeof setTimeout>>();
 
 function scheduleRoundAutoForfeit(tournamentId: number, round: number, deadlineMs: number) {
   const key = `${tournamentId}:${round}`;
@@ -2082,7 +2085,10 @@ function scheduleRoundAutoForfeit(tournamentId: number, round: number, deadlineM
   autoForfeitTimers.set(key, timer);
 }
 
-async function runRoundAutoForfeit(tournamentId: number, round: number) {
+/** @internal Exported for unit tests. The tRPC layer schedules this
+ *  via `scheduleRoundAutoForfeit`; production code should not invoke
+ *  it directly. */
+export async function runRoundAutoForfeit(tournamentId: number, round: number) {
   const db = (await getDb())!;
   const unreported = await db.select().from(chessTournamentPairings)
     .where(and(

@@ -40,7 +40,9 @@ interface ChessPlayer {
   matchId: string | null;
 }
 
-interface ActiveChessMatch {
+/** @internal Exported for unit tests only — production code should
+ *  treat active matches as internal WS state. */
+export interface ActiveChessMatch {
   matchId: string;
   fen: string;
   pgn: string;
@@ -322,7 +324,9 @@ async function startMatch(p1: ChessPlayer, p2: ChessPlayer) {
   startTurnTimer(match);
 }
 
-function startTurnTimer(match: ActiveChessMatch) {
+/** @internal Exposed for unit tests. Production code should not call
+ *  this directly — use `handleMove` / `handleNewMatch` which invoke it. */
+export function startTurnTimer(match: ActiveChessMatch) {
   if (match.turnTimeout) clearTimeout(match.turnTimeout);
 
   // Flag-fall: fire when the CURRENT player's clock runs out or when we
