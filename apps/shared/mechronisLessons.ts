@@ -78,6 +78,30 @@ export const MECHRONIS_LESSONS: Record<string, Lesson[]> = {
           outcome: { grade: "fail", corruptionDelta: -5, approvalDelta: -15, skillXpDelta: -8, transcriptNote: "Refused to enforce grading rubric. Misunderstands 'collective' as 'kind.' Re-education suggested." } },
       ],
     },
+    {
+      id: "conductor_erasure_drill", professorId: "prof_conductor", day: 0,
+      prompt: "Kanevas names a student who was in class last week. No one else remembers them. He asks you to confirm they existed.",
+      options: [
+        { id: "confirm", label: "Confirm they existed", description: "Say their name aloud.",
+          outcome: { grade: "honor", corruptionDelta: -3, approvalDelta: 5, skillXpDelta: 12, transcriptNote: "Student resisted collective memory edit. Kanevas: 'You remember people. That can be a tool or a liability.'" } },
+        { id: "deny", label: "Deny remembering them", description: "Join the silence.",
+          outcome: { grade: "pass", corruptionDelta: 4, approvalDelta: 8, skillXpDelta: 10, transcriptNote: "Student aligned with collective erasure. Kanevas: 'Harmony maintained. Cost: one name.'" } },
+        { id: "ask_class", label: "Ask the class to remember", description: "Poll the room directly.",
+          outcome: { grade: "fail", corruptionDelta: 0, approvalDelta: -5, skillXpDelta: -3, transcriptNote: "Student disrupted drill format. Kanevas: 'The class is not a jury. The class is a choir. You conducted a trial.'" } },
+      ],
+    },
+    {
+      id: "conductor_duet_test", professorId: "prof_conductor", day: 0,
+      prompt: "Kanevas pairs you with the worst student in the class. Your duet grade will be averaged. He asks if you want to switch partners.",
+      options: [
+        { id: "keep_them", label: "Keep the partner", description: "Accept the average hit.",
+          outcome: { grade: "honor", corruptionDelta: -2, approvalDelta: 10, skillXpDelta: 15, transcriptNote: "Student accepted collective risk voluntarily. Kanevas: 'The chorus carries its weakest. You just learned that with your grade.'" } },
+        { id: "switch", label: "Switch to a stronger partner", description: "Optimize for your grade.",
+          outcome: { grade: "pass", corruptionDelta: 3, approvalDelta: 3, skillXpDelta: 8, transcriptNote: "Student prioritized individual outcome. Kanevas: 'Efficient. The old partner noticed. They always notice.'" } },
+        { id: "refuse_duet", label: "Refuse the duet entirely", description: "Ask to perform solo.",
+          outcome: { grade: "fail", corruptionDelta: -4, approvalDelta: -10, skillXpDelta: -5, transcriptNote: "Student refused collaboration. Kanevas: 'Solo is not an option here. Solo is not an option anywhere. That is the lesson.'" } },
+      ],
+    },
   ],
   prof_watcher: [
     {
@@ -102,6 +126,30 @@ export const MECHRONIS_LESSONS: Record<string, Lesson[]> = {
           outcome: { grade: "pass", corruptionDelta: 2, approvalDelta: 3, skillXpDelta: 10, transcriptNote: "Report acceptable on its face; cross-reference pending. Aoki has not yet decided what to do with the discrepancy." } },
         { id: "refuse_list", label: "Refuse to submit", description: "Tell Aoki your inner life isn't coursework.",
           outcome: { grade: "fail", corruptionDelta: -6, approvalDelta: -12, skillXpDelta: -10, transcriptNote: "Subject defended an interior. Aoki logged this as a 'fault line to be watched.' It is now being watched." } },
+      ],
+    },
+    {
+      id: "watcher_peer_report", professorId: "prof_watcher", day: 0,
+      prompt: "Aoki distributes sealed files. Each contains another student's grades. He asks you to write a one-sentence assessment of the student you received — knowing they received your file too.",
+      options: [
+        { id: "honest_assessment", label: "Write an honest assessment", description: "Give the truth, knowing yours is being judged too.",
+          outcome: { grade: "honor", corruptionDelta: 2, approvalDelta: 8, skillXpDelta: 14, transcriptNote: "Bilateral honesty. Aoki: 'Both of you wrote the truth. Neither of you will forgive the other. That is the point.'" } },
+        { id: "kind_assessment", label: "Write a kind assessment", description: "Be generous. Hope they do the same.",
+          outcome: { grade: "pass", corruptionDelta: -1, approvalDelta: 3, skillXpDelta: 8, transcriptNote: "Student chose mercy over accuracy. Aoki: 'Kind watchers are blind watchers. But sometimes blindness is a gift.'" } },
+        { id: "sabotage", label: "Write a devastating assessment", description: "Destroy their record. Protect yours.",
+          outcome: { grade: "fail", corruptionDelta: 6, approvalDelta: -8, skillXpDelta: -5, transcriptNote: "Student weaponized observation. Aoki: 'You saw correctly and used it cruelly. I record both facts without preference.'" } },
+      ],
+    },
+    {
+      id: "watcher_blind_spot", professorId: "prof_watcher", day: 0,
+      prompt: "Aoki covers one of his eyes. 'I am now watching with half my capacity. What do you do differently?' He sits. He waits. The class is silent.",
+      options: [
+        { id: "do_nothing", label: "Do nothing differently", description: "You know half-sight is still sight.",
+          outcome: { grade: "distinction", corruptionDelta: 0, approvalDelta: 15, skillXpDelta: 22, transcriptNote: "Student recognized the trap. Aoki: 'The correct answer. My blind spot was the test. You passed it by not moving.'" } },
+        { id: "test_blind_side", label: "Move to his blind side", description: "Try to exploit the gap.",
+          outcome: { grade: "pass", corruptionDelta: 3, approvalDelta: 4, skillXpDelta: 10, transcriptNote: "Student attempted exploitation. Aoki tracked them without uncovering the eye. 'I never said WHICH eye I covered. Think about that.'" } },
+        { id: "cover_own_eye", label: "Cover your own eye", description: "Mirror him.",
+          outcome: { grade: "honor", corruptionDelta: -2, approvalDelta: 10, skillXpDelta: 15, transcriptNote: "Student mirrored the instructor. Aoki removed his hand. 'Interesting. Symmetry as a response to surveillance. Write that down.'" } },
       ],
     },
   ],
