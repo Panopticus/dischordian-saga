@@ -208,6 +208,8 @@ import { cardDef as s1_reward_raid_perfect } from "./definitions/neutral/s1_rewa
 import { cardDef as s1_reward_seasonal_s1 } from "./definitions/neutral/s1_reward_seasonal_s1.ts";
 import { cardDef as s1_reward_vote_t1_balanced } from "./definitions/neutral/s1_reward_vote_t1_balanced.ts";
 import { cardDef as s1_reward_vote_t1_empathy } from "./definitions/neutral/s1_reward_vote_t1_empathy.ts";
+import { cardDef as s1_reward_xmas_charity } from "./definitions/neutral/s1_reward_xmas_charity.ts";
+import { cardDef as s1_reward_xmas_gift } from "./definitions/neutral/s1_reward_xmas_gift.ts";
 import { cardDef as s1_song_059_lip_service } from "./definitions/neutral/s1_song_059_lip_service.ts";
 import { cardDef as s1_song_060_nonos } from "./definitions/neutral/s1_song_060_nonos.ts";
 import { cardDef as s1_song_061_the_enigmas_lament } from "./definitions/neutral/s1_song_061_the_enigmas_lament.ts";
@@ -246,6 +248,7 @@ import { cardDef as s1_reward_casino_high_roller } from "./definitions/new_babyl
 import { cardDef as s1_reward_casino_poker } from "./definitions/new_babylon/s1_reward_casino_poker.ts";
 import { cardDef as s1_reward_casino_vip } from "./definitions/new_babylon/s1_reward_casino_vip.ts";
 import { cardDef as s1_reward_class_soldier } from "./definitions/new_babylon/s1_reward_class_soldier.ts";
+import { cardDef as s1_reward_eidolon_auros } from "./definitions/new_babylon/s1_reward_eidolon_auros.ts";
 import { cardDef as s1_reward_companion_locke } from "./definitions/new_babylon/s1_reward_companion_locke.ts";
 import { cardDef as s1_reward_guild_territory } from "./definitions/new_babylon/s1_reward_guild_territory.ts";
 import { cardDef as s1_reward_guild_victory } from "./definitions/new_babylon/s1_reward_guild_victory.ts";
