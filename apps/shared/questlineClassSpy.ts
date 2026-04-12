@@ -4,8 +4,8 @@
 
    Spec §3.6 — 2 chapters.
 
-   Ch1  Locke Reads You           (Act 2)
-   Ch2  What Locke Knows          (Act 2, requires spy_preempt_origin)
+   Ch1  Locke Reads You        (Act 2)
+   Ch2  What Locke Knows       (Act 2, requires spy_preempt_origin)
    ═══════════════════════════════════════════════════════ */
 
 import type {
@@ -18,7 +18,8 @@ import type { WheelOption } from "./dialogWheel";
 
 export const SPY_QUESTLINE_FLAGS = [
   "spy_locke_preempt_complete",
-  "spy_locke_senne_revealed",
+  "spy_preempt_origin",
+  "spy_senne_identity_revealed",
   "spy_eyes_drop_points_recovered",
 ] as const;
 
@@ -26,156 +27,173 @@ export const SPY_QUESTLINE_FLAGS = [
 
 const ch1Wheel: WheelOption[] = [
   {
-    id: "spy_ch1_deny",
+    id: "spy_ch1_investigate_lineage",
+    segment: "investigate",
+    rarity: "common",
+    label: "How did you identify me?",
+    fullText:
+      "You identified my Spy lineage from transaction patterns. What patterns? What exactly gave me away?",
+    outcome: {
+      elaraTrustDelta: 1,
+      npcTrustDelta: { npcId: "locke", delta: 2 },
+      unlocks: ["codex_spy_transaction_signatures"],
+    },
+  },
+  {
+    id: "spy_ch1_humanity_trust",
+    segment: "humanity",
+    rarity: "common",
+    label: "Negotiation implies trust.",
+    fullText:
+      "You said 'like adults.' That implies a baseline of mutual trust. What have I done to earn yours?",
+    outcome: {
+      moralityDelta: 3,
+      elaraTrustDelta: 2,
+      npcTrustDelta: { npcId: "locke", delta: 2 },
+    },
+  },
+  {
+    id: "spy_ch1_machine_leverage",
     segment: "machine",
     rarity: "common",
-    label: "DENY",
-    fullText: "I don't know what you're talking about.",
-    outcome: { moralityDelta: -1 },
+    label: "What do you want?",
+    fullText:
+      "You don't arrange private meetings for conversation. What do you want, and what are you offering?",
+    outcome: {
+      moralityDelta: -2,
+      humanTrustDelta: 2,
+      npcTrustDelta: { npcId: "locke", delta: 1 },
+    },
   },
   {
-    id: "spy_ch1_admit",
-    segment: "investigate",
+    id: "spy_ch1_aggressive_deflect",
+    segment: "aggressive",
     rarity: "common",
-    label: "ADMIT",
-    fullText: "You're right. What do you want?",
-    outcome: { npcTrustDelta: { npcId: "adjudicator_locke", delta: 3 } },
+    label: "You're stalling.",
+    fullText:
+      "This is a stall. You're watching my reactions to calibrate your approach. I've been trained to recognize the technique because it's one of mine.",
+    outcome: {
+      moralityDelta: -1,
+      npcTrustDelta: { npcId: "locke", delta: 3 },
+    },
   },
   {
-    id: "spy_ch1_counter",
-    segment: "aggressive",
-    rarity: "uncommon",
-    label: "COUNTER",
-    fullText: "I know about the Syndicate mark on your eye patch.",
-    outcome: { moralityDelta: -2, npcTrustDelta: { npcId: "adjudicator_locke", delta: 1 } },
+    id: "spy_ch1_compassionate_honest",
+    segment: "compassionate",
+    rarity: "common",
+    label: "I'd rather just be honest.",
+    fullText:
+      "We're both professionals. I'd rather skip the tradecraft and just be honest with each other. What do you actually need?",
+    outcome: {
+      moralityDelta: 4,
+      elaraTrustDelta: 2,
+      npcTrustDelta: { npcId: "locke", delta: 2 },
+    },
   },
   {
-    id: "spy_ch1_double_down",
-    segment: "aggressive",
-    rarity: "rare",
-    label: "DOUBLE DOWN",
-    fullText: "I know about Station 7. The classified Potentials Incident. And your role in it.",
-    outcome: { moralityDelta: -3, npcTrustDelta: { npcId: "adjudicator_locke", delta: -2 } },
-  },
-  {
-    id: "spy_ch1_real_name",
+    id: "spy_ch1_spy_real_name",
     segment: "investigate",
     rarity: "legendary",
-    label: "SPY: HER REAL NAME",
+    label: "I know your real name.",
     fullText:
-      "I know Adjudicator Locke is not your real name. Your real name is in the Panopticon's staff records, Year 15,447. You worked for the Watcher before you worked for New Babylon.",
+      "I know Adjudicator Locke is not your real name. Your real name is in the Panopticon's staff records, Year 15,447. You worked for the Watcher.",
     outcome: {
-      npcTrustDelta: { npcId: "adjudicator_locke", delta: 5 },
-      unlocks: ["spy_locke_senne_revealed"],
+      elaraTrustDelta: 5,
+      humanTrustDelta: 3,
+      npcTrustDelta: { npcId: "locke", delta: 8 },
+      unlocks: [
+        "codex_surveillance_coordinator_senne",
+        "codex_locke_panopticon_history",
+        "spy_fair_deal_negotiation",
+      ],
     },
-    gateCondition: { requireClass: "spy" },
-  },
-  {
-    id: "spy_ch1_charisma",
-    segment: "skill_check",
-    rarity: "epic",
-    label: "CHARISMA 14",
-    fullText:
-      "I know more than you expect. Less than you fear. Trade something genuine and we can both walk away better informed.",
-    outcome: { npcTrustDelta: { npcId: "adjudicator_locke", delta: 4 } },
-    gateCondition: { minSkillLevel: { skillId: "charisma", level: 14 } },
+    gateCondition: {
+      requireClass: "spy",
+    },
   },
 ];
 
-const ch1: PotentialQuestlineChapter = {
+const chapter1: PotentialQuestlineChapter = {
   id: "spy_ch1_locke_reads_you",
   completionFlag: "spy_locke_preempt_complete",
   title: "Locke Reads You",
-  hook: "Adjudicator Locke identified your lineage before you said a word. She wants to trade.",
-  sectorId: "new_babylon_core",
+  hook: "Adjudicator Locke has requested a private meeting. She identified your Spy lineage from transaction patterns alone.",
+  sectorId: "ark_trade_hub",
+  actGate: 2,
   opener: [
     {
-      speaker: "adjudicator_locke",
-      text:
-        "I know what you are. Not 'Potential' — I know that much about everyone. I mean: I know what class of Potential you are. I know because the Spy lineage from the Collector's Garden has a specific genetic marker that shows up in Trade Empire transaction patterns. You gather information reflexively. Your purchase history shows three acquisitions that have no value except as intelligence assets. You're not a merchant. You're a Spy. And you're wasting time pretending to be a merchant to me.",
+      speaker: "locke",
+      stageDirection: "The meeting space is deliberately neutral — no Panopticon insignia, no formal seating arrangement. Locke is already present when you arrive, positioned with her back to the only exit. A deliberate vulnerability. She wants you to know she isn't afraid.",
     },
     {
-      speaker: "adjudicator_locke",
-      stageDirection: "She folds her hands.",
-      text:
-        "So let's negotiate like adults. What do you know about me that I don't know you know? Because that's the only currency that matters in this room.",
+      speaker: "locke",
+      text: "I'll spare us both the pretense. I know what you are. Your transaction patterns are consistent with Spy-lineage Potential behavior — the way you gather information before committing to action, the micro-delays in your decision-making that indicate parallel analysis. You process the room before you enter it. So did the original.",
+    },
+    {
+      speaker: "locke",
+      text: "Let's negotiate like adults.",
+      stageDirection: "Locke settles into her chair with the confidence of someone who has already mapped every possible outcome of this conversation — or believes she has.",
     },
   ],
   wheel: ch1Wheel,
   followups: {
-    spy_ch1_deny: [
+    spy_ch1_investigate_lineage: [
       {
-        speaker: "adjudicator_locke",
-        text: "Interesting. That's the first thing you've said that I believe is a lie. I'll note that. The next time you want to trade, I'll remember you started with a denial.",
+        speaker: "locke",
+        text: "Transaction timing. Every class leaves a signature in how they interact with Ark systems. Soldiers act immediately. Engineers analyze first, then act. Oracles hesitate at specific decision points — probability processing. Assassins leave gaps in their data trail. Spies? Spies interact with everything at the same measured pace, regardless of urgency. The consistency is the tell. You never rush, even when you should.",
       },
     ],
-    spy_ch1_admit: [
+    spy_ch1_humanity_trust: [
       {
-        speaker: "adjudicator_locke",
-        text: "Good. I want the same thing you want: a clear picture of who else is moving on this board. I have intelligence you need. You have a perspective I can't buy. Trade?",
+        speaker: "locke",
+        text: "You haven't earned it. That's the point. I'm extending trust as an opening position because the alternative — mutual surveillance and counter-surveillance — wastes time that neither of us has. I'm betting that a Spy-lineage Potential values efficiency over paranoia. Am I wrong?",
       },
     ],
-    spy_ch1_counter: [
+    spy_ch1_machine_leverage: [
       {
-        speaker: "adjudicator_locke",
-        stageDirection: "A pause.",
-        text: "That's not public knowledge. Well done. The mark is from the Syndicate, yes. It means I owe them a favor. One. It is not outstanding. I paid it eleven thousand years ago and they kept the receipt.",
+        speaker: "locke",
+        text: "Direct. Good. I want access to the Eyes' dead-drop network — the locations, not the contents. In exchange, I'm offering Panopticon clearance data on three sectors you haven't been able to access. Fair trade, information for information. No operational commitments on either side.",
       },
     ],
-    spy_ch1_double_down: [
+    spy_ch1_aggressive_deflect: [
       {
-        speaker: "adjudicator_locke",
-        stageDirection: "She is very still.",
-        text: "Station 7 is sealed for a reason. My role in it is sealed for a reason. If you know about Station 7, then you know enough to hurt me, and I know enough about your transaction pattern to hurt you. Shall we call this even, or shall we both be hurt?",
+        speaker: "locke",
+        stageDirection: "Locke's expression shifts — the practiced neutrality replaced by something closer to genuine appreciation.",
+      },
+      {
+        speaker: "locke",
+        text: "Very good. Yes, I was calibrating. And you identified the technique, named it, and attributed it correctly — all within the first thirty seconds. The original Spy took three meetings to call me on it. You did it in one. I'll adjust my approach accordingly.",
       },
     ],
-    spy_ch1_real_name: [
+    spy_ch1_compassionate_honest: [
       {
-        speaker: "adjudicator_locke",
-        stageDirection: "She is very still.",
-        text: "That record was sealed.",
-      },
-      { speaker: "player", text: "Most sealed records are." },
-      {
-        speaker: "adjudicator_locke",
-        stageDirection: "Very long pause.",
-        text: "What do you want?",
-      },
-      {
-        speaker: "player",
-        text:
-          "What Locke always wants. A fair deal. You know where the first wave went and why. I know what you used to be before New Babylon offered you a new name. We're both people with histories we'd prefer to keep private and information we need to trade. So trade.",
-      },
-      {
-        speaker: "adjudicator_locke",
-        stageDirection: "Locke studies them.",
-        text:
-          "The first wave went to the dark sector because the Eyes sent them there. The Eyes told them the Dreamer was behind the shield and she was asking for help. I don't know if that was true. I know the Eyes believed it.",
-      },
-      {
-        speaker: "adjudicator_locke",
-        stageDirection: "She opens the envelope.",
-        text:
-          "My name, when I worked for the Watcher, was Surveillance Coordinator Senne. I was responsible for the Eyes' operational oversight. She was my asset. I was the one who identified her as compromised and passed her location to the Collector.",
-      },
-      {
-        speaker: "adjudicator_locke",
-        stageDirection: "Beat.",
-        text:
-          "I have been Adjudicator Locke for eleven thousand years. I have been trying to decide if that's long enough to become a different person. I still don't know.",
+        speaker: "locke",
+        text: "Honesty from a Spy. That's either the most sophisticated play I've seen in centuries, or you're genuinely unlike your predecessor. Either way, I'll match it. What I need is simple: I need someone who can access the parts of this ship that the Panopticon can't reach. Not for surveillance — for protection. There are things in the dark sectors that I can't monitor, and I need eyes I can trust.",
       },
     ],
-    spy_ch1_charisma: [
+    spy_ch1_spy_real_name: [
       {
-        speaker: "adjudicator_locke",
-        stageDirection: "She almost smiles.",
-        text:
-          "Now that's a Spy's opening bid. You're not threatening. You're not bluffing. You're offering mutually assured discretion as a foundation for trade. I accept. What do you want to know first?",
+        speaker: "locke",
+        stageDirection: "For the first time since the meeting began, Locke is completely still. Not the practiced stillness of a negotiator — the frozen stillness of someone who has been genuinely, deeply surprised.",
+      },
+      {
+        speaker: "locke",
+        text: "Surveillance Coordinator Senne. You found the staff records.",
+        stageDirection: "Locke's voice is stripped of performance. This is the first honest sentence she has spoken.",
+      },
+      {
+        speaker: "locke",
+        text: "I worked for the Watcher before the Insurgency. Before everything. I was the one who designed the monitoring systems that the Panopticon still uses. When the Insurgency happened, I switched sides — not out of conscience, but because I saw which way the data pointed. The Watcher was going to lose. I chose the winning side. That's the truth of me, and now you have it.",
+      },
+      {
+        speaker: "locke",
+        text: "So. A fair deal. You have my real name and my real history. That gives you leverage over me that no one else on this ship possesses. In exchange, I will give you something of equal value — the location of every Eyes dead-drop point that the Panopticon catalogued but never opened. The original Spy's secrets, preserved. Your inheritance.",
+        stageDirection: "Locke extends her hand — not as a formality, but as a genuine offer between equals.",
       },
     ],
   },
   optionFlags: {
-    spy_ch1_real_name: ["spy_locke_senne_revealed"],
+    spy_ch1_spy_real_name: ["spy_preempt_origin", "spy_senne_identity_revealed"],
   },
 };
 
@@ -183,113 +201,169 @@ const ch1: PotentialQuestlineChapter = {
 
 const ch2Wheel: WheelOption[] = [
   {
-    id: "spy_ch2_first_wave",
+    id: "spy_ch2_investigate_first_wave",
     segment: "investigate",
-    rarity: "rare",
-    label: "THE FIRST WAVE",
-    fullText: "Where did they go after the dark sector?",
-    outcome: { npcTrustDelta: { npcId: "adjudicator_locke", delta: 2 } },
+    rarity: "common",
+    label: "Where did they go?",
+    fullText:
+      "The first wave — you said the Eyes sent them somewhere. Where exactly?",
+    outcome: {
+      elaraTrustDelta: 2,
+      unlocks: ["codex_dark_sector_first_wave"],
+    },
   },
   {
-    id: "spy_ch2_eyes",
-    segment: "investigate",
-    rarity: "rare",
-    label: "THE EYES",
-    fullText: "Tell me about the Eyes' network — what's left of it.",
-    outcome: { npcTrustDelta: { npcId: "adjudicator_locke", delta: 3 }, unlocks: ["spy_eyes_drop_points_recovered"] },
-  },
-  {
-    id: "spy_ch2_dreamer",
+    id: "spy_ch2_humanity_why",
     segment: "humanity",
-    rarity: "epic",
-    label: "THE DREAMER",
-    fullText: "Is the Dreamer actually behind the shield? Do you believe the Eyes?",
-    outcome: { moralityDelta: 2 },
+    rarity: "common",
+    label: "Why would the Eyes do that?",
+    fullText:
+      "The Eyes were supposed to protect people. Why would they send the first wave into the dark sector?",
+    outcome: {
+      moralityDelta: 3,
+      elaraTrustDelta: 3,
+      npcTrustDelta: { npcId: "locke", delta: 2 },
+    },
   },
   {
-    id: "spy_ch2_forgive",
+    id: "spy_ch2_machine_recover",
+    segment: "machine",
+    rarity: "common",
+    label: "Can we recover the drop points?",
+    fullText:
+      "The dead-drop locations you promised — if the first wave used the same network, those drop points might still contain their operational data. Can we recover them?",
+    outcome: {
+      moralityDelta: -1,
+      humanTrustDelta: 2,
+      npcTrustDelta: { npcId: "locke", delta: 2 },
+      unlocks: ["codex_eyes_drop_point_recovery_protocol"],
+    },
+  },
+  {
+    id: "spy_ch2_aggressive_complicity",
+    segment: "aggressive",
+    rarity: "common",
+    label: "You knew and did nothing.",
+    fullText:
+      "You were Surveillance Coordinator. You saw the first wave disappear into the dark sector in real time. You knew, and you did nothing.",
+    outcome: {
+      moralityDelta: -2,
+      npcTrustDelta: { npcId: "locke", delta: -2 },
+    },
+  },
+  {
+    id: "spy_ch2_compassionate_burden",
     segment: "compassionate",
-    rarity: "epic",
-    label: "FORGIVE",
-    fullText: "Eleven thousand years is long enough, Senne. You're someone else now.",
-    outcome: { npcTrustDelta: { npcId: "adjudicator_locke", delta: 5 }, moralityDelta: 3 },
+    rarity: "common",
+    label: "How long have you carried this?",
+    fullText:
+      "How long have you been carrying this knowledge? The first wave, the dark sector, all of it — how long have you known and had no one to tell?",
+    outcome: {
+      moralityDelta: 5,
+      elaraTrustDelta: 2,
+      npcTrustDelta: { npcId: "locke", delta: 4 },
+    },
   },
 ];
 
-const ch2: PotentialQuestlineChapter = {
+const chapter2: PotentialQuestlineChapter = {
   id: "spy_ch2_what_locke_knows",
   completionFlag: "spy_eyes_drop_points_recovered",
   unlockFlag: "spy_preempt_origin",
   title: "What Locke Knows",
-  hook: "The horror reveal unlocked something in Locke. She's ready to trade her deepest intelligence — the Eyes' final mission and the first wave's fate.",
-  sectorId: "new_babylon_core",
+  hook: "Locke has information about where the first wave went — and why. The Eyes sent them to the dark sector.",
+  sectorId: "ark_trade_hub",
+  actGate: 2,
   opener: [
     {
-      speaker: "adjudicator_locke",
-      text:
-        "You knew what you were before we told you. That changes the equation. Someone who sees themselves clearly is someone I can do business with — because you won't flinch when I show you what I've been carrying.",
+      speaker: "locke",
+      stageDirection: "Locke is waiting at the same neutral meeting point, but this time there is no performance. No calculated positioning. She is sitting with her hands flat on the table, looking older than she has ever appeared.",
     },
     {
-      speaker: "adjudicator_locke",
-      text:
-        "The Eyes — my asset, the woman I got killed — she left drop points. Hidden intelligence caches across six sectors. I've known their locations for eleven thousand years. I have never accessed them. I couldn't bring myself to open her work after what I did.",
+      speaker: "locke",
+      text: "You earned this when you spoke my real name. I said I would give you something of equal value, and I meant it. But what I'm about to tell you is heavier than a name.",
     },
     {
-      speaker: "adjudicator_locke",
-      stageDirection: "She pushes a data chip across the table.",
-      text:
-        "You can. You're Spy class. The caches are keyed to the Collector's intelligence lineage — your lineage. They'll open for you. They won't open for me.",
+      speaker: "locke",
+      text: "The first wave — the first Spy-lineage operatives the Eyes deployed after the Insurgency — they didn't fail. They didn't disappear. The Eyes sent them to the dark sector deliberately. Every one of them. And I know why.",
+    },
+    {
+      speaker: "locke",
+      text: "The Eyes discovered something in the dark sector that couldn't be reported through normal channels. Something that required operatives who would never come back. The first wave wasn't a deployment. It was a sacrifice. The Eyes sent them because they were the only ones who could reach what was hidden there — and because the Eyes knew that reaching it meant never returning.",
+    },
+    {
+      speaker: "elara",
+      text: "I have no records of this. Whatever the Eyes found in the dark sector, they kept it completely off the Ark's information systems. That level of operational security is... extreme, even by intelligence standards.",
     },
   ],
   wheel: ch2Wheel,
   followups: {
-    spy_ch2_first_wave: [
+    spy_ch2_investigate_first_wave: [
       {
-        speaker: "adjudicator_locke",
-        text:
-          "Beyond the dark sector, I lose them. The signal went dead fourteen months after they entered the Dreamer's Barrier. New Babylon's long-range sensors picked up one final burst: a coordinate set that matched nothing in any known system. Either the Dreamer moved them, or they found something on the other side that doesn't map to normal space.",
+        speaker: "locke",
+        text: "The dark sector — specifically, the region behind the Dreamer's Shield. There's a boundary there that the Ark's sensors can't penetrate. The first wave went through it. Their last transmissions described a structure — not Ark-built, not DeMagi, not anything from any known civilization. Something older. Something that had been waiting.",
+      },
+      {
+        speaker: "locke",
+        text: "The Eyes called it the Threshold. The first wave's mission was to determine whether the Threshold was a door or a wall. The answer, based on the final fragments of data they transmitted back, was both.",
       },
     ],
-    spy_ch2_eyes: [
+    spy_ch2_humanity_why: [
       {
-        speaker: "adjudicator_locke",
-        text:
-          "The network is fragmented but not dead. Six drop points, three I can confirm are still intact. The intelligence inside predates the Fall. Some of it implicates factions that currently don't know she had it. If you access those caches, you will be the most informed Potential in the galaxy — and also the most targeted.",
+        speaker: "locke",
+        text: "Because the alternative was worse. The Eyes discovered that the dark sector was expanding — slowly, imperceptibly, but consistently. The Threshold was the source. Whatever was behind it was pushing outward. The first wave wasn't sent to explore. They were sent to hold a line that no one else knew existed.",
+      },
+      {
+        speaker: "locke",
+        text: "The Eyes didn't tell anyone because telling anyone would have caused a panic that would have destroyed the Ark's social structure. They made the choice that Spies always make — carry the knowledge alone, pay the cost quietly, and hope that someone comes after you who can do better.",
       },
     ],
-    spy_ch2_dreamer: [
+    spy_ch2_machine_recover: [
       {
-        speaker: "adjudicator_locke",
-        stageDirection: "She is quiet for a long time.",
-        text:
-          "I believe the Eyes believed it. The Eyes was the most careful operative I ever handled. She didn't follow rumors. She followed evidence. If she sent the first wave behind the shield, she had evidence the Dreamer was there. Whether the Dreamer is still there — that I don't know. The shield has been silent for eleven thousand years.",
+        speaker: "locke",
+        text: "The drop points are intact. I've verified their locations against my original surveillance records. The first wave used the same dead-drop network — they would have cached their operational findings at each point along their route into the dark sector. Recovering those drops would give you a map of their path, their discoveries, and their final assessments.",
+      },
+      {
+        speaker: "locke",
+        text: "I'll transmit the coordinates. But understand — once you open those drops, you inherit whatever the first wave was carrying. Their mission becomes yours. That's how the Eyes' network works. Knowledge flows forward. It never flows back.",
       },
     ],
-    spy_ch2_forgive: [
+    spy_ch2_aggressive_complicity: [
       {
-        speaker: "adjudicator_locke",
-        stageDirection: "Something breaks in her expression. Just briefly.",
-        text:
-          "Don't say that unless you mean it. Don't say it because it's the kind thing to say. I got someone killed. The fact that it was eleven thousand years ago doesn't make her less dead. It makes me better at living with it.",
+        speaker: "locke",
+        stageDirection: "Locke absorbs the accusation without flinching, but something shifts behind her eyes — not defensiveness, but a weariness so deep it has its own gravity.",
       },
       {
-        speaker: "adjudicator_locke",
-        stageDirection: "A pause.",
-        text:
-          "But if you mean it — if you genuinely believe that eleven thousand years of trying to be someone else counts for something — then thank you. That is the first time anyone has said that to me since I became Locke.",
+        speaker: "locke",
+        text: "Yes. I watched them go. I tracked their signals until the Dreamer's Shield swallowed them. And I did nothing, because by the time I understood what the Eyes were doing, the first wave was already gone. I was Surveillance Coordinator — I could see everything. But seeing and acting are not the same thing. That is the lesson the Eyes taught me, and it is the reason I stopped being Senne and became Locke.",
+      },
+    ],
+    spy_ch2_compassionate_burden: [
+      {
+        speaker: "locke",
+        stageDirection: "Locke is quiet for a long time. When she speaks, her voice has none of its usual precision.",
+      },
+      {
+        speaker: "locke",
+        text: "Since before you were born. Since before most of the current Ark population was born. I have carried the knowledge of the first wave for so long that it has become part of my identity. Senne knew where they went. Locke was built to live with the fact that she let them go.",
+      },
+      {
+        speaker: "locke",
+        text: "You are the first person I have told. Not because I trust you — trust is a luxury I cannot afford. Because you spoke my name, and that means you already knew enough to find the rest on your own. I would rather you hear it from me than from a dead-drop in the dark.",
       },
     ],
   },
+  optionFlags: {},
 };
 
-/* ─── QUESTLINE ─── */
+/* ─── QUESTLINE EXPORT ─── */
 
 export const SPY_QUESTLINE: PotentialQuestline = {
-  id: "spy_every_truth",
-  title: "Every Truth Has a Price",
+  id: "class_spy_every_truth_has_a_price",
+  title: "EVERY TRUTH HAS A PRICE",
   premise:
-    "Spy Potentials are the most politically versatile — and the most politically dangerous. Every faction treats them with suspicion and wants to recruit them simultaneously. The questline is about what information costs the person carrying it.",
+    "Adjudicator Locke has identified your Spy lineage from transaction patterns alone. She wants to negotiate — but you may already know more about her than she expects. Behind the Adjudicator's mask is Surveillance Coordinator Senne, and behind that is a secret about where the first wave of Spy-lineage operatives went and why they never came back.",
   actGate: 2,
-  chapters: [ch1, ch2],
+  chapters: [chapter1, chapter2],
   flags: SPY_QUESTLINE_FLAGS,
 };
