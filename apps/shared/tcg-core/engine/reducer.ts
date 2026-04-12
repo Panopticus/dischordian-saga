@@ -24,11 +24,14 @@
  * past a couple hundred lines.
  */
 import { produce, freeze } from "immer";
+import type { Draft } from "immer";
 import type { GameState, CardRegistry } from "../types/GameState";
 import type { Action, ReduceError } from "../types/Action";
 import type { GameEvent } from "../types/Event";
 import { createRng, type Rng } from "./rng";
 import { RULES_VERSION } from "./version";
+import { runStateBasedActions, SBA_SAFETY_CAP } from "./stateBasedActions";
+import { drainTriggerQueue, type TriggerEffectRunner } from "./triggerQueue";
 
 export interface ReduceResult {
   state: GameState;
@@ -45,6 +48,28 @@ export interface ReduceCtx {
   /** Seedrandom instance initialized from state.rngState. Persist on exit. */
   rng: Rng;
   registry: CardRegistry;
+}
+
+/**
+ * Pluggable effect runner for the trigger queue.
+ *
+ * The real runner lives in engine/effectInterpreter.ts (lands with the card
+ * loader in WS2). The reducer installs it here so test suites can
+ * substitute a recording stub. Default is a no-op that just drops triggers
+ * — until WS2 ships, enqueued triggers have no effect bodies to run.
+ */
+let triggerEffectRunner: TriggerEffectRunner = (_draft, _pending, _ctx) => {
+  // No-op default. WS2 installs the effectInterpreter runner via
+  // `setTriggerEffectRunner`.
+};
+
+export function setTriggerEffectRunner(runner: TriggerEffectRunner): void {
+  triggerEffectRunner = runner;
+}
+
+/** For tests only — restore the no-op default. */
+export function resetTriggerEffectRunner(): void {
+  triggerEffectRunner = () => {};
 }
 
 /**
@@ -150,20 +175,43 @@ export function reduce(
 }
 
 /**
- * Placeholder fixed-point loop. The real implementation pumps the trigger
- * queue (APNAP-ordered) and runs state-based actions to a stable point.
+ * Fixed-point loop: drain the trigger queue, run state-based actions, repeat
+ * until the draft is stable.
  *
- * Kept inline as a no-op so the reducer contract stabilizes independent of
- * trigger/SBA work.
+ * This is the single most important correctness construct in the reducer.
+ * Without it, cascading deaths (AoE → 3 deathwatch triggers → 4th unit dies
+ * → more deathwatch triggers) silently miss steps. The order is:
+ *
+ *   1. drainTriggerQueue — resolve every pending trigger (in APNAP order)
+ *      before touching SBA. Effect runners may enqueue new triggers
+ *      mid-drain; those get absorbed in the same drain call.
+ *   2. runStateBasedActions — after all triggers resolve, clean up dead
+ *      entities and expired buffs. SBA may itself enqueue new triggers
+ *      (on_death, on_any_unit_dies) — any such triggers will be visible on
+ *      the next loop iteration and resolved before the next SBA pass.
+ *
+ * A hard safety cap (SBA_SAFETY_CAP iterations) prevents infinite loops
+ * from buggy card authoring. No legal card interaction needs more than
+ * ~9 iterations in practice.
  */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function runFixedPoint(_draft: GameState, _ctx: ReduceCtx): void {
-  // Fills in the next commit. The shape is:
-  //
-  //   loop:
-  //     changed = drainTriggerQueue(draft, ctx)
-  //     changed |= runStateBasedActions(draft, ctx)
-  //     if !changed: break
+function runFixedPoint(draft: Draft<GameState>, ctx: ReduceCtx): void {
+  for (let i = 0; i < SBA_SAFETY_CAP; i++) {
+    let changed = false;
+    if (draft.triggerQueue.length > 0) {
+      changed = drainTriggerQueue(draft, ctx, triggerEffectRunner) || changed;
+    }
+    changed = runStateBasedActions(draft, ctx) || changed;
+    if (!changed) return;
+  }
+  // Safety cap exceeded — in dev, throw loud; in prod, leave the match in
+  // whatever state it got to and log via events. A real game should never
+  // hit this.
+  if (process.env.NODE_ENV !== "production") {
+    throw new Error(
+      `runFixedPoint: exceeded ${SBA_SAFETY_CAP} iterations. ` +
+        "Likely an infinite trigger/SBA chain."
+    );
+  }
 }
 
 /* ─── Handler stubs ───

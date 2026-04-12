@@ -115,8 +115,15 @@ export type WinReason =
 
 /** An enqueued but not-yet-resolved trigger. */
 export interface PendingTrigger {
-  /** Stable sort key: (ownerSide, row, col, entityId, abilityIdx). */
-  sortKey: readonly [number, number, number, string, number];
+  /**
+   * Stable sort key: (ownerSide, row, col, entityId, abilityIdx).
+   *
+   * Intentionally not `readonly` so Immer drafts of this interface can be
+   * constructed and sorted without the readonly-tuple incompatibility.
+   * Callers must treat the array contents as logically immutable; the
+   * sortKey is rebuilt from scratch every time a trigger is enqueued.
+   */
+  sortKey: [number, number, number, string, number];
   sourceEntityId: EntityId;
   abilityIdx: number;
   /**

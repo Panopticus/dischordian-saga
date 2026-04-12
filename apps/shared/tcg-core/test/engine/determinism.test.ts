@@ -26,74 +26,16 @@ import {
   RULES_VERSION,
   isReplayCompatible,
 } from "../../index";
-import type {
-  GameState,
-  CardRegistry,
-  Action,
-  CardDefinition,
-} from "../../index";
-
-/* ─── Test fixtures ─── */
+import type { GameState, Action } from "../../index";
+import { buildBareState, emptyRegistry } from "../fixtures/stateBuilder";
 
 /**
- * Empty card registry — sufficient for foundation tests that don't deploy
- * any cards. Will be replaced by the real loader in WS2.
- */
-const emptyRegistry: CardRegistry = {
-  get: (_id: string): CardDefinition | undefined => undefined,
-  has: (_id: string) => false,
-  listAll: () => [],
-};
-
-/**
- * Minimal playable GameState skeleton. Two players, no cards deployed,
- * empty hands, phase = playing. Enough for end_turn and concede to work
- * end-to-end through the reducer.
+ * Thin wrapper so tests read naturally. `buildBareState` from the shared
+ * fixture places generals on the board (SBA needs them to exist), so the
+ * reducer's runFixedPoint pass doesn't auto-end the match.
  */
 function makeBareState(seed = "deadbeef"): GameState {
-  const rng = createRng(seed);
-  return {
-    matchId: "test-match-1",
-    rulesVersion: RULES_VERSION,
-    rngState: rng.state(),
-    seed,
-    board: {},
-    players: [
-      {
-        userId: 1 as unknown as GameState["players"][0]["userId"],
-        faction: "architect",
-        generalEntityId: "p0-general" as unknown as GameState["players"][0]["generalEntityId"],
-        deck: [],
-        hand: [],
-        graveyard: [],
-        artifacts: [],
-        mana: 2,
-        maxMana: 2,
-        bloodbornUsed: false,
-        replaceUsed: false,
-      },
-      {
-        userId: 2 as unknown as GameState["players"][0]["userId"],
-        faction: "dreamer",
-        generalEntityId: "p1-general" as unknown as GameState["players"][0]["generalEntityId"],
-        deck: [],
-        hand: [],
-        graveyard: [],
-        artifacts: [],
-        mana: 2,
-        maxMana: 2,
-        bloodbornUsed: false,
-        replaceUsed: false,
-      },
-    ],
-    currentPlayer: 0,
-    turnNumber: 1,
-    phase: "playing",
-    winner: null,
-    winReason: null,
-    triggerQueue: [],
-    actionSeq: 0,
-  };
+  return buildBareState({ seed });
 }
 
 /* ─── Tests ─── */

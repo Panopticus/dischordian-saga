@@ -98,10 +98,21 @@ export {
 } from "./types/Ids";
 
 /* ─── Engine ─── */
-export { reduce } from "./engine/reducer";
+export {
+  reduce,
+  setTriggerEffectRunner,
+  resetTriggerEffectRunner,
+} from "./engine/reducer";
 export type { ReduceResult, ReduceCtx } from "./engine/reducer";
 export { RULES_VERSION, isReplayCompatible } from "./engine/version";
 export type { RulesVersion } from "./engine/version";
 export { createRng, rngInt, rngShuffle, rngPick } from "./engine/rng";
 export type { Rng, RngState } from "./engine/rng";
 export { hashState, hashPrefix, canonicalStringify } from "./engine/hash";
+export { runStateBasedActions, SBA_SAFETY_CAP } from "./engine/stateBasedActions";
+export {
+  drainTriggerQueue,
+  enqueueTrigger,
+  TRIGGER_DRAIN_CAP,
+} from "./engine/triggerQueue";
+export type { TriggerEffectRunner } from "./engine/triggerQueue";

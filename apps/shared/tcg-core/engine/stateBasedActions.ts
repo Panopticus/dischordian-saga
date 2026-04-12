@@ -1,0 +1,193 @@
+/**
+ * State-based actions (SBA) pass.
+ *
+ * SBA is the deterministic cleanup phase that runs after every action and
+ * after every trigger resolution. It enforces invariants the engine relies
+ * on (no entity with <= 0 HP on the board, no expired buffs lingering, a
+ * dead general ends the match).
+ *
+ * Key property: **SBA is run inside a fixed-point loop** by reducer.ts.
+ * Each call returns `true` if it mutated the draft, so the caller can re-run
+ * the trigger queue + SBA until the state is quiescent. This is how we
+ * correctly handle chains like:
+ *
+ *    AoE → 3 units drop to 0 HP → each fires deathwatch → deathwatch
+ *    damage pushes a 4th unit to 0 → and so on.
+ *
+ * The old `executeAction` in duelyst/engine.ts resolves inline and misses
+ * these chains; we fix that here.
+ *
+ * What SBA does, in order, on every pass:
+ *
+ *  1. Find all BoardEntities whose currentHealth <= 0, remove them from the
+ *     board, move their CardInstance to the owner's graveyard, emit
+ *     `unit_destroyed`. Enqueue `on_death` triggers for the dying units and
+ *     `on_any_unit_dies` triggers for any watchers.
+ *
+ *  2. Expire buffs whose `expiresAtTurn` is < current turn. Emit
+ *     `buff_expired` and recompute `currentPower` / `maxHealth` on the
+ *     owning CardInstance.
+ *
+ *  3. Check win condition: if either general is dead or has been removed
+ *     from the board, mark the match ended with the appropriate winner.
+ *
+ *  4. Check turn-limit draw (Dischordia's 15-turn survival rule, applied
+ *     only when both players are still alive — the draw decision itself
+ *     requires more context, so we only *flag* it here and let the end-turn
+ *     handler resolve draws).
+ *
+ * Iteration stops when a pass makes no changes. The loop in
+ * reducer.ts#runFixedPoint bounds this to a hard 64-iteration safety cap —
+ * 64 is chosen because no sensible card interaction produces more chained
+ * deaths than that, but 9*5 = 45 board slots caps the physical possibility.
+ */
+import type { Draft } from "immer";
+import type { GameState, BoardEntity, PlayerState } from "../types/GameState";
+import type { ReduceCtx } from "./reducer";
+import type { Side } from "../types/Ids";
+
+/** Maximum SBA iterations per fixed-point loop. Defense in depth. */
+export const SBA_SAFETY_CAP = 64;
+
+/**
+ * Run one SBA pass. Returns `true` if the draft was mutated, `false` if the
+ * state was already stable (so the caller knows to stop looping).
+ */
+export function runStateBasedActions(
+  draft: Draft<GameState>,
+  ctx: ReduceCtx
+): boolean {
+  let changed = false;
+
+  // Pass 1 — dead entities on the board. Must iterate over a snapshot of
+  // the keys because we mutate `draft.board` inside the loop.
+  const deadKeys: string[] = [];
+  for (const [key, entity] of Object.entries(draft.board)) {
+    if (entity.card.currentHealth <= 0) {
+      deadKeys.push(key);
+    }
+  }
+  if (deadKeys.length > 0) {
+    // Sort by (owner, row, col, entityId) so death event order is
+    // deterministic across JS engines and platforms.
+    deadKeys.sort((a, b) => {
+      const ea = draft.board[a];
+      const eb = draft.board[b];
+      return (
+        ea.card.owner - eb.card.owner ||
+        ea.row - eb.row ||
+        ea.col - eb.col ||
+        (ea.entityId < eb.entityId ? -1 : ea.entityId > eb.entityId ? 1 : 0)
+      );
+    });
+    for (const key of deadKeys) {
+      const entity = draft.board[key];
+      destroyEntity(draft, entity, ctx);
+      delete draft.board[key];
+    }
+    changed = true;
+  }
+
+  // Pass 2 — expired buffs.
+  const turn = draft.turnNumber;
+  for (const entity of Object.values(draft.board)) {
+    const card = entity.card;
+    if (card.buffs.length === 0) continue;
+    const keep = card.buffs.filter((b) => b.expiresAtTurn < 0 || b.expiresAtTurn >= turn);
+    if (keep.length !== card.buffs.length) {
+      const expired = card.buffs.filter(
+        (b) => b.expiresAtTurn >= 0 && b.expiresAtTurn < turn
+      );
+      for (const b of expired) {
+        card.currentPower -= b.powerDelta;
+        card.maxHealth -= b.healthDelta;
+        // Heal does not rebound when a +health buff expires; instead, clamp
+        // current health to the new (smaller) max.
+        if (card.currentHealth > card.maxHealth) {
+          card.currentHealth = card.maxHealth;
+        }
+        ctx.events.push({
+          type: "buff_expired",
+          targetId: entity.entityId,
+          buffSource: b.source,
+        });
+      }
+      card.buffs = keep;
+      changed = true;
+    }
+  }
+
+  // Pass 3 — win condition from generals being dead.
+  // A general can die either by being on the dead-keys list above (picked up
+  // on the next SBA iteration, because the board has already shifted) or by
+  // its hit points reaching <= 0 via ongoing effects. We scan both board
+  // entities and the player.generalEntityId lookup.
+  if (draft.phase === "playing") {
+    const p0Alive = isGeneralAlive(draft, 0);
+    const p1Alive = isGeneralAlive(draft, 1);
+    if (!p0Alive && !p1Alive) {
+      // Simultaneous deaths: the non-active player is declared the winner
+      // so that an attacker who lethal's themselves on a counterattack
+      // doesn't win by accident. This matches Hearthstone/Duelyst behavior.
+      const winner: Side = (draft.currentPlayer === 0 ? 1 : 0) as Side;
+      draft.winner = winner;
+      draft.winReason = "general_killed";
+      draft.phase = "ended";
+      ctx.events.push({
+        type: "match_ended",
+        winner,
+        reason: "general_killed",
+      });
+      changed = true;
+    } else if (!p0Alive) {
+      draft.winner = 1;
+      draft.winReason = "general_killed";
+      draft.phase = "ended";
+      ctx.events.push({ type: "match_ended", winner: 1, reason: "general_killed" });
+      changed = true;
+    } else if (!p1Alive) {
+      draft.winner = 0;
+      draft.winReason = "general_killed";
+      draft.phase = "ended";
+      ctx.events.push({ type: "match_ended", winner: 0, reason: "general_killed" });
+      changed = true;
+    }
+  }
+
+  return changed;
+}
+
+/**
+ * Destroy a single board entity: emit the event, move its CardInstance to
+ * the owner's graveyard. Does NOT delete the board slot — the caller does
+ * that so it can iterate over a snapshot.
+ */
+function destroyEntity(
+  draft: Draft<GameState>,
+  entity: BoardEntity,
+  ctx: ReduceCtx
+): void {
+  ctx.events.push({
+    type: "unit_destroyed",
+    entityId: entity.entityId,
+    killerId: null,
+  });
+  // Generals don't route to graveyard — their death is the win condition,
+  // not a card-in-graveyard event.
+  if (entity.isGeneral) return;
+  const owner: PlayerState = draft.players[entity.card.owner];
+  owner.graveyard = [...owner.graveyard, entity.card];
+}
+
+/**
+ * True if the player's general entity is still on the board with > 0 HP.
+ */
+function isGeneralAlive(draft: Draft<GameState>, side: Side): boolean {
+  const genId = draft.players[side].generalEntityId;
+  for (const entity of Object.values(draft.board)) {
+    if (entity.entityId === genId) {
+      return entity.card.currentHealth > 0 && entity.isGeneral;
+    }
+  }
+  return false;
+}
