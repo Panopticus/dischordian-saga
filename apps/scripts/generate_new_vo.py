@@ -158,7 +158,6 @@ CHARACTERS = {
             "silent_broadcast": {"stability": 0.55, "similarity_boost": 0.80, "style": 0.10, "prefix": ""},
         },
     },
-}
     "lyra_vox": {
         "voice_id": os.environ.get("LYRA_VOX_VOICE_ID", "N6fH8wgLRPK8ehBXeWZJ"),
         "s3_prefix": "LyraVox Voices",
@@ -263,6 +262,7 @@ CHARACTERS = {
             "neutral":  {"stability": 0.55, "similarity_boost": 0.80, "style": 0.15, "prefix": "*clinical, slightly formal, a scientist's precision* "},
         },
     },
+}
 
 # ─── CORE FUNCTIONS ─────────────────────────────────
 
