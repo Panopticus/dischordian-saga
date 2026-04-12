@@ -36,6 +36,7 @@ import { ShipThemeOverlay } from "@/components/ShipThemeOverlay";
 import TransmissionDeck from "@/components/TransmissionDeck";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { useNarrativeEvents } from "@/hooks/useNarrativeEvents";
+import { usePetQuestEventBridge } from "@/game/petQuestHooks";
 import { useNarrativeIntegration } from "@/hooks/useNarrativeIntegration";
 import { useIncomingTransmissions } from "@/hooks/useIncomingTransmissions";
 import VoiceWhisper from "@/components/VoiceWhisper";
@@ -78,6 +79,12 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
   // Activate narrative effects bridge — listens to game events (combat, NPC, room, etc.)
   // and triggers physics-aware CSS narrative effects on the app body
   useNarrativeEvents();
+
+  // Pet quest bridge — listens for `pet-quest-event` + `room-enter` window
+  // events and writes the matching PET_QUESTS flags via tRPC. Mounted here
+  // so every page that dispatches the existing `room-enter` event (the
+  // ArkExplorerPage in particular) automatically progresses pet quests.
+  usePetQuestEventBridge();
 
   // Narrative integration — lore discovery, morality world effects, cross-game threads,
   // NPC trust consequences. Watches game state and triggers narrative systems automatically.

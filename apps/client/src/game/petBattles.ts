@@ -217,6 +217,10 @@ export interface MoveContext {
   attackerIsPlayer?: boolean;
   /** Aggregated effects from unlocked skill-tree nodes on the attacker. */
   skillEffects?: SkillBonusEffect;
+  /** Aggregated effects on the DEFENDER — used for damageReduction on hits
+   *  the player pet receives. When the player is defending, pass the
+   *  player's skillEffects here and leave `skillEffects` as `{}`. */
+  defenderSkillEffects?: SkillBonusEffect;
 }
 
 export function executeMove(
@@ -282,8 +286,13 @@ export function executeMove(
     // Defense calculation with armor penetration from skill nodes.
     const armorPen = (skills.armorPen ?? 0) / 100;
     const defense = defender.defense * 0.5 * (1 - armorPen);
-    const damageReduction = bonuses.flats.damage_reduction ?? 0;
-    damage = Math.max(1, Math.floor(baseDamage - defense - damageReduction));
+    // Flat damage reduction from party synergy (Bedrock) + defender's own
+    // shell/armor skill nodes (Gilt "Burrow Guard", Spore "Viral Skin").
+    // Only applies when the defender is the player — skillEffects is the
+    // attacker's snapshot, so defenderSkillEffects flows in via context.
+    const partyDR = bonuses.flats.damage_reduction ?? 0;
+    const defenderDR = context.defenderSkillEffects?.damageReduction ?? 0;
+    damage = Math.max(1, Math.floor(baseDamage - defense - partyDR - defenderDR));
 
     // Double-hit: split damage across two sub-strikes (Echo Strike).
     if (skills.doubleHitFactor) {

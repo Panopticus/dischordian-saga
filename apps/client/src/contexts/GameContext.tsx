@@ -2140,10 +2140,19 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   // ═══ NPC RELATIONSHIP CALLBACKS ═══
   const adjustNpcTrust = useCallback((npcId: string, delta: number) => {
-    setState(prev => ({
-      ...prev,
-      npcTrust: { ...prev.npcTrust, [npcId]: Math.max(0, Math.min(100, (prev.npcTrust[npcId] || 0) + delta)) },
-    }));
+    setState(prev => {
+      const nextTrust = Math.max(0, Math.min(100, (prev.npcTrust[npcId] || 0) + delta));
+      // Pet quest hook: fire trust_reached when a threshold is crossed.
+      // We fire on every change — the rules in petQuestHooks.ts use
+      // `trust >= N` predicates so duplicates are harmless (setQuestFlag
+      // is idempotent on the server).
+      try {
+        window.dispatchEvent(new CustomEvent("pet-quest-event", {
+          detail: { type: "trust_reached", npcId, trust: nextTrust },
+        }));
+      } catch { /* best-effort; SSR or test env */ }
+      return { ...prev, npcTrust: { ...prev.npcTrust, [npcId]: nextTrust } };
+    });
   }, []);
 
   const discoverNpc = useCallback((npcId: string) => {

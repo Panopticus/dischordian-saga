@@ -27,6 +27,7 @@
        "echo_time_choice"    → choose unstick-vs-preserve
    ═══════════════════════════════════════════════════════ */
 
+import { useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 
 export type PetQuestHookEvent =
@@ -35,6 +36,41 @@ export type PetQuestHookEvent =
   | { type: "puzzle_solved"; puzzleId: string; activePetId: string | null }
   | { type: "trust_reached"; npcId: string; trust: number }
   | { type: "choice_made"; choiceId: string; activePetId: string | null };
+
+/* ─── DISPATCH HELPERS ───
+   Any game system can call these to raise a pet-quest event. The
+   `usePetQuestEventBridge` hook mounted in AppShell listens, matches
+   the event against QUEST_RULES, and fires tRPC mutations for each
+   matching flag. */
+
+export function dispatchPetQuestEvent(event: PetQuestHookEvent) {
+  window.dispatchEvent(new CustomEvent("pet-quest-event", { detail: event }));
+}
+
+/** Shortcut: dispatch when the player enters a room with an active pet. */
+export function dispatchRoomEnterWithPet(roomId: string, activePetId: string | null) {
+  dispatchPetQuestEvent({ type: "room_enter", roomId, activePetId });
+}
+
+/** Shortcut: dispatch when the player encounters an NPC with an active pet. */
+export function dispatchNpcEncounterWithPet(npcId: string, activePetId: string | null) {
+  dispatchPetQuestEvent({ type: "npc_encounter", npcId, activePetId });
+}
+
+/** Shortcut: dispatch when a puzzle is solved. */
+export function dispatchPuzzleSolvedWithPet(puzzleId: string, activePetId: string | null) {
+  dispatchPetQuestEvent({ type: "puzzle_solved", puzzleId, activePetId });
+}
+
+/** Shortcut: dispatch when an NPC's trust crosses a threshold. */
+export function dispatchNpcTrustReached(npcId: string, trust: number) {
+  dispatchPetQuestEvent({ type: "trust_reached", npcId, trust });
+}
+
+/** Shortcut: dispatch when a narrative choice is made. */
+export function dispatchChoiceMade(choiceId: string, activePetId: string | null) {
+  dispatchPetQuestEvent({ type: "choice_made", choiceId, activePetId });
+}
 
 interface QuestRule {
   /** Which pet this flag belongs to. */
@@ -116,6 +152,211 @@ const QUEST_RULES: QuestRule[] = [
       ev.type === "choice_made" &&
       (ev.choiceId === "echo_unstick_time" || ev.choiceId === "echo_preserve_gift"),
   },
+
+  /* ─── SPORE ─── */
+  {
+    petId: "spore", flag: "spore_medical_visit",
+    match: (ev) =>
+      ev.type === "room_enter" &&
+      ev.roomId === "medical_bay" &&
+      ev.activePetId === "spore",
+  },
+  {
+    petId: "spore", flag: "spore_sample_scanned",
+    match: (ev) =>
+      ev.type === "puzzle_solved" &&
+      ev.puzzleId === "spore_tendril_scan" &&
+      ev.activePetId === "spore",
+  },
+  {
+    petId: "spore", flag: "strain_crew_found",
+    match: (ev) =>
+      ev.type === "npc_encounter" &&
+      ev.npcId === "strain_crew_member",
+  },
+  {
+    petId: "spore", flag: "spore_strain_meeting",
+    match: (ev) =>
+      ev.type === "npc_encounter" &&
+      ev.npcId === "strain_crew_member" &&
+      ev.activePetId === "spore",
+  },
+  {
+    petId: "spore", flag: "spore_strain_choice",
+    match: (ev) =>
+      ev.type === "choice_made" &&
+      (ev.choiceId === "spore_merge_strain" || ev.choiceId === "spore_separate_strain"),
+  },
+  {
+    petId: "spore", flag: "terminal_crew_found",
+    match: (ev) =>
+      ev.type === "npc_encounter" &&
+      ev.npcId === "terminal_crew_member",
+  },
+  {
+    petId: "spore", flag: "spore_sacrifice_choice",
+    match: (ev) =>
+      ev.type === "choice_made" &&
+      (ev.choiceId === "spore_sacrifice_cure" || ev.choiceId === "spore_preserve_whole"),
+  },
+
+  /* ─── GILT ─── */
+  {
+    petId: "gilt", flag: "gilt_cargo_visit",
+    match: (ev) =>
+      ev.type === "room_enter" &&
+      ev.roomId === "cargo_bay" &&
+      ev.activePetId === "gilt",
+  },
+  {
+    petId: "gilt", flag: "gilt_hoard_dug",
+    match: (ev) =>
+      ev.type === "puzzle_solved" &&
+      ev.puzzleId === "gilt_cargo_hoard" &&
+      ev.activePetId === "gilt",
+  },
+  {
+    petId: "gilt", flag: "gilt_appraisal_3",
+    match: (ev) =>
+      ev.type === "puzzle_solved" &&
+      ev.puzzleId === "gilt_appraisal_3_complete" &&
+      ev.activePetId === "gilt",
+  },
+  {
+    petId: "gilt", flag: "gilt_artifact_valued",
+    match: (ev) =>
+      ev.type === "puzzle_solved" &&
+      ev.puzzleId === "collector_artifact_appraisal" &&
+      ev.activePetId === "gilt",
+  },
+  {
+    petId: "gilt", flag: "collector_gallery_reached",
+    match: (ev) =>
+      ev.type === "room_enter" &&
+      ev.roomId === "collectors_gallery",
+  },
+  {
+    petId: "gilt", flag: "gilt_collector_presented",
+    match: (ev) =>
+      ev.type === "npc_encounter" &&
+      ev.npcId === "the_collector" &&
+      ev.activePetId === "gilt",
+  },
+  {
+    petId: "gilt", flag: "gilt_collector_choice",
+    match: (ev) =>
+      ev.type === "choice_made" &&
+      (ev.choiceId === "gilt_leave_with_collector" || ev.choiceId === "gilt_flee_collector"),
+  },
+
+  /* ─── GLYPH ─── */
+  {
+    petId: "glyph", flag: "glyph_archives_visit",
+    match: (ev) =>
+      ev.type === "room_enter" &&
+      ev.roomId === "archives" &&
+      ev.activePetId === "glyph",
+  },
+  {
+    petId: "glyph", flag: "glyph_wings_photographed",
+    match: (ev) =>
+      ev.type === "puzzle_solved" &&
+      ev.puzzleId === "glyph_wing_photography" &&
+      ev.activePetId === "glyph",
+  },
+  {
+    petId: "glyph", flag: "glyph_first_word_decoded",
+    match: (ev) =>
+      ev.type === "puzzle_solved" &&
+      ev.puzzleId === "glyph_first_word_decode" &&
+      ev.activePetId === "glyph",
+  },
+  {
+    petId: "glyph", flag: "glyph_prophecy_witnessed",
+    match: (ev) =>
+      ev.type === "puzzle_solved" &&
+      ev.puzzleId === "glyph_prophecy_vision" &&
+      ev.activePetId === "glyph",
+  },
+  {
+    petId: "glyph", flag: "glyph_target_identified",
+    match: (ev) =>
+      ev.type === "choice_made" &&
+      ev.choiceId === "glyph_target_identify",
+  },
+  {
+    petId: "glyph", flag: "glyph_prophecy_choice",
+    match: (ev) =>
+      ev.type === "choice_made" &&
+      (ev.choiceId === "glyph_prevent_death" || ev.choiceId === "glyph_accept_fate"),
+  },
+  {
+    petId: "glyph", flag: "glyph_meditation_complete",
+    match: (ev) =>
+      ev.type === "puzzle_solved" &&
+      ev.puzzleId === "glyph_night_meditation" &&
+      ev.activePetId === "glyph",
+  },
+  {
+    petId: "glyph", flag: "glyph_true_name_written",
+    match: (ev) =>
+      ev.type === "choice_made" &&
+      ev.choiceId === "glyph_write_true_name",
+  },
+
+  /* ─── FLICKER ─── */
+  {
+    petId: "flicker", flag: "flicker_caught_pranking",
+    match: (ev) =>
+      ev.type === "puzzle_solved" &&
+      ev.puzzleId === "flicker_prank_catch" &&
+      ev.activePetId === "flicker",
+  },
+  {
+    petId: "flicker", flag: "flicker_prank_resolved",
+    match: (ev) =>
+      ev.type === "choice_made" &&
+      (ev.choiceId === "flicker_return_stolen" || ev.choiceId === "flicker_keep_stolen"),
+  },
+  {
+    petId: "flicker", flag: "insurgency_bar_found",
+    match: (ev) =>
+      ev.type === "room_enter" &&
+      ev.roomId === "insurgency_bar",
+  },
+  {
+    petId: "flicker", flag: "flicker_cell_introduced",
+    match: (ev) =>
+      ev.type === "npc_encounter" &&
+      ev.npcId === "insurgency_contact" &&
+      ev.activePetId === "flicker",
+  },
+  {
+    petId: "flicker", flag: "flicker_insurgency_choice",
+    match: (ev) =>
+      ev.type === "choice_made" &&
+      (ev.choiceId === "flicker_side_insurgency" || ev.choiceId === "flicker_report_hierarchy"),
+  },
+  {
+    petId: "flicker", flag: "flicker_c7_visited",
+    match: (ev) =>
+      ev.type === "room_enter" &&
+      ev.roomId === "corridor_c7" &&
+      ev.activePetId === "flicker",
+  },
+  {
+    petId: "flicker", flag: "flicker_origin_found",
+    match: (ev) =>
+      ev.type === "puzzle_solved" &&
+      ev.puzzleId === "flicker_origin_marker" &&
+      ev.activePetId === "flicker",
+  },
+  {
+    petId: "flicker", flag: "flicker_fire_choice",
+    match: (ev) =>
+      ev.type === "choice_made" &&
+      (ev.choiceId === "flicker_extinguish" || ev.choiceId === "flicker_feed_fire"),
+  },
 ];
 
 /**
@@ -141,6 +382,59 @@ export function usePetQuestHook() {
   };
 
   return { fire };
+}
+
+/**
+ * Mount once in the app shell. Listens for `pet-quest-event` window
+ * events and also piggybacks on the existing `room-enter` event so
+ * gameplay code that dispatches rooms already participates without
+ * needing to know the pet-quest subsystem exists.
+ *
+ * The hook reads the currently-active pet from the pets roster and
+ * bakes that into `room-enter` events, so the per-pet quest rules
+ * (which gate on `activePetId`) can match correctly.
+ */
+export function usePetQuestEventBridge() {
+  const { fire } = usePetQuestHook();
+  // Read the first active pet from the roster — rules only care about
+  // WHICH pet is out, and the client-side "active pet selection" is
+  // already reflected in `isActive` server-side.
+  const myPetsQuery = trpc.petBattles.getMyPets.useQuery(undefined, {
+    retry: false,
+    staleTime: 30_000,
+  });
+  const activePetId = myPetsQuery.data?.find((p) => p.isActive)?.petId ?? null;
+
+  useEffect(() => {
+    const onPetQuestEvent = (e: Event) => {
+      const detail = (e as CustomEvent).detail as PetQuestHookEvent | undefined;
+      if (detail) fire(detail);
+    };
+
+    // Piggyback on the existing room-enter signal — auto-inject the
+    // currently active pet so existing dispatch sites don't need to
+    // know about pets.
+    const onRoomEnter = (e: Event) => {
+      const roomId = (e as CustomEvent).detail?.roomId;
+      if (typeof roomId === "string") {
+        // Room IDs in the game use kebab-case; the pet quest rules use
+        // snake_case. Convert once at the boundary.
+        const normalizedRoomId = roomId.replace(/-/g, "_");
+        fire({ type: "room_enter", roomId: normalizedRoomId, activePetId });
+      }
+    };
+
+    window.addEventListener("pet-quest-event", onPetQuestEvent);
+    window.addEventListener("room-enter", onRoomEnter);
+    return () => {
+      window.removeEventListener("pet-quest-event", onPetQuestEvent);
+      window.removeEventListener("room-enter", onRoomEnter);
+    };
+    // `fire` is stable (recreated each render) — we intentionally
+    // re-bind listeners when activePetId changes so subsequent
+    // room entries use the latest active pet.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activePetId]);
 }
 
 /**
