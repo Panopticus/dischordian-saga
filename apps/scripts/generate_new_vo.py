@@ -160,7 +160,7 @@ CHARACTERS = {
     },
 }
     "lyra_vox": {
-        "voice_id": os.environ.get("LYRA_VOX_VOICE_ID", ""),
+        "voice_id": os.environ.get("LYRA_VOX_VOICE_ID", "N6fH8wgLRPK8ehBXeWZJ"),
         "s3_prefix": "LyraVox Voices",
         "lines_file": "lyra_vox-lines.json",
         "manifest_file": "lyraVoxVoManifest.json",
@@ -171,7 +171,7 @@ CHARACTERS = {
         },
     },
     "resurrectionist": {
-        "voice_id": os.environ.get("RESURRECTIONIST_VOICE_ID", ""),
+        "voice_id": os.environ.get("RESURRECTIONIST_VOICE_ID", "II5QotwxLcQdwey5xEyd"),
         "s3_prefix": "Resurrectionist Voices",
         "lines_file": "resurrectionist-lines.json",
         "manifest_file": "resurrectionistVoManifest.json",
@@ -192,7 +192,7 @@ CHARACTERS = {
         },
     },
     "warlord": {
-        "voice_id": os.environ.get("WARLORD_VOICE_ID", ""),
+        "voice_id": os.environ.get("WARLORD_VOICE_ID", "N6fH8wgLRPK8ehBXeWZJ"),
         "s3_prefix": "Warlord Voices",
         "lines_file": "warlord-lines.json",
         "manifest_file": "warlordVoManifest.json",
@@ -228,7 +228,7 @@ CHARACTERS = {
         },
     },
     "wraith_calder": {
-        "voice_id": os.environ.get("WRAITH_CALDER_VOICE_ID", ""),
+        "voice_id": os.environ.get("WRAITH_CALDER_VOICE_ID", "Vogq3iKs5PJ3cL39gFhW"),
         "s3_prefix": "WraithCalder Voices",
         "lines_file": "wraith_calder-lines.json",
         "manifest_file": "wraith_calderVoManifest.json",
@@ -255,7 +255,7 @@ CHARACTERS = {
         },
     },
     "dr_vox": {
-        "voice_id": os.environ.get("DR_VOX_VOICE_ID", ""),
+        "voice_id": os.environ.get("DR_VOX_VOICE_ID", "N6fH8wgLRPK8ehBXeWZJ"),
         "s3_prefix": "DrVox Voices",
         "lines_file": "dr_vox-lines.json",
         "manifest_file": "dr_voxVoManifest.json",
