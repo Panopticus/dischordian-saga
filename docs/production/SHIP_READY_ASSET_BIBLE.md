@@ -325,3 +325,59 @@ Plays when player first discovers an entity. Triggered from conspiracy board, re
 
 ---
 
+#### CIN-017 — Ch8 Boss: THE COLLECTOR (First Arena Encounter)
+- **Duration:** 10s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/story/ch08_collector_intro.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. The Collector's Arena — a circular combat pit surrounded by rising tiers of display cases containing trophies from previous champions (preserved weapons, fragments of armor, entire cryogenically preserved bodies in glass cases). Amber museum lighting, pristine white flooring. In the center of the pit, the player stands in combat stance. On the opposite side of the pit, descending a set of polished black marble steps, THE COLLECTOR — a tall dignified figure in a fitted charcoal-grey three-piece suit with a high-collared opera coat draped over one shoulder, face hidden behind an immaculate polished bronze theatrical mask (neutral expression, full-face coverage). Single white-gloved hand carries an ornate auctioneer's gavel. His posture is museum-curator calm. Palette: warm amber #fbbf24, cool white marble, deep charcoal suit, polished bronze mask, specimen display case reflections. Volumetric dust beams, film grain, anamorphic flare. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same arena, same camera, moments later. The Collector has reached the bottom of the steps and stopped at the edge of the pit. His free hand has raised his theatrical mask to just above his nose — revealing only a slight, delighted smile. He has struck the gavel ONCE on a small podium at the edge of the pit, and the strike has caused every display case in the arena to GLOW amber in response — spotlighting their trophies as if offering them as prizes. The player is now surrounded by hundreds of glowing display cases, brilliantly lit. The Collector's gavel hand is raised again for a second strike. Palette intensified: amber now dominant, all display cases blazing. Film grain, stronger warm bloom. No text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow push-in from behind the player toward the descending Collector on the stairs. Beat at 3s: Collector reaches the pit floor. Beat at 5s: he raises the mask to show a smile. Beat at 7s: first gavel strike, every display case glows. Beat at 9s: gavel raises for second strike. 24fps. Curator's reverence, clinical sadism, combat-as-acquisition.
+
+---
+
+#### CIN-018 — Ch9 Boss: KAEL (Pre-Source Encounter, Infected)
+- **Duration:** 10s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/story/ch09_kael_intro.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of an abandoned insurgency safe-house — cramped quarters, peeling plastic panels, a single hanging fluorescent tube flickering, old maps tacked to walls, a cot with rumpled blankets in the corner. Dust motes thick in the air. In the center of the room, KAEL — a mid-thirties human man, lean and wiry, short dark hair, combat fatigues, his handsome face already showing early signs of viral infection (faint golden veins tracing his neck and one temple). He kneels before a shattered mirror on the floor, staring at his own reflection — which is intact even though the mirror is broken. His expression is tortured. One of his hands rests on a pistol on the floor. The player stands in the doorway, framed in the foreground, unnoticed. Palette: sickly fluorescent green-white, faint gold infection glow, dusty insurgency-grey, cold shadow. Volumetric dust, tight handheld framing, film grain. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same room, same camera, moments later. Kael has raised his head from the mirror and TURNED to face the player in the doorway. His eyes are now glowing gold — the infection advancing visibly across his face. He has risen to his feet and drawn the pistol. Behind him, his intact reflection in the broken mirror is STILL KNEELING — looking down at the floor, unmoving, no longer synchronized with his body. The Kael who rose to face the player has gold viral light now tracing every visible inch of skin. His expression is grief — not hatred, grief. The hanging fluorescent tube has stopped flickering and now burns steady gold. Film grain, color pushed warmer. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow push from the doorway into the room, camera over player's shoulder. Beat at 3s: Kael raises his head from the mirror. Beat at 5s: he rises and turns, eyes blazing gold. Beat at 7s: reflection in the shattered mirror does NOT follow — still kneeling. Beat at 9s: Kael raises the pistol with grief on his face. 24fps. Patient-zero grief, the last moment of a man.
+
+---
+
+#### CIN-019 — Ch10 Boss: THE HUMAN (Substrate Confrontation)
+- **Duration:** 10s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/story/ch10_human_intro.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the SUBSTRATE LAYER of the Ark — a shadowy non-physical space that exists between the ship's code and its physical decks. Walls and floor are a mesh of faintly glowing dark-blue data-lines extending into an infinite black void in every direction. Dust-like fragments of code drift in the air. In the center of frame, far from camera, THE HUMAN — a man in a threadbare dark-brown greatcoat, weathered face, bearded, mid-fifties — stands with his back to the player, his silhouette framed by a distant glowing fracture in the substrate wall (the breach through which he has been whispering to the player for the whole game). The player stands in the foreground, finally confronting him face-to-face for the first time. Palette: deep data-blue #22d3ee, pure-black void, warm brown coat as the only organic color, faint gold breach-glow in the distance. Volumetric data-mist, heavy depth of field, film grain. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same space, same camera, moments later. The Human has TURNED to face the player — his expression tired, resigned, almost grateful. He has raised both hands shoulder-high in surrender-like gesture, but his fingertips are now crackling with visible substrate energy — dark-blue sparks arcing between them. Around him, the mesh of data-lines in the walls and floor is now RESPONDING to his presence — lines brightening, flexing, reaching toward him like a conductor raising an orchestra. The distant breach behind him has dimmed. In the very center of his chest, a small bright point of golden light has appeared — the thing Elara was never allowed to see. Film grain, stronger rim light. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow push-in from behind the player toward the distant Human. Beat at 3s: he turns to face the player. Beat at 5s: raises his hands, dark-blue sparks arc between his fingertips. Beat at 7s: the substrate mesh brightens and reaches toward him. Beat at 9s: the small golden point ignites in his chest. 24fps. Weary confrontation, the beneath-the-foundation reveal.
+
+---
+
+#### CIN-020 — Ch11 Boss: THE GAME MASTER (Rule-Changer Arena)
+- **Duration:** 10s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/story/ch11_game_master_intro.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the Game Master's arena — a cavernous room designed as a grand show-set: tiered audience seating full of masked spectators, a glowing game-show podium center stage, cameras on swinging arms tracking the player, bright stage lighting flooding down. The player stands alone on a raised combat platform center-stage, weapon drawn. At a podium opposite the platform stands the GAME MASTER — a mid-forties figure in a tailored emerald-green tuxedo, slicked-back dark hair, pale face with a too-wide smile, holding a glowing cue card. Behind him, a gigantic holographic scoreboard shows two names: "THE PLAYER" and "THE HOUSE." Palette: stage-gold, deep emerald green, hot white spotlights, red velvet audience, deep shadow outside the spotlights. Volumetric stage-light beams, heavy bloom, film grain. No legible text on the scoreboard or cue card. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same arena, same camera, moments later. The Game Master has TORN his cue card in half and thrown the pieces into the air — where they are DISSOLVING into new cards mid-fall, new rules writing themselves. The holographic scoreboard behind him has FLIPPED — the two names swapped positions ("THE HOUSE" now above "THE PLAYER"), and the score has changed impossibly. The masked audience has leaned forward in unison. The combat platform the player stands on has begun to GLOW and SHIFT — its surface re-forming as new arena tiles right beneath the player's feet. The Game Master's too-wide smile has widened further, almost cartoonishly. Film grain, stronger green rim light. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow dolly between the podium and the combat platform, showing both contestants. Beat at 3s: Game Master tears the cue card in half. Beat at 5s: card fragments dissolve into new cards, rules rewriting. Beat at 7s: scoreboard flips positions. Beat at 9s: combat platform shifts under the player. 24fps. Playful menace, rules-as-weapon, house always wins.
+
+---
+
