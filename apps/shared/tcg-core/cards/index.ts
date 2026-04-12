@@ -1,5 +1,5 @@
 /**
- * Card registry barrel — 300 Season 1 cards + 6 token(s) = 306 definitions.
+ * Card registry barrel — 400 Season 1 cards + 6 token(s) = 406 definitions.
  */
 import type { CardDefinition } from "../index";
 
@@ -20,6 +20,14 @@ import { cardDef as s1_char_122_timeline_splitter } from "./definitions/antiquar
 import { cardDef as s1_char_123_relic_scholar } from "./definitions/antiquarian/s1_char_123_relic_scholar.ts";
 import { cardDef as s1_char_124_age_walker } from "./definitions/antiquarian/s1_char_124_age_walker.ts";
 import { cardDef as s1_char_201_chronoguard_sentinel } from "./definitions/antiquarian/s1_char_201_chronoguard_sentinel.ts";
+import { cardDef as s1_pack_036_temporal_collapse } from "./definitions/antiquarian/s1_pack_036_temporal_collapse.ts";
+import { cardDef as s1_pack_037_era_guardian } from "./definitions/antiquarian/s1_pack_037_era_guardian.ts";
+import { cardDef as s1_pack_038_chrono_blade } from "./definitions/antiquarian/s1_pack_038_chrono_blade.ts";
+import { cardDef as s1_pack_039_age_of_reckoning } from "./definitions/antiquarian/s1_pack_039_age_of_reckoning.ts";
+import { cardDef as s1_pack_040_fossil_sentinel } from "./definitions/antiquarian/s1_pack_040_fossil_sentinel.ts";
+import { cardDef as s1_pack_041_the_archivist_supreme } from "./definitions/antiquarian/s1_pack_041_the_archivist_supreme.ts";
+import { cardDef as s1_pack_042_memory_splice } from "./definitions/antiquarian/s1_pack_042_memory_splice.ts";
+import { cardDef as s1_pack_seed_governance } from "./definitions/antiquarian/s1_pack_seed_governance.ts";
 import { cardDef as s1_reward_campaign_acceptance } from "./definitions/antiquarian/s1_reward_campaign_acceptance.ts";
 import { cardDef as s1_reward_discovery_all } from "./definitions/antiquarian/s1_reward_discovery_all.ts";
 import { cardDef as s1_reward_lore_archivist } from "./definitions/antiquarian/s1_reward_lore_archivist.ts";
@@ -59,6 +67,23 @@ import { cardDef as s1_char_101_panoptic_warden_foucault } from "./definitions/a
 import { cardDef as s1_char_102_arena_enforcer } from "./definitions/architect/s1_char_102_arena_enforcer.ts";
 import { cardDef as s1_char_103_inception_ark_sentry } from "./definitions/architect/s1_char_103_inception_ark_sentry.ts";
 import { cardDef as s1_char_104_white_oracle } from "./definitions/architect/s1_char_104_white_oracle.ts";
+import { cardDef as s1_pack_001_panopticon_override } from "./definitions/architect/s1_pack_001_panopticon_override.ts";
+import { cardDef as s1_pack_002_schematic_sentinel } from "./definitions/architect/s1_pack_002_schematic_sentinel.ts";
+import { cardDef as s1_pack_003_arena_architect } from "./definitions/architect/s1_pack_003_arena_architect.ts";
+import { cardDef as s1_pack_004_protocol_enforcer } from "./definitions/architect/s1_pack_004_protocol_enforcer.ts";
+import { cardDef as s1_pack_005_grand_design } from "./definitions/architect/s1_pack_005_grand_design.ts";
+import { cardDef as s1_pack_006_chrome_archon } from "./definitions/architect/s1_pack_006_chrome_archon.ts";
+import { cardDef as s1_pack_007_surveillance_probe } from "./definitions/architect/s1_pack_007_surveillance_probe.ts";
+import { cardDef as s1_pack_cosm_emote_taunt } from "./definitions/architect/s1_pack_cosm_emote_taunt.ts";
+import { cardDef as s1_pack_cosm_ship_theme } from "./definitions/architect/s1_pack_cosm_ship_theme.ts";
+import { cardDef as s1_pack_id_human_archon } from "./definitions/architect/s1_pack_id_human_archon.ts";
+import { cardDef as s1_pack_pet_data_serpent_1 } from "./definitions/architect/s1_pack_pet_data_serpent_1.ts";
+import { cardDef as s1_pack_pet_data_serpent_2 } from "./definitions/architect/s1_pack_pet_data_serpent_2.ts";
+import { cardDef as s1_pack_pet_data_serpent_3 } from "./definitions/architect/s1_pack_pet_data_serpent_3.ts";
+import { cardDef as s1_pack_pet_gilt_beetle_1 } from "./definitions/architect/s1_pack_pet_gilt_beetle_1.ts";
+import { cardDef as s1_pack_pet_gilt_beetle_2 } from "./definitions/architect/s1_pack_pet_gilt_beetle_2.ts";
+import { cardDef as s1_pack_pet_gilt_beetle_3 } from "./definitions/architect/s1_pack_pet_gilt_beetle_3.ts";
+import { cardDef as s1_pack_seed_chess } from "./definitions/architect/s1_pack_seed_chess.ts";
 import { cardDef as s1_reward_boss_architect } from "./definitions/architect/s1_reward_boss_architect.ts";
 import { cardDef as s1_reward_boss_collector } from "./definitions/architect/s1_reward_boss_collector.ts";
 import { cardDef as s1_reward_casino_pazaak } from "./definitions/architect/s1_reward_casino_pazaak.ts";
@@ -101,6 +126,27 @@ import { cardDef as s1_char_110_prophecy_keeper } from "./definitions/dreamer/s1
 import { cardDef as s1_char_111_vision_walker } from "./definitions/dreamer/s1_char_111_vision_walker.ts";
 import { cardDef as s1_char_112_reality_anchor } from "./definitions/dreamer/s1_char_112_reality_anchor.ts";
 import { cardDef as s1_char_203_astral_warden } from "./definitions/dreamer/s1_char_203_astral_warden.ts";
+import { cardDef as s1_pack_015_probability_surge } from "./definitions/dreamer/s1_pack_015_probability_surge.ts";
+import { cardDef as s1_pack_016_vision_weaver } from "./definitions/dreamer/s1_pack_016_vision_weaver.ts";
+import { cardDef as s1_pack_017_fates_edge } from "./definitions/dreamer/s1_pack_017_fates_edge.ts";
+import { cardDef as s1_pack_018_dream_sentinel } from "./definitions/dreamer/s1_pack_018_dream_sentinel.ts";
+import { cardDef as s1_pack_019_oracles_wrath } from "./definitions/dreamer/s1_pack_019_oracles_wrath.ts";
+import { cardDef as s1_pack_020_prophecy_incarnate } from "./definitions/dreamer/s1_pack_020_prophecy_incarnate.ts";
+import { cardDef as s1_pack_021_starlight_familiar } from "./definitions/dreamer/s1_pack_021_starlight_familiar.ts";
+import { cardDef as s1_pack_cosm_card_back } from "./definitions/dreamer/s1_pack_cosm_card_back.ts";
+import { cardDef as s1_pack_cosm_frame_gold } from "./definitions/dreamer/s1_pack_cosm_frame_gold.ts";
+import { cardDef as s1_pack_id_oracle_ascended } from "./definitions/dreamer/s1_pack_id_oracle_ascended.ts";
+import { cardDef as s1_pack_id_oracle_prisoner } from "./definitions/dreamer/s1_pack_id_oracle_prisoner.ts";
+import { cardDef as s1_pack_id_oracle_prophet } from "./definitions/dreamer/s1_pack_id_oracle_prophet.ts";
+import { cardDef as s1_pack_pet_glyph_moth_1 } from "./definitions/dreamer/s1_pack_pet_glyph_moth_1.ts";
+import { cardDef as s1_pack_pet_glyph_moth_2 } from "./definitions/dreamer/s1_pack_pet_glyph_moth_2.ts";
+import { cardDef as s1_pack_pet_glyph_moth_3 } from "./definitions/dreamer/s1_pack_pet_glyph_moth_3.ts";
+import { cardDef as s1_pack_pet_holo_fox_1 } from "./definitions/dreamer/s1_pack_pet_holo_fox_1.ts";
+import { cardDef as s1_pack_pet_holo_fox_2 } from "./definitions/dreamer/s1_pack_pet_holo_fox_2.ts";
+import { cardDef as s1_pack_pet_holo_fox_3 } from "./definitions/dreamer/s1_pack_pet_holo_fox_3.ts";
+import { cardDef as s1_pack_pet_temporal_kitten_1 } from "./definitions/dreamer/s1_pack_pet_temporal_kitten_1.ts";
+import { cardDef as s1_pack_pet_temporal_kitten_2 } from "./definitions/dreamer/s1_pack_pet_temporal_kitten_2.ts";
+import { cardDef as s1_pack_pet_temporal_kitten_3 } from "./definitions/dreamer/s1_pack_pet_temporal_kitten_3.ts";
 import { cardDef as s1_reward_campaign_finale } from "./definitions/dreamer/s1_reward_campaign_finale.ts";
 import { cardDef as s1_reward_campaign_truth } from "./definitions/dreamer/s1_reward_campaign_truth.ts";
 import { cardDef as s1_reward_casino_dice } from "./definitions/dreamer/s1_reward_casino_dice.ts";
@@ -142,6 +188,21 @@ import { cardDef as s1_char_106_wraith_calder } from "./definitions/insurgency/s
 import { cardDef as s1_char_107_signal_operative } from "./definitions/insurgency/s1_char_107_signal_operative.ts";
 import { cardDef as s1_char_108_guerrilla_cell } from "./definitions/insurgency/s1_char_108_guerrilla_cell.ts";
 import { cardDef as s1_char_202_saboteur } from "./definitions/insurgency/s1_char_202_saboteur.ts";
+import { cardDef as s1_pack_008_dead_signal_burst } from "./definitions/insurgency/s1_pack_008_dead_signal_burst.ts";
+import { cardDef as s1_pack_009_covert_operative } from "./definitions/insurgency/s1_pack_009_covert_operative.ts";
+import { cardDef as s1_pack_010_signal_repeater } from "./definitions/insurgency/s1_pack_010_signal_repeater.ts";
+import { cardDef as s1_pack_011_insurgent_commander } from "./definitions/insurgency/s1_pack_011_insurgent_commander.ts";
+import { cardDef as s1_pack_012_rebel_arsenal } from "./definitions/insurgency/s1_pack_012_rebel_arsenal.ts";
+import { cardDef as s1_pack_013_liberation_protocol } from "./definitions/insurgency/s1_pack_013_liberation_protocol.ts";
+import { cardDef as s1_pack_014_agent_zero_reborn } from "./definitions/insurgency/s1_pack_014_agent_zero_reborn.ts";
+import { cardDef as s1_pack_cosm_trail_fire } from "./definitions/insurgency/s1_pack_cosm_trail_fire.ts";
+import { cardDef as s1_pack_id_kael_recruiter } from "./definitions/insurgency/s1_pack_id_kael_recruiter.ts";
+import { cardDef as s1_pack_pet_flicker_imp_1 } from "./definitions/insurgency/s1_pack_pet_flicker_imp_1.ts";
+import { cardDef as s1_pack_pet_flicker_imp_2 } from "./definitions/insurgency/s1_pack_pet_flicker_imp_2.ts";
+import { cardDef as s1_pack_pet_flicker_imp_3 } from "./definitions/insurgency/s1_pack_pet_flicker_imp_3.ts";
+import { cardDef as s1_pack_pet_spore_fungus_1 } from "./definitions/insurgency/s1_pack_pet_spore_fungus_1.ts";
+import { cardDef as s1_pack_pet_spore_fungus_2 } from "./definitions/insurgency/s1_pack_pet_spore_fungus_2.ts";
+import { cardDef as s1_pack_pet_spore_fungus_3 } from "./definitions/insurgency/s1_pack_pet_spore_fungus_3.ts";
 import { cardDef as s1_reward_campaign_defiance } from "./definitions/insurgency/s1_reward_campaign_defiance.ts";
 import { cardDef as s1_reward_class_spy } from "./definitions/insurgency/s1_reward_class_spy.ts";
 import { cardDef as s1_reward_companion_zero } from "./definitions/insurgency/s1_reward_companion_zero.ts";
@@ -173,6 +234,21 @@ import { cardDef as s1_char_090_hired_blade } from "./definitions/neutral/s1_cha
 import { cardDef as s1_char_091_border_scout } from "./definitions/neutral/s1_char_091_border_scout.ts";
 import { cardDef as s1_char_092_ruin_stalker } from "./definitions/neutral/s1_char_092_ruin_stalker.ts";
 import { cardDef as s1_char_093_ironclad_veteran } from "./definitions/neutral/s1_char_093_ironclad_veteran.ts";
+import { cardDef as s1_pack_043_void_crystal } from "./definitions/neutral/s1_pack_043_void_crystal.ts";
+import { cardDef as s1_pack_044_ark_defender } from "./definitions/neutral/s1_pack_044_ark_defender.ts";
+import { cardDef as s1_pack_045_universal_adapter } from "./definitions/neutral/s1_pack_045_universal_adapter.ts";
+import { cardDef as s1_pack_046_dimensional_rift } from "./definitions/neutral/s1_pack_046_dimensional_rift.ts";
+import { cardDef as s1_pack_047_emergency_protocol } from "./definitions/neutral/s1_pack_047_emergency_protocol.ts";
+import { cardDef as s1_pack_048_elaras_final_gift } from "./definitions/neutral/s1_pack_048_elaras_final_gift.ts";
+import { cardDef as s1_pack_049_the_inception } from "./definitions/neutral/s1_pack_049_the_inception.ts";
+import { cardDef as s1_pack_cosm_badge_s1 } from "./definitions/neutral/s1_pack_cosm_badge_s1.ts";
+import { cardDef as s1_pack_cosm_title_echo } from "./definitions/neutral/s1_pack_cosm_title_echo.ts";
+import { cardDef as s1_pack_id_elara_advocate } from "./definitions/neutral/s1_pack_id_elara_advocate.ts";
+import { cardDef as s1_pack_id_elara_panoptic } from "./definitions/neutral/s1_pack_id_elara_panoptic.ts";
+import { cardDef as s1_pack_id_elara_ship_ai } from "./definitions/neutral/s1_pack_id_elara_ship_ai.ts";
+import { cardDef as s1_pack_id_human_detective } from "./definitions/neutral/s1_pack_id_human_detective.ts";
+import { cardDef as s1_pack_id_human_student } from "./definitions/neutral/s1_pack_id_human_student.ts";
+import { cardDef as s1_pack_seed_gene } from "./definitions/neutral/s1_pack_seed_gene.ts";
 import { cardDef as s1_reward_bonus_complete } from "./definitions/neutral/s1_reward_bonus_complete.ts";
 import { cardDef as s1_reward_campaign_balanced } from "./definitions/neutral/s1_reward_campaign_balanced.ts";
 import { cardDef as s1_reward_campaign_empathy } from "./definitions/neutral/s1_reward_campaign_empathy.ts";
@@ -244,6 +320,15 @@ import { cardDef as s1_char_117_senator_voss } from "./definitions/new_babylon/s
 import { cardDef as s1_char_118_trade_enforcer } from "./definitions/new_babylon/s1_char_118_trade_enforcer.ts";
 import { cardDef as s1_char_119_syndicate_broker } from "./definitions/new_babylon/s1_char_119_syndicate_broker.ts";
 import { cardDef as s1_char_120_crystal_archive_guard } from "./definitions/new_babylon/s1_char_120_crystal_archive_guard.ts";
+import { cardDef as s1_pack_029_hostile_takeover } from "./definitions/new_babylon/s1_pack_029_hostile_takeover.ts";
+import { cardDef as s1_pack_030_syndicate_enforcer } from "./definitions/new_babylon/s1_pack_030_syndicate_enforcer.ts";
+import { cardDef as s1_pack_031_crystal_senator } from "./definitions/new_babylon/s1_pack_031_crystal_senator.ts";
+import { cardDef as s1_pack_032_market_crash } from "./definitions/new_babylon/s1_pack_032_market_crash.ts";
+import { cardDef as s1_pack_033_debt_collector } from "./definitions/new_babylon/s1_pack_033_debt_collector.ts";
+import { cardDef as s1_pack_034_lockes_inner_circle } from "./definitions/new_babylon/s1_pack_034_lockes_inner_circle.ts";
+import { cardDef as s1_pack_035_trade_embargo } from "./definitions/new_babylon/s1_pack_035_trade_embargo.ts";
+import { cardDef as s1_pack_seed_fighter } from "./definitions/new_babylon/s1_pack_seed_fighter.ts";
+import { cardDef as s1_pack_seed_trade } from "./definitions/new_babylon/s1_pack_seed_trade.ts";
 import { cardDef as s1_reward_casino_high_roller } from "./definitions/new_babylon/s1_reward_casino_high_roller.ts";
 import { cardDef as s1_reward_casino_poker } from "./definitions/new_babylon/s1_reward_casino_poker.ts";
 import { cardDef as s1_reward_casino_vip } from "./definitions/new_babylon/s1_reward_casino_vip.ts";
@@ -296,6 +381,21 @@ import { cardDef as s1_char_114_viral_vector } from "./definitions/thought_virus
 import { cardDef as s1_char_115_consumed_host } from "./definitions/thought_virus/s1_char_115_consumed_host.ts";
 import { cardDef as s1_char_116_neural_plague_carrier } from "./definitions/thought_virus/s1_char_116_neural_plague_carrier.ts";
 import { cardDef as s1_char_200_cortex_ravager } from "./definitions/thought_virus/s1_char_200_cortex_ravager.ts";
+import { cardDef as s1_pack_022_viral_bloom } from "./definitions/thought_virus/s1_pack_022_viral_bloom.ts";
+import { cardDef as s1_pack_023_infected_drone } from "./definitions/thought_virus/s1_pack_023_infected_drone.ts";
+import { cardDef as s1_pack_024_plague_architect } from "./definitions/thought_virus/s1_pack_024_plague_architect.ts";
+import { cardDef as s1_pack_025_corruption_wave } from "./definitions/thought_virus/s1_pack_025_corruption_wave.ts";
+import { cardDef as s1_pack_026_neural_hive } from "./definitions/thought_virus/s1_pack_026_neural_hive.ts";
+import { cardDef as s1_pack_027_terminus_dreadnought } from "./definitions/thought_virus/s1_pack_027_terminus_dreadnought.ts";
+import { cardDef as s1_pack_028_spore_cloud } from "./definitions/thought_virus/s1_pack_028_spore_cloud.ts";
+import { cardDef as s1_pack_cosm_armor_void } from "./definitions/thought_virus/s1_pack_cosm_armor_void.ts";
+import { cardDef as s1_pack_cosm_board_void } from "./definitions/thought_virus/s1_pack_cosm_board_void.ts";
+import { cardDef as s1_pack_cosm_tower_skin } from "./definitions/thought_virus/s1_pack_cosm_tower_skin.ts";
+import { cardDef as s1_pack_id_kael_patient_zero } from "./definitions/thought_virus/s1_pack_id_kael_patient_zero.ts";
+import { cardDef as s1_pack_id_kael_source } from "./definitions/thought_virus/s1_pack_id_kael_source.ts";
+import { cardDef as s1_pack_pet_void_crawler_1 } from "./definitions/thought_virus/s1_pack_pet_void_crawler_1.ts";
+import { cardDef as s1_pack_pet_void_crawler_2 } from "./definitions/thought_virus/s1_pack_pet_void_crawler_2.ts";
+import { cardDef as s1_pack_pet_void_crawler_3 } from "./definitions/thought_virus/s1_pack_pet_void_crawler_3.ts";
 import { cardDef as s1_reward_boss_source } from "./definitions/thought_virus/s1_reward_boss_source.ts";
 import { cardDef as s1_reward_circuit_1st } from "./definitions/thought_virus/s1_reward_circuit_1st.ts";
 import { cardDef as s1_reward_circuit_survive } from "./definitions/thought_virus/s1_reward_circuit_survive.ts";
@@ -344,6 +444,14 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_123_relic_scholar,
   s1_char_124_age_walker,
   s1_char_201_chronoguard_sentinel,
+  s1_pack_036_temporal_collapse,
+  s1_pack_037_era_guardian,
+  s1_pack_038_chrono_blade,
+  s1_pack_039_age_of_reckoning,
+  s1_pack_040_fossil_sentinel,
+  s1_pack_041_the_archivist_supreme,
+  s1_pack_042_memory_splice,
+  s1_pack_seed_governance,
   s1_reward_campaign_acceptance,
   s1_reward_discovery_all,
   s1_reward_lore_archivist,
@@ -381,6 +489,23 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_102_arena_enforcer,
   s1_char_103_inception_ark_sentry,
   s1_char_104_white_oracle,
+  s1_pack_001_panopticon_override,
+  s1_pack_002_schematic_sentinel,
+  s1_pack_003_arena_architect,
+  s1_pack_004_protocol_enforcer,
+  s1_pack_005_grand_design,
+  s1_pack_006_chrome_archon,
+  s1_pack_007_surveillance_probe,
+  s1_pack_cosm_emote_taunt,
+  s1_pack_cosm_ship_theme,
+  s1_pack_id_human_archon,
+  s1_pack_pet_data_serpent_1,
+  s1_pack_pet_data_serpent_2,
+  s1_pack_pet_data_serpent_3,
+  s1_pack_pet_gilt_beetle_1,
+  s1_pack_pet_gilt_beetle_2,
+  s1_pack_pet_gilt_beetle_3,
+  s1_pack_seed_chess,
   s1_reward_boss_architect,
   s1_reward_boss_collector,
   s1_reward_casino_pazaak,
@@ -421,6 +546,27 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_111_vision_walker,
   s1_char_112_reality_anchor,
   s1_char_203_astral_warden,
+  s1_pack_015_probability_surge,
+  s1_pack_016_vision_weaver,
+  s1_pack_017_fates_edge,
+  s1_pack_018_dream_sentinel,
+  s1_pack_019_oracles_wrath,
+  s1_pack_020_prophecy_incarnate,
+  s1_pack_021_starlight_familiar,
+  s1_pack_cosm_card_back,
+  s1_pack_cosm_frame_gold,
+  s1_pack_id_oracle_ascended,
+  s1_pack_id_oracle_prisoner,
+  s1_pack_id_oracle_prophet,
+  s1_pack_pet_glyph_moth_1,
+  s1_pack_pet_glyph_moth_2,
+  s1_pack_pet_glyph_moth_3,
+  s1_pack_pet_holo_fox_1,
+  s1_pack_pet_holo_fox_2,
+  s1_pack_pet_holo_fox_3,
+  s1_pack_pet_temporal_kitten_1,
+  s1_pack_pet_temporal_kitten_2,
+  s1_pack_pet_temporal_kitten_3,
   s1_reward_campaign_finale,
   s1_reward_campaign_truth,
   s1_reward_casino_dice,
@@ -460,6 +606,21 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_107_signal_operative,
   s1_char_108_guerrilla_cell,
   s1_char_202_saboteur,
+  s1_pack_008_dead_signal_burst,
+  s1_pack_009_covert_operative,
+  s1_pack_010_signal_repeater,
+  s1_pack_011_insurgent_commander,
+  s1_pack_012_rebel_arsenal,
+  s1_pack_013_liberation_protocol,
+  s1_pack_014_agent_zero_reborn,
+  s1_pack_cosm_trail_fire,
+  s1_pack_id_kael_recruiter,
+  s1_pack_pet_flicker_imp_1,
+  s1_pack_pet_flicker_imp_2,
+  s1_pack_pet_flicker_imp_3,
+  s1_pack_pet_spore_fungus_1,
+  s1_pack_pet_spore_fungus_2,
+  s1_pack_pet_spore_fungus_3,
   s1_reward_campaign_defiance,
   s1_reward_class_spy,
   s1_reward_companion_zero,
@@ -489,6 +650,21 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_091_border_scout,
   s1_char_092_ruin_stalker,
   s1_char_093_ironclad_veteran,
+  s1_pack_043_void_crystal,
+  s1_pack_044_ark_defender,
+  s1_pack_045_universal_adapter,
+  s1_pack_046_dimensional_rift,
+  s1_pack_047_emergency_protocol,
+  s1_pack_048_elaras_final_gift,
+  s1_pack_049_the_inception,
+  s1_pack_cosm_badge_s1,
+  s1_pack_cosm_title_echo,
+  s1_pack_id_elara_advocate,
+  s1_pack_id_elara_panoptic,
+  s1_pack_id_elara_ship_ai,
+  s1_pack_id_human_detective,
+  s1_pack_id_human_student,
+  s1_pack_seed_gene,
   s1_reward_bonus_complete,
   s1_reward_campaign_balanced,
   s1_reward_campaign_empathy,
@@ -558,6 +734,15 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_118_trade_enforcer,
   s1_char_119_syndicate_broker,
   s1_char_120_crystal_archive_guard,
+  s1_pack_029_hostile_takeover,
+  s1_pack_030_syndicate_enforcer,
+  s1_pack_031_crystal_senator,
+  s1_pack_032_market_crash,
+  s1_pack_033_debt_collector,
+  s1_pack_034_lockes_inner_circle,
+  s1_pack_035_trade_embargo,
+  s1_pack_seed_fighter,
+  s1_pack_seed_trade,
   s1_reward_casino_high_roller,
   s1_reward_casino_poker,
   s1_reward_casino_vip,
@@ -606,6 +791,21 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_char_115_consumed_host,
   s1_char_116_neural_plague_carrier,
   s1_char_200_cortex_ravager,
+  s1_pack_022_viral_bloom,
+  s1_pack_023_infected_drone,
+  s1_pack_024_plague_architect,
+  s1_pack_025_corruption_wave,
+  s1_pack_026_neural_hive,
+  s1_pack_027_terminus_dreadnought,
+  s1_pack_028_spore_cloud,
+  s1_pack_cosm_armor_void,
+  s1_pack_cosm_board_void,
+  s1_pack_cosm_tower_skin,
+  s1_pack_id_kael_patient_zero,
+  s1_pack_id_kael_source,
+  s1_pack_pet_void_crawler_1,
+  s1_pack_pet_void_crawler_2,
+  s1_pack_pet_void_crawler_3,
   s1_reward_boss_source,
   s1_reward_circuit_1st,
   s1_reward_circuit_survive,

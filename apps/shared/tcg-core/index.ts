@@ -258,6 +258,19 @@ export type { StarterDeck } from "./decks/starterDecks";
 export { STAT_CURVE, KEYWORD_TAX, getExpectedStats } from "./balance/statCurve";
 export { audit as runBalanceAudit } from "./balance/balanceAudit";
 
+/* ─── Booster Pack System ─── */
+export {
+  VARIANT_DROP_RATES,
+  BOOSTER_CARD_META,
+  BOOSTER_CARD_MAP,
+} from "./packs/boosterSystem";
+export type {
+  CardVariant,
+  VariantDropRate,
+  CrossGameUnlock,
+  BoosterCardMeta,
+} from "./packs/boosterSystem";
+
 /* ─── Card Rewards (WS-D) ─── */
 export type {
   RewardType,
