@@ -148,5 +148,17 @@
     "text": "I keep betting on you. Don't keep proving me wrong.",
     "context": "story_mode",
     "emotion": "neutral"
+  },
+  {
+    "id": "holiday_degen_welcome_0",
+    "text": "WELCOME to Christmas in July! The only holiday celebration in the Dischordian Saga that's technically illegal, morally questionable, and ABSOLUTELY NECESSARY. The rules: play games, win things, give things away. That's it. That's the whole religion. The Politician would be HORRIFIED. That's how you know it's working.",
+    "context": "holiday_event",
+    "emotion": "festive"
+  },
+  {
+    "id": "holiday_degen_special_0",
+    "text": "Soul Stone Craps! The only game where you can gamble with your MORAL CURRENCY. Roll a 7 and the Dreamer purifies your stone for free. Roll snake eyes and the Hierarchy takes a cut. Everything in between? That's called LIFE, baby. Now roll.",
+    "context": "holiday_event",
+    "emotion": "festive"
   }
 ]

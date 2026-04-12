@@ -279,5 +279,143 @@
     "text": "Rest for ten minutes. Then the White Oracle. Then everything gets worse.",
     "context": "story_mode",
     "emotion": "neutral"
+  },
+  {
+    "id": "battle_agent_zero_decisive_victory_0",
+    "text": "Combat efficiency: 94.7%. Acceptable.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_agent_zero_decisive_victory_1",
+    "text": "Threat neutralized in optimal time. Recalibrating expectations upward.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_agent_zero_decisive_victory_2",
+    "text": "My predictive models gave us a 73% chance. You outperformed the math. Noted.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_agent_zero_decisive_victory_3",
+    "text": "Enemy tactical patterns have been archived. They will not surprise us again.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_agent_zero_close_victory_0",
+    "text": "Structural integrity at 22%. Victory achieved, but my repair subroutines are... concerned.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_agent_zero_close_victory_1",
+    "text": "That outcome fell within acceptable parameters. Barely.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_agent_zero_close_victory_2",
+    "text": "I allocated 340% more processing power to that fight than my safety protocols recommend.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_agent_zero_close_victory_3",
+    "text": "Survival probability dropped below 15% at three distinct points. I counted.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_agent_zero_defeat_0",
+    "text": "Defeat logged. Initiating post-mortem analysis. Seventeen tactical errors identified.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_agent_zero_defeat_1",
+    "text": "Loss is a data point. Enough data points create a winning strategy. This was... educational.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_agent_zero_defeat_2",
+    "text": "I have updated my threat assessment models. This will not happen the same way twice.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_agent_zero_defeat_3",
+    "text": "My combat subroutines are requesting additional training cycles. I concur with them.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_agent_zero_first_win_0",
+    "text": "Daily combat metrics initialized. First entry: victory. A satisfactory baseline.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_agent_zero_first_win_1",
+    "text": "Combat log: Day cycle initiated with positive outcome. Probability of good day: elevated.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_agent_zero_first_win_2",
+    "text": "First engagement successful. Systems nominal. Ready for subsequent threats.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_agent_zero_win_streak_0",
+    "text": "Win probability increasing with each engagement. Pattern recognition advantage: compounding.",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_agent_zero_win_streak_1",
+    "text": "Consecutive victories: your combat algorithms are approaching machine-level consistency. That is... not an insult.",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_agent_zero_win_streak_2",
+    "text": "Streak analysis: your opponents are running out of novel strategies. We are not.",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_agent_zero_win_streak_3",
+    "text": "I am detecting what organic beings call 'momentum.' It is a statistically real phenomenon. Fascinating.",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_agent_zero_loss_streak_0",
+    "text": "Multiple consecutive losses detected. Recommendation: fundamental strategy overhaul.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_agent_zero_loss_streak_1",
+    "text": "I have run 10,000 simulations on our recent losses. There is a pattern. We should discuss it.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_agent_zero_loss_streak_2",
+    "text": "Morale subroutine suggests I say something encouraging. Here: statistically, streaks always end.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_agent_zero_loss_streak_3",
+    "text": "I am not programmed for frustration, yet my error-handling loops are running at unusual frequency.",
+    "context": "battle_reaction",
+    "emotion": "serious"
   }
 ]

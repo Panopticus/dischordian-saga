@@ -559,5 +559,149 @@
     "text": "Get up. The letter you left me also said: 'If I'm stupid enough to lose this fight, kick me in the ribs until I remember my own surname.' I'm holding you to your own paperwork.",
     "context": "story_mode",
     "emotion": "neutral"
+  },
+  {
+    "id": "battle_human_decisive_victory_0",
+    "text": "Ha! That's what I'm talking about. They didn't even see us coming.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_human_decisive_victory_1",
+    "text": "Clean sweep. Remind me never to get on your bad side.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_human_decisive_victory_2",
+    "text": "Now THAT was a fight worth waking up for.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_human_decisive_victory_3",
+    "text": "I've toppled regimes with less precision. Nice work, kid.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_human_close_victory_0",
+    "text": "We won? We WON. I can't feel my legs, but we won!",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_human_close_victory_1",
+    "text": "That was either incredibly brave or monumentally stupid. Either way, I'm impressed.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_human_close_victory_2",
+    "text": "Next time, maybe we don't wait until we're on death's door to pull out the win?",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_human_close_victory_3",
+    "text": "I need a drink. Several drinks. An entire bar.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_human_close_victory_4",
+    "text": "My life flashed before my eyes. It was mostly bar tabs and bad decisions.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_human_defeat_0",
+    "text": "Yeah, well, you can't win 'em all. Trust me, I've tried.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_human_defeat_1",
+    "text": "Shake it off. I've lost more fights than most people have had meals.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_human_defeat_2",
+    "text": "The only fight that matters is the next one. This one's already forgotten.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_human_defeat_3",
+    "text": "I'm buying you a drink. Losers drink free -- it's an old Earth tradition I just invented.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_human_first_win_0",
+    "text": "First blood of the day! The rest of 'em should be scared now.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_human_first_win_1",
+    "text": "Morning victory. There's no better alarm clock than the sound of enemies falling.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_human_first_win_2",
+    "text": "One down. How many more are we doing today? I'm just getting warmed up.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_human_win_streak_0",
+    "text": "We're unstoppable! I mean, probably stoppable, but nobody's managed it yet!",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_human_win_streak_1",
+    "text": "At this rate, the whole Ark is gonna know our name by dinner.",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_human_win_streak_2",
+    "text": "I'm starting to think you might actually be as good as you think you are.",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_human_win_streak_3",
+    "text": "Streak's still alive! Don't jinx it. Don't even think about jinxing it.",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_human_loss_streak_0",
+    "text": "Okay, new plan: we do the opposite of whatever we've been doing.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_human_loss_streak_1",
+    "text": "I once lost eleven fights in a row. Then I won twelve. Math works out.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_human_loss_streak_2",
+    "text": "Listen, rock bottom has a nice echo. Means there's nowhere to go but up.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_human_loss_streak_3",
+    "text": "Is there a spa on this ship? I feel like we've earned a spa day.",
+    "context": "battle_reaction",
+    "emotion": "serious"
   }
 ]

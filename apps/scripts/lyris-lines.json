@@ -1,0 +1,140 @@
+[
+  {
+    "id": "battle_lyris_decisive_victory_0",
+    "text": "The data streams are singing! That was beautiful -- pure, elegant destruction.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_lyris_decisive_victory_1",
+    "text": "I could see the probability threads converging toward our victory. It was like watching art.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_lyris_decisive_victory_2",
+    "text": "Every variable aligned perfectly. Statistically improbable. Practically inevitable, with you.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_lyris_decisive_victory_3",
+    "text": "The patterns... they're so clear after a win like that. I can almost see the next one forming.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_lyris_close_victory_0",
+    "text": "The probability threads were fraying! I was losing the pattern, and then -- you pulled it back.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_lyris_close_victory_1",
+    "text": "My hands are shaking. The data streams went dark for a moment there. I thought we'd lost the signal.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_lyris_close_victory_2",
+    "text": "That was chaos. Beautiful, terrifying chaos. The Dreamers were right -- there is meaning in disorder.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_lyris_close_victory_3",
+    "text": "I need a moment. The cognitive load of tracking that many variables nearly overwhelmed me.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_lyris_defeat_0",
+    "text": "The probability threads... I couldn't find the winning pattern. I'm sorry.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_lyris_defeat_1",
+    "text": "Loss is just data we haven't processed yet. Give me time. I'll find what we missed.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_lyris_defeat_2",
+    "text": "The data streams don't end with one defeat. They continue. So do we.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_lyris_defeat_3",
+    "text": "I'm already modeling what went wrong. Seventeen variables to adjust. We'll be ready next time.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_lyris_first_win_0",
+    "text": "First data point of the day: victory! The probability matrix starts strong.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_lyris_first_win_1",
+    "text": "Morning victories create cascade effects in the data streams. Today will be good.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_lyris_first_win_2",
+    "text": "The day's first pattern is set. And it's a winning one. I can feel it.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_lyris_win_streak_0",
+    "text": "The probability threads are weaving a tapestry of victories! Each one strengthens the next!",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_lyris_win_streak_1",
+    "text": "I've never seen the data streams this coherent. Your winning pattern is self-reinforcing!",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_lyris_win_streak_2",
+    "text": "Streaks aren't random -- they're emergent order from complex systems. You ARE the order.",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_lyris_win_streak_3",
+    "text": "The Dreamers wrote about moments when probability itself seems to choose a side. This is one of those moments.",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_lyris_loss_streak_0",
+    "text": "The probability threads are tangled. But tangled threads can be unwound. I just need to find the right end to pull.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_lyris_loss_streak_1",
+    "text": "I keep running the models, and I keep finding the same thing: the streak-breaking pattern is close. Very close.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_lyris_loss_streak_2",
+    "text": "In the data streams, extended losses always precede a phase shift. Something is about to change.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_lyris_loss_streak_3",
+    "text": "Don't give up. The math says the pattern must break. And the math has never lied to me.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  }
+]

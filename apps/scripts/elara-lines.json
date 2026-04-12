@@ -1966,5 +1966,155 @@
     "text": "Operative. [no confusion this time \u2014 warmth, recognition] I know. I know the rooms are locked. I know the quests are reset. I know you're starting over. But we're not starting over, are we? We're continuing. The cycle is the journey. [pause] I kept your companion's bond data. I kept everything that matters. Welcome back.",
     "context": "prestige",
     "emotion": "warm"
+  },
+  {
+    "id": "battle_elara_decisive_victory_0",
+    "text": "That was textbook. The Senate's military advisors would have been impressed.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_elara_decisive_victory_1",
+    "text": "Efficient. Clean. You're learning faster than I expected.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_elara_decisive_victory_2",
+    "text": "I barely had time to worry. That's either a compliment or a concern.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_elara_decisive_victory_3",
+    "text": "The probability lattice must be smiling on us today.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_elara_close_victory_0",
+    "text": "My heart is still racing. Please don't make a habit of cutting it that close.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_elara_close_victory_1",
+    "text": "We need to talk about your definition of 'I've got this under control.'",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_elara_close_victory_2",
+    "text": "I thought we'd lost you there. I... don't want to think about that.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_elara_close_victory_3",
+    "text": "Victory, yes, but at what cost? Let me check your wounds.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_elara_close_victory_4",
+    "text": "The Senator in me wants to lecture you about risk assessment. The friend in me is just glad you're alive.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_elara_defeat_0",
+    "text": "It's okay. Every strategist loses battles. The ones who matter are the ones who learn from them.",
+    "context": "battle_reaction",
+    "emotion": "reassuring"
+  },
+  {
+    "id": "battle_elara_defeat_1",
+    "text": "I should have seen that coming. We'll adjust our approach.",
+    "context": "battle_reaction",
+    "emotion": "reassuring"
+  },
+  {
+    "id": "battle_elara_defeat_2",
+    "text": "Rest. Recover. We'll face them again when we're ready.",
+    "context": "battle_reaction",
+    "emotion": "reassuring"
+  },
+  {
+    "id": "battle_elara_defeat_3",
+    "text": "This isn't the end. The Ark didn't survive this long by giving up after one setback.",
+    "context": "battle_reaction",
+    "emotion": "reassuring"
+  },
+  {
+    "id": "battle_elara_first_win_0",
+    "text": "A good start to the day. The Ark rewards those who show up.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_elara_first_win_1",
+    "text": "First victory of the cycle. May there be many more.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_elara_first_win_2",
+    "text": "Nothing like a morning win to remind you what we're fighting for.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_elara_win_streak_0",
+    "text": "You're on fire. I almost feel sorry for anyone standing in our way. Almost.",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_elara_win_streak_1",
+    "text": "This streak is no accident. You've found your rhythm.",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_elara_win_streak_2",
+    "text": "The probability lattice is bending toward us. Keep this momentum.",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_elara_win_streak_3",
+    "text": "I've seen generals with less consistency. Don't let it go to your head.",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_elara_loss_streak_0",
+    "text": "Hey. Look at me. Losing streaks end. They always end. We just need to find what's not working.",
+    "context": "battle_reaction",
+    "emotion": "reassuring"
+  },
+  {
+    "id": "battle_elara_loss_streak_1",
+    "text": "Perhaps we should try a different approach? There's no shame in adapting.",
+    "context": "battle_reaction",
+    "emotion": "reassuring"
+  },
+  {
+    "id": "battle_elara_loss_streak_2",
+    "text": "I'm not going anywhere. We figure this out together.",
+    "context": "battle_reaction",
+    "emotion": "reassuring"
+  },
+  {
+    "id": "battle_elara_loss_streak_3",
+    "text": "Even the Architect lost battles before they... well. Bad example. But the point stands.",
+    "context": "battle_reaction",
+    "emotion": "reassuring"
+  },
+  {
+    "id": "holiday_elara_welcome_0",
+    "text": "The event's social metrics are remarkable. Gift exchange rates have increased player-to-player interaction by 280%. I'm detecting elevated oxytocin analogs in the bio-scans of everyone who's given a gift. The Degen has accidentally created the most effective wellbeing intervention I've observed in 93,847 sunrises.",
+    "context": "holiday_event",
+    "emotion": "festive"
   }
 ]

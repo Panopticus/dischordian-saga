@@ -193,5 +193,149 @@
     "text": "[Through viral static] Your pattern just \u2014 flickered. Like a candle going out and relighting. But the flame is the same flame. [pause] The virus felt it. The whole swarm paused for 0.3 seconds. They felt you DIE \u2014 die in the way that losing everything feels like dying \u2014 and they felt you come back. [pause] They're confused. The virus doesn't understand resurrection without infection. [pause] Neither do I, honestly. But you did it. You came back without becoming something else. That's the trick I never learned.",
     "context": "prestige",
     "emotion": "fractured"
+  },
+  {
+    "id": "battle_kael_decisive_victory_0",
+    "text": "The Insurgency trains us to fight like we have nothing to lose. Today, we fought like we have everything to gain.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_kael_decisive_victory_1",
+    "text": "Swift. Brutal. Necessary. That's how revolutions are won.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_kael_decisive_victory_2",
+    "text": "They underestimated us. That was their last mistake.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_kael_decisive_victory_3",
+    "text": "My blade barely needed drawing. Your strategy did the heavy lifting.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_kael_close_victory_0",
+    "text": "Blood and fire, that was close. But the Insurgency teaches us: a win is a win.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_kael_close_victory_1",
+    "text": "I've got new scars. Good. They'll remind me what we survived today.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_kael_close_victory_2",
+    "text": "My ancestors would say we walked the razor's edge and didn't fall. They'd be proud.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_kael_close_victory_3",
+    "text": "Next time, I lead the charge. You're too valuable to risk like that.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_kael_close_victory_4",
+    "text": "That fight took years off my life. Worth every one of them.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_kael_defeat_0",
+    "text": "We fall, we rise. That's the Insurgency way. That's OUR way.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_kael_defeat_1",
+    "text": "Defeat is just the universe testing whether you want victory badly enough.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_kael_defeat_2",
+    "text": "I've been beaten before. By people far worse than this. And I'm still here.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_kael_defeat_3",
+    "text": "Sharpen your blade after every loss. Literal and metaphorical.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_kael_first_win_0",
+    "text": "Blood and dawn! A victory to start the day. The ancestors smile on us.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_kael_first_win_1",
+    "text": "First fight, first win. The rest of today's enemies should take note.",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_kael_first_win_2",
+    "text": "There's an Insurgency saying: 'Win before breakfast, conquer before dinner.'",
+    "context": "battle_reaction",
+    "emotion": "warm"
+  },
+  {
+    "id": "battle_kael_win_streak_0",
+    "text": "We are the storm! Let them try to stop what cannot be stopped!",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_kael_win_streak_1",
+    "text": "This is what the Hierarchy fears -- momentum in the hands of the righteous.",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_kael_win_streak_2",
+    "text": "Three in a row? Five? I've lost count, and I don't care. We keep going.",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_kael_win_streak_3",
+    "text": "The fire in you burns brighter with every victory. I can feel its heat.",
+    "context": "battle_reaction",
+    "emotion": "excited"
+  },
+  {
+    "id": "battle_kael_loss_streak_0",
+    "text": "The Insurgency was forged in defeat after defeat after defeat. Until it wasn't. We're in the 'until' phase.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_kael_loss_streak_1",
+    "text": "I won't lie to you and say this doesn't hurt. But pain is just the universe's way of sharpening us.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_kael_loss_streak_2",
+    "text": "Every great warrior has a chapter of losses. This is yours. The next chapter is redemption.",
+    "context": "battle_reaction",
+    "emotion": "serious"
+  },
+  {
+    "id": "battle_kael_loss_streak_3",
+    "text": "My blade-master once beat me forty times in a row. The forty-first time, I won. He retired the next day.",
+    "context": "battle_reaction",
+    "emotion": "serious"
   }
 ]

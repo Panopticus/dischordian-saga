@@ -7,5 +7,6 @@
   "locke_endgame": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/dialog/locke_endgame.mp3",
   "locke_prestige": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/prestige/locke_prestige.mp3",
   "prestige_locke_tier1": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/prestige/prestige_locke_tier1.mp3",
-  "prestige_locke_tier2plus": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/prestige/prestige_locke_tier2plus.mp3"
+  "prestige_locke_tier2plus": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/prestige/prestige_locke_tier2plus.mp3",
+  "holiday_locke_welcome_0": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Locke+Voices/holiday_event/holiday_locke_welcome_0.mp3"
 }

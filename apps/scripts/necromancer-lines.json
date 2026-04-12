@@ -79,5 +79,11 @@
     "text": "Green fire now. Soft, if it helps. Yes. Like that.",
     "context": "story_mode",
     "emotion": "neutral"
+  },
+  {
+    "id": "holiday_necromancer_welcome_0",
+    "text": "I don't celebrate Christmas. I celebrate the OPPOSITE of Christmas \u2014 the longest night, the deepest cold, the moment when the living world comes closest to mine. But the Degen sent me a gift. A pair of socks. Knitted. Red and green. With little skulls on them. I have not removed them. I will not explain why.",
+    "context": "holiday_event",
+    "emotion": "festive"
   }
 ]

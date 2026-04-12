@@ -59,5 +59,11 @@
     "text": "Again? [pause] You know, there's a financial instrument called a 'reset bond' \u2014 it gains value THROUGH default. The more times it crashes and rebuilds, the higher its eventual ceiling. [pause] You are a reset bond, Operative. And your ceiling keeps rising.",
     "context": "prestige",
     "emotion": "sharp"
+  },
+  {
+    "id": "holiday_locke_welcome_0",
+    "text": "The event's economic model is surprisingly sound. Gift-exchange economies generate social capital that converts to engagement retention at a rate I cannot dismiss. The Degen may be a chaotic deviant, but his monetization structure is elegant. 10% to charity creates goodwill that translates to long-term brand loyalty. I would have charged 15%, but his margin accounts for the moral premium. I received a gift. It was a candy cane. I ate it. It was adequate.",
+    "context": "holiday_event",
+    "emotion": "festive"
   }
 ]
