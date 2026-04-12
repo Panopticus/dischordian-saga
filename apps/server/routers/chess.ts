@@ -258,24 +258,66 @@ function materialBalance(game: ChessInstance, sideJustMoved: "w" | "b"): number 
   return score;
 }
 
-/** Penalty if the moved piece can be immediately captured for free. */
+/** Static Exchange Evaluation (SEE) of an extended capture sequence
+ *  on `toSquare`. Simulates alternating captures with the cheapest
+ *  attacker on each side and returns how much material is *lost* by
+ *  the side that owns the piece on `toSquare` after both sides play
+ *  optimally. If there's no realisable loss, returns 0.
+ *
+ *  This replaces the previous 1-ply heuristic which only saw the
+ *  first capture. The new version walks the full exchange so trades
+ *  like "I capture, you recapture, I recapture" are valued correctly.
+ *  We use SAN history simulation rather than a custom attacker map so
+ *  the result respects all chess.js legality rules (pins, discovered
+ *  checks, etc.). */
 function hangingPenalty(game: ChessInstance, toSquare: string): number {
-  // chess.js's `Square` type is a literal union; we know toSquare came
-  // from a verbose move so the cast is safe.
-  const piece = game.get(toSquare as Parameters<ChessInstance["get"]>[0]);
-  if (!piece) return 0;
-  // Iterate opponent's legal replies and see if any capture this square.
-  const replies = game.moves({ verbose: true }) as Array<{ to: string; flags: string; captured?: string }>;
-  let worstLoss = 0;
-  for (const reply of replies) {
-    if (reply.to === toSquare && reply.flags.includes("c")) {
-      const lost = PIECE_VALUE[piece.type] ?? 0;
-      const gained = reply.captured ? (PIECE_VALUE[reply.captured] ?? 0) : 0;
-      // Crude SEE: if we lose more than we gain, it's a hanging trade.
-      if (lost - gained > worstLoss) worstLoss = lost - gained;
-    }
+  type Square = Parameters<ChessInstance["get"]>[0];
+  const sq = toSquare as Square;
+  const initialPiece = game.get(sq);
+  if (!initialPiece) return 0;
+
+  // Walk the exchange. At each ply, the side to move tries to capture
+  // on `toSquare` with their cheapest legal attacker. We track running
+  // material (gain[]) using the standard SEE swap-list construction.
+  const gain: number[] = [];
+  let depth = 0;
+  let onSquareValue = PIECE_VALUE[initialPiece.type] ?? 0;
+  let position = new Chess(game.fen());
+
+  // Sanity cap so a pathological position can't loop forever.
+  const MAX_PLIES = 16;
+  while (depth < MAX_PLIES) {
+    const mover = position.turn();
+    const attackers = (position.moves({ verbose: true }) as Array<{
+      to: string; from: string; flags: string; san: string; piece: string; captured?: string;
+    }>).filter(m => m.to === toSquare && m.flags.includes("c"));
+    if (attackers.length === 0) break;
+    // Pick cheapest attacker (lowest piece value).
+    attackers.sort((a, b) => (PIECE_VALUE[a.piece] ?? 0) - (PIECE_VALUE[b.piece] ?? 0));
+    const cheapest = attackers[0];
+    // The capturing side gains the value of the piece currently on the
+    // square; the captured piece (their own moving piece) becomes the
+    // new occupant for the next ply.
+    gain.push((depth === 0 ? -onSquareValue : -(gain[depth - 1] ?? 0) - onSquareValue));
+    // chess.js makes the move, advances turn.
+    const result = position.move({ from: cheapest.from, to: cheapest.to });
+    if (!result) break;
+    onSquareValue = PIECE_VALUE[cheapest.piece] ?? 0;
+    depth += 1;
+    // Optional optimisation: stop if there's nothing left to capture.
+    void mover;
   }
-  return worstLoss;
+
+  if (gain.length === 0) return 0;
+
+  // Standard SEE backwards pass: each side picks the better of
+  // continuing the exchange or stopping.
+  for (let i = gain.length - 2; i >= 0; i--) {
+    gain[i] = -Math.max(-gain[i], gain[i + 1]);
+  }
+  // gain[0] is negative when the moving side loses material on the
+  // exchange. Penalty is the magnitude of that loss; otherwise zero.
+  return gain[0] < 0 ? -gain[0] : 0;
 }
 
 export function getAiMove(game: ChessInstance, difficulty: number, style: string): string {
@@ -791,6 +833,17 @@ export const chessRouter = router({
       ...game[0],
       opponent: { id: game[0].blackCharacter || "the_human", ...CHESS_CHARACTERS[game[0].blackCharacter || "the_human"] },
     };
+  }),
+
+  /** Read-only snapshot of in-flight PvP matches for the lobby live-games
+   *  panel. Reads directly from the chess WS server's in-memory map so
+   *  it stays consistent with what spectators see. */
+  listActiveMpMatches: protectedProcedure.query(async () => {
+    // Lazy import so the chess router doesn't pull in the WS server
+    // (and its `ws` dep) at module load — important for the
+    // chess-behaviors test which mocks `./db` and avoids the WS path.
+    const { listActiveChessMatches } = await import("../chessWs");
+    return { matches: listActiveChessMatches() };
   }),
 
   /** Get legal moves for current position */
@@ -1506,6 +1559,19 @@ export const chessRouter = router({
           (game.whitePlayerId === mine.blackId && game.blackPlayerId === mine.whiteId);
         if (!gameIsBetweenPair) {
           throw new Error("Game does not match the tournament pairing");
+        }
+        // Reject games that started before the pairing was issued —
+        // otherwise a player could replay an old game between the same
+        // opponents and report it as the round result. We compare
+        // game.startedAt (or createdAt as a fallback) against the
+        // pairing.createdAt timestamp.
+        const gameStart = game.startedAt ?? game.createdAt;
+        if (gameStart && mine.createdAt && gameStart < mine.createdAt) {
+          throw new Error("Game predates the tournament pairing");
+        }
+        // Reject games that haven't actually finished yet.
+        if (game.status === "active" || game.status === "waiting") {
+          throw new Error("Game is still in progress");
         }
         // Prefer server-authoritative result over user claim.
         if (game.status === "checkmate" && game.winnerId) {

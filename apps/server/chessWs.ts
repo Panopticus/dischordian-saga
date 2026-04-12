@@ -110,6 +110,31 @@ const spectatorConnections = new Map<WebSocket, string>();
  *  `<matchId>:<userId>` so a reconnect can cancel just the right one. */
 const pendingForfeitTimers = new Map<string, ReturnType<typeof setTimeout>>();
 
+/** Read-only accessor for the lobby UI: returns the in-memory active
+ *  matches as a serialisable array. Used by the chess router so the
+ *  lobby can render a "live games" panel without holding open a WS. */
+export function listActiveChessMatches(): Array<{
+  matchId: string;
+  whiteName: string;
+  blackName: string;
+  whiteElo: number;
+  blackElo: number;
+  moveCount: number;
+  spectatorCount: number;
+}> {
+  return [...activeMatches.values()]
+    .filter(m => m.status === "active")
+    .map(m => ({
+      matchId: m.matchId,
+      whiteName: m.white.userName,
+      blackName: m.black.userName,
+      whiteElo: m.white.elo,
+      blackElo: m.black.elo,
+      moveCount: m.moveCount,
+      spectatorCount: m.spectators.size,
+    }));
+}
+
 /* ─── CHESS.JS DYNAMIC IMPORT ─── */
 let Chess: typeof import("chess.js").Chess;
 const chessReady = import("chess.js").then(m => {

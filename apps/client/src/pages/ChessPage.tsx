@@ -74,7 +74,7 @@ const AI_TIER_INFO: Record<string, { label: string; color: string; description: 
   the_architect:    { label: "ARCHITECT",  color: "text-amber-400",   description: "Grandmaster — The ultimate challenge" },
 };
 
-type GameView = "menu" | "character_select" | "cinematic" | "playing" | "multiplayer_lobby" | "multiplayer_playing" | "ladder" | "history" | "story_select";
+type GameView = "menu" | "character_select" | "cinematic" | "playing" | "multiplayer_lobby" | "multiplayer_playing" | "ladder" | "history" | "story_select" | "tournaments" | "tournament_detail";
 
 export default function ChessPage() {
   const { user, isAuthenticated } = useAuth();
@@ -110,6 +110,13 @@ export default function ChessPage() {
   const [mpLastMove, setMpLastMove] = useState<{ from: string; to: string } | null>(null);
   const [mpGameOver, setMpGameOver] = useState<{ winner: "white" | "black" | "draw"; reason: string; eloChange: number; newElo: number } | null>(null);
   const [mpDrawOffered, setMpDrawOffered] = useState(false);
+  /** True while we're trying to reconnect to a dropped multiplayer game.
+   *  Drives a "Reconnecting…" banner in the multiplayer_playing view. */
+  const [mpReconnecting, setMpReconnecting] = useState(false);
+  /** Number of consecutive reconnect attempts. Backs off exponentially
+   *  up to MAX_RECONNECT_ATTEMPTS before giving up. */
+  const mpReconnectAttemptsRef = useRef(0);
+  const mpReconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ── Pawn promotion dialog state ──
   // When a pawn reaches the last rank, we suspend the move until the player
@@ -125,6 +132,12 @@ export default function ChessPage() {
   const mpWsRef = useRef<WebSocket | null>(null);
   const mpSearchTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const mpChessRef = useRef(new Chess());
+  // Refs that mirror state, so the WS onclose closure (which captures
+  // stale state otherwise) can read live values without re-binding.
+  const mpOpponentRef = useRef<typeof mpOpponent>(null);
+  const mpGameOverRef = useRef<typeof mpGameOver>(null);
+  useEffect(() => { mpOpponentRef.current = mpOpponent; }, [mpOpponent]);
+  useEffect(() => { mpGameOverRef.current = mpGameOver; }, [mpGameOver]);
 
   // Clean up multiplayer WS on unmount
   useEffect(() => {
@@ -134,8 +147,91 @@ export default function ChessPage() {
         mpWsRef.current.close();
       }
       if (mpSearchTimerRef.current) clearInterval(mpSearchTimerRef.current);
+      if (mpReconnectTimerRef.current) clearTimeout(mpReconnectTimerRef.current);
     };
   }, []);
+
+  /** Reconnect to a dropped multiplayer game using the server's
+   *  RECONNECT message. Backs off exponentially up to 5 attempts. */
+  const MAX_RECONNECT_ATTEMPTS = 5;
+  const scheduleMpReconnect = useCallback((matchId: string, userId: number) => {
+    if (mpReconnectAttemptsRef.current >= MAX_RECONNECT_ATTEMPTS) {
+      setMpReconnecting(false);
+      import("sonner").then(({ toast }) => toast.error("Reconnect failed — match lost"));
+      mpReconnectAttemptsRef.current = 0;
+      return;
+    }
+    setMpReconnecting(true);
+    const attempt = mpReconnectAttemptsRef.current + 1;
+    mpReconnectAttemptsRef.current = attempt;
+    // Exponential back-off: 1s, 2s, 4s, 8s, 16s
+    const delayMs = Math.min(16_000, 1000 * Math.pow(2, attempt - 1));
+    if (mpReconnectTimerRef.current) clearTimeout(mpReconnectTimerRef.current);
+    mpReconnectTimerRef.current = setTimeout(() => {
+      const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+      const ws = new WebSocket(`${protocol}//${window.location.host}/api/chess-pvp`);
+      mpWsRef.current = ws;
+      ws.onopen = () => {
+        ws.send(JSON.stringify({ type: "RECONNECT", userId, matchId }));
+      };
+      ws.onmessage = (event) => {
+        try {
+          const msg = JSON.parse(event.data);
+          // Same router as the main message handler — duplicate the
+          // critical cases inline so the reconnect WS doesn't need
+          // the bigger handler attached up-front.
+          if (msg.type === "RECONNECTED") {
+            setMpFen(msg.fen);
+            setMpTurn(msg.turn);
+            setMpWhiteTime(msg.whiteTimeMs);
+            setMpBlackTime(msg.blackTimeMs);
+            mpChessRef.current.load(msg.fen);
+            setMpReconnecting(false);
+            mpReconnectAttemptsRef.current = 0;
+            // Now that we're reconnected, attach the full message
+            // handler so future GAME_STATE / GAME_OVER messages flow.
+            ws.onmessage = (e2) => {
+              try {
+                const m = JSON.parse(e2.data);
+                if (m.type === "GAME_STATE") {
+                  setMpFen(m.fen);
+                  setMpTurn(m.turn);
+                  setMpWhiteTime(m.whiteTimeMs);
+                  setMpBlackTime(m.blackTimeMs);
+                  mpChessRef.current.load(m.fen);
+                  if (m.lastMove) {
+                    setMpLastMove({ from: m.lastMove.from, to: m.lastMove.to });
+                    setMpMoveHistory(prev => [...prev, m.lastMove.san]);
+                  }
+                } else if (m.type === "GAME_OVER") {
+                  setMpGameOver(m);
+                } else if (m.type === "DRAW_OFFERED") {
+                  setMpDrawOffered(true);
+                } else if (m.type === "DRAW_DECLINED") {
+                  setMpDrawOffered(false);
+                } else if (m.type === "MOVE_ERROR" || m.type === "ERROR") {
+                  import("sonner").then(({ toast }) => toast.error(m.message));
+                }
+              } catch { /* ignore */ }
+            };
+            import("sonner").then(({ toast }) => toast.success("Reconnected to game"));
+          } else if (msg.type === "ERROR") {
+            // Server rejected the reconnect — try again or give up.
+            scheduleMpReconnect(matchId, userId);
+          }
+        } catch { /* ignore */ }
+      };
+      ws.onerror = () => {
+        scheduleMpReconnect(matchId, userId);
+      };
+      ws.onclose = () => {
+        // If we never got RECONNECTED, retry.
+        if (mpReconnecting) {
+          scheduleMpReconnect(matchId, userId);
+        }
+      };
+    }, delayMs);
+  }, [mpReconnecting]);
 
   const mpFormatTime = (ms: number) => {
     const totalSec = Math.max(0, Math.floor(ms / 1000));
@@ -199,6 +295,18 @@ export default function ChessPage() {
               setMpMoveHistory(prev => [...prev, msg.lastMove.san]);
             }
             break;
+          case "RECONNECTED":
+            // Server accepted our reconnect — restore live state from
+            // its in-memory match record so the UI catches up.
+            setMpFen(msg.fen);
+            setMpTurn(msg.turn);
+            setMpWhiteTime(msg.whiteTimeMs);
+            setMpBlackTime(msg.blackTimeMs);
+            mpChessRef.current.load(msg.fen);
+            setMpReconnecting(false);
+            mpReconnectAttemptsRef.current = 0;
+            import("sonner").then(({ toast }) => toast.success("Reconnected to game"));
+            break;
           case "GAME_OVER":
             setMpGameOver(msg);
             break;
@@ -228,6 +336,14 @@ export default function ChessPage() {
 
     ws.onclose = () => {
       if (mpSearchTimerRef.current) { clearInterval(mpSearchTimerRef.current); mpSearchTimerRef.current = null; }
+      // If we were mid-match, attempt to reconnect to the same matchId.
+      // We use refs to read live state inside the closure without
+      // re-binding onclose every render.
+      const opp = mpOpponentRef.current;
+      const gameOver = mpGameOverRef.current;
+      if (opp && !gameOver && user) {
+        scheduleMpReconnect(opp.matchId, user.id);
+      }
     };
   }, [user, isAuthenticated, selectedCharacter]);
 
@@ -328,6 +444,21 @@ export default function ChessPage() {
   const leaderboard = trpc.chess.getLeaderboard.useQuery(undefined, { enabled: view === "ladder" });
   const history = trpc.chess.getHistory.useQuery({ limit: 20 }, { enabled: view === "history" });
   const activeGame = trpc.chess.getActiveGame.useQuery(undefined, { enabled: isAuthenticated });
+
+  // Tournament queries — only fetched when the tournaments view is open
+  // so they don't waste cycles for players who never visit the tab.
+  const [selectedTournamentId, setSelectedTournamentId] = useState<number | null>(null);
+  const tournaments = trpc.chess.listTournaments.useQuery(undefined, { enabled: view === "tournaments" || view === "tournament_detail" });
+  const tournamentDetail = trpc.chess.getTournament.useQuery(
+    { tournamentId: selectedTournamentId ?? -1 },
+    { enabled: view === "tournament_detail" && selectedTournamentId !== null, refetchInterval: 10_000 },
+  );
+  const myActiveTournament = trpc.chess.getMyActiveTournament.useQuery(undefined, { enabled: isAuthenticated });
+  const joinTournament = trpc.chess.joinTournament.useMutation();
+  const leaveTournament = trpc.chess.leaveTournament.useMutation();
+  const reportTournamentResult = trpc.chess.reportTournamentResult.useMutation();
+  const createTournament = trpc.chess.createTournament.useMutation();
+  const startTournament = trpc.chess.startTournament.useMutation();
 
   const startGame = trpc.chess.startGame.useMutation();
   const makeMove = trpc.chess.makeMove.useMutation();
@@ -644,6 +775,61 @@ export default function ChessPage() {
     setView("character_select");
   };
 
+  /* ─── Tournament handlers ─── */
+  const handleJoinTournament = useCallback(async (tournamentId: number) => {
+    try {
+      await joinTournament.mutateAsync({ tournamentId });
+      const { toast } = await import("sonner");
+      toast.success("Joined tournament");
+      utils.chess.listTournaments.invalidate();
+      utils.chess.getTournament.invalidate({ tournamentId });
+      utils.chess.getMyActiveTournament.invalidate();
+    } catch (e: any) {
+      const { toast } = await import("sonner");
+      toast.error(e?.message || "Failed to join tournament");
+    }
+  }, [joinTournament, utils]);
+
+  const handleLeaveTournament = useCallback(async (tournamentId: number) => {
+    try {
+      await leaveTournament.mutateAsync({ tournamentId });
+      const { toast } = await import("sonner");
+      toast.success("Left tournament");
+      utils.chess.listTournaments.invalidate();
+      utils.chess.getTournament.invalidate({ tournamentId });
+      utils.chess.getMyActiveTournament.invalidate();
+    } catch (e: any) {
+      const { toast } = await import("sonner");
+      toast.error(e?.message || "Failed to leave tournament");
+    }
+  }, [leaveTournament, utils]);
+
+  const handleReportTournamentResult = useCallback(async (tournamentId: number, result: "win" | "loss" | "draw") => {
+    try {
+      await reportTournamentResult.mutateAsync({ tournamentId, result });
+      const { toast } = await import("sonner");
+      toast.success("Result reported");
+      utils.chess.getTournament.invalidate({ tournamentId });
+      utils.chess.getMyActiveTournament.invalidate();
+    } catch (e: any) {
+      const { toast } = await import("sonner");
+      toast.error(e?.message || "Failed to report result");
+    }
+  }, [reportTournamentResult, utils]);
+
+  const handleStartTournament = useCallback(async (tournamentId: number) => {
+    try {
+      await startTournament.mutateAsync({ tournamentId });
+      const { toast } = await import("sonner");
+      toast.success("Tournament started");
+      utils.chess.getTournament.invalidate({ tournamentId });
+      utils.chess.listTournaments.invalidate();
+    } catch (e: any) {
+      const { toast } = await import("sonner");
+      toast.error(e?.message || "Failed to start tournament");
+    }
+  }, [startTournament, utils]);
+
   /* ─── Board orientation (flip with 'F' key or button) ─── */
   const [boardFlipped, setBoardFlipped] = useState(false);
   const handleFlipBoard = useCallback(() => setBoardFlipped(f => !f), []);
@@ -705,9 +891,24 @@ export default function ChessPage() {
       if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable)) {
         return;
       }
-      if (e.key === "Escape" && pendingPromotion) {
-        setPendingPromotion(null);
-        return;
+      if (pendingPromotion) {
+        // Number-key shortcuts to commit a promotion: 1=Q 2=R 3=B 4=N.
+        if (e.key === "Escape") {
+          setPendingPromotion(null);
+          return;
+        }
+        const promoMap: Record<string, "q" | "r" | "b" | "n"> = {
+          "1": "q", "q": "q",
+          "2": "r", "r": "r",
+          "3": "b", "b": "b",
+          "4": "n", "n": "n",
+        };
+        const choice = promoMap[e.key.toLowerCase()];
+        if (choice) {
+          e.preventDefault();
+          commitPromotion(choice);
+          return;
+        }
       }
       if (view !== "playing" && view !== "multiplayer_playing") return;
       if (e.metaKey || e.ctrlKey || e.altKey) return;
@@ -733,7 +934,7 @@ export default function ChessPage() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [view, gameStatus, mpGameOver, pendingPromotion, handleFlipBoard, handleExportPgn, handleMpResign, handleMpOfferDraw]);
+  }, [view, gameStatus, mpGameOver, pendingPromotion, commitPromotion, handleFlipBoard, handleExportPgn, handleMpResign, handleMpOfferDraw]);
 
   // Track player moves for highlighting (alongside the existing lastAiMove).
   useEffect(() => {
@@ -876,7 +1077,7 @@ export default function ChessPage() {
             </div>
 
             {/* Quick Links */}
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <button onClick={() => setView("ladder")} className="p-3 rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 text-center hover-lift">
                 <Trophy size={18} className="text-primary mx-auto mb-1" />
                 <span className="font-mono text-[10px] text-muted-foreground">LADDER</span>
@@ -888,6 +1089,10 @@ export default function ChessPage() {
               <button onClick={() => setView("story_select")} className="p-3 rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 text-center hover-lift">
                 <BookOpen size={18} className="text-chart-4 mx-auto mb-1" />
                 <span className="font-mono text-[10px] text-muted-foreground">STORY</span>
+              </button>
+              <button onClick={() => setView("tournaments")} className="p-3 rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 text-center hover-lift">
+                <Award size={18} className="text-rose-400 mx-auto mb-1" />
+                <span className="font-mono text-[10px] text-muted-foreground">TOURNAMENTS</span>
               </button>
             </div>
           </motion.div>
@@ -1397,6 +1602,9 @@ export default function ChessPage() {
                     PLAY VS AI INSTEAD
                   </button>
                 </div>
+
+                {/* Live games panel — read from chess WS in-memory map */}
+                <LiveGamesPanel />
               </>
             )}
 
@@ -1506,6 +1714,15 @@ export default function ChessPage() {
 
             {/* Content Overlay */}
             <div className="relative z-10 p-4 sm:p-6">
+              {/* Reconnect banner */}
+              {mpReconnecting && (
+                <div className="mb-3 rounded-lg border border-amber-400/40 bg-amber-400/10 p-3 flex items-center gap-2">
+                  <Loader2 size={14} className="animate-spin text-amber-400" />
+                  <p className="font-mono text-xs text-amber-300">
+                    Connection lost — reconnecting (attempt {mpReconnectAttemptsRef.current}/{MAX_RECONNECT_ATTEMPTS})…
+                  </p>
+                </div>
+              )}
               {/* Header */}
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
@@ -1811,6 +2028,314 @@ export default function ChessPage() {
           </motion.div>
         )}
 
+        {/* ═══ TOURNAMENTS LIST ═══ */}
+        {view === "tournaments" && (
+          <motion.div key="tournaments" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-4 sm:p-6 space-y-5">
+            <div className="flex items-center gap-3">
+              <button onClick={() => setView("menu")} className="p-2 rounded-md bg-secondary/50 hover:bg-secondary"><ArrowLeft size={16} /></button>
+              <div className="flex-1">
+                <h2 className="font-display text-lg font-bold tracking-wider flex items-center gap-2">
+                  <Award size={18} className="text-rose-400" /> TOURNAMENTS
+                </h2>
+                <p className="font-mono text-xs text-muted-foreground">
+                  Compete in Swiss, elimination, and round-robin events for prize pools.
+                </p>
+              </div>
+            </div>
+
+            {/* My active tournament banner */}
+            {myActiveTournament.data && (
+              <div className="rounded-lg border border-primary/30 bg-primary/5 p-3">
+                <p className="font-display text-xs font-bold tracking-wider text-primary mb-1">YOUR ACTIVE TOURNAMENT</p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-mono text-sm font-semibold">{myActiveTournament.data.tournament.name}</p>
+                    <p className="font-mono text-[10px] text-muted-foreground">
+                      Round {myActiveTournament.data.tournament.currentRound} / {myActiveTournament.data.tournament.totalRounds}
+                      {" · "}Score: {myActiveTournament.data.myScore}
+                      {" · "}Rank #{myActiveTournament.data.myRank}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setSelectedTournamentId(myActiveTournament.data!.tournament.id);
+                      setView("tournament_detail");
+                    }}
+                    className="px-3 py-1.5 rounded-md bg-primary/20 border border-primary/40 text-primary text-xs font-mono hover:bg-primary/30"
+                  >
+                    OPEN
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Admin: create tournament */}
+            {user?.role === "admin" && (
+              <details className="rounded-lg border border-amber-400/30 bg-amber-400/5 p-3">
+                <summary className="font-display text-xs font-bold tracking-wider text-amber-300 cursor-pointer">
+                  ADMIN · CREATE TOURNAMENT
+                </summary>
+                <form
+                  className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2"
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    const fd = new FormData(e.currentTarget);
+                    try {
+                      const res = await createTournament.mutateAsync({
+                        name: String(fd.get("name") || "Untitled"),
+                        format: String(fd.get("format") || "swiss") as "swiss" | "elimination" | "round_robin",
+                        maxPlayers: Number(fd.get("maxPlayers") || 16),
+                        entryFee: Number(fd.get("entryFee") || 0),
+                        prizePool: Number(fd.get("prizePool") || 0),
+                        timeControl: Number(fd.get("timeControl") || 600),
+                        totalRounds: Number(fd.get("totalRounds") || 4),
+                      });
+                      const { toast } = await import("sonner");
+                      toast.success(`Tournament #${res.id} created`);
+                      utils.chess.listTournaments.invalidate();
+                      (e.currentTarget as HTMLFormElement).reset();
+                    } catch (err: any) {
+                      const { toast } = await import("sonner");
+                      toast.error(err?.message || "Failed to create tournament");
+                    }
+                  }}
+                >
+                  <input name="name" placeholder="Name" required minLength={3} maxLength={128}
+                    className="px-2 py-1.5 rounded bg-black/30 border border-amber-400/20 font-mono text-xs sm:col-span-2" />
+                  <select name="format" defaultValue="swiss"
+                    className="px-2 py-1.5 rounded bg-black/30 border border-amber-400/20 font-mono text-xs">
+                    <option value="swiss">Swiss</option>
+                    <option value="elimination">Elimination</option>
+                    <option value="round_robin">Round Robin</option>
+                  </select>
+                  <input name="maxPlayers" type="number" placeholder="Max players" defaultValue={16} min={2} max={64}
+                    className="px-2 py-1.5 rounded bg-black/30 border border-amber-400/20 font-mono text-xs" />
+                  <input name="totalRounds" type="number" placeholder="Rounds" defaultValue={4} min={1} max={10}
+                    className="px-2 py-1.5 rounded bg-black/30 border border-amber-400/20 font-mono text-xs" />
+                  <input name="timeControl" type="number" placeholder="Time control (sec/side)" defaultValue={600} min={60} max={10800}
+                    className="px-2 py-1.5 rounded bg-black/30 border border-amber-400/20 font-mono text-xs" />
+                  <input name="entryFee" type="number" placeholder="Entry fee (Dream)" defaultValue={0} min={0}
+                    className="px-2 py-1.5 rounded bg-black/30 border border-amber-400/20 font-mono text-xs" />
+                  <input name="prizePool" type="number" placeholder="Prize pool (Dream)" defaultValue={0} min={0}
+                    className="px-2 py-1.5 rounded bg-black/30 border border-amber-400/20 font-mono text-xs" />
+                  <button type="submit" disabled={createTournament.isPending}
+                    className="sm:col-span-2 px-3 py-1.5 rounded-md bg-amber-400/20 border border-amber-400/40 text-amber-300 text-xs font-mono hover:bg-amber-400/30 disabled:opacity-50">
+                    {createTournament.isPending ? "CREATING…" : "CREATE TOURNAMENT"}
+                  </button>
+                </form>
+              </details>
+            )}
+
+            {/* Tournament list */}
+            <div className="space-y-2">
+              {tournaments.isLoading && (
+                <p className="text-center font-mono text-sm text-muted-foreground py-4">Loading tournaments…</p>
+              )}
+              {tournaments.data && tournaments.data.length === 0 && (
+                <p className="text-center font-mono text-sm text-muted-foreground py-8">No tournaments scheduled yet.</p>
+              )}
+              {tournaments.data?.map(t => {
+                const statusColor =
+                  t.status === "active" ? "border-emerald-400/30 bg-emerald-400/5" :
+                  t.status === "completed" ? "border-border/20 bg-card/10 opacity-70" :
+                  "border-rose-400/30 bg-rose-400/5";
+                const statusLabel = t.status === "registration" ? "REGISTRATION OPEN"
+                  : t.status === "active" ? `ROUND ${t.currentRound}/${t.totalRounds}`
+                  : "COMPLETED";
+                return (
+                  <button
+                    key={t.id}
+                    onClick={() => {
+                      setSelectedTournamentId(t.id);
+                      setView("tournament_detail");
+                    }}
+                    className={`w-full text-left flex items-center gap-3 p-3 rounded-lg border ${statusColor} hover:bg-white/5 transition`}
+                  >
+                    <div className="flex-1">
+                      <p className="font-mono text-sm font-semibold">{t.name}</p>
+                      <p className="font-mono text-[10px] text-muted-foreground">
+                        {t.format.toUpperCase()} · {t.registeredPlayers}/{t.maxPlayers} players · {Math.floor(t.timeControl / 60)}m time control
+                      </p>
+                      <p className="font-mono text-[9px] text-muted-foreground/80">
+                        Entry: {t.entryFee} Dream · Prize: {t.prizePool} Dream
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className={`font-mono text-[10px] font-bold ${
+                        t.status === "active" ? "text-emerald-400" :
+                        t.status === "completed" ? "text-muted-foreground" :
+                        "text-rose-400"
+                      }`}>{statusLabel}</p>
+                      <ChevronRight size={14} className="text-muted-foreground inline mt-1" />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+
+        {/* ═══ TOURNAMENT DETAIL ═══ */}
+        {view === "tournament_detail" && selectedTournamentId !== null && (
+          <motion.div key="tournament_detail" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-4 sm:p-6 space-y-5">
+            <div className="flex items-center gap-3">
+              <button onClick={() => setView("tournaments")} className="p-2 rounded-md bg-secondary/50 hover:bg-secondary"><ArrowLeft size={16} /></button>
+              <div className="flex-1">
+                <h2 className="font-display text-lg font-bold tracking-wider flex items-center gap-2">
+                  <Award size={18} className="text-rose-400" />
+                  {tournamentDetail.data?.tournament.name || "TOURNAMENT"}
+                </h2>
+                <p className="font-mono text-xs text-muted-foreground">
+                  {tournamentDetail.data?.tournament.format.toUpperCase()} · {tournamentDetail.data?.tournament.status.toUpperCase()}
+                </p>
+              </div>
+            </div>
+
+            {tournamentDetail.isLoading && (
+              <p className="text-center font-mono text-sm text-muted-foreground py-8">Loading tournament…</p>
+            )}
+
+            {tournamentDetail.data && (
+              <>
+                {/* Tournament meta */}
+                <div className="rounded-lg border border-border/30 bg-card/20 p-3 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                  <div>
+                    <p className="font-mono text-[9px] text-muted-foreground">PLAYERS</p>
+                    <p className="font-display text-base font-bold">{tournamentDetail.data.participantCount}/{tournamentDetail.data.tournament.maxPlayers}</p>
+                  </div>
+                  <div>
+                    <p className="font-mono text-[9px] text-muted-foreground">ROUND</p>
+                    <p className="font-display text-base font-bold">{tournamentDetail.data.tournament.currentRound}/{tournamentDetail.data.tournament.totalRounds}</p>
+                  </div>
+                  <div>
+                    <p className="font-mono text-[9px] text-muted-foreground">PRIZE</p>
+                    <p className="font-display text-base font-bold text-amber-400">{tournamentDetail.data.tournament.prizePool}</p>
+                  </div>
+                  <div>
+                    <p className="font-mono text-[9px] text-muted-foreground">TIME CTRL</p>
+                    <p className="font-display text-base font-bold">{Math.floor(tournamentDetail.data.tournament.timeControl / 60)}m</p>
+                  </div>
+                </div>
+
+                {/* Action bar */}
+                <div className="flex flex-wrap gap-2">
+                  {tournamentDetail.data.tournament.status === "registration" && !tournamentDetail.data.youAreIn && (
+                    <button
+                      onClick={() => handleJoinTournament(selectedTournamentId)}
+                      disabled={joinTournament.isPending || tournamentDetail.data.participantCount >= tournamentDetail.data.tournament.maxPlayers}
+                      className="px-4 py-2 rounded-md bg-rose-400/20 border border-rose-400/40 text-rose-300 text-xs font-mono hover:bg-rose-400/30 disabled:opacity-50"
+                    >
+                      {joinTournament.isPending ? "JOINING…" : tournamentDetail.data.tournament.entryFee > 0
+                        ? `JOIN (${tournamentDetail.data.tournament.entryFee} Dream)` : "JOIN"}
+                    </button>
+                  )}
+                  {tournamentDetail.data.youAreIn && tournamentDetail.data.tournament.status !== "completed" && (
+                    <button
+                      onClick={() => handleLeaveTournament(selectedTournamentId)}
+                      disabled={leaveTournament.isPending}
+                      className="px-4 py-2 rounded-md bg-destructive/20 border border-destructive/40 text-destructive text-xs font-mono hover:bg-destructive/30 disabled:opacity-50"
+                    >
+                      {leaveTournament.isPending ? "LEAVING…" : "WITHDRAW"}
+                    </button>
+                  )}
+                  {user?.role === "admin" && tournamentDetail.data.tournament.status === "registration" && (
+                    <button
+                      onClick={() => handleStartTournament(selectedTournamentId)}
+                      disabled={startTournament.isPending || tournamentDetail.data.participantCount < 2}
+                      className="px-4 py-2 rounded-md bg-amber-400/20 border border-amber-400/40 text-amber-300 text-xs font-mono hover:bg-amber-400/30 disabled:opacity-50"
+                    >
+                      {startTournament.isPending ? "STARTING…" : "START TOURNAMENT"}
+                    </button>
+                  )}
+                </div>
+
+                {/* Standings */}
+                <div className="rounded-lg border border-border/30 bg-card/20 p-3">
+                  <h3 className="font-display text-xs font-bold tracking-wider text-muted-foreground mb-2 flex items-center gap-1.5">
+                    <Trophy size={12} /> STANDINGS
+                  </h3>
+                  <div className="space-y-1">
+                    {tournamentDetail.data.standings.length === 0 && (
+                      <p className="font-mono text-[10px] text-muted-foreground italic">No registrations yet.</p>
+                    )}
+                    {tournamentDetail.data.standings.map(p => (
+                      <div
+                        key={p.userId}
+                        className={`flex items-center gap-2 px-2 py-1.5 rounded ${
+                          p.userId === user?.id ? "bg-primary/10 border border-primary/30" : "bg-black/20"
+                        } ${!p.active ? "opacity-50" : ""}`}
+                      >
+                        <span className="font-display text-xs font-bold w-6 text-center text-muted-foreground">#{p.rank}</span>
+                        <span className="font-mono text-xs flex-1">
+                          {p.userName}
+                          {p.userId === user?.id && <span className="ml-1.5 text-[9px] text-primary">(YOU)</span>}
+                          {!p.active && <span className="ml-1.5 text-[9px] text-muted-foreground">[withdrawn]</span>}
+                        </span>
+                        <span className="font-mono text-xs text-emerald-400">{p.score}</span>
+                        <span className="font-mono text-[9px] text-muted-foreground">tb {p.tieBreak}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Current round pairings */}
+                {tournamentDetail.data.tournament.status === "active" && tournamentDetail.data.currentPairings.length > 0 && (
+                  <div className="rounded-lg border border-border/30 bg-card/20 p-3">
+                    <h3 className="font-display text-xs font-bold tracking-wider text-muted-foreground mb-2 flex items-center gap-1.5">
+                      <Swords size={12} /> ROUND {tournamentDetail.data.tournament.currentRound} PAIRINGS
+                    </h3>
+                    <div className="space-y-2">
+                      {tournamentDetail.data.currentPairings.map(p => {
+                        const isMine = p.whiteId === user?.id || p.blackId === user?.id;
+                        const whitePart = tournamentDetail.data!.standings.find(s => s.userId === p.whiteId);
+                        const blackPart = tournamentDetail.data!.standings.find(s => s.userId === p.blackId);
+                        return (
+                          <div
+                            key={p.id}
+                            className={`p-2 rounded ${
+                              isMine ? "bg-primary/10 border border-primary/30" : "bg-black/20 border border-border/20"
+                            }`}
+                          >
+                            <div className="flex items-center justify-between font-mono text-xs">
+                              <span className="text-white/90">⚪ {whitePart?.userName ?? `Player ${p.whiteId}`}</span>
+                              <span className="text-muted-foreground">vs</span>
+                              <span className="text-white/90">{blackPart?.userName ?? `Player ${p.blackId}`} ⚫</span>
+                            </div>
+                            {isMine && !p.reported && (
+                              <div className="flex gap-1.5 mt-2">
+                                <button
+                                  onClick={() => handleReportTournamentResult(selectedTournamentId, "win")}
+                                  disabled={reportTournamentResult.isPending}
+                                  className="flex-1 px-2 py-1 rounded bg-emerald-400/20 border border-emerald-400/40 text-emerald-300 text-[10px] font-mono hover:bg-emerald-400/30"
+                                >WIN</button>
+                                <button
+                                  onClick={() => handleReportTournamentResult(selectedTournamentId, "draw")}
+                                  disabled={reportTournamentResult.isPending}
+                                  className="flex-1 px-2 py-1 rounded bg-accent/20 border border-accent/40 text-accent text-[10px] font-mono hover:bg-accent/30"
+                                >DRAW</button>
+                                <button
+                                  onClick={() => handleReportTournamentResult(selectedTournamentId, "loss")}
+                                  disabled={reportTournamentResult.isPending}
+                                  className="flex-1 px-2 py-1 rounded bg-destructive/20 border border-destructive/40 text-destructive text-[10px] font-mono hover:bg-destructive/30"
+                                >LOSS</button>
+                              </div>
+                            )}
+                            {p.reported && (
+                              <p className="font-mono text-[9px] text-muted-foreground mt-1">
+                                Reported: {p.whiteResult === "win" ? "White wins" : p.whiteResult === "loss" ? "Black wins" : "Draw"}
+                              </p>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </motion.div>
+        )}
+
         {/* ═══ STORY PROGRESS ═══ */}
         {view === "story_select" && (
           <motion.div key="story" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-4 sm:p-6 space-y-5">
@@ -1898,10 +2423,10 @@ export default function ChessPage() {
                 PROMOTE PAWN
               </p>
               <p className="font-mono text-[10px] text-center text-muted-foreground mb-4">
-                Choose a piece to promote to
+                Click or press 1/2/3/4
               </p>
               <div className="flex gap-2">
-                {(["q", "r", "b", "n"] as const).map((p) => {
+                {(["q", "r", "b", "n"] as const).map((p, i) => {
                   const labels: Record<typeof p, string> = { q: "Queen", r: "Rook", b: "Bishop", n: "Knight" };
                   const unicode: Record<string, string> = pendingPromotion.color === "w"
                     ? { q: "\u2655", r: "\u2656", b: "\u2657", n: "\u2658" }
@@ -1910,9 +2435,12 @@ export default function ChessPage() {
                     <button
                       key={p}
                       onClick={() => commitPromotion(p)}
-                      className="flex flex-col items-center gap-1 p-3 rounded-md bg-secondary/40 border border-border/40 hover:bg-primary/10 hover:border-primary/40 transition min-w-[70px]"
-                      aria-label={`Promote to ${labels[p]}`}
+                      className="relative flex flex-col items-center gap-1 p-3 rounded-md bg-secondary/40 border border-border/40 hover:bg-primary/10 hover:border-primary/40 transition min-w-[70px]"
+                      aria-label={`Promote to ${labels[p]} (press ${i + 1})`}
                     >
+                      <span className="absolute top-1 left-1 font-mono text-[8px] text-muted-foreground/70 px-1 rounded bg-black/40">
+                        {i + 1}
+                      </span>
                       <span className={`text-4xl leading-none ${pendingPromotion.color === "w" ? "text-white" : "text-black [text-shadow:0_0_2px_white]"}`}>
                         {unicode[p]}
                       </span>
@@ -1933,6 +2461,52 @@ export default function ChessPage() {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+/* ─── LIVE GAMES PANEL ───
+   Polls the chess WS in-memory active-matches map every 5 seconds.
+   Visible only in the multiplayer lobby idle state. Click a row to
+   spectate (TODO: spectate flow not yet wired in this PR). */
+function LiveGamesPanel() {
+  const live = trpc.chess.listActiveMpMatches.useQuery(undefined, { refetchInterval: 5_000 });
+  const matches = live.data?.matches ?? [];
+  if (matches.length === 0) {
+    return (
+      <div className="rounded-lg border border-border/20 bg-card/10 p-3 text-center">
+        <p className="font-mono text-[10px] text-muted-foreground/60">
+          No live games right now. Be the first to start one.
+        </p>
+      </div>
+    );
+  }
+  return (
+    <div className="rounded-lg border border-border/30 bg-card/20 p-3 space-y-2">
+      <h3 className="font-display text-xs font-bold tracking-wider text-muted-foreground flex items-center gap-1.5">
+        <Eye size={12} /> LIVE GAMES ({matches.length})
+      </h3>
+      <div className="space-y-1.5">
+        {matches.map(m => (
+          <div
+            key={m.matchId}
+            className="flex items-center gap-2 px-2 py-1.5 rounded bg-black/30 border border-border/20"
+          >
+            <div className="flex-1 min-w-0">
+              <p className="font-mono text-xs truncate">
+                <span className="text-white/90">{m.whiteName}</span>
+                <span className="text-muted-foreground/60"> ({m.whiteElo})</span>
+                <span className="text-muted-foreground"> vs </span>
+                <span className="text-white/90">{m.blackName}</span>
+                <span className="text-muted-foreground/60"> ({m.blackElo})</span>
+              </p>
+              <p className="font-mono text-[9px] text-muted-foreground">
+                Move {m.moveCount} · {m.spectatorCount} watching
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

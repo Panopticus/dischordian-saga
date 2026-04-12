@@ -89,8 +89,11 @@ const ROUTE_ASSETS: Record<string, () => Promise<void>[]> = {
   ],
   "/chess": () => [
     preloadImage("/art/loading/loading-bridge.png"),
-    preloadImage("/art/chess/board.png"),
-    preloadImage("/art/chess/pieces-sprite.png"),
+    // Chess pieces and board art are CDN-hosted via chessAssets.ts
+    // (CloudFront URLs in PIECE_IMAGES + ARENA_THEMES) — no local
+    // /art/chess/board.png or pieces-sprite.png exists. Only the
+    // holographic background is shipped locally.
+    preloadImage("/art/chess/chess-holographic-board.png"),
   ],
   "/trade": () => [
     preloadImage("/art/loading/loading-trade.png"),
