@@ -2989,6 +2989,71 @@ export const universeEventHistory = mysqlTable("universe_event_history", {
 export type UniverseEventHistory = typeof universeEventHistory.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
+   POTENTIAL IDENTITY SYSTEM
+   Unity Meter, faction membership, faction state.
+   Migration 0046_potential_identity_system.sql.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Singleton row holding the current Unity Meter phase and percent.
+ * `id` is always 1. Advanced by unityMeterService.increment().
+ */
+export const unityMeterState = mysqlTable("unity_meter_state", {
+  id: int("id").primaryKey().default(1),
+  phase: varchar("phase", { length: 32 }).notNull().default("contested"),
+  percent: int("percent").notNull().default(50),
+  lastTick: timestamp("lastTick").defaultNow().notNull(),
+});
+
+export type UnityMeterState = typeof unityMeterState.$inferSelect;
+
+/** Append-only log of Unity Meter contributions per user + source. */
+export const unityContributions = mysqlTable("unity_contributions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  source: varchar("source", { length: 64 }).notNull(),
+  delta: int("delta").notNull(),
+  /** Optional — which faction this contribution relates to, if any */
+  factionId: varchar("factionId", { length: 64 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  idxUser: index("idx_unity_contrib_user").on(table.userId),
+  idxCreated: index("idx_unity_contrib_created").on(table.createdAt),
+  idxFaction: index("idx_unity_contrib_faction").on(table.factionId),
+}));
+
+export type UnityContribution = typeof unityContributions.$inferSelect;
+
+/** Per-user membership in a Potential Identity faction. */
+export const potentialFactionMembership = mysqlTable("potential_faction_membership", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  factionId: varchar("factionId", { length: 64 }).notNull(),
+  rank: varchar("rank", { length: 32 }).notNull().default("recruit"),
+  joinedAt: timestamp("joinedAt").defaultNow().notNull(),
+  /** Optional — NPC id that recruited this player */
+  recruitedBy: varchar("recruitedBy", { length: 64 }),
+}, (table) => ({
+  idxUser: index("idx_potfac_mem_user").on(table.userId),
+  idxFaction: index("idx_potfac_mem_faction").on(table.factionId),
+}));
+
+export type PotentialFactionMembership = typeof potentialFactionMembership.$inferSelect;
+
+/** Per-faction aggregate state — dominance %, member count, sector holds. */
+export const potentialFactionState = mysqlTable("potential_faction_state", {
+  factionId: varchar("factionId", { length: 64 }).primaryKey(),
+  dominance: int("dominance").notNull().default(0),
+  memberCount: int("memberCount").notNull().default(0),
+  /** JSON array of sector ids the faction has unlocked/held */
+  sectorHolds: json("sectorHolds").$type<string[]>(),
+  threat: int("threat").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type PotentialFactionStateRow = typeof potentialFactionState.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
    DISCHORDIA CYCLE — Witnessing Narrative Proposal §3
    Community-wide Light/Dark meter. A single row per server
    holds the current state; energy_events is the audit log.
