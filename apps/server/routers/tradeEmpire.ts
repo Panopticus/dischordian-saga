@@ -10,9 +10,24 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
-import { userProgress, dreamBalance } from "../../db/schema";
+import { characterSheets, userProgress, dreamBalance } from "../../db/schema";
 import { eq, and } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
+import type {
+  CoverIdentityActivatedEvent,
+  CoverIdentityBlownEvent,
+  GeneralsDilemmaResolvedEvent,
+  OracleFuturePurchasedEvent,
+} from "../services/rippleEngine";
+import {
+  CLASS_SECTOR_ACCESS,
+  CLASS_EXCLUSIVE_MISSIONS,
+  SPY_COVER_IDENTITIES,
+} from "@shared/classTradeAccess";
+import type { CharClass } from "@shared/characterCreationImpact";
+
+/** Max trade cycles ahead an Oracle can buy a futures contract. */
+const PROBABILITY_FUTURES_WINDOW = 3;
 
 function dbUnavailable(): never {
   throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
@@ -230,5 +245,206 @@ export const tradeEmpireRouter = router({
       state.activeMissions.splice(idx, 1);
       await saveEmpireState(ctx.user.id, state);
       return { success: true };
+    }),
+
+  /* ═══════════════════════════════════════════════════════
+     POTENTIAL IDENTITY SYSTEM — Class-exclusive Trade Empire
+     ═══════════════════════════════════════════════════════ */
+
+  /** Returns the caller's class + the sectors they are allowed to enter. */
+  getMyClassAccess: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) dbUnavailable();
+    const [sheet] = await db
+      .select()
+      .from(characterSheets)
+      .where(eq(characterSheets.userId, ctx.user.id))
+      .limit(1);
+    const characterClass = (sheet?.characterClass ?? null) as CharClass | null;
+    const sectors = characterClass ? CLASS_SECTOR_ACCESS[characterClass] ?? [] : [];
+    const missions = characterClass ? CLASS_EXCLUSIVE_MISSIONS[characterClass] ?? [] : [];
+    return { characterClass, sectors, missions };
+  }),
+
+  /**
+   * Server-side gate check: refuses the unlock if the caller is not the
+   * right class (or does not have the unlock flag set).
+   */
+  unlockClassSector: protectedProcedure
+    .input(z.object({ sectorId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) dbUnavailable();
+      const [sheet] = await db
+        .select()
+        .from(characterSheets)
+        .where(eq(characterSheets.userId, ctx.user.id))
+        .limit(1);
+      const characterClass = (sheet?.characterClass ?? null) as CharClass | null;
+      if (!characterClass) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Character sheet not found",
+        });
+      }
+      const allowed = CLASS_SECTOR_ACCESS[characterClass] ?? [];
+      if (!allowed.includes(input.sectorId)) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: `${characterClass} cannot access sector ${input.sectorId}`,
+        });
+      }
+      const state = await getEmpireState(ctx.user.id);
+      if (!state.completedMissionIds.includes(`unlocked:${input.sectorId}`)) {
+        state.completedMissionIds.push(`unlocked:${input.sectorId}`);
+        await saveEmpireState(ctx.user.id, state);
+      }
+      return { success: true, sectorId: input.sectorId, characterClass };
+    }),
+
+  /**
+   * Oracle-only: purchase a futures contract on a commodity, 1-3 trade
+   * cycles ahead of the current market spot.
+   */
+  purchaseFutures: protectedProcedure
+    .input(
+      z.object({
+        sectorId: z.string(),
+        commodity: z.enum(["credits", "materials", "influence", "intelligence"]),
+        cyclesAhead: z.number().int().min(1).max(PROBABILITY_FUTURES_WINDOW),
+        strikePrice: z.number().int().min(1),
+        projectedPrice: z.number().int().min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) dbUnavailable();
+      const [sheet] = await db
+        .select()
+        .from(characterSheets)
+        .where(eq(characterSheets.userId, ctx.user.id))
+        .limit(1);
+      if ((sheet?.characterClass as CharClass | undefined) !== "oracle") {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Only Oracles can trade probability futures.",
+        });
+      }
+      await ripple.emit("oracle_future_purchased", {
+        userId: ctx.user.id,
+        sectorId: input.sectorId,
+        commodity: input.commodity,
+        cyclesAhead: input.cyclesAhead,
+        projectedPrice: input.projectedPrice,
+      } as OracleFuturePurchasedEvent);
+      return {
+        success: true,
+        sectorId: input.sectorId,
+        commodity: input.commodity,
+        cyclesAhead: input.cyclesAhead,
+        strikePrice: input.strikePrice,
+        projectedPrice: input.projectedPrice,
+      };
+    }),
+
+  /** Spy-only: activate a time-boxed cover identity. */
+  activateCoverIdentity: protectedProcedure
+    .input(
+      z.object({
+        coverId: z.string(),
+        targetFactionId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) dbUnavailable();
+      const [sheet] = await db
+        .select()
+        .from(characterSheets)
+        .where(eq(characterSheets.userId, ctx.user.id))
+        .limit(1);
+      if ((sheet?.characterClass as CharClass | undefined) !== "spy") {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Only Spies can activate cover identities.",
+        });
+      }
+      const cover = SPY_COVER_IDENTITIES.find((c) => c.id === input.coverId);
+      if (!cover) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: `Unknown cover identity: ${input.coverId}`,
+        });
+      }
+      const expiresAt = Date.now() + cover.durationHours * 60 * 60 * 1000;
+      const state = await getEmpireState(ctx.user.id);
+      (state as TradeEmpireState & { activeCover?: { id: string; target: string; expiresAt: number } }).activeCover = {
+        id: cover.id,
+        target: input.targetFactionId,
+        expiresAt,
+      };
+      await saveEmpireState(ctx.user.id, state);
+      await ripple.emit("cover_identity_activated", {
+        userId: ctx.user.id,
+        coverId: cover.id,
+        targetFactionId: input.targetFactionId,
+        expiresAt,
+      } as CoverIdentityActivatedEvent);
+      return { success: true, coverId: cover.id, expiresAt };
+    }),
+
+  /**
+   * Rolls a perception check whenever a Spy-in-cover interacts with a
+   * faction NPC. On failure, fires `cover_identity_blown` — handlers in
+   * rippleEngine apply the -15 Unity Meter penalty and notify the player.
+   */
+  blowCoverCheck: protectedProcedure
+    .input(
+      z.object({
+        npcPerception: z.number().int().min(0).max(30),
+        detectionCheckDifficulty: z.number().int().min(0).max(30),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const state = await getEmpireState(ctx.user.id);
+      const activeCover = (state as TradeEmpireState & { activeCover?: { id: string; target: string; expiresAt: number } }).activeCover;
+      if (!activeCover) return { triggered: false };
+      const roll = Math.floor(Math.random() * 20) + 1 + input.npcPerception;
+      if (roll >= input.detectionCheckDifficulty + 10) {
+        await ripple.emit("cover_identity_blown", {
+          userId: ctx.user.id,
+          coverId: activeCover.id,
+          targetFactionId: activeCover.target,
+          detectedBy: "faction_npc",
+        } as CoverIdentityBlownEvent);
+        (state as TradeEmpireState & { activeCover?: unknown }).activeCover = undefined;
+        await saveEmpireState(ctx.user.id, state);
+        return { triggered: true, blown: true };
+      }
+      return { triggered: true, blown: false };
+    }),
+
+  /** Soldier-only: resolve The General's Dilemma. */
+  resolveGeneralsDilemma: protectedProcedure
+    .input(z.object({ resolution: z.enum(["expose", "protect"]) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) dbUnavailable();
+      const [sheet] = await db
+        .select()
+        .from(characterSheets)
+        .where(eq(characterSheets.userId, ctx.user.id))
+        .limit(1);
+      if ((sheet?.characterClass as CharClass | undefined) !== "soldier") {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Only Soldiers can resolve The General's Dilemma.",
+        });
+      }
+      await ripple.emit("generals_dilemma_resolved", {
+        userId: ctx.user.id,
+        resolution: input.resolution,
+      } as GeneralsDilemmaResolvedEvent);
+      return { success: true, resolution: input.resolution };
     }),
 });

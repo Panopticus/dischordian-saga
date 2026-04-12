@@ -110,6 +110,15 @@ export const GALACTIC_FACTIONS: Record<GalacticFactionId, GalacticFaction> = {
 
 /* ─── GALACTIC SECTORS ─── */
 
+export interface SectorAccessRequirement {
+  /** Character classes permitted to enter this sector. */
+  class?: string | string[];
+  /** Species permitted to enter this sector (Ne-Yon always passes). */
+  species?: string | string[];
+  /** Narrative flag required to unlock entry. */
+  flag?: string;
+}
+
 export interface GalacticSector {
   id: string;
   name: string;
@@ -123,7 +132,16 @@ export interface GalacticSector {
   adjacentSectors: string[];
   lore?: string;
   image?: string;
+  /** If set, the sector is hidden from players who don't match. */
+  accessRequirement?: SectorAccessRequirement;
+  /** Potential factions actively contesting this sector. */
+  contestedBy?: string[];
+  /** Key into CONTESTED_GREETINGS for species-specific first entries. */
+  raceGreetingKey?: string;
 }
+
+/** Oracle players can trade futures up to this many cycles ahead. */
+export const PROBABILITY_FUTURES_WINDOW = 3;
 
 export interface SectorResources {
   credits: number;     // Per cycle income
@@ -152,6 +170,153 @@ export const GALACTIC_MAP: GalacticSector[] = [
   { id: "abyssal_sectors", name: "Abyssal Sectors", controlledBy: "hierarchy", resources: { credits: 0, materials: 30, influence: 0, intelligence: 5 }, threat: 85, stability: 15, population: 0, hasRuins: true, hasAnomaly: true, adjacentSectors: ["hell_gate"], lore: "Sectors fully consumed by the Hierarchy. Reality is thin here. The Blood Weave pulses in the void between stars." },
   { id: "dreamer_barrier", name: "The Dreamer's Barrier", controlledBy: "dreamer_shield", resources: { credits: 0, materials: 0, influence: 0, intelligence: 0 }, threat: 0, stability: 100, population: 0, hasRuins: false, hasAnomaly: true, adjacentSectors: ["frontier_worlds"], lore: "An impenetrable energy shield surrounding an entire sector. The Dreamer erected it and went silent. Behind it: the remaining Potentials? A trap? A promise? No signal penetrates.", image: "/art/planets/planet-violetta.png" },
   { id: "black_hole_gate", name: "The Antiquarian's Gate", controlledBy: "antiquarian", resources: { credits: 0, materials: 0, influence: 100, intelligence: 100 }, threat: 0, stability: 100, population: 1, hasRuins: false, hasAnomaly: true, adjacentSectors: ["free_ports"], lore: "A black hole that isn't a black hole. The Antiquarian's pocket universe exists inside it. To enter is to leave time behind." },
+
+  /* ═══ POTENTIAL IDENTITY SYSTEM — Class-exclusive sectors ═══ */
+
+  // ── Engineer Research Corridor (spec §5.1) ──
+  {
+    id: "research_corridor_alpha", name: "Research Corridor — Shared Lab",
+    controlledBy: "independent",
+    resources: { credits: 30, materials: 60, influence: 20, intelligence: 50 },
+    threat: 10, stability: 85, population: 2, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["free_ports", "research_corridor_beta", "research_corridor_gamma"],
+    lore: "A sealed research facility built inside an old Dischordian science hab. Only Engineer Potentials can key past the neural lattice locks. Dr. Mira Loth and Theorist Praxis-4 argue productively here.",
+    accessRequirement: { class: "engineer" },
+  },
+  {
+    id: "research_corridor_beta", name: "Resonance Institute Annex",
+    controlledBy: "independent",
+    resources: { credits: 40, materials: 70, influence: 25, intelligence: 45 },
+    threat: 15, stability: 80, population: 5, hasRuins: true, hasAnomaly: false,
+    adjacentSectors: ["research_corridor_alpha", "trade_nexus"],
+    lore: "The DeMagi-side of the Research Corridor. Dr. Loth's elemental affinity research lives here. Fire-resonance chambers, water-frequency tuners, and a wall of protocol 7 corrections in the Engineer's handwriting.",
+    accessRequirement: { class: "engineer" },
+  },
+  {
+    id: "research_corridor_gamma", name: "Reality Institute Annex",
+    controlledBy: "independent",
+    resources: { credits: 40, materials: 70, influence: 25, intelligence: 55 },
+    threat: 20, stability: 75, population: 4, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["research_corridor_alpha", "empire_frontier"],
+    lore: "The Quarchon-side of the Research Corridor. Theorist Praxis-4's dimensional stability research — still running, still dangerous, and still the only work anyone believes might survive contact with the Vortex.",
+    accessRequirement: { class: "engineer" },
+  },
+
+  // ── Oracle Probability Markets (spec §5.1) ──
+  {
+    id: "probability_market_hub", name: "Probability Market Hub",
+    controlledBy: "new_babylon",
+    resources: { credits: 120, materials: 20, influence: 50, intelligence: 40 },
+    threat: 10, stability: 85, population: 20, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["new_babylon_core", "trade_nexus"],
+    lore: "A New Babylon trading floor where commodities are valued by their projected future price, three trade cycles ahead. Non-Oracles see only today's spot price. Oracles see the branches — every branch.",
+    accessRequirement: { class: "oracle" },
+  },
+
+  // ── Assassin Syndicate Routes (spec §5.1) ──
+  {
+    id: "syndicate_route_prime", name: "Syndicate Route Prime",
+    controlledBy: "independent",
+    resources: { credits: 80, materials: 40, influence: 10, intelligence: 80 },
+    threat: 35, stability: 55, population: 8, hasRuins: true, hasAnomaly: false,
+    adjacentSectors: ["insurgency_haven", "free_ports"],
+    lore: "A covert trade route that runs through Syndicate of Death controlled space. The bio-scanners only ignore signatures that match the Collector's Series 7-Omicron lineage. An Assassin Potential is invisible here.",
+    accessRequirement: { class: "assassin" },
+  },
+
+  // ── Soldier Command Posts (spec §5.1) ──
+  {
+    id: "command_post_iron", name: "Iron Lion Command Post",
+    controlledBy: "independent",
+    resources: { credits: 60, materials: 80, influence: 40, intelligence: 30 },
+    threat: 45, stability: 65, population: 12, hasRuins: true, hasAnomaly: false,
+    adjacentSectors: ["frontier_worlds", "atarion_ruins"],
+    lore: "A forward operating position dedicated to Iron Lion's memory. Soldier Potentials only. Warden's Vanguard Commander Seris-Fen and Dimensional Guard General Axis-9 run joint operations from here — unofficially.",
+    accessRequirement: { class: "soldier" },
+  },
+
+  // ── Spy Intelligence Exchange (spec §5.1) ──
+  {
+    id: "intelligence_exchange_nightline", name: "The Nightline Exchange",
+    controlledBy: "independent",
+    resources: { credits: 20, materials: 10, influence: 60, intelligence: 120 },
+    threat: 25, stability: 70, population: 3, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["free_ports"],
+    lore: "An unmarked sector where information is the only currency. No goods change hands. No names are real. Recovered Eyes' Network drop points are accessible to Spy Potentials who have completed Chapter 1 of the Spy questline.",
+    accessRequirement: { class: "spy" },
+  },
+
+  // ── Contested sectors (spec §5.2) ──
+  {
+    id: "atarion_ruins", name: "Atarion Ruins",
+    controlledBy: "independent",
+    resources: { credits: 25, materials: 55, influence: 15, intelligence: 25 },
+    threat: 50, stability: 45, population: 2, hasRuins: true, hasAnomaly: true,
+    adjacentSectors: ["panopticon_ruins", "free_ports"],
+    lore: "Pre-Fall DeMagi memory stones, still singing their inscriptions. The Quarchon have been running probability surveys here for three weeks trying to decide if the ruins are 'economically viable.' The locals are not amused.",
+    contestedBy: ["demagi_assembly", "demagi_wardens", "quarchon_dimguard"],
+    raceGreetingKey: "atarion_ruins",
+  },
+  {
+    id: "tidewater_archive", name: "Tidewater Archive",
+    controlledBy: "independent",
+    resources: { credits: 30, materials: 45, influence: 30, intelligence: 60 },
+    threat: 25, stability: 60, population: 3, hasRuins: true, hasAnomaly: false,
+    adjacentSectors: ["free_ports", "research_corridor_beta"],
+    lore: "An underwater DeMagi archive the Quarchon Reality Institute has been trying to access for eleven years. Water-frequency locks. The DeMagi won't hand over the keys, and the Quarchon won't stop sending inspectors.",
+    contestedBy: ["demagi_resonance", "quarchon_realinst"],
+    raceGreetingKey: "tidewater_archive",
+  },
+  {
+    id: "skyforge_plateau", name: "Skyforge Plateau",
+    controlledBy: "independent",
+    resources: { credits: 45, materials: 90, influence: 20, intelligence: 15 },
+    threat: 40, stability: 55, population: 6, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["forge_worlds", "empire_frontier"],
+    lore: "A floating industrial city that runs on air-affinity thermal cycling. Both species built on it; neither wants to evacuate it. A DeMagi-Quarchon 'temporary joint authority' has been running it for six years and counting.",
+    contestedBy: ["demagi_assembly", "quarchon_dimguard"],
+    raceGreetingKey: "skyforge_plateau",
+  },
+  {
+    id: "chronarchive_vault", name: "Chronarchive Vault",
+    controlledBy: "antiquarian",
+    resources: { credits: 10, materials: 20, influence: 90, intelligence: 90 },
+    threat: 15, stability: 85, population: 1, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["black_hole_gate"],
+    lore: "A Time-affinity archive maintained by the Antiquarian himself. Both species are allowed to visit; neither is allowed to remove anything. The Probability Accord has been trying to catalogue the Vault's index for decades. It keeps failing.",
+    contestedBy: ["demagi_assembly", "quarchon_accord"],
+    raceGreetingKey: "chronarchive_vault",
+  },
+  {
+    id: "ember_memorial", name: "Ember IV Memorial",
+    controlledBy: "independent",
+    resources: { credits: 5, materials: 10, influence: 40, intelligence: 30 },
+    threat: 60, stability: 30, population: 0, hasRuins: true, hasAnomaly: true,
+    adjacentSectors: ["viral_wastes"],
+    lore: "The crater where Ember IV used to be. Forty-six DeMagi, ended by a Quarchon probability cascade the Accord logged as 'calculated risk.' The Pure Flame hold a vigil here every local year. Quarchon visitors are rare and very careful.",
+    contestedBy: ["demagi_pureflame", "demagi_assembly"],
+    raceGreetingKey: "ember_memorial",
+  },
+
+  // ── Hidden extremist cells ──
+  {
+    id: "hidden_pureflame_cell", name: "The Pure Flame's Forge",
+    controlledBy: "independent",
+    resources: { credits: 15, materials: 50, influence: 10, intelligence: 40 },
+    threat: 70, stability: 40, population: 1, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["ember_memorial", "atarion_ruins"],
+    lore: "A hidden Pure Flame cell run by Arch-Burner Vel. Only accessible after completing 'The Pure Flame's Invitation' chapter.",
+    accessRequirement: { flag: "demagi_pureflame_ch1" },
+  },
+  {
+    id: "hidden_firstpattern_cell", name: "The First Pattern's Lattice",
+    controlledBy: "artificial_empire",
+    resources: { credits: 10, materials: 30, influence: 30, intelligence: 80 },
+    threat: 70, stability: 40, population: 0, hasRuins: true, hasAnomaly: true,
+    adjacentSectors: ["panopticon_ruins", "abyssal_sectors"],
+    lore: "A substrate-resident cell belonging to The Architect's Echo. Only accessible after completing 'The First Pattern's Warning' chapter.",
+    accessRequirement: { flag: "quarchon_firstpattern_ch1" },
+  },
 ];
 
 /* ─── MISSION SYSTEM (AC Brotherhood Style) ─── */
