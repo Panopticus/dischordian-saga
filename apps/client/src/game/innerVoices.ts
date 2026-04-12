@@ -134,7 +134,12 @@ export type VoiceTrigger =
   | { type: "puzzle_attempt"; puzzleId: string }
   | { type: "item_inspect"; itemId: string }
   | { type: "choice_presented" }
-  | { type: "trade_offered" };
+  | { type: "trade_offered" }
+  /* ─── Chess narrative triggers (The Game Master's Gambit) ─── */
+  | { type: "chess_act_start"; actNumber: number; opponentId: string }
+  | { type: "chess_act_end"; actNumber: number; opponentId: string; result: "win" | "loss" | "draw" }
+  | { type: "chess_mid_game"; event: "capture" | "check" | "sacrifice" | "blunder" | "brilliant"; opponentId: string }
+  | { type: "chess_reveal_moment"; revealTier: number };
 
 /* ─── EXAMPLE UTTERANCES ─── */
 

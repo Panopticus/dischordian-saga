@@ -11,8 +11,16 @@ import { getDb, type DrizzleDb } from "../db";
 import {
   chessGames, chessRankings, chessTournaments,
   chessPuzzleProgress, chessTournamentParticipants, chessTournamentPairings,
+  chessNarrativeState, chessOpponentImprints,
   dreamBalance, notifications,
 } from "../../db/schema";
+import { pressureService } from "../services/pressureService";
+import {
+  createDefaultPlayerModel,
+  updatePlayerModel,
+  toMoveBias,
+  type PlayerModel,
+} from "@shared/chessPlayerModel";
 import { fetchCitizenData, fetchPotentialNftData, resolveChessBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
 import { checkFeatureFlag } from "../middleware/featureFlag";
@@ -25,6 +33,7 @@ import {
   getPuzzlesByDifficulty,
   type ChessPuzzle,
 } from "@shared/chessPuzzles";
+import type { PlayerModelBias } from "@shared/chessPlayerModel";
 
 // chess.js v1.4 — dynamic import to avoid ESM/CJS mismatch
 type ChessInstance = import("chess.js").Chess;
@@ -320,7 +329,15 @@ function hangingPenalty(game: ChessInstance, toSquare: string): number {
   return gain[0] < 0 ? -gain[0] : 0;
 }
 
-export function getAiMove(game: ChessInstance, difficulty: number, style: string): string {
+export function getAiMove(
+  game: ChessInstance,
+  difficulty: number,
+  style: string,
+  /** Optional learning-AI bias from a PlayerModel → PlayerModelBias derivation.
+   *  When present, shifts move scoring toward counters of the player's
+   *  observed tendencies. See apps/shared/chessPlayerModel.ts. */
+  bias?: PlayerModelBias | null,
+): string {
   const moves = game.moves({ verbose: true }) as Array<{
     san: string; from: string; to: string; flags: string; piece: string; captured?: string; promotion?: string;
   }>;
@@ -329,6 +346,29 @@ export function getAiMove(game: ChessInstance, difficulty: number, style: string
   const sideToMove = game.turn();
   // Very high difficulty mostly trusts the heuristic; low difficulty injects more noise.
   const noise = Math.max(5, 120 - difficulty * 12);
+
+  // Are we in the opening (first ~8 half-moves)? Used by bias to
+  // prefer counter-openings only while they're still relevant.
+  const ply = game.history().length;
+  const inOpening = ply < 8;
+
+  // Pre-compute the squares where the *opponent's* (player's) favourite
+  // piece currently sits. Moves that capture those pieces — or land
+  // adjacent to them, potentially restricting their mobility — get a
+  // bias bonus.
+  const opponentColor: "w" | "b" = sideToMove === "w" ? "b" : "w";
+  const restrictTargets: Array<{ file: number; rank: number }> = [];
+  if (bias?.restrictPiece) {
+    const board = game.board();
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        const cell = board[r][c];
+        if (cell && cell.type === bias.restrictPiece && cell.color === opponentColor) {
+          restrictTargets.push({ file: c, rank: 8 - r });
+        }
+      }
+    }
+  }
 
   const scored = moves.map(mv => {
     const testGame = new Chess(game.fen());
@@ -420,6 +460,76 @@ export function getAiMove(game: ChessInstance, difficulty: number, style: string
         if (mv.flags.includes("k") || mv.flags.includes("q")) score += 25;
         if (pieceLetter === "N" || pieceLetter === "B") score += 10;
         break;
+    }
+
+    // Player-model bias — the "learning AI" nudge that makes the
+    // imprint play as if it remembers how the user plays.
+    if (bias && bias.confidence > 0) {
+      // Counter-opening: if we're still in the opening phase AND the
+      // player's last move is one of their tracked favourites, reward
+      // classical central moves that restrict that opening.
+      if (inOpening && bias.counterOpeningMoves.length > 0) {
+        const lastMoveSan = game.history().slice(-1)[0];
+        if (lastMoveSan && bias.counterOpeningMoves.includes(lastMoveSan)) {
+          // Reward central-occupying responses — these are the classical
+          // "book" replies without us carrying an opening book.
+          const toFile = mv.to[0];
+          const toRank = mv.to[1];
+          if ((toFile === "d" || toFile === "e") && (toRank === "4" || toRank === "5")) {
+            score += 18 * bias.confidence;
+          }
+          // Knight development to c3/f3/c6/f6 also rewarded.
+          if (mv.piece === "n" && (mv.to === "c3" || mv.to === "f3" || mv.to === "c6" || mv.to === "f6")) {
+            score += 14 * bias.confidence;
+          }
+        }
+      }
+
+      // baitBonus: against aggressive capture-happy players, we're
+      // willing to leave a piece hanging if it baits them into a
+      // position we can punish. We undo part of the hanging penalty
+      // instead of rewarding hanging directly — nets out to a "looser"
+      // defence without making the AI randomly sacrifice.
+      if (bias.baitBonus > 0 && hangs > 0) {
+        score += Math.min(hangs / 3, bias.baitBonus);
+      }
+
+      // solidityBonus: against speculative sacrificers, reward quiet
+      // moves (non-capture, non-check) that don't open lines.
+      if (bias.solidityBonus > 0 && !mv.captured && !testGame.isCheck()) {
+        score += bias.solidityBonus;
+      }
+
+      // kingSafetyBonus: against attacking players, reward castling
+      // and moves that keep our king off the half-open files.
+      if (bias.kingSafetyBonus > 0) {
+        if (mv.flags.includes("k") || mv.flags.includes("q")) {
+          score += bias.kingSafetyBonus;
+        }
+        // Pawn shield preservation: penalise moving pawns on the king's
+        // side (rough proxy — assumes short castling).
+        if (mv.piece === "p" && (mv.from[0] === "f" || mv.from[0] === "g" || mv.from[0] === "h")) {
+          score -= Math.round(bias.kingSafetyBonus / 2);
+        }
+      }
+
+      // restrictPiece: reward captures of the player's favourite piece,
+      // and small bonus for moves landing adjacent to it.
+      if (restrictTargets.length > 0) {
+        if (mv.captured === bias.restrictPiece) {
+          score += 25 * bias.confidence;
+        }
+        const toFileIdx = mv.to.charCodeAt(0) - "a".charCodeAt(0);
+        const toRankIdx = parseInt(mv.to[1], 10);
+        for (const t of restrictTargets) {
+          const df = Math.abs(toFileIdx - t.file);
+          const dr = Math.abs(toRankIdx - t.rank);
+          if (df <= 1 && dr <= 1 && !(df === 0 && dr === 0)) {
+            score += 6 * bias.confidence;
+            break;
+          }
+        }
+      }
     }
 
     // Difficulty-based noise. Weak AIs are erratic; strong AIs play steady.
@@ -651,7 +761,22 @@ export const chessRouter = router({
       // AI responds server-side ONLY if client is not handling AI
       if (status === "active" && !input.useClientAi) {
         const opponentChar = CHESS_CHARACTERS[game[0].blackCharacter || "the_human"];
-        const aiMove = getAiMove(chess, game[0].aiDifficulty || 3, opponentChar?.style || "universal");
+        // Story-mode bias: look up the per-user-per-opponent imprint
+        // and derive a PlayerModelBias from its stored player model.
+        // For non-story games (casual/ranked/game_master) bias is null —
+        // those modes use the plain heuristic.
+        let storyBias = null;
+        if (game[0].mode === "story" && game[0].blackCharacter) {
+          const imprint = await db.select().from(chessOpponentImprints)
+            .where(and(
+              eq(chessOpponentImprints.userId, ctx.user.id),
+              eq(chessOpponentImprints.opponentId, game[0].blackCharacter),
+            )).limit(1);
+          if (imprint[0]?.playerModel) {
+            storyBias = toMoveBias(imprint[0].playerModel as PlayerModel);
+          }
+        }
+        const aiMove = getAiMove(chess, game[0].aiDifficulty || 3, opponentChar?.style || "universal", storyBias);
         if (aiMove) {
           const result = chess.move(aiMove);
           aiMoveResult = result;
@@ -1687,6 +1812,142 @@ export const chessRouter = router({
     }
     return null;
   }),
+
+  /* ─── "THE GAME MASTER'S GAMBIT" — Story mode narrative state ───
+     Phase 1 procedures for the 12-act opponent-imprint gauntlet.
+     These are read-only for Phase 1 except for recordChoicePoint;
+     the actual opponent challenge flow still goes through startGame
+     with mode: "story", and processGameEnd folds the game result
+     into the imprint row (see updateOpponentImprint below). */
+
+  /** Fetch (or seed) the user's chess narrative meta-state. */
+  getChessStoryState: protectedProcedure
+    .use(checkFeatureFlag("chess"))
+    .query(async ({ ctx }) => {
+      const db = (await getDb())!;
+      const existing = await db.select().from(chessNarrativeState)
+        .where(eq(chessNarrativeState.userId, ctx.user.id)).limit(1);
+      if (existing[0]) {
+        return {
+          currentAct: existing[0].currentAct,
+          revealTier: existing[0].revealTier,
+          completedActs: (existing[0].completedActs as number[] | null) ?? [],
+          loreFlags: (existing[0].loreFlags as string[] | null) ?? [],
+          inventorEncountered: existing[0].inventorEncountered,
+          knowledgeEncountered: existing[0].knowledgeEncountered,
+          epilogueUnlocked: existing[0].epilogueUnlocked,
+        };
+      }
+      // Implicit default — no row means the user hasn't played any
+      // story game yet. Return a fresh shape without writing to the DB;
+      // the row is materialised on the first act completion.
+      return {
+        currentAct: 1,
+        revealTier: 0,
+        completedActs: [] as number[],
+        loreFlags: [] as string[],
+        inventorEncountered: false,
+        knowledgeEncountered: false,
+        epilogueUnlocked: false,
+      };
+    }),
+
+  /** Return all opponent-imprint rows for the user, one per opponent
+   *  they've encountered at least once. Unplayed opponents are NOT
+   *  returned — the client should merge this with the CHESS_CHARACTERS
+   *  roster to compute which are still locked. */
+  getOpponentImprints: protectedProcedure
+    .use(checkFeatureFlag("chess"))
+    .query(async ({ ctx }) => {
+      const db = (await getDb())!;
+      const rows = await db.select().from(chessOpponentImprints)
+        .where(eq(chessOpponentImprints.userId, ctx.user.id));
+      return rows.map(r => ({
+        opponentId: r.opponentId,
+        unlocked: r.unlocked,
+        difficultyTier: r.difficultyTier,
+        gamesPlayed: r.gamesPlayed,
+        wins: r.wins,
+        losses: r.losses,
+        draws: r.draws,
+        lastResult: r.lastResult,
+        lastEncounteredAt: r.lastEncounteredAt,
+        relationshipScore: r.relationshipScore,
+        relationshipFlags: (r.relationshipFlags as string[] | null) ?? [],
+        dialogSeenIds: (r.dialogSeenIds as string[] | null) ?? [],
+        // playerModel is intentionally NOT returned — it's server-side
+        // state used by getAiMove, not a client concern.
+      }));
+    }),
+
+  /** Return a single opponent imprint by opponentId, or null if the
+   *  user has never played against them. */
+  getOpponentImprint: protectedProcedure
+    .use(checkFeatureFlag("chess"))
+    .input(z.object({ opponentId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const db = (await getDb())!;
+      const row = await db.select().from(chessOpponentImprints)
+        .where(and(
+          eq(chessOpponentImprints.userId, ctx.user.id),
+          eq(chessOpponentImprints.opponentId, input.opponentId),
+        )).limit(1);
+      if (!row[0]) return null;
+      return {
+        opponentId: row[0].opponentId,
+        unlocked: row[0].unlocked,
+        difficultyTier: row[0].difficultyTier,
+        gamesPlayed: row[0].gamesPlayed,
+        wins: row[0].wins,
+        losses: row[0].losses,
+        draws: row[0].draws,
+        lastResult: row[0].lastResult,
+        lastEncounteredAt: row[0].lastEncounteredAt,
+        relationshipScore: row[0].relationshipScore,
+        relationshipFlags: (row[0].relationshipFlags as string[] | null) ?? [],
+        dialogSeenIds: (row[0].dialogSeenIds as string[] | null) ?? [],
+      };
+    }),
+
+  /** Record a choice point's outcome: sets a relationship flag on the
+   *  imprint row and adjusts the relationship score. The client calls
+   *  this when the user picks a choice in `ChessChoicePointDialog`.
+   *  Idempotent — re-sending the same flag is a no-op. */
+  recordChoicePoint: protectedProcedure
+    .use(checkFeatureFlag("chess"))
+    .input(z.object({
+      opponentId: z.string(),
+      flag: z.string().min(1).max(128),
+      relationshipDelta: z.number().int().min(-5).max(5).default(0),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = (await getDb())!;
+      const existing = await db.select().from(chessOpponentImprints)
+        .where(and(
+          eq(chessOpponentImprints.userId, ctx.user.id),
+          eq(chessOpponentImprints.opponentId, input.opponentId),
+        )).limit(1);
+      if (!existing[0]) {
+        throw new Error("No imprint found — play the opponent at least once before recording a choice.");
+      }
+      const flags = (existing[0].relationshipFlags as string[] | null) ?? [];
+      if (flags.includes(input.flag)) {
+        // Already set — no-op.
+        return {
+          relationshipFlags: flags,
+          relationshipScore: existing[0].relationshipScore,
+        };
+      }
+      const nextFlags = [...flags, input.flag];
+      const nextScore = Math.max(-10, Math.min(10, existing[0].relationshipScore + input.relationshipDelta));
+      await db.update(chessOpponentImprints)
+        .set({
+          relationshipFlags: nextFlags,
+          relationshipScore: nextScore,
+        })
+        .where(eq(chessOpponentImprints.id, existing[0].id));
+      return { relationshipFlags: nextFlags, relationshipScore: nextScore };
+    }),
 });
 
 /* ─── PUZZLE STATE (DB-backed) ──────────────────────────── */
@@ -2264,5 +2525,182 @@ async function processGameEnd(
     }
   }
 
+  // Story-mode narrative integration: update the per-opponent imprint
+  // state (difficulty tier, W/L record, player model, last result) and
+  // emit Living Universe pressure on act completion.
+  if (game.mode === "story" && game.blackCharacter) {
+    await updateOpponentImprint(db, playerId, game, status, winnerId).catch(e => {
+      logger.error("[Chess] updateOpponentImprint failed:", e);
+    });
+  }
+
   return { eloChange, rewards, classXpResult };
+}
+
+/** Update the per-user-per-opponent "imprint" row after a story-mode
+ *  game ends. Maintains the learning AI state, the difficulty tier,
+ *  and the win/loss/draw record that drives rematch dialog branches.
+ *  Also emits Living Universe pressure and unlocks the next act in the
+ *  user's narrative state on a first win. */
+async function updateOpponentImprint(
+  db: DrizzleDb,
+  playerId: number,
+  game: typeof chessGames.$inferSelect,
+  status: string,
+  winnerId: number | null,
+): Promise<void> {
+  const opponentId = game.blackCharacter;
+  if (!opponentId) return;
+
+  const playerWon = winnerId === playerId;
+  const isDraw = status === "stalemate" || status === "draw";
+  const isLoss = !playerWon && !isDraw;
+
+  // Parse the finished game into a SAN move list for the player model.
+  const sanMoves = parseSanHistoryFromPgn(game.pgn || "");
+
+  // Fetch (or seed) the imprint row for this opponent.
+  const existing = await db.select().from(chessOpponentImprints)
+    .where(and(
+      eq(chessOpponentImprints.userId, playerId),
+      eq(chessOpponentImprints.opponentId, opponentId),
+    )).limit(1);
+
+  const prevModel = (existing[0]?.playerModel as PlayerModel | null) ?? createDefaultPlayerModel();
+  const nextModel = updatePlayerModel(prevModel, sanMoves, "w");
+
+  const prevTier = existing[0]?.difficultyTier ?? 0;
+  // Bump tier on win, capped at 5; first-win also flips `unlocked`.
+  const nextTier = playerWon ? Math.min(5, prevTier + 1) : prevTier;
+  const wasFirstWin = playerWon && (existing[0]?.wins ?? 0) === 0;
+
+  const lastResult: "win" | "loss" | "draw" = playerWon ? "win" : isDraw ? "draw" : "loss";
+
+  if (!existing[0]) {
+    await db.insert(chessOpponentImprints).values({
+      userId: playerId,
+      opponentId,
+      unlocked: true,
+      difficultyTier: nextTier,
+      gamesPlayed: 1,
+      wins: playerWon ? 1 : 0,
+      losses: isLoss ? 1 : 0,
+      draws: isDraw ? 1 : 0,
+      lastResult,
+      lastEncounteredAt: new Date(),
+      playerModel: nextModel,
+      relationshipFlags: [],
+      relationshipScore: 0,
+      dialogSeenIds: [],
+    });
+  } else {
+    await db.update(chessOpponentImprints)
+      .set({
+        unlocked: true,
+        difficultyTier: nextTier,
+        gamesPlayed: sql`${chessOpponentImprints.gamesPlayed} + 1`,
+        wins: playerWon ? sql`${chessOpponentImprints.wins} + 1` : existing[0].wins,
+        losses: isLoss ? sql`${chessOpponentImprints.losses} + 1` : existing[0].losses,
+        draws: isDraw ? sql`${chessOpponentImprints.draws} + 1` : existing[0].draws,
+        lastResult,
+        lastEncounteredAt: new Date(),
+        playerModel: nextModel,
+      })
+      .where(eq(chessOpponentImprints.id, existing[0].id));
+  }
+
+  // On first win, unlock the next opponent in the canonical story order
+  // and bump the user's `chessNarrativeState.currentAct`.
+  if (wasFirstWin) {
+    await advanceNarrativeStateOnFirstWin(db, playerId, opponentId);
+  }
+
+  // Living Universe pressure: wins feed loreDiscoveries, losses feed a
+  // tiny bit of deaths pressure (fiction: a piece of you died in the
+  // Matrix). Winning the first time against any imprint emits extra
+  // loreDiscoveries because the reveal tier ratchets.
+  if (playerWon) {
+    await pressureService.increment(playerId, "loreDiscoveries", 15, `chess_imprint_${opponentId}_win`);
+    if (wasFirstWin) {
+      await pressureService.increment(playerId, "loreDiscoveries", 10, `chess_imprint_${opponentId}_first_win`);
+    }
+  } else if (isLoss) {
+    await pressureService.increment(playerId, "deaths", 2, `chess_imprint_${opponentId}_loss`);
+  }
+}
+
+/** Fetch-or-create the user's chessNarrativeState row and, on first
+ *  win against a specific opponent, bump `currentAct` + record the act
+ *  in `completedActs`. */
+async function advanceNarrativeStateOnFirstWin(
+  db: DrizzleDb,
+  playerId: number,
+  opponentId: string,
+): Promise<void> {
+  const STORY_ORDER = [
+    "the_human", "the_collector", "iron_lion", "the_enigma", "the_warlord",
+    "the_oracle", "the_necromancer", "the_programmer", "agent_zero",
+    "the_source", "game_master",
+  ];
+  const actNumber = STORY_ORDER.indexOf(opponentId) + 1;
+  if (actNumber === 0) return;
+
+  const existing = await db.select().from(chessNarrativeState)
+    .where(eq(chessNarrativeState.userId, playerId)).limit(1);
+
+  if (!existing[0]) {
+    await db.insert(chessNarrativeState).values({
+      userId: playerId,
+      currentAct: Math.min(12, actNumber + 1),
+      revealTier: Math.min(5, Math.floor(actNumber / 2)),
+      completedActs: [actNumber],
+      loreFlags: [],
+      inventorEncountered: false,
+      knowledgeEncountered: false,
+      epilogueUnlocked: actNumber >= 11,
+    });
+    return;
+  }
+
+  const completedActs = (existing[0].completedActs as number[] | null) ?? [];
+  if (completedActs.includes(actNumber)) return; // idempotent
+  const nextCompleted = [...completedActs, actNumber].sort((a, b) => a - b);
+  const nextCurrentAct = Math.max(existing[0].currentAct, Math.min(12, actNumber + 1));
+  const nextRevealTier = Math.max(existing[0].revealTier, Math.min(5, Math.floor(actNumber / 2)));
+  const nextEpilogue = existing[0].epilogueUnlocked || actNumber >= 11;
+
+  await db.update(chessNarrativeState)
+    .set({
+      currentAct: nextCurrentAct,
+      revealTier: nextRevealTier,
+      completedActs: nextCompleted,
+      epilogueUnlocked: nextEpilogue,
+      updatedAt: new Date(),
+    })
+    .where(eq(chessNarrativeState.userId, playerId));
+}
+
+/** Parse a PGN's move text into an ordered list of SAN moves.
+ *  Strips move numbers, result tokens, and any annotation glyphs so
+ *  the chessPlayerModel helpers can walk the history cleanly. */
+function parseSanHistoryFromPgn(pgn: string): string[] {
+  if (!pgn) return [];
+  // Strip PGN tag pairs ([Event "..."] etc.)
+  const bodyStart = pgn.lastIndexOf("]");
+  const body = bodyStart >= 0 ? pgn.slice(bodyStart + 1) : pgn;
+  // Remove comments { ... } and variations ( ... ) — chess.js pgn()
+  // output typically has neither, but we're defensive.
+  const cleaned = body.replace(/\{[^}]*\}/g, " ").replace(/\([^)]*\)/g, " ");
+  const tokens = cleaned.split(/\s+/).filter(Boolean);
+  const moves: string[] = [];
+  for (const tok of tokens) {
+    // Skip move numbers like "1." or "23..."
+    if (/^\d+\.+$/.test(tok)) continue;
+    // Skip result tokens.
+    if (tok === "1-0" || tok === "0-1" || tok === "1/2-1/2" || tok === "*") continue;
+    // Strip trailing annotation glyphs (! ? !! ?? !? ?!)
+    const clean = tok.replace(/[!?]+$/, "");
+    if (clean.length > 0) moves.push(clean);
+  }
+  return moves;
 }
