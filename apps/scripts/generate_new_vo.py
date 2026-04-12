@@ -142,7 +142,7 @@ CHARACTERS = {
         },
     },
     "palimpsestHost": {
-        "voice_id": os.environ.get("PALIMPSEST_HOST_VOICE_ID", ""),
+        "voice_id": os.environ.get("PALIMPSEST_HOST_VOICE_ID", "1q0znKQADwaKdTNWneaW"),
         "s3_prefix": "Palimpsest Host",
         "lines_file": "palimpsestHost-lines.json",
         "manifest_file": "palimpsestHostVoManifest.json",
