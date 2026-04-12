@@ -44,6 +44,7 @@ export const cardTypeSchema = z.enum([
 export const raritySchema = z.enum([
   "basic",
   "common",
+  "uncommon",
   "rare",
   "epic",
   "legendary",
@@ -73,6 +74,13 @@ export const keywordSchema = z.enum([
   "ignore_armor_3",
   "can_attack_this_turn",
   "taunt",
+  "drain",
+  "pierce",
+  "overcharge",
+  "fury",
+  "pack",
+  "rally_buff",
+  "resurrect",
 ]);
 
 /* ─── Filters & small shapes ─── */

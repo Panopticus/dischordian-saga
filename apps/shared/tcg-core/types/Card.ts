@@ -24,7 +24,7 @@ export type Faction =
 
 export type CardType = "general" | "unit" | "spell" | "artifact" | "structure";
 
-export type Rarity = "basic" | "common" | "rare" | "epic" | "legendary";
+export type Rarity = "basic" | "common" | "uncommon" | "rare" | "epic" | "legendary";
 
 /**
  * Engine-recognized keyword set. Keywords are sugar over abilities; the
@@ -56,7 +56,14 @@ export type Keyword =
   | "untargetable" // cannot be chosen as a single target
   | "ignore_armor_3" // pierces 3 flat armor (Agent Zero & friends)
   | "can_attack_this_turn" // runtime flag used by rush
-  | "taunt"; // alias for provoke; folded into provoke at load time
+  | "taunt" // alias for provoke; folded into provoke at load time
+  | "drain" // heals owner for a percentage of damage dealt
+  | "pierce" // ignores a portion of enemy armor
+  | "overcharge" // deals bonus damage on first attack, then self-damages
+  | "fury" // attacks hit with extra ferocity (multi-attack)
+  | "pack" // gains bonuses from allied units of the same type
+  | "rally_buff" // on deploy, buffs adjacent friendly units
+  | "resurrect"; // returns to the field once after death
 
 /**
  * Authored card definition. Serializable — no functions. All ability logic
