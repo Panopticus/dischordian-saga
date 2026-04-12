@@ -66,6 +66,7 @@ import { promoCodesRouter } from "./routers/promoCodes";
 import { architectConsoleRouter } from "./routers/architectConsole";
 import { potentialIdentityRouter } from "./routers/potentialIdentity";
 import { potentialFactionsRouter } from "./routers/potentialFactions";
+import { epochWitnessRouter } from "./routers/epochWitness";
 import { eidolonBondRouter } from "./routers/eidolonBond";
 import { techTreeRouter } from "./routers/techTree";
 import { masteryTreeRouter } from "./routers/masteryTree";
@@ -151,6 +152,7 @@ export const appRouter = router({
   architectConsole: architectConsoleRouter,
   potentialIdentity: potentialIdentityRouter,
   potentialFactions: potentialFactionsRouter,
+  epochWitness: epochWitnessRouter,
   eidolonBond: eidolonBondRouter,
   techTree: techTreeRouter,
   masteryTree: masteryTreeRouter,

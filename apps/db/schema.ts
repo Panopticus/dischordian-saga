@@ -3054,6 +3054,81 @@ export const potentialFactionState = mysqlTable("potential_faction_state", {
 export type PotentialFactionStateRow = typeof potentialFactionState.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
+   EPOCH WITNESS SYSTEM
+   Vote tracking, Shadow Tongue state, player progress, Mandela effects.
+   Migration 0047_epoch_witness.sql.
+   ═══════════════════════════════════════════════════════ */
+
+export const epochVotes = mysqlTable("epoch_votes", {
+  id: int("id").autoincrement().primaryKey(),
+  voteId: varchar("voteId", { length: 50 }).notNull(),
+  epoch: varchar("epoch", { length: 50 }).notNull(),
+  userId: int("userId").notNull(),
+  optionChosen: varchar("optionChosen", { length: 10 }).notNull(),
+  votedAt: timestamp("votedAt").defaultNow().notNull(),
+  archetypeAtTime: varchar("archetypeAtTime", { length: 50 }),
+}, (table) => ({
+  uniqVote: index("idx_epoch_vote_id").on(table.voteId),
+  idxUser: index("idx_epoch_user").on(table.userId),
+}));
+
+export type EpochVote = typeof epochVotes.$inferSelect;
+
+export const epochVoteTallies = mysqlTable("epoch_vote_tallies", {
+  voteId: varchar("voteId", { length: 50 }).primaryKey(),
+  optionACount: int("optionACount").notNull().default(0),
+  optionBCount: int("optionBCount").notNull().default(0),
+  optionCCount: int("optionCCount").notNull().default(0),
+  optionDCount: int("optionDCount").notNull().default(0),
+  optionECount: int("optionECount").notNull().default(0),
+  totalVotes: int("totalVotes").notNull().default(0),
+  isClosed: int("isClosed").notNull().default(0),
+  closedAt: timestamp("closedAt"),
+  winningOption: varchar("winningOption", { length: 10 }),
+});
+
+export type EpochVoteTally = typeof epochVoteTallies.$inferSelect;
+
+export const shadowTongueState = mysqlTable("shadow_tongue_state", {
+  id: int("id").primaryKey().default(1),
+  powerLevel: int("powerLevel").notNull().default(0),
+  activeEdits: json("activeEdits").$type<Record<string, unknown>>(),
+  lastUpdated: timestamp("lastUpdated").defaultNow().notNull(),
+  grandEditActive: int("grandEditActive").notNull().default(0),
+});
+
+export type ShadowTongueStateRow = typeof shadowTongueState.$inferSelect;
+
+export const playerEpochProgress = mysqlTable("player_epoch_progress", {
+  userId: int("userId").primaryKey(),
+  epochsVoted: json("epochsVoted").$type<Record<string, string[]>>(),
+  archetype: varchar("archetype", { length: 50 }),
+  archetypeEarnedAt: timestamp("archetypeEarnedAt"),
+  shadowTongueCatches: int("shadowTongueCatches").notNull().default(0),
+  campaignComplete: int("campaignComplete").notNull().default(0),
+});
+
+export type PlayerEpochProgress = typeof playerEpochProgress.$inferSelect;
+
+export const mandelaEffects = mysqlTable("mandela_effects", {
+  id: int("id").autoincrement().primaryKey(),
+  triggeredByVote: varchar("triggeredByVote", { length: 50 }).notNull(),
+  entryId: varchar("entryId", { length: 100 }).notNull(),
+  fieldEdited: varchar("fieldEdited", { length: 100 }).notNull(),
+  originalValue: text("originalValue").notNull(),
+  editedValue: text("editedValue").notNull(),
+  active: int("active").notNull().default(1),
+  triggeredAt: timestamp("triggeredAt").defaultNow().notNull(),
+  restoredAt: timestamp("restoredAt"),
+  playersWhoNoticed: int("playersWhoNoticed").notNull().default(0),
+}, (table) => ({
+  idxActive: index("idx_mandela_active").on(table.active),
+  idxVote: index("idx_mandela_vote").on(table.triggeredByVote),
+}));
+
+export type MandelaEffect = typeof mandelaEffects.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
    DISCHORDIA CYCLE — Witnessing Narrative Proposal §3
    Community-wide Light/Dark meter. A single row per server
    holds the current state; energy_events is the audit log.
