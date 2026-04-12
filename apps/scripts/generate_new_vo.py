@@ -201,12 +201,12 @@ CHARACTERS = {
         },
     },
     "white_oracle": {
-        "voice_id": os.environ.get("WHITE_ORACLE_VOICE_ID", ""),
+        "voice_id": os.environ.get("WHITE_ORACLE_VOICE_ID", "VgFgBh5TnWeBhCBvCJ1E"),
         "s3_prefix": "WhiteOracle Voices",
         "lines_file": "white_oracle-lines.json",
         "manifest_file": "white_oracleVoManifest.json",
         "emotions": {
-            "neutral":  {"stability": 0.35, "similarity_boost": 0.75, "style": 0.50, "prefix": "*prophetic, echoing, seeing through time* "},
+            "neutral":  {"stability": 0.40, "similarity_boost": 0.78, "style": 0.55, "prefix": "*preachy, sanctimonious, prophetic authority — the Meme wearing a holy mask* "},
         },
     },
     "warden": {
@@ -219,7 +219,7 @@ CHARACTERS = {
         },
     },
     "akai_shi": {
-        "voice_id": os.environ.get("AKAI_SHI_VOICE_ID", ""),
+        "voice_id": os.environ.get("AKAI_SHI_VOICE_ID", "AQYSOeM9rkJY878exSfM"),
         "s3_prefix": "AkaiShi Voices",
         "lines_file": "akai_shi-lines.json",
         "manifest_file": "akai_shiVoManifest.json",
@@ -237,7 +237,7 @@ CHARACTERS = {
         },
     },
     "enigma": {
-        "voice_id": os.environ.get("ENIGMA_VOICE_ID", ""),
+        "voice_id": os.environ.get("ENIGMA_VOICE_ID", "DDiUZI2xSsFQUOyG7OB6"),
         "s3_prefix": "Enigma Voices",
         "lines_file": "enigma-lines.json",
         "manifest_file": "enigmaVoManifest.json",
