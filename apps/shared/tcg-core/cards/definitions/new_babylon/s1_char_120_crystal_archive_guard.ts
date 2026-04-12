@@ -35,7 +35,18 @@ export const cardDef: CardDefinition = {
   cost: 2,
   baseStats: { power: 2, health: 3 },
   keywords: ["forcefield"],
-  abilities: [],
+  abilities: [
+    // --- Archive Data: draw 1 card on death ---
+    {
+      id: "archive_guard_death_draw" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_death" },
+      effect: {
+        op: "draw",
+        amount: { kind: "const", value: 1 },
+        who: "self",
+      },
+    },
+  ],
   art:
     "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/120_crystal_archive_guard.png",
   flavorText:

@@ -17,7 +17,17 @@ export const cardDef: CardDefinition = {
   cost: 3,
   baseStats: { power: 4, health: 3 },
   keywords: ["backstab", "drain"],
-  abilities: [],
+  abilities: [
+    {
+      id: "mt_drain" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_damage_dealt", by: "self" },
+      effect: {
+        op: "heal",
+        amount: { kind: "const", value: 2 },
+        to: { kind: "friendly_general" },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "He takes only what you will not miss — until you reach for it and find nothing there.",

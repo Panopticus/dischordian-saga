@@ -17,7 +17,18 @@ export const cardDef: CardDefinition = {
   cost: 6,
   baseStats: { power: 7, health: 6 },
   keywords: ["backstab", "deathwatch"],
-  abilities: [],
+  abilities: [
+    {
+      id: "sh_deathwatch_grow" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_any_unit_dies" },
+      effect: {
+        op: "buff",
+        stats: { power: 1, health: 1 },
+        duration: { kind: "permanent" },
+        to: { kind: "self" },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "It lives in the gap between a dying thought and the silence that follows.",

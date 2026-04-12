@@ -17,7 +17,18 @@ export const cardDef: CardDefinition = {
   cost: 1,
   baseStats: { power: 1, health: 2 },
   keywords: ["rebirth"],
-  abilities: [],
+  abilities: [
+    // --- Temporal Echo: heal friendly general 3 on death ---
+    {
+      id: "paradox_death_heal" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_death" },
+      effect: {
+        op: "heal",
+        amount: { kind: "const", value: 3 },
+        to: { kind: "friendly_general" },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "She has died a hundred times and learned nothing from any of them.",

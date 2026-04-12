@@ -18,7 +18,25 @@ export const cardDef: CardDefinition = {
   cost: 4,
   baseStats: { power: 5, health: 3 },
   keywords: ["backstab", "pierce"],
-  abilities: [],
+  abilities: [
+    {
+      id: "sa_opening_strike" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "with_target",
+        selector: {
+          kind: "single",
+          filter: { controller: "opponent" },
+          chooser: "player",
+        },
+        do: {
+          op: "deal_damage",
+          amount: { kind: "const", value: 2 },
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "She descends from the Spire like a verdict from on high — silent, precise, and final.",

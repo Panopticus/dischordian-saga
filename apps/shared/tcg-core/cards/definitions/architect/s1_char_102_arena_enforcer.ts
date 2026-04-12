@@ -30,7 +30,27 @@ export const cardDef: CardDefinition = {
   cost: 3,
   baseStats: { power: 2, health: 4 },
   keywords: ["provoke"],
-  abilities: [],
+  abilities: [
+    // --- Rotation Lock: stun an adjacent enemy for 1 turn on deploy ---
+    {
+      id: "enforcer_deploy_stun" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "with_target",
+        selector: {
+          kind: "radius",
+          origin: { kind: "self" },
+          radius: 1,
+          filter: { controller: "opponent" },
+        },
+        do: {
+          op: "stun",
+          duration: { kind: "n_turns", n: 1 },
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
   art:
     "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/102_arena_enforcer.png",
   flavorText:

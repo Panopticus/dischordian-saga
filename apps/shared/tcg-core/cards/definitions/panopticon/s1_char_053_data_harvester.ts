@@ -17,7 +17,17 @@ export const cardDef: CardDefinition = {
   cost: 4,
   baseStats: { power: 4, health: 5 },
   keywords: ["drain"],
-  abilities: [],
+  abilities: [
+    {
+      id: "dh_drain" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_damage_dealt", by: "self" },
+      effect: {
+        op: "heal",
+        amount: { kind: "const", value: 2 },
+        to: { kind: "friendly_general" },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "It does not ask questions. It parses screams for keywords.",

@@ -17,7 +17,25 @@ export const cardDef: CardDefinition = {
   cost: 1,
   baseStats: { power: 2, health: 1 },
   keywords: ["rush"],
-  abilities: [],
+  abilities: [
+    // --- Viral Explosion: deal 1 damage to ALL units (including self) on deploy ---
+    {
+      id: "parasite_deploy_aoe" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "foreach",
+        over: {
+          kind: "all",
+          filter: { controller: "any" },
+        },
+        do: {
+          op: "deal_damage",
+          amount: { kind: "const", value: 1 },
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "It burrows through the ear canal and nests in the hippocampus. By then, you are already someone else.",

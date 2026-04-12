@@ -17,7 +17,19 @@ export const cardDef: CardDefinition = {
   cost: 5,
   baseStats: { power: 6, health: 5 },
   keywords: ["flying", "pierce"],
-  abilities: [],
+  abilities: [
+    // --- Mind Rot: opponent discards 1 random card on kill ---
+    {
+      id: "mind_rot_kill_discard" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_kill", of: "any" },
+      effect: {
+        op: "discard",
+        amount: { kind: "const", value: 1 },
+        from: "opponent",
+        mode: "random",
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "It circles above the battlefield like a vulture — except it feeds on sanity, not carrion.",

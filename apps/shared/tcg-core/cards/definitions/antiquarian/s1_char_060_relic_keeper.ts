@@ -17,7 +17,19 @@ export const cardDef: CardDefinition = {
   cost: 2,
   baseStats: { power: 2, health: 3 },
   keywords: ["forcefield"],
-  abilities: [],
+  abilities: [
+    // --- Relic Ward: add 2 forcefield_charges to self on deploy ---
+    {
+      id: "relic_deploy_charges" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "add_counter",
+        kind: "forcefield_charges",
+        amount: 2,
+        to: { kind: "self" },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "The relics protect themselves. She merely gives them someone to protect.",

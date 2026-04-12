@@ -17,7 +17,18 @@ export const cardDef: CardDefinition = {
   cost: 3,
   baseStats: { power: 3, health: 4 },
   keywords: ["grow"],
-  abilities: [],
+  abilities: [
+    {
+      id: "ta_grow_turn" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_turn_start", owner: "self" },
+      effect: {
+        op: "buff",
+        stats: { power: 1, health: 1 },
+        duration: { kind: "permanent" },
+        to: { kind: "self" },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "Every war she catalogues makes the next one easier to survive.",

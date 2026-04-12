@@ -34,7 +34,27 @@ export const cardDef: CardDefinition = {
   cost: 4,
   baseStats: { power: 3, health: 4 },
   keywords: ["rebirth"],
-  abilities: [],
+  abilities: [
+    // --- Death Explosion: deal 2 damage to all adjacent enemies on death ---
+    {
+      id: "calder_death_explosion" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_death" },
+      effect: {
+        op: "foreach",
+        over: {
+          kind: "radius",
+          origin: { kind: "self" },
+          radius: 1,
+          filter: { controller: "opponent" },
+        },
+        do: {
+          op: "deal_damage",
+          amount: { kind: "const", value: 2 },
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
   art:
     "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/106_wraith_calder.png",
   flavorText:

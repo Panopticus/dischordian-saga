@@ -17,7 +17,18 @@ export const cardDef: CardDefinition = {
   cost: 2,
   baseStats: { power: 2, health: 3 },
   keywords: ["deathwatch"],
-  abilities: [],
+  abilities: [
+    {
+      id: "mc_deathwatch_power" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_any_unit_dies" },
+      effect: {
+        op: "buff",
+        stats: { power: 1 },
+        duration: { kind: "permanent" },
+        to: { kind: "self" },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "It does not spread through contact. It spreads through comprehension.",

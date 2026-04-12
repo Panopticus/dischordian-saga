@@ -17,7 +17,27 @@ export const cardDef: CardDefinition = {
   cost: 4,
   baseStats: { power: 4, health: 5 },
   keywords: ["overcharge", "drain"],
-  abilities: [],
+  abilities: [
+    {
+      id: "plh_overcharge" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "buff",
+        stats: { power: 3 },
+        duration: { kind: "this_turn" },
+        to: { kind: "self" },
+      },
+    },
+    {
+      id: "plh_drain" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_damage_dealt", by: "self" },
+      effect: {
+        op: "heal",
+        amount: { kind: "const", value: 2 },
+        to: { kind: "friendly_general" },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "His sermons are not metaphors. Every word is a live pathogen.",

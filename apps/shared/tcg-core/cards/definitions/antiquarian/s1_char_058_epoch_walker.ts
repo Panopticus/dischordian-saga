@@ -18,7 +18,24 @@ export const cardDef: CardDefinition = {
   cost: 8,
   baseStats: { power: 9, health: 10 },
   keywords: ["celerity", "rebirth"],
-  abilities: [],
+  abilities: [
+    {
+      id: "ew_temporal_reset" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "foreach",
+        over: {
+          kind: "all",
+          filter: { controller: "opponent" },
+        },
+        do: {
+          op: "return_to_hand",
+          to: { kind: "it" },
+          owner: "original",
+        },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "He has already lived through the end of every age. Each death is merely a bookmark in a story he has read before.",
