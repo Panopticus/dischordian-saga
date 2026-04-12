@@ -27,7 +27,11 @@ import {
 } from "@shared/mechronisLessons";
 import type { SkillId } from "@/game/innerVoices";
 
-/** Per-professor classroom art — falls back to arena-mechronis.jpg if not yet generated */
+/**
+ * Per-professor classroom art — unique background per Archon.
+ * Paths match NanoBanna2 prompt bible (CELEBRATION_MECHRONIS_ART_PROMPTS.md).
+ * Falls back to generic mechronis_classroom.jpg until generated.
+ */
 const CLASSROOM_ART: Record<string, string> = {
   prof_conductor: "/art/classrooms/classroom-kanevas.jpg",
   prof_watcher: "/art/classrooms/classroom-aoki.jpg",
@@ -42,6 +46,7 @@ const CLASSROOM_ART: Record<string, string> = {
   prof_engineer: "/art/classrooms/classroom-vent.jpg",
   prof_human: "/art/classrooms/classroom-proctor.jpg",
 };
+const CLASSROOM_FALLBACK = "/art/mechronis/environments/mechronis_classroom.jpg";
 
 const GRADE_COLORS: Record<LessonGrade, string> = {
   fail: "text-red-400",
@@ -157,7 +162,7 @@ export default function MechronisAcademyPage() {
               ? lastResult.grade === "distinction"
                 ? "/art/mechronis/environments/mechronis_graduation.jpg"
                 : "/art/mechronis/environments/mechronis_grand_hall.jpg"
-              : CLASSROOM_ART[professor?.id ?? ""] ?? "/art/mechronis/environments/mechronis_classroom.jpg"}
+              : CLASSROOM_ART[professor?.id ?? ""] ?? CLASSROOM_FALLBACK}
             alt=""
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.14 }}

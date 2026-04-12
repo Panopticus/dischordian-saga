@@ -7,20 +7,42 @@
 ## NAMING SYSTEM
 
 ```
-/art/classrooms/   — Mechronis professor classroom backgrounds
-                     Pattern: classroom-{professor-shortname}.jpg
-                     Size: 1920x1080 JPG
-                     Template: room_vista_establishing
+/art/classrooms/                — Mechronis professor classroom backgrounds
+                                  Pattern: classroom-{professor-shortname}.jpg
+                                  Size: 1920x1080 JPG
+                                  Template: room_vista_establishing
+                                  Status: NOT YET GENERATED — prompts below
 
-/art/mascoteers/   — Celebration child-form Archon portraits
-                     Pattern: mascoteer-{mascoteer-id}.png
-                     Size: 768x1024 PNG transparent background
-                     Template: character_portrait_anchor
+/art/celebration/mascoteers/    — Celebration child-form Archon portraits
+                                  Pattern: mascoteer_{shortname}.png
+                                  Size: variable (PNG, WebP generated)
+                                  Template: character_portrait_anchor
+                                  Status: GENERATED (4.12 S3 asset drop)
 
-/art/opponents/    — Act 1 Cycle B battle opponent portraits
-                     Pattern: opponent-{character-id}.png
-                     Size: 768x1024 PNG transparent background
-                     Template: character_portrait_anchor
+/art/mechronis/professors/      — Mechronis Academy professor portraits
+                                  Pattern: professor_{shortname}.png
+                                  Status: GENERATED (4.12 S3 asset drop)
+
+/art/mechronis/environments/    — Mechronis Academy shared environments
+                                  Files: mechronis_classroom.jpg,
+                                         mechronis_grand_hall.jpg,
+                                         mechronis_graduation.jpg
+                                  Status: GENERATED (4.12 S3 asset drop)
+
+/art/celebration/environments/  — Celebration shared environments
+                                  Files: celebration_aerial.jpg,
+                                         celebration_trial_room.jpg
+                                  Status: GENERATED (4.12 S3 asset drop)
+
+/art/celebration/slideshow/     — Celebration slideshow frames
+                                  Files: celebration_slide_01-08.jpg
+                                  Status: GENERATED (4.12 S3 asset drop)
+
+/art/opponents/                 — Act 1 Cycle B battle opponent portraits
+                                  Pattern: opponent-{character-id}.png
+                                  Size: 768x1024 PNG transparent background
+                                  Template: character_portrait_anchor
+                                  Status: NOT YET GENERATED — prompts below
 ```
 
 ---
