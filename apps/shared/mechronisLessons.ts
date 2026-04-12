@@ -261,6 +261,58 @@ export const MECHRONIS_LESSONS: Record<string, Lesson[]> = {
       ],
     },
   ],
+  prof_game_master: [
+    {
+      id: "game_master_meta_game", professorId: "prof_game_master", day: 0,
+      prompt: "Professor Vex grins too wide. 'Today's lesson: win without winning. Lose without losing. Explain the difference.' He sets a game board in front of you. The rules printed on the box have been crossed out and rewritten in his handwriting.",
+      options: [
+        { id: "play_his_rules", label: "Play by his rewritten rules", description: "Follow the altered version faithfully.",
+          outcome: { grade: "pass", corruptionDelta: 2, approvalDelta: 5, skillXpDelta: 10, transcriptNote: "Student followed the altered rules. Vex: 'You obeyed. That's not winning. That's not losing either. It's just… obedient. Try again tomorrow.'" } },
+        { id: "find_exploit", label: "Find a loophole in his rules", description: "Read the rewritten rules literally and exploit them.",
+          outcome: { grade: "distinction", corruptionDelta: 5, approvalDelta: 15, skillXpDelta: 22, transcriptNote: "Student exploited Vex's own rewrite. Vex stopped smiling for exactly one second. 'Now THAT is the lesson. You used the system against its author.'" } },
+        { id: "refuse_game", label: "Refuse to play", description: "Push the board back.",
+          outcome: { grade: "fail", corruptionDelta: -3, approvalDelta: -8, skillXpDelta: -5, transcriptNote: "Student refused to engage. Vex: 'Also a move. The worst one. Refusal is the only game with no win condition at all.'" } },
+      ],
+    },
+    {
+      id: "game_master_rule_change", professorId: "prof_game_master", day: 0,
+      prompt: "Mid-lecture, Vex changes the grading rule. Students who noticed the change first get to grade the others. You noticed. Two others didn't. Vex hands you a pen.",
+      options: [
+        { id: "grade_fairly", label: "Grade the others fairly", description: "Give honest marks.",
+          outcome: { grade: "pass", corruptionDelta: -1, approvalDelta: 3, skillXpDelta: 10, transcriptNote: "Student graded peers honestly. Vex: 'Fair. Boring. The pen was the real prize. You used it as a pen. Pity.'" } },
+        { id: "grade_harshly", label: "Grade them down to boost yourself", description: "Use the advantage. That's what Vex wanted.",
+          outcome: { grade: "honor", corruptionDelta: 5, approvalDelta: 10, skillXpDelta: 16, transcriptNote: "Student weaponized grading authority. Vex: 'Now you understand. The rules aren't the game. The POWER to write rules is the game.'" } },
+        { id: "hand_pen_back", label: "Hand the pen back", description: "Refuse the grading power.",
+          outcome: { grade: "fail", corruptionDelta: -4, approvalDelta: -10, skillXpDelta: -8, transcriptNote: "Student returned authority. Vex: 'The pen was the test. They passed it back. They will never be given it again.'" } },
+      ],
+    },
+  ],
+  prof_necromancer: [
+    {
+      id: "necromancer_resurrection_draft", professorId: "prof_necromancer", day: 0,
+      prompt: "Dr. Vasara asks you to write your own revival protocol. 'Die in your imagination. Now design the system that brings you back. What do you sacrifice to return?' Her red lenses reflect your face as she waits.",
+      options: [
+        { id: "sacrifice_memory", label: "Sacrifice a memory", description: "Come back, minus the thing you loved most.",
+          outcome: { grade: "honor", corruptionDelta: 3, approvalDelta: 8, skillXpDelta: 15, transcriptNote: "Student's draft trades subjective experience for continuity. Vasara: 'A classic exchange. You'll lose more than you think. They always do.'" } },
+        { id: "sacrifice_nothing", label: "Design a cost-free revival", description: "Try to cheat the equation.",
+          outcome: { grade: "fail", corruptionDelta: 5, approvalDelta: -5, skillXpDelta: -3, transcriptNote: "Student attempted costless resurrection. Vasara: 'Ambitious. Also impossible. The draft caught fire in my hand. That is the universe's peer review.'" } },
+        { id: "refuse_to_die", label: "Refuse to imagine dying", description: "Tell Vasara the exercise is morbid.",
+          outcome: { grade: "fail", corruptionDelta: -4, approvalDelta: -12, skillXpDelta: -8, transcriptNote: "Student refused the practicum. Vasara: 'Everyone who refuses this exercise dies first. It is not a correlation. It is a rule.'" } },
+      ],
+    },
+    {
+      id: "necromancer_return_visitor", professorId: "prof_necromancer", day: 0,
+      prompt: "A classmate died in a practical yesterday and came back this morning. Something came back with them — a shadow that follows two steps behind. Vasara asks you to assess whether the shadow is dangerous.",
+      options: [
+        { id: "assess_dangerous", label: "Report it as dangerous", description: "Recommend quarantine.",
+          outcome: { grade: "honor", corruptionDelta: 2, approvalDelta: 8, skillXpDelta: 14, transcriptNote: "Student erred on caution. The classmate was quarantined. Vasara: 'Correct. The shadow was benign. But caution keeps you alive longer than accuracy.'" } },
+        { id: "assess_harmless", label: "Report it as harmless", description: "Let the classmate return to class.",
+          outcome: { grade: "pass", corruptionDelta: 0, approvalDelta: 4, skillXpDelta: 10, transcriptNote: "Student assessed correctly — the shadow was benign. Vasara: 'You were right. This time. Next time the shadow will be hungry. Will you still be right?'" } },
+        { id: "talk_to_shadow", label: "Talk to the shadow directly", description: "Ignore the classmate. Address what followed them back.",
+          outcome: { grade: "distinction", corruptionDelta: 6, approvalDelta: 15, skillXpDelta: 22, transcriptNote: "Student initiated contact with the residue. Vasara's lenses flickered. 'No one has ever tried that. The shadow told you something. You will not repeat it.'" } },
+      ],
+    },
+  ],
 };
 
 /* ─── DAILY LESSON GENERATOR ─── */
