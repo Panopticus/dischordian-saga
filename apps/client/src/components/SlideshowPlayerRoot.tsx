@@ -13,7 +13,7 @@
    ═══════════════════════════════════════════════════════ */
 
 import { useCallback, useMemo } from "react";
-import { SongSlideshow } from "./SongSlideshow";
+import SongSlideshow from "./SongSlideshow";
 import { MatrixFrame } from "./MatrixFrame";
 import { useWitnessingStore } from "@/stores/witnessingStore";
 import { applySlideshowReward } from "@/stores/dischordiaCycleStore";

@@ -727,20 +727,20 @@ const MASCOTEER_ACCENT: Record<string, string> = {
   the_seeker_child: "#38bdf8", // sky
 };
 
-/** Mascoteer character portraits — transparent PNGs, shown in decision card header */
+/** Mascoteer character portraits — matches actual asset paths from mascoteers.ts */
 const MASCOTEER_PORTRAIT: Record<string, string> = {
-  the_conductor: "/art/mascoteers/mascoteer-the-conductor.png",
-  mr_unblink: "/art/mascoteers/mascoteer-mr-unblink.png",
-  little_corey: "/art/mascoteers/mascoteer-little-corey.png",
-  vernon: "/art/mascoteers/mascoteer-vernon.png",
-  minnie: "/art/mascoteers/mascoteer-minnie.png",
-  wanda_wee: "/art/mascoteers/mascoteer-wanda-wee.png",
-  senator_sprout: "/art/mascoteers/mascoteer-senator-sprout.png",
-  wayne: "/art/mascoteers/mascoteer-wayne.png",
-  gary: "/art/mascoteers/mascoteer-gary.png",
-  thazu: "/art/mascoteers/mascoteer-thazu.png",
-  the_prince: "/art/mascoteers/mascoteer-the-prince.png",
-  the_seeker_child: "/art/mascoteers/mascoteer-the-seeker-child.png",
+  the_conductor: "/art/celebration/mascoteers/mascoteer_conni.png",
+  mr_unblink: "/art/celebration/mascoteers/mascoteer_unblink.png",
+  little_corey: "/art/celebration/mascoteers/mascoteer_corey.png",
+  vernon: "/art/celebration/mascoteers/mascoteer_vernon.png",
+  minnie: "/art/celebration/mascoteers/mascoteer_minnie.png",
+  wanda_wee: "/art/celebration/mascoteers/mascoteer_wanda.png",
+  senator_sprout: "/art/celebration/mascoteers/mascoteer_sprout.png",
+  wayne: "/art/celebration/mascoteers/mascoteer_wayne.png",
+  gary: "/art/celebration/mascoteers/mascoteer_gary.png",
+  thazu: "/art/celebration/mascoteers/mascoteer_thazu.png",
+  the_prince: "/art/celebration/mascoteers/mascoteer_prince.png",
+  the_seeker_child: "/art/celebration/mascoteers/mascoteer_red.png",
 };
 
 /** Cycle B battle opponent portraits */
