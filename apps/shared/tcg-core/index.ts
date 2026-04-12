@@ -118,6 +118,9 @@ export {
 export type { TriggerEffectRunner } from "./engine/triggerQueue";
 export { interpret, UnsupportedOpError } from "./engine/effectInterpreter";
 export { createDefaultTriggerRunner } from "./engine/defaultTriggerRunner";
+export { createMatchState, drawOneCard, mintEntityId } from "./engine/init";
+export type { MatchConfig, CreateMatchOptions } from "./engine/init";
+export { refreshTurnForPlayer } from "./engine/turn";
 export { makeExecCtx, withIt } from "./engine/execCtx";
 export type { ExecCtx } from "./engine/execCtx";
 export {

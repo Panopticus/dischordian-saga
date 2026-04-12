@@ -111,6 +111,7 @@ export function buildBareState(opts: BuildStateOptions = {}): GameState {
     winReason: null,
     triggerQueue: [],
     actionSeq: 0,
+    nextEntityCounter: 1000,
   };
 }
 

@@ -103,6 +103,14 @@ export interface GameState {
   triggerQueue: readonly PendingTrigger[];
   /** Monotonic action sequence counter for client-server dedup. */
   actionSeq: number;
+  /**
+   * Monotonic counter used to mint deterministic entity ids. Every new
+   * BoardEntity / CardInstance takes its id from
+   *     `e_${matchId}_${nextEntityCounter++}`
+   * guaranteeing replay-stable entity naming without RNG burn. Persisted
+   * on GameState so forward progress survives snapshotting.
+   */
+  nextEntityCounter: number;
 }
 
 export type GamePhase = "mulligan" | "playing" | "ended";

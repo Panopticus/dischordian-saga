@@ -32,6 +32,8 @@ import { createRng, type Rng } from "./rng";
 import { RULES_VERSION } from "./version";
 import { runStateBasedActions, SBA_SAFETY_CAP } from "./stateBasedActions";
 import { drainTriggerQueue, type TriggerEffectRunner } from "./triggerQueue";
+import { handleMulligan, handleFinishMulligan } from "./mulligan";
+import { refreshTurnForPlayer } from "./turn";
 
 export interface ReduceResult {
   state: GameState;
@@ -222,24 +224,8 @@ function runFixedPoint(draft: Draft<GameState>, ctx: ReduceCtx): void {
  * `end_turn` work; the rest error out cleanly.
  */
 
-function handleMulligan(
-  _draft: GameState,
-  _action: Extract<Action, { kind: "mulligan" }>,
-  _ctx: ReduceCtx
-): ReduceError | undefined {
-  return { code: "illegal_move", message: "mulligan: not implemented yet" };
-}
-
-function handleFinishMulligan(
-  _draft: GameState,
-  _action: Extract<Action, { kind: "finish_mulligan" }>,
-  _ctx: ReduceCtx
-): ReduceError | undefined {
-  return { code: "illegal_move", message: "finish_mulligan: not implemented yet" };
-}
-
 function handleMove(
-  _draft: GameState,
+  _draft: Draft<GameState>,
   _action: Extract<Action, { kind: "move" }>,
   _ctx: ReduceCtx
 ): ReduceError | undefined {
@@ -247,7 +233,7 @@ function handleMove(
 }
 
 function handleAttack(
-  _draft: GameState,
+  _draft: Draft<GameState>,
   _action: Extract<Action, { kind: "attack" }>,
   _ctx: ReduceCtx
 ): ReduceError | undefined {
@@ -255,7 +241,7 @@ function handleAttack(
 }
 
 function handlePlayCard(
-  _draft: GameState,
+  _draft: Draft<GameState>,
   _action: Extract<Action, { kind: "play_card" }>,
   _ctx: ReduceCtx
 ): ReduceError | undefined {
@@ -263,7 +249,7 @@ function handlePlayCard(
 }
 
 function handleReplaceCard(
-  _draft: GameState,
+  _draft: Draft<GameState>,
   _action: Extract<Action, { kind: "replace_card" }>,
   _ctx: ReduceCtx
 ): ReduceError | undefined {
@@ -271,7 +257,7 @@ function handleReplaceCard(
 }
 
 function handleBloodborn(
-  _draft: GameState,
+  _draft: Draft<GameState>,
   _action: Extract<Action, { kind: "bloodborn_spell" }>,
   _ctx: ReduceCtx
 ): ReduceError | undefined {
@@ -279,7 +265,7 @@ function handleBloodborn(
 }
 
 function handleEndTurn(
-  draft: GameState,
+  draft: Draft<GameState>,
   action: Extract<Action, { kind: "end_turn" }>,
   ctx: ReduceCtx
 ): ReduceError | undefined {
@@ -294,6 +280,9 @@ function handleEndTurn(
   const nextPlayer = (ending === 0 ? 1 : 0) as 0 | 1;
   draft.currentPlayer = nextPlayer;
   if (nextPlayer === 0) draft.turnNumber = draft.turnNumber + 1;
+  // Refresh the incoming player: +1 max mana, draw a card, reset
+  // bloodborn/replace flags, refresh unit action counts.
+  refreshTurnForPlayer(draft, nextPlayer, ctx);
   ctx.events.push({
     type: "turn_started",
     player: nextPlayer,
@@ -303,7 +292,7 @@ function handleEndTurn(
 }
 
 function handleConcede(
-  draft: GameState,
+  draft: Draft<GameState>,
   action: Extract<Action, { kind: "concede" }>,
   ctx: ReduceCtx
 ): ReduceError | undefined {
