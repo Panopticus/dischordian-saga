@@ -10,17 +10,21 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
   Eye, Shield, Vote, Zap, Gift, Radio, Users, BarChart3,
   Plus, X, Check, Power, PowerOff, Ticket, Clock, Target,
   ChevronRight, AlertTriangle, Send, Rewind,
   Search, DollarSign, Globe, ToggleLeft, Gamepad2, Activity,
-  Heart, Swords, Brain, Layers,
+  Heart, Swords, Brain, Layers, FileText, ShieldAlert,
 } from "lucide-react";
 import { toast } from "sonner";
 
 const TimeMachineView = lazy(() => import("@/components/TimeMachineView"));
 
-type ConsoleView = "surveillance" | "governance" | "live_ops" | "requisitions" | "awards" | "time_machine" | "inspect" | "economy" | "universe" | "flags" | "test_games";
+type ConsoleView = "surveillance" | "governance" | "live_ops" | "requisitions" | "awards" | "time_machine" | "inspect" | "economy" | "universe" | "flags" | "audit_log" | "test_games";
 
 /* ═══ VOID ENERGY STYLE HELPERS ═══ */
 const voidPanel = "bg-white/[0.02] border border-white/10 rounded-xl backdrop-blur";
@@ -826,7 +830,7 @@ function ChristmasQaPanel() {
    admin_audit_log. */
 function CasinoResetPanel() {
   const [targetUserId, setTargetUserId] = useState("");
-  const [confirm, setConfirm] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const resetMut = trpc.casino.adminResetCasinoSession.useMutation({
     onSuccess: (data) => {
       toast.success(
@@ -834,26 +838,34 @@ function CasinoResetPanel() {
           ? `Reset casino session for user #${targetUserId}`
           : `Reset casino session for ${data.reset} users`,
       );
-      setConfirm(false);
+      setDialogOpen(false);
       setTargetUserId("");
     },
     onError: (err) => {
       toast.error(err.message);
-      setConfirm(false);
+      setDialogOpen(false);
     },
   });
 
-  const onReset = () => {
-    const parsed = targetUserId.trim() === "" ? undefined : Number(targetUserId);
-    if (parsed !== undefined && (!Number.isFinite(parsed) || parsed <= 0)) {
+  const parsedTarget = targetUserId.trim() === "" ? undefined : Number(targetUserId);
+  const isResetAll = parsedTarget === undefined;
+
+  const onResetClick = () => {
+    if (parsedTarget !== undefined && (!Number.isFinite(parsedTarget) || parsedTarget <= 0)) {
       toast.error("Invalid user id");
       return;
     }
-    if (!confirm) {
-      setConfirm(true);
+    // Single-user reset still runs inline — only reset-all needs the
+    // destructive confirmation modal.
+    if (isResetAll) {
+      setDialogOpen(true);
       return;
     }
-    resetMut.mutate(parsed !== undefined ? { userId: parsed } : undefined);
+    resetMut.mutate({ userId: parsedTarget });
+  };
+
+  const executeResetAll = () => {
+    resetMut.mutate();
   };
 
   return (
@@ -871,30 +883,53 @@ function CasinoResetPanel() {
           type="number"
           placeholder="User id (blank = all)"
           value={targetUserId}
-          onChange={(e) => { setTargetUserId(e.target.value); setConfirm(false); }}
+          onChange={(e) => setTargetUserId(e.target.value)}
           disabled={resetMut.isPending}
           className="flex-1 px-3 py-2 rounded-lg bg-gray-900/60 border border-gray-700/40 text-gray-200 text-xs font-mono"
         />
         <button
-          onClick={onReset}
+          onClick={onResetClick}
           disabled={resetMut.isPending}
           className={`px-4 py-2 rounded-lg border font-mono text-[10px] transition-colors ${
-            confirm
-              ? "bg-red-500/20 border-red-500/50 text-red-200 hover:bg-red-500/30"
+            isResetAll
+              ? "bg-red-500/10 border-red-500/30 text-red-300 hover:bg-red-500/20"
               : "bg-amber-500/10 border-amber-500/30 text-amber-300 hover:bg-amber-500/20"
           } disabled:opacity-50`}
         >
-          {resetMut.isPending ? "Resetting..." : confirm ? "Confirm reset" : "Reset session"}
+          {resetMut.isPending ? "Resetting..." : isResetAll ? "Reset ALL" : "Reset session"}
         </button>
-        {confirm && !resetMut.isPending && (
-          <button
-            onClick={() => setConfirm(false)}
-            className="px-3 py-2 rounded-lg border border-white/20 text-white/40 font-mono text-[10px] hover:text-white/60"
-          >
-            Cancel
-          </button>
-        )}
       </div>
+
+      {/* Destructive confirmation modal — only for the reset-all branch. */}
+      <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertTriangle size={16} className="text-red-400" />
+              Reset every casino session?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This will zero session counters, current streak, daily wager, free spins, and
+              the Faction/Gauntlet streak counters for <strong>every</strong> player who has
+              ever played a casino game. Lifetime totals, collected tales, games played, games
+              won, and unlocked rewards are preserved. The action will be logged to
+              admin_audit_log.
+              <br /><br />
+              This cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={resetMut.isPending}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={executeResetAll}
+              disabled={resetMut.isPending}
+              className="bg-red-500/80 hover:bg-red-500 text-white"
+            >
+              {resetMut.isPending ? "Resetting..." : "Yes, reset all"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
@@ -937,6 +972,133 @@ function FlagsView() {
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
+/* ═══ RATE-LIMIT DASHBOARD TILE ═══
+   Surfaces the in-memory search-rate-limit buckets from the
+   ripple engine. Top-10 users sorted by hit count in the last
+   24 hours. Refreshes every 30 seconds. */
+function RateLimitDashboard() {
+  const bucketsQuery = trpc.analytics.searchRateLimitBuckets.useQuery(undefined, {
+    refetchInterval: 30_000,
+    retry: false,
+  });
+  const buckets = (bucketsQuery.data ?? []) as Array<{
+    userId: number;
+    hourEpoch: number;
+    count: number;
+    lastEndpoint: string;
+  }>;
+  const topBuckets = buckets.slice(0, 10);
+  return (
+    <div className={`${voidPanel} p-4`}>
+      <div className="flex items-center gap-2 mb-3">
+        <Activity size={14} className="text-red-400/70" />
+        <h4 className="font-mono text-[10px] text-red-400/80 tracking-wider">
+          SEARCH RATE-LIMIT HITS (24H)
+        </h4>
+        <span className="ml-auto font-mono text-[9px] text-white/30">
+          {buckets.length} buckets
+        </span>
+      </div>
+      {bucketsQuery.isLoading && (
+        <p className="font-mono text-xs text-white/30">Loading...</p>
+      )}
+      {!bucketsQuery.isLoading && topBuckets.length === 0 && (
+        <p className="font-mono text-[10px] text-white/30 text-center py-4">
+          No rate-limit hits in the last 24 hours. Nothing to see here.
+        </p>
+      )}
+      {topBuckets.length > 0 && (
+        <div className="space-y-1">
+          {topBuckets.map((b, i) => (
+            <div
+              key={`${b.userId}-${b.hourEpoch}`}
+              className={`flex items-center gap-2 px-2 py-1 rounded font-mono text-[10px] ${
+                b.count >= 50
+                  ? "bg-red-500/10 border border-red-500/30 text-red-300"
+                  : b.count >= 20
+                  ? "bg-amber-500/10 border border-amber-500/30 text-amber-300"
+                  : "bg-white/[0.02] border border-white/10 text-white/50"
+              }`}
+            >
+              <span className="w-5 text-center text-white/20">#{i + 1}</span>
+              <span className="flex-1">user #{b.userId}</span>
+              <span className="text-white/40 text-[9px]">{b.lastEndpoint}</span>
+              <span className="font-bold">{b.count}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ═══ AUDIT LOG VIEW ═══
+   Lists the last 200 admin_audit_log entries in reverse chrono
+   order. Each row renders action, admin, target, and a JSON
+   dump of `details`. Also mounts the rate-limit dashboard tile
+   above the log since both are admin operational concerns. */
+function AuditLogView() {
+  const logQuery = trpc.architectConsole.getAuditLog.useQuery({ limit: 200 });
+  const rotateMut = trpc.architectConsole.rotateAuditLog.useMutation({
+    onSuccess: (data) => {
+      toast.success(`Audit log rotated — pruned ${data.pruned} rows`);
+      logQuery.refetch();
+    },
+    onError: (err) => toast.error(err.message),
+  });
+  const entries = logQuery.data ?? [];
+  return (
+    <div className="space-y-4">
+      <RateLimitDashboard />
+      <div className="flex items-center justify-between gap-2">
+        <h3 className="font-mono text-[10px] text-cyan-400/60 tracking-wider">ADMIN AUDIT LOG</h3>
+        <span className="font-mono text-[9px] text-white/30 flex-1">
+          {entries.length} entries {entries.length >= 200 && "(capped)"}
+        </span>
+        <button
+          onClick={() => rotateMut.mutate()}
+          disabled={rotateMut.isPending}
+          className="px-3 py-1 rounded border border-red-500/30 bg-red-500/10 text-red-300 font-mono text-[9px] hover:bg-red-500/20 disabled:opacity-50"
+        >
+          {rotateMut.isPending ? "Rotating..." : "Rotate now (90d TTL)"}
+        </button>
+      </div>
+      {logQuery.isLoading && (
+        <p className="font-mono text-xs text-white/30">Loading audit entries...</p>
+      )}
+      {!logQuery.isLoading && entries.length === 0 && (
+        <div className={`${voidPanel} p-6 text-center`}>
+          <FileText size={32} className="mx-auto text-white/20 mb-2" />
+          <p className="font-mono text-xs text-white/30">
+            No audit entries yet. Admin actions will appear here.
+          </p>
+        </div>
+      )}
+      {entries.length > 0 && (
+        <div className="space-y-1">
+          {entries.map((entry: { id: number; adminId: number; action: string; details: unknown; createdAt: string | Date }) => (
+            <div key={entry.id} className={`${voidPanel} p-3 font-mono text-[11px]`}>
+              <div className="flex items-center gap-3 mb-1">
+                <ShieldAlert size={12} className="text-amber-400/60 shrink-0" />
+                <span className="text-amber-300">{entry.action}</span>
+                <span className="text-white/30">· admin #{entry.adminId}</span>
+                <span className="ml-auto text-[9px] text-white/30">
+                  {new Date(entry.createdAt).toLocaleString()}
+                </span>
+              </div>
+              {entry.details != null && (
+                <pre className="text-[9px] text-white/40 bg-black/30 rounded p-2 overflow-x-auto">
+                  {JSON.stringify(entry.details, null, 2)}
+                </pre>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -992,6 +1154,7 @@ const TABS: { id: ConsoleView; label: string; icon: typeof Eye }[] = [
   { id: "economy", label: "ECONOMY", icon: DollarSign },
   { id: "universe", label: "UNIVERSE", icon: Globe },
   { id: "flags", label: "FLAGS", icon: ToggleLeft },
+  { id: "audit_log", label: "AUDIT LOG", icon: FileText },
   { id: "test_games", label: "TEST GAMES", icon: Gamepad2 },
 ];
 
@@ -1061,6 +1224,7 @@ export default function ArchitectConsolePage() {
             {view === "economy" && <EconomyView />}
             {view === "universe" && <UniverseView />}
             {view === "flags" && <FlagsView />}
+            {view === "audit_log" && <AuditLogView />}
             {view === "test_games" && <TestGamesView />}
           </motion.div>
         </AnimatePresence>

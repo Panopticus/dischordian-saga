@@ -899,6 +899,24 @@ export const casinoRouter = router({
       return { optOut: input.optOut };
     }),
 
+  /** Toggle the user's milestone broadcast opt-out preference. When
+   *  enabled, the user is excluded from Christmas in July community
+   *  milestone broadcasts specifically. Independent from jackpot
+   *  opt-out so users can tune each stream separately. */
+  setMilestoneBroadcastOptOut: protectedProcedure
+    .use(checkFeatureFlag("casino"))
+    .input(z.object({ optOut: z.boolean() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      await ensureCasinoState(db, ctx.user.id);
+      await db
+        .update(casinoState)
+        .set({ milestoneBroadcastOptOut: input.optOut })
+        .where(eq(casinoState.userId, ctx.user.id));
+      return { optOut: input.optOut };
+    }),
+
   /** GM-facing seasonal reset. Zeros the session counters, current
    *  streak, and daily wager without touching lifetime totals,
    *  collectedTales, gamesPlayed, gamesWon, or unlocked rewards.

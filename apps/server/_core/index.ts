@@ -296,6 +296,29 @@ async function startServer() {
     dischordiaCycleService
       .hydrate()
       .catch(e => console.error("[DischordiaCycle] initial hydrate error:", e));
+
+    // Audit log rotation — delete admin_audit_log rows older than
+    // AUDIT_LOG_TTL_DAYS (default 90). Runs once per 24 hours so
+    // the table stays bounded on long-running servers.
+    const { rotateAuditLog } = await import("../services/auditLogRotation");
+    const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+    setInterval(() => {
+      rotateAuditLog()
+        .then(r => {
+          if (r.pruned > 0) {
+            console.log(`[AuditLogRotation] pruned ${r.pruned} rows`);
+          }
+        })
+        .catch(e => console.error("[AuditLogRotation] tick error:", e));
+    }, ONE_DAY_MS);
+    // Run once on startup to catch any backlog from previous runs.
+    rotateAuditLog()
+      .then(r => {
+        if (r.pruned > 0) {
+          console.log(`[AuditLogRotation] initial prune: ${r.pruned} rows`);
+        }
+      })
+      .catch(e => console.error("[AuditLogRotation] initial tick error:", e));
   }
 
   // Transmission achievements — upsert the `achievements` table rows

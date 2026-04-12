@@ -3381,6 +3381,10 @@ export const casinoState = mysqlTable("casino_state", {
   /** If true, the player is excluded from the progressive jackpot
    *  claim broadcast blast. They can still see the leaderboard. */
   jackpotBroadcastOptOut: boolean("jackpotBroadcastOptOut").notNull().default(false),
+  /** If true, the player is excluded from Christmas in July community
+   *  milestone broadcasts. Independent from jackpot opt-out so users
+   *  can keep one stream of notifications while muting the other. */
+  milestoneBroadcastOptOut: boolean("milestoneBroadcastOptOut").notNull().default(false),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({

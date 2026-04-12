@@ -146,13 +146,20 @@ export default function CasinoLeaderboardPage() {
   const claimMut = trpc.casino.claimJackpot.useMutation({
     onSuccess: () => poolQuery.refetch(),
   });
-  const optOutMut = trpc.casino.setJackpotBroadcastOptOut.useMutation({
+  const jackpotOptOutMut = trpc.casino.setJackpotBroadcastOptOut.useMutation({
     onSuccess: () => {
       utils.casino.getState.invalidate();
       toast.success("Updated notification preference");
     },
   });
-  const optedOut = Boolean(stateQuery.data?.jackpotBroadcastOptOut);
+  const milestoneOptOutMut = trpc.casino.setMilestoneBroadcastOptOut.useMutation({
+    onSuccess: () => {
+      utils.casino.getState.invalidate();
+      toast.success("Updated notification preference");
+    },
+  });
+  const jackpotOptedOut = Boolean(stateQuery.data?.jackpotBroadcastOptOut);
+  const milestoneOptedOut = Boolean(stateQuery.data?.milestoneBroadcastOptOut);
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -212,16 +219,29 @@ export default function CasinoLeaderboardPage() {
               Paid out {claimMut.data?.payout} Dream! Your balance has been credited.
             </p>
           )}
-          <div className="mt-4 pt-4 border-t border-amber-500/20">
+          <div className="mt-4 pt-4 border-t border-amber-500/20 space-y-2">
+            <p className="text-[10px] font-mono text-amber-400/40 uppercase tracking-widest">
+              Notification preferences
+            </p>
             <label className="flex items-center gap-2 text-[10px] font-mono text-amber-400/60 cursor-pointer">
               <input
                 type="checkbox"
-                checked={optedOut}
-                onChange={(e) => optOutMut.mutate({ optOut: e.target.checked })}
-                disabled={optOutMut.isPending}
+                checked={jackpotOptedOut}
+                onChange={(e) => jackpotOptOutMut.mutate({ optOut: e.target.checked })}
+                disabled={jackpotOptOutMut.isPending}
                 className="accent-amber-400"
               />
-              Opt out of casino broadcasts (jackpot claims, event milestones)
+              Mute jackpot claim broadcasts
+            </label>
+            <label className="flex items-center gap-2 text-[10px] font-mono text-amber-400/60 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={milestoneOptedOut}
+                onChange={(e) => milestoneOptOutMut.mutate({ optOut: e.target.checked })}
+                disabled={milestoneOptOutMut.isPending}
+                className="accent-amber-400"
+              />
+              Mute Christmas in July milestone broadcasts
             </label>
           </div>
         </div>
