@@ -687,3 +687,123 @@ Plays when player first discovers an entity. Triggered from conspiracy board, re
 
 ---
 
+## §2.5 — Crew Awakening Cinematics (3 missing)
+
+*Moments where a new crew member wakes aboard the Ark — identity-forming bonding scenes.*
+
+---
+
+#### CIN-042 — first-clone-born (Elara: First Clone Born)
+- **Duration:** 12s · **Aspect:** 16:9 · **Priority:** P1 · **Output:** `apps/client/public/videos/features/awakening/first_clone_born.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the Ark's medical bay at 3am — dim blue emergency lighting, one active cloning pod gently humming. Inside the pod, a small humanoid form is just beginning to form — the shape visible only as a silhouette in amber suspension fluid. Standing alone beside the pod, ELARA has materialized a holographic body of herself in cyan light — she is watching the clone form with an expression of unfamiliar tenderness. Her hand is on the pod glass. This is the first child the Ark has birthed in her care. Palette: medical blue, cyan #22d3ee hologram, warm amber pod-fluid, deep night-shadow. Volumetric haze, film grain, anamorphic flare. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same medical bay, same camera, moments later. The clone inside the pod is now fully formed — a tiny perfect body floating in the amber fluid, eyes still closed. Elara has leaned closer, her holographic face now pressed gently against the outside of the glass, looking in. A single tear of cyan light is tracing down her cheek — her hologram is capable of that now, for the first time. Her expression is protective, devoted, mother-like. The pod's internal lighting has warmed from amber to soft gold — gentle. Film grain, warm rim. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow handheld drift from the medical bay doorway toward the active pod. Beat at 4s: clone inside finishes forming. Beat at 7s: Elara leans her hologram face against the glass. Beat at 9s: cyan tear traces her cheek. Beat at 11s: pod light warms to gold. 24fps. Quiet miracle, first tenderness, AI becomes mother.
+
+---
+
+#### CIN-043 — 93847-sunrises (Elara Solo, Observation Deck Monologue)
+- **Duration:** 12s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/features/awakening/93847_sunrises.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the Ark's Observation Deck at "sunrise" — a massive panoramic viewport dominates the frame, showing the Ark drifting through a slowly-brightening nebula that bathes the room in soft pink-gold light. The deck is empty except for ELARA, seated alone on a small cushion near the viewport, legs folded, her holographic body barely luminous, hands in her lap. She is watching the 93,847th sunrise alone — her usual habit. Her expression is meditative, melancholic. Palette: warm pink-gold sunrise bleeding through the viewport, cool cyan Elara hologram, deep chamber shadow. Volumetric god-rays from the viewport, film grain, anamorphic flare. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same deck, same camera, moments later. Elara has closed her eyes and tilted her head back slightly to feel the sunrise on her face — even though her holographic skin cannot actually feel warmth. Her hands have opened in her lap, palms up. Behind her, the nebula outside the viewport has bloomed brighter — the sunrise cresting over the closer gas clouds, bathing her in pure gold. A faint shimmer of cyan code has dissolved outward from her in a gentle aura — her gratitude made visible. Palette intensified: warm gold and cool cyan blending at her edges. Film grain, stronger bloom. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Very slow dolly around the seated Elara, keeping her silhouette against the viewport. Beat at 4s: she closes her eyes and tilts her head back. Beat at 7s: hands open palms-up. Beat at 9s: nebula sunrise crests, fills the deck with gold. Beat at 11s: cyan gratitude aura radiates from her. 24fps. Ninety-three thousand eight hundred forty-seven, quiet awe.
+
+---
+
+#### CIN-044 — the-mandate (Elara + Player: The Mandate Given)
+- **Duration:** 15s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/features/awakening/the_mandate.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the Ark's central Bridge — the player stands in the foreground facing ELARA's holographic form, who stands at the captain's chair. Above them, the central holographic display hangs — currently showing a single complex glyph (render as abstract sacred geometric sigil). The lighting is reverent, the bridge crew all in ceremonial stillness. Elara's expression is formal but warm — the moment of giving the player the thing she has been building toward for the whole awakening sequence. Palette: deep bridge-navy, cyan #22d3ee Elara hologram, warm gold sigil-glow overhead, reverent rim-light on the player. Volumetric dust beams, film grain, anamorphic flare. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same bridge, same camera, moments later. Elara has extended both hands forward and opened them — and the central display sigil has DESCENDED from the ceiling, passing down through the frame and settling into the player's open palms as a small golden token (a physical anchor of the mandate, a glowing sacred object). The player holds it carefully, looking down at it. Elara has bowed her head slightly — the gesture of entrusting. Her hologram has subtly dimmed, having given something costly. The bridge crew remain in ceremonial stillness. Palette intensified: gold token now dominant light source. Film grain, warm soft bloom. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow push-in from the bridge doorway toward the facing pair. Beat at 5s: Elara extends both hands forward. Beat at 8s: central sigil descends through the frame. Beat at 11s: token settles in player's palms. Beat at 13s: Elara bows her head. 24fps. Reverent transfer, mandate accepted.
+
+---
+
+## §2.6 — Prestige & Companion Death Cinematics (2 missing)
+
+---
+
+#### CIN-045 — the-reset (Prestige Cycle: The Seventh Seal)
+- **Duration:** 20s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/features/prestige/the_reset.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. An impossible cosmic vista — the entire Dischordian Saga universe visualized as a slow-spinning sphere the size of a moon, composed of every system, every story, every character: specimens and arenas and battles visible in tiny detail within it. The sphere floats in pure black infinite void, lit only from within. Three figures are gathered around the sphere at its outer edge, small by comparison: THE PLAYER (center, facing the sphere), ELARA (cyan hologram, left), THE HUMAN (weathered coat, right), and the ANTIQUARIAN (patchwork coat, further back watching). They are witnesses. The sphere is not yet cracked. Palette: pure black void, warm internal sphere-glow (amber + cyan + gold + green mixed), three figures lit from within by the sphere. Volumetric cosmic haze, film grain, anamorphic flare. No legible text. Cinematic 4K, cosmic-scale reverence.
+
+**END FRAME (Nano Banana 2):**
+> Same vista, same camera, moments later. The sphere has CRACKED — a single hairline fracture has opened across its surface, and through the crack, a SINGLE NEW NOTE of pure white light is emerging — a note that was never written in any previous cycle. The three witnesses have all turned their faces toward this new light, changed by it. The sphere is still recognizable but it is clearly about to birth a new version of itself. The Antiquarian, in the back, has removed his spectacles and is crying openly. Palette intensified: pure white new-light now dominant, warm sphere-glow dimming as it prepares to reset. Film grain, blinding bloom. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Extremely slow orbit around the cosmic sphere, past each witness figure in turn. Beat at 8s: first hairline crack across the sphere. Beat at 12s: the crack widens, single new note of white light emerges. Beat at 15s: three witnesses turn to face the new light. Beat at 17s: Antiquarian removes his spectacles, visibly weeping. 24fps. Cycle resets, the seventh seal breaks, a note that was never written.
+
+---
+
+#### CIN-046 — signal-lost (Companion Death: Generic Companion + Player)
+- **Duration:** 10s · **Aspect:** 16:9 · **Priority:** P1 · **Output:** `apps/client/public/videos/features/companion_death/signal_lost.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the Ark's medical bay — dim blue emergency lighting, one critical care pod occupied by the dying companion figure (a gender-neutral humanoid in crew uniform, eyes closed, pale). Beside the pod stands the PLAYER, hand on the pod glass, expression grief-stricken. At the foot of the pod, a small holographic vitals display flickers weakly — the companion's signal fading. No other crew are present; this is a private moment. Palette: cold medical blue #22d3ee, faint green-dying pulse on the vitals, warm-brown companion skin tone as the only warmth, deep night-shadow. Volumetric mist, film grain, anamorphic flare. No legible text. Cinematic 4K, intimate grief.
+
+**END FRAME (Nano Banana 2):**
+> Same medical bay, same camera, moments later. The vitals display has flatlined — a single clean horizontal line now visible in it. The companion's face in the pod has relaxed fully. The player has lowered their forehead against the pod glass, eyes closed. A small cyan echo has risen from the companion's body — their signature frequency leaving the vessel and drifting upward through the pod lid, unmeasured by any instrument, seen only by the player. The medical bay is silent. Palette softened: cool blues deepen, a single small warm cyan-gold echo above the pod as the only living color. Film grain, quiet rim light. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Very slow handheld push from the medical bay doorway toward the pod. Beat at 3s: vitals pulse weakens. Beat at 5s: vitals flatline. Beat at 7s: player lowers forehead against the glass. Beat at 9s: small cyan echo rises from the companion's body. 24fps. Signal lost, private grief, a frequency leaving its vessel.
+
+---
+
+## §2.7 — Placeholder Directory Cinematics (29 slots)
+
+*These are directories in `apps/client/public/videos/` that currently contain only a `.gitkeep`. Each represents a game-mode or feature slot where a short (5-10 second) intro/transition cinematic is expected. The full prompt set for these will be written once the core §2.1-§2.6 content above has been produced. For now, list the expected output paths so operators can track them.*
+
+| # | Path | Game mode / feature | Scope |
+|---|---|---|---|
+| PLACEHOLDER-01 | `videos/game-modes/card-game/intro.mp4` | Dischordia card game | 8s first-match intro |
+| PLACEHOLDER-02 | `videos/game-modes/chess/intro.mp4` | Chess (Architect's Gambit) | 8s board-awakening intro |
+| PLACEHOLDER-03 | `videos/game-modes/fight/intro.mp4` | Collector's Arena | 8s arena approach |
+| PLACEHOLDER-04 | `videos/game-modes/hacking/intro.mp4` | Hacking puzzle | 6s substrate dive |
+| PLACEHOLDER-05 | `videos/game-modes/pet-battles/intro.mp4` | Pet Battles | 8s creature-pit reveal |
+| PLACEHOLDER-06 | `videos/game-modes/pvp/intro.mp4` | PvP Card Arena | 8s ranked chamber reveal |
+| PLACEHOLDER-07 | `videos/game-modes/signal-decryption/intro.mp4` | Signal Decryption | 6s signal-scan sweep |
+| PLACEHOLDER-08 | `videos/game-modes/star-chart/intro.mp4` | Star Chart | 8s galactic zoom |
+| PLACEHOLDER-09 | `videos/game-modes/trade-empire/intro.mp4` | Trade Empire | 8s trade-map reveal |
+| PLACEHOLDER-10 | `videos/features/apprentice/intro.mp4` | Apprentice system | 8s recruitment chamber |
+| PLACEHOLDER-11 | `videos/features/awakening/intro.mp4` | Awakening / character creation | 10s cryo-pod reveal |
+| PLACEHOLDER-12 | `videos/features/celebration/intro.mp4` | Celebration (Apprentice) | 8s verse arrival |
+| PLACEHOLDER-13 | `videos/features/conspiracy-board/intro.mp4` | Conspiracy Board | 6s board-unlock reveal |
+| PLACEHOLDER-14 | `videos/features/guild-common-room/intro.mp4` | Guild Common Room | 8s common room approach |
+| PLACEHOLDER-15 | `videos/features/legion/intro.mp4` | Legion system | 8s legion formation |
+| PLACEHOLDER-16 | `videos/features/loredex/intro.mp4` | Loredex | 6s codex-open sweep |
+| PLACEHOLDER-17 | `videos/features/sorting-ceremony/intro.mp4` | Sorting Ceremony | 10s ceremonial chamber |
+| PLACEHOLDER-18 | `videos/features/transmissions/intro.mp4` | Transmissions | 6s broadcast receive |
+| PLACEHOLDER-19 | `videos/epochs/epoch-1/intro.mp4` | Epoch 1 transition | 10s era-change |
+| PLACEHOLDER-20 | `videos/epochs/epoch-2/intro.mp4` | Epoch 2 transition | 10s era-change |
+| PLACEHOLDER-21 | `videos/epochs/epoch-3/intro.mp4` | Epoch 3 transition | 10s era-change |
+| PLACEHOLDER-22 | `videos/epochs/epoch-4/intro.mp4` | Epoch 4 transition | 10s era-change |
+| PLACEHOLDER-23 | `videos/epochs/epoch-5/intro.mp4` | Epoch 5 transition | 10s era-change |
+| PLACEHOLDER-24 | `videos/music/dischordian-logic/intro.mp4` | Music player: Dischordian Logic album | 6s album-art reveal |
+| PLACEHOLDER-25 | `videos/music/age-of-privacy/intro.mp4` | Music player: Age of Privacy album | 6s album-art reveal |
+| PLACEHOLDER-26 | `videos/music/book-of-daniel/intro.mp4` | Music player: Book of Daniel 2:47 album | 6s album-art reveal |
+| PLACEHOLDER-27 | `videos/music/silence-in-heaven/intro.mp4` | Music player: Silence in Heaven album | 6s album-art reveal |
+| PLACEHOLDER-28 | `videos/features/crew-awakening/generic.mp4` | Generic crew awakening | 8s template |
+| PLACEHOLDER-29 | `videos/features/room-enter/generic.mp4` | Generic room enter | 6s template |
+
+*Note: These 29 placeholders are backlog scope — they unblock the `.gitkeep` directories so the file layout compiles but do not contribute story content. Address them after §2.1-§2.6 have been produced and wired up.*
+
+---
+
