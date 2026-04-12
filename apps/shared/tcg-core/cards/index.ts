@@ -1,5 +1,5 @@
 /**
- * Card registry barrel — 294 Season 1 cards + 6 token(s) = 300 definitions.
+ * Card registry barrel — 300 Season 1 cards + 6 token(s) = 306 definitions.
  */
 import type { CardDefinition } from "../index";
 
@@ -248,8 +248,8 @@ import { cardDef as s1_reward_casino_high_roller } from "./definitions/new_babyl
 import { cardDef as s1_reward_casino_poker } from "./definitions/new_babylon/s1_reward_casino_poker.ts";
 import { cardDef as s1_reward_casino_vip } from "./definitions/new_babylon/s1_reward_casino_vip.ts";
 import { cardDef as s1_reward_class_soldier } from "./definitions/new_babylon/s1_reward_class_soldier.ts";
-import { cardDef as s1_reward_eidolon_auros } from "./definitions/new_babylon/s1_reward_eidolon_auros.ts";
 import { cardDef as s1_reward_companion_locke } from "./definitions/new_babylon/s1_reward_companion_locke.ts";
+import { cardDef as s1_reward_eidolon_auros } from "./definitions/new_babylon/s1_reward_eidolon_auros.ts";
 import { cardDef as s1_reward_guild_territory } from "./definitions/new_babylon/s1_reward_guild_territory.ts";
 import { cardDef as s1_reward_guild_victory } from "./definitions/new_babylon/s1_reward_guild_victory.ts";
 import { cardDef as s1_reward_syndicate_build } from "./definitions/new_babylon/s1_reward_syndicate_build.ts";
