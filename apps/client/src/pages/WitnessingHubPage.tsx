@@ -69,6 +69,7 @@ export default function WitnessingHubPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-stone-950 to-[#0d0a05] relative">
+      {/* TODO(art): generate room-archives.png — see docs/production/MISSING_ART_PROMPTS.md #7 */}
       <LivingBackground
         src="/art/rooms/room-archives.png"
         accent="#f59e0b"

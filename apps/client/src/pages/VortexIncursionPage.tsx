@@ -157,6 +157,7 @@ export default function VortexIncursionPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-stone-950 to-[#050010] relative">
+      {/* TODO(art): generate room-observation-deck.png — see docs/production/MISSING_ART_PROMPTS.md #9 */}
       <LivingBackground
         src="/art/rooms/room-observation-deck.png"
         accent="#a78bfa"

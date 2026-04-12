@@ -72,6 +72,21 @@ export const EPOCH_SYMBOLS: Record<string, { src: string; title: string }> = {
   dischordian_war:  { src: "/art/story-icons/epoch-dischordian-war.png",  title: "Dischordian War" },
 };
 
+/* ─── SECTION 5: Lore Gallery Hi-Res Variants (6) ─── */
+
+export const LORE_GALLERY_HIRES = {
+  cardFrames: {
+    common:    "/art/lore-gallery/card-frames/common-hires.png",
+    uncommon:  "/art/lore-gallery/card-frames/uncommon-hires.png",
+    rare:      "/art/lore-gallery/card-frames/rare-hires.png",
+    epic:      "/art/lore-gallery/card-frames/epic-hires.png",
+    legendary: "/art/lore-gallery/card-frames/legendary-hires.png",
+  },
+  overlays: {
+    lockedClassified: "/art/lore-gallery/overlays/locked-classified-hires.png",
+  },
+} as const;
+
 /* ─── ASSET MANIFEST ─── */
 
 export const OPTIONAL_ASSET_MANIFEST = {
@@ -82,5 +97,6 @@ export const OPTIONAL_ASSET_MANIFEST = {
   factionIcons:   { count: 2,  format: "256×256 PNG transparent", dir: "/art/roadmap/" },
   chapterIcons:   { count: 6,  format: "128×128 PNG transparent", dir: "/art/story-icons/" },
   epochSymbols:   { count: 3,  format: "128×128 PNG transparent", dir: "/art/story-icons/" },
-  total: 34,
+  loreGalleryHires: { count: 6, format: "PNG transparent", dir: "/art/lore-gallery/" },
+  total: 40,
 } as const;

@@ -42,6 +42,7 @@ export const THE_ASSISTANT_CARD: MemorialCard = {
   subtitle: "In memoriam — Darren Fessler",
   rarity: "memorial",
   archetype: "control_architect",
+  // TODO(art): generate darren-fessler-badge.png — see docs/production/MISSING_ART_PROMPTS.md #10
   artAsset: "/art/crew/darren-fessler-badge.png",
   flavorText:
     "He held the clipboard the Host was not allowed to see. Play him only when you need a record of what actually happened.",
