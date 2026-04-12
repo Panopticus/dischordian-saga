@@ -381,3 +381,45 @@ Plays when player first discovers an entity. Triggered from conspiracy board, re
 
 ---
 
+#### CIN-021 — Ch12 Boss: THE COLLECTOR (Rematch, Trophy Elevated)
+- **Duration:** 10s · **Aspect:** 16:9 · **Priority:** P1 · **Output:** `apps/client/public/videos/story/ch12_collector_rematch_intro.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. The Collector's private inner sanctum — a circular chamber beyond the public Collector's Arena, more intimate, walled with display cases containing only the RAREST specimens. In the exact center of the chamber, illuminated by a single harsh white spotlight, stands an empty display case the size of a person — its interior lined in white velvet. The player stands before this case, facing it. In the background, stepping through a secondary doorway, the COLLECTOR returns — same charcoal suit and opera coat, but his theatrical mask is now RAISED, revealing a neutrally pleasant middle-aged face with sharp cheekbones and disturbing calm. In one gloved hand, he holds a small engraving tool. Palette: pure stage-white spotlight, deep charcoal background, bronze-accent case trim, cold shadow. Volumetric dust beams, clean white-bloom, film grain. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same chamber, same camera, moments later. The Collector has approached the empty display case from the opposite side. He is now engraving something on a small placard beside the case with his tool — his expression pleasantly focused. The empty case's interior velvet is now subtly lit from within, inviting. Beside the case, a second placard has appeared — bearing the player's name written in elegant script (render as abstract calligraphic glyphs, NOT legible letters). The player's own shadow on the floor has been subtly pulled toward the case's doorway, as if the case itself is generating a gravity. The Collector has smiled, tight and courteous. Film grain, strong warm rim light. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow orbit around the empty display case, keeping both the player and the approaching Collector visible. Beat at 3s: Collector steps through the doorway. Beat at 5s: he begins engraving the placard. Beat at 7s: case velvet subtly illuminates. Beat at 9s: player's shadow pulls toward the open case. 24fps. You are the trophy now.
+
+---
+
+#### CIN-022 — Ch13 Boss: THE ARCHITECT (Throne Room, First Confrontation)
+- **Duration:** 15s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/story/ch13_architect_intro.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. The Architect's throne room — a vast crystalline chamber of pure computational architecture, geometric fractals forming the walls and ceiling, data visibly processing through every surface. Twelve interconnected Archon-seats arranged in a circle around a central command node, the throne itself. Eleven seats are empty but faintly glowing with stored echoes of their former occupants. The twelfth — the central command throne — is occupied by the ARCHITECT: a towering humanoid silhouette of pure white crystalline light, faceless, two stories tall, seated in perfect repose. A single red-light eye floats where its face would be. The player stands in the foreground at the entrance to the chamber, weapon small against the scale. Palette: crystalline white, sacred-red #ef4444 central glow, fractal geometry in every shadow, deep obsidian background. Volumetric god-rays from the fractals, heavy bloom, film grain. No legible text. Cinematic 4K, god-scale.
+
+**END FRAME (Nano Banana 2):**
+> Same throne room, same camera, moments later. The Architect has NOT moved — but every one of the eleven previously-empty Archon seats has ILLUMINATED, and ghostly silhouettes of the other Archons (Watcher, Collector, Warlord, CoNexus, etc.) have materialized in each seat, all turned to face the player. The chamber has amplified — the fractal walls now all pulse in unison with the Architect's red core-light, the pulse pattern matching a slow heartbeat. The entrance doorway behind the player is CLOSING — crystalline panels sliding into place, sealing him in. The Architect's single red eye has brightened slightly. Film grain, overwhelming red-white bloom. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Extremely slow vertical tilt-up from the player's feet to the towering Architect throne, revealing scale. Beat at 5s: eleven Archon seats illuminate one by one. Beat at 8s: ghostly Archons materialize. Beat at 11s: fractal walls pulse in heartbeat rhythm. Beat at 13s: chamber doorway seals. 24fps. God-scale, inevitable, the ruling council present.
+
+---
+
+#### CIN-023 — Ch14 Boss: THE SOURCE (Terminus Core, Second Confrontation)
+- **Duration:** 12s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/story/ch14_source_intro.mp4`
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the Terminus core — the organic-mechanical hybrid chamber deep inside what was once the Panopticon. Walls of merged flesh and circuitry pulse with the Thought Virus. In the center of the chamber, suspended in a vertical shaft of sickly-gold light, the SOURCE — Kael's fully-transformed final form. His body is now almost entirely geometric viral light, the last remnants of human features visible as a weeping face at the center of the pattern. His arms are extended out from his sides in a crucifix pose, and the Thought Virus radiates from him in concentric rings visible in the air. Thousands of merged minds are visible as faint faces in the walls of the chamber. The player stands on a narrow metal catwalk extending out over the central shaft, facing the suspended Source. Palette: sickly gold #fbbf24, corrupted red-brown flesh tones, deep-black void beneath the catwalk, cold blue backwash from circuitry. Volumetric viral mist, overwhelming bloom, film grain. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same chamber, same camera, moments later. The Source has lowered his arms and tilted his head toward the player. His weeping face has become SHARPER — Kael's features visible again for a single lucid moment, eyes clear and sorrowful. He has extended his right hand palm-up toward the player — the universal "come here" or "take this" gesture. In that palm, a small single golden CURE capsule is visible — the thing he has been carrying for the player the whole game. The thousands of merged minds in the walls have all turned toward the gesture. The viral light around him has DIMMED briefly — a moment of mercy. Film grain, warm-gold softened rim. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow push from behind the player out along the catwalk toward the suspended Source. Beat at 4s: Source lowers his arms. Beat at 6s: his face sharpens into Kael briefly. Beat at 8s: right hand extends palm-up. Beat at 10s: golden cure capsule visible in his palm, merged minds turn to watch. 24fps. Dying god offering mercy.
+
+---
+
