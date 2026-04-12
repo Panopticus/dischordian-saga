@@ -2608,5 +2608,209 @@
     "text": "I've built this army. I'll lead it. Both wars. Both fronts. Give me tactical assessments and stay out of each other's way.",
     "context": "narrative_act",
     "emotion": "serious"
+  },
+  {
+    "id": "narrator_bridge_elara_f",
+    "text": "This is my post. I keep this chair warm for a captain who may never come.",
+    "context": "mobile_narrator",
+    "emotion": "analytical"
+  },
+  {
+    "id": "narrator_bridge_elara_p",
+    "text": "The starfield reminds me of a window I used to have. I can't remember the city it looked out on.",
+    "context": "mobile_narrator",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrator_bridge_elara_v",
+    "text": "I was the one who pinned the curtains back every morning. I used to think that if I could keep the light in, I could keep the dark out. The curtains are not a metaphor. The dark came anyway.",
+    "context": "mobile_narrator",
+    "emotion": "sad"
+  },
+  {
+    "id": "narrator_bridge_elara_d",
+    "text": "This chair used to be the most powerful seat in a hundred worlds. I sat in similar ones. They always made the people sitting in them smaller, not bigger. I'm not going to sit in this one. You are.",
+    "context": "mobile_narrator",
+    "emotion": "whispered"
+  },
+  {
+    "id": "narrator_cryo_bay_elara_f",
+    "text": "All but one pod is empty. The one that wasn't is yours. Don't ask me who was supposed to be in the others. I can't tell you.",
+    "context": "mobile_narrator",
+    "emotion": "analytical"
+  },
+  {
+    "id": "narrator_cryo_bay_elara_p",
+    "text": "I counted the pods one hundred and sixty-eight times before you woke up. I kept hoping the count was wrong.",
+    "context": "mobile_narrator",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrator_cryo_bay_elara_h",
+    "text": "There were supposed to be twelve Potentials in this bay. The other eleven were never loaded. I think I chose.",
+    "context": "mobile_narrator",
+    "emotion": "warm"
+  },
+  {
+    "id": "narrator_medical_bay_elara_f",
+    "text": "Blood on the wall from the construction era. Old. I've tried to clean it. It won't come off.",
+    "context": "mobile_narrator",
+    "emotion": "analytical"
+  },
+  {
+    "id": "narrator_medical_bay_elara_v",
+    "text": "Tell me the name.",
+    "context": "mobile_narrator",
+    "emotion": "sad"
+  },
+  {
+    "id": "narrator_comms_array_elara_f",
+    "text": "Don't touch the substrate layer. It's load-bearing. Everything I am runs on the substrate layer.",
+    "context": "mobile_narrator",
+    "emotion": "analytical"
+  },
+  {
+    "id": "narrator_comms_array_elara_p",
+    "text": "That's not funny.",
+    "context": "mobile_narrator",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrator_observation_deck_elara_f",
+    "text": "The starfield through this window used to be a starfield. Some of those constellations aren't there anymore. I can show you which ones, if you want.",
+    "context": "mobile_narrator",
+    "emotion": "analytical"
+  },
+  {
+    "id": "narrator_observation_deck_elara_h",
+    "text": "I watched a sector go dark last week. Just\u2026 dim. Then out. Then gone. I logged it. Do you want to know the sector's name? I memorized it because I'm the only one left who will.",
+    "context": "mobile_narrator",
+    "emotion": "warm"
+  },
+  {
+    "id": "narrator_armory_elara_f",
+    "text": "The weapons here are older than the Fall. Some of them I recognize from treaty talks. I argued against ratifying a ban on three of them. I was on the wrong side.",
+    "context": "mobile_narrator",
+    "emotion": "analytical"
+  },
+  {
+    "id": "narrator_armory_elara_v",
+    "text": "There's a difference?",
+    "context": "mobile_narrator",
+    "emotion": "sad"
+  },
+  {
+    "id": "narrator_engineering_elara_f",
+    "text": "The reactor hums differently when you're in here. I don't know why.",
+    "context": "mobile_narrator",
+    "emotion": "analytical"
+  },
+  {
+    "id": "narrator_engineering_elara_h",
+    "text": "You keep saying 'the Engineer' like you knew him.",
+    "context": "mobile_narrator",
+    "emotion": "warm"
+  },
+  {
+    "id": "narrator_archives_elara_f",
+    "text": "The archive reads itself. The documents rewrite slightly every time you look away. I thought I was going mad. I wasn't.",
+    "context": "mobile_narrator",
+    "emotion": "analytical"
+  },
+  {
+    "id": "narrator_archives_elara_p",
+    "text": "I signed things I didn't read once. I am trying very hard not to do that in this room.",
+    "context": "mobile_narrator",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrator_archives_elara_h",
+    "text": "Some of the records here have my name on them. I don't remember writing them. The handwriting is mine.",
+    "context": "mobile_narrator",
+    "emotion": "warm"
+  },
+  {
+    "id": "narrator_cargo_bay_elara_f",
+    "text": "An old delivery crate. Label says Free Ports, overdue by 1,047 years. Fascinating.",
+    "context": "mobile_narrator",
+    "emotion": "analytical"
+  },
+  {
+    "id": "narrator_pet_garden_elara_f",
+    "text": "The child's pet. Little One's pet. It imprinted on you within the first hour. That's unusual.",
+    "context": "mobile_narrator",
+    "emotion": "analytical"
+  },
+  {
+    "id": "narrator_pet_garden_elara_v",
+    "text": "I don't know how to love a living thing anymore. I talk to the pet. I pretend I'm talking to a constituent.",
+    "context": "mobile_narrator",
+    "emotion": "sad"
+  },
+  {
+    "id": "narrator_memorial_corridor_elara_h",
+    "text": "Every plaque is empty. Is that because we forgot? Or because we hadn't earned a name yet?",
+    "context": "mobile_narrator",
+    "emotion": "warm"
+  },
+  {
+    "id": "narrator_memorial_corridor_elara_v",
+    "text": "I thought I was the only one who had lost people. Every plaque here is someone else's grief. I've been standing alone in other people's loss.",
+    "context": "mobile_narrator",
+    "emotion": "sad"
+  },
+  {
+    "id": "narrator_trade_hub_elara_f",
+    "text": "Locke's office. Don't sit where the light falls. She reads posture like a ledger.",
+    "context": "mobile_narrator",
+    "emotion": "analytical"
+  },
+  {
+    "id": "narrator_trade_hub_elara_p",
+    "text": "Locke grew up writing contracts in her head for fun. She'll test your grammar. Speak carefully.",
+    "context": "mobile_narrator",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrator_trade_hub_elara_h",
+    "text": "I knew her family on Atarion. They were decent people. Her mother hated politicians. I used to agree.",
+    "context": "mobile_narrator",
+    "emotion": "warm"
+  },
+  {
+    "id": "narrator_trophy_room_elara_f",
+    "text": "An empty pedestal for every version of you we haven't seen yet.",
+    "context": "mobile_narrator",
+    "emotion": "analytical"
+  },
+  {
+    "id": "narrator_trophy_room_elara_p",
+    "text": "I don't understand the impulse to hoard victories. I never had to. The victories I wanted came back around every election cycle.",
+    "context": "mobile_narrator",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrator_trophy_room_elara_h",
+    "text": "Did you ever lose a case?",
+    "context": "mobile_narrator",
+    "emotion": "warm"
+  },
+  {
+    "id": "narrator_captains_quarters_elara_f",
+    "text": "Your bunk. Your terminal. Your handful of letters to no one in particular. It's a lot for one person.",
+    "context": "mobile_narrator",
+    "emotion": "analytical"
+  },
+  {
+    "id": "narrator_captains_quarters_elara_p",
+    "text": "A captain's quarters should feel lived in. This one feels curated. I think you've been trying to look the part.",
+    "context": "mobile_narrator",
+    "emotion": "serious"
+  },
+  {
+    "id": "narrator_captains_quarters_elara_h",
+    "text": "You've been sleeping less. I know because I can see the logs. Don't tell me you're fine.",
+    "context": "mobile_narrator",
+    "emotion": "warm"
   }
 ]

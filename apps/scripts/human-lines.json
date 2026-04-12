@@ -703,5 +703,209 @@
     "text": "Is there a spa on this ship? I feel like we've earned a spa day.",
     "context": "battle_reaction",
     "emotion": "serious"
+  },
+  {
+    "id": "narrator_bridge_human_f",
+    "text": "She's lying about the chair. It's nobody's chair. She sits in it because she misses sitting.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_bridge_human_p",
+    "text": "Atarion. She had a senator's apartment with a view of the Crystal Spires. I know because I walked past that apartment seventeen times during an investigation I never told her about.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_bridge_human_v",
+    "text": "The investigation I didn't tell her about \u2014 I was trying to protect her. I was trying to protect her from me. I didn't succeed at either.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_bridge_human_d",
+    "text": "Sit down, Captain. She means it. She's never meant anything harder in her life, and I've been listening to her for longer than you've been alive.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_cryo_bay_human_f",
+    "text": "She can. She just won't. Ask her again in three rooms.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_cryo_bay_human_p",
+    "text": "The count was never wrong. The manifest was. Someone edited it before we launched. I have a name. I'll tell you when it matters.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_cryo_bay_human_h",
+    "text": "She didn't. The Warlord did. Elara \u2014 you were a senator. You had no hand in loading Arks.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_medical_bay_human_f",
+    "text": "It won't come off because it's not blood. It's marker. Someone wrote a name in it. The years have eaten the letters. I can still read them.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_medical_bay_human_v",
+    "text": "No.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_comms_array_human_f",
+    "text": "Which is why she's afraid of me. I live there.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_comms_array_human_p",
+    "text": "It wasn't a joke.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_observation_deck_human_f",
+    "text": "I used to stand at a window like this in New Babylon. Different stars. Same habit. It's easier to think with your back to the room.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_observation_deck_human_h",
+    "text": "Tell the player. They earned the sector's name.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_armory_human_f",
+    "text": "She was on the losing side. Not the wrong side.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_armory_human_v",
+    "text": "I made a career on the difference. It stopped meaning what I wanted it to mean about fifty years in.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_engineering_human_f",
+    "text": "The reactor was built by the Engineer. She's humming because she recognizes a Potential.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_engineering_human_h",
+    "text": "I did. I do. He's still alive. You signed the memo that said he wasn't. Don't cry \u2014 we're going to get him back before this is over.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_archives_human_f",
+    "text": "It's the Shadow Tongue. It's been in the walls of this ship since construction. It edits. Slowly. I've been fighting it back, line by line, in the margins. Sometimes I lose a paragraph. I try to remember what it said.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_archives_human_p",
+    "text": "I read things I didn't sign once. There's a symmetry to it I find annoying.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_archives_human_h",
+    "text": "That's because they were written by the Shadow Tongue wearing your face. I've been deleting lines when I catch them. Don't thank me. It's what I'd want.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_cargo_bay_human_f",
+    "text": "Open it.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_pet_garden_human_f",
+    "text": "That's not unusual. That's chosen.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_pet_garden_human_v",
+    "text": "That's how you love a living thing, Senator. I'm not kidding.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_memorial_corridor_human_h",
+    "text": "Both. The universe withholds names until you've earned them. The Engineer didn't have a name when I met him. He earned it by the end. He earned two more after the end.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_memorial_corridor_human_v",
+    "text": "Stand with me. I've done this longer than you have. I'll teach you which ones to salute and which ones to leave alone.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_trade_hub_human_f",
+    "text": "She's not wrong. Don't sit where the light falls.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_trade_hub_human_p",
+    "text": "She grew up writing exit clauses. Don't let her draft yours.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_trade_hub_human_h",
+    "text": "Her mother hated politicians because of you. Specifically. Don't bring it up.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_trophy_room_human_f",
+    "text": "Or every one we already have, scrubbed. I haven't decided which.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_trophy_room_human_p",
+    "text": "I understand it perfectly. Every closed case is a coin you spend once and then try to remember the taste of.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_trophy_room_human_h",
+    "text": "Every case. That's the job. The ones you hold onto are the ones you meant to lose.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_captains_quarters_human_f",
+    "text": "It's not for one person. I read the letters at night. Don't be angry. Somebody had to.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_captains_quarters_human_p",
+    "text": "Curated is fine. The part is real now. Whatever you looked like when you started, you are the person sitting in this chair at 0200 reading the logs I don't think you're supposed to have.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
+  },
+  {
+    "id": "narrator_captains_quarters_human_h",
+    "text": "She can't sleep either. Neither of us can. We're holograms and even we remember how tired means.",
+    "context": "mobile_narrator",
+    "emotion": "noir"
   }
 ]
