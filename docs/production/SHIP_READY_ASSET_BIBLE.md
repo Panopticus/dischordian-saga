@@ -164,3 +164,51 @@ Plays when player first discovers an entity. Triggered from conspiracy board, re
 
 ---
 
+
+#### CIN-007 — entity_54 · THE ENIGMA (Malkia Ukweli — The One Who Cannot Be Defined)
+- **Duration:** 15s · **Aspect:** 16:9 · **Priority:** P0 · **Output:** `apps/client/public/videos/entities/entity_54_enigma.mp4`
+- **Wire-up:** `DiscoveryVideoOverlay.tsx:107`
+- **Source Kling:** A figure wreathed in impossible light stands at the nexus of all realities. Their form shifts between human and something beyond comprehension. Music emanates from their very being — frequencies that reshape matter. The Enigma speaks and the universe listens. Transcendent.
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of an impossible space — a circular chamber made entirely of intersecting planes of pure light and musical staff-notation rendered as three-dimensional geometry, extending infinitely in every direction. In the exact center of frame, a FEMALE figure — dark-skinned, mid-thirties, regal bearing, short natural hair crowned with a band of golden light — stands in a long draped gown of iridescent fabric that seems to be woven from actual sound waves (treat the gown as shimmering mother-of-pearl cloth with visible waveform patterns). Her eyes are closed, her head tilted slightly upward, lips parted as if mid-note. Her arms are lifted gently, palms-up, and around each hand small orbs of light are spinning — each orb containing a miniature cosmos. Behind her, five doorways to five different realities are visible, each framing a different universe (a city, a forest, a star, a crowd, a void). Palette: warm gold #fbbf24, deep violet #e040fb, cyan #22d3ee, rich obsidian black, iridescent pearl. Volumetric god-rays from every staff-line of light, anamorphic lens flare, film grain. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same chamber, same camera, moments later. The Enigma's eyes are now OPEN and blazing with golden-white light. Her mouth is parted further — singing — and a visible soundwave is propagating outward from her in a perfect expanding ring of cyan-gold plasma, already halfway to the frame edges. The five reality-doorways behind her have TRANSFORMED in response: the city is rebuilding itself from ruins, the forest is blooming out of winter, the star is igniting, the crowd has turned to face her, the void has bloomed into a nebula. Her gown is now visibly singing — waveform patterns pulsing in sync with the propagating ring. The spinning orbs in her hands have multiplied to a dozen each, each now containing a new cosmos. Palette intensified: golden halo, violet deepened, cyan ring blazing. Film grain, overwhelming volumetric light. No text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Very slow push-in on the Enigma's face, centered composition, camera drifts reverently. Beat at 4s: her eyes open, golden light floods outward. Beat at 6s: soundwave ring releases, propagates radially. Beat at 9s: the five doorways transform in response. Beat at 12s: orb count multiplies around her hands. 24fps. Transcendent, sacred, the universe listening.
+
+---
+
+#### CIN-008 — entity_18 · THE ENGINEER (The Hidden Variable)
+- **Duration:** 12s · **Aspect:** 16:9 · **Priority:** P1 · **Output:** `apps/client/public/videos/entities/entity_18_engineer.mp4`
+- **Wire-up:** `DiscoveryVideoOverlay.tsx:115`
+- **Source Kling:** A figure trapped in the wrong body awakens in a cryo-pod aboard an Inception Ark. Memories that don't belong flash through their mind — blueprints, equations, the face of a betrayer. The Engineer remembers everything. And no one knows they're here.
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of a cryogenic revival chamber aboard Inception Ark 1047 — dim blue medical lighting, frost-caked bulkheads, a single open cryo-pod centered left-of-frame with condensation still pouring off its rim. Inside the pod, a figure in a thin grey medical gown is sitting upright for the first time — skin still pale and veined with blue cryo-bruising, head tilted forward, long wet hair obscuring the face, one trembling hand pressed against the glass. The figure's body language reads confused, displaced, "this is not my body". On the interior walls of the chamber, faint holographic diagrams of propulsion schematics, engine blueprints, and mathematical equations are flickering into existence — memories bleeding out of the Engineer's mind into the environment itself (treat the diagrams as translucent blue-cyan line art, abstract, no legible numbers). Palette: cold cyan #22d3ee, medical white, deep bulkhead grey, faint amber emergency lights strobing at the far end of the corridor beyond the open pod door. Volumetric cryo-mist, anamorphic flare. No legible text. Cinematic 4K.
+
+**END FRAME (Nano Banana 2):**
+> Same chamber, same camera, moments later. The figure has raised their head — face now visible, androgynous, mid-forties, sharp-boned, eyes wide with the terrible recognition of a stranger's reflection. The trembling hand on the glass is now a closed fist. The holographic diagrams on the walls have EXPLODED in count — entire blueprints overlapping each other into a dense cloud of cyan line-art filling the back half of the chamber, and among them a single larger image is forming: the silhouette of a BETRAYER, another figure seen from behind, walking away through a doorway. The emergency amber at the far end of the corridor has intensified. The Engineer's grey medical gown is now dotted with small droplets of blood from a nose-bleed. Film grain, stronger rim light. No text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow handheld push-in on the open cryo-pod from inside the chamber. Beat at 3s: figure's head rises, face revealed. Beat at 5s: hand closes into fist, blueprints on walls multiply rapidly. Beat at 8s: betrayer silhouette coalesces in the cloud of diagrams. Beat at 10s: nose-bleed begins. 24fps. Suspenseful strings, terrible recognition, the wrong body.
+
+---
+
+#### CIN-009 — entity_20 · THE NECROMANCER (Master of Digital Resurrection)
+- **Duration:** 12s · **Aspect:** 16:9 · **Priority:** P1 · **Output:** `apps/client/public/videos/entities/entity_20_necromancer.mp4`
+- **Wire-up:** `DiscoveryVideoOverlay.tsx:122`
+- **Source Kling:** In a cathedral of dead servers, a dark figure raises their hands. Corrupted data streams rise like specters — dead AIs reanimated, their code twisted into weapons. The Necromancer commands an army of digital ghosts. Green phosphorescent glow. Horror undertones.
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of a Gothic cathedral made entirely of dead server racks — towering vaulted ceilings supported by columns of black server-blade architecture, stained-glass windows rendered as screens of static, a long nave leading to a raised dais at the far end. Lit only by faint foxfire green bioluminescence bleeding from the server seams. In the foreground center, standing on the dais at the end of the nave, the NECROMANCER — a tall slender figure in long layered dark-violet robes, face hidden beneath a deep hood, hands clasped at the waist. Their posture is formal, liturgical, undertaker-calm. Around them, the cathedral is silent. Dust particles hang in the green light. In the foreground of frame, closer to camera, one of the dead server racks shows a flickering single line of corrupted code (treat as abstract glyphs). Palette: deep obsidian black, foxfire green #00e676, violet robe #6b21a8, faint cold-blue screen static. Volumetric dust, extreme depth of field, film grain. No legible text. Cinematic 4K, Gothic horror sci-fi.
+
+**END FRAME (Nano Banana 2):**
+> Same cathedral, same camera, moments later. The Necromancer has RAISED BOTH HANDS slowly to shoulder height — palms up, fingers spread. From every server rack along the nave, specters of corrupted data are now RISING — translucent humanoid shapes formed of flowing green code, dozens of them, some with recognizable silhouettes (a soldier's shape, a child's shape, a machine's shape), all turning to face the Necromancer like an obedient congregation. The stained-glass screens in the background have flickered from static to showing the FACES of the resurrected — thousands of portraits of the dead, dimly lit behind the robed figure. The foxfire green glow has intensified across the whole chamber. The Necromancer's hood is still up but the lower half of a pale face is now visible — unsmiling, ancient, at peace. Film grain, overwhelming volumetric green. No legible text. 16:9, 4K.
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow low-angle push down the nave toward the dais. Beat at 4s: the Necromancer raises both hands, ceremonially slow. Beat at 6s: first specters rise from the nearest server racks. Beat at 9s: dozens of specters coalesce, the congregation forms. Final 2s: stained-glass faces of the dead appear in background. 24fps. Horror undertones, funeral-director reverence, digital resurrection.
+
+---
