@@ -1859,6 +1859,94 @@ export type ChessTournamentPairing = typeof chessTournamentPairings.$inferSelect
 
 
 /* ═══════════════════════════════════════════════════════
+   CHESS NARRATIVE — "The Game Master's Gambit" lore reskin
+   Per-user meta-state for the 12-act story mode. Tracks the
+   current reveal tier (how much of the Game-Master-is-dead
+   truth has unfolded), which acts are completed, and which
+   NPCs (Inventor / Knowledge) have been encountered.
+   ═══════════════════════════════════════════════════════ */
+
+/** Per-user meta-state for the chess story arc. There's exactly one
+ *  row per user; it tracks overall progress across the gauntlet,
+ *  independent of which specific imprint is being played. */
+export const chessNarrativeState = mysqlTable("chess_narrative_state", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Current highest unlocked act (1-12). Starts at 1. */
+  currentAct: int("currentAct").notNull().default(1),
+  /** Reveal tier 0-5: how much of the Game Master's true nature
+   *  has been exposed. Bumps monotonically as the player progresses
+   *  through narrative beats. */
+  revealTier: int("revealTier").notNull().default(0),
+  /** Array of act numbers the player has completed at least once. */
+  completedActs: json("completedActs").$type<number[]>(),
+  /** Global lore flags set by choice points and reveal moments. */
+  loreFlags: json("loreFlags").$type<string[]>(),
+  inventorEncountered: boolean("inventorEncountered").notNull().default(false),
+  knowledgeEncountered: boolean("knowledgeEncountered").notNull().default(false),
+  /** True once Act 11 ("The Final Game") has been won and the
+   *  Act 12 epilogue ("The Goggles") is playable. */
+  epilogueUnlocked: boolean("epilogueUnlocked").notNull().default(false),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+}, (table) => ({
+  userUq: uniqueIndex("idx_chess_narrative_state_user").on(table.userId),
+}));
+export type ChessNarrativeState = typeof chessNarrativeState.$inferSelect;
+
+/** Per-user-per-opponent "imprint" state. One row per (user,opponent)
+ *  pair. Tracks:
+ *   - whether the imprint is unlocked in the player's roster
+ *   - the current difficulty tier (bumps on each win, capped at 5)
+ *   - win/loss/draw record + last result (drives rematch dialog)
+ *   - a compact "player model" JSON used by the AI to bias move
+ *     selection toward counters of the player's tendencies — this
+ *     is what gives the felt experience of "they remember how you play"
+ *   - relationship flags + score from choice points
+ *   - which specific dialog lines have already been shown so evolving
+ *     dialog doesn't repeat */
+export const chessOpponentImprints = mysqlTable("chess_opponent_imprints", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Stable string id matching a key in the CHESS_CHARACTERS map
+   *  (e.g. "the_human", "the_collector", "iron_lion"). */
+  opponentId: varchar("opponentId", { length: 64 }).notNull(),
+  unlocked: boolean("unlocked").notNull().default(false),
+  difficultyTier: int("difficultyTier").notNull().default(0),
+  gamesPlayed: int("gamesPlayed").notNull().default(0),
+  wins: int("wins").notNull().default(0),
+  losses: int("losses").notNull().default(0),
+  draws: int("draws").notNull().default(0),
+  /** Player's last encounter result — drives the "rematchWon" /
+   *  "rematchLost" / "rematchDraw" pre-game dialog branches. */
+  lastResult: mysqlEnum("lastResult", ["win", "loss", "draw", "none"]).notNull().default("none"),
+  lastEncounteredAt: timestamp("lastEncounteredAt"),
+  /** Compact learning-AI state — see apps/shared/chessPlayerModel.ts */
+  playerModel: json("playerModel").$type<{
+    topOpeningMoves: string[];
+    captureRate: number;
+    sacrificeRate: number;
+    avgCheckRate: number;
+    favoritePiece: "n" | "b" | "r" | "q" | "k" | "p";
+    sampleSize: number;
+  } | null>(),
+  /** Relationship flags set by choice points — e.g. "act3_mercy_shown". */
+  relationshipFlags: json("relationshipFlags").$type<string[]>(),
+  /** Signed relationship score in [-10, 10]. Choice points add deltas. */
+  relationshipScore: int("relationshipScore").notNull().default(0),
+  /** IDs of dialog lines the player has already seen. Prevents the
+   *  "evolving dialog" pool from repeating already-delivered lines. */
+  dialogSeenIds: json("dialogSeenIds").$type<string[]>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+}, (table) => ({
+  userOpponentUq: uniqueIndex("idx_chess_opponent_imprints_user_opponent").on(table.userId, table.opponentId),
+  userIdx: index("idx_chess_opponent_imprints_user").on(table.userId),
+}));
+export type ChessOpponentImprint = typeof chessOpponentImprints.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════
    CLASS MASTERY — Progressive class specialization
    Players earn class XP by performing class-aligned actions.
    5 mastery ranks unlock increasingly powerful perks.

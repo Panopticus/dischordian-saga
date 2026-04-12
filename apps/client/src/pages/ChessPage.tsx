@@ -2468,8 +2468,8 @@ export default function ChessPage() {
 
 /* ─── LIVE GAMES PANEL ───
    Polls the chess WS in-memory active-matches map every 5 seconds.
-   Visible only in the multiplayer lobby idle state. Click a row to
-   spectate (TODO: spectate flow not yet wired in this PR). */
+   Visible only in the multiplayer lobby idle state. Rows are display-only
+   for now — the spectate flow is not wired in this PR. */
 function LiveGamesPanel() {
   const live = trpc.chess.listActiveMpMatches.useQuery(undefined, { refetchInterval: 5_000 });
   const matches = live.data?.matches ?? [];
