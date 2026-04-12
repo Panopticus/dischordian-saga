@@ -24,7 +24,7 @@ import { toast } from "sonner";
 
 const TimeMachineView = lazy(() => import("@/components/TimeMachineView"));
 
-type ConsoleView = "surveillance" | "governance" | "live_ops" | "requisitions" | "awards" | "time_machine" | "inspect" | "economy" | "universe" | "flags" | "audit_log" | "test_games";
+type ConsoleView = "surveillance" | "governance" | "live_ops" | "requisitions" | "awards" | "time_machine" | "inspect" | "economy" | "universe" | "flags" | "approvals" | "audit_log" | "test_games";
 
 /* ═══ VOID ENERGY STYLE HELPERS ═══ */
 const voidPanel = "bg-white/[0.02] border border-white/10 rounded-xl backdrop-blur";
@@ -123,7 +123,19 @@ function GovernanceView() {
   const utils = trpc.useUtils();
   const votes = trpc.architectConsole.listVotes.useQuery({ limit: 20 });
   const createVoteMut = trpc.architectConsole.createVote.useMutation({ onSuccess: () => { utils.architectConsole.listVotes.invalidate(); toast.success("Directive created"); setShowCreate(false); } });
-  const closeVoteMut = trpc.architectConsole.closeVote.useMutation({ onSuccess: () => { utils.architectConsole.listVotes.invalidate(); toast.success("Directive closed"); } });
+  const [lastInscription, setLastInscription] = useState<string | null>(null);
+  const closeVoteMut = trpc.architectConsole.closeVote.useMutation({
+    onSuccess: (data) => {
+      utils.architectConsole.listVotes.invalidate();
+      const inscription = (data as any)?.result?.antiquarianInscription;
+      if (inscription) {
+        setLastInscription(inscription);
+        toast.success("Directive closed — the Antiquarian has inscribed the outcome.");
+      } else {
+        toast.success("Directive closed");
+      }
+    },
+  });
 
   const [showCreate, setShowCreate] = useState(false);
   const [title, setTitle] = useState("");
@@ -189,6 +201,19 @@ function GovernanceView() {
         )}
       </AnimatePresence>
 
+      {/* Inscription from last closed vote */}
+      <AnimatePresence>
+        {lastInscription && (
+          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className={`${voidPanel} p-4 space-y-2`} style={{ borderColor: "rgba(16,185,129,0.2)", background: "rgba(16,185,129,0.03)" }}>
+            <div className="flex items-center justify-between">
+              <h4 className="font-mono text-[10px] text-emerald-400 tracking-wider">THE ANTIQUARIAN INSCRIBES</h4>
+              <button onClick={() => setLastInscription(null)} className="text-white/20 hover:text-white/50"><X size={12} /></button>
+            </div>
+            <p className="font-mono text-[11px] text-emerald-300/70 italic leading-relaxed">{lastInscription}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Vote List */}
       {votes.data?.votes?.map((vote: any) => (
         <div key={vote.id} className={`${voidPanel} p-4`}>
@@ -219,6 +244,14 @@ function GovernanceView() {
               </div>
             );
           })}
+          {/* Show stored inscription for closed votes */}
+          {vote.status === "closed" && vote.impactPayload?.antiquarianInscription && (
+            <div className="mt-2 pt-2 border-t border-white/5">
+              <p className="font-mono text-[9px] text-emerald-300/50 italic leading-relaxed">
+                {vote.impactPayload.antiquarianInscription}
+              </p>
+            </div>
+          )}
         </div>
       ))}
       {!votes.data?.votes?.length && <p className="font-mono text-[10px] text-white/20 text-center py-8">No directives issued</p>}
@@ -1142,6 +1175,163 @@ function TestGamesView() {
   );
 }
 
+/* ═══ APPROVALS VIEW ═══ */
+type ApprovalStatusFilter = "pending" | "executed" | "rejected" | "all";
+
+function ApprovalsView() {
+  const { user } = useAuth();
+  const [filter, setFilter] = useState<ApprovalStatusFilter>("pending");
+
+  const utils = trpc.useUtils();
+  const listQuery = trpc.architectConsole.listApprovalRequests.useQuery(
+    filter === "all" ? { limit: 100 } : { status: filter, limit: 100 },
+  );
+
+  const approveMutation = trpc.architectConsole.approveApprovalRequest.useMutation({
+    onSuccess: (result) => {
+      if (result.status === "executed") {
+        toast.success(`Request #${result.id} approved and executed.`);
+      } else {
+        toast.success(`Request #${result.id} approved (${result.approvalCount}/2). Waiting on a second admin.`);
+      }
+      utils.architectConsole.listApprovalRequests.invalidate();
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
+  const rejectMutation = trpc.architectConsole.rejectApprovalRequest.useMutation({
+    onSuccess: (result) => {
+      toast.success(`Request #${result.id} rejected.`);
+      utils.architectConsole.listApprovalRequests.invalidate();
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
+  const filterPills: { id: ApprovalStatusFilter; label: string; color: string }[] = [
+    { id: "pending", label: "PENDING", color: "text-amber-400" },
+    { id: "executed", label: "EXECUTED", color: "text-green-400" },
+    { id: "rejected", label: "REJECTED", color: "text-red-400" },
+    { id: "all", label: "ALL", color: "text-white/50" },
+  ];
+
+  const rows = listQuery.data ?? [];
+
+  return (
+    <div className="space-y-4">
+      <div className={`${voidPanel} p-4`}>
+        <div className="flex items-center gap-2 mb-3">
+          <ShieldAlert size={14} className="text-cyan-400" />
+          <h3 className="font-mono text-[10px] text-cyan-400/80 tracking-wider">APPROVAL REQUESTS</h3>
+          <span className="font-mono text-[9px] text-white/30 ml-auto">TWO-ADMIN GATE</span>
+        </div>
+        <p className="font-mono text-[10px] text-white/40 mb-3 leading-relaxed">
+          Moderators submit feature-flag changes here. Two distinct admins must approve
+          before the dispatcher executes. A single admin can reject at any time.
+        </p>
+        <div className="flex gap-1">
+          {filterPills.map((p) => (
+            <button key={p.id} onClick={() => setFilter(p.id)}
+              className={`px-3 py-1.5 rounded-lg font-mono text-[10px] tracking-wider transition-all border ${
+                filter === p.id
+                  ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-400"
+                  : "bg-white/[0.02] border-transparent text-white/30 hover:text-white/50"
+              }`}>
+              {p.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {listQuery.isLoading ? (
+        <div className={`${voidPanel} p-6 text-center font-mono text-[10px] text-white/20`}>Loading...</div>
+      ) : rows.length === 0 ? (
+        <div className={`${voidPanel} p-6 text-center`}>
+          <ShieldAlert size={24} className="text-white/10 mx-auto mb-2" />
+          <p className="font-mono text-[10px] text-white/20">No {filter === "all" ? "" : filter} approval requests.</p>
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {rows.map((row: any) => {
+            const approvals = (row.approvals ?? []) as Array<{ adminId: number; approvedAt: string }>;
+            const alreadyApproved = approvals.some((a: any) => a.adminId === user?.id);
+            const isOwnRequest = row.requestedBy === user?.id;
+            const canApprove = row.status === "pending" && !alreadyApproved && !isOwnRequest;
+            const canReject = row.status === "pending";
+
+            const statusColors: Record<string, string> = { pending: "text-amber-400 border-amber-500/30 bg-amber-500/5", executed: "text-green-400 border-green-500/30 bg-green-500/5", rejected: "text-red-400 border-red-500/30 bg-red-500/5" };
+
+            return (
+              <div key={row.id} className={`${voidPanel} p-4`}>
+                <div className="flex items-start gap-3 mb-2">
+                  <span className={`px-2 py-0.5 rounded border font-mono text-[9px] tracking-wider ${statusColors[row.status] || "text-white/30"}`}>
+                    {row.status.toUpperCase()}
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <span className="font-mono text-[11px] font-bold text-white">#{row.id}</span>
+                    <span className="font-mono text-[10px] text-cyan-400 ml-2">{row.action}</span>
+                    <span className="font-mono text-[10px] text-white/30 ml-1">→</span>
+                    <code className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-white/5 text-white/60 ml-1">{row.targetKey}</code>
+                    <div className="font-mono text-[9px] text-white/30 mt-0.5">
+                      by user #{row.requestedBy} · {new Date(row.createdAt).toLocaleString()}
+                    </div>
+                  </div>
+                  {row.status === "pending" && (
+                    <span className="font-mono text-[9px] text-white/30 px-2 py-0.5 rounded bg-white/5 border border-white/10">{approvals.length}/2</span>
+                  )}
+                </div>
+
+                {row.reason && (
+                  <p className="font-mono text-[9px] text-white/40 mb-2">Reason: {row.reason}</p>
+                )}
+
+                {approvals.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mb-2">
+                    {approvals.map((a: any, idx: number) => (
+                      <span key={idx} className="flex items-center gap-1 px-2 py-0.5 rounded bg-green-500/5 border border-green-500/20">
+                        <Check size={9} className="text-green-400" />
+                        <span className="font-mono text-[9px] text-green-400">admin #{a.adminId}</span>
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {row.status === "rejected" && row.rejectedBy && (
+                  <p className="font-mono text-[9px] text-red-300/50 mb-2">
+                    <AlertTriangle size={10} className="inline mr-1 text-red-400/50" />
+                    Rejected by admin #{row.rejectedBy}{row.rejectionReason ? ` — ${row.rejectionReason}` : ""}
+                  </p>
+                )}
+
+                {(canApprove || canReject) && (
+                  <div className="flex items-center gap-2 pt-2 border-t border-white/5">
+                    {isOwnRequest && <span className="font-mono text-[9px] text-white/30 italic">You submitted this — another admin must act.</span>}
+                    {alreadyApproved && !isOwnRequest && <span className="font-mono text-[9px] text-cyan-400/50 italic">You already approved.</span>}
+                    <div className="ml-auto flex items-center gap-2">
+                      {canReject && (
+                        <button onClick={() => {
+                          const reason = prompt("Rejection reason:");
+                          if (reason?.trim()) rejectMutation.mutate({ id: row.id, reason: reason.trim() });
+                        }} className={voidBtnDanger} disabled={rejectMutation.isPending}>
+                          <X size={11} className="inline mr-1" /> REJECT
+                        </button>
+                      )}
+                      {canApprove && (
+                        <button onClick={() => approveMutation.mutate({ id: row.id })} className={voidBtnPrimary} disabled={approveMutation.isPending}>
+                          <Check size={11} className="inline mr-1" /> {approveMutation.isPending ? "APPROVING..." : "APPROVE"}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ═══ MAIN CONSOLE ═══ */
 const TABS: { id: ConsoleView; label: string; icon: typeof Eye }[] = [
   { id: "surveillance", label: "SURVEILLANCE", icon: Eye },
@@ -1154,6 +1344,7 @@ const TABS: { id: ConsoleView; label: string; icon: typeof Eye }[] = [
   { id: "economy", label: "ECONOMY", icon: DollarSign },
   { id: "universe", label: "UNIVERSE", icon: Globe },
   { id: "flags", label: "FLAGS", icon: ToggleLeft },
+  { id: "approvals", label: "APPROVALS", icon: ShieldAlert },
   { id: "audit_log", label: "AUDIT LOG", icon: FileText },
   { id: "test_games", label: "TEST GAMES", icon: Gamepad2 },
 ];
@@ -1224,6 +1415,7 @@ export default function ArchitectConsolePage() {
             {view === "economy" && <EconomyView />}
             {view === "universe" && <UniverseView />}
             {view === "flags" && <FlagsView />}
+            {view === "approvals" && <ApprovalsView />}
             {view === "audit_log" && <AuditLogView />}
             {view === "test_games" && <TestGamesView />}
           </motion.div>

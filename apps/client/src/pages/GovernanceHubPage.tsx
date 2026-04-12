@@ -33,11 +33,13 @@ import {
 } from "@/services/engagementTracker";
 import { SEED_CHRONICLE } from "@/data/antiquarianChronicle";
 import {
-  ACTS, getCategoryLabel, getStatusColor, getNextEvents,
+  ACTS, getCategoryLabel, getStatusColor,
 } from "@/data/eventsCalendar";
 import { getDailyVote, generateVoterName, generateAntiquarianInscription } from "@shared/governance";
 import { PalimpsestMeterPanel } from "@/components/PalimpsestMeterPanel";
 import { usePalimpsest } from "@/hooks/usePalimpsest";
+import { sanitizeResultsForDisplay } from "@/services/aiVotePadding";
+import { narrateMetrics } from "@/services/engagementTracker";
 import type { VoteResult } from "@shared/governance";
 
 /* ─── ICON MAP (for dynamic metric rendering) ─── */
@@ -375,7 +377,11 @@ function VoteResultPanel() {
   const latest = results[0];
   if (!latest || latest.winningOptionNumber == null) return null;
 
-  const totalVotes = latest.totalVotes || 1;
+  // Strip AI votes — show only real player percentages per spec
+  const realTally: Record<string, number> = {};
+  for (const opt of latest.options) realTally[String(opt.optionNumber)] = opt.voteCount;
+  const { percentages: sanitizedPct, totalReal } = sanitizeResultsForDisplay(realTally);
+  const totalVotes = totalReal || 1;
 
   return (
     <div className="void-elevated p-5 mb-4">
@@ -390,10 +396,10 @@ function VoteResultPanel() {
         {latest.title}
       </h2>
 
-      {/* Option breakdown bars */}
+      {/* Option breakdown bars (real votes only, AI padding stripped) */}
       <div className="space-y-1.5 mb-4">
         {latest.options.map((opt) => {
-          const pct = totalVotes > 0 ? Math.round((opt.voteCount / totalVotes) * 100) : 0;
+          const pct = sanitizedPct[String(opt.optionNumber)] ?? 0;
           return (
             <div key={opt.optionNumber} className="relative">
               <div className="flex items-center gap-2">
@@ -599,6 +605,18 @@ function PulsePanel() {
           );
         })}
       </div>
+
+      {/* Antiquarian's observation on the metrics */}
+      {serverMetrics.data && (
+        <div className="void-surface p-3 mt-2" style={{ borderColor: "rgba(251,191,36,0.15)", background: "rgba(20,15,10,0.4)" }}>
+          <div className="font-mono text-[8px] uppercase tracking-wider text-amber-400/60 mb-1">
+            <BookOpen size={9} className="inline mr-1" /> ANTIQUARIAN OBSERVES
+          </div>
+          <p className="font-serif text-[10px] text-amber-100/60 italic leading-relaxed">
+            {narrateMetrics(metrics)}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
@@ -735,6 +753,19 @@ export default function GovernanceHubPage() {
     { id: "chronicle" as const, label: "TOME", icon: BookOpen },
     { id: "pulse" as const, label: "PULSE", icon: BarChart3 },
   ];
+
+  // Load Year One calendar events and seed chronicle entries on first mount
+  const store = useGovernanceStore();
+  useEffect(() => {
+    if (store.calendarEvents.length === 0) {
+      import("@/data/yearOneEvents").then(({ YEAR_ONE_EVENTS }) => {
+        store.setCalendarEvents(YEAR_ONE_EVENTS);
+      });
+    }
+    if (store.chronicleEntries.length === 0) {
+      store.setChronicleEntries(SEED_CHRONICLE);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Server-backed Palimpsest state via the shared hook (dedupes across components).
   const { state: palimpsestState } = usePalimpsest();
