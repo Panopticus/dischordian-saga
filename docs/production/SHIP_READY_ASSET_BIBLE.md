@@ -1105,3 +1105,147 @@ If new NPCs are added to the roster later, follow the `NPCPortrait` interface at
 
 ---
 
+## §3.5 — Empty Directory Fills (new prompts for 5 currently-empty dirs)
+
+*These 5 directories under `apps/client/public/art/` exist but contain zero assets. The prompts below are the minimum viable fills for each.*
+
+---
+
+### §3.5.1 — `/art/pet-battles/` (12 new images)
+
+**Existing:** 0 files. Section §3.3 already covers the 5 arena backgrounds (ART-E01 to ART-E05). This subsection covers the creature cards, type icons, and UI bits the pet battle system needs beyond environments.
+
+#### ART-PB01 — Pet card frame (common rarity)
+- **Output:** `art/pet-battles/frames/frame_common.png` · **Size:** 512×768 transparent PNG · **Priority:** P1
+- **Prompt:** Ornate rectangular card frame in the shape of an etched iron rune-stone. Dark steel metal with faint blue logic-light tracing around the perimeter. Top portion has a subtle crest for the pet's species icon. Bottom half has a recessed area for stats (leave blank for code overlay). Transparent center where the pet art will be composed. Subtle corner decorations: 4 small brass bolts. Cool steel-grey, faint cyan logic-glow, deep shadow behind the frame edges. 512×768 PNG with alpha.
+
+#### ART-PB02 — Pet card frame (rare)
+- **Output:** `art/pet-battles/frames/frame_rare.png` · **Size:** 512×768 transparent PNG · **Priority:** P1
+- **Prompt:** Same base structure as ART-PB01 but with ornate silver filigree along the edges, a faint foxfire-green inner glow pulsing slowly, and a small gem setting at the top-center (gem is a small green emerald-shape). The rune-stone base is now deep silvered metal. 512×768 PNG with alpha.
+
+#### ART-PB03 — Pet card frame (legendary)
+- **Output:** `art/pet-battles/frames/frame_legendary.png` · **Size:** 512×768 transparent PNG · **Priority:** P1
+- **Prompt:** Ornate frame of polished gold with sacred geometric embossing, a bright inner glow of warm golden light, a larger gem setting at the top-center (gem is a small violet amethyst). Warm rim light and subtle angelic motes of gold dust rising along the frame edges. 512×768 PNG with alpha.
+
+#### ART-PB04 — Type icon set: 8 elemental types
+- **Output:** `art/pet-battles/type-icons/type_{fire,water,earth,air,void,nature,shadow,light}.png`
+- **Size:** 128×128 transparent PNG each (8 files) · **Priority:** P1
+- **Prompt (batch, one per type):** Set of 8 minimal circular icons, each 128×128, each representing one elemental type. Consistent art style across all 8: flat-iconic, subtle rim light, deep background circle with a stylized element at center. Fire: orange flame. Water: cyan droplet. Earth: ochre stone cube. Air: pale grey spiral. Void: pure black hex with violet edge. Nature: green leaf. Shadow: dark grey crescent. Light: golden sunburst. 128×128 PNG with alpha, matching style.
+
+#### ART-PB05 — Move effect sprite sheet (8 generic moves)
+- **Output:** `art/pet-battles/move-effects/{slash,bite,beam,burst,bind,heal,shield,stun}.png`
+- **Size:** 512×512 transparent PNG each (8 files) · **Priority:** P2
+- **Prompt (batch, one per move):** Set of 8 stylized VFX effect sprites on transparent backgrounds, ready for overlay compositing. Slash: three diagonal white-blue energy cuts. Bite: jagged crescent of teeth-bone yellow. Beam: horizontal cyan laser with particle trail. Burst: radial shockwave of gold. Bind: coiled dark-violet chains. Heal: ascending green sparkles. Shield: hexagonal cyan bubble. Stun: cartoon yellow lightning stars. 512×512 PNG with alpha.
+
+---
+
+### §3.5.2 — `/art/portraits/` (ALREADY COVERED — N/A)
+
+See §3.2. All current NPC portraits resolve via Cloudinary CDN in `npcPortraits.ts`. No new prompts needed unless new NPCs are added.
+
+---
+
+### §3.5.3 — `/art/pvp/` (10 new images)
+
+#### ART-PVP01 — Rank badges (7 tiers)
+- **Output:** `art/pvp/ranks/rank_{bronze,silver,gold,platinum,diamond,master,grandmaster}.png`
+- **Size:** 256×256 transparent PNG each (7 files) · **Priority:** P1
+- **Prompt (batch, one per tier):** Set of 7 rank badges, each 256×256, consistent style: a metal tier-insignia shield with a gemstone at center and a banner beneath. Bronze: dark bronze shield, small red garnet. Silver: polished silver shield, small white moonstone. Gold: warm gold shield, small yellow topaz. Platinum: pale platinum shield, small clear crystal. Diamond: prismatic white shield, cut diamond. Master: obsidian-black shield, violet amethyst. Grandmaster: pure white shield with gold filigree, sacred-gold sunstone. Each with a tiny tier-numeral etched in the banner (render as abstract glyph). 256×256 PNG with alpha.
+
+#### ART-PVP02 — PvP season banner
+- **Output:** `art/pvp/banners/season_01.jpg` · **Size:** 1920×480 JPG · **Priority:** P2
+- **Prompt:** Wide horizontal banner showing the current season's theme — Season 1 "First Blood": two opposing holographic card hands reaching toward each other across a dark arena, lit by violent red-and-cyan PvP glow. Season number subtly embossed in the corner (abstract glyph). Cinematic wide panorama, 1920×480 JPG.
+
+#### ART-PVP03 — Leaderboard background
+- **Output:** `art/pvp/ui/leaderboard_bg.jpg` · **Size:** 1920×1080 JPG · **Priority:** P2
+- **Prompt:** Atmospheric dark arena background for the leaderboard screen — a massive floating scoreboard cluster hovering over an empty tournament chamber, cool blue and warm gold rank-glow from unseen ranked players, dramatic spotlight pools, the absence of people making it feel cathedral-like. Leave the upper 60% mostly dark for leaderboard text overlay. 1920×1080 JPG.
+
+---
+
+### §3.5.4 — `/art/station/` (COVERED by §3.3)
+
+See §3.3 ART-E09 through ART-E14 for the 6 station module backgrounds. Those are the full station art deliverables.
+
+---
+
+### §3.5.5 — `/art/trade/` (partial — 6 new images beyond §3.3)
+
+Section §3.3 already covers the 4 major trade-mode backgrounds (ART-E15 to ART-E18). This subsection covers the UI chrome.
+
+#### ART-TR01 — Currency icon set (6 currencies)
+- **Output:** `art/trade/icons/currency_{credits,gems,dust,dream_tokens,dischord_shards,silver}.png`
+- **Size:** 128×128 transparent PNG each (6 files) · **Priority:** P1
+- **Prompt (batch, one per currency):** Set of 6 stylized currency icons, 128×128 each, consistent style: a stylized coin or shard with a faint inner glow. Credits: silver coin with circuit etching (cyan inner glow). Gems: cut violet gemstone (violet inner glow). Dust: swirling warm-amber mote cloud (amber inner glow). Dream Tokens: golden ankh-shaped token with sacred geometry (gold inner glow). Dischord Shards: jagged black obsidian shard with foxfire green cracks. Silver: plain polished silver ingot. 128×128 PNG with alpha.
+
+#### ART-TR02 — Faction trade emblems (4 factions)
+- **Output:** `art/trade/emblems/faction_{new_babylon,insurgency,neyons,hierarchy}.png`
+- **Size:** 256×256 transparent PNG each (4 files) · **Priority:** P2
+- **Prompt (batch, one per faction):** Set of 4 heraldic faction emblems, 256×256 each. New Babylon: corporate judicial scales in silver and violet. Insurgency: a raised fist holding a broken chain in cyan and brown. Ne-Yons: a sacred 8-pointed star in gold on deep indigo. Hierarchy of the Damned: an inverted pentagram wreathed in corporate bar-chart lines, deep red on black. 256×256 PNG with alpha, each emblem on a subtly-textured shield background.
+
+---
+
+## §3.6 — Sparse Directory Fills (40 new images)
+
+*These 11 directories under `/art/` have 1-5 files each. This subsection adds ~40 new prompts to bring them to functional completeness.*
+
+| Dir | Current files | New prompts (this bible) | Priority |
+|---|---|---|---|
+| `chess/` | 1 (board) | 6 chess-piece sets — see ART-CH01 | P1 |
+| `ui/` | 1 | 8 HUD/button sprites — see ART-UI01 | P0 |
+| `logos/` | 3 | 5 new faction/team logos — see ART-LG01 | P1 |
+| `minigames/` | 3 | 4 hacking/signal UI panels — see ART-MG01 | P1 |
+| `soul-stones/` | 3 | (fully covered by §3.4) | — |
+| `planets/` | 4 | 8 new world thumbnails — see ART-PL01 | P2 |
+| `rooms/` | 4 | 8 additional ship room backgrounds — see ART-RM01 | P1 |
+| `roadmap/` | 4 | 4 milestone icons — see ART-RD01 | P2 |
+| `special-maps/` | 4 | 4 additional arena variants — see ART-SM01 | P2 |
+| `constellations/` | 5 | 4 new faction constellations — see ART-CN01 | P2 |
+| `gears/` | 5 | 8 mechanism UI sprites — see ART-GR01 | P2 |
+
+#### ART-CH01 — Chess piece set (6 unique designs)
+- **Output:** `art/chess/pieces/{pawn,knight,bishop,rook,queen,king}_{white,black}.png`
+- **Size:** 256×256 transparent PNG each (12 files — 6 pieces × 2 colors) · **Priority:** P1
+- **Prompt (batch, one per piece):** Set of 12 chess pieces rendered in the Dischordian Saga style — white pieces are pure ivory-white with sacred-gold accents, black pieces are obsidian-black with foxfire-green accents. Each piece is a stylized 3/4 rendered figurine centered in its canvas. Pawn: hooded acolyte. Knight: armored lion head. Bishop: robed oracle. Rook: crystalline tower. Queen: regal figure with a crown of fractals. King: central command throne. 256×256 PNG with alpha, consistent style across all 12.
+
+#### ART-UI01 — HUD sprite set (8 core UI elements)
+- **Output:** `art/ui/hud/{button_primary,button_secondary,panel_main,panel_accent,bar_health,bar_mana,bar_xp,cursor_default}.png`
+- **Size:** 512×128 or 128×128 transparent PNG each (8 files) · **Priority:** P0
+- **Prompt (batch, one per element):** Set of 8 UI sprites in the void-energy aesthetic. Button primary: glowing cyan rounded-rectangle button with subtle scanlines, ready-state. Button secondary: darker violet variant. Panel main: a holographic panel background with faint cyan grid lines and beveled edges. Panel accent: warmer variant with gold accent stripes. Bar health: horizontal red gauge with hex-cell segments. Bar mana: cyan variant. Bar xp: gold variant. Cursor default: a simple cyan arrow with subtle glow. All sprites PNG with alpha, matching game's dark-holographic style.
+
+#### ART-LG01 — Faction logos (5 new)
+- **Output:** `art/logos/faction_{dreamer,architect,ne_yon,potentials_order,hierarchy_corp}.png`
+- **Size:** 512×512 transparent PNG each (5 files) · **Priority:** P1
+- **Prompt (batch, one per logo):** Set of 5 faction emblems at higher resolution than §3.5 trade emblems. Dreamer: golden spiral inside a circle. Architect: red all-seeing eye inside a crystalline triangle. Ne-Yon: eight-pointed star with central cosmic eye. Potentials' Order: stylized "P" in cyan with ascending wings. Hierarchy Corp: inverted pentagram wreathed in corporate bar-chart spikes. 512×512 PNG with alpha, flat-iconic style with subtle rim glow.
+
+#### ART-MG01 — Minigame UI panels (4 new)
+- **Output:** `art/minigames/panels/{hacking_grid,signal_waveform,decryption_key,puzzle_nodes}.png`
+- **Size:** 1024×1024 transparent PNG each (4 files) · **Priority:** P1
+- **Prompt (batch, one per panel):** Set of 4 minigame UI chrome panels. Hacking grid: a 8×8 network-node grid background with faint cyan connection lines. Signal waveform: an oscilloscope display with placeholder waveform. Decryption key: a rotating brass-and-cyan lock mechanism. Puzzle nodes: a hex-grid of interactable cells. All PNG with alpha, dark-holographic style.
+
+#### ART-PL01 — Planet thumbnails (8 new worlds)
+- **Output:** `art/planets/world_{01..08}.jpg` · **Size:** 512×512 JPG each (8 files) · **Priority:** P2
+- **Prompt (batch, one per world):** Set of 8 hyper-realistic planet thumbnails viewed from space. World 01: earth-like with cyan oceans and green continents. 02: frozen ice world, pale blue-white. 03: volcanic hellworld, red-orange with black scars. 04: gas giant with violet bands. 05: desert world, warm ochre. 06: oceanic world, deep blue. 07: forested moon, deep green. 08: shattered asteroid belt around a tiny brown dwarf. Each 512×512 JPG, black starfield background.
+
+#### ART-RM01 — Ship room backgrounds (8 new rooms)
+- **Output:** `art/rooms/ark_{galley,brig,barracks,chapel,observatory,reactor,armory_interior,cryo_2}.jpg`
+- **Size:** 1920×1080 JPG each (8 files) · **Priority:** P1
+- **Prompt (batch, one per room):** Set of 8 Ark interior room backgrounds. Galley: long utilitarian mess hall with overhead fluorescents, mismatched tables. Brig: dark cell block with reinforced doors and emergency red lights. Barracks: rows of bunks, warm personal items visible. Chapel: small meditative space with sacred-gold icon at the front. Observatory: large dome window overlooking starfield. Reactor: core chamber with pulsing blue energy column. Armory interior: weapon racks and tactical gear. Cryo 2: secondary cryo bay with rows of closed pods. All 1920×1080 JPG, dark sci-fi interiors, volumetric light.
+
+#### ART-RD01 — Roadmap milestone icons (4 new)
+- **Output:** `art/roadmap/milestone_{alpha,beta,launch,live}.png` · **Size:** 256×256 transparent PNG each (4 files) · **Priority:** P2
+- **Prompt (batch, one per icon):** Set of 4 milestone badge icons. Alpha: rough stone tablet with glowing "α" glyph. Beta: polished bronze plate with "β". Launch: gold rocket silhouette with sacred geometry. Live: a crystalline green pulse symbol. 256×256 PNG with alpha.
+
+#### ART-SM01 — Special arena variants (4 new)
+- **Output:** `art/special-maps/special_{zero_g,crimson_moon,deep_static,infinite_mirror}.jpg` · **Size:** 1920×1080 JPG each (4 files) · **Priority:** P2
+- **Prompt (batch, one per arena):** Set of 4 special-event arena backgrounds. Zero-g: a floating cube chamber with no gravity, fighters visible as silhouettes against starfield. Crimson moon: a blood-red moon dominating the sky over a silent plain. Deep static: a TV-static arena where reality flickers. Infinite mirror: mirror-lined hall of reflections. All 1920×1080 JPG.
+
+#### ART-CN01 — Constellation markers (4 new)
+- **Output:** `art/constellations/constellation_{beast,blade,circle,void}.png` · **Size:** 512×512 transparent PNG each (4 files) · **Priority:** P2
+- **Prompt (batch, one per constellation):** Set of 4 zodiac-like faction constellations. Beast: star pattern of a wolf. Blade: star pattern of a sword. Circle: star pattern of a ring. Void: star pattern of an empty circle. Each rendered as white stars connected by cyan lines over a deep indigo background. 512×512 PNG with alpha.
+
+#### ART-GR01 — Mechanism UI sprites (8 new)
+- **Output:** `art/gears/mech_{gear_small,gear_large,valve_open,valve_closed,piston_in,piston_out,cable_a,cable_b}.png` · **Size:** 256×256 transparent PNG each (8 files) · **Priority:** P2
+- **Prompt (batch, one per mechanism):** Set of 8 mechanical UI sprites for system-status indicators. Gear small/large: brass gears with subtle blue logic-light. Valve open/closed: industrial valves in steel. Piston in/out: chromed hydraulic pistons. Cable A/B: bundled conduits with visible energy flow. All 256×256 PNG with alpha, brass-and-chrome engineer aesthetic.
+
+---
+
