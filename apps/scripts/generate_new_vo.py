@@ -119,7 +119,7 @@ CHARACTERS = {
         },
     },
     "collector": {
-        "voice_id": os.environ.get("COLLECTOR_VOICE_ID", ""),
+        "voice_id": os.environ.get("COLLECTOR_VOICE_ID", "3Exjc4AUhfBcYeXunfEL"),
         "s3_prefix": "Collector Voices",
         "lines_file": "collector-lines.json",
         "manifest_file": "collectorVoManifest.json",
