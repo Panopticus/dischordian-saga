@@ -45,7 +45,7 @@ export const cardDef: CardDefinition = {
   cardType: "unit",
   rarity: "epic",
   cost: 5,
-  baseStats: { power: 7, health: 8 },
+  baseStats: { power: 5, health: 6 },
   keywords: [],
   abilities: [
     {

@@ -32,7 +32,7 @@ export const cardDef: CardDefinition = {
   cardType: "unit",
   rarity: "epic",
   cost: 5,
-  baseStats: { power: 8, health: 8 },
+  baseStats: { power: 5, health: 6 },
   keywords: [],
   abilities: [
     // --- Rally: self-buff +3/0 this turn on deploy ---
