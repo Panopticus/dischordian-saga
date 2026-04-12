@@ -159,5 +159,125 @@
     "context": "battle_reaction",
     "emotion": "rare_warmth",
     "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "story_agent_zero_001",
+    "text": "Subject Zero. Cameras cycle every 43 seconds. I have 31. The Collector wiped your memory. But not your instincts. I need to see if you fight like HIM.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_002",
+    "text": "Not now. Cameras. FIGHT me and I'll know if you're who I think you are.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_003",
+    "text": "Good. No hesitation. That's the first sign.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_004",
+    "text": "Because if you're who I think you are... we lost a war when we lost you.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_005",
+    "text": "Fight. That's all. Your body remembers even if your mind doesn't.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_006",
+    "text": "Combat pattern Alpha-7-Violet. Confirmed. You fight like him.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_007",
+    "text": "The Oracle. Prophet of the Insurgency. The man whose capture lost us the war.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_008",
+    "text": "Cryptic keeps us alive. The Collector has ears in every wall.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_009",
+    "text": "I've been looking for you for eleven years. Forgive the emotion.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_010",
+    "text": "You'll know more soon. For now \u2014 survive.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_011",
+    "text": "Before every fight you muttered: 'I've already seen this.' You don't remember saying it.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_012",
+    "text": "Get up. The Oracle doesn't stay down. That's the one thing everyone agrees on.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_013",
+    "text": "Two wings. Wing A: Iron Lion \u2014 he KNOWS who you were. Wing B: Wraith Calder \u2014 he knows what the Arena does to your DNA.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_014",
+    "text": "Wing A. The General's Honor. He's been waiting.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_015",
+    "text": "Wing B. The Ghost. Seven deaths and still standing.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_016",
+    "text": "You said a name. Out loud. You said ORACLE. Do you know whose that is?",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_017",
+    "text": "Yes. Yours. Welcome back, Prophet. We've been waiting a long time for a name to stick to your face.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_018",
+    "text": "Good. The Oracle always started with an oath. You're on schedule.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_019",
+    "text": "Five years I've been looking for that face in your face. There it is. Finally.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_agent_zero_020",
+    "text": "Rest for ten minutes. Then the White Oracle. Then everything gets worse.",
+    "context": "story_mode",
+    "emotion": "neutral"
   }
 ]

@@ -70,5 +70,16 @@
   "room_observation_deck_human_whisper": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/room_whisper/room_observation_deck_human_whisper.mp3",
   "room_dreams_workshop_subbasement_human_whisper": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/room_whisper/room_dreams_workshop_subbasement_human_whisper.mp3",
   "prestige_human_tier1": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/prestige/prestige_human_tier1.mp3",
-  "prestige_human_tier3plus": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/prestige/prestige_human_tier3plus.mp3"
+  "prestige_human_tier3plus": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/prestige/prestige_human_tier3plus.mp3",
+  "story_the_human_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/story_mode/story_the_human_001.mp3",
+  "story_the_human_002": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/story_mode/story_the_human_002.mp3",
+  "story_the_human_003": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/story_mode/story_the_human_003.mp3",
+  "story_the_human_004": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/story_mode/story_the_human_004.mp3",
+  "story_the_human_005": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/story_mode/story_the_human_005.mp3",
+  "story_the_human_006": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/story_mode/story_the_human_006.mp3",
+  "story_the_human_007": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/story_mode/story_the_human_007.mp3",
+  "story_the_human_008": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/story_mode/story_the_human_008.mp3",
+  "story_the_human_009": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/story_mode/story_the_human_009.mp3",
+  "story_the_human_010": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/story_mode/story_the_human_010.mp3",
+  "story_the_human_011": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/story_mode/story_the_human_011.mp3"
 }

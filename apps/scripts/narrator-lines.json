@@ -1,0 +1,140 @@
+[
+  {
+    "id": "story_narrator_001",
+    "text": "Black. Heartbeat. A cell. Agent Zero appears \u2014 she hacked the Arena scheduling matrix. She has 31 seconds before cameras cycle.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_002",
+    "text": "Panopticon Central. The Jailer's portrait \u2014 a SKULL in green robes, chains, one burning red eye. The Prisoner recoils.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_003",
+    "text": "Iron Lion salutes \u2014 fist to chest. A subordinate saluting a commander.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_004",
+    "text": "Shadow Sanctum. Wraith Calder \u2014 powerful Black man with burning amber eyes, dark leather armor. He doesn't look like a ghost. He looks like the most alive person the Prisoner has met.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_005",
+    "text": "Blood Weave. A training room that learned to bleed. Akai Shi waits in the center, red robes soaked with resin from the walls.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_006",
+    "text": "Castle of Death. Throne hall carved from compressed prayers. The Necromancer stands in a pool of green fire that makes its own shadows.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_007",
+    "text": "You cannot win this fight. The engine knows. Your body knows. The Necromancer already knew.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_008",
+    "text": "You fall. The fire is gentle. Somewhere, a clone tank hisses open. A heart that hasn't beaten in eleven years starts keeping time again.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_009",
+    "text": "Thaloria. The bioluminescent canopy is breathing. In the clearing stands you \u2014 or something wearing your face. It smiles the way you smile. It gets it almost right.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_010",
+    "text": "The White Oracle flickers pink \u2014 a single frame \u2014 and is gone. The clearing is quiet except for the spores, which keep breathing like nothing happened.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_011",
+    "text": "Terminus. A research lab that stopped pretending to be civilian six cycles ago. Dr. Vox adjusts his glasses. The Thought Virus waits in a reinforced beaker, pressing politely against the inside of the glass.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_012",
+    "text": "Dr. Vox dissolves into red sand at the 50% HP mark. The lab coat hangs in the air for a half-second. A VOICE underneath it \u2014 deeper, older, amused \u2014 picks up the conversation.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_013",
+    "text": "Panopticon observation deck. Smoke from something that isn't a cigarette. The Human is already seated when you arrive, one hand in his coat pocket like he's been ready for you for a decade.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_014",
+    "text": "Terminus Core. Equations scrawled on every wall, all of them one symbol away from unresolvable. Enigma turns slowly, already knowing the answer she's about to test.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_015",
+    "text": "New Babylon. Neon bleeding through the rain. Degen is already shuffling a deck that contains too many aces. He doesn't look up when you walk in.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_016",
+    "text": "Watcher's Panopticon. One hundred surveillance eyes rotate toward the center. The Warden descends, jaw plating still reflecting his last honest smile from eleven years ago.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_017",
+    "text": "The chrome jaw cracks. The Warden kneels. A hundred surveillance eyes blink out in unison, one by one, like a chorus remembering how to be quiet.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_018",
+    "text": "The Architect's Throne Room \u2014 temporarily on loan. The Collector stands amid catalogued souls in glass jars. Each jar has a label in your own handwriting. The Oracle's empty chair sits behind him. You don't look at it yet.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_019",
+    "text": "The Collector kneels. Not defeated \u2014 he was never going to fight back with full force. He slides the unlabeled jar across the throne-room floor toward you.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_020",
+    "text": "The throne room is empty of witnesses. The Architect sits cross-legged on the floor, wearing a tired face. He rises as you enter. The Oracle's empty chair is directly behind him. He does not turn to look at it.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_021",
+    "text": "Phase 2. HP threshold 66%. The Architect's face glitches for a single frame \u2014 pink neon, then back.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_022",
+    "text": "Phase 3. HP threshold 25%. The throne-room walls begin to physically crumble. The Collectors Arena is becoming CORRUPTION. You chose truth and now the foundations can hear you.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_narrator_023",
+    "text": "The Architect kneels. His schematic rolls out across the floor like an apology. You can feel the corruption outbreak \u2014 the Source waking up beneath the Arena. The Oracle's empty chair behind him has begun to glow faintly gold, as if remembering its occupant.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "story_the_jailer_001",
+    "text": "Designation: Subject Zero. You survived. That puts you in the rotation.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_jailer_002",
+    "text": "Auditory matching. Side effect. It will pass.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_jailer_003",
+    "text": "Answers are not in your rotation. Fighting is.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_jailer_004",
+    "text": "This face is FUNCTIONAL. Questions about appearance are irrelevant.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_jailer_005",
+    "text": "Fight. Win. Continue. Lose. Repeat. No other rules.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_jailer_006",
+    "text": "Return to your cell. The rotation continues.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  }
+]

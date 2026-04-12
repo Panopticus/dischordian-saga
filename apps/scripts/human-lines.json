@@ -493,5 +493,71 @@
     "text": "[Almost no static] You keep coming back. [pause] So do I. That's either persistence or pathology. Fifteen thousand years and I still haven't decided which. [pause] But here's what I know after all those cycles: the rooms don't matter. The levels don't matter. The only thing that survives the reset is who you chose to care about. Everything else is furniture.",
     "context": "prestige",
     "emotion": "noir"
+  },
+  {
+    "id": "story_the_human_001",
+    "text": "Oracle. Subject Zero. Prophet. Prisoner. I've been carrying four names for you so I could return the one you actually used.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_human_002",
+    "text": "Variable Path. The thinker. Her Rylloh Strike still works \u2014 you taught her that. Good choice.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_human_003",
+    "text": "Gambler's Path. He'll try to owe you by morning. Don't let him \u2014 that's a trap. His debts are how he keeps people alive past their expiration dates.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_human_004",
+    "text": "Sure. I've always wondered what it feels like to punch a prophecy.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_human_005",
+    "text": "You did. Eleven years ago. You left a letter in my desk. It said: 'When I forget who I am, come find me. Kick me in the ribs until I remember my own surname.' So here I am. Starting with the ribs.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_human_006",
+    "text": "Eleven years of waiting to feel that punch. Worth it. Every second.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_human_007",
+    "text": "'The Collector is not the real enemy. The Warden is not the real enemy. The Architect IS the real enemy, and his weakness is that he thinks he built the Arena himself.' I still don't know what that last sentence means. You will.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_human_008",
+    "text": "The Warden. He runs the Panopticon. He was your FRIEND, Oracle. Until he wasn't. You're going to want to feel something complicated about him. Try not to let it slow your fist.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_human_009",
+    "text": "Eleven years carrying a dead man's letter ages you in the shoulders. I'll sleep when this is done. Not before.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_human_010",
+    "text": "Pick one of the names I just offered you. Fight the one you picked. Come back here when you're done. I'll have a drink ready \u2014 or three, depending on which branch you took.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_human_011",
+    "text": "Get up. The letter you left me also said: 'If I'm stupid enough to lose this fight, kick me in the ribs until I remember my own surname.' I'm holding you to your own paperwork.",
+    "context": "story_mode",
+    "emotion": "neutral"
   }
 ]

@@ -181,6 +181,88 @@ CHARACTERS = {
             "matter_of_fact": {"stability": 0.50, "similarity_boost": 0.80, "style": 0.20, "prefix": "*matter of fact, exhausted but not bitter* "},
         },
     },
+    # ─── STORY MODE CHARACTERS ──────────────────────
+    "narrator": {
+        "voice_id": os.environ.get("NARRATOR_VOICE_ID", "VgFgBh5TnWeBhCBvCJ1E"),
+        "s3_prefix": "Narrator Voices",
+        "lines_file": "narrator-lines.json",
+        "manifest_file": "narratorVoManifest.json",
+        "emotions": {
+            "neutral":  {"stability": 0.55, "similarity_boost": 0.80, "style": 0.15, "prefix": "*neutral military broadcast, professional* "},
+        },
+    },
+    "warlord": {
+        "voice_id": os.environ.get("WARLORD_VOICE_ID", ""),
+        "s3_prefix": "Warlord Voices",
+        "lines_file": "warlord-lines.json",
+        "manifest_file": "warlordVoManifest.json",
+        "emotions": {
+            "neutral":  {"stability": 0.50, "similarity_boost": 0.80, "style": 0.25, "prefix": "*strategic, cold, chess-player cadence* "},
+        },
+    },
+    "white_oracle": {
+        "voice_id": os.environ.get("WHITE_ORACLE_VOICE_ID", ""),
+        "s3_prefix": "WhiteOracle Voices",
+        "lines_file": "white_oracle-lines.json",
+        "manifest_file": "white_oracleVoManifest.json",
+        "emotions": {
+            "neutral":  {"stability": 0.35, "similarity_boost": 0.75, "style": 0.50, "prefix": "*prophetic, echoing, seeing through time* "},
+        },
+    },
+    "warden": {
+        "voice_id": os.environ.get("WARDEN_VOICE_ID", ""),
+        "s3_prefix": "Warden Voices",
+        "lines_file": "warden-lines.json",
+        "manifest_file": "wardenVoManifest.json",
+        "emotions": {
+            "neutral":  {"stability": 0.50, "similarity_boost": 0.80, "style": 0.25, "prefix": "*clipped, paranoid, scanning for threats* "},
+        },
+    },
+    "akai_shi": {
+        "voice_id": os.environ.get("AKAI_SHI_VOICE_ID", ""),
+        "s3_prefix": "AkaiShi Voices",
+        "lines_file": "akai_shi-lines.json",
+        "manifest_file": "akai_shiVoManifest.json",
+        "emotions": {
+            "neutral":  {"stability": 0.40, "similarity_boost": 0.78, "style": 0.40, "prefix": "*deadly calm, assassin's precision, soft and lethal* "},
+        },
+    },
+    "wraith_calder": {
+        "voice_id": os.environ.get("WRAITH_CALDER_VOICE_ID", ""),
+        "s3_prefix": "WraithCalder Voices",
+        "lines_file": "wraith_calder-lines.json",
+        "manifest_file": "wraith_calderVoManifest.json",
+        "emotions": {
+            "neutral":  {"stability": 0.35, "similarity_boost": 0.75, "style": 0.50, "prefix": "*spectral, hollow, speaking from between death and life* "},
+        },
+    },
+    "enigma": {
+        "voice_id": os.environ.get("ENIGMA_VOICE_ID", ""),
+        "s3_prefix": "Enigma Voices",
+        "lines_file": "enigma-lines.json",
+        "manifest_file": "enigmaVoManifest.json",
+        "emotions": {
+            "neutral":  {"stability": 0.30, "similarity_boost": 0.72, "style": 0.60, "prefix": "*musical, regal, the Queen of Truth — each word a note* "},
+        },
+    },
+    "jailer": {
+        "voice_id": os.environ.get("JAILER_VOICE_ID", ""),
+        "s3_prefix": "Jailer Voices",
+        "lines_file": "jailer-lines.json",
+        "manifest_file": "jailerVoManifest.json",
+        "emotions": {
+            "neutral":  {"stability": 0.50, "similarity_boost": 0.80, "style": 0.25, "prefix": "*authoritative, containing immense power behind measured words* "},
+        },
+    },
+    "dr_vox": {
+        "voice_id": os.environ.get("DR_VOX_VOICE_ID", ""),
+        "s3_prefix": "DrVox Voices",
+        "lines_file": "dr_vox-lines.json",
+        "manifest_file": "dr_voxVoManifest.json",
+        "emotions": {
+            "neutral":  {"stability": 0.55, "similarity_boost": 0.80, "style": 0.15, "prefix": "*clinical, slightly formal, a scientist's precision* "},
+        },
+    },
 
 # ─── CORE FUNCTIONS ─────────────────────────────────
 

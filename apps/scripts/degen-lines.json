@@ -88,5 +88,65 @@
     "text": "OH! Oh oh oh. [leans in, gold eye and purple eye both focused] You've been RESET. I can TASTE it. Your probability field is layered \u2014 like a parfait of past lives. Most people walk in here with one set of odds. You walk in with multiple sets stacked on top of each other. [pause] This means your luck is WEIRD. Not better. Not worse. WEIRD. I love weird. Weird is the most profitable thing in my casino. [pause] Tell you what \u2014 first spin's on the house. For the layers.",
     "context": "prestige",
     "emotion": "manic"
+  },
+  {
+    "id": "story_the_degen_001",
+    "text": "Oracle. I bet against your survival in the Arena. I lost. I've been meaning to pay up.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_degen_002",
+    "text": "The Architect. He ALWAYS bets on certainty. And yet \u2014 here you are. His ledger is out of balance for the first time in a century. That's not a metaphor \u2014 I'm the one who balances his ledgers.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_degen_003",
+    "text": "Double or nothing, then. I love losing twice.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_degen_004",
+    "text": "I liked you. That's unprofessional for a Ne-Yon. Don't tell anyone. Especially not the Seer \u2014 she runs the ethics committee on feelings and I have three open citations already.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_degen_005",
+    "text": "First lesson: there's no such thing as certainty. Second lesson: act like there is anyway. Third lesson: when someone else acts certain, punch them until they stop.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_degen_006",
+    "text": "Debt paid. Interest forgiven. Here's a tip from the house: don't fight the Architect on his own floor. Pick the chair he hates.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_degen_007",
+    "text": "The Oracle's seat. It's still in his throne room. He left it. He told himself it was respect. It was fear.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_degen_008",
+    "text": "Everything you don't want to lose. That's the only bet he takes. Good news: he's going to lose this one. I've already placed my chips.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_degen_009",
+    "text": "Since the day Agent Zero told me you were still alive in that cell. Worst ROI of my career. Best bet of my life.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_degen_010",
+    "text": "I keep betting on you. Don't keep proving me wrong.",
+    "context": "story_mode",
+    "emotion": "neutral"
   }
 ]

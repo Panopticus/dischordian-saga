@@ -1,0 +1,38 @@
+[
+  {
+    "id": "story_dr._vox_001",
+    "text": "Oh \u2014 you must be the Oracle. Marvelous. I've been wanting to discuss your cerebrospinal chemistry in person. You're the only patient whose sample I kept in a drawer instead of a freezer. Sentimental, I know.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_dr._vox_002",
+    "text": "A thought that doesn't need a brain to spread. Isn't that elegant? I only weaponized it for funding reasons. The silent partner insisted.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_dr._vox_003",
+    "text": "Oh my. Violence. I was told you'd be more... measured. That was the pitch, anyway. The silent partner promised me a philosopher.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_dr._vox_004",
+    "text": "A... silent partner. He prefers direct deposits. And direct revenge. He's in the room with us now. He's in the COAT.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_dr._vox_005",
+    "text": "I'd be delighted. It's already in your bloodstream, actually. I put it there eleven years ago via the brunch we never had. You won't feel it until the lab coat falls.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_dr._vox_006",
+    "text": "Oh dear. This is going in the report under 'expected outcome.' Get up, Oracle. The Warlord still wants his chat, and he doesn't tolerate rescheduling.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  }
+]

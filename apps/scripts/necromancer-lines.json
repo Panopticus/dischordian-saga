@@ -31,5 +31,53 @@
     "text": "[Goggles flare] Three times? [removes goggles \u2014 dark elf eyes, red and ancient] Three cycles and you're still walking. Your consciousness is more resilient than most Archons. [pause] The bonds survived every reset? Yes. Intact. Good. That was the one thing I was afraid would fail. The consciousness-preservation buffer was designed for Archon-grade minds. Human minds are... messier. More fragile. But apparently more stubborn. [puts goggles back] I think we're going to get along.",
     "context": "prestige",
     "emotion": "ancient"
+  },
+  {
+    "id": "story_the_necromancer_001",
+    "text": "Subject Zero. Thirteen iterations of this conversation. You never remember the previous twelve. I do. It's a strange intimacy.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_necromancer_002",
+    "text": "A contract with entropy. You die seven times. On the seventh, the debt comes due and the body stays where it fell. Would you like me to be honest? You're at five.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_necromancer_003",
+    "text": "I already am. The fight is ritual. The outcome is paperwork.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_necromancer_004",
+    "text": "I am tired. I don't get to stop. Even the architect of death has to clock in. The fifth time I killed you I apologized. You didn't hear me. You weren't in there anymore.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_necromancer_005",
+    "text": "Good. Acceptance cuts the transition time in half. I appreciate you.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_necromancer_006",
+    "text": "Fall. Fall. Fall. You're going to love the next part. Everyone does the first time they REMEMBER.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_necromancer_007",
+    "text": "I'll see you in the Matrix. Or rather \u2014 I won't. None of the previous twelve versions made it back out. Today we'll see if the thirteenth one surprises me.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_necromancer_008",
+    "text": "Green fire now. Soft, if it helps. Yes. Like that.",
+    "context": "story_mode",
+    "emotion": "neutral"
   }
 ]

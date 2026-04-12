@@ -124,5 +124,113 @@
     "context": "battle_reaction",
     "emotion": "warm",
     "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "story_the_collector_001",
+    "text": "Oracle. I want to thank you for being an unusually generous specimen. Your memories made for excellent lighting in my study.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_collector_002",
+    "text": "Take what you can carry. Some of them no longer recognize the filename 'self.' I've catalogued them under 'orphan data.' Feel free to adopt.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_collector_003",
+    "text": "Destruction has always been your best prophecy. Do show me. I'll catalog the destruction itself \u2014 a small ironic archive to nest inside the larger one.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_collector_004",
+    "text": "Because you saw the end of everything and kept speaking. Silencing you was the most valuable thing the universe ever asked me to do. I am not proud of it. I am not ASHAMED of it either. I am an archivist. I file what I file.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_collector_005",
+    "text": "Ah. He told you. I thought he might. Yes. I have your jar. It's the one behind my left shoulder. Beat me and it's yours. Don't beat me and I'll still give it to you \u2014 but that would embarrass both of us.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_collector_006",
+    "text": "I harvested you piece by piece. Your first kiss. Your mother's face. The precise angle of your mentor's disappointed smile. I labeled each jar and slept better for having done the work properly.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_collector_007",
+    "text": "The Architect asked me to forget you existed. I complied with the LETTER of that order. I never quite managed the SPIRIT.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_collector_008",
+    "text": "The Architect gave me one order: damnatio memoriae. Erase him from the record of having existed. I complied. Almost.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_collector_009",
+    "text": "I kept one jar back. Labeled it 'in case he comes looking.' I am \u2014 reluctantly \u2014 proud of that mercy. It's the only decision I've ever made without filing the paperwork.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_collector_010",
+    "text": "Because even archivists need someone to read them back. And because the universe is a lonelier place when the Oracle stops prophesying. I missed the weather reports.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_collector_011",
+    "text": "Agreed. And yet \u2014 here we are, using it. Morality is a weak filing system, Oracle.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_collector_012",
+    "text": "Your mother's face. The specific way your commander's laugh cracked. Three prophecies you gave away without knowing they were the important ones. And \u2014 this is the part I'm proudest of cataloguing \u2014 the sound of your own voice saying your true name out loud, the first time you ever did it.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_collector_013",
+    "text": "The Architect is in the next room. He's been waiting for you to remember your own name. I'd say 'good luck' but the word would evaporate in his presence.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_collector_014",
+    "text": "He thinks he built the Arena himself. He is slightly wrong. You'll need that slight wrongness tonight.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_collector_015",
+    "text": "Bring help. The archive is larger than it looks and the other jars bite if you open them alone.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_collector_016",
+    "text": "You're welcome, Oracle. I'd tell you what you were like before the harvest, but that would be cheating \u2014 the jar is the whole archive of that answer.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_collector_017",
+    "text": "Take the jar. It was always yours. I only filed it.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_collector_018",
+    "text": "Up. The jar is yours. Even in defeat, you've earned the right to read your own handwriting.",
+    "context": "story_mode",
+    "emotion": "neutral"
   }
 ]

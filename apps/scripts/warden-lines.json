@@ -1,0 +1,68 @@
+[
+  {
+    "id": "story_the_warden_001",
+    "text": "Oracle. I was the one who chose your cell's number. I wanted you near a window. It was the last kindness I owed you.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_warden_002",
+    "text": "The Architect showed me what you'd become if you kept prophesying. I chose to lock the door myself because I couldn't trust anyone to love you less. That's the truth. It hasn't gotten easier to say.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_warden_003",
+    "text": "Fair. Let the jaw do the talking.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_warden_004",
+    "text": "Every morning. I wake up, I look at the jaw in the mirror, and I say: 'You did this so HE could live.' Some mornings the jaw believes me. Most mornings it just hums and waits for me to try again.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_warden_005",
+    "text": "Enigma said you'd ask that. She left instructions. The Arena is a LOCK, Oracle. I am the KEY. The fight IS the unlocking. Swing like you mean it.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_warden_006",
+    "text": "I put you in that cell so you'd survive what came next. The Collector is what came next. Harvested everyone who remembered you.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_warden_007",
+    "text": "You don't. You BARGAIN. The Collector keeps a jar back for every subject, in case they come looking. Ask for yours. He'll hand it over. He's more archivist than killer.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_warden_008",
+    "text": "Enough jaw to talk. Enough eye to watch. Enough sentiment to tell you this: the Architect is WAITING to lose to you. He's been rehearsing the loss since before you had a name.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_warden_009",
+    "text": "We used to trade breakfast shifts. You couldn't cook. I'd bring you burnt toast and you'd hand me your tactical maps and say 'fair trade.' Tell the Prophet \u2014 tell YOURSELF \u2014 I love him still. And the toast was fine.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_warden_010",
+    "text": "When the fight is done. Not before. The chrome jaw has one more witness to give.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_warden_011",
+    "text": "Up. I didn't build a chrome jaw so you could nap on the floor of your own prison.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  }
+]

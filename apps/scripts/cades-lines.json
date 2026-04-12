@@ -495,5 +495,65 @@
     "context": "cades_mode3",
     "emotion": "relief",
     "character": "elara"
+  },
+  {
+    "id": "story_iron_lion_001",
+    "text": "The one Zero flagged. She doesn't flag anyone.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_iron_lion_002",
+    "text": "Like the man who led us. The Oracle. My commander.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_iron_lion_003",
+    "text": "You were the Oracle. Prophet of the Insurgency. My commanding officer.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_iron_lion_004",
+    "text": "Because you GAVE me that crest. Before Veridian VI. You said: 'Wear the lion. They need to see you coming.'",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_iron_lion_005",
+    "text": "Zero trusts what you ARE. Show me.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_iron_lion_006",
+    "text": "Because that's what you WERE. My commander. When the Collector took you, we lost the war in a single day.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_iron_lion_007",
+    "text": "The Arks carry the Thought Virus. That prophecy is WHY they wiped you.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_iron_lion_008",
+    "text": "Soon. Survive first. That's what you taught ME.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_iron_lion_009",
+    "text": "Akai Shi. The Red Death. She has intel on the Necromancer.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_iron_lion_010",
+    "text": "Get up, Commander. I've seen you fight through worse.",
+    "context": "story_mode",
+    "emotion": "neutral"
   }
 ]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "story_???_001",
+    "text": "Ink in water. A name rising to the surface.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_???_002",
+    "text": "Oracle. You were Oracle. You are Oracle. You will be Oracle.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_???_003",
+    "text": "The first prophecy you ever spoke was your own return. Say it back.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_???_004",
+    "text": "One more vision before you open your eyes. They will ask you who you are. Tell them the true name.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  }
+]

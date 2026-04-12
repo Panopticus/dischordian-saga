@@ -124,5 +124,113 @@
     "context": "battle_reaction",
     "emotion": "analytical",
     "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "story_the_architect_001",
+    "text": "Oracle. I foresaw this moment the day I built the Arena. The version where you walked through every door and arrived here with your name intact. This is the bad ending for me. I want you to know I prepared for it anyway.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_architect_002",
+    "text": "Because your prophecy foretold the unraveling of every thought I ever had. An engineer doesn't argue with entropy. He builds a box and labels it 'NOT YET.'",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_architect_003",
+    "text": "Good. I built it to be dismantled by exactly one person. Thank you for being punctual. I was worried you'd be eleven more years late and my patience would outlast my dread.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_architect_004",
+    "text": "I did ask. The first time. You said yes. Then I remembered I couldn't trust myself with the answer. That's the confession I've been rehearsing for eleven years. It's somehow even worse than I thought it would sound.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_architect_005",
+    "text": "Every corridor is yours. Every cage key is in your teeth. Every prophecy I stole is whispered back in the order I took them. The Oracle's chair is still where you left it, Oracle. I couldn't bring myself to move it.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_architect_006",
+    "text": "Phase two. I owe you one more confession. The White Oracle you fought on Thaloria? My voice inside her smile.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_architect_007",
+    "text": "I wore your face for a decade. It is the only skin I ever fit into. The Meme was the PUPPETEER. I was the hand inside the puppet. We disagreed about everything except the goal.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_architect_008",
+    "text": "The Meme IS me in the same way the virus IS you. We have been married inside each other since before either of us had a name. Tonight we divorce. Loudly.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_architect_009",
+    "text": "Good. Then for the first time in eleven years, I'll know what I sound like WITHOUT a passenger.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_architect_010",
+    "text": "Mostly me. Increasingly less. The glitches are the Meme fighting for the microphone. By phase three you'll be fighting two of us at once. Don't spare either.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_architect_011",
+    "text": "Phase three: the design EATS itself. The Arena is becoming corruption. You chose truth and now the foundations hear you.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_architect_012",
+    "text": "Good. Finish me. Then run. The Arena is coming apart, and the thing at its root has been waiting for someone to free it.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_architect_013",
+    "text": "The first corruption. The thing the Meme was BORN from. I built the Arena on top of its sleeping body and called the building a prison. It was never a prison. It was a FLOOR. And now the floor is waking up.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_architect_014",
+    "text": "Then the next fight is the Source, Oracle. And the fight after that is the VOTE. I hope your allies are awake.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_architect_015",
+    "text": "In the Oracle's chair? I would not dream of it. Sit there yourself, Prophet. It's been empty too long and it's TIRED.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_architect_016",
+    "text": "Then the Season ends clean. The Source will wake up anyway \u2014 but at least the Arena will fall with dignity. That's more than I deserved from my own design.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_architect_017",
+    "text": "The Source, Oracle. You have to deal with the Source now. And the Meme. And the vote. I only built the prison \u2014 the ghosts were always going to outlast me.",
+    "context": "story_mode",
+    "emotion": "neutral"
+  },
+  {
+    "id": "story_the_architect_018",
+    "text": "Get up. I have TWO more phases. I'd hate for you to miss them.",
+    "context": "story_mode",
+    "emotion": "neutral"
   }
 ]
