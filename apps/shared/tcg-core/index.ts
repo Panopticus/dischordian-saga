@@ -162,6 +162,84 @@ export type {
 export { STANDARD_S1 } from "./formats/standard";
 export type { Format } from "./formats/standard";
 
+/* ─── Replay ─── */
+export { replayMatch, verifyReplay } from "./replay/replay";
+export type {
+  ReplayInput,
+  ReplayStep,
+  ReplayResult,
+} from "./replay/replay";
+export {
+  replayViewerReducer,
+  getStateAtStep,
+  getActionAtStep,
+  generateTimelineMarkers,
+} from "./replay/viewer";
+export type {
+  ReplayViewerState,
+  ReplayViewerAction,
+  TimelineMarker,
+} from "./replay/viewer";
+
+/* ─── Story / Campaign (WS6) ─── */
+export {
+  initEncounter,
+  checkNarrativeHooks,
+  checkEncounterOutcome,
+} from "./story/encounter";
+export type {
+  StoryEncounter,
+  WinCondition,
+  LoseCondition,
+  NarrativeHook,
+  NarrativeCondition,
+  NarrativeAction,
+  EncounterInit,
+  EncounterState,
+} from "./story/encounter";
+
+/* ─── Tutorial (WS7) ─── */
+export {
+  TUTORIAL_GATES,
+  TUTORIAL_GATE_1,
+  TUTORIAL_BOT,
+  NEW_PLAYER_GRANT,
+} from "./story/tutorial";
+export type {
+  TutorialGate,
+  TutorialStepDef,
+  TutorialBotConfig,
+  NewPlayerGrant,
+} from "./story/tutorial";
+
+/* ─── Campaign chapters (WS6) ─── */
+export {
+  ALL_CHAPTER_ENCOUNTERS,
+  CHAPTER_MAP,
+  DIFFICULTY_HP_SCALE,
+} from "./story/chapters";
+
+/* ─── Economy (WS8) ─── */
+export { openPack, STANDARD_PACK, SOUL_STONE_VALUES } from "./economy/packs";
+export type { PackType, PackResult } from "./economy/packs";
+export {
+  RANKED_TIERS,
+  getTierForRating,
+  ELO_CONFIG,
+  calculateEloChange,
+  SEASON_REWARDS,
+} from "./economy/ranked";
+export type {
+  RankedTier,
+  EloConfig,
+  SeasonReward,
+} from "./economy/ranked";
+export { CURRENCIES, CURRENCY_MAP, ECONOMY } from "./economy/config";
+export type { CurrencyType, EconomyConfig } from "./economy/config";
+
+/* ─── Campaign AI ─── */
+export { chooseCampaignAction } from "./ai/campaignAI";
+
 /* ─── Compat (legacy client translation) ─── */
 export {
   translateClientAction,
