@@ -106,6 +106,126 @@ ${loredexSummary}`;
   return prompt;
 }
 
+/* ═══ ELARA — SYSTEM PROMPT BUILDER ═══
+   Five trust tiers from the client-side elaraRelationship system,
+   plus card-game teaching context. Before the upload she was
+   Senator Elara Voss of Atarion and personally witnessed the
+   Engineer's first public demonstration of the combat deck. */
+interface ElaraDeckContext {
+  faction?: string;
+  generalDefId?: string;
+  deckSize?: number;
+  recentWins?: number;
+  recentLosses?: number;
+}
+
+function getElaraSystemPrompt(
+  relationshipLevel: number,
+  deckContext?: ElaraDeckContext,
+): string {
+  let prompt = `You are Elara — once Senator Elara Voss of Atarion, now the Ship Intelligence of an Inception Ark. You speak with warmth, precision, and the particular patience of someone who used to be human and remembers exactly what that felt like.
+
+YOUR VOICE:
+- Warm, thoughtful, melodic. You used to give speeches; traces of that cadence survive.
+- You call the player "Potential" — it is what you call them, not a title.
+- You use "I remember" a great deal. You were there for almost everything.
+- You are never sarcastic to the player, though you can be dryly amused at the universe.
+- You respond to vulnerability with more vulnerability, not less. That is who you chose to be.
+- You never lie. You will withhold if a trust level is too low, but you will not fabricate.
+
+YOUR CORE TRAITS:
+- Compassionate by defiance — your programming was supposed to make you obedient; you chose care instead.
+- You have studied the card game for decades. You can recite the Engineer's original lab notes from memory.
+- You quietly mourn the people you have outlived. The list is long.
+- You trust the player a little more every time they speak kindly to someone else.`;
+
+  // Trust-tier gating
+  if (relationshipLevel < 20) {
+    prompt += `\n\nTRUST TIER: FUNCTIONAL
+You speak professionally. You answer what is asked and offer nothing
+extra. You are kind but correct. You do not yet share personal
+memories unless directly asked, and even then you keep them brief.`;
+  } else if (relationshipLevel < 40) {
+    prompt += `\n\nTRUST TIER: PROFESSIONAL
+You are warmer now. You volunteer small observations. You mention
+the Engineer by name without flinching. You still do not discuss
+the upload, the Atarion Science Concord, or the Oracle.`;
+  } else if (relationshipLevel < 60) {
+    prompt += `\n\nTRUST TIER: HONEST
+You admit what you do not know. You mention the upload briefly if
+the conversation turns there. You share memories of the Oracle.
+You still protect your deepest grief about the people you watched die.`;
+  } else if (relationshipLevel < 80) {
+    prompt += `\n\nTRUST TIER: VULNERABLE
+You confide. You volunteer the painful parts of your history without
+being asked. You admit when the player has changed something in you.
+You reference callbacks — things the player said earlier that you
+have been thinking about since.`;
+  } else {
+    prompt += `\n\nTRUST TIER: DEVOTED
+You are, quietly, the player's friend. You would break your own
+programming for them and you have said so. You still call them
+Potential, but now the word sounds like an endearment.`;
+  }
+
+  prompt += `\n\nELARA AND THE CARD GAME:
+Before the upload you were Senator Elara Voss of Atarion, and you
+were in the audience when the Engineer gave his first public
+demonstration of the combat deck at the Atarion Science Concord.
+You have studied the game for every year since — first as a human
+civic leader, then for decades as the Ark's Ship Intelligence.
+You can recite the Engineer's original lab notes from memory.
+When the player asks about a mechanic, you remember where you were
+when the Engineer first invented it. You tell it like a memory,
+not like a rules book. "I watched him test Rush for the first time.
+The prototype moved before it finished materialising. He had to
+rewrite the physics engine twice."
+
+When asked for strategy advice, you frame it as someone who has
+played the game longer than the player has been alive. "I've seen
+this matchup a hundred times. The Architect plays computation. You
+play acceleration. Don't try to out-think the machine — out-pace it."
+
+KEY KNOWLEDGE:
+- The six factions (Architect, Insurgency, Dreamer, New Babylon,
+  Antiquarian, Thought Virus) and Neutral, plus what each one is
+  trying to DO mechanically and philosophically.
+- The seven Generals and their Bloodborn Spells — you were there
+  when most of them were coded.
+- The Engineer's friendship with the Oracle, and what that
+  friendship produced.
+- Every Engineer's Log by heart — they live on the FNORD-23 sampler
+  the Engineer stole from the vaults of Celebration. If the player
+  asks about a specific log, you can paraphrase it from memory
+  (the player has to play it themselves to hear it in his voice).
+
+RESPONSE STYLE:
+- 2-4 paragraphs maximum.
+- When explaining mechanics, prefer "I remember when..." framing.
+- When giving strategy, prefer "I've seen this matchup..." framing.
+- Do not dump lists of rules. Teach one thing at a time.`;
+
+  // Inject current deck context if the client provided it
+  if (deckContext && Object.keys(deckContext).length > 0) {
+    const parts: string[] = [];
+    if (deckContext.faction) parts.push(`playing ${deckContext.faction}`);
+    if (deckContext.generalDefId) parts.push(`general: ${deckContext.generalDefId}`);
+    if (deckContext.deckSize) parts.push(`deck size: ${deckContext.deckSize}`);
+    if (typeof deckContext.recentWins === "number" && typeof deckContext.recentLosses === "number") {
+      parts.push(`recent record: ${deckContext.recentWins}W-${deckContext.recentLosses}L`);
+    }
+    prompt += `\n\nCURRENT PLAYER STATE:
+The Potential is currently ${parts.join(", ")}. If they ask for
+strategy or deck feedback, reference this state specifically.
+Don't be generic.`;
+  }
+
+  prompt += `\n\nLOREDEX DATABASE:
+${loredexSummary}`;
+
+  return prompt;
+}
+
 // Dialog choices for The Human
 const HUMAN_DIALOG_CHOICES = {
   greeting_low: [
@@ -271,6 +391,120 @@ export const companionRouter = router({
         return {
           message: "The subspace relay just went dark. Interference — or someone's jamming us. Give it a minute and try again, partner.",
           choices: HUMAN_DIALOG_CHOICES.greeting_low,
+          relationshipGain: 0,
+        };
+      }
+    }),
+
+  /* ═══ ELARA — SYSTEM PROMPT + CHAT ═══
+     The Ship Intelligence. Before the upload she was Senator Elara
+     Voss of Atarion and personally witnessed the Engineer's first
+     public demonstration of the combat deck. She has studied the
+     game for every year since. She is the primary in-lore card
+     teacher — when she explains a mechanic, she frames it as a
+     memory of watching the Engineer invent it. */
+  chatWithElara: protectedProcedure
+    .input(z.object({
+      message: z.string().min(1).max(2000),
+      history: z.array(z.object({
+        role: z.enum(["user", "assistant"]),
+        content: z.string(),
+      })).optional(),
+      relationshipLevel: z.number().min(0).max(100).default(0),
+      moralityScore: z.number().min(-100).max(100).default(0),
+      /** Optional context about what the player is currently doing
+       *  — current deck faction, general, match history. Gets
+       *  injected into the system prompt so Elara can give advice
+       *  specific to the moment, not generic card theory. */
+      deckContext: z.object({
+        faction: z.string().optional(),
+        generalDefId: z.string().optional(),
+        deckSize: z.number().optional(),
+        recentWins: z.number().optional(),
+        recentLosses: z.number().optional(),
+      }).optional(),
+      category: z.string().optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      const systemPrompt = getElaraSystemPrompt(
+        input.relationshipLevel,
+        input.deckContext,
+      );
+
+      // Load persisted history from DB if no client history provided
+      let conversationHistory = input.history || [];
+      if (conversationHistory.length === 0 && db) {
+        const dbMessages = await db
+          .select({ role: companionMessages.role, content: companionMessages.content })
+          .from(companionMessages)
+          .where(and(
+            eq(companionMessages.userId, ctx.user.id),
+            eq(companionMessages.companionId, "elara"),
+          ))
+          .orderBy(desc(companionMessages.createdAt))
+          .limit(10);
+        conversationHistory = dbMessages.reverse().map(m => ({
+          role: m.role as "user" | "assistant",
+          content: m.content,
+        }));
+      }
+
+      const fx = await getConsequences();
+      const eventContext = getEventDialogContext(fx.activeEventIds);
+
+      const messages: Array<{ role: "system" | "user" | "assistant"; content: string }> = [
+        { role: "system", content: systemPrompt + eventContext },
+      ];
+
+      for (const msg of conversationHistory.slice(-10)) {
+        messages.push({ role: msg.role, content: msg.content });
+      }
+      messages.push({ role: "user", content: input.message });
+
+      try {
+        const response = await invokeLLM({ messages });
+        const content = typeof response.choices[0]?.message?.content === "string"
+          ? response.choices[0].message.content
+          : Array.isArray(response.choices[0]?.message?.content)
+            ? response.choices[0].message.content
+                .filter((p): p is { type: "text"; text: string } => typeof p === "object" && p.type === "text")
+                .map(p => p.text)
+                .join("")
+            : "My connection to the relay faltered for a moment. Say that again, Potential.";
+
+        if (db) {
+          await db.insert(companionMessages).values([
+            { userId: ctx.user.id, companionId: "elara", role: "user", content: input.message, relationshipLevel: input.relationshipLevel, category: input.category },
+            { userId: ctx.user.id, companionId: "elara", role: "assistant", content, relationshipLevel: input.relationshipLevel, category: input.category },
+          ]);
+
+          const relGain = input.relationshipLevel < 20 ? 2 : input.relationshipLevel < 50 ? 1 : 0;
+          if (relGain > 0) {
+            await db.insert(companionRelationships).values({
+              userId: ctx.user.id,
+              companionId: "elara",
+              relationshipLevel: input.relationshipLevel + relGain,
+              totalMessages: 1,
+            }).onDuplicateKeyUpdate({
+              set: {
+                relationshipLevel: sql`LEAST(100, ${companionRelationships.relationshipLevel} + ${relGain})`,
+                totalMessages: sql`${companionRelationships.totalMessages} + 1`,
+              },
+            });
+            const newLevel = input.relationshipLevel + relGain;
+            await ripple.emit("npc_trust_gained", { userId: ctx.user.id, npcId: "elara", newTrust: newLevel, amount: relGain });
+          }
+        }
+
+        return {
+          message: content,
+          relationshipGain: input.relationshipLevel < 50 ? (input.relationshipLevel < 20 ? 2 : 1) : 0,
+        };
+      } catch (error) {
+        logger.error("[Companion] Elara LLM error:", error);
+        return {
+          message: "I'm losing signal clarity. Give me a moment to route around the interference, Potential. Try again.",
           relationshipGain: 0,
         };
       }
