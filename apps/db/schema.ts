@@ -4080,3 +4080,29 @@ export const professorApproval = mysqlTable("professor_approval", {
 }));
 
 export type ProfessorApprovalRow = typeof professorApproval.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   ENGINEER'S LOGS — Phase A13
+   Tracks which Engineer's Logs each user has discovered
+   (unlocked) and whether they've listened/read them yet.
+   Used by routers/engineerLogs.ts for the FNORD-23 library.
+   ═══════════════════════════════════════════════════════ */
+export const engineerLogUnlocks = mysqlTable("engineer_log_unlocks", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Stable log id (e.g. "log_keyword_rush"). */
+  logId: varchar("logId", { length: 64 }).notNull(),
+  /** When the log became available to the player. */
+  unlockedAt: timestamp("unlockedAt").defaultNow().notNull(),
+  /** Has the player opened/listened to it at least once? Drives
+   *  the unread-badge on the FNORD-23 library UI. */
+  read: int("read").notNull().default(0),
+  /** Short trigger description shown in the unlock toast
+   *  ("First Rush unit deployed", "Completed Tutorial Gate 2", etc.). */
+  unlockSource: varchar("unlockSource", { length: 128 }),
+}, (table) => ({
+  userLogIdx: uniqueIndex("uq_engineer_log_unlocks_user_log").on(table.userId, table.logId),
+  userIdx: index("idx_engineer_log_unlocks_user").on(table.userId),
+}));
+
+export type EngineerLogUnlockRow = typeof engineerLogUnlocks.$inferSelect;
