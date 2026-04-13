@@ -820,6 +820,25 @@ export default function ChessPage() {
               </div>
             )}
 
+            {/* The Celebration Academy — tutorial entry point */}
+            <Link
+              href="/chess/tutorial"
+              className="block p-4 rounded-lg border border-amber-400/40 bg-gradient-to-br from-amber-400/10 to-transparent hover-lift"
+            >
+              <div className="flex items-center gap-3 mb-1">
+                <BookOpen size={18} className="text-amber-300" />
+                <span className="font-display text-sm font-bold tracking-wider text-amber-100">
+                  THE CELEBRATION ACADEMY
+                </span>
+              </div>
+              <p className="font-mono text-[11px] text-muted-foreground">
+                Learn chess from the Celebration-era Game Master — 7 gates of
+                real chess pedagogy that double as a course in strategic
+                thinking. Confident players can skip the tutorial and
+                challenge him directly.
+              </p>
+            </Link>
+
             {/* Game Modes — 5 modes now */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {[
