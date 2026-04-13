@@ -35,6 +35,22 @@ export const LoredexEntrySchema = z.object({
   image: z.string().optional().default(""),
   priority: z.string().optional().default("normal"),
   streaming_links: z.any().optional(),
+  /** Ne-Yon pantheon ordinal (1=Dreamer, 2=Judge, 3=Inventor, 4=Seer, 5=Storm,
+   *  6=Silence, 7=Knowledge, 8=Degen, 9=Advocate, 10=Resurrectionist, 11=Enigma,
+   *  12=Forgotten). Null for non-Ne-Yon entries. */
+  ne_yon_ordinal: z.number().int().min(1).max(12).nullable().optional(),
+  /** Archon pantheon ordinal (4=Watcher, 5=Meme, 7=Politician, 8=Warden,
+   *  9=Game Master, 10=Necromancer, 12=Human). Null for non-Archon entries
+   *  or Archons whose ordinal is unresolved (1, 2, 3, 6, 11). */
+  archon_ordinal: z.number().int().min(1).max(12).nullable().optional(),
+  /** Identity chain cross-references for characters who share one canonical
+   *  identity across multiple names (e.g. Kael = Recruiter = Source). Array
+   *  of entry IDs in chronological order. */
+  identity_chain: z.array(z.string()).nullable().optional(),
+  /** Whether Palimpsest Shadow Tongue may "edit" this entry's bio when
+   *  Noise dominates Signal. Default true for character/event, false for
+   *  cosmological constants. */
+  canBeEdited: z.boolean().optional(),
 });
 
 export const LoredexRelationshipSchema = z.object({
