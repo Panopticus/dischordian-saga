@@ -24,6 +24,7 @@ import { CADESAmbientLines } from "@/components/CADESAmbientLines";
 import { CADESClueBoard } from "@/components/CADESClueBoard";
 import { CADESConspiracyBoard } from "@/components/CADESConspiracyBoard";
 import { OpenChannelEcho } from "@/components/OpenChannelEcho";
+import { ResponsiveImage } from "@/components/ResponsiveImage";
 
 /* ─── PALETTE ─── */
 const P = {
@@ -384,9 +385,18 @@ export default function CADESFPSPage() {
                   {result.success ? "Ark 1047 is secure." : "Inception Ark 1047 has fallen."}
                 </p>
                 {result.thoughtborn_contacted && (
-                  <p className="font-mono text-xs mt-2" style={{ color: P.VIOLET }}>
-                    The Thoughtborn made contact.
-                  </p>
+                  <>
+                    <div className="mt-3 -mx-4 overflow-hidden rounded-md border border-violet-500/30">
+                      <ResponsiveImage
+                        src={CADES_CHARACTERS.thoughtbornLeaderBossSplash}
+                        alt="The Thoughtborn Leader"
+                        className="w-full h-auto block"
+                      />
+                    </div>
+                    <p className="font-mono text-xs mt-2" style={{ color: P.VIOLET }}>
+                      The Thoughtborn made contact.
+                    </p>
+                  </>
                 )}
               </>
             )}

@@ -18,7 +18,18 @@ export const cardDef: CardDefinition = {
   cost: 5,
   baseStats: { power: 6, health: 5 },
   keywords: ["backstab", "pierce"],
-  abilities: [],
+  abilities: [
+    {
+      id: "rs_predator_buff" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_kill", of: "any" },
+      effect: {
+        op: "buff",
+        stats: { power: 2 },
+        duration: { kind: "permanent" },
+        to: { kind: "self" },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "In the ruins of the old world, something still hunts. It does not remember what it was — only what it is hungry for.",

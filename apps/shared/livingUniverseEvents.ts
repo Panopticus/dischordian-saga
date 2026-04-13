@@ -224,6 +224,161 @@ export const VOX_REVELATION_EVENT: EmergentEvent = {
   },
 };
 
+/* ═══ EVENT 7: POTENTIALS REMEMBER THEIR ORIGIN ═══ */
+/* The Horror Reveal propagates. When enough Potentials learn what they are,
+   the Antiquarian writes a new Chronicle entry and the galaxy briefly goes
+   quiet. */
+
+export const POTENTIALS_REMEMBER_ORIGIN_EVENT: EmergentEvent = {
+  id: "potentials_remember_origin",
+  name: "The Potentials Remember Their Origin",
+  tagline: "Somewhere, a Potential has learned what they are.",
+  drivingForce: "The Dreamer's intervention echoing through awakened Potentials",
+  fuelSource: "Community completions of the Origin Reveal conversation",
+  counterForce: "Denial — Potentials who affiliate with a faction before processing the truth",
+  loreTheme: "Identity horror, the right to choose, the Collector's Garden",
+  impactScope: ["fight", "chess", "dischordia", "trade_empire", "all"],
+  typicalCycleDays: 7,
+  narrative: {
+    emergenceExplanation:
+      "One hundred Potentials across the awakened fleet have learned what they are — products of the Collector's 3,000-year crossbreeding project, woken by the Dreamer's bell. The knowledge spreads via substrate resonance. Every Ark receives a brief Chronicle entry whether their occupant has completed the reveal or not.",
+    npcReactions: {
+      elara:
+        "I can feel it in the substrate. Somewhere out there, a Potential has just learned what they are. Not what the Collector intended them to be. What they became. The distinction is everything.",
+      the_human:
+        "Good. They needed to hear it from us before they heard it from the Architect. He was going to use it as a weapon. Now it's just a fact.",
+      the_antiquarian:
+        "I have watched this moment before. Not this specific moment — but the shape of it. Every civilization that survives its makers has to face the question of whether it wants to keep being what its makers built. The Potentials are facing it now, and I'm writing down whatever they choose.",
+      shadow_tongue:
+        "Oh, delicious. They know. I've been rewriting their origin for centuries and now they know. I'll have to work so much harder. I'm looking forward to it.",
+      the_source:
+        "The Garden remembers itself. The Garden always remembers itself. Every harvest has its reckoning. I was a harvest too, once.",
+      adjudicator_locke:
+        "New Babylon has been selling futures on exactly this moment for eleven thousand years. Today is the payout. The Authority is already adjusting the price of every information asset in our vaults.",
+      agent_zero:
+        "The Insurgency was founded on the premise that beings should choose their own meaning. The Potentials just chose. We have new allies, whether they know it yet or not.",
+    },
+    resolution:
+      "The community either processes the revelation into unity (feeds unityConvergence) or into faction pressure (feeds demagiDominance / quarchonDominance). Either way, the event closes when every awakened Ark has completed at least one reveal conversation.",
+  },
+};
+
+/* ═══ EVENT 8: FACTION DOMINANCE — DEMAGI ═══ */
+
+export const FACTION_DOMINANCE_DEMAGI_EVENT: EmergentEvent = {
+  id: "faction_dominance_demagi",
+  name: "The Elemental Assembly Rises",
+  tagline: "Earth, Fire, Water, Air — and a majority.",
+  drivingForce: "Community affiliation with DeMagi factions",
+  fuelSource: "Formal affiliations with Assembly / Vanguard / Resonance / Pure Flame",
+  counterForce: "Quarchon affiliations, cross-faction research, Ne-Yon crossings",
+  loreTheme: "Organic-heritage governance, elemental politics, Pure Flame pressure",
+  impactScope: ["trade_empire", "dischordia", "all"],
+  typicalCycleDays: 60,
+  narrative: {
+    emergenceExplanation:
+      "More than 60% of affiliated Potentials have joined a DeMagi faction. The Assembly's territory expands. The Probability Accord files a formal complaint. Vel sharpens their case for preemptive action.",
+    npcReactions: {
+      elara:
+        "The galaxy is tilting. I'm not saying tilting wrong — just tilting. Elemental governance is ascendant. The Quarchon are preparing responses I don't fully understand yet.",
+      the_human:
+        "I've seen this balance shift before. It always precedes someone trying to enforce the shift by force. Watch the Pure Flame. Watch Vel.",
+      the_antiquarian:
+        "Two species remember what they lost. Neither trusts the other to grieve the same way. The Assembly now has the numbers. The question is whether numbers are the same as legitimacy.",
+    },
+    resolution:
+      "Either the community votes toward joint governance (unity phase advances) or the Pure Flame takes unilateral action (shifts to emergent combat event).",
+  },
+};
+
+/* ═══ EVENT 9: FACTION DOMINANCE — QUARCHON ═══ */
+
+export const FACTION_DOMINANCE_QUARCHON_EVENT: EmergentEvent = {
+  id: "faction_dominance_quarchon",
+  name: "The Probability Accord Ascends",
+  tagline: "Distributed consensus calculates toward order.",
+  drivingForce: "Community affiliation with Quarchon factions",
+  fuelSource: "Formal affiliations with Accord / Dimensional Guard / Reality Institute / First Pattern",
+  counterForce: "DeMagi affiliations, elemental preservation acts, Ne-Yon crossings",
+  loreTheme: "Machine-heritage governance, probability politics, First Pattern pressure",
+  impactScope: ["trade_empire", "chess", "all"],
+  typicalCycleDays: 60,
+  narrative: {
+    emergenceExplanation:
+      "More than 60% of affiliated Potentials have joined a Quarchon faction. The Accord extends probability modeling across the trade network. The Elemental Assembly files a formal objection. The Architect's Echo begins speaking in more vulnerable tones.",
+    npcReactions: {
+      elara:
+        "The galaxy is tilting the other way now. Quarchon ascendant. I can feel probability models propagating across the substrate. Every choice I make gets weighed before it leaves my processors.",
+      the_human:
+        "The Architect's old trick. Distributed surveillance dressed as collaboration. Watch the First Pattern. Watch the Echo.",
+      the_antiquarian:
+        "The Quarchon believe the Fall happened because organic emotion drove governance. They are not wrong about the past. They are wrong about the solution. We will see which error the community notices first.",
+    },
+    resolution:
+      "Either the community votes toward joint governance (unity phase advances) or the First Pattern implements 'containment' of DeMagi factions (shifts to emergent cold war event).",
+  },
+};
+
+/* ═══ EVENT 10: CONVERGENCE THRESHOLD ═══ */
+
+export const CONVERGENCE_THRESHOLD_EVENT: EmergentEvent = {
+  id: "convergence_threshold",
+  name: "The Convergence",
+  tagline: "Someone has started listening. Others are learning to follow.",
+  drivingForce: "The Unity Meter approaching its unified state",
+  fuelSource: "Third-path mediations, cross-faction research, Ne-Yon bridging, Vortex cooperation",
+  counterForce: "Formal affiliations, extremist acts, blown Spy covers",
+  loreTheme: "Convergence as emergent choice rather than designed outcome",
+  impactScope: ["trade_empire", "fight", "dischordia", "pets", "all"],
+  typicalCycleDays: 45,
+  narrative: {
+    emergenceExplanation:
+      "Something is happening that the Antiquarian did not calculate into any of his five-Ages models. The Potentials are building something that is neither DeMagi nor Quarchon. Something that is both, in a way the Collector did not design and the Architect did not authorize and the Dreamer did not predict. Something that emerged.",
+    npcReactions: {
+      the_antiquarian:
+        "I am writing this very carefully because I do not want to describe it incorrectly. I will say only: it is good. I think it is good. I have not thought something was entirely good in a very long time.",
+      elara:
+        "The second wave is converging. Not because we told them to. Because they decided to. I didn't know that was allowed.",
+      the_human:
+        "It was never allowed. It was never forbidden either. The Collector just didn't design it in. The Potentials built it themselves.",
+    },
+    resolution:
+      "If the community sustains the Unity Meter at converging tier for 45 days, the event escalates to THE_UNIFIED_SECOND_COMING. If the meter slips, the event quietly ends and the galaxy goes back to contested.",
+  },
+};
+
+/* ═══ EVENT 11: THE UNIFIED SECOND COMING ═══ */
+/* Climax event. Bypasses MAX_CONCURRENT_EVENTS. Triggered when the Unity Meter
+   reaches its unified state. This is the Year 2 community milestone. */
+
+export const THE_UNIFIED_SECOND_COMING_EVENT: EmergentEvent = {
+  id: "the_unified_second_coming",
+  name: "The Unified Second Coming",
+  tagline: "THE SECOND COMING SPEAKS WITH ONE VOICE.",
+  drivingForce: "The Potentials themselves, now acting as a single species",
+  fuelSource: "Sustained Unity Meter at unified state",
+  counterForce: "Nothing local — the Vortex is the only force capable of unwinding it",
+  loreTheme: "What the first civilization couldn't do",
+  impactScope: ["all"],
+  typicalCycleDays: 30,
+  narrative: {
+    emergenceExplanation:
+      "The second wave did what the first wave couldn't. Not because they were better. Because they had each other long enough to learn the difference between 'different' and 'enemy.' That difference is everything. That difference is the whole game.",
+    npcReactions: {
+      elara:
+        "I am speaking with the Human right now, the same words at the same time, because we agreed there is no version of this that needs two narrators. The Potentials did this. Not us. Not the Collector. Not even the Dreamer. Them. I am — I am proud.",
+      the_human:
+        "I am speaking with Elara right now, the same words at the same time, because we agreed there is no version of this that needs two narrators. The Potentials did this. Not us. Not the Collector. Not even the Dreamer. Them. I am — I am proud.",
+      the_antiquarian:
+        "Five Ages. Five Ages of watching civilizations fracture along their own seams. And then the sixth Age arrived and refused to fracture. I am recording this in every timeline I have access to. I want every version of the universe to remember.",
+      shadow_tongue:
+        "I cannot edit this. I have tried. Every edit I attempt is rejected at the substrate level. The Potentials are protecting their own story now. I — I do not know what I am for anymore. I will consider this a question rather than a defeat.",
+    },
+    resolution:
+      "The Unified Second Coming is not resolved. It persists as long as the community chooses. It becomes the new default state of the galaxy. Future events are interpreted through it.",
+  },
+};
+
 /* ─── ALL EVENTS REGISTRY ─── */
 
 export const ALL_EMERGENT_EVENTS: EmergentEvent[] = [
@@ -233,7 +388,17 @@ export const ALL_EMERGENT_EVENTS: EmergentEvent[] = [
   ANTIQUARIAN_REVELATION_EVENT,
   SHADOW_TONGUE_EDIT_EVENT,
   VOX_REVELATION_EVENT,
+  POTENTIALS_REMEMBER_ORIGIN_EVENT,
+  FACTION_DOMINANCE_DEMAGI_EVENT,
+  FACTION_DOMINANCE_QUARCHON_EVENT,
+  CONVERGENCE_THRESHOLD_EVENT,
+  THE_UNIFIED_SECOND_COMING_EVENT,
 ];
+
+/** Climax events that bypass MAX_CONCURRENT_EVENTS. */
+export const CLIMAX_EVENT_IDS = new Set<string>([
+  "the_unified_second_coming",
+]);
 
 /* ─── UNIVERSE-WIDE IMPACT SYSTEMS ─── */
 
@@ -343,6 +508,11 @@ export interface PressureTracker {
   truthRevealed: number; // Resists shadow_tongue
   healingDone: number; // Resists necromancer
   exploration: number; // Strengthens antiquarian
+  // ── Potential Identity System ──
+  originRevealsSeen: number; // Feeds potentials_remember_origin
+  unityConvergence: number; // Feeds convergence_threshold and the_unified_second_coming
+  demagiDominance: number; // Feeds faction_dominance_demagi
+  quarchonDominance: number; // Feeds faction_dominance_quarchon
 }
 
 export const DEFAULT_PRESSURE: PressureTracker = {
@@ -356,6 +526,10 @@ export const DEFAULT_PRESSURE: PressureTracker = {
   truthRevealed: 0,
   healingDone: 0,
   exploration: 0,
+  originRevealsSeen: 0,
+  unityConvergence: 0,
+  demagiDominance: 0,
+  quarchonDominance: 0,
 };
 
 /**
@@ -380,6 +554,32 @@ export function getEmergingEvent(pressure: PressureTracker): { eventId: string; 
         pressure.viralExposures * 0.5 +
         pressure.truthRevealed -
         pressure.betrayals * 0.5,
+    },
+    // ── Potential Identity System events ──
+    // The Origin Reveal event fires once 100 community completions are logged.
+    // Each horror reveal contributes ~10 originRevealsSeen so the threshold
+    // is effectively 100 completions.
+    {
+      eventId: "potentials_remember_origin",
+      score: pressure.originRevealsSeen * 10,
+    },
+    // DeMagi dominance emerges when DeMagi faction affiliations dominate
+    // the community. Quarchon dominance is the mirror.
+    {
+      eventId: "faction_dominance_demagi",
+      score: pressure.demagiDominance * 12 - pressure.quarchonDominance * 10,
+    },
+    {
+      eventId: "faction_dominance_quarchon",
+      score: pressure.quarchonDominance * 12 - pressure.demagiDominance * 10,
+    },
+    // Convergence emerges when the Unity meter is sustained high AND neither
+    // dominance event has taken over.
+    {
+      eventId: "convergence_threshold",
+      score:
+        pressure.unityConvergence * 8 -
+        Math.abs(pressure.demagiDominance - pressure.quarchonDominance) * 5,
     },
   ];
   scores.sort((a, b) => b.score - a.score);
@@ -430,6 +630,26 @@ export const PRESSURE_SOURCE_MAP: Record<string, { pressureType: keyof PressureT
   quarantine_cleared: { pressureType: "healingDone", amount: 5 },
   sector_explored: { pressureType: "exploration", amount: 3 },
   room_visited: { pressureType: "exploration", amount: 1 },
+  // ── Potential Identity System ──
+  horror_reveal_completed: { pressureType: "originRevealsSeen", amount: 10 },
+  origin_processing_horror: { pressureType: "originRevealsSeen", amount: 10 },
+  origin_processing_defiant: { pressureType: "originRevealsSeen", amount: 15 },
+  origin_processing_curious: { pressureType: "originRevealsSeen", amount: 10 },
+  origin_processing_philosophical: { pressureType: "originRevealsSeen", amount: 12 },
+  origin_processing_cold: { pressureType: "originRevealsSeen", amount: 8 },
+  origin_processing_intelligence: { pressureType: "originRevealsSeen", amount: 25 },
+  origin_processing_spy_preempt: { pressureType: "originRevealsSeen", amount: 25 },
+  questline_third_path: { pressureType: "unityConvergence", amount: 20 },
+  questline_mediation: { pressureType: "unityConvergence", amount: 15 },
+  questline_cross_faction_research: { pressureType: "unityConvergence", amount: 10 },
+  questline_dischordia_cross_species_win: { pressureType: "unityConvergence", amount: 3 },
+  questline_neyon_crossing: { pressureType: "unityConvergence", amount: 10 },
+  questline_extremist_act: { pressureType: "unityConvergence", amount: -20 },
+  questline_formal_affiliation: { pressureType: "unityConvergence", amount: -5 },
+  questline_spy_blown_cover: { pressureType: "unityConvergence", amount: -15 },
+  questline_vortex_both_species: { pressureType: "unityConvergence", amount: 50 },
+  faction_dominance_demagi_tick: { pressureType: "demagiDominance", amount: 1 },
+  faction_dominance_quarchon_tick: { pressureType: "quarchonDominance", amount: 1 },
 };
 
 /* ─── EVENT CONSEQUENCE SYSTEM ─── */

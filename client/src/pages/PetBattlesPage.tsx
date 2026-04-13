@@ -1,0 +1,440 @@
+/* ═══════════════════════════════════════════════════════
+   PET BATTLES — Spectator Arena
+
+   Text-based spectator combat. Two pets face off across
+   rounds; player watches + bets on outcomes. Injuries carry
+   forward. Dream tokens at stake.
+
+   Design: Reader-friendly log with battle-card view.
+   No canvas sprite work — pure narrative text+cards,
+   like WoW pet battles logs but with Dischordian flavor.
+   ═══════════════════════════════════════════════════════ */
+import { useState, useMemo, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "wouter";
+import {
+  ChevronLeft, Swords, Shield, Zap, Heart, Trophy, Play, RotateCcw,
+} from "lucide-react";
+import {
+  createBattlePet,
+  executeMove,
+  calculateBattleRewards,
+  ARENA_TIERS,
+  ARENA_BACKGROUNDS,
+  getArenaBackground,
+  getAvailableTiers,
+  type BattlePet,
+  type PetBattle,
+  type BattleLogEntry,
+  type ArenaTier,
+  type ArenaBackground,
+} from "@/game/petBattles";
+import { trpc } from "@/lib/trpc";
+
+type Phase = "tier_select" | "matchup" | "battle" | "result";
+
+export default function PetBattlesPage() {
+  const [phase, setPhase] = useState<Phase>("tier_select");
+  const [selectedTier, setSelectedTier] = useState<ArenaTier | null>(null);
+  const [battle, setBattle] = useState<PetBattle | null>(null);
+  const [log, setLog] = useState<BattleLogEntry[]>([]);
+  const [playerPet, setPlayerPet] = useState<BattlePet | null>(null);
+  const [opponentPet, setOpponentPet] = useState<BattlePet | null>(null);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+
+  const [serverRewards, setServerRewards] = useState<{
+    bondGain: number; skillPoints: number; dream: number; xp: number; injury: number;
+  } | null>(null);
+
+  // Server persistence
+  const myPetsQuery = trpc.petBattles.getMyPets.useQuery(undefined, { retry: false });
+  const submitBattleMutation = trpc.petBattles.submitBattleResult.useMutation();
+
+  // Living Universe — active events drive arena background
+  const universeQuery = trpc.dailyBrief.getUniverseState.useQuery(undefined, { staleTime: 60_000, retry: false });
+  const activeEventIds = useMemo(
+    () => (universeQuery.data?.activeEvents ?? []).map((e: { eventId: string }) => e.eventId),
+    [universeQuery.data],
+  );
+
+  // Arena background — driven by tier selection + active Living Universe events
+  const arenaBackground = useMemo<ArenaBackground>(
+    () => getArenaBackground(selectedTier?.id ?? "bronze_gauntlet", activeEventIds),
+    [selectedTier, activeEventIds],
+  );
+
+  // Use server pets if available, fallback to hardcoded stage 2
+  const petEvolution = (myPetsQuery.data?.[0]?.evolutionStage ?? 2) as 1 | 2 | 3;
+  const petBond = myPetsQuery.data?.[0]?.bond ?? 60;
+  const availableTiers = useMemo(() => getAvailableTiers(petEvolution), [petEvolution]);
+
+  // Auto-play turn loop
+  useEffect(() => {
+    if (!isAutoPlaying || !battle || battle.status !== "in_progress") return;
+    const timer = setTimeout(() => advanceTurn(), 900);
+    return () => clearTimeout(timer);
+  }, [isAutoPlaying, battle, log]);
+
+  const startMatchup = (tier: ArenaTier) => {
+    setSelectedTier(tier);
+    setServerRewards(null);
+    const myPet = myPetsQuery.data?.[0];
+    const player = myPet
+      ? createBattlePet(myPet.petId, myPet.species, myPet.evolutionStage as 1|2|3, myPet.bond)
+      : createBattlePet("lux", "holographic_fox", petEvolution, petBond);
+    if (myPet) player.name = myPet.name;
+    const opponent = createBattlePet("shadow", "void_crawler", petEvolution, 40);
+    opponent.name = "Opponent: Shadow";
+    setPlayerPet(player);
+    setOpponentPet(opponent);
+    setBattle({
+      id: `battle-${Date.now()}`,
+      player1Pet: player,
+      player2Pet: opponent,
+      round: 1, maxRounds: 10,
+      status: "preparing",
+      winner: null, log: [],
+      turn: player.speed >= opponent.speed ? "player1" : "player2",
+    });
+    setLog([]);
+    setPhase("matchup");
+  };
+
+  const beginBattle = () => {
+    if (!battle) return;
+    setBattle({ ...battle, status: "in_progress" });
+    setPhase("battle");
+    setIsAutoPlaying(true);
+  };
+
+  const advanceTurn = () => {
+    if (!battle || !playerPet || !opponentPet) return;
+    const attacker = battle.turn === "player1" ? playerPet : opponentPet;
+    const defender = battle.turn === "player1" ? opponentPet : playerPet;
+    // Pick a random move (simple AI)
+    const availableMoves = attacker.moves.filter(m => m.currentCooldown === 0);
+    const move = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+    if (!move) return;
+
+    const entry = executeMove(attacker, defender, move.id);
+    setLog(prev => [...prev, entry]);
+
+    // Check for end
+    if (defender.hp <= 0) {
+      const winner = battle.turn === "player1" ? "player1" : "player2";
+      const finalBattle = { ...battle, status: "completed" as const, winner };
+      setBattle(finalBattle);
+      setIsAutoPlaying(false);
+      // Submit result to server
+      const won = winner === "player1";
+      const perfect = won && playerPet.hp === playerPet.maxHp;
+      submitBattleMutation.mutate({
+        petId: playerPet.petId,
+        opponentSpecies: opponentPet.petId,
+        arenaTier: selectedTier?.id || "bronze_gauntlet",
+        won, rounds: battle.round, perfectVictory: perfect,
+        battleLog: [...log, entry],
+      }, {
+        onSuccess: (data) => setServerRewards(data.rewards),
+        onError: (err) => console.warn("[PetBattles] Server submit failed:", err.message),
+      });
+      setTimeout(() => setPhase("result"), 1500);
+      return;
+    }
+
+    // Next turn
+    const nextRound = battle.turn === "player2" ? battle.round + 1 : battle.round;
+    setBattle({
+      ...battle,
+      turn: battle.turn === "player1" ? "player2" : "player1",
+      round: nextRound,
+    });
+
+    // Max rounds reached
+    if (nextRound > battle.maxRounds) {
+      const winner = playerPet.hp > opponentPet.hp ? "player1" : "player2";
+      setBattle({ ...battle, status: "completed", winner });
+      setIsAutoPlaying(false);
+      const won = winner === "player1";
+      submitBattleMutation.mutate({
+        petId: playerPet.petId,
+        opponentSpecies: opponentPet.petId,
+        arenaTier: selectedTier?.id || "bronze_gauntlet",
+        won, rounds: battle.round, perfectVictory: false,
+        battleLog: log,
+      }, {
+        onSuccess: (data) => setServerRewards(data.rewards),
+        onError: (err) => console.warn("[PetBattles] Server submit failed:", err.message),
+      });
+      setTimeout(() => setPhase("result"), 1500);
+    }
+  };
+
+  const reset = () => {
+    setPhase("tier_select");
+    setSelectedTier(null);
+    setBattle(null);
+    setLog([]);
+    setPlayerPet(null);
+    setOpponentPet(null);
+    setIsAutoPlaying(false);
+  };
+
+  /** Whether we're in an active battle phase (matchup/battle/result) that should show the arena background */
+  const showArenaBackground = phase !== "tier_select";
+
+  return (
+    <div className="min-h-screen text-foreground relative overflow-hidden">
+      {/* Arena background — visible during matchup/battle/result */}
+      {showArenaBackground && (
+        <div className="absolute inset-0 z-0">
+          <img
+            src={arenaBackground.imageUrl}
+            alt={arenaBackground.name}
+            className="w-full h-full object-cover"
+            loading="eager"
+          />
+          <div className="absolute inset-0" style={{ background: arenaBackground.overlayColor }} />
+        </div>
+      )}
+      {/* Default background for tier select */}
+      {!showArenaBackground && <div className="absolute inset-0 z-0 bg-background" />}
+
+      <div className="relative z-10 p-4 sm:p-6">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex items-center gap-3 mb-4">
+          <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
+            <ChevronLeft size={20} />
+          </Link>
+          <Swords size={18} style={{ color: showArenaBackground ? arenaBackground.accentColor : undefined }} className={showArenaBackground ? "" : "text-rose-400"} />
+          <div>
+            <h1 className="font-display text-lg font-bold tracking-wider">
+              {showArenaBackground ? arenaBackground.name.toUpperCase() : "ARENA OF SMALL THINGS"}
+            </h1>
+            <p className="font-mono text-[10px] text-white/50 tracking-wider">
+              {showArenaBackground ? arenaBackground.lore.slice(0, 80) + "..." : "Specimen spectator combat · text-based · injuries carry forward"}
+            </p>
+          </div>
+        </div>
+
+        <AnimatePresence mode="wait">
+          {phase === "tier_select" && (
+            <motion.div key="tiers" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-3">
+              {/* Active event arena override notice */}
+              {activeEventIds.length > 0 && (() => {
+                const eventBg = ARENA_BACKGROUNDS.find(bg => bg.activatedByEvent && activeEventIds.includes(bg.activatedByEvent));
+                if (!eventBg) return null;
+                return (
+                  <div className="p-2 rounded border text-center" style={{ borderColor: `${eventBg.accentColor}40`, background: `${eventBg.accentColor}10` }}>
+                    <p className="font-mono text-[9px] uppercase tracking-wider" style={{ color: eventBg.accentColor }}>
+                      Living Universe Event Active — Arena Override: {eventBg.name}
+                    </p>
+                  </div>
+                );
+              })()}
+
+              <h2 className="font-display text-sm font-bold tracking-wider mb-2">SELECT TIER</h2>
+              {ARENA_TIERS.map(tier => {
+                const available = availableTiers.some(t => t.id === tier.id);
+                const bg = getArenaBackground(tier.id, activeEventIds);
+                return (
+                  <button
+                    key={tier.id}
+                    onClick={() => available && startMatchup(tier)}
+                    disabled={!available}
+                    className={`w-full rounded border text-left transition-all overflow-hidden ${
+                      available
+                        ? "border-border/40 hover:border-rose-500/40"
+                        : "border-border/20 opacity-40 cursor-not-allowed"
+                    }`}
+                    data-testid={`tier-${tier.id}`}
+                  >
+                    {/* Arena preview thumbnail */}
+                    <div className="relative h-20 overflow-hidden">
+                      <img src={bg.imageUrl} alt={bg.name} className="w-full h-full object-cover" loading="lazy" />
+                      <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 100%)" }} />
+                      <div className="absolute bottom-0 left-0 right-0 p-2">
+                        <div className="flex items-center justify-between">
+                          <span className="font-display text-sm font-bold text-white">{tier.name}</span>
+                          <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded" style={{ background: `${bg.accentColor}30`, color: bg.accentColor }}>
+                            {bg.name}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-2.5 bg-card/60">
+                      <p className="font-mono text-[10px] text-muted-foreground/70 leading-relaxed italic">
+                        {tier.lore}
+                      </p>
+                      <div className="mt-1 flex items-center justify-between">
+                        <span className="font-mono text-[9px] text-amber-400">
+                          +{tier.rewards.champion.xp} XP · +{tier.rewards.champion.dream} Dream
+                        </span>
+                        <span className="font-mono text-[8px] uppercase tracking-wider text-muted-foreground/50">
+                          Evo {tier.minEvolution}+
+                        </span>
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </motion.div>
+          )}
+
+          {phase === "matchup" && playerPet && opponentPet && (
+            <motion.div key="matchup" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
+              <h2 className="font-display text-sm font-bold tracking-wider text-center">MATCHUP</h2>
+              <div className="grid grid-cols-2 gap-3">
+                <PetCard pet={playerPet} side="player" />
+                <PetCard pet={opponentPet} side="opponent" />
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={beginBattle}
+                  className="flex-1 px-4 py-2 rounded border border-rose-500/40 bg-rose-500/10 text-rose-400 font-mono text-[11px] uppercase tracking-wider hover:bg-rose-500/20 flex items-center justify-center gap-2"
+                  data-testid="begin-battle"
+                >
+                  <Play size={12} /> Begin Battle
+                </button>
+                <button
+                  onClick={reset}
+                  className="px-4 py-2 rounded border border-border/40 text-muted-foreground font-mono text-[11px] uppercase tracking-wider hover:bg-muted/20"
+                >
+                  Cancel
+                </button>
+              </div>
+            </motion.div>
+          )}
+
+          {phase === "battle" && playerPet && opponentPet && battle && (
+            <motion.div key="battle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-3">
+              <div className="grid grid-cols-2 gap-3">
+                <PetCard pet={playerPet} side="player" />
+                <PetCard pet={opponentPet} side="opponent" />
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[10px] text-muted-foreground">
+                  Round {battle.round} / {battle.maxRounds}
+                </span>
+                <button
+                  onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+                  className="font-mono text-[9px] uppercase tracking-wider text-rose-400 hover:text-rose-300"
+                >
+                  {isAutoPlaying ? "⏸ Pause" : "▶ Resume"}
+                </button>
+              </div>
+              <div className="border border-border/30 rounded-lg bg-card/40 p-3 max-h-80 overflow-y-auto space-y-1.5">
+                {log.length === 0 ? (
+                  <p className="font-mono text-[10px] text-muted-foreground/50 italic text-center py-4">
+                    Battle beginning…
+                  </p>
+                ) : log.slice(-15).map((entry, i) => (
+                  <div key={i} className="font-mono text-[10px] leading-relaxed text-foreground/80">
+                    <span className="text-muted-foreground/50">R{entry.round}</span>{" "}
+                    {entry.flavor}
+                    {entry.damage && entry.damage > 0 && (
+                      <span className="text-red-400"> [-{entry.damage}]</span>
+                    )}
+                    {entry.critical && <span className="text-amber-400"> ★</span>}
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {phase === "result" && battle && battle.winner && (
+            <motion.div key="result" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="space-y-4 text-center">
+              <Trophy
+                size={48}
+                className={`mx-auto ${battle.winner === "player1" ? "text-amber-400" : "text-zinc-500"}`}
+              />
+              <div>
+                <h2 className="font-display text-xl font-bold tracking-wider">
+                  {battle.winner === "player1" ? "VICTORY" : "DEFEAT"}
+                </h2>
+                <p className="font-mono text-[10px] text-muted-foreground mt-1">
+                  {playerPet?.name} {battle.winner === "player1" ? "wins" : "loses"} · {battle.round} rounds · {selectedTier?.name}
+                </p>
+              </div>
+              {(() => {
+                const rewards = serverRewards || calculateBattleRewards(battle.winner === "player1", battle.round, playerPet!.hp === playerPet!.maxHp);
+                return (
+                  <div className="space-y-1.5">
+                    <div className="inline-flex gap-4 px-4 py-2 rounded border border-border/40 bg-card/40 font-mono text-[10px]">
+                      <span className="text-amber-400">+{rewards.xp} XP</span>
+                      <span className="text-purple-400">+{rewards.dream} Dream</span>
+                      <span className="text-emerald-400">+{rewards.bondGain} Bond</span>
+                      {rewards.injury > 0 && <span className="text-orange-400">-{rewards.injury} HP injury</span>}
+                    </div>
+                    {serverRewards && (
+                      <p className="font-mono text-[8px] text-emerald-400/60 tracking-wider">✓ REWARDS SAVED TO SERVER</p>
+                    )}
+                    {submitBattleMutation.isPending && (
+                      <p className="font-mono text-[8px] text-amber-400/60 tracking-wider animate-pulse">SAVING RESULTS...</p>
+                    )}
+                  </div>
+                );
+              })()}
+              <button
+                onClick={reset}
+                className="px-4 py-2 rounded border border-rose-500/40 bg-rose-500/10 text-rose-400 font-mono text-[11px] uppercase tracking-wider hover:bg-rose-500/20 flex items-center gap-2 mx-auto"
+              >
+                <RotateCcw size={12} /> Return to Arena
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── PET CARD ─── */
+function PetCard({ pet, side }: { pet: BattlePet; side: "player" | "opponent" }) {
+  const hpPercent = (pet.hp / pet.maxHp) * 100;
+  const color = side === "player" ? "text-cyan-400" : "text-rose-400";
+  const bg = side === "player" ? "bg-cyan-500/5 border-cyan-500/30" : "bg-rose-500/5 border-rose-500/30";
+
+  return (
+    <div className={`border rounded-lg p-3 ${bg}`} data-testid={`pet-${side}`}>
+      <div className="flex items-center justify-between mb-2">
+        <span className={`font-display text-sm font-bold ${color}`}>{pet.name}</span>
+        <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
+          Stage {pet.evolutionStage}
+        </span>
+      </div>
+      {/* HP bar */}
+      <div className="mb-2">
+        <div className="flex items-center justify-between text-[9px] font-mono mb-0.5">
+          <span className="text-muted-foreground/70 flex items-center gap-1">
+            <Heart size={9} /> HP
+          </span>
+          <span className="text-foreground tabular-nums">{pet.hp}/{pet.maxHp}</span>
+        </div>
+        <div className="h-1.5 bg-zinc-800/80 rounded-full overflow-hidden">
+          <motion.div
+            animate={{ width: `${hpPercent}%` }}
+            className={`h-full ${hpPercent > 50 ? "bg-emerald-500" : hpPercent > 25 ? "bg-yellow-500" : "bg-red-500"}`}
+          />
+        </div>
+      </div>
+      {/* Stats */}
+      <div className="grid grid-cols-3 gap-1 text-[9px] font-mono">
+        <div className="flex items-center gap-1"><Swords size={9} className="text-red-400/70" />{pet.attack}</div>
+        <div className="flex items-center gap-1"><Shield size={9} className="text-blue-400/70" />{pet.defense}</div>
+        <div className="flex items-center gap-1"><Zap size={9} className="text-yellow-400/70" />{pet.speed}</div>
+      </div>
+      {/* Status effects */}
+      {pet.statusEffects.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1">
+          {pet.statusEffects.map((s, i) => (
+            <span key={i} className="font-mono text-[8px] px-1 py-0.5 rounded bg-white/10 text-foreground">
+              {s.name} ({s.duration})
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}

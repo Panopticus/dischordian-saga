@@ -5,6 +5,7 @@
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
 import { logger } from "../logger";
+import { grantCardReward } from "../services/cardRewardService";
 import { eq, and, desc, sql, gte, lte } from "drizzle-orm";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
@@ -428,10 +429,16 @@ export const guildWarsRouter = router({
         logger.error("[GuildWars] Faction pressure increment failed:", e);
       }
 
+      // Grant card reward for territory capture to all contributing members of winning guilds
       for (const guildId of Array.from(winnerGuildIds)) {
         const members = await db.select({ userId: guildMembers.userId }).from(guildMembers)
           .where(eq(guildMembers.guildId, guildId));
         for (const m of members) {
+          try {
+            await grantCardReward(m.userId, "guild_wars_territory");
+          } catch (e) {
+            logger.warn("Failed to grant guild wars territory card reward", e);
+          }
           db.insert(notifications).values({
             userId: m.userId,
             type: "guild_war_victory",

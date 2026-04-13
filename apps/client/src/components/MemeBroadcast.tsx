@@ -25,6 +25,8 @@ import { useGame } from "@/contexts/GameContext";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { toast } from "sonner";
+import { ResponsiveImage } from "@/components/ResponsiveImage";
+import { BROADCAST_FRAME } from "@/data/optionalComponentAssets";
 
 interface Props {
   transmission: Transmission;
@@ -292,6 +294,28 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
               {/* STATIC BURSTS (transitions) */}
               {(phase === "static-in" || phase === "static-to-video" || phase === "static-to-outro") && (
                 <div className="aspect-video flex items-center justify-center bg-black relative">
+                  {/* Meme Broadcast Network identification splash — branded
+                      CRT frame fades in beneath the static during first tune-in
+                      so viewers see "who" they're tuning into. */}
+                  {phase === "static-in" && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: [0, 0.85, 0.4] }}
+                      transition={{ duration: 0.8, times: [0, 0.4, 1] }}
+                      className="absolute inset-0 flex items-center justify-center pointer-events-none z-[30]"
+                      style={{
+                        mixBlendMode: "screen",
+                        filter: "hue-rotate(-20deg) saturate(0.6)",
+                      }}
+                    >
+                      <ResponsiveImage
+                        src={BROADCAST_FRAME}
+                        alt="Meme Broadcast Network"
+                        eager
+                        className="max-h-full max-w-full object-contain"
+                      />
+                    </motion.div>
+                  )}
                   <StaticBurst />
                   <motion.div
                     animate={{ opacity: [0.3, 0.8, 0.3] }}

@@ -17,7 +17,25 @@ export const cardDef: CardDefinition = {
   cost: 6,
   baseStats: { power: 7, health: 7 },
   keywords: ["pierce", "forcefield"],
-  abilities: [],
+  abilities: [
+    {
+      id: "ae_opening_strike" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "with_target",
+        selector: {
+          kind: "single",
+          filter: { controller: "opponent" },
+          chooser: "player",
+        },
+        do: {
+          op: "deal_damage",
+          amount: { kind: "const", value: 3 },
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "It does not destroy civilizations. It simply marks where one ends and silence begins.",

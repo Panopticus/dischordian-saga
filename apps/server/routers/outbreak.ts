@@ -18,6 +18,7 @@
 
 import { z } from "zod";
 import { logger } from "../logger";
+import { grantCardReward } from "../services/cardRewardService";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { userProgress, userArkProgress, notifications } from "../../db/schema";
@@ -336,6 +337,13 @@ export const outbreakRouter = router({
         title: "The Ark Is Saved",
         message: speech,
       });
+
+      // Grant card reward for outbreak protocol completion
+      try {
+        await grantCardReward(ctx.user.id, "outbreak_protocol");
+      } catch (e) {
+        logger.warn("Failed to grant outbreak protocol card reward", e);
+      }
 
       logger.info(`[Outbreak] User ${ctx.user.id} completed outbreak in ${durationMinutes} minutes, crew: ${state.crewCloned.length}`);
 

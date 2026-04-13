@@ -15,6 +15,8 @@
 import { z } from "zod";
 import { router, protectedProcedure, publicProcedure, adminProcedure } from "../_core/trpc";
 import { getDb, type DrizzleDb } from "../db";
+import { logger } from "../logger";
+import { grantCardReward } from "../services/cardRewardService";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import {
   casinoState, casinoResults, casinoJackpotPool, dreamBalance, userAchievements,
@@ -1192,6 +1194,13 @@ export const casinoRouter = router({
               .set({ lastBroadcastAt: new Date() })
               .where(eq(casinoJackpotPool.poolKey, "main"));
           }
+        }
+
+        // Grant card reward for jackpot win
+        try {
+          await grantCardReward(ctx.user.id, "casino_jackpot");
+        } catch (e) {
+          logger.warn("Failed to grant casino jackpot card reward", e);
         }
 
         return { payout, newBalance: retained, retained };

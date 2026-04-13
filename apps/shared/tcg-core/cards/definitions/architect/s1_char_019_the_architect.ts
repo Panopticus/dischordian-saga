@@ -33,7 +33,7 @@ export const cardDef: CardDefinition = {
   cardType: "unit",
   rarity: "legendary",
   cost: 6,
-  baseStats: { power: 12, health: 10 },
+  baseStats: { power: 7, health: 7 },
   keywords: [],
   abilities: [
     // --- Overcharge: arm the first-attack bonus counter ---

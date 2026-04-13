@@ -3011,6 +3011,146 @@ export const universeEventHistory = mysqlTable("universe_event_history", {
 export type UniverseEventHistory = typeof universeEventHistory.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
+   POTENTIAL IDENTITY SYSTEM
+   Unity Meter, faction membership, faction state.
+   Migration 0046_potential_identity_system.sql.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Singleton row holding the current Unity Meter phase and percent.
+ * `id` is always 1. Advanced by unityMeterService.increment().
+ */
+export const unityMeterState = mysqlTable("unity_meter_state", {
+  id: int("id").primaryKey().default(1),
+  phase: varchar("phase", { length: 32 }).notNull().default("contested"),
+  percent: int("percent").notNull().default(50),
+  lastTick: timestamp("lastTick").defaultNow().notNull(),
+});
+
+export type UnityMeterState = typeof unityMeterState.$inferSelect;
+
+/** Append-only log of Unity Meter contributions per user + source. */
+export const unityContributions = mysqlTable("unity_contributions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  source: varchar("source", { length: 64 }).notNull(),
+  delta: int("delta").notNull(),
+  /** Optional — which faction this contribution relates to, if any */
+  factionId: varchar("factionId", { length: 64 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  idxUser: index("idx_unity_contrib_user").on(table.userId),
+  idxCreated: index("idx_unity_contrib_created").on(table.createdAt),
+  idxFaction: index("idx_unity_contrib_faction").on(table.factionId),
+}));
+
+export type UnityContribution = typeof unityContributions.$inferSelect;
+
+/** Per-user membership in a Potential Identity faction. */
+export const potentialFactionMembership = mysqlTable("potential_faction_membership", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  factionId: varchar("factionId", { length: 64 }).notNull(),
+  rank: varchar("rank", { length: 32 }).notNull().default("recruit"),
+  joinedAt: timestamp("joinedAt").defaultNow().notNull(),
+  /** Optional — NPC id that recruited this player */
+  recruitedBy: varchar("recruitedBy", { length: 64 }),
+}, (table) => ({
+  idxUser: index("idx_potfac_mem_user").on(table.userId),
+  idxFaction: index("idx_potfac_mem_faction").on(table.factionId),
+}));
+
+export type PotentialFactionMembership = typeof potentialFactionMembership.$inferSelect;
+
+/** Per-faction aggregate state — dominance %, member count, sector holds. */
+export const potentialFactionState = mysqlTable("potential_faction_state", {
+  factionId: varchar("factionId", { length: 64 }).primaryKey(),
+  dominance: int("dominance").notNull().default(0),
+  memberCount: int("memberCount").notNull().default(0),
+  /** JSON array of sector ids the faction has unlocked/held */
+  sectorHolds: json("sectorHolds").$type<string[]>(),
+  threat: int("threat").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type PotentialFactionStateRow = typeof potentialFactionState.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   EPOCH WITNESS SYSTEM
+   Vote tracking, Shadow Tongue state, player progress, Mandela effects.
+   Migration 0047_epoch_witness.sql.
+   ═══════════════════════════════════════════════════════ */
+
+export const epochVotes = mysqlTable("epoch_votes", {
+  id: int("id").autoincrement().primaryKey(),
+  voteId: varchar("voteId", { length: 50 }).notNull(),
+  epoch: varchar("epoch", { length: 50 }).notNull(),
+  userId: int("userId").notNull(),
+  optionChosen: varchar("optionChosen", { length: 10 }).notNull(),
+  votedAt: timestamp("votedAt").defaultNow().notNull(),
+  archetypeAtTime: varchar("archetypeAtTime", { length: 50 }),
+}, (table) => ({
+  uniqVote: index("idx_epoch_vote_id").on(table.voteId),
+  idxUser: index("idx_epoch_user").on(table.userId),
+}));
+
+export type EpochVote = typeof epochVotes.$inferSelect;
+
+export const epochVoteTallies = mysqlTable("epoch_vote_tallies", {
+  voteId: varchar("voteId", { length: 50 }).primaryKey(),
+  optionACount: int("optionACount").notNull().default(0),
+  optionBCount: int("optionBCount").notNull().default(0),
+  optionCCount: int("optionCCount").notNull().default(0),
+  optionDCount: int("optionDCount").notNull().default(0),
+  optionECount: int("optionECount").notNull().default(0),
+  totalVotes: int("totalVotes").notNull().default(0),
+  isClosed: int("isClosed").notNull().default(0),
+  closedAt: timestamp("closedAt"),
+  winningOption: varchar("winningOption", { length: 10 }),
+});
+
+export type EpochVoteTally = typeof epochVoteTallies.$inferSelect;
+
+export const shadowTongueState = mysqlTable("shadow_tongue_state", {
+  id: int("id").primaryKey().default(1),
+  powerLevel: int("powerLevel").notNull().default(0),
+  activeEdits: json("activeEdits").$type<Record<string, unknown>>(),
+  lastUpdated: timestamp("lastUpdated").defaultNow().notNull(),
+  grandEditActive: int("grandEditActive").notNull().default(0),
+});
+
+export type ShadowTongueStateRow = typeof shadowTongueState.$inferSelect;
+
+export const playerEpochProgress = mysqlTable("player_epoch_progress", {
+  userId: int("userId").primaryKey(),
+  epochsVoted: json("epochsVoted").$type<Record<string, string[]>>(),
+  archetype: varchar("archetype", { length: 50 }),
+  archetypeEarnedAt: timestamp("archetypeEarnedAt"),
+  shadowTongueCatches: int("shadowTongueCatches").notNull().default(0),
+  campaignComplete: int("campaignComplete").notNull().default(0),
+});
+
+export type PlayerEpochProgress = typeof playerEpochProgress.$inferSelect;
+
+export const mandelaEffects = mysqlTable("mandela_effects", {
+  id: int("id").autoincrement().primaryKey(),
+  triggeredByVote: varchar("triggeredByVote", { length: 50 }).notNull(),
+  entryId: varchar("entryId", { length: 100 }).notNull(),
+  fieldEdited: varchar("fieldEdited", { length: 100 }).notNull(),
+  originalValue: text("originalValue").notNull(),
+  editedValue: text("editedValue").notNull(),
+  active: int("active").notNull().default(1),
+  triggeredAt: timestamp("triggeredAt").defaultNow().notNull(),
+  restoredAt: timestamp("restoredAt"),
+  playersWhoNoticed: int("playersWhoNoticed").notNull().default(0),
+}, (table) => ({
+  idxActive: index("idx_mandela_active").on(table.active),
+  idxVote: index("idx_mandela_vote").on(table.triggeredByVote),
+}));
+
+export type MandelaEffect = typeof mandelaEffects.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
    DISCHORDIA CYCLE — Witnessing Narrative Proposal §3
    Community-wide Light/Dark meter. A single row per server
    holds the current state; energy_events is the audit log.
@@ -3861,3 +4001,168 @@ export const rankedRecords = mysqlTable("ranked_records", {
 
 export type RankedRecordRow = typeof rankedRecords.$inferSelect;
 export type InsertRankedRecord = typeof rankedRecords.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   CELEBRATION TRIAL — 28-day Apprentice training persistence
+   ═══════════════════════════════════════════════════════ */
+
+export const celebrationTrialState = mysqlTable("celebration_trial_state", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Apprentice id from client (UUID-style) */
+  apprenticeId: varchar("apprenticeId", { length: 64 }).notNull(),
+  trialDay: int("trialDay").notNull().default(1),
+  bond: int("bond").notNull().default(0),
+  corruption: int("corruption").notNull().default(0),
+  missedDays: int("missedDays").notNull().default(0),
+  stage: varchar("stage", { length: 32 }).notNull().default("training"),
+  /** Wall-clock timestamp when trial started (for pacing) */
+  trialStartedAt: timestamp("trialStartedAt").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userApprenticeIdx: uniqueIndex("uq_trial_user_apprentice").on(table.userId, table.apprenticeId),
+  userIdx: index("idx_trial_user").on(table.userId),
+}));
+
+export type CelebrationTrialStateRow = typeof celebrationTrialState.$inferSelect;
+
+/** Per-day decision log — one row per resolved trial day */
+export const celebrationTrialHistory = mysqlTable("celebration_trial_history", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  apprenticeId: varchar("apprenticeId", { length: 64 }).notNull(),
+  day: int("day").notNull(),
+  mascoteerId: varchar("mascoteerId", { length: 64 }).notNull(),
+  decisionId: varchar("decisionId", { length: 128 }).notNull(),
+  optionId: varchar("optionId", { length: 64 }).notNull(),
+  bondDelta: int("bondDelta").notNull().default(0),
+  corruptionDelta: int("corruptionDelta").notNull().default(0),
+  moralityDelta: int("moralityDelta").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userApprenticeIdx: index("idx_trial_history_user_apprentice").on(table.userId, table.apprenticeId),
+  userDayIdx: uniqueIndex("uq_trial_history_day").on(table.userId, table.apprenticeId, table.day),
+}));
+
+export type CelebrationTrialHistoryRow = typeof celebrationTrialHistory.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   MECHRONIS ACADEMY — Lesson transcript + professor approval
+   ═══════════════════════════════════════════════════════ */
+
+export const academyTranscript = mysqlTable("academy_transcript", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  day: int("day").notNull(),
+  professorId: varchar("professorId", { length: 64 }).notNull(),
+  lessonId: varchar("lessonId", { length: 128 }).notNull(),
+  grade: varchar("grade", { length: 16 }).notNull(),
+  skillXpDelta: int("skillXpDelta").notNull().default(0),
+  corruptionDelta: int("corruptionDelta").notNull().default(0),
+  approvalDelta: int("approvalDelta").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_academy_transcript_user").on(table.userId),
+  userDayIdx: uniqueIndex("uq_academy_transcript_day").on(table.userId, table.day),
+}));
+
+export type AcademyTranscriptRow = typeof academyTranscript.$inferSelect;
+
+export const professorApproval = mysqlTable("professor_approval", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  professorId: varchar("professorId", { length: 64 }).notNull(),
+  approval: int("approval").notNull().default(50),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userProfIdx: uniqueIndex("uq_prof_approval_user_prof").on(table.userId, table.professorId),
+}));
+
+export type ProfessorApprovalRow = typeof professorApproval.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   ENGINEER'S LOGS — Phase A13
+   Tracks which Engineer's Logs each user has discovered
+   (unlocked) and whether they've listened/read them yet.
+   Used by routers/engineerLogs.ts for the FNORD-23 library.
+   ═══════════════════════════════════════════════════════ */
+export const engineerLogUnlocks = mysqlTable("engineer_log_unlocks", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Stable log id (e.g. "log_keyword_rush"). */
+  logId: varchar("logId", { length: 64 }).notNull(),
+  /** When the log became available to the player. */
+  unlockedAt: timestamp("unlockedAt").defaultNow().notNull(),
+  /** Has the player opened/listened to it at least once? Drives
+   *  the unread-badge on the FNORD-23 library UI. */
+  read: int("read").notNull().default(0),
+  /** Short trigger description shown in the unlock toast
+   *  ("First Rush unit deployed", "Completed Tutorial Gate 2", etc.). */
+  unlockSource: varchar("unlockSource", { length: 128 }),
+}, (table) => ({
+  userLogIdx: uniqueIndex("uq_engineer_log_unlocks_user_log").on(table.userId, table.logId),
+  userIdx: index("idx_engineer_log_unlocks_user").on(table.userId),
+}));
+
+export type EngineerLogUnlockRow = typeof engineerLogUnlocks.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   FNORD-23 MEMORY RESIN BANK — Phase G3
+   Every in-game VO line a player hears gets captured here
+   automatically so they can replay it from the FNORD-23 later.
+   The whole in-game dialog becomes a searchable, remixable album.
+   ═══════════════════════════════════════════════════════ */
+export const memoryResinBank = mysqlTable("memory_resin_bank", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Stable id for the underlying audio asset (not unique per user —
+   *  two different contexts of the same line produce two entries). */
+  audioClipId: varchar("audioClipId", { length: 128 }).notNull(),
+  /** Public URL to the audio file. Lives under /audio/... */
+  audioUrl: varchar("audioUrl", { length: 512 }).notNull(),
+  /** Who is speaking — "elara", "the_human", "engineer", etc. */
+  speaker: varchar("speaker", { length: 64 }),
+  /** Where the player was when they heard it. */
+  context: varchar("context", { length: 128 }),
+  /** Full transcript for search. */
+  transcript: text("transcript"),
+  /** Duration in seconds so the UI can show a progress bar. */
+  durationSeconds: int("durationSeconds").notNull().default(0),
+  /** JSON array of filter tags. */
+  tags: json("tags").$type<string[]>(),
+  capturedAt: timestamp("capturedAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_memory_resin_user").on(table.userId),
+  userSpeakerIdx: index("idx_memory_resin_user_speaker").on(table.userId, table.speaker),
+  userClipIdx: uniqueIndex("uq_memory_resin_user_clip_context").on(table.userId, table.audioClipId, table.context),
+}));
+
+export type MemoryResinRow = typeof memoryResinBank.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   FNORD-23 DEVICE STATE — Phase G3
+   Per-user device state: which channels are unlocked,
+   whether the device itself has been discovered, etc.
+   ═══════════════════════════════════════════════════════ */
+export const fnord23UserState = mysqlTable("fnord23_user_state", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  /** JSON array of unlocked channel ids. */
+  unlockedChannelIds: json("unlockedChannelIds").$type<string[]>(),
+  /** Last played track id (resumes playback here on next session). */
+  lastPlayedTrackId: varchar("lastPlayedTrackId", { length: 64 }),
+  /** Has the player found the device at all yet? First-time
+   *  discovery sequence runs when this flips true. */
+  discovered: int("discovered").notNull().default(0),
+  /** Has the player unlocked the beat minigame? */
+  beatGameUnlocked: int("beatGameUnlocked").notNull().default(0),
+  /** JSON array of scored BeatGameScore entries. */
+  beatGameScores: json("beatGameScores").$type<unknown[]>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_fnord23_state_user").on(table.userId),
+}));
+
+export type Fnord23UserStateRow = typeof fnord23UserState.$inferSelect;

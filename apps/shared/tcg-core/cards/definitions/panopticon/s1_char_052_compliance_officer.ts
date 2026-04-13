@@ -17,7 +17,19 @@ export const cardDef: CardDefinition = {
   cost: 3,
   baseStats: { power: 3, health: 4 },
   keywords: ["provoke"],
-  abilities: [],
+  abilities: [
+    // --- Compliance Shield: give self +0/+2 on deploy ---
+    {
+      id: "compliance_deploy_shield" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "buff",
+        stats: { health: 2 },
+        duration: { kind: "permanent" },
+        to: { kind: "self" },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "Obedience is not requested. It is extracted.",

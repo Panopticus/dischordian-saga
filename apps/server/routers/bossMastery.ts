@@ -6,6 +6,8 @@
 import { z } from "zod";
 import { router, protectedProcedure, publicProcedure } from "../_core/trpc";
 import { getDb } from "../db";
+import { logger } from "../logger";
+import { grantCardReward } from "../services/cardRewardService";
 import { bossMastery } from "../../db/schema";
 import { eq, and, desc } from "drizzle-orm";
 import {
@@ -88,6 +90,15 @@ export const bossMasteryRouter = router({
           .where(eq(bossMastery.id, existing.id));
 
         await ripple.emit("boss_defeated", { userId: ctx.user.id, bossKey: input.bossKey, difficulty: input.difficulty });
+
+        // Grant card reward on mastery level up
+        if (leveledUp) {
+          try {
+            await grantCardReward(ctx.user.id, "boss_mastery_" + input.bossKey);
+          } catch (e) {
+            logger.warn("Failed to grant boss mastery card reward", e);
+          }
+        }
 
         return {
           kills: newKills,

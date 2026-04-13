@@ -18,7 +18,25 @@ export const cardDef: CardDefinition = {
   cost: 2,
   baseStats: { power: 2, health: 2 },
   keywords: ["ranged", "backstab"],
-  abilities: [],
+  abilities: [
+    {
+      id: "bs_snipe_deploy" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "with_target",
+        selector: {
+          kind: "single",
+          filter: { controller: "opponent" },
+          chooser: "random",
+        },
+        do: {
+          op: "deal_damage",
+          amount: { kind: "const", value: 1 },
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "The borderlands belong to no faction — only to those quiet enough to survive them.",

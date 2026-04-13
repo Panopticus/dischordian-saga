@@ -18,7 +18,17 @@ export const cardDef: CardDefinition = {
   cost: 3,
   baseStats: { power: 2, health: 4 },
   keywords: ["drain"],
-  abilities: [],
+  abilities: [
+    {
+      id: "fm_drain" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_damage_dealt", by: "self" },
+      effect: {
+        op: "heal",
+        amount: { kind: "const", value: 1 },
+        to: { kind: "friendly_general" },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "She does not ask which side you fight for. Only where it hurts.",

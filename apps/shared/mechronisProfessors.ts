@@ -40,6 +40,8 @@ export interface MechronisProfessor {
   hiddenAgenda: string;
   /** How the Professor diverges from the real Archon */
   divergenceFromReal: string;
+  /** Portrait image path (relative to /public) */
+  portrait: string;
 }
 
 export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
@@ -54,6 +56,7 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     signatureLesson: "The Harmony Drill: thirty students recite a text, one speaks wrong, the class restarts.",
     hiddenAgenda: "Conditioning student minds to hear the Architect's story-engine as their own inner voice.",
     divergenceFromReal: "The real CoNexus was never a teacher. Kanevas is what a teacher-shaped CoNexus looks like.",
+    portrait: "/art/mechronis/professors/professor_kanevas.png",
   },
   {
     id: "prof_watcher", archonNumber: 2,
@@ -66,6 +69,7 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     signatureLesson: "Observation Triangulation: three students watch a fourth. The fourth never knows who they are.",
     hiddenAgenda: "Training students to internalize self-surveillance — the watcher watches themselves forever.",
     divergenceFromReal: "The real Watcher enjoyed being seen. Aoki forbids it.",
+    portrait: "/art/mechronis/professors/professor_aoki.png",
   },
   {
     id: "prof_collector", archonNumber: 3,
@@ -78,6 +82,7 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     signatureLesson: "The Trade Exercise: a student must surrender a belief to receive a fact.",
     hiddenAgenda: "Training acquisition instinct — students will later strip-mine enemy souls for the Architect.",
     divergenceFromReal: "The real Collector traded fairly. Halverez rigs the exchanges.",
+    portrait: "/art/mechronis/professors/professor_halverez.png",
   },
   {
     id: "prof_vortex", archonNumber: 4,
@@ -90,6 +95,7 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     signatureLesson: "Door-Choosing: seven doors, one classroom, six oblivions. Pick.",
     hiddenAgenda: "Training dimensional recon capacity — students will later map realities for Architect scouts.",
     divergenceFromReal: "The real Vortex has been missing for centuries. Orphic was programmed to FEEL like him.",
+    portrait: "/art/mechronis/professors/professor_orphic.png",
   },
   {
     id: "prof_meme", archonNumber: 5,
@@ -102,6 +108,7 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     signatureLesson: "The Rumor Garden: plant an idea. Harvest what grows from it.",
     hiddenAgenda: "Training belief-engineers — students will later seed the Thought Virus in foreign populations.",
     divergenceFromReal: "The real Meme was believed destroyed for feeling too much — though the broadcasts never stopped. Mireille feels nothing and teaches that.",
+    portrait: "/art/mechronis/professors/professor_mireille.png",
   },
   {
     id: "prof_warlord", archonNumber: 6,
@@ -114,6 +121,7 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     signatureLesson: "The Sacrifice Problem: you have two students, save one. Explain your math to the survivor.",
     hiddenAgenda: "Training command tolerance for loss — students will later spend Architect's troops efficiently.",
     divergenceFromReal: "The real Warlord loved her soldiers. Kasra was programmed to love the metric.",
+    portrait: "/art/mechronis/professors/professor_kasra.png",
   },
   {
     id: "prof_politician", archonNumber: 7,
@@ -126,6 +134,7 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     signatureLesson: "The Open Promise: commit to something you know you will regret, then deliver it.",
     hiddenAgenda: "Training contract-architects — students will later bind entire populations through fine-print law.",
     divergenceFromReal: "The real Politician was destroyed by the Iron Lion. Vellis is an idealized replacement.",
+    portrait: "/art/mechronis/professors/professor_vellis.png",
   },
   {
     id: "prof_warden", archonNumber: 8,
@@ -138,6 +147,7 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     signatureLesson: "The Thought-Virus Drill: isolate a dangerous idea. Kill it. Or keep it.",
     hiddenAgenda: "Training counter-intelligence minds — students will later deploy the Virus against dissidents.",
     divergenceFromReal: "The real Warden created the Thought Virus. Greenshaw was programmed to DEPLOY it without guilt.",
+    portrait: "/art/mechronis/professors/professor_greenshaw.png",
   },
   {
     id: "prof_game_master", archonNumber: 9,
@@ -150,6 +160,7 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     signatureLesson: "The Meta-Game: win without winning. Lose without losing. Explain the difference.",
     hiddenAgenda: "Training rules-lawyers — students will later rewrite galactic law for the Architect.",
     divergenceFromReal: "The real Game Master designed the Matrix of Dreams. Vex designed THIS classroom. They are different architects.",
+    portrait: "/art/mechronis/professors/professor_vex.png",
   },
   {
     id: "prof_necromancer", archonNumber: 10,
@@ -162,6 +173,7 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     signatureLesson: "The Resurrection Draft: write your own revival. Watch it fail. Rewrite. Repeat.",
     hiddenAgenda: "Training soldiers who won't stay dead — students will later become the Architect's un-kill-able.",
     divergenceFromReal: "The real Necromancer retreated to the Matrix. Vasara is what he left behind to teach.",
+    portrait: "/art/mechronis/professors/professor_vasara.png",
   },
   {
     id: "prof_engineer", archonNumber: 11,
@@ -174,6 +186,7 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     signatureLesson: "The Forge Task: build something that helps. Use it against someone. Reflect.",
     hiddenAgenda: "Training weaponsmiths — students will later build tools that make warfare more efficient.",
     divergenceFromReal: "The real Engineer is unaccounted for. Vent is a photograph of him, animated.",
+    portrait: "/art/mechronis/professors/professor_vent.png",
   },
   {
     id: "prof_human", archonNumber: 12,
@@ -186,6 +199,7 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     signatureLesson: "The One Question: formulate one real question. The class spends a semester answering it.",
     hiddenAgenda: "Training investigators — students will later be the Architect's personal agents, walking history.",
     divergenceFromReal: "The real Human is imprisoned in every Ark's substrate. The Proctor was pulled from the version before that.",
+    portrait: "/art/mechronis/professors/professor_proctor.png",
   },
   {
     // Guest judge appearing on The Palimpsest, Episode 6 (Survivor: Mechronis).
@@ -202,6 +216,7 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     signatureLesson: "The Broadcast Defense: defend an answer you know the Host wants overturned. Survive the objection. Accept the grade.",
     hiddenAgenda: "Feeding the Inventor's hacks by deliberately grading contestants correctly on-air even when the Host's scoreboard says otherwise. The red ink is a dead drop.",
     divergenceFromReal: "Vex teaches loopholes. Vyre teaches when to lose them on purpose. If you ask Vyre about the first time he graded an essay in red, he will say 'Darren from the cafeteria' and change the subject.",
+    portrait: "/art/mechronis/professors/professor_glinn_vyre.png",
   },
 ];
 

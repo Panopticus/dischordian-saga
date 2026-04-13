@@ -32,7 +32,7 @@ export const cardDef: CardDefinition = {
   cardType: "unit",
   rarity: "rare",
   cost: 5,
-  baseStats: { power: 7, health: 7 },
+  baseStats: { power: 5, health: 5 },
   keywords: ["drain"],
   abilities: [
     // --- Seed the kill counter on deploy ---

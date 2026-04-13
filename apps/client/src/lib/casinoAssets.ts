@@ -145,6 +145,14 @@ export const CASINO_PROPS = {
   degenWatch: `${CDN_BASE}/props_chips/DG-WATCH.png`,
 } as const;
 
+/* ─── SECTION 5b: SLOT SYMBOL SPRITE SHEET ─── */
+/** 8-symbol transparent sprite sheet (4.12 drop):
+ *  void crystal, bronze gear token, Architect's eye, Blood Weave tendril,
+ *  holographic cherry, titanium bell, stamped gold bars, prismatic wild diamond. */
+export const CASINO_SLOT_ASSETS = {
+  symbolSpriteSheet: "/art/casino/slot-symbols-sprite-sheet.png",
+} as const;
+
 /** Map VIP level name to chip image */
 export function getVipChip(vipName: string): string {
   switch (vipName) {

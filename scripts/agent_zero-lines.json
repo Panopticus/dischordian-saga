@@ -1,0 +1,163 @@
+[
+  {
+    "id": "agent_zero_decisive_victory_00",
+    "text": "Combat efficiency: 94.7%. Acceptable.",
+    "context": "battle_reaction",
+    "emotion": "clinical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_decisive_victory_01",
+    "text": "Threat neutralized in optimal time. Recalibrating expectations upward.",
+    "context": "battle_reaction",
+    "emotion": "clinical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_decisive_victory_02",
+    "text": "My predictive models gave us a 73% chance. You outperformed the math. Noted.",
+    "context": "battle_reaction",
+    "emotion": "clinical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_decisive_victory_03",
+    "text": "Enemy tactical patterns have been archived. They will not surprise us again.",
+    "context": "battle_reaction",
+    "emotion": "clinical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_close_victory_04",
+    "text": "Structural integrity at 22%. Victory achieved, but my repair subroutines are... concerned.",
+    "context": "battle_reaction",
+    "emotion": "cold",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_close_victory_05",
+    "text": "That outcome fell within acceptable parameters. Barely.",
+    "context": "battle_reaction",
+    "emotion": "cold",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_close_victory_06",
+    "text": "I allocated 340% more processing power to that fight than my safety protocols recommend.",
+    "context": "battle_reaction",
+    "emotion": "cold",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_close_victory_07",
+    "text": "Survival probability dropped below 15% at three distinct points. I counted.",
+    "context": "battle_reaction",
+    "emotion": "cold",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_defeat_08",
+    "text": "Defeat logged. Initiating post-mortem analysis. Seventeen tactical errors identified.",
+    "context": "battle_reaction",
+    "emotion": "cold",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_defeat_09",
+    "text": "Loss is a data point. Enough data points create a winning strategy. This was... educational.",
+    "context": "battle_reaction",
+    "emotion": "cold",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_defeat_10",
+    "text": "I have updated my threat assessment models. This will not happen the same way twice.",
+    "context": "battle_reaction",
+    "emotion": "cold",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_defeat_11",
+    "text": "My combat subroutines are requesting additional training cycles. I concur with them.",
+    "context": "battle_reaction",
+    "emotion": "cold",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_first_win_12",
+    "text": "Daily combat metrics initialized. First entry: victory. A satisfactory baseline.",
+    "context": "battle_reaction",
+    "emotion": "clinical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_first_win_13",
+    "text": "Combat log: Day cycle initiated with positive outcome. Probability of good day: elevated.",
+    "context": "battle_reaction",
+    "emotion": "clinical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_first_win_14",
+    "text": "First engagement successful. Systems nominal. Ready for subsequent threats.",
+    "context": "battle_reaction",
+    "emotion": "clinical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_win_streak_15",
+    "text": "Win probability increasing with each engagement. Pattern recognition advantage: compounding.",
+    "context": "battle_reaction",
+    "emotion": "clinical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_win_streak_16",
+    "text": "Consecutive victories: your combat algorithms are approaching machine-level consistency. That is... not an insult.",
+    "context": "battle_reaction",
+    "emotion": "clinical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_win_streak_17",
+    "text": "Streak analysis: your opponents are running out of novel strategies. We are not.",
+    "context": "battle_reaction",
+    "emotion": "clinical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_win_streak_18",
+    "text": "I am detecting what organic beings call 'momentum.' It is a statistically real phenomenon. Fascinating.",
+    "context": "battle_reaction",
+    "emotion": "clinical",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_loss_streak_19",
+    "text": "Multiple consecutive losses detected. Recommendation: fundamental strategy overhaul.",
+    "context": "battle_reaction",
+    "emotion": "rare_warmth",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_loss_streak_20",
+    "text": "I have run 10,000 simulations on our recent losses. There is a pattern. We should discuss it.",
+    "context": "battle_reaction",
+    "emotion": "rare_warmth",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_loss_streak_21",
+    "text": "Morale subroutine suggests I say something encouraging. Here: statistically, streaks always end.",
+    "context": "battle_reaction",
+    "emotion": "rare_warmth",
+    "file": "shared/companionBattleReactions.ts"
+  },
+  {
+    "id": "agent_zero_loss_streak_22",
+    "text": "I am not programmed for frustration, yet my error-handling loops are running at unusual frequency.",
+    "context": "battle_reaction",
+    "emotion": "rare_warmth",
+    "file": "shared/companionBattleReactions.ts"
+  }
+]

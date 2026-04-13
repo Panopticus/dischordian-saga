@@ -154,6 +154,14 @@ const ROUTE_ASSETS: Record<string, () => Promise<void>[]> = {
   "/common-room": () => [
     preloadImage("/art/loading/loading-matrix-of-dreams.png"),
   ],
+  "/academy": () => [
+    preloadImage("/art/mechronis/environments/mechronis_classroom.jpg"),
+    preloadImage("/art/mechronis/environments/mechronis_grand_hall.jpg"),
+  ],
+  "/apprentice": () => [
+    preloadImage("/art/celebration/environments/celebration_aerial.jpg"),
+    preloadImage("/art/celebration/environments/celebration_trial_room.jpg"),
+  ],
   "/casino": () => {
     // Lazy-import to avoid bundling casino URLs in every route's chunk
     const CDN = "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/casino";

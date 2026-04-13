@@ -18,7 +18,22 @@ export const cardDef: CardDefinition = {
   cost: 7,
   baseStats: { power: 7, health: 9 },
   keywords: ["provoke", "forcefield", "rebirth"],
-  abilities: [],
+  abilities: [
+    {
+      id: "iv_battle_hardened" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "repeat",
+        times: { kind: "count_of", filter: { controller: "opponent" } },
+        do: {
+          op: "buff",
+          stats: { power: 1, health: 1 },
+          duration: { kind: "permanent" },
+          to: { kind: "self" },
+        },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "He has buried allies under every banner. Now he fights only for the war itself — because it is the one thing that never abandoned him.",

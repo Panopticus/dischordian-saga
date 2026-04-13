@@ -29,7 +29,7 @@ export const cardDef: CardDefinition = {
   cardType: "unit",
   rarity: "epic",
   cost: 5,
-  baseStats: { power: 9, health: 10 },
+  baseStats: { power: 5, health: 6 },
   keywords: [],
   abilities: [
     // --- Stealth: untargetable for 3 turns on deploy ---

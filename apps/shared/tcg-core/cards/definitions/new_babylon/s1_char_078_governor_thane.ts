@@ -18,7 +18,22 @@ export const cardDef: CardDefinition = {
   cost: 8,
   baseStats: { power: 9, health: 10 },
   keywords: ["provoke", "forcefield"],
-  abilities: [],
+  abilities: [
+    {
+      id: "gt_rally_authority" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "repeat",
+        times: { kind: "count_of", filter: { controller: "self", except: "self" } },
+        do: {
+          op: "buff",
+          stats: { power: 1, health: 1 },
+          duration: { kind: "permanent" },
+          to: { kind: "self" },
+        },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "He did not rise to power. He built the staircase and burned every other way up.",

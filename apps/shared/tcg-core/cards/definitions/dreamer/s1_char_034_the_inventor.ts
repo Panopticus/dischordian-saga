@@ -31,7 +31,7 @@ export const cardDef: CardDefinition = {
   cardType: "unit",
   rarity: "rare",
   cost: 3,
-  baseStats: { power: 7, health: 5 },
+  baseStats: { power: 3, health: 4 },
   keywords: ["forcefield"],
   abilities: [
     // --- Shield: 2 forcefield charges on deploy ---

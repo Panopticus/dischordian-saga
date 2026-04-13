@@ -145,9 +145,11 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
         id: "exp-2", type: "dialog",
         elaraText: "The Ark has ten decks, each with multiple rooms. You're currently in the Cryo Bay on Deck 1 — Habitation. Rooms are connected by corridors and lifts. Some are locked until you've proven yourself worthy.",
         classOverrides: {
-          "oracle": "As an Oracle, your psychic resonance will help you sense hidden pathways between rooms. Trust your instincts.",
-          "warrior": "As a Warrior, some locked doors will yield to brute force. But the Ark's security systems won't appreciate it.",
-          "scholar": "As a Scholar, you'll notice data terminals in every room. Each one contains classified intelligence that others might miss.",
+          "oracle": "As an Oracle, your branch-sight lets you preview which corridors lead somewhere meaningful. Trust the probabilities.",
+          "soldier": "As a Soldier, some locked doors will yield to brute force. But the Ark's security systems won't appreciate it.",
+          "engineer": "As an Engineer, every data terminal in this ship is reading back to you. The Ark's neural lattice recognizes a builder when it sees one.",
+          "assassin": "As an Assassin, your signature-suppression lets you slip past security sensors most Potentials can't even see.",
+          "spy": "As a Spy, you'll notice the rooms that have been modified since the logs were written. Someone's been erasing tracks on this ship.",
         },
       },
       {
@@ -301,8 +303,10 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
         elaraText: "Cards have four key attributes: Power (raw strength), Defense (resilience), Speed (initiative order), and a Special Ability unique to each card. Rarity ranges from Common to Legendary, with rarer cards having stronger base stats and more dramatic abilities.",
         classOverrides: {
           "oracle": "Your Oracle sensitivity lets you sense a card's hidden potential. Some cards have dormant abilities that only an Oracle can awaken.",
-          "warrior": "As a Warrior, you'll favor high-Power cards. But don't neglect Defense — even the strongest fighter falls to a well-timed counter.",
-          "scholar": "Your Scholar's analytical mind gives you an edge in understanding card synergies. Look for combinations that multiply each other's effects.",
+          "soldier": "As a Soldier, you'll favor high-Power cards. But don't neglect Defense — even the strongest fighter falls to a well-timed counter.",
+          "engineer": "Your Engineer's eye gives you an edge in understanding card synergies. Look for combinations that multiply each other's effects.",
+          "assassin": "Your Assassin instincts read the speed stat before any other. A fast card is a safe card.",
+          "spy": "You see which cards are running cover identities. The Dischordia Deck has more double-agents than the Panopticon.",
         },
       },
       {
@@ -505,8 +509,10 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
         elaraText: "Combat is real-time. You have light attacks (fast, low damage), heavy attacks (slow, high damage), blocks, and dodges. Timing is everything — a well-timed block opens your opponent for a devastating counter.",
         classOverrides: {
           "oracle": "Your Oracle reflexes give you a split-second advantage in reading your opponent's moves. Trust your precognition.",
-          "warrior": "As a Warrior, your heavy attacks deal bonus damage. You were born for this Arena.",
-          "scholar": "Your Scholar's analytical mind lets you identify patterns in your opponent's fighting style faster than others.",
+          "soldier": "As a Soldier, your heavy attacks deal bonus damage. You were born for this Arena.",
+          "engineer": "Your Engineer's analytical mind lets you identify patterns in your opponent's fighting style faster than others.",
+          "assassin": "Your Assassin training turns dodges into counter-openings. A missed strike is an invitation.",
+          "spy": "Your Spy discipline reads the tells most fighters don't know they're broadcasting.",
         },
       },
       {
@@ -952,8 +958,10 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
         elaraText: "Your class determines your combat bonuses and which special abilities you can use. Your species affects your base attributes. Your alignment influences which factions trust you. And your morality score — Machine or Humanity — unlocks exclusive content.",
         classOverrides: {
           "oracle": "As an Oracle, your Wisdom and Perception are naturally high. You excel at research, lore discovery, and reading opponents in combat.",
-          "warrior": "As a Warrior, your Strength and Endurance are naturally high. You deal more damage in fights and can equip heavier gear.",
-          "scholar": "As a Scholar, your Intelligence and Focus are naturally high. You earn bonus XP from research and can decode encrypted data faster.",
+          "soldier": "As a Soldier, your Strength and Endurance are naturally high. You deal more damage in fights and can equip heavier gear.",
+          "engineer": "As an Engineer, your Intelligence and Focus are naturally high. You earn bonus XP from research and can decode encrypted data faster.",
+          "assassin": "As an Assassin, your Agility and Perception are elevated. You land crits more often and spot hidden passages others miss.",
+          "spy": "As a Spy, your Charisma and Perception are elevated. NPCs open up faster and you see the seams in any story.",
         },
       },
       {
@@ -1641,8 +1649,8 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
         elaraText: "Quest chains are multi-step journeys. Each chain has 3 to 5 stages, and every stage demands something different — combat victories, resource gathering, exploration milestones, or moral choices. Complete all stages and you unlock a Prestige Class.",
         classOverrides: {
           "oracle": "As an Oracle, the Chronomancer prestige path calls to you. It requires mastery of temporal mechanics and a deep understanding of probability fields.",
-          "warrior": "As a Warrior, the Warlord prestige path awaits. It demands 50 combat victories and the conquest of 3 syndicate territories.",
-          "scholar": "As a Scholar, the Technomancer prestige path is your destiny. It requires engineering mastery and the construction of advanced station modules.",
+          "soldier": "As a Soldier, the Warlord prestige path awaits. It demands 50 combat victories and the conquest of 3 syndicate territories.",
+          "engineer": "As an Engineer, the Technomancer prestige path is your destiny. It requires fabrication mastery and the construction of advanced station modules.",
           "spy": "As a Spy, the Shadow Broker prestige path beckons. It demands intelligence gathering across 10 Ark rooms and 100 successful trades.",
           "assassin": "As an Assassin, the Blade Dancer prestige path is written in blood. It requires perfect combat scores and mastery of elemental combos.",
         },
@@ -1684,8 +1692,10 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
         elaraText: "But here's what most Potentials don't realize: your civil skills, citizen talents, and class mastery all affect quest difficulty. A high Engineering skill makes construction quests trivial. A high Lore skill reveals hidden quest shortcuts. Build your character wisely, and the quests will bend to your strengths.",
         classOverrides: {
           "oracle": "Your Oracle class gives you foresight — you can preview quest rewards before committing to a path.",
-          "warrior": "Your Warrior class gives you endurance — combat quest stages have reduced difficulty for you.",
-          "scholar": "Your Scholar class gives you insight — research quest stages auto-complete if your Lore skill is high enough.",
+          "soldier": "Your Soldier class gives you endurance — combat quest stages have reduced difficulty for you.",
+          "engineer": "Your Engineer class gives you insight — research quest stages auto-complete if your Lore skill is high enough.",
+          "assassin": "Your Assassin class gives you stealth — reconnaissance quest stages complete with half the required objectives.",
+          "spy": "Your Spy class gives you leverage — diplomacy quest stages unlock additional resolution paths.",
         },
       },
       {

@@ -156,7 +156,7 @@ describe("createMatchState", () => {
   });
 
   it("uses registry baseStats when available", () => {
-    // Real card s1_char_018 (Antiquarian) is in the registry with 12/11.
+    // Real card s1_char_018 (Antiquarian) is in the registry with 5/6.
     const s = createMatchState({
       matchId: "m-reg",
       seed: "reg-seed",
@@ -171,8 +171,8 @@ describe("createMatchState", () => {
       (c) => c.defId === "s1_char_018"
     );
     if (ant) {
-      expect(ant.currentPower).toBe(12);
-      expect(ant.maxHealth).toBe(11);
+      expect(ant.currentPower).toBe(5);
+      expect(ant.maxHealth).toBe(6);
     }
   });
 });

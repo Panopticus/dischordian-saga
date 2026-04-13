@@ -17,7 +17,25 @@ export const cardDef: CardDefinition = {
   cost: 4,
   baseStats: { power: 4, health: 5 },
   keywords: ["forcefield"],
-  abilities: [],
+  abilities: [
+    // --- Verdict of Silence: silence a random enemy on deploy ---
+    {
+      id: "magistrate_deploy_silence" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "with_target",
+        selector: {
+          kind: "single",
+          filter: { controller: "opponent" },
+          chooser: "random",
+        },
+        do: {
+          op: "silence",
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "Her verdicts are absolute. Her sentences, irrevocable.",

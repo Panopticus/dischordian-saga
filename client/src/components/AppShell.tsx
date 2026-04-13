@@ -1,0 +1,549 @@
+import { useState, useMemo, type ReactNode } from "react";
+import { Link, useLocation } from "wouter";
+import { useLoredex } from "@/contexts/LoredexContext";
+import { usePlayer } from "@/contexts/PlayerContext";
+import { useGame } from "@/contexts/GameContext";
+import { ROUTE_ROOM_MAP } from "@/components/ProtectedRoute";
+import {
+  Search, Menu, X, Map, Music, Users, MapPin, Swords, Clock,
+  ChevronRight, ChevronDown, Terminal, Disc3, Shield, Tv, BarChart3, Gamepad2, Trophy, Crosshair,
+  Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio, Heart, Brain, BookOpen, Gem, Lock, Sun, Moon, Scale,
+  CalendarDays, Star, Package, Eye
+} from "lucide-react";
+import { useGamification } from "@/contexts/GamificationContext";
+import { useMoralityTheme } from "@/contexts/MoralityThemeContext";
+import { useTheme } from "@/contexts/ThemeContext";
+import { MoralityBar } from "@/components/MoralityMeter";
+import { ShipThemeOverlay } from "@/components/ShipThemeOverlay";
+import { Progress } from "@/components/ui/progress";
+import { motion, AnimatePresence } from "framer-motion";
+import NotificationBell from "@/components/NotificationBell";
+
+const ARK_CONTROL_ROOM = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/ark_control_room_04cb4fe3.png";
+
+/* ─── NAVIGATION STRUCTURE ─── */
+interface NavItem {
+  path: string;
+  label: string;
+  icon: typeof Terminal;
+  description?: string;
+}
+
+interface NavGroup {
+  label: string;
+  icon: typeof Terminal;
+  items: NavItem[];
+  defaultOpen?: boolean;
+}
+
+const NAV_GROUPS: NavGroup[] = [
+  {
+    label: "C.A.D.E.S.",
+    icon: Crosshair,
+    defaultOpen: true,
+    items: [
+      { path: "/", label: "COMMAND BRIDGE", icon: Home, description: "Main dashboard" },
+      { path: "/console", label: "ARK CONSOLE", icon: Terminal, description: "System terminal" },
+    ],
+  },
+  {
+    label: "THE SAGA",
+    icon: Tv,
+    defaultOpen: true,
+    items: [
+      { path: "/watch", label: "WATCH THE SHOW", icon: Tv, description: "The Dischordian Saga" },
+      { path: "/discography", label: "DISCOGRAPHY", icon: Disc3, description: "Albums & streaming" },
+      { path: "/saga-timeline", label: "SAGA TIMELINE", icon: Clock, description: "Unified narrative map" },
+    ],
+  },
+  {
+    label: "THE LORE",
+    icon: Compass,
+    defaultOpen: true,
+    items: [
+      { path: "/search", label: "DATABASE", icon: Search, description: "Search all entries" },
+      { path: "/board", label: "CONSPIRACY BOARD", icon: Map, description: "Connection map" },
+      { path: "/character-timeline", label: "CHAR TIMELINE", icon: BarChart3, description: "Character arcs" },
+      { path: "/timeline", label: "ERA TIMELINE", icon: Clock, description: "Historical eras" },
+      { path: "/codex", label: "THE CODEX", icon: BookOpen, description: "Lore library" },
+      { path: "/clue-journal", label: "CLUE JOURNAL", icon: ScrollText, description: "Clues & puzzles" },
+    ],
+  },
+  {
+    label: "SAGAVERSE GAMES",
+    icon: Gamepad2,
+    defaultOpen: true,
+    items: [
+      { path: "/games", label: "SIMULATION HUB", icon: Gamepad2, description: "All CADES sims" },
+      { path: "/duelyst", label: "DISCHORDIA", icon: ScrollText, description: "Faction warfare" },
+      { path: "/trade-empire", label: "TRADE EMPIRE", icon: Ship, description: "Interstellar trade" },
+      { path: "/war-map", label: "WAR MAP", icon: Swords, description: "Faction territory war" },
+      { path: "/fight", label: "COMBAT SIM", icon: Swords, description: "Combat training" },
+      { path: "/ark", label: "EXPLORE THE ARK", icon: Rocket, description: "Point & click adventure" },
+      { path: "/ship-map", label: "SHIP MAP", icon: Map, description: "Schematic & fast travel" },
+      { path: "/quiz", label: "LORE QUIZ", icon: Brain, description: "Test your knowledge" },
+      { path: "/battle", label: "BATTLE ARENA", icon: Swords, description: "Card combat" },
+      { path: "/pvp", label: "PVP ARENA", icon: Swords, description: "Multiplayer battles" },
+      { path: "/card-gallery", label: "CARD GALLERY", icon: Crown, description: "Your collection" },
+      { path: "/cards", label: "CARD ARCHIVE", icon: Crown, description: "Browse all cards" },
+      { path: "/deck-builder", label: "DECK BUILDER", icon: Shield, description: "Build decks" },
+      { path: "/research-lab", label: "RESEARCH LAB", icon: FlaskConical, description: "Craft cards" },
+      { path: "/forge", label: "THE FORGE", icon: FlaskConical, description: "Craft equipment & items" },
+      { path: "/research-minigame", label: "RESEARCH PUZZLES", icon: Brain, description: "Unlock lore entries" },
+      { path: "/trophy", label: "TROPHY ROOM", icon: Trophy, description: "Your trophies" },
+    ],
+  },
+  {
+    label: "OPERATIVE",
+    icon: Users,
+    defaultOpen: true,
+    items: [
+      { path: "/profile", label: "OPERATIVE DOSSIER", icon: BarChart3, description: "Stats & progress" },
+      { path: "/companions", label: "COMPANIONS", icon: Heart, description: "Ally relationships" },
+      { path: "/fleet", label: "ARK FLEET", icon: Rocket, description: "Inception Ark registry" },
+      { path: "/diplomacy", label: "DIPLOMACY", icon: Scale, description: "Moral dilemmas & factions" },
+      { path: "/faction-wars", label: "FACTION WARS", icon: Swords, description: "Galactic conflict events" },
+      { path: "/leaderboard", label: "LEADERBOARD", icon: Trophy, description: "Top operatives" },
+      { path: "/create-citizen", label: "CITIZEN ID", icon: Users, description: "Create identity" },
+      { path: "/character-sheet", label: "CHAR SHEET", icon: Shield, description: "Stats & gear" },
+      { path: "/store", label: "REQUISITIONS", icon: Store, description: "Dream store" },
+      { path: "/favorites", label: "MISSION BRIEFING", icon: Heart, description: "Favorites & playlists" },
+      { path: "/lore-tutorials", label: "LORE TUTORIALS", icon: BookOpen, description: "Elara's guided tutorials" },
+      { path: "/morality-census", label: "MORALITY CENSUS", icon: Heart, description: "Community alignment" },
+      { path: "/potentials", label: "THE POTENTIALS", icon: Gem, description: "Potential collection & 1/1 cards" },
+      { path: "/marketplace", label: "GALACTIC MARKET", icon: Store, description: "Trade cards & materials" },
+      { path: "/quests", label: "QUEST BOARD", icon: CalendarDays, description: "Daily/weekly/epoch quests" },
+      { path: "/guild", label: "SYNDICATES", icon: Users, description: "Guild system" },
+      { path: "/battle-pass", label: "EPOCH PASS", icon: Star, description: "Season rewards" },
+      { path: "/inventory", label: "INVENTORY", icon: Package, description: "Cards & materials" },
+      { path: "/chess", label: "CHESS", icon: Crown, description: "Strategic warfare" },
+      { path: "/spectate", label: "SPECTATE", icon: Eye, description: "Watch live matches" },
+    ],
+  },
+];
+
+const ALBUMS = [
+  { slug: "dischordian-logic", label: "Dischordian Logic" },
+  { slug: "age-of-privacy", label: "The Age of Privacy" },
+  { slug: "book-of-daniel", label: "Book of Daniel 2:47" },
+  { slug: "silence-in-heaven", label: "Silence in Heaven" },
+];
+
+/* ─── ALWAYS-ACCESSIBLE ROUTES (no room required) ─── */
+const ALWAYS_ACCESSIBLE = ["/ark", "/ship-map", "/console", "/games", "/clue-journal", "/settings", "/admin", "/character-sheet", "/awakening", "/research-minigame", "/war-map", "/lore-tutorials", "/morality-census", "/companions", "/fleet", "/diplomacy", "/faction-wars"];
+
+/* ─── NARRATIVE UNLOCK HINTS for sidebar locked items ─── */
+const ROOM_UNLOCK_NARRATIVES: Record<string, string> = {
+  "bridge": "Explore the Cryo Bay to find the Bridge",
+  "archives": "Visit the Bridge to access the Archives",
+  "comms-array": "Restore Bridge systems to unlock",
+  "observation-deck": "Find the Observation Keycard",
+  "engineering": "Visit Comms Array to restore power",
+  "forge-workshop": "Discover Engineering Bay first",
+  "armory": "Visit Engineering to bring combat online",
+  "cargo-hold": "Visit the Armory to pressurize",
+  "captains-quarters": "Find the Captain's Master Key",
+};
+
+function getLockedHint(path: string): string {
+  const requiredRoom = ROUTE_ROOM_MAP[path];
+  if (!requiredRoom) return "Continue exploring the Ark";
+  return ROOM_UNLOCK_NARRATIVES[requiredRoom] || `Discover ${requiredRoom.replace(/-/g, " ")} first`;
+}
+
+function isRouteUnlocked(path: string, rooms: Record<string, { unlocked?: boolean }>): boolean {
+  if (ALWAYS_ACCESSIBLE.some(p => path.startsWith(p))) return true;
+  const requiredRoom = ROUTE_ROOM_MAP[path];
+  if (!requiredRoom) return true;
+  return !!rooms[requiredRoom]?.unlocked;
+}
+
+/* ─── COLLAPSIBLE NAV GROUP ─── */
+function NavGroupSection({ group, location, onNavigate, rooms }: { group: NavGroup; location: string; onNavigate: () => void; rooms: Record<string, { unlocked?: boolean }> }) {
+  const [open, setOpen] = useState(group.defaultOpen ?? true);
+
+  const hasActive = group.items.some(item => {
+    if (item.path === "/") return location === "/";
+    return location.startsWith(item.path);
+  });
+
+  // Filter: show unlocked items normally, locked items dimmed
+  const visibleItems = group.items;
+  const hasAnyUnlocked = visibleItems.some(item => isRouteUnlocked(item.path, rooms));
+
+  const GroupIcon = group.icon;
+
+  // Hide entire group if no items are unlocked (unless it's the first group)
+  if (!hasAnyUnlocked && group.label !== "C.A.D.E.S.") return null;
+
+  return (
+    <div className="mb-1">
+      <button
+        onClick={() => setOpen(!open)}
+        className={`w-full flex items-center gap-2 px-3 py-2 font-mono text-[9px] tracking-[0.2em] uppercase transition-all rounded-md ${
+          hasActive
+            ? "text-[var(--neon-cyan)]/90 bg-[var(--neon-cyan)]/5"
+            : "text-muted-foreground/50 hover:text-muted-foreground/70 hover:bg-muted/30"
+        }`}
+      >
+        <GroupIcon size={10} className={hasActive ? "text-[var(--neon-cyan)]" : "text-muted-foreground/40"} />
+        <span className="flex-1 text-left">{group.label}</span>
+        <ChevronDown
+          size={10}
+          className={`transition-transform duration-200 ${open ? "" : "-rotate-90"}`}
+        />
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="space-y-0.5 pb-1 pl-2">
+              {visibleItems.map((item) => {
+                const Icon = item.icon;
+                const unlocked = isRouteUnlocked(item.path, rooms);
+                const active = unlocked && (item.path === "/"
+                  ? location === "/"
+                  : location === item.path || location.startsWith(item.path + "/"));
+
+                if (!unlocked) {
+                  return (
+                    <div
+                      key={item.path}
+                      className="flex items-center gap-2.5 px-3 py-2 rounded-md text-[11px] font-mono tracking-wider opacity-30 cursor-not-allowed border border-transparent select-none group/locked relative"
+                      title={getLockedHint(item.path)}
+                    >
+                      <Lock size={11} className="text-muted-foreground/40" />
+                      <div className="flex-1 min-w-0">
+                        <span className="text-muted-foreground/40 block truncate">{item.label}</span>
+                        <span className="text-[8px] text-amber-400/40 block truncate">{getLockedHint(item.path)}</span>
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={item.path}
+                    href={item.path}
+                    onClick={onNavigate}
+                    className={`flex items-center gap-2.5 px-3 py-2 rounded-md text-[11px] font-mono tracking-wider transition-all group ${
+                      active
+                        ? "bg-[var(--neon-cyan)]/8 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/20 shadow-[0_0_12px_rgba(51,226,230,0.08)]"
+                        : "text-muted-foreground/70 hover:text-foreground/90 hover:bg-muted/50 border border-transparent"
+                    }`}
+                  >
+                    <Icon size={13} className={active ? "text-[var(--neon-cyan)]" : "text-muted-foreground/50 group-hover:text-muted-foreground/80"} />
+                    <span className="flex-1">{item.label}</span>
+                    {active && <div className="w-1.5 h-1.5 rounded-full bg-[var(--neon-cyan)] shadow-[0_0_6px_var(--neon-cyan)]" />}
+                  </Link>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: ReactNode; elaraTTS?: any }) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [location] = useLocation();
+  const { stats, discoveryProgress } = useLoredex();
+  const gam = useGamification();
+  const { showPlayer } = usePlayer();
+  const { state: gameState } = useGame();
+  const rooms = gameState.rooms;
+  const { theme, toggleTheme } = useTheme();
+
+  const clearanceLevel = discoveryProgress < 10 ? "LEVEL 1" : discoveryProgress < 30 ? "LEVEL 2" : discoveryProgress < 60 ? "LEVEL 3" : discoveryProgress < 90 ? "LEVEL 4" : "LEVEL 5";
+
+  const handleNavigate = () => setSidebarOpen(false);
+
+  return (
+    <div className="min-h-screen flex flex-col relative">
+      {/* ═══ ACCESSIBILITY: Skip to Content ═══ */}
+      <a
+        href="#main-content"
+        className="absolute -top-10 left-4 z-[9999] bg-primary text-primary-foreground px-4 py-2 rounded-md font-mono text-sm focus:top-4 transition-all"
+        style={{ clip: "rect(0, 0, 0, 0)" }}
+        onFocus={(e) => { (e.target as HTMLElement).style.clip = "auto"; }}
+        onBlur={(e) => { (e.target as HTMLElement).style.clip = "rect(0, 0, 0, 0)"; }}
+      >
+        Skip to main content
+      </a>
+      {/* ═══ ARK CONTROL ROOM BACKDROP ═══ */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <img
+          src={ARK_CONTROL_ROOM}
+          alt=""
+          className="w-full h-full object-cover opacity-[0.06]"
+          style={{ filter: "blur(1px) saturate(0.5)" }}
+        />
+        <div className="absolute inset-0" style={{
+          background: "radial-gradient(ellipse at 50% 30%, var(--bg-spotlight) 0%, var(--bg-void) 70%)"
+        }} />
+      </div>
+
+      {/* ═══ SHIP THEME OVERLAY ═══ */}
+      <ShipThemeOverlay />
+
+      {/* ═══ TOP HEADER BAR — ARK COMMAND STRIP ═══ */}
+      <header role="banner" aria-label="Ark command bar" className="fixed top-0 left-0 right-0 z-50 h-12 flex items-center px-3 sm:px-4"
+        style={{
+          background: "linear-gradient(180deg, var(--bg-overlay) 0%, color-mix(in srgb, var(--background) 85%, transparent) 100%)",
+          borderBottom: "1px solid var(--border)",
+          backdropFilter: "blur(20px)",
+        }}>
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="lg:hidden mr-2 p-1.5 rounded-md hover:bg-muted/50 transition-colors text-muted-foreground/80"
+        >
+          {sidebarOpen ? <X size={18} /> : <Menu size={18} />}
+        </button>
+
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="w-7 h-7 rounded-md flex items-center justify-center relative"
+            style={{
+              background: "linear-gradient(135deg, rgba(51,226,230,0.15) 0%, var(--glass-border) 100%)",
+              border: "1px solid rgba(51,226,230,0.3)",
+            }}>
+            <Terminal size={14} className="text-[var(--neon-cyan)]" />
+            <div className="absolute inset-0 rounded-md animate-cyber-pulse opacity-50" />
+          </div>
+          <div className="hidden sm:flex items-baseline gap-1.5">
+            <span className="font-display text-xs font-bold tracking-[0.25em] text-[var(--neon-cyan)] glow-cyan">
+              LOREDEX
+            </span>
+            <span className="font-display text-[10px] font-bold tracking-[0.2em] text-muted-foreground/60">
+              OS
+            </span>
+          </div>
+        </Link>
+
+        <div className="flex-1" />
+
+        {/* Clearance Badge */}
+        <div className="hidden md:flex items-center gap-3 mr-4">
+          <div className="flex items-center gap-2 px-2.5 py-1 rounded-md glass-sunk">
+            <Shield size={11} className="text-[var(--neon-cyan)]" />
+            <span className="font-mono text-[10px] text-[var(--neon-cyan)] tracking-wider">
+              {clearanceLevel}
+            </span>
+            <div className="w-16 h-1 rounded-full overflow-hidden" style={{ background: "var(--glass-dark)" }}>
+              <div
+                className="h-full rounded-full transition-all duration-500"
+                style={{
+                  width: `${discoveryProgress}%`,
+                  background: "var(--brand-gradient)"
+                }}
+              />
+            </div>
+            <span className="font-mono text-[10px] text-muted-foreground/60">{Math.floor(discoveryProgress)}%</span>
+          </div>
+        </div>
+
+        {/* Quick Stats */}
+        <div className="hidden lg:flex items-center gap-3 font-mono text-[10px] text-muted-foreground/60 mr-3">
+          <span><span className="text-[var(--neon-cyan)]">{stats.total_entries}</span> ENTRIES</span>
+          <span className="text-muted-foreground/20">|</span>
+          <span><span className="text-[var(--orb-orange)]">{stats.relationships}</span> LINKS</span>
+        </div>
+
+        <NotificationBell />
+        <Link href="/search" className="p-1.5 rounded-md hover:bg-muted/50 transition-colors group">
+          <Search size={16} className="text-muted-foreground/60 group-hover:text-[var(--neon-cyan)] transition-colors" />
+        </Link>
+      </header>
+
+      <div className="flex pt-12 relative z-10" style={{ minHeight: "calc(100vh - 3rem)" }}>
+        {/* ═══ SIDEBAR — ARK SYSTEMS PANEL ═══ */}
+        <aside
+          className={`fixed lg:sticky top-12 left-0 z-40 h-[calc(100vh-3rem)] w-60 overflow-y-auto transition-transform duration-300 ${
+            sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+          }`}
+          style={{
+            background: "linear-gradient(180deg, var(--bg-overlay) 0%, color-mix(in srgb, var(--background) 95%, transparent) 100%)",
+            borderRight: "1px solid var(--border)",
+            backdropFilter: "blur(20px)",
+          }}
+        >
+          {/* Ark Status Indicator */}
+          <div className="px-4 py-3 border-b" style={{ borderColor: "var(--border)" }}>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-[var(--signal-green)] shadow-[0_0_6px_var(--signal-green)]" />
+              <span className="font-mono text-[9px] text-[var(--signal-green)] tracking-[0.3em]">ARK SYSTEMS ONLINE</span>
+            </div>
+          </div>
+
+          {/* Nav Groups */}
+          <nav aria-label="Main navigation" className="pt-2 px-1.5">
+            {NAV_GROUPS.map((group) => (
+              <NavGroupSection
+                key={group.label}
+                group={group}
+                location={location}
+                onNavigate={handleNavigate}
+                rooms={rooms}
+              />
+            ))}
+          </nav>
+
+          <div className="mx-3 my-1.5">
+            <div className="h-px" style={{ background: "var(--border)" }} />
+          </div>
+
+          {/* Discography — Archived Transmissions */}
+          <div className="px-2.5 pb-4">
+            <p className="font-mono text-[9px] text-muted-foreground/40 tracking-[0.3em] mb-1.5 px-3 uppercase flex items-center gap-1.5">
+              <Disc3 size={9} className="text-[var(--orb-orange)]/50" />
+              Transmissions
+            </p>
+            {ALBUMS.map((album) => (
+              <Link
+                key={album.slug}
+                href={`/album/${album.slug}`}
+                onClick={handleNavigate}
+                className="flex items-center justify-between px-3 py-1.5 rounded-md text-[11px] font-mono text-muted-foreground/60 hover:text-muted-foreground/90 hover:bg-muted/30 transition-all group"
+              >
+                <span className="flex items-center gap-2">
+                  <Music size={10} className="opacity-40 group-hover:opacity-70 text-[var(--orb-orange)]" />
+                  <span className="truncate">{album.label}</span>
+                </span>
+                <ChevronRight size={9} className="opacity-0 group-hover:opacity-40 transition-opacity" />
+              </Link>
+            ))}
+          </div>
+
+          {/* Morality Alignment */}
+          <div className="px-2.5 pb-2">
+            <div className="mx-3 mb-2 h-px" style={{ background: "var(--border)" }} />
+            <p className="font-mono text-[9px] text-muted-foreground/40 tracking-[0.3em] mb-1.5 px-3 uppercase flex items-center gap-1.5">
+              <Heart size={9} className="text-[var(--primary)]/50" />
+              Alignment
+            </p>
+            <div className="px-3">
+              <MoralityBar className="mb-1" />
+            </div>
+          </div>
+          {/* Operative Status */}
+          <div className="px-2.5 pb-2">
+            <div className="mx-3 mb-2 h-px" style={{ background: "var(--border)" }} />
+            <p className="font-mono text-[9px] text-muted-foreground/40 tracking-[0.3em] mb-1.5 px-3 uppercase">Operative Status</p>
+            <div className="px-3 space-y-1.5">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[10px] text-muted-foreground/70 flex items-center gap-1.5">
+                  <Trophy size={10} className="text-[var(--orb-orange)]" /> {gam.title}
+                </span>
+                <span className="font-mono text-[10px] text-[var(--neon-cyan)]">LV.{gam.level}</span>
+              </div>
+              <div className="w-full h-1 rounded-full overflow-hidden" style={{ background: "var(--glass-dark)" }}>
+                <div className="h-full rounded-full transition-all" style={{ width: `${gam.xpProgress}%`, background: "var(--brand-gradient)" }} />
+              </div>
+              <div className="flex justify-between font-mono text-[9px] text-muted-foreground/45">
+                <span>{gam.xp} XP</span>
+                <span>{gam.earnedAchievements.length} achievements</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Theme Toggle + Footer */}
+          <div className="px-2.5 pb-4 mt-auto">
+            <div className="mx-3 mb-3 h-px" style={{ background: "var(--border)" }} />
+            <div className="px-3 mb-3">
+              <button
+                onClick={() => toggleTheme?.()}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all hover:bg-[var(--glass-base)] border border-transparent hover:border-[var(--glass-border)]"
+                style={{ color: "var(--muted-foreground)" }}
+              >
+                <span className="flex items-center gap-2">
+                  {theme === "dark" ? <Moon size={12} className="text-[var(--primary)]" /> : <Sun size={12} className="text-[var(--accent)]" />}
+                  {theme === "dark" ? "VOID MODE" : "DAYLIGHT PROTOCOL"}
+                </span>
+                <span className="text-[9px] opacity-50">{theme === "dark" ? "DARK" : "LIGHT"}</span>
+              </button>
+            </div>
+            <div className="px-3">
+              <p className="font-mono text-[9px] leading-relaxed" style={{ color: "var(--muted-foreground)", opacity: 0.4 }}>
+                LOREDEX OS v4.7.2<br />
+                INCEPTION ARK // CADES ACTIVE<br />
+                Malkia Ukweli & the Panopticon
+              </p>
+            </div>
+          </div>
+        </aside>
+
+        {/* Sidebar overlay on mobile */}
+        <AnimatePresence>
+          {sidebarOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-30 lg:hidden"
+              style={{ background: "color-mix(in srgb, var(--background) 85%, transparent)", backdropFilter: "blur(8px)" }}
+              onClick={() => setSidebarOpen(false)}
+            />
+          )}
+        </AnimatePresence>
+
+        {/* ═══ MAIN CONTENT ═══ */}
+        <main
+          id="main-content"
+          role="main"
+          aria-label="Main content"
+          className={`flex-1 lg:ml-0 transition-all relative ${showPlayer ? "pb-48 sm:pb-20" : "pb-24 sm:pb-0"}`}
+        >
+          {children}
+        </main>
+      </div>
+
+      {/* ═══ MOBILE BOTTOM NAV — ARK CONTROL STRIP ═══ */}
+      <nav aria-label="Mobile navigation" className={`fixed left-0 right-0 z-[49] sm:hidden safe-area-bottom transition-all ${showPlayer ? "bottom-[60px]" : "bottom-0"}`}
+        style={{
+          background: "linear-gradient(0deg, var(--bg-overlay) 0%, color-mix(in srgb, var(--background) 92%, transparent) 100%)",
+          borderTop: "1px solid var(--border)",
+          backdropFilter: "blur(20px)",
+        }}>
+        <div className="flex items-center justify-around h-16 px-1">
+          {[
+            { path: "/", label: "Bridge", icon: Home },
+            { path: "/watch", label: "Saga", icon: Tv },
+            { path: "/search", label: "Lore", icon: Compass },
+            { path: "/games", label: "CADES", icon: Gamepad2 },
+            { path: "/store", label: "Store", icon: Store },
+          ].map((item) => {
+            const Icon = item.icon;
+            const active = item.path === "/"
+              ? location === "/"
+              : location === item.path || location.startsWith(item.path + "/");
+            return (
+              <Link
+                key={item.path}
+                href={item.path}
+                className={`flex flex-col items-center justify-center gap-0.5 w-16 h-14 rounded-lg transition-all ${
+                  active
+                    ? "text-[var(--neon-cyan)]"
+                    : "text-muted-foreground/50 hover:text-muted-foreground/70"
+                }`}
+              >
+                <div className="relative">
+                  <Icon size={20} />
+                  {active && (
+                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[var(--neon-cyan)] shadow-[0_0_6px_var(--neon-cyan)]" />
+                  )}
+                </div>
+                <span className="font-mono text-[10px] tracking-wider">{item.label}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
+    </div>
+  );
+}

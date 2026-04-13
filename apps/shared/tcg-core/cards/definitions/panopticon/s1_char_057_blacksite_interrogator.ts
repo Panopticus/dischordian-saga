@@ -18,7 +18,17 @@ export const cardDef: CardDefinition = {
   cost: 6,
   baseStats: { power: 7, health: 6 },
   keywords: ["pierce", "backstab"],
-  abilities: [],
+  abilities: [
+    {
+      id: "bi_on_kill_draw" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_kill", of: "any" },
+      effect: {
+        op: "draw",
+        amount: { kind: "const", value: 1 },
+        who: "self",
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "The detainees never see her face. The files say she doesn't have one.",

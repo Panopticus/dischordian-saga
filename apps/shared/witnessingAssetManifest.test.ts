@@ -79,9 +79,11 @@ describe("witnessingAssetManifest", () => {
       expect(paths.length).toBe(totals.totalImageCount);
     });
 
-    it("every path starts with /assets/slideshows/", () => {
+    it("every path starts with /assets/slideshows/ or /art/", () => {
       for (const path of listAllAssetPaths()) {
-        expect(path.startsWith("/assets/slideshows/")).toBe(true);
+        expect(
+          path.startsWith("/assets/slideshows/") || path.startsWith("/art/"),
+        ).toBe(true);
       }
     });
 

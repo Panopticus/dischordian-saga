@@ -30,6 +30,8 @@
 
 import { z } from "zod";
 import { router, publicProcedure, protectedProcedure, adminProcedure } from "../_core/trpc";
+import { logger } from "../logger";
+import { grantCardReward } from "../services/cardRewardService";
 import { dischordiaCycleService } from "../services/dischordiaCycleService";
 import { ENERGY_GAIN_TABLE } from "@shared/dischordiaCycle";
 
@@ -61,12 +63,24 @@ export const dischordiaCycleRouter = router({
         actionId: EnergyGainActionIdEnum,
       }),
     )
-    .mutation(({ input, ctx }) => {
+    .mutation(async ({ input, ctx }) => {
       const userId = ctx.user?.id ?? null;
-      return dischordiaCycleService.applyEnergy(
+      const before = dischordiaCycleService.getState();
+      const after = dischordiaCycleService.applyEnergy(
         input.actionId as never,
         userId,
       );
+
+      // Grant card reward when the cycle enters a peak phase (vortex_advance)
+      if (before.phase !== "vortex_advance" && after.phase === "vortex_advance" && userId) {
+        try {
+          await grantCardReward(userId, "dischordia_cycle_peak");
+        } catch (e) {
+          logger.warn("Failed to grant Dischordia cycle peak card reward", e);
+        }
+      }
+
+      return after;
     }),
 
   /**

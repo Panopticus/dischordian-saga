@@ -302,7 +302,7 @@ export const WELCOME_TO_CELEBRATION_SLIDESHOW: SongSlideshowDef = {
     return {
       startMs: start,
       endMs: start + CELEBRATION_FRAME_MS,
-      imageUrl: `/assets/slideshows/welcome-to-celebration/frame0${i + 1}.webp`,
+      imageUrl: `/art/celebration/slideshow/celebration_slide_0${i + 1}.jpg`,
       transition: i === 0 ? "fade" : "dissolve",
       caption: captions[i],
       kenBurns: {

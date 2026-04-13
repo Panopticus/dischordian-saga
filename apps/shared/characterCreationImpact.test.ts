@@ -54,9 +54,24 @@ describe("characterCreationImpact", () => {
       expect(bias.transformation).toBeGreaterThan(0);
     });
 
-    it("envoy → alliance bias", () => {
-      const bias = getEndingBias({ ...baseSig, characterClass: "envoy" });
+    it("spy → alliance bias", () => {
+      const bias = getEndingBias({ ...baseSig, characterClass: "spy" });
       expect(bias.alliance).toBeGreaterThan(0);
+    });
+
+    it("engineer → restoration bias", () => {
+      const bias = getEndingBias({ ...baseSig, characterClass: "engineer" });
+      expect(bias.restoration).toBeGreaterThan(0);
+    });
+
+    it("oracle → restoration bias", () => {
+      const bias = getEndingBias({ ...baseSig, characterClass: "oracle" });
+      expect(bias.restoration).toBeGreaterThan(0);
+    });
+
+    it("assassin → escape bias", () => {
+      const bias = getEndingBias({ ...baseSig, characterClass: "assassin" });
+      expect(bias.escape).toBeGreaterThan(0);
     });
 
     it("soldier → sacrifice bias", () => {

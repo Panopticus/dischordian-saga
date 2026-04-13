@@ -1,0 +1,1 @@
+ALTER TABLE `chess_rankings` MODIFY COLUMN `unlockedCharacters` json;

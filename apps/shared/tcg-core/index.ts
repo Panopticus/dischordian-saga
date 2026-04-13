@@ -187,6 +187,9 @@ export {
   initEncounter,
   checkNarrativeHooks,
   checkEncounterOutcome,
+  resolvePreMatchDialog,
+  resolvePostMatchDialog,
+  resolveNarrativeActions,
 } from "./story/encounter";
 export type {
   StoryEncounter,
@@ -195,6 +198,7 @@ export type {
   NarrativeHook,
   NarrativeCondition,
   NarrativeAction,
+  ResolvedNarrativeAction,
   EncounterInit,
   EncounterState,
 } from "./story/encounter";
@@ -205,6 +209,9 @@ export {
   TUTORIAL_GATE_1,
   TUTORIAL_BOT,
   NEW_PLAYER_GRANT,
+  getTutorialGate,
+  resolveTutorialPreMatchDialog,
+  resolveTutorialPostMatchDialog,
 } from "./story/tutorial";
 export type {
   TutorialGate,
@@ -219,6 +226,51 @@ export {
   CHAPTER_MAP,
   DIFFICULTY_HP_SCALE,
 } from "./story/chapters";
+
+/* ─── Dialog Bank (Phase D) ─── */
+export {
+  DIALOG_BANK,
+  resolveDialog,
+  getDialogBankCoverage,
+} from "./story/dialogBank";
+export type {
+  DialogSpeaker,
+  DialogMood,
+  DialogCue,
+  DialogScene,
+} from "./story/dialogBank";
+
+/* ─── Engineer's Logs (Phase A / FNORD-23) ─── */
+export {
+  ENGINEER_LOGS,
+  ENGINEER_LOG_MAP,
+  getLogForUnlock,
+} from "./story/engineerLogs";
+export type {
+  EngineerLog,
+  EngineerLogUnlockKind,
+  MusicPrompt,
+} from "./story/engineerLogs";
+
+/* ─── FNORD-23 (Phase G) ─── */
+export { FNORD_EFFECTS, FNORD23_DEVICE_LORE } from "./audio/fnord23";
+export type {
+  InstrumentalTrack,
+  ChannelDefinition,
+  MemoryResinEntry,
+  RemixState,
+  BeatGameScore,
+  Fnord23UserState,
+  FnordEffect,
+} from "./audio/fnord23";
+export {
+  OUTERGROOVE_CHANNEL,
+  OUTERGROOVE_TRACKS,
+  OUTERGROOVE_TRACK_MAP,
+  ALL_CHANNELS,
+  ALL_INSTRUMENTAL_TRACKS,
+  INSTRUMENTAL_TRACK_MAP,
+} from "./audio/outergroove";
 
 /* ─── Economy (WS8) ─── */
 export { openPack, STANDARD_PACK, SOUL_STONE_VALUES } from "./economy/packs";
@@ -253,6 +305,46 @@ export {
   THOUGHT_VIRUS_STARTER,
 } from "./decks/starterDecks";
 export type { StarterDeck } from "./decks/starterDecks";
+
+/* ─── Balance ─── */
+export { STAT_CURVE, KEYWORD_TAX, getExpectedStats } from "./balance/statCurve";
+export { audit as runBalanceAudit } from "./balance/balanceAudit";
+
+/* ─── Booster Pack System ─── */
+export {
+  VARIANT_DROP_RATES,
+  BOOSTER_CARD_META,
+  BOOSTER_CARD_MAP,
+} from "./packs/boosterSystem";
+export type {
+  CardVariant,
+  VariantDropRate,
+  CrossGameUnlock,
+  BoosterCardMeta,
+} from "./packs/boosterSystem";
+
+/* ─── Card Rewards (WS-D) ─── */
+export type {
+  RewardType,
+  MoralityBranch,
+  VoteBranch,
+  CardRewardSource,
+  MoralityRewardTier,
+  MoralAxis,
+  VoteRewardConfig,
+  GameModeReward,
+} from "./rewards/index";
+export {
+  CARD_REWARD_REGISTRY,
+  REWARD_MAP,
+  MORALITY_REWARD_TIERS,
+  computeDominantAxis,
+  VOTE_REWARD_CONFIGS,
+  VOTE_REWARD_MAP,
+  ALL_GAME_MODE_REWARDS,
+  GAME_MODE_REWARD_MAP,
+  REWARDS_BY_MODE,
+} from "./rewards/index";
 
 /* ─── Compat (legacy client translation) ─── */
 export {

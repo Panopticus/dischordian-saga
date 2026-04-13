@@ -18,6 +18,13 @@
    skill checks, lore discovery, or Breaking Point choices.
    ═══════════════════════════════════════════════════════ */
 
+import type {
+  Species,
+  CharClass,
+  Element,
+  Alignment,
+} from "./characterCreationImpact";
+
 export type WheelSegment =
   | "investigate"
   | "machine"
@@ -50,6 +57,16 @@ export interface WheelOption {
     minSkillLevel?: { skillId: string; level: number };
     minTrust?: { npcId: string; level: number };
     requireFlag?: string;
+    /** Option only visible to listed species (Ne-Yon always passes — see POTENTIAL IDENTITY plan §E "Ne-Yon coverage"). */
+    requireSpecies?: Species | Species[];
+    /** Option only visible to listed classes. */
+    requireClass?: CharClass | CharClass[];
+    /** Option only visible to listed elements. */
+    requireElement?: Element | Element[];
+    /** Option only visible to the listed alignment. */
+    requireAlignment?: Alignment;
+    /** Option hidden if this flag is set (inverse of requireFlag). */
+    forbidFlag?: string;
   };
 }
 
@@ -145,7 +162,12 @@ export const SEGMENT_META: Record<WheelSegment, {
 
 /**
  * Filter wheel options to only those the player can currently see
- * (gate conditions met).
+ * (gate conditions met). Identity fields are optional — when omitted,
+ * identity-gated options are hidden by default (safe default).
+ *
+ * Ne-Yon players pass every `requireSpecies` check — they are "bridged"
+ * (spec §Part 1.2). A separate contribution source tracks Ne-Yon crossings
+ * via the ripple engine; see `unityMeterService`.
  */
 export function getAvailableOptions(
   options: WheelOption[],
@@ -153,8 +175,15 @@ export function getAvailableOptions(
     skills: Record<string, number>;
     npcTrust: Record<string, number>;
     flags: Record<string, boolean>;
+    species?: Species;
+    characterClass?: CharClass;
+    element?: Element;
+    alignment?: Alignment;
   },
 ): WheelOption[] {
+  const asArray = <T,>(v: T | T[] | undefined): T[] =>
+    v === undefined ? [] : Array.isArray(v) ? v : [v];
+
   return options.filter(opt => {
     const gate = opt.gateCondition;
     if (!gate) return true;
@@ -167,6 +196,17 @@ export function getAvailableOptions(
       if (trust < gate.minTrust.level) return false;
     }
     if (gate.requireFlag && !context.flags[gate.requireFlag]) return false;
+    if (gate.forbidFlag && context.flags[gate.forbidFlag]) return false;
+    const reqSpecies = asArray(gate.requireSpecies);
+    if (reqSpecies.length > 0) {
+      // Ne-Yon bridges — always passes species gates.
+      if (context.species !== "neyon" && !reqSpecies.includes(context.species as Species)) return false;
+    }
+    const reqClass = asArray(gate.requireClass);
+    if (reqClass.length > 0 && !reqClass.includes(context.characterClass as CharClass)) return false;
+    const reqElement = asArray(gate.requireElement);
+    if (reqElement.length > 0 && !reqElement.includes(context.element as Element)) return false;
+    if (gate.requireAlignment && context.alignment !== gate.requireAlignment) return false;
     return true;
   });
 }

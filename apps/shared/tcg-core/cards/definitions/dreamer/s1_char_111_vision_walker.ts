@@ -33,7 +33,27 @@ export const cardDef: CardDefinition = {
   cost: 3,
   baseStats: { power: 2, health: 3 },
   keywords: ["flying"],
-  abilities: [],
+  abilities: [
+    // --- Probability Blessing: give a random friendly unit +1/+1 on deploy ---
+    {
+      id: "vision_deploy_buff" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "with_target",
+        selector: {
+          kind: "single",
+          filter: { controller: "self" },
+          chooser: "random",
+        },
+        do: {
+          op: "buff",
+          stats: { power: 1, health: 1 },
+          duration: { kind: "permanent" },
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
   art:
     "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/111_vision_walker.png",
   flavorText:

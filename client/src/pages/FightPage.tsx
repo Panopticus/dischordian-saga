@@ -1,0 +1,1855 @@
+import { useGameAreaBGM } from "@/contexts/GameAudioContext";
+import { LoreOverlay } from "@/components/LoreOverlay";
+import NarrativeTrigger from "@/components/NarrativeTrigger";
+/* ═══════════════════════════════════════════════════════
+   THE COLLECTOR'S ARENA — Main Fight Page
+   Rebranded with lore opening, story mode, character
+   select with lore popups, and improved mobile layout.
+   ═══════════════════════════════════════════════════════ */
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "wouter";
+import { trpc } from "@/lib/trpc";
+import {
+  Swords, Lock, Trophy, Star, Shield, Zap, Heart, Wind,
+  ChevronLeft, ChevronRight, Gamepad2, AlertTriangle, Skull,
+  Target, BookOpen, Play, X, Info, Crown, Eye, Gem,
+} from "lucide-react";
+import { calculateTraitBonuses } from "@shared/traitBonuses";
+import { useGamification } from "@/contexts/GamificationContext";
+import { useContentReward } from "@/components/ContentRewardToast";
+import { useGame } from "@/contexts/GameContext";
+import { getCombatDrops, type LootDrop } from "@/data/lootTables";
+import { getMaterialById } from "@/data/craftingData";
+import { getMoralityTierDef } from "@/components/MoralityMeter";
+import { toast } from "sonner";
+import { useNotificationQueue } from "@/hooks/useNotificationQueue";
+import {
+  STARTER_FIGHTERS, UNLOCKABLE_FIGHTERS, DEMON_FIGHTERS, ALL_FIGHTERS,
+  ARENAS, DIFFICULTIES,
+  type FighterData, type ArenaData, type DifficultyLevel,
+} from "@/game/gameData";
+import FightArena2D from "@/game/FightArena2D";
+import { triggerFailureRevelation } from "@/lib/failureRevelations";
+import { mapDifficultyToFightAI, createDefaultPerformance, type PlayerPerformance } from "@shared/dynamicDifficulty";
+import { useLivingUniverse } from "@/hooks/useDailyBrief";
+import LandscapeEnforcer from "@/components/LandscapeEnforcer";
+import TutorialTrigger from "@/components/TutorialTrigger";
+import { useAutoTutorial } from "@/hooks/useAutoTutorial";
+import AutoTutorialPrompt from "@/components/AutoTutorialPrompt";
+import {
+  ARENA_LORE_OPENING, STORY_CHAPTERS, FIGHTER_LORE,
+  THE_PRISONER, getPrisonerStats,
+  loadStoryProgress, saveStoryProgress,
+  type StoryChapter, type StoryProgress, type StoryDialogue,
+} from "@/game/storyMode";
+import { getStorySceneEffect, getArenaIntro, GAME_OPENING_CINEMATIC } from "@/game/cinematicDesign";
+import PostBattleDialog from "@/components/PostBattleDialog";
+
+type Phase = "title" | "intro-video" | "lore" | "story" | "story-cutscene" | "story-dialogue" | "select" | "difficulty" | "arena" | "fighting" | "results" | "story-results";
+
+const COLLECTORS_ARENA_INTRO_VIDEO = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/collectors-arena-intro_c5e8c641.mp4";
+
+/* ═══ INVASION EVENTS ═══ */
+const INVASION_EVENTS = [
+  { id: "neyon-raid", faction: "neyons", name: "Neyon Raid", minWins: 3, reward: 50, fighter: "enigma" },
+  { id: "empire-assault", faction: "empire", name: "Empire Assault", minWins: 5, reward: 80, fighter: "warlord" },
+  { id: "insurgent-ambush", faction: "insurgency", name: "Insurgent Ambush", minWins: 8, reward: 120, fighter: "human" },
+  { id: "potential-surge", faction: "potentials", name: "Potential Surge", minWins: 12, reward: 200, fighter: "source" },
+  { id: "demon-incursion", faction: "hierarchy", name: "Demon Incursion", minWins: 15, reward: 300, fighter: "abaddon" },
+];
+
+const FACTION_COLORS: Record<string, string> = {
+  empire: "#ef4444",
+  insurgency: "#22c55e",
+  neyons: "#818cf8",
+  potentials: "#f59e0b",
+  neutral: "#94a3b8",
+  hierarchy: "#dc2626",
+};
+
+export default function FightPage() {
+  const gam = useGamification();
+  const { autoTutorial, showAutoTutorial, launchTutorial, dismissTutorial, snoozeTutorial } = useAutoTutorial("/fight");
+  const { recordAndReward } = useContentReward();
+  const { state: gameState, addMaterial } = useGame();
+  const { notify: nqNotify, notifyLootDrop, notifyAchievement } = useNotificationQueue();
+  useGameAreaBGM("arena_battle");
+  const [phase, setPhase] = useState<Phase>("title");
+  const [selectedPlayer, setSelectedPlayer] = useState<FighterData | null>(null);
+  const [selectedOpponent, setSelectedOpponent] = useState<FighterData | null>(null);
+  const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel>(DIFFICULTIES[1]);
+
+  // Living Universe combat modifiers
+  const { activeConsequences: universeFx } = useLivingUniverse();
+  const [selectedArena, setSelectedArena] = useState<ArenaData>(ARENAS[0]);
+  const [selectingFor, setSelectingFor] = useState<"player" | "opponent">("player");
+  const [matchResult, setMatchResult] = useState<{ winner: "p1" | "p2"; perfect: boolean } | null>(null);
+  const [hoveredFighter, setHoveredFighter] = useState<FighterData | null>(null);
+  const [isTrainingMode, setIsTrainingMode] = useState(false);
+  const [showLorePopup, setShowLorePopup] = useState<FighterData | null>(null);
+  const [invasionDefeated, setInvasionDefeated] = useState(false);
+  const [showPostBattleDialog, setShowPostBattleDialog] = useState(false);
+
+  // Story mode state
+  const [storyProgress, setStoryProgress] = useState<StoryProgress>(loadStoryProgress);
+  const [currentStoryChapter, setCurrentStoryChapter] = useState<StoryChapter | null>(null);
+  const [storyDialogueIndex, setStoryDialogueIndex] = useState(0);
+  const [storyDialogueType, setStoryDialogueType] = useState<"pre" | "post-win" | "post-lose">("pre");
+  const [loreIndex, setLoreIndex] = useState(0);
+  const [hasSeenLore, setHasSeenLore] = useState(() => {
+    try { return localStorage.getItem("collectors_arena_lore_seen") === "true"; } catch { return false; }
+  });
+  const [hasSeenIntroVideo, setHasSeenIntroVideo] = useState(() => {
+    try { return localStorage.getItem("collectors_arena_intro_seen") === "true"; } catch { return false; }
+  });
+  const introVideoRef = useRef<HTMLVideoElement>(null);
+
+  // NFT holder perks removed — blockchain backend stripped
+  const holderPerks = null as any;
+
+  // Trait bonuses from NFT Potentials removed
+  const traitBonuses = { data: null as any };
+  const activeBonuses = null as { total: { hp: number; attack: number; defense: number; speed: number }; breakdown: { source: string; bonus: { attack: number; defense: number; hp: number; speed: number; label: string; color: string } }[] } | null;
+
+  // Citizen character sheet bonuses
+  const allTraitBonuses = trpc.citizen.getAllTraitBonuses.useQuery(undefined, {
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
+  const citizenFightBonuses = allTraitBonuses.data?.fightGame;
+
+  const unlockedIds = useMemo(() => {
+    const base = new Set(gam.gameSave.unlockedFighters);
+    // Also include story-unlocked fighters
+    storyProgress.unlockedFighters.forEach(id => base.add(id));
+    return Array.from(base);
+  }, [gam.gameSave.unlockedFighters, storyProgress.unlockedFighters]);
+
+  const isFighterAvailable = useCallback((f: FighterData) => {
+    return !f.locked || unlockedIds.includes(f.id);
+  }, [unlockedIds]);
+
+  const handleUnlock = useCallback((f: FighterData) => {
+    if (gam.gameSave.fightPoints >= f.unlockCost) {
+      gam.spendPoints(f.unlockCost);
+      gam.unlockFighter(f.id);
+    }
+  }, [gam]);
+
+  const handleFighterSelect = useCallback((f: FighterData) => {
+    if (!isFighterAvailable(f)) return;
+    if (selectingFor === "player") {
+      setSelectedPlayer(f);
+      setSelectingFor("opponent");
+    } else {
+      setSelectedOpponent(f);
+    }
+  }, [selectingFor, isFighterAvailable]);
+
+  const startFight = useCallback(() => {
+    if (!selectedPlayer || !selectedOpponent) return;
+    setPhase("fighting");
+  }, [selectedPlayer, selectedOpponent]);
+
+  const startTraining = useCallback(() => {
+    setIsTrainingMode(true);
+    setPhase("select");
+    setSelectingFor("player");
+  }, []);
+
+  const recordMatch = trpc.fightLeaderboard.recordMatch.useMutation();
+  const updateQuestProgress = trpc.quests.updateProgress.useMutation();
+
+  const handleMatchEnd = useCallback((winner: "p1" | "p2", perfect: boolean) => {
+    setMatchResult({ winner, perfect });
+    if (selectedPlayer && selectedOpponent && selectedArena) {
+      recordMatch.mutate({
+        won: winner === "p1",
+        playerFighter: selectedPlayer.id,
+        opponentFighter: selectedOpponent.id,
+        arena: selectedArena.id,
+        difficulty: selectedDifficulty.id,
+        perfect,
+        bestCombo: 0,
+        pointsEarned: winner === "p1" ? Math.round(selectedDifficulty.pointsMultiplier * 100 * (universeFx?.xpMultipliers?.fight ?? 1)) : 0,
+      });
+      // Failure reveals lore: if player lost, surface a failure revelation
+      if (winner === "p2" && selectedOpponent) {
+        triggerFailureRevelation({ type: "combat_lost", opponent: selectedOpponent.id });
+      }
+    }
+    if (winner === "p1") {
+      gam.recordFightWin(selectedDifficulty.id, perfect);
+      // Quest integration: increment fight-related daily/weekly quests
+      updateQuestProgress.mutate({ questId: "d_win_fight", increment: 1 });
+      updateQuestProgress.mutate({ questId: "w_win_5_fights", increment: 1 });
+      if (perfect) updateQuestProgress.mutate({ questId: "w_perfect_win", increment: 1 });
+      recordAndReward("fight_win", `fight-${Date.now()}`, true, {
+        difficulty: selectedDifficulty.id,
+        perfect,
+        opponent: selectedOpponent?.name,
+      });
+      // ── MATERIAL DROPS ──
+      const drops = getCombatDrops(selectedDifficulty.id, perfect, gam.gameSave?.winStreak || 0);
+      for (const drop of drops) {
+        addMaterial(drop.materialId, drop.quantity);
+      }
+      if (drops.length > 0) {
+        const dropNames = drops.map(d => {
+          const mat = getMaterialById(d.materialId);
+          return `${mat?.icon || ""} ${mat?.name || d.materialId} x${d.quantity}`;
+        }).join(", ");
+        nqNotify("loot-drop", `Loot: ${dropNames}`);
+      }
+    } else {
+      gam.recordFightLoss();
+    }
+    setPhase("results");
+    setShowPostBattleDialog(true);
+  }, [gam, selectedDifficulty, recordAndReward, selectedOpponent, selectedPlayer, selectedArena, recordMatch, addMaterial]);
+
+  // Story mode match end
+  const handleStoryMatchEnd = useCallback((winner: "p1" | "p2", perfect: boolean) => {
+    setMatchResult({ winner, perfect });
+    if (winner === "p1") {
+      gam.recordFightWin("story", perfect);
+      // ── STORY MODE MATERIAL DROPS ──
+      const drops = getCombatDrops("story", perfect, gam.gameSave?.winStreak || 0);
+      for (const drop of drops) {
+        addMaterial(drop.materialId, drop.quantity);
+      }
+      if (drops.length > 0) {
+        const dropNames = drops.map(d => {
+          const mat = getMaterialById(d.materialId);
+          return `${mat?.icon || ""} ${mat?.name || d.materialId} x${d.quantity}`;
+        }).join(", ");
+        nqNotify("loot-drop", `Loot: ${dropNames}`);
+      }
+    } else {
+      gam.recordFightLoss();
+    }
+    setStoryDialogueType(winner === "p1" ? "post-win" : "post-lose");
+    setStoryDialogueIndex(0);
+    setPhase("story-dialogue");
+  }, [gam, addMaterial]);
+
+  // Start story mode
+  const startStoryMode = useCallback(() => {
+    if (!hasSeenIntroVideo) {
+      setPhase("intro-video");
+    } else if (!hasSeenLore) {
+      setLoreIndex(0);
+      setPhase("lore");
+    } else {
+      setPhase("story");
+    }
+  }, [hasSeenLore, hasSeenIntroVideo]);
+
+  const skipIntroVideo = useCallback(() => {
+    setHasSeenIntroVideo(true);
+    try { localStorage.setItem("collectors_arena_intro_seen", "true"); } catch {}
+    if (!hasSeenLore) {
+      setLoreIndex(0);
+      setPhase("lore");
+    } else {
+      setPhase("story");
+    }
+  }, [hasSeenLore]);
+
+  // Start a story chapter fight
+  const startStoryChapter = useCallback((chapter: StoryChapter) => {
+    setCurrentStoryChapter(chapter);
+    setStoryDialogueType("pre");
+    setStoryDialogueIndex(0);
+    // If chapter has a cutscene video, show it first before dialogue
+    if (chapter.cutsceneVideoUrl) {
+      setPhase("story-cutscene");
+    } else {
+      setPhase("story-dialogue");
+    }
+  }, []);
+
+  // Advance story dialogue
+  const advanceStoryDialogue = useCallback(() => {
+    if (!currentStoryChapter) return;
+    const dialogues = storyDialogueType === "pre"
+      ? currentStoryChapter.preDialogue
+      : storyDialogueType === "post-win"
+      ? currentStoryChapter.postVictoryDialogue
+      : currentStoryChapter.postDefeatDialogue;
+
+    if (storyDialogueIndex < dialogues.length - 1) {
+      setStoryDialogueIndex(prev => prev + 1);
+    } else {
+      // End of dialogue
+      if (storyDialogueType === "pre") {
+        // Start the fight
+        const opponent = ALL_FIGHTERS.find(f => f.id === currentStoryChapter.opponentId);
+        const arena = ARENAS.find(a => a.id === currentStoryChapter.arenaId) || ARENAS[0];
+        const diffMap: Record<string, DifficultyLevel> = {};
+        DIFFICULTIES.forEach(d => { diffMap[d.id] = d; });
+        const diff = diffMap[currentStoryChapter.difficulty] || DIFFICULTIES[0];
+
+        if (opponent) {
+          // Build prisoner fighter data with scaled stats
+          const stats = getPrisonerStats(storyProgress.completedChapters.length);
+          const prisonerFighter: FighterData = {
+            id: "prisoner",
+            name: "The Prisoner",
+            title: THE_PRISONER.title,
+            image: ALL_FIGHTERS.find(f => f.id === "oracle")?.image || "",
+            faction: "neutral",
+            locked: false,
+            unlockCost: 0,
+            hp: stats.hp,
+            attack: stats.attack,
+            defense: stats.defense,
+            speed: stats.speed,
+            special: stats.special,
+            combos: ["Instinct Strike", "Memory Flash", "Survival Will"],
+            color: THE_PRISONER.color,
+            frameProfile: { archetype: "balanced", walkSpeedMult: 1.0, dashSpeedMult: 1.0, jumpForceMult: 1.0, lightStartup: 5, lightRecovery: 8, mediumStartup: 9, mediumRecovery: 16, heavyStartup: 8, heavyRecovery: 22, damageMult: 1.0, hitstunMult: 1.0, pushbackMult: 1.0, rangeMult: 1.0, meterGainMult: 1.0, maxComboHits: 12 },
+          };
+          setSelectedPlayer(prisonerFighter);
+          setSelectedOpponent(opponent);
+          setSelectedArena(arena);
+          setSelectedDifficulty(diff);
+          setPhase("fighting");
+        }
+      } else if (storyDialogueType === "post-win") {
+        // Update story progress
+        const newProgress: StoryProgress = {
+          ...storyProgress,
+          completedChapters: Array.from(new Set([...storyProgress.completedChapters, currentStoryChapter.id])),
+          unlockedFighters: Array.from(new Set([...storyProgress.unlockedFighters, currentStoryChapter.unlocksFighter])),
+          memoriesRecovered: currentStoryChapter.memoryFragment
+            ? Array.from(new Set([...storyProgress.memoriesRecovered, currentStoryChapter.memoryFragment]))
+            : storyProgress.memoriesRecovered,
+          currentChapter: Math.max(storyProgress.currentChapter, currentStoryChapter.chapter),
+          isComplete: currentStoryChapter.chapter === STORY_CHAPTERS.length,
+        };
+        setStoryProgress(newProgress);
+        saveStoryProgress(newProgress);
+        // Also unlock in gamification
+        gam.unlockFighter(currentStoryChapter.unlocksFighter);
+        notifyAchievement(
+          `${ALL_FIGHTERS.find(f => f.id === currentStoryChapter.unlocksFighter)?.name || "Fighter"} Unlocked!`,
+          currentStoryChapter.powerGained || "A new challenger joins your roster.",
+        );
+        setPhase("story");
+      } else {
+        // Post-defeat — back to story select
+        setPhase("story");
+      }
+    }
+  }, [currentStoryChapter, storyDialogueType, storyDialogueIndex, storyProgress, gam]);
+
+  // Apply trait bonuses to player fighter data (must be top-level, not inside conditional)
+  const boostedPlayer = useMemo(() => {
+    if (!selectedPlayer) return selectedPlayer;
+    let hp = selectedPlayer.hp;
+    let attack = selectedPlayer.attack;
+    let defense = selectedPlayer.defense;
+    let speed = selectedPlayer.speed;
+    if (activeBonuses) {
+      const b = activeBonuses.total;
+      hp += b.hp;
+      attack += b.attack;
+      defense += b.defense;
+      speed += b.speed;
+    }
+    if (citizenFightBonuses) {
+      hp += citizenFightBonuses.hpBonus;
+      attack += citizenFightBonuses.attackBonus;
+      defense += citizenFightBonuses.defenseBonus;
+      speed += citizenFightBonuses.speedBonus;
+    }
+    // Morality tier bonuses (zero-sum: Machine boosts attack, Humanity boosts HP/defense)
+    const moralityTier = getMoralityTierDef(gameState.moralityScore);
+    if (moralityTier.side === "machine" && moralityTier.level >= 3) {
+      // Machine alignment: +1 attack per tier above 2
+      attack += moralityTier.level - 2;
+    } else if (moralityTier.side === "humanity" && moralityTier.level >= 3) {
+      // Humanity alignment: +3 HP per tier above 2, +1 defense at level 5
+      hp += (moralityTier.level - 2) * 3;
+      if (moralityTier.level >= 5) defense += 1;
+    }
+    return { ...selectedPlayer, hp, attack, defense, speed };
+  }, [selectedPlayer, activeBonuses, citizenFightBonuses, gameState.moralityScore]);
+
+  const resetToSelect = useCallback(() => {
+    setPhase("select");
+    setSelectedPlayer(null);
+    setSelectedOpponent(null);
+    setSelectingFor("player");
+    setMatchResult(null);
+  }, []);
+
+  /* ═══════════════════════════════════════════════════════
+     TITLE SCREEN — THE COLLECTOR'S ARENA
+     ═══════════════════════════════════════════════════════ */
+  if (phase === "title") {
+    return (
+      <>
+      {autoTutorial && (
+        <AutoTutorialPrompt
+          tutorial={autoTutorial}
+          show={showAutoTutorial}
+          onLaunch={launchTutorial}
+          onDismiss={dismissTutorial}
+          onSnooze={snoozeTutorial}
+        />
+      )}
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden"
+        style={{ background: "radial-gradient(ellipse at 50% 30%, #0d1a2e 0%, #070b14 50%, #030508 100%)" }}>
+        {/* Animated particles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {Array.from({ length: 40 }).map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                width: i % 4 === 0 ? 3 : 1.5,
+                height: i % 4 === 0 ? 3 : 1.5,
+                background: i % 5 === 0 ? "#22d3ee" : i % 5 === 1 ? "#a78bfa" : i % 5 === 2 ? "#f59e0b" : i % 5 === 3 ? "#ef4444" : "#818cf8",
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{ opacity: [0.1, 0.6, 0.1], scale: [1, 1.8, 1], y: [0, -30, 0] }}
+              transition={{ duration: 3 + Math.random() * 4, repeat: Infinity, delay: Math.random() * 3 }}
+            />
+          ))}
+        </div>
+
+        {/* Collector's glow ring */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 sm:w-96 sm:h-96 rounded-full pointer-events-none"
+          style={{
+            background: "radial-gradient(circle, rgba(34,211,238,0.08) 0%, rgba(167,139,250,0.04) 40%, transparent 70%)",
+            boxShadow: "0 0 120px rgba(34,211,238,0.1), 0 0 240px rgba(167,139,250,0.05)",
+          }}
+        />
+
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="text-center relative z-10 max-w-lg">
+          {/* Subtitle */}
+          <div className="font-mono text-[10px] sm:text-xs text-cyan-500/50 tracking-[0.5em] mb-3">THE DISCHORDIAN SAGA</div>
+
+          {/* Main title */}
+          <h1 className="font-display text-4xl sm:text-6xl font-black tracking-wider mb-1 leading-tight">
+            <span className="text-cyan-400" style={{ textShadow: "0 0 40px rgba(34,211,238,0.4)" }}>THE COLLECTOR'S</span>
+          </h1>
+          <h1 className="font-display text-5xl sm:text-7xl font-black tracking-wider mb-2 leading-tight">
+            <span className="text-foreground" style={{ textShadow: "0 0 20px rgba(255,255,255,0.15)" }}>ARENA</span>
+          </h1>
+
+          {/* Tagline */}
+          <p className="font-mono text-[10px] sm:text-xs text-amber-500/50 tracking-[0.15em] mb-8 max-w-sm mx-auto">
+            WHERE THE GREATEST POWERS IN THE UNIVERSE FIGHT FOR THE RIGHT TO EXIST
+          </p>
+
+          {/* Main buttons */}
+          <div className="flex flex-col gap-3 items-center">
+            {/* Story Mode — primary CTA */}
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={startStoryMode}
+              className="w-full max-w-xs px-6 py-3.5 rounded-lg border-2 font-display text-base sm:text-lg tracking-wider transition-all flex items-center justify-center gap-2"
+              style={{
+                background: "linear-gradient(135deg, rgba(167,139,250,0.15) 0%, rgba(34,211,238,0.1) 100%)",
+                borderColor: storyProgress.isComplete ? "rgba(251,191,36,0.6)" : "rgba(167,139,250,0.5)",
+                color: storyProgress.isComplete ? "#fbbf24" : "#a78bfa",
+                textShadow: `0 0 15px ${storyProgress.isComplete ? "rgba(251,191,36,0.4)" : "rgba(167,139,250,0.4)"}`,
+              }}
+            >
+              <BookOpen size={18} />
+              {storyProgress.isComplete ? "STORY COMPLETE" : storyProgress.currentChapter > 0 ? "CONTINUE STORY" : "STORY MODE"}
+              {storyProgress.currentChapter > 0 && !storyProgress.isComplete && (
+                <span className="font-mono text-[10px] opacity-60 ml-1">CH.{storyProgress.currentChapter + 1}/{STORY_CHAPTERS.length}</span>
+              )}
+            </motion.button>
+
+            {/* Quick Fight + Training row */}
+            <div className="flex gap-3 w-full max-w-xs">
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => { setIsTrainingMode(false); setPhase("select"); setSelectingFor("player"); }}
+                className="flex-1 px-4 py-2.5 rounded-lg bg-red-500/15 border border-red-500/40 text-red-400 font-display text-sm tracking-wider hover:bg-red-500/25 transition-all flex items-center justify-center gap-1.5"
+              >
+                <Swords size={15} /> FIGHT
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={startTraining}
+                className="flex-1 px-4 py-2.5 rounded-lg bg-cyan-500/15 border border-cyan-500/40 text-cyan-400 font-display text-sm tracking-wider hover:bg-cyan-500/25 transition-all flex items-center justify-center gap-1.5"
+              >
+                <Target size={15} /> TRAIN
+              </motion.button>
+            </div>
+
+            {/* Leaderboard */}
+            <Link
+              href="/fight-leaderboard"
+              className="w-full max-w-xs px-4 py-2 rounded-lg bg-muted/40 border border-border/60 text-muted-foreground/70 font-display text-sm tracking-wider hover:bg-muted/60 hover:text-muted-foreground/90 transition-all inline-flex items-center justify-center gap-1.5"
+            >
+              <Trophy size={14} /> LEADERBOARD
+            </Link>
+          </div>
+
+          {/* NFT Holder Perks Badge */}
+          {holderPerks?.isHolder && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.5 }}
+              className="mt-5 max-w-xs mx-auto w-full"
+            >
+              <Link href="/potentials">
+                <div className="rounded-lg border overflow-hidden cursor-pointer hover:brightness-110 transition-all"
+                  style={{
+                    borderColor: "rgba(147,51,234,0.4)",
+                    background: "linear-gradient(135deg, rgba(147,51,234,0.12) 0%, rgba(34,211,238,0.06) 100%)",
+                  }}
+                >
+                  <div className="flex items-center gap-3 px-3 py-2">
+                    <div className="p-1.5 rounded bg-purple-500/20">
+                      <Gem size={14} className="text-purple-400" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-display text-[10px] tracking-wider text-purple-300">
+                        {holderPerks.perks.title}
+                      </div>
+                      <div className="font-mono text-[8px] text-purple-400/50">
+                        {holderPerks.claimedCount} Potential{holderPerks.claimedCount !== 1 ? "s" : ""} claimed • {Math.round((holderPerks.perks.fightPointsMultiplier - 1) * 100)}% bonus points
+                      </div>
+                    </div>
+                    <div className="font-mono text-[9px] text-purple-400/40">→</div>
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          )}
+
+          {/* Tutorial trigger */}
+          <div className="w-full max-w-xs mt-4">
+            <TutorialTrigger route="/fight" variant="button" className="w-full justify-center" />
+          </div>
+          {/* Stats bar */}
+          <div className="grid grid-cols-4 gap-2 mt-6 max-w-xs mx-auto">
+            {[
+              { label: "WINS", value: gam.progress.fightWins, color: "#22c55e" },
+              { label: "STREAK", value: gam.gameSave.winStreak, color: "#f59e0b" },
+              { label: "POINTS", value: gam.gameSave.fightPoints, color: "#22d3ee" },
+              { label: "STORY", value: `${storyProgress.completedChapters.length}/${STORY_CHAPTERS.length}`, color: "#a78bfa" },
+            ].map(s => (
+              <div key={s.label} className="text-center py-1.5 rounded bg-muted/40 border border-border/40">
+                <div className="font-mono text-[8px] text-muted-foreground/50 tracking-wider">{s.label}</div>
+                <div className="font-display text-sm" style={{ color: s.color }}>{s.value}</div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+      <NarrativeTrigger variant="banner" className="mb-3" />
+      <LoreOverlay gameMode="fight" />
+      </>
+    );
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     INTRO VIDEO — Collector's Arena cinematic (skippable)
+     ═══════════════════════════════════════════════════════ */
+  if (phase === "intro-video") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black relative"
+        onClick={() => {
+          // If video hasn't started playing yet, try to play it on user interaction
+          const vid = introVideoRef.current;
+          if (vid && vid.paused) {
+            vid.muted = false;
+            vid.play().catch(() => {});
+          }
+        }}
+      >
+        {/* Skip button */}
+        <button
+          onClick={(e) => { e.stopPropagation(); skipIntroVideo(); }}
+          className="absolute top-4 right-4 z-20 font-mono text-xs text-white/50 hover:text-white/80 transition-colors px-3 py-1.5 rounded bg-black/60 border border-white/10 hover:border-white/30"
+        >
+          SKIP &gt;&gt;
+        </button>
+
+        {/* Tap to play hint */}
+        <div className="absolute bottom-6 left-0 right-0 text-center z-10 pointer-events-none">
+          <span className="font-mono text-xs text-white/40 animate-pulse">TAP TO PLAY WITH SOUND</span>
+        </div>
+
+        <video
+          ref={introVideoRef}
+          src={COLLECTORS_ARENA_INTRO_VIDEO}
+          autoPlay
+          muted
+          playsInline
+          preload="auto"
+          className="w-full h-full max-h-screen object-contain"
+          onEnded={skipIntroVideo}
+          onCanPlay={(e) => {
+            // Try to unmute once the video can play
+            const vid = e.currentTarget;
+            vid.muted = false;
+            vid.play().catch(() => {
+              // If unmuted play fails, keep it muted
+              vid.muted = true;
+              vid.play().catch(() => {});
+            });
+          }}
+          onError={() => {
+            // If video fails to load, skip to next phase
+            console.error("[Intro Video] Failed to load, skipping");
+            skipIntroVideo();
+          }}
+        />
+      </div>
+    );
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     LORE OPENING — First-time cinematic text
+     ═══════════════════════════════════════════════════════ */
+  if (phase === "lore") {
+    const currentLine = ARENA_LORE_OPENING[loreIndex];
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden cursor-pointer"
+        style={{ background: "radial-gradient(ellipse at 50% 50%, #0d1a2e 0%, #030508 100%)" }}
+        onClick={() => {
+          if (loreIndex < ARENA_LORE_OPENING.length - 1) {
+            setLoreIndex(prev => prev + 1);
+          } else {
+            setHasSeenLore(true);
+            localStorage.setItem("collectors_arena_lore_seen", "true");
+            setPhase("story");
+          }
+        }}
+      >
+        {/* Skip button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            setHasSeenLore(true);
+            localStorage.setItem("collectors_arena_lore_seen", "true");
+            setPhase("story");
+          }}
+          className="absolute top-4 right-4 font-mono text-xs text-muted-foreground/50 hover:text-muted-foreground/80 transition-colors z-10"
+        >
+          SKIP &gt;&gt;
+        </button>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={loreIndex}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-xl text-center"
+          >
+            {currentLine.speaker !== "narrator" && (
+              <div className="font-display text-sm tracking-[0.2em] mb-3"
+                style={{ color: currentLine.speakerColor || "#94a3b8" }}>
+                {currentLine.speaker.toUpperCase()}
+              </div>
+            )}
+            <p className={`text-base sm:text-lg leading-relaxed ${
+              currentLine.speaker === "narrator"
+                ? "font-mono text-muted-foreground/80 italic"
+                : "font-mono text-foreground/85"
+            }`}
+              style={currentLine.speaker !== "narrator" ? { color: currentLine.speakerColor || "#e2e8f0" } : undefined}
+            >
+              "{currentLine.text}"
+            </p>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Progress dots */}
+        <div className="absolute bottom-8 flex gap-1.5">
+          {ARENA_LORE_OPENING.map((_, i) => (
+            <div key={i} className={`w-1.5 h-1.5 rounded-full transition-all ${i <= loreIndex ? "bg-cyan-400/60" : "bg-muted/50"}`} />
+          ))}
+        </div>
+
+        <div className="absolute bottom-4 font-mono text-[10px] text-muted-foreground/35">TAP TO CONTINUE</div>
+      </div>
+    );
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     STORY MODE — Chapter Select
+     ═══════════════════════════════════════════════════════ */
+  if (phase === "story") {
+    const prisonerStats = getPrisonerStats(storyProgress.completedChapters.length);
+    return (
+      <div className="min-h-screen flex flex-col" style={{ background: "radial-gradient(ellipse at 50% 20%, #0d1a2e 0%, #070b14 60%, #030508 100%)" }}>
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border/60">
+          <button onClick={() => setPhase("title")} className="text-muted-foreground/70 hover:text-white font-mono text-sm flex items-center gap-1">
+            <ChevronLeft size={16} /> BACK
+          </button>
+          <h2 className="font-display text-xs sm:text-sm tracking-[0.3em] text-cyan-400/80">STORY MODE</h2>
+          <div className="font-mono text-[10px] text-amber-400">CH {storyProgress.currentChapter + 1}</div>
+        </div>
+
+        {/* Prisoner status */}
+        <div className="px-4 py-3 border-b border-border/40 flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg overflow-hidden border border-purple-500/40">
+            <img src={ALL_FIGHTERS.find(f => f.id === "oracle")?.image || ""} alt="The Prisoner" className="w-full h-full object-cover" style={{ filter: storyProgress.completedChapters.length < 6 ? "brightness(0.5) saturate(0.3)" : "none" }} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="font-display text-sm text-foreground/85">
+              {storyProgress.completedChapters.length >= 10 ? "The Oracle" : storyProgress.completedChapters.length >= 6 ? "The Awakening" : "The Prisoner"}
+            </div>
+            <div className="font-mono text-[9px] text-purple-400/60">{prisonerStats.special.name}</div>
+          </div>
+          <div className="flex gap-2 text-center">
+            <div><div className="font-mono text-[8px] text-muted-foreground/50">HP</div><div className="font-mono text-xs text-red-400">{prisonerStats.hp}</div></div>
+            <div><div className="font-mono text-[8px] text-muted-foreground/50">ATK</div><div className="font-mono text-xs text-amber-400">{prisonerStats.attack}</div></div>
+            <div><div className="font-mono text-[8px] text-muted-foreground/50">DEF</div><div className="font-mono text-xs text-green-400">{prisonerStats.defense}</div></div>
+            <div><div className="font-mono text-[8px] text-muted-foreground/50">SPD</div><div className="font-mono text-xs text-cyan-400">{prisonerStats.speed}</div></div>
+          </div>
+        </div>
+
+        {/* Chapter list */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+          {STORY_CHAPTERS.map((ch, i) => {
+            const isCompleted = storyProgress.completedChapters.includes(ch.id);
+            const isAvailable = i === 0 || storyProgress.completedChapters.includes(STORY_CHAPTERS[i - 1].id);
+            const isNext = isAvailable && !isCompleted;
+            const opponent = ALL_FIGHTERS.find(f => f.id === ch.opponentId);
+
+            return (
+              <motion.button
+                key={ch.id}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.05 }}
+                onClick={() => isAvailable ? startStoryChapter(ch) : null}
+                disabled={!isAvailable}
+                className={`w-full text-left rounded-lg border p-3 transition-all ${
+                  isCompleted
+                    ? "border-green-500/30 bg-green-500/5"
+                    : isNext
+                    ? "border-cyan-500/40 bg-cyan-500/5 hover:bg-cyan-500/10"
+                    : "border-border/40 bg-muted/15 opacity-40"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  {/* Chapter number */}
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-display font-bold shrink-0 ${
+                    isCompleted ? "bg-green-500/20 text-green-400" : isNext ? "bg-cyan-500/20 text-cyan-400" : "bg-muted/40 text-muted-foreground/35"
+                  }`}>
+                    {isCompleted ? <Star size={14} /> : ch.chapter}
+                  </div>
+
+                  {/* Chapter info */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="font-display text-xs sm:text-sm text-foreground/85 truncate">{ch.title}</span>
+                      <span className={`font-mono text-[8px] px-1.5 py-0.5 rounded ${
+                        ch.difficulty === "nightmare" ? "bg-red-500/20 text-red-400"
+                        : ch.difficulty === "hard" ? "bg-amber-500/20 text-amber-400"
+                        : ch.difficulty === "normal" ? "bg-cyan-500/20 text-cyan-400"
+                        : "bg-green-500/20 text-green-400"
+                      }`}>{ch.difficulty.toUpperCase()}</span>
+                    </div>
+                    <div className="font-mono text-[9px] text-muted-foreground/50 truncate">{ch.subtitle}</div>
+                  </div>
+
+                  {/* Opponent portrait */}
+                  {opponent && (
+                    <div className="w-8 h-8 rounded overflow-hidden border border-border/60 shrink-0">
+                      <img src={opponent.image} alt={opponent.name} className="w-full h-full object-cover"
+                        style={{ filter: !isAvailable ? "brightness(0.2) grayscale(1)" : undefined }} />
+                    </div>
+                  )}
+                </div>
+
+                {/* Memory fragment for completed chapters */}
+                {isCompleted && ch.memoryFragment && (
+                  <div className="mt-2 pl-11 font-mono text-[9px] text-purple-400/50 italic truncate">
+                    \u2728 {ch.memoryFragment.substring(0, 80)}...
+                  </div>
+                )}
+              </motion.button>
+            );
+          })}
+
+          {/* Grand Champion banner */}
+          {storyProgress.isComplete && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="text-center py-6 rounded-lg border border-amber-500/30 bg-amber-500/5"
+            >
+              <Crown size={32} className="mx-auto text-amber-400 mb-2" />
+              <div className="font-display text-xl text-amber-400" style={{ textShadow: "0 0 20px rgba(251,191,36,0.4)" }}>
+                GRAND CHAMPION
+              </div>
+              <div className="font-mono text-xs text-muted-foreground/60 mt-1">All fighters unlocked. The Arena is yours.</div>
+            </motion.div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     STORY CUTSCENE — Pre-fight cinematic video
+     ═══════════════════════════════════════════════════════ */
+  if (phase === "story-cutscene" && currentStoryChapter?.cutsceneVideoUrl) {
+    return (
+      <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
+        <video
+          src={currentStoryChapter.cutsceneVideoUrl}
+          autoPlay
+          playsInline
+          className="w-full h-full object-contain"
+          onEnded={() => setPhase("story-dialogue")}
+          onClick={() => setPhase("story-dialogue")}
+        />
+        <button
+          onClick={() => setPhase("story-dialogue")}
+          className="absolute bottom-8 right-8 font-mono text-xs text-white/50 hover:text-white/80 border border-white/20 hover:border-white/40 px-4 py-2 rounded transition-all backdrop-blur-sm bg-black/30"
+        >
+          SKIP CUTSCENE →
+        </button>
+      </div>
+    );
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     STORY DIALOGUE — Pre/Post fight narrative
+     ═══════════════════════════════════════════════════════ */
+  if (phase === "story-dialogue" && currentStoryChapter) {
+    const dialogues = storyDialogueType === "pre"
+      ? currentStoryChapter.preDialogue
+      : storyDialogueType === "post-win"
+      ? currentStoryChapter.postVictoryDialogue
+      : currentStoryChapter.postDefeatDialogue;
+    const currentLine = dialogues[storyDialogueIndex];
+
+    if (!currentLine) {
+      advanceStoryDialogue();
+      return null;
+    }
+
+    const speakerColor = currentLine.speakerColor
+      || (currentLine.speaker === "prisoner" ? "#a78bfa"
+        : currentLine.speaker === "narrator" ? "#94a3b8"
+        : "#e2e8f0");
+
+    // Cinematic scene effects for ALL chapters
+    const sceneEffect = getStorySceneEffect(currentStoryChapter.id);
+    const isBossChapter = [7, 11, 12].includes(currentStoryChapter.chapter);
+    const isActBoss = currentStoryChapter.chapter === 12;
+    const bossGlow = isActBoss ? "#ef4444" : currentStoryChapter.chapter === 11 ? "#22d3ee" : "#f59e0b";
+    const chapterAccent = isBossChapter ? bossGlow : currentStoryChapter.chapter <= 3 ? "#94a3b8" : currentStoryChapter.chapter <= 6 ? "#22d3ee" : currentStoryChapter.chapter <= 9 ? "#f59e0b" : "#ef4444";
+    const isFirstLine = storyDialogueIndex === 0 && storyDialogueType === "pre";
+    const isVictoryMoment = storyDialogueType === "post-win" && storyDialogueIndex === dialogues.length - 1;
+    const opponent = ALL_FIGHTERS.find(f => f.id === currentStoryChapter.opponentId);
+
+    // Scene-specific background based on pre-scene effect
+    const sceneBackgrounds: Record<string, string> = {
+      cell_awakening: "radial-gradient(ellipse at 50% 80%, #1a0a2e 0%, #030508 70%)",
+      corridor_walk: "radial-gradient(ellipse at 30% 50%, #0d1a2e 0%, #030508 80%)",
+      arena_gates_open: `radial-gradient(ellipse at 50% 50%, ${chapterAccent}12 0%, #030508 60%)`,
+      memory_flash: "radial-gradient(ellipse at 50% 50%, #2d1b69 0%, #030508 60%)",
+      void_descent: "radial-gradient(ellipse at 50% 100%, #0a0a1a 0%, #000000 70%)",
+      battlefield_survey: `radial-gradient(ellipse at 50% 50%, ${chapterAccent}10 0%, #0a0f1a 60%)`,
+      dream_sequence: "radial-gradient(ellipse at 50% 50%, #1a0a3d 0%, #0a0520 60%)",
+      final_confrontation: `radial-gradient(ellipse at 50% 50%, ${bossGlow}18 0%, #030508 50%)`,
+      ascension: `radial-gradient(ellipse at 50% 30%, ${bossGlow}20 0%, #030508 60%)`,
+      revelation: "radial-gradient(ellipse at 50% 50%, #1a2a0a 0%, #030508 60%)",
+      prison_break: "radial-gradient(ellipse at 50% 50%, #2a1a0a 0%, #030508 60%)",
+      throne_approach: `radial-gradient(ellipse at 50% 50%, ${chapterAccent}15 0%, #030508 60%)`,
+    };
+    const sceneBg = sceneEffect ? sceneBackgrounds[sceneEffect.preSceneEffect] : undefined;
+
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden cursor-pointer"
+        style={{
+          background: sceneBg || (isBossChapter
+            ? `radial-gradient(ellipse at 50% 50%, ${bossGlow}15 0%, #030508 60%)`
+            : "radial-gradient(ellipse at 50% 50%, #0d1a2e 0%, #030508 100%)"),
+        }}
+        onClick={advanceStoryDialogue}
+      >
+        {/* Scene effect: ambient glow for ALL chapters */}
+        {storyDialogueType === "pre" && (
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            animate={{ opacity: isBossChapter ? [0.3, 0.6, 0.3] : [0.15, 0.3, 0.15] }}
+            transition={{ duration: isBossChapter ? 3 : 5, repeat: Infinity, ease: "easeInOut" }}
+            style={{
+              boxShadow: `inset 0 0 80px ${chapterAccent}20, inset 0 0 200px ${chapterAccent}10`,
+            }}
+          />
+        )}
+
+        {/* Boss cinematic: opponent portrait flash on first line */}
+        {isBossChapter && isFirstLine && opponent && (
+          <motion.div
+            className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
+            initial={{ opacity: 1, scale: 1.2 }}
+            animate={{ opacity: 0, scale: 1 }}
+            transition={{ duration: 2, ease: "easeOut" }}
+          >
+            <div className="relative">
+              <motion.div
+                className="w-32 h-32 sm:w-48 sm:h-48 rounded-full overflow-hidden border-4"
+                style={{ borderColor: bossGlow }}
+                animate={{ boxShadow: [`0 0 40px ${bossGlow}60`, `0 0 80px ${bossGlow}30`, `0 0 40px ${bossGlow}60`] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <img src={opponent.image} alt={opponent.name} className="w-full h-full object-cover" />
+              </motion.div>
+              <motion.div
+                className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <span className="font-display text-lg sm:text-2xl tracking-[0.3em] font-bold" style={{ color: bossGlow, textShadow: `0 0 20px ${bossGlow}80` }}>
+                  {opponent.name.toUpperCase()}
+                </span>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Chapter title with cinematic animation */}
+        <div className="absolute top-4 left-0 right-0 text-center">
+          <motion.div
+            className="font-mono text-[10px] tracking-[0.3em]"
+            style={{ color: chapterAccent + "80" }}
+            initial={sceneEffect?.titleAnimation === "slam_down" ? { y: -40, opacity: 0, scale: 1.5 }
+              : sceneEffect?.titleAnimation === "glitch_reveal" ? { opacity: 0, x: -10 }
+              : sceneEffect?.titleAnimation === "burn_in" ? { opacity: 0, scale: 0.8 }
+              : sceneEffect?.titleAnimation === "type_classified" ? { opacity: 0, letterSpacing: "0.8em" }
+              : { opacity: 0 }}
+            animate={sceneEffect?.titleAnimation === "slam_down" ? { y: 0, opacity: 1, scale: 1 }
+              : sceneEffect?.titleAnimation === "glitch_reveal" ? { opacity: 1, x: 0 }
+              : sceneEffect?.titleAnimation === "burn_in" ? { opacity: 1, scale: 1 }
+              : sceneEffect?.titleAnimation === "type_classified" ? { opacity: 1, letterSpacing: "0.3em" }
+              : { opacity: 1 }}
+            transition={{ duration: sceneEffect?.titleAnimation === "slam_down" ? 0.4 : 0.8, ease: "easeOut" }}
+          >
+            {isBossChapter ? "\u2694\uFE0F " : ""}CHAPTER {currentStoryChapter.chapter} — {currentStoryChapter.title}{isBossChapter ? " \u2694\uFE0F" : ""}
+          </motion.div>
+          {storyDialogueType === "pre" && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="font-display text-[10px] tracking-[0.5em] mt-1"
+              style={{ color: chapterAccent + "60" }}
+            >
+              {currentStoryChapter.chapter === 12 ? "FINAL BOSS" : currentStoryChapter.chapter === 11 ? "ARENA MASTER" : currentStoryChapter.chapter === 7 ? "ACT BOSS" : currentStoryChapter.subtitle}
+            </motion.div>
+          )}
+        </div>
+
+        {/* Skip button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            if (storyDialogueType === "pre") {
+              setStoryDialogueIndex(dialogues.length - 1);
+              advanceStoryDialogue();
+            } else {
+              if (storyDialogueType === "post-win") {
+                const newProgress: StoryProgress = {
+                  ...storyProgress,
+                  completedChapters: Array.from(new Set([...storyProgress.completedChapters, currentStoryChapter.id])),
+                  unlockedFighters: Array.from(new Set([...storyProgress.unlockedFighters, currentStoryChapter.unlocksFighter])),
+                  memoriesRecovered: currentStoryChapter.memoryFragment
+                    ? Array.from(new Set([...storyProgress.memoriesRecovered, currentStoryChapter.memoryFragment]))
+                    : storyProgress.memoriesRecovered,
+                  currentChapter: Math.max(storyProgress.currentChapter, currentStoryChapter.chapter),
+                  isComplete: currentStoryChapter.chapter === STORY_CHAPTERS.length,
+                };
+                setStoryProgress(newProgress);
+                saveStoryProgress(newProgress);
+                gam.unlockFighter(currentStoryChapter.unlocksFighter);
+              }
+              setPhase("story");
+            }
+          }}
+          className="absolute top-4 right-4 font-mono text-xs text-muted-foreground/50 hover:text-muted-foreground/80 transition-colors z-10"
+        >
+          SKIP &gt;&gt;
+        </button>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`${storyDialogueType}-${storyDialogueIndex}`}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -15 }}
+            transition={{ duration: 0.4 }}
+            className="max-w-lg text-center"
+          >
+            {/* Speaker name */}
+            {currentLine.speaker !== "narrator" && (
+              <div className={`font-display tracking-[0.2em] mb-3 ${isBossChapter && currentLine.speaker !== "prisoner" ? "text-base sm:text-lg" : "text-sm"}`}
+                style={{
+                  color: speakerColor,
+                  textShadow: isBossChapter && currentLine.speaker !== "prisoner" && currentLine.speaker !== "narrator"
+                    ? `0 0 15px ${speakerColor}60` : undefined,
+                }}
+              >
+                {currentLine.speaker === "prisoner"
+                  ? (storyProgress.completedChapters.length >= 6 ? "THE ORACLE" : "THE PRISONER")
+                  : currentLine.speaker.toUpperCase()}
+              </div>
+            )}
+
+            {/* Dialogue text */}
+            <p className={`text-sm sm:text-base leading-relaxed ${
+              currentLine.speaker === "narrator" ? "font-mono text-muted-foreground/70 italic" : "font-mono text-foreground/85"
+            }`}>
+              {currentLine.speaker === "prisoner" && currentLine.text.startsWith("(")
+                ? <span className="italic text-purple-300/70">{currentLine.text}</span>
+                : currentLine.text
+              }
+            </p>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Power-up visualization on victory */}
+        {isVictoryMoment && currentStoryChapter.powerGained && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            className="absolute bottom-28 left-6 right-6 flex flex-col items-center"
+          >
+            <motion.div
+              className="w-16 h-16 rounded-full flex items-center justify-center mb-3"
+              style={{ background: `radial-gradient(circle, ${bossGlow}30 0%, transparent 70%)` }}
+              animate={{
+                boxShadow: [`0 0 20px ${bossGlow}40`, `0 0 40px ${bossGlow}20`, `0 0 20px ${bossGlow}40`],
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <Zap size={28} style={{ color: bossGlow }} />
+            </motion.div>
+            <div className="font-display text-xs tracking-[0.3em] mb-1" style={{ color: bossGlow }}>POWER GAINED</div>
+            <div className="font-mono text-[10px] text-muted-foreground/70 text-center max-w-xs">{currentStoryChapter.powerGained}</div>
+          </motion.div>
+        )}
+
+        {/* Memory fragment display on post-win */}
+        {storyDialogueType === "post-win" && storyDialogueIndex === dialogues.length - 1 && currentStoryChapter.memoryFragment && !currentStoryChapter.powerGained && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="absolute bottom-16 left-6 right-6 text-center"
+          >
+            <div className="font-mono text-[10px] text-purple-400/40 tracking-wider mb-1">\u2728 MEMORY RECOVERED</div>
+            <div className="font-mono text-[10px] text-purple-300/50 italic">{currentStoryChapter.memoryFragment}</div>
+          </motion.div>
+        )}
+
+        {/* Floating ambient particles for ALL chapters */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {Array.from({ length: isBossChapter ? 16 : 8 }).map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                background: chapterAccent,
+                width: isBossChapter ? "3px" : "2px",
+                height: isBossChapter ? "3px" : "2px",
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                y: [0, -30, 0],
+                opacity: [0, isBossChapter ? 0.6 : 0.3, 0],
+                scale: [0.5, 1.2, 0.5],
+              }}
+              transition={{
+                duration: 3 + Math.random() * 2,
+                repeat: Infinity,
+                delay: Math.random() * 3,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Scene-specific environmental effects */}
+        {sceneEffect && storyDialogueType === "pre" && sceneEffect.preSceneEffect === "void_descent" && (
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            animate={{ background: ["transparent", "rgba(0,0,0,0.3)", "transparent"] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          />
+        )}
+        {sceneEffect && storyDialogueType === "pre" && sceneEffect.preSceneEffect === "memory_flash" && (
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            animate={{ opacity: [0, 0.15, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            style={{ background: "radial-gradient(circle at 50% 50%, #a78bfa30 0%, transparent 60%)" }}
+          />
+        )}
+        {sceneEffect && storyDialogueType === "pre" && sceneEffect.preSceneEffect === "dream_sequence" && (
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            animate={{ opacity: [0.05, 0.15, 0.05], scale: [1, 1.02, 1] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            style={{ background: "radial-gradient(circle at 50% 50%, #7c3aed20 0%, transparent 50%)" }}
+          />
+        )}
+
+        {/* Progress */}
+        <div className="absolute bottom-4 flex gap-1">
+          {dialogues.map((_, i) => (
+            <div key={i} className={`w-1.5 h-1.5 rounded-full ${i <= storyDialogueIndex ? "bg-cyan-400/50" : "bg-muted/50"}`} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     CHARACTER SELECT — With Lore Popups
+     ═══════════════════════════════════════════════════════ */
+  if (phase === "select") {
+    const displayFighter = hoveredFighter || (selectingFor === "player" ? selectedPlayer : selectedOpponent);
+    return (
+      <div className="min-h-screen flex flex-col" style={{ background: "radial-gradient(ellipse at 50% 20%, #0d1a2e 0%, #070b14 60%, #030508 100%)" }}>
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border/60">
+          <button onClick={() => setPhase("title")} className="text-muted-foreground/70 hover:text-white font-mono text-sm flex items-center gap-1">
+            <ChevronLeft size={16} /> BACK
+          </button>
+          <h2 className="font-display text-xs sm:text-sm tracking-[0.3em] text-foreground/85">
+            {isTrainingMode && <span className="text-cyan-400 mr-2">[TRAINING]</span>}
+            SELECT {selectingFor === "player" ? "YOUR FIGHTER" : "OPPONENT"}
+          </h2>
+          <div className="font-mono text-xs text-amber-400">{gam.gameSave.fightPoints} PTS</div>
+        </div>
+
+        {/* Matchup bar at top — always visible */}
+        <div className="px-4 py-2 border-b border-border/60">
+          <MatchupBar
+            selectedPlayer={selectedPlayer}
+            selectedOpponent={selectedOpponent}
+            onContinue={() => setPhase("difficulty")}
+          />
+        </div>
+
+        <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
+          {/* Fighter grid */}
+          <div className="flex-1 p-3 overflow-y-auto">
+            <div className="font-mono text-[10px] text-muted-foreground/50 tracking-[0.3em] mb-2 px-1">ARCHONS & ALLIES</div>
+            <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 gap-2 mb-4">
+              {STARTER_FIGHTERS.map(f => (
+                <FighterCard key={f.id} fighter={f} available={true}
+                  selected={selectedPlayer?.id === f.id || selectedOpponent?.id === f.id}
+                  onSelect={() => handleFighterSelect(f)}
+                  onHover={() => setHoveredFighter(f)}
+                  onLeave={() => setHoveredFighter(null)}
+                  onInfo={() => setShowLorePopup(f)} />
+              ))}
+            </div>
+
+            <div className="font-mono text-[10px] text-muted-foreground/50 tracking-[0.3em] mb-2 px-1">HIDDEN ROSTER</div>
+            <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 gap-2 mb-4">
+              {UNLOCKABLE_FIGHTERS.map(f => {
+                const available = isFighterAvailable(f);
+                return (
+                  <FighterCard key={f.id} fighter={f} available={available}
+                    selected={selectedPlayer?.id === f.id || selectedOpponent?.id === f.id}
+                    onSelect={() => available ? handleFighterSelect(f) : handleUnlock(f)}
+                    onHover={() => setHoveredFighter(f)}
+                    onLeave={() => setHoveredFighter(null)}
+                    onInfo={() => setShowLorePopup(f)}
+                    canAfford={gam.gameSave.fightPoints >= f.unlockCost} />
+                );
+              })}
+            </div>
+
+            <div className="font-mono text-[10px] text-red-500/60 tracking-[0.3em] mb-2 px-1 flex items-center gap-2">
+              <span className="h-px flex-1 bg-red-500/20" />
+              HIERARCHY OF THE DAMNED
+              <span className="h-px flex-1 bg-red-500/20" />
+            </div>
+            <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 gap-2">
+              {DEMON_FIGHTERS.map(f => {
+                const available = isFighterAvailable(f);
+                return (
+                  <FighterCard key={f.id} fighter={f} available={available}
+                    selected={selectedPlayer?.id === f.id || selectedOpponent?.id === f.id}
+                    onSelect={() => available ? handleFighterSelect(f) : handleUnlock(f)}
+                    onHover={() => setHoveredFighter(f)}
+                    onLeave={() => setHoveredFighter(null)}
+                    onInfo={() => setShowLorePopup(f)}
+                    canAfford={gam.gameSave.fightPoints >= f.unlockCost} />
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Fighter detail panel — desktop */}
+          <div className="hidden lg:flex w-72 border-l border-border/60 p-4 flex-col">
+            <FighterDetailPanel fighter={displayFighter} traitBonuses={activeBonuses} activePotential={traitBonuses.data?.activePotential} />
+          </div>
+        </div>
+
+        {/* Lore Popup Modal */}
+        <AnimatePresence>
+          {showLorePopup && (
+            <LorePopup fighter={showLorePopup} onClose={() => setShowLorePopup(null)} />
+          )}
+        </AnimatePresence>
+      </div>
+    );
+  }
+
+  /* ═══ DIFFICULTY SELECT ═══ */
+  if (phase === "difficulty") {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-4"
+        style={{ background: "radial-gradient(ellipse at 50% 50%, #0d1a2e 0%, #070b14 60%, #030508 100%)" }}>
+        <button onClick={() => setPhase("select")} className="absolute top-4 left-4 text-muted-foreground/70 hover:text-white font-mono text-sm flex items-center gap-1">
+          <ChevronLeft size={16} /> BACK
+        </button>
+        <h2 className="font-display text-xl tracking-[0.3em] text-foreground/85 mb-8">SELECT DIFFICULTY</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl w-full">
+          {DIFFICULTIES.map((d) => (
+            <motion.button
+              key={d.id}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => { setSelectedDifficulty(d); setPhase("arena"); }}
+              className={`p-5 rounded-lg border-2 text-left transition-all ${
+                selectedDifficulty.id === d.id
+                  ? "border-cyan-500/60 bg-cyan-500/10"
+                  : "border-border/60 bg-muted/40 hover:border-border"
+              }`}
+            >
+              <div className="font-display text-lg tracking-wider text-white mb-1">{d.name}</div>
+              <div className="font-mono text-xs text-muted-foreground/60 mb-2">{d.description}</div>
+              <div className="flex gap-3 font-mono text-[10px]">
+                <span className="text-red-400">DMG x{d.damageMultiplier}</span>
+                <span className="text-amber-400">PTS x{d.pointsMultiplier}</span>
+              </div>
+            </motion.button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  /* ═══ ARENA SELECT ═══ */
+  if (phase === "arena") {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden"
+        style={{ background: "#030508" }}>
+
+        {/* Full-screen selected arena preview behind everything */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={selectedArena.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0"
+          >
+            {selectedArena.backgroundImage ? (
+              <img
+                src={selectedArena.backgroundImage}
+                alt=""
+                className="w-full h-full object-cover"
+                style={{ opacity: 0.3, filter: "brightness(0.6) contrast(1.2) saturate(1.3)" }}
+              />
+            ) : (
+              <div className="w-full h-full" style={{ background: selectedArena.bgGradient, opacity: 0.4 }} />
+            )}
+            {/* Ambient glow pulse */}
+            <div className="absolute inset-0" style={{
+              background: `radial-gradient(ellipse at 50% 80%, ${selectedArena.ambientColor}15 0%, transparent 60%)`,
+              animation: "arena-pulse 3s ease-in-out infinite",
+            }} />
+            {/* Vignette */}
+            <div className="absolute inset-0" style={{
+              background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.85) 100%)",
+            }} />
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Content layer */}
+        <div className="relative z-10 flex flex-col items-center w-full max-w-5xl">
+          <button onClick={() => setPhase("difficulty")} className="absolute top-0 left-0 text-muted-foreground/70 hover:text-white font-mono text-sm flex items-center gap-1 z-20">
+            <ChevronLeft size={16} /> BACK
+          </button>
+
+          {/* Title */}
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-3">
+            <div className="font-mono text-xs tracking-[0.4em] text-muted-foreground/50 mb-1">COLLECTOR'S ARENA</div>
+            <h2 className="font-display text-2xl tracking-[0.3em] text-foreground/90">SELECT BATTLEGROUND</h2>
+          </motion.div>
+
+          {/* Selected arena name display */}
+          <motion.div
+            key={selectedArena.id + "-name"}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="mb-6 text-center"
+          >
+            <div className="font-display text-3xl tracking-wider font-bold"
+              style={{ color: selectedArena.ambientColor, textShadow: `0 0 30px ${selectedArena.ambientColor}60` }}>
+              {selectedArena.name.toUpperCase()}
+            </div>
+          </motion.div>
+
+          {/* Arena grid — 4x2 with image cards */}
+          <div className="grid grid-cols-4 gap-3 w-full mb-8">
+            {ARENAS.map((a, i) => {
+              const isSelected = selectedArena.id === a.id;
+              return (
+                <motion.button
+                  key={a.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  whileHover={{ scale: 1.04, y: -4 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => setSelectedArena(a)}
+                  className="relative rounded-lg overflow-hidden transition-all group"
+                  style={{
+                    border: isSelected ? `2px solid ${a.ambientColor}` : "2px solid rgba(255,255,255,0.08)",
+                    boxShadow: isSelected ? `0 0 20px ${a.ambientColor}30, 0 0 60px ${a.ambientColor}10` : "none",
+                    aspectRatio: "16/10",
+                  }}
+                >
+                  {/* Arena image */}
+                  {a.backgroundImage ? (
+                    <img
+                      src={a.backgroundImage}
+                      alt={a.name}
+                      className="absolute inset-0 w-full h-full object-cover transition-all duration-300"
+                      style={{
+                        filter: isSelected ? "brightness(0.9) saturate(1.3)" : "brightness(0.4) saturate(0.7)",
+                      }}
+                    />
+                  ) : (
+                    <div className="absolute inset-0" style={{ background: a.bgGradient }} />
+                  )}
+                  {/* Hover brighten */}
+                  <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-all duration-200" />
+                  {/* Bottom label */}
+                  <div className="absolute inset-x-0 bottom-0 p-2" style={{
+                    background: "linear-gradient(transparent, rgba(0,0,0,0.85))",
+                  }}>
+                    <div className="font-display text-xs tracking-wider text-white/90 text-center">{a.name}</div>
+                  </div>
+                  {/* Selected indicator glow bar */}
+                  {isSelected && (
+                    <motion.div
+                      layoutId="arena-indicator"
+                      className="absolute bottom-0 inset-x-0 h-[3px]"
+                      style={{ background: a.ambientColor, boxShadow: `0 0 12px ${a.ambientColor}` }}
+                    />
+                  )}
+                </motion.button>
+              );
+            })}
+          </div>
+
+          {/* Begin combat button */}
+          <motion.button
+            whileHover={{ scale: 1.06 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={startFight}
+            className="px-12 py-3.5 rounded-lg font-display text-xl tracking-wider transition-all"
+            style={{
+              background: `linear-gradient(135deg, ${selectedArena.ambientColor}20, ${selectedArena.ambientColor}08)`,
+              border: `2px solid ${selectedArena.ambientColor}60`,
+              color: selectedArena.ambientColor,
+              textShadow: `0 0 15px ${selectedArena.ambientColor}50`,
+              boxShadow: `0 0 30px ${selectedArena.ambientColor}15`,
+            }}
+          >
+            <Swords className="inline mr-2" size={20} /> ENTER THE ARENA
+          </motion.button>
+        </div>
+
+        {/* Pulse animation */}
+        <style>{`
+          @keyframes arena-pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  /* ═══ FIGHTING ═══ */
+  if (phase === "fighting" && selectedPlayer && selectedOpponent) {
+    const isStoryFight = !!currentStoryChapter && !isTrainingMode;
+    return (
+      <LandscapeEnforcer forceRotate>
+        <div className="fixed inset-0 z-[60] bg-black" style={{ width: "100%", height: "100%" }}>
+          <FightArena2D
+            player={boostedPlayer!}
+            opponent={selectedOpponent}
+            arena={selectedArena}
+            difficulty={selectedDifficulty}
+            onMatchEnd={isTrainingMode ? () => { setIsTrainingMode(false); resetToSelect(); } : isStoryFight ? handleStoryMatchEnd : handleMatchEnd}
+            onBack={() => {
+              setIsTrainingMode(false);
+              if (isStoryFight) {
+                setPhase("story");
+              } else {
+                resetToSelect();
+              }
+            }}
+            trainingMode={isTrainingMode}
+          />
+        </div>
+      </LandscapeEnforcer>
+    );
+  }
+
+  /* ═══ RESULTS ═══ */
+  if (phase === "results" && matchResult) {
+    const isVictory = matchResult.winner === "p1";
+    const winner = isVictory ? selectedPlayer! : selectedOpponent!;
+    const basePt = isVictory ? Math.round(
+      (selectedDifficulty.id === "nightmare" ? 100 : selectedDifficulty.id === "hard" ? 60 : selectedDifficulty.id === "normal" ? 40 : 20)
+      * selectedDifficulty.pointsMultiplier
+    ) : 0;
+    const nftMultiplier = holderPerks?.perks.fightPointsMultiplier || 1.0;
+    const ptGain = Math.round(basePt * nftMultiplier);
+    const bonusPt = ptGain - basePt;
+
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden"
+        style={{ background: isVictory
+          ? "radial-gradient(ellipse at 50% 50%, #0a1a0a 0%, #001a00 50%, #030508 100%)"
+          : "radial-gradient(ellipse at 50% 50%, #1a0a0a 0%, #1a0000 50%, #030508 100%)"
+        }}>
+        <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} className="text-center">
+          <div className="font-mono text-xs tracking-[0.4em] mb-2" style={{ color: isVictory ? "#22c55e" : "#ef4444" }}>
+            {isVictory ? "VICTORY" : "DEFEAT"}
+          </div>
+          <div className="w-28 h-28 mx-auto rounded-lg overflow-hidden border-2 mb-4" style={{ borderColor: winner.color }}>
+            <img src={winner.image} alt={winner.name} className="w-full h-full object-cover" />
+          </div>
+          <h2 className="font-display text-2xl font-bold mb-1" style={{ color: winner.color }}>{winner.name}</h2>
+          <div className="font-mono text-sm text-muted-foreground/60 mb-6">{isVictory ? "WINS THE MATCH" : "DEFEATS YOU"}</div>
+
+          {matchResult.perfect && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
+              className="font-display text-2xl text-amber-400 mb-4" style={{ textShadow: "0 0 20px rgba(251,191,36,0.5)" }}>
+              PERFECT VICTORY!
+            </motion.div>
+          )}
+
+          {isVictory && (
+            <div className="flex flex-wrap gap-3 justify-center mb-6">
+              <div className="px-4 py-2 rounded bg-muted/40 border border-border/60">
+                <div className="font-mono text-[10px] text-muted-foreground/60">POINTS</div>
+                <div className="font-display text-lg text-amber-400">+{ptGain}</div>
+                {bonusPt > 0 && (
+                  <div className="font-mono text-[8px] text-purple-400">
+                    +{bonusPt} POTENTIAL BONUS
+                  </div>
+                )}
+              </div>
+              <div className="px-4 py-2 rounded bg-muted/40 border border-border/60">
+                <div className="font-mono text-[10px] text-muted-foreground/60">STREAK</div>
+                <div className="font-display text-lg text-green-400">{gam.gameSave.winStreak}</div>
+              </div>
+              {holderPerks?.isHolder && (
+                <div className="px-4 py-2 rounded border" style={{ background: "rgba(147,51,234,0.1)", borderColor: "rgba(147,51,234,0.3)" }}>
+                  <div className="font-mono text-[10px] text-purple-400/60">TITLE</div>
+                  <div className="font-display text-xs text-purple-300">{holderPerks.perks.title}</div>
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="flex gap-3 justify-center">
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+              onClick={resetToSelect}
+              className="px-6 py-2.5 rounded-lg bg-muted/50 border border-border text-white font-mono text-sm hover:bg-white/20 transition-all">
+              NEW FIGHT
+            </motion.button>
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+              onClick={() => setPhase("title")}
+              className="px-6 py-2.5 rounded-lg bg-muted/40 border border-border/60 text-muted-foreground/70 font-mono text-sm hover:bg-muted/60 transition-all">
+              MAIN MENU
+            </motion.button>
+          </div>
+        </motion.div>
+
+        {/* Companion battle reaction with Elara VO */}
+        {showPostBattleDialog && (
+          <PostBattleDialog
+            outcome={isVictory ? (matchResult.perfect ? "victory" : "close") : "defeat"}
+            companionId="elara"
+            companionName="Elara"
+            onDismiss={() => setShowPostBattleDialog(false)}
+          />
+        )}
+      </div>
+    );
+  }
+
+  return null;
+}
+
+/* ═══════════════════════════════════════════════════════
+   FIGHTER CARD — Grid item with info button
+   ═══════════════════════════════════════════════════════ */
+function FighterCard({ fighter, available, selected, onSelect, onHover, onLeave, onInfo, canAfford }: {
+  fighter: FighterData;
+  available: boolean;
+  selected: boolean;
+  onSelect: () => void;
+  onHover: () => void;
+  onLeave: () => void;
+  onInfo: () => void;
+  canAfford?: boolean;
+}) {
+  return (
+    <div className="relative">
+      <motion.button
+        whileHover={{ scale: available ? 1.08 : 1.02 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={onSelect}
+        onMouseEnter={onHover}
+        onMouseLeave={onLeave}
+        className={`relative rounded-lg overflow-hidden border-2 transition-all aspect-square w-full ${
+          selected
+            ? "border-cyan-400 ring-2 ring-cyan-400/30"
+            : available
+            ? "border-border hover:border-white/40"
+            : "border-border/60 opacity-60"
+        }`}
+      >
+        <img src={fighter.image} alt={fighter.name} className="w-full h-full object-cover" loading="lazy" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+
+        <div className="absolute bottom-0 left-0 right-0 p-1.5">
+          <div className="font-mono text-[9px] sm:text-[10px] text-white truncate font-bold">{fighter.name}</div>
+          <div className="w-full h-0.5 rounded mt-0.5" style={{ background: FACTION_COLORS[fighter.faction] }} />
+        </div>
+
+        {!available && (
+          <div className="absolute inset-0 bg-background/70 flex flex-col items-center justify-center">
+            <Lock size={14} className="text-muted-foreground/60 mb-1" />
+            <div className="font-mono text-[9px]" style={{ color: canAfford ? "#22c55e" : "#ef4444" }}>
+              {fighter.unlockCost} PTS
+            </div>
+          </div>
+        )}
+
+        {selected && (
+          <div className="absolute top-1 right-1 w-3.5 h-3.5 rounded-full bg-cyan-500 flex items-center justify-center">
+            <Star size={8} className="text-white" />
+          </div>
+        )}
+      </motion.button>
+
+      {/* Info button */}
+      <button
+        onClick={(e) => { e.stopPropagation(); onInfo(); }}
+        className="absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-background/70 flex items-center justify-center hover:bg-background/90 transition-colors z-10"
+      >
+        <Info size={10} className="text-muted-foreground/70" />
+      </button>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   FIGHTER DETAIL PANEL — Stats sidebar
+   ═══════════════════════════════════════════════════════ */
+function FighterDetailPanel({ fighter, traitBonuses: bonuses, activePotential }: {
+  fighter: FighterData | null;
+  traitBonuses?: { total: { attack: number; defense: number; hp: number; speed: number }; breakdown: Array<{ source: string; bonus: { attack: number; defense: number; hp: number; speed: number; label: string; color: string } }> } | null;
+  activePotential?: { tokenId: number; name: string; level: number; nftClass: string | null; weapon: string | null; specie: string | null } | null;
+}) {
+  if (!fighter) {
+    return (
+      <div className="flex-1 flex items-center justify-center">
+        <p className="font-mono text-sm text-muted-foreground/35">Select a fighter</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex-1">
+      <div className="relative mb-3 rounded-lg overflow-hidden" style={{ aspectRatio: "1" }}>
+        <img src={fighter.image} alt={fighter.name} className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+        <div className="absolute bottom-2 left-2 right-2">
+          <div className="font-display text-lg font-bold text-white">{fighter.name}</div>
+          <div className="font-mono text-[10px]" style={{ color: FACTION_COLORS[fighter.faction] }}>{fighter.title}</div>
+        </div>
+      </div>
+
+      <div className="space-y-1.5 mb-3">
+        <StatBar label="HP" value={fighter.hp} max={140} icon={<Heart size={10} />} color="#ef4444" bonus={bonuses?.total.hp} />
+        <StatBar label="ATK" value={fighter.attack} max={12} icon={<Swords size={10} />} color="#f59e0b" bonus={bonuses?.total.attack} />
+        <StatBar label="DEF" value={fighter.defense} max={12} icon={<Shield size={10} />} color="#22c55e" bonus={bonuses?.total.defense} />
+        <StatBar label="SPD" value={fighter.speed} max={12} icon={<Wind size={10} />} color="#22d3ee" bonus={bonuses?.total.speed} />
+      </div>
+
+      {/* Trait Bonuses from NFT Potentials */}
+      {bonuses && bonuses.breakdown.length > 0 && (
+        <div className="rounded-md border border-purple-500/20 bg-purple-500/5 p-2 mb-3">
+          <div className="flex items-center gap-1.5 mb-1.5">
+            <Gem size={10} className="text-purple-400" />
+            <span className="font-mono text-[9px] font-bold text-purple-300 tracking-wider">POTENTIAL TRAIT BONUSES</span>
+          </div>
+          {activePotential && (
+            <div className="font-mono text-[8px] text-purple-400/60 mb-1.5">
+              via {activePotential.name} (Lv.{activePotential.level})
+            </div>
+          )}
+          <div className="space-y-0.5">
+            {bonuses.breakdown.map((b, i) => (
+              <div key={i} className="flex items-center justify-between">
+                <span className="font-mono text-[8px]" style={{ color: b.bonus.color }}>{b.bonus.label}</span>
+                <span className="font-mono text-[8px] text-muted-foreground/60">
+                  {b.bonus.attack > 0 && `+${b.bonus.attack} ATK `}
+                  {b.bonus.defense > 0 && `+${b.bonus.defense} DEF `}
+                  {b.bonus.hp > 0 && `+${b.bonus.hp} HP `}
+                  {b.bonus.speed > 0 && `+${b.bonus.speed} SPD`}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="rounded-md border p-2" style={{ borderColor: fighter.special.color + "40", background: fighter.special.color + "10" }}>
+        <div className="flex items-center gap-1.5 mb-1">
+          <Zap size={12} style={{ color: fighter.special.color }} />
+          <span className="font-mono text-[10px] font-bold" style={{ color: fighter.special.color }}>{fighter.special.name}</span>
+        </div>
+        <p className="font-mono text-[9px] text-muted-foreground/70">{fighter.special.description}</p>
+      </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   MATCHUP BAR — Selected fighters + continue
+   ═══════════════════════════════════════════════════════ */
+function MatchupBar({ selectedPlayer, selectedOpponent, onContinue }: {
+  selectedPlayer: FighterData | null;
+  selectedOpponent: FighterData | null;
+  onContinue: () => void;
+}) {
+  return (
+    <div className="flex items-center gap-3 py-1">
+      {/* Player portrait */}
+      <div className="flex items-center gap-2">
+        {selectedPlayer ? (
+          <div className="w-12 h-12 rounded-md overflow-hidden border-2 shrink-0" style={{ borderColor: selectedPlayer.color }}>
+            <img src={selectedPlayer.image} alt="" className="w-full h-full object-cover" />
+          </div>
+        ) : (
+          <div className="w-12 h-12 rounded-md border-2 border-dashed border-border/60 flex items-center justify-center shrink-0">
+            <span className="text-muted-foreground/35 text-xl">?</span>
+          </div>
+        )}
+        <div className="hidden sm:block">
+          <div className="font-mono text-[9px] text-muted-foreground/50">PLAYER</div>
+          <div className="font-display text-xs text-foreground/80 truncate max-w-24">{selectedPlayer?.name || "---"}</div>
+        </div>
+      </div>
+
+      <Swords size={20} className="text-cyan-500/50 shrink-0" />
+
+      {/* Opponent portrait */}
+      <div className="flex items-center gap-2">
+        {selectedOpponent ? (
+          <div className="w-12 h-12 rounded-md overflow-hidden border-2 shrink-0" style={{ borderColor: selectedOpponent.color }}>
+            <img src={selectedOpponent.image} alt="" className="w-full h-full object-cover" />
+          </div>
+        ) : (
+          <div className="w-12 h-12 rounded-md border-2 border-dashed border-border/60 flex items-center justify-center shrink-0">
+            <span className="text-muted-foreground/35 text-xl">?</span>
+          </div>
+        )}
+        <div className="hidden sm:block">
+          <div className="font-mono text-[9px] text-muted-foreground/50">OPPONENT</div>
+          <div className="font-display text-xs text-foreground/80 truncate max-w-24">{selectedOpponent?.name || "---"}</div>
+        </div>
+      </div>
+
+      {/* Spacer */}
+      <div className="flex-1" />
+
+      {/* CONTINUE button — large and prominent */}
+      {selectedPlayer && selectedOpponent ? (
+        <motion.button
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={onContinue}
+          className="px-8 py-3 rounded-lg bg-cyan-500/20 border-2 border-cyan-500/60 text-cyan-400 font-display text-base sm:text-lg tracking-wider hover:bg-cyan-500/30 transition-all shrink-0"
+          style={{ textShadow: "0 0 12px rgba(34,211,238,0.5)", boxShadow: "0 0 20px rgba(34,211,238,0.15)" }}
+        >
+          <Swords className="inline mr-2" size={18} /> CONTINUE
+        </motion.button>
+      ) : (
+        <div className="font-mono text-xs text-muted-foreground/40 tracking-wider shrink-0">
+          SELECT BOTH FIGHTERS
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   LORE POPUP — Full character details modal
+   ═══════════════════════════════════════════════════════ */
+function LorePopup({ fighter, onClose }: { fighter: FighterData; onClose: () => void }) {
+  const lore = FIGHTER_LORE[fighter.id];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{ background: "rgba(0,0,0,0.85)" }}
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.9, y: 20 }}
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-md max-h-[85vh] overflow-y-auto rounded-xl border border-border/60"
+        style={{ background: "linear-gradient(180deg, #0d1a2e 0%, #070b14 100%)" }}
+      >
+        {/* Header with image */}
+        <div className="relative h-48 overflow-hidden">
+          <img src={fighter.image} alt={fighter.name} className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#070b14] via-transparent to-transparent" />
+          <button onClick={onClose} className="absolute top-3 right-3 w-8 h-8 rounded-full bg-background/70 flex items-center justify-center hover:bg-background/90">
+            <X size={16} className="text-muted-foreground/80" />
+          </button>
+          <div className="absolute bottom-3 left-4 right-4">
+            <div className="font-display text-2xl font-bold text-white">{fighter.name}</div>
+            <div className="font-mono text-xs" style={{ color: FACTION_COLORS[fighter.faction] }}>{fighter.title}</div>
+          </div>
+        </div>
+
+        <div className="p-4 space-y-4">
+          {/* Stats */}
+          <div className="grid grid-cols-4 gap-2">
+            {[
+              { label: "HP", value: fighter.hp, color: "#ef4444" },
+              { label: "ATK", value: fighter.attack, color: "#f59e0b" },
+              { label: "DEF", value: fighter.defense, color: "#22c55e" },
+              { label: "SPD", value: fighter.speed, color: "#22d3ee" },
+            ].map(s => (
+              <div key={s.label} className="text-center py-2 rounded-lg bg-muted/40 border border-border/40">
+                <div className="font-mono text-[8px] text-muted-foreground/50">{s.label}</div>
+                <div className="font-display text-lg font-bold" style={{ color: s.color }}>{s.value}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Backstory */}
+          {lore && (
+            <>
+              <div>
+                <div className="font-display text-xs tracking-[0.2em] text-cyan-400/60 mb-2">BACKSTORY</div>
+                <p className="font-mono text-xs text-muted-foreground/80 leading-relaxed">{lore.backstory}</p>
+              </div>
+
+              {/* Quote */}
+              <div className="border-l-2 pl-3" style={{ borderColor: fighter.color + "60" }}>
+                <p className="font-mono text-xs italic" style={{ color: fighter.color + "80" }}>
+                  "{lore.quote}"
+                </p>
+              </div>
+
+              {/* Powers */}
+              <div>
+                <div className="font-display text-xs tracking-[0.2em] text-amber-400/60 mb-2">POWERS</div>
+                <div className="flex flex-wrap gap-1.5">
+                  {lore.powers.map(p => (
+                    <span key={p} className="font-mono text-[10px] px-2 py-1 rounded bg-muted/40 border border-border/60 text-muted-foreground/70">
+                      {p}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Arena Role */}
+              <div className="flex items-center gap-2 pt-2 border-t border-border/40">
+                <Gamepad2 size={14} className="text-muted-foreground/50" />
+                <span className="font-mono text-xs text-muted-foreground/60">{lore.arenaRole}</span>
+              </div>
+            </>
+          )}
+
+          {/* Special Move */}
+          <div className="rounded-lg border p-3" style={{ borderColor: fighter.special.color + "30", background: fighter.special.color + "08" }}>
+            <div className="flex items-center gap-2 mb-1">
+              <Zap size={14} style={{ color: fighter.special.color }} />
+              <span className="font-display text-sm font-bold" style={{ color: fighter.special.color }}>{fighter.special.name}</span>
+            </div>
+            <p className="font-mono text-xs text-muted-foreground/70">{fighter.special.description}</p>
+            <div className="flex gap-3 mt-2 font-mono text-[10px] text-muted-foreground/50">
+              <span>DMG: {fighter.special.damage}</span>
+              <span>CD: {(fighter.special.cooldown / 60).toFixed(1)}s</span>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* ═══ STAT BAR ═══ */
+function StatBar({ label, value, max, icon, color, bonus }: { label: string; value: number; max: number; icon: React.ReactNode; color: string; bonus?: number }) {
+  const pct = (value / max) * 100;
+  const bonusPct = bonus ? ((value + bonus) / max) * 100 : 0;
+  return (
+    <div className="flex items-center gap-2">
+      <div className="w-4 flex justify-center" style={{ color }}>{icon}</div>
+      <div className="font-mono text-[9px] text-muted-foreground/60 w-6">{label}</div>
+      <div className="flex-1 h-1.5 rounded-full bg-muted/50 overflow-hidden relative">
+        {bonus && bonus > 0 && (
+          <div className="absolute h-full rounded-full" style={{ width: `${Math.min(bonusPct, 100)}%`, background: "rgba(168,85,247,0.4)" }} />
+        )}
+        <div className="h-full rounded-full transition-all relative" style={{ width: `${pct}%`, background: color }} />
+      </div>
+      <div className="font-mono text-[9px] text-muted-foreground/80 w-5 text-right">
+        {value}
+        {bonus && bonus > 0 && <span className="text-purple-400">+{bonus}</span>}
+      </div>
+    </div>
+  );
+}

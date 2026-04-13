@@ -16,6 +16,8 @@ import {
   Map,
   Sword,
 } from "lucide-react";
+import { ResponsiveImage } from "@/components/ResponsiveImage";
+import { SEASON_BANNERS, FACTION_ICONS } from "@/data/optionalComponentAssets";
 
 /* ── Season definitions ── */
 interface Season {
@@ -25,7 +27,7 @@ interface Season {
   startDate: string;
   endDate: string;
   rewards: string[];
-  theme: string;
+  theme: keyof typeof FACTION_ICONS;
   color: string;
   isCurrent: boolean;
 }
@@ -228,12 +230,33 @@ export default function ContentRoadmap({ onClose, onPin, isPinned = false }: Con
                 {/* Current season */}
                 {currentSeason && (
                   <div
-                    className="p-5 rounded-xl border"
+                    className="rounded-xl border overflow-hidden"
                     style={{
                       borderColor: `${currentSeason.color}30`,
                       background: `linear-gradient(135deg, ${currentSeason.color}08 0%, transparent 100%)`,
                     }}
                   >
+                    {/* Hero banner */}
+                    <div className="relative h-32 w-full overflow-hidden">
+                      <ResponsiveImage
+                        src={SEASON_BANNERS.current.src}
+                        alt={SEASON_BANNERS.current.title}
+                        eager
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                      <div
+                        className="absolute inset-0 pointer-events-none"
+                        style={{
+                          background: `linear-gradient(180deg, transparent 0%, ${currentSeason.color}10 60%, rgba(0,0,0,0.85) 100%)`,
+                        }}
+                      />
+                      <ResponsiveImage
+                        src={FACTION_ICONS[currentSeason.theme]}
+                        alt={`${currentSeason.theme} emblem`}
+                        className="absolute bottom-2 right-2 size-12 object-contain drop-shadow-[0_0_12px_rgba(0,0,0,0.8)]"
+                      />
+                    </div>
+                    <div className="p-5">
                     <div className="flex items-center gap-2 mb-1">
                       <Sparkles size={14} style={{ color: currentSeason.color }} />
                       <span
@@ -287,17 +310,32 @@ export default function ContentRoadmap({ onClose, onPin, isPinned = false }: Con
                         </div>
                       ))}
                     </div>
+                    </div>
                   </div>
                 )}
 
                 {/* Next season teaser */}
                 {nextSeason && (
                   <div
-                    className="p-5 rounded-xl border border-white/5 bg-white/[0.02] relative overflow-hidden"
+                    className="rounded-xl border border-white/5 bg-white/[0.02] relative overflow-hidden"
                   >
+                    {/* Teaser hero banner */}
+                    <div className="relative h-24 w-full overflow-hidden">
+                      <ResponsiveImage
+                        src={SEASON_BANNERS.next.src}
+                        alt={SEASON_BANNERS.next.title}
+                        className="absolute inset-0 h-full w-full object-cover opacity-60"
+                      />
+                      <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+                      <ResponsiveImage
+                        src={FACTION_ICONS[nextSeason.theme]}
+                        alt={`${nextSeason.theme} emblem`}
+                        className="absolute bottom-2 right-2 size-10 object-contain opacity-80 drop-shadow-[0_0_10px_rgba(0,0,0,0.9)]"
+                      />
+                    </div>
                     {/* Blur overlay for teaser effect */}
-                    <div className="absolute inset-0 backdrop-blur-[1px] bg-black/20 pointer-events-none" />
-                    <div className="relative z-10">
+                    <div className="absolute inset-x-0 bottom-0 top-24 backdrop-blur-[1px] bg-black/20 pointer-events-none" />
+                    <div className="relative z-10 p-5">
                       <div className="flex items-center gap-2 mb-1">
                         <Clock size={14} className="text-white/30" />
                         <span className="font-mono text-[10px] tracking-[0.2em] text-white/30">
@@ -390,6 +428,11 @@ export function ContentRoadmapWidget({ onClick }: { onClick: () => void }) {
         <span className="font-mono text-[9px] tracking-[0.2em] text-purple-400/60">
           CURRENT SEASON
         </span>
+        <ResponsiveImage
+          src={FACTION_ICONS[currentSeason.theme]}
+          alt={`${currentSeason.theme} emblem`}
+          className="size-5 object-contain ml-auto"
+        />
       </div>
       <p className="font-display text-sm font-bold text-white/80 mb-1 truncate">
         {currentSeason.name}

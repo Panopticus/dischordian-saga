@@ -13,9 +13,10 @@ import { useState, useMemo, useCallback } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ChevronLeft, BookOpen, GraduationCap, ScrollText, Star, AlertTriangle,
+  ChevronLeft, GraduationCap, ScrollText, Star, AlertTriangle,
 } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
+import { ResponsiveImage } from "@/components/ResponsiveImage";
 import { getDominantGuild } from "@/game/archonTrainingVoices";
 import { getProfessorByArchon } from "@shared/mechronisProfessors";
 import {
@@ -25,6 +26,27 @@ import {
   type LessonGrade,
 } from "@shared/mechronisLessons";
 import type { SkillId } from "@/game/innerVoices";
+
+/**
+ * Per-professor classroom art — unique background per Archon.
+ * Paths match NanoBanna2 prompt bible (CELEBRATION_MECHRONIS_ART_PROMPTS.md).
+ * Falls back to generic mechronis_classroom.jpg until generated.
+ */
+const CLASSROOM_ART: Record<string, string> = {
+  prof_conductor: "/art/classrooms/classroom-kanevas.jpg",
+  prof_watcher: "/art/classrooms/classroom-aoki.jpg",
+  prof_collector: "/art/classrooms/classroom-halverez.jpg",
+  prof_vortex: "/art/classrooms/classroom-orphic.jpg",
+  prof_meme: "/art/classrooms/classroom-mireille.jpg",
+  prof_warlord: "/art/classrooms/classroom-kasra.jpg",
+  prof_politician: "/art/classrooms/classroom-vellis.jpg",
+  prof_warden: "/art/classrooms/classroom-greenshaw.jpg",
+  prof_game_master: "/art/classrooms/classroom-vex.jpg",
+  prof_necromancer: "/art/classrooms/classroom-vasara.jpg",
+  prof_engineer: "/art/classrooms/classroom-vent.jpg",
+  prof_human: "/art/classrooms/classroom-proctor.jpg",
+};
+const CLASSROOM_FALLBACK = "/art/mechronis/environments/mechronis_classroom.jpg";
 
 const GRADE_COLORS: Record<LessonGrade, string> = {
   fail: "text-red-400",
@@ -129,21 +151,49 @@ export default function MechronisAcademyPage() {
         backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.006) 2px, rgba(255,255,255,0.006) 4px)",
       }} />
 
-      {/* Background arena art */}
+      {/* Background environment art — classroom / grand hall / graduation */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <img
-          src="/art/arenas/arena-mechronis.jpg"
-          alt=""
-          className="w-[115%] h-[115%] object-cover"
-          style={{
-            position: "absolute", top: "-7.5%", left: "-7.5%",
-            opacity: 0.12, filter: "brightness(0.4) saturate(0.6)",
-          }}
-        />
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={lastResult
+              ? lastResult.grade === "distinction" ? "graduation" : "grand-hall"
+              : "classroom"}
+            src={lastResult
+              ? lastResult.grade === "distinction"
+                ? "/art/mechronis/environments/mechronis_graduation.jpg"
+                : "/art/mechronis/environments/mechronis_grand_hall.jpg"
+              : CLASSROOM_ART[professor?.id ?? ""] ?? CLASSROOM_FALLBACK}
+            alt=""
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.14 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2 }}
+            className="w-[115%] h-[115%] object-cover academy-drift"
+            style={{
+              position: "absolute", top: "-7.5%", left: "-7.5%",
+              filter: "brightness(0.4) saturate(0.6)",
+            }}
+          />
+        </AnimatePresence>
         <div className="absolute inset-0" style={{
           background: "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%)",
         }} />
       </div>
+
+      {/* CSS animations */}
+      <style>{`
+        @keyframes academy-drift {
+          0% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(-1.5%, -1%) scale(1.02); }
+          100% { transform: translate(0, 0) scale(1); }
+        }
+        .academy-drift { animation: academy-drift 25s ease-in-out infinite; }
+        @keyframes portrait-breathe {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.005); }
+        }
+        .portrait-breathe { animation: portrait-breathe 4s ease-in-out infinite; }
+      `}</style>
 
       <div className="max-w-4xl mx-auto relative z-10 p-4 sm:p-6">
         {/* Header */}
@@ -167,9 +217,32 @@ export default function MechronisAcademyPage() {
             animate={{ opacity: 1, y: 0 }}
             className="rounded-lg border border-indigo-500/30 bg-indigo-950/20 backdrop-blur-sm p-4 mb-4"
           >
-            <div className="flex items-start gap-3">
-              <div className="shrink-0 w-10 h-10 rounded-full bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center">
-                <BookOpen size={16} className="text-indigo-400" />
+            <div className="flex items-start gap-4">
+              <div className="shrink-0 w-20 h-20 rounded-lg overflow-hidden border border-indigo-500/30 shadow-lg shadow-indigo-500/10 relative">
+                <ResponsiveImage
+                  src={professor.portrait}
+                  alt={professor.teacherName}
+                  className="w-full h-full object-cover object-top portrait-breathe"
+                  eager
+                />
+                {/* Grade-reactive glow overlay */}
+                {lastResult && (
+                  <motion.div
+                    initial={{ opacity: 0.6 }}
+                    animate={{ opacity: 0 }}
+                    transition={{ duration: 2 }}
+                    className="absolute inset-0"
+                    style={{
+                      boxShadow: lastResult.grade === "distinction"
+                        ? "inset 0 0 20px rgba(52,211,153,0.5)"
+                        : lastResult.grade === "honor"
+                        ? "inset 0 0 20px rgba(251,191,36,0.4)"
+                        : lastResult.grade === "fail"
+                        ? "inset 0 0 20px rgba(248,113,113,0.5)"
+                        : "none",
+                    }}
+                  />
+                )}
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-display text-sm font-bold text-indigo-300">{professor.teacherName}</h3>

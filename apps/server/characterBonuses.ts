@@ -9,15 +9,21 @@
  */
 
 import type { CitizenCharacter } from "../db/schema";
+import type {
+  Species as SharedSpecies,
+  CharClass as SharedCharClass,
+  Alignment as SharedAlignment,
+  Element as SharedElement,
+} from "@shared/characterCreationImpact";
 
 /* ─── Type Definitions ─── */
+/* Canonical types live in @shared/characterCreationImpact. We re-export under
+   local names to keep existing import sites in this module working. */
 
-export type Species = "demagi" | "quarchon" | "neyon";
-export type CharacterClass = "engineer" | "oracle" | "assassin" | "soldier" | "spy";
-export type Alignment = "order" | "chaos";
-export type Element =
-  | "earth" | "fire" | "water" | "air"
-  | "space" | "time" | "probability" | "reality";
+export type Species = SharedSpecies;
+export type CharacterClass = SharedCharClass;
+export type Alignment = SharedAlignment;
+export type Element = SharedElement;
 
 /** All bonuses a character build provides, expressed as multipliers (1.0 = no bonus) */
 export interface CharacterBonuses {

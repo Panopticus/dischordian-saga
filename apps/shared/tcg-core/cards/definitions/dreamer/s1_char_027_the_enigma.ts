@@ -34,7 +34,7 @@ export const cardDef: CardDefinition = {
   cardType: "unit",
   rarity: "legendary",
   cost: 5,
-  baseStats: { power: 11, health: 9 },
+  baseStats: { power: 5, health: 6 },
   keywords: ["forcefield"],
   abilities: [
     // --- Stealth: untargetable for 3 turns on deploy ---

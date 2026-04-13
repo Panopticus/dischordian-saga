@@ -2,6 +2,8 @@ import { z } from "zod";
 import { router, protectedProcedure } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { getDb } from "../db";
+import { logger } from "../logger";
+import { grantCardReward } from "../services/cardRewardService";
 import { classMastery, citizenCharacters } from "../../db/schema";
 import { eq, and } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
@@ -139,6 +141,13 @@ export const classMasteryRouter = router({
 
       if (rankUp) {
         await ripple.emit("class_rank_up", { userId: ctx.user.id, className: characterClass, newRank });
+
+        // Grant card reward for class mastery rank up
+        try {
+          await grantCardReward(ctx.user.id, "class_mastery_" + characterClass);
+        } catch (e) {
+          logger.warn("Failed to grant class mastery card reward", e);
+        }
       }
 
       const rankUpInfo = rankUp

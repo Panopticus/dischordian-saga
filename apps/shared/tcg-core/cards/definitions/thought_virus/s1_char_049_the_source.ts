@@ -33,7 +33,7 @@ export const cardDef: CardDefinition = {
   cardType: "unit",
   rarity: "legendary",
   cost: 7,
-  baseStats: { power: 8, health: 12 },
+  baseStats: { power: 8, health: 9 },
   keywords: [],
   abilities: [
     // --- Drain: heal 2 on each hit (simplified 4%) ---

@@ -17,7 +17,26 @@ export const cardDef: CardDefinition = {
   cost: 2,
   baseStats: { power: 2, health: 3 },
   keywords: ["ranged"],
-  abilities: [],
+  abilities: [
+    // --- Surveillance Strike: deal 1 damage to a random enemy on deploy ---
+    {
+      id: "oculus_deploy_strike" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "with_target",
+        selector: {
+          kind: "single",
+          filter: { controller: "opponent" },
+          chooser: "random",
+        },
+        do: {
+          op: "deal_damage",
+          amount: { kind: "const", value: 1 },
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "Its glass eye never blinks. Its memory never falters. It was built to watch — and to remember.",

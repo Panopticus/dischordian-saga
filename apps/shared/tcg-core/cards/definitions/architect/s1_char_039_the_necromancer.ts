@@ -29,7 +29,7 @@ export const cardDef: CardDefinition = {
   cardType: "unit",
   rarity: "epic",
   cost: 6,
-  baseStats: { power: 9, health: 11 },
+  baseStats: { power: 6, health: 8 },
   keywords: [],
   abilities: [
     // --- Resurrect: come back once with 3 HP ---

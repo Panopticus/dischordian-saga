@@ -17,7 +17,28 @@ export const cardDef: CardDefinition = {
   cost: 3,
   baseStats: { power: 2, health: 5 },
   keywords: ["rebirth"],
-  abilities: [],
+  abilities: [
+    // --- Infection Spreads: debuff all adjacent enemies -1/-1 on death ---
+    {
+      id: "swarm_death_debuff" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_death" },
+      effect: {
+        op: "foreach",
+        over: {
+          kind: "radius",
+          origin: { kind: "self" },
+          radius: 1,
+          filter: { controller: "opponent" },
+        },
+        do: {
+          op: "debuff",
+          stats: { power: 1, health: 1 },
+          duration: { kind: "permanent" },
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "Kill it and it splits. Burn it and it drifts. Ignore it and you are already too late.",

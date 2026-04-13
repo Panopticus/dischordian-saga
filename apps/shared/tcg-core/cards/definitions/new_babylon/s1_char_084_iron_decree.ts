@@ -17,7 +17,26 @@ export const cardDef: CardDefinition = {
   cost: 6,
   baseStats: { power: 6, health: 8 },
   keywords: ["provoke", "forcefield"],
-  abilities: [],
+  abilities: [
+    // --- Iron Edict: give all friendly units +0/+1 on deploy ---
+    {
+      id: "iron_decree_deploy_buff" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "foreach",
+        over: {
+          kind: "all",
+          filter: { controller: "self" },
+        },
+        do: {
+          op: "buff",
+          stats: { health: 1 },
+          duration: { kind: "permanent" },
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "It does not enforce the law. It is the law — cast in iron and set loose upon the guilty.",

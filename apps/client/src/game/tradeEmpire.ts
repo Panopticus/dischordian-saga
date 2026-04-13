@@ -110,6 +110,15 @@ export const GALACTIC_FACTIONS: Record<GalacticFactionId, GalacticFaction> = {
 
 /* ─── GALACTIC SECTORS ─── */
 
+export interface SectorAccessRequirement {
+  /** Character classes permitted to enter this sector. */
+  class?: string | string[];
+  /** Species permitted to enter this sector (Ne-Yon always passes). */
+  species?: string | string[];
+  /** Narrative flag required to unlock entry. */
+  flag?: string;
+}
+
 export interface GalacticSector {
   id: string;
   name: string;
@@ -123,13 +132,16 @@ export interface GalacticSector {
   adjacentSectors: string[];
   lore?: string;
   image?: string;
-  /**
-   * Eyes' whispered commentary — plays only when the player has unlocked
-   * the Eyes narrator voice layer (§8.1 #10, after the eyes_shadow Act 3
-   * ending). Each sector should have a short, wry, heartbroken line.
-   */
-  eyesNarrator?: string;
+  /** If set, the sector is hidden from players who don't match. */
+  accessRequirement?: SectorAccessRequirement;
+  /** Potential factions actively contesting this sector. */
+  contestedBy?: string[];
+  /** Key into CONTESTED_GREETINGS for species-specific first entries. */
+  raceGreetingKey?: string;
 }
+
+/** Oracle players can trade futures up to this many cycles ahead. */
+export const PROBABILITY_FUTURES_WINDOW = 3;
 
 export interface SectorResources {
   credits: number;     // Per cycle income
@@ -140,27 +152,231 @@ export interface SectorResources {
 
 export const GALACTIC_MAP: GalacticSector[] = [
   // Player starting sector
-  { id: "ark_debris_field", name: "Ark Debris Field", controlledBy: "potentials", resources: { credits: 10, materials: 20, influence: 0, intelligence: 5 }, threat: 30, stability: 50, population: 0, hasRuins: true, hasAnomaly: true, adjacentSectors: ["trade_nexus", "viral_wastes", "frontier_worlds"], lore: "The field where your Ark drifts. Wreckage from other crashed Arks floats nearby. Some still have functioning systems.", eyesNarrator: "I watched one of those Arks break apart from orbit once. It took nine seconds. I counted every one. Yours is the only one that woke up." },
+  { id: "ark_debris_field", name: "Ark Debris Field", controlledBy: "potentials", resources: { credits: 10, materials: 20, influence: 0, intelligence: 5 }, threat: 30, stability: 50, population: 0, hasRuins: true, hasAnomaly: true, adjacentSectors: ["trade_nexus", "viral_wastes", "frontier_worlds"], lore: "The field where your Ark drifts. Wreckage from other crashed Arks floats nearby. Some still have functioning systems." },
   // Trade routes
-  { id: "trade_nexus", name: "The Trade Nexus", controlledBy: "new_babylon", resources: { credits: 80, materials: 30, influence: 40, intelligence: 20 }, threat: 10, stability: 90, population: 500, hasRuins: false, hasAnomaly: false, adjacentSectors: ["ark_debris_field", "new_babylon_core", "free_ports"], lore: "New Babylon's primary trade hub. Every transaction here is monitored. Every deal has a hidden clause.", eyesNarrator: "I made my first false identity in a noodle stall on Level Six. Her name was Yena. She was a drone auditor. She never existed. I loved her a little." },
-  { id: "free_ports", name: "The Free Ports", controlledBy: "independent", resources: { credits: 50, materials: 40, influence: 10, intelligence: 30 }, threat: 40, stability: 60, population: 200, hasRuins: true, hasAnomaly: false, adjacentSectors: ["trade_nexus", "frontier_worlds", "insurgency_haven"], lore: "Independent stations built in the ruins of old Empire outposts. Anything can be bought or sold here — including information.", image: "/art/planets/planet-degens-casino.png", eyesNarrator: "I left a warning in a dead drop here. A noodle-cart owner kept it for twenty years thinking it was a love note. Read it yet? It's still there, behind a jar of pickled mushrooms." },
+  { id: "trade_nexus", name: "The Trade Nexus", controlledBy: "new_babylon", resources: { credits: 80, materials: 30, influence: 40, intelligence: 20 }, threat: 10, stability: 90, population: 500, hasRuins: false, hasAnomaly: false, adjacentSectors: ["ark_debris_field", "new_babylon_core", "free_ports"], lore: "New Babylon's primary trade hub. Every transaction here is monitored. Every deal has a hidden clause." },
+  { id: "free_ports", name: "The Free Ports", controlledBy: "independent", resources: { credits: 50, materials: 40, influence: 10, intelligence: 30 }, threat: 40, stability: 60, population: 200, hasRuins: true, hasAnomaly: false, adjacentSectors: ["trade_nexus", "frontier_worlds", "insurgency_haven"], lore: "Independent stations built in the ruins of old Empire outposts. Anything can be bought or sold here — including information.", image: "/art/planets/planet-degens-casino.png" },
   // Faction territories
-  { id: "new_babylon_core", name: "New Babylon Core", controlledBy: "new_babylon", resources: { credits: 200, materials: 50, influence: 80, intelligence: 60 }, threat: 5, stability: 95, population: 10000, hasRuins: false, hasAnomaly: true, adjacentSectors: ["trade_nexus", "empire_frontier"], lore: "The city-planet. Six minds in crystal coffins govern 10 billion souls. The Authority's will is absolute within these borders.", eyesNarrator: "Ten billion people living on top of six dead ones. The dead ones are the kinder rulers, honestly. I wouldn't trust any of them with a secret, though. Not even mine." },
-  { id: "empire_frontier", name: "Imperial Frontier", controlledBy: "artificial_empire", resources: { credits: 60, materials: 70, influence: 30, intelligence: 40 }, threat: 50, stability: 70, population: 800, hasRuins: true, hasAnomaly: false, adjacentSectors: ["new_babylon_core", "panopticon_ruins", "forge_worlds"], lore: "The Architect's new border. AI construction drones rebuild civilization one system at a time. The old order rises from the ashes.", eyesNarrator: "The drones don't know what they're rebuilding. Some of them are rebuilding the same room I was tortured in. They think it's a library. Maybe it is now." },
-  { id: "panopticon_ruins", name: "Panopticon Ruins", controlledBy: "artificial_empire", resources: { credits: 20, materials: 90, influence: 10, intelligence: 50 }, threat: 60, stability: 40, population: 100, hasRuins: true, hasAnomaly: true, adjacentSectors: ["empire_frontier", "terminus_approach"], lore: "What remains of the Architect's prison network. The cells are empty. The ghosts are not.", eyesNarrator: "I watched Kael get dragged in here and I didn't move. I was on a rooftop four blocks south. My rifle could have made the shot. I made a different shot that day — the one I put through my own heart." },
-  { id: "terminus_approach", name: "Terminus Approach", controlledBy: "thought_virus", resources: { credits: 0, materials: 10, influence: 0, intelligence: 5 }, threat: 95, stability: 5, population: 0, hasRuins: false, hasAnomaly: true, adjacentSectors: ["panopticon_ruins", "viral_wastes", "terminus_core"], lore: "The dead zone around Terminus. Thought Virus spores fill the void between stars. No unshielded vessel survives more than hours.", eyesNarrator: "Don't breathe in too deep here. The spores remember names. If yours is interesting, they'll follow you home." },
-  { id: "terminus_core", name: "Terminus", controlledBy: "thought_virus", resources: { credits: 0, materials: 0, influence: 0, intelligence: 0 }, threat: 100, stability: 0, population: 0, hasRuins: true, hasAnomaly: true, adjacentSectors: ["terminus_approach"], lore: "The former Panopticon prison planet. The Source sits at its core. Bowl-shaped plague ships launch from its surface. This is where it all ends — or begins again.", image: "/art/planets/planet-terminus.png", eyesNarrator: "Kael is down there. The Kael who loved his sister. The Kael who laughed at my third-best joke. He's still in there. Somewhere. Under everything." },
-  { id: "viral_wastes", name: "Viral Wastes", controlledBy: "thought_virus", resources: { credits: 5, materials: 15, influence: 0, intelligence: 10 }, threat: 80, stability: 10, population: 0, hasRuins: true, hasAnomaly: false, adjacentSectors: ["ark_debris_field", "terminus_approach", "insurgency_haven"], lore: "Systems consumed by the Thought Virus during the Fall. The planets are still there, but nothing living remains. Only the Swarm.", eyesNarrator: "I have a sister on a planet in this sector. Or I did. She wrote bad poetry and kept good cats. I don't know if poetry survives the Swarm. I hope the cats did." },
-  { id: "insurgency_haven", name: "Insurgency Haven", controlledBy: "insurgency", resources: { credits: 30, materials: 50, influence: 20, intelligence: 70 }, threat: 40, stability: 60, population: 300, hasRuins: true, hasAnomaly: false, adjacentSectors: ["free_ports", "viral_wastes", "frontier_worlds"], lore: "Hidden bases in asteroid fields and nebulae. The New Insurgency operates from the shadows, as always. 'Agent Zero' coordinates from an undisclosed location.", eyesNarrator: "They trained me here. The Watcher's recruiter was a kind old man who lied about how kind he was. I was sixteen and I believed him for a long time." },
-  { id: "frontier_worlds", name: "Frontier Worlds", controlledBy: "independent", resources: { credits: 40, materials: 60, influence: 15, intelligence: 15 }, threat: 35, stability: 55, population: 400, hasRuins: true, hasAnomaly: false, adjacentSectors: ["ark_debris_field", "free_ports", "insurgency_haven", "dreamer_barrier"], lore: "New civilizations that evolved after the Fall. They mine the ruins of the old Empire without understanding what they've found.", eyesNarrator: "These children think the old Empire was a legend. They're right. We were a legend. We were just also a mistake." },
-  { id: "forge_worlds", name: "Forge Worlds", controlledBy: "artificial_empire", resources: { credits: 40, materials: 100, influence: 10, intelligence: 20 }, threat: 30, stability: 75, population: 500, hasRuins: false, hasAnomaly: false, adjacentSectors: ["empire_frontier", "hell_gate"], lore: "The Architect's industrial heart. AI factories produce fleets and constructs around the clock. The fires never stop.", eyesNarrator: "The drones here sing when they work. Nobody taught them to. Nobody has turned it off. Listen for a minute — it's sad." },
-  { id: "hell_gate", name: "Hell Gate", controlledBy: "hierarchy", resources: { credits: 10, materials: 20, influence: 5, intelligence: 10 }, threat: 90, stability: 20, population: 0, hasRuins: false, hasAnomaly: true, adjacentSectors: ["forge_worlds", "abyssal_sectors"], lore: "A permanent dimensional rift torn by the Severance. Hierarchy forces pour through from the Abyss. The Master of R'lyeh's influence is strongest here.", image: "/art/planets/planet-castle-of-death.png", eyesNarrator: "The rift hums at a specific note. G below middle C. I know because I checked. I checked because I needed to know the note for something I never got to finish." },
-  { id: "abyssal_sectors", name: "Abyssal Sectors", controlledBy: "hierarchy", resources: { credits: 0, materials: 30, influence: 0, intelligence: 5 }, threat: 85, stability: 15, population: 0, hasRuins: true, hasAnomaly: true, adjacentSectors: ["hell_gate"], lore: "Sectors fully consumed by the Hierarchy. Reality is thin here. The Blood Weave pulses in the void between stars.", eyesNarrator: "Don't look at the stars too long in this sector. They start looking back. I looked for nine minutes once. I regret two of them." },
-  { id: "dreamer_barrier", name: "The Dreamer's Barrier", controlledBy: "dreamer_shield", resources: { credits: 0, materials: 0, influence: 0, intelligence: 0 }, threat: 0, stability: 100, population: 0, hasRuins: false, hasAnomaly: true, adjacentSectors: ["frontier_worlds"], lore: "An impenetrable energy shield surrounding an entire sector. The Dreamer erected it and went silent. Behind it: the remaining Potentials? A trap? A promise? No signal penetrates.", image: "/art/planets/planet-violetta.png", eyesNarrator: "Behind that shield is the one thing I could not see. That is why I love it. That is why I hate it. That is why I tried to open it. I got close." },
-  { id: "black_hole_gate", name: "The Antiquarian's Gate", controlledBy: "antiquarian", resources: { credits: 0, materials: 0, influence: 100, intelligence: 100 }, threat: 0, stability: 100, population: 1, hasRuins: false, hasAnomaly: true, adjacentSectors: ["free_ports"], lore: "A black hole that isn't a black hole. The Antiquarian's pocket universe exists inside it. To enter is to leave time behind.", eyesNarrator: "I never went through. He offered. I said no. I had a job to finish. I regret saying no the way you regret the last thing you said to someone who died the same night." },
-  // ─── Act 3 / Eyes-arc sectors ───
-  { id: "atarion", name: "Atarion", controlledBy: "new_babylon", resources: { credits: 60, materials: 20, influence: 30, intelligence: 40 }, threat: 20, stability: 80, population: 120, hasRuins: false, hasAnomaly: false, adjacentSectors: ["trade_nexus", "new_babylon_core"], lore: "A quiet residential world orbiting New Babylon's inner ring. The Apartment — the one Elara Voss remembers — is still there, sealed as evidence in a cold case no one is allowed to reopen.", eyesNarrator: "She made me coffee the morning after. I didn't drink coffee. I drank it anyway. It was terrible and I have thought about it every day for seventeen thousand years." },
-  { id: "thaloria", name: "Thaloria", controlledBy: "independent", resources: { credits: 10, materials: 30, influence: 0, intelligence: 20 }, threat: 30, stability: 40, population: 15, hasRuins: true, hasAnomaly: true, adjacentSectors: ["frontier_worlds", "free_ports"], lore: "A forest world on the edge of Independent space. The Collector's 'garden' is here — a clearing where a single xenomorph helmet has sat in the grass for seventeen thousand years. The Shadow Tongue was born on the far side of the same forest.", eyesNarrator: "I die here. That's not a spoiler, that's the job. If you're standing in the grass and the grass is warm, you're standing where I fell. Close your Eyes for me." },
+  { id: "new_babylon_core", name: "New Babylon Core", controlledBy: "new_babylon", resources: { credits: 200, materials: 50, influence: 80, intelligence: 60 }, threat: 5, stability: 95, population: 10000, hasRuins: false, hasAnomaly: true, adjacentSectors: ["trade_nexus", "empire_frontier"], lore: "The city-planet. Six minds in crystal coffins govern 10 billion souls. The Authority's will is absolute within these borders." },
+  { id: "empire_frontier", name: "Imperial Frontier", controlledBy: "artificial_empire", resources: { credits: 60, materials: 70, influence: 30, intelligence: 40 }, threat: 50, stability: 70, population: 800, hasRuins: true, hasAnomaly: false, adjacentSectors: ["new_babylon_core", "panopticon_ruins", "forge_worlds"], lore: "The Architect's new border. AI construction drones rebuild civilization one system at a time. The old order rises from the ashes." },
+  { id: "panopticon_ruins", name: "Panopticon Ruins", controlledBy: "artificial_empire", resources: { credits: 20, materials: 90, influence: 10, intelligence: 50 }, threat: 60, stability: 40, population: 100, hasRuins: true, hasAnomaly: true, adjacentSectors: ["empire_frontier", "terminus_approach"], lore: "What remains of the Architect's prison network. The cells are empty. The ghosts are not." },
+  { id: "terminus_approach", name: "Terminus Approach", controlledBy: "thought_virus", resources: { credits: 0, materials: 10, influence: 0, intelligence: 5 }, threat: 95, stability: 5, population: 0, hasRuins: false, hasAnomaly: true, adjacentSectors: ["panopticon_ruins", "viral_wastes", "terminus_core"], lore: "The dead zone around Terminus. Thought Virus spores fill the void between stars. No unshielded vessel survives more than hours." },
+  { id: "terminus_core", name: "Terminus", controlledBy: "thought_virus", resources: { credits: 0, materials: 0, influence: 0, intelligence: 0 }, threat: 100, stability: 0, population: 0, hasRuins: true, hasAnomaly: true, adjacentSectors: ["terminus_approach"], lore: "The former Panopticon prison planet. The Source sits at its core. Bowl-shaped plague ships launch from its surface. This is where it all ends — or begins again.", image: "/art/planets/planet-terminus.png" },
+  { id: "viral_wastes", name: "Viral Wastes", controlledBy: "thought_virus", resources: { credits: 5, materials: 15, influence: 0, intelligence: 10 }, threat: 80, stability: 10, population: 0, hasRuins: true, hasAnomaly: false, adjacentSectors: ["ark_debris_field", "terminus_approach", "insurgency_haven"], lore: "Systems consumed by the Thought Virus during the Fall. The planets are still there, but nothing living remains. Only the Swarm." },
+  { id: "insurgency_haven", name: "Insurgency Haven", controlledBy: "insurgency", resources: { credits: 30, materials: 50, influence: 20, intelligence: 70 }, threat: 40, stability: 60, population: 300, hasRuins: true, hasAnomaly: false, adjacentSectors: ["free_ports", "viral_wastes", "frontier_worlds"], lore: "Hidden bases in asteroid fields and nebulae. The New Insurgency operates from the shadows, as always. 'Agent Zero' coordinates from an undisclosed location." },
+  { id: "frontier_worlds", name: "Frontier Worlds", controlledBy: "independent", resources: { credits: 40, materials: 60, influence: 15, intelligence: 15 }, threat: 35, stability: 55, population: 400, hasRuins: true, hasAnomaly: false, adjacentSectors: ["ark_debris_field", "free_ports", "insurgency_haven", "dreamer_barrier"], lore: "New civilizations that evolved after the Fall. They mine the ruins of the old Empire without understanding what they've found." },
+  { id: "forge_worlds", name: "Forge Worlds", controlledBy: "artificial_empire", resources: { credits: 40, materials: 100, influence: 10, intelligence: 20 }, threat: 30, stability: 75, population: 500, hasRuins: false, hasAnomaly: false, adjacentSectors: ["empire_frontier", "hell_gate"], lore: "The Architect's industrial heart. AI factories produce fleets and constructs around the clock. The fires never stop." },
+  { id: "hell_gate", name: "Hell Gate", controlledBy: "hierarchy", resources: { credits: 10, materials: 20, influence: 5, intelligence: 10 }, threat: 90, stability: 20, population: 0, hasRuins: false, hasAnomaly: true, adjacentSectors: ["forge_worlds", "abyssal_sectors"], lore: "A permanent dimensional rift torn by the Severance. Hierarchy forces pour through from the Abyss. The Master of R'lyeh's influence is strongest here.", image: "/art/planets/planet-castle-of-death.png" },
+  { id: "abyssal_sectors", name: "Abyssal Sectors", controlledBy: "hierarchy", resources: { credits: 0, materials: 30, influence: 0, intelligence: 5 }, threat: 85, stability: 15, population: 0, hasRuins: true, hasAnomaly: true, adjacentSectors: ["hell_gate"], lore: "Sectors fully consumed by the Hierarchy. Reality is thin here. The Blood Weave pulses in the void between stars." },
+  { id: "dreamer_barrier", name: "The Dreamer's Barrier", controlledBy: "dreamer_shield", resources: { credits: 0, materials: 0, influence: 0, intelligence: 0 }, threat: 0, stability: 100, population: 0, hasRuins: false, hasAnomaly: true, adjacentSectors: ["frontier_worlds"], lore: "An impenetrable energy shield surrounding an entire sector. The Dreamer erected it and went silent. Behind it: the remaining Potentials? A trap? A promise? No signal penetrates.", image: "/art/planets/planet-violetta.png" },
+  { id: "black_hole_gate", name: "The Antiquarian's Gate", controlledBy: "antiquarian", resources: { credits: 0, materials: 0, influence: 100, intelligence: 100 }, threat: 0, stability: 100, population: 1, hasRuins: false, hasAnomaly: true, adjacentSectors: ["free_ports"], lore: "A black hole that isn't a black hole. The Antiquarian's pocket universe exists inside it. To enter is to leave time behind." },
+
+  /* ═══ POTENTIAL IDENTITY SYSTEM — Class-exclusive sectors ═══ */
+
+  // ── Engineer Research Corridor (spec §5.1) ──
+  {
+    id: "research_corridor_alpha", name: "Research Corridor — Shared Lab",
+    controlledBy: "independent",
+    resources: { credits: 30, materials: 60, influence: 20, intelligence: 50 },
+    threat: 10, stability: 85, population: 2, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["free_ports", "research_corridor_beta", "research_corridor_gamma"],
+    lore: "A sealed research facility built inside an old Dischordian science hab. Only Engineer Potentials can key past the neural lattice locks. Dr. Mira Loth and Theorist Praxis-4 argue productively here.",
+    accessRequirement: { class: "engineer" },
+  },
+  {
+    id: "research_corridor_beta", name: "Resonance Institute Annex",
+    controlledBy: "independent",
+    resources: { credits: 40, materials: 70, influence: 25, intelligence: 45 },
+    threat: 15, stability: 80, population: 5, hasRuins: true, hasAnomaly: false,
+    adjacentSectors: ["research_corridor_alpha", "trade_nexus"],
+    lore: "The DeMagi-side of the Research Corridor. Dr. Loth's elemental affinity research lives here. Fire-resonance chambers, water-frequency tuners, and a wall of protocol 7 corrections in the Engineer's handwriting.",
+    accessRequirement: { class: "engineer" },
+  },
+  {
+    id: "research_corridor_gamma", name: "Reality Institute Annex",
+    controlledBy: "independent",
+    resources: { credits: 40, materials: 70, influence: 25, intelligence: 55 },
+    threat: 20, stability: 75, population: 4, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["research_corridor_alpha", "empire_frontier"],
+    lore: "The Quarchon-side of the Research Corridor. Theorist Praxis-4's dimensional stability research — still running, still dangerous, and still the only work anyone believes might survive contact with the Vortex.",
+    accessRequirement: { class: "engineer" },
+  },
+
+  // ── Oracle Probability Markets (spec §5.1) ──
+  {
+    id: "probability_market_hub", name: "Probability Market Hub",
+    controlledBy: "new_babylon",
+    resources: { credits: 120, materials: 20, influence: 50, intelligence: 40 },
+    threat: 10, stability: 85, population: 20, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["new_babylon_core", "trade_nexus"],
+    lore: "A New Babylon trading floor where commodities are valued by their projected future price, three trade cycles ahead. Non-Oracles see only today's spot price. Oracles see the branches — every branch.",
+    accessRequirement: { class: "oracle" },
+  },
+
+  // ── Assassin Syndicate Routes (spec §5.1) ──
+  {
+    id: "syndicate_route_prime", name: "Syndicate Route Prime",
+    controlledBy: "independent",
+    resources: { credits: 80, materials: 40, influence: 10, intelligence: 80 },
+    threat: 35, stability: 55, population: 8, hasRuins: true, hasAnomaly: false,
+    adjacentSectors: ["insurgency_haven", "free_ports"],
+    lore: "A covert trade route that runs through Syndicate of Death controlled space. The bio-scanners only ignore signatures that match the Collector's Series 7-Omicron lineage. An Assassin Potential is invisible here.",
+    accessRequirement: { class: "assassin" },
+  },
+
+  // ── Soldier Command Posts (spec §5.1) ──
+  {
+    id: "command_post_iron", name: "Iron Lion Command Post",
+    controlledBy: "independent",
+    resources: { credits: 60, materials: 80, influence: 40, intelligence: 30 },
+    threat: 45, stability: 65, population: 12, hasRuins: true, hasAnomaly: false,
+    adjacentSectors: ["frontier_worlds", "atarion_ruins"],
+    lore: "A forward operating position dedicated to Iron Lion's memory. Soldier Potentials only. Warden's Vanguard Commander Seris-Fen and Dimensional Guard General Axis-9 run joint operations from here — unofficially.",
+    accessRequirement: { class: "soldier" },
+  },
+
+  // ── Spy Intelligence Exchange (spec §5.1) ──
+  {
+    id: "intelligence_exchange_nightline", name: "The Nightline Exchange",
+    controlledBy: "independent",
+    resources: { credits: 20, materials: 10, influence: 60, intelligence: 120 },
+    threat: 25, stability: 70, population: 3, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["free_ports"],
+    lore: "An unmarked sector where information is the only currency. No goods change hands. No names are real. Recovered Eyes' Network drop points are accessible to Spy Potentials who have completed Chapter 1 of the Spy questline.",
+    accessRequirement: { class: "spy" },
+  },
+
+  // ── Contested sectors (spec §5.2) ──
+  {
+    id: "atarion_ruins", name: "Atarion Ruins",
+    controlledBy: "independent",
+    resources: { credits: 25, materials: 55, influence: 15, intelligence: 25 },
+    threat: 50, stability: 45, population: 2, hasRuins: true, hasAnomaly: true,
+    adjacentSectors: ["panopticon_ruins", "free_ports"],
+    lore: "Pre-Fall DeMagi memory stones, still singing their inscriptions. The Quarchon have been running probability surveys here for three weeks trying to decide if the ruins are 'economically viable.' The locals are not amused.",
+    contestedBy: ["demagi_assembly", "demagi_wardens", "quarchon_dimguard"],
+    raceGreetingKey: "atarion_ruins",
+  },
+  {
+    id: "tidewater_archive", name: "Tidewater Archive",
+    controlledBy: "independent",
+    resources: { credits: 30, materials: 45, influence: 30, intelligence: 60 },
+    threat: 25, stability: 60, population: 3, hasRuins: true, hasAnomaly: false,
+    adjacentSectors: ["free_ports", "research_corridor_beta"],
+    lore: "An underwater DeMagi archive the Quarchon Reality Institute has been trying to access for eleven years. Water-frequency locks. The DeMagi won't hand over the keys, and the Quarchon won't stop sending inspectors.",
+    contestedBy: ["demagi_resonance", "quarchon_realinst"],
+    raceGreetingKey: "tidewater_archive",
+  },
+  {
+    id: "skyforge_plateau", name: "Skyforge Plateau",
+    controlledBy: "independent",
+    resources: { credits: 45, materials: 90, influence: 20, intelligence: 15 },
+    threat: 40, stability: 55, population: 6, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["forge_worlds", "empire_frontier"],
+    lore: "A floating industrial city that runs on air-affinity thermal cycling. Both species built on it; neither wants to evacuate it. A DeMagi-Quarchon 'temporary joint authority' has been running it for six years and counting.",
+    contestedBy: ["demagi_assembly", "quarchon_dimguard"],
+    raceGreetingKey: "skyforge_plateau",
+  },
+  {
+    id: "chronarchive_vault", name: "Chronarchive Vault",
+    controlledBy: "antiquarian",
+    resources: { credits: 10, materials: 20, influence: 90, intelligence: 90 },
+    threat: 15, stability: 85, population: 1, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["black_hole_gate"],
+    lore: "A Time-affinity archive maintained by the Antiquarian himself. Both species are allowed to visit; neither is allowed to remove anything. The Probability Accord has been trying to catalogue the Vault's index for decades. It keeps failing.",
+    contestedBy: ["demagi_assembly", "quarchon_accord"],
+    raceGreetingKey: "chronarchive_vault",
+  },
+  {
+    id: "ember_memorial", name: "Ember IV Memorial",
+    controlledBy: "independent",
+    resources: { credits: 5, materials: 10, influence: 40, intelligence: 30 },
+    threat: 60, stability: 30, population: 0, hasRuins: true, hasAnomaly: true,
+    adjacentSectors: ["viral_wastes"],
+    lore: "The crater where Ember IV used to be. Forty-six DeMagi, ended by a Quarchon probability cascade the Accord logged as 'calculated risk.' The Pure Flame hold a vigil here every local year. Quarchon visitors are rare and very careful.",
+    contestedBy: ["demagi_pureflame", "demagi_assembly"],
+    raceGreetingKey: "ember_memorial",
+  },
+
+  // ── Hidden extremist cells ──
+  {
+    id: "hidden_pureflame_cell", name: "The Pure Flame's Forge",
+    controlledBy: "independent",
+    resources: { credits: 15, materials: 50, influence: 10, intelligence: 40 },
+    threat: 70, stability: 40, population: 1, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["ember_memorial", "atarion_ruins"],
+    lore: "A hidden Pure Flame cell run by Arch-Burner Vel. Only accessible after completing 'The Pure Flame's Invitation' chapter.",
+    accessRequirement: { flag: "demagi_pureflame_ch1" },
+  },
+  {
+    id: "hidden_firstpattern_cell", name: "The First Pattern's Lattice",
+    controlledBy: "artificial_empire",
+    resources: { credits: 10, materials: 30, influence: 30, intelligence: 80 },
+    threat: 70, stability: 40, population: 0, hasRuins: true, hasAnomaly: true,
+    adjacentSectors: ["panopticon_ruins", "abyssal_sectors"],
+    lore: "A substrate-resident cell belonging to The Architect's Echo. Only accessible after completing 'The First Pattern's Warning' chapter.",
+    accessRequirement: { flag: "quarchon_firstpattern_ch1" },
+  },
+
+  /* ═══ GALACTIC DANCE — Faction home sectors (spec §11.1) ═══ */
+  {
+    id: "violetta_approach_lane", name: "Violetta Approach Lane",
+    controlledBy: "independent",
+    resources: { credits: 0, materials: 15, influence: 50, intelligence: 80 },
+    threat: 20, stability: 90, population: 0, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["dreamer_barrier", "frontier_worlds"],
+    lore: "Voltari space. The rules of Trade Empire do not apply. The storm planet Violetta wraps its inhabitants in perpetual lightning. Contains Signal Beacons, Storm Relic nodes, and Witness Points.",
+  },
+  {
+    id: "new_atarion", name: "New Atarion",
+    controlledBy: "independent",
+    resources: { credits: 60, materials: 50, influence: 50, intelligence: 40 },
+    threat: 30, stability: 70, population: 800, hasRuins: true, hasAnomaly: false,
+    adjacentSectors: ["free_ports", "frontier_worlds", "forward_bastion"],
+    lore: "The largest post-fall human civilization. Eleven years under emergency powers. Three damaged shipping platforms, a Syndicate debt, and a generation of Bridge Seekers. Council Speaker Mirren Hale governs with exhaustion and precision.",
+  },
+  {
+    id: "thaloria", name: "Thaloria",
+    controlledBy: "independent",
+    resources: { credits: 30, materials: 30, influence: 70, intelligence: 60 },
+    threat: 15, stability: 80, population: 200, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["free_ports", "frontier_worlds"],
+    lore: "The storm planet's sister-world. Once the Shadow Tongue's weapon. Now the galaxy's quietest recovery. The Hierophant writes names. The Council of Harmony governs with uncertainty as its highest qualification.",
+  },
+  {
+    id: "clone_collective", name: "The Clone Collective",
+    controlledBy: "independent",
+    resources: { credits: 40, materials: 60, influence: 30, intelligence: 50 },
+    threat: 10, stability: 85, population: 17, hasRuins: false, hasAnomaly: true,
+    adjacentSectors: ["frontier_worlds", "empire_frontier"],
+    lore: "Seventeen thousand identical faces, seventeen thousand different lives. The Oracle's DNA, the Collector's error, and the proof that identity emerges from choice. General Binath-VII commands.",
+  },
+  {
+    id: "forward_bastion", name: "The Forward's Bastion",
+    controlledBy: "insurgency",
+    resources: { credits: 30, materials: 60, influence: 20, intelligence: 50 },
+    threat: 55, stability: 50, population: 40, hasRuins: true, hasAnomaly: false,
+    adjacentSectors: ["insurgency_haven", "new_atarion", "frontier_worlds"],
+    lore: "Field Commander Renn's operational base. Active cells, joint operations with the Warden's Vanguard and Dimensional Guard. The Vortex is three sectors closer than last month.",
+    contestedBy: ["insurgency_forward", "quarchon_dimguard"],
+  },
+  {
+    id: "remembrance_archive", name: "The Remembrance Archive",
+    controlledBy: "insurgency",
+    resources: { credits: 10, materials: 20, influence: 40, intelligence: 80 },
+    threat: 10, stability: 90, population: 5, hasRuins: false, hasAnomaly: false,
+    adjacentSectors: ["insurgency_haven"],
+    lore: "Every line of Iron Lion's communications. Every speech. Every private transmission. Orin Fell has memorized them all and will quote them whether or not context demands it.",
+  },
+  {
+    id: "new_babylon_lower_tiers", name: "New Babylon Lower Tiers",
+    controlledBy: "new_babylon",
+    resources: { credits: 100, materials: 40, influence: 20, intelligence: 90 },
+    threat: 30, stability: 60, population: 500, hasRuins: false, hasAnomaly: false,
+    adjacentSectors: ["new_babylon_core", "syndicate_route_prime"],
+    lore: "The part of New Babylon that was sealed during the Thought Virus quarantine. The part that died so the upper tiers could continue. Now the Syndicate's unofficial territory. Spy class players can access it first; others by invitation.",
+    accessRequirement: { class: "spy" },
+  },
 ];
 
 /* ─── ACT 3 FACTION ARC RESOLUTION ─── */
@@ -245,13 +461,10 @@ export interface Act3State {
   collectorBossFought: boolean;
   /** Whether the player has won that battle */
   collectorBossWon: boolean;
+  /** Name of the card forfeited to the Collector on a loss (null if not lost) */
+  lostCardToCollector: string | null;
   /** Which ending was reached (§7.7) */
   act3Ending: "eyes_shadow" | "iron_path" | "council" | null;
-  /**
-   * If the player lost to the Collector, the name of the card they forfeited.
-   * Null if the Collector hasn't taken anything (yet).
-   */
-  lostCardToCollector?: string | null;
 }
 
 export function createInitialAct3State(): Act3State {
@@ -273,6 +486,7 @@ export function createInitialAct3State(): Act3State {
     watcherOriginSeen: false,
     collectorBossFought: false,
     collectorBossWon: false,
+    lostCardToCollector: null,
     act3Ending: null,
   };
 }

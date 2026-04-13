@@ -21,7 +21,7 @@ describe("s1_char_002 — Agent Zero", () => {
     expect(cardDef.cardType).toBe("unit");
     expect(cardDef.rarity).toBe("epic");
     expect(cardDef.cost).toBe(5);
-    expect(cardDef.baseStats).toEqual({ power: 7, health: 8 });
+    expect(cardDef.baseStats).toEqual({ power: 5, health: 6 });
   });
 
   it("grants untargetable for 3 turns on deploy", () => {

@@ -1,0 +1,1 @@
+ALTER TABLE `citizen_characters` ADD `neyonTokenId` int;

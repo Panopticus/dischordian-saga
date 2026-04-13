@@ -17,7 +17,19 @@ export const cardDef: CardDefinition = {
   cost: 4,
   baseStats: { power: 5, health: 4 },
   keywords: ["provoke"],
-  abilities: [],
+  abilities: [
+    // --- Temporal Reinforcement: give self +0/+3 on deploy ---
+    {
+      id: "hourglass_deploy_buff" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "buff",
+        stats: { health: 3 },
+        duration: { kind: "permanent" },
+        to: { kind: "self" },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "When the last grain falls, the golem shatters — and time resumes its march.",

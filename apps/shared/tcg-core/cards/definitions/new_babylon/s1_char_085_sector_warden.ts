@@ -18,7 +18,17 @@ export const cardDef: CardDefinition = {
   cost: 5,
   baseStats: { power: 5, health: 6 },
   keywords: ["ranged", "forcefield"],
-  abilities: [],
+  abilities: [
+    {
+      id: "sw_patrol_heal" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_turn_end", owner: "self" },
+      effect: {
+        op: "heal",
+        amount: { kind: "const", value: 1 },
+        to: { kind: "self" },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "From the watchtower, every street is a firing lane. Every citizen, a potential target.",

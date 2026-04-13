@@ -45,6 +45,8 @@ import type { Draft } from "immer";
 import type { GameState, BoardEntity, PlayerState } from "../types/GameState";
 import type { ReduceCtx } from "./reducer";
 import type { Side } from "../types/Ids";
+import type { ConcreteAbility } from "../types/Trigger";
+import { enqueueTrigger } from "./triggerQueue";
 
 /** Maximum SBA iterations per fixed-point loop. Defense in depth. */
 export const SBA_SAFETY_CAP = 64;
@@ -80,6 +82,22 @@ export function runStateBasedActions(
         (ea.entityId < eb.entityId ? -1 : ea.entityId > eb.entityId ? 1 : 0)
       );
     });
+    // Enqueue on_death triggers for each dying entity BEFORE removing
+    // them from the board. The defaultTriggerRunner fizzles if the source
+    // entity is gone, so on_death must be enqueued while entity still exists.
+    for (const key of deadKeys) {
+      const entity = draft.board[key];
+      if (!entity.isGeneral) {
+        enqueuDeathTriggers(draft, entity, ctx);
+      }
+    }
+    // Enqueue on_any_unit_dies watchers — scan all SURVIVING entities.
+    const deadEntityIds = new Set(deadKeys.map(k => draft.board[k].entityId));
+    for (const entity of Object.values(draft.board)) {
+      if (deadEntityIds.has(entity.entityId)) continue; // skip the dying ones
+      enqueueDeathwatchTriggers(draft, entity, deadKeys, ctx);
+    }
+    // Now destroy + remove from board.
     for (const key of deadKeys) {
       const entity = draft.board[key];
       destroyEntity(draft, entity, ctx);
@@ -205,6 +223,83 @@ function destroyEntity(
 /**
  * True if the player's general entity is still on the board with > 0 HP.
  */
+/**
+ * Enqueue on_death triggers for a dying entity.
+ */
+function enqueuDeathTriggers(
+  draft: Draft<GameState>,
+  entity: BoardEntity,
+  ctx: ReduceCtx
+): void {
+  const def = ctx.registry.get(entity.card.defId);
+  if (!def) return;
+  const abilities = def.abilities as unknown as ConcreteAbility[];
+  for (let i = 0; i < abilities.length; i++) {
+    if (abilities[i].trigger.kind === "on_death") {
+      enqueueTrigger(draft, {
+        sourceEntityId: entity.entityId,
+        sourceOwner: entity.card.owner,
+        sourceRow: entity.row,
+        sourceCol: entity.col,
+        abilityIdx: i,
+        context: { triggerSourceId: entity.entityId },
+      });
+    }
+  }
+}
+
+/**
+ * Enqueue on_any_unit_dies triggers for a surviving watcher entity.
+ */
+function enqueueDeathwatchTriggers(
+  draft: Draft<GameState>,
+  watcher: BoardEntity,
+  _deadKeys: string[],
+  ctx: ReduceCtx
+): void {
+  const def = ctx.registry.get(watcher.card.defId);
+  if (!def) return;
+  const abilities = def.abilities as unknown as ConcreteAbility[];
+  for (let i = 0; i < abilities.length; i++) {
+    if (abilities[i].trigger.kind === "on_any_unit_dies") {
+      enqueueTrigger(draft, {
+        sourceEntityId: watcher.entityId,
+        sourceOwner: watcher.card.owner,
+        sourceRow: watcher.row,
+        sourceCol: watcher.col,
+        abilityIdx: i,
+        context: { triggerSourceId: watcher.entityId },
+      });
+    }
+  }
+}
+
+/**
+ * Enqueue on_kill triggers for a killer entity after a unit dies.
+ * Called externally when combat resolves a kill.
+ */
+export function enqueueKillTriggers(
+  draft: Draft<GameState>,
+  killer: BoardEntity,
+  ctx: ReduceCtx
+): void {
+  const def = ctx.registry.get(killer.card.defId);
+  if (!def) return;
+  const abilities = def.abilities as unknown as ConcreteAbility[];
+  for (let i = 0; i < abilities.length; i++) {
+    if (abilities[i].trigger.kind === "on_kill") {
+      enqueueTrigger(draft, {
+        sourceEntityId: killer.entityId,
+        sourceOwner: killer.card.owner,
+        sourceRow: killer.row,
+        sourceCol: killer.col,
+        abilityIdx: i,
+        context: { triggerSourceId: killer.entityId },
+      });
+    }
+  }
+}
+
 function isGeneralAlive(draft: Draft<GameState>, side: Side): boolean {
   const genId = draft.players[side].generalEntityId;
   for (const entity of Object.values(draft.board)) {

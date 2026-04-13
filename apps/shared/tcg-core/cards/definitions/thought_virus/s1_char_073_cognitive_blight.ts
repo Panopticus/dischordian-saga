@@ -17,7 +17,27 @@ export const cardDef: CardDefinition = {
   cost: 3,
   baseStats: { power: 4, health: 3 },
   keywords: ["pierce"],
-  abilities: [],
+  abilities: [
+    // --- Cognitive Erosion: debuff a random enemy -1/-0 on deploy ---
+    {
+      id: "blight_deploy_debuff" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "with_target",
+        selector: {
+          kind: "single",
+          filter: { controller: "opponent" },
+          chooser: "random",
+        },
+        do: {
+          op: "debuff",
+          stats: { power: 1 },
+          duration: { kind: "permanent" },
+          to: { kind: "it" },
+        },
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "It rewrites your beliefs one synapse at a time, until loyalty feels like a foreign language.",

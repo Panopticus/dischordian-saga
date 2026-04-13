@@ -15,6 +15,7 @@ export const CADES_CHARACTERS = {
   ironLionSprite:      "/art/cades/characters/char-1c-iron-lion-sprite.png",
   elara:               "/art/cades/characters/char-1d-elara.png",
   thoughtbornLeader:   "/art/cades/characters/char-1e-thoughtborn-leader.png",
+  thoughtbornLeaderBossSplash: "/art/cades/characters/char-1e-thoughtborn-leader-boss-splash.png",
   gameMasterHuman:     "/art/cades/characters/char-1f-game-master-human.png",
   gameMasterRobot:     "/art/cades/characters/char-1g-game-master-robot.png",
 } as const;

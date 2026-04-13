@@ -23,7 +23,7 @@ describe("s1_char_018 — The Antiquarian", () => {
     expect(cardDef.cardType).toBe("unit");
     expect(cardDef.rarity).toBe("legendary");
     expect(cardDef.cost).toBe(5);
-    expect(cardDef.baseStats).toEqual({ power: 12, health: 11 });
+    expect(cardDef.baseStats).toEqual({ power: 5, health: 6 });
   });
 
   it("has three abilities in the right order", () => {

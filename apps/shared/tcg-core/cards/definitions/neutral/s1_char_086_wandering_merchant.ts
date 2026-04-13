@@ -17,7 +17,27 @@ export const cardDef: CardDefinition = {
   cost: 2,
   baseStats: { power: 2, health: 3 },
   keywords: [],
-  abilities: [],
+  abilities: [
+    {
+      id: "wm_trade_draw" as CardDefinition["abilities"][number]["id"],
+      trigger: { kind: "on_deploy" },
+      effect: {
+        op: "sequence",
+        steps: [
+          {
+            op: "draw",
+            amount: { kind: "const", value: 1 },
+            who: "self",
+          },
+          {
+            op: "draw",
+            amount: { kind: "const", value: 1 },
+            who: "opponent",
+          },
+        ],
+      },
+    },
+  ],
   art: "placeholder",
   flavorText:
     "He sells to all sides and swears allegiance to none. Coin is the only faction that never falls.",

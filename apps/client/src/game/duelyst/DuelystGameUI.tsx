@@ -8,10 +8,12 @@ import { FACTION_COLORS, FACTION_NAMES } from "./types";
 import {
   getValidMoves, getValidAttacks,
   getValidSummonTiles, findUnit,
+  GENERALS,
 } from "./engine";
 import { BoardRenderer } from "./BoardRenderer";
 import { getAIActions, getAIMulliganIndices } from "./DuelystAI";
 import { buildStarterDeck } from "./cardAdapter";
+import { STARTER_DECK_MAP } from "@shared/tcg-core/decks/starterDecks";
 import { TcgClient } from "./TcgClient";
 import type { LegacyDuelystGameState } from "@shared/tcg-core/compat/viewAdapter";
 
@@ -102,13 +104,20 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   // trialToCombatBuff) will be re-integrated against the tcg-core state
   // shape once the trial system is adapted to the new engine.
   useEffect(() => {
-    const playerDeck = buildStarterDeck(playerFaction);
-    const opponentDeck = buildStarterDeck(opponentFaction);
+    // Prefer curated starter decks from tcg-core; fall back to ad-hoc builder
+    const playerStarter = STARTER_DECK_MAP[playerFaction];
+    const opponentStarter = STARTER_DECK_MAP[opponentFaction];
+    const p1DeckCardIds = playerStarter
+      ? [...playerStarter.cardDefIds]
+      : buildStarterDeck(playerFaction).map((c) => c.sagaCardId ?? c.id);
+    const p2DeckCardIds = opponentStarter
+      ? [...opponentStarter.cardDefIds]
+      : buildStarterDeck(opponentFaction).map((c) => c.sagaCardId ?? c.id);
     const client = TcgClient.init({
       p1Faction: playerFaction,
-      p1DeckCardIds: playerDeck.map((c) => c.sagaCardId ?? c.id),
+      p1DeckCardIds,
       p2Faction: opponentFaction,
-      p2DeckCardIds: opponentDeck.map((c) => c.sagaCardId ?? c.id),
+      p2DeckCardIds,
     });
     tcgClientRef.current = client;
     setGameState(asGameState(client.getViewState()));
@@ -583,7 +592,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         <canvas ref={canvasRef} className="max-w-full max-h-full" />
       </div>
 
-      {/* Player bar: HP + Mana crystals + BBS + End Turn */}
+      {/* Player bar: HP + Artifacts + Mana crystals + BBS + End Turn */}
       <div className="flex items-center gap-2 px-3 py-2 border-t border-white/10 bg-black/60" style={{ borderTopColor: factionColor + "30" }}>
         <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
           style={{ backgroundColor: factionColor + "20", border: `2px solid ${factionColor}` }}>
@@ -592,6 +601,37 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-red-500/10">
           <Heart size={10} className="text-red-400" />
           <span className="font-mono text-xs font-bold text-red-400">{playerGen?.currentHealth ?? 0}</span>
+        </div>
+
+        {/* Artifact slots — up to 3 */}
+        <div className="flex items-center gap-1 shrink-0">
+          {Array.from({ length: 3 }, (_, i) => {
+            const artifact = player.artifacts[i];
+            return artifact ? (
+              <div
+                key={i}
+                className="relative w-6 h-6 rounded border flex items-center justify-center"
+                style={{ backgroundColor: factionColor + "15", borderColor: factionColor + "60" }}
+                title={`${artifact.card.name} (${artifact.durability} durability)`}
+              >
+                <Shield size={10} style={{ color: factionColor }} />
+                <span
+                  className="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full flex items-center justify-center font-mono text-[8px] font-bold text-white"
+                  style={{ backgroundColor: factionColor }}
+                >
+                  {artifact.durability}
+                </span>
+              </div>
+            ) : (
+              <div
+                key={i}
+                className="w-6 h-6 rounded border-dashed border border-white/10 flex items-center justify-center"
+                title="Empty artifact slot"
+              >
+                <Shield size={8} className="text-white/10" />
+              </div>
+            );
+          })}
         </div>
 
         {/* Mana crystals — large, glowing */}
@@ -619,11 +659,31 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
               </button>
             </>
           )}
-          {!player.bloodbornUsed && player.mana >= 1 && phase === "playing" && (
-            <button onClick={handleBBS} className="w-8 h-8 flex items-center justify-center rounded-lg bg-purple-500/20 border border-purple-500/40 text-purple-400 hover:bg-purple-500/30" title="Bloodborn Spell">
-              <Sparkles size={14} />
-            </button>
-          )}
+          {/* BBS button — faction-themed, greyed out when unavailable */}
+          {phase === "playing" && (() => {
+            const bbsAvailable = !player.bloodbornUsed && player.mana >= 1;
+            const general = GENERALS.find(g => g.faction === playerFaction);
+            const bbsName = general?.bloodbornSpell.name ?? "BBS";
+            return (
+              <button
+                onClick={handleBBS}
+                disabled={!bbsAvailable}
+                className="h-8 px-3 flex items-center gap-1.5 rounded-lg font-mono text-[10px] font-bold tracking-wider transition-all"
+                style={{
+                  backgroundColor: bbsAvailable ? factionColor + "20" : "rgba(255,255,255,0.03)",
+                  borderColor: bbsAvailable ? factionColor + "60" : "rgba(255,255,255,0.1)",
+                  color: bbsAvailable ? factionColor : "rgba(255,255,255,0.25)",
+                  border: `1px solid ${bbsAvailable ? factionColor + "60" : "rgba(255,255,255,0.1)"}`,
+                  cursor: bbsAvailable ? "pointer" : "not-allowed",
+                  opacity: bbsAvailable ? 1 : 0.5,
+                }}
+                title={general?.bloodbornSpell.description ?? "Bloodborn Spell"}
+              >
+                <Sparkles size={12} />
+                <span className="hidden sm:inline">{bbsName}</span>
+              </button>
+            );
+          })()}
           {phase === "playing" && gameState.currentPlayer === 0 && (
             <button onClick={handleEndTurn} className="h-8 px-4 flex items-center gap-1.5 rounded-lg font-mono text-xs font-bold tracking-wider transition-all"
               style={{

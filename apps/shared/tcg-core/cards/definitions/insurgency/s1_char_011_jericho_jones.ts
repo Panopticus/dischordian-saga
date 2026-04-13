@@ -27,7 +27,7 @@ export const cardDef: CardDefinition = {
   cardType: "unit",
   rarity: "uncommon",
   cost: 2,
-  baseStats: { power: 5, health: 7 },
+  baseStats: { power: 2, health: 3 },
   keywords: ["provoke"],
   abilities: [
     // --- Rally: +3 ATK self-buff this turn ---
