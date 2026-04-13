@@ -374,10 +374,11 @@ import { ENGINEER_LOGS_BATCH_2 } from "./engineerLogs_batch2";
 import { ENGINEER_LOGS_BATCH_3 } from "./engineerLogs_batch3";
 import { ENGINEER_LOGS_BATCH_4 } from "./engineerLogs_batch4";
 import { ENGINEER_LOGS_FACTIONS } from "./engineerLogs_factions";
+import { ENGINEER_LOGS_BLOODBORN } from "./engineerLogs_bloodborn";
 
 /**
  * All Engineer's Logs currently authored.
- * More land in follow-up commits (A11-A12): Bloodborn spells, triggers.
+ * More land in follow-up commit (A12): triggers.
  */
 export const ENGINEER_LOGS: readonly EngineerLog[] = Object.freeze([
   LOG_KEYWORD_PROVOKE,
@@ -389,6 +390,7 @@ export const ENGINEER_LOGS: readonly EngineerLog[] = Object.freeze([
   ...ENGINEER_LOGS_BATCH_3,
   ...ENGINEER_LOGS_BATCH_4,
   ...ENGINEER_LOGS_FACTIONS,
+  ...ENGINEER_LOGS_BLOODBORN,
 ]);
 
 /**
