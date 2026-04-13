@@ -34,6 +34,31 @@
  */
 
 import type { DialogScene } from "./dialogBank";
+import {
+  CHESS_TUTORIAL_GATE_2,
+  CHESS_TUTORIAL_GATE_2_SCENES,
+} from "./chessTutorial_g2";
+import {
+  CHESS_TUTORIAL_GATE_3,
+  CHESS_TUTORIAL_GATE_3_SCENES,
+} from "./chessTutorial_g3";
+import {
+  CHESS_TUTORIAL_GATE_4,
+  CHESS_TUTORIAL_GATE_4_SCENES,
+} from "./chessTutorial_g4";
+import {
+  CHESS_TUTORIAL_GATE_5,
+  CHESS_TUTORIAL_GATE_5_SCENES,
+} from "./chessTutorial_g5";
+import {
+  CHESS_TUTORIAL_GATE_6,
+  CHESS_TUTORIAL_GATE_6_SCENES,
+} from "./chessTutorial_g6";
+import {
+  CHESS_TUTORIAL_GATE_7,
+  CHESS_TUTORIAL_GATE_7_SCENES,
+} from "./chessTutorial_g7";
+import { CHESS_TUTORIAL_SKIP_SCENES } from "./chessTutorial_skip";
 
 /* ═══════════════════════════════════════════════════════
    TYPES
@@ -280,17 +305,46 @@ export const CHESS_TUTORIAL_GATE_1: ChessTutorialGate = {
    REGISTRY
    ═══════════════════════════════════════════════════════ */
 
-/** All chess tutorial gates currently authored. Subsequent
- *  commits (CT2-CT7) append more gates here via the same
- *  spread pattern used by the Engineer's Logs batches. */
+/** Re-export every gate so downstream callers can import by
+ *  number without touching the batch files. */
+export {
+  CHESS_TUTORIAL_GATE_2,
+  CHESS_TUTORIAL_GATE_3,
+  CHESS_TUTORIAL_GATE_4,
+  CHESS_TUTORIAL_GATE_5,
+  CHESS_TUTORIAL_GATE_6,
+  CHESS_TUTORIAL_GATE_7,
+};
+
+/** All chess tutorial gates in lesson order. */
 export const CHESS_TUTORIAL_GATES: readonly ChessTutorialGate[] = Object.freeze([
   CHESS_TUTORIAL_GATE_1,
+  CHESS_TUTORIAL_GATE_2,
+  CHESS_TUTORIAL_GATE_3,
+  CHESS_TUTORIAL_GATE_4,
+  CHESS_TUTORIAL_GATE_5,
+  CHESS_TUTORIAL_GATE_6,
+  CHESS_TUTORIAL_GATE_7,
 ]);
 
-/** All dialog scenes the chess tutorial produces (intro +
- *  outro for every gate). Used by the dialog bank registry
- *  so they become resolvable ids alongside the TCG scenes. */
+/** All dialog scenes the chess tutorial produces — every gate's
+ *  intro + outro plus the three skip-path scenes. Spread into the
+ *  DIALOG_BANK registry so every id resolves. */
 export const CHESS_TUTORIAL_SCENES: readonly DialogScene[] = Object.freeze([
   GATE_1_INTRO,
   GATE_1_OUTRO,
+  ...CHESS_TUTORIAL_GATE_2_SCENES,
+  ...CHESS_TUTORIAL_GATE_3_SCENES,
+  ...CHESS_TUTORIAL_GATE_4_SCENES,
+  ...CHESS_TUTORIAL_GATE_5_SCENES,
+  ...CHESS_TUTORIAL_GATE_6_SCENES,
+  ...CHESS_TUTORIAL_GATE_7_SCENES,
+  ...CHESS_TUTORIAL_SKIP_SCENES,
 ]);
+
+/** Lookup helper — return a gate by its 1-indexed number. */
+export function getChessTutorialGate(
+  gateNumber: number,
+): ChessTutorialGate | undefined {
+  return CHESS_TUTORIAL_GATES.find((g) => g.gateNumber === gateNumber);
+}
