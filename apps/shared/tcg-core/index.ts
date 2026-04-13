@@ -220,6 +220,19 @@ export {
   DIFFICULTY_HP_SCALE,
 } from "./story/chapters";
 
+/* ─── Dialog Bank (Phase D) ─── */
+export {
+  DIALOG_BANK,
+  resolveDialog,
+  getDialogBankCoverage,
+} from "./story/dialogBank";
+export type {
+  DialogSpeaker,
+  DialogMood,
+  DialogCue,
+  DialogScene,
+} from "./story/dialogBank";
+
 /* ─── Engineer's Logs (Phase A / FNORD-23) ─── */
 export {
   ENGINEER_LOGS,
