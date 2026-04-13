@@ -177,4 +177,95 @@ These canonical attributes override any inferred default. Any prompt that contra
 
 ---
 
-*Part B primitives and Parts C–I will be filled in subsequent batches. Current build state: **B0a shipped** (header + Part A). Next queued: **B0b** (Part B primitives).*
+# PART B — SHIP-WIDE PRIMITIVES
+
+Reusable prose fragments. Each entry in Parts C–H quotes these **inline** (pastes the prose verbatim). Never write "see §B.2" — always paste the primitive. This keeps every prompt copy-pasteable into a batch queue.
+
+## B.1 Palette Tokens (Tailwind-aligned)
+
+| Token | Hex | Usage |
+|---|---|---|
+| `void.abyss` | `#010020` | Deep-space base for every cinematic background. |
+| `void.night` | `#0a0a1a` | UI panel base, modal backdrop. |
+| `neon.cyan` | `#22d3ee` | Architect energy, Ark HUD, data streams. |
+| `neon.foxfire` | `#00e676` | Hierarchy corruption, infernal contracts. |
+| `neon.red` | `#ff1744` | Corrupted warning states, Source VFX. |
+| `neon.gold` | `#fbbf24` | Dreamer light, sacred kintsugi, Antiquarian amber. |
+| `neon.violet` | `#e040fb` | Ne-Yon mystery, probability clouds. |
+| `neon.pink` | `#ec4899` | Thought Virus membrane, corruption tendrils. |
+| `faction.crimson` | `#ef4444` | Architect primary. |
+| `faction.amber` | `#f59e0b` | Insurgency / Antiquarian primary. |
+| `faction.toxic` | `#84cc16` | Thought Virus primary. |
+| `faction.purple` | `#7c3aed` | Dreamer primary. |
+
+## B.2 Materials Library
+
+Each material is a **40-word reusable prose fragment**. Paste inline wherever the material appears.
+
+- **Obsidian-Bronze** — *Polished volcanic-black obsidian inlaid with aged dark-bronze filigree; the bronze lines pulse with faint amber inner light along the seams; surface scuffed by centuries of handling; reads as ancient authority and corporate occultism.*
+- **Foxfire Green Glass** — *Translucent glass with a pale phosphorescent foxfire green glow trapped inside like bottled swamp light; edges softly lit from within; cool eerie witch-light quality; signature Hierarchy contract material.*
+- **Kintsugi Gold Seam** — *Broken ceramic or armor plates painstakingly rejoined with flowing rivers of molten sacred gold along every fracture line; the gold still glows; reads as scarred, rebuilt, defiantly beautiful; signature Ascended-Eidolon language.*
+- **Viral-Gold Circuitry** — *Filaments of concentrated gold-white data light running through flesh, chitin, or metal like infected veins; the filaments branch fractally and pulse in sync with an unseen heartbeat; signature Thought Virus / Source corruption.*
+- **Brushed Dark Titanium** — *Neutral dark-grey titanium brushed along a single direction, catching cyan or amber rim light; utilitarian Ark crew base material; no visible rivets; edges chamfered and crisp.*
+- **Chrome Silver Mirror** — *High-polish chrome mirror surface, reflecting whatever is in front of it with faint cyan tint; signature Architect construct material; no scratches; reads as flawless computed precision.*
+- **Aged Parchment & Leather** — *Cream-aged paper with visible fiber, faint water stains, and leather bindings dark from handling; Antiquarian library material; paired with red-wax seals and brass clasps.*
+- **Holographic Staff-Line Light** — *Musical staff-notation rendered as three-dimensional floating lines of golden light, intersecting into geometric planes; Enigma / Dreamer signature; lines catch the camera like lens filaments.*
+- **Ark Hull Grey** — *Utilitarian spacecraft hull metal, cool neutral grey with subtle panel seams, scuffs of micro-meteor impacts, and faded mission patches; signature Inception Ark 1047 material.*
+- **Wet Chitin & Spore** — *Dark translucent chitin like a beetle's back, wet-looking, with pale spore growths blooming in the cracks; Thought Virus carapace material; smells implied of wet earth and ozone.*
+
+## B.3 Costume Kit
+
+Reusable wardrobe prose for character prompts. Paste inline for any character who wears that loadout.
+
+- **Ark Crew Jumpsuit** — *Utilitarian slate-grey jumpsuit with reinforced knee and elbow pads, muted Ark-hull grey (#475569) with a single cyan (#22d3ee) piping along the zipper; faint faded mission patch on left shoulder; sleeves can roll to the elbow; reads as honest, worn, hopeful.*
+- **Hierarchy Commander Coat** — *Floor-length dark-iron commander's coat with armored shoulder pauldrons, foxfire-green (#00e676) piping along the collar and cuffs, obsidian-black buttons marked with the Hierarchy contract-seal glyph; the coat always lifts in an unseen updraft as if charged with infernal current.*
+- **Dreamer Oracle Robe** — *Layered iridescent robe woven from visible waveform patterns (treat as mother-of-pearl cloth with soundwave textures rippling through the weave); deep-purple (#7c3aed) base with sacred gold (#fbbf24) trim along the hood and hem; a crown-band of golden light sits where a diadem would; weightless, drifting.*
+- **Antiquarian Greatcoat** — *Floor-length aged-leather greatcoat the color of library-stain amber (#f59e0b), multiple deep pockets holding brass instruments and rolled parchment; a pair of brass red-glowing goggles either worn or pushed up onto the brow; leather satchel across the chest bulging with books.*
+- **Insurgency Tactical** — *Reclaimed matte-black tactical suit patched with golden-amber (#f59e0b) Insurgency arm-bands; dog tags visible on an exposed chain; oil stains ground into the knees; utility harness carrying improvised gear; reads as desperate, resourceful, defiant.*
+- **Architect Construct Shell** — *Seamless chrome-silver armor with faceted crystal planes across the chest and shoulders; single vertical-slit cyan (#22d3ee) sensor eye set into where a face would be; no visible joints — movement implied through the crystal shifting; impossibly flawless surfaces.*
+- **New Babylon Power Suit** — *Gold-pinstripe on obsidian-black bespoke suit with blood-red lining visible at the lapel; crystal-blue (#60a5fa) tie clip shaped as a tiny scale of justice; watch and ring-set in matching gold; reads as corporate cruelty.*
+- **Degen Casino Velvet** — *Deep-violet velvet jacket with sacred gold (#fbbf24) satin lapels, dice-pattern cufflinks, loosened black tie, undone top button; rolled-up sleeves showing faint tattoos of card suits; the entire outfit reads as end-of-shift charisma.*
+
+## B.4 Eidolon Three-Stage Anatomy
+
+Every Eidolon renders in three evolution stages. Each stage has a locked prose signature — **paste it verbatim** in every Eidolon prompt at the correct stage.
+
+- **Fragment Stage** — *Barely coalesced ghost of the creature, partially translucent, flickering between solid and intangible; pale wisps of its signature color trail off the edges; about half the final creature's mass; eyes not yet lit; reads as a thought trying to become real.*
+- **Companion Stage** — *Fully physical, fully alive, detailed fur / scale / feather / chitin rendering, full color, eyes lit; the creature's core palette is saturated; poses confident and balanced; scaled for a player companion; reads as a bonded friend.*
+- **Ascended Stage** — *Majestic evolved form, visibly larger and more ornate; kintsugi gold seams running along every fracture from past battles; signature color now radiating as volumetric aura; eyes blazing with concentrated energy; the creature appears mid-stride in a heroic pose; reads as myth.*
+
+And four alignment overlays — each paste-ready:
+
+- **Normal Alignment** — *Neutral coloration, classical natural tones, balanced palette with the creature's base hue dominant; reads as untouched by faction corruption.*
+- **Hierarchy "War Engine" Alignment** — *Foxfire green (#00e676) energy threading through the creature's body; corporate militaristic augmentation fused into the anatomy; chrome and dark-iron mechanical plates replacing some natural surfaces; demonic contract sigils faintly visible; reads as enlisted, weaponized, mercenary.*
+- **Dreamer "Sacred Form" Alignment** — *Sacred gold (#fbbf24) halo light radiating from the creature; divine compassion in the eyes; natural surfaces blooming with pale pearl iridescence; robes of light trailing; reads as enlightened, healing, oracular.*
+- **Scarred Ascended Alignment** — *Body visibly fractured and rebuilt with flowing kintsugi gold seams; three-color eyes (cyan, foxfire green, sacred gold) reflecting all alignments at once; the creature appears to carry every past life on its surface; reads as transcendent, broken-beautiful, the end of the evolution path.*
+
+## B.5 Environment Primitives
+
+Reusable environment prose. Paste inline in background / arena / room prompts.
+
+- **Vast Cathedral Vault** — *Impossibly tall dark cathedral interior, ceiling lost in black fog a hundred meters above, walls of crystalline geometric architecture catching distant rim light; god-rays piercing downward from unseen openings; volumetric fog filling the lower space; signature Architect / Antiquarian / sacred-chamber environment.*
+- **Ark Interior Corridor** — *Slate-grey metal corridor of Inception Ark 1047, ribbed bulkheads, recessed cyan (#22d3ee) floor lighting strips, distant hum implied, pressure doors at the far end; volumetric light catching dust motes; signature Ark-native environment.*
+- **Cryo Revival Chamber** — *Small curved-wall medical chamber, frost-caked bulkheads, open cryo-pod condensing cold vapor at its rim, cold cyan medical lighting, faint amber emergency strobe at the far corridor; reads as first-moment disorientation.*
+- **Casino Floor** — *Wide low-ceilinged casino hall, rows of glowing table felts in deep violet and sacred gold, crystal chandeliers overhead, a haze of cigarette implied in the light beams; ambient red-gold glow; reads as languid decadence; signature Degen venue.*
+- **Corrupted Terminus Landscape** — *Outdoor landscape where the ground itself has turned to dark chitin, viral-gold filaments threading through cracks in the earth, pale green spore-mist drifting at knee height, a blood-red horizon under a dead sky; reads as planet-scale infection.*
+- **Insurgency Hideout** — *Cramped low-lit reclaimed spacecraft interior repurposed as rebel bunker; exposed wiring, salvaged crates, hand-painted insurgent arm-band symbol on one wall; golden-amber work-lamp light warming the scene; reads as desperate hope.*
+- **New Babylon Trade Floor** — *Sleek corporate trading hall of gold-veined obsidian, holographic ticker-tape displays floating at chest height, deep-red velvet rope cordons, tall arched windows showing a golden cityscape beyond; reads as elegant cruelty.*
+- **Panopticon Interior** — *Circular walls studded with thousands of embedded glass lenses, each reflecting a different scene; cold blue rim light; a single raised observation dais in the center; reads as surveillance cathedral; signature Architect / Watcher environment.*
+
+## B.6 VFX Primitives
+
+Reusable effect prose. Paste inline in any prompt involving an effect.
+
+- **Viral-Gold Pulse** — *A rippling pulse of concentrated gold-white filament energy radiating outward from a point, fractal edges, leaving faint afterimages, pulsing with an unseen heartbeat; signature Thought Virus release.*
+- **Foxfire Dome** — *A translucent hemispherical dome of pale foxfire-green (#00e676) witch-light, faint scan-lines visible on its surface, edges flickering; signature Hierarchy barrier or contract-binding.*
+- **Sacred Kintsugi Crack** — *A glowing crack of molten sacred gold opening mid-air in the shape of a lightning fracture; light spilling from within; signature Ascended transformation VFX.*
+- **Cyan Data Stream** — *A cascade of vertical cyan data-light columns falling through the air like rain, legible only to those within; signature Architect / Programmer VFX.*
+- **Violet Probability Bloom** — *A slow-unfurling flower-like bloom of deep-violet fractal geometry, each petal showing a different possible future; signature Dreamer / Ne-Yon oracular VFX.*
+- **Corrupted Red Warning Flash** — *A harsh scan-line flash of corrupted red (#ff1744) sweeping across a surface with faint chromatic aberration on the brightest edges; signature UI and environmental danger state.*
+- **Soul-Stone Flicker** — *A small floating gemstone pulsing between violet (neutral), gold (purified), and red (corrupted) in slow alternation, with tiny particles orbiting it; signature collectible VFX.*
+
+---
+
+*Current build state: **B0a + B0b shipped** (Part A complete + Part B primitives). Next queued: **B1** (Part C.1 — 17 Fighters × 4 shots).*
