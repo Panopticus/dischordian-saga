@@ -29,8 +29,36 @@ export interface TutorialGate {
   uiInteraction?: "deckbuilder_swap";
 }
 
+/**
+ * Who is "saying" this tutorial step. When set, the UI renders the
+ * step as an in-world dialog bubble with the speaker's portrait and
+ * mood color. When unset, falls back to plain instructional text.
+ *
+ * - "elara": The ship intelligence and primary card teacher. She was
+ *   Senator Elara Voss of Atarion before the upload and personally
+ *   witnessed the Engineer's first public demonstration of the deck.
+ * - "the_human": The detective companion, old friend of the Engineer.
+ *   Blunt strategic voice, noir metaphors.
+ * - "engineer_log": A prerecorded voice-over from one of the Engineer's
+ *   mix-tape logs (see Phase G / FNORD-23). Plays over a beat.
+ * - "narrator": System-voice fallback. No portrait.
+ */
+export type TutorialSpeaker = "elara" | "the_human" | "engineer_log" | "narrator";
+
 export interface TutorialStepDef {
+  /** The line spoken/shown this step. Written in the speaker's voice. */
   text: string;
+  /**
+   * Who is speaking. Optional for backwards compatibility — legacy
+   * steps without a speaker still render as plain text.
+   */
+  speaker?: TutorialSpeaker;
+  /**
+   * Elara's mood for this line. Drives portrait animation + accent
+   * color. Mirrors the mood states from elaraRelationship.ts.
+   * Only read when speaker === "elara".
+   */
+  mood?: "warm" | "guarded" | "curious" | "protective" | "conflicted" | "reflective";
   /** Which UI element to highlight (e.g. "hand", "board", "end_turn"). */
   highlight?: string;
   /** Action the player must perform to advance. */
