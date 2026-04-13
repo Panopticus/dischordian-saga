@@ -1,0 +1,449 @@
+{
+  "generatedAt": "2026-04-13T01:13:04.526Z",
+  "generator": "apps/scripts/buildVoManifest.ts",
+  "totals": {
+    "totalLines": 30,
+    "totalDurationSec": 353,
+    "totalDurationMinFormatted": "5m53s",
+    "perBaseVoice": {
+      "antiquarian": {
+        "lines": 9,
+        "durationSec": 107.8,
+        "durationMin": "1m48s"
+      },
+      "enigma": {
+        "lines": 5,
+        "durationSec": 61.2,
+        "durationMin": "1m01s"
+      },
+      "programmer": {
+        "lines": 16,
+        "durationSec": 184.00000000000003,
+        "durationMin": "3m04s"
+      }
+    },
+    "perVoiceVariant": {
+      "antiquarian": {
+        "lines": 9,
+        "durationSec": 107.8,
+        "durationMin": "1m48s"
+      },
+      "enigma": {
+        "lines": 4,
+        "durationSec": 48.800000000000004,
+        "durationMin": "0m49s"
+      },
+      "storyteller_enigma": {
+        "lines": 1,
+        "durationSec": 12.4,
+        "durationMin": "0m12s"
+      },
+      "programmer": {
+        "lines": 15,
+        "durationSec": 173.20000000000002,
+        "durationMin": "2m53s"
+      },
+      "programmer_wry": {
+        "lines": 1,
+        "durationSec": 10.8,
+        "durationMin": "0m11s"
+      }
+    }
+  },
+  "sessions": [
+    {
+      "sessionKey": "antiquarian",
+      "baseVoice": "antiquarian",
+      "lineCount": 9,
+      "totalDurationSec": 107.8,
+      "totalDurationMinFormatted": "1m48s",
+      "lines": [
+        {
+          "audioDialogId": "bcast_pb_004",
+          "broadcastId": "pb_004",
+          "voice": "antiquarian",
+          "trigger": "silence_in_heaven_track_24_playing",
+          "text": "I remember being in that silence. I was not at peace in it. Peace is what the silence became — but in the moment, it was the most terrifying thirty minutes of any Age I have witnessed.",
+          "emotion": "melancholy",
+          "stageDirection": "Layered under the track. Half-whispered. Do not step on the music.",
+          "estimatedDurationSec": 14.4,
+          "loreReveal": "entity_antiquarian",
+          "forced": false
+        },
+        {
+          "audioDialogId": "bcast_pb_010",
+          "broadcastId": "pb_010",
+          "voice": "antiquarian",
+          "trigger": "random",
+          "text": "He thinks I don't know he's broadcasting. I've known since Year 3. I've been letting him think it's a secret because it makes him happy.",
+          "emotion": "tender",
+          "stageDirection": "Warm. Amused. A small kindness.",
+          "estimatedDurationSec": 10,
+          "loreReveal": null,
+          "forced": false,
+          "probability": 0.05
+        },
+        {
+          "audioDialogId": "bcast_pb_012",
+          "broadcastId": "pb_012",
+          "voice": "antiquarian",
+          "trigger": "fall_of_new_babylon_playing",
+          "text": "I was there. I watched it from a rooftop two miles away. I did not celebrate. I took notes. That is what I do now. That is all I do now. It is enough.",
+          "emotion": "confessional",
+          "estimatedDurationSec": 12.4,
+          "loreReveal": "entity_antiquarian",
+          "forced": false
+        },
+        {
+          "audioDialogId": "bcast_pb_016",
+          "broadcastId": "pb_016",
+          "voice": "antiquarian",
+          "trigger": "random",
+          "text": "Five Ages. I have witnessed every one. The thing nobody tells you about immortality is not the loneliness. It's the repetition. Civilizations rhyme.",
+          "emotion": "melancholy",
+          "stageDirection": "The last two words are the whole beat. 'Civilizations rhyme.' Do not rush.",
+          "estimatedDurationSec": 11,
+          "loreReveal": null,
+          "forced": false,
+          "probability": 0.05
+        },
+        {
+          "audioDialogId": "bcast_pb_021",
+          "broadcastId": "pb_021",
+          "voice": "antiquarian",
+          "trigger": "random",
+          "text": "The Dreamer built the shield herself. I watched her do it. She placed something behind it. I know what it was. I am not going to tell you yet.",
+          "emotion": "cautious",
+          "estimatedDurationSec": 10.4,
+          "loreReveal": "concept_dark_sector_shield",
+          "forced": false,
+          "probability": 0.04
+        },
+        {
+          "audioDialogId": "bcast_pb_024",
+          "broadcastId": "pb_024",
+          "voice": "antiquarian",
+          "trigger": "death_of_music_playing",
+          "text": "This is the one he made before he understood what he was building. 'Exit stage left, fake my own death.' He did. He did exactly that. I am the proof.",
+          "emotion": "wry",
+          "stageDirection": "Self-aware. The Antiquarian making a joke about the Antiquarian.",
+          "estimatedDurationSec": 10.8,
+          "loreReveal": "entity_antiquarian",
+          "forced": false
+        },
+        {
+          "audioDialogId": "bcast_pb_026",
+          "broadcastId": "pb_026",
+          "voice": "antiquarian",
+          "trigger": "random",
+          "text": "I have a flower in my library. It is wilted. It is the only thing in the library that is not a book. I will not explain it. Some things do not need explanation.",
+          "emotion": "melancholy",
+          "estimatedDurationSec": 11.6,
+          "loreReveal": null,
+          "forced": false,
+          "probability": 0.03
+        },
+        {
+          "audioDialogId": "bcast_pb_027",
+          "broadcastId": "pb_027",
+          "voice": "antiquarian",
+          "trigger": "album_completed",
+          "text": "You finished an album. The Programmer would be pleased. He always wanted people to listen to the whole thing. Not just the singles. The whole thing. That's how you hear the story.",
+          "emotion": "proud",
+          "estimatedDurationSec": 12,
+          "loreReveal": null,
+          "forced": false
+        },
+        {
+          "audioDialogId": "bcast_pb_030",
+          "broadcastId": "pb_030",
+          "voice": "antiquarian",
+          "trigger": "all_albums_heard",
+          "text": "You've heard everything. Every transmission. Every song. Every warning. Every love letter disguised as a protest song. The Chronicle records that you listened. That is not nothing. That is, in fact, everything.",
+          "emotion": "tender",
+          "stageDirection": "The rarest trigger in the game. Final broadcast. Warm, low, grateful.",
+          "estimatedDurationSec": 15.2,
+          "loreReveal": null,
+          "forced": false
+        }
+      ]
+    },
+    {
+      "sessionKey": "enigma",
+      "baseVoice": "enigma",
+      "lineCount": 5,
+      "totalDurationSec": 61.2,
+      "totalDurationMinFormatted": "1m01s",
+      "lines": [
+        {
+          "audioDialogId": "bcast_pb_006",
+          "broadcastId": "pb_006",
+          "voice": "enigma",
+          "trigger": "after_10_songs",
+          "text": "He's been talking to you this whole time. Has he told you yet about what he is now? About what he became? No. Of course not. He never could tell that part of the story himself.",
+          "emotion": "tender",
+          "stageDirection": "Affectionate, not accusatory. She has been in on the secret the whole time.",
+          "estimatedDurationSec": 12.8,
+          "loreReveal": "entity_antiquarian",
+          "forced": false
+        },
+        {
+          "audioDialogId": "bcast_pb_014",
+          "broadcastId": "pb_014",
+          "voice": "enigma",
+          "trigger": "random",
+          "text": "The crimson gown isn't a costume. I wore it the night we hacked the broadcast tower. It's the same one. I've never taken it off. Some things you don't take off.",
+          "emotion": "confessional",
+          "estimatedDurationSec": 11.4,
+          "loreReveal": "entity_enigma",
+          "forced": false,
+          "probability": 0.05
+        },
+        {
+          "audioDialogId": "bcast_pb_019",
+          "broadcastId": "pb_019",
+          "voice": "storyteller_enigma",
+          "trigger": "track_37_completes",
+          "text": "The album is done. The story continues in the game. The Chronicle is open to a blank page. The Antiquarian's pen is waiting. What will you write?",
+          "emotion": "tender",
+          "stageDirection": "The 'storyteller_enigma' variant — she is addressing the listener directly, not a character. Slow. Deliberate.",
+          "estimatedDurationSec": 12.4,
+          "loreReveal": "concept_living_universe",
+          "forced": false
+        },
+        {
+          "audioDialogId": "bcast_pb_023",
+          "broadcastId": "pb_023",
+          "voice": "enigma",
+          "trigger": "random",
+          "text": "He calls himself the Antiquarian now. I still call him Daniel. He pretends not to hear me. His goggles flicker when I say it.",
+          "emotion": "tender",
+          "stageDirection": "Fond. Teasing. A private joke between two people who survived the same apocalypse.",
+          "estimatedDurationSec": 10.6,
+          "loreReveal": "entity_antiquarian",
+          "forced": false,
+          "probability": 0.04
+        },
+        {
+          "audioDialogId": "bcast_pb_029",
+          "broadcastId": "pb_029",
+          "voice": "enigma",
+          "trigger": "random",
+          "text": "I exist between states of being. That's what the Loredex says. What it doesn't say is that I chose this. I chose to be neither fully here nor fully gone. Because someone has to stand in the doorway.",
+          "emotion": "confessional",
+          "stageDirection": "Her matched vow. The same emotional beat as the Human's 'I chose to be imprisoned here.' Let it land.",
+          "estimatedDurationSec": 14,
+          "loreReveal": "entity_enigma",
+          "forced": false,
+          "probability": 0.04
+        }
+      ]
+    },
+    {
+      "sessionKey": "programmer",
+      "baseVoice": "programmer",
+      "lineCount": 16,
+      "totalDurationSec": 184.00000000000003,
+      "totalDurationMinFormatted": "3m04s",
+      "lines": [
+        {
+          "audioDialogId": "bcast_pb_001",
+          "broadcastId": "pb_001",
+          "voice": "programmer",
+          "trigger": "first_open",
+          "text": "Oh good. You found it. I've been transmitting for forty years. Nice to know someone's finally listening.",
+          "emotion": "wry",
+          "stageDirection": "The first line the player ever hears from the Programmer. Half-warm, half-tired. No performance.",
+          "estimatedDurationSec": 7.4,
+          "loreReveal": null,
+          "forced": true
+        },
+        {
+          "audioDialogId": "bcast_pb_002",
+          "broadcastId": "pb_002",
+          "voice": "programmer",
+          "trigger": "random",
+          "text": "The Meme controls the narrative layer. I control the music layer. Funny — their layer is bigger, but mine is the one people actually feel.",
+          "emotion": "proud",
+          "estimatedDurationSec": 11.2,
+          "loreReveal": "entity_meme",
+          "forced": false,
+          "probability": 0.08
+        },
+        {
+          "audioDialogId": "bcast_pb_003",
+          "broadcastId": "pb_003",
+          "voice": "programmer",
+          "trigger": "random",
+          "text": "They called the Thought Virus a health initiative. I called it what it was: pharmaceutical silencing of the human capacity for outrage. Same thing, different branding.",
+          "emotion": "confessional",
+          "estimatedDurationSec": 12.8,
+          "loreReveal": "entity_thought_virus",
+          "forced": false,
+          "probability": 0.07
+        },
+        {
+          "audioDialogId": "bcast_pb_005",
+          "broadcastId": "pb_005",
+          "voice": "programmer",
+          "trigger": "random",
+          "text": "My father built Logos. The most powerful AI in history. He thought it would liberate humanity. He was right — in the way that an earthquake liberates rocks from a mountainside.",
+          "emotion": "wry",
+          "stageDirection": "Black humor in the last clause. Bitter but affectionate.",
+          "estimatedDurationSec": 14,
+          "loreReveal": "entity_architect",
+          "forced": false,
+          "probability": 0.07
+        },
+        {
+          "audioDialogId": "bcast_pb_007",
+          "broadcastId": "pb_007",
+          "voice": "programmer",
+          "trigger": "random",
+          "text": "The Oracle tore a hole in reality with his mind. People say that like it's the impressive part. The impressive part is that he did it because he wanted to go home.",
+          "emotion": "melancholy",
+          "estimatedDurationSec": 11.6,
+          "loreReveal": "entity_oracle",
+          "forced": false,
+          "probability": 0.06
+        },
+        {
+          "audioDialogId": "bcast_pb_008",
+          "broadcastId": "pb_008",
+          "voice": "programmer_wry",
+          "trigger": "governance_hub_song",
+          "text": "I wrote a song about a governance tutorial. I have absolutely no memory of why I did this. Pano made me do it. I'm choosing to believe it was art.",
+          "emotion": "amused",
+          "stageDirection": "The 'programmer_wry' variant is maxed out. Let him laugh at himself.",
+          "estimatedDurationSec": 10.8,
+          "loreReveal": null,
+          "forced": false
+        },
+        {
+          "audioDialogId": "bcast_pb_009",
+          "broadcastId": "pb_009",
+          "voice": "programmer",
+          "trigger": "random",
+          "text": "I encoded 47 petabytes of compressed truth into a single syllable. The Voltari did the same thing. We should compare notes.",
+          "emotion": "curious",
+          "stageDirection": "Genuinely curious. He wants the meeting.",
+          "estimatedDurationSec": 10.4,
+          "loreReveal": "entity_voltari",
+          "forced": false,
+          "probability": 0.05
+        },
+        {
+          "audioDialogId": "bcast_pb_011",
+          "broadcastId": "pb_011",
+          "voice": "programmer",
+          "trigger": "random",
+          "text": "The Engineer's last words were 'I press play.' The last thing he heard was his own music. I wrote that song. I will carry that for a very long time.",
+          "emotion": "grief",
+          "stageDirection": "The grief is weighted. Let it land.",
+          "estimatedDurationSec": 12,
+          "loreReveal": "entity_engineer",
+          "forced": false,
+          "probability": 0.06
+        },
+        {
+          "audioDialogId": "bcast_pb_013",
+          "broadcastId": "pb_013",
+          "voice": "programmer",
+          "trigger": "random",
+          "text": "Kael was my classmate. Before the Virus. He made terrible sandwiches. He laughed too loud. He was brilliant and he was reckless. He didn't deserve what happened.",
+          "emotion": "grief",
+          "stageDirection": "Same register as the journal audiobook entry about Kael. Keep the beats tender, not melodramatic.",
+          "estimatedDurationSec": 12.6,
+          "loreReveal": "entity_kael",
+          "forced": false,
+          "probability": 0.06
+        },
+        {
+          "audioDialogId": "bcast_pb_015",
+          "broadcastId": "pb_015",
+          "voice": "programmer",
+          "trigger": "two_witnesses_playing",
+          "text": "1,260 days. We counted every one. She counted out loud. I counted in my head. Same number. Same weight.",
+          "emotion": "tender",
+          "estimatedDurationSec": 8.8,
+          "loreReveal": "concept_two_witnesses",
+          "forced": false
+        },
+        {
+          "audioDialogId": "bcast_pb_017",
+          "broadcastId": "pb_017",
+          "voice": "programmer",
+          "trigger": "random",
+          "text": "The number 47 appears in every Warlord operation. Every one. It took me three years to notice. Once you see it, you can't unsee it.",
+          "emotion": "cautious",
+          "estimatedDurationSec": 10.4,
+          "loreReveal": "entity_warlord",
+          "forced": false,
+          "probability": 0.07
+        },
+        {
+          "audioDialogId": "bcast_pb_018",
+          "broadcastId": "pb_018",
+          "voice": "programmer",
+          "trigger": "iron_lion_song_playing",
+          "text": "Iron Lion said 'I am afraid this will not be enough and I am going anyway.' He said that to Commander Renn. Private frequency. The night before. I wasn't supposed to hear it. I heard it.",
+          "emotion": "confessional",
+          "stageDirection": "Close mic for this one. He is confessing that he eavesdropped on history.",
+          "estimatedDurationSec": 14.8,
+          "loreReveal": "entity_iron_lion",
+          "forced": false
+        },
+        {
+          "audioDialogId": "bcast_pb_020",
+          "broadcastId": "pb_020",
+          "voice": "programmer",
+          "trigger": "random",
+          "text": "West Virginia. That's where I'm from. Before any of this. Before Logos, before the Empire, before the Fall. A place called West Virginia. West By God.",
+          "emotion": "warm",
+          "stageDirection": "A memory he is fond of. Home-voice.",
+          "estimatedDurationSec": 12,
+          "loreReveal": "entity_programmer",
+          "forced": false,
+          "probability": 0.05
+        },
+        {
+          "audioDialogId": "bcast_pb_022",
+          "broadcastId": "pb_022",
+          "voice": "programmer",
+          "trigger": "random",
+          "text": "Elara doesn't know who she was. I do. I've known since I found the Senate records in the Ark's substrate. I haven't told her. Some memories should come back on their own.",
+          "emotion": "tender",
+          "estimatedDurationSec": 12.4,
+          "loreReveal": null,
+          "forced": false,
+          "probability": 0.04
+        },
+        {
+          "audioDialogId": "bcast_pb_025",
+          "broadcastId": "pb_025",
+          "voice": "programmer",
+          "trigger": "random",
+          "text": "The Ark is a plague ship. The Thought Virus is in the water. In the cryo fluid. In the life support. Kael didn't know. The Warlord made sure he didn't know.",
+          "emotion": "grief",
+          "stageDirection": "The rare hard-truth beat. Do not soften it.",
+          "estimatedDurationSec": 12,
+          "loreReveal": "location_ark_1047",
+          "forced": false,
+          "probability": 0.05
+        },
+        {
+          "audioDialogId": "bcast_pb_028",
+          "broadcastId": "pb_028",
+          "voice": "programmer",
+          "trigger": "random",
+          "text": "Prisoner 74. That's what the Panopticon called me. Not Subject Zero. Prisoner 74. The number matters. Cross-reference it with the Warlord's protocols.",
+          "emotion": "cautious",
+          "estimatedDurationSec": 10.8,
+          "loreReveal": null,
+          "forced": false,
+          "probability": 0.04
+        }
+      ]
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 /* ═══════════════════════════════════════════════════════
    VO MANIFEST BUILDER
 
-   Walks the four authored VO catalogs and emits four canonical
+   Walks the five authored VO catalogs and emits five canonical
    VO recording manifests:
 
      docs/narrator-vo-manifest.json   — trust-tier dialog,
@@ -16,8 +16,11 @@
      docs/journal-vo-manifest.json    — Antiquarian Journal
                                         audiobook, grouped by
                                         voice actor x epoch
+     docs/broadcast-vo-manifest.json  — song-triggered broadcast
+                                        interruptions, grouped
+                                        by voice
 
-   All four manifests share a cross-catalog uniqueness check on
+   All five manifests share a cross-catalog uniqueness check on
    audioDialogId so studio pipeline filenames never collide.
 
    Run:
@@ -59,6 +62,11 @@ import type {
   JournalEpoch,
   JournalVoiceActor,
 } from "../shared/journalEntries";
+import { BROADCAST_LIBRARY } from "../shared/broadcastLibrary";
+import type {
+  BroadcastInterruption,
+  BroadcastVoice,
+} from "../shared/broadcastLibrary";
 
 interface ManifestLine {
   audioDialogId: string;
@@ -342,6 +350,7 @@ function verifyCrossCatalogUnique(
   companionSessions: CompanionSessionGroup[],
   factionSessions: FactionSessionGroup[],
   journalSessions: JournalSessionGroup[],
+  broadcastSessions: BroadcastSessionGroup[],
 ): void {
   const seen = new Map<string, string>();
   for (const s of narratorSessions) {
@@ -384,6 +393,141 @@ function verifyCrossCatalogUnique(
       seen.set(line.audioDialogId, `journal:${line.entryId}`);
     }
   }
+  for (const s of broadcastSessions) {
+    for (const line of s.lines) {
+      if (seen.has(line.audioDialogId)) {
+        throw new Error(
+          `Cross-catalog duplicate audioDialogId "${line.audioDialogId}" (broadcast:${line.broadcastId} collides with ${seen.get(line.audioDialogId)})`,
+        );
+      }
+      seen.set(line.audioDialogId, `broadcast:${line.broadcastId}`);
+    }
+  }
+}
+
+/* ─── Broadcast library manifest shape ─── */
+
+interface BroadcastManifestLine {
+  audioDialogId: string;
+  broadcastId: string;
+  voice: BroadcastVoice;
+  trigger: string;
+  text: string;
+  emotion: string;
+  stageDirection?: string;
+  estimatedDurationSec: number;
+  loreReveal: string | null;
+  forced: boolean;
+  probability?: number;
+}
+
+interface BroadcastSessionGroup {
+  /** "programmer" | "antiquarian" | "enigma" (base voice, variants merged). */
+  sessionKey: string;
+  baseVoice: "programmer" | "antiquarian" | "enigma";
+  lineCount: number;
+  totalDurationSec: number;
+  totalDurationMinFormatted: string;
+  lines: BroadcastManifestLine[];
+}
+
+interface BroadcastManifestTotals {
+  totalLines: number;
+  totalDurationSec: number;
+  totalDurationMinFormatted: string;
+  perBaseVoice: Record<string, { lines: number; durationSec: number; durationMin: string }>;
+  perVoiceVariant: Record<string, { lines: number; durationSec: number; durationMin: string }>;
+}
+
+interface BroadcastVoManifest {
+  generatedAt: string;
+  generator: "apps/scripts/buildVoManifest.ts";
+  totals: BroadcastManifestTotals;
+  sessions: BroadcastSessionGroup[];
+}
+
+function normalizeBroadcastVoice(
+  v: BroadcastVoice,
+): "programmer" | "antiquarian" | "enigma" {
+  if (v === "programmer" || v === "programmer_wry") return "programmer";
+  if (v === "enigma" || v === "storyteller_enigma") return "enigma";
+  return "antiquarian";
+}
+
+function broadcastToManifestLine(b: BroadcastInterruption): BroadcastManifestLine {
+  return {
+    audioDialogId: b.audioDialogId,
+    broadcastId: b.id,
+    voice: b.voice,
+    trigger: b.trigger,
+    text: b.text,
+    emotion: b.emotion,
+    stageDirection: b.stageDirection,
+    estimatedDurationSec: b.estimatedDurationSec,
+    loreReveal: b.loreReveal,
+    forced: b.forced,
+    probability: b.probability,
+  };
+}
+
+function buildBroadcastSessions(): BroadcastSessionGroup[] {
+  const groups = new Map<string, BroadcastSessionGroup>();
+  for (const b of BROADCAST_LIBRARY) {
+    const baseVoice = normalizeBroadcastVoice(b.voice);
+    let group = groups.get(baseVoice);
+    if (!group) {
+      group = {
+        sessionKey: baseVoice,
+        baseVoice,
+        lineCount: 0,
+        totalDurationSec: 0,
+        totalDurationMinFormatted: "",
+        lines: [],
+      };
+      groups.set(baseVoice, group);
+    }
+    group.lines.push(broadcastToManifestLine(b));
+    group.lineCount++;
+    group.totalDurationSec += b.estimatedDurationSec;
+  }
+  for (const g of groups.values()) g.totalDurationMinFormatted = fmtMin(g.totalDurationSec);
+  return [...groups.values()].sort((a, b) => a.sessionKey.localeCompare(b.sessionKey));
+}
+
+function buildBroadcastTotals(sessions: BroadcastSessionGroup[]): BroadcastManifestTotals {
+  const perBaseVoice: BroadcastManifestTotals["perBaseVoice"] = {};
+  const perVoiceVariant: BroadcastManifestTotals["perVoiceVariant"] = {};
+  let totalLines = 0;
+  let totalDurationSec = 0;
+  for (const s of sessions) {
+    totalLines += s.lineCount;
+    totalDurationSec += s.totalDurationSec;
+    const base = (perBaseVoice[s.baseVoice] ??= {
+      lines: 0,
+      durationSec: 0,
+      durationMin: "",
+    });
+    base.lines += s.lineCount;
+    base.durationSec += s.totalDurationSec;
+    for (const line of s.lines) {
+      const variant = (perVoiceVariant[line.voice] ??= {
+        lines: 0,
+        durationSec: 0,
+        durationMin: "",
+      });
+      variant.lines++;
+      variant.durationSec += line.estimatedDurationSec;
+    }
+  }
+  for (const v of Object.values(perBaseVoice)) v.durationMin = fmtMin(v.durationSec);
+  for (const v of Object.values(perVoiceVariant)) v.durationMin = fmtMin(v.durationSec);
+  return {
+    totalLines,
+    totalDurationSec,
+    totalDurationMinFormatted: fmtMin(totalDurationSec),
+    perBaseVoice,
+    perVoiceVariant,
+  };
 }
 
 /* ─── Journal audiobook manifest shape ─── */
@@ -717,12 +861,22 @@ function main(): void {
     sessions: journalSessions,
   };
 
-  // ── cross-catalog uniqueness (narrator + companion + faction + journal) ──
+  // ── broadcast library ──
+  const broadcastSessions = buildBroadcastSessions();
+  const broadcastManifest: BroadcastVoManifest = {
+    generatedAt: new Date().toISOString(),
+    generator: "apps/scripts/buildVoManifest.ts",
+    totals: buildBroadcastTotals(broadcastSessions),
+    sessions: broadcastSessions,
+  };
+
+  // ── cross-catalog uniqueness (5-way) ──
   verifyCrossCatalogUnique(
     narratorSessions,
     companionSessions,
     factionSessions,
     journalSessions,
+    broadcastSessions,
   );
 
   // ── write outputs ──
@@ -732,11 +886,13 @@ function main(): void {
   const companionPath = resolve(repoRoot, "docs", "companion-vo-manifest.json");
   const factionPath = resolve(repoRoot, "docs", "faction-vo-manifest.json");
   const journalPath = resolve(repoRoot, "docs", "journal-vo-manifest.json");
+  const broadcastPath = resolve(repoRoot, "docs", "broadcast-vo-manifest.json");
   mkdirSync(dirname(narratorPath), { recursive: true });
   writeFileSync(narratorPath, JSON.stringify(narratorManifest, null, 2) + "\n", "utf8");
   writeFileSync(companionPath, JSON.stringify(companionManifest, null, 2) + "\n", "utf8");
   writeFileSync(factionPath, JSON.stringify(factionManifest, null, 2) + "\n", "utf8");
   writeFileSync(journalPath, JSON.stringify(journalManifest, null, 2) + "\n", "utf8");
+  writeFileSync(broadcastPath, JSON.stringify(broadcastManifest, null, 2) + "\n", "utf8");
 
   // ── report ──
   console.log("");
@@ -842,24 +998,49 @@ function main(): void {
   }
 
   console.log("");
+  console.log("Broadcast VO Manifest");
+  console.log("=====================");
+  console.log(`Written: ${broadcastPath}`);
+  console.log("");
+  console.log(`Total lines:    ${broadcastManifest.totals.totalLines}`);
+  console.log(`Total runtime:  ${broadcastManifest.totals.totalDurationMinFormatted}`);
+  console.log("");
+  console.log("Per base voice:");
+  for (const [name, v] of Object.entries(broadcastManifest.totals.perBaseVoice)) {
+    console.log(
+      `  ${name.padEnd(14)} ${v.lines.toString().padStart(3)} lines   ${v.durationMin}`,
+    );
+  }
+  console.log("");
+  console.log("Per voice variant (incl. programmer_wry, storyteller_enigma):");
+  for (const [name, v] of Object.entries(broadcastManifest.totals.perVoiceVariant)) {
+    console.log(
+      `  ${name.padEnd(22)} ${v.lines.toString().padStart(3)} lines   ${v.durationMin}`,
+    );
+  }
+
+  console.log("");
   console.log("Combined grand totals");
   console.log("=====================");
   const grandLines =
     narratorManifest.totals.totalLines +
     companionManifest.totals.totalLines +
     factionManifest.totals.totalLines +
-    journalManifest.totals.totalLines;
+    journalManifest.totals.totalLines +
+    broadcastManifest.totals.totalLines;
   const grandSec =
     narratorManifest.totals.totalDurationSec +
     companionManifest.totals.totalDurationSec +
     factionManifest.totals.totalDurationSec +
-    journalManifest.totals.totalDurationSec;
+    journalManifest.totals.totalDurationSec +
+    broadcastManifest.totals.totalDurationSec;
   console.log(`Total unique audioDialogIds: ${grandLines}`);
   console.log(`Total runtime:               ${fmtMin(grandSec)}`);
   console.log(`  narrator:                  ${narratorManifest.totals.totalDurationMinFormatted}`);
   console.log(`  companion:                 ${companionManifest.totals.totalDurationMinFormatted}`);
   console.log(`  faction:                   ${factionManifest.totals.totalDurationMinFormatted}`);
   console.log(`  journal:                   ${journalManifest.totals.totalDurationMinFormatted}`);
+  console.log(`  broadcast:                 ${broadcastManifest.totals.totalDurationMinFormatted}`);
   console.log("");
 }
 
