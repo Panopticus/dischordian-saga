@@ -232,6 +232,18 @@ export type {
   MusicPrompt,
 } from "./story/engineerLogs";
 
+/* ─── FNORD-23 (Phase G) ─── */
+export { FNORD_EFFECTS, FNORD23_DEVICE_LORE } from "./audio/fnord23";
+export type {
+  InstrumentalTrack,
+  ChannelDefinition,
+  MemoryResinEntry,
+  RemixState,
+  BeatGameScore,
+  Fnord23UserState,
+  FnordEffect,
+} from "./audio/fnord23";
+
 /* ─── Economy (WS8) ─── */
 export { openPack, STANDARD_PACK, SOUL_STONE_VALUES } from "./economy/packs";
 export type { PackType, PackResult } from "./economy/packs";
