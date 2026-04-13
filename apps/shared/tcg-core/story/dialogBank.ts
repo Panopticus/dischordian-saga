@@ -111,6 +111,7 @@ import { DIALOG_BANK_CHAPTERS_4_6 } from "./dialogBank_chapters_4_6";
 import { DIALOG_BANK_CHAPTERS_7_9 } from "./dialogBank_chapters_7_9";
 import { DIALOG_BANK_CHAPTERS_10_12 } from "./dialogBank_chapters_10_12";
 import { DIALOG_BANK_CINEMATICS } from "./dialogBank_cinematics";
+import { DIALOG_BANK_MATCH_LIFECYCLE } from "./dialogBank_matchlifecycle";
 
 /** All registered scenes, assembled from every sub-file. */
 const ALL_SCENES: readonly DialogScene[] = Object.freeze([
@@ -120,6 +121,7 @@ const ALL_SCENES: readonly DialogScene[] = Object.freeze([
   ...DIALOG_BANK_CHAPTERS_7_9,
   ...DIALOG_BANK_CHAPTERS_10_12,
   ...DIALOG_BANK_CINEMATICS,
+  ...DIALOG_BANK_MATCH_LIFECYCLE,
 ]);
 
 export const DIALOG_BANK: Readonly<Record<string, DialogScene>> =
