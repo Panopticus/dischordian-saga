@@ -383,7 +383,11 @@ export const JOURNAL_ENTRIES_ORIGINAL: AntiquarianJournalEntry[] = [
 ];
 
 /* Expansion entries are appended in follow-up commits. */
-export const JOURNAL_ENTRIES_EXPANSION: AntiquarianJournalEntry[] = [];
+import { JOURNAL_EXPANSION_1 } from "./journalEntriesExpansion1";
+
+export const JOURNAL_ENTRIES_EXPANSION: AntiquarianJournalEntry[] = [
+  ...JOURNAL_EXPANSION_1,
+];
 
 export const JOURNAL_ENTRIES: AntiquarianJournalEntry[] = [
   ...JOURNAL_ENTRIES_ORIGINAL,
