@@ -220,6 +220,18 @@ export {
   DIFFICULTY_HP_SCALE,
 } from "./story/chapters";
 
+/* ─── Engineer's Logs (Phase A / FNORD-23) ─── */
+export {
+  ENGINEER_LOGS,
+  ENGINEER_LOG_MAP,
+  getLogForUnlock,
+} from "./story/engineerLogs";
+export type {
+  EngineerLog,
+  EngineerLogUnlockKind,
+  MusicPrompt,
+} from "./story/engineerLogs";
+
 /* ─── Economy (WS8) ─── */
 export { openPack, STANDARD_PACK, SOUL_STONE_VALUES } from "./economy/packs";
 export type { PackType, PackResult } from "./economy/packs";
