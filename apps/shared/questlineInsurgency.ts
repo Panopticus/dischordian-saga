@@ -1,4 +1,5 @@
-/* Insurgency Remnant Questline — Orin Fell + Renn (spec §4) */
+/* Insurgency Remnant Questline — Orin Fell + Renn (spec §4)
+   VO metadata added — every beat is studio-pipeline ready. */
 import type { PotentialQuestline, PotentialQuestlineChapter } from "./potentialQuestlineTypes";
 import type { WheelOption } from "./dialogWheel";
 
@@ -24,21 +25,96 @@ const ch1: PotentialQuestlineChapter = {
   hook: "An old-fashioned voice-only transmission. Orin Fell speaks with the particular reverence of someone reading from a sacred text.",
   sectorId: "remembrance_archive",
   opener: [
-    { speaker: "orin_fell", stageDirection: "The transmission is old-fashioned — voice only, no visual, the way the original Insurgency communicated to avoid surveillance.", text: "Iron Lion's last broadcast. Do you know it? 'To the free souls of the galaxy — if you are hearing this, then I have fallen, but the resistance has not. Take what I was and make it something larger. Take what we built and make it something that does not need a general to keep it standing.'" },
-    { speaker: "orin_fell", stageDirection: "A pause.", text: "We have been waiting for the something larger. For seventeen thousand years. The first wave wasn't it — too fast, too sure of themselves, gone before they understood what they'd inherited. Are you something larger?" },
+    {
+      audioDialogId: "fac_insurgency_ch1_orin_opener_1",
+      speaker: "orin_fell",
+      emotion: "tender",
+      stageDirection: "The transmission is old-fashioned — voice only, no visual, the way the original Insurgency communicated to avoid surveillance.",
+      estimatedDurationSec: 22.6,
+      text: "Iron Lion's last broadcast. Do you know it? 'To the free souls of the galaxy — if you are hearing this, then I have fallen, but the resistance has not. Take what I was and make it something larger. Take what we built and make it something that does not need a general to keep it standing.'",
+    },
+    {
+      audioDialogId: "fac_insurgency_ch1_orin_opener_2",
+      speaker: "orin_fell",
+      emotion: "cautious",
+      stageDirection: "A pause.",
+      estimatedDurationSec: 14.0,
+      text: "We have been waiting for the something larger. For seventeen thousand years. The first wave wasn't it — too fast, too sure of themselves, gone before they understood what they'd inherited. Are you something larger?",
+    },
   ],
   wheel: ch1Wheel,
   followups: {
-    ins_ch1_honest: [{ speaker: "orin_fell", text: "That's the right answer. Iron Lion didn't know either, the night before the last stand. 'I don't know yet' was his exact phrasing. Renn will tell you — she was there. The fact that you chose the same words means either you've read a transcript you shouldn't have access to, or the kind of person who says 'I don't know yet' is the kind the Insurgency was built for." }],
-    ins_ch1_bold: [{ speaker: "orin_fell", text: "Yes, first; understand, second. That's the order the first wave got wrong. They said yes before they understood. The yes was real but the understanding never caught up. You're reversing the sequence. Good." }],
-    ins_ch1_humble: [{ speaker: "orin_fell", text: "Many things, smaller. That is — that is not how I've been thinking about it. Iron Lion's broadcast says 'something larger.' I have been interpreting 'larger' as 'greater.' You're interpreting it as 'more numerous.' Both readings are valid. Both change what we're looking for." }],
-    ins_ch1_curious: [{ speaker: "orin_fell", text: "Larger means: something that doesn't need a general. Something that doesn't need a single leader or a single ideology or a single enemy. Something that runs on principle rather than personality. We have not found it in seventeen thousand years because we keep looking for a person who embodies it instead of a structure that distributes it." }],
-    ins_ch1_soldier: [
-      { speaker: "orin_fell", stageDirection: "A long silence.", text: "That part isn't in the broadcast archives. How did you know that part?" },
-      { speaker: "orin_fell", text: "He said that to Commander Renn, the night before the last stand. Private communication. Renn told me. Renn has told almost no one. The fact that you know it means someone has been preparing you for this conversation for longer than you've been awake." },
+    ins_ch1_honest: [
+      {
+        audioDialogId: "fac_insurgency_ch1_orin_honest_1",
+        speaker: "orin_fell",
+        emotion: "recognizing",
+        estimatedDurationSec: 22.8,
+        text: "That's the right answer. Iron Lion didn't know either, the night before the last stand. 'I don't know yet' was his exact phrasing. Renn will tell you — she was there. The fact that you chose the same words means either you've read a transcript you shouldn't have access to, or the kind of person who says 'I don't know yet' is the kind the Insurgency was built for.",
+      },
     ],
-    ins_ch1_oracle: [{ speaker: "orin_fell", text: "The distributed philosophy. Yes. I have been arguing this in Insurgency council for forty years. The Forward faction disagrees — they believe operational structure requires hierarchy. The Question faction agrees with your model but cannot convince the Forward. Perhaps an Oracle's probability data will succeed where my rhetoric has not." }],
-    ins_ch1_int8: [{ speaker: "orin_fell", text: "By not being an organization. The Insurgency is an idea. Ideas do not have supply chains. Ideas do not need territory. Ideas survive because someone remembers them. Every time someone tries to turn the Insurgency into an institution, it becomes vulnerable to the things that destroy institutions. Every time it returns to being an idea, it becomes unkillable." }],
+    ins_ch1_bold: [
+      {
+        audioDialogId: "fac_insurgency_ch1_orin_bold_1",
+        speaker: "orin_fell",
+        emotion: "proud",
+        estimatedDurationSec: 13.2,
+        text: "Yes, first; understand, second. That's the order the first wave got wrong. They said yes before they understood. The yes was real but the understanding never caught up. You're reversing the sequence. Good.",
+      },
+    ],
+    ins_ch1_humble: [
+      {
+        audioDialogId: "fac_insurgency_ch1_orin_humble_1",
+        speaker: "orin_fell",
+        emotion: "curious",
+        estimatedDurationSec: 17.6,
+        text: "Many things, smaller. That is — that is not how I've been thinking about it. Iron Lion's broadcast says 'something larger.' I have been interpreting 'larger' as 'greater.' You're interpreting it as 'more numerous.' Both readings are valid. Both change what we're looking for.",
+      },
+    ],
+    ins_ch1_curious: [
+      {
+        audioDialogId: "fac_insurgency_ch1_orin_curious_1",
+        speaker: "orin_fell",
+        emotion: "confessional",
+        estimatedDurationSec: 20.0,
+        text: "Larger means: something that doesn't need a general. Something that doesn't need a single leader or a single ideology or a single enemy. Something that runs on principle rather than personality. We have not found it in seventeen thousand years because we keep looking for a person who embodies it instead of a structure that distributes it.",
+      },
+    ],
+    ins_ch1_soldier: [
+      {
+        audioDialogId: "fac_insurgency_ch1_orin_soldier_1",
+        speaker: "orin_fell",
+        emotion: "afraid",
+        stageDirection: "A long silence.",
+        estimatedDurationSec: 5.8,
+        text: "That part isn't in the broadcast archives. How did you know that part?",
+      },
+      {
+        audioDialogId: "fac_insurgency_ch1_orin_soldier_2",
+        speaker: "orin_fell",
+        emotion: "confessional",
+        estimatedDurationSec: 17.8,
+        text: "He said that to Commander Renn, the night before the last stand. Private communication. Renn told me. Renn has told almost no one. The fact that you know it means someone has been preparing you for this conversation for longer than you've been awake.",
+      },
+    ],
+    ins_ch1_oracle: [
+      {
+        audioDialogId: "fac_insurgency_ch1_orin_oracle_1",
+        speaker: "orin_fell",
+        emotion: "wry",
+        estimatedDurationSec: 18.8,
+        text: "The distributed philosophy. Yes. I have been arguing this in Insurgency council for forty years. The Forward faction disagrees — they believe operational structure requires hierarchy. The Question faction agrees with your model but cannot convince the Forward. Perhaps an Oracle's probability data will succeed where my rhetoric has not.",
+      },
+    ],
+    ins_ch1_int8: [
+      {
+        audioDialogId: "fac_insurgency_ch1_orin_int8_1",
+        speaker: "orin_fell",
+        emotion: "proud",
+        estimatedDurationSec: 21.2,
+        text: "By not being an organization. The Insurgency is an idea. Ideas do not have supply chains. Ideas do not need territory. Ideas survive because someone remembers them. Every time someone tries to turn the Insurgency into an institution, it becomes vulnerable to the things that destroy institutions. Every time it returns to being an idea, it becomes unkillable.",
+      },
+    ],
   },
 };
 
@@ -50,7 +126,13 @@ const ch2: PotentialQuestlineChapter = {
   hook: "Field Commander Renn doesn't make speeches. She makes plans. The Vortex is three sectors closer than it was last month.",
   sectorId: "forward_bastion",
   opener: [
-    { speaker: "field_commander_renn", text: "I don't make speeches. Orin makes speeches. I make plans. The Vortex is three sectors closer than it was last month. The Hierarchy has been probing the frontier. The Terminus Swarm is regrouping. Do you fight, or do you philosophize?" },
+    {
+      audioDialogId: "fac_insurgency_ch2_renn_opener_1",
+      speaker: "field_commander_renn",
+      emotion: "testing",
+      estimatedDurationSec: 15.2,
+      text: "I don't make speeches. Orin makes speeches. I make plans. The Vortex is three sectors closer than it was last month. The Hierarchy has been probing the frontier. The Terminus Swarm is regrouping. Do you fight, or do you philosophize?",
+    },
   ],
   wheel: [
     { id: "ins_ch2_fight", segment: "aggressive", rarity: "common", label: "FIGHT", fullText: "I fight. What do you need?", outcome: { npcTrustDelta: { npcId: "field_commander_renn", delta: 5 } } },
@@ -59,13 +141,57 @@ const ch2: PotentialQuestlineChapter = {
     { id: "ins_ch2_soldier", segment: "aggressive", rarity: "epic", label: "SOLDIER: IRON LION'S BROADCAST", fullText: "I heard Iron Lion. The part about being afraid. I'm afraid too. I'm going anyway.", outcome: { moralityDelta: 3, npcTrustDelta: { npcId: "field_commander_renn", delta: 8 }, unlocks: ["insurgency_renn_met"] }, gateCondition: { requireClass: "soldier" } },
   ],
   followups: {
-    ins_ch2_fight: [{ speaker: "field_commander_renn", text: "Good. The Forward operates in three contested sectors simultaneously. Joint operations with the DeMagi Warden's Vanguard — Seris-Fen is competent and we trust each other as far as any cross-faction trust goes. We also run quiet coordination with the Quarchon Dimensional Guard — Axis-9 and I have a working relationship that neither of our superiors has sanctioned. Pick a front." }],
-    ins_ch2_both: [{ speaker: "field_commander_renn", stageDirection: "Almost a smile.", text: "Orin would like you. Fine. Both. The philosophy is Iron Lion's: every being has the right to exist without surveillance. The fight is mine: making sure those beings survive long enough to exercise the right. The two are not in tension. They're in sequence." }],
-    ins_ch2_plan: [{ speaker: "field_commander_renn", text: "The plan is: hold three sectors. Deny the Hierarchy corridor access. Keep the Terminus Swarm south of the shipping lanes. Coordinate with anyone who'll coordinate. The gaps: we need intelligence on the Hierarchy's next probe, we need a way to resupply without passing through Syndicate transit corridors, and we need someone who can tell the DeMagi and Quarchon to stop fighting each other long enough to fight the actual enemy." }],
+    ins_ch2_fight: [
+      {
+        audioDialogId: "fac_insurgency_ch2_renn_fight_1",
+        speaker: "field_commander_renn",
+        emotion: "neutral",
+        estimatedDurationSec: 23.2,
+        text: "Good. The Forward operates in three contested sectors simultaneously. Joint operations with the DeMagi Warden's Vanguard — Seris-Fen is competent and we trust each other as far as any cross-faction trust goes. We also run quiet coordination with the Quarchon Dimensional Guard — Axis-9 and I have a working relationship that neither of our superiors has sanctioned. Pick a front.",
+      },
+    ],
+    ins_ch2_both: [
+      {
+        audioDialogId: "fac_insurgency_ch2_renn_both_1",
+        speaker: "field_commander_renn",
+        emotion: "wry",
+        stageDirection: "Almost a smile.",
+        estimatedDurationSec: 15.6,
+        text: "Orin would like you. Fine. Both. The philosophy is Iron Lion's: every being has the right to exist without surveillance. The fight is mine: making sure those beings survive long enough to exercise the right. The two are not in tension. They're in sequence.",
+      },
+    ],
+    ins_ch2_plan: [
+      {
+        audioDialogId: "fac_insurgency_ch2_renn_plan_1",
+        speaker: "field_commander_renn",
+        emotion: "cautious",
+        estimatedDurationSec: 22.8,
+        text: "The plan is: hold three sectors. Deny the Hierarchy corridor access. Keep the Terminus Swarm south of the shipping lanes. Coordinate with anyone who'll coordinate. The gaps: we need intelligence on the Hierarchy's next probe, we need a way to resupply without passing through Syndicate transit corridors, and we need someone who can tell the DeMagi and Quarchon to stop fighting each other long enough to fight the actual enemy.",
+      },
+    ],
     ins_ch2_soldier: [
-      { speaker: "field_commander_renn", stageDirection: "She stops. For the first time, the operational mask slips.", text: "He said that to me. The night before. Private frequency. I have carried those words for seventeen thousand years." },
-      { speaker: "field_commander_renn", text: "If you know them — if someone made sure you knew them — then there is a thread connecting his last stand to your first one. I do not know who wove it. I know it's there. And I know that the person standing in front of me is afraid and going anyway, just like he was." },
-      { speaker: "field_commander_renn", text: "Welcome to the Forward, Soldier." },
+      {
+        audioDialogId: "fac_insurgency_ch2_renn_soldier_1",
+        speaker: "field_commander_renn",
+        emotion: "grief",
+        stageDirection: "She stops. For the first time, the operational mask slips.",
+        estimatedDurationSec: 10.0,
+        text: "He said that to me. The night before. Private frequency. I have carried those words for seventeen thousand years.",
+      },
+      {
+        audioDialogId: "fac_insurgency_ch2_renn_soldier_2",
+        speaker: "field_commander_renn",
+        emotion: "tender",
+        estimatedDurationSec: 14.6,
+        text: "If you know them — if someone made sure you knew them — then there is a thread connecting his last stand to your first one. I do not know who wove it. I know it's there. And I know that the person standing in front of me is afraid and going anyway, just like he was.",
+      },
+      {
+        audioDialogId: "fac_insurgency_ch2_renn_soldier_3",
+        speaker: "field_commander_renn",
+        emotion: "proud",
+        estimatedDurationSec: 3.6,
+        text: "Welcome to the Forward, Soldier.",
+      },
     ],
   },
 };
