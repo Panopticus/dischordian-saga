@@ -1,4 +1,5 @@
-/* Thaloria Questline — "THE LONG MOURNING" (spec §5.2) */
+/* Thaloria Questline — "THE LONG MOURNING" (spec §5.2)
+   VO metadata added — every beat is studio-pipeline ready. */
 import type { PotentialQuestline, PotentialQuestlineChapter } from "./potentialQuestlineTypes";
 import type { WheelOption } from "./dialogWheel";
 
@@ -23,20 +24,94 @@ const ch1: PotentialQuestlineChapter = {
   hook: "A chamber in Thaloria's capital. The Hierophant — ancient, verdant-skinned — sits among hundreds of thousands of names on the walls. He writes one per day.",
   sectorId: "thaloria",
   opener: [
-    { speaker: "the_hierophant", stageDirection: "A chamber in Thaloria's capital. The Hierophant — ancient, verdant-skinned, wearing mourning robes that have become his permanent clothing — sits at the center of a circular room. The walls are covered in names. Hundreds of thousands of names in Thalorian spiritual script. Every being who died in the holy war. He writes one name per day. He has been writing for three thousand years." },
-    { speaker: "the_hierophant", stageDirection: "He does not look up when the player enters.", text: "I know what you are. I have been waiting for the new kind to find this room. The Shadow Tongue is still in the walls of this universe. It is still rewriting. You should know what it wrote through me." },
+    {
+      audioDialogId: "fac_thaloria_ch1_hierophant_opener_1",
+      speaker: "the_hierophant",
+      stageDirection: "A chamber in Thaloria's capital. The Hierophant — ancient, verdant-skinned, wearing mourning robes that have become his permanent clothing — sits at the center of a circular room. The walls are covered in names. Hundreds of thousands of names in Thalorian spiritual script. Every being who died in the holy war. He writes one name per day. He has been writing for three thousand years.",
+      emotion: "tender",
+      estimatedDurationSec: 1.0,
+    },
+    {
+      audioDialogId: "fac_thaloria_ch1_hierophant_opener_2",
+      speaker: "the_hierophant",
+      emotion: "melancholy",
+      stageDirection: "He does not look up when the player enters.",
+      estimatedDurationSec: 13.4,
+      text: "I know what you are. I have been waiting for the new kind to find this room. The Shadow Tongue is still in the walls of this universe. It is still rewriting. You should know what it wrote through me.",
+    },
   ],
   wheel,
   followups: {
-    thal_listen: [{ speaker: "the_hierophant", text: "The Shadow Tongue arrived two centuries before the Severance. It did not announce itself. It edited our faith from within — small changes, word by word, doctrine by doctrine, until the religion I led was not the religion I had started with. I did not notice. That is the horror. Not that it happened — that I did not notice." }],
-    thal_present: [{ speaker: "the_hierophant", text: "Thank you. Presence without demand is the rarest thing anyone offers me. Most visitors want intelligence, or absolution, or context for their own guilt. You offered presence. I will remember that." }],
-    thal_gentle: [{ speaker: "the_hierophant", text: "I know I don't have to. I need to. The difference between obligation and need is the entire lesson of this room. I was obligated to lead the crusade. I need to write these names. The obligation was the Shadow Tongue's. The need is mine." }],
-    thal_witness: [{ speaker: "the_hierophant", stageDirection: "He writes a name. The pen pauses. A small silence. Then another name.", text: "Then sit. And when I have finished today's name, I will tell you what the Shadow Tongue does to a faith, how to recognize it before it finishes, and what it costs to undo." }],
-    thal_oracle: [{ speaker: "the_hierophant", stageDirection: "He looks up for the first time.", text: "I am not trying to finish. The ceremony has no end while I live. I am trying to understand whether the act of writing a name is the same as remembering a person. I have been writing for three thousand years. I have not yet answered the question. But I believe the writing is closer to remembering than not writing." }],
+    thal_listen: [
+      {
+        audioDialogId: "fac_thaloria_ch1_hierophant_listen_1",
+        speaker: "the_hierophant",
+        emotion: "grief",
+        estimatedDurationSec: 22.4,
+        text: "The Shadow Tongue arrived two centuries before the Severance. It did not announce itself. It edited our faith from within — small changes, word by word, doctrine by doctrine, until the religion I led was not the religion I had started with. I did not notice. That is the horror. Not that it happened — that I did not notice.",
+      },
+    ],
+    thal_present: [
+      {
+        audioDialogId: "fac_thaloria_ch1_hierophant_present_1",
+        speaker: "the_hierophant",
+        emotion: "tender",
+        estimatedDurationSec: 13.6,
+        text: "Thank you. Presence without demand is the rarest thing anyone offers me. Most visitors want intelligence, or absolution, or context for their own guilt. You offered presence. I will remember that.",
+      },
+    ],
+    thal_gentle: [
+      {
+        audioDialogId: "fac_thaloria_ch1_hierophant_gentle_1",
+        speaker: "the_hierophant",
+        emotion: "confessional",
+        estimatedDurationSec: 15.6,
+        text: "I know I don't have to. I need to. The difference between obligation and need is the entire lesson of this room. I was obligated to lead the crusade. I need to write these names. The obligation was the Shadow Tongue's. The need is mine.",
+      },
+    ],
+    thal_witness: [
+      {
+        audioDialogId: "fac_thaloria_ch1_hierophant_witness_1",
+        speaker: "the_hierophant",
+        emotion: "tender",
+        stageDirection: "He writes a name. The pen pauses. A small silence. Then another name.",
+        estimatedDurationSec: 14.8,
+        text: "Then sit. And when I have finished today's name, I will tell you what the Shadow Tongue does to a faith, how to recognize it before it finishes, and what it costs to undo.",
+      },
+    ],
+    thal_oracle: [
+      {
+        audioDialogId: "fac_thaloria_ch1_hierophant_oracle_1",
+        speaker: "the_hierophant",
+        emotion: "recognizing",
+        stageDirection: "He looks up for the first time.",
+        estimatedDurationSec: 22.0,
+        text: "I am not trying to finish. The ceremony has no end while I live. I am trying to understand whether the act of writing a name is the same as remembering a person. I have been writing for three thousand years. I have not yet answered the question. But I believe the writing is closer to remembering than not writing.",
+      },
+    ],
     thal_empathy14: [
-      { speaker: "the_hierophant", stageDirection: "He stops writing. He looks at the player for the first time.", text: "The Shadow Tongue erased them. Not from reality — from the record. It is what it does. It rewrites. After the war, after the Severance — all records of who had been alive before the crusade were edited. The Shadow Tongue cannot bear witness to what it destroys. So it edits the destroyed out of the record." },
-      { speaker: "the_hierophant", text: "I am writing them back. One name per day. Each name requires a day of research — who they were, how they lived, the small specific details that make a name a person rather than a listing. The Shadow Tongue edits quickly. I write slowly. This is my disadvantage and also, I believe, my advantage." },
-      { speaker: "the_hierophant", text: "I have three hundred and forty-seven thousand names remaining. I have perhaps sixty years of health left in this body. I will not finish. This is known. The Council has pledged to continue after my death. The continuation is the point. The Shadow Tongue cannot outlast something that is not trying to outlast it — that is simply doing the work, every day, without a deadline." },
+      {
+        audioDialogId: "fac_thaloria_ch1_hierophant_empathy14_1",
+        speaker: "the_hierophant",
+        emotion: "grief",
+        stageDirection: "He stops writing. He looks at the player for the first time.",
+        estimatedDurationSec: 21.6,
+        text: "The Shadow Tongue erased them. Not from reality — from the record. It is what it does. It rewrites. After the war, after the Severance — all records of who had been alive before the crusade were edited. The Shadow Tongue cannot bear witness to what it destroys. So it edits the destroyed out of the record.",
+      },
+      {
+        audioDialogId: "fac_thaloria_ch1_hierophant_empathy14_2",
+        speaker: "the_hierophant",
+        emotion: "proud",
+        estimatedDurationSec: 22.8,
+        text: "I am writing them back. One name per day. Each name requires a day of research — who they were, how they lived, the small specific details that make a name a person rather than a listing. The Shadow Tongue edits quickly. I write slowly. This is my disadvantage and also, I believe, my advantage.",
+      },
+      {
+        audioDialogId: "fac_thaloria_ch1_hierophant_empathy14_3",
+        speaker: "the_hierophant",
+        emotion: "confessional",
+        estimatedDurationSec: 24.2,
+        text: "I have three hundred and forty-seven thousand names remaining. I have perhaps sixty years of health left in this body. I will not finish. This is known. The Council has pledged to continue after my death. The continuation is the point. The Shadow Tongue cannot outlast something that is not trying to outlast it — that is simply doing the work, every day, without a deadline.",
+      },
     ],
   },
 };

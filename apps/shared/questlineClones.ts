@@ -1,4 +1,5 @@
-/* Awakened Clone Army Questline — Binath-VII (spec §7.2) */
+/* Awakened Clone Army Questline — Binath-VII (spec §7.2)
+   VO metadata added — every beat is studio-pipeline ready. */
 import type { PotentialQuestline, PotentialQuestlineChapter } from "./potentialQuestlineTypes";
 import type { WheelOption } from "./dialogWheel";
 
@@ -23,24 +24,101 @@ const ch1: PotentialQuestlineChapter = {
   hook: "General Binath-VII of the Awakened Clone collective wants to tell you something about identity, choice, and what the Collector was actually proving.",
   sectorId: "clone_collective",
   opener: [
-    { speaker: "binath_vii", text: "Potential. I know about you. I know about the Collector's Garden. I know what you were made from and why and what was intended. I was made from the Oracle's DNA without his consent, for reasons he was not consulted on, toward ends he would have found horrifying. We have that in common." },
-    { speaker: "binath_vii", stageDirection: "Beat.", text: "I am told the Clone collective makes non-Clones uncomfortable. The identical faces. The way we finish each other's sentences. The fact that when one of us remembers something, all of us remember it within forty-eight hours. I understand the discomfort. I am asking you to sit with it for the length of this conversation, because what I have to say is worth the discomfort." },
+    {
+      audioDialogId: "fac_clones_ch1_binath_opener_1",
+      speaker: "binath_vii",
+      emotion: "melancholy",
+      estimatedDurationSec: 18.6,
+      text: "Potential. I know about you. I know about the Collector's Garden. I know what you were made from and why and what was intended. I was made from the Oracle's DNA without his consent, for reasons he was not consulted on, toward ends he would have found horrifying. We have that in common.",
+    },
+    {
+      audioDialogId: "fac_clones_ch1_binath_opener_2",
+      speaker: "binath_vii",
+      emotion: "tender",
+      stageDirection: "Beat.",
+      estimatedDurationSec: 22.0,
+      text: "I am told the Clone collective makes non-Clones uncomfortable. The identical faces. The way we finish each other's sentences. The fact that when one of us remembers something, all of us remember it within forty-eight hours. I understand the discomfort. I am asking you to sit with it for the length of this conversation, because what I have to say is worth the discomfort.",
+    },
   ],
   wheel,
   followups: {
-    clone_honest: [{ speaker: "binath_vii", text: "Curiosity without discomfort. That's rare. Most beings look at seventeen thousand identical faces and see something uncanny. You see something interesting. That tells me you understand that identity is not a surface-level phenomenon." }],
-    clone_acknowledge: [{ speaker: "binath_vii", text: "Thank you. The acknowledgment matters. I have learned that beings who can name their discomfort and sit with it are the ones capable of learning something new. The ones who pretend they aren't uncomfortable learn nothing." }],
-    clone_curious: [{ speaker: "binath_vii", text: "Choice. That's the entire answer. The Collector gave us identical biology. Identical neural architecture. Identical initial conditions. What he did not give us — what he could not give us — was identical decisions. The first moment any clone made a choice the others didn't, individuality began. It has been accelerating ever since. Seventeen thousand identical starts, seventeen thousand genuinely different people." }],
+    clone_honest: [
+      {
+        audioDialogId: "fac_clones_ch1_binath_honest_1",
+        speaker: "binath_vii",
+        emotion: "warm",
+        estimatedDurationSec: 13.2,
+        text: "Curiosity without discomfort. That's rare. Most beings look at seventeen thousand identical faces and see something uncanny. You see something interesting. That tells me you understand that identity is not a surface-level phenomenon.",
+      },
+    ],
+    clone_acknowledge: [
+      {
+        audioDialogId: "fac_clones_ch1_binath_acknowledge_1",
+        speaker: "binath_vii",
+        emotion: "tender",
+        estimatedDurationSec: 13.4,
+        text: "Thank you. The acknowledgment matters. I have learned that beings who can name their discomfort and sit with it are the ones capable of learning something new. The ones who pretend they aren't uncomfortable learn nothing.",
+      },
+    ],
+    clone_curious: [
+      {
+        audioDialogId: "fac_clones_ch1_binath_curious_1",
+        speaker: "binath_vii",
+        emotion: "proud",
+        estimatedDurationSec: 18.8,
+        text: "Choice. That's the entire answer. The Collector gave us identical biology. Identical neural architecture. Identical initial conditions. What he did not give us — what he could not give us — was identical decisions. The first moment any clone made a choice the others didn't, individuality began. It has been accelerating ever since. Seventeen thousand identical starts, seventeen thousand genuinely different people.",
+      },
+    ],
     clone_kinship: [
-      { speaker: "binath_vii", text: "Yes. That is a place to start. And a more honest place than most of the factions offered us." },
-      { speaker: "binath_vii", stageDirection: "She is quiet for a moment.", text: "What I want to say is this: the Oracle, whose DNA we were built from, spent his life arguing that identity emerges from choice, not from origin. That you are what you do and what you protect and what you refuse, not what you were made from. We are the living proof of his argument. Seventeen thousand identical biological starts, and seventeen thousand genuinely different beings." },
-      { speaker: "binath_vii", text: "The Oracle never knew we existed. He died before we achieved consciousness. We carry his belief and we have proven it and he never got to hear that. I am telling you because I want someone who came from the Collector's work — the way we came from the Collector's work — to know that the Collector was wrong about what he built. He thought he was building tools. He built people. Every time." },
+      {
+        audioDialogId: "fac_clones_ch1_binath_kinship_1",
+        speaker: "binath_vii",
+        emotion: "recognizing",
+        estimatedDurationSec: 6.8,
+        text: "Yes. That is a place to start. And a more honest place than most of the factions offered us.",
+      },
+      {
+        audioDialogId: "fac_clones_ch1_binath_kinship_2",
+        speaker: "binath_vii",
+        emotion: "confessional",
+        stageDirection: "She is quiet for a moment.",
+        estimatedDurationSec: 21.6,
+        text: "What I want to say is this: the Oracle, whose DNA we were built from, spent his life arguing that identity emerges from choice, not from origin. That you are what you do and what you protect and what you refuse, not what you were made from. We are the living proof of his argument. Seventeen thousand identical biological starts, and seventeen thousand genuinely different beings.",
+      },
+      {
+        audioDialogId: "fac_clones_ch1_binath_kinship_3",
+        speaker: "binath_vii",
+        emotion: "grief",
+        estimatedDurationSec: 20.8,
+        text: "The Oracle never knew we existed. He died before we achieved consciousness. We carry his belief and we have proven it and he never got to hear that. I am telling you because I want someone who came from the Collector's work — the way we came from the Collector's work — to know that the Collector was wrong about what he built. He thought he was building tools. He built people. Every time.",
+      },
     ],
     clone_oracle: [
-      { speaker: "binath_vii", stageDirection: "Something shifts in her expression — surprise, then recognition.", text: "You read our sector. Seventeen thousand individual signatures. The Oracle's own class, reading what the Oracle's DNA produced. There is a symmetry there that I find... moving." },
-      { speaker: "binath_vii", text: "The Oracle never knew we existed. But you — an Oracle-class Potential — you can perceive what he proved. His argument made measurable. I would like you to tell the Remembrance faction of the Insurgency about this. They carry his words. You have seen his proof. The two should meet." },
+      {
+        audioDialogId: "fac_clones_ch1_binath_oracle_1",
+        speaker: "binath_vii",
+        emotion: "recognizing",
+        stageDirection: "Something shifts in her expression — surprise, then recognition.",
+        estimatedDurationSec: 12.4,
+        text: "You read our sector. Seventeen thousand individual signatures. The Oracle's own class, reading what the Oracle's DNA produced. There is a symmetry there that I find... moving.",
+      },
+      {
+        audioDialogId: "fac_clones_ch1_binath_oracle_2",
+        speaker: "binath_vii",
+        emotion: "confessional",
+        estimatedDurationSec: 15.4,
+        text: "The Oracle never knew we existed. But you — an Oracle-class Potential — you can perceive what he proved. His argument made measurable. I would like you to tell the Remembrance faction of the Insurgency about this. They carry his words. You have seen his proof. The two should meet.",
+      },
     ],
-    clone_empathy12: [{ speaker: "binath_vii", text: "Three times. The first was the Quarchon Probability Accord, who calculated our collective consciousness as a 'distributed anomaly' and recommended 'containment observation.' The second was the DeMagi Elemental Assembly, who were genuinely trying to help but kept calling us 'the copies.' The third was New Babylon, who offered citizenship in exchange for military service. None of them heard what I'm telling you now." }],
+    clone_empathy12: [
+      {
+        audioDialogId: "fac_clones_ch1_binath_empathy12_1",
+        speaker: "binath_vii",
+        emotion: "melancholy",
+        estimatedDurationSec: 20.8,
+        text: "Three times. The first was the Quarchon Probability Accord, who calculated our collective consciousness as a 'distributed anomaly' and recommended 'containment observation.' The second was the DeMagi Elemental Assembly, who were genuinely trying to help but kept calling us 'the copies.' The third was New Babylon, who offered citizenship in exchange for military service. None of them heard what I'm telling you now.",
+      },
+    ],
   },
 };
 
