@@ -20,6 +20,8 @@ import { useGame } from "@/contexts/GameContext";
 import { Swords, Scale, Tv } from "lucide-react";
 import SeasonalReplayOverlay from "@/components/SeasonalReplayOverlay";
 import { generateReplay, getMissedEvents, MEME_REPLAY_TEMPLATES } from "@shared/seasonalReplay";
+import { ResponsiveImage } from "@/components/ResponsiveImage";
+import { SEASONAL_EVENT_BACKGROUNDS } from "@/data/optionalComponentAssets";
 
 type Tab = "overview" | "quests" | "milestones" | "shop" | "lore";
 
@@ -295,8 +297,30 @@ export default function SeasonalEventsPage() {
   return (
     <div className="min-h-screen pb-20">
       {/* ═══ HERO BANNER ═══ */}
-      {activeEventDef && (
+      {activeEventDef && (() => {
+        const eventArt = SEASONAL_EVENT_BACKGROUNDS[activeEventDef.key];
+        return (
         <div className="relative overflow-hidden">
+          {/* Art-bible hero background — renders when the event's key matches
+              one of the seven wide splash images from the optional components
+              art pack (shadow_convergence, chrono_harvest, etc). Falls back to
+              the radial gradient when no art exists for this event. */}
+          {eventArt && (
+            <>
+              <ResponsiveImage
+                src={eventArt.src}
+                alt={eventArt.title}
+                eager
+                className="absolute inset-0 h-full w-full object-cover opacity-70"
+              />
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: `linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.9) 100%)`,
+                }}
+              />
+            </>
+          )}
           <div
             className="absolute inset-0 opacity-20"
             style={{
@@ -379,7 +403,8 @@ export default function SeasonalEventsPage() {
             </div>
           </div>
         </div>
-      )}
+        );
+      })()}
 
       {/* ═══ TAB BAR ═══ */}
       <div className="border-b border-border/30 bg-card/30 backdrop-blur-sm sticky top-0 z-20">
