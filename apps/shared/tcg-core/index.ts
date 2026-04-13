@@ -243,6 +243,14 @@ export type {
   Fnord23UserState,
   FnordEffect,
 } from "./audio/fnord23";
+export {
+  OUTERGROOVE_CHANNEL,
+  OUTERGROOVE_TRACKS,
+  OUTERGROOVE_TRACK_MAP,
+  ALL_CHANNELS,
+  ALL_INSTRUMENTAL_TRACKS,
+  INSTRUMENTAL_TRACK_MAP,
+} from "./audio/outergroove";
 
 /* ─── Economy (WS8) ─── */
 export { openPack, STANDARD_PACK, SOUL_STONE_VALUES } from "./economy/packs";
