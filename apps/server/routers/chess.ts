@@ -12,8 +12,14 @@ import { getDb, type DrizzleDb } from "../db";
 import {
   chessGames, chessRankings, chessTournaments,
   chessPuzzleProgress, chessTournamentParticipants, chessTournamentPairings,
+  chessTutorialProgress,
   dreamBalance, notifications,
 } from "../../db/schema";
+import {
+  CHESS_TUTORIAL_GATES,
+  getChessTutorialGate,
+  resolveDialog,
+} from "@shared/tcg-core";
 import { fetchCitizenData, fetchPotentialNftData, resolveChessBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
 import { checkFeatureFlag } from "../middleware/featureFlag";
@@ -1622,6 +1628,240 @@ export const chessRouter = router({
     }
     return null;
   }),
+
+  /* ═══════════════════════════════════════════════════════
+     CHESS TUTORIAL — Celebration Game Master's academy
+     7 gates of real chess pedagogy + a skip-challenge path
+     that launches a max-difficulty Game Master match.
+     ═══════════════════════════════════════════════════════ */
+
+  /** Get (or lazily create) the current user's chess tutorial progress
+   *  row. Returns the active gate definition + intro/outro scenes so
+   *  the client overlay can render without a second round trip. */
+  getTutorialProgress: protectedProcedure.query(async ({ ctx }) => {
+    const db = (await getDb())!;
+    const existing = await db.select().from(chessTutorialProgress)
+      .where(eq(chessTutorialProgress.userId, ctx.user.id)).limit(1);
+    let row = existing[0];
+    if (!row) {
+      await db.insert(chessTutorialProgress).values({
+        userId: ctx.user.id,
+        currentGate: 1,
+        completedGates: [],
+        currentStep: 0,
+      });
+      const fresh = await db.select().from(chessTutorialProgress)
+        .where(eq(chessTutorialProgress.userId, ctx.user.id)).limit(1);
+      row = fresh[0];
+    }
+    const complete = row.currentGate > 7;
+    const activeGate = complete ? null : getChessTutorialGate(row.currentGate);
+    return {
+      progress: row,
+      complete,
+      totalGates: CHESS_TUTORIAL_GATES.length,
+      activeGate: activeGate
+        ? {
+            id: activeGate.id,
+            gateNumber: activeGate.gateNumber,
+            title: activeGate.title,
+            objective: activeGate.objective,
+            introScene: activeGate.introScene,
+            outroScene: activeGate.outroScene,
+            freePlayPrompt: activeGate.freePlayPrompt,
+            stepCount: activeGate.steps.length,
+          }
+        : null,
+    };
+  }),
+
+  /** Fetch a single lesson step for the active gate. The client calls
+   *  this on every advance to avoid sending all 10 steps up front. */
+  getTutorialStep: protectedProcedure
+    .input(z.object({
+      gateNumber: z.number().int().min(1).max(7),
+      stepIndex: z.number().int().min(0),
+    }))
+    .query(async ({ input }) => {
+      const gate = getChessTutorialGate(input.gateNumber);
+      if (!gate) throw new Error(`Unknown chess tutorial gate ${input.gateNumber}`);
+      const step = gate.steps[input.stepIndex];
+      if (!step) throw new Error(`Step ${input.stepIndex} out of range for gate ${input.gateNumber}`);
+      return {
+        step,
+        totalSteps: gate.steps.length,
+        isFinalStep: input.stepIndex === gate.steps.length - 1,
+      };
+    }),
+
+  /** Advance the student past a single lesson step. If the step had
+   *  required answer moves, the client is expected to have already
+   *  validated the move locally via chess.js — this procedure just
+   *  records progress. Blocks advancing past the current step. */
+  completeTutorialStep: protectedProcedure
+    .input(z.object({
+      gateNumber: z.number().int().min(1).max(7),
+      stepIndex: z.number().int().min(0),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = (await getDb())!;
+      const [row] = await db.select().from(chessTutorialProgress)
+        .where(eq(chessTutorialProgress.userId, ctx.user.id)).limit(1);
+      if (!row) throw new Error("No chess tutorial progress row — call getTutorialProgress first");
+      if (input.gateNumber !== row.currentGate) {
+        throw new Error(`Gate ${input.gateNumber} is not active (current: ${row.currentGate})`);
+      }
+      if (input.stepIndex !== row.currentStep) {
+        throw new Error(`Step ${input.stepIndex} is not active (current: ${row.currentStep})`);
+      }
+      const gate = getChessTutorialGate(input.gateNumber);
+      if (!gate) throw new Error("Unknown gate");
+      const nextStep = input.stepIndex + 1;
+      const atEnd = nextStep >= gate.steps.length;
+      await db.update(chessTutorialProgress)
+        .set({ currentStep: atEnd ? 0 : nextStep })
+        .where(eq(chessTutorialProgress.userId, ctx.user.id));
+      return { nextStep: atEnd ? null : nextStep, gateComplete: atEnd };
+    }),
+
+  /** Mark a gate complete and advance to the next. Called by the client
+   *  after the outro scene finishes playing. Fires the Gate 7 reveal
+   *  keepsake grant when the final gate closes. */
+  completeTutorialGate: protectedProcedure
+    .input(z.object({ gateNumber: z.number().int().min(1).max(7) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = (await getDb())!;
+      const [row] = await db.select().from(chessTutorialProgress)
+        .where(eq(chessTutorialProgress.userId, ctx.user.id)).limit(1);
+      if (!row) throw new Error("No chess tutorial progress row");
+      if (input.gateNumber !== row.currentGate) {
+        throw new Error(`Gate ${input.gateNumber} is not active`);
+      }
+      const completed = Array.from(new Set([...(row.completedGates ?? []), input.gateNumber]))
+        .sort((a, b) => a - b);
+      const nextGate = input.gateNumber + 1;
+      const isFinal = input.gateNumber === 7;
+      await db.update(chessTutorialProgress)
+        .set({
+          completedGates: completed,
+          currentGate: isFinal ? 8 : nextGate,
+          currentStep: 0,
+          completedAt: isFinal ? new Date() : row.completedAt,
+          keepsakeGranted: isFinal ? true : row.keepsakeGranted,
+        })
+        .where(eq(chessTutorialProgress.userId, ctx.user.id));
+
+      if (isFinal && !row.keepsakeGranted) {
+        await db.insert(notifications).values({
+          userId: ctx.user.id,
+          type: "achievement",
+          title: "The Celebration Teaching Set",
+          message: "The Celebration Game Master gave you his original chess set. Memory resin is now available in your inventory.",
+          actionUrl: "/chess",
+        });
+      }
+
+      return {
+        completedGates: completed,
+        nextGate: isFinal ? null : nextGate,
+        tutorialComplete: isFinal,
+      };
+    }),
+
+  /** Skip-challenge path — "I already know how to play. Challenge me."
+   *  Creates a game_master chess match at aiDifficulty 10 (max).
+   *  Records the skip timestamp so the post-match handler knows to
+   *  branch into the reconciliation / victory dialog instead of the
+   *  normal game_master ending. The loss path is non-destructive —
+   *  no tutorial progress is lost, and Gate 1 remains accessible. */
+  skipTutorialAndChallenge: protectedProcedure.mutation(async ({ ctx }) => {
+    await chessReady;
+    const db = (await getDb())!;
+    // Ensure the progress row exists.
+    const existing = await db.select().from(chessTutorialProgress)
+      .where(eq(chessTutorialProgress.userId, ctx.user.id)).limit(1);
+    if (existing.length === 0) {
+      await db.insert(chessTutorialProgress).values({
+        userId: ctx.user.id,
+        currentGate: 1,
+        completedGates: [],
+        currentStep: 0,
+      });
+    }
+    await db.update(chessTutorialProgress)
+      .set({ skippedAt: new Date() })
+      .where(eq(chessTutorialProgress.userId, ctx.user.id));
+
+    // Start a maximum-difficulty game_master match. The Celebration
+    // Game Master plays at absolute skill exactly once, to prove a
+    // point about strategic thinking.
+    const opponent = CHESS_CHARACTERS["game_master"];
+    const result = await db.insert(chessGames).values({
+      whitePlayerId: ctx.user.id,
+      blackPlayerId: null,
+      whiteCharacter: "the_architect",
+      blackCharacter: "game_master",
+      mode: "game_master",
+      aiDifficulty: 10,
+      fen: STARTING_FEN,
+      pgn: "",
+      status: "active",
+      timeControl: 600,
+      whiteTimeMs: 600_000,
+      blackTimeMs: 600_000,
+      startedAt: new Date(),
+    });
+    return {
+      gameId: Number(result[0].insertId),
+      fen: STARTING_FEN,
+      playerColor: "white",
+      aiDifficulty: 10,
+      opponent: { id: "game_master", ...opponent },
+      challengeScene: resolveDialog("chess_tut_skip_challenge") ?? null,
+    };
+  }),
+
+  /** Called by the client after a skip-challenge match ends so the
+   *  router can record the outcome + return the correct post-match
+   *  dialog scene (reconciliation on loss, victory on win). */
+  resolveSkipChallengeOutcome: protectedProcedure
+    .input(z.object({ won: z.boolean() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = (await getDb())!;
+      const [row] = await db.select().from(chessTutorialProgress)
+        .where(eq(chessTutorialProgress.userId, ctx.user.id)).limit(1);
+      if (!row) throw new Error("No chess tutorial progress row");
+
+      if (input.won) {
+        // Player beat the maximum-difficulty Celebration Game Master.
+        // Fast-forward the tutorial and grant the cosmetic.
+        await db.update(chessTutorialProgress)
+          .set({
+            skipMatchWon: true,
+            currentGate: 8,
+            completedGates: [1, 2, 3, 4, 5, 6, 7],
+            keepsakeGranted: true,
+            completedAt: new Date(),
+          })
+          .where(eq(chessTutorialProgress.userId, ctx.user.id));
+        await db.insert(notifications).values({
+          userId: ctx.user.id,
+          type: "achievement",
+          title: "The Celebration Teaching Jacket",
+          message: "You beat the Celebration Game Master at full strength. He shook your hand and gave you his jacket.",
+          actionUrl: "/chess",
+        });
+        return {
+          outcome: "won" as const,
+          scene: resolveDialog("chess_tut_skip_victory") ?? null,
+        };
+      }
+      // Loss path — non-destructive. Drop the player into Gate 1.
+      return {
+        outcome: "lost" as const,
+        scene: resolveDialog("chess_tut_skip_reconciliation") ?? null,
+      };
+    }),
 });
 
 /* ─── PUZZLE STATE (DB-backed) ──────────────────────────── */
