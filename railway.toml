@@ -3,7 +3,7 @@ builder = "nixpacks"
 buildCommand = "pnpm install --frozen-lockfile && pnpm run build"
 
 [build.nixpacksPlan.phases.setup]
-nixPkgs = ["nodejs_20", "pnpm"]
+nixPkgs = ["nodejs_22", "pnpm"]
 
 [deploy]
 startCommand = "pnpm db:push && pnpm start"

@@ -379,6 +379,146 @@ export const GALACTIC_MAP: GalacticSector[] = [
   },
 ];
 
+/* ─── ACT 3 FACTION ARC RESOLUTION ─── */
+
+/**
+ * Each of the six Act 3 factions can be resolved three ways.
+ * Conquest = Dark, Diplomacy = Light, Infiltration = Gray (Eyes path).
+ * Five of six must be resolved to advance to Act 4.
+ */
+export type FactionArcPath = "conquest" | "diplomacy" | "infiltration";
+export type FactionArcStatus = "locked" | "available" | "in_progress" | "resolved" | "failed";
+
+export type Act3FactionId =
+  | "new_babylon"
+  | "hierarchy"
+  | "insurgency"
+  | "thought_virus"
+  | "artificial_empire"
+  | "antiquarian";
+
+export const ACT3_FACTION_IDS: Act3FactionId[] = [
+  "new_babylon", "hierarchy", "insurgency", "thought_virus", "artificial_empire", "antiquarian",
+];
+
+export interface FactionArcStage {
+  id: string;
+  name: string;
+  description: string;
+  /** Player-visible hint about how to advance this stage */
+  objective: string;
+}
+
+export interface FactionArcDefinition {
+  factionId: Act3FactionId;
+  boss: string;
+  paths: Record<FactionArcPath, {
+    name: string;
+    summary: string;
+    /** Stages the player must complete in order */
+    stages: FactionArcStage[];
+    /** Reward granted on path completion */
+    reward: {
+      cardId?: string;
+      ability?: string;
+      tomeId?: string;
+      resource?: Partial<SectorResources>;
+      lightEnergy?: number;
+      darkEnergy?: number;
+      reputation?: number;
+      description: string;
+    };
+    /** Flags set on successful completion */
+    flagsOnComplete: string[];
+    /** Whether this path is mechanically impossible (spec §7.3 F4 diplomacy, F6 conquest) */
+    impossible?: boolean;
+  }>;
+}
+
+/** Per-player Act 3 faction arc state */
+export interface FactionArcState {
+  factionId: Act3FactionId;
+  status: FactionArcStatus;
+  chosenPath: FactionArcPath | null;
+  /** Index of the current stage within the chosen path */
+  stageIndex: number;
+  /** Stage ids the player has completed (on the chosen path) */
+  completedStages: string[];
+  /** Timestamp when the arc resolved */
+  resolvedAt: number | null;
+}
+
+export interface Act3State {
+  /** Per-faction arc state keyed by Act3FactionId */
+  arcs: Record<Act3FactionId, FactionArcState>;
+  /** Ids of lore fragments the player has discovered (§7.4) */
+  discoveredFragments: string[];
+  /** Whether the player has seen the opening Eyes transmission (§7.1) */
+  eyesTransmissionSeen: boolean;
+  /** Whether the player has seen the Ocularum slideshow (§7.5) */
+  watcherOriginSeen: boolean;
+  /** Whether the player has fought the Collector (§7.6) */
+  collectorBossFought: boolean;
+  /** Whether the player has won that battle */
+  collectorBossWon: boolean;
+  /** Name of the card forfeited to the Collector on a loss (null if not lost) */
+  lostCardToCollector: string | null;
+  /** Which ending was reached (§7.7) */
+  act3Ending: "eyes_shadow" | "iron_path" | "council" | null;
+}
+
+export function createInitialAct3State(): Act3State {
+  const arcs: Partial<Record<Act3FactionId, FactionArcState>> = {};
+  for (const fId of ACT3_FACTION_IDS) {
+    arcs[fId] = {
+      factionId: fId,
+      status: "locked",
+      chosenPath: null,
+      stageIndex: 0,
+      completedStages: [],
+      resolvedAt: null,
+    };
+  }
+  return {
+    arcs: arcs as Record<Act3FactionId, FactionArcState>,
+    discoveredFragments: [],
+    eyesTransmissionSeen: false,
+    watcherOriginSeen: false,
+    collectorBossFought: false,
+    collectorBossWon: false,
+    lostCardToCollector: null,
+    act3Ending: null,
+  };
+}
+
+/** Count how many factions have been resolved on each path */
+export function countPathsResolved(state: Act3State): Record<FactionArcPath, number> {
+  const counts: Record<FactionArcPath, number> = { conquest: 0, diplomacy: 0, infiltration: 0 };
+  for (const arc of Object.values(state.arcs)) {
+    if (arc.status === "resolved" && arc.chosenPath) counts[arc.chosenPath]++;
+  }
+  return counts;
+}
+
+/** Total arcs resolved regardless of path */
+export function countArcsResolved(state: Act3State): number {
+  return Object.values(state.arcs).filter(a => a.status === "resolved").length;
+}
+
+/** §7.3: Act 3 completes when 5 of 6 arcs are resolved. */
+export function isAct3Complete(state: Act3State): boolean {
+  return countArcsResolved(state) >= 5;
+}
+
+/** §7.7: Determine which ending applies based on path counts. */
+export function determineAct3Ending(state: Act3State): "eyes_shadow" | "iron_path" | "council" | null {
+  const counts = countPathsResolved(state);
+  if (counts.infiltration >= 3) return "eyes_shadow";
+  if (counts.conquest >= 3) return "iron_path";
+  if (counts.diplomacy >= 3) return "council";
+  return null;
+}
+
 /* ─── MISSION SYSTEM (AC Brotherhood Style) ─── */
 
 export type MissionType =
@@ -510,6 +650,40 @@ export interface EmpireState {
   empireLevel: number;
   /** Total cycles survived */
   cycleCount: number;
+  /** Act 3 faction arc progression — undefined on save files from before Act 3 shipped */
+  act3?: Act3State;
+  /** §8.2 quick-wins: saved sector bookmarks (max 5) */
+  sectorBookmarks?: string[];
+  /** §8.2 quick-wins: saved trade routes */
+  tradeRoutes?: SavedTradeRoute[];
+  /** §8.2 quick-wins: recent sector event log (most-recent first, max 50) */
+  eventLog?: SectorEventEntry[];
+}
+
+/** Trade routes as objects — §8.2 quick-win */
+export interface SavedTradeRoute {
+  id: string;
+  name: string;
+  /** Ordered list of sector ids the route touches */
+  sectorIds: string[];
+  /** Optional crew member assigned to run this route autonomously */
+  crewId?: string;
+  /** Times this route has been run */
+  runCount: number;
+  createdAt: number;
+}
+
+/** Sector event log entry — §8.2 quick-win */
+export interface SectorEventEntry {
+  id: string;
+  sectorId: string;
+  /** Short player-facing label, e.g. "Completed mission" or "Betrayed Hierarchy" */
+  label: string;
+  /** Detailed text shown in the Bridge event log */
+  detail: string;
+  timestamp: number;
+  /** Which narrative tone this event carries */
+  tone: "light" | "dark" | "neutral";
 }
 
 export function createInitialEmpire(): EmpireState {
@@ -537,7 +711,34 @@ export function createInitialEmpire(): EmpireState {
     intelligence: 10,
     empireLevel: 1,
     cycleCount: 0,
+    act3: createInitialAct3State(),
+    sectorBookmarks: [],
+    tradeRoutes: [],
+    eventLog: [],
   };
+}
+
+/**
+ * Migrate legacy save data — older localStorage snapshots may lack the
+ * Act 3 state or §8.2 quick-win fields. This ensures the Trade Empire UI
+ * never crashes on an older save.
+ */
+export function migrateEmpireState(state: EmpireState): EmpireState {
+  const migrated: EmpireState = { ...state };
+  if (!migrated.act3) migrated.act3 = createInitialAct3State();
+  if (!migrated.sectorBookmarks) migrated.sectorBookmarks = [];
+  if (!migrated.tradeRoutes) migrated.tradeRoutes = [];
+  if (!migrated.eventLog) migrated.eventLog = [];
+  // Backfill any missing Act3 arcs (spec changes may add new factions later)
+  for (const fId of ACT3_FACTION_IDS) {
+    if (!migrated.act3.arcs[fId]) {
+      migrated.act3.arcs[fId] = {
+        factionId: fId, status: "locked", chosenPath: null,
+        stageIndex: 0, completedStages: [], resolvedAt: null,
+      };
+    }
+  }
+  return migrated;
 }
 
 /* ─── STARTING MISSIONS (offered by NPCs) ─── */
@@ -677,3 +878,275 @@ export const STARTER_MISSIONS: MissionDef[] = [
     completionSong: "The Source (Reprise)",
   },
 ];
+
+/* ═══════════════════════════════════════════════════════
+   ACT 3 FACTION ARC DEFINITIONS
+   Six factions × three paths × stages.
+   Matches the spec in §7.3 of WITNESSING_NARRATIVE_PROPOSAL.md.
+   ═══════════════════════════════════════════════════════ */
+
+export const ACT3_FACTION_ARCS: Record<Act3FactionId, FactionArcDefinition> = {
+  /* ─── F1: New Babylon Ascendant ─── */
+  new_babylon: {
+    factionId: "new_babylon",
+    boss: "Adjudicator Locke & the Authority's coffins",
+    paths: {
+      conquest: {
+        name: "Siege of New Babylon Core",
+        summary: "Take the city-planet by force across six linked sector fights.",
+        stages: [
+          { id: "nb_c_1", name: "Secure Trade Nexus", description: "Cut the Authority's supply lines at the Trade Nexus.", objective: "Win a sector battle in Trade Nexus." },
+          { id: "nb_c_2", name: "Crack the Inner Ring", description: "Break through the Inner Ring defense grid.", objective: "Defeat a cruiser flotilla." },
+          { id: "nb_c_3", name: "Coffin Vault Assault", description: "Breach the vault where the six imprisoned minds lie.", objective: "Burn three red-crystal coffins." },
+          { id: "nb_c_4", name: "Depose the Authority", description: "Six become one. One is your enemy.", objective: "Defeat Locke in single combat." },
+          { id: "nb_c_5", name: "Pacify the Core", description: "Hold the Core for three cycles under Iron Lion protocol.", objective: "Hold position for 3 cycles." },
+          { id: "nb_c_6", name: "Install Your Governor", description: "Choose who rules the ashes.", objective: "Appoint a governor from your crew." },
+        ],
+        reward: { cardId: "authority-broken", darkEnergy: 300, reputation: -40, description: "The Authority Broken — a Legendary dark card that copies the highest-cost card in an opponent's discard pile." },
+        flagsOnComplete: ["new_babylon_arc_complete", "new_babylon_conquest"],
+      },
+      diplomacy: {
+        name: "The Red Crystal Accord",
+        summary: "Negotiate a binding treaty with six imprisoned minds simultaneously in a diplomacy minigame.",
+        stages: [
+          { id: "nb_d_1", name: "Request an Audience", description: "Petition the Authority for a formal audience.", objective: "Spend 30 Influence to request the meeting." },
+          { id: "nb_d_2", name: "Enter the Coffin Chamber", description: "Walk into a room of six crystal prisons.", objective: "Study the coffin chamber layout." },
+          { id: "nb_d_3", name: "Hold the Table", description: "Spend your Words across six simultaneous negotiations.", objective: "Win a Diplomacy Minigame against the Authority (table_id=new_babylon)." },
+          { id: "nb_d_4", name: "Sign the Accord", description: "Every signature is a chain.", objective: "Sign the Red Crystal Accord." },
+        ],
+        reward: { cardId: "red-crystal-accord", lightEnergy: 200, reputation: 50, description: "The Red Crystal Accord — a Rare light card that grants +2 Influence per turn while in play." },
+        flagsOnComplete: ["new_babylon_arc_complete", "new_babylon_diplomacy"],
+      },
+      infiltration: {
+        name: "Become the Next Adjudicator",
+        summary: "Six weeks of in-game time climbing the Authority's court. The finale: you judge Senator Elara Voss in a replayed archive trial.",
+        stages: [
+          { id: "nb_i_1", name: "Assume the Identity", description: "Take up a cover as a junior clerk.", objective: "Forge Adjudicator credentials." },
+          { id: "nb_i_2", name: "First Ruling", description: "Your first case is a minor tax dispute. Don't blow it.", objective: "Rule on 3 minor cases." },
+          { id: "nb_i_3", name: "Rise Through the Ranks", description: "Three weeks of bureaucratic climbing.", objective: "Earn the trust of two senior adjudicators." },
+          { id: "nb_i_4", name: "The Replayed Trial", description: "The archive file opens. Senator Elara Voss is on the stand, seventeen thousand years late.", objective: "Judge Senator Elara Voss. Your verdict is binding — Elara will remember." },
+        ],
+        reward: { ability: "adjudicator_decree", darkEnergy: 150, description: "Adjudicator's Decree — once per day, void one enemy contract or agreement. Elara may never forgive you." },
+        flagsOnComplete: ["new_babylon_arc_complete", "new_babylon_infiltration", "elara_judged_replay"],
+      },
+    },
+  },
+
+  /* ─── F2: Hierarchy of the Damned ─── */
+  hierarchy: {
+    factionId: "hierarchy",
+    boss: "The Shadow Tongue",
+    paths: {
+      conquest: {
+        name: "Close the Dimensional Gates",
+        summary: "Destroy three dimensional gates on three corrupted worlds.",
+        stages: [
+          { id: "hi_c_1", name: "First Gate — Hell Gate", description: "The permanent rift at Hell Gate.", objective: "Destroy the Hell Gate anchor." },
+          { id: "hi_c_2", name: "Second Gate — Abyssal Sectors", description: "A rift pulsing with Blood Weave.", objective: "Destroy the Abyssal anchor." },
+          { id: "hi_c_3", name: "Third Gate — Shadow Tongue's Birth Place", description: "A final rift in the Thalorian forest.", objective: "Destroy the Thaloria anchor." },
+        ],
+        reward: { cardId: "gate-breaker", darkEnergy: 200, lightEnergy: 100, description: "Gate Breaker — a Rare card that deals double damage to Hierarchy enemies for the rest of the game." },
+        flagsOnComplete: ["hierarchy_arc_complete", "hierarchy_conquest"],
+      },
+      diplomacy: {
+        name: "Soul Contract Exemption",
+        summary: "Negotiate with Xeth'Raal the Debt Collector — your words rewrite themselves as you speak.",
+        stages: [
+          { id: "hi_d_1", name: "Summon Xeth'Raal", description: "The Debt Collector answers to his true name.", objective: "Use the Shadow Tongue's Book of Names." },
+          { id: "hi_d_2", name: "The Shifting Table", description: "Every word you speak rewrites itself.", objective: "Win a Diplomacy Minigame against Xeth'Raal (table_id=hierarchy)." },
+          { id: "hi_d_3", name: "Seal the Exemption", description: "Sign in something thicker than ink.", objective: "Pay 100 Influence and 50 Dark Energy." },
+        ],
+        reward: { ability: "soul_exemption", description: "Soul Contract Exemption — death penalties reduced by 50% for the rest of the game." },
+        flagsOnComplete: ["hierarchy_arc_complete", "hierarchy_diplomacy"],
+      },
+      infiltration: {
+        name: "The Shadow Tongue's Apprentice",
+        summary: "Learn to rewrite small pieces of the Loredex. Lie to the universe and make it true.",
+        stages: [
+          { id: "hi_i_1", name: "Accept the Bargain", description: "The Shadow Tongue smiles.", objective: "Accept the apprenticeship in the Armory." },
+          { id: "hi_i_2", name: "First Rewrite", description: "Change a single word in an old Loredex entry.", objective: "Rewrite a minor Loredex fact." },
+          { id: "hi_i_3", name: "Blood Weave Ritual", description: "The cost is always yours to pay.", objective: "Complete the Blood Weave ritual (+200 Dark Energy)." },
+          { id: "hi_i_4", name: "Graduate", description: "You can lie now. The universe will remember it wrong.", objective: "Finalize your first permanent Loredex rewrite." },
+        ],
+        reward: { ability: "loredex_rewrite", darkEnergy: 250, description: "Loredex Rewrite — once per act, permanently alter one fact in the Loredex. Cannot be undone." },
+        flagsOnComplete: ["hierarchy_arc_complete", "hierarchy_infiltration", "shadow_tongue_apprentice"],
+      },
+    },
+  },
+
+  /* ─── F3: The Insurgency ─── */
+  insurgency: {
+    factionId: "insurgency",
+    boss: "'Agent Zero' — the Engineer in a dead woman's body",
+    paths: {
+      conquest: {
+        name: "Storm the Insurgency Haven",
+        summary: "Impossible without chess_depth ≥ 5. A direct assault on hidden bases.",
+        stages: [
+          { id: "in_c_1", name: "Triangulate the Haven", description: "The Insurgency hides in nebulae and asteroid fields.", objective: "Chess_depth ≥ 5 required to pinpoint the Haven." },
+          { id: "in_c_2", name: "Breach the Outer Cordon", description: "Cross an asteroid field under hostile fire.", objective: "Win a sector battle in Insurgency Haven." },
+          { id: "in_c_3", name: "Kill Agent Zero", description: "The engineer is wearing a dead woman's face. You did not know this.", objective: "Defeat 'Agent Zero' in single combat." },
+        ],
+        reward: { cardId: "engineer-mercy", darkEnergy: 400, description: "You killed the Engineer without knowing it was him. The card 'Engineer's Mercy' joins your deck — a Legendary card with the text 'I deserved this.' It is impossible to remove." },
+        flagsOnComplete: ["insurgency_arc_complete", "insurgency_conquest", "engineer_killed_unknowing"],
+      },
+      diplomacy: {
+        name: "The Nomad's Compass",
+        summary: "Share intelligence with Agent Zero. Earn the Nomad's Compass crafting reagent.",
+        stages: [
+          { id: "in_d_1", name: "Establish a Dead Drop", description: "Leave a message in the Free Ports.", objective: "Complete the 'Dead Drop' mission." },
+          { id: "in_d_2", name: "Trade Intelligence", description: "Give Agent Zero 100 Intelligence in three installments.", objective: "Donate 100 Intelligence." },
+          { id: "in_d_3", name: "Receive the Compass", description: "Agent Zero hands you something she shouldn't have.", objective: "Accept the Nomad's Compass." },
+        ],
+        reward: { resource: { influence: 50 }, description: "The Nomad's Compass — a crafting reagent used in high-tier recipes. Enables navigation to hidden sectors." },
+        flagsOnComplete: ["insurgency_arc_complete", "insurgency_diplomacy", "nomads_compass_obtained"],
+      },
+      infiltration: {
+        name: "Meet the Engineer",
+        summary: "The quiet earthquake of Act 3. Discover your Engineer is still alive in Agent Zero's body.",
+        stages: [
+          { id: "in_i_1", name: "Follow the Signal", description: "Agent Zero's command signal has a tell. You know it because you built it.", objective: "Decrypt the Agent Zero signal." },
+          { id: "in_i_2", name: "The Hidden Room", description: "Walk into a steel room at the heart of the Haven.", objective: "Enter the Engineer's chamber." },
+          { id: "in_i_3", name: "He Remembers You", description: "He weeps. The player can talk to him for the first time since Act 1.", objective: "Speak with the Engineer. He remembers the Deck." },
+          { id: "in_i_4", name: "Choice of Return", description: "Return him to his original body (impossible — it's Warlord Zero) or help him rebuild.", objective: "Choose: help him rebuild, or promise the impossible." },
+        ],
+        reward: { cardId: "the-engineer-remembers", lightEnergy: 300, description: "The Engineer Remembers — a Mythic card. The Engineer becomes a persistent NPC you can talk to from now on." },
+        flagsOnComplete: ["insurgency_arc_complete", "insurgency_infiltration", "engineer_alive_confirmed", "engineer_npc_unlocked"],
+      },
+    },
+  },
+
+  /* ─── F4: Terminus Dominion ─── */
+  thought_virus: {
+    factionId: "thought_virus",
+    boss: "The Source (Kael)",
+    paths: {
+      conquest: {
+        name: "Iron Lion Cleansing",
+        summary: "Burn three infected sectors with the Iron Lion's surviving fleet.",
+        stages: [
+          { id: "tv_c_1", name: "Recover Iron Lion Codes", description: "The Iron Lion's fleet still answers — if you have his codes.", objective: "Unlock the Iron Lion protocol." },
+          { id: "tv_c_2", name: "Burn Viral Wastes", description: "A cleansing fleet arrives.", objective: "Win a sector battle in Viral Wastes." },
+          { id: "tv_c_3", name: "Burn Terminus Approach", description: "The dead zone becomes deader.", objective: "Win a sector battle in Terminus Approach." },
+          { id: "tv_c_4", name: "Duel the Source", description: "Kael himself. A card battle against the Source.", objective: "Defeat the Source in a Dischordia card battle." },
+        ],
+        reward: { cardId: "iron-lion-protocol", darkEnergy: 250, lightEnergy: 100, description: "Iron Lion Protocol — a Legendary card that destroys all enemy cards of the lowest rarity on play." },
+        flagsOnComplete: ["thought_virus_arc_complete", "thought_virus_conquest"],
+      },
+      diplomacy: {
+        name: "No Treaty With Terminus",
+        summary: "Impossible. Any attempted treaty turns into a card battle mid-sentence. A deliberate lesson in which enemies are unbargainable.",
+        impossible: true,
+        stages: [
+          { id: "tv_d_0", name: "Try Anyway", description: "The Source listens to your first sentence.", objective: "Attempt negotiation. The Source interrupts." },
+        ],
+        reward: { description: "The attempt teaches you nothing except that some enemies can only be killed." },
+        flagsOnComplete: ["thought_virus_diplomacy_failed"],
+      },
+      infiltration: {
+        name: "Get Infected on Purpose",
+        summary: "Walk into a Viral Wastes sector with no immune protocol. One session partially controlled by the Thought Virus.",
+        stages: [
+          { id: "tv_i_1", name: "Drop Your Shields", description: "You are about to lose something.", objective: "Disable immune protocols." },
+          { id: "tv_i_2", name: "The Session of Flipping", description: "Your cards flip to their Dark counterparts.", objective: "Play one session with Dark-flipped cards." },
+          { id: "tv_i_3", name: "The Oracle Cleanses You", description: "The Insurgency prophet pulls you out.", objective: "Travel to the Oracle for cleansing." },
+        ],
+        reward: { cardId: "immunity", darkEnergy: 500, description: "Immunity — a unique pseudo-card. Playable once per match for the rest of the game. Prevents all negative statuses for 3 turns." },
+        flagsOnComplete: ["thought_virus_arc_complete", "thought_virus_infiltration", "immunity_card_obtained"],
+      },
+    },
+  },
+
+  /* ─── F5: Artificial Empire (Reborn) ─── */
+  artificial_empire: {
+    factionId: "artificial_empire",
+    boss: "The Architect's rebuilt fragment",
+    paths: {
+      conquest: {
+        name: "Siege the Imperial Frontier",
+        summary: "Requires a fleet built via Trade Empire trade.",
+        stages: [
+          { id: "ae_c_1", name: "Build a Siege Fleet", description: "You cannot siege the Empire with one flagship.", objective: "Field 3+ combat fleet units." },
+          { id: "ae_c_2", name: "Break the Forge Worlds", description: "Burn the factories that produce the drones.", objective: "Win a sector battle in Forge Worlds." },
+          { id: "ae_c_3", name: "Approach the Frontier", description: "The Panopticon Ruins are your staging ground.", objective: "Stage fleet at Panopticon Ruins." },
+          { id: "ae_c_4", name: "Confront the Architect", description: "A fragment of a fragment of a god.", objective: "Defeat the Architect." },
+        ],
+        reward: { cardId: "architects-fragment", darkEnergy: 300, description: "Architect's Fragment — a Legendary card that summons an AI drone every turn." },
+        flagsOnComplete: ["artificial_empire_arc_complete", "artificial_empire_conquest"],
+      },
+      diplomacy: {
+        name: "Terms of Coexistence",
+        summary: "The hardest diplomacy match in the game. The Architect makes three offers — one truth, one lie, one trap. Only combined Human+Elara memories can identify the lie.",
+        stages: [
+          { id: "ae_d_1", name: "Raise Human Trust", description: "The Human's Archon memories are the key to half the truth.", objective: "Reach Human Trust ≥ 60." },
+          { id: "ae_d_2", name: "Raise Elara Trust", description: "Elara's Senator memories are the other half.", objective: "Reach Elara Trust ≥ 60." },
+          { id: "ae_d_3", name: "The Three Offers", description: "Truth, lie, trap. Only one survives.", objective: "Win the Diplomacy Minigame against the Architect (table_id=artificial_empire)." },
+          { id: "ae_d_4", name: "Sign Coexistence", description: "The Empire agrees to share the ruins.", objective: "Sign the Terms of Coexistence." },
+        ],
+        reward: { cardId: "terms-of-coexistence", lightEnergy: 400, description: "Terms of Coexistence — a Mythic light card. While in play, enemies cannot target your flagship." },
+        flagsOnComplete: ["artificial_empire_arc_complete", "artificial_empire_diplomacy", "terms_of_coexistence_signed"],
+      },
+      infiltration: {
+        name: "Be Recruited as a New Archon",
+        summary: "The most tempting dark choice in the game. The Human is silent for the first time. Elara is horrified.",
+        stages: [
+          { id: "ae_i_1", name: "The Invitation", description: "The Architect offers you the title and robe.", objective: "Accept the Architect's invitation." },
+          { id: "ae_i_2", name: "The Human Is Silent", description: "For the first time in the whole game, The Human says nothing.", objective: "Walk through the silence." },
+          { id: "ae_i_3", name: "Don the Robe", description: "A cost is paid in friendship.", objective: "Accept Archon tier abilities (1000 Dark Energy, -30 Human Bond)." },
+        ],
+        reward: { ability: "archon_tier", darkEnergy: 1000, description: "Archon-tier abilities for the rest of the game: +50% resource generation, +25% combat, unique Archon voice lines. The Human loses 30 Bond. Elara is horrified. The post-endgame reclamation cutscene for this path is the longest in the game." },
+        flagsOnComplete: ["artificial_empire_arc_complete", "artificial_empire_infiltration", "archon_recruited", "human_bond_broken_archon"],
+      },
+    },
+  },
+
+  /* ─── F6: Antiquarian's Refuge ─── */
+  antiquarian: {
+    factionId: "antiquarian",
+    boss: "The Antiquarian himself",
+    paths: {
+      conquest: {
+        name: "Siege a Pocket Universe",
+        summary: "Impossible. You cannot siege a pocket universe.",
+        impossible: true,
+        stages: [
+          { id: "an_c_0", name: "Attempt the Impossible", description: "The Antiquarian simply isn't there when you arrive.", objective: "Try to assault the Refuge." },
+        ],
+        reward: { description: "Nothing. The Refuge is not in space-time." },
+        flagsOnComplete: ["antiquarian_conquest_failed"],
+      },
+      diplomacy: {
+        name: "Pay in Memory",
+        summary: "Request an audience. You must forfeit one Loredex entry permanently.",
+        stages: [
+          { id: "an_d_1", name: "Request Audience", description: "The Antiquarian's door requires a key made of memory.", objective: "Initiate the audience request." },
+          { id: "an_d_2", name: "Choose the Forfeit", description: "Pick one Loredex entry to delete forever.", objective: "Permanently delete one Loredex entry." },
+          { id: "an_d_3", name: "Enter the Refuge", description: "Step outside of time.", objective: "Walk through the black hole." },
+        ],
+        reward: { tomeId: "antiquarian-audience", lightEnergy: 150, description: "An audience with the Antiquarian — permanently unlocks a Tome page. The forfeit Loredex entry is gone forever." },
+        flagsOnComplete: ["antiquarian_arc_complete", "antiquarian_diplomacy", "loredex_entry_forfeit"],
+      },
+      infiltration: {
+        name: "A Moment Outside Time",
+        summary: "Become the Antiquarian's apprentice. Spend a session in the Refuge outside time. When you return, everyone has aged mentally.",
+        stages: [
+          { id: "an_i_1", name: "Accept Apprenticeship", description: "The Antiquarian smiles thinly.", objective: "Accept the apprenticeship." },
+          { id: "an_i_2", name: "Outside Time", description: "The Refuge session.", objective: "Spend one full session in the Refuge." },
+          { id: "an_i_3", name: "Return", description: "Everyone you know is different now. Elara is harder. The Human is more tired.", objective: "Return to the Ark." },
+        ],
+        reward: { cardId: "moment-outside-time", lightEnergy: 200, darkEnergy: 100, description: "A Moment Outside Time — a Mythic card. Once per match, take two consecutive turns. The companions are permanently changed." },
+        flagsOnComplete: ["antiquarian_arc_complete", "antiquarian_infiltration", "moment_outside_time_obtained", "companions_aged"],
+      },
+    },
+  },
+};
+
+/** Look up a single faction arc definition. */
+export function getFactionArc(factionId: Act3FactionId): FactionArcDefinition {
+  return ACT3_FACTION_ARCS[factionId];
+}
+
+/** Total stage count for a specific path — used for progress bars. */
+export function getPathStageCount(factionId: Act3FactionId, path: FactionArcPath): number {
+  return ACT3_FACTION_ARCS[factionId].paths[path].stages.length;
+}
