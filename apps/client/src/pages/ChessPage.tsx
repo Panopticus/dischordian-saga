@@ -98,6 +98,17 @@ export default function ChessPage() {
   const [arenaEndingScene, setArenaEndingScene] = useState<any>(null);
   /** Which cue of the active arena scene is currently displayed. */
   const [arenaCueIdx, setArenaCueIdx] = useState(0);
+  /** If this render was routed from the chess tutorial skip-path
+   *  ("I already know how to play. Challenge me."), this is the
+   *  chess game id the ChessTutorialPage created before redirecting.
+   *  Used to detect the match for resolveSkipChallengeOutcome. */
+  const [skipChallengeGameId, setSkipChallengeGameId] = useState<number | null>(null);
+  /** Pre-match challenge scene stashed in sessionStorage by the
+   *  tutorial page. Plays once before the board loads. */
+  const [skipChallengeScene, setSkipChallengeScene] = useState<any>(null);
+  /** Post-match reconciliation or victory scene returned by
+   *  resolveSkipChallengeOutcome after the skip-challenge ends. */
+  const [skipChallengeEndingScene, setSkipChallengeEndingScene] = useState<any>(null);
   const [isThinking, setIsThinking] = useState(false);
   const [opponentInfo, setOpponentInfo] = useState<any>(null);
   const [useClientAi, setUseClientAi] = useState(true);
@@ -341,7 +352,39 @@ export default function ChessPage() {
   const startGame = trpc.chess.startGame.useMutation();
   const makeMove = trpc.chess.makeMove.useMutation();
   const resignGame = trpc.chess.resign.useMutation();
+  const resolveSkipChallenge = trpc.chess.resolveSkipChallengeOutcome.useMutation();
   const utils = trpc.useUtils();
+
+  // Skip-challenge pickup: when the chess tutorial page redirects
+  // here with ?skipChallengeGameId=N, read the stashed scene from
+  // sessionStorage and route through the cinematic view first.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const rawId = params.get("skipChallengeGameId");
+    if (!rawId) return;
+    const gameId = Number(rawId);
+    if (!Number.isFinite(gameId)) return;
+    setSkipChallengeGameId(gameId);
+    const stashed = sessionStorage.getItem("chess_skip_challenge");
+    if (stashed) {
+      try {
+        const parsed = JSON.parse(stashed);
+        if (parsed.gameId === gameId && parsed.scene) {
+          setSkipChallengeScene(parsed.scene);
+          setArenaCueIdx(0);
+        }
+      } catch {
+        // ignore parse errors
+      }
+      sessionStorage.removeItem("chess_skip_challenge");
+    }
+    // Strip the query param so refreshing the page doesn't re-enter
+    // the challenge flow.
+    const url = new URL(window.location.href);
+    url.searchParams.delete("skipChallengeGameId");
+    window.history.replaceState({}, "", url.toString());
+  }, []);
 
   // Resume active game
   useEffect(() => {
@@ -350,9 +393,16 @@ export default function ChessPage() {
       setGameFen(activeGame.data.fen || "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
       setOpponentInfo(activeGame.data.opponent);
       chessRef.current.load(activeGame.data.fen || "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-      setView("playing");
+      // If the resumed game is the skip-challenge game, play the
+      // pre-match scene first (if stashed). Otherwise go straight
+      // to the playing view.
+      if (skipChallengeGameId && activeGame.data.id === skipChallengeGameId && skipChallengeScene) {
+        setView("cinematic");
+      } else {
+        setView("playing");
+      }
     }
-  }, [activeGame.data]);
+  }, [activeGame.data, skipChallengeGameId, skipChallengeScene]);
 
   // Configure Stockfish when opponent changes
   useEffect(() => {
@@ -364,6 +414,34 @@ export default function ChessPage() {
   }, [opponentInfo?.id, stockfish.isReady]);
 
   const [startError, setStartError] = useState<string | null>(null);
+
+  /** Helper — if the finished game is the skip-challenge game, ask
+   *  the server for the correct reconciliation / victory scene and
+   *  store it so the modal overlay renders it. */
+  const handleSkipChallengeMatchEnd = useCallback(
+    async (status: string) => {
+      if (!skipChallengeGameId || skipChallengeGameId !== activeGameId) return;
+      // Only checkmates register as a win or loss. Stalemate / draw
+      // falls through without triggering the scene — the player can
+      // just exit back to the tutorial.
+      if (status !== "checkmate") return;
+      // Determine whether the player won. The chess library's most
+      // recent state says whose turn it would be; the side TO MOVE
+      // in a checkmate position is the loser.
+      const chess = chessRef.current;
+      const playerWon = chess.turn() === "b"; // player is always white
+      try {
+        const result = await resolveSkipChallenge.mutateAsync({ won: playerWon });
+        if (result.scene) {
+          setSkipChallengeEndingScene(result.scene);
+          setArenaCueIdx(0);
+        }
+      } catch (e) {
+        console.error("resolveSkipChallengeOutcome error:", e);
+      }
+    },
+    [skipChallengeGameId, activeGameId, resolveSkipChallenge],
+  );
 
   const handleStartGame = async () => {
     if (!selectedCharacter) return;
@@ -493,6 +571,7 @@ export default function ChessPage() {
           setArenaEndingScene((result as any).arenaEndingScene);
           setArenaCueIdx(0);
         }
+        await handleSkipChallengeMatchEnd(result.status);
         utils.chess.getMyRanking.invalidate();
         utils.chess.getHistory.invalidate();
         utils.chess.getActiveGame.invalidate();
@@ -535,6 +614,7 @@ export default function ChessPage() {
                 setArenaEndingScene((result as any).arenaEndingScene);
                 setArenaCueIdx(0);
               }
+              await handleSkipChallengeMatchEnd(result.status);
               utils.chess.getMyRanking.invalidate();
               utils.chess.getHistory.invalidate();
               utils.chess.getActiveGame.invalidate();
@@ -572,6 +652,7 @@ export default function ChessPage() {
             setArenaEndingScene((result as any).arenaEndingScene);
             setArenaCueIdx(0);
           }
+          await handleSkipChallengeMatchEnd(result.status);
           utils.chess.getMyRanking.invalidate();
           utils.chess.getHistory.invalidate();
           utils.chess.getActiveGame.invalidate();
@@ -617,6 +698,7 @@ export default function ChessPage() {
             setArenaEndingScene((result as any).arenaEndingScene);
             setArenaCueIdx(0);
           }
+          await handleSkipChallengeMatchEnd(result.status);
           utils.chess.getMyRanking.invalidate();
           utils.chess.getHistory.invalidate();
           utils.chess.getActiveGame.invalidate();
@@ -628,7 +710,7 @@ export default function ChessPage() {
     }
 
     return true;
-  }, [activeGameId, gameStatus, isThinking, makeMove, utils, useClientAi, stockfish.isReady, requestAiMove]);
+  }, [activeGameId, gameStatus, isThinking, makeMove, utils, useClientAi, stockfish.isReady, requestAiMove, handleSkipChallengeMatchEnd]);
 
   /** Commit a pending pawn promotion after the player picks a piece. */
   const commitPromotion = useCallback((pieceLetter: "q" | "r" | "b" | "n") => {
@@ -1059,17 +1141,24 @@ export default function ChessPage() {
         )}
 
         {/* ═══ CINEMATIC ═══ */}
-        {view === "cinematic" && arenaEncounterScene && (() => {
-          const cue = arenaEncounterScene.cues[arenaCueIdx];
+        {view === "cinematic" && (arenaEncounterScene || skipChallengeScene) && (() => {
+          // Arena encounter takes priority (Academy graduates), then
+          // the skip-challenge intro (players who dialog-skipped).
+          const scene = arenaEncounterScene ?? skipChallengeScene;
+          const cue = scene.cues[arenaCueIdx];
           if (!cue) return null;
           const isCelebrationLeak = cue.speaker === "game_master_celebration";
           const bg = isCelebrationLeak
             ? "border-amber-400/40 bg-amber-400/5 text-amber-100"
             : "border-rose-500/40 bg-rose-500/5 text-rose-100";
           const speakerLabel = isCelebrationLeak
-            ? "— signal anomaly — Celebration Game Master"
-            : "THE GAME MASTER // Arena Broadcast";
-          const isFinal = arenaCueIdx >= arenaEncounterScene.cues.length - 1;
+            ? "— Celebration Game Master —"
+            : cue.speaker === "narrator"
+              ? "Narrator"
+              : arenaEncounterScene
+                ? "THE GAME MASTER // Arena Broadcast"
+                : "The Celebration Game Master";
+          const isFinal = arenaCueIdx >= scene.cues.length - 1;
           return (
             <motion.div
               key="arena-encounter"
@@ -1090,6 +1179,7 @@ export default function ChessPage() {
                     if (isFinal) {
                       sessionStorage.setItem("loredex_chess_cinematic_seen", "1");
                       setArenaEncounterScene(null);
+                      setSkipChallengeScene(null);
                       setArenaCueIdx(0);
                       setView("playing");
                     } else {
@@ -1105,7 +1195,7 @@ export default function ChessPage() {
           );
         })()}
 
-        {view === "cinematic" && !arenaEncounterScene && (
+        {view === "cinematic" && !arenaEncounterScene && !skipChallengeScene && (
           <ChessCinematic
             opponentName={opponentInfo?.name}
             onComplete={() => {
@@ -1446,19 +1536,29 @@ export default function ChessPage() {
              against a player who completed the Celebration Academy.
              The Celebration Game Master's voice leaks through for
              exactly one cue per scene. */}
-        {view === "playing" && arenaEndingScene && (() => {
-          const cue = arenaEndingScene.cues[arenaCueIdx];
+        {view === "playing" && (arenaEndingScene || skipChallengeEndingScene) && (() => {
+          // Arena ending takes priority if both are somehow set; in
+          // practice they are mutually exclusive (Academy graduates
+          // get arenaEndingScene, skip-path players get
+          // skipChallengeEndingScene).
+          const scene = arenaEndingScene ?? skipChallengeEndingScene;
+          const cue = scene.cues[arenaCueIdx];
           if (!cue) return null;
           const isCelebrationLeak = cue.speaker === "game_master_celebration";
+          const isCelebrationNormal = cue.speaker === "game_master_celebration" && !arenaEndingScene;
           const bg = isCelebrationLeak
             ? "border-amber-400/40 bg-amber-400/5 text-amber-100"
             : "border-rose-500/40 bg-rose-500/5 text-rose-100";
-          const speakerLabel = isCelebrationLeak
-            ? "— signal anomaly — Celebration Game Master"
-            : cue.speaker === "narrator"
-              ? "Narrator"
-              : "THE GAME MASTER // Arena Broadcast";
-          const isFinal = arenaCueIdx >= arenaEndingScene.cues.length - 1;
+          const speakerLabel = isCelebrationNormal
+            ? "The Celebration Game Master"
+            : isCelebrationLeak
+              ? "— signal anomaly — Celebration Game Master"
+              : cue.speaker === "narrator"
+                ? "Narrator"
+                : arenaEndingScene
+                  ? "THE GAME MASTER // Arena Broadcast"
+                  : "The Celebration Game Master";
+          const isFinal = arenaCueIdx >= scene.cues.length - 1;
           return (
             <motion.div
               key="arena-ending"
@@ -1477,15 +1577,32 @@ export default function ChessPage() {
                 <button
                   onClick={() => {
                     if (isFinal) {
-                      setArenaEndingScene(null);
-                      setArenaCueIdx(0);
+                      if (skipChallengeEndingScene) {
+                        // Skip-challenge complete: clear local state
+                        // and navigate back to the tutorial page so
+                        // the student can start Gate 1 (loss) or
+                        // explore the complete state (victory).
+                        setSkipChallengeEndingScene(null);
+                        setSkipChallengeGameId(null);
+                        setArenaCueIdx(0);
+                        // Use wouter-style soft navigation — set
+                        // location via history API.
+                        window.location.href = "/chess/tutorial";
+                      } else {
+                        setArenaEndingScene(null);
+                        setArenaCueIdx(0);
+                      }
                     } else {
                       setArenaCueIdx(i => i + 1);
                     }
                   }}
                   className="px-4 py-2 rounded-md bg-primary text-primary-foreground font-bold text-sm"
                 >
-                  {isFinal ? "Close" : "Continue"}
+                  {isFinal
+                    ? skipChallengeEndingScene
+                      ? "Return to the Academy"
+                      : "Close"
+                    : "Continue"}
                 </button>
               </div>
             </motion.div>
