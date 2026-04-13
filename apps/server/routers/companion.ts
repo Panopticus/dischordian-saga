@@ -305,12 +305,34 @@ const HUMAN_DIALOG_CHOICES = {
     { id: "lore_connect", text: "How does the music connect to the lore?", category: "lore" },
   ],
   followup_games: [
+    { id: "my_deck", text: "Look at my deck and tell me what's wrong.", category: "games" },
+    { id: "my_faction", text: "Is my faction the right fit?", category: "games" },
+    { id: "matchup", text: "I keep losing to one faction. How do I counter it?", category: "games" },
+    { id: "cards_general", text: "Tell me about the card warfare simulations.", category: "games" },
+    { id: "engineer_deck", text: "Why did the Engineer invent the deck in the first place?", category: "games" },
+    { id: "bloodborn", text: "What's the Bloodborn Spell really doing?", category: "games" },
     { id: "trade", text: "What's the real purpose of Trade Empire?", category: "games" },
-    { id: "cards", text: "Tell me about the card warfare simulations.", category: "games" },
     { id: "fight", text: "What's the Collector's Arena really about?", category: "games" },
     { id: "cades", text: "How does CADES technology actually work?", category: "lore" },
   ],
+  /** Elara-specific card teaching prompts. Same shape as the Human's
+   *  choices so the client can reuse the picker component. Wired
+   *  up through a separate helper (getElaraFollowupChoices) that
+   *  falls back to these when the player is asking about cards. */
+  elara_cards: [
+    { id: "my_deck", text: "Elara, look at my deck. What would you change?", category: "games" },
+    { id: "my_faction", text: "Does this faction suit me?", category: "games" },
+    { id: "keyword", text: "Explain a keyword the way the Engineer did.", category: "games" },
+    { id: "history", text: "What was the Engineer like when he built it?", category: "personal" },
+    { id: "oracle", text: "Was the Oracle really there for it?", category: "personal" },
+    { id: "strategy", text: "How do I think about mana over the long game?", category: "games" },
+  ],
 };
+
+/** Card-specific follow-up choices for Elara's UI. */
+export function getElaraCardChoices() {
+  return HUMAN_DIALOG_CHOICES.elara_cards;
+}
 
 function getHumanFollowupChoices(category: string, level: number) {
   if (category === "personal") return HUMAN_DIALOG_CHOICES.followup_personal;
