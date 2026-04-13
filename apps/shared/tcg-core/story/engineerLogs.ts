@@ -370,6 +370,8 @@ next to the schematic. I've thought about it a lot since.
    REGISTRY EXPORTS
    ═══════════════════════════════════════════════════════ */
 
+import { ENGINEER_LOGS_BATCH_2 } from "./engineerLogs_batch2";
+
 /**
  * All Engineer's Logs currently authored.
  * More land in follow-up commits (A7-A12): remaining keywords,
@@ -381,6 +383,7 @@ export const ENGINEER_LOGS: readonly EngineerLog[] = Object.freeze([
   LOG_KEYWORD_FORCEFIELD,
   LOG_KEYWORD_CELERITY,
   LOG_KEYWORD_REBIRTH,
+  ...ENGINEER_LOGS_BATCH_2,
 ]);
 
 /**
