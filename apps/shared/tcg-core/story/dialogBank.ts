@@ -106,10 +106,12 @@ export interface DialogScene {
    ═══════════════════════════════════════════════════════ */
 
 import { DIALOG_BANK_TUTORIAL } from "./dialogBank_tutorial";
+import { DIALOG_BANK_CHAPTERS_1_3 } from "./dialogBank_chapters_1_3";
 
 /** All registered scenes, assembled from every sub-file. */
 const ALL_SCENES: readonly DialogScene[] = Object.freeze([
   ...DIALOG_BANK_TUTORIAL,
+  ...DIALOG_BANK_CHAPTERS_1_3,
 ]);
 
 export const DIALOG_BANK: Readonly<Record<string, DialogScene>> =
