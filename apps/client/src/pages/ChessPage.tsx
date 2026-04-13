@@ -89,6 +89,15 @@ export default function ChessPage() {
   const [moveHistory, setMoveHistory] = useState<string[]>([]);
   const [rewards, setRewards] = useState<any>(null);
   const [eloChange, setEloChange] = useState<number>(0);
+  /** Scene returned by the chess router when the Academy graduate
+   *  enters a game_master-mode match. The Celebration Game Master's
+   *  voice leaks through the corrupted Arena broadcast for one cue. */
+  const [arenaEncounterScene, setArenaEncounterScene] = useState<any>(null);
+  /** Scene returned by makeMove at match end (win or loss) for
+   *  Academy graduates finishing a game_master match. */
+  const [arenaEndingScene, setArenaEndingScene] = useState<any>(null);
+  /** Which cue of the active arena scene is currently displayed. */
+  const [arenaCueIdx, setArenaCueIdx] = useState(0);
   const [isThinking, setIsThinking] = useState(false);
   const [opponentInfo, setOpponentInfo] = useState<any>(null);
   const [useClientAi, setUseClientAi] = useState(true);
@@ -372,6 +381,11 @@ export default function ChessPage() {
       setMoveHistory([]);
       setRewards(null);
       setEloChange(0);
+      // Academy graduate entering the Arena: stash the encounter
+      // scene so the overlay in the "cinematic" view can play it.
+      setArenaEncounterScene((result as any).arenaEncounterScene ?? null);
+      setArenaEndingScene(null);
+      setArenaCueIdx(0);
       chessRef.current.reset();
 
       // Configure Stockfish for this opponent
@@ -381,12 +395,20 @@ export default function ChessPage() {
         stockfish.newGame();
       }
 
-      const seenKey = "loredex_chess_cinematic_seen";
-      const seen = sessionStorage.getItem(seenKey);
-      if (!seen) {
+      // Academy graduates always see the Arena encounter scene
+      // first, regardless of whether they've watched the generic
+      // cinematic before. The scene is the payoff for finishing
+      // the Celebration Academy.
+      if ((result as any).arenaEncounterScene) {
         setView("cinematic");
       } else {
-        setView("playing");
+        const seenKey = "loredex_chess_cinematic_seen";
+        const seen = sessionStorage.getItem(seenKey);
+        if (!seen) {
+          setView("cinematic");
+        } else {
+          setView("playing");
+        }
       }
     } catch (e: any) {
       console.error("Chess startGame error:", e);
@@ -467,6 +489,10 @@ export default function ChessPage() {
           }
         }
         if (result.eloChange) setEloChange(result.eloChange);
+        if ((result as any).arenaEndingScene) {
+          setArenaEndingScene((result as any).arenaEndingScene);
+          setArenaCueIdx(0);
+        }
         utils.chess.getMyRanking.invalidate();
         utils.chess.getHistory.invalidate();
         utils.chess.getActiveGame.invalidate();
@@ -505,6 +531,10 @@ export default function ChessPage() {
               setGameStatus(result.status);
               if (result.rewards) setRewards(result.rewards);
               if (result.eloChange) setEloChange(result.eloChange);
+              if ((result as any).arenaEndingScene) {
+                setArenaEndingScene((result as any).arenaEndingScene);
+                setArenaCueIdx(0);
+              }
               utils.chess.getMyRanking.invalidate();
               utils.chess.getHistory.invalidate();
               utils.chess.getActiveGame.invalidate();
@@ -538,6 +568,10 @@ export default function ChessPage() {
           setGameStatus(result.status);
           if (result.rewards) setRewards(result.rewards);
           if (result.eloChange) setEloChange(result.eloChange);
+          if ((result as any).arenaEndingScene) {
+            setArenaEndingScene((result as any).arenaEndingScene);
+            setArenaCueIdx(0);
+          }
           utils.chess.getMyRanking.invalidate();
           utils.chess.getHistory.invalidate();
           utils.chess.getActiveGame.invalidate();
@@ -579,6 +613,10 @@ export default function ChessPage() {
             }
           }
           if (result.eloChange) setEloChange(result.eloChange);
+          if ((result as any).arenaEndingScene) {
+            setArenaEndingScene((result as any).arenaEndingScene);
+            setArenaCueIdx(0);
+          }
           utils.chess.getMyRanking.invalidate();
           utils.chess.getHistory.invalidate();
           utils.chess.getActiveGame.invalidate();
@@ -1021,7 +1059,53 @@ export default function ChessPage() {
         )}
 
         {/* ═══ CINEMATIC ═══ */}
-        {view === "cinematic" && (
+        {view === "cinematic" && arenaEncounterScene && (() => {
+          const cue = arenaEncounterScene.cues[arenaCueIdx];
+          if (!cue) return null;
+          const isCelebrationLeak = cue.speaker === "game_master_celebration";
+          const bg = isCelebrationLeak
+            ? "border-amber-400/40 bg-amber-400/5 text-amber-100"
+            : "border-rose-500/40 bg-rose-500/5 text-rose-100";
+          const speakerLabel = isCelebrationLeak
+            ? "— signal anomaly — Celebration Game Master"
+            : "THE GAME MASTER // Arena Broadcast";
+          const isFinal = arenaCueIdx >= arenaEncounterScene.cues.length - 1;
+          return (
+            <motion.div
+              key="arena-encounter"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="min-h-screen flex items-center justify-center p-6"
+            >
+              <div className={`max-w-2xl w-full rounded-lg border p-6 space-y-4 ${bg}`}>
+                <p className="font-mono text-[10px] uppercase tracking-widest">
+                  {speakerLabel}
+                </p>
+                <p className="font-display text-base sm:text-lg leading-relaxed">
+                  {cue.text}
+                </p>
+                <button
+                  onClick={() => {
+                    if (isFinal) {
+                      sessionStorage.setItem("loredex_chess_cinematic_seen", "1");
+                      setArenaEncounterScene(null);
+                      setArenaCueIdx(0);
+                      setView("playing");
+                    } else {
+                      setArenaCueIdx(i => i + 1);
+                    }
+                  }}
+                  className="px-4 py-2 rounded-md bg-primary text-primary-foreground font-bold text-sm"
+                >
+                  {isFinal ? "Begin the match" : "Continue"}
+                </button>
+              </div>
+            </motion.div>
+          );
+        })()}
+
+        {view === "cinematic" && !arenaEncounterScene && (
           <ChessCinematic
             opponentName={opponentInfo?.name}
             onComplete={() => {
@@ -1353,6 +1437,58 @@ export default function ChessPage() {
               </div>
             </div>
           </motion.div>
+          );
+        })()}
+
+        {/* ═══ ARENA ENDING SCENE (Academy Graduates Only) ═══
+             Rendered as a full-screen modal over the playing view
+             when the corrupted Arena Game Master finishes a match
+             against a player who completed the Celebration Academy.
+             The Celebration Game Master's voice leaks through for
+             exactly one cue per scene. */}
+        {view === "playing" && arenaEndingScene && (() => {
+          const cue = arenaEndingScene.cues[arenaCueIdx];
+          if (!cue) return null;
+          const isCelebrationLeak = cue.speaker === "game_master_celebration";
+          const bg = isCelebrationLeak
+            ? "border-amber-400/40 bg-amber-400/5 text-amber-100"
+            : "border-rose-500/40 bg-rose-500/5 text-rose-100";
+          const speakerLabel = isCelebrationLeak
+            ? "— signal anomaly — Celebration Game Master"
+            : cue.speaker === "narrator"
+              ? "Narrator"
+              : "THE GAME MASTER // Arena Broadcast";
+          const isFinal = arenaCueIdx >= arenaEndingScene.cues.length - 1;
+          return (
+            <motion.div
+              key="arena-ending"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-6"
+            >
+              <div className={`max-w-2xl w-full rounded-lg border p-6 space-y-4 ${bg}`}>
+                <p className="font-mono text-[10px] uppercase tracking-widest">
+                  {speakerLabel}
+                </p>
+                <p className="font-display text-base sm:text-lg leading-relaxed">
+                  {cue.text}
+                </p>
+                <button
+                  onClick={() => {
+                    if (isFinal) {
+                      setArenaEndingScene(null);
+                      setArenaCueIdx(0);
+                    } else {
+                      setArenaCueIdx(i => i + 1);
+                    }
+                  }}
+                  className="px-4 py-2 rounded-md bg-primary text-primary-foreground font-bold text-sm"
+                >
+                  {isFinal ? "Close" : "Continue"}
+                </button>
+              </div>
+            </motion.div>
           );
         })()}
 
