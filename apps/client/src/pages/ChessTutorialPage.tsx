@@ -226,9 +226,19 @@ export default function ChessTutorialPage() {
   const handleSkipChallenge = useCallback(async () => {
     try {
       const result = await skipAndChallenge.mutateAsync();
-      // Store any state the challenge flow needs, then drop the player
-      // into the standard chess page with a query string indicating
-      // the skip-challenge game is in progress.
+      // Stash the challenge scene alongside the gameId so ChessPage
+      // can pick it up and play the scene before the board loads.
+      // sessionStorage is used instead of URL state because the scene
+      // payload is too large to encode into a query string.
+      if (result.challengeScene) {
+        sessionStorage.setItem(
+          "chess_skip_challenge",
+          JSON.stringify({
+            gameId: result.gameId,
+            scene: result.challengeScene,
+          }),
+        );
+      }
       setLocation(`/chess?skipChallengeGameId=${result.gameId}`);
     } catch (err) {
       setLastMoveError(String(err));
