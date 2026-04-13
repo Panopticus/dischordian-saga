@@ -105,11 +105,17 @@ export interface DialogScene {
    D3+ commits add new sub-files and spread them in here.
    ═══════════════════════════════════════════════════════ */
 
-// Start empty. D3 adds the first batch via an import below.
-const EMPTY_REGISTRY: Readonly<Record<string, DialogScene>> = Object.freeze({});
+import { DIALOG_BANK_TUTORIAL } from "./dialogBank_tutorial";
+
+/** All registered scenes, assembled from every sub-file. */
+const ALL_SCENES: readonly DialogScene[] = Object.freeze([
+  ...DIALOG_BANK_TUTORIAL,
+]);
 
 export const DIALOG_BANK: Readonly<Record<string, DialogScene>> =
-  EMPTY_REGISTRY;
+  Object.freeze(
+    Object.fromEntries(ALL_SCENES.map((scene) => [scene.id, scene])),
+  );
 
 /** Resolve a dialog id. Returns undefined for unknown ids so
  *  the caller can decide whether that's an error or a no-op
