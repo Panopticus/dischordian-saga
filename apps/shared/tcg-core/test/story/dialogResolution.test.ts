@@ -19,6 +19,7 @@ import {
   resolveTutorialPostMatchDialog,
   DIALOG_BANK,
   getDialogBankCoverage,
+  CHESS_TUTORIAL_GATES,
 } from "../../index";
 
 describe("dialog bank resolution (D2)", () => {
@@ -116,6 +117,64 @@ describe("dialog bank resolution (D2)", () => {
   it("every scene has at least one cue", () => {
     for (const [id, scene] of Object.entries(DIALOG_BANK)) {
       expect(scene.cues.length, `scene ${id}`).toBeGreaterThan(0);
+    }
+  });
+
+  /* ─────────────── Chess tutorial (CT) ─────────────── */
+
+  it("ships seven chess tutorial gates in lesson order", () => {
+    expect(CHESS_TUTORIAL_GATES.length).toBe(7);
+    for (let i = 0; i < CHESS_TUTORIAL_GATES.length; i++) {
+      expect(CHESS_TUTORIAL_GATES[i].gateNumber).toBe(i + 1);
+    }
+  });
+
+  it("every chess tutorial gate has enough lesson steps", () => {
+    for (const gate of CHESS_TUTORIAL_GATES) {
+      expect(
+        gate.steps.length,
+        `gate ${gate.gateNumber} (${gate.title}) should have at least 8 steps`,
+      ).toBeGreaterThanOrEqual(8);
+    }
+  });
+
+  it("every chess tutorial gate's intro + outro scene resolves via DIALOG_BANK", () => {
+    for (const gate of CHESS_TUTORIAL_GATES) {
+      const intro = DIALOG_BANK[gate.introScene.id];
+      expect(intro, `intro ${gate.introScene.id}`).toBeDefined();
+      expect(intro.cues.length).toBeGreaterThan(0);
+      const outro = DIALOG_BANK[gate.outroScene.id];
+      expect(outro, `outro ${gate.outroScene.id}`).toBeDefined();
+      expect(outro.cues.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("skip-challenge scenes are all resolvable in DIALOG_BANK", () => {
+    const skipIds = [
+      "chess_tut_skip_challenge",
+      "chess_tut_skip_reconciliation",
+      "chess_tut_skip_victory",
+    ];
+    for (const id of skipIds) {
+      const scene = DIALOG_BANK[id];
+      expect(scene, `skip scene ${id}`).toBeDefined();
+      expect(scene.cues.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("every chess tutorial step with answerMoves has at least one SAN move", () => {
+    const SAN_PATTERN = /^(O-O(-O)?|[KQRBN]?[a-h]?[1-8]?x?[a-h][1-8](=[QRBN])?[+#]?)$/;
+    for (const gate of CHESS_TUTORIAL_GATES) {
+      for (let i = 0; i < gate.steps.length; i++) {
+        const step = gate.steps[i];
+        if (!step.answerMoves || step.answerMoves.length === 0) continue;
+        for (const move of step.answerMoves) {
+          expect(
+            SAN_PATTERN.test(move),
+            `gate ${gate.gateNumber} step ${i} move '${move}' should be valid SAN`,
+          ).toBe(true);
+        }
+      }
     }
   });
 });

@@ -220,6 +220,25 @@ export type {
   NewPlayerGrant,
 } from "./story/tutorial";
 
+/* ─── Chess Tutorial (CT) ─── */
+export {
+  CHESS_TUTORIAL_GATES,
+  CHESS_TUTORIAL_GATE_1,
+  CHESS_TUTORIAL_GATE_2,
+  CHESS_TUTORIAL_GATE_3,
+  CHESS_TUTORIAL_GATE_4,
+  CHESS_TUTORIAL_GATE_5,
+  CHESS_TUTORIAL_GATE_6,
+  CHESS_TUTORIAL_GATE_7,
+  CHESS_TUTORIAL_SCENES,
+  getChessTutorialGate,
+} from "./story/chessTutorial";
+export type {
+  ChessTutorialStep,
+  ChessTutorialGate,
+  ChessPieceFocus,
+} from "./story/chessTutorial";
+
 /* ─── Campaign chapters (WS6) ─── */
 export {
   ALL_CHAPTER_ENCOUNTERS,
