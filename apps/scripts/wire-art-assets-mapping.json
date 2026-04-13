@@ -1,0 +1,434 @@
+[
+  {
+    "innerPath": "generated_assets/art/ui/hud/panel_accent.png",
+    "relPath": "ui/hud/panel_accent",
+    "outputPath": "apps/client/public/art/ui/hud/panel_accent.webp",
+    "publicUrl": "/art/ui/hud/panel_accent.webp",
+    "sourceBytes": 6104822,
+    "outputBytes": 104904
+  },
+  {
+    "innerPath": "generated_assets/art/ui/hud/button_primary.png",
+    "relPath": "ui/hud/button_primary",
+    "outputPath": "apps/client/public/art/ui/hud/button_primary.webp",
+    "publicUrl": "/art/ui/hud/button_primary.webp",
+    "sourceBytes": 5486659,
+    "outputBytes": 47442
+  },
+  {
+    "innerPath": "generated_assets/art/ui/hud/button_secondary.png",
+    "relPath": "ui/hud/button_secondary",
+    "outputPath": "apps/client/public/art/ui/hud/button_secondary.webp",
+    "publicUrl": "/art/ui/hud/button_secondary.webp",
+    "sourceBytes": 5714193,
+    "outputBytes": 23596
+  },
+  {
+    "innerPath": "generated_assets/art/ui/hud/bar_health.png",
+    "relPath": "ui/hud/bar_health",
+    "outputPath": "apps/client/public/art/ui/hud/bar_health.webp",
+    "publicUrl": "/art/ui/hud/bar_health.webp",
+    "sourceBytes": 6334083,
+    "outputBytes": 48528
+  },
+  {
+    "innerPath": "generated_assets/art/ui/hud/panel_main.png",
+    "relPath": "ui/hud/panel_main",
+    "outputPath": "apps/client/public/art/ui/hud/panel_main.webp",
+    "publicUrl": "/art/ui/hud/panel_main.webp",
+    "sourceBytes": 5855575,
+    "outputBytes": 94186
+  },
+  {
+    "innerPath": "generated_assets/art/ui/hud/cursor_default.png",
+    "relPath": "ui/hud/cursor_default",
+    "outputPath": "apps/client/public/art/ui/hud/cursor_default.webp",
+    "publicUrl": "/art/ui/hud/cursor_default.webp",
+    "sourceBytes": 5370997,
+    "outputBytes": 59610
+  },
+  {
+    "innerPath": "generated_assets/art/ui/hud/bar_mana.png",
+    "relPath": "ui/hud/bar_mana",
+    "outputPath": "apps/client/public/art/ui/hud/bar_mana.webp",
+    "publicUrl": "/art/ui/hud/bar_mana.webp",
+    "sourceBytes": 5440725,
+    "outputBytes": 41682
+  },
+  {
+    "innerPath": "generated_assets/art/ui/hud/bar_xp.png",
+    "relPath": "ui/hud/bar_xp",
+    "outputPath": "apps/client/public/art/ui/hud/bar_xp.webp",
+    "publicUrl": "/art/ui/hud/bar_xp.webp",
+    "sourceBytes": 5686100,
+    "outputBytes": 12970
+  },
+  {
+    "innerPath": "generated_assets/art/rooms/ark_barracks.jpg",
+    "relPath": "rooms/ark_barracks",
+    "outputPath": "apps/client/public/art/rooms/ark_barracks.webp",
+    "publicUrl": "/art/rooms/ark_barracks.webp",
+    "sourceBytes": 7433263,
+    "outputBytes": 153758
+  },
+  {
+    "innerPath": "generated_assets/art/rooms/ark_observatory.jpg",
+    "relPath": "rooms/ark_observatory",
+    "outputPath": "apps/client/public/art/rooms/ark_observatory.webp",
+    "publicUrl": "/art/rooms/ark_observatory.webp",
+    "sourceBytes": 6934343,
+    "outputBytes": 88152
+  },
+  {
+    "innerPath": "generated_assets/art/rooms/ark_galley.jpg",
+    "relPath": "rooms/ark_galley",
+    "outputPath": "apps/client/public/art/rooms/ark_galley.webp",
+    "publicUrl": "/art/rooms/ark_galley.webp",
+    "sourceBytes": 7050508,
+    "outputBytes": 124018
+  },
+  {
+    "innerPath": "generated_assets/art/rooms/ark_chapel.jpg",
+    "relPath": "rooms/ark_chapel",
+    "outputPath": "apps/client/public/art/rooms/ark_chapel.webp",
+    "publicUrl": "/art/rooms/ark_chapel.webp",
+    "sourceBytes": 6739925,
+    "outputBytes": 201686
+  },
+  {
+    "innerPath": "generated_assets/art/rooms/ark_brig.jpg",
+    "relPath": "rooms/ark_brig",
+    "outputPath": "apps/client/public/art/rooms/ark_brig.webp",
+    "publicUrl": "/art/rooms/ark_brig.webp",
+    "sourceBytes": 7718807,
+    "outputBytes": 310882
+  },
+  {
+    "innerPath": "generated_assets/art/rooms/ark_cryo_2.jpg",
+    "relPath": "rooms/ark_cryo_2",
+    "outputPath": "apps/client/public/art/rooms/ark_cryo_2.webp",
+    "publicUrl": "/art/rooms/ark_cryo_2.webp",
+    "sourceBytes": 6912780,
+    "outputBytes": 65234
+  },
+  {
+    "innerPath": "generated_assets/art/rooms/ark_armory_interior.jpg",
+    "relPath": "rooms/ark_armory_interior",
+    "outputPath": "apps/client/public/art/rooms/ark_armory_interior.webp",
+    "publicUrl": "/art/rooms/ark_armory_interior.webp",
+    "sourceBytes": 6406648,
+    "outputBytes": 95364
+  },
+  {
+    "innerPath": "generated_assets/art/rooms/ark_reactor.jpg",
+    "relPath": "rooms/ark_reactor",
+    "outputPath": "apps/client/public/art/rooms/ark_reactor.webp",
+    "publicUrl": "/art/rooms/ark_reactor.webp",
+    "sourceBytes": 7247740,
+    "outputBytes": 123244
+  },
+  {
+    "innerPath": "generated_assets/art/logos/faction_dreamer.png",
+    "relPath": "logos/faction_dreamer",
+    "outputPath": "apps/client/public/art/logos/faction_dreamer.webp",
+    "publicUrl": "/art/logos/faction_dreamer.webp",
+    "sourceBytes": 6541530,
+    "outputBytes": 226620
+  },
+  {
+    "innerPath": "generated_assets/art/logos/faction_hierarchy_corp.png",
+    "relPath": "logos/faction_hierarchy_corp",
+    "outputPath": "apps/client/public/art/logos/faction_hierarchy_corp.webp",
+    "publicUrl": "/art/logos/faction_hierarchy_corp.webp",
+    "sourceBytes": 6051648,
+    "outputBytes": 196404
+  },
+  {
+    "innerPath": "generated_assets/art/logos/faction_potentials_order.png",
+    "relPath": "logos/faction_potentials_order",
+    "outputPath": "apps/client/public/art/logos/faction_potentials_order.webp",
+    "publicUrl": "/art/logos/faction_potentials_order.webp",
+    "sourceBytes": 4754856,
+    "outputBytes": 76046
+  },
+  {
+    "innerPath": "generated_assets/art/logos/faction_ne_yon.png",
+    "relPath": "logos/faction_ne_yon",
+    "outputPath": "apps/client/public/art/logos/faction_ne_yon.webp",
+    "publicUrl": "/art/logos/faction_ne_yon.webp",
+    "sourceBytes": 5894927,
+    "outputBytes": 128474
+  },
+  {
+    "innerPath": "generated_assets/art/logos/faction_architect.png",
+    "relPath": "logos/faction_architect",
+    "outputPath": "apps/client/public/art/logos/faction_architect.webp",
+    "publicUrl": "/art/logos/faction_architect.webp",
+    "sourceBytes": 5660896,
+    "outputBytes": 93292
+  },
+  {
+    "innerPath": "generated_assets/art/trade/icons/currency_dream_tokens.png",
+    "relPath": "trade/icons/currency_dream_tokens",
+    "outputPath": "apps/client/public/art/trade/icons/currency_dream_tokens.webp",
+    "publicUrl": "/art/trade/icons/currency_dream_tokens.webp",
+    "sourceBytes": 6705776,
+    "outputBytes": 127720
+  },
+  {
+    "innerPath": "generated_assets/art/trade/icons/currency_gems.png",
+    "relPath": "trade/icons/currency_gems",
+    "outputPath": "apps/client/public/art/trade/icons/currency_gems.webp",
+    "publicUrl": "/art/trade/icons/currency_gems.webp",
+    "sourceBytes": 5184741,
+    "outputBytes": 69542
+  },
+  {
+    "innerPath": "generated_assets/art/trade/icons/currency_dischord_shards.png",
+    "relPath": "trade/icons/currency_dischord_shards",
+    "outputPath": "apps/client/public/art/trade/icons/currency_dischord_shards.webp",
+    "publicUrl": "/art/trade/icons/currency_dischord_shards.webp",
+    "sourceBytes": 5484364,
+    "outputBytes": 89746
+  },
+  {
+    "innerPath": "generated_assets/art/trade/icons/currency_credits.png",
+    "relPath": "trade/icons/currency_credits",
+    "outputPath": "apps/client/public/art/trade/icons/currency_credits.webp",
+    "publicUrl": "/art/trade/icons/currency_credits.webp",
+    "sourceBytes": 6503178,
+    "outputBytes": 175852
+  },
+  {
+    "innerPath": "generated_assets/art/trade/icons/currency_dust.png",
+    "relPath": "trade/icons/currency_dust",
+    "outputPath": "apps/client/public/art/trade/icons/currency_dust.webp",
+    "publicUrl": "/art/trade/icons/currency_dust.webp",
+    "sourceBytes": 6904084,
+    "outputBytes": 195354
+  },
+  {
+    "innerPath": "generated_assets/art/trade/icons/currency_silver.png",
+    "relPath": "trade/icons/currency_silver",
+    "outputPath": "apps/client/public/art/trade/icons/currency_silver.webp",
+    "publicUrl": "/art/trade/icons/currency_silver.webp",
+    "sourceBytes": 5612216,
+    "outputBytes": 59120
+  },
+  {
+    "innerPath": "generated_assets/art/trade/emblems/faction_new_babylon.png",
+    "relPath": "trade/emblems/faction_new_babylon",
+    "outputPath": "apps/client/public/art/trade/emblems/faction_new_babylon.webp",
+    "publicUrl": "/art/trade/emblems/faction_new_babylon.webp",
+    "sourceBytes": 6999877,
+    "outputBytes": 479558
+  },
+  {
+    "innerPath": "generated_assets/art/trade/emblems/faction_hierarchy.png",
+    "relPath": "trade/emblems/faction_hierarchy",
+    "outputPath": "apps/client/public/art/trade/emblems/faction_hierarchy.webp",
+    "publicUrl": "/art/trade/emblems/faction_hierarchy.webp",
+    "sourceBytes": 6014666,
+    "outputBytes": 182066
+  },
+  {
+    "innerPath": "generated_assets/art/trade/emblems/faction_neyons.png",
+    "relPath": "trade/emblems/faction_neyons",
+    "outputPath": "apps/client/public/art/trade/emblems/faction_neyons.webp",
+    "publicUrl": "/art/trade/emblems/faction_neyons.webp",
+    "sourceBytes": 6933272,
+    "outputBytes": 171784
+  },
+  {
+    "innerPath": "generated_assets/art/trade/emblems/faction_insurgency.png",
+    "relPath": "trade/emblems/faction_insurgency",
+    "outputPath": "apps/client/public/art/trade/emblems/faction_insurgency.webp",
+    "publicUrl": "/art/trade/emblems/faction_insurgency.webp",
+    "sourceBytes": 6790058,
+    "outputBytes": 204354
+  },
+  {
+    "innerPath": "generated_assets/art/pvp/ranks/rank_diamond.png",
+    "relPath": "pvp/ranks/rank_diamond",
+    "outputPath": "apps/client/public/art/pvp/ranks/rank_diamond.webp",
+    "publicUrl": "/art/pvp/ranks/rank_diamond.webp",
+    "sourceBytes": 6359155,
+    "outputBytes": 194532
+  },
+  {
+    "innerPath": "generated_assets/art/pvp/ranks/rank_silver.png",
+    "relPath": "pvp/ranks/rank_silver",
+    "outputPath": "apps/client/public/art/pvp/ranks/rank_silver.webp",
+    "publicUrl": "/art/pvp/ranks/rank_silver.webp",
+    "sourceBytes": 5886668,
+    "outputBytes": 66150
+  },
+  {
+    "innerPath": "generated_assets/art/pvp/ranks/rank_platinum.png",
+    "relPath": "pvp/ranks/rank_platinum",
+    "outputPath": "apps/client/public/art/pvp/ranks/rank_platinum.webp",
+    "publicUrl": "/art/pvp/ranks/rank_platinum.webp",
+    "sourceBytes": 6388356,
+    "outputBytes": 140446
+  },
+  {
+    "innerPath": "generated_assets/art/pvp/ranks/rank_gold.png",
+    "relPath": "pvp/ranks/rank_gold",
+    "outputPath": "apps/client/public/art/pvp/ranks/rank_gold.webp",
+    "publicUrl": "/art/pvp/ranks/rank_gold.webp",
+    "sourceBytes": 6524987,
+    "outputBytes": 125580
+  },
+  {
+    "innerPath": "generated_assets/art/pvp/ranks/rank_bronze.png",
+    "relPath": "pvp/ranks/rank_bronze",
+    "outputPath": "apps/client/public/art/pvp/ranks/rank_bronze.webp",
+    "publicUrl": "/art/pvp/ranks/rank_bronze.webp",
+    "sourceBytes": 6127178,
+    "outputBytes": 114810
+  },
+  {
+    "innerPath": "generated_assets/art/pvp/ranks/rank_master.png",
+    "relPath": "pvp/ranks/rank_master",
+    "outputPath": "apps/client/public/art/pvp/ranks/rank_master.webp",
+    "publicUrl": "/art/pvp/ranks/rank_master.webp",
+    "sourceBytes": 6075202,
+    "outputBytes": 166328
+  },
+  {
+    "innerPath": "generated_assets/art/pvp/ranks/rank_grandmaster.png",
+    "relPath": "pvp/ranks/rank_grandmaster",
+    "outputPath": "apps/client/public/art/pvp/ranks/rank_grandmaster.webp",
+    "publicUrl": "/art/pvp/ranks/rank_grandmaster.webp",
+    "sourceBytes": 8607590,
+    "outputBytes": 404372
+  },
+  {
+    "innerPath": "generated_assets/art/minigames/panels/signal_waveform.png",
+    "relPath": "minigames/panels/signal_waveform",
+    "outputPath": "apps/client/public/art/minigames/panels/signal_waveform.webp",
+    "publicUrl": "/art/minigames/panels/signal_waveform.webp",
+    "sourceBytes": 6466460,
+    "outputBytes": 122972
+  },
+  {
+    "innerPath": "generated_assets/art/minigames/panels/hacking_grid.png",
+    "relPath": "minigames/panels/hacking_grid",
+    "outputPath": "apps/client/public/art/minigames/panels/hacking_grid.webp",
+    "publicUrl": "/art/minigames/panels/hacking_grid.webp",
+    "sourceBytes": 6819068,
+    "outputBytes": 195522
+  },
+  {
+    "innerPath": "generated_assets/art/minigames/panels/decryption_key.png",
+    "relPath": "minigames/panels/decryption_key",
+    "outputPath": "apps/client/public/art/minigames/panels/decryption_key.webp",
+    "publicUrl": "/art/minigames/panels/decryption_key.webp",
+    "sourceBytes": 8386582,
+    "outputBytes": 497184
+  },
+  {
+    "innerPath": "generated_assets/art/minigames/panels/puzzle_nodes.png",
+    "relPath": "minigames/panels/puzzle_nodes",
+    "outputPath": "apps/client/public/art/minigames/panels/puzzle_nodes.webp",
+    "publicUrl": "/art/minigames/panels/puzzle_nodes.webp",
+    "sourceBytes": 7518832,
+    "outputBytes": 378988
+  },
+  {
+    "innerPath": "generated_assets/art/gears/mech_gear_small.png",
+    "relPath": "gears/mech_gear_small",
+    "outputPath": "apps/client/public/art/gears/mech_gear_small.webp",
+    "publicUrl": "/art/gears/mech_gear_small.webp",
+    "sourceBytes": 6431876,
+    "outputBytes": 214378
+  },
+  {
+    "innerPath": "generated_assets/art/gears/mech_valve_open.png",
+    "relPath": "gears/mech_valve_open",
+    "outputPath": "apps/client/public/art/gears/mech_valve_open.webp",
+    "publicUrl": "/art/gears/mech_valve_open.webp",
+    "sourceBytes": 6647770,
+    "outputBytes": 152902
+  },
+  {
+    "innerPath": "generated_assets/art/gears/mech_valve_closed.png",
+    "relPath": "gears/mech_valve_closed",
+    "outputPath": "apps/client/public/art/gears/mech_valve_closed.webp",
+    "publicUrl": "/art/gears/mech_valve_closed.webp",
+    "sourceBytes": 5877985,
+    "outputBytes": 172036
+  },
+  {
+    "innerPath": "generated_assets/art/gears/mech_piston_in.png",
+    "relPath": "gears/mech_piston_in",
+    "outputPath": "apps/client/public/art/gears/mech_piston_in.webp",
+    "publicUrl": "/art/gears/mech_piston_in.webp",
+    "sourceBytes": 5888201,
+    "outputBytes": 103870
+  },
+  {
+    "innerPath": "generated_assets/art/gears/mech_gear_large.png",
+    "relPath": "gears/mech_gear_large",
+    "outputPath": "apps/client/public/art/gears/mech_gear_large.webp",
+    "publicUrl": "/art/gears/mech_gear_large.webp",
+    "sourceBytes": 7409695,
+    "outputBytes": 340010
+  },
+  {
+    "innerPath": "generated_assets/art/gears/mech_cable_b.png",
+    "relPath": "gears/mech_cable_b",
+    "outputPath": "apps/client/public/art/gears/mech_cable_b.webp",
+    "publicUrl": "/art/gears/mech_cable_b.webp",
+    "sourceBytes": 5306372,
+    "outputBytes": 124020
+  },
+  {
+    "innerPath": "generated_assets/art/gears/mech_piston_out.png",
+    "relPath": "gears/mech_piston_out",
+    "outputPath": "apps/client/public/art/gears/mech_piston_out.webp",
+    "publicUrl": "/art/gears/mech_piston_out.webp",
+    "sourceBytes": 6487634,
+    "outputBytes": 74870
+  },
+  {
+    "innerPath": "generated_assets/art/gears/mech_cable_a.png",
+    "relPath": "gears/mech_cable_a",
+    "outputPath": "apps/client/public/art/gears/mech_cable_a.webp",
+    "publicUrl": "/art/gears/mech_cable_a.webp",
+    "sourceBytes": 5977589,
+    "outputBytes": 83770
+  },
+  {
+    "innerPath": "generated_assets/art/roadmap/milestone_beta.png",
+    "relPath": "roadmap/milestone_beta",
+    "outputPath": "apps/client/public/art/roadmap/milestone_beta.webp",
+    "publicUrl": "/art/roadmap/milestone_beta.webp",
+    "sourceBytes": 6289507,
+    "outputBytes": 136502
+  },
+  {
+    "innerPath": "generated_assets/art/roadmap/milestone_alpha.png",
+    "relPath": "roadmap/milestone_alpha",
+    "outputPath": "apps/client/public/art/roadmap/milestone_alpha.webp",
+    "publicUrl": "/art/roadmap/milestone_alpha.webp",
+    "sourceBytes": 6397508,
+    "outputBytes": 127812
+  },
+  {
+    "innerPath": "generated_assets/art/roadmap/milestone_live.png",
+    "relPath": "roadmap/milestone_live",
+    "outputPath": "apps/client/public/art/roadmap/milestone_live.webp",
+    "publicUrl": "/art/roadmap/milestone_live.webp",
+    "sourceBytes": 5537993,
+    "outputBytes": 107902
+  },
+  {
+    "innerPath": "generated_assets/art/roadmap/milestone_launch.png",
+    "relPath": "roadmap/milestone_launch",
+    "outputPath": "apps/client/public/art/roadmap/milestone_launch.webp",
+    "publicUrl": "/art/roadmap/milestone_launch.webp",
+    "sourceBytes": 6442027,
+    "outputBytes": 416418
+  }
+]

@@ -5,6 +5,7 @@
  * progress bar rather than running invisibly in the background.
  */
 import { loadingManager } from "@/lib/loadingProgress";
+import { CURRENCY_ICONS, PVP_RANK_BADGES } from "@/lib/artAssets";
 
 // ---------------------------------------------------------------------------
 // Internal tracking
@@ -86,6 +87,10 @@ const ROUTE_ASSETS: Record<string, () => Promise<void>[]> = {
   "/pvp": () => [
     preloadImage("/art/loading/loading-combat.png"),
     preloadImage("/art/arenas/arena-default.jpg"),
+    // Starter tier rank badges (most-viewed); higher tiers fetch on demand
+    preloadImage(PVP_RANK_BADGES.bronze),
+    preloadImage(PVP_RANK_BADGES.silver),
+    preloadImage(PVP_RANK_BADGES.gold),
   ],
   "/chess": () => [
     preloadImage("/art/loading/loading-bridge.png"),
@@ -95,6 +100,13 @@ const ROUTE_ASSETS: Record<string, () => Promise<void>[]> = {
   "/trade": () => [
     preloadImage("/art/loading/loading-trade.png"),
     preloadImage("/art/ui/trade-frame.png"),
+    // Currency icons (small, shown immediately in wallet & listings)
+    preloadImage(CURRENCY_ICONS.credits),
+    preloadImage(CURRENCY_ICONS.dust),
+    preloadImage(CURRENCY_ICONS.silver),
+    preloadImage(CURRENCY_ICONS.gems),
+    preloadImage(CURRENCY_ICONS.dreamTokens),
+    preloadImage(CURRENCY_ICONS.dischordShards),
   ],
   "/terminus": () => [
     preloadImage("/art/loading/loading-terminus.png"),
