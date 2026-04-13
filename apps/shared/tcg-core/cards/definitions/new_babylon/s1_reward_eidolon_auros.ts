@@ -43,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/eidolons/auros/auros-norm-comp.png",
   flavorText:
     "He stands where others flee. Honor demands no less.",
   rulesVersion: "1.0.0",

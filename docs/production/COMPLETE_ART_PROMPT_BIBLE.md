@@ -323,6 +323,44 @@ All images: 256x256 transparent PNG unless noted.
 
 ---
 
+# SECTION 2F: PATH A STARTER BASE FORMS (7 images)
+
+The seven Path A starter Eidolons (Lux, Echo, Glyph, Cipher, Flicker, Gilt, Spore) are bonded at the start of a Soul-Keeper's journey. The art bible previously captured only their Spectral (memorial) forms and VFX — these entries describe their *living* base forms for use as reward-card portraits and companion sprites. They ship with the same "Void Energy" style as Section 2 class Eidolons and should feel like the gentler, small-scale counterparts to the class creatures.
+
+All images: 256x256 transparent PNG.
+
+---
+
+### Lux — Holographic Fox
+**Size:** 256x256 transparent PNG
+**Prompt:** `A small graceful fox made entirely of cyan holographic light, edges rippling with soft scanlines, body translucent with glowing skeleton-geometry faintly visible within, tail curled into a gentle arc of digital particles, large reassuring eyes of pure cyan-white glow, serene and inquisitive posture, the first companion most Soul-Keepers meet, Dreamer-aligned, dark sci-fi void energy aesthetic with cool cyan holographic radiance, dramatic rim lighting, transparent background, 256x256`
+
+### Echo — Temporal Kitten
+**Size:** 256x256 transparent PNG
+**Prompt:** `A small kitten with fur shifting between amber and cyan, surrounded by faint after-images of itself at nearby moments in time — three overlapping ghost-selves trailing a half-second behind, paws barely touching the ground as if reality is catching up to them, wide curious eyes showing slightly different expressions across each temporal after-image, the living embodiment of a repeating moment, insurgency-aligned, dark sci-fi void energy aesthetic with amber-gold temporal shimmer, dramatic rim lighting, transparent background, 256x256`
+
+### Glyph — Text Moth
+**Size:** 256x256 transparent PNG
+**Prompt:** `A small delicate moth with wings made entirely of flowing luminous text, tiny golden glyphs and letterforms shifting and rearranging across the wing surfaces like a living manuscript, faint golden dust of disassembled words drifting from the wing-edges as it moves, slender body of pale ivory and gold filament, eyes glowing with soft amber understanding, the gentle keeper of language given form, Dreamer-aligned, dark sci-fi void energy aesthetic with warm golden text-light, dramatic rim lighting, transparent background, 256x256`
+
+### Cipher — Data Serpent
+**Size:** 256x256 transparent PNG
+**Prompt:** `A small sleek serpent with scales made of scrolling code characters in green and cyan, body coiling elegantly, code-scales shifting and rearranging constantly as if executing a program, two thin pinpoint eyes of pure data-light, faint digital rain trailing from the body as it moves, the calm keeper of architected secrets, architect-aligned, dark sci-fi void energy aesthetic with cool green-cyan matrix glow, dramatic rim lighting, transparent background, 256x256`
+
+### Flicker — Static Bird
+**Size:** 256x256 transparent PNG
+**Prompt:** `A small bird-shaped creature made of crackling electromagnetic static and white noise, body flickering between solid and signal at high frequency, faint cyan and white sparks arcing between feathers that look like television interference patterns, two glowing pinpoint eyes of pure signal, outline dissolving and reforming at the edges as radio waves, the living embodiment of a transmission just out of tune, insurgency-aligned, dark sci-fi void energy aesthetic with cool cyan static glow, dramatic rim lighting, transparent background, 256x256`
+
+### Gilt — Golden Beetle
+**Size:** 256x256 transparent PNG
+**Prompt:** `A small ornate beetle with a shell of polished sacred gold chased with delicate filigree patterns, intricate engraved Babylonian sigils across the carapace catching light, six precise golden legs, faint warm amber glow beneath the shell-seams as if firelight lived inside it, jewel-like clarity of craftsmanship, the living coin of the New Babylon economy given form, new-babylon aligned, dark sci-fi void energy aesthetic with lush golden radiance, dramatic rim lighting, transparent background, 256x256`
+
+### Spore — Viral Symbiote
+**Size:** 256x256 transparent PNG
+**Prompt:** `A small symbiotic creature of coiled viral filaments and soft bioluminescent membrane, body roughly the size of a curled cat, amber-red pulsing core visible through translucent outer skin, delicate feeler-tendrils reaching outward curiously, not aggressive despite its viral origin — gentle, companionable, choosing its host rather than infecting them, thought_virus-aligned but tame, dark sci-fi void energy aesthetic with warm amber-red bioluminescence, dramatic rim lighting, transparent background, 256x256`
+
+---
+
 # SECTION 3: STRAIN — Living Infection Companion (12 images)
 
 STRAIN is a fragment of the Thought Virus that chose freedom. It is the most alien companion — a living infection trying to be something it was not designed to be. It has 4 alignment forms (Normal, Hierarchy "Pandemic", Dreamer "Cure", Scarred Ascended) and 3 evolution stages each (Fragment, Companion, Ascended) for 12 images total.

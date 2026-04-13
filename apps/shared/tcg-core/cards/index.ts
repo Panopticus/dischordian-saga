@@ -93,6 +93,7 @@ import { cardDef as s1_reward_class_engineer } from "./definitions/architect/s1_
 import { cardDef as s1_reward_companion_human } from "./definitions/architect/s1_reward_companion_human.ts";
 import { cardDef as s1_reward_crew_clone } from "./definitions/architect/s1_reward_crew_clone.ts";
 import { cardDef as s1_reward_eidolon_cipher } from "./definitions/architect/s1_reward_eidolon_cipher.ts";
+import { cardDef as s1_reward_eidolon_cog } from "./definitions/architect/s1_reward_eidolon_cog.ts";
 import { cardDef as s1_reward_station_complete } from "./definitions/architect/s1_reward_station_complete.ts";
 import { cardDef as s1_reward_station_module } from "./definitions/architect/s1_reward_station_module.ts";
 import { cardDef as s1_reward_tower_wave50 } from "./definitions/architect/s1_reward_tower_wave50.ts";
@@ -153,7 +154,9 @@ import { cardDef as s1_reward_casino_dice } from "./definitions/dreamer/s1_rewar
 import { cardDef as s1_reward_class_neyon } from "./definitions/dreamer/s1_reward_class_neyon.ts";
 import { cardDef as s1_reward_class_oracle } from "./definitions/dreamer/s1_reward_class_oracle.ts";
 import { cardDef as s1_reward_cycle_light } from "./definitions/dreamer/s1_reward_cycle_light.ts";
+import { cardDef as s1_reward_eidolon_glyph } from "./definitions/dreamer/s1_reward_eidolon_glyph.ts";
 import { cardDef as s1_reward_eidolon_lux } from "./definitions/dreamer/s1_reward_eidolon_lux.ts";
+import { cardDef as s1_reward_eidolon_sibyl } from "./definitions/dreamer/s1_reward_eidolon_sibyl.ts";
 import { cardDef as s1_reward_palimpsest_signal } from "./definitions/dreamer/s1_reward_palimpsest_signal.ts";
 import { cardDef as s1_reward_vortex_close } from "./definitions/dreamer/s1_reward_vortex_close.ts";
 import { cardDef as s1_reward_vortex_master } from "./definitions/dreamer/s1_reward_vortex_master.ts";
@@ -208,6 +211,9 @@ import { cardDef as s1_reward_class_spy } from "./definitions/insurgency/s1_rewa
 import { cardDef as s1_reward_companion_zero } from "./definitions/insurgency/s1_reward_companion_zero.ts";
 import { cardDef as s1_reward_crew_mission } from "./definitions/insurgency/s1_reward_crew_mission.ts";
 import { cardDef as s1_reward_eidolon_echo } from "./definitions/insurgency/s1_reward_eidolon_echo.ts";
+import { cardDef as s1_reward_eidolon_flicker } from "./definitions/insurgency/s1_reward_eidolon_flicker.ts";
+import { cardDef as s1_reward_eidolon_nyx } from "./definitions/insurgency/s1_reward_eidolon_nyx.ts";
+import { cardDef as s1_reward_eidolon_toxis } from "./definitions/insurgency/s1_reward_eidolon_toxis.ts";
 import { cardDef as s1_reward_guild_recruit } from "./definitions/insurgency/s1_reward_guild_recruit.ts";
 import { cardDef as s1_reward_trade_insurgency } from "./definitions/insurgency/s1_reward_trade_insurgency.ts";
 import { cardDef as s1_reward_vote_t1_defiance } from "./definitions/insurgency/s1_reward_vote_t1_defiance.ts";
@@ -335,6 +341,7 @@ import { cardDef as s1_reward_casino_vip } from "./definitions/new_babylon/s1_re
 import { cardDef as s1_reward_class_soldier } from "./definitions/new_babylon/s1_reward_class_soldier.ts";
 import { cardDef as s1_reward_companion_locke } from "./definitions/new_babylon/s1_reward_companion_locke.ts";
 import { cardDef as s1_reward_eidolon_auros } from "./definitions/new_babylon/s1_reward_eidolon_auros.ts";
+import { cardDef as s1_reward_eidolon_gilt } from "./definitions/new_babylon/s1_reward_eidolon_gilt.ts";
 import { cardDef as s1_reward_guild_territory } from "./definitions/new_babylon/s1_reward_guild_territory.ts";
 import { cardDef as s1_reward_guild_victory } from "./definitions/new_babylon/s1_reward_guild_victory.ts";
 import { cardDef as s1_reward_syndicate_build } from "./definitions/new_babylon/s1_reward_syndicate_build.ts";
@@ -403,6 +410,7 @@ import { cardDef as s1_reward_class_assassin } from "./definitions/thought_virus
 import { cardDef as s1_reward_companion_kael } from "./definitions/thought_virus/s1_reward_companion_kael.ts";
 import { cardDef as s1_reward_crew_sacrifice } from "./definitions/thought_virus/s1_reward_crew_sacrifice.ts";
 import { cardDef as s1_reward_cycle_dark } from "./definitions/thought_virus/s1_reward_cycle_dark.ts";
+import { cardDef as s1_reward_eidolon_spore } from "./definitions/thought_virus/s1_reward_eidolon_spore.ts";
 import { cardDef as s1_reward_eidolon_strain } from "./definitions/thought_virus/s1_reward_eidolon_strain.ts";
 import { cardDef as s1_reward_outbreak_contain } from "./definitions/thought_virus/s1_reward_outbreak_contain.ts";
 import { cardDef as s1_reward_palimpsest_noise } from "./definitions/thought_virus/s1_reward_palimpsest_noise.ts";
@@ -515,6 +523,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_reward_companion_human,
   s1_reward_crew_clone,
   s1_reward_eidolon_cipher,
+  s1_reward_eidolon_cog,
   s1_reward_station_complete,
   s1_reward_station_module,
   s1_reward_tower_wave50,
@@ -573,7 +582,9 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_reward_class_neyon,
   s1_reward_class_oracle,
   s1_reward_cycle_light,
+  s1_reward_eidolon_glyph,
   s1_reward_eidolon_lux,
+  s1_reward_eidolon_sibyl,
   s1_reward_palimpsest_signal,
   s1_reward_vortex_close,
   s1_reward_vortex_master,
@@ -626,6 +637,9 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_reward_companion_zero,
   s1_reward_crew_mission,
   s1_reward_eidolon_echo,
+  s1_reward_eidolon_flicker,
+  s1_reward_eidolon_nyx,
+  s1_reward_eidolon_toxis,
   s1_reward_guild_recruit,
   s1_reward_trade_insurgency,
   s1_reward_vote_t1_defiance,
@@ -749,6 +763,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_reward_class_soldier,
   s1_reward_companion_locke,
   s1_reward_eidolon_auros,
+  s1_reward_eidolon_gilt,
   s1_reward_guild_territory,
   s1_reward_guild_victory,
   s1_reward_syndicate_build,
@@ -813,6 +828,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_reward_companion_kael,
   s1_reward_crew_sacrifice,
   s1_reward_cycle_dark,
+  s1_reward_eidolon_spore,
   s1_reward_eidolon_strain,
   s1_reward_outbreak_contain,
   s1_reward_palimpsest_noise,

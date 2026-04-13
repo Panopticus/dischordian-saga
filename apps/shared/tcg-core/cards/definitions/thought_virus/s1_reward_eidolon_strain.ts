@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/strain/strain-norm-comp.png",
   flavorText:
     "It was a plague once. Now it grieves for every life it took. The grief makes it stronger — and that is its final cruelty.",
   rulesVersion: "1.0.0",

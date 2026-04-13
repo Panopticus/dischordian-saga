@@ -43,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/spectral/spectral-echo.png",
   flavorText:
     "Every blow she strikes rings outward, mending what was broken.",
   rulesVersion: "1.0.0",

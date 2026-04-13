@@ -43,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/spectral/spectral-cipher.png",
   flavorText:
     "Cipher does not think. Cipher computes. The distinction matters only to those who lose to it.",
   rulesVersion: "1.0.0",
