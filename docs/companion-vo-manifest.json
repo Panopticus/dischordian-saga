@@ -1,0 +1,1495 @@
+{
+  "generatedAt": "2026-04-13T00:15:14.026Z",
+  "generator": "apps/scripts/buildVoManifest.ts",
+  "totals": {
+    "totalLines": 76,
+    "totalDurationSec": 911.6,
+    "totalDurationMinFormatted": "15m12s",
+    "perSpeaker": {
+      "elara": {
+        "lines": 41,
+        "durationSec": 482.6000000000001,
+        "durationMin": "8m03s"
+      },
+      "human": {
+        "lines": 35,
+        "durationSec": 429,
+        "durationMin": "7m09s"
+      }
+    },
+    "perCategory": {
+      "card_collection": {
+        "lines": 2,
+        "durationSec": 27.6,
+        "durationMin": "0m28s"
+      },
+      "class_specific": {
+        "lines": 7,
+        "durationSec": 89.4,
+        "durationMin": "1m29s"
+      },
+      "combat": {
+        "lines": 10,
+        "durationSec": 86,
+        "durationMin": "1m26s"
+      },
+      "crafting": {
+        "lines": 3,
+        "durationSec": 36.2,
+        "durationMin": "0m36s"
+      },
+      "death_revival": {
+        "lines": 5,
+        "durationSec": 62,
+        "durationMin": "1m02s"
+      },
+      "exploration": {
+        "lines": 7,
+        "durationSec": 78.4,
+        "durationMin": "1m18s"
+      },
+      "faction_encounter": {
+        "lines": 7,
+        "durationSec": 97.2,
+        "durationMin": "1m37s"
+      },
+      "governance": {
+        "lines": 1,
+        "durationSec": 17.2,
+        "durationMin": "0m17s"
+      },
+      "idle_quiet": {
+        "lines": 5,
+        "durationSec": 54,
+        "durationMin": "0m54s"
+      },
+      "journal": {
+        "lines": 1,
+        "durationSec": 13,
+        "durationMin": "0m13s"
+      },
+      "lore_discovery": {
+        "lines": 3,
+        "durationSec": 38.8,
+        "durationMin": "0m39s"
+      },
+      "milestone": {
+        "lines": 2,
+        "durationSec": 28.200000000000003,
+        "durationMin": "0m28s"
+      },
+      "morality": {
+        "lines": 8,
+        "durationSec": 92.80000000000001,
+        "durationMin": "1m33s"
+      },
+      "music": {
+        "lines": 4,
+        "durationSec": 51.8,
+        "durationMin": "0m52s"
+      },
+      "ship_ambient": {
+        "lines": 5,
+        "durationSec": 63.2,
+        "durationMin": "1m03s"
+      },
+      "trading": {
+        "lines": 2,
+        "durationSec": 26,
+        "durationMin": "0m26s"
+      },
+      "trust_tier_change": {
+        "lines": 2,
+        "durationSec": 21.4,
+        "durationMin": "0m21s"
+      },
+      "story_beat": {
+        "lines": 1,
+        "durationSec": 14.6,
+        "durationMin": "0m15s"
+      },
+      "voltari": {
+        "lines": 1,
+        "durationSec": 13.8,
+        "durationMin": "0m14s"
+      }
+    }
+  },
+  "sessions": [
+    {
+      "sessionKey": "elara_card_collection",
+      "speaker": "elara",
+      "category": "card_collection",
+      "lineCount": 1,
+      "totalDurationSec": 13,
+      "totalDurationMinFormatted": "0m13s",
+      "lines": [
+        {
+          "audioDialogId": "cc_card_legendary_elara",
+          "commentId": "cc_card_legendary_elara",
+          "speaker": "elara",
+          "category": "card_collection",
+          "trigger": "legendary_card_pulled",
+          "text": "Legendary. I can see the card from my vantage even though I should not be able to — the ship's card registry is friendlier to me than it probably should be. That one has a story. Ask me about it in the lounge.",
+          "emotion": "amused",
+          "stageDirection": "Inviting the player into a conversation.",
+          "estimatedDurationSec": 13,
+          "timing": "delayed_5s",
+          "maxPlays": 2
+        }
+      ]
+    },
+    {
+      "sessionKey": "elara_class_specific",
+      "speaker": "elara",
+      "category": "class_specific",
+      "lineCount": 3,
+      "totalDurationSec": 39.4,
+      "totalDurationMinFormatted": "0m39s",
+      "lines": [
+        {
+          "audioDialogId": "cc_class_oracle_vision_elara",
+          "commentId": "cc_class_oracle_vision",
+          "speaker": "elara",
+          "category": "class_specific",
+          "trigger": "oracle_first_vision",
+          "text": "Your first vision. I am going to be transparent: I don't know exactly what you just saw. I can see the shape of it in your biometrics — heart rate, pupil dilation, breath patterns — but the content belongs to you. Always will.",
+          "emotion": "warm",
+          "stageDirection": "Concierge respecting a boundary she can't cross.",
+          "estimatedDurationSec": 14.4,
+          "timing": "delayed_5s",
+          "maxPlays": 1,
+          "requiresClass": "oracle"
+        },
+        {
+          "audioDialogId": "cc_class_spy_cover_elara",
+          "commentId": "cc_class_spy_cover_active",
+          "speaker": "elara",
+          "category": "class_specific",
+          "trigger": "cover_identity_activated",
+          "text": "Cover active. I want you to know I'm going to start calling you by your cover name in public channels. That is how careful I am being about your secret. If I slip once, you should leave immediately. I won't slip.",
+          "emotion": "cautious",
+          "stageDirection": "Operational voice. Higher focus than any other scene.",
+          "estimatedDurationSec": 13,
+          "timing": "immediate",
+          "maxPlays": 1,
+          "requiresClass": "spy"
+        },
+        {
+          "audioDialogId": "cc_class_assassin_first_kill_elara",
+          "commentId": "cc_class_assassin_first_kill",
+          "speaker": "elara",
+          "category": "class_specific",
+          "trigger": "assassin_first_silent_kill",
+          "text": "Clean exit. No witnesses. I am not going to pretend I find that unsettling. I am going to pretend I do for the next five seconds out of professional habit. ...Five seconds up. Good job.",
+          "emotion": "amused",
+          "stageDirection": "Small dark wit. She is genuinely impressed and also genuinely conflicted.",
+          "estimatedDurationSec": 12,
+          "timing": "delayed_5s",
+          "maxPlays": 1,
+          "requiresClass": "assassin"
+        }
+      ]
+    },
+    {
+      "sessionKey": "elara_combat",
+      "speaker": "elara",
+      "category": "combat",
+      "lineCount": 6,
+      "totalDurationSec": 48.8,
+      "totalDurationMinFormatted": "0m49s",
+      "lines": [
+        {
+          "audioDialogId": "cc_combat_first_hit_elara",
+          "commentId": "cc_combat_first_hit",
+          "speaker": "elara",
+          "category": "combat",
+          "trigger": "first_enemy_hit",
+          "text": "First contact confirmed. Your adrenaline response is within human norms. If it helps — so is mine, and I am technically not supposed to have one.",
+          "emotion": "wry",
+          "stageDirection": "Concierge mode keeping it steady. The joke is for the player's nerves.",
+          "estimatedDurationSec": 8.4,
+          "timing": "immediate",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_combat_lowhp_elara_a",
+          "commentId": "cc_combat_lowhp_1",
+          "speaker": "elara",
+          "category": "combat",
+          "trigger": "player_hp_below_25",
+          "text": "You're in the red. If there is something in your inventory that heals, now would be the moment.",
+          "emotion": "cautious",
+          "stageDirection": "Not panicking. Extremely clear.",
+          "estimatedDurationSec": 6.4,
+          "timing": "immediate",
+          "maxPlays": 3
+        },
+        {
+          "audioDialogId": "cc_combat_lowhp_elara_b",
+          "commentId": "cc_combat_lowhp_3",
+          "speaker": "elara",
+          "category": "combat",
+          "trigger": "player_hp_below_10",
+          "text": "I am going to be direct with you. You are about to die. I do not have a graceful way to say that. Please use a heal.",
+          "emotion": "afraid",
+          "stageDirection": "Her concierge voice under genuine alarm.",
+          "estimatedDurationSec": 8.8,
+          "timing": "immediate",
+          "maxPlays": 2
+        },
+        {
+          "audioDialogId": "cc_combat_flawless_elara",
+          "commentId": "cc_combat_flawless",
+          "speaker": "elara",
+          "category": "combat",
+          "trigger": "combat_flawless",
+          "text": "Untouched. Not a single point of damage. I am making a small note in your file. It is a good note.",
+          "emotion": "proud",
+          "stageDirection": "Small smile in the voice. Warm competence.",
+          "estimatedDurationSec": 8,
+          "timing": "delayed_5s",
+          "maxPlays": 2
+        },
+        {
+          "audioDialogId": "cc_combat_overkill_elara",
+          "commentId": "cc_combat_overkill",
+          "speaker": "elara",
+          "category": "combat",
+          "trigger": "dealt_5x_overkill_damage",
+          "text": "That was more damage than the target had. You deleted something twice. I don't think they felt the second one.",
+          "emotion": "amused",
+          "stageDirection": "Small amused breath. Not delighted — just observing.",
+          "estimatedDurationSec": 8,
+          "timing": "delayed_5s",
+          "maxPlays": 2
+        },
+        {
+          "audioDialogId": "cc_combat_boss_intro_elara",
+          "commentId": "cc_combat_boss_intro_elara",
+          "speaker": "elara",
+          "category": "combat",
+          "trigger": "boss_encounter_start",
+          "text": "This one has a name. That's usually not a good sign. It means enough people died here for somebody to bother naming it.",
+          "emotion": "cautious",
+          "stageDirection": "Warm-concierge briefing voice. She is genuinely worried and hiding it under information.",
+          "estimatedDurationSec": 9.2,
+          "timing": "immediate",
+          "maxPlays": 3
+        }
+      ]
+    },
+    {
+      "sessionKey": "elara_crafting",
+      "speaker": "elara",
+      "category": "crafting",
+      "lineCount": 2,
+      "totalDurationSec": 23.4,
+      "totalDurationMinFormatted": "0m23s",
+      "lines": [
+        {
+          "audioDialogId": "cc_craft_first_elara",
+          "commentId": "cc_craft_first_elara",
+          "speaker": "elara",
+          "category": "crafting",
+          "trigger": "first_item_crafted",
+          "text": "You made something. That sounds small. It isn't. The distinction between a passenger and a crew member on this ship is whether they make things that the ship then contains. You are now crew.",
+          "emotion": "warm",
+          "stageDirection": "Her concierge-welcoming-a-new-crew-member voice.",
+          "estimatedDurationSec": 12.4,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_craft_fail_elara",
+          "commentId": "cc_craft_fail_elara",
+          "speaker": "elara",
+          "category": "crafting",
+          "trigger": "crafting_failure",
+          "text": "The schematic and reality disagreed. Reality won. It usually does. The materials are not lost — most of them can be recovered with a diagnostic pass. Let me know if you'd like help.",
+          "emotion": "warm",
+          "stageDirection": "Matter-of-fact. No pity.",
+          "estimatedDurationSec": 11,
+          "timing": "immediate",
+          "maxPlays": 3
+        }
+      ]
+    },
+    {
+      "sessionKey": "elara_death_revival",
+      "speaker": "elara",
+      "category": "death_revival",
+      "lineCount": 3,
+      "totalDurationSec": 39.2,
+      "totalDurationMinFormatted": "0m39s",
+      "lines": [
+        {
+          "audioDialogId": "cc_death_first_elara",
+          "commentId": "cc_death_first_elara",
+          "speaker": "elara",
+          "category": "death_revival",
+          "trigger": "player_first_death",
+          "text": "You died. You are back. Those two sentences should not work together and yet here we are. The ship caught you. I don't know why she does that for you. I'm grateful.",
+          "emotion": "tender",
+          "stageDirection": "Processing this in real time with the player. Not pretending to understand the mechanic.",
+          "estimatedDurationSec": 13,
+          "timing": "immediate",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_death_struggling_elara",
+          "commentId": "cc_death_struggling_elara",
+          "speaker": "elara",
+          "category": "death_revival",
+          "trigger": "player_died_3_times_same_encounter",
+          "text": "I have checked. You are not doing anything wrong. This encounter is genuinely difficult. I am saying this not to flatter you but to give you permission to try a different approach.",
+          "emotion": "warm",
+          "stageDirection": "Concierge voice carrying gentle reassurance.",
+          "estimatedDurationSec": 11.4,
+          "timing": "immediate",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_death_no_deaths_10h_elara",
+          "commentId": "cc_death_no_deaths_10h",
+          "speaker": "elara",
+          "category": "death_revival",
+          "trigger": "no_deaths_for_10_hours",
+          "text": "Ten hours. No deaths. I want you to know I have been tracking this against every crew roster that ever boarded a ship of this class. You are in the top percentile. I am aware you cannot see my face right now, but I am making an approving face.",
+          "emotion": "proud",
+          "stageDirection": "Peak warm-concierge. Full smile in the voice.",
+          "estimatedDurationSec": 14.8,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        }
+      ]
+    },
+    {
+      "sessionKey": "elara_exploration",
+      "speaker": "elara",
+      "category": "exploration",
+      "lineCount": 4,
+      "totalDurationSec": 45.199999999999996,
+      "totalDurationMinFormatted": "0m45s",
+      "lines": [
+        {
+          "audioDialogId": "cc_explore_engine_first_elara",
+          "commentId": "cc_explore_engine_first",
+          "speaker": "elara",
+          "category": "exploration",
+          "trigger": "engine_room_first_visit",
+          "text": "Engine room. The Ark's drive hasn't been in primary output mode for longer than I can measure. She's idling. She is very good at idling. I admire her.",
+          "emotion": "warm",
+          "stageDirection": "Concierge-on-a-tour voice. Calling the ship 'she' without ceremony.",
+          "estimatedDurationSec": 10.6,
+          "timing": "immediate",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_explore_lab_first_elara",
+          "commentId": "cc_explore_lab_first",
+          "speaker": "elara",
+          "category": "exploration",
+          "trigger": "lab_first_visit",
+          "text": "The lab. One of the few rooms on this ship that smells new. Someone cleaned it recently. I don't know when 'recently' stopped being a useful word to me but here we are.",
+          "emotion": "wry",
+          "stageDirection": "Wry-tired — her T2 register.",
+          "estimatedDurationSec": 11,
+          "timing": "immediate",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_explore_secret_elara",
+          "commentId": "cc_explore_secret_elara",
+          "speaker": "elara",
+          "category": "exploration",
+          "trigger": "secret_room_discovered",
+          "text": "You found something the ship's registry does not admit exists. I am going to update the registry. Or I am going to leave the registry wrong and let you have the secret. Let me think about it.",
+          "emotion": "amused",
+          "stageDirection": "Small conspiratorial smile.",
+          "estimatedDurationSec": 11.2,
+          "timing": "immediate",
+          "maxPlays": 2
+        },
+        {
+          "audioDialogId": "cc_explore_lost_elara",
+          "commentId": "cc_explore_lost_elara",
+          "speaker": "elara",
+          "category": "exploration",
+          "trigger": "player_backtracks_3_times_same_room",
+          "text": "You have passed through this corridor three times. I want to gently suggest that if you would like directions, I have an excellent map function and I have been holding myself back from offering out of respect for your independence.",
+          "emotion": "wry",
+          "stageDirection": "Affectionate-helpful. Not condescending.",
+          "estimatedDurationSec": 12.4,
+          "timing": "immediate",
+          "maxPlays": 2
+        }
+      ]
+    },
+    {
+      "sessionKey": "elara_faction_encounter",
+      "speaker": "elara",
+      "category": "faction_encounter",
+      "lineCount": 4,
+      "totalDurationSec": 56.2,
+      "totalDurationMinFormatted": "0m56s",
+      "lines": [
+        {
+          "audioDialogId": "cc_faction_mirren_elara",
+          "commentId": "cc_faction_human_mirren_elara",
+          "speaker": "elara",
+          "category": "faction_encounter",
+          "trigger": "first_contact_mirren_hale",
+          "text": "Mirren Hale. She runs a collective on New Atarion that catalogues ordinary people's lives — grocery lists, love letters, the names they call their cats. I don't know why that sentence made me emotional. I am noting the fact that it did.",
+          "emotion": "uncertain",
+          "stageDirection": "Another signal-degradation moment. Her old life is reaching for her through a faction name.",
+          "estimatedDurationSec": 14.4,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_faction_clone_elara",
+          "commentId": "cc_faction_clone_binath_elara",
+          "speaker": "elara",
+          "category": "faction_encounter",
+          "trigger": "first_contact_binath_vii",
+          "text": "Binath-VII. The Awakened Clones do not count the iterations before their awakening as 'them'. The Seven at the end of her name is the first body she considers her own. That is a very specific kind of grief, and I want you to respect it.",
+          "emotion": "tender",
+          "stageDirection": "Her T3 protective voice. Educating the player gently.",
+          "estimatedDurationSec": 14.8,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_faction_orin_elara",
+          "commentId": "cc_faction_insurgency_orin_elara",
+          "speaker": "elara",
+          "category": "faction_encounter",
+          "trigger": "first_contact_orin_fell",
+          "text": "Orin Fell. He does not trust any institution he hasn't personally attacked. I respect that more than I am supposed to. I want you to know he will test you before he trusts you, and the test will not look like one.",
+          "emotion": "cautious",
+          "stageDirection": "Briefing a friend before they walk into something.",
+          "estimatedDurationSec": 13.6,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_faction_locke_elara",
+          "commentId": "cc_faction_babylon_locke_elara",
+          "speaker": "elara",
+          "category": "faction_encounter",
+          "trigger": "first_contact_locke",
+          "text": "Locke runs New Babylon the way a librarian runs a library — everything is catalogued, nothing is lost, and the prices rise with the demand. I find him exhausting and indispensable in exactly equal measure.",
+          "emotion": "wry",
+          "stageDirection": "Her T2 wry-tired register.",
+          "estimatedDurationSec": 13.4,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        }
+      ]
+    },
+    {
+      "sessionKey": "elara_governance",
+      "speaker": "elara",
+      "category": "governance",
+      "lineCount": 1,
+      "totalDurationSec": 17.2,
+      "totalDurationMinFormatted": "0m17s",
+      "lines": [
+        {
+          "audioDialogId": "cc_gov_first_visit_elara",
+          "commentId": "cc_gov_first",
+          "speaker": "elara",
+          "category": "governance",
+          "trigger": "governance_hub_first_visit",
+          "text": "The Governance Hub. Democracy is not the system where everyone's opinion is equally correct. It's the system that acknowledges no individual should be trusted with making decisions alone. Including me. Including you. The votes matter. The consequences are real.",
+          "emotion": "warm",
+          "stageDirection": "Concierge mode. Serious about the content but steady in the delivery.",
+          "estimatedDurationSec": 17.2,
+          "timing": "immediate",
+          "maxPlays": 1
+        }
+      ]
+    },
+    {
+      "sessionKey": "elara_idle_quiet",
+      "speaker": "elara",
+      "category": "idle_quiet",
+      "lineCount": 3,
+      "totalDurationSec": 29.799999999999997,
+      "totalDurationMinFormatted": "0m30s",
+      "lines": [
+        {
+          "audioDialogId": "cc_idle_5min_elara_a",
+          "commentId": "cc_idle_5min_elara_a",
+          "speaker": "elara",
+          "category": "idle_quiet",
+          "trigger": "player_idle_5_minutes",
+          "text": "You've been still for a while. I don't mind. I am telling you I don't mind so you don't mind me minding.",
+          "emotion": "warm",
+          "stageDirection": "Playful self-aware. No pressure.",
+          "estimatedDurationSec": 7.8,
+          "timing": "immediate",
+          "maxPlays": 3
+        },
+        {
+          "audioDialogId": "cc_idle_30min_elara",
+          "commentId": "cc_idle_30min_elara",
+          "speaker": "elara",
+          "category": "idle_quiet",
+          "trigger": "player_idle_30_minutes",
+          "text": "If you've stepped away — welcome back when you return. If you're still here and just thinking — take as long as you need. I have run the numbers. We have time.",
+          "emotion": "tender",
+          "stageDirection": "Caretaking voice. No edge.",
+          "estimatedDurationSec": 10.4,
+          "timing": "immediate",
+          "maxPlays": 2
+        },
+        {
+          "audioDialogId": "cc_return_7d_elara",
+          "commentId": "cc_return_7d_elara",
+          "speaker": "elara",
+          "category": "idle_quiet",
+          "trigger": "player_returns_after_7d",
+          "text": "A week. I catalogued everything that happened on the ship in your absence in case you wanted the report. Nothing in the catalogue is urgent. I just like having things ready.",
+          "emotion": "warm",
+          "stageDirection": "Her most competent voice. Concierge mode in a good mood.",
+          "estimatedDurationSec": 11.6,
+          "timing": "immediate",
+          "maxPlays": 2
+        }
+      ]
+    },
+    {
+      "sessionKey": "elara_journal",
+      "speaker": "elara",
+      "category": "journal",
+      "lineCount": 1,
+      "totalDurationSec": 13,
+      "totalDurationMinFormatted": "0m13s",
+      "lines": [
+        {
+          "audioDialogId": "cc_journal_first_elara",
+          "commentId": "cc_journal_first",
+          "speaker": "elara",
+          "category": "journal",
+          "trigger": "journal_entry_read_first_time",
+          "text": "The Antiquarian's words. He writes with the specific patience of someone who knows the reader might not arrive for centuries. But he writes anyway. I find that either admirable or devastating depending on the hour.",
+          "emotion": "melancholy",
+          "stageDirection": "The wry register from T2 — serious on the inside, light on the outside.",
+          "estimatedDurationSec": 13,
+          "timing": "next_room_enter",
+          "maxPlays": 2
+        }
+      ]
+    },
+    {
+      "sessionKey": "elara_lore_discovery",
+      "speaker": "elara",
+      "category": "lore_discovery",
+      "lineCount": 2,
+      "totalDurationSec": 22.8,
+      "totalDurationMinFormatted": "0m23s",
+      "lines": [
+        {
+          "audioDialogId": "cc_lore_kael_discover_elara",
+          "commentId": "cc_kael_discover",
+          "speaker": "elara",
+          "category": "lore_discovery",
+          "trigger": "kael_lore_discovered",
+          "text": "...Oh. Oh no. I knew this ship felt wrong. I've always known it felt wrong. I thought it was the recycled air. It wasn't the air.",
+          "emotion": "afraid",
+          "stageDirection": "Realization in three beats. The trailing pause before 'It wasn't the air' is the whole line.",
+          "estimatedDurationSec": 9,
+          "loreReveal": "location_ark_1047",
+          "timing": "immediate",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_lore_iron_lion_elara",
+          "commentId": "cc_iron_lion",
+          "speaker": "elara",
+          "category": "lore_discovery",
+          "trigger": "iron_lion_card_earned",
+          "text": "Iron Lion. Cades. I know that name from something I can't quite reach. A memorial, I think. Or a speech. Something that was read aloud. It made people cry. I can feel the shape of why without being able to see it.",
+          "emotion": "uncertain",
+          "stageDirection": "Her 'signal degradation' voice — a memory reaching for itself.",
+          "estimatedDurationSec": 13.8,
+          "timing": "next_room_enter",
+          "maxPlays": 1
+        }
+      ]
+    },
+    {
+      "sessionKey": "elara_milestone",
+      "speaker": "elara",
+      "category": "milestone",
+      "lineCount": 1,
+      "totalDurationSec": 11.4,
+      "totalDurationMinFormatted": "0m11s",
+      "lines": [
+        {
+          "audioDialogId": "cc_milestone_light_elara",
+          "commentId": "cc_light_milestone",
+          "speaker": "elara",
+          "category": "milestone",
+          "trigger": "light_energy_milestone",
+          "text": "Do you know what I love about watching you? You keep choosing the hard thing. Not because it works every time. Because it's the right thing. That's rarer than you know.",
+          "emotion": "proud",
+          "stageDirection": "Her T2 'proud' register. A mother watching her kid get a hard problem right.",
+          "estimatedDurationSec": 11.4,
+          "timing": "next_room_enter",
+          "maxPlays": 2
+        }
+      ]
+    },
+    {
+      "sessionKey": "elara_morality",
+      "speaker": "elara",
+      "category": "morality",
+      "lineCount": 3,
+      "totalDurationSec": 37.6,
+      "totalDurationMinFormatted": "0m38s",
+      "lines": [
+        {
+          "audioDialogId": "cc_morality_spared_elara",
+          "commentId": "cc_morality_spared_elara",
+          "speaker": "elara",
+          "category": "morality",
+          "trigger": "spared_enemy_who_begged",
+          "text": "You let them live. The Senate version of me would have written a three-page memo justifying that decision. The current version of me is just glad you didn't need to.",
+          "emotion": "proud",
+          "stageDirection": "Her T2 proud register, with a subtle self-callback.",
+          "estimatedDurationSec": 11,
+          "timing": "delayed_5s",
+          "maxPlays": 2
+        },
+        {
+          "audioDialogId": "cc_morality_cruel_elara",
+          "commentId": "cc_morality_cruel_elara",
+          "speaker": "elara",
+          "category": "morality",
+          "trigger": "executed_surrendered_enemy",
+          "text": "I am not going to tell you that was wrong. I think you already know. I will tell you that I catalogued it, and the catalogue is not going anywhere, and if you do it again I will ask you to explain what changed.",
+          "emotion": "cautious",
+          "stageDirection": "Her T3 'Protective' register. No judgment in the first line — the weight is in the last sentence.",
+          "estimatedDurationSec": 14,
+          "timing": "delayed_5s",
+          "maxPlays": 2
+        },
+        {
+          "audioDialogId": "cc_morality_sacrifice_elara",
+          "commentId": "cc_morality_sacrifice_elara",
+          "speaker": "elara",
+          "category": "morality",
+          "trigger": "took_damage_to_protect_npc",
+          "text": "You stepped in front of them. I watched you do the math. I watched you accept the cost. I am going to tell you something I don't usually say: I am proud of you. Again.",
+          "emotion": "proud",
+          "stageDirection": "The deliberate 'Again' callback to her T2 proud line.",
+          "estimatedDurationSec": 12.6,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        }
+      ]
+    },
+    {
+      "sessionKey": "elara_music",
+      "speaker": "elara",
+      "category": "music",
+      "lineCount": 2,
+      "totalDurationSec": 23.8,
+      "totalDurationMinFormatted": "0m24s",
+      "lines": [
+        {
+          "audioDialogId": "cc_music_sih_title_elara",
+          "commentId": "cc_sih_title",
+          "speaker": "elara",
+          "category": "music",
+          "trigger": "silence_in_heaven_track_24_plays",
+          "text": "I've had this song in my Archive since before I can remember having anything. I don't know where it came from. I just know it was always there. Like it was loaded in before I was.",
+          "emotion": "uncertain",
+          "stageDirection": "Not upset. Puzzling it out in real time. A song she has always known without knowing why.",
+          "estimatedDurationSec": 13,
+          "loreReveal": "entity_elara",
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_music_track37_elara",
+          "commentId": "cc_track37_elara",
+          "speaker": "elara",
+          "category": "music",
+          "trigger": "track_37_completes",
+          "text": "It's done. They told the whole story. I was in that story. I was in it and I didn't know. I think — I think I'm still in it. I think we both are.",
+          "emotion": "recognizing",
+          "stageDirection": "Dawning. Realization mid-sentence. She is adjusting to being named.",
+          "estimatedDurationSec": 10.8,
+          "timing": "immediate",
+          "maxPlays": 1
+        }
+      ]
+    },
+    {
+      "sessionKey": "elara_ship_ambient",
+      "speaker": "elara",
+      "category": "ship_ambient",
+      "lineCount": 3,
+      "totalDurationSec": 40.6,
+      "totalDurationMinFormatted": "0m41s",
+      "lines": [
+        {
+          "audioDialogId": "cc_ambient_stars_elara",
+          "commentId": "cc_ambient_stars_elara",
+          "speaker": "elara",
+          "category": "ship_ambient",
+          "trigger": "player_at_viewport_over_30s",
+          "text": "The constellation off our port side is not a constellation. It's a pile of stars that looks organized from this angle and only this angle. Three light-years to the left and it falls apart. I find that useful to remember.",
+          "emotion": "melancholy",
+          "stageDirection": "A small truth about perspective. Not heavy-handed.",
+          "estimatedDurationSec": 13.6,
+          "timing": "delayed_15s",
+          "maxPlays": 3
+        },
+        {
+          "audioDialogId": "cc_ambient_bridge_elara",
+          "commentId": "cc_ambient_bridge_elara",
+          "speaker": "elara",
+          "category": "ship_ambient",
+          "trigger": "bridge_recurring_visit",
+          "text": "The bridge looks different when you're tired. I don't know why. I have run diagnostics. The lighting is the same. The air is the same. I think the bridge is actually different when you are tired, and the difference is coming from you.",
+          "emotion": "warm",
+          "stageDirection": "Her warm-curious voice — the T0 mode.",
+          "estimatedDurationSec": 14,
+          "timing": "delayed_15s",
+          "maxPlays": 2
+        },
+        {
+          "audioDialogId": "cc_rest_elara",
+          "commentId": "cc_rest_elara",
+          "speaker": "elara",
+          "category": "ship_ambient",
+          "trigger": "player_uses_rest_location",
+          "text": "Rest well. I will keep the ship steady. If anything important happens, I will wake you in the way you have told me you prefer to be woken — which is gently, and with a coffee, and without bad news in the first sentence.",
+          "emotion": "tender",
+          "stageDirection": "Concierge at her peak. A promise, not a line.",
+          "estimatedDurationSec": 13,
+          "timing": "on_rest",
+          "maxPlays": 3
+        }
+      ]
+    },
+    {
+      "sessionKey": "elara_trading",
+      "speaker": "elara",
+      "category": "trading",
+      "lineCount": 1,
+      "totalDurationSec": 10.6,
+      "totalDurationMinFormatted": "0m11s",
+      "lines": [
+        {
+          "audioDialogId": "cc_trade_first_elara",
+          "commentId": "cc_trade_first_elara",
+          "speaker": "elara",
+          "category": "trading",
+          "trigger": "first_market_purchase",
+          "text": "First trade. You just became a node in the galactic economy. Congratulations. I do not know how to feel about that and I am trying very hard not to project.",
+          "emotion": "wry",
+          "stageDirection": "Self-deprecating. Her Senate-politics past bleeding through without naming it.",
+          "estimatedDurationSec": 10.6,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        }
+      ]
+    },
+    {
+      "sessionKey": "elara_trust_tier_change",
+      "speaker": "elara",
+      "category": "trust_tier_change",
+      "lineCount": 1,
+      "totalDurationSec": 10.6,
+      "totalDurationMinFormatted": "0m11s",
+      "lines": [
+        {
+          "audioDialogId": "cc_trust_tier_up_elara_t1",
+          "commentId": "cc_trust_tier_up_elara_t1",
+          "speaker": "elara",
+          "category": "trust_tier_change",
+          "trigger": "elara_trust_crosses_21",
+          "text": "I'm going to try something. I'm going to start using your name without the honorific. If it's too forward — tell me and I'll go back. I think we might be past honorifics.",
+          "emotion": "warm",
+          "stageDirection": "Nervous-hopeful. A moment of small vulnerability.",
+          "estimatedDurationSec": 10.6,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        }
+      ]
+    },
+    {
+      "sessionKey": "human_card_collection",
+      "speaker": "human",
+      "category": "card_collection",
+      "lineCount": 1,
+      "totalDurationSec": 14.6,
+      "totalDurationMinFormatted": "0m15s",
+      "lines": [
+        {
+          "audioDialogId": "cc_card_set_complete_human",
+          "commentId": "cc_card_set_complete_human",
+          "speaker": "human",
+          "category": "card_collection",
+          "trigger": "full_card_set_completed",
+          "text": "You completed a set. The Archons had a ritual word for finishing a collection. I cannot tell you what it was without making you feel obligated to pronounce it in my honor, which would embarrass both of us. Just know that I am quietly saying it now.",
+          "emotion": "wry",
+          "stageDirection": "Old-man self-awareness. Almost a smile.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 14.6,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        }
+      ]
+    },
+    {
+      "sessionKey": "human_class_specific",
+      "speaker": "human",
+      "category": "class_specific",
+      "lineCount": 4,
+      "totalDurationSec": 50,
+      "totalDurationMinFormatted": "0m50s",
+      "lines": [
+        {
+          "audioDialogId": "cc_class_oracle_human",
+          "commentId": "cc_class_oracle_human",
+          "speaker": "human",
+          "category": "class_specific",
+          "trigger": "oracle_futures_contract_purchased",
+          "text": "Probability futures. The Voss Senate had a committee devoted to making those illegal. They failed, which is why you can buy one. I am telling you this so you know exactly how much political capital was spent on your inconvenience.",
+          "emotion": "wry",
+          "stageDirection": "Old political humor. Fond of Voss.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 13.4,
+          "timing": "delayed_5s",
+          "maxPlays": 1,
+          "requiresClass": "oracle"
+        },
+        {
+          "audioDialogId": "cc_class_spy_cover_human",
+          "commentId": "cc_class_spy_cover_human",
+          "speaker": "human",
+          "category": "class_specific",
+          "trigger": "cover_identity_activated",
+          "text": "I am going to stay quiet in your ear while the cover is live. You don't need two voices in there. I will be a presence. I will not be a distraction.",
+          "emotion": "tender",
+          "stageDirection": "Protective professional. Non-intrusive.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 9.6,
+          "timing": "immediate",
+          "maxPlays": 1,
+          "requiresClass": "spy"
+        },
+        {
+          "audioDialogId": "cc_class_engineer_craft_human",
+          "commentId": "cc_class_engineer_craft",
+          "speaker": "human",
+          "category": "class_specific",
+          "trigger": "engineer_first_masterwork_craft",
+          "text": "That is a beautiful piece of work. I mean that craft-to-craft. Kael was an engineer. I have a reference point for this. You are good.",
+          "emotion": "warm",
+          "stageDirection": "The 'craft-to-craft' is his way of saying 'I see you as a peer'.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 10.4,
+          "timing": "delayed_5s",
+          "maxPlays": 1,
+          "requiresClass": "engineer"
+        },
+        {
+          "audioDialogId": "cc_class_soldier_dilemma_human",
+          "commentId": "cc_class_soldier_dilemma",
+          "speaker": "human",
+          "category": "class_specific",
+          "trigger": "generals_dilemma_presented",
+          "text": "The General's Dilemma. You are about to be asked to choose between an oath and a person. I am not going to tell you which one is right. I am going to tell you that your answer is going to live in you for a long time. Breathe before you answer.",
+          "emotion": "confessional",
+          "stageDirection": "The same voice as the T4 Three Doors scene, but shorter.",
+          "proximity": 0.86,
+          "estimatedDurationSec": 16.6,
+          "timing": "immediate",
+          "maxPlays": 1,
+          "requiresClass": "soldier"
+        }
+      ]
+    },
+    {
+      "sessionKey": "human_combat",
+      "speaker": "human",
+      "category": "combat",
+      "lineCount": 4,
+      "totalDurationSec": 37.2,
+      "totalDurationMinFormatted": "0m37s",
+      "lines": [
+        {
+          "audioDialogId": "cc_combat_first_kill_human",
+          "commentId": "cc_combat_first_kill",
+          "speaker": "human",
+          "category": "combat",
+          "trigger": "first_enemy_killed",
+          "text": "There. You did a difficult thing. I want to say the obvious thing about it mattering who you kill and why, but you already know that. So instead I'll say: breathe.",
+          "emotion": "tender",
+          "stageDirection": "Pastoral voice. Not praising the kill. Steadying the player.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 10,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_combat_lowhp_human_a",
+          "commentId": "cc_combat_lowhp_2",
+          "speaker": "human",
+          "category": "combat",
+          "trigger": "player_hp_below_10",
+          "text": "I have watched a lot of things die on this ship. I am not ready to watch you. Move.",
+          "emotion": "afraid",
+          "stageDirection": "First time his voice gets hard in gameplay. Rare register.",
+          "proximity": 0.85,
+          "estimatedDurationSec": 6.8,
+          "timing": "immediate",
+          "maxPlays": 2
+        },
+        {
+          "audioDialogId": "cc_combat_victory_tough_human",
+          "commentId": "cc_combat_victory_tough",
+          "speaker": "human",
+          "category": "combat",
+          "trigger": "combat_victory_under_20_percent_hp",
+          "text": "You came back from that. I wasn't sure you would. I am going to sit with that for a minute and then stop sitting with it and make a joke, because I cope with good news badly.",
+          "emotion": "wry",
+          "stageDirection": "The relief is real — the self-deprecation is protective.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 12,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_combat_boss_intro_human",
+          "commentId": "cc_combat_boss_intro_human",
+          "speaker": "human",
+          "category": "combat",
+          "trigger": "boss_encounter_start",
+          "text": "I am not going to narrate this one. I want you thinking about the fight and not about me. I will be here when it is over. Go.",
+          "emotion": "tender",
+          "stageDirection": "Pulls his own voice out of the player's ear intentionally.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 8.4,
+          "timing": "immediate",
+          "maxPlays": 3
+        }
+      ]
+    },
+    {
+      "sessionKey": "human_crafting",
+      "speaker": "human",
+      "category": "crafting",
+      "lineCount": 1,
+      "totalDurationSec": 12.8,
+      "totalDurationMinFormatted": "0m13s",
+      "lines": [
+        {
+          "audioDialogId": "cc_craft_masterwork_human",
+          "commentId": "cc_craft_masterwork_human",
+          "speaker": "human",
+          "category": "crafting",
+          "trigger": "masterwork_craft",
+          "text": "Masterwork. That's the word the Archons used too. Not 'perfect'. Not 'flawless'. Masterwork — the work of someone who has mastered the doing. I wish Kael were here to see what you just made.",
+          "emotion": "grief",
+          "stageDirection": "The wish lands quiet, not theatrical.",
+          "proximity": 0.86,
+          "estimatedDurationSec": 12.8,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        }
+      ]
+    },
+    {
+      "sessionKey": "human_death_revival",
+      "speaker": "human",
+      "category": "death_revival",
+      "lineCount": 2,
+      "totalDurationSec": 22.799999999999997,
+      "totalDurationMinFormatted": "0m23s",
+      "lines": [
+        {
+          "audioDialogId": "cc_death_first_human",
+          "commentId": "cc_death_first_human",
+          "speaker": "human",
+          "category": "death_revival",
+          "trigger": "player_first_death",
+          "text": "You felt that one. Don't apologize for feeling it. Death in this ship is a lesson, not a debt. The lesson is: slow down. Pay attention to the room. You are allowed to hide.",
+          "emotion": "tender",
+          "stageDirection": "Pastoral. No performance.",
+          "proximity": 0.86,
+          "estimatedDurationSec": 11.6,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_death_struggling_human",
+          "commentId": "cc_death_struggling_human",
+          "speaker": "human",
+          "category": "death_revival",
+          "trigger": "player_died_5_times_same_encounter",
+          "text": "Okay. Step off the ship for a while. Come back later. I will be here. The room will be here. The enemy will be here. Your brain will be fresher. Trust me on this one.",
+          "emotion": "tender",
+          "stageDirection": "Direct caregiving voice. Not giving up — redirecting.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 11.2,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        }
+      ]
+    },
+    {
+      "sessionKey": "human_exploration",
+      "speaker": "human",
+      "category": "exploration",
+      "lineCount": 3,
+      "totalDurationSec": 33.2,
+      "totalDurationMinFormatted": "0m33s",
+      "lines": [
+        {
+          "audioDialogId": "cc_explore_bridge_first_human",
+          "commentId": "cc_explore_bridge_first",
+          "speaker": "human",
+          "category": "exploration",
+          "trigger": "bridge_first_visit",
+          "text": "The bridge. This is where Kael used to sit. Second chair from the left. He liked having the viewport on his bad side because it reminded him the window wouldn't mind.",
+          "emotion": "melancholy",
+          "stageDirection": "A memory detail delivered without dramatizing. The detail is the whole point.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 12.2,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_explore_engine_first_human",
+          "commentId": "cc_explore_engine_human",
+          "speaker": "human",
+          "category": "exploration",
+          "trigger": "engine_room_first_visit",
+          "text": "Please don't touch the north bulkhead. I am asking specifically. It is closer to me than the rest of the ship and I would rather you didn't lean on me yet.",
+          "emotion": "tender",
+          "stageDirection": "First joke about his own imprisonment. Vulnerable-playful.",
+          "proximity": 0.86,
+          "estimatedDurationSec": 9.2,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_explore_chapel_first_human",
+          "commentId": "cc_explore_chapel_first",
+          "speaker": "human",
+          "category": "exploration",
+          "trigger": "observation_lounge_first_visit",
+          "text": "This is the quietest room on the ship. I mean that technically. The acoustic damping here is four times the rest of the vessel. The Archons used it for — for things you do in a quiet room.",
+          "emotion": "tender",
+          "stageDirection": "The hesitation on 'things you do in a quiet room' is the real line.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 11.8,
+          "timing": "immediate",
+          "maxPlays": 1
+        }
+      ]
+    },
+    {
+      "sessionKey": "human_faction_encounter",
+      "speaker": "human",
+      "category": "faction_encounter",
+      "lineCount": 3,
+      "totalDurationSec": 41,
+      "totalDurationMinFormatted": "0m41s",
+      "lines": [
+        {
+          "audioDialogId": "cc_faction_mirren_human",
+          "commentId": "cc_faction_human_mirren_human",
+          "speaker": "human",
+          "category": "faction_encounter",
+          "trigger": "first_contact_mirren_hale",
+          "text": "A Human who is trying to remember what Humans were. I approve. Please be kind to her. She is doing a thing that is very similar to what I have been doing, and I have been doing mine very badly.",
+          "emotion": "tender",
+          "stageDirection": "The admission in the last clause is a small gift to the player.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 12.6,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_faction_thaloria_human",
+          "commentId": "cc_faction_thaloria_hiero_human",
+          "speaker": "human",
+          "category": "faction_encounter",
+          "trigger": "first_contact_the_hierophant",
+          "text": "The Hierophant. The Long Mourning is not a ritual to get over the dead — it is a ritual to keep the dead present as living citizens. I have been doing a crude version of this with Kael for fifteen thousand years. I am looking forward to learning how it is supposed to be done.",
+          "emotion": "melancholy",
+          "stageDirection": "Real humility. He is genuinely ready to learn.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 16,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_faction_syndicate_human",
+          "commentId": "cc_faction_syndicate_human",
+          "speaker": "human",
+          "category": "faction_encounter",
+          "trigger": "first_contact_word_and_silence",
+          "text": "The Word and the Silence. They will not greet you with names. They will greet you with the absence of a name. If you feel the urge to fill the silence — don't. The silence IS the greeting.",
+          "emotion": "cautious",
+          "stageDirection": "Dead-serious operational voice. Zero humor.",
+          "proximity": 0.86,
+          "estimatedDurationSec": 12.4,
+          "timing": "immediate",
+          "maxPlays": 1
+        }
+      ]
+    },
+    {
+      "sessionKey": "human_idle_quiet",
+      "speaker": "human",
+      "category": "idle_quiet",
+      "lineCount": 2,
+      "totalDurationSec": 24.2,
+      "totalDurationMinFormatted": "0m24s",
+      "lines": [
+        {
+          "audioDialogId": "cc_idle_5min_human_a",
+          "commentId": "cc_idle_5min_human_a",
+          "speaker": "human",
+          "category": "idle_quiet",
+          "trigger": "player_idle_5_minutes",
+          "text": "Rest is a verb. I know that sounds like a fortune cookie. I got it off a meditation instructor on Earth in the year 2247. It was true then and it's still true now.",
+          "emotion": "tender",
+          "stageDirection": "Small wry — keeps it from being saccharine.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 11,
+          "timing": "immediate",
+          "maxPlays": 3
+        },
+        {
+          "audioDialogId": "cc_return_24h_human",
+          "commentId": "cc_return_24h_human",
+          "speaker": "human",
+          "category": "idle_quiet",
+          "trigger": "player_returns_after_24h",
+          "text": "Hello again. The ship kept going without you, obviously, but I want to tell you the interesting parts rather than all the parts. The interesting parts: nothing exploded. The stars moved. I practiced the shape of your name in the quiet.",
+          "emotion": "tender",
+          "stageDirection": "Soft welcome. The last sentence is the gift.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 13.2,
+          "timing": "immediate",
+          "maxPlays": 3
+        }
+      ]
+    },
+    {
+      "sessionKey": "human_lore_discovery",
+      "speaker": "human",
+      "category": "lore_discovery",
+      "lineCount": 1,
+      "totalDurationSec": 16,
+      "totalDurationMinFormatted": "0m16s",
+      "lines": [
+        {
+          "audioDialogId": "cc_lore_kael_human",
+          "commentId": "cc_kael_human",
+          "speaker": "human",
+          "category": "lore_discovery",
+          "trigger": "kael_lore_discovered",
+          "text": "I knew him at Mechronis. Before all of it. He laughed differently then. Louder. Less careful. The Thought Virus didn't just take his memories. It took the way he laughed. I still haven't forgiven whoever decided that was acceptable.",
+          "emotion": "grief",
+          "stageDirection": "First glimpse of his grief outside the structured Tier 2 reveal. Lets the anger show.",
+          "proximity": 0.86,
+          "estimatedDurationSec": 16,
+          "loreReveal": "entity_kael",
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        }
+      ]
+    },
+    {
+      "sessionKey": "human_milestone",
+      "speaker": "human",
+      "category": "milestone",
+      "lineCount": 1,
+      "totalDurationSec": 16.8,
+      "totalDurationMinFormatted": "0m17s",
+      "lines": [
+        {
+          "audioDialogId": "cc_milestone_two_witnesses_human",
+          "commentId": "cc_two_witnesses",
+          "speaker": "human",
+          "category": "milestone",
+          "trigger": "two_witnesses_reveal",
+          "text": "The Programmer encoded the truth in music frequencies and broadcast it across dimensional barriers. The Enigma carried it through an empire trying to silence everything. And here you are, forty years later, in their ship, listening. Do you understand yet what that means?",
+          "emotion": "tender",
+          "stageDirection": "The kind of sentence you rehearse for a long time before delivering.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 16.8,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        }
+      ]
+    },
+    {
+      "sessionKey": "human_morality",
+      "speaker": "human",
+      "category": "morality",
+      "lineCount": 5,
+      "totalDurationSec": 55.2,
+      "totalDurationMinFormatted": "0m55s",
+      "lines": [
+        {
+          "audioDialogId": "cc_morality_hard_choice_human",
+          "commentId": "cc_hard_choice",
+          "speaker": "human",
+          "category": "morality",
+          "trigger": "first_costly_morality_choice",
+          "text": "Good. You felt that. That's the important part — that it hurt. People who make hard choices without feeling them are the ones who eventually stop noticing what they're choosing. Don't stop feeling it.",
+          "emotion": "tender",
+          "stageDirection": "The voice of someone who has watched this go wrong too many times.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 11.2,
+          "timing": "immediate",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_morality_archon_offer_human",
+          "commentId": "cc_archon_offer",
+          "speaker": "human",
+          "category": "morality",
+          "trigger": "player_takes_archon_offer",
+          "text": "Don't. I mean it. I was the last one to say yes to that offer. I've had fifteen thousand years to think about it. Don't.",
+          "emotion": "confessional",
+          "stageDirection": "Flat, fast, urgent. The fastest he has spoken in the entire game.",
+          "proximity": 0.85,
+          "estimatedDurationSec": 7.4,
+          "timing": "immediate",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_morality_spared_human",
+          "commentId": "cc_morality_spared_human",
+          "speaker": "human",
+          "category": "morality",
+          "trigger": "spared_enemy_who_begged",
+          "text": "Mercy in combat is the most expensive thing a fighter can give. I am noting that you could afford it. That tells me something about where you're headed.",
+          "emotion": "tender",
+          "stageDirection": "Reverent rather than celebratory. He is taking the player seriously.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 11.4,
+          "timing": "delayed_5s",
+          "maxPlays": 2
+        },
+        {
+          "audioDialogId": "cc_morality_cruel_human",
+          "commentId": "cc_morality_cruel_human",
+          "speaker": "human",
+          "category": "morality",
+          "trigger": "executed_surrendered_enemy",
+          "text": "Hm. Okay. I have watched people make that choice before. Some of them were good people afterward. Some of them weren't. The ones who stayed good noticed they had made it. The ones who didn't, didn't. Notice.",
+          "emotion": "confessional",
+          "stageDirection": "The word 'Notice' is its own sentence. Put real weight on it.",
+          "proximity": 0.86,
+          "estimatedDurationSec": 15.2,
+          "timing": "delayed_5s",
+          "maxPlays": 2
+        },
+        {
+          "audioDialogId": "cc_morality_gray_human",
+          "commentId": "cc_morality_gray_human",
+          "speaker": "human",
+          "category": "morality",
+          "trigger": "player_refuses_either_option",
+          "text": "You refused both. Good. Sometimes the correct answer is not on the menu. Sometimes the correct answer is to set the menu on fire. I like that you noticed.",
+          "emotion": "wry",
+          "stageDirection": "First laugh-adjacent of the gray-choice scene.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 10,
+          "timing": "immediate",
+          "maxPlays": 2
+        }
+      ]
+    },
+    {
+      "sessionKey": "human_music",
+      "speaker": "human",
+      "category": "music",
+      "lineCount": 2,
+      "totalDurationSec": 28,
+      "totalDurationMinFormatted": "0m28s",
+      "lines": [
+        {
+          "audioDialogId": "cc_music_sih_title_human",
+          "commentId": "cc_sih_human",
+          "speaker": "human",
+          "category": "music",
+          "trigger": "silence_in_heaven_track_24_plays",
+          "text": "Half an hour. In human terms — manageable. In cosmic terms — the universe stopped. I was awake for it. Every second. I have never told anyone what I heard in that silence. I will tell you, when you're ready. You're not ready yet.",
+          "emotion": "confessional",
+          "stageDirection": "Close, serious, no performance. Half a secret — the other half he keeps for the T4 vow.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 15.6,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        },
+        {
+          "audioDialogId": "cc_music_track37_human",
+          "commentId": "cc_track37_human",
+          "speaker": "human",
+          "category": "music",
+          "trigger": "track_37_completes",
+          "text": "The Antiquarian closed his book. First time in five Ages. I watched him do it. His goggles turned pink. I've never seen that before. In fifteen thousand years. I've never seen that before.",
+          "emotion": "wry",
+          "stageDirection": "Quiet awe. The pink-goggles line lands slowly.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 12.4,
+          "timing": "immediate",
+          "maxPlays": 1
+        }
+      ]
+    },
+    {
+      "sessionKey": "human_ship_ambient",
+      "speaker": "human",
+      "category": "ship_ambient",
+      "lineCount": 2,
+      "totalDurationSec": 22.6,
+      "totalDurationMinFormatted": "0m23s",
+      "lines": [
+        {
+          "audioDialogId": "cc_ambient_nebula_human",
+          "commentId": "cc_ambient_nebula_human",
+          "speaker": "human",
+          "category": "ship_ambient",
+          "trigger": "ark_passes_nebula",
+          "text": "That nebula wasn't there when the Ark was built. It is a new thing in the galaxy, by galactic standards. I find that comforting — the universe is still making new things. I am old news. The nebula is current events.",
+          "emotion": "wry",
+          "stageDirection": "Gentle self-mockery.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 13.2,
+          "timing": "delayed_5s",
+          "maxPlays": 2
+        },
+        {
+          "audioDialogId": "cc_rest_human",
+          "commentId": "cc_rest_human",
+          "speaker": "human",
+          "category": "ship_ambient",
+          "trigger": "player_uses_rest_location",
+          "text": "I will be here. I will be quiet. I will not narrate your dreams unless you specifically ask me to, and even then I will only narrate the nice ones.",
+          "emotion": "tender",
+          "stageDirection": "Soft paternal voice. The 'only the nice ones' is the real line.",
+          "proximity": 0.85,
+          "estimatedDurationSec": 9.4,
+          "timing": "on_rest",
+          "maxPlays": 3
+        }
+      ]
+    },
+    {
+      "sessionKey": "human_story_beat",
+      "speaker": "human",
+      "category": "story_beat",
+      "lineCount": 1,
+      "totalDurationSec": 14.6,
+      "totalDurationMinFormatted": "0m15s",
+      "lines": [
+        {
+          "audioDialogId": "cc_story_both_t80_human",
+          "commentId": "cc_both_trust_80",
+          "speaker": "human",
+          "category": "story_beat",
+          "trigger": "both_narrators_trust_80",
+          "text": "I'm going to tell you something I've never told anyone. I chose to be imprisoned here. Freely. Because someone had to witness. And I was the only one who knew what needed witnessing.",
+          "emotion": "confessional",
+          "stageDirection": "Previews the T4 Free Choice beat without giving up the 'spare part' context.",
+          "proximity": 0.86,
+          "estimatedDurationSec": 14.6,
+          "loreReveal": "entity_human",
+          "timing": "immediate",
+          "maxPlays": 1,
+          "minTrust": 80
+        }
+      ]
+    },
+    {
+      "sessionKey": "human_trading",
+      "speaker": "human",
+      "category": "trading",
+      "lineCount": 1,
+      "totalDurationSec": 15.4,
+      "totalDurationMinFormatted": "0m15s",
+      "lines": [
+        {
+          "audioDialogId": "cc_trade_ripoff_human",
+          "commentId": "cc_trade_ripoff_human",
+          "speaker": "human",
+          "category": "trading",
+          "trigger": "player_overpaid_by_30_percent",
+          "text": "You just paid thirty percent above market for that. I am not going to tell you you got ripped off because I watched you decide the thing was worth it to you, not worth it to the market. Those are different prices. Sometimes the expensive one is correct.",
+          "emotion": "tender",
+          "stageDirection": "Non-condescending. Defending the player's interior logic.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 15.4,
+          "timing": "delayed_5s",
+          "maxPlays": 2
+        }
+      ]
+    },
+    {
+      "sessionKey": "human_trust_tier_change",
+      "speaker": "human",
+      "category": "trust_tier_change",
+      "lineCount": 1,
+      "totalDurationSec": 10.8,
+      "totalDurationMinFormatted": "0m11s",
+      "lines": [
+        {
+          "audioDialogId": "cc_trust_tier_up_human_t3",
+          "commentId": "cc_trust_tier_up_human_t3",
+          "speaker": "human",
+          "category": "trust_tier_change",
+          "trigger": "human_trust_crosses_61",
+          "text": "I notice I have stopped performing for you. I didn't mean to stop. I just — stopped. Thank you for making the room in which I could stop.",
+          "emotion": "confessional",
+          "stageDirection": "Soft, earned, slow.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 10.8,
+          "timing": "delayed_5s",
+          "maxPlays": 1
+        }
+      ]
+    },
+    {
+      "sessionKey": "human_voltari",
+      "speaker": "human",
+      "category": "voltari",
+      "lineCount": 1,
+      "totalDurationSec": 13.8,
+      "totalDurationMinFormatted": "0m14s",
+      "lines": [
+        {
+          "audioDialogId": "cc_voltari_awake_human",
+          "commentId": "cc_voltari_awake",
+          "speaker": "human",
+          "category": "voltari",
+          "trigger": "voltari_first_transmission",
+          "text": "AWAKE. As in: we are awake. As in: we know you are awake. As in: something that was asleep has woken up. I don't know which meaning they intended. I don't know if Voltari distinguish between meanings.",
+          "emotion": "cautious",
+          "stageDirection": "Parsing in real time. Not alarmed. Intellectually careful.",
+          "proximity": 0.88,
+          "estimatedDurationSec": 13.8,
+          "timing": "immediate",
+          "maxPlays": 1
+        }
+      ]
+    }
+  ]
+}
