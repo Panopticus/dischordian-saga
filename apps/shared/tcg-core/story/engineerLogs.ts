@@ -375,10 +375,14 @@ import { ENGINEER_LOGS_BATCH_3 } from "./engineerLogs_batch3";
 import { ENGINEER_LOGS_BATCH_4 } from "./engineerLogs_batch4";
 import { ENGINEER_LOGS_FACTIONS } from "./engineerLogs_factions";
 import { ENGINEER_LOGS_BLOODBORN } from "./engineerLogs_bloodborn";
+import { ENGINEER_LOGS_TRIGGERS } from "./engineerLogs_triggers";
 
 /**
  * All Engineer's Logs currently authored.
- * More land in follow-up commit (A12): triggers.
+ * Phase A6-A12 complete: 5 seed keywords + 4 keyword batches
+ * (20 total), 7 factions, 7 bloodborn spells, 7 triggers = 41
+ * logs out of the ~46 target. The remaining slots are reserved
+ * for additional keywords that get added in future card sets.
  */
 export const ENGINEER_LOGS: readonly EngineerLog[] = Object.freeze([
   LOG_KEYWORD_PROVOKE,
@@ -391,6 +395,7 @@ export const ENGINEER_LOGS: readonly EngineerLog[] = Object.freeze([
   ...ENGINEER_LOGS_BATCH_4,
   ...ENGINEER_LOGS_FACTIONS,
   ...ENGINEER_LOGS_BLOODBORN,
+  ...ENGINEER_LOGS_TRIGGERS,
 ]);
 
 /**
