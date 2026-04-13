@@ -187,6 +187,9 @@ export {
   initEncounter,
   checkNarrativeHooks,
   checkEncounterOutcome,
+  resolvePreMatchDialog,
+  resolvePostMatchDialog,
+  resolveNarrativeActions,
 } from "./story/encounter";
 export type {
   StoryEncounter,
@@ -195,6 +198,7 @@ export type {
   NarrativeHook,
   NarrativeCondition,
   NarrativeAction,
+  ResolvedNarrativeAction,
   EncounterInit,
   EncounterState,
 } from "./story/encounter";
@@ -205,6 +209,9 @@ export {
   TUTORIAL_GATE_1,
   TUTORIAL_BOT,
   NEW_PLAYER_GRANT,
+  getTutorialGate,
+  resolveTutorialPreMatchDialog,
+  resolveTutorialPostMatchDialog,
 } from "./story/tutorial";
 export type {
   TutorialGate,

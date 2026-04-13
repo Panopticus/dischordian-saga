@@ -15,6 +15,7 @@
  * shape. Gate 4 is a deckbuilder UI interaction, not a match.
  */
 import type { StoryEncounter } from "./encounter";
+import { resolveDialog, type DialogScene } from "./dialogBank";
 
 export interface TutorialGate {
   id: string;
@@ -410,3 +411,44 @@ export const NEW_PLAYER_GRANT: NewPlayerGrant = {
   starterDecks: 6,
   packCredits: 5,
 };
+
+/* ═══════════════════════════════════════════════════════
+   TUTORIAL DIALOG RESOLVERS (Phase D2)
+   Thin wrappers around the dialog bank that let the client
+   fetch resolved pre/post-match scenes for a tutorial gate
+   without needing to import the dialog bank directly.
+   ═══════════════════════════════════════════════════════ */
+
+/** Look up a tutorial gate by gate number (1-4). */
+export function getTutorialGate(gateNumber: number): TutorialGate | undefined {
+  return TUTORIAL_GATES.find((g) => g.gateNumber === gateNumber);
+}
+
+/**
+ * Resolve the pre-match dialog scene for a tutorial gate (the
+ * scene Elara delivers before the board loads). Returns `null`
+ * when the gate has no encounter (Gate 4 is a UI-only gate) or
+ * when no pre-match scene id is set.
+ */
+export function resolveTutorialPreMatchDialog(
+  gate: TutorialGate
+): DialogScene | null {
+  return resolveDialog(gate.encounter?.preMatchDialog) ?? null;
+}
+
+/**
+ * Resolve the post-match dialog scene for a tutorial gate based
+ * on the outcome. Returns `null` when the gate has no encounter,
+ * when no post-match scene id is set for the outcome, or when
+ * the id has no authored scene yet.
+ */
+export function resolveTutorialPostMatchDialog(
+  gate: TutorialGate,
+  outcome: "win" | "lose"
+): DialogScene | null {
+  const dialogId =
+    outcome === "win"
+      ? gate.encounter?.postMatchWinDialog
+      : gate.encounter?.postMatchLossDialog;
+  return resolveDialog(dialogId) ?? null;
+}
