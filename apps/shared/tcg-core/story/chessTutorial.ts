@@ -59,6 +59,7 @@ import {
   CHESS_TUTORIAL_GATE_7_SCENES,
 } from "./chessTutorial_g7";
 import { CHESS_TUTORIAL_SKIP_SCENES } from "./chessTutorial_skip";
+import { CHESS_CORRUPTED_ARENA_SCENES } from "./chessArenaEncounter";
 
 /* ═══════════════════════════════════════════════════════
    TYPES
@@ -340,6 +341,7 @@ export const CHESS_TUTORIAL_SCENES: readonly DialogScene[] = Object.freeze([
   ...CHESS_TUTORIAL_GATE_6_SCENES,
   ...CHESS_TUTORIAL_GATE_7_SCENES,
   ...CHESS_TUTORIAL_SKIP_SCENES,
+  ...CHESS_CORRUPTED_ARENA_SCENES,
 ]);
 
 /** Lookup helper — return a gate by its 1-indexed number. */
