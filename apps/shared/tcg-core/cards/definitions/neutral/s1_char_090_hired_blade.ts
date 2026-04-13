@@ -38,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_090.webp",
   flavorText:
     "Loyalty is expensive. Disloyalty, more so.",
   rulesVersion: "1.0.0",

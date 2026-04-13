@@ -52,7 +52,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_prestige_t5.webp",
   flavorText:
     "Five ascensions forged a guardian that draws every blow and shields every ally.",
   rulesVersion: "1.0.0",

@@ -36,7 +36,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_217.webp",
   flavorText:
     "She dreamed of an army. When she woke, they were already marching.",
   rulesVersion: "1.0.0",

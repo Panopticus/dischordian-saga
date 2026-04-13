@@ -88,8 +88,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/051_dr_lyra_vox_7601beb0.png",
+  art: "/art/cards/s1_char_006.webp",
   flavorText:
     "A brilliant scientist and a key figure within the AI Empire, renowned for her groundbreaking work in neural interface technology.",
   rulesVersion: "1.0.0",

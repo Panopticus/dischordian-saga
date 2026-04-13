@@ -39,8 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/placeholder_s1_song_065.png",
+  art: "/art/cards/s1_song_065.webp",
   flavorText:
     "Some call it intuition, others call it premonition — the healed simply call it a second chance.",
   rulesVersion: "1.0.0",

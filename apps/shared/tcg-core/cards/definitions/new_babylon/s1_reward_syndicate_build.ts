@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_syndicate_build.webp",
   flavorText:
     "He poured the foundations for twenty towers. The twenty-first was his own.",
   rulesVersion: "1.0.0",

@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_trade_act1.webp",
   flavorText:
     "First contact. First contract. First profit.",
   rulesVersion: "1.0.0",

@@ -49,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/gen_thought_virus.webp",
   flavorText:
     "He stole Ark 1047 already contaminated. The virus consumed him memory-by-memory. Now he IS the infection.",
   rulesVersion: "1.0.0",

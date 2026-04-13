@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_cycle_light.webp",
   flavorText:
     "When the Cycle turns, the first light is always the coldest. But it is light nonetheless.",
   rulesVersion: "1.0.0",

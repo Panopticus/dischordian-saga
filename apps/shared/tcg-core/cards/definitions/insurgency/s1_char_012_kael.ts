@@ -103,8 +103,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/045_kael_x_37485aa3.png",
+  art: "/art/cards/s1_char_012.webp",
   flavorText:
     "A prominent leader within the Insurgency, celebrated for his strategic genius and alliances with figures like Agent Zero and The Iron Lion.",
   rulesVersion: "1.0.0",

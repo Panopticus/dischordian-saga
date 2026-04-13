@@ -36,7 +36,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_035.webp",
   flavorText:
     "The trade routes closed overnight. By morning, entire strategies had starved.",
   rulesVersion: "1.0.0",

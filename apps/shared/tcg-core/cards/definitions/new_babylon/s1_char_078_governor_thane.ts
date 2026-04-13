@@ -34,7 +34,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_078.webp",
   flavorText:
     "He did not rise to power. He built the staircase and burned every other way up.",
   rulesVersion: "1.0.0",

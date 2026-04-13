@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_208.webp",
   flavorText:
     "The cry starts in one throat and ends in a hundred fists.",
   rulesVersion: "1.0.0",

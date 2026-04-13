@@ -71,8 +71,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/022_the_seer_9ad7eb24.png",
+  art: "/art/cards/s1_char_046.webp",
   flavorText:
     "Unbound by allegiance, the Seer identifies opportunities and dangers, providing foresight that often shifts the balance ...",
   rulesVersion: "1.0.0",

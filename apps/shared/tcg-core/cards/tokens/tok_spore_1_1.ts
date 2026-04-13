@@ -30,7 +30,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/tok_spore_1_1.webp",
   flavorText:
     "It feeds on endings. Every death is a season of plenty.",
   rulesVersion: "1.0.0",

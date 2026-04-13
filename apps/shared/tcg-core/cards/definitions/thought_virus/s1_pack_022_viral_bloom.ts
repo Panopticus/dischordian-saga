@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_022.webp",
   flavorText:
     "It does not kill. It diminishes. By the time you notice, you are less than you were.",
   rulesVersion: "1.0.0",

@@ -52,7 +52,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_207.webp",
   flavorText:
     "They never see us coming. That is the point.",
   rulesVersion: "1.0.0",

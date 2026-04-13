@@ -36,7 +36,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_016.webp",
   flavorText:
     "She weaves futures like thread — each dawn, a new strand appears in her hands.",
   rulesVersion: "1.0.0",

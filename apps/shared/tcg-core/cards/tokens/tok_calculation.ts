@@ -20,7 +20,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 1, health: 1 },
   keywords: [],
   abilities: [],
-  art: "placeholder",
+  art: "/art/cards/tok_calculation.webp",
   flavorText:
     "A sliver of the Arena's schematic given form. It computes, therefore it is.",
   rulesVersion: "1.0.0",

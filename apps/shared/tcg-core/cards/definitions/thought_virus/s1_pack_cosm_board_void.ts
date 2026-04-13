@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_cosm_board_void.webp",
   flavorText:
     "The arena tears open. The Void pours through.",
   rulesVersion: "1.0.0",

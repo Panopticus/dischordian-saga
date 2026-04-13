@@ -55,8 +55,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/106_wraith_calder.png",
+  art: "/art/cards/s1_char_106.webp",
   flavorText:
     "Seven graves bear his name across seven battlefields. He has visited each one, and left them all.",
   rulesVersion: "1.0.0",

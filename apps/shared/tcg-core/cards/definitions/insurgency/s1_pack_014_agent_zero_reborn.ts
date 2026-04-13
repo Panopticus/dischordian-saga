@@ -65,7 +65,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_014.webp",
   flavorText:
     "They buried the signal. They burned the frequency. They erased the name. None of it mattered.",
   rulesVersion: "1.0.0",

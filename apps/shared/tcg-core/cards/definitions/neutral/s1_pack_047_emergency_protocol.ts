@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_047.webp",
   flavorText:
     "The protocol was designed for catastrophe. It activates in the space between the blow and the fall.",
   rulesVersion: "1.0.0",

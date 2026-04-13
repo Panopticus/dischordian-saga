@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_218.webp",
   flavorText:
     "It starts as a whisper in the neurons. By tomorrow, the arm won't lift.",
   rulesVersion: "1.0.0",

@@ -54,8 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/109_the_enigma.png",
+  art: "/art/cards/s1_char_109.webp",
   flavorText:
     "She does not break the rules of probability. She is the exception that proves there are no rules.",
   rulesVersion: "1.0.0",

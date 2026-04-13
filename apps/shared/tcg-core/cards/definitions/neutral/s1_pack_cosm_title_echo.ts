@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_cosm_title_echo.webp",
   flavorText:
     "The Fall echoes still. Listen closely and you can hear it.",
   rulesVersion: "1.0.0",

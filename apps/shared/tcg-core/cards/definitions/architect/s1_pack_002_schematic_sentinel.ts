@@ -36,7 +36,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_002.webp",
   flavorText:
     "Every rivet placed with mathematical certainty. Every joint stress-tested against probability itself.",
   rulesVersion: "1.0.0",

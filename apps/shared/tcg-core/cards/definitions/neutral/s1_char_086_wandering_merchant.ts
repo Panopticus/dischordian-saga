@@ -38,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_086.webp",
   flavorText:
     "He sells to all sides and swears allegiance to none. Coin is the only faction that never falls.",
   rulesVersion: "1.0.0",

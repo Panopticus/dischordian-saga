@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_216.webp",
   flavorText:
     "The Oracle spoke a single syllable. The blade passed through like light through glass.",
   rulesVersion: "1.0.0",

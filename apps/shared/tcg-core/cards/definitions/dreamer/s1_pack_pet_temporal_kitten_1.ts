@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_pet_temporal_kitten_1.webp",
   flavorText:
     "Nine lives, but it burns through them so fast you'd swear it only has one.",
   rulesVersion: "1.0.0",

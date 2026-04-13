@@ -54,7 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_trade_tycoon.webp",
   flavorText:
     "A million credits is just the beginning. The galaxy is a market.",
   rulesVersion: "1.0.0",

@@ -55,8 +55,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/027_the_advocate_88837de8.png",
+  art: "/art/cards/s1_char_017.webp",
   flavorText:
     "Establishing the Empire of Shadows, she wielded the Blood Weave to reshape reality, battling the Hierarchy of the Damned.",
   rulesVersion: "1.0.0",

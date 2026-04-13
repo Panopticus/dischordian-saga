@@ -94,8 +94,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/020_the_dreamer_4ffc69ee.png",
+  art: "/art/cards/s1_char_025.webp",
   flavorText:
     "Existing beyond time and space, the Dreamer shapes futures and scenarios that benefit the Ne-Yons. Aloof from galactic s...",
   rulesVersion: "1.0.0",

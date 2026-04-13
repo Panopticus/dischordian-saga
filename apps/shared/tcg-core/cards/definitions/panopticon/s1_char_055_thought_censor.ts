@@ -35,7 +35,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_055.webp",
   flavorText:
     "She does not burn books. She burns the desire to read them.",
   rulesVersion: "1.0.0",

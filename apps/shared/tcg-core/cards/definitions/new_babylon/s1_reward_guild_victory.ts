@@ -50,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_guild_victory.webp",
   flavorText:
     "The guild war ended. Locke's accountants moved in before the smoke cleared.",
   rulesVersion: "1.0.0",

@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_outbreak_cure.webp",
   flavorText:
     "The cure was written before the disease existed. The Antiquarian always knew what was coming.",
   rulesVersion: "1.0.0",

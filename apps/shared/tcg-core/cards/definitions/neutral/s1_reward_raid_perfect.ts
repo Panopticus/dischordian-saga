@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_raid_perfect.webp",
   flavorText:
     "They asked how she survived the Colossus raid without a wound. She said she didn't survive — she won.",
   rulesVersion: "1.0.0",

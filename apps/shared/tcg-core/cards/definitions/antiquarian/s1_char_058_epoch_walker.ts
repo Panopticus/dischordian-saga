@@ -36,7 +36,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_058.webp",
   flavorText:
     "He has already lived through the end of every age. Each death is merely a bookmark in a story he has read before.",
   rulesVersion: "1.0.0",

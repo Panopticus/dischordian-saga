@@ -53,7 +53,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_046.webp",
   flavorText:
     "The rift opened for half a second. What came through took considerably longer to forget.",
   rulesVersion: "1.0.0",

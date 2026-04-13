@@ -29,7 +29,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_063.webp",
   flavorText:
     "She has died a hundred times and learned nothing from any of them.",
   rulesVersion: "1.0.0",

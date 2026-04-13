@@ -77,8 +77,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/014_the_nomad_a9fa7a6c.png",
+  art: "/art/cards/s1_char_040.webp",
   flavorText:
     "Always concealed beneath a hood and a mask, his true identity remains a mystery, with his past entirely classified. The ...",
   rulesVersion: "1.0.0",

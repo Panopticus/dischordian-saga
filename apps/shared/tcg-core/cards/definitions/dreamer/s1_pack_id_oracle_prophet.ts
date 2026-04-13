@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_id_oracle_prophet.webp",
   flavorText:
     "The prophecy returns in fragments. Each piece burns brighter than the last.",
   rulesVersion: "1.0.0",

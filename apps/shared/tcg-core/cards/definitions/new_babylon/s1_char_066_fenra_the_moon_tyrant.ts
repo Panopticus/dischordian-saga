@@ -47,8 +47,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/069_fenra_moon_tyrant_ac869130.png",
+  art: "/art/cards/s1_char_066.webp",
   flavorText:
     "Director of Operations. Coordinates Blood Weave logistics across 17 dimensions with lupine precision and ferocity.",
   rulesVersion: "1.0.0",

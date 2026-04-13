@@ -62,7 +62,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_008.webp",
   flavorText:
     "The frequency was supposed to be extinct. It came back screaming.",
   rulesVersion: "1.0.0",

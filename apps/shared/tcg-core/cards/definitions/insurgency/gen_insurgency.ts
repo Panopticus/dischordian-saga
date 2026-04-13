@@ -47,7 +47,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/gen_insurgency.webp",
   flavorText:
     "Cameras cycle every 43 seconds. I have 31. The Collector wiped your memory. But not your instincts.",
   rulesVersion: "1.0.0",

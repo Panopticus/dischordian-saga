@@ -50,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_vote_t1_truth.webp",
   flavorText:
     "Truth is a weapon. The Lens simply makes it easier to aim.",
   rulesVersion: "1.0.0",

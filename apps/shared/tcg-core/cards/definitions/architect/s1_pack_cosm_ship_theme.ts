@@ -50,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_cosm_ship_theme.webp",
   flavorText:
     "A piece of the Ark, corrupted beyond recognition. It still remembers how to erase.",
   rulesVersion: "1.0.0",

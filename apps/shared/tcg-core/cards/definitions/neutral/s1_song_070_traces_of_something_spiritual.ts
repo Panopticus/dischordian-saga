@@ -48,8 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/placeholder_s1_song_070.png",
+  art: "/art/cards/s1_song_070.webp",
   flavorText:
     "Not a ghost, not a god — something in between, lingering at the threshold of perception.",
   rulesVersion: "1.0.0",

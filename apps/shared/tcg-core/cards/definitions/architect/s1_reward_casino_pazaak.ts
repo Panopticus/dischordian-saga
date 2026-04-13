@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_casino_pazaak.webp",
   flavorText:
     "Twenty-one wins. Zero tells. Pure calculation.",
   rulesVersion: "1.0.0",

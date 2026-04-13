@@ -50,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_graduate_master.webp",
   flavorText:
     "Every academy teaches something different. The graduate who finishes them all learns the one lesson they share: adapt or die.",
   rulesVersion: "1.0.0",

@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_pvp_legend.webp",
   flavorText:
     "When the Legend enters the arena, even the walls lean in to watch.",
   rulesVersion: "1.0.0",

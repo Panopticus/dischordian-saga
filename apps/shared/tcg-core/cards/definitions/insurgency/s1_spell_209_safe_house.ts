@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_209.webp",
   flavorText:
     "Knock three times. Wait for the candle. Say the name they gave you when you first resisted.",
   rulesVersion: "1.0.0",

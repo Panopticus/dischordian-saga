@@ -53,7 +53,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_118.webp",
   flavorText:
     "Sign here, in blood. The power is yours — for exactly as long as it takes to spend it.",
   rulesVersion: "1.0.0",

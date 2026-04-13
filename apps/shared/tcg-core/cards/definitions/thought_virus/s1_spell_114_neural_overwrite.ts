@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_114.webp",
   flavorText:
     "The soldier's eyes went blank mid-sentence. When he spoke again, it was in the Source's voice, thanking them for the vessel.",
   rulesVersion: "1.0.0",

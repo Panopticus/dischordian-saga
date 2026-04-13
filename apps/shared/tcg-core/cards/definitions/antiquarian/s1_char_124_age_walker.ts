@@ -47,8 +47,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/124_age_walker.png",
+  art: "/art/cards/s1_char_124.webp",
   flavorText:
     "It was small when the first age began. By the third, armies feared it. By the seventh, they worshipped it.",
   rulesVersion: "1.0.0",

@@ -60,7 +60,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_crew_mission.webp",
   flavorText:
     "Twenty-five missions deep. The crew doesn't need orders anymore — they need targets.",
   rulesVersion: "1.0.0",

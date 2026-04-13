@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_cycle_dark.webp",
   flavorText:
     "The light dies in stages. The Herald names each stage as it passes, like a priest reading last rites.",
   rulesVersion: "1.0.0",

@@ -29,7 +29,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_085.webp",
   flavorText:
     "From the watchtower, every street is a firing lane. Every citizen, a potential target.",
   rulesVersion: "1.0.0",

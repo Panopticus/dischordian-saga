@@ -76,8 +76,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/042_the_detective_0a5531f5.png",
+  art: "/art/cards/s1_char_024.webp",
   flavorText:
     "A. The one known as the Detective began his journey as a curious and determined Seeker in the mysterious Project Celebration.",
   rulesVersion: "1.0.0",

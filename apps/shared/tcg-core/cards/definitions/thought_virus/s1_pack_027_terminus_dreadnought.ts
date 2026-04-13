@@ -63,7 +63,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_027.webp",
   flavorText:
     "It does not chase. It simply exists, and everything around it decays. Destroying it only accelerates the process.",
   rulesVersion: "1.0.0",

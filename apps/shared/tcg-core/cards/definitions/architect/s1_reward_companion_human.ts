@@ -54,7 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_companion_human.webp",
   flavorText:
     "The last organic Archon looked at you and saw something worth believing in. That is rarer than any algorithm.",
   rulesVersion: "1.0.0",

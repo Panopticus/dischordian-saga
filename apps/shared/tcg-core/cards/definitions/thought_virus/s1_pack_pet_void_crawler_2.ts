@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_pet_void_crawler_2.webp",
   flavorText:
     "It feeds from behind. You won't feel it until it's too late.",
   rulesVersion: "1.0.0",

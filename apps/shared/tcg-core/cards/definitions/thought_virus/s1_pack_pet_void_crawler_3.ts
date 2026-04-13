@@ -53,7 +53,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_pet_void_crawler_3.webp",
   flavorText:
     "It crawled out of nothing and brought nothing with it — nothing that erases everything it touches.",
   rulesVersion: "1.0.0",

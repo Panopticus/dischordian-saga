@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_id_human_student.webp",
   flavorText:
     "Before the Academy, before the conspiracy, there was only curiosity.",
   rulesVersion: "1.0.0",

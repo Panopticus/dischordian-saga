@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_202.webp",
   flavorText:
     "She was in and out before the alarm sounded. The fire was just a bonus.",
   rulesVersion: "1.0.0",

@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_226.webp",
   flavorText:
     "Behind crystal walls, value appreciates. Outside, everything depreciates.",
   rulesVersion: "1.0.0",

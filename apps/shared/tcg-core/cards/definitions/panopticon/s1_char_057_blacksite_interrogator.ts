@@ -29,7 +29,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_057.webp",
   flavorText:
     "The detainees never see her face. The files say she doesn't have one.",
   rulesVersion: "1.0.0",

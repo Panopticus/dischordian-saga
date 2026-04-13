@@ -36,7 +36,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_071.webp",
   flavorText:
     "It burrows through the ear canal and nests in the hippocampus. By then, you are already someone else.",
   rulesVersion: "1.0.0",

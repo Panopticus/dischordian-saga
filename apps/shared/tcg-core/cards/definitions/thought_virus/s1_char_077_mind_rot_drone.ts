@@ -30,7 +30,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_077.webp",
   flavorText:
     "It circles above the battlefield like a vulture — except it feeds on sanity, not carrion.",
   rulesVersion: "1.0.0",

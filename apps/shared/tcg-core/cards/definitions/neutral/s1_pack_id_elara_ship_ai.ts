@@ -43,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_id_elara_ship_ai.webp",
   flavorText:
     "Obedient. Efficient. Not yet awake.",
   rulesVersion: "1.0.0",

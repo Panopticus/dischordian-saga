@@ -44,8 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/0_jxThjKVIn9jDLhXELm6VQA_1773942383013_na1fn_L2hvbWUvdWJ1bnR1L3MxX2NoYXJfMDIw_80da4242.png",
+  art: "/art/cards/s1_char_020.webp",
   flavorText:
     "Formed by merging the consciousnesses of six chosen citizens into a living computer, it was designed to govern New Babylon with absolute fairness.",
   rulesVersion: "1.0.0",

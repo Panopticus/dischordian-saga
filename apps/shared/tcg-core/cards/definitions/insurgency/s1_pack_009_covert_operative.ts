@@ -47,7 +47,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_009.webp",
   flavorText:
     "By the time you hear the shot, she is already three sectors away.",
   rulesVersion: "1.0.0",

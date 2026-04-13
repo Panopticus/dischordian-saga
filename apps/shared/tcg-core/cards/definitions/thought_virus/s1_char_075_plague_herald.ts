@@ -38,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_075.webp",
   flavorText:
     "His sermons are not metaphors. Every word is a live pathogen.",
   rulesVersion: "1.0.0",

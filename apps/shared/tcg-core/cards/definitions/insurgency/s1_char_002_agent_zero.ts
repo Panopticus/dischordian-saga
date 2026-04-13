@@ -89,8 +89,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/013_agent_zero_56b59bd8.png",
+  art: "/art/cards/s1_char_002.webp",
   flavorText:
     "Renowned for her exceptional combat abilities, strategic acumen, and mastery of espionage, she played pivotal roles in some of the Insurgency's most decisive strikes.",
   rulesVersion: "1.0.0",

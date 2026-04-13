@@ -50,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_111.webp",
   flavorText:
     "Every probable outcome struck at once. The survivors could only wonder which future they'd been assigned.",
   rulesVersion: "1.0.0",

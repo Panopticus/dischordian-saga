@@ -51,7 +51,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_companion_all.webp",
   flavorText:
     "Every companion she ever bonded with left a mark. She carries them all into battle.",
   rulesVersion: "1.0.0",

@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_105.webp",
   flavorText:
     "They never see us coming. By the time they've calculated our trajectory, we've already gone.",
   rulesVersion: "1.0.0",

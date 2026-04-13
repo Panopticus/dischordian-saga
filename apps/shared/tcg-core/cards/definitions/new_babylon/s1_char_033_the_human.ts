@@ -91,8 +91,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/011_the_human_375af2c8.png",
+  art: "/art/cards/s1_char_033.webp",
   flavorText:
     "After graduating from Mechronis Academy, he served for centuries as the Architect's most trusted agent, solving the univ...",
   rulesVersion: "1.0.0",

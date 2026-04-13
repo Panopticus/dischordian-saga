@@ -65,7 +65,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_020.webp",
   flavorText:
     "The prophecy did not predict the end. It was the end — given a body and a voice that would not be silenced.",
   rulesVersion: "1.0.0",

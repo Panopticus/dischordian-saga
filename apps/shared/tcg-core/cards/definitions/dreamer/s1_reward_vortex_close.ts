@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_vortex_close.webp",
   flavorText:
     "The rift screamed as it closed. The creature on the other side screamed louder.",
   rulesVersion: "1.0.0",

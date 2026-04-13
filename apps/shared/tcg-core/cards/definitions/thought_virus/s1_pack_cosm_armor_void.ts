@@ -52,7 +52,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_cosm_armor_void.webp",
   flavorText:
     "The Void does not destroy. It shields those who surrender to it.",
   rulesVersion: "1.0.0",

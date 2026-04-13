@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_229.webp",
   flavorText:
     "Everything must go. Including the soldiers.",
   rulesVersion: "1.0.0",

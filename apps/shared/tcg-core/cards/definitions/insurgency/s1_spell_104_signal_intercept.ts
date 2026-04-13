@@ -32,7 +32,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_104.webp",
   flavorText:
     "The signal died with Agent Zero, but the frequency lives on. Every rebel cell still tunes in at midnight.",
   rulesVersion: "1.0.0",

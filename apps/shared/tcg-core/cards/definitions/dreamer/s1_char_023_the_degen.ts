@@ -88,8 +88,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/026_the_degen_d6b8727a.png",
+  art: "/art/cards/s1_char_023.webp",
   flavorText:
     "Ne-Yon #8. The casino host pours your drink with hands that have shuffled the fates of civilizations. Through entropy and corruption, the Degen creates conditions in which the Ne-Yons can flourish.",
   rulesVersion: "1.0.0",

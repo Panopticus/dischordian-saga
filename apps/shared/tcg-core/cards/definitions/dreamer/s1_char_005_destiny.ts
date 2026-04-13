@@ -53,8 +53,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/060_destiny_8d0cf6e8.png",
+  art: "/art/cards/s1_char_005.webp",
   flavorText:
     "Awake and aware, she served as the Potentials\u2019 vigilant guide, monitoring ship functions, analyzing sensor data, and resolving crises before they could escalate.",
   rulesVersion: "1.0.0",

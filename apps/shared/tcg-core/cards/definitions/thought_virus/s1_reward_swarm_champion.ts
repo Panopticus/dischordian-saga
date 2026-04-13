@@ -47,7 +47,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_swarm_champion.webp",
   flavorText:
     "Fifty waves. Then silence. The Protocol does not distinguish between the infected and the merely unlucky.",
   rulesVersion: "1.0.0",

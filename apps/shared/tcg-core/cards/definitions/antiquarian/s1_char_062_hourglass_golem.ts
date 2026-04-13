@@ -30,7 +30,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_062.webp",
   flavorText:
     "When the last grain falls, the golem shatters — and time resumes its march.",
   rulesVersion: "1.0.0",

@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_campaign_truth.webp",
   flavorText:
     "She shattered herself rather than let the Architect possess her whole. Each shard still remembers what the world was meant to be.",
   rulesVersion: "1.0.0",

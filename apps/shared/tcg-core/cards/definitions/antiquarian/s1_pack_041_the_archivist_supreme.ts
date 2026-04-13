@@ -55,7 +55,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_041.webp",
   flavorText:
     "The Archivist opened the book of this age and erased every entry but one: the page where it stands alone.",
   rulesVersion: "1.0.0",

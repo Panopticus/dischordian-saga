@@ -61,7 +61,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_pet_data_serpent_3.webp",
   flavorText:
     "It remembers every file ever deleted. It does not forgive.",
   rulesVersion: "1.0.0",

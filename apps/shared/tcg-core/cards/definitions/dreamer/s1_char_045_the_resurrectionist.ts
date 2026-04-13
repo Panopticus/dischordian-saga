@@ -69,8 +69,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/028_the_resurrectionist_d523ba62.png",
+  art: "/art/cards/s1_char_045.webp",
   flavorText:
     "By resurrecting key figures on both sides, they maintain a balance favorable to the Ne-Yons, ensuring no faction becomes...",
   rulesVersion: "1.0.0",

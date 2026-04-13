@@ -43,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_casino_poker.webp",
   flavorText:
     "She reads your hand before you've looked at it yourself.",
   rulesVersion: "1.0.0",

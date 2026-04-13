@@ -29,7 +29,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 4, health: 3 },
   keywords: ["celerity"],
   abilities: [],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_038.webp",
   flavorText:
     "The first cut opens the wound. The second cut is already healing when you notice the third.",
   rulesVersion: "1.0.0",

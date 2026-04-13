@@ -43,8 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/101_panoptic_warden_foucault.png",
+  art: "/art/cards/s1_char_101.webp",
   flavorText:
     "His chrome jaw clicks with each question. The answers are already known — the interrogation is merely ceremony.",
   rulesVersion: "1.0.0",

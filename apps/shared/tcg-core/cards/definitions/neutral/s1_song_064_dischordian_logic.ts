@@ -39,8 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/placeholder_s1_song_064.png",
+  art: "/art/cards/s1_song_064.webp",
   flavorText:
     "In the paradox engine of Dischord, contradictions are not errors — they are ammunition.",
   rulesVersion: "1.0.0",

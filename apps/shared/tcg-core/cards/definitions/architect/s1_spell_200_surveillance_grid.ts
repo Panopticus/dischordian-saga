@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_200.webp",
   flavorText:
     "Every lens in the grid turns at once. To be seen is to be struck.",
   rulesVersion: "1.0.0",

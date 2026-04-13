@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_115.webp",
   flavorText:
     "The Source does not prolong agony. It simply asks: why continue? And the body, at last, agrees.",
   rulesVersion: "1.0.0",

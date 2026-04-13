@@ -47,7 +47,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_campaign_empathy.webp",
   flavorText:
     "The Ark's oldest protocol had no military purpose. It simply healed what it could reach.",
   rulesVersion: "1.0.0",

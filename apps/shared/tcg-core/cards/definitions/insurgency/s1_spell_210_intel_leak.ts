@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_210.webp",
   flavorText:
     "Every wall has cracks. Every code has a key. The resistance finds both.",
   rulesVersion: "1.0.0",

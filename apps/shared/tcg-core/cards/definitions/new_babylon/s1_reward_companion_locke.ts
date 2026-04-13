@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_companion_locke.webp",
   flavorText:
     "Adjudicator Locke's favor is the rarest currency in New Babylon — and the most profitable.",
   rulesVersion: "1.0.0",

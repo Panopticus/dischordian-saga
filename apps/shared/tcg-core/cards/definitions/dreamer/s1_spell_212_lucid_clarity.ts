@@ -31,7 +31,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_212.webp",
   flavorText:
     "Close your eyes. What do you see? Everything.",
   rulesVersion: "1.0.0",

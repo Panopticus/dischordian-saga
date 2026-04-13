@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_024.webp",
   flavorText:
     "Every fallen soldier is a brick. Every scream is mortar. The cathedral rises.",
   rulesVersion: "1.0.0",

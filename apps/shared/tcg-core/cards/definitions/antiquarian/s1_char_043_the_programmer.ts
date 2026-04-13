@@ -123,8 +123,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/001_the_programmer_00494c37.png",
+  art: "/art/cards/s1_char_043.webp",
   flavorText:
     "A. The Programmer was a visionary scientist and philosopher whose intellectual curiosity led to the creation of Logos , ...",
   rulesVersion: "1.0.0",

@@ -109,8 +109,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/062_nythera_f155ad99.png",
+  art: "/art/cards/s1_char_014.webp",
   flavorText:
     "Their essence is drawn from a dual heritage \u2014 Harvested DNA and Machine Code \u2014 meticulously preserved to ensure that, when the time came, they would awaken.",
   rulesVersion: "1.0.0",

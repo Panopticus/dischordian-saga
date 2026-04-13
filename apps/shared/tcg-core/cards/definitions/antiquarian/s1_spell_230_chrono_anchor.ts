@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_230.webp",
   flavorText:
     "The wound closes. Not because it healed, but because it never happened.",
   rulesVersion: "1.0.0",

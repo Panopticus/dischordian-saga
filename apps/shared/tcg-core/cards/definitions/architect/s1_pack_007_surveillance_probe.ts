@@ -36,7 +36,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_007.webp",
   flavorText:
     "Its final transmission contained more intelligence than its entire operational lifespan.",
   rulesVersion: "1.0.0",

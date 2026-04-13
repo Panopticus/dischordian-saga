@@ -45,7 +45,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_pet_spore_fungus_1.webp",
   flavorText:
     "Kill it and it spreads. Ignore it and it spreads. There is no good option.",
   rulesVersion: "1.0.0",

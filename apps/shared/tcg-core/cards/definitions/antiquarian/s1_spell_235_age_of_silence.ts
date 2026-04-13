@@ -38,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_235.webp",
   flavorText:
     "Before the first word was spoken, there was the silence. The Antiquarian remembers it well.",
   rulesVersion: "1.0.0",

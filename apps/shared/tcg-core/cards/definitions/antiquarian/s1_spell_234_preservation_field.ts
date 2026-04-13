@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_234.webp",
   flavorText:
     "The field hums with deep time. Inside it, entropy is merely a suggestion.",
   rulesVersion: "1.0.0",

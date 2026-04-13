@@ -33,7 +33,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 2, health: 1 },
   keywords: ["rush"],
   abilities: [],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_pet_flicker_imp_1.webp",
   flavorText:
     "It exists for exactly one brilliant, violent second.",
   rulesVersion: "1.0.0",

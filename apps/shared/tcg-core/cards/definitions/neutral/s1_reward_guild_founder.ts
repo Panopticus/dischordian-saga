@@ -49,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_guild_founder.webp",
   flavorText:
     "She built something from nothing. Now nothing can tear it down.",
   rulesVersion: "1.0.0",

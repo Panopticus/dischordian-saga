@@ -47,7 +47,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_outbreak_contain.webp",
   flavorText:
     "The quarantine zone expanded three times. Each time, fewer voices came from inside.",
   rulesVersion: "1.0.0",

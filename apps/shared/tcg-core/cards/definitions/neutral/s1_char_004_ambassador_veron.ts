@@ -90,8 +90,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/050_ambassador_veron_48d028b0.png",
+  art: "/art/cards/s1_char_004.webp",
   flavorText:
     "Posing as a diplomat from the neutral planet Thessolar, she utilized this cover to engage in diplomatic relations with various factions.",
   rulesVersion: "1.0.0",

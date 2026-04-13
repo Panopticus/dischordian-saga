@@ -71,8 +71,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/018_the_necromancer_d6de1da3.png",
+  art: "/art/cards/s1_char_039.webp",
   flavorText:
     "A. The Necromancer was the tenth Archon created by the Architect in Year 600 A.A., a dark elven magician with white s...",
   rulesVersion: "1.0.0",

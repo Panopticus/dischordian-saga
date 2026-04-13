@@ -41,8 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/placeholder_s1_song_059.png",
+  art: "/art/cards/s1_song_059.webp",
   flavorText:
     "Words may be hollow, but the right incantation can turn them into a barrier no blade can breach.",
   rulesVersion: "1.0.0",

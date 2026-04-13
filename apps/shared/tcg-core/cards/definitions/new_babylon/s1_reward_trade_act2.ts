@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_trade_act2.webp",
   flavorText:
     "Her cargo manifest is classified. So is her kill count.",
   rulesVersion: "1.0.0",

@@ -36,7 +36,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_010.webp",
   flavorText:
     "Destroy the tower. The broadcast has already been copied to a thousand receivers.",
   rulesVersion: "1.0.0",

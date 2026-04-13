@@ -38,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_044.webp",
   flavorText:
     "The Ark's defenders were built without faction markings. They defend the ship, not the ideology.",
   rulesVersion: "1.0.0",

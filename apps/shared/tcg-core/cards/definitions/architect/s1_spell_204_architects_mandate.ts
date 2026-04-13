@@ -36,7 +36,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_204.webp",
   flavorText:
     "Two points of data. Two vectors of control. The Arena expands at the Architect's whim.",
   rulesVersion: "1.0.0",

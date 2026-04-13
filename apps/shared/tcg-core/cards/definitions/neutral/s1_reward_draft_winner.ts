@@ -53,7 +53,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_draft_winner.webp",
   flavorText:
     "She builds winning decks from other people's leftovers.",
   rulesVersion: "1.0.0",

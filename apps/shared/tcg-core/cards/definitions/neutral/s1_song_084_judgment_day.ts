@@ -46,8 +46,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/placeholder_s1_song_084.png",
+  art: "/art/cards/s1_song_084.webp",
   flavorText:
     "When the reckoning arrives, only the shielded will endure its verdict.",
   rulesVersion: "1.0.0",

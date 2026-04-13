@@ -29,7 +29,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_076.webp",
   flavorText:
     "It lives in the gap between a dying thought and the silence that follows.",
   rulesVersion: "1.0.0",

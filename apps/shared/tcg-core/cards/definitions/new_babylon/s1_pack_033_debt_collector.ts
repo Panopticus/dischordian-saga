@@ -37,7 +37,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_033.webp",
   flavorText:
     "He does not knock. He does not ask. He simply subtracts.",
   rulesVersion: "1.0.0",

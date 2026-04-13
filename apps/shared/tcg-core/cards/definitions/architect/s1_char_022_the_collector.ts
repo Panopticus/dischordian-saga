@@ -75,8 +75,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/006_the_collector_16f93913.png",
+  art: "/art/cards/s1_char_022.webp",
   flavorText:
     "Tasked by the Architect, the Collector harvests the DNA and machine code of the most advanced organic and synthetic beings across the multiverse.",
   rulesVersion: "1.0.0",

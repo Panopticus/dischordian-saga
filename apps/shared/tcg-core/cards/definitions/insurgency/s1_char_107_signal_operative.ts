@@ -44,8 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/107_signal_operative.png",
+  art: "/art/cards/s1_char_107.webp",
   flavorText:
     "Kill the messenger. The message was sent three seconds before you arrived.",
   rulesVersion: "1.0.0",

@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_chess_tourney.webp",
   flavorText:
     "Checkmate in four. The opponent saw it in three. By then, it was already too late.",
   rulesVersion: "1.0.0",

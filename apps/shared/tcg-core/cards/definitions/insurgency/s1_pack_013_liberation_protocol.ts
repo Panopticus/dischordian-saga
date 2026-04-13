@@ -43,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_013.webp",
   flavorText:
     "They called it liberation. The enemy called it a vanishing act. Both were correct.",
   rulesVersion: "1.0.0",

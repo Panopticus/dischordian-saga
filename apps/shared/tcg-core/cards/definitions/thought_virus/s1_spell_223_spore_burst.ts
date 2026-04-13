@@ -32,7 +32,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_223.webp",
   flavorText:
     "It lands softly, barely noticed. By the time you notice, the battlefield is a garden of infection.",
   rulesVersion: "1.0.0",

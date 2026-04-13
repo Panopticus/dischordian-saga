@@ -38,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_073.webp",
   flavorText:
     "It rewrites your beliefs one synapse at a time, until loyalty feels like a foreign language.",
   rulesVersion: "1.0.0",

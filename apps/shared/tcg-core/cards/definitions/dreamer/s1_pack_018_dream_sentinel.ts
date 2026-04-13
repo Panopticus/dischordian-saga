@@ -38,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_018.webp",
   flavorText:
     "It dreams of an impenetrable wall. And so the wall exists.",
   rulesVersion: "1.0.0",

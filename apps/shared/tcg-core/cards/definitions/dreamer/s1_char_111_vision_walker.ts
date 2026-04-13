@@ -54,8 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/111_vision_walker.png",
+  art: "/art/cards/s1_char_111.webp",
   flavorText:
     "To the untrained eye, she vanishes. To the Dreamer's eye, she simply takes a different path — one that was always there.",
   rulesVersion: "1.0.0",

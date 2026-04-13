@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_205.webp",
   flavorText:
     "The Arena's walls contract. The ceiling descends. You are held in place by architecture itself.",
   rulesVersion: "1.0.0",

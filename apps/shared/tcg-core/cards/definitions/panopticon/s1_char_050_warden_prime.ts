@@ -37,7 +37,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_050.webp",
   flavorText:
     "From the Central Spire, every whisper is heard, every shadow measured. The Warden does not sleep — the Warden is sleep denied to others.",
   rulesVersion: "1.0.0",

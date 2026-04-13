@@ -43,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_class_soldier.webp",
   flavorText:
     "New Babylon's finest don't ask for orders. They are the order.",
   rulesVersion: "1.0.0",

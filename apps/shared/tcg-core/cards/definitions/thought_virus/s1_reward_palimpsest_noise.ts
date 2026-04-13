@@ -49,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_palimpsest_noise.webp",
   flavorText:
     "She speaks in static. The words mean nothing. The damage is very real.",
   rulesVersion: "1.0.0",

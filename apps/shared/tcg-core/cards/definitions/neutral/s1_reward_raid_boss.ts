@@ -61,7 +61,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_raid_boss.webp",
   flavorText:
     "The boss fell. The Champion stood in the crater, grinning through the blood. Not all of it was hers.",
   rulesVersion: "1.0.0",

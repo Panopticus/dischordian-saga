@@ -91,8 +91,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/016_the_engineer_43ab2ccf.png",
+  art: "/art/cards/s1_char_026.webp",
   flavorText:
     "She built the Inception Arks to save humanity. Now she builds weapons to defend the dream. The Engineer does not choose sides \u2014 she chooses survival.",
   rulesVersion: "1.0.0",

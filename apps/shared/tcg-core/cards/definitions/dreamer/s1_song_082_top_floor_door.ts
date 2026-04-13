@@ -47,8 +47,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/placeholder_s1_song_082.png",
+  art: "/art/cards/s1_song_082.webp",
   flavorText:
     "Behind the last door at the top of the stairwell, the Dreamer found not answers but restoration.",
   rulesVersion: "1.0.0",

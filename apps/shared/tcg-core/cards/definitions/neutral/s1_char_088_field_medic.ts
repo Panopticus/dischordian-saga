@@ -29,7 +29,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_088.webp",
   flavorText:
     "She does not ask which side you fight for. Only where it hurts.",
   rulesVersion: "1.0.0",

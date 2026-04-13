@@ -53,7 +53,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_pet_spore_fungus_2.webp",
   flavorText:
     "The bloom is beautiful. The spores are not.",
   rulesVersion: "1.0.0",

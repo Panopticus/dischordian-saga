@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_id_kael_patient_zero.webp",
   flavorText:
     "The infection spreads through grief. Every death feeds the signal.",
   rulesVersion: "1.0.0",

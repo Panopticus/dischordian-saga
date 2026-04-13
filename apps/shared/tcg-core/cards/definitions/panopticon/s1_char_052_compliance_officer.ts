@@ -30,7 +30,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_052.webp",
   flavorText:
     "Obedience is not requested. It is extracted.",
   rulesVersion: "1.0.0",
