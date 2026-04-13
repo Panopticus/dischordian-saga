@@ -410,6 +410,23 @@ export {
   REWARDS_BY_MODE,
 } from "./rewards/index";
 
+/* ─── NPC Imprints (Phase F) ─── */
+export type {
+  ImprintTier,
+  ImprintNpcEntry,
+  ImprintFragmentSource,
+} from "./rewards/index";
+export {
+  IMPRINT_REGISTRY,
+  IMPRINT_REGISTRY_BY_SLUG,
+  IMPRINT_TIER_RARITY,
+  IMPRINT_THRESHOLDS,
+  IMPRINT_FRAGMENT_SOURCES,
+  getImprintNpc,
+  tierForFragments,
+  tieredCardDefIdsFor,
+} from "./rewards/index";
+
 /* ─── Compat (legacy client translation) ─── */
 export {
   translateClientAction,

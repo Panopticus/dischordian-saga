@@ -22,6 +22,23 @@ export {
 export type { VoteRewardConfig } from "./voteRewards";
 export { VOTE_REWARD_CONFIGS, VOTE_REWARD_MAP } from "./voteRewards";
 
+/* ─── NPC Imprints (Phase F) ─── */
+export type {
+  ImprintTier,
+  ImprintNpcEntry,
+  ImprintFragmentSource,
+} from "./imprintRegistry";
+export {
+  IMPRINT_REGISTRY,
+  IMPRINT_REGISTRY_BY_SLUG,
+  IMPRINT_TIER_RARITY,
+  IMPRINT_THRESHOLDS,
+  IMPRINT_FRAGMENT_SOURCES,
+  getImprintNpc,
+  tierForFragments,
+  tieredCardDefIdsFor,
+} from "./imprintRegistry";
+
 /* ─── Per-game-mode rewards ─── */
 export type { GameModeReward } from "./gameModeRewards";
 export {

@@ -2040,6 +2040,63 @@ export type OracleReadingRow = typeof oracleReadings.$inferSelect;
 
 
 /* ═══════════════════════════════════════════════════════
+   NPC IMPRINTS — Phase F. The long-tail collection goal.
+   Every NPC appearance in any game mode logs 1+ imprint
+   fragments for that NPC. Crossing thresholds (10/25/50/
+   100/200) unlocks the next tier of that NPC's signature
+   TCG card — Common → Uncommon → Rare → Epic → Legendary.
+   18 Season-1 NPCs × 5 tiers = 90 total imprint cards.
+   ═══════════════════════════════════════════════════════ */
+
+export const npcImprints = mysqlTable("npc_imprints", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Stable NPC id — "agent_zero", "iron_lion", etc. Matches
+   *  the imprintRegistry slug on the tcg-core side. */
+  npcId: varchar("npcId", { length: 64 }).notNull(),
+  /** Total fragments accumulated across all sources. */
+  fragments: int("fragments").notNull().default(0),
+  /** Highest tier the player has unlocked for this NPC, 0-5.
+   *  0 = none, 1 = common, 2 = uncommon, 3 = rare, 4 = epic,
+   *  5 = legendary. The grant flow updates this when a new
+   *  threshold is crossed and adds the corresponding cardDefId
+   *  to the player's collection in the same transaction. */
+  highestTierUnlocked: int("highestTierUnlocked").notNull().default(0),
+  /** Last source the fragments came from, for the activity feed
+   *  ("Earned 5 Iron Lion fragments from Chapter 7"). Free-form
+   *  string — the service layer enforces the canonical sources. */
+  lastSource: varchar("lastSource", { length: 64 }),
+  firstSeenAt: timestamp("firstSeenAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  // One row per (user, npc).
+  userNpcUq: uniqueIndex("uq_npc_imprints_user_npc").on(table.userId, table.npcId),
+  userIdx: index("idx_npc_imprints_user").on(table.userId),
+}));
+export type NpcImprintRow = typeof npcImprints.$inferSelect;
+
+/** Audit log of every fragment grant. Lets the activity feed show
+ *  "5 Iron Lion fragments from Chapter 7 — Insurgency Stronghold"
+ *  and lets us debug grant pipelines without trusting the sum on
+ *  the npcImprints row. Append-only. */
+export const npcImprintGrants = mysqlTable("npc_imprint_grants", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  npcId: varchar("npcId", { length: 64 }).notNull(),
+  amount: int("amount").notNull(),
+  /** Source tag — must match a value the imprintService recognizes. */
+  source: varchar("source", { length: 64 }).notNull(),
+  /** Optional human-readable detail ("ch7_insurgency_stronghold"). */
+  sourceDetail: varchar("sourceDetail", { length: 128 }),
+  grantedAt: timestamp("grantedAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_npc_imprint_grants_user").on(table.userId),
+  userNpcIdx: index("idx_npc_imprint_grants_user_npc").on(table.userId, table.npcId),
+}));
+export type NpcImprintGrantRow = typeof npcImprintGrants.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════
    CLASS MASTERY — Progressive class specialization
    Players earn class XP by performing class-aligned actions.
    5 mastery ranks unlock increasingly powerful perks.
