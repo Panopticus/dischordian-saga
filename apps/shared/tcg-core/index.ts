@@ -241,6 +241,25 @@ export type {
   ChessTutorialVoiceCue,
 } from "./story/chessTutorial";
 
+/* ─── Oracle Deck (Phase E) ─── */
+export {
+  ORACLE_DECK,
+  ORACLE_DECK_MAP,
+  ORACLE_DECK_BY_ID,
+  getOracleCardBySlug,
+  getOracleCardById,
+  listOracleCardsByUnlockKind,
+} from "./tarot/oracleDeck";
+export type {
+  OracleCard,
+  OracleArcanum,
+  OracleUnlockKind,
+  OracleUnlockCondition,
+  OracleBuff,
+  OracleDeck,
+  OracleDeckLookup,
+} from "./tarot/oracleDeckTypes";
+
 /* ─── Campaign chapters (WS6) ─── */
 export {
   ALL_CHAPTER_ENCOUNTERS,
