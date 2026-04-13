@@ -371,10 +371,11 @@ next to the schematic. I've thought about it a lot since.
    ═══════════════════════════════════════════════════════ */
 
 import { ENGINEER_LOGS_BATCH_2 } from "./engineerLogs_batch2";
+import { ENGINEER_LOGS_BATCH_3 } from "./engineerLogs_batch3";
 
 /**
  * All Engineer's Logs currently authored.
- * More land in follow-up commits (A7-A12): remaining keywords,
+ * More land in follow-up commits (A9-A12): remaining keywords,
  * factions, Bloodborn spells, and triggers.
  */
 export const ENGINEER_LOGS: readonly EngineerLog[] = Object.freeze([
@@ -384,6 +385,7 @@ export const ENGINEER_LOGS: readonly EngineerLog[] = Object.freeze([
   LOG_KEYWORD_CELERITY,
   LOG_KEYWORD_REBIRTH,
   ...ENGINEER_LOGS_BATCH_2,
+  ...ENGINEER_LOGS_BATCH_3,
 ]);
 
 /**
