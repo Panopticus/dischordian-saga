@@ -555,6 +555,21 @@ export const chessRouter = router({
       // Include opening book lines so the client can play character-specific openings
       const openings = (OPENING_BOOKS as Record<string, any[]>)[opponent.openingPreference] || [];
 
+      // When a player who completed the Celebration Academy faces the
+      // corrupted Arena Game Master, the memory-resin keepsake they
+      // carry causes the teacher's pre-corruption voice to leak through
+      // for a single cue per scene. Gate the special encounter dialog
+      // on keepsakeGranted so skip-path players don't get the payoff
+      // unless they earned it by completing the academy.
+      let arenaEncounterScene: ReturnType<typeof resolveDialog> | null = null;
+      if (input.mode === "game_master") {
+        const [tutorialRow] = await db.select().from(chessTutorialProgress)
+          .where(eq(chessTutorialProgress.userId, ctx.user.id)).limit(1);
+        if (tutorialRow?.keepsakeGranted) {
+          arenaEncounterScene = resolveDialog("chess_corrupted_arena_encounter") ?? null;
+        }
+      }
+
       return {
         gameId: Number(result[0].insertId),
         fen: STARTING_FEN,
@@ -562,6 +577,7 @@ export const chessRouter = router({
         opponent: { id: opponentId, ...opponent, openings },
         aiDifficulty,
         traitBonuses: chessTb,
+        arenaEncounterScene,
       };
       } catch (err: unknown) {
         const errMsg = err instanceof Error ? err.message : String(err);
@@ -2442,5 +2458,23 @@ async function processGameEnd(
     }
   }
 
-  return { eloChange, rewards, classXpResult };
+  // For Academy graduates (keepsakeGranted) finishing a game_master
+  // match, resolve the corrupted Arena post-match dialog scene — the
+  // memory-resin keepsake causes one Celebration cue per scene to
+  // leak through the corrupted broadcast. Skip-path players who
+  // never earned the keepsake get no bleed-through.
+  let arenaEndingScene: ReturnType<typeof resolveDialog> | null = null;
+  if (game.mode === "game_master" && !isDraw) {
+    const [tutorialRow] = await db.select().from(chessTutorialProgress)
+      .where(eq(chessTutorialProgress.userId, playerId)).limit(1);
+    if (tutorialRow?.keepsakeGranted) {
+      arenaEndingScene = resolveDialog(
+        playerWon
+          ? "chess_corrupted_arena_victory"
+          : "chess_corrupted_arena_defeat",
+      ) ?? null;
+    }
+  }
+
+  return { eloChange, rewards, classXpResult, arenaEndingScene };
 }
