@@ -9,6 +9,7 @@
    ═══════════════════════════════════════════════════════ */
 
 import type { WheelOption } from "./dialogWheel";
+import type { NarratorEmotion } from "./trustTierDialogTypes";
 
 export interface PotentialQuestlineBeat {
   /** NPC id — one of the 8 faction NPCs or the 7 original Ark NPCs. */
@@ -17,6 +18,20 @@ export interface PotentialQuestlineBeat {
   text?: string;
   /** Italicized stage direction shown in the dialog overlay. */
   stageDirection?: string;
+  /**
+   * ── VO metadata (optional) ──
+   * Populated on every beat in the Galactic Dance faction questlines
+   * so the studio pipeline and VO manifest generator can ingest them.
+   * Older (pre-Galactic-Dance) questline files leave these unset.
+   */
+  /** Globally unique id across narrator + companion + faction catalogs. */
+  audioDialogId?: string;
+  /** Actor direction / TTS register. Reuses the narrator emotion enum. */
+  emotion?: NarratorEmotion;
+  /** Estimated delivery time in seconds. */
+  estimatedDurationSec?: number;
+  /** Audio positioning hint (0 = far, 1 = close-mic whisper). Rare. */
+  proximity?: number;
 }
 
 export interface PotentialQuestlineChapter {
