@@ -1929,6 +1929,37 @@ export const chessTournamentPairings = mysqlTable("chess_tournament_pairings", {
 }));
 export type ChessTournamentPairing = typeof chessTournamentPairings.$inferSelect;
 
+/* ═══════════════════════════════════════════════════════
+   CHESS TUTORIAL PROGRESS — Celebration Game Master's academy.
+   Tracks which of the 7 chess tutorial gates the player has
+   completed, whether they took the skip-challenge path, and
+   whether the Celebration Teaching Set memory-resin keepsake
+   has been granted. The tutorial content itself lives in
+   apps/shared/tcg-core/story/chessTutorial*.ts
+   ═══════════════════════════════════════════════════════ */
+
+export const chessTutorialProgress = mysqlTable("chess_tutorial_progress", {
+  userId: int("userId").primaryKey(),
+  /** Current active gate (1-7). 8 indicates all gates complete. */
+  currentGate: int("currentGate").notNull().default(1),
+  /** Array of completed gate numbers, e.g. [1, 2, 3]. */
+  completedGates: json("completedGates").$type<number[]>().notNull(),
+  /** Current step index within the active gate (0-indexed). */
+  currentStep: int("currentStep").notNull().default(0),
+  /** Set the first time the player picks the "Challenge me" option on the Gate 1 intro. */
+  skippedAt: timestamp("skippedAt"),
+  /** True iff the player actually beat the maximum-difficulty Celebration
+   *  Game Master on the skip-challenge match. Unlocks the Celebration
+   *  Teaching Jacket cosmetic and fast-forwards the full tutorial. */
+  skipMatchWon: boolean("skipMatchWon").notNull().default(false),
+  /** True once the Gate 7 reveal has been shown and the Celebration
+   *  Teaching Set memory-resin keepsake has been granted. */
+  keepsakeGranted: boolean("keepsakeGranted").notNull().default(false),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  completedAt: timestamp("completedAt"),
+});
+export type ChessTutorialProgress = typeof chessTutorialProgress.$inferSelect;
+
 
 /* ═══════════════════════════════════════════════════════
    CLASS MASTERY — Progressive class specialization
