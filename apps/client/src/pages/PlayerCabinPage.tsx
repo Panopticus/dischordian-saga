@@ -7,7 +7,7 @@ import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Home, Lamp, Frame, Trophy, Gift, Music,
-  ChevronRight, Lock, Check, X, Sparkles,
+  ChevronRight, Lock, Check, X, Sparkles, DoorOpen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -21,6 +21,15 @@ import {
   type PlacedItem,
   type DisplayItem,
 } from "@shared/playerHousing";
+import { ROOM_ART } from "@/data/nanobanna2Assets";
+
+/* ─── CABIN ROOM OVERRIDES (NanoBanna2 assets) ─── */
+type CabinRoomId = "memorial" | "purification" | "summoning";
+const CABIN_ROOMS: Record<CabinRoomId, { label: string; url: string; accent: string; hint: string }> = {
+  memorial:     { label: "Memorial Chamber",     url: ROOM_ART.memorial,     accent: "#9333ea", hint: "For remembering fallen apprentices." },
+  purification: { label: "Purification Chamber", url: ROOM_ART.purification, accent: "#22c55e", hint: "Where violet stones become gold." },
+  summoning:    { label: "Summoning Chamber",    url: ROOM_ART.summoning,    accent: "#f59e0b", hint: "The circle where Dischordians answer." },
+};
 
 /* ─── SLOT DEFINITIONS ─── */
 const SLOTS = [
@@ -40,6 +49,7 @@ export default function PlayerCabinPage() {
   const [layout, setLayout] = useState<CabinLayout>(getDefaultLayout());
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [editMode, setEditMode] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState<CabinRoomId | null>(null);
 
   // In a real app, this would come from the player's progressData/gameData via tRPC
   const unlockedItems = useMemo(() => getUnlockedItems({}, {}), []);
@@ -112,6 +122,16 @@ export default function PlayerCabinPage() {
           background: lightingPreset.background,
         }}
       >
+        {/* Optional specialty-room background image */}
+        {selectedRoom && (
+          <img
+            src={CABIN_ROOMS[selectedRoom].url}
+            alt={CABIN_ROOMS[selectedRoom].label}
+            className="absolute inset-0 w-full h-full object-cover opacity-80"
+            onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+          />
+        )}
+
         {/* Room structure */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30" />
 
@@ -178,9 +198,9 @@ export default function PlayerCabinPage() {
         </Button>
       </div>
 
-      {/* Lighting selector */}
+      {/* Lighting + Room selector */}
       {editMode && (
-        <div className="absolute top-4 right-4 z-10 bg-black/60 backdrop-blur-sm rounded p-2 space-y-1">
+        <div className="absolute top-4 right-4 z-10 bg-black/60 backdrop-blur-sm rounded p-2 space-y-1 w-48">
           <label className="flex items-center gap-1 text-[10px] font-mono text-primary/60">
             <Lamp className="w-3 h-3" /> LIGHTING
           </label>
@@ -198,6 +218,44 @@ export default function PlayerCabinPage() {
               {preset.name}
             </button>
           ))}
+
+          <div className="pt-2 mt-1 border-t border-primary/10">
+            <label className="flex items-center gap-1 text-[10px] font-mono text-primary/60 mb-1">
+              <DoorOpen className="w-3 h-3" /> SPECIALTY ROOM
+            </label>
+            <button
+              data-testid="cabin-room-none"
+              onClick={() => setSelectedRoom(null)}
+              className={cn(
+                "block w-full text-left text-[10px] font-mono px-2 py-1 rounded transition-colors",
+                selectedRoom === null
+                  ? "text-primary bg-primary/10"
+                  : "text-primary/40 hover:text-primary/60"
+              )}
+            >
+              Standard Quarters
+            </button>
+            {(Object.keys(CABIN_ROOMS) as CabinRoomId[]).map((id) => {
+              const room = CABIN_ROOMS[id];
+              return (
+                <button
+                  key={id}
+                  data-testid={`cabin-room-${id}`}
+                  onClick={() => setSelectedRoom(id)}
+                  title={room.hint}
+                  className={cn(
+                    "block w-full text-left text-[10px] font-mono px-2 py-1 rounded transition-colors",
+                    selectedRoom === id
+                      ? "bg-primary/10"
+                      : "text-primary/40 hover:text-primary/60"
+                  )}
+                  style={selectedRoom === id ? { color: room.accent } : undefined}
+                >
+                  {room.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
       )}
 
