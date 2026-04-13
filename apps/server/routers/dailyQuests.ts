@@ -10,6 +10,7 @@ import { fetchCitizenData, fetchPotentialNftData, resolveQuestBonuses } from "..
 import { ripple } from "../services/rippleEngine";
 import { getConsequences, getEventDailyQuests } from "../services/universeConsequences";
 import { applyPrestigeBonuses } from "../services/prestigeMultiplier";
+import { applyDailyOracleBonusToReward } from "./oracleDeck";
 
 /* ═══════════════════════════════════════════════════════
    QUEST TEMPLATES — Daily, Weekly, Epoch (Season)
@@ -352,11 +353,23 @@ export const dailyQuestsRouter = router({
         xp: traitXp,
         resource: traitDream,
       });
-      const adjustedDream = prestige.resource;
+      const prestigedDream = prestige.resource;
       const adjustedXp = prestige.xp;
       // Credits use the resource multiplier too, since "resource" is the
       // generic non-XP scalar in the shared prestige spec.
       const adjustedCredits = Math.round(traitCredits * prestige.multipliers.resource);
+
+      // Apply the player's active daily Oracle reading bonus. Only
+      // cards with a dream_token_bonus effect modify quest rewards
+      // (e.g. The Hierophant, which carries "Forbidden Tuition +10%").
+      // A no-op if no reading was cast today or the active card is
+      // one of the match-scoped effects like extra_mana.
+      const oracleAdjusted = await applyDailyOracleBonusToReward(
+        db,
+        ctx.user.id,
+        prestigedDream,
+      );
+      const adjustedDream = oracleAdjusted.adjustedAmount;
 
       // Grant Dream reward (with trait bonus)
       if (adjustedDream > 0) {
@@ -378,6 +391,7 @@ export const dailyQuestsRouter = router({
       if (questCitizen?.species) traitSources.push(`${questCitizen.species} Species`);
       if (questCitizen?.characterClass) traitSources.push(`${questCitizen.characterClass} Class`);
       if (questCitizen?.element) traitSources.push(`${questCitizen.element} Element`);
+      if (oracleAdjusted.oracleLabel) traitSources.push(oracleAdjusted.oracleLabel);
 
       // Award class mastery XP for quest completion
       const { awardClassXp } = await import("../classMasteryHelper");
