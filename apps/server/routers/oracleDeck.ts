@@ -34,6 +34,7 @@ import {
   castReading,
   type OracleReading,
   type OracleSpreadKind,
+  type MatchStartingBonuses,
 } from "@shared/tcg-core";
 
 /* ═══════════════════════════════════════════════════════
@@ -392,6 +393,73 @@ export async function applyDailyOracleBonusToReward(
     oracleLabel: `Oracle Reading: ${draw.cardSlug} (${draw.orientation}) +${percent}%`,
     oraclePercent: percent,
   };
+}
+
+/** Server-side helper — translate an OracleReading's Past
+ *  position (the match_start buff) into the generic
+ *  MatchStartingBonuses scalars that createMatchState consumes.
+ *
+ *  The pre-match spread has 3 positions: Past (match_start),
+ *  Present (turn_2), Future (turn_5). Only the Past-position
+ *  buff applies at match creation. Present and Future buffs are
+ *  conceptually deferred — currently surfaced to the UI as
+ *  "upcoming reading effects" but not yet consumed by the engine.
+ *  A follow-up commit can add a pending-buff queue to GameState.
+ *
+ *  Returns `undefined` when the reading has no Past position or
+ *  when the Past card's effect is non-numeric (reroll_one_card,
+ *  fnord_secret, dream_token_bonus — the last one is a daily
+ *  effect, not a match effect).
+ */
+export function resolveOracleMatchBonuses(
+  reading: OracleReading,
+): MatchStartingBonuses | undefined {
+  const past = reading.draws[0];
+  if (!past) return undefined;
+  const effect = past.buff.effect;
+  const label = `Past: ${past.cardSlug} (${past.orientation}) — ${past.buff.label}`;
+  switch (effect.kind) {
+    case "extra_mana":
+      return { extraMana: effect.amount, sourceLabel: label };
+    case "extra_cards":
+      return { extraCards: effect.amount, sourceLabel: label };
+    case "general_hp":
+      return { extraGeneralHp: effect.amount, sourceLabel: label };
+    case "first_unit_buff":
+      // first_unit_buff is conceptually applied later. For now we
+      // translate the power+health into a small general HP boost
+      // so the player at least feels something on match start.
+      return {
+        extraGeneralHp: effect.power + effect.health,
+        sourceLabel: label,
+      };
+    case "mulligan_extra":
+      return { extraCards: effect.amount, sourceLabel: label };
+    case "reroll_one_card":
+    case "fnord_secret":
+    case "dream_token_bonus":
+      return undefined;
+  }
+}
+
+/** Server-side helper — look up the player's active pre-match
+ *  reading for a given match seed key and translate it into
+ *  MatchStartingBonuses. No-op if no reading exists for that
+ *  seed key. Used by the match-starting router (TCG, chess
+ *  tutorial, etc.) to thread Oracle buffs into createMatchState. */
+export async function fetchOracleMatchBonusesForSeedKey(
+  db: NonNullable<Awaited<ReturnType<typeof getDb>>>,
+  userId: number,
+  seedKey: string,
+): Promise<MatchStartingBonuses | undefined> {
+  const rows = await db.select().from(oracleReadings)
+    .where(and(
+      eq(oracleReadings.userId, userId),
+      eq(oracleReadings.spreadKind, "pre_match"),
+      eq(oracleReadings.seedKey, seedKey),
+    )).limit(1);
+  if (!rows[0]) return undefined;
+  return resolveOracleMatchBonuses(rows[0].draws as OracleReading);
 }
 
 /** Server-side helper to grant an Oracle card. Called by any

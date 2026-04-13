@@ -45,6 +45,30 @@ import type { EntityId, PlayerId, Side } from "../types/Ids";
 import { createRng, rngShuffle } from "./rng";
 import { RULES_VERSION } from "./version";
 
+/** Optional match-start bonuses applied before the first action.
+ *  Engine-agnostic: callers translate any upstream buff source
+ *  (Oracle Deck readings, daily login rewards, feature flags)
+ *  into these concrete scalars before passing them in. Unknown
+ *  sources pass through as `undefined`, in which case the engine
+ *  uses the default STARTING_MANA / MULLIGAN_HAND_SIZE / general
+ *  baseStats. */
+export interface MatchStartingBonuses {
+  /** Extra crystals of mana added on top of STARTING_MANA (both
+   *  current and max). Clamped to a reasonable ceiling of +3 so
+   *  a single reading cannot fill the mana bar. */
+  extraMana?: number;
+  /** Extra cards drawn into the opening hand beyond
+   *  MULLIGAN_HAND_SIZE. Clamped to +2. */
+  extraCards?: number;
+  /** Extra HP added to the general's starting current + max HP.
+   *  Clamped to +10. */
+  extraGeneralHp?: number;
+  /** Free-form label for the reading / source so the UI can
+   *  display "Past: The Architect — +1 mana". Optional; the
+   *  engine ignores it. */
+  sourceLabel?: string;
+}
+
 export interface MatchConfig {
   userId: PlayerId;
   faction: Faction;
@@ -57,6 +81,10 @@ export interface MatchConfig {
    * seeded RNG.
    */
   deckCardDefIds: readonly string[];
+  /** Optional match-start bonuses (e.g. from a pre-match Oracle
+   *  reading). When omitted, the match starts with default mana,
+   *  hand size, and general HP. */
+  startingBonuses?: MatchStartingBonuses;
 }
 
 export interface CreateMatchOptions {
@@ -65,6 +93,19 @@ export interface CreateMatchOptions {
   p1: MatchConfig;
   p2: MatchConfig;
   registry: CardRegistry;
+}
+
+/** Small internal helper — clamp an optional bonus value into
+ *  [min, max], with undefined/NaN falling through to 0. */
+function clampBonus(
+  value: number | undefined,
+  min: number,
+  max: number,
+): number {
+  if (value === undefined || Number.isNaN(value)) return 0;
+  if (value < min) return min;
+  if (value > max) return max;
+  return Math.floor(value);
 }
 
 export function createMatchState(opts: CreateMatchOptions): GameState {
@@ -81,6 +122,12 @@ export function createMatchState(opts: CreateMatchOptions): GameState {
   const p1General = mint(p1.generalDefId, 0);
   const p2General = mint(p2.generalDefId, 1);
 
+  // Apply any general-HP bonus from starting bonuses. The mint
+  // helper already assigned currentHealth/maxHealth from the card
+  // definition; we overwrite them here because we can't easily
+  // thread the bonus through makeCardInstance without polluting
+  // its signature. The bonus is clamped below.
+
   // Mint decks. Maintain deterministic ordering by iterating the input
   // config array exactly as given, then shuffling with the seeded RNG.
   const p1DeckRaw = p1.deckCardDefIds.map((id) => mint(id, 0));
@@ -88,10 +135,34 @@ export function createMatchState(opts: CreateMatchOptions): GameState {
   const p1Deck = rngShuffle(rng, p1DeckRaw);
   const p2Deck = rngShuffle(rng, p2DeckRaw);
 
+  // Resolve starting-bonus scalars. Clamp so a single source
+  // cannot distort the match beyond recognition.
+  const p1ExtraCards = clampBonus(p1.startingBonuses?.extraCards, 0, 2);
+  const p2ExtraCards = clampBonus(p2.startingBonuses?.extraCards, 0, 2);
+  const p1ExtraMana = clampBonus(p1.startingBonuses?.extraMana, 0, 3);
+  const p2ExtraMana = clampBonus(p2.startingBonuses?.extraMana, 0, 3);
+  const p1ExtraHp = clampBonus(p1.startingBonuses?.extraGeneralHp, 0, 10);
+  const p2ExtraHp = clampBonus(p2.startingBonuses?.extraGeneralHp, 0, 10);
+
+  // Apply HP bonus directly to the general's card instance
+  // before we build the BoardEntity. The instance is still
+  // private to this init function at this point.
+  if (p1ExtraHp > 0) {
+    p1General.currentHealth += p1ExtraHp;
+    p1General.maxHealth += p1ExtraHp;
+  }
+  if (p2ExtraHp > 0) {
+    p2General.currentHealth += p2ExtraHp;
+    p2General.maxHealth += p2ExtraHp;
+  }
+
   // Deal opening hands. We splice, but since our deck is immutable in
-  // the engine, we slice + drop.
-  const { hand: p1Hand, deck: p1DeckAfter } = drawOpening(p1Deck, MULLIGAN_HAND_SIZE);
-  const { hand: p2Hand, deck: p2DeckAfter } = drawOpening(p2Deck, MULLIGAN_HAND_SIZE);
+  // the engine, we slice + drop. Extra cards from a starting bonus
+  // land in hand alongside the normal mulligan hand.
+  const p1HandSize = MULLIGAN_HAND_SIZE + p1ExtraCards;
+  const p2HandSize = MULLIGAN_HAND_SIZE + p2ExtraCards;
+  const { hand: p1Hand, deck: p1DeckAfter } = drawOpening(p1Deck, p1HandSize);
+  const { hand: p2Hand, deck: p2DeckAfter } = drawOpening(p2Deck, p2HandSize);
 
   // Place generals on the board at canonical positions.
   const midRow = Math.floor(BOARD_HEIGHT / 2);
@@ -131,8 +202,8 @@ export function createMatchState(opts: CreateMatchOptions): GameState {
       hand: p1Hand,
       graveyard: [],
       artifacts: [],
-      mana: STARTING_MANA,
-      maxMana: STARTING_MANA,
+      mana: STARTING_MANA + p1ExtraMana,
+      maxMana: STARTING_MANA + p1ExtraMana,
       bloodbornUsed: false,
       replaceUsed: false,
     },
@@ -144,8 +215,8 @@ export function createMatchState(opts: CreateMatchOptions): GameState {
       hand: p2Hand,
       graveyard: [],
       artifacts: [],
-      mana: STARTING_MANA,
-      maxMana: STARTING_MANA,
+      mana: STARTING_MANA + p2ExtraMana,
+      maxMana: STARTING_MANA + p2ExtraMana,
       bloodbornUsed: false,
       replaceUsed: false,
     },
