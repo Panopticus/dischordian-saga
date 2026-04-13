@@ -4106,3 +4106,63 @@ export const engineerLogUnlocks = mysqlTable("engineer_log_unlocks", {
 }));
 
 export type EngineerLogUnlockRow = typeof engineerLogUnlocks.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   FNORD-23 MEMORY RESIN BANK — Phase G3
+   Every in-game VO line a player hears gets captured here
+   automatically so they can replay it from the FNORD-23 later.
+   The whole in-game dialog becomes a searchable, remixable album.
+   ═══════════════════════════════════════════════════════ */
+export const memoryResinBank = mysqlTable("memory_resin_bank", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Stable id for the underlying audio asset (not unique per user —
+   *  two different contexts of the same line produce two entries). */
+  audioClipId: varchar("audioClipId", { length: 128 }).notNull(),
+  /** Public URL to the audio file. Lives under /audio/... */
+  audioUrl: varchar("audioUrl", { length: 512 }).notNull(),
+  /** Who is speaking — "elara", "the_human", "engineer", etc. */
+  speaker: varchar("speaker", { length: 64 }),
+  /** Where the player was when they heard it. */
+  context: varchar("context", { length: 128 }),
+  /** Full transcript for search. */
+  transcript: text("transcript"),
+  /** Duration in seconds so the UI can show a progress bar. */
+  durationSeconds: int("durationSeconds").notNull().default(0),
+  /** JSON array of filter tags. */
+  tags: json("tags").$type<string[]>(),
+  capturedAt: timestamp("capturedAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_memory_resin_user").on(table.userId),
+  userSpeakerIdx: index("idx_memory_resin_user_speaker").on(table.userId, table.speaker),
+  userClipIdx: uniqueIndex("uq_memory_resin_user_clip_context").on(table.userId, table.audioClipId, table.context),
+}));
+
+export type MemoryResinRow = typeof memoryResinBank.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   FNORD-23 DEVICE STATE — Phase G3
+   Per-user device state: which channels are unlocked,
+   whether the device itself has been discovered, etc.
+   ═══════════════════════════════════════════════════════ */
+export const fnord23UserState = mysqlTable("fnord23_user_state", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  /** JSON array of unlocked channel ids. */
+  unlockedChannelIds: json("unlockedChannelIds").$type<string[]>(),
+  /** Last played track id (resumes playback here on next session). */
+  lastPlayedTrackId: varchar("lastPlayedTrackId", { length: 64 }),
+  /** Has the player found the device at all yet? First-time
+   *  discovery sequence runs when this flips true. */
+  discovered: int("discovered").notNull().default(0),
+  /** Has the player unlocked the beat minigame? */
+  beatGameUnlocked: int("beatGameUnlocked").notNull().default(0),
+  /** JSON array of scored BeatGameScore entries. */
+  beatGameScores: json("beatGameScores").$type<unknown[]>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_fnord23_state_user").on(table.userId),
+}));
+
+export type Fnord23UserStateRow = typeof fnord23UserState.$inferSelect;
