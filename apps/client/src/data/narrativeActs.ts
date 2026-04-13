@@ -1266,3 +1266,232 @@ export const NARRATIVE_ACTS: LoreTutorial[] = [
   ACT_6_THE_CONFESSION,
   ACT_7_THE_CONVERGENCE,
 ];
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   POTENTIAL IDENTITY SYSTEM — Questline Registry
+   Maps every questline to its act gate and unlock conditions.
+   The client checks this registry to determine which questlines
+   are available to the current player based on act progress,
+   species, class, and narrative flags.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+import type { PotentialQuestline } from "@shared/potentialQuestlineTypes";
+import type { Species, CharClass, Element } from "@shared/characterCreationImpact";
+
+// ── Module 1: Potential Identity System questlines ──
+import { DEMAGI_QUESTLINE } from "@shared/questlineDemagiGardensChildren";
+import { QUARCHON_QUESTLINE } from "@shared/questlineQuarchonFirstPattern";
+import { ENGINEER_QUESTLINE } from "@shared/questlineClassEngineer";
+import { ORACLE_QUESTLINE } from "@shared/questlineClassOracle";
+import { ASSASSIN_QUESTLINE } from "@shared/questlineClassAssassin";
+import { SOLDIER_QUESTLINE } from "@shared/questlineClassSoldier";
+import { SPY_QUESTLINE } from "@shared/questlineClassSpy";
+import { FIRE_QUESTLINE, EARTH_QUESTLINE, TIME_QUESTLINE, REALITY_QUESTLINE } from "@shared/questlineElements";
+
+// ── Module 2: Galactic Dance questlines ──
+import { VOLTARI_QUESTLINE } from "@shared/questlineVoltari";
+import { HUMANS_QUESTLINE } from "@shared/questlineHumans";
+import { THALORIA_QUESTLINE } from "@shared/questlineThaloria";
+import { CLONES_QUESTLINE } from "@shared/questlineClones";
+import { NEW_BABYLON_QUESTLINE } from "@shared/questlineNewBabylon";
+import { INSURGENCY_QUESTLINE } from "@shared/questlineInsurgency";
+import { SYNDICATE_QUESTLINE } from "@shared/questlineSyndicate";
+
+// ── Horror Reveal (fires in Act 3) ──
+import {
+  POTENTIAL_ORIGIN_REVEAL_WHEEL,
+  POTENTIAL_ORIGIN_REVEAL_TRIGGER,
+  POTENTIAL_ORIGIN_REVEAL_FLAGS,
+} from "@shared/potentialOriginReveal";
+
+/** A registered questline with its unlock conditions. */
+export interface QuestlineRegistration {
+  questline: PotentialQuestline;
+  /** Minimum narrative act required (1-7). */
+  actGate: number;
+  /** If set, only this species can see the questline (Ne-Yon sees both race lines). */
+  requireSpecies?: Species | Species[];
+  /** If set, only this class can see the questline. */
+  requireClass?: CharClass;
+  /** If set, only this element can see the questline. */
+  requireElement?: Element | Element[];
+  /** Narrative flag that must be set before the questline appears. */
+  requireFlag?: string;
+  /** Category for UI grouping. */
+  category: "race" | "class" | "element" | "faction" | "voltari";
+}
+
+/**
+ * The complete questline registry. The client iterates this to determine
+ * which questlines are available on the Quest Board / Narrative Journal.
+ *
+ * Ordering: race questlines first, then class, then element, then faction,
+ * then Voltari. Within each category, ordered by act gate.
+ */
+export const QUESTLINE_REGISTRY: QuestlineRegistration[] = [
+  // ── Race questlines ──
+  {
+    questline: DEMAGI_QUESTLINE,
+    actGate: 2,
+    category: "race",
+    requireFlag: "horror_reveal_seen",
+  },
+  {
+    questline: QUARCHON_QUESTLINE,
+    actGate: 1,
+    category: "race",
+    // Zephyr-9 is present from the prelude; no flag gate
+  },
+
+  // ── Class questlines ──
+  {
+    questline: SOLDIER_QUESTLINE,
+    actGate: 1,
+    requireClass: "soldier",
+    category: "class",
+    // Iron Lion broadcast reaches Soldiers at Prelude completion
+  },
+  {
+    questline: ENGINEER_QUESTLINE,
+    actGate: 2,
+    requireClass: "engineer",
+    category: "class",
+  },
+  {
+    questline: ORACLE_QUESTLINE,
+    actGate: 2,
+    requireClass: "oracle",
+    category: "class",
+  },
+  {
+    questline: ASSASSIN_QUESTLINE,
+    actGate: 3,
+    requireClass: "assassin",
+    category: "class",
+  },
+  {
+    questline: SPY_QUESTLINE,
+    actGate: 2,
+    requireClass: "spy",
+    category: "class",
+  },
+
+  // ── Element questlines ──
+  {
+    questline: FIRE_QUESTLINE,
+    actGate: 3,
+    requireElement: "fire",
+    category: "element",
+    requireFlag: "horror_reveal_seen",
+  },
+  {
+    questline: EARTH_QUESTLINE,
+    actGate: 3,
+    requireElement: "earth",
+    category: "element",
+    requireFlag: "horror_reveal_seen",
+  },
+  {
+    questline: TIME_QUESTLINE,
+    actGate: 3,
+    requireElement: "time",
+    category: "element",
+    requireFlag: "horror_reveal_seen",
+  },
+  {
+    questline: REALITY_QUESTLINE,
+    actGate: 3,
+    requireElement: "reality",
+    category: "element",
+    requireFlag: "horror_reveal_seen",
+  },
+
+  // ── Faction questlines (Galactic Dance) ──
+  {
+    questline: INSURGENCY_QUESTLINE,
+    actGate: 1,
+    category: "faction",
+    // Orin Fell contacts all Potentials after Act 1
+  },
+  {
+    questline: VOLTARI_QUESTLINE,
+    actGate: 2,
+    category: "voltari",
+    requireFlag: "voltari_awake_received",
+  },
+  {
+    questline: HUMANS_QUESTLINE,
+    actGate: 2,
+    category: "faction",
+    // Available on first Trade Empire contact with New Atarion
+  },
+  {
+    questline: NEW_BABYLON_QUESTLINE,
+    actGate: 2,
+    category: "faction",
+  },
+  {
+    questline: SYNDICATE_QUESTLINE,
+    actGate: 2,
+    category: "faction",
+  },
+  {
+    questline: THALORIA_QUESTLINE,
+    actGate: 3,
+    category: "faction",
+    // Only after a morally complex choice with no clean outcome
+  },
+  {
+    questline: CLONES_QUESTLINE,
+    actGate: 3,
+    category: "faction",
+  },
+];
+
+/**
+ * Returns questlines available to the player given their current state.
+ * Used by the Quest Board and Narrative Journal UI.
+ */
+export function getAvailableQuestlines(
+  currentAct: number,
+  species: Species | undefined,
+  characterClass: CharClass | undefined,
+  element: Element | undefined,
+  flags: Record<string, boolean>,
+): QuestlineRegistration[] {
+  return QUESTLINE_REGISTRY.filter((reg) => {
+    // Act gate
+    if (currentAct < reg.actGate) return false;
+
+    // Species gate (Ne-Yon passes all species gates)
+    if (reg.requireSpecies) {
+      const required = Array.isArray(reg.requireSpecies) ? reg.requireSpecies : [reg.requireSpecies];
+      if (species !== "neyon" && (!species || !required.includes(species))) return false;
+    }
+
+    // Class gate
+    if (reg.requireClass && characterClass !== reg.requireClass) return false;
+
+    // Element gate
+    if (reg.requireElement) {
+      const required = Array.isArray(reg.requireElement) ? reg.requireElement : [reg.requireElement];
+      if (!element || !required.includes(element)) return false;
+    }
+
+    // Flag gate
+    if (reg.requireFlag && !flags[reg.requireFlag]) return false;
+
+    return true;
+  });
+}
+
+/**
+ * Horror Reveal integration — fires during Act 3 when conditions are met.
+ * Re-exported here so the room-state reducer can check trigger conditions
+ * without importing from @shared directly.
+ */
+export const HORROR_REVEAL = {
+  trigger: POTENTIAL_ORIGIN_REVEAL_TRIGGER,
+  wheel: POTENTIAL_ORIGIN_REVEAL_WHEEL,
+  flags: POTENTIAL_ORIGIN_REVEAL_FLAGS,
+} as const;

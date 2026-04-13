@@ -1,0 +1,12 @@
+/* ═══════════════════════════════════════════════════════
+   VOID PHYSICS — CONSOLIDATED INTO void-materials.css
+
+   All physics material behavior (glass/flat/retro surfaces,
+   shadows, depth tiers, scrollbars, density) is now defined
+   in client/src/engine/void-materials.css — the single source
+   of truth for the VoidEngine's CSS layer.
+
+   This file is intentionally empty. The import is preserved
+   in index.css for backwards compatibility but all rules now
+   live in the engine directory.
+   ═══════════════════════════════════════════════════════ */

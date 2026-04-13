@@ -1,0 +1,64 @@
+/* ═══════════════════════════════════════════════════════
+   VOID ENERGY — OKLCH PALETTE DERIVATIVES
+
+   Auto-derived tint/shade/subtle variants for each semantic
+   color using CSS color-mix(in oklch). Perceptually uniform
+   blending — matches the real VE token compiler's output.
+
+   Usage: var(--void-primary-tint), var(--void-primary-shade), etc.
+   ═══════════════════════════════════════════════════════ */
+
+:root {
+  /* ─── PRIMARY derivatives ─── */
+  --void-primary-tint: color-mix(in oklch, var(--void-primary, #33E2E6) 70%, white);
+  --void-primary-shade: color-mix(in oklch, var(--void-primary, #33E2E6) 70%, black);
+  --void-primary-subtle: color-mix(in oklch, var(--void-primary, #33E2E6) 12%, var(--void-canvas, #050510));
+  --void-primary-strong: color-mix(in oklch, var(--void-primary, #33E2E6) 85%, white);
+
+  /* ─── ACCENT derivatives ─── */
+  --void-accent-tint: color-mix(in oklch, var(--void-accent, #ff6600) 70%, white);
+  --void-accent-shade: color-mix(in oklch, var(--void-accent, #ff6600) 70%, black);
+  --void-accent-subtle: color-mix(in oklch, var(--void-accent, #ff6600) 12%, var(--void-canvas, #050510));
+
+  /* ─── SUCCESS derivatives ─── */
+  --void-success-tint: color-mix(in oklch, var(--void-success, #22c55e) 70%, white);
+  --void-success-shade: color-mix(in oklch, var(--void-success, #22c55e) 70%, black);
+  --void-success-subtle: color-mix(in oklch, var(--void-success, #22c55e) 12%, var(--void-canvas, #050510));
+
+  /* ─── ERROR derivatives ─── */
+  --void-error-tint: color-mix(in oklch, var(--void-error, #ef4444) 70%, white);
+  --void-error-shade: color-mix(in oklch, var(--void-error, #ef4444) 70%, black);
+  --void-error-subtle: color-mix(in oklch, var(--void-error, #ef4444) 12%, var(--void-canvas, #050510));
+
+  /* ─── GLOW derivatives (for physics-specific use) ─── */
+  --void-glow-strong: color-mix(in oklch, var(--void-glow, rgba(51,226,230,0.3)) 80%, white);
+  --void-glow-subtle: color-mix(in oklch, var(--void-glow, rgba(51,226,230,0.3)) 30%, transparent);
+
+  /* ─── SURFACE derivatives ─── */
+  --void-surface-hover: color-mix(in oklch, var(--void-surface, #0f0f1a) 85%, var(--void-primary, #33E2E6));
+  --void-surface-active: color-mix(in oklch, var(--void-surface, #0f0f1a) 75%, var(--void-primary, #33E2E6));
+  --void-elevated-hover: color-mix(in oklch, var(--void-elevated, #1a1a2e) 85%, var(--void-primary, #33E2E6));
+
+  /* ─── PREMIUM / SYSTEM / WARNING derivatives ─── */
+  --void-premium-tint: color-mix(in oklch, var(--void-premium, #ff8c00) 70%, white);
+  --void-premium-shade: color-mix(in oklch, var(--void-premium, #ff8c00) 70%, black);
+  --void-premium-subtle: color-mix(in oklch, var(--void-premium, #ff8c00) 12%, var(--void-canvas, #050510));
+  --void-system-tint: color-mix(in oklch, var(--void-system, #a078ff) 70%, white);
+  --void-system-shade: color-mix(in oklch, var(--void-system, #a078ff) 70%, black);
+  --void-system-subtle: color-mix(in oklch, var(--void-system, #a078ff) 12%, var(--void-canvas, #050510));
+  --void-warning: #f97316;
+  --void-warning-tint: color-mix(in oklch, #f97316 70%, white);
+  --void-warning-subtle: color-mix(in oklch, #f97316 12%, var(--void-canvas, #050510));
+  --void-gold: #eab308;
+  --void-gold-tint: color-mix(in oklch, #eab308 70%, white);
+  --void-gold-subtle: color-mix(in oklch, #eab308 12%, var(--void-canvas, #050510));
+
+  /* ─── TIER COLORS (Ranks, Rarities) ─── */
+  --tier-bronze: #cd7f32;
+  --tier-silver: #c0c0c0;
+  --tier-gold: #ffd700;
+  --tier-platinum: #e5e4e2;
+  --tier-legendary: #ff6b35;
+  --tier-diamond: #b9f2ff;
+  --tier-mythic: #ff3c40;
+}

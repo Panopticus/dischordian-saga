@@ -11,6 +11,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { trpc } from "@/lib/trpc";
 import { SLOT_SYMBOLS, type CasinoGame } from "./degensCasino";
+import { CASINO_SLOT_ASSETS } from "@/lib/casinoAssets";
+import { ResponsiveImage } from "@/components/ResponsiveImage";
 
 /** Payload emitted by each game panel after a successful play.
  *  Lifted into a named type so callers can pattern-match against
@@ -119,7 +121,14 @@ export function VoidSlotsPanel({
   const chipCls = chipClass(equipped);
   return (
     <div className={`text-center rounded-xl p-4 transition-shadow ${feltCls}`}>
-      <h2 className="font-display text-xl text-amber-400 mb-4">VOID SLOTS</h2>
+      <h2 className="font-display text-xl text-amber-400 mb-2">VOID SLOTS</h2>
+      <div className="mx-auto mb-4 max-w-md opacity-80">
+        <ResponsiveImage
+          src={CASINO_SLOT_ASSETS.symbolSpriteSheet}
+          alt="Void Slots symbol gallery"
+          className="w-full h-auto block"
+        />
+      </div>
       {reels && (
         <div className="flex justify-center gap-4 mb-6">
           {reels.map((sym, i) => {

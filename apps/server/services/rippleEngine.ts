@@ -22,7 +22,6 @@ import {
   guildWarContributions,
   guildMembers,
   contentParticipation,
-  analyticsEvents,
 } from "../../db/schema";
 import { eq, and, sql, gte } from "drizzle-orm";
 import { pressureService } from "./pressureService";
@@ -127,6 +126,74 @@ export interface ShowCasualtyRolledEvent extends RippleEvent {
 export interface HostMaskSlippedEvent extends RippleEvent {
   episode: number;
   cause: string;
+}
+
+/* ─── POTENTIAL IDENTITY SYSTEM EVENTS ─── */
+
+export interface HorrorRevealCompletedEvent extends RippleEvent {
+  optionId: string;
+  skillCheckPassed: boolean;
+  lightEnergyAwarded: number;
+  unityContributionSource?: string;
+  loredexUnlock?: string;
+}
+
+export interface LoredexEntryUnlockedEvent extends RippleEvent {
+  entryId: string;
+  entryType: string;
+  source: string;
+}
+
+export interface UnityPhaseChangedEvent extends RippleEvent {
+  previousPhase: string;
+  newPhase: string;
+  percent: number;
+}
+
+export interface FactionDominanceShiftEvent extends RippleEvent {
+  species: "demagi" | "quarchon";
+  dominantFactionId: string;
+  dominancePercent: number;
+}
+
+export interface ConvergenceThresholdReachedEvent extends RippleEvent {
+  percent: number;
+}
+
+export interface PotentialFactionJoinedEvent extends RippleEvent {
+  factionId: string;
+  recruitedBy?: string;
+}
+
+export interface QuestlineChapterCompletedEvent extends RippleEvent {
+  questlineId: string;
+  chapterId: string;
+  optionId: string;
+  contributionSource?: string;
+  factionId?: string;
+}
+
+export interface CoverIdentityActivatedEvent extends RippleEvent {
+  coverId: string;
+  targetFactionId: string;
+  expiresAt: number;
+}
+
+export interface CoverIdentityBlownEvent extends RippleEvent {
+  coverId: string;
+  targetFactionId: string;
+  detectedBy: string;
+}
+
+export interface GeneralsDilemmaResolvedEvent extends RippleEvent {
+  resolution: "expose" | "protect";
+}
+
+export interface OracleFuturePurchasedEvent extends RippleEvent {
+  sectorId: string;
+  commodity: string;
+  cyclesAhead: number;
+  projectedPrice: number;
 }
 
 /* ─── HANDLER TYPE ─── */
@@ -931,134 +998,98 @@ on("kael_questline_complete", async (ev) => {
 });
 
 /* ═══════════════════════════════════════════════════════
-   SEARCH RATE-LIMIT COUNTERS
-
-   In-memory hourly buckets keyed by userId. Emitted by
-   christmasInJuly.searchGiftRecipients when a player trips
-   its token bucket. Exposed to the analytics router via
-   `getSearchRateLimitCounts()` so mods can spot enumeration
-   attempts without standing up a new persistence table.
+   POTENTIAL IDENTITY SYSTEM HANDLERS
    ═══════════════════════════════════════════════════════ */
 
-interface SearchRateLimitBucket {
-  userId: number;
-  hourEpoch: number; // floor(Date.now() / 3600_000)
-  count: number;
-  lastEndpoint: string;
-}
-
-const searchRateLimitBuckets = new Map<string, SearchRateLimitBucket>();
-const SEARCH_RATE_LIMIT_TTL_HOURS = 24;
-
-function bucketKey(userId: number, hourEpoch: number): string {
-  return `${userId}:${hourEpoch}`;
-}
-
-/** Rate-limit alerting threshold: if a single user trips this
- *  many buckets inside the same hour, push a notification to
- *  every admin so they can investigate. */
-const RATE_LIMIT_ALERT_THRESHOLD = 100;
-
-/** Tracks which buckets have already fired an alert in the
- *  current hour so we don't spam admins for every single hit
- *  past the threshold. Cleared when the bucket itself rolls. */
-const alertedBuckets = new Set<string>();
-
-/** Insert a system notification for every admin. Fire-and-forget
- *  so a logging failure doesn't crash the rate-limit handler. */
-async function alertAdminsOfRateLimitAbuse(userId: number, count: number, endpoint: string) {
-  try {
-    const db = await getDb();
-    if (!db) return;
-    const { users } = await import("../../db/schema");
-    const admins = await db
-      .select({ id: users.id })
-      .from(users)
-      .where(eq(users.role, "admin"));
-    if (admins.length === 0) return;
-    const rows = admins.map(a => ({
-      userId: a.id,
-      type: "system" as const,
-      title: "Rate-limit threshold exceeded",
-      message: `User #${userId} hit ${count} ${endpoint} rate-limit events this hour. Possible abuse.`,
-      actionUrl: "/architect/audit-log",
-      metadata: { kind: "rate_limit_alert", targetUserId: userId, count, endpoint },
-    }));
-    await db.insert(notifications).values(rows);
-  } catch {
-    /* best-effort */
-  }
-}
-
-on("search_rate_limited", async (ev) => {
-  const userId = typeof ev.userId === "number" ? ev.userId : 0;
-  const endpoint = typeof ev.endpoint === "string" ? ev.endpoint : "unknown";
-  const query = typeof ev.query === "string" ? ev.query : "";
-  const hourEpoch = Math.floor(Date.now() / (60 * 60 * 1000));
-  const key = bucketKey(userId, hourEpoch);
-  const existing = searchRateLimitBuckets.get(key);
-  if (existing) {
-    existing.count += 1;
-    existing.lastEndpoint = endpoint;
-  } else {
-    searchRateLimitBuckets.set(key, { userId, hourEpoch, count: 1, lastEndpoint: endpoint });
-  }
-  // Trim buckets older than 24 hours. Also prune the alerted set
-  // so the next hour starts fresh.
-  const cutoff = hourEpoch - SEARCH_RATE_LIMIT_TTL_HOURS;
-  for (const [k, b] of searchRateLimitBuckets) {
-    if (b.hourEpoch < cutoff) {
-      searchRateLimitBuckets.delete(k);
-      alertedBuckets.delete(k);
-    }
-  }
-
-  // Threshold alert: fire once per bucket when the count crosses
-  // RATE_LIMIT_ALERT_THRESHOLD. Subsequent hits in the same hour
-  // are silent — admins don't need 50 notifications for the same
-  // abusive user.
-  const bucket = searchRateLimitBuckets.get(key);
-  if (bucket && bucket.count >= RATE_LIMIT_ALERT_THRESHOLD && !alertedBuckets.has(key)) {
-    alertedBuckets.add(key);
-    void alertAdminsOfRateLimitAbuse(userId, bucket.count, endpoint);
-  }
-
-  // Persist the throttle event to analytics_events so the record
-  // survives a server restart and shows up in the topEvents admin
-  // query. Fire-and-forget; the in-memory counter is still the
-  // primary read path because it aggregates by hour.
-  try {
-    const db = await getDb();
-    if (db) {
-      await db.insert(analyticsEvents).values({
-        userId,
-        event: "search_rate_limited",
-        sessionId: `rate-limit-${hourEpoch}`,
-        clientTimestamp: new Date(),
-        properties: {
-          endpoint,
-          query: query.slice(0, 64),
-          hourEpoch,
-        },
-      });
-    }
-  } catch {
-    /* analytics is best-effort */
+on("horror_reveal_completed", async (ev) => {
+  const { userId, unityContributionSource } = ev as HorrorRevealCompletedEvent;
+  // Feed the Living Universe event for the community-wide reveal
+  // and the Unity Meter for the per-player origin processing.
+  await pressureService.increment(userId, "originRevealsSeen", 10, "horror_reveal_completed");
+  if (unityContributionSource) {
+    await pressureService.recordAction(userId, unityContributionSource);
   }
 });
 
-/** Returns the current hourly rate-limit buckets. Used by
- *  analytics router admin endpoints for moderation visibility. */
-export function getSearchRateLimitCounts(): Array<{
-  userId: number;
-  hourEpoch: number;
-  count: number;
-  lastEndpoint: string;
-}> {
-  return Array.from(searchRateLimitBuckets.values())
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 100);
-}
+on("horror_reveal_completed", async (ev) => {
+  const { userId, loredexUnlock } = ev as HorrorRevealCompletedEvent;
+  if (!loredexUnlock) return;
+  await emit("loredex_entry_unlocked", {
+    userId,
+    entryId: loredexUnlock,
+    entryType: "concept",
+    source: "horror_reveal",
+  } as LoredexEntryUnlockedEvent);
+});
+
+on("horror_reveal_completed", async (ev) => {
+  const { userId, optionId, skillCheckPassed } = ev as HorrorRevealCompletedEvent;
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title: "THE POTENTIALS REMEMBER THEIR ORIGIN",
+    message: skillCheckPassed
+      ? "You asked the question the Collector did not want asked. The dossier opens."
+      : `The Human told you what you are. You answered with "${optionId.replace("por_", "").toUpperCase()}". The Antiquarian is taking notes.`,
+  }).catch(() => {});
+});
+
+on("loredex_entry_unlocked", async (ev) => {
+  const { userId } = ev as LoredexEntryUnlockedEvent;
+  await pressureService.increment(userId, "loreDiscoveries", 3, "loredex_entry");
+});
+
+on("unity_phase_changed", async (ev) => {
+  const { userId, previousPhase, newPhase } = ev as UnityPhaseChangedEvent;
+  const db = await getDb();
+  if (!db) return;
+  await db.insert(notifications).values({
+    userId,
+    type: "lore_event",
+    title: `The galaxy is ${newPhase}`,
+    message: `The Unity Meter has shifted from ${previousPhase} to ${newPhase}. The Antiquarian is updating his Chronicle accordingly.`,
+  }).catch(() => {});
+});
+
+on("faction_dominance_shift", async (ev) => {
+  const { userId, species } = ev as FactionDominanceShiftEvent;
+  const src =
+    species === "demagi"
+      ? "faction_dominance_demagi_tick"
+      : "faction_dominance_quarchon_tick";
+  await pressureService.recordAction(userId, src);
+});
+
+on("convergence_threshold_reached", async (ev) => {
+  const { userId, percent } = ev as ConvergenceThresholdReachedEvent;
+  await pressureService.increment(userId, "unityConvergence", Math.floor(percent / 2), "convergence_threshold");
+});
+
+on("potential_faction_joined", async (ev) => {
+  const { userId, factionId } = ev as PotentialFactionJoinedEvent;
+  // Formal affiliation is a -5 Unity delta (spec §6.2).
+  await pressureService.recordAction(userId, "questline_formal_affiliation");
+  // And it pushes the corresponding species' dominance meter.
+  if (factionId.startsWith("demagi_")) {
+    await pressureService.recordAction(userId, "faction_dominance_demagi_tick");
+  } else if (factionId.startsWith("quarchon_")) {
+    await pressureService.recordAction(userId, "faction_dominance_quarchon_tick");
+  }
+});
+
+on("questline_chapter_completed", async (ev) => {
+  const { userId, contributionSource } = ev as QuestlineChapterCompletedEvent;
+  if (contributionSource) {
+    await pressureService.recordAction(userId, contributionSource);
+  }
+});
+
+on("cover_identity_blown", async (ev) => {
+  const { userId } = ev as CoverIdentityBlownEvent;
+  await pressureService.recordAction(userId, "questline_spy_blown_cover");
+});
 
 /* ═══════════════════════════════════════════════════════
    EXPORT — Single public interface

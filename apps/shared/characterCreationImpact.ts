@@ -12,9 +12,9 @@
    Species (demagi / quarchon / neyon)  = WHO you are
    Element (earth/fire/water/air | space/time/probability/reality)  = HOW you act on the world
    Alignment (order / chaos)            = WHY you act
-   Class (soldier / scholar / rogue / envoy)  = WHAT you can do
+   Class (engineer / oracle / assassin / soldier / spy)  = WHAT you can do
 
-   These four axes combine into 3×4×2×4 = 96 distinct
+   These four axes combine into 3×4×2×5 = 120 distinct
    creation signatures, each producing its own narrative thread.
    ═══════════════════════════════════════════════════════ */
 
@@ -23,7 +23,7 @@ export type Element =
   | "earth" | "fire" | "water" | "air"
   | "space" | "time" | "probability" | "reality";
 export type Alignment = "order" | "chaos";
-export type CharClass = "soldier" | "scholar" | "rogue" | "envoy";
+export type CharClass = "engineer" | "oracle" | "assassin" | "soldier" | "spy";
 
 /* ─── PERSISTENT GAMEPLAY MODIFIERS ─── */
 
@@ -156,26 +156,33 @@ export const CLASS_HOOKS: Record<CharClass, {
     dialogStyle: "Direct. Blunt. Respects chain-of-command. NPCs give orders, not requests.",
     unlocks: ["Arsenal Bay access", "Training gym sparring partner", "War Council seat in late game"],
   },
-  scholar: {
+  engineer: {
     primaryAttribute: "intelligence",
-    exclusiveSkills: ["Analyze", "Decipher", "Memory Palace"],
-    combatRole: "Support caster. Amplifies allies, debuffs enemies.",
-    dialogStyle: "Academic. Asks WHY. NPCs share lore they'd withhold from others.",
-    unlocks: ["Archive deep access", "Can translate ancient texts solo", "Research projects unlock"],
+    exclusiveSkills: ["Fabricate", "Neural Lattice Read", "Schematic Recall"],
+    combatRole: "Builder-technician. Crafts field devices and repairs allies mid-combat.",
+    dialogStyle: "Precise. Asks HOW. NPCs share blueprints they'd withhold from others.",
+    unlocks: ["Engineering Bay deep access", "Can improve crafting benches", "Research Corridor sectors unlock"],
   },
-  rogue: {
+  oracle: {
+    primaryAttribute: "intelligence",
+    exclusiveSkills: ["Branch Sight", "Probability Read", "Future Echo"],
+    combatRole: "Support seer. Previews enemy moves, amplifies allies' timing.",
+    dialogStyle: "Philosophical. Sees the branches. NPCs share secrets because you already half-know them.",
+    unlocks: ["Probability Markets", "Antiquarian audiences", "Three-cycle futures trading"],
+  },
+  assassin: {
     primaryAttribute: "agility",
-    exclusiveSkills: ["Shadow Step", "Pickpocket", "Backstab"],
-    combatRole: "Burst damage. Strikes, vanishes, strikes again.",
+    exclusiveSkills: ["Shadow Step", "Signature Suppression", "Decisive Strike"],
+    combatRole: "Burst damage. Strikes, vanishes, strikes again. Runs conscience checks before every kill.",
     dialogStyle: "Cagey. Lies easily. NPCs distrust you but respect your usefulness.",
-    unlocks: ["Smuggler's tunnels", "Black market prices 20% better", "Stealth puzzle solutions"],
+    unlocks: ["Syndicate Routes", "Eyes' Network contacts", "Blind-spot movement in detection grids"],
   },
-  envoy: {
+  spy: {
     primaryAttribute: "charisma",
-    exclusiveSkills: ["Persuade", "Rally", "De-escalate"],
-    combatRole: "Diplomat-warrior. Converts enemies mid-combat.",
-    dialogStyle: "Warm. Curious. NPCs open up faster. Trust gains +25%.",
-    unlocks: ["Alliance War diplomacy paths", "Faction leader private audiences", "Peaceful quest endings"],
+    exclusiveSkills: ["Cover Identity", "Passive Surveillance", "Counter-Intel"],
+    combatRole: "Intel operative. Converts enemies through leverage instead of damage.",
+    dialogStyle: "Warm. Curious. NPCs open up faster. Trust gains +25%. Carries an 'I already know' option.",
+    unlocks: ["Intelligence Exchanges", "Faction cover identities", "Spy-only Locke scenes"],
   },
 };
 
@@ -299,10 +306,11 @@ export function getEndingBias(sig: CreationSignature): Record<string, number> {
   };
   if (sig.alignment === "order") biases.restoration += 15;
   if (sig.alignment === "chaos") biases.transformation += 15;
-  if (sig.characterClass === "envoy") biases.alliance += 10;
+  if (sig.characterClass === "spy") biases.alliance += 10;
   if (sig.characterClass === "soldier") biases.sacrifice += 10;
-  if (sig.characterClass === "rogue") biases.escape += 10;
-  if (sig.characterClass === "scholar") biases.restoration += 5;
+  if (sig.characterClass === "assassin") biases.escape += 10;
+  if (sig.characterClass === "oracle") biases.restoration += 5;
+  if (sig.characterClass === "engineer") biases.restoration += 5;
   if (sig.species === "neyon") biases.transformation += 5;
   if (sig.element === "time") biases.restoration += 5;
   if (sig.element === "probability") biases.transformation += 5;

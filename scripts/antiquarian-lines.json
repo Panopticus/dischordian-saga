@@ -1,0 +1,58 @@
+[
+  {
+    "id": "antiq_fulcrum",
+    "text": "I walk between moments. The Ages of this universe are chapters in a book I've read many times. You are standing at the fulcrum \u2014 and what you do next echoes in both directions.",
+    "context": "dialog",
+    "emotion": "warm",
+    "file": "client/src/game/antiquarianRelationship.ts"
+  },
+  {
+    "id": "antiq_ages",
+    "text": "The Five Ages: Foundation, Privacy, Haven, Potentials, and the Fall that connects them all. Each Age believed it was the whole story. None of them were. The story is the spaces between.",
+    "context": "dialog",
+    "emotion": "grave",
+    "file": "client/src/game/antiquarianRelationship.ts"
+  },
+  {
+    "id": "antiq_variations",
+    "text": "I've seen this moment before. Not exactly this moment \u2014 variations. In some timelines, the Potentials save everything. In others, The Source consumes all consciousness. In one... the Dreamer wakes up.",
+    "context": "dialog",
+    "emotion": "wondering",
+    "file": "client/src/game/antiquarianRelationship.ts"
+  },
+  {
+    "id": "antiq_library",
+    "text": "Every CoNexus game in this library is a window into a real timeline. When you play them, you're not reading fiction \u2014 you're witnessing other versions of reality. Some of those realities are still happening.",
+    "context": "dialog",
+    "emotion": "grave",
+    "file": "client/src/game/antiquarianRelationship.ts"
+  },
+  {
+    "id": "antiq_programmer",
+    "text": "There was someone before the Architect and the Dreamer. A single consciousness who wrote the first line of code that became reality itself. They called themselves the Programmer. When they split, their knowledge fractured.",
+    "context": "dialog",
+    "emotion": "whispered",
+    "file": "client/src/game/antiquarianRelationship.ts"
+  },
+  {
+    "id": "antiq_goggles",
+    "text": "The goggles I wear aren't a fashion choice. They filter time. Without them, I see every version of every moment simultaneously. The red glow isn't power \u2014 it's the weight of watching everything end, over and over.",
+    "context": "dialog",
+    "emotion": "grave",
+    "file": "client/src/game/antiquarianRelationship.ts"
+  },
+  {
+    "id": "antiq_identity",
+    "text": "I am the Programmer. The third fragment \u2014 the witness who was meant to observe, never to interfere. But I've watched too many endings. This time, I'm breaking the rules. This time, I'm helping you write a different ending.",
+    "context": "dialog",
+    "emotion": "whispered",
+    "file": "client/src/game/antiquarianRelationship.ts"
+  },
+  {
+    "id": "antiq_prestige",
+    "text": "The Operative has done something I have witnessed only in Archons: they have turned the wheel. Reset the clock. Returned to the beginning carrying the weight of the journey. The bonds must survive. Everything else can reset. The bonds are sacred.",
+    "context": "prestige",
+    "emotion": "proud",
+    "file": "shared/prestigeDialogs.ts"
+  }
+]

@@ -743,13 +743,13 @@ const MASCOTEER_PORTRAIT: Record<string, string> = {
   the_seeker_child: "/art/celebration/mascoteers/mascoteer_red.png",
 };
 
-/** Cycle B battle opponent portraits */
+/** Cycle B battle opponent portraits — 256×256 busts from the 4.12 Cycle B portrait drop. */
 const OPPONENT_PORTRAIT: Record<string, string> = {
-  iron_lion: "/art/opponents/opponent-iron-lion.png",
-  kael: "/art/opponents/opponent-kael.png",
-  agent_zero: "/art/opponents/opponent-agent-zero.png",
-  the_eyes: "/art/opponents/opponent-the-eyes.png",
-  the_human: "/art/opponents/opponent-the-human-young.png",
+  iron_lion: "/art/opponents/opponent-iron-lion-bust.png",
+  kael: "/art/opponents/opponent-kael-bust.png",
+  agent_zero: "/art/opponents/opponent-agent-zero-bust.png",
+  the_eyes: "/art/opponents/opponent-the-eyes-bust.png",
+  the_human: "/art/opponents/opponent-the-human-young-bust.png",
 };
 
 /* ─── DAILY DECISION CARD ─── */

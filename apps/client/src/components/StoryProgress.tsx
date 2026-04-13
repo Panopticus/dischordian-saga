@@ -6,6 +6,8 @@
 import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { BookOpen, ChevronRight, Clock } from "lucide-react";
+import { ResponsiveImage } from "@/components/ResponsiveImage";
+import { CHAPTER_ICONS, EPOCH_SYMBOLS } from "@/data/optionalComponentAssets";
 
 /* ── Story chapter definitions ── */
 interface StoryChapter {
@@ -18,6 +20,13 @@ interface StoryChapter {
   totalBeats: number;
   keyBeat: string; // Next interesting thing
 }
+
+/** Map human-readable epoch name → slug key in EPOCH_SYMBOLS. */
+const EPOCH_SLUG: Record<string, keyof typeof EPOCH_SYMBOLS> = {
+  "The Age of Privacy": "age_of_privacy",
+  "The Fall of Reality": "fall_of_reality",
+  "The Dischordian War": "dischordian_war",
+};
 
 const STORY_CHAPTERS: StoryChapter[] = [
   {
@@ -119,6 +128,9 @@ export default function StoryProgress({
     return Math.round((completedBeats / totalBeats) * 100);
   }, [currentChapter, beatsCompleted]);
 
+  const chapterIcon = CHAPTER_ICONS[chapter.number];
+  const epochIcon = EPOCH_SYMBOLS[EPOCH_SLUG[chapter.epochName]];
+
   if (compact) {
     return (
       <button
@@ -135,9 +147,18 @@ export default function StoryProgress({
           </span>
         </div>
 
-        <p className="font-display text-xs font-bold text-white/80 truncate">
-          Ch. {chapter.number}: {chapter.name}
-        </p>
+        <div className="flex items-center gap-2">
+          {chapterIcon && (
+            <ResponsiveImage
+              src={chapterIcon.src}
+              alt={chapterIcon.title}
+              className="size-5 rounded-sm object-cover flex-shrink-0"
+            />
+          )}
+          <p className="font-display text-xs font-bold text-white/80 truncate">
+            Ch. {chapter.number}: {chapter.name}
+          </p>
+        </div>
 
         <div className="w-full h-1 rounded-full bg-white/5 mt-1.5 overflow-hidden">
           <motion.div
@@ -171,21 +192,37 @@ export default function StoryProgress({
       </div>
 
       {/* Current chapter */}
-      <div className="mb-3">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="font-mono text-[9px] text-amber-400/60 tracking-wider">
-            EPOCH {chapter.epoch}
-          </span>
-          <span className="font-mono text-[8px] text-white/20">
-            {chapter.epochName}
-          </span>
+      <div className="mb-3 flex items-start gap-3">
+        {chapterIcon && (
+          <ResponsiveImage
+            src={chapterIcon.src}
+            alt={chapterIcon.title}
+            className="size-12 rounded-lg object-cover flex-shrink-0 border border-white/10"
+          />
+        )}
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2 mb-1">
+            {epochIcon && (
+              <ResponsiveImage
+                src={epochIcon.src}
+                alt={epochIcon.title}
+                className="size-5 flex-shrink-0 object-contain"
+              />
+            )}
+            <span className="font-mono text-[9px] text-amber-400/60 tracking-wider">
+              EPOCH {chapter.epoch}
+            </span>
+            <span className="font-mono text-[8px] text-white/20 truncate">
+              {chapter.epochName}
+            </span>
+          </div>
+          <h3 className="font-display text-base font-bold text-white/90">
+            Chapter {chapter.number}: {chapter.name}
+          </h3>
+          <p className="font-mono text-[11px] text-white/40 mt-0.5 leading-relaxed">
+            {chapter.description}
+          </p>
         </div>
-        <h3 className="font-display text-base font-bold text-white/90">
-          Chapter {chapter.number}: {chapter.name}
-        </h3>
-        <p className="font-mono text-[11px] text-white/40 mt-0.5 leading-relaxed">
-          {chapter.description}
-        </p>
       </div>
 
       {/* Progress bar */}

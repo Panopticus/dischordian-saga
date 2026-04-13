@@ -33,25 +33,10 @@ import {
 import { cn } from "@/lib/utils";
 import { VOID } from "@/engine/voidPresets";
 import { Button } from "@/components/ui/button";
+import { ResponsiveImage } from "@/components/ResponsiveImage";
+import { EMPTY_STATE_ASSETS } from "@/data/optionalComponentAssets";
 
 /* ─── SHARED SHELL ─── */
-
-/** Maps each empty-state to its optional art-bible image under /art/empty-states/ */
-const EMPTY_STATE_IMAGES: Record<string, string> = {
-  questLog:       "/art/empty-states/empty-quest-log.png",
-  inventory:      "/art/empty-states/empty-inventory.png",
-  cardCollection: "/art/empty-states/empty-card-collection.png",
-  loreJournal:    "/art/empty-states/empty-lore-journal.png",
-  guildHall:      "/art/empty-states/empty-guild-hall.png",
-  petCollection:  "/art/empty-states/empty-pet-collection.png",
-  matchHistory:   "/art/empty-states/empty-match-history.png",
-  notifications:  "/art/empty-states/empty-notifications.png",
-  companions:     "/art/empty-states/empty-companions.png",
-  achievements:   "/art/empty-states/empty-achievements.png",
-  tradeHistory:   "/art/empty-states/empty-trade-history.png",
-  apprentices:    "/art/empty-states/empty-apprentices.png",
-  leaderboard:    "/art/empty-states/empty-leaderboard.png",
-};
 
 interface EmptyStateShellProps {
   icon: ReactNode;
@@ -60,7 +45,7 @@ interface EmptyStateShellProps {
   actionLabel?: string;
   onAction?: () => void;
   className?: string;
-  imageKey?: keyof typeof EMPTY_STATE_IMAGES;
+  imageKey?: keyof typeof EMPTY_STATE_ASSETS;
 }
 
 function EmptyStateShell({
@@ -72,7 +57,7 @@ function EmptyStateShell({
   className,
   imageKey,
 }: EmptyStateShellProps) {
-  const imageSrc = imageKey ? EMPTY_STATE_IMAGES[imageKey] : undefined;
+  const imageSrc = imageKey ? EMPTY_STATE_ASSETS[imageKey] : undefined;
 
   return (
     <motion.div
@@ -84,19 +69,21 @@ function EmptyStateShell({
     >
       {/* Art illustration (if available) or floating icon fallback */}
       {imageSrc ? (
-        <motion.img
-          src={imageSrc}
-          alt=""
-          loading="lazy"
+        <motion.div
           animate={{ y: [0, -4, 0] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="size-32 rounded-full object-cover"
+          className="size-32 overflow-hidden rounded-full"
           style={{
             boxShadow: "0 0 32px var(--material-glow, rgba(51,226,230,0.2))",
             border: "1px solid var(--material-border)",
           }}
-          onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-        />
+        >
+          <ResponsiveImage
+            src={imageSrc}
+            alt=""
+            className="size-full object-cover"
+          />
+        </motion.div>
       ) : (
         <motion.div
           animate={{ y: [0, -6, 0] }}

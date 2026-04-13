@@ -37,6 +37,52 @@ export interface SongSlideshowDef {
   reducedMotionFallback: ReducedMotionSummary;
   /** §5.5 priority tier — controls asset gating. */
   priority: "P0" | "P1" | "P2";
+  /** Theater Mode — full production tier with dialog beats, lore cards, and theme metadata. */
+  theaterMode?: TheaterModeConfig;
+}
+
+/* ─── THEATER MODE — Full Production Tier ─── */
+
+export type TheaterDialogEmotion =
+  | "neutral" | "grief" | "defiant" | "tender" | "cold"
+  | "afraid" | "triumphant" | "wry";
+
+export interface TheaterDialogBeat {
+  startMs: number;
+  endMs: number;
+  /** Character name — matches NPC ids or narrator ids. */
+  speaker: string;
+  /** CDN key for portrait image (populated during art production). */
+  speakerPortrait: string;
+  /** The spoken line. */
+  line: string;
+  emotion: TheaterDialogEmotion;
+  position: "left" | "right" | "center";
+}
+
+export interface LoreCardReveal {
+  triggerMs: number;
+  /** Loredex entity id. */
+  entityId: string;
+  displayDurationMs: number;
+  revealAnimation: "slide_right" | "fade" | "decode" | "flip";
+}
+
+export interface TheaterModeConfig {
+  /** Dialog lines that fire during instrumental passages. */
+  dialogBeats: TheaterDialogBeat[];
+  /** Lore cards that surface mid-song. */
+  loreCardReveals: LoreCardReveal[];
+  /** Primary theme color (hex). */
+  themeColor: string;
+  /** Default overlay style for the track. */
+  overlayStyle: "vignette" | "scanlines" | "corruption" | "particles" | "grain" | "clean";
+  /** Narrative act this track belongs to (for Silence in Heaven: I, II, III, Epilogue). */
+  act?: string;
+  /** Book of Revelation parallel reference. */
+  revParallel?: string;
+  /** Narrator ids active during this track. */
+  narrators?: string[];
 }
 
 export interface SlideshowFrame {
@@ -53,6 +99,10 @@ export interface SlideshowFrame {
   dialogSpeakerId?: string;
   /** Which on-shoulder narrator visibly reacts during this frame. */
   narratorReactionId?: "elara" | "the_human" | "antiquarian" | null;
+  /** Production reference — Kling v2 prompt to generate this keyframe. Not used at runtime. */
+  klingPrompt?: string;
+  /** Production reference — Seedance 2.0 motion prompt for this frame. Not used at runtime. */
+  seedanceMotion?: string;
 }
 
 export interface KenBurnsSpec {
@@ -72,7 +122,7 @@ export interface LyricLine {
   emphasis?: LyricEmphasis;
 }
 
-export type LyricEmphasis = "normal" | "whisper" | "shout" | "layered";
+export type LyricEmphasis = "normal" | "whisper" | "shout" | "echo" | "layered";
 
 export interface SlideshowOverlay {
   type: SlideshowOverlayType;
