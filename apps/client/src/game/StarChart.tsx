@@ -7,6 +7,7 @@
  * constellation name, lore text, and fires a reward callback.
  */
 import { useRef, useEffect, useState, useCallback } from "react";
+import { MINIGAME_PANELS } from "@/lib/artAssets";
 
 /* ═══ TYPES ═══ */
 interface Star {
@@ -428,7 +429,7 @@ export default function StarChart({ onComplete, onClose }: StarChartProps) {
       }}
     >
       {/* Background art */}
-      <img src="/art/minigames/minigame-star-chart.png" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.1, filter: "brightness(0.3)", pointerEvents: "none", zIndex: 0 }} />
+      <img src={MINIGAME_PANELS.puzzleNodes} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.1, filter: "brightness(0.3)", pointerEvents: "none", zIndex: 0 }} />
       {/* header */}
       <div
         style={{

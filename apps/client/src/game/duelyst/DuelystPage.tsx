@@ -9,6 +9,7 @@ import type { Faction } from "./types";
 import { ALL_CYCLE_BATTLES } from "@shared/cycleBattles";
 import { useGame } from "@/contexts/GameContext";
 import { FACTION_COLORS, FACTION_NAMES, FACTION_DESCRIPTIONS, FACTION_EMBLEMS } from "./types";
+import { PVP_RANK_BADGES } from "@/lib/artAssets";
 import { getFactionCardCounts, getAllCardsForCollection, adaptAllCards } from "./cardAdapter";
 import { GENERALS } from "./engine";
 import { STARTER_DECK_MAP } from "@shared/tcg-core/decks/starterDecks";
@@ -40,13 +41,13 @@ const PLAYABLE_FACTIONS: Faction[] = ["architect", "dreamer", "insurgency", "new
 
 // Ranked tier definitions
 const RANKED_TIERS = [
-  { name: "Bronze", minElo: 0, color: "#cd7f32", icon: "🥉" },
-  { name: "Silver", minElo: 1400, color: "#c0c0c0", icon: "🥈" },
-  { name: "Gold", minElo: 1600, color: "#ffd700", icon: "🥇" },
-  { name: "Platinum", minElo: 1800, color: "#00bcd4", icon: "💎" },
-  { name: "Diamond", minElo: 2000, color: "#b388ff", icon: "💠" },
-  { name: "Master", minElo: 2200, color: "#ff5722", icon: "🔥" },
-  { name: "Grandmaster", minElo: 2400, color: "#e91e63", icon: "👑" },
+  { name: "Bronze", minElo: 0, color: "#cd7f32", badge: PVP_RANK_BADGES.bronze },
+  { name: "Silver", minElo: 1400, color: "#c0c0c0", badge: PVP_RANK_BADGES.silver },
+  { name: "Gold", minElo: 1600, color: "#ffd700", badge: PVP_RANK_BADGES.gold },
+  { name: "Platinum", minElo: 1800, color: "#00bcd4", badge: PVP_RANK_BADGES.platinum },
+  { name: "Diamond", minElo: 2000, color: "#b388ff", badge: PVP_RANK_BADGES.diamond },
+  { name: "Master", minElo: 2200, color: "#ff5722", badge: PVP_RANK_BADGES.master },
+  { name: "Grandmaster", minElo: 2400, color: "#e91e63", badge: PVP_RANK_BADGES.grandmaster },
 ];
 
 function getTierForElo(elo: number) {
@@ -292,7 +293,7 @@ export default function DuelystPage() {
             {/* Rank + Dream balance */}
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10">
-                <span className="text-lg">{tier.icon}</span>
+                <img src={tier.badge} alt={`${tier.name} rank`} className="w-7 h-7 object-contain" />
                 <div>
                   <p className="font-mono text-xs font-bold" style={{ color: tier.color }}>{tier.name}</p>
                   <p className="font-mono text-[10px] text-white/30">{elo} ELO</p>
@@ -694,7 +695,7 @@ export default function DuelystPage() {
 
             {/* Current rank */}
             <div className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 mb-6">
-              <span className="text-4xl">{tier.icon}</span>
+              <img src={tier.badge} alt={`${tier.name} rank`} className="w-16 h-16 object-contain" />
               <div>
                 <p className="font-display text-lg font-bold" style={{ color: tier.color }}>{tier.name}</p>
                 <p className="font-mono text-sm text-white/40">{elo} ELO</p>
@@ -720,7 +721,7 @@ export default function DuelystPage() {
                   <div key={t.name} className={`flex items-center gap-3 p-3 rounded-lg border transition-all ${
                     isCurrentTier ? "bg-white/10 border-white/20" : isReached ? "bg-white/5 border-white/5" : "bg-black/20 border-white/5 opacity-40"
                   }`}>
-                    <span className="text-xl w-8">{t.icon}</span>
+                    <img src={t.badge} alt={`${t.name} rank`} className="w-8 h-8 object-contain" />
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
                         <p className="font-mono text-xs font-bold" style={{ color: isReached ? t.color : "#666" }}>{t.name}</p>

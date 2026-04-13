@@ -12,9 +12,10 @@ import { useGamification } from "@/contexts/GamificationContext";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { motion, AnimatePresence } from "framer-motion";
-import { Gift, Sparkles, Trophy, Coins, Star, Zap, X, Link2 } from "lucide-react";
+import { Gift, Sparkles, Trophy, Star, Zap, X, Link2 } from "lucide-react";
 import RewardCelebration, { type CelebrationData, determineTier } from "./RewardCelebration";
 import { ALL_QUEST_CHAINS, matchesRequirement, type ChainCheckContext } from "./QuestChainSystem";
+import { CURRENCY_ICONS } from "@/lib/artAssets";
 
 /* ─── QUEST REWARD DEFINITIONS ─── */
 interface QuestReward {
@@ -177,7 +178,7 @@ function RewardToast({ notification, onDismiss }: { notification: RewardNotifica
         <div className="grid grid-cols-2 gap-2">
           {reward.dreamTokens > 0 && (
             <div className="flex items-center gap-2 rounded-lg bg-amber-500/5 border border-amber-500/15 px-2.5 py-1.5">
-              <Coins size={12} className="text-amber-400 shrink-0" />
+              <img src={CURRENCY_ICONS.dreamTokens} alt="" className="w-3 h-3 object-contain shrink-0" />
               <div>
                 <p className="font-mono text-[10px] font-bold text-amber-400">+{reward.dreamTokens}</p>
                 <p className="font-mono text-[8px] text-amber-400/50">DREAM</p>

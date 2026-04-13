@@ -9,8 +9,9 @@
    ═══════════════════════════════════════════════════════ */
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Gift, X, Sparkles, Coins } from "lucide-react";
+import { Gift, X } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+import { CURRENCY_ICONS } from "@/lib/artAssets";
 
 type ServerReward = {
   day: number;
@@ -34,13 +35,13 @@ function formatRewardBadge(r: ServerReward) {
   if (r.type === "dream") {
     return (
       <span className="px-2 py-1 rounded bg-purple-500/10 text-purple-400 font-mono text-xs flex items-center gap-1">
-        <Sparkles size={10} /> +{r.amount} Dream
+        <img src={CURRENCY_ICONS.dreamTokens} alt="" className="w-3 h-3 object-contain" /> +{r.amount} Dream
       </span>
     );
   }
   return (
     <span className="px-2 py-1 rounded bg-amber-500/10 text-amber-400 font-mono text-xs flex items-center gap-1">
-      <Coins size={10} /> +{r.amount.toLocaleString()} Credits
+      <img src={CURRENCY_ICONS.credits} alt="" className="w-3 h-3 object-contain" /> +{r.amount.toLocaleString()} Credits
     </span>
   );
 }
