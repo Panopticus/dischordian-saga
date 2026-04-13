@@ -60,7 +60,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_id_elara_panoptic.webp",
   flavorText:
     "Full sentience. Full awareness. She sees everything — and she chooses to heal.",
   rulesVersion: "1.0.0",

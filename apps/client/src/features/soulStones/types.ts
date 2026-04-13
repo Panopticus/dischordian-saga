@@ -128,6 +128,8 @@ export interface DischordianCompanion {
   visual: string;
   icon: string;
   color: string;
+  /** Specimen portrait art path (NanoBanna2 asset) */
+  artPath?: string;
 }
 
 /* ─── PURIFICATION ─── */

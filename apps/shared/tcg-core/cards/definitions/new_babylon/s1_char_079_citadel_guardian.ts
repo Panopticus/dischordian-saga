@@ -30,7 +30,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_079.webp",
   flavorText:
     "The walls of New Babylon have never been breached. The guardians intend to keep it that way.",
   rulesVersion: "1.0.0",

@@ -53,7 +53,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_pet_flicker_imp_3.webp",
   flavorText:
     "The Insurgency doesn't knock. It detonates.",
   rulesVersion: "1.0.0",

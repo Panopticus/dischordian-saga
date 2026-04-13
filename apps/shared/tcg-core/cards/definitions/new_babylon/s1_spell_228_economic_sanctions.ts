@@ -32,7 +32,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_228.webp",
   flavorText:
     "When New Babylon cuts the purse strings, even gods go hungry.",
   rulesVersion: "1.0.0",

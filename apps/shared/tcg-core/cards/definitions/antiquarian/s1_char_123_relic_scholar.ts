@@ -47,8 +47,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/123_relic_scholar.png",
+  art: "/art/cards/s1_char_123.webp",
   flavorText:
     "The relic hums in her hands. A thousand years of silence, broken by the touch of someone who finally understands.",
   rulesVersion: "1.0.0",

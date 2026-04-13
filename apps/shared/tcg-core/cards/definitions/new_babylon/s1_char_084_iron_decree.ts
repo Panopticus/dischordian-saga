@@ -37,7 +37,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_084.webp",
   flavorText:
     "It does not enforce the law. It is the law — cast in iron and set loose upon the guilty.",
   rulesVersion: "1.0.0",

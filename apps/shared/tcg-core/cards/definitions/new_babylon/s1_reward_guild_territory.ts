@@ -49,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_guild_territory.webp",
   flavorText:
     "She planted New Babylon's flag in contested ground and dared the world to pull it out.",
   rulesVersion: "1.0.0",

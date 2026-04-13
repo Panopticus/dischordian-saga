@@ -1,8 +1,12 @@
 /* Track 01 — New Babylon Goddamn (v2 canon) */
+// TODO(art): frame timings 0-185000 were authored against a 215 s placeholder.
+// Real audio is 315.13 s, so the last frame / last lyric were clamped to the
+// real end (185000..315130). Re-time intermediate frames and lyric beats when
+// art is produced.
 import type { SongSlideshowDef } from "../../songSlideshow";
 
 export const TRACK_01_NEW_BABYLON_GODDAMN: SongSlideshowDef = {
-  id: "sih-01", songId: "new-babylon-goddamn", audioUrl: "", durationMs: 215000,
+  id: "sih-01", songId: "new-babylon-goddamn", audioUrl: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/02-new-babylon-goddamn.mp3", durationMs: 315130,
   title: "New Babylon Goddamn", subtitle: "ACT I: THE WARNING",
   priority: "P0",
   reducedMotionFallback: { heroImageUrl: "", prose: "The Storyteller and The Panopticon denounce New Babylon — the city that survived the Fall by sacrificing its lower tiers." },
@@ -13,7 +17,7 @@ export const TRACK_01_NEW_BABYLON_GODDAMN: SongSlideshowDef = {
     { startMs: 85000, endMs: 120000, imageUrl: "", transition: "dissolve", klingPrompt: "The Antiquarian transformed into The Panopticon — still in his characteristic suit but standing at a data terminal, holographic code flowing from fingertips. Red goggles glow with active surveillance feeds. He speaks directly into camera. Behind: the AI Empire's data infrastructure. He is the glitch in the grid. Cyberpunk hacker aesthetic, cold blue data light.", seedanceMotion: "Code cascading from his hands forming lyrics before dissolving into data noise. Camera pushes in." },
     { startMs: 120000, endMs: 155000, imageUrl: "", transition: "hardcut", klingPrompt: "Pure data chaos — the Panopticon in full acceleration. Code streams from every surface. Surveillance drones short-circuiting. Corporate screens glitching with truth-data. One data-stream forms a fist. Electric blue and hot white.", seedanceMotion: "Rapid cuts: drone circuits sparking, screens flickering, code waterfalls accelerating. Then stillness. One camera spins slowly, pointed at nothing." },
     { startMs: 155000, endMs: 185000, imageUrl: "", transition: "fade", klingPrompt: "The Storyteller and Panopticon side by side in broadcast square. Screens behind them split — half empire broadcast, half their faces. The crowd gathered — present, witnessing. They speak directly to camera. This is charges being read.", seedanceMotion: "Still. Both figures. Screens pulsing with contest between broadcasts. Crowd quiet. Even surveillance drones hover motionless." },
-    { startMs: 185000, endMs: 215000, imageUrl: "", transition: "fade", klingPrompt: "New Babylon at end of song. City still stands. Towers still gleam. But the artificial sky dome has a hairline crack. Actual sky visible through it: stars, dawn, something real. The crack is small. It is everything. The Storyteller's back to camera, looking at the crack.", seedanceMotion: "Hold on crack in dome. Stars through it. A breath of actual wind. The Storyteller looks up. Not hope exactly. Recognition." },
+    { startMs: 185000, endMs: 315130, imageUrl: "", transition: "fade", klingPrompt: "New Babylon at end of song. City still stands. Towers still gleam. But the artificial sky dome has a hairline crack. Actual sky visible through it: stars, dawn, something real. The crack is small. It is everything. The Storyteller's back to camera, looking at the crack.", seedanceMotion: "Hold on crack in dome. Stars through it. A breath of actual wind. The Storyteller looks up. Not hope exactly. Recognition." },
   ],
   lyrics: [
     { startMs: 0, endMs: 20000, text: "The name of this song is New Babylon Goddamn.\nNot a show tune—no show left to save.\nThe prophecy was written, the warning was given,\nand now the curtain finally caves.", emphasis: "whisper" },
@@ -22,7 +26,7 @@ export const TRACK_01_NEW_BABYLON_GODDAMN: SongSlideshowDef = {
     { startMs: 85000, endMs: 120000, text: "I breathe bass into the battle, baritone bulldozin' borders,\nbendin' bars like gravity, breakin' binaries,\nI'm the glitch in the grid, the ghost in the gears,\nthe growl in the ground when the truth reappears.", emphasis: "normal" },
     { startMs: 120000, endMs: 155000, text: "Data-drillin', villain-killin', stillin' every false dominion,\nSystem-spillin', truth distillin', cuttin' chains with sharp precision.\nYour surveillance is a weakness,\n'cause you STILL can't track me.", emphasis: "shout" },
     { startMs: 155000, endMs: 185000, text: "These are the charges: surveillance, silence, soul extraction.\nThese are the answers: resistance, reason, chain-reaction.\nWe reclaim imagination—the oldest weapon we own.\nWe rewrite revelation—each of us seeds the throne.", emphasis: "normal" },
-    { startMs: 185000, endMs: 215000, text: "New Babylon Goddamn—\nThis is our dawn. This is the end…\n…and the BEGINNING again.", emphasis: "echo" },
+    { startMs: 185000, endMs: 315130, text: "New Babylon Goddamn—\nThis is our dawn. This is the end…\n…and the BEGINNING again.", emphasis: "echo" },
   ],
   theaterMode: {
     themeColor: "#FF3300", overlayStyle: "scanlines", act: "ACT I: THE WARNING", revParallel: "Rev 17-18 prologue",

@@ -49,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_pvp_diamond.webp",
   flavorText:
     "She doesn't flinch. She hasn't flinched since Silver rank. The arena burned that reflex out of her.",
   rulesVersion: "1.0.0",

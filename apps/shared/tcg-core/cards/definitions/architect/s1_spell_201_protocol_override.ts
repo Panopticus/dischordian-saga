@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_201.webp",
   flavorText:
     "For one glorious instant, the unit operates beyond its design parameters.",
   rulesVersion: "1.0.0",

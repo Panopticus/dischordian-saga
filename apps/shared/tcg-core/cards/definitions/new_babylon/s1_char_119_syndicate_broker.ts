@@ -57,8 +57,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/119_syndicate_broker.png",
+  art: "/art/cards/s1_char_119.webp",
   flavorText:
     "Everything has a price in New Babylon. The Broker's gift is knowing exactly what yours is.",
   rulesVersion: "1.0.0",

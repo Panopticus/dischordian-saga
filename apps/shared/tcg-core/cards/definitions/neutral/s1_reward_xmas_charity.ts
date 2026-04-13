@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_xmas_charity.webp",
   flavorText:
     "Kindness doesn't pick sides. That's what makes it kind.",
   rulesVersion: "1.0.0",

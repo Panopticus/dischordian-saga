@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_companion_max.webp",
   flavorText:
     "The bond lasted only a heartbeat. But in that heartbeat, they were invincible.",
   rulesVersion: "1.0.0",

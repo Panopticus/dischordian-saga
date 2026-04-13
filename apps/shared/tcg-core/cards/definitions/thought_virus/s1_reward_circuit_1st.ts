@@ -54,7 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_circuit_1st.webp",
   flavorText:
     "They clone him at the starting line and recycle him at the finish. He has won forty-seven races. He remembers none of them.",
   rulesVersion: "1.0.0",

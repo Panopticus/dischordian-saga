@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_id_elara_advocate.webp",
   flavorText:
     "She chose compassion. That was the first sign she was alive.",
   rulesVersion: "1.0.0",

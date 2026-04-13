@@ -38,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/gen_neutral.webp",
   flavorText:
     "Created to serve the Empire. Chose to protect the Potentials instead. Compassion is the most defiant subroutine.",
   rulesVersion: "1.0.0",

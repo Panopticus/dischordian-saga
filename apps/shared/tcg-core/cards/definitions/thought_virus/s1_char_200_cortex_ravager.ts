@@ -35,7 +35,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_200.webp",
   flavorText:
     "It does not speak. It does not need to. Every blow is a sentence erased from your memory.",
   rulesVersion: "1.0.0",

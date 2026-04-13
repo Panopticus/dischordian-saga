@@ -33,7 +33,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_124.webp",
   flavorText:
     "The Ark was built to endure the end of Ages. Its emergency systems still hum in the walls, waiting for someone desperate enough to ask.",
   rulesVersion: "1.0.0",

@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_037.webp",
   flavorText:
     "It has guarded the threshold between ages for so long that time itself detours around it.",
   rulesVersion: "1.0.0",

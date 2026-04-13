@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_083.webp",
   flavorText:
     "The truth is whatever the Spire says it is. He just makes it rhyme.",
   rulesVersion: "1.0.0",

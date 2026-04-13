@@ -50,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_boss_source.webp",
   flavorText:
     "The Source was destroyed. The signal was not. It hums inside the Fragment like a heartbeat made of static.",
   rulesVersion: "1.0.0",

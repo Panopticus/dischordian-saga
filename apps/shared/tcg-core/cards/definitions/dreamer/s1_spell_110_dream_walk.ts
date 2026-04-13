@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_110.webp",
   flavorText:
     "She dreamed of standing elsewhere, and the Arena obliged. Reality is only stubborn for those who lack imagination.",
   rulesVersion: "1.0.0",

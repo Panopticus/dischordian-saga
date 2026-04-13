@@ -29,7 +29,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_097.webp",
   flavorText:
     "Every war she catalogues makes the next one easier to survive.",
   rulesVersion: "1.0.0",

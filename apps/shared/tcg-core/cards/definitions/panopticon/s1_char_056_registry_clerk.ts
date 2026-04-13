@@ -38,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_056.webp",
   flavorText:
     "Every citizen has a file. Every file has a purpose. Every purpose serves the Spire.",
   rulesVersion: "1.0.0",

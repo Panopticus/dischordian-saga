@@ -51,8 +51,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/placeholder_s1_song_066.png",
+  art: "/art/cards/s1_song_066.webp",
   flavorText:
     "The second edition rewrites prophecy as a weapon — shield in one hand, fire in the other.",
   rulesVersion: "1.0.0",

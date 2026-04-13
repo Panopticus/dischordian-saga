@@ -46,8 +46,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/placeholder_s1_song_079.png",
+  art: "/art/cards/s1_song_079.webp",
   flavorText:
     "Between black and white lies a spectrum of doubt — and within it, a fragile protection.",
   rulesVersion: "1.0.0",

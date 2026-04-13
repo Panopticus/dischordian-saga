@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_casino_dice.webp",
   flavorText:
     "Chaos doesn't choose sides. It just chooses.",
   rulesVersion: "1.0.0",

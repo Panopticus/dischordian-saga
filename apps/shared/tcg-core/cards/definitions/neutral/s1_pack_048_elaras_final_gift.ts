@@ -54,7 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_048.webp",
   flavorText:
     "She had one last thing to give. She gave it to everyone.",
   rulesVersion: "1.0.0",

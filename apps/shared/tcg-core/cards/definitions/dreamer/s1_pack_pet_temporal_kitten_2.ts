@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_pet_temporal_kitten_2.webp",
   flavorText:
     "It ages backward when no one is looking.",
   rulesVersion: "1.0.0",

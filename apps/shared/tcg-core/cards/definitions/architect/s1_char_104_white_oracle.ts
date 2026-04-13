@@ -65,8 +65,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/104_white_oracle.png",
+  art: "/art/cards/s1_char_104.webp",
   flavorText:
     "She speaks with the Oracle's voice, sees through the Oracle's eyes, and wears the Oracle's fate. But the words are the Architect's.",
   rulesVersion: "1.0.0",

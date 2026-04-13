@@ -37,7 +37,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_091.webp",
   flavorText:
     "The borderlands belong to no faction — only to those quiet enough to survive them.",
   rulesVersion: "1.0.0",

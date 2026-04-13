@@ -49,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_vortex_master.webp",
   flavorText:
     "Fifty incursions. Fifty seals. Now she does not close the vortex — she becomes it.",
   rulesVersion: "1.0.0",

@@ -43,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_pet_data_serpent_2.webp",
   flavorText:
     "Each byte it consumes becomes a secret it can sell.",
   rulesVersion: "1.0.0",

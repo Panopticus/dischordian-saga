@@ -28,7 +28,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 2, health: 3 },
   keywords: ["provoke"],
   abilities: [],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_004.webp",
   flavorText:
     "It does not ask you to comply. It has already decided that you will.",
   rulesVersion: "1.0.0",

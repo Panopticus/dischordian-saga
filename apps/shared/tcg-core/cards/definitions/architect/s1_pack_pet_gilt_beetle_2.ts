@@ -45,7 +45,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_pet_gilt_beetle_2.webp",
   flavorText:
     "Iron remembers the shape it was forged into. It does not bend.",
   rulesVersion: "1.0.0",

@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_pvp_gold.webp",
   flavorText:
     "The crowd chants her name before she draws her weapon. That is what Gold rank buys you.",
   rulesVersion: "1.0.0",

@@ -62,7 +62,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_seed_chess.webp",
   flavorText:
     "Every game is a test. Every test has a purpose only the Game Master understands.",
   rulesVersion: "1.0.0",

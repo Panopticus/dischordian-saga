@@ -35,7 +35,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_080.webp",
   flavorText:
     "Justice in New Babylon is swift. Appeals are slower — by design.",
   rulesVersion: "1.0.0",

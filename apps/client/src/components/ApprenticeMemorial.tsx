@@ -13,6 +13,8 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Flame, ChevronDown, ChevronUp, Skull, Clock, Shield } from "lucide-react";
 import { generateEpitaph } from "@shared/apprenticePermadeath";
+import { SPECTRAL_ART } from "@/data/nanobanna2Assets";
+import { ARCHETYPE_TO_SPECTRAL } from "./spectralFormMap";
 
 export interface FallenApprentice {
   name: string;
@@ -70,6 +72,8 @@ function MemorialEntry({ entry, index }: { entry: FallenApprentice; index: numbe
   const rarityColor = RARITY_COLORS[entry.rarity] ?? "text-slate-400";
   const rarityGlow = RARITY_GLOW[entry.rarity] ?? "";
   const title = ARCHETYPE_TITLES[entry.archetype] ?? entry.archetype;
+  const spectralKey = ARCHETYPE_TO_SPECTRAL[entry.archetype];
+  const spectralSrc = spectralKey ? SPECTRAL_ART[spectralKey] : undefined;
 
   return (
     <motion.div
@@ -88,10 +92,20 @@ function MemorialEntry({ entry, index }: { entry: FallenApprentice; index: numbe
         aria-expanded={expanded}
         aria-label={`Memorial for ${entry.name}, ${title}`}
       >
-        {/* Candle glow */}
-        <div className="relative flex-shrink-0 mt-1" aria-hidden="true">
-          <Flame className="w-5 h-5 text-amber-400 candle-glow" />
-          <div className="absolute inset-0 w-5 h-5 rounded-full bg-amber-400/20 candle-glow" />
+        {/* Spectral form thumbnail + candle glow */}
+        <div className="relative flex-shrink-0 mt-1 flex flex-col items-center gap-1" aria-hidden="true">
+          {spectralSrc && (
+            <img
+              src={spectralSrc}
+              alt=""
+              className="w-10 h-10 object-contain opacity-70"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+            />
+          )}
+          <div className="relative w-5 h-5">
+            <Flame className="w-5 h-5 text-amber-400 candle-glow" />
+            <div className="absolute inset-0 w-5 h-5 rounded-full bg-amber-400/20 candle-glow" />
+          </div>
         </div>
 
         {/* Info */}

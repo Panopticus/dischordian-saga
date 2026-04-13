@@ -61,7 +61,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_class_assassin.webp",
   flavorText:
     "The kill is decided before the blade is drawn.",
   rulesVersion: "1.0.0",

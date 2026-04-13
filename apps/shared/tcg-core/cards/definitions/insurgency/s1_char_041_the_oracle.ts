@@ -69,8 +69,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/034_the_oracle_1ed26b49.png",
+  art: "/art/cards/s1_char_041.webp",
   flavorText:
     "A. The Oracle was a revered figure within the Insurgency , known for his wisdom and prophetic insights that inspired res...",
   rulesVersion: "1.0.0",

@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_028.webp",
   flavorText:
     "It drifted across the battlefield like a sigh. Warriors dropped their blades without knowing why.",
   rulesVersion: "1.0.0",

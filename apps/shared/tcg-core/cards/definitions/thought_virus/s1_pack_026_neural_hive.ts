@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_026.webp",
   flavorText:
     "Kill it. Please. But understand: every wound you inflict is a seed.",
   rulesVersion: "1.0.0",

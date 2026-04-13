@@ -48,8 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/placeholder_s1_song_063.png",
+  art: "/art/cards/s1_song_063.webp",
   flavorText:
     "Every blueprint begins with a wound; every structure, with the will to mend it.",
   rulesVersion: "1.0.0",

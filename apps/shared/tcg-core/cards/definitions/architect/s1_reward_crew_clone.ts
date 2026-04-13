@@ -43,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_crew_clone.webp",
   flavorText:
     "The Architect's cloning bays produce flawless replicas. Death is merely a reboot.",
   rulesVersion: "1.0.0",

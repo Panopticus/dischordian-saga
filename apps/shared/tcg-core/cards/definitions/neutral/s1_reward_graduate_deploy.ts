@@ -51,7 +51,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_graduate_deploy.webp",
   flavorText:
     "She graduated top of her class. Her first act was to teach everything she knew to the soldier beside her.",
   rulesVersion: "1.0.0",

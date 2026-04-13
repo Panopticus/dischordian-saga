@@ -51,7 +51,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_campaign_balanced.webp",
   flavorText:
     "She watched the Truth-seekers burn and the Defiant fall. She watched the Empaths weep and the Stoics endure. Then she wrote it all down.",
   rulesVersion: "1.0.0",

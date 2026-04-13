@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_daily_streak.webp",
   flavorText:
     "Thirty consecutive days. No sick leave. No excuses. The streak is the mission.",
   rulesVersion: "1.0.0",

@@ -43,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_032.webp",
   flavorText:
     "The market corrects itself. It does not care who is standing when it does.",
   rulesVersion: "1.0.0",

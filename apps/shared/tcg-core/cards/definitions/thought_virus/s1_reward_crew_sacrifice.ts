@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_crew_sacrifice.webp",
   flavorText:
     "Sacrificed during the Outbreak. Her crew remembers.",
   rulesVersion: "1.0.0",

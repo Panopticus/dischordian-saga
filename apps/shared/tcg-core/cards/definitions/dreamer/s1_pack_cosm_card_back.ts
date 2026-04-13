@@ -47,7 +47,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_cosm_card_back.webp",
   flavorText:
     "The Fall broke everything. The echoes put some of it back.",
   rulesVersion: "1.0.0",

@@ -38,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_219.webp",
   flavorText:
     "The wind carries more than dust. It carries the end of thought.",
   rulesVersion: "1.0.0",

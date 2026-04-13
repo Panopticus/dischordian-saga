@@ -39,8 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/placeholder_s1_song_060.png",
+  art: "/art/cards/s1_song_060.webp",
   flavorText:
     "The melody seeps into open wounds, knitting flesh and spirit back together in a single refrain.",
   rulesVersion: "1.0.0",

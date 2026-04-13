@@ -71,8 +71,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/009_the_politician_526f35ca.png",
+  art: "/art/cards/s1_char_042.webp",
   flavorText:
     "A. The Politician was the seventh Archon created by the Architect on Day 15 of Ascension, Year 419 A.A., engineered to m...",
   rulesVersion: "1.0.0",

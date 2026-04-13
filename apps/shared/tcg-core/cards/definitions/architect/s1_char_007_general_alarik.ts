@@ -89,8 +89,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/031_general_alarik_2e73f15f.png",
+  art: "/art/cards/s1_char_007.webp",
   flavorText:
     "One of the Architect's elite robotic Titan Generals, specialized in planetary siege operations and orbital suppression.",
   rulesVersion: "1.0.0",

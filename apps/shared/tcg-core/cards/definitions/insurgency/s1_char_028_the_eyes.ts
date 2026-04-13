@@ -61,8 +61,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/015_the_eyes_21e946fa.png",
+  art: "/art/cards/s1_char_028.webp",
   flavorText:
     "A. The Eyes was an elite agent created by the Watcher for the AI Empire , renowned for her unparalleled infiltration and...",
   rulesVersion: "1.0.0",

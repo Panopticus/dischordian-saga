@@ -47,8 +47,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/116_neural_plague_carrier.png",
+  art: "/art/cards/s1_char_116.webp",
   flavorText:
     "It smiles when soldiers fall. Not from malice — the Virus has rewired joy to the frequency of dying screams.",
   rulesVersion: "1.0.0",

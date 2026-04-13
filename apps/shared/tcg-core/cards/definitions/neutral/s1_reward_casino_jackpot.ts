@@ -38,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_casino_jackpot.webp",
   flavorText:
     "The house always wins. Unless you're the house. And today, you're the house.",
   rulesVersion: "1.0.0",

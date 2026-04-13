@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_109.webp",
   flavorText:
     "A thousand futures bloom in the Oracle's mind. She plucks the brightest and lets the rest wither.",
   rulesVersion: "1.0.0",

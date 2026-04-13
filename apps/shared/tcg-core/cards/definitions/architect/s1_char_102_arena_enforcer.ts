@@ -51,8 +51,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/102_arena_enforcer.png",
+  art: "/art/cards/s1_char_102.webp",
   flavorText:
     "Your rotation has arrived. There is no deferral. There is no appeal. Step into the Arena.",
   rulesVersion: "1.0.0",

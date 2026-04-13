@@ -9,12 +9,12 @@ import { Link } from "wouter";
 import {
   ChevronLeft, Gem, Skull, Sun, Scale, Flame, Sparkles,
   Clock, Shield, Zap, AlertTriangle, Check, X, Star,
-  Heart, Eye, Crown, Package, ArrowUp,
+  Heart, Eye, Crown, Package, ArrowUp, Infinity as InfinityIcon,
 } from "lucide-react";
 import { AtmosphereScope } from "@/components/void";
 import { useSoulStoneStore } from "./soulStoneStore";
 import type {
-  SoulStone, StoneState, DemonPet, DivineCompanion,
+  SoulStone, StoneState, DemonPet, DivineCompanion, DischordianCompanion,
   CompanionTier, ActiveCompanion, GlobalAlignment,
   CorruptionTierEffect, PurityTierEffect,
 } from "./types";
@@ -28,7 +28,7 @@ import {
 import { SOUL_STONE_ART } from "@/data/nanobanna2Assets";
 
 /* ─── TAB TYPE ─── */
-type Tab = "inventory" | "summoning" | "purification" | "alignment";
+type Tab = "inventory" | "summoning" | "purification" | "alignment" | "dischordian";
 
 /* ─── ROOM KEYS for atmosphere ─── */
 const TAB_ROOMS: Record<Tab, string> = {
@@ -36,6 +36,7 @@ const TAB_ROOMS: Record<Tab, string> = {
   summoning: "castle_of_death",
   purification: "dreamers_chamber",
   alignment: "arks_soul",
+  dischordian: "the_paradox_space",
 };
 
 /* ─── STONE COLOR MAP ─── */
@@ -787,13 +788,172 @@ function AlignmentTab() {
 }
 
 /* ═══════════════════════════════════════════════════════
+   TAB 5: DISCHORDIAN — The secret third path.
+   Neither demon nor divine. Something older.
+   ═══════════════════════════════════════════════════════ */
+function DischordianTab() {
+  const store = useSoulStoneStore();
+  const [selected, setSelected] = useState<DischordianCompanion | null>(null);
+
+  const stoneCounts = useMemo(() => {
+    const counts = { red: 0, gold: 0, violet: 0 };
+    for (const s of store.stones) {
+      if (!s.isPurifying) counts[s.state]++;
+    }
+    return counts;
+  }, [store.stones]);
+
+  const canAfford = (comp: DischordianCompanion) =>
+    stoneCounts.red >= comp.cost.red &&
+    stoneCounts.gold >= comp.cost.gold &&
+    stoneCounts.violet >= comp.cost.violet;
+
+  return (
+    <div>
+      {/* Header */}
+      <div className="flex items-center gap-2 mb-2">
+        <InfinityIcon size={18} className="text-violet-400" />
+        <h2 className="font-display text-lg uppercase tracking-wider text-violet-400">
+          The Dischordian Companions
+        </h2>
+      </div>
+      <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground/50 mb-6">
+        Neither demon nor divine — something older. Each requires one of every stone, plus hard-won trust with both patrons.
+      </p>
+
+      {/* Companion grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {DISCHORDIAN_COMPANIONS.map((comp) => {
+          const affordable = canAfford(comp);
+          return (
+            <button
+              key={comp.id}
+              type="button"
+              onClick={() => setSelected(comp)}
+              data-testid={`dischordian-card-${comp.id}`}
+              className={`text-left border rounded-lg overflow-hidden transition
+                ${affordable
+                  ? "border-violet-500/40 bg-violet-950/10 hover:bg-violet-900/20 hover:border-violet-400"
+                  : "border-muted/20 bg-muted/5 opacity-70 hover:opacity-90"}
+              `}
+            >
+              {/* Portrait */}
+              <div className="aspect-square bg-gradient-to-b from-black to-violet-950/40 flex items-center justify-center overflow-hidden">
+                {comp.artPath ? (
+                  <img
+                    src={comp.artPath}
+                    alt={comp.name}
+                    className="w-full h-full object-contain"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                  />
+                ) : (
+                  <InfinityIcon size={64} style={{ color: comp.color }} />
+                )}
+              </div>
+
+              {/* Text block */}
+              <div className="p-3 space-y-2">
+                <h3 className="font-display text-sm uppercase tracking-wider" style={{ color: comp.color }}>
+                  {comp.name}
+                </h3>
+                <p className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60">
+                  Tier {comp.tier} · Dischordian
+                </p>
+                <div className="flex gap-2 text-[10px] font-mono">
+                  <span className={stoneCounts.red    >= comp.cost.red    ? "text-red-400"    : "text-red-900"}>R{comp.cost.red}</span>
+                  <span className={stoneCounts.gold   >= comp.cost.gold   ? "text-amber-400"  : "text-amber-900"}>G{comp.cost.gold}</span>
+                  <span className={stoneCounts.violet >= comp.cost.violet ? "text-purple-400" : "text-purple-900"}>V{comp.cost.violet}</span>
+                </div>
+                <p className="text-[10px] text-muted-foreground/60 line-clamp-3">
+                  {comp.ability.description}
+                </p>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Detail modal */}
+      <AnimatePresence>
+        {selected && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            onClick={() => setSelected(null)}
+            className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+            data-testid="dischordian-modal"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="max-w-2xl w-full bg-[#0a0a18] border-2 border-violet-500/40 rounded-lg p-6"
+            >
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h2 className="text-2xl font-bold" style={{ color: selected.color }}>
+                    {selected.name}
+                  </h2>
+                  <p className="text-sm uppercase tracking-wider text-violet-400/70">
+                    Tier {selected.tier} · Dischordian
+                  </p>
+                </div>
+                <button onClick={() => setSelected(null)} className="text-gray-500 hover:text-white">
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              {selected.artPath && (
+                <div className="flex justify-center my-4">
+                  <img
+                    src={selected.artPath}
+                    alt={selected.name}
+                    className="max-h-80 w-auto object-contain"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                  />
+                </div>
+              )}
+
+              <div className="space-y-3 text-sm">
+                <p className="text-gray-300">{selected.description}</p>
+                <div>
+                  <span className="text-gray-500 uppercase text-xs">Visual: </span>
+                  <p className="text-gray-400 italic mt-1">{selected.visual}</p>
+                </div>
+                <div>
+                  <span className="text-gray-500 uppercase text-xs">Ability: </span>
+                  <p className="text-green-400 mt-1">{selected.ability.description}</p>
+                </div>
+                <div className="flex gap-4 pt-3 border-t border-violet-500/20 text-xs">
+                  <div>
+                    <span className="text-gray-500 uppercase">Cost: </span>
+                    <span className="text-red-400">{selected.cost.red}R</span>{" "}
+                    <span className="text-amber-400">{selected.cost.gold}G</span>{" "}
+                    <span className="text-purple-400">{selected.cost.violet}V</span>
+                  </div>
+                  <div>
+                    <span className="text-gray-500 uppercase">Trust: </span>
+                    <span className="text-cyan-400">Antiquarian {selected.trustRequirements.antiquarian}</span>
+                    {" · "}
+                    <span className="text-red-400">Necromancer {selected.trustRequirements.necromancer}</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
    TAB NAVIGATION
    ═══════════════════════════════════════════════════════ */
 const TABS: { id: Tab; label: string; icon: typeof Gem; color: string }[] = [
-  { id: "inventory",     label: "INVENTORY",  icon: Gem,      color: "text-purple-400" },
-  { id: "summoning",     label: "SUMMONING",  icon: Skull,    color: "text-red-400" },
-  { id: "purification",  label: "PURIFICATION", icon: Sun,    color: "text-amber-400" },
-  { id: "alignment",     label: "ALIGNMENT",  icon: Scale,    color: "text-purple-400" },
+  { id: "inventory",     label: "INVENTORY",  icon: Gem,          color: "text-purple-400" },
+  { id: "summoning",     label: "SUMMONING",  icon: Skull,        color: "text-red-400" },
+  { id: "purification",  label: "PURIFICATION", icon: Sun,        color: "text-amber-400" },
+  { id: "alignment",     label: "ALIGNMENT",  icon: Scale,        color: "text-purple-400" },
+  { id: "dischordian",   label: "DISCHORDIAN", icon: InfinityIcon, color: "text-violet-400" },
 ];
 
 /* ═══════════════════════════════════════════════════════
@@ -807,6 +967,7 @@ export default function SoulStonesPage() {
     switch (activeTab) {
       case "summoning":     return "bg-red-950/10";
       case "purification":  return "bg-amber-950/10";
+      case "dischordian":   return "bg-violet-950/10";
       default:              return "";
     }
   }, [activeTab]);
@@ -876,6 +1037,7 @@ export default function SoulStonesPage() {
               {activeTab === "summoning" && <SummoningCircleTab />}
               {activeTab === "purification" && <PurificationChamberTab />}
               {activeTab === "alignment" && <AlignmentTab />}
+              {activeTab === "dischordian" && <DischordianTab />}
             </motion.div>
           </AnimatePresence>
         </div>

@@ -49,8 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/placeholder_s1_song_091.png",
+  art: "/art/cards/s1_song_091.webp",
   flavorText:
     "There is no negotiation in its chorus — only the percussion of annihilation.",
   rulesVersion: "1.0.0",

@@ -58,7 +58,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_049.webp",
   flavorText:
     "Before the Architect, before the Insurgency, before the Virus and the Dream — there was this. The moment everything began.",
   rulesVersion: "1.0.0",

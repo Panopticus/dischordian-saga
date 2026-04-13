@@ -48,8 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/112_reality_anchor.png",
+  art: "/art/cards/s1_char_112.webp",
   flavorText:
     "In a world of shifting probabilities, certainty is the heaviest chain.",
   rulesVersion: "1.0.0",

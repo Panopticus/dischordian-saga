@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_pvp_bronze.webp",
   flavorText:
     "She entered the arena with nothing but a borrowed blade and a refusal to lose.",
   rulesVersion: "1.0.0",

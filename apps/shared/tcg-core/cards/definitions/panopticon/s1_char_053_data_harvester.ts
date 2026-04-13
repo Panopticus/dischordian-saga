@@ -28,7 +28,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_053.webp",
   flavorText:
     "It does not ask questions. It parses screams for keywords.",
   rulesVersion: "1.0.0",

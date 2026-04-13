@@ -55,7 +55,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_boss_architect.webp",
   flavorText:
     "The Architect fell, but his schematics survived. Every line is a command. Every command still works.",
   rulesVersion: "1.0.0",

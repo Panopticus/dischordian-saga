@@ -51,7 +51,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_class_engineer.webp",
   flavorText:
     "The Engineer doesn't fight — she builds things that do.",
   rulesVersion: "1.0.0",

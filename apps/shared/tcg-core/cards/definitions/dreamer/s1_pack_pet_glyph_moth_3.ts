@@ -52,7 +52,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_pet_glyph_moth_3.webp",
   flavorText:
     "When it spreads its wings, the battlefield remembers how to fight.",
   rulesVersion: "1.0.0",

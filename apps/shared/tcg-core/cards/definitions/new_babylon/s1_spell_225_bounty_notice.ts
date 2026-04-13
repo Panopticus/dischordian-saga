@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_225.webp",
   flavorText:
     "The notice goes up at dawn. By noon, the work is done.",
   rulesVersion: "1.0.0",

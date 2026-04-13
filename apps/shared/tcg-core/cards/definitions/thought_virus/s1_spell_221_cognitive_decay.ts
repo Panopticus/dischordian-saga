@@ -32,7 +32,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_221.webp",
   flavorText:
     "What was I going to — no. It's gone. It was important, wasn't it?",
   rulesVersion: "1.0.0",

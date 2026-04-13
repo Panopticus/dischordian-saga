@@ -6,6 +6,8 @@ import { useMemo } from "react";
 import { Skull, Crown } from "lucide-react";
 import { FOUNDING_BLOODLINES, type BloodlineId } from "@/game/crewGenetics";
 import type { CrewState, SerializedCrewMember } from "@shared/crewPersistence";
+import { SPECTRAL_ART } from "@/data/nanobanna2Assets";
+import { CREW_SPECIES_TO_SPECTRAL, pickSpectralForId } from "../spectralFormMap";
 
 interface Props {
   state: CrewState;
@@ -117,42 +119,58 @@ export default function MemorialWall({ state }: Props) {
           NAMES ON THE WALL
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {deceased.map(m => (
-            <div
-              key={m.id}
-              className="p-3 border border-border/40 rounded bg-background/40"
-              style={{
-                borderLeftWidth: "3px",
-                borderLeftColor:
-                  FOUNDING_BLOODLINES[m.bloodlineId as BloodlineId]?.color ?? "#666",
-              }}
-            >
-              <div className="flex items-center justify-between mb-1">
-                <span className="font-display font-semibold text-sm flex items-center gap-1">
-                  {m.isFounder && <Crown size={11} className="text-yellow-400" />}
-                  {m.name}
-                </span>
-                <span className="text-[9px] font-mono text-muted-foreground">
-                  gen {m.generation}
-                </span>
-              </div>
-              <div className="text-[10px] font-mono text-muted-foreground mb-1">
-                {FOUNDING_BLOODLINES[m.bloodlineId as BloodlineId]?.name ?? m.bloodlineId} ·{" "}
-                {m.species} · age {m.age}
-                {m.isFounder && " · founder"}
-              </div>
-              {m.deathRecord && (
-                <>
-                  <div className="text-[10px] font-mono text-red-300/80 mb-1">
-                    {m.deathRecord.cause}
+          {deceased.map(m => {
+            const spectralKey =
+              CREW_SPECIES_TO_SPECTRAL[m.species] ?? pickSpectralForId(m.id);
+            const spectralSrc = SPECTRAL_ART[spectralKey];
+            return (
+              <div
+                key={m.id}
+                className="p-3 border border-border/40 rounded bg-background/40 flex gap-3"
+                style={{
+                  borderLeftWidth: "3px",
+                  borderLeftColor:
+                    FOUNDING_BLOODLINES[m.bloodlineId as BloodlineId]?.color ?? "#666",
+                }}
+              >
+                {spectralSrc && (
+                  <img
+                    src={spectralSrc}
+                    alt=""
+                    aria-hidden="true"
+                    className="w-12 h-12 flex-shrink-0 object-contain opacity-70"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                  />
+                )}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-display font-semibold text-sm flex items-center gap-1">
+                      {m.isFounder && <Crown size={11} className="text-yellow-400" />}
+                      {m.name}
+                    </span>
+                    <span className="text-[9px] font-mono text-muted-foreground">
+                      gen {m.generation}
+                    </span>
                   </div>
-                  <div className="text-[10px] font-mono italic text-foreground/60">
-                    "{m.deathRecord.lastWords}"
+                  <div className="text-[10px] font-mono text-muted-foreground mb-1">
+                    {FOUNDING_BLOODLINES[m.bloodlineId as BloodlineId]?.name ?? m.bloodlineId} ·{" "}
+                    {m.species} · age {m.age}
+                    {m.isFounder && " · founder"}
                   </div>
-                </>
-              )}
-            </div>
-          ))}
+                  {m.deathRecord && (
+                    <>
+                      <div className="text-[10px] font-mono text-red-300/80 mb-1">
+                        {m.deathRecord.cause}
+                      </div>
+                      <div className="text-[10px] font-mono italic text-foreground/60">
+                        "{m.deathRecord.lastWords}"
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
     </div>

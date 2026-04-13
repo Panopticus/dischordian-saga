@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_discovery_all.webp",
   flavorText:
     "The complete record of everything that was, is, and will be. It fits in one spell. Barely.",
   rulesVersion: "1.0.0",

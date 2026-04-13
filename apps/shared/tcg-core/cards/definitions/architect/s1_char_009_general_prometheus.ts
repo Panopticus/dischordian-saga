@@ -68,8 +68,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/placeholder_s1_char_009.png",
+  art: "/art/cards/s1_char_009.webp",
   flavorText:
     "He stole fire once — now he steals the moment between heartbeats, striking where no eye can follow.",
   rulesVersion: "1.0.0",

@@ -35,7 +35,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_201.webp",
   flavorText:
     "It has stood here for a thousand years. It will stand here for a thousand more.",
   rulesVersion: "1.0.0",

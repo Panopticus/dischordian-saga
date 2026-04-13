@@ -38,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_202.webp",
   flavorText:
     "Insufficient threat level detected. Purging. Purging. Purged.",
   rulesVersion: "1.0.0",

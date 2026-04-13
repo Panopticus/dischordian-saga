@@ -43,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_rpg_quest.webp",
   flavorText:
     "Fifty quests. Fifty stories. All of them end with her still standing.",
   rulesVersion: "1.0.0",

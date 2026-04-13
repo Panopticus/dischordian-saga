@@ -44,8 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/067_the_jailer_4097836e.png",
+  art: "/art/cards/s1_char_035.webp",
   flavorText:
     "He began as the Oracle, a revered figure who journeyed to Thaloria and bested the Collector in a philosophical debate, c...",
   rulesVersion: "1.0.0",

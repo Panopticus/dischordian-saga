@@ -53,7 +53,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_006.webp",
   flavorText:
     "It spoke once. The word was 'comply.' Nothing on the board had the capacity to refuse.",
   rulesVersion: "1.0.0",

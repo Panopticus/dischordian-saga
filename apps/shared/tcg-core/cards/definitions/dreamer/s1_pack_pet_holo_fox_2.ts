@@ -43,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_pet_holo_fox_2.webp",
   flavorText:
     "Between worlds, it learned to walk on light.",
   rulesVersion: "1.0.0",

@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_206.webp",
   flavorText:
     "The resistance runs on hope and ammunition. This crate has both.",
   rulesVersion: "1.0.0",

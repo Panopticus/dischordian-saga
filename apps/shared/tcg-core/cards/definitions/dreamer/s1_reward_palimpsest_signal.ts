@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_palimpsest_signal.webp",
   flavorText:
     "In a world of overwritten truths, the Signal Bearer remembers the original text.",
   rulesVersion: "1.0.0",

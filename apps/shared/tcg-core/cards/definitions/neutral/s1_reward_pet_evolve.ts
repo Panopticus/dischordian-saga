@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_pet_evolve.webp",
   flavorText:
     "It shed its skin three times before the trainers stopped recognizing it. By the fourth, it stopped recognizing them.",
   rulesVersion: "1.0.0",

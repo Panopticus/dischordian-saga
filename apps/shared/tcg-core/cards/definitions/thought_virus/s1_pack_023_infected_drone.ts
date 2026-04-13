@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_023.webp",
   flavorText:
     "Its final act is not death. It is transmission.",
   rulesVersion: "1.0.0",

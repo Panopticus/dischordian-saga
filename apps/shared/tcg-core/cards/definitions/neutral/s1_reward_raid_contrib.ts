@@ -47,7 +47,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_raid_contrib.webp",
   flavorText:
     "The warband was losing. Then someone started singing. Then everyone did.",
   rulesVersion: "1.0.0",

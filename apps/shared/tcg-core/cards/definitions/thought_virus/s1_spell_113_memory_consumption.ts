@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_113.webp",
   flavorText:
     "It ate his name first, then his childhood. By the time it reached his fears, there was nothing left to be afraid.",
   rulesVersion: "1.0.0",

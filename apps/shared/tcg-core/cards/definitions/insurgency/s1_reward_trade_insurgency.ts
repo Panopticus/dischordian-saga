@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_trade_insurgency.webp",
   flavorText:
     "Every crate had a false bottom. Every false bottom had a frequency. Every frequency led to Agent Zero's ghost.",
   rulesVersion: "1.0.0",

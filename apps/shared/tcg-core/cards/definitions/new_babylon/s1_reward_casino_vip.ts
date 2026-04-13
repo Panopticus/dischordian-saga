@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_casino_vip.webp",
   flavorText:
     "The VIP table has no limits. Neither does she.",
   rulesVersion: "1.0.0",

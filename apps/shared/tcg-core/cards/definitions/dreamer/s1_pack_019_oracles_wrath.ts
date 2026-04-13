@@ -54,7 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_019.webp",
   flavorText:
     "She did not foresee your destruction. She ordained it.",
   rulesVersion: "1.0.0",

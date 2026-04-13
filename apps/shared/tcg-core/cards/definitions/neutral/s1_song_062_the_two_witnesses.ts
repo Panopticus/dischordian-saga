@@ -48,8 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/placeholder_s1_song_062.png",
+  art: "/art/cards/s1_song_062.webp",
   flavorText:
     "They speak in unison, and where their voices converge, the world fractures.",
   rulesVersion: "1.0.0",

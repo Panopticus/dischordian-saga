@@ -38,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_021.webp",
   flavorText:
     "It lived for the span of a single thought. But what a thought it was.",
   rulesVersion: "1.0.0",

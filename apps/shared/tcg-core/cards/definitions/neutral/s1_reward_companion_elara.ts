@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_companion_elara.webp",
   flavorText:
     "Her voice carries across every channel, mending what others cannot reach.",
   rulesVersion: "1.0.0",

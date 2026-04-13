@@ -62,7 +62,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_prestige_t7.webp",
   flavorText:
     "Seven cycles of death and rebirth. What remains is beyond mortal understanding.",
   rulesVersion: "1.0.0",

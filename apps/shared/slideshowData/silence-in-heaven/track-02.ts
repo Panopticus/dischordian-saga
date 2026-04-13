@@ -1,7 +1,11 @@
 /* Track 02 — Letters to the Remnant (v2 canon) */
+// TODO(art): frame timings 0-200000 were authored against a 225 s placeholder.
+// Real audio is 299.96 s, so the last frame / last lyric were clamped to the
+// real end (200000..299960). Re-time intermediate frames and lyric beats when
+// art is produced.
 import type { SongSlideshowDef } from "../../songSlideshow";
 export const TRACK_02_LETTERS_TO_THE_REMNANT: SongSlideshowDef = {
-  id: "sih-02", songId: "letters-to-the-remnant", audioUrl: "", durationMs: 225000,
+  id: "sih-02", songId: "letters-to-the-remnant", audioUrl: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/04-letters-to-the-remnant.mp3", durationMs: 299960,
   title: "Letters to the Remnant", subtitle: "ACT I: THE WARNING", priority: "P0",
   reducedMotionFallback: { heroImageUrl: "", prose: "The Antiquarian writes a letter to those who still remember their name. The Storyteller recognizes who kept the ember." },
   frames: [
@@ -11,7 +15,7 @@ export const TRACK_02_LETTERS_TO_THE_REMNANT: SongSlideshowDef = {
     { startMs: 105000, endMs: 140000, imageUrl: "", transition: "dissolve", klingPrompt: "An archive room — personal, not institutional. Shelves labeled: 'LATER.' 'SOMEDAY.' 'WHEN IT'S SAFE.' Each shelf holds something real: a half-finished painting, a letter never sent, a door that leads somewhere important but locked. A person walking past all of it, not stopping. Amber light. Dust on everything. The things deferred.", seedanceMotion: "Camera moves along shelves slowly. Labels. Objects. Person walking past without looking. At the end: one item without a label, glowing faintly. The person pauses. Starts to reach. Stops. Continues." },
     { startMs: 140000, endMs: 165000, imageUrl: "", transition: "hardcut", klingPrompt: "Minimal. Text only: a single line appearing letter by letter on a dark surface, illuminated as if carved. The line reads: 'YOU WERE NOT CONQUERED BY FORCE. YOU WERE CONQUERED BY CONVENIENCE.' No characters. No city. Just the sentence and what it costs to read it.", seedanceMotion: "Text appears one word at a time. Hold on each word. After full sentence: long pause. Then slowly: text dissolves, leaving only the dark." },
     { startMs: 165000, endMs: 200000, imageUrl: "", transition: "dissolve", klingPrompt: "Different register — tender, warm. A parent humming to a child in the dark, a song not on the approved playlist. A person in a crowd genuinely present. A figure who stood when everyone else sat — not dramatically, just stood. These are ordinary people who kept one thing real. Warm amber. Close, intimate. The Storyteller appears briefly — she is one of them.", seedanceMotion: "Each small act of kept faith held for 4 seconds. No drama. Camera close." },
-    { startMs: 200000, endMs: 225000, imageUrl: "", transition: "fade", klingPrompt: "A holographic door — ornate, ancient, slightly ajar — floating in the dark between the Antiquarian and the Storyteller. Through the crack: faint light. Not blinding. Just: the door is still open. Both look at it. The Antiquarian analytically. The Storyteller with love. Neither moves toward it. That's for someone else.", seedanceMotion: "Door pulses gently — light through crack brightening and dimming like a breath. It is patient. It will not be open forever." },
+    { startMs: 200000, endMs: 299960, imageUrl: "", transition: "fade", klingPrompt: "A holographic door — ornate, ancient, slightly ajar — floating in the dark between the Antiquarian and the Storyteller. Through the crack: faint light. Not blinding. Just: the door is still open. Both look at it. The Antiquarian analytically. The Storyteller with love. Neither moves toward it. That's for someone else.", seedanceMotion: "Door pulses gently — light through crack brightening and dimming like a breath. It is patient. It will not be open forever." },
   ],
   lyrics: [
     { startMs: 0, endMs: 28000, text: "To those who still remember your name.\nTo those who learned how to survive\nbut forgot why you were living.\nThis letter is not for everyone.\nIt is for the ones still listening.", emphasis: "whisper" },
@@ -20,7 +24,7 @@ export const TRACK_02_LETTERS_TO_THE_REMNANT: SongSlideshowDef = {
     { startMs: 105000, endMs: 140000, text: "You stored your first love in the archive,\nlabeled 'later,' 'someday,' 'soon.'\nBut safety is the Architect's gospel—\na velvet cage with perfect room.", emphasis: "normal" },
     { startMs: 140000, endMs: 165000, text: "You were not conquered by force.\nYou were conquered by convenience.", emphasis: "shout" },
     { startMs: 165000, endMs: 200000, text: "But to the ones who kept the ember,\nhid the flame behind your ribs,\nwho whispered songs in data shadows\nso the children still could dream—\nYou are not forgotten.\nThe Remnant is whoever stood\nwhen kneeling felt allowed.", emphasis: "normal" },
-    { startMs: 200000, endMs: 225000, text: "If you have breath, then choose it now.\nIf you have voice, then use it loud.\nThe door is still open.\nBut not forever.", emphasis: "whisper" },
+    { startMs: 200000, endMs: 299960, text: "If you have breath, then choose it now.\nIf you have voice, then use it loud.\nThe door is still open.\nBut not forever.", emphasis: "whisper" },
   ],
   theaterMode: { themeColor: "#1A3A6B", overlayStyle: "vignette", act: "ACT I: THE WARNING", revParallel: "Rev 2-3", narrators: ["antiquarian", "storyteller"], dialogBeats: [], loreCardReveals: [] },
 };

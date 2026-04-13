@@ -55,7 +55,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_seed_gene.webp",
   flavorText:
     "It came back from the Void changed. Stronger. Wrong.",
   rulesVersion: "1.0.0",

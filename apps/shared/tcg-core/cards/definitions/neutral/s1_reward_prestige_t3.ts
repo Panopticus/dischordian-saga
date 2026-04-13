@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_prestige_t3.webp",
   flavorText:
     "Three deaths. Three rebirths. Each time, the eyes open knowing more.",
   rulesVersion: "1.0.0",

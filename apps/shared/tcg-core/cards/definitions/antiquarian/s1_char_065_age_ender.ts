@@ -36,7 +36,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_065.webp",
   flavorText:
     "It does not destroy civilizations. It simply marks where one ends and silence begins.",
   rulesVersion: "1.0.0",

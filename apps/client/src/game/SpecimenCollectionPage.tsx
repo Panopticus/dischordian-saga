@@ -11,8 +11,35 @@ import { SPECIMENS, type SpecimenId, type EvolutionStage, getSpecimenArtPath } f
 import { ARCHON_SPECIMENS, NEYON_SPECIMENS, type ExpandedSpecimenDef } from "./specimenExpansion";
 import LiveSpecimen from "@/components/LiveSpecimen";
 import { VoidTile } from "@/components/void";
+import {
+  EIDOLON_CLASSES,
+  EIDOLON_CLASS_META,
+  EIDOLON_ALIGNMENTS,
+  EIDOLON_STAGES,
+  getEidolonArt,
+  STRAIN_ART,
+} from "@/data/nanobanna2Assets";
 
-type FilterTab = "all" | "owned" | "faction" | "archon" | "neyon";
+type FilterTab = "all" | "owned" | "faction" | "archon" | "neyon" | "eidolon" | "strain";
+
+const ALIGNMENT_LABEL: Record<string, string> = {
+  norm: "Standard",
+  hier: "Hierarchy",
+  dream: "Dreamer",
+  scar: "Scarred",
+};
+
+const STAGE_LABEL: Record<string, string> = {
+  frag: "Fragment",
+  comp: "Companion",
+  asc: "Ascended",
+};
+
+const STAGE_RARITY: Record<string, UnifiedSpecimen["rarity"]> = {
+  frag: "common",
+  comp: "rare",
+  asc: "epic",
+};
 
 const RARITY_BORDERS: Record<string, string> = {
   common: "border-gray-500 shadow-[0_0_12px_rgba(156,163,175,0.4)]",
@@ -31,12 +58,16 @@ interface UnifiedSpecimen {
   id: string;
   name: string;
   associatedWith: string;
-  associationType: "archon" | "neyon" | "faction";
+  associationType: "archon" | "neyon" | "faction" | "eidolon" | "strain";
   description: string;
   rarity: "common" | "rare" | "epic" | "legendary" | "mythic";
   bonus: string;
   acquisition: string;
   lore: string;
+  /** Direct image path override (used for eidolons/strain which don't live in SPECIMENS) */
+  artPath?: string;
+  /** Always render un-greyed (reference gallery entries) */
+  alwaysOwned?: boolean;
 }
 
 function buildUnifiedList(): UnifiedSpecimen[] {
@@ -55,7 +86,58 @@ function buildUnifiedList(): UnifiedSpecimen[] {
     acquisition: describeAcquisition(s.acquisition),
     lore: s.description,
   }));
-  return [...factionBase, ...expandedMap(ARCHON_SPECIMENS), ...expandedMap(NEYON_SPECIMENS)];
+
+  // Eidolons: 5 species × 4 alignments × 3 stages = 60 forms
+  const eidolonEntries: UnifiedSpecimen[] = [];
+  for (const cls of EIDOLON_CLASSES) {
+    const meta = EIDOLON_CLASS_META[cls];
+    for (const alignment of EIDOLON_ALIGNMENTS) {
+      for (const stage of EIDOLON_STAGES) {
+        eidolonEntries.push({
+          id: `eidolon_${cls}_${alignment}_${stage}`,
+          name: `${meta.name} — ${ALIGNMENT_LABEL[alignment]} (${STAGE_LABEL[stage]})`,
+          associatedWith: meta.class,
+          associationType: "eidolon",
+          description: `${meta.title}. ${ALIGNMENT_LABEL[alignment]} alignment, ${STAGE_LABEL[stage]} stage.`,
+          rarity: STAGE_RARITY[stage],
+          bonus: `${meta.class} class signature`,
+          acquisition: "Collector's Archive reference form",
+          lore: `${meta.name} takes many shapes. Aligned with ${ALIGNMENT_LABEL[alignment]}, this ${STAGE_LABEL[stage].toLowerCase()} form embodies the ${meta.class.toLowerCase()}'s path.`,
+          artPath: getEidolonArt(cls, alignment, stage),
+          alwaysOwned: true,
+        });
+      }
+    }
+  }
+
+  // STRAIN: 12 forms (4 alignments × 3 stages)
+  const strainEntries: UnifiedSpecimen[] = [];
+  for (const alignment of EIDOLON_ALIGNMENTS) {
+    for (const stage of EIDOLON_STAGES) {
+      const key = `${alignment}-${stage}`;
+      strainEntries.push({
+        id: `strain_${alignment}_${stage}`,
+        name: `STRAIN — ${ALIGNMENT_LABEL[alignment]} (${STAGE_LABEL[stage]})`,
+        associatedWith: "The Living Infection",
+        associationType: "strain",
+        description: `The STRAIN adapts to every host. ${ALIGNMENT_LABEL[alignment]} host, ${STAGE_LABEL[stage]} incubation.`,
+        rarity: stage === "asc" ? "legendary" : stage === "comp" ? "epic" : "rare",
+        bonus: "Adaptive — mutates to resist the host's weaknesses",
+        acquisition: "Collector's Archive reference form",
+        lore: `Neither companion nor parasite. The ${ALIGNMENT_LABEL[alignment]} STRAIN has learned from its host — and learned how to return the lesson.`,
+        artPath: STRAIN_ART[key],
+        alwaysOwned: true,
+      });
+    }
+  }
+
+  return [
+    ...factionBase,
+    ...expandedMap(ARCHON_SPECIMENS),
+    ...expandedMap(NEYON_SPECIMENS),
+    ...eidolonEntries,
+    ...strainEntries,
+  ];
 }
 
 function describeAcquisition(a: ExpandedSpecimenDef["acquisition"]): string {
@@ -105,10 +187,12 @@ export default function SpecimenCollectionPage() {
 
   const filtered = useMemo(() => {
     return allSpecimens.filter(s => {
-      if (filter === "owned") return ownedSet.has(s.id);
+      if (filter === "owned") return ownedSet.has(s.id) || s.alwaysOwned;
       if (filter === "faction") return s.associationType === "faction";
       if (filter === "archon") return s.associationType === "archon";
       if (filter === "neyon") return s.associationType === "neyon";
+      if (filter === "eidolon") return s.associationType === "eidolon";
+      if (filter === "strain") return s.associationType === "strain";
       return true;
     });
   }, [allSpecimens, filter, ownedSet]);
@@ -132,6 +216,8 @@ export default function SpecimenCollectionPage() {
     { id: "all", label: "All" }, { id: "owned", label: "Owned" },
     { id: "faction", label: "Faction" }, { id: "archon", label: "Archon" },
     { id: "neyon", label: "Ne-Yon" },
+    { id: "eidolon", label: "Eidolons" },
+    { id: "strain", label: "STRAIN" },
   ];
 
   return (
@@ -148,7 +234,7 @@ export default function SpecimenCollectionPage() {
           </div>
           <div className="text-right">
             <div className="text-2xl font-bold text-cyan-400" data-testid="collection-counter">
-              {ownedSet.size}/{allSpecimens.length}
+              {ownedSet.size}/{allSpecimens.filter(s => !s.alwaysOwned).length}
             </div>
             <div className="text-xs text-gray-500 uppercase tracking-wider">Collected</div>
           </div>
@@ -174,7 +260,7 @@ export default function SpecimenCollectionPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <AnimatePresence>
             {filtered.map((s, idx) => {
-              const owned = ownedSet.has(s.id);
+              const owned = ownedSet.has(s.id) || !!s.alwaysOwned;
               return (
                 <VoidTile
                   key={s.id}
@@ -183,7 +269,14 @@ export default function SpecimenCollectionPage() {
                   className={`relative p-4 text-left ${RARITY_BORDERS[s.rarity]} ${!owned ? "opacity-40 grayscale" : ""}`}
                 >
                   <div className="aspect-square mb-3 bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded flex items-center justify-center overflow-hidden">
-                    {owned && (s.id as string) in SPECIMENS ? (
+                    {owned && s.artPath ? (
+                      <img
+                        src={s.artPath}
+                        alt={s.name}
+                        className="w-full h-full object-contain"
+                        onError={e => { (e.target as HTMLImageElement).style.display = "none"; }}
+                      />
+                    ) : owned && (s.id as string) in SPECIMENS ? (
                       <LiveSpecimen
                         specimenId={s.id as SpecimenId}
                         stage={getOwnedStage(s.id)}
@@ -233,7 +326,7 @@ export default function SpecimenCollectionPage() {
             >
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h2 className="text-2xl font-bold">{ownedSet.has(selected.id) ? selected.name : "???"}</h2>
+                  <h2 className="text-2xl font-bold">{(ownedSet.has(selected.id) || selected.alwaysOwned) ? selected.name : "???"}</h2>
                   <p className={`text-sm uppercase tracking-wider ${RARITY_TEXT[selected.rarity]}`}>
                     {selected.rarity} • {selected.associationType}
                   </p>
@@ -255,7 +348,18 @@ export default function SpecimenCollectionPage() {
                   />
                 </div>
               )}
-              {ownedSet.has(selected.id) ? (
+              {/* Static art display for eidolon/strain reference forms */}
+              {selected.alwaysOwned && selected.artPath && (
+                <div className="flex justify-center my-4">
+                  <img
+                    src={selected.artPath}
+                    alt={selected.name}
+                    className="max-h-80 w-auto object-contain"
+                    onError={e => { (e.target as HTMLImageElement).style.display = "none"; }}
+                  />
+                </div>
+              )}
+              {(ownedSet.has(selected.id) || selected.alwaysOwned) ? (
                 <div className="space-y-3 text-sm">
                   <div><span className="text-gray-500 uppercase text-xs">Associated With: </span><span className="text-cyan-300">{selected.associatedWith}</span></div>
                   <div><span className="text-gray-500 uppercase text-xs">Description: </span><p className="text-gray-300 mt-1">{selected.description}</p></div>

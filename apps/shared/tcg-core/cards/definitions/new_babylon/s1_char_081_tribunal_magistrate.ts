@@ -36,7 +36,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_081.webp",
   flavorText:
     "Her verdicts are absolute. Her sentences, irrevocable.",
   rulesVersion: "1.0.0",

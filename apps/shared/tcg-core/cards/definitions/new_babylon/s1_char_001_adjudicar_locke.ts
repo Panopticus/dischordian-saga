@@ -42,8 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/0_iSJV4odiK8KCIHf1BIm7cy_1773935729414_na1fn_L2hvbWUvdWJ1bnR1L3MxX2NoYXJfMDAxX2FydA_f08e9530.png",
+  art: "/art/cards/s1_char_001.webp",
   flavorText:
     "Known for her piercing intelligence and enigmatic presence, Locke is a controversial figure in the city's labyrinthine politics.",
   rulesVersion: "1.0.0",

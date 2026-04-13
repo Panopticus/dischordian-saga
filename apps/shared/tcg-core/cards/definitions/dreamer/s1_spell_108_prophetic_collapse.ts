@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_108.webp",
   flavorText:
     "She closed her eyes and saw every timeline converge. When she opened them, only one remained.",
   rulesVersion: "1.0.0",

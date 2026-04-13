@@ -54,7 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_029.webp",
   flavorText:
     "Locke smiled as he signed the order. The compensation was generous. The target was not expected to survive to collect it.",
   rulesVersion: "1.0.0",

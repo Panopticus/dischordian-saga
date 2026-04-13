@@ -47,8 +47,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/120_crystal_archive_guard.png",
+  art: "/art/cards/s1_char_120.webp",
   flavorText:
     "The crystal remembers every blow it absorbs. The guard does not need to.",
   rulesVersion: "1.0.0",

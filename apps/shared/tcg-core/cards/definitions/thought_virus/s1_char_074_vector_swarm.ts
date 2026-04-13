@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_074.webp",
   flavorText:
     "Kill it and it splits. Burn it and it drifts. Ignore it and you are already too late.",
   rulesVersion: "1.0.0",

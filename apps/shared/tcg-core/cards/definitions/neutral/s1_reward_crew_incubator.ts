@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_crew_incubator.webp",
   flavorText:
     "Ten cycles of growth. Ten cycles of patience. The Incubator endures what others cannot.",
   rulesVersion: "1.0.0",

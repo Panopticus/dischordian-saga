@@ -52,7 +52,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_232.webp",
   flavorText:
     "In the stone are the bones of what came before. In the bones is the blueprint of what comes next.",
   rulesVersion: "1.0.0",

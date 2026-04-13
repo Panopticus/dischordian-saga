@@ -49,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_id_human_detective.webp",
   flavorText:
     "Every lie unraveled. Every mask removed. The truth always costs more than the lie.",
   rulesVersion: "1.0.0",

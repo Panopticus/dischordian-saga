@@ -50,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_220.webp",
   flavorText:
     "The host collapses. Something new rises from the remains, wearing a familiar face.",
   rulesVersion: "1.0.0",

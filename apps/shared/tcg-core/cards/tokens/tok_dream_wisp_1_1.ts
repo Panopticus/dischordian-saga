@@ -18,7 +18,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 1, health: 1 },
   keywords: [],
   abilities: [],
-  art: "placeholder",
+  art: "/art/cards/tok_dream_wisp_1_1.webp",
   flavorText:
     "Born between thoughts, gone before the next.",
   rulesVersion: "1.0.0",

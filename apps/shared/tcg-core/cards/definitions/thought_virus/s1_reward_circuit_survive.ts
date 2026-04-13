@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_circuit_survive.webp",
   flavorText:
     "The Circuit stripped away everything — name, face, memory. But something persisted. Something small and stubborn and alive.",
   rulesVersion: "1.0.0",

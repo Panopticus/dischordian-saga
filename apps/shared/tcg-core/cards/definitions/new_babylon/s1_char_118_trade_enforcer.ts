@@ -45,8 +45,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/118_trade_enforcer.png",
+  art: "/art/cards/s1_char_118.webp",
   flavorText:
     "In New Babylon, murder is not a crime. It is a line item. The Enforcer simply ensures the ledger balances.",
   rulesVersion: "1.0.0",

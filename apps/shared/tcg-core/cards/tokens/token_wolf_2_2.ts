@@ -19,7 +19,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 2, health: 2 },
   keywords: [],
   abilities: [],
-  art: "https://d2xsxph8kpxj0f.cloudfront.net/placeholder_token_wolf_2_2.png",
+  art: "/art/cards/token_wolf_2_2.webp",
   flavorText: "A spectral wolf, bound by lunar magic to fight at its master's side.",
   rulesVersion: "1.0.0",
 };

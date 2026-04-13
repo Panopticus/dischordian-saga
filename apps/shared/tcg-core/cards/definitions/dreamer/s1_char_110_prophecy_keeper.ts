@@ -45,8 +45,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/110_prophecy_keeper.png",
+  art: "/art/cards/s1_char_110.webp",
   flavorText:
     "She reads the future not in tea leaves or stars but in the Living Universe's heartbeat. Each pulse is a chapter yet unwritten.",
   rulesVersion: "1.0.0",

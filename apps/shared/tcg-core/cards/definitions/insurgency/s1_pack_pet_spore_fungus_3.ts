@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_pet_spore_fungus_3.webp",
   flavorText:
     "It feeds on the fallen. Every battlefield is a garden.",
   rulesVersion: "1.0.0",

@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_107.webp",
   flavorText:
     "The broadcast that killed Agent Zero was never meant for her allies. It was meant for everyone else.",
   rulesVersion: "1.0.0",

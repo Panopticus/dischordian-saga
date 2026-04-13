@@ -52,7 +52,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_companion_kael.webp",
   flavorText:
     "Before the infection, Kael was someone worth remembering. His memory still cuts.",
   rulesVersion: "1.0.0",

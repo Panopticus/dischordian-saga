@@ -54,8 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/113_terminus_sovereign.png",
+  art: "/art/cards/s1_char_113.webp",
   flavorText:
     "The first bowl is doubt. The second is fear. By the seventh, you have forgotten what it was to be whole.",
   rulesVersion: "1.0.0",

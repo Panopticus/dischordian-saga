@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_031.webp",
   flavorText:
     "The Senator's shield is not magic. It is money — crystallized into a barrier no blade can afford to breach.",
   rulesVersion: "1.0.0",

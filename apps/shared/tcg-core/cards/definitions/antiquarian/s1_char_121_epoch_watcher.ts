@@ -48,8 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/121_epoch_watcher.png",
+  art: "/art/cards/s1_char_121.webp",
   flavorText:
     "It has seen empires rise and fall a thousand times. Each wound is just another memory it has already forgotten.",
   rulesVersion: "1.0.0",

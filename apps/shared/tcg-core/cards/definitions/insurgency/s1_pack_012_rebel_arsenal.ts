@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_012.webp",
   flavorText:
     "The crates were unmarked. The weapons inside were not.",
   rulesVersion: "1.0.0",

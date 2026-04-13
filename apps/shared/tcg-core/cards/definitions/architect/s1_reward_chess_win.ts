@@ -49,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_chess_win.webp",
   flavorText:
     "The Architect plays chess with civilizations. The Grandmaster learned from watching.",
   rulesVersion: "1.0.0",

@@ -49,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_casino_high_roller.webp",
   flavorText:
     "He walked into the Casino with nothing and walked out owning three city blocks. Then he went back in.",
   rulesVersion: "1.0.0",

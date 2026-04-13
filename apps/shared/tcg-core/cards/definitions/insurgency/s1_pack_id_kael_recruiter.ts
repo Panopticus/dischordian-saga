@@ -52,7 +52,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_id_kael_recruiter.webp",
   flavorText:
     "Before the infection, Kael built something worth believing in. His soldiers would die for him. Many did.",
   rulesVersion: "1.0.0",

@@ -51,7 +51,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_swarm_survive.webp",
   flavorText:
     "Wave twenty-five broke against her. She broke it back.",
   rulesVersion: "1.0.0",

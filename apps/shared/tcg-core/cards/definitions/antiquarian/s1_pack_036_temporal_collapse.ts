@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_036.webp",
   flavorText:
     "The Antiquarian closed the chapter. Every character returned to the page they came from.",
   rulesVersion: "1.0.0",

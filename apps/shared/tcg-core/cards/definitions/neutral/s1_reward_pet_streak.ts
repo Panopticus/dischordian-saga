@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_pet_streak.webp",
   flavorText:
     "It fits in your pocket. It has killed things that don't.",
   rulesVersion: "1.0.0",

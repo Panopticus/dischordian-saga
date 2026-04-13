@@ -52,8 +52,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/100_the_collector_damnatio.png",
+  art: "/art/cards/s1_char_100.webp",
   flavorText:
     "The Architect's hand reaches through the Collector. What was your name? It does not matter — you never had one.",
   rulesVersion: "1.0.0",

@@ -46,6 +46,14 @@ import PetQuestTracker from "@/components/PetQuestTracker";
 import PetThoughtBubble from "@/components/PetThoughtBubble";
 import { toast } from "sonner";
 import type { ThoughtTrigger } from "@/game/petBonding";
+import { VFX_FUSION_ART, VFX_THREAD_ART } from "@/data/nanobanna2Assets";
+
+/** One-shot VFX overlay for a pet move. Keyed by timestamp so each trigger is fresh. */
+interface MoveVfxOverlay {
+  id: number;
+  src: string;
+  kind: "fusion" | "thread";
+}
 
 type Phase = "tier_select" | "matchup" | "battle" | "result";
 type SidePanel = "none" | "skills" | "quests";
@@ -58,6 +66,7 @@ export default function PetBattlesPage() {
   const [playerPet, setPlayerPet] = useState<BattlePet | null>(null);
   const [opponentPet, setOpponentPet] = useState<BattlePet | null>(null);
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+  const [moveVfx, setMoveVfx] = useState<MoveVfxOverlay | null>(null);
 
   const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
   const [sidePanel, setSidePanel] = useState<SidePanel>("none");
@@ -258,6 +267,20 @@ export default function PetBattlesPage() {
     const availableMoves = attacker.moves.filter(m => m.currentCooldown === 0);
     const move = availableMoves[Math.floor(Math.random() * availableMoves.length)];
     if (!move) return;
+
+    // Trigger VFX overlay if the move is tagged with a fusion/thread visual
+    if (move.vfxType && move.vfxSpecies) {
+      const lookup = move.vfxType === "fusion" ? VFX_FUSION_ART : VFX_THREAD_ART;
+      const src = lookup[move.vfxSpecies];
+      if (src) {
+        const id = Date.now();
+        setMoveVfx({ id, src, kind: move.vfxType });
+        // Auto-clear after the animation duration so the next trigger is fresh
+        setTimeout(() => {
+          setMoveVfx(prev => (prev?.id === id ? null : prev));
+        }, 650);
+      }
+    }
 
     // Player gets the party synergy + arena modifier + skill-node
     // effects; opponent only sees the arena modifier. When the opponent
@@ -602,7 +625,26 @@ export default function PetBattlesPage() {
           )}
 
           {phase === "battle" && playerPet && opponentPet && battle && (
-            <motion.div key="battle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-3">
+            <motion.div key="battle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-3 relative">
+              {/* Move VFX overlay — fusion/thread textures tied to signature moves */}
+              <AnimatePresence>
+                {moveVfx && (
+                  <motion.img
+                    key={moveVfx.id}
+                    src={moveVfx.src}
+                    alt=""
+                    aria-hidden="true"
+                    initial={{ opacity: 0.85, scale: moveVfx.kind === "fusion" ? 0.9 : 1 }}
+                    animate={{ opacity: 0, scale: moveVfx.kind === "fusion" ? 1.15 : 1.25 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    className="pointer-events-none absolute inset-0 z-20 w-full h-full object-contain mix-blend-screen"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                    data-testid={`pet-battle-vfx-${moveVfx.kind}`}
+                  />
+                )}
+              </AnimatePresence>
+
               <div className="grid grid-cols-2 gap-3">
                 <PetCard pet={playerPet} side="player" />
                 <PetCard pet={opponentPet} side="opponent" />

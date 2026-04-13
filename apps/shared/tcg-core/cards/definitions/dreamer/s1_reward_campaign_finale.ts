@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_campaign_finale.webp",
   flavorText:
     "The Dreamer whispered into the void, and the void answered. What returns is changed — but it returns.",
   rulesVersion: "1.0.0",

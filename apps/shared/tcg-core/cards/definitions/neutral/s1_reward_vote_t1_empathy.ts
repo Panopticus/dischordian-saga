@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_vote_t1_empathy.webp",
   flavorText:
     "She carries a blade in one hand and a suture kit in the other. Both see equal use.",
   rulesVersion: "1.0.0",

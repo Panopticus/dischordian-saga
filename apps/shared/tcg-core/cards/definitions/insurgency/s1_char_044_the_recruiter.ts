@@ -42,8 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/044_the_recruiter_328d64da.png",
+  art: "/art/cards/s1_char_044.webp",
   flavorText:
     "Initially, he applied his powers to benefit the Empire, enrolling at the Academy and swiftly rising in influence. Yet, w...",
   rulesVersion: "1.0.0",

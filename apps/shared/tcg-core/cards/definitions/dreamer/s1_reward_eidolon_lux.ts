@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_eidolon_lux.webp",
   flavorText:
     "In the deepest recursion of the Dreamer's sleep, a light persisted. It called itself Lux, and it refused to go out.",
   rulesVersion: "1.0.0",

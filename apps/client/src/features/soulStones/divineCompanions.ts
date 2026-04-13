@@ -9,6 +9,7 @@ import type {
   DivineCompanion,
   DischordianCompanion,
 } from "./types";
+import { DISCHORDIAN_COMPANION_ART } from "@/data/nanobanna2Assets";
 
 export const DIVINE_COMPANIONS: DivineCompanion[] = [
   /* ─── TIER 1 — 7 divine light cost ─── */
@@ -215,6 +216,7 @@ export const DISCHORDIAN_COMPANIONS: DischordianCompanion[] = [
       "Two shapes occupying the same space — a demon's claw and a saint's open palm, overlapping, flickering, never resolving into either. It shimmers between red and gold, and where the colors overlap, you see violet. It should not exist. It does anyway.",
     icon: "Infinity",
     color: "#8b5cf6",
+    artPath: DISCHORDIAN_COMPANION_ART.paradox,
   },
 
   {
@@ -238,6 +240,7 @@ export const DISCHORDIAN_COMPANIONS: DischordianCompanion[] = [
       "A figure made of translucent glass, standing just behind your shoulder. Inside it, you can see a world that almost was — familiar but wrong, like a reflection in water disturbed by a stone. It watches everything. It remembers everything. Even the things that never happened.",
     icon: "GitBranch",
     color: "#06b6d4",
+    artPath: DISCHORDIAN_COMPANION_ART.witness,
   },
 
   {
@@ -261,5 +264,6 @@ export const DISCHORDIAN_COMPANIONS: DischordianCompanion[] = [
       "A single letter — not from any alphabet you recognize — floating in the air at eye level. It hums with the frequency of a story being told. When the Chronicle updates, the letter trembles. When you speak your sentence, the letter burns itself into the Chronicle and is gone. The companion remains, but its gift does not.",
     icon: "Pen",
     color: "#f59e0b",
+    artPath: DISCHORDIAN_COMPANION_ART.firstWord,
   },
 ];

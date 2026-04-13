@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_070.webp",
   flavorText:
     "The first mind to crack open and let the signal through. Every infection since has been an echo of that original scream.",
   rulesVersion: "1.0.0",

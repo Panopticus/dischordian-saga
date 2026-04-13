@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_xmas_gift.webp",
   flavorText:
     "A small gift, freely given. The wrapping paper was nicer than the contents, but it's the thought that counts.",
   rulesVersion: "1.0.0",

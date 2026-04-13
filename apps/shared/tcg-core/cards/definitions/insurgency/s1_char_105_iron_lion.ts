@@ -58,8 +58,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/105_iron_lion.png",
+  art: "/art/cards/s1_char_105.webp",
   flavorText:
     "He does not ask his soldiers to hold the line. He stands in front of it.",
   rulesVersion: "1.0.0",

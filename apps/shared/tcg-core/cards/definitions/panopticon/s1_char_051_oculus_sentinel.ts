@@ -37,7 +37,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_051.webp",
   flavorText:
     "Its glass eye never blinks. Its memory never falters. It was built to watch — and to remember.",
   rulesVersion: "1.0.0",

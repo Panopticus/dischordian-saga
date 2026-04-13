@@ -57,7 +57,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_017.webp",
   flavorText:
     "She saw the blade that would end her. She chose the timeline where it froze mid-swing.",
   rulesVersion: "1.0.0",

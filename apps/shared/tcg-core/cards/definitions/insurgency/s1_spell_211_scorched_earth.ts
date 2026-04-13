@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_211.webp",
   flavorText:
     "The fire does not distinguish between friend and foe. Neither does desperation.",
   rulesVersion: "1.0.0",

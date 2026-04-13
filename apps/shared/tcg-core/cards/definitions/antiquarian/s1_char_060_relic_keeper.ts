@@ -30,7 +30,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_060.webp",
   flavorText:
     "The relics protect themselves. She merely gives them someone to protect.",
   rulesVersion: "1.0.0",

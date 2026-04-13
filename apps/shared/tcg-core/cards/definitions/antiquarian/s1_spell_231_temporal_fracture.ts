@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_231.webp",
   flavorText:
     "The clock hands stop. The pendulum hangs mid-swing. Only the Antiquarian still moves.",
   rulesVersion: "1.0.0",

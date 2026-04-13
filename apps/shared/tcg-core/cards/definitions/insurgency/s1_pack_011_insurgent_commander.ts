@@ -49,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_011.webp",
   flavorText:
     "He does not give orders. He gives permission. And the Insurgency has been waiting a long time to hear it.",
   rulesVersion: "1.0.0",

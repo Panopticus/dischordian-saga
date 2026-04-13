@@ -60,6 +60,10 @@ export interface PetMove {
   flavorText: string;
   /** Which skill tree node unlocks this */
   requiresSkill?: string;
+  /** Optional visual overlay tag. "fusion" plays the full-screen fusion texture for the move's species, "thread" plays the thread texture. */
+  vfxType?: "fusion" | "thread";
+  /** The eidolon species key used to look up the VFX asset. Falls back to the pet's own species when omitted. */
+  vfxSpecies?: string;
 }
 
 export interface StatusEffect {
@@ -95,21 +99,27 @@ export const STANDARD_MOVES: PetMove[] = [
 export const SPECIES_MOVES: Record<string, PetMove[]> = {
   holographic_fox: [
     { id: "light_flash", name: "Light Flash", description: "Blinding light — 80% chance to miss next turn", power: 0.8, accuracy: 85, cooldown: 3, currentCooldown: 0, effect: "stun",
-      flavorText: "Lux erupts in blinding light! The enemy staggers back!", requiresSkill: "dodge" },
+      flavorText: "Lux erupts in blinding light! The enemy staggers back!", requiresSkill: "dodge",
+      vfxType: "thread", vfxSpecies: "lux" },
     { id: "phase_strike", name: "Phase Strike", description: "Phases through defense", power: 1.5, accuracy: 90, cooldown: 4, currentCooldown: 0,
-      flavorText: "Lux phases through the enemy's guard and strikes from within!", requiresSkill: "crit" },
+      flavorText: "Lux phases through the enemy's guard and strikes from within!", requiresSkill: "crit",
+      vfxType: "fusion", vfxSpecies: "lux" },
   ],
   data_serpent: [
     { id: "code_bite", name: "Code Bite", description: "Inject viral code — damage over time", power: 0.8, accuracy: 95, cooldown: 2, currentCooldown: 0, effect: "burn",
-      flavorText: "Cipher bites, injecting corrupted code into the enemy's systems!", requiresSkill: "crit" },
+      flavorText: "Cipher bites, injecting corrupted code into the enemy's systems!", requiresSkill: "crit",
+      vfxType: "thread", vfxSpecies: "cipher" },
     { id: "system_crash", name: "System Crash", description: "High damage, may stun", power: 1.8, accuracy: 75, cooldown: 4, currentCooldown: 0, effect: "stun",
-      flavorText: "Cipher floods the enemy with nonsense data — their systems crash!" },
+      flavorText: "Cipher floods the enemy with nonsense data — their systems crash!",
+      vfxType: "fusion", vfxSpecies: "cipher" },
   ],
   temporal_kitten: [
     { id: "time_slip", name: "Time Slip", description: "Dodge next attack guaranteed", power: 0, accuracy: 100, cooldown: 3, currentCooldown: 0, effect: "dodge",
-      flavorText: "Echo slips sideways through time. It's somewhere else when the attack lands.", requiresSkill: "dodge" },
+      flavorText: "Echo slips sideways through time. It's somewhere else when the attack lands.", requiresSkill: "dodge",
+      vfxType: "thread", vfxSpecies: "echo" },
     { id: "rewind", name: "Rewind", description: "Heal 30% HP (one-time use per battle)", power: 0, accuracy: 100, cooldown: 99, currentCooldown: 0, effect: "heal",
-      flavorText: "Echo rewinds its own wounds. The damage simply... un-happens." },
+      flavorText: "Echo rewinds its own wounds. The damage simply... un-happens.",
+      vfxType: "fusion", vfxSpecies: "echo" },
   ],
 };
 

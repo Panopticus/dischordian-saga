@@ -45,7 +45,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_102.webp",
   flavorText:
     "The walls listen. The floor obeys. Every corridor and chamber is an extension of the Architect's will.",
   rulesVersion: "1.0.0",

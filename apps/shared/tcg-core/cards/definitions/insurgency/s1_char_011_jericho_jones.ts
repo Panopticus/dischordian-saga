@@ -42,8 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/058_jericho_jones_9493c866.png",
+  art: "/art/cards/s1_char_011.webp",
   flavorText:
     "Known for his exceptional combat skills, tactical genius, and deep sense of loyalty, Jericho played a pivotal role in several key battles.",
   rulesVersion: "1.0.0",

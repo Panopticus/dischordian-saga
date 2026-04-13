@@ -45,7 +45,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_042.webp",
   flavorText:
     "She reached into yesterday and pulled out a moment before the wound. The body remembered.",
   rulesVersion: "1.0.0",

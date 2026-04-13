@@ -56,8 +56,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/117_senator_voss.png",
+  art: "/art/cards/s1_char_117.webp",
   flavorText:
     "The vote was unanimous. It always is, when the dissenters have already been recycled.",
   rulesVersion: "1.0.0",

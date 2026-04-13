@@ -62,7 +62,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_id_oracle_ascended.webp",
   flavorText:
     "The full prophecy realized. Every enemy frozen in the light of absolute foresight.",
   rulesVersion: "1.0.0",

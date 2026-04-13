@@ -34,7 +34,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_015.webp",
   flavorText:
     "She did not see the future. She reached into the probability field and pulled out the one she wanted.",
   rulesVersion: "1.0.0",

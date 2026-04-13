@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_cosm_badge_s1.webp",
   flavorText:
     "You were there when it all began. This proves it.",
   rulesVersion: "1.0.0",

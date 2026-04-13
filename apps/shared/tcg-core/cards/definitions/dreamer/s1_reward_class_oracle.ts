@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_reward_class_oracle.webp",
   flavorText:
     "The Oracle sees every wound before it is dealt — and prepares accordingly.",
   rulesVersion: "1.0.0",

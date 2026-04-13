@@ -53,7 +53,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_106.webp",
   flavorText:
     "Agent Zero's encryption keys were never recovered. The Insurgency uses them still — a dead woman's handshake that no firewall can parse.",
   rulesVersion: "1.0.0",

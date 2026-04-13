@@ -11,6 +11,8 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HeartCrack, AlertTriangle, Undo2, DoorOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SPECTRAL_ART } from "@/data/nanobanna2Assets";
+import { COMPANION_TO_SPECTRAL } from "./spectralFormMap";
 
 /* ─── FAREWELL DIALOG ─── */
 
@@ -45,6 +47,8 @@ export interface FarewellEvent {
   portraitUrl?: string;
   bondLevel: number;
   dissonanceLevel: number;
+  /** Optional explicit spectral art override; otherwise auto-resolved from companionId. */
+  spectralArt?: string;
 }
 
 /** Dispatch to trigger the farewell overlay. */
@@ -127,6 +131,10 @@ export default function CompanionFarewell({ onLetGo, onRedemption }: Props) {
   const dialog =
     FAREWELL_DIALOG[event.companionId] ??
     "Our paths diverge here. I hope you find what you're looking for.";
+
+  const spectralKey = COMPANION_TO_SPECTRAL[event.companionId];
+  const spectralSrc = event.spectralArt
+    ?? (spectralKey ? SPECTRAL_ART[spectralKey] : undefined);
 
   return (
     <AnimatePresence mode="wait">
@@ -286,9 +294,21 @@ export default function CompanionFarewell({ onLetGo, onRedemption }: Props) {
               transition={{ duration: 1.5 }}
               className="space-y-6"
             >
-              {/* Empty portrait space */}
-              <div className="mx-auto w-28 h-28 rounded-full border border-dashed border-white/10 flex items-center justify-center">
-                <HeartCrack size={28} className="text-white/10" />
+              {/* Spectral form — the ghost that remains */}
+              <div className="mx-auto w-28 h-28 rounded-full border border-dashed border-white/10 flex items-center justify-center overflow-hidden">
+                {spectralSrc ? (
+                  <motion.img
+                    src={spectralSrc}
+                    alt={`${event.companionName} — spectral form`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: [0, 0.55, 0.4, 0.55] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                    className="w-full h-full object-contain"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                  />
+                ) : (
+                  <HeartCrack size={28} className="text-white/10" />
+                )}
               </div>
 
               <div>

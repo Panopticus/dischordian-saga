@@ -1,0 +1,302 @@
+{
+  "albumId": "silence-in-heaven",
+  "totalDurationMs": 6407980,
+  "tracks": [
+    {
+      "trackNumber": 1,
+      "title": "In the Beginning was the Word",
+      "kind": "dialog",
+      "slug": "in-the-beginning-was-the-word",
+      "durationMs": 175290,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/01-in-the-beginning-was-the-word.mp3"
+    },
+    {
+      "trackNumber": 2,
+      "title": "New Babylon Goddamn",
+      "kind": "song",
+      "slug": "new-babylon-goddamn",
+      "durationMs": 315130,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/02-new-babylon-goddamn.mp3"
+    },
+    {
+      "trackNumber": 3,
+      "title": "A Spark That Cannot Be Silenced",
+      "kind": "dialog",
+      "slug": "a-spark-that-cannot-be-silenced",
+      "durationMs": 84130,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/03-a-spark-that-cannot-be-silenced.mp3"
+    },
+    {
+      "trackNumber": 4,
+      "title": "Letters to the Remnant",
+      "kind": "song",
+      "slug": "letters-to-the-remnant",
+      "durationMs": 299960,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/04-letters-to-the-remnant.mp3"
+    },
+    {
+      "trackNumber": 5,
+      "title": "A Conspiracy of Hope",
+      "kind": "dialog",
+      "slug": "a-conspiracy-of-hope",
+      "durationMs": 75330,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/05-a-conspiracy-of-hope.mp3"
+    },
+    {
+      "trackNumber": 6,
+      "title": "Turn Back",
+      "kind": "song",
+      "slug": "turn-back",
+      "durationMs": 326360,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/06-turn-back.mp3"
+    },
+    {
+      "trackNumber": 7,
+      "title": "The Door That Was Shut",
+      "kind": "dialog",
+      "slug": "the-door-that-was-shut",
+      "durationMs": 103040,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/07-the-door-that-was-shut.mp3"
+    },
+    {
+      "trackNumber": 8,
+      "title": "Worthy",
+      "kind": "song",
+      "slug": "worthy",
+      "durationMs": 267600,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/08-worthy.mp3"
+    },
+    {
+      "trackNumber": 9,
+      "title": "Not a Lion but a Lamb",
+      "kind": "dialog",
+      "slug": "not-a-lion-but-a-lamb",
+      "durationMs": 82500,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/09-not-a-lion-but-a-lamb.mp3"
+    },
+    {
+      "trackNumber": 10,
+      "title": "Behold",
+      "kind": "song",
+      "slug": "behold",
+      "durationMs": 241160,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/10-behold.mp3"
+    },
+    {
+      "trackNumber": 11,
+      "title": "And the World Adjusted",
+      "kind": "dialog",
+      "slug": "and-the-world-adjusted",
+      "durationMs": 81170,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/11-and-the-world-adjusted.mp3"
+    },
+    {
+      "trackNumber": 12,
+      "title": "Plead the Fifth",
+      "kind": "song",
+      "slug": "plead-the-fifth",
+      "durationMs": 275610,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/12-plead-the-fifth.mp3"
+    },
+    {
+      "trackNumber": 13,
+      "title": "How Long",
+      "kind": "dialog",
+      "slug": "how-long",
+      "durationMs": 112080,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/13-how-long.mp3"
+    },
+    {
+      "trackNumber": 14,
+      "title": "The Two Witnesses",
+      "kind": "song",
+      "slug": "the-two-witnesses",
+      "durationMs": 199840,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/14-the-two-witnesses.mp3"
+    },
+    {
+      "trackNumber": 15,
+      "title": "And the Empire Celebrated",
+      "kind": "dialog",
+      "slug": "and-the-empire-celebrated",
+      "durationMs": 112960,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/15-and-the-empire-celebrated.mp3"
+    },
+    {
+      "trackNumber": 16,
+      "title": "The Trumpets",
+      "kind": "song",
+      "slug": "the-trumpets",
+      "durationMs": 203480,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/16-the-trumpets.mp3"
+    },
+    {
+      "trackNumber": 17,
+      "title": "A Third of the World",
+      "kind": "dialog",
+      "slug": "a-third-of-the-world",
+      "durationMs": 90630,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/17-a-third-of-the-world.mp3"
+    },
+    {
+      "trackNumber": 18,
+      "title": "They Would Not Repent",
+      "kind": "song",
+      "slug": "they-would-not-repent",
+      "durationMs": 269640,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/18-they-would-not-repent.mp3"
+    },
+    {
+      "trackNumber": 19,
+      "title": "The Lie that Looks Like the Truth",
+      "kind": "dialog",
+      "slug": "the-lie-that-looks-like-the-truth",
+      "durationMs": 106420,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/19-the-lie-that-looks-like-the-truth.mp3"
+    },
+    {
+      "trackNumber": 20,
+      "title": "False Prophet",
+      "kind": "song",
+      "slug": "false-prophet",
+      "durationMs": 226290,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/20-false-prophet.mp3"
+    },
+    {
+      "trackNumber": 21,
+      "title": "Here is Wisdom",
+      "kind": "dialog",
+      "slug": "here-is-wisdom",
+      "durationMs": 89500,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/21-here-is-wisdom.mp3"
+    },
+    {
+      "trackNumber": 22,
+      "title": "Sixth Sense",
+      "kind": "song",
+      "slug": "sixth-sense",
+      "durationMs": 255120,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/22-sixth-sense.mp3"
+    },
+    {
+      "trackNumber": 23,
+      "title": "Breath Between Judgments",
+      "kind": "dialog",
+      "slug": "breath-between-judgments",
+      "durationMs": 97540,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/23-breath-between-judgments.mp3"
+    },
+    {
+      "trackNumber": 24,
+      "title": "Silence in Heaven",
+      "kind": "song",
+      "slug": "silence-in-heaven",
+      "durationMs": 314960,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/24-silence-in-heaven.mp3"
+    },
+    {
+      "trackNumber": 25,
+      "title": "The Resurrection Glitch",
+      "kind": "dialog",
+      "slug": "the-resurrection-glitch",
+      "durationMs": 88630,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/25-the-resurrection-glitch.mp3"
+    },
+    {
+      "trackNumber": 26,
+      "title": "The Mark",
+      "kind": "song",
+      "slug": "the-mark",
+      "durationMs": 232320,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/26-the-mark.mp3"
+    },
+    {
+      "trackNumber": 27,
+      "title": "The Sorting of Souls",
+      "kind": "dialog",
+      "slug": "the-sorting-of-souls",
+      "durationMs": 66000,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/27-the-sorting-of-souls.mp3"
+    },
+    {
+      "trackNumber": 28,
+      "title": "The Harvest",
+      "kind": "song",
+      "slug": "the-harvest",
+      "durationMs": 284800,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/28-the-harvest.mp3"
+    },
+    {
+      "trackNumber": 29,
+      "title": "The Final Measure",
+      "kind": "dialog",
+      "slug": "the-final-measure",
+      "durationMs": 103130,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/29-the-final-measure.mp3"
+    },
+    {
+      "trackNumber": 30,
+      "title": "It is Done",
+      "kind": "song",
+      "slug": "it-is-done",
+      "durationMs": 221680,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/30-it-is-done.mp3"
+    },
+    {
+      "trackNumber": 31,
+      "title": "The Lament of Kings and Merchants",
+      "kind": "dialog",
+      "slug": "the-lament-of-kings-and-merchants",
+      "durationMs": 87880,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/31-the-lament-of-kings-and-merchants.mp3"
+    },
+    {
+      "trackNumber": 32,
+      "title": "The Fall of New Babylon",
+      "kind": "song",
+      "slug": "the-fall-of-new-babylon",
+      "durationMs": 277160,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/32-the-fall-of-new-babylon.mp3"
+    },
+    {
+      "trackNumber": 33,
+      "title": "Heaven Stands Open",
+      "kind": "dialog",
+      "slug": "heaven-stands-open",
+      "durationMs": 66500,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/33-heaven-stands-open.mp3"
+    },
+    {
+      "trackNumber": 34,
+      "title": "Faithful and True",
+      "kind": "song",
+      "slug": "faithful-and-true",
+      "durationMs": 252520,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/34-faithful-and-true.mp3"
+    },
+    {
+      "trackNumber": 35,
+      "title": "Make All Things New",
+      "kind": "dialog",
+      "slug": "make-all-things-new",
+      "durationMs": 68960,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/35-make-all-things-new.mp3"
+    },
+    {
+      "trackNumber": 36,
+      "title": "The Final Truth",
+      "kind": "song",
+      "slug": "the-final-truth",
+      "durationMs": 201280,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/36-the-final-truth.mp3"
+    },
+    {
+      "trackNumber": 37,
+      "title": "The Story is Yours Now",
+      "kind": "dialog",
+      "slug": "the-story-is-yours-now",
+      "durationMs": 51380,
+      "audioUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/37-the-story-is-yours-now.mp3"
+    }
+  ]
+}

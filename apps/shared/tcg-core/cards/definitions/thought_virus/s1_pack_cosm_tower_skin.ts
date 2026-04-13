@@ -47,7 +47,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_cosm_tower_skin.webp",
   flavorText:
     "The Spire's guards do not move. They do not need to. Nothing passes them.",
   rulesVersion: "1.0.0",

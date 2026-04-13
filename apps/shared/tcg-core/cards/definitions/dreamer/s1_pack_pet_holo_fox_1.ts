@@ -51,7 +51,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_pack_pet_holo_fox_1.webp",
   flavorText:
     "It blinked into existence smelling of ozone and starlight.",
   rulesVersion: "1.0.0",

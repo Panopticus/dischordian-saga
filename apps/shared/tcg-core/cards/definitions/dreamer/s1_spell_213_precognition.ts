@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_213.webp",
   flavorText:
     "She saw the blade three seconds before it fell. Three seconds was enough.",
   rulesVersion: "1.0.0",

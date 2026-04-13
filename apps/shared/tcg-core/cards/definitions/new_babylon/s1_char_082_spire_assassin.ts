@@ -37,7 +37,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_082.webp",
   flavorText:
     "She descends from the Spire like a verdict from on high — silent, precise, and final.",
   rulesVersion: "1.0.0",

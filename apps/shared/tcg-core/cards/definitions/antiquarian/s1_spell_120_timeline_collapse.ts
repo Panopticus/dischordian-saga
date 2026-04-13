@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_spell_120.webp",
   flavorText:
     "The Antiquarian closed the book of this Age. Its pages unraveled like ash, and the board stood empty — waiting to be written again.",
   rulesVersion: "1.0.0",

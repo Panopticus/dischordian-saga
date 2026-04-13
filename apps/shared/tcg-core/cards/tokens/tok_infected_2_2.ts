@@ -18,7 +18,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 2, health: 2 },
   keywords: [],
   abilities: [],
-  art: "placeholder",
+  art: "/art/cards/tok_infected_2_2.webp",
   flavorText:
     "What was once a person is now a vessel. The Virus wears their face but not their name.",
   rulesVersion: "1.0.0",

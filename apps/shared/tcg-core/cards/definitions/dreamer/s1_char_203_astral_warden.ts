@@ -35,7 +35,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "placeholder",
+  art: "/art/cards/s1_char_203.webp",
   flavorText:
     "She stepped out of the dream carrying a shield of starlight and a secret meant only for you.",
   rulesVersion: "1.0.0",
