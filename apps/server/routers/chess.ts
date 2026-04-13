@@ -13,13 +13,57 @@ import {
   chessGames, chessRankings, chessTournaments,
   chessPuzzleProgress, chessTournamentParticipants, chessTournamentPairings,
   chessTutorialProgress,
+  memoryResinBank,
   dreamBalance, notifications,
 } from "../../db/schema";
 import {
   CHESS_TUTORIAL_GATES,
   getChessTutorialGate,
   resolveDialog,
+  listChessTutorialVoiceCues,
 } from "@shared/tcg-core";
+
+/** Audio URL convention for the Celebration Teaching Set memory
+ *  resin captures. The actual MP3 files live under this path; once
+ *  the user generates voice-over for a clip, dropping the file at
+ *  the matching path is enough for the FNORD-23 browser to play it.
+ *  Captures work even before audio exists — the file path is stored
+ *  as a promise. */
+const CHESS_TUTORIAL_AUDIO_BASE = "/audio/chess_tutorial";
+
+/** Bulk-capture every chess tutorial voice cue into the player's
+ *  memory resin bank. Called when the Celebration Teaching Set
+ *  keepsake is granted — either by completing Gate 7 normally or
+ *  by winning the skip-challenge match. Idempotent because the
+ *  memory_resin_bank table has a unique index on
+ *  (userId, audioClipId, context) — duplicate inserts silently
+ *  turn into no-ops.
+ */
+async function captureCelebrationTeachingSet(
+  db: DrizzleDb,
+  userId: number,
+): Promise<{ captured: number }> {
+  const cues = listChessTutorialVoiceCues();
+  let captured = 0;
+  for (const cue of cues) {
+    try {
+      await db.insert(memoryResinBank).values({
+        userId,
+        audioClipId: cue.audioClipId,
+        audioUrl: `${CHESS_TUTORIAL_AUDIO_BASE}/${cue.audioClipId}.mp3`,
+        speaker: cue.speaker,
+        context: cue.context,
+        transcript: cue.transcript,
+        durationSeconds: 0,
+        tags: [...cue.tags],
+      });
+      captured += 1;
+    } catch {
+      // Unique index collision — already captured. That's fine.
+    }
+  }
+  return { captured };
+}
 import { fetchCitizenData, fetchPotentialNftData, resolveChessBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
 import { checkFeatureFlag } from "../middleware/featureFlag";
@@ -1768,12 +1812,23 @@ export const chessRouter = router({
         .where(eq(chessTutorialProgress.userId, ctx.user.id));
 
       if (isFinal && !row.keepsakeGranted) {
+        // Bulk-capture every chess tutorial voice cue into the
+        // player's FNORD-23 memory resin bank. The keepsake IS the
+        // memory resin — Gate 7 tells the student it plays back in
+        // the teacher's pre-corruption voice. This call makes that
+        // literal on the UI side: the cues show up as playable
+        // tracks in the FNORD-23 browser from this moment forward.
+        const captureResult = await captureCelebrationTeachingSet(db, ctx.user.id);
+        logger.info(
+          `[Chess] Celebration Teaching Set: captured ${captureResult.captured} memory resin entries for user ${ctx.user.id}`,
+        );
+
         await db.insert(notifications).values({
           userId: ctx.user.id,
           type: "achievement",
           title: "The Celebration Teaching Set",
-          message: "The Celebration Game Master gave you his original chess set. Memory resin is now available in your inventory.",
-          actionUrl: "/chess",
+          message: "The Celebration Game Master gave you his original chess set. Every lesson, intro, and reflection is now available as memory resin in the FNORD-23.",
+          actionUrl: "/fnord23",
         });
       }
 
@@ -1860,12 +1915,23 @@ export const chessRouter = router({
             completedAt: new Date(),
           })
           .where(eq(chessTutorialProgress.userId, ctx.user.id));
+        // The victory path also unlocks the full Celebration
+        // Teaching Set — the teacher explicitly promises his jacket
+        // and his blessing, and if he promised it he records it.
+        // Only bulk-capture if this is the first time the keepsake
+        // lands (row.keepsakeGranted was false before the update).
+        if (!row.keepsakeGranted) {
+          const captureResult = await captureCelebrationTeachingSet(db, ctx.user.id);
+          logger.info(
+            `[Chess] Celebration Teaching Set (skip-victory): captured ${captureResult.captured} memory resin entries for user ${ctx.user.id}`,
+          );
+        }
         await db.insert(notifications).values({
           userId: ctx.user.id,
           type: "achievement",
           title: "The Celebration Teaching Jacket",
-          message: "You beat the Celebration Game Master at full strength. He shook your hand and gave you his jacket.",
-          actionUrl: "/chess",
+          message: "You beat the Celebration Game Master at full strength. He gave you his jacket and every tutorial transmission for your FNORD-23.",
+          actionUrl: "/fnord23",
         });
         return {
           outcome: "won" as const,

@@ -350,3 +350,95 @@ export function getChessTutorialGate(
 ): ChessTutorialGate | undefined {
   return CHESS_TUTORIAL_GATES.find((g) => g.gateNumber === gateNumber);
 }
+
+/** A single voice cue extracted from the tutorial content, in the
+ *  shape the memory-resin capture helper expects. Every cue that
+ *  carries an audioClipId becomes a memory-resin row when the
+ *  Celebration Teaching Set keepsake is granted. */
+export interface ChessTutorialVoiceCue {
+  audioClipId: string;
+  speaker: string;
+  transcript: string;
+  context: string;
+  tags: readonly string[];
+}
+
+/** Flatten every chess tutorial cue with an audioClipId into a
+ *  single list the server can iterate when granting the keepsake.
+ *  Walks:
+ *    1. Every gate's introScene.cues
+ *    2. Every gate's outroScene.cues
+ *    3. Every gate's step array (the lesson text itself)
+ *    4. Every skip-path scene
+ *    5. Every corrupted Arena encounter scene
+ *  Cues without an audioClipId are skipped silently — they simply
+ *  won't appear in the memory resin bank until they get voiced. */
+export function listChessTutorialVoiceCues(): readonly ChessTutorialVoiceCue[] {
+  const out: ChessTutorialVoiceCue[] = [];
+
+  // Every gate's intro + outro + lesson steps
+  for (const gate of CHESS_TUTORIAL_GATES) {
+    const gateContext = `chess_tutorial_gate_${gate.gateNumber}`;
+    const gateTag = `gate_${gate.gateNumber}`;
+
+    for (const cue of gate.introScene.cues) {
+      if (!cue.audioClipId) continue;
+      out.push({
+        audioClipId: cue.audioClipId,
+        speaker: cue.speaker,
+        transcript: cue.text,
+        context: `${gateContext}_intro`,
+        tags: ["chess_tutorial", gateTag, "intro"],
+      });
+    }
+    for (const cue of gate.outroScene.cues) {
+      if (!cue.audioClipId) continue;
+      out.push({
+        audioClipId: cue.audioClipId,
+        speaker: cue.speaker,
+        transcript: cue.text,
+        context: `${gateContext}_outro`,
+        tags: ["chess_tutorial", gateTag, "outro"],
+      });
+    }
+    for (let i = 0; i < gate.steps.length; i++) {
+      const step = gate.steps[i];
+      if (!step.audioClipId) continue;
+      out.push({
+        audioClipId: step.audioClipId,
+        speaker: step.speaker,
+        transcript: step.text,
+        context: `${gateContext}_step_${i + 1}`,
+        tags: ["chess_tutorial", gateTag, "lesson"],
+      });
+    }
+  }
+
+  // Scenes that live in CHESS_TUTORIAL_SCENES but aren't bound to a
+  // specific gate: skip-path (3 scenes) + corrupted Arena (3 scenes).
+  // Recognize them by id prefix and tag them accordingly.
+  for (const scene of CHESS_TUTORIAL_SCENES) {
+    let context: string | null = null;
+    let extraTags: string[] | null = null;
+    if (scene.id.startsWith("chess_tut_skip_")) {
+      context = scene.id;
+      extraTags = ["chess_tutorial", "skip_path"];
+    } else if (scene.id.startsWith("chess_corrupted_arena_")) {
+      context = scene.id;
+      extraTags = ["chess_tutorial", "arena_leak"];
+    }
+    if (!context || !extraTags) continue;
+    for (const cue of scene.cues) {
+      if (!cue.audioClipId) continue;
+      out.push({
+        audioClipId: cue.audioClipId,
+        speaker: cue.speaker,
+        transcript: cue.text,
+        context,
+        tags: extraTags,
+      });
+    }
+  }
+
+  return Object.freeze(out);
+}

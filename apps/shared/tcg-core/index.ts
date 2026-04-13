@@ -232,11 +232,13 @@ export {
   CHESS_TUTORIAL_GATE_7,
   CHESS_TUTORIAL_SCENES,
   getChessTutorialGate,
+  listChessTutorialVoiceCues,
 } from "./story/chessTutorial";
 export type {
   ChessTutorialStep,
   ChessTutorialGate,
   ChessPieceFocus,
+  ChessTutorialVoiceCue,
 } from "./story/chessTutorial";
 
 /* ─── Campaign chapters (WS6) ─── */
