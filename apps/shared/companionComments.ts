@@ -350,7 +350,17 @@ export const COMPANION_COMMENTS_EXISTING: CompanionComment[] = [
    Appended in follow-up commits to keep this file reviewable.
    ═══════════════════════════════════════════════════════ */
 
-export const COMPANION_COMMENTS_EXPANSION: CompanionComment[] = [];
+import {
+  COMPANION_COMMENTS_COMBAT,
+  COMPANION_COMMENTS_EXPLORATION,
+  COMPANION_COMMENTS_DEATH,
+} from "./companionCommentsCombat";
+
+export const COMPANION_COMMENTS_EXPANSION: CompanionComment[] = [
+  ...COMPANION_COMMENTS_COMBAT,
+  ...COMPANION_COMMENTS_EXPLORATION,
+  ...COMPANION_COMMENTS_DEATH,
+];
 
 export const COMPANION_COMMENTS: CompanionComment[] = [
   ...COMPANION_COMMENTS_EXISTING,
