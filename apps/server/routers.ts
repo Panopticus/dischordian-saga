@@ -95,6 +95,7 @@ import { tutorialRouter } from "./routers/tutorial";
 import { collectionRouter } from "./routers/collection";
 import { engineerLogsRouter } from "./routers/engineerLogs";
 import { fnord23Router } from "./routers/fnord23";
+import { oracleDeckRouter } from "./routers/oracleDeck";
 import { celebrationRouter } from "./routers/celebration";
 
 export const appRouter = router({
@@ -187,6 +188,7 @@ export const appRouter = router({
   tutorial: tutorialRouter,
   engineerLogs: engineerLogsRouter,
   fnord23: fnord23Router,
+  oracleDeck: oracleDeckRouter,
   celebration: celebrationRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),

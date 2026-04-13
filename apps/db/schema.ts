@@ -1962,6 +1962,84 @@ export type ChessTutorialProgress = typeof chessTutorialProgress.$inferSelect;
 
 
 /* ═══════════════════════════════════════════════════════
+   ORACLE DECK — The 23-card Dischordian tarot system (Phase E).
+   Every player builds a collection over the course of the Saga.
+   Once per day they can cast a free 1-card reading; before a
+   match they can spend an Oracle charge for a 3-card spread;
+   once per week they can cast a 5-card spread for a bigger
+   bonus. Readings are deterministic — same seed always produces
+   the same draw — so the Oracle can audit them.
+   ═══════════════════════════════════════════════════════ */
+
+export const oracleDeckProgress = mysqlTable("oracle_deck_progress", {
+  userId: int("userId").primaryKey(),
+  /** Slugs of cards the player has unlocked. Starts empty; The
+   *  Prisoner is always considered owned by the draw engine even
+   *  when this array does not contain it. */
+  ownedSlugs: json("ownedSlugs").$type<string[]>().notNull(),
+  /** Oracle charges the player currently holds. Earned from
+   *  specific milestones (Chapter completion, governance
+   *  participation, etc.). Spent on pre-match and weekly
+   *  readings (daily reads are free). */
+  charges: int("charges").notNull().default(0),
+  /** Day-number of the player's most recent daily reading
+   *  (Math.floor(Date.now() / 86_400_000)). Used to prevent
+   *  re-casting within the same day. */
+  lastDailyDayNumber: int("lastDailyDayNumber"),
+  /** Week-number of the player's most recent weekly spread
+   *  (Math.floor(dayNumber / 7)). Prevents re-casting within
+   *  the same week. */
+  lastWeeklyWeekNumber: int("lastWeeklyWeekNumber"),
+  /** Whether the player has unlocked the (hidden) Fnord card
+   *  via the secret discovery path. */
+  fnordUnlocked: boolean("fnordUnlocked").notNull().default(false),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type OracleDeckProgress = typeof oracleDeckProgress.$inferSelect;
+
+/** Log of every Oracle reading the player has cast. The router
+ *  persists the seed so the reading is perfectly reproducible —
+ *  the Oracle can audit any row by re-running castReading() with
+ *  the stored userId + spreadKind + seedKey and comparing the
+ *  draw JSON against the stored `draws` field. */
+export const oracleReadings = mysqlTable("oracle_readings", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** "daily" | "pre_match" | "weekly" */
+  spreadKind: varchar("spreadKind", { length: 32 }).notNull(),
+  /** The deterministic seed key (day number, week number, match
+   *  id, etc.). String for forward compatibility. */
+  seedKey: varchar("seedKey", { length: 128 }).notNull(),
+  /** The 32-bit hash derived from (userId, spreadKind, seedKey). */
+  seed: int("seed").notNull(),
+  /** Full reading JSON — spread shape + drawn positions. Used by
+   *  the client to re-render past readings without re-casting. */
+  draws: json("draws").$type<unknown>().notNull(),
+  /** When the reading's buffs start applying. For daily readings
+   *  this is the start of the day; for pre-match this is the
+   *  moment the match starts; for weekly this is the start of
+   *  the week. */
+  appliesAt: timestamp("appliesAt").notNull(),
+  /** Whether the draw fell back to The Prisoner (player owned
+   *  fewer cards than the spread length). */
+  fallback: boolean("fallback").notNull().default(false),
+  castAt: timestamp("castAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_oracle_readings_user").on(table.userId),
+  userKindIdx: index("idx_oracle_readings_user_kind").on(table.userId, table.spreadKind),
+  // Uniqueness: one reading per (user, spreadKind, seedKey). Lets
+  // the router upsert on re-cast within the same seed window.
+  userKindSeedUq: uniqueIndex("uq_oracle_readings_user_kind_seed").on(
+    table.userId,
+    table.spreadKind,
+    table.seedKey,
+  ),
+}));
+export type OracleReadingRow = typeof oracleReadings.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════
    CLASS MASTERY — Progressive class specialization
    Players earn class XP by performing class-aligned actions.
    5 mastery ranks unlock increasingly powerful perks.
