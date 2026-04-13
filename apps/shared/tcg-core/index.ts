@@ -120,7 +120,11 @@ export type { TriggerEffectRunner } from "./engine/triggerQueue";
 export { interpret, UnsupportedOpError } from "./engine/effectInterpreter";
 export { createDefaultTriggerRunner } from "./engine/defaultTriggerRunner";
 export { createMatchState, drawOneCard, mintEntityId } from "./engine/init";
-export type { MatchConfig, CreateMatchOptions } from "./engine/init";
+export type {
+  MatchConfig,
+  CreateMatchOptions,
+  MatchStartingBonuses,
+} from "./engine/init";
 export { refreshTurnForPlayer } from "./engine/turn";
 export { getValidMoves } from "./engine/movement";
 export type { Coord } from "./engine/movement";

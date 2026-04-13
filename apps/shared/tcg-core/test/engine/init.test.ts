@@ -175,4 +175,99 @@ describe("createMatchState", () => {
       expect(ant.maxHealth).toBe(6);
     }
   });
+
+  /* ─────────────── Starting bonuses (E7) ─────────────── */
+
+  it("startingBonuses.extraMana adds to STARTING_MANA and maxMana", () => {
+    const s = createMatchState({
+      matchId: "m-bonus-mana",
+      seed: "init-seed",
+      p1: {
+        ...p1Config,
+        startingBonuses: { extraMana: 2 },
+      },
+      p2: p2Config,
+      registry,
+    });
+    expect(s.players[0].mana).toBe(STARTING_MANA + 2);
+    expect(s.players[0].maxMana).toBe(STARTING_MANA + 2);
+    expect(s.players[1].mana).toBe(STARTING_MANA);
+  });
+
+  it("startingBonuses.extraCards enlarges the opening hand", () => {
+    const s = createMatchState({
+      matchId: "m-bonus-cards",
+      seed: "init-seed",
+      p1: {
+        ...p1Config,
+        startingBonuses: { extraCards: 2 },
+      },
+      p2: p2Config,
+      registry,
+    });
+    expect(s.players[0].hand.length).toBe(MULLIGAN_HAND_SIZE + 2);
+    expect(s.players[1].hand.length).toBe(MULLIGAN_HAND_SIZE);
+  });
+
+  it("startingBonuses.extraGeneralHp bumps the general's HP", () => {
+    const s = createMatchState({
+      matchId: "m-bonus-hp",
+      seed: "init-seed",
+      p1: {
+        ...p1Config,
+        startingBonuses: { extraGeneralHp: 5 },
+      },
+      p2: p2Config,
+      registry,
+    });
+    const p1General = [...Object.values(s.board)].find((e) => e.isGeneral && e.card.owner === 0);
+    const p2General = [...Object.values(s.board)].find((e) => e.isGeneral && e.card.owner === 1);
+    expect(p1General?.card.currentHealth).toBeGreaterThan(
+      p2General?.card.currentHealth ?? 0,
+    );
+    expect((p1General?.card.currentHealth ?? 0) - (p2General?.card.currentHealth ?? 0)).toBe(5);
+  });
+
+  it("startingBonuses values are clamped to prevent abuse", () => {
+    const s = createMatchState({
+      matchId: "m-bonus-clamp",
+      seed: "init-seed",
+      p1: {
+        ...p1Config,
+        startingBonuses: {
+          extraMana: 99,
+          extraCards: 99,
+          extraGeneralHp: 99,
+        },
+      },
+      p2: p2Config,
+      registry,
+    });
+    // Clamps: mana +3, cards +2, hp +10
+    expect(s.players[0].mana).toBe(STARTING_MANA + 3);
+    expect(s.players[0].hand.length).toBe(MULLIGAN_HAND_SIZE + 2);
+    const p1General = [...Object.values(s.board)].find((e) => e.isGeneral && e.card.owner === 0);
+    const p2General = [...Object.values(s.board)].find((e) => e.isGeneral && e.card.owner === 1);
+    const delta = (p1General?.card.currentHealth ?? 0) - (p2General?.card.currentHealth ?? 0);
+    expect(delta).toBe(10);
+  });
+
+  it("omitted startingBonuses yields identical state to the no-bonus path", () => {
+    const noBonus = createMatchState({
+      matchId: "m-no-bonus",
+      seed: "init-seed",
+      p1: p1Config,
+      p2: p2Config,
+      registry,
+    });
+    const emptyBonus = createMatchState({
+      matchId: "m-no-bonus",
+      seed: "init-seed",
+      p1: { ...p1Config, startingBonuses: {} },
+      p2: { ...p2Config, startingBonuses: {} },
+      registry,
+    });
+    // Same hashes → no-op when all bonus fields are undefined.
+    expect(hashState(noBonus)).toBe(hashState(emptyBonus));
+  });
 });

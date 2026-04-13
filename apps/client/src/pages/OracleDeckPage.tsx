@@ -27,6 +27,7 @@ import {
   BookOpen,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { getOracleCardBySlug } from "@shared/tcg-core";
 
 type View = "deck" | "daily_reading" | "weekly_reading";
 
@@ -69,8 +70,12 @@ export default function OracleDeckPage() {
   const collectionQ = trpc.oracleDeck.listCollection.useQuery(undefined, {
     enabled: isAuthenticated,
   });
+  const activeDailyQ = trpc.oracleDeck.getActiveDailyReading.useQuery(undefined, {
+    enabled: isAuthenticated,
+  });
   const castDaily = trpc.oracleDeck.castDaily.useMutation();
   const castWeekly = trpc.oracleDeck.castWeekly.useMutation();
+  const utils = trpc.useUtils();
 
   const [dailyReading, setDailyReading] = useState<any>(null);
   const [weeklyReading, setWeeklyReading] = useState<any>(null);
@@ -81,6 +86,9 @@ export default function OracleDeckPage() {
   const handleCastDaily = async () => {
     const result = await castDaily.mutateAsync();
     setDailyReading(result.reading);
+    // Refresh the active-daily query so the banner on the deck
+    // view reflects today's draw when the player returns.
+    utils.oracleDeck.getActiveDailyReading.invalidate();
     setView("daily_reading");
   };
 
@@ -154,6 +162,45 @@ export default function OracleDeckPage() {
             exit={{ opacity: 0 }}
             className="space-y-6"
           >
+            {/* Today's reading banner — only when already cast */}
+            {activeDailyQ.data && (() => {
+              const draw = activeDailyQ.data.draws?.[0];
+              if (!draw) return null;
+              const card = getOracleCardBySlug(draw.cardSlug);
+              if (!card) return null;
+              return (
+                <div
+                  className="rounded-lg border border-amber-400/40 bg-amber-400/5 p-4 cursor-pointer hover-lift"
+                  onClick={() => {
+                    setDailyReading(activeDailyQ.data);
+                    setView("daily_reading");
+                  }}
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <Sparkles size={14} className="text-amber-300" />
+                    <span className="font-display text-xs font-bold tracking-wider text-amber-100">
+                      TODAY&apos;S READING
+                    </span>
+                    <span className="font-mono text-[10px] text-muted-foreground ml-auto">
+                      click to reopen
+                    </span>
+                  </div>
+                  <p className="font-display text-base font-bold">
+                    {card.name}{" "}
+                    <span className="font-mono text-[10px] text-muted-foreground italic">
+                      ({draw.orientation})
+                    </span>
+                  </p>
+                  <p className="font-mono text-[11px] text-amber-200/80 mt-1">
+                    {draw.buff.label}
+                  </p>
+                  <p className="font-mono text-[10px] text-muted-foreground mt-2 italic line-clamp-2">
+                    &ldquo;{draw.orientation === "upright" ? card.uprightMeaning : card.reversedMeaning}&rdquo;
+                  </p>
+                </div>
+              );
+            })()}
+
             {/* Reading actions */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <button
@@ -362,9 +409,14 @@ function ReadingView({
 }
 
 function DrawnCard({ drawn, hidden }: { drawn: any; hidden: boolean }) {
+  // Look up the full card data so we can show the name, arcanum,
+  // and upright/reversed meaning instead of the raw slug.
+  const card = !hidden ? getOracleCardBySlug(drawn.cardSlug) : undefined;
   const accent = hidden
     ? "border-rose-500/50 text-rose-100"
-    : ARCANUM_ACCENT.fool;
+    : card
+      ? ARCANUM_ACCENT[card.arcanum] ?? "border-border/30 text-foreground"
+      : "border-border/30 text-foreground";
   return (
     <div className={`rounded-md border ${accent} bg-black/40 p-4 space-y-2`}>
       <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
@@ -380,14 +432,19 @@ function DrawnCard({ drawn, hidden }: { drawn: any; hidden: boolean }) {
         </>
       ) : (
         <>
-          <p className="font-display text-sm font-bold">{drawn.cardSlug}</p>
-          <p className="font-mono text-[10px] text-muted-foreground italic">
-            {drawn.orientation}
+          <p className="font-display text-sm font-bold">
+            {card?.name ?? drawn.cardSlug}
+          </p>
+          <p className="font-mono text-[9px] text-muted-foreground uppercase tracking-widest">
+            {card?.arcanum.replace(/_/g, " ")} // {drawn.orientation}
+          </p>
+          <p className="font-mono text-[10px] text-muted-foreground italic line-clamp-3">
+            &ldquo;{drawn.orientation === "upright" ? card?.uprightMeaning : card?.reversedMeaning}&rdquo;
           </p>
           <p className="font-mono text-[10px] text-amber-200/80">
             {drawn.buff?.label}
           </p>
-          <p className="font-mono text-[10px] text-muted-foreground">
+          <p className="font-mono text-[9px] text-muted-foreground">
             applies at {drawn.position.appliesAt}
           </p>
         </>
