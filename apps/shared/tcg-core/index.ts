@@ -259,6 +259,19 @@ export type {
   OracleDeck,
   OracleDeckLookup,
 } from "./tarot/oracleDeckTypes";
+export {
+  DAILY_SPREAD,
+  PRE_MATCH_SPREAD,
+  WEEKLY_SPREAD,
+  ORACLE_SPREADS,
+  getOracleSpread,
+} from "./tarot/spreads";
+export type {
+  OracleSpreadKind,
+  OracleSpreadShape,
+  OracleSpreadPosition,
+  OracleDrawnPosition,
+} from "./tarot/spreads";
 
 /* ─── Campaign chapters (WS6) ─── */
 export {
