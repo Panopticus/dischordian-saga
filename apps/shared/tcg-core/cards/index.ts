@@ -430,6 +430,7 @@ import { cardDef as token_wolf_2_2 } from "./tokens/token_wolf_2_2";
 /* ─── Class-specific cards (Phase B1+) ─── */
 import { SPY_CLASS_CARDS } from "./definitions/class/spy";
 import { ORACLE_CLASS_CARDS } from "./definitions/class/oracle";
+import { ASSASSIN_CLASS_CARDS } from "./definitions/class/assassin";
 
 /* ─── NPC Imprints (Phase F10+) ─── */
 import { AGENT_ZERO_IMPRINT_SET } from "./definitions/imprint/agent_zero";
@@ -880,4 +881,5 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   // Class-specific cards — spread per class
   ...SPY_CLASS_CARDS,
   ...ORACLE_CLASS_CARDS,
+  ...ASSASSIN_CLASS_CARDS,
 ]);
