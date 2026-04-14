@@ -427,6 +427,14 @@ import { cardDef as tok_spore_1_1 } from "./tokens/tok_spore_1_1";
 import { cardDef as token_crystal_senator_5_5 } from "./tokens/token_crystal_senator_5_5";
 import { cardDef as token_wolf_2_2 } from "./tokens/token_wolf_2_2";
 
+/* ─── Class-specific cards (Phase B1+) ─── */
+import { SPY_CLASS_CARDS } from "./definitions/class/spy";
+import { ORACLE_CLASS_CARDS } from "./definitions/class/oracle";
+import { ASSASSIN_CLASS_CARDS } from "./definitions/class/assassin";
+import { ENGINEER_CLASS_CARDS } from "./definitions/class/engineer";
+import { SOLDIER_CLASS_CARDS } from "./definitions/class/soldier";
+import { NEYON_CLASS_CARDS } from "./definitions/class/neyon";
+
 /* ─── NPC Imprints (Phase F10+) ─── */
 import { AGENT_ZERO_IMPRINT_SET } from "./definitions/imprint/agent_zero";
 import { IRON_LION_IMPRINT_SET } from "./definitions/imprint/iron_lion";
@@ -873,4 +881,11 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   ...THE_ENIGMA_IMPRINT_SET,
   ...FOUCAULT_IMPRINT_SET,
   ...THE_DREAMER_IMPRINT_SET,
+  // Class-specific cards — spread per class
+  ...SPY_CLASS_CARDS,
+  ...ORACLE_CLASS_CARDS,
+  ...ASSASSIN_CLASS_CARDS,
+  ...ENGINEER_CLASS_CARDS,
+  ...SOLDIER_CLASS_CARDS,
+  ...NEYON_CLASS_CARDS,
 ]);

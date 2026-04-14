@@ -97,6 +97,14 @@ export interface CardDefinition {
    * abilities. Spells and units ignore this.
    */
   artifactDurability?: number;
+  /**
+   * Optional: player-class restriction (Phase B7). When set, the
+   * card may only be added to decks built by players of the given
+   * character class. Enforced at deck-validation time by the
+   * format validator (Phase B8). Omitting the field leaves the
+   * card class-neutral.
+   */
+  characterClass?: "spy" | "oracle" | "assassin" | "engineer" | "soldier" | "neyon";
 }
 
 /** Forward-declared. Full shape lives in types/Trigger.ts. */

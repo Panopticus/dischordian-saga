@@ -696,6 +696,13 @@ export const cardDefinitionSchema = z
     flavorText: z.string(),
     rulesVersion: z.string().regex(/^\d+\.\d+\.\d+$/, "semver"),
     artifactDurability: z.number().int().positive().optional(),
+    /** Player class restriction (Phase B7). When set, the card
+     *  may only be added to decks built by players of this
+     *  character class. Enforced by validateDeck in Phase B8.
+     *  Omitting the field leaves the card class-neutral. */
+    characterClass: z
+      .enum(["spy", "oracle", "assassin", "engineer", "soldier", "neyon"])
+      .optional(),
   })
   .strict()
   .superRefine((card, ctx) => {
