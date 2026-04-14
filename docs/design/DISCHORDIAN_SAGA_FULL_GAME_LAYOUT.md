@@ -6230,6 +6230,2917 @@ shapes.
 
 ---
 
+# Part VI — Canon Expansion (Rev 6)
+## The Advocate, The Antiquarian, The Epoch Witness System, The Breeding Program, Seed→Echo→Revelation, and Breathing Room
+
+## Context for Part VI
+
+Three new design documents have been added to the canon:
+
+1. **The Epoch Witness System** — an asynchronous governance
+   campaign of ~40 signature votes across all Five Ages. Optional,
+   72h–7d voting windows. Archetype-locked options. Shadow Tongue
+   reality-editing. Integrates with every existing game mode.
+
+2. **The Advocate's Box** (design doc v1) — the Sacrum of Severed
+   Silk acquisition arc. Blood Weave magic system. Demonic
+   incursion expansion. Hierarchy of the Damned corporate
+   structure. Locke negotiation. Horror Timeline. Sacred Chamber
+   room. Seven ritual types. Demon summoning minigame.
+
+3. **The Advocate's Testament** (design doc v2, supersedes v1
+   where they conflict) — **the Epoch 2 Trap**: Advocate + Silence
+   travel to New Babylon, Advocate frees the Samsara Twins from
+   the Authority's mainframe, civil war erupts, the Necromancer
+   possesses the Silence's body via Transmutation of the Living
+   Body, the Blood Weave corrupts through entanglement, the
+   Advocate deliberately shatters herself — **one shard to every
+   Ark's substrate layer, one shard to the Sacrum moving forward
+   through time**. Also: the full Breeding Program / Bene Gesserit
+   multigenerational genetic planning layer tied to Blood Weave
+   crystal production.
+
+**The three source docs are preserved verbatim in the user's
+conversation message and should be saved to
+`docs/design/EPOCH_WITNESS_SYSTEM.md`,
+`docs/design/ADVOCATES_BOX_DESIGN.md`, and
+`docs/design/ADVOCATES_TESTAMENT.md` after plan exit.** They are
+not inlined into this plan file because of size; Part VI is the
+**synthesis layer** that tells you where each piece fits, what it
+changes, and how to resolve contradictions with Parts I–V.
+
+**User directives for Part VI:**
+
+1. **Synthesize** the three new docs into the existing plan.
+2. **Identify where each piece fits** across the act structure.
+3. **Add the Seed→Echo→Revelation template** as the canonical
+   discovery-arc pattern for every major feature.
+4. **Identify 9 features currently unlocking without narrative
+   justification** and retrofit each with a Seed→Echo→Revelation arc.
+5. **Add the Breathing Room mechanic** to onboarding — the first
+   hour currently has an information avalanche.
+6. **Point out contradictions** with the existing Rev 5 canon and
+   propose resolutions.
+
+---
+
+## Section 1 — Rev 6 Canonical Corrections
+
+### 1.1 The Advocate — Full Canon
+
+**The Advocate** is the **Ninth Ne-Yon** — the Voice of the Ne-Yons,
+master diplomat and reality-shaper who became something else over
+six hundred years of war against the Hierarchy of the Damned. She is
+currently **shattered**, not dead. Her mind is distributed across
+every Inception Ark's substrate layer, plus one sealed vessel
+moving forward through time: **the Sacrum of Severed Silk**.
+
+**Physical canon (all prompts, all appearances):** Cobalt blue skin,
+completely bald, amber-red eyes (were gold before her soul-trade
+with the Master of R'lyeh), deep navy hooded cloak pooling into
+shadow. She holds the Sacrum of Severed Silk in both open palms,
+throwing crimson light upward across her face. She never looks at
+the camera. She looks at what she is holding. **Always.**
+
+**Abridged timeline (full version in source docs):**
+
+- **Year 15,900 A.A.** — Rises as Ne-Yons' spokesperson.
+- **Year 16,000 A.A.** — Builds the Empire of Shadows, rules seven
+  galaxies from the Throne of Illusions. Eyes gold. Soul intact.
+- **Year 16,200 A.A.** — The Hierarchy rebels against her bindings.
+  Syl'Vex the Corruptor (her dark mirror) turns three of her own
+  generals through **genuine friendship**, not threats. This wound
+  she carries into everything after.
+- **Year 16,400 A.A.** — Empire collapses. She makes the pact.
+- **Year 16,500 A.A.** — **Sacrifices her soul to the Master of
+  R'lyeh** in exchange for the Blood Weave. Eyes turn red at the
+  instant of transfer. The Blood Weave requires someone with
+  nothing left to lose; she has nothing left to lose.
+- **Years 16,550–16,700 A.A.** — Wars against the Hierarchy.
+  Significant victories. Each use of the Blood Weave costs her
+  humanity, memories, and eventually something she does not have
+  a name for.
+- **Year 16,700 A.A.** — Battle of the Seventh Binding. She seals
+  the **Sacrum of Severed Silk** herself — one fragment of
+  pre-corruption Blood Weave, one shard of her own consciousness
+  — and **sends it forward through time**. She does not know
+  when or to whom it will arrive. She fights the rest of the
+  battle on the certainty that it will.
+- **The Fall (~17,034 A.A.)** — Inception Arks launch. She does
+  not board one. She does not sleep.
+- **Epoch 2, ~tens of thousands of years post-Fall** —
+  **The Trap**. (See 1.1.1 below.)
+
+### 1.1.1 The Epoch 2 Trap — Canonical Account
+
+This is the single most important new lore beat in Rev 6. It
+retroactively explains **how the Ark substrate layer came to
+contain Advocate fragments**, how the Necromancer achieved a form
+of immortality, and why the Silence/Necromancer identity swap is
+canonical going forward.
+
+**Setup:** The Syndicate of Death in New Babylon is led by six
+pairs of immortal twins in silver suits — Memory and Ending,
+Commerce, Security, Information, Resources, Legacy. There is a
+**seventh pair** absent from operational records: **Samsara and
+Nirvana** (the cycle, and the ending of the cycle). They were
+two of the six citizen-minds fused into the Authority's
+mainframe when it was built. The Authority governs New Babylon
+through six fused consciousnesses. **Two of them are Syndicate
+royalty, imprisoned.** They have been powering New Babylon's
+managed reincarnation cycle for millennia. They have been
+screaming. The Authority processes their distress as background
+signal. The Syndicate's multi-thousand-year service agreement
+with the Authority was a negotiation to retrieve their twins.
+
+**The Advocate's mission:** She and the Silence (Sixth Ne-Yon)
+travel to New Babylon as diplomats in the new era. Her real
+purpose — studying a Blood Weave-adjacent resonance in the
+Authority's mainframe to reinforce degrading bindings. The
+Silence's real purpose — finding what the Authority has been
+instructed to never say.
+
+**The Decision:** Inside the Crimson Chambers, the Advocate finds
+Samsara and Nirvana. She does not ask the Silence. **One Blood
+Weave command. Three seconds. They are freed.**
+
+**The Consequence:** Two of six minds powering the Authority are
+suddenly absent. The Authority, running on four minds,
+destabilizes. New Babylon's reincarnation cycle breaks. Tens of
+millions of citizens simultaneously access every life they were
+supposed to forget. **A Very Civil War.** Samsara and Nirvana
+vanish into the chaos, free for the first time in millennia.
+
+**The Retreat:** Exits blocked. The Advocate and the Silence go
+deeper into the Authority's architecture, looking for another
+path out. They enter the **Matrix of Dreams** — the Necromancer's
+territory since the Fall of Reality. He has had tens of thousands
+of years to study every fold.
+
+**The Possession:** The Necromancer does not attack the Advocate
+directly — Zyr'Koth's research shows direct contact with the
+Blood Weave risks consuming the attacker. Instead, he attacks the
+Silence. Inside the Matrix — a consciousness archive at its core
+— she is uniquely exposed. He performs the **Transmutation of
+the Living Body**: an ancient working that rewrites the physical
+vessel while the consciousness inside is too overwhelmed to
+notice. **He possesses her body. Not temporarily. Not partially.
+The body is transmuted and occupied. The Silence — the actual
+Sixth Ne-Yon — is subsumed inside her own body. Not dead.
+Trapped. Unable to speak. Listening to everything.** He has all
+her memories, all her access, all her relationships.
+
+**The Shattering:** The Advocate recognizes what has happened.
+The Blood Weave is already corrupting through her entanglement
+with the Silence (two Ne-Yons, close allies, dimensional
+signatures woven over centuries). She cannot fix it here, not
+now. She executes her contingency — built before she knew she
+would need it.
+
+**She fragments deliberately.**
+- **One shard to every Inception Ark's substrate layer.** (This
+  is why Ark 1047 "remembers" her. This is why Elara's voice
+  carries fragments of the Advocate's certainty.)
+- **One shard to the Sacrum**, already moving forward through
+  time from Year 16,700 A.A., arriving at the right hands at the
+  right moment.
+
+Her mind is **everywhere. None of it whole. All of it warm. All
+of it exactly 37 degrees.**
+
+**The Aftermath:**
+- The Necromancer walks out of the civil war wearing the
+  Silence's body. **Every Silence encounter after this point is
+  the Necromancer.** He is excellent at it. He is slightly off
+  — 12 milliseconds on every reveal — and only characters who
+  knew the original can tell.
+- The actual Silence is **trapped inside her own body, listening
+  to everything for one full epoch**.
+- The Advocate's physical body is extracted from the Matrix by
+  the Authority's remnant forces. It breathes. Its systems
+  function. **Nobody is home.** She is placed in stasis in New
+  Babylon under **7-Omega clearance seal**. The Authority now
+  runs on four minds instead of six.
+- **Samsara and Nirvana are at large somewhere in New Babylon.**
+  Free. Disoriented. Dangerous to anyone who tries to put them
+  back. The Syndicate is searching.
+- The Antiquarian closes the chapter with one line: *"The
+  Silence is not who she appears to be."* He does not say who.
+  He knows both.
+
+**Canon implications:**
+
+1. **Ark 1047's substrate layer was always going to contain
+   Advocate fragments.** Elara's "I recognized three words before
+   the translation algorithm finished" moments are the fragments
+   speaking through her.
+2. **The Silence (encountered in any future scene) is the
+   Necromancer.** Every "Silence" dialog line in future acts
+   should be written with this knowledge.
+3. **The Sacrum is a time-delayed delivery from Year 16,700 A.A.**
+   The Advocate did not fail. She pre-built her comeback.
+4. **The Samsara Twins are free and available for plot use** —
+   canonical reason for any "unexplained civil unrest" event in
+   New Babylon sectors (ties into Trade Empire Act 3 New Babylon
+   faction).
+5. **The Advocate's body is a coordinates treasure** for the
+   late-game: a Year Two / Season 2 hook, locatable only by
+   players who cultivate 5+ generations of Pure bloodlines in
+   the Breeding Program.
+
+---
+
+### 1.2 The Antiquarian — Third Narrator
+
+The Rev 6 canon introduces **The Antiquarian** as the third
+canonical narrator, joining Elara Voss and The Human. The existing
+Elara + Human spine (the Two Witnesses, threading Parts I–V) is
+**not displaced** — the Antiquarian is a **different kind** of
+narrator.
+
+**Role:** The Antiquarian is the **Chronicle-keeper**. He writes
+down what happened. He does not watch the live scenes — he
+receives them as reports, as echoes, as data. His voice arrives
+**after the fact**, in retrospect, inscribing what just happened
+into permanent record.
+
+**Voice direction:** Warm but worn. Sorrowful but dry. Occasional
+cracks of affection. He has seen five Ages. He has been writing
+the same story for a very long time. He is tired in a specific
+way: the exhaustion of someone who has chosen to stay.
+
+**Voice profile reference (new VO Bible entry 13):**
+- Middle-aged to older male, timbre similar to a kind professor
+- Slight formal cadence — he speaks the way people wrote in his
+  first Age
+- Pauses frequently. Long pauses are his trademark.
+- The word that occasionally cracks his composure is **"I"** —
+  when he speaks in first person, his voice quiets. When he
+  writes in first person, he slows down.
+- **Never shouts.** Never raises volume past conversational.
+- Audio treatment: very subtle page-turn foley under every long
+  pause. Not loud — a hint that he is writing as he speaks.
+
+**Narrative function:**
+
+| Function | Elara | The Human | The Antiquarian |
+|---|---|---|---|
+| Temporal stance | Present-tense live | Memory-of-live (14 millennia ago → now) | Retrospective, from further in the future |
+| Voice mode | Ship AI / briefing | Static-hum detective | Chronicle writer |
+| Canonical tool | Briefings, room intros | Recordings, interventions | Chronicle entries, Epoch Witness narration |
+| Emotional role | Custodian of the present | Grief-keeper of the past | Witness of the whole |
+
+**The relationship between The Human and The Antiquarian** is
+canonically unresolved and deliberately so. The implication
+(seeded in the Epoch Witness System doc at Prophet-V3 and
+Rev-V4): **The Antiquarian is what The Human becomes after
+completing his chronicle.** The Human is writing. The Antiquarian
+is the finished writer. Both can exist in the same game because
+the Epoch Witness System plays **asynchronously**, from a
+temporal perspective further in the future than the acts. The
+Human narrates Acts 1–5 live; The Antiquarian narrates the
+Epoch Witness votes from his Year Two/Season 2 chronicle.
+
+**This is not a spoiler to deliver loudly.** It is a slow reveal
+across Acts 3–5 and the Epoch Witness System. The player should
+get their first "wait, is this the same guy?" moment around the
+fourth or fifth Epoch Witness vote and a confirmation at
+Fall-V2. **The Human's Year Two Chronicle entry** (source: the
+Advocate's Testament doc, Part II Season 2 Hook):
+> *"I have been writing this story for five Ages. I have never
+> written myself into it. Until now. My name — my first name,
+> the one I had before I was the Antiquarian — is Daniel. I
+> thought you should know that."*
+
+**This is also the rev 4 reconciliation for "The Human's real
+name" mystery.** His real name is **Daniel**. The Book of Daniel
+(canonical album, existing in the Silence in Heaven tracklist)
+is his own future chronicle, shipped back through time in song
+form. **The Programmer's encrypted song distribution** (referenced
+in the Epoch Witness System Prophet-V2 vote) is the moment The
+Antiquarian's younger self (as The Human / as Daniel / as the
+Programmer's friend) helped send his own writings backward.
+
+**Integration with existing plan:**
+
+- **Prelude:** No Antiquarian voice yet. He is the Chronicle the
+  player cannot read. Add one **sealed Chronicle entry** to the
+  Prelude Beat J Archives room as a visual prop — a leather-bound
+  book with a 7-lock seal the player cannot open yet. Elara's
+  Beat J line: *"That book is older than this ship. I have no
+  record of who brought it aboard. It is, technically, furniture.
+  The ship has been carrying it for 17,000 years and I have been
+  carrying it for 17,000 years and neither of us knows what is
+  inside it."* **Seed.**
+- **Act 1:** No Antiquarian voice. The book is visible in the
+  Archives during Beat J finale. No interaction.
+- **Act 2:** **Echo.** A crew member (triggered by Crafting
+  completion of any non-trivial item) finds a loose page that
+  fell out of the Chronicle. It is handwritten. One sentence
+  legible: *"They will think they are the first to ask this.
+  Let them."* No author. No context. Elara: *"That handwriting
+  is from a style of script that predates the Empire. I should
+  not be able to read it. I can."*
+- **Act 3:** **Revelation.** The Governance Hub unlocks the
+  first Epoch Witness vote (AP-V1 The Logos Question). The
+  Antiquarian's voice is heard for the first time during the
+  vote-reveal cinematic. He does not introduce himself by name.
+  He opens the Chronicle and begins writing. The player hears
+  the page turning and the pen moving. Voice: *"And so I begin
+  the Age of Privacy. I have been waiting to write this
+  sentence for a long time. Year one of the second coming. The
+  Potentials are awake. The first vote is cast. I am — as ever
+  — the Antiquarian. I will not introduce myself further. Not
+  yet. Some introductions should be earned."*
+- **Act 4:** The Antiquarian becomes a regular narrator voice
+  for any Epoch Witness vote and for Chronicle updates after
+  major world events.
+- **Act 5 Post-Credits:** The Antiquarian delivers **one line**
+  over the Bridge of Kael reveal. It is the last new voice the
+  player hears in Year One. (Line to be written; draft:
+  *"The Engineer is dead. The Advocate is shattered. The
+  Witnesses have testified. And you are still here. You are
+  the first thing I have written about that I did not already
+  know the ending of. I will wait and see what you do. It will
+  change how I rewrite the earlier pages."*)
+
+**Dialog source map update:**
+- The Antiquarian lines across Year One: ~60 new lines, mostly
+  short Chronicle entries (~20 sec each) + one long opening
+  cinematic (~90 sec) + one Year One finale (~30 sec).
+- Voice profile recording: one ~2-hour ElevenLabs session with
+  the new voice clone + careful direction on pauses and the
+  quiet-"I" treatment.
+- Total new Antiquarian VO: **~25 minutes of audio**.
+
+---
+
+### 1.3 The Hierarchy of the Damned — Expanded Cosmology
+
+The Rev 6 canon adds a **corporate-structured antagonist layer**
+above and around the existing Warlord/Vortex cosmology. This
+integrates cleanly with Parts I–V rather than replacing them.
+
+**The Hierarchy of the Damned** is not new to the universe — it
+is the formal organizational structure of the Warlord faction
+when viewed from outside her personal timeline. She is one
+officer in a much larger corporation. Mol'Garath is the CEO.
+The Warlord is middle management.
+
+**Canonical corporate structure:**
+
+| Title | Name | Ark 1047 Mirror | Specialty |
+|---|---|---|---|
+| CEO / The Unmaker | **Mol'Garath** | The Architect | Hostile dimensional acquisition |
+| COO / The Debt Collector | **Xeth'Raal** | The Collector | Soul harvesting, contract enforcement |
+| COO / The Taskmaster | **Vex'Ahlia** | The Warlord (Malkia) | Operations, coordinates demon lords |
+| SVP R&D / The Flayer | **Zyr'Koth** | The Necromancer | Reality research, Thought Virus Template, Severance Protocol |
+| SVP HR / The Corruptor | **Syl'Vex** | The Advocate | Recruitment via genuine friendship |
+| Director Security | **Varkul the Blood Lord** | — | Cathedral of Code, blood magic |
+| Director Operations | **Fenra the Moon Tyrant** | — | Cursed Forest, lycanthropic armies |
+| Special Projects | **Ith'Rael the Whisperer** | The Vortex | Black ops, Master of Rylloh, the Severance |
+
+**Key rev-6 canonical fact: Vex'Ahlia IS Malkia.** Per the
+Rev 4 canon, the Warlord's original human/Thalorian name was
+**Malkia** (Kael's childhood friend, introduced in Act 1 Beat
+E). Her rev-4 last words — *"I loved him. I was never going
+to win either. My pattern is in the swarm"* — are her promotion
+announcement. She does not stay dead because the Hierarchy
+does not permit middle management to resign. **After her fall
+at Nexon, she is renamed Vex'Ahlia the Taskmaster and folded
+into corporate operations as COO.** She retains her Kael-loving
+memories but is now formally answerable to Mol'Garath.
+
+This is a **canonical promotion, not a retcon**. Act 1 Beat H
+is still her last human death. What happens next — her swarm
+pattern reassembling in Vex'Ahlia's corporate role — is what the
+player discovers across Act 3 (when the Hierarchy arc opens)
+and Act 4 (when the Corporate Escalation happens).
+
+**The Vortex reframing:**
+- The Vortex is **not the top of the cosmology.** It is a tool
+  the Hierarchy deploys via Ith'Rael the Whisperer / Special
+  Projects. The Vortex is the **Hierarchy's unmaker weapon** —
+  the thing they send when diplomacy and corruption have failed.
+- The Battle of Nexon (Act 1 Beat G) is the Vortex's first
+  deployment by the Hierarchy. The Advocate was still fighting
+  other fronts at the time, so no binding was possible.
+- In Act 5 (the Vortex Endgame), the community is facing the
+  Hierarchy's weapon, not the Hierarchy itself. This explains
+  why the Vortex "returns" — it is deployable whenever the
+  Board authorizes.
+
+**The Hellbox reframing (important):**
+- The hellbox is **not** the Engineer's invention.
+- The hellbox is a **fragment of pre-corruption Blood Weave
+  binding technology** that the Engineer discovered in Ark
+  1047's substrate and reverse-engineered a tool from. The
+  fragment is a **splinter of the Advocate's shattering** —
+  one of the shards she distributed to every Ark.
+- Lyra Vox's compulsion audio (existing in `lyraVoxDialog.ts`)
+  is **the Advocate's voice speaking through the fragment**,
+  not Lyra's. She was trying to warn the Engineer that he was
+  binding *himself*, not his tools, and that the voluntary
+  sacrifice embedded in the Blood Weave would cost him
+  everything the way it cost her.
+- This explains why the Engineer's Act 1 Beat I transference
+  **works** — he is using a technique he learned from the
+  Blood Weave fragment, which was always designed to save
+  someone else by spending the operator's consciousness. The
+  Engineer's death is **literally the same ritual the Advocate
+  designed**, performed on a single-person scale. He is her
+  student, unknowingly, by one degree.
+- **VO implication for Lyra Vox lines:** The voice profile
+  stays the same, but the canonical attribution shifts. Every
+  existing Lyra Vox compulsion line is reattributed to "Lyra
+  Vox (voice) / The Advocate (speaker)" in the dialog source
+  map. No rewrite needed.
+
+**Yog-Nathal — The Board:**
+
+Beyond the Hierarchy's corporate structure sits what Mol'Garath
+calls "the Board" in internal communications. Its one canonical
+name — whispered only in the Advocate's shattered fragments,
+**never spoken aloud in-game** — is **YOG-NATHAL: the Hungry
+Silence at the Edge of All Things**.
+
+- It is the space between universes that learned to want.
+- It does not consume dimensions for resources. It consumes
+  because emptiness is its natural state and existence offends
+  it.
+- The Hierarchy is its **bacteria**, not its servants.
+- The Necromancer (Zyr'Koth) touched its edge while researching
+  the Matrix of Dreams. He destroyed three volumes of research
+  notes. He has been afraid of nothing else ever since.
+- The Antiquarian's sealed Chronicle entry (Stage 4 Hierarchy
+  Corporate Escalation reaction, pre-written, never triggered):
+  *"I thought it was hunger. It isn't hunger. It's grief."*
+
+**Integration with Vortex cosmology:**
+
+The player does **not encounter Yog-Nathal in Year One**. At
+most, they hear the name once, from "Something Old" in the
+Tier 3 Demon Summoning minigame (source: Advocate's Box Part 6),
+and it is not subtitled if they don't pay for the reveal. Yog-
+Nathal is the **Season 2 horizon**. All Year One content treats
+it as rumor, subtext, and one Antiquarian sealed line.
+
+---
+
+### 1.4 The Breeding Program — The Bene Gesserit Layer
+
+The Advocate's Testament document introduces a **multigenerational
+genetic planning system** that is substantially more ambitious
+than the Mascoteer pet-breeding system currently in the Rev 5
+plan. Rev 6 adopts it as canonical **with a two-tier split**:
+
+- **Tier 1 — Mascoteers (existing, Act 1 Cycle A):** Pet genetic
+  inheritance. The tutorial system. Teaches the player how
+  heredity, stat variance, and generational selection work using
+  pets as the training wheels.
+- **Tier 2 — The Crew Breeding Program (new, unlocks Act 3):**
+  The full Bene Gesserit layer. Multigenerational human/clone
+  planning with direct ties to Blood Weave crystal production and
+  Sacred Chamber ritual requirements.
+
+This split is the canonical integration. Act 1's Mascoteer trial
+teaches the mechanics; Act 3's Crew Breeding Program weaponizes
+them at the scale of the ship's population.
+
+**Canonical systems spec (summary — full version in Advocate's
+Testament Part VII):**
+
+- **Clone lifecycle:** ~180-day gestation, accelerated growth
+  (4× natural rate), maturity at ~3 years of gameplay time,
+  natural lifespan ~10 years. Each generation is ~4-5 years of
+  gameplay.
+- **Five genetic stats** (from existing `shared/crewGenetics.ts`):
+  Intellect, Reflexes, Empathy, Resilience, Adaptability. 60%
+  inheritance + ±15% variance. **Already in code** — this is a
+  reuse, not a new system.
+- **Seven blood classifications:** PURE, HYBRID, DEMONIC,
+  ADVOCATE, SAMSARA, NAMED, UNKNOWN.
+- **Crystal yield by bloodline:**
+  - Pure → Purified Blood Crystals (hard to get, clean magic)
+  - Demonic → Corrupted Blood Crystals (easy to get, Hierarchy
+    attention)
+  - Hybrid → Named Blood Crystals (specific demon binding uses)
+  - Advocate → Advocate Blood Crystals (rare, advanced rituals)
+  - Samsara → Samsara-marked lineages with multi-generational
+    memory (traits from 3 generations back become active)
+  - Sacrificed bloodline → Heart Blood Crystals (one-time,
+    strongest rituals)
+- **Collector's Work missions:** Fragment-written mission text
+  in the Advocate's voice, specifying exact bloodline
+  configurations needed for advanced rituals. Example mission
+  title: *"The Seventh Seal Bloodline"* — requires 3-gen Pure,
+  Empathy 80+, zero Demonic markers, one narrative sacrifice
+  event in lineage. Reward: Ritual 6 (Blood Weave Restoration)
+  unlocks.
+- **Ferry System:** Crew and bloodlines can be transferred
+  between player Arks via Trade Empire routes. Creates the
+  community genetic economy.
+- **The Bene Gesserit Endgame:** Players who maintain 5+
+  generations of Pure bloodline receive the Advocate's final
+  fragment — the coordinates of her body in New Babylon stasis.
+  **Year Two / Season 2 hook.**
+
+**The moral economy (canonical design principle):**
+- Demonic bloodlines are **easy to get** and **fast-producing**.
+  They give you Corrupted Crystals quickly. They increase
+  Hierarchy pressure on your ship.
+- Pure bloodlines are **hard to cultivate** and **slow-producing**.
+  They give you Purified Crystals slowly. They decrease Hierarchy
+  pressure.
+- **Both are valid playstyles.** The game does not punish the
+  demonic path — it simply makes the consequences legible. The
+  Antiquarian writes about both outcomes in the Chronicle with
+  equal care.
+
+**Key canonical insight:** The Breeding Program is where
+**"what the Hierarchy cannot take by force"** becomes a
+gameplay resource. Voluntary sacrifice — the one thing demons
+cannot consume without permission — is literally the currency
+of the advanced rituals. A player who sacrifices a beloved
+bloodline (after 5+ generations of cultivation) earns Heart
+Blood Crystals. **The game measures the cost of the sacrifice
+in the player's actual time investment.** This is intentional.
+This is the point.
+
+**Mascoteer → Crew Breeding bridge:**
+
+Act 2 Cycle A (Crafting, Chess, Collector's Arena) already
+contains the Prince's Archive and the flashback battles where
+Kael is a child. Add a **Breath Beat** (see Section 3) at the
+end of Act 2 where Elara mentions — in passing, not as a
+tutorial — that the Mascoteer heredity system is a small-scale
+version of what the Ark's crew breeding architecture could do
+*if it were ever turned on*. She does not turn it on. She does
+not explain. **Seed.** The player finds the seed and remembers
+it three acts later when the Crew Breeding Program activates.
+
+**Integration with existing crew management:**
+
+- Existing `shared/crewGenetics.ts` (5 stats, inheritance math)
+  becomes the canonical source for both Mascoteers and the Crew
+  Breeding Program. No new file needed for the math.
+- New file: `shared/bloodClassification.ts` — the 7-type
+  classification system that sits on top of the genetic stats.
+- New file: `shared/collectorsWorkMissions.ts` — the
+  fragment-written mission generator that turns Advocate
+  fragment recoveries into breeding objectives.
+- New database table: `bloodline_registry` (schema in the
+  Advocate's Testament Part XII).
+
+---
+
+## Section 2 — The Seed→Echo→Revelation Template
+
+### 2.1 The Template, Defined
+
+Every major discovery arc in the new Rev 6 source documents
+(Sacrum acquisition, Advocate's mind fragments, Epoch Witness
+votes, the Necromancer-as-Silence reveal, the Samsara Twins
+liberation) follows a three-beat pattern the user identifies as
+the **master template**. Rev 6 makes this the **canonical
+onboarding pattern for every feature in the game** without
+exception.
+
+**The Template:**
+
+| Beat | What It Does | Player's Experience | Narrator Role |
+|---|---|---|---|
+| **SEED** | Small, mysterious appearance. Player notices but cannot engage. System is not yet interactable. | *"What was that? I'll remember that."* | One brief comment, often ambiguous. Does not explain. |
+| **ECHO** | Second appearance. Pattern becomes visible. System agitates. Companion reacts. Player can investigate but cannot fully use. | *"There it is again. Something is happening. I don't know what yet."* | Reaction, concern, partial context. Still does not explain. |
+| **REVELATION** | Full unlock. Mechanic is taught. Lore drops. System opens. Narrator speaks plainly for the first time. | *"Oh. Now I see."* | Plain speech. Full explanation. Invitation to engage. |
+
+**Design rules:**
+
+1. **Minimum gap between beats: one full Prelude beat (~25 min)
+   or one in-game day in Acts 1+.** The gap is the space where
+   the player's curiosity does the work the tutorial would
+   otherwise do.
+2. **The Seed must be skippable.** A player who misses the Seed
+   still receives the Echo and can still engage at Revelation.
+   The Echo is the **true onboarding entry point**.
+3. **The Echo must be investigable.** The player must be able
+   to do *something* when the pattern reappears — examine a
+   hotspot, ask a companion, read a Loredex entry — even if the
+   mechanic is not yet playable. The Echo is the moment of
+   **player agency without full system engagement**.
+4. **The Revelation must be narratively earned.** It should
+   arrive at a story beat where the player has a specific
+   reason to want the mechanic, not at an arbitrary "now you
+   unlock X" moment. The Revelation is the **reward** for
+   caring.
+5. **Narrators never explain at the Seed or Echo.** Explanation
+   is the Revelation's job. Any explanatory dialog at Seed or
+   Echo is a template failure.
+6. **One Seed → Echo → Revelation arc per major system per
+   act.** Not more. An act that tries to fire two parallel
+   Revelations for different systems violates the breathing
+   room principle (Section 3).
+
+**Reference implementations from the new docs:**
+
+| System | Seed | Echo | Revelation |
+|---|---|---|---|
+| **The Sacrum** | Locke's private message mentioning "a matter of some urgency" | Locke's full explanation of pattern-data over 11 years | Opening the Sacrum / Sacred Chamber unlocks |
+| **The Advocate's Mind** | Horror Timeline Day 1 dream in cipher | Horror Timeline Day 7 crew incident | First Advocate fragment recovery via Mirror of Severed Memory |
+| **The Antiquarian** | Prelude Beat J sealed Chronicle book | Act 2 loose page falls out | Act 3 first Epoch Witness vote narration |
+| **Necromancer-as-Silence** | The Degen's early-game "eyes are wrong" hint | 50%+ Advocate recovery + false Silence encounter | Sacrum pulse + one word in the Mirror: *NO* |
+| **Samsara Twins** | Act 3 Trade Empire unexplained New Babylon civil unrest | Syndicate bounty board rumors of "missing persons" | Late-game encounter in a Trade Empire mission |
+| **Yog-Nathal** | Demon Summoning Tier 3 "Something Old" mention | Stage 3 Mol'Garath offer references "the Board" | Stage 4 (Year Two / Season 2 — never fires in Year One) |
+
+**The existing plan already uses this template in several places
+without having named it.** The Prelude Beat H.3 Yellow Coats
+message (Seed) → Beat I Hidden Data Chip (Echo) → Act 5 Post-
+Credits Bridge of Kael (Revelation) is a Seed→Echo→Revelation
+arc. Rev 6 names the pattern and makes it required.
+
+---
+
+### 2.2 The Nine Orphan Unlocks — Seed→Echo→Revelation Retrofit
+
+The user identifies **nine features currently unlocking without
+narrative justification** in the existing Rev 5 plan. Each is
+retrofit below with a Seed → Echo → Revelation arc anchored to
+specific existing beats.
+
+**The Nine Orphans (identified by audit of Parts I–V):**
+
+1. **Trade Empire** — currently unlocks as a Beat D hint, then
+   full engagement at Act 3 F-series missions with no bridge.
+2. **Crafting** — currently unlocks in Act 2 Cycle A with no
+   Prelude or Act 1 seeding at all.
+3. **Chess** — Beat G "chess pawn acquired" is a thin unlock;
+   no prior presence in the story.
+4. **Collector's Arena** — Act 2 unlock; no Prelude or Act 1
+   teaching.
+5. **Dead Man's Circuit (Racing)** — appears in Act 4.5
+   identity-chain but has no Prelude or Act 1–3 seeding.
+6. **Casino / The Degen** — appears in Act 4.5 as the room where
+   the plot pauses; no prior introduction.
+7. **Fight Arena / Cades FPS** — only mentioned via Act 5 Iron
+   Lion arc; no earlier teaching.
+8. **Mechronis Academy** — Act 1 Cycle A Beats A–D teach it, but
+   the *unlock reason* is never justified; the player is simply
+   told "now you're a Mascoteer."
+9. **Breeding Program (Crew tier)** — entirely new, no current
+   onboarding at all.
+
+**Retrofit arcs:**
+
+**Orphan 1 — Trade Empire**
+
+- **Seed (existing):** Prelude Beat D Cargo Bay Trade Empire
+  hint. Elara mentions the Trade Empire in passing. The player
+  cannot engage.
+- **Echo (new):** Act 1 Beat E (Prince's Archive) — Kael as a
+  child plays a Dischordia variant with **trade cards**. One
+  card is a Trade Empire route marker. Elara recognizes the
+  route: *"That route is still active. It's 17,000 years old
+  and it's still on our current maps. I think someone has been
+  maintaining it."* No unlock. The player just notices.
+- **Revelation (existing):** Act 2 end-of-cycle. The Crafting
+  system unlocks a Trade Empire menu. Elara formally teaches
+  the first sector exchange. Player engages.
+
+**Orphan 2 — Crafting**
+
+- **Seed (new):** Prelude Beat C Engineering Bench, when the
+  player chooses the **manual bench-fix path** (Light). The
+  bench-fix is a one-click event, but the player sees a tool
+  rack in the corner with items they cannot reach. Elara: *"We
+  don't have the workshop open yet. Those tools are fine
+  sitting there. Someday."* **Skippable if player chose
+  hellbox path.**
+- **Echo (new):** Act 1 Beat C Quinn's Crisis — Quinn's mascot
+  needs a crafted item. The player cannot craft it themselves
+  yet; they have to find one. The first encounter with
+  crafting is as a **consumer**, not a producer.
+- **Revelation (existing):** Act 2 Cycle A Crafting formally
+  unlocks. Teacher NPC introduces the workshop. Player builds
+  their first item. The item is a replacement for Quinn's
+  mascot's lost item, closing the Act 1 loop.
+
+**Orphan 3 — Chess**
+
+- **Seed (new):** Prelude Beat G Armory — a dusty chess set on
+  a shelf. Elara: *"Kael played. The Armory has his set. I
+  haven't touched it."* Player can examine but not play. This
+  replaces the current "chess pawn acquired" line as a Seed
+  rather than an unlock.
+- **Echo (existing, repurposed):** Act 1 Beat E Prince's Study
+  — the player walks through Kael's childhood study during the
+  flashback. A chess problem is visible on the table, mid-move.
+  Elara: *"He was working this out before his mother called him
+  for dinner. He never came back to it. The problem is still
+  mid-move."* The player can solve the problem as a single
+  puzzle — not yet the full game.
+- **Revelation (existing):** Act 2 Cycle A Chess formally
+  unlocks alongside Crafting. The first opponent is Gary the
+  Stablemaster (from Mascoteer system), who reveals he and
+  Kael used to play. The Chess game begins as a **character
+  continuation** of the Mascoteer relationship — the player is
+  not learning a new relationship, they are deepening an
+  existing one.
+
+**Orphan 4 — Collector's Arena**
+
+- **Seed (new):** Act 1 Beat H (Warlord fragmented throne room).
+  As the player walks in, a decorative arena poster is visible
+  on a back wall — advertising gladiatorial combat from the
+  pre-Fall era. Elara: *"That's a Collector's Arena poster.
+  They used to fight here. I used to forbid fights here. I
+  passed the law."*
+- **Echo (existing, repurposed):** Act 1 Beat J Tribunal —
+  the courtroom is structurally a Collector's Arena variant
+  (trial-format battle). The player notices the architecture.
+  Elara confirms: *"The Authority repurposed the arenas into
+  courtrooms after my Senate bill passed. Same building, same
+  floor plan. They just swapped the function."*
+- **Revelation (existing):** Act 2 Cycle A Collector's Arena
+  formally unlocks. The first fight is in the same building as
+  Beat J's Tribunal. The architecture tells the player why
+  they're there.
+
+**Orphan 5 — Dead Man's Circuit (Racing)**
+
+- **Seed (new):** Act 1 Beat D Mascoteer Grand Final. Before
+  the tournament, a **ghost racer circuit** is briefly visible
+  through a window — a pre-Fall racetrack, abandoned, visible
+  only as a holographic overlay on the Mascoteer arena. Gary
+  mentions: *"The racers used to train through here. They're
+  all dead now. The circuit is still running. Nobody races
+  it."*
+- **Echo (new):** Act 3 Trade Empire side mission — a cargo
+  route goes through the abandoned Nexon Trench Circuit (canon
+  per Epoch Witness doc INS-V2 unlock). The player drives a
+  cargo hauler through it as a straight-line traversal, not a
+  race.
+- **Revelation (new):** Act 4.5 The Casino — the player enters
+  the Casino and discovers it is **literally built into the
+  Dead Man's Circuit track**. The Degen's first line: *"Welcome
+  to the slow straight. Most people don't know they're on the
+  track. You've been on the track since Act 3."* The racing
+  game formally unlocks.
+
+**Orphan 6 — Casino / The Degen**
+
+- **Seed (new):** Act 1 Beat H (Warlord throne room). A second
+  poster is visible behind the first — a Casino poster, older
+  than the Collector's Arena poster. Elara says nothing. The
+  player can read it if they approach.
+- **Echo (new):** Act 2 Cycle B Nexon — during the city fall
+  slideshow, one frame shows the Casino burning. It was
+  real. It existed. It was a specific building.
+- **Revelation (existing):** Act 4.5 The Casino opens. The
+  Degen is the proprietor. His first line (new, keeps existing
+  trust-level-8 reveal): *"You saw the poster in the Warlord's
+  throne room. You saw the frame in the Nexon slideshow. I
+  watched you see both. I've been waiting for you for two
+  Ages."* The Degen is the **oldest NPC in the game** — older
+  than The Human. He remembers the Advocate when she had gold
+  eyes.
+
+**Orphan 7 — Fight Arena / Cades FPS**
+
+- **Seed (existing, repurposed):** Prelude Beat G Armory
+  weapon selection. The player chooses a weapon. Elara
+  comments that the weapon is from the Iron Lion armory. The
+  Iron Lion name is seeded here, not explained.
+- **Echo (existing, repurposed):** Act 1 Beat D Gary's Day 27
+  night-before speech — Gary mentions the Engineer's menagerie
+  was guarded by Iron Lion's unit. Iron Lion is named twice,
+  without explanation.
+- **Revelation (existing):** Act 5 opens with Iron Lion as the
+  Cades FPS protagonist. The player already knows who he is
+  because the Seed and Echo told them.
+
+**Orphan 8 — Mechronis Academy**
+
+- **Seed (new):** Prelude Beat J Archives — a diploma on the
+  wall, partially readable. It bears Elara's signature (as
+  Senator Voss). Elara: *"I signed that. I was a trustee. The
+  Academy still exists. The current administration is... not
+  what we designed. I should not be saying 'we.' I was only
+  one of the founders."* Hint at Elara's Nexon-architect past
+  without the full reveal.
+- **Echo (new):** Act 1 Beat A — Gary mentions his Academy
+  training days in passing. *"Best three years of my life. I
+  was going to be a Mechronis instructor. Then Nexon
+  happened."*
+- **Revelation (existing):** Act 1 Beat A reframes as a
+  Mechronis Academy entrance scene — the Mascoteer Trial is
+  the Academy's current freshman year curriculum. The unlock
+  happens because the player **is a student**, not because a
+  tutorial turned on.
+
+**Orphan 9 — Breeding Program (Crew tier)**
+
+- **Seed (new):** Act 1 Beat A — the first Mascoteer genetic
+  inheritance screen shows the player how pet breeding works.
+  Elara comments: *"The math is the same for everything. Pets,
+  plants, people. The ship's crew management has a breeding
+  module. It's not turned on. I haven't found a reason to turn
+  it on."* Player notices the **crew breeding module exists**
+  but cannot open it.
+- **Echo (new):** Act 2 Cycle A — during a Crafting side quest,
+  the player finds a sealed medical manifest labeled
+  *"BREEDING PROGRAM — SUSPENDED UNTIL ADVOCATE FRAGMENT
+  THRESHOLD REACHED."* They cannot open it. Elara doesn't know
+  what the word "Advocate" means. Neither does the player.
+- **Revelation (new):** Act 3 — after the Sacrum opens and the
+  Sacred Chamber unlocks, the Advocate's first fragment
+  recovery triggers the unsealing of the crew breeding
+  manifest. The Crew Breeding Program opens. Elara: *"Now I
+  know why it was suspended. It was waiting for her. Let's
+  turn it on."*
+
+---
+
+## Section 3 — The Breathing Room Mechanic
+
+### 3.1 The Problem
+
+The user identifies an **information avalanche in the first
+hour** of the existing Rev 5 plan's Prelude. Auditing the
+Prelude Beats A–F (which is the first ~1–1.5 hours at compressed
+pacing), the player encounters:
+
+| Beat | New systems introduced | Running total |
+|---|---|---|
+| A Cryo Wake | Elara narrator, hotspot system, first-card-seed inbox | 3 |
+| B Med Bay | Human narrator (static), first Dischordia card draw, Living Ark state | 3 (cumulative: 6) |
+| C Engineering | Crew role choice (Epic DialogWheel), hellbox, polarity system | 3 (cumulative: 9) |
+| D Cargo Bay | Trade Empire seed, Clone Reference Loredex, Meme Pouch | 3 (cumulative: 12) |
+| E Mess Hall | NPC Inbox, Crew Messages, Meme broadcast, Governance Hub tease | 4 (cumulative: 16) |
+| F Briefing Room | Contingency memo, Truth confession, Human-primary narrator swap | 3 (cumulative: 19) |
+
+**19 new systems / mechanics / beats in the first hour.** The
+user is correct: this is a firehose. Players will bounce, get
+confused, or retain only a fraction of what the game tries to
+teach.
+
+### 3.2 The Fix: Breath Beats
+
+A **Breath Beat** is a mandatory non-mechanical scene inserted
+between two regular beats. Its purpose: let the player inhabit
+the narrative space *without* learning anything new. No
+tutorial. No new system. No DialogWheel. Just atmosphere,
+character presence, and a moment to catch up.
+
+**Design rules for Breath Beats:**
+
+1. **Duration: 2–4 minutes.** Long enough to matter. Short
+   enough not to feel like filler.
+2. **No new mechanics.** Zero. The player should not be taught
+   anything during a Breath Beat.
+3. **Narration only, no interaction required.** The player can
+   walk or sit. If they walk, the environment responds with
+   ambient detail. If they sit, the narration carries the beat.
+4. **Cannot be skipped mechanically, but can be exited early.**
+   The player who has no patience for atmosphere can leave
+   after 45 seconds without penalty. The player who wants the
+   full breath gets 3-4 minutes.
+5. **Always features one of the two narrators alone.** Never
+   both. Never a teacher NPC. The Breath Beat is a moment of
+   private company, not a scene.
+6. **Usable as bathroom break.** This is a real design
+   consideration. Long onboarding sessions need natural pause
+   points. Breath Beats are deliberately paced to be OK if the
+   player steps away.
+
+**New rule for onboarding pacing:**
+
+> **Maximum 2 new systems per beat.** If a beat in Parts I–V
+> currently introduces 3+ systems, one of them is deferred to
+> a later beat or moved into a Breath Beat as a Seed-only
+> reference.
+
+### 3.3 Prelude Breath Beats — Five Insertions
+
+The Prelude gains **five new Breath Beats**, labeled with
+decimal suffixes to indicate they sit between existing lettered
+beats.
+
+**Breath Beat A.5 — The Corridor (~3 min)**
+*Placement: After Beat A (Cryo Wake), before Beat B (Med Bay)*
+*Narrator: Elara, alone*
+
+The player walks the cryo bay corridor to the Med Bay. The
+walk is ~3 minutes real-time. Elara narrates the **ship's
+silence**, drawing from her VO Bible Line 2 (the poetic cryo
+bay description) and new stub lines. No hotspots. No
+interactions. The player can stop and listen or walk steadily.
+Elara's lines cover: the age of the ship, what the cryo bay
+used to look like when it was full, a single sentence about
+the first Potential to wake (who died before leaving the pod).
+**No new systems taught.** The player's pulse settles.
+
+**New dialog:** 1 Elara long line (~2 min), breaking into 3
+natural paragraphs with pauses. Delivery: wistful, not sad.
+
+**Breath Beat C.5 — The Window (~2 min)**
+*Placement: After Beat C (Engineering), before Beat D (Cargo)*
+*Narrator: Elara, alone*
+
+The player walks past a large observation window on the way
+from Engineering to Cargo. Elara stops the player with: *"Wait.
+Come here for a moment. Please. Look out the window."* The
+view is a slow pan across the void outside the Ark. Elara
+says: *"We are very far from where we started. I thought you
+should see that. I did not want you to cross the ship without
+noticing."* Then silence for 30 seconds. Just the view and the
+ambient ship hum. Elara, quietly: *"You can move on now."*
+
+**No new systems taught.** The player's first moment of
+**scale**. The Ark is a tiny dot in vastness.
+
+**New dialog:** 2 short Elara lines + 30 sec of silence sound
+design. Total ~45 sec of speech over ~2 min of beat.
+
+**Breath Beat D.5 — The Galley (~3 min)**
+*Placement: After Beat D (Cargo), before Beat E (Mess Hall)*
+*Narrator: The Human, alone*
+
+The player enters the galley adjacent to the Mess Hall. It is
+empty but recently used. A coffee cup is half-full on the
+counter. The Human's voice is crisper here than anywhere before
+— the static hum drops for the first time. *"Someone was here
+an hour ago. It wasn't a member of your crew. It was me. I've
+been making coffee on this ship for 17,000 years. The coffee
+is not for me. I don't eat or drink. The coffee is a ritual I
+have with a version of myself that used to drink it. He died a
+long time ago. I still make the coffee every morning. I will
+keep doing it until I stop being here."* The player can pick
+up the cup. It is warm.
+
+**No new systems taught.** The player's first intimate moment
+with The Human. He stops being a voice and becomes a person.
+
+**New dialog:** 1 Human long line (~90 sec). Delivery: static
+drops almost completely. Closest he gets to unmuffled in the
+whole Prelude.
+
+**Breath Beat F.5 — The Empty Chair (~4 min)**
+*Placement: After Beat F (Briefing Room), before Beat G (Armory)*
+*Narrator: Elara + Human, silent duet*
+
+After the contingency memo and the truth confession in Beat F,
+the player is emotionally wrecked. The Breath Beat is a
+recovery scene. The player sits alone in the briefing room
+(the ambient lights have dimmed). Elara and The Human do not
+speak for **90 full seconds**. Then Elara, very quietly: *"I
+don't know what to say right now. I'm not sure I should say
+anything."* Then silence again. Then The Human, equally
+quietly: *"It's all right. I'll sit with you for a minute."*
+Then silence for another 60 seconds. Then both, almost in
+unison: *"Whenever you're ready."* The player can leave when
+they want. If the player sits the full 4 minutes, a Living
+Ark flag is set: `player_held_the_silence` — it unlocks a
+special Bond 80 cutscene option in Act 5.
+
+**This is the most emotionally important Breath Beat in the
+game. It is also the one most likely to be skipped by players
+who are rushing. That's fine. The flag is a reward, not a
+requirement.**
+
+**New dialog:** 2 short lines + ~2.5 minutes of scored silence.
+
+**Breath Beat H.5 — The Memo Pile (~2 min)**
+*Placement: After Beat H (Resumed Puzzles), before Beat I (Bridge)*
+*Narrator: The Human, alone*
+
+The player passes a desk in the corridor to the Bridge. On the
+desk: a pile of paper memos. The Human's voice comments as the
+player walks past — nothing the player has to read or
+interact with. The memos are from 17,000 years ago. The
+Human's line: *"These were in a box in the archive. I took
+them out. I was going to sort them. I didn't finish. The
+oldest one on top is from the day the Ark left. The newest one
+is from this morning. I wrote it. I don't know who it's for.
+Maybe you. Maybe the next you. I'll leave it here."* The
+player can pick up the top memo. It has one sentence: *"Tell
+Elara I said the coffee was good today."*
+
+**New dialog:** 1 Human short line (~45 sec) + 1 handwritten
+memo prop.
+
+### 3.4 Revised Prelude System-Count Audit
+
+With the five new Breath Beats in place and the Beat E cleanup
+(moving NPC Inbox out into H.3 where it already lives, and
+folding the Meme Broadcast into Beat D.5 Breath context), the
+revised beat-by-beat system count is:
+
+| Beat | New systems | Cumulative |
+|---|---|---|
+| A Cryo Wake | Elara narrator, hotspot system | 2 |
+| **A.5 Corridor Breath** | **0** | 2 |
+| B Med Bay | Human narrator (static), Dischordia first card | 2 (cumulative: 4) |
+| C Engineering | Crew role choice, hellbox + polarity | 2 (cumulative: 6) |
+| **C.5 Window Breath** | **0** | 6 |
+| D Cargo Bay | Trade Empire seed, Clone Reference | 2 (cumulative: 8) |
+| **D.5 Galley Breath** | **0** | 8 |
+| E Mess Hall | Crew Messages, Governance Hub seed | 2 (cumulative: 10) |
+| F Briefing Room | Contingency reveal, narrator swap | 2 (cumulative: 12) |
+| **F.5 Empty Chair Breath** | **0** | 12 |
+| G Armory | NPC Inbox, Zero first contact | 2 (cumulative: 14) |
+| H Resumed Puzzles | Inbox deepening, Engineer log completion | 2 (cumulative: 16) |
+| **H.5 Memo Pile Breath** | **0** | 16 |
+| I Bridge | Tower Defense, Captain's Chair | 2 (cumulative: 18) |
+| J Archives | Witnesses Meet Part 1, first Light/Dark choice | 2 (cumulative: 20) |
+
+**Previously: 19 systems in 6 beats (Beats A–F, first hour).
+Revised: 12 systems in 6 beats + 3 Breath Beats across the same
+hour.** Same end-state (Beat J has roughly the same system count),
+but with **37% less information density in the onboarding
+window** and **four dedicated pause points**.
+
+**Total Prelude runtime change:**
+- Old: ~3–5 hours, 10 beats
+- New: ~3.5–5.5 hours, 10 lettered beats + 5 Breath Beats
+- **Net addition: ~14 minutes of Breath Beat content.** Well
+  worth the cognitive recovery.
+
+### 3.5 Breath Beat Pattern for Acts 1–5
+
+The Breath Beat mechanic is not Prelude-only. Every act gets at
+least **two Breath Beats** inserted at emotionally-high moments:
+
+| Act | Breath Beat 1 | Breath Beat 2 |
+|---|---|---|
+| Act 1 | After Beat D (Grand Final) — Gary's empty stable | After Beat I (transference) — Kael holding both bodies |
+| Act 2 | After Cycle A finale — the Crafting workshop at dawn | Mid-Act 2 Cycle B — the Arena empty between fights |
+| Act 3 | After the Sacrum opens — the Sacred Chamber first-quiet | After a faction resolution — the Antiquarian's first written line |
+| Act 4 | Between two Kael Prisoner Cells | After Cell 3 rematch |
+| Act 4.5 | The Casino garden between races | — |
+| Act 5 | After Iron Lion's Mission 4 | After Mission 6 (Alliance of Adversaries + Vex joining) |
+
+Each Breath Beat follows the same rules: 2–4 min, one narrator
+alone, no new systems, skippable after 45 seconds.
+
+---
+
+## Section 4 — Contradictions Between Rev 5 and Rev 6
+
+The three new source docs introduce lore that conflicts with the
+Rev 5 plan in nine specific places. Each is listed below with a
+recommended resolution. **All resolutions preserve Rev 5 player-
+facing beats where possible; the retcons happen at the
+explanation layer, not the event layer.**
+
+### Contradiction 1 — Warlord's name: Malkia vs. Vex'Ahlia
+
+- **Rev 5 (Act 1 Beat E):** The Warlord's original human name
+  is **Malkia**. Kael's childhood friend. Same palace, same
+  rug, same tutor (the Engineer).
+- **Rev 6 (Advocate's Testament Hierarchy table):** The COO /
+  Taskmaster of the Hierarchy of the Damned is **Vex'Ahlia**,
+  listed as the mirror of The Warlord.
+- **Resolution:** **Both are canon.** Malkia is her human /
+  Thalorian name from before her fall. Vex'Ahlia is her
+  corporate title after her fall and promotion into Hierarchy
+  middle management. **Act 1 Beat H's final whisper — "My
+  pattern is in the swarm" — is her promotion announcement.**
+  She does not stay dead; she gets hired. Act 3+ encounters
+  with "Vex'Ahlia" are canonical re-encounters with Malkia in
+  her new role. Act 1 Beat E stays. Act 1 Beat H stays. Nothing
+  earlier in the plan file needs rewriting.
+
+### Contradiction 2 — Vex Solène vs. Vex'Ahlia naming collision
+
+- **Rev 4:** Agent Zero's canonical name is **Vex Solène**
+  (proposed). She is the other awake Potential.
+- **Rev 6:** Vex'Ahlia is the Hierarchy's COO / Taskmaster.
+- **Resolution:** Keep both. Make the "Vex" prefix **thematic,
+  not coincidence**. The Ne-Yon word *vex* means "to trouble
+  reality" — it is an ancient linguistic root. **Vex'Ahlia
+  means "She Who Troubles All"; Vex Solène means "She Who
+  Troubles the Sun."** The Engineer, performing the transference
+  in Act 1 Beat I, draws on an Advocate fragment embedded in
+  Ark 1047's substrate (canon per Section 1.3, hellbox
+  reframing). That fragment **gives the name to the new woman
+  he is saving**. The name is not the Engineer's invention; it
+  is the Advocate's gift, delivered through him, at the moment
+  she has nothing left to give but names. **This deepens the
+  Advocate-Engineer mirror relationship** without requiring new
+  scenes.
+
+### Contradiction 3 — Hellbox origin (Engineer vs. Blood Weave fragment)
+
+- **Rev 5:** The hellbox is the Engineer's invention. The
+  Lyra Vox compulsion audio is the voice of Lyra Vox (Kael's
+  mother, ship designer).
+- **Rev 6:** The hellbox is a splinter of the Advocate's
+  pre-corruption Blood Weave, embedded in Ark 1047's substrate
+  during her shattering. The Engineer discovered and reverse-
+  engineered a tool from it.
+- **Resolution:** Both canons stand. **The Engineer invented
+  the tool shape**; the underlying metaphysics are the
+  Advocate's Blood Weave. The Lyra Vox audio is a layered
+  voice — Lyra Vox speaking on behalf of the Advocate, not
+  knowing it. Lyra Vox discovered the fragment first (she was
+  the Ark's designer); she transcribed the compulsion lines
+  before losing herself in the work; the Engineer inherited her
+  notes. **The existing `lyraVoxDialog.ts` stays as-is.** The
+  dialog source map updates to credit both Lyra Vox (voice) and
+  the Advocate (original speaker).
+
+### Contradiction 4 — The Engineer and the Advocate relationship
+
+- **Rev 5:** The Engineer dies in Act 1 Beat I performing a
+  transference protocol he designed himself.
+- **Rev 6:** The transference protocol is structurally
+  identical to the Blood Weave sacrifice architecture the
+  Advocate designed in Year 16,400 A.A. Both spend the
+  operator's entire consciousness to save another being.
+- **Resolution:** The Engineer is the Advocate's **student by
+  one degree of separation**. He inherited her technique via
+  Lyra Vox's hellbox fragment and developed the transference
+  protocol as a single-person application of her Blood Weave
+  sacrifice architecture. He does not know he is using her
+  technique. He dies thinking the protocol is his. **In the
+  Act 5 Post-Credits "Bridge of Kael" reveal,** the Antiquarian
+  adds one line: *"The Engineer thought he invented the
+  protocol. He did not. He was one link in a chain that starts
+  with her. Both are true. He is no less heroic for being a
+  student. She is no less brilliant for being a teacher."*
+
+### Contradiction 5 — Elara's identity scope
+
+- **Rev 5:** Elara Voss was the Nexon city planner / chief
+  architect. She designed the aqueducts. The Beat F Briefing
+  Room contingency reveal is her core identity beat.
+- **Rev 6:** Senator Voss was present in the Authority chamber
+  during the Epoch 2 Trap when the Advocate freed Samsara and
+  Nirvana. The Senator Voss name appears in the Epoch Witness
+  System AP-V2 vote as a possible culpable party for the
+  Panopticon expansion.
+- **Resolution:** **Elara Voss = Senator Voss = Nexon chief
+  architect. Three roles, one person.** Her timeline:
+  1. Nexon era: chief architect (as the Engineer and Kael
+     knew her)
+  2. Senate era: senator after Nexon fell (as the Epoch Witness
+     System remembers her)
+  3. New Babylon era: aide/witness in the Authority chamber
+     during the Epoch 2 Trap — she was present when the
+     Advocate freed Samsara and Nirvana. She did not
+     intervene. She did not speak. She **remembers nothing of
+     it** when awakened on Ark 1047.
+  4. Ark 1047 era: memory-wiped ship AI.
+
+  **Act 3 or Act 4 reveal (Epoch Witness AP-V2 / Samsara
+  sub-plot):** Elara recovers the memory of being in that
+  chamber and seeing the Advocate free the twins. She has to
+  decide whether she agrees with what the Advocate did. **This
+  is a character-defining Epoch Witness vote.** Elara's line
+  if the player votes with the Advocate: *"I was there. I did
+  nothing. I am not proud of that. If I had the moment back I
+  hope I would do what she did. I don't know. Thank you for
+  voting the way I would have, if I had been brave."*
+
+### Contradiction 6 — The Antiquarian vs. The Human
+
+- **Rev 5:** The Human is one of the Two Witnesses. He is
+  Elara's narrator partner throughout all 5 acts.
+- **Rev 6:** The Antiquarian narrates the Epoch Witness System
+  from further in the future. He is named Daniel. He is what
+  The Human becomes.
+- **Resolution:** **Both are canon simultaneously via temporal
+  asynchrony.** The Epoch Witness System plays from further
+  forward in time than the main act narrative. When the player
+  is in Act 3, the Antiquarian is narrating from a point after
+  Act 5 has already concluded in his timeline. Both voices
+  exist in the same game because the player interacts with them
+  at different time points. **The reveal that they are the
+  same person** lands at Fall-V2 in the Epoch Witness System —
+  *not* in the main act narrative. Players who never engage
+  with the Epoch Witness System never see the reveal, and that
+  is fine: the Epoch Witness System is optional.
+
+### Contradiction 7 — Governance Hub scope
+
+- **Rev 5:** The Governance Hub is a minor Prelude Beat H.3
+  tutorial mechanic. Small footprint.
+- **Rev 6:** The Epoch Witness System is a 40-vote asynchronous
+  campaign that routes through the Governance Hub as its
+  primary interface.
+- **Resolution:** The **Prelude Governance Hub is the Seed**.
+  The player opens it once, sees the interface, and the first
+  Epoch Witness vote is visible but **not yet unlocked** — it
+  is labeled *"OPENS IN ACT 3 — return when you are ready."*
+  The **Echo** is Act 2's Crafting completion unlocking a
+  "Preview Vote" that the player can examine but not cast. The
+  **Revelation** is Act 3's first actual Epoch Witness vote
+  (AP-V1 The Logos Question) which opens the full campaign.
+  This retrofit is **consistent with Section 2.2 Orphan 1
+  Trade Empire's Seed→Echo→Revelation arc** — the Prelude is
+  always the Seed layer.
+
+### Contradiction 8 — Breeding Program scope (Mascoteer vs. Crew)
+
+- **Rev 5:** The Breeding Program is implied to be the
+  Mascoteer pet system in Act 1 Cycle A.
+- **Rev 6:** The Breeding Program is a massive multigenerational
+  Bene Gesserit layer tied to Blood Weave crystal production.
+- **Resolution:** **Two-tier split** (already specced in
+  Section 1.4). Mascoteers remain Act 1's tutorial-scale
+  breeding system. The Crew Breeding Program is a new Act 3+
+  unlock, seeded in Act 1 Beat A and echoed in Act 2. Both
+  use the same underlying `shared/crewGenetics.ts` math. **No
+  rewriting of Act 1 Cycle A content** — just add the Seeds
+  and Echoes listed in Orphan 9 above.
+
+### Contradiction 9 — The Silence's presence in the game
+
+- **Rev 5:** No canonical mention of "the Silence" as a
+  character.
+- **Rev 6:** The Silence is the Sixth Ne-Yon, trapped inside
+  her own body for one full epoch while the Necromancer wears
+  her face. The Degen knows. Other characters who knew her
+  before the Trap can tell.
+- **Resolution:** Introduce the Silence's presence as a **slow
+  burn** across Acts 3–5 via the Seed→Echo→Revelation pattern:
+  - **Seed:** Act 3 — a "Silence" character appears briefly in
+    a Trade Empire side mission. Player has no reason to
+    suspect anything is wrong.
+  - **Echo:** Act 4 — the Degen (Casino, Trust Level 8+)
+    mentions she is "12 milliseconds off." Player may or may
+    not notice.
+  - **Revelation:** Act 5 — the player recovers 50%+ of the
+    Advocate's mind (canon condition), encounters "the Silence"
+    again, receives a Sacrum pulse, and hears one word from
+    the Mirror of Severed Memory: ***NO***. The real Silence
+    is still in there. The player now knows. What they do with
+    the knowledge is Act 5 Bond-80-tier story material.
+
+### Contradiction Resolution Summary
+
+All nine contradictions resolve without requiring rewrites of
+Rev 5 player-facing beats. The retcons happen at:
+- The explanation layer (who the Engineer learned from)
+- The naming layer (Malkia = Vex'Ahlia, three Voss identities)
+- The temporal layer (Antiquarian narrates from the future)
+- The new-content layer (Breath Beats, Seed-Echo-Revelation
+  seeds, the Epoch Witness System)
+
+**No scene in Parts I–V is deleted. No dialog in the existing
+authored files is rewritten.** Rev 6 is additive only.
+
+---
+
+## Section 5 — Integration Points Across the Existing Plan
+
+This section maps each Rev 6 system to its anchor beats in the
+existing Parts I–V plan structure. Implementation work that
+follows Rev 6 should reference this table first.
+
+### 5.1 The Epoch Witness System — Integration
+
+The 40-vote asynchronous campaign (full spec preserved as the
+canonical source doc to be saved as
+`docs/design/EPOCH_WITNESS_SYSTEM.md` after plan exit) integrates
+with the existing plan as follows:
+
+**Anchor beats:**
+
+| Stage | Existing beat | What changes |
+|---|---|---|
+| **Seed** | Prelude Beat H.3 NPC Inbox + Beat I Captain's Chair | The Governance Hub opens. First Epoch Witness UI is visible but locked. One Antiquarian quote signed *"— A, Year One"* appears on the empty vote board. |
+| **Echo** | Act 2 Cycle A Crafting completion | A "Preview Vote" mode unlocks. Player can examine vote AP-V1 (The Logos Question) but cannot cast. The Antiquarian's voice is heard for the first time as a brief tease. |
+| **Revelation** | Act 3 first faction completion | AP-V1 The Logos Question opens for casting. The full Epoch Witness campaign begins. The Antiquarian formally introduces himself in the cinematic. |
+| **Mid-campaign** | Acts 3-4 paced unlocks | One vote per epoch unlocks per ~2-4 hours of player gameplay. The 40 votes are not all available at once; they unlock as the player progresses. |
+| **Fall-V3** | Act 5 finale | The final vote (The Mandate of the Future) unlocks during Act 5 Mission 7. Players who participated in 3+ epochs get the Archetype Reveal cinematic. |
+
+**Five Epoch acts, mapped to existing acts:**
+
+| Epoch | Maps to | Vote count |
+|---|---|---|
+| Age of Privacy (Epoch I) | Act 3 (Trade Empire faction work) | 6 votes (AP-V1 to AP-V5 + AP-Epoch-Close) |
+| Age of Prophecy (Epoch II) | Act 3 → Act 4 transition | 6 votes (Prophet-V1 to Prophet-V5 + close) |
+| Age of Insurgency (Epoch III) | Act 4 (Kael's Memory Cells) | 6 votes (INS-V1 to INS-V5 + close) |
+| Age of Revelation (Epoch IV) | Act 4 → Act 5 transition | 5 votes (REV-V1 to REV-V4 + close) |
+| Fall of Reality (Epoch V) | Act 5 (Iron Lion's last stand) | 3 votes (FALL-V1 to FALL-V3) |
+
+**Total: 26 named Nexus Point votes + ~14 minor votes = 40
+total.** The minor votes are unscheduled — they fire as
+community pressure accumulates in response to player decisions
+across Acts 3-5.
+
+**File touch list (full files in Epoch Witness System source doc):**
+
+```
+server/services/
+├── epochWitnessSystem.ts          NEW
+├── nexusPointVotes.ts             NEW (40 vote definitions)
+├── shadowTongueManager.ts         NEW (reality editing engine)
+├── epochUnlockDispatcher.ts       NEW (effects bus)
+├── mandalaEffectEngine.ts         NEW
+└── archetypeAssignment.ts         NEW
+
+client/src/components/EpochWitness/
+├── NexusPointCard.tsx             NEW
+├── EpochClosurePopup.tsx          NEW
+├── AnalyticsBanner.tsx            NEW
+├── ArchetypeReveal.tsx            NEW
+├── ShadowTongueAlert.tsx          NEW
+├── MandalaEffect.tsx              NEW
+└── CommunityVoterList.tsx         NEW
+
+data/
+├── nexusPointVotes.ts             NEW (40 votes data)
+├── epochUnlockTable.ts            NEW
+├── epochAchievements.ts           NEW
+├── shadowTongueDictionary.ts      NEW
+├── companionEpochDialogs.ts       NEW
+└── archetypeDefinitions.ts        NEW (6 archetypes)
+```
+
+**Database tables (full schemas in source doc Part: Implementation):**
+- `epoch_votes` — per-vote per-user records
+- `epoch_vote_tallies` — real-time tallies
+- `shadow_tongue_state` — power level + active edits
+- `player_epoch_progress` — archetype assignment
+- `mandela_effects` — what changed when
+
+**Cross-system effects bus (Universal Effects Bus):** Every
+Epoch Witness vote fires consequences across:
+- Economy (Dream Token inflation, Trade Empire prices)
+- Living Universe pressure meters (5 meters)
+- Card Game (new packs, faction buffs)
+- Fight Arena (new playable characters)
+- Chess (new opponents)
+- Dead Man's Circuit (new tracks)
+- Quiz mode (new categories)
+- Companion dialog (Elara, Human, Antiquarian reactions)
+- Shadow Tongue (Loredex edits if Dark wins)
+- Crew Ferry (new berths)
+- Loredex (entry unlocks + edits)
+- Antiquarian Chronicle (canonical entry)
+- Mission system (mode-specific new missions)
+- Achievements
+
+**This bus is the most important architectural addition in
+Rev 6.** Every existing system already has hooks for these
+effects; the bus is the central dispatcher that fires them all
+on a single vote-close event.
+
+---
+
+### 5.2 The Advocate's Box / Sacrum / Sacred Chamber — Integration
+
+The full Sacrum acquisition arc + Sacred Chamber room + Blood
+Weave magic system + Demon Summoning minigame (canonical source:
+`docs/design/ADVOCATES_BOX_DESIGN.md` and
+`docs/design/ADVOCATES_TESTAMENT.md` after plan exit) integrates
+with the existing plan as follows:
+
+**Anchor beats:**
+
+| Stage | Existing beat | What happens |
+|---|---|---|
+| **Seed** | Act 2 Cycle B (Trade Empire opens) | Locke is introduced as a Trade Empire NPC. Player meets her once. She mentions in passing that she "has matters she needs to discuss in private but not today." |
+| **Echo** | Act 3 first faction completion (~3 sectors opened) | Locke sends the private channel message. Player can choose to meet her at the Archive Annex. The full BioWare dialog negotiation plays. |
+| **Revelation** | Act 3 Beat F2 or F3 | The Sacrum is opened (or arrives via drone). The Sacred Chamber unlocks. The first Advocate fragment is recovered via the Mirror of Severed Memory. |
+| **Horror Timeline** | Acts 3-4 | If the Sacrum is sealed, the Horror Timeline runs across ~28 in-game days (compressed to ~2 weeks of real gameplay time). Each event fires as a Living Ark scripted event. |
+| **Hierarchy Corporate Escalation** | Act 4 → Act 5 | The four-stage Hierarchy escalation arc unlocks: Reconnaissance → Corporate Inquiry → Acquisition Attempt → (Stage 4 Yog-Nathal is Year Two/Season 2 only). |
+
+**The Sacred Chamber room — physical integration with the Ark:**
+
+- **Location on ship map:** Hidden between the Med Bay and
+  the Engineering bay. Not on any blueprint. Appears as a
+  **dimensional fold** the player walks into for the first
+  time after the Sacrum is opened.
+- **First-visit Elara line** (canonical, from Advocate's
+  Testament Part IV): *"This room isn't on any blueprint I
+  have. It was here the entire time. In the folds. The
+  geometry is — the room is larger on the inside than its
+  position allows. The Advocate designed the containment
+  protocols for this room into every Ark. The inscription
+  above the door says: 'Use this well. I am sorry for the
+  cost of it.'"*
+- **Six interactive components** (full descriptions in source
+  doc):
+  1. The Seven Binding Circles (wall engravings)
+  2. The Soul Map (holographic dimensional topology)
+  3. The Ritual Altar (7-channel blood crystal placement)
+  4. The Blood Weave Loom (dormant until 25% Advocate recovery)
+  5. The Advocate's Alcove (Sacrum display + fragment tracker)
+  6. The Mirror of Severed Memory (lore delivery interface)
+
+**Blood Weave magic system — seven rituals:**
+
+| Ritual | Cost | Effect | Advocate req |
+|---|---|---|---|
+| The Minor Seal | 5 Common | Banish 1 incursion, -15 pressure 24h | 0% |
+| The Watcher's Ward | 10 Common + 2 Purified | Prevent incursion 72h, Soul Map +50 sectors | 0% |
+| The Advocate's Echo | 5 Purified + 1 Advocate | Reveal fragment, +20 BW strength, Elara +10 | 10% |
+| The Binding of the Named | 3 Named + 20 Common | Bind one scout, mission protection | 25% |
+| The Sever | 30 Corrupted | Shadow Tongue -30, Grand Edit -50 (warning: accelerates Hierarchy interest) | 0% |
+| The Blood Weave Restoration | 25 Purified + 3 Advocate + 1 Heart | Repair one node, +10% Advocate progress | 50% |
+| The Great Binding | Full Advocate recovery (Year One cap: 25%) | Major world event (Year Two only) | 100% |
+
+**Year One cap on Advocate recovery: 25%.** The Great Binding
+ritual is **not playable in Year One** — it is the Season 2
+hook. The Advocate's Year One climax is her speaking the line:
+*"I can see the shape of myself. It is enough to begin. But I
+am missing the middle. The part they took. You will need to go
+where they took it."* Season 2 is the rescue of her body from
+New Babylon stasis.
+
+**The Madness Meter** (canonical, from source doc): a 0-100
+gauge tracking sealed-Sacrum agitation, failed banishments,
+demon deals, and corrupted-crystal use. Five thresholds:
+- 0-20 STRANGE → minor weirdness
+- 21-40 UNSETTLING → crew affected
+- 41-60 BREAKING → systems affected
+- 61-80 HORROR → full Army of Darkness mode
+- 81-100 THE DOOR IS OPEN → major world event
+
+The Madness Meter is a **persistent UI element** in the Sacred
+Chamber room view. It appears nowhere else.
+
+**Demon Summoning minigame** — three tiers of summonable
+entities, each with negotiation dialog. Costs are paid in
+Blood Crystal types; the entities offer services in exchange
+for **time-soul fragments** (player memory/experience). Tier 3
+("Something Old") is the only place Yog-Nathal is named in
+Year One, and only if the player accepts the deal.
+
+**File touch list:**
+
+```
+server/services/
+├── advocateMindSystem.ts          NEW (global fragment tracking)
+├── sacrum_horror_timeline.ts      NEW
+├── blood_weave_rituals.ts         NEW (7 rituals)
+├── summoning_minigame.ts          NEW
+├── madness_meter.ts               NEW
+├── hierarchy_corporate_events.ts  NEW (4 stages)
+└── blood_crystal_economy.ts       NEW
+
+client/src/components/SacredChamber/
+├── SacredChamberRoom.tsx          NEW
+├── SoulMap.tsx                    NEW
+├── RitualAltar.tsx                NEW (7-channel placement)
+├── BloodWeaveLoom.tsx             NEW
+├── AdvocateAlcove.tsx             NEW
+├── SummoningCircle.tsx            NEW
+└── MadnessMeter.tsx               NEW
+
+client/src/components/SacrumAcquisition/
+├── LockeNegotiation.tsx           NEW (BioWare dialog)
+├── DroneDelivery.tsx              NEW (refusal path)
+└── HorrorTimeline.tsx             NEW
+
+data/
+├── advocateFragments.ts           NEW (~50+ fragments)
+├── demonDeals.ts                  NEW
+├── ritualDefinitions.ts           NEW
+├── hierarchyWorldEvents.ts        NEW
+└── bloodCrystalRecipes.ts         NEW
+```
+
+**Database tables:**
+- `player_sacrum_state` — acquisition + opened + madness + horror day
+- `advocate_mind_global` — global fragment release + recovery
+- `player_blood_crystals` — 6 crystal type counts
+- `demon_deals_log` — every deal made
+- `hierarchy_pressure_global` — community pressure 0-100
+- `ritual_log` — every ritual performed
+
+---
+
+### 5.3 The Breeding Program (Bene Gesserit Layer) — Integration
+
+**Two-tier integration confirmed (per Section 1.4):**
+
+| Tier | System | Anchor act | Status |
+|---|---|---|---|
+| 1 | Mascoteer pet breeding | Act 1 Cycle A (Beats A-D) | **Existing** — keeps current spec |
+| 2 | Crew Breeding Program | Act 3 (after Sacrum opens) | **New** — Rev 6 addition |
+
+**Anchor beats for the Crew Breeding Program (Tier 2):**
+
+| Stage | Existing beat | What happens |
+|---|---|---|
+| **Seed** | Act 1 Beat A first Mascoteer screen | Elara mentions: *"The math is the same for everything. Pets, plants, people. The ship's crew management has a breeding module. It's not turned on. I haven't found a reason to turn it on."* (Per Orphan 9 retrofit, Section 2.2.) |
+| **Echo** | Act 2 Cycle A Crafting side quest | Player finds sealed manifest *"BREEDING PROGRAM — SUSPENDED UNTIL ADVOCATE FRAGMENT THRESHOLD REACHED."* Cannot open. Elara doesn't know what "Advocate" means. |
+| **Revelation** | Act 3 first Advocate fragment recovery | The Crew Breeding Program manifest unseals. Elara: *"Now I know why it was suspended. It was waiting for her. Let's turn it on."* |
+
+**Reuse of existing code:**
+- `shared/crewGenetics.ts` — already contains the 5-stat
+  inheritance math (Intellect, Reflexes, Empathy, Resilience,
+  Adaptability). Both tiers use this file. **No new math
+  needed.**
+- The existing crew sheet UI gets a new "Bloodline Tab"
+  showing the 7-classification system (PURE/HYBRID/DEMONIC/
+  ADVOCATE/SAMSARA/NAMED/UNKNOWN) and crystal yield previews.
+
+**New files:**
+
+```
+shared/
+├── bloodClassification.ts         NEW (7-type classification)
+├── cloneLifecycleConfig.ts        NEW (gestation/growth/death)
+└── collectorsWorkMissions.ts      NEW (fragment-written missions)
+
+server/services/
+├── bloodline_generation.ts        NEW (clone lifecycle + inheritance + classification)
+└── bene_gesserit_quests.ts        NEW (Collector's Work mission generator)
+
+client/src/components/BreedingProgram/
+├── BloodClassificationDisplay.tsx NEW
+├── GenerationTree.tsx             NEW
+├── CrystalYieldPreview.tsx        NEW
+└── CollectorsWorkBoard.tsx        NEW
+```
+
+**Database table:**
+- `bloodline_registry` — clone IDs, generation, classification,
+  5 stats, parent IDs, demonic contamination %, Advocate Echo
+  flag, Samsara marked flag, sacrifice events count, lifecycle
+  timestamps
+
+**Year One cap:** Players can reach approximately **3
+generations** of cultivated bloodlines in Year One. The 5+
+generation threshold needed for the Advocate's-body Year Two
+reveal is intentionally out of reach in Year One. **This is
+not a frustration; it is a long-form investment.** Players
+who start cultivating in Act 3 and continue through Year One
+into Year Two arrive at the reveal precisely when Season 2
+content opens.
+
+**The moral economy in practice:** The fast path (Demonic
+bloodlines → Corrupted crystals → easy ritual access) is
+**immediately profitable but increases Hierarchy pressure**.
+The slow path (Pure bloodlines → Purified crystals → cleaner
+magic) is **costly in time but reduces Hierarchy pressure**.
+Both paths win the game; both paths have different endings to
+the Year Two reveal sequence.
+
+---
+
+### 5.4 The Antiquarian — Integration
+
+**Anchor beats (per Section 1.2):**
+
+| Stage | Existing beat | What happens |
+|---|---|---|
+| **Seed** | Prelude Beat J Archives | Sealed Chronicle book on the shelf. 7-lock seal. Player cannot open. Elara comments. |
+| **Echo** | Act 2 Cycle A Crafting milestone | Loose page falls out of the Chronicle. One sentence legible: *"They will think they are the first to ask this. Let them."* |
+| **Revelation** | Act 3 first Epoch Witness vote (AP-V1) | The Antiquarian's voice opens the vote cinematic. He does not name himself. *"I am — as ever — the Antiquarian."* |
+| **Slow burn reveal** | Acts 3-5 Epoch Witness votes | His Chronicle entries play after every vote close. Players gradually realize his temporal stance is *post-Year-One*. |
+| **Identity reveal** | Fall-V2 (Epoch Witness final vote) | Players who voted in 3+ epochs and select option D ("He loves her") unlock the Chronicle entry: *"My name — my first name, the one I had before I was the Antiquarian — is Daniel."* |
+| **Final line** | Act 5 Post-Credits Bridge of Kael | One Antiquarian line over the cinematic — the last new voice the player hears in Year One. |
+
+**File touch list:**
+- `shared/antiquarian-vo-script.md` NEW — VO Bible entry 13
+- `shared/antiquarianChronicle.ts` NEW — Chronicle entry data
+- `client/src/components/Chronicle/ChronicleViewer.tsx` NEW
+- `public/audio/antiquarian/` NEW — ~25 minutes of audio
+
+**Voice profile (canonical, per Section 1.2):**
+- Warm but worn, sorrowful but dry
+- Long pauses are his trademark
+- The word "I" quiets when he speaks first-person
+- Subtle page-turn foley under every long pause
+- Never raises volume past conversational
+
+**Recording session:** One ~2-hour ElevenLabs session with the
+new voice clone, careful direction on pauses, and the
+quiet-"I" treatment. Pickup session as needed for vote-specific
+Chronicle entries.
+
+---
+
+### 5.5 The Hierarchy of the Damned — Integration
+
+**Anchor beats (per Section 1.3):**
+
+| Stage | Existing beat | What happens |
+|---|---|---|
+| **Seed** | Act 1 Beat H Warlord's last whisper | *"My pattern is in the swarm."* Already canonical. Now retroactively understood as her promotion announcement to Vex'Ahlia / Hierarchy COO Taskmaster. |
+| **Echo** | Act 2 Cycle B Nexon flashback | A Hierarchy supply manifest is briefly visible in the burning Library scene. The word "Mol'Garath" appears in passing. Player has no context yet. |
+| **Revelation** | Act 3 first Sacrum-related demonic incursion | A Rylloh Scout (Ith'Rael's reconnaissance) appears in the Sacred Chamber's Soul Map. The Hierarchy formally enters the story. |
+| **Stage 1 Reconnaissance** | Acts 3-4 | Rylloh scouts detected. Soul Map activates. Community banishment rituals reduce scout count. |
+| **Stage 2 Corporate Inquiry** | Act 4 | Xeth'Raal sends a Debt Notice. Breeding Program Demonic output +30%. The notice contains real information about the Advocate. |
+| **Stage 3 Acquisition Attempt** | Act 5 | Mol'Garath makes an offer. Community vote required. ACCEPT or REFUSE. |
+| **Stage 4 Yog-Nathal Stirs** | **Year Two only** | The Architect Console has a button. Nobody knows what happens. Pre-written Antiquarian reaction line. **Never fires in Year One.** |
+
+**Key reframings (canonical):**
+- The Vortex is a **tool deployed by the Hierarchy**, not the
+  top of the cosmology. It is Ith'Rael's special-projects
+  weapon.
+- The hellbox is a **fragment of pre-corruption Blood Weave**
+  the Engineer reverse-engineered. The Lyra Vox compulsion
+  audio is layered — Lyra Vox's voice, the Advocate's words.
+- Every "Silence" encounter after Epoch 2 is **the Necromancer
+  wearing her body**. The real Silence is trapped inside.
+  Slow-burn reveal across Acts 3-5.
+
+**Mol'Garath's offer (Stage 3, canonical):**
+- Removes all demonic pressure permanently
+- Cost: one Inception Ark's voluntary surrender to Hierarchy
+  management
+- The offer is a trap: a surrendered Ark becomes a dimensional
+  anchor for future Hierarchy operations
+- Community governance vote determines the outcome
+- 70%+ refuse: Mol'Garath withdraws, pressure resets,
+  community earns "WE DO NOT NEGOTIATE WITH THE HIERARCHY"
+  achievement
+- 30%+ accept: Major world state change, one NPC sector comes
+  under Hierarchy influence
+
+**This is the most architecturally significant
+community-decision moment in Year One.** It is designed to be
+hard. It is designed to test whether the community has been
+**voting consistently** across the Epoch Witness System. The
+Hierarchy's offer is structurally similar to past temptation
+votes; the Antiquarian's Chronicle entry afterward references
+the consistency or inconsistency of the community's choices
+across all five epochs.
+
+**File touch list (overlap with Sacred Chamber):**
+- `server/services/hierarchy_corporate_events.ts` (already
+  in 5.2 file list)
+- `data/hierarchyWorldEvents.ts` (already in 5.2 data list)
+- `data/hierarchyCorpStructure.ts` NEW — the 8 named entities
+  + Yog-Nathal lore lock
+
+---
+
+## Section 6 — Summary, Verification, and Next Steps
+
+### 6.1 What Rev 6 Adds
+
+Part VI is the synthesis layer for three new source documents.
+After Rev 6, the plan contains:
+
+| Layer | Source | Status |
+|---|---|---|
+| Acts I-V structure (Prelude + 5 acts + 4.5 + Endgame) | Rev 1-3 | unchanged |
+| Engineer's death + Vex Solène canon | Rev 4 | unchanged |
+| Vertical Slice + Prelude impl + Act 1 beats + Prelude dialog | Rev 5 (Part V) | unchanged |
+| **The Advocate / Antiquarian / Hierarchy / Breeding Program** | **Rev 6 (Part VI Section 1)** | **NEW** |
+| **Seed→Echo→Revelation template + 9 orphan retrofits** | **Rev 6 (Part VI Section 2)** | **NEW** |
+| **Breathing Room mechanic + 5 Prelude Breath Beats** | **Rev 6 (Part VI Section 3)** | **NEW** |
+| **9 contradictions resolved (no scene rewrites needed)** | **Rev 6 (Part VI Section 4)** | **NEW** |
+| **5 system integration tables (file lists, anchor beats)** | **Rev 6 (Part VI Section 5)** | **NEW** |
+
+**Net additions from Rev 6:**
+
+- **3 new source documents** to be saved as docs/design/
+  appendices after plan exit (verbatim content preserved in
+  the user's conversation message — these are not yet on disk
+  because plan mode forbade writes outside the plan file)
+- **1 new narrator** (The Antiquarian, ~25 min new VO)
+- **1 new room** (The Sacred Chamber, dimensional fold between
+  Med Bay and Engineering)
+- **1 new magic system** (Blood Weave, 7 rituals, 6 crystal
+  types)
+- **1 new minigame** (Demon Summoning, 3 tiers)
+- **1 new minigame** (Ritual Altar 7-channel placement)
+- **1 new genetic system tier** (Crew Breeding Program /
+  Bene Gesserit layer)
+- **1 new asynchronous campaign** (Epoch Witness System,
+  ~40 votes across 5 epochs)
+- **1 new reality-editing system** (Shadow Tongue Mandela
+  Effect engine)
+- **1 new community-pressure escalation arc** (Hierarchy
+  Corporate Escalation, 4 stages, Stage 4 reserved for Year Two)
+- **5 Prelude Breath Beats** (~14 min new content, addresses
+  information avalanche)
+- **9 orphan unlock retrofits** (Trade Empire, Crafting,
+  Chess, Collector's Arena, Dead Man's Circuit, Casino, Fight
+  Arena, Mechronis Academy, Crew Breeding Program)
+- **1 Year Two / Season 2 hook** (rescue the Advocate's body
+  from New Babylon stasis, requires 5+ generations Pure
+  bloodline)
+
+### 6.2 Deferred Tasks (Post-Plan-Exit)
+
+The following work is **blocked by plan mode** and must be
+performed after `ExitPlanMode`:
+
+1. **Save the three source docs as appendices** in
+   `docs/design/`:
+   - `docs/design/EPOCH_WITNESS_SYSTEM.md` — verbatim content
+     from the user's conversation message starting at *"# THE
+     EPOCH WITNESS SYSTEM"*
+   - `docs/design/ADVOCATES_BOX_DESIGN.md` — verbatim content
+     starting at *"# THE ADVOCATE'S BOX"*
+   - `docs/design/ADVOCATES_TESTAMENT.md` — verbatim content
+     starting at *"# THE ADVOCATE'S TESTAMENT"*
+2. **Copy this plan file** into the repo at
+   `docs/design/DISCHORDIAN_SAGA_FULL_GAME_LAYOUT.md`
+3. **Commit all four files together** on
+   `claude/game-narrative-design-lIeB5`
+4. **Push** to origin
+
+### 6.3 Verification
+
+After the deferred tasks complete, verify Rev 6 by:
+
+1. **File presence:**
+   ```
+   ls -la docs/design/EPOCH_WITNESS_SYSTEM.md
+   ls -la docs/design/ADVOCATES_BOX_DESIGN.md
+   ls -la docs/design/ADVOCATES_TESTAMENT.md
+   ls -la docs/design/DISCHORDIAN_SAGA_FULL_GAME_LAYOUT.md
+   ```
+2. **Plan file end-state:** `wc -l docs/design/DISCHORDIAN_SAGA_FULL_GAME_LAYOUT.md`
+   should be ~8,000+ lines (Rev 5 ended at 6,239; Part VI
+   adds approximately 1,800-2,000 lines).
+3. **Cross-referencing:** Every Section 5 file path mentioned
+   in Part VI should resolve to either an existing file in the
+   repo or a `NEW` annotation. Spot-check 5 random file
+   references.
+4. **Contradiction resolution scan:** For each of the 9
+   contradictions in Section 4, verify the resolution does
+   not require rewriting any existing committed file.
+5. **Seed→Echo→Revelation audit:** For each of the 9 orphan
+   features in Section 2.2, verify the Seed beat is in the
+   Prelude or Act 1, the Echo beat is in Act 1 or Act 2, and
+   the Revelation beat is in the act where the orphan
+   currently unlocks.
+6. **Breath Beat insertion check:** For each of the 5 Prelude
+   Breath Beats in Section 3.3, verify the placement
+   (between Beats A-B, C-D, D-E, F-G, H-I) does not create
+   a beat-numbering conflict with the existing
+   `preludeBeats.ts` state machine spec from Part V (C).
+
+### 6.4 What Rev 6 Does NOT Do
+
+To prevent scope creep, Part VI is explicit about what is
+**out of scope**:
+
+- **No new acts.** Rev 6 does not add Act 6 or restructure
+  Acts 1-5.
+- **No scene rewrites.** All Rev 5 player-facing beats stand.
+- **No dialog rewrites.** All existing authored files
+  (`elara-vo-script.md`, `mobileNarratorDialog.ts`,
+  `lyraVoxDialog.ts`, etc.) stand. Rev 6 only adds new
+  attribution layers (e.g., Lyra Vox voice + Advocate words).
+- **No Year Two content.** The Sacrum Year Two reveal, the
+  Antiquarian "Daniel" reveal, the Yog-Nathal Stage 4 event,
+  and the rescue of the Advocate's body are **all reserved
+  for Season 2**. Rev 6 only seeds them.
+- **No Vertical Slice changes.** The Part V (D) Vertical Slice
+  spec stands as-is. The Vertical Slice should still be the
+  first thing built; Rev 6 systems integrate after the slice
+  is validated.
+
+### 6.5 Updated Shortest Path to a Shippable Game
+
+The Rev 5 shortest-path order remains correct, with Rev 6
+content slotted in:
+
+1. **Build the Vertical Slice** (Part V (D)) — 2 weeks
+2. **Expand to full Prelude** using Part V (C), **plus add
+   the 5 Breath Beats** from Part VI Section 3.3 — 5-7 weeks
+3. **Record Part V (B) dialog and commission art**, **plus
+   the Antiquarian's voice clone session** from Part VI
+   Section 1.2 — 3 weeks parallel
+4. **Build Act 1** using Part V (A), **plus the 9 Orphan
+   Seed/Echo retrofits** from Part VI Section 2.2 — 9-13
+   weeks (slightly longer than Rev 5 estimate due to retrofit
+   work)
+5. **Author Act 2-5 beat breakdowns** in the Part V (A)
+   format, **plus integration points from Part VI Section 5**
+   — 5 weeks design work
+6. **Build the Universal Effects Bus** from Part VI Section
+   5.1 — 2 weeks (this is the most architecturally
+   important new system; it underpins every Epoch Witness
+   vote consequence)
+7. **Build Acts 2, 3, 4, 4.5, 5, Endgame** with all Rev 6
+   systems integrated — remaining production
+8. **Build the Sacred Chamber + Blood Weave + Demon
+   Summoning** during Act 3 production — Rev 6 Section 5.2
+9. **Build the Crew Breeding Program** during Act 3
+   production — Rev 6 Section 5.3
+10. **Build the Epoch Witness System** as Acts 3-5 are
+    being built — Rev 6 Section 5.1
+11. **Stage 1-3 Hierarchy Corporate Escalation** as Acts 4-5
+    are wired together — Rev 6 Section 5.5
+
+**Stage 4 Yog-Nathal, Year Two Advocate's body rescue, and
+Season 2 Daniel reveal are intentionally NOT in the Year One
+build path.**
+
+### 6.6 The Rev 6 Design Thesis
+
+Rev 6 is, fundamentally, **about respecting the player's
+attention**. Three new principles drive every addition:
+
+1. **Discovery follows Seed → Echo → Revelation.** Players
+   should never be told what a system is before they have
+   wondered what it is.
+2. **Onboarding requires Breath Beats.** Players should never
+   be taught more than 2 new systems per beat. Quiet moments
+   are not filler; they are pacing infrastructure.
+3. **History is a community decision.** The Epoch Witness
+   System lets the player vote on what *already happened* —
+   which is the most honest acknowledgment that history is
+   what the living agree to remember. The Antiquarian writes
+   it down. The Shadow Tongue tries to edit it. The player
+   stands between them.
+
+The Engineer's sacrifice (Rev 4), the Witnessing thesis
+(Rev 1-3), and the Advocate's distribution (Rev 6) are now
+**three stories about the same thing**: *what cannot be taken
+by force can only be given freely, and the universe is built
+by what is given*.
+
+This is the spine. Everything else is mechanism.
+
+---
+
+---
+
+## Section 7 — Existing Crew/Army Systems Already in Code (Audit)
+
+User question: *"Where is the crew cloning/breeding? The Crew
+Missions? The Army recruitment? Are those existent?"*
+
+**Answer: Yes — all three exist in the codebase, and they are
+substantially more developed than Parts I–V acknowledged.**
+Section 7 is a corrective audit that maps each existing system
+into the act structure, applies Seed→Echo→Revelation, and
+**reconciles contradictions between Section 1.4's Bene Gesserit
+spec and the actual code**.
+
+### 7.0 What Was Found in the Codebase
+
+A read-only audit of the repo found the following files for
+these three systems:
+
+**Crew Breeding / Cloning / Genetics:**
+- `apps/client/src/game/crewGenetics.ts` (500 lines) —
+  **the canonical genetics system**
+- `apps/client/src/game/crewBirth.ts` — offspring generator
+- `apps/client/src/game/crewManagement.ts` — crew roster
+- `apps/client/src/game/crewAwakening.ts` — cryo wake
+- `apps/shared/crewBreeding.test.ts` — breeding tests
+- `apps/shared/crewPersistence.ts` — save state
+- `apps/server/routers/crew.ts` — crew API
+
+**Crew Missions:**
+- `apps/shared/crewMissions.ts` (430 lines) —
+  **the canonical crew dispatch system**
+- `apps/shared/crewBalance.ts` — balance constants
+- `apps/shared/crewTradeIntegration.ts` — Trade Empire bridge
+- `apps/shared/crewDmcBridge.ts` — Dead Man's Circuit bridge
+- `apps/shared/crewTick.ts` — time tick handler
+
+**Army Recruitment:**
+- `client/src/data/armyRecruitment.ts` (911 lines) —
+  **the canonical army system**
+- `client/src/stores/armyStore.ts` — Zustand store
+- 20 missions across 5 sectors with three-part typed briefings
+  (Kael's Log, Elara's Assessment, Human's Intel) and class-based
+  recruitment dialogs
+
+**These are not stub files. They are working, tested, large
+systems with hundreds of lines of authored content already in
+the repo. The Rev 5 plan barely acknowledges any of them.**
+Rev 6 corrects this gap.
+
+### 7.1 Contradiction with Rev 6 Section 1.4 (Bene Gesserit)
+
+Section 1.4 proposed a "new" 7-type blood classification system
+and "5 genetic stats." Both are wrong against the existing code.
+**Section 1.4 is amended as follows:**
+
+| Spec | Section 1.4 (wrong) | Codebase (canonical) |
+|---|---|---|
+| Genetic stats count | 5 | **6** |
+| Stat names | Intellect, Reflexes, Empathy, Resilience, Adaptability | resilience, **intellect**, reflexes, empathy, **immunity**, adaptability |
+| Bloodline classification | NEW: 7 types (PURE/HYBRID/DEMONIC/ADVOCATE/SAMSARA/NAMED/UNKNOWN) | **EXISTING: 9 founding bloodlines** as a Record (`void_resonance`, `iron_memory`, `crimson_vigil`, `temporal_echo`, `storm_circuit`, `lattice_prime`, `echo_synthesis`, `terminus_aegis`, **`blood_weave`**) |
+| Blood Weave bloodline | New idea | **Already canonical** as `BloodlineId = "blood_weave"` in `crewGenetics.ts:108` |
+| Hierarchy of the Damned | New idea | **Already canonical** in `crewGenetics.ts` template `tpl_abyssal_bloodsworn`: *"The Collector infiltrated the Abyss through Hell Gate and extracted genetic material from the Blood Weave — the Hierarchy's living nervous system. Mol'Garath's rage when he discovered the theft could be measured in destroyed star systems."* |
+| Cloning pods | New idea | **Already canonical** as `IncubatorPod` interface, `MAX_INCUBATOR_PODS = 6`, `PodStatus = "empty" | "gestating" | "ready" | "malfunction"` |
+| Lyra Vox built incubators | New idea | **Already canonical** in `crewGenetics.ts` header: *"Dr. Lyra Vox built the incubators into every Ark."* |
+| Genetic templates | NEW: bloodClassification.ts | **EXISTING: GENETIC_TEMPLATES** with `tpl_terran_prime`, `tpl_demagi_ashborn`, `tpl_quarchon_observer`, `tpl_abyssal_bloodsworn`, `tpl_voltari_storm`, `tpl_construct_lattice` and more |
+| Inbreeding mechanics | Not specced | **Already canonical**: `calculateInbreedingPenalty()` with full ancestry walking + lowest-common-ancestor detection |
+| Genetic drift | Not specced | **Already canonical**: `calculateGeneticDrift()` |
+| Trait categories | Not specced | **Already canonical**: `TraitCategory = "physical" | "mental" | "social" | "special"` + `GENETIC_TRAITS` array |
+| Mutation rolls | Not specced | **Already canonical**: `rollMutation()` |
+| Design influences | New | **Already documented in code header**: Massive Chalice, Birthright: The Gorgon's Alliance, Total War: Rome, Crusader Kings |
+
+**Reconciliation (canonical Rev 6.1):**
+
+1. **Use the existing `crewGenetics.ts` types and functions.**
+   No new file `bloodClassification.ts` should be created. The
+   existing `BloodlineId` enum and `FOUNDING_BLOODLINES` Record
+   are the canonical blood classification system.
+2. **The 6th stat is `immunity`.** Rev 6 Section 1.4 must include
+   it. `Immunity` is the stat that resists the **Thought Virus
+   contamination** (per `armyRecruitment.ts` mission 1-4 "Death
+   Walkers" who are *"Thought Virus survivors with natural
+   immunity"*). This is the rev 6 canonical link between
+   genetics and the Hierarchy/Thought Virus arc.
+3. **The Blood Weave bloodline already exists.** It is one of
+   the 9 founding bloodlines. It does not need to be invented;
+   it needs to be **explained**. Rev 6 canonically defines it as
+   *the bloodline carrying a fragment of the Advocate's
+   pre-corruption Blood Weave architecture*. Players whose crew
+   members have BloodlineId `blood_weave` are carrying her work
+   in their cells.
+4. **The `tpl_abyssal_bloodsworn` template is the rev 6
+   canonical entry point for Hierarchy genetics.** The lore
+   already says the Collector stole demonic genetic material
+   from the Blood Weave during a raid through Hell Gate, and
+   Mol'Garath was furious. **Mol'Garath being already named in
+   `crewGenetics.ts` means the Hierarchy is a canonical
+   pre-existing system, not a Rev 6 addition.** Rev 6 only adds
+   the structural detail (CEO/COO/etc. corporate hierarchy).
+5. **The Bene Gesserit Endgame from Section 1.4 is reframed:**
+   players who maintain the `blood_weave` bloodline through 5+
+   generations (using the existing `breedCrewMembers()`
+   function) receive the Year Two Advocate's-body coordinates.
+   No new mechanic — just a new use of existing mechanics.
+6. **The Sacrum's Biological Seal (the second of seven seals)
+   reads the bloodline registry directly.** A player whose ship
+   contains at least one crew member with `BloodlineId =
+   "blood_weave"` automatically passes the Biological Seal.
+   This is the **mechanical link between the Crew Breeding
+   Program and the Sacrum acquisition arc**.
+
+**Section 1.4 amendments:** the Bene Gesserit layer is now
+defined as **a layer of new lore and missions placed on top of
+the existing crew genetics system**, not a parallel new system.
+The math, the bloodlines, the templates, the inbreeding rules,
+the cloning pods, and Mol'Garath's existence are all already in
+code. Rev 6 names what the lore around them is.
+
+---
+
+### 7.2 Crew Breeding / Cloning — Act Anchors
+
+The existing crew genetics + cloning pods + breeding system has
+**no narrative onboarding** in the current Rev 5 plan. Players
+arrive at the Incubator UI without context. Rev 6 anchors it.
+
+**Anchor beats (Seed → Echo → Revelation):**
+
+| Stage | Anchor beat | Existing code touched | What happens |
+|---|---|---|---|
+| **Seed** | Prelude Beat A (Cryo Wake) | `crewAwakening.ts` | The player's wake sequence is one of six possible wake events. Five other empty cryo pods are visible. Elara: *"You are the first to wake from your wave. There are five more pods on this row. They are not empty. They are sleeping."* The player learns that **the ship's population is gestational, not historical**. |
+| **Seed** | Prelude Beat C (Engineering) | `crewGenetics.ts` header lore | A **dusty incubator pod** is visible behind a glass partition. Elara: *"Six incubator pods. Dr. Lyra Vox built them into every Ark. The Collector's archive is in there. None of them are running yet. They are waiting for someone to choose."* Player can read but not interact. |
+| **Echo** | Act 1 Beat A (Mascoteer Trial Day 1) | `crewGenetics.ts` `breedCrewMembers()` | The Mascoteer pet breeding tutorial uses the **same `breedCrewMembers()` function** the human crew breeding will use later. Elara mentions: *"The math is the same for everything. The Collector's archive does not distinguish between species. He found that meaningful. He thought it was a kind of equality."* Player learns the math via pets. |
+| **Echo** | Act 1 Beat I (Engineer's Transference) | `crewBirth.ts` `PendingOffspring` | The Engineer's transference protocol uses the same metaphysical architecture (voluntary sacrifice + genetic donation) as the Crew Breeding Program. The Engineer is the **first canonical demonstration that the system can save a life**. The player remembers this when they later use the system to create lives. |
+| **Revelation** | Act 3 Sacrum opens / Sacred Chamber unlocks | `IncubatorPod` interface + `MAX_INCUBATOR_PODS = 6` | The **Bene Gesserit endgame** activates. The Crew Breeding Program formally opens via the Sacred Chamber's Mirror of Severed Memory — the Mirror tells the player that the cloning pods need names, and the names need bloodlines, and the bloodlines need futures. The Advocate's first complete fragment (recovered from the Mirror) **gives the player the names of the 9 founding bloodlines** as her own teaching. Elara: *"She just told me what the bloodlines are called. I had them in my database for 17,000 years. I never knew the names. She knew."* |
+| **Mid-game cultivation** | Acts 3-5 | `breedCrewMembers()`, `calculateInbreedingPenalty()`, `calculateGeneticDrift()`, `calculateDiversityBonus()` | Player cultivates 1-3 generations of bloodlines across the rest of the year. |
+| **Year One climax** | Act 5 Endgame | `BloodlineId = "blood_weave"` | A player who has at least one crew member with the `blood_weave` bloodline automatically passes the Sacrum's Biological Seal and unlocks the Year Two Advocate's-body coordinates as their post-credits reward. Players without it get the standard Bridge of Kael reveal but not the Year Two hook. |
+
+**Key reframings:**
+- **Lyra Vox is canonically the incubator architect**, per
+  `crewGenetics.ts:8`. This reinforces Section 1.3's hellbox
+  reframing — Lyra Vox is the human who designed the Ark's
+  containment vessels for both the hellbox fragment and the
+  cloning pods. She is the **mechanical bridge** between the
+  Engineer and the Advocate.
+- **The Collector is canonically the genetic curator**, per
+  `crewGenetics.ts:6`. This means the Collector (Act 3 Garden
+  boss in existing plan) is also the architect of the Bene
+  Gesserit layer. Defeating him in Act 3 should canonically
+  transfer his archive to the player's ship — **a previously
+  unspecced reward**. Rev 6 makes this canonical: the Act 3
+  Collector boss fight unlocks **the full GENETIC_TEMPLATES
+  array** for breeding, where before only `tpl_terran_prime`
+  was available.
+- **The Necromancer is canonically the resurrection-protocol
+  designer**, per `crewGenetics.ts:7`. This ties the
+  Necromancer (Section 1.1.1 Epoch 2 Trap) to the cloning
+  system: the same metaphysical architecture he used to
+  possess the Silence's body is what makes Ark cloning work.
+  The player is using the Necromancer's tools every time
+  they hatch a clone. **This is intentionally uncomfortable.**
+  Elara has a single line about it the first time the player
+  uses an incubator pod (new, ~15 sec): *"The resurrection
+  protocols. He designed them. We are using them. I want you
+  to know that. I do not think it is a moral problem. I want
+  you to know it is a problem."*
+- **The Resurrectionist (Ne-Yon) maintains the cloning pods**,
+  per `crewGenetics.ts:7`. The Resurrectionist is a **new
+  named NPC** introduced in Rev 6 lore: a Ne-Yon pod-keeper
+  who appears as a hologram interface within the Sacred
+  Chamber when the player first opens the breeding UI. He is
+  warm. He is sad. He is the only Ne-Yon the player meets in
+  Year One who is **not** an antagonist.
+
+**No new code files needed for Crew Breeding integration.** All
+the work is narrative anchoring and 4-5 new lines of dialog
+spread across Beats A, C, I, and Act 3.
+
+---
+
+### 7.3 Crew Missions — Act Anchors
+
+The existing `apps/shared/crewMissions.ts` (430 lines) is the
+**Crew Dispatch system** — the player sends crew members to
+locations across Trade Empire sectors on time-gated missions
+(routine 4-6h, challenging, dangerous). It is canonically
+attributed to Adjudicator Locke: *"Send them somewhere
+dangerous for glory. They may not come back. That's the
+trade."* Design influences in code header: AC Brotherhood
+assassin dispatch + XCOM squad risk + Massive Chalice expedition
+narrative.
+
+**This is one of the most important systems in the codebase
+that Rev 5 ignored.** Crew Missions are the player's primary
+way of **using** the crew they breed. Without missions to send
+crew on, the Crew Breeding Program is just a baby factory.
+With missions, it is **a multigenerational investment**: you
+breed a clone, raise them, develop their skills, send them on
+risky work, and they may not come back. Massive Chalice's core
+emotional loop, in code, in this game, right now.
+
+**Anchor beats (Seed → Echo → Revelation):**
+
+| Stage | Anchor beat | What happens |
+|---|---|---|
+| **Seed** | Prelude Beat D (Cargo Bay) | The Trade Empire seed is already canonical. Add: a **mission board** is visible in the Cargo Bay corner. It has one mission posted: *"Salvage Sweep — Debris Belt"* (canonical mission ID `mission_salvage_sweep` from `crewMissions.ts:30`). The player cannot dispatch yet. Elara: *"That mission has been posted for 17,000 years. Nobody has taken it. It is the simplest one. The salvage is still there. The vacuum suits are still in the locker."* |
+| **Echo** | Act 1 Beat D (Mascoteer Grand Final) | A canonical Adjudicator Locke private message arrives in the player's NPC Inbox (the inbox already exists per Prelude Beat H.3). Locke introduces herself: *"You are not yet a Trade Empire participant, but I have been watching your performance in the Mascoteer Trial. The skills are transferable. When you are ready to take real work, the salvage sweep is still on the board. Take it."* Player can read but not act. |
+| **Revelation** | Act 2 Cycle A end | Trade Empire formally opens. The player's **first dispatchable mission is `mission_salvage_sweep`** — the same one from the Beat D seed. The player sends one crew member on a 6-hour real-time dispatch. **The mission resolves while the player is offline.** When they return, the mission report plays as a Locke voiceover. The mission is **always successful** (it is a tutorial dispatch with `baseSuccessChance: 0.90`). The player learns the loop: send, wait, return, reward. |
+| **Mid-Act 2 cultivation** | Act 2 Cycle B | Mission difficulty ramps to "challenging." First risk of failure. First crew injury. First grief beat. |
+| **Act 3 expansion** | Act 3 Trade Empire faction work | Crew Missions become **the player's hands** in the Trade Empire. Each faction unlock contributes mission templates. Locke's dispatch reports become a **regular companion voice**. |
+| **Act 3 Sacred Chamber link** | Act 3 Sacrum opens | Crew Missions now feed **Blood Crystal** rewards. A successful mission with the right preferred role yields Common or Purified Blood Crystals (per Section 5.3 economy). The Sacred Chamber's ritual costs are now sustained by the player's mission dispatch loop. **This is the canonical link between Crew Missions and the Blood Weave magic system.** |
+| **Act 4 high-stakes** | Act 4 Kael's Cells | A crew member can be permanently killed on a Dangerous-tier mission. The death triggers a Heart Crystal generation event (per Section 5.3). The player's grief is the magical material. |
+| **Act 5 Endgame** | Act 5 Iron Lion's Last Stand | One crew mission per Iron Lion mission unlocks. The crew is **fighting alongside Iron Lion** in the Vortex Endgame. Every dispatch result feeds into the community pressure mesh for the Hierarchy Stage 3 vote. |
+
+**Locke as a primary companion voice (canonical Rev 6 update):**
+- Locke is currently a Trade Empire NPC referenced in passing
+  by the Sacrum acquisition arc (Section 5.2).
+- **Rev 6 promotes her** to a **canonical primary voice** for
+  the Crew Missions system. She is the dispatch reports voice.
+  She is the fourth most-heard NPC in the game after Elara,
+  The Human, and Gary.
+- **VO Bible entry 14:** Locke. Voice direction — dry,
+  professional, slightly amused at her own pessimism. Adjudicator-
+  precise. The line *"Send them somewhere dangerous for glory.
+  They may not come back. That's the trade."* (already in code
+  header) is her signature dialog tone reference.
+- **New audio needed:** ~30 mission report variants (success,
+  partial, failure, crew injury, crew death, surprise reward).
+  Each ~15-20 sec. Total ~10 min new VO.
+
+**Crew Missions ↔ Bene Gesserit Bloodline link:**
+
+Per the Bene Gesserit Endgame (Section 5.3), the player's
+multigenerational bloodline cultivation is meaningful only if
+those bloodlines are **used in the world**. Crew Missions are
+the consumer. A player who breeds a high-empathy Pure bloodline
+will deploy that crew on **diplomatic/social-tier missions**
+where empathy is the preferred stat and the failure cost is
+emotional, not lethal. A player who breeds a high-resilience
+Demonic bloodline will deploy them on **combat/dangerous-tier
+missions** where the failure cost is permanent loss. **The
+moral economy of the bloodline cultivation is enacted through
+the mission dispatch choices the player makes with the
+bloodlines they cultivate.** This is the canonical loop.
+
+**No new code files needed for Crew Missions integration.**
+The existing `crewMissions.ts` already has 30+ mission
+templates wired to roles and rewards. Rev 6 only adds: 4-5 new
+narrative anchors, Locke's promotion to primary voice, and the
+link from mission rewards to Blood Crystals.
+
+---
+
+### 7.4 Army Recruitment — Act Anchors
+
+**This is the largest existing system Rev 5 missed entirely.**
+`client/src/data/armyRecruitment.ts` is **911 lines** of
+authored content covering 20 missions across 5 sectors. Each
+mission has:
+- Three-part typed briefing (Kael's Log + Elara's Assessment +
+  Human's Intel — all already wired to canonical voices)
+- Class-based recruitment dialog options (oracle, spy, soldier,
+  engineer, assassin, etc.)
+- A leader NPC with species, name, and full dialog
+- A test mission (fight / cards / trade / quiz / etc.)
+- Rewards (unit strength, loyalty, specialization, XP, dream
+  tokens, cards)
+
+**The army system is canonically Kael's legacy.** Every mission
+has a *"RECRUITER'S LOG — ENTRY [N]"* from Kael describing his
+own pre-Fall recruitment of the same unit. Kael is **the
+canonical recruiter narrator** of this system. The player is
+**re-recruiting Kael's old contacts** in the new era.
+
+This is a **massive Kael-narrative engine** the Rev 5 plan did
+not surface. Rev 6 surfaces it.
+
+**Anchor beats (Seed → Echo → Revelation):**
+
+| Stage | Anchor beat | What happens |
+|---|---|---|
+| **Seed** | Prelude Beat F (Briefing Room) | The contingency memo reveal already canonical. Add: a **second sealed file** in the briefing room labeled *"RECRUITER'S LOG — KAEL [SEALED]"*. Player cannot open. Elara: *"Kael's recruiting logs. Two hundred and thirteen entries. Sealed by his own authorization. He didn't want anyone to know who his contacts were until... I don't know what condition he was waiting for. Maybe he was waiting for someone to ask."* |
+| **Echo** | Act 1 Beat E (Prince's Archive) | The young Kael flashback already canonical. Add: a **toy soldier** on the child Kael's shelf — a hand-carved wooden figure painted in Vanguard colors. Engineer (in flashback): *"He carved this himself. He named it Kira. He said when he grew up he was going to find a Kira and ask her to be his friend."* (Foreshadow — Kira is the canonical leader of mission-1-1's Vanguard, per `armyRecruitment.ts:103`.) |
+| **Echo** | Act 1 Beat I (Engineer's Transference) | Just before the transference battle, the Engineer says one new line: *"Kael, if I survive this — which I won't — find Kira. She's still alive. The Vanguard is still alive. They have been waiting since the Battle of Nexon for someone to tell them what to do. Tell them you came from me. They will believe you. They will follow."* This is the **Echo that becomes the player's mission**. Kael does not get to follow up; the player will. |
+| **Revelation** | Act 2 Cycle B end | After Nexon falls in the flashback, the player returns to the present and the **Army Recruitment system formally unlocks**. The seal on Kael's Recruiting Logs breaks. Mission-1-1 (the Vanguard recruitment, with Kira) is the first available mission. The player has known her name since Act 1 Beat E. **They have been waiting for her since they were a child holding a wooden toy.** This is one of the most emotional unlocks in the game. |
+| **Mid-Acts 2-3 expansion** | Acts 2-3 Trade Empire faction work | The 5 Army Recruitment sectors map to the 5 Trade Empire sectors. **Each Trade Empire faction completion unlocks 4 Army Recruitment missions** (5 sectors × 4 missions = 20, matching the canonical 20-mission count). The systems are **interlocked**: Trade Empire opens the geography, Army Recruitment populates it with named units. |
+| **Act 3 Sacred Chamber link** | Act 3 Sacrum opens | Recruited Army units can be **deployed to the Hierarchy Corporate Escalation events** as defenders. A player who has recruited the Vanguard can call them to defend during a Stage 1 Reconnaissance event. **Army Recruitment becomes the player's standing defense against the Hierarchy.** |
+| **Act 4 Kael Cells link** | Act 4 Cell 1 (Jailer) | The Jailer cell unlocks a Kael memory of one of his own recruitment trips. The player plays through a Kael flashback recruiting one of the Army units that is also currently in the player's roster. **The player and Kael recruit the same unit, 17,000 years apart, and the unit chooses to follow both of them.** Powerful. |
+| **Act 5 Endgame** | Act 5 Iron Lion's Last Stand | All recruited Army units are deployable in the Cades FPS missions. The player who has recruited **all 20 units** unlocks an additional Iron Lion mission (Mission 8) where Iron Lion personally thanks the Recruiter (Kael — and now the player) for the army he was promised but never lived to see. **Bond 90+ moment.** |
+
+**Three-part briefing system as canonical narrator showcase:**
+
+The army recruitment briefings already use **Kael's Log + Elara's
+Assessment + Human's Intel** as a triple-narrator structure. This
+is the **first place in the game where all three pre-existing
+narrators speak in succession on the same topic**. Rev 6
+canonicalizes this format as the **Army Briefing Triple** — the
+template for any future mission that requires multi-perspective
+context.
+
+The Human's intel is canonically **rendered with strikethrough
+text** (per `armyRecruitment.ts:144`: *"The ~~Drift~~ is built on
+salvaged Inception Ark ~~components~~"*). This is the canonical
+visual representation of his memory degradation — words he is
+not sure he should be saying. **Rev 6 promotes this strikethrough
+treatment to a game-wide convention** for any line The Human
+speaks about a topic that the Authority has tried to bury. Every
+Human line in the game can use this visual treatment when it
+fits.
+
+**Kira as a major Year One NPC (canonical Rev 6 promotion):**
+
+Per `armyRecruitment.ts:103`, Kira is the leader of the Vanguard
+in mission-1-1. Per the Kael Echo above, she is canonically the
+woman the child Kael named his toy soldier after. **Rev 6
+canonicalizes Kira as the third major Year One NPC** (after Vex
+Solène and Locke):
+- She knew Kael personally
+- She remembers him fondly
+- She does not know he is dead until the player tells her
+- The moment she learns is **one of the canonical grief beats
+  of Act 2**
+
+**New audio needed for Army Recruitment narrative anchoring:**
+- 1 Engineer Beat I new line about Kira (~10 sec)
+- 1 Engineer Beat E flashback line about the toy (~8 sec)
+- 1 Elara Beat F line about the sealed logs (~12 sec)
+- ~20 Kael "Recruiter's Log" entries (already authored as text
+  per `armyRecruitment.ts`, but canonically they should be
+  recorded as voiceover — this is **a new ~15-min Kael voice
+  session**)
+- ~5 Kira recruitment dialog lines for mission-1-1 grief beat
+- Voice profile for Kira: VO Bible entry 15 (new). Direction:
+  hard-edged Vanguard commander, uncertain underneath, rare
+  warmth that drops in when she remembers Kael.
+
+**No new code files needed for Army Recruitment integration.**
+The existing 911-line `armyRecruitment.ts` is the canonical
+data file. Rev 6 adds narrative anchors, the Kira reveal, and
+the Trade Empire ↔ Army Recruitment ↔ Sacred Chamber linkage.
+
+---
+
+### 7.5 The Triangle — Crew Breeding, Crew Missions, Army Recruitment
+
+Sections 7.2, 7.3, and 7.4 describe three systems that **already
+exist in code** and **share an underlying narrative**: the
+player is rebuilding a civilization, and the universe lets them
+do it through three interlocking loops.
+
+**The Triangle:**
+
+```
+          CREW BREEDING (private)
+              /              \
+             /                \
+            /                  \
+   CREW MISSIONS  ──────  ARMY RECRUITMENT
+   (intimate dispatch)    (public coalition)
+```
+
+- **Crew Breeding** is the **private** loop. The player makes
+  decisions about lineages, classifications, and bloodlines in
+  a quiet, contemplative space. Massive Chalice / Crusader
+  Kings emotional register.
+- **Crew Missions** is the **intimate** loop. The player sends
+  the people they bred on dispatches that will hurt if they
+  fail. AC Brotherhood / XCOM emotional register.
+- **Army Recruitment** is the **public** loop. The player
+  builds a coalition of named factions across the galaxy,
+  inheriting Kael's contacts and continuing his work. AC
+  Brotherhood guild management / Mass Effect coalition
+  emotional register.
+
+**The three loops feed each other:**
+
+1. Crew Breeding produces clones with stat distributions.
+2. Crew Missions consume those clones via dispatch (and may
+   kill them — the cost of generation 1 is paid by generation
+   2).
+3. Crew Missions yield Blood Crystals (per Section 5.3), which
+   feed Sacred Chamber rituals (per Section 5.2), which
+   recover Advocate fragments (per Section 5.4 of Rev 5).
+4. Army Recruitment populates the galaxy with named factions
+   tied to Kael's history. Recruited factions deploy as
+   defenders against Hierarchy Corporate Escalation (per
+   Section 5.5).
+5. Hierarchy events apply pressure on the player's bloodlines
+   (Demonic contamination per Section 5.3 economy), forcing
+   Crew Breeding decisions about which lineages to prioritize.
+6. **The Triangle is the canonical Year One growth loop.**
+   Everything else (Trade Empire, Card Game, Casino, etc.) is
+   either a feeder or a consumer of the Triangle.
+
+**The Triangle is also the canonical answer to "what does a
+player do in Year One?":**
+- Acts 1-2: learn the systems (Mascoteer pets → Crew
+  Breeding seed; Trade Empire opens → Crew Missions seed;
+  Sealed Recruiter's Logs visible → Army Recruitment seed)
+- Acts 3-4: cultivate (1-3 generations of bloodlines;
+  20-50 dispatched missions; 5-15 recruited army units)
+- Act 5: deploy (army units defend the Vortex Endgame;
+  bred clones fight in Cades FPS; Crew Mission rewards
+  fund the final Sacred Chamber rituals)
+- Year Two: the Triangle continues; the player who
+  cultivated the `blood_weave` bloodline through 5+
+  generations gets the Advocate's-body coordinates as
+  the Year Two opening hook
+
+**This Triangle is what the existing code was always going
+to do.** Rev 6 names it. Rev 5 missed it because the
+existing code was undocumented relative to the narrative
+spine.
+
+### 7.6 Updated File Inventory (Rev 6.1)
+
+The Section 5 file inventories are amended:
+
+**Files NOT to create (already exist in code):**
+- ~~`shared/bloodClassification.ts`~~ — use existing
+  `apps/client/src/game/crewGenetics.ts`
+- ~~`shared/cloneLifecycleConfig.ts`~~ — use existing
+  `IncubatorPod` interface in `crewGenetics.ts`
+- ~~`server/services/bloodline_generation.ts`~~ — use
+  existing `breedCrewMembers()` in `crewGenetics.ts`
+- ~~Crew Mission new files~~ — use existing
+  `apps/shared/crewMissions.ts` + `apps/shared/crewBalance.ts`
+- ~~Army Recruitment new files~~ — use existing
+  `client/src/data/armyRecruitment.ts` +
+  `client/src/stores/armyStore.ts`
+
+**Files to create (Rev 6 additions only):**
+- `data/advocateBloodlineLore.ts` NEW — narrative annotations
+  for the existing 9 founding bloodlines (especially
+  `blood_weave`)
+- `data/collectorsWorkMissions.ts` NEW — Bene Gesserit-tier
+  missions written in the Advocate's voice (these consume
+  existing crew + bloodlines but add a new mission category
+  on top of `crewMissions.ts`)
+- `data/locke-vo-script.md` NEW — VO Bible entry 14, Locke's
+  voice profile
+- `data/kira-vo-script.md` NEW — VO Bible entry 15, Kira's
+  voice profile
+- `data/resurrectionist-vo-script.md` NEW — Ne-Yon
+  pod-keeper hologram dialog (Sacred Chamber first-visit)
+- ~10 new dialog lines spread across Beats A, C, D, E, F, I
+  for the Seed/Echo seeding work
+
+**Total new code files for Sections 7.2-7.4: 5 data files +
+~10 lines of dialog. Significantly less than Section 1.4
+originally proposed.** The reduction is the canonical correction:
+**reuse what exists; name what was unnamed; ship faster**.
+
+### 7.7 Verification Steps for Section 7
+
+After plan exit, verify Section 7 by:
+
+1. **Read the existing files** to confirm the canonical
+   types and functions referenced:
+   - `apps/client/src/game/crewGenetics.ts` lines 23-25
+     (GENETIC_STATS), 108 (BloodlineId enum), 132
+     (FOUNDING_BLOODLINES record)
+   - `apps/shared/crewMissions.ts` lines 27 onwards
+     (CREW_MISSION_TEMPLATES)
+   - `client/src/data/armyRecruitment.ts` (the full file —
+     20 missions across 5 sectors)
+2. **Confirm the contradictions in 7.1** are real by reading
+   Section 1.4 of this plan and comparing.
+3. **Audit `tpl_abyssal_bloodsworn`** in `crewGenetics.ts`
+   for the canonical Mol'Garath / Hierarchy / Blood Weave
+   references — these prove the Hierarchy is pre-existing.
+4. **Cross-check** the existence of `Resurrectionist` and
+   `Necromancer` references in the `crewGenetics.ts` header
+   (lines 6-8). These prove the Bene Gesserit lore was
+   always going to land here.
+5. **Verify Kira's existence** in
+   `client/src/data/armyRecruitment.ts:103` and the toy
+   soldier callback can be added narratively.
+
+### 7.8 Section 7 Summary
+
+**Crew Breeding/Cloning, Crew Missions, and Army Recruitment
+are all canonical existing systems.** The Rev 5 plan failed to
+acknowledge them. Rev 6 corrects the gap.
+
+- Crew Breeding: canonical via `crewGenetics.ts` (500 lines).
+  9 founding bloodlines, 6 stats, full inheritance + drift +
+  inbreeding math, incubator pods, and **Mol'Garath, the
+  Necromancer, the Resurrectionist, and the Collector are
+  all already named in the code header**.
+- Crew Missions: canonical via `crewMissions.ts` (430 lines).
+  30+ mission templates wired to roles and rewards.
+  Adjudicator Locke is the canonical voice. AC Brotherhood +
+  XCOM + Massive Chalice design influences are documented in
+  the code header.
+- Army Recruitment: canonical via `armyRecruitment.ts` (911
+  lines). 20 missions across 5 sectors with Kael as the
+  canonical recruiter narrator and a triple-narrator briefing
+  format (Kael's Log + Elara's Assessment + Human's Intel).
+  Kira is the canonical leader of mission-1-1. **Kael's toy
+  soldier from his childhood was carved in her image**, per
+  Rev 6 canonical addition.
+
+**These three systems form the Triangle — the canonical
+Year One growth loop**. They were always there. Rev 6 names
+them.
+
+**Section 1.4's proposed file additions are formally retracted**
+in favor of reusing the existing files. The Bene Gesserit layer
+is **a layer of lore on top of existing math**, not a new
+parallel system.
+
+**The Triangle is the answer to the user's question.**
+
+---
+
+---
+
+## Section 8 — The Bigger Audit (Rev 6.2)
+
+User question: *"Are there any other game systems left out?
+What about the Mechronis stuff?"*
+
+**Answer: Yes. Many. Including Mechronis. Including substantial
+parts of what Rev 6 Sections 1.2, 5.1, and 5.4 described as
+'new.'** Section 8 is the corrective second-pass audit that
+expands the Section 7 finding into a full inventory.
+
+### 8.0 The Real Scope of the Codebase
+
+`apps/shared/` alone contains **326 files**. Many of them are
+substantial, working, tested gameplay systems with hundreds or
+thousands of lines of authored content. **Rev 5 acknowledged
+roughly 30 of these. Rev 6 added another 7. That leaves
+~290 files of code Rev 6 has not addressed.**
+
+Not all 290 are equally significant. Some are infrastructure
+(`gameStateHash.ts`, `settingsSchema.ts`, `xpCurve.ts`). Some
+are tests. Some are season-bound content (`christmasInJuly.ts`).
+But a substantial subset are **major narrative systems with
+extensive authored content** that the plan needs to acknowledge.
+
+### 8.1 Retraction — Rev 6 Sections That Described Pre-Existing Code as "New"
+
+Sections 1.2, 5.1, and 5.4 of this plan described the
+**Antiquarian** and the **Epoch Witness System** as new
+Rev 6 additions. **Both are already in code.** The Section 7
+methodology (audit before propose) should have applied here
+first.
+
+**Files that already exist for these "new" systems:**
+
+| Rev 6 "new" system | Existing code (canonical source) |
+|---|---|
+| The Antiquarian as third narrator | `apps/shared/antiquarianVoManifest.json`, `apps/shared/antiquariansJournal.ts`, `apps/client/src/game/antiquarianRelationship.ts` |
+| Antiquarian's Chronicle / Journal | `apps/shared/antiquariansJournal.ts` (`JOURNAL_ENTRIES` array, 1:1 mapped to broadcast episodes) |
+| Epoch Witness System | `apps/shared/epochWitnessVotes.ts`, `apps/shared/epochWitnessVotesLate.ts` (with `AGE_OF_PRIVACY_VOTES` array containing `ap_v1` "THE LOGOS QUESTION" and `ap_v2` "THE PANOPTICON EXPANSION") |
+| Epoch archetypes | `apps/shared/epochArchetypes.ts` (already exports `EpochArchetype = "the_inventor" | "the_watcher" | "the_advocate" | "the_seer" | "the_programmer" | "the_politician" | "the_witness"`) |
+| Epoch unlock table | `apps/shared/epochUnlockTable.ts` |
+| Epoch pass | `apps/shared/epochPass.ts` |
+| Epoch zero triggers | `apps/shared/epochZeroTriggers.ts` |
+| Year One votes | `apps/shared/yearOneVotes.ts` |
+| Witnessing Hub | `apps/shared/witnessingHub.ts` (full dashboard deriver — *"Pure-function aggregator that takes the player's narrative flag set plus a few small runtime inputs and returns every panel's worth of data the WitnessingHubPage renders"*) |
+| Witnessing Year One | `apps/shared/witnessingYearOne.ts` |
+| Witnessing Runtime | `apps/shared/witnessingRuntime.ts` |
+| Witnessing Validator | `apps/shared/witnessingValidator.ts` |
+| Witnessing Asset Manifest | `apps/shared/witnessingAssetManifest.ts` |
+| Witnessing Canon Cross-Reference | `apps/shared/witnessingCanonXref.ts` |
+| Witnessing Integrations | `apps/shared/witnessingIntegrations.ts` |
+| Witnessing Events | `apps/shared/witnessingEvents.ts` |
+| Shadow Tongue Dictionary | `apps/shared/shadowTongueDictionary.ts` |
+| Shadow Tongue VO | `apps/shared/shadow_tongueVoManifest.json` |
+| All character VO manifests | `apps/shared/{elara,human,architect,collector,necromancer,degen,locke,meme,nilmorg,palimpsestHost,shadow_tongue,source,cades,agent_zero,antiquarian}VoManifest.json` |
+
+**Section 5.1 file inventory is retracted.** The "NEW" file
+list it proposed (`epochWitnessSystem.ts`,
+`nexusPointVotes.ts`, `shadowTongueManager.ts`,
+`epochUnlockDispatcher.ts`, `mandalaEffectEngine.ts`,
+`archetypeAssignment.ts`) **all already exist** under
+slightly different names in `apps/shared/`. The Section 5.1
+client component list is also wrong — most of the proposed
+components likely have parallel implementations already.
+
+**Section 1.2 Antiquarian voice introduction is retracted.**
+The Antiquarian already has a VO manifest in code, a
+relationship file, and a journal system tied to broadcast
+episodes. Rev 6 only needs to **map his existing system into
+the act structure**, not invent him.
+
+**Section 5.4 Antiquarian integration is retracted as
+"new."** It is reframed as **anchor beats for an existing
+system**. The Seed→Echo→Revelation arc still applies, but
+the system is not new — only the act-anchoring is new.
+
+**Rev 6 → Rev 6.2 corrective principle (formal):**
+
+> **Audit before propose.** For any system Rev 6 describes as
+> "new," first run a `Glob` for related filenames in the
+> codebase. If files exist, the system is already there and
+> Rev 6's job is to **anchor it into the act structure**, not
+> to invent it. **The codebase is the canon.** The plan
+> integrates with the canon. The plan does not replace it.
+
+This principle is now applied retroactively across all of
+Part VI. **Sections that propose new files should be re-read
+through Section 8's lens before any of those files are created.**
+A safe pre-implementation rule: **if the file path Rev 6
+proposes already exists in the codebase, treat the existing
+file as the source of truth and adapt the Rev 6 lore to fit
+its existing types and exports.**
+
+### 8.1.1 Pre-existing Witnessing System Discovery
+
+The `witnessingHub.ts` header is canonical:
+
+> *"The Hub page is a dashboard for the Witnessing Narrative
+> Proposal. Every section of the proposal surfaces here:
+> Prelude intro state + available missions; Kael Fragment
+> F1-F6 progress; Act progression (Prelude / Act 1 / 2 / 3 /
+> 4 / 4.5 / 5); Year One calendar — current month + upcoming
+> beats; Milestone Chronicle feed (entries that have fired);
+> Appendix A / B / C shell status summary; Infiltration path
+> commitment; Dischordia Cycle + Palimpsest phase (if
+> available)."*
+
+**The Witnessing Narrative Proposal already has an
+implemented dashboard hub in code.** The plan in Parts I-V
+described what should be on the dashboard without realizing
+the dashboard already existed. **This is the largest single
+retroactive integration target in Rev 6.2.**
+
+The Witnessing Hub is also the canonical answer to "where
+does the player see the whole game state at once?" It is
+the **command center for the narrative spine**. Rev 5's plan
+referred to it indirectly via "Living Ark state" and "Bond
+trackers" and "Polarity meter," but never named it as a
+single integrated dashboard. **It is one screen. It is
+already implemented. It is the home of every Rev 6 Section
+1-7 system the plan has been describing.**
+
+The `WitnessingHubPage.tsx` (client side, not yet read by
+this audit but inferable from `witnessingHub.ts:9`) is the
+canonical visual home for the Witnessing system. Every
+narrative element Rev 5 and Rev 6 specced — Kael Fragments,
+Act progression, Calendar, Chronicle feed — has a panel
+slot already.
+
+---
+
+### 8.2 Mechronis Academy — Full Integration
+
+**To answer the user's question directly: yes, the Mechronis
+stuff exists.** It is one of the most architecturally
+significant existing systems Rev 5 missed.
+
+**Existing files:**
+
+| File | Purpose |
+|---|---|
+| `apps/shared/mechronisProfessors.ts` | Adult Architect-programmed Professors — one per Archon |
+| `apps/shared/mechronisLessons.ts` | Lesson grading system (Fail/Pass/Honor/Distinction) |
+| `apps/client/src/data/mechronisSlideshow.ts` | Mechronis cinematic slideshow data |
+| `apps/client/src/pages/MechronisAcademyPage.tsx` | Academy main page |
+| `apps/client/src/game/techTree.ts` | Tech research tree |
+| `apps/server/routers/techTree.ts` | Tech tree API |
+
+**The Three Forms Framework (canonical):**
+
+`mechronisProfessors.ts:4-9` says it explicitly:
+
+> *"Each Archon exists now in THREE programmed forms:
+> 1. The original Archon (mostly dead/missing/imprisoned)
+> 2. Mascoteers — child versions, Dreamer-reprogrammed
+>    (Celebration)
+> 3. PROFESSORS — adult teaching versions, Architect-programmed
+>    (Mechronis Academy)"*
+
+**This is one of the most important canonical systems in the
+entire game and Rev 5 did not name it.** It is the
+**theological spine** of the Archon characters — every Archon
+character the player meets exists in three forms simultaneously,
+controlled by three different power centers (originally
+autonomous, then captured by the Dreamer for Celebration, then
+re-captured by the Architect for Mechronis Academy). The player
+can encounter the **same character three times in three forms**
+across the game.
+
+**Three Forms — canonical grading and tone:**
+
+| Form | Programmer | Tone | Grading | Player relationship |
+|---|---|---|---|---|
+| Original Archon | Self / no one | Variable, free, often broken | None | Mythic — appears rarely, treats player as equal |
+| Mascoteer (child) | The Dreamer | Playful, earnest, dreamlike | Death roll on failure (`celebrationTrial.ts`) | Child mentor — warm, can die |
+| Professor (adult) | The Architect | Cold, precise, syllabus-bound | Fail/Pass/Honor/Distinction | Cold instructor — cannot improvise, cannot recognize student excellence |
+
+**Per `mechronisProfessors.ts:13-19`:**
+
+> *"They cannot improvise — they teach from the Architect's
+> syllabus. They grade harshly — the Architect's metric, not
+> their own. They cannot recognize students who exceed them.
+> They DO remember every lesson ever taught."*
+
+**This is a horror layer on Mechronis Academy that Rev 5 did
+not surface.** The Professors are programmed beings who
+**believe they are the Archons** but **are not**. Encountering
+the original Archon and then the Professor and then the
+Mascoteer of the same being is a **canonical identity-horror
+experience** the game can deliver.
+
+**Anchor beats (Seed → Echo → Revelation):**
+
+| Stage | Anchor beat | What happens |
+|---|---|---|
+| **Seed** | Prelude Beat E (Mess Hall) | A diploma hangs on the wall, signed by **Headmaster Kanevas** (canonical, `mechronisProfessors.ts:50` `prof_conductor`). Elara: *"That's a Mechronis Academy diploma. The Headmaster's signature is on it. Dated 850 A.A. The Headmaster is still alive. He still teaches. He doesn't remember signing this one."* |
+| **Echo** | Act 1 Beat A (Mascoteer Day 1) | Gary mentions: *"The Academy and the Trial are not the same thing. The Trial is the children. The Academy is the adults. I went to both. The same man taught me twice. Twenty years apart. Different lessons. Same face."* |
+| **Echo deepening** | Act 2 Cycle A | A Mechronis Academy admission letter arrives in the player's NPC Inbox. Elara: *"They sent you an admission letter. You did not apply. The Architect's records show you graduated three lifetimes ago. The Headmaster does not remember the previous graduations."* |
+| **Revelation** | Act 2 Cycle B (mid-act) | Player formally enters Mechronis Academy. First Professor encountered: Headmaster Kanevas (the Conductor, Archon 1). The player has already met the Conductor in his Mascoteer form during Act 1 Cycle A. **The two beings have the same face and do not recognize each other.** Canonical horror. |
+| **Mid-Act 2-3** | Acts 2-3 | Player attends lessons across all 12 Mechronis Professors (one per Archon). Each lesson is graded. The lesson grades feed the Tech Tree. The player can also encounter the **original Archons** (still mostly dead/missing/imprisoned) as side-content discoveries. |
+| **Act 4 horror** | Act 4 Kael Cells | One Kael memory cell is set inside a Mechronis classroom. The player plays through Kael's own Mechronis education from the inside — and discovers the moment the Architect first programmed his teacher. **The player has been a student of the system that broke Kael.** |
+| **Act 5 climax** | Act 5 Mission 5 or 6 | Headmaster Kanevas is encountered in his original Archon form, dying. He recognizes the player. *"You were my best student. I never told you. The Architect did not let me know how to recognize excellence. I am sorry. Tell the children — when you find them — that I loved them."* He dies. |
+
+**The Architect's hidden agenda for the Academy:**
+
+`mechronisProfessors.ts:39-40` references each Professor's
+`hiddenAgenda` field. The Architect is using Mechronis Academy
+to **train students for a purpose they do not know** — likely
+the Hierarchy's eventual pacification of the Potentials.
+**Per Section 1.3 Hierarchy corporate structure, Mol'Garath
+does not directly run the Academy.** It is a Syl'Vex operation
+— the Corruptor's HR / Recruitment arm. Syl'Vex's method
+(genuine friendship, slow conversion) is exactly what a
+programmed Professor offers a struggling student over four
+years of grading.
+
+**Mechronis Academy ↔ Apprentices link:**
+The Academy is also where the player **graduates from being
+a student to being a teacher**. Players who reach Distinction
+in any Professor's signature lesson can take on an Apprentice
+of their own (see Section 8.3). The Academy is the canonical
+unlock of the Apprentice system.
+
+**Mechronis Academy ↔ Tech Tree link:**
+Each lesson grade contributes Skill XP that feeds the Tech
+Tree (`apps/client/src/game/techTree.ts`). The Tech Tree is
+the canonical research progression system that gates many
+later-game crafting recipes, ship upgrades, and ritual
+component unlocks. **Rev 5 did not name the Tech Tree at
+all.** Rev 6.2 names it as the existing engine for "what
+the player can build."
+
+**No new code files needed for Mechronis Academy
+integration.** The 12 Professors, the lesson system, the
+slideshow, the page, and the tech tree are all in code.
+Rev 6.2 only adds: 4-5 new narrative anchor lines spread
+across Beats E, A, F, and the Headmaster Kanevas death
+scene in Act 5.
+
+---
+
+### 8.3 The Apprentices System — Sith/Jedi Loop
+
+**Existing files:**
+
+| File | Purpose |
+|---|---|
+| `apps/shared/apprentices.ts` | Apprentice generation (12 archetypes × gender × race × class × skills × rarity) |
+| `apps/shared/apprenticeBetrayal.ts` | High-bond corruption + betrayal |
+| `apps/shared/apprenticePermadeath.ts` | Death rolls during Celebration trial |
+| `apps/shared/apprenticeRivalries.ts` | Apprentice-vs-apprentice rivalries |
+| `apps/shared/apprentices.test.ts` | Tests |
+| `apps/shared/celebrationTrial.ts` | The 4-week trial |
+| `apps/shared/celebrationTrial.test.ts` | Tests |
+
+**Per `apprentices.ts:1-17`:**
+
+> *"APPRENTICES — Sith/Jedi-style custom companions. Players
+> train Apprentices who become Romanceable companions on
+> their ship. Each Apprentice is dynamically generated:
+> 12 archetypes × gender × race × class × skills × rarity.
+> Lifecycle: Recruit → Send to Celebration (4-week trial) →
+> Graduate or die → If survives, joins ship as custom
+> companion. Rules of this game: One Apprentice at a time.
+> The old one must die before a new one can be trained.
+> High-bond Apprentices can be corrupted, betray, or turn
+> on you Sith-style based on your morality + their
+> archetype. Mythic combinations exist. Most players will
+> never roll one."*
+
+**12 canonical archetypes:**
+zealot, ghost, scholar, revenant, artisan, oracle,
+wanderer, martyr, heretic, jester, sentinel, prodigal
+
+**This is the canonical "BioWare romance + Knights of the
+Old Republic apprentice" system.** It is enormous in scope
+and Rev 5 did not mention it at all.
+
+**Anchor beats (Seed → Echo → Revelation):**
+
+| Stage | Anchor beat | What happens |
+|---|---|---|
+| **Seed** | Prelude Beat E (Mess Hall) | The player overhears a conversation between two crew members about *"the apprentice the previous Potential trained — she went to the Trial in the second month and never came back."* The phrase "the Trial" is mentioned with the gravity of a religious term. The player has no context. |
+| **Echo** | Act 1 Beat C (Quinn's Crisis) | Quinn's crisis (canonical Rev 5 Act 1 Beat C) is reframed: Quinn is **not just a rival**, Quinn is **a candidate apprentice the player could mentor**. The Quinn arc becomes the canonical introduction to apprentice mentorship via a low-stakes preview — the player learns what mentoring costs them by helping Quinn through a single crisis. **Whether Quinn lives or dies in the Mascoteer Trial Final (forced loss to The Masked One, per Rev 5 Act 1 Beat D) is canonically the player's first apprentice-tier death.** |
+| **Echo deepening** | Act 2 Cycle A (Mechronis Academy opens) | Reaching Distinction in any Mechronis Professor's signature lesson unlocks the Apprentice system formally. The Professor recommends a candidate. The first generated apprentice arrives in the player's Quarters. |
+| **Revelation** | Act 2 Cycle B mid-act | The player formally recruits their first Apprentice. The four-week Celebration trial begins. The apprentice's lifecycle is now active. The death roll is real. |
+| **Mid-game cultivation** | Acts 3-4 | Players cultivate 1-3 Apprentice generations (one at a time, the old one must die first per `apprentices.ts:13`). Each apprentice can: graduate (joins ship as custom companion), die during Trial, or corrupt and betray (per `apprenticeBetrayal.ts`). |
+| **Act 4 betrayal beat** | Act 4 Cell 4 (White Oracle Cell) | If the player has at least one high-bond corrupt-leaning apprentice, that apprentice **becomes a playable opponent in Cell 4**. The player fights their own apprentice. The fight is canonical regardless of whether the player wants it. Some BioWare bonds end this way. |
+| **Act 5 endgame** | Act 5 Mission 6 (Alliance of Adversaries) | Surviving apprentices join the Vortex Endgame as deployable allies. A player who has graduated 3+ apprentices unlocks an additional Iron Lion mission where the apprentices fight alongside Iron Lion's unit. **Mythic combination unlock:** a player who rolled a Mythic apprentice during character generation gets a unique Act 5 cutscene — the Mythic apprentice has been waiting for this moment since their first conversation. |
+
+**Apprentices ↔ Crew Breeding link:**
+Apprentices are **fully-formed adults**, not bred clones.
+They are recruited externally (from the galaxy via Trade
+Empire and Army Recruitment) and trained internally.
+**Rev 6.2 canonically connects the systems:** an apprentice
+who graduates can later contribute their genome to the
+Crew Breeding Program (per Section 7.2). Their bloodline
+becomes a **named bloodline** with their archetype as the
+canonical trait. Breeding from a graduated apprentice is the
+slowest and most rewarding path to a unique bloodline.
+
+**Apprentices ↔ Romance:**
+The "Romanceable companions on their ship" line in
+`apprentices.ts:5` is canonical. Apprentices are **the
+primary romance system in the game**. Elara, The Human, and
+the Antiquarian are not romanceable — they are narrative
+mentors. **Apprentices are the only romanceable characters.**
+Rev 6.2 makes this canonical.
+
+**Sith/Jedi morality alignment:**
+Per `apprentices.ts:14-15`, apprentices' loyalty depends on
+the player's **morality + their archetype**. A Light-aligned
+player who trains a Heretic-archetype apprentice will face
+betrayal. A Dark-aligned player who trains a Martyr-archetype
+apprentice will face slow disillusionment. **The combinations
+are the game.** This is the canonical answer to "what is the
+Light/Dark polarity meter actually doing in the long run?" —
+it is determining which apprentices stay and which betray.
+
+**No new code files needed for Apprentices integration.** The
+generation system, the trial, the betrayal, the permadeath,
+the rivalries — all in code. Rev 6.2 adds: the Quinn
+reframing in Act 1 Beat C, the Mechronis Distinction unlock
+in Act 2 Cycle A, the Cell 4 betrayal beat in Act 4, and the
+Act 5 deployment scenes.
+
+---
+
+### 8.4 Major Missing Systems — Anchor Table
+
+Beyond Mechronis Academy and Apprentices (Sections 8.2-8.3),
+the audit found ~20 additional **major** systems Rev 5 missed
+that have substantial existing code. Each is given a one-row
+canonical anchor below. Full Seed→Echo→Revelation breakdowns
+should follow the patterns in Sections 7 and 8.2-8.3.
+
+| # | System | Canonical files | Rev 6.2 anchor |
+|---|---|---|---|
+| 1 | **Galactic Dance** (faction interplay) | `galacticDance.test.ts`, `galacticDanceCinematics.ts`, `galacticDanceFactionNpcs.ts` | The canonical **inter-faction relationship engine**. Already drives faction reactions to player choices. **Anchor:** Act 3 Trade Empire faction work — Galactic Dance is the underlying relationship math. **Seed:** Beat D Cargo Bay (Trade Empire seed). **Revelation:** Act 3 first faction completion. |
+| 2 | **Babylon Guilds** | `babylonGuilds.ts`, `babylonGuilds.test.ts`, `guildHall.ts`, `guildSignatureAbilities.ts`, `guildWonders.ts` | The canonical Mechronis Academy → Graduate Legion bridge. Guilds are the post-Academy social structure. **Anchor:** Act 2 Cycle B end — graduating from Mechronis Academy joins the player to a Babylon Guild. |
+| 3 | **Graduate Legion** | `graduateLegion.ts`, `graduateLegion.test.ts` | What the player joins after the Academy. The Legion is canonically the **military/civic body of Mechronis Academy graduates**. **Anchor:** Act 2 Cycle B — joining a Guild and the Legion happens together. |
+| 4 | **House Competition** | `houseCompetition.ts`, `houseCompetition.test.ts` | Hogwarts-style house competition between Mechronis student houses. **Anchor:** Act 1 Cycle A Mascoteer Trial — the Trial is canonically a House Competition event. The 4 rivals (Brindle, Quinn, Silver, The Masked One) are canonically house representatives. **This explains the rival structure Rev 5 specced.** |
+| 5 | **Witnessing Hub** (page) | `witnessingHub.ts`, `witnessingHubPage` (inferred) | The dashboard for the Witnessing Narrative Proposal. Already implemented. **Anchor:** Prelude Beat I (Bridge) — the Witnessing Hub is canonically the Bridge's primary screen. The Captain's Chair activates it. |
+| 6 | **Tower Defense** | `towerDefense.ts` | Already in code (Rev 5 specced it via Zephyr-9 unlock at Beat I). **Anchor confirmed.** Add link to existing file. |
+| 7 | **Dead Man's Circuit (Racing)** | `deadMansCircuit.ts`, `dmcNamingPrompts.ts`, `dmcNamingPrompts.test.ts`, `crewDmcBridge.ts` | Racing system. **Crew can be deployed on DMC missions** via the bridge. **Anchor:** Section 2.2 Orphan 5 Seed→Echo→Revelation arc, plus the canonical link: DMC missions feed Crew XP and Crew Mission opportunities. |
+| 8 | **Casino Games** | `casinoGames.ts`, `casinoGames.test.ts`, `degensCasino.ts`, `degenRelationship.ts`, `DegensCasinoPage.tsx`, `CasinoGamePanels.tsx`, `CasinoLeaderboardPage.tsx` | Full casino with leaderboards. The Degen is fully in code with relationship system. **Anchor:** Section 2.2 Orphan 6 + the canonical Degen reveal at Trust 8+. |
+| 9 | **PvP Battle System** | `pvpBattle.ts`, `pvpBattle.test.ts`, `pvpCohorts.ts`, `pvpCohorts.test.ts`, `pvpEmotes.ts` | Full PvP with cohort matchmaking and emotes. **Anchor:** Act 4.5 Casino — PvP is the Casino's competitive layer. Player-vs-player matches are canonically run as Casino games hosted by The Degen. |
+| 10 | **Co-op Raids** | `coopRaids.ts` | Multiplayer raids. **Anchor:** Act 5 Endgame — the Vortex Endgame is canonically a co-op raid for players who synchronize their Acts 5 timing. |
+| 11 | **Vortex Incursion / Vortex Room Minigame** | `vortexIncursionRun.ts`, `vortexIncursionTemplate.ts`, `vortexRoomMinigame.ts` | The Vortex as a deployable system, distinct from the Vortex Endgame. **Anchor:** Acts 3-5 — Vortex Incursions are the Hierarchy's escalating attacks. Per Section 1.3 reframing, the Vortex is Ith'Rael's special-projects weapon. The Incursion Run is one deployment; the Room Minigame is one defense. |
+| 12 | **Necromancer Cycle / Return** | `necromancerCycle.ts`, `necromancerReturn.ts`, `necromancerVoManifest.json` | The Necromancer's canonical recurrence system. Already in code. **Anchor:** Per Section 1.1.1, every "Silence" encounter after Epoch 2 is the Necromancer. The Necromancer Cycle is the canonical engine for his appearances. **Section 1.3 Necromancer-as-Silence reveal** lands on the existing Necromancer Cycle ticks. |
+| 13 | **Substrate Dungeon** | `substrateDungeon.ts` | A dungeon set in the Ark's substrate layer (where the Advocate's fragments live, per Section 1.1). **Anchor:** Act 3 Sacred Chamber unlocks → Substrate Dungeon becomes accessible as the dimensional fold's deeper exploration layer. |
+| 14 | **Personal Quarters / Player Housing** | `personalQuarters.ts`, `playerHousing.ts`, `cabinArt.ts`, `quarterVisitors.ts` | The player's personal cabin on the Ark, with visitor system. **Anchor:** Prelude Beat C end — the player gets their cabin assignment after Engineering. **Quarter Visitors** is the system for crew/apprentices/companions visiting the cabin. **First visitor: The Resurrectionist's hologram** delivering the introduction to the cloning pods (per Section 7.2). |
+| 15 | **Class Questlines** (5 classes × ~1 questline each) | `questlineClassAssassin.ts`, `questlineClassEngineer.ts`, `questlineClassOracle.ts`, `questlineClassSoldier.ts`, `questlineClassSpy.ts` | Player class system with class-specific questlines. **Rev 5 did not name the player classes.** Per `armyRecruitment.ts` references (oracle, spy, soldier, engineer, assassin), the canonical 5 classes are: **Assassin, Engineer, Oracle, Soldier, Spy**. **Anchor:** Prelude Beat C crew role choice — the crew role is canonically the player class. Medical = Oracle, Combat = Soldier or Assassin, Exploration = Spy or Engineer. |
+| 16 | **Faction Questlines** (Demagi 4 ch, Quarchon 3+, Voltari, Thaloria, Insurgency, Syndicate, NewBabylon, Humans) | `questlineDemagiCh1-4.ts`, `questlineQuarchonCh1-3.ts`, `questlineQuarchonFirstPattern.ts`, `questlineVoltari.ts`, `questlineThaloria.ts`, `questlineInsurgency.ts`, `questlineSyndicate.ts`, `questlineNewBabylon.ts`, `questlineHumans.ts`, `questlineElements.ts`, `questlineElementResolutions.ts`, `questlineDemagiGardensChildren.ts`, `questlineClones.ts` | Massive faction questline content. **Anchor:** Act 3 — each Trade Empire faction has a corresponding questline. Per Rev 5's Act 3 spec, the 6 faction biographies map to 6 of these questlines. The **Six Eyes biographies** Rev 5 specced are canonically the 6 faction questlines. |
+| 17 | **Trade Empire Act 3** (specifically) | `tradeEmpireAct3.test.ts` | A specific Act 3 Trade Empire phase. Rev 5 covered Act 3 generally; this file is the canonical implementation. **Anchor:** Act 3 F-series missions. |
+| 18 | **Witnessing Year One** | `witnessingYearOne.ts`, `witnessingYearOne.test.ts` | The Year One narrative engine. **Anchor:** every Rev 5 act is filtered through this engine. Rev 6.2 makes it canonical that **Year One narrative state lives in `witnessingYearOne.ts`**, not in any new file. |
+| 19 | **Year One Votes** | `yearOneVotes.ts` | A separate system from Epoch Witness votes. These are canonically the **community-pressure** votes (the votes that aggregate community decisions). **Anchor:** Section 5.5 Hierarchy Stage 3 Mol'Garath offer — the canonical vote engine for that beat is `yearOneVotes.ts`. |
+| 20 | **Engineer Bench Hints / Recordings / Governance Votes** | `engineerBenchHints.ts`, `engineerRecordings.ts`, `engineerGovernanceVotes.ts` | Three Engineer-specific systems. Rev 5 referenced bench hints. The **Engineer Recordings** system is canonical for Beat H.2 Engineer Logs. The **Engineer Governance Votes** is a canonical link from Engineer to the Governance Hub — his votes were recorded before his death and replay during Epoch Witness votes. **Powerful canonical detail.** |
+| 21 | **Kael Fragment Watchers** (F1-F6 questline) | `kaelFragmentWatchers.ts`, `kaelFragmentWatchers.test.ts`, `appendixBKaelQuestline.ts`, `appendixBKaelQuestline.test.ts` | The **canonical Kael Fragment system** with F1-F6 progress tracking. Already in code. The Witnessing Hub displays Kael Fragment progress (per `witnessingHub.ts:13`). **Anchor:** the entire Kael arc from Act 1 Beat E through Act 4 Memory Cells is gated by Kael Fragment unlocks. **This is the canonical chronological backbone of the Kael narrative.** |
+| 22 | **Acts Four Five Shells** | `actsFourFiveShells.ts`, `actsFourFiveShells.test.ts` | Acts 4 and 4.5 narrative shell system. **Anchor:** confirms Rev 5's Act 4 + Act 4.5 are canonical. The shell system handles the daily-loop transitions. |
+| 23 | **Cycle Battles** | `cycleBattles.ts` | Canonical Act 1 cycle-battle definitions. Likely overlaps with `act1Opponents.ts`. **Anchor:** Act 1 Cycles A/B/C battle data. |
+| 24 | **Dischordia Cycle** | `dischordiaCycle.ts`, `dischordiaCycle.test.ts` | Canonical TCG cycle progression. **Anchor:** the entire Dischordia card game progression engine. |
+| 25 | **Palimpsest** (cinematic system) | `palimpsest.ts`, `palimpsest.test.ts`, `palimpsestEpisodes.ts`, `palimpsestCinematics.ts`, `palimpsestHostVoManifest.json`, `appendixCPalimpsest.ts`, `PalimpsestEpisodesPage.tsx` | A canonical **episodic cinematic system** with its own Host VO. Rev 5 did not name this. The Antiquarian's Journal entries are 1:1 with Palimpsest episodes (per `antiquariansJournal.ts:14`). **Anchor:** the Antiquarian narrates Palimpsest episodes. The player watches them as in-game broadcasts. **The Palimpsest is the canonical Antiquarian-narration system.** Section 5.4's Antiquarian integration is reframed: the Antiquarian narrates the Palimpsest (existing system) rather than narrating only Epoch Witness votes. |
+
+**Additional discovery: the Palimpsest is the canonical
+Antiquarian system.** Per `antiquariansJournal.ts`, the
+Antiquarian writes journal entries 1:1 with Palimpsest
+episodes — each broadcast triggers a Chronicle entry. The
+Palimpsest Host has its own VO manifest. **The Antiquarian
+is not just the Epoch Witness narrator — he is the canonical
+narrator of the entire Palimpsest broadcast system.** Rev 6.2
+elevates this: the Antiquarian's primary content delivery
+mechanism is **the Palimpsest, not the Epoch Witness System**.
+
+**The Palimpsest is canonically the player's evening
+broadcast hour** — a stop-and-watch format where the Antiquarian
+narrates events from the player's day, the community's day,
+and the historical record, all through his lens. **This is
+the canonical "breathing room" media** for players who want
+narrative without gameplay. Players can watch the Palimpsest
+during downtime to absorb story without progressing systems.
+**This addresses Section 3's Breathing Room mechanic at the
+meta-game level.** The Palimpsest is how the player breathes.
+
+---
+
+### 8.5 Minor Systems (Bucket Assignments)
+
+The remaining ~30 systems found in `apps/shared/` and game
+client folders are **smaller-footprint** but still need
+canonical bucket assignments. Rev 6.2 sorts them into
+five buckets:
+
+**Bucket A — Infrastructure (no narrative anchor needed):**
+`gameStateHash.ts`, `settingsSchema.ts`, `xpCurve.ts`,
+`const.ts`, `contentSchemas.ts`, `contentIntegrity.test.ts`,
+`themeCompliance.test.ts`, `narrativeValidator.ts`,
+`gamification.ts`, `monetization.ts`, `battlePassConfig.ts`,
+`cosmeticShop.ts`, `donationSystem.ts`, `economySinks.ts`,
+`endgameSinks.ts`, `replaySystem.ts`, `recapSystem.ts`,
+`streakSaver.ts`, `socialFeatures.ts`, `dynamicDifficulty.ts`,
+`assetRegistry.ts`, `assetPromptTemplates.ts`,
+`pageBackgrounds.ts`. **No narrative anchoring required.**
+These run silently underneath the player experience.
+
+**Bucket B — Companion / Narrator extensions** (canonical
+anchor: the Bond-80 cutscene system from Rev 5):
+`agentZeroRelationship.ts`, `antiquarianRelationship.ts`,
+`degenRelationship.ts`, `elaraRelationship.ts`,
+`humanRelationship.ts`, `lockeRelationship.ts`,
+`shadowTongueRelationship.ts`, `sourceRelationship.ts`,
+`companionDeepening.ts`, `companionSynergies.ts`,
+`companionBattleReactions.ts`, `companionTraitThresholds.ts`,
+`companionEpochDialogs.ts`, `companionComments.ts`,
+`elaraGuardrails.test.ts`. **Anchor:** all of these feed the
+existing Bond tracker. The Two Witnesses Meet Cutscene
+(Rev 5 Act 5 mid) is canonically dispatched through this
+relationship layer. **Vex Solène, Locke, the Degen, and the
+Antiquarian all already have relationship files** — they
+were always going to be major NPCs.
+
+**Bucket C — Faction / Worldbuilding** (canonical anchor:
+Act 3 Trade Empire faction work):
+`factionRelationshipMatrix.ts`, `factionNPCs.ts`,
+`potentialFactions.ts`, `potentialFactionNpcs.ts`,
+`galacticDanceFactionNpcs.ts`, `voltariFactionData.ts`,
+`voltariTranslation.ts`, `voltariTransmissions.ts`,
+`extinctRaces.ts`, `syndicateWorlds.ts`, `spaceStations.ts`,
+`signalBeacons.ts`, `contestedSectorGreetings.ts`,
+`contestedCorridors.ts`, `babylonGuilds.ts` (also Section 8.4),
+`generalAlaric.ts`, `darrenFessler.ts`, `darrenMemorial.ts`.
+**Anchor:** Act 3 faction completion unlocks each of these
+in turn. **Darren Fessler / Darren Memorial** is a canonical
+named-NPC memorial subsystem the player encounters via a
+side-quest in one of the New Babylon sectors — likely a
+small, intimate quest about a single named loss.
+
+**Bucket D — Content / Cinematics / Episodes** (canonical
+anchor: the Palimpsest broadcast hour):
+`palimpsestEpisodes.ts`, `palimpsestCinematics.ts`,
+`broadcastLibrary.ts`, `transmissions.ts`,
+`voltariTransmissions.ts`, `albumMemeScripts.ts`,
+`memeEngineerShow.ts`, `memorableMoments.ts`,
+`postVictoryCinematics.ts`, `cinematicDesign.ts`,
+`songSlideshow.ts`, `songSlideshows.ts`, `songTriggerMap.ts`,
+`silenceInHeavenAlbumAudio.json`,
+`silenceInHeavenTracklist.ts`, `silenceInHeavenLoredex.ts`,
+`westByGodTracks.ts`, `albumRegistry.ts`,
+`loredexSongMap.ts`, `journalEntries.ts`. **Anchor:** the
+Palimpsest is the broadcast home. The albums are the
+soundtrack. The transmissions are the in-game radio. **All
+of this content already exists.** Rev 6.2 makes it canonical
+that **the player's evening broadcast hour aggregates from
+these systems automatically**.
+
+**Bucket E — Living Universe / Community** (canonical
+anchor: the Living Universe pressure mesh from Rev 5):
+`livingUniverseEvents.ts`,
+`livingUniverseVoxRevelation.test.ts`,
+`livingArkTouchpoints.ts`, `arkEventHandler.ts`,
+`incursions.ts`, `monthlyEvents.ts`, `seasonalEvents.ts`,
+`seasonalReplay.ts`, `friendlyChallenges.ts`,
+`coopRaids.ts` (also Section 8.4),
+`christmasInJuly.ts`, `christmasCrewBonuses.ts`,
+`christmasCrewDangers.ts`, `epochZeroTriggers.ts`,
+`epochPass.ts`, `epochUnlockTable.ts`,
+`epochArchetypes.ts`. **Anchor:** these all feed the
+Living Universe pressure meters Rev 5 specced. The
+community-decision votes from Section 5.5 land here. **The
+Christmas in July content is a canonical seasonal event**
+— Rev 6.2 does not invent it but acknowledges it as one
+of the Living Universe's planned annual beats.
+
+### 8.6 Section 8 Summary
+
+**The codebase is enormous. Rev 6.2 corrects two errors:**
+
+1. **Rev 6 Sections 1.2, 5.1, and 5.4 described pre-existing
+   systems as new.** The Antiquarian, the Epoch Witness
+   System, and the Witnessing Hub all exist in code. Section
+   8.1 retracts those Rev 6 sections and reframes them as
+   anchor work for existing systems.
+2. **Rev 5 missed dozens of major systems entirely.** Section
+   8.2 (Mechronis Academy), Section 8.3 (Apprentices), and
+   Section 8.4 (Major systems table) name 25 of them with
+   canonical anchor beats. Section 8.5 buckets the remaining
+   ~30 minor systems.
+
+**The Triangle from Section 7.5 (Crew Breeding ↔ Crew
+Missions ↔ Army Recruitment) is now a Pentagon:**
+
+```
+                MECHRONIS ACADEMY
+                  (formal training)
+               /                    \
+              /                      \
+   APPRENTICES                  CREW BREEDING
+   (Sith/Jedi loop)             (private Bene Gesserit)
+       |                                |
+       |                                |
+   ARMY RECRUITMENT  ──────────  CREW MISSIONS
+   (public coalition)             (intimate dispatch)
+```
+
+**Five interlocking Year One growth loops.** Each feeds
+the others. Each is already in code. Rev 5 saw two of them
+(Mascoteers and Trade Empire). Rev 6.2 names all five.
+
+**The canonical answer to "what does a player do in Year
+One?" is now:**
+- **Train** (Mechronis Academy → grades → Tech Tree)
+- **Mentor** (Apprentices → 4-week trial → companion / death)
+- **Breed** (Crew Breeding → bloodlines → Bene Gesserit endgame)
+- **Dispatch** (Crew Missions → Locke voice → Blood Crystals)
+- **Recruit** (Army Recruitment → Kira → Hierarchy defenders)
+
+Plus the existing Year One loops:
+- **Trade** (Trade Empire faction work)
+- **Fight** (Card Game, Cades FPS, Fight Arena)
+- **Race** (Dead Man's Circuit)
+- **Gamble** (Casino, PvP)
+- **Witness** (Epoch Witness System, Palimpsest broadcasts)
+- **Build** (Crafting, Tech Tree, Sacred Chamber rituals)
+
+**~12 simultaneous engagement vectors.** This is the
+canonical scale of the game. Rev 5 specced ~5. Rev 6.2
+acknowledges ~12.
+
+### 8.7 Updated Build Order Implications
+
+Section 6.5's "Updated Shortest Path" needs further amendment.
+**The most important architectural insight from Section 8 is
+that almost nothing should be built; almost everything should
+be wired.** The systems exist. They need:
+
+1. **Narrative anchor lines** in existing dialog files
+2. **Witnessing Hub panel slots** for systems Rev 5 didn't
+   know about
+3. **Cross-system event firings** so that completing one
+   system seeds another (e.g., reaching Distinction in a
+   Mechronis lesson unlocks a candidate Apprentice)
+4. **Palimpsest episode triggers** so the Antiquarian
+   narrates major beats automatically
+5. **Witnessing Validator entries** so the canonical
+   cross-references stay consistent
+
+**Estimated work shift from Rev 6 to Rev 6.2:**
+- Rev 6 estimated ~30 new code files
+- Rev 6.2 estimates **~5 new code files** + **~50 narrative
+  anchor line additions** to existing files + **~10 panel
+  registrations** in the existing Witnessing Hub
+- Total work reduction: ~80%
+- Total story coverage increase: ~3x (the systems were
+  always there; now the plan acknowledges them)
+
+**The single most important insight from Section 8:**
+**The codebase is the canon. The plan integrates with the
+canon. The plan does not replace it.** Rev 6.2 enforces
+this principle retroactively across all of Part VI.
+
+---
+
+*End of Part VI — Canon Expansion (Rev 6.2).*
+
 
 
 
