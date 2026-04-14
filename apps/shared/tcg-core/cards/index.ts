@@ -449,6 +449,12 @@ import { QUARCHON_RACE_CARDS } from "./definitions/race/quarchon";
 import { NEYON_RACE_CARDS } from "./definitions/race/neyon";
 import { SYNTHETIC_RACE_CARDS } from "./definitions/race/synthetic";
 import { HUMAN_RACE_CARDS } from "./definitions/race/human";
+import { ARCHITECT_ALLEGIANCE_CARDS } from "./definitions/allegiance/architect";
+import { INSURGENCY_ALLEGIANCE_CARDS } from "./definitions/allegiance/insurgency";
+import { DREAMER_ALLEGIANCE_CARDS } from "./definitions/allegiance/dreamer";
+import { NEW_BABYLON_ALLEGIANCE_CARDS } from "./definitions/allegiance/new_babylon";
+import { ANTIQUARIAN_ALLEGIANCE_CARDS } from "./definitions/allegiance/antiquarian";
+import { THOUGHT_VIRUS_ALLEGIANCE_CARDS } from "./definitions/allegiance/thought_virus";
 
 /* ─── NPC Imprints (Phase F10+) ─── */
 import { AGENT_ZERO_IMPRINT_SET } from "./definitions/imprint/agent_zero";
@@ -917,4 +923,10 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   ...NEYON_RACE_CARDS,
   ...SYNTHETIC_RACE_CARDS,
   ...HUMAN_RACE_CARDS,
+  ...ARCHITECT_ALLEGIANCE_CARDS,
+  ...INSURGENCY_ALLEGIANCE_CARDS,
+  ...DREAMER_ALLEGIANCE_CARDS,
+  ...NEW_BABYLON_ALLEGIANCE_CARDS,
+  ...ANTIQUARIAN_ALLEGIANCE_CARDS,
+  ...THOUGHT_VIRUS_ALLEGIANCE_CARDS,
 ]);

@@ -2097,6 +2097,46 @@ export type NpcImprintGrantRow = typeof npcImprintGrants.$inferSelect;
 
 
 /* ═══════════════════════════════════════════════════════
+   FACTION STATS — Phase D1. Per-user, per-faction played
+   and won counters used by the faction allegiance card
+   system. Crossing play/win thresholds unlocks new cards
+   into the player's collection (Phase D10) and scales the
+   match-init buff on any allegiance card they already own
+   (Phase D3 — applied via createMatchState's startingBonuses).
+   ═══════════════════════════════════════════════════════ */
+
+export const factionStats = mysqlTable("faction_stats", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Canonical faction id — architect, insurgency, dreamer,
+   *  new_babylon, antiquarian, thought_virus. Neutral is NOT
+   *  tracked; allegiance is always toward a specific side. */
+  faction: mysqlEnum("faction", [
+    "architect",
+    "insurgency",
+    "dreamer",
+    "new_babylon",
+    "antiquarian",
+    "thought_virus",
+  ]).notNull(),
+  /** Cumulative matches played with the faction (any outcome). */
+  played: int("played").notNull().default(0),
+  /** Cumulative wins with the faction. */
+  won: int("won").notNull().default(0),
+  /** Highest allegiance tier unlocked for this faction (0-6).
+   *  0 = none, 1-3 = play-based tiers, 4-6 = win-based tiers. */
+  highestTierUnlocked: int("highestTierUnlocked").notNull().default(0),
+  firstPlayedAt: timestamp("firstPlayedAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  // One row per (user, faction).
+  userFactionUq: uniqueIndex("uq_faction_stats_user_faction").on(table.userId, table.faction),
+  userIdx: index("idx_faction_stats_user").on(table.userId),
+}));
+export type FactionStatsRow = typeof factionStats.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════
    CLASS MASTERY — Progressive class specialization
    Players earn class XP by performing class-aligned actions.
    5 mastery ranks unlock increasingly powerful perks.
