@@ -436,6 +436,7 @@ import { THE_ENGINEER_IMPRINT_SET } from "./definitions/imprint/the_engineer";
 import { ELARA_IMPRINT_SET } from "./definitions/imprint/elara";
 import { THE_ORACLE_IMPRINT_SET } from "./definitions/imprint/the_oracle";
 import { THE_NECROMANCER_IMPRINT_SET } from "./definitions/imprint/the_necromancer";
+import { ANTIQUARIAN_IMPRINT_SET } from "./definitions/imprint/antiquarian";
 
 export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   gen_antiquarian,
@@ -853,4 +854,5 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   ...ELARA_IMPRINT_SET,
   ...THE_ORACLE_IMPRINT_SET,
   ...THE_NECROMANCER_IMPRINT_SET,
+  ...ANTIQUARIAN_IMPRINT_SET,
 ]);
