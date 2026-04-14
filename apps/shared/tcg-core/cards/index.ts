@@ -441,6 +441,7 @@ import { THE_COLLECTOR_IMPRINT_SET } from "./definitions/imprint/the_collector";
 import { THE_JAILER_IMPRINT_SET } from "./definitions/imprint/the_jailer";
 import { AKAI_SHI_IMPRINT_SET } from "./definitions/imprint/akai_shi";
 import { LOCKE_IMPRINT_SET } from "./definitions/imprint/locke";
+import { THE_SOURCE_IMPRINT_SET } from "./definitions/imprint/the_source";
 
 export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   gen_antiquarian,
@@ -863,4 +864,5 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   ...THE_JAILER_IMPRINT_SET,
   ...AKAI_SHI_IMPRINT_SET,
   ...LOCKE_IMPRINT_SET,
+  ...THE_SOURCE_IMPRINT_SET,
 ]);
