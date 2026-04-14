@@ -429,6 +429,7 @@ import { cardDef as token_wolf_2_2 } from "./tokens/token_wolf_2_2";
 
 /* ─── NPC Imprints (Phase F10+) ─── */
 import { AGENT_ZERO_IMPRINT_SET } from "./definitions/imprint/agent_zero";
+import { IRON_LION_IMPRINT_SET } from "./definitions/imprint/iron_lion";
 
 export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   gen_antiquarian,
@@ -839,4 +840,5 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   token_wolf_2_2,
   // NPC Imprints — spread in tier order per set.
   ...AGENT_ZERO_IMPRINT_SET,
+  ...IRON_LION_IMPRINT_SET,
 ]);
