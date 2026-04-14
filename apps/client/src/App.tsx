@@ -153,6 +153,7 @@ const InventoryPage = lazy(() => import("./pages/InventoryPage"));
 const ChessPage = lazy(() => import("./pages/ChessPage"));
 const ChessTutorialPage = lazy(() => import("./pages/ChessTutorialPage"));
 const OracleDeckPage = lazy(() => import("./pages/OracleDeckPage"));
+const ImprintGalleryPage = lazy(() => import("./pages/ImprintGalleryPage"));
 // DuelystClassicPage removed — Dischordia is the only card game
 const DuelystClassicPage = lazy(() => import("./game/duelyst/DuelystPage"));
 const SpectatorPage = lazy(() => import("./pages/SpectatorPage"));
@@ -301,6 +302,7 @@ function Router() {
         <Route path="/chess">{() => <GameRoute component={ChessPage} />}</Route>
         <Route path="/chess/tutorial">{() => <GameRoute component={ChessTutorialPage} />}</Route>
         <Route path="/oracle">{() => <GameRoute component={OracleDeckPage} />}</Route>
+        <Route path="/imprints">{() => <GameRoute component={ImprintGalleryPage} />}</Route>
         <Route path="/duelyst-play">{() => <GameRoute component={DuelystClassicPage} />}</Route>
         <Route path="/spectate" component={SpectatorPage} />
         <Route path="/gamemasters-arena">{() => <GameRoute component={GamemastersArenaPage} />}</Route>
