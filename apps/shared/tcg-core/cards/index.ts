@@ -427,6 +427,9 @@ import { cardDef as tok_spore_1_1 } from "./tokens/tok_spore_1_1";
 import { cardDef as token_crystal_senator_5_5 } from "./tokens/token_crystal_senator_5_5";
 import { cardDef as token_wolf_2_2 } from "./tokens/token_wolf_2_2";
 
+/* ─── NPC Imprints (Phase F10+) ─── */
+import { AGENT_ZERO_IMPRINT_SET } from "./definitions/imprint/agent_zero";
+
 export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   gen_antiquarian,
   s1_char_018_the_antiquarian,
@@ -834,4 +837,6 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   tok_spore_1_1,
   token_crystal_senator_5_5,
   token_wolf_2_2,
+  // NPC Imprints — spread in tier order per set.
+  ...AGENT_ZERO_IMPRINT_SET,
 ]);
