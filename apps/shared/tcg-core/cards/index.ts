@@ -435,6 +435,9 @@ import { ENGINEER_CLASS_CARDS } from "./definitions/class/engineer";
 import { SOLDIER_CLASS_CARDS } from "./definitions/class/soldier";
 import { NEYON_CLASS_CARDS } from "./definitions/class/neyon";
 
+/* ─── Element / Dimension / Race cards (Phase C1+) ─── */
+import { EARTH_ELEMENT_CARDS } from "./definitions/elemental/earth";
+
 /* ─── NPC Imprints (Phase F10+) ─── */
 import { AGENT_ZERO_IMPRINT_SET } from "./definitions/imprint/agent_zero";
 import { IRON_LION_IMPRINT_SET } from "./definitions/imprint/iron_lion";
@@ -888,4 +891,6 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   ...ENGINEER_CLASS_CARDS,
   ...SOLDIER_CLASS_CARDS,
   ...NEYON_CLASS_CARDS,
+  // Element / Dimension / Race cards
+  ...EARTH_ELEMENT_CARDS,
 ]);
