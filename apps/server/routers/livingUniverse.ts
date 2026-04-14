@@ -21,6 +21,7 @@ import { getDb } from "../db";
 import { universeEventState, universeEventHistory } from "../../db/schema";
 import { eq, desc, sql } from "drizzle-orm";
 import { pressureService } from "../services/pressureService";
+import { awardFragments } from "../services/imprintService";
 import {
   ALL_EMERGENT_EVENTS,
   DEFAULT_PRESSURE,
@@ -131,6 +132,27 @@ export const livingUniverseRouter = router({
     }))
     .mutation(async ({ ctx, input }) => {
       await pressureService.recordParticipation(input.eventId, ctx.user.id, input.amount);
+
+      // Phase F8 — every Living Universe event participation grants
+      // 3 imprint fragments to The Dreamer, who is the canonical
+      // entity in Dischordia that watches the universe in real time
+      // and feels every event the moment it happens. The grant is
+      // wrapped in try/catch so an imprint failure cannot break
+      // pressure recording. The plan's per-event NPC mapping is
+      // deferred until the universe event metadata exposes
+      // structured participants.
+      try {
+        const db = (await getDb())!;
+        await awardFragments(db, {
+          userId: ctx.user.id,
+          npcSlug: "the_dreamer",
+          source: "living_universe",
+          sourceDetail: input.eventId,
+        });
+      } catch (e) {
+        logger.warn(`[Imprints] living_universe grant failed: ${e}`);
+      }
+
       return { success: true };
     }),
 
