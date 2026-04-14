@@ -444,6 +444,7 @@ import { SPACE_DIMENSION_CARDS } from "./definitions/dimensional/space";
 import { TIME_DIMENSION_CARDS } from "./definitions/dimensional/time";
 import { PROBABILITY_DIMENSION_CARDS } from "./definitions/dimensional/probability";
 import { REALITY_DIMENSION_CARDS } from "./definitions/dimensional/reality";
+import { DEMAGI_RACE_CARDS } from "./definitions/race/demagi";
 
 /* ─── NPC Imprints (Phase F10+) ─── */
 import { AGENT_ZERO_IMPRINT_SET } from "./definitions/imprint/agent_zero";
@@ -907,4 +908,5 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   ...TIME_DIMENSION_CARDS,
   ...PROBABILITY_DIMENSION_CARDS,
   ...REALITY_DIMENSION_CARDS,
+  ...DEMAGI_RACE_CARDS,
 ]);
