@@ -6,6 +6,8 @@ import { eq, and, desc, sql } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { logger } from "../logger";
 import { grantCardReward } from "../services/cardRewardService";
+import { awardFragments } from "../services/imprintService";
+import { CHAPTER_TO_IMPRINT_NPCS } from "@shared/tcg-core";
 
 /* ═══════════════════════════════════════════════════════
    STORY MODE ROUTER — Campaign persistence (WS6)
@@ -261,6 +263,32 @@ export const storyModeRouter = router({
         }
       }
 
+      // Grant NPC imprint fragments for every NPC featured in this
+      // chapter (Phase F4). Each chapter awards story_chapter (+5)
+      // per featured NPC. Repeat completions also award fragments —
+      // replaying a chapter is a valid path for grinding the higher
+      // imprint tiers without forcing the player off the main loop.
+      const imprintNpcs = CHAPTER_TO_IMPRINT_NPCS[input.chapterId] ?? [];
+      const imprintGrants: Array<{ npcSlug: string; tiers: number[] }> = [];
+      for (const npcSlug of imprintNpcs) {
+        try {
+          const result = await awardFragments(db, {
+            userId: ctx.user.id,
+            npcSlug,
+            source: "story_chapter",
+            sourceDetail: input.chapterId,
+          });
+          if (result.ok && result.unlockedTiers.length > 0) {
+            imprintGrants.push({
+              npcSlug,
+              tiers: [...result.unlockedTiers],
+            });
+          }
+        } catch (e) {
+          logger.warn(`[Imprints] story_chapter grant failed for ${npcSlug}`, e);
+        }
+      }
+
       // Grant chapter-completion card reward on first completion.
       let cardReward: string | null = null;
       if (isFirstCompletion) {
@@ -283,6 +311,7 @@ export const storyModeRouter = router({
         isFirstCompletion,
         nextChaptersUnlocked: isFirstCompletion ? nextChapters : [],
         cardReward,
+        imprintGrants,
       };
     }),
 

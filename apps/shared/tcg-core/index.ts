@@ -422,6 +422,7 @@ export {
   IMPRINT_TIER_RARITY,
   IMPRINT_THRESHOLDS,
   IMPRINT_FRAGMENT_SOURCES,
+  CHAPTER_TO_IMPRINT_NPCS,
   getImprintNpc,
   tierForFragments,
   tieredCardDefIdsFor,
