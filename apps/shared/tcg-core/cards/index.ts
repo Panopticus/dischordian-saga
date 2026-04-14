@@ -444,6 +444,7 @@ import { LOCKE_IMPRINT_SET } from "./definitions/imprint/locke";
 import { THE_SOURCE_IMPRINT_SET } from "./definitions/imprint/the_source";
 import { THE_DETECTIVE_IMPRINT_SET } from "./definitions/imprint/the_detective";
 import { THE_ENIGMA_IMPRINT_SET } from "./definitions/imprint/the_enigma";
+import { FOUCAULT_IMPRINT_SET } from "./definitions/imprint/foucault";
 
 export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   gen_antiquarian,
@@ -869,4 +870,5 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   ...THE_SOURCE_IMPRINT_SET,
   ...THE_DETECTIVE_IMPRINT_SET,
   ...THE_ENIGMA_IMPRINT_SET,
+  ...FOUCAULT_IMPRINT_SET,
 ]);
