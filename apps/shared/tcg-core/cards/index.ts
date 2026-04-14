@@ -448,6 +448,7 @@ import { DEMAGI_RACE_CARDS } from "./definitions/race/demagi";
 import { QUARCHON_RACE_CARDS } from "./definitions/race/quarchon";
 import { NEYON_RACE_CARDS } from "./definitions/race/neyon";
 import { SYNTHETIC_RACE_CARDS } from "./definitions/race/synthetic";
+import { HUMAN_RACE_CARDS } from "./definitions/race/human";
 
 /* ─── NPC Imprints (Phase F10+) ─── */
 import { AGENT_ZERO_IMPRINT_SET } from "./definitions/imprint/agent_zero";
@@ -915,4 +916,5 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   ...QUARCHON_RACE_CARDS,
   ...NEYON_RACE_CARDS,
   ...SYNTHETIC_RACE_CARDS,
+  ...HUMAN_RACE_CARDS,
 ]);
