@@ -431,6 +431,7 @@ import { cardDef as token_wolf_2_2 } from "./tokens/token_wolf_2_2";
 import { AGENT_ZERO_IMPRINT_SET } from "./definitions/imprint/agent_zero";
 import { IRON_LION_IMPRINT_SET } from "./definitions/imprint/iron_lion";
 import { THE_HUMAN_IMPRINT_SET } from "./definitions/imprint/the_human";
+import { THE_ARCHITECT_IMPRINT_SET } from "./definitions/imprint/the_architect";
 
 export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   gen_antiquarian,
@@ -843,4 +844,5 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   ...AGENT_ZERO_IMPRINT_SET,
   ...IRON_LION_IMPRINT_SET,
   ...THE_HUMAN_IMPRINT_SET,
+  ...THE_ARCHITECT_IMPRINT_SET,
 ]);
