@@ -440,6 +440,15 @@ import { EARTH_ELEMENT_CARDS } from "./definitions/elemental/earth";
 import { FIRE_ELEMENT_CARDS } from "./definitions/elemental/fire";
 import { WATER_ELEMENT_CARDS } from "./definitions/elemental/water";
 import { AIR_ELEMENT_CARDS } from "./definitions/elemental/air";
+import { SPACE_DIMENSION_CARDS } from "./definitions/dimensional/space";
+import { TIME_DIMENSION_CARDS } from "./definitions/dimensional/time";
+import { PROBABILITY_DIMENSION_CARDS } from "./definitions/dimensional/probability";
+import { REALITY_DIMENSION_CARDS } from "./definitions/dimensional/reality";
+import { DEMAGI_RACE_CARDS } from "./definitions/race/demagi";
+import { QUARCHON_RACE_CARDS } from "./definitions/race/quarchon";
+import { NEYON_RACE_CARDS } from "./definitions/race/neyon";
+import { SYNTHETIC_RACE_CARDS } from "./definitions/race/synthetic";
+import { HUMAN_RACE_CARDS } from "./definitions/race/human";
 
 /* ─── NPC Imprints (Phase F10+) ─── */
 import { AGENT_ZERO_IMPRINT_SET } from "./definitions/imprint/agent_zero";
@@ -899,4 +908,13 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   ...FIRE_ELEMENT_CARDS,
   ...WATER_ELEMENT_CARDS,
   ...AIR_ELEMENT_CARDS,
+  ...SPACE_DIMENSION_CARDS,
+  ...TIME_DIMENSION_CARDS,
+  ...PROBABILITY_DIMENSION_CARDS,
+  ...REALITY_DIMENSION_CARDS,
+  ...DEMAGI_RACE_CARDS,
+  ...QUARCHON_RACE_CARDS,
+  ...NEYON_RACE_CARDS,
+  ...SYNTHETIC_RACE_CARDS,
+  ...HUMAN_RACE_CARDS,
 ]);
