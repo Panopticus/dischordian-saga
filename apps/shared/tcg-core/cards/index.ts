@@ -452,6 +452,7 @@ import { HUMAN_RACE_CARDS } from "./definitions/race/human";
 import { ARCHITECT_ALLEGIANCE_CARDS } from "./definitions/allegiance/architect";
 import { INSURGENCY_ALLEGIANCE_CARDS } from "./definitions/allegiance/insurgency";
 import { DREAMER_ALLEGIANCE_CARDS } from "./definitions/allegiance/dreamer";
+import { NEW_BABYLON_ALLEGIANCE_CARDS } from "./definitions/allegiance/new_babylon";
 
 /* ─── NPC Imprints (Phase F10+) ─── */
 import { AGENT_ZERO_IMPRINT_SET } from "./definitions/imprint/agent_zero";
@@ -923,4 +924,5 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   ...ARCHITECT_ALLEGIANCE_CARDS,
   ...INSURGENCY_ALLEGIANCE_CARDS,
   ...DREAMER_ALLEGIANCE_CARDS,
+  ...NEW_BABYLON_ALLEGIANCE_CARDS,
 ]);
