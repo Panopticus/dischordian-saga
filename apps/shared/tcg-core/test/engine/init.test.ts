@@ -252,6 +252,55 @@ describe("createMatchState", () => {
     expect(delta).toBe(10);
   });
 
+  /* ─────────────── Card stat overrides (D3) ─────────────── */
+
+  it("cardStatOverrides bumps power+health on matching deck cards", () => {
+    const reg = buildCardRegistry(ALL_CARD_DEFINITIONS);
+    const s = createMatchState({
+      matchId: "m-overrides",
+      seed: "init-seed",
+      p1: {
+        ...p1Config,
+        deckCardDefIds: ["s1_alleg_architect_t1", ...buildTestDeck("p1_card", 38)],
+        cardStatOverrides: {
+          s1_alleg_architect_t1: { power: 3, health: 4 },
+        },
+      },
+      p2: p2Config,
+      registry: reg,
+    });
+    // Find the allegiance card in p1's hand or deck and verify
+    // it has the bumped stats (base 2/3 + 3/4 = 5/7).
+    const all = [...s.players[0].hand, ...s.players[0].deck];
+    const alleg = all.find((c) => c.defId === "s1_alleg_architect_t1");
+    expect(alleg).toBeDefined();
+    if (alleg) {
+      expect(alleg.currentPower).toBe(5);
+      expect(alleg.currentHealth).toBe(7);
+      expect(alleg.maxHealth).toBe(7);
+    }
+  });
+
+  it("cardStatOverrides ignores unknown defIds and zero deltas", () => {
+    const reg = buildCardRegistry(ALL_CARD_DEFINITIONS);
+    const s = createMatchState({
+      matchId: "m-overrides-noop",
+      seed: "init-seed",
+      p1: {
+        ...p1Config,
+        cardStatOverrides: {
+          unknown_card_id: { power: 99, health: 99 },
+          s1_alleg_architect_t1: { power: 0, health: 0 },
+        },
+      },
+      p2: p2Config,
+      registry: reg,
+    });
+    // Should not crash; should produce a valid match state.
+    expect(s.phase).toBe("mulligan");
+    expect(s.players[0].hand.length).toBe(MULLIGAN_HAND_SIZE);
+  });
+
   it("omitted startingBonuses yields identical state to the no-bonus path", () => {
     const noBonus = createMatchState({
       matchId: "m-no-bonus",

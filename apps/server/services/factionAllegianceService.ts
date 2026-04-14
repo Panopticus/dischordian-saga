@@ -224,6 +224,37 @@ async function insertAllegianceCard(
   return true;
 }
 
+/** Compute the +power/+health bonus for a player's allegiance
+ *  cards based on their faction win count. Per the plan: every
+ *  10 wins adds +1/+1, capped at +5/+5. Returns 0 for players
+ *  with no row yet or fewer than 10 wins. */
+export function computeAllegianceBonus(won: number): number {
+  if (!Number.isFinite(won) || won <= 0) return 0;
+  return Math.min(5, Math.floor(won / 10));
+}
+
+/** Build the cardStatOverrides map for createMatchState given
+ *  a player's faction stats. Every allegiance card for that
+ *  faction (s1_alleg_<faction>_t1..t6) receives the same +N/+N
+ *  bonus where N = computeAllegianceBonus(won). The match init
+ *  applies the override only to allegiance cards actually in
+ *  the player's deck. */
+export async function resolveAllegianceCardOverrides(
+  db: NonNullable<DrizzleDb>,
+  userId: number,
+  faction: AllegianceFaction,
+): Promise<Record<string, { power: number; health: number }>> {
+  const stats = await getFactionStats(db, userId, faction);
+  const bonus = computeAllegianceBonus(stats?.won ?? 0);
+  if (bonus === 0) return {};
+  const overrides: Record<string, { power: number; health: number }> = {};
+  for (let tier = 1; tier <= 6; tier++) {
+    const cardDefId = `s1_alleg_${faction}_t${tier}`;
+    overrides[cardDefId] = { power: bonus, health: bonus };
+  }
+  return overrides;
+}
+
 /** End-to-end pipeline: increment factionStats, then for every
  *  newly-crossed tier grant the corresponding allegiance card and
  *  fire an achievement notification. Returns the same shape as
