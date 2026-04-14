@@ -432,6 +432,7 @@ import { AGENT_ZERO_IMPRINT_SET } from "./definitions/imprint/agent_zero";
 import { IRON_LION_IMPRINT_SET } from "./definitions/imprint/iron_lion";
 import { THE_HUMAN_IMPRINT_SET } from "./definitions/imprint/the_human";
 import { THE_ARCHITECT_IMPRINT_SET } from "./definitions/imprint/the_architect";
+import { THE_ENGINEER_IMPRINT_SET } from "./definitions/imprint/the_engineer";
 
 export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   gen_antiquarian,
@@ -845,4 +846,5 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   ...IRON_LION_IMPRINT_SET,
   ...THE_HUMAN_IMPRINT_SET,
   ...THE_ARCHITECT_IMPRINT_SET,
+  ...THE_ENGINEER_IMPRINT_SET,
 ]);
