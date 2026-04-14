@@ -21,7 +21,27 @@ import {
   getChessTutorialGate,
   resolveDialog,
   listChessTutorialVoiceCues,
+  getImprintNpc,
 } from "@shared/tcg-core";
+import { awardFragments } from "../services/imprintService";
+
+/** Chess opponent characters whose ids match an imprint NPC slug
+ *  exactly. The Phase F5 hook awards 1 fragment per match for the
+ *  matching slug. Chess characters not in this set (the_warlord,
+ *  the_programmer, game_master) award nothing — the warlord and
+ *  programmer aren't Season-1 imprint NPCs, and game_master is
+ *  covered by the chess tutorial keepsake instead. */
+const CHESS_OPPONENT_TO_IMPRINT_SLUG: Readonly<Record<string, string>> = {
+  the_architect: "the_architect",
+  the_enigma: "the_enigma",
+  the_oracle: "the_oracle",
+  the_collector: "the_collector",
+  iron_lion: "iron_lion",
+  the_necromancer: "the_necromancer",
+  the_human: "the_human",
+  agent_zero: "agent_zero",
+  the_source: "the_source",
+};
 
 /** Audio URL convention for the Celebration Teaching Set memory
  *  resin captures. The actual MP3 files live under this path; once
@@ -2542,5 +2562,34 @@ async function processGameEnd(
     }
   }
 
-  return { eloChange, rewards, classXpResult, arenaEndingScene };
+  // Phase F5 — award 1 imprint fragment for the chess opponent if
+  // their character id maps to a Season-1 imprint NPC. Awarded on
+  // both win and loss (the encounter is what counts, not the
+  // outcome). Skipped on draw. Errors are caught + logged so a
+  // partial failure can't break match completion.
+  const imprintGrants: Array<{ npcSlug: string; tiers: number[] }> = [];
+  if (!isDraw) {
+    const opponentId = game.blackCharacter || "the_human";
+    const imprintSlug = CHESS_OPPONENT_TO_IMPRINT_SLUG[opponentId];
+    if (imprintSlug && getImprintNpc(imprintSlug)) {
+      try {
+        const result = await awardFragments(db, {
+          userId: playerId,
+          npcSlug: imprintSlug,
+          source: "chess_opponent",
+          sourceDetail: `${game.mode}_match_${game.id}`,
+        });
+        if (result.ok && result.unlockedTiers.length > 0) {
+          imprintGrants.push({
+            npcSlug: imprintSlug,
+            tiers: [...result.unlockedTiers],
+          });
+        }
+      } catch (e) {
+        logger.warn(`[Imprints] chess_opponent grant failed for ${imprintSlug}`, e);
+      }
+    }
+  }
+
+  return { eloChange, rewards, classXpResult, arenaEndingScene, imprintGrants };
 }
