@@ -7,6 +7,8 @@ import { router, protectedProcedure, publicProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import { logger } from "../logger";
 import { grantCardReward } from "../services/cardRewardService";
+import { awardFragments } from "../services/imprintService";
+import { getImprintNpc } from "@shared/tcg-core";
 import {
   loreJournalEntries, citizenCharacters, civilSkillProgress,
 } from "../../db/schema";
@@ -81,6 +83,26 @@ export const loreJournalRouter = router({
           await grantCardReward(ctx.user.id, "lore_journal_10");
         } catch (e) {
           logger.warn("Failed to grant lore journal card reward", e);
+        }
+      }
+
+      // Phase F7 — when a journal entry is linked to an entity
+      // that maps to an imprint NPC slug, grant 1 fragment to that
+      // NPC. The linkedEntityId is free-form, so unknown ids
+      // silently no-op via getImprintNpc returning undefined.
+      if (input.linkedEntityId) {
+        const npc = getImprintNpc(input.linkedEntityId);
+        if (npc) {
+          try {
+            await awardFragments(db, {
+              userId: ctx.user.id,
+              npcSlug: npc.slug,
+              source: "lore_entry",
+              sourceDetail: `journal_${result.id}`,
+            });
+          } catch (e) {
+            logger.warn(`[Imprints] lore_entry grant failed for ${npc.slug}`, e);
+          }
         }
       }
 
