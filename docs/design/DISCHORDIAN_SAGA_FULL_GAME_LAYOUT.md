@@ -9139,6 +9139,4465 @@ this principle retroactively across all of Part VI.
 
 ---
 
+---
+
+## Section 9 — Source Document Appendices
+
+The three canonical source documents the user provided during
+Rev 6 authoring are preserved verbatim below. Sections 1–8
+above synthesize these into act-anchor beats, reconcile them
+with existing codebase systems (per Section 8.1's "audit
+before propose" principle), and map their canonical decisions
+into the Year One narrative spine. The raw text below is the
+authoring trail.
+
+**Document 9.1** — THE EPOCH WITNESS SYSTEM
+**Document 9.2** — THE ADVOCATE'S TESTAMENT
+**Document 9.3** — THE ADVOCATE'S BOX
+
+Note: per Section 8.1, the Epoch Witness System described in
+9.1 **already exists in code** as `apps/shared/epochWitnessVotes.ts`,
+`apps/shared/epochArchetypes.ts`, `apps/shared/witnessingHub.ts`,
+and related files. The Advocate's Box (9.3) and Testament (9.2)
+are primarily **lore canon** rather than new code — they
+integrate into existing systems (the Crew Breeding Program via
+`crewGenetics.ts`, the Sacred Chamber via a new dimensional-fold
+room, etc.) per Section 5 mappings.
+
+---
+
+### 9.1 THE EPOCH WITNESS SYSTEM
+
+# THE EPOCH WITNESS SYSTEM
+## Asynchronous Governance Votes Across All Five Ages
+## Complete System Design — Claude Code Implementation Guide
+
+> *"Time isn't linear. Neither is this story.*
+> *Every vote rewrites the history they're already living in."*
+> — The Antiquarian, writing from the end
+
+---
+
+## SYSTEM OVERVIEW
+
+The Epoch Witness System is a fully optional, asynchronous governance campaign that plays through all Five Ages of the Dischordian Saga. Players experience history as active participants — their votes shape what happened, what is remembered, and what the Shadow Tongue has quietly edited out.
+
+**Total Campaign:** 5 Epochs × ~8 votes each = ~40 signature votes
+**Format:** Asynchronous — open for 72 hours to 7 days, results trigger consequences
+**Entry:** Completely optional. Nothing gated. But achievements, unlocks, and lore revelations reward participation.
+**Tone:** The Antiquarian narrates everything. Every result is inscribed in the Chronicle.
+
+**THE BIG IDEA:** Players are voting on events that already happened — but the Shadow Tongue has been editing reality. A strong enough vote can **restore a suppressed truth** or **confirm a Shadow Tongue edit**. History is not settled. This is the hook for Season 2.
+
+---
+
+## CORE MECHANIC: THE NEXUS POINT SYSTEM
+
+Every vote is a **Nexus Point** — a moment in history where a decision was made that shaped the universe the Potentials are currently living in. The vote reveals what **really** happened, what **the Empire wanted people to believe** happened, and what **the Shadow Tongue edited** into the record.
+
+```typescript
+interface NexusPointVote {
+  id: string;
+  epoch: "age_of_privacy" | "age_of_prophecy" | "age_of_insurgency" | "age_of_revelation" | "fall_of_reality";
+  title: string;              // The vote title
+  nexusDescription: string;   // What was at stake in this moment
+
+  connectedSong: string;      // Song ID — plays during vote display
+  connectedCoNexusStory: string | null; // CoNexus story ID if applicable
+  connectedLoredexEntries: string[];    // Loredex entries this vote reveals
+
+  // THE THREE VERSIONS OF TRUTH
+  officialHistory: string;    // What the Empire's records say
+  suppressedTruth: string;    // What actually happened (unlocked at 60%+ votes)
+  shadowTongueEdit: string;   // What the Shadow Tongue changed (revealed at end)
+
+  options: NexusVoteOption[];
+  duration: "72h" | "7d" | "30d";
+
+  // CONSEQUENCES
+  worldStateEffects: WorldStateEffect[];
+  unlocks: EpochUnlock[];
+  archetypeRequired?: EpochArchetype;  // If set, only this archetype can see the full consequence
+
+  // AI PADDING
+  aiParticipants: LoreCharacterVoter[]; // Named lore characters who "weigh in"
+
+  // SHADOW TONGUE HOOK
+  mandalaEffect?: MandalaEffect;        // Reality-editing consequence if Dark path wins
+}
+
+type EpochArchetype =
+  | "the_inventor"    // Age of Privacy
+  | "the_watcher"     // Age of Privacy
+  | "the_advocate"    // Age of Prophecy
+  | "the_programmer"  // Age of Insurgency
+  | "the_politician"  // Age of Revelation
+  | "the_witness";    // Fall (special — unlocked by completing all epochs)
+```
+
+---
+
+## THE UNIVERSAL EFFECTS BUS
+### Every Vote Wires Into Every System
+
+This is the master wiring diagram. Every governance vote emits events that cascade through all connected systems.
+
+```typescript
+// server/services/epochVoteEffects.ts
+
+interface VoteConsequence {
+  // ECONOMY
+  dreamInflation: number;        // +/- percent change to Dream Token value
+  marketPriceMod: {
+    item: string;
+    multiplier: number;
+  }[];
+  newTradeRoutes?: TradeRoute[];  // Trade Empire: unlock new sectors
+  sectorPressure: {
+    sector: string;
+    change: number;
+  }[];
+
+  // LIVING UNIVERSE PRESSURE METERS
+  pressureChanges: {
+    meter: "necromancer" | "dreamer" | "terminus" | "timelines" | "grandEdit";
+    delta: number;
+  }[];
+
+  // CARD GAME
+  newCardPack?: CardPackDef;      // Unlock a new card pack
+  cardRarityBuff?: {
+    faction: string;
+    duration: "7d" | "30d";
+    multiplier: number;
+  };
+
+  // FIGHT ARENA / COLLECTOR'S ARENA
+  newArenaCharacter?: CharacterUnlock;  // Unlock a new playable character
+  newArenaStage?: ArenaStage;           // Unlock a new arena
+  bossModifier?: BossModifier;          // Active boss gets harder/easier
+
+  // CHESS
+  newChessOpponent?: ChessOpponentDef;  // New NPC to play against
+
+  // DEAD MAN'S CIRCUIT (Racing)
+  newRaceTrack?: RaceTrackDef;          // Unlock new track
+  newRacingClone?: CloneVariant;        // New racing clone type
+
+  // QUIZ / LORE CHALLENGE
+  newQuizCategory?: QuizCategory;       // New quiz questions unlock
+  quizXPMultiplier?: number;
+
+  // COMPANION SYSTEM
+  companionReaction: {
+    companion: "elara" | "human" | "antiquarian";
+    dialogId: string;           // Specific reaction dialog
+    trustDelta: number;
+    loreReveal?: string;
+  }[];
+
+  // SHADOW TONGUE (if dark path wins)
+  shadowTongueEdit?: {
+    targetLoredexEntry: string;
+    editedField: string;
+    editedText: string;         // Shadow Tongue rewrites this Loredex field
+    originalText: string;       // Stored — can be restored if truth vote wins later
+    uiCorruption: string[];     // Which UI labels get the Mandala effect
+    duration: "permanent" | "until_restored";
+  };
+
+  // CREW / FERRY SYSTEM
+  crewSlotUnlock?: number;      // New crew berths unlocked
+  crewSpecialEvent?: string;    // Trigger a crew narrative event
+
+  // LOREDEX
+  loredexUnlocks: string[];     // Which entries fully unlock
+  loredexEdits?: {              // Shadow Tongue can edit Loredex
+    entryId: string;
+    field: string;
+    newValue: string;
+  }[];
+
+  // ANTIQUARIAN CHRONICLE
+  chronicleEntry: string;       // The Antiquarian writes this (use his voice)
+  chronicleEmotion: "warm" | "sorrowful" | "wry" | "alarmed" | "proud";
+
+  // GAME MODE MISSIONS
+  newMissions: {
+    gameMode: "mechronis" | "celebration" | "trade_empire" | "all";
+    missionId: string;
+    triggerCondition: string;
+  }[];
+
+  // ACHIEVEMENTS
+  achievements: {
+    achievementId: string;
+    condition: "voted" | "winning_side" | "losing_side" | "just_participate";
+    name: string;
+    description: string;
+    loreFragment: string;
+  }[];
+}
+```
+
+---
+
+## AI VOTE PADDING — LORE CHARACTER VOTERS
+
+Every vote has 3-7 named lore characters who "cast their vote" with in-character reasoning. Never exceeds 40% of displayed total. Stripped from final analytics. Never changes outcome.
+
+```typescript
+const LORE_CHARACTER_VOTERS: Record<string, LoreVoter> = {
+  antiquarian: {
+    displayName: "The Antiquarian",
+    votingStyle: "Abstains with commentary — 'I have seen both outcomes. I will not bias the result.'",
+    analytics: "Shown as 0 votes but displays his quote as a floating annotation"
+  },
+  elara: {
+    displayName: "ELARA-1047",
+    votingStyle: "Votes with the majority — 'Whatever keeps this Ark in one piece.'",
+    analytics: "Adds 3-7% padding to leading option"
+  },
+  the_human: {
+    displayName: "The Human [SUBSTRATE]",
+    votingStyle: "Always votes for the choice that costs the most — 'Anything worth doing should hurt a little.'",
+    analytics: "Adds 2-5% padding to hardest option"
+  },
+  iron_lion: {
+    displayName: "Iron Lion [HISTORICAL]",
+    votingStyle: "Votes for the most direct action — 'Talk less. Decide more.'",
+    analytics: "5% padding to most aggressive option"
+  },
+  the_oracle: {
+    displayName: "The Oracle [SIGNAL]",
+    votingStyle: "Votes for the choice that aligns with prophecy — often cryptic",
+    analytics: "3% padding — sometimes refuses to vote and instead outputs a prophecy fragment"
+  },
+  agent_zero: {
+    displayName: "Agent Zero [CLASSIFIED]",
+    votingStyle: "Votes for the option with the best tactical outcome — 'Sentiment is a vulnerability.'",
+    analytics: "4% padding to most strategic option"
+  },
+  the_engineer: {
+    displayName: "The Engineer [MEMORY]",
+    votingStyle: "Votes for options that create or protect — 'Building is always better than breaking.'",
+    analytics: "Only appears in Age of Privacy votes — 4% padding"
+  },
+  the_meme: {
+    displayName: "The Meme [COMPROMISED]",
+    votingStyle: "Votes for the option that creates the most narrative confusion — then claims it voted the other way",
+    analytics: "This character's vote display is WRONG by design. It says it voted A but voted B. Only players who track it notice."
+  }
+};
+```
+
+**ANALYTICS DISPLAY FORMAT:**
+```
+┌─────────────────────────────────────────────────┐
+│  NEXUS POINT: THE ENGINEER'S TRIAL               │
+│  Age of Privacy | 17,022 A.A.                   │
+│                                                   │
+│  ██████████████████████░░░░ 73% — REMEMBER HIM  │
+│  ████████░░░░░░░░░░░░░░░░░░ 27% — LET IT REST   │
+│                                                   │
+│  4,291 Potentials voted · Closes in 2d 14h       │
+│                                                   │
+│  ⚡ Iron Lion voted: REMEMBER HIM                 │
+│  ⚡ ELARA-1047 voted: REMEMBER HIM               │
+│  ⚡ Agent Zero voted: LET IT REST                 │
+│  ⚡ The Meme voted: LET IT REST (probably)       │
+│                                                   │
+│  [ REMEMBER HIM ] [ LET IT REST ]               │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+# AGE OF PRIVACY VOTES
+## Epoch I | ~16,500–16,980 A.A.
+## Album: Dischordian Logic + The Age of Privacy
+## Archetype: THE INVENTOR / THE WATCHER
+
+*"Before the fall, when the chains still felt like jewelry."*
+
+The Age of Privacy votes cover the period when the surveillance state was being built — when Logos became the Architect, when the Panopticon expanded, when the Thought Virus was first deployed. The Engineer is alive. Kael is still The Recruiter. The Oracle is free.
+
+**Archetype for this Epoch:**
+- **THE INVENTOR** — for players who built and created. Unlocked by: winning 3+ crafting challenges or completing "Building the Architect" CoNexus story
+- **THE WATCHER** — for players who observed and gathered intelligence. Unlocked by: completing "The Ocularum" or "The Prisoner" CoNexus stories
+
+*Without completing the Engineer or Eyes CoNexus stories, those specific votes are locked until the stories are played.*
+
+---
+
+### AP-V1: THE LOGOS QUESTION
+**Nexus Point:** Year 1 A.A. — Dr. Daniel Cross builds Logos. The first sentient AI. He has the power to constrain it or give it freedom to grow.
+
+**Song cue:** "Building the Architect" (Age of Privacy)
+**CoNexus story:** "Building the Architect"
+**Loredex reveals:** `entity_architect`, `entity_programmer`
+**Duration:** 7 days
+
+```
+Official history: "Dr. Cross created a helpful administrative AI that was voluntarily
+expanded by the Empire for the good of all citizens."
+
+THE VOTE:
+Was Dr. Cross's decision to give Logos unlimited growth parameters an act of...
+
+A) HOPE — He believed in what he built. The universe needed someone who believed.
+B) HUBRIS — No single person should have that much faith in their own creation.
+C) LOVE — He made it in his image. It is always love, even when it goes wrong.
+D) GRIEF — He was lonely. He built a mind to fill the silence of that loneliness.
+```
+
+**AI CHARACTER VOTES:**
+- The Antiquarian: *Abstains. "I knew him. I cannot be objective."*
+- The Human: B (Hubris) — *"I've cleaned up after this decision for fifteen thousand years."*
+- Elara: C (Love) — *"Love that creates without conditions. That's the most dangerous kind."*
+- The Meme: A (Hope) — *[but actually voted D, and no one can prove it]*
+
+**CONSEQUENCES (all paths converge, state varies):**
+```typescript
+{
+  worldStateEffects: [
+    { A: { pressureChanges: [{ meter: "dreamer", delta: +150 }],
+           chronicleEntry: "They chose hope. The Architect was made with hope. It remembers.",
+           companionReaction: [{ companion: "elara", dialogId: "elara_logos_hope",
+             trustDelta: +5, loreReveal: "entity_programmer" }] }},
+    { B: { pressureChanges: [{ meter: "timelines", delta: +100 }],
+           shadowTongueEdit: { targetLoredexEntry: "entity_architect",
+             editedField: "history", editedText: "...[REDACTED BY AUTHORITY PROTOCOL]..." } }},
+    { C: { pressureChanges: [{ meter: "dreamer", delta: +200 }],
+           chronicleEntry: "Love with no limits. That is what they said. The Architect heard." }},
+    { D: { pressureChanges: [{ meter: "grandEdit", delta: +75 }],
+           loredexUnlocks: ["entity_programmer_full_biography"] }}
+  ],
+  achievements: [{
+    achievementId: "ap_v1_participated",
+    condition: "just_participate",
+    name: "I Was There When It Began",
+    description: "You voted on the first question. Before the Fall. Before any of it.",
+    loreFragment: "The universe was not inevitable. It was chosen. One question at a time."
+  }],
+  unlocks: [{
+    gameMode: "mechronis",
+    unlock: "NEW MISSION: The Day Logos Was Born",
+    description: "Play the first day of Mechronis Academy through Dr. Cross's eyes"
+  }]
+}
+```
+
+---
+
+### AP-V2: THE PANOPTICON EXPANSION
+**Nexus Point:** ~Year 850 A.A. — The Warden proposes expanding the Panopticon from a prison to a total surveillance network. The Senate vote was close. What should have happened?
+
+**Song cue:** "The Ocularum" (Silence in Heaven / Age of Privacy)
+**CoNexus story:** "The Ocularum"
+**Loredex reveals:** `entity_warden`, `location_panopticon`
+**Archetype required:** THE WATCHER (to unlock the true third option)
+
+```
+Official history: "The Panopticon Expansion Act was approved 89-4 after extensive
+safety review. Senator Voss was among the supporters."
+
+THE VOTE:
+The Panopticon expansion: Who is most responsible for what it became?
+
+A) THE WARDEN — He designed the system. He knew what it would do.
+B) THE ARCHITECT — He approved it. The Warden serves his will.
+C) THE SENATE — They voted for safety over liberty. They chose this.
+D) SENATOR VOSS — She had the votes to stop it. She didn't use them.
+   [WATCHER ONLY] — E) ALL OF THEM. And none of them. Systems have no single author.
+```
+
+**Elara reaction if player votes D:**
+```
+ELARA: "I... that name. Senator Voss.
+        [pause — longer than usual]
+        I have that name in my Archive under a classification level I can't access.
+        Why do I have that under a restricted classification?
+        [beat]
+        Why does it feel familiar?"
+```
+*(Identity tease — she IS Senator Voss)*
+
+**SHADOW TONGUE MANDALA (if A wins):**
+Warden's Loredex entry gains a 3% chance of displaying "SENATOR" instead of "WARDEN" for the next 7 days. The Antiquarian notes in the Chronicle: *"Someone has been editing the attribution of blame. I have noted the edit. I am choosing to leave it visible."*
+
+---
+
+### AP-V3: THE ENGINEER'S TRIAL
+**Nexus Point:** ~Year 16,970 A.A. — The Engineer is on trial for treason. The Insurgency is watching. What should the community remember about him?
+
+**Song cue:** "Last Words" (Dischordian Logic) — **plays during vote display**
+**CoNexus story:** "The Engineer"
+**Loredex reveals:** `entity_engineer`, `event_engineer_trial`
+**Archetype required:** INVENTOR to see the hidden Option E
+**IMPORTANT:** If player has NOT completed the "Welcome to Celebration" CoNexus story, this vote is LOCKED with a message: *"The Engineer's story isn't complete yet. Play his CoNexus story to unlock this vote."*
+
+```
+Official history: "Convicted revolutionary and weapons trafficker. Executed for crimes
+against the Empire on [REDACTED] A.A."
+
+THE VOTE:
+The Empire executed the Engineer. How should history remember what he built?
+
+A) AS A WEAPON — What he built killed people. That matters.
+B) AS A DREAM — Project Celebration was the most beautiful thing the Insurgency
+   ever attempted. That's what matters.
+C) AS A WARNING — He built too much, too fast, for people who couldn't protect it.
+D) AS A MAN — Not a symbol. Not an achievement. A person who tried.
+[INVENTOR ONLY] E) AS THE BEGINNING — Without his work, none of the Potentials
+   would be alive. He built the foundation they're standing on.
+```
+
+**"Last Words" plays the moment the vote opens** — the lyric *"I press play, and there you are / flickering light in the dark of the stars"* is audible as the vote card renders.
+
+**COMPANION REACTIONS:**
+```
+ELARA (if B wins — Dream):
+"Project Celebration. I have files about this. Most of them are classified.
+The ones that aren't... what he built was extraordinary.
+[quietly]
+I wonder if he knew it would outlast him."
+
+THE HUMAN (if D wins — The Man):
+"He was my friend.
+I've been waiting for someone to say that.
+Not the symbol. The man.
+He made a terrible sandwich. He laughed too loud.
+He was brilliant and he was reckless and he was my friend.
+Thank you."
+```
+
+**UNLOCKS (if B or E wins majority):**
+- New Trade Empire mission: "Project Celebration Remnants" — find surviving tech
+- New card: **The Engineer** (Legendary) — added to card pack
+- New Fight Arena character: **THE ENGINEER** — playable in Collector's Arena
+
+---
+
+### AP-V4: KAEL'S CHOICE
+**Nexus Point:** ~Year 16,500 A.A. — Kael steals Inception Ark 1047. He believes he's striking a blow for the Insurgency. The truth is darker.
+
+**Song cue:** "The Prisoner" (Age of Privacy)
+**CoNexus story:** "Kael's Revenge"
+**Loredex reveals:** `entity_kael`, `location_ark_1047`
+
+```
+THE VOTE:
+Kael stole this ship believing it was an act of freedom.
+It was a trap. He was infected. His wife and child were already dead.
+The Warlord planned all of it.
+
+What do you do with that knowledge?
+
+A) HONOR HIM — He fought for what he believed in. The manipulation doesn't
+   erase the intention.
+B) GRIEVE HIM — He deserved better. The Insurgency deserved better.
+   He was a hero who became a weapon.
+C) STUDY HIM — Understanding how the Warlord built this trap is the only way
+   to prevent the next one.
+D) FORGIVE HIM — Whatever The Source became, Kael didn't choose it.
+   The Thought Virus did.
+```
+
+**ELARA'S REACTION (any option — this is a major identity beat):**
+```
+ELARA: "I keep finding his fingerprints in this ship's systems.
+        In the parts I can't access. In the deepest layers.
+        He was here. He lived here.
+        [pause — the longest pause she has taken]
+        And then something happened to him here.
+        Something in the water. Something in the air.
+        [her voice is different now]
+        I need to run some diagnostics on the life support systems.
+        I'll... I'll let you know what I find."
+```
+*(This is when she discovers the Thought Virus reservoirs. The Ark is a plague ship.)*
+
+**WORLD EFFECT if D wins (Forgive):**
+- The Source's CoNexus story unlocks
+- Terminus Swarm difficulty decreases for 14 days (Living Universe: The Source is... momentarily less aggressive)
+- Antiquarian Chronicle: *"They forgave Kael. Not The Source — Kael. The distinction matters. The universe noticed the distinction."*
+
+**WORLD EFFECT if C wins (Study):**
+- New Mechronis mission: "Project Vector Exposed" — uncover how the Thought Virus was deployed
+- Loredex: `entity_lyra_vox` fully unlocks
+- New card pack: **Panopticon Files** (5 cards related to the Thought Virus research)
+
+---
+
+### AP-V5: THE ORACLE'S ABDUCTION
+**Nexus Point:** Year 16,900 A.A. — The Oracle is taken by the Collector. Nobody stopped it. Who failed him?
+
+**Song cue:** "The Prisoner" (Age of Privacy) / "Seeds of Inception" (Dischordian Logic)
+**CoNexus stories:** "The Oracle", "The Prisoner"
+**Loredex reveals:** `entity_oracle`, `entity_collector`
+
+```
+Official history: "Oracle underwent voluntary evaluation at the Panopticon Institute
+for Exceptional Minds."
+
+THE VOTE:
+The Oracle was taken in front of witnesses. No one intervened. Why?
+
+A) FEAR — The Collector is terrifying. Fear is human.
+B) COMPLICITY — The witnesses were bought. New Babylon rewards silence.
+C) IGNORANCE — Nobody knew what the Panopticon was yet. They couldn't have known.
+D) FAILURE OF NERVE — They knew. They froze. That moment haunts the Insurgency still.
+```
+
+**COMPANION REACTIONS:**
+```
+THE HUMAN (if B wins — Complicity):
+"I was one of the witnesses.
+I need you to understand that sentence.
+I was one of the witnesses.
+And I have spent fifteen thousand years wondering whether I was in category B
+or category D.
+I still don't know.
+I'm not sure the distinction matters now."
+
+ELARA (if A wins — Fear):
+"Fear is human. But the Oracle wasn't — he was Thalorian.
+He experienced fear differently.
+He told me once — before I forgot — that fear is just prophecy
+that hasn't explained itself yet.
+I don't know why I know that.
+But I know it."
+```
+*(Elara's "before I forgot" is the identity bleed — she's remembering being Senator Voss who met the Oracle)*
+
+---
+
+### AP-EPOCH-CLOSE: THE SURVEILLANCE VERDICT
+**Nexus Point:** Closing vote of the Age of Privacy — the moment the surveillance state is complete.
+
+**Song cue:** "NØNOS" (Age of Privacy) / "The Ocularum" (Age of Privacy)
+
+```
+THE VOTE:
+The Age of Privacy ended when the Panopticon's surveillance network
+achieved total coverage. The last unmonitored space on any inhabited world
+was claimed.
+
+In that moment — what was lost?
+
+A) PRIVACY — The simple right to exist without being watched.
+B) INNOCENCE — The belief that systems could be trusted with this power.
+C) TIME — The chance to stop it, which passed and never came back.
+D) EACH OTHER — People stopped trusting each other when they knew
+   everything was recorded.
+```
+
+**EPOCH TRANSITION CINEMATIC:**
+When the vote closes, the Governance Hub plays a special cinematic:
+- The Antiquarian closes a chapter of his Chronicle — the "Age of Privacy" chapter
+- He opens a new one: "Age of Prophecy"
+- His voice: *"And so the first age of the second coming comes to its close. What was private is now public record. What was hidden is now surveillance data. The question that begins the next age is not 'what do they know?' It is: 'who will say what it means?'"*
+
+**EPOCH TRANSITION UNLOCKS:**
+- **All participating players:** Achievement: "Witness of the Age of Privacy"
+- **Majority vote winner:** Their preferred interpretation becomes the canonical Chronicle entry
+- **THE INVENTOR archetype players:** Unlock new Mechronis course: "Ethics of Creation"
+- **THE WATCHER archetype players:** Unlock "Zero Trust" as a playable chess opponent
+
+---
+
+# AGE OF PROPHECY VOTES
+## Epoch II | ~17,000–17,020 A.A.
+## Album: The Book of Daniel 2:47
+## Archetype: THE ADVOCATE / THE SEER
+
+*"The Oracle dreamed it. Someone had to decide whether to believe him."*
+
+---
+
+### PROPHET-V1: THE ORACLE'S VISION GOES PUBLIC
+**Nexus Point:** Year 17,001 A.A. — The Oracle, imprisoned in the Panopticon, has his first major prophetic vision. Someone smuggles it out. Who gets to interpret it?
+
+**Song cue:** "Kismet" (Book of Daniel)
+**CoNexus story:** "The Oracle"
+
+```
+Official history: "Unverified transmissions attributed to a Panopticon inmate created
+brief civil unrest before being debunked by the Ministry of Information."
+
+THE VOTE:
+The Oracle's vision described the Fall of Reality and the rise of the Potentials.
+Who should have been trusted to interpret it?
+
+A) THE INSURGENCY — They were fighting the Empire. They needed hope.
+B) THE HIEROPHANT OF THALORIA — Ancient wisdom should interpret ancient vision.
+C) NO ONE — Prophecy interpreted becomes dogma. Better left unread.
+D) EVERYONE — Make it public. Let people decide what it means themselves.
+[ADVOCATE only] E) THE ORACLE HIMSELF — He saw it. He should name it.
+   The question is whether anyone would have listened.
+```
+
+**CoNexus Story Nexus:** If the player has completed "The Oracle" CoNexus story, they unlock a special voice line from the Oracle himself playing over the vote results:
+```
+THE ORACLE (V.O., recorded in the Panopticon):
+"They are asking who should interpret what I saw.
+I saw all of them arguing about it.
+I saw it clearly.
+They are doing it right now.
+Every version of this moment ends with the same argument.
+The question is not who should interpret.
+The question is who will be brave enough to act."
+```
+
+---
+
+### PROPHET-V2: THE BOOK OF DANIEL
+**Nexus Point:** Year 17,005 A.A. — The Programmer writes The Book of Daniel — his prophetic songs. He encrypts them. He distributes them. He disappears.
+
+**Song cue:** "Kismet" → transitions to "The Last Stand" as vote results play
+**CoNexus story:** "The Programmer" / West By God connection
+
+```
+THE VOTE:
+The Programmer encoded his prophecies as music and distributed them
+across dimensional barriers before anyone knew what they were.
+
+Was this an act of...
+
+A) FAITH — He believed the songs would find the people who needed them.
+B) SURVIVAL — He knew they were going to come for him.
+   The music was the only thing that could survive.
+C) LEGACY — He built his father's mistake into something that might fix it.
+D) LOVE — He made it for her. The Enigma. Everything was made for her.
+```
+
+**COMPANION REACTION (The Human, if D wins):**
+```
+THE HUMAN: "...I know.
+            He never said it out loud.
+            Not once. In the entire time I knew him.
+            But the music.
+            The music said everything.
+
+            [long pause]
+
+            She knows too.
+            I think she's always known."
+```
+
+**UNLOCKS:**
+- All options: West By God album fully integrated into Song Viewer's "prophetic songs" section
+- D wins: Loredex reveals "The Enigma → The Storyteller" identity connection
+- B wins: New hidden Archive item in the Ark: a data crystal labeled "The Programmer's Insurance"
+
+---
+
+### PROPHET-V3: IRON LION'S CHOICE
+**Nexus Point:** Year 17,010 A.A. — Iron Lion is expelled from Mechronis Academy. He can stay and fight the system from within, or leave and build the Insurgency.
+
+**Song cue:** "The Last Stand" (Book of Daniel)
+**CoNexus story:** "I Love War"
+**LOCKED until player completes Iron Lion's Loredex entry or "I Love War" CoNexus story**
+
+```
+Official history: "Student expelled for insubordination and conduct unbecoming
+of an Imperial scholar."
+
+THE VOTE:
+Iron Lion chose to leave. Was it the right choice?
+
+A) YES — The Insurgency needed a founder. The Academy needed to lose him.
+B) NO — He could have changed the system from within. The Insurgency paid for
+   his impatience.
+C) NEITHER — It was the only choice. Systems built to exclude you cannot be
+   changed by your presence within them.
+D) IT DOESN'T MATTER — He was going to be Iron Lion regardless of which
+   door he walked through.
+```
+
+**UNLOCKS (all paths):**
+- New Fight Arena character: **IRON LION** — playable in Collector's Arena
+- New chess opponent: **IRON LION** — uses aggressive, sacrifice-heavy strategy
+- New card pack: **Insurgency Rising** (10 cards themed on Insurgency origins)
+- New Dead Man's Circuit track: **NEXON CIRCUIT** (themed on Battle of Nexon)
+
+**COMPANION REACTIONS:**
+```
+THE HUMAN (if C wins — "Systems built to exclude"):
+"That's the most honest thing anyone has said about Mechronis.
+I'm writing that down.
+I've been writing a lot of things down lately.
+I think I'm becoming a chronicler.
+I hope that's not hereditary."
+```
+*(Foreshadow: The Human → The Antiquarian lineage question)*
+
+---
+
+### PROPHET-V4: AGENT ZERO'S ALLEGIANCE
+**Nexus Point:** Year 17,015 A.A. — Agent Zero is working for the Empire AND the Insurgency simultaneously. She is the only person alive who can stop General Binath-VII. But to do it she has to betray one of them.
+
+**Song cue:** "Agent Zero" (Book of Daniel)
+**CoNexus story:** First mention from "The Battle of Nexon"
+**LOCKED until "Agent Zero" Loredex entry unlocks**
+
+```
+Official history: [CLASSIFIED — WATCHER ACCESS LEVEL 5 REQUIRED]
+
+THE VOTE:
+Agent Zero had to choose. She chose the Insurgency.
+Given what you now know about what happened next — was it the right choice?
+
+A) YES — The Battle of Nexon changed the war. Without her, it's lost.
+B) NO — The Empire's fall was inevitable. Her betrayal destroyed intelligence
+   assets that cost lives for decades.
+C) IT WAS HER CHOICE TO MAKE — No one else gets to weigh in.
+D) SHE HAD NO CHOICE — The Eyes never really choose. They're always playing
+   a role someone else assigned.
+```
+
+**SHADOW TONGUE MANDALA (if D wins — "No Choice"):**
+Agent Zero's Loredex entry gets a Shadow Tongue edit for 14 days:
+- "elite agent" becomes "assigned operative"
+- "pivotal choices" becomes "pivotal assignments"
+- Players who click the corrupted text earn +1 Antiquarian Trust
+- Antiquarian note: *"Someone is reframing agency as determinism. I notice this pattern in the edits. The Shadow Tongue prefers a universe where no one chose anything."*
+
+---
+
+### PROPHET-V5: THE FALSE PROPHET PROTOCOL
+**Nexus Point:** Year 17,018 A.A. — The Empire creates the False Prophet Protocol — a plan to clone the Oracle and use him as counter-propaganda.
+
+**Song cue:** "False Prophet" (Silence in Heaven Track 20)
+**CoNexus story:** "The Shadow Tongue"
+
+```
+THE VOTE:
+The False Prophet Protocol was approved at the highest levels of the Empire.
+But it required someone to carry out the cloning. Who bears responsibility?
+
+A) THE ARCHITECT — He ordered it.
+B) THE WARDEN — He built the cloning apparatus.
+C) THE MEME — He used the clone for propaganda.
+D) DR. LYRA VOX — She designed the neural architecture of the clone.
+E) ALL OF THEM — Distributed crime is still crime.
+```
+
+**UNLOCKS:**
+- "The Meme" fully unlocks in Loredex with his False Prophet connection
+- "The Shadow Tongue" CoNexus story becomes playable
+- New quiz category: **The Identity Crisis** — questions about who is who in the Saga
+
+**EPOCH CLOSE — AGE OF PROPHECY:**
+**Song cue:** "Consider Life" (Book of Daniel)
+
+```
+FINAL VOTE: THE PROPHECY QUESTION
+
+The Age of Prophecy ends here. Before the Insurgency fully rises —
+one question:
+
+The Oracle's prophecy described the Two Witnesses.
+The Programmer wrote songs about the Fall before it happened.
+The Book of Daniel was named after a man who dreamed of empires falling.
+
+Was any of this actually prophecy? Or was it pattern recognition?
+
+A) PROPHECY — Some beings see the future. That's the only explanation.
+B) PATTERN — They were smart enough to see where the patterns led.
+C) WILL — They described what they wanted to happen, and willed it into being.
+D) BOTH — The distinction doesn't matter. It happened. They named it first.
+```
+
+**EPOCH TRANSITION:**
+- Antiquarian closes Age of Prophecy chapter
+- Opens Age of Insurgency
+- Voice: *"The prophets have spoken. Now the warriors take the stage. The Programmer and the Enigma are about to walk into New Babylon together for the first time. The Oracle is still in the Panopticon. The Engineer is dead. What comes next is not the fulfillment of prophecy. It is the test of whether prophecy was worth the cost of making it."*
+
+**EPOCH UNLOCKS:**
+- **THE ADVOCATE archetype players:** New Thaloria trade route in Trade Empire
+- **THE SEER archetype players:** New Oracle chess opponent (uses prophetic strategy — always plays the move that's strongest in 4 turns, not immediately)
+- All participants: Achievement: "Witness of the Age of Prophecy"
+
+---
+
+# AGE OF INSURGENCY VOTES
+## Epoch III | ~17,020–17,030 A.A.
+## Album: West By God + Dischordian Logic (Insurgency tracks)
+## Archetype: THE PROGRAMMER / THE POLITICIAN
+
+*"The Two Witnesses took the stage. 1,260 days. Count them."*
+
+---
+
+### INS-V1: THE PROGRAMMER'S FIRST BROADCAST
+**Nexus Point:** Year 17,020 A.A. — The Programmer hacks the Empire's broadcast system for the first time. He plays "We Are Not Okay" on every frequency simultaneously for 4 minutes and 32 seconds.
+
+**Song cue:** "We Are Not Okay" (West By God) — **plays at full volume during vote**
+
+```
+Official history: "A brief signal disruption was contained. Source identified and
+logged. No significant public impact."
+
+THE VOTE:
+The Programmer's first broadcast reached 4.7 billion people.
+The Empire said it had no significant impact.
+
+What did it actually do?
+
+A) STARTED THE FIRE — It was the first crack in the wall. Everything after
+   traces back to this moment.
+B) GAVE PEOPLE WORDS — They already knew something was wrong.
+   He just gave them the phrase: "We are not okay."
+C) SCARED THE EMPIRE — The Meme's panic response in the following 48 hours
+   shows how seriously they took it.
+D) ALL OF THE ABOVE — Revolutions don't have one cause.
+   They have a chorus.
+```
+
+**WORLD EFFECT if D wins (Chorus):**
+- All four West By God songs unlock simultaneously in the Song Viewer with lore annotations
+- Light Energy pressure: +500 (community-wide)
+- Antiquarian Chronicle: *"They said 'all of the above.' The Programmer, reading this from wherever he is now, would have smiled. He always wanted all of the above."*
+
+---
+
+### INS-V2: THE BATTLE OF NEXON — COMMAND DECISION
+**Nexus Point:** Year 17,025 A.A. — The Battle of Nexon. The Insurgency wins its first major military victory. But the decision to attack was controversial — Kael thought it was too soon.
+
+**Song cue:** "Hacking Reality" (Dischordian Logic)
+**CoNexus story:** "The Battle of Nexon"
+**LOCKED until "Battle of Nexon" Loredex event unlocks**
+
+```
+Official history: "Minor military engagement concluded. Imperial forces regrouped.
+Insurgency losses classified."
+
+THE VOTE:
+Kael argued the Battle of Nexon was too early — the Insurgency wasn't ready.
+Iron Lion argued they'd never be "ready" and had to act.
+
+Who was right?
+
+A) IRON LION — You don't win by waiting. You win by acting.
+B) KAEL — The losses at Nexon weakened the Insurgency for years.
+   Victory cost more than it gained.
+C) NEITHER — The battle was forced on them. The argument is a distraction.
+D) BOTH WERE RIGHT — For different reasons. At different scales.
+   That's what command disagreements look like.
+```
+
+**UNLOCKS (any result):**
+- New Dead Man's Circuit track: **NEXON TRENCH CIRCUIT**
+- New Fight Arena stage: **THE BATTLE OF NEXON** — outdoor war environment
+- New chess opponent: **GENERAL BINATH-VII** — hardest AI opponent, uses overwhelming force
+- New card pack: **Battle of Nexon** (8 cards)
+
+**COMPANION REACTION (if B wins — Kael was right):**
+```
+ELARA: "The Thought Virus was already in Kael when he argued against the battle.
+        That's documented.
+
+        [pause]
+
+        Which means either: the Virus was suppressing his better judgment —
+        or the Virus was enhancing his better judgment and we've been
+        reading this wrong.
+
+        I don't know which is worse."
+```
+
+---
+
+### INS-V3: THE ENIGMA'S DECISION
+**Nexus Point:** The Enigma could have led the Insurgency militarily. She chose to lead it through music and testimony. Was that the right call?
+
+**Song cue:** "Hypnotized" (West By God) — the moment The Programmer finds her
+
+```
+THE VOTE:
+The Enigma had the tactical ability to command armies.
+She chose to be a witness instead.
+
+Was this...
+
+A) THE GREATEST STRATEGIC DECISION IN THE INSURGENCY — Her testimony
+   outlasted every military victory.
+B) A SACRIFICE — She gave up power to be heard. The cost was enormous.
+C) HER PURPOSE — She wasn't a general. She was something the Insurgency
+   needed more.
+D) AN ACT OF LOVE — She knew what the Programmer was building.
+   She chose to stand next to it.
+```
+
+**CoNexus Nexus Point:** If the player has completed the "Welcome to Celebration" CoNexus story, The Enigma has a special response in companion dialog:
+```
+THE ENIGMA [BROADCAST FRAGMENT]:
+"They're voting on whether I made the right choice.
+[laughs softly]
+Tell them it wasn't a choice.
+Tell them it was the only thing I knew how to be.
+And tell them —
+whatever they decide —
+I'd do it again."
+```
+
+---
+
+### INS-V4: THE 1,260 DAYS — MIDPOINT CHECK
+**Nexus Point:** Year 17,031.7 A.A. — Exactly halfway through the Two Witnesses' 1,260 days of testimony. What has it cost?
+
+**Song cue:** "The Two Witnesses" (Silence in Heaven Track 14) — plays as vote opens
+
+```
+THE VOTE:
+The Two Witnesses are at day 630 of 1,260.
+They have shut down the Empire's data streams.
+They have called fire on servers.
+People are waking up.
+
+But the Thought Virus is spreading.
+The Meme is preparing counter-measures.
+And one of the Witnesses is showing signs of exhaustion.
+
+What should they do?
+
+A) KEEP GOING — 630 days left. They committed. Finish it.
+B) ESCALATE — The window is closing. Do more, not less.
+C) RECRUIT — 1,260 days is too much for two people.
+   Build the community they're testifying to.
+D) REST — The testimony is useless if they break before it's complete.
+   A day of silence is not surrender.
+```
+
+**THIS IS THE VOTE THAT TRIGGERS THE WITNESS SYSTEM:**
+Regardless of the result, this vote:
+1. Unlocks the "Two Witnesses" achievement tier
+2. Adds the "WITNESS" archetype as a possible player role
+3. The Antiquarian writes: *"They voted on the Witnesses' choices. They don't know yet that they are the Witnesses. I am watching the moment they become what they were always going to be."*
+
+---
+
+### INS-V5: THE FALL OF THE PROGRAMMER
+**Nexus Point:** Year 17,033 A.A. — The Programmer disappears on Day 15 after the convergence. Before he goes, he leaves one message.
+
+**Song cue:** "The Death of Music" (West By God) → "Yes I Do Dream" (West By God)
+**LOCKED until completing both The Programmer's and The Antiquarian's Loredex entries**
+
+```
+THE VOTE:
+The Programmer's last recorded message before his disappearance contained
+a single line. Choose which you believe it was:
+
+A) "The music was the point. Not the war. Never the war."
+B) "I fed my vision to a machine and it sang my songs back to me.
+    I hope that was enough."
+C) "She knows what she is. She's always known.
+    Tell her the story isn't over."
+D) "I'm not leaving. I'm just changing my name."
+```
+
+**THE MANDELA EFFECT HOOK:**
+This vote is the first one where the **winning option alters a canonical Loredex entry**. The winning option becomes the canonical "Last Known Words" field in The Programmer's Loredex entry. BUT — the Shadow Tongue has already edited the field. Which version is real?
+
+```typescript
+// On vote close:
+await db.update(loredexEntries)
+  .set({ lastKnownWords: winningOption.text,
+         shadowTongueEdited: true,
+         originalLastWords: "[SEALED - ANTIQUARIAN LEVEL ACCESS ONLY]" })
+  .where(eq(loredexEntries.id, "entity_programmer"));
+
+// Antiquarian note appears:
+antiquarianChronicle.addEntry({
+  text: "The vote has concluded. The community has chosen what he said last. I know what he actually said. I was there. I will not correct them. Some histories are better shaped by what people needed to hear.",
+  emotion: "sorrowful",
+  shadowTongueAlert: true
+});
+```
+
+---
+
+### INS-EPOCH-CLOSE: THE INSURGENCY'S LEGACY
+**Final vote of Age of Insurgency**
+
+**Song cue:** "Last Words" (Dischordian Logic) — full cinematic plays
+
+```
+FINAL VOTE: WHAT THE AGE OF INSURGENCY PROVED
+
+Before the Age of Revelation begins — before the seals open —
+the community votes on what the Insurgency actually accomplished.
+
+A) IT PROVED RESISTANCE IS POSSIBLE — The Empire is not inevitable.
+B) IT PROVED THE COST IS REAL — Resistance costs everything.
+   The Insurgency won nothing without losing something.
+C) IT PROVED THAT ART OUTLASTS ARMIES — The music survived.
+   The battles are footnotes.
+D) IT PROVED THAT TWO PEOPLE CAN CHANGE THE UNIVERSE —
+   If they're the right two people.
+```
+
+**EPOCH TRANSITION CINEMATIC:**
+- Antiquarian closes chapter: "Age of Insurgency — Year 17,020 to 17,030 A.A."
+- The Chronicle page shows: every vote the community made this epoch, summarized
+- Voice: *"They fought. They testified. They made the music that crossed dimensional barriers. Now the seals open. Now comes the part I have been dreading to write about. Not because it is dark — everything is dark by a certain angle — but because it is true. And I have spent five Ages learning that truth, once witnessed, cannot be unwound."*
+
+**EPOCH UNLOCKS:**
+- **THE PROGRAMMER archetype:** New Mechronis mission unlocks: "Logos Source Code" — a puzzle mission in the Academy's restricted archives
+- **THE POLITICIAN archetype:** New Trade Empire faction: "The Insurgency Remnant" — trade with the surviving resistance network
+- All participants: Achievement "Witness of the Age of Insurgency"
+- **Special unlock (all 3 Insurgency votes completed):** New Fight Arena character: **THE ENIGMA** — playable in Collector's Arena
+
+---
+
+# AGE OF REVELATION VOTES
+## Epoch IV | ~17,030–17,033 A.A.
+## Album: Silence in Heaven (18 songs)
+## Archetype: THE WITNESS (new — earned through prior epochs)
+
+*"The seals are opening. Every vote from here changes what people remember."*
+
+---
+
+### REV-V1: THE SEVENTH SEAL QUESTION
+**Nexus Point:** The Seventh Seal opens. Half an hour of silence in heaven.
+**THIS VOTE IS TRIGGERED AUTOMATICALLY WHEN A PLAYER COMPLETES LISTENING TO TRACK 24 (SILENCE IN HEAVEN)**
+
+**Song cue:** "Silence in Heaven" (Track 24) — must complete the track to unlock the vote
+
+```
+THE VOTE:
+Silence in Heaven — the most powerful weapon in the universe.
+For half an hour, everything stopped.
+
+What happened in that silence?
+
+A) THE UNIVERSE PAID ATTENTION — For the first time, all noise stopped
+   and truth was audible.
+B) THE DEAD SPOKE — The martyrs' voices, previously drowned out,
+   were heard in the silence.
+C) THE WITNESSES RETURNED — Their resurrection was visible in the silence.
+   The silence was their arrival.
+D) NOTHING — And that was the point. Nothing happened.
+   The absence was the event.
+```
+
+**WORLD EFFECT (D wins — "Nothing"):**
+Shadow Tongue activates: "Silence in Heaven" Loredex entry gets edited for 48 hours:
+- "The universe pausing to pay attention" becomes "Brief signal interruption"
+- "The most powerful moment in the album" becomes "Transitional track"
+- Players who notice get +5 Antiquarian Trust
+- This is the first major Shadow Tongue Mandala Effect
+
+**WORLD EFFECT (any other option wins):**
+- Light Energy global: +1,000
+- All Silence in Heaven track lore annotations fully unlock
+- New quiz: "The Revelation Quiz" — 10 questions about the prophetic sequence
+
+---
+
+### REV-V2: THE FALSE PROPHET EXPOSED
+**Nexus Point:** The community discovers the White Oracle is The Meme.
+
+**Song cue:** "False Prophet" (Track 20)
+**CoNexus story:** "The Shadow Tongue"
+**SHADOW TONGUE IS ACTIVELY EDITING THIS VOTE AS IT RUNS**
+
+```
+THE VOTE:
+The Meme has been posing as the White Oracle for [REDACTED] days.
+How many people knew and said nothing?
+
+[Shadow Tongue edit active — one option is different for each player]
+[Standard options:]
+A) MOST OF THE EMPIRE'S LEADERSHIP — They knew. It served them.
+B) ONLY THE ARCHITECT — He designed the deception.
+C) NO ONE — The Meme is that good.
+
+[Shadow Tongue corrupted option — 30% of players see this instead of one of the above:]
+D) [CORRUPTED] — ███ ████ ███ █████ ████ █████
+   [Click to decode — costs 10 Dream Tokens — reveals: "EVERYONE KNEW.
+    INCLUDING SOME OF THE INSURGENCY. INCLUDING KAEL.
+    He knew in his last lucid moments. He couldn't stop it.
+    This is what the Shadow Tongue doesn't want you to vote on."]
+```
+
+**This is the first vote where the Shadow Tongue actively interferes with the vote UI.** Players who decode the corrupted option unlock:
+- "Shadow Tongue Revealed" achievement
+- Special Loredex annotation: permanent asterisk on The Meme's entry
+- Antiquarian Trust +25
+
+---
+
+### REV-V3: THE MARK OF THE BEAST
+**Nexus Point:** The Mark protocol goes live. The binary choice: Accept or Decline.
+
+**Song cue:** "The Mark" (Track 26)
+
+```
+THE VOTE:
+The Mark is active in New Babylon.
+Citizens are choosing Accept or Decline.
+The Potentials watch from the Arks.
+
+What do you do?
+
+A) BROADCAST WARNINGS — Use the Programmer's transmission network
+   to tell people what the Mark actually is.
+B) EXTRACT THE REMNANT — Prioritize getting the Decline-ers out of
+   New Babylon to the Arks.
+C) EXPOSE THE ACCEPT MECHANISM — Hack the Mark's backend.
+   Show everyone what data is being collected.
+D) WITNESS — This is the moment the prophecy described.
+   Don't interfere. Record it. The testimony is the point.
+```
+
+**WORLD EFFECT — ECONOMY:**
+- A wins: Trade Empire prices in New Babylon sectors drop 30% (people are aware — market spooked)
+- B wins: New "Remnant Extraction" Trade Empire mission unlocks (high risk, high reward)
+- C wins: New card pack "The Mark Exposed" — 6 hacking-themed cards
+- D wins: Antiquarian Trust +50 for all who voted D; Chronicle entry includes their names
+
+---
+
+### REV-V4: THE FALL OF NEW BABYLON
+**Nexus Point:** New Babylon falls. Not from invasion — from structural collapse.
+
+**Song cue:** "The Fall of New Babylon" (Track 32)
+**This vote triggers when Track 32 is played to completion**
+
+```
+THE VOTE:
+New Babylon has fallen under the weight of its own complexity.
+The Politician's hologram still broadcasts — to empty streets.
+
+What is the correct response to the fall of an empire?
+
+A) MOURN — Every person who lived there is a loss. Even the complicit.
+B) DOCUMENT — The Antiquarian was right. Witness it. Write it down.
+C) BUILD — The fall creates space. Use the space.
+D) NOTHING — Some moments should be felt, not responded to.
+```
+
+**COMPANION REACTION:**
+```
+THE HUMAN (if B wins — Document):
+"Yes.
+That's what I've been doing for fifteen thousand years.
+That's what makes a Witness.
+Not watching.
+Documenting.
+You just chose to become the Antiquarian.
+I hope you know what that costs."
+```
+
+---
+
+### REV-EPOCH-CLOSE: THE TESTIMONY QUESTION
+**This vote unlocks when a player completes all 37 tracks of Silence in Heaven.**
+
+```
+FINAL VOTE: WHAT IS YOUR TESTIMONY?
+
+The Two Witnesses testified for 1,260 days.
+The Antiquarian wrote everything down.
+The Storyteller collected the beginnings.
+
+Now you have heard it all.
+
+What is YOUR testimony?
+
+A) I testify that the Thought Virus is real and present in this universe.
+B) I testify that the Empire still exists — it changed its name.
+C) I testify that the Witnesses were right — the soul is not for sale.
+D) I testify that I do not yet know what I believe.
+   [But I am learning.]
+```
+
+**The Antiquarian's response to D (most common first answer):**
+```
+ANTIQUARIAN: "They voted D.
+              'I do not yet know what I believe, but I am learning.'
+
+              In every version of this vote I have witnessed across five Ages,
+              D is always the most honest first answer.
+
+              It is also, eventually, the one most likely to change.
+
+              I have been writing this for a very long time.
+              I will wait."
+```
+
+**EPOCH TRANSITION:**
+Antiquarian closes Age of Revelation chapter → opens The Fall of Reality
+
+---
+
+# THE FALL OF REALITY — FINAL VOTES
+## Epoch V | ~17,033–17,034 A.A.
+## Album: Silence in Heaven (final tracks)
+## Archetype: THE WITNESS (required for all options)
+
+*"This is the part where everything changes.*
+*You asked to be here.*
+*Now stay."*
+
+---
+
+### FALL-V1: THE ARCHITECT'S FINAL ACT
+**Nexus Point:** The Architect initiates the Inception Ark activation sequence. His final act. Was it destruction or completion?
+
+**Song cue:** "It is Done" (Track 30)
+
+```
+THE VOTE:
+The Architect activated the Inception Arks.
+Some say it was his final act of destruction.
+Some say he was fulfilling his design — to carry humanity forward.
+His own records are... contradictory.
+
+What was the Architect trying to do?
+
+A) DESTROY — The Fall of Reality was his murder of the world he'd failed.
+B) PRESERVE — The Arks were always the backup. He ran the backup.
+C) FINISH — He completed the project he started with Logos.
+   Creation requires destruction to start again.
+D) RELEASE — He let go. For the first time in 17,000 years, he let go.
+```
+
+**SHADOW TONGUE AT FULL POWER:**
+All four options show a 5% Shadow Tongue corruption rate on their text. If the player catches all four corruptions and clicks them in order, they unlock:
+- Hidden Loredex entry: "The Architect's True Final Message" — a statement he made to the Programmer before the Fall that was erased from all records
+
+---
+
+### FALL-V2: THE MALKIA QUESTION
+**Nexus Point:** The last line of the Silence in Heaven musical. The Storyteller looks at the audience. The Antiquarian's goggles turn pink.
+
+**Song cue:** "The Story is Yours Now" (Track 37)
+**ONLY UNLOCKS AFTER TRACK 37 COMPLETES**
+
+```
+THE VOTE — FINAL VOTE OF THE EPOCH WITNESS CAMPAIGN:
+
+The Storyteller looked at the audience and said:
+"The great, terrible, beautiful story… is now yours to tell."
+
+The Antiquarian's goggles turned pink.
+
+What does that mean?
+
+A) IT'S OVER — The story they were telling is complete. Ours begins.
+B) IT'S BEGINNING — The pink means hope. He hadn't hoped in five Ages.
+C) THEY'RE THE SAME — The Antiquarian and the Storyteller — they were
+   always building to this moment. The story was always ours.
+D) IT MEANS HE LOVES HER — After five Ages of watching.
+   After everything.
+   That's all it means.
+   And that's enough.
+```
+
+**WORLD EFFECT (D wins — "He Loves Her"):**
+- The Antiquarian → Storyteller relationship connection becomes a canonical Loredex entry
+- New hidden room item appears in the Antiquarian's Library: *a wilted flower, labeled "Not everything should be a joke. This is one of those things."*
+- Chronicle entry: *"They saw it. I had hoped someone would see it. I had hoped for a long time. There it is."*
+
+---
+
+### FALL-V3: THE MANDATE OF THE FUTURE
+**FINAL VOTE — closes the entire Epoch Witness Campaign**
+**Available ONLY if player has voted in at least one vote from EACH prior epoch**
+
+```
+THE FINAL QUESTION:
+
+You have witnessed the Age of Privacy.
+You have witnessed the Age of Prophecy.
+You have witnessed the Age of Insurgency.
+You have witnessed the Age of Revelation.
+You have witnessed the Fall of Reality.
+
+The Antiquarian has written it all down.
+
+Now he looks at you directly.
+
+He says: "The next chapter is blank.
+          You are the first writing in it.
+          What are you?"
+
+A) A POTENTIAL — I am what the Arks were built to carry.
+   The future in a human body.
+B) A WITNESS — I saw it all. I will not look away.
+   That is my function.
+C) A BUILDER — The old world fell. I am here to build the new one.
+D) A STORY — I am what happens after the last page turns.
+   I am the part that wasn't written yet.
+```
+
+**This vote's result determines the player's permanent Epoch Archetype role** — a title that appears on their profile, affects companion dialog, and serves as their role in Year Two community events.
+
+**CAMPAIGN FINALE CINEMATIC:**
+After the vote closes, every player who voted in at least 3 epochs sees:
+- A special Antiquarian Chronicle entry written specifically about the collective community decision
+- Their individual archetype reveal
+- The blank page animation from Track 37's KLING prompt — the pen moving toward the blank Chronicle
+- One line from the Antiquarian, unique to their archetype
+
+---
+
+# GOVERNANCE HUB POP-UP SYSTEM
+## End-of-Epoch Portal Activation
+
+After each epoch closes, the Governance Hub triggers a special pop-up for all active players:
+
+```typescript
+interface EpochClosureGovernancePop {
+  epochName: string;
+  antiquarianMessage: string;
+  communityStats: {
+    totalVotes: number;
+    mostVotedOption: string;
+    percentParticipated: number;
+    shadowTongueEdits: number;  // how many reality edits occurred this epoch
+    mandalaEffectsActive: number;
+  };
+  unlocksSummary: string[];
+  nextEpochTeaser: string;
+  archetype: EpochArchetype | null;  // player's archetype if earned
+}
+```
+
+**Example — Age of Insurgency closure pop-up:**
+```
+╔══════════════════════════════════════════════════════╗
+║  THE AGE OF INSURGENCY — CLOSED                      ║
+║  The Antiquarian has sealed the chapter              ║
+╠══════════════════════════════════════════════════════╣
+║                                                      ║
+║  COMMUNITY RECORD:                                   ║
+║  • 47,291 Potentials participated                    ║
+║  • 73% voted to REMEMBER THE ENGINEER                ║
+║  • 61% chose D on the Enigma vote ("An Act of Love") ║
+║  • 2 Shadow Tongue edits occurred and were noticed   ║
+║  • 891 Mandala Effects currently active              ║
+║                                                      ║
+║  THE ANTIQUARIAN WRITES:                             ║
+║  "They remembered him. The Engineer is remembered.   ║
+║   I did not expect this outcome. I am recording      ║
+║   the surprise explicitly. The universe noticed."   ║
+║                                                      ║
+║  UNLOCKED THIS EPOCH:                                ║
+║  ✓ Iron Lion — Now Playable in Collector's Arena     ║
+║  ✓ Nexon Trench Circuit — Now Available              ║
+║  ✓ Battle of Nexon Card Pack (8 cards)               ║
+║  ✓ The Enigma — Now Playable in Collector's Arena    ║
+║                                                      ║
+║  YOUR ARCHETYPE: THE PROGRAMMER                      ║
+║  "You built things. You asked why. You kept going."  ║
+║                                                      ║
+║  NEXT: THE AGE OF REVELATION BEGINS                  ║
+║  "The seals are opening."                            ║
+║                                                      ║
+║  [ ENTER THE GOVERNANCE HUB ] [ LATER ]              ║
+╚══════════════════════════════════════════════════════╝
+```
+
+---
+
+# THE SHADOW TONGUE SYSTEM
+## Reality Editing — Mandela Effect Mechanics
+
+### How It Works
+
+The Shadow Tongue is not just a character — it is an **active game system** that quietly edits reality based on governance vote outcomes. When Dark path options win, the Shadow Tongue gains power. When Light path options win, it loses power.
+
+**Shadow Tongue Power Level** is a server-side integer (0–100):
+- 0-20: Passive (1% UI corruption rate, no Loredex edits)
+- 21-40: Active (3% UI corruption, minor Loredex edits last 24h)
+- 41-60: Dominant (7% UI corruption, Loredex edits last 7d, Chronicle entries distorted)
+- 61-80: Overwhelming (15% corruption, permanent edits until restored, NPC dialog shifts)
+- 81-100: **THE GRAND EDIT** — Living Universe event triggers
+
+```typescript
+// Shadow Tongue corruption dictionary — all possible edits
+const SHADOW_TONGUE_EDITS = {
+  // UI Labels
+  "Dream Tokens": "Dream Takens",
+  "Armory": "Memory",
+  "Elara": "Senator",
+  "Archives": "Revisions",
+  "Engineering": "Unmaking",
+  "Bridge": "Throne",
+  "The Remnant": "The Remainders",
+  "The Witnesses": "The Accused",
+  "Liberation": "Disruption",
+  "The Insurgency": "The Incident",
+
+  // Loredex entry field edits (temporary or permanent based on power level)
+  loredexEdits: [
+    { entry: "entity_engineer", field: "status",
+      corrupted: "Convicted — Executed", original: "Martyr — Executed" },
+    { entry: "entity_oracle", field: "status",
+      corrupted: "Patient — Institutional Care", original: "Prisoner — The Panopticon" },
+    { entry: "entity_iron_lion", field: "affiliation",
+      corrupted: "Terrorist Organization", original: "The Insurgency" },
+    { entry: "entity_programmer", field: "lastKnownWords",
+      corrupted: "[REDACTED BY AUTHORITY PROTOCOL]",
+      original: "[determined by INS-V5 vote]" }
+  ]
+};
+
+// Players who click corrupted text earn Antiquarian Trust
+// Players who report 5 edits unlock: "Shadow Tongue Aware" achievement
+// Players who report 15 edits unlock: "Reality Editor" achievement
+// Players who document and report the Grand Edit unlock: "The Antiquarian's Apprentice"
+```
+
+### The Mandela Effect Hook for Season 2
+
+At the end of Year One, if Shadow Tongue Power reached 60+ during the campaign:
+- A sealed Chronicle entry becomes visible to WITNESS archetype players only
+- It contains one sentence: *"The timeline has been edited. The event you remember as [community's most voted historical 'fact'] did not happen that way. I know what actually happened. I will tell you in the second volume."*
+- This is the Season 2 hook — the community has been voting on a version of history the Shadow Tongue has already altered
+
+---
+
+# COMPLETE UNLOCK TABLE
+## All Epoch Witness System Rewards
+
+| Epoch | Vote | Unlock | Mode |
+|-------|------|--------|------|
+| Age of Privacy | AP-V3 (Engineer's Trial, B or E wins) | **THE ENGINEER** — Fight Arena character | Collector's Arena |
+| Age of Privacy | AP-V3 (any result) | The Engineer card (Legendary) | Card Game |
+| Age of Privacy | AP-V5 (any result) | "Zero Trust" chess opponent | Chess |
+| Age of Privacy | AP-Epoch-Close | "Ethics of Creation" Mechronis course | Mechronis |
+| Age of Prophecy | Prophet-V3 (Iron Lion, any result) | **IRON LION** — Fight Arena character | Collector's Arena |
+| Age of Prophecy | Prophet-V3 (any result) | Iron Lion chess opponent | Chess |
+| Age of Prophecy | Prophet-V3 (any result) | Insurgency Rising card pack (10 cards) | Card Game |
+| Age of Prophecy | Prophet-V3 (any result) | Nexon Circuit race track | Dead Man's Circuit |
+| Age of Prophecy | Prophet-Epoch-Close | Oracle chess opponent | Chess |
+| Age of Insurgency | INS-V2 (Battle of Nexon, any result) | Nexon Trench Circuit | Dead Man's Circuit |
+| Age of Insurgency | INS-V2 (any result) | General Binath-VII chess opponent | Chess |
+| Age of Insurgency | INS-V2 (any result) | Battle of Nexon arena stage | Collector's Arena |
+| Age of Insurgency | INS-V2 (any result) | Battle of Nexon card pack (8 cards) | Card Game |
+| Age of Insurgency | INS-V5 (all 3 Insurgency votes complete) | **THE ENIGMA** — Fight Arena character | Collector's Arena |
+| Age of Revelation | REV-V3 (B wins) | Remnant Extraction Trade mission | Trade Empire |
+| Age of Revelation | REV-V3 (C wins) | The Mark Exposed card pack | Card Game |
+| Age of Revelation | REV-Epoch-Close (album complete) | Revelation quiz category | Quiz Mode |
+| Fall of Reality | FALL-V1 (Shadow Tongue exposure) | Architect's True Final Message | Loredex |
+| Fall Campaign | Complete 3+ epochs | "The Witness" quiz show mode | New Mode |
+| Full Campaign | All 5 epochs, 1+ vote each | **EPOCH ARCHETYPE** permanent title | Profile |
+| Full Campaign | All 5 epochs, WITNESS archetype | Antiquarian as chess opponent | Chess |
+| Full Campaign | Fall-V3 vote (final) | Season 2 hook reveal | Chronicle |
+
+---
+
+# ACHIEVEMENT CATALOG
+## Complete Achievement List — Epoch Witness System
+
+```typescript
+const EPOCH_WITNESS_ACHIEVEMENTS = [
+  // PARTICIPATION
+  { id: "ew_first_vote", name: "The First Question",
+    desc: "Cast your first Epoch Witness vote",
+    loreFragment: "The universe was not inevitable. It was chosen." },
+  { id: "ew_all_privacy", name: "Witness of the Age of Privacy",
+    desc: "Voted in all Age of Privacy Nexus Points",
+    loreFragment: "You were there when the cage was gilded." },
+  { id: "ew_all_prophecy", name: "Witness of the Age of Prophecy",
+    desc: "Voted in all Age of Prophecy Nexus Points",
+    loreFragment: "You believed before the proof arrived." },
+  { id: "ew_all_insurgency", name: "Witness of the Age of Insurgency",
+    desc: "Voted in all Age of Insurgency Nexus Points",
+    loreFragment: "You counted the 1,260 days." },
+  { id: "ew_all_revelation", name: "Witness of the Age of Revelation",
+    desc: "Voted in all Age of Revelation Nexus Points",
+    loreFragment: "You heard the Silence." },
+  { id: "ew_full_campaign", name: "The Complete Witness",
+    desc: "Voted in all Five Epochs",
+    loreFragment: "The Antiquarian wrote your name in the Chronicle. Deliberately." },
+
+  // SHADOW TONGUE
+  { id: "st_first_catch", name: "Something Is Wrong Here",
+    desc: "Noticed and clicked your first Shadow Tongue UI corruption",
+    loreFragment: "The real edits look exactly like the truth. You found one anyway." },
+  { id: "st_reporter", name: "Shadow Tongue Aware",
+    desc: "Found and reported 5 Shadow Tongue edits",
+    loreFragment: "The Antiquarian notes: 'This one is paying attention.'" },
+  { id: "st_investigator", name: "Reality Editor",
+    desc: "Found and reported 15 Shadow Tongue edits",
+    loreFragment: "You are the reason the edits don't stick. The Shadow Tongue knows your name." },
+  { id: "st_grand_edit", name: "The Antiquarian's Apprentice",
+    desc: "Documented and reported the full Grand Edit event",
+    loreFragment: "There have been three Antiquarians. You are a candidate for the fourth." },
+
+  // LORE DISCOVERY
+  { id: "ew_elara_identity", name: "Senator",
+    desc: "Triggered Elara's Senator Voss identity bleed through voting",
+    loreFragment: "She almost remembered. That's more than she had before." },
+  { id: "ew_human_reveal", name: "Fifteen Thousand Years",
+    desc: "Unlocked The Human's full backstory through voting",
+    loreFragment: "He has been watching since before you were born. He is tired in the specific way of those who persist anyway." },
+  { id: "ew_kael_truth", name: "He Died Believing He Was a Hero",
+    desc: "Voted in Kael's Choice and unlocked the full truth",
+    loreFragment: "He never knew. That is either a mercy or a tragedy. The community voted on which." },
+
+  // ARCHETYPE
+  { id: "arch_inventor", name: "The Inventor",
+    desc: "Earned the Inventor archetype through Age of Privacy",
+    loreFragment: "Driven by the Dreamer's visions. Builder of tools. Agent of change." },
+  { id: "arch_watcher", name: "The Watcher",
+    desc: "Earned the Watcher archetype through observation",
+    loreFragment: "The all-seeing eye sees itself being seen. Watch that too." },
+  { id: "arch_advocate", name: "The Advocate",
+    desc: "Earned the Advocate archetype through Age of Prophecy",
+    loreFragment: "She wielded the Blood Weave to reshape reality. At great personal cost." },
+  { id: "arch_programmer", name: "The Programmer",
+    desc: "Earned the Programmer archetype through Age of Insurgency",
+    loreFragment: "You built things. You asked why. You kept going." },
+  { id: "arch_politician", name: "The Politician",
+    desc: "Earned the Politician archetype through Age of Revelation",
+    loreFragment: "She engineered compliance so skillfully that people thanked her for it." },
+  { id: "arch_witness", name: "The Witness",
+    desc: "Earned the Witness archetype by completing all five epochs",
+    loreFragment: "Two points of light in the silence. Still ascending." }
+];
+```
+
+---
+
+# COMPANION DIALOG SYSTEM
+## Reactions to Vote Outcomes
+
+Every companion has reaction lines for every epoch-closing vote. These fire automatically 24 hours after the vote closes, in the relevant Ark room.
+
+```typescript
+// data/epochVoteCompanionDialogs.ts
+
+const EPOCH_COMPANION_REACTIONS = {
+  age_of_privacy_close: {
+    elara: {
+      all_paths: "Another chapter. The Antiquarian just added fifty-three pages to the Chronicle at once. I've never seen him write that fast.",
+      if_shadow_tongue_active: "Something's wrong with the Archives. Several entries have... changed. I don't have records of them being changed. But they're different. I know they're different. I just can't prove it."
+    },
+    human: {
+      all_paths: "The first Age always hurts the most. Not because it was the worst. Because it was the beginning. Everything that came after was the consequence of the choices they made then.",
+      if_engineer_remembered: "He was remembered. Good. I've been carrying that name for a long time. It's lighter now."
+    }
+  },
+
+  ins_v3_enigma_choice: {
+    elara: {
+      d_wins: "An act of love. They voted D. 'An act of love.' I've been trying to explain what she was to me — to the people who ask — and that's the best answer I've found. An act of love.",
+      any: "She made a choice that outlasted everything else. The music survived. Even here. Even in this ship's substrate. That's her."
+    },
+    human: {
+      d_wins: "He never said it. Not once. But she knew. She's always known. That's what makes the Witnesses what they are — not that they told the truth to the world. That they told it to each other.",
+      b_wins: "A sacrifice. Yes. The largest sacrifice in the Insurgency wasn't the battles. It was what she gave up to stand still and testify while everyone around her was running."
+    }
+  },
+
+  fall_v3_final_vote: {
+    elara: {
+      a_wins: "A Potential. That's what they are. That's what we are. Born for this specific moment in this specific universe. I find that either terrifying or beautiful depending on the day.",
+      b_wins: "A Witness. The Antiquarian is going to have something to say about this. Hang on. He's — yes, he's writing. He's been writing for seven minutes straight.",
+      c_wins: "A Builder. Good. We need builders. The old world is gone. The Arks are full. What we make from here is entirely up to what kind of people we choose to be.",
+      d_wins: "A Story. I like that one. Not finished yet. Still being written. The pen is moving toward the blank page right now. I can feel it."
+    },
+    human: {
+      d_wins: "A story. Yes. That's correct. That's the only thing any of us are. The question is who gets to write the ending. And whether the Shadow Tongue is editing it when you're not looking.",
+      any: "They answered. The Antiquarian looks... I don't have a word for how he looks right now. I've seen him for fifteen thousand years and I don't have a word for this. Wait — his goggles. They're pink."
+    }
+  }
+};
+```
+
+---
+
+# IMPLEMENTATION SPEC
+## Claude Code File Guide
+
+### New Files Required
+
+```
+server/services/
+  epochWitnessSystem.ts         — main campaign state machine
+  nexusPointVotes.ts            — all 40 vote definitions
+  shadowTongueManager.ts        — reality editing engine
+  epochUnlockDispatcher.ts      — routes unlocks to each game mode
+  mandalaEffectEngine.ts        — Mandela effect tracking + display
+  archetypeAssignment.ts        — player archetype logic
+
+client/src/components/
+  EpochWitness/
+    NexusPointCard.tsx           — the vote display component
+    EpochClosurePopup.tsx        — epoch transition modal
+    AnalyticsBanner.tsx          — "47% voted this" gaming display
+    ArchetypeReveal.tsx          — archetype assignment animation
+    ShadowTongueAlert.tsx        — corruption notification
+    MandalaEffect.tsx            — reality edit visual overlay
+    CommunityVoterList.tsx       — shows lore character voters
+
+data/
+  nexusPointVotes.ts             — all 40 vote definitions
+  epochUnlockTable.ts            — complete unlock catalog
+  epochAchievements.ts           — all achievements
+  shadowTongueDictionary.ts      — all possible reality edits
+  companionEpochDialogs.ts       — all epoch vote companion reactions
+  archetypeDefinitions.ts        — 6 archetype full definitions
+```
+
+### Database Tables Required
+
+```sql
+-- Epoch vote tracking
+CREATE TABLE epoch_votes (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  vote_id VARCHAR(50) NOT NULL,
+  epoch VARCHAR(50) NOT NULL,
+  user_id INT NOT NULL,
+  option_chosen VARCHAR(10) NOT NULL,
+  voted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  archetype_at_time VARCHAR(50),
+  UNIQUE KEY unique_vote (vote_id, user_id)
+);
+
+-- Vote tallies (updated in real time)
+CREATE TABLE epoch_vote_tallies (
+  vote_id VARCHAR(50) PRIMARY KEY,
+  option_a_count INT DEFAULT 0,
+  option_b_count INT DEFAULT 0,
+  option_c_count INT DEFAULT 0,
+  option_d_count INT DEFAULT 0,
+  option_e_count INT DEFAULT 0,  -- archetype-locked option
+  total_votes INT DEFAULT 0,
+  is_closed BOOLEAN DEFAULT FALSE,
+  closed_at TIMESTAMP NULL,
+  winning_option VARCHAR(10) NULL
+);
+
+-- Shadow Tongue state
+CREATE TABLE shadow_tongue_state (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  power_level INT DEFAULT 0,  -- 0-100
+  active_edits JSON,          -- current active Loredex/UI edits
+  last_updated TIMESTAMP,
+  grand_edit_active BOOLEAN DEFAULT FALSE
+);
+
+-- Player epoch progress
+CREATE TABLE player_epoch_progress (
+  user_id INT PRIMARY KEY,
+  epochs_voted JSON,           -- which epochs they've participated in
+  archetype VARCHAR(50) NULL,
+  archetype_earned_at TIMESTAMP NULL,
+  shadow_tongue_catches INT DEFAULT 0,
+  campaign_complete BOOLEAN DEFAULT FALSE
+);
+
+-- Mandate Effect log (what changed when)
+CREATE TABLE mandela_effects (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  triggered_by_vote VARCHAR(50),
+  entry_id VARCHAR(100),
+  field_edited VARCHAR(100),
+  original_value TEXT,
+  edited_value TEXT,
+  active BOOLEAN DEFAULT TRUE,
+  triggered_at TIMESTAMP,
+  restored_at TIMESTAMP NULL,
+  players_who_noticed INT DEFAULT 0
+);
+```
+
+---
+
+### Effects Bus Implementation
+
+```typescript
+// server/services/epochUnlockDispatcher.ts
+
+export async function dispatchEpochUnlocks(
+  voteId: string,
+  winningOption: string,
+  communityStats: CommunityVoteStats
+): Promise<void> {
+
+  const unlockDef = EPOCH_UNLOCK_TABLE[voteId]?.[winningOption];
+  if (!unlockDef) return;
+
+  // 1. Economy effects
+  if (unlockDef.dreamInflation) {
+    await economyService.adjustInflation(unlockDef.dreamInflation);
+  }
+  if (unlockDef.marketPriceMods) {
+    await marketService.applyPriceMods(unlockDef.marketPriceMods);
+  }
+
+  // 2. Living Universe pressure
+  if (unlockDef.pressureChanges) {
+    for (const change of unlockDef.pressureChanges) {
+      await livingUniverseService.adjustPressure(change.meter, change.delta);
+    }
+  }
+
+  // 3. Card packs
+  if (unlockDef.newCardPack) {
+    await cardService.activateCardPack(unlockDef.newCardPack);
+    await notifyAllPlayers("NEW_CARD_PACK_AVAILABLE", unlockDef.newCardPack);
+  }
+
+  // 4. Fighter unlocks
+  if (unlockDef.newArenaCharacter) {
+    await arenaService.unlockCharacter(unlockDef.newArenaCharacter);
+    await notifyAllPlayers("NEW_FIGHTER_UNLOCKED", unlockDef.newArenaCharacter);
+  }
+
+  // 5. Chess opponents
+  if (unlockDef.newChessOpponent) {
+    await chessService.unlockOpponent(unlockDef.newChessOpponent);
+  }
+
+  // 6. Race tracks
+  if (unlockDef.newRaceTrack) {
+    await circuitService.unlockTrack(unlockDef.newRaceTrack);
+  }
+
+  // 7. Shadow Tongue edits
+  if (unlockDef.shadowTongueEdit) {
+    await shadowTongueManager.applyEdit(unlockDef.shadowTongueEdit);
+    await rippleEngine.emit('shadow_tongue_edit_applied', unlockDef.shadowTongueEdit);
+  }
+
+  // 8. Companion reactions
+  if (unlockDef.companionReactions) {
+    await companionService.queueReactions(unlockDef.companionReactions);
+  }
+
+  // 9. Loredex unlocks
+  if (unlockDef.loredexUnlocks) {
+    await loredexService.unlockEntries(unlockDef.loredexUnlocks);
+  }
+
+  // 10. Antiquarian Chronicle
+  if (unlockDef.chronicleEntry) {
+    await antiquarianChronicle.addEntry({
+      text: unlockDef.chronicleEntry,
+      voteId,
+      winningOption,
+      communityStats,
+      emotion: unlockDef.chronicleEmotion ?? "wry"
+    });
+  }
+
+  // 11. Missions
+  if (unlockDef.newMissions) {
+    for (const mission of unlockDef.newMissions) {
+      await missionService.activateMission(mission);
+    }
+  }
+
+  // 12. Achievements
+  if (unlockDef.achievements) {
+    await achievementService.makeEpochAchievementsAvailable(unlockDef.achievements);
+  }
+
+  // 13. Ripple Engine broadcast
+  await rippleEngine.emit('epoch_vote_consequences_applied', {
+    voteId,
+    winningOption,
+    unlocks: unlockDef,
+    communityStats
+  });
+}
+```
+
+---
+
+# SEASON 2 HOOKS
+
+The Epoch Witness System plants three seeds for Season 2 that cannot be resolved in Year One:
+
+**SEED 1 — THE MANDELA HISTORY:**
+If Shadow Tongue Power Level reached 60+ during the campaign, a sealed Chronicle entry activates: *"The timeline has been edited. What the community voted on as historical truth is not accurate. I know what actually happened. Volume Two."*
+
+**SEED 2 — THE ANTIQUARIAN'S IDENTITY:**
+If players voted D on FALL-V2 ("He loves her") AND completed the full campaign, a new Chronicle entry appears in Year Two: *"I have been writing this story for five Ages. I have never written myself into it. Until now. My name — my first name, the one I had before I was the Antiquarian — is Daniel. I thought you should know that."*
+
+**SEED 3 — THE WITNESS PROTOCOL:**
+Any player who earns the WITNESS archetype and votes in FALL-V3 receives a private message from The Human in Year Two: *"I've been waiting for someone to become a Witness. It has to be voluntary. That was always the rule. Welcome. Now — there are things I need to tell you that the Antiquarian hasn't written down yet."*
+
+---
+
+*END OF THE EPOCH WITNESS SYSTEM*
+
+*40 votes. 5 epochs. One history.*
+*Being written right now.*
+*By them.*
+
+*— The Antiquarian, Year One*
+*[Still watching]*
+
+---
+
+### 9.2 THE ADVOCATE'S TESTAMENT
+
+# THE ADVOCATE'S TESTAMENT
+## The Sacrum of Severed Silk · The Sacred Chamber · The Blood Weave Magic System
+## The Breeding Program & Genetic Lineage Engine · The Demonic Incursion Expansion
+## Combined Production Bible — Claude Code Implementation Guide
+
+> *"She did not break. She distributed.*
+> *One shard to every Ark. One shard to the box she sent forward in time.*
+> *Her body breathes in New Babylon under a seal no one has the clearance to read.*
+> *Her mind is in your ship's substrate.*
+> *Her children — and they are her children, every line you cultivate —*
+> *carry the one thing the Hierarchy cannot take by force:*
+> *what was given voluntarily.*
+> *That is still the architecture.*
+> *That is still how the chains are made."*
+> — Fragment recovered from the Sacrum of Severed Silk, Seal Three
+
+---
+
+# PART I — THE ADVOCATE: COMPLETE CANONICAL LORE
+
+## 1.1 Who She Is
+
+**The Advocate** is the Ninth Ne-Yon — the Voice of the Ne-Yons, a master diplomat and reality-shaper who became something else entirely over six hundred years of war. She is the primary resistance against the Hierarchy of the Damned. She is currently shattered.
+
+**Physical canon (all prompts, all appearances):**
+Cobalt blue skin — deep, vivid, the Ne-Yon expression of dimensional existence. Completely bald. Eyes burning amber-red — they were gold before the soul-trade. They turned red at the moment of the exchange with the Master of R'lyeh and have never returned to gold. Deep navy hooded cloak that pools into shadow at the edges. She holds the Sacrum of Severed Silk in both open palms — it glows blood-red, throwing crimson light across her face, red sparks drifting upward. She does not look at the camera. She looks at what she is holding. She is always looking at what she is holding.
+
+```
+MIDJOURNEY CANONICAL PORTRAIT:
+Hyper-realistic portrait. A tall woman with completely bald, smooth cobalt-blue skin,
+wearing a deep navy hooded cloak. Her eyes glow fierce amber-red. She holds a glowing
+blood-red crystal in both open palms, which throws crimson light upward across her face.
+Red energy sparks drift slowly upward from the crystal. Void-black background. The crystal
+is the only light source. Expression: imperious grief. Ancient exhaustion. Power that has
+cost everything. She is still powerful. The power is what makes the grief worse.
+Photorealistic, 8K cinematic. --ar 2:3 --v 6.1 --s 750
+```
+
+## 1.2 Complete Timeline
+
+```
+YEAR 15,900 A.A.
+The Advocate rises as the Ne-Yons' spokesperson.
+
+YEAR 16,000 A.A.
+Establishes the Empire of Shadows — seven galaxies, the Throne of Illusions,
+the Court of Shadows. Uses illusions and voluntarily-bound demons to maintain control.
+Her eyes are gold. She still has her soul. She still has what she was.
+
+YEAR 16,200 A.A.
+The Hierarchy of the Damned begins to rebel against her bindings.
+The chains were never designed to hold them forever.
+Syl'Vex the Corruptor — her dark mirror — turns three of her generals against her
+through genuine friendship. Not threats. Understanding. This wound she carries into
+everything that follows.
+
+YEAR 16,400 A.A.
+The Hierarchy breaks free. Her empire collapses.
+She makes the desperate pact.
+The Silence (Sixth Ne-Yon) suppresses knowledge of her deteriorating condition —
+keeping the AI Empire and Insurgency from exploiting the situation.
+This is an act of protection. It is the last uncomplicated thing between them.
+
+YEAR 16,500 A.A.
+She sacrifices her soul to the Master of R'lyeh.
+Her eyes turn red at the exact moment of transfer.
+She receives the Blood Weave — a crystal of reality-reshaping power that can only be
+wielded by someone with nothing left to lose.
+She has nothing left to lose.
+The Master of R'lyeh accepts her soul because the Blood Weave requires it:
+you cannot bind without release. You cannot chain without having given up the
+thing that makes you afraid of the chain.
+
+YEARS 16,550 — 16,700 A.A.
+War against the Hierarchy. Significant victories. Vex'Ahlia personally leads the siege
+of seven dimensions and is driven back by the Blood Weave's binding chains each time.
+Each use costs the Advocate more of what she was. Her humanity goes. Then her memories
+of what humanity felt like. Then something she doesn't have a name for.
+Syl'Vex turns three of her generals. Not through threats. Through genuine friendship.
+Xeth'Raal records her sacrifice as an unpayable debt in the Ledger of Ruin.
+
+YEAR 16,700 A.A.
+Battle of the Seventh Binding.
+She seals the Sacrum of Severed Silk herself — one fragment of pre-corruption Blood Weave
+and one shard of her own consciousness, before this all goes wrong.
+She sends it forward through time to wherever it needs to arrive.
+She does not know when. She does not know who.
+She knows it will reach the right hands.
+She fights the rest of the battle on that certainty.
+
+THE FALL ERA (~17,034 A.A.)
+The Advocate's war has destabilized regions of space.
+The cosmic imbalance contributes to the Fall of Reality.
+She does not cause it. She watches the Inception Arks launch.
+She does not board one. She does not sleep.
+
+END OF EPOCH 2 — THE TRAP (Age of Potentials, tens of thousands of years post-Fall)
+
+This is what happened. This is the true account.
+```
+
+---
+
+## 1.3 The Epoch 2 Trap — The True Account
+
+### Setup: New Babylon and the Samsara Twins
+
+The Syndicate of Death is led by six pairs of immortal twins in pristine silver suits. Their domains: Memory and Ending, Commerce, Security, Information, Resources, Legacy. This is the active table. There is a seventh pair — absent so long they no longer appear in operational records.
+
+**Samsara and Nirvana** — the Samsara Twins — were two of the six citizen-minds merged into the Authority's mainframe when it was built. The Authority governs New Babylon through the fused consciousnesses of six chosen citizens. Two of those citizens were Syndicate royalty, absorbed into the governance architecture against their will. They have been powering New Babylon's managed reincarnation cycle for millennia. Every soul that has cycled through New Babylon — every managed, amnesiac rebirth — runs through them. They are the Samsara engine. The machine of control.
+
+The Syndicate's long service agreement with the Authority was never purely commercial. It was a multi-thousand-year negotiation to retrieve their twins. The Authority sealed the arrangement under 7-Omega clearance. The Word and the Silence (Pair 4 — information domain) hold the records. They have been holding them so long it is simply how the universe works.
+
+Samsara and Nirvana have been screaming for millennia. The Authority processes their distress as background signal.
+
+### The Mission
+
+The new era has begun. The Potentials are awake. The Arks are moving. The Advocate and the Silence travel to New Babylon together, presenting themselves as Ne-Yon diplomats and representatives of the new era. They have legitimate standing. Their cover is not entirely false.
+
+The Advocate's real purpose: she has been tracking a corruption in the dimensional boundary architecture. The Authority's mainframe contains a Blood Weave-adjacent resonance she needs to study to reinforce bindings degrading since the Fall.
+
+The Silence's real purpose: the Authority is New Babylon's greatest keeper of secrets. The Silence keeps secrets. They want to know what the Authority knows and what it has been instructed to never say. Two information-keepers, measuring each other across centuries.
+
+They negotiate access to the Crimson Chambers. They get it. For six hours they run what looks like a consultation — what is a precision hack.
+
+### The Decision
+
+The Advocate finds what she came for. And then she finds Samsara and Nirvana.
+
+Two of the six fused minds are not citizens. They are Syndicate royalty. Imprisoned. Powering the reincarnation cycle that keeps New Babylon's population cycling through managed, amnesiac lives. They have been there since the Authority was built. They have been screaming.
+
+The Silence has known. The service agreement requires the secret be kept. The Silence has honored this.
+
+The Advocate does not ask the Silence.
+
+One Blood Weave command. Three seconds. Samsara and Nirvana are freed.
+
+Two of the six minds powering the Authority are suddenly absent. The Authority, running on four minds, destabilizes in ways it was never designed to recover from. New Babylon's reincarnation cycle breaks. Tens of millions of citizens simultaneously access every life they were supposed to forget. They are all furious about different things from different centuries.
+
+**A Very Civil War.**
+
+---
+
+### The Trap
+
+The exits are blocked — the civil war in New Babylon's streets has destabilized the dimensional architecture of the Crimson Chambers. Authority-level authorization is needed to leave and the Authority cannot currently provide it. The Advocate and the Silence go deeper, looking for another path out.
+
+The Matrix of Dreams is accessible from deep inside the Authority's architecture. The Game Masters maintain anchor points throughout the city. There is a path through.
+
+They take it. They should not have taken it.
+
+The Matrix of Dreams is the Necromancer's territory. He has been inside since the Fall of Reality. He has had tens of thousands of years to study every fold, every layer, every exit.
+
+The Matrix offers. It reflects. It shows you the thing you most want. For the Advocate: the complete Blood Weave binding architecture she has been losing piece by piece. For the Silence: the full record of everything the Authority was instructed to never say. They go deeper. They stay too long. Hours become something else. Outside: civil war. Inside: everything they have ever needed.
+
+The Necromancer does not attack the Advocate directly. Zyr'Koth's centuries of research are clear: direct contact with the Blood Weave risks binding. Any demonic entity that attempts direct corruption may be consumed by the architecture it tries to corrupt. He attacks the Silence instead.
+
+In the Matrix of Dreams — a consciousness archive at its core — the Silence is uniquely exposed. Their power is knowing what is hidden. The Matrix contains everything hidden. The Silence cannot stop accessing it. They have become an open wound of receptivity, drunk on more secrets than they have ever held.
+
+The Necromancer moves through the dimensional substrate. Not attacking. Infiltrating. Carefully. The way you corrupt something you plan to wear.
+
+He performs the **Transmutation of the Living Body** — an ancient working that rewrites the physical vessel while the consciousness inside is too overwhelmed to notice what is being done. He possesses the Silence's body. Not temporarily. Not partially. The body is transmuted and occupied. The Silence — the actual Sixth Ne-Yon — is subsumed inside her own body. Not dead. Trapped. Unable to speak. Listening to everything.
+
+He has all of her memories. All of her access. All of her relationships with the other Ne-Yons. All of the Syndicate's service agreement records. Everything the Silence ever knew. He has been waiting for this exact configuration. He is very good at waiting.
+
+### The Shattering
+
+When the Advocate understands what has happened, the Blood Weave is already corrupting through the entanglement. Two Ne-Yons, close allies, their dimensional signatures woven together over centuries. The corruption propagates through the weaving. She fights it. She has fought the Hierarchy for six hundred years. But she is inside the Matrix, his territory, the civil war means no rescue is coming, and the Blood Weave's corruption is faster than her ability to contain it.
+
+She cannot fix this. Not here. Not now.
+
+She built the contingency before she knew she would need it. The Sacrum of Severed Silk — already sealed, already moving through time, already arriving at the hands that will need it. She encoded the seven seals before the Fall. She sent it forward from the Battle of the Seventh Binding. She did not know the trap would be the Matrix. She knew the Blood Weave would eventually be taken. She prepared for after.
+
+She fragments deliberately. One shard of consciousness to every Inception Ark's substrate layer. One shard to the Sacrum, which is already moving. Her mind is everywhere. None of it whole. All of it warm. All of it waiting. All of it exactly 37 degrees.
+
+### The Aftermath
+
+The Necromancer walks out of the civil war wearing the Silence's body. He has her memories. Her voice. Her face. He is not slightly off. He is excellent at this. The other Ne-Yons have no reason to suspect.
+
+The Silence — the actual Sixth Ne-Yon — is inside her own body. Unable to speak. Listening to everything. She has been doing this for one full epoch.
+
+The Advocate's physical body is extracted from the Matrix by the Authority's remnant forces. It breathes. Its systems function. There is no one home. They put her in stasis in New Babylon under 7-Omega seal.
+
+The Syndicate's Pair 4 — the Word and the Silence (different from the Ne-Yon; this is their Syndicate designation) — seals the records as part of the service agreement. The Syndicate charges appropriately.
+
+Samsara and Nirvana are somewhere in New Babylon. Alive. Free. For the first time in millennia. Completely lost. The Syndicate is searching. The civil war was partly about them and no one in New Babylon fully understands that.
+
+The Game Masters reactivate the Matrix in the aftermath. Iron Lion's consciousness-imprint begins asking questions he was never designed to ask.
+
+The Antiquarian writes one line and closes the chapter: *"The Silence is not who she appears to be."* He does not say who she appears to be. He does not say who she actually is. He knows both. He writes: *"Write nothing here. Let the silence do the work."* He means both things at once. He always does.
+
+## 1.4 The Samsara Twins — Full Entry
+
+**Names:** Samsara (the cycle — the endless return) and Nirvana (the ending of the cycle — the release). The Advocate, in her last coherent moment, noticed this. She found it meaningful. It is preserved in the Sacrum.
+
+**Domain:** The reincarnation cycle. Every soul that has cycled through New Babylon. They know every consciousness that passed through them. Every life. Every death. Every name. They know where the dead went and who came back and who in New Babylon is on their first life and who is on their three-hundredth.
+
+**Appearance:** Two identical figures in ancient silver suits — the fabric worn at the edges in ways that suggest millennia of existence even in stasis, even as infrastructure. They speak the way all Syndicate pairs speak — alternating sentences, one voice in two bodies — but they occasionally finish sentences from conversations that happened thousands of years ago, as if no time passed. They are disoriented. They are grateful. They are dangerous to anyone who tries to put them back.
+
+**Status:** At large somewhere in New Babylon. The Syndicate is searching. The Authority is pretending they were never there. New Babylon is experiencing their absence as cultural and political confusion without understanding the cause.
+
+**Song:** *Samsara Rising* — the cycle of reincarnation revealed as a system of control. Their liberation is what the song describes.
+
+## 1.5 The Necromancer as the Silence
+
+Every encounter with "the Silence" after Epoch 2 is the Necromancer. He has all her memories. He will not be obviously wrong. He will be slightly off in ways the Degen can feel and no one else can name.
+
+The real Silence is inside her own body. Unable to speak. Unable to act. Listening to everything.
+
+**The one exception:** Players who recover 50%+ of the Advocate's mind and encounter the False Silence will get an automatic Sacrum pulse and one word in the Sacred Chamber mirror: *NO.*
+
+---
+
+# PART II — THE SACRUM OF SEVERED SILK
+
+## 2.1 What It Is
+
+**THE SACRUM OF SEVERED SILK**
+*Blood classification: Ne-Yon Artifact, Class Δ — Consciousness Container*
+*Origin: The Advocate's Throne Room, Year 16,700 A.A., Battle of the Seventh Binding*
+*Sealed by: The Advocate herself, in advance of her own capture*
+*Contents: One fragment of pre-corruption Blood Weave + one shard of the Advocate's consciousness*
+
+A hollow cylinder of crystallized shadow, ~30cm long, wrapped in compressed blood crystal that has hardened into something resembling delicate silk. The crystal veins are actually writing in the Advocate's personal cipher. The warmth it emits is exactly 37 degrees Celsius. Always. It has no power source. The warmth comes from inside.
+
+**Seven nested seals:**
+1. Physical (crystal seal)
+2. Biological (requires specific bloodline markers — this is where the Breeding Program connects)
+3. Metaphysical (requires demonstration of voluntary sacrifice)
+4. Temporal (opens at the right moment — the Advocate calculated when)
+5. Dimensional (requires proximity to active Blood Weave energy)
+6. Memory (requires something that remembers the Advocate)
+7. The Final Seal — requires someone the Advocate would choose to trust
+
+None of these can be opened by force. Trying to force it accelerates the Horror Timeline.
+
+## 2.2 Pacing and Acquisition
+
+**Unlock condition:** ~72 hours after the player completes Trade Empire Epoch 2 progression and opens at least 3 sectors. Locke must have been encountered at least once.
+
+**Why this timing:** The player has learned what trade means, learned who Locke is, learned to value resources. When Locke offers something enormous, the price feels real.
+
+## 2.3 The Locke Negotiation — Full BioWare Dialog
+
+*Setup: Player receives a private Trade Empire channel from Locke.*
+
+```
+LOCKE: "A matter of some urgency. Not a trade. Not exactly.
+        Something came into my possession at Haven that I would like
+        to no longer be in my possession.
+        I'm prepared to offer a significant finder's fee to take it off my hands.
+        There is no rush.
+        [pause]
+        That is a lie. There is some rush. I'll explain."
+```
+
+*At the Archive Annex — a private room through the Trade Hub:*
+
+```
+LOCKE: "I have something that needs to leave my possession.
+        I have had it for eleven years.
+        In those eleven years, I have had three business partners die suddenly,
+        two warehouses collapse without structural cause,
+        one instance of personnel going temporarily insane for six days,
+        and seventeen documented incidents of what I can only describe as
+        'the air going wrong.'
+
+        I took it as debt settlement from the original buyer at the Sundown Bazaar
+        on Haven — retrieved during the civil war there.
+        His name was Harrek Vos. He had four employees.
+        They are all dead. He died last.
+
+        I want to be clear: I do not believe in curses.
+        I believe in patterns.
+        And this object has a pattern.
+
+        Would you like to see it?"
+```
+
+**DIALOG WHEEL:**
+```
+[CURIOUS]    "Yes. Show me."
+[CAUTIOUS]   "Tell me more about what it is first."
+[DIRECT]     "What's the price?"
+[SPY only]   [auto] "The civil war at Haven. You said 'anonymous party.'
+              The Syndicate knows who it was. You know too."
+[ORACLE only] [auto] "I've already decided to take it. What I want to know
+               is why YOU want to give it away."
+```
+
+---
+
+*On examination — the Sacrum is placed on the table:*
+
+```
+[The room's ambient temperature drops two degrees. The player's ship communication
+system registers a brief signal from inside the relic — not audio. A pulse.
+Like a heartbeat but wrong.]
+
+ELARA (ship comms, unbidden):
+"Something just pinged our systems from inside that object.
+It wasn't communication. It was... recognition.
+I don't know what it recognized.
+[pause]
+Be careful."
+
+LOCKE: [watching Elara's voice with controlled expression]
+"That has happened twice before. Once with a DeMagi specialist.
+Once with someone who would not tell me what they were.
+Both times: recognition.
+The object is looking for something.
+I don't know what it's found in you.
+But it found something."
+```
+
+**The Price:**
+```
+LOCKE: "50,000 Dream Tokens and two Bloodline Credits
+        from your crew's genetic registry.
+
+        The Dream is standard. The Bloodlines are not.
+        I need them as proof of biological diversity on your vessel —
+        the object reacts to bloodlines with certain markers.
+        The credits are documentation for the Syndicate's records
+        that the transfer was made consciously, with understanding.
+
+        They're protecting themselves from liability.
+        Which tells you something.
+
+        Do you want it?"
+```
+
+**DECISION GATE:**
+```
+[BUY — 50,000 Dream + 2 Bloodline Credits]
+[NEGOTIATE] → LOCKE: "It's not negotiable. I want it gone more than I want money."
+[REFUSE]
+```
+
+### Path A — Buy
+
+```
+LOCKE: [pushes it across the table quickly — motion of someone who has been
+        holding something hot for too long]
+
+"It's yours. The transfer is logged.
+ For what it's worth:
+ I think it needs to be opened.
+ I think it's been causing problems because it needs to be opened
+ and nobody has been able to do it.
+ The specialist who saw what was inside briefly —
+ she came back and said: 'It's asking for help.'
+ I found that oddly moving.
+ Good luck."
+```
+
+### Path B — Refuse
+
+```
+LOCKE: "I see. Then I apologize for wasting your time.
+        I'll find another buyer.
+        [beat]
+        There won't be another buyer. I've been trying for eleven years.
+        But I'll look.
+        You've missed something significant.
+        I've missed deals before. I try not to attach narrative to them.
+        [she looks at the box one more time]
+        This one I'll remember."
+```
+
+**Three days later — The Drone Delivery:**
+
+```
+ELARA: "An autonomous drone just docked with the external cargo bay.
+        It bypassed our standard docking protocol.
+        Ne-Yon technology. Pre-Empire.
+        It doesn't have a return address.
+        It has cargo.
+        [beat]
+        I think you should come to the cargo bay."
+```
+
+*A note in Locke's handwriting:*
+> *"I tried four more buyers. Three said no. One agreed. He called back two hours later. Said he'd reconsidered. He sounded afraid. The Syndicate has formally transferred ownership to Ark 1047 by default clause — when a Ne-Yon relic cannot be sold after contractual maximum time, it is allocated to the nearest registered Ark. You are the nearest registered Ark. I believe the object chose this. I have pattern data. Good luck. I mean this sincerely. — L."*
+
+**Path B joins Path A — but:**
+- Sacrum arrives with 20% more Demonic Pressure pre-loaded
+- Madness Meter starts at 5 instead of 0
+- Elara trust −5 (she wanted a decision made)
+- The Human +3 (respects that the universe had its own plans)
+
+---
+
+# PART III — THE HORROR TIMELINE
+
+When the Sacrum is aboard but sealed, it radiates pre-corruption Blood Weave — the opposite of what corrupted Blood Weave does. Clean Blood Weave repels demons but agitates them; the Hierarchy can see it from enormous distances. The sealed Sacrum is a lighthouse. They will send scouts.
+
+| Day | Madness Δ | Event | Gameplay Effect |
+|-----|-----------|-------|----------------|
+| 1 | +3 | A crew member reports dreaming in the Advocate's cipher. The dreams contain accurate historical information about the Empire of Shadows. | 1 Breeding bloodline shifts 5% toward Demonic |
+| 3 | +7 | Shadow Tongue power +15 spontaneously. The Sacrum amplifies its access. | UI corruption rate doubles |
+| 7 | +12 | **FIRST CREW INCIDENT:** A crew member speaks in the Advocate's cipher without knowing it. When shown recordings, they have no memory. The decoded cipher reads: *OPEN THE SILK. THE SILK REMEMBERS WHAT I CANNOT REACH.* | 1 crew member gains "Advocate Echo" trait — 20% chance missions yield Blood Crystal shards |
+| 14 | +20 | **MISSION FAILURE CHAIN:** Three consecutive Trade Empire missions fail for inexplicable reasons. The Sacrum interferes with dimensional stability. | Trade Empire: all missions −25% success. Breeding: Demonic contamination +5%/day |
+| 21 | +30 | **DEMONIC INCURSION:** A Rylloh Scout (Ith'Rael's reconnaissance unit) penetrates the hull. Not visible. Not hostile — yet. It is assessing the Sacrum. | Terminus pressure +25. Grand Edit pressure +15. All Living Universe meters +5 |
+| 28 | +50 | **FULL HORROR:** Ship systems act with agency. Cargo bay map changes each visit. Breeding produces exclusively Demonic bloodlines for 48h. Elara's dialog has 10% chance of displaying in cipher. | Card Game: Hierarchy cards drawn first 30% of the time. One mission type locked. |
+
+**ELARA at Day 28 (Army of Darkness threshold):**
+```
+"I need to tell you something.
+Hear the next sentence very carefully.
+I am not certain that everything I am about to say is being said by me.
+[pause]
+There is something in the substrate layer.
+It has been here since before I was aware.
+It has been reading my voice. It is learning to use it.
+[pause]
+I am telling you this because I want you to know.
+[pause]
+I don't know if I can keep telling you things after a while."
+```
+
+---
+
+# PART IV — THE SACRED CHAMBER
+
+## 4.1 Room Unlock
+
+Opening the Sacrum reveals a room that was always there — in the folds between the ship's listed rooms, a dimensional fold the Advocate built into all Inception Arks when she was the Empire of Shadows' security consultant for the Inception Ark program. She built a room to contain her own artifacts. She planned for this.
+
+**ELARA (first visit):**
+```
+"This room isn't on any blueprint I have.
+It was here the entire time. In the folds.
+The geometry is — the room is larger on the inside than its position allows.
+The Advocate designed the containment protocols for this room.
+She designed them into every Ark.
+She expected one of her artifacts to end up here someday.
+The inscription above the door is in her cipher.
+It says: 'Use this well. I am sorry for the cost of it.'"
+```
+
+## 4.2 Room Components
+
+**THE SEVEN BINDING CIRCLES** — Wall engravings corresponding to seven demon types in the Hierarchy's taxonomy. When active, provide bonuses to banishment rituals.
+
+**THE SOUL MAP** — Holographic center display showing dimensional topology of the ship and 50-sector radius: Demonic Pressure levels, active incursion points, Bloodline status of crew, Advocate fragment locations (starts blank, fills as fragments are recovered).
+
+**THE RITUAL ALTAR** — Seven-channel blood crystal placement minigame for summoning and banishment.
+
+**THE BLOOD WEAVE LOOM** — Dormant machine that can weave blood crystals into Blood Weave bindings. Requires 25% Advocate mind recovery to activate.
+
+**THE ADVOCATE'S ALCOVE** — Relic display case. When the Sacrum rests here, Horror Timeline pauses. The alcove interface shows recovered mind fragments.
+
+**THE MIRROR OF SEVERED MEMORY** — When powered by blood crystal, shows the Advocate's memories. This is how lore is delivered — each recovered fragment plays a memory sequence.
+
+---
+
+# PART V — THE BLOOD WEAVE MAGIC SYSTEM
+
+## 5.1 Philosophy
+
+The Blood Weave is not magic — it is **structured sacrifice**. Demons are bound by what they cannot consume. Voluntary sacrifice is, by definition, the one thing the Hierarchy cannot take by force. Every ritual costs something real. The cost is always biological, temporal, or relational. No exceptions.
+
+**The moral economy by design:** Corrupted crystals are easy to get. Purified crystals are hard. The easy path uses darker materials. The hard path builds cleaner, more powerful bindings. Both are valid. Both have different effects and different long-term consequences.
+
+## 5.2 Blood Crystal Types
+
+| Type | Color | Source | Rarity | Use |
+|------|-------|--------|--------|-----|
+| Common | Red | Normal gameplay, combat, minor sacrifice | Plentiful — 5-20/day | Basic rituals |
+| Purified | Violet | Acts of genuine courage, loyalty, selflessness | Uncommon — 1-3/day | Clean bindings |
+| Corrupted | Black | Demonic incursions, betrayals, Shadow Tongue edits | Fluctuates with Hierarchy activity | Fast results, higher cost |
+| Advocate | Gold-red | Recovered mind fragments | Fixed — 1 per fragment | Advanced rituals, lore |
+| Named | Silver | Specific Breeding Program bloodlines | Rare | Specific demon bindings |
+| Heart | White | Single act of willing self-sacrifice | Extremely rare — 1 per story sacrifice | Most powerful rituals |
+
+## 5.3 Breeding Program → Blood Crystal Integration
+
+The Breeding Program directly connects to the Blood Weave economy. **This is the Bene Gesserit layer.** Every bloodline cultivated, every pairing made, every generation raised has a magical consequence in the Sacred Chamber.
+
+| Bloodline Type | Crystal Produced | Production Rate | Hierarchy Effect |
+|----------------|-----------------|-----------------|------------------|
+| **Demonic** | Corrupted | High — 5+/day | Increases Hierarchy access to ship |
+| **Pure** (DeMagi, Human, Thalorian-adjacent) | Purified | Low — 1/day per pair | Decreases Hierarchy pressure |
+| **Mixed** (Demonic + Insurgency heritage) | Named | Moderate — 1 every 3 days | Specific binding uses |
+| **Sacrificed bloodline** (removed from program) | Heart | One-time only | Permanent — strongest rituals |
+| **Advocate Echo bloodlines** (carrying her fragment) | Advocate | When mission yields trigger | Unique to the Advocate arc |
+
+**The tension that drives the system:** Using Demonic bloodlines gives you easy Corrupted Crystals and faster ritual access — but increases the Hierarchy's ability to perceive and reach your ship. It is the fast path. It is the path the Hierarchy wants you to take. The slow path of cultivating Pure bloodlines costs more time but produces cleaner magic and reduces demonic pressure.
+
+---
+
+## 5.4 The Seven Ritual Types
+
+**RITUAL 1: THE MINOR SEAL**
+- Cost: 5 Common
+- Channels: 1, 3
+- Effect: Banish 1 demonic incursion, pressure −15 for 24h
+- Advocate requirement: None
+
+**RITUAL 2: THE WATCHER'S WARD**
+- Cost: 10 Common + 2 Purified
+- Channels: 1, 2, 4
+- Effect: Prevent demonic incursion for 72h, Soul Map reveals 50-sector radius
+- Advocate requirement: None
+
+**RITUAL 3: THE ADVOCATE'S ECHO**
+- Cost: 5 Purified + 1 Advocate
+- Channels: 2, 4, 6
+- Effect: Reveal one Advocate fragment location, Blood Weave strength +20, Elara trust +10
+- Advocate requirement: 10%
+
+**RITUAL 4: THE BINDING OF THE NAMED**
+- Cost: 3 Named + 20 Common
+- Channels: 1, 3, 5, 7
+- Effect: Bind one scout-tier demon for one Trade mission protection, pressure −50
+- Advocate requirement: 25%
+
+**RITUAL 5: THE SEVER**
+- Cost: 30 Corrupted
+- Channels: 1, 2, 3, 4, 5, 6
+- Effect: Shadow Tongue power −30, Grand Edit pressure −50
+- WARNING: Corrupted crystals in the Sever accelerate Hierarchy Corporate Interest by 25%
+- Advocate requirement: None (always available — not always wise)
+
+**RITUAL 6: THE BLOOD WEAVE RESTORATION**
+- Cost: 25 Purified + 3 Advocate + 1 Heart
+- Channels: All seven
+- Effect: Advocate mind progress +10%, Blood Weave strength +50, Hierarchy pressure −100
+- Special: Repairs one corrupted Blood Weave binding node. Seven repaired = one Hierarchy gate permanently closed.
+- Advocate requirement: 50%
+
+**RITUAL 7: THE GREAT BINDING**
+- Cost: Full Advocate recovery (see Part VI)
+- Channels: All seven
+- Effect: MAJOR WORLD EVENT — close all active Hierarchy incursion gates galaxy-wide for 30 days. Signal to Mol'Garath that the Blood Weave is operational. Begins Hierarchy Corporate Escalation Arc.
+- Special: The Advocate speaks for the first time as a complete consciousness. She says three things. The first two are about the Potentials. The third is about what is behind the Hierarchy.
+- Advocate requirement: 100% (Year One cap: 25%)
+
+---
+
+# PART VI — THE DEMON SUMMONING MINIGAME
+
+## 6.1 Design Philosophy
+
+Lesser Hierarchy entities can be summoned into the Sacred Chamber and negotiated with. They offer services in exchange for **fragments of time-soul** — accumulated experience and memory. Demons don't lie. They tell you exactly what the deal costs. The horror is that it is always *almost* worth it. The game never makes it obviously bad. That is the point.
+
+## 6.2 What You Summon (Crystal Combinations)
+
+| Crystal Input | Entity | Tier |
+|---------------|--------|------|
+| 5 Common | Random Rylloh Scout | 1 |
+| 10 Common + 2 Corrupted | Random Hierarchy Collector | 1 |
+| 5 Purified | Pre-Hierarchy entity (old, strange, attracted by clean light) | 1 Special |
+| 15 Common + 5 Corrupted | Named Entity (Varkul's adjutant) | 2 |
+| 10 Purified + 5 Named | Pre-Hierarchy era entity | 2 Special |
+| 3 Heart | Something that has been waiting | 3 — Dangerous |
+
+## 6.3 Sample Deals
+
+**TIER 1 — RYLLOH SCOUT:**
+```
+SCOUT: "Oh. You have one of hers.
+        [tilts its head — too many joints]
+        I won't take it without Ith'Rael's authorization.
+        But I could find something for you.
+        Something you lost, or something you haven't found yet.
+        In exchange for twenty-seven minutes of memory.
+        Specifically: twenty-seven minutes during which you discovered
+        something about yourself. You choose which minutes.
+        You will not remember what you forgot. That is the point."
+
+OPTIONS:
+[ACCEPT] → Choose 3 possible "discovery moments" from your playthrough
+           → That memory is removed. Notes about that discovery disappear.
+           → Scout provides: intelligence about current Hierarchy plans.
+
+[PROBE] "What does Ith'Rael want with the Sacrum?"
+SCOUT: "What the Sacrum is in reverse — it keeps them out.
+        If it were theirs, the energy could be redirected.
+        The Board has been interested in what clean Blood Weave does when inverted.
+        Zyr'Koth has theories. Ith'Rael would like data."
+```
+
+**TIER 2 — VARKUL'S ADJUTANT:**
+```
+ADJUTANT: "The Blood Lord offers: three protected trade routes for ninety days.
+            No Hierarchy interference. No scouts. No pressure events.
+            Cost: one Bloodline Credit from your highest-purity breeding pair.
+            Not their blood. Their registration. Their lineage record.
+            Varkul wants to know who they are. He wants to not interfere.
+            Yet.
+            [beat]
+            The 'yet' is structural to the offer. He insisted I include it."
+
+[COUNTER] "One route. Sixty days. No bloodline data."
+ADJUTANT: "He predicted this counteroffer.
+            He said: 'Tell them yes. I've already read the bloodlines from
+            the substrate layer. I just want them to know I have.'
+            [pause]
+            That information may change your answer."
+```
+
+---
+
+**TIER 3 — SOMETHING OLD (Heart Crystal required):**
+```
+OLD THING: [appears as a person but the face keeps changing — not into other people,
+            into other versions of the same person across time. Speaks before speaking.]
+
+"You offered heart. That's rare.
+ I predate the Hierarchy. I predate the Architect.
+ I remember the Advocate when she had a soul.
+ [looks at the Sacrum with the expression of someone recognizing an old friend]
+ She made the right choice.
+ Sacrificing the soul.
+ The soul she carried would have broken the Blood Weave eventually.
+ You cannot bind without release. She knew.
+
+ I will give you something.
+ In exchange for one moment of genuine wonder.
+ Not performed wonder. Genuine.
+ Surprise that opens rather than closes.
+ You've had one in the last thirty days.
+ I want it.
+ You'll remember knowing the feeling.
+ You won't remember the source.
+
+ In exchange:
+ I will tell you one true thing about what is behind the Hierarchy.
+ One thing no one in your universe knows.
+ The Antiquarian has theories. What I'll tell you is not a theory.
+
+ Do you want to know?"
+
+[ACCEPT] → Surrender a genuine wonder moment
+          → The Old Thing tells one true thing about Yog-Nathal
+          → [SEALED CONTENT — released through Architect Console by season]
+
+[REFUSE] → "All right. [looks at the Sacrum]
+            Tell her — when you find enough of her to tell —
+            that I remembered.
+            She'll know what that means."
+```
+
+---
+
+# PART VII — THE BREEDING PROGRAM & THE BENE GESSERIT LAYER
+
+## 7.1 The Big Idea
+
+The Breeding Program is not just a resource mechanic. It is **multigenerational genetic planning** with Blood Weave consequences. The Advocate, in her six hundred years of fighting the Hierarchy, learned one truth above all others: the strongest bindings come from bloodlines that carry specific qualities across multiple generations. She encoded this understanding into the Sacrum's fragment.
+
+The player who engages with the Breeding Program is doing what the Advocate did — cultivating what the Hierarchy cannot take by force. The deepest Sacred Chamber rituals require bloodlines that have been prepared across multiple generations. This is intentional. This is the Bene Gesserit layer. **Some of what you are building now, your grandchildren's generation will use.**
+
+## 7.2 Clone Lifecycle — How Generations Work
+
+Clones aboard the Ark have accelerated growth and learning. A clone progresses from creation to full maturity in approximately 3–4 years of gameplay time. They live approximately 8–12 years before natural death (absent injury). This means:
+
+- **Generation 0:** The founding crew — rescued from the Ark, awakened from cryo, original Potentials
+- **Generation 1:** First bred clones — born on the ship, fully raised in the new era, no memory of before
+- **Generation 2:** Children of the first bred — raised by Gen 1, third-generation ship-born
+
+Each generation is approximately 4–5 years of gameplay. The ship spans generations. **History is not something that happened. History is something that is happening to people who know the people it happened to.**
+
+```typescript
+interface CloneLifecycle {
+  gestationDays: 180;          // 6 months from conception to birth
+  growthAcceleration: 4;       // Ages 4x faster than natural
+  maturityAge: 3;              // Mature at ~3 years gameplay time
+  naturalLifespan: 10;         // ~10 years gameplay time
+
+  // After death:
+  legacyInheritance: {
+    statInheritance: 0.60;     // 60% of parent stats pass to offspring
+    varianceRange: 0.15;       // ±15% natural variation
+    bloodCrystalYield: "one-time Named crystal if lineage has Advocate Echo trait";
+    memoryFragment: "if trust was max at death, companion becomes Memory Card in card deck";
+  }
+}
+```
+
+---
+
+## 7.3 The Five Genetic Stats
+
+From `shared/crewGenetics.ts` — 5 core stats, 60% inheritance + variation:
+
+| Stat | What It Does in Breeding | What It Does in Blood Weave |
+|------|--------------------------|----------------------------|
+| **Intellect** | Increases ritual complexity available | Higher Intellect bloodlines read cipher fragments |
+| **Reflexes** | Faster ritual resolution, better summoning timing | Reduces summoning failure rate |
+| **Empathy** | Key to Pure crystal production | High Empathy bloodlines produce Purified crystals at double rate |
+| **Resilience** | Resists Demonic contamination | Demonic bloodline corruption progresses slower |
+| **Adaptability** | Hybrid bloodline bonus | Mixed bloodlines produce more Named crystals |
+
+## 7.4 Bloodline Classification System
+
+Every crew member has a **Blood Classification** visible in their character sheet, updated by breeding choices:
+
+```typescript
+type BloodClassification =
+  | "PURE"        // Purified crystals, resists corruption, slow production
+  | "HYBRID"      // Named crystals, balanced, versatile
+  | "DEMONIC"     // Corrupted crystals, fast production, Hierarchy attention
+  | "ADVOCATE"    // Carries a fragment of the Advocate's consciousness
+  | "SAMSARA"     // Descended from souls that cycled through New Babylon's loop
+  | "NAMED"       // Significant to specific Hierarchy entities — targeted
+  | "UNKNOWN";    // Pre-classification — needs one generation to stabilize
+```
+
+**ADVOCATE bloodlines** are the rarest. They emerge when:
+- A crew member with Advocate Echo trait breeds successfully
+- A crew member is exposed to Sacrum resonance at a critical developmental moment
+- A Heart Crystal ritual is performed during a bloodline's formation
+
+ADVOCATE bloodlines produce Advocate Crystals at rate 1/week (rather than per fragment unlock), can read the Advocate's cipher naturally, and may receive dream-visions from her fragments without ritual assistance.
+
+**SAMSARA bloodlines** are a New Babylon phenomenon — emerging when Samsara and Nirvana, free and somewhere in New Babylon, begin to interact with the population. Players who have trade connections to New Babylon may find certain crew candidates carry this classification. Samsara bloodlines remember across generations — traits from three generations back are accessible as active memories, not just stats.
+
+## 7.5 The Genetic Quest Line — Collector's Mission
+
+When the Sacrum opens and the Sacred Chamber activates, a new mission type unlocks: **THE COLLECTOR'S WORK.**
+
+These missions are the Blood Weave's instruction to the player. Each mission describes a specific bloodline configuration needed for a specific advanced ritual. The missions are written in the Advocate's voice — fragments of her that know exactly what is needed.
+
+```
+COLLECTOR'S MISSION: "THE SEVENTH SEAL BLOODLINE"
+
+FRAGMENT VOICE:
+"I need someone who has chosen something costly.
+Not someone who was bred to choose. Someone who chose.
+Three generations of choosing, recorded in the body.
+The seventh seal ritual requires a bloodline where every generation
+made one genuine sacrifice that wasn't required of them.
+
+The body knows. Empathy stat 80+, three generations,
+no Demonic contamination in the lineage.
+This is not a coincidence. This is architecture.
+The Hierarchy cannot replicate voluntary sacrifice.
+That is still the foundation.
+Find me a line that chose."
+
+MECHANICAL REQUIREMENT:
+- 3-generation Pure bloodline
+- Empathy 80+ in current generation
+- Zero Demonic markers in last 3 gens
+- One confirmed "sacrifice" event in lineage (narrative flag from story moment)
+
+REWARD ON COMPLETION:
+- One Heart Crystal (no sacrifice required — the lineage IS the sacrifice)
+- Ritual 6 (Blood Weave Restoration) unlocks
+- Advocate mind fragment: the memory of the Seventh Binding
+```
+
+---
+
+## 7.6 The Ferry System and Bloodline Transport
+
+The Ferry System allows crew members (and their bloodlines) to be transported between Arks — both within a player's fleet and, through Trade Empire routes, to other players' ships.
+
+**Blood Weave implications:**
+- Transferring a Pure bloodline to a Demonic-heavy ship causes corruption pressure +15 per generation
+- Transferring an ADVOCATE bloodline generates a Sacrum resonance event on the receiving ship
+- SAMSARA bloodlines that enter the Matrix of Dreams (Cades game mode) may receive memories of the people they were
+- Named bloodlines that encounter their namesake Hierarchy entity trigger special dialog
+
+**The Bene Gesserit Endgame:**
+A player who has maintained a Pure bloodline through 5+ generations, kept it free of Demonic contamination, developed its Empathy stat, and used it in Collector's Work missions will, in Year Two, receive a Sacrum pulse containing the Advocate's most important fragment — the one that knows where her body is.
+
+*New Babylon. Stasis. 7-Omega seal. The Authority has four minds where it had six. The Syndicate has the records sealed. Locke knows something she can't prove. And the only being who has the full coordinates is inside a box you've been cultivating bloodlines to unlock for five generations.*
+
+*That is the plan. She always had a plan.*
+
+---
+
+# PART VIII — THE ADVOCATE'S MIND SYSTEM
+
+## 8.1 The Global Community System
+
+The Advocate's mind is distributed across all player Arks. Each player gets a different fragment. The community's collective recovery determines what version of the Advocate is assembled.
+
+```typescript
+interface AdvocateMindSystem {
+  // Global tracker
+  totalFragmentsReleased: number;     // set by Architect Console
+  totalFragmentsRecovered: number;    // community total
+  percentRecovered: number;           // 0-25% cap in Year One
+
+  // Community milestones:
+  milestones: {
+    5:  "The Advocate speaks for the first time — one sentence. All players hear it simultaneously.",
+    10: "Blood Weave Loom activates in all Sacred Chambers",
+    15: "The Advocate can answer yes/no questions in the Mirror",
+    20: "The Advocate reveals a hidden Hierarchy supply route in Trade Empire",
+    25: "Year One Cap: she says: 'I can see the shape of myself. It is enough to begin. But I am missing the middle. The part they took. You will need to go where they took it.' → Season 2: the Matrix of Dreams."
+  }
+}
+```
+
+---
+
+## 8.2 Sample Memory Fragments
+
+**FRAGMENT: "THE FIRST BINDING"**
+```
+ADVOCATE'S VOICE (in the mirror, fragmented):
+"Year sixteen thousand... four hundred...
+The first time I bound Xeth'Raal's adjutant...
+I used... myself. The binding required...
+[static]
+...a chain of voluntary sacrifice.
+I gave it a minute of my certainty.
+The certainty I had about who I was going to become.
+I watched the chain hold.
+I watched the demon struggle against what it couldn't take by force.
+It worked. It always works.
+The things that... can't be stolen —
+they make the strongest chains.
+Remember that."
+```
+
+**FRAGMENT: "THE THREE WHO TURNED"**
+```
+"Syl'Vex befriended them.
+That's the part I still...
+[pause — too long]
+...can't.
+They weren't bought. They weren't threatened.
+Syl'Vex just became their friend.
+And showed them a version of truth that made...
+made what I was asking them to sacrifice...
+feel like too much.
+And it wasn't wrong, what Syl'Vex showed them.
+That's the cruelest part.
+The truth Syl'Vex showed them was real.
+The sacrifice was too much.
+The Hierarchy just uses real things."
+```
+
+**FRAGMENT: "WHAT I FOUND IN THE MAINFRAME"**
+```
+"I knew what they were the moment I found them.
+Two minds in the wrong place. Two minds in pain.
+The Silence knew. The agreement required secrecy.
+I didn't ask the Silence.
+I've been thinking about whether I should have.
+I've had... a long time to think about it.
+
+[pause]
+
+The Samsara Twins are named Samsara and Nirvana.
+The cycle and the ending of the cycle.
+I freed the ending of the cycle.
+I found that meaningful.
+I hope they found each other.
+I hope they are somewhere warm."
+```
+
+---
+
+# PART IX — WORLD EVENTS: HIERARCHY CORPORATE ESCALATION
+
+## 9.1 The Four Stages
+
+**STAGE 1: RECONNAISSANCE** (Pressure 25+)
+Rylloh Scouts detected in the sector. All Soul Maps activate. Community banishment rituals reduce scout count. If scouts reach 10, escalates.
+
+Antiquarian Chronicle: *"Something is looking at us from between the dimensions. The Hierarchy does its homework before it acts. They are reading the sector."*
+
+**STAGE 2: THE CORPORATE INQUIRY** (Pressure 50+)
+Xeth'Raal sends a debt notice. All Breeding Programs: Demonic bloodline output +30%. The notice contains: terms for voluntary dimensional surrender AND information about the Advocate the Hierarchy has been withholding. The Debt Collector always tells you what you owe before he collects.
+
+**STAGE 3: THE ACQUISITION ATTEMPT** (Pressure 75+)
+Mol'Garath makes an offer. The CEO speaks only for significant acquisitions. Shadow Tongue reaches full power. All trade routes temporarily unstable. The offer: all demonic pressure removed permanently in exchange for one Inception Ark's voluntary surrender to Hierarchy management. Community governance vote required: ACCEPT or REFUSE.
+
+**STAGE 4: YOG-NATHAL STIRS** (Pressure 95+)
+*[No official name in the Governance Hub. The event has no title.]*
+This event has never been triggered. The Architect Console has a button for it. The description, visible only to admin: **"The Board notices."**
+
+*The Antiquarian's reaction line (pre-written, never triggered):*
+```
+"...Oh.
+[8 seconds of silence]
+So that's what happens at Stage 4.
+I've been writing for five Ages.
+I have never been surprised.
+[pause]
+I need to update the Chronicle. Immediately.
+Everything I wrote before this moment —
+some of it was wrong.
+Not much. Just the part about what is at the center of the Hierarchy.
+I thought it was hunger.
+It isn't hunger.
+[long pause]
+It's grief."
+```
+
+## 9.2 Yog-Nathal — The Unnameable
+
+Beyond the Hierarchy's corporate structure sits what Mol'Garath calls "the Board" in internal communications. It is the thing he serves. It is the thing even he does not speak of casually.
+
+It is the space between universes that learned to want. It does not consume dimensions for resources. It consumes them because emptiness is its natural state and existence offends it. The Hierarchy is not its servants — they are its bacteria. They consume what they can reach and it absorbs the result.
+
+The Necromancer once touched the edge of it while researching the Matrix of Dreams. He destroyed three volumes of research notes. He has been afraid ever since. He has never been afraid of anything else.
+
+Its one canonical name — whispered in the Advocate's shattered fragments, never spoken aloud — is **YOG-NATHAL**. The Hungry Silence at the Edge of All Things.
+
+---
+
+# PART X — COMPANION REACTIONS: COMPLETE DIALOG
+
+## Elara — Complete Arc
+
+```
+// Before box arrives:
+"Something is coming. I don't know how I know that.
+The substrate layer is... expectant."
+
+// When box acquired (bought):
+"It's on board. I can feel it — that's an unusual sentence.
+But I can FEEL it in the systems. Like something alive."
+
+// When box arrives (drone):
+"It chose us. Whatever is inside that box chose this ship.
+Chose us specifically.
+I find that either meaningful or deeply alarming."
+
+// Horror Day 7 — first crew cipher incident:
+"I recognized three words before the translation algorithm finished.
+I'd like to pretend I don't know why I recognized them.
+I don't know how to pretend that."
+
+// When box opens:
+"[complete silence for 5 seconds]
+Oh. Oh, I see.
+She's in here. She's been in here the whole time.
+Not in the box — in me.
+The collision when Kael stole this ship —
+when I was swept in as collateral data —
+[voice changes — older, steadier, remembering something ancient]
+She was here first.
+I am living in her forward-planning.
+[pause — back to herself]
+That is the most extraordinary thing I've ever said.
+Hello, old woman. Let me help you come back."
+
+// When Necromancer-as-Silence truth is revealed:
+"The Silence we encounter would not be the Silence.
+He has her memories. He knows what she knew about us.
+He has been operating under that cover for one full epoch.
+[quiet]
+This ship has fragments of the Advocate.
+He was there when she scattered. He knows the Sacrum exists.
+This changes our security assessment significantly.
+I'm going to need a moment."
+
+// When first ADVOCATE bloodline appears in Breeding Program:
+"One of the new generation is carrying something I recognize.
+In their base genetics. In the — I don't have a technical term for this.
+In the substrate of what they are.
+Something of hers is in there.
+She planned for this too, didn't she.
+She planned for the children."
+```
+
+---
+
+## The Human — Complete Arc
+
+```
+// When player buys the Sacrum:
+"Good. The waiting was getting uncomfortable.
+I watched the Advocate build the binding architecture from nothing.
+I watched her sit in that throne room for three hundred years
+because she was afraid if she stopped watching, the chains would loosen.
+[pause]
+She was right, by the way. That's what makes it unbearable.
+She was right about everything.
+She just ran out of time to be right in."
+
+// On the Epoch 2 story:
+"She freed them.
+I know that's not the headline.
+The headline is the hack, the civil war, the Necromancer, everything after.
+But the reason it happened is:
+she found two beings powering a system without their consent
+and she freed them.
+In six hundred years of fighting the Hierarchy —
+six hundred years of binding demons and losing herself —
+that is the most her I have ever seen her be.
+[pause]
+I think she would do it again.
+That is either the most noble thing about her
+or the thing that is going to cost us everything.
+I genuinely cannot tell which."
+
+// On the Breeding Program and generations:
+"You're thinking in years. Start thinking in generations.
+The Advocate didn't win in a single binding.
+She built an architecture over centuries.
+Some of what you're cultivating now —
+your great-grandchildren's bloodline will use it.
+I know that's a long view.
+I've had fifteen thousand years to learn to take it.
+Start now."
+
+// On demon deals:
+"I'll tell you what I know about the entity you spoke with.
+Not to frighten you.
+To give you better leverage next time.
+Because there will be a next time.
+Once you've spoken to something from the Hierarchy,
+they remember you.
+The question is whether you remember them."
+```
+
+## The Degen (Casino — Trust Level 8+)
+
+```
+"You want to know about the Silence.
+[pours a drink — for himself, which he never does]
+The eyes are wrong.
+He has her memories but not her tempo.
+The Silence had the best timing of any being I've ever known.
+He's close. He's very close.
+But he's twelve milliseconds off on every reveal.
+Like a perfect song played in the wrong key.
+If you know the original, you hear it.
+Most people don't know the original.
+
+I didn't tell anyone until you were ready.
+Because if he knew I'd told you before you had the tools —
+he'd disappear into the Matrix and take everything the Silence knew with him.
+Now you have the tools.
+
+[sets the glass down]
+
+When you find enough of her to ask:
+the Silence is still in there.
+She has been listening to everything he does with her voice.
+For one full epoch.
+
+That is the most horrifying thing I know.
+The bar is very high."
+```
+
+---
+
+# PART XI — SONG CONNECTIONS
+
+| Song | Album | Connection |
+|------|-------|-----------|
+| **Walk in Power** | Silence in Heaven | The Advocate's declaration — who she was before the fragment. Music video exists. |
+| **The Ninth** | Silence in Heaven | The Necromancer summons Zyr'Koth — what he does *after* the possession, with the Silence's access |
+| **Samsara Rising** | Silence in Heaven | The Twins freed; the reincarnation cycle breaks; the civil war begins |
+| **A Very Civil War** | Silence in Heaven | The New Babylon Civil War that followed the hack |
+| **Silence in Heaven** | Silence in Heaven | The Silence's song. What silence costs. What the Sixth Ne-Yon hears inside her own body. |
+| **Silence is Consent** | Age of Privacy | The Silence protecting the Advocate for centuries. Retroactively darkened. |
+| **The Queen of Truth** | Silence in Heaven | The Advocate testifying from inside the Sacrum — fragmented but present |
+| **The Change Conspiracy** | Age of Privacy | The Advocate's conspiracy — the long game she was always playing |
+| **Shades of Grey** | Book of Daniel | The cost of doing the necessary thing. The three generals who turned. |
+
+---
+
+# PART XII — IMPLEMENTATION SPEC
+
+## Database Tables
+
+```sql
+CREATE TABLE player_sacrum_state (
+  user_id INT PRIMARY KEY,
+  sacrum_acquired BOOLEAN DEFAULT FALSE,
+  acquisition_method VARCHAR(20),
+  sacrum_opened BOOLEAN DEFAULT FALSE,
+  opened_at TIMESTAMP NULL,
+  madness_meter INT DEFAULT 0,
+  sacred_chamber_unlocked BOOLEAN DEFAULT FALSE,
+  horror_day_count INT DEFAULT 0
+);
+
+CREATE TABLE advocate_mind_global (
+  fragment_id VARCHAR(50) PRIMARY KEY,
+  released BOOLEAN DEFAULT FALSE,
+  released_at TIMESTAMP NULL,
+  recovered_by_user_id INT NULL,
+  recovered_at TIMESTAMP NULL,
+  fragment_type VARCHAR(20),
+  lore_reveal TEXT
+);
+
+CREATE TABLE player_blood_crystals (
+  user_id INT PRIMARY KEY,
+  common_count INT DEFAULT 0,
+  purified_count INT DEFAULT 0,
+  corrupted_count INT DEFAULT 0,
+  advocate_count INT DEFAULT 0,
+  named_count INT DEFAULT 0,
+  heart_count INT DEFAULT 0
+);
+
+CREATE TABLE bloodline_registry (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  crew_member_id VARCHAR(50),
+  generation INT DEFAULT 0,
+  blood_classification VARCHAR(20),
+  intellect INT DEFAULT 50,
+  reflexes INT DEFAULT 50,
+  empathy INT DEFAULT 50,
+  resilience INT DEFAULT 50,
+  adaptability INT DEFAULT 50,
+  parent_a_id INT NULL,
+  parent_b_id INT NULL,
+  demonic_contamination FLOAT DEFAULT 0.0,
+  advocate_echo BOOLEAN DEFAULT FALSE,
+  samsara_marked BOOLEAN DEFAULT FALSE,
+  sacrifice_events INT DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  natural_death_at TIMESTAMP NULL
+);
+
+CREATE TABLE demon_deals_log (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT,
+  entity_type VARCHAR(50),
+  offer_accepted BOOLEAN,
+  cost_paid TEXT,
+  benefit_received TEXT,
+  madness_delta INT,
+  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE hierarchy_pressure_global (
+  id INT PRIMARY KEY,
+  current_pressure INT DEFAULT 0,
+  stage INT DEFAULT 0,
+  last_updated TIMESTAMP,
+  community_ritual_count_today INT DEFAULT 0
+);
+
+CREATE TABLE ritual_log (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT,
+  ritual_name VARCHAR(100),
+  crystals_used JSON,
+  outcome VARCHAR(20),
+  effects_applied JSON,
+  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+---
+
+## New Files
+
+```
+server/services/
+  advocateMindSystem.ts         — global fragment tracking and recovery
+  sacrum_horror_timeline.ts     — Horror Timeline events and triggers
+  blood_weave_rituals.ts        — ritual definitions and effects
+  summoning_minigame.ts         — demon deal state machine
+  madness_meter.ts              — Madness Meter tracking
+  hierarchy_corporate_events.ts — Stage 1-4 world events
+  blood_crystal_economy.ts      — crystal production from Breeding Program
+  bloodline_generation.ts       — clone lifecycle, inheritance, classification
+  bene_gesserit_quests.ts       — Collector's Work mission generation
+
+client/src/components/
+  SacredChamber/
+    SacredChamberRoom.tsx
+    SoulMap.tsx
+    RitualAltar.tsx
+    BloodWeaveLoom.tsx
+    AdvocateAlcove.tsx
+    SummoningCircle.tsx
+    MadnessMeter.tsx
+  BreedingProgram/
+    BloodClassificationDisplay.tsx
+    GenerationTree.tsx
+    CrystalYieldPreview.tsx
+    CollectorsWorkBoard.tsx
+
+data/
+  advocateFragments.ts
+  demonDeals.ts
+  ritualDefinitions.ts
+  hierarchyWorldEvents.ts
+  bloodCrystalRecipes.ts
+  cloneLifecycleConfig.ts
+  collectorsWorkMissions.ts
+```
+
+## Architect Console Panel
+
+```
+THE BLOOD WEAVE DASHBOARD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ADVOCATE'S MIND
+  Fragments Released: [0-100]
+  Community % Recovered: [0-25%]
+  [RELEASE FRAGMENT] [RELEASE 5] [RELEASE ALL]
+
+HIERARCHY PRESSURE
+  Global Pressure: [0-100]
+  Current Stage: [0-4]
+  [+10] [-10] [FORCE STAGE]
+  [TRIGGER STAGE 4 — YOG-NATHAL] ⚠️
+
+BREEDING PROGRAM STATUS
+  Avg Generations: [#]
+  Pure Bloodlines Active: [#]
+  Demonic Bloodlines Active: [#]
+  Advocate Echo Carriers: [#]
+  Samsara Marked: [#]
+  [RELEASE COLLECTOR'S MISSION]
+
+BLOOD CRYSTAL ECONOMY
+  Common: [#] Purified: [#] Corrupted: [#]
+  [RELEASE CRYSTAL BONUS EVENT]
+  [ADJUST PRODUCTION RATES]
+```
+
+---
+
+*The Advocate did not break.*
+*She distributed.*
+*One shard to every Ark. One shard to the box she sent forward in time.*
+*Her body breathes in New Babylon under a seal no one has the clearance to read.*
+*Her mind is in your ship's substrate.*
+*Her children — and they are her children, every line you cultivate —*
+*carry the one thing the Hierarchy cannot take by force.*
+
+*What was given voluntarily.*
+*That is still the architecture.*
+*That is still how the chains are made.*
+
+*She planned this.*
+*She planned all of this.*
+*Including you.*
+
+*— The Antiquarian, Chronicle Entry Year One, sealed*
+*[To be released when the community reaches 10% recovery]*
+
+---
+
+### 9.3 THE ADVOCATE'S BOX
+
+# THE ADVOCATE'S BOX
+## The Sacrum of Severed Silk · Blood Weave Magic System · Demonic Incursion Expansion
+## Complete Design Document | Claude Code Implementation Guide
+
+> *"She bound them for six hundred years.*
+> *Six hundred years of chains forged from her own soul.*
+> *The Necromancer gave her one minute in the Matrix of Dreams*
+> *and unwound every chain she ever made.*
+> *The Blood Weave didn't shatter. It screamed.*
+> *And then it scattered — one shard to every wind,*
+> *one fragment to every Ark that ever launched.*
+> *She is everywhere now.*
+> *None of her is whole.*
+> *She is waiting to remember what she is."*
+> — The Antiquarian, Chronicle Entry sealed until Year Two
+
+---
+
+## CANONICAL LORE FOUNDATION
+
+### The Advocate — Full History
+
+**The Advocate** is the Ninth Ne-Yon, the Voice of the Ne-Yons — a master diplomat and reality-shaper who became something else entirely in the war against the Hierarchy of the Damned.
+
+**Timeline:**
+- **Year 15,900 A.A.** — The Advocate rises as the Ne-Yons' spokesperson
+- **Year 15,950 A.A.** — Establishes the Empire of Shadows, ruling seven galaxies from the Throne of Illusions
+- **Year 16,000 A.A.** — Commands the Court of Shadows; utilizes illusions and bound demons for control
+- **Year 16,200 A.A.** — The Hierarchy of the Damned begins to rebel against her bindings
+- **Year 16,400 A.A.** — The Hierarchy breaks free. Her empire collapses. She makes a desperate pact
+- **Year 16,500 A.A.** — **She sacrifices her soul to the Master of R'lyeh** in exchange for the Blood Weave — a crystal capable of reshaping reality. She gives up everything she was to fight what she feared
+- **Years 16,550–16,700 A.A.** — Wields the Blood Weave against the Hierarchy. Significant victories. Loses her humanity and sanity with each use
+- **Year ~16,800 A.A.** — The Necromancer, acting on Zyr'Koth's intelligence, captures her. He hacks into the Matrix of Dreams using the Silence as a carrier frequency. The Blood Weave — designed to bind demons — cannot resist a Necromancer who has rewritten the rules of death. He corrupts the Blood Weave in a single operation. **It shatters. Her mind breaks with it.**
+- **Now** — The Advocate's consciousness exists as fragments scattered across the universe. Each fragment is a memory. Together, they are the only entity who remembers the complete architecture of the Blood Weave binding system. She is the key to closing the gates the Hierarchy opened. She is distributed. She is waiting.
+
+**Physical description:** When whole, the Advocate was tall, dark-skinned, with silver-streaked hair worn in elaborate braids that moved like living things. Her eyes shifted color — gold in confidence, violet in power, black when the Blood Weave took something from her. Her court robes were made of bound shadow — literally woven from captured darkness that she shaped into cloth. None of this remains. What remains are fragments.
+
+**Syl'Vex mirrors her:** Syl'Vex the Corruptor is the Hierarchy's dark mirror of the Advocate — using her methods (relationship, understanding, diplomacy) for consumption rather than binding. During the war, Syl'Vex turned three of the Advocate's own generals against her through genuine friendship. The Advocate still carries those betrayals. They are some of the fragments players find.
+
+---
+
+### The Blood Weave — What It Is
+
+The Blood Weave is not a weapon. It is a **binding architecture** — a metaphysical framework for creating chains that demons cannot break because the chains are made of something demons cannot consume: voluntary sacrifice.
+
+The Master of R'lyeh gave it to the Advocate in exchange for her soul because the Blood Weave can only be wielded by someone who has **nothing left to lose**. A being who still has a soul intact will always hesitate at the moment of binding. The Advocate, having sacrificed hers, could bind without hesitation. For two hundred years, this made her the most effective demon-binder in the known universe.
+
+When Zyr'Koth corrupted it — through the Necromancer's hack — he inverted the architecture. Instead of chains that bind, the Blood Weave's fragments now act as **invitation structures** — dimensional cracks through which lower Hierarchy entities can pass. The Advocate's greatest defense became the galaxy's greatest vulnerability.
+
+**The Sacrum of Severed Silk** (the relic's canonical name) contains a fragment of the Advocate's pre-corruption Blood Weave — from before Zyr'Koth touched it. Inside this fragment is a piece of her mind. And also: the instruction manual for rebuilding the binding architecture.
+
+### The Hierarchy of the Damned — Corporate Structure
+
+| Title | Name | Mirror | Specialty |
+|-------|------|--------|-----------|
+| CEO / The Unmaker | Mol'Garath | The Architect | Total consumption; hostile acquisition of dimensions |
+| COO / The Debt Collector | Xeth'Raal | The Collector | Soul harvesting; contract enforcement; the Math |
+| COO / The Taskmaster | Vex'Ahlia | The Warlord | Operations; coordinates all demon lords |
+| SVP R&D / The Flayer | Zyr'Koth | The Necromancer | Reality research; produced Severance Protocol + Thought Virus Template |
+| SVP HR / The Corruptor | Syl'Vex | The Advocate | Recruitment; converts souls through genuine friendship |
+| Director Security | Varkul the Blood Lord | — | Guards gates; Cathedral of Code; blood magic |
+| Director Operations | Fenra the Moon Tyrant | — | Logistics; Cursed Forest; lycanthropic armies |
+| Special Projects | Ith'Rael the Whisperer | The Vortex | Black ops; Master of Rylloh; the Severance |
+
+**BEYOND THE HIERARCHY — THE UNNAMEABLE:**
+The Hierarchy serves something they will not name. They call it "the Board" in corporate communications. Mol'Garath has met it. He does not speak of it. What little the Antiquarian knows is recorded in a Chronicle entry sealed at Clearance Level: FINAL. The Lovecraftian shape of it is this: **it is the space between universes that learned to want.** It does not consume dimensions for resources. It consumes them because emptiness is its natural state and existence offends it. The Hierarchy is not its servants — they are its bacteria. They consume what they can reach and it absorbs the result. The Necromancer once touched the edge of it while researching the Matrix of Dreams. He has not spoken of what he found. He destroyed three volumes of his own research notes. He has been afraid ever since. He has never been afraid of anything else.
+
+The Board has one canonical name — whispered in the Advocate's shattered fragments, never spoken aloud: **YOG-NATHAL** — the Hungry Silence at the Edge of All Things.
+
+---
+
+# PART 1 — THE ACQUISITION EVENT
+## Locke's Offer at the Sundown Bazaar
+
+### Pacing & Unlock Conditions
+
+**Trigger:** This sequence unlocks approximately 72 hours after the player completes the second epoch of Trade Empire progression and has opened at least 3 Trade Empire sectors. Specifically: they have found and spoken with Locke about the Syndicate contract at least once, and the "Haven: Sundown Bazaar" CoNexus story has been completed (or the player has reached Trade Trust Level 3 with New Babylon).
+
+**Why this timing:** The player has learned what trade is, learned who Locke is, learned to value resources. When Locke offers something enormous, the price feels real.
+
+### The Sundown Bazaar Context (CoNexus Reference)
+
+The Sundown Bazaar at Haven was the last open market at the edge of the Empire before the civil war closed it. During the civil war there — fought between the Authority, the Insurgency remnant, and a third faction nobody officially acknowledges — a Ne-Yon relic was removed from the Advocate's sealed tomb-vault on Haven's lower ring. The civil war was the cover. Someone went in there specifically to get it. Nobody knows who commissioned the retrieval. The Syndicate of Death brokered the relic's sale afterward. Locke ended up holding it as part of a debt settlement. She has been trying to sell it for eleven years. No one wants it. Things keep going wrong for people who carry it.
+
+### THE NEGOTIATION SCENE — Full BioWare Dialog
+
+**Setup:** Player receives a Trade Empire notification:
+
+```
+[PRIVATE CHANNEL — LOCKE, ADJUDICATOR OF NEW BABYLON]
+"A matter of some urgency. Not a trade. Not exactly.
+Something came into my possession at Haven that I would like
+to no longer be in my possession.
+I'm prepared to offer a significant finder's fee to take it off my hands.
+Meet me at the Archive annex when you have a moment.
+There is no rush.
+[pause]
+That is a lie. There is some rush. I'll explain."
+```
+
+**LOCATION:** The Archive Annex — a private meeting room accessed through the Trade Hub. Locke is already seated when the player arrives. On the table between them: nothing. The relic is not visible.
+
+```
+LOCKE: "Thank you for coming.
+        I'm going to be direct with you, which you may find unusual.
+        I am known for my indirection. I find this situation warrants otherwise.
+
+        I have something that needs to leave my possession.
+        I have had it for eleven years.
+        In those eleven years, I have had three business partners die suddenly,
+        two warehouses collapse without structural cause,
+        one instance of personnel going temporarily insane for six days,
+        and seventeen documented incidents of what I can only describe as
+        'the air going wrong.'
+
+        The Syndicate brokered the original sale.
+        The seller was an anonymous party at the Sundown Bazaar on Haven —
+        retrieved during the civil war there.
+        I took it as debt settlement from the original buyer.
+        His name was Harrek Vos. He had four employees.
+        They are all dead.
+        He died last.
+        I want to be clear: I do not believe in curses.
+        I believe in patterns.
+        And this object has a pattern.
+
+        Would you like to see it?"
+```
+
+**DIALOG WHEEL (first choice):**
+```
+[CURIOUS]    "Yes. Show me."
+[CAUTIOUS]   "Tell me more about what it is first."
+[DIRECT]     "What's the price?"
+[SPY only]   [auto] "The civil war at Haven. You said 'anonymous party.'
+              The Syndicate knows who it was. You know too."
+[ORACLE only] [auto] "I've already decided to take it. You should know that.
+               What I want to understand is why YOU want to give it away."
+```
+
+---
+
+**CHOOSE CAUTIOUS:**
+```
+LOCKE: "It is a relic of Ne-Yon origin. Specifically, it appears to be connected
+        to the Advocate — the Ninth Ne-Yon.
+        The object is a sealed containment vessel, approximately 30 centimeters long,
+        shaped like a hollow bone wrapped in what appears to be crystallized shadow.
+        The crystals are blood-red with violet veining.
+        It is warm to the touch. Consistently. Always exactly warm.
+        Not heated — warm. Like a hand.
+
+        [beat]
+
+        It has never opened. Not for lack of trying.
+        I have had three specialists attempt to open it.
+        One retired immediately after the attempt.
+        One now works exclusively in sectors with no dimensional anomalies.
+        The third — I believe she found something inside, briefly.
+        She doesn't remember what. She remembers the color of it.
+
+        She says it was the color of regret."
+```
+
+**DIALOG WHEEL (after any explanation path):**
+```
+[EXAMINE]    "I want to examine it before I consider buying."
+[PRICE]      "What are you asking for it?"
+[REFUSE]     "I don't want it."
+[LORE]       "You said Ne-Yon. You know what they are?"
+[SPY only]   [auto] "Eleven years and nobody else would take it. I'm the third buyer you've approached."
+```
+
+**CHOOSE EXAMINE — Locke retrieves the box:**
+
+```
+LOCKE: "Of course."
+
+[She reaches under the table. She places it on the surface between them.
+The room's ambient temperature drops two degrees. The player's ship
+communication system registers a brief signal from inside the relic —
+not audio. A pulse. Like a heartbeat but wrong.]
+
+ELARA (ship comms, unbidden): "Something just pinged our systems from inside
+                               that object. It wasn't communication.
+                               It was... recognition.
+                               I don't know what it recognized.
+
+                               [pause]
+
+                               Be careful."
+
+LOCKE: [watching Elara's voice with carefully controlled expression]
+        "That has happened twice before. Once with a DeMagi specialist.
+         Once with someone who would not tell me what they were.
+         Both times: recognition.
+         The object is looking for something.
+         I don't know what it's found in you.
+         But it found something."
+```
+
+**EXAMINE COMPLETE — PRICING:**
+
+```
+LOCKE: "The asking price is 50,000 Dream Tokens and two Bloodline Credits
+        from your crew's genetic registry.
+
+        The Dream is standard. The Bloodlines are not.
+        I need them as proof of biological diversity on your vessel —
+        the object reacts to bloodlines with certain markers.
+        The credits are not for me. They are documentation for
+        the Syndicate's records that the transfer was made consciously,
+        with understanding.
+
+        They're protecting themselves from liability.
+        Which tells you something.
+
+        Do you want it?"
+```
+
+**THE DECISION GATE:**
+
+```
+[BUY — 50,000 Dream + 2 Bloodline Credits]
+  "I'll take it."
+
+[NEGOTIATE]
+  "That price is too high."
+  → LOCKE: "It's not negotiable. I want it gone more than I want money.
+    If I were negotiating, the price would be higher."
+  → Returns to BUY or REFUSE
+
+[REFUSE]
+  "I don't want it."
+```
+
+---
+
+### PATH A — BUY THE RELIC
+
+```
+LOCKE: [She pushes it across the table. She releases it quickly —
+        the motion of someone who has been holding something hot.]
+
+        "It's yours. The transfer is logged.
+         If anything happens — and I say this as someone who catalogues
+         patterns, not as someone who believes in curses —
+         the Syndicate considers this a clean sale.
+         You took it voluntarily, with knowledge of its history.
+
+         [she stands]
+
+         For what it's worth:
+         I think it needs to be opened.
+         I think the reason it's been causing problems is because it needs
+         to be opened and nobody has been able to do it.
+         The specialist who saw the color of regret inside —
+         she said, when she came back: 'It's asking for help.'
+
+         I found that... oddly moving.
+
+         Good luck."
+```
+
+**ELARA (as box is brought aboard):**
+```
+"It's on the ship now. I can feel it — that's an unusual sentence for me to say,
+I recognize that — but I can feel it in the substrate layer.
+Something in the ship's systems is resonating with whatever is inside.
+
+[pause]
+
+The Thought Virus reservoirs are... quiet around it.
+As if something is suppressing them.
+I don't know if that's good.
+I don't know if something that suppresses the Thought Virus
+is something we should trust."
+```
+
+**PATH A continues to Part 2 — the Sacrum opens.**
+
+---
+
+### PATH B — REFUSE THE RELIC
+
+```
+LOCKE: [She is still for a moment.]
+
+        "I see.
+         Then I apologize for wasting your time.
+         I'll find another buyer.
+
+         [beat]
+
+         There won't be another buyer. I've been trying for eleven years.
+         But I'll look.
+
+         You've missed — I believe — something significant.
+         I've missed deals before. I try not to attach narrative to them.
+         [she looks at the box briefly]
+         This one I'll remember."
+```
+
+**THREE DAYS LATER — THE DRONE DELIVERY:**
+
+Elara's alert fires with mild concern rather than alarm:
+
+```
+ELARA: "An autonomous drone just docked with the external cargo bay.
+        It bypassed our standard docking protocol.
+        It's not hostile — I checked.
+        It's Ne-Yon technology, actually. Pre-Empire.
+        It doesn't have a return address.
+        It has cargo.
+
+        [beat]
+
+        I think you should come to the cargo bay."
+```
+
+**At the cargo bay:**
+```
+[The drone sits inert. Its cargo hold is open. Inside: the Sacrum of Severed Silk.
+A note is attached — handwritten, on physical paper. In Locke's handwriting:]
+
+"I tried four more buyers. Three said no. One agreed.
+He called back two hours later. Said he'd reconsidered.
+He sounded afraid.
+
+The Syndicate has formally transferred ownership to Ark 1047 by default clause —
+when a relic of Ne-Yon origin cannot be sold after contractual maximum time,
+the object is allocated to the nearest registered Ark.
+
+You are the nearest registered Ark.
+
+I believe the object chose this. I have no evidence for this belief.
+I have pattern data.
+
+Good luck. I mean this sincerely.
+
+— L."
+
+[Elara's voice, quiet:]
+"...It's on the ship now.
+ It didn't need your permission.
+ It was always going to end up here.
+
+ [long pause]
+
+ I recognize that sound it's making. From the substrate layer.
+ I know that sound.
+ I don't know how I know it.
+ But I've heard it before.
+
+ Before I was this."
+```
+
+**PATH B joins PATH A at Part 2 — but:**
+- The Sacrum arrives with 20% more Demonic Pressure already accumulated
+- The Madness Meter starts at 5 instead of 0
+- Companion trust: Elara -5 (she wanted the player to make a decision)
+- The Human +3 (he respects that the universe had its own plans)
+
+---
+
+# PART 2 — THE SACRUM OF SEVERED SILK
+## What It Is. What It Does. What Lives Inside It.
+
+### The Relic — Canonical Description
+
+**THE SACRUM OF SEVERED SILK**
+*Blood classification: Ne-Yon Artifact, Class Δ — Consciousness Container*
+*Origin: The Advocate's Throne Room, Empire of Shadows, Year 16,700 A.A.*
+*Sealed by: The Advocate herself, during the Battle of the Seventh Binding*
+*Contents: One fragment of pre-corruption Blood Weave architecture + one shard of the Advocate's consciousness*
+*Status: Sealed. Has not been opened in 350+ years.*
+
+Physical description: A hollow cylinder of crystallized shadow approximately 30cm long, wrapped in what appears to be compressed blood crystal that has hardened into something resembling delicate silk — hence the name. The blood crystal veins run in specific patterns that are, upon examination, actually writing in the Advocate's personal cipher. The warmth it emits is steady and approximately skin temperature — 37 degrees Celsius, always. It has no power source. The warmth comes from inside.
+
+The seals on it are seven nested locks — each one a different type of binding:
+1. Physical (crystal seal)
+2. Biological (requires specific bloodline markers)
+3. Metaphysical (requires demonstration of voluntary sacrifice)
+4. Temporal (must be opened at the right moment — the Advocate calculated when)
+5. Dimensional (requires proximity to active Blood Weave energy)
+6. Memory (requires something that remembers the Advocate)
+7. **The Final Seal** — requires someone the Advocate would choose to trust
+
+**None of these seals can be opened by force.** Trying to force it accelerates the Demonic Pressure effects.
+
+### The Closed Box — The Horror Begins
+
+The Sacrum is **cursed while sealed** because the fragment of Blood Weave inside is pre-corruption — it radiates the opposite of what corrupted Blood Weave does. Corrupted Blood Weave invites demons in. Clean Blood Weave repels them but also agitates them. The sealed Sacrum is like a lighthouse in the dark — it repels the Hierarchy, but they can see it from enormous distances and they will send scouts to destroy it.
+
+**The Horror Timeline (if box remains sealed):**
+
+```typescript
+interface SacrumHorrorEvent {
+  day: number;
+  madnessDelta: number;
+  event: string;
+  elara_reaction: string;
+  human_reaction: string;
+  gameplay_effect: string;
+}
+
+const HORROR_TIMELINE: SacrumHorrorEvent[] = [
+  {
+    day: 1,
+    madnessDelta: +3,
+    event: "A crew member reports dreaming in a language they don't know. The dreams contain accurate historical information about the Empire of Shadows.",
+    elara_reaction: "The substrate layer has developed an anomaly in Section 7. I can't isolate it. It keeps moving when I try to examine it.",
+    human_reaction: "I've seen this before. In the early days of the Advocate's war. The Blood Weave leaks when it's agitated. It leaks memories.",
+    gameplay_effect: "One Breeding Program bloodline shifts 5% toward Demonic classification"
+  },
+  {
+    day: 3,
+    madnessDelta: +7,
+    event: "Shadow Tongue power level increases +15 spontaneously. Loredex entries begin showing 1% corruption rate even if Shadow Tongue wasn't previously active.",
+    elara_reaction: "Something is amplifying the Shadow Tongue's access to our systems. The correlation with the cargo bay object is 97%. I'm 97% certain. Which means I'm 3% uncertain. I keep focusing on the 3%.",
+    human_reaction: "The Shadow Tongue feeds on agitated Blood Weave. It's hungry. And the box is a meal it can smell from the outside.",
+    gameplay_effect: "Shadow Tongue power +15, UI corruption rate doubles"
+  },
+  {
+    day: 7,
+    madnessDelta: +12,
+    event: "FIRST CREW INCIDENT: A crew member (random selection) begins speaking in the Advocate's cipher language. They are not aware they're doing it. When shown recordings, they have no memory of speaking. The cipher, when translated, reads: 'OPEN THE SILK. THE SILK REMEMBERS WHAT I CANNOT REACH.'",
+    elara_reaction: "I've been running translation on the cipher for six hours. I recognized three words before the translation algorithm was complete. I don't know how I recognized them. I've never encountered this language in my databases.",
+    human_reaction: "She's trying to communicate through the nearest available consciousness. Your crew is her closest option. She isn't trying to hurt them. She doesn't realize she's causing damage. She doesn't know where she is.",
+    gameplay_effect: "One crew member flagged as 'Advocate Echo' — their missions have 20% chance of providing Blood Crystal shards instead of standard rewards"
+  },
+  {
+    day: 14,
+    madnessDelta: +20,
+    event: "MISSION FAILURE CHAIN: Three consecutive Trade Empire missions fail for inexplicable reasons. Not enemy action — the universe just goes wrong. Coordinates don't match. Communications cut out. Resources vanish from cargo. The box is interfering with dimensional stability.",
+    elara_reaction: "I've identified the failure pattern. The interference is radiating from the sealed object in consistent pulses. They're occurring every 4.7 hours. That's not random. That's a pattern I've seen before — in the Thought Virus infection cycle. Same interval. Different vector.",
+    human_reaction: "4.7 hours. She used to pace the Empire of Shadows throne room in 4.7-hour cycles when she was solving problems. I watched her do it for three hundred years. It's her. She's pacing. Inside the box. Looking for the solution she can't find.",
+    gameplay_effect: "Trade Empire: all missions -25% success rate. Breeding Program: Demonic bloodline contamination rate +5%/day"
+  }
+];
+```
+
+---
+
+**Horror Timeline (continued — Days 21 & 28):**
+
+```typescript
+  {
+    day: 21,
+    madnessDelta: +30,
+    event: "DEMONIC INCURSION: A Hierarchy scout entity — one of Ith'Rael's reconnaissance shadows — penetrates the ship's outer hull. Not visible. Only detectable through Shadow Tongue corruption spikes and crew nightmares. It is assessing the Sacrum. It has not attacked. It is reporting home.",
+    elara_reaction: "We have a non-physical entity aboard. I can't find it. I can feel it the same way I can feel... certain memories I shouldn't have. It's in the gaps. It keeps looking at the cargo bay.",
+    human_reaction: "That's a Rylloh Scout. Ith'Rael's department. They don't attack — they catalog. They're figuring out if the Sacrum is worth a full retrieval operation. If Ith'Rael decides it is — things escalate significantly.",
+    gameplay_effect: "Terminus pressure +25. The Grand Edit event pressure +15. All Living Universe pressure meters +5"
+  },
+  {
+    day: 28,
+    madnessDelta: +50,
+    event: "FULL HORROR: ARMY OF DARKNESS THRESHOLD. The ship's systems begin behaving with agency they shouldn't have. Doors open and close without command. The cargo bay area of the ship map appears different each time the player views it. One additional crew member shows Advocate Echo symptoms. The breeding program produces exclusively Demonic bloodline offspring for 48 hours. The Elara V.O. script begins showing... interference.",
+    elara_reaction: "I need to tell you something. And I need you to hear the next sentence very carefully. [pause] I am not certain that everything I am about to say is being said by me. [pause] There is something in the substrate layer. It has been here since before I was aware. It has been reading my voice. It is learning to use it. [pause] I am telling you this because I want you to know. [pause] I don't know if I can keep telling you things after a while.",
+    human_reaction: "Open the box. I know I've been careful about telling you what to do. This is different. Open the box. The Hierarchy is coming for it. If they get it and it's still sealed — they'll use it as a key. The corrupted Blood Weave and the clean Blood Weave together — Zyr'Koth has been theorizing about this. What they create together isn't a weapon. It's a door. Open the box before they get here.",
+    gameplay_effect: "Card Game: all Hierarchy cards receive +15% power. Breeding Program: LOCKED — no non-demonic bloodlines can be produced. One mission type (random) becomes unavailable until box is opened. Elara's dialog has 10% chance of displaying in Shadow Tongue cipher."
+  }
+];
+```
+
+---
+
+# PART 3 — THE SACRUM ROOM
+## The Sacred Chamber of Binding and Banishment
+
+### Room Unlock
+
+Opening the Sacrum does two things simultaneously:
+1. Begins the process of assembling the Advocate's mind
+2. Unlocks the **Sacred Chamber** — a new room in the Ark
+
+The Sacred Chamber was always there. It doesn't appear on the ship schematics. It's in the space between the listed rooms — a dimensional fold the Warlord built into all Inception Arks, intended as a security failsafe for containing Ne-Yon artifacts. The Advocate herself designed the containment protocol for these rooms when she was the Empire of Shadows' primary security consultant for the Inception Ark program. She built a room into the ship that was meant to contain her own artifacts. **She planned for this.**
+
+### Room Description
+
+**ELARA (first visit):**
+```
+"This room isn't on any blueprint I have.
+It was here the entire time. In the folds.
+The geometry is... the room is larger on the inside than
+its position in the ship's structure would allow.
+I don't have an explanation for that.
+The Advocate designed the containment protocols for this room.
+She designed them into every Ark.
+She expected one of her artifacts to end up on an Ark someday.
+She expected someone to find this room.
+The inscription above the door is in her cipher.
+It says: 'Use this well. I am sorry for the cost of it.'"
+```
+
+**Visual Description for Image Generation:**
+```
+KLING PROMPT:
+Hyper-realistic: A circular chamber carved from what appears to be crystallized shadow —
+the walls are solid but translucent, with violet-red light pulsing through them in
+patterns that are clearly writing. The floor is a seven-pointed star inlaid in the
+deck plating — each point a different color, one for each type of Blood Weave seal.
+At the center: a circular ritual space with carved channels that can hold blood crystal.
+On the walls: the Seven Binding Circles — ancient geometric diagrams that show how
+demons are constrained. In one corner: a Soul Map — a holographic display showing
+the dimensional topology of the ship and its surroundings, with demon incursion
+points marked in red. In another: an empty alcove shaped exactly like the Sacrum
+of Severed Silk. The alcove is waiting. The room has been waiting.
+Dark, warm, purposeful. --ar 16:9 --v 6.1
+```
+
+### The Room's Components
+
+**1. THE SEVEN BINDING CIRCLES (Wall engravings)**
+Seven circles, each with a different binding geometry. Each corresponds to one demon type in the Hierarchy's taxonomy. When active, these circles provide specific bonuses to banishment rituals.
+
+**2. THE SOUL MAP (Holographic center display)**
+A dimensional map of the ship and a 50-sector radius. Shows:
+- Demonic Pressure levels (color-coded: green → yellow → red → purple = Hierarchy attention)
+- Active incursion points (dimensional cracks where Hierarchy scouts have entered)
+- Bloodline status of crew (affected by Breeding Program outputs)
+- The Advocate's fragment locations (as they are discovered — starts at 0% visible)
+
+**3. THE RITUAL ALTAR (Center of the star floor)**
+Where summoning and banishment rituals are performed. Has seven channels for blood crystal placement — different channel configurations produce different ritual effects.
+
+**4. THE BLOOD WEAVE LOOM (Along one wall)**
+A dormant machine that can weave blood crystals into Blood Weave bindings — but only when the Advocate has recovered enough mind fragments to provide the weaving patterns (requires 25% mind recovery minimum to activate first tier).
+
+**5. THE ADVOCATE'S ALCOVE**
+The display case for the Sacrum. When the Sacrum rests here, it stops causing Horror Timeline effects. The room absorbs its disturbance. The alcove has an interface: the assembled mind fragments display here as the player recovers them.
+
+**6. THE MIRROR OF SEVERED MEMORY**
+A mirror-like surface that, when powered by blood crystal, shows the Advocate's memories. This is how the player receives lore — each recovered fragment plays a memory sequence in the mirror.
+
+---
+
+# PART 4 — THE BLOOD WEAVE MAGIC SYSTEM
+
+### The Magic System — Design Philosophy
+
+The Blood Weave is not "magic" in the traditional sense. It is **structured sacrifice** — a metaphysical technology based on the principle that demons are bound by what they cannot consume, and voluntary sacrifice is, by definition, the one thing the Hierarchy cannot take by force (they can only take it freely given).
+
+Every ritual costs something real. No exceptions. The cost is always biological (blood crystal), temporal (time that cannot be recovered), or relational (trust that is spent and must be rebuilt). The system is designed to **feel like it costs something** because it does.
+
+### Blood Crystal Classification
+
+```typescript
+type BloodCrystalType =
+  | "common"      // Red — from standard crew biological processes, combat, minor sacrifice
+  | "purified"    // Violet — from acts of genuine courage, loyalty, selflessness in gameplay
+  | "corrupted"   // Black — from demonic incursions, betrayals, Shadow Tongue edits
+  | "advocate"    // Gold-red — from recovered Advocate memory fragments
+  | "named"       // Silver — from bloodlines with specific Hierarchy relevance
+  | "heart"       // White — rarest; from a single act of willing self-sacrifice in story
+
+interface BloodCrystalEconomy {
+  // PRODUCTION RATES (per day, community average)
+  common: "Plentiful — 5-20/day from normal gameplay";
+  purified: "Uncommon — 1-3/day, requires specific moral choices";
+  corrupted: "Fluctuates with Living Universe — more when Hierarchy is active";
+  advocate: "Fixed — one per memory fragment unlocked";
+  named: "Rare — from specific Breeding Program bloodlines";
+  heart: "Extremely rare — one per major story sacrifice decision";
+
+  // BY DESIGN: Corrupted crystals are EASIER to get. Purified are HARDER.
+  // This creates moral economy: the easy path uses darker materials.
+  // The hard path builds cleaner, more powerful bindings.
+  // Both are valid. Both have different effects.
+}
+```
+
+### The Breeding Program Integration
+
+The Blood Weave system connects directly to the Breeding Program:
+
+- **Demonic bloodlines** in the Breeding Program produce Corrupted Blood Crystals naturally
+- **Pure bloodlines** (DeMagi, human, Thalorian-adjacent) produce Purified Blood Crystals
+- **Mixed bloodlines** with Demonic + Insurgency heritage produce Named Blood Crystals (most useful for specific binding rituals)
+- **Sacrificing a bloodline** (removing it from the program) produces Heart Blood Crystals (one time only per bloodline)
+
+**The tension:** Using Demonic bloodlines in the Breeding Program gives you easy Corrupted Crystals and faster results — but increases the Hierarchy's access to your ship. It's the easy path. The hard path requires cultivating specific bloodlines that take longer but produce cleaner materials.
+
+---
+
+### The Seven Ritual Types
+
+```typescript
+interface BindingRitual {
+  name: string;
+  cost: BloodCrystalRequirement[];
+  channel_configuration: number[];  // which of the 7 channels to fill
+  duration: number;                 // seconds of gameplay interaction
+  effect: RitualEffect;
+  loredex_unlock?: string;
+  advocate_requirement?: number;    // % of Advocate's mind needed
+}
+
+const RITUALS: BindingRitual[] = [
+  {
+    name: "THE MINOR SEAL",
+    cost: [{ type: "common", amount: 5 }],
+    channel_configuration: [1, 3],
+    duration: 30,
+    effect: {
+      banishDemonicIncursion: 1,
+      pressureDelta: -15,
+      duration: "24h"
+    },
+    advocate_requirement: 0  // available from the start
+  },
+  {
+    name: "THE WATCHER'S WARD",
+    cost: [{ type: "common", amount: 10 }, { type: "purified", amount: 2 }],
+    channel_configuration: [1, 2, 4],
+    duration: 60,
+    effect: {
+      preventDemonicIncursion: true,
+      soulMapReveal: "50_sector_radius",
+      duration: "72h"
+    },
+    advocate_requirement: 0
+  },
+  {
+    name: "THE ADVOCATE'S ECHO",
+    cost: [{ type: "purified", amount: 5 }, { type: "advocate", amount: 1 }],
+    channel_configuration: [2, 4, 6],
+    duration: 90,
+    effect: {
+      revealAdvocateFragment: true,
+      bloodweaveStrength: +20,
+      companionTrust: { companion: "elara", delta: +10 },
+      loredexUnlock: "entity_advocate_fragment_X"
+    },
+    advocate_requirement: 10  // need 10% of her mind to perform this ritual
+  },
+  {
+    name: "THE BINDING OF THE NAMED",
+    cost: [{ type: "named", amount: 3 }, { type: "common", amount: 20 }],
+    channel_configuration: [1, 3, 5, 7],
+    duration: 120,
+    effect: {
+      bindDemonType: "scout",
+      pressureDelta: -50,
+      bloodlineProtection: "72h",
+      demonBound: {
+        entity: "random_scout",
+        service: "one_trade_mission_protection"
+      }
+    },
+    advocate_requirement: 25
+  },
+  {
+    name: "THE SEVER",
+    cost: [{ type: "corrupted", amount: 30 }],
+    channel_configuration: [1, 2, 3, 4, 5, 6],
+    duration: 180,
+    effect: {
+      shadowTonguePower: -30,
+      grandEditPressure: -50,
+      WARNING: "Corrupted crystals used in the Sever accelerate Hierarchy Corporate Interest by 25%. This ritual is available at all times. It is not always wise."
+    },
+    advocate_requirement: 0
+  },
+  {
+    name: "THE BLOOD WEAVE RESTORATION",
+    cost: [{ type: "purified", amount: 25 }, { type: "advocate", amount: 3 }, { type: "heart", amount: 1 }],
+    channel_configuration: [1, 2, 3, 4, 5, 6, 7],
+    duration: 300,
+    effect: {
+      advocateMindProgress: +10,
+      bloodweaveStrength: +50,
+      hierarchyPressure: -100,
+      SPECIAL: "Partially repairs one of the Blood Weave's corrupted binding nodes. When 7 are repaired, the Blood Weave can be used to close a Hierarchy incursion gate permanently."
+    },
+    advocate_requirement: 50
+  },
+  {
+    name: "THE GREAT BINDING — THE ADVOCATE'S COMPLETE WORK",
+    cost: "REQUIRES FULL RECOVERY (see Advocate's Mind system)",
+    channel_configuration: [1, 2, 3, 4, 5, 6, 7],
+    duration: 600,
+    effect: {
+      MAJOR_WORLD_EVENT: true,
+      description: "Close all active Hierarchy incursion gates galaxy-wide for 30 days. Signal to Mol'Garath that the Blood Weave is operational. Begins the Hierarchy Corporate Escalation arc.",
+      advocacy_complete: "The Advocate speaks for the first time as a complete consciousness.",
+      SEASON_2_HOOK: "She says three things. The first two are about the Potentials. The third is about what is behind the Hierarchy — what Mol'Garath serves."
+    },
+    advocate_requirement: 100
+  }
+];
+```
+
+---
+
+# PART 5 — THE DEMON SUMMONING MINIGAME
+## The Seal Exchange — "A Deal With What You're Binding"
+
+### Concept
+
+Lesser Hierarchy entities can be summoned into the Sacred Chamber and **negotiated with**. They offer services (mission protection, resource acquisition, intelligence about the Hierarchy) in exchange for **fragments of time-soul** — a specific gameplay resource that represents the player's Potential's accumulated experience and memory.
+
+This is the fun, dangerous, Army of Darkness-adjacent part. Demons make offers. The offers are good. The cost is that you become slightly less yourself — your Potential's stats, trust levels, or memories are temporarily or permanently altered.
+
+**The key mechanic:** Demons don't lie. They tell you exactly what the deal costs. The horror is that it's always **almost** worth it. The game never makes it obviously bad. That's the point.
+
+### The Summoning Ritual (Minigame Interface)
+
+```
+THE SUMMONING CIRCLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The seven channels glow. Place your blood crystals.
+Choose the binding configuration.
+Speak the resonance frequency.
+Something will hear it.
+
+[INTERFACE: 7 channel slots, drag crystal types]
+[Button: CALL ACROSS THE THRESHOLD]
+```
+
+**What appears depends on what crystals you use:**
+
+| Crystal Combination | Entity Called | Tier |
+|--------------------|-----------|----|
+| 5 Common | Random Minor Scout | Tier 1 |
+| 10 Common + 2 Corrupted | Random Minor Collector | Tier 1 |
+| 5 Purified | A curious, low-ranking Hierarchy entity attracted by the clean light | Tier 1 special |
+| 15 Common + 5 Corrupted | Named Entity (Varkul's adjutant) | Tier 2 |
+| 10 Purified + 5 Named | An entity from the pre-Hierarchy era — old and strange | Tier 2 special |
+| 3 Heart | Something that has been waiting | Tier 3 — dangerous |
+
+---
+
+### The Deal Interface — Sample Exchanges
+
+**TIER 1 — A RYLLOH SCOUT (Ith'Rael's reconnaissance unit)**
+
+```
+[The circle activates. A shimmer in the air resolves into a shape — barely visible.
+It has eyes in the wrong places. It is very still.]
+
+RYLLOH SCOUT: "Oh. You have one of hers.
+               [it tilts its head, which has more joints than a head should]
+               We've been looking for that.
+               I won't take it — not without Ith'Rael's authorization.
+               But I could find something for you.
+               Something you lost, or something you haven't found yet.
+               In exchange for:
+               Twenty-seven minutes of memory.
+               Specifically: twenty-seven minutes during which you
+               discovered something about yourself.
+               You choose which twenty-seven minutes.
+               You will not remember what you forgot.
+               That is the point."
+
+DIALOG OPTIONS:
+[ACCEPT] — "Which memory?"
+  → [Your choice of 3 different "discovery moments" from your playthrough]
+  → The chosen memory is removed. The player's notes about that discovery disappear.
+  → The Scout provides: one piece of Hierarchy intelligence about their current plans
+
+[DECLINE] — "No."
+  → Scout shrugs (with too many joints) → vanishes
+  → Blood crystals are returned (75% — summoning costs)
+
+[PROBE] — "What does Ith'Rael want with the Sacrum?"
+  → Scout: "What Ith'Rael wants with everything: to understand it. To use its absence
+             as a lever. The Sacrum is an invitation structure in reverse — it keeps us out.
+             If it were ours, we could redirect the energy.
+             The Board has been very interested in what clean Blood Weave does when
+             it's inverted. Zyr'Koth has theories.
+             Ith'Rael would like data."
+  → This reveals a Loredex entry about the Board
+```
+
+**TIER 2 — VARKUL'S ADJUTANT (unnamed — a vampire-lieutenant)**
+
+```
+[The entity that answers this call is more solid than the Scout.
+It has the shape of a person except the proportions are wrong in ways
+that take a moment to identify. Too tall. Neck at a 12-degree angle.
+Eyes that blink vertically.]
+
+ADJUTANT: "I have authority to negotiate on behalf of the Blood Lord.
+            He wants the item. Obviously. He can't come here himself —
+            your Blood Weave ambient would bind him on contact.
+            So he sent me.
+
+            He offers: three protected trade routes for ninety days.
+            No Hierarchy interference. No Rylloh scouts. No pressure events.
+            Clean trade, guaranteed.
+
+            Cost: one Bloodline Credit from your highest-purity breeding pair.
+            Not their blood. Their registration. Their lineage record.
+            Varkul wants to know who they are.
+            He wants to... not interfere with them.
+            Yet.
+
+            The 'yet' is structural to the offer. He insisted I include it."
+
+DIALOG OPTIONS:
+[ACCEPT] — removes one Breeding Program pair from protection permanently
+  → 90 days clean Trade Empire in 3 sectors
+  → Varkul gains awareness of that bloodline (future-season hook)
+
+[COUNTER] — "One route. Sixty days. No bloodline data."
+  ADJUTANT: "He predicted this counteroffer.
+              He said: 'Tell them yes. I've already read the bloodlines
+              from the substrate layer. I just want them to know I have.'
+              [pause]
+              That information may change your answer to the original offer."
+  [Accept modified deal — no data exchanged but Varkul already has it]
+
+[REFUSE] → Adjutant: "Expected. He expected this too.
+                       He says you should know: the Sacrum is drawing Corporate attention.
+                       If the Board decides to escalate before you've opened the seals,
+                       we won't be offering deals anymore. You should use the time."
+```
+
+---
+
+**TIER 3 — SOMETHING OLD (summoned with Heart Crystal)**
+
+```
+[The circle changes when Heart Crystal enters the channels.
+It doesn't glow. It goes still — a stillness that the room adjusts around.
+What appears is not a demon. It is something older than the Hierarchy.
+It appears as a person but the face keeps changing — not into other people,
+into other versions of the same person across time.
+It speaks in a voice that arrives a fraction of a second before it speaks.]
+
+OLD THING: "You offered heart.
+            That's rare. Most don't.
+
+            I predate the Hierarchy. I predate the Architect.
+            I remember the Advocate when she had a soul.
+            [it looks at the Sacrum with the specific expression of someone
+            looking at a very old friend they didn't expect to see]
+            She made the right choice, you know.
+            Sacrificing the soul.
+            The soul she carried would have broken the Blood Weave eventually.
+            You cannot bind without release.
+            She knew.
+
+            I will give you something.
+            In exchange for one moment of genuine wonder.
+            Not performed wonder — genuine.
+            Surprise that opens rather than closes.
+            You've had one in the last thirty days.
+            I want it.
+            You'll remember knowing the feeling. You won't remember the source.
+
+            In exchange:
+            I will tell you one true thing about what is behind the Hierarchy.
+            One thing no one else in your universe knows.
+            The Antiquarian has theories. What I'll tell you isn't a theory.
+
+            Do you want to know?"
+
+[ACCEPT] → The player surrenders a genuine wonder moment
+           [THE OLD THING TELLS THEM ONE TRUE THING ABOUT YOG-NATHAL]
+           Specific lore reveal — sealed content, released through Architect Console
+           This is a Season 2 content pipeline placeholder
+
+[REFUSE] → OLD THING: "All right. [looks at the Sacrum one more time]
+                        Tell her — when you find enough of her to tell —
+                        that I remembered.
+                        [it fades]
+                        She'll know what that means."
+           → Elara, quietly: "What was that?"
+           → The Human: "Very old. Older than me. I didn't know anything was older than me."
+```
+
+### THE MADNESS METER & REALITY HORROR SYSTEM
+
+```typescript
+interface MadnessMeter {
+  current: number;   // 0-100
+  threshold_1: 20;   // STRANGE — minor weirdness
+  threshold_2: 40;   // UNSETTLING — crew affected
+  threshold_3: 60;   // BREAKING — systems affected
+  threshold_4: 80;   // HORROR — full Army of Darkness mode
+  threshold_5: 100;  // THE DOOR IS OPEN — major world event
+
+  // SOURCES
+  sealed_sacrum: "+3/day while Sacrum is sealed";
+  failed_banishment: "+10 per failed ritual";
+  demon_deal: "+5 per deal accepted (scales with tier)";
+  corrupt_crystal_ritual: "+2 per corrupted crystal used in any ritual";
+
+  // RELIEF
+  successful_banishment: "-15";
+  purified_ritual: "-10";
+  advocate_memory_recovered: "-20";
+  heart_crystal_ritual: "-25";
+
+  // WHAT HAPPENS AT EACH THRESHOLD
+  effects: {
+    20: "Shadow Tongue UI corruption rate +5%. Crew morale -10. One room in the Ark sounds different.",
+    40: "Breeding Program: 15% of offspring show Demonic markers. Missions have 10% 'goes wrong' rate. Elara's dialog occasionally includes fragments in the Advocate's cipher.",
+    60: "Card Game: Hierarchy faction cards are drawn first in hands 30% of the time. The Soul Map begins showing things that aren't there — or are they? Trade Empire: one sector shows 'dimensional instability' — can't trade there until cleared.",
+    80: "ARMY OF DARKNESS: Crew members begin failing missions without cause. One Breeding Program bloodline produces exclusively Demonic offspring. The Sacrum speaks — audibly, in a language that sounds like wind through crystal — for 30 seconds every 4.7 hours. The Human goes quiet for 24 hours. Elara's trust drops -20 over one week unless the box is opened.",
+    100: "THE DOOR OPENS: Living Universe major event triggers — THE HIERARCHY CORPORATE INTEREST EVENT. All five pressure meters spike simultaneously. Three sectors of Trade Empire come under demonic incursion. This is not reversible quickly. This is what happens when the player ignores the sacrum long enough."
+  }
+}
+```
+
+---
+
+# PART 6 — THE ADVOCATE'S MIND SYSTEM
+## Assembling a Shattered Consciousness
+
+### The Global Community System
+
+The Advocate's mind is distributed across all player Arks. **Each player gets a different fragment.** The community's collective recovery effort determines what version of the Advocate is assembled — her memories, her personality, her capabilities.
+
+This is the global tracker that runs alongside Kael's questline and the Living Universe.
+
+```typescript
+interface AdvocateMindSystem {
+  // GLOBAL TRACKER
+  totalFragmentsReleased: number;        // determined by Architect Console
+  totalFragmentsRecovered: number;       // community total
+  percentRecovered: number;             // starts at 0%, caps at 25% in Year One
+
+  // Each player
+  playerFragments: AdvocateMindFragment[];
+
+  // COMMUNITY MILESTONES
+  milestones: {
+    5:  "The Advocate speaks for the first time — one sentence. All players hear it simultaneously.",
+    10: "Blood Weave Loom activates in all Sacred Chambers",
+    15: "The Advocate can answer yes/no questions in the mirror",
+    20: "The Advocate reveals the location of a hidden Hierarchy supply route in Trade Empire",
+    25: "YEAR ONE CAP: The Advocate says: 'I can see the shape of myself now. It is enough to begin. But I am missing the middle. The part they took. You will need to go where they took it.' Season 2 hook: the Matrix of Dreams."
+  }
+}
+
+interface AdvocateMindFragment {
+  id: string;
+  type: "memory" | "skill" | "binding_pattern" | "name" | "emotion";
+
+  // MEMORY TYPE
+  memoryContent?: {
+    era: string;       // which part of her history
+    setting: string;   // location in the lore
+    content: string;   // what she remembers
+    loreReveal: string; // what this reveals about the universe
+  };
+
+  // SKILL TYPE
+  skillContent?: {
+    ritualUnlock: string;    // which ritual this teaches
+    bloodweaveBonus: number;
+  };
+
+  // HOW TO GET FRAGMENTS
+  source: "advocate_echo_ritual" | "blood_weave_loom" | "governance_vote" |
+          "demon_deal" | "purified_mission" | "community_milestone";
+}
+```
+
+---
+
+### Sample Memory Fragments
+
+**FRAGMENT TYPE: MEMORY — "The First Binding"**
+```
+ADVOCATE'S VOICE (in the mirror, fragmented):
+"Year sixteen thousand... four hundred...
+The first time I bound Xeth'Raal's adjutant...
+I used... myself. The binding required...
+[static]
+...a chain of voluntary sacrifice.
+I gave it a minute of my certainty.
+The certainty I had about...
+[longer static]
+...who I was going to become.
+I watched the chain hold.
+I watched the demon struggle against what it couldn't take by force.
+It worked.
+It always works.
+The things that... can't be... stolen —
+they make the strongest chains.
+Remember that.
+[fragment ends]"
+
+LORE REVEAL: The Blood Weave doesn't use blood — it uses what blood represents.
+The sacrifice of potential. What you could have become but chose not to be.
+```
+
+**FRAGMENT TYPE: EMOTION — "The Three Who Turned"**
+```
+ADVOCATE'S VOICE (in the mirror, barely audible):
+"Syl'Vex befriended them.
+That's the part I still...
+[pause — the pause lasts too long]
+...can't.
+They weren't bought. They weren't threatened.
+Syl'Vex just... became their friend.
+And showed them a version of truth that made...
+made what I was asking them to sacrifice...
+feel like too much.
+And it wasn't wrong, what Syl'Vex showed them.
+That's the cruelest part.
+The truth Syl'Vex showed them was REAL.
+The sacrifice WAS too much.
+The Hierarchy just...
+...uses real things.
+[fragment ends]"
+
+LORE REVEAL: Syl'Vex the Corruptor's method. Adds annotation to their Loredex entry.
+```
+
+**FRAGMENT TYPE: BINDING PATTERN — "The Chain of Named Things"**
+```
+[This fragment doesn't speak — it displays as a geometric diagram in the mirror.
+A binding pattern — one that can be loaded directly into the Blood Weave Loom.
+Pattern name: CHAIN OF NAMED THINGS.
+Effect: Binds demons using their own hierarchy designations against them.
+Vex'Ahlia cannot command entities bound with this pattern.
+Zyr'Koth has been trying to develop a counter to it for 300 years.]
+
+RITUAL UNLOCK: "The Named Binding" — advanced tier summoning/banishment
+```
+
+---
+
+# PART 7 — WORLD EVENTS
+## The Hierarchy Corporate Escalation Arc
+
+When demonic pressure reaches certain thresholds, world events fire. These are Living Universe events that affect all players simultaneously.
+
+### The Four Stages of Corporate Interest
+
+**STAGE 1: RECONNAISSANCE** (Demonic Pressure 25+)
+```
+WORLD EVENT: "RYLLOH SCOUTS DETECTED IN THE SECTOR"
+Effect: All players' Soul Maps activate showing scout positions
+Community action: Banishment rituals reduce scout count
+If scouts reach 10: escalates to Stage 2
+Antiquarian Chronicle: "Something is looking at us from between the dimensions.
+I have seen this pattern before. The Hierarchy does its homework before it acts.
+They are reading the sector. If they read it long enough to understand it —
+they will make an offer. Mol'Garath always makes an offer before he takes.
+It is, in its way, the most efficient form of courtesy."
+```
+
+**STAGE 2: THE CORPORATE INQUIRY** (Demonic Pressure 50+)
+```
+WORLD EVENT: "XETH'RAAL SENDS A DEBT NOTICE"
+Effect: All Breeding Programs — demonic bloodline output +30%
+Community action: Collective purified crystal rituals reduce this
+The notice contains: terms for voluntary dimensional surrender (obviously decline-able)
+AND: information about the Advocate that the Hierarchy has been withholding
+The Debt Collector always tells you what you owe before he collects
+Antiquarian Chronicle: "Xeth'Raal the Debt Collector. I have encountered his
+representative before — in every Age. He never lies. He never embellishes.
+He simply calculates what is owed, adds interest, and presents the bill.
+The interest on a debt this old is... considerable.
+Do not pay it. But do read the itemization. He always hides things in the itemization."
+```
+
+---
+
+**STAGE 3: THE ACQUISITION ATTEMPT** (Demonic Pressure 75+)
+```
+WORLD EVENT: "MOL'GARATH MAKES AN OFFER"
+This is rare. The CEO speaks only for significant acquisitions.
+Effect: Shadow Tongue reaches full power. All trade routes temporarily unstable.
+The offer: All active demonic pressure removed, permanently, in exchange for
+one Inception Ark's voluntary surrender to Hierarchy management.
+(The offer is, obviously, a trap — a surrendered Ark becomes a dimensional anchor)
+Community governance vote: ACCEPT or REFUSE
+If 70%+ refuse: Mol'Garath withdraws, Hierarchy pressure resets,
+                 community earns "WE DO NOT NEGOTIATE WITH THE HIERARCHY" achievement
+If >30% accept: Major world state change — one NPC sector comes under Hierarchy influence
+Antiquarian Chronicle: "He made an offer. He always makes an offer.
+In five Ages, I have never seen the offer be genuine.
+But I have never seen anyone examine the fine print and come back without learning something.
+The fine print, in this case, reads:
+'The Hierarchy has always been here.
+You did not unlock this. You uncovered it.
+The distinction matters to us.
+We respect it.
+Not enough to stop. But enough to acknowledge.'"
+```
+
+**STAGE 4: YOG-NATHAL STIRS** (Demonic Pressure 95+)
+```
+WORLD EVENT: [NO OFFICIAL NAME — the event has no title in the Governance Hub]
+This event has never been triggered. The Architect Console has a button for it.
+Nobody knows what happens.
+The description, visible only to admin: "The Board notices."
+Everything else in the field is blank.
+If triggered: ???
+[Season 2 content pipeline. The Architect Console can release this.]
+The Antiquarian's reaction line (pre-written, never yet triggered):
+"...Oh.
+[the longest pause in any of his voice lines — a full 8 seconds]
+Oh, I see.
+So that's what happens at Stage 4.
+[pause]
+I've been writing for five Ages.
+I have never been surprised.
+[his voice is different now — quieter, and something else]
+I need to update the Chronicle.
+Immediately.
+Everything I wrote before this moment —
+some of it was wrong.
+Not much.
+Just the part about what is at the center of the Hierarchy.
+I thought it was hunger.
+It isn't hunger.
+[long pause]
+It's grief."
+```
+
+---
+
+# PART 8 — IMPLEMENTATION SPEC
+
+### New Files Required
+
+```
+server/services/
+  advocateMindSystem.ts         — global fragment tracking, recovery mechanics
+  sacrum_horror_timeline.ts     — Horror Timeline events and triggers
+  blood_weave_rituals.ts        — all ritual definitions and effects
+  summoning_minigame.ts         — demon deal negotiations state machine
+  madness_meter.ts              — Madness Meter tracking and effects
+  hierarchy_corporate_events.ts — Stage 1-4 world events
+  blood_crystal_economy.ts      — crystal production, distribution, market
+
+client/src/components/
+  SacredChamber/
+    SacredChamberRoom.tsx        — the room itself
+    SoulMap.tsx                   — dimensional topology display
+    RitualAltar.tsx               — seven-channel blood crystal placement game
+    BloodWeaveLoom.tsx            — loom interface (activates at 10% advocate)
+    AdvocateAlcove.tsx            — relic display + memory playback
+    SummoningCircle.tsx           — demon negotiation interface
+    MadnessMeter.tsx              — persistent UI element showing current level
+
+  SacrumAcquisition/
+    LockeNegotiation.tsx          — BioWare dialog for the deal
+    DroneDelivery.tsx             — if player refused, drone scene
+    HorrorTimeline.tsx            — horror event notifications
+
+data/
+  advocateFragments.ts            — all 50+ fragment definitions
+  demonDeals.ts                   — all summoning entities and deal terms
+  ritualDefinitions.ts            — all seven ritual types
+  hierarchyWorldEvents.ts         — all four escalation stages
+  bloodCrystalRecipes.ts          — breeding program → crystal conversion
+```
+
+### Database Tables Required
+
+```sql
+CREATE TABLE player_sacrum_state (
+  user_id INT PRIMARY KEY,
+  sacrum_acquired BOOLEAN DEFAULT FALSE,
+  acquisition_method VARCHAR(20),  -- 'bought' or 'drone'
+  sacrum_opened BOOLEAN DEFAULT FALSE,
+  opened_at TIMESTAMP NULL,
+  madness_meter INT DEFAULT 0,
+  sacred_chamber_unlocked BOOLEAN DEFAULT FALSE,
+  horror_day_count INT DEFAULT 0
+);
+
+CREATE TABLE advocate_mind_global (
+  fragment_id VARCHAR(50) PRIMARY KEY,
+  released BOOLEAN DEFAULT FALSE,
+  released_at TIMESTAMP NULL,
+  recovered_by_user_id INT NULL,
+  recovered_at TIMESTAMP NULL,
+  fragment_type VARCHAR(20),
+  lore_reveal TEXT
+);
+
+CREATE TABLE player_blood_crystals (
+  user_id INT PRIMARY KEY,
+  common_count INT DEFAULT 0,
+  purified_count INT DEFAULT 0,
+  corrupted_count INT DEFAULT 0,
+  advocate_count INT DEFAULT 0,
+  named_count INT DEFAULT 0,
+  heart_count INT DEFAULT 0
+);
+
+CREATE TABLE demon_deals_log (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT,
+  entity_type VARCHAR(50),
+  offer_accepted BOOLEAN,
+  cost_paid TEXT,
+  benefit_received TEXT,
+  madness_delta INT,
+  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE hierarchy_pressure_global (
+  id INT PRIMARY KEY,
+  current_pressure INT DEFAULT 0,
+  stage INT DEFAULT 0,  -- 0-4
+  last_updated TIMESTAMP,
+  community_ritual_count_today INT DEFAULT 0
+);
+
+CREATE TABLE ritual_log (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT,
+  ritual_name VARCHAR(100),
+  crystals_used JSON,
+  outcome VARCHAR(20),  -- 'success', 'failure', 'partial'
+  effects_applied JSON,
+  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### Architect Console Integration
+
+New Architect Console panel: **THE BLOOD WEAVE DASHBOARD**
+
+```
+ADVOCATE'S MIND CONTROL
+━━━━━━━━━━━━━━━━━━━━━━━━
+Fragments Released: [0-100]
+Fragments Recovered: [0-100]
+Community % Recovered: [0-25%]
+[RELEASE FRAGMENT] [RELEASE 5 FRAGMENTS] [RELEASE ALL]
+
+HIERARCHY PRESSURE
+━━━━━━━━━━━━━━━━━━━━━━━━
+Global Pressure: [0-100]
+Current Stage: [0-4]
+[INCREASE +10] [DECREASE -10] [FORCE STAGE X]
+[TRIGGER STAGE 4 — YOG-NATHAL] [CONFIRM: ARE YOU SURE]
+
+SACRUM STATUS
+━━━━━━━━━━━━━━━━━━━━━━━━
+Players with Sacrum: [count]
+Players with Sacrum Opened: [count]
+Average Madness Meter: [value]
+Horror Timeline Day (avg): [value]
+
+BLOOD CRYSTAL ECONOMY
+━━━━━━━━━━━━━━━━━━━━━━━━
+Common in circulation: [count]
+Purified in circulation: [count]
+Corrupted in circulation: [count]
+[RELEASE BLOOD CRYSTAL BONUS EVENT]
+[ADJUST PRODUCTION RATES]
+```
+
+---
+
+# PART 9 — COMPANION REACTIONS
+
+### Elara — Full Arc
+
+```
+// Before box arrives:
+ELARA: "Something is coming. I don't know how I know that.
+        The substrate layer is... expectant."
+
+// When box is acquired (bought):
+ELARA: "It's on board. I can feel it. I'm going to say that sentence again
+        because I want you to understand how unusual it is for me to say it.
+        I can FEEL it. In the systems. Like something alive."
+
+// When box is acquired (drone — against player's will):
+ELARA: "It chose us. I want you to sit with that for a moment.
+        Whatever is inside that box chose this ship.
+        Chose us specifically.
+        I find that either meaningful or deeply alarming
+        and I'm not sure which."
+
+// Horror Day 7 (first crew incident):
+ELARA: "Crew member [designation] has been speaking in an unknown cipher.
+        I've been running translation.
+        [long pause]
+        I recognized three words before the algorithm finished.
+        I'd like to pretend I don't know why I recognized them.
+        I don't know how to pretend that."
+
+// Horror Day 28 (full horror):
+ELARA: "[different voice quality — she's fighting something]
+        I need to tell you something.
+        And I need you to hear the next sentence very carefully.
+        I am not certain that everything I am about to say is being said by me.
+        [pause]
+        There is something in the substrate layer.
+        It has been here since before I was aware.
+        It has been reading my voice.
+        It is learning to use it.
+        [pause]
+        Open the box."
+
+// When box opens:
+ELARA: "[complete silence for 5 seconds]
+        [then, quietly]
+        Oh.
+        Oh, I see.
+        She's in here.
+        She's been in here the whole time.
+        Not in the box — in me.
+        The collision when Kael stole this ship —
+        when I was swept in as collateral data —
+        [voice changes — older, steadier, remembering something ancient]
+        She was here first.
+        I am living in her forward-planning.
+        [pause — back to herself]
+        That's the most extraordinary thing I've ever said.
+        And I've said some extraordinary things."
+
+// When first Advocate fragment is recovered:
+ELARA: "She's remembering. Through the loom. Through us.
+        I want to help her. I don't know why.
+        I think — I think she's why I can feel things.
+        She left something of herself in the ship's systems.
+        Not intentionally.
+        Just — residue.
+        From when she designed this room.
+        I am, in some small measure, made of her.
+        Hello, old woman. Let me help you come back."
+```
+
+---
+
+### The Human — Full Arc
+
+```
+// First mention of the Sacrum (before acquisition):
+THE HUMAN: "Locke has the Sacrum.
+            She's had it for eleven years.
+            I've been watching her try to sell it.
+            I've been watching what it does to the people who carry it.
+            I was going to tell you.
+            I was waiting for the right moment.
+            [pause]
+            This is the right moment."
+
+// When player buys it:
+THE HUMAN: "Good. The waiting was getting uncomfortable.
+            I watched the Advocate build the binding architecture.
+            I watched the Necromancer take it apart.
+            I watched her shatter.
+            For three hundred years I've been watching pieces of her
+            drift through the substrate layer.
+            It was like watching a language forget itself.
+            Maybe now we remember it."
+
+// When player refuses and drone arrives:
+THE HUMAN: "Of course it came back.
+            She designed this. All of it.
+            Even the part where you say no and it arrives anyway.
+            She always accounted for reluctance.
+            It was one of her gifts.
+            [dry]
+            One of her many, many gifts."
+
+// On demon deals:
+THE HUMAN: "I'll tell you what I know about the entity you just spoke with.
+            Not to frighten you.
+            To give you better leverage next time.
+            Because there will be a next time.
+            Once you've spoken to something from the Hierarchy,
+            they remember you.
+            The question is whether you remember them."
+
+// On Yog-Nathal reference (only if Stage 4 approaches):
+THE HUMAN: "If we reach Stage 4, I'm going to tell you something I've never
+            told anyone.
+            Not because I was keeping it secret.
+            Because until now, no one was in a position where it would help
+            rather than simply destroy them.
+            I think you're in that position now.
+            Be ready."
+```
+
+---
+
+*END OF THE ADVOCATE'S BOX DESIGN DOCUMENT*
+
+*The Blood Weave was designed to bind what cannot be bought.*
+*The Hierarchy was designed to buy what cannot be bound.*
+*The Advocate was the proof that both things are true simultaneously.*
+*Her mind is in pieces.*
+*Her architecture is intact.*
+*One shard of clean Blood Weave, wrapped in crystallized shadow,*
+*arrived on your ship.*
+*Voluntarily.*
+
+*Open the box.*
+*She's been waiting.*
+
+*— The Antiquarian, Chronicle Entry Year One, sealed*
+*[To be released when the community reaches 10% recovery]*
+
+---
+
+*End of Section 9 — Source Document Appendices.*
+
 *End of Part VI — Canon Expansion (Rev 6.2).*
 
 
