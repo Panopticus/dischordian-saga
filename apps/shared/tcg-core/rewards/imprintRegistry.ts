@@ -204,6 +204,37 @@ export function tieredCardDefIdsFor(slug: string): readonly string[] | undefined
   return entry?.tieredCardDefIds;
 }
 
+/* ═══════════════════════════════════════════════════════
+   CHAPTER → NPC MAPPING
+   Hand-authored mapping from story chapter ids to the NPC slugs
+   that appear in each. Used by the story-completion hook so
+   completing Chapter 4 (Red Death) awards Akai Shi fragments,
+   Chapter 7 (Project Vector) awards Engineer fragments, etc.
+   Chapters without a mapping award no fragments — the hook
+   silently no-ops, which is the safe fallback as new chapters
+   are authored upstream of this registry.
+   ═══════════════════════════════════════════════════════ */
+
+export const CHAPTER_TO_IMPRINT_NPCS: Readonly<Record<string, readonly string[]>> =
+  Object.freeze({
+    // Act 1 — Awakening, Insurgency, the Architect's first move
+    ch1_dead_signal: ["agent_zero", "elara"],
+    ch2_arenas_law: ["iron_lion", "locke"],
+    ch3a_generals_honor: ["iron_lion"],
+    ch3b_ghosts_gambit: ["the_enigma"],
+    ch4_red_death: ["akai_shi", "the_jailer"],
+    ch5_dead_code_rising: ["the_necromancer"],
+    ch6_false_prophet: ["the_architect", "the_oracle"],
+    ch7_project_vector: ["the_engineer", "the_human"],
+
+    // Act 2 — Companions, betrayals, the long trade
+    ch8_the_detective: ["the_detective", "foucault"],
+    ch9_collectors_garden: ["the_collector"],
+    ch10_dreamers_call: ["the_dreamer", "the_oracle"],
+    ch11_ships_grief: ["elara"],
+    ch12_source_meeting: ["the_source", "the_architect"],
+  });
+
 /** Sanity invariant — exactly 18 NPCs, no duplicate slugs. The
  *  service layer would silently misbehave if either failed. */
 if (IMPRINT_REGISTRY.length !== 18) {
