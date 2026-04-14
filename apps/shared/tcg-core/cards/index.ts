@@ -441,6 +441,7 @@ import { FIRE_ELEMENT_CARDS } from "./definitions/elemental/fire";
 import { WATER_ELEMENT_CARDS } from "./definitions/elemental/water";
 import { AIR_ELEMENT_CARDS } from "./definitions/elemental/air";
 import { SPACE_DIMENSION_CARDS } from "./definitions/dimensional/space";
+import { TIME_DIMENSION_CARDS } from "./definitions/dimensional/time";
 
 /* ─── NPC Imprints (Phase F10+) ─── */
 import { AGENT_ZERO_IMPRINT_SET } from "./definitions/imprint/agent_zero";
@@ -901,4 +902,5 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   ...WATER_ELEMENT_CARDS,
   ...AIR_ELEMENT_CARDS,
   ...SPACE_DIMENSION_CARDS,
+  ...TIME_DIMENSION_CARDS,
 ]);
