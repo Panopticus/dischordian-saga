@@ -439,6 +439,7 @@ import { NEYON_CLASS_CARDS } from "./definitions/class/neyon";
 import { EARTH_ELEMENT_CARDS } from "./definitions/elemental/earth";
 import { FIRE_ELEMENT_CARDS } from "./definitions/elemental/fire";
 import { WATER_ELEMENT_CARDS } from "./definitions/elemental/water";
+import { AIR_ELEMENT_CARDS } from "./definitions/elemental/air";
 
 /* ─── NPC Imprints (Phase F10+) ─── */
 import { AGENT_ZERO_IMPRINT_SET } from "./definitions/imprint/agent_zero";
@@ -897,4 +898,5 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   ...EARTH_ELEMENT_CARDS,
   ...FIRE_ELEMENT_CARDS,
   ...WATER_ELEMENT_CARDS,
+  ...AIR_ELEMENT_CARDS,
 ]);
