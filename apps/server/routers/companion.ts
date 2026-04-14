@@ -8,6 +8,7 @@ import { getDb } from "../db";
 import { companionMessages, companionRelationships } from "../../db/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
+import { awardFragments } from "../services/imprintService";
 import { getConsequences, getEventDialogContext } from "../services/universeConsequences";
 
 const ROOT = process.cwd();
@@ -439,6 +440,20 @@ export const companionRouter = router({
             const newLevel = input.relationshipLevel + relGain;
             await ripple.emit("npc_trust_gained", { userId: ctx.user.id, npcId: "the_human", newTrust: newLevel, amount: relGain });
           }
+
+          // Phase F9 — chat with The Human grants 1 imprint
+          // fragment per conversation. Errors are caught + logged
+          // so a partial failure cannot break the chat response.
+          try {
+            await awardFragments(db, {
+              userId: ctx.user.id,
+              npcSlug: "the_human",
+              source: "companion_chat",
+              sourceDetail: input.category || "chat",
+            });
+          } catch (e) {
+            logger.warn("[Imprints] companion_chat grant failed for the_human", e);
+          }
         }
 
         const choices = getHumanFollowupChoices(input.category || "lore", input.relationshipLevel);
@@ -551,6 +566,20 @@ export const companionRouter = router({
             });
             const newLevel = input.relationshipLevel + relGain;
             await ripple.emit("npc_trust_gained", { userId: ctx.user.id, npcId: "elara", newTrust: newLevel, amount: relGain });
+          }
+
+          // Phase F9 — chat with Elara grants 1 imprint fragment
+          // per conversation. Errors are caught + logged so a
+          // partial failure cannot break the chat response.
+          try {
+            await awardFragments(db, {
+              userId: ctx.user.id,
+              npcSlug: "elara",
+              source: "companion_chat",
+              sourceDetail: input.category || "chat",
+            });
+          } catch (e) {
+            logger.warn("[Imprints] companion_chat grant failed for elara", e);
           }
         }
 
