@@ -18,9 +18,9 @@
  * incrementFactionStats once per real match completion; the
  * service trusts the caller.
  */
-import { eq, and } from "drizzle-orm";
+import { eq, and, sql } from "drizzle-orm";
 import type { DrizzleDb } from "../db";
-import { factionStats } from "../../db/schema";
+import { factionStats, userCards, notifications } from "../../db/schema";
 import { logger } from "../logger";
 
 /** Season-1 factions tracked by allegiance. Must match the
@@ -170,4 +170,88 @@ export async function listFactionStats(
 ) {
   return db.select().from(factionStats)
     .where(eq(factionStats.userId, userId));
+}
+
+/** CardDefId convention for allegiance cards. Matches the content
+ *  files in cards/definitions/allegiance/<faction>.ts:
+ *    s1_alleg_<faction>_t<tier>
+ */
+function allegianceCardDefId(
+  faction: AllegianceFaction,
+  tier: AllegianceTier,
+): string {
+  return `s1_alleg_${faction}_t${tier}`;
+}
+
+/** Display name used in the unlock notification. */
+const FACTION_DISPLAY_NAME: Record<AllegianceFaction, string> = {
+  architect: "Architect",
+  insurgency: "Insurgency",
+  dreamer: "Dreamer",
+  new_babylon: "New Babylon",
+  antiquarian: "Antiquarian",
+  thought_virus: "Thought Virus",
+};
+
+/** Insert or increment a single allegiance card into userCards.
+ *  Mirrors the imprint service's insert pattern. Returns true iff
+ *  the card was newly granted (first copy). */
+async function insertAllegianceCard(
+  db: NonNullable<DrizzleDb>,
+  userId: number,
+  cardDefId: string,
+): Promise<boolean> {
+  const existing = await db.select().from(userCards)
+    .where(and(
+      eq(userCards.userId, userId),
+      eq(userCards.cardId, cardDefId),
+    )).limit(1);
+  if (existing[0]) {
+    await db.update(userCards)
+      .set({ quantity: sql`${userCards.quantity} + 1` })
+      .where(and(
+        eq(userCards.userId, userId),
+        eq(userCards.cardId, cardDefId),
+      ));
+    return false;
+  }
+  await db.insert(userCards).values({
+    userId,
+    cardId: cardDefId,
+    quantity: 1,
+    obtainedVia: "faction_allegiance",
+  });
+  return true;
+}
+
+/** End-to-end pipeline: increment factionStats, then for every
+ *  newly-crossed tier grant the corresponding allegiance card and
+ *  fire an achievement notification. Returns the same shape as
+ *  incrementFactionStats plus the list of granted cardDefIds. */
+export async function processFactionMatchEnd(
+  db: NonNullable<DrizzleDb>,
+  input: IncrementFactionStatsInput,
+): Promise<IncrementFactionStatsResult & { unlockedCardDefIds: string[] }> {
+  const result = await incrementFactionStats(db, input);
+  const unlockedCardDefIds: string[] = [];
+  for (const tier of result.unlockedTiers) {
+    const cardDefId = allegianceCardDefId(input.faction, tier);
+    try {
+      await insertAllegianceCard(db, input.userId, cardDefId);
+      unlockedCardDefIds.push(cardDefId);
+      await db.insert(notifications).values({
+        userId: input.userId,
+        type: "achievement",
+        title: `${FACTION_DISPLAY_NAME[input.faction]} Allegiance — Tier ${tier}`,
+        message: `You unlocked the tier ${tier} ${FACTION_DISPLAY_NAME[input.faction]} allegiance card.`,
+        actionUrl: "/collection",
+      });
+    } catch (e) {
+      logger.warn(
+        `[FactionAllegiance] grant failed for ${cardDefId}`,
+        e,
+      );
+    }
+  }
+  return { ...result, unlockedCardDefIds };
 }
