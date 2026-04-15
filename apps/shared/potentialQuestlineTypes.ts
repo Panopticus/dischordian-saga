@@ -32,6 +32,9 @@ export interface PotentialQuestlineChapter {
   hook: string;
   /** Sector the chapter primarily takes place in. */
   sectorId?: string;
+  /** Optional per-chapter act gate, 1-7. Overrides the questline-level
+   *  actGate when a single questline spans multiple acts. */
+  actGate?: number;
   /** The opening monologue beats rendered before the wheel appears. */
   opener: PotentialQuestlineBeat[];
   /** The dialog wheel options the player chooses between. */

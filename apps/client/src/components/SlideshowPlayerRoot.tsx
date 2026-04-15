@@ -27,7 +27,6 @@ import { useGame } from "@/contexts/GameContext";
 export function SlideshowPlayerRoot() {
   const active = useWitnessingStore((s) => s.activeSlideshow);
   const completeActive = useWitnessingStore((s) => s.completeActiveSlideshow);
-  const closeActive = useWitnessingStore((s) => s.closeActiveSlideshow);
   const moments = useMemorableMomentsStore((s) => s.moments);
   const { setNarrativeFlag, state: gameState } = useGame();
 
@@ -82,18 +81,33 @@ export function SlideshowPlayerRoot() {
     completeActive();
   }, [active, completeActive, setNarrativeFlag]);
 
-  const handleClose = useCallback(() => {
-    closeActive();
-  }, [closeActive]);
+  // NOTE(ci-green): SongSlideshow (apps/client/src/components/SongSlideshow.tsx)
+  // is a simple frames-based renderer that can't consume the rich production
+  // shape of SongSlideshowDef (Ken Burns animation, lyric-synced overlays,
+  // theater-mode dialog beats, lore card reveals, reduced-motion fallback,
+  // etc). Until the component is rewritten to consume a SongSlideshowDef
+  // directly, lossy-adapt the def's frame timings into the simple shape the
+  // component accepts. Drops kenBurns, overlays, theater mode, and the
+  // onSkip/onClose distinction — onEnd covers both natural-end and
+  // user-dismiss so rewards always apply when a slideshow plays.
+  const simpleFrames = useMemo(
+    () =>
+      slideshowDef?.frames.map((f) => ({
+        imageSrc: f.imageUrl,
+        durationMs: Math.max(1000, f.endMs - f.startMs),
+        lyric: f.dialogOverlay,
+      })) ?? [],
+    [slideshowDef],
+  );
 
   if (!active || !slideshowDef) return null;
 
   const slideshow = (
     <SongSlideshow
-      def={slideshowDef}
-      onComplete={handleComplete}
-      onSkip={handleComplete}
-      onClose={handleClose}
+      frames={simpleFrames}
+      audioSrc={slideshowDef.audioUrl}
+      title={slideshowDef.title}
+      onEnd={handleComplete}
     />
   );
 

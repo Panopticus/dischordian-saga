@@ -99,7 +99,10 @@ describe("adaptTcgStateToLegacyView", () => {
     );
     if (antInHand) {
       expect(antInHand.name).toBe("The Antiquarian");
-      expect(antInHand.imageUrl).toContain("antiquarian");
+      // Registry keys image URLs by card id (e.g. /art/cards/s1_char_018.webp),
+      // not by display name. Assert the adapter plumbed the registry through
+      // by checking the card id is in the path.
+      expect(antInHand.imageUrl).toContain("s1_char_018");
     }
   });
 

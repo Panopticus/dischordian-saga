@@ -138,6 +138,11 @@ export interface GalacticSector {
   contestedBy?: string[];
   /** Key into CONTESTED_GREETINGS for species-specific first entries. */
   raceGreetingKey?: string;
+  /** Eyes' Shadow commentary line shown by EyesNarratorWhisper once
+   *  the player unlocks the Eyes' Shadow ending of Act 3 (§8.1 #10
+   *  of WITNESSING_NARRATIVE_PROPOSAL.md). Optional — sectors
+   *  without a line simply don't trigger the whisper. */
+  eyesNarrator?: string;
 }
 
 /** Oracle players can trade futures up to this many cycles ahead. */
