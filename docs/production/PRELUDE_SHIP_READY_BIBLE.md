@@ -1577,3 +1577,157 @@ VFX overlays work in concert with ambient audio beds. This subsection catalogs t
 | `ambient_transfer_array_standby` | Higher-pitched ~180 Hz steady tone suggesting a powered transfer-array in standby mode. Seamless loop | `apps/client/public/audio/ambient/prelude/transfer-array-standby.mp3` (-20 LUFS) | §13.6 Beat G | **§17.4 Beat J (DOMINANT bed at 100%)**. Any Medical Bay re-entry |
 | Bridge powered-systems mix | Fan hum + console electronics clicks + low-frequency gravity-generator rumble. Cross-fades in/out of the cold-hum base bed at 2-second boundaries | `apps/client/public/audio/ambient/prelude/bridge-powered-systems.mp3` (-19 LUFS) | §16.6 Beat I | **§17.4 Beat J** (background layer at 40%). Any Bridge re-entry post Beat I |
 
+---
+
+## Section 19 — Asset Delivery Checklist
+
+This section is the **flat, pipeline-ready list of every new asset** this doc adds. It is organized by asset type (room stills → cutscene videos → VO files → VFX files → ambient audio beds) and sorted by priority (P0 first, P1 second). Each row contains the output path, the source section reference, and the priority. Production can work directly from this checklist without needing to cross-reference the individual beat sections.
+
+**Total new asset rows: ~45** (breakdown in §19.6 summary at the end of this section).
+
+### 19.1 Room environment stills (9 P0 + 2 P1 = 11 total)
+
+All room stills are 16:9, 1920×1080 resolution, rendered via Nano Banana 2 using the prompts in the individual beat sections. All stills are published to `.png` + `.webp` format for modern browser compatibility.
+
+| # | Output path | Source section | Beat | Priority |
+|---|---|---|---|---|
+| 1 | `apps/client/public/art/rooms/room-cryo-bay.png` + `.webp` | §3.3 | A — Cryo Wake | P0 |
+| 2 | `apps/client/public/art/rooms/room-corridor.png` + `.webp` | §4.3 (Beat A.5 establishes, reused by §5.3 Beat B) | A.5 / B | P0 |
+| 3 | `apps/client/public/art/rooms/room-engineering.png` + `.webp` | §6.3 (Beat C establishes, reused by §7.3 Beat C.5) | C / C.5 | P0 |
+| 4 | `apps/client/public/art/rooms/room-cargo-hold.png` + `.webp` | §8.3 | D — Cargo Bay | P0 |
+| 5 | `apps/client/public/art/rooms/room-galley.png` + `.webp` | §9.3 | D.5 — Galley | P0 |
+| 6 | `apps/client/public/art/rooms/room-mess-hall.png` + `.webp` | §10.3 | E — Mess Hall / Prince's Archive | P0 |
+| 7 | `apps/client/public/art/rooms/room-briefing-room.png` + `.webp` | §11.3 (Beat F establishes, reused by §12.3 Beat F.5) | F / F.5 | P0 |
+| 8 | `apps/client/public/art/rooms/room-medical-bay.png` + `.webp` | §13.3 | G — Medical Bay | P0 |
+| 9 | `apps/client/public/art/rooms/room-comms-array.png` + `.webp` | §14.3 (Beat H establishes, reused by §15.3 Beat H.5) | H / H.5 | P0 |
+| — | `apps/client/public/art/rooms/room-bridge.png` + `.webp` | §16.3 (reuses existing asset — no new delivery needed unless §16.3 P1 re-render flag triggers) | I — Bridge | existing / P1 re-render only if needed |
+| 10 | `apps/client/public/art/rooms/room-archives.png` + `.webp` | §17.3 | J — Archives + Two Witnesses Meet Part 1 | P0 |
+| 11 | `apps/client/public/art/rooms/room-armory.png` + `.webp` | §20 (P1 backfill — to be spec'd in Section 20 below) | P1 backfill | P1 |
+| 12 | `apps/client/public/art/rooms/room-captains-quarters.png` + `.webp` | §20 (P1 backfill — to be spec'd in Section 20 below) | P1 backfill | P1 |
+
+### 19.2 Cutscene videos (15 P0 total)
+
+All cutscene videos are 16:9, 1920×1080 resolution, rendered via Seedance 2.0 using the motion prompts and frame-by-frame specifications in the individual beat sections. Output format is `.mp4` H.264. **Beat J's cutscene duration is significantly longer than all other beats combined** — ~8m10s + player-choice-delay — because it contains the full canonical Log 5 playback. Production time budget for Seedance 2.0 renders should account for this.
+
+| # | Output path | Beat | Duration | Source section | Priority |
+|---|---|---|---|---|---|
+| 1 | `apps/client/public/videos/prelude/prelude-beat-a-cryo-wake.mp4` | A | existing brief in `ANIMATED_CUTSCENES.md` Cutscene 1 | §3.4 (references existing brief) | P0 |
+| 2 | `apps/client/public/videos/prelude/prelude-beat-a5-corridor-first-steps.mp4` | A.5 | 15s | §4.4 | P0 |
+| 3 | `apps/client/public/videos/prelude/prelude-beat-b-corridor-escape.mp4` | B | 20s | §5.4 | P0 |
+| 4 | `apps/client/public/videos/prelude/prelude-beat-c-engineering-role-choice.mp4` | C | 35s | §6.4 | P0 |
+| 5 | `apps/client/public/videos/prelude/prelude-beat-c5-window.mp4` | C.5 | 20s | §7.4 | P0 |
+| 6 | `apps/client/public/videos/prelude/prelude-beat-d-cargo-bay.mp4` | D | 30s | §8.4 | P0 |
+| 7 | `apps/client/public/videos/prelude/prelude-beat-d5-galley.mp4` | D.5 | 25s | §9.4 | P0 |
+| 8 | `apps/client/public/videos/prelude/prelude-beat-e-mess-hall-flashback.mp4` | E | 45s | §10.4 | P0 |
+| 9 | `apps/client/public/videos/prelude/prelude-beat-f-briefing-room.mp4` | F | 30s | §11.4 | P0 |
+| 10 | `apps/client/public/videos/prelude/prelude-beat-f5-empty-chair.mp4` | F.5 | 90s | §12.4 | P0 |
+| 11 | `apps/client/public/videos/prelude/prelude-beat-g-medical-bay.mp4` | G | 25s | §13.4 | P0 |
+| 12 | `apps/client/public/videos/prelude/prelude-beat-h-comms-array.mp4` | H | 25s | §14.4 | P0 |
+| 13 | `apps/client/public/videos/prelude/prelude-beat-h5-memo-pile.mp4` | H.5 | 20s | §15.4 | P0 |
+| 14 | `apps/client/public/videos/prelude/prelude-beat-i-bridge-witnessing.mp4` | I | 40s | §16.4 | P0 |
+| 15 | `apps/client/public/videos/prelude/prelude-beat-j-archives.mp4` | J | **~8m10s + player-choice-delay** | §17.4 | **P0 — longest render in the Prelude** |
+
+**Total Prelude cutscene runtime:** ~14 minutes (sum of all 15 cutscenes, dominated by Beat J's ~8m10s).
+
+### 19.3 VO audio files (7 new recordings + 1 existing line reused)
+
+All new VO recordings are ElevenLabs output at 22050 Hz mono `.mp3` using the character-specific voice profiles in `docs/production/VOICE_OVER_BIBLE.md`. Each recording has an accompanying ElevenLabs CSV row in its source section for reproducibility.
+
+| # | Output path | Character | Voice profile | Beat | Source section | Priority |
+|---|---|---|---|---|---|---|
+| 1 | `apps/client/public/audio/elara/elara_beat_d_17000_year_mission.mp3` | Elara | `elara` | D | §8.5 | P0 |
+| 2 | `apps/client/public/audio/human/human_beat_d5_sandwich.mp3` | The Human | `the_human` | D.5 | §9.5 | P0 |
+| 3 | `apps/client/public/audio/prince/prince_beat_e_toy_soldier.mp3` | The Prince | `the_prince` | E | §10.5 | P0 |
+| 4 | `apps/client/public/audio/prince/prince_beat_e_diploma.mp3` | The Prince | `the_prince` | E | §10.5 | P0 |
+| 5 | `apps/client/public/audio/elara/elara_beat_f_213_entries.mp3` | Elara | `elara` | F | §11.5 | P0 |
+| 6 | `apps/client/public/audio/human/human_beat_f5_empty_chair.mp3` | The Human | `the_human` | F.5 | §12.5 | P0 |
+| 7 | `apps/client/public/audio/locke/locke_beat_h_first_message.mp3` | Adjudicator Locke | `locke` | H | §14.5 | P0 |
+
+**Existing VO lines reused in the Prelude (no new recordings):**
+- `apps/client/public/audio/antiquarian/antiq_fc_1.mp3` — Beat J, per §17.5 (existing asset, no modification)
+- Beat A Elara VO seed (existing), Beat A.5 (no VO), Beat B (no VO), Beat C Elara VO seed (existing), Beat C.5 Human first line (existing), Beat D Elara room intro (existing)
+
+**VO recordings NOT spec'd in this doc (spec'd in `CANON_REV_7_ORACLE_VEX_EXPANSION.md` instead):**
+- `apps/client/public/audio/prince/holo_log_5_full.mp3` — spec'd in canon expansion §5.6.2–§5.6.6 (one continuous ~6m40s take). Beat J plays this.
+- `apps/client/public/audio/music/song_last_words_prelude_cut.mp3` — spec'd in canon expansion §5.6.9. Beat J plays ~65 seconds of it.
+- Engineer Oracle Audio Logs 1–4 (shorter Prince holo-recordings) — spec'd in canon expansion §5.2–§5.5. Referenced from various Prelude bench locations but not new to this Prelude Bible.
+
+### 19.4 VFX asset files (~25 unique)
+
+All VFX outputs are `.webm` (VP9 + alpha channel) except where noted. Source sections are listed; full specs including tech, state variants, and reuse notes are in Section 18's VFX Library.
+
+**Core flashback mechanic (§18.1):**
+- `apps/client/public/art/vfx/prelude/sepia-drain.webm` (+ reverse variant) — §10.6 + §17.6
+- `apps/client/public/art/vfx/prelude/film-damage.webm` — §10.6 + §17.6
+- `apps/client/public/art/vfx/prelude/diploma-ink-bloom.webm` — §10.6
+
+**Light-state / biometric (§18.2):**
+- `apps/client/public/art/vfx/prelude/lockbox-bio-recognize.webm` (idle + recognize + open variants) — §11.6 + §10.3 dormant + §17.6 flagged reuse
+- `apps/client/public/art/vfx/prelude/data-slate-glow.webm` (pulse + slowdown variants) — §11.6
+- `apps/client/public/art/vfx/prelude/memo-holo-rise.webm` — §11.6
+- `apps/client/public/art/vfx/prelude/chair-rim-hot-edge.webm` (build + hold + fade variants) — §12.6
+- `apps/client/public/art/vfx/prelude/transfer-array-amber-standby.webm` — §13.6 + §17.3
+- `apps/client/public/art/vfx/prelude/witnessing-hub-hemisphere-bloom.webm` (activation + steady-state variants) — §16.6
+- `apps/client/public/art/vfx/prelude/primary-lights-cascade.webm` (forward + reverse variants) — §16.6
+- *No asset file:* `vfx_warm_dust_drift` is a material swap on the existing dust particle system — §16.6
+- `apps/client/public/art/vfx/prelude/viewport-polarization-lift.webm` — §16.6
+
+**NPC Inbox UI system (§18.3):**
+- `apps/client/public/art/vfx/prelude/signal-intake-lit-panel.webm` — §14.6
+- `apps/client/public/art/vfx/prelude/inbox-envelope-unfold.webm` — §14.6 **(CORE NPC INBOX UI ASSET — most reused in the full game)**
+- `apps/client/public/art/vfx/prelude/inbox-edge-sentence-bloom.webm` — §14.6
+- `apps/client/public/art/vfx/prelude/amber-counter-glyph.webm` — §14.6
+
+**Ambient / environmental (§18.4):**
+- `apps/client/public/art/vfx/prelude/starlight-shaft-dust.webm` — §8.6
+- `apps/client/public/art/vfx/prelude/mission-slate-glow.webm` (loop + transition variants) — §8.6
+- `apps/client/public/art/vfx/prelude/mission-glyph-bloom.webm` — §8.6
+- `apps/client/public/art/vfx/prelude/galley-pilot-warm.webm` — §9.6
+- `apps/client/public/art/vfx/prelude/galley-steam-residue.webm` (optional) — §9.6
+- `apps/client/public/art/vfx/prelude/med-pod-faint-pulse.webm` — §13.6
+- `apps/client/public/art/vfx/prelude/neural-rig-idle-hum.webm` — §13.6
+- `apps/client/public/art/vfx/prelude/memo-paper-drift.webm` — §15.6
+- `apps/client/public/art/vfx/prelude/elara-fade-out.webm` — §15.6
+
+**Beat J specific (§18.5):**
+- `apps/client/public/art/vfx/prelude/log5-beam-transfer.webm` — §17.6
+- `apps/client/public/art/vfx/prelude/holo-pedestal-bloom.webm` (activation + steady-state variants) — §17.6
+- `apps/client/public/art/vfx/prelude/memory-crystal-pulse.webm` (loop + state variants) — §17.6
+- `apps/client/public/art/vfx/prelude/enigma-hand-on-rim.webm` — §17.6
+- `apps/client/public/art/vfx/prelude/peripheral-warm-halo.webm` (build + hold + fade variants) — §17.6
+- `apps/client/public/art/vfx/prelude/choice-pillar-light-dark-split.webm` (appearance + Light + Dark variants) — §17.6 **(CANONICAL ALIGNMENT CHOICE UI — reused across the full game)**
+
+### 19.5 Ambient audio beds (3 new)
+
+All ambient beds are `.mp3` mono loops, normalized to the loudness targets specified in Section 18.6.
+
+| # | Output path | Source section | Loudness target | Priority |
+|---|---|---|---|---|
+| 1 | `apps/client/public/audio/ambient/prelude/neural-rig-hum.mp3` | §13.6 + §18.6 | -18 LUFS | P0 |
+| 2 | `apps/client/public/audio/ambient/prelude/transfer-array-standby.mp3` | §13.6 + §18.6 | -20 LUFS | P0 |
+| 3 | `apps/client/public/audio/ambient/prelude/bridge-powered-systems.mp3` | §16.6 + §18.6 | -19 LUFS | P0 |
+
+### 19.6 Summary — total new assets
+
+| Category | Count | Priority breakdown |
+|---|---:|---|
+| Room environment stills | 11 | 9 P0 + 2 P1 (armory + captain's quarters) |
+| Cutscene videos | 15 | 15 P0 (14 short + 1 long Beat J) |
+| VO audio files | 7 | 7 P0 |
+| VFX asset files | ~25 unique | all P0 (some reused across beats) |
+| Ambient audio beds | 3 | 3 P0 |
+| **Total** | **~61 new asset deliveries** | 59 P0 + 2 P1 |
+
+This count includes VFX variants (build + hold + fade, loop + transition, activation + steady-state) which bring the VFX asset file count above 25 when counted as individual `.webm` output files. The ~25 figure in earlier sections counts **unique effects** rather than individual variant files.
+
+**Note on the ~45 count used earlier in this doc:** Section 1's Totals block (at line ~82) states "~45 new asset rows" as an estimate. That count refers to the number of table rows across this doc's beat sections that reference new assets — it is a *row count*, not a *file count*. The file count above (~61 deliveries) is the more accurate number for production planning. Engineering should use the file count.
+
+**Priority sequencing for asset delivery:**
+1. **Phase 1 (P0 rooms and short cutscenes):** Deliver rooms 1–10 and cutscenes 1–14 first. These unblock 90% of the Prelude playtest.
+2. **Phase 2 (Beat J cutscene):** Deliver cutscene 15 (`prelude-beat-j-archives.mp4`) — the longest render, most Seedance 2.0 time — separately. This cutscene cannot be playtested until Log 5 is recorded.
+3. **Phase 3 (VO):** Record the 7 new VO lines. The Prince lines (#3, #4) should be recorded in the same session as the canon expansion's Log 5 session to maintain vocal continuity.
+4. **Phase 4 (VFX):** Produce VFX assets in parallel with rooms and cutscenes. Most are small WebM loops that can be batched.
+5. **Phase 5 (P1 backfill):** Deliver the 2 P1 room stills (armory, captain's quarters) after the P0 playtest has validated the Prelude flow.
+
+---
+
