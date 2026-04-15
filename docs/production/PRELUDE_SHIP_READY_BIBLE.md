@@ -69,23 +69,25 @@ The Prelude is a single uninterrupted hour. The player wakes alone in cryo, walk
 | **D** | Cargo Bay — Trade Empire Seed + Locke Mission Board | cargo-hold | 1 | 1 (30s) | 1 (Elara seed) | 2 (mission-board glow, dust shaft) | **P0** |
 | **D.5** | Galley (Breath Beat) | galley | 1 | 1 (25s) | 1 (Human sandwich) | 1 (steam) | **P0** |
 | **E** | Mess Hall / Prince's Archive | mess-hall | 1 | 1 (45s — flashback) | 2 (Prince) | 3 (sepia drain, film-damage, diploma bloom) | **P0** |
-| **F** | Briefing Room — Kael Contingency Memo | briefing-room | 1 | 1 (30s) | 0 | 1 (sealed-log unlock) | **P0** |
+| **F** | Briefing Room — Kael Contingency Memo | briefing-room | 1 | 1 (30s) | 1 (Elara — `elara_beat_f_213_entries`, §11.5) | 3 (lockbox bio-recognize, data-slate glow, memo holo-rise) | **P0** |
 | **F.5** | Empty Chair (Breath Beat — 90s silence) | briefing-room (reuse) | 0 | 1 (90s) | 1 (Human, end of scene) | 1 (chair-rim hot edge) | **P0** |
-| **G** | Medical Bay | medical-bay | 1 | 1 (25s) | 0 | 2 (neural-rig hum, transfer-array stand-by) | **P0** |
-| **H** | NPC Inbox + Locke's First Message | comms-array | 1 | 1 (25s) | 1 (Locke) | 1 (mailbox arrival ping) | **P0** |
-| **H.5** | Memo Pile (Breath Beat) | comms-array (reuse) | 0 | 1 (20s) | 0 | 1 (paper drift) | **P0** |
-| **I** | Bridge — Witnessing Hub Activate | bridge (reuse) | 0 | 1 (40s) | 0 | 2 (Witnessing radial bloom, primary lights restore) | **P0** |
-| **J** | Engineer's Transference / Tribunal | engineering (reuse) | 0 | 1 (60s — climax) | 2 (Prince final, Quinn-as-apprentice-preview reframing line) | 3 (Engineer transference glow, tribunal ring, choice-pillar) | **P0** |
+| **G** | Medical Bay | medical-bay | 1 | 1 (25s — wordless) | 0 | 3 (med-pod faint pulse, neural-rig idle hum visual, transfer-array amber standby) | **P0** |
+| **H** | Comms Array — NPC Inbox + Locke's First Message | comms-array | 1 | 1 (25s) | 1 (Locke — `locke_beat_h_first_message`, §14.5) | 4 (signal-intake lit panel, inbox envelope unfold, inbox edge-sentence bloom, amber counter glyph) | **P0** |
+| **H.5** | Memo Pile (Breath Beat) | comms-array (reuse) | 0 | 1 (20s — wordless) | 0 | 2 (memo paper drift, Elara fade-out) | **P0** |
+| **I** | Bridge — Witnessing Hub Activate (primary lights restore) | bridge (reuse) | 0 | 1 (40s — wordless) | 0 | 4 (Witnessing Hub hemisphere bloom, primary lights cascade, warm dust drift, viewport polarization lift) | **P0** |
+| **J** | **Archives + Two Witnesses Meet Part 1** (CORRECTED — not Transference / Tribunal) | archives (new) | 1 | 1 (~8m10s + player-choice-delay — climax, plays full Log 5 + *Last Words* + first Light/Dark choice) | 0 new recordings — reuses existing `antiq_fc_1` (Antiquarian first contact) + `holo_log_5_full` (canonical in canon expansion §5.6.2–§5.6.6) + `song_last_words` (canonical in canon expansion §5.6.9) | 6 (reuses sepia drain + film-damage overlay from Beat E; new: Log 5 beam transfer, holo-pedestal bloom, memory-crystal pulse, Enigma hand-on-rim, peripheral warm halo, choice pillar Light/Dark split) | **P0** |
 | — | **Cumulative armory backfill** | armory | 1 | 0 | 0 | 0 | **P1** |
 | — | **Cumulative captain's quarters backfill** | captains-quarters | 1 | 0 | 0 | 0 | **P1** |
 
-**Totals:**
-- **Room environment stills:** 11 (9 P0 + 2 P1)
-- **Cutscene videos:** 15 (one per beat; Beat A's render brief already exists in `ANIMATED_CUTSCENES.md` Cutscene 1)
-- **New VO lines:** 12 (5 Elara, 4 Human, 2 Prince, 1 Locke)
-- **New VFX overlays:** ~22 unique effects, consolidated in §18
+**Totals (corrected 2026-04-15 post-canon-session):**
+- **Room environment stills:** 11 (9 P0 + 2 P1). One row change: Beat J's room asset is now `room-archives.png` (new, §17.3), not "engineering (reuse)." The total count is unchanged because Beat I's row flipped to "bridge (reuse)" so the total stays at 11.
+- **Cutscene videos:** 15 (one per beat; Beat A's render brief already exists in `ANIMATED_CUTSCENES.md` Cutscene 1). Beat J's cutscene duration has increased from the stale "60s" spec to **~8m10s + player-choice-delay** (§17.4) because Log 5 is canonically ~6m40s and cannot be compressed. This is a significant production-time estimate correction for the Seedance 2.0 rendering budget.
+- **New VO lines:** **7** (1 Elara new in Beat F §11.5 + 3 Prince new from Beats A/C/D + 2 Prince new in Beat E §10.5 + 4 Human new across A.5/C.5/D.5/F.5 + 1 Locke new in Beat H §14.5). **Beat J has ZERO new VO recordings** — it reuses the existing `antiq_fc_1` line plus the canonical Log 5 recording and the *Last Words* song, both of which are spec'd in `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.6 as part of the canon expansion's own production pipeline, not this doc. The previous "12 new VO lines" count was a stale pre-session estimate; the corrected count for THIS doc specifically is **7 new recordings** plus the Beat E casting session co-use of the canon expansion's Prince voice sessions.
+- **New VFX overlays:** ~25 unique effects (up from the stale ~22 estimate), consolidated in §18 below. The increase is from Beat F's BiometricLock state machine (3 states counted as distinct), Beat H's NPC Inbox UI components (4 reusable effects), and Beat J's 6 effects including the reused sepia-drain + film-damage from Beat E.
 
-**Asset count delta vs `SHIP_READY_ASSET_BIBLE.md`:** This doc adds **40 new asset rows** that were not previously tracked anywhere in production. None duplicate `SHIP_READY_ASSET_BIBLE.md` — that doc covers post-Prelude content only.
+**Corrected Beat J Master Index row summary:** the previous Beat J row listed "Engineer's Transference / Tribunal" as the beat's title and "2 new VO lines (Prince final, Quinn-as-apprentice-preview reframing line)" as the VO count. **This was canonically stale** per the 2026-04-15 Canon Rev 7 session (PR #32 squash-merged as `b9966f9`). Beat J is canonically "Archives + Two Witnesses Meet Part 1" per `CANON_REV_7_ORACLE_VEX_EXPANSION.md` Section 8. The beat has 0 new VO recordings (all audio is either existing `antiq_fc_1` or canonical-in-canon-expansion-doc Log 5 / *Last Words*). There is no Quinn-as-apprentice-preview content in Beat J — that reference was from an earlier draft structure and has been removed. The transference / tribunal sequence is NOT Prelude-scope. See §17.1 for the full narrative purpose and §17.4 for the corrected cutscene spec.
+
+**Asset count delta vs `SHIP_READY_ASSET_BIBLE.md`:** This doc adds **~45 new asset rows** (up from the stale 40 estimate, due to the same Beat F / H / J expansions) that were not previously tracked anywhere in production. None duplicate `SHIP_READY_ASSET_BIBLE.md` — that doc covers post-Prelude content only.
 
 ---
 
@@ -1393,4 +1395,107 @@ The three layers are canonically referred to as **the recording, the memory, and
 5. **Light/Dark choice (8:05 → player resolution):** the choice UI appears identically to the animated version — a vertical gold/violet split pillar, no text, no icons. The choice UI is fully reduced-motion-compatible (it's a static two-button selector in the animated version as well). On selection, the chosen half brightens with a 500ms alpha tween, the other half dims, and a 2-second held beat plays before the fade to black. *Last Words* continues over black for ~8 more seconds, then fades.
 
 All flags (`log5_played_in_full`, `last_words_first_chorus_reached`, `first_light_dark_choice_presented`, `first_light_dark_choice_resolved_light`/`_dark`, `antiquarian_first_contact`, `enigma_physical_presence_confirmed_beat_j`) fire identically in reduced-motion mode. No semantic content is lost. The cutscene's total runtime in reduced-motion mode is **exactly equal** to the animated version (~8m10s + player-choice-delay), because the audio spine is the load-bearing layer and it is unchanged.
+
+### 17.5 VO — Beat J
+
+**Beat J has NO new VO lines.** Every voice delivery in the cutscene is already canonical and recorded (or scheduled for recording) elsewhere. This section enumerates the reuses explicitly so the engineering and audio pipelines know exactly what to wire.
+
+**Audio track 1: Antiquarian's first-contact line** — existing asset, no re-recording, no modification.
+- **Line ID:** `antiq_fc_1` (existing in `docs/production/VOICE_OVER_BIBLE.md` Section 6)
+- **Character:** The Antiquarian (Daniel Cross's post-Fall identity per canon §8.2)
+- **Voice profile:** `the_antiquarian` (existing ElevenLabs profile in `VOICE_OVER_BIBLE.md`)
+- **Full text (canonical, do not modify):** *"You are... ah. There you are. I've been watching this moment approach from very far away. Across Ages, across the death of stars. You, Potential, are standing at the fulcrum."*
+- **Runtime:** ~12 seconds
+- **Beat J firing timestamp:** 0:15 (Act 2 of the cutscene, as the Antiquarian crosses to his four-o'clock position beside the pedestal)
+- **Output file:** `apps/client/public/audio/antiquarian/antiq_fc_1.mp3` (existing)
+- **Canon authority for using this line as Beat J's first-contact delivery:** `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §8.2 explicitly confirms this line is "canonically his first live meeting with the player" and §8.7 reaffirms that *"Across Ages, across the death of stars"* is literal autobiography under the corrected Age timeline
+
+**Audio track 2: The Engineer Log 5 full recording** — canonical, already spec'd for recording in the canon expansion doc, not a new asset in this doc.
+- **Line ID:** `holo_log_5_full` (canonical in `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.6.2–§5.6.6 — five movement transcripts recorded as one continuous take)
+- **Character:** The Prince / The Engineer
+- **Voice profile:** `the_prince` (same profile used in §10.5 Beat E and in the existing Beat C bench logs)
+- **Runtime:** ~6m40s
+- **Beat J firing timestamp:** 0:34 (Act 4 start) → 7:14 (Act 8 end, hard cut on *"Back to the —"*)
+- **Output file:** `apps/client/public/audio/prince/holo_log_5_full.mp3` (to be produced from the canon expansion's existing transcript — this doc does NOT re-spec the transcript, see `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.6.2 through §5.6.6 for the canonical text)
+- **Voice actor direction:** per `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.6.10 as corrected by §8.7 — **Insurgency-era-at-peace framing, NOT prophetic weight.** Record as one continuous take, do not splice.
+- **Hard-cut instruction:** the audio must end mid-syllable on *"Back to the —"* exactly as specified in canon §5.6.9. Do not add a natural pause or tail; the cut is canonically abrupt.
+
+**Audio track 3: *Last Words* song** — canonical, already spec'd in the canon expansion doc, not a new asset in this doc.
+- **Line ID:** `song_last_words` (canonical in `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.6.9 with full lyrics)
+- **Character:** The Enigma / Malkia Ukweli (singing voice, canonically her own performance)
+- **Voice profile:** `the_enigma_singing` (per canon §5.6.9 — note this is distinct from any future spoken `the_enigma` profile; the Prelude only uses her singing voice, not her spoken voice, because she does not speak in Beat J)
+- **Runtime:** the Prelude cutscene plays **only the intro + verse 1 + first chorus** (approximately 50 seconds of song), then continues to play through the fade-to-black for ~8 more seconds into verse 2. Full song runtime is longer but not used in the Prelude.
+- **Beat J firing timestamp:** 7:15 (1 second after Log 5's hard cut, following the 1-second canonical silence) → fades out ~8:15 during the post-choice fade-to-black
+- **Output file:** `apps/client/public/audio/music/song_last_words_prelude_cut.mp3` (a Prelude-specific cut of the song, trimmed to ~65 seconds total; the full song asset can exist separately for Act 1+ playback contexts)
+- **Light/Dark choice trigger line:** *"Freedom of thought is worth dying for"* — this canonical lyric, at approximately the 7:58 mark of the Beat J cutscene, is the trigger for the Light/Dark choice UI appearance. Audio engineering must timestamp this line precisely so the UI fires on the exact syllable.
+
+**The Enigma does not speak in Beat J.** Her voice in the cutscene is the recorded *Last Words* song, nothing else. The canon hygiene rule from §8.6 item 8 is explicit: the player knows two people are meeting them but does not yet learn the biblical reference, the 1260-day clock, or the resurrection arc — those are Act-level reveals. Giving the Enigma a spoken line in Beat J would break that withholding. If a later writer is tempted to add an Enigma line to Beat J, the instinct must be resisted.
+
+**Ambient audio beds (reuse only):** `ambient_transfer_array_standby` (§13.6) at 100%, `ambient_neural_rig_hum` (§13.6) at 50%, Bridge powered-systems mix (§16.6) at 40%. All three beds drop to -∞dB during the 1-second canonical silence in Act 9, then return to their specified volumes when *Last Words* enters at 7:15.
+
+**Total new VO recordings required for Beat J: zero.** Every audio asset in the beat is either already recorded (`antiq_fc_1`) or canonically spec'd in the canon expansion doc for recording as part of the canon expansion's own production pipeline (`holo_log_5_full`, `song_last_words`). This doc does not duplicate those specs — see `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.6 for the authoritative transcripts and direction notes.
+
+### 17.6 VFX — Beat J effects
+
+Beat J's VFX budget is mostly **reuses** of existing Prelude assets, plus a small number of new effects specific to the Archives scene. The reuses are load-bearing — the sepia-drain mechanic from Beat E is what makes Log 5's hologram playback legible as *a memory inside a present room*, and without that reuse the beat loses its three-layer visual grammar.
+
+**Reused VFX from prior beats (no new work):**
+
+| VFX ID | Source | How it's reused in Beat J |
+|---|---|---|
+| `vfx_sepia_drain` | §10.6 Beat E | Applied to the pedestal's holo-projection well volume only (scoped to ~40cm diameter), active throughout Log 5 playback (Acts 4–8), fades off during Act 10's song entry. NOT applied to the room — only to the hologram volume |
+| `vfx_film_damage_overlay` | §10.6 Beat E | Layered on top of `vfx_sepia_drain` inside the pedestal's well volume. Intensity is slightly heavier than Beat E's toy-soldier flashback because Log 5 is canonically older than the toy-soldier recording from the Prince's personal archive (Log 5 was recorded on the Vortex near the Prince's death, toy-soldier flashback was recorded decades earlier — but from the player's Age 5 standpoint both recordings are ~17,000 years old and the intensity difference is a writer signal, not a strict rule) |
+| `vfx_transfer_array_amber_standby` | §13.6 Beat G | Visible as a small distant warm point through the Archives doorway in the START FRAME and all MID FRAMES. No animation change from Beat G. Canonical continuity element — the transfer-array is physically adjacent to the Archives per §8.5 |
+| `vfx_med_pod_faint_pulse` | §13.6 Beat G | Not rendered in Beat J's frame, but the **audio bed it's associated with** (the neural-rig hum ambient) is reused in Beat J's audio mix. Included in this table for engineering clarity — the VFX asset itself is not loaded in Beat J |
+
+**New VFX assets for Beat J (small):**
+
+| VFX ID | Effect | Tech | Output | Notes |
+|---|---|---|---|---|
+| `vfx_log5_beam_transfer` | Cyan beam tracing from the brighter Log 5 memory-crystal on the far wall across the room to the central pedestal's projection well over 3 seconds in Act 3 (0:30→0:33) | PixiJS particle beam + bezier curve path + alpha fade-in/fade-out | `apps/client/public/art/vfx/prelude/log5-beam-transfer.webm` (one-shot) | Archives only. One-shot, fires once per Beat J playthrough. Engineering: the beam's path must curve around the top of the domed ceiling's etched star-chart so the beam's light catches the etching subtly as it passes — a small continuity flourish linking the recording to the star-sky |
+| `vfx_holo_pedestal_bloom` | The pedestal's projection well activates — cyan rim-glow escalates to bright, then a small volumetric bloom rises to ~30cm above the well as the hologram volume initializes | Three.js volumetric + CSS keyframe alpha tween | `apps/client/public/art/vfx/prelude/holo-pedestal-bloom.webm` (one-shot activation + steady-state variant) | Archives only. The steady-state variant runs continuously for the duration of the hologram's presence (Acts 4–10). The bloom is the *container* for the sepia Prince hologram — the sepia-drain is scoped to this bloom's volume |
+| `vfx_memory_crystal_pulse` | Sub-0.5 Hz cyan pulse on the eleven dormant memory-crystals, plus a brighter bright-on then bright-steady variant on the Log 5 crystal during Acts 3–8 | CSS keyframe alpha tween on 12 instances, with state enum `dormant` / `bright_steady` / `flaring` | `apps/client/public/art/vfx/prelude/memory-crystal-pulse.webm` (loop + state variants) | Archives only. Twelve instances arranged in a circle. Engineering: component-ize as a `MemoryCrystal` visual with configurable state — future Act content may introduce additional memory-crystals using the same visual component |
+| `vfx_enigma_hand_on_rim` | Soft cyan edge-glow where the Enigma's left hand rests on the pedestal's well rim during Movement 4 (approximately 5:20 of the cutscene) | PixiJS localized edge bloom on the contact point between the Enigma's hand sprite and the pedestal's rim geometry | `apps/client/public/art/vfx/prelude/enigma-hand-on-rim.webm` (one-shot subtle) | Archives only. Fires once during Act 7. The glow is **subtle** — the player should register that she touched the rim, not that something magical happened when she did. The canonical meaning of the gesture (Malkia touching the container of the recording her husband made before he died) is carried by the staging, not by a VFX flourish |
+| `vfx_peripheral_warm_halo` | Warm-amber `#fde68a` halo building around the peripheral edges of the frame during Act 10 as *Last Words* enters, holding through the Light/Dark choice, fading on cutscene end | CSS radial gradient mask on the outer 15% of the frame, animated over 30 seconds | `apps/client/public/art/vfx/prelude/peripheral-warm-halo.webm` (build-up + hold + fade-out variants) | Archives only. Beat J only. This is the VFX signature for *the song entering the room*. The halo does NOT touch the center of the frame (where the choice UI will appear) — it is strictly peripheral so the choice UI reads cleanly |
+| `vfx_choice_pillar_light_dark_split` | Vertical 2-meter pale pillar appearing at standing eye level center-screen, split vertically down its center line with left half soft-gold `#fde68a` (Light) and right half deep-violet `#1e1b4b` (Dark), no text, no icons | PixiJS shader with half-mask gradient + alpha fade-in on appearance + half-alpha divergence on player selection | `apps/client/public/art/vfx/prelude/choice-pillar-light-dark-split.webm` (appearance + selection-Light variant + selection-Dark variant) | Beat J primary use. Flagged for reuse across any future Light/Dark choice in the game — this is canonically **the UI pattern for alignment choices** and future Acts will use the same visual. Engineering: register in a shared `AlignmentChoiceUI` component (new file in `apps/client/src/components/alignment/`). The component must accept a callback for Light and Dark selections and must be fully keyboard-accessible (left arrow = Light, right arrow = Dark, enter to confirm) |
+
+**Engineering note on the Beat J flashback-within-a-hologram layering:** the sepia-drain and film-damage effects are applied to a **contained 40cm-diameter volume** on top of the pedestal, not to the room. This is a technical departure from Beat E's full-room sepia-drain mechanic — in Beat E, the entire environment shifted to sepia; in Beat J, only the hologram's volume shifts. Engineering must update the holo-render system's sepia-mode flag to accept a **scope parameter**: `scope: "room"` (Beat E behavior) or `scope: "hologram"` (Beat J behavior). This is a small additive change, not a refactor.
+
+**Light/Dark choice UI keyboard accessibility (required):** the choice pillar must support full keyboard input for accessibility compliance. Left arrow selects Light, right arrow selects Dark, Enter confirms, Escape does NOT cancel (there is canonically no "back out" from this choice — per §17.1 the choice is the player's alignment answer and must be committed). The choice UI must also support gamepad input (d-pad or left-stick left/right, confirm button to commit) and touch input (tap left half for Light, tap right half for Dark, tap chosen half again to confirm). The 2-second held beat after selection is played regardless of input method.
+
+**Reduced-motion accessibility — VFX-specific note:** all Beat J VFX are documented as reduced-motion-compatible in §17.4's fallback section above. Specific notes for this VFX section: `vfx_sepia_drain` and `vfx_film_damage_overlay` render as static color grades in reduced-motion mode (not animated loops). `vfx_log5_beam_transfer` does not render — the beam transfer is skipped and the pedestal's projection well simply activates at 0:34 without the beam's traveling phase. `vfx_holo_pedestal_bloom` renders as a static bloom at peak intensity for the hologram's full duration. `vfx_memory_crystal_pulse` renders as static steady-lit crystals (no pulse animation) with the Log 5 crystal at a brighter static intensity. `vfx_peripheral_warm_halo` renders as a static peripheral gradient at peak intensity held throughout Act 10. `vfx_choice_pillar_light_dark_split` is identical in both modes (it's already largely static).
+
+### 17.7 Section 1 Master Index — correction applied
+
+**This subsection documents the in-place correction of Section 1's Master Index table.** The corrections were applied directly to the table rows at §1 (lines ~71–78 of the file) and to the **Totals** block immediately below the table (lines ~82–88), and are summarized here for traceability.
+
+**Two rows were corrected:**
+
+1. **Beat F row (§1 Master Index):** the stale row listed "0 new VO lines" and "1 VFX (sealed-log unlock)." The corrected row now lists **1 new Elara VO line (`elara_beat_f_213_entries`)** — the "213 entries" line canonical to `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.4 cross-reference — and **3 VFX** (`vfx_lockbox_bio_recognize`, `vfx_data_slate_glow`, `vfx_memo_holo_rise`). The 213-entries line is canonically mandatory and the stale "0 VO" count was an oversight from the Master Index being drafted before the canon expansion's §5.4 cross-reference was finalized.
+
+2. **Beat J row (§1 Master Index):** the stale row listed *"Engineer's Transference / Tribunal"* as the beat title and *"2 Prince VO lines including Quinn-as-apprentice-preview reframing line"* as the VO count. **Both claims are canonically obsolete** per the 2026-04-15 Canon Rev 7 session (PR #32 squash merge `b9966f9`). The corrected row now reads:
+   - **Title:** "Archives + Two Witnesses Meet Part 1 (CORRECTED — not Transference / Tribunal)"
+   - **Room:** "archives (new)"
+   - **New art still:** 1 (the `room-archives.png` spec'd in §17.3)
+   - **Cutscene:** "1 (~8m10s + player-choice-delay — climax, plays full Log 5 + *Last Words* + first Light/Dark choice)"
+   - **New VO lines:** "0 new recordings — reuses existing `antiq_fc_1` (Antiquarian first contact) + `holo_log_5_full` (canonical in canon expansion §5.6.2–§5.6.6) + `song_last_words` (canonical in canon expansion §5.6.9)"
+   - **New VFX:** "6 (reuses sepia drain + film-damage overlay from Beat E; new: Log 5 beam transfer, holo-pedestal bloom, memory-crystal pulse, Enigma hand-on-rim, peripheral warm halo, choice pillar Light/Dark split)"
+   - **Priority:** P0 (unchanged)
+
+The Quinn-as-apprentice-preview reframing line reference was from an earlier draft structure and has been **removed entirely**. There is no Quinn content in Beat J. The transference / tribunal sequence is not Prelude-scope and lives in Act-level material outside the scope of this doc.
+
+**Totals block corrections (applied in-place at the Totals paragraph below the Master Index table):**
+- The "New VO lines" total was reduced from the stale "12 (5 Elara, 4 Human, 2 Prince, 1 Locke)" count to a corrected **"7"** that reflects the actual new-recordings needed for this doc (1 Elara + 2 Prince-in-Beat-E + 4 Human + 1 Locke — Beat J's Prince log and Enigma song are spec'd in the canon expansion doc's own pipeline, not this doc's).
+- The "New VFX overlays" total was updated from the stale "~22" count to **"~25"** to reflect the Beat F BiometricLock state machine, the Beat H NPC Inbox UI components, and the Beat J choice pillar.
+- The cutscene total stayed at 15 (one per beat including A.5/C.5/D.5/F.5/H.5 breath beats), but Beat J's duration entry was changed from the stale "60s" to "~8m10s + player-choice-delay" — a significant production-time estimate correction for the Seedance 2.0 rendering budget and the VO session planning.
+- The asset count delta was updated from the stale "40 new asset rows" to **"~45"** to reflect the slightly expanded new-asset inventory.
+
+**Reviewer checklist for the Master Index correction:**
+1. Verify Beat F row shows `elara_beat_f_213_entries` VO line count of 1 and three VFX
+2. Verify Beat J row shows the "CORRECTED" annotation and the ~8m10s cutscene duration
+3. Verify the Totals block shows 7 new VO lines (not 12) and ~25 VFX overlays (not ~22)
+4. Verify no reference to "Transference / Tribunal" or "Quinn-as-apprentice-preview" survives anywhere in Section 1 — the corrections should have removed both phrases
+5. Spot-check `CANON_REV_7_ORACLE_VEX_EXPANSION.md` Section 8 to confirm the Beat J framing matches (Archives + Two Witnesses Meet Part 1, resurrected survivors, Log 5 + Last Words + Light/Dark choice)
+
+---
 
