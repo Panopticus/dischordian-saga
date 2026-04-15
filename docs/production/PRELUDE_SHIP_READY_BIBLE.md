@@ -846,3 +846,87 @@ This component will be reused for the Two Witnesses scene's Archives access in B
 
 ---
 
+## Section 12 — Beat F.5: Empty Chair (Breath Beat)
+
+### 12.1 Narrative purpose
+
+The fourth breath beat. The player does not leave the Briefing Room — Beat F.5 is a **same-room continuation** of Beat F, held for ninety seconds of near-silence in front of the askew eighth chair that the previous beat surfaced. No lockboxes open. No memo renders. No new rooms. The player stands in a room they just finished reading the Engineer's contingency plan in, and the camera slowly closes on the one chair that does not fit the circle.
+
+**Ninety seconds is a long time in a video game.** Most players will feel the duration. Some will move away from the chair immediately, skip the beat via the continue-prompt, or check their notifications on the second screen. The breath beat is designed to **allow all of those responses**. The player who waits is rewarded with the Human's most fragile line of the Prelude. The player who skips is not punished — they get the line at reduced volume as ambient background audio on their way to Beat G. Either way, the line plays. The breath beat is not a gate; it is an *offering*.
+
+**The line is addressed directly to the empty chair.** The Human is not speaking to the player. The Human is speaking to Kael. Kael sat in that chair. Kael rose from that chair to leave for the Razorline. Kael never came back. The Human has been holding the words for seventeen thousand years and he says them now because the player is standing in front of the chair and the Human is — canonically — not entirely sure whether anyone will ever be standing there again.
+
+**The Bond-80 hidden flag:** if the player is still in the Briefing Room at the 90-second mark (i.e., they did NOT skip the breath beat via the continue-prompt and did NOT move out of the room), the flag `beat_f5_full_witness` is set to `true`. This flag feeds into the **Human Bond meter** — a hidden relationship system that tracks how attentive the player has been to the Human's quiet moments across the Prelude (galley sandwich line, window breath beat, empty chair). At Bond-80 the Human unlocks Act-scope dialog that the Bond-below-80 player does not see: specifically, a private Act 2 line in which the Human names the Engineer for the first time. The full bond-meter spec is Act-scope and not documented in this Prelude bible, but this flag is one of three inputs. (The other two are `beat_c5_window_first_line` set in §7 and `beat_d5_galley_sandwich_heard` set in §9.)
+
+**Canon hygiene rule — the Human does NOT name the Engineer in this line.** The withholding of the name is the same withholding as the Galley sandwich line (§9.5) — the Human cannot yet say the Prince's name aloud. The name lands in Act 2 after Bond-80 unlocks. In Beat F.5 the Human addresses Kael directly but only uses *Kael's* name. The Engineer is referred to as "him" throughout.
+
+### 12.2 Cross-references
+
+- Human voice profile: `VOICE_OVER_BIBLE.md` Section 2 (existing)
+- Empty chair visual seed: §11.3 Beat F art still (the askew eighth chair)
+- Human's withholding-the-name pattern: §9.5 `human_beat_d5_sandwich` (Galley line — same withholding)
+- Bond-80 hidden flag system: Act 2 scope, partially documented here for Prelude inputs only
+- Kael canonical disappearance from the Razorline staging house: `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.4 Audio Log 3
+
+### 12.3 Art — Briefing Room environment still
+
+**No new art still.** Beat F.5 reuses the `room-briefing-room.png` from §11.3. The camera composition is different (closer on the askew chair, wider aspect, different lighting via VFX — see §12.6) but the underlying room asset does not change.
+
+### 12.4 Cutscene — F.5: Empty Chair
+
+- **Beat ID:** `prelude-beat-f5-empty-chair`
+- **Output:** `apps/client/public/videos/prelude/prelude-beat-f5-empty-chair.mp4`
+- **Duration:** 90s
+- **Aspect:** 16:9 1920×1080
+- **Priority:** P0
+- **Sets flags:** `breath_beat_f5_complete`, `empty_chair_acknowledged`, conditionally `beat_f5_full_witness` (set to `true` if player remained in the Briefing Room for the full 90 seconds)
+- **Reduced-motion fallback:** static `room-briefing-room.png` cropped on the askew chair + `human_beat_f5_empty_chair` audio at full volume + KineticText banner reading "A memory of someone who used to sit here"
+
+**Structural note:** this is the **longest single-held beat in the Prelude**. Ninety seconds of a camera held on one chair with a single fragile VO line at the 74-second mark. The pacing is deliberately uncomfortable. Most video games do not give the player 16 uninterrupted seconds of nothing; this one gives them 90. The design rule: **the player can skip the beat but cannot miss the line.** The line plays whether they stay or go, at different volumes.
+
+- **Act 1 (0–20s) — the hold.** Camera holds on a medium-close shot of the askew eighth chair, centered in the frame. The rest of the Briefing Room is slightly out of focus in the background — the other seven chairs visible as a disciplined blur, the briefing table half-visible in the lower third. The chair's upholstery is lit only by a single faint cyan floor strip and the dim glow from the far-wall display (now powered off — the Kael Memo has faded from view). Dust motes drift. No movement. No audio except the ship's ambient hum.
+- **Act 2 (20–45s) — the slow zoom.** Camera begins a very slow continuous zoom-in toward the chair. The zoom is so gradual it is almost imperceptible — less than one degree per second of field-of-view change. Dust motes continue to drift. No audio change. The slowness is the point.
+- **Act 3 (45–73s) — the hot edge.** At approximately 45s, a subtle warm-amber `#fbbf24` **rim-light** begins to build along the chair's upper edge — specifically the seat-back edge and the left armrest edge, as if a directional warm light is reaching the chair from an off-screen source that was not there a moment ago. The rim-light builds very gradually over 28 seconds, reaching maximum intensity at 73s. The rim-light is the **visual signature of a memory approaching**: it is not the same sepia-drain flashback mechanic from Beat E. This is something smaller, quieter, private to the chair. The player should notice the light without being able to name what changed. No audio change during the build-up. No camera movement (the slow zoom has ended).
+- **Act 4 (73–90s) — the line.** At 73s the Human begins speaking: `human_beat_f5_empty_chair` (§12.5). The line is addressed to the chair, not the player. The camera remains held. The rim-light remains at max intensity, catching the upper edge of the chair in a warm glow while the rest of the room stays in cold cyan. At 87s the line ends. The rim-light begins a slow fade (3 seconds) back to nothing. At 90s the cutscene ends — the chair is cold again, the Briefing Room is cold again, and the player is still standing in front of the one chair that does not fit the circle.
+
+**START FRAME (Nano Banana 2):**
+> Medium-close shot of the askew eighth chair in the crew Briefing Room aboard Ark 1047. The chair is pushed back ~40cm from the central command table and angled slightly away. Dark brass leather upholstery, heavy construction, small cyan status indicator at the neck (dark). The other seven chairs are visible in soft focus in the background, tight to the table. The central table occupies the lower third of the frame, its surface dark and inert. The far-wall holographic display is visible in the deep background, powered off. No rim-light yet — the chair is lit only by cyan floor strips and faint cyan table glow. Dust motes in the air. Volumetric fog ankle height. Full color, no flashback treatment. 16:9, 4K, no text.
+
+**MID FRAME (Nano Banana 2, used for the rim-light buildup in Act 3):**
+> Same composition as the start frame, approximately 60 seconds later. Camera has zoomed in very slightly (the chair now occupies slightly more of the frame — ~10% larger than the start frame). A subtle warm-amber `#fbbf24` rim-light is visible along the chair's seat-back upper edge and left armrest, approximately 40% intensity (building toward 100% at the 73s mark). The rim-light is directional, suggesting a soft light source off-screen to the left. The rest of the room remains cold cyan — the rim-light is *localized to the chair only*. Dust motes still drifting. The warm-amber hue should feel like a *memory* of warmth, not actual warmth — almost like a photograph of the light rather than the light itself. No audio visible in the frame (this is a still). 16:9, 4K, no text.
+
+**END FRAME (Nano Banana 2):**
+> Same shot as the mid frame, 30 seconds later. The rim-light has reached full intensity then begun fading back — the end frame shows the rim-light at ~20% intensity, clearly dimmer than the mid frame's 40%. The chair is almost cold again. The room is cold again. The composition is held. The mood is **the light has left, the words have been said, the chair is still the chair**. 16:9, 4K, no text.
+
+**SEEDANCE 2.0 motion prompt:**
+> Minimal motion across 90 seconds. **Act 1 (0–20s):** held medium-close shot of the askew eighth chair, no camera movement. Dust motes drift in dim cyan light. No audio change. **Act 2 (20–45s):** very slow continuous zoom-in toward the chair — less than 1 degree of FOV change per second, almost imperceptible. Dust motes continue. **Act 3 (45–73s):** zoom halts. Subtle warm-amber `#fbbf24` rim-light begins building along the chair's upper edge and left armrest, over 28 seconds, reaching maximum intensity at 73s. Directional rim-light only — the rest of the room stays cold cyan. No audio change during buildup. **Act 4 (73–87s):** at 73s the `human_beat_f5_empty_chair` VO line begins playing (see §12.5). Camera held, rim-light held at max intensity. At 87s the line ends. **Act 5 (87–90s):** rim-light fades back to zero over 3 seconds. Chair is cold again. Cutscene ends. 24fps. Still, patient, grief-adjacent. This is the slowest beat in the Prelude. Embrace it.
+
+### 12.5 VO — Beat F.5 new line
+
+**One new Human line** fires at 73s of the 90-second cutscene. The line is approximately 14 seconds long and is addressed **directly to the empty chair** — not to the player, not to Elara, not to himself. The Human is speaking to Kael, who is not there.
+
+| Line ID | Character | Voice profile | Beat | Text | Direction | Priority |
+|---|---|---|---|---|---|---|
+| `human_beat_f5_empty_chair` | The Human | `the_human` | F.5 (fires at 73s of cutscene, at peak rim-light intensity) | `"Kael. I would not have sat in this chair while you were alive because it was yours and you hated when people sat in your chair. I am not going to sit in it now either. I am going to stand here and pretend you are going to come back and tell me to get out of the way of the door. I am going to keep pretending that as long as I am able to. I owe him that much. I owe you that much. I'm sorry I could not save him. I tried. We both tried."` | This is the most fragile Human line in the entire Prelude and it should be delivered with the most control. The Human does NOT crack in this line — he speaks it straight, the way a careful man says the hardest things he has ever said. The fragility is in the **withholding**, not in the tremor. Every sentence should land cleanly. "Kael" at the top is the only moment allowed a slight downward catch in the voice. The rest is flat and true. The line ends on "We both tried" — the word "tried" should be *quiet* but unbroken. Do not soften "tried" into a whisper; hold the weight. This line is also the only place in the Prelude the Human uses the word "him" to refer to the Prince (*"I'm sorry I could not save him"*). The name is still withheld — Bond-80 later in Act 2 unlocks it. **Canon hygiene: the actor must not improvise adding the Engineer's name to this line.** The withholding is the entire point. | P0 |
+
+**ElevenLabs CSV row:**
+```csv
+human_beat_f5_empty_chair,The Human,the_human,0.55,0.85,0.35,true,"Kael.<break time=""800ms""/>I would not have sat in this chair while you were alive because it was yours and you hated when people sat in your chair.<break time=""600ms""/>I am not going to sit in it now either.<break time=""700ms""/>I am going to stand here and pretend you are going to come back and tell me to get out of the way of the door.<break time=""600ms""/>I am going to keep pretending that as long as I am able to.<break time=""700ms""/>I owe him that much.<break time=""500ms""/>I owe you that much.<break time=""900ms""/>I'm sorry I could not save him.<break time=""500ms""/>I tried.<break time=""400ms""/>We both tried.","The most fragile Human line of the Prelude. Do NOT crack. Straight, careful, controlled. Fragility is in the withholding, not the tremor. 'Kael' at the top gets a slight downward catch; the rest is flat and true. 'We both tried' ends the line: quiet but unbroken, do not soften 'tried' into a whisper, hold the weight. The Human says 'him' twice in reference to the Prince — the name is STILL withheld. Actor must NOT improvise adding the name. Withholding is the point.",P0
+```
+
+**Output:** `apps/client/public/audio/human/human_beat_f5_empty_chair.mp3`
+
+**Delivery context:** if the player remains in the room for the full 90 seconds, the line plays at full volume as the designated VO track. If the player skips the beat via continue-prompt or walks out of the Briefing Room before 73s, the line **still plays** — at -6dB ambient volume, layered under the next room's ambient bed, so the player hears it as if it were drifting from behind them through the door. This is handled at the audio-mix layer, not the VO layer; the same `.mp3` asset is used in both cases.
+
+### 12.6 VFX — Beat F.5 effects
+
+| VFX ID | Effect | Tech | Output | Notes |
+|---|---|---|---|---|
+| `vfx_chair_rim_hot_edge` | Warm-amber `#fbbf24` directional rim-light building along the askew eighth chair's upper edge and left armrest over 28 seconds, holding at peak for 14 seconds during the VO line, then fading back to zero over 3 seconds | CSS keyframe alpha tween + PixiJS directional light mask localized to the chair's silhouette | `apps/client/public/art/vfx/prelude/chair-rim-hot-edge.webm` (build-up + hold + fade-out variants) | Briefing Room only. Beat F.5 only. The light is localized to the chair — it does NOT spill into the rest of the room. The warm amber is the same hue as the Mess Hall's amber service light (§10.3), creating a visual rhyme: the Prince's warmth in the Mess Hall, a memory of warmth in the Briefing Room. The rim-light is **not** the sepia-drain flashback mechanic — it is something smaller and more private. The player should read it as "something warm is almost here" rather than "a memory is replaying." |
+
+**Engineering note on the rim-light:** this effect uses the same `BiometricLock` state machine's `pulsing` hue (warm amber vs. cold cyan) but repurposed as a localized directional light instead of a lock indicator. Engineering can either share the underlying component or write a new one — recommended: new component `ChairRimLight` in `apps/client/src/components/prelude/` since the semantics are distinct and conflating the two components would confuse future writers.
+
+**Reduced-motion accessibility fallback:** when `prefers-reduced-motion` is active, the `vfx_chair_rim_hot_edge` effect renders as a **single static frame** at peak rim-light intensity, held for the full 90 seconds (no build-up, no fade). The zoom-in is also disabled — the camera stays at its start-frame composition. The `human_beat_f5_empty_chair` VO still fires at 73s. The `beat_f5_full_witness` flag still sets if the player remains in the room for 90 seconds (reduced-motion players are given full credit for their patience — the skip detection logic is unchanged). The KineticText banner reads "A memory of someone who used to sit here" for the full 90 seconds.
+
+---
+
