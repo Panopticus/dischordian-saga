@@ -1731,3 +1731,144 @@ This count includes VFX variants (build + hold + fade, loop + transition, activa
 
 ---
 
+## Section 20 — Cross-References and P1 Backfill Specifications
+
+This final section contains two things: **(a)** a consolidated index of every external doc this Prelude Bible references, so a reader can find the canonical authority for any piece of content without having to search the individual beat sections; and **(b)** the specifications for the two P1 backfill rooms (armory and captain's quarters) that are in the Master Index but were not spec'd in the individual beat sections because no Prelude beat lives in them — they are environment assets the player can optionally walk into between beats.
+
+### 20.1 Cross-reference index
+
+Every external doc referenced anywhere in this Prelude Bible is listed below with a short note on what it authorizes. **If a detail in this doc appears to conflict with one of these external sources, the external source is canonical** unless this doc contains an explicit "CORRECTED" annotation (see §17.7 for the one place where this doc corrects a stale external claim — the Section 1 Master Index row for Beat J).
+
+**`docs/production/VOICE_OVER_BIBLE.md`** — character voice profiles, ElevenLabs profile IDs, canonical voice direction. This is the authoritative source for every `voice_profile` reference in this doc's VO tables. Specific sections referenced:
+
+| VOICE_OVER_BIBLE section | What it authorizes | Referenced from |
+|---|---|---|
+| §1 The Elara voice profile (`elara`) | Elara's ElevenLabs settings, warmth/stability/style defaults | §3.5, §6.5, §8.5, §11.5 — every Elara VO line in this doc |
+| §2 The Human voice profile (`the_human`) | Human's ElevenLabs settings, substrate-voice register, emotional range limits | §7.5, §9.5, §12.5 — every Human VO line in this doc |
+| §3 Agent Zero / Vex Solène voice profile (`agent_zero`) | Vex's voice settings — NOT used in the Prelude directly but referenced for future Act 3+ Coda messages | §14.2 cross-reference only |
+| §4 Adjudicator Locke voice profile (`locke`) | Locke's ElevenLabs settings, "diplomatic" variant vs "predatory" variant, character range | §14.5 — Locke's first message |
+| §6 The Antiquarian voice profile (`the_antiquarian`) | Antiquarian's ElevenLabs settings, existing `antiq_fc_1` line asset | §17.2 + §17.5 — Beat J reuses the existing line without re-recording |
+
+**`docs/design/ANIMATED_CUTSCENES.md`** — the authoritative source for cutscene render briefs used by Seedance 2.0 production. This doc only references one pre-existing cutscene:
+
+| ANIMATED_CUTSCENES section | What it authorizes | Referenced from |
+|---|---|---|
+| Cutscene 1 — Cryo Wake | The pre-existing render brief for Beat A's cutscene, including the character movement language and the framing language Seedance 2.0 needs | §1 Master Index Beat A row + §3.4 Beat A cutscene (references the existing brief rather than re-spec'ing) |
+
+**`docs/production/SHIP_READY_ASSET_BIBLE.md`** — the authoritative source for post-Prelude (Act 1+) content assets. This Prelude Bible does NOT duplicate any row from `SHIP_READY_ASSET_BIBLE.md` — the two docs are mutually exclusive by design. This Prelude Bible covers *only* Prelude-scope assets; `SHIP_READY_ASSET_BIBLE.md` covers everything else.
+
+| SHIP_READY_ASSET_BIBLE section | What it authorizes | Referenced from |
+|---|---|---|
+| (entire doc) | Post-Prelude asset deliveries. Any asset NOT in this Prelude Bible's Section 19 checklist belongs in `SHIP_READY_ASSET_BIBLE.md`'s own delivery pipeline | §1 Master Index "Asset count delta" note + §19.6 Summary note |
+| CIN-001 (Programmer entity cinematic) | Daniel Cross's first Loredex entity video. Referenced from §17.5 Beat J canon hygiene as the discovery path for Cross's civilian name in Act 2+ | §17.5 (VO hygiene), §17.1 (narrative purpose) |
+
+**`docs/design/CANON_REV_7_ORACLE_VEX_EXPANSION.md`** — **THE** primary canonical authority for every piece of narrative content this doc references. This Prelude Bible is downstream of the canon expansion doc; every Prince recording, every Two Witnesses detail, every Age-timeline reference ultimately resolves to a section of this file. Full cross-reference table:
+
+| CANON_REV_7 section | What it authorizes | Referenced from |
+|---|---|---|
+| §1.2 Vex Solène identity chain | Vex / Agent Zero / Engineer Zero / Eyes of Reality cover identities and reveal cadence | §8 Beat D (Trade Empire seed context), §14.2 (Vex Coda Inbox cross-ref) |
+| §1.3 Historical beats | Engineer transference into the swarm, Resurrection Protocols development | §13.1 Beat G (Medical Bay — transfer-array canonical context), §17.1 Beat J (narrative purpose) |
+| §1.6 Warlord retcon | Warlord as weaponized nanobot swarm; name is literally "the Warlord," NOT Malkia | §10.1 Beat E (childhood-with-Kael memory context), §17.2 Beat J (Log 5 Movement 5 actor direction) |
+| §3 Oracle of Thaloria | Oracle canonical role, Collector harvest context, Prince's awe-moment | §6 Beat C (existing bench logs reference Oracle), §13.1 Beat G (Medical Bay transfer-array adjacent to Resurrection Protocols origin), §17.1 Beat J (Log 5 Movement 1 context) |
+| §4 CoNexus machine god (stage-1 seed only) | Kanevas is a standard headmaster in Prelude content; CoNexus reveal is Act 4+. **Hygiene rule: no Prelude content may hint at the machine-god framing.** | §10.5 Beat E (`prince_beat_e_diploma` hygiene note — the Prince's ambivalence is normal graduate ambivalence, NOT CoNexus suspicion), §16.1 Beat I (Witnessing Hub hygiene — not connected to CoNexus) |
+| §5.2 Audio Log 1 *Meeting the Oracle* | Prince's first holo-log content | §6 Beat C (existing) |
+| §5.3 Audio Log 2 *The Hierophant's Flag* | Second Prince holo-log | §6 Beat C (existing) |
+| §5.4 Audio Log 3 *The List I Am On* | Third Prince holo-log; canonical 213 recruiter contacts figure | §10.1 Beat E (Kael recruiter-log context), §11.1 Beat F (213 entries payoff), §11.5 Beat F (`elara_beat_f_213_entries` line) |
+| §5.5 Audio Log 4 *I Am Beginning to Lose Hope* | Fourth Prince holo-log | §6 Beat C / §16 Beat I context (existing beats reference this) |
+| §5.6.2–§5.6.6 Log 5 full transcript (5 movements) | **The climactic Prelude VO — full 6m40s continuous take.** Plays during Beat J. | §17.2 + §17.4 + §17.5 Beat J (the entire Beat J cutscene is built around this canonical recording) |
+| §5.6.9 *Last Words* song + Light/Dark choice trigger | Song lyrics, canonical hard-cut timing, Light/Dark trigger line *"Freedom of thought is worth dying for"* | §17.4 Acts 9–10–11 Beat J cutscene (the one-second silence, the song entry, the choice UI appearance) |
+| §5.6.10 Log 5 voice direction (Insurgency-era-at-peace framing) | Voice-actor direction for Log 5 recording — corrected by §8.7 to NOT be prophetic-weight | §17.5 Beat J (VO direction reference) |
+| §5.6.13 Human's Log 5 reaction | Human's post-Log-5 line (temporal-vagueness phrasing per Correction 4) | Not played in Beat J cutscene itself but referenced as canonical Human continuation material in §17.2 cross-refs |
+| §6 Eden the Garden World | Canonical garden world from Log 5 Movement 5 references | §10.1 Beat E (Prince's Archive context, Malkia as resident artist), §17.4 Act 8 Beat J (Log 5 Movement 5's garden reference renders canonically as Eden) |
+| §7 Twelve Neyons authoritative roster | All 12 Neyon identities and ordinals, including the Enigma as 11th | §14.2 Beat H (Locke NOT a Neyon — continuity check), §17 Beat J (the Enigma's canon status) |
+| §8.1 Age timeline | Full 5-Age canonical timeline (Privacy → Prophecy → Insurgency → Revelation → post-Fall) | §17.1 + §17.2 Beat J (player meets resurrected Witnesses from Age 4) |
+| §8.2 Daniel Cross identity sequence | Programmer → Panopticon stage name → Antiquarian (post-Fall) | §17.1 + §17.2 + §17.5 Beat J (Antiquarian is the player-facing name in Prelude) |
+| §8.3 Malkia Ukweli identity sequence | Malkia → the Enigma → 11th Neyon → one of Two Witnesses | §17.1 + §17.2 Beat J (Enigma is the player-facing name; full civilian name withheld until Act 2+) |
+| §8.4 Revelation 11 architecture table | Biblical framing of the Two Witnesses + 1260 days + Silence in Heaven | §17.1 Beat J (canon hygiene rule — 1260 days are historical, not Prelude-scope) |
+| §8.5 Beat J implications (option 1 recommended) | Both Witnesses physically present in the Archives — user approval pending but recommended | §17.1 + §17.4 Beat J (this doc adopts option 1 as the working spec) |
+| §8.6 Eight Prelude content hygiene rules | Antiquarian name only, no Daniel Cross, split Panopticon meanings, 1260 days historical, no Silence in Heaven, no Heart of Time, no Age names spoken aloud, Two Witnesses framing from Beat J onward | §17.1 Beat J (enumerated in full), §17.5 Beat J (applied to VO subtitle/hygiene rules) |
+| §8.7 Cross-references + updated §5.6.10 actor framing | Insurgency-era-at-peace Log 5 framing (corrects earlier prophetic-weight framing) | §17.5 Beat J VO direction reference |
+| §8.8 Open canon items | Flagged items requiring future user confirmation (Cross arrival Age, Malkia native Age, full civilian name reveal timing, Heart of Time ship canon, etc.) | §17.1 Beat J (hygiene context — do not invent content that would commit the player to any of these open items) |
+
+**`docs/design/DISCHORDIAN_SAGA_FULL_GAME_LAYOUT.md`** — the full-game canon document ("DSFGL") covering all six Parts. This Prelude Bible references specific sections of Parts I, III, and VI:
+
+| DSFGL section | What it authorizes | Referenced from |
+|---|---|---|
+| Part I Rev 5 (first-wave Potentials, Dreamers' Shield) | Canonical first-wave Potential context and the Dreamer's Shield barrier canon | §6 Beat C (Potential identity context, never named in Prelude), §14.1 Beat H (Vex Solène's first-wave context cross-ref) |
+| Part III (Trade Empire mid-game pillar) | Trade Empire faction system, mission board conventions, three-job canonical structure | §8.1 Beat D (Trade Empire seed), §14.1 Beat H (Locke as Trade Empire diplomat) |
+| Part VI Rev 6 (Prelude structure, Rev 6 breath beats) | The 15-beat Prelude master structure that this doc implements, including A.5 / C.5 / D.5 / F.5 / H.5 breath beats | §1 Master Index (the 15-row table), §4 / §7 / §9 / §12 / §15 (all five breath beat sections) |
+| Part VI Section 3.2 (Galley as Rev 6 breath beat addition) | Galley canonical role as breath beat | §9.2 Beat D.5 cross-reference |
+| Part VI Section 4 (Witnessing Hub / Loredex surfacing system) | Witnessing Hub canonical system per §16.1 | §16.1 + §16.2 Beat I cross-references |
+| Part VI Rev 6.2 state machine (`apps/shared/preludeBeats.ts`) | The canonical beat-to-room state machine that gates player progression through the Prelude. **This is the absolute source of truth for which room a given beat happens in.** | §1 Master Index conformance, §17.1 Beat J (the stale Master Index row correction was forced by this state machine's canonical `'archives'` room assignment for Beat J, NOT `'engineering'` as the old row implied) |
+| Part VI Rev 6.2 line 5536 (flagged stale) | Legacy "Kael and the Warlord grew up in the same palace" line that is flagged stale per `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §1.6 Warlord retcon. Follow-up DSFGL PR required | §10.1 Beat E cross-reference (the Prince's childhood memory context is affected by this retcon) |
+| Part VI Rev 6.2 `human_rev_terminus` line | *"Terminus isn't a planet. It's the Panopticon — broken free."* | §17.1 Beat J canon hygiene (the "Panopticon" name has two meanings — planet + Cross's stage name — and neither fully surfaces in the Prelude) |
+| Part VI Rev 6.2 `narr_terminus` Narrator line | Warning line about unidentified megastructure classification | Referenced in §17.1 Beat J canon hygiene alongside the Human's revelation line |
+
+### 20.2 P1 Backfill — Armory
+
+The Master Index in §1 reserves a row for a **P1 cumulative armory backfill** with one new art still and no cutscene, VO, or VFX. No Prelude beat canonically lives in the armory — the player cannot enter it via the Rev 6.2 state machine's `apps/shared/preludeBeats.ts` progression. The armory exists as an **environment asset reserved for Act 1+ entry** and is spec'd here so production can deliver the asset during the same art pipeline session that produces the P0 rooms, avoiding a context-switch cost later.
+
+**Output:** `apps/client/public/art/rooms/room-armory.png` + `.webp`
+**Aspect:** 16:9 1920×1080
+**Priority:** P1
+**Style anchor:** §0 global + Prelude modifiers. **Critical compositional requirement:** the armory should feel like a disciplined, organized weapon-storage room — the cleanest-kept space on the Ark despite being unused for 17,000 years. The crew that maintained it kept it immaculate, and the dust accumulation should read as *preserved neatness*, not *abandoned chaos*.
+
+**Nano Banana 2 prompt:**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the crew Armory aboard Ark 1047 — a long rectangular room approximately twelve meters deep and five meters wide with a ceiling of three meters, lit only by emergency cyan floor strips and a few dim cyan equipment-rack indicators. **Both long walls** are lined with **tall weapon racks** — floor-to-ceiling composite cabinets with transparent armored glass fronts, each rack divided into vertical slots. Each slot holds a single weapon or piece of equipment: sidearms on the upper slots, long-barrel rifles in the middle, heavier breach tools and armored vests on the lower slots. Render approximately 24 slots per rack, both racks visible, for a total of ~48 weapon slots in frame. **Many slots are empty** (the canonical last-missions of the Ark's original crew took weapons with them), but **approximately 60% of slots still hold their contents** — suggest disciplined rows of matching weapons without rendering any legible manufacturer markings or serial numbers. The surviving weapons are dust-coated but intact, their metal surfaces still catching the dim cyan light. **The floor** down the center of the armory is a clean composite with inlaid cyan-edged floor tiles forming a central aisle. At the far end of the aisle, **a single ammunition-preparation table** — waist-height, brass-and-composite, with small brass bins along its back edge and an empty loading bench surface in front. One of the small brass bins holds **a neat row of empty brass shell casings arranged in a disciplined parallel row** — the most recent evidence of the room being used, many years ago. **The entrance wall** (behind camera in the wide shot) would hold the armory door with a biometric lock (not visible in this composition, camera is looking away from the door). **Lighting**: no overhead lights. Cyan floor strips along the central aisle, dim cyan indicator pips on each weapon rack (most dark, some faintly lit), one soft cyan wash from the overhead cyan conduit running the length of the ceiling, and a single amber-yellow `#fbbf24` standby light above the ammunition-preparation table at the far end (the room's fourth warm light in the Prelude universe, placed as a thematic callback to the Mess Hall service light and the Medical Bay transfer-array standby). Volumetric fog at ankle height, slightly thinner than other rooms — the armory is sealed and has the best air circulation. Anamorphic lens flare on the amber standby light and on the brightest cyan rack indicator. Film grain. Deep space black #010020 base. **No rendered text** on the weapons, the racks, the brass bins, or the walls. **No people. No holograms.** Cinematic 4K composition, wide shot from inside the armory doorway looking down the central aisle toward the ammunition-preparation table at the far end, with both weapon racks flanking the aisle receding into the depth of the composition. The mood: **a disciplined room where disciplined people kept disciplined equipment, and the discipline outlived the people.**
+
+**Flagged canonical detail for engineering:** the amber standby light above the ammunition-preparation table is not a decorative choice — it is canonically the same amber color as every other warm-light thematic element in the Prelude (Mess Hall §10.3, Galley pilot §9.3, chair rim-light §12.6, Medical Bay transfer-array §13.3, Bridge primary-light cascade §16.6). The armory's amber light places it in the same thematic family and implies the armory has some future-Act significance that is not yet revealed. Canon hygiene rule: **no Prelude content hints at what that significance is.** The armory is environment-only in the Prelude.
+
+**No cutscene required.** The armory is walk-into-and-look-around scenery. If an Act 1+ beat needs an armory cutscene, it lives in a separate doc.
+
+**No new VO required.** Same as above.
+
+**No new VFX required.** The amber standby light reuses `vfx_transfer_array_amber_standby` (§13.6 / §18.2) — same visual component, different output path for the instance. Engineering can render the armory's standby light as a **parameterized instance** of the existing VFX rather than a new asset.
+
+### 20.3 P1 Backfill — Captain's Quarters
+
+The Master Index in §1 also reserves a row for a **P1 cumulative captain's quarters backfill**. Like the armory, no Prelude beat canonically lives in the captain's quarters — the player cannot enter it via the Rev 6.2 state machine. It is an environment asset reserved for Act 1+ entry. Specifically, the captain's quarters is the canonical location of the pre-existing `holo_deck_remembers` Prince recording referenced in `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.6.14 cross-references — the "order 7, captain's quarters" recording that Log 5 canonically quotes as its closing catechism.
+
+**Output:** `apps/client/public/art/rooms/room-captains-quarters.png` + `.webp`
+**Aspect:** 16:9 1920×1080
+**Priority:** P1
+**Style anchor:** §0 global + Prelude modifiers. **Critical compositional requirement:** the captain's quarters should feel **lived-in but formal** — a small private cabin belonging to someone who treated the space as both a workplace and a retreat. It should contrast with the Mess Hall's domestic warmth (§10.3) by being more disciplined and with the Briefing Room's formal coldness (§11.3) by being slightly warmer. The room is the **canonical location of a Prince holo-recording** (the `holo_deck_remembers` bench recording per `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.6.14 cross-reference) and a small holo-bench along one wall is the compositional anchor.
+
+**Nano Banana 2 prompt:**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the Ark 1047 captain's quarters — a small private cabin approximately five meters wide and seven meters deep with a ceiling of two and a half meters, more intimate than the crew rooms. **The far wall** holds a small single bunk along its length — a narrow composite-frame bed with a dark woven blanket folded at its foot in a crisp military style, a single pillow at its head, and a shelf above the bunk holding three or four paperbound books stacked horizontally (no legible spines). **The right wall** holds a small **holo-bench workstation** — a recessed alcove with a contoured work chair, a flat composite desk surface, and a silver-and-brass holo-projector embedded in the desk's center. The holo-projector is currently dormant, its cyan status pip lit steady (powered idle). A neat stack of three paperbound notebooks sits on the desk's left edge beside a single metal pen. **This is canonically where `holo_deck_remembers` was recorded** (the Prince's "order 7" holo-log per `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.6.14). **The left wall** holds a small closet with a composite door ajar just enough to suggest the contents are hanging neatly inside (render no legible detail). Beside the closet, a small framed photograph on the wall — the frame is approximately 20cm × 15cm, the photograph itself rendered as unreadable detail (suggest a figure or scene but do not render faces or legible elements). **The entrance wall** (behind camera) holds the cabin door. **Lighting**: no overhead lights. Illumination comes from cyan emergency floor strips, the dim cyan status pip on the holo-bench, a single small amber-yellow `#fbbf24` desk lamp on the holo-bench (warm color, reading-light quality — the fifth warm light in the Prelude universe, placed on the Prince's personal workstation as a signifier of where he worked privately), and a very faint cyan wash from a small overhead vent fan on the ceiling. Volumetric fog at ankle height, much fainter here than in other rooms — the captain's quarters is sealed, the air is still and clean. Anamorphic lens flare on the amber desk lamp and on the holo-bench's cyan pip. Film grain. Deep space black #010020 base. **No rendered text** on the book spines, the notebook covers, the framed photograph, or any other surface. **No people. No holograms** (the `holo_deck_remembers` recording plays only when triggered — the base still shows the room empty). Cinematic 4K composition, three-quarter wide shot from just inside the entrance doorway, standing eye level, framing the bunk on the far wall (middle ground), the holo-bench workstation on the right (side focal point with the amber desk lamp drawing the eye), and the closet and framed photograph on the left (soft secondary details). The mood: **a small private cabin that belonged to a specific person who kept his things exactly where he wanted them and then did not come back to disturb them.**
+
+**Canon-reference note:** the `holo_deck_remembers` recording referenced in `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.6.14 is canonically stored on this room's holo-bench. If an Act 1+ beat triggers this recording's playback, the cutscene should render the Prince's hologram seated in the work chair at the holo-bench — NOT in the center of the room. The workstation's geometry is the canonical container for this specific recording. This detail is reserved here so a future writer building that Act-scope beat has the canonical staging pre-decided.
+
+**No cutscene required** in the Prelude. The captain's quarters is walk-into-and-look-around scenery in the Prelude.
+
+**No new VO required** in the Prelude. The existing `holo_deck_remembers` asset is referenced but not played in any Prelude beat. (It is, however, quoted verbatim in Log 5's closing catechism in Beat J — per canon §5.6.14 — so the recording's existing text is player-facing through Beat J even though the recording itself doesn't play in the Prelude.)
+
+**No new VFX required.** The holo-bench cyan pip reuses `vfx_neural_rig_idle_hum_visual` (§13.6 / §18.4) as a parameterized instance. The amber desk lamp reuses `vfx_galley_pilot_warm` (§9.6 / §18.4) with the 5% brightness pulse disabled (static steady-on instead). Both are parameterized instance reuses, no new assets.
+
+### 20.4 Prelude Bible — Delivery Complete
+
+**This doc is the authoritative ship-ready spec for every P0 and P1 asset the Prelude needs.** Every room, every cutscene, every VO line, every VFX overlay, and every ambient audio bed is specified with enough detail for a Nano Banana 2 / Seedance 2.0 / ElevenLabs / PixiJS pipeline to produce the assets without further design work. The 15-beat Prelude (A, A.5, B, C, C.5, D, D.5, E, F, F.5, G, H, H.5, I, J) plus the 2 P1 backfill rooms (armory, captain's quarters) are all covered.
+
+**What this doc does NOT cover** — flagged here so future writers know what's still missing from the Prelude production envelope:
+
+1. **Scene-level engine code** (TypeScript / React) that wires the assets together into playable flow. This doc describes *what the player sees, hears, and feels*; it does not describe *how the scenes are implemented in code*. Engine implementation is downstream of this doc and should happen in separate PRs against the game's scene system.
+2. **The Prelude's opening UI chrome** (title screen, save-slot selection, accessibility menu, reduced-motion toggle). These are game-wide UI elements that live outside the Prelude's per-beat structure.
+3. **The Log 5 recording session itself.** This doc references the canonical Log 5 transcripts in `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.6.2–§5.6.6 but does not re-spec them. Production of the `holo_log_5_full.mp3` asset is the canon expansion's own pipeline responsibility, NOT this doc's.
+4. **The *Last Words* song recording session.** Same as above — canonical in `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.6.9, produced by the canon expansion's own pipeline.
+5. **Post-Prelude content** (Act 1+). Everything after Beat J's Light/Dark choice fade-to-black lives in `SHIP_READY_ASSET_BIBLE.md` and its downstream docs. This Prelude Bible intentionally ends at the fade-to-black of Beat J.
+6. **Localization strings.** All VO lines and UI text in this doc are English canonical. Localization to other languages is a downstream production task that references this doc's canonical English text as the source.
+7. **Playtesting feedback loops.** This doc is the *pre-playtest* spec. After the Prelude is playable end-to-end and a playtest cycle has run, this doc will likely need updates based on where players get stuck, where pacing feels off, and where the emotional beats land differently than intended. Reserve room in the doc's revision history for playtest-driven updates.
+
+**Total doc size at delivery completion:** ~1846 lines (up from 612 at session start — the 2026-04-15 session added ~1234 lines across 10+ incremental commits on branch `claude/prelude-bible-beats-e-j-2026-04-15`, continuing the pre-session work that established Sections 0–9 / Beats A–D.5 on the now-merged `claude/game-narrative-design-lIeB5` branch via PR #32).
+
+**Target doc size from the original plan:** under 3,000 lines (target ~2,500). **Actual delivery:** ~1,846 lines. Well within target. The doc is tight.
+
+**Next action after this delivery lands** (not in scope for this session unless the user explicitly requests):
+- Create a PR for the `claude/prelude-bible-beats-e-j-2026-04-15` branch to merge Sections 10–20 into main
+- Canon review by the narrative lead
+- Playtest dry-run with the 15 beats laid out as a sequential read-through
+- Asset production kickoff using §19 as the delivery checklist
+
+---
+
+*End of Prelude Ship-Ready Asset Bible. Delivery complete.*
+
