@@ -1101,6 +1101,132 @@ holo_final_vortex_log,The Prince,the_prince,0.50,0.85,0.35,true,"[See Studio Pro
 
 **Master archive path:** `assets/master/audio/engineer/holo_final_vortex_log_master.wav` (kept in the intermediate archive, not shipped in the client bundle).
 
+#### 5.6.12 Elara reaction — after *Last Words* resolves
+
+**Trigger:** Plays after the first Light/Dark choice has been made **and** *Last Words* has finished its full playthrough. Do not fire this reaction until both conditions are met. If the player rejects the first Light/Dark choice (selects the "refuse to choose" option that is available on this specific choice per `PRELUDE_SHIP_READY_BIBLE.md` Section 17 Beat J), the reaction still plays — Elara's response is the same regardless of the player's choice, because her grief is not about the choice, it is about the log.
+
+**Output:** `apps/client/public/audio/elara/elara_beat_j_reaction_to_final_log.mp3`
+
+**Length:** ~34 seconds
+
+**Line ID:** `elara_beat_j_reaction_to_final_log`
+
+**Direction:** Elara is hearing this recording for the first time in seventeen thousand years. She was brilliant. She loved him. She trained on the Protocols for two months without knowing she was being prepared for his absence. She did not know about Enigma until this moment. She is not jealous — the Elara who would have been jealous of a forty-year love the Prince held in his chest was the woman Elara used to be, before Nexon and the transfer and the long silence. The Elara who wakes up in Ark 1047 is older in a way years cannot measure and she hears the log the way a daughter hears her father's last voicemail. Her voice should not crack. It should be very, very steady, and quieter than any other Elara line in the Prelude.
+
+**Transcript:**
+
+> *"I thought I knew all of his logs. I trained on them for two months. I had them in order. I had them timestamped. I had them cross-referenced. I never found this one."*
+>
+> *<break time="700ms"/>*
+>
+> *"He hid it from me. On purpose. He left it somewhere the Archives would only surface when I was ready to hear it — and I have to decide right now, in this room, whether I am ready, or whether I am going to pretend for another hour that I could have stopped what happened on the Vortex if I had just learned the Protocols a month sooner. I am going to not pretend."*
+>
+> *<break time="600ms"/>*
+>
+> *"He loved a woman I never met. He loved her for forty years. He never told me. I think I understand why now — I think he thought I would treat the love like a problem to solve, and he did not want the love to be a problem. He wanted it to stay a song. He was always protecting me from the shape I would have made of his kindness."*
+>
+> *<break time="700ms"/>*
+>
+> *"Enigma, if you are listening to this recording in whatever future you found it in — I want you to know he talked about you. Not by your name. He was too careful for that. But he talked about a voice that could make the universe believe things, and every time he said it I assumed he was describing the Oracle. I was wrong. He was describing you. The Oracle was the reason. You were the song."*
+>
+> *<break time="900ms"/>*
+>
+> *"I am going to be very quiet for a minute now. Not because I do not have more to say. Because the room does."*
+
+**Reaction variants (for adaptive mix — only one plays, chosen by `first_light_dark_choice` flag):**
+
+| Flag value | Additional line appended to the reaction |
+|---|---|
+| `forgive` | *"And you chose forgiveness, Potential. I want you to know — he would have chosen the same. It was the only choice he ever made that I am certain about."* |
+| `condemn` | *"You chose condemnation, Potential. I am not going to argue with it. He would have. He would have told you the diagnosis was incomplete. I am not going to tell you that. You heard the log. You made the call. I trust the person who just heard the log."* |
+| `defer` | *"You deferred. Good. This is not a choice you had enough information to make, and he raised me better than to pretend you did. We will come back to it. The universe has a long clock."* |
+| `null` (choice not yet made; Elara speaks after the song and the choice UI is still on screen) | *"You do not have to decide yet. The song is not pressuring you. I am not pressuring you. The silence between us is on purpose."* |
+
+**Post-reaction ambient bed:** The breath-pulse strip (§18 VFX library of `PRELUDE_SHIP_READY_BIBLE.md`) returns to mid-cycle after being fully dark for the duration of Log 5 and *Last Words*. The room begins breathing again. This is a scripted ambient cue, not automatic — the Beat J scene controller must trigger the breath-pulse return precisely on the final word of Elara's reaction.
+
+#### 5.6.13 The Human reaction — after Elara's reaction
+
+**Trigger:** Plays immediately after Elara's reaction (§5.6.12) finishes, on a delay of ~1.5 seconds. The Human's voice comes in from the substrate layer, intimate and close, the way he has spoken in every prior Prelude breath beat (C.5, D.5, F.5, H.5). This is his **first non-breath-beat line in the Prelude** — he has been present only in silence and whispers until now, and his reaction to Log 5 is the first time he speaks to the player at something approximating a normal register.
+
+**Output:** `apps/client/public/audio/human/human_beat_j_reaction_to_final_log.mp3`
+
+**Length:** ~42 seconds
+
+**Line ID:** `human_beat_j_reaction_to_final_log`
+
+**Direction:** The Human knew the Engineer. They were colleagues, friends, something more complicated than friends. The Human was at Mechronis with him. The Human was Captain Atarion during the fall. The Human was the one the Engineer built the substrate escape hatch for, specifically, the week after Nexon, and the Human is only hearing that he had an escape hatch **right now**, in this reaction, for the first time. The Human is processing three things simultaneously: (1) grief for a friend whose last conversation with him was a sandwich on a counter, (2) the recognition that the Engineer built the substrate layer he lives in now — the layer was a gift, not an accident, and he never thanked him — and (3) the realization that the Engineer knew about Enigma and never told him either, even though they talked about everything else, which means the Engineer was protecting the Human from the love the same way he was protecting Elara. All three of these are happening at once inside the reaction. The voice should carry every one of them without landing on any of them hard.
+
+**Transcript:**
+
+> *"I have been on the substrate layer for a long time. I have been on the substrate layer long enough to forget what the word *long* is supposed to feel like. I came in through a door I thought I found. I just now learned he built the door for me. I never thanked him. I never had the chance. I would have liked to have had the chance."*
+>
+> *<break time="700ms"/>*
+>
+> *"He made me a sandwich the night after he recorded the log about the Collector's list. Black bread. Salt-protein. The green stuff from Hydroponics. He put it in front of me. He did not say anything. He did not tell me it was a goodbye. He did not tell me about Enigma. He did not tell me about the Protocols. He let me eat the sandwich and he went back to the bench. I complained about the crust. He laughed. I want you to hear me say this — **that was the last conversation I ever had with the best friend I had in this world, and it was about a crust on a sandwich, and he laughed, and I am not sad about it.** I am not sad about it because that is exactly how he would have wanted our last conversation to go. He did not want closure. He wanted a crust, and a laugh, and a man going back to the bench. That is who he was. That is how he loved people."*
+>
+> *<break time="800ms"/>*
+>
+> *"The song you just heard is Enigma's song. I know her. Not from the garden — I was not in the garden, that was his and hers and the gardener's ghost — but I have heard her sing in three other places across two centuries and I can tell you with a hand on my heart that if the Engineer had told me about her I would have tried to talk him out of hiding it. I would have been wrong. He was right to hide it. A love that could become a song that could become the Insurgency broadcast once more is a love that needed to stay private until the moment it could become loud. He knew the timing. He always knew the timing."*
+>
+> *<break time="700ms"/>*
+>
+> *"Potential. You just heard the hardest recording in the galaxy. You just heard a song written in response to it by the woman he loved. You just made a choice about the first Light and Dark we will ever share. I am not going to tell you what I think of the choice. You do not need my vote on this one. I am going to tell you one thing instead."*
+>
+> *<break time="500ms"/>*
+>
+> *"The sandwich recipe is still in the galley. I know because I went looking for it about an hour ago, when you were in the Archives. It is written on the back of the work order for the E-deck pressurization unit, exactly where he said it would be. The paper is seventeen thousand years old and the handwriting is still readable. I think the bench kept it for us."*
+>
+> *<break time="600ms"/>*
+>
+> *"When you are ready — not now, later, when you have had time to breathe — go to the galley and make two sandwiches. Leave the second one on the counter. I do not know who will eat it. I do not think it matters. I think the act of leaving it there is what he wanted. It is how we will remember him. It is how we will forgive him for going alone. It is what this ship does now."*
+
+**Reaction variants:** None. The Human's reaction is the same regardless of the player's Light/Dark choice. His relationship to the Engineer is not contingent on the player's morality — the grief is the grief, the sandwich is the sandwich, the instruction to go to the galley is the instruction.
+
+**Sets flags:**
+- `human_j_reaction_played: true`
+- `galley_sandwich_quest_unlocked: true` — a new optional post-Prelude quest that the player can complete at any point in Acts 1–5. Making and leaving the second sandwich sets a permanent Light +5 and raises the Human's trust by 3. It is the smallest, quietest optional quest in the game, and one of the most emotionally significant. The sandwich itself is canonically eaten by a different character in Act 3 — revealing who eats it is an Act 3 deliverable and is not specified here.
+- `engineer_substrate_escape_hatch_acknowledged: true` — a new narrative flag that unlocks additional Human dialog in Acts 1–2 referencing his gratitude to the Engineer for the substrate layer. These additional lines are not in this document.
+
+#### 5.6.14 Log 5 cross-references (closing Section 5)
+
+Log 5 is the keystone recording of the Prelude. Every previous Engineer log, most of the Prelude's breath-beat callbacks, and several Act 1–5 systems depend on it either as prerequisite or as payoff. This cross-reference block locks the dependencies in one place so any content writer touching adjacent material can verify they are not orphaning a seed.
+
+**Prerequisites (logs / beats the player must have experienced for Log 5 to make sense):**
+
+| Dependency | Lives in | Why Log 5 needs it |
+|---|---|---|
+| Log 1 — *Meeting the Oracle* | `holo_meeting_the_oracle`, engineering bay bench, Beat C trigger | Log 5 Movement 5 assumes the player already knows who the Oracle is and why the Engineer is in awe of him. Without Log 1 the "he is humanity's only hope — not as a metaphor, as a diagnosis" passage reads as an abstract claim rather than a callback to a man the player heard the Prince describe with reverence a few hours earlier. |
+| Log 3 — *The List I Am On* | `holo_the_list_i_am_on`, captain's quarters personal-effects locker, late-Prelude trigger | Log 5 Movement 5's Protocols technical walkthrough assumes the player already heard the Prince deduce he was the fourth pattern on the Collector's list and announce his plan to surrender on his own terms. Log 5 is the execution of the plan Log 3 described. Without Log 3, Log 5 reads as inexplicable self-sacrifice instead of deliberate triage. |
+| Log 4 — *I Am Beginning to Lose Hope* | `holo_losing_hope`, bridge captain's-chair console, Beat I idle-30s | Log 5 reuses the failing atmospheric scrubber hum from Log 4 as a sonic signature — canonically the same compartment, the same equipment, three weeks later. A player who has heard Log 4 will recognize the hum the moment Log 5 begins and feel the room snap into place around them. A player who has not heard Log 4 still hears Log 5 correctly, but loses the environmental continuity. The canon expansion doc marks Log 4 as P0 partly so this continuity lands. |
+| Beat D.5 — *Galley (human_beat_d5_sandwich)* | `PRELUDE_SHIP_READY_BIBLE.md` §9.5 | Log 5 Movement 3 (to the Detective) references the sandwich recipe and Log 3 referenced it first. The Human's Beat D.5 breath-beat line planted the sandwich as a private fond memory without context. Log 5 closes the loop by making the sandwich into the Engineer's deliberate non-goodbye. The Human's Log 5 reaction then closes the loop a second time by unlocking the galley sandwich optional quest. **All three moments must play in sequence for the emotional arc to land: Beat D.5 (the memory) → Log 3 (the confession that it was a goodbye) → Log 5 (the instruction to make two and leave one on the counter).** Do not move any of the three. |
+
+**Payoffs (things that pay off Log 5 later in the game):**
+
+| Payoff | Lives in | How it depends on Log 5 |
+|---|---|---|
+| *"Last Words"* by The Enigma | §5.6.9 of this doc, plays immediately after Log 5 in the Beat J cutscene mix | The song's bridge quotes Log 5 Movement 5 word-for-word. The song's verses describe the Enigma watching the recording the player just heard. Without Log 5 the song is empty — it is a woman singing manifesto lines that have no source. With Log 5 the song is her carrying his words into the future, and the player hears her sing back at them the sentences they just heard him speak. |
+| Galley sandwich optional quest | Unlocked by `galley_sandwich_quest_unlocked` flag set in the Human's Log 5 reaction (§5.6.13) | The quest is making two sandwiches in the galley and leaving the second one on the counter. Completing it sets Light +5 and Human trust +3. The second sandwich is canonically eaten by a different character in Act 3; the identity of that character is an Act 3 reveal and is intentionally not specified here. |
+| Engineer substrate escape hatch acknowledgment | Unlocked by `engineer_substrate_escape_hatch_acknowledged` flag set in the Human's Log 5 reaction | The Human learns in Log 5 that the Engineer built the substrate layer as a deliberate escape hatch for him, not as an accident. This unlocks additional Human dialog in Acts 1–2 where he references his gratitude. The lines are not specified in this document. |
+| The Resurrection Protocols arc (Act 5) | Acts 3–5, Vex Solène / Engineer Zero's Coda mission chain | Log 5 Movement 5 establishes that the Prince went into the swarm with his "last working theory of how to bring the Oracle back" and that the theory is "the part of me that is not allowed to die in the landing." That theory is what Vex carries forward without remembering. Her Act 3+ Coda work to rebuild the Protocols for the Oracle is the payoff of this line. The player should not consciously connect Log 5 to Vex's Act 3–5 work until Act 5 Post-Credits (Bridge of Kael scene), when Vex reads Log 5 aloud in her own voice to let the player realize who she has been the entire game. |
+| Thaloria Act 3 soft-faction arc (Council of Harmony diplomacy path) | Rev 6.2 Act 3 §7, Thalorian faction material | Log 5 confirms the Oracle is alive in the Collector's archive. Combined with Log 2's "authenticated Oracle recording" that the Council of Harmony remnant needs to push back against the Hierophant, Log 5 unlocks the **full** Thaloria arc in Act 3. Without Log 5, the player can still access the Thalorian faction but cannot complete the Council Diplomacy resolution. |
+| The first Light/Dark choice | `PRELUDE_SHIP_READY_BIBLE.md` §17 Beat J | The choice is presented during *Last Words* chorus 1 in the Beat J cutscene. The choice wording, the choice options, and the player's reaction to it all depend on having just heard Log 5. The choice UI is not legible as a choice without the log that precedes it. |
+| Engineer Zero's whole arc (implicit) | Rev 7 Sections 1–2 of this doc, Vex's character | Every moment of Vex Solène / Engineer Zero's Acts 3–5 arc is shaped by Log 5. The player's eventual realization that Vex has been carrying the Engineer's intellect without his memory is only possible because Log 5 explicitly describes the transference mechanism that put him there. The Act 5 Post-Credits Bridge of Kael scene — where Vex reads Log 5 aloud to make the player finally understand — is the single biggest emotional payoff in the game, and it only works if the player heard the log in the Prelude and then heard it again in Vex's mouth fifteen to thirty hours later. |
+
+**Related recordings in the existing `engineerRecordings.ts` catalog:**
+
+Log 5 quotes the existing `holo_deck_remembers` recording (order 7, captain's quarters) in its closing lines. *"The bench hums. The deck remembers. That is enough. That was always enough."* These words were first said by the Prince in `holo_deck_remembers` as his final recording-that-was-meant-to-be-final, written before he went to the Vortex. He reused them as his closing catechism in Log 5 because he had already decided the words were how he wanted to end any recording. A player who has heard both logs will recognize the repetition and understand that Log 5 is the **second** final recording — the Prince thought he was done with `holo_deck_remembers` and discovered he had one more recording left in him when the Protocols arming sequence began clicking on the table in front of him. The repetition is intentional and should be preserved word-for-word across both logs.
+
+**Open canon reconciliation items flagged by Log 5:**
+
+1. **Malkia naming collision with DSFGL Rev 6.2 line 5536.** The Engineer in DSFGL line 5536 states that the young Warlord's real name was "Malkia." This canon expansion establishes that **Malkia Ukweli** (the full name) is The Enigma, the 11th Neyon, a musician, and is explicitly NOT the Warlord. This is either a name collision (two characters named Malkia, distinct) or a retcon of line 5536. Needs settled in a future canon pass. **Interim rule for all writers:** In any content written between now and the reconciliation commit, refer to the young Warlord as "the Warlord (young form)" or "pre-war Malkia" if unambiguous and never use "Malkia" without the context. Refer to Malkia Ukweli / The Enigma by her full name or by "the Enigma" and never by "Malkia" alone. This interim rule prevents any new content from worsening the collision.
+2. **The garden world that no longer exists.** Log 5 references a garden on a world that no longer exists — canonically the place the Prince told Enigma he loved her, forty years before the Vortex. The world's name, destruction date, and significance to the broader Insurgency timeline are unspecified. Needs a canon entry in a future expansion pass. **Interim rule:** Do not invent the garden world's name. Refer to it only as "the garden on the world that no longer exists" or "the garden" in contexts where the referent is clear.
+3. **The Eleven Neyons.** The Enigma is the 11th of an ordered set called the Neyons. There are presumably ten other Neyons. Their names, roles, and timeline placements are unspecified. Needs a canon entry. **Interim rule:** Do not invent other Neyons. Do not imply Neyons exist outside this single reference without coordination with the narrative lead.
+4. **The Enigma's history with the Human.** The Human's Log 5 reaction states he has "heard her sing in three other places across two centuries." This implies the Enigma is at least two centuries old and has performed at named venues the Human witnessed. The three venues are unspecified. Needs a canon entry. **Interim rule:** Do not invent the three venues.
+
+**Section 5 of this document (the Engineer Oracle Audio Logs) is now complete.** Logs 1–5 are specified with full transcripts, ElevenLabs direction, reaction lines, and cross-reference mapping. The Last Words song cue is integrated into the Beat J cutscene mix. The four open canon items above are flagged for future reconciliation but do not block production of any of the five logs.
+
+Sections 6 through 13 of this canon expansion document still to write (Act 3 Trade Empire framing, Terminus / Tower Defense / Kael's full arc, Collector's Arena / The Prisoner's story, Iron Lion voice change, New factions, Engineer Zero's Oracle resurrection quest plant, Rev 6.2 retcon summary, and the Prelude-scope deliverables checklist for this canon expansion). Those sections are Act-scope reference material and are lower priority than closing out the Prelude bible's remaining Beat E through J writes.
+
 ---
 
 
