@@ -930,3 +930,103 @@ human_beat_f5_empty_chair,The Human,the_human,0.55,0.85,0.35,true,"Kael.<break t
 
 ---
 
+## Section 13 — Beat G: Medical Bay
+
+### 13.1 Narrative purpose
+
+The player crosses from the Briefing Room into the **Medical Bay** — a clinical space along the Ark's mid-hull, containing four med-pods, a central surgical console, a recessed **neural-rig workstation** along one wall, and (in a locked alcove the player cannot enter in the Prelude) the ship's **transfer-array**. The Medical Bay is where the crew's bodies were once repaired, and where — canonically — the Prince began the Resurrection Protocols prototype work that he later refined on the Vortex (per `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.6 Movement 5).
+
+**This beat has no new VO.** The Master Index row for Beat G says "0 new VO lines" and — unlike the Beat F row which turned out to be stale — **this zero is correct**. The Medical Bay is a wordless beat. The player reads the room through environmental storytelling: the four med-pods (three dark, one faintly active), the surgical console scorch-marks on the far wall (suggesting something went wrong here once), the neural-rig workstation with its headset still plugged into the primary port, and — most importantly — the **locked transfer-array alcove** whose sealed hatch glows with a steady amber standby light. The amber light is the second warm-colored light in the entire Prelude (after the Mess Hall service light from §10). Its placement here is deliberate: the transfer-array is the *same system* the Prince used to put the Engineer into Vex Solène's swarm in Log 5. The player does not know that yet. The amber is a seed.
+
+**What the player DOES learn here:**
+1. The Ark has a transfer-array. It is functional. It is locked. It is not for them to use in the Prelude.
+2. The Medical Bay was the last room used before the crew stopped. The central surgical console has a single sterile tray beside it with three empty syringes arranged in a row — someone was preparing something here and did not finish.
+3. The neural-rig workstation is powered and idle. A headset hangs from its primary port, suggesting the last user wore it and walked away. This is a direct visual rhyme with the Mess Hall plate (§10.3) and the Galley mug (§9.3) — a series of *abandoned tasks* the player is encountering in sequence, each one smaller and more personal than the last.
+
+**What the player does NOT learn here:**
+- That the transfer-array is the same system used in Log 5
+- That the neural-rig workstation was the Prince's personal test rig
+- That the Resurrection Protocols were developed in this very room
+- That the scorch marks on the surgical console are from an early Protocols test that went wrong
+
+All four of the above are **Act 3+ reveals** and must not be teased in any Prelude VO or cutscene text. The Medical Bay is environmental storytelling only — the player walks through, notices what they notice, and moves on to Beat H without being told what any of it means.
+
+**This beat also serves as structural pacing.** Beat F.5 was 90 seconds of near-silence. Beat G needs to be **short, wordless, clinical** — a palate cleanser that lets the player move without emotional weight being added. The cutscene is 25 seconds. There is no VO. The soundtrack is the neural-rig's idle hum and the transfer-array's steady amber standby tone. The player's job in Beat G is to *walk through, notice, exit*.
+
+### 13.2 Cross-references
+
+- Transfer-array canonical use in Log 5: `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.6 Movement 5 (the Prince's transference into the swarm)
+- Resurrection Protocols development: `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §1.3 item 3 + §5.6 Movement 1
+- Neural-rig workstation as Prince's personal rig (Act 3+ reveal, DO NOT surface): flagged canon hygiene item, no doc reference
+- Scorched surgical console as early-Protocols-test-that-went-wrong (Act 3+ reveal, DO NOT surface): flagged canon hygiene item
+- Abandoned-task visual rhyme: §10.3 Mess Hall plate, §9.3 Galley mug — Medical Bay neural-rig headset is the third in the series
+
+### 13.3 Art — Medical Bay environment still
+
+- **Output:** `apps/client/public/art/rooms/room-medical-bay.png` + `.webp`
+- **Aspect:** 16:9 1920×1080
+- **Priority:** P0
+- **Style anchor:** §0 global + Prelude modifiers. **Critical compositional requirement:** all four med-pods (three dark, one faintly active), the central surgical console with its sterile tray + three empty syringes, the neural-rig workstation along one wall with its hung headset, and the locked transfer-array alcove on the opposite wall (with its steady amber standby light) must all be in frame. The room should feel **clinical and abandoned** — a different emptiness than the Mess Hall's domestic warmth or the Briefing Room's formal coldness.
+
+**Nano Banana 2 prompt:**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the crew Medical Bay aboard Ark 1047 — a clinical space approximately ten meters wide and seven meters deep with a slightly-arched four-meter ceiling. **The back wall** holds **four medical pods** arranged in a disciplined row — dark brass-and-white composite cylinders, each two meters long, canted at a slight incline for patient access, with transparent armored glass front panels. Three of the four med-pods are dark and cold (their glass panels opaque with 17,000 years of interior dust). **The fourth med-pod, second from the left, is faintly active** — its glass panel emitting a dim cyan #22d3ee internal glow, pulsing slowly at sub-0.5 Hz, as if something inside it is still running on the last watts of a dying standby cell. The cyan glow is so faint it reads almost as an afterimage. **Dead center of the room, a surgical console** — a rectangular workstation with a flat composite work surface, an articulated overhead boom arm currently swung aside, a sterile silver tray to one side of the console holding **exactly three empty glass syringes arranged in a disciplined parallel row** (render the syringes clearly — their emptiness is the point). The console's surface shows a **faint scorch arc** along its left edge — a curved discoloration suggesting heat damage from a single event that occurred long ago, left uncleaned. **Right wall** holds a recessed **neural-rig workstation** — a small alcove with a contoured chair, a flat desk surface, and a silver-and-brass neural headset hanging from a cable plugged into the workstation's primary port. The headset dangles motionless, caught partway between the port and the chair's headrest as if the last user lifted it off and set it down without quite returning it to its cradle. A small cyan status pip on the workstation is lit steady — the rig is powered, idle, waiting. **Left wall** holds a sealed alcove — a recessed hatch with a heavy armored door labeled (render no legible text but suggest engraved markings) "TRANSFER ARRAY — AUTHORIZED PERSONNEL ONLY." The door is locked. Above the door, **a single amber-yellow #fbbf24 standby indicator** is lit steady — not pulsing, not flashing, just *on*. The amber light is one of only three warm-colored lights in the entire Prelude (the Mess Hall service light and the Beat F.5 chair rim-light are the other two). Its placement marks the transfer-array as thematically significant without explaining why. **Lighting**: no overhead lights in the main room. Illumination comes from cyan emergency floor strips, the cyan edge-strips on the four med-pods (including the faintly-active fourth pod's inner glow), the dim cyan pip on the neural-rig workstation, and the amber standby light above the transfer-array door. The amber is the only warm color in frame. Volumetric fog at ankle height, slightly denser here than in adjacent rooms (medical atmosphere is canonically thicker). Anamorphic lens flare on the amber transfer-array standby light and a softer flare on the faintly-active fourth med-pod. Film grain. Deep space black #010020 base. **No rendered text** on the transfer-array door label, the console's control surfaces, the med-pod status panels, or the neural-rig workstation. **No people. No holograms.** Cinematic 4K composition, three-quarter wide shot from the entrance doorway, standing eye level, framing the four med-pods on the back wall (middle ground), the central surgical console (lower middle with the sterile tray visible), the neural-rig workstation on the right wall (side focal point), and the locked transfer-array alcove on the left wall (the amber standby light drawing the eye to the one warm point in the frame). The mood: **a room where a specific person worked on a specific problem for a long time, left mid-task, and never came back.**
+
+### 13.4 Cutscene — G: Medical Bay
+
+- **Beat ID:** `prelude-beat-g-medical-bay`
+- **Output:** `apps/client/public/videos/prelude/prelude-beat-g-medical-bay.mp4`
+- **Duration:** 25s
+- **Aspect:** 16:9 1920×1080
+- **Priority:** P0
+- **Sets flags:** `cutscene_medical_bay_intro_complete`, `transfer_array_seen_locked`, `neural_rig_seen_idle`, `med_pod_four_seen_active`
+- **Reduced-motion fallback:** static `room-medical-bay.png` + a KineticText banner reading "Medical Bay — locked transfer-array, idle neural rig, four med-pods" and no narration (this beat has no VO)
+
+**Structural note:** Beat G is **wordless** — no VO fires during the cutscene. The entire 25 seconds is carried by visual storytelling and the ambient mix. The soundtrack is the neural-rig's idle hum layered under the transfer-array's steady amber standby tone. Both audio elements are new Prelude ambient beds that should be mixed to ~55% volume — loud enough to feel *present* but quiet enough that the player's attention stays on the visuals.
+
+- **Act 1 (0–10s) — the walk through.** Camera pushes diagonally from the entrance doorway across the Medical Bay, passing the central surgical console on the right, the neural-rig workstation in the mid-background on the left, the four med-pods along the back wall. Camera glides slowly. Dust motes drift in the cyan floor-strip light. The faintly-active fourth med-pod's cyan pulse is visible but not dramatic. No camera shake. No audio events. Just the ambient bed.
+- **Act 2 (10–17s) — the three syringes.** Camera slows as it passes the central surgical console and **holds briefly** on the sterile silver tray with the three empty glass syringes arranged in parallel. The scorch arc along the console's left edge is visible in soft focus. The player has 7 seconds to notice the emptiness of the syringes, the silver of the tray, and the scorch on the console — all three details visible in the same frame. No VO, no labels, no popup. Just the shot. A player paying attention will register *something happened here*; a player not paying attention will see a clean medical station and move on.
+- **Act 3 (17–25s) — the amber standby.** Camera glides left to the transfer-array alcove. The amber standby light above the locked hatch is now the dominant visual focus — the only warm light in the frame, pulsing *not at all* (the steady-on is the point: it has been on for seventeen thousand years). The hatch itself is closed, heavy, armored, labeled. The camera holds on the amber light for the final 5 seconds. In the soft background the neural-rig workstation's hung headset is still visible on the right edge of frame. Fade to black. Cutscene ends.
+
+**START FRAME (Nano Banana 2):**
+> Identical composition to the §13.3 Medical Bay still, framed from just inside the entrance doorway. The central surgical console is in the right-middle ground with the sterile tray of three syringes visible. The four med-pods are on the back wall (the faintly-active fourth pod's cyan glow softly visible). The neural-rig workstation is on the right wall with the hung headset. The locked transfer-array alcove is on the left wall, the amber standby light visible above the hatch. Full color. No camera movement yet — this is the still before the cutscene begins. 16:9, 4K, no text.
+
+**MID FRAME (Nano Banana 2, used for the three syringes hold in Act 2):**
+> Close shot of the central surgical console, dead-center composition. The sterile silver tray is in the lower-middle of the frame holding three empty glass syringes in a disciplined parallel row — the syringes are fully visible, clearly empty, clearly arranged with intent. Behind the tray, the faint scorch arc along the console's left edge is visible but soft. In the left and right peripheral frame, the edges of the Medical Bay are visible in soft focus (one med-pod edge on the left, the neural-rig workstation's chair on the right). Full color. Cinematic 4K. No text on the console.
+
+**END FRAME (Nano Banana 2):**
+> Close shot of the locked transfer-array alcove on the left wall. The heavy armored hatch fills most of the frame, its engraved label visible but unreadable (no rendered text). Above the hatch, the single amber-yellow #fbbf24 standby indicator is lit steady — the only warm color in the frame. The rest of the Medical Bay is visible in soft peripheral blur: the surgical console behind camera-right, the med-pods in deep background, the neural-rig workstation in the right edge. The amber light is the dominant focal point. The mood: **a locked door that has been waiting for the right person for seventeen thousand years, and the right person has not arrived yet.**
+
+**SEEDANCE 2.0 motion prompt:**
+> Slow continuous camera work across three acts inside a 25-second runtime. **Act 1 (0–10s):** diagonal dolly from the entrance doorway across the Medical Bay, passing the surgical console on the right and the neural-rig workstation on the left. Dust motes drift. Ambient neural-rig hum + transfer-array standby tone layered at ~55%. **Act 2 (10–17s):** camera slows and holds briefly on the sterile silver tray with the three empty syringes on the surgical console. Scorch arc visible in soft focus. 7 seconds of held shot. No VO. **Act 3 (17–25s):** camera glides left to the transfer-array alcove. At 20s the amber standby light becomes the dominant focal point. Camera holds on the amber light for the final 5 seconds. Fade to black at 25s. 24fps. Clinical, patient, environmental-storytelling tone.
+
+### 13.5 VO — Beat G new lines
+
+**None.** Beat G is intentionally wordless. The Master Index row for Beat G correctly shows "0 new VO lines" and this section reserves a row in the per-beat structure so future writers do not accidentally add one. The clinical silence is the beat's entire emotional delivery.
+
+**If a writer feels tempted to add a VO line here** — either Elara narrating the Medical Bay or the Human commenting on the scorch marks or some later Act writer adding exposition — the instinct should be resisted. The Medical Bay's job in the Prelude is to be *seen and passed through*, not *explained*. Any explanation here spoils the Act 3+ reveals about the transfer-array, the neural rig, and the Resurrection Protocols origin. The hygiene rule is: **Beat G stays silent. Elara and the Human say nothing. The room speaks for itself.**
+
+### 13.6 VFX — Beat G effects
+
+| VFX ID | Effect | Tech | Output | Notes |
+|---|---|---|---|---|
+| `vfx_med_pod_faint_pulse` | Slow sub-0.5 Hz cyan #22d3ee pulse on the fourth med-pod's interior, reading almost as an afterimage — the pod is "still running on the last watts of a dying standby cell" | CSS keyframe alpha tween on a PixiJS masked sprite | `apps/client/public/art/vfx/prelude/med-pod-faint-pulse.webm` (loop) | Medical Bay only. Decorative but load-bearing for tone — the fourth pod's pulse is the only sign the Medical Bay is "not entirely dead," which creates the quiet tension of the beat |
+| `vfx_neural_rig_idle_hum_visual` | Very subtle ambient shimmer on the neural-rig workstation's cyan status pip, suggesting the rig is powered and idle (the audio hum is the primary channel; the visual is a secondary reinforcement) | PixiJS shader micro-shimmer on the pip | `apps/client/public/art/vfx/prelude/neural-rig-idle-hum.webm` (loop) | Medical Bay only. Pair with the neural-rig hum audio bed at ~55% mix volume |
+| `vfx_transfer_array_amber_standby` | Steady amber-yellow #fbbf24 standby light above the locked transfer-array hatch, non-pulsing, non-flashing, just *on* — the steady-state is the point | CSS solid color layer + soft bloom + anamorphic flare | `apps/client/public/art/vfx/prelude/transfer-array-amber-standby.webm` (loop) | Medical Bay primary Prelude use, but **flagged for reuse in Beat J** — the Two Witnesses Archives scene references the transfer-array canonically (via the Log 5 Movement 5 transcript) and the amber standby light may need to appear in Beat J's art as a background continuity element |
+
+**Ambient audio beds for Beat G (new, §18 cross-reference placeholder):**
+
+Beat G is the first Prelude beat whose emotional delivery is carried **entirely by ambient audio**. Two new audio beds are required:
+
+1. **`ambient_neural_rig_hum`** — soft ~40 Hz low hum suggesting an idle neural interface rig on standby power. Loop seamlessly. Output: `apps/client/public/audio/ambient/prelude/neural-rig-hum.mp3`. Target loudness: -18 LUFS. Mix in the cutscene at 55% volume.
+2. **`ambient_transfer_array_standby`** — a higher-pitched ~180 Hz steady tone suggesting a powered transfer-array in standby mode. Loop seamlessly. Output: `apps/client/public/audio/ambient/prelude/transfer-array-standby.mp3`. Target loudness: -20 LUFS. Mix in the cutscene at 55% volume, layered *above* the neural-rig hum.
+
+Both ambient beds are **reused in later Prelude content**:
+- `ambient_neural_rig_hum` plays as ambient background for any subsequent Medical Bay reentry, and also as a background layer in Beat J's Archives scene (the Witnesses are canonically standing near the transfer-array system per §8 of the canon expansion)
+- `ambient_transfer_array_standby` plays as ambient background for any Medical Bay reentry and is the **dominant** ambient bed in Beat J's Archives scene
+
+Engineering should treat these two beds as a linked pair — both loaded together when either the Medical Bay or Beat J Archives scene is entered. This avoids a situation where Beat J fires but the standby tone isn't in memory because the player skipped Beat G.
+
+**Reduced-motion accessibility fallback:** when `prefers-reduced-motion` is active, all three Beat G VFX layers drop their animations. The `vfx_med_pod_faint_pulse` renders as a single static frame at ~50% brightness (the pulse midpoint). The `vfx_neural_rig_idle_hum_visual` renders as a static steady-lit pip. The `vfx_transfer_array_amber_standby` is already steady-state so it renders unchanged. The two ambient audio beds still play at full volume — silence of the room is the primary emotional delivery and is preserved in full. The cutscene's camera movement is also disabled: the cutscene plays as three static frames (start, mid, end) held for their allotted durations, with a 1-second fade between each. The KineticText banner from §13.4 is visible throughout.
+
+---
+
