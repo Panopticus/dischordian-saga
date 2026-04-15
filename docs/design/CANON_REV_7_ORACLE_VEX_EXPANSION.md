@@ -889,31 +889,27 @@ These facts are seeded through the opening minute of the log and should be **obs
 >
 > *<break time="700ms"/>*
 >
-> *"I loved my friends."*
+> *"Tool check log closing."*
 >
 > *<break time="500ms"/>*
 >
-> *"I loved the work."*
->
-> *<break time="500ms"/>*
->
-> *"I loved Malkia. I called her the Enigma when she was not in the room, and I meant it as a prayer. I told her once, standing in a garden on a world that no longer exists. She told me no. One night later she told me yes, and in the morning she told me never again. I took the never-again and I built the rest of my life around the yes. I am not ashamed of any of the three sentences in that order."*
+> *"The Protocols are primed. The bandwidth math checks out inside the tolerances I built for. The displacement vector is set for the Warlord-pattern only, which is the only pattern I can diagnose as hostile in the time I have. The residual Agent-Zero pattern is going to survive the landing — I am trading my own persistence to preserve it. Patterns are what I spent my career trying to save. I am not going to stop now."*
 >
 > *<break time="700ms"/>*
 >
-> *"I am aware — because I am the one who ran the diagnosis — that the pattern I am about to displace in this swarm is what she became after the Architect got to her. I am aware that some small, dark, honest part of that pattern is still a woman I once loved in a garden. I have thought about this for seventeen days. I have not found another way. When I cross the contact plate I am going to be killing a piece of her that never stopped loving the garden, along with all the pieces of her that stopped being anyone at all. I am going to carry that. I would rather carry it than leave it for someone else to find."*
+> *"I am not going to make a speech. The compartment does not have enough air for a speech. I am going to list facts, in the order I want the last version of me to hear them. I am an engineer. Facts are what I have left to spend."*
+>
+> *<break time="600ms"/>*
+>
+> *"Fact one. **The Oracle is humanity's only hope.** Not as a metaphor. As a diagnosis. I have run the numbers on every other candidate for that sentence and there is no other candidate. I watched a man turn despair into a roadmap with only the sound of his voice in a refugee camp on the Thalorian frontier, and I — an engineer, a man who spent forty years refusing to believe anything I could not put on a bench and measure — I watched him do it and I believed him. He made me believe in something I could not measure. He gave me hope where my instruments said there was none. The thing I could not measure turned out to be the only thing in the galaxy big enough to hold what is coming next. He has to come back."*
 >
 > *<break time="700ms"/>*
 >
-> *"And the Oracle —"*
+> *"Fact two. I am going into the swarm with my last working theory of how to bring him back. That theory is the part of me that is not allowed to die in the landing. It is going with the woman who wakes up in this body. Whether or not she ever knows where it came from. Whether or not she ever hears the word *hope* in my voice the way I heard it in his."*
 >
-> *<break time="500ms"/>*
+> *<break time="600ms"/>*
 >
-> *"The Oracle is not mine to love. The Oracle is not anyone's to love like that. The Oracle is the thing I have been trying to keep alive for everybody else on this recording and everybody they are ever going to meet. He gave me hope. He made me — an engineer, a man who spent forty years refusing to believe anything I could not put on a bench and measure — he made me believe in something I could not measure. And the thing I could not measure turned out to be the only thing in the galaxy big enough to hold what is coming next."*
->
-> *<break time="500ms"/>*
->
-> *"**He is humanity's only hope.** Not as a metaphor. As a diagnosis. I have run the numbers on every other candidate for that sentence and there is no other candidate. It is him. He has to come back. I am going into the swarm with my last working theory of how to bring him back, and that theory is the part of me that is not allowed to die in the landing. That part goes with the woman who wakes up in this body. Whether or not she ever knows where it came from. Whether or not she ever knows what the word *hope* felt like in my mouth the day I heard him speak."*
+> *"Fact three. I did the work I was given. I did it with the hands I had. I am content with the shape of the blueprint. I am not afraid of what is on the other side of the contact plate. I never was, really — fear is a symptom of not understanding the diagnosis, and the diagnosis here is clean. End of facts."*
 >
 > *<break time="700ms"/>*
 >
