@@ -22,8 +22,8 @@ import {
 import { useDegenVO } from "@/hooks/useDegenVO";
 import { CasinoGamePanel, type CasinoGameResultPayload } from "./CasinoGamePanels";
 import { HolidayDialogTicker } from "@/components/HolidayDialogTicker";
-import { CrewBonusStrip } from "@/components/CrewBonusStrip";
 import { trpc } from "@/lib/trpc";
+import { useGame } from "@/contexts/GameContext";
 import { toast } from "sonner";
 
 const CASINO_FLOOR_BG = CASINO_ENVIRONMENTS.mainFloor;
@@ -102,6 +102,17 @@ export default function DegensCasinoPage() {
 
   // Play welcome VO on first load
   useEffect(() => { speakDegen("degen_welcome_00"); }, []);
+
+  // Set the casino_first_visit narrative flag the first time the player
+  // enters the casino. This unlocks the Dead Man's Circuit lobby per
+  // featureRoadmap.ts, completing the "Casino → Circuit" progression
+  // path that Locke opens at trust 30.
+  const { setNarrativeFlag } = useGame();
+  useEffect(() => { setNarrativeFlag("casino_first_visit", true); }, [setNarrativeFlag]);
+
+  // Server-side mutation that advances the "The Degen's Wager" side
+  // quest during an active Circuit season. No-ops outside of seasons.
+  const recordSideQuestMutation = trpc.deadMansCircuit.recordSideQuestEvent.useMutation();
   const [selectedGame, setSelectedGame] = useState<CasinoGame | null>(null);
   const [casinoFloor, setCasinoFloor] = useState<"main" | "cards" | "dice" | "slots" | "vip" | "betting" | "bingo" | "roulette">("main");
   const { speak: speakDegen } = useDegenVO();
@@ -120,22 +131,6 @@ export default function DegensCasinoPage() {
     [casinoState.degenFavor, degenMood],
   );
   const vipChipImg = useMemo(() => getVipChip(vip.name), [vip.name]);
-
-  // Equipped cosmetics — pulls from the same query the leaderboard
-  // cosmetic inventory uses. The title (if any) is rendered next to
-  // the page title; the equipped chip and table_felt tint the slot
-  // reel frames via a CSS class in CasinoGamePanels.
-  const rewardsQuery = trpc.casino.getMyCasinoRewards.useQuery(undefined, { retry: false });
-  const equippedTitle = useMemo(() => {
-    return (rewardsQuery.data ?? []).find(r => r.slot === "title" && r.equipped)?.label ?? null;
-  }, [rewardsQuery.data]);
-  const equippedCosmetics = useMemo(() => {
-    const out: Record<string, string> = {};
-    for (const r of rewardsQuery.data ?? []) {
-      if (r.equipped && r.slot) out[r.slot] = r.id;
-    }
-    return out;
-  }, [rewardsQuery.data]);
 
   /** Called by every game panel after a successful tRPC mutation. Rolls for
    *  a lore tale drop client-side (low-cost flavor) and updates the Degen's
@@ -156,6 +151,14 @@ export default function DegensCasinoPage() {
     }
     const nextState = stateQuery.data;
     if (!nextState) return;
+
+    // If this result was a win (session wins moved forward), feed the
+    // Dead Man's Circuit "The Degen's Wager" side quest. No-ops outside
+    // of an active Circuit season.
+    const prevSessionWins = casinoState.sessionWins;
+    if (nextState.sessionWins > prevSessionWins) {
+      recordSideQuestMutation.mutate({ trigger: "casino_game_won", amount: 1 });
+    }
     // Tale drop is purely cosmetic — rolled on the client from the
     // refreshed degenFavor + collectedTales list.
     const tale = rollForTale(nextState.degenFavor, (nextState.collectedTales ?? []) as string[]);
@@ -263,14 +266,7 @@ export default function DegensCasinoPage() {
             className="w-10 h-10 rounded-full object-cover bg-amber-500/10 border border-amber-500/30"
           />
           <div>
-            <div className="flex items-baseline gap-2">
-              <h1 className="font-display text-lg tracking-[0.2em] text-amber-400">THE DEGEN'S CASINO</h1>
-              {equippedTitle && (
-                <span className="font-mono text-[9px] text-amber-300/80 italic" title="Equipped casino title">
-                  — {equippedTitle}
-                </span>
-              )}
-            </div>
+            <h1 className="font-display text-lg tracking-[0.2em] text-amber-400">THE DEGEN'S CASINO</h1>
             <p className="font-mono text-[8px] text-amber-400/40">EDGE OF THE SHIELD // ONLY OPEN ZONE IN NE-YON SPACE // THE HOST WATCHES</p>
           </div>
         </div>
@@ -315,11 +311,6 @@ export default function DegensCasinoPage() {
 
       {/* Progressive jackpot banner — hits all paid games, not just slots */}
       <JackpotPoolBanner />
-
-      {/* Condensed crew holiday bonus ribbon — hidden unless Christmas
-          in July is active AND the player's crew grants at least one
-          bonus stat. Tells players *why* their rewards are higher. */}
-      <CrewBonusStrip />
 
       {/* Christmas in July ticker — active only during the event window */}
       <div className="px-4 py-2">
@@ -484,11 +475,7 @@ export default function DegensCasinoPage() {
                     <img src={tableImg} alt="" className="w-full max-w-sm mx-auto rounded-xl mb-4 opacity-40" style={{ filter: "saturate(0.7)" }} />
                   ) : null;
                 })()}
-                <CasinoGamePanel
-                  game={selectedGame}
-                  onResult={onAnyGameResult}
-                  equippedCosmetics={equippedCosmetics}
-                />
+                <CasinoGamePanel game={selectedGame} onResult={onAnyGameResult} />
                 <p className="font-mono text-[9px] text-white/20 mt-6 text-center">
                   {CASINO_GAMES.find(g => g.id === selectedGame)?.rules}
                 </p>

@@ -288,6 +288,19 @@ async function startServer() {
     // Run once on startup so the first expiry doesn't wait an hour
     runUniverseTick().catch(e => console.error("[LivingUniverse] initial tick error:", e));
 
+    // Dead Man's Circuit season tick — opens the in-window season,
+    // advances the phase column as the 28-day window progresses, and
+    // closes any season whose end date has passed. Safe to no-op
+    // outside a season window. Hourly is plenty since phase boundaries
+    // are day-grained.
+    const { tickCircuitSeasons } = await import("../services/circuitSeasonService");
+    setInterval(() => {
+      tickCircuitSeasons().catch(e => console.error("[Circuit] tick error:", e));
+    }, ONE_HOUR_MS);
+    // Run once on startup so a fresh deploy opens the active season
+    // without waiting for the first hour.
+    tickCircuitSeasons().catch(e => console.error("[Circuit] initial tick error:", e));
+
     // Witnessing §3 — load the community Dischordia Cycle meter
     // from MySQL into the in-memory cache on startup. If the DB
     // has no row yet (fresh install), seeds defaults. Falls back
@@ -296,29 +309,6 @@ async function startServer() {
     dischordiaCycleService
       .hydrate()
       .catch(e => console.error("[DischordiaCycle] initial hydrate error:", e));
-
-    // Audit log rotation — delete admin_audit_log rows older than
-    // AUDIT_LOG_TTL_DAYS (default 90). Runs once per 24 hours so
-    // the table stays bounded on long-running servers.
-    const { rotateAuditLog } = await import("../services/auditLogRotation");
-    const ONE_DAY_MS = 24 * 60 * 60 * 1000;
-    setInterval(() => {
-      rotateAuditLog()
-        .then(r => {
-          if (r.pruned > 0) {
-            console.log(`[AuditLogRotation] pruned ${r.pruned} rows`);
-          }
-        })
-        .catch(e => console.error("[AuditLogRotation] tick error:", e));
-    }, ONE_DAY_MS);
-    // Run once on startup to catch any backlog from previous runs.
-    rotateAuditLog()
-      .then(r => {
-        if (r.pruned > 0) {
-          console.log(`[AuditLogRotation] initial prune: ${r.pruned} rows`);
-        }
-      })
-      .catch(e => console.error("[AuditLogRotation] initial tick error:", e));
   }
 
   // Transmission achievements — upsert the `achievements` table rows
