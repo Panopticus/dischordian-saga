@@ -835,8 +835,8 @@ function DailyDecisionCard({ decision, day, onChoose }: {
           </span>
           {mascoteer && (
             <div className="flex items-center gap-1.5">
-              {portrait && (
-                <img src={portrait} alt="" className="w-6 h-6 rounded-full object-cover border" style={{ borderColor: `${accent}60` }} />
+              {mascoteer.portrait && (
+                <img src={mascoteer.portrait} alt="" className="w-6 h-6 rounded-full object-cover border" style={{ borderColor: `${accent}60` }} />
               )}
               <span className="font-mono text-[9px]" style={{ color: `${accent}cc` }}>
                 ◈ {mascoteer.mascotName}
