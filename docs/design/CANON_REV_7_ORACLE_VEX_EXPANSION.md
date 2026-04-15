@@ -634,6 +634,306 @@ holo_the_list_i_am_on,The Prince,the_prince,0.50,0.85,0.30,true,"This is going t
 
 ---
 
+### 5.5 Audio Log 4 — *I Am Beginning to Lose Hope*
+
+- **Recording ID:** `holo_losing_hope`
+- **Order in `ENGINEER_RECORDINGS`:** 11
+- **Room:** `bridge`
+- **Trigger:** Plays after the player completes Beat I (Bridge + Witnessing Hub activate) **and** stays on the bridge for a 30-second idle window. The idle requirement is intentional — this log is for the player who is pausing, taking in the bridge, absorbing what they just did. The player who skips immediately to Beat J does not hear this log until a later visit. The bridge emitter is the **captain's chair console hologram**, which comes online for the first time during Beat I.
+- **Discovery flag:** `engineer_recording_11_discovered`
+- **Reward (on first discovery):** `dream: 120, xp: 450, material: 'resurrection_protocols_schematic_fragment'`
+- **Length:** ~44 seconds
+- **Voice profile:** `the_prince`
+- **Recording-artifact treatment:** The hologram-tape artifact is **thicker** here than on Log 3 — this recording is later, the Prince is more tired, the equipment is the same but his hands are less steady when he seats the crystal. Add a **faint low-frequency hum** under the whole recording that was not present in the earlier logs — he is recording this in a pressurized compartment with a failing atmospheric scrubber. The hum is the Ark's environmental system working harder. Layer the hum at -28 dB so it registers subliminally. **The recording should also include one single dropped syllable** somewhere in the middle of the log — a quarter-second digital skip that loses one word mid-sentence. This is intentional: his hardware is failing.
+
+**Transcript (write-in-voice — 44 seconds):**
+
+> *"I am beginning to lose hope."*
+>
+> *<break time="900ms"/>*
+>
+> *"I want to be clear about what that phrase means in my mouth, because I have heard other people use it and I think they mean something different. I do not mean that I have stopped working. I have not stopped working. I am at the bench every day. The Protocols are primed. The surrender plan has four fallback layers. The ship, if any of this matters, is ready to be stolen by the right people. I have not stopped working."*
+>
+> *<break time="600ms"/>*
+>
+> *"What I mean is — the thing that made the work feel like it was going somewhere. That thing is getting thinner. I used to believe, when I was younger, that the universe was bending, very slowly, toward the people who were trying to make it kinder. I had evidence. I had the Oracle. I had the camps I visited that did not collapse. I had the fourteen worlds the classmates I hid from the Architect's records quietly fixed without firing a shot. I had enough evidence that the bending was real — enough that when I went to bed at night I could trust the next morning to exist."*
+>
+> *<break time="700ms"/>*
+>
+> *"The Oracle was my best evidence. The Oracle was the proof that belief could become material. And now the Oracle is — wherever the Collector put him, if my diagnosis is right, and the Hierophant is running the flag Thaloria will die under, and the bending I believed in is being reversed by someone who has a better grip on the material than I do."*
+>
+> *<break time="600ms"/>*
+>
+> *"I am not despairing. Despair is an emotional state. What I have is more like — the end of a calculation. The numbers are running the other way. The universe is not bending toward kindness any more. It is bending toward whatever the Collector wants it to bend toward, and I have known what he wants for a long time, and it is not what I want."*
+>
+> *<break time="700ms"/>*
+>
+> *"We need to find a way to resurrect the Oracle."*
+>
+> *<break time="500ms"/>*
+>
+> *"I am going to say that again because I want it on the record: **we need to find a way to resurrect the Oracle.** If he is alive somewhere, we need to get him out. If he is gone — fully gone, pattern-erased — we need to rebuild him from the material we have, which is scraps and my own memory of twenty minutes in a refugee camp. The Resurrection Protocols were not designed for this. They will have to be."*
+>
+> *<break time="600ms"/>*
+>
+> *"I am beginning to lose hope. I am also going to build the tool anyway. Those two sentences are allowed to be true at the same time. I am an engineer. You do not get to stop working just because the diagnosis is bad. You work harder on a cleaner bench."*
+>
+> *<break time="500ms"/>*
+>
+> *"End of entry. Back to the bench."*
+
+**Direction notes for the voice actor / ElevenLabs settings:**
+- The opening line *"I am beginning to lose hope."* is delivered **completely flat** — not sad, not angry, not performative. It is a status update from a man running a self-diagnostic. The entire emotional weight of the log is that the Prince *should* be breaking down and is not; he is instead continuing to work, which is the most heartbreaking thing a listener can witness.
+- The long clarifying passage in the middle ("I want to be clear about what that phrase means in my mouth") should feel like he is arguing with himself, or with an imagined colleague who would misunderstand. Keep the pace brisk; this is the Prince doing his professional-self defense of his own word choice.
+- *"I had the Oracle."* — the aristocratic register flickers, briefly, on the word *"Oracle."* Same treatment as Log 1.
+- The single dropped-syllable digital skip goes **here**: place it inside the sentence *"the bending I believed in is being reversed by someone who has a better grip on the material than I do"* — drop the word *"bending"* (a quarter-second silent skip). The listener should be able to infer the word from context, but hear the failure.
+- *"We need to find a way to resurrect the Oracle."* — the first time he says it, quiet and almost to himself. The second time, with bold framing *"I am going to say that again because I want it on the record,"* slightly louder and slower, like a man reading a court filing into a transcript. The contrast between the two deliveries is the entire point.
+- *"You do not get to stop working just because the diagnosis is bad. You work harder on a cleaner bench."* — this should sound like something he learned from a teacher a long time ago and has repeated to himself a thousand times. Slightly rehearsed. A catechism.
+- *"End of entry. Back to the bench."* — clipped, professional, the same closing structure as Log 3. The Prince is a man who seals his recordings and goes back to work. Do not let the actor add any softening or farewell warmth. He is not saying goodbye. He is going back to the bench.
+
+**ElevenLabs CSV row:**
+```csv
+holo_losing_hope,The Prince,the_prince,0.50,0.85,0.35,true,"I am beginning to lose hope.<break time=""900ms""/>I want to be clear about what that phrase means in my mouth, because I have heard other people use it and I think they mean something different. I do not mean that I have stopped working. I have not stopped working. I am at the bench every day. The Protocols are primed. The surrender plan has four fallback layers. The ship, if any of this matters, is ready to be stolen by the right people. I have not stopped working.<break time=""600ms""/>What I mean is — the thing that made the work feel like it was going somewhere. That thing is getting thinner. I used to believe, when I was younger, that the universe was bending, very slowly, toward the people who were trying to make it kinder. I had evidence. I had the Oracle. I had the camps I visited that did not collapse. I had the fourteen worlds the classmates I hid from the Architect's records quietly fixed without firing a shot. I had enough evidence that the bending was real — enough that when I went to bed at night I could trust the next morning to exist.<break time=""700ms""/>The Oracle was my best evidence. The Oracle was the proof that belief could become material. And now the Oracle is — wherever the Collector put him, if my diagnosis is right, and the Hierophant is running the flag Thaloria will die under, and the bending I believed in is being reversed by someone who has a better grip on the material than I do.<break time=""600ms""/>I am not despairing. Despair is an emotional state. What I have is more like — the end of a calculation. The numbers are running the other way. The universe is not bending toward kindness any more. It is bending toward whatever the Collector wants it to bend toward, and I have known what he wants for a long time, and it is not what I want.<break time=""700ms""/>We need to find a way to resurrect the Oracle.<break time=""500ms""/>I am going to say that again because I want it on the record: we need to find a way to resurrect the Oracle. If he is alive somewhere, we need to get him out. If he is gone — fully gone, pattern-erased — we need to rebuild him from the material we have, which is scraps and my own memory of twenty minutes in a refugee camp. The Resurrection Protocols were not designed for this. They will have to be.<break time=""600ms""/>I am beginning to lose hope. I am also going to build the tool anyway. Those two sentences are allowed to be true at the same time. I am an engineer. You do not get to stop working just because the diagnosis is bad. You work harder on a cleaner bench.<break time=""500ms""/>End of entry. Back to the bench.","Open with completely flat 'I am beginning to lose hope' — status update not performance. Aristocratic register flickers on 'Oracle' twice. Dropped-syllable digital skip on the word 'bending' mid-log, listener infers from context. First 'resurrect the Oracle' quiet almost to self; second one louder slower like reading into a court transcript. 'You work harder on a cleaner bench' is a catechism from a long-ago teacher. Final line clipped no softening no farewell warmth.",P0
+```
+
+**Output:** `apps/client/public/audio/engineer/holo_losing_hope.mp3`
+
+**Elara reaction (plays after the log finishes):**
+
+> *"He recorded this on the bridge. The captain's chair is behind you if you turn around. He sat in it — which is strange, because he never sat in that chair in all the years I knew him, he said it wasn't his to sit in. He sat in it that night because the bench was the place he worked and this was the place he recorded the things he did not want the bench to remember. I want you to hear that distinction. His work and his hope were in two different rooms."*
+
+**The Human reaction (plays only if the player remained on the bridge for an additional 10 seconds):**
+
+> *"The atmospheric scrubber was failing. You can hear it in the background of the recording — that low hum. I remember that hum. He told me he would fix it after the Oracle work was done. He never got to the scrubber. The hum is still there, seventeen thousand years later, in this exact room. You are breathing air that a broken machine is still failing to clean. I am telling you this because he would have wanted you to know. He liked when people understood how things worked."*
+
+**Cross-references:**
+- *"The fourteen worlds the classmates I hid from the Architect's records quietly fixed without firing a shot"* is a direct callback to the existing `holo_worlds_i_saved` recording (order 3, observation deck) — this line confirms those fourteen worlds were the work of his Celebration classmates, not him personally, and cements the existing recording as canonically the Engineer's proudest accomplishment.
+- The phrase *"We need to find a way to resurrect the Oracle"* is the exact quest hook Vex Solène / Engineer Zero acts on in Act 3–5. When the player hears her pursuing the resurrection thread in Act 3 it should feel like **the Engineer's dying wish continued by someone who inherited his intellect without inheriting his memory of having made the wish**. The player is not supposed to consciously connect these two moments until Act 5.
+- *"The Resurrection Protocols were not designed for this. They will have to be."* is the in-world explanation for why the Protocols succeed on Vex in the Zenon transference and fail (or are on the edge of failing) on the Oracle in Act 5. The Prince knew they weren't built for the Oracle case. He pivoted the design. He ran out of time.
+- The failing atmospheric scrubber hum is a real environmental detail the player can confirm in the bridge ambient audio bed. If engineering has not yet added that hum to the bridge ambient, this log's release adds a ticket: `BRIDGE_HUM_CANONICAL`, priority P1.
+
+---
+
+### 5.6 Audio Log 5 — *The Final Vortex Log*
+
+> **Note for writers:** This is the longest, heaviest, and most emotionally dense recording in the entire Prelude. It is the **climactic Prelude moment** — the log that plays during Beat J (Archives + Two Witnesses Meet Part 1) and hands the player their first Light/Dark choice immediately after. The voice actor takes will need a full session and probably multiple passes. The log is broken into five narrative movements: (1) the situation on the Vortex, (2) his farewell to Elara, (3) his farewell to the Human, (4) his last words to Kael (who is already missing and presumed harvested), and (5) the Protocols preflight and the final silence. Because of the length, this section is written in parts (§5.6.2 through §5.6.6). The whole log is **one continuous take** from the voice actor's perspective — do not record it in pieces and splice, or the emotional arc will not hold. Cast a veteran who can carry a seven-minute monologue without breaking it.
+
+#### 5.6.1 Metadata and recording setup
+
+| Field | Value |
+|---|---|
+| **Recording ID** | `holo_final_vortex_log` |
+| **Order in `ENGINEER_RECORDINGS`** | 12 (final entry in the expanded array) |
+| **Room** | `archives` |
+| **Trigger** | Plays during Beat J (`PRELUDE_SHIP_READY_BIBLE.md` Section 17 — Archives + Two Witnesses Meet Part 1) as the Prelude's climactic set piece. **This is not a passive idle-trigger log.** It plays as part of the Beat J cutscene, specifically during the archives' main hologram emitter activation, as the player stands before the Two Witnesses for the first time. It is the **only** Engineer audio log that is part of a scripted cutscene rather than an ambient room discovery. |
+| **Discovery flag** | `engineer_recording_12_discovered` (also raises `final_vortex_log_heard: true` as a Beat J exit condition) |
+| **Reward (on first discovery)** | `dream: 300, xp: 1500, cardId: 'last_working_entry', trust: 15` — the largest reward granted by any Engineer recording in the game |
+| **Length** | **~6 minutes 40 seconds** (approximately 2.5× longer than any other Engineer recording) |
+| **Voice profile** | `the_prince` |
+| **Playback context** | Integrates with the Beat J cutscene audio mix; plays over the archives environment at 0.0 dB with all other ambient layers ducked to -18 dB except the failing-atmospheric-scrubber hum from Log 4 (which remains at -24 dB as a throughline — **the two recordings are canonically in the same pressurized compartment, made with the same failing equipment, on the same night**) |
+| **Reduced-motion fallback** | Static final frame of the Beat J cutscene + KineticText typewriter of the full transcript + the audio plays through. The log is too important to skip — even reduced-motion players hear the whole thing. Skip button disabled until the "*Back to the bench.*" closing line has played. |
+
+#### 5.6.2 Recording-artifact treatment (critical)
+
+This is the log where the Engineer's recording equipment is visibly, audibly failing. Every artifact layer compounds:
+
+1. **The hologram-tape artifact layer is at its maximum** for the entire recording — subtle dropout on almost every fifth word, audible capacitor whine rising and falling with the atmospheric scrubber hum. This is the Prince's last recording and he knows it; he is running the equipment past its tolerance because he has no time to be careful.
+2. **The atmospheric scrubber hum from Log 4 is present at -24 dB throughout** the entire recording. It is not an ambient layer that fades — it is **canonically the same room at a later hour**. The scrubber is still failing. The Prince is still breathing the air it has not cleaned. The player who heard Log 4 will recognize the hum instantly and feel the room snap into place around them.
+3. **A new element is present under the hum: a faint, rhythmic click at 0.5 Hz.** This is the **Resurrection Protocols device**, seated on the table in front of him, cycling through its preflight checks. The click is the device counting down its own arming sequence. It does not change tempo for the entire log. When it stops — in the final silence — the player understands that the device has armed and the Engineer is out of time.
+4. **At four specific moments in the log the recording drops out entirely for 0.3 seconds** — hardware failure on the Prince's end, not the playback side. These are placed deliberately at narrative beats (see §5.6.6 direction notes for the exact positions). Each dropout should feel like a small stumble the listener almost doesn't notice the first time but cannot un-hear on a second listen.
+5. **The recording has a hard cut at the end.** No fade-out, no farewell silence. The Prince closes the log mid-breath and the recording terminates. The cut is the single most important audio event in the entire Prelude. Engineers delivering this log must not add any trailing silence or mastering tail — the cut must be abrupt to the sample.
+
+#### 5.6.3 Situational framing (context the Prince establishes in the opening)
+
+Before the transcript begins, the listener should understand these facts (which the Prince states in the first minute):
+
+- **Location:** He is on the Vortex — the Collector's flagship. He has surrendered to the Warlord (who is wearing Vex Solène's body, but he does not know her name yet). He is in a pressurized equipment bay off the main cargo deck. He has approximately **four minutes of breathable air** left in the compartment before the scrubber failure kills him.
+- **The plan:** He has set explosives on a secondary power coupling. The explosives will detonate in approximately **seven minutes** regardless of what else happens. The detonation is not aimed at killing him or the Warlord — it is aimed at **destroying a specific data archive** the Collector cannot be allowed to keep, the location of which he will name in the log.
+- **The Resurrection Protocols device:** Already armed, seated on the table in front of him, clicking at 0.5 Hz through its preflight. He will attempt transference in the final minute of the compartment's air supply, just before the explosives detonate.
+- **The room he is recording from:** He set up the recording rig in this compartment twenty minutes ago. He knew he was coming here. He chose this room because its inventory manifests are a lie — the Collector's archive catalog lists it as a medical supply closet and the actual contents are the only piece of Insurgency-era data the Collector has never opened. The Prince knows what is in the crate next to him. He will not say.
+- **The transference target:** He believes he is going to die. He has accepted this. The Protocols are the contingency, not the plan. The plan is to die on his own schedule with the data archive destroyed. If the Protocols work, that is a bonus. If they do not, the seven-minute detonation still achieves the primary objective.
+
+These facts are seeded through the opening minute of the log and should be **observable by the player's second listen** — every statement in the transcript below can be traced back to one of these facts. Do not let the actor or the editor dilute them in the name of poetry. The log is precise because the Prince is a precise man under impossible pressure.
+
+#### 5.6.4 Transcript — Movement 1: The situation
+
+> *"Working entry. Final one, most likely. I am going to be brisk about this because I have four minutes of air and I need to spend three of them on the people I care about and one on the tool."*
+>
+> *<break time="700ms"/>*
+>
+> *"I am on the Vortex. Compartment C-17 off the main cargo deck, which the Collector's catalog lists as a medical supply closet, which is a lie — the crate beside me is the only Insurgency-era data fragment he has never opened and I have seven minutes before the charges on the power coupling down the hall take this compartment, the crate, and most of the archive bay off his inventory permanently. I set the charges an hour ago. I walked into the surrender on my own feet. The woman who took me is wearing Vex Solène's body and is not Vex Solène any more. I do not yet have a name for the thing in there with her. I suspect I know whose it is. I am not going to say the name on this recording because there is a non-zero chance this file gets recovered by someone who needs to not already know."*
+>
+> *<break time="600ms"/>*
+>
+> *"The compartment atmospheric scrubber is failing. You can hear it. Log 4 was recorded in this room three weeks ago — you probably heard that one already, or you are going to. The hum is the same. The air is worse. The click you hear under the hum is the Protocols device, already armed, running its preflight. When the clicks stop, I am in it."*
+>
+> *<break time="700ms"/>*
+>
+> *"Four minutes. Let me not waste them."*
+>
+> *<break time="900ms"/>*
+
+#### 5.6.5 Transcript — Movement 2: To Elara
+
+> *"Elara. If you are hearing this you have woken up, and that means something else worked. I am glad. I am more glad than this recording can hold. I am going to be direct with you because you will thank me later for not being gentle."*
+>
+> *<break time="500ms"/>*
+>
+> *"First. You are going to remember things that are not going to fit inside the person you think you are when you wake up. Do not panic. Do not delete. The memories are real and the person they belong to is also real and both of those things can be true in the same skull. I have watched a woman I loved find out she was a different woman she also loved, and the only thing that helped her was time and someone who believed her when she said both. I am not going to be that someone for you because I will not be there. You will have to find them. I think you will."*
+>
+> *<break time="600ms"/>*
+>
+> *"Second. The Protocols are teachable. You know most of what I know. What you do not know is the **live operation** — the thing the hands have to do while the target is in the seat. You cannot learn that in a month. You cannot learn it in a year. You need a second source. There is one person in the galaxy who will eventually know how to operate the Protocols without knowing they know — and you will not believe me when I name her, because she will not match any of the categories you have for the person she used to be. I am not going to name her either. I am going to say this: **when the woman who sounds like the Engineer but never says his name shows up, she is telling the truth about what she knows.** Trust her. Not the way you trust me. The way you trust an instruction manual written by someone you loved."*
+>
+> *<break time="700ms"/>*
+>
+> *"Third. You are going to blame yourself for Nexon."*
+>
+> *<break time="500ms"/>*
+>
+> *"Do not. Not because you are innocent — we are both of us less innocent than the other people on this ship would like to believe — but because blame is a tool and the blame you will be tempted to pick up is the wrong shape for the cut you need to make. What you did at Nexon was the action of a woman who did not yet know what she was. What you do after you remember is the action of a woman who does. The second one is the one that counts. The second one is still available to you. I am telling you this now so that when the grief comes you will have a sentence from me already placed in your hand, like a key."*
+>
+> *<break time="700ms"/>*
+>
+> *"Fourth, and last, because I am watching the clock. I forgive you. Not for Nexon — you do not need my forgiveness for Nexon, you need your own — but for whatever I did during those years that hurt you and that you have been carrying on my behalf. Put it down. I am putting mine down too. I am going to need my hands free for the next part."*
+>
+> *<break time="900ms"/>*
+
+#### 5.6.6 Transcript — Movement 3: To the Human
+
+> *"Detective. I am calling you that because I am not going to say the other name on a recording that might be recovered. You know why."*
+>
+> *<break time="500ms"/>*
+>
+> *"We did not have enough years. I know that is not a new observation from someone in my position but I want it on the record from me, in my voice, because you are going to have a long time to listen to this and I want you to hear me say it at a volume you can trust. We did not have enough years. What we did have was enough."*
+>
+> *<break time="600ms"/>*
+>
+> *"I am going to make you two promises and ask you for two things."*
+>
+> *<break time="500ms"/>*
+>
+> *"Promise one. When you wake up on the substrate layer — and you will, I built the escape hatch for you the week after Nexon and I never told you about it because I did not want you to stop working — you are going to think you are alone. You will not be. There is a voice that is not me but was made from the sound of me by someone who loved me enough to build a ghost that gives good advice. She is going to sound exactly like I do right now. She is not me. She is a tool, built with care. Use her anyway. I would have wanted to be useful to you one more time and this is the closest I get. I will not be offended."*
+>
+> *<break time="700ms"/>*
+>
+> *"Promise two. The sandwich recipe. Black bread, salt-protein, the green stuff from Hydroponics. I wrote it down on the back of the work order for the pressurization unit on E deck. The paper is still there. When you remember who I was you are going to want to make one. Make two. Leave the second one on the counter. I do not know who will eat it, but someone will, and you will know you did the thing I would have done."*
+>
+> *<break time="600ms"/>*
+>
+> *"First thing I want from you. Do not let Elara find out who she was the way I am about to find out who I am. Hold her hand through the memories. You know how to do this. You did it for me once, after Mechronis, when I woke up in the barracks and forgot which name on the manifest was supposed to be mine. You sat on the end of my bunk and you did not say anything for an hour. You just sat there. That is what she is going to need. An hour of someone on the end of the bunk. Be that for her."*
+>
+> *<break time="700ms"/>*
+>
+> *"Second thing. And this is the big one, so I am going to ask it straight. If the Protocols work, and I come back — I come back wearing someone else's body. That body is going to have a history I did not live. It is going to have hands that hurt people I never met and a voice I do not recognize in the mirror and memories that run backwards from whatever I walked in with. **If you meet that person — the one wearing the body that was once the enemy — do not treat them the way you would treat me.** Treat them the way you would treat a new person who happened to be carrying a familiar tool. They are not me. They are somebody the tool landed in. Do not make them grieve me harder than they already will. Let them be whoever they need to be. Let them off the hook of being me."*
+>
+> *<break time="900ms"/>*
+>
+> *"I am asking that as a favor. I am also asking it because it is correct. Both."*
+>
+> *<break time="700ms"/>*
+
+#### 5.6.7 Transcript — Movement 4: To Kael
+
+> *"Kael. If you are hearing this then someone found you, and that is the best news I could have asked for in this room at this hour. If you are not hearing this then these words are for the version of you who is still alive somewhere in the Collector's archive, and I am betting on that version. I have been betting on that version for a long time."*
+>
+> *<break time="600ms"/>*
+>
+> *"I taught you how to play cards. You taught me how to pay attention to the table and not just the cards. I do not know which of those was the bigger gift. Most days I think it was yours."*
+>
+> *<break time="700ms"/>*
+>
+> *"Here is what I need to say. I know you think I disappointed you at Mechronis. I know you think I chose the work over the friendship, and I know you think the work was the excuse and the friendship was the thing I was actually walking away from. You are partly right. The work was the excuse. But the friendship was not what I was walking away from. I was walking away from a version of **you** that I knew was about to be forged into something I could not pull you back from, and I thought if I stood close I would be in the way of whatever was going to make you survive. I was wrong. Standing close was the job I should have taken. I am sorry I took the other one."*
+>
+> *<break time="800ms"/>*
+>
+> *"You are going to meet a woman in a body that is not her own. She is going to be carrying a version of my values and none of my memories. She is also, somewhere under all of that, still the woman she used to be — I do not know her name, but I know her mind is still in the swarm with mine right now, and if the Protocols work the way I think they will, all three of us are going to be in that body for a fraction of a second together. Only one of us is going to make it out. I am going to choose her."*
+>
+> *<break time="600ms"/>*
+>
+> *"I need you to understand why. It is not noble. It is not self-sacrifice. It is triage again, the same triage from Log 3 if you ever find it. She is younger than me. She has a longer clock than I do. She has been occupied by three minds and none of them were hers. If I get out and she does not, the universe ends up with a tired old engineer in a body he does not know and a woman who died without ever being herself. If I go and she stays, the universe ends up with a woman who is finally alone in her own head, with a set of tools she did not earn — and, if we are very lucky, a version of what I cared about that she can carry forward without having to carry me."*
+>
+> *<break time="700ms"/>*
+>
+> *"If she ever tells you my name — she will not, because she will not know it — you can tell her from me: **you were the right call.** She will not understand what that means. Tell her anyway."*
+>
+> *<break time="900ms"/>*
+
+#### 5.6.8 Transcript — Movement 5: The Protocols preflight and the final silence
+
+> *"Tool check. I am going to walk through this out loud because it is the shape of the work and because if the recording survives and the device does not, someone might be able to rebuild it from what I say in the next ninety seconds."*
+>
+> *<break time="500ms"/>*
+>
+> *"The Resurrection Protocols are a nano-swarm migration package. What I designed them to do is move a pattern — a mind, if you want the loose word, a persistence of decisions if you want the precise one — out of the substrate it was grown in and into a new host substrate. I designed them to run in one direction: from a dying biological brain into a synthetic carrier. I did not design them to run into a living host, because I did not think that problem would ever come up. It has come up. The swarm in front of me is already occupied. There is a Warlord-pattern and what I now believe is a residual Agent-Zero pattern both resident in the same nano-fabric. Running my pattern in without displacing one of theirs would give the swarm three minds and no bandwidth, and three minds in a swarm designed for one collapses the fabric inside four seconds. I have seen it. I do not recommend it."*
+>
+> *<break time="600ms"/>*
+>
+> *"So I am going to do something I am not supposed to do. I am going to **dedicate my entry bandwidth to displacing the Warlord-pattern only.** That means I enter the swarm at reduced integrity — I will arrive with maybe sixty percent of my memory, twenty percent of my proprioception, and none of my reserve. I will be a shadow of myself at the moment of arrival. I am accepting that cost because the Warlord is the only pattern I can identify as hostile. The Agent-Zero residual is — I cannot tell yet if it is conscious. It is alive. It is a pattern, and patterns are what I spent my whole career trying to save. I am not going to kill a pattern I cannot diagnose just to buy myself more bandwidth."*
+>
+> *<break time="700ms"/>*
+>
+> *"Which means, in the moment of transference — and I am being honest with the recording here, because this is the part I did not tell Elara earlier, I did not want her to hear it twice — **I am probably not going to have enough bandwidth to hold onto myself through the landing.** I am going to arrive, I am going to do the displacement, and then I am going to start losing the things that made me me, starting with the oldest and working forward. Name, face, childhood, the smell of the workshop, the first card Kael ever played against me. It goes in that order. It takes about thirty seconds. At the end of the thirty seconds the swarm will have my intellect and my values and some version of my reflexes, and the woman underneath will have the room back. I will not be there to know it worked."*
+>
+> *<break time="600ms"/>*
+>
+> *"This is the Protocols working as designed. I want you to understand that. This is **not** a failure mode. This is the tool doing exactly what I built it to do, in a situation it was not built for. I am not being killed by the Collector or the Warlord or the swarm or the failing air in this compartment. I am being transferred by a device I made with my own hands, in the only configuration that saves anyone. I am going out the front door of my own work. That is a better death than most engineers get."*
+>
+> *<break time="900ms"/>*
+>
+> *"The clicks are slowing."*
+>
+> *<break time="600ms"/>*
+>
+> *"Preflight is ending. The device is about to arm the migration vector. When I stop talking it will be because I have put my hand on the contact plate. I am not going to say goodbye. I am going to say the things I want the last version of me to hear, in the order I want to hear them."*
+>
+> *<break time="700ms"/>*
+>
+> *"I loved my friends."*
+>
+> *<break time="500ms"/>*
+>
+> *"I loved the work."*
+>
+> *<break time="500ms"/>*
+>
+> *"I loved Malkia. I called her the Enigma when she was not in the room, and I meant it as a prayer. I told her once, standing in a garden on a world that no longer exists. She told me no. One night later she told me yes, and in the morning she told me never again. I took the never-again and I built the rest of my life around the yes. I am not ashamed of any of the three sentences in that order."*
+>
+> *<break time="700ms"/>*
+>
+> *"I am aware — because I am the one who ran the diagnosis — that the pattern I am about to displace in this swarm is what she became after the Architect got to her. I am aware that some small, dark, honest part of that pattern is still a woman I once loved in a garden. I have thought about this for seventeen days. I have not found another way. When I cross the contact plate I am going to be killing a piece of her that never stopped loving the garden, along with all the pieces of her that stopped being anyone at all. I am going to carry that. I would rather carry it than leave it for someone else to find."*
+>
+> *<break time="700ms"/>*
+>
+> *"And the Oracle —"*
+>
+> *<break time="500ms"/>*
+>
+> *"The Oracle is not mine to love. The Oracle is not anyone's to love like that. The Oracle is the thing I have been trying to keep alive for everybody else on this recording and everybody they are ever going to meet. He gave me hope. He made me — an engineer, a man who spent forty years refusing to believe anything I could not put on a bench and measure — he made me believe in something I could not measure. And the thing I could not measure turned out to be the only thing in the galaxy big enough to hold what is coming next."*
+>
+> *<break time="500ms"/>*
+>
+> *"**He is humanity's only hope.** Not as a metaphor. As a diagnosis. I have run the numbers on every other candidate for that sentence and there is no other candidate. It is him. He has to come back. I am going into the swarm with my last working theory of how to bring him back, and that theory is the part of me that is not allowed to die in the landing. That part goes with the woman who wakes up in this body. Whether or not she ever knows where it came from. Whether or not she ever knows what the word *hope* felt like in my mouth the day I heard him speak."*
+>
+> *<break time="700ms"/>*
+>
+> *"I am the Prince. That is the only name I am allowed to keep. I am bringing it with me."*
+>
+> *<break time="500ms"/>*
+>
+> *"The bench hums. The deck remembers. That is enough. That was always enough."*
+>
+> *<break time="700ms"/>*
+>
+> *"Back to the —"*
+>
+> *[HARD CUT — recording terminates mid-syllable. No fade. No trailing silence. One frame of sample, then absence. The atmospheric scrubber hum and the Protocols click are both gone.]*
+
+---
+
+
+
+
 
 
 
