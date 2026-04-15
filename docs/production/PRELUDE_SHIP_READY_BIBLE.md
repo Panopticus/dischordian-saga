@@ -1127,3 +1127,56 @@ locke_beat_h_first_message,Adjudicator Locke,locke,0.50,0.80,0.35,true,"Ark 1047
 
 ---
 
+## Section 15 — Beat H.5: Memo Pile (Breath Beat)
+
+### 15.1 Narrative purpose
+
+The fifth and final breath beat. Same-room continuation of Beat H — the player does not leave the Comms Array. Elara's hologram fades (Locke's message is "read" and the Inbox returns to idle), and the camera drifts across to the **wheeled archival cart** in the right foreground that has been silently present in the Comms Array still since Beat H's opening frame. The cart is stacked with three shelves of old memo slates — rectangular composite tablets approximately book-sized, most of them dark and inert, two still faintly glowing cyan as if running on residual charge.
+
+The breath beat is a **visual meditation on the archive**, not a narrative beat. No VO fires. No message plays. No cutscene action happens. The camera moves to the cart, a single loose paper memo drifts down from the top shelf onto the floor (the result of the Ark's ventilation system breathing very gently against a sheaf that has been in balance for 17,000 years and was disturbed by something — maybe the player's presence, maybe nothing), and the camera holds on the paper as it settles. Twenty seconds total. The player can skip it.
+
+**Structural role:** Beat H.5 is the **decompression chamber** after Beat H's NPC Inbox UI onboarding. Beat H was busy — a new UI pattern was introduced, a message was rendered as legible text, a new character was voice-introduced, an edge sentence landed. The player needs a moment. Beat H.5 gives them twenty seconds of *nothing happens except one piece of paper drifting*, in the same room they just finished reading a message in, without moving to a new environment. The breath beat is pacing, not content.
+
+**The paper is not plot.** The player should not be able to interact with the drifting paper, the cart, the memo slates, or anything else in the room during this beat. The room is observed, not explored. If the player tries to walk toward the cart, the interaction cursor does not appear on any of the memo slates — they are scenery. The player's only valid input is "continue to Beat I" or "wait for the full 20 seconds." Either way the beat completes the same.
+
+**Callback payoff:** the two faintly-glowing memo slates on the archival cart are a callback to the **archive-shelf-with-dormant-items** visual from Beat E (the Mess Hall Archive's unlit objects) and the **six-of-twenty-four-lit signal panels** from Beat H (the Comms Array back wall). In all three cases the Ark is shown as *mostly dark with a few still-running elements*, reinforcing the pacing theme: this ship is a library of dim lights, and the player is walking through all of them.
+
+### 15.2 Cross-references
+
+- Comms Array room still: §14.3
+- Archive-mostly-dormant visual theme: §10.3 (Mess Hall), §14.3 (Comms Array matrix)
+- Breath-beat pacing convention: §4 (Beat A.5), §7 (Beat C.5), §9 (Beat D.5), §12 (Beat F.5), §15 (this beat)
+
+### 15.3 Art — Comms Array environment still
+
+**No new art still.** Beat H.5 reuses the `room-comms-array.png` from §14.3. The camera composition is closer on the wheeled archival cart in the right foreground, but the underlying room asset does not change.
+
+### 15.4 Cutscene — H.5: Memo Pile
+
+- **Beat ID:** `prelude-beat-h5-memo-pile`
+- **Output:** `apps/client/public/videos/prelude/prelude-beat-h5-memo-pile.mp4`
+- **Duration:** 20s
+- **Aspect:** 16:9 1920×1080
+- **Priority:** P0
+- **Sets flags:** `breath_beat_h5_complete`, `memo_pile_seen`
+- **Reduced-motion fallback:** static end-frame of the memo pile with the drifted-paper frozen mid-fall, held for 20 seconds
+
+- **Act 1 (0–8s) — Elara fades, camera drifts.** Elara's hologram, still standing beside the central console from Beat H, fades out over 2 seconds (she is canonically *done* with the Comms Array — her role was to stand quietly while the player received the message, and that role is complete). The Inbox UI on the holographic field shrinks back to its idle envelope-glyph state (the amber "1" counter dims slightly because the message has been "read"). Camera begins a slow glide from the central console toward the wheeled archival cart in the right foreground.
+- **Act 2 (8–14s) — the drift.** Camera arrives at the cart. The two faintly-glowing memo slates on the middle and bottom shelves are visible. A single loose paper memo — roughly postcard-sized, slightly yellowed with age — begins to drift downward from the top shelf of the cart. The drift is **very slow** — the memo takes approximately 5 seconds to fall from the top shelf to the floor, caught in the barely-moving air of the Ark's ventilation system. No other motion in the frame.
+- **Act 3 (14–20s) — settlement.** The memo comes to rest on the floor beside the cart's lower-right wheel. Camera holds on the settled memo for the final 6 seconds. Dust motes drift around it in the cyan light. The memo's face (the side facing the camera) is blank — no legible text, no glyphs, just aged paper. Fade to black at 20s.
+
+### 15.5 VO — Beat H.5 new lines
+
+**None.** Beat H.5 is wordless. The breath beat is purely visual.
+
+### 15.6 VFX — Beat H.5 effects
+
+| VFX ID | Effect | Tech | Output | Notes |
+|---|---|---|---|---|
+| `vfx_memo_paper_drift` | Single postcard-sized paper memo drifting slowly from the top shelf of the archival cart to the floor over ~5 seconds, caught in minimal ventilation airflow | PixiJS sprite with physics curve (gravity + slight horizontal drift + rotation) | `apps/client/public/art/vfx/prelude/memo-paper-drift.webm` (one-shot) | Comms Array only. Beat H.5 only. The drift should feel **deliberate but not dramatic** — not a feather, not a leaf, just a piece of paper that has been in balance for seventeen thousand years and is now not |
+| `vfx_elara_fade_out` | Elara's cyan-edged hologram fades from full opacity to zero over 2 seconds | CSS opacity keyframe | `apps/client/public/art/vfx/prelude/elara-fade-out.webm` (one-shot transition) | Reusable. Any beat where Elara's hologram ends a scene can use this. Flagged for potential reuse in later Acts |
+
+**Reduced-motion accessibility fallback:** when `prefers-reduced-motion` is active, the drifting paper does not animate — instead, a **single static end-state frame** shows the paper already settled on the floor beside the cart, held for the full 20 seconds. Elara's fade-out is also disabled; her hologram is simply absent from the frame from 0s onward (no fade animation). The camera drift from console to cart is disabled — the cutscene plays as a single static shot of the cart and settled memo. Ambient audio beds from Beat G/H continue to play in the background at reduced volume (~40%).
+
+---
+
