@@ -46,6 +46,11 @@ export default tseslint.config(
       // at client/public/ and apps/client/public/ — ignore both.
       "apps/client/public/sw.js",
       "client/public/sw.js",
+      // Root client/ tree is a stale fork re-added by an accidental
+      // mega-commit (6d9706bb, A16). It's dead code — not built, not
+      // typechecked, not imported from anywhere. Pending deletion in
+      // a separate follow-up PR; ignored here to unblock CI.
+      "client/**",
       // ── Seed + admin scripts ──────────────────────────────
       // .mjs seeds pre-date the flat-config migration and use loose
       // conventions (var, console, no types). Linting them would be
