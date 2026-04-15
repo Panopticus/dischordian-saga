@@ -1034,6 +1034,73 @@ Casting, production, and ElevenLabs profile for *"Last Words"* will be specified
 3. The first Light/Dark choice UI in Beat J is timed to the song's first chorus. The choice prompt and the line *"Freedom of thought is worth dying for / And the insurgency will be broadcast once more"* must hit the player simultaneously. This is a deliberate emotional design choice and it is not negotiable — the choice appears on the line, not before and not after.
 4. The player must not be allowed to skip *"Last Words"* on first playback. The skip button that is available during most of the Beat J cutscene is disabled from Log 5's hard cut through the song's first chorus. After the first chorus hits, the skip button re-enables.
 
+#### 5.6.10 Direction notes for the Prince voice actor
+
+This is the hardest performance in the Prelude. Cast a veteran. Give them the time to get it right. The direction below assumes a ~6 minute 40 second continuous take; the actor should be rested for the session and should expect to run it more than once.
+
+**Overall arc of the performance:**
+
+The log moves through four emotional registers, in this order, and the actor must hit each register without telegraphing the next one:
+
+1. **Professional** (the opening minute through the Protocols preflight). The Prince is at a bench. He is doing a job. He is precise because he is precise, not because he is scared. Any tremor in the voice at this stage is a mistake. The listener should believe he could maintain this register indefinitely if the air lasted.
+2. **Private** (the farewell to Elara, Detective, Kael — Movements 2 through 4). The Prince is writing letters to people he cannot see again. The register softens but does not break. Warmth enters. The voice drops slightly in volume because he is speaking intimately rather than for the record. Occasional dry humor — the crust laugh in the sandwich recipe line, the "I forgive you for whatever I did" clause to Elara — is allowed and welcome. Do not play it sad. Play it loving.
+3. **Confessional** (the address to Enigma in the second half of Movement 5). This is the register the Prince has avoided for forty years and is entering now because he has run out of time. Volume drops again. The voice gets closer to the microphone. There should be the quality of a man who has opened a door he has kept locked his entire life and is now in the room and realizing the room was always empty because he never opened the door. The word *"Enigma"* itself, the first time he says it, should land with the full weight of a forty-year withheld confession. Take the pause after the name. The listener should feel the silence rearrange the room.
+4. **Manifesto** (the lines that will become *Last Words*). The register rises here, not into performance but into **instruction**. The Prince is giving the Enigma something to carry. He is speaking past his own grief to the future she will sing into. The voice gains authority without volume. These lines should sound like the Prince telling her what to do — with love, with precision, with the full confidence of a man who built tools for a living and is handing her the last tool he will ever make. Every line of the manifesto is going to become a lyric in her song; the actor must deliver each line with enough shape that the listener can hear the song inside it before the song begins.
+
+**Specific moment-level direction:**
+
+- *"Four minutes. Let me not waste them."* (end of Movement 1) — flat, clock-watching, no weight. This is a man checking a timer.
+- *"You are going to remember things that are not going to fit inside the person you think you are when you wake up. Do not panic. Do not delete."* (to Elara) — the tenderest register in the entire log. The Prince is speaking to a woman he has watched wake up wrong before. He knows what the wake-up feels like. He is giving her the instruction he wishes he had been given.
+- *"I forgive you. Not for Nexon — you do not need my forgiveness for Nexon, you need your own — but for whatever I did during those years that hurt you and that you have been carrying on my behalf."* — clipped, definitive, no apologetic softening. He is not asking her permission to forgive her. He is informing her.
+- *"We did not have enough years. What we did have was enough."* (to the Detective) — **this is the single hardest sentence in the log.** The Prince and the Human have a history the player will not fully understand until Act 5. The actor must deliver this line with the specific weight of a man acknowledging an unfinished friendship while refusing to perform grief about it. Not wistful. Not angry. Quietly grateful.
+- *"Treat them the way you would treat a new person who happened to be carrying a familiar tool."* (the big ask of the Human) — professional and exact. The Prince is giving the Human an instruction the Human will find very hard to follow, and he is phrasing it like an instruction manual because that is the only way he knows how to be kind at this volume. Do not let the actor soften it.
+- *"If she ever tells you my name — she will not, because she will not know it — you can tell her from me: you were the right call."* (to Kael, about Vex) — this line should be delivered **completely steadily, with no crack**. The Prince is stating a future fact. He has already decided. The listener should hear a man who is at peace with the triage.
+- *"Enigma."* (the first time he says her name in Movement 5) — long pause before. Long pause after. This is the fulcrum of the entire log. Every register change after this point is anchored on this single word.
+- *"I loved you. I have loved you for forty years."* — not a performance. A statement of fact the Prince has refused to say out loud for forty years. He is saying it now because he has run out of time. The first three words *"I loved you"* should feel like a door opening.
+- *"He sounds like a song that hasn't been written yet."* (the Enigma's remembered description of the Oracle) — delivered as memory, not as quote. The Prince is hearing her voice in his own recording equipment seventeen years later. Put a faint resonance on the line like the hologram briefly caught her voice instead of his. Engineering note to post: apply a subtle female-voice harmonic ghost underneath the Prince's delivery of this one sentence, at -32 dB, pitch-shifted to match her future voice-profile reservation (see §5.6.9). It is a deliberate haunting.
+- *"Don't kneel. Don't despair."* — these first two lines of the manifesto should land like orders. The Prince is a man who has never given orders in his life and is doing it now because the manifesto requires them. The register is command without anger.
+- *"Make a song out of this. You will. You always do."* — affectionate, knowing, almost smiling. The Prince has heard her make songs out of worse things. He is betting on her. This is a love letter wearing an instruction.
+- *"I loved you. I am allowed to say it now."* (the second love passage) — this is the passage where the actor is allowed to let something crack. Not tears — the Prince does not weep about this — but a slight break in the steadiness. A breath caught. A syllable landing heavier than it should. The listener should feel that the Prince has been holding this for forty years and is letting it out in a compartment with two minutes of air left and the Protocols clicking beside him.
+- *"Carry me. I am out of room to carry myself."* — the quietest line in the entire log. Barely above a whisper. The listener should have to lean in. And then the Prince pulls himself back together and closes with the professional register one last time:
+- *"I am the Prince. That is the only name I am allowed to keep. I am bringing it with me."* — declarative, final, the full aristocratic register surfacing one last time on "the Prince" as a title rather than a nickname. This is the voice his old court would have recognized.
+- *"The bench hums. The deck remembers. That is enough. That was always enough."* — the existing `holo_deck_remembers` recording (order 7, captain's quarters) ends with almost these exact words. The Prince is **quoting himself** — repeating a line he recorded long enough ago that it has become a personal catechism. Voice should carry the calm of something rehearsed not because it is insincere but because it is settled. He has said this to himself many times. It is how he seals his logs.
+- *"Back to the —"* — **hard cut mid-syllable**. Engineering must not let the actor complete the word "bench." The final "—" is a cut, not a silence. Sample-accurate.
+
+**Things the actor must not do:**
+- Do not weep. The Prince does not weep in this recording, even when the text is devastating. The devastation is in the precision.
+- Do not add trailing warmth to the closing. He is not saying goodbye. He is closing a working log.
+- Do not pause longer than indicated. The air in the compartment is running out. Every extra second of silence the actor adds is a second the Prince would not have allowed himself.
+- Do not raise the volume on the manifesto lines. The Prince gives orders at normal volume. Anything above that register sounds like performance and the Prince refuses performance.
+- Do not deliver the Oracle content as religious awe. The Prince believes the Oracle matters for diagnostic reasons. His awe is an engineer's awe — the awe of watching a tool do something his blueprint said it could not do. Keep the voice measured.
+
+#### 5.6.11 Recording approach and ElevenLabs integration
+
+The Log 5 transcript is approximately 6 minutes 40 seconds of continuous speech. This is **significantly longer than any single ElevenLabs Studio CSV row can practically hold**, and the CSV-based ingestion flow used for shorter Prelude lines (Logs 1 through 4, most Elara/Human/Locke lines) is not appropriate for this recording.
+
+**Recommended recording approach:**
+
+1. **Use ElevenLabs Studio Projects mode**, not Studio CSV Import. Create a new Project titled `holo_final_vortex_log` and paste the full transcript (from §5.6.3 through §5.6.8) as a single document. Apply the `the_prince` voice profile at the project level.
+2. **Break the transcript into paragraph-level segments** inside the Project, matching the `<break>` tags in the source. ElevenLabs Studio supports per-paragraph regeneration, which is critical — the actor / model will not nail the full 6:40 on a single generation, and the editor will need to regenerate specific paragraphs without disturbing the neighbors.
+3. **Target ~8-12 per-paragraph regeneration passes** on the tender sections (the Enigma address, the sandwich-recipe callback to the Human, the "you were the right call" line to Kael). The manifesto lines should get at least 5 passes each until the register lands correctly.
+4. **Export as a single continuous WAV at 48 kHz 24-bit**, not MP3. The export becomes the master. MP3 compression is applied only at the CDN distribution step.
+5. **Post-production layering** (apply in this order):
+   - Layer 1 — base vocal (the ElevenLabs export)
+   - Layer 2 — failing atmospheric scrubber hum at -24 dB (reuse the asset from Log 4 — canonically the same room, same equipment, same failing scrubber three weeks later)
+   - Layer 3 — Resurrection Protocols device click at 0.5 Hz, -32 dB, continuous through the first ~6 minutes of the log, **tapering to silence in the final 40 seconds** as the Prince notes "the clicks are slowing" and the preflight ends
+   - Layer 4 — hologram-tape recording-artifact dropouts on approximately every fifth word, with four **deliberate 0.3-second full dropouts** placed at the narrative beats listed in the direction notes above
+   - Layer 5 — the female-voice harmonic ghost under the *"he sounds like a song that hasn't been written yet"* line, at -32 dB, pitch-shifted to the future Enigma voice-profile reservation
+   - Layer 6 — sample-accurate hard cut at the end, no tail, no fade
+6. **Final mastering target:** -14 LUFS integrated, -1.0 dBTP peak, matching the rest of the Prelude audio bed. The atmospheric scrubber hum will push the noise floor slightly but this is intentional and should not be gated out.
+7. **CSV row for the master recording manifest** (the CSV does not contain the full text — the full text is in the Studio Project — the CSV row is a pointer row for the asset pipeline):
+
+```csv
+holo_final_vortex_log,The Prince,the_prince,0.50,0.85,0.35,true,"[See Studio Project: holo_final_vortex_log — full transcript in CANON_REV_7_ORACLE_VEX_EXPANSION.md Sections 5.6.3 through 5.6.8. ~6m40s continuous take. Record via Studio Projects, not CSV Import.]","See §5.6.10 direction notes for full performance guidance. Do not compress transcript into CSV — the line text field cannot hold it and SSML breaks will not survive CSV escaping.",P0
+```
+
+**Output path:** `apps/client/public/audio/engineer/holo_final_vortex_log.mp3` (distribution copy, MP3-encoded from the 48 kHz 24-bit master).
+
+**Master archive path:** `assets/master/audio/engineer/holo_final_vortex_log_master.wav` (kept in the intermediate archive, not shipped in the client bundle).
+
 ---
 
 
