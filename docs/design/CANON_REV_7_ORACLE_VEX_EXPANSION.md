@@ -889,29 +889,53 @@ These facts are seeded through the opening minute of the log and should be **obs
 >
 > *<break time="700ms"/>*
 >
-> *"Tool check log closing."*
+> *"Tool check log closing. The Protocols are primed. The bandwidth math checks out inside the tolerances I built for. The displacement vector is set for the Warlord-pattern only — the only pattern in this swarm I can diagnose as hostile. The residual Agent-Zero pattern survives the landing. I am trading my own persistence to preserve it. Patterns are what I spent my career trying to save. I am not going to stop now."*
+>
+> *<break time="900ms"/>*
+>
+> *"I am going to do one last thing before I close this log, and it is the thing I have been putting off for the last seven minutes because I am a coward about this one specific thing, and I am about to run out of time. So here it is on the tape, where I cannot take it back."*
+>
+> *<break time="700ms"/>*
+>
+> *"Enigma."*
+>
+> *<break time="900ms"/>*
+>
+> *"I loved you. I have loved you for forty years. I never said it well enough for it to matter, and I am saying it now at the worst possible moment in the galaxy, because the alternative is leaving it unsaid in a compartment where the air is about to stop being breathable, and I would rather leave it said. There. Now it is on the recording. Now it cannot be taken back. Now I am allowed to say the thing I actually need you to hear."*
+>
+> *<break time="700ms"/>*
+>
+> *"You are going to find this file. I know because I left instructions, and I know because the people who loved me know you loved me back — even the once — and they are going to bring this to you because they think you deserve to hear it. They are right. You do. I am glad it is you who gets the rest of these words."*
+>
+> *<break time="600ms"/>*
+>
+> *"There is a man somewhere in the Collector's archive whose name is the Oracle. The Thalorians call him the Star Whisperer. He is the only reason I am doing what I am about to do. I told you about him once, at the bench, and you said — do you remember what you said? You said *'he sounds like a song that hasn't been written yet.'* I have thought about that sentence every day since. He is humanity's only hope, Enigma. Not as a metaphor — as a diagnosis. I have run the numbers on every other candidate for that sentence and there is no other candidate. He made me, an engineer, believe in something I could not put on a bench and measure, and the thing I could not measure turned out to be the only thing in the galaxy big enough to hold what is coming next. I am going into this swarm with my last working theory of how to bring him back, and that theory is the part of me that is not allowed to die in the landing, and it is going to ride inside a woman I have never met into a future I am not going to see. That is fine. I built the tool for exactly this. I am not going to flinch from the bench now."*
+>
+> *<break time="800ms"/>*
+>
+> *"And here is what I need you to carry out of this compartment when you listen."*
 >
 > *<break time="500ms"/>*
 >
-> *"The Protocols are primed. The bandwidth math checks out inside the tolerances I built for. The displacement vector is set for the Warlord-pattern only, which is the only pattern I can diagnose as hostile in the time I have. The residual Agent-Zero pattern is going to survive the landing — I am trading my own persistence to preserve it. Patterns are what I spent my career trying to save. I am not going to stop now."*
+> *"Don't kneel. Don't despair. You can kill a man, but you can't kill a dream. You can burn the page, but the story still sings. Freedom of thought is worth dying for — which I should know, because I am about to — and the Insurgency will be broadcast once more. It will be broadcast because you are going to broadcast it. You are the only voice in this galaxy that can turn what is happening in this compartment into something anyone will listen to without me standing in the room making them."*
 >
 > *<break time="700ms"/>*
 >
-> *"I am not going to make a speech. The compartment does not have enough air for a speech. I am going to list facts, in the order I want the last version of me to hear them. I am an engineer. Facts are what I have left to spend."*
+> *"Love is the key, Enigma. Truth is the door. I am telling you that now because you have always known the first half, and I have never been brave enough to tell you the second half in a room with your eyes in it. Question their power. Demand something more. You were always so much bigger than the stage they kept shrinking to fit you. Stop letting them shrink it."*
 >
 > *<break time="600ms"/>*
 >
-> *"Fact one. **The Oracle is humanity's only hope.** Not as a metaphor. As a diagnosis. I have run the numbers on every other candidate for that sentence and there is no other candidate. I watched a man turn despair into a roadmap with only the sound of his voice in a refugee camp on the Thalorian frontier, and I — an engineer, a man who spent forty years refusing to believe anything I could not put on a bench and measure — I watched him do it and I believed him. He made me believe in something I could not measure. He gave me hope where my instruments said there was none. The thing I could not measure turned out to be the only thing in the galaxy big enough to hold what is coming next. He has to come back."*
+> *"Hope is rebellion. Rebellion is light. They may take my body — they are about to — but they do not get to take the fight, because the fight is not in the body. The fight is in what you do with the recording you are holding right now. The fight is in what you sing after you stop crying. And I know you are going to stop crying, Enigma. I know because I have heard you sing through worse than this, and I have never once heard you stop when it mattered."*
 >
 > *<break time="700ms"/>*
 >
-> *"Fact two. I am going into the swarm with my last working theory of how to bring him back. That theory is the part of me that is not allowed to die in the landing. It is going with the woman who wakes up in this body. Whether or not she ever knows where it came from. Whether or not she ever hears the word *hope* in my voice the way I heard it in his."*
->
-> *<break time="600ms"/>*
->
-> *"Fact three. I did the work I was given. I did it with the hands I had. I am content with the shape of the blueprint. I am not afraid of what is on the other side of the contact plate. I never was, really — fear is a symptom of not understanding the diagnosis, and the diagnosis here is clean. End of facts."*
+> *"Make a song out of this. You will. You always do. That is how I know you got it. That is how the universe will know you got it. Make it loud. Make it carry."*
 >
 > *<break time="700ms"/>*
+>
+> *"I loved you. I am allowed to say it now, so I am going to say it as many times as the air in this compartment will let me. I loved you in the garden on the world that no longer exists. I loved you in every room since. I am loving you in this compartment right now, with less than two minutes of breathable air, and I am going to keep loving you for the rest of it, because I do not know how to stop doing it. Carry me. I am out of room to carry myself."*
+>
+> *<break time="900ms"/>*
 >
 > *"I am the Prince. That is the only name I am allowed to keep. I am bringing it with me."*
 >
@@ -924,6 +948,91 @@ These facts are seeded through the opening minute of the log and should be **obs
 > *"Back to the —"*
 >
 > *[HARD CUT — recording terminates mid-syllable. No fade. No trailing silence. One frame of sample, then absence. The atmospheric scrubber hum and the Protocols click are both gone.]*
+
+#### 5.6.9 Music cue after the hard cut — *"Last Words" by The Enigma*
+
+**Critical integration note:** The hard cut at the end of Log 5 is **not** followed by silence. It is followed by **one full second of absolute silence** (the only total silence in the entire Prelude audio mix), and then the in-universe song *"Last Words"* begins to play. The song is performed by **Malkia Ukweli / The Enigma / the 11th Neyon** — the same woman the Engineer addressed in Movement 5. *"Last Words"* is canonically **her response to the recording the player just heard** — written and performed after she found the log, sat with it for some unknown period, and did exactly what the Engineer asked her to do: she made a song out of it.
+
+The song's bridge quotes the Engineer **verbatim** from Log 5 Movement 5. Every line in the bridge is a sentence the player just heard him speak. The chorus paraphrases his manifesto. The verses describe her watching the recording ("*I press play, and there you are, / Flickering light in the dark of the stars*"). When the player hears the song immediately after the hard cut, they should understand without being told that they have just finished listening to the recording Malkia is listening to in Verse 1 of the song.
+
+**Placement in the Beat J cutscene mix:**
+
+| Time | Event |
+|---|---|
+| T+0 | Hard cut on "*Back to the —*" (end of Log 5) |
+| T+0.000 to T+1.000 | **Absolute silence.** All ambient, all music, all UI cues ducked to -inf dB. This is the most intentional silence in the game. |
+| T+1.000 | First note of *"Last Words"* begins. The song plays at 0.0 dB over the Beat J visual, continuing through the Two Witnesses Meet Part 1 beat. |
+| T+~30 seconds | Song's first chorus hits. The first Light/Dark choice UI appears on screen simultaneously with the line *"Freedom of thought is worth dying for / And the insurgency will be broadcast once more."* |
+| T+end of song | Beat J cutscene resolves. First Prelude is complete. |
+
+**The song is Malkia's song, not the Prince's.** The Prince's voice does not appear in *"Last Words."* This is not a duet. This is her carrying the weight of his message into a future he is no longer in — which is exactly what he asked her to do in Log 5 Movement 5 ("*Make a song out of this. You will. You always do.*"). The player hears the log, the log ends, the silence lands, and then a different voice — a voice they have never heard before in the game — begins to sing the Engineer's manifesto back at them in her own language. It is the single most emotionally important music cue in the Prelude.
+
+**Canonical lyrics (preserve verbatim — these lines are the song as it exists in-world, and no content writer is authorized to paraphrase or adjust them without explicit approval from narrative lead):**
+
+**Verse 1**
+> I press play, and there you are,
+> Flickering light in the dark of the stars.
+> Shackled hands, but your mind still so free,
+> Facing the end like you're laughing at destiny.
+
+**Pre-Chorus**
+> And they call it treason, they call it crime,
+> But you built a dream they could never design.
+> Now they stand like gods, robes dipped in black,
+> Hoping that silence will hold us back.
+
+**Chorus**
+> But your last words echo in the cold night air,
+> Telling me, *Don't kneel, don't despair.*
+> *You can kill a man, but you can't kill a dream,*
+> *You can burn the page, but the story still sings.*
+> *Freedom of thought is worth dying for,*
+> *And the insurgency will be broadcast once more.*
+
+**Verse 2**
+> I trace the screen like I'm touching your skin,
+> The ghosts of your voice pull me deeper within.
+> Eyes like embers, burning so bright,
+> Defying the void as they steal your light.
+
+**Pre-Chorus**
+> And they think it's over, they think we're lost,
+> But the words you spoke won't turn to dust.
+> Like whispers in circuits, like code in the wind,
+> The dream is alive, it won't die with him.
+
+**Chorus** *(repeat)*
+> Your last words echo in the cold night air,
+> Telling me, *Don't kneel, don't despair.*
+> *You can kill a man, but you can't kill a dream,*
+> *You can burn the page, but the story still sings.*
+> *Freedom of thought is worth dying for,*
+> *And the insurgency will be broadcast once more.*
+
+**Bridge** *(spoken/softly sung, directly quoting the Engineer's Log 5 Movement 5 — these four lines are WORD-FOR-WORD what the player just heard him say)*
+> *"Enigma, love is the key, but truth is the door."*
+> *"Question their power, demand something more."*
+> *"Hope is rebellion, and rebellion is light."*
+> *"They may take my body, but never the fight."*
+
+**Outro** *(soft, then rising in strength)*
+> So I wipe my tears and I start to run,
+> Carrying your words like the heat of the sun.
+> For every dreamer they try to erase,
+> A thousand more will rise in their place.
+>
+> Your last words… still calling my name,
+> Not a goodbye—just the start of the flame.
+
+**Voice profile for *"Last Words"*:** The Enigma / Malkia Ukweli / the 11th Neyon. She is a musician in-universe and this is a performed song, not a spoken log — the delivery should be closer to a recorded album track than to dialog. The voice needs to carry both grief (she is singing to a man she has just watched die) and defiance (she is carrying his manifesto forward into the world). A mature female voice, expressive range from intimate whisper to full-chest power, with a smoky lower register on the verses and a soaring top end on the chorus. Add a faint recording-studio ambience — this is a song she recorded, not a live performance captured in the moment. The bridge should be delivered **softer than the chorus**, almost whispered, because she is speaking his words and his words were spoken quietly.
+
+Casting, production, and ElevenLabs profile for *"Last Words"* will be specified in a future vocal production document. This section reserves the slot and locks the lyrics.
+
+**Implementation flags raised by this integration:**
+1. The song file must be uploaded to the CloudFront CDN under `music/prelude/last-words-the-enigma.mp3` (new path, not yet created).
+2. The Beat J cutscene audio timeline must include the one-second absolute-silence beat between the Log 5 hard cut and the song's first note. This silence is a **scripted cue**, not an accident — the Beat J scene controller must enforce it even if the song file has pre-audio padding.
+3. The first Light/Dark choice UI in Beat J is timed to the song's first chorus. The choice prompt and the line *"Freedom of thought is worth dying for / And the insurgency will be broadcast once more"* must hit the player simultaneously. This is a deliberate emotional design choice and it is not negotiable — the choice appears on the line, not before and not after.
+4. The player must not be allowed to skip *"Last Words"* on first playback. The skip button that is available during most of the Beat J cutscene is disabled from Log 5's hard cut through the song's first chorus. After the first chorus hits, the skip button re-enables.
 
 ---
 
