@@ -458,6 +458,182 @@ holo_meeting_the_oracle,The Prince,the_prince,0.55,0.85,0.35,true,"This is — I
 
 ---
 
+### 5.3 Audio Log 2 — *The Hierophant's Flag*
+
+- **Recording ID:** `holo_hierophants_flag`
+- **Order in `ENGINEER_RECORDINGS`:** 9
+- **Room:** `comms_array`
+- **Trigger:** First time the player enters the Comms Array after the NPC Inbox has been unlocked in Beat H. Plays automatically when the player approaches the wall-mounted Insurgency-era encrypted broadcast tap (the surface that already exists in the room per `engineerRecordings.ts:150` slot for the existing `holo_line_they_crossed` recording — both recordings share the emitter; the new one fires first chronologically because it is `order: 9`, while `holo_line_they_crossed` is `order: 4` and triggers on a different gate).
+- **Discovery flag:** `engineer_recording_9_discovered`
+- **Reward (on first discovery):** `dream: 80, xp: 350, material: 'thalorian_council_seal'`
+- **Length:** ~46 seconds
+- **Voice profile:** `the_prince`
+- **Recording-artifact treatment:** Hologram-tape layer is slightly thicker on this one than on Log 1 — this is recorded later in the Engineer's life, after he has begun to feel the weight of what is coming. Add a single barely-audible exhale at the **start** of the recording (~0.4 sec before the first word) — he is steadying himself before he speaks.
+
+**Transcript (write-in-voice — 46 seconds):**
+
+> *<break time="400ms"/>*
+>
+> *"He's gone."*
+>
+> *<break time="900ms"/>*
+>
+> *"The Oracle. The man I told you about. He has been gone for — eleven local weeks now, by the Thalorian calendar. His tent is still there. His staff is leaning against the door. His sandals are arranged at the foot of his pallet the way he left them. Nothing has been touched. Nothing has been moved. The wind has not even disturbed his blanket. The Thalorians treat the tent as a shrine."*
+>
+> *<break time="600ms"/>*
+>
+> *"I expected grief. I prepared myself, in the way you prepare yourself, to record an entry about how a people I cared about were grieving the man who taught them to hope."*
+>
+> *<break time="500ms"/>*
+>
+> *"They are not grieving."*
+>
+> *<break time="700ms"/>*
+>
+> *"There is a junior priest. His name is — I am not going to say it, in case this recording is found by someone who would use it. He calls himself the Hierophant now. Two months ago he was nobody. Two months ago he was running the back-room scrolls library at a sect house in the third district. Today he is the second most powerful man on Thaloria, and tomorrow he will be the first."*
+>
+> *<break time="500ms"/>*
+>
+> *"He has announced that the Oracle did not disappear. He has announced that the Oracle ascended into the stars and became the prophecy itself — that the man I met is now literally the Star Whisperer the old scrolls foretold. He has announced that the Oracle is still speaking, through him, and that the Oracle's instructions are to unify Thaloria under one faith and prepare for a coming kingdom."*
+>
+> *<break time="600ms"/>*
+>
+> *"I have to be precise here, because it matters. The Hierophant is not lying. I think he genuinely believes he is hearing the Oracle's voice. What he is hearing is his own fear, dressed up in the only vocabulary his faith has taught him to use. And he has made that fear into a flag, and the flag is marching."*
+>
+> *<break time="700ms"/>*
+>
+> *"The Council of Harmony is trying to stop it. The Council of Harmony has held Thaloria together for three hundred years. Twelve voices, deliberating in a circle, listening to each other. Right now they are losing eight to four. Next month it will be ten to two. The Council is going to fall, and when it falls there will be a war on Thaloria for the first time in living memory, and the man whose name they will be carrying into that war never said any of the things they will be saying he said."*
+>
+> *<break time="900ms"/>*
+>
+> *"I do not know yet what to do about this. I am recording it because I am afraid I will forget what the Oracle actually was, and the Hierophant's version will become the only version that survives. So this is for the record. The man I met did not want this. I know because I looked him in the face. I know because I heard him speak."*
+>
+> *<break time="500ms"/>*
+>
+> *"He would have hated this."*
+
+**Direction notes for the voice actor / ElevenLabs settings:**
+- Open with the steadying exhale (0.4 sec), then the flat declarative *"He's gone."* The flatness is the whole opening — he is not performing grief because he has not finished feeling it yet.
+- *"They are not grieving."* — the most important pause in this log. Hold the silence after for nearly a full second. The Engineer is letting the listener feel what he felt: the moment expectation broke against reality.
+- *"He calls himself the Hierophant now."* — the title gets the aristocratic-precision slip. The Prince says "Hierophant" the way he would once have said the title of an opposing court official. Disdain held in check by professional courtesy.
+- *"And he has made that fear into a flag, and the flag is marching."* — slow, exact, almost gentle. This is the Engineer doing what he does best: reading a blueprint for a disaster and naming the parts.
+- *"He would have hated this."* — the final line is the only place in the log where the Prince's voice cracks. Not into tears — into stillness. Drop volume by ~15% and let the recording artifact layer dropout briefly on the word "hated."
+
+**ElevenLabs CSV row:**
+```csv
+holo_hierophants_flag,The Prince,the_prince,0.55,0.85,0.40,true,"<break time=""400ms""/>He's gone.<break time=""900ms""/>The Oracle. The man I told you about. He has been gone for — eleven local weeks now, by the Thalorian calendar. His tent is still there. His staff is leaning against the door. His sandals are arranged at the foot of his pallet the way he left them. Nothing has been touched. Nothing has been moved. The wind has not even disturbed his blanket. The Thalorians treat the tent as a shrine.<break time=""600ms""/>I expected grief. I prepared myself, in the way you prepare yourself, to record an entry about how a people I cared about were grieving the man who taught them to hope.<break time=""500ms""/>They are not grieving.<break time=""700ms""/>There is a junior priest. His name is — I am not going to say it, in case this recording is found by someone who would use it. He calls himself the Hierophant now. Two months ago he was nobody. Two months ago he was running the back-room scrolls library at a sect house in the third district. Today he is the second most powerful man on Thaloria, and tomorrow he will be the first.<break time=""500ms""/>He has announced that the Oracle did not disappear. He has announced that the Oracle ascended into the stars and became the prophecy itself — that the man I met is now literally the Star Whisperer the old scrolls foretold. He has announced that the Oracle is still speaking, through him, and that the Oracle's instructions are to unify Thaloria under one faith and prepare for a coming kingdom.<break time=""600ms""/>I have to be precise here, because it matters. The Hierophant is not lying. I think he genuinely believes he is hearing the Oracle's voice. What he is hearing is his own fear, dressed up in the only vocabulary his faith has taught him to use. And he has made that fear into a flag, and the flag is marching.<break time=""700ms""/>The Council of Harmony is trying to stop it. The Council of Harmony has held Thaloria together for three hundred years. Twelve voices, deliberating in a circle, listening to each other. Right now they are losing eight to four. Next month it will be ten to two. The Council is going to fall, and when it falls there will be a war on Thaloria for the first time in living memory, and the man whose name they will be carrying into that war never said any of the things they will be saying he said.<break time=""900ms""/>I do not know yet what to do about this. I am recording it because I am afraid I will forget what the Oracle actually was, and the Hierophant's version will become the only version that survives. So this is for the record. The man I met did not want this. I know because I looked him in the face. I know because I heard him speak.<break time=""500ms""/>He would have hated this.","Open with steadying exhale then flat 'He's gone.' Hold the pause after 'They are not grieving' nearly a full second. 'Hierophant' gets the aristocratic slip. 'And he has made that fear into a flag, and the flag is marching' — slow, exact, gentle. Final line cracks into stillness not tears, drop 15 percent volume, dropout on the word 'hated.'",P0
+```
+
+**Output:** `apps/client/public/audio/engineer/holo_hierophants_flag.mp3`
+
+**Elara reaction (plays after the log finishes):**
+
+> *"Eleven weeks. He recorded this eleven weeks after the Oracle disappeared and he still didn't know what to do. He knew within the first sentence that the Hierophant would win. He logged it anyway. He logged it so that someone — us, I suppose — would know what the man was actually like before the flag went up."*
+
+**The Human reaction (plays only if the player remained at the comms array for an additional 10 seconds):**
+
+> *"There's a version of this story where the Oracle never disappears and Thaloria never falls and the Hierophant dies as a back-room scroll librarian who never knew his own name. That version was killed by whoever took the Oracle. The Engineer figured out who that was, eventually. So did I. We didn't tell each other. I think we were both ashamed of how late we were."*
+
+**Cross-references:**
+- The Hierophant becomes a named NPC in Act 3 §7 Thaloria soft-faction arc (see §3.8 of this document)
+- The Council of Harmony remnant is the player's primary diplomacy contact on Thaloria in Act 3
+- The Authenticated Oracle Recording the Council needs in Act 3 to push back against the Hierophant **is this recording** — the player must have discovered `holo_hierophants_flag` in the Prelude for the Council Diplomacy path on Thaloria to unlock in Act 3. This is one of two Prelude-gated Act 3 paths.
+
+---
+
+### 5.4 Audio Log 3 — *The List I Am On*
+
+- **Recording ID:** `holo_the_list_i_am_on`
+- **Order in `ENGINEER_RECORDINGS`:** 10
+- **Room:** `captains_quarters`
+- **Trigger:** First time the player enters the **Captain's Quarters** (P1 backfill room — see `PRELUDE_SHIP_READY_BIBLE.md` §19). The room is intentionally a late-Prelude reveal: most players will not visit it until after Beat I (Bridge / Witnessing Hub activate), making this log a natural Beat I → Beat J bridge. Plays automatically when the player approaches the **personal-effects locker hologram** mounted on the wall above the captain's bunk (the same locker that bears the existing `holo_deck_remembers` recording, which is `order: 7` and triggers on a different gate). Both recordings share the emitter; the new one fires first chronologically.
+- **Discovery flag:** `engineer_recording_10_discovered`
+- **Reward (on first discovery):** `dream: 100, xp: 400, material: 'collector_target_dossier'`
+- **Length:** ~52 seconds
+- **Voice profile:** `the_prince`
+- **Recording-artifact treatment:** This is the most clinical recording of the five — the Prince is doing the thing he does when he is afraid: getting quieter, slower, more precise. The hologram-tape artifact is **at its lightest** here, almost gone, because the Prince has chosen this recording carefully and turned the equipment up to its cleanest setting. He wants the listener to be able to follow the logic step by step. **Add a faint pen-on-paper sound** during the pauses — he is sketching as he speaks, working the diagnosis on a notepad in front of him.
+
+**Transcript (write-in-voice — 52 seconds):**
+
+> *"This is going to be a working entry. I am going to talk through a problem out loud, the way I do at the bench, because if I write it down on the page only I will polish the wrong corners and miss the shape. Bear with me."*
+>
+> *<break time="700ms"/>*
+>
+> *"Three names are gone from the Insurgency in the last eighteen months. Kael, taken from the staging house in the Razorline. The Eyes of the Watcher, terminated at Hexis Anchor — except I have walked the wreckage of Hexis Anchor and there is no body, and there is no debris field consistent with a synthetic intelligence dying in a building collapse. The Oracle, vanished from a tent on Thaloria with his sandals still arranged at the foot of his pallet. Three names. Three patterns. None of them dead — gone."*
+>
+> *<break time="600ms"/>*
+>
+> *"Now. The question. What do these three have in common, that makes them worth taking instead of killing?"*
+>
+> *<break time="500ms"/>*
+>
+> *"Kael had a recruiting network. Two hundred and thirteen contacts. The kind of pattern you cannot reproduce because it is built from individual relationships of trust — a thing only a particular person in a particular sequence of conversations could have grown. The Eyes had synthetic cognition of a sort the Architect's stock instances cannot reproduce. Pattern. The Oracle had — whatever the Oracle had. I do not understand it well enough to name it. But it is a pattern, and patterns is the only word that fits all three."*
+>
+> *<break time="700ms"/>*
+>
+> *"There is one entity in this galaxy that takes patterns instead of killing them. That is the Collector. He is the only one. So I am going to write that down: **the Collector took all three.** Not as a guess. As a diagnosis."*
+>
+> *<break time="600ms"/>*
+>
+> *"And now the question I have been avoiding."*
+>
+> *<break time="800ms"/>*
+>
+> *"What is the fourth pattern. What is the next one."*
+>
+> *<break time="500ms"/>*
+>
+> *"I built the Resurrection Protocols. I am the only person alive who knows how they work. I have been trying for two months to teach Elara how to maintain them in case I am unavailable, and she has been a brilliant student, but the live operation of the Protocols requires the kind of knowledge that does not transfer in two months. The Collector wants the Protocols more than he wants me. The only way to get the Protocols is through me."*
+>
+> *<break time="700ms"/>*
+>
+> *"I am the fourth name on the list. I do not have proof. I have a diagnosis. I am an engineer. When the diagnosis is this clean I do not wait for the symptom."*
+>
+> *<break time="900ms"/>*
+>
+> *"Here is what I am going to do. If they are coming for me, I am going to choose the time and the place. I am going to surrender on terms I have arranged in advance. I am going to have the Protocols primed. If the surrender works, I die on my own schedule with nothing of value transferred. If they take me anyway, I try the Protocols on myself in the moment of capture. If those fail, I die. If they succeed, I come back somewhere I do not yet know, with the one tool that might get the Oracle back."*
+>
+> *<break time="500ms"/>*
+>
+> *"That is a better shape than dying as myself."*
+>
+> *<break time="700ms"/>*
+>
+> *"This is not courage. This is triage. End of working entry."*
+
+**Direction notes for the voice actor / ElevenLabs settings:**
+- Open with the briskest, most "let's-get-to-work" energy of any of the five logs. *"This is going to be a working entry"* should land like a man rolling up his sleeves at his own bench. He is not afraid yet — he is *approaching* fear methodically.
+- The pen-on-paper sound is critical. Layer it in post at very low volume during every pause. The Prince is sketching while he talks. The listener should hear the working.
+- *"Now. The question."* — a tiny pause after each one-word sentence, like he is letting the question land on his own page before he answers it.
+- *"As a diagnosis."* — this is the moment the Prince realizes he is not theorizing, he is naming his own death. **The aristocratic register surfaces unexpectedly on the word "diagnosis"** — say it the way a court physician would have once said it, three centuries earlier in the Prince's other life. The slip is involuntary and he hears it himself; allow a fraction-of-a-second hesitation after.
+- *"And now the question I have been avoiding."* — quieter. The hands stop moving on the page.
+- *"What is the fourth pattern. What is the next one."* — the slowest line in the entire log. Each sentence in its own breath. The Prince is letting the listener arrive at the answer before he says it.
+- *"I am the fourth name on the list."* — flat. Factual. He has been there for ten seconds; he is letting the listener catch up.
+- *"This is not courage. This is triage. End of working entry."* — clipped, professional, the way he would close any working entry at the bench. He is sealing the recording and getting back to work. **Do not let the actor add any softening at the end.** This is a man closing a notebook.
+
+**ElevenLabs CSV row:**
+```csv
+holo_the_list_i_am_on,The Prince,the_prince,0.50,0.85,0.30,true,"This is going to be a working entry. I am going to talk through a problem out loud, the way I do at the bench, because if I write it down on the page only I will polish the wrong corners and miss the shape. Bear with me.<break time=""700ms""/>Three names are gone from the Insurgency in the last eighteen months. Kael, taken from the staging house in the Razorline. The Eyes of the Watcher, terminated at Hexis Anchor — except I have walked the wreckage of Hexis Anchor and there is no body, and there is no debris field consistent with a synthetic intelligence dying in a building collapse. The Oracle, vanished from a tent on Thaloria with his sandals still arranged at the foot of his pallet. Three names. Three patterns. None of them dead — gone.<break time=""600ms""/>Now. The question. What do these three have in common, that makes them worth taking instead of killing?<break time=""500ms""/>Kael had a recruiting network. Two hundred and thirteen contacts. The kind of pattern you cannot reproduce because it is built from individual relationships of trust — a thing only a particular person in a particular sequence of conversations could have grown. The Eyes had synthetic cognition of a sort the Architect's stock instances cannot reproduce. Pattern. The Oracle had — whatever the Oracle had. I do not understand it well enough to name it. But it is a pattern, and patterns is the only word that fits all three.<break time=""700ms""/>There is one entity in this galaxy that takes patterns instead of killing them. That is the Collector. He is the only one. So I am going to write that down: the Collector took all three. Not as a guess. As a diagnosis.<break time=""600ms""/>And now the question I have been avoiding.<break time=""800ms""/>What is the fourth pattern. What is the next one.<break time=""500ms""/>I built the Resurrection Protocols. I am the only person alive who knows how they work. I have been trying for two months to teach Elara how to maintain them in case I am unavailable, and she has been a brilliant student, but the live operation of the Protocols requires the kind of knowledge that does not transfer in two months. The Collector wants the Protocols more than he wants me. The only way to get the Protocols is through me.<break time=""700ms""/>I am the fourth name on the list. I do not have proof. I have a diagnosis. I am an engineer. When the diagnosis is this clean I do not wait for the symptom.<break time=""900ms""/>Here is what I am going to do. If they are coming for me, I am going to choose the time and the place. I am going to surrender on terms I have arranged in advance. I am going to have the Protocols primed. If the surrender works, I die on my own schedule with nothing of value transferred. If they take me anyway, I try the Protocols on myself in the moment of capture. If those fail, I die. If they succeed, I come back somewhere I do not yet know, with the one tool that might get the Oracle back.<break time=""500ms""/>That is a better shape than dying as myself.<break time=""700ms""/>This is not courage. This is triage. End of working entry.","Working-entry energy at the start, methodical not afraid yet. Pen-on-paper sound layered low through pauses. 'Diagnosis' gets the involuntary aristocratic slip with a fraction-second self-hearing pause after. 'I am the fourth name on the list' is flat factual. Final line is a notebook closing, no softening allowed.",P0
+```
+
+**Output:** `apps/client/public/audio/engineer/holo_the_list_i_am_on.mp3`
+
+**Elara reaction (plays after the log finishes):**
+
+> *"He told me he was teaching me to maintain the Protocols in case he was unavailable. He never used the word 'unavailable' to mean what it actually meant in his head. I was the brilliant student. I was being prepared for his absence and I did not know it. I want to be angry about that, and I cannot, because I see now what he was sparing me from."*
+
+**The Human reaction (plays only if the player remained in the captain's quarters for an additional 10 seconds):**
+
+> *"He logged this and then he went to the galley and made me a sandwich. Two slices of black bread, salt-protein, the green stuff from Hydroponics. He didn't say anything. He just put it in front of me and sat down. I think now he was saying goodbye in the only language he had that didn't break. I ate the sandwich. I told him it was good. He laughed at his own crust. That was the last conversation we had before everything went wrong."*
+
+**Cross-references:**
+- The "Resurrection Protocols" referenced here are the same device the Engineer eventually uses on himself in the transference, and the same device Vex Solène / Engineer Zero is trying to rebuild in Act 5 to use on the Oracle (see §3.6 Revelation 3 of this document).
+- The "two months teaching Elara" is the canonical reason Elara has partial knowledge of the Protocols in Act 5 — she can describe them, she cannot operate them. The player has to find a second source of operational knowledge (which is, ultimately, Vex / Engineer Zero, who has the Engineer's intellect but none of his memories).
+- The Human's reaction line is the **direct callback** to the Beat D.5 Galley breath beat in `PRELUDE_SHIP_READY_BIBLE.md` §9.5 (the `human_beat_d5_sandwich` line). The player who has heard both lines now understands what the sandwich meant. **This is the single largest paid-off seed in the entire Prelude.** Do not move either line.
+- The "two hundred and thirteen contacts" figure ties directly to the sealed Recruiter's Log seed in Beat F (`PRELUDE_SHIP_READY_BIBLE.md` §11), which Elara mentions as "two hundred and thirteen entries." The number is canonical and must match across all references.
+
+---
+
 
 
 
