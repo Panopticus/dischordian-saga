@@ -1,1 +1,0 @@
-ALTER TABLE `chess_games` MODIFY COLUMN `fen` text;
