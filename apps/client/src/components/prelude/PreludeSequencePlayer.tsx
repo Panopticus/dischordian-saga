@@ -31,6 +31,7 @@ import { PreludeVfxOverlay, type ActiveVfxEffect } from "./vfx/PreludeVfxOverlay
 import { LastWordsWitnessing } from "./LastWordsWitnessing";
 import { BeatEFlashback } from "./BeatEFlashback";
 import { BeatDMissionBoard } from "./BeatDMissionBoard";
+import { BeatHInbox } from "./BeatHInbox";
 import {
   usePreludeSequenceState,
   type PreludeAlignmentChoice,
@@ -131,6 +132,13 @@ export function PreludeSequencePlayer({
             onComplete={() => interactionComplete()}
           />
         );
+      case "beat_h":
+        return (
+          <BeatHInbox
+            onComplete={() => interactionComplete()}
+            volume={volume}
+          />
+        );
       case "beat_j":
         return (
           <LastWordsWitnessing
@@ -141,9 +149,9 @@ export function PreludeSequencePlayer({
           />
         );
       // Future per-beat interactions (Beat C crew role choice, Beat F
-      // biometric lockbox, Beat H NPC Inbox first message) slot in
-      // here as additional cases. Until those ship, non-interactive
-      // beats auto-advance via beatHasInteraction() returning false.
+      // biometric lockbox) slot in here as additional cases. Until
+      // those ship, non-interactive beats auto-advance via
+      // beatHasInteraction() returning false.
       default:
         return null;
     }

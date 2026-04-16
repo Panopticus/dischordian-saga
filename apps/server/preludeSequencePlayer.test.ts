@@ -62,12 +62,12 @@ describe("preludeSequenceReducer — cutscene_ended auto-advance", () => {
   it("walks the entire 15-beat sequence via cutscene_ended + interaction_complete", () => {
     let s = initialPreludeSequenceState();
     // Non-interactive beats auto-advance on cutscene_ended. Interactive
-    // beats (Beat D, Beat E, Beat J) hold at `completed` and need an
-    // explicit interaction_complete to advance.
-    const interactiveIds = new Set(["beat_d", "beat_e"]);
+    // beats (Beat D, Beat E, Beat H, Beat J) hold at `completed` and
+    // need an explicit interaction_complete to advance.
+    const interactiveIds = new Set(["beat_d", "beat_e", "beat_h"]);
     for (let i = 0; i < 14; i++) {
       s = preludeSequenceReducer(s, { type: "cutscene_ended" });
-      // For beats D and E, fire interaction_complete so the walk
+      // For beats D, E, H, fire interaction_complete so the walk
       // continues. Beat J is the final hold — tested separately.
       if (
         interactiveIds.has(PRELUDE_BEATS[s.beatIndex].id) &&
@@ -108,6 +108,22 @@ describe("preludeSequenceReducer — cutscene_ended auto-advance", () => {
     const s1 = preludeSequenceReducer(s0, { type: "cutscene_ended" });
     const s2 = preludeSequenceReducer(s1, { type: "interaction_complete" });
     expect(PRELUDE_BEATS[s2.beatIndex].id).toBe("beat_f");
+    expect(s2.phase).toBe("cutscene");
+    expect(s2.alignment).toBeNull();
+  });
+
+  it("Beat H stops at phase=completed after cutscene_ended", () => {
+    const s0 = initialPreludeSequenceState("beat_h");
+    const s1 = preludeSequenceReducer(s0, { type: "cutscene_ended" });
+    expect(PRELUDE_BEATS[s1.beatIndex].id).toBe("beat_h");
+    expect(s1.phase).toBe("completed");
+  });
+
+  it("Beat H advances to Beat H.5 on interaction_complete (no alignment)", () => {
+    const s0 = initialPreludeSequenceState("beat_h");
+    const s1 = preludeSequenceReducer(s0, { type: "cutscene_ended" });
+    const s2 = preludeSequenceReducer(s1, { type: "interaction_complete" });
+    expect(PRELUDE_BEATS[s2.beatIndex].id).toBe("beat_h5");
     expect(s2.phase).toBe("cutscene");
     expect(s2.alignment).toBeNull();
   });
@@ -190,8 +206,13 @@ describe("preludeSequenceReducer — advance + reset", () => {
 });
 
 describe("beatHasInteraction", () => {
-  it("is true for Beat D (mission board), Beat E (flashback), Beat J (witnessing)", () => {
-    const interactiveBeatIds = new Set<string>(["beat_d", "beat_e", "beat_j"]);
+  it("is true for Beat D, Beat E, Beat H, Beat J only", () => {
+    const interactiveBeatIds = new Set<string>([
+      "beat_d",
+      "beat_e",
+      "beat_h",
+      "beat_j",
+    ]);
     for (const beat of PRELUDE_BEATS) {
       expect(beatHasInteraction(beat)).toBe(interactiveBeatIds.has(beat.id));
     }
