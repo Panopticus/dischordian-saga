@@ -2040,4 +2040,252 @@ state for C1, only survival-count outcomes):
   countdown "three, two, one, go" is Vernon's canonical speech
   signature)
 
+### 2.11 Wanda Wyrlord — Cycle C2 opponent (fragmented encounter)
+
+The second Cycle C boss. Per DSFGL line 2468, C2 is the
+Warlord's fragmented encounter — the player meets the Warlord
+**before** she reconstitutes into the full adult form the
+Engineer will face later. In the biographical simulation, Wanda
+is a seventeen-year-old cyborg girl with partial-plate
+augmentations showing through her skin. The player is meant to
+read her as **wounded** — a soldier who has been through
+something. That reading is canonically correct in the surface
+narrative. It is also canonically incomplete. (See canon hygiene
+note below.)
+
+**CRITICAL canon hygiene rule (§0.4 rule 4):** The Warlord is
+canonically a weaponized nanobot swarm per
+`CANON_REV_7_ORACLE_VEX_EXPANSION.md` §1.6. **That reveal is
+Act 2+ scope.** This section must render Wanda as a cyborg
+(human with cybernetic augmentation) and **NOT** as a swarm
+wearing a human form. The visible metal on her face reads as
+prosthetic plating, not swarm integration. The "fragmented" label
+reads as cybernetic damage, not swarm fragmentation. The voice
+glitches read as cybernetic comms interference, not swarm voices
+bleeding through. All of these will be retroactively recontextualized
+as swarm evidence in Act 2+ when the reveal lands, but in Act 1
+the player must read Wanda as a *person*. Production must resist
+any visual cue that pre-reveals the swarm — no silver-liquid
+motion, no dispersal particles, no cloud-form transitions. Plate
+and circuitry only.
+
+**Canonical visual (user-provided, 2026-04-15):**
+
+> Wanda Wyrlord is a striking blonde cyborg girl with light-
+> enhanced eyes, some visible metal on her face, and a yellow
+> hooded jacket.
+
+**Production expansion for this doc:**
+
+- **Age:** seventeen. Taller than most of the Mechronis cohort
+  at the same age (she did not attend Mechronis — she grew up
+  in Kael's household before the war, per
+  `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §1.6, and the Engineer
+  knew her as a childhood tutoring companion before she left
+  for military service). Athletic build — broader shoulders
+  than Agent Zero's, narrower than Iron Lion's, muscled in a
+  way that reads as "trained" rather than "grown into." Her
+  posture is military — shoulders back, spine straight, chin
+  level.
+- **Skin:** fair, lightly sun-weathered, with a small constellation
+  of freckles across the nose and cheekbones (canonical — these
+  are the freckles the Engineer remembers from his childhood
+  tutoring sessions with her, preserved by the simulation as
+  continuity evidence). Where the plating is visible, the skin
+  around the plate edges shows faint scar tissue — the plates
+  were installed, they did not grow. Clean surgical integration.
+- **Hair:** striking platinum-to-gold blonde, cropped short at
+  the sides and back, medium length on top, swept back from the
+  forehead. Naturally thick, slightly wavy. When she moves her
+  head the hair catches the battlefield's warm gold lighting
+  and reads as almost-metallic itself — a visual rhyme with the
+  plates that the player should register subconsciously.
+- **Eyes — "light-enhanced":** the canonical tell. Both eyes are
+  cybernetic optics, rendered as:
+  - Base iris color: glacial blue-gray (`#9cb4c1` reference),
+    matching the Warlord's canonical adult form per existing
+    game lore
+  - A thin **electric-blue inner ring** (`#3b82f6`) circles each
+    iris, glowing faintly from within — this is the cybernetic
+    optic's active-tracking indicator
+  - The pupil is **not black** — it is a matte dark-charcoal
+    with a tiny pinpoint light dead center. The light moves
+    independently of the pupil during targeting motion (like a
+    sniper scope's reticle). Render the pinpoint shift in
+    close-up shots when Wanda's attention locks onto a card.
+  - The glow from both eyes casts faint cool-blue light on her
+    upper cheekbones in low-light conditions — visible in the
+    battlefield scenes with warm-gold dominant lighting as a
+    subtle cross-color rim
+- **Visible metal on her face:** canonical but **limited**. Do
+  not over-augment. The plating is:
+  - **Left temple and cheekbone:** a flush-mounted metal plate
+    approximately 4cm × 3cm, running from the temple down along
+    the cheekbone toward the ear. Brushed titanium finish with
+    faint cool-gold undertones, no visible seams except where
+    it meets skin. A single small diagnostic port at the rear
+    edge near the ear
+  - **Right jawline:** a smaller matching plate, 3cm × 2cm,
+    along the angle of the jaw
+  - **No plating elsewhere on the face** — the nose, mouth,
+    forehead, chin, and right cheek are all unmodified human skin
+  - The plating should read as **necessary medical augmentation**,
+    not aesthetic choice. Wanda was injured. The plates are what
+    keep her face symmetrical and functional
+- **The yellow hooded jacket:** canonical. Specifically:
+  - Warm mustard-yellow (`#eab308` reference), not neon — a
+    military-spec yellow that was originally standard-issue for
+    Insurgency medic corps before Wanda defected. The jacket
+    predates her defection by a few years, but she kept it
+  - Heavy canvas construction, zipper up the front (currently
+    unzipped), hood currently thrown back
+  - Two chest pockets (empty), two hip pockets (one holding a
+    small data slate, visible as a bulge)
+  - A small faded **Insurgency field-medic patch** sewn onto
+    the left shoulder — canonical. Wanda has not removed it.
+    The player who is paying attention should notice that the
+    Warlord is wearing Insurgency colors, and wonder what that
+    means. (Canon seed: Wanda's defection is not clean. She
+    misses the Insurgency. The patch is grief she refuses to
+    admit.)
+- **Underneath the jacket:** a simple black military undershirt,
+  snug fit. No other visible modifications — the plating stops
+  at the face. The player does not know if there is more
+  augmentation underneath. Production should render the undershirt
+  covering everything below the collarbone and leave the
+  augmentation question open.
+- **Hands:** human. Unmodified. Nails bitten (same canonical
+  fidget as the Prince's sleeve-rolling — they were tutored
+  together as children; shared habits persist). Callused
+  palms from weapons training. One small cross-shaped scar on
+  the back of the right hand, between the thumb and forefinger
+  — canonical mark from a specific childhood Dischordia match
+  with Kael and the Engineer, when Kael was teaching her to
+  shuffle cards and she cut herself on the deck's edge. The
+  Engineer remembers this. Production must render the scar
+  visible in any close-up of her hands.
+- **Body language:** alert, coiled, ready to fight. But not
+  aggressive — she is **waiting**. Wanda sits forward at the
+  card table, forearms braced on the edge, head level, eyes
+  tracking. When she plays a card, she slams it down — not with
+  theater (Minnie's performative slams, §2.2) but with
+  **commitment**. The slam is canonical: she means every card
+  she plays.
+
+**Voice direction:** seventeen-year-old young woman, alto-range,
+military-firm cadence. English with no particular regional
+accent — her voice is the canonical "soldier from a palace who
+chose the army" accent the Warlord uses in her adult form. Not
+warm (contrast Kael's warmth), not absent (contrast Agent Zero's
+flatness) — **commanding**, in the way that trained officers are
+commanding even when they are not giving orders.
+
+**The voice-glitch hygiene note:** the Warlord is canonically a
+nanobot swarm (per §0.4 rule 4) but that reveal is Act 2+. In
+Cycle C2, occasional subtle voice glitches are permitted as
+**cybernetic comms interference** — a brief digital artifact
+(100ms) on one or two words per line, attributable to her
+optic-audio implants. These are foreshadows of the swarm voices
+that will bleed through in Act 2+, but they must be **ambiguous**
+in Act 1. No dramatic multi-voice overlap. No swarm-chorus
+effect. Just: occasional short glitches on specific words,
+easily dismissed as tech failure.
+
+New voice profile **`wanda_wyrlord`**. ElevenLabs target:
+`stability: 0.70`, `similarity_boost: 0.80`, `style: 0.30`, with
+a layered post-processing pass for the cybernetic glitches
+(specified per-line in §14 Cycle C2 battle section).
+
+**Canonical pre-match line** (INFERRED):
+
+> *"I remember you. You were the one who let me win that Tuesday
+> because Kael told you to. I've been angry about that for a long
+> time. I don't need you to let me win. I never did. Let's find
+> out if you're still someone I'd let sit at my table."*
+
+Delivered with the commanding cadence — no anger in the voice,
+anger in the *content*. The callback to "that Tuesday" is the
+canonical childhood tutoring memory: the Engineer, at age nine,
+deliberately lost a card match to let young Wanda win because
+Kael (who was directing the lesson) told him she needed the
+confidence. Wanda caught it. She has carried it for eight years.
+The word *"Kael"* gets one of the 100ms cybernetic-glitch artifacts
+— the first canonical hint that saying his name costs her something
+the implants are not quite processing.
+
+**Deck theme:** "I Love War" attack-rush + instant-kills. Wanda's
+deck is aggression — every card she plays attacks immediately,
+and several cards have instant-kill effects that bypass defensive
+buffs. The tutorial lesson is "some opponents win by not letting
+you build" — the counter is disruption effects that delay her
+card plays, forcing her to hold her aggression for turns she
+cannot afford to lose. Card-count is Wanda's weakness; she
+plays four or five cards and then her hand is empty. The player
+must survive the opening volley.
+
+**Card unlock on win:** *The Converter* (Legendary Dark) — a
+card that, when played, takes one of the opponent's units and
+flips it to the player's side permanently. Named after Wanda's
+canonical ability: she is a *converter*, someone who turns
+things into other things (Insurgency medic into Warlord
+lieutenant, friend into enemy, child into soldier). Dark-aligned
+because conversion is almost always a loss.
+
+**Post-match canonical beats** (INFERRED):
+
+- **Win:** Wanda's aggressive opening burns out by turn five.
+  Her hand is empty. The Prince's board holds. She looks at the
+  empty space in front of her — for the first time in the match,
+  her posture loosens slightly. The commanding alto drops a half-
+  register. *"You got better. I thought you'd coast on what you
+  learned from him. You didn't."* The *"him"* is Kael again —
+  another glitch on the word, longer this time (200ms). She
+  stands. She does not offer a handshake. At the door she pauses
+  and, without turning: *"Tell your apprentice to keep their
+  hand visible. The Watcher sees cards that are on the table."*
+  This is the first in-game warning about §2.8 Young Eyes's
+  surveillance mechanic — Wanda is canonically *trying to help*.
+  The player will not understand this was a gift until after
+  they meet Eyes in Act 1 replay or in Act 3's surveillance
+  reveals.
+- **Loss:** Wanda's aggression overwhelms. The Prince's board
+  empties before he can stabilize. She plays her final
+  instant-kill and the Prince's general drops. Her commanding
+  posture does not relax; she is not satisfied. *"That was too
+  easy. I came here for a fight."* She stands, and at the door,
+  without turning: *"The next one will be harder. I promise."*
+  The *"I promise"* glitches at the end — a 300ms cybernetic
+  stutter that sounds almost like two voices saying the same
+  words a half-syllable apart. The player hears it. Cannot
+  name what they heard.
+
+**Cross-references:**
+
+- §0.4 rule 4 (CRITICAL canon hygiene — swarm reveal is Act 2+,
+  Act 1 must render Wanda as cyborg only; all voice-glitch
+  effects attributable to implants)
+- §2.0 (simulation framing — Wanda is an adolescent Archon,
+  NOT a child-form Archon, canonically distinct from the Cycle
+  A pattern)
+- §14 (Cycle C2 battle section — full battle spec including the
+  per-line glitch timing, the childhood-tutoring-flashback beat,
+  and the Insurgency patch close-up)
+- §2.5 (Young Iron Lion — the Insurgency connection through
+  the yellow jacket's medic patch, planting a later cross-act
+  beat about Wanda's defection)
+- §2.6 (Young Kael — Wanda's childhood tutoring with Kael and
+  the Engineer, the "Tuesday" memory, and the glitch on Kael's
+  name)
+- §15 (Cycle C3 — Wanda's swarm reveal canonically lands AFTER
+  C3's forced loss, in Act 2+ content; Act 1's C2 is the last
+  time the player sees her as "cyborg girl" before the swarm
+  reframing)
+- `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §1.6 (Warlord retcon —
+  weaponized nanobot swarm, childhood-palace persistence
+  experiment, Engineer unknowingly tutored her, Eden destruction
+  retaliation context)
+- `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §6 (Eden — the garden
+  world Wanda destroyed; production must NOT have Wanda mention
+  Eden in Cycle C2, that beat belongs to Act 2+)
+
 ---
