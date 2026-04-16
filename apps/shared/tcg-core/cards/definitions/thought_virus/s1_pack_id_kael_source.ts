@@ -55,4 +55,5 @@ export const cardDef: CardDefinition = {
     "There is no Kael anymore. There is only the signal.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

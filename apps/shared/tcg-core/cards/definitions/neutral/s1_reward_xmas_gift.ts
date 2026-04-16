@@ -45,4 +45,5 @@ export const cardDef: CardDefinition = {
     "A small gift, freely given. The wrapping paper was nicer than the contents, but it's the thought that counts.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 1,
 };

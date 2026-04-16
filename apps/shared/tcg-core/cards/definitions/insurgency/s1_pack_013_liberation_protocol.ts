@@ -48,4 +48,5 @@ export const cardDef: CardDefinition = {
     "They called it liberation. The enemy called it a vanishing act. Both were correct.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

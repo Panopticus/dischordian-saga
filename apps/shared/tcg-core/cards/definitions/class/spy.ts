@@ -40,6 +40,7 @@ export const spy_01: CardDefinition = {
     "Stealth — 1 turn. The first spies the Insurgency ran weren't trained; they were chosen because the cameras had stopped noticing them years before anyone asked.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 1,
 };
 
 export const spy_02: CardDefinition = {
@@ -67,6 +68,7 @@ export const spy_02: CardDefinition = {
     "Draw 2 cards. A dead drop is an address nobody agreed on. The message is always already there when you arrive.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 1,
 };
 
 export const spy_03: CardDefinition = {
@@ -96,6 +98,7 @@ export const spy_03: CardDefinition = {
     "Backstab. Stealth — 2 turns. The cover name is not a lie. It is a separate person you built and then walked into like a coat.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };
 
 export const spy_04: CardDefinition = {
@@ -122,6 +125,7 @@ export const spy_04: CardDefinition = {
     "Silence the enemy general. Every operative eventually has to kill the person who recruited them, usually to protect the secret of having been recruited at all.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const spy_05: CardDefinition = {
@@ -160,6 +164,7 @@ export const spy_05: CardDefinition = {
     "Backstab. Stealth — 3 turns. On deploy, draw 2. The Human trained only a handful of apprentices and none of them know each other. They will not meet in the sequel. That's the point.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const SPY_CLASS_CARDS: readonly CardDefinition[] = Object.freeze([

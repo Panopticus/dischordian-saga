@@ -22,6 +22,7 @@ export const drm_alleg_t1: CardDefinition = {
     "Unlocked by playing 10 Dreamer matches. Flying. An acolyte has not yet dreamed their future — they are still waiting for permission to stop being afraid of it.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };
 
 export const drm_alleg_t2: CardDefinition = {
@@ -45,6 +46,7 @@ export const drm_alleg_t2: CardDefinition = {
     "Unlocked by playing 25 Dreamer matches. Flying. On deploy, draw 1. A visionary has started to recognize the pattern and has not yet learned to hide that they are recognizing it.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 1,
 };
 
 export const drm_alleg_t3: CardDefinition = {
@@ -62,6 +64,7 @@ export const drm_alleg_t3: CardDefinition = {
     "Unlocked by playing 50 Dreamer matches. Flying. Dispel. A Dreamer veteran has been wrong enough times to be trusted with being right.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };
 
 export const drm_alleg_t4: CardDefinition = {
@@ -85,6 +88,7 @@ export const drm_alleg_t4: CardDefinition = {
     "Unlocked by winning 10 Dreamer matches. Flying. Dispel. On deploy, draw 1. A seer who has won has stopped being surprised and started being concerned.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };
 
 export const drm_alleg_t5: CardDefinition = {
@@ -102,6 +106,7 @@ export const drm_alleg_t5: CardDefinition = {
     "Unlocked by winning 50 Dreamer matches. Flying. Dispel. Forcefield. An Elite Dreamer dreams the match before it happens and remembers having already lived it, which is terrifying for everybody at the table including the Elite.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const drm_alleg_t6: CardDefinition = {
@@ -125,6 +130,7 @@ export const drm_alleg_t6: CardDefinition = {
     "Unlocked by winning 100 Dreamer matches. Flying. Dispel. Forcefield. On deploy, draw 3. The Dreamer Champion is the Dreamer herself, making herself briefly available for one match because you have done the work.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const DREAMER_ALLEGIANCE_CARDS: readonly CardDefinition[] = Object.freeze([

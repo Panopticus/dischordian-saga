@@ -67,4 +67,5 @@ export const cardDef: CardDefinition = {
     "The frequency was supposed to be extinct. It came back screaming.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

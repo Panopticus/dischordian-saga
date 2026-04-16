@@ -28,6 +28,7 @@ export const the_architect_t1: CardDefinition = {
     "A tall silhouette in a perfectly symmetric coat. You cannot see the face. The face is not the point.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 1,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -48,6 +49,7 @@ export const the_architect_t2: CardDefinition = {
     "Provoke. He does not fight for attention. He redirects it, and it moves the way a satellite moves when a planet asks it to.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -68,6 +70,7 @@ export const the_architect_t3: CardDefinition = {
     "Provoke. Grow. The Architect gets larger on turns you were hoping he would be getting smaller.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -88,6 +91,7 @@ export const the_architect_t4: CardDefinition = {
     "Provoke. Grow. Forcefield. The Architect's physical presence is a rendering of a decision already made about whether he will be harmed today.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -119,6 +123,7 @@ export const the_architect_t5: CardDefinition = {
     "Provoke. Grow. Forcefield. On deploy, silence the enemy general. The Architect is not a villain because he is angry with you. He is the terrain you are trying to build on, and the terrain was here first, and it has opinions about what counts as a foundation.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const THE_ARCHITECT_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([

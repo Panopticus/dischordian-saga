@@ -52,4 +52,5 @@ export const cardDef: CardDefinition = {
     "COO of the Hierarchy. Commands the Blood Weave's armies across 17 dimensions simultaneously with six tireless arms.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

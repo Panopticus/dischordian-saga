@@ -43,4 +43,5 @@ export const cardDef: CardDefinition = {
     "It dreams of an impenetrable wall. And so the wall exists.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

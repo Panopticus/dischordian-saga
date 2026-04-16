@@ -44,4 +44,5 @@ export const cardDef: CardDefinition = {
     "Every lens in the grid turns at once. To be seen is to be struck.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

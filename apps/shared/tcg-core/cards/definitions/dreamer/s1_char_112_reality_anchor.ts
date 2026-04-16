@@ -53,4 +53,5 @@ export const cardDef: CardDefinition = {
     "In a world of shifting probabilities, certainty is the heaviest chain.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "evidence"] as const,
+  verdict_delta: 1,
 };

@@ -53,4 +53,5 @@ export const cardDef: CardDefinition = {
     "In the deepest recursion of the Dreamer's sleep, a light persisted. It called itself Lux, and it refused to go out.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

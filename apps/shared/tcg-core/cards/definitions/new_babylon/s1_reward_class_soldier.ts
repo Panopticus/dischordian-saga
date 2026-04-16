@@ -48,4 +48,5 @@ export const cardDef: CardDefinition = {
     "New Babylon's finest don't ask for orders. They are the order.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

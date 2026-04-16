@@ -63,4 +63,5 @@ export const cardDef: CardDefinition = {
     "Before the Architect, before the Insurgency, before the Virus and the Dream — there was this. The moment everything began.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

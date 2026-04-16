@@ -48,4 +48,5 @@ export const cardDef: CardDefinition = {
     "Cipher does not think. Cipher computes. The distinction matters only to those who lose to it.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

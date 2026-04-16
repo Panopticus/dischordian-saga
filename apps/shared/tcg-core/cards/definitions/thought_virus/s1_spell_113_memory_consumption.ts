@@ -44,4 +44,5 @@ export const cardDef: CardDefinition = {
     "It ate his name first, then his childhood. By the time it reached his fears, there was nothing left to be afraid.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

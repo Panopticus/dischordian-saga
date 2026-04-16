@@ -35,4 +35,5 @@ export const cardDef: CardDefinition = {
     "It carries messages no one else dares to deliver — and pays for it with its brief, bright life.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

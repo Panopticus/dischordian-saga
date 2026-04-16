@@ -18,6 +18,7 @@ export const the_detective_t1: CardDefinition = {
   flavorText: "A long coat in a doorway. He has been there for three seconds and already knows who you are.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 1,
 };
 
 export const the_detective_t2: CardDefinition = {
@@ -35,6 +36,7 @@ export const the_detective_t2: CardDefinition = {
   flavorText: "Backstab. On deploy, draw 1. He has already read the next page of the case file.",
   rulesVersion: "1.0.0",
   trial_categories: ["evidence"] as const,
+  verdict_delta: 1,
 };
 
 export const the_detective_t3: CardDefinition = {
@@ -52,6 +54,7 @@ export const the_detective_t3: CardDefinition = {
   flavorText: "Backstab. Deathwatch. On deploy, draw 1. Every corpse is evidence and evidence compounds.",
   rulesVersion: "1.0.0",
   trial_categories: ["evidence"] as const,
+  verdict_delta: 1,
 };
 
 export const the_detective_t4: CardDefinition = {
@@ -69,6 +72,7 @@ export const the_detective_t4: CardDefinition = {
   flavorText: "Backstab. Deathwatch. On deploy, draw 2. He is already reading three pages ahead. He is reading the ending. He is tolerating the ending.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const the_detective_t5: CardDefinition = {
@@ -87,6 +91,7 @@ export const the_detective_t5: CardDefinition = {
     "Backstab. Deathwatch. On deploy, draw 3. The Detective has been working this case since the first chapter was a rumor. He already knows who did it, he already knows why, he is here because the reader still has to be shown.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const THE_DETECTIVE_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([

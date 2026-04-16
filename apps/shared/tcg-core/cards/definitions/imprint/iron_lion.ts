@@ -27,6 +27,7 @@ export const iron_lion_t1: CardDefinition = {
     "A roar at the edge of the perimeter. Whatever is coming, it has already committed to the charge.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 1,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -47,6 +48,7 @@ export const iron_lion_t2: CardDefinition = {
     "Provoke. You stand between your people and the approaching thing whether or not the thing is approaching your people.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -78,6 +80,7 @@ export const iron_lion_t3: CardDefinition = {
     "Provoke. Rush. The Iron Lion does not believe in pacing. He believes in arrival.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -120,6 +123,7 @@ export const iron_lion_t4: CardDefinition = {
     "Provoke. Rush. +2 power this turn on deploy. When he shows up, the people next to him remember why they signed up.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -164,6 +168,7 @@ export const iron_lion_t5: CardDefinition = {
     "Provoke. Frenzy. Rush. +3 power this turn on deploy. The Insurgency was a rumor before the Iron Lion showed up. After he showed up it was the shape of a fist, and the fist was already moving.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 /** All five Iron Lion imprint tiers in tier order. */

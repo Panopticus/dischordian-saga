@@ -54,4 +54,5 @@ export const cardDef: CardDefinition = {
     "She built something from nothing. Now nothing can tear it down.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

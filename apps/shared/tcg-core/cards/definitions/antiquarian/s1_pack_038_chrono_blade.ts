@@ -34,4 +34,5 @@ export const cardDef: CardDefinition = {
     "The first cut opens the wound. The second cut is already healing when you notice the third.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

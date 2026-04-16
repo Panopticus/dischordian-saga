@@ -54,4 +54,5 @@ export const cardDef: CardDefinition = {
     "She doesn't flinch. She hasn't flinched since Silver rank. The arena burned that reflex out of her.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

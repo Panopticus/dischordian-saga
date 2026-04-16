@@ -56,4 +56,5 @@ export const cardDef: CardDefinition = {
     "The vote is called. The Archive opens. Democracy remembers what tyrants forget.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "evidence"] as const,
+  verdict_delta: 1,
 };

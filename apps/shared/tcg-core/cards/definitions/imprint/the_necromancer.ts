@@ -24,6 +24,7 @@ export const the_necromancer_t1: CardDefinition = {
     "A figure walking away from the viewer across a field of soft grey ash. He is not a skeleton. He is a person whose face is hidden because if you saw it you would recognize him.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 1,
 };
 
 export const the_necromancer_t2: CardDefinition = {
@@ -41,6 +42,7 @@ export const the_necromancer_t2: CardDefinition = {
     "Deathwatch. Every dying unit is a paragraph in a letter he has been writing to himself for longer than you have been alive.",
   rulesVersion: "1.0.0",
   trial_categories: ["reactive"] as const,
+  verdict_delta: 1,
 };
 
 export const the_necromancer_t3: CardDefinition = {
@@ -58,6 +60,7 @@ export const the_necromancer_t3: CardDefinition = {
     "Deathwatch. Rebirth. The Necromancer dies twice. The second time is the unmaking, not the death. He gets to choose.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };
 
 export const the_necromancer_t4: CardDefinition = {
@@ -85,6 +88,7 @@ export const the_necromancer_t4: CardDefinition = {
     "Deathwatch. Rebirth. Heals for 2 when he deals damage. Every strike leaves a flower of bone-white light behind where the target used to stand.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const the_necromancer_t5: CardDefinition = {
@@ -102,6 +106,7 @@ export const the_necromancer_t5: CardDefinition = {
     "Deathwatch. Rebirth. Drain. He unmakes his friends now, because the alternative is leaving them in the hands of people who would not know how to do it kindly. This card is the longest conversation he has been able to have about it.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const THE_NECROMANCER_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([

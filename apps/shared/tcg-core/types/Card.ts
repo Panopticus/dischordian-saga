@@ -144,6 +144,23 @@ export interface CardDefinition {
    * See docs/production/act1/warlord-three-move-mechanic.md §6.1.
    */
   warlord_only?: true;
+  /**
+   * Optional: the card's contribution to the §5.8 verdict-stream
+   * balance when played during an Authority trial. Integer in the
+   * range [-3, +3] per the spec's "public delta" phrasing; positive
+   * values push the balance toward Overturn, negative toward
+   * Sentence Passed. Absent values default to +1 per
+   * engine/trialPhase.ts's PLACEHOLDER_PLAY_DELTA — authoring a real
+   * value per card refines §5.8 balance beyond the placeholder
+   * (spec §7 open design item "per-card delta authoring").
+   *
+   * Heuristic for the initial backfill (see balance/verdictDelta
+   * Proposer.ts): defensive 0/+1, evidence +1/+2, narrative +1,
+   * reactive +1, confession -2 (trade-off), uncategorized 0. Offensive-
+   * only cards don't appear in §5.8 (no phase admits them), so their
+   * delta is never read — proposer still emits 0 for completeness.
+   */
+  verdict_delta?: number;
 }
 
 /** Forward-declared. Full shape lives in types/Trigger.ts. */

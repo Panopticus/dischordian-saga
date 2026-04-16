@@ -29,6 +29,7 @@ export const air_01: CardDefinition = {
     "Flying. On deploy, draw 1. A breeze is the part of the air that has been given something to do and does not yet know by whom.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 1,
 };
 
 export const air_02: CardDefinition = {
@@ -46,6 +47,7 @@ export const air_02: CardDefinition = {
     "Flying. 3/3 for three. The skyrider does not ride anything. The air has agreed to behave like something that can be ridden, and she has agreed to keep agreeing.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };
 
 export const air_03: CardDefinition = {
@@ -68,6 +70,7 @@ export const air_03: CardDefinition = {
     "Draw 2 cards. A gale chorus is a wind that has learned to sing in chorus because no individual wind was willing to commit to the key.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const air_04: CardDefinition = {
@@ -85,6 +88,7 @@ export const air_04: CardDefinition = {
     "Flying. Dispel. A cyclone does not announce itself. The Cyclone Herald is what the cyclone sends ahead to clear the weather of other weather.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const air_05: CardDefinition = {
@@ -108,6 +112,7 @@ export const air_05: CardDefinition = {
     "Flying. Dispel. On deploy, draw 3. The Breath Before Language is the quarter-second of air you are about to use to say the thing you have not yet committed to. He is wearing it as a coat.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const AIR_ELEMENT_CARDS: readonly CardDefinition[] = Object.freeze([

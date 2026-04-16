@@ -57,4 +57,5 @@ export const cardDef: CardDefinition = {
     "They never see us coming. That is the point.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive", "reactive"] as const,
+  verdict_delta: 1,
 };

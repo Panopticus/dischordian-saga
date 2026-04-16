@@ -40,4 +40,5 @@ export const cardDef: CardDefinition = {
     "It does not speak. It does not need to. Every blow is a sentence erased from your memory.",
   rulesVersion: "1.0.0",
   trial_categories: ["evidence"] as const,
+  verdict_delta: 1,
 };

@@ -48,4 +48,5 @@ export const cardDef: CardDefinition = {
     "Between worlds, it learned to walk on light.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

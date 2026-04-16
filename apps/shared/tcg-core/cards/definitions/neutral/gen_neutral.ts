@@ -43,4 +43,5 @@ export const cardDef: CardDefinition = {
     "Created to serve the Empire. Chose to protect the Potentials instead. Compassion is the most defiant subroutine.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

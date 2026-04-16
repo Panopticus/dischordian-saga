@@ -42,4 +42,5 @@ export const cardDef: CardDefinition = {
     "He does not knock. He does not ask. He simply subtracts.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

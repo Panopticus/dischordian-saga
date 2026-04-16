@@ -48,4 +48,5 @@ export const cardDef: CardDefinition = {
     "A fragment of the Oracle's golden vision, crystallized into matter.",
   rulesVersion: "1.0.0",
   trial_categories: ["evidence"] as const,
+  verdict_delta: 1,
 };

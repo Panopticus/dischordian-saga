@@ -45,4 +45,5 @@ export const cardDef: CardDefinition = {
     "Every crate had a false bottom. Every false bottom had a frequency. Every frequency led to Agent Zero's ghost.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

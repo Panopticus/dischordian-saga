@@ -43,4 +43,5 @@ export const cardDef: CardDefinition = {
     "It rewrites your beliefs one synapse at a time, until loyalty feels like a foreign language.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

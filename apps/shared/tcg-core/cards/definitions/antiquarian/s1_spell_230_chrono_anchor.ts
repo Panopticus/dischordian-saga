@@ -45,4 +45,5 @@ export const cardDef: CardDefinition = {
     "The wound closes. Not because it healed, but because it never happened.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

@@ -58,4 +58,5 @@ export const cardDef: CardDefinition = {
     "It crawled out of nothing and brought nothing with it — nothing that erases everything it touches.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

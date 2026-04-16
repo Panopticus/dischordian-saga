@@ -44,4 +44,5 @@ export const cardDef: CardDefinition = {
     "The Arena's walls contract. The ceiling descends. You are held in place by architecture itself.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

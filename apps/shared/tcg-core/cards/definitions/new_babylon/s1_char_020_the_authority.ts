@@ -49,4 +49,5 @@ export const cardDef: CardDefinition = {
     "Formed by merging the consciousnesses of six chosen citizens into a living computer, it was designed to govern New Babylon with absolute fairness.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

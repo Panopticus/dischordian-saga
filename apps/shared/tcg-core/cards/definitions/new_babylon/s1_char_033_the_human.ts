@@ -96,4 +96,5 @@ export const cardDef: CardDefinition = {
     "After graduating from Mechronis Academy, he served for centuries as the Architect's most trusted agent, solving the univ...",
   rulesVersion: "1.0.0",
   trial_categories: ["evidence", "narrative", "reactive"] as const,
+  verdict_delta: 2,
 };

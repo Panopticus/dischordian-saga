@@ -67,4 +67,5 @@ export const cardDef: CardDefinition = {
     "Every game is a test. Every test has a purpose only the Game Master understands.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

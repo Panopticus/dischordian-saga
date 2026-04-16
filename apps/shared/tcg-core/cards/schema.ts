@@ -727,6 +727,12 @@ export const cardDefinitionSchema = z
      *  builder; they appear only in scripted opponent decks. See
      *  docs/production/act1/warlord-three-move-mechanic.md §6.1. */
     warlord_only: z.literal(true).optional(),
+    /** §5.8 verdict-stream delta. Integer in [-3, +3]; absent
+     *  defaults to PLACEHOLDER_PLAY_DELTA (+1) per
+     *  engine/trialPhase.ts. See
+     *  docs/production/act1/authority-trial-phase-mechanic.md §3 for
+     *  how the delta composes into the trial balance. */
+    verdict_delta: z.number().int().min(-3).max(3).optional(),
   })
   .strict()
   .superRefine((card, ctx) => {

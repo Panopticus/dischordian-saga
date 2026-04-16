@@ -47,4 +47,5 @@ export const cardDef: CardDefinition = {
     "The routes that don't appear on any chart are the ones that pay the most.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

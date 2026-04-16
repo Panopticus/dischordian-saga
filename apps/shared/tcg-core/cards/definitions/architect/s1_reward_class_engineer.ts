@@ -56,4 +56,5 @@ export const cardDef: CardDefinition = {
     "The Engineer doesn't fight — she builds things that do.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

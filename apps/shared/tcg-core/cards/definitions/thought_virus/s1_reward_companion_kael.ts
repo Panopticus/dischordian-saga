@@ -57,4 +57,5 @@ export const cardDef: CardDefinition = {
     "Before the infection, Kael was someone worth remembering. His memory still cuts.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

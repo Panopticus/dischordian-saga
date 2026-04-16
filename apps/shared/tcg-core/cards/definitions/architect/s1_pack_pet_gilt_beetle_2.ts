@@ -50,4 +50,5 @@ export const cardDef: CardDefinition = {
     "Iron remembers the shape it was forged into. It does not bend.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

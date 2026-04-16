@@ -49,4 +49,5 @@ export const cardDef: CardDefinition = {
     "It does not kill. It diminishes. By the time you notice, you are less than you were.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

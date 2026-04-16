@@ -53,4 +53,5 @@ export const cardDef: CardDefinition = {
     "Checkmate in four. The opponent saw it in three. By then, it was already too late.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

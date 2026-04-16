@@ -56,4 +56,5 @@ export const cardDef: CardDefinition = {
     "She watched the Truth-seekers burn and the Defiant fall. She watched the Empaths weep and the Stoics endure. Then she wrote it all down.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

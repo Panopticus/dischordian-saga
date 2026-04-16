@@ -48,4 +48,5 @@ export const cardDef: CardDefinition = {
     "She reads your hand before you've looked at it yourself.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

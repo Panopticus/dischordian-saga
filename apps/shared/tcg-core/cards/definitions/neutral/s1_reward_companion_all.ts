@@ -56,4 +56,5 @@ export const cardDef: CardDefinition = {
     "Every companion she ever bonded with left a mark. She carries them all into battle.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

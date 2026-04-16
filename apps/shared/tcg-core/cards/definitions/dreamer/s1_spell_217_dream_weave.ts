@@ -41,4 +41,5 @@ export const cardDef: CardDefinition = {
     "She dreamed of an army. When she woke, they were already marching.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

@@ -34,4 +34,5 @@ export const cardDef: CardDefinition = {
     "A speck against the grey sky — but it sees everything beneath it.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive", "reactive"] as const,
+  verdict_delta: 1,
 };

@@ -65,4 +65,5 @@ export const cardDef: CardDefinition = {
     "Full sentience. Full awareness. She sees everything — and she chooses to heal.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

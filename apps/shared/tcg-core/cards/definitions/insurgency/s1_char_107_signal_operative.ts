@@ -49,4 +49,5 @@ export const cardDef: CardDefinition = {
     "Kill the messenger. The message was sent three seconds before you arrived.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "reactive"] as const,
+  verdict_delta: 1,
 };

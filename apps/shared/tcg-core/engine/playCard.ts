@@ -186,7 +186,7 @@ export function handlePlayCard(
         };
       }
       // §5.8 trial bookkeeping (no-op on non-trial matches).
-      applyTrialPlay(draft, card.defId, ctx.events);
+      applyTrialPlay(draft, def, ctx.events);
       return undefined;
     }
 
@@ -231,7 +231,7 @@ export function handlePlayCard(
         interpret(ability.effect as Effect, execCtx, draft, ctx);
       }
       // §5.8 trial bookkeeping (no-op on non-trial matches).
-      applyTrialPlay(draft, card.defId, ctx.events);
+      applyTrialPlay(draft, def, ctx.events);
       return undefined;
     }
 
@@ -283,7 +283,7 @@ export function handlePlayCard(
         interpret(ability.effect as Effect, execCtx, draft, ctx);
       }
       // §5.8 trial bookkeeping (no-op on non-trial matches).
-      applyTrialPlay(draft, card.defId, ctx.events);
+      applyTrialPlay(draft, def, ctx.events);
       return undefined;
     }
 

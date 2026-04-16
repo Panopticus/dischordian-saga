@@ -52,4 +52,5 @@ export const cardDef: CardDefinition = {
     "It moves through time the way other creatures move through space — with terrifying, casual ease.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

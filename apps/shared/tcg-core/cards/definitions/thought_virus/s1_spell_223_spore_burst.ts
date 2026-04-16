@@ -37,4 +37,5 @@ export const cardDef: CardDefinition = {
     "It lands softly, barely noticed. By the time you notice, the battlefield is a garden of infection.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

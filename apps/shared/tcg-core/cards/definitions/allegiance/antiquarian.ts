@@ -23,6 +23,7 @@ export const ant_alleg_t1: CardDefinition = {
     "Unlocked by playing 10 Antiquarian matches. Grow. An apprentice has not yet been told which ending of the twelve possible endings they are currently working toward. They will figure it out around tier 4.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 1,
 };
 
 export const ant_alleg_t2: CardDefinition = {
@@ -46,6 +47,7 @@ export const ant_alleg_t2: CardDefinition = {
     "Unlocked by playing 25 Antiquarian matches. Grow. On deploy, draw 1. A scholar has read the page the opponent is about to write.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 1,
 };
 
 export const ant_alleg_t3: CardDefinition = {
@@ -63,6 +65,7 @@ export const ant_alleg_t3: CardDefinition = {
     "Unlocked by playing 50 Antiquarian matches. Grow. Rebirth. A curator does not die. A curator rotates into storage and waits.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };
 
 export const ant_alleg_t4: CardDefinition = {
@@ -80,6 +83,7 @@ export const ant_alleg_t4: CardDefinition = {
     "Unlocked by winning 10 Antiquarian matches. Grow. Rebirth. Forcefield. A victorious lorekeeper has been in the library during a fire and has chosen which three books to carry out.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };
 
 export const ant_alleg_t5: CardDefinition = {
@@ -103,6 +107,7 @@ export const ant_alleg_t5: CardDefinition = {
     "Unlocked by winning 50 Antiquarian matches. Grow. Rebirth. Forcefield. On deploy, draw 2. An archive-keeper is the only person who knows where the complete ending catalogue is shelved. The Antiquarian does not. He is waiting to be told.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "evidence", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const ant_alleg_t6: CardDefinition = {
@@ -126,6 +131,7 @@ export const ant_alleg_t6: CardDefinition = {
     "Unlocked by winning 100 Antiquarian matches. Grow. Rebirth. Forcefield. On deploy, draw 3. The Antiquarian Champion is the Antiquarian himself, briefly willing to sit across the table from you because you have become one of the twelve possible endings and he wants to be on the record as having liked this one.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "evidence", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const ANTIQUARIAN_ALLEGIANCE_CARDS: readonly CardDefinition[] = Object.freeze([

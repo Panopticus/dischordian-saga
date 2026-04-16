@@ -76,4 +76,5 @@ export const cardDef: CardDefinition = {
     "Unbound by allegiance, the Seer identifies opportunities and dangers, providing foresight that often shifts the balance ...",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "evidence"] as const,
+  verdict_delta: 1,
 };

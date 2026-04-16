@@ -67,4 +67,5 @@ export const cardDef: CardDefinition = {
     "The full prophecy realized. Every enemy frozen in the light of absolute foresight.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

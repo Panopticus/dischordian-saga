@@ -57,4 +57,5 @@ export const cardDef: CardDefinition = {
     "When it spreads its wings, the battlefield remembers how to fight.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

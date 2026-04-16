@@ -38,4 +38,5 @@ export const cardDef: CardDefinition = {
     "The Architect stamps its mark on everything — even its pets.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

@@ -46,4 +46,5 @@ export const cardDef: CardDefinition = {
     "When the Cycle turns, the first light is always the coldest. But it is light nonetheless.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

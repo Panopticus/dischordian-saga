@@ -52,4 +52,5 @@ export const cardDef: CardDefinition = {
     "The Fall broke everything. The echoes put some of it back.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

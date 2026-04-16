@@ -240,17 +240,23 @@ export function checkPhaseAdmissibility(
 /**
  * Apply the post-play side effects of an admissible play to the
  * trial state. Called by playCard.ts AFTER the play succeeds:
- *  - Bumps `trialBalance` by the per-card delta (currently a
- *    +1 placeholder — see PLACEHOLDER_PLAY_DELTA above).
+ *  - Bumps `trialBalance` by the card's authored `verdict_delta`
+ *    (or PLACEHOLDER_PLAY_DELTA when the field is absent).
  *  - Sets the single-play flag on phases 2 / 9.
  *  - Emits `trial_balance_changed` for the UI.
  *
  * No-op when `state.trial` is undefined (non-§5.8 matches) or the
  * current turn is past the trial's 10 phases.
+ *
+ * Takes the full CardDefinition (not just the defId) so the
+ * authored per-card `verdict_delta` can be read directly without
+ * a registry round-trip. Callers that have already resolved the
+ * def (playCard.ts has `def` in scope) pass it through; tests can
+ * construct stub defs.
  */
 export function applyTrialPlay(
   draft: Draft<GameState>,
-  cardDefId: string,
+  card: CardDefinition,
   events: GameEvent[],
 ): void {
   if (!draft.trial) return;
@@ -259,12 +265,12 @@ export function applyTrialPlay(
   const rule = PHASE_RULES[phase];
 
   const player = draft.currentPlayer;
-  const delta = PLACEHOLDER_PLAY_DELTA;
+  const delta = card.verdict_delta ?? PLACEHOLDER_PLAY_DELTA;
   draft.trial.trialBalance += delta;
   events.push({
     type: "trial_balance_changed",
     player,
-    cardDefId,
+    cardDefId: String(card.id),
     delta,
     newBalance: draft.trial.trialBalance,
   });

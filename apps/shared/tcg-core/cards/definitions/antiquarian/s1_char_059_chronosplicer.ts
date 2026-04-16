@@ -41,4 +41,5 @@ export const cardDef: CardDefinition = {
     "She cuts time the way a surgeon cuts flesh — precisely, and without remorse.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

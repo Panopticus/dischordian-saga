@@ -52,4 +52,5 @@ export const cardDef: CardDefinition = {
     "Cameras cycle every 43 seconds. I have 31. The Collector wiped your memory. But not your instincts.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

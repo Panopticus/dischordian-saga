@@ -93,4 +93,5 @@ export const cardDef: CardDefinition = {
     "A. The CoNexus was an advanced construct initially designed as a universal dimensional bridge, later evolved by the Architect into something far more dangerous.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "evidence", "narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

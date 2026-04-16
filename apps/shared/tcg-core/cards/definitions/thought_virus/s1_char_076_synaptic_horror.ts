@@ -34,4 +34,5 @@ export const cardDef: CardDefinition = {
     "It lives in the gap between a dying thought and the silence that follows.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "reactive"] as const,
+  verdict_delta: 2,
 };

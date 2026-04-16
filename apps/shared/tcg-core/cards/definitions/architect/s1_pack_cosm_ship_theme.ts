@@ -55,4 +55,5 @@ export const cardDef: CardDefinition = {
     "A piece of the Ark, corrupted beyond recognition. It still remembers how to erase.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

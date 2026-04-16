@@ -47,4 +47,5 @@ export const cardDef: CardDefinition = {
     "Deciding the fate of individuals, civilizations, and ideologies, the Judge is guided solely by their perception of balan...",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

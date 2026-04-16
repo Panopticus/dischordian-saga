@@ -49,4 +49,5 @@ export const cardDef: CardDefinition = {
     "It feeds from behind. You won't feel it until it's too late.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "reactive"] as const,
+  verdict_delta: 1,
 };

@@ -41,4 +41,5 @@ export const cardDef: CardDefinition = {
     "Its final transmission contained more intelligence than its entire operational lifespan.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "reactive"] as const,
+  verdict_delta: 1,
 };

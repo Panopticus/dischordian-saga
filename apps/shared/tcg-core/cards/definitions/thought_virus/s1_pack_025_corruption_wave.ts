@@ -60,4 +60,5 @@ export const cardDef: CardDefinition = {
     "The wave does not discriminate. It consumes friend and foe alike. But the Virus always feeds on what remains.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

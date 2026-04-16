@@ -49,4 +49,5 @@ export const cardDef: CardDefinition = {
     "Zero losses. Zero compromises. Every pick was perfect.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

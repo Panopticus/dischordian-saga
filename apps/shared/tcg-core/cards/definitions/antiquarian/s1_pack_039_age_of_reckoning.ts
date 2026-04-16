@@ -69,4 +69,5 @@ export const cardDef: CardDefinition = {
     "The old age crumbles. The new age mends what it can. The cycle continues.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "offensive"] as const,
+  verdict_delta: 1,
 };

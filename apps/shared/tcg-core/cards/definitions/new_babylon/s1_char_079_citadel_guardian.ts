@@ -35,4 +35,5 @@ export const cardDef: CardDefinition = {
     "The walls of New Babylon have never been breached. The guardians intend to keep it that way.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

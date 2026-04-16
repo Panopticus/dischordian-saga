@@ -49,4 +49,5 @@ export const cardDef: CardDefinition = {
     "Born from corrupted packet headers and the dreams of dead servers.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

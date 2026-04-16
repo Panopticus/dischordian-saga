@@ -46,4 +46,5 @@ export const cardDef: CardDefinition = {
     "The Fall echoes still. Listen closely and you can hear it.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 1,
 };

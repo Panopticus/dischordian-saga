@@ -43,4 +43,5 @@ export const cardDef: CardDefinition = {
     "Loyalty is expensive. Disloyalty, more so.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

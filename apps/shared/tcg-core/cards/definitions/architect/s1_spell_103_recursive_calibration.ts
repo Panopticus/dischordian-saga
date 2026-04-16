@@ -45,4 +45,5 @@ export const cardDef: CardDefinition = {
     "Error detected in subsystem 7-Kappa. Initiating forced recalibration. Estimated downtime: one operational cycle.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

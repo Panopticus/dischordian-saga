@@ -99,4 +99,5 @@ export const cardDef: CardDefinition = {
     "Existing beyond time and space, the Dreamer shapes futures and scenarios that benefit the Ne-Yons. Aloof from galactic s...",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "evidence", "narrative", "reactive"] as const,
+  verdict_delta: 2,
 };

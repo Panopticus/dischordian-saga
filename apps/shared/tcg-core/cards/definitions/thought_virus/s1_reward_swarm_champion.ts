@@ -52,4 +52,5 @@ export const cardDef: CardDefinition = {
     "Fifty waves. Then silence. The Protocol does not distinguish between the infected and the merely unlucky.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

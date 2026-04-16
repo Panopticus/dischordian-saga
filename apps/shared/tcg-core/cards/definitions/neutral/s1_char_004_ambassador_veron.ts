@@ -95,4 +95,5 @@ export const cardDef: CardDefinition = {
     "Posing as a diplomat from the neutral planet Thessolar, she utilized this cover to engage in diplomatic relations with various factions.",
   rulesVersion: "1.0.0",
   trial_categories: ["evidence", "reactive"] as const,
+  verdict_delta: 1,
 };

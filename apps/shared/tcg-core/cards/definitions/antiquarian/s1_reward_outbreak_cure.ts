@@ -53,4 +53,5 @@ export const cardDef: CardDefinition = {
     "The cure was written before the disease existed. The Antiquarian always knew what was coming.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

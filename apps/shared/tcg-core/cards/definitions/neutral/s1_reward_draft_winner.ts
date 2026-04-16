@@ -58,4 +58,5 @@ export const cardDef: CardDefinition = {
     "She builds winning decks from other people's leftovers.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };
