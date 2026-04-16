@@ -1831,4 +1831,213 @@ plays too fast. The mechanic is the emotion.
   voice profile — the adult shoulder-narration barks in B5 use
   this existing profile)
 
+### 2.10 Vernon Vortex — Cycle C1 opponent (Battle of Nexon, "First Form")
+
+The first Cycle C boss and canonically the player's first
+encounter with a **cosmic-scale Archon** in the Engineer's memory.
+Per DSFGL line 2467, C1 is the Battle of Nexon — a survival
+puzzle, not a win condition. The player cannot win this match.
+They can only last long enough for the Engineer's memory to
+render the survivability lesson.
+
+Vernon is the personified avatar of **the Vortex** — canonically
+the cosmic force that wiped the Nexon battlefield, that the
+Insurgency spent a decade trying to fight before they realized
+it was not a weapon but a weather system. Per user canon
+(§0.4-adjacent, 2026-04-15): *"Vernon is the personified avatar.
+It's a simulation so it's the cosmic being in the body of a
+child."* The Vortex is rendering itself in the Engineer's
+biographical memory as a preteen boy with peach fuzz and a sun
+T-shirt because that is the **least alarming possible shape** the
+cosmic entity could take, and the simulation preserves the
+Engineer's memory of what Vernon *felt* like: friendly, warm,
+completely undefeatable.
+
+The "First Form" label in DSFGL line 2467 is canonical: this is
+the *first time* the cosmic Vortex appears in the Engineer's
+life. It happens to appear as a preteen because that was the
+Engineer's last pure-hearted age when the Vortex first touched
+his awareness, and the simulation renders what the memory
+recorded. Later Vortex appearances (canonically in Acts 3+) will
+use different avatars, but the "First Form" is always Vernon.
+
+**Canonical visual (user-provided, 2026-04-15):**
+
+> Vernon Vortex is round-faced and cheerful, with short brown
+> hair, a small beard/goatee, and an orange T-shirt with a large
+> sun symbol.
+
+**Production expansion for this doc:**
+
+- **Age presentation:** approximately **twelve years old** —
+  preteen, just hitting the earliest signs of puberty. The
+  "small beard/goatee" from user canon is interpreted as **wispy
+  peach-fuzz chin hair** that a twelve-year-old is proud of and
+  convinced looks adult. It does not look adult. It looks like
+  what it is: a kid with some chin scruff for the first time in
+  his life. Render it as fine, light-brown hairs on the chin and
+  faintly along the jawline. **Not a drawn beard.** The
+  dissonance between "cosmic Vortex being" and "kid with first-
+  chin-hair" is the beat.
+- **Build:** slightly chubby, round-cheeked, healthy preteen
+  physique. Short for his age in a way that reads as "still
+  growing." Warm sun-kissed complexion — medium brown skin,
+  possibly Latinx or mixed-heritage (canonically ambiguous;
+  Vernon is the Vortex, his ethnicity is whatever the Engineer's
+  memory fills in, and the Engineer's Nexon cohort was diverse).
+- **Face:** round, open, cheerful. Wide easy grin showing front
+  teeth (one slightly chipped — he fell off something once,
+  laughed about it). Bright dark-brown eyes with a **too-intense
+  inner glow** that does not read as child-like. The eyes are
+  the tell: Vernon's face looks twelve, but his eyes are older
+  than the universe. Render the eye-glow as subtle — a 5%
+  brightness boost with warm-amber internal refraction, visible
+  in close-up shots only. Do not overdo it. The player should
+  think *"he's looking at me funny"* not *"that is a monster."*
+- **Hair:** short brown, slightly messy in the way preteen boys'
+  hair is messy at the end of a long day. Naturally straight
+  with a slight cowlick at the crown he has stopped trying to
+  fix.
+- **The peach-fuzz goatee:** canonical detail. Must be rendered.
+  It is wispy, sparse, embarrassingly proud. Vernon has decided
+  this is his *thing*. The other Insurgency children teased him
+  for it. He took the teasing as confirmation he looked mature.
+  Light brown hairs on the chin, patchy along the jaw. Do NOT
+  render as a stylized goatee — render as authentic early-puberty
+  fuzz. The authenticity is the beat.
+- **The orange T-shirt with sun symbol:** canonical and central
+  to his visual signature. Specifically:
+  - **Warm tangerine-orange** cotton T-shirt (`#f97316` reference
+    color), slightly too big — the kind of shirt a kid picks
+    because it's his favorite and he wears it even after he
+    outgrows a size
+  - **Large yellow sun symbol** centered on the chest, rendered
+    as a simple childlike sun: round yellow center with eight
+    straight ray lines radiating outward. Screen-printed, slightly
+    faded from washing. The sun is the **Vortex's canonical
+    sigil in its First Form appearance** — it will recur in
+    later-act Vortex content, always as the same childlike sun.
+    In Cycle C1's final board-wipe, the sun symbol canonically
+    **glows** for half a second before the wipe fires.
+  - Shirt is worn over blue jeans (regular kid denim, slightly
+    dusty at the knees — he's been outside) and white sneakers
+    with orange laces (he matched the laces on purpose).
+- **Body language:** bouncy, energetic, can't sit still. Vernon
+  is the **opposite** of Agent Zero's operational stillness and
+  Kanshi Sha's meditative stillness — he fidgets, taps his feet,
+  hums under his breath, drums his fingers on the card table.
+  The constant motion is canonically the cosmic Vortex expressing
+  its nature: the Vortex is the thing that moves, that cycles,
+  that never stops. Vernon's preteen body is struggling to
+  contain it. Every four turns, the body loses the struggle, and
+  the Vortex **wipes the board**.
+
+**Voice direction (Vortex Archon in a preteen body):**
+
+Per §2.0's canon hygiene rule, Vernon's voice is NOT a twelve-
+year-old's voice. The Vortex speaks through him, and the Vortex's
+voice is canonically **ancient, warm, and oceanic** — wide, slow
+breaths between phrases, a resonance that feels like speaking
+through a much larger space than a twelve-year-old's vocal tract.
+The warmth is genuine: Vernon / the Vortex does not hate the
+player. The Vortex is simply the Vortex. It wipes boards because
+that is what it does, the same way a tide comes in because it is
+a tide. There is no malice. There is also no mercy. The voice
+should convey both: fondness toward the player, and the
+inevitability of the wipe.
+
+Cadence is unhurried. Vernon does not interrupt himself. He does
+not speak quickly even in excitement. When the Vortex is about
+to wipe the board, the voice gets *slightly quieter* rather than
+louder — the way an ocean pulls back before a wave.
+
+New voice profile **`the_vortex_first_form`**. ElevenLabs target:
+`stability: 0.75`, `similarity_boost: 0.85`, `style: 0.40`
+(moderate-high stylization — the warm-oceanic resonance needs
+performance). Apply a subtle **sub-bass harmonic layer** at -24dB
+to every take, reinforcing the "speaking through a larger space"
+effect. The harmonic layer is not a reverb — it is an additive
+frequency that makes Vernon sound like he has more chest than
+his twelve-year-old ribcage could contain.
+
+**Canonical pre-match line** (INFERRED):
+
+> *"Hi! I'm Vernon. You can't win this one, but that's okay — I
+> need you to last. Every turn you're still here, the people you
+> came with get a little further away from the battlefield. This
+> is how you save them. By losing slowly. Are you ready? I'll
+> count us in."*
+
+Delivered with the Vortex's warm oceanic cadence through the
+preteen's voice. Vernon **counts the player in** — "three, two,
+one, go" — before the first turn begins. The count is audible on
+the battle audio mix. This is the only Act 1 battle with a
+spoken pre-match countdown, and it is the canonical signature of
+any future Vortex encounter (Acts 3+) — whenever the Vortex
+speaks, it counts you in.
+
+**Deck theme:** board wipes every 4 turns (survival puzzle, not
+a win condition). Per DSFGL line 2467, this battle **cannot be
+won** by defeating Vernon's general. The Engineer lost at Nexon;
+the biography cannot be rewritten. What the player *can* do is
+**last four turns**, then **last another four turns**, then
+**last a third four turns** — each four-turn cycle is a complete
+wipe of the board, and the player's score is the number of cycles
+they survived before their own deck ran empty. Each surviving
+cycle counts as a "save" — every turn the player is still on the
+board, canonical Insurgency refugees are getting further from the
+Nexon battlefield. The tutorial lesson is "not-winning is a valid
+outcome" — the first time in the Engineer's biography that the
+player is explicitly told they cannot win, and that the not-
+winning is *the point*.
+
+**Card unlock (awarded regardless of survival count):** *The
+Standstill* (Epic Light) — a card that, when played, lets the
+player delay a loss by one turn, once per match. Named after the
+canonical beat in Vernon's post-match dialog where he says "you
+stood still while the world moved around you, and that was
+enough." Light-aligned because refusing to lose is a form of
+faith, and Vernon / the Vortex canonically respects faith even
+when it is aimed against him.
+
+**Post-match canonical beats** (INFERRED — there is no "win"
+state for C1, only survival-count outcomes):
+
+- **High survival (3+ complete wipe cycles):** Vernon claps —
+  genuine, delighted, child-clap. *"Three! That's the best I've
+  seen in a while. The last one to last three was the Prince's
+  friend with the lion pin. You remind me of him."* The callback
+  to Iron Lion (§2.5) lands here — Vernon / the Vortex
+  canonically respects Iron Lion, which is the first player-
+  facing evidence that Iron Lion survived Nexon. Vernon then:
+  *"Okay. Go. They're waiting for you."* The battlefield
+  dissolves into the cross-fade to C2.
+- **Low survival (0-2 complete wipe cycles):** Vernon's smile
+  stays warm but dims slightly. *"That's okay. You're going to
+  get better at this. You have a lot of battles left to lose."*
+  He pats the air between them — a reassuring gesture across a
+  card table he will not come around. *"Go. They're still
+  waiting. You bought them enough."* The battlefield dissolves
+  into the cross-fade to C2.
+
+**Cross-references:**
+
+- §0.4 rule 3 (no CoNexus machine-god hints — the Vortex is a
+  separate cosmic entity, not CoNexus)
+- §2.0 (simulation framing — Vernon is the single-case of a
+  cosmic Archon rendered in child form during Cycle C, per user
+  canon. The intentional dissonance is the beat)
+- §13 (Cycle C1 battle section — full battle spec including the
+  four-turn wipe cycle timing, the sun-symbol pre-wipe glow, and
+  the preteen-body + cosmic-voice audio mix)
+- §2.5 (Young Iron Lion — Vernon's high-survival callback
+  canonically confirms Iron Lion survived Nexon, which affects
+  later-act Insurgency content)
+- DSFGL line 2467 (canonical "Battle of Nexon" / "First Form"
+  survival-puzzle framing)
+- Act 3+ Vortex content (flagged for continuity — the orange sun
+  sigil must recur in any future Vortex appearance, and the
+  countdown "three, two, one, go" is Vernon's canonical speech
+  signature)
+
 ---
