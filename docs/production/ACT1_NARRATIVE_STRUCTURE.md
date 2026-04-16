@@ -7,7 +7,7 @@ closes the act.
 
 **Status:** skeleton (October 2026). Opponent data shell exists at
 `apps/shared/act1Opponents.ts`; narrative beats exist at
-`apps/shared/narrativeActs.ts:78–372`. This doc formalizes the
+`apps/client/src/data/narrativeActs.ts:78–372`. This doc formalizes the
 Prelude-handoff contract, the three-cycle structure, and the per-
 opponent production slots so art / voice / cutscene pipelines can
 start shipping concurrently.
@@ -40,7 +40,7 @@ bindings land in subsequent revisions.
   `docs/production/prelude-asset-build/prompts/voice/log5/`).
 - Every asset path in this doc is relative to the repo root.
 - Canonical authority: `apps/shared/act1Opponents.ts` is the
-  data shell; `apps/shared/narrativeActs.ts` is the branching
+  data shell; `apps/client/src/data/narrativeActs.ts` is the branching
   dialog tree; this Bible is the connective tissue between
   them and the production pipelines.
 
@@ -190,7 +190,7 @@ by a single card — the one that gets handed to Malkia Ukweli).
 ### 2.3 The THE_SIGNAL interleave
 
 Act 1 isn't pure card battles. The `ACT_1_THE_SIGNAL` narrative
-tree at `apps/shared/narrativeActs.ts:78–372` interleaves with
+tree at `apps/client/src/data/narrativeActs.ts:78–372` interleaves with
 the cycles as ambient story moments in the Comms Array, Bridge,
 Archives, and Engineering rooms:
 
@@ -496,7 +496,9 @@ this room's brightness.
 
 After `little_watcher` completes and the `welcome-to-
 celebration` slideshow plays, the THE_SIGNAL tree unlocks its
-first branching node at `apps/shared/narrativeActs.ts:92`. The
+first branching node (`act1-s1-choice`, a `wheel_choice` with
+Path-A / Path-Secret shortText "INVESTIGATE" vs "KEEP HIDDEN")
+at `apps/client/src/data/narrativeActs.ts:111`. The
 player moves to the Comms Array, hears the Human's whisper for
 the first time in Act 1 proper, and makes the Path A /
 Path Secret choice before entering the Academy (§4).
