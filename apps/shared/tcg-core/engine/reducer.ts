@@ -36,6 +36,7 @@ import { handleMulligan, handleFinishMulligan } from "./mulligan";
 import { refreshTurnForPlayer } from "./turn";
 import { tickLockout } from "./lockout";
 import { drainScriptedActions } from "./scriptedActions";
+import { emitPhaseStartEvent, resolveTrialOutcome } from "./trialPhase";
 import { handlePlayCard as handlePlayCardReal } from "./playCard";
 import { handleMove as handleMoveReal } from "./movement";
 import { handleAttack as handleAttackReal } from "./combat";
@@ -425,6 +426,17 @@ function handleEndTurn(
     player: nextPlayer,
     turnNumber: draft.turnNumber,
   });
+  // §5.8 trial: emit phase_started for the new turn (no-op on non-
+  // trial matches). Resolve the verdict the moment we enter phase 10
+  // since phase 10 has no card play (spec §2 row 10 — pure
+  // resolution). The campaign layer reads `state.trial.outcome` to
+  // fire the §5.8.1 Last Words cutscene. Runs BEFORE the scripted-
+  // action drain so phase events land in narrative order (phase
+  // start → scripted plays → player input).
+  emitPhaseStartEvent(draft, ctx.events);
+  if (draft.trial && draft.turnNumber === 10) {
+    resolveTrialOutcome(draft, ctx.events);
+  }
   // Drain any scripted actions matching the new (turnNumber, side).
   // Story encounters use this to author set-piece plays the AI can't
   // be trusted to make on schedule (canonical case: §5.5 Warlord

@@ -80,7 +80,9 @@ export type ReduceErrorCode =
   | "unknown_card"
   | "match_ended"
   /** §5.5 Warlord lockout: player tried to play a card the lockout pinned. */
-  | "card_locked";
+  | "card_locked"
+  /** §5.8 Authority trial: card not admissible in the current phase. */
+  | "phase_violation";
 
 export interface ReduceError {
   code: ReduceErrorCode;

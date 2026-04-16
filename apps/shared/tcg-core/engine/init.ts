@@ -106,6 +106,14 @@ export interface CreateMatchOptionsExtras {
    * engine/scriptedActions.ts.
    */
   scriptedActions?: readonly import("../types/ScriptedAction").ScriptedAction[];
+  /**
+   * Optional §5.8 Authority trial mode. Setting this puts the
+   * resulting match into trial mode: phase guards are active in
+   * playCard, phase events fire in handleEndTurn, the verdict
+   * resolves at turn 10. See engine/trialPhase.ts +
+   * docs/production/act1/authority-trial-phase-mechanic.md.
+   */
+  trialMode?: import("../types/TrialPhase").TrialModeConfig;
 }
 
 export interface CreateMatchOptions extends CreateMatchOptionsExtras {
@@ -288,6 +296,14 @@ export function createMatchState(opts: CreateMatchOptions): GameState {
     actionSeq: 0,
     nextEntityCounter: counter + 1,
     scriptedActions: opts.scriptedActions,
+    trial: opts.trialMode
+      ? {
+          openingVerdictBalance: opts.trialMode.openingVerdictBalance,
+          trialBalance: 0,
+          openingArgumentPlayed: false,
+          closingArgumentPlayed: false,
+        }
+      : undefined,
   };
 }
 

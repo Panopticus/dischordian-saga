@@ -134,4 +134,30 @@ export type GameEvent =
       cardDefId: string;
       side: Side;
       globalTurn: number;
+    }
+  /**
+   * §5.8 Authority trial events. The campaign layer subscribes to
+   * `trial_verdict_resolved` to write the persistent
+   * `act1_authority_outcome` flag (per spec §6).
+   */
+  | { type: "trial_phase_started"; phaseNumber: number; phaseName: string }
+  | {
+      type: "trial_phase_violation";
+      player: Side;
+      cardDefId: string;
+      phaseNumber: number;
+      reason: string;
+    }
+  | {
+      type: "trial_balance_changed";
+      player: Side;
+      cardDefId: string;
+      delta: number;
+      newBalance: number;
+    }
+  | {
+      type: "trial_verdict_resolved";
+      outcome: "overturn" | "sentence_passed";
+      trialBalance: number;
+      threshold: number;
     };

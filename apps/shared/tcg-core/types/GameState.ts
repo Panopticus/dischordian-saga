@@ -16,6 +16,7 @@
 import type { CardInstance, Faction, CardDefinition } from "./Card";
 import type { EntityId, PlayerId, Side } from "./Ids";
 import type { ScriptedAction } from "./ScriptedAction";
+import type { TrialState } from "./TrialPhase";
 
 /** 9-wide, 5-tall board. Coordinates are (row 0..4, col 0..8). */
 export const BOARD_WIDTH = 9;
@@ -137,6 +138,13 @@ export interface GameState {
    * Moves cast on turn 3 is the canonical case).
    */
   scriptedActions?: readonly ScriptedAction[];
+  /**
+   * Optional: §5.8 Authority trial state. Present only on §5.8 matches
+   * (initialized via MatchConfig.trialMode). Each match turn IS a trial
+   * phase; phase number === turnNumber. Populated by engine/trialPhase.ts.
+   * See docs/production/act1/authority-trial-phase-mechanic.md.
+   */
+  trial?: TrialState;
 }
 
 /**
