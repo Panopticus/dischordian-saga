@@ -169,14 +169,21 @@ export function PreludeSequencePlayer({
       role="region"
       aria-label="Prelude sequence"
     >
-      {/* Room backdrop (webp) — cross-fades per beat */}
+      {/* Room backdrop (webp) — cross-fades per URL change, not per
+          beat change, so same-room transitions (Beat F → F.5, etc.)
+          don't re-mount the backdrop. Beat J's Archives backdrop
+          gets a slower fade because the Witnessing is the dramatic
+          landing; every other change is a standard 1.2s fade. */}
       <AnimatePresence mode="sync">
         <motion.div
-          key={`backdrop-${beat.id}`}
+          key={`backdrop-${roomBackdrop ?? "none"}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.2, ease: "easeInOut" }}
+          transition={{
+            duration: beat.id === "beat_j" ? 2.0 : 1.2,
+            ease: "easeInOut",
+          }}
           style={{
             position: "absolute",
             inset: 0,
