@@ -46,6 +46,7 @@ import { cardDef as s1_spell_235_age_of_silence } from "./definitions/antiquaria
 
 /* ─── Architect ─── */
 import { cardDef as gen_architect } from "./definitions/architect/gen_architect.ts";
+import { cardDef as gen_authority } from "./definitions/architect/gen_authority.ts";
 import { cardDef as s1_char_006_dr_lyra_vox } from "./definitions/architect/s1_char_006_dr_lyra_vox.ts";
 import { cardDef as s1_char_007_general_alarik } from "./definitions/architect/s1_char_007_general_alarik.ts";
 import { cardDef as s1_char_008_general_binath } from "./definitions/architect/s1_char_008_general_binath.ts";
@@ -518,6 +519,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_spell_234_preservation_field,
   s1_spell_235_age_of_silence,
   gen_architect,
+  gen_authority,
   s1_char_006_dr_lyra_vox,
   s1_char_007_general_alarik,
   s1_char_008_general_binath,

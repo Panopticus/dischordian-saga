@@ -227,6 +227,62 @@ export const DIALOG_CH12_LOSS: DialogScene = {
 };
 
 /* ═══════════════════════════════════════════════════════
+   §5.8 — THE AUTHORITY'S TRIAL (Act 1 finale)
+   The Authority speaks once per spec; the pre-match scene
+   is the only place its voice is authored. Win/loss cues
+   belong to Locke + narrator — the Authority's job ends
+   at the verdict, not at commentary.
+   ═══════════════════════════════════════════════════════ */
+
+export const DIALOG_AUTHORITY_TRIAL_PRE: DialogScene = {
+  id: "dialog_authority_trial_pre",
+  label: "§5.8 — Authority's Trial (pre-match)",
+  kind: "chapter_pre",
+  cues: [
+    {
+      speaker: "narrator",
+      mood: "reflective",
+      text: "The proceeding convenes. Ten phases. The Authority does not speak except to ask — and in the spaces between, the Empire listens to what you say.",
+      audioClipId: "vo_narr_authority_trial_pre_01",
+    },
+    {
+      speaker: "locke",
+      mood: "guarded",
+      text: "Counsel, a word. The categories matter. Play your defensive cards in the charge phase. Your narrative cards in the opening and closing arguments. Your evidence cards in the middle, and your reactive cards when the Authority cross-examines the record. Do not improvise.",
+      audioClipId: "vo_locke_authority_trial_pre_01",
+    },
+  ],
+};
+
+export const DIALOG_AUTHORITY_TRIAL_WIN: DialogScene = {
+  id: "dialog_authority_trial_win",
+  label: "§5.8 — Authority's Trial (overturn)",
+  kind: "chapter_post_win",
+  cues: [
+    {
+      speaker: "narrator",
+      mood: "reflective",
+      text: "The Authority overturns. The execution is delayed by one measure. You know — as the memoir narrator knows — that the Authority does not grant delays out of mercy. It grants them out of arithmetic.",
+      audioClipId: "vo_narr_authority_trial_win_01",
+    },
+  ],
+};
+
+export const DIALOG_AUTHORITY_TRIAL_LOSS: DialogScene = {
+  id: "dialog_authority_trial_loss",
+  label: "§5.8 — Authority's Trial (sentence passed)",
+  kind: "chapter_post_loss",
+  cues: [
+    {
+      speaker: "narrator",
+      mood: "grieving",
+      text: "The Authority passes sentence. The Engineer is executed. The memoir's narrator notes — gently, bitterly — that every trial reaches this ending on some playthrough, and the Empire is not unhappy when it does.",
+      audioClipId: "vo_narr_authority_trial_loss_01",
+    },
+  ],
+};
+
+/* ═══════════════════════════════════════════════════════
    BANK EXPORT
    ═══════════════════════════════════════════════════════ */
 
@@ -240,4 +296,7 @@ export const DIALOG_BANK_CHAPTERS_10_12: readonly DialogScene[] = Object.freeze(
   DIALOG_CH12_PRE,
   DIALOG_CH12_WIN,
   DIALOG_CH12_LOSS,
+  DIALOG_AUTHORITY_TRIAL_PRE,
+  DIALOG_AUTHORITY_TRIAL_WIN,
+  DIALOG_AUTHORITY_TRIAL_LOSS,
 ]);
