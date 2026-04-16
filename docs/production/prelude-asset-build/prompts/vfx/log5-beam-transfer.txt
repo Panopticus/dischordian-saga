@@ -1,0 +1,24 @@
+VFX ID:      vfx_log5_beam_transfer
+Beat:        J (Archives + Two Witnesses Meet Part 1)
+Bible:       §17.6, §18.5
+Duration:    3 seconds, one-shot
+File:        apps/client/public/art/vfx/prelude/log5-beam-transfer.webm
+Format:      1920×1080, VP9 WebM, alpha channel, 24fps, no audio
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+START FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Hyper-realistic cinematic still, 16:9, 4K, TRANSPARENT BACKGROUND with alpha channel. A bright cyan #22d3ee crystalline point at the left side of frame (representing the Log 5 memory-crystal in its dormant position). Size: 3cm diameter. Bright anamorphic flare. On the right side of frame, a darker cyan point representing the central pedestal's projection well, ~6cm diameter but dim (pre-activation). No beam between them yet. Background fully transparent. No rendered text. No room interior visible.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+END FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Same two cyan points, but now connected by a CURVED cyan #22d3ee beam that arcs upward between them (curving over the top ~20% of the frame like a rainbow arc — the bible notes this path curves around the domed ceiling's star-chart). The beam is 8-12px wide, with soft outer bloom extending 30px. Core brightness: brilliant cyan-white #e0f2fe. Edge fade: soft gradient to transparent. Both endpoints are now brighter than start — the crystal is slightly dimmed (having transferred) and the pedestal well is now brightly glowing. Anamorphic horizontal flare across the whole beam. Background transparent.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MOTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+At t=0s both endpoints dim (start frame). At t=0.2s the left crystal flares brilliantly. At t=0.4s a cyan particle beam emerges from the crystal and begins tracing along the curved bezier path toward the pedestal. The beam head is a bright moving point (like a comet) that leaves a glowing trail behind it. At t=1.6s the beam head reaches the pedestal well — impact bloom. At t=1.8s the trail (full beam) is visible along the entire bezier arc at peak brightness. At t=2.3s the pedestal well brightens significantly as the transfer completes. At t=2.8s the beam begins to softly fade along the trail, but the pedestal well remains bright. At t=3.0s holds on end frame with beam visible but dimmer than peak. 24fps. Majestic, ceremonial, the moment of truth — Log 5 is being played.

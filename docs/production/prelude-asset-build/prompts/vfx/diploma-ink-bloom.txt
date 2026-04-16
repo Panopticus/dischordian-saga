@@ -1,0 +1,24 @@
+VFX ID:      vfx_diploma_ink_bloom
+Beat:        E (Mess Hall / Prince's Archive)
+Bible:       §10.6, §18.1
+Duration:    2 seconds, one-shot
+File:        apps/client/public/art/vfx/prelude/diploma-ink-bloom.webm
+Format:      1920×1080, VP9 WebM, alpha channel, 24fps, no audio
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+START FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Hyper-realistic cinematic still, 16:9, 4K, TRANSPARENT BACKGROUND with alpha channel. Empty space with a faint hint of calligraphic ink marks on a rectangular area approximately 40cm × 30cm (landscape, like a framed diploma). Ink is barely visible at 10% opacity — dark brown #44403c flowing script shapes, deliberately illegible. Background fully transparent. No rendered readable text.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+END FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Same 40cm × 30cm rectangular region with a pale-gold #fde047 SOFT BLOOM tracing across the calligraphic ink. The ink itself remains at the same opacity — it's not getting brighter, the BLOOM is tracing along its pen strokes. The bloom creates a warm golden glow that follows every curve of the script, as if the ink is being illuminated from within by soft sunlight. Bloom intensity is strongest along horizontal script strokes. The text remains DELIBERATELY ILLEGIBLE — do not render actual words. Background transparent. Warm anamorphic flare on the widest bloom areas. No rendered readable text.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MOTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+At t=0s only faint ink visible. At t=0.2s a warm gold bloom seeds at the upper-left of the text area. The bloom expands along the ink strokes in a connected tracing motion, following the script as if reading it left-to-right, top-to-bottom. Path completes at t=1.6s when all strokes are bloomed. At t=1.8s the bloom settles to steady intensity. At t=2.0s holds on end frame. 24fps. Gentle, reverent, nostalgic — the memory of a credential that mattered once.

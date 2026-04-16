@@ -1,0 +1,27 @@
+VFX ID:      vfx_enigma_hand_on_rim
+Beat:        J (Archives + Two Witnesses Meet Part 1)
+Bible:       §17.6, §18.5
+Duration:    2 seconds, subtle one-shot
+File:        apps/client/public/art/vfx/prelude/enigma-hand-on-rim.webm
+Format:      1920×1080, VP9 WebM, alpha channel, 24fps, no audio
+
+Bible §17.6 flag: "SUBTLE — the player should register that she touched
+the rim, not that something magical happened." Do NOT over-design.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+START FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Hyper-realistic cinematic still, 16:9, 4K, TRANSPARENT BACKGROUND with alpha channel. A small localized cyan #22d3ee edge glow at the lower-left of frame, approximately 4cm × 3cm, representing where a hand rests on a pedestal rim. Glow is at 15% opacity. Very soft, barely noticeable. No hand or rim rendered — just the glow region. Background fully transparent.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+END FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Same glow region, now at 45% opacity — still subtle, but the player can see it. Cyan #22d3ee with the brightest intensity along a curved edge (following the rim shape). Soft bloom extends 15cm outward at 10% opacity. Anamorphic flare is minimal — this is an environmental ambient lighting cue, not a dramatic special effect. Background transparent.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MOTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+At t=0s 15% opacity glow (start). The glow intensifies smoothly from 15% to 45% over 1.8s in a single linear curve. The bloom halo grows outward in proportion. At t=2.0s holds on end frame. 24fps. VERY subtle. No flashes, no bursts, no dramatic bloom. This should register subliminally — the player should feel the Enigma's presence more than see it.

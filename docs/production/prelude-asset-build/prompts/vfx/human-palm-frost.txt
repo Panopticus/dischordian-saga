@@ -1,0 +1,28 @@
+VFX ID:      vfx_human_palm_frost
+Beat:        C.5 (Window — Breath Beat)
+Bible:       §7.6
+Duration:    4 seconds, one-shot
+File:        apps/client/public/art/vfx/prelude/human-palm-frost.webm
+Format:      1920×1080, VP9 WebM, alpha channel, 24fps, no audio
+
+⚠ HIGHEST PRIORITY VFX IN THE PRELUDE ⚠
+Bible §7.6 flag: "The single most important VFX in the Prelude —
+get the hand shape right or the moment falls flat."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+START FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Hyper-realistic cinematic still, 16:9, 4K, TRANSPARENT BACKGROUND with alpha channel. Empty space centered for where frost will form. Very faint condensation — a diffuse irregular patch of pale cyan #22d3ee at 5% opacity, about 20cm × 25cm, suggesting the beginning of frost precipitation on glass. Six-pointed frost crystals are visible ONLY at the very edges of the patch (maybe 4 tiny crystals at <20% opacity), suggesting the formation is just starting. No recognizable shape yet — deliberately ambiguous. Background fully transparent. No text. No visible hand, no visible person.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+END FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Hyper-realistic frost pattern forming the UNMISTAKABLE OUTLINE AND INNER DETAIL OF AN OPEN HUMAN PALM PRESSED AGAINST GLASS from the other side. The frost covers a region approximately 18cm × 22cm. The shape must clearly read as a human left hand, fingers spread open, palm facing the viewer — five distinct fingers, thumb on the right side (viewer's right), palm curvature at the base, finger creases visible as concentrations of denser frost. Frost density is HIGHER in the negative space around where the hand is (fingers, palm show less frost — the warmth of the hand is melting the frost), and LOWER frost (darker, more transparent) in the actual hand silhouette. Six-pointed crystalline frost crystals at the perimeter and in the space BETWEEN the fingers, brightest cyan #22d3ee at the crystal tips. Frost color: cyan-white #cffafe with deep cyan shadows. The overall effect: you see the ghost of a human hand in the frost, unmistakable. Background transparent. NO rendered text. No actual hand visible — only the frost imprint of where the hand is. This is the canonical "someone is there on the other side" moment.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MOTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+At t=0s only faint condensation (start frame). At t=0.5s frost crystals begin forming from random seed points within the patch area, growing outward in six-pointed fractal patterns. At t=1.2s the density increases — more crystals, more opacity. At t=1.8s something subtle: the frost pattern BEGINS to suggest a shape — the player's eye catches finger outlines forming. At t=2.5s the hand silhouette is becoming undeniable. At t=3.2s the hand-shaped NEGATIVE SPACE (where warmth melts the frost) is fully visible — frost is dense around fingers, thinner in the palm region where body heat is highest. At t=3.8s the pattern settles into its final resolved state. At t=4.0s hold on the end frame. 24fps. Slow, tender, inexorable. The player should feel cold running down their spine as the shape resolves — this is The Human reaching for the player through 17,000 years of glass and cryosleep.

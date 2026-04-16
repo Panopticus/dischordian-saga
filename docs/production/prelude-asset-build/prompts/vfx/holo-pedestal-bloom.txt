@@ -1,0 +1,36 @@
+VFX ID:      vfx_holo_pedestal_bloom
+Beat:        J (Archives + Two Witnesses Meet Part 1)
+Bible:       §17.6, §18.5
+Variants:    3 files required
+Format:      1920×1080, VP9 WebM, alpha channel, 24fps, no audio
+
+DELIVERABLES:
+  1. holo-pedestal-bloom.webm            (base — 3s one-shot)
+  2. holo-pedestal-bloom-activation.webm (3s activation sequence)
+  3. holo-pedestal-bloom-steady_state.webm (8s seamless loop)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART 1: holo-pedestal-bloom-activation.webm (3s one-shot)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+START FRAME: TRANSPARENT BACKGROUND. Centered: a dark cylindrical pedestal projection well at the bottom of frame, ~80cm diameter, dim. The well's rim has a faint cyan #22d3ee pilot glow. Nothing above the well. No text.
+
+END FRAME: Same pedestal with BRIGHT cyan rim-glow. Above the well, a volumetric cyan bloom rises to ~30cm height — a soft column of cyan light with a faint cylindrical shape suggesting a hologram is about to appear. The bloom is translucent, its brightness fading to ~40% at the top. Anamorphic lens flare across the brightest rim. Background transparent.
+
+MOTION: At t=0s dim pedestal (start). At t=0.3s cyan rim flashes brighter. At t=0.6s a bloom column begins rising out of the well, growing in height over 1.5s. At t=2.1s it reaches full 30cm height. At t=2.5s the bloom settles into its steady shape. At t=3.0s holds on end frame. 24fps. Sacred activation moment.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART 2: holo-pedestal-bloom-steady_state.webm (8s seamless loop)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+START FRAME: MATCHES the END FRAME of activation. Pedestal with bright rim + 30cm cyan bloom column above.
+
+END FRAME: IDENTICAL to start frame (seamless loop).
+
+MOTION: The bloom column breathes subtly — sub-0.5Hz alpha oscillation between 80% and 100% opacity. The rim glow has a matching subtle pulse. Dust-like motes inside the bloom drift gently upward. At t=8s the system has returned to the exact starting configuration for seamless looping. 24fps. Steady, reverent, continuous — the hologram container is active and waiting for its payload.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART 3: holo-pedestal-bloom.webm (base — 3s one-shot)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This is identical to the activation variant. The runtime will play this file when the variant system is disabled. Same specs as PART 1 above.

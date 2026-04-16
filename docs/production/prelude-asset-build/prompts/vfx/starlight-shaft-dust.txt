@@ -1,0 +1,25 @@
+VFX ID:      vfx_starlight_shaft_dust
+Beat:        D (Cargo Bay)
+Bible:       §8.6, §18.4
+Duration:    8 seconds, seamless loop
+File:        apps/client/public/art/vfx/prelude/starlight-shaft-dust.webm
+Format:      1920×1080, VP9 WebM, alpha channel, 24fps, no audio
+Loop:        MUST loop seamlessly
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+START FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Hyper-realistic cinematic still, 16:9, 4K, TRANSPARENT BACKGROUND with alpha channel. A single vertical column of pale cyan-white #e0f2fe volumetric light descending from the top of the frame to the bottom, approximately 80cm wide at the top narrowing to 60cm at the bottom (perspective taper). The shaft is luminous but semi-translucent — inside the shaft you can see ~40 tiny dust motes suspended and drifting upward through the beam, each mote is a white pinprick at 60-90% opacity with a faint bloom halo. Outside the shaft is fully transparent alpha. Shaft edges are soft (Gaussian blur, no hard line). Anamorphic horizontal flare where the shaft is widest at the top. Deep cyan accent at #22d3ee only on the brightest dust motes. No text. No ceiling louver visible (that's in the room still — this overlay is JUST the light shaft).
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+END FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+IDENTICAL to start frame (seamless loop).
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MOTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+The shaft itself is static — no pulsing, no flicker. Inside the shaft, the ~40 dust motes drift UPWARD at varying slow speeds (3-12 px per second). As each mote reaches the top of the shaft it fades out over 0.5s. Simultaneously, new motes fade in at the bottom of the shaft. The mote count stays constant (~40) throughout. Very subtle horizontal drift (±2px random) on each mote simulates gentle air currents. At t=8s the system returns to the same configuration as t=0s (seamless loop — the motes you see at the end are in the same positions as the ones at the start). 24fps. Contemplative, ancient, reverent — the first natural light the ship has seen in millennia.

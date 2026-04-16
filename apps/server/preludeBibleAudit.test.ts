@@ -3,6 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import {
   collectPreludeAssetPaths,
+  collectCodeImplementedVfxPaths,
   PRELUDE_BEAT_J_MUSIC,
 } from "../shared/preludeSequence";
 
@@ -252,15 +253,21 @@ describe("Prelude Bible audit — disk asset claims (art/video/vfx)", () => {
   const bibleSrc = loadBible();
   const allPaths = extractPreludePathsFromBible(bibleSrc);
   const knownNew = buildKnownNewPaths();
+  // Code-implemented VFX have notional .webm paths in the Bible but
+  // are implemented as React components — no file ever lands on disk.
+  // See apps/client/src/components/prelude/vfx/ for the implementations.
+  const codeImplementedVfx = new Set(collectCodeImplementedVfxPaths());
 
   // Paths that should exist on disk: non-audio, not in the known-new
-  // registry, not allowlisted as stale, not owned by the canon expansion.
+  // registry, not allowlisted as stale, not owned by the canon expansion,
+  // and not a code-implemented VFX.
   const toCheck = allPaths.filter(
     (p) =>
       !p.startsWith("apps/client/public/audio/") &&
       !knownNew.has(p) &&
       !isStaleAllowlisted(p) &&
-      !CANON_EXPANSION_OWNED_PATHS.has(p),
+      !CANON_EXPANSION_OWNED_PATHS.has(p) &&
+      !codeImplementedVfx.has(p),
   );
 
   it(`classified ${toCheck.length} non-audio 'existing' claims to verify`, () => {
