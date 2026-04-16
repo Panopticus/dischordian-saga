@@ -51,6 +51,20 @@ export const raritySchema = z.enum([
   "legendary",
 ]);
 
+/**
+ * Trial-phase category enum used by §5.8 Authority match.
+ * Mirrors the TrialCategory type in ../types/Card.ts.
+ * See docs/production/act1/authority-trial-phase-mechanic.md.
+ */
+export const trialCategorySchema = z.enum([
+  "defensive",
+  "offensive",
+  "narrative",
+  "evidence",
+  "reactive",
+  "confession",
+]);
+
 export const keywordSchema = z.enum([
   "rush",
   "ranged",
@@ -703,6 +717,11 @@ export const cardDefinitionSchema = z
     characterClass: z
       .enum(["spy", "oracle", "assassin", "engineer", "soldier", "neyon"])
       .optional(),
+    /** §5.8 Authority trial-phase admissibility. Optional; see
+     *  docs/production/act1/authority-trial-phase-mechanic.md. Empty
+     *  array or absent field means unplayable in every restricted
+     *  §5.8 phase — backfill planned before §5.8 runtime ships. */
+    trial_categories: z.array(trialCategorySchema).readonly().optional(),
   })
   .strict()
   .superRefine((card, ctx) => {

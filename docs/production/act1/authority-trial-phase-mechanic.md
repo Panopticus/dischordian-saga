@@ -252,15 +252,20 @@ match will be harder"* confirmation step.
 
 ## 7. Open design items
 
-1. **Card-category metadata.** The schema currently only
-   tags cards with `deckLeaning` and damage values. The
-   §5.8 restrictions require a new per-card metadata set:
-   `trial_categories: ("defensive" | "offensive" |
-   "narrative" | "evidence" | "reactive" |
-   "confession")[]`. Author this schema extension in a
-   separate PR before §5.8 runtime implementation, and
-   backfill categories for every existing Dischordia
-   card in the live pool.
+1. **Card-category metadata — schema landed, backfill
+   pending.** The `TrialCategory` type and optional
+   `trial_categories` field on `CardDefinition` shipped in
+   PR #61's schema extension pass (see
+   `apps/shared/tcg-core/types/Card.ts` + the corresponding
+   Zod schema in `apps/shared/tcg-core/cards/schema.ts`).
+   Existing cards have an empty / absent `trial_categories`
+   and are therefore unplayable in every restricted §5.8
+   phase. **Backfill pass still required** before §5.8
+   runtime ships — every card in the live Act 1 pool needs
+   its category set authored. The §6.1 pre-match advisory
+   is the safety net that makes the under-provisioned case
+   legible to the player; full backfill makes §5.8
+   playable with default Act 1 decks.
 2. **Flavor for the "Counsel —" violation messages.** The
    Bible's §5.8 canon has the Authority speaking only
    once (*"What do you say to the charges?"*). The
