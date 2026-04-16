@@ -313,7 +313,8 @@ export function BeatEFlashback({
 
       {/* Examined progress indicator (top-left) */}
       <div
-        aria-hidden="true"
+        aria-live="polite"
+        aria-atomic="true"
         style={{
           position: "absolute",
           top: 72,
