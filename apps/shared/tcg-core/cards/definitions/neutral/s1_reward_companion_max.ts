@@ -52,4 +52,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The bond lasted only a heartbeat. But in that heartbeat, they were invincible.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

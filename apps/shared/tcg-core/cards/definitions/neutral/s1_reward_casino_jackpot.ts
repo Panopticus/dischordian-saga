@@ -42,4 +42,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The house always wins. Unless you're the house. And today, you're the house.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };

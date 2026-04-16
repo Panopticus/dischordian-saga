@@ -22,6 +22,7 @@ export const ant_alleg_t1: CardDefinition = {
   flavorText:
     "Unlocked by playing 10 Antiquarian matches. Grow. An apprentice has not yet been told which ending of the twelve possible endings they are currently working toward. They will figure it out around tier 4.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const ant_alleg_t2: CardDefinition = {
@@ -44,6 +45,7 @@ export const ant_alleg_t2: CardDefinition = {
   flavorText:
     "Unlocked by playing 25 Antiquarian matches. Grow. On deploy, draw 1. A scholar has read the page the opponent is about to write.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const ant_alleg_t3: CardDefinition = {

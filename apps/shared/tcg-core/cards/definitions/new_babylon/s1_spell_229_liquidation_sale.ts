@@ -44,4 +44,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Everything must go. Including the soldiers.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };

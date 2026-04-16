@@ -57,4 +57,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Sign here, in blood. The power is yours — for exactly as long as it takes to spend it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

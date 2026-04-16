@@ -54,4 +54,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Agent Zero's last frequency still carries. The Booster makes sure everyone hears it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

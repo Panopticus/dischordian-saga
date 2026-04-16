@@ -64,4 +64,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Twenty-five missions deep. The crew doesn't need orders anymore — they need targets.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };

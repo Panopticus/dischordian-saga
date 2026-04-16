@@ -23,6 +23,7 @@ export const space_01: CardDefinition = {
   flavorText:
     "Airdrop. She does not walk to where she needs to be. The distance between where she was and where she needed to be agreed to close itself.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };
 
 export const space_02: CardDefinition = {

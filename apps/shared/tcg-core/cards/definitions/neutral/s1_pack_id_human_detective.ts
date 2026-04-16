@@ -53,4 +53,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Every lie unraveled. Every mask removed. The truth always costs more than the lie.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };

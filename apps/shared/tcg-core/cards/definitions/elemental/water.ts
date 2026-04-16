@@ -54,6 +54,7 @@ export const water_02: CardDefinition = {
   flavorText:
     "Silence the enemy general. Water that has been taught to ask questions eventually becomes a solvent.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };
 
 export const water_03: CardDefinition = {

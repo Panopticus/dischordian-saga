@@ -29,6 +29,7 @@ export const synth_01: CardDefinition = {
   flavorText:
     "On deploy, draw 1. A Synthetic Worker was designed by the Architect the week he needed a worker and forgot to ask whether anybody else needed something.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const synth_02: CardDefinition = {

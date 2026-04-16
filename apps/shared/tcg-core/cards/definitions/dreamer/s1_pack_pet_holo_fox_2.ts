@@ -47,4 +47,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Between worlds, it learned to walk on light.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };

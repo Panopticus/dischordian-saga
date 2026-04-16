@@ -16,6 +16,7 @@ export const locke_t1: CardDefinition = {
   art: "/art/cards/imprint/s1_imprint_locke_t1.webp",
   flavorText: "A tired figure in a jurist's coat at a desk that has been tidy longer than you have been alive.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const locke_t2: CardDefinition = {

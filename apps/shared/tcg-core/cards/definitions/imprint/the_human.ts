@@ -32,6 +32,7 @@ export const the_human_t1: CardDefinition = {
   flavorText:
     "A figure in a long coat at the edge of the Mechronis playground, watching. He is twelve years old and he has already decided how this ends.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -51,6 +52,7 @@ export const the_human_t2: CardDefinition = {
   flavorText:
     "Backstab. He prefers to be behind you. You prefer for anyone you like to not be behind you. These preferences are not compatible and he worked that out first.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };
 
 /* ═══════════════════════════════════════════════════════

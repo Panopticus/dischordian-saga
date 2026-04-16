@@ -42,4 +42,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Before the first word was spoken, there was the silence. The Antiquarian remembers it well.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };

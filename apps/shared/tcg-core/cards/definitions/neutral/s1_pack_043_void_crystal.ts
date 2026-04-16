@@ -40,4 +40,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It costs nothing to hold. It costs everything to put down.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };

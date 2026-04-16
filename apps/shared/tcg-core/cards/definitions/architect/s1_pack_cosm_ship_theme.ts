@@ -54,4 +54,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "A piece of the Ark, corrupted beyond recognition. It still remembers how to erase.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };

@@ -45,4 +45,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She dreamed of standing elsewhere, and the Arena obliged. Reality is only stubborn for those who lack imagination.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };

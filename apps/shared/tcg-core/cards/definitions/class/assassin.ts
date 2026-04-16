@@ -26,6 +26,7 @@ export const assassin_01: CardDefinition = {
   flavorText:
     "Backstab. Glass blades shatter on impact. The instructors keep handing them out anyway, because the students who learn this are the ones who stop needing the second strike.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };
 
 export const assassin_02: CardDefinition = {

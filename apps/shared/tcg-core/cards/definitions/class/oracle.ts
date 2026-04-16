@@ -33,6 +33,7 @@ export const oracle_01: CardDefinition = {
   flavorText:
     "Flying. On deploy, draw 1. The first divination tool the Oracle's apprentices learn is a bird that already knows where the body is.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };
 
 export const oracle_02: CardDefinition = {
@@ -55,6 +56,7 @@ export const oracle_02: CardDefinition = {
   flavorText:
     "Draw 2 cards. A glyph you carved yesterday because today's version of you was going to need it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const oracle_03: CardDefinition = {
@@ -72,6 +74,7 @@ export const oracle_03: CardDefinition = {
   flavorText:
     "Flying. Dispel. Your enemy's plan and your enemy's belief in your enemy's plan are two different things, and she can untangle both at once.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };
 
 export const oracle_04: CardDefinition = {

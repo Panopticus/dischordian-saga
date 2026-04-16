@@ -17,6 +17,7 @@ export const the_enigma_t1: CardDefinition = {
   art: "/art/cards/imprint/s1_imprint_the_enigma_t1.webp",
   flavorText: "A shape you are not sure was just standing there. It might have been. It was probably something else.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const the_enigma_t2: CardDefinition = {
@@ -28,6 +29,7 @@ export const the_enigma_t2: CardDefinition = {
   art: "/art/cards/imprint/s1_imprint_the_enigma_t2.webp",
   flavorText: "Flying. The Enigma does not walk. He arrives.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };
 
 export const the_enigma_t3: CardDefinition = {

@@ -56,4 +56,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "They never see us coming. That is the point.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive", "reactive"] as const,
 };

@@ -30,6 +30,7 @@ export const arch_alleg_t1: CardDefinition = {
   flavorText:
     "Unlocked by playing 10 Architect matches. The first thing the Architect gives you is a uniform. The uniform is not the point.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const arch_alleg_t2: CardDefinition = {

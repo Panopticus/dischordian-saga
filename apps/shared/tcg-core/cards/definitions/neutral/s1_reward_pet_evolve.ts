@@ -45,4 +45,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It shed its skin three times before the trainers stopped recognizing it. By the fourth, it stopped recognizing them.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };

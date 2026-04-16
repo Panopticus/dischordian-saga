@@ -22,4 +22,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Born between thoughts, gone before the next.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

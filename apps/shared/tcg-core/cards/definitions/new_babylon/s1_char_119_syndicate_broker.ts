@@ -61,4 +61,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Everything has a price in New Babylon. The Broker's gift is knowing exactly what yours is.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };

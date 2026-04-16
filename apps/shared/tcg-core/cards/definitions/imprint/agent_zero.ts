@@ -34,6 +34,7 @@ export const agent_zero_t1: CardDefinition = {
   flavorText:
     "A silhouette at the edge of your memory. The shape of her moves before you know what you were seeing.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -65,6 +66,7 @@ export const agent_zero_t2: CardDefinition = {
   flavorText:
     "Stealth — 1 turn. The shape of her teaching you to look away from where she actually is.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 /* ═══════════════════════════════════════════════════════

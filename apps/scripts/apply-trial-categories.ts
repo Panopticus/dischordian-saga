@@ -22,7 +22,10 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { proposeAll } from "../shared/tcg-core/balance/trialCategoryProposer";
+import { secondPassTrialCategorize } from "../shared/tcg-core/balance/secondPassTrialCategorizer";
+import { MANUAL_TRIAL_CATEGORIES } from "../shared/tcg-core/balance/manualTrialCategoryOverrides";
 import { ALL_CARD_DEFINITIONS } from "../shared/tcg-core/cards/index";
+import type { TrialCategory } from "../shared/tcg-core/types/Card";
 
 interface Args {
   faction: string | null;
@@ -135,14 +138,28 @@ function insertTrialCategories(
 function main(): void {
   const args = parseArgs();
   const proposals = proposeAll();
+  const cardById = new Map<string, (typeof ALL_CARD_DEFINITIONS)[number]>();
+  for (const c of ALL_CARD_DEFINITIONS) cardById.set(c.id, c);
 
-  // Build a quick lookup: cardId -> proposed[]
+  // Build a quick lookup: cardId -> categories[]. Source priority:
+  //   1. Main proposer (trialCategoryProposer.ts)
+  //   2. If empty: second-pass categorizer (secondPassTrialCategorizer.ts)
+  //   3. If still empty: manual override map (manualTrialCategoryOverrides.ts)
+  // This way the conservative main proposer's output is preserved
+  // exactly, and the additional sources only fill in genuinely
+  // empty proposals.
   const idToProposed = new Map<string, readonly string[]>();
   for (const p of proposals) {
-    if (p.proposed.length > 0) {
-      if (args.faction && p.faction !== args.faction) continue;
-      idToProposed.set(p.id, p.proposed);
+    if (args.faction && p.faction !== args.faction) continue;
+    let cats: readonly TrialCategory[] = p.proposed;
+    if (cats.length === 0) {
+      const card = cardById.get(p.id);
+      if (card) cats = secondPassTrialCategorize(card);
     }
+    if (cats.length === 0 && MANUAL_TRIAL_CATEGORIES[p.id]) {
+      cats = MANUAL_TRIAL_CATEGORIES[p.id];
+    }
+    if (cats.length > 0) idToProposed.set(p.id, cats);
   }
 
   // Build a faction lookup so we can skip antiquarian (already done)
@@ -154,28 +171,25 @@ function main(): void {
     considered: 0,
     applied: 0,
     skippedAlreadyHas: 0,
-    skippedAntiquarianDefault: 0,
     errored: 0,
   };
 
   // Group by source file so we read+write each file once when many
-  // cards share it (multi-faction container files).
+  // cards share it (multi-faction container files). The per-card
+  // "already has trial_categories" idempotency check inside
+  // insertTrialCategories handles antiquarian cards previously
+  // applied by PR #61 — no need for a faction-level skip.
   const byFile = new Map<string, Array<{ id: string; cats: readonly string[] }>>();
   for (const [cardId, cats] of idToProposed) {
-    // Default policy: skip antiquarian (already handled in PR #61
-    // unless --faction antiquarian is explicit).
-    if (
-      idToFaction.get(cardId) === "antiquarian" &&
-      args.faction !== "antiquarian"
-    ) {
-      stats.skippedAntiquarianDefault++;
-      continue;
-    }
     stats.considered++;
     const file = findSourceFile(cardId);
     if (!byFile.has(file)) byFile.set(file, []);
     byFile.get(file)!.push({ id: cardId, cats });
   }
+  // idToFaction was used by the previous antiquarian-skip; keep the
+  // declaration alive for any future per-faction logic without
+  // adding lint-warn for unused vars.
+  void idToFaction;
 
   // Apply per file. Each file is read/written once per card; for
   // multi-card files this means N reads/writes — fine since the file
@@ -207,7 +221,6 @@ function main(): void {
       `  considered: ${stats.considered}\n` +
       `  applied:    ${stats.applied}\n` +
       `  already:    ${stats.skippedAlreadyHas}\n` +
-      `  antiq-skip: ${stats.skippedAntiquarianDefault} (PR #61 already covered these)\n` +
       `  errors:     ${stats.errored}`,
   );
   if (stats.errored > 0) process.exit(1);

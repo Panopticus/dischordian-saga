@@ -26,6 +26,7 @@ export const iron_lion_t1: CardDefinition = {
   flavorText:
     "A roar at the edge of the perimeter. Whatever is coming, it has already committed to the charge.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 /* ═══════════════════════════════════════════════════════

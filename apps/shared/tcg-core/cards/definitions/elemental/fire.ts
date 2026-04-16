@@ -34,6 +34,7 @@ export const fire_01: CardDefinition = {
   flavorText:
     "Rush on deploy. 3/1. An ember scout is a single candle on a long empty road. It does not last. It gets the door open.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };
 
 export const fire_02: CardDefinition = {

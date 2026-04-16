@@ -44,4 +44,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The Architect foresaw the end long before anyone else glimpsed the beginning. Every enhancement is a correction toward inevitability.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

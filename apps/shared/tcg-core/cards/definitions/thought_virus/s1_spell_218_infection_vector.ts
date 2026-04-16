@@ -44,4 +44,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It starts as a whisper in the neurons. By tomorrow, the arm won't lift.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

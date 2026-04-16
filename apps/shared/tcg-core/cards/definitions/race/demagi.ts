@@ -22,6 +22,7 @@ export const demagi_01: CardDefinition = {
   flavorText:
     "Drain. A Demagi footsoldier gets paid in whatever feeling the engagement generates. The payroll is always on time.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const demagi_02: CardDefinition = {
@@ -38,6 +39,7 @@ export const demagi_02: CardDefinition = {
   flavorText:
     "Drain. Deathwatch. Corpse-Readers are the Hierarchy's forensic accountants. Every death on the board is a line item on a ledger only she knows how to audit.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative", "reactive"] as const,
 };
 
 export const demagi_03: CardDefinition = {

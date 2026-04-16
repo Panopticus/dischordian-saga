@@ -28,6 +28,7 @@ export const air_01: CardDefinition = {
   flavorText:
     "Flying. On deploy, draw 1. A breeze is the part of the air that has been given something to do and does not yet know by whom.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };
 
 export const air_02: CardDefinition = {
@@ -44,6 +45,7 @@ export const air_02: CardDefinition = {
   flavorText:
     "Flying. 3/3 for three. The skyrider does not ride anything. The air has agreed to behave like something that can be ridden, and she has agreed to keep agreeing.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };
 
 export const air_03: CardDefinition = {
@@ -65,6 +67,7 @@ export const air_03: CardDefinition = {
   flavorText:
     "Draw 2 cards. A gale chorus is a wind that has learned to sing in chorus because no individual wind was willing to commit to the key.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const air_04: CardDefinition = {

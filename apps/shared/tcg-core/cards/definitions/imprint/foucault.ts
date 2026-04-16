@@ -29,6 +29,7 @@ export const foucault_t2: CardDefinition = {
   art: "/art/cards/imprint/s1_imprint_foucault_t2.webp",
   flavorText: "Dispel. He reads the surveillance tag on your buff and crosses it out with a red pen.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };
 
 export const foucault_t3: CardDefinition = {
@@ -46,6 +47,7 @@ export const foucault_t3: CardDefinition = {
   art: "/art/cards/imprint/s1_imprint_foucault_t3.webp",
   flavorText: "Dispel. Stealth — 1 turn. He stepped into the blind spot of the room's camera. He installed the blind spot two years ago.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };
 
 export const foucault_t4: CardDefinition = {

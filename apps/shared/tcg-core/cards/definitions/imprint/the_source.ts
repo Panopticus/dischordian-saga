@@ -17,6 +17,7 @@ export const the_source_t1: CardDefinition = {
   art: "/art/cards/imprint/s1_imprint_the_source_t1.webp",
   flavorText: "A smiling androgynous figure in brilliant light. Two small children dance in front. The dance does not quite look voluntary.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const the_source_t2: CardDefinition = {
@@ -28,6 +29,7 @@ export const the_source_t2: CardDefinition = {
   art: "/art/cards/imprint/s1_imprint_the_source_t2.webp",
   flavorText: "Drain. He takes a little from everyone he loves. He loves everyone.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const the_source_t3: CardDefinition = {

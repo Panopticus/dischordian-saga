@@ -21,6 +21,7 @@ export const nb_alleg_t1: CardDefinition = {
   flavorText:
     "Unlocked by playing 10 New Babylon matches. A clerk keeps the receipts you are about to need but would rather not have.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const nb_alleg_t2: CardDefinition = {
@@ -54,6 +55,7 @@ export const nb_alleg_t3: CardDefinition = {
   flavorText:
     "Unlocked by playing 50 New Babylon matches. Drain. The tax collector takes a small amount of everything she handles, and by the end of the year she has a very reasonable amount of everything.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const nb_alleg_t4: CardDefinition = {

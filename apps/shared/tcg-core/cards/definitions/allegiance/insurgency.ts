@@ -21,6 +21,7 @@ export const ins_alleg_t1: CardDefinition = {
   flavorText:
     "Unlocked by playing 10 Insurgency matches. A recruit showed up because the alternative was staying where they were. That is the whole pitch.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const ins_alleg_t2: CardDefinition = {

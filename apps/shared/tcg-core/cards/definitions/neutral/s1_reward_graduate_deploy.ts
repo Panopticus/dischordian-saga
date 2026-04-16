@@ -55,4 +55,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She graduated top of her class. Her first act was to teach everything she knew to the soldier beside her.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };

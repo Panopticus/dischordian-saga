@@ -48,4 +48,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Kill the messenger. The message was sent three seconds before you arrived.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "reactive"] as const,
 };

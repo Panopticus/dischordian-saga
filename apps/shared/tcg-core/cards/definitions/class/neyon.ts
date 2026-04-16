@@ -37,6 +37,7 @@ export const neyon_01: CardDefinition = {
   flavorText:
     "Backstab. On deploy, draw 1. A Ne-Yon's first hybrid move is always spy + oracle. The second is the one you cannot predict, which is kind of the point.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };
 
 export const neyon_02: CardDefinition = {
@@ -54,6 +55,7 @@ export const neyon_02: CardDefinition = {
   flavorText:
     "Flying. Backstab. Oracle's sight plus assassin's angle. You know where they will be AND you are already behind them. The two disciplines sit inside the same body without arguing.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };
 
 export const neyon_03: CardDefinition = {

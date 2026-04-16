@@ -47,4 +47,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She reads your hand before you've looked at it yourself.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };

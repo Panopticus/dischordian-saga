@@ -21,6 +21,7 @@ export const drm_alleg_t1: CardDefinition = {
   flavorText:
     "Unlocked by playing 10 Dreamer matches. Flying. An acolyte has not yet dreamed their future — they are still waiting for permission to stop being afraid of it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };
 
 export const drm_alleg_t2: CardDefinition = {
@@ -43,6 +44,7 @@ export const drm_alleg_t2: CardDefinition = {
   flavorText:
     "Unlocked by playing 25 Dreamer matches. Flying. On deploy, draw 1. A visionary has started to recognize the pattern and has not yet learned to hide that they are recognizing it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };
 
 export const drm_alleg_t3: CardDefinition = {
@@ -59,6 +61,7 @@ export const drm_alleg_t3: CardDefinition = {
   flavorText:
     "Unlocked by playing 50 Dreamer matches. Flying. Dispel. A Dreamer veteran has been wrong enough times to be trusted with being right.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };
 
 export const drm_alleg_t4: CardDefinition = {
@@ -81,6 +84,7 @@ export const drm_alleg_t4: CardDefinition = {
   flavorText:
     "Unlocked by winning 10 Dreamer matches. Flying. Dispel. On deploy, draw 1. A seer who has won has stopped being surprised and started being concerned.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };
 
 export const drm_alleg_t5: CardDefinition = {

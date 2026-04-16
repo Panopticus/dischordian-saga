@@ -40,4 +40,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The trade routes closed overnight. By morning, entire strategies had starved.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

@@ -26,6 +26,7 @@ export const soldier_01: CardDefinition = {
   flavorText:
     "Three power, three health, two cost. There is no ability on the card. That is the ability.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const soldier_02: CardDefinition = {

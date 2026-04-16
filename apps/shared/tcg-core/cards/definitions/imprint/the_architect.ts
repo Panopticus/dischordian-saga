@@ -27,6 +27,7 @@ export const the_architect_t1: CardDefinition = {
   flavorText:
     "A tall silhouette in a perfectly symmetric coat. You cannot see the face. The face is not the point.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 /* ═══════════════════════════════════════════════════════

@@ -16,6 +16,7 @@ export const akai_shi_t1: CardDefinition = {
   art: "/art/cards/imprint/s1_imprint_akai_shi_t1.webp",
   flavorText: "A silhouette in a red coat at the edge of a doorway that was not there a second ago.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const akai_shi_t2: CardDefinition = {
@@ -27,6 +28,7 @@ export const akai_shi_t2: CardDefinition = {
   art: "/art/cards/imprint/s1_imprint_akai_shi_t2.webp",
   flavorText: "Backstab. Red Death prefers the side of you that is not facing the problem.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };
 
 export const akai_shi_t3: CardDefinition = {

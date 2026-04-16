@@ -39,6 +39,7 @@ export const spy_01: CardDefinition = {
   flavorText:
     "Stealth — 1 turn. The first spies the Insurgency ran weren't trained; they were chosen because the cameras had stopped noticing them years before anyone asked.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const spy_02: CardDefinition = {
@@ -65,6 +66,7 @@ export const spy_02: CardDefinition = {
   flavorText:
     "Draw 2 cards. A dead drop is an address nobody agreed on. The message is always already there when you arrive.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const spy_03: CardDefinition = {
@@ -93,6 +95,7 @@ export const spy_03: CardDefinition = {
   flavorText:
     "Backstab. Stealth — 2 turns. The cover name is not a lie. It is a separate person you built and then walked into like a coat.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };
 
 export const spy_04: CardDefinition = {
