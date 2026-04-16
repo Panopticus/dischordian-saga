@@ -201,3 +201,103 @@ of the referenced files, default to adding it here and flag the
 overlap in a comment.
 
 ---
+
+## Section 1 — Act 1 Master Index
+
+Act 1 is a **biography told in card battles**. The player is inhabiting
+the Engineer's memories, each cycle representing a phase of his life,
+each battle representing a specific person who shaped him. The 12
+battles are strictly linear — unlike every Act that follows, Act 1
+does not open up. The player moves through in fixed order because
+biography has an order.
+
+The three cycles and their finale slideshows are the load-bearing
+structure:
+
+- **Cycle A — Kindergarten of Gods** (Project Celebration school).
+  3 battles, ends with the *Welcome to Celebration* slideshow. Runs
+  in parallel with the 28-day Celebration Trial (§19) — daily
+  Mascoteer decisions during those 28 days feed buffs/debuffs into
+  the Cycle A card battles.
+- **Cycle B — The Academy** (Mechronis). 5 battles, ends with the
+  *To Be the Human* slideshow. Classmates-the-player-knows-by-name.
+  Each opponent is a canonical future figure in their academy years.
+- **Cycle C — Nexon, Zenon, Last Words** (War). 4 battles, ends with
+  the *Last Words* master slideshow (15 frames, ~3m 30s, the first
+  community-visible +500 Light Energy spike in the whole game). The
+  Engineer's war, betrayal, transference into the swarm, execution.
+
+Cycle C's third battle (C3 — Warlord Nano-Swarm inside Agent Zero) is
+the canonical **mandatory forced-loss** of Act 1: the Engineer's deck
+bleeds into Agent Zero's side of the board every turn, and on the
+final turn the Engineer is empty while Agent Zero's board is full.
+She is now Vex Solène. This is not a betrayal, it is a sacrifice. The
+surviving *"Friend I Saved"* Mythic Light card is the Engineer's last
+gift and will be played against Vex in Act 3 F3 when the player meets
+her face-to-face for the first time.
+
+### 1.1 Master Index table
+
+| Battle | Cycle | Day / Phase | Opponent | Canon source | Deck theme | Card unlock | Priority |
+|---|---|---|---|---|---|---|---|
+| **A1** | Kindergarten of Gods | Celebration Trial Day 10 | **Minnie the Meme** (Archon of the Meme, child form) | §0.4 rule 6 | "Rent Free" forced-unison mechanics | *The Countermelody* (Common Neutral) | **P0** |
+| **A2** | Kindergarten of Gods | Celebration Trial Day 20 | **Corey the Collector** (Archon of the Collector, child form) | §2 user canon + DSFGL | "Choose Your Mask" memory-card sacrifice | *The Jar That Wouldn't Close* (Rare Light) | **P0** |
+| **A3** | Kindergarten of Gods | Celebration Trial Day 28 (graduation) | **Kanshi Sha the Watcher** (Archon of the Watcher, child form) | §2 user canon | "Ocularum" full-board reveal, zero hidden cards | *The First Card* (Epic Light — blank, 3 random effects on play) | **P0** |
+| — | Cycle A finale | after A3 | *Welcome to Celebration* slideshow (8 frames) | §6 of this doc | — | — | **P0** |
+| **B1** | Mechronis Academy | Year 1 of 4 | Young Iron Lion (17, expelled Year 650 A.A.) | DSFGL | "Last Stand" defense-stacking | *The Iron Stance* (Rare Light) | **P0** |
+| **B2** | Mechronis Academy | Year 2 of 4 | Young Recruiter / Kael (joins Iron Lion a year later) | DSFGL | "The Insurgency" swarm buffs | *The Recruiter's Gift* (Epic Neutral) | **P0** |
+| **B3** | Mechronis Academy | Year 3 of 4 | Young Agent Zero (future assassin) | DSFGL | "Zero Trust" stealth / one-shots | *The Weapon I Didn't Build* (Legendary Dark) | **P0** |
+| **B4** | Mechronis Academy | Year 4 of 4 | Young Eyes (infiltrator, created by the Watcher) | DSFGL | "I Am the Eyes That Watch" card-peek | *The Memorized Page* (Epic Dark) | **P0** |
+| **B5** | Mechronis Academy | Final year (emotional pivot) | **The Seeker** (young Human, the player's own narrator) | §2 user canon | "Deep Thoughts" long-game | *The Classmate's Compass* (Legendary Light, win) **OR** *"The only reason I stayed"* (Legendary Dark, loss) | **P0** |
+| — | Cycle B finale | after B5 | *To Be the Human* slideshow (10 frames) | §12 of this doc | — | — | **P0** |
+| **C1** | Nexon / Zenon / Last Words | Battle of Nexon | **Vernon Vortex — First Form** | §2 user canon | Board wipes every 4 turns (survival puzzle, not a win condition) | *The Standstill* (Epic Light — once per match, delay a loss 1 turn) | **P0** |
+| **C2** | Nexon / Zenon / Last Words | fragmented encounter | **Wanda Wyrlord** (fragmented) | §2 user canon | "I Love War" attack-rush + instant-kills | *The Converter* (Legendary Dark) | **P0** |
+| **C3** | Nexon / Zenon / Last Words | Engineer's transference attempt | **Warlord's Nano-Swarm (inside Agent Zero)** — MANDATORY FORCED LOSS | DSFGL + user Wanda canon | Tempo-decay + self-sacrifice — Engineer's deck shrinks 1 card/turn, lost cards go to Agent Zero's side as reinforcements against the swarm | *The Friend I Saved* (Mythic Light — renamed from *The Friend I Trusted* per rev 4 canon) | **P0** |
+| **C4** | Nexon / Zenon / Last Words | New Babylon trial | **Wayne Warden** (Authority's Tribunal — Trial format) | §2 user canon | Jury cards, evidence cards, Engineer defends with his own Deck. **Elara is a card in the Tribunal's deck** | *The Last Word* (Mythic Light — triggers the Last Words slideshow on play) | **P0** |
+| — | Cycle C finale | after C4 | ***Last Words*** master slideshow (15 frames, ~3m 30s, +500 Light Energy galaxy-wide) | §17 of this doc (references existing `SHIP_READY_ASSET_BIBLE.md` §3.7 frame-by-frame spec) | — | — | **P0** |
+| — | Act 1 Finale | after *Last Words* | Return to the Ark Archives, player places first blank *"YOUR NAME — Unwritten"* Dischordia card on the pedestal | §18 of this doc | — | — | **P0** |
+| — | **Parallel:** Celebration Trial | 28-day Mascoteer decision loop (Days 1–28) | 6 Mascoteers (Minnie + 2 optional bonus forms) + daily events | §19 of this doc | Daily decisions feed buffs/debuffs into Cycle A battles | — | **P0** |
+| — | **Parallel:** Apprentice Permadeath | Days 1–28 of Celebration Trial | Apprentice assigned in Prelude Beat D | §20 of this doc | Lives or dies through Cycle A; death yields a Memory Card for the player's deck | *Memory Card* (procedurally-named Epic Light) | **P0** |
+
+### 1.2 Totals
+
+The Master Index table rolls up into the following delivery totals.
+These numbers are the denominators the Asset Delivery Checklist (§22)
+will report against.
+
+| Category | Count | Breakdown |
+|---|---:|---|
+| **Card battles** | 12 | 3 Cycle A + 5 Cycle B + 4 Cycle C |
+| **Master slideshows** | 3 | Welcome to Celebration (8 frames), To Be the Human (10 frames), Last Words (15 frames) |
+| **New opponent portraits** | 12 | one per battle — see §2 Character Roster for visual descriptions |
+| **New battlefield backgrounds** | 8 | some shared across battles of the same cycle; itemized in §22.1 |
+| **Pre-battle matchup splash stills** | 12 | one per battle, composited from opponent portrait + battlefield |
+| **Cutscene videos** | ~15 | per-battle intros (12) + 3 slideshow cinematics. Act 1 Finale is a single additional cutscene — see §18 |
+| **New VO recordings** | TBD | enumerated per-battle in §X.5 sub-sections — estimated 40–60 lines across the 12 battles + slideshow narration |
+| **New VFX assets** | TBD | enumerated per-battle in §X.6 and consolidated in §21 VFX Library |
+| **UI art for Celebration Trial daily loop** | TBD | day card layouts + 28 daily event illustrations — enumerated in §19 |
+| **Apprentice system UI art** | TBD | trait display, permadeath event, Memory Card reveal — enumerated in §20 |
+
+Act 1's total new asset count will be substantially higher than the
+Prelude's ~107 deliveries because of the 12 opponent portraits + 8
+battlefields + 3 multi-frame slideshows. Full number will be computed
+in §22.6 Summary after the per-battle sub-sections finalize their
+own asset enumerations. Current estimate: **~200–300 new asset files**.
+
+### 1.3 Scope note on the Celebration Trial and Apprentice loops
+
+The 28-day Celebration Trial runs in parallel with Cycle A. The player
+does **not** experience 28 literal days of gameplay — Cycle A compresses
+the 28 days into a narrative loop of Mascoteer decision beats + three
+card battles + apprentice status updates. The card battle at Day 10,
+Day 20, and Day 28 are the structural anchors; the in-between days are
+Mascoteer events (daily choices) and apprentice training beats
+(trait-shifting events).
+
+This doc treats the Celebration Trial and Apprentice loops as **two
+separate sub-systems** within Cycle A, each with its own dedicated
+section (§19 and §20 respectively). They are not battles, they are
+**parallel systems feeding the battles**. Production should treat
+their art assets as a distinct delivery queue from the 12-battle queue.
+
+---
