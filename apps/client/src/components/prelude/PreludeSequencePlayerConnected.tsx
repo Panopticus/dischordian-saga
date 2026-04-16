@@ -12,8 +12,11 @@
  *     their last beat.
  *   - On every beat completion, records the beat's completionFlag
  *     (if any) and advances `currentPreludeBeat` to the next beat.
- *   - On Beat J's Light/Dark choice, persists the alignment and
- *     clears `currentPreludeBeat` (Prelude complete).
+ *   - When the Prelude reaches its done phase, clears
+ *     `currentPreludeBeat` so the player can move on. The canonical
+ *     Light/Dark alignment choice was moved to the Act 1 Cycle C
+ *     Authority finale in the October 2026 Last Words restructure,
+ *     so this wrapper no longer captures alignment here.
  *
  * The base <PreludeSequencePlayer/> remains available for unit
  * testing or callers that want to wire their own persistence.
@@ -27,18 +30,20 @@ import {
 } from "../../../../shared/preludeSequence";
 import { useGame } from "../../contexts/GameContext";
 import { PreludeSequencePlayer } from "./PreludeSequencePlayer";
-import type { PreludeAlignmentChoice } from "./preludeSequenceReducer";
 
 export interface PreludeSequencePlayerConnectedProps {
   /** Volume 0-1 for cutscene audio. Passed through to the player. */
   volume?: number;
   /**
-   * Optional callback fired after Beat J's alignment is captured
-   * and the Prelude state is marked complete. Useful for callers
-   * that want to advance `narrativeAct` to 1 or navigate to the
-   * post-Prelude scene.
+   * Optional callback fired after the Prelude's 15-beat sequence
+   * reaches its done phase. Useful for callers that want to advance
+   * `narrativeAct` to 1 or navigate to the post-Prelude scene.
+   *
+   * No alignment is provided — the canonical Light/Dark choice now
+   * lives in the Act 1 Cycle C Authority finale (post-Last-Words
+   * full song).
    */
-  onPreludeComplete?: (alignment: PreludeAlignmentChoice) => void;
+  onPreludeComplete?: () => void;
 }
 
 /** Lookup table for fast next-beat resolution. */
@@ -61,7 +66,6 @@ export function PreludeSequencePlayerConnected({
     state,
     setCurrentPreludeBeat,
     recordPreludeCompletionFlag,
-    setLightDarkAlignment,
   } = useGame();
 
   // Validate the saved beat id against the live manifest. If the player
@@ -85,14 +89,10 @@ export function PreludeSequencePlayerConnected({
     [recordPreludeCompletionFlag, setCurrentPreludeBeat],
   );
 
-  const handleComplete = useCallback(
-    ({ alignment }: { alignment: PreludeAlignmentChoice }) => {
-      setLightDarkAlignment(alignment);
-      setCurrentPreludeBeat(null);
-      onPreludeComplete?.(alignment);
-    },
-    [setLightDarkAlignment, setCurrentPreludeBeat, onPreludeComplete],
-  );
+  const handleComplete = useCallback(() => {
+    setCurrentPreludeBeat(null);
+    onPreludeComplete?.();
+  }, [setCurrentPreludeBeat, onPreludeComplete]);
 
   return (
     <PreludeSequencePlayer

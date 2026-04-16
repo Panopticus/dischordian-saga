@@ -34,16 +34,23 @@ import { BeatDMissionBoard } from "./BeatDMissionBoard";
 import { BeatHInbox } from "./BeatHInbox";
 import {
   usePreludeSequenceState,
-  type PreludeAlignmentChoice,
   type UsePreludeSequenceStateOptions,
 } from "./usePreludeSequenceState";
 import { isBreathBeat } from "./preludeSequenceReducer";
 
 export interface PreludeSequencePlayerProps
   extends UsePreludeSequenceStateOptions {
-  /** Called after Beat J's alignment choice + song end. */
+  /**
+   * Called when the 15-beat Prelude sequence completes (after
+   * Beat J's tease of Last Words finishes playing).
+   *
+   * The canonical Light/Dark alignment choice was moved to the
+   * Act 1 Cycle C Authority finale in the October 2026
+   * restructure, so this callback no longer surfaces an
+   * alignment — it only reports the set of completion flags
+   * collected during the Prelude.
+   */
   onComplete: (payload: {
-    alignment: PreludeAlignmentChoice;
     completedFlags: readonly string[];
   }) => void;
   /** Called every time a beat finishes (cutscene-end or interaction-complete). */
@@ -109,11 +116,14 @@ export function PreludeSequencePlayer({
     onBeatComplete?.(beat);
   }
 
-  // Fire onComplete when the sequence ends
+  // Fire onComplete when the sequence reaches its `done` phase.
+  // Previously gated on `alignment` being set; after the Last
+  // Words restructure the Prelude no longer captures alignment
+  // (that's Act 1's concern), so we fire purely on isDone.
   const completionFiredRef = useRef(false);
-  if (isDone && alignment && !completionFiredRef.current) {
+  if (isDone && !completionFiredRef.current) {
     completionFiredRef.current = true;
-    onComplete({ alignment, completedFlags });
+    onComplete({ completedFlags });
   }
 
   /** Per-beat post-cutscene interaction renderer. */
