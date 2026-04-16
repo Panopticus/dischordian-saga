@@ -37,6 +37,7 @@ import {
   type PreludeAlignmentChoice,
   type UsePreludeSequenceStateOptions,
 } from "./usePreludeSequenceState";
+import { isBreathBeat } from "./preludeSequenceReducer";
 
 export interface PreludeSequencePlayerProps
   extends UsePreludeSequenceStateOptions {
@@ -260,6 +261,21 @@ export function PreludeSequencePlayer({
         <div>{beat.title}</div>
         <div style={{ opacity: 0.5, marginTop: 2 }}>
           Beat {beatIndex + 1} / {totalBeats} · {phase}
+          {isBreathBeat(beat) && (
+            <span
+              aria-label="breath beat"
+              style={{
+                marginLeft: 8,
+                padding: "1px 6px",
+                border: "1px solid rgba(34, 211, 238, 0.35)",
+                borderRadius: 2,
+                fontSize: 9,
+                letterSpacing: "0.25em",
+              }}
+            >
+              Breath
+            </span>
+          )}
         </div>
       </div>
 
@@ -276,22 +292,29 @@ export function PreludeSequencePlayer({
           zIndex: 140,
         }}
       >
-        {PRELUDE_BEATS.map((_, i) => (
-          <div
-            key={i}
-            style={{
-              width: 8,
-              height: 2,
-              backgroundColor:
-                i < beatIndex
-                  ? "rgba(34, 211, 238, 0.6)"
-                  : i === beatIndex
-                  ? "#22d3ee"
-                  : "rgba(34, 211, 238, 0.15)",
-              transition: "background-color 0.3s",
-            }}
-          />
-        ))}
+        {PRELUDE_BEATS.map((b, i) => {
+          // Breath-beat pips are half-width so the pacing map reads
+          // as deliberate — the player can see the breath intervals
+          // before they arrive at them.
+          const breath = isBreathBeat(b);
+          return (
+            <div
+              key={i}
+              style={{
+                width: breath ? 4 : 8,
+                height: 2,
+                backgroundColor:
+                  i < beatIndex
+                    ? "rgba(34, 211, 238, 0.6)"
+                    : i === beatIndex
+                    ? "#22d3ee"
+                    : "rgba(34, 211, 238, 0.15)",
+                opacity: breath ? 0.7 : 1,
+                transition: "background-color 0.3s",
+              }}
+            />
+          );
+        })}
       </div>
     </div>
   );
