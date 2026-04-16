@@ -181,8 +181,8 @@ The cutscene **brief** is already canonical in `docs/design/ANIMATED_CUTSCENES.m
 
 ### 3.4 Cutscene — A: Awakening
 
-- **Beat ID:** `prelude-beat-a-awakening`
-- **Output:** `apps/client/public/videos/prelude/prelude-beat-a-awakening.mp4`
+- **Beat ID:** `prelude-beat-a-cryo-wake`
+- **Output:** `apps/client/public/videos/prelude/prelude-beat-a-cryo-wake.mp4`
 - **Duration:** 35s (target — within the 30–45s range from `ANIMATED_CUTSCENES.md`)
 - **Aspect:** 16:9 1920×1080
 - **Priority:** P0
@@ -245,8 +245,8 @@ There is no dialog. There is no choice. There is no score. There is the player's
 
 ### 4.3 Cutscene — A.5: Corridor First Steps
 
-- **Beat ID:** `prelude-beat-a5-corridor`
-- **Output:** `apps/client/public/videos/prelude/prelude-beat-a5-corridor.mp4`
+- **Beat ID:** `prelude-beat-a5-corridor-first-steps`
+- **Output:** `apps/client/public/videos/prelude/prelude-beat-a5-corridor-first-steps.mp4`
 - **Duration:** 15s
 - **Aspect:** 16:9 1920×1080
 - **Priority:** P0
@@ -301,8 +301,8 @@ The "manual door release" interaction is implemented as a tap-and-hold gesture o
 
 ### 5.4 Cutscene — B: Corridor / Escape
 
-- **Beat ID:** `prelude-beat-b-escape`
-- **Output:** `apps/client/public/videos/prelude/prelude-beat-b-escape.mp4`
+- **Beat ID:** `prelude-beat-b-corridor-escape`
+- **Output:** `apps/client/public/videos/prelude/prelude-beat-b-corridor-escape.mp4`
 - **Duration:** 20s
 - **Aspect:** 16:9 1920×1080
 - **Priority:** P0
@@ -366,8 +366,8 @@ The six incubator pods are the *uncommented punchline*. Elara explains them in o
 
 ### 6.4 Cutscene — C: Crew Role Choice + Six Incubators
 
-- **Beat ID:** `prelude-beat-c-crew-and-incubators`
-- **Output:** `apps/client/public/videos/prelude/prelude-beat-c-crew-and-incubators.mp4`
+- **Beat ID:** `prelude-beat-c-engineering-role-choice`
+- **Output:** `apps/client/public/videos/prelude/prelude-beat-c-engineering-role-choice.mp4`
 - **Duration:** 35s
 - **Aspect:** 16:9 1920×1080
 - **Priority:** P0

@@ -58,31 +58,12 @@ const STALE_REF_ALLOWLIST: ReadonlyMap<string, string> = new Map([
       "or Beat J's first-contact VO needs to be remapped to an actually-existing antiquarian line. " +
       "Flagged as follow-up — must not block this PR.",
   ],
-  // ── Per-section cutscene path drift from §19.2 ────────────────
-  // Bible §19.2 is the authoritative delivery checklist — the
-  // paths in preludeSequence.ts match §19.2. But each beat's own
-  // §X.3/§X.4 cutscene sub-spec sometimes uses a slightly
-  // different filename (shorter or differently-hyphenated). These
-  // alternate paths are NOT tracked in preludeSequence.ts because
-  // they'd be duplicate deliveries. The allowlist documents them
-  // here so the audit test passes. A follow-up Bible cleanup PR
-  // should align each §X.4 path to match §19.2 exactly.
-  [
-    "apps/client/public/videos/prelude/prelude-beat-a-awakening.mp4",
-    "§3.4 cutscene path; §19.2 uses `prelude-beat-a-cryo-wake.mp4`. Drift — doc cleanup.",
-  ],
-  [
-    "apps/client/public/videos/prelude/prelude-beat-a5-corridor.mp4",
-    "§4.3 cutscene path; §19.2 uses `prelude-beat-a5-corridor-first-steps.mp4`. Drift — doc cleanup.",
-  ],
-  [
-    "apps/client/public/videos/prelude/prelude-beat-b-escape.mp4",
-    "§5.4 cutscene path; §19.2 uses `prelude-beat-b-corridor-escape.mp4`. Drift — doc cleanup.",
-  ],
-  [
-    "apps/client/public/videos/prelude/prelude-beat-c-crew-and-incubators.mp4",
-    "§6.4 cutscene path; §19.2 uses `prelude-beat-c-engineering-role-choice.mp4`. Drift — doc cleanup.",
-  ],
+  // The four §X.3/§X.4 cutscene path drifts that were previously here
+  // (prelude-beat-a-awakening, prelude-beat-a5-corridor,
+  //  prelude-beat-b-escape, prelude-beat-c-crew-and-incubators)
+  // were resolved by aligning each beat sub-spec's Beat ID + Output
+  // line to the canonical §19.2 paths. The Bible now uses one
+  // consistent path per beat — no more drift to suppress.
 ]);
 
 /**
