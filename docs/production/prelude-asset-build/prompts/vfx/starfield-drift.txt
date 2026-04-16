@@ -1,0 +1,25 @@
+VFX ID:      vfx_starfield_drift_viewport
+Beat:        C.5 (Window — Breath Beat)
+Bible:       §7.6, §18.4
+Duration:    10 seconds, seamless loop
+File:        apps/client/public/art/vfx/prelude/starfield-drift.webm
+Format:      1920×1080, VP9 WebM, alpha channel, 24fps, no audio
+Loop:        MUST loop seamlessly — first and last frames identical
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+START FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Hyper-realistic cinematic still, 16:9, 4K, TRANSPARENT BACKGROUND with alpha channel. Parallax starfield panorama seen through a viewport — three distinct depth layers: FAR (tiny pinprick stars, ~200 points, white and pale blue at 15% opacity), MID (small-to-medium stars, ~80 points, white and gold at 40% opacity, with faint anamorphic flare on the brightest 5), and NEAR (large stars, ~20 points, bright white and amber at 80% opacity with lens-flare spikes). Distant gas-cloud nebula in the upper-right quadrant: deep violet #1e1b4b bleeding into near-black, with cyan #22d3ee gas filaments at 20% opacity. No stars are in rigid grid pattern — they must look naturally scattered. Deep space black elsewhere but as TRANSPARENT alpha (not actual black) so the viewport can composite over any background. No rendered text. No ship interior visible.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+END FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+IDENTICAL to start frame. This is a seamless loop — the end frame must match pixel-for-pixel with the start frame so the video can loop indefinitely without a visible seam.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MOTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Parallax drift: over 10 seconds the camera drifts slowly rightward. FAR layer shifts only 4 pixels. MID layer shifts 12 pixels. NEAR layer shifts 32 pixels. All motion is linear and steady — no acceleration, no tremble. At t=10s all layers have returned to the exact start position (the drift rolls over like a seamless panorama). Three bright NEAR-layer stars gently twinkle with sub-0.5 Hz opacity variation (±10%) on random offsets so no two twinkle in sync. The nebula is completely static — no internal motion. 24fps. Meditative, vast, patient — the ship is drifting through space and the player is finally seeing it for the first time.

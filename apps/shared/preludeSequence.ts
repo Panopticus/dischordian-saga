@@ -133,6 +133,15 @@ export interface PreludeVfxAsset {
    * dedupes by path, so this flag only matters for documentation.
    */
   reused: boolean;
+  /**
+   * True if this effect is implemented as a React component rather
+   * than a pre-rendered .webm video overlay. Code-implemented effects
+   * do not need a .webm file on disk — the readiness test skips disk
+   * presence checks for these. The component lives in
+   * apps/client/src/components/prelude/vfx/ and is registered in
+   * the PRELUDE_VFX_REGISTRY.
+   */
+  codeImplemented?: boolean;
 }
 
 /** A looping ambient audio bed. */
@@ -310,6 +319,7 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
         webmPath: "apps/client/public/art/vfx/prelude/status-pip-shift.webm",
         variantSuffixes: ["loop"],
         reused: false,
+        codeImplemented: true,
       },
     ],
   },
@@ -350,12 +360,14 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
         webmPath: "apps/client/public/art/vfx/prelude/incubator-pod-dormant.webm",
         variantSuffixes: [],
         reused: false,
+        codeImplemented: true,
       },
       {
         id: "vfx_bench_standby_pip",
         webmPath: "apps/client/public/art/vfx/prelude/bench-standby-pip.webm",
         variantSuffixes: [],
         reused: false,
+        codeImplemented: true,
       },
       {
         id: "vfx_role_wireframe_bloom",
@@ -451,6 +463,7 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
         webmPath: "apps/client/public/art/vfx/prelude/mission-slate-glow.webm",
         variantSuffixes: ["loop", "transition"],
         reused: false,
+        codeImplemented: true,
       },
       {
         id: "vfx_mission_glyph_bloom",
@@ -496,6 +509,7 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
         webmPath: "apps/client/public/art/vfx/prelude/galley-pilot-warm.webm",
         variantSuffixes: [],
         reused: false,
+        codeImplemented: true,
       },
       // §9.6 marks this as "optional polish — if it weakens the realism cut it".
       {
@@ -608,12 +622,14 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
           "apps/client/public/art/vfx/prelude/lockbox-bio-recognize.webm",
         variantSuffixes: ["idle", "recognize", "open"],
         reused: false,
+        codeImplemented: true,
       },
       {
         id: "vfx_data_slate_glow",
         webmPath: "apps/client/public/art/vfx/prelude/data-slate-glow.webm",
         variantSuffixes: ["pulse", "slowdown"],
         reused: false,
+        codeImplemented: true,
       },
       {
         id: "vfx_memo_holo_rise",
@@ -657,6 +673,7 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
         webmPath: "apps/client/public/art/vfx/prelude/chair-rim-hot-edge.webm",
         variantSuffixes: ["build", "hold", "fade"],
         reused: false,
+        codeImplemented: true,
       },
     ],
   },
@@ -689,12 +706,14 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
         webmPath: "apps/client/public/art/vfx/prelude/med-pod-faint-pulse.webm",
         variantSuffixes: [],
         reused: false,
+        codeImplemented: true,
       },
       {
         id: "vfx_neural_rig_idle_hum_visual",
         webmPath: "apps/client/public/art/vfx/prelude/neural-rig-idle-hum.webm",
         variantSuffixes: [],
         reused: false,
+        codeImplemented: true,
       },
       {
         id: "vfx_transfer_array_amber_standby",
@@ -702,6 +721,7 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
           "apps/client/public/art/vfx/prelude/transfer-array-amber-standby.webm",
         variantSuffixes: [],
         reused: false,
+        codeImplemented: true,
       },
     ],
   },
@@ -743,6 +763,7 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
           "apps/client/public/art/vfx/prelude/signal-intake-lit-panel.webm",
         variantSuffixes: [],
         reused: false,
+        codeImplemented: true,
       },
       {
         id: "vfx_inbox_envelope_unfold",
@@ -750,6 +771,7 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
           "apps/client/public/art/vfx/prelude/inbox-envelope-unfold.webm",
         variantSuffixes: [],
         reused: false,
+        codeImplemented: true,
       },
       {
         id: "vfx_inbox_edge_sentence_bloom",
@@ -757,12 +779,14 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
           "apps/client/public/art/vfx/prelude/inbox-edge-sentence-bloom.webm",
         variantSuffixes: [],
         reused: false,
+        codeImplemented: true,
       },
       {
         id: "vfx_amber_counter_glyph",
         webmPath: "apps/client/public/art/vfx/prelude/amber-counter-glyph.webm",
         variantSuffixes: [],
         reused: false,
+        codeImplemented: true,
       },
     ],
   },
@@ -797,6 +821,7 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
         webmPath: "apps/client/public/art/vfx/prelude/elara-fade-out.webm",
         variantSuffixes: [],
         reused: false,
+        codeImplemented: true,
       },
     ],
   },
@@ -834,6 +859,7 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
           "apps/client/public/art/vfx/prelude/witnessing-hub-hemisphere-bloom.webm",
         variantSuffixes: ["activation", "steady_state"],
         reused: false,
+        codeImplemented: true,
       },
       {
         id: "vfx_primary_lights_cascade",
@@ -841,6 +867,7 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
           "apps/client/public/art/vfx/prelude/primary-lights-cascade.webm",
         variantSuffixes: ["forward", "reverse"],
         reused: false,
+        codeImplemented: true,
       },
       // §16.6 explicit: vfx_warm_dust_drift has NO asset file — it is a
       // material swap on the existing dust particle system. Not listed here
@@ -851,6 +878,7 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
           "apps/client/public/art/vfx/prelude/viewport-polarization-lift.webm",
         variantSuffixes: [],
         reused: false,
+        codeImplemented: true,
       },
     ],
   },
@@ -932,6 +960,7 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
           "apps/client/public/art/vfx/prelude/transfer-array-amber-standby.webm",
         variantSuffixes: [],
         reused: true,
+        codeImplemented: true,
       },
       // New to Beat J (six effects per §17.6).
       {
@@ -952,6 +981,7 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
           "apps/client/public/art/vfx/prelude/memory-crystal-pulse.webm",
         variantSuffixes: ["loop", "bright_steady", "flaring"],
         reused: false,
+        codeImplemented: true,
       },
       {
         id: "vfx_enigma_hand_on_rim",
@@ -965,6 +995,7 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
           "apps/client/public/art/vfx/prelude/peripheral-warm-halo.webm",
         variantSuffixes: ["build", "hold", "fade"],
         reused: false,
+        codeImplemented: true,
       },
       {
         id: "vfx_choice_pillar_light_dark_split",
@@ -972,6 +1003,7 @@ export const PRELUDE_BEATS: readonly PreludeBeat[] = [
           "apps/client/public/art/vfx/prelude/choice-pillar-light-dark-split.webm",
         variantSuffixes: ["appearance", "light", "dark"],
         reused: false,
+        codeImplemented: true,
       },
     ],
   },
@@ -1056,7 +1088,10 @@ export interface CollectedPreludePaths {
   cutsceneMp4s: readonly string[];
   voAudioNew: readonly string[];
   voAudioExisting: readonly string[];
+  /** VFX that need .webm files on disk (video-based effects). */
   vfxWebms: readonly string[];
+  /** VFX IDs implemented in code (no .webm needed). */
+  vfxCodeImplemented: readonly string[];
   ambientMp3s: readonly string[];
 }
 
@@ -1087,6 +1122,7 @@ export function collectPreludeAssetPaths(): CollectedPreludePaths {
   const voAudioNew: string[] = [];
   const voAudioExisting: string[] = [];
   const vfxWebms: string[] = [];
+  const vfxCodeImplemented: string[] = [];
   const ambientMp3s: string[] = [];
 
   for (const beat of PRELUDE_BEATS) {
@@ -1103,7 +1139,11 @@ export function collectPreludeAssetPaths(): CollectedPreludePaths {
       }
     }
     for (const vfx of beat.vfxAssets) {
-      vfxWebms.push(...expandVfxFiles(vfx));
+      if (vfx.codeImplemented) {
+        vfxCodeImplemented.push(vfx.id);
+      } else {
+        vfxWebms.push(...expandVfxFiles(vfx));
+      }
     }
   }
 
@@ -1123,8 +1163,29 @@ export function collectPreludeAssetPaths(): CollectedPreludePaths {
     voAudioNew: uniqueSorted(voAudioNew),
     voAudioExisting: uniqueSorted(voAudioExisting),
     vfxWebms: uniqueSorted(vfxWebms),
+    vfxCodeImplemented: uniqueSorted(vfxCodeImplemented),
     ambientMp3s: uniqueSorted(ambientMp3s),
   };
+}
+
+/**
+ * Collect the full set of .webm file paths that code-implemented VFX
+ * effects *would* have occupied if they were video-based (expanding
+ * base + variants). These paths are referenced in the Bible but will
+ * never materialize on disk because the effects live in React
+ * components. Used by the Bible audit to skip disk-presence checks
+ * for these paths.
+ */
+export function collectCodeImplementedVfxPaths(): readonly string[] {
+  const paths: string[] = [];
+  for (const beat of PRELUDE_BEATS) {
+    for (const vfx of beat.vfxAssets) {
+      if (vfx.codeImplemented) {
+        paths.push(...expandVfxFiles(vfx));
+      }
+    }
+  }
+  return uniqueSorted(paths);
 }
 
 /**

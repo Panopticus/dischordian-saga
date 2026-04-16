@@ -1,0 +1,24 @@
+VFX ID:      vfx_memo_paper_drift
+Beat:        H.5 (Memo Pile — Breath Beat)
+Bible:       §15.6, §18.4
+Duration:    5 seconds, one-shot
+File:        apps/client/public/art/vfx/prelude/memo-paper-drift.webm
+Format:      1920×1080, VP9 WebM, alpha channel, 24fps, no audio
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+START FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Hyper-realistic cinematic still, 16:9, 4K, TRANSPARENT BACKGROUND with alpha channel. A single postcard-sized piece of paper (15cm × 10cm) at the TOP of the frame, tilted at ~15° with its top edge just leaving a shelf. The paper has faint handwritten marks on it but no legible text. Paper color is faded cream #fef3c7 with soft shadow. No shelf or ship interior visible — only the paper. Background fully transparent.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+END FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Same paper at the BOTTOM of the frame, now resting flat on an invisible floor surface. The paper has rotated ~120° total during its descent (now tilted differently). Background transparent. No shelf visible. The paper is the only rendered element.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MOTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+At t=0s paper is at top-left area, tilted 15° (start frame). The paper slides off the shelf edge and begins falling. Physics: gravity (slow — this is in space, with only minimal ventilation airflow), slight horizontal drift (paper moves ~80px to the right over the descent), and rotation (paper tumbles gently, completing ~120° rotation total over the 5s descent). Motion curve: NOT a simple free-fall — the paper catches air, flutters, slows mid-descent at t=2s, drifts horizontally, then resumes falling. By t=4.7s the paper is just above the floor position. At t=4.8s soft touchdown, paper comes to rest at bottom of frame. At t=5.0s holds on end frame. 24fps. Quiet, melancholy, patient — like a leaf falling through still air. This paper has been on that shelf for 17,000 years.

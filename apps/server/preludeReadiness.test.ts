@@ -241,11 +241,22 @@ describe("Prelude readiness — Phase 1 delivery dashboard", () => {
     );
   });
 
-  it("VFX — present / missing", () => {
+  it("VFX (video) — present / missing", () => {
     const { present, missing } = countPresent(paths.vfxWebms);
     // eslint-disable-next-line no-console
     console.log(
-      `[prelude readiness] VFX: ${present.length}/${paths.vfxWebms.length} present — ${missing.length} awaiting delivery`,
+      `[prelude readiness] VFX (video): ${present.length}/${paths.vfxWebms.length} present — ${missing.length} awaiting delivery`,
+    );
+  });
+
+  it("VFX (code-implemented) — reports component-based effects", () => {
+    // Code-implemented VFX live as React components in
+    // apps/client/src/components/prelude/vfx/ rather than .webm files.
+    // They're not subject to disk-presence checks; this test just logs
+    // the count for the dashboard.
+    // eslint-disable-next-line no-console
+    console.log(
+      `[prelude readiness] VFX (code): ${paths.vfxCodeImplemented.length} effects implemented in React components — no .webm files required`,
     );
   });
 
