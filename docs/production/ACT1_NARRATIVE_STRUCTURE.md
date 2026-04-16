@@ -425,14 +425,38 @@ this room's brightness.
   sunlight palette** inverted from the Prelude's cold-cyan
   default. No fog, no film grain darkness, no anamorphic flare
   on cold points. The warm light is the point.
-- **Nano Banana 2 prompt:** *to be authored in Section 3
-  revision. First pass should render a small wooden classroom
-  with one card-table, four child-height chairs, a long
-  window wall catching warm yellow sunlight, chalk markings
-  on a slate at the back wall. No rendered text. No visible
-  children (they appear as per-match portraits). Cinematic
-  4K composition, soft diffused light, shallow depth of field
-  on the card-table's center.*
+**Nano Banana 2 prompt:**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of a
+> pre-Empire primary-school classroom on an Eden-adjacent
+> world, late afternoon. A small rectangular wooden card-
+> table sits dead center of the room, its surface a warm
+> honey oak polished smooth by decades of children's
+> forearms. Four child-height wooden chairs are pulled up
+> close to it, two facing two, each seat carved with a
+> different worn animal figure (a fox, a crane, a bear, a
+> fish). The floor is clay-colored terracotta tile, softly
+> scuffed. The back wall holds a dark slate board, blank —
+> no rendered text, no chalk writing visible; only the faint
+> ghost marks of a thousand lessons erased. To screen-right,
+> a long panelled window-wall runs floor-to-ceiling with
+> mullioned glass panes catching direct warm-yellow
+> afternoon sunlight at a low angle, casting ten golden
+> parallelograms across the floor and the card-table's
+> surface. Motes of dust drift slowly in the light beams.
+> The ceiling is low, exposed wood-beam, no artificial
+> light — only the window sun lights the room. A small
+> woven rug in dusty rose lies near the slate. No children
+> are visible (they appear per-match as portrait cards).
+> Palette: warm honey #d9a66a, soft sunlight yellow
+> #f5d98a, dusty rose #c98b8b, terracotta #c66b3d, slate
+> grey #55606e. **Deliberately no cyan, no deep space
+> black, no emergency lighting** — this room is the only
+> environment in the whole game that is lit by an actual
+> sun. Soft diffused light, shallow depth of field on the
+> card-table's center. Soft film grain. Anamorphic glow on
+> the sun-panels but gentle, not flared. Cinematic 4K
+> composition, three-quarter wide, camera at child-eye
+> level looking slightly up at the card-table.
 
 ### 3.4 Opponent 1 — Little Meme
 
@@ -446,11 +470,57 @@ this room's brightness.
   mechanical hook — he's where the Thought Virus faction's
   "chant" mechanic originates in the memoir's telling.
 
-**Production slots (to author in next revision):**
-- Matchup-card art (Nano Banana 2 prompt)
-- Deck composition (card list — Thought Virus lean)
-- Victory / defeat narrative slots (exist in data shell, no rewrite)
-- Completion flag: `act1_little_meme_defeated`
+**Matchup-card art:**
+- **Output:** `apps/client/public/art/matchups/act1/little-meme.png` + `.webp`
+- **Aspect:** 3:4 portrait 1536×2048 (matchup-card convention; the UI layer composites the pre-match flavor line underneath at render time)
+- **Priority:** P0
+- **Style anchor:** §3.3 classroom palette (warm honey + sun-yellow + dusty rose). Character subject lit by the same window sunlight as the environment still so composites read as inhabitants of the same room.
+
+**Nano Banana 2 prompt:**
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card
+> framing (subject fills the upper two-thirds of frame,
+> lower third is deliberately empty honey-oak card-table
+> surface for UI text overlay). A seven-year-old boy seated
+> at the wooden card-table in the §3.3 classroom, leaning
+> forward on both elbows, chin tilted up. His face is open,
+> hungry, and delighted — a child who has found a new toy
+> and will not stop until he has taken it apart. He is
+> mid-chant: lips parted in a repeating phrase, the mouth
+> caught between syllables. His eyes are locked directly on
+> camera (not shy, not cruel — *certain*). He wears a
+> simple pull-over tunic in dusty rose #c98b8b with
+> rumpled sleeves. His hair is short, messy, chestnut. One
+> hand is flat on the table, fingers splayed over an
+> imaginary card; the other is half-raised, pointing with
+> index finger extended as if tracking something the viewer
+> can't yet see. Lighting: warm-yellow window sun striping
+> his left cheek and the card-table surface. Palette: honey
+> #d9a66a dominant, dusty rose #c98b8b accent, warm
+> sunlight #f5d98a on his skin. Background is softly
+> defocused interior of the classroom — slate board,
+> window panes, rug — bokeh only, the child is the subject.
+> No rendered text (the UI will overlay the flavor line
+> *"Let me see. Let me see. Let me see..."* at render
+> time). Soft film grain. Cinematic 4K. **Not cute — this
+> boy is *certain*. The chant is already viral.**
+
+**Deck composition (first-pass spec):**
+- **Lean:** `thought_virus` (5 cards), `neutral` (5 cards)
+- **Defining mechanic:** *Chant.* When a `thought_virus`
+  card is played, a duplicate of it re-enters Little Meme's
+  hand on the next turn (at half strength). This is the
+  canonical origin of the Thought Virus faction's chant
+  keyword — the player will see it again later in Act 1
+  Cycle C and again in Acts 2+ against the grown Meme.
+- **Difficulty posture:** **Introductory.** This is the
+  player's first scripted Act 1 match. Deck power ceiling
+  is deliberately low; the chant duplication is the only
+  "new" mechanic and it fires at half strength so the
+  player can win without understanding the keyword yet.
+  Full deck authoring blocked on the live card pool as of
+  Act 1 runtime stand-up.
+- **Completion flag:** `act1_little_meme_defeated` on win,
+  no penalty flag on loss (Act 1 allows retries).
 
 ### 3.5 Opponent 2 — Little Collector
 
@@ -463,10 +533,59 @@ this room's brightness.
   Babylon faction's "hoard" mechanic originates — every win
   banked, every loss catalogued.
 
-**Production slots:**
-- Matchup-card art
-- Deck composition (New Babylon lean)
-- Completion flag: `act1_little_collector_defeated`
+**Matchup-card art:**
+- **Output:** `apps/client/public/art/matchups/act1/little-collector.png` + `.webp`
+- **Aspect:** 3:4 portrait 1536×2048
+- **Priority:** P0
+- **Style anchor:** §3.3 classroom palette. Shared lighting continuity with §3.4 (same window sun, same time of day).
+
+**Nano Banana 2 prompt:**
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card
+> framing (subject fills the upper two-thirds of frame,
+> lower third empty honey-oak card-table surface for UI
+> text overlay). A seven-year-old boy kneeling on one of
+> the §3.3 classroom chairs to get taller than the table,
+> both hands clasped around a small glass mason jar held
+> protectively at his chest. The jar is roughly the size
+> of his clasped hands; its glass is smoky and fogged from
+> the inside, a faint iridescent shimmer trapped behind
+> the glass suggesting *something* is inside (do not
+> render distinct creatures — the shimmer is ambiguous,
+> captured emotions rather than animals). His expression
+> is sweet, earnest, and wrong — the smile of a child who
+> has already decided to keep something that isn't his. He
+> is looking slightly off-camera, to the player's right,
+> as if watching the *next* emotion before he collects it.
+> He wears a tidy little button-up shirt in soft sage
+> green with the top button fastened, an overly-grown-up
+> collar for his small frame. Hair parted to the side,
+> neat, over-combed. Lighting: warm-yellow window sun from
+> the same screen-right window as §3.3 and §3.4, catching
+> the glass of the jar and making the trapped shimmer
+> glow faintly golden. Palette: honey #d9a66a, sage green
+> #7ba67a, sunlight #f5d98a, with a faint iridescent
+> shimmer inside the jar glass (subtle — not overt
+> magical effect). Background: softly defocused classroom,
+> matching §3.3 bokeh. No rendered text. Cinematic 4K.
+> **He is not a bully; he is a hoarder in the making. The
+> sweetness is the menace.**
+
+**Deck composition (first-pass spec):**
+- **Lean:** `new_babylon` (5 cards), `neutral` (5 cards)
+- **Defining mechanic:** *Hoard.* When a `new_babylon`
+  card would be discarded, Little Collector banks it
+  instead — at 3 banked cards, a bonus effect fires once
+  per match. This is the canonical origin of the New
+  Babylon faction's hoard keyword.
+- **Difficulty posture:** **Light escalation** from
+  Little Meme. The player now has one scripted match under
+  their belt and is expected to know the UI. The hoard
+  mechanic fires at most once per match in this
+  introductory version, so a player who ignores it and
+  plays aggressively still wins. Full deck authoring
+  blocked on the live card pool.
+- **Completion flag:** `act1_little_collector_defeated` on
+  win; loss allows retry.
 
 ### 3.6 Opponent 3 — Little Watcher (Cycle A finale)
 
@@ -484,13 +603,150 @@ this room's brightness.
 - **Finale slideshow:** `welcome-to-celebration` fires after the
   match wraps, win or loss.
 
-**Production slots:**
-- Matchup-card art (child's face partially visible under a
-  half-finished mask — subtle, not creepy)
-- Deck composition (Architect lean — adaptive)
-- Finale cutscene prompt for `welcome-to-celebration` (Seedance 2.0)
-- Completion flag: `act1_little_watcher_defeated` +
-  `act1_cycle_a_complete`
+**Matchup-card art:**
+- **Output:** `apps/client/public/art/matchups/act1/little-watcher.png` + `.webp`
+- **Aspect:** 3:4 portrait 1536×2048
+- **Priority:** P0
+- **Style anchor:** §3.3 classroom palette, but the
+  afternoon sun is beginning to slant lower — this is the
+  cycle finale, the *last hour* of the classroom day.
+  Shadows are longer than in §3.4 and §3.5.
+
+**Nano Banana 2 prompt:**
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card
+> framing (subject fills the upper two-thirds, lower third
+> empty honey-oak card-table surface). A seven-year-old
+> girl seated very still at the §3.3 classroom card-table,
+> hands folded in her lap, spine straight, shoulders level.
+> She wears a simple pale cream linen dress with subtle
+> dusty-rose trim at the collar. Hair in a single dark
+> braid down one shoulder. Held in her lap, barely
+> catching the edge of frame, is a **half-finished white
+> porcelain mask** — the upper half is smooth blank
+> ceramic (covering where her eyes would be), the lower
+> half trails into raw unfired grey clay that hasn't been
+> shaped yet. She is not wearing the mask; she is holding
+> it as if about to put it on. Her face is **fully
+> visible** above the mask's upper edge — a perfectly
+> composed little girl's face, eyes open, looking directly
+> at the viewer with a soft, measured attention. No hostility,
+> no fear, no curiosity — *assessment*. She has already
+> decided what she sees. The lighting is late-afternoon
+> through the §3.3 window, warm sun now angled lower and
+> redder (approaching sunset temperature — first hint of
+> the cycle finale's weight). The shadow of her head and
+> the mask fall sharply across the honey-oak card-table
+> surface in front of her, cast long. Palette: honey
+> #d9a66a, cream #e6dcc2, dusty rose #c98b8b at her
+> collar, white porcelain #f7f3ee for the mask, grey
+> unfired clay #b8b4a8 for the mask's lower unfinished
+> half, a warmer-toward-red sun #f0b878 (warmer than §3.4
+> and §3.5 — the sun is lower). Background: classroom
+> defocused, slate board barely readable behind her.
+> Cinematic 4K. **She is recording you. The mask in her
+> lap is for when she has seen enough to decide who she
+> is being.** No rendered text.
+
+**Deck composition (first-pass spec):**
+- **Lean:** `architect` (6 cards), `neutral` (4 cards)
+- **Defining mechanic:** *Record.* Little Watcher's deck
+  observes the player's first three played cards and, on
+  turn 4, composes an adaptive response that counters
+  whichever faction the player has leaned into. This is the
+  canonical origin of the Architect faction's record/adapt
+  keyword — the player will re-encounter it every time they
+  face an Architect-aligned opponent.
+- **Difficulty posture:** **First real test.** Cycle A
+  finale; the player is expected to have learned the UI
+  and the chant + hoard mechanics. Record/adapt is the
+  first mechanic that *reacts* to player choices rather
+  than firing on a fixed timer, and losing here is the
+  expected outcome of a first playthrough. Win or loss
+  both fire `welcome-to-celebration` — the narrative does
+  not branch on the outcome (it branches on which of the
+  sixteen previous versions of the player Little Watcher
+  is now recording).
+- **Completion flags:** `act1_little_watcher_defeated` on
+  win OR `act1_little_watcher_recorded` on loss; plus
+  `act1_cycle_a_complete` set unconditionally when the
+  `welcome-to-celebration` slideshow finishes.
+
+**Finale cutscene — `welcome-to-celebration`:**
+
+This is Cycle A's landing cutscene, fired regardless of
+match outcome. It is the player's first glimpse of the
+Celebration experiment that Ep 2 of the Meme's Show
+(§2.4 *"Gary's Goggles"*) will later re-frame as a
+4-year death loop.
+
+- **Output:** `apps/client/public/videos/act1/welcome-to-celebration.mp4`
+- **Duration:** 35–45s target
+- **Aspect:** 16:9 1920×1080
+- **Priority:** P0
+- **Sets flags:** `act1_cycle_a_complete`,
+  `celebration_glimpse_shown`, `memoir_frame_acknowledged`
+  (the last one lands on Little Watcher's voiceover line
+  about "sixteen versions of you")
+- **Reduced-motion fallback:** static end-frame + kinetic
+  typewriter narration of Little Watcher's closing line
+
+**START FRAME (Nano Banana 2):**
+> Same §3.3 classroom, match complete. Wide shot from the
+> empty seat opposite Little Watcher's chair (the player's
+> POV, camera at child-eye level). Little Watcher sits
+> exactly as in the matchup-card, hands in her lap, mask
+> still not worn. The card-table between camera and her
+> holds the final card play of the match — one card face-up
+> on the player's side, one on hers, the played stacks
+> intermixed. Warm late-afternoon sun has shifted another
+> 15 minutes redder since the matchup card; the whole
+> classroom is washed in amber. Dust motes thick in the
+> light. Cinematic 4K. No rendered text.
+
+**END FRAME (Nano Banana 2):**
+> Pull-back establishing shot of the same classroom but
+> the walls have **dissolved** — the wooden panelling
+> peels back at the edges of frame to reveal, behind the
+> school, a towering gated structure in polished brass and
+> black marble: an immense ceremonial arch inscribed with
+> the single word **"CELEBRATION"** in formal Empire
+> script (rendered in-frame is permitted here, this single
+> word is the canonical reveal). Beyond the arch, hundreds
+> of identical schoolchildren in cream linen are walking
+> in orderly processional lines toward a brass-and-bone
+> amphitheatre. The Celebration banner flies above —
+> dusty rose on cream. The classroom sits at the
+> foreground as a small, warmly-lit island against the
+> vast ceremonial machinery beyond. Little Watcher is now
+> wearing the mask; only her braid and the lower edge of
+> her jaw are visible beneath the porcelain. She is no
+> longer seated — she stands at the threshold of the
+> dissolving classroom wall, facing the arch. Palette:
+> classroom honey and rose in the foreground, deep brass
+> #b8752d and black marble #1c1a1a beyond the arch,
+> ceremonial dusty rose #c98b8b on the distant banners.
+> Cinematic 4K. The juxtaposition is the point.
+
+**SEEDANCE 2.0 motion prompt:**
+> Open on start frame — card-table, Little Watcher seated,
+> amber classroom. Hold 3s. Beat at 4s: Little Watcher's
+> voiceover line lands (*"I have watched sixteen versions
+> of you already."*) as her hand lifts the mask from her
+> lap. Beat at 8s: she places the mask over her face in a
+> single slow motion; the classroom's warm light begins
+> to shimmer at the edges of frame. Beat at 14s: camera
+> slowly pulls back through where the east wall was; the
+> wall dissolves outward in a wipe of warm dust, revealing
+> the Celebration arch in distant tableau. Beat at 22s:
+> camera continues the pull-back, the classroom becomes
+> small foreground against the vast brass Celebration
+> machinery; hundreds of children in cream linen walk
+> toward the amphitheatre in silent processional. Beat at
+> 30s: hold on final composition. Little Watcher (masked)
+> at the dissolved threshold. Final 5s: slow fade to
+> honey-amber black. 24fps. Reverent, foreboding, a
+> child's-eye-view of something much larger than a
+> classroom.
 
 ### 3.7 Cycle A → Cycle B transition
 
