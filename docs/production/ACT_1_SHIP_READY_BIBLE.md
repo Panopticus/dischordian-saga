@@ -1453,4 +1453,164 @@ transference required.
   identity chain — Agent Zero / Engineer Zero / Eyes of Reality
   cover identities and reveal cadence)
 
+### 2.8 Young Eyes — Cycle B4 opponent (Mechronis Year 4)
+
+The fourth Cycle B boss and the player's second encounter with a
+Watcher-derived entity — except Young Eyes is not the Watcher. She
+is something the Watcher *made*. Per DSFGL line 2447, Young Eyes
+is an "infiltrator, created by The Watcher," which means Kanshi
+Sha's surveillance nervous system (§2.4) has a canonical offspring:
+a human-seeming student implanted at Mechronis as a living sensor
+array. Eyes does not know she is an artifact. She believes she is a
+normal student who happens to be very good at noticing things. The
+horror — which the player will not discover until Act 3's *"I Am
+the Eyes That Watch"* slideshow — is that everything Young Eyes
+sees is recorded and transmitted to the Watcher in real-time. Her
+memories are not her own.
+
+**Canonical visual:** INFERRED per user direction. Young Eyes must
+visually echo Kanshi Sha (§2.4) without being a copy — she is the
+Watcher's creation, not the Watcher's clone. The visual link is
+in the **eyes**, not the outfit.
+
+**Production-inferred visual spec:**
+
+- **Age:** sixteen. Small-framed, birdlike build — narrow wrists,
+  delicate hands, a slight tilt of the head that reads as
+  curiosity. Shorter than most of her classmates.
+- **Skin:** light East Asian complexion, Japanese descent (matching
+  Kanshi Sha's ethnicity — she was created from his template).
+  Smooth, pale, slightly translucent at the temples where the
+  veins are faintly visible under classroom lighting.
+- **Hair:** straight black, cut in a precise chin-length bob with
+  blunt bangs across the forehead. Immaculate — never a strand
+  out of place. The precision is a derivative of the Watcher's
+  stillness (§2.4) expressed through grooming rather than posture.
+- **Eyes — the canonical tell:** both eyes fully visible (contrast
+  with Agent Zero's curtain). Dark brown irises, almost black.
+  Normal-seeming at first glance. **But:** when Young Eyes focuses
+  on something specific — a card, the Prince's hand, a detail on
+  the board — her pupils dilate very slightly wider than a human
+  pupil should. Not enough to look alien. Just enough that the
+  player who is paying attention thinks *"that's a little too
+  wide."* This micro-dilation is the Watcher's recording lens
+  activating through the human host. Render it as a 15% pupil-
+  diameter increase in close-up shots only. Do not make it
+  dramatic. The subtlety is the horror.
+- **Mechronis blue uniform, worn correctly but not perfectly:**
+  - Same royal-blue blazer as the rest of the class
+  - Tie at regulation length, knotted properly
+  - White oxford shirt, sleeves at full length
+  - Blue trousers with normal creases (not Agent Zero's
+    hospital-grade — Eyes is normal-messy, not operationally
+    clean)
+  - Black shoes with one slightly scuffed toe
+  - **One personal touch:** a small **sketch notebook** tucked
+    into the blazer's inner pocket, visible as a rectangular
+    bulge. Eyes draws in this notebook constantly between classes
+    — portraits of her classmates, objects on desks, the view
+    from the academy window. She believes drawing is her hobby.
+    It is actually the Watcher's data-collection protocol
+    expressed as a creative impulse. Render the notebook's edge
+    visible in the blazer's inner pocket in every shot.
+- **Body language:** attentive, slightly over-engaged. Eyes leans
+  in when the opponent plays a card — not Iron Lion's fighter-lean,
+  but a student-lean, as if she is taking a mental photograph. She
+  smiles easily and often (contrast with Kanshi Sha's cosmic
+  stillness and Agent Zero's operational flatness). The smile is
+  *genuine* — Eyes is not performing. She actually enjoys watching
+  the card game. That enjoyment is what makes the later reveal
+  painful: she was having a good time and she was also a camera.
+- **Voice direction:** bright, engaged, teenage-girl register.
+  Unlike every other Cycle B opponent, Young Eyes's voice IS a
+  teenager's voice — she is not an Archon in a child body (that's
+  Kanshi Sha), she is a **human creation of an Archon** and does
+  not carry the cosmic presence in her vocal tract. She sounds
+  like a sharp, observant sixteen-year-old who reads a lot and
+  talks about what she notices. Slightly fast cadence, slightly
+  too many observations per sentence. Japanese-accented English
+  with native-speaker fluency (she was raised at Mechronis).
+
+  New voice profile **`young_eyes`**. ElevenLabs target:
+  `stability: 0.55` (lower than average — she is animated and
+  her voice varies with interest), `similarity_boost: 0.75`,
+  `style: 0.35` (moderate stylization — the enthusiasm is the
+  character).
+
+**Canonical pre-match line** (INFERRED):
+
+> *"I drew you this morning. Before breakfast. I draw everyone
+> before I play them — it helps me see the patterns. You hold
+> your cards high. Most people hold them low. That means you're
+> not hiding, which means you're either very confident or you
+> haven't learned to be afraid yet. I like both options."*
+
+Delivered with bright enthusiasm. The line is canonically a
+**complete read of the Prince's card-holding posture** from a
+single morning observation — the first demonstration of the
+card-peek mechanic that will define her deck. She told the
+player her strategy and they didn't notice.
+
+**Deck theme:** "I Am the Eyes That Watch" card-peek. A derivative
+of Kanshi Sha's Ocularum full-board-reveal (§2.4) but more
+targeted: Eyes does not see the player's entire hand, she sees
+**the top 3 cards of the player's draw pile** at all times. She
+knows what the player will draw next, which lets her play counters
+preemptively. The tutorial lesson is "some opponents win by
+knowing your future" — the counter is voluntary deck-shuffle
+effects (new to Act 1) that randomize the draw order and break
+her foresight.
+
+**Card unlock on win:** *The Memorized Page* (Epic Dark) — a
+card that, when played, lets the player look at the top 3 cards
+of their OWN draw pile and rearrange them. Dark-aligned because
+the Engineer took the Eyes' surveillance and turned it inward —
+he used the Watcher's own tool to see himself coming. The card
+name references the sketch notebook: a page she memorized of
+his face, now a tool he uses to see his own future.
+
+**Post-match canonical beats** (INFERRED):
+
+- **Win:** Eyes's foresight breaks when the Prince plays a
+  shuffle effect that randomizes his draw pile mid-match. Her
+  next three predictions all miss. She blinks — the first time
+  in the match her eyes have closed — and laughs. *"Oh! You
+  moved! I had you perfectly still in my notebook and then you
+  moved."* She pulls the sketch notebook from her pocket, opens
+  it to a portrait of the Prince, and tears out the page.
+  *"Here. It's more yours than mine anyway."* She hands the
+  page to the Prince. The drawing is remarkably good — the
+  Prince's face rendered in pencil with photographic accuracy,
+  his eyes looking slightly past the viewer. The player sees
+  the drawing in a close-up frame. It is the first portrait of
+  the Engineer the player has seen rendered by someone other
+  than the Engineer himself.
+- **Loss:** Eyes's foresight holds. She draws the Prince's next
+  three moves perfectly and has answers queued for all of them.
+  The match ends with the Prince's hand empty and Eyes's board
+  untouched. She smiles kindly. *"You held your cards high the
+  whole time. I liked that. Most people drop them when they
+  know they're going to lose."* She does not offer the sketch.
+  The notebook stays in her pocket. The Prince will wonder what
+  she drew and never see it — a canonical loose thread that
+  resolves in Act 3 when the Eyes' adult form's surveillance
+  archive is opened and the Prince's portrait is one of
+  thousands.
+
+**Cross-references:**
+
+- §2.4 (Kanshi Sha the Watcher — Young Eyes is canonically a
+  creation of the Watcher Archon, derivative of the surveillance
+  nervous system §2.4 established)
+- §2.0 (simulation framing — Young Eyes is NOT an Archon; she
+  is a human-seeming creation of an Archon, which is a distinct
+  category)
+- §10 (Cycle B4 battle section — full battle spec including the
+  pupil-dilation close-up and the sketch-page transfer)
+- Act 3 *"I Am the Eyes That Watch"* opening slideshow
+  (`SHIP_READY_ASSET_BIBLE.md` §3.7) — canonically the adult-form
+  reveal that everything Young Eyes saw was transmitted to the
+  Watcher. The slideshow title IS her canonical adult name
+- `apps/shared/act1Opponents.ts` Cycle B4 shell (to be updated)
+
 ---
