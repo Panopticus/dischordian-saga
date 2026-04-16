@@ -37,7 +37,7 @@ const S3_PREFIX = "Prelude Voices";
 const VOICE_IDS: Record<string, string> = {
   elara: "xMyNDrPFEtQN8iZtT7l2",           // existing — from generate_elara_vo.py
   the_human: "oGbGJdgofRR8z0MxwI8L",       // existing — from generate_human_vo.py
-  the_prince: "gTgEL3MeXelcCZMBqcER",      // NEW — "the Engineer" voice
+  the_prince: "FLW8imgp50K85LICuLQs",      // NEW — "the Engineer" voice
   locke: "8XiBWqS5ffaH5naIFHPI",           // existing — from generate_locke_vo.py
   the_antiquarian: "yAKlvHIsuj4SvnKQ6Mk4", // existing — from generate_antiquarian_vo.py
 };
