@@ -193,6 +193,19 @@ export interface DuelystGameState {
     playableEntityIds: readonly string[];
     lockedEntityIds: readonly string[];
   };
+  /**
+   * §5.8 Authority trial state, projected from tcg-core GameState. Absent
+   * on every match that isn't §5.8. Phase number === turnNumber per spec §2.
+   * The UI uses this to render TrialPhaseIndicator + TrialTranscriptColumn
+   * and to gate plays that don't match the current phase.
+   */
+  trial?: {
+    openingVerdictBalance: number;
+    trialBalance: number;
+    openingArgumentPlayed: boolean;
+    closingArgumentPlayed: boolean;
+    outcome?: "overturn" | "sentence_passed";
+  };
 }
 
 export interface ActionLogEntry {

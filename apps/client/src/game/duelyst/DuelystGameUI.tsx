@@ -37,6 +37,12 @@ import { ScreenReaderOnly, announce } from "@/components/a11y";
 import { WarlordCountdownIndicator } from "@/components/match/WarlordCountdownIndicator";
 import { CardLockOverlay } from "@/components/match/CardLockOverlay";
 import { PlayRejectionToast } from "@/components/match/PlayRejectionToast";
+import { TrialPhaseIndicator } from "@/components/match/TrialPhaseIndicator";
+import {
+  TrialTranscriptColumn,
+  type TrialTranscriptEntry,
+} from "@/components/match/TrialTranscriptColumn";
+import type { TcgDispatchResult } from "./TcgClient";
 
 interface DuelystGameUIProps {
   playerFaction: Faction;
@@ -78,6 +84,14 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   const prevLockoutPresentRef = useRef(false);
   const prevLockoutTurnsRef = useRef<number | null>(null);
 
+  // §5.8 Authority trial — UI state. The transcript column collects
+  // `trial_balance_changed` events from each dispatch result so the
+  // column can render the cumulative trial plays. The counter drives
+  // entry ids so React keys are stable across renders.
+  const [trialTranscriptEntries, setTrialTranscriptEntries] = useState<TrialTranscriptEntry[]>([]);
+  const trialEntrySeqRef = useRef(0);
+  const prevTrialPresentRef = useRef(false);
+
   // Tutorial state
   const [tutorialStep, setTutorialStep] = useState(0);
   const [lastActionType, setLastActionType] = useState<string | null>(null);
@@ -110,6 +124,59 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   const addLog = useCallback((text: string, type: LogEntry["type"] = "info") => {
     setLog(prev => [...prev.slice(-50), { text, type }]);
   }, []);
+
+  /**
+   * §5.8 Authority trial — extract trial_balance_changed events from a
+   * dispatch result and append them to the transcript column. Also
+   * surface a `phase_violation` error as a rejection toast with the
+   * spec §2.1 "Counsel — this is not the phase for that." line.
+   *
+   * Called from every play_card dispatch site. No-op on non-trial
+   * matches (the events simply won't include trial_balance_changed
+   * entries and a phase_violation error only surfaces from §5.8
+   * matches by engine-side construction).
+   */
+  const processTrialDispatchResult = useCallback(
+    (result: TcgDispatchResult) => {
+      // Phase-violation rejection toast (spec §2.1).
+      if (result.error && result.error.startsWith("phase_violation:")) {
+        setRejection((r) => ({
+          key: (r?.key ?? 0) + 1,
+          message: "Counsel — this is not the phase for that.",
+        }));
+      }
+      // Append transcript entries from any trial_balance_changed
+      // events in this dispatch. Each event corresponds to one
+      // admissible card play. The event carries cardDefId only; the
+      // human-readable name comes from the player's hand if the card
+      // is still there (units that deployed this turn) or falls back
+      // to the defId. A follow-up PR can add a registry-lookup when
+      // §5.7's transcript handoff lands.
+      const newEntries: TrialTranscriptEntry[] = [];
+      for (const ev of result.events) {
+        if (ev.type !== "trial_balance_changed") continue;
+        const playerHand = gameState?.players[ev.player].hand;
+        const card = playerHand?.find(
+          (c) => c.sagaCardId === ev.cardDefId || c.id === ev.cardDefId,
+        );
+        const cardName = card?.name ?? ev.cardDefId;
+        // Phase comes from the current turnNumber; during trial mode
+        // the engine keeps phaseNumber === turnNumber per spec §2.
+        const phaseNumber = result.viewState.turnNumber;
+        trialEntrySeqRef.current += 1;
+        newEntries.push({
+          id: `trial_${trialEntrySeqRef.current}`,
+          cardName,
+          phaseNumber,
+          delta: ev.delta,
+        });
+      }
+      if (newEntries.length > 0) {
+        setTrialTranscriptEntries((prev) => [...prev, ...newEntries]);
+      }
+    },
+    [gameState],
+  );
 
   // Initialize game — uses the shared tcg-core reducer via TcgClient.
   // buildStarterDeck returns DuelystCard[] from the old cardAdapter; we
@@ -173,6 +240,24 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       onGameEnd(gameState.winner === 0 ? "player" : "opponent");
     }
   }, [gameState, phase, onGameEnd]);
+
+  // §5.8 Authority trial — screen-reader announcement on match start +
+  // transcript reset. The TrialPhaseIndicator's own aria-live region
+  // handles the verdict announcement when `outcome` lands, so this
+  // effect only needs to handle the match-begins case.
+  useEffect(() => {
+    if (!gameState) return;
+    const trialPresent = !!gameState.trial;
+    if (trialPresent && !prevTrialPresentRef.current) {
+      announce(
+        "Authority trial begins. Ten phases. What do you say to the charges?",
+        true,
+      );
+      setTrialTranscriptEntries([]);
+      trialEntrySeqRef.current = 0;
+    }
+    prevTrialPresentRef.current = trialPresent;
+  }, [gameState]);
 
   // §5.5 Warlord lockout — screen-reader announcements + fade-out.
   // Spec §6.4 specifies the exact strings; the fade-out lets the
@@ -257,6 +342,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         if (tiles.some(([r, c]) => r === row && c === col)) {
           const result = tcgClientRef.current!.dispatch({ type: "play_card", cardIndex: selectedCard, row, col });
           setGameState(asGameState(result.viewState));
+          processTrialDispatchResult(result);
           addLog(`Summoned ${card.name} at (${row}, ${col})`, "spell");
           dischordiaSounds.play("unit_summon");
           if (isTutorial) setLastActionType("play_card");
@@ -269,7 +355,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
 
     clearSelection();
     rendererRef.current?.clearHighlights();
-  }, [gameState, phase, selectionMode, selectedUnit, selectedCard, addLog]);
+  }, [gameState, phase, selectionMode, selectedUnit, selectedCard, addLog, processTrialDispatchResult]);
 
   /* ─── UNIT CLICK ─── */
   const handleUnitClick = useCallback((unitId: string) => {
@@ -301,6 +387,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       if (card) {
         const result = tcgClientRef.current!.dispatch({ type: "play_card", cardIndex: selectedCard, row: unit.row, col: unit.col, targetId: unitId });
         setGameState(asGameState(result.viewState));
+        processTrialDispatchResult(result);
         addLog(`Cast ${card.name} on ${unit.card.name}`, "spell");
         dischordiaSounds.play("spell_cast");
         clearSelection();
@@ -325,7 +412,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       const attacks = getValidAttacks(gameState, unitId);
       if (attacks.length > 0) rendererRef.current?.highlightUnits(attacks, gameState, 0xff4444);
     }
-  }, [gameState, phase, selectionMode, selectedUnit, selectedCard, addLog]);
+  }, [gameState, phase, selectionMode, selectedUnit, selectedCard, addLog, processTrialDispatchResult]);
 
   /* ─── CARD CLICK ─── */
   const handleCardClick = useCallback((index: number) => {
@@ -364,6 +451,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       if (card.spellEffect?.target === "self" || card.spellEffect?.type === "draw") {
         const result = tcgClientRef.current!.dispatch({ type: "play_card", cardIndex: index, row: 0, col: 0 });
         setGameState(asGameState(result.viewState));
+        processTrialDispatchResult(result);
         addLog(`Cast ${card.name}`, "spell");
         clearSelection();
       } else {
@@ -375,11 +463,12 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     } else if (card.cardType === "artifact") {
       const result = tcgClientRef.current!.dispatch({ type: "play_card", cardIndex: index, row: 0, col: 0 });
       setGameState(asGameState(result.viewState));
+      processTrialDispatchResult(result);
       addLog(`Equipped ${card.name}`, "spell");
       dischordiaSounds.play("card_play");
       clearSelection();
     }
-  }, [gameState, phase, addLog]);
+  }, [gameState, phase, addLog, processTrialDispatchResult]);
 
   /* ─── ACTIONS ─── */
   const handleMoveMode = useCallback(() => {
@@ -551,6 +640,30 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           turnsRemaining={gameState?.lockout?.turnsRemaining ?? 0}
           fadingOut={lockoutEndedFadingOut}
         />
+      )}
+      {/* §5.8 Authority trial — phase indicator + transcript column.
+          Both mount when gameState.trial is present (trial mode is
+          opted-in at match creation via MatchConfig.trialMode). The
+          phase indicator upgrades to a verdict display when
+          trial.outcome lands at turn 10. */}
+      {gameState?.trial && (
+        <>
+          <TrialPhaseIndicator
+            phaseNumber={gameState.turnNumber}
+            outcome={gameState.trial.outcome}
+          />
+          <TrialTranscriptColumn
+            balance={gameState.trial.trialBalance}
+            // Base threshold -2 per spec §3. When §5.7 handoff lands,
+            // recompute with warm/cool offsets from openingVerdictBalance.
+            threshold={
+              -2 +
+              (gameState.trial.openingVerdictBalance >= 3 ? 3 : 0) +
+              (gameState.trial.openingVerdictBalance <= -3 ? -3 : 0)
+            }
+            entries={trialTranscriptEntries}
+          />
+        </>
       )}
       {rejection && (
         <PlayRejectionToast key={rejection.key} message={rejection.message} />
