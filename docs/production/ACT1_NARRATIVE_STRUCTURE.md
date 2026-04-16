@@ -143,3 +143,118 @@ The narrative fields (`backstory`, `preMatchLine`,
 `postMatchWin`, `postMatchLoss`) are **already authored** in
 `apps/shared/act1Opponents.ts` and should be read as canonical
 source, not rewritten here.
+
+---
+
+## Section 2 — Act 1 Narrative Structure
+
+### 2.1 The memoir frame
+
+Act 1 is the Engineer's autobiography told through twelve card
+matches. The player isn't fighting strangers — they're replaying
+the most formative matches of a dead man's life, from his
+childhood classroom to his execution. Every match is a memory
+the Engineer chose to preserve in the deck; losing a match is
+still canonical (his life survives the loss), but winning lets
+the player feel the moment the way he wanted it felt.
+
+The memoir frame has two consequences for every Act 1 scene:
+
+1. **The Engineer is the narrator, not a character on screen.**
+   His voice colors the pre-match / post-match beats. He can
+   comment on his own past. Sample voice: dry, precise, warm
+   about the people he loved, exact about the people he didn't.
+   Same register as the Prelude's Beat E flashbacks.
+2. **Every opponent is already dead or long gone from the
+   Engineer's life by the time the player meets them here.**
+   The emotional weight is nostalgia inflected by what the
+   player knows from the Prelude — the Engineer's Log 5
+   farewell names Kael, the Detective, and the Enigma, and
+   three of Act 1's opponents are *these people young*.
+
+### 2.2 The three cycles
+
+| Cycle | Location | Ages | Narrative beat |
+|---|---|---|---|
+| **A — Kindergarten of Gods** | The schoolyard | 6–8 | Before any of them know what they'll become. Each opponent is a proto-form of a later cosmic figure (Meme, Collector, Watcher). The Engineer learns the Deck by losing to children. |
+| **B — Mechronis Academy** | The Academy | 18–22 | The Engineer meets the Human (student Detective), watches Iron Lion walk out, learns the calibration arts, and plays one match against the Seer. The Academy is where he almost becomes safe. |
+| **C — Nexon / Zenon / Last Words** | The war, the trial, the cell | 40 | The Warlord's first deployment breaks the line. The Engineer's trial. The execution that wasn't. Act 1's landing is the same song that landed Beat J — *Last Words* — but now the player knows what was said into the compartment before the song was written. |
+
+Each cycle is a three-to-five-battle arc with a finale cutscene.
+Cycle A resolves on `welcome-to-celebration` (the Empire already
+has a grip on the kids). Cycle B resolves on `to-be-the-human`
+(the Detective / Human is canonically born in that shot). Cycle
+C resolves on `last-words` (the Engineer's execution is suspended
+by a single card — the one that gets handed to Malkia Ukweli).
+
+### 2.3 The THE_SIGNAL interleave
+
+Act 1 isn't pure card battles. The `ACT_1_THE_SIGNAL` narrative
+tree at `apps/shared/narrativeActs.ts:78–372` interleaves with
+the cycles as ambient story moments in the Comms Array, Bridge,
+Archives, and Engineering rooms:
+
+- **Trigger:** Player enters the Comms Array after the Prelude's
+  Beat H introduced Locke's first transmission. THE_SIGNAL
+  picks up the same signal thread — this time The Human is on
+  the other end, whispering through the substrate layer.
+- **Two canonical branches:**
+  - **Path A — Tell Elara immediately.** Elara learns of the
+    Human's presence on the player's terms. She is guarded but
+    not betrayed; cooperation stays intact through Act 1.
+  - **Path Secret — Keep the Human hidden.** Elara will
+    eventually discover the contact. Whether she discovers it
+    via confession (`elaraDiscoveryPath: "told"`), accidental
+    exposure (`"discovered"`), or being outright lied to
+    (`"betrayed"`) changes the relational weight of every
+    subsequent Elara scene in Acts 1–3.
+- **Integration rule.** THE_SIGNAL nodes fire between specific
+  card-cycle boundaries — not during a match, never overlapping
+  a cutscene. Cycle A resolves → early THE_SIGNAL nodes open;
+  Cycle B start → branch gate closes (the player has either
+  told Elara or they haven't); Cycle C plays out on whichever
+  branch the player is on.
+
+### 2.4 Morality and alignment carry
+
+The Prelude's Beat J Light/Dark choice (`preludeAlignment`)
+is Act 1's starting moral position. Specifically:
+
+- **Light** opens Act 1 with `moralityScore: +15` and enables
+  Path A's most cooperative Elara beats by default.
+- **Dark** opens Act 1 with `moralityScore: -15` and makes the
+  Path Secret → `betrayed` branch cheaper to fall into (the
+  Warlord Zero match in Cycle C reads differently when the
+  player arrives carrying a cooler moral balance).
+
+Both starting positions are winnable — Act 1 does not softlock
+or force a reversal on either alignment. A Dark player who
+wants to earn Elara's trust still can; the doors are heavier,
+not closed.
+
+### 2.5 Prelude → Act 1 handoff contract
+
+Every piece of Prelude state Act 1 reads from GameContext:
+
+| Field | Source | Act 1 consumption |
+|---|---|---|
+| `preludeAlignment` | Beat J Light/Dark choice | Sets starting `moralityScore` ±15; gates the Authority trial framing in Section 5 |
+| `preludeCompletedFlags` includes `cutscene_archives_two_witnesses_part1_complete` | Beat J completes | Required to unlock the Section 6 "Two Witnesses Meet Part 2" cutscene trigger |
+| `preludeCompletedFlags` includes `prelude_burnt_card_found` | `burnt_card` crew mission | Required to unlock Act 1 at all — this is the Prelude's ship-complete gate |
+| `humanContactMade` | Beat H Locke inbox + Beat C.5 whisper | Branches THE_SIGNAL entire event tree |
+| `humanContactSecret` | Set on every Path-Secret choice | Feeds `elaraDiscoveryPath` at the branch-close gate |
+| Beat D mission-board posting reads | `mission_board_read_kelvara` + two others | Locke offers whichever three the player read, in order |
+| Kael Contingency Memo bullets | Beat F (`beat_f_memo_read`) | Referenced in Cycle C pre-Nexon dialogue; the memo's third bullet ("assume I am next") lands as a prophecy the player has now seen fulfilled |
+| Engineer's sandwich recipe | Beat D.5 Galley | Unlocks the Galley optional quest Act 1 side-content per Canon Rev 7 §5.6.13 |
+
+### 2.6 Act 1 → Acts 2+ forward-writes
+
+State Act 1 sets that later acts consume:
+
+| Field | Source | Consumer |
+|---|---|---|
+| `elaraDiscoveryPath` | Path-Secret branch-close | Act 2 Elara scenes; affects Act 3 Thought Virus meter calibration |
+| `narrativeActChoices` appended | Every Act 1 branch | Recorded for Act 5 Post-Credits "this is what you chose" reprise |
+| Opponent defeat/loss flags | Every card match | Deck composition defaults Act 2 fight mode selects from |
+| Trade Empire faction-first-contact flag | If player accepts any of Locke's three jobs | Opens the Trade Empire mid-game pillar in Act 3 |
+| `moralityScore` | Every Act 1 choice | Drives atmosphere-mapping from Canon Rev 7 §5.1 through the rest of the game |
