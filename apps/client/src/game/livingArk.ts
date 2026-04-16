@@ -4,7 +4,7 @@
    Plus: CoNexus Tomes, music triggers, NPC encounters.
    ═══════════════════════════════════════════════════════ */
 
-export type RoomId = "cryo_bay" | "medical_bay" | "bridge" | "archives" | "comms_array" | "observation_deck" | "armory" | "engineering" | "trade_hub" | "cargo_bay" | "trophy_room" | "captains_quarters";
+export type RoomId = "cryo_bay" | "medical_bay" | "bridge" | "archives" | "comms_array" | "observation_deck" | "armory" | "engineering" | "trade_hub" | "cargo_bay" | "trophy_room" | "captains_quarters" | "corridor" | "galley" | "briefing_room" | "mess_hall";
 export type EventType = "npc_conversation" | "signal_fragment" | "quarantine" | "tome_discovered" | "music_transmission" | "lore_discovery" | "army_recruit" | "trade_opportunity" | "doom_scroll_news" | "pod_activity" | "system_anomaly" | "stargazing" | "diagnostic_scan" | "research_complete" | "boss_challenge" | "draft_open" | "guild_war_update" | "crew_cloning" | "crew_danger" | "crew_activity" | "bloodline_event" | "incubator_ready";
 
 export interface RoomEvent { id: string; roomId: RoomId; type: EventType; title: string; description: string; npcId?: string; song?: string; minTrust?: number; minAct?: number; reward?: { dream?: number; xp?: number; cardId?: string; material?: string; trust?: number }; repeating: boolean; priority: number; }
@@ -24,6 +24,12 @@ export const ROOMS: Record<RoomId, RoomDef> = {
   cargo_bay: { id: "cargo_bay", name: "Cargo Bay", deck: "Deck 5", primaryNPC: null, features: ["collection", "inventory", "draft_tournament"], defaultTome: "iron-lion-foundation", discoverySong: null },
   trophy_room: { id: "trophy_room", name: "Trophy Room", deck: "Deck 6", primaryNPC: null, features: ["achievements", "titles", "battle_pass"], defaultTome: "the-ninth-blood-and-shadows", discoverySong: "Judgment Day" },
   captains_quarters: { id: "captains_quarters", name: "Captain's Quarters", deck: "Deck 6", primaryNPC: null, features: ["companion_hub", "morality_census"], defaultTome: "building-the-architect", discoverySong: "Lip Service" },
+  // Prelude-only rooms — reachable only during narrativeAct === 0.
+  // Minimal descriptors; full game UI doesn't render these post-Prelude.
+  corridor: { id: "corridor", name: "Corridor", deck: "Deck 1", primaryNPC: null, features: ["breath_beat_pacing"], defaultTome: null, discoverySong: null },
+  galley: { id: "galley", name: "Galley", deck: "Deck 2", primaryNPC: null, features: ["galley_hearth"], defaultTome: null, discoverySong: null },
+  briefing_room: { id: "briefing_room", name: "Briefing Room", deck: "Deck 2", primaryNPC: null, features: ["kael_contingency_memo", "empty_chair"], defaultTome: null, discoverySong: null },
+  mess_hall: { id: "mess_hall", name: "Mess Hall", deck: "Deck 2", primaryNPC: null, features: ["prince_archive", "sepia_flashback"], defaultTome: null, discoverySong: null },
 };
 
 const NPC_NAMES: Record<string, string> = { elara: "Elara", the_human: "The Human", agent_zero: "Agent Zero", adjudicator_locke: "Adjudicator Locke", the_source: "The Source", the_antiquarian: "The Antiquarian", shadow_tongue: "????" };
@@ -145,6 +151,32 @@ const ROOM_VISUAL_DESCRIPTORS: Record<RoomId, Record<number, { description: stri
     1: { description: "Personal touches appearing. Companion photos on the wall.", features: ["companion_photos"] },
     2: { description: "Morality census station active. The room reflects your choices.", features: ["companion_photos", "morality_display"] },
     3: { description: "A home at the edge of forever. Every companion has left their mark.", features: ["companion_photos", "morality_display", "legacy_wall", "programmers_terminal"] },
+  },
+  // Prelude-only rooms — only tier 0 is meaningful; other tiers repeat it
+  // because these rooms don't persist past the Prelude.
+  corridor: {
+    0: { description: "A short curved corridor. Emergency floor strips pulse cyan.", features: [] },
+    1: { description: "A short curved corridor. Emergency floor strips pulse cyan.", features: [] },
+    2: { description: "A short curved corridor. Emergency floor strips pulse cyan.", features: [] },
+    3: { description: "A short curved corridor. Emergency floor strips pulse cyan.", features: [] },
+  },
+  galley: {
+    0: { description: "A small crew galley. A coffee mug sits abandoned on the counter.", features: [] },
+    1: { description: "A small crew galley. A coffee mug sits abandoned on the counter.", features: [] },
+    2: { description: "A small crew galley. A coffee mug sits abandoned on the counter.", features: [] },
+    3: { description: "A small crew galley. A coffee mug sits abandoned on the counter.", features: [] },
+  },
+  briefing_room: {
+    0: { description: "A briefing room with seven chairs. The eighth is empty and askew.", features: [] },
+    1: { description: "A briefing room with seven chairs. The eighth is empty and askew.", features: [] },
+    2: { description: "A briefing room with seven chairs. The eighth is empty and askew.", features: [] },
+    3: { description: "A briefing room with seven chairs. The eighth is empty and askew.", features: [] },
+  },
+  mess_hall: {
+    0: { description: "A small mess hall. The Prince's archive shelf is dim with age.", features: [] },
+    1: { description: "A small mess hall. The Prince's archive shelf is dim with age.", features: [] },
+    2: { description: "A small mess hall. The Prince's archive shelf is dim with age.", features: [] },
+    3: { description: "A small mess hall. The Prince's archive shelf is dim with age.", features: [] },
   },
 };
 

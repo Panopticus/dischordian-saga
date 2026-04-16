@@ -5,7 +5,11 @@ import {
   pickRoomFilter,
   ROOM_WITNESSING_TOUCHPOINTS,
 } from "./livingArkTouchpoints";
-import { ROOM_AFFINITY, type NarratorRoomId } from "./mobileNarrator";
+import {
+  PRELUDE_ONLY_ROOMS,
+  ROOM_AFFINITY,
+  type NarratorRoomId,
+} from "./mobileNarrator";
 
 describe("livingArkTouchpoints — registry structure", () => {
   it("has an entry for every NarratorRoomId with an affinity", () => {
@@ -31,9 +35,15 @@ describe("livingArkTouchpoints — registry structure", () => {
     }
   });
 
-  it("every narratorReactionTable has at least one action", () => {
-    for (const entry of Object.values(ROOM_WITNESSING_TOUCHPOINTS)) {
-      expect(Object.keys(entry.narratorReactionTable).length).toBeGreaterThan(0);
+  it("every post-Prelude narratorReactionTable has at least one action", () => {
+    for (const [key, entry] of Object.entries(ROOM_WITNESSING_TOUCHPOINTS)) {
+      // Prelude-only rooms have empty reaction tables by design —
+      // the post-Prelude narrator system doesn't run during the Prelude.
+      if (PRELUDE_ONLY_ROOMS.has(key as NarratorRoomId)) continue;
+      expect(
+        Object.keys(entry.narratorReactionTable).length,
+        `Post-Prelude room ${key} must have at least one reaction`,
+      ).toBeGreaterThan(0);
     }
   });
 

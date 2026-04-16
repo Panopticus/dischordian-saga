@@ -142,6 +142,15 @@ export const LYRA_VOX_DIALOG: Record<NarratorRoomId, LyraVoxLine[]> = {
       text: "The pet imprinted on you in ninety-three seconds. I timed it. The record was one hundred and forty-seven seconds, held by a Potential whose name I am not allowed to say yet.",
     },
   ],
+
+  // Prelude-only rooms. Lyra Vox is a post-Prelude narrator, so her
+  // lines don't run in these rooms. Empty arrays satisfy the Record
+  // type; lookupLyraVoxLine returns undefined for any room whose list
+  // is empty.
+  corridor: [],
+  galley: [],
+  briefing_room: [],
+  mess_hall: [],
 };
 
 /**

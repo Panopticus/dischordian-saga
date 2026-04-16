@@ -126,9 +126,10 @@ export function PreludeSequencePlayer({
             volume={volume}
           />
         );
-      // TODO: Beat C crew role choice, Beat D mission board, Beat E
-      // flashback trigger, Beat F biometric lockbox. For now auto-advance
-      // handles these (no interactive step required yet).
+      // Future per-beat interactions (Beat C crew role choice, Beat D
+      // mission board, Beat E flashback trigger, Beat F biometric lockbox)
+      // slot in here as additional cases. Until those ship, non-Beat-J
+      // beats auto-advance via beatHasInteraction() returning false.
       default:
         return null;
     }
