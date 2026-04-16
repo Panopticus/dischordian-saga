@@ -59,14 +59,37 @@ describe("preludeSequenceReducer — cutscene_ended auto-advance", () => {
     expect(s1.completedFlags).toContain("cutscene_awakening_complete");
   });
 
-  it("walks the entire 15-beat sequence via cutscene_ended (except Beat J)", () => {
+  it("walks the entire 15-beat sequence via cutscene_ended + interaction_complete", () => {
     let s = initialPreludeSequenceState();
-    // Beats 1..14 auto-advance. Beat 15 (Beat J) holds.
+    // Non-interactive beats auto-advance on cutscene_ended. Interactive
+    // beats (Beat E, Beat J) hold at `completed` and need an explicit
+    // interaction_complete to advance.
     for (let i = 0; i < 14; i++) {
       s = preludeSequenceReducer(s, { type: "cutscene_ended" });
+      // After Beat E's cutscene ends, the reducer holds at completed.
+      // Fire interaction_complete so the walk continues to Beat F.
+      if (PRELUDE_BEATS[s.beatIndex].id === "beat_e" && s.phase === "completed") {
+        s = preludeSequenceReducer(s, { type: "interaction_complete" });
+      }
     }
     expect(PRELUDE_BEATS[s.beatIndex].id).toBe("beat_j");
     expect(s.phase).toBe("cutscene");
+  });
+
+  it("Beat E stops at phase=completed after cutscene_ended", () => {
+    const s0 = initialPreludeSequenceState("beat_e");
+    const s1 = preludeSequenceReducer(s0, { type: "cutscene_ended" });
+    expect(PRELUDE_BEATS[s1.beatIndex].id).toBe("beat_e");
+    expect(s1.phase).toBe("completed");
+  });
+
+  it("Beat E advances to Beat F on interaction_complete (no alignment)", () => {
+    const s0 = initialPreludeSequenceState("beat_e");
+    const s1 = preludeSequenceReducer(s0, { type: "cutscene_ended" });
+    const s2 = preludeSequenceReducer(s1, { type: "interaction_complete" });
+    expect(PRELUDE_BEATS[s2.beatIndex].id).toBe("beat_f");
+    expect(s2.phase).toBe("cutscene");
+    expect(s2.alignment).toBeNull();
   });
 
   it("Beat J stops at phase=completed after cutscene_ended", () => {
@@ -147,9 +170,10 @@ describe("preludeSequenceReducer — advance + reset", () => {
 });
 
 describe("beatHasInteraction", () => {
-  it("is true only for Beat J", () => {
+  it("is true for Beat E (flashback) and Beat J (witnessing) only", () => {
+    const interactiveBeatIds = new Set<string>(["beat_e", "beat_j"]);
     for (const beat of PRELUDE_BEATS) {
-      expect(beatHasInteraction(beat)).toBe(beat.id === "beat_j");
+      expect(beatHasInteraction(beat)).toBe(interactiveBeatIds.has(beat.id));
     }
   });
 });
