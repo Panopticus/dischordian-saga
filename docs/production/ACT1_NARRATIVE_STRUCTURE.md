@@ -829,13 +829,47 @@ to be*.
   The sunlight is the last visual echo of Cycle A's classroom;
   after Cycle B it will not return until Act 5. Anamorphic
   flare on the arched window. Volumetric fog ankle height.
-- **Nano Banana 2 prompt:** *to author in Section 4 revision.
-  First pass should show the central atrium: a single polished
-  brass-and-bone card-table center-frame, four tall arched
-  windows along one wall casting warm sunlight across the
-  floor, stone columns, a set of brass doorways leading off
-  frame. No rendered text. No visible people. Cinematic 4K
-  composition.*
+- **Nano Banana 2 prompt:**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of
+> the central atrium of Mechronis Academy — a technical
+> university carved from grey limestone and polished dark-
+> basalt composite, soaring early-Empire institutional
+> architecture. The atrium is a rectangular hall with a
+> vaulted ceiling of exposed brass ribs and obsidian-glass
+> skylight panes; four tall narrow arched windows line the
+> left wall, each two stories high, casting long shafts of
+> warm late-morning sunlight across a polished basalt floor
+> dulled by decades of student footfall. Center-frame sits
+> the public-match card-table: a single rectangular table
+> of brass-clad oak with inlaid bone corner accents, polished
+> to a soft matte sheen, four empty institutional chairs
+> arranged around it (two facing two). No rendered text on
+> the table's brass plaque (keep it blank for future UI
+> overlay). Along the right wall: three tall brass doorways
+> in shallow arched alcoves, each leading off-frame deeper
+> into the Academy; above each alcove, a small stone
+> medallion carved with a faculty seal (generic geometric
+> sigils, no rendered letters). The stone columns between
+> the doorways are fluted and unpainted. At the far end of
+> the atrium, a raised dais with a second smaller card-table
+> and a row of faculty chairs (empty — faculty appear per-
+> match as portraits). **Palette:** cool institutional cyan
+> #4ba3b5 in the shadowed recesses of the atrium (wall
+> tones, under-column shadow, the basalt floor's deeper
+> reflections), polished brass #b8752d on door-frames and
+> table edges, warm buttery sunlight #f5d98a in four hard
+> parallelograms falling across the floor — the sun is the
+> **last visual echo of §3.3 classroom warmth**, deliberate
+> and sparing. Volumetric fog pooled at ankle height, thin
+> and dignified, catching the sun shafts as dust motes.
+> Anamorphic lens flare on the brightest window's inner
+> edge. Faint film grain. Cinematic 4K composition, three-
+> quarter wide shot, camera at standing adult eye level
+> (not child-eye as §3.3), looking down the hall past the
+> public card-table toward the dais. No rendered text,
+> no visible people, no holograms. **The room feels
+> important. The room is about to be hostile. Today it is
+> still just a school.**
 
 ### 4.5 Opponent 4 — The Detective (student years)
 
@@ -852,15 +886,69 @@ to be*.
   player, having heard Log 5 in the Prelude, arrives carrying
   that weight.
 
-**Production slots:**
-- Matchup-card art (young man in a tidy student blazer, trench
-  coat yet to arrive; warm open face)
-- Deck composition (neutral; reading-the-opponent mechanics)
-- Completion flag: `act1_detective_student_defeated`
-- **Canon tie-in:** Setting the `act1_detective_student_played`
-  flag unlocks a post-match Galley optional quest Act 1+ that
-  references the sandwich recipe from Beat D.5 (Canon Rev 7
-  §5.6.13)
+**Matchup-card art:**
+- **Output:** `apps/client/public/art/matchups/act1/detective-student.png` + `.webp`
+- **Aspect:** 3:4 portrait 1536×2048
+- **Priority:** P0
+- **Style anchor:** §4.4 atrium palette. The student
+  portraits all share the atrium's cyan-cool ambient with
+  one sun-shaft falling across the subject, so the five
+  Cycle B matchup cards read as a family against the
+  environment still.
+
+**Nano Banana 2 prompt:**
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card
+> framing (subject fills upper two-thirds, lower third
+> empty brass-clad card-table surface for UI overlay). A
+> young man around twenty, seated at the §4.4 public card-
+> table, leaning slightly forward with both forearms
+> resting flat on the brass-inlaid oak. His face is open,
+> warm, attentive — the specific attention of a person who
+> is *listening as hard as they are looking*. He has a
+> half-smile that is about to become a full smile if
+> whatever you're about to say is worth it. Dark hair,
+> short and side-parted, a little untidy at the crown.
+> Clean-shaven. Eyes dark, lively, slightly amused. He
+> wears the **Mechronis student blazer** — a tailored
+> cyan-grey wool double-breasted jacket with two rows of
+> brass buttons and a narrow Academy crest stitched onto
+> the left breast (crest is a stylized geometric seal, no
+> rendered letters). Under the blazer a plain white
+> collared shirt, no tie. His hands are bare, fingers
+> laced loosely on the table; no coffee cup yet, no
+> notebook, no trench coat (this is *before* the trench
+> coat — the iconography that will define the Human is not
+> here yet). One of the §4.4 window sun-shafts falls
+> diagonally across his left shoulder and the table edge
+> in front of him, warm yellow against the atrium's cyan
+> tone. Palette: cyan institutional #4ba3b5 on the blazer
+> and background, brass #b8752d on his buttons and the
+> table's edge, warm sunlight #f5d98a on his left side,
+> dark hair #2a1f1a, white shirt collar #f0eae0.
+> Background: softly defocused atrium columns and arched
+> window, bokeh only. Cinematic 4K. **He is the friend
+> the Engineer almost kept. The warmth in his face is the
+> entire cost of what's coming.** No rendered text.
+
+**Deck composition (first-pass spec):**
+- **Lean:** `neutral` (10 cards)
+- **Defining mechanic:** *Read.* The Detective's deck
+  inspects the player's hand after every third card is
+  played and reveals one player card to the Detective for
+  the next turn. The player sees the reveal happen — a
+  subtle UI cue (a soft amber outline on the revealed
+  card). This is the canonical origin of the Detective's
+  post-Prelude *read-the-room* keyword used through Acts
+  2–5 when the Human-as-Detective ability fires.
+- **Difficulty posture:** **Low.** The player is opening
+  Cycle B; the mechanic is new but forgiving (a reveal is
+  information, not damage). Win-rate target: 70%+ for
+  first-time players. The match is a *meeting*, not a
+  test.
+- **Completion flag:** `act1_detective_student_defeated`
+  on win; `act1_detective_student_played` set
+  unconditionally (used by the §4.5 Galley-sandwich quest
+  gate per Canon Rev 7 §5.6.13).
 
 ### 4.6 Opponent 5 — Iron Lion (the day of his expulsion)
 
@@ -878,12 +966,77 @@ to be*.
   next — he walks out either way. The memoir's point is that
   *winning is not the thing that matters*.
 
-**Production slots:**
-- Matchup-card art (young man with cropped hair, institutional
-  Academy uniform worn one button too loose; he is already
-  halfway through the door)
-- Deck composition (Insurgency lean — turn-order violations)
-- Completion flag: `act1_iron_lion_defeated`
+**Matchup-card art:**
+- **Output:** `apps/client/public/art/matchups/act1/iron-lion-expelled.png` + `.webp`
+- **Aspect:** 3:4 portrait 1536×2048
+- **Priority:** P0
+- **Style anchor:** §4.4 atrium palette. Unlike §4.5
+  Detective, Iron Lion is **mid-motion** in-frame — the
+  portrait captures him already leaving, not seated. The
+  sun-shaft falls behind him, not on him.
+
+**Nano Banana 2 prompt:**
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card
+> framing. A young man around twenty-one, standing beside
+> the §4.4 public card-table rather than seated at it —
+> one hand still resting on the chair-back he has just
+> risen from, the other already pointing off-frame toward
+> the atrium's brass doorways. His weight is on his front
+> foot; he is mid-stride toward leaving. **The posture is
+> the story.** His face is set — not angry, not sad,
+> *done*. Jaw firm, eyes forward (not at camera — past
+> camera, at the door). Close-cropped dark-auburn hair,
+> slight beard starting at the jawline. He wears the
+> **Mechronis Academy uniform**: same cut of cyan-grey
+> blazer as the Detective but worn **one button too
+> loose** at the collar, one sleeve rolled up to the
+> elbow. The Academy crest on his left breast has been
+> deliberately scratched through with a single diagonal
+> mark (subtle — visible only on close inspection). Under
+> the blazer, a plain work shirt in a warmer neutral grey.
+> Bare forearm shows a faint pale scar running from wrist
+> to inner elbow — the mark of someone who has worked
+> with their hands, not just their mind. Lighting: the
+> §4.4 atrium sun-shaft is **behind** him, rim-lighting
+> his silhouette from the back; his face is lit only by
+> the cyan institutional ambient. This is deliberate —
+> the sun is where he's leaving from; the cold light is
+> where he is. Palette: cyan #4ba3b5 (dominant on his
+> face and the foreground), brass #b8752d (blazer buttons,
+> faint), warm sun #f5d98a (rim light behind him only),
+> warm grey #867b6d (work shirt). Background: defocused
+> atrium doorway, the brass door slightly ajar. Cinematic
+> 4K. **He is already halfway through the door. Whether
+> he wins or loses this match, he walks out the same
+> way.** No rendered text.
+
+**Deck composition (first-pass spec):**
+- **Lean:** `insurgency` (8 cards), `neutral` (2 cards)
+- **Defining mechanic:** *Rule-break.* Iron Lion's deck
+  deliberately violates standard turn order on turns 3
+  and 6 — he plays out of sequence, plays two cards in
+  one phase, or discards in an unsupported order. The
+  game state reports a warning to the player ("opponent
+  played out of turn — accept or contest?"). Contesting
+  wastes a player turn; accepting lets Iron Lion press
+  the advantage. The **correct** play is to rule-break
+  back — the player can violate their own turn order in
+  response if they've unlocked any `insurgency`-leaning
+  cards. The memoir's point is *winning is not the thing
+  that matters, and the rules are not the thing that
+  matters either.*
+- **Difficulty posture:** **Medium.** First match in the
+  run where a clever mechanic is actively adversarial
+  rather than informational. Players who play clean lose;
+  players who contest every violation lose by tempo;
+  players who rule-break back either win or get a very
+  close defeat. The match outcome branches Act 2's
+  Insurgency-faction-contact conversations but does not
+  softlock anything.
+- **Completion flag:** `act1_iron_lion_defeated` on win;
+  `act1_iron_lion_witnessed` set unconditionally (Iron
+  Lion walks out either way, and the memoir carries the
+  *witnessed* fact forward).
 
 ### 4.7 Opponent 6 — Professor Eidola
 
