@@ -33,4 +33,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She has died a hundred times and learned nothing from any of them.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

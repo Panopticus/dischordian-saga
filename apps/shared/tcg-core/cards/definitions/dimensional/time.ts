@@ -21,6 +21,7 @@ export const time_01: CardDefinition = {
   flavorText:
     "Grow. The Moment Keeper takes the moment the opponent was not using and files it. She gets larger the longer anybody forgets she is there.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence"] as const,
 };
 
 export const time_02: CardDefinition = {
@@ -37,6 +38,7 @@ export const time_02: CardDefinition = {
   flavorText:
     "Grow. Rebirth. The Loop Walker dies and walks out of the same door he walked in, which is the one over there that you are looking at right now.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const time_03: CardDefinition = {
@@ -53,6 +55,7 @@ export const time_03: CardDefinition = {
   flavorText:
     "Grow. Rebirth. Forcefield. The Hour-Unmaker has a list of hours that nobody has yet agreed to spend, and he is spending them on the match you are playing. The match is taking longer on his side than yours.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const TIME_DIMENSION_CARDS: readonly CardDefinition[] = Object.freeze([

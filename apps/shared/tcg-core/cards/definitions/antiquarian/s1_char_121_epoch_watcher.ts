@@ -52,4 +52,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It has seen empires rise and fall a thousand times. Each wound is just another memory it has already forgotten.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };

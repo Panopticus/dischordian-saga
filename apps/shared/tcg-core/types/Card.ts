@@ -66,6 +66,30 @@ export type Keyword =
   | "resurrect"; // returns to the field once after death
 
 /**
+ * Trial-phase category tags used by §5.8 Authority match (Act 1 finale).
+ * Each tag describes how the card is *admissible* during a specific phase
+ * of the canonical Empire judicial proceeding the §5.8 match models.
+ *
+ * A card may have multiple categories — e.g. a card that is both a
+ * defensive play in turn 1's charge phase and an admissible evidence-
+ * category play in turns 3–5. Cards with no trial_categories are
+ * unplayable in every restricted §5.8 phase and are only available in
+ * the all-categories-permitted phases (none exist in §5.8's current
+ * spec — see docs/production/act1/authority-trial-phase-mechanic.md §2).
+ *
+ * Back-fill status: new optional field as of April 2026. Existing
+ * cards default to empty (unplayable in §5.8). Act 1 card-pool
+ * backfill planned in a follow-up pass before §5.8 runtime ships.
+ */
+export type TrialCategory =
+  | "defensive"   // phase 1 (charge)
+  | "offensive"   // no §5.8 phase permits these; reserved for tooling
+  | "narrative"   // phases 2 (opening argument) + 9 (closing argument)
+  | "evidence"    // phases 3–5 (evidence presentation)
+  | "reactive"    // phases 6–8 (cross-examination)
+  | "confession"; // phase 7 (cross-exam second) only — insurgency lean
+
+/**
  * Authored card definition. Serializable — no functions. All ability logic
  * lives in effect trees (see types/Effect.ts + types/Trigger.ts).
  */
@@ -105,6 +129,14 @@ export interface CardDefinition {
    * card class-neutral.
    */
   characterClass?: "spy" | "oracle" | "assassin" | "engineer" | "soldier" | "neyon";
+  /**
+   * Optional: Act 1 §5.8 Authority trial-phase admissibility tags.
+   * Omitting the field (or providing an empty array) makes the card
+   * unplayable in every restricted §5.8 phase. See
+   * docs/production/act1/authority-trial-phase-mechanic.md for the
+   * phase-to-category mapping.
+   */
+  trial_categories?: readonly TrialCategory[];
 }
 
 /** Forward-declared. Full shape lives in types/Trigger.ts. */

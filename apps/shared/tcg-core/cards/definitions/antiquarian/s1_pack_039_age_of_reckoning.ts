@@ -68,4 +68,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The old age crumbles. The new age mends what it can. The cycle continues.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "offensive"] as const,
 };

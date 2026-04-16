@@ -47,4 +47,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Fifty quests. Fifty stories. All of them end with her still standing.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence"] as const,
 };
