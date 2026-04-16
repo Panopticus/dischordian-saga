@@ -741,4 +741,209 @@ the jar cracks, Corey picks up the pieces.
   the mask is the single continuity signifier across the two
   appearances and must be rendered identically
 
+### 2.4 Kanshi Sha the Watcher — Cycle A3 opponent (Day 28, graduation)
+
+The third Cycle A boss and the last card battle before the *Welcome
+to Celebration* slideshow fires. Day 28 of the Celebration Trial —
+graduation day. Kanshi Sha is the child-form of the Watcher Archon,
+canonically present at every Cycle A event the player has seen, and
+at sixteen previous simulation runs the player has not. He has
+watched this schoolyard die and re-form sixteen times. This is the
+seventeenth. When the player sits down across from him they are
+not just fighting another kid — they are fighting the only entity
+in the Engineer's memories who has been watching the Engineer
+since before the Engineer had memories to record.
+
+**Canonical visual (user-provided, 2026-04-15):**
+
+> Kanshi Sha the Watcher is a slender Japanese boy in all-white
+> streetwear with glowing lines, his "all-seeing eye" graffiti tag
+> sometimes visible behind him like a magical aura.
+
+**Production expansion for this doc:**
+
+- **Physique and presentation:** seven-year-old Japanese boy, tall
+  for his age and unusually slender — long thin limbs, narrow
+  shoulders, a delicate neck. Rendered with photographic specificity:
+  straight black hair cut in a clean Japanese schoolboy style
+  (mushroom cut with a straight fringe just above the eyebrows).
+  Warm pale skin, dark almond-shaped eyes, a small mole under his
+  left eye. The face should read as *gentle* — not stern, not
+  creepy, not "evil child." Kanshi Sha looks like a kid who would
+  help you tie your shoes. The horror is not in his face.
+- **All-white streetwear:** this is the canonical override of the
+  code's "half-finished white mask" detail (from `act1Opponents.ts`
+  `little_watcher.backstory`) — **Kanshi Sha does NOT wear a mask**.
+  The mask motif belongs to Corey (§2.3). Kanshi Sha's canonical
+  visual signature is the streetwear, not the mask. Specifically:
+  - Oversized white hoodie (child-sized large, hanging off his
+    frame), drawstring hood worn down
+  - White cargo joggers, also loose-fitting
+  - Clean white sneakers with white laces
+  - White crew socks visible above the sneakers
+  - No visible logos, no brand marks, no accessories — every
+    garment is *pure white*, almost institutional. Think "blank
+    canvas meets Tokyo Harajuku streetwear meets Project Celebration
+    uniform override"
+- **Glowing lines:** faint electric-white lines trace along seams
+  and folds of the streetwear — hood edges, hoodie cuffs, jogger
+  side-stripes, sneaker soles. The lines pulse at sub-1 Hz (slower
+  than a heartbeat, matching the breath-pulse rhythm from the
+  Prelude Bible §18.1 for visual continuity). When Kanshi Sha is
+  watching something specific (the player's hand, a card they just
+  played) the lines on his hoodie cuffs pulse slightly brighter.
+  The lines are canonically **the Watcher Archon's surveillance
+  nervous system externalized** — a physical visualization of what
+  the cosmic Watcher is tracking at any given moment. Rendered as
+  faint glow-edge shader overlays with a soft bloom, color `#e0f2fe`
+  (a very pale cool cyan, slightly bluer than the Prelude's warmer
+  cyan — a visual distinction that marks Watcher-light apart from
+  emergency-strip-light).
+- **The "all-seeing eye" graffiti tag aura:** an environmental VFX
+  rather than a costume element. When Kanshi Sha is intensely
+  focused on the player (pre-match stare, mid-match card
+  evaluation, post-match loss reveal), a large spray-painted
+  **eye-shaped graffiti tag** blooms on the wall or background
+  behind him — rendered as if someone has just finished spraying
+  it in the last half-second. The tag is stylized: a single
+  enormous eye with an elongated almond shape, a small triangular
+  pupil, radiating straight lines around it like a sun ray motif.
+  The tag color is matte black with white glow-edge (consistent
+  with the streetwear lines). The tag is NOT always visible —
+  per user canon "sometimes visible... like a magical aura." Render
+  it in the pre-match matchup splash, in one mid-match beat when
+  Kanshi Sha first uses an Ocularum card, and in the post-match
+  splash. See §5 Cycle A3 battle spec for the exact timing.
+- **Posture and body language:** **preternaturally still** — the
+  opposite of Minnie's (§2.2) mid-motion energy. Kanshi Sha sits
+  with his hands folded in his lap, head slightly tilted as if
+  listening to something very far away. He does not fidget. He
+  does not adjust his hoodie. He does not look away from the
+  player's eyes between card plays. When he plays a card he moves
+  his hand from his lap to the table in a single economical
+  gesture, sets the card precisely, and returns his hand to his
+  lap. The stillness is the signal. When it *breaks* — which it
+  does, once, at the end of the battle — the player should notice
+  immediately.
+- **Voice direction (Watcher Archon in a child body):** per §2.0's
+  canon hygiene rule, Kanshi Sha's voice is not a child's voice.
+  It is the Watcher — calm, observational, older than any human
+  child could be. Slightly Japanese-inflected English (matching
+  the character's ethnicity and the Mechronis setting's
+  cosmopolitan mix). Cadence is even and almost meditative. He
+  never raises his voice. He never drops into excitement. Every
+  sentence lands with the weight of being witnessed, which is the
+  Watcher's entire thing — by speaking to you he is *recording*
+  you, and you feel it.
+
+  No existing Watcher voice profile currently exists in
+  `docs/production/VOICE_OVER_BIBLE.md`. A new voice profile
+  **`the_watcher_child`** should be added. ElevenLabs parameters
+  target: `stability: 0.80` (high — the Watcher is consistent
+  across all samples), `similarity_boost: 0.85`, `style: 0.15`
+  (very low stylization — he is almost documentary), with a
+  subtle recording-artifact layer of 0.1 applied to the whole
+  voice to reinforce the "he is recording you" sensation.
+
+**Canonical pre-match line** (from `apps/shared/act1Opponents.ts`
+`little_watcher.preMatchLine`, to be renamed to `kanshi_sha_watcher`
+in the code cleanup PR):
+
+> *"I have been watching. I will watch this too. I have watched
+> sixteen versions of you already."*
+
+Delivered with the Watcher's even cadence, no emphasis on any
+particular word. The "sixteen versions" line is canonically
+literal — the Engineer's simulation has been run sixteen times
+before this playthrough, and the Watcher has been present in all
+of them as an observer. This is the **first canonical hint in the
+player-visible game that the simulation is not the player's first
+run**. The player won't have context for this yet; it is a seed
+for the Act 5+ simulation-awareness reveal and must land matter-
+of-factly. Do not punch the line. Let the player wonder.
+
+**Deck theme:** "Ocularum" full-board reveal — every card in the
+player's hand is visible to Kanshi Sha from the start of the match,
+and every card the player draws is revealed to him as it's drawn.
+Zero hidden information. The player cannot bluff. The gameplay
+pivot is that the player must play cards whose **on-play effects**
+matter more than their bluff value — because the Watcher knows
+what's coming but cannot change the outcomes the player chooses.
+This is the Watcher Archon's signature mechanic and recurs on
+every future Watcher-adjacent opponent (Young Eyes in Cycle B4 is
+a derivative, the Act 3 "I Am the Eyes That Watch" slideshow
+reuses the mechanic as a narrative device, and the full
+Ocularum combat system is explored in later acts).
+
+**Card unlock on win:** *The First Card* (Epic Light — blank, 3
+random effects on play). A canonically blank card with no printed
+value or effect text — when played, three random effects resolve.
+This is the **first blank Dischordia card the player ever owns**,
+and it is a deliberate foreshadow of the Act 1 Finale's *"YOUR
+NAME" — Unwritten* player-authored card (§18). Both are blank
+because blank cards are the ones the player will make their own.
+The Engineer canonically crafted this card from the residue of the
+Watcher's defeat — he took an unwritten sliver of the simulation's
+observation substrate and printed it onto a Common card blank.
+Render the card art as a plain schoolyard paper card with the
+eye-graffiti motif faintly visible in the background.
+
+**Post-match canonical beats** (adapted from `act1Opponents.ts` —
+the original code text used mask imagery; this doc adapts them to
+fit the user-canon streetwear-and-aura visuals without changing
+the emotional beat):
+
+- **Win:** The glowing lines on Kanshi Sha's streetwear **dim for
+  a full second**. The graffiti eye-tag behind him fades from the
+  wall until the wall is just a wall again. For one frame his
+  face is just a child's face — small, tired, about to cry. He is
+  seven years old. He is alone. He has watched sixteen friends
+  graduate without him. Then the lines flicker back on. The eye-
+  tag returns. The moment is gone. The player has seen something
+  Kanshi Sha will not let anyone else see, and they will not see
+  it again until Act 5.
+- **Loss:** The eye-graffiti tag behind him **blooms to full
+  intensity** — the largest it gets in the entire match. The
+  glowing lines on his streetwear pulse a single bright pulse
+  and hold at peak. He does not move. He does not speak. He is
+  still watching. You do not see his face clearly because the
+  tag's glow is washing it out — nobody who has lost to Kanshi
+  Sha has ever seen his face clearly, because the Watcher never
+  gives you that vulnerability unless you earn it with a win.
+  The player moves on to the *Welcome to Celebration* slideshow
+  carrying the memory of being observed by an entity they could
+  not quite see.
+
+**Graduation-day mechanic:** per `act1Opponents.ts.little_watcher.postBattleSlideshow = "welcome-to-celebration"`,
+the A3 battle resolves directly into the *Welcome to Celebration*
+slideshow (§6). There is no intermediate beat — the card table
+dissolves, the graduation-photo setup assembles around it, and
+the slideshow fires. Production should chain the battle's
+post-match splash directly into the slideshow's first frame
+with a single cross-fade.
+
+**Cross-references:**
+
+- §2.0 (simulation framing — Archons in child bodies, "sixteen
+  versions" is the canonical hint at simulation recurrence)
+- §5 (Cycle A3 battle section — full battle spec including the
+  eye-tag environmental VFX timing)
+- §6 (*Welcome to Celebration* slideshow — fires directly on A3
+  resolution, Kanshi Sha appears in the graduation-photo final
+  frame standing precisely-still in the back row)
+- §18 (Act 1 Finale — *"YOUR NAME" — Unwritten* card; *The First
+  Card* from Kanshi Sha's defeat is its canonical prototype)
+- `apps/shared/act1Opponents.ts` `little_watcher` data shell (to
+  be renamed `kanshi_sha_watcher` in the follow-up code PR);
+  backstory field needs the mask reference removed to match the
+  user-canon streetwear-and-aura visuals
+- `apps/shared/celebrationTrial.ts` Day 28 graduation event
+- Cycle B4 Young Eyes (§2.7 — child created by the Watcher per
+  DSFGL, canonically a derivative of Kanshi Sha's surveillance
+  nervous system)
+- Act 3 opening slideshow *"I Am the Eyes That Watch"* per
+  `docs/production/SHIP_READY_ASSET_BIBLE.md` §3.7 —
+  canonically the adult-form evolution of the Watcher Archon's
+  child-form mechanics established here
+
 ---
