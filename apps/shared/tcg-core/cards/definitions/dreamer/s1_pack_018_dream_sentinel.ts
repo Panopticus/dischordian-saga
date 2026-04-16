@@ -42,4 +42,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It dreams of an impenetrable wall. And so the wall exists.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

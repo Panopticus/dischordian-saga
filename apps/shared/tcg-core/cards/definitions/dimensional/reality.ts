@@ -65,6 +65,7 @@ export const reality_03: CardDefinition = {
   flavorText:
     "Provoke. Dispel. Forcefield. On deploy, silence the enemy general. The Thing That Is Actually Happening is always happening, and nothing in the match will convince it otherwise, which is the definition of reality the Architect was using when he wrote the first draft.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const REALITY_DIMENSION_CARDS: readonly CardDefinition[] = Object.freeze([

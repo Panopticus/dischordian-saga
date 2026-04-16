@@ -59,6 +59,7 @@ export const fire_02: CardDefinition = {
   flavorText:
     "Deal 3 damage to the enemy general. A spark is a decision that stops being one the moment you let go of it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };
 
 export const fire_03: CardDefinition = {
@@ -75,6 +76,7 @@ export const fire_03: CardDefinition = {
   flavorText:
     "Celerity. 5/2. A blaze lancer strikes twice because the first strike has already used up half of her.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };
 
 export const fire_04: CardDefinition = {
@@ -100,6 +102,7 @@ export const fire_04: CardDefinition = {
   flavorText:
     "Deal 6 damage to the enemy general. A conflagration is a fire that has stopped waiting for fuel and is now metabolizing context.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };
 
 export const fire_05: CardDefinition = {
@@ -116,6 +119,7 @@ export const fire_05: CardDefinition = {
   flavorText:
     "Rush. Celerity. Frenzy. 8/4. The First Flame has been burning since before there were hands to warm by it, and it is very tired of not being used.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };
 
 export const FIRE_ELEMENT_CARDS: readonly CardDefinition[] = Object.freeze([

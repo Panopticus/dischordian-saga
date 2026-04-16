@@ -32,6 +32,7 @@ export const water_01: CardDefinition = {
   flavorText:
     "On deploy, heal your general for 2. A tide keeper knows which wave is going to be the one that matters and stands one wave back from it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const water_02: CardDefinition = {
@@ -78,6 +79,7 @@ export const water_03: CardDefinition = {
   flavorText:
     "Heal your general for 6. The mercy current is the part of a river that decides not to take anything with it on purpose.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const water_04: CardDefinition = {
@@ -94,6 +96,7 @@ export const water_04: CardDefinition = {
   flavorText:
     "Drain. Dispel. The Abyssal Form has lived at the bottom of a sea that existed for four days in the second week of the Fall and was remembered by nobody.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const water_05: CardDefinition = {
@@ -120,6 +123,7 @@ export const water_05: CardDefinition = {
   flavorText:
     "Drain. Dispel. On deploy, heal your general for 8. The Ocean That Forgives is a body of water big enough that the thing you are ashamed of will be smaller than a wave in it, and the wave will arrive whether or not you asked it to.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const WATER_ELEMENT_CARDS: readonly CardDefinition[] = Object.freeze([

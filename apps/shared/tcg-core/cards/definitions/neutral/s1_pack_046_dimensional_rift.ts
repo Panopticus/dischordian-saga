@@ -57,4 +57,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The rift opened for half a second. What came through took considerably longer to forget.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

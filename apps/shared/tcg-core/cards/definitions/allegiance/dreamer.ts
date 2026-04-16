@@ -97,6 +97,7 @@ export const drm_alleg_t5: CardDefinition = {
   flavorText:
     "Unlocked by winning 50 Dreamer matches. Flying. Dispel. Forcefield. An Elite Dreamer dreams the match before it happens and remembers having already lived it, which is terrifying for everybody at the table including the Elite.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const drm_alleg_t6: CardDefinition = {
@@ -119,6 +120,7 @@ export const drm_alleg_t6: CardDefinition = {
   flavorText:
     "Unlocked by winning 100 Dreamer matches. Flying. Dispel. Forcefield. On deploy, draw 3. The Dreamer Champion is the Dreamer herself, making herself briefly available for one match because you have done the work.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const DREAMER_ALLEGIANCE_CARDS: readonly CardDefinition[] = Object.freeze([

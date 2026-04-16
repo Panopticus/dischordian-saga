@@ -94,6 +94,7 @@ export const oracle_04: CardDefinition = {
   flavorText:
     "Draw 3 cards. What you see with first sight is the room. What you see with second sight is the room's opinion of you.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const oracle_05: CardDefinition = {
@@ -117,6 +118,7 @@ export const oracle_05: CardDefinition = {
   flavorText:
     "Flying. Dispel. Forcefield. On deploy, draw 2. The White Oracle is suspended in a processing loop. The loop is supposed to contain her. It has been leaking since the day it closed, and these cards are some of the shapes the leak takes.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const ORACLE_CLASS_CARDS: readonly CardDefinition[] = Object.freeze([

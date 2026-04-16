@@ -38,4 +38,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It clings to the underside of reality, waiting to become something worth noticing.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

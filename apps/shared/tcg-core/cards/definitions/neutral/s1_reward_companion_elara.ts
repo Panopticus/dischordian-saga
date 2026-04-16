@@ -52,4 +52,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Her voice carries across every channel, mending what others cannot reach.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

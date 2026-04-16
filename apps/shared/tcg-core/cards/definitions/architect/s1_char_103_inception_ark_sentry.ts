@@ -55,4 +55,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The Ark remembers every wavelength that has ever approached its hull. The sentries ensure none approach twice.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

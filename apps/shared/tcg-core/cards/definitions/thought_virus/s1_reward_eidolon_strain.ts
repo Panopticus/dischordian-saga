@@ -46,4 +46,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It was a plague once. Now it grieves for every life it took. The grief makes it stronger — and that is its final cruelty.",
   rulesVersion: "1.0.0",
+  trial_categories: ["reactive"] as const,
 };

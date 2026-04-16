@@ -38,4 +38,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "He has buried allies under every banner. Now he fights only for the war itself — because it is the one thing that never abandoned him.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };

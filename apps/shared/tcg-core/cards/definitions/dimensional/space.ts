@@ -39,6 +39,7 @@ export const space_02: CardDefinition = {
   flavorText:
     "Airdrop. Celerity. The Folded Distance's attack is not a second attack. It is the same attack, delivered in two places, while the attacker apologizes in the third.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };
 
 export const space_03: CardDefinition = {
@@ -66,6 +67,7 @@ export const space_03: CardDefinition = {
   flavorText:
     "Airdrop. Celerity. Flying. Rush on deploy. The Cartographer of Elsewhere does not draw maps. He writes letters to places, and the places answer, and the answers are the maps.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };
 
 export const SPACE_DIMENSION_CARDS: readonly CardDefinition[] = Object.freeze([

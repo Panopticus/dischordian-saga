@@ -81,6 +81,7 @@ export const air_04: CardDefinition = {
   flavorText:
     "Flying. Dispel. A cyclone does not announce itself. The Cyclone Herald is what the cyclone sends ahead to clear the weather of other weather.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const air_05: CardDefinition = {
@@ -103,6 +104,7 @@ export const air_05: CardDefinition = {
   flavorText:
     "Flying. Dispel. On deploy, draw 3. The Breath Before Language is the quarter-second of air you are about to use to say the thing you have not yet committed to. He is wearing it as a coat.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const AIR_ELEMENT_CARDS: readonly CardDefinition[] = Object.freeze([

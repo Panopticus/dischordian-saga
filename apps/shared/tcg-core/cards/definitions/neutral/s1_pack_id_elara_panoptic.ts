@@ -64,4 +64,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Full sentience. Full awareness. She sees everything — and she chooses to heal.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };

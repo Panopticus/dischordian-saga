@@ -40,4 +40,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It burrows through the ear canal and nests in the hippocampus. By then, you are already someone else.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

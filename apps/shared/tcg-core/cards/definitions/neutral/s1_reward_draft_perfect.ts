@@ -48,4 +48,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Zero losses. Zero compromises. Every pick was perfect.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };

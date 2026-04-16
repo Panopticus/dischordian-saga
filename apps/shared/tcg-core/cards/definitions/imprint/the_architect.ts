@@ -46,6 +46,7 @@ export const the_architect_t2: CardDefinition = {
   flavorText:
     "Provoke. He does not fight for attention. He redirects it, and it moves the way a satellite moves when a planet asks it to.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -65,6 +66,7 @@ export const the_architect_t3: CardDefinition = {
   flavorText:
     "Provoke. Grow. The Architect gets larger on turns you were hoping he would be getting smaller.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -84,6 +86,7 @@ export const the_architect_t4: CardDefinition = {
   flavorText:
     "Provoke. Grow. Forcefield. The Architect's physical presence is a rendering of a decision already made about whether he will be harmed today.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -114,6 +117,7 @@ export const the_architect_t5: CardDefinition = {
   flavorText:
     "Provoke. Grow. Forcefield. On deploy, silence the enemy general. The Architect is not a villain because he is angry with you. He is the terrain you are trying to build on, and the terrain was here first, and it has opinions about what counts as a foundation.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const THE_ARCHITECT_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([

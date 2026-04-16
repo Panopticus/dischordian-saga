@@ -45,6 +45,7 @@ export const synth_02: CardDefinition = {
   flavorText:
     "Provoke. Forcefield. The Watchtower is a synthetic whose job is to stand in one place and be a very reliable shape the enemy has to go through. It writes a detailed log afterward.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const synth_03: CardDefinition = {
@@ -61,6 +62,7 @@ export const synth_03: CardDefinition = {
   flavorText:
     "Provoke. Forcefield. Deathwatch. Chrome Archons are the Architect's synthetic parliamentarians. They do not eat, they do not sleep, and they do not forget the motion anyone voted for on the last eighteen years of Wednesdays.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const SYNTHETIC_RACE_CARDS: readonly CardDefinition[] = Object.freeze([

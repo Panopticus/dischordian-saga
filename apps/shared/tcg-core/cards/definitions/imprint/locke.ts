@@ -27,6 +27,7 @@ export const locke_t2: CardDefinition = {
   art: "/art/cards/imprint/s1_imprint_locke_t2.webp",
   flavorText: "Provoke. He stands between the harm and the people who did not ask for the harm. He is on the clock, the whole clock, every clock.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const locke_t3: CardDefinition = {
@@ -45,6 +46,7 @@ export const locke_t3: CardDefinition = {
   art: "/art/cards/imprint/s1_imprint_locke_t3.webp",
   flavorText: "Provoke. On deploy, heal your general for 3. The room is healthier for having him in it, but he is not healthier for being in the room.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const locke_t4: CardDefinition = {
@@ -63,6 +65,7 @@ export const locke_t4: CardDefinition = {
   art: "/art/cards/imprint/s1_imprint_locke_t4.webp",
   flavorText: "Provoke. Forcefield. On deploy, heal your general for 4. The gavel has been quiet for a long time. This is the turn it comes down once.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const locke_t5: CardDefinition = {
@@ -87,6 +90,7 @@ export const locke_t5: CardDefinition = {
   flavorText:
     "Provoke. Forcefield. On deploy, heal your general for 6 and silence the enemy general. Locke rules by consent, which is the hardest way, which is why there are so few of him.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const LOCKE_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([

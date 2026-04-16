@@ -34,4 +34,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The walls of New Babylon have never been breached. The guardians intend to keep it that way.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

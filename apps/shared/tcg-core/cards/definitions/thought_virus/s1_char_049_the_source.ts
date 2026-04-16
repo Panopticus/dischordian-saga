@@ -63,4 +63,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Yet, through the twisted schemes of Project Vector, Kael\u2019s fate was reshaped into something monstrous and eternal. Infec...",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };

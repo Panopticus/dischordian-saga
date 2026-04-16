@@ -66,4 +66,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Every game is a test. Every test has a purpose only the Game Master understands.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };

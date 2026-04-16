@@ -54,4 +54,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "There is no Kael anymore. There is only the signal.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };

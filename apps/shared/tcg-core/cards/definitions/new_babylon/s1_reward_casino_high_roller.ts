@@ -53,4 +53,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "He walked into the Casino with nothing and walked out owning three city blocks. Then he went back in.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };

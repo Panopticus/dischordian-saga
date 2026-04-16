@@ -65,4 +65,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The kill is decided before the blade is drawn.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

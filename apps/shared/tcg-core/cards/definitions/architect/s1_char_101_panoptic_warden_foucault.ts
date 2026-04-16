@@ -47,4 +47,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "His chrome jaw clicks with each question. The answers are already known — the interrogation is merely ceremony.",
   rulesVersion: "1.0.0",
+  trial_categories: ["reactive"] as const,
 };

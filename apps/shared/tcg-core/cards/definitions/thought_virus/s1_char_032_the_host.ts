@@ -94,4 +94,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Once a Potential, forged from the Architect\u2019s legacy of preserved DNA and machine code, this being once carried the spar...",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence", "offensive"] as const,
 };

@@ -54,6 +54,7 @@ export const demagi_03: CardDefinition = {
   flavorText:
     "Drain. Deathwatch. Provoke. Xeth'Raal is the Demagi archlord who arranged the Game Master's death by sending Agent Zero his strategic playbook. He has kept a copy of the playbook ever since, for sentimental reasons.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const DEMAGI_RACE_CARDS: readonly CardDefinition[] = Object.freeze([

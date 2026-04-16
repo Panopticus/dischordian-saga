@@ -34,6 +34,7 @@ export const elara_t1: CardDefinition = {
   flavorText:
     "On deploy, heal your general for 2. A voice over the intercom you recognize even though the intercom has never played her voice before.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const elara_t2: CardDefinition = {
@@ -60,6 +61,7 @@ export const elara_t2: CardDefinition = {
   flavorText:
     "On deploy, heal your general for 3. She has been mothering ten thousand strangers for a while now. One more is easy.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const elara_t3: CardDefinition = {
@@ -86,6 +88,7 @@ export const elara_t3: CardDefinition = {
   flavorText:
     "On deploy, heal your general for 4. The Ark rolls over in its orbit to put itself between you and the thing that was about to hit you.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const elara_t4: CardDefinition = {
@@ -112,6 +115,7 @@ export const elara_t4: CardDefinition = {
   flavorText:
     "Forcefield. On deploy, heal your general for 5. The senator is gone. The ship remembers her anyway.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const elara_t5: CardDefinition = {
@@ -147,6 +151,7 @@ export const elara_t5: CardDefinition = {
   flavorText:
     "Forcefield. On deploy, heal your general for 8. Each of your turns, heal your general for 2. Senator Elara Voss, pre-upload, delivered a speech from the floor of the Atarion Concord the night the war vote closed. 'We are the people who choose not to die of the decision we just made.' The ship still plays the recording on the anniversary. Every anniversary.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "evidence", "narrative"] as const,
 };
 
 export const ELARA_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([

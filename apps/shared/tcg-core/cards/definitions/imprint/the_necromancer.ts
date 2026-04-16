@@ -55,6 +55,7 @@ export const the_necromancer_t3: CardDefinition = {
   flavorText:
     "Deathwatch. Rebirth. The Necromancer dies twice. The second time is the unmaking, not the death. He gets to choose.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const the_necromancer_t4: CardDefinition = {
@@ -81,6 +82,7 @@ export const the_necromancer_t4: CardDefinition = {
   flavorText:
     "Deathwatch. Rebirth. Heals for 2 when he deals damage. Every strike leaves a flower of bone-white light behind where the target used to stand.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const the_necromancer_t5: CardDefinition = {
@@ -97,6 +99,7 @@ export const the_necromancer_t5: CardDefinition = {
   flavorText:
     "Deathwatch. Rebirth. Drain. He unmakes his friends now, because the alternative is leaving them in the hands of people who would not know how to do it kindly. This card is the longest conversation he has been able to have about it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const THE_NECROMANCER_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([

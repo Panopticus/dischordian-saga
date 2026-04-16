@@ -35,4 +35,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It was built from the wreckage of a dozen machines, none of which were designed to kill. It learned that part on its own.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

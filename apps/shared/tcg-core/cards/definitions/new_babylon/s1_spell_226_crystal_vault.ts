@@ -44,4 +44,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Behind crystal walls, value appreciates. Outside, everything depreciates.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

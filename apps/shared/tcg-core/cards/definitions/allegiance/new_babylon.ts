@@ -37,6 +37,7 @@ export const nb_alleg_t2: CardDefinition = {
   flavorText:
     "Unlocked by playing 25 New Babylon matches. Provoke. The magistrate calls the session to order and then keeps it in order by making eye contact with exactly the right person at exactly the right time.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const nb_alleg_t3: CardDefinition = {
@@ -69,6 +70,7 @@ export const nb_alleg_t4: CardDefinition = {
   flavorText:
     "Unlocked by winning 10 New Babylon matches. Provoke. Drain. The Victorious Adjudicator closes the books on every case they touch, which is the polite version of a sentence that used to end differently.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "evidence"] as const,
 };
 
 export const nb_alleg_t5: CardDefinition = {
@@ -85,6 +87,7 @@ export const nb_alleg_t5: CardDefinition = {
   flavorText:
     "Unlocked by winning 50 New Babylon matches. Provoke. Drain. Forcefield. The Archon-Elect is one vote away from a seat in the Chamber, and has been one vote away for ninety years. That is the patient version of politics.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const nb_alleg_t6: CardDefinition = {
@@ -111,6 +114,7 @@ export const nb_alleg_t6: CardDefinition = {
   flavorText:
     "Unlocked by winning 100 New Babylon matches. Provoke. Drain. Forcefield. On deploy, heal your general for 6. The New Babylon Champion is not yet Adjudicator Locke. They are the version of Locke you get when they finally put their foot down and the foot makes a sound.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const NEW_BABYLON_ALLEGIANCE_CARDS: readonly CardDefinition[] = Object.freeze([

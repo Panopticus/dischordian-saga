@@ -55,4 +55,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It blinked into existence smelling of ozone and starlight.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

@@ -56,4 +56,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Five ascensions forged a guardian that draws every blow and shields every ally.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };

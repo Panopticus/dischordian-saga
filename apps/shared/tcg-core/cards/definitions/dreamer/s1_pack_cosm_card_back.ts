@@ -51,4 +51,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The Fall broke everything. The echoes put some of it back.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

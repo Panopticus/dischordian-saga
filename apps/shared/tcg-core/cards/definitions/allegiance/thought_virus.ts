@@ -86,6 +86,7 @@ export const tv_alleg_t5: CardDefinition = {
   flavorText:
     "Unlocked by winning 50 Thought Virus matches. Drain. Deathwatch. Forcefield. The Prime Vessel has the Source's attention and is reluctant to describe what that feels like.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const tv_alleg_t6: CardDefinition = {
@@ -112,6 +113,7 @@ export const tv_alleg_t6: CardDefinition = {
   flavorText:
     "Unlocked by winning 100 Thought Virus matches. Drain. Deathwatch. Forcefield. On deploy, heal your general for 8. The Thought Virus Champion is the Source briefly personally interested in whether or not you intend to survive the game you are currently playing.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const THOUGHT_VIRUS_ALLEGIANCE_CARDS: readonly CardDefinition[] = Object.freeze([

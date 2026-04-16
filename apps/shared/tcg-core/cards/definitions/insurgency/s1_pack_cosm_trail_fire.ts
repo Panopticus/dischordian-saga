@@ -66,4 +66,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She leaves fire in her wake. The Void taught her that.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

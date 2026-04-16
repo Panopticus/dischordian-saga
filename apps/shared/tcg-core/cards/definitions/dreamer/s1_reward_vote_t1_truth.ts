@@ -54,4 +54,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Truth is a weapon. The Lens simply makes it easier to aim.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

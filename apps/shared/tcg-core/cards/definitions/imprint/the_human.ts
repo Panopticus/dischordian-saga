@@ -80,6 +80,7 @@ export const the_human_t3: CardDefinition = {
   flavorText:
     "Backstab. On deploy, draw a card. He does not enter a room without already having read the case file the room is about.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence"] as const,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -109,6 +110,7 @@ export const the_human_t4: CardDefinition = {
   flavorText:
     "Backstab. Deathwatch. On deploy, draw a card. Every corpse is a paragraph in a case file he has been writing since Mechronis. He reads from them on the way to work.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence", "narrative"] as const,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -140,6 +142,7 @@ export const the_human_t5: CardDefinition = {
   flavorText:
     "Backstab. Deathwatch. On deploy, draw two cards. The Twelfth Archon was appointed by a Panopticon that did not yet understand what kind of organism it was appointing. He has been writing his response ever since, and it is long, and it has footnotes, and you are probably in it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 /** All five Human imprint tiers in tier order. */

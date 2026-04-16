@@ -58,4 +58,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She had one last thing to give. She gave it to everyone.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };

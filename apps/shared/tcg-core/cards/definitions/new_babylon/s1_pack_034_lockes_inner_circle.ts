@@ -53,4 +53,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "They do not rule New Babylon. They own it. And now they own whatever comes next.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };

@@ -25,6 +25,7 @@ export const earth_01: CardDefinition = {
   flavorText:
     "Provoke. The first earth element the Engineer catalogued was a man who had been standing in one spot for so long that the spot had started to belong to him.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const earth_02: CardDefinition = {
@@ -41,6 +42,7 @@ export const earth_02: CardDefinition = {
   flavorText:
     "Provoke. Forcefield. Assembled from sheets of grey stone mined from a world that had decided it was done being a world.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const earth_03: CardDefinition = {
@@ -66,6 +68,7 @@ export const earth_03: CardDefinition = {
   flavorText:
     "Heal your general for 5. A mountain vow is a promise made while holding a mountain in mind. Most of the mountain agrees.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const earth_04: CardDefinition = {
@@ -82,6 +85,7 @@ export const earth_04: CardDefinition = {
   flavorText:
     "Provoke. Forcefield. Nine health. The Tectonic Warden is the oldest element on the board. Everything you try to do to him has been tried before by a glacier.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const earth_05: CardDefinition = {
@@ -98,6 +102,7 @@ export const earth_05: CardDefinition = {
   flavorText:
     "Provoke. Forcefield. Grow. Fourteen health. Every turn, larger. The Sleeping Continent has not yet noticed this match. When he does, it will be because the match is over.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const EARTH_ELEMENT_CARDS: readonly CardDefinition[] = Object.freeze([

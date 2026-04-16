@@ -69,4 +69,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "They buried the signal. They burned the frequency. They erased the name. None of it mattered.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };

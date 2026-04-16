@@ -43,4 +43,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The fire does not distinguish between friend and foe. Neither does desperation.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

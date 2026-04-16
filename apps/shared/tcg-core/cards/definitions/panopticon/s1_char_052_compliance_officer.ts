@@ -34,4 +34,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Obedience is not requested. It is extracted.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

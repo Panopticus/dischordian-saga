@@ -77,6 +77,7 @@ export const prob_03: CardDefinition = {
   flavorText:
     "Flying. Dispel. On deploy, draw 3 and gain 2 mana this turn. The Sum Over Histories is the only entity in the Saga who has seen every possible version of this match play out. She is kind about it. She does not tell you which version you are in.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const PROBABILITY_DIMENSION_CARDS: readonly CardDefinition[] = Object.freeze([

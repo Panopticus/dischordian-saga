@@ -58,4 +58,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The first bowl is doubt. The second is fear. By the seventh, you have forgotten what it was to be whole.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };

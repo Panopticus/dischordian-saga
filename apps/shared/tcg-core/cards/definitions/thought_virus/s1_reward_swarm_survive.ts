@@ -55,4 +55,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Wave twenty-five broke against her. She broke it back.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "offensive"] as const,
 };

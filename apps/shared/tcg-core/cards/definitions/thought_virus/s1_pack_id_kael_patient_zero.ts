@@ -46,4 +46,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The infection spreads through grief. Every death feeds the signal.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive", "reactive"] as const,
 };

@@ -53,4 +53,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "There is no negotiation in its chorus — only the percussion of annihilation.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };

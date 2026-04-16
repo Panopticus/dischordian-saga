@@ -52,4 +52,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Every blueprint begins with a wound; every structure, with the will to mend it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };

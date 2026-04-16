@@ -60,4 +60,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The arena has a champion. The champion has no mercy.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive", "reactive"] as const,
 };

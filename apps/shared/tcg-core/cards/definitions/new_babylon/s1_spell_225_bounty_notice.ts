@@ -43,4 +43,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The notice goes up at dawn. By noon, the work is done.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

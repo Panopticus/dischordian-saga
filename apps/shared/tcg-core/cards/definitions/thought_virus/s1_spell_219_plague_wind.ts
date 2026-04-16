@@ -42,4 +42,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The wind carries more than dust. It carries the end of thought.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

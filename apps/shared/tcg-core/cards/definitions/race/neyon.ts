@@ -68,6 +68,7 @@ export const neyon_race_03: CardDefinition = {
   flavorText:
     "Flying. Rush. On deploy, draw 2. Kael was the first human the Dischordian cosmology let through the gate that became Ne-Yon, and every Ne-Yon you meet after this match will be wearing her smile somewhere on their own face without knowing why.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };
 
 export const NEYON_RACE_CARDS: readonly CardDefinition[] = Object.freeze([

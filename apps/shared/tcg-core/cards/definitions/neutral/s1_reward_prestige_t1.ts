@@ -46,4 +46,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The first step upward is the hardest. The shield proves you took it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence"] as const,
 };

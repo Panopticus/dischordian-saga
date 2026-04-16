@@ -118,6 +118,7 @@ export const spy_04: CardDefinition = {
   flavorText:
     "Silence the enemy general. Every operative eventually has to kill the person who recruited them, usually to protect the secret of having been recruited at all.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const spy_05: CardDefinition = {
@@ -155,6 +156,7 @@ export const spy_05: CardDefinition = {
   flavorText:
     "Backstab. Stealth — 3 turns. On deploy, draw 2. The Human trained only a handful of apprentices and none of them know each other. They will not meet in the sequel. That's the point.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const SPY_CLASS_CARDS: readonly CardDefinition[] = Object.freeze([

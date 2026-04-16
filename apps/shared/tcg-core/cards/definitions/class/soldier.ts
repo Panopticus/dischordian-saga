@@ -43,6 +43,7 @@ export const soldier_02: CardDefinition = {
   flavorText:
     "Provoke. The soldier stands in front of the rest of the formation on purpose, every time, and expects the rest of the formation to know this is the deal.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const soldier_03: CardDefinition = {
@@ -70,6 +71,7 @@ export const soldier_03: CardDefinition = {
   flavorText:
     "Your general gains +2/+2 permanently. A rally is the sentence a commander gives to the room they cannot leave.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence"] as const,
 };
 
 export const soldier_04: CardDefinition = {
@@ -98,6 +100,7 @@ export const soldier_04: CardDefinition = {
   flavorText:
     "Provoke. Rush on deploy. The Iron Vanguard's formation doctrine is a single word repeated four times in the same sentence. The word is 'forward.'",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "evidence", "narrative"] as const,
 };
 
 export const soldier_05: CardDefinition = {
@@ -115,6 +118,7 @@ export const soldier_05: CardDefinition = {
   flavorText:
     "Provoke. Frenzy. Rebirth. The last regiment standing is the one that did not know the war was officially over, and by the time anyone told them, the war unofficially was not.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const SOLDIER_CLASS_CARDS: readonly CardDefinition[] = Object.freeze([

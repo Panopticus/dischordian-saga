@@ -57,4 +57,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Imprisoned in substrate, the Twelfth Archon still commands. Even chains cannot silence authority.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };

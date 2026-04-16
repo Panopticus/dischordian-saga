@@ -47,4 +47,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Every blow she strikes rings outward, mending what was broken.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

@@ -38,6 +38,7 @@ export const akai_shi_t3: CardDefinition = {
   art: "/art/cards/imprint/s1_imprint_akai_shi_t3.webp",
   flavorText: "Backstab. Celerity. He attacks twice, and both strikes land before you notice either one.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };
 
 export const akai_shi_t4: CardDefinition = {
@@ -56,6 +57,7 @@ export const akai_shi_t4: CardDefinition = {
   art: "/art/cards/imprint/s1_imprint_akai_shi_t4.webp",
   flavorText: "Backstab. Celerity. Rush on deploy. The Architect uses Akai Shi for removals the surveillance layer does not want on its own camera feed.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };
 
 export const akai_shi_t5: CardDefinition = {
@@ -75,6 +77,7 @@ export const akai_shi_t5: CardDefinition = {
   flavorText:
     "Backstab. Celerity. Pierce. Rush on deploy. Akai Shi speaks exactly once per assignment, always to the person he is about to remove, always a single word. Nobody who has been removed by Akai Shi has been asked afterward what the word was, because asking that question is a fast way to become one of the people who had to be asked the question.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };
 
 export const AKAI_SHI_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([

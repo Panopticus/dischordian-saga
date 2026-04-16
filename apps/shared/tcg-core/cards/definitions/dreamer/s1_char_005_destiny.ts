@@ -57,4 +57,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Awake and aware, she served as the Potentials\u2019 vigilant guide, monitoring ship functions, analyzing sensor data, and resolving crises before they could escalate.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence", "narrative"] as const,
 };

@@ -58,4 +58,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She does not break the rules of probability. She is the exception that proves there are no rules.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };

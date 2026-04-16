@@ -57,4 +57,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "A. The Hierophant is the esteemed spiritual leader of Thaloria, a planet renowned for its rich history and deep-rooted t...",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "evidence", "narrative"] as const,
 };
