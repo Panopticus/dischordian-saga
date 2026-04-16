@@ -361,6 +361,36 @@ export const ROOM_WITNESSING_TOUCHPOINTS: Record<
       both80: "warm_elara",
     },
   },
+
+  // Prelude-only rooms. The narrator slot is suppressed during the
+  // Prelude (the narrator doesn't activate until post-Prelude — see
+  // seedNarratorSlot / toNarratorRoomId). These entries exist for
+  // type completeness; reaction tables are empty because nothing
+  // post-Prelude happens in these rooms.
+  corridor: {
+    roomId: "corridor",
+    narratorSlotPreference: "contested",
+    narratorReactionTable: {},
+    filters: { elara80: "neutral", human80: "neutral", both80: "neutral" },
+  },
+  galley: {
+    roomId: "galley",
+    narratorSlotPreference: "contested",
+    narratorReactionTable: {},
+    filters: { elara80: "neutral", human80: "neutral", both80: "neutral" },
+  },
+  briefing_room: {
+    roomId: "briefing_room",
+    narratorSlotPreference: "contested",
+    narratorReactionTable: {},
+    filters: { elara80: "neutral", human80: "neutral", both80: "neutral" },
+  },
+  mess_hall: {
+    roomId: "mess_hall",
+    narratorSlotPreference: "contested",
+    narratorReactionTable: {},
+    filters: { elara80: "neutral", human80: "neutral", both80: "neutral" },
+  },
 };
 
 /* ─── LOOKUP HELPERS ─── */

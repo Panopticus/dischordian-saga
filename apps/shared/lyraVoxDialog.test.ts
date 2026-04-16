@@ -4,11 +4,14 @@ import {
   pickLyraVoxLine,
   type LyraVoxLine,
 } from "./lyraVoxDialog";
-import { ROOM_AFFINITY, type NarratorRoomId } from "./mobileNarrator";
+import { PRELUDE_ONLY_ROOMS, ROOM_AFFINITY, type NarratorRoomId } from "./mobileNarrator";
 
 describe("lyraVoxDialog — registry structure", () => {
-  it("has a line for every canonical NarratorRoomId", () => {
+  it("has a line for every canonical post-Prelude NarratorRoomId", () => {
     for (const roomId of Object.keys(ROOM_AFFINITY) as NarratorRoomId[]) {
+      // Prelude-only rooms have no post-Prelude narrator content by design
+      if (PRELUDE_ONLY_ROOMS.has(roomId)) continue;
+
       expect(
         LYRA_VOX_DIALOG[roomId],
         `Missing Lyra Vox dialog for ${roomId}`,

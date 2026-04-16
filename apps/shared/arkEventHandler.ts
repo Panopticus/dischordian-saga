@@ -26,7 +26,10 @@
 export type RoomId =
   | "cryo_bay" | "medical_bay" | "bridge" | "archives" | "comms_array"
   | "observation_deck" | "armory" | "engineering" | "trade_hub"
-  | "cargo_bay" | "trophy_room" | "captains_quarters";
+  | "cargo_bay" | "trophy_room" | "captains_quarters"
+  // Prelude-only rooms (only reachable during narrativeAct === 0).
+  // Post-Prelude navigation suppresses them via preludeRoomGate.ts.
+  | "corridor" | "galley" | "briefing_room" | "mess_hall";
 
 export type EventType =
   | "npc_conversation" | "signal_fragment" | "quarantine" | "tome_discovered"
