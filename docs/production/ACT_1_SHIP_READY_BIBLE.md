@@ -946,4 +946,170 @@ with a single cross-fade.
   canonically the adult-form evolution of the Watcher Archon's
   child-form mechanics established here
 
+### 2.5 Young Iron Lion — Cycle B1 opponent (Mechronis Year 1)
+
+The first Cycle B boss and the player's first Mechronis Academy
+match. The player has advanced from the Project Celebration
+kindergarten into the academy's lower form, and the Engineer is
+now fifteen years old. The opponent is a seventeen-year-old upper-
+form student who will canonically be **expelled from Mechronis
+in Year 650 A.A.** for fighting. The Engineer knows who Iron Lion
+is going to become long before the expulsion happens; this battle
+is the player experiencing the Engineer's *before* memory of the
+man the Insurgency will one day call a founding general.
+
+**Canonical visual:** INFERRED per user direction (§0.4 / user
+guidance "Infer" for Cycle B opponents), anchored to the Mechronis
+Academy blue uniform canon established by §2.9 (The Seeker).
+
+**Production-inferred visual spec:**
+
+- **Age:** seventeen. Lanky-muscular teenage build, taller than
+  most of his classmates. Broad shoulders that haven't quite
+  filled out, a compact fighter's stance from above the waist,
+  still-slightly-awkward limbs below. Ectomorph-mesomorph mix
+  (think "high-school wrestler two years into training").
+- **Skin:** medium-dark warm brown, West African descent. A
+  small pale scar across his left cheekbone — canonically from a
+  fight earlier in the year that already should have gotten him
+  expelled but didn't.
+- **Hair:** short natural curls on top, faded at the sides and
+  back — an early version of the haircut he'll wear as an adult
+  in later acts. Neat when he woke up, slightly mussed by the
+  time the player sits across from him.
+- **Eyes:** alert amber-brown, heavy-lidded in a way that reads as
+  "sizing you up" rather than "tired." Quick to track motion. When
+  the player plays a card his eyes flick to the card, not to the
+  player's face — a fighter's read.
+- **Mechronis blue uniform, worn rebelliously:**
+  - Blue blazer (the same royal-blue wool that is the Mechronis
+    canonical uniform — see §2.9 for the full uniform spec) worn
+    open, two buttons undone
+  - Light blue tie canonically present but **loosened** to mid-
+    chest, never straightened
+  - White oxford shirt, sleeves rolled to the forearms (mirroring
+    the Prince's own sleeve-rolling habit — a foreshadow of the
+    fact that Iron Lion and the Prince became friendly at
+    Mechronis despite the two-year age gap)
+  - Blue wool trousers, creased but not pressed fresh that morning
+  - Black leather school shoes scuffed at the toes
+- **The lion detail (canonical iconography planting):** on his
+  blazer lapel, a small **brass lion pin** — heirloom-quality, a
+  couched lion in profile with one raised paw. Render it visible
+  but not emphasized. This is the canonical origin of the "Iron
+  Lion" identity: he is already wearing the symbol at seventeen,
+  before anyone has called him by that name. The pin must be
+  present in every rendering of Young Iron Lion in Act 1 (battle
+  splash, slideshow cameos, matchup card). Its adult-form evolution
+  is the armored lion sigil the full-grown Iron Lion wears across
+  his chest in the Act 3 Trade Empire faction content.
+- **Hands:** visible scrapes on the knuckles of both hands.
+  Canonical — he's been fighting. A small healing split on the
+  third knuckle of his right hand, two or three days old. When
+  he plays a card the scraped knuckles are visible in the
+  close-up shot.
+- **Posture:** when standing, feet planted shoulder-width, chin
+  up, shoulders squared. When sitting (he is sitting for the
+  card battle), he leans slightly forward over the table, forearms
+  resting on the edge. He does not relax into the chair. He is
+  never *settled*, even at rest.
+- **Voice direction:** seventeen-year-old West African teenager,
+  natural voice in the adolescent-baritone range (his voice has
+  finished cracking but is still settling). Slight Nigerian-
+  accented English, softened by academy elocution training but
+  not erased. Cadence is measured and a half-beat slower than
+  his peers — he thinks before he speaks, which is unusual for a
+  teenager who fights as much as he does, and that thinking is
+  the first hint that Iron Lion is going to become a canonical
+  Insurgency **strategist**, not just a brawler.
+
+  No existing Young Iron Lion voice profile exists. A new voice
+  profile **`young_iron_lion`** should be added to
+  `docs/production/VOICE_OVER_BIBLE.md`. ElevenLabs parameter
+  target: `stability: 0.65`, `similarity_boost: 0.80`,
+  `style: 0.25` (modest stylization — the accent carries the
+  character, not theatrical flourish).
+
+**Canonical pre-match line** (INFERRED — no text exists in
+`act1Opponents.ts` for the Cycle B opponents that matches the
+DSFGL naming; production should use this line as the primary
+audio take, and the code shell should be updated to match):
+
+> *"You're fifteen. I'm seventeen. Two years from now I'll be
+> expelled and you'll be in Curator Halverez's office defending
+> me in writing. Let's play anyway. It'll be a good memory."*
+
+Delivered with a slight wry smile — not cocky, not performative.
+Young Iron Lion is canonically **aware the Engineer is going to
+be the one to intercede for him in the future.** He is
+foreshadowing the friendship that is already forming. The line
+lands as a promise, not a threat.
+
+(Canon note: the "Curator Halverez's office" reference seeds
+§2.3's Xenomorph-mask continuity by naming the Collector Archon's
+adult form in a line the player won't yet understand the weight
+of. The callback resolves in Act 2's Thaloria cinematic.)
+
+**Deck theme:** "Last Stand" defense-stacking. Iron Lion's deck
+is built around stacking defensive buffs on his general until
+the general becomes nearly unkillable, then wearing the player
+down through attrition. The tutorial lesson is "some opponents
+win by *not losing*" — Iron Lion never has to kill the player's
+general, he just has to survive long enough for the player to
+run out of cards. The player must learn to play aggressively
+into a wall, which is a combat pattern they will see again in
+Cycle C1 (the Vortex survival puzzle, §2.10) for a different
+reason.
+
+**Card unlock on win:** *The Iron Stance* (Rare Light) — a card
+that, when played, grants the player's general a stacking
+defensive buff each time they successfully draw a card. The
+player's first "tank" tool. Canonically the Engineer designed
+this card as a tribute to Iron Lion after the expulsion — a way
+of remembering the lesson even after the friend had left.
+
+**Post-match canonical beats** (INFERRED, production-writable):
+
+- **Win:** Young Iron Lion's defensive wall finally cracks on
+  the penultimate turn. The general goes down. Iron Lion looks
+  at the empty board, then at the Prince, and laughs — genuinely,
+  not bitterly. He says *"You thought your way past it. I knew
+  you would."* He offers the Prince a handshake across the card
+  table. The Prince takes it. The scrape on Iron Lion's third
+  right knuckle is visible in close-up as the hands clasp. The
+  lion pin on the blazer is in frame. The slideshow engine
+  does not fire; the player continues to B2.
+- **Loss:** Young Iron Lion's defensive wall holds. The player's
+  cards run out. Iron Lion sits forward, looks at the empty
+  hand across from him, and says *"It's fine. I'll teach you
+  what I know. Next time will be different — I'll even go easy
+  on you for the first two turns."* He means it. The loss is
+  allowed and the game continues to B2 as if the player had
+  won — Cycle B's battles canonically have **no fail state**
+  for the Engineer's memory. Iron Lion and the Prince became
+  friends either way.
+
+**Cross-references:**
+
+- §2.0 (simulation framing — Cycle B opponents are NOT Archons,
+  they are canonical humans at their academy ages)
+- §2.9 (The Seeker — the canonical Mechronis blue uniform
+  anchor that §2.5's inferred outfit derives from)
+- §7 (Cycle B1 battle section — full battle spec including the
+  handshake animation, the brass lion pin macro shot, and the
+  scraped-knuckle close-up)
+- §12 (*To Be the Human* slideshow — Young Iron Lion canonically
+  appears in the Mechronis class photo "already expelled" per
+  DSFGL line 2458, rendered as a silhouette standing apart from
+  the class)
+- DSFGL line 2444 Cycle B table row (the canonical source for
+  "Young Iron Lion (17, expelled Year 650 A.A.)")
+- `apps/shared/act1Opponents.ts` Cycle B1 shell (current code
+  name is placeholder `the_detective_student` per the code read
+  at 21ac27e7; to be renamed `young_iron_lion` in the follow-up
+  code PR — noted as canon drift in §23.1)
+- Act 3 Trade Empire faction content: the adult Iron Lion wears
+  the same brass lion motif enlarged as the faction sigil across
+  his chest (flagged for art continuity in §23)
+
 ---
