@@ -1894,16 +1894,96 @@ cycle's second and final one.
   the concession) is where the Insurgency-adjacent "gift"
   mechanic originates.
 
-**Production slots:**
-- Matchup-card art (mid-forties man in plain cold-weather
-  clothing, a satchel over one shoulder already half-packed,
-  his face calm and final; he is already gone)
-- Deck composition (deliberate-loss / gift mechanic)
-- Completion flag: `act1_programmer_defeated` +
-  `act1_programmer_vanished`
-- **Canon tie-in:** this match's completion unlocks the Act 2
-  codex entry that reframes the Programmer as a canonical
-  Insurgency survivor rather than a casualty.
+**Matchup-card art:**
+- **Output:** `apps/client/public/art/matchups/act1/programmer.png` + `.webp`
+- **Aspect:** 3:4 portrait 1536×2048
+- **Priority:** P0
+- **Style anchor:** §5.4.1 Nexon palette. The Programmer
+  is the Nexon environment's *second* opponent — same
+  battlefield, after the Warlord. His portrait uses the
+  same setting as §5.5 but composed in the breach's
+  opposite side (where the Engineer would sit) so the
+  two cards read as shot/reverse-shot.
+
+**Nano Banana 2 prompt:**
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card
+> framing. A man in his mid-forties seated on the
+> survivor side of the §5.4.1 ruined-parapet card-table,
+> facing camera across the table. He is dressed in
+> **plain cold-weather travel clothing** — a weather-worn
+> dark-grey canvas coat buttoned to the throat, a simple
+> coarse-knit wool scarf in muted ember-rust #b85a1a
+> (the Nexon palette's warmest echo), fingerless work-
+> gloves, no faction insignia of any kind. His hair is
+> short, greying at the temples, neatly kept despite the
+> battlefield setting. A trimmed salt-and-pepper beard.
+> His face is **calm and final** — the composure of a
+> person who has already made every decision that matters
+> and is now only waiting for the match to end so he can
+> go do what he has decided to do. Eyes on the viewer,
+> steady, warm but unbound. No grief, no fear. He is
+> already gone, and the portrait is the portrait of
+> someone who hasn't realized yet that the conversation
+> is already a memory. Over his shoulder: a **canvas
+> satchel, half-packed**, resting on the chair beside him
+> — the flap open, a rolled map and a small brass lockbox
+> visible inside. A folded piece of thick paper peeks out
+> from his coat pocket (do not render text on the paper;
+> keep it closed and creased). One hand flat on the card-
+> table, fingers spread over a single face-up card in
+> mid-play; the other hand resting on the satchel's
+> strap. Lighting: the §5.4.1 amber spotlight falls
+> across his face and the card-table surface; ember-
+> orange rim-lights his shoulders from the city behind
+> him. Palette: dusky grey #6b6b65 on his coat, ember-
+> rust #b85a1a on the scarf, brass #b8752d on the
+> satchel buckle and the table edge, amber spotlight
+> #d9a66a on his face, dust-brown #6b5a48 in the
+> background. Background: defocused Nexon breach, same
+> setting as §5.5's Warlord portrait, same ember glow on
+> the horizon. Cinematic 4K. **He is going to lose this
+> match on purpose. The portrait should sell it before
+> the match starts.** No rendered text.
+
+**Deck composition (first-pass spec):**
+- **Lean:** `neutral` (10 cards)
+- **Defining mechanic:** *Gift.* On the Programmer's
+  fourth turn, he plays a card that can only be read as
+  a **deliberate throw** — a weak card into a strong
+  player position, or a strong card into a trap. The
+  player receives a UI prompt: *"The Programmer has
+  thrown the match. Accept the gift? [Yes] [No]"*
+  Accepting closes the match with a player victory
+  and the Programmer vanishes from the Nexon line that
+  night. Declining forces the Programmer to continue
+  playing — he will play out the rest of the match at
+  reduced strength, the player wins anyway, and the
+  Programmer still vanishes. The **same** narrative
+  outcome fires either way; what the prompt measures is
+  whether the player understands what is being offered.
+  This is the canonical origin of the Insurgency-
+  adjacent **gift** keyword — a card that is explicitly
+  *given*, not played against.
+- **Difficulty posture:** **Narrative, not mechanical.**
+  The match cannot be lost; the question is only whether
+  the player accepts the gift. Both choices set
+  `act1_programmer_gift_accepted: true | false` as a
+  GameState field; Acts 2+ read this for the Programmer-
+  as-Insurgency-survivor codex entry framing (the
+  accepted version frames him as having *chosen* the
+  player as his heir; the declined version frames him
+  as having had to *leave anyway*).
+- **Completion flags:** `act1_programmer_defeated`
+  (unconditional) + `act1_programmer_vanished`
+  (unconditional) + `act1_programmer_gift_accepted:
+  boolean` (set to the player's response) + Ep 5 Meme's
+  Show *"Dispatched"* unlocks on this match's boundary
+  per §2.4 table.
+- **Canon tie-in:** this match's completion unlocks the
+  Act 2 codex entry *"The Programmer did not die at
+  Nexon"* — which reframes him as a canonical Insurgency
+  survivor rather than a casualty. The codex's tone
+  depends on the `act1_programmer_gift_accepted` value.
 
 ### 5.7 Opponent 11 — The Game Master (before the execution)
 
@@ -1923,18 +2003,108 @@ cycle's second and final one.
   verdict. Winning does not clear the Engineer's name.
   Winning just makes the Authority's decision harder.
 
-**Production slots:**
-- Matchup-card art (thin man in a single pair of spectacles —
-  not yet split into the two-lens configuration; suit of
-  Empire legal black; face measured and unreadable)
-- Deck composition (public-witness double-resolution
-  mechanic — requires design spec)
-- Completion flag: `act1_game_master_original_defeated` +
-  `act1_trial_phase_complete`
-- **Forward reference:** this match's completion flag is the
-  canonical source for the Left/Right Game Master split in
-  Act 2+. The memoir notes it explicitly: *"This was the last
-  time he was one person."*
+**Matchup-card art:**
+- **Output:** `apps/client/public/art/matchups/act1/game-master-original.png` + `.webp`
+- **Aspect:** 3:4 portrait 1536×2048
+- **Priority:** P0
+- **Style anchor:** §5.4.2 Zenon cell palette
+  (institutional grey + hard clinical white + deep
+  shadow). The matchup card framing mirrors the cell's
+  chair-to-chair-across-the-table layout; camera is
+  positioned just behind the player's chair, looking
+  across the table at the Game Master on the opposite
+  side — the tightest matchup-card framing in Act 1,
+  consistent with the cell's claustrophobic scale.
+
+**Nano Banana 2 prompt:**
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card
+> framing. A thin man in his early fifties seated
+> directly across the §5.4.2 interrogation chamber's
+> card-table from camera, facing the viewer. He is lit
+> by the single overhead panel-light's hard white cone —
+> face and hands sharply illuminated, shoulders fading
+> into the cell's deep grey shadow. He wears a tailored
+> **Empire legal-black suit**: matte obsidian wool, no
+> lapel insignia, no tie, a plain high-collared white
+> shirt buttoned to the throat. His hair is thin, black,
+> combed flat and receding. Clean-shaven. **Crucially:
+> he wears a single pair of wire-rimmed spectacles —
+> two lenses in one frame, the conventional
+> configuration.** (This is pre-split; do *not* render
+> the later canonical two-separate-eyepieces Left/Right
+> configuration the Game Master is known for in Acts
+> 2+.) The spectacles' frames are slim and dark; the
+> lenses are clear glass, rendering his eyes directly
+> visible through them, not obscured. His face is
+> **measured and unreadable** — no hostility, no
+> smugness, no warmth; the specific professional neutrality
+> of a prosecutor who has decided what he is going to do
+> long before the match began and is only going through
+> the motions of procedure. Eyes directly at camera,
+> steady. Both hands flat on the table, palms down,
+> fingers unnaturally still. Between his hands on the
+> table surface: a single thick folio of pressed paper
+> (do not render text; keep the folio closed). Palette:
+> institutional grey #55606e on the walls behind him,
+> hard clinical white #e8e8e8 on his face/hands/shirt,
+> deep shadow #2a2a2d at the frame edges and on his suit,
+> dark obsidian #1c1a1a on the suit fabric, thin silver
+> glint on the spectacle frames. **No brass. No warm
+> light of any kind. No cyan.** The only color temperature
+> in frame is the panel light's clinical white. Soft film
+> grain. Cinematic 4K. **Remember his face. This is the
+> last time he is one person.** No rendered text.
+
+**Deck composition (first-pass spec):**
+- **Lean:** `thought_virus` (6 cards), `neutral` (4 cards)
+- **Defining mechanic:** *Public witness / double
+  resolution.* Every card the Game Master plays resolves
+  **twice** in a single turn: once privately (affecting
+  only the match's internal scoring state) and once
+  publicly (displayed in a dedicated "verdict stream" UI
+  column that records the public record of each play).
+  The two resolutions can have **different effects** —
+  the same card might be a strong tactical play privately
+  and a damning admission publicly, or vice versa. The
+  player has no access to a parallel witness-column;
+  their plays resolve once, normally. The match can be
+  won mechanically (reduce the Game Master's private
+  scoring state to zero) while being *lost publicly* (the
+  verdict stream records the player as having played
+  admissibly damning cards). Winning does **not** clear
+  the Engineer's name; winning only makes the Authority's
+  §5.8 decision harder.
+- **Design doc dependency:** the parallel-resolution UI is
+  a significant UX invention and must be spec'd
+  separately. **Blocked on `docs/production/act1/
+  public-witness-ui-spec.md`** before runtime
+  implementation. The spec must address: how the parallel
+  verdict stream renders, how player readability of "this
+  card is tactically good but publicly damning" is made
+  legible, and how verdict-stream state hands off to the
+  §5.8 Authority match (the Authority reads the verdict
+  stream as its opening state).
+- **Difficulty posture:** **High but winnable.** The
+  public/private divergence is the match's *mechanic*,
+  not its *trick* — the game is explicitly telling the
+  player that private and public plays differ, and the
+  skill is in choosing which dimension to fight on. Win-
+  rate target 45–55% (harder than §4.9 Seer's scripted-
+  loss because both outcomes here are live and
+  consequential).
+- **Completion flags:** `act1_game_master_original_
+  defeated` on private win; `act1_trial_phase_complete`
+  unconditional; new GameState field
+  `gameMasterVerdictStreamBalance: number` (range -10 to
+  +10, signed integer measuring net public-verdict
+  damage) handed off to §5.8's Authority match as its
+  opening state.
+- **Forward reference:** this match's completion flag is
+  the canonical source for the Left/Right Game Master
+  split in Act 2+. The memoir notes it explicitly: *"This
+  was the last time he was one person."* The split
+  happens **between** Act 1 and Act 2; Act 2's first
+  Game Master appearance is already two separate figures.
 
 ### 5.8 Opponent 12 — The Authority (Cycle C finale, Act 1 landing)
 
@@ -2018,13 +2188,94 @@ timeline).
 witnesses_part1_complete` (ensuring the player has heard the
 tease first — otherwise the payoff misfires).
 
-**Production slots:**
-- Matchup-card art (silhouetted figure above a gallery arch,
-  six faintly-lit crystal coffins behind, no face, no
-  identifying detail; the Engineer's chair in foreground)
-- Deck composition (trial / verdict mechanic — match turns
-  correspond canonically to the trial's phases; requires
-  design spec as a separate doc)
+**Matchup-card art:**
+- **Output:** `apps/client/public/art/matchups/act1/the-authority.png` + `.webp`
+- **Aspect:** 3:4 portrait 1536×2048
+- **Priority:** P0
+- **Style anchor:** §5.4.3 Authority gallery palette (black
+  marble + faint coffin glow + single wooden chair). The
+  matchup-card framing is the **opposite** of every
+  previous Act 1 matchup card — the viewer is looking
+  *down the hall from the Engineer's POV*, with the
+  Engineer's empty chair in the immediate foreground, the
+  Authority silhouette above the back arch as the only
+  subject in the portrait's upper two-thirds. **The
+  Authority is not sitting across from the player; the
+  Authority is not sitting at all.**
+
+**Nano Banana 2 prompt:**
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card
+> framing, but composed as a deep-perspective hall shot
+> rather than a seated-across-the-table two-shot. Camera
+> is positioned at the §5.4.3 gallery entrance, low
+> (seated eye level — the player's POV from where the
+> Engineer will sit), looking down the long marble hall
+> toward the back arch. The immediate foreground (lower
+> third of frame) is **the plain wooden chair** where the
+> Engineer will sit, empty in this still, facing away
+> from camera toward the arch. The chair's back edges
+> catch a faint sidelight from the coffin alcoves. Along
+> the left wall of the hall, the six crystal coffins from
+> §5.4.3 glow at their canonical saturations (three pale
+> amber, two pale violet, one pale cyan). The right wall
+> is black marble, reflecting the coffin glow as faint
+> vertical streaks. The hall's floor stretches in deep
+> perspective down to the shallow dais under the stone
+> archway at the far end. **Above the arch, recessed
+> deep into shadowed upper stone, the Authority's
+> silhouette** — a barely-visible darker shape against
+> darker stone, readable only as a seated or standing
+> outline, **completely featureless**: no face, no
+> hands, no color, no reflective surface, no insignia, no
+> indication of scale (the viewer cannot tell if the
+> figure is human-sized or three times human-sized).
+> The silhouette is **the matchup-card's true subject**,
+> but it is lit so faintly that the viewer's eye has to
+> search for it; first-pass impression should be "empty
+> hall with chair and coffins," second-pass impression
+> should be "oh — there is someone there." Palette:
+> black marble #1c1a1a dominant (floor, right wall, upper
+> shadow where the silhouette sits), pale amber #d9a66a
+> from three coffins, pale violet #8b7fbf from two,
+> pale cyan #4ba3b5 from one (all low-saturation), warm
+> wood #6b4a2d on the empty chair, deep shadow everywhere
+> else. **No ambient warm light; no overhead lighting;
+> no brass; no artificial color of any kind.** Faint
+> film grain. Volumetric cool air at ankle height, still.
+> Cinematic 4K. **The Authority has no face because the
+> Authority is not a person. The Authority is the
+> verdict — and in the next beat of runtime, the player
+> sits down in the foreground chair and makes the
+> argument.** No rendered text.
+
+**Deck composition (first-pass spec):**
+- **Lean:** `architect` (10 cards, no mixed leaning —
+  purest Architect deck in Act 1)
+- **Defining mechanic:** *Trial / verdict.* The match's
+  turns correspond canonically to the phases of an
+  Empire judicial proceeding: **charge** (turn 1),
+  **opening argument** (turn 2), **evidence
+  presentation** (turns 3–5), **cross-examination**
+  (turns 6–8), **closing argument** (turn 9), **verdict**
+  (turn 10). Each phase has different card-play
+  restrictions modeled on the legal phase's real-world
+  procedure (only defensive cards in turn 1, only
+  evidence-category cards in 3–5, etc.). The **opening
+  state** of the match is the
+  `gameMasterVerdictStreamBalance` handed off from §5.7:
+  a warmer balance makes the verdict phase's threshold
+  easier to cross; a colder one makes it harder. **The
+  match is not about defeating an opponent — the
+  Authority does not *have* a hand. The match is about
+  playing coherent Dischordia through all ten phases
+  without breaking a phase-restriction and without the
+  verdict stream landing below the execution threshold.**
+- **Design doc dependency:** the phase-restriction
+  system is a full-match mechanic with no precedent in
+  Cycles A or B. **Blocked on `docs/production/act1/
+  authority-trial-phase-mechanic.md`** before runtime
+  implementation. Coordinate this spec with the §5.7
+  public-witness-UI spec — they share the verdict stream.
 - Full-song cutscene runtime: build a sibling component to
   Prelude's `LastWordsWitnessing` at
   `apps/client/src/components/act1/LastWordsFullWitnessing.tsx`
