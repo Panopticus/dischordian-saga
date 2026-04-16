@@ -40,13 +40,15 @@ export type PreludeSequenceAction =
  * Beats that hold at `phase=completed` after their cutscene ends,
  * waiting on a post-cutscene interaction to fire `interaction_complete`.
  *
+ * - beat_d → BeatDMissionBoard (click the 3 mission slates, read at
+ *            least one to continue)
  * - beat_e → BeatEFlashback (click hotspots, hear Prince hologram VO)
  * - beat_j → LastWordsWitnessing (slideshow + song + Light/Dark choice)
  *
  * Every other beat auto-advances on cutscene end.
  */
 export function beatHasInteraction(beat: PreludeBeat): boolean {
-  return beat.id === "beat_e" || beat.id === "beat_j";
+  return beat.id === "beat_d" || beat.id === "beat_e" || beat.id === "beat_j";
 }
 
 /** Find the index of a beat by id; returns 0 if unknown. */
