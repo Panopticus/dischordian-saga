@@ -38,10 +38,23 @@
  *              `on_any_unit_dies` / `on_summoned_near_me` /
  *              `on_kill` / `on_card_drawn`
  *
- *   confession: faction is `insurgency` AND ability effect tree
- *               contains `op: "sacrifice_then"` OR self-targeting
- *               negative buff (target.kind === "self" with
- *               stats.power < 0 or stats.health < 0)
+ *   confession: faction is `insurgency` AND (
+ *               (a) ability effect tree contains
+ *                   `op: "sacrifice_then"` OR self-targeting
+ *                   negative buff (target.kind === "self" with
+ *                   stats.power < 0 or stats.health < 0), OR
+ *               (b) flavorText contains any of: confess, admit,
+ *                   reveal, expose, testify, leak, broadcast
+ *               )
+ *
+ *   The (b) branch catches cards whose narrative *is* a
+ *   confession even when the mechanical effect doesn't trade
+ *   match-state for verdict-stream advantage (the verdict
+ *   stream doesn't exist outside §5.8, so the trade can't
+ *   be encoded mechanically; flavor is the canonical
+ *   admissibility signal). Per §5.8 spec the confession
+ *   category is "rare and drawn from the insurgency lean";
+ *   restricting to insurgency keeps the rarity invariant.
  */
 import { ALL_CARD_DEFINITIONS } from "../cards/index";
 import type { CardDefinition, TrialCategory } from "../types/Card";
@@ -125,6 +138,22 @@ function hasInsurgencySelfSacrifice(card: CardDefinition): boolean {
   );
 }
 
+const CONFESSION_FLAVOR_TERMS = [
+  "confess",
+  "admit",
+  "reveal",
+  "expose",
+  "testify",
+  "leak",
+  "broadcast",
+];
+
+function isInsurgencyConfessionFlavored(card: CardDefinition): boolean {
+  if (card.faction !== "insurgency") return false;
+  const lower = card.flavorText.toLowerCase();
+  return CONFESSION_FLAVOR_TERMS.some((t) => lower.includes(t));
+}
+
 const EVIDENCE_FLAVOR_TERMS = [
   "trial",
   "record",
@@ -199,8 +228,12 @@ export function proposeTrialCategories(
     }
   }
 
-  // confession
-  if (hasInsurgencySelfSacrifice(card)) {
+  // confession (insurgency only — keeps the §5.8 "rare and
+  // drawn from insurgency" invariant)
+  if (
+    hasInsurgencySelfSacrifice(card) ||
+    isInsurgencyConfessionFlavored(card)
+  ) {
     out.add("confession");
   }
 
