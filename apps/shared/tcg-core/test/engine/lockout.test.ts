@@ -338,8 +338,11 @@ describe("integration: Three Moves cast", () => {
     // Build a match where p1 (Warlord side) has Three Moves on top of
     // hand. We override hand directly post-construction since
     // createMatchState would shuffle.
+    // userId is a branded type — cast through unknown then to the
+    // PlayerId brand. Faction is open enum; cast to the narrow union
+    // covers the literal we actually pass.
     const cfg = (userId: number, faction: string, gen: string) => ({
-      userId: userId as 1,
+      userId: userId as unknown as import("../../types/Ids").PlayerId,
       faction: faction as "architect" | "dreamer",
       generalDefId: gen,
       deckCardDefIds: Array.from({ length: 39 }, (_, i) => `filler_${i}`),

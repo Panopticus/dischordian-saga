@@ -181,6 +181,18 @@ export interface DuelystGameState {
   actionLog: ActionLogEntry[];
   boardWidth: number;
   boardHeight: number;
+  /**
+   * §5.5 Warlord lockout state, projected from tcg-core GameState by
+   * compat/viewAdapter.ts. Absent when no lockout is active. The UI
+   * uses this to render the WarlordCountdownIndicator + CardLockOverlay
+   * and to gate clicks on locked hand cards.
+   */
+  lockout?: {
+    targetSide: 0 | 1;
+    turnsRemaining: number;
+    playableEntityIds: readonly string[];
+    lockedEntityIds: readonly string[];
+  };
 }
 
 export interface ActionLogEntry {
