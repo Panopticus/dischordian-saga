@@ -1289,4 +1289,168 @@ them. The card name is a direct echo of his role.
   player realizes the recorded voice IS the recruiter they are
   facing on the card board)
 
+### 2.7 Young Agent Zero — Cycle B3 opponent (Mechronis Year 3)
+
+The third Cycle B boss and the player's introduction to the woman
+who will become **Vex Solène** — but neither the player nor the
+Engineer knows that yet. At Mechronis she is just Agent Zero: a
+seventeen-year-old who arrived a year after Kael, sits alone in
+every class, speaks when spoken to and never first, and has the
+highest marks in the academy's covert-operations track. She is
+canonically a trained assassin already — her kill count at
+seventeen is non-zero but unknown even to herself, because the
+kills were part of training exercises she was told were
+simulations. They were not.
+
+The canonical weight of B3 is that this is the **only time in the
+entire game** the player sees Agent Zero before her transference
+into the Warlord's nanobot swarm in Cycle C3. After C3 she is
+Vex Solène. Before C3 she is this: a quiet girl in a blue uniform
+who is very, very good at not being noticed. The production must
+render her as **forgettable on first viewing** — the player's
+memory of B3 should be "oh, the quiet one" until Cycle C3's
+portrait-resolve reveals that the quiet one was carrying the
+Engineer's intellect inside her the entire time.
+
+**Canonical visual:** INFERRED per user direction, anchored to
+the Mechronis blue uniform. Agent Zero's visual signature is
+**absence of signature** — she is the one character in the roster
+who deliberately looks like no one in particular.
+
+**Production-inferred visual spec:**
+
+- **Age:** seventeen. Medium height, slender but not frail — a
+  build that disappears in a crowd. Neither the tallest nor the
+  shortest in the class. Nothing about her body type draws the
+  eye.
+- **Skin:** medium-light brown, ethnically ambiguous by design
+  (the Warlord's nanobot swarm will eventually reconfigure her
+  appearance in C3; the *before* face is the one she was born
+  with, and she has spent her life making sure no one remembers
+  it). Smooth, unblemished, unremarkable.
+- **Hair:** straight, dark brown, falling to mid-back. Parted
+  slightly off-center so the left side falls forward over her
+  left eye in a curtain. The curtain is not a style choice — it
+  is a **surveillance countermeasure**. She keeps the left eye
+  hidden so that anyone trying to identify her from profile
+  view has only half a face to work with. Render the hair
+  curtain consistently in every frame — her left eye is never
+  fully visible in any pre-C3 rendering.
+- **Eyes:** the right eye (the visible one) is dark brown, calm,
+  watchful in a way that is easy to mistake for shyness. It does
+  not track the player's movements like Iron Lion's or Kanshi
+  Sha's. It rests. It waits. When the player plays a card, Agent
+  Zero's visible eye does not flick to the card — it stays on
+  the player's face. She is reading the person, not the play.
+- **Mechronis blue uniform, worn too perfectly:**
+  - Blue blazer buttoned to the top, every button in place
+  - Light blue tie at regulation length, knot dead-center
+  - White oxford shirt pressed immaculate, sleeves at full
+    length (she never rolls her sleeves)
+  - Blue trousers with hospital-grade creases
+  - Clean black shoes, polished
+  - **No personal touches.** No pin, no bracelet, no scuff, no
+    stain, no modification. The uniform is worn as if it were
+    issued ten minutes ago. This is the visual tell the player
+    should notice but probably won't: everyone else at Mechronis
+    has made the uniform *theirs* (Iron Lion's rebellion, Kael's
+    bracelet, the Prince's rolled sleeves). Agent Zero has made
+    hers *nobody's*. She is invisible inside perfection.
+- **Posture:** sitting with spine straight, hands flat on the
+  table, palms down. She does not lean forward or back. She does
+  not shift. She breathes at a rate that is difficult to detect
+  on camera. When she plays a card she lifts one hand, sets the
+  card, and returns the hand to exactly where it was. The
+  economy of motion is not Kanshi Sha's meditative stillness —
+  it is **operational discipline**. She is not being still because
+  she is calm. She is being still because she was trained.
+- **Voice direction:** quiet, level, no affect. Not cold — merely
+  *absent*. Agent Zero's voice at seventeen sounds like a person
+  reading stage directions for someone else's play. The emotional
+  register is a fraction of a degree above monotone: just enough
+  warmth to pass as human, not enough to leave an impression.
+  Japanese-American accent (matching the Mechronis cosmopolitan
+  student body), mid-alto range. When she says something that
+  matters — which she does exactly once in the pre-match line —
+  the warmth ticks up by a single degree. That single degree is
+  the entire performance.
+
+  No existing Agent Zero voice profile exists for the *young*
+  version. A new voice profile **`young_agent_zero`** should be
+  added. ElevenLabs target: `stability: 0.85` (very high — she
+  is the most consistent speaker in the roster), `similarity_
+  boost: 0.80`, `style: 0.10` (lowest stylization of any Act 1
+  character — she is not performing, she is reporting).
+
+**Canonical pre-match line** (INFERRED):
+
+> *"I don't have a strategy. I have a sequence. If you interrupt
+> the sequence I will adjust. If you do not interrupt the
+> sequence you will lose in nine turns. I am telling you this
+> because it would be unfair not to."*
+
+Delivered flat, informational, the way a pilot reads a pre-flight
+checklist. The single warm degree lands on the word "unfair" —
+she means it. She does not want to be unfair. This is the only
+evidence the player has in B3 that Agent Zero has a conscience,
+and it is the seed for C3's sacrifice: she will accept the
+Engineer's transference because the alternative — the Warlord
+winning — is the unfair thing, and she cannot tolerate unfair.
+
+**Deck theme:** "Zero Trust" stealth / one-shots. Agent Zero's
+cards are invisible until they attack — the player sees empty
+slots on her side of the board but does not know what is in
+them until she activates a card for a one-shot strike. Each
+strike kills one player unit outright. The tutorial lesson is
+"some opponents win by being unseen" — the counter is deploying
+units with **reveal-on-proximity** effects (which the player
+unlocked from Kanshi Sha's Ocularum cards in A3) to expose
+her hidden slots before she strikes. This is the first time in
+Act 1 that the player must *combine* tools from different
+battles, and it is intentional.
+
+**Card unlock on win:** *The Weapon I Didn't Build* (Legendary
+Dark) — a card that, when played, destroys one random enemy
+unit without revealing which slot it was in. The Engineer named
+this card after Agent Zero because the weapon she became (Vex
+Solène, the swarm) was not something he built — it was something
+she *allowed* him to put inside her. The card is Dark-aligned
+because the Engineer was never fully at peace with what the
+transference required.
+
+**Post-match canonical beats** (INFERRED):
+
+- **Win:** Agent Zero's sequence breaks at turn six (three turns
+  earlier than her projected nine). She looks at the board,
+  looks at the Prince, and says nothing. A full two seconds of
+  silence. Then: *"You interrupted at six. I had not modeled
+  that."* She stands. She does not offer a handshake. She walks
+  to the classroom door, pauses, and says over her shoulder
+  without turning: *"I will remember this. That is a
+  compliment."* She leaves. The Prince watches her go. The camera
+  holds on the empty chair for a beat — a deliberate echo of
+  the Prelude's empty-chair motif.
+- **Loss:** Agent Zero's sequence completes at turn nine, exactly
+  as announced. The board is empty. She says *"Nine. As
+  projected."* She stands, walks to the door, pauses. Over her
+  shoulder: *"You tried to interrupt at turn four. That was the
+  right instinct. The timing was off by two cards. Next time."*
+  She leaves. The Prince watches her go. Cycle B canonically has
+  no fail state — the biography continues.
+
+**Cross-references:**
+
+- §0.4 rule 3 (Vex Solène name discipline — Agent Zero pre-C3,
+  Vex Solène from C3 onward, never mix)
+- §2.0 (simulation framing — Cycle B opponents are canonical
+  humans, not Archons)
+- §2.9 (Mechronis blue uniform anchor)
+- §9 (Cycle B3 battle section — full battle spec including the
+  reveal-on-proximity mechanic synergy with A3's Ocularum tools)
+- §15 (Cycle C3 — the Warlord Nano-Swarm battle where Agent
+  Zero becomes Vex Solène, paying off the portrait rendered here)
+- `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §1.2 (Vex Solène
+  identity chain — Agent Zero / Engineer Zero / Eyes of Reality
+  cover identities and reveal cadence)
+
 ---
