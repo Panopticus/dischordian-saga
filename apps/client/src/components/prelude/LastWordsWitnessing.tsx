@@ -202,7 +202,28 @@ export function LastWordsWitnessing({
         </button>
       )}
 
-      {/* Phase indicator (subtle — helps QA debug timing) */}
+      {/* Phase announcement — screen-reader-only, announces song
+          phase transitions (verse_1 → pre_chorus → chorus_1 …) but
+          NOT the ticking timer (which would be verbose noise). */}
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        style={{
+          position: "absolute",
+          width: 1,
+          height: 1,
+          overflow: "hidden",
+          clip: "rect(0 0 0 0)",
+          clipPath: "inset(50%)",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {currentSlide.phase.replace(/_/g, " ")}
+      </div>
+
+      {/* Visible phase indicator (subtle — helps QA debug timing).
+          aria-hidden so it doesn't double-announce alongside the
+          live region above. */}
       <div
         aria-hidden="true"
         style={{

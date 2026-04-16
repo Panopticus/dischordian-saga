@@ -16,6 +16,16 @@
    - Deep violet:#1e1b4b
    ═══════════════════════════════════════════════════════ */
 
+/* ─── A11y: keyboard focus ring on all Prelude-region buttons ─── */
+[role="region"][aria-label^="Beat "] button:focus-visible,
+[role="region"][aria-label^="Last Words "] button:focus-visible,
+[role="region"][aria-label^="Prelude "] button:focus-visible,
+[role="dialog"][aria-modal="true"] button:focus-visible {
+  outline: 2px solid #22d3ee;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.2);
+}
+
 /* ─── vfx_incubator_pod_dormant_glow — Sub-1 Hz cyan shimmer ─── */
 @keyframes pvfx-cyan-shimmer {
   0%, 100% { opacity: 0.15; }
