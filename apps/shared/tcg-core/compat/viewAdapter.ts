@@ -104,6 +104,19 @@ export interface LegacyDuelystGameState {
     playableEntityIds: readonly string[];
     lockedEntityIds: readonly string[];
   };
+  /**
+   * §5.8 Authority trial state, projected through for the UI's phase
+   * indicator + transcript column. Absent on every match that isn't
+   * §5.8. Phase number === turnNumber during trial mode per spec §2.
+   * See engine/trialPhase.ts.
+   */
+  trial?: {
+    openingVerdictBalance: number;
+    trialBalance: number;
+    openingArgumentPlayed: boolean;
+    closingArgumentPlayed: boolean;
+    outcome?: "overturn" | "sentence_passed";
+  };
 }
 
 /* ─── Adapter ─── */
@@ -136,6 +149,15 @@ export function adaptTcgStateToLegacyView(
           turnsRemaining: state.lockout.turnsRemaining,
           playableEntityIds: state.lockout.playableEntityIds,
           lockedEntityIds: state.lockout.lockedEntityIds,
+        }
+      : undefined,
+    trial: state.trial
+      ? {
+          openingVerdictBalance: state.trial.openingVerdictBalance,
+          trialBalance: state.trial.trialBalance,
+          openingArgumentPlayed: state.trial.openingArgumentPlayed,
+          closingArgumentPlayed: state.trial.closingArgumentPlayed,
+          outcome: state.trial.outcome,
         }
       : undefined,
   };
