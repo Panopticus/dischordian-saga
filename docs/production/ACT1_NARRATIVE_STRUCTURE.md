@@ -793,36 +793,90 @@ revision. First-pass direction notes are in §5.3 above.
     one more card. That card is the one *Last Words* plays.
   - **Defeat:** The Authority passes sentence. *Last Words*
     fires.
-  Both outcomes fire the `last-words` slideshow; the
-  narrative framing of the cutscene differs by outcome but
-  the cinematic itself is the same.
-- **Finale slideshow:** `last-words` — **Act 1's landing.**
-  The same song the Prelude's Beat J ends on, but now the
-  player knows what was said into the compartment before the
-  song was written. The cinematic plays the song over
-  visuals of the execution-delay-or-proceeding, with Log 5
-  Movement 5's *"Don't kneel. Don't despair."* manifesto
-  surfacing in the memoir-narrator's closing lines.
+  Both outcomes flow into the same full-song cutscene
+  (described below); the only narrative difference between
+  outcomes is the memoir narrator's framing line.
+
+#### 5.8.1 Last Words — full song cutscene (the Act 1 landing)
+
+This section is Act 1's emotional landing and the canonical
+home for *Last Words* (Malkia Ukweli, canon Rev 7 §5.6.9). The
+Prelude's Beat J only played a 35-second tease of Verse 1 over
+5 slides of Malkia watching the Log 5 recording in her studio
+(see `docs/production/prelude-asset-build/prompts/voice/log5/
+LAST_WORDS_TEASE_VS_FULL.md` for the restructure rationale).
+When the Authority match wraps, the player finally hears the
+song the tease promised — in full, in context, over the
+younger Engineer in the gallery chair.
+
+**Audio:**
+
+- File: `apps/client/public/audio/music/song_last_words_prelude_cut.mp3`
+- Duration: 219.8 seconds (3:39.8)
+- Loudnorm: −18 LUFS
+- Plays uninterrupted through every narrative beat below;
+  post-production from canon Rev 7 §5.6.11 (scrubber hum,
+  Protocols click, film-damage dropouts, female-voice
+  harmonic ghost) stays on the song's master and does not
+  need re-authoring here.
+
+**Slide sequence (reuse the existing 20-slide Prelude asset):**
+
+- Path: `apps/client/public/art/prelude/last-words/slide-{1..4}-{1..5}.webp`
+- Already shipped; no new art required for this landing. The
+  slides were originally built for the Prelude's full-song
+  treatment and are re-homed here with the song itself. Their
+  four sections map to the canonical song structure
+  (verse 1 / pre-chorus + chorus 1 / verse 2 + chorus 2 /
+  bridge + outro) — see
+  `apps/client/src/components/prelude/lastWordsTimeline.ts`
+  (Act 1's runner will fork this file or import from a
+  shared location during runtime implementation).
+
+**Canonical Light/Dark choice — the one canonical alignment
+moment in the whole game.**
+
+The choice UI appears synced to the chorus-1 line *"Freedom
+of thought is worth dying for / And the insurgency will be
+broadcast once more."* Before this point the player cannot
+skip; after the first chorus ends the skip button unlocks
+(identical to the Prelude Bible §17.5 original spec — the
+only change is where the moment fires in the narrative
+timeline).
+
+- Reveal time: **66s** from song start (chorus-1 onset)
+- Skip unlock: **110s** from song start (chorus-1 end)
+- UI component: `ChoicePillarLightDark` from PR #40
+- Persistence: the player's pick is written to
+  `GameState.lightDarkAlignment` (renamed from
+  `preludeAlignment` in this restructure)
+- Refusal handling: if the player never picks, the choice
+  persists through the rest of the song + the cutscene holds
+  on black until a choice is made. No default is chosen for
+  the player.
+
+**Runtime gate:** the full-song cutscene only plays when
+`preludeCompletedFlags` contains `cutscene_archives_two_
+witnesses_part1_complete` (ensuring the player has heard the
+tease first — otherwise the payoff misfires).
 
 **Production slots:**
 - Matchup-card art (silhouetted figure above a gallery arch,
-  six faintly-lit crystal coffins behind the figure, no
-  face, no identifying detail; the Engineer's chair is
-  visible in foreground three-quarter)
-- Deck composition (trial / verdict mechanic — the match's
-  turns correspond canonically to the trial's phases;
-  requires design spec as a separate doc)
-- Finale cutscene prompt for `last-words` — Act 1 landing,
-  separate Seedance 2.0 cutscene from the Prelude's Witnessing
-  slideshow despite using the same song track. Note: the
-  temporal conceit is that the memoir plays the song over
-  the moment because the song was *built from* this moment;
-  the Act 1 cinematic is a younger Engineer in the chair
-  while the older Engineer's voice narrates and Malkia's
-  voice carries the chorus.
+  six faintly-lit crystal coffins behind, no face, no
+  identifying detail; the Engineer's chair in foreground)
+- Deck composition (trial / verdict mechanic — match turns
+  correspond canonically to the trial's phases; requires
+  design spec as a separate doc)
+- Full-song cutscene runtime: build a sibling component to
+  Prelude's `LastWordsWitnessing` at
+  `apps/client/src/components/act1/LastWordsFullWitnessing.tsx`
+  (or similar path). Reuse the 20-slide timeline + choice
+  gating from the Prelude Bible §17 / canon Rev 7 §5.6.
 - Completion flags: `act1_authority_defeated` OR
   `act1_authority_sentence_passed` (exactly one) +
-  `act1_cycle_c_complete` + `act1_complete`
+  `act1_cycle_c_complete` + `act1_complete` +
+  (`first_light_dark_choice_resolved_light` OR
+  `first_light_dark_choice_resolved_dark`)
 - **Canon tie-in:** the six crystal coffins are the canonical
   pre-configuration of the Resurrection Protocols' initial
   housings. In Act 1 they are unnamed Architect
