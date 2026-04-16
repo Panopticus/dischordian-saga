@@ -589,4 +589,156 @@ mechanics.
 - `apps/shared/celebrationTrial.ts` Day 10 event (the Mascoteer
   trial beat that feeds into the A1 card battle)
 
+### 2.3 Corey the Collector — Cycle A2 opponent (Day 20)
+
+The second Cycle A boss and the player's first exposure to a
+**masked** Archon. Corey never shows his face. In Cycle A the mask
+reads as kid-stuff, an elaborate costume piece a seven-year-old
+insisted on for picture day. Later in the biography — specifically
+in Cycle B when the player fights Young Eyes, and in the Act 2
+Thaloria cinematic when Curator Halverez appears — the player will
+recognize the same mask on different bodies and realize that the
+Collector Archon has been wearing it across the entire timeline.
+Corey is the **first time** the player sees the Xenomorph mask in
+the Engineer's memories, which makes him the canonical origin of
+the mask motif.
+
+**Canonical visual (user-provided, 2026-04-15):**
+
+> Corey the Collector wears a shiny blue Xenomorph-style mask that
+> hides his face completely, with a cloak full of pouches.
+
+**Production expansion for this doc:**
+
+- **The Xenomorph mask:** a full-face shell rendered in **shiny
+  cobalt-blue** — glossy plastic / polished composite, reflective
+  enough to catch the schoolroom's warm amber light as cool blue
+  highlights along the dome. The mask is H.R. Giger Xenomorph shape
+  (elongated skull, no visible eye holes, mandibular contour along
+  the jaw) shrunk down to child proportions and softened slightly
+  so it reads as *costume* to an adult viewer but *real* to another
+  child. The mask is seamless — no visible straps, no hinge, no
+  way it came on. **No facial features are ever visible underneath**,
+  even when Corey tilts his head or bends over a card. Render the
+  mask's interior as impenetrable black, never a hint of skin. The
+  mask's motif recurs exactly on Curator Halverez in the Act 2
+  Thaloria cinematic per `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §3
+  — production must preserve the shape and material for continuity.
+- **The cloak full of pouches:** a floor-length child's cloak,
+  deep midnight-purple velveteen (off-the-rack kid Halloween-costume
+  material, not quality fabric). The cloak is **covered** in small
+  cloth pouches stitched directly into the outer layer — forty to
+  fifty pouches of varying sizes, some tiny (thumb-sized), some
+  hand-sized, arranged asymmetrically over the cloak's surface. Each
+  pouch is drawstring-tied with faded ribbon in a different color.
+  When Corey moves, the pouches clink and rustle faintly (render
+  motion blur on the smallest pouches during Seedance 2.0 shots).
+  **Every pouch contains something** — a marble, a paper scrap, a
+  tooth, a dried leaf, a folded note, a single coin, a pressed
+  flower, a lock of hair. The player never sees inside any pouch
+  in Cycle A. In the Cycle A finale slideshow (§6) one pouch is
+  visible mid-fall, the contents catching the light — canonical
+  pouch-contents list is in §6's frame-by-frame spec.
+- **Body / stature:** small for seven years old. The cloak is
+  slightly too big for him, the hem dragging on the floor behind
+  him when he walks. The Xenomorph mask looks massive on the
+  narrow shoulders. Posture is hunched forward protectively over
+  his cards — the child-body language of someone who is guarding
+  his collection.
+- **Hands:** the only skin visible on Corey. Rendered as the same
+  medium-brown as the Prince's (Corey is canonically African
+  American in child form, matching the adult Curator Halverez's
+  skin tone for continuity). Hands are always slightly dirty —
+  ink-stained fingers, a scab on one knuckle, nails bitten down.
+  When he plays a card his hand emerges from under the cloak, sets
+  the card with surgical precision, and retreats back under. The
+  hand is the player's only window into his mood.
+- **Outfit underneath the cloak:** the same cream Project Celebration
+  school tunic as the other children, **but soaking wet** — as if
+  Corey was caught in a rainstorm on the way to class and never
+  dried off. The wetness is a canon detail, not a mistake: the
+  Collector Archon's child-form carries water on him because water
+  is how his pouches' contents stay preserved. Do not render the
+  wetness as dramatic dripping — it's just a persistent damp to
+  the fabric, slightly darker than the other children's tunics.
+- **No voice yet:** Corey **does not speak aloud** in the Cycle A
+  card battle. His pre-match line is text-only, rendered on the
+  matchup card in his handwriting (see below). The mask never moves.
+  The cloak never opens. The only sound Corey makes is the faint
+  pouch-clink when he shifts. This is canonically one of the two
+  **wordless opponents** in Act 1 (the other is C3's Nano-Swarm
+  in Agent Zero). Voice direction note: the Collector Archon's
+  full voice debuts in Act 2's Thaloria cinematic; Cycle A's
+  silent framing is the anti-reveal, the first time the player
+  senses an entity that refuses to be heard.
+
+**Canonical matchup-card line** (from `apps/shared/act1Opponents.ts`
+`little_collector.preMatchLine`, to be renamed to `corey_collector`
+in the code cleanup PR noted in §0.4 rule 6):
+
+> *"I will take your tears and your laughter both. They are both
+> currency where I am going."*
+
+Rendered as **Corey's own handwritten text** on the in-game matchup
+card — cursive script in faded blue ink, slightly crooked, the
+hand of a precocious seven-year-old practicing adult penmanship.
+Render the text fully legibly on the matchup splash still (this is
+one of the few places in Act 1 where rendered text is canonical and
+required; the other is Cycle C4's tribunal evidence cards). No
+audio — the line is read by the player from the card, not spoken
+by Corey.
+
+**Deck theme:** "Choose Your Mask" memory-card sacrifice. Corey's
+mechanic forces the player to discard a card from their hand each
+turn — but the player chooses **which** card, and the discarded
+card becomes a "mask" that Corey plays on his own side of the
+board, wearing it as one of his cards. The player's discards
+become the opponent's deck. The cost-benefit pivot is: which cards
+do you want to *give* him? The tutorial lesson is "your sacrifices
+shape his power," which is the entire Collector Archon's gameplay
+signature across every future encounter.
+
+**Card unlock on win:** *The Jar That Wouldn't Close* (Rare Light) —
+a card that, when played, lets the player permanently remove a
+card from their opponent's discard pile. The first card in the
+player's collection that interacts with "things the opponent has
+already let go of." Canonical reflection of the win-state beat:
+the jar cracks, Corey picks up the pieces.
+
+**Post-match canonical beats** (from `act1Opponents.ts`):
+
+- **Win:** The jar cracks. Corey picks up the pieces and promises
+  not to forget. The "jar" is visible on the card table as a
+  prop — a small glass jar sitting beside his deck, rendered
+  throughout the battle. On win, it splits along a visible hairline
+  crack. Corey silently gathers the glass shards into one of his
+  cloak pouches (a new, previously-empty pouch). The promise is
+  text-only on the post-match splash: *"I will not forget."* in
+  the same blue-ink handwriting as the pre-match line.
+- **Loss:** Corey's jar grows by one. Canonically this means a
+  new pouch has appeared on the cloak — one that wasn't there
+  at the start of the match. The new pouch contains the player's
+  "specific attention" (per the code comment: "his favorite
+  flavor"). The loss splash shows a close-up of the new pouch
+  being cinched shut by Corey's small dirty hand. No text.
+
+**Cross-references:**
+
+- §2.0 (simulation framing — Archons in child bodies)
+- §4 (Cycle A2 battle section — full battle spec)
+- §6 (Welcome to Celebration slideshow — Corey appears in the
+  graduation photo, mask still on, cloak pouches visible)
+- Prelude Bible cross-reference: the Collector is one of the
+  Antiquarian's "three Insurgency figures harvested for their
+  patterns" (per `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §3) —
+  Cycle A2 is the player's first encounter with the harvester
+- `apps/shared/act1Opponents.ts` `little_collector` data shell
+  (to be renamed `corey_collector` in the follow-up code PR)
+- `apps/shared/celebrationTrial.ts` Day 20 event
+- Act 2 Thaloria cinematic canon: Curator Halverez wears the
+  adult-form version of this same Xenomorph mask (per
+  `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §3 and DSFGL line 2438) —
+  the mask is the single continuity signifier across the two
+  appearances and must be rendered identically
+
 ---
