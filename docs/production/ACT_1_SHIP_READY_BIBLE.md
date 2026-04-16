@@ -467,4 +467,126 @@ instruction.
 - §0.4 rule 1 (the Prince naming discipline — canon inherited
   from the Prelude Bible)
 
+### 2.2 Minnie the Meme — Cycle A1 opponent (Day 10)
+
+The first boss of Act 1 and the player's first-ever scripted
+Dischordia match. The player has just stepped off the tutorial
+("Elara's briefing-paper knowledge" layer of Cycle A onboarding)
+and sits across the card table from a seven-year-old girl in
+Minnie Mouse ears who — the Engineer will not learn this for
+another twenty years — is the Archon of the Meme in a child body.
+
+**Canonical visual (user-provided, 2026-04-15):**
+
+> Minnie the Meme has short brown hair, wears a playful mouse-ear
+> headband, and is always mid-gesture, expressive and energetic.
+
+**Production expansion for this doc:**
+
+- **Mouse-ear headband:** canonical from §0.4 rule 6 — a black
+  plastic Disney-souvenir-style headband with two round felt-covered
+  ears, worn earnestly as crown jewelry. Not ironic. The felt is
+  slightly nubby from being worn daily for years. The plastic
+  headband has faint scuffs on the top curve. The ears are never
+  off in any frame — render them even when Minnie is viewed in
+  silhouette or partial profile.
+- **Hair:** short brown (user canon). Bowl-cut or slightly messy
+  shoulder-length — pushed under the headband so the ears sit
+  cleanly on top. The hair sticks out slightly around the headband
+  in tufts. Warm chestnut-brown under schoolroom lighting.
+- **Face:** seven-year-old Asian-descent child, round cheeks, a
+  gap between the front teeth that she shows every time she
+  smiles (and she smiles often). Wide brown eyes with dark lashes.
+  The eyes are the tell: they are canonically **too alert** for a
+  child's eyes. When the player is paying attention they notice
+  the eyes are tracking them like a camera, not like a kid.
+- **Expression default:** mid-gesture, expressive, energetic (user
+  canon). Minnie is never still in any frame. Render her in
+  motion — hands up, mouth open mid-word, one foot slightly lifted
+  as if she is about to run or spin. Even her static portraits
+  should feel like the artist caught her mid-leap. The energy is
+  the threat: the player will be tired and Minnie will not.
+- **Outfit:** the Project Celebration school tunic in pale cream
+  (the same tunic the young Prince wears in Cycle A — see §2.1),
+  but Minnie's is covered in fabric-marker drawings she has done
+  herself. Smiley faces, hearts, a crude picture of the other
+  classmates as stick figures with labels, a recurring motif of
+  three eyes arranged in a triangle (foreshadow — she is friends
+  with Kanshi Sha the Watcher in the simulation). Scuffed sneakers,
+  mismatched socks. Small cloth satchel worn cross-body.
+- **Body language:** she gestures with her entire body. When she
+  speaks she uses both hands, palms out, fingers splayed. When the
+  player plays a card she leans forward over the table eagerly.
+  When she plays a card she slams it down with theatrical conviction.
+  Every motion is *performance*.
+
+**Voice direction (Meme Archon in a child body):**
+
+Per §2.0's canon hygiene rule, Minnie's voice is NOT a child's
+voice. It is the Meme — ancient, viral, amused at the player's
+attention. The delivery should sound like a 35-year-old content
+creator in her prime delivered through a child's vocal tract,
+which is exactly what it is. The voice never drops into child
+babble or high-pitched squeals. It stays smooth, confident,
+slightly-too-articulate-for-a-seven-year-old, with a performative
+cadence that feels like she is always about to post. The Prelude's
+Human voice profile gave us the template for "ancient presence in
+a containing form"; Minnie is the inversion — a recent-cosmic
+presence (the Meme is canonically a young Archon, not old) in a
+containing body she enjoys more than she needs.
+
+Per `docs/production/VOICE_OVER_BIBLE.md` no existing Meme voice
+profile currently exists. A new voice profile **`the_meme_child`**
+should be added — voice direction and ElevenLabs parameters are
+enumerated in §3 (the Cycle A1 battle section) below.
+
+**Canonical pre-match line** (from `apps/shared/act1Opponents.ts`
+`little_meme.preMatchLine`, to be renamed to `minnie_meme` in the
+code cleanup PR noted in §0.4 rule 6):
+
+> *"Let me see. Let me see. Let me see. I am going to see it whether
+> you show me or not."*
+
+Delivered in three different intonations over the three "Let me
+see"s — first as playful wheedling, second as mock-exasperated,
+third as a flat observational statement that is not a request.
+The player should register that the third delivery is the real
+Minnie under the other two.
+
+**Deck theme:** "Rent Free" forced-unison mechanics. Her cards
+force the player's cards to play the same action she plays on her
+own turn. She does not take the player's turn — she *shares* it.
+The player fights by desynchronizing. This is the Meme's combat
+signature: viral pattern entrainment.
+
+**Card unlock on win:** *The Countermelody* (Common Neutral) — a
+card that, when played, forces an opponent's unison-forced card
+out of sync for one turn. The player's first tool against viral
+mechanics.
+
+**Post-match canonical beats** (from `act1Opponents.ts`):
+
+- **Win:** Minnie's viral chant stalls for a single second. In that
+  second the Engineer finishes his card. The stall is visible — a
+  half-frame of Minnie frozen mid-clap, every classmate frozen
+  with her, the Prince's pencil tapping his card on the "one"
+  beat that broke the pattern.
+- **Loss:** Minnie laughs and laughs. The Engineer is fine. He is
+  always fine, except the one time. The loss line is a
+  foreshadow to Cycle C — the "one time" the Engineer is not fine
+  is the tribunal. The player won't catch this until they get to
+  C4 and the callback lands.
+
+**Cross-references:**
+
+- §0.4 rule 6 (Minnie canonical naming + mouse-ear detail)
+- §2.0 (simulation framing — Archons in child bodies)
+- §3 (Cycle A1 battle section — full battle spec)
+- §6 (Welcome to Celebration slideshow — Minnie appears in the
+  graduation photo final frame)
+- `apps/shared/act1Opponents.ts` `little_meme` data shell (to be
+  renamed `minnie_meme` in a follow-up code PR)
+- `apps/shared/celebrationTrial.ts` Day 10 event (the Mascoteer
+  trial beat that feeds into the A1 card battle)
+
 ---
