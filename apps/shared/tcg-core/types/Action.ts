@@ -78,7 +78,9 @@ export type ReduceErrorCode =
   | "illegal_move"
   | "illegal_attack"
   | "unknown_card"
-  | "match_ended";
+  | "match_ended"
+  /** §5.5 Warlord lockout: player tried to play a card the lockout pinned. */
+  | "card_locked";
 
 export interface ReduceError {
   code: ReduceErrorCode;

@@ -41,6 +41,11 @@ import { deployCard } from "./deploy";
 import { interpret } from "./effectInterpreter";
 import { makeExecCtx } from "./execCtx";
 import { mintEntityId } from "./init";
+import {
+  THREE_MOVES_CARD_DEF_ID,
+  activateLockout,
+  isCardLocked,
+} from "./lockout";
 
 export function handlePlayCard(
   draft: Draft<GameState>,
@@ -75,6 +80,22 @@ export function handlePlayCard(
     return {
       code: "insufficient_mana",
       message: `card costs ${def.cost}, player has ${player.mana} mana`,
+    };
+  }
+
+  // §5.5 Warlord lockout: reject locked-card plays before paying the
+  // cost. The lockout state pins specific entityIds (per-card, not
+  // per-defId) so we check on the card's runtime entityId, not the
+  // CardDefinition id. The check is side-scoped — the Warlord plays
+  // her own hand freely while the lockout is active against the
+  // player.
+  if (
+    def.cardType !== "general" &&
+    isCardLocked(draft, card.entityId, action.actor)
+  ) {
+    return {
+      code: "card_locked",
+      message: "card is locked by the Warlord's three-move lockout",
     };
   }
 
@@ -140,6 +161,21 @@ export function handlePlayCard(
       // Spells go into the owner's graveyard after resolution (Duelyst
       // convention: spells aren't kept as artifacts on board).
       player.graveyard = [...player.graveyard, card];
+
+      // §5.5 Warlord lockout — Three Moves cast interception. The card's
+      // CardDefinition has empty abilities by design (see the card's
+      // doc-comment); its mechanical effect is implemented entirely
+      // here as a runtime hook on the defId. The lockout targets the
+      // OPPOSITE side from the caster (the player; the Warlord is
+      // never the lockout-targeted side).
+      if (card.defId === THREE_MOVES_CARD_DEF_ID) {
+        const playerSide = (action.actor === 0 ? 1 : 0) as 0 | 1;
+        activateLockout(draft, playerSide, ctx.events);
+        // Three Moves has no further on_cast effects to interpret —
+        // its abilities array is empty.
+        return undefined;
+      }
+
       // Walk the spell's abilities. Each `on_cast` ability fires through
       // the effect interpreter with the player-chosen target id
       // (propagated into the ExecCtx below).
