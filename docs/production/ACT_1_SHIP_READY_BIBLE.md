@@ -301,3 +301,170 @@ section (§19 and §20 respectively). They are not battles, they are
 their art assets as a distinct delivery queue from the 12-battle queue.
 
 ---
+
+## Section 2 — Character Roster
+
+### 2.0 Framing principle — "cosmic beings in child bodies"
+
+Act 1 is a **simulation**. The player is inhabiting the Engineer's
+memories of his own biography — not lived reality, but a reconstruction
+of it running inside the Matrix of Dreams. The simulation has its own
+visual rules, and the most important one is this: **when an Archon-tier
+entity appears in the simulation, it is rendered as the cosmic being
+*wearing* a child's body**.
+
+The canonical justification: the Engineer's memories of his childhood
+classmates were imprinted before he understood what any of them
+*were*. He met them as other kids — on a swingset, in a classroom,
+at a graduation ceremony. The simulation preserves that. It shows the
+player what the Engineer *saw*, not what was underneath. Decades later
+when the Engineer figured out that Conni-the-classmate was actually the
+Archon of the Meme, his memory did not retroactively re-render her as a
+cosmic entity. It kept the Minnie Mouse ears. The Minnie Mouse ears
+are literally what he remembered.
+
+This framing rule governs **every** Archon-tier character in Act 1:
+
+- **Cycle A (Kindergarten of Gods):** all three opponents are Archons
+  in child form because the simulation is literally set in a
+  kindergarten (the Project Celebration school). Minnie, Corey, and
+  Kanshi Sha are cosmic entities (the Meme, the Collector, the
+  Watcher) wearing the bodies of seven-year-olds.
+- **Cycle C1 (Battle of Nexon — Vernon Vortex "First Form"):** the
+  same rule applies, but with a twist. Cycle C is the War Cycle,
+  set on battlefields and trial floors — yet Vernon appears as a
+  round-faced, cheerful child in an orange sun T-shirt. This is
+  *intentional dissonance*. The cosmic Vortex is the being that
+  wipes the board every four turns; Vernon is the child body that
+  cosmic being is wearing in the Engineer's memory. The player is
+  supposed to feel the disconnect — *this cheerful kid is doing
+  the thing that is killing me* — and the disconnect is the beat.
+  The "First Form" label on C1 refers to the first time the cosmic
+  Vortex appears in the Engineer's life, which happens to be in a
+  child body.
+- **Cycle C2–C4 (Wanda Wyrlord, Nano-Swarm, Wayne Warden):** these
+  are canonically NOT child-form Archons. The Warlord's fragmented
+  form in C2 is adolescent-to-young-adult (Wanda is described as a
+  cyborg *girl*, not child — see §2.11). The Nano-Swarm inside
+  Agent Zero in C3 is not a character in child form at all, it is
+  a swarm rendered as card-game mechanics. Wayne Warden in C4 is
+  an adult tribunal figure, old enough to sit the bench.
+- **Cycle B (Mechronis Academy):** the Cycle B opponents are NOT
+  Archons in the first place. They are canonical *humans* (or
+  human-descent entities) at their academy ages. Young Iron Lion,
+  Young Kael, Young Agent Zero, Young Eyes, and the Seeker are
+  all rendered as literal teenagers in blue school uniforms per
+  the Mechronis Academy visual canon established by §2.9.
+
+**The canon hygiene rule that falls out of this framing:** when
+writing VO or subtitles for an Archon-in-child-body character, the
+voice is the *cosmic being's voice*, not a child's voice. Minnie
+does not sound like a seven-year-old. She sounds like the Meme —
+ancient, viral, amused at the player's attention. The dissonance
+between her visual and her voice is the emotional weight of the
+encounter. Actor direction for each Archon's VO lines is carried
+in the per-battle §X.5 sub-sections.
+
+### 2.1 The Prince / The Engineer — the player's biographical subject
+
+The player does not *see* The Prince directly during Act 1's card
+battles — the player *is* The Prince, viewing the memories from
+inside his head. But his visual still matters for:
+
+- **Cycle A–C finale slideshows** (§6, §12, §17), where Prince
+  appears as a cast member in the graduation photos, the Mechronis
+  class portraits, the Nexon battlefield, the New Babylon trial,
+  and finally the execution chamber in *Last Words*
+- **Cycle B5 "The Seeker" battle** (§11), where the Prince sits on
+  one side of the card table and the young Human sits on the other,
+  and the camera is over the Prince's shoulder — so the back of his
+  head is visible to the player for the duration of the match
+- **Cycle C3 forced-loss** (§15), where the Prince's portrait fades
+  as the Engineer's deck empties, and the simulation's framing of
+  his identity dissolves into Vex Solène's
+- **Act 1 Finale cutscene** (§18), where the player sees the Prince
+  one final time — as a silhouette walking into the white frame of
+  the executed/programmer reunion at the close of *Last Words*
+
+**Canonical visual (user-provided, 2026-04-15):**
+
+> The Prince is a young African American man with short black hair
+> who wears a red steampunk trench coat.
+
+**Production expansion for this doc:**
+
+- **Age presentation:** Act 1 shows the Prince at three life phases
+  — Cycle A (childhood, ~7 years old), Cycle B (adolescence, 15–18
+  years old, Mechronis Academy uniform), Cycle C (young adult,
+  early 20s to late 20s, in his canonical red steampunk trench
+  coat). The canonical visual above describes the young-adult
+  Cycle C form.
+- **Red steampunk trench coat canonical details:** deep oxblood /
+  burgundy red wool or heavy canvas, double-breasted, falling to
+  mid-thigh, gold-brass filigree details along the lapels and
+  cuffs (the filigree is not ornamental — it is functional neural
+  lattice circuitry the Prince embedded into the coat, a foreshadow
+  of the Dischordia Deck system he would build later). Visible
+  brass gears or small cogwheels on the shoulder epaulettes. The
+  coat is worn open, shirt underneath is a simple cream linen
+  (matching the Prelude Bible §2.2 canonical wardrobe) with sleeves
+  rolled to the elbow.
+- **Skin tone:** medium-brown African American, warm undertones
+  matching the Act 1 global style anchor's palette (§0.3). Avoid
+  cool/blue undertones — the Prince is canonically a warm-palette
+  character.
+- **Hair:** short, black, cut close to the scalp, natural texture.
+  Never straightened, never braided long — the Prince keeps his
+  hair utilitarian because he spends most of his time bent over a
+  workbench.
+- **Eyes:** warm brown, slightly tired, intelligent. When he looks
+  at something he loves (a piece of tech, a childhood memento, his
+  partner) the eyes light up slightly — that light is the only
+  part of his face the execution cutscene will ever take from him.
+- **Facial hair:** clean-shaven in Cycle A and B, trim beard in
+  Cycle C. The beard grows over the course of the war. By the
+  tribunal in C4 it is slightly unkempt — he has been in custody
+  for some time.
+- **Child form (Cycle A):** same skin tone, same intelligent eyes,
+  same warm brown hair but longer (bowl cut), wearing a simple
+  beige schoolyard tunic (Project Celebration school uniform —
+  NOT the later Mechronis blue uniform). Carries a small cloth
+  satchel everywhere. Never without a pencil behind one ear.
+- **Adolescent form (Cycle B):** the Mechronis Academy blue school
+  uniform (see §2.9 for the uniform canonical spec — blue blazer,
+  blue trousers, white shirt, light blue tie), worn slightly
+  loosely. Already has the habit of rolling his sleeves. The
+  filigree on the trench coat in Cycle C is an evolution of
+  doodles he made in Mechronis schoolbook margins.
+
+**Per-cycle wardrobe reference (for slideshow and battle production):**
+
+| Cycle | Age | Canonical outfit | Prop |
+|---|---|---|---|
+| A (Kindergarten) | ~7 | Beige Project Celebration tunic, cloth satchel | pencil behind ear |
+| B (Mechronis) | 15–18 | Mechronis blue blazer + trousers + white shirt + light blue tie, sleeves rolled | notebook under arm |
+| C (War) | early–late 20s | Red steampunk trench coat + cream linen shirt (sleeves rolled) + dark trousers | brass-inlay data slate, small tool roll in coat pocket |
+
+**Voice profile:** existing `the_prince` profile from
+`docs/production/VOICE_OVER_BIBLE.md` Section 9 (added by Prelude
+Bible §2) — no new voice profile needed for Act 1. The voice
+direction shifts slightly per cycle: Cycle A uses a child-form
+version (bright, un-self-aware), Cycle B uses adolescent cadence
+(slightly formal, beginning to develop the aristocratic precision),
+Cycle C uses the canonical adult voice from the Prelude profile.
+All three are the *same actor*, same take session, different
+direction passes — per the Prelude Bible §10.5's voice-continuity
+instruction.
+
+**Cross-references:**
+
+- Prelude Bible §2 (The Prince voice profile — existing canon)
+- `apps/shared/engineerRecordings.ts` (the Prince's canonical
+  holographic recordings from the Prelude Beat C / E / J archives)
+- `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.6 (the full Log 5 text
+  that plays in the Prelude Beat J climax and is paralleled in
+  Act 1's *Last Words* slideshow)
+- §0.4 rule 1 (the Prince naming discipline — canon inherited
+  from the Prelude Bible)
+
+---
