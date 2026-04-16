@@ -1019,3 +1019,214 @@ AND (`act1_authority_defeated` OR `act1_authority_sentence_
 passed`) is set. All three conditions must be true — the
 player must have finished Beat J *and* finished the Act 1
 ladder for Section 6 to unlock.
+
+---
+
+## Section 6 — Two Witnesses Meet Part 2 (Act 1 narrative close)
+
+**Status:** stub. Section 6 locks the emotional close of Act 1
+but does not belong to the card-battle spine — it is a single
+cutscene the player enters after §5.8.1's *Last Words* full-
+song landing resolves. This stub reserves the section,
+anchors the canon sources, and specifies the production slots
+that need to be filled before Section 6 can be authored in
+full. Full scene spec is deferred until the Act 1 runtime is
+stood up and the Witnesses' voices have been cast.
+
+### 6.1 Narrative purpose
+
+Beat J was **Part 1**: the player encountered the Witnesses'
+*existence* (both physically present in the Archives, the
+Antiquarian's `antiq_fc_1` line landing, *Last Words* playing
+as an archived Age-3 recording). Per Canon Rev 7 §8.5 option 1
+(user-approved), that scene establishes that two people have
+been waiting for the player across Ages without yet
+explaining what they are waiting for.
+
+Section 6 is **Part 2**: the Witnesses finally sit down with
+the player. In Beat J they held the knowledge; here they
+share enough of it that Act 1 lands. Act 1 is the Engineer's
+memoir; Section 6 is the scene where the two people who have
+carried the Engineer's legacy the longest finally tell the
+player what carrying it *costs*.
+
+**Core reveals Section 6 is allowed to make (canon-safe under
+Canon Rev 7 §8.6):**
+- That the Antiquarian was a Witness who died for his thought
+  and came back. (He need not use the word "Revelation" —
+  "I was executed for what I thought. I woke up in the next
+  era." is sufficient.)
+- That the Enigma was the voice on *Last Words* and that she
+  also died and came back.
+- That the Engineer whose song the player just heard is
+  **not** a Witness — he pre-dates the Witness arc. His
+  death is what Malkia carried forward; it is the seed of
+  what she became.
+- That the player is the fulcrum the Antiquarian referenced
+  in Beat J — the one who decides whether what the Engineer
+  and the Witnesses died for continues or closes.
+
+**Core reveals Section 6 must NOT make** (per Canon Rev 7
+§8.6 hygiene rules):
+- No "1260 days" spoken aloud.
+- No "Silence in Heaven" as a named event.
+- No "Heart of Time" ship reference.
+- No Age names (Privacy / Prophecy / Insurgency /
+  Revelation) spoken aloud — the only permitted phrasing
+  remains the Antiquarian's *"Across Ages, across the death
+  of stars"*.
+- No "Daniel Cross" civilian name. No "Malkia Ukweli"
+  civilian name either — the Enigma and the Antiquarian
+  are the only names used.
+
+### 6.2 Structural shape
+
+Section 6 is **one cutscene, no matches, no deck**. The
+player watches and, at one beat, chooses. The cutscene fires
+immediately after §5.8.1's `lightDarkAlignment` write
+persists — the player leaves the Authority gallery and walks
+(off-screen) back to the Archives, where both Witnesses are
+waiting in the chairs they were standing in during Beat J.
+
+- **Runtime:** ~3–5 minutes target, single contiguous scene.
+- **Primary room:** the Archives (reuse Beat J's backdrop;
+  re-lit, re-dressed — Engineer's chair is gone, the six
+  crystal coffins are gone, the Archives are *just* an
+  archive again; the memorial has completed its job).
+- **Speakers:** the Antiquarian, the Enigma, the player
+  (player lines are dialog-selection UI, not voiced).
+- **No music bed.** Section 6 is deliberately scored only
+  with the Archives' room ambient. After *Last Words* ran
+  for 3:39, the silence is the point.
+
+### 6.3 The Act 1 closing choice
+
+Section 6 contains **one player choice** — the
+*Act 1 closing choice*, which is distinct from the §5.8.1
+Light/Dark alignment pick. Where Light/Dark was the player's
+stance toward the *prophecy*, the Act 1 closing choice is the
+player's stance toward the *Witnesses themselves*:
+
+- **Accept the burden.** The player agrees to carry forward
+  what the Engineer and the Witnesses started. Unlocks
+  Act 2's Antiquarian-as-companion track by default; Enigma
+  may accompany but follows the Antiquarian's lead.
+- **Decline the burden.** The player refuses the Witnesses'
+  explicit offer. Act 2 still opens but the Witnesses fade
+  into the background — the player carries the weight alone
+  until they choose to reach for them again in Act 3's
+  Witness-return arc.
+- **Deflect.** The player neither accepts nor declines — they
+  ask a question instead. The Witnesses do not press.
+  Section 6 ends with the question unresolved and Act 2
+  opens with the player's companion track still ambiguous.
+
+All three choices are canon-safe endpoints. None softlocks
+Act 2. `GameState` field: `act1_closingChoice: "accept" |
+"decline" | "deflect"`.
+
+### 6.4 Canon source references
+
+All authored material for Section 6 must trace back to at
+least one of:
+
+- `docs/design/CANON_REV_7_ORACLE_VEX_EXPANSION.md` §8
+  (Two Witnesses architecture — the definitive canon source)
+- `docs/design/CANON_REV_7_ORACLE_VEX_EXPANSION.md` §8.5
+  (Beat J implications + option 1 recommendation)
+- `docs/design/CANON_REV_7_ORACLE_VEX_EXPANSION.md` §8.6
+  (the eight Prelude-and-Act-1 hygiene rules — Section 6 is
+  still bound by them; Section 6 is not Act 2 yet)
+- `docs/design/WITNESSING_NARRATIVE_PROPOSAL.md` — the
+  *original* Witnessing proposal, which predates Canon Rev 7
+  and contains a *"Two Witnesses Meet"* cutscene variant set
+  in a Memorial Corridor with a forgive-both / forgive-one /
+  forgive-neither player choice. **Not currently canonical
+  under Rev 7**, but archived as creative reference for the
+  eventual scene author — the Memorial Corridor geography
+  and the forgive-mechanic framing are both interesting
+  alternates the Section 6 author may pick elements from.
+  Any deviation from Rev 7 §8.6 hygiene rules is a spoiler
+  and must be caught in review.
+
+### 6.5 Production slots
+
+Filled slots (already shipped):
+- Archives room backdrop (`room-archives.webp`) — reuse
+  from Beat J, no new art required.
+- Antiquarian + Enigma voice casting — cast during Prelude
+  production (Antiquarian uses `antiq_fc_1`'s voice; Enigma
+  uses Malkia Ukweli's voice from *Last Words*).
+
+Open slots (blockers for Section 6 authoring):
+- **Dialog script** — the actual scene, ~3–5 minutes of
+  voiced dialogue. Needs a single-pass authored draft before
+  VO recording. Anchor constraints: §8.6 hygiene rules,
+  §8.5 option 1 staging, the three §6.3 endpoints.
+- **VO lines** — every line of §6.1 core reveals needs to be
+  recorded. Current estimate: ~18–25 lines total across the
+  two Witnesses. Not yet in `VOICE_OVER_BIBLE.md`.
+- **Player dialog UI** — the three-choice selection widget
+  (accept / decline / deflect). Should reuse the
+  `ChoicePillarLightDark` visual treatment for consistency
+  with §5.8.1, *not* the generic dialog-option list used in
+  Beat H's Inbox.
+- **Ambient authoring** — the Archives' "no-music" ambient
+  bed needs to be confirmed (room tone, HVAC hum, single
+  dripping-data-stream in the background; pull from existing
+  Beat J audio if reusable).
+- **Post-scene hand-off** — Section 6's closing frame hands
+  off to the Act 2 opener. The Act 2 Bible (not yet written)
+  will spec what the player sees on Section 6 fade-out; for
+  now, Section 6 fades to `act1_complete: true` + a black
+  title card reading simply *"End of Act 1"*.
+
+### 6.6 Forward-write surface
+
+Section 6 writes the following state that Acts 2+ consume:
+
+| Field | Value source | Consumer |
+|---|---|---|
+| `act1_complete` | Set to `true` on cutscene end | Gates Act 2 entry |
+| `act1_closingChoice` | §6.3 player pick | Act 2 companion-track default; affects Act 3 Witness-return branch weighting |
+| `witness_antiquarian_met_part2` | Always set on cutscene end | Act 2+ dialogue branches that reference the Antiquarian's Part 2 confession |
+| `witness_enigma_met_part2` | Always set on cutscene end | Act 2+ dialogue branches that reference the Enigma's Part 2 silence or speech |
+
+### 6.7 Open canon items flagged by Section 6
+
+Items that need user decision before Section 6 can be
+authored in full:
+
+1. **Does the Antiquarian sit or stand?** Beat J has both
+   Witnesses standing near the central pedestal. Section 6's
+   staging needs a choice about whether the Witnesses move
+   closer to the player (sit at a table with them) or hold
+   the Beat J pose. The former is warmer; the latter is more
+   biblical. Both readings are canon-safe.
+2. **Does the Enigma speak in Section 6?** In Beat J she is
+   canonically silent (her voice is the archived *Last Words*
+   recording). Section 6 is the earliest canon-safe moment
+   she could speak live. User decision needed: does her
+   first live line land in Section 6, or is it reserved for
+   Act 2+?
+3. **Does the Antiquarian reveal he was "the Programmer" of
+   the Loredex?** Canon Rev 7 §8.6 rule 2 forbids saying
+   "Daniel Cross" aloud. The Loredex alias "the Programmer"
+   is not explicitly forbidden but is adjacent to the
+   civilian name. Section 6 is either the moment he
+   connects the two identities or it is not — a deliberate
+   design choice.
+4. **The "forgive both / one / neither" option from the
+   original Witnessing Narrative Proposal — is that
+   canonically available in Section 6, or is it retired?**
+   Under Canon Rev 7 the Witnesses do not have any reveal-
+   worthy "debt" between them in Act 1 (Malkia's abduction
+   of Cross is Act 3+ content per §8.6 rule 6). Without that
+   reveal, there is nothing in Section 6 for the player to
+   forgive. The three §6.3 endpoints (accept / decline /
+   deflect) replace the forgiveness mechanic. User
+   confirmation: is that replacement intentional, or should
+   the forgiveness-of-Witnesses mechanic be preserved and
+   re-scoped to Act 3 when Malkia's abduction reveal lands?
+
+---
