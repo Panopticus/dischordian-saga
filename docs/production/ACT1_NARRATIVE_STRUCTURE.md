@@ -1527,7 +1527,12 @@ Cycle C spans three distinct environments, in order:
 
 ### 5.4 Art — Cycle C environment stills (three)
 
-Three separate 1920×1080 `.png` + `.webp` stills required:
+Three separate 1920×1080 `.png` + `.webp` stills required.
+All three must land **colder** than any Cycle A or B
+environment — Cycle C is the cycle where the Empire's
+hostility has arrived in full, and the palette's job is to
+make the player feel that in the environment before any
+opponent says a word.
 
 | Output path | Shot | Priority |
 |---|---|---|
@@ -1535,8 +1540,132 @@ Three separate 1920×1080 `.png` + `.webp` stills required:
 | `apps/client/public/art/rooms/room-zenon-cell.png` + `.webp` | Interrogation chamber, card-table, grey | P0 |
 | `apps/client/public/art/rooms/room-authority-gallery.png` + `.webp` | Six crystal coffins, gallery hall, single chair | P0 |
 
-All three Nano Banana 2 prompts to author in a Section 5
-revision. First-pass direction notes are in §5.3 above.
+#### 5.4.1 `room-nexon-battlefield` — Nano Banana 2 prompt
+
+> Hyper-realistic cinematic still, 16:9, 4K. A collapsed
+> defensive line at the outer edge of the city of Nexon,
+> late evening after a full day of fighting. Mid-range
+> shot depth. The foreground is a half-ruined brass-and-
+> stone parapet wall — a staggered row of bunker
+> emplacements broken through in the center of frame, the
+> breach showing dust, embers, and the silhouette of a
+> single overturned card-table set up in the lee of a
+> surviving brass gun-emplacement (the Engineer's field
+> match was played here). The card-table is intact,
+> lightly scattered with face-down cards, two empty
+> chairs. Behind the parapet, the city of Nexon stretches
+> in mid-distance: collapsed colonnades, the silhouettes
+> of three partially-downed monuments, slow-rising columns
+> of smoke threading upward through a low ceiling of
+> dust. In the far distance, ember-orange glow from
+> sustained fires on the horizon. **No natural light** —
+> the entire scene is lit by distant fires, close emergency
+> flares (cyan-cold, faint), and a single high-angle
+> brass spotlight from an unseen battalion-post above
+> the frame casting one hard amber cone across the
+> ruined parapet and the card-table. Volumetric dust at
+> knee height, drifting visibly through the spotlight.
+> Brass shell-casings and scattered field-pack debris on
+> the ground. A torn Insurgency banner hangs limp from
+> a broken flagpole at screen-right. No visible bodies,
+> no visible soldiers — the battlefield is *empty now*,
+> the fighting has moved on or is about to resume. No
+> rendered text. Palette: dust-brown #6b5a48 dominant,
+> polished brass #b8752d on the gun-emplacement and
+> card-table edges, rust-orange #c66b3d on the ruined
+> metalwork, ember-orange #e06a1a on the distant fires,
+> bone-grey #a6998a on the stone, cold cyan #4ba3b5
+> barely present on the emergency flares. **Deliberately
+> no warm sun, no honey, no dusty rose — Cycle A and B's
+> warmth is gone. The only warm color is fire.**
+> Anamorphic lens flare from the amber spotlight.
+> Cinematic 4K composition, camera at standing adult eye
+> level, three-quarter wide framing on the card-table in
+> the breach.
+
+#### 5.4.2 `room-zenon-cell` — Nano Banana 2 prompt
+
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of
+> a small interrogation chamber in the Zenon trial
+> facility. The room is deliberately **undersized** — the
+> walls feel close, the ceiling barely above head height.
+> Concrete-grey walls, unpolished. A single square card-
+> table dead center on a stained grey floor; one chair on
+> each side facing each other across the table. Both
+> chairs are institutional grey metal — identical, no
+> distinction between interrogator and accused. A single
+> rectangular overhead panel-light centered directly above
+> the card-table, unshaded, casting a hard white-cold
+> cone downward — only the table and the two chairs are
+> fully lit; the walls recede into deep grey shadow at
+> the frame edges. The table surface is empty (the cards
+> appear at runtime). No windows. One metal door at the
+> far wall, closed, flush to the concrete, no handle
+> visible from inside the room. A small brass identifying
+> plate beside the door, blank (keep unreadable). No
+> furniture beyond the table, two chairs, and the door.
+> No decoration. No trace of anyone having been there
+> before — the room has been cleaned. **Palette: cold
+> institutional grey #55606e dominant on the walls and
+> floor, slightly warmer grey #6b6b65 on the chairs,
+> hard clinical white #e8e8e8 in the overhead light-cone,
+> deep shadow #2a2a2d at the frame edges.** No brass
+> (except the door plate). No cyan. No warmth. This is
+> the smallest room in Act 1 and it must feel that way.
+> Soft film grain. No volumetric fog (the room is sealed
+> too tight for drift). Cinematic 4K composition, camera
+> at standing adult eye level, centered on the table,
+> looking directly down the chair-to-chair axis from just
+> behind one chair's back. **The opposite of every
+> previous environment's grandeur — Cycle C's middle act
+> happens in the smallest room in Act 1.**
+
+#### 5.4.3 `room-authority-gallery` — Nano Banana 2 prompt
+
+> Hyper-realistic cinematic still, 16:9, 4K. A long
+> vaulted ceremonial hall — the Authority's gallery.
+> Deep perspective shot looking down the hall's length
+> from near the entrance end. Along the left wall, a row
+> of **six tall crystal coffins** in identical
+> alcoves — each coffin a vertical standing container of
+> clear faceted crystal, seven feet tall, narrow, each
+> faintly lit from within by a soft low-saturation glow
+> (three coffins glowing pale amber, two glowing pale
+> violet, one glowing barely-visible pale cyan — the
+> assignment is deliberate but the player does not yet
+> know what it signifies). Each coffin appears **empty**
+> on close inspection; the light inside is ambient, not
+> from a figure. The right wall is blank polished black
+> marble, reflecting the coffins' faint glow. The floor
+> is a continuous slab of the same black marble, unlit
+> except by the coffin glow. Center of the gallery's
+> length, roughly two-thirds down the hall from camera:
+> **a single simple wooden chair** facing away from
+> camera, down the hall toward the gallery's back arch.
+> The chair is unadorned, plain, almost domestic — the
+> only organic material in a room of stone and crystal.
+> (The Engineer will sit here at match start; the chair
+> is empty in this establishing still.) At the far end
+> of the hall, a tall stone archway with a raised shallow
+> dais beneath it. Above the arch, recessed deep into the
+> shadowed upper wall, **a silhouette is barely suggested
+> — a darker shape against dark stone, identifiable only
+> as an outline that could be a seated figure**. Do not
+> render face, gender, or detail. The silhouette is the
+> Authority's presence; the player will never see more of
+> it. Palette: black marble #1c1a1a dominant, pale amber
+> #d9a66a from three coffins, pale violet #8b7fbf from
+> two coffins, pale cyan #4ba3b5 from one coffin (all at
+> low saturation, barely visible), warm wood #6b4a2d on
+> the single chair, deep shadow everywhere else. No
+> rendered text. No warm ambient — the coffin glow is
+> the only light. Volumetric cool air at ankle height,
+> still, not drifting. Cinematic 4K composition, deep
+> perspective, camera at standing adult eye level at the
+> entrance end, looking down the hall's length toward
+> the silhouette. **The Engineer's chair is the only
+> thing in this room that cares whether anyone lives or
+> dies. Everything else is ceremony and architecture.**
 
 ### 5.5 Opponent 9 — Warlord Zero (at the Battle of Nexon)
 
@@ -1559,18 +1688,194 @@ revision. First-pass direction notes are in §5.3 above.
   mechanic to the Warlord's arithmetic — the player has now
   seen Reality itself become a move.
 
-**Production slots:**
-- Matchup-card art (armored figure, face hidden behind a
-  visor, shimmer along the visor's edge suggesting the swarm;
-  NO face, NO glimpse of who is wearing the body)
-- Deck composition (three-move-lockout mechanic — requires
-  design spec before implementation)
-- Finale cutscene prompt for `hacking-reality` (Seedance 2.0)
-- Completion flag: `act1_warlord_zero_first_defeated` +
-  `act1_nexon_battle_survived`
-- **Canon hygiene:** see §5.2 above. Vex is in the swarm but
-  cannot be shown, named, or hinted at. The Warlord's
-  dialogue must not reference her host.
+**Matchup-card art:**
+- **Output:** `apps/client/public/art/matchups/act1/warlord-zero-first.png` + `.webp`
+- **Aspect:** 3:4 portrait 1536×2048
+- **Priority:** P0
+- **Style anchor:** §5.4.1 Nexon palette (dust-brown +
+  brass + ember-orange); matchup card is shot **standing
+  at the ruined parapet**, not seated at the card-table.
+  This single portrait breaks the Cycle A+B seated-at-
+  table convention — the Warlord is not playing a game,
+  she is arriving on a battlefield.
+
+**Nano Banana 2 prompt:**
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card
+> framing. A fully armored figure standing at the §5.4.1
+> ruined brass parapet, mid-distance from camera (fills
+> upper two-thirds of frame, lower third is the ruined
+> parapet + card-table edge for UI overlay). Her armor is
+> articulated brass-and-composite plate in a dusky-
+> chrome finish — no Empire insignia, no faction marks,
+> deliberately unornamented; this is **field armor**, not
+> ceremonial. A segmented cuirass, pauldrons, greaves,
+> gauntlets. The helm is full-face, a sculpted brass
+> visor with a continuous horizontal scanning slit at
+> eye level. **The face is completely hidden.** Along
+> the visor's lower inner edge, a **faint iridescent
+> shimmer** — barely visible, almost a heat-haze, the
+> only visible indicator of the Vex-swarm infesting the
+> body. The shimmer is **subtle**, not flashy; a viewer
+> who doesn't know to look for it reads it as spotlight
+> refraction on the visor. One gauntleted hand rests on
+> the hilt of a broad short-bladed weapon at her side
+> (do not render it drawn); the other is extended open-
+> palmed toward the card-table in front of her as if
+> offering the match. Her stance is **still**, not
+> aggressive — the composition should read as a
+> professional arriving to complete a transaction, not a
+> warrior entering combat. Lighting: the §5.4.1 amber
+> spotlight falls across her pauldron and the upper
+> visor; the rest of her body is lit by distant ember-
+> orange from the city fires and a faint cold cyan from
+> the emergency flares. The visor reflects the ember
+> glow. Palette: dusky chrome #6b6b65 on the armor,
+> polished brass #b8752d at joints and edges, ember-
+> orange #e06a1a on the visor's inner reflection and
+> the city glow behind her, dust-brown #6b5a48 in the
+> background, faint iridescent shimmer (rainbow-pale,
+> barely present) along the visor lip only. Background:
+> defocused Nexon breach, smoke columns, a torn
+> Insurgency banner at screen-right edge. Cinematic 4K.
+> **The face is hidden. The face will remain hidden for
+> the entire Act 1 arc. Do not hint at who is wearing
+> the body.** No rendered text.
+
+**Deck composition (first-pass spec):**
+- **Lean:** `architect` (5 cards), `new_babylon` (5 cards)
+- **Defining mechanic:** *Three-move-lockout.* On the
+  Warlord's third turn, her deck locks three consecutive
+  player turns to reduced option sets — the player's hand
+  is forcibly narrowed to two playable cards per turn for
+  turns 4, 5, and 6, with the Warlord's stated thesis
+  *"three moves"* displayed as a small countdown
+  indicator in the UI corner. The mechanic is explicit,
+  not hidden; the player is *meant* to watch the
+  arithmetic happen. The right play during lockout is
+  timing — not fighting the lockout, but choosing which
+  of the two options the Warlord left you serves the
+  long-game better. This is the canonical origin of the
+  Architect/New-Babylon **forced-option** keyword the
+  player will see again in Acts 3+.
+- **Design doc dependency:** forced-option lockout is
+  mechanically invasive and must not break existing deck
+  synergies in strange ways. Reserved slot; **blocked on
+  `docs/production/act1/warlord-three-move-mechanic.md`**
+  before runtime implementation.
+- **Difficulty posture:** **Hard.** First Cycle C match;
+  the difficulty spike from §4.8 Matrikala's Cycle B
+  finale-adjacent match is deliberate. The memoir's
+  thesis is that *the war was the loss*, so the match
+  being hard and the outcome not mattering narratively
+  reinforces each other. Both win and loss fire the
+  same finale cutscene.
+- **Completion flags:** `act1_warlord_zero_first_defeated`
+  on win OR `act1_warlord_zero_first_lost` on loss
+  (exactly one) + `act1_nexon_battle_survived`
+  (unconditional — surviving the match *is* surviving
+  the battle in the memoir's telling) + Ep 5 Meme's Show
+  *"Dispatched"* unlock per §2.4 table (fires on the
+  next match boundary, i.e. after §5.6 Programmer).
+- **Canon hygiene:** see §5.2 above. Vex is in the
+  swarm but cannot be shown, named, or hinted at in any
+  dialogue, subtitle, or visual detail. The iridescent
+  visor shimmer is the **only** permitted visual
+  acknowledgement.
+
+**Finale cutscene — `hacking-reality`:**
+
+Fires on both match outcomes. Binds the Architect
+faction's reality-editing mechanic to the Warlord's
+arithmetic — the player has now seen Reality itself
+become a move. This is Cycle C's **first** cutscene
+landing; the Authority's §5.8.1 *Last Words* is the
+cycle's second and final one.
+
+- **Output:** `apps/client/public/videos/act1/hacking-reality.mp4`
+- **Duration:** 30–40s target
+- **Aspect:** 16:9 1920×1080
+- **Priority:** P0
+- **Sets flags:** `act1_hacking_reality_shown`,
+  `architect_reality_edit_witnessed` (used by Act 3+
+  Architect-faction reputation branches; persists through
+  the rest of the game)
+- **Reduced-motion fallback:** static end-frame + kinetic
+  typewriter narration of the Engineer's VO line *"She
+  said three moves. She meant three edits. The third one
+  was the rules themselves."*
+
+**START FRAME (Nano Banana 2):**
+> The §5.4.1 Nexon breach in the aftermath of the match.
+> Two chairs at the card-table, one occupied by the
+> Warlord (seen from behind — pauldron silhouette, visor-
+> rim just visible), one occupied by the Engineer (seen
+> from behind, cyan-grey blazer, face not visible). The
+> card-table surface is lit by the amber spotlight. One
+> final card face-up between them in the table's center.
+> The Nexon skyline is dimmer than the environment still
+> — the fighting has paused for this one match to
+> resolve. Ember-orange still glowing on the horizon.
+> Cinematic 4K. No rendered text.
+
+**END FRAME (Nano Banana 2):**
+> Same camera position, seconds later. The card-table is
+> **gone** — not removed, *replaced*: the brass table has
+> become a seamless polished black marble surface of the
+> same shape and size, as if reality has been pasted-over
+> where the table used to be. The two chairs are gone
+> similarly; where the chairs sat, there are now **two
+> identical black marble plinths** of the exact same
+> silhouette, continuous with the new tabletop. The
+> Engineer is no longer there — where he sat, there is
+> only the plinth and a thin trail of cyan-grey cloth
+> dust drifting down into a pile (the memoir will later
+> name this *the dust where he was*). The Warlord still
+> stands behind the transformed table, unmoving, visor
+> still facing the plinth where the Engineer was. The
+> ruined parapet behind her has also begun to change —
+> the brass edges softening into black marble at the
+> frame edges, a ripple of reality-edit spreading outward
+> from the card-table to consume the battlefield itself.
+> The ember-orange city glow in the far distance remains
+> unchanged — Reality-edit has a radius, and the city is
+> outside it. Palette: black marble #1c1a1a on the edit-
+> zone, dusky chrome #6b6b65 on the Warlord's unchanged
+> armor, ember-orange #e06a1a in the far background,
+> cyan-grey cloth-dust #8b9199 where the Engineer was.
+> Cinematic 4K. **The memoir is saying: the Engineer
+> *was* there. Then he was not, because someone changed
+> the room. The player knows he survives this scene
+> because Acts 1's remaining matches happen. But for the
+> length of this shot, he has been unwritten.** No
+> rendered text.
+
+**SEEDANCE 2.0 motion prompt:**
+> Open on start frame — two chairs, one final card on the
+> card-table, Warlord and Engineer both seated. Hold 3s.
+> Beat at 4s: Warlord's voice lands (*"I said three
+> moves. I meant three edits."*) as her gauntleted hand
+> lifts from the card-table surface. Beat at 8s:
+> **reality-edit beat 1** — the final card on the table
+> dissolves into a fine geometric lattice and reforms as
+> a blank black square, as if the card had never been
+> played. Beat at 14s: **reality-edit beat 2** — the
+> brass card-table itself ripples in one continuous wave
+> from center outward and reforms as polished black
+> marble, the chairs warping into marble plinths along
+> with it; the Warlord does not move, but the Engineer's
+> silhouette becomes briefly translucent. Beat at 22s:
+> **reality-edit beat 3** — the camera's framing edges
+> warp inward for a split second as the reality-edit
+> radius expands; the Engineer is no longer in his
+> chair-plinth, only the cyan-grey cloth-dust pile
+> remains. The Warlord is still. Beat at 28s: Engineer's
+> VO (off-camera) *"She said three moves. She meant
+> three edits. The third one was the rules themselves."*
+> Final 8s: slow pull-back revealing the edit radius
+> spreading across the ruined parapet, freezing just
+> short of the distant ember-orange city. Slow fade to
+> dust-brown black. 24fps. Grave, clinical, the opposite
+> of spectacle. **The horror is the calm.**
 
 ### 5.6 Opponent 10 — The Programmer
 
