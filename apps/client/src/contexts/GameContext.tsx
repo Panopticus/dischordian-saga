@@ -192,7 +192,7 @@ export interface GameState {
   /** Completion flags fired by the Prelude orchestrator (one per beat). */
   preludeCompletedFlags: string[];
   /** Light/Dark alignment captured at Beat J. null until chosen. */
-  preludeAlignment: "light" | "dark" | null;
+  lightDarkAlignment: "light" | "dark" | null;
   humanContactMade: boolean;                         // Has the player received The Human's signal?
   humanContactSecret: boolean;                       // Is the player keeping it secret from Elara?
   elaraKnowsAboutHuman: boolean;                     // Has Elara discovered The Human's signal?
@@ -984,7 +984,7 @@ const DEFAULT_GAME_STATE: GameState = {
   // Prelude playhead — pre-Prelude default
   currentPreludeBeat: null,
   preludeCompletedFlags: [],
-  preludeAlignment: null,
+  lightDarkAlignment: null,
   humanContactMade: false,
   humanContactSecret: false,
   elaraKnowsAboutHuman: false,
@@ -1118,11 +1118,11 @@ interface GameContextValue {
   advanceNarrativeAct: (actId: number) => void;
   recordNarrativeChoice: (actId: number, sceneId: string, choiceId: string, moralityShift: number) => void;
   // Prelude playhead setters (see currentPreludeBeat / preludeCompletedFlags
-  // / preludeAlignment fields above). PreludeSequencePlayer calls these
+  // / lightDarkAlignment fields above). PreludeSequencePlayer calls these
   // as the player moves through the 15 beats.
   setCurrentPreludeBeat: (beatId: string | null) => void;
   recordPreludeCompletionFlag: (flag: string) => void;
-  setPreludeAlignment: (alignment: "light" | "dark" | null) => void;
+  setLightDarkAlignment: (alignment: "light" | "dark" | null) => void;
   setHumanContact: (made: boolean) => void;
   setHumanContactSecret: (secret: boolean) => void;
   setElaraKnowsAboutHuman: (knows: boolean, path: "told" | "discovered" | "betrayed") => void;
@@ -1199,6 +1199,21 @@ const GameContext = createContext<GameContextValue | null>(null);
  */
 function migrateGameState(parsed: Partial<GameState>): GameState {
   const merged: GameState = { ...DEFAULT_GAME_STATE, ...parsed };
+
+  // Light/Dark alignment rename back-compat: this field was originally
+  // `preludeAlignment` (captured at Prelude Beat J). It moved to Act 1
+  // Cycle C in the Last Words restructure; the field was renamed to
+  // `lightDarkAlignment` to reflect the new narrative home. Preserve
+  // existing playtester choices by forwarding the legacy key.
+  const legacyAlignment = (parsed as Record<string, unknown>)[
+    "preludeAlignment"
+  ];
+  if (
+    merged.lightDarkAlignment === null &&
+    (legacyAlignment === "light" || legacyAlignment === "dark")
+  ) {
+    merged.lightDarkAlignment = legacyAlignment;
+  }
 
   // Oracle reveal back-compat: pre-tier saves stored a boolean.
   // If the legacy flag is set but the new tier defaulted to 0, bump
@@ -2186,9 +2201,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const setPreludeAlignment = useCallback(
+  const setLightDarkAlignment = useCallback(
     (alignment: "light" | "dark" | null) => {
-      setState(prev => ({ ...prev, preludeAlignment: alignment }));
+      setState(prev => ({ ...prev, lightDarkAlignment: alignment }));
     },
     [],
   );
@@ -2301,7 +2316,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         // Reset Prelude playhead — a new game starts before Beat A
         currentPreludeBeat: null,
         preludeCompletedFlags: [],
-        preludeAlignment: null,
+        lightDarkAlignment: null,
         // Keep: NPC trust, cards, equipment, achievements, completedGames
         // Reset: rooms (re-explore), quests, crafting materials
         rooms: Object.fromEntries(
@@ -2797,7 +2812,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       recordNarrativeChoice,
       setCurrentPreludeBeat,
       recordPreludeCompletionFlag,
-      setPreludeAlignment,
+      setLightDarkAlignment,
       setHumanContact,
       setHumanContactSecret,
       setElaraKnowsAboutHuman: setElaraKnowsAboutHumanFn,
