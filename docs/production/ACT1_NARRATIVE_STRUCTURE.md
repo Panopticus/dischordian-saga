@@ -386,3 +386,225 @@ student`) cannot begin until the THE_SIGNAL branch is resolved.
 This is enforced by the Act 1 runner checking both
 `narrativeActChoices` has an entry for the THE_SIGNAL branching
 sceneId *and* `humanContactSecret` has been set to a boolean.
+
+---
+
+## Section 4 — Cycle B: Mechronis Academy (§4.4)
+
+### 4.1 Cycle purpose
+
+Five matches. The Engineer is eighteen to twenty-two. He is at
+the Mechronis Academy — the technical university the Prelude
+established through his diploma in Beat E (Prelude Bible §10.5).
+Cycle B is the cycle where the Engineer **almost becomes safe**.
+He meets the Human (still a student then, still called "the
+Detective" only inside Mechronis slang). He watches Iron Lion
+walk out. He learns the calibration arts from Professor
+Matrikala. He earns a name from Professor Eidola. He plays one
+match against a visiting Seer who wins without raising her
+staff.
+
+None of these relationships will survive what's coming. But
+during Cycle B they exist, and the memoir frame lets the player
+*feel* them as they were — young, warm, a little dumb, happy in
+a way the Engineer has spent the rest of his life trying to
+remember how to be.
+
+### 4.2 Canon hygiene — Kanevas + CoNexus
+
+Every Cycle B scene that references the Academy's administration
+must follow the Prelude Bible §10.5 hygiene rule: **Kanevas is a
+normal influential-but-not-warm headmaster.** Nothing in this
+cycle (or anywhere in Act 1) may hint at his later canonical
+function as the CoNexus interface layer. That reveal is Act 4+
+scope per `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §4.6.
+
+The Engineer's narration about the Academy can carry mild
+private reservation — "an institution I still don't know how to
+feel about" — but never suspicion, never dread. Play each
+professor's scene as a graduate remembering a professor, not a
+survivor remembering a predator.
+
+### 4.3 Cycle environment
+
+**Location:** Mechronis Academy. Stone-and-composite architecture
+with long corridors, tall arched windows, brass-and-bone
+fixtures that will later be standard Empire issue but are here
+still proud and clean. A central atrium with a single polished
+card-table reserved for public matches — the table the Engineer
+played every Academy opponent on.
+
+**Mood:** **formal, quiet, a little echoing.** The Academy is a
+place where your footsteps land too loudly. The environment's
+palette shifts cyan-leaning from Cycle A's warm yellow — the
+Empire's cold light is already arriving, but only as reflected
+sunlight through institutional glass. Not hostile; just *about
+to be*.
+
+### 4.4 Art — Cycle B atrium environment still
+
+- **Output:** `apps/client/public/art/rooms/room-mechronis-atrium.png` + `.webp`
+- **Aspect:** 16:9 1920×1080
+- **Priority:** P0
+- **Style anchor:** §0 conventions, cyan-cool palette with a
+  single shaft of warm sunlight through a high arched window.
+  The sunlight is the last visual echo of Cycle A's classroom;
+  after Cycle B it will not return until Act 5. Anamorphic
+  flare on the arched window. Volumetric fog ankle height.
+- **Nano Banana 2 prompt:** *to author in Section 4 revision.
+  First pass should show the central atrium: a single polished
+  brass-and-bone card-table center-frame, four tall arched
+  windows along one wall casting warm sunlight across the
+  floor, stone columns, a set of brass doorways leading off
+  frame. No rendered text. No visible people. Cinematic 4K
+  composition.*
+
+### 4.5 Opponent 4 — The Detective (student years)
+
+- **id:** `the_detective_student` (act1Step 4)
+- **Canonical source:** `apps/shared/act1Opponents.ts` lines 96–110
+- **Deck leaning:** `neutral`
+- **Narrative purpose:** The player's first encounter with the
+  Human **before he was The Human**. At Mechronis he was called
+  "the Detective" by classmates who noticed he could read a
+  room faster than anyone; the nickname stayed. The match is
+  where their friendship starts. The Human's Log 5 Movement 3
+  line — *"We did not have enough years. What we did have was
+  enough."* — is canonically written *about this moment*. The
+  player, having heard Log 5 in the Prelude, arrives carrying
+  that weight.
+
+**Production slots:**
+- Matchup-card art (young man in a tidy student blazer, trench
+  coat yet to arrive; warm open face)
+- Deck composition (neutral; reading-the-opponent mechanics)
+- Completion flag: `act1_detective_student_defeated`
+- **Canon tie-in:** Setting the `act1_detective_student_played`
+  flag unlocks a post-match Galley optional quest Act 1+ that
+  references the sandwich recipe from Beat D.5 (Canon Rev 7
+  §5.6.13)
+
+### 4.6 Opponent 5 — Iron Lion (the day of his expulsion)
+
+- **id:** `iron_lion_expelled` (act1Step 5)
+- **Canonical source:** `apps/shared/act1Opponents.ts` lines 111–125
+- **Deck leaning:** `insurgency`
+- **Narrative purpose:** Iron Lion's last match at Mechronis
+  before he walked out. The Engineer watched from the back row.
+  Iron Lion's thesis — *"the point is that the point is not
+  the rules"* — becomes the player's first exposure to the
+  Insurgency faction's **rule-break** mechanic: Iron Lion's
+  deck violates standard turn order deliberately, and the
+  player has to either violate back or lose by playing clean.
+  Iron Lion winning or losing does not change what happens
+  next — he walks out either way. The memoir's point is that
+  *winning is not the thing that matters*.
+
+**Production slots:**
+- Matchup-card art (young man with cropped hair, institutional
+  Academy uniform worn one button too loose; he is already
+  halfway through the door)
+- Deck composition (Insurgency lean — turn-order violations)
+- Completion flag: `act1_iron_lion_defeated`
+
+### 4.7 Opponent 6 — Professor Eidola
+
+- **id:** `professor_eidola` (act1Step 6)
+- **Canonical source:** `apps/shared/act1Opponents.ts` lines 126–140
+- **Deck leaning:** `architect`
+- **Narrative purpose:** The ethics professor the Empire will
+  later forget. She tests whether the student is worth ruining
+  later. The match's load-bearing question — *"whether you
+  play the way you think you ought to play"* — is the first
+  Architect-faction **values-vs-action** mechanic: playing
+  optimal cards locks some dialogue paths, playing
+  sub-optimal-but-honest ones locks others. The outcome is
+  the same victory-condition either way; the *report-card
+  word* Professor Eidola writes changes what Act 3 can do
+  with the player's Architect-faction reputation.
+
+**Production slots:**
+- Matchup-card art (middle-aged woman in academic robes, a
+  single chalk mark on her sleeve, eyes tired but kind)
+- Deck composition (Architect — values-vs-action branching)
+- Completion flag: `act1_eidola_defeated`
+- **Report-card state:** new GameState field
+  `eidolaReportCardWord: "of course" | "interesting" | null`
+  set by the match outcome + play style
+
+### 4.8 Opponent 7 — Professor Matrikala
+
+- **id:** `professor_matrikala` (act1Step 7)
+- **Canonical source:** `apps/shared/act1Opponents.ts` lines 141–155
+- **Deck leaning:** `neutral`
+- **Narrative purpose:** The reactor-calibration master. The
+  Engineer's technical mentor. Her line — *"the room is a kind
+  of music. So is the Deck. Do not let either of them play
+  you."* — is the first moment Act 1 names the Engineer's
+  craft explicitly. Her post-match mention of the bench in
+  Engineering *built by a student who once sat where you are
+  sitting now* is a forward-reference: the bench is the same
+  one the player found in the Prelude's Beat C Engineering
+  room, and the Engineer-as-student built it.
+
+**Production slots:**
+- Matchup-card art (older woman, short grey hair, work
+  coveralls with a single brass pin at the collar, a half-
+  disassembled reactor coupling on the desk beside her)
+- Deck composition (neutral — timing / calibration mechanics)
+- Completion flag: `act1_matrikala_defeated`
+- Forward-reference: this match's completion flag unlocks the
+  Act 2 "young Engineer built the bench" Archives codex entry
+
+### 4.9 Opponent 8 — The Seer (visiting fellow, Cycle B finale)
+
+- **id:** `the_seer_visit` (act1Step 8)
+- **Canonical source:** `apps/shared/act1Opponents.ts` lines 156–170
+- **Deck leaning:** `neutral`
+- **Narrative purpose:** The Seer visits Mechronis exactly once.
+  She plays one match. She wins without raising her staff. The
+  match mechanically demonstrates the later-game Seer's
+  **prophecy** mechanic: her deck plays cards that haven't been
+  drawn yet, from positions that don't exist in the game state,
+  and it still resolves consistently because the game state
+  retroactively adjusts. The memoir's narration explains that
+  the player is not losing because they played poorly — they
+  are losing because the match was decided before it began,
+  and the Seer is polite enough to pretend otherwise. **Canon
+  tie-in:** her staff is the same staff the player finds as
+  the burnt-card fragment in the Prelude `burnt_card` crew
+  mission. The Seer leaves it on the bench here. In the
+  Prelude it burned. Those are the same staff at different
+  points in time.
+
+- **Finale slideshow:** `to-be-the-human` fires after the match
+  wraps. The slideshow is canonically the *birth of the
+  Human-as-Potential* — see Canon Rev 7 §6 for Eden context —
+  and triggers the cycle's completion flag set.
+
+**Production slots:**
+- Matchup-card art (woman in plain robes, a dark staff leaning
+  against the chair beside her, her face serene and slightly
+  sad; she is already looking at where the staff will end up
+  seventeen thousand years from now)
+- Deck composition (prophecy mechanic — this one needs care;
+  spec as a separate design doc before implementation)
+- Finale cutscene prompt for `to-be-the-human` (Seedance 2.0,
+  Eden canonical context)
+- Completion flags: `act1_seer_visit_defeated` +
+  `act1_cycle_b_complete`
+
+### 4.10 Cycle B → Cycle C transition
+
+After `the_seer_visit` completes and the `to-be-the-human`
+slideshow plays, the memoir jumps forward **eighteen years**.
+The narrator's voice changes register — still dry, still
+precise, but cooler. The Engineer is now forty years old. Every
+opponent Cycle C introduces is someone he has already known
+for most of his adult life. The warmth of Cycles A and B does
+not return.
+
+Cycle B → Cycle C is the hardest transition in Act 1. The
+environment palette shift should read as **a door closing**.
+Canon: this is the last moment the Engineer is a private
+person before the Empire makes him public.
