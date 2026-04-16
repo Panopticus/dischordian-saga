@@ -92,4 +92,27 @@ export type GameEvent =
       type: "match_ended";
       winner: Side | null;
       reason: "general_killed" | "surrender" | "disconnect_forfeit" | "turn_limit";
+    }
+  /**
+   * §5.5 Warlord lockout events. The campaign layer subscribes to
+   * `architect_reality_edit_witnessed` to set the persistent
+   * Acts-3+-readable flag of the same name (spec §5).
+   */
+  | { type: "architect_reality_edit_witnessed"; player: Side }
+  | {
+      type: "warlord_lockout_started";
+      player: Side;
+      turnsRemaining: number;
+    }
+  | {
+      type: "warlord_lockout_ticked";
+      player: Side;
+      turnsRemaining: number;
+    }
+  | { type: "warlord_lockout_ended"; player: Side }
+  | {
+      type: "warlord_lockout_re_evaluated";
+      player: Side;
+      playableEntityIds: readonly string[];
+      lockedEntityIds: readonly string[];
     };

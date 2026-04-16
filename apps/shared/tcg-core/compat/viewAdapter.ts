@@ -44,6 +44,11 @@ export interface LegacyDuelystCard {
   sagaCardId?: string;
 }
 
+/* Note: LegacyDuelystCard.id IS the runtime CardInstance.entityId for
+ * hand and board cards (see adaptCardInstance), not the static
+ * CardDefinition id. The defId is exposed via `sagaCardId`. The §5.5
+ * Warlord lockout UI matches lockedEntityIds against this `id`. */
+
 export interface LegacyBoardUnit {
   id: string;
   card: LegacyDuelystCard;
@@ -88,6 +93,17 @@ export interface LegacyDuelystGameState {
   actionLog: Array<{ turn: number; player: 0 | 1; action: string; details: string }>;
   boardWidth: number;
   boardHeight: number;
+  /**
+   * §5.5 Warlord lockout state, projected through for the UI's
+   * countdown indicator + card-lock overlay. Absent when no lockout
+   * is active. See engine/lockout.ts.
+   */
+  lockout?: {
+    targetSide: 0 | 1;
+    turnsRemaining: number;
+    playableEntityIds: readonly string[];
+    lockedEntityIds: readonly string[];
+  };
 }
 
 /* ─── Adapter ─── */
@@ -114,6 +130,14 @@ export function adaptTcgStateToLegacyView(
     actionLog: [],
     boardWidth: BOARD_WIDTH,
     boardHeight: BOARD_HEIGHT,
+    lockout: state.lockout
+      ? {
+          targetSide: state.lockout.targetSide,
+          turnsRemaining: state.lockout.turnsRemaining,
+          playableEntityIds: state.lockout.playableEntityIds,
+          lockedEntityIds: state.lockout.lockedEntityIds,
+        }
+      : undefined,
   };
 }
 

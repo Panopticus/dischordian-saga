@@ -34,6 +34,7 @@ import { runStateBasedActions, SBA_SAFETY_CAP } from "./stateBasedActions";
 import { drainTriggerQueue, type TriggerEffectRunner } from "./triggerQueue";
 import { handleMulligan, handleFinishMulligan } from "./mulligan";
 import { refreshTurnForPlayer } from "./turn";
+import { tickLockout } from "./lockout";
 import { handlePlayCard as handlePlayCardReal } from "./playCard";
 import { handleMove as handleMoveReal } from "./movement";
 import { handleAttack as handleAttackReal } from "./combat";
@@ -403,6 +404,15 @@ function handleEndTurn(
   }
   const ending = draft.currentPlayer;
   ctx.events.push({ type: "turn_ended", player: ending, turnNumber: draft.turnNumber });
+  // §5.5 Warlord lockout — tick the countdown when the lockout's
+  // target side ends their turn (spec §2.3 — "as the player completes
+  // each of turns 4, 5, 6, the corresponding tile dims"). When the
+  // counter hits 0, tickLockout clears `state.lockout` and emits
+  // `warlord_lockout_ended`. Must run before refreshTurnForPlayer so
+  // the incoming side's refresh sees the post-tick lockout state.
+  if (draft.lockout && draft.lockout.targetSide === ending) {
+    tickLockout(draft, ending, ctx.events);
+  }
   const nextPlayer = (ending === 0 ? 1 : 0) as 0 | 1;
   draft.currentPlayer = nextPlayer;
   if (nextPlayer === 0) draft.turnNumber = draft.turnNumber + 1;

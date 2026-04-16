@@ -32,6 +32,7 @@ import type { Side } from "../types/Ids";
 import type { ReduceCtx } from "./reducer";
 import type { ConcreteAbility } from "../types/Trigger";
 import { enqueueTrigger } from "./triggerQueue";
+import { reevaluateLockout } from "./lockout";
 
 export function refreshTurnForPlayer(
   draft: Draft<GameState>,
@@ -121,5 +122,15 @@ export function refreshTurnForPlayer(
         });
       }
     }
+  }
+
+  // §5.5 Warlord lockout: at the start of the lockout's target side's
+  // turn, recompute which hand cards are playable. The Warlord
+  // re-evaluates the narrowing per-turn (spec §2.4.3) — cards drawn
+  // or added during the lockout become eligible for selection. No-op
+  // when no lockout is active or when the side starting their turn
+  // is not the lockout's target.
+  if (draft.lockout && draft.lockout.targetSide === side) {
+    reevaluateLockout(draft, side, ctx.registry, ctx.events);
   }
 }

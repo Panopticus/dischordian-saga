@@ -121,6 +121,74 @@ export interface GameState {
    * on GameState so forward progress survives snapshotting.
    */
   nextEntityCounter: number;
+  /**
+   * Optional: §5.5 Warlord three-move lockout state. Present only during
+   * the lockout window (Warlord's turn 3 cast → end of player's turn 6).
+   * Absent on every other match. Populated by engine/lockout.ts. See
+   * docs/production/act1/warlord-three-move-mechanic.md.
+   */
+  lockout?: WarlordLockoutState;
+}
+
+/**
+ * §5.5 Warlord three-move lockout runtime state.
+ *
+ * Lifecycle:
+ *  1. Warlord plays `s1_warlord_three_moves` on her turn 3. The cast
+ *     interceptor (engine/playCard.ts) builds this struct with
+ *     `turnsRemaining = 3`, `witnessed = true`, and assigns it to
+ *     `state.lockout`.
+ *  2. At the START of each subsequent player turn (refreshTurnForPlayer),
+ *     `playableEntityIds` and `lockedEntityIds` are recomputed from the
+ *     player's current hand — the Warlord's reality-edit re-evaluates each
+ *     turn (spec §2.4.3).
+ *  3. At the END of each player turn during lockout, `turnsRemaining`
+ *     decrements. When it hits 0 the lockout struct is cleared from state.
+ */
+export interface WarlordLockoutState {
+  /**
+   * The Side whose hand is being narrowed. Set by the cast interceptor
+   * to the side opposite the Three Moves caster (the Warlord is the
+   * caster, so this is the player). Stored explicitly rather than
+   * derived from `currentPlayer` because the lockout's tick / re-eval
+   * happens on different sides at different points in the turn cycle.
+   */
+  targetSide: Side;
+  /**
+   * Player turns remaining under lockout. Initialized to 3 on the Three
+   * Moves cast; ticks 3 → 2 → 1 → cleared. Drives the countdown
+   * indicator's spent/lit tile state in the UI.
+   */
+  turnsRemaining: number;
+  /**
+   * EntityIds of player hand cards the Warlord allows this turn.
+   * Recomputed on each player-turn start. Empty during the Warlord's
+   * own turns (the field has no meaning when it's not the player's
+   * turn). Insurgency-faction cards are always included regardless of
+   * the Warlord's selection (spec §2.4 escape hatch).
+   */
+  playableEntityIds: readonly string[];
+  /**
+   * EntityIds of player hand cards locked this turn. Disjoint from
+   * playableEntityIds; the union covers the player's full current hand.
+   * Drives the dim-30%-with-lock-icon overlay in the hand UI.
+   */
+  lockedEntityIds: readonly string[];
+  /**
+   * Permanently true once Three Moves has cast in this match. Stays
+   * true on the GameState even after `turnsRemaining` hits 0 and the
+   * struct is otherwise cleared — but in practice the campaign layer
+   * snapshots this flag at match end into the persistent
+   * `architect_reality_edit_witnessed` campaign-state field (Acts 3+
+   * dialogue branches read it as backstory, per spec §5).
+   *
+   * The struct as a whole is cleared from `state.lockout` when the
+   * lockout ends; the witness signal lives on via the
+   * `architect_reality_edit_witnessed` event the cast interceptor
+   * also emits, so the campaign layer never has to read this field
+   * directly.
+   */
+  witnessed: true;
 }
 
 export type GamePhase = "mulligan" | "playing" | "ended";
