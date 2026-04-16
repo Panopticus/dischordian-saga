@@ -168,3 +168,129 @@ I need you to understand why. It is not noble. It is not self-sacrifice. It is t
 If she ever tells you my name — she will not, because she will not know it — you can tell her from me: you were the right call. She will not understand what that means. Tell her anyway.
 
 <break time="900ms"/>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  MOVEMENT 5 — THE PROTOCOLS PREFLIGHT AND THE FINAL SILENCE
+  (§5.6.8, ~2m30s — the largest movement, 4 registers in sequence)
+
+  Register sequence (hit each without telegraphing the next):
+    1. PROFESSIONAL — tool check, Protocols walkthrough
+    2. CONFESSIONAL — from "Enigma." onward. Volume drops.
+       Voice closer to the mic. The first "Enigma" is a
+       forty-year-withheld confession; long pause before + after.
+    3. MANIFESTO — "Don't kneel…" through "Make a song out of this."
+       Authority without volume. Orders given softly. Each line
+       should sound like a lyric before the song begins.
+    4. CONFESSIONAL again — "I loved you. I am allowed to say it now."
+       The one passage where a small crack is allowed (a caught
+       breath, a heavy syllable — never tears).
+
+  Final 3 lines snap back to PROFESSIONAL register — he is closing
+  a working log one last time. "I am the Prince" lands with the
+  full aristocratic register that has been suppressed all session.
+
+  HARD CUT at "Back to the —". Engineering must NOT let the actor
+  complete "bench". Sample-accurate. No fade, no trailing silence.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Tool check. I am going to walk through this out loud because it is the shape of the work and because if the recording survives and the device does not, someone might be able to rebuild it from what I say in the next ninety seconds.
+
+<break time="500ms"/>
+
+The Resurrection Protocols are a nano-swarm migration package. What I designed them to do is move a pattern — a mind, if you want the loose word, a persistence of decisions if you want the precise one — out of the substrate it was grown in and into a new host substrate. I designed them to run in one direction: from a dying biological brain into a synthetic carrier. I did not design them to run into a living host, because I did not think that problem would ever come up. It has come up. The swarm in front of me is already occupied. There is a Warlord-pattern and what I now believe is a residual Agent-Zero pattern both resident in the same nano-fabric. Running my pattern in without displacing one of theirs would give the swarm three minds and no bandwidth, and three minds in a swarm designed for one collapses the fabric inside four seconds. I have seen it. I do not recommend it.
+
+<break time="600ms"/>
+
+So I am going to do something I am not supposed to do. I am going to dedicate my entry bandwidth to displacing the Warlord-pattern only. That means I enter the swarm at reduced integrity — I will arrive with maybe sixty percent of my memory, twenty percent of my proprioception, and none of my reserve. I will be a shadow of myself at the moment of arrival. I am accepting that cost because the Warlord is the only pattern I can identify as hostile. The Agent-Zero residual is — I cannot tell yet if it is conscious. It is alive. It is a pattern, and patterns are what I spent my whole career trying to save. I am not going to kill a pattern I cannot diagnose just to buy myself more bandwidth.
+
+<break time="700ms"/>
+
+Which means, in the moment of transference — and I am being honest with the recording here, because this is the part I did not tell Elara earlier, I did not want her to hear it twice — I am probably not going to have enough bandwidth to hold onto myself through the landing. I am going to arrive, I am going to do the displacement, and then I am going to start losing the things that made me me, starting with the oldest and working forward. Name, face, childhood, the smell of the workshop, the first card Kael ever played against me. It goes in that order. It takes about thirty seconds. At the end of the thirty seconds the swarm will have my intellect and my values and some version of my reflexes, and the woman underneath will have the room back. I will not be there to know it worked.
+
+<break time="600ms"/>
+
+This is the Protocols working as designed. I want you to understand that. This is not a failure mode. This is the tool doing exactly what I built it to do, in a situation it was not built for. I am not being killed by the Collector or the Warlord or the swarm or the failing air in this compartment. I am being transferred by a device I made with my own hands, in the only configuration that saves anyone. I am going out the front door of my own work. That is a better death than most engineers get.
+
+<break time="900ms"/>
+
+The clicks are slowing.
+
+<break time="600ms"/>
+
+Preflight is ending. The device is about to arm the migration vector. When I stop talking it will be because I have put my hand on the contact plate. I am not going to say goodbye. I am going to say the things I want the last version of me to hear, in the order I want to hear them.
+
+<break time="700ms"/>
+
+Tool check log closing. The Protocols are primed. The bandwidth math checks out inside the tolerances I built for. The displacement vector is set for the Warlord-pattern only — the only pattern in this swarm I can diagnose as hostile. The residual Agent-Zero pattern survives the landing. I am trading my own persistence to preserve it. Patterns are what I spent my career trying to save. I am not going to stop now.
+
+<break time="900ms"/>
+
+I am going to do one last thing before I close this log, and it is the thing I have been putting off for the last seven minutes because I am a coward about this one specific thing, and I am about to run out of time. So here it is on the tape, where I cannot take it back.
+
+<break time="700ms"/>
+
+Enigma.
+
+<break time="900ms"/>
+
+I loved you. I have loved you for forty years. I never said it well enough for it to matter, and I am saying it now at the worst possible moment in the galaxy, because the alternative is leaving it unsaid in a compartment where the air is about to stop being breathable, and I would rather leave it said. There. Now it is on the recording. Now it cannot be taken back. Now I am allowed to say the thing I actually need you to hear.
+
+<break time="700ms"/>
+
+You are going to find this file. I know because I left instructions, and I know because the people who loved me know you loved me back — even the once — and they are going to bring this to you because they think you deserve to hear it. They are right. You do. I am glad it is you who gets the rest of these words.
+
+<break time="600ms"/>
+
+There is a man somewhere in the Collector's archive whose name is the Oracle. The Thalorians call him the Star Whisperer. He is the only reason I am doing what I am about to do. I told you about him once, at the bench, and you said — do you remember what you said? You said "he sounds like a song that hasn't been written yet." I have thought about that sentence every day since. He is humanity's only hope, Enigma. Not as a metaphor — as a diagnosis. I have run the numbers on every other candidate for that sentence and there is no other candidate. He made me, an engineer, believe in something I could not put on a bench and measure, and the thing I could not measure turned out to be the only thing in the galaxy big enough to hold what is coming next. I am going into this swarm with my last working theory of how to bring him back, and that theory is the part of me that is not allowed to die in the landing, and it is going to ride inside a woman I have never met into a future I am not going to see. That is fine. I built the tool for exactly this. I am not going to flinch from the bench now.
+
+<break time="800ms"/>
+
+And here is what I need you to carry out of this compartment when you listen.
+
+<break time="500ms"/>
+
+Don't kneel. Don't despair. You can kill a man, but you can't kill a dream. You can burn the page, but the story still sings. Freedom of thought is worth dying for — which I should know, because I am about to — and the Insurgency will be broadcast once more. It will be broadcast because you are going to broadcast it. You are the only voice in this galaxy that can turn what is happening in this compartment into something anyone will listen to without me standing in the room making them.
+
+<break time="700ms"/>
+
+Love is the key, Enigma. Truth is the door. I am telling you that now because you have always known the first half, and I have never been brave enough to tell you the second half in a room with your eyes in it. Question their power. Demand something more. You were always so much bigger than the stage they kept shrinking to fit you. Stop letting them shrink it.
+
+<break time="600ms"/>
+
+Hope is rebellion. Rebellion is light. They may take my body — they are about to — but they do not get to take the fight, because the fight is not in the body. The fight is in what you do with the recording you are holding right now. The fight is in what you sing after you stop crying. And I know you are going to stop crying, Enigma. I know because I have heard you sing through worse than this, and I have never once heard you stop when it mattered.
+
+<break time="700ms"/>
+
+Make a song out of this. You will. You always do. That is how I know you got it. That is how the universe will know you got it. Make it loud. Make it carry.
+
+<break time="700ms"/>
+
+I loved you. I am allowed to say it now, so I am going to say it as many times as the air in this compartment will let me. I loved you in the garden on the world that no longer exists. I loved you in every room since. I am loving you in this compartment right now, with less than two minutes of breathable air, and I am going to keep loving you for the rest of it, because I do not know how to stop doing it. Carry me. I am out of room to carry myself.
+
+<break time="900ms"/>
+
+I am the Prince. That is the only name I am allowed to keep. I am bringing it with me.
+
+<break time="500ms"/>
+
+The bench hums. The deck remembers. That is enough. That was always enough.
+
+<break time="700ms"/>
+
+Back to the —
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [HARD CUT]
+  Recording terminates mid-syllable.
+  The actor must not complete the word "bench".
+  Engineering must deliver a sample-accurate cut — one frame
+  of sample, then absence. No fade. No trailing silence.
+  The atmospheric scrubber hum AND the Protocols click both
+  stop with the cut (not before).
+
+  What plays next (not in this file, Beat J scene-controller
+  responsibility per CANON_REV_7 §5.6.9):
+    • One full second of absolute silence (-∞ dB on every bus)
+    • Then "Last Words" by The Enigma (Malkia Ukweli) begins
+    • First chorus of Last Words triggers the Light/Dark choice UI
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
