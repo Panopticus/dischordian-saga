@@ -65,6 +65,31 @@ export function beatIndexFromId(id: PreludeBeatId | undefined): number {
   return idx >= 0 ? idx : 0;
 }
 
+/**
+ * Canonical set of "breath beats" — the five shorter pacing
+ * interludes between full beats (Bible §1 Master Index half-step
+ * beats A.5, C.5, D.5, F.5, H.5). These sit between the narrative
+ * beats and give the player a moment to breathe before the next
+ * full scene.
+ *
+ * Used by the PreludeSequencePlayer UI to render breath beats with
+ * a subtler visual treatment (thinner pip, "breath" badge) so the
+ * pacing reads as deliberate instead of just another short cutscene.
+ */
+export const BREATH_BEAT_IDS: ReadonlySet<string> = new Set<string>([
+  "beat_a5",
+  "beat_c5",
+  "beat_d5",
+  "beat_f5",
+  "beat_h5",
+]);
+
+/** True for the five canonical breath beats (A.5, C.5, D.5, F.5, H.5). */
+export function isBreathBeat(beatOrId: PreludeBeat | string): boolean {
+  const id = typeof beatOrId === "string" ? beatOrId : beatOrId.id;
+  return BREATH_BEAT_IDS.has(id);
+}
+
 /** Initial state for a fresh run. */
 export function initialPreludeSequenceState(
   startingBeatId?: PreludeBeatId,
