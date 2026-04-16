@@ -1613,4 +1613,222 @@ his face, now a tool he uses to see his own future.
   Watcher. The slideshow title IS her canonical adult name
 - `apps/shared/act1Opponents.ts` Cycle B4 shell (to be updated)
 
+### 2.9 The Seeker / Young Human — Cycle B5 opponent (emotional pivot)
+
+The fifth and final Cycle B boss, and the single most emotionally
+complex battle in all of Act 1. The player — inhabiting the
+Engineer's memories — sits across the card table from a boy with
+red hair and blue eyes who is the younger version of **The Human**:
+the Yin/Yang narrator who has been whispering on the player's
+shoulder since the Prelude's Beat C.5 breath beat. The player
+knows this voice. They have heard it mourn the Engineer in the
+Galley sandwich line. They have heard it address Kael's empty
+chair in the Briefing Room. Now they are looking at the boy that
+voice used to be, decades before the mourning started.
+
+**The emotional pivot:** per DSFGL line 2448, B5 is the first
+place in the game where **losing is not failure**. Both win and
+loss unlock a different Legendary card. The win card (*The
+Classmate's Compass*, Legendary Light) and the loss card (*"The
+only reason I stayed"*, Legendary Dark) are both canonical and
+both permanent — the player carries exactly one of them through
+the rest of the game. This is the first **meaningful binary
+outcome** since the Prelude's Light/Dark choice in Beat J, and
+it is delivered through a card battle rather than a UI selector.
+The player does not choose Light or Dark here — they choose
+whether to beat the young Human or let him win, and each outcome
+writes a different card into the deck.
+
+**The Human narrates in real time:** per DSFGL line 2448, "The
+Human narrating from the shoulder slot in real time" — meaning
+the adult Human's voice (the player's existing narrator) is
+commenting on the battle AS it happens, recognizing his own
+younger self across the table, and reacting to the player's card
+choices with real-time VO barks. This is the only Act 1 battle
+where the shoulder narrator is active during gameplay.
+
+**Canonical visual (user-provided, 2026-04-15):**
+
+> The Seeker is a young boy with straight red hair, bright blue
+> eyes, and a pressed blue school uniform.
+
+**Production expansion for this doc:**
+
+- **Age:** fifteen (same age as the Engineer in Cycle B). Small
+  for his age, a half-head shorter than the Prince at the card
+  table. Slight build, bookish posture — shoulders slightly
+  rounded from reading, chin tilted up to compensate.
+- **Hair:** straight, vivid copper-red, medium length falling to
+  his ears, parted on the left. The red is natural and
+  eye-catching — in a room full of dark-haired Mechronis students,
+  the Seeker stands out. This is canonically the visual signifier
+  the player will use to recognize the adult Human in later acts:
+  the red hair persists. Render it consistently with warm copper
+  highlights under the academy's classroom lighting.
+- **Eyes:** bright blue, startlingly saturated — the most
+  color-vivid eyes in the Act 1 roster. Wide-set, slightly
+  too large for his face (an adolescent proportion that the
+  adult Human will grow into). The blue reads as *present* —
+  when the Seeker looks at the Prince across the card table, the
+  player should feel seen in a different way than any other
+  opponent has managed. Not the Watcher's cosmic observation,
+  not Eyes's data-collection, not Agent Zero's operational read.
+  Just: *I see you. You are my friend. I have always known that.*
+- **The pressed blue school uniform — the canonical Mechronis
+  Academy uniform reference:**
+  This entry establishes the definitive Mechronis Academy
+  uniform that §2.5 (Iron Lion), §2.6 (Kael), §2.7 (Agent Zero),
+  and §2.8 (Young Eyes) all derive from:
+  - **Royal-blue wool blazer** with the Mechronis Academy crest
+    on the breast pocket (render the crest as a small embroidered
+    shield shape — a book open beneath a star, in gold thread on
+    the blue wool; do NOT render legible text on the crest)
+  - **Light blue tie** (silk or satin finish, lighter than the
+    blazer by two shades)
+  - **White oxford shirt** with collar points visible above the
+    blazer
+  - **Blue wool trousers** with a single pleat
+  - **Black leather shoes**, lace-up oxford style
+  - **The Seeker's uniform is pressed** — creases sharp,
+    buttons polished, tie knotted at regulation height. Not
+    Agent Zero's operational perfection — the Seeker's neatness
+    is earnest. He dressed carefully because today matters to
+    him. He is playing against the person he will spend the next
+    seventeen thousand years mourning, and on some level he
+    already knows it.
+- **Personal touch:** a small leather-bound notebook in his
+  trouser pocket (NOT the same as Eyes's sketch notebook — the
+  Seeker's notebook is a **journal**, filled with handwritten
+  observations in tiny script that are canonically the earliest
+  drafts of what will become the Human's substrate commentary in
+  the Prelude). The notebook is never opened during the battle.
+  Its rectangular bulge is visible in one profile-shot frame.
+- **Expression:** serious but not stern. A young face carrying
+  a weight it doesn't understand yet. When the Seeker smiles —
+  which he does once, at the post-match beat — the smile is
+  small, private, and aimed at the Prince specifically. It is
+  not Kael's warm lopsided grin or Minnie's gap-toothed beam.
+  It is the smile of someone who has figured out a thing about
+  the person across from them and is keeping it as a gift.
+
+**Voice direction (dual-layer for B5):**
+
+Two voices are active during B5:
+
+1. **The Seeker's voice (young Human):** a fifteen-year-old boy,
+   mid-register, slightly reedy (his voice has not yet settled).
+   British-inflected English with a gentle bookishness — he
+   speaks in complete sentences, uses words slightly above his
+   age, and pauses before replying as if considering whether
+   his answer is worth the other person's time. This is the
+   **origin cadence** of the adult Human's substrate voice from
+   the Prelude — the same pauses, the same weight-per-word, just
+   younger and less worn.
+
+   New voice profile **`the_seeker`**. ElevenLabs target:
+   `stability: 0.60`, `similarity_boost: 0.85` (must feel like
+   the same person as `the_human` profile, just decades younger),
+   `style: 0.30`.
+
+2. **The Human's shoulder narration (adult):** the existing
+   `the_human` voice profile from `VOICE_OVER_BIBLE.md` Section 2,
+   delivering real-time barks during the match. The adult Human
+   is watching his own younger self play cards against the
+   Engineer and he cannot keep quiet. His barks are not gameplay
+   tips — they are **emotional reactions**: *"He was better at
+   this than me. I remember losing."* or *"That card. He played
+   that card against me and I've been thinking about it for
+   seventeen thousand years."* The barks are triggered by specific
+   card plays, enumerated in §11 (the Cycle B5 battle section).
+
+**Canonical pre-match line** (INFERRED for the Seeker; the adult
+Human does NOT speak the pre-match — only the Seeker):
+
+> *"I've read everything you've written in class this year. I
+> have a theory about you. I think you build things because you
+> want to understand them, and you want to understand them because
+> you're afraid they'll break if you don't. I don't think that's
+> weakness. I think that's the most honest kind of strength. Shall
+> we play?"*
+
+Delivered with the Seeker's careful cadence — each sentence
+considered before it arrives. The line is a **complete
+psychological read of the Engineer at fifteen**, delivered by
+the one person who will eventually know him better than anyone
+alive. The player should feel the weight of it: this kid knows.
+He already knows.
+
+**Deck theme:** "Deep Thoughts" long-game. The Seeker's deck
+plays slowly — cards that do nothing on the turn they are
+played but gain power each turn they remain on the board
+(accumulating "insight counters"). After four or five turns
+of quiet buildup, a single Seeker card can outscale anything
+the player has. The tutorial lesson is "some opponents win by
+thinking longer than you" — the counter is early-game
+aggression that destroys Seeker cards before their insight
+counters accumulate. But the counter has a cost: aggressive
+play means the player is rushing the biography's most tender
+scene, and the Human's shoulder barks get sadder if the player
+plays too fast. The mechanic is the emotion.
+
+**Card unlock — DUAL OUTCOME (first in Act 1):**
+
+- **Win:** *The Classmate's Compass* (Legendary Light) — a card
+  that, when played, lets the player see the **emotional state**
+  of every unit on the opponent's board (a metadata overlay
+  showing which units are "afraid," "angry," "loyal," etc.).
+  Named by the Engineer after the Seeker's ability to read
+  people. Light-aligned because understanding is compassion.
+- **Loss:** *"The only reason I stayed"* (Legendary Dark) — a
+  card that, when played, makes the player's general immune to
+  damage for one turn but prevents them from attacking. Named
+  after the Seeker's answer to a question the Prince asked years
+  later: "Why did you stay at Mechronis?" The answer: "You."
+  Dark-aligned because the Engineer felt guilt about being
+  someone else's reason for enduring a place that hurt them.
+
+**Post-match canonical beats** (INFERRED):
+
+- **Win:** the Seeker's insight cards are destroyed before they
+  reach critical mass. The board clears. The Seeker looks at
+  the empty space where his long-game was building and says
+  quietly: *"You were too fast. I had something beautiful
+  planned for turn twelve."* He smiles — the small private
+  smile. *"I'll show you what it was going to be someday."* The
+  adult Human's shoulder voice, almost inaudible: *"He did. He
+  showed me. It took him forty years but he showed me. It was
+  worth the wait."*
+- **Loss:** the Seeker's insight cards reach critical mass. A
+  single card with twelve insight counters sweeps the Prince's
+  board in one action. The Seeker looks at the Prince and says
+  quietly: *"I wasn't trying to beat you. I was trying to show
+  you what patience looks like."* The adult Human's shoulder
+  voice, cracking for the first time since the Prelude's
+  Empty Chair line: *"He was. He was showing me. And I spent
+  seventeen thousand years trying to learn the lesson."*
+
+**Cross-references:**
+
+- §2.0 (simulation framing — the Seeker is canonical human,
+  not an Archon, not a Watcher derivative)
+- §11 (Cycle B5 battle section — full battle spec including the
+  adult Human's shoulder barks triggered by specific card plays,
+  the dual-outcome card unlock, and the Small Private Smile
+  close-up)
+- §12 (*To Be the Human* slideshow — the Seeker/young Human is
+  canonically "at the center, looking at the Engineer" per DSFGL
+  line 2458)
+- Prelude Bible §7.5 (`human_beat_c5_first_breath` — the Human's
+  first whisper in the Prelude is the voice the player now sees
+  the origin of at B5)
+- Prelude Bible §9.5 (Galley sandwich line — the Human's mourning
+  of the Prince is now contextualized by having seen the friendship
+  form)
+- Prelude Bible §12.5 (Empty Chair line — the Human addressing
+  Kael's chair is enriched by the Seeker's post-match beat where
+  the adult Human's voice almost cracks)
+- `docs/production/VOICE_OVER_BIBLE.md` Section 2 (The Human
+  voice profile — the adult shoulder-narration barks in B5 use
+  this existing profile)
+
 ---
