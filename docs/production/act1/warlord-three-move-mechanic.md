@@ -210,18 +210,30 @@ Moves card), and the flag's logic should match.
 1. **Card-pool authoring.** Three cards need to be
    authored / verified in the live pool before §5.5
    runtime:
-   - **Three Moves** (Mythic, Architect + New Babylon)
-     — the Warlord-only card that activates the lockout.
-     Must be non-draftable by the player (add a
-     `warlord_only: true` flag to the card schema or
-     restrict by rarity gate).
+   - ~~**Three Moves** (Mythic, Architect + New Babylon)~~
+     **AUTHORED** as `s1_warlord_three_moves` —
+     `apps/shared/tcg-core/cards/definitions/architect/`.
+     Card uses the `legendary` Rarity tier (the schema's
+     top tier) and the new `warlord_only: true` flag for
+     deck-builder filtering, in lieu of a one-card
+     `mythic` rarity. Filed under `architect` faction
+     (single-faction schema); the New Babylon eligibility
+     is narrative — when §5.5 runtime needs to surface a
+     secondary faction, add a `secondary_faction` field
+     to the schema.
    - At least one **Insurgency-immune marker** card for
      playtesting the immunity behavior. The `insurgency`
      lean is already well-populated; verify the match
      is survivable with standard insurgency cards.
-   - 1–2 **forced-option override** cards for the Acts
-     3+ counter-play path. May be authored later since
-     §5.5 ships before the Acts 3+ re-encounters.
+   - **Forced-option override** cards (1–2) for the Acts 3+
+     counter-play path. **Deferred per scope** — §5.5 ships
+     before the Acts 3+ re-encounters, so authoring waits
+     until the Acts 3+ Architect-match work-stream picks
+     up the spec's forward-compat hook (§7 "forced-option
+     keyword graduates to engine-level primitive"). When
+     authored, the card-schema field will likely be
+     `forced_option_override?: true`, parallel to the
+     `warlord_only` flag added in this commit.
 2. **Lockout VO coverage.** The Warlord has the pre-match
    line and the turn-3 thesis line (*"Three moves. Count
    them."*). Additional VO on turns 4, 5, 6 is open

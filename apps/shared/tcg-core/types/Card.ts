@@ -137,6 +137,13 @@ export interface CardDefinition {
    * phase-to-category mapping.
    */
   trial_categories?: readonly TrialCategory[];
+  /**
+   * Optional: marks the card as Warlord-deck-only. The deck builder
+   * filters these out of every player-buildable pool; they appear
+   * only in scripted opponent decks (currently §5.5 Warlord Zero).
+   * See docs/production/act1/warlord-three-move-mechanic.md §6.1.
+   */
+  warlord_only?: true;
 }
 
 /** Forward-declared. Full shape lives in types/Trigger.ts. */

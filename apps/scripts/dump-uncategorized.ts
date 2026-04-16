@@ -64,7 +64,6 @@ function main(): void {
     .map((p) => byId.get(p.id))
     .filter((c): c is (typeof ALL_CARD_DEFINITIONS)[number] => Boolean(c))
     .map(rowFor);
-  // eslint-disable-next-line no-console
   console.log(JSON.stringify(rows, null, 2));
 }
 

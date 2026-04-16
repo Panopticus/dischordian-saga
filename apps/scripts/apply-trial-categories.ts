@@ -200,7 +200,6 @@ function main(): void {
       if (r.ok) {
         stats.applied++;
         if (args.dryRun) {
-          // eslint-disable-next-line no-console
           console.log(
             `[dry] ${id}  ->  [${cats.join(", ")}]  (${file})`,
           );
@@ -209,13 +208,11 @@ function main(): void {
         stats.skippedAlreadyHas++;
       } else {
         stats.errored++;
-        // eslint-disable-next-line no-console
         console.error(`[err] ${id}: ${r.reason}`);
       }
     }
   }
 
-  // eslint-disable-next-line no-console
   console.log(
     `\n${args.dryRun ? "[DRY RUN] " : ""}Done.\n` +
       `  considered: ${stats.considered}\n` +

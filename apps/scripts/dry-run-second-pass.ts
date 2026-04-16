@@ -32,18 +32,14 @@ function main(): void {
     }
   }
 
-  // eslint-disable-next-line no-console
   console.log(
     `\nSecond-pass coverage:\n` +
       `  caught:  ${caught}\n` +
       `  missed:  ${stillUncat.length}\n` +
       `  total:   ${caught + stillUncat.length}\n`,
   );
-  // eslint-disable-next-line no-console
   console.log("Caught by faction:", byFactionCaught);
-  // eslint-disable-next-line no-console
   console.log("Missed by faction:", byFactionMissed);
-  // eslint-disable-next-line no-console
   console.log(
     `\nStill-uncategorized card IDs (manual override required):\n  ${stillUncat.join("\n  ")}`,
   );

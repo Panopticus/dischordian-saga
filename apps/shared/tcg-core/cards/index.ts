@@ -106,6 +106,7 @@ import { cardDef as s1_spell_202_system_purge } from "./definitions/architect/s1
 import { cardDef as s1_spell_203_calculated_retreat } from "./definitions/architect/s1_spell_203_calculated_retreat.ts";
 import { cardDef as s1_spell_204_architects_mandate } from "./definitions/architect/s1_spell_204_architects_mandate.ts";
 import { cardDef as s1_spell_205_panoptic_lockdown } from "./definitions/architect/s1_spell_205_panoptic_lockdown.ts";
+import { cardDef as s1_warlord_three_moves } from "./definitions/architect/s1_warlord_three_moves.ts";
 
 /* ─── Dreamer ─── */
 import { cardDef as gen_dreamer } from "./definitions/dreamer/gen_dreamer.ts";
@@ -577,6 +578,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_spell_203_calculated_retreat,
   s1_spell_204_architects_mandate,
   s1_spell_205_panoptic_lockdown,
+  s1_warlord_three_moves,
   gen_dreamer,
   s1_char_005_destiny,
   s1_char_014_nythera,

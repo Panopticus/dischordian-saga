@@ -67,7 +67,6 @@
  */
 import type { CardDefinition, TrialCategory } from "../types/Card";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function effectTreeMatches(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   node: any,
