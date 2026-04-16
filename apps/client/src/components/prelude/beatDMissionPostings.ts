@@ -2,22 +2,16 @@
    BEAT D MISSION POSTINGS — config table
 
    Beat D's cargo-bay mission board has three "legacy postings
-   still active" per Bible §8.1. The canonical Trade Empire /
-   Adjudicator Locke "three jobs" forward-reference (see §14.1
-   / Locke's Beat H message) names these as the same three
-   postings the player sees here in Beat D.
+   still active" per Bible §8.1. Per the Bible §14.1 planted
+   echo, Locke's "three jobs that need a hand" forward-reference
+   in her Beat H first-contact message refers canonically to the
+   same three postings the player sees here.
 
-   ONLY POSTING 1 IS FULLY CANONICAL TODAY:
-     - "salvage retrieval from a wreck near the old Kelvara lane"
-       (Locke's first message, Bible §14.5)
-     - "posted for 17,000 years … the simplest one" (Elara, §8.5)
-
-   Postings 2 and 3 are PLACEHOLDER content until a canon-writing
-   pass lands. They match the Trade Empire tone (old, cold, matter-
-   of-fact trader board copy) so the UI can be built + playtested
-   now; rewrite the `description` field on each when canon authors
-   land the real posting text. The `id`s are stable — downstream
-   flags/tests reference them.
+   All three postings date to the pre-collapse era (~17,000 years
+   ago, with small year-spread reflecting posting dates across
+   the late Insurgency → Empire-collapse window). The sending
+   organizations are defunct; the postings persist because the
+   Ark's board auto-renewed them through the long silence.
    ═══════════════════════════════════════════════════════ */
 
 export interface MissionPosting {
@@ -72,31 +66,31 @@ export const BEAT_D_MISSION_POSTINGS: readonly MissionPosting[] = [
     highlighted: true,
     completionFlag: "mission_board_read_kelvara",
   },
-  // PLACEHOLDER — canonical content pending. Trade Empire tone. Rewrite
-  // the title, postedBy, description, and yearsOpen when canon lands.
   {
     id: "legacy_cargo_run",
-    title: "Freight Run — Outer Dusk",
-    postedBy: "Salting Company",
-    yearsOpen: 12440,
+    title: "The Last Courier Run",
+    postedBy: "Nightlane Freight Guild",
+    yearsOpen: 16988,
     description: [
-      "Delivery contract. Three pallets of refined antifreeze polymer from Tanaris Foundry to Outer-Ring Fabricators, routed via Iron Belt Gate 2.",
-      "Cold-chain certification required. Pressurized hold preferred. Payment on signed bill-of-lading at the Fabricator dock.",
-      "Posting continues to auto-renew. The Tanaris Foundry is still there. The pallets are still there. The Salting Company has not checked in with anyone in a long time.",
+      "Single-leg delivery. One sealed courier packet, bonded, awaiting pickup at the Ferris-3 staging warehouse. Destination: the Outer Reach port.",
+      "Route is the old Nightlane corridor. We are not going to tell you it is safe because the last surveyor to report back from the corridor did so six hundred years ago. We are going to tell you the packet is still there, the warehouse doors still answer, and the bond is still on record.",
+      "Full insured payout on verified delivery. The Reach harbormaster's automated proxies will sign off without speaking to you — do not take offense. They have been holding the ledger open for a long time.",
+      "— Nightlane Freight Guild. Offices closed. Posting auto-renewing via bonded-service obligation.",
     ].join("\n\n"),
     position: { leftPct: 50, topPct: 50 },
     completionFlag: "mission_board_read_cargo_run",
   },
   {
     id: "legacy_expedition_crew",
-    title: "Expedition Crew — Four Positions",
-    postedBy: "Outer Dusk Survey Guild",
-    yearsOpen: 9802,
+    title: "Expedition — Outer Dusk",
+    postedBy: "Outer Reach Cartographic Society",
+    yearsOpen: 17112,
     description: [
-      "Survey expedition to the unmapped edge of the Outer Dusk nebula. Six standard months closed contract. Four crew positions open: navigator, medic, weapons officer, systems engineer.",
-      "Must tolerate long cold sleeps and silent captains. Must be willing to sign the standard what-you-find-is-what-you-keep rider.",
-      "We are not asking for heroes. We are asking for people who finish the route.",
-      "— Outer Dusk Survey Guild (primary signatory illegible; posting still honored by the ship-of-record, the Aperture).",
+      "Four-position survey of three unmapped volumes on the Outer Dusk rim. Six standard months each leg. The maps we have are wrong in ways we can document but not in ways we can correct from here.",
+      "Positions open: navigator, medic, systems engineer, sensor officer. Combat training not required. The volumes are not hostile. The volumes are quiet.",
+      "Payment processed through our pre-collapse escrow. Claims are still honored; expect a slow but real settlement. Prior survey experience preferred. Prior returns-from-Outer-Dusk experience mandatory.",
+      "The last crew that attempted the northwest volume did not return. We would still like the map.",
+      "— Outer Reach Cartographic Society. The Society still exists. We are just somewhere else now.",
     ].join("\n\n"),
     position: { leftPct: 76, topPct: 66 },
     completionFlag: "mission_board_read_expedition",

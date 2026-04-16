@@ -56,6 +56,36 @@ describe("Beat D mission postings — structural invariants", () => {
   });
 });
 
+describe("Beat D mission postings — pre-collapse era invariant", () => {
+  it("all three postings date to the ~17,000-year pre-collapse window", () => {
+    // Bible §14.1 planted echo: Locke's Beat H "three jobs that need
+    // a hand" refers canonically to the three 17,000-year-old
+    // postings on this board. All three must sit within a small
+    // spread of that figure (late-Insurgency → Empire-collapse era).
+    for (const p of BEAT_D_MISSION_POSTINGS) {
+      expect(p.yearsOpen).toBeGreaterThanOrEqual(16000);
+      expect(p.yearsOpen).toBeLessThan(18000);
+    }
+  });
+
+  it("all three postings' sender organizations are defunct", () => {
+    // Per Bible §8.1 the board's postings "auto-renewed" through the
+    // long silence. Each posting's description or postedBy must make
+    // clear the sender is no longer active / in its original state.
+    for (const p of BEAT_D_MISSION_POSTINGS) {
+      const combined = `${p.postedBy} ${p.description}`.toLowerCase();
+      const signalsDefunct =
+        combined.includes("dissolved") ||
+        combined.includes("closed") ||
+        combined.includes("somewhere else") ||
+        combined.includes("auto-renew") ||
+        combined.includes("long since") ||
+        combined.includes("estate");
+      expect(signalsDefunct).toBe(true);
+    }
+  });
+});
+
 describe("Beat D mission postings — Kelvara (canonical) invariants", () => {
   const kelvara = BEAT_D_MISSION_POSTINGS.find(
     (p) => p.id === "kelvara_salvage",
