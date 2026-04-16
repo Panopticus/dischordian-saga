@@ -25,6 +25,7 @@ export const the_engineer_t1: CardDefinition = {
   flavorText:
     "A man at a workbench in a room you cannot quite locate on the map. The goggles are too large. The goggles are always too large.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const the_engineer_t2: CardDefinition = {
@@ -51,6 +52,7 @@ export const the_engineer_t2: CardDefinition = {
   flavorText:
     "On deploy, draw a card. He hands you the next tool before you realize you are going to need it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const the_engineer_t3: CardDefinition = {
@@ -77,6 +79,7 @@ export const the_engineer_t3: CardDefinition = {
   flavorText:
     "On deploy, draw two cards. He is already solving the next problem while the current one is still explaining itself.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const the_engineer_t4: CardDefinition = {

@@ -65,4 +65,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The boss fell. The Champion stood in the crater, grinning through the blood. Not all of it was hers.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "offensive"] as const,
 };

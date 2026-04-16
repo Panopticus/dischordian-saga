@@ -33,6 +33,7 @@ export const engineer_01: CardDefinition = {
   flavorText:
     "On deploy, draw 1. The first thing the Engineer builds in any new workshop is a smaller version of himself that he can hand the smaller problems to.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const engineer_02: CardDefinition = {
@@ -60,6 +61,7 @@ export const engineer_02: CardDefinition = {
   flavorText:
     "Draw 2 cards and gain 1 mana this turn. Every invention pays for itself or it is not an invention, it is just a mistake with enthusiasm.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const engineer_03: CardDefinition = {

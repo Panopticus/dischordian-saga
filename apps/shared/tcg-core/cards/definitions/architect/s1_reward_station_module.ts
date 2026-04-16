@@ -52,4 +52,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Ten modules. Ten upgrades. The unit that walked in was adequate. The one that walked out was exceptional.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };

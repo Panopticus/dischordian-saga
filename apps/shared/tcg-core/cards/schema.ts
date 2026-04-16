@@ -722,6 +722,11 @@ export const cardDefinitionSchema = z
      *  array or absent field means unplayable in every restricted
      *  §5.8 phase — backfill planned before §5.8 runtime ships. */
     trial_categories: z.array(trialCategorySchema).readonly().optional(),
+    /** §5.5 Warlord-deck-only marker. Cards with this flag are
+     *  filtered out of every player-buildable pool by the deck
+     *  builder; they appear only in scripted opponent decks. See
+     *  docs/production/act1/warlord-three-move-mechanic.md §6.1. */
+    warlord_only: z.literal(true).optional(),
   })
   .strict()
   .superRefine((card, ctx) => {

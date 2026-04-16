@@ -42,4 +42,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Every variable was accounted for in the original design. Your autonomy was never part of the equation.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

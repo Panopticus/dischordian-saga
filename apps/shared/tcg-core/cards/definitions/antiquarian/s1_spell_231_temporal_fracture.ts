@@ -43,4 +43,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The clock hands stop. The pendulum hangs mid-swing. Only the Antiquarian still moves.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

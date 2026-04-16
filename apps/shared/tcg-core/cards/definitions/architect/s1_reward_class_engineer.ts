@@ -55,4 +55,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The Engineer doesn't fight — she builds things that do.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };

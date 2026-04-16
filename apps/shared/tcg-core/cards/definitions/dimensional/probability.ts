@@ -29,6 +29,7 @@ export const prob_01: CardDefinition = {
   flavorText:
     "On deploy, draw 1. Every card the Outcome Gambler draws is a card she had already bet on before the match started.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const prob_02: CardDefinition = {
@@ -50,6 +51,7 @@ export const prob_02: CardDefinition = {
   flavorText:
     "Draw 3. A Bayes Adept updates her priors in public and you can watch the update happen in real time, which is terrifying.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const prob_03: CardDefinition = {
@@ -77,6 +79,7 @@ export const prob_03: CardDefinition = {
   flavorText:
     "Flying. Dispel. On deploy, draw 3 and gain 2 mana this turn. The Sum Over Histories is the only entity in the Saga who has seen every possible version of this match play out. She is kind about it. She does not tell you which version you are in.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const PROBABILITY_DIMENSION_CARDS: readonly CardDefinition[] = Object.freeze([

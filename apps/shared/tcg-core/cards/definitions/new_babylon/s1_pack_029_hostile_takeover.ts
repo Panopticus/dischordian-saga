@@ -58,4 +58,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Locke smiled as he signed the order. The compensation was generous. The target was not expected to survive to collect it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

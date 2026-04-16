@@ -57,4 +57,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "No training. No gear. Just anger and a willingness to die for the cause.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

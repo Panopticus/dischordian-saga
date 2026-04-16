@@ -45,4 +45,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The VIP table has no limits. Neither does she.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };

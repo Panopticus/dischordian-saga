@@ -44,4 +44,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Every fallen soldier is a brick. Every scream is mortar. The cathedral rises.",
   rulesVersion: "1.0.0",
+  trial_categories: ["reactive"] as const,
 };

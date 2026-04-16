@@ -51,4 +51,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The Spire's guards do not move. They do not need to. Nothing passes them.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

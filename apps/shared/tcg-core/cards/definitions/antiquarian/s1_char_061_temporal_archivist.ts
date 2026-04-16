@@ -33,4 +33,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Every war she catalogues makes the next one easier to survive.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "evidence"] as const,
 };

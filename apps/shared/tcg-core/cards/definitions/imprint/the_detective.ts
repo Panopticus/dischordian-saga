@@ -17,6 +17,7 @@ export const the_detective_t1: CardDefinition = {
   art: "/art/cards/imprint/s1_imprint_the_detective_t1.webp",
   flavorText: "A long coat in a doorway. He has been there for three seconds and already knows who you are.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const the_detective_t2: CardDefinition = {

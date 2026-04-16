@@ -24,6 +24,7 @@ export const antiquarian_t1: CardDefinition = {
   flavorText:
     "Grow. A robed figure reading the margins of a book thicker than any shelf should be able to hold. He has not looked up yet.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const antiquarian_t2: CardDefinition = {
@@ -40,6 +41,7 @@ export const antiquarian_t2: CardDefinition = {
   flavorText:
     "Grow. He is reading the ending you will reach if you keep playing the way you are playing. He is making small disapproving notes in pencil.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const antiquarian_t3: CardDefinition = {

@@ -56,4 +56,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The Void does not destroy. It shields those who surrender to it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence", "narrative"] as const,
 };

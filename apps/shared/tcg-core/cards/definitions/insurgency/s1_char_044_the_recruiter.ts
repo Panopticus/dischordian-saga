@@ -46,4 +46,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Initially, he applied his powers to benefit the Empire, enrolling at the Academy and swiftly rising in influence. Yet, w...",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };

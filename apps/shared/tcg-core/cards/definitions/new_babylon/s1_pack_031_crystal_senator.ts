@@ -44,4 +44,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The Senator's shield is not magic. It is money — crystallized into a barrier no blade can afford to breach.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

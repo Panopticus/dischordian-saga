@@ -46,4 +46,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "They told her to wait for orders. She told them the Architect doesn't wait, so neither will she.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

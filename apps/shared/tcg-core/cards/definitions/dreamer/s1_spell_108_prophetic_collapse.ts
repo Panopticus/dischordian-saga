@@ -46,4 +46,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She closed her eyes and saw every timeline converge. When she opened them, only one remained.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

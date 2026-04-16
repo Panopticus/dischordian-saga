@@ -24,6 +24,7 @@ export const human_01: CardDefinition = {
   flavorText:
     "Rebirth. An Ark survivor was in a cryotube when Atarion burned. They woke up eleven years later than they should have and have been working every Wednesday ever since.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const human_02: CardDefinition = {
@@ -40,6 +41,7 @@ export const human_02: CardDefinition = {
   flavorText:
     "Provoke. A Senate Legionary was the last physical guard standing between Elara Voss and the Hierarchy's shock troops the day Atarion voted for the war. They did not survive the meeting. The vote did.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const human_03: CardDefinition = {
@@ -66,6 +68,7 @@ export const human_03: CardDefinition = {
   flavorText:
     "Provoke. Rebirth. On deploy, heal your general for 5. The Potentials are the ten thousand humans asleep in the Ark's cryo vaults. The Final Potential is the one the Saga has elected to wake up last, because the Saga already knows which one they need, and it is not yet time.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const HUMAN_RACE_CARDS: readonly CardDefinition[] = Object.freeze([

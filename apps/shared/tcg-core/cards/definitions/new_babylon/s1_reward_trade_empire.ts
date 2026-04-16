@@ -44,4 +44,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Adjudicar Locke once said that mana is just money by another name. He was not wrong.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };

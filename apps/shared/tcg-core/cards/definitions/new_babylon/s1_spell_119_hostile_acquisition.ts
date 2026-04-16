@@ -54,4 +54,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Locke didn't conquer New Babylon with armies. He bought it — one signature, one soul, one leveraged asset at a time.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

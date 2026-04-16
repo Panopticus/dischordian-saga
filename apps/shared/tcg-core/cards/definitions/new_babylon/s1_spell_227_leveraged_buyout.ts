@@ -54,4 +54,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Your asset is underperforming. Allow us to restructure it under new management.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };

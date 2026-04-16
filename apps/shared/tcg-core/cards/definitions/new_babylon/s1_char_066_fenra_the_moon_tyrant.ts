@@ -51,4 +51,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Director of Operations. Coordinates Blood Weave logistics across 17 dimensions with lupine precision and ferocity.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };

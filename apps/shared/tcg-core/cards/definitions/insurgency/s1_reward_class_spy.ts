@@ -45,4 +45,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Every secret extracted is another weapon in the arsenal.",
   rulesVersion: "1.0.0",
+  trial_categories: ["reactive"] as const,
 };

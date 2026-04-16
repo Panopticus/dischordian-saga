@@ -51,4 +51,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The panopticon sees all directions but one. That is where they wait.",
   rulesVersion: "1.0.0",
+  trial_categories: ["reactive"] as const,
 };

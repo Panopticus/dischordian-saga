@@ -40,4 +40,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Every rivet placed with mathematical certainty. Every joint stress-tested against probability itself.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

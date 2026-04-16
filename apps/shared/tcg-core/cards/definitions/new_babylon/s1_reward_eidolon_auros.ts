@@ -47,4 +47,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "He stands where others flee. Honor demands no less.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

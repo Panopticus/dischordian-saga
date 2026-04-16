@@ -56,4 +56,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The Architect does not fight. The Architect laughs.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

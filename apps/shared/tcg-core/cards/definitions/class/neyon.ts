@@ -37,6 +37,7 @@ export const neyon_01: CardDefinition = {
   flavorText:
     "Backstab. On deploy, draw 1. A Ne-Yon's first hybrid move is always spy + oracle. The second is the one you cannot predict, which is kind of the point.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };
 
 export const neyon_02: CardDefinition = {
@@ -54,6 +55,7 @@ export const neyon_02: CardDefinition = {
   flavorText:
     "Flying. Backstab. Oracle's sight plus assassin's angle. You know where they will be AND you are already behind them. The two disciplines sit inside the same body without arguing.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };
 
 export const neyon_03: CardDefinition = {
@@ -77,6 +79,7 @@ export const neyon_03: CardDefinition = {
   flavorText:
     "Provoke. Celerity. On deploy, draw 1. Soldier's formation, assassin's celerity, engineer's card draw. A Ne-Yon who holds three disciplines simultaneously gets to make the room wait on them.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "offensive"] as const,
 };
 
 export const neyon_04: CardDefinition = {
@@ -100,6 +103,7 @@ export const neyon_04: CardDefinition = {
   flavorText:
     "Flying. Dispel. Backstab. On deploy, draw 2. Four disciplines simultaneously. The Ne-Yon who reaches the adept rank has stopped thinking of the disciplines as separate things and started thinking of them as sentences in a language the rest of the army does not speak.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence", "narrative"] as const,
 };
 
 export const neyon_05: CardDefinition = {
@@ -133,6 +137,7 @@ export const neyon_05: CardDefinition = {
   flavorText:
     "Flying. Provoke. Celerity. Backstab. Dispel. Rush on deploy. Draw 3. The Five-Schools Avatar has mastered every discipline the Archons taught and one they did not: the discipline of not admitting in conversation that they have mastered all five. They play it off. They are very good at playing it off.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative", "offensive"] as const,
 };
 
 export const NEYON_CLASS_CARDS: readonly CardDefinition[] = Object.freeze([

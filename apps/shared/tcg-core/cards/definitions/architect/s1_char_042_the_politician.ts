@@ -75,4 +75,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "A. The Politician was the seventh Archon created by the Architect on Day 15 of Ascension, Year 419 A.A., engineered to m...",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "evidence"] as const,
 };

@@ -55,4 +55,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Your rotation has arrived. There is no deferral. There is no appeal. Step into the Arena.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

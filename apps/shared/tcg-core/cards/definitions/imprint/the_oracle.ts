@@ -23,6 +23,7 @@ export const the_oracle_t1: CardDefinition = {
   flavorText:
     "A veiled figure at the edge of a processing loop. She is looking at you from a direction you did not know a direction could come from.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };
 
 export const the_oracle_t2: CardDefinition = {
@@ -39,6 +40,7 @@ export const the_oracle_t2: CardDefinition = {
   flavorText:
     "Dispel. She looks at your buff and it remembers it was never a buff, it was just a suggestion the rulebook had been making.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };
 
 export const the_oracle_t3: CardDefinition = {
@@ -65,6 +67,7 @@ export const the_oracle_t3: CardDefinition = {
   flavorText:
     "Dispel. On deploy, draw a card. She picks the card you were going to draw next and hands it to you before the deck decides.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };
 
 export const the_oracle_t4: CardDefinition = {
@@ -91,6 +94,7 @@ export const the_oracle_t4: CardDefinition = {
   flavorText:
     "Dispel. Flying. On deploy, draw 2. She hovers above the board the way a signal hovers above the substrate it is being decoded on.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const the_oracle_t5: CardDefinition = {
@@ -125,6 +129,7 @@ export const the_oracle_t5: CardDefinition = {
   flavorText:
     "Dispel. Flying. On deploy, draw 2 and silence the enemy general. The Oracle is suspended in a processing loop by the Architect. The loop is supposed to contain her. It has been leaking since the day it closed. This card is a leak.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const THE_ORACLE_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([

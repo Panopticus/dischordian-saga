@@ -62,4 +62,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "He does not ask his soldiers to hold the line. He stands in front of it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };

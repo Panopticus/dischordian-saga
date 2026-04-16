@@ -59,4 +59,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The crack runs through everything. On one side, nightmare. On the other, a gentle dawn.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "offensive"] as const,
 };

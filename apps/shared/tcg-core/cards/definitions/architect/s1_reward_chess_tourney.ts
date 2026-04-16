@@ -52,4 +52,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Checkmate in four. The opponent saw it in three. By then, it was already too late.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

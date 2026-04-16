@@ -52,4 +52,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "When the Legend enters the arena, even the walls lean in to watch.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };

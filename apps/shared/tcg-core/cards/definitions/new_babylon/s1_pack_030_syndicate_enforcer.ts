@@ -41,4 +41,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "He does not ask for payment. He takes it from the corpse's pockets. The Syndicate calls it 'efficiency.'",
   rulesVersion: "1.0.0",
+  trial_categories: ["reactive"] as const,
 };

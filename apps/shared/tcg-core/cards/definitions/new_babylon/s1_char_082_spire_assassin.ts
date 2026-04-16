@@ -41,4 +41,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She descends from the Spire like a verdict from on high — silent, precise, and final.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence", "offensive"] as const,
 };

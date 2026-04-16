@@ -51,4 +51,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The Saga does not end. It transforms. And those who endure the transformation are remade.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };

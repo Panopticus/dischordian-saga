@@ -42,4 +42,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "His sermons are not metaphors. Every word is a live pathogen.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

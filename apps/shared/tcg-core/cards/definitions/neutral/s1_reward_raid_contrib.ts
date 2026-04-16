@@ -51,4 +51,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The warband was losing. Then someone started singing. Then everyone did.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };

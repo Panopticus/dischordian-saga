@@ -36,4 +36,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "What was I going to — no. It's gone. It was important, wasn't it?",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

@@ -65,4 +65,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It remembers every file ever deleted. It does not forgive.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence", "narrative"] as const,
 };

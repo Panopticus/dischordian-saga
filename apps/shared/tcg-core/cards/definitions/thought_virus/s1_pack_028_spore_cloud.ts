@@ -48,4 +48,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It drifted across the battlefield like a sigh. Warriors dropped their blades without knowing why.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

@@ -51,4 +51,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The quarantine zone expanded three times. Each time, fewer voices came from inside.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

@@ -50,4 +50,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "When the reckoning arrives, only the shielded will endure its verdict.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence", "narrative"] as const,
 };

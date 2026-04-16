@@ -32,4 +32,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It does not ask you to comply. It has already decided that you will.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

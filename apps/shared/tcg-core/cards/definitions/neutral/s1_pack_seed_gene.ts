@@ -59,4 +59,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It came back from the Void changed. Stronger. Wrong.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence"] as const,
 };

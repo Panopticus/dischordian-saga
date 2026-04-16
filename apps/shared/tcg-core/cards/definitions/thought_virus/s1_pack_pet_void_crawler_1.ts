@@ -47,4 +47,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It burrows into the space between thoughts and waits to die.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

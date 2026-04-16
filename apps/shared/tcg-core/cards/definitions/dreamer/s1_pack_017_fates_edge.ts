@@ -61,4 +61,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She saw the blade that would end her. She chose the timeline where it froze mid-swing.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence"] as const,
 };

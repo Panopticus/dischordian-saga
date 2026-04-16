@@ -32,4 +32,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It does not ask questions. It parses screams for keywords.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };

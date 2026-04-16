@@ -45,4 +45,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Her cargo manifest is classified. So is her kill count.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };

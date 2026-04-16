@@ -53,4 +53,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Three cherries. Three jackpots. Three enemies who wished they'd stayed in bed.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

@@ -52,4 +52,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Its final act is not death. It is transmission.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

@@ -46,4 +46,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Sacrificed during the Outbreak. Her crew remembers.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "reactive"] as const,
 };

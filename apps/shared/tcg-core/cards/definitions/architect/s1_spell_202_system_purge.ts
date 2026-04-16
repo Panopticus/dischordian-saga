@@ -42,4 +42,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Insufficient threat level detected. Purging. Purging. Purged.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

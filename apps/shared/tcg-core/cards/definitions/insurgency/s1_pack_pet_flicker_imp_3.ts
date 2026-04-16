@@ -57,4 +57,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The Insurgency doesn't knock. It detonates.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
 };

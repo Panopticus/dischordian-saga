@@ -72,4 +72,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Seven iterations of war forged a general who no longer flinches — his skin remembers every blade that ever failed to fell him.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "evidence", "reactive"] as const,
 };

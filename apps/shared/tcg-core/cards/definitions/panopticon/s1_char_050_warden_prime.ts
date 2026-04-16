@@ -41,4 +41,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "From the Central Spire, every whisper is heard, every shadow measured. The Warden does not sleep — the Warden is sleep denied to others.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };

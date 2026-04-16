@@ -59,4 +59,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Do not kill it. Do not touch it. Do not look at it too long. The infection reads your attention as an invitation.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive", "reactive"] as const,
 };

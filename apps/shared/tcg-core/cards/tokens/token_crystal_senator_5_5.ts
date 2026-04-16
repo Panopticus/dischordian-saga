@@ -24,4 +24,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "In New Babylon, power is not metaphorical. It crystallizes. It votes. It kills.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
 };

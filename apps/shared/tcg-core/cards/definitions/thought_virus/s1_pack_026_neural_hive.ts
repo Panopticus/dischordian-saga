@@ -46,4 +46,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Kill it. Please. But understand: every wound you inflict is a seed.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "reactive"] as const,
 };

@@ -45,4 +45,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The fifth world fell without a shot. Its governor took one look at the Overlord's fleet and signed the treaty.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
