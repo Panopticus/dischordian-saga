@@ -25,6 +25,10 @@
 
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /* ─── CONFIG ─── */
 
@@ -330,7 +334,8 @@ async function main() {
       manifest[line.lineId] = url;
       console.log(` ✓ ${(audio.length / 1024).toFixed(0)}KB → ${localPath}`);
 
-      // Periodic save — one manifest write per speaker after each line
+      // Periodic save after each successful generation so partial progress
+      // survives a Ctrl+C or later rate-limit failure.
       saveManifest(line.voiceProfile, manifest);
 
       // Rate limit
@@ -346,9 +351,17 @@ async function main() {
     }
   }
 
-  // Final saves
+  // Final saves — only if at least one line was successfully generated for
+  // that speaker. Avoids rewriting manifests when every line errored
+  // (e.g. an auth/allowlist failure that aborted before any upload).
+  const addedBySpeaker = new Set<string>();
   for (const [speaker, manifest] of Object.entries(manifestsBySpeaker)) {
-    saveManifest(speaker, manifest);
+    const baseline = loadManifest(speaker);
+    const hasNew = Object.keys(manifest).some((k) => !(k in baseline));
+    if (hasNew) {
+      saveManifest(speaker, manifest);
+      addedBySpeaker.add(speaker);
+    }
   }
 
   console.log(`\n═══ COMPLETE ═══`);
@@ -364,8 +377,12 @@ async function main() {
   }
 
   console.log("\nManifests updated:");
-  for (const speaker of Object.keys(manifestsBySpeaker).sort()) {
-    console.log(`  ${MANIFEST_BY_SPEAKER[speaker]}`);
+  if (addedBySpeaker.size === 0) {
+    console.log("  (none — no new lines were generated)");
+  } else {
+    for (const speaker of Array.from(addedBySpeaker).sort()) {
+      console.log(`  ${MANIFEST_BY_SPEAKER[speaker]}`);
+    }
   }
 }
 
