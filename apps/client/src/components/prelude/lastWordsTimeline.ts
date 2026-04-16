@@ -1,100 +1,86 @@
 /* ═══════════════════════════════════════════════════════
-   LAST WORDS TIMELINE — Song structure + slide timing
+   LAST WORDS TIMELINE — Prelude Tease (5 slides, 35s)
 
-   Defines the canonical timeline for the Beat J "Last Words"
-   witnessing sequence. Each slide is anchored to a start time
-   in the song (seconds from song start). Structure matches
-   PRELUDE_SHIP_READY_BIBLE.md §17.5 and
+   Defines the canonical timeline for the Beat J tease of the
+   Last Words song. After the Last Words restructure (October
+   2026) the Prelude plays only a 35-second motif of Verse 1
+   over 5 slides of Malkia watching the Engineer's Log 5
+   hologram in her studio; the full song + 20-slide Witnessing
+   sequence + Light/Dark choice moved to the Act 1 Cycle C
+   Authority finale.
+
+   See sibling design doc for the full restructure rationale:
+     docs/production/prelude-asset-build/prompts/voice/log5/
+       LAST_WORDS_TEASE_VS_FULL.md
+
+   Slide prompts for production:
+     docs/production/prelude-asset-build/prompts/voice/log5/
+       LAST_WORDS_TEASE_SLIDE_PROMPTS.md
+
+   Source canon: PRELUDE_SHIP_READY_BIBLE.md §17.5 +
    CANON_REV_7_ORACLE_VEX_EXPANSION.md §5.6.9.
 
-   Song duration: ~219.8s (3:39.8) — 20 slides organized in
-   4 sections of 5 slides each:
-     - Section 1: Verse 1
-     - Section 2: Pre-Chorus + Chorus 1
-     - Section 3: Verse 2 + Chorus 2
-     - Section 4: Bridge + Outro
-
-   The player cannot skip through the first chorus per Bible
-   §17.5; the Light/Dark alignment choice pillar appears at
-   the chorus sync point.
-
-   Timing values are tunable — if production delivers exact
-   cue sheets, update SLIDE_TIMELINE and CHOICE_PILLAR_REVEAL_S
-   to match. The component will do linear interpolation between
-   anchors at runtime.
+   Timing values tunable: if production re-cuts the tease or
+   adjusts the vocal-line landing points, update TEASE_DURATION_S
+   and SLIDE_TIMELINE to match.
    ═══════════════════════════════════════════════════════ */
 
-/** Total song duration in seconds. */
-export const LAST_WORDS_SONG_DURATION_S = 219.8;
+/** Total tease duration in seconds (includes the 3s fade-out). */
+export const LAST_WORDS_TEASE_DURATION_S = 35;
 
-/** Path to the normalized MP3 (loudnorm -18 LUFS). */
+/**
+ * @deprecated Alias for LAST_WORDS_TEASE_DURATION_S, retained so
+ * the existing LastWordsWitnessing consumer doesn't need a
+ * coordinated rename in the same PR as this restructure.
+ */
+export const LAST_WORDS_SONG_DURATION_S = LAST_WORDS_TEASE_DURATION_S;
+
+/** Path to the tease MP3 (35s trim of the full song with fade-out). */
 export const LAST_WORDS_SONG_URL =
-  "/audio/music/song_last_words_prelude_cut.mp3";
+  "/audio/music/song_last_words_prelude_tease.mp3";
 
+/**
+ * A single slide in the 5-slide tease sequence. The sequence
+ * tells one compact story: Malkia at the console → presses play
+ * → listens → a line lands → she begins to sing.
+ */
 export interface SlideAnchor {
-  /** Section 1-4, slide 1-5 (matches on-disk filename). */
-  section: 1 | 2 | 3 | 4;
+  /** 1-indexed slide number; matches on-disk filename slide-{n}.webp. */
   slide: 1 | 2 | 3 | 4 | 5;
-  /** Start time in seconds from song start. */
+  /** Start time in seconds from tease start. */
   startS: number;
-  /** Which song section this slide belongs to. */
-  phase: "verse_1" | "pre_chorus" | "chorus_1" | "verse_2" | "chorus_2" | "bridge" | "outro";
+  /**
+   * Narrative phase tag used for screen-reader announcements
+   * in LastWordsWitnessing's visually-hidden aria-live region.
+   */
+  phase:
+    | "before_play"
+    | "hologram_on"
+    | "listening"
+    | "line_lands"
+    | "first_breath";
 }
 
 /**
- * 20 slide anchors. Timing is linear distribution (11s per slide)
- * as a first pass; tune after reviewing the song against the slides
- * in production.
+ * 5 slide anchors for the 35-second tease. 7 seconds each until
+ * the last, which holds 7 seconds and then the tease fades out.
  */
 export const SLIDE_TIMELINE: readonly SlideAnchor[] = [
-  // Section 1 — Verse 1 (0–55s)
-  { section: 1, slide: 1, startS: 0, phase: "verse_1" },
-  { section: 1, slide: 2, startS: 11, phase: "verse_1" },
-  { section: 1, slide: 3, startS: 22, phase: "verse_1" },
-  { section: 1, slide: 4, startS: 33, phase: "verse_1" },
-  { section: 1, slide: 5, startS: 44, phase: "verse_1" },
-  // Section 2 — Pre-Chorus + Chorus 1 (55–110s)
-  { section: 2, slide: 1, startS: 55, phase: "pre_chorus" },
-  { section: 2, slide: 2, startS: 66, phase: "chorus_1" },
-  { section: 2, slide: 3, startS: 77, phase: "chorus_1" },
-  { section: 2, slide: 4, startS: 88, phase: "chorus_1" },
-  { section: 2, slide: 5, startS: 99, phase: "chorus_1" },
-  // Section 3 — Verse 2 + Chorus 2 (110–165s)
-  { section: 3, slide: 1, startS: 110, phase: "verse_2" },
-  { section: 3, slide: 2, startS: 121, phase: "verse_2" },
-  { section: 3, slide: 3, startS: 132, phase: "chorus_2" },
-  { section: 3, slide: 4, startS: 143, phase: "chorus_2" },
-  { section: 3, slide: 5, startS: 154, phase: "chorus_2" },
-  // Section 4 — Bridge + Outro (165–219.8s)
-  { section: 4, slide: 1, startS: 165, phase: "bridge" },
-  { section: 4, slide: 2, startS: 176, phase: "bridge" },
-  { section: 4, slide: 3, startS: 187, phase: "bridge" },
-  { section: 4, slide: 4, startS: 198, phase: "outro" },
-  { section: 4, slide: 5, startS: 209, phase: "outro" },
+  { slide: 1, startS: 0, phase: "before_play" },
+  { slide: 2, startS: 7, phase: "hologram_on" },
+  { slide: 3, startS: 14, phase: "listening" },
+  { slide: 4, startS: 21, phase: "line_lands" },
+  { slide: 5, startS: 28, phase: "first_breath" },
 ];
 
-/**
- * Time at which the Light/Dark choice pillar appears. Aligned to the
- * start of chorus 1 per Bible §17.5 — the choice is synced to the
- * line "Freedom of thought is worth dying for / And the insurgency
- * will be broadcast once more."
- */
-export const CHOICE_PILLAR_REVEAL_S = 66;
-
-/**
- * Time at which skip becomes available (end of chorus 1 per Bible).
- * Before this timestamp, the player is locked into the sequence.
- */
-export const SKIP_UNLOCK_S = 110;
-
-/** Image URL for a specific slide on disk. */
-export function slideImageUrl(section: number, slide: number): string {
-  return `/art/prelude/last-words/slide-${section}-${slide}.webp`;
+/** Image URL for a specific tease slide on disk. */
+export function slideImageUrl(slide: number): string {
+  return `/art/prelude/last-words-tease/slide-${slide}.webp`;
 }
 
 /**
- * Return the slide anchor that should be visible at the given time.
- * Uses the last anchor whose startS <= currentTime.
+ * Return the slide anchor that should be visible at the given
+ * time. Uses the last anchor whose startS <= currentTime.
  */
 export function slideAtTime(currentTime: number): SlideAnchor {
   let current = SLIDE_TIMELINE[0];
@@ -103,14 +89,4 @@ export function slideAtTime(currentTime: number): SlideAnchor {
     else break;
   }
   return current;
-}
-
-/** Whether the player is allowed to skip at a given time. */
-export function canSkipAt(currentTime: number): boolean {
-  return currentTime >= SKIP_UNLOCK_S;
-}
-
-/** Whether the choice pillar should be visible at a given time. */
-export function showChoiceAt(currentTime: number): boolean {
-  return currentTime >= CHOICE_PILLAR_REVEAL_S;
 }

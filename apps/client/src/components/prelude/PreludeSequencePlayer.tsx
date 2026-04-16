@@ -141,11 +141,15 @@ export function PreludeSequencePlayer({
           />
         );
       case "beat_j":
+        // Prelude Beat J plays the 35-second tease of Last Words.
+        // The canonical Light/Dark alignment choice does NOT fire
+        // here — it was moved to the Act 1 Cycle C finale where
+        // the full song lands. See:
+        //   docs/production/prelude-asset-build/prompts/voice/log5/
+        //     LAST_WORDS_TEASE_VS_FULL.md
         return (
           <LastWordsWitnessing
-            onComplete={({ choice }) =>
-              interactionComplete({ alignment: choice })
-            }
+            onComplete={() => interactionComplete()}
             volume={volume}
           />
         );
