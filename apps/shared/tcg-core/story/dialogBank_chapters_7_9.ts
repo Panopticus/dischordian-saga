@@ -239,6 +239,62 @@ export const DIALOG_CH9B_LOSS: DialogScene = {
    BANK EXPORT
    ═══════════════════════════════════════════════════════ */
 
+/* ═══════════════════════════════════════════════════════
+   §5.5 — WARLORD ZERO (Battle of Nexon)
+   First full Warlord encounter. Files between ch8 and ch9a
+   per act1Opponents.ts:180 (act1Step: 9). Scripted
+   `s1_warlord_three_moves` cast on her turn 3 wires the
+   §5.5 lockout (engine/lockout.ts) into the campaign.
+   ═══════════════════════════════════════════════════════ */
+
+export const DIALOG_WARLORD_ZERO_FIRST_PRE: DialogScene = {
+  id: "dialog_warlord_zero_first_pre",
+  label: "§5.5 — Warlord Zero (pre-match)",
+  kind: "chapter_pre",
+  cues: [
+    {
+      speaker: "warlord_zero",
+      mood: "menacing",
+      text: "I am going to win this war in three moves. This is not bragging. This is arithmetic. Sit down.",
+      audioClipId: "vo_warlord_zero_first_pre_01",
+    },
+    {
+      speaker: "warlord_zero",
+      mood: "cryptic",
+      text: "On my third turn the rules will narrow for you. You will see two cards instead of six and you will not be able to break out. The right play is not to try.",
+      audioClipId: "vo_warlord_zero_first_pre_02",
+    },
+  ],
+};
+
+export const DIALOG_WARLORD_ZERO_FIRST_WIN: DialogScene = {
+  id: "dialog_warlord_zero_first_win",
+  label: "§5.5 — Warlord Zero (win)",
+  kind: "chapter_post_win",
+  cues: [
+    {
+      speaker: "warlord_zero",
+      mood: "reflective",
+      text: "The match was a loss for me. The war is not. You will see the lockout again, and the next time it will not end at turn seven.",
+      audioClipId: "vo_warlord_zero_first_win_01",
+    },
+  ],
+};
+
+export const DIALOG_WARLORD_ZERO_FIRST_LOSS: DialogScene = {
+  id: "dialog_warlord_zero_first_loss",
+  label: "§5.5 — Warlord Zero (loss)",
+  kind: "chapter_post_loss",
+  cues: [
+    {
+      speaker: "warlord_zero",
+      mood: "menacing",
+      text: "Three moves. Counted. The match was the loss; the war was the loss too — but you are still standing. We will count again.",
+      audioClipId: "vo_warlord_zero_first_loss_01",
+    },
+  ],
+};
+
 export const DIALOG_BANK_CHAPTERS_7_9: readonly DialogScene[] = Object.freeze([
   DIALOG_CH7_PRE,
   DIALOG_CH7_WIN,
@@ -246,6 +302,9 @@ export const DIALOG_BANK_CHAPTERS_7_9: readonly DialogScene[] = Object.freeze([
   DIALOG_CH8_PRE,
   DIALOG_CH8_WIN,
   DIALOG_CH8_LOSS,
+  DIALOG_WARLORD_ZERO_FIRST_PRE,
+  DIALOG_WARLORD_ZERO_FIRST_WIN,
+  DIALOG_WARLORD_ZERO_FIRST_LOSS,
   DIALOG_CH9A_PRE,
   DIALOG_CH9A_WIN,
   DIALOG_CH9A_LOSS,

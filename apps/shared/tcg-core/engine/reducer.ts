@@ -35,6 +35,7 @@ import { drainTriggerQueue, type TriggerEffectRunner } from "./triggerQueue";
 import { handleMulligan, handleFinishMulligan } from "./mulligan";
 import { refreshTurnForPlayer } from "./turn";
 import { tickLockout } from "./lockout";
+import { drainScriptedActions } from "./scriptedActions";
 import { handlePlayCard as handlePlayCardReal } from "./playCard";
 import { handleMove as handleMoveReal } from "./movement";
 import { handleAttack as handleAttackReal } from "./combat";
@@ -424,6 +425,13 @@ function handleEndTurn(
     player: nextPlayer,
     turnNumber: draft.turnNumber,
   });
+  // Drain any scripted actions matching the new (turnNumber, side).
+  // Story encounters use this to author set-piece plays the AI can't
+  // be trusted to make on schedule (canonical case: §5.5 Warlord
+  // Three Moves on her turn 3). Runs AFTER refresh so the active
+  // side's hand/mana are fully set up before the scripted action
+  // touches them.
+  drainScriptedActions(draft, nextPlayer, ctx);
   return undefined;
 }
 
