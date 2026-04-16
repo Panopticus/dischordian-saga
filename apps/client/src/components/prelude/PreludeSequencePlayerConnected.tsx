@@ -61,7 +61,7 @@ export function PreludeSequencePlayerConnected({
     state,
     setCurrentPreludeBeat,
     recordPreludeCompletionFlag,
-    setPreludeAlignment,
+    setLightDarkAlignment,
   } = useGame();
 
   // Validate the saved beat id against the live manifest. If the player
@@ -87,11 +87,11 @@ export function PreludeSequencePlayerConnected({
 
   const handleComplete = useCallback(
     ({ alignment }: { alignment: PreludeAlignmentChoice }) => {
-      setPreludeAlignment(alignment);
+      setLightDarkAlignment(alignment);
       setCurrentPreludeBeat(null);
       onPreludeComplete?.(alignment);
     },
-    [setPreludeAlignment, setCurrentPreludeBeat, onPreludeComplete],
+    [setLightDarkAlignment, setCurrentPreludeBeat, onPreludeComplete],
   );
 
   return (
