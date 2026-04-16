@@ -25,6 +25,7 @@ import {
   type GameEvent,
 } from "../index";
 import type { ScriptedAction } from "../types/ScriptedAction";
+import type { TrialModeConfig } from "../types/TrialPhase";
 import { resolveDialog, type DialogScene } from "./dialogBank";
 
 /* ─── Types ─── */
@@ -63,6 +64,16 @@ export interface StoryEncounter {
    * engine/scriptedActions.ts.
    */
   scriptedActions?: readonly ScriptedAction[];
+  /**
+   * Optional §5.8 Authority trial-mode opt-in. Forwarded to the
+   * engine via createMatchState. When set, the engine puts the
+   * resulting match into trial mode (phase guards active, verdict
+   * resolves at turn 10). The only current user is the
+   * `chAuthorityTrial` Act 1 finale encounter. See
+   * engine/trialPhase.ts +
+   * docs/production/act1/authority-trial-phase-mechanic.md.
+   */
+  trialMode?: TrialModeConfig;
 }
 
 export type WinCondition =
@@ -136,6 +147,7 @@ export function initEncounter(input: EncounterInit): EncounterState {
     p2: p2Config,
     registry,
     scriptedActions: encounter.scriptedActions,
+    trialMode: encounter.trialMode,
   });
   return { gameState, firedHooks: new Set() };
 }

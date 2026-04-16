@@ -593,6 +593,62 @@ const ch12: StoryEncounter = {
   postMatchLossDialog: "dialog_ch12_loss",
 };
 
+/* ─── §5.8 — Authority trial, Act 1 finale ───
+ *
+ * The only §5.8 encounter. Spec:
+ * docs/production/act1/authority-trial-phase-mechanic.md.
+ *
+ * Unusual shape:
+ *  - bossGeneralDefId is the new decorative `gen_authority` (0/99,
+ *    no abilities, no Bloodborn — per spec §1 "the Authority is a
+ *    verdict, not a duelist"). The Authority's 99 HP + 0 power is
+ *    deliberately beyond reach: the only live match-outcome path
+ *    is the turn-10 verdict threshold, NOT general death.
+ *  - bossDeckCardDefIds is a 39-card placeholder list consistent
+ *    with the rest of chapters.ts. The deck is never drawn through
+ *    the current AI loop doesn't play cards for the Authority;
+ *    the trial-phase machine runs the match to completion via
+ *    turn-end cycles alone.
+ *  - trialMode: {openingVerdictBalance: 0} opts the match into the
+ *    §5.8 engine (phase guards active, verdict resolves at turn 10).
+ *    openingVerdictBalance starts at 0; when the §5.7 hand-off
+ *    lands, the campaign layer snapshots gameMasterVerdictStream
+ *    Balance here.
+ *  - winConditions intentionally omits the default general_killed
+ *    because §5.8's outcome is the verdict, not general death. The
+ *    `kill_before_turn 11` lose-condition keeps the player from
+ *    cheese-winning via general damage before the verdict phase.
+ *
+ * Wiring: ALL_CHAPTER_ENCOUNTERS export below; CHAPTER_MAP lookup
+ * by id `ch_authority_trial`. Dialog scenes in
+ * dialogBank_chapters_10_12.ts.
+ */
+const chAuthorityTrial: StoryEncounter = {
+  id: "ch_authority_trial",
+  chapterId: "ch_authority_trial",
+  name: "The Authority's Trial",
+  description:
+    "The Act 1 finale. Ten phases of an Empire judicial proceeding. Survive every phase restriction and the verdict-stream balance decides your fate.",
+  bossFaction: "architect",
+  bossGeneralDefId: "gen_authority",
+  bossDeckCardDefIds: bossDeck("boss_authority_trial"),
+  seed: "authority_trial_seed",
+  winConditions: [{ kind: "survive_turns", turns: 10 }],
+  loseConditions: [{ kind: "general_killed" }],
+  narrativeHooks: [
+    {
+      id: "authority_opening",
+      once: true,
+      condition: { kind: "always" },
+      action: { kind: "boss_taunt", text: "What do you say to the charges?" },
+    },
+  ],
+  preMatchDialog: "dialog_authority_trial_pre",
+  postMatchWinDialog: "dialog_authority_trial_win",
+  postMatchLossDialog: "dialog_authority_trial_loss",
+  trialMode: { openingVerdictBalance: 0 },
+};
+
 /* ═══════════════════════════════════════════════════════
    EXPORTS
    ═══════════════════════════════════════════════════════ */
@@ -602,6 +658,7 @@ export const ALL_CHAPTER_ENCOUNTERS: readonly StoryEncounter[] = Object.freeze([
   ch4, ch5, ch6, ch7, ch8,
   chWarlordZeroFirst,
   ch9a, ch9b, ch10, ch11, ch12,
+  chAuthorityTrial,
 ]);
 
 export const CHAPTER_MAP: Readonly<Record<string, StoryEncounter>> =
