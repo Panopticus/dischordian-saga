@@ -1,0 +1,64 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  LOG 5 — THE ENGINEER'S FINAL VORTEX RECORDING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Canonical line id:  holo_final_vortex_log (CANON_REV_7 §5.6.10)
+  Manifest line id:   holo_log_5_full       (preludeSequence.ts)
+  Speaker:            The Prince / The Engineer
+  Voice profile:      the_prince
+  Voice ID:           FLW8imgp50K85LICuLQs
+  Settings:           stability 0.50, similarity_boost 0.85,
+                      style 0.35, use_speaker_boost true
+
+  Plays:              Beat J (Archives + Two Witnesses Meet Part 1)
+                      from ~0:34 of the cutscene through ~7:14.
+                      One continuous take. Hard cut at the end.
+  Total runtime:      ~6m40s
+
+  Paste into ElevenLabs Studio Projects (NOT Studio CSV Import)
+  with the above settings. The transcript is divided into 5
+  movements — keep them as separate paragraphs in the Studio
+  Project so you can regenerate any one of them without
+  disturbing the neighbors (see README.md for the per-paragraph
+  regeneration strategy).
+
+  All direction notes live in CANON_REV_7 §5.6.10.
+  Recording-artifact / post-production layering lives in the
+  sibling README.md.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CONTEXT THE LISTENER INFERS IN THE OPENING MINUTE (§5.6.3)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  • Location: Vortex (Collector's flagship). Compartment C-17,
+    pressurized equipment bay off the main cargo deck.
+  • Breathable air remaining: ~4 minutes.
+  • Charges already set on a secondary power coupling. Detonate
+    in ~7 minutes. Target: a data archive the Collector cannot
+    be allowed to keep.
+  • Resurrection Protocols device armed, clicking at 0.5 Hz
+    through preflight, sitting on the table.
+  • The room he recorded Log 4 in three weeks ago — same
+    scrubber failure, same hum. The player will recognize it.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  MOVEMENT 1 — THE SITUATION   (§5.6.4, ~1 minute)
+  Register: PROFESSIONAL. At a bench. Precise because he is
+  precise, not because he is scared. No tremor.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Working entry. Final one, most likely. I am going to be brisk about this because I have four minutes of air and I need to spend three of them on the people I care about and one on the tool.
+
+<break time="700ms"/>
+
+I am on the Vortex. Compartment C-17 off the main cargo deck, which the Collector's catalog lists as a medical supply closet, which is a lie — the crate beside me is the only Insurgency-era data fragment he has never opened and I have seven minutes before the charges on the power coupling down the hall take this compartment, the crate, and most of the archive bay off his inventory permanently. I set the charges an hour ago. I walked into the surrender on my own feet. The woman who took me is wearing Vex Solène's body and is not Vex Solène any more. I do not yet have a name for the thing in there with her. I suspect I know whose it is. I am not going to say the name on this recording because there is a non-zero chance this file gets recovered by someone who needs to not already know.
+
+<break time="600ms"/>
+
+The compartment atmospheric scrubber is failing. You can hear it. Log 4 was recorded in this room three weeks ago — you probably heard that one already, or you are going to. The hum is the same. The air is worse. The click you hear under the hum is the Protocols device, already armed, running its preflight. When the clicks stop, I am in it.
+
+<break time="700ms"/>
+
+Four minutes. Let me not waste them.
+
+<break time="900ms"/>
