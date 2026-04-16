@@ -258,3 +258,131 @@ State Act 1 sets that later acts consume:
 | Opponent defeat/loss flags | Every card match | Deck composition defaults Act 2 fight mode selects from |
 | Trade Empire faction-first-contact flag | If player accepts any of Locke's three jobs | Opens the Trade Empire mid-game pillar in Act 3 |
 | `moralityScore` | Every Act 1 choice | Drives atmosphere-mapping from Canon Rev 7 §5.1 through the rest of the game |
+
+---
+
+## Section 3 — Cycle A: Kindergarten of Gods (§4.3)
+
+### 3.1 Cycle purpose
+
+Three matches. The Engineer is six to eight years old. None of
+the children he plays against know they will become anything
+larger than children. The player, having finished the Prelude,
+knows all three are proto-forms of cosmic figures they've
+already heard referenced. Cycle A is the memoir's thesis: the
+monsters started out at a little table in the schoolyard with
+a deck between them, and the Engineer played each one in turn,
+and he *lost*, and he lost, and then he lost again, and it
+shaped him into the man who would build the Protocols.
+
+The cycle's emotional register is **tender**. The children are
+not yet cruel. They are simply becoming what they will become.
+The Engineer's narration is fond — the only time in Act 1 the
+narrator is allowed to sound like a man smiling at a
+photograph.
+
+### 3.2 Cycle environment
+
+**Location:** a primary-school classroom on a pre-Empire world
+(Eden-adjacent — see Canon Rev 7 §6 for Eden context). Small
+wooden tables. Low ceiling. Natural warm-yellow sunlight
+through a long window. One card table in the center of the
+room.
+
+**Mood:** directly opposite every other Prelude / Act 1
+environment — **warm, sunlit, mundane.** This is the only room
+in the whole game where no one is afraid yet. Every later
+environment the player passes through (the Ark, the Academy,
+the Vortex, the Archives) can be read as a slow retreat from
+this room's brightness.
+
+### 3.3 Art — Cycle A classroom environment still
+
+- **Output:** `apps/client/public/art/rooms/room-kindergarten.png` + `.webp`
+- **Aspect:** 16:9 1920×1080
+- **Priority:** P0
+- **Style anchor:** §0 conventions, but with the **warm-yellow
+  sunlight palette** inverted from the Prelude's cold-cyan
+  default. No fog, no film grain darkness, no anamorphic flare
+  on cold points. The warm light is the point.
+- **Nano Banana 2 prompt:** *to be authored in Section 3
+  revision. First pass should render a small wooden classroom
+  with one card-table, four child-height chairs, a long
+  window wall catching warm yellow sunlight, chalk markings
+  on a slate at the back wall. No rendered text. No visible
+  children (they appear as per-match portraits). Cinematic
+  4K composition, soft diffused light, shallow depth of field
+  on the card-table's center.*
+
+### 3.4 Opponent 1 — Little Meme
+
+- **id:** `little_meme` (act1Step 1)
+- **Canonical source:** `apps/shared/act1Opponents.ts` lines 45–59
+- **Deck leaning:** `thought_virus`, `neutral`
+- **Pre-match line:** already authored (see data shell)
+- **Narrative purpose:** Introduces the player to the Dischordia
+  card game proper. Little Meme is a child who repeats the same
+  chant forever, and the *repetition itself* is the game's first
+  mechanical hook — he's where the Thought Virus faction's
+  "chant" mechanic originates in the memoir's telling.
+
+**Production slots (to author in next revision):**
+- Matchup-card art (Nano Banana 2 prompt)
+- Deck composition (card list — Thought Virus lean)
+- Victory / defeat narrative slots (exist in data shell, no rewrite)
+- Completion flag: `act1_little_meme_defeated`
+
+### 3.5 Opponent 2 — Little Collector
+
+- **id:** `little_collector` (act1Step 2)
+- **Canonical source:** `apps/shared/act1Opponents.ts` lines 60–74
+- **Deck leaning:** `new_babylon`, `neutral`
+- **Pre-match line:** already authored
+- **Narrative purpose:** The schoolyard jar. Every emotion trapped
+  becomes currency later. Little Collector is where the New
+  Babylon faction's "hoard" mechanic originates — every win
+  banked, every loss catalogued.
+
+**Production slots:**
+- Matchup-card art
+- Deck composition (New Babylon lean)
+- Completion flag: `act1_little_collector_defeated`
+
+### 3.6 Opponent 3 — Little Watcher (Cycle A finale)
+
+- **id:** `little_watcher` (act1Step 3)
+- **Canonical source:** `apps/shared/act1Opponents.ts` lines 75–90
+- **Deck leaning:** `architect`, `neutral`
+- **Pre-match line:** already authored
+- **Narrative purpose:** The finale boss. The half-finished white
+  mask. Little Watcher is where the Architect faction's
+  "record" mechanic originates — her deck *watches the player's
+  hand* and adapts to it. The line "I have watched sixteen
+  versions of you already" is the first moment in Act 1 where
+  the memoir frame cracks — the player who is reading this is
+  canonically *one of* those sixteen versions.
+- **Finale slideshow:** `welcome-to-celebration` fires after the
+  match wraps, win or loss.
+
+**Production slots:**
+- Matchup-card art (child's face partially visible under a
+  half-finished mask — subtle, not creepy)
+- Deck composition (Architect lean — adaptive)
+- Finale cutscene prompt for `welcome-to-celebration` (Seedance 2.0)
+- Completion flag: `act1_little_watcher_defeated` +
+  `act1_cycle_a_complete`
+
+### 3.7 Cycle A → Cycle B transition
+
+After `little_watcher` completes and the `welcome-to-
+celebration` slideshow plays, the THE_SIGNAL tree unlocks its
+first branching node at `apps/shared/narrativeActs.ts:92`. The
+player moves to the Comms Array, hears the Human's whisper for
+the first time in Act 1 proper, and makes the Path A /
+Path Secret choice before entering the Academy (§4).
+
+**Branch-close gate:** Cycle B's first match (`the_detective_
+student`) cannot begin until the THE_SIGNAL branch is resolved.
+This is enforced by the Act 1 runner checking both
+`narrativeActChoices` has an entry for the THE_SIGNAL branching
+sceneId *and* `humanContactSecret` has been set to a boolean.
