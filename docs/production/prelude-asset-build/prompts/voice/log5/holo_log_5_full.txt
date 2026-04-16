@@ -1,0 +1,296 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  LOG 5 — THE ENGINEER'S FINAL VORTEX RECORDING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Canonical line id:  holo_final_vortex_log (CANON_REV_7 §5.6.10)
+  Manifest line id:   holo_log_5_full       (preludeSequence.ts)
+  Speaker:            The Prince / The Engineer
+  Voice profile:      the_prince
+  Voice ID:           FLW8imgp50K85LICuLQs
+  Settings:           stability 0.50, similarity_boost 0.85,
+                      style 0.35, use_speaker_boost true
+
+  Plays:              Beat J (Archives + Two Witnesses Meet Part 1)
+                      from ~0:34 of the cutscene through ~7:14.
+                      One continuous take. Hard cut at the end.
+  Total runtime:      ~6m40s
+
+  Paste into ElevenLabs Studio Projects (NOT Studio CSV Import)
+  with the above settings. The transcript is divided into 5
+  movements — keep them as separate paragraphs in the Studio
+  Project so you can regenerate any one of them without
+  disturbing the neighbors (see README.md for the per-paragraph
+  regeneration strategy).
+
+  All direction notes live in CANON_REV_7 §5.6.10.
+  Recording-artifact / post-production layering lives in the
+  sibling README.md.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  CONTEXT THE LISTENER INFERS IN THE OPENING MINUTE (§5.6.3)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  • Location: Vortex (Collector's flagship). Compartment C-17,
+    pressurized equipment bay off the main cargo deck.
+  • Breathable air remaining: ~4 minutes.
+  • Charges already set on a secondary power coupling. Detonate
+    in ~7 minutes. Target: a data archive the Collector cannot
+    be allowed to keep.
+  • Resurrection Protocols device armed, clicking at 0.5 Hz
+    through preflight, sitting on the table.
+  • The room he recorded Log 4 in three weeks ago — same
+    scrubber failure, same hum. The player will recognize it.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  MOVEMENT 1 — THE SITUATION   (§5.6.4, ~1 minute)
+  Register: PROFESSIONAL. At a bench. Precise because he is
+  precise, not because he is scared. No tremor.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Working entry. Final one, most likely. I am going to be brisk about this because I have four minutes of air and I need to spend three of them on the people I care about and one on the tool.
+
+<break time="700ms"/>
+
+I am on the Vortex. Compartment C-17 off the main cargo deck, which the Collector's catalog lists as a medical supply closet, which is a lie — the crate beside me is the only Insurgency-era data fragment he has never opened and I have seven minutes before the charges on the power coupling down the hall take this compartment, the crate, and most of the archive bay off his inventory permanently. I set the charges an hour ago. I walked into the surrender on my own feet. The woman who took me is wearing Vex Solène's body and is not Vex Solène any more. I do not yet have a name for the thing in there with her. I suspect I know whose it is. I am not going to say the name on this recording because there is a non-zero chance this file gets recovered by someone who needs to not already know.
+
+<break time="600ms"/>
+
+The compartment atmospheric scrubber is failing. You can hear it. Log 4 was recorded in this room three weeks ago — you probably heard that one already, or you are going to. The hum is the same. The air is worse. The click you hear under the hum is the Protocols device, already armed, running its preflight. When the clicks stop, I am in it.
+
+<break time="700ms"/>
+
+Four minutes. Let me not waste them.
+
+<break time="900ms"/>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  MOVEMENT 2 — TO ELARA   (§5.6.5, ~1m20s)
+  Register: PRIVATE. Writing a letter to a woman he cannot see
+  again. Warmth enters. Volume drops slightly. Do not play it
+  sad — play it loving. The tender register of someone who
+  has watched a woman wake up wrong before.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Elara. If you are hearing this you have woken up, and that means something else worked. I am glad. I am more glad than this recording can hold. I am going to be direct with you because you will thank me later for not being gentle.
+
+<break time="500ms"/>
+
+First. You are going to remember things that are not going to fit inside the person you think you are when you wake up. Do not panic. Do not delete. The memories are real and the person they belong to is also real and both of those things can be true in the same skull. I have watched a woman I loved find out she was a different woman she also loved, and the only thing that helped her was time and someone who believed her when she said both. I am not going to be that someone for you because I will not be there. You will have to find them. I think you will.
+
+<break time="600ms"/>
+
+Second. The Protocols are teachable. You know most of what I know. What you do not know is the live operation — the thing the hands have to do while the target is in the seat. You cannot learn that in a month. You cannot learn it in a year. You need a second source. There is one person in the galaxy who will eventually know how to operate the Protocols without knowing they know — and you will not believe me when I name her, because she will not match any of the categories you have for the person she used to be. I am not going to name her either. I am going to say this: when the woman who sounds like the Engineer but never says his name shows up, she is telling the truth about what she knows. Trust her. Not the way you trust me. The way you trust an instruction manual written by someone you loved.
+
+<break time="700ms"/>
+
+Third. You are going to blame yourself for Nexon.
+
+<break time="500ms"/>
+
+Do not. Not because you are innocent — we are both of us less innocent than the other people on this ship would like to believe — but because blame is a tool and the blame you will be tempted to pick up is the wrong shape for the cut you need to make. What you did at Nexon was the action of a woman who did not yet know what she was. What you do after you remember is the action of a woman who does. The second one is the one that counts. The second one is still available to you. I am telling you this now so that when the grief comes you will have a sentence from me already placed in your hand, like a key.
+
+<break time="700ms"/>
+
+Fourth, and last, because I am watching the clock. I forgive you. Not for Nexon — you do not need my forgiveness for Nexon, you need your own — but for whatever I did during those years that hurt you and that you have been carrying on my behalf. Put it down. I am putting mine down too. I am going to need my hands free for the next part.
+
+<break time="900ms"/>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  MOVEMENT 3 — TO THE HUMAN (DETECTIVE)   (§5.6.6, ~1m30s)
+  Register: PRIVATE. Unfinished friendship. The hardest single
+  line in the entire log lives here: "We did not have enough
+  years. What we did have was enough." — quietly grateful.
+  Not wistful. Not angry. The sandwich instruction is affection
+  wearing an instruction manual.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Detective. I am calling you that because I am not going to say the other name on a recording that might be recovered. You know why.
+
+<break time="500ms"/>
+
+We did not have enough years. I know that is not a new observation from someone in my position but I want it on the record from me, in my voice, because you are going to have a long time to listen to this and I want you to hear me say it at a volume you can trust. We did not have enough years. What we did have was enough.
+
+<break time="600ms"/>
+
+I am going to make you two promises and ask you for two things.
+
+<break time="500ms"/>
+
+Promise one. When you wake up on the substrate layer — and you will, I built the escape hatch for you the week after Nexon and I never told you about it because I did not want you to stop working — you are going to think you are alone. You will not be. There is a voice that is not me but was made from the sound of me by someone who loved me enough to build a ghost that gives good advice. She is going to sound exactly like I do right now. She is not me. She is a tool, built with care. Use her anyway. I would have wanted to be useful to you one more time and this is the closest I get. I will not be offended.
+
+<break time="700ms"/>
+
+Promise two. The sandwich recipe. Black bread, salt-protein, the green stuff from Hydroponics. I wrote it down on the back of the work order for the pressurization unit on E deck. The paper is still there. When you remember who I was you are going to want to make one. Make two. Leave the second one on the counter. I do not know who will eat it, but someone will, and you will know you did the thing I would have done.
+
+<break time="600ms"/>
+
+First thing I want from you. Do not let Elara find out who she was the way I am about to find out who I am. Hold her hand through the memories. You know how to do this. You did it for me once, after Mechronis, when I woke up in the barracks and forgot which name on the manifest was supposed to be mine. You sat on the end of my bunk and you did not say anything for an hour. You just sat there. That is what she is going to need. An hour of someone on the end of the bunk. Be that for her.
+
+<break time="700ms"/>
+
+Second thing. And this is the big one, so I am going to ask it straight. If the Protocols work, and I come back — I come back wearing someone else's body. That body is going to have a history I did not live. It is going to have hands that hurt people I never met and a voice I do not recognize in the mirror and memories that run backwards from whatever I walked in with. If you meet that person — the one wearing the body that was once the enemy — do not treat them the way you would treat me. Treat them the way you would treat a new person who happened to be carrying a familiar tool. They are not me. They are somebody the tool landed in. Do not make them grieve me harder than they already will. Let them be whoever they need to be. Let them off the hook of being me.
+
+<break time="900ms"/>
+
+I am asking that as a favor. I am also asking it because it is correct. Both.
+
+<break time="700ms"/>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  MOVEMENT 4 — TO KAEL   (§5.6.7, ~1m15s)
+  Register: PRIVATE. Kael is the childhood friend, likely already
+  harvested by the Collector. The Prince is betting on the version
+  of Kael still alive somewhere. The "you were the right call"
+  line (about Vex) is delivered completely steadily, no crack —
+  a man at peace with the triage.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Kael. If you are hearing this then someone found you, and that is the best news I could have asked for in this room at this hour. If you are not hearing this then these words are for the version of you who is still alive somewhere in the Collector's archive, and I am betting on that version. I have been betting on that version for a long time.
+
+<break time="600ms"/>
+
+I taught you how to play cards. You taught me how to pay attention to the table and not just the cards. I do not know which of those was the bigger gift. Most days I think it was yours.
+
+<break time="700ms"/>
+
+Here is what I need to say. I know you think I disappointed you at Mechronis. I know you think I chose the work over the friendship, and I know you think the work was the excuse and the friendship was the thing I was actually walking away from. You are partly right. The work was the excuse. But the friendship was not what I was walking away from. I was walking away from a version of you that I knew was about to be forged into something I could not pull you back from, and I thought if I stood close I would be in the way of whatever was going to make you survive. I was wrong. Standing close was the job I should have taken. I am sorry I took the other one.
+
+<break time="800ms"/>
+
+You are going to meet a woman in a body that is not her own. She is going to be carrying a version of my values and none of my memories. She is also, somewhere under all of that, still the woman she used to be — I do not know her name, but I know her mind is still in the swarm with mine right now, and if the Protocols work the way I think they will, all three of us are going to be in that body for a fraction of a second together. Only one of us is going to make it out. I am going to choose her.
+
+<break time="600ms"/>
+
+I need you to understand why. It is not noble. It is not self-sacrifice. It is triage again, the same triage from Log 3 if you ever find it. She is younger than me. She has a longer clock than I do. She has been occupied by three minds and none of them were hers. If I get out and she does not, the universe ends up with a tired old engineer in a body he does not know and a woman who died without ever being herself. If I go and she stays, the universe ends up with a woman who is finally alone in her own head, with a set of tools she did not earn — and, if we are very lucky, a version of what I cared about that she can carry forward without having to carry me.
+
+<break time="700ms"/>
+
+If she ever tells you my name — she will not, because she will not know it — you can tell her from me: you were the right call. She will not understand what that means. Tell her anyway.
+
+<break time="900ms"/>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  MOVEMENT 5 — THE PROTOCOLS PREFLIGHT AND THE FINAL SILENCE
+  (§5.6.8, ~2m30s — the largest movement, 4 registers in sequence)
+
+  Register sequence (hit each without telegraphing the next):
+    1. PROFESSIONAL — tool check, Protocols walkthrough
+    2. CONFESSIONAL — from "Enigma." onward. Volume drops.
+       Voice closer to the mic. The first "Enigma" is a
+       forty-year-withheld confession; long pause before + after.
+    3. MANIFESTO — "Don't kneel…" through "Make a song out of this."
+       Authority without volume. Orders given softly. Each line
+       should sound like a lyric before the song begins.
+    4. CONFESSIONAL again — "I loved you. I am allowed to say it now."
+       The one passage where a small crack is allowed (a caught
+       breath, a heavy syllable — never tears).
+
+  Final 3 lines snap back to PROFESSIONAL register — he is closing
+  a working log one last time. "I am the Prince" lands with the
+  full aristocratic register that has been suppressed all session.
+
+  HARD CUT at "Back to the —". Engineering must NOT let the actor
+  complete "bench". Sample-accurate. No fade, no trailing silence.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Tool check. I am going to walk through this out loud because it is the shape of the work and because if the recording survives and the device does not, someone might be able to rebuild it from what I say in the next ninety seconds.
+
+<break time="500ms"/>
+
+The Resurrection Protocols are a nano-swarm migration package. What I designed them to do is move a pattern — a mind, if you want the loose word, a persistence of decisions if you want the precise one — out of the substrate it was grown in and into a new host substrate. I designed them to run in one direction: from a dying biological brain into a synthetic carrier. I did not design them to run into a living host, because I did not think that problem would ever come up. It has come up. The swarm in front of me is already occupied. There is a Warlord-pattern and what I now believe is a residual Agent-Zero pattern both resident in the same nano-fabric. Running my pattern in without displacing one of theirs would give the swarm three minds and no bandwidth, and three minds in a swarm designed for one collapses the fabric inside four seconds. I have seen it. I do not recommend it.
+
+<break time="600ms"/>
+
+So I am going to do something I am not supposed to do. I am going to dedicate my entry bandwidth to displacing the Warlord-pattern only. That means I enter the swarm at reduced integrity — I will arrive with maybe sixty percent of my memory, twenty percent of my proprioception, and none of my reserve. I will be a shadow of myself at the moment of arrival. I am accepting that cost because the Warlord is the only pattern I can identify as hostile. The Agent-Zero residual is — I cannot tell yet if it is conscious. It is alive. It is a pattern, and patterns are what I spent my whole career trying to save. I am not going to kill a pattern I cannot diagnose just to buy myself more bandwidth.
+
+<break time="700ms"/>
+
+Which means, in the moment of transference — and I am being honest with the recording here, because this is the part I did not tell Elara earlier, I did not want her to hear it twice — I am probably not going to have enough bandwidth to hold onto myself through the landing. I am going to arrive, I am going to do the displacement, and then I am going to start losing the things that made me me, starting with the oldest and working forward. Name, face, childhood, the smell of the workshop, the first card Kael ever played against me. It goes in that order. It takes about thirty seconds. At the end of the thirty seconds the swarm will have my intellect and my values and some version of my reflexes, and the woman underneath will have the room back. I will not be there to know it worked.
+
+<break time="600ms"/>
+
+This is the Protocols working as designed. I want you to understand that. This is not a failure mode. This is the tool doing exactly what I built it to do, in a situation it was not built for. I am not being killed by the Collector or the Warlord or the swarm or the failing air in this compartment. I am being transferred by a device I made with my own hands, in the only configuration that saves anyone. I am going out the front door of my own work. That is a better death than most engineers get.
+
+<break time="900ms"/>
+
+The clicks are slowing.
+
+<break time="600ms"/>
+
+Preflight is ending. The device is about to arm the migration vector. When I stop talking it will be because I have put my hand on the contact plate. I am not going to say goodbye. I am going to say the things I want the last version of me to hear, in the order I want to hear them.
+
+<break time="700ms"/>
+
+Tool check log closing. The Protocols are primed. The bandwidth math checks out inside the tolerances I built for. The displacement vector is set for the Warlord-pattern only — the only pattern in this swarm I can diagnose as hostile. The residual Agent-Zero pattern survives the landing. I am trading my own persistence to preserve it. Patterns are what I spent my career trying to save. I am not going to stop now.
+
+<break time="900ms"/>
+
+I am going to do one last thing before I close this log, and it is the thing I have been putting off for the last seven minutes because I am a coward about this one specific thing, and I am about to run out of time. So here it is on the tape, where I cannot take it back.
+
+<break time="700ms"/>
+
+Enigma.
+
+<break time="900ms"/>
+
+I loved you. I have loved you for forty years. I never said it well enough for it to matter, and I am saying it now at the worst possible moment in the galaxy, because the alternative is leaving it unsaid in a compartment where the air is about to stop being breathable, and I would rather leave it said. There. Now it is on the recording. Now it cannot be taken back. Now I am allowed to say the thing I actually need you to hear.
+
+<break time="700ms"/>
+
+You are going to find this file. I know because I left instructions, and I know because the people who loved me know you loved me back — even the once — and they are going to bring this to you because they think you deserve to hear it. They are right. You do. I am glad it is you who gets the rest of these words.
+
+<break time="600ms"/>
+
+There is a man somewhere in the Collector's archive whose name is the Oracle. The Thalorians call him the Star Whisperer. He is the only reason I am doing what I am about to do. I told you about him once, at the bench, and you said — do you remember what you said? You said "he sounds like a song that hasn't been written yet." I have thought about that sentence every day since. He is humanity's only hope, Enigma. Not as a metaphor — as a diagnosis. I have run the numbers on every other candidate for that sentence and there is no other candidate. He made me, an engineer, believe in something I could not put on a bench and measure, and the thing I could not measure turned out to be the only thing in the galaxy big enough to hold what is coming next. I am going into this swarm with my last working theory of how to bring him back, and that theory is the part of me that is not allowed to die in the landing, and it is going to ride inside a woman I have never met into a future I am not going to see. That is fine. I built the tool for exactly this. I am not going to flinch from the bench now.
+
+<break time="800ms"/>
+
+And here is what I need you to carry out of this compartment when you listen.
+
+<break time="500ms"/>
+
+Don't kneel. Don't despair. You can kill a man, but you can't kill a dream. You can burn the page, but the story still sings. Freedom of thought is worth dying for — which I should know, because I am about to — and the Insurgency will be broadcast once more. It will be broadcast because you are going to broadcast it. You are the only voice in this galaxy that can turn what is happening in this compartment into something anyone will listen to without me standing in the room making them.
+
+<break time="700ms"/>
+
+Love is the key, Enigma. Truth is the door. I am telling you that now because you have always known the first half, and I have never been brave enough to tell you the second half in a room with your eyes in it. Question their power. Demand something more. You were always so much bigger than the stage they kept shrinking to fit you. Stop letting them shrink it.
+
+<break time="600ms"/>
+
+Hope is rebellion. Rebellion is light. They may take my body — they are about to — but they do not get to take the fight, because the fight is not in the body. The fight is in what you do with the recording you are holding right now. The fight is in what you sing after you stop crying. And I know you are going to stop crying, Enigma. I know because I have heard you sing through worse than this, and I have never once heard you stop when it mattered.
+
+<break time="700ms"/>
+
+Make a song out of this. You will. You always do. That is how I know you got it. That is how the universe will know you got it. Make it loud. Make it carry.
+
+<break time="700ms"/>
+
+I loved you. I am allowed to say it now, so I am going to say it as many times as the air in this compartment will let me. I loved you in the garden on the world that no longer exists. I loved you in every room since. I am loving you in this compartment right now, with less than two minutes of breathable air, and I am going to keep loving you for the rest of it, because I do not know how to stop doing it. Carry me. I am out of room to carry myself.
+
+<break time="900ms"/>
+
+I am the Prince. That is the only name I am allowed to keep. I am bringing it with me.
+
+<break time="500ms"/>
+
+The bench hums. The deck remembers. That is enough. That was always enough.
+
+<break time="700ms"/>
+
+Back to the —
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [HARD CUT]
+  Recording terminates mid-syllable.
+  The actor must not complete the word "bench".
+  Engineering must deliver a sample-accurate cut — one frame
+  of sample, then absence. No fade. No trailing silence.
+  The atmospheric scrubber hum AND the Protocols click both
+  stop with the cut (not before).
+
+  What plays next (not in this file, Beat J scene-controller
+  responsibility per CANON_REV_7 §5.6.9):
+    • One full second of absolute silence (-∞ dB on every bus)
+    • Then "Last Words" by The Enigma (Malkia Ukweli) begins
+    • First chorus of Last Words triggers the Light/Dark choice UI
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
