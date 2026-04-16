@@ -101,4 +101,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Throughout the cataclysm and the epochs that followed, he retreated into a hidden pocket dimension — a refuge woven from stolen time.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "evidence", "narrative", "reactive"] as const,
 };

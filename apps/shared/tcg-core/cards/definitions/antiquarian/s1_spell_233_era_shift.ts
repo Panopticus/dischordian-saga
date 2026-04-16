@@ -55,4 +55,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "One moment you stand in the present. The next, you are buried in an age that forgot your name.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
 };

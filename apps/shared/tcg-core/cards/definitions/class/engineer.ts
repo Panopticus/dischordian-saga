@@ -77,6 +77,7 @@ export const engineer_03: CardDefinition = {
   flavorText:
     "Provoke. A structure the Engineer built the week he accidentally invented Rush and lost three lab walls. He patched the walls by telling the kinetic overflow where to go.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
 };
 
 export const engineer_04: CardDefinition = {
@@ -99,6 +100,7 @@ export const engineer_04: CardDefinition = {
   flavorText:
     "Draw 3 cards. A blueprint is a design that has not yet been talked out of itself by the physics it will have to live inside of.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const engineer_05: CardDefinition = {
@@ -127,6 +129,7 @@ export const engineer_05: CardDefinition = {
   flavorText:
     "On deploy, draw 2 and gain 2 mana this turn. The Engineer's apprentices learn by building the same instrument their master built, in a different way, because the different way is the only thing that will teach them anything the master's way could not already say.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const ENGINEER_CLASS_CARDS: readonly CardDefinition[] = Object.freeze([

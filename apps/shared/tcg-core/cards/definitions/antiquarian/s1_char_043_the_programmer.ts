@@ -127,4 +127,5 @@ export const cardDef: CardDefinition = {
   flavorText:
     "A. The Programmer was a visionary scientist and philosopher whose intellectual curiosity led to the creation of Logos , ...",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence", "narrative", "offensive", "reactive"] as const,
 };

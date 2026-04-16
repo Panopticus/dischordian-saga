@@ -33,6 +33,7 @@ export const the_detective_t2: CardDefinition = {
   art: "/art/cards/imprint/s1_imprint_the_detective_t2.webp",
   flavorText: "Backstab. On deploy, draw 1. He has already read the next page of the case file.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence"] as const,
 };
 
 export const the_detective_t3: CardDefinition = {
@@ -49,6 +50,7 @@ export const the_detective_t3: CardDefinition = {
   art: "/art/cards/imprint/s1_imprint_the_detective_t3.webp",
   flavorText: "Backstab. Deathwatch. On deploy, draw 1. Every corpse is evidence and evidence compounds.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence"] as const,
 };
 
 export const the_detective_t4: CardDefinition = {
@@ -65,6 +67,7 @@ export const the_detective_t4: CardDefinition = {
   art: "/art/cards/imprint/s1_imprint_the_detective_t4.webp",
   flavorText: "Backstab. Deathwatch. On deploy, draw 2. He is already reading three pages ahead. He is reading the ending. He is tolerating the ending.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const the_detective_t5: CardDefinition = {
@@ -82,6 +85,7 @@ export const the_detective_t5: CardDefinition = {
   flavorText:
     "Backstab. Deathwatch. On deploy, draw 3. The Detective has been working this case since the first chapter was a rumor. He already knows who did it, he already knows why, he is here because the reader still has to be shown.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const THE_DETECTIVE_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([

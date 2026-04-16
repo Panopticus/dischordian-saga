@@ -112,6 +112,7 @@ export const the_engineer_t4: CardDefinition = {
   flavorText:
     "On deploy, draw 2 and refund 1 mana. Every invention pays for itself, or it is not yet an invention.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const the_engineer_t5: CardDefinition = {
@@ -147,6 +148,7 @@ export const the_engineer_t5: CardDefinition = {
   flavorText:
     "On deploy, draw 3 and refund 2 mana. The Engineer built the first prototype deck the week the Oracle asked for a way to think about conflict without having to live it. The deck did not exist before him. He is the reason you are playing any of this.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
 };
 
 export const THE_ENGINEER_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([
