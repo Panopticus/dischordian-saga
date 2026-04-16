@@ -299,29 +299,61 @@ in Act 2 recognizing the Meme-coined phrase *"Dispatched."*).
 
 ### 2.5 Morality and alignment carry
 
-The Prelude's Beat J Light/Dark choice (`preludeAlignment`)
-is Act 1's starting moral position. Specifically:
+**Restructure note — the alignment choice is no longer a
+Prelude output.** Before the October 2026 Last Words
+restructure the Prelude's Beat J captured a Light/Dark
+choice that seeded Act 1's starting `moralityScore` at ±15.
+After the restructure the canonical alignment moment is
+§5.8.1 (the Authority finale, set *during* Act 1), so Act 1
+no longer has a starting alignment position — it has a
+starting *score* that accumulates toward the §5.8.1 choice.
 
-- **Light** opens Act 1 with `moralityScore: +15` and enables
-  Path A's most cooperative Elara beats by default.
-- **Dark** opens Act 1 with `moralityScore: -15` and makes the
-  Path Secret → `betrayed` branch cheaper to fall into (the
-  Warlord Zero match in Cycle C reads differently when the
-  player arrives carrying a cooler moral balance).
+**Act 1 starts morality-neutral.** `moralityScore` begins
+at 0. Act 1's per-choice deltas (Path A vs Path Secret
+branches, opponent pre-/post-match dialogue picks, Cycle C
+Warlord and Programmer beats) are the only things that move
+it during Act 1. The Prelude's `preludeCompletedFlags` still
+feed dialogue flavor — e.g., whether the player read Kael's
+memo — but do not offset the score.
 
-Both starting positions are winnable — Act 1 does not softlock
-or force a reversal on either alignment. A Dark player who
-wants to earn Elara's trust still can; the doors are heavier,
-not closed.
+**How the accumulated score matters at §5.8.1.**
+- The Authority match's *framing* and the memoir narrator's
+  inter-scene voice-over read differently depending on
+  whether the player arrives at the trial with a warm
+  balance (`moralityScore > +20`), a cool balance (< −20),
+  or near neutral. Framing, not outcome — both Light and
+  Dark are fully selectable at any cumulative score. The
+  score is narrative texture; the choice is the player's.
+- The `ChoicePillarLightDark` UI in §5.8.1 does not lock or
+  pre-select based on the score. Every Act 1 player sees
+  both pillars, regardless of how they played.
+
+**Forward carry.** From §5.8.1 onward, `lightDarkAlignment`
+(stored on `GameState` per PR #60) is the canonical
+alignment field. Acts 2+ consume it. `moralityScore` also
+keeps accumulating past Act 1 and continues to modulate
+atmosphere per Canon Rev 7 §5.1 through the rest of the
+game.
+
+**No softlocks either direction.** Any cumulative Act 1
+morality ledger is winnable to both alignments. A player who
+goes full Path-Secret-`betrayed` can still pick Light at
+§5.8.1; a full Path-A Light-leaning player can still pick
+Dark. The doors are heavier, not closed.
 
 ### 2.6 Prelude → Act 1 handoff contract
 
-Every piece of Prelude state Act 1 reads from GameContext:
+Every piece of Prelude state Act 1 reads from GameContext.
+After the October 2026 Last Words restructure, **the Prelude
+does not hand Act 1 an alignment** — the canonical Light/Dark
+choice fires in §5.8.1 and is written *during* Act 1, not
+before it. The Prelude still hands Act 1 a completion-flag
+set, the THE_SIGNAL branch seed, and mission/memo/recipe
+state:
 
 | Field | Source | Act 1 consumption |
 |---|---|---|
-| `preludeAlignment` | Beat J Light/Dark choice | Sets starting `moralityScore` ±15; gates the Authority trial framing in Section 5 |
-| `preludeCompletedFlags` includes `cutscene_archives_two_witnesses_part1_complete` | Beat J completes | Required to unlock the Section 6 "Two Witnesses Meet Part 2" cutscene trigger |
+| `preludeCompletedFlags` includes `cutscene_archives_two_witnesses_part1_complete` | Beat J completes (tease of Last Words) | Required to unlock the §5.8.1 full-song cutscene AND the Section 6 "Two Witnesses Meet Part 2" cutscene trigger |
 | `preludeCompletedFlags` includes `prelude_burnt_card_found` | `burnt_card` crew mission | Required to unlock Act 1 at all — this is the Prelude's ship-complete gate |
 | `humanContactMade` | Beat H Locke inbox + Beat C.5 whisper | Branches THE_SIGNAL entire event tree |
 | `humanContactSecret` | Set on every Path-Secret choice | Feeds `elaraDiscoveryPath` at the branch-close gate |
@@ -329,12 +361,18 @@ Every piece of Prelude state Act 1 reads from GameContext:
 | Kael Contingency Memo bullets | Beat F (`beat_f_memo_read`) | Referenced in Cycle C pre-Nexon dialogue; the memo's third bullet ("assume I am next") lands as a prophecy the player has now seen fulfilled |
 | Engineer's sandwich recipe | Beat D.5 Galley | Unlocks the Galley optional quest Act 1 side-content per Canon Rev 7 §5.6.13 |
 
+**Not handed over (intentional):** `lightDarkAlignment`
+starts as `null` at Act 1 entry. Acts 2+ read this field;
+it is written exclusively by §5.8.1's `ChoicePillarLightDark`.
+
 ### 2.7 Act 1 → Acts 2+ forward-writes
 
 State Act 1 sets that later acts consume:
 
 | Field | Source | Consumer |
 |---|---|---|
+| `lightDarkAlignment` | §5.8.1 `ChoicePillarLightDark` | **Canonical alignment for the entire game** — every post-Act-1 dialogue branch, every faction allegiance test, the Act 5 Post-Credits reprise frame |
+| `act1_meme_show_complete` | Ep 6 of the Meme's Show interleave (§2.4) | Gates dialogue beats in Acts 2+ where NPCs reference the broadcast (Vex Solène's Meme-phrase recognitions, the Authority's Act 4 callback) |
 | `elaraDiscoveryPath` | Path-Secret branch-close | Act 2 Elara scenes; affects Act 3 Thought Virus meter calibration |
 | `narrativeActChoices` appended | Every Act 1 branch | Recorded for Act 5 Post-Credits "this is what you chose" reprise |
 | Opponent defeat/loss flags | Every card match | Deck composition defaults Act 2 fight mode selects from |
