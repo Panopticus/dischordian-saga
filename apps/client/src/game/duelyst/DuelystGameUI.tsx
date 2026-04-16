@@ -38,6 +38,11 @@ import { WarlordCountdownIndicator } from "@/components/match/WarlordCountdownIn
 import { CardLockOverlay } from "@/components/match/CardLockOverlay";
 import { PlayRejectionToast } from "@/components/match/PlayRejectionToast";
 import { TrialPhaseIndicator } from "@/components/match/TrialPhaseIndicator";
+import { ChoicePillarLightDark } from "@/components/match/ChoicePillarLightDark";
+import {
+  setLightDarkAlignment,
+  type LightDarkAlignment,
+} from "@shared/campaignState";
 import {
   TrialTranscriptColumn,
   type TrialTranscriptEntry,
@@ -91,6 +96,15 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   const [trialTranscriptEntries, setTrialTranscriptEntries] = useState<TrialTranscriptEntry[]>([]);
   const trialEntrySeqRef = useRef(0);
   const prevTrialPresentRef = useRef(false);
+
+  // §5.8.1 Light/Dark alignment pillar. Mounted when
+  // gameState.trial.outcome transitions from undefined to set (the
+  // verdict resolved at turn 10). The user picks one of Light/Dark;
+  // the pick writes campaignState.lightDarkAlignment and hides the
+  // pillar. Spec positions this as "the canonical alignment moment
+  // of the entire game" (authority-trial-phase-mechanic.md §5).
+  const [showLightDarkPillar, setShowLightDarkPillar] = useState(false);
+  const prevTrialOutcomeRef = useRef<"overturn" | "sentence_passed" | undefined>(undefined);
 
   // Tutorial state
   const [tutorialStep, setTutorialStep] = useState(0);
@@ -258,6 +272,40 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     }
     prevTrialPresentRef.current = trialPresent;
   }, [gameState]);
+
+  // §5.8.1 Light/Dark alignment — mount the pillar when the trial
+  // outcome resolves (verdict phase). The pillar is the canonical
+  // alignment moment of the entire game per spec §5; it fires after
+  // every trial regardless of overturn / sentence_passed outcome.
+  // The previous-outcome ref detects the undefined→set transition so
+  // we don't re-mount on every render.
+  useEffect(() => {
+    const outcome = gameState?.trial?.outcome;
+    if (outcome && !prevTrialOutcomeRef.current) {
+      setShowLightDarkPillar(true);
+    }
+    prevTrialOutcomeRef.current = outcome;
+  }, [gameState]);
+
+  // §5.8.1 pick handler: write the persistent alignment flag + hide
+  // the pillar. The component's own state prevents re-clicks mid-
+  // animation; this handler fires exactly once per playthrough.
+  const handleLightDarkPick = useCallback(
+    (alignment: LightDarkAlignment) => {
+      setLightDarkAlignment(alignment);
+      addLog(
+        alignment === "light"
+          ? "You chose to carry what the Engineer died for."
+          : "You let the Engineer's thought die uncarried.",
+        "system",
+      );
+      // Hide after a short delay so the component's own "picked"
+      // animation has time to play (the component locks on click
+      // and runs a ~500ms transition).
+      setTimeout(() => setShowLightDarkPillar(false), 800);
+    },
+    [addLog],
+  );
 
   // §5.5 Warlord lockout — screen-reader announcements + fade-out.
   // Spec §6.4 specifies the exact strings; the fade-out lets the
@@ -664,6 +712,16 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
             entries={trialTranscriptEntries}
           />
         </>
+      )}
+      {/* §5.8.1 Light/Dark alignment pillar — mounted after the
+          Authority trial's verdict resolves. Modal; the player must
+          pick before continuing. Spec §5 timing-sync to the Last
+          Words chorus-1 line is deferred to the cutscene work-stream. */}
+      {showLightDarkPillar && gameState?.trial?.outcome && (
+        <ChoicePillarLightDark
+          trialOutcome={gameState.trial.outcome}
+          onPick={handleLightDarkPick}
+        />
       )}
       {rejection && (
         <PlayRejectionToast key={rejection.key} message={rejection.message} />
