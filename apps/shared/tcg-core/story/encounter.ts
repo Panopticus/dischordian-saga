@@ -24,6 +24,7 @@ import {
   type MatchConfig,
   type GameEvent,
 } from "../index";
+import type { ScriptedAction } from "../types/ScriptedAction";
 import { resolveDialog, type DialogScene } from "./dialogBank";
 
 /* ─── Types ─── */
@@ -52,6 +53,16 @@ export interface StoryEncounter {
   postMatchWinDialog?: string;
   /** Post-match dialog (loss). */
   postMatchLossDialog?: string;
+  /**
+   * Optional scripted-action queue. Forwarded to the engine via
+   * createMatchState; the engine drains entries after each
+   * turn-refresh whose `(globalTurn, side)` matches. The §5.5
+   * Warlord Zero encounter is the canonical user — it scripts the
+   * Three Moves cast on the Warlord's turn 3 (global turn 3 with
+   * side === 1) so the lockout fires deterministically. See
+   * engine/scriptedActions.ts.
+   */
+  scriptedActions?: readonly ScriptedAction[];
 }
 
 export type WinCondition =
@@ -124,6 +135,7 @@ export function initEncounter(input: EncounterInit): EncounterState {
     p1: p1Config,
     p2: p2Config,
     registry,
+    scriptedActions: encounter.scriptedActions,
   });
   return { gameState, firedHooks: new Set() };
 }

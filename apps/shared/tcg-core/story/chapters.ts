@@ -331,6 +331,82 @@ const ch8: StoryEncounter = {
   postMatchLossDialog: "dialog_ch8_loss",
 };
 
+/* ─── §5.5 — Warlord Zero, Battle of Nexon ───
+ *
+ * The first Warlord encounter. Wires the §5.5 three-move lockout
+ * (engine/lockout.ts) into the campaign by scripting the Warlord
+ * to cast `s1_warlord_three_moves` on her turn 3 (global turn 3,
+ * side 1). The card's cast intercept activates the lockout
+ * targeting the player; the lockout's full UI lives in
+ * apps/client/src/components/match/.
+ *
+ * Spec: docs/production/act1/warlord-three-move-mechanic.md.
+ * Narrative shell: apps/shared/act1Opponents.ts:176 (act1Step: 9).
+ *
+ * Boss deck is a placeholder pending a curated Warlord deck pass —
+ * other Act 1 encounters in this file use the same `bossDeck()`
+ * helper-generated placeholder set, so this is consistent with the
+ * surrounding chapters' content-buildout state. The placeholder
+ * deck includes `s1_warlord_three_moves` at index 0 so the
+ * scripted-action drain finds it without RNG sensitivity. Filler
+ * placeholders carry no card definitions (registry returns
+ * undefined) and the AI heuristic skips them, which keeps this
+ * encounter testable in isolation today.
+ */
+const chWarlordZeroFirst: StoryEncounter = {
+  id: "ch_warlord_zero_first",
+  chapterId: "ch_warlord_zero_first",
+  name: "Warlord Zero (at the Battle of Nexon)",
+  description:
+    "Warlord Zero's first full war-deck deployment. She forces a three-move lockout on the player's hand from her third turn through their sixth.",
+  bossFaction: "architect",
+  bossGeneralDefId: "gen_architect",
+  bossDeckCardDefIds: [
+    "s1_warlord_three_moves",
+    ...bossDeck("boss_warlord_zero_first").slice(0, 38),
+  ],
+  seed: "warlord_zero_first_seed",
+  winConditions: [{ kind: "general_killed" }],
+  loseConditions: [{ kind: "general_killed" }],
+  narrativeHooks: [
+    {
+      id: "warlord_pre",
+      once: true,
+      condition: { kind: "always" },
+      action: {
+        kind: "boss_taunt",
+        text: "I am going to win this war in three moves. This is not bragging. This is arithmetic.",
+      },
+    },
+    {
+      id: "warlord_thesis",
+      once: true,
+      // Three Moves fires on global turn 3 with side 1 (the Warlord).
+      // The "thesis" line is the in-narrative voice line spec §2.2.4
+      // calls for at the cast moment.
+      condition: { kind: "turn_reached", turn: 3 },
+      action: { kind: "boss_taunt", text: "Three moves. Count them." },
+    },
+  ],
+  preMatchDialog: "dialog_warlord_zero_first_pre",
+  postMatchWinDialog: "dialog_warlord_zero_first_win",
+  postMatchLossDialog: "dialog_warlord_zero_first_loss",
+  // §5.5 lockout activator. Side 1 (Warlord) on global turn 3.
+  // Engine semantics: global turn 3 is the Warlord's third turn under
+  // the round-counted turnNumber (turn 1 = P0's first, turn 1 P1 plays
+  // immediately after, turn 2 = next P0 round, etc.). The drainer in
+  // engine/scriptedActions.ts runs after refreshTurnForPlayer, so the
+  // Warlord's hand+mana are fully set up before the force-play.
+  scriptedActions: [
+    {
+      kind: "force_play_card",
+      globalTurn: 3,
+      side: 1,
+      cardDefId: "s1_warlord_three_moves",
+    },
+  ],
+};
+
 const ch9a: StoryEncounter = {
   id: "ch9a_unknown_variable",
   chapterId: "ch9a",
@@ -524,6 +600,7 @@ const ch12: StoryEncounter = {
 export const ALL_CHAPTER_ENCOUNTERS: readonly StoryEncounter[] = Object.freeze([
   ch1, ch2, ch3a, ch3b,
   ch4, ch5, ch6, ch7, ch8,
+  chWarlordZeroFirst,
   ch9a, ch9b, ch10, ch11, ch12,
 ]);
 

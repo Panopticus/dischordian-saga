@@ -97,7 +97,18 @@ export interface MatchConfig {
   cardStatOverrides?: Readonly<Record<string, { power: number; health: number }>>;
 }
 
-export interface CreateMatchOptions {
+export interface CreateMatchOptionsExtras {
+  /**
+   * Optional scripted-action queue copied onto the resulting
+   * GameState. Story encounters use this to author set-piece plays
+   * that the AI can't be trusted to make on schedule (the canonical
+   * case is the §5.5 Warlord Three Moves cast on her turn 3). See
+   * engine/scriptedActions.ts.
+   */
+  scriptedActions?: readonly import("../types/ScriptedAction").ScriptedAction[];
+}
+
+export interface CreateMatchOptions extends CreateMatchOptionsExtras {
   matchId: string;
   seed: string;
   p1: MatchConfig;
@@ -276,6 +287,7 @@ export function createMatchState(opts: CreateMatchOptions): GameState {
     triggerQueue: [],
     actionSeq: 0,
     nextEntityCounter: counter + 1,
+    scriptedActions: opts.scriptedActions,
   };
 }
 

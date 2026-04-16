@@ -115,4 +115,23 @@ export type GameEvent =
       player: Side;
       playableEntityIds: readonly string[];
       lockedEntityIds: readonly string[];
+    }
+  /**
+   * Scripted-action queue events. Emitted by engine/scriptedActions.ts
+   * when a `MatchConfig.scriptedActions` entry fires (or fails to fire)
+   * after a turn refresh. The campaign UI subscribes for diagnostic
+   * logging; nothing else acts on these.
+   */
+  | {
+      type: "scripted_action_fired";
+      cardDefId: string;
+      side: Side;
+      globalTurn: number;
+    }
+  | {
+      type: "scripted_action_skipped";
+      reason: string;
+      cardDefId: string;
+      side: Side;
+      globalTurn: number;
     };

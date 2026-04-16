@@ -15,6 +15,7 @@
  */
 import type { CardInstance, Faction, CardDefinition } from "./Card";
 import type { EntityId, PlayerId, Side } from "./Ids";
+import type { ScriptedAction } from "./ScriptedAction";
 
 /** 9-wide, 5-tall board. Coordinates are (row 0..4, col 0..8). */
 export const BOARD_WIDTH = 9;
@@ -128,6 +129,14 @@ export interface GameState {
    * docs/production/act1/warlord-three-move-mechanic.md.
    */
   lockout?: WarlordLockoutState;
+  /**
+   * Optional: scripted-action queue copied from MatchConfig at match
+   * init. Drained by engine/scriptedActions.ts after each turn refresh.
+   * Empty / absent on standard PvP matches; populated on story
+   * encounters that need set-piece plays (the §5.5 Warlord Three
+   * Moves cast on turn 3 is the canonical case).
+   */
+  scriptedActions?: readonly ScriptedAction[];
 }
 
 /**
