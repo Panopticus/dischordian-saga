@@ -608,3 +608,240 @@ Cycle B → Cycle C is the hardest transition in Act 1. The
 environment palette shift should read as **a door closing**.
 Canon: this is the last moment the Engineer is a private
 person before the Empire makes him public.
+
+---
+
+## Section 5 — Cycle C: Nexon / Zenon / Last Words (§4.5)
+
+### 5.1 Cycle purpose
+
+Four matches. The Engineer is forty. Cycle C is Act 1's
+landing — the war, the trial, and the execution-that-wasn't.
+The opponents here are not new faces. They're everyone the
+Prelude's Log 5 Movement 5 named. The player already knows
+how this story ends, because they heard the Engineer record
+his last log on the Vortex in Beat J. Cycle C walks them
+backward from that recording to the moment it was *about*.
+
+The memoir's register shift is deliberate and non-negotiable.
+Cycle A was tender. Cycle B was formal and a little echoing.
+Cycle C is **exact.** The narrator's voice is now the voice
+the player knows from Log 5 — dry, precise, warm only about
+the people he loved, exact about the people he didn't. Nothing
+in Cycle C should sound surprised. The Engineer knew all of
+this was coming. He wrote it down.
+
+### 5.2 Canon hygiene — Vex Solène Act 1 non-appearance
+
+The Warlord's Cycle C match (§5.5 below) is canonically the
+first full deployment of the war-deck. Per `CANON_REV_7_ORACLE_
+VEX_EXPANSION.md` §8, **Vex Solène does not appear in Act 1**.
+She is inside the nanobot swarm the Warlord wears, and the
+player may *feel* her at the edges — an occasional glitched
+card effect, a single frame of a different face — but no name,
+no voice, no portrait. Her full reveal is Act 3+ scope.
+
+Every Cycle C reference to the swarm must be written as if the
+Warlord is a weapon. The Canon Rev 7 §1.6 retcon is
+load-bearing: **the Warlord is canonically a weaponized nanobot
+swarm, not a corrupted innocent person.** Any dialogue that
+frames her as a victim of possession is canon drift.
+
+### 5.3 Cycle environment
+
+Cycle C spans three distinct environments, in order:
+
+1. **Nexon battlefield** (Opponents 9 + 10): a collapsing line
+   of defensive positions at the edge of a city that is not
+   going to survive the night. Mid-range shot depth. Everything
+   dust-colored. The cyan palette that dominated Cycles A and B
+   is almost gone — colors here are brass, bone, rust, and
+   ember-orange from distant fires. **No natural light.**
+2. **Zenon cell** (Opponent 11): a small interrogation chamber
+   in the trial facility. One card-table. Two chairs. A single
+   overhead panel light. Grey. Quiet. The opposite of every
+   previous environment's grandeur — Cycle C's middle act
+   happens in the smallest room in Act 1.
+3. **The Authority gallery** (Opponent 12, cycle finale): a
+   long hall with six crystal coffins along one wall, each
+   faintly lit from within. The Engineer sits alone in a chair
+   at the gallery's center. The Authority is not visible —
+   only a voice and a silhouette above the gallery's back
+   arch. The coffins are the same canonical pattern the player
+   will meet again in Acts 4+ as the Resurrection Protocols'
+   initial housings; at this point in the memoir they are
+   unnamed Architect infrastructure. Do not label.
+
+### 5.4 Art — Cycle C environment stills (three)
+
+Three separate 1920×1080 `.png` + `.webp` stills required:
+
+| Output path | Shot | Priority |
+|---|---|---|
+| `apps/client/public/art/rooms/room-nexon-battlefield.png` + `.webp` | Dust, brass, embers, collapsed line | P0 |
+| `apps/client/public/art/rooms/room-zenon-cell.png` + `.webp` | Interrogation chamber, card-table, grey | P0 |
+| `apps/client/public/art/rooms/room-authority-gallery.png` + `.webp` | Six crystal coffins, gallery hall, single chair | P0 |
+
+All three Nano Banana 2 prompts to author in a Section 5
+revision. First-pass direction notes are in §5.3 above.
+
+### 5.5 Opponent 9 — Warlord Zero (at the Battle of Nexon)
+
+- **id:** `the_warlord_zero_first` (act1Step 9)
+- **Canonical source:** `apps/shared/act1Opponents.ts` lines 177–192
+- **Deck leaning:** `architect`, `new_babylon`
+- **Narrative purpose:** The Warlord's first full war-deck
+  deployment. The Engineer stood opposite her on the line at
+  Nexon; this is the match that match is about. Her line —
+  *"I am going to win this war in three moves. This is not
+  bragging. This is arithmetic."* — is the Warlord's
+  mechanical thesis and also literally true: her deck's
+  **three-move-lockout** mechanic forces the player to play
+  three consecutive turns under reduced options. Winning does
+  not end the war. Losing advances the war. Both outcomes fire
+  the `hacking-reality` slideshow — the memoir's thesis is
+  that **the war was the loss**, not any individual match.
+- **Finale slideshow:** `hacking-reality` fires on both
+  outcomes. Binds the Architect faction's reality-editing
+  mechanic to the Warlord's arithmetic — the player has now
+  seen Reality itself become a move.
+
+**Production slots:**
+- Matchup-card art (armored figure, face hidden behind a
+  visor, shimmer along the visor's edge suggesting the swarm;
+  NO face, NO glimpse of who is wearing the body)
+- Deck composition (three-move-lockout mechanic — requires
+  design spec before implementation)
+- Finale cutscene prompt for `hacking-reality` (Seedance 2.0)
+- Completion flag: `act1_warlord_zero_first_defeated` +
+  `act1_nexon_battle_survived`
+- **Canon hygiene:** see §5.2 above. Vex is in the swarm but
+  cannot be shown, named, or hinted at. The Warlord's
+  dialogue must not reference her host.
+
+### 5.6 Opponent 10 — The Programmer
+
+- **id:** `the_programmer` (act1Step 10)
+- **Canonical source:** `apps/shared/act1Opponents.ts` lines 193–207
+- **Deck leaning:** `neutral`
+- **Narrative purpose:** The Engineer's oldest friend. Last seen
+  at Nexon. The Last Words bridge quotes the Engineer's
+  farewell to the Detective, not to the Programmer — because
+  the Programmer vanishes **the night of this match** and is
+  never seen again. The memoir's handling of the Programmer
+  is its most restrained moment: he plays one hand, he
+  shakes the Engineer's hand, and he is gone. The match's
+  **deliberate-loss** mechanic (the Programmer can throw a
+  match in progress and the game state refuses to register
+  the concession) is where the Insurgency-adjacent "gift"
+  mechanic originates.
+
+**Production slots:**
+- Matchup-card art (mid-forties man in plain cold-weather
+  clothing, a satchel over one shoulder already half-packed,
+  his face calm and final; he is already gone)
+- Deck composition (deliberate-loss / gift mechanic)
+- Completion flag: `act1_programmer_defeated` +
+  `act1_programmer_vanished`
+- **Canon tie-in:** this match's completion unlocks the Act 2
+  codex entry that reframes the Programmer as a canonical
+  Insurgency survivor rather than a casualty.
+
+### 5.7 Opponent 11 — The Game Master (before the execution)
+
+- **id:** `the_game_master_original` (act1Step 11)
+- **Canonical source:** `apps/shared/act1Opponents.ts` lines 208–222
+- **Deck leaning:** `thought_virus`, `neutral`
+- **Narrative purpose:** The Game Master is canonically split
+  into Left and Right after the Engineer's trial. Here he is
+  still one man with both lenses in a single frame. He is
+  the Engineer's actual trial opponent — the match is the
+  **prosecution's opening argument, played as a card game.**
+  His line — *"You have built a beautiful box. The only thing
+  I am going to do is open it in front of everybody."* —
+  establishes the Thought Virus faction's **public-witness**
+  mechanic: his cards resolve *twice*, once privately and once
+  publicly, and the public resolution is what goes into the
+  verdict. Winning does not clear the Engineer's name.
+  Winning just makes the Authority's decision harder.
+
+**Production slots:**
+- Matchup-card art (thin man in a single pair of spectacles —
+  not yet split into the two-lens configuration; suit of
+  Empire legal black; face measured and unreadable)
+- Deck composition (public-witness double-resolution
+  mechanic — requires design spec)
+- Completion flag: `act1_game_master_original_defeated` +
+  `act1_trial_phase_complete`
+- **Forward reference:** this match's completion flag is the
+  canonical source for the Left/Right Game Master split in
+  Act 2+. The memoir notes it explicitly: *"This was the last
+  time he was one person."*
+
+### 5.8 Opponent 12 — The Authority (Cycle C finale, Act 1 landing)
+
+- **id:** `the_authority` (act1Step 12)
+- **Canonical source:** `apps/shared/act1Opponents.ts` lines 223–238
+- **Deck leaning:** `architect`
+- **Narrative purpose:** The final match of Act 1. Faceless.
+  The gallery of six crystal coffins. The Engineer alone in
+  a chair. The Authority's first and only line — *"What do
+  you say to the charges?"* — is the prompt. The match *is*
+  the Engineer's response.
+  - **Victory:** The Authority overturns the execution. It is
+    not freedom — *it is delay*. A delay long enough to make
+    one more card. That card is the one *Last Words* plays.
+  - **Defeat:** The Authority passes sentence. *Last Words*
+    fires.
+  Both outcomes fire the `last-words` slideshow; the
+  narrative framing of the cutscene differs by outcome but
+  the cinematic itself is the same.
+- **Finale slideshow:** `last-words` — **Act 1's landing.**
+  The same song the Prelude's Beat J ends on, but now the
+  player knows what was said into the compartment before the
+  song was written. The cinematic plays the song over
+  visuals of the execution-delay-or-proceeding, with Log 5
+  Movement 5's *"Don't kneel. Don't despair."* manifesto
+  surfacing in the memoir-narrator's closing lines.
+
+**Production slots:**
+- Matchup-card art (silhouetted figure above a gallery arch,
+  six faintly-lit crystal coffins behind the figure, no
+  face, no identifying detail; the Engineer's chair is
+  visible in foreground three-quarter)
+- Deck composition (trial / verdict mechanic — the match's
+  turns correspond canonically to the trial's phases;
+  requires design spec as a separate doc)
+- Finale cutscene prompt for `last-words` — Act 1 landing,
+  separate Seedance 2.0 cutscene from the Prelude's Witnessing
+  slideshow despite using the same song track. Note: the
+  temporal conceit is that the memoir plays the song over
+  the moment because the song was *built from* this moment;
+  the Act 1 cinematic is a younger Engineer in the chair
+  while the older Engineer's voice narrates and Malkia's
+  voice carries the chorus.
+- Completion flags: `act1_authority_defeated` OR
+  `act1_authority_sentence_passed` (exactly one) +
+  `act1_cycle_c_complete` + `act1_complete`
+- **Canon tie-in:** the six crystal coffins are the canonical
+  pre-configuration of the Resurrection Protocols' initial
+  housings. In Act 1 they are unnamed Architect
+  infrastructure; their identity is revealed in Act 4+ per
+  Canon Rev 7 §8.
+
+### 5.9 Cycle C → Section 6 transition
+
+After `the_authority` completes and the `last-words` slideshow
+plays, Act 1's card-battle spine is complete. The player's
+experience hands off to the Section 6 "Two Witnesses Meet
+Part 2" cutscene, which closes Act 1 narratively (as distinct
+from mechanically — the card ladder is done; the story beat
+is one scene more).
+
+**Gate:** Section 6 cutscene triggers only when
+`preludeCompletedFlags` contains `cutscene_archives_two_
+witnesses_part1_complete` AND `act1_cycle_c_complete` is set
+AND (`act1_authority_defeated` OR `act1_authority_sentence_
+passed`) is set. All three conditions must be true — the
+player must have finished Beat J *and* finished the Act 1
+ladder for Section 6 to unlock.
