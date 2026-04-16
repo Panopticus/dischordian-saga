@@ -1054,14 +1054,84 @@ to be*.
   word* Professor Eidola writes changes what Act 3 can do
   with the player's Architect-faction reputation.
 
-**Production slots:**
-- Matchup-card art (middle-aged woman in academic robes, a
-  single chalk mark on her sleeve, eyes tired but kind)
-- Deck composition (Architect — values-vs-action branching)
-- Completion flag: `act1_eidola_defeated`
-- **Report-card state:** new GameState field
+**Matchup-card art:**
+- **Output:** `apps/client/public/art/matchups/act1/professor-eidola.png` + `.webp`
+- **Aspect:** 3:4 portrait 1536×2048
+- **Priority:** P0
+- **Style anchor:** §4.4 atrium palette. Faculty portraits
+  differ from student portraits by framing: the professors
+  sit on the **dais side** of the public card-table, their
+  back to the dais chairs; students face them across the
+  atrium's width. Eidola's portrait is the player's
+  adversary-side view.
+
+**Nano Banana 2 prompt:**
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card
+> framing (subject fills upper two-thirds, lower third
+> empty brass-clad card-table surface for UI overlay). A
+> woman in her early fifties seated on the dais side of
+> the §4.4 public card-table, upright, both hands folded
+> on the table in front of her over a closed student
+> report-card folder (do not render any text on the
+> folder; keep its surface matte-cream blank). She wears
+> the **Mechronis academic robe**: a long charcoal-grey
+> wool robe with a narrow silver piping along the lapel
+> and a single embroidered ethics-department sigil at the
+> collar (geometric pattern, no rendered letters). Under
+> the robe, a plain dark high-collared blouse. Her hair is
+> silver-streaked black, cut short and neat, parted to
+> one side; a single stray chalk-dust mark on her left
+> sleeve. Her face is the most **asymmetric** of any
+> Cycle B portrait: one eyebrow slightly lifted, one
+> corner of her mouth softened into something that isn't
+> quite a smile. Eyes directly at camera, **tired but
+> kind** — tired because she has made this assessment a
+> thousand times, kind because she has not yet stopped
+> caring. Reading glasses pushed up into her hair rather
+> than worn. One sun-shaft from §4.4 falls across her
+> hands and the folder, warm on the cool palette. Palette:
+> cyan institutional #4ba3b5 on the robe's shadowed folds
+> and background, polished brass #b8752d on the table
+> edge and a brass pen resting beside the folder, warm
+> sun #f5d98a across her hands, silver-grey #a6a6a6 in
+> her hair, blank cream #e6dcc2 on the closed folder.
+> Background: defocused atrium columns, the empty faculty
+> dais chairs behind her. Cinematic 4K. **She is about to
+> write a word she will not let you read. She has already
+> chosen it. The question is whether you make her change
+> it.** No rendered text.
+
+**Deck composition (first-pass spec):**
+- **Lean:** `architect` (7 cards), `neutral` (3 cards)
+- **Defining mechanic:** *Values-vs-action.* Eidola's deck
+  does not play *against* the player so much as it
+  *observes*. Every player turn, the UI silently tracks
+  whether the card played was *optimal* (best win-rate
+  vs Eidola's board state) or *honest* (flavor-matched
+  to the narrative arc the player has selected —
+  cooperative if Path A, cagey if Path Secret). The
+  match's outcome is the same victory-condition regardless
+  of play style; what changes is the **report-card word**
+  Eidola writes.
+- **Report-card state (new GameState field):**
   `eidolaReportCardWord: "of course" | "interesting" | null`
-  set by the match outcome + play style
+  - `"of course"` — player played mostly optimal,
+    confirming Eidola's prior assessment. Neutral Act 3
+    Architect reputation unlocked by default.
+  - `"interesting"` — player played mostly honest,
+    surprising Eidola. Opens a named Act 3 Architect-
+    faction side-quest where an old copy of her report
+    card surfaces and the word "interesting" is the
+    passphrase into an Archivist's private file.
+  - `null` if the player loses or if play-style tracking
+    inconclusive (fewer than 60% of cards fit either
+    category); safe default.
+- **Difficulty posture:** **Medium-low.** The match is
+  winnable by either play style; the difficulty is in
+  choosing to care about the *word*, not the victory.
+- **Completion flag:** `act1_eidola_defeated` on win;
+  `eidolaReportCardWord` written unconditionally on any
+  outcome (including the `null` loss case).
 
 ### 4.8 Opponent 7 — Professor Matrikala
 
@@ -1078,14 +1148,79 @@ to be*.
   one the player found in the Prelude's Beat C Engineering
   room, and the Engineer-as-student built it.
 
-**Production slots:**
-- Matchup-card art (older woman, short grey hair, work
-  coveralls with a single brass pin at the collar, a half-
-  disassembled reactor coupling on the desk beside her)
-- Deck composition (neutral — timing / calibration mechanics)
-- Completion flag: `act1_matrikala_defeated`
-- Forward-reference: this match's completion flag unlocks the
-  Act 2 "young Engineer built the bench" Archives codex entry
+**Matchup-card art:**
+- **Output:** `apps/client/public/art/matchups/act1/professor-matrikala.png` + `.webp`
+- **Aspect:** 3:4 portrait 1536×2048
+- **Priority:** P0
+- **Style anchor:** §4.4 atrium palette. Matrikala is the
+  faculty member least in uniform — her portrait brings the
+  *workshop* into the Academy's formal atrium. Her framing
+  breaks the faculty/student axis slightly: she leans
+  forward off the dais chair rather than sitting upright
+  behind the table.
+
+**Nano Banana 2 prompt:**
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card
+> framing. A woman in her early sixties seated on the dais
+> side of the §4.4 card-table but leaning **forward**,
+> forearms on the brass-clad oak, body-language that of a
+> workshop mentor rather than a formal examiner. She wears
+> **work coveralls** (not the academic robe) in warm
+> oxide-red canvas, sleeves rolled to the elbow, collar
+> open. A single polished brass Academy pin holds the
+> coverall's collar closed at the throat (faculty status
+> in miniature). Her hands are **the portrait's subject
+> weight**: bare, strong, knuckled, a web of fine scars
+> and callus patterns that tell the story before her face
+> does. On the table beside her elbow: a **half-
+> disassembled brass reactor coupling**, its inner
+> calibration ring partly exposed, a pair of fine needle-
+> point calipers resting across it. Do not render the
+> coupling as menacing — it is a *musical instrument* to
+> her, half-open because she was mid-tune when the
+> student sat down. Her face is weathered, warm, eyes
+> bright and attentive — a professor who has spent her
+> life teaching the same thing, and is still delighted
+> every time a student finally hears it. Short silver-
+> grey hair. Reading glasses on a brass chain around her
+> neck, not worn. Lighting: the §4.4 sun-shaft falls full
+> across the coupling and her hands, warm yellow on the
+> brass and her skin — the *hands and the work* get the
+> light, the face is lit by the atrium's cyan ambient.
+> Palette: cyan #4ba3b5 on the background and her left
+> side, oxide-red #c66b3d for the coveralls, polished
+> brass #b8752d (the coupling, the pin, the table edge,
+> the calipers), warm sun #f5d98a on her hands and the
+> coupling, weathered skin with amber undertones.
+> Background: defocused atrium faculty dais with a small
+> rack of tools visible behind her (her workshop spilling
+> into the formal room). Cinematic 4K. **She will teach
+> you to hear the reactor hum. The coupling is the
+> lesson. The victory is not.** No rendered text.
+
+**Deck composition (first-pass spec):**
+- **Lean:** `neutral` (10 cards)
+- **Defining mechanic:** *Calibration timing.* Matrikala's
+  deck is **sine-wave paced**: her card power oscillates
+  between peaks and troughs on a predictable 4-turn cycle.
+  The player *feels* this as turns where she seems
+  unstoppable followed by turns where she plays almost
+  carelessly. The right play is to read the rhythm and
+  time your own counter-plays to her troughs. This is the
+  canonical origin of the Engineer's later **calibration
+  deck** archetype — the first mechanical "lesson" the
+  Engineer learns in his own memoir, taught back to the
+  player through her.
+- **Difficulty posture:** **Medium.** Forgiving of players
+  who don't notice the rhythm (the troughs are deep enough
+  to survive by sheer aggression) and rewarding of players
+  who do (a calibrated counter-play on turn 4 or 8 often
+  wins the match outright).
+- **Completion flag:** `act1_matrikala_defeated` on win;
+  `act1_matrikala_heard_the_hum` set if the player
+  executed at least one calibrated counter-play during the
+  match (unlocks the Act 2 Archives codex entry *"The
+  Bench That Built the Engineer"*).
 
 ### 4.9 Opponent 8 — The Seer (visiting fellow, Cycle B finale)
 
@@ -1113,17 +1248,204 @@ to be*.
   Human-as-Potential* — see Canon Rev 7 §6 for Eden context —
   and triggers the cycle's completion flag set.
 
-**Production slots:**
-- Matchup-card art (woman in plain robes, a dark staff leaning
-  against the chair beside her, her face serene and slightly
-  sad; she is already looking at where the staff will end up
-  seventeen thousand years from now)
-- Deck composition (prophecy mechanic — this one needs care;
-  spec as a separate design doc before implementation)
-- Finale cutscene prompt for `to-be-the-human` (Seedance 2.0,
-  Eden canonical context)
-- Completion flags: `act1_seer_visit_defeated` +
-  `act1_cycle_b_complete`
+**Matchup-card art:**
+- **Output:** `apps/client/public/art/matchups/act1/seer-visit.png` + `.webp`
+- **Aspect:** 3:4 portrait 1536×2048
+- **Priority:** P0
+- **Style anchor:** §4.4 atrium palette, but the §4.4
+  sun-shafts are **not falling on the Seer** — they fall
+  slightly to one side, as if the room's light has
+  already decided to not interfere with her. Unique in
+  Cycle B: her portrait has the least contrast between
+  face-lighting and background-lighting.
+
+**Nano Banana 2 prompt:**
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card
+> framing. A woman of indeterminate age (could be forty,
+> could be seventy — the game's canon is that she is
+> older than she looks) seated at the §4.4 public card-
+> table on the visitor side (not on the faculty dais —
+> she is a fellow, not faculty). She wears **plain
+> traveler's robes** in unbleached linen-cream with no
+> institutional markings — no Academy crest, no faculty
+> sigil, no rank indicator. A wide undyed flax sash is
+> loosely tied at her waist. Her hair is long, dark, and
+> loose over one shoulder. Her face is **serene and
+> slightly sad** — composed, unhurried, watching the
+> viewer with the specific attention of someone who
+> already knows how this meeting ends. Eyes directly at
+> camera, soft. She is not smiling but is not sad; she
+> has the expression of a person remembering something
+> that hasn't happened yet. Her hands are loosely clasped
+> in her lap — not on the table. Leaning against the
+> chair to her right, angled upright: **a dark wooden
+> staff**, as tall as a standing adult, worn smooth at
+> the middle from a hand that has held it for decades.
+> The staff's head is a simple blunt carved sphere in
+> the same dark wood; no ornament, no crystal, no metal.
+> The staff is subtly **burnt** at its lower third —
+> charred, cracked, as if it has already lived through
+> the fire that consumes it in the Prelude's `burnt_
+> card` crew mission seventeen thousand years from this
+> moment. *The portrait paints it as if the burn is
+> memory, not prophecy.* Lighting: the §4.4 sun-shafts
+> fall just to one side of her, illuminating the staff's
+> lower burnt third and the chair beside her, but
+> leaving her face softly lit by the cyan ambient only.
+> Palette: cyan #4ba3b5 on her face and the background,
+> warm sun #f5d98a on the staff (bright on the char,
+> golden on the unburnt upper two-thirds), unbleached
+> cream #e6dcc2 on her robes, dark wood #3a2618 on the
+> staff. Background: defocused atrium columns.
+> Cinematic 4K. **She is looking at where the staff
+> will end up. The player has already seen the charred
+> fragment in Beat J's Archives — this is where the
+> burn begins.** No rendered text.
+
+**Deck composition (first-pass spec):**
+- **Lean:** `neutral` (10 cards)
+- **Defining mechanic:** *Prophecy.* The Seer's deck
+  plays cards that **aren't in her hand yet** — her play
+  sequence is drawn from a future turn and retroactively
+  applied to the current turn. The player sees a
+  deliberate UI quirk: the Seer's played card slot
+  flickers for 800ms before settling on the card she
+  *will have drawn*, as if the game state is
+  recalculating to accommodate a play it hadn't permitted
+  a moment earlier. **This match is a scripted loss for
+  the player's first playthrough.** The Seer's win is
+  canonically the memoir's point — *you are not losing
+  because you played poorly; you are losing because the
+  match was decided before it began, and the Seer is
+  polite enough to pretend otherwise.*
+- **Design doc dependency:** the prophecy mechanic
+  requires a rigorous consistency spec (how does the
+  Dischordia game engine resolve a card play that
+  retroactively edits the game state without breaking
+  card-effect chains?). **Blocked on a separate design
+  doc at `docs/production/act1/seer-prophecy-
+  mechanic.md` before runtime implementation.** This
+  Bible entry reserves the slot; the design doc owns
+  the spec.
+- **Difficulty posture:** **Scripted narrative loss.**
+  The match does not softlock on defeat. Both victory
+  and defeat fire the same `to-be-the-human` slideshow
+  and the same cycle-complete flag; the only difference
+  is whether `act1_seer_visit_defeated` or
+  `act1_seer_visit_scripted_loss` is set (Acts 2+ read
+  both cases identically for the vast majority of
+  content, but the scripted-loss flag opens one
+  additional Seer dialog in Act 3 where she remarks
+  *"You remember the match in the atrium. I remember
+  not raising my staff. Both of us are correct."*)
+- **Completion flags:** `act1_seer_visit_defeated` OR
+  `act1_seer_visit_scripted_loss` (exactly one) +
+  `act1_seer_staff_witnessed` (unconditional — the
+  canonical seeding of the burnt-card fragment
+  continuity) + `act1_cycle_b_complete` (unconditional
+  on `to-be-the-human` slideshow end).
+
+**Finale cutscene — `to-be-the-human`:**
+
+This is Cycle B's landing cutscene, fired regardless of
+match outcome. It is the canonical *birth of the Human-
+as-Potential* — see Canon Rev 7 §6 for the Eden context.
+The slideshow compresses the Academy arc into a single
+emotional landing: the Engineer and the Detective part
+ways at the Academy gate, and the Detective walks off
+toward an unseen horizon that will become, over the
+following eighteen years, the Human. The player has
+spent five matches watching him warm and open; here the
+memoir closes the door on who he was and opens the door
+to who he becomes.
+
+- **Output:** `apps/client/public/videos/act1/to-be-the-human.mp4`
+- **Duration:** 40–55s target (longer than §3.6 — the
+  Human's reveal is the Act 1 emotional pivot)
+- **Aspect:** 16:9 1920×1080
+- **Priority:** P0
+- **Sets flags:** `act1_cycle_b_complete`,
+  `to_be_the_human_shown`, `human_potential_seeded`
+  (Canon Rev 7 §6 hook for Act 3+ Human-as-Potential
+  branches)
+- **Reduced-motion fallback:** static end-frame + kinetic
+  typewriter narration of the Engineer's voice-over
+  closing line: *"He walked out of the Academy gate. He
+  would not be called the Detective again for a very
+  long time. He would be something else first."*
+
+**START FRAME (Nano Banana 2):**
+> Mechronis Academy's main gate at dusk — a tall brass-
+> and-basalt archway opening onto a stone plaza, the
+> §4.4 atrium visible receding behind it through the
+> opposite doorway. Two young men stand in the gate's
+> threshold, backlit by the late-afternoon sun pouring
+> across the plaza. On the left: the Engineer (seen
+> from behind — hair, shoulders, cyan-grey blazer only,
+> not his face — keep the Engineer faceless as per
+> Prelude hygiene). On the right: the Detective
+> (student-years, as rendered in §4.5's matchup-card),
+> facing the Engineer in three-quarter profile, his
+> hand extended for a parting handshake. Their hands
+> are about to meet but have not yet. Around them, a
+> few other students walk past in the dusk, blurred in
+> motion. Palette: cyan institutional #4ba3b5 fading on
+> the Academy stone behind them, warm dusk gold #e6a84a
+> flooding the plaza beyond the gate, long shadows
+> thrown toward camera. Cinematic 4K. No rendered text.
+> **This is the last warm moment Act 1 gives the
+> player. Every later cycle palette is colder.**
+
+**END FRAME (Nano Banana 2):**
+> The same plaza, forty seconds later. The Engineer
+> stands alone in the gate's threshold, seen from
+> behind, unmoving. The Detective has walked out
+> through the plaza and is a small receding figure
+> near the far edge of frame, silhouetted against the
+> dusk sun — his Mechronis blazer replaced mid-shot
+> by a **longer darker coat** that almost reaches his
+> ankles, a coat he did not own when the scene began.
+> His walk has changed too: shoulders squarer,
+> stride more deliberate. He is not the same person
+> who walked out. The plaza is emptier now; other
+> students are gone. The gate-arch throws a long
+> shadow across the foreground. Palette: cyan
+> #4ba3b5 in the gate-shadow where the Engineer
+> stands, dusk gold #e6a84a fading to purple-grey on
+> the plaza, the Detective-now-almost-Human in
+> silhouette against the last warm strip of sky.
+> Cinematic 4K. **The door closes here. The coat is
+> the reveal. He is on his way to becoming the man
+> the player already knows from the Prelude's
+> whispered voice on the substrate layer.** No
+> rendered text.
+
+**SEEDANCE 2.0 motion prompt:**
+> Open on start frame — two young men at the Academy
+> gate, hands about to meet. Hold 2s. Beat at 3s:
+> handshake completes in slow motion, held 1.5s. Beat
+> at 5s: the Detective steps back, nods once, turns
+> away from the Engineer and begins to walk into the
+> plaza. Camera stays locked on the Engineer's
+> shoulders (seen from behind), the Detective
+> receding ahead. Beat at 12s: **key transformation
+> beat** — as the Detective walks away, his cyan-grey
+> student blazer dissolves in a slow dust-wipe from
+> his shoulders down, replaced by a longer darker
+> coat that reaches past his knees (do not cut; the
+> transition is a slow morph, not an edit). His
+> stride shifts subtly. Beat at 22s: Engineer's
+> voice-over: *"He walked out of the Academy gate.
+> He would not be called the Detective again for a
+> very long time. He would be something else first."*
+> Beat at 30s: the Detective-now-Human reaches the
+> far edge of the plaza, silhouetted against the
+> dusk sun. Final 10s: hold on the Engineer's
+> stationary back, the Human a small shape near the
+> horizon, warm light falling from the left. Slow
+> fade to cyan-cool black (the Cycle C palette
+> beginning to bleed in). 24fps. Quiet, valedictory,
+> the last warm moment before cold arrives.
 
 ### 4.10 Cycle B → Cycle C transition
 
