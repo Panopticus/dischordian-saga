@@ -215,7 +215,89 @@ Archives, and Engineering rooms:
   told Elara or they haven't); Cycle C plays out on whichever
   branch the player is on.
 
-### 2.4 Morality and alignment carry
+### 2.4 The Meme's Show interleave
+
+The Meme isn't just Opponent 1. Across Act 1 the Meme is also
+a running 4th-wall-breaking **broadcast** about the Engineer —
+six episodes titled *"The World's Smartest Man,"* already
+canonized in `apps/shared/memeEngineerShow.ts`. Each episode
+drops between specific card-cycle boundaries; together they
+are the slow reveal of who the Engineer actually was, building
+toward the Authority match and the full *Last Words* landing
+in §5.8.
+
+**Trigger re-homing (restructure note).** The manifest file
+as shipped gates each episode on an `engineer_recording_N_
+discovered` flag from the Epoch 0 holo-recording system, which
+pre-dates Act 1's cycle structure. In Act 1 the trigger layer
+is match-completion boundaries, not free-exploration flag
+discovery; the runtime implementation will fire each episode's
+unlock alongside the boundary flag the ladder already sets
+(`act1_step_N_complete`). The episode content does not change
+— only the trigger shape does.
+
+**Episode → match-boundary mapping.** Broadcast order matches
+the canonical episode order. Drops fall on **even** match
+boundaries so the six episodes spread evenly across the 12-
+match ladder:
+
+| After match | Opponent | Cycle | Episode unlocks | Why here |
+|---|---|---|---|---|
+| Match 2 | `little_collector` | A | Ep 1 *"The Kid With the Coat"* | Player just fought a classmate of the Engineer; Meme introduces him as the prince who wasn't supposed to be at the school |
+| Match 4 | `the_detective` (student) | B | Ep 2 *"Gary's Goggles"* | Player just fought another fellow student; Meme reveals what the Engineer saw through Gary's goggles (Celebration was a death loop) |
+| Match 6 | `prof_eidola` | B | Ep 3 *"The Ghost Network"* | Player just fought a professor who knew him; Meme reveals how the Engineer used the Eyes to erase his Celebration classmates from Empire records |
+| Match 8 | `the_seer` (Cycle B finale) | B→C | Ep 4 *"The Day He Stopped Fixing"* | The Seer foretold the deaths of the Eyes and the Oracle; Meme delivers the flashback of both deaths, the pacifist's break |
+| Match 10 | `the_programmer` | C | Ep 5 *"Dispatched"* | Player is on Zenon now; Meme unpacks the Agent Zero betrayal — *"six words. Three of them are a lie"* — the backstory of the Warlord match they just lived through |
+| After Match 12 | `the_authority` | C | Ep 6 *"The World's Smartest Man"* | Act 1's final Meme landing; plays after the *Last Words* full song, after the verdict. *"He's dead now. Really dead. Not hiding-dead. Not transferred-dead."* The Meme closes the show. |
+
+**Placement inside the cycle transitions.** Each episode fires
+on the **post-match outro beat**, between the defeated
+opponent's `postMatchWin`/`postMatchLoss` line (from
+`apps/shared/act1Opponents.ts`) and the next matchup card
+reveal. The player sees the opponent's final line → receives
+their XP/Dream reward from the match → then the Meme's show
+splash plays. The episode itself is a short self-contained
+cutscene using the existing Meme-narrated audio + the
+`memeIntro` / `memeOutro` fields verbatim.
+
+**Skip / replay.** Episodes are fully skippable on a per-
+episode basis (same pattern as Prelude cutscenes — hold-to-
+skip affordance with 0.8s fill). They are also replayable
+from the Transmissions log at any time, so a skipped episode
+is never lost. The Transmissions log is where Epoch 0
+originally housed these; in Act 1 they simply unlock into the
+same log earlier, via match boundaries rather than Prelude
+discovery.
+
+**Canon tie-ins.**
+- The six episodes are the player's primary Act 1 education
+  about the Engineer's pre-crew life — the Celebration
+  experiment, the Ghost Network, the Eyes-and-Oracle
+  partnership, and (in Ep 5–6) the betrayal at Zenon. Without
+  this interleave the Authority match is just a match; *with*
+  it, the verdict carries the weight of everything the Meme
+  has spent the Act narrating.
+- Episode 6 is the intentional thematic twin of the full
+  *Last Words* song. The song is the Engineer's voice; the
+  Meme's closing show is the Engineer's **witness**. Both
+  land back-to-back at the Act 1 close (§5.8.1 then §5.9 /
+  §6 transition).
+- Little Meme's Cycle A match (Opponent 1) is still the
+  player's first confrontation with the Meme as a character
+  — the show's existence is not revealed until Ep 1 lands,
+  so the broadcast is a retroactive reframing of that
+  opening match (*"I stole his notebook in Year 3. I'm not
+  apologizing. That notebook became the Deck. You're
+  welcome."*)
+
+**Completion flag:** the full interleave-complete flag is
+`act1_meme_show_complete`, set when Ep 6 is viewed (not
+skipped — skipping still sets the flag; the flag measures
+*unlocked*, not *watched*). Acts 2+ use this flag for dialogue
+gates where characters reference the show (e.g., Vex Solène
+in Act 2 recognizing the Meme-coined phrase *"Dispatched."*).
+
+### 2.5 Morality and alignment carry
 
 The Prelude's Beat J Light/Dark choice (`preludeAlignment`)
 is Act 1's starting moral position. Specifically:
@@ -232,7 +314,7 @@ or force a reversal on either alignment. A Dark player who
 wants to earn Elara's trust still can; the doors are heavier,
 not closed.
 
-### 2.5 Prelude → Act 1 handoff contract
+### 2.6 Prelude → Act 1 handoff contract
 
 Every piece of Prelude state Act 1 reads from GameContext:
 
@@ -247,7 +329,7 @@ Every piece of Prelude state Act 1 reads from GameContext:
 | Kael Contingency Memo bullets | Beat F (`beat_f_memo_read`) | Referenced in Cycle C pre-Nexon dialogue; the memo's third bullet ("assume I am next") lands as a prophecy the player has now seen fulfilled |
 | Engineer's sandwich recipe | Beat D.5 Galley | Unlocks the Galley optional quest Act 1 side-content per Canon Rev 7 §5.6.13 |
 
-### 2.6 Act 1 → Acts 2+ forward-writes
+### 2.7 Act 1 → Acts 2+ forward-writes
 
 State Act 1 sets that later acts consume:
 
