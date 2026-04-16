@@ -1112,4 +1112,181 @@ of remembering the lesson even after the friend had left.
   the same brass lion motif enlarged as the faction sigil across
   his chest (flagged for art continuity in §23)
 
+### 2.6 Young Recruiter / Kael — Cycle B2 opponent (Mechronis Year 2)
+
+The second Cycle B boss and canonically the most narratively
+loaded battle in the entire academy sequence. The opponent is
+**Kael** — the future Insurgency recruiter, the man who compiled
+the 213-contact ledger the player opened in the Prelude's Beat F,
+the man the Prince addressed the Cycle C "to Kael" farewell to
+in Log 5 Movement 4, and the man the Human has been unable to
+name in the Prelude's Galley sandwich line and Empty Chair breath
+beat. This is the first time the player sees Kael alive in the
+Engineer's memory. He is sixteen years old, one year younger than
+Iron Lion, and he has just followed Iron Lion to Mechronis
+Academy — "joins Iron Lion a year later" per DSFGL line 2445.
+
+**The B2 battle has a canonical structural double-reveal:** during
+the match, a fragment of Kael's voice from the Prelude's Beat I
+Tower Defense recordings plays in the background — the second
+reverse-chronology Kael fragment from the questline. Per DSFGL
+line 2378: *"This is the moment the player realizes the voice in
+the Tower Defense recordings IS the Recruiter they are facing on
+the card board."* The player has heard Kael before (in Beat I's
+Tower Defense waves); now they are sitting across from the young
+version of that voice. The recognition is the beat.
+
+**Canonical visual:** INFERRED per user direction, anchored to
+the Mechronis blue uniform and informed by the Prince's
+biographical memories of Kael as documented in `CANON_REV_7_
+ORACLE_VEX_EXPANSION.md` §5.4 (Audio Log 3 "The List I Am On")
+and the Prelude Bible §10.5 (the toy soldier flashback).
+
+**Production-inferred visual spec:**
+
+- **Age:** sixteen. Lean athletic build, slightly shorter than
+  Iron Lion but more graceful in posture. He moves like someone
+  who is used to being watched and has learned to let people
+  watch.
+- **Skin:** light olive-brown, Middle Eastern descent (canonical
+  inference from the Prelude's "childhood palace" references —
+  Kael grew up in a palace culture per the Engineer's Log 5
+  Movement 4 farewell context). Smooth, no scars — Kael does not
+  fight. He talks.
+- **Hair:** thick, dark brown, slightly wavy, swept back from the
+  forehead in a way that looks effortless and is probably not.
+  Falls to his collar. He pushes it out of his eyes with a
+  habitual two-finger gesture that the player will see three
+  times during the match.
+- **Eyes:** warm hazel, bright with intelligence and a steady
+  directness that reads as "I see exactly who you are and I'm
+  going to like you anyway." When he looks at the Prince across
+  the card table the camera should catch a specific quality:
+  Kael is **interested**. Not predatory, not calculating —
+  genuinely interested in the other person. This is the
+  Recruiter's gift. People follow him because he looks at them
+  like they matter.
+- **Mechronis blue uniform, worn with personality:**
+  - Same royal-blue blazer as Iron Lion (§2.5), but buttoned
+    properly, pressed, lint-rolled — Kael takes care of his
+    appearance
+  - Light blue tie worn at full length with a neat knot
+  - White oxford shirt, **sleeves NOT rolled** (contrast with
+    Iron Lion and the Prince — Kael is formal where they are
+    informal)
+  - Blue trousers pressed with a sharp crease
+  - Clean black shoes
+  - One personal touch: a small **woven friendship bracelet** on
+    his left wrist, visible when his sleeve rides up during card
+    plays. Three colors: red (the Prince's coat color), amber
+    (Iron Lion's lion-pin brass), and dark green (Agent Zero's
+    future Insurgency affiliation). Kael made this bracelet for
+    himself. The player will not understand the color choices
+    until they meet all three as adults in later acts. Canon
+    seed, not a reveal — render the bracelet clearly but do
+    not label the colors
+- **Smile:** Kael smiles **often**. His smile is the single most
+  recognizable thing about him — warm, slightly lopsided, showing
+  teeth on the left side more than the right. When the player
+  sees the adult Kael's photo in later-act dossiers, the smile
+  is the continuity signifier (the same way Iron Lion's brass
+  pin is his). Render the smile in the pre-match splash, the
+  post-match splash, and at least two mid-match card-play
+  moments.
+- **The toy soldier:** Kael carries a small cast-metal toy soldier
+  in his blazer breast pocket — the same toy soldier from the
+  Prelude Bible §10.5 (the one the Prince kept on every desk and
+  the holographic flashback showed the Prince holding). In Cycle
+  B2 the toy soldier is still Kael's — he has not yet given it
+  to the Prince. Render it as a 5cm glint of metal peeking from
+  the breast pocket, barely visible unless the player is looking
+  for it. Canon continuity: the player who noticed the toy
+  soldier in Beat E's Mess Hall flashback will recognize it here.
+
+**Canonical pre-match line** (INFERRED):
+
+> *"I already know your name. I've been reading your class
+> reports since you were twelve. You build things that shouldn't
+> work and then they work. I want to ask you something after we
+> play — it's not about the game."*
+
+Delivered with Kael's warm directness, the smile present in the
+voice. The "I want to ask you something" is the seed for the 213
+recruitment — Kael is already scouting. The player who remembers
+the Prelude's Beat F "213 entries" line will feel the hair on
+their neck stand up: they are watching the Engineer get recruited,
+in real time, by the man who will build an entire resistance
+network from conversations like this one.
+
+**Deck theme:** "The Insurgency" swarm buffs. Kael's deck uses
+low-cost units that individually are weak but collectively buff
+each other exponentially — the more units on the board, the
+stronger each one gets. The deck is the Insurgency in miniature:
+no single powerful card, just many small ones that believe in
+each other. The tutorial lesson is "some opponents win by being
+many" — the counter is precision removal of key buff-carriers
+before the swarm reaches critical mass.
+
+**Card unlock on win:** *The Recruiter's Gift* (Epic Neutral) —
+a card that, when played, copies the last card the opponent
+played and adds it to the player's hand. Kael's canonical gift:
+he gives the player the tools the opponent was using against
+them. The card name is a direct echo of his role.
+
+**Post-match canonical beats** (INFERRED):
+
+- **Win:** Kael's swarm thins as the Prince picks off the buff
+  carriers. The last unit standing is a single 1/1 that looks
+  across the empty board and shrugs. Kael laughs — same warm
+  lopsided smile — and says *"You found the one I forgot to
+  protect. That's exactly the answer I was looking for."* He
+  reaches into his breast pocket, pulls out the toy soldier,
+  and sets it on the table between them. *"Second-favorite. But
+  you should have it."* The Prince takes the soldier. The
+  camera holds on the soldier in the Prince's hand — the same
+  12cm metal figure from Prelude Beat E's flashback, but 30
+  years younger and unpainted.
+- **Loss:** Kael's swarm overwhelms. The board is covered. The
+  Prince looks at the army of small cards facing him and Kael
+  says *"They're not mine. They're each other's. That's the
+  trick."* He smiles, pushes the toy soldier across the table
+  anyway — win or lose, the soldier changes hands. *"You'll
+  understand when you're older. I'm not being patronizing — I
+  mean it literally. You will understand when you are older."*
+  This line is a canon seed for Log 5 Movement 4's "the first
+  card Kael ever played against me" callback. Either outcome
+  delivers the soldier to the Prince.
+
+**Cross-references:**
+
+- §2.0 (simulation framing — Cycle B opponents are canonical
+  humans at their academy ages, not Archons)
+- §2.9 (The Seeker — Mechronis blue uniform anchor)
+- §8 (Cycle B2 battle section — full battle spec including the
+  Kael Tower Defense audio fragment timing and the toy-soldier
+  transfer animation)
+- §12 (*To Be the Human* slideshow — Kael canonically "already
+  gone" per DSFGL line 2458, rendered as an empty chair in the
+  Mechronis class photo — mirroring the Prelude Beat F.5 empty
+  chair motif)
+- Prelude Bible §9.5 (Galley sandwich line — the Human's first
+  unnamed reference to the Prince; Cycle B2 is where the Prince
+  and Kael become *friends*, which is the relationship the Human
+  is mourning in the Galley)
+- Prelude Bible §10.5 (Beat E toy soldier flashback — the soldier
+  in Cycle B2 is the same object, 30 years younger)
+- Prelude Bible §11.1 (Beat F Kael Contingency Memo — the 213
+  recruitment begins here at Mechronis, this is the origin)
+- `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.4 (Audio Log 3 "The
+  List I Am On" — Kael's recruiting network of 213 contacts,
+  canonically the same number from Beat F, now contextualized
+  as something that started with conversations like B2's pre-
+  match line)
+- `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.6 Movement 4 (Log 5
+  "To Kael" — the farewell the player will hear at the end of
+  Act 1, now enriched by having *met* Kael at sixteen)
+- DSFGL line 2378 (the Tower Defense recognition beat — the
+  player realizes the recorded voice IS the recruiter they are
+  facing on the card board)
+
 ---
