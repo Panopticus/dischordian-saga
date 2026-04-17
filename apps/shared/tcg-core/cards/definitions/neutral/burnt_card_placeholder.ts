@@ -39,4 +39,8 @@ export const cardDef: CardDefinition = {
   flavorText:
     "You found her staff on the bench. Inside the staff was this card. You remembered before she taught you how.",
   rulesVersion: "1.0.0",
+  // §3.3: not discoverable on first playthrough. Reserved from
+  // every pool — packs, deck-builder, rewards. Only lands in the
+  // player's deck via an Acts 2+ unlock route.
+  reserved: true,
 };
