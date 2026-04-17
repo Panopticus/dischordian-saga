@@ -133,9 +133,10 @@ describe("useNarrativeIntegration — §14.1 narratorBond wiring", () => {
   );
 
   it("destructures getNarratorBond from useGame()", () => {
-    expect(hookSrc).toMatch(
-      /\{\s*state,\s*setNarrativeFlag,\s*getNarratorBond\s*\}\s*=\s*useGame\(\)/,
-    );
+    // Tolerant of multiline formatting — the destructure grew when
+    // the Prelude handoff started pulling advanceNarrativeAct too.
+    expect(hookSrc).toContain("getNarratorBond,");
+    expect(hookSrc).toMatch(/\}\s*=\s*useGame\(\);/);
   });
 
   it("imports the shared bond thresholds (40/60/80 only live in one place)", () => {
@@ -170,5 +171,44 @@ describe("useNarrativeIntegration — §14.1 narratorBond wiring", () => {
     // per-narrator.
     expect(hookSrc).toMatch(/const\s+elaraBond\s*=\s*state\.elaraTrustLevel/);
     expect(hookSrc).toMatch(/const\s+humanBond\s*=\s*state\.humanTrustLevel/);
+  });
+});
+
+/* ═══════════════════════════════════════════════════════
+   Prelude → Act 1 handoff is wired (the ship-blocker fix).
+
+   Verifies the useEffect exists, calls the right action,
+   and uses the shared predicate (not an inline check).
+   ═══════════════════════════════════════════════════════ */
+describe("useNarrativeIntegration — Prelude → Act 1 handoff", () => {
+  const hookSrc = fs.readFileSync(
+    path.resolve(__dirname, "useNarrativeIntegration.ts"),
+    "utf-8",
+  );
+
+  it("imports the shared predicate + target-act constant", () => {
+    expect(hookSrc).toContain(
+      'import {\n  PRELUDE_HANDOFF_TARGET_ACT,\n  shouldAdvanceToAct1OnPreludeComplete,\n} from "@shared/preludeHandoff"',
+    );
+  });
+
+  it("destructures advanceNarrativeAct from useGame()", () => {
+    expect(hookSrc).toContain("advanceNarrativeAct,\n  } = useGame();");
+  });
+
+  it("calls advanceNarrativeAct(PRELUDE_HANDOFF_TARGET_ACT) when the predicate fires", () => {
+    expect(hookSrc).toMatch(
+      /advanceNarrativeAct\(PRELUDE_HANDOFF_TARGET_ACT\)/,
+    );
+  });
+
+  it("uses shouldAdvanceToAct1OnPreludeComplete (no inline flag check)", () => {
+    expect(hookSrc).toContain("shouldAdvanceToAct1OnPreludeComplete({");
+  });
+
+  it("depends on state.narrativeFlags.prelude_complete for re-evaluation", () => {
+    // Scoped dep so the effect retriggers when the flag flips without
+    // over-subscribing to the whole flags object.
+    expect(hookSrc).toContain("state.narrativeFlags?.prelude_complete");
   });
 });

@@ -23,6 +23,10 @@ import {
 } from "@shared/witnessingEvents";
 import { NARRATOR_BOND_THRESHOLDS } from "@shared/narratorBond";
 import {
+  PRELUDE_HANDOFF_TARGET_ACT,
+  shouldAdvanceToAct1OnPreludeComplete,
+} from "@shared/preludeHandoff";
+import {
   getPendingKaelPayoffCinematic,
   KAEL_FRAGMENTS,
 } from "@shared/appendixBKaelQuestline";
@@ -253,7 +257,12 @@ export const SLIDESHOW_TRIGGERS: ReadonlyArray<{
 ];
 
 export function useNarrativeIntegration() {
-  const { state, setNarrativeFlag, getNarratorBond } = useGame();
+  const {
+    state,
+    setNarrativeFlag,
+    getNarratorBond,
+    advanceNarrativeAct,
+  } = useGame();
   const prevMoralityRef = useRef(state.moralityScore);
   const prevTrustRef = useRef<Record<string, number>>({});
   const prevRoomsRef = useRef<Set<string>>(new Set());
@@ -388,6 +397,32 @@ export function useNarrativeIntegration() {
       }
     }
   }, [state.rooms, discoverLore]);
+
+  // ─── PRELUDE → ACT 1 HANDOFF ───
+  // The burnt-card mission raises `prelude_complete` (see
+  // shared/preludeCrewMissions.ts). That flag is the Prelude's
+  // "I'm done" signal. Nothing between that flag and Act 1's
+  // ACT_TRIGGERS used to advance narrativeAct, so Act 1 was
+  // unreachable from the Prelude (roadmap ship-blocker).
+  //
+  // The predicate is pure (shared/preludeHandoff.ts). This
+  // effect just calls advanceNarrativeAct when it returns true.
+  // Guarded idempotently: once narrativeAct advances past 0 the
+  // predicate returns false, so re-renders don't loop.
+  useEffect(() => {
+    if (
+      shouldAdvanceToAct1OnPreludeComplete({
+        narrativeAct: state.narrativeAct,
+        narrativeFlags: state.narrativeFlags,
+      })
+    ) {
+      advanceNarrativeAct(PRELUDE_HANDOFF_TARGET_ACT);
+    }
+  }, [
+    state.narrativeAct,
+    state.narrativeFlags?.prelude_complete,
+    advanceNarrativeAct,
+  ]);
 
   // ─── WITNESSING §1.5 / §14.1 — MUTUAL BOND MILESTONES ───
   // Three tiers of shared bond fire scripted Living Universe
