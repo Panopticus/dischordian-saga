@@ -46,4 +46,9 @@ export const cardDef: CardDefinition = {
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
+  // §5.7 divergence: invoking Dischordian Logic mid-trial reads
+  // tactically as a solid sophistry (+1) but the court hears it as
+  // paradox (-1) — the Authority does not like sophistry. Sign
+  // disagreement fires the rust-orange border.
+  public_delta: -1,
 };

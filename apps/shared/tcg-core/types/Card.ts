@@ -161,6 +161,18 @@ export interface CardDefinition {
    * delta is never read — proposer still emits 0 for completeness.
    */
   verdict_delta?: number;
+  /**
+   * Optional §5.7 public-witness override. When set, the card's
+   * public-record delta diverges from its private (verdict_delta)
+   * impact — the divergence drives the TranscriptColumn's
+   * rust-orange warning border (spec §3: "private good, public bad"
+   * or vice versa). Absent → public delta defaults to verdict_delta
+   * (public and private agree; no divergence).
+   *
+   * Integer, same [-3, +3] range as verdict_delta. See
+   * engine/publicWitness.ts applyPublicWitnessPlay.
+   */
+  public_delta?: number;
 }
 
 /** Forward-declared. Full shape lives in types/Trigger.ts. */

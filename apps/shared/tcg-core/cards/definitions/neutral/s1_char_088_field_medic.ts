@@ -35,4 +35,8 @@ export const cardDef: CardDefinition = {
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
+  // §5.7 divergence: a medic healing the defendant mid-trial reads
+  // tactically as defense (+1) but publicly as obstruction (-2) —
+  // the court frames care as collusion. Rust-orange border fires.
+  public_delta: -2,
 };

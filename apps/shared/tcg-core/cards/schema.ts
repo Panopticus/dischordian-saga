@@ -733,6 +733,11 @@ export const cardDefinitionSchema = z
      *  docs/production/act1/authority-trial-phase-mechanic.md §3 for
      *  how the delta composes into the trial balance. */
     verdict_delta: z.number().int().min(-3).max(3).optional(),
+    /** Optional §5.7 public-witness override. Same [-3, +3] range.
+     *  When set, diverges from verdict_delta to drive the rust-
+     *  orange warning border on the §5.7 TranscriptColumn row.
+     *  See engine/publicWitness.ts applyPublicWitnessPlay. */
+    public_delta: z.number().int().min(-3).max(3).optional(),
   })
   .strict()
   .superRefine((card, ctx) => {

@@ -44,4 +44,8 @@ export const cardDef: CardDefinition = {
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
+  // §5.7 divergence: retaining a hired blade is publicly a confession
+  // of violence — the court records it as an admission even when the
+  // Game Master plays it defensively. Private +1 / public -2.
+  public_delta: -2,
 };

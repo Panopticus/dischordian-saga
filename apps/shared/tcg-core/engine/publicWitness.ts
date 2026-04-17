@@ -164,9 +164,15 @@ export function applyPublicWitnessPlay(
 ): void {
   if (!draft.publicWitness) return;
   if (actor !== 1) return;
-  const publicDelta = Number.isFinite(def.verdict_delta)
-    ? (def.verdict_delta as number)
-    : PLACEHOLDER_PUBLIC_DELTA;
+  // Spec §3: public delta overrides the private reading when the
+  // author has set public_delta. This is what drives the §3 divergence
+  // warning border on the TranscriptColumn row. Absent public_delta →
+  // fall back to verdict_delta (public and private agree; no warning).
+  const publicDelta = Number.isFinite(def.public_delta)
+    ? (def.public_delta as number)
+    : Number.isFinite(def.verdict_delta)
+      ? (def.verdict_delta as number)
+      : PLACEHOLDER_PUBLIC_DELTA;
   const entry: PublicWitnessEntry = {
     id: `pw_${draft.actionSeq}`,
     turnNumber: draft.turnNumber,
