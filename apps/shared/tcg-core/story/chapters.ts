@@ -10,6 +10,7 @@
  * bridge that creates playable matches from story chapters.
  */
 import type { StoryEncounter } from "./encounter";
+import { getBossDeck } from "../decks/act1BossDecks";
 
 /* ─── Difficulty → Boss HP scale ─── */
 
@@ -20,11 +21,7 @@ export const DIFFICULTY_HP_SCALE: Record<string, number> = {
   nightmare: 40,
 };
 
-/* ─── Helper ─── */
-
-function bossDeck(prefix: string): readonly string[] {
-  return Array.from({ length: 39 }, (_, i) => `${prefix}_${i}`);
-}
+/* Boss decks are now centralized in decks/act1BossDecks.ts. */
 
 /* ═══════════════════════════════════════════════════════
    CHAPTERS 1-12 (including branches 3a/3b, 9a/9b)
@@ -37,7 +34,7 @@ const ch1: StoryEncounter = {
   description: "Agent Zero hacked the scheduling matrix to reach you first.",
   bossFaction: "insurgency",
   bossGeneralDefId: "gen_insurgency",
-  bossDeckCardDefIds: bossDeck("boss_ch1"),
+  bossDeckCardDefIds: getBossDeck("ch1"),
   seed: "ch1_dead_signal_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -67,7 +64,7 @@ const ch2: StoryEncounter = {
   description: "A skull in green robes enforces the rotation.",
   bossFaction: "panopticon",
   bossGeneralDefId: "gen_panopticon",
-  bossDeckCardDefIds: bossDeck("boss_ch2"),
+  bossDeckCardDefIds: getBossDeck("ch2"),
   seed: "ch2_arenas_law_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -103,7 +100,7 @@ const ch3a: StoryEncounter = {
   description: "Iron Lion salutes you as a commander.",
   bossFaction: "new_babylon",
   bossGeneralDefId: "gen_new_babylon",
-  bossDeckCardDefIds: bossDeck("boss_ch3a"),
+  bossDeckCardDefIds: getBossDeck("ch3a"),
   seed: "ch3a_generals_honor_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -133,7 +130,7 @@ const ch3b: StoryEncounter = {
   description: "Wraith Calder — seven deaths and still standing.",
   bossFaction: "insurgency",
   bossGeneralDefId: "gen_insurgency",
-  bossDeckCardDefIds: bossDeck("boss_ch3b"),
+  bossDeckCardDefIds: getBossDeck("ch3b"),
   seed: "ch3b_ghosts_gambit_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -163,7 +160,7 @@ const ch4: StoryEncounter = {
   description: "Akai Shi — the assassin who kills with a whisper.",
   bossFaction: "antiquarian",
   bossGeneralDefId: "gen_antiquarian",
-  bossDeckCardDefIds: bossDeck("boss_ch4"),
+  bossDeckCardDefIds: getBossDeck("ch4"),
   seed: "ch4_red_death_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -199,7 +196,7 @@ const ch5: StoryEncounter = {
   description: "The Necromancer — mandatory death and resurrection.",
   bossFaction: "thought_virus",
   bossGeneralDefId: "gen_thought_virus",
-  bossDeckCardDefIds: bossDeck("boss_ch5"),
+  bossDeckCardDefIds: getBossDeck("ch5"),
   seed: "ch5_dead_code_rising_seed",
   // Mandatory loss — the player must die and be resurrected.
   winConditions: [{ kind: "survive_turns", turns: 8 }],
@@ -236,7 +233,7 @@ const ch6: StoryEncounter = {
   description: "The White Oracle — a mirror match against your stolen face.",
   bossFaction: "dreamer",
   bossGeneralDefId: "gen_dreamer",
-  bossDeckCardDefIds: bossDeck("boss_ch6"),
+  bossDeckCardDefIds: getBossDeck("ch6"),
   seed: "ch6_false_prophet_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -272,7 +269,7 @@ const ch7: StoryEncounter = {
   description: "Dr. Vox transforms mid-battle into the Warlord.",
   bossFaction: "new_babylon",
   bossGeneralDefId: "gen_new_babylon",
-  bossDeckCardDefIds: bossDeck("boss_ch7"),
+  bossDeckCardDefIds: getBossDeck("ch7"),
   seed: "ch7_project_vector_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -308,7 +305,7 @@ const ch8: StoryEncounter = {
   description: "The Human — the only non-augmented fighter in the Arena.",
   bossFaction: "insurgency",
   bossGeneralDefId: "gen_insurgency",
-  bossDeckCardDefIds: bossDeck("boss_ch8"),
+  bossDeckCardDefIds: getBossDeck("ch8"),
   seed: "ch8_the_detective_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -363,7 +360,7 @@ const chWarlordZeroFirst: StoryEncounter = {
   bossGeneralDefId: "gen_architect",
   bossDeckCardDefIds: [
     "s1_warlord_three_moves",
-    ...bossDeck("boss_warlord_zero_first").slice(0, 38),
+    ...getBossDeck("warlord_zero_first").slice(0, 38),
   ],
   seed: "warlord_zero_first_seed",
   winConditions: [{ kind: "general_killed" }],
@@ -414,7 +411,7 @@ const ch9a: StoryEncounter = {
   description: "The Enigma — probability itself bends around her.",
   bossFaction: "dreamer",
   bossGeneralDefId: "gen_dreamer",
-  bossDeckCardDefIds: bossDeck("boss_ch9a"),
+  bossDeckCardDefIds: getBossDeck("ch9a"),
   seed: "ch9a_unknown_variable_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -450,7 +447,7 @@ const ch9b: StoryEncounter = {
   description: "The Degen — chaos incarnate, all-in on every turn.",
   bossFaction: "antiquarian",
   bossGeneralDefId: "gen_antiquarian",
-  bossDeckCardDefIds: bossDeck("boss_ch9b"),
+  bossDeckCardDefIds: getBossDeck("ch9b"),
   seed: "ch9b_gamblers_truth_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -486,7 +483,7 @@ const ch10: StoryEncounter = {
   description: "Foucault — chrome jaw, genetic reveal, the Arena's true enforcer.",
   bossFaction: "panopticon",
   bossGeneralDefId: "gen_panopticon",
-  bossDeckCardDefIds: bossDeck("boss_ch10"),
+  bossDeckCardDefIds: getBossDeck("ch10"),
   seed: "ch10_panoptic_warden_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -522,7 +519,7 @@ const ch11: StoryEncounter = {
   description: "The Collector — Damnatio Memoriae, eraser of identities.",
   bossFaction: "panopticon",
   bossGeneralDefId: "gen_panopticon",
-  bossDeckCardDefIds: bossDeck("boss_ch11"),
+  bossDeckCardDefIds: getBossDeck("ch11"),
   seed: "ch11_harvesters_reckoning_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -558,7 +555,7 @@ const ch12: StoryEncounter = {
   description: "Final boss — the entity that built the Arena to contain you.",
   bossFaction: "architect",
   bossGeneralDefId: "gen_architect",
-  bossDeckCardDefIds: bossDeck("boss_ch12"),
+  bossDeckCardDefIds: getBossDeck("ch12"),
   seed: "ch12_architects_design_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -631,7 +628,7 @@ const chAuthorityTrial: StoryEncounter = {
     "The Act 1 finale. Ten phases of an Empire judicial proceeding. Survive every phase restriction and the verdict-stream balance decides your fate.",
   bossFaction: "architect",
   bossGeneralDefId: "gen_authority",
-  bossDeckCardDefIds: bossDeck("boss_authority_trial"),
+  bossDeckCardDefIds: getBossDeck("authority_trial"),
   seed: "authority_trial_seed",
   winConditions: [{ kind: "survive_turns", turns: 10 }],
   loseConditions: [{ kind: "general_killed" }],
