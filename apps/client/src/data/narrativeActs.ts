@@ -7,6 +7,11 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 import type { LoreTutorial, TutorialStep, TutorialChoice } from "./loreTutorials";
+import {
+  RECRUITMENT_THRESHOLDS,
+  hasReachedAct6Threshold,
+  hasReachedAct7Threshold,
+} from "@shared/armyRecruitment";
 
 /* ─── HELPER: Human text with corruption markers ─── */
 // Strikethrough markers (~~word~~) indicate glitch artifacts in the UI
@@ -58,13 +63,17 @@ export const ACT_TRIGGERS: ActTrigger[] = [
   },
   {
     act: 6, title: "THE CONFESSION",
-    condition: "Player completes 5 army recruitment missions",
-    check: (s) => s.narrativeAct === 5 && s.armyRecruitmentMissionsCompleted.length >= 5,
+    condition: `Player completes ${RECRUITMENT_THRESHOLDS.act6} army recruitment missions`,
+    check: (s) =>
+      s.narrativeAct === 5 &&
+      hasReachedAct6Threshold(s.armyRecruitmentMissionsCompleted.length),
   },
   {
     act: 7, title: "THE CONVERGENCE",
-    condition: "Player completes 15 army recruitment missions",
-    check: (s) => s.narrativeAct === 6 && s.armyRecruitmentMissionsCompleted.length >= 15,
+    condition: `Player completes ${RECRUITMENT_THRESHOLDS.act7} army recruitment missions`,
+    check: (s) =>
+      s.narrativeAct === 6 &&
+      hasReachedAct7Threshold(s.armyRecruitmentMissionsCompleted.length),
   },
 ];
 

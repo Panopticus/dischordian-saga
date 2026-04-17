@@ -18,6 +18,7 @@ import {
   deriveYearOneMonth,
   yearOneMonthFlag,
 } from "@shared/yearOneMonth";
+import { addCompletedRecruitmentMission } from "@shared/armyRecruitment";
 
 /* ─── TYPES ─── */
 export type GamePhase = "FIRST_VISIT" | "AWAKENING" | "QUARTERS_UNLOCKED" | "EXPLORING" | "FULL_ACCESS";
@@ -1154,6 +1155,8 @@ interface GameContextValue {
   advanceYearOneMonth: () => void;
   /** Read the current Year One month (1..12). Falls back to flag-scan on pre-field saves. */
   getYearOneMonth: () => number;
+  /** Mark a sector recruitment mission as complete. Idempotent; gates Acts 6 + 7. */
+  completeRecruitmentMission: (missionId: string) => void;
   /** Set a flat Elara callback flag (used by roomDialogs + Palimpsest episode callbacks). */
   setElaraCallback: (flag: string, value?: boolean) => void;
   /** Set a flat Human callback flag (parallel to Elara's, for The Human's whispers). */
@@ -2311,6 +2314,23 @@ export function GameProvider({ children }: { children: ReactNode }) {
     [state.yearOneMonth, state.narrativeFlags],
   );
 
+  const completeRecruitmentMission = useCallback((missionId: string) => {
+    setState(prev => {
+      const current = prev.armyRecruitmentMissionsCompleted;
+      // Idempotent: no setState when the id is already present. This
+      // avoids churning subscribers on strict-mode double-fires and
+      // on save/load cycles.
+      if (!missionId || current.includes(missionId)) return prev;
+      return {
+        ...prev,
+        armyRecruitmentMissionsCompleted: addCompletedRecruitmentMission(
+          current,
+          missionId,
+        ),
+      };
+    });
+  }, []);
+
   // ═══ NPC RELATIONSHIP CALLBACKS ═══
   const adjustNpcTrust = useCallback((npcId: string, delta: number) => {
     setState(prev => {
@@ -2897,6 +2917,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       getNarratorBond,
       advanceYearOneMonth,
       getYearOneMonth,
+      completeRecruitmentMission,
       setElaraCallback,
       setHumanCallback,
       // ═══ NPC RELATIONSHIPS ═══

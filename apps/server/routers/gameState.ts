@@ -64,6 +64,11 @@ const gameStateSchema = z.object({
   // pre-field saves; the flag-scan fallback in shared/yearOneMonth.ts
   // reads `year_one_month_N_opened` when the field is absent.
   yearOneMonth: z.number().optional(),
+  // Wave 1 — army recruitment counter. Gates Acts 6 (5+) and 7 (15+)
+  // per shared/armyRecruitment.ts thresholds. Optional — passthrough
+  // handled pre-field saves but the explicit field documents the
+  // validation contract.
+  armyRecruitmentMissionsCompleted: z.array(z.string()).optional(),
   claimedQuestRewards: z.array(z.string()).optional(),
   completedGames: z.array(z.string()).optional(),
   collectedCards: z.array(z.string()).optional(),
