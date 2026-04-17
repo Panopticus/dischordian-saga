@@ -211,6 +211,17 @@ export const SLIDESHOW_TRIGGERS: ReadonlyArray<{
     completionFlag: "slideshow_two_witnesses_meet_complete",
   },
   {
+    // ACT1_NARRATIVE_STRUCTURE.md §6 — Two Witnesses Meet Part 2
+    // (Act 1 narrative close). Fires after §5.8.1 Light/Dark persist
+    // (the watcher below raises `act1_section_6_ready` on the
+    // lightDarkAlignment null → set transition). The slideshow's
+    // `flagsSetOnComplete` writes `act1_complete` + the two
+    // witness_*_met_part2 flags Acts 2+ consume.
+    triggerFlag: "act1_section_6_ready",
+    slideshowId: "two-witnesses-part-2",
+    completionFlag: "slideshow_two_witnesses_part_2_complete",
+  },
+  {
     // §6.5 / §12 C5 — Act 2 Thaloria cinematic. Gameplay sets
     // `thaloria_cinematic_unlocked` on the player's third
     // Collector's Arena match win.
@@ -550,6 +561,26 @@ export function useNarrativeIntegration() {
     state.narrativeFlags?.vortex_endgame_dark_variant,
     cycleLight,
     cycleDark,
+    setNarrativeFlag,
+  ]);
+
+  // ─── ACT 1 §6 — SECTION 6 GATE RAISER ───
+  // Fires the `act1_section_6_ready` trigger flag the moment the
+  // §5.8.1 Light/Dark persist lands — that is, the first time
+  // state.lightDarkAlignment transitions from null to a value. The
+  // SLIDESHOW_TRIGGERS fan-out below picks up the raised flag and
+  // plays the two-witnesses-part-2 slideshow; its flagsSetOnComplete
+  // writes act1_complete and the two witness_*_met_part2 flags per
+  // ACT1_NARRATIVE_STRUCTURE.md §6.6.
+  useEffect(() => {
+    if (!state.lightDarkAlignment) return;
+    if (state.narrativeFlags?.act1_section_6_ready) return;
+    if (state.narrativeFlags?.slideshow_two_witnesses_part_2_complete) return;
+    setNarrativeFlag("act1_section_6_ready", true);
+  }, [
+    state.lightDarkAlignment,
+    state.narrativeFlags?.act1_section_6_ready,
+    state.narrativeFlags?.slideshow_two_witnesses_part_2_complete,
     setNarrativeFlag,
   ]);
 
