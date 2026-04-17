@@ -26,9 +26,12 @@ function placeEnemyUnit(
   defId: string,
   row: number,
   col: number,
+  stats?: { health?: number; power?: number },
 ): GameState {
   const brandedId = entityId as unknown as EntityId;
   const card = makeCardInstance(entityId, defId, 1);
+  if (stats?.health !== undefined) card.currentHealth = stats.health;
+  if (stats?.power !== undefined) card.currentPower = stats.power;
   const entity: BoardEntity = {
     entityId: brandedId,
     card,
@@ -121,6 +124,74 @@ describe("§4.9 silent re-route — resolveTargetRef", () => {
     const friendly: TargetRef = { kind: "friendly_general" };
     const ids = resolveTargetRef(friendly, baseCtx(), s);
     expect(ids).toEqual([s.players[0].generalEntityId]);
+  });
+});
+
+describe("§4.9 silent re-route — tuned sacrifice selection", () => {
+  it("picks the lowest-health candidate when multiple enemies are present", () => {
+    let s = buildBareState();
+    s.seerProphecy = { pending: { cardDefId: "future_card", turnIndex: 2 }, playsPerformed: 0 };
+    s = placeEnemyUnit(s, "ent_beefy", "s1_char_004_ambassador_veron", 2, 5, { health: 10 });
+    s = placeEnemyUnit(s, "ent_weak", "s1_char_004_ambassador_veron", 2, 6, { health: 2 });
+    s = placeEnemyUnit(s, "ent_mid", "s1_char_004_ambassador_veron", 2, 7, { health: 5 });
+    const ref: TargetRef = { kind: "enemy_general" };
+    const ids = resolveTargetRef(ref, baseCtx(), s);
+    expect(ids).toEqual(["ent_weak" as unknown as EntityId]);
+  });
+
+  it("tie-breaks health ties by lowest power", () => {
+    let s = buildBareState();
+    s.seerProphecy = { pending: { cardDefId: "future_card", turnIndex: 2 }, playsPerformed: 0 };
+    s = placeEnemyUnit(s, "ent_hitter", "s1_char_004_ambassador_veron", 2, 5, { health: 3, power: 8 });
+    s = placeEnemyUnit(s, "ent_weakling", "s1_char_004_ambassador_veron", 2, 6, { health: 3, power: 1 });
+    const ref: TargetRef = { kind: "enemy_general" };
+    const ids = resolveTargetRef(ref, baseCtx(), s);
+    expect(ids).toEqual(["ent_weakling" as unknown as EntityId]);
+  });
+
+  it("de-prioritizes a candidate whose defId matches the pending future (canon protection)", () => {
+    let s = buildBareState();
+    s.seerProphecy = {
+      pending: { cardDefId: "s1_char_086_wandering_merchant", turnIndex: 2 },
+      playsPerformed: 0,
+    };
+    // Both candidates have the same health; the one that matches the
+    // pending future's defId is protected even at equal sacrifice cost.
+    s = placeEnemyUnit(s, "ent_pending_match", "s1_char_086_wandering_merchant", 2, 5, { health: 2 });
+    s = placeEnemyUnit(s, "ent_other", "s1_char_004_ambassador_veron", 2, 6, { health: 2 });
+    const ref: TargetRef = { kind: "enemy_general" };
+    const ids = resolveTargetRef(ref, baseCtx(), s);
+    // Expect ent_other — the pending-future match is deferred.
+    expect(ids).toEqual(["ent_other" as unknown as EntityId]);
+  });
+
+  it("falls back to the pending-future match when it's the only option", () => {
+    let s = buildBareState();
+    s.seerProphecy = {
+      pending: { cardDefId: "s1_char_086_wandering_merchant", turnIndex: 2 },
+      playsPerformed: 0,
+    };
+    s = placeEnemyUnit(s, "ent_only", "s1_char_086_wandering_merchant", 2, 5, { health: 2 });
+    const ref: TargetRef = { kind: "enemy_general" };
+    const ids = resolveTargetRef(ref, baseCtx(), s);
+    // No other enemy — re-route still lands on the pending match
+    // (better than landing on the general).
+    expect(ids).toEqual(["ent_only" as unknown as EntityId]);
+  });
+
+  it("deterministic — same inputs always yield the same candidate", () => {
+    let s = buildBareState();
+    s.seerProphecy = { pending: { cardDefId: "future_card", turnIndex: 2 }, playsPerformed: 0 };
+    // Three candidates with identical stats — should tiebreak by id.
+    s = placeEnemyUnit(s, "ent_c", "s1_char_004_ambassador_veron", 2, 5, { health: 3, power: 3 });
+    s = placeEnemyUnit(s, "ent_a", "s1_char_004_ambassador_veron", 2, 6, { health: 3, power: 3 });
+    s = placeEnemyUnit(s, "ent_b", "s1_char_004_ambassador_veron", 2, 7, { health: 3, power: 3 });
+    const ref: TargetRef = { kind: "enemy_general" };
+    const first = resolveTargetRef(ref, baseCtx(), s);
+    const second = resolveTargetRef(ref, baseCtx(), s);
+    expect(first).toEqual(second);
+    // Lex-smallest id wins the three-way tie.
+    expect(first).toEqual(["ent_a" as unknown as EntityId]);
   });
 });
 
