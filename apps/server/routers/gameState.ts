@@ -56,6 +56,10 @@ const gameStateSchema = z.object({
   totalRoomsUnlocked: z.number(),
   totalItemsFound: z.number(),
   narrativeFlags: z.record(z.string(), z.boolean()),
+  // Wave 1 — unified "both narrators" bond (§14.1 milestones at 40/60/80).
+  // Optional so older clients that predate the field round-trip cleanly;
+  // the derived-value fallback in shared/narratorBond.ts handles reads.
+  narratorBond: z.number().optional(),
   claimedQuestRewards: z.array(z.string()).optional(),
   completedGames: z.array(z.string()).optional(),
   collectedCards: z.array(z.string()).optional(),

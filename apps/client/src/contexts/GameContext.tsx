@@ -12,6 +12,7 @@ import { SIB_WATCHED_FLAGS } from "@shared/transmissions";
 import { useSyncStatusStore } from "@/stores/syncStatusStore";
 import { applyDischordiaEnergy } from "@/stores/dischordiaCycleStore";
 import { recordMemorableMoment } from "@/stores/memorableMomentsStore";
+import { adjustNarratorBond as adjustNarratorBondValue, deriveNarratorBond } from "@shared/narratorBond";
 
 /* ─── TYPES ─── */
 export type GamePhase = "FIRST_VISIT" | "AWAKENING" | "QUARTERS_UNLOCKED" | "EXPLORING" | "FULL_ACCESS";
@@ -130,6 +131,12 @@ export interface GameState {
   elaraCallbacks: Record<string, boolean>; // callback flags for future reference
   humanTrust: number;               // 0-100, trust with The Human (competing with Elara)
   humanCallbacks: Record<string, boolean>; // The Human's callback flags
+  // Unified "both narrators" bond (§14.1 witnessing milestones fire at 40/60/80).
+  // Separate from elaraTrust/humanTrust: those are per-narrator scores.
+  // This is the shared scalar the bond-threshold milestones care about.
+  // Reader: getNarratorBond() falls back to min(elaraTrust, humanTrust)
+  // for saves that predate the field.
+  narratorBond: number;
   // NPC relationship tracking (5 additional NPCs beyond Elara + Human)
   npcTrust: Record<string, number>;                 // npcId → trust 0-100
   npcCallbacks: Record<string, Record<string, boolean>>; // npcId → { callbackId → triggered }
@@ -931,6 +938,7 @@ const DEFAULT_GAME_STATE: GameState = {
   elaraCallbacks: {},
   humanTrust: 0,
   humanCallbacks: {},
+  narratorBond: 0,
   // NPC relationship defaults
   npcTrust: { agent_zero: 0, locke: 0, source: 0, antiquarian: 0, shadow_tongue: 0 },
   npcCallbacks: { agent_zero: {}, locke: {}, source: {}, antiquarian: {}, shadow_tongue: {} },
@@ -1128,6 +1136,10 @@ interface GameContextValue {
   setElaraKnowsAboutHuman: (knows: boolean, path: "told" | "discovered" | "betrayed") => void;
   adjustHumanTrust: (delta: number) => void;
   adjustElaraTrust: (delta: number) => void;
+  /** Adjust the unified §14.1 "both narrators" bond by a delta (clamped 0..100). */
+  adjustNarratorBond: (delta: number) => void;
+  /** Read the current bond. Falls back to min(elaraTrust, humanTrust) on pre-field saves. */
+  getNarratorBond: () => number;
   /** Set a flat Elara callback flag (used by roomDialogs + Palimpsest episode callbacks). */
   setElaraCallback: (flag: string, value?: boolean) => void;
   /** Set a flat Human callback flag (parallel to Elara's, for The Human's whispers). */
@@ -2236,6 +2248,20 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setState(prev => ({ ...prev, elaraTrustLevel: Math.max(0, Math.min(100, prev.elaraTrustLevel + delta)) }));
   }, []);
 
+  const adjustNarratorBond = useCallback((delta: number) => {
+    setState(prev => ({ ...prev, narratorBond: adjustNarratorBondValue(prev.narratorBond, delta) }));
+  }, []);
+
+  const getNarratorBond = useCallback(
+    () =>
+      deriveNarratorBond({
+        narratorBond: state.narratorBond,
+        elaraTrust: state.elaraTrust,
+        humanTrust: state.humanTrust,
+      }),
+    [state.narratorBond, state.elaraTrust, state.humanTrust],
+  );
+
   // ═══ NPC RELATIONSHIP CALLBACKS ═══
   const adjustNpcTrust = useCallback((npcId: string, delta: number) => {
     setState(prev => {
@@ -2818,6 +2844,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setElaraKnowsAboutHuman: setElaraKnowsAboutHumanFn,
       adjustHumanTrust,
       adjustElaraTrust,
+      adjustNarratorBond,
+      getNarratorBond,
       setElaraCallback,
       setHumanCallback,
       // ═══ NPC RELATIONSHIPS ═══
