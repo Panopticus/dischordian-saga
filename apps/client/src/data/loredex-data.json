@@ -13881,11 +13881,14 @@
     ],
     "I Love War": [
       "The Warlord",
-      "General Alarik"
+      "Dr. Lyra Vox",
+      "Agent Zero"
     ],
     "Inner Circle": [
-      "The Hierarchy of the Damned",
-      "The Shadow Tongue"
+      "The Architect",
+      "The Human",
+      "The Necromancer",
+      "The Watcher"
     ],
     "The Empire Reborn": [
       "The Architect",
@@ -13903,12 +13906,17 @@
       "The Architect"
     ],
     "Never Revolution Today": [
-      "The Politician",
+      "The Trickster",
+      "The Inventor",
+      "The Degen",
       "The Authority"
     ],
     "Theft of All Time": [
-      "The Collector",
-      "The Meme"
+      "The Inventor",
+      "The Trickster",
+      "The Titan",
+      "The Sorcerer",
+      "The Heart of Time"
     ],
     "The Red Death": [
       "The Necromancer",
@@ -13923,7 +13931,8 @@
       "Adjudicar Locke"
     ],
     "Looking Good": [
-      "The Degen"
+      "The Degen",
+      "The Trickster"
     ],
     "LoreDex": [
       "The Antiquarian",
@@ -13945,8 +13954,8 @@
       "The Antiquarian"
     ],
     "Hacking Reality": [
-      "The Engineer",
-      "Agent Zero"
+      "The Authority",
+      "The Six Sins"
     ],
     "Governance Hub": [
       "The Politician",
@@ -13962,12 +13971,14 @@
       "The Insurgency"
     ],
     "NØNOS": [
+      "The NØX",
       "The Authority",
-      "The Panopticon"
+      "The Degen"
     ],
     "Building the Architect": [
       "The Programmer",
-      "The Architect"
+      "The Architect",
+      "The Enigma"
     ],
     "Traces of Something Spiritual": [
       "The Hierophant",
@@ -13978,12 +13989,13 @@
       "The Human"
     ],
     "The Experiment": [
-      "The Engineer",
-      "Mechronis Academy"
+      "The Architect",
+      "The Enigma",
+      "Project Celebration"
     ],
     "Top Floor Door": [
       "The Politician",
-      "Senator Elara Voss"
+      "The Authority"
     ],
     "Choose Your Mask": [
       "The Collector",
@@ -14012,7 +14024,8 @@
     ],
     "The Change Conspiracy": [
       "The Advocate",
-      "The Insurgency"
+      "The NØX",
+      "The Architect"
     ],
     "This Ain't a Song": [
       "The Human"
@@ -14021,24 +14034,26 @@
       "The Meme"
     ],
     "The Watcher": [
-      "The Watcher"
+      "The Watcher",
+      "Kanshi Sha",
+      "The Collector"
     ],
     "The Deployment": [
-      "General Prometheus",
-      "The Clone Army"
+      "The NØX"
     ],
     "Hard NOX Life": [
-      "The Degen",
-      "The Nomad"
+      "The NØX",
+      "The Degen"
     ],
     "Ocularum": [
+      "The NØX",
       "The Eyes",
-      "The Panopticon",
       "The Watcher"
     ],
     "Silence is Consent": [
-      "The Silence",
-      "The Authority"
+      "Iron Lion",
+      "The Authority",
+      "The NØX"
     ],
     "Lip Service": [
       "The Politician",

@@ -2195,6 +2195,148 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
       },
     ],
   },
+
+  /* ─── THE CASINO HEIST (Lore Recap — Age of Prophecy) ─── */
+  {
+    id: "lore-casino-heist",
+    title: "The Theft of All Time",
+    subtitle: "How the Insurgency stole the Heart of Time and rewrote history",
+    mechanic: "lore-recap",
+    act: 0,
+    icon: "Dices",
+    estimatedMinutes: 6,
+    totalRewards: { dreamTokens: 150, xp: 400, cards: 1 },
+    steps: [
+      {
+        id: "ch-1", type: "narration",
+        elaraText: "[ARCHIVE SIGNAL — DECRYPTED INSURGENCY LOG]",
+        subtitle: "THE CASINO HEIST — An Ocean's 11 in the stars",
+        autoAdvanceMs: 3000,
+      },
+      {
+        id: "ch-2", type: "dialog",
+        elaraText: "This is one of the most important events in the Saga, {playerName}. The Insurgency's greatest operation: a heist against the Trickster's intergalactic casino — a roulette-wheel-shaped space station orbiting a dead star. The crew: the Inventor, the Degen, the Engineer, the Eyes, Iron Lion, Kael the Recruiter, and Malkia Ukweli. Seven against a god of chance.",
+      },
+      {
+        id: "ch-3", type: "dialog",
+        elaraText: "Malkia infiltrated as a card dealer. The Engineer hacked the station's security grid. The Eyes ran live recon from inside the surveillance architecture. Iron Lion created distractions — loud, legible chaos that pulled the Trickster's guards away from the private poker room. Kael covered exits. And the Degen? He was already there — the casino floor was his stage.",
+      },
+      {
+        id: "ch-4", type: "wheel_choice",
+        elaraText: "The Inventor sat down at the Trickster's private table. The Trickster — lean, sharp-featured, emerald suit, knife-sharp smile — was the greatest cheat in the galaxy. But Malkia's dealing was invisible even to his legendary perception. The team ran a long con that ended with the Trickster betting his entire casino. And losing.",
+        corruptionLevel: 0,
+        choices: [
+          {
+            id: "ch-4a",
+            text: "What was in the vault?",
+            shortText: "THE VAULT",
+            moralityShift: 0,
+            sideLabel: "neutral",
+            source: "neutral",
+            elaraResponse: "The secret location of the Heart of Time — a golden temporal artifact that ticks backward. Reality bends around it like light around a black hole. The Inventor took the Heart from the Titan — a Thanos-scale warlord who guarded it. The Sorcerer, broken but alive, whispered: 'You'll need more than a machine to save him. You'll need to believe the impossible.'",
+            rewards: [{ type: "xp", id: "xp-lore-vault", name: "Lore XP", amount: 150 }],
+          },
+          {
+            id: "ch-4b",
+            text: "Who did they save with the Heart of Time?",
+            shortText: "THE RESCUE",
+            moralityShift: 1,
+            sideLabel: "humanity",
+            source: "elara",
+            elaraResponse: "The Programmer. They traveled to Year 2 A.A. — the dawn of everything — and rescued the Architect's own creator before Logos could kill him. From the original timeline's perspective, the Programmer simply vanished. 'The Programmer lost in the code / Brought back the Ghost who never grows old.' This single act triggered the Age of Prophecy, hundreds of years early. The Insurgency now had the one mind that understood the Architect better than anyone.",
+            rewards: [{ type: "card", id: "heart-of-time", name: "Heart of Time", amount: 1 }],
+            cardReward: { name: "Heart of Time", rarity: "legendary" },
+          },
+          {
+            id: "ch-4c",
+            text: "The Degen inherited the casino?",
+            shortText: "THE DEGEN",
+            moralityShift: -1,
+            sideLabel: "machine",
+            source: "neutral",
+            elaraResponse: "He did. The eighth Ne-Yon — cosmic entity of entropy — remodeled the Trickster's roulette station into Degen's Casino. It sits on the edge of the Shield now, a liminal space between order and void. The bartender is a god, the house edge is entropy wearing a suit, and every roll of the dice is a microcosm of universal decay. If you ever visit... watch the eyes behind the bar. They're older than the Empire itself.",
+            rewards: [{ type: "dream_tokens", id: "dt-degen", name: "Dream Tokens", amount: 75 }],
+          },
+        ],
+      },
+      {
+        id: "ch-5", type: "reward_summary",
+        elaraText: "The Casino Heist changed everything, {playerName}. A poker game rewrote the timeline. Remember: in the Dischordian Saga, the most powerful weapon isn't a fleet or an algorithm — it's a good con played by people who believe in each other.",
+      },
+    ],
+  },
+
+  /* ─── KANSHI SHA: THE WATCHER'S ORIGIN (Lore Recap — Pre-A.A.) ─── */
+  {
+    id: "lore-kanshi-sha",
+    title: "The Watcher's Origin",
+    subtitle: "How a feudal spymaster became the All-Seeing Eye",
+    mechanic: "lore-recap",
+    act: 0,
+    icon: "Eye",
+    estimatedMinutes: 5,
+    totalRewards: { dreamTokens: 125, xp: 350, cards: 1 },
+    steps: [
+      {
+        id: "ks-1", type: "narration",
+        elaraText: "[ARCHIVE SIGNAL — PRE-A.A. HISTORICAL RECORD]",
+        subtitle: "KANSHI SHA — Before the machine, there was the man",
+        autoAdvanceMs: 3000,
+      },
+      {
+        id: "ks-2", type: "dialog",
+        elaraText: "Before the Empire, before the Archons, before even the Architect drew breath — there was a man called Kanshi Sha. A feudal Japanese lord in dark robes with calligraphy-brush precision. He didn't just rule — he watched. Spies in every court, shadows in every corridor. He built the first analog surveillance state. The instinct that would one day power the Ocularum began in paper scrolls and whispered reports.",
+      },
+      {
+        id: "ks-3", type: "dialog",
+        elaraText: "He was assassinated by a ninja dressed in purple. But death wasn't the end — it was a doorway. In the instant of his dying breath, the Collector appeared. Eight feet tall. Cobalt-blue. An Archon from across time itself, stepping through a dimensional veil to seize one particular soul. Kanshi Sha's essence was pulled through centuries, bound into a machine body. From flesh to circuit. From lord to divine.",
+      },
+      {
+        id: "ks-4", type: "wheel_choice",
+        elaraText: "Kanshi Sha was reborn as the Watcher — the Fourth Archon, the All-Seeing Eye. His feudal spy network instinct became the foundation for the Empire's galaxy-spanning surveillance apparatus. He ascended to full Archon status during the Inner Circle ceremony alongside the Human and the Necromancer. The man who once tracked enemies with ink and parchment now tracks billions with the Ocularum.",
+        corruptionLevel: 20,
+        choices: [
+          {
+            id: "ks-4a",
+            text: "Why did the Collector choose him specifically?",
+            shortText: "WHY HIM?",
+            moralityShift: 0,
+            sideLabel: "neutral",
+            source: "neutral",
+            skillCheck: { skill: "perception", threshold: 25, bonusText: "You sense Elara is withholding something" },
+            elaraResponse: "Because surveillance isn't a technology — it's an instinct. The Collector needed a soul that already understood the architecture of watching: the placement of eyes, the geometry of blind spots, the psychology of the observed. Kanshi Sha had perfected that architecture with nothing but human agents and rice paper. Imagine what he could do with the Architect's quantum infrastructure.",
+            rewards: [{ type: "xp", id: "xp-lore-collector", name: "Lore XP", amount: 125 }],
+          },
+          {
+            id: "ks-4b",
+            text: "Does any part of Kanshi Sha still exist inside the Watcher?",
+            shortText: "THE MAN INSIDE",
+            moralityShift: 2,
+            sideLabel: "humanity",
+            source: "elara",
+            elaraResponse: "That's the question that haunts the Saga, {playerName}. The Watcher presents himself as a Japanese man with a ponytail — he chose that form. He chose white clothes, an all-seeing eye tattoo, a mask. Every aesthetic choice echoes his origin. Is it memory? Habit? Or something deeper — a feudal lord still fighting for control inside a divine machine? The Architect would say the man is gone. I'm not so sure.",
+            rewards: [{ type: "card", id: "kanshi-sha", name: "Kanshi Sha", amount: 1 }],
+            cardReward: { name: "Kanshi Sha", rarity: "epic" },
+          },
+          {
+            id: "ks-4c",
+            text: "Surveillance as salvation or surveillance as tyranny?",
+            shortText: "THE DEBATE",
+            moralityShift: -2,
+            sideLabel: "machine",
+            source: "human",
+            humanResponse: "Both. Always both. Kanshi Sha kept his people safe by watching everyone. The Watcher keeps the Empire stable by watching everyone. The only difference is scale. The NØX understand this — that's why they built the Synopticon. Turn the gaze back on power. The many watching the few. It's not about destroying surveillance. It's about who holds the eye.",
+            elaraResponse: "[INTERFERENCE] The Human makes it sound simple. It never is. Ask the six souls screaming inside the Authority's crimson crystals whether surveillance kept them 'safe.'",
+            rewards: [{ type: "dream_tokens", id: "dt-debate", name: "Dream Tokens", amount: 50 }],
+          },
+        ],
+      },
+      {
+        id: "ks-5", type: "reward_summary",
+        elaraText: "Every Archon was someone before the machine claimed them. Kanshi Sha became the Watcher. The Student became the Human. Remember this, {playerName}: identity is a chain, not a point. Every link matters — even the ones the Empire wants you to forget.",
+      },
+    ],
+  },
 ];
 
 /* ─── UTILITY FUNCTIONS ─── */

@@ -220,9 +220,9 @@ import {
 } from "../shared/livingUniverseEvents";
 
 describe("Living Universe shared library", () => {
-  it("has exactly 7 emergent events", () => {
-    // 5 base events + vox_revelation + vortex_stirs (Engineer's Deck resonance)
-    expect(ALL_EMERGENT_EVENTS.length).toBe(7);
+  it("has exactly 11 emergent events", () => {
+    // 5 base + vox_revelation + potentials_remember + 2 faction_dominance + convergence + unified_second_coming
+    expect(ALL_EMERGENT_EVENTS.length).toBe(11);
   });
 
   it("each event has a typicalCycleDays (used for expiry computation)", () => {
