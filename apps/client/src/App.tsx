@@ -41,6 +41,7 @@ import SoundControls from "./components/SoundControls";
 import { SlideshowPlayerRoot } from "./components/SlideshowPlayerRoot";
 import { DischordiaCycleSync } from "./components/DischordiaCycleSync";
 import { ForgivenessChoicePanel } from "./components/ForgivenessChoicePanel";
+import { Act1ClosingChoicePanel } from "./components/Act1ClosingChoicePanel";
 import { useElaraTTS } from "./hooks/useElaraTTS";
 import { useVoidEngine } from "./engine/useVoidEngine";
 import { useArchetypeDetection } from "./hooks/useArchetypeDetection";
@@ -573,6 +574,12 @@ function App() {
                         flagsSetOnComplete) AND the player hasn't
                         already chosen. Fires-and-clears. */}
                     <ForgivenessChoicePanel />
+                    {/* ACT1_NARRATIVE_STRUCTURE.md §6.3 — three-option
+                        closing choice after the Section 6 slideshow.
+                        Fires once per playthrough on the
+                        slideshow_two_witnesses_part_2_complete flag;
+                        guards re-showing via act1_closing_choice_made. */}
+                    <Act1ClosingChoicePanel />
                     <AuthGate />
                   </TooltipProvider>
                   </SagaThemeBGMProvider>
