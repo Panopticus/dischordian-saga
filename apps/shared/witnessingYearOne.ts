@@ -263,18 +263,18 @@ export const BEAT_CHRONICLE_ENTRIES: readonly BeatChronicleEntry[] = [
       "The Cargo Bay doors opened and the inventory is wrong. There are items on this ship that were not on the manifest when Kael stole it. Someone packed for a journey they did not tell anyone about. I am writing down the discrepancies because that is what I do with things that do not add up.",
   },
   {
+    flag: "cutscene_briefing_room_intro_complete",
+    order: 2.8,
+    title: "The Memo on the Table",
+    body:
+      "Someone left a memo in the Briefing Room. The handwriting is the Engineer's. The content is a list of names. I recognise four of them. The other nine I will have to look up. I am writing this because the memo was face-down, as if the person who left it wanted it to be found but not immediately.",
+  },
+  {
     flag: "cutscene_comms_array_intro_complete",
     order: 3,
     title: "A Signal Received",
     body:
       "The Comms Array picked up a signal today. Elara logged it as background noise. I am not sure it was noise. I am not sure it was background. I am writing this down because the waveform looked like a sentence and the sentence looked like it was addressed to someone who had not arrived yet.",
-  },
-  {
-    flag: "cutscene_bridge_intro_complete",
-    order: 3.5,
-    title: "The Bridge Opens",
-    body:
-      "The Bridge is live. The star map loaded and every sector was accounted for except one. The dark sector is a hole in the chart where data should be. I have seen holes like this before. They are never empty. They are full of the thing nobody wanted to write down.",
   },
   {
     flag: "cutscene_medical_bay_intro_complete",
@@ -284,11 +284,11 @@ export const BEAT_CHRONICLE_ENTRIES: readonly BeatChronicleEntry[] = [
       "The Medical Bay scanners activated. They ran a diagnostic on the cryo system and flagged an anomaly in the fluid composition that I have decided not to write about in this entry. I will write about it later. I will write about it when I understand what it means. Today I am writing about the fact that the scanners work.",
   },
   {
-    flag: "cutscene_briefing_room_intro_complete",
-    order: 2.8,
-    title: "The Memo on the Table",
+    flag: "cutscene_bridge_intro_complete",
+    order: 3.5,
+    title: "The Bridge Opens",
     body:
-      "Someone left a memo in the Briefing Room. The handwriting is the Engineer's. The content is a list of names. I recognise four of them. The other nine I will have to look up. I am writing this because the memo was face-down, as if the person who left it wanted it to be found but not immediately.",
+      "The Bridge is live. The star map loaded and every sector was accounted for except one. The dark sector is a hole in the chart where data should be. I have seen holes like this before. They are never empty. They are full of the thing nobody wanted to write down.",
   },
   {
     flag: "cutscene_archives_two_witnesses_part1_complete",

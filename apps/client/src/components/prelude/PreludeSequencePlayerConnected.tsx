@@ -66,6 +66,7 @@ export function PreludeSequencePlayerConnected({
     state,
     setCurrentPreludeBeat,
     recordPreludeCompletionFlag,
+    dispatchPreludeHandoff,
   } = useGame();
 
   // Validate the saved beat id against the live manifest. If the player
@@ -91,8 +92,9 @@ export function PreludeSequencePlayerConnected({
 
   const handleComplete = useCallback(() => {
     setCurrentPreludeBeat(null);
+    dispatchPreludeHandoff();
     onPreludeComplete?.();
-  }, [setCurrentPreludeBeat, onPreludeComplete]);
+  }, [setCurrentPreludeBeat, dispatchPreludeHandoff, onPreludeComplete]);
 
   return (
     <PreludeSequencePlayer

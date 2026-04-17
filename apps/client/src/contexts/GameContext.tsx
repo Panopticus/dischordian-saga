@@ -1118,6 +1118,7 @@ interface GameContextValue {
   skipToExploring: () => void;
   // ═══ NARRATIVE v2 ═══
   advanceNarrativeAct: (actId: number) => void;
+  dispatchPreludeHandoff: () => void;
   recordNarrativeChoice: (actId: number, sceneId: string, choiceId: string, moralityShift: number) => void;
   // Prelude playhead setters (see currentPreludeBeat / preludeCompletedFlags
   // / lightDarkAlignment fields above). PreludeSequencePlayer calls these
@@ -2192,6 +2193,25 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setState(prev => ({ ...prev, narrativeAct: actId }));
   }, []);
 
+  const dispatchPreludeHandoff = useCallback(() => {
+    setState(prev => ({
+      ...prev,
+      narrativeAct: 1,
+      narrativeFlags: {
+        ...prev.narrativeFlags,
+        prelude_complete: true,
+        prelude_burnt_card_found: true,
+        cutscene_archives_two_witnesses_part1_complete: true,
+        prelude_mission_wreck_next_door_complete: true,
+        prelude_mission_signal_from_nowhere_complete: true,
+        prelude_mission_burnt_card_complete: true,
+        prelude_patch_joined: true,
+        prelude_zephyr_9_joined: true,
+        prelude_little_one_joined: true,
+      },
+    }));
+  }, []);
+
   // ─── Prelude playhead setters ───
   // Called by PreludeSequencePlayer as the player advances through the
   // 15 beats. Persisted via the normal localStorage sync, so returning
@@ -2823,6 +2843,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       skipToExploring,
       // ═══ NARRATIVE v2 ═══
       advanceNarrativeAct,
+      dispatchPreludeHandoff,
       recordNarrativeChoice,
       setCurrentPreludeBeat,
       recordPreludeCompletionFlag,
