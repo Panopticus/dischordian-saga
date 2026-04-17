@@ -50,6 +50,54 @@ export function findBoardEntity(
 }
 
 /**
+ * §4.9 Seer "silent re-route" (spec §3.1).
+ *
+ * When the player targets the Seer's general (side 1) while the
+ * Seer has a pending future baked, swap the target for another
+ * enemy entity if one exists. This is the canon-consistent way to
+ * "the prophecy plays out" — the player's effect still resolves,
+ * but it doesn't land on the entity that is about to play the
+ * retroactive card.
+ *
+ * No event is emitted. Spec §3.1: "no UI indication of the
+ * re-route". Test visibility comes from asserting state changes on
+ * the alternate target, not from a dedicated event stream.
+ *
+ * Scope: runs only when `state.seerProphecy?.pending` is present
+ * AND the actor is side 0 (player). AI / opponent effects are not
+ * re-routed — the Seer herself may target her own general, and
+ * non-§4.9 matches never enter this branch.
+ *
+ * Selection: deterministic — picks the first enemy unit on the
+ * board that isn't the general. Deterministic matters for replay
+ * reproducibility; the spec is silent on alternate ordering, so
+ * stable pick-first is the defensible default.
+ */
+function reroutePendingFutureTargets(
+  ids: EntityId[],
+  ctx: ExecCtx,
+  state: GameState,
+): EntityId[] {
+  if (!state.seerProphecy?.pending) return ids;
+  if (ctx.actorSide !== 0) return ids;
+  const seerGeneralId = state.players[1].generalEntityId;
+  if (!ids.includes(seerGeneralId)) return ids;
+  let alternateId: EntityId | undefined;
+  for (const entity of Object.values(state.board)) {
+    if (
+      entity.card.owner === 1 &&
+      entity.entityId !== seerGeneralId
+    ) {
+      alternateId = entity.entityId;
+      break;
+    }
+  }
+  if (!alternateId) return ids;
+  const alt: EntityId = alternateId;
+  return ids.map((id) => (id === seerGeneralId ? alt : id));
+}
+
+/**
  * Resolve a TargetRef to a list of entityIds. Most refs resolve to
  * exactly one entity (or zero if the reference is stale).
  *
@@ -58,6 +106,15 @@ export function findBoardEntity(
  * general has moved or been healed.
  */
 export function resolveTargetRef(
+  ref: TargetRef,
+  ctx: ExecCtx,
+  state: GameState
+): EntityId[] {
+  const ids = resolveTargetRefRaw(ref, ctx, state);
+  return reroutePendingFutureTargets(ids, ctx, state);
+}
+
+function resolveTargetRefRaw(
   ref: TargetRef,
   ctx: ExecCtx,
   state: GameState
@@ -101,6 +158,15 @@ export function resolveTargetRef(
  * logs via events but does not crash the match.
  */
 export function resolveTargetSelector(
+  sel: TargetSelector,
+  ctx: ExecCtx,
+  state: GameState
+): EntityId[] {
+  const ids = resolveTargetSelectorRaw(sel, ctx, state);
+  return reroutePendingFutureTargets(ids, ctx, state);
+}
+
+function resolveTargetSelectorRaw(
   sel: TargetSelector,
   ctx: ExecCtx,
   state: GameState

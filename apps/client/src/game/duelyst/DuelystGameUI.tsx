@@ -63,6 +63,7 @@ import {
   type TrialTranscriptEntry,
 } from "@/components/match/TrialTranscriptColumn";
 import { PublicWitnessColumn } from "@/components/match/PublicWitnessColumn";
+import { SeerPlayOverlay } from "@/components/match/SeerPlayOverlay";
 import type { TcgDispatchResult } from "./TcgClient";
 
 interface DuelystGameUIProps {
@@ -90,6 +91,14 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   const initialPlayerDeckRef = useRef<readonly string[]>([]);
   // Guard so the §4.9 match-end flag writes fire exactly once.
   const seerFlagsWrittenRef = useRef(false);
+  // §4.9 prophecy visual signal. Tracks the last observed
+  // playsPerformed so the overlay mounts once per new prophecy
+  // play and auto-dismisses after 800ms.
+  const [showSeerPlayOverlay, setShowSeerPlayOverlay] = useState(false);
+  const prevSeerPlaysRef = useRef(0);
+  // Screen-reader match-start announcement — fired once when
+  // seerProphecy first appears on state (spec §6.3).
+  const seerAnnouncedRef = useRef(false);
   const { setNarrativeFlag } = useGame();
   const [gameState, setGameState] = useState<DuelystGameState | null>(null);
   const [phase, setPhase] = useState<Phase>("mulligan");
@@ -326,6 +335,35 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     setNarrativeFlag(SEER_STAFF_WITNESSED_FLAG, true);
     setNarrativeFlag(ACT1_CYCLE_B_COMPLETE_FLAG, true);
   }, [gameState, setNarrativeFlag]);
+
+  // §4.9 match-start screen-reader announcement (spec §6.3). Fires
+  // exactly once per playthrough when seerProphecy first appears on
+  // state — tells screen-reader users about the asymmetric rule
+  // without naming the winnable-path secret (spec §6.3 note).
+  useEffect(() => {
+    if (!gameState?.seerProphecy) return;
+    if (seerAnnouncedRef.current) return;
+    seerAnnouncedRef.current = true;
+    announce(
+      "The Seer plays cards from a future turn. Her hand count does not decrease.",
+      true,
+    );
+  }, [gameState]);
+
+  // §4.9 prophecy visual signal. Watches the playsPerformed counter
+  // and shows SeerPlayOverlay for 800ms on each increment. Also
+  // announces the individual play for screen-readers — the match-
+  // start announcement covers the general rule; this confirms the
+  // specific moment of a new retroactive play.
+  useEffect(() => {
+    if (!gameState?.seerProphecy) return;
+    const plays = gameState.seerProphecy.playsPerformed;
+    if (plays > prevSeerPlaysRef.current) {
+      prevSeerPlaysRef.current = plays;
+      setShowSeerPlayOverlay(true);
+      announce("The Seer plays a card from a future turn.");
+    }
+  }, [gameState]);
 
   // §5.8 Authority trial — screen-reader announcement on match start +
   // transcript reset. The TrialPhaseIndicator's own aria-live region
@@ -842,6 +880,9 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           balance={gameState.publicWitness.balance}
           entries={gameState.publicWitness.entries}
         />
+      )}
+      {showSeerPlayOverlay && (
+        <SeerPlayOverlay onDismiss={() => setShowSeerPlayOverlay(false)} />
       )}
       {rejection && (
         <PlayRejectionToast key={rejection.key} message={rejection.message} />
