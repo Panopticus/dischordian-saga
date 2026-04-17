@@ -44,4 +44,5 @@ export const cardDef: CardDefinition = {
     "Some call it intuition, others call it premonition — the healed simply call it a second chance.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

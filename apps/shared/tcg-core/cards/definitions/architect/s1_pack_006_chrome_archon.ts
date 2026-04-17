@@ -58,4 +58,5 @@ export const cardDef: CardDefinition = {
     "It spoke once. The word was 'comply.' Nothing on the board had the capacity to refuse.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

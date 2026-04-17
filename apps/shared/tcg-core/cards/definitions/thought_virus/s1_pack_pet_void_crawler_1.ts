@@ -48,4 +48,5 @@ export const cardDef: CardDefinition = {
     "It burrows into the space between thoughts and waits to die.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

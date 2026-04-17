@@ -43,4 +43,5 @@ export const cardDef: CardDefinition = {
     "The Ark's defenders were built without faction markings. They defend the ship, not the ideology.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

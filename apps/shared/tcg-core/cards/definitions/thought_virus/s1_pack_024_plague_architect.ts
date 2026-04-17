@@ -45,4 +45,5 @@ export const cardDef: CardDefinition = {
     "Every fallen soldier is a brick. Every scream is mortar. The cathedral rises.",
   rulesVersion: "1.0.0",
   trial_categories: ["reactive"] as const,
+  verdict_delta: 1,
 };

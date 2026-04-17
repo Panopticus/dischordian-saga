@@ -45,4 +45,5 @@ export const cardDef: CardDefinition = {
     "She saw the blade three seconds before it fell. Three seconds was enough.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

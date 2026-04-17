@@ -45,4 +45,5 @@ export const cardDef: CardDefinition = {
     "The resistance runs on hope and ammunition. This crate has both.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

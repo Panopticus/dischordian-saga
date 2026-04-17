@@ -47,4 +47,5 @@ export const cardDef: CardDefinition = {
     "The first step upward is the hardest. The shield proves you took it.",
   rulesVersion: "1.0.0",
   trial_categories: ["evidence"] as const,
+  verdict_delta: 1,
 };

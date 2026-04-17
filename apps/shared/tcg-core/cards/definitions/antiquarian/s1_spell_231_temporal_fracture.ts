@@ -44,4 +44,5 @@ export const cardDef: CardDefinition = {
     "The clock hands stop. The pendulum hangs mid-swing. Only the Antiquarian still moves.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

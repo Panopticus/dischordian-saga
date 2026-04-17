@@ -37,4 +37,5 @@ export const cardDef: CardDefinition = {
     "The signal died with Agent Zero, but the frequency lives on. Every rebel cell still tunes in at midnight.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 1,
 };

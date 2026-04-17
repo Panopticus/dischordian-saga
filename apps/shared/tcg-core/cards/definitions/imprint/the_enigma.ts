@@ -18,6 +18,7 @@ export const the_enigma_t1: CardDefinition = {
   flavorText: "A shape you are not sure was just standing there. It might have been. It was probably something else.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 1,
 };
 
 export const the_enigma_t2: CardDefinition = {
@@ -30,6 +31,7 @@ export const the_enigma_t2: CardDefinition = {
   flavorText: "Flying. The Enigma does not walk. He arrives.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };
 
 export const the_enigma_t3: CardDefinition = {
@@ -42,6 +44,7 @@ export const the_enigma_t3: CardDefinition = {
   flavorText: "Flying. Celerity. He attacks twice and lets you work out which was the real one.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };
 
 export const the_enigma_t4: CardDefinition = {
@@ -59,6 +62,7 @@ export const the_enigma_t4: CardDefinition = {
   flavorText: "Flying. Celerity. On deploy, draw 1. He drew the card before the card was in the deck.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };
 
 export const the_enigma_t5: CardDefinition = {
@@ -77,6 +81,7 @@ export const the_enigma_t5: CardDefinition = {
     "Flying. Celerity. On deploy, draw 2. The Enigma has made exactly one decision that was obvious in retrospect and it was the decision to become the Enigma, which nobody saw coming.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };
 
 export const THE_ENIGMA_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([

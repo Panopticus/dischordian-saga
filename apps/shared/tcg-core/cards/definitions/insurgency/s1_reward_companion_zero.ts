@@ -68,4 +68,5 @@ export const cardDef: CardDefinition = {
     "Agent Zero always left something behind — a frequency, a signal, a reason to keep fighting.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

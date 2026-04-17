@@ -33,4 +33,5 @@ export const cardDef: CardDefinition = {
     "He takes only what you will not miss — until you reach for it and find nothing there.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

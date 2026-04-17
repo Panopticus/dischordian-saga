@@ -53,4 +53,5 @@ export const cardDef: CardDefinition = {
     "He collected names, faces, histories. This trophy remembers them all — silently.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

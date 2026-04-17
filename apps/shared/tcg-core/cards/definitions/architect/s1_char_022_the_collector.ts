@@ -80,4 +80,5 @@ export const cardDef: CardDefinition = {
     "Tasked by the Architect, the Collector harvests the DNA and machine code of the most advanced organic and synthetic beings across the multiverse.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "evidence", "narrative"] as const,
+  verdict_delta: 2,
 };

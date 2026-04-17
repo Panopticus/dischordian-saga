@@ -57,4 +57,5 @@ export const cardDef: CardDefinition = {
     "The Ne-Yon dreamed of a warrior who mastered every discipline. Then it opened its eyes, and the warrior was standing there.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

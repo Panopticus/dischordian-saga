@@ -43,4 +43,5 @@ export const cardDef: CardDefinition = {
     "He sells to all sides and swears allegiance to none. Coin is the only faction that never falls.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 1,
 };

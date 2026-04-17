@@ -46,4 +46,5 @@ export const cardDef: CardDefinition = {
     "First contact. First contract. First profit.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 1,
 };

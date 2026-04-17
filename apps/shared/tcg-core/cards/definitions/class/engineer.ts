@@ -34,6 +34,7 @@ export const engineer_01: CardDefinition = {
     "On deploy, draw 1. The first thing the Engineer builds in any new workshop is a smaller version of himself that he can hand the smaller problems to.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 1,
 };
 
 export const engineer_02: CardDefinition = {
@@ -62,6 +63,7 @@ export const engineer_02: CardDefinition = {
     "Draw 2 cards and gain 1 mana this turn. Every invention pays for itself or it is not an invention, it is just a mistake with enthusiasm.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 1,
 };
 
 export const engineer_03: CardDefinition = {
@@ -80,6 +82,7 @@ export const engineer_03: CardDefinition = {
     "Provoke. A structure the Engineer built the week he accidentally invented Rush and lost three lab walls. He patched the walls by telling the kinetic overflow where to go.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };
 
 export const engineer_04: CardDefinition = {
@@ -103,6 +106,7 @@ export const engineer_04: CardDefinition = {
     "Draw 3 cards. A blueprint is a design that has not yet been talked out of itself by the physics it will have to live inside of.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const engineer_05: CardDefinition = {
@@ -132,6 +136,7 @@ export const engineer_05: CardDefinition = {
     "On deploy, draw 2 and gain 2 mana this turn. The Engineer's apprentices learn by building the same instrument their master built, in a different way, because the different way is the only thing that will teach them anything the master's way could not already say.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const ENGINEER_CLASS_CARDS: readonly CardDefinition[] = Object.freeze([

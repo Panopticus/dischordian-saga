@@ -18,6 +18,7 @@ export const the_source_t1: CardDefinition = {
   flavorText: "A smiling androgynous figure in brilliant light. Two small children dance in front. The dance does not quite look voluntary.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 1,
 };
 
 export const the_source_t2: CardDefinition = {
@@ -30,6 +31,7 @@ export const the_source_t2: CardDefinition = {
   flavorText: "Drain. He takes a little from everyone he loves. He loves everyone.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };
 
 export const the_source_t3: CardDefinition = {
@@ -49,6 +51,7 @@ export const the_source_t3: CardDefinition = {
   flavorText: "Drain. On deploy, heal your general for 5. He wants you to live. He wants the way you live to be a version he approves of.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };
 
 export const the_source_t4: CardDefinition = {
@@ -68,6 +71,7 @@ export const the_source_t4: CardDefinition = {
   flavorText: "Drain. Forcefield. On deploy, heal your general for 7. The halo around him is photons and apology in the same proportion.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const the_source_t5: CardDefinition = {
@@ -93,6 +97,7 @@ export const the_source_t5: CardDefinition = {
     "Drain. Forcefield. On deploy, heal your general for 10 and silence the enemy general. The Source is the cheerful end of every conversation, and the conversations he is cheerfully ending are not, strictly speaking, the conversations the people in them signed up for.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const THE_SOURCE_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([

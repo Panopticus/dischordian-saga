@@ -53,4 +53,5 @@ export const cardDef: CardDefinition = {
     "Locke never flinches at the cost. He simply adds it to someone else's invoice.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

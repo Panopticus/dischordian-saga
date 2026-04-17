@@ -48,4 +48,5 @@ export const cardDef: CardDefinition = {
     "He stands where others flee. Honor demands no less.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

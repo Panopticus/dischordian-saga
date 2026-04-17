@@ -53,4 +53,5 @@ export const cardDef: CardDefinition = {
     "The arena tears open. The Void pours through.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

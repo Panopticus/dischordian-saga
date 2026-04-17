@@ -50,4 +50,5 @@ export const cardDef: CardDefinition = {
     "She reads the future not in tea leaves or stars but in the Living Universe's heartbeat. Each pulse is a chapter yet unwritten.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

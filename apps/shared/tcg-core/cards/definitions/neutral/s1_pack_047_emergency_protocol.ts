@@ -49,4 +49,5 @@ export const cardDef: CardDefinition = {
     "The protocol was designed for catastrophe. It activates in the space between the blow and the fall.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

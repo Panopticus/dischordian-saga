@@ -58,4 +58,5 @@ export const cardDef: CardDefinition = {
     "No training. No gear. Just anger and a willingness to die for the cause.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

@@ -34,6 +34,7 @@ export const oracle_01: CardDefinition = {
     "Flying. On deploy, draw 1. The first divination tool the Oracle's apprentices learn is a bird that already knows where the body is.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 1,
 };
 
 export const oracle_02: CardDefinition = {
@@ -57,6 +58,7 @@ export const oracle_02: CardDefinition = {
     "Draw 2 cards. A glyph you carved yesterday because today's version of you was going to need it.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 1,
 };
 
 export const oracle_03: CardDefinition = {
@@ -75,6 +77,7 @@ export const oracle_03: CardDefinition = {
     "Flying. Dispel. Your enemy's plan and your enemy's belief in your enemy's plan are two different things, and she can untangle both at once.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };
 
 export const oracle_04: CardDefinition = {
@@ -98,6 +101,7 @@ export const oracle_04: CardDefinition = {
     "Draw 3 cards. What you see with first sight is the room. What you see with second sight is the room's opinion of you.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const oracle_05: CardDefinition = {
@@ -122,6 +126,7 @@ export const oracle_05: CardDefinition = {
     "Flying. Dispel. Forcefield. On deploy, draw 2. The White Oracle is suspended in a processing loop. The loop is supposed to contain her. It has been leaking since the day it closed, and these cards are some of the shapes the leak takes.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const ORACLE_CLASS_CARDS: readonly CardDefinition[] = Object.freeze([

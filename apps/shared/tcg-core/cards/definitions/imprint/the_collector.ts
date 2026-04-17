@@ -24,6 +24,7 @@ export const the_collector_t1: CardDefinition = {
     "A man in rose-gold chains of his own forging, offering you a smaller chain with a sincere and apologetic expression.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 1,
 };
 
 export const the_collector_t2: CardDefinition = {
@@ -41,6 +42,7 @@ export const the_collector_t2: CardDefinition = {
     "Drain. He takes a little from everything he touches. He is not greedy. He is patient, and patience compounds.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };
 
 export const the_collector_t3: CardDefinition = {
@@ -68,6 +70,7 @@ export const the_collector_t3: CardDefinition = {
     "Drain. On deploy, stun a random enemy for a turn. He selects the thing you would have moved next, and briefly, gently, refuses to let you move it.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative", "offensive"] as const,
+  verdict_delta: 2,
 };
 
 export const the_collector_t4: CardDefinition = {
@@ -95,6 +98,7 @@ export const the_collector_t4: CardDefinition = {
     "Drain. Forcefield. On deploy, stun a random enemy. His collection is at the size where the room around him has started to apologize for its ceiling.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const the_collector_t5: CardDefinition = {
@@ -122,6 +126,7 @@ export const the_collector_t5: CardDefinition = {
     "Drain. Forcefield. On deploy, stun a random enemy. The Collector has kept every small precious thing anyone ever offered him for eleven centuries, and every one of those objects is currently in the same room he is, and he has written a small handwritten label for each one explaining where it came from and whether the person is still alive.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const THE_COLLECTOR_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([

@@ -81,4 +81,5 @@ export const cardDef: CardDefinition = {
     "Promised immortality by the Architect, she expected transcendence but instead found herself reduced to an intangible presence haunting the Panopticon.",
   rulesVersion: "1.0.0",
   trial_categories: ["evidence", "reactive"] as const,
+  verdict_delta: 1,
 };

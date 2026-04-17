@@ -54,4 +54,5 @@ export const cardDef: CardDefinition = {
     "Lost an eye in a deal that went wrong. Won't say which deal. Won't say which eye.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

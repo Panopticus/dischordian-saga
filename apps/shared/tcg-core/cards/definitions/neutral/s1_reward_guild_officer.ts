@@ -56,4 +56,5 @@ export const cardDef: CardDefinition = {
     "Rank carries weight. So does the armor she requisitions.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

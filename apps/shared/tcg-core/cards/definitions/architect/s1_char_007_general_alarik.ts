@@ -94,4 +94,5 @@ export const cardDef: CardDefinition = {
     "One of the Architect's elite robotic Titan Generals, specialized in planetary siege operations and orbital suppression.",
   rulesVersion: "1.0.0",
   trial_categories: ["evidence", "reactive"] as const,
+  verdict_delta: 1,
 };

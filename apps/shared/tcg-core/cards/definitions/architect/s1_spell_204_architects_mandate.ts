@@ -41,4 +41,5 @@ export const cardDef: CardDefinition = {
     "Two points of data. Two vectors of control. The Arena expands at the Architect's whim.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

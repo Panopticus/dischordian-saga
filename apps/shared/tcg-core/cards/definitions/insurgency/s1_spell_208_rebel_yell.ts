@@ -44,4 +44,5 @@ export const cardDef: CardDefinition = {
     "The cry starts in one throat and ends in a hundred fists.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

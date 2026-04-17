@@ -23,6 +23,7 @@ export const quarchon_01: CardDefinition = {
     "Forcefield. A quarchon begins life as a lattice of intentions the Architect has not yet committed to. The forcefield is what he still reserves the right to.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };
 
 export const quarchon_02: CardDefinition = {
@@ -40,6 +41,7 @@ export const quarchon_02: CardDefinition = {
     "Provoke. Grow. Quarchon archivists remember by becoming denser. The older one is, the more it weighs, and the more room it takes up in any conversation that thinks it has finished.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };
 
 export const quarchon_03: CardDefinition = {
@@ -57,6 +59,7 @@ export const quarchon_03: CardDefinition = {
     "Provoke. Forcefield. Grow. Ten health, growing. The Crystal Senator is the Architect's only quarchon diplomat. He has been in session for 4,700 years. He has not yet finished his opening remarks.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const QUARCHON_RACE_CARDS: readonly CardDefinition[] = Object.freeze([

@@ -45,4 +45,5 @@ export const cardDef: CardDefinition = {
     "By the time the symptoms manifest, the prognosis is already written.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

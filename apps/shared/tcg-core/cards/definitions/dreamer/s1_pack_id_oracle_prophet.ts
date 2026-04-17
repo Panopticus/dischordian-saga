@@ -47,4 +47,5 @@ export const cardDef: CardDefinition = {
     "The prophecy returns in fragments. Each piece burns brighter than the last.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

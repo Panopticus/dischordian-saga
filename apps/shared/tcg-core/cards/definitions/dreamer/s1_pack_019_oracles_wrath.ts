@@ -59,4 +59,5 @@ export const cardDef: CardDefinition = {
     "She did not foresee your destruction. She ordained it.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

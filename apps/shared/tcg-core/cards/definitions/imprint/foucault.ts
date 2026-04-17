@@ -18,6 +18,7 @@ export const foucault_t1: CardDefinition = {
   flavorText: "A reader in a Babylonian archive. He is not in any of the surveillance logs because he built the surveillance logs.",
   rulesVersion: "1.0.0",
   trial_categories: ["evidence"] as const,
+  verdict_delta: 1,
 };
 
 export const foucault_t2: CardDefinition = {
@@ -30,6 +31,7 @@ export const foucault_t2: CardDefinition = {
   flavorText: "Dispel. He reads the surveillance tag on your buff and crosses it out with a red pen.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };
 
 export const foucault_t3: CardDefinition = {
@@ -48,6 +50,7 @@ export const foucault_t3: CardDefinition = {
   flavorText: "Dispel. Stealth — 1 turn. He stepped into the blind spot of the room's camera. He installed the blind spot two years ago.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };
 
 export const foucault_t4: CardDefinition = {
@@ -66,6 +69,7 @@ export const foucault_t4: CardDefinition = {
   flavorText: "Dispel. Stealth — 2 turns. He is carrying a map of the Panopticon's schedule of glances, and you are in none of them.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const foucault_t5: CardDefinition = {
@@ -88,6 +92,7 @@ export const foucault_t5: CardDefinition = {
     "Dispel. Stealth — 3 turns. On deploy, silence the enemy general. Foucault wrote the theory of the surveillance state the Babylonians are currently operating inside of. They did not read the theory. He keeps a copy in his inside pocket with footnotes they would have needed.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const FOUCAULT_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([

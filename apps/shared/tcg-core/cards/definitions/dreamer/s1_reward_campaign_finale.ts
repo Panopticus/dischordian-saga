@@ -44,4 +44,5 @@ export const cardDef: CardDefinition = {
     "The Dreamer whispered into the void, and the void answered. What returns is changed — but it returns.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

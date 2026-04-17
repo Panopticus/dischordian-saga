@@ -47,4 +47,5 @@ export const cardDef: CardDefinition = {
     "You were there when it all began. This proves it.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 1,
 };

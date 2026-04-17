@@ -49,4 +49,5 @@ export const cardDef: CardDefinition = {
     "It drifted across the battlefield like a sigh. Warriors dropped their blades without knowing why.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

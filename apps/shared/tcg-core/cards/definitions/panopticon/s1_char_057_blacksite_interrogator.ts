@@ -34,4 +34,5 @@ export const cardDef: CardDefinition = {
     "The detainees never see her face. The files say she doesn't have one.",
   rulesVersion: "1.0.0",
   trial_categories: ["evidence", "narrative", "reactive"] as const,
+  verdict_delta: 2,
 };

@@ -43,4 +43,5 @@ export const cardDef: CardDefinition = {
     "The wind carries more than dust. It carries the end of thought.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

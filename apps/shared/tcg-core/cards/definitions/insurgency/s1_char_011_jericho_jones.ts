@@ -47,4 +47,5 @@ export const cardDef: CardDefinition = {
     "Known for his exceptional combat skills, tactical genius, and deep sense of loyalty, Jericho played a pivotal role in several key battles.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

@@ -50,4 +50,5 @@ export const cardDef: CardDefinition = {
     "The walls listen. The floor obeys. Every corridor and chamber is an extension of the Architect's will.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

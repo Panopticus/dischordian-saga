@@ -45,4 +45,5 @@ export const cardDef: CardDefinition = {
     "The Cycle cares nothing for allegiance. When it turns, everything in its path is ground to equal dust.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

@@ -55,4 +55,5 @@ export const cardDef: CardDefinition = {
     "The host collapses. Something new rises from the remains, wearing a familiar face.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

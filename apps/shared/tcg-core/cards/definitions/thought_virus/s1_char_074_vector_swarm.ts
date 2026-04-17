@@ -44,4 +44,5 @@ export const cardDef: CardDefinition = {
     "Kill it and it splits. Burn it and it drifts. Ignore it and you are already too late.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

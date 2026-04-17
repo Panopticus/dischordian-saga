@@ -57,4 +57,5 @@ export const cardDef: CardDefinition = {
     "The Architect does not fight. The Architect laughs.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

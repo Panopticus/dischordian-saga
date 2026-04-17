@@ -43,4 +43,5 @@ export const cardDef: CardDefinition = {
     "Every variable was accounted for in the original design. Your autonomy was never part of the equation.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

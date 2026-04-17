@@ -43,4 +43,5 @@ export const cardDef: CardDefinition = {
     "It lived for the span of a single thought. But what a thought it was.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive", "reactive"] as const,
+  verdict_delta: 1,
 };

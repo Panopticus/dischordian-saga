@@ -42,4 +42,5 @@ export const cardDef: CardDefinition = {
     "He does not ask for payment. He takes it from the corpse's pockets. The Syndicate calls it 'efficiency.'",
   rulesVersion: "1.0.0",
   trial_categories: ["reactive"] as const,
+  verdict_delta: 1,
 };

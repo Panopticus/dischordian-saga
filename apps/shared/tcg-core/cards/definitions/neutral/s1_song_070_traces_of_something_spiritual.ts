@@ -53,4 +53,5 @@ export const cardDef: CardDefinition = {
     "Not a ghost, not a god — something in between, lingering at the threshold of perception.",
   rulesVersion: "1.0.0",
   trial_categories: ["evidence", "narrative"] as const,
+  verdict_delta: 1,
 };

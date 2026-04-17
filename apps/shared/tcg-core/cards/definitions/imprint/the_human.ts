@@ -33,6 +33,7 @@ export const the_human_t1: CardDefinition = {
     "A figure in a long coat at the edge of the Mechronis playground, watching. He is twelve years old and he has already decided how this ends.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 1,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -53,6 +54,7 @@ export const the_human_t2: CardDefinition = {
     "Backstab. He prefers to be behind you. You prefer for anyone you like to not be behind you. These preferences are not compatible and he worked that out first.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -83,6 +85,7 @@ export const the_human_t3: CardDefinition = {
     "Backstab. On deploy, draw a card. He does not enter a room without already having read the case file the room is about.",
   rulesVersion: "1.0.0",
   trial_categories: ["evidence"] as const,
+  verdict_delta: 1,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -113,6 +116,7 @@ export const the_human_t4: CardDefinition = {
     "Backstab. Deathwatch. On deploy, draw a card. Every corpse is a paragraph in a case file he has been writing since Mechronis. He reads from them on the way to work.",
   rulesVersion: "1.0.0",
   trial_categories: ["evidence", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -145,6 +149,7 @@ export const the_human_t5: CardDefinition = {
     "Backstab. Deathwatch. On deploy, draw two cards. The Twelfth Archon was appointed by a Panopticon that did not yet understand what kind of organism it was appointing. He has been writing his response ever since, and it is long, and it has footnotes, and you are probably in it.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };
 
 /** All five Human imprint tiers in tier order. */

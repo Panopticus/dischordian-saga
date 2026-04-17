@@ -34,4 +34,5 @@ export const cardDef: CardDefinition = {
     "She does not ask which side you fight for. Only where it hurts.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

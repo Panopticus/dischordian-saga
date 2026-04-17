@@ -95,4 +95,5 @@ export const cardDef: CardDefinition = {
     "Driven by the Dreamer's visions, the Inventor crafts tools and innovations that can empower or undermine any faction, de...",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "evidence", "reactive"] as const,
+  verdict_delta: 1,
 };

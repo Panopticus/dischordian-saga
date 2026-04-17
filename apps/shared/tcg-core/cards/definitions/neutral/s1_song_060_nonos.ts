@@ -44,4 +44,5 @@ export const cardDef: CardDefinition = {
     "The melody seeps into open wounds, knitting flesh and spirit back together in a single refrain.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

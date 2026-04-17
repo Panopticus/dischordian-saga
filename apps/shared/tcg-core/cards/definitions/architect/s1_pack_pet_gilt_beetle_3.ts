@@ -51,4 +51,5 @@ export const cardDef: CardDefinition = {
     "It was built to outlast civilizations. So far, it has.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

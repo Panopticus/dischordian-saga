@@ -39,4 +39,5 @@ export const cardDef: CardDefinition = {
     "She did not see the future. She reached into the probability field and pulled out the one she wanted.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 1,
 };

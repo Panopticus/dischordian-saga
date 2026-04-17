@@ -47,4 +47,5 @@ export const cardDef: CardDefinition = {
     "It survived the collapse of the Third Age. Your attack will not be what breaks it.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "evidence"] as const,
+  verdict_delta: 1,
 };

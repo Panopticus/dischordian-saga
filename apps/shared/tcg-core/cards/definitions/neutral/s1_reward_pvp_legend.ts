@@ -53,4 +53,5 @@ export const cardDef: CardDefinition = {
     "When the Legend enters the arena, even the walls lean in to watch.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

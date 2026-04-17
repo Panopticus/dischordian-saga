@@ -23,4 +23,5 @@ export const cardDef: CardDefinition = {
     "Born between thoughts, gone before the next.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

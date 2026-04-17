@@ -47,4 +47,5 @@ export const cardDef: CardDefinition = {
     "Known for her piercing intelligence and enigmatic presence, Locke is a controversial figure in the city's labyrinthine politics.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "evidence"] as const,
+  verdict_delta: 1,
 };

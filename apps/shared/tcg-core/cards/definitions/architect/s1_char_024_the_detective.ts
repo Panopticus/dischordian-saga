@@ -81,4 +81,5 @@ export const cardDef: CardDefinition = {
     "A. The one known as the Detective began his journey as a curious and determined Seeker in the mysterious Project Celebration.",
   rulesVersion: "1.0.0",
   trial_categories: ["evidence", "narrative"] as const,
+  verdict_delta: 2,
 };

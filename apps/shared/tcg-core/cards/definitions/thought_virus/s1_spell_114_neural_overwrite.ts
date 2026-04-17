@@ -46,4 +46,5 @@ export const cardDef: CardDefinition = {
     "The soldier's eyes went blank mid-sentence. When he spoke again, it was in the Source's voice, thanking them for the vessel.",
   rulesVersion: "1.0.0",
   trial_categories: ["evidence"] as const,
+  verdict_delta: 1,
 };

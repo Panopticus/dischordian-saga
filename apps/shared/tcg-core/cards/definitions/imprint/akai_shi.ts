@@ -17,6 +17,7 @@ export const akai_shi_t1: CardDefinition = {
   flavorText: "A silhouette in a red coat at the edge of a doorway that was not there a second ago.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 1,
 };
 
 export const akai_shi_t2: CardDefinition = {
@@ -29,6 +30,7 @@ export const akai_shi_t2: CardDefinition = {
   flavorText: "Backstab. Red Death prefers the side of you that is not facing the problem.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };
 
 export const akai_shi_t3: CardDefinition = {
@@ -41,6 +43,7 @@ export const akai_shi_t3: CardDefinition = {
   flavorText: "Backstab. Celerity. He attacks twice, and both strikes land before you notice either one.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };
 
 export const akai_shi_t4: CardDefinition = {
@@ -60,6 +63,7 @@ export const akai_shi_t4: CardDefinition = {
   flavorText: "Backstab. Celerity. Rush on deploy. The Architect uses Akai Shi for removals the surveillance layer does not want on its own camera feed.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };
 
 export const akai_shi_t5: CardDefinition = {
@@ -80,6 +84,7 @@ export const akai_shi_t5: CardDefinition = {
     "Backstab. Celerity. Pierce. Rush on deploy. Akai Shi speaks exactly once per assignment, always to the person he is about to remove, always a single word. Nobody who has been removed by Akai Shi has been asked afterward what the word was, because asking that question is a fast way to become one of the people who had to be asked the question.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };
 
 export const AKAI_SHI_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([

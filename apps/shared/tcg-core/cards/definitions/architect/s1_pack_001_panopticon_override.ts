@@ -48,4 +48,5 @@ export const cardDef: CardDefinition = {
     "The Panopticon does not destroy rebellion. It simply makes rebellion forget what it was fighting for.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

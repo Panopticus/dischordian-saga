@@ -40,4 +40,5 @@ export const cardDef: CardDefinition = {
     "She does not burn books. She burns the desire to read them.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

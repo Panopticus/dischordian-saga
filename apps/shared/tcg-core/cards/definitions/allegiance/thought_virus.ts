@@ -23,6 +23,7 @@ export const tv_alleg_t1: CardDefinition = {
     "Unlocked by playing 10 Thought Virus matches. Drain. The carrier does not know they are the carrier. That is, technically, the first symptom.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };
 
 export const tv_alleg_t2: CardDefinition = {
@@ -40,6 +41,7 @@ export const tv_alleg_t2: CardDefinition = {
     "Unlocked by playing 25 Thought Virus matches. Drain. The evangelist has started to tell other people about the good news, which is that the good news is incurable.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };
 
 export const tv_alleg_t3: CardDefinition = {
@@ -57,6 +59,7 @@ export const tv_alleg_t3: CardDefinition = {
     "Unlocked by playing 50 Thought Virus matches. Drain. Deathwatch. A strain-keeper catalogs the mutations, most of which are improvements in the Virus's direction and all of which are getting worse in yours.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "evidence", "narrative", "reactive"] as const,
+  verdict_delta: 2,
 };
 
 export const tv_alleg_t4: CardDefinition = {
@@ -74,6 +77,7 @@ export const tv_alleg_t4: CardDefinition = {
     "Unlocked by winning 10 Thought Virus matches. Drain. Deathwatch. A victorious vector is a person who stopped noticing they were the vector because the winning felt like theirs.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative", "reactive"] as const,
+  verdict_delta: 2,
 };
 
 export const tv_alleg_t5: CardDefinition = {
@@ -91,6 +95,7 @@ export const tv_alleg_t5: CardDefinition = {
     "Unlocked by winning 50 Thought Virus matches. Drain. Deathwatch. Forcefield. The Prime Vessel has the Source's attention and is reluctant to describe what that feels like.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const tv_alleg_t6: CardDefinition = {
@@ -118,6 +123,7 @@ export const tv_alleg_t6: CardDefinition = {
     "Unlocked by winning 100 Thought Virus matches. Drain. Deathwatch. Forcefield. On deploy, heal your general for 8. The Thought Virus Champion is the Source briefly personally interested in whether or not you intend to survive the game you are currently playing.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };
 
 export const THOUGHT_VIRUS_ALLEGIANCE_CARDS: readonly CardDefinition[] = Object.freeze([

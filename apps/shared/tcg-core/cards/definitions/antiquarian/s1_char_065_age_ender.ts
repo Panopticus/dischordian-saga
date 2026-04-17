@@ -41,4 +41,5 @@ export const cardDef: CardDefinition = {
     "It does not destroy civilizations. It simply marks where one ends and silence begins.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

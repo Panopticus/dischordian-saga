@@ -53,4 +53,5 @@ export const cardDef: CardDefinition = {
     "The first mind to crack open and let the signal through. Every infection since has been an echo of that original scream.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative", "offensive", "reactive"] as const,
+  verdict_delta: 2,
 };

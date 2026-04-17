@@ -46,4 +46,5 @@ export const cardDef: CardDefinition = {
     "They asked how she survived the Colossus raid without a wound. She said she didn't survive — she won.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "evidence", "narrative"] as const,
+  verdict_delta: 2,
 };

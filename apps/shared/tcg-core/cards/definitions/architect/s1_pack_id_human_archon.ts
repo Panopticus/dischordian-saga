@@ -58,4 +58,5 @@ export const cardDef: CardDefinition = {
     "Imprisoned in substrate, the Twelfth Archon still commands. Even chains cannot silence authority.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

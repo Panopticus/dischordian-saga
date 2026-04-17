@@ -60,4 +60,5 @@ export const cardDef: CardDefinition = {
     "The body runs. The mind is already gone. What remains is hunger wearing a human shape.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

@@ -48,4 +48,5 @@ export const cardDef: CardDefinition = {
     "The Architect's cloning bays produce flawless replicas. Death is merely a reboot.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

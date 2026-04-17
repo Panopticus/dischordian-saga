@@ -38,4 +38,5 @@ export const cardDef: CardDefinition = {
     "The market obeyed Locke's whisper before it heard the shout. By the time the correction came, fortunes had already changed hands.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 1,
 };

@@ -52,4 +52,5 @@ export const cardDef: CardDefinition = {
     "Behind the last door at the top of the stairwell, the Dreamer found not answers but restoration.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

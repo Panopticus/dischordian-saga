@@ -44,4 +44,5 @@ export const cardDef: CardDefinition = {
     "The notice goes up at dawn. By noon, the work is done.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

@@ -44,4 +44,5 @@ export const cardDef: CardDefinition = {
     "The fire does not distinguish between friend and foe. Neither does desperation.",
   rulesVersion: "1.0.0",
   trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

@@ -50,4 +50,5 @@ export const cardDef: CardDefinition = {
     "Kill it and it spreads. Ignore it and it spreads. There is no good option.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "reactive"] as const,
+  verdict_delta: 1,
 };

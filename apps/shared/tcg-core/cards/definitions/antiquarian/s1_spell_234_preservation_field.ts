@@ -46,4 +46,5 @@ export const cardDef: CardDefinition = {
     "The field hums with deep time. Inside it, entropy is merely a suggestion.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

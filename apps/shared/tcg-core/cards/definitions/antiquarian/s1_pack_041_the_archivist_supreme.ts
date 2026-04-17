@@ -60,4 +60,5 @@ export const cardDef: CardDefinition = {
     "The Archivist opened the book of this age and erased every entry but one: the page where it stands alone.",
   rulesVersion: "1.0.0",
   trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };
