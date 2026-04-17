@@ -28,6 +28,7 @@ import type { ScriptedAction } from "../types/ScriptedAction";
 import type { TrialModeConfig } from "../types/TrialPhase";
 import type { GiftModeConfig } from "../types/ProgrammerGift";
 import type { WitnessModeConfig } from "../types/PublicWitness";
+import type { ProphecyModeConfig } from "../types/SeerProphecy";
 import { resolveDialog, type DialogScene } from "./dialogBank";
 
 /* ─── Types ─── */
@@ -95,6 +96,14 @@ export interface StoryEncounter {
    * docs/production/act1/public-witness-ui-spec.md.
    */
   witnessMode?: WitnessModeConfig;
+  /**
+   * Optional §4.9 Seer prophecy-mode opt-in. Forwarded to the
+   * engine via createMatchState. When set, the match starts with a
+   * seerProphecy state; the reducer (in a follow-up PR) bakes the
+   * pending future at each turn-refresh. Only current user is
+   * `chSeerVisit`. See docs/production/act1/seer-prophecy-mechanic.md.
+   */
+  prophecyMode?: ProphecyModeConfig;
 }
 
 export type WinCondition =
@@ -171,6 +180,7 @@ export function initEncounter(input: EncounterInit): EncounterState {
     trialMode: encounter.trialMode,
     giftMode: encounter.giftMode,
     witnessMode: encounter.witnessMode,
+    prophecyMode: encounter.prophecyMode,
   });
   return { gameState, firedHooks: new Set() };
 }

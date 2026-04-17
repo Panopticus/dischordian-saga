@@ -19,6 +19,7 @@ import type { ScriptedAction } from "./ScriptedAction";
 import type { TrialState } from "./TrialPhase";
 import type { ProgrammerGiftState } from "./ProgrammerGift";
 import type { PublicWitnessState } from "./PublicWitness";
+import type { SeerProphecyState } from "./SeerProphecy";
 
 /** 9-wide, 5-tall board. Coordinates are (row 0..4, col 0..8). */
 export const BOARD_WIDTH = 9;
@@ -165,6 +166,15 @@ export interface GameState {
    * docs/production/act1/public-witness-ui-spec.md.
    */
   publicWitness?: PublicWitnessState;
+  /**
+   * Optional: §4.9 Seer prophecy state. Present only on §4.9
+   * matches (initialized via MatchConfig.prophecyMode). Holds the
+   * "pending future" bake and play counter; transitions via
+   * engine/seerProphecy.ts. Spec §3: the pending future is
+   * one-directional from engine to board — card effects can read
+   * but not write. See docs/production/act1/seer-prophecy-mechanic.md.
+   */
+  seerProphecy?: SeerProphecyState;
 }
 
 /**

@@ -129,6 +129,14 @@ export interface CreateMatchOptionsExtras {
    * docs/production/act1/public-witness-ui-spec.md.
    */
   witnessMode?: import("../types/PublicWitness").WitnessModeConfig;
+  /**
+   * Optional §4.9 Seer prophecy mode. Setting this puts the match
+   * into prophecy mode: seerProphecy starts null-pending / 0 plays.
+   * The reducer's turn-refresh hook (follow-up PR) bakes the
+   * pending future at the start of each player turn. See
+   * engine/seerProphecy.ts.
+   */
+  prophecyMode?: import("../types/SeerProphecy").ProphecyModeConfig;
 }
 
 export interface CreateMatchOptions extends CreateMatchOptionsExtras {
@@ -329,6 +337,9 @@ export function createMatchState(opts: CreateMatchOptions): GameState {
               : 0,
           entries: [],
         }
+      : undefined,
+    seerProphecy: opts.prophecyMode
+      ? { pending: null, playsPerformed: 0 }
       : undefined,
   };
 }
