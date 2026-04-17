@@ -52,6 +52,7 @@ import {
   TrialTranscriptColumn,
   type TrialTranscriptEntry,
 } from "@/components/match/TrialTranscriptColumn";
+import { PublicWitnessColumn } from "@/components/match/PublicWitnessColumn";
 import type { TcgDispatchResult } from "./TcgClient";
 
 interface DuelystGameUIProps {
@@ -779,6 +780,12 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         gameState?.programmerGift?.status === "offered" && (
           <ChoicePillarProgrammerGift onPick={handleProgrammerGiftPick} />
         )}
+      {gameState?.publicWitness && (
+        <PublicWitnessColumn
+          balance={gameState.publicWitness.balance}
+          entries={gameState.publicWitness.entries}
+        />
+      )}
       {rejection && (
         <PlayRejectionToast key={rejection.key} message={rejection.message} />
       )}

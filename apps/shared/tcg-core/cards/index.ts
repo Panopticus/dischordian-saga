@@ -228,6 +228,7 @@ import { cardDef as s1_spell_211_scorched_earth } from "./definitions/insurgency
 /* ─── Neutral ─── */
 import { cardDef as gen_neutral } from "./definitions/neutral/gen_neutral.ts";
 import { cardDef as gen_programmer } from "./definitions/neutral/gen_programmer.ts";
+import { cardDef as gen_game_master_original } from "./definitions/neutral/gen_game_master_original.ts";
 import { cardDef as s1_char_004_ambassador_veron } from "./definitions/neutral/s1_char_004_ambassador_veron.ts";
 import { cardDef as s1_char_086_wandering_merchant } from "./definitions/neutral/s1_char_086_wandering_merchant.ts";
 import { cardDef as s1_char_087_scrapyard_golem } from "./definitions/neutral/s1_char_087_scrapyard_golem.ts";
@@ -696,6 +697,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_spell_211_scorched_earth,
   gen_neutral,
   gen_programmer,
+  gen_game_master_original,
   s1_char_004_ambassador_veron,
   s1_char_086_wandering_merchant,
   s1_char_087_scrapyard_golem,

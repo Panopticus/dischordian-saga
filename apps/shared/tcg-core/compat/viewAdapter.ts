@@ -126,6 +126,22 @@ export interface LegacyDuelystGameState {
     offeredOnTurn?: number;
     resolvedOnTurn?: number;
   };
+  /**
+   * §5.7 Game Master public-witness state, mirrored from tcg-core
+   * GameState. Absent on matches that aren't §5.7. The UI renders
+   * PublicWitnessColumn from this. See engine/publicWitness.ts.
+   */
+  publicWitness?: {
+    balance: number;
+    entries: readonly {
+      id: string;
+      turnNumber: number;
+      publicLabel: string;
+      publicDelta: number;
+      privateDelta: number;
+      cardDefId: string;
+    }[];
+  };
 }
 
 /* ─── Adapter ─── */
@@ -174,6 +190,19 @@ export function adaptTcgStateToLegacyView(
           status: state.programmerGift.status,
           offeredOnTurn: state.programmerGift.offeredOnTurn,
           resolvedOnTurn: state.programmerGift.resolvedOnTurn,
+        }
+      : undefined,
+    publicWitness: state.publicWitness
+      ? {
+          balance: state.publicWitness.balance,
+          entries: state.publicWitness.entries.map((e) => ({
+            id: e.id,
+            turnNumber: e.turnNumber,
+            publicLabel: e.publicLabel,
+            publicDelta: e.publicDelta,
+            privateDelta: e.privateDelta,
+            cardDefId: e.cardDefId,
+          })),
         }
       : undefined,
   };

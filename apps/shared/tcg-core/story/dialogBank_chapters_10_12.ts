@@ -340,6 +340,63 @@ export const DIALOG_PROGRAMMER_GIFT_LOSS: DialogScene = {
 };
 
 /* ═══════════════════════════════════════════════════════
+   §5.7 — THE GAME MASTER (Cycle C step 11)
+   Three scenes: pre-match (prosecutor's opening frame),
+   post-win (exhibition reversed — the Game Master smiles
+   the smile of a man who has already lost), post-loss (he
+   signs the execution warrant). The public record carries
+   forward to §5.8 regardless.
+   ═══════════════════════════════════════════════════════ */
+
+export const DIALOG_GAME_MASTER_PRE: DialogScene = {
+  id: "dialog_game_master_pre",
+  label: "§5.7 — The Game Master (pre-match)",
+  kind: "chapter_pre",
+  cues: [
+    {
+      speaker: "narrator",
+      mood: "guarded",
+      text: "He is not a duelist. He is a prosecutor. Every card he plays resolves twice — once across the board, once into the public record. You cannot keep both tidy.",
+      audioClipId: "vo_narr_game_master_pre_01",
+    },
+    {
+      speaker: "the_game_master",
+      mood: "menacing",
+      text: "You have built a beautiful box. The only thing I am going to do is open it in front of everybody.",
+      audioClipId: "vo_game_master_pre_01",
+    },
+  ],
+};
+
+export const DIALOG_GAME_MASTER_WIN: DialogScene = {
+  id: "dialog_game_master_win",
+  label: "§5.7 — The Game Master (exhibition reversed)",
+  kind: "chapter_post_win",
+  cues: [
+    {
+      speaker: "narrator",
+      mood: "reflective",
+      text: "The Game Master smiles the smile of a man who has already lost. He says: 'Do it again. With an audience next time.' The record he wrote follows you into the Authority's chamber.",
+      audioClipId: "vo_narr_game_master_win_01",
+    },
+  ],
+};
+
+export const DIALOG_GAME_MASTER_LOSS: DialogScene = {
+  id: "dialog_game_master_loss",
+  label: "§5.7 — The Game Master (warrant signed)",
+  kind: "chapter_post_loss",
+  cues: [
+    {
+      speaker: "narrator",
+      mood: "grieving",
+      text: "The Game Master does not gloat. He signs the execution warrant and waits for the Authority to co-sign. The public record goes with you, every word of it.",
+      audioClipId: "vo_narr_game_master_loss_01",
+    },
+  ],
+};
+
+/* ═══════════════════════════════════════════════════════
    BANK EXPORT
    ═══════════════════════════════════════════════════════ */
 
@@ -359,4 +416,7 @@ export const DIALOG_BANK_CHAPTERS_10_12: readonly DialogScene[] = Object.freeze(
   DIALOG_PROGRAMMER_GIFT_PRE,
   DIALOG_PROGRAMMER_GIFT_WIN,
   DIALOG_PROGRAMMER_GIFT_LOSS,
+  DIALOG_GAME_MASTER_PRE,
+  DIALOG_GAME_MASTER_WIN,
+  DIALOG_GAME_MASTER_LOSS,
 ]);

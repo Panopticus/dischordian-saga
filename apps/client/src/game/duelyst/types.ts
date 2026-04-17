@@ -218,6 +218,23 @@ export interface DuelystGameState {
     offeredOnTurn?: number;
     resolvedOnTurn?: number;
   };
+  /**
+   * §5.7 Game Master public-witness state, projected from tcg-core
+   * GameState. Absent on matches that aren't §5.7. The UI renders
+   * PublicWitnessColumn from this. Final balance feeds §5.8 via
+   * deriveAuthorityVerdictOffset.
+   */
+  publicWitness?: {
+    balance: number;
+    entries: readonly {
+      id: string;
+      turnNumber: number;
+      publicLabel: string;
+      publicDelta: number;
+      privateDelta: number;
+      cardDefId: string;
+    }[];
+  };
 }
 
 export interface ActionLogEntry {

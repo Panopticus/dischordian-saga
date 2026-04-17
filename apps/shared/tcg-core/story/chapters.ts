@@ -714,6 +714,57 @@ const chProgrammerGift: StoryEncounter = {
 };
 
 /* ═══════════════════════════════════════════════════════
+   §5.7 — THE GAME MASTER (Cycle C step 11)
+
+   The Engineer's actual trial opponent. Parallel to §5.6
+   Programmer + §5.8 Authority in shape:
+    - bossGeneralDefId is the new `gen_game_master_original` (4/24,
+      neutral, no abilities). The prosecutor's power is the public
+      record — not the board — so mid-range stats let the match
+      run the full spec §4 arc.
+    - witnessMode opts the match into the §5.7 engine: a publicWitness
+      state populated on match start, then updated by
+      engine/publicWitness.ts when the Game Master plays. The final
+      balance feeds §5.8 Authority's openingVerdictBalance via
+      deriveAuthorityVerdictOffset (+3 / 0 / -3).
+    - winConditions keep the default general_killed — the §5.7 match
+      resolves by normal combat. The public record carries forward
+      regardless of win or loss (spec §6 "do not reset").
+
+   Wiring: ALL_CHAPTER_ENCOUNTERS export below; CHAPTER_MAP lookup
+   by id `ch_game_master`. Dialog scenes in
+   dialogBank_chapters_10_12.ts (pre/win/loss).
+*/
+const chGameMaster: StoryEncounter = {
+  id: "ch_game_master",
+  chapterId: "ch_game_master",
+  name: "The Game Master",
+  description:
+    "Before the execution, before the Authority. A prosecutor, not a duelist. Every card he plays enters the public record.",
+  bossFaction: "neutral",
+  bossGeneralDefId: "gen_game_master_original",
+  bossDeckCardDefIds: bossDeck("boss_game_master"),
+  seed: "game_master_seed",
+  winConditions: [{ kind: "general_killed" }],
+  loseConditions: [{ kind: "general_killed" }],
+  narrativeHooks: [
+    {
+      id: "game_master_opening",
+      once: true,
+      condition: { kind: "always" },
+      action: {
+        kind: "boss_taunt",
+        text: "You have built a beautiful box. The only thing I am going to do is open it in front of everybody.",
+      },
+    },
+  ],
+  preMatchDialog: "dialog_game_master_pre",
+  postMatchWinDialog: "dialog_game_master_win",
+  postMatchLossDialog: "dialog_game_master_loss",
+  witnessMode: {},
+};
+
+/* ═══════════════════════════════════════════════════════
    EXPORTS
    ═══════════════════════════════════════════════════════ */
 
@@ -723,6 +774,7 @@ export const ALL_CHAPTER_ENCOUNTERS: readonly StoryEncounter[] = Object.freeze([
   chWarlordZeroFirst,
   ch9a, ch9b, ch10, ch11, ch12,
   chProgrammerGift,
+  chGameMaster,
   chAuthorityTrial,
 ]);
 
