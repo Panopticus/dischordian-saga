@@ -26,6 +26,7 @@ import {
   LOCKE_FIRST_MESSAGE,
   getLockeFirstMessageVoUrl,
 } from "./beatHInboxMessage";
+import { useGame } from "../../contexts/GameContext";
 
 export interface BeatHInboxProps {
   /** Called when the player closes the message. */
@@ -37,6 +38,7 @@ export interface BeatHInboxProps {
 type Phase = "closed" | "open" | "read";
 
 export function BeatHInbox({ onComplete, volume = 0.9 }: BeatHInboxProps) {
+  const { setNarrativeFlag } = useGame();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [phase, setPhase] = useState<Phase>("closed");
   const [voProgressPct, setVoProgressPct] = useState(0);
@@ -69,7 +71,8 @@ export function BeatHInbox({ onComplete, volume = 0.9 }: BeatHInboxProps) {
 
   const handleVoEnded = useCallback(() => {
     setPhase("read");
-  }, []);
+    setNarrativeFlag("vex_dog_tag_found");
+  }, [setNarrativeFlag]);
 
   // Track VO progress for the sentence bloom timing
   useEffect(() => {

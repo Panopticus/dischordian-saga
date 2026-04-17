@@ -54,6 +54,7 @@ export function beatHasInteraction(beat: PreludeBeat): boolean {
     beat.id === "beat_d" ||
     beat.id === "beat_e" ||
     beat.id === "beat_h" ||
+    beat.id === "beat_i" ||
     beat.id === "beat_j"
   );
 }

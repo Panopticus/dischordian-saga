@@ -31,6 +31,7 @@ import { PreludeVfxOverlay, type ActiveVfxEffect } from "./vfx/PreludeVfxOverlay
 import { LastWordsWitnessing } from "./LastWordsWitnessing";
 import { BeatEFlashback } from "./BeatEFlashback";
 import { BeatDMissionBoard } from "./BeatDMissionBoard";
+import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
 import { BeatHInbox } from "./BeatHInbox";
 import {
   usePreludeSequenceState,
@@ -150,23 +151,33 @@ export function PreludeSequencePlayer({
             volume={volume}
           />
         );
+      case "beat_i":
+        return (
+          <div style={{ position: "relative", width: "100%", height: "100%" }}>
+            <MobileNarratorSlot roomId="bridge" />
+            <button
+              onClick={() => interactionComplete()}
+              style={{
+                position: "absolute",
+                bottom: 32,
+                left: "50%",
+                transform: "translateX(-50%)",
+                padding: "12px 32px",
+                fontSize: 16,
+                cursor: "pointer",
+              }}
+            >
+              Continue
+            </button>
+          </div>
+        );
       case "beat_j":
-        // Prelude Beat J plays the 35-second tease of Last Words.
-        // The canonical Light/Dark alignment choice does NOT fire
-        // here — it was moved to the Act 1 Cycle C finale where
-        // the full song lands. See:
-        //   docs/production/prelude-asset-build/prompts/voice/log5/
-        //     LAST_WORDS_TEASE_VS_FULL.md
         return (
           <LastWordsWitnessing
             onComplete={() => interactionComplete()}
             volume={volume}
           />
         );
-      // Future per-beat interactions (Beat C crew role choice, Beat F
-      // biometric lockbox) slot in here as additional cases. Until
-      // those ship, non-interactive beats auto-advance via
-      // beatHasInteraction() returning false.
       default:
         return null;
     }
