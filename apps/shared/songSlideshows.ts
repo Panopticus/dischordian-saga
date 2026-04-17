@@ -1581,8 +1581,17 @@ export const TWO_WITNESSES_MEET_SLIDESHOW: SongSlideshowDef = {
    Engineer-pre-dates-the-Witness-arc — in canon-compliant phrasing.
    ─────────────────────────────────────────────────────── */
 
-/** §6.2: 3–5 minute target; 3 min (180s) placeholder. Six frames @ 30s. */
-const TWO_WITNESSES_PART_2_FRAME_MS = 30_000;
+/**
+ * §6.2: 3-minute target runtime (180s). Twelve frames × 15s each.
+ * The scene is dialog-driven — captions carry the authored VO copy
+ * until the §6.5 voice recording pass ships. Every spoken line is
+ * marked with its speaker attribution in the caption text for
+ * accessibility. Hygiene rules (spec §8.6) preserved: no "1260 days",
+ * no "Silence in Heaven", no "Heart of Time", no Age names, no
+ * civilian names. Only permitted cross-Age phrasing — "across Ages,
+ * across the death of stars" — lands exactly once, in frame 6.
+ */
+const TWO_WITNESSES_PART_2_FRAME_MS = 15_000;
 
 export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
   id: "two-witnesses-part-2",
@@ -1591,69 +1600,134 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
   // path in the §6.5 ambient-authoring pass.
   songId: "archives_ambient",
   audioUrl: "/assets/audio/ambient/archives-ambient.mp3",
-  durationMs: 6 * TWO_WITNESSES_PART_2_FRAME_MS,
+  durationMs: 12 * TWO_WITNESSES_PART_2_FRAME_MS,
   title: "Two Witnesses Meet — Part 2",
   subtitle:
     "The Archives, relit. The memorial has completed its job. They have been waiting for you.",
   credits: "Act 1 close · Witnesses' Part-2 scene",
   priority: "P1",
   frames: [
+    // Frame 1 — arrival. Stage direction only.
     {
       startMs: 0,
       endMs: TWO_WITNESSES_PART_2_FRAME_MS,
       imageUrl: "/art/rooms/room-archives.png",
       transition: "fade",
       caption:
-        "The Archives, relit. Engineer's chair is gone. The six crystal coffins are gone. It is an archive again.",
+        "The Archives, relit. The Engineer's chair is gone. The six crystal coffins are gone. It is an archive again.",
     },
+    // Frame 2 — Antiquarian opens.
     {
       startMs: TWO_WITNESSES_PART_2_FRAME_MS,
       endMs: TWO_WITNESSES_PART_2_FRAME_MS * 2,
       imageUrl: "/art/rooms/room-archives.png",
       transition: "dissolve",
-      caption: "Both Witnesses are already seated. They have been waiting.",
+      caption:
+        "The Antiquarian: \"You came. I wasn't sure you would.\"",
       narratorReactionId: "antiquarian",
     },
+    // Frame 3 — Antiquarian frames the scene.
     {
       startMs: TWO_WITNESSES_PART_2_FRAME_MS * 2,
       endMs: TWO_WITNESSES_PART_2_FRAME_MS * 3,
       imageUrl: "/art/rooms/room-archives.png",
       transition: "dissolve",
       caption:
-        "The Antiquarian: \"I was executed for what I thought. I woke up in the next era. That is the short version.\"",
+        "The Antiquarian: \"The trial ended the way it ended. The song ran. You made your choice in the gallery. We stayed out of it. We were waiting for this part.\"",
       narratorReactionId: "antiquarian",
     },
+    // Frame 4 — Enigma arrives in voice.
     {
       startMs: TWO_WITNESSES_PART_2_FRAME_MS * 3,
       endMs: TWO_WITNESSES_PART_2_FRAME_MS * 4,
       imageUrl: "/art/rooms/room-archives.png",
       transition: "dissolve",
       caption:
-        "The Enigma: \"I was the voice on the recording you just heard. I also died. I also came back. Different era; same answer.\"",
-      // The Enigma is not yet in the narratorReactionId union — her
-      // VO role lands in a later canon pass. Attribution is carried
-      // in the caption until then.
+        "The Enigma: \"We owe you an explanation. The short version, while the silence still holds.\"",
+      // Enigma not yet in narratorReactionId union (see §6.5 open
+      // slot); attribution carried in caption text until then.
     },
+    // Frame 5 — Antiquarian's reveal (§6.1 core reveal 1).
     {
       startMs: TWO_WITNESSES_PART_2_FRAME_MS * 4,
       endMs: TWO_WITNESSES_PART_2_FRAME_MS * 5,
       imageUrl: "/art/rooms/room-archives.png",
       transition: "dissolve",
       caption:
-        "The Antiquarian: \"The Engineer was not one of us. He pre-dates us. His death is the seed of what we became — and it is still seeding.\"",
+        "The Antiquarian: \"I was executed for what I thought. I woke up in the next era. Nobody told me I would. Nobody told me I could. That is the short version.\"",
       narratorReactionId: "antiquarian",
     },
+    // Frame 6 — the permitted cross-Age phrasing lands.
     {
       startMs: TWO_WITNESSES_PART_2_FRAME_MS * 5,
       endMs: TWO_WITNESSES_PART_2_FRAME_MS * 6,
       imageUrl: "/art/rooms/room-archives.png",
+      transition: "dissolve",
+      caption:
+        "The Antiquarian: \"The long version is across Ages, across the death of stars. We will not give it to you tonight.\"",
+      narratorReactionId: "antiquarian",
+    },
+    // Frame 7 — Enigma's reveal (§6.1 core reveal 2).
+    {
+      startMs: TWO_WITNESSES_PART_2_FRAME_MS * 6,
+      endMs: TWO_WITNESSES_PART_2_FRAME_MS * 7,
+      imageUrl: "/art/rooms/room-archives.png",
+      transition: "dissolve",
+      caption:
+        "The Enigma: \"I was the voice on the recording you just heard. I died a different way. I came back a different way. Different era; same answer.\"",
+    },
+    // Frame 8 — the Engineer reveal (§6.1 core reveal 3).
+    {
+      startMs: TWO_WITNESSES_PART_2_FRAME_MS * 7,
+      endMs: TWO_WITNESSES_PART_2_FRAME_MS * 8,
+      imageUrl: "/art/rooms/room-archives.png",
+      transition: "dissolve",
+      caption:
+        "The Antiquarian: \"The Engineer was not one of us. He came before. His death is the seed of what we became.\"",
+      narratorReactionId: "antiquarian",
+    },
+    // Frame 9 — the memoir lands on its speaker.
+    {
+      startMs: TWO_WITNESSES_PART_2_FRAME_MS * 8,
+      endMs: TWO_WITNESSES_PART_2_FRAME_MS * 9,
+      imageUrl: "/art/rooms/room-archives.png",
+      transition: "dissolve",
+      caption:
+        "The Enigma: \"The song he left behind — we heard it for the first time standing in this room. Then we waited for someone to hear it who would understand.\"",
+    },
+    // Frame 10 — the player as fulcrum (§6.1 core reveal 4).
+    {
+      startMs: TWO_WITNESSES_PART_2_FRAME_MS * 9,
+      endMs: TWO_WITNESSES_PART_2_FRAME_MS * 10,
+      imageUrl: "/art/rooms/room-archives.png",
+      transition: "dissolve",
+      caption:
+        "The Antiquarian: \"The fulcrum. I said that word to you in the first part of this scene. I meant it then. I mean it more now.\"",
+      narratorReactionId: "antiquarian",
+    },
+    // Frame 11 — the Enigma names the three doors.
+    {
+      startMs: TWO_WITNESSES_PART_2_FRAME_MS * 10,
+      endMs: TWO_WITNESSES_PART_2_FRAME_MS * 11,
+      imageUrl: "/art/rooms/room-archives.png",
+      transition: "dissolve",
+      caption:
+        "The Enigma: \"You do not have to answer in words. Three doors leave this room. Accept. Decline. Deflect. All three close Act 1. None of them closes us.\"",
+    },
+    // Frame 12 — silence settles; Act1ClosingChoicePanel mounts.
+    {
+      startMs: TWO_WITNESSES_PART_2_FRAME_MS * 11,
+      endMs: TWO_WITNESSES_PART_2_FRAME_MS * 12,
+      imageUrl: "/art/rooms/room-archives.png",
       transition: "fade",
       caption:
-        "The silence sits. Neither Witness speaks again. The choice is yours now.",
+        "The Antiquarian: \"We will be here. Whichever door you take. We have waited longer than this.\" The silence sits.",
+      narratorReactionId: "antiquarian",
     },
   ],
-  // Spec §6.2 "No music bed" — deliberately no lyrics, no overlays.
-  // The silence itself is the beat.
+  // Spec §6.2 "No music bed" — deliberately no lyrics. A single
+  // vignette overlay carries the atmosphere; the silence between
+  // lines is the real beat.
   lyrics: [],
   overlays: [
     { type: "vignette", startMs: 0, endMs: 180_000, intensity: 0.35 },
@@ -1670,9 +1744,9 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
   reducedMotionFallback: {
     heroImageUrl: "/art/rooms/room-archives.png",
     prose:
-      "The Archives are an archive again. Both Witnesses are already seated when you arrive — they have been waiting through the trial, through Last Words, through your Light-or-Dark choice. The Antiquarian speaks first: he was executed for what he thought, and he woke up in the next era. The Enigma speaks second: she was the voice on the recording the player just heard; she also died, and she also came back. Then the Antiquarian says the one thing Act 1 has been circling the whole way — the Engineer was not a Witness; he pre-dates the Witness arc; his death is the seed of what the Antiquarian and the Enigma became. The silence sits. Neither Witness presses the choice. They have been waiting.",
+      "The Archives are relit — an archive again, not a memorial. Both Witnesses are already seated when you arrive. They have been waiting through the trial, through the Last Words recording, through your Light-or-Dark choice in the gallery. The Antiquarian opens: he wasn't sure you would come. He explains he was executed for what he thought and woke up in the next era — nobody told him he could. The long version, he says, is across Ages, across the death of stars — not tonight. The Enigma speaks: she was the voice on the recording you just heard. She died a different way and came back a different way; different era, same answer. The Antiquarian closes the reveals: the Engineer was not one of them. He came before. His death is the seed of what they became. Then the Enigma says the memoir found its audience when the two of them stood in this room and heard the song for the first time — and then they waited for someone to hear it who would understand. The Antiquarian names you the fulcrum again. The Enigma names the three doors: accept, decline, deflect. The silence sits. Neither Witness presses the choice.",
     closingLine:
-      "Your choice: accept the burden, decline it, or deflect and ask a question instead. All three are canon-safe endings to Act 1.",
+      "Three doors leave the Archives. All three are canon-safe endings to Act 1.",
   },
 };
 
