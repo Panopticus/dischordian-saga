@@ -87,8 +87,8 @@ describe("Wave 1 — narratorBond round-trip through save/load shape", () => {
    *  query returns — exercises the field's JSON trip without needing a DB. */
   type Snapshot = {
     narratorBond?: number;
-    elaraTrust?: number;
-    humanTrust?: number;
+    fallbackElara?: number;
+    fallbackHuman?: number;
   };
 
   function roundTrip(snapshot: Snapshot): Snapshot {
@@ -96,14 +96,14 @@ describe("Wave 1 — narratorBond round-trip through save/load shape", () => {
   }
 
   it("preserves an explicit narratorBond value across JSON serialization", () => {
-    const saved: Snapshot = { narratorBond: 42, elaraTrust: 10, humanTrust: 10 };
+    const saved: Snapshot = { narratorBond: 42, fallbackElara: 10, fallbackHuman: 10 };
     const loaded = roundTrip(saved);
     expect(loaded.narratorBond).toBe(42);
     expect(deriveNarratorBond(loaded)).toBe(42);
   });
 
   it("absent field post-load still yields a usable bond via fallback", () => {
-    const saved: Snapshot = { elaraTrust: 55, humanTrust: 35 };
+    const saved: Snapshot = { fallbackElara: 55, fallbackHuman: 35 };
     const loaded = roundTrip(saved);
     expect(loaded.narratorBond).toBeUndefined();
     expect(deriveNarratorBond(loaded)).toBe(35);

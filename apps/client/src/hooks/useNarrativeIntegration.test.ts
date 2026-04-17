@@ -1,4 +1,6 @@
 import { describe, it, expect } from "vitest";
+import * as fs from "fs";
+import * as path from "path";
 import { SLIDESHOW_TRIGGERS } from "./useNarrativeIntegration";
 import { getSlideshow } from "@shared/songSlideshows";
 
@@ -112,5 +114,61 @@ describe("useNarrativeIntegration.SLIDESHOW_TRIGGERS", () => {
     );
     expect(lastWords?.triggerFlag).toBe("act_1_complete");
     expect(lastWords?.completionFlag).toBe("slideshow_last_words_complete");
+  });
+});
+
+/* ═══════════════════════════════════════════════════════
+   §14.1 mutual-bond block uses the canonical narratorBond
+   reader, not an inline Math.min over the trust-level fields.
+
+   Source-scan: verifies the rewire. If someone re-inlines the
+   Math.min or forgets to destructure getNarratorBond, these
+   tests fail loudly before the bond thresholds silently
+   regress.
+   ═══════════════════════════════════════════════════════ */
+describe("useNarrativeIntegration — §14.1 narratorBond wiring", () => {
+  const hookSrc = fs.readFileSync(
+    path.resolve(__dirname, "useNarrativeIntegration.ts"),
+    "utf-8",
+  );
+
+  it("destructures getNarratorBond from useGame()", () => {
+    expect(hookSrc).toMatch(
+      /\{\s*state,\s*setNarrativeFlag,\s*getNarratorBond\s*\}\s*=\s*useGame\(\)/,
+    );
+  });
+
+  it("imports the shared bond thresholds (40/60/80 only live in one place)", () => {
+    expect(hookSrc).toContain(
+      'import { NARRATOR_BOND_THRESHOLDS } from "@shared/narratorBond"',
+    );
+  });
+
+  it("§14.1 block uses getNarratorBond() as its read source", () => {
+    // The `mutualBond` binding is the post-rewire read path.
+    expect(hookSrc).toMatch(/const\s+mutualBond\s*=\s*getNarratorBond\(\);/);
+  });
+
+  it("§14.1 block no longer computes Math.min on the trust-level fields inline", () => {
+    // Defensive: the previous inline computation must be gone. If it
+    // comes back, the bond reader and the milestone trigger could
+    // drift on pre-field saves.
+    expect(hookSrc).not.toMatch(
+      /Math\.min\(\s*state\.elaraTrustLevel\s*\?\?\s*0,\s*state\.humanTrustLevel\s*\?\?\s*0\s*\)/,
+    );
+  });
+
+  it("§14.1 thresholds are read from NARRATOR_BOND_THRESHOLDS (no magic numbers)", () => {
+    expect(hookSrc).toContain("NARRATOR_BOND_THRESHOLDS.remember");
+    expect(hookSrc).toContain("NARRATOR_BOND_THRESHOLDS.silence");
+    expect(hookSrc).toContain("NARRATOR_BOND_THRESHOLDS.meet");
+  });
+
+  it("§5.5 P1 asymmetric confession check still uses per-narrator trust levels", () => {
+    // Asymmetric shape (humanBond > 60 AND elaraBond < 20) can't
+    // compress to a single bond scalar. Those reads must stay
+    // per-narrator.
+    expect(hookSrc).toMatch(/const\s+elaraBond\s*=\s*state\.elaraTrustLevel/);
+    expect(hookSrc).toMatch(/const\s+humanBond\s*=\s*state\.humanTrustLevel/);
   });
 });

@@ -49,16 +49,21 @@ export function adjustNarratorBond(current: number, delta: number): number {
  * Unified narrator bond reader with derived-value fallback.
  *
  * If `narratorBond` is a finite number it's the source of truth
- * (clamped). Otherwise fall back to `min(elaraTrust, humanTrust)`
+ * (clamped). Otherwise fall back to `min(fallbackElara, fallbackHuman)`
  * — the "bond with BOTH narrators" semantics used by §14.1.
+ *
+ * The two fallback fields are intentionally name-neutral: the caller
+ * decides which runtime fields represent per-narrator bond. For the
+ * current GameState that's `elaraTrustLevel` / `humanTrustLevel`
+ * (the Act 1+ bond score — NOT the legacy per-NPC trust numbers).
  *
  * This keeps saves that predate the `narratorBond` field behaving
  * sensibly until the field is written for the first time.
  */
 export function deriveNarratorBond(input: {
   narratorBond?: number | null;
-  elaraTrust?: number | null;
-  humanTrust?: number | null;
+  fallbackElara?: number | null;
+  fallbackHuman?: number | null;
 }): number {
   if (
     typeof input.narratorBond === "number" &&
@@ -67,12 +72,14 @@ export function deriveNarratorBond(input: {
     return clampNarratorBond(input.narratorBond);
   }
   const elara =
-    typeof input.elaraTrust === "number" && Number.isFinite(input.elaraTrust)
-      ? input.elaraTrust
+    typeof input.fallbackElara === "number" &&
+    Number.isFinite(input.fallbackElara)
+      ? input.fallbackElara
       : NARRATOR_BOND_MIN;
   const human =
-    typeof input.humanTrust === "number" && Number.isFinite(input.humanTrust)
-      ? input.humanTrust
+    typeof input.fallbackHuman === "number" &&
+    Number.isFinite(input.fallbackHuman)
+      ? input.fallbackHuman
       : NARRATOR_BOND_MIN;
   return clampNarratorBond(Math.min(elara, human));
 }

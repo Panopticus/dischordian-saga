@@ -61,28 +61,40 @@ describe("narratorBond — adjustNarratorBond", () => {
 describe("narratorBond — deriveNarratorBond (fallback semantics)", () => {
   it("prefers explicit narratorBond when finite", () => {
     expect(
-      deriveNarratorBond({ narratorBond: 55, elaraTrust: 10, humanTrust: 10 }),
+      deriveNarratorBond({
+        narratorBond: 55,
+        fallbackElara: 10,
+        fallbackHuman: 10,
+      }),
     ).toBe(55);
   });
 
   it("treats narratorBond 0 as a valid, explicit value (not a fallback trigger)", () => {
     expect(
-      deriveNarratorBond({ narratorBond: 0, elaraTrust: 80, humanTrust: 80 }),
+      deriveNarratorBond({
+        narratorBond: 0,
+        fallbackElara: 80,
+        fallbackHuman: 80,
+      }),
     ).toBe(0);
   });
 
-  it("falls back to min(elaraTrust, humanTrust) when narratorBond is undefined", () => {
+  it("falls back to min(fallbackElara, fallbackHuman) when narratorBond is undefined", () => {
     expect(
-      deriveNarratorBond({ elaraTrust: 60, humanTrust: 40 }),
+      deriveNarratorBond({ fallbackElara: 60, fallbackHuman: 40 }),
     ).toBe(40);
     expect(
-      deriveNarratorBond({ elaraTrust: 10, humanTrust: 80 }),
+      deriveNarratorBond({ fallbackElara: 10, fallbackHuman: 80 }),
     ).toBe(10);
   });
 
   it("falls back when narratorBond is null", () => {
     expect(
-      deriveNarratorBond({ narratorBond: null, elaraTrust: 30, humanTrust: 50 }),
+      deriveNarratorBond({
+        narratorBond: null,
+        fallbackElara: 30,
+        fallbackHuman: 50,
+      }),
     ).toBe(30);
   });
 
@@ -90,20 +102,20 @@ describe("narratorBond — deriveNarratorBond (fallback semantics)", () => {
     expect(
       deriveNarratorBond({
         narratorBond: Number.NaN,
-        elaraTrust: 30,
-        humanTrust: 50,
+        fallbackElara: 30,
+        fallbackHuman: 50,
       }),
     ).toBe(30);
   });
 
-  it("treats missing trusts as 0 (so bond starts at 0 on fresh saves)", () => {
+  it("treats missing fallbacks as 0 (so bond starts at 0 on fresh saves)", () => {
     expect(deriveNarratorBond({})).toBe(0);
-    expect(deriveNarratorBond({ elaraTrust: 100 })).toBe(0);
+    expect(deriveNarratorBond({ fallbackElara: 100 })).toBe(0);
   });
 
   it("clamps derived values above 100", () => {
     expect(
-      deriveNarratorBond({ elaraTrust: 150, humanTrust: 200 }),
+      deriveNarratorBond({ fallbackElara: 150, fallbackHuman: 200 }),
     ).toBe(100);
   });
 

@@ -2254,12 +2254,15 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   const getNarratorBond = useCallback(
     () =>
+      // Fallback sources are the per-narrator bond fields (elaraTrustLevel /
+      // humanTrustLevel), NOT the legacy per-NPC trust numbers. §14.1
+      // milestones fire on the Act 1+ bond track.
       deriveNarratorBond({
         narratorBond: state.narratorBond,
-        elaraTrust: state.elaraTrust,
-        humanTrust: state.humanTrust,
+        fallbackElara: state.elaraTrustLevel,
+        fallbackHuman: state.humanTrustLevel,
       }),
-    [state.narratorBond, state.elaraTrust, state.humanTrust],
+    [state.narratorBond, state.elaraTrustLevel, state.humanTrustLevel],
   );
 
   // ═══ NPC RELATIONSHIP CALLBACKS ═══

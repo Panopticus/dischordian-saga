@@ -21,6 +21,7 @@ import {
   WITNESSING_MILESTONES,
   type WitnessingMilestoneId,
 } from "@shared/witnessingEvents";
+import { NARRATOR_BOND_THRESHOLDS } from "@shared/narratorBond";
 import {
   getPendingKaelPayoffCinematic,
   KAEL_FRAGMENTS,
@@ -252,7 +253,7 @@ export const SLIDESHOW_TRIGGERS: ReadonlyArray<{
 ];
 
 export function useNarrativeIntegration() {
-  const { state, setNarrativeFlag } = useGame();
+  const { state, setNarrativeFlag, getNarratorBond } = useGame();
   const prevMoralityRef = useRef(state.moralityScore);
   const prevTrustRef = useRef<Record<string, number>>({});
   const prevRoomsRef = useRef<Set<string>>(new Set());
@@ -399,17 +400,20 @@ export function useNarrativeIntegration() {
   //   bond 80 → "The Two Witnesses Meet" (triggers §12 C10
   //              cinematic via the SLIDESHOW_TRIGGERS fan-out)
   //
-  // All three use the minimum of the two bond scores so the
-  // milestones fire on TRUE mutual trust, not on one narrator
-  // lopsidedly carrying the total.
+  // The bond number comes from getNarratorBond() — which reads
+  // the canonical state.narratorBond field or falls back to
+  // min(elaraTrustLevel, humanTrustLevel) for saves that predate
+  // the field. Thresholds live in NARRATOR_BOND_THRESHOLDS so
+  // the numbers can't drift between the helper and the hook.
+  const mutualBond = getNarratorBond();
   useEffect(() => {
-    const mutualBond = Math.min(
-      state.elaraTrustLevel ?? 0,
-      state.humanTrustLevel ?? 0,
-    );
-    if (mutualBond >= 40) fireMilestone("two_witnesses_remember");
-    if (mutualBond >= 60) fireMilestone("silence_of_two_witnesses");
-    if (mutualBond >= 80) {
+    if (mutualBond >= NARRATOR_BOND_THRESHOLDS.remember) {
+      fireMilestone("two_witnesses_remember");
+    }
+    if (mutualBond >= NARRATOR_BOND_THRESHOLDS.silence) {
+      fireMilestone("silence_of_two_witnesses");
+    }
+    if (mutualBond >= NARRATOR_BOND_THRESHOLDS.meet) {
       fireMilestone("two_witnesses_meet");
       if (
         !state.narrativeFlags?.bond_80_mutual_peak &&
@@ -426,8 +430,7 @@ export function useNarrativeIntegration() {
       }
     }
   }, [
-    state.elaraTrustLevel,
-    state.humanTrustLevel,
+    mutualBond,
     state.narrativeFlags?.bond_80_mutual_peak,
     state.narrativeFlags?.slideshow_two_witnesses_meet_complete,
     setNarrativeFlag,
