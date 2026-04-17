@@ -114,6 +114,13 @@ export interface CreateMatchOptionsExtras {
    * docs/production/act1/authority-trial-phase-mechanic.md.
    */
   trialMode?: import("../types/TrialPhase").TrialModeConfig;
+  /**
+   * Optional §5.6 Programmer gift mode. Setting this puts the
+   * resulting match into gift mode: ProgrammerGiftState starts
+   * at "not_offered" and transitions through the engine/programmerGift.ts
+   * state machine. See ACT1_NARRATIVE_STRUCTURE.md §5.6.
+   */
+  giftMode?: import("../types/ProgrammerGift").GiftModeConfig;
 }
 
 export interface CreateMatchOptions extends CreateMatchOptionsExtras {
@@ -304,6 +311,7 @@ export function createMatchState(opts: CreateMatchOptions): GameState {
           closingArgumentPlayed: false,
         }
       : undefined,
+    programmerGift: opts.giftMode ? { status: "not_offered" } : undefined,
   };
 }
 

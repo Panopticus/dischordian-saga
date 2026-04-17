@@ -119,3 +119,62 @@ export function inMemoryStorage(): LightDarkStorage {
     },
   };
 }
+
+/* ═══════════════════════════════════════════════════════
+   §5.6 Programmer gift — persistent accept/decline flag.
+
+   Parallels Light/Dark: one boolean-valued flag per playthrough,
+   written by the ChoicePillarProgrammerGift pick, read by Acts 2+
+   codex variants. Three values:
+
+     true  — player accepted the deliberate throw
+     false — player declined and kept fighting
+     null  — the choice has not been presented yet (pre-§5.6) or
+             the player never reached a §5.6 match
+
+   The engine's ProgrammerGiftState covers the in-match lifecycle;
+   this flag is the persistence / cross-act channel.
+   ═══════════════════════════════════════════════════════ */
+
+const GIFT_STORAGE_KEY = "dischordia_campaign_programmer_gift_accepted";
+
+/**
+ * Read the stored gift resolution. Returns:
+ *   true  — previously accepted
+ *   false — previously declined
+ *   null  — never presented or storage unavailable
+ */
+export function getProgrammerGiftAccepted(
+  storage: LightDarkStorage | null = defaultStorage(),
+): boolean | null {
+  if (!storage) return null;
+  const raw = storage.get(GIFT_STORAGE_KEY);
+  if (raw === "true") return true;
+  if (raw === "false") return false;
+  return null;
+}
+
+/**
+ * Write the gift resolution. Called exactly once per playthrough
+ * from ChoicePillarProgrammerGift's click handler. No-op when no
+ * storage is available.
+ */
+export function setProgrammerGiftAccepted(
+  accepted: boolean,
+  storage: LightDarkStorage | null = defaultStorage(),
+): void {
+  if (!storage) return;
+  storage.set(GIFT_STORAGE_KEY, accepted ? "true" : "false");
+}
+
+/**
+ * Clear the stored gift resolution. Test helper + new-game-start.
+ * Production UI should not expose a reset control — the choice is
+ * permanent within a playthrough.
+ */
+export function clearProgrammerGiftAccepted(
+  storage: LightDarkStorage | null = defaultStorage(),
+): void {
+  if (!storage) return;
+  storage.remove(GIFT_STORAGE_KEY);
+}

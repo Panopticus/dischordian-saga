@@ -650,6 +650,58 @@ const chAuthorityTrial: StoryEncounter = {
 };
 
 /* ═══════════════════════════════════════════════════════
+   §5.6 — THE PROGRAMMER (Cycle C step 10)
+
+   The Engineer's oldest friend, last seen at Nexon. Canonically
+   he deliberately throws the match; the player can either accept
+   the gift or decline and fight on.
+
+   Parallel to chAuthorityTrial (§5.8) in shape:
+    - bossGeneralDefId is the new decorative `gen_programmer` (3/22,
+      neutral, no abilities). Mid-range stats so the two legitimate
+      opening turns (spec §2) play honestly before the gift fires.
+    - giftMode opts the match into the §5.6 engine (ProgrammerGift-
+      State starts at "not_offered"; offerGift / acceptGift / declineGift
+      in engine/programmerGift.ts drive the transitions).
+    - winConditions keep the default general_killed — a declined
+      gift still resolves via combat. Accepting the gift is the
+      narrative winning path; DuelystGameUI resolves the match on
+      the accept transition.
+
+   Wiring: ALL_CHAPTER_ENCOUNTERS export below; CHAPTER_MAP lookup
+   by id `ch_programmer_gift`. Dialog scenes in
+   dialogBank_chapters_10_12.ts (pre/win/loss).
+*/
+const chProgrammerGift: StoryEncounter = {
+  id: "ch_programmer_gift",
+  chapterId: "ch_programmer_gift",
+  name: "The Programmer",
+  description:
+    "The Engineer's oldest friend. He plays two honest turns, then offers the gift — a deliberate throw. Accept or decline.",
+  bossFaction: "neutral",
+  bossGeneralDefId: "gen_programmer",
+  bossDeckCardDefIds: bossDeck("boss_programmer_gift"),
+  seed: "programmer_gift_seed",
+  winConditions: [{ kind: "general_killed" }],
+  loseConditions: [{ kind: "general_killed" }],
+  narrativeHooks: [
+    {
+      id: "programmer_opening",
+      once: true,
+      condition: { kind: "always" },
+      action: {
+        kind: "boss_taunt",
+        text: "I will not tell you what I am doing. Trust me. I have done the arithmetic, and the arithmetic is very bad.",
+      },
+    },
+  ],
+  preMatchDialog: "dialog_programmer_gift_pre",
+  postMatchWinDialog: "dialog_programmer_gift_win",
+  postMatchLossDialog: "dialog_programmer_gift_loss",
+  giftMode: { earliestOfferTurn: 3 },
+};
+
+/* ═══════════════════════════════════════════════════════
    EXPORTS
    ═══════════════════════════════════════════════════════ */
 
@@ -658,6 +710,7 @@ export const ALL_CHAPTER_ENCOUNTERS: readonly StoryEncounter[] = Object.freeze([
   ch4, ch5, ch6, ch7, ch8,
   chWarlordZeroFirst,
   ch9a, ch9b, ch10, ch11, ch12,
+  chProgrammerGift,
   chAuthorityTrial,
 ]);
 

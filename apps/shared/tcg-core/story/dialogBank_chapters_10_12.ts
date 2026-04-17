@@ -283,6 +283,63 @@ export const DIALOG_AUTHORITY_TRIAL_LOSS: DialogScene = {
 };
 
 /* ═══════════════════════════════════════════════════════
+   §5.6 — THE PROGRAMMER (Cycle C step 10)
+   Three scenes: pre-match, accept-win, decline-loss. The
+   post-match scenes branch on the gift choice, not combat
+   outcome: accepting reads as the "win" path because the
+   Programmer's throw IS the gift; declining and then losing
+   to the match reads as the "loss" path.
+   ═══════════════════════════════════════════════════════ */
+
+export const DIALOG_PROGRAMMER_GIFT_PRE: DialogScene = {
+  id: "dialog_programmer_gift_pre",
+  label: "§5.6 — The Programmer (pre-match)",
+  kind: "chapter_pre",
+  cues: [
+    {
+      speaker: "narrator",
+      mood: "reflective",
+      text: "The Engineer's oldest friend. You have not seen him in a long time. He sits down opposite you at the bench and smiles the way a man smiles when the arithmetic has already been done.",
+      audioClipId: "vo_narr_programmer_gift_pre_01",
+    },
+    {
+      speaker: "the_programmer",
+      mood: "guarded",
+      text: "I will not tell you what I am doing. Trust me. I have done the arithmetic, and the arithmetic is very bad.",
+      audioClipId: "vo_programmer_gift_pre_01",
+    },
+  ],
+};
+
+export const DIALOG_PROGRAMMER_GIFT_WIN: DialogScene = {
+  id: "dialog_programmer_gift_win",
+  label: "§5.6 — The Programmer (gift accepted)",
+  kind: "chapter_post_win",
+  cues: [
+    {
+      speaker: "narrator",
+      mood: "reflective",
+      text: "The Programmer shakes the Engineer's hand. He vanishes that night and does not return. Some losses are gifts. This is one.",
+      audioClipId: "vo_narr_programmer_gift_win_01",
+    },
+  ],
+};
+
+export const DIALOG_PROGRAMMER_GIFT_LOSS: DialogScene = {
+  id: "dialog_programmer_gift_loss",
+  label: "§5.6 — The Programmer (declined / lost)",
+  kind: "chapter_post_loss",
+  cues: [
+    {
+      speaker: "narrator",
+      mood: "grieving",
+      text: "You declined the gift, and the arithmetic held. The Programmer walks out of the hall without turning around. He does not come back. The win, when it came, was not yours to keep.",
+      audioClipId: "vo_narr_programmer_gift_loss_01",
+    },
+  ],
+};
+
+/* ═══════════════════════════════════════════════════════
    BANK EXPORT
    ═══════════════════════════════════════════════════════ */
 
@@ -299,4 +356,7 @@ export const DIALOG_BANK_CHAPTERS_10_12: readonly DialogScene[] = Object.freeze(
   DIALOG_AUTHORITY_TRIAL_PRE,
   DIALOG_AUTHORITY_TRIAL_WIN,
   DIALOG_AUTHORITY_TRIAL_LOSS,
+  DIALOG_PROGRAMMER_GIFT_PRE,
+  DIALOG_PROGRAMMER_GIFT_WIN,
+  DIALOG_PROGRAMMER_GIFT_LOSS,
 ]);

@@ -117,6 +117,15 @@ export interface LegacyDuelystGameState {
     closingArgumentPlayed: boolean;
     outcome?: "overturn" | "sentence_passed";
   };
+  /**
+   * §5.6 Programmer gift state, mirrored from tcg-core GameState.
+   * Absent on matches that aren't §5.6. See engine/programmerGift.ts.
+   */
+  programmerGift?: {
+    status: "not_offered" | "offered" | "accepted" | "declined";
+    offeredOnTurn?: number;
+    resolvedOnTurn?: number;
+  };
 }
 
 /* ─── Adapter ─── */
@@ -158,6 +167,13 @@ export function adaptTcgStateToLegacyView(
           openingArgumentPlayed: state.trial.openingArgumentPlayed,
           closingArgumentPlayed: state.trial.closingArgumentPlayed,
           outcome: state.trial.outcome,
+        }
+      : undefined,
+    programmerGift: state.programmerGift
+      ? {
+          status: state.programmerGift.status,
+          offeredOnTurn: state.programmerGift.offeredOnTurn,
+          resolvedOnTurn: state.programmerGift.resolvedOnTurn,
         }
       : undefined,
   };

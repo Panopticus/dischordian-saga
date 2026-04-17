@@ -37,6 +37,7 @@ import { refreshTurnForPlayer } from "./turn";
 import { tickLockout } from "./lockout";
 import { drainScriptedActions } from "./scriptedActions";
 import { emitPhaseStartEvent, resolveTrialOutcome } from "./trialPhase";
+import { acceptGift, declineGift } from "./programmerGift";
 import { handlePlayCard as handlePlayCardReal } from "./playCard";
 import { handleMove as handleMoveReal } from "./movement";
 import { handleAttack as handleAttackReal } from "./combat";
@@ -144,6 +145,9 @@ export function reduce(
           break;
         case "end_turn":
           error = handleEndTurn(draft, action, ctx);
+          break;
+        case "programmer_gift_choice":
+          error = handleProgrammerGiftChoice(draft, action, ctx);
           break;
         case "concede":
           error = handleConcede(draft, action, ctx);
@@ -458,6 +462,49 @@ function handleConcede(
   draft.winReason = "surrender";
   draft.phase = "ended";
   ctx.events.push({ type: "match_ended", winner, reason: "surrender" });
+  return undefined;
+}
+
+/**
+ * §5.6 Programmer gift — player accepted or declined the deliberate
+ * throw. Transitions programmerGift state via the pure helpers.
+ *
+ * Accept: the Programmer's throw lands — the player wins the match
+ * immediately (the "gift" is the win). WinReason is "surrender" for
+ * now; the post-match dialog layer differentiates gift-win from
+ * combat-win via the programmerGift.status === "accepted" read.
+ *
+ * Decline: the match continues under standard rules. The transition
+ * records the refusal so Acts 2+ codex variants can branch on it.
+ *
+ * No-op when programmerGift is absent (non-§5.6 match) or already
+ * resolved. No error — the engine treats stale/late clicks as a
+ * tolerant pass-through.
+ */
+function handleProgrammerGiftChoice(
+  draft: Draft<GameState>,
+  action: Extract<Action, { kind: "programmer_gift_choice" }>,
+  ctx: ReduceCtx
+): ReduceError | undefined {
+  const gift = draft.programmerGift;
+  if (!gift || gift.status !== "offered") return undefined;
+  const turn = draft.turnNumber;
+  if (action.choice === "accept") {
+    draft.programmerGift = acceptGift(gift, turn);
+    // Programmer concedes — the player wins immediately. The actor's
+    // side is the player; the loser is the opposite side.
+    const loser = (action.actor === 0 ? 1 : 0) as 0 | 1;
+    const winner = action.actor;
+    draft.winner = winner;
+    draft.winReason = "surrender";
+    draft.phase = "ended";
+    void loser;
+    ctx.events.push({ type: "match_ended", winner, reason: "surrender" });
+  } else {
+    draft.programmerGift = declineGift(gift, turn);
+    // Match continues under standard rules. No state change beyond
+    // the gift transition itself.
+  }
   return undefined;
 }
 

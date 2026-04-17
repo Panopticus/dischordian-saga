@@ -40,7 +40,12 @@ import { PlayRejectionToast } from "@/components/match/PlayRejectionToast";
 import { TrialPhaseIndicator } from "@/components/match/TrialPhaseIndicator";
 import { ChoicePillarLightDark } from "@/components/match/ChoicePillarLightDark";
 import {
+  ChoicePillarProgrammerGift,
+  type ProgrammerGiftChoice,
+} from "@/components/match/ChoicePillarProgrammerGift";
+import {
   setLightDarkAlignment,
+  setProgrammerGiftAccepted,
   type LightDarkAlignment,
 } from "@shared/campaignState";
 import {
@@ -105,6 +110,15 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   // of the entire game" (authority-trial-phase-mechanic.md §5).
   const [showLightDarkPillar, setShowLightDarkPillar] = useState(false);
   const prevTrialOutcomeRef = useRef<"overturn" | "sentence_passed" | undefined>(undefined);
+
+  // §5.6 Programmer gift pillar. Mounted when
+  // gameState.programmerGift?.status transitions to "offered" (the
+  // Programmer AI's gift-offer moment). The pick dispatches the
+  // programmer_gift_choice action AND writes the persistent
+  // act1_programmer_gift_accepted campaign flag via
+  // setProgrammerGiftAccepted(). Spec: §5.6.
+  const [showProgrammerGiftPillar, setShowProgrammerGiftPillar] = useState(false);
+  const prevGiftStatusRef = useRef<string | undefined>(undefined);
 
   // Tutorial state
   const [tutorialStep, setTutorialStep] = useState(0);
@@ -287,6 +301,20 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     prevTrialOutcomeRef.current = outcome;
   }, [gameState]);
 
+  // §5.6 gift pillar — fires on the not_offered → offered transition.
+  // Once the player resolves (accepted/declined), the status moves
+  // terminal and the pillar stays hidden.
+  useEffect(() => {
+    const status = gameState?.programmerGift?.status;
+    if (status === "offered" && prevGiftStatusRef.current !== "offered") {
+      setShowProgrammerGiftPillar(true);
+    }
+    if (status === "accepted" || status === "declined") {
+      setShowProgrammerGiftPillar(false);
+    }
+    prevGiftStatusRef.current = status;
+  }, [gameState]);
+
   // §5.8.1 pick handler: write the persistent alignment flag + hide
   // the pillar. The component's own state prevents re-clicks mid-
   // animation; this handler fires exactly once per playthrough.
@@ -303,6 +331,30 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       // animation has time to play (the component locks on click
       // and runs a ~500ms transition).
       setTimeout(() => setShowLightDarkPillar(false), 800);
+    },
+    [addLog],
+  );
+
+  // §5.6 gift pick handler: dispatch the reducer action (transitions
+  // GameState.programmerGift to accepted|declined and ends the match
+  // on accept), write the persistent campaign flag, and add a log
+  // line. Fires once per playthrough — the component's internal lock
+  // guards against re-clicks during the transition.
+  const handleProgrammerGiftPick = useCallback(
+    (choice: ProgrammerGiftChoice) => {
+      const accepted = choice === "accept";
+      setProgrammerGiftAccepted(accepted);
+      const client = tcgClientRef.current;
+      if (client) {
+        client.dispatch({ type: "programmer_gift_choice", choice });
+      }
+      addLog(
+        accepted
+          ? "The Programmer vanishes that night and does not return. You take the win."
+          : "You decline the gift. The Programmer smiles, and plays the next turn honestly.",
+        "system",
+      );
+      setTimeout(() => setShowProgrammerGiftPillar(false), 800);
     },
     [addLog],
   );
@@ -723,6 +775,10 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           onPick={handleLightDarkPick}
         />
       )}
+      {showProgrammerGiftPillar &&
+        gameState?.programmerGift?.status === "offered" && (
+          <ChoicePillarProgrammerGift onPick={handleProgrammerGiftPick} />
+        )}
       {rejection && (
         <PlayRejectionToast key={rejection.key} message={rejection.message} />
       )}

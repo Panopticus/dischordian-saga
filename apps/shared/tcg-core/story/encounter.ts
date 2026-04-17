@@ -26,6 +26,7 @@ import {
 } from "../index";
 import type { ScriptedAction } from "../types/ScriptedAction";
 import type { TrialModeConfig } from "../types/TrialPhase";
+import type { GiftModeConfig } from "../types/ProgrammerGift";
 import { resolveDialog, type DialogScene } from "./dialogBank";
 
 /* ─── Types ─── */
@@ -74,6 +75,16 @@ export interface StoryEncounter {
    * docs/production/act1/authority-trial-phase-mechanic.md.
    */
   trialMode?: TrialModeConfig;
+  /**
+   * Optional §5.6 Programmer gift-mode opt-in. Forwarded to the
+   * engine via createMatchState. When set, the match starts with
+   * programmerGift.status === "not_offered"; the gift-offer trigger
+   * is driven by the AI / scripted-action layer per spec §2. Only
+   * current user is the `chProgrammerGift` encounter. See
+   * engine/programmerGift.ts +
+   * ACT1_NARRATIVE_STRUCTURE.md §5.6.
+   */
+  giftMode?: GiftModeConfig;
 }
 
 export type WinCondition =
@@ -148,6 +159,7 @@ export function initEncounter(input: EncounterInit): EncounterState {
     registry,
     scriptedActions: encounter.scriptedActions,
     trialMode: encounter.trialMode,
+    giftMode: encounter.giftMode,
   });
   return { gameState, firedHooks: new Set() };
 }

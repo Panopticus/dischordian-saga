@@ -206,6 +206,18 @@ export interface DuelystGameState {
     closingArgumentPlayed: boolean;
     outcome?: "overturn" | "sentence_passed";
   };
+  /**
+   * §5.6 Programmer gift state, projected from tcg-core GameState.
+   * Absent on every match that isn't §5.6. The UI watches the
+   * not_offered → offered transition to mount ChoicePillarProgrammerGift,
+   * and acceptance ends the match immediately (the Programmer's
+   * throw is the win). Spec: ACT1_NARRATIVE_STRUCTURE.md §5.6.
+   */
+  programmerGift?: {
+    status: "not_offered" | "offered" | "accepted" | "declined";
+    offeredOnTurn?: number;
+    resolvedOnTurn?: number;
+  };
 }
 
 export interface ActionLogEntry {
