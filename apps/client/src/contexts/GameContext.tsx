@@ -13,6 +13,11 @@ import { useSyncStatusStore } from "@/stores/syncStatusStore";
 import { applyDischordiaEnergy } from "@/stores/dischordiaCycleStore";
 import { recordMemorableMoment } from "@/stores/memorableMomentsStore";
 import { adjustNarratorBond as adjustNarratorBondValue, deriveNarratorBond } from "@shared/narratorBond";
+import {
+  advanceYearOneMonth as advanceYearOneMonthValue,
+  deriveYearOneMonth,
+  yearOneMonthFlag,
+} from "@shared/yearOneMonth";
 
 /* ─── TYPES ─── */
 export type GamePhase = "FIRST_VISIT" | "AWAKENING" | "QUARTERS_UNLOCKED" | "EXPLORING" | "FULL_ACCESS";
@@ -137,6 +142,10 @@ export interface GameState {
   // Reader: getNarratorBond() falls back to min(elaraTrust, humanTrust)
   // for saves that predate the field.
   narratorBond: number;
+  // Year One Calendar month (1..12). §14.1 layers + Witnessing Hub read this.
+  // Reader: getYearOneMonth() falls back to the highest set
+  // `year_one_month_N_opened` flag on saves that predate the field.
+  yearOneMonth: number;
   // NPC relationship tracking (5 additional NPCs beyond Elara + Human)
   npcTrust: Record<string, number>;                 // npcId → trust 0-100
   npcCallbacks: Record<string, Record<string, boolean>>; // npcId → { callbackId → triggered }
@@ -939,6 +948,7 @@ const DEFAULT_GAME_STATE: GameState = {
   humanTrust: 0,
   humanCallbacks: {},
   narratorBond: 0,
+  yearOneMonth: 1,
   // NPC relationship defaults
   npcTrust: { agent_zero: 0, locke: 0, source: 0, antiquarian: 0, shadow_tongue: 0 },
   npcCallbacks: { agent_zero: {}, locke: {}, source: {}, antiquarian: {}, shadow_tongue: {} },
@@ -1140,6 +1150,10 @@ interface GameContextValue {
   adjustNarratorBond: (delta: number) => void;
   /** Read the current bond. Falls back to min(elaraTrust, humanTrust) on pre-field saves. */
   getNarratorBond: () => number;
+  /** Open the next Year One Calendar month (raises year_one_month_N_opened; clamps at 12). */
+  advanceYearOneMonth: () => void;
+  /** Read the current Year One month (1..12). Falls back to flag-scan on pre-field saves. */
+  getYearOneMonth: () => number;
   /** Set a flat Elara callback flag (used by roomDialogs + Palimpsest episode callbacks). */
   setElaraCallback: (flag: string, value?: boolean) => void;
   /** Set a flat Human callback flag (parallel to Elara's, for The Human's whispers). */
@@ -2265,6 +2279,38 @@ export function GameProvider({ children }: { children: ReactNode }) {
     [state.narratorBond, state.elaraTrustLevel, state.humanTrustLevel],
   );
 
+  const advanceYearOneMonth = useCallback(() => {
+    // Advance the canonical field AND raise the matching
+    // `year_one_month_N_opened` flag so pre-field readers (Hub
+    // flag-scan shim) stay in sync on the same tick.
+    setState(prev => {
+      const nextMonth = advanceYearOneMonthValue(
+        deriveYearOneMonth({
+          yearOneMonth: prev.yearOneMonth,
+          flags: prev.narrativeFlags,
+        }),
+      );
+      const flag = yearOneMonthFlag(nextMonth);
+      if (prev.yearOneMonth === nextMonth && prev.narrativeFlags?.[flag]) {
+        return prev;
+      }
+      return {
+        ...prev,
+        yearOneMonth: nextMonth,
+        narrativeFlags: { ...prev.narrativeFlags, [flag]: true },
+      };
+    });
+  }, []);
+
+  const getYearOneMonth = useCallback(
+    () =>
+      deriveYearOneMonth({
+        yearOneMonth: state.yearOneMonth,
+        flags: state.narrativeFlags,
+      }),
+    [state.yearOneMonth, state.narrativeFlags],
+  );
+
   // ═══ NPC RELATIONSHIP CALLBACKS ═══
   const adjustNpcTrust = useCallback((npcId: string, delta: number) => {
     setState(prev => {
@@ -2849,6 +2895,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       adjustElaraTrust,
       adjustNarratorBond,
       getNarratorBond,
+      advanceYearOneMonth,
+      getYearOneMonth,
       setElaraCallback,
       setHumanCallback,
       // ═══ NPC RELATIONSHIPS ═══

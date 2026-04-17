@@ -34,6 +34,7 @@ import {
   deriveWitnessingHubState,
   type WitnessingHubState,
 } from "@shared/witnessingHub";
+import { deriveYearOneMonth } from "@shared/yearOneMonth";
 import { PreludeMissionRunner } from "@/components/PreludeMissionRunner";
 import type { PreludeCrewMission } from "@shared/preludeCrewMissions";
 import LivingBackground from "@/components/LivingBackground";
@@ -59,7 +60,10 @@ export default function WitnessingHubPage() {
     () =>
       deriveWitnessingHubState({
         flags: gameState.narrativeFlags ?? {},
-        yearOneMonth: inferYearOneMonth(gameState.narrativeFlags ?? {}),
+        yearOneMonth: deriveYearOneMonth({
+          yearOneMonth: gameState.yearOneMonth,
+          flags: gameState.narrativeFlags,
+        }),
         act1CardWins: inferAct1CardWins(gameState),
         zephyrDepth: 0,
         moralityScore: gameState.moralityScore ?? 0,
@@ -607,18 +611,6 @@ function ArchivePanel({ hubState }: { hubState: WitnessingHubState }) {
 }
 
 /* ─── INFERENCE HELPERS ─── */
-
-/**
- * Infer the current Year One month from narrative flags. Each
- * month opens a canonical flag (year_one_month_N_opened); we
- * pick the highest one that's set.
- */
-function inferYearOneMonth(flags: Record<string, boolean>): number {
-  for (let m = 12; m >= 1; m--) {
-    if (flags[`year_one_month_${m}_opened`]) return m;
-  }
-  return 1;
-}
 
 /**
  * Infer the player's Act 1 card wins from game state. The

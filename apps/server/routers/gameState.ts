@@ -60,6 +60,10 @@ const gameStateSchema = z.object({
   // Optional so older clients that predate the field round-trip cleanly;
   // the derived-value fallback in shared/narratorBond.ts handles reads.
   narratorBond: z.number().optional(),
+  // Wave 1 — canonical Year One Calendar month (1..12). Optional for
+  // pre-field saves; the flag-scan fallback in shared/yearOneMonth.ts
+  // reads `year_one_month_N_opened` when the field is absent.
+  yearOneMonth: z.number().optional(),
   claimedQuestRewards: z.array(z.string()).optional(),
   completedGames: z.array(z.string()).optional(),
   collectedCards: z.array(z.string()).optional(),
