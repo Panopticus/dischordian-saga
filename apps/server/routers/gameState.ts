@@ -69,6 +69,19 @@ const gameStateSchema = z.object({
   // handled pre-field saves but the explicit field documents the
   // validation contract.
   armyRecruitmentMissionsCompleted: z.array(z.string()).optional(),
+  // Wave 1 — prestige (§15 P3). Typed replacement for the old
+  // `(prev as any).prestige` hack on GameContext. The baseline is
+  // the carryover result from applyPrestigeCarryover() at the last
+  // prestige event; null on saves that have never prestiged.
+  prestigeLevel: z.number().optional(),
+  prestigeBaseline: z.object({
+    loredexEntries: z.number(),
+    bondPeakMemories: z.number(),
+    narratorDominanceEnergy: z.number(),
+    dischordiaCards: z.number(),
+    witnessingMilestones: z.number(),
+    memorableMoments: z.number(),
+  }).nullable().optional(),
   claimedQuestRewards: z.array(z.string()).optional(),
   completedGames: z.array(z.string()).optional(),
   collectedCards: z.array(z.string()).optional(),

@@ -19,6 +19,13 @@ import {
   yearOneMonthFlag,
 } from "@shared/yearOneMonth";
 import { addCompletedRecruitmentMission } from "@shared/armyRecruitment";
+import {
+  EMPTY_PRESTIGE_CYCLE_STATS,
+  addPrestigeCycleStats,
+  measurePrestigeCycleStats,
+  type PrestigeCycleStats,
+} from "@shared/prestige";
+import { applyPrestigeCarryover } from "@shared/witnessingIntegrations";
 
 /* ─── TYPES ─── */
 export type GamePhase = "FIRST_VISIT" | "AWAKENING" | "QUARTERS_UNLOCKED" | "EXPLORING" | "FULL_ACCESS";
@@ -280,6 +287,16 @@ export interface GameState {
   legionGraduates: Record<string, unknown>;  // id → Apprentice
   /** Letters from deployed apprentices — narrative micro-updates */
   legionLetters: { id: string; fromApprenticeId: string; body: string; timestamp: number; read: boolean }[];
+  // ─── Prestige (§15 P3) ───
+  /** How many times the player has prestiged. 0 = never. */
+  prestigeLevel: number;
+  /**
+   * Carryover baseline from prior prestige cycles — the result of
+   * applyPrestigeCarryover() at the last prestige event. null on a
+   * save that has never prestiged. Added on top of the current
+   * cycle's measured stats when systems need the lifetime view.
+   */
+  prestigeBaseline: PrestigeCycleStats | null;
 }
 
 /* ─── ROOM DEFINITIONS ─── */
@@ -1054,6 +1071,8 @@ const DEFAULT_GAME_STATE: GameState = {
   legionRoster: { assignments: [], unassigned: [], sacrificedHistory: [] },
   legionGraduates: {},
   legionLetters: [],
+  prestigeLevel: 0,
+  prestigeBaseline: null,
 };
 
 const GAME_STORAGE_KEY = "loredex_game_state";
@@ -1169,6 +1188,10 @@ interface GameContextValue {
   incrementNpcConversation: (npcId: string) => void;
   // ═══ PRESTIGE ═══
   performPrestige: () => void;
+  /** Current prestige level (0 = never prestiged). */
+  getPrestigeLevel: () => number;
+  /** Lifetime carryover baseline. Empty stats on a never-prestiged save. */
+  getPrestigeBaseline: () => PrestigeCycleStats;
   // ═══ ARMY MANAGEMENT ═══
   recruitUnit: (unit: ArmyUnit) => void;
   deployUnits: (deployment: ArmyDeployment) => void;
@@ -2401,8 +2424,26 @@ export function GameProvider({ children }: { children: ReactNode }) {
   // ═══ PRESTIGE SYSTEM ═══
   const performPrestige = useCallback(() => {
     setState(prev => {
-      const currentPrestige = (prev as any).prestige || 0;
       if (prev.narrativeAct < 1) return prev; // Must have progressed
+
+      // Measure what the player earned this cycle, stack it onto the
+      // existing baseline, then apply the §15 P3 carryover multipliers
+      // from PRESTIGE_CARRYOVER_RULES (loredex 100%, bond 50%, cards
+      // 25%, narrator dominance 0%, milestones 100%, moments 10%).
+      // External stats (narrator dominance energy + memorable moments)
+      // default to 0 here — the respective zustand stores own those
+      // reads and a follow-up PR can thread them through if needed.
+      const thisCycle = measurePrestigeCycleStats({
+        loredexDiscovered: prev.loredexDiscovered,
+        collectedCards: prev.collectedCards,
+        narrativeFlags: prev.narrativeFlags,
+      });
+      const stacked = addPrestigeCycleStats(
+        prev.prestigeBaseline ?? EMPTY_PRESTIGE_CYCLE_STATS,
+        thisCycle,
+      );
+      const nextBaseline = applyPrestigeCarryover(stacked);
+
       return {
         ...prev,
         // Reset progression
@@ -2422,11 +2463,22 @@ export function GameProvider({ children }: { children: ReactNode }) {
         craftedItems: [],
         craftingLog: [],
         currentRoomId: "cryo-bay",
-        // Increment prestige
-        prestige: currentPrestige + 1,
-      } as any;
+        // Typed prestige fields — replace the old untyped read path.
+        prestigeLevel: prev.prestigeLevel + 1,
+        prestigeBaseline: nextBaseline,
+      };
     });
   }, []);
+
+  const getPrestigeLevel = useCallback(
+    () => state.prestigeLevel ?? 0,
+    [state.prestigeLevel],
+  );
+
+  const getPrestigeBaseline = useCallback(
+    () => state.prestigeBaseline ?? EMPTY_PRESTIGE_CYCLE_STATS,
+    [state.prestigeBaseline],
+  );
 
   // ═══ ARMY MANAGEMENT CALLBACKS ═══
   const recruitUnit = useCallback((unit: ArmyUnit) => {
@@ -2928,6 +2980,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       incrementNpcConversation,
       // ═══ PRESTIGE ═══
       performPrestige,
+      getPrestigeLevel,
+      getPrestigeBaseline,
       // ═══ ARMY MANAGEMENT ═══
       recruitUnit,
       deployUnits,
