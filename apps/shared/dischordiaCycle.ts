@@ -240,6 +240,8 @@ export const ENERGY_GAIN_TABLE: readonly EnergyGainAction[] = [
   { id: "dismiss_companion", source: "Dismiss a companion (\"go away\")", light: 0, dark: 5 },
   { id: "two_witnesses_forgive", source: "Forgive at Two Witnesses Meet", light: 200, dark: 0 },
   { id: "two_witnesses_refuse", source: "Refuse both at Two Witnesses Meet", light: 0, dark: 100, vortex: 1 },
+  { id: "celebration_trial_light", source: "Celebration Trial (bond-positive outcome)", light: 10, dark: 0 },
+  { id: "celebration_trial_dark", source: "Celebration Trial (corruption-positive outcome)", light: 0, dark: 10 },
 ] as const;
 
 export type EnergyGainActionId = (typeof ENERGY_GAIN_TABLE)[number]["id"];

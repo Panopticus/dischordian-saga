@@ -31,6 +31,7 @@ import {
   type KaelFragmentWatcherContext,
 } from "@shared/kaelFragmentWatchers";
 import { act4PrisonerFlagsForCompletedStoryChapters } from "@shared/actsFourFiveShells";
+import { getNextPendingRecording } from "@shared/engineerRecordings";
 import { loadStoryProgress } from "@/game/storyMode";
 
 /* ─── LORE DISCOVERY TRIGGERS ───
@@ -751,6 +752,26 @@ export function useNarrativeIntegration() {
       setNarrativeFlag("act_1_complete", true);
       toast.info("Cycle C — The Deck Reforged", {
         description: "New Babylon. A tall figure in a worn engineer's coat.",
+      });
+    }
+
+    // Engineer holographic recordings — discover the next recording
+    // when the player crosses the card-win threshold. Each recording
+    // fires a discovery flag + chronicle entry + NPC reaction toast.
+    const storyProgress = loadStoryProgress();
+    const dischordiaStep = storyProgress?.currentChapter ?? 0;
+    const allAct1Complete = !!state.narrativeFlags?.act_1_complete;
+    const nextRecording = getNextPendingRecording(
+      state.narrativeFlags ?? {},
+      cardWins,
+      dischordiaStep,
+      allAct1Complete,
+    );
+    if (nextRecording) {
+      setNarrativeFlag(nextRecording.discoveryFlag, true);
+      toast.success(nextRecording.title, {
+        description: nextRecording.npcReactions.elara,
+        duration: 6000,
       });
     }
 
