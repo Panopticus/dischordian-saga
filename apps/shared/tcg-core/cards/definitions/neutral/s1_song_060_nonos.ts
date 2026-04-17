@@ -43,4 +43,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "A N0NOS soul that can't be keyed. They can't watch what they can't see. — NØX manifesto",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

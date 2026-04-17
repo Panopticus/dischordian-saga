@@ -58,4 +58,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "They clone him at the starting line and recycle him at the finish. He has won forty-seven races. He remembers none of them.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive", "reactive"] as const,
+  verdict_delta: 1,
 };

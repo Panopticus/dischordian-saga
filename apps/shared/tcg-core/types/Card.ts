@@ -66,6 +66,30 @@ export type Keyword =
   | "resurrect"; // returns to the field once after death
 
 /**
+ * Trial-phase category tags used by §5.8 Authority match (Act 1 finale).
+ * Each tag describes how the card is *admissible* during a specific phase
+ * of the canonical Empire judicial proceeding the §5.8 match models.
+ *
+ * A card may have multiple categories — e.g. a card that is both a
+ * defensive play in turn 1's charge phase and an admissible evidence-
+ * category play in turns 3–5. Cards with no trial_categories are
+ * unplayable in every restricted §5.8 phase and are only available in
+ * the all-categories-permitted phases (none exist in §5.8's current
+ * spec — see docs/production/act1/authority-trial-phase-mechanic.md §2).
+ *
+ * Back-fill status: new optional field as of April 2026. Existing
+ * cards default to empty (unplayable in §5.8). Act 1 card-pool
+ * backfill planned in a follow-up pass before §5.8 runtime ships.
+ */
+export type TrialCategory =
+  | "defensive"   // phase 1 (charge)
+  | "offensive"   // no §5.8 phase permits these; reserved for tooling
+  | "narrative"   // phases 2 (opening argument) + 9 (closing argument)
+  | "evidence"    // phases 3–5 (evidence presentation)
+  | "reactive"    // phases 6–8 (cross-examination)
+  | "confession"; // phase 7 (cross-exam second) only — insurgency lean
+
+/**
  * Authored card definition. Serializable — no functions. All ability logic
  * lives in effect trees (see types/Effect.ts + types/Trigger.ts).
  */
@@ -97,6 +121,46 @@ export interface CardDefinition {
    * abilities. Spells and units ignore this.
    */
   artifactDurability?: number;
+  /**
+   * Optional: player-class restriction (Phase B7). When set, the
+   * card may only be added to decks built by players of the given
+   * character class. Enforced at deck-validation time by the
+   * format validator (Phase B8). Omitting the field leaves the
+   * card class-neutral.
+   */
+  characterClass?: "spy" | "oracle" | "assassin" | "engineer" | "soldier" | "neyon";
+  /**
+   * Optional: Act 1 §5.8 Authority trial-phase admissibility tags.
+   * Omitting the field (or providing an empty array) makes the card
+   * unplayable in every restricted §5.8 phase. See
+   * docs/production/act1/authority-trial-phase-mechanic.md for the
+   * phase-to-category mapping.
+   */
+  trial_categories?: readonly TrialCategory[];
+  /**
+   * Optional: marks the card as Warlord-deck-only. The deck builder
+   * filters these out of every player-buildable pool; they appear
+   * only in scripted opponent decks (currently §5.5 Warlord Zero).
+   * See docs/production/act1/warlord-three-move-mechanic.md §6.1.
+   */
+  warlord_only?: true;
+  /**
+   * Optional: the card's contribution to the §5.8 verdict-stream
+   * balance when played during an Authority trial. Integer in the
+   * range [-3, +3] per the spec's "public delta" phrasing; positive
+   * values push the balance toward Overturn, negative toward
+   * Sentence Passed. Absent values default to +1 per
+   * engine/trialPhase.ts's PLACEHOLDER_PLAY_DELTA — authoring a real
+   * value per card refines §5.8 balance beyond the placeholder
+   * (spec §7 open design item "per-card delta authoring").
+   *
+   * Heuristic for the initial backfill (see balance/verdictDelta
+   * Proposer.ts): defensive 0/+1, evidence +1/+2, narrative +1,
+   * reactive +1, confession -2 (trade-off), uncategorized 0. Offensive-
+   * only cards don't appear in §5.8 (no phase admits them), so their
+   * delta is never read — proposer still emits 0 for completeness.
+   */
+  verdict_delta?: number;
 }
 
 /** Forward-declared. Full shape lives in types/Trigger.ts. */

@@ -40,4 +40,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Her verdicts are absolute. Her sentences, irrevocable.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "evidence"] as const,
+  verdict_delta: 1,
 };

@@ -115,4 +115,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Connections Appearances No connected characters. No appearances in stories.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence", "reactive"] as const,
+  verdict_delta: 1,
 };

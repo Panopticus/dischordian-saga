@@ -181,6 +181,31 @@ export interface DuelystGameState {
   actionLog: ActionLogEntry[];
   boardWidth: number;
   boardHeight: number;
+  /**
+   * §5.5 Warlord lockout state, projected from tcg-core GameState by
+   * compat/viewAdapter.ts. Absent when no lockout is active. The UI
+   * uses this to render the WarlordCountdownIndicator + CardLockOverlay
+   * and to gate clicks on locked hand cards.
+   */
+  lockout?: {
+    targetSide: 0 | 1;
+    turnsRemaining: number;
+    playableEntityIds: readonly string[];
+    lockedEntityIds: readonly string[];
+  };
+  /**
+   * §5.8 Authority trial state, projected from tcg-core GameState. Absent
+   * on every match that isn't §5.8. Phase number === turnNumber per spec §2.
+   * The UI uses this to render TrialPhaseIndicator + TrialTranscriptColumn
+   * and to gate plays that don't match the current phase.
+   */
+  trial?: {
+    openingVerdictBalance: number;
+    trialBalance: number;
+    openingArgumentPlayed: boolean;
+    closingArgumentPlayed: boolean;
+    outcome?: "overturn" | "sentence_passed";
+  };
 }
 
 export interface ActionLogEntry {

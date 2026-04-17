@@ -40,4 +40,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It connects to any system, any faction, any purpose. Versatility is the only true currency.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
+  verdict_delta: 1,
 };

@@ -45,4 +45,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Three deaths. Three rebirths. Each time, the eyes open knowing more.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

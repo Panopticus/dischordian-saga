@@ -44,4 +44,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Retreat is merely attack in the temporal dimension.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

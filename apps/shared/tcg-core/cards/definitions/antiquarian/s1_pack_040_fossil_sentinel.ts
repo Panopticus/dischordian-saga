@@ -44,4 +44,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It was buried for a thousand ages. Each one made it stronger. Now it remembers why it was buried.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

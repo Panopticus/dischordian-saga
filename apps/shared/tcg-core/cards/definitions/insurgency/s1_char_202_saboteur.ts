@@ -46,4 +46,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She was in and out before the alarm sounded. The fire was just a bonus.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

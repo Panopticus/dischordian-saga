@@ -41,4 +41,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She does not enter the Arena. She builds a new one around you — with you already inside.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

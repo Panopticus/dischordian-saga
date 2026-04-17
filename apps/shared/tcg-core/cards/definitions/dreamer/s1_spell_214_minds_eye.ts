@@ -43,4 +43,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She did not blink. She did not flinch. She simply thought, and it was done.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

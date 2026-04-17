@@ -48,4 +48,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Nine lives, but it burns through them so fast you'd swear it only has one.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

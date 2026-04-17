@@ -1,0 +1,33 @@
+VFX ID:      vfx_memo_holo_rise
+Beat:        F (Briefing Room)
+Bible:       §11.6, §18.2
+Duration:    3.5 seconds, one-shot
+File:        apps/client/public/art/vfx/prelude/memo-holo-rise.webm
+Format:      1920×1080, VP9 WebM, alpha channel, 24fps, no audio
+
+Note: Bible §11.6 flags this as "First of two canonical exceptions
+to the no-rendered-text rule." Rendered text IS expected here.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+START FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Hyper-realistic cinematic still, 16:9, 4K, TRANSPARENT BACKGROUND with alpha channel. The top of a brass lockbox visible at the bottom of the frame, showing its open lid at ~40° angle. A pale cyan #22d3ee glow emanates from the lockbox interior. No holographic sheet visible yet. Background fully transparent above the lockbox. No rendered text.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+END FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Same lockbox at the bottom of frame. Above it, floating at eye level, a rectangular holographic sheet, approximately 50cm wide × 70cm tall, rendered in pale cyan #22d3ee translucent glow. Three handwritten-calligraphic text bullets are rendered on the sheet in cyan script (rendered text permitted per §11.6):
+
+  • Contingency transfer protocol — see Locke
+  • Archives vault — bridge key pattern
+  • If I am not returning — Quinn
+
+Each bullet starts with a small dot glyph. Handwriting style: flowing, human, anxious. Text is fully legible but rendered with slight wobble like real handwriting. Soft cyan bloom around the whole sheet. Anamorphic flare at each bullet's starting dot. Background remains transparent. Scanlines visible on the hologram at 3% opacity.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MOTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+At t=0s only the lockbox glow. At t=0.2s a small cyan rectangle begins rising vertically out of the lockbox, 50cm wide, initially 5cm tall. It rises at moderate speed, growing in height as it ascends. By t=1.2s it's at eye level and 70cm tall. At t=1.4s a scanline wipe pass sweeps top-to-bottom across the sheet. At t=1.6s the first text bullet writes itself in cyan handwriting over 0.5s. At t=2.1s the second bullet writes (0.5s). At t=2.6s the third bullet writes (0.5s). At t=3.1s all three bullets glow slightly brighter as the sheet settles. At t=3.5s holds on end frame. 24fps. Revelatory, anxious, intimate — these are Kael's last instructions before she left.

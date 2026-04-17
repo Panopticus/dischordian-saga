@@ -45,4 +45,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The light dies in stages. The Herald names each stage as it passes, like a priest reading last rites.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

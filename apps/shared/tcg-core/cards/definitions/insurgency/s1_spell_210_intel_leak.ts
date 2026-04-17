@@ -45,4 +45,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Every wall has cracks. Every code has a key. The resistance finds both.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
+  verdict_delta: 1,
 };

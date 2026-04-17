@@ -44,4 +44,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She entered the arena with nothing but a borrowed blade and a refusal to lose.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

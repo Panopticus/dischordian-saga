@@ -45,4 +45,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The Source does not kill. It simply reminds every cell in your body that it was always meant to stop.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

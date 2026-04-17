@@ -41,4 +41,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The borderlands belong to no faction — only to those quiet enough to survive them.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

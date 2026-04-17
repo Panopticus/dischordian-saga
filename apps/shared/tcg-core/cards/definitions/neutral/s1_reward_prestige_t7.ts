@@ -66,4 +66,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Seven cycles of death and rebirth. What remains is beyond mortal understanding.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

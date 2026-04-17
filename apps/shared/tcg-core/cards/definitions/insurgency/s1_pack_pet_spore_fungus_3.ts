@@ -48,4 +48,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It feeds on the fallen. Every battlefield is a garden.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "reactive"] as const,
+  verdict_delta: 2,
 };

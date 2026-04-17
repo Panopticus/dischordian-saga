@@ -22,4 +22,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "What was once a person is now a vessel. The Virus wears their face but not their name.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "offensive"] as const,
+  verdict_delta: 1,
 };

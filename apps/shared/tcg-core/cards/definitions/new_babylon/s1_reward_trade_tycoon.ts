@@ -58,4 +58,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "A million credits is just the beginning. The galaxy is a market.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

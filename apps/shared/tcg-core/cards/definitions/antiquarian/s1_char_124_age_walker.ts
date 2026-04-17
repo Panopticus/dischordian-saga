@@ -51,4 +51,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It was small when the first age began. By the third, armies feared it. By the seventh, they worshipped it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

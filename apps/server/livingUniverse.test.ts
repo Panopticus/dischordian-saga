@@ -221,7 +221,9 @@ import {
 
 describe("Living Universe shared library", () => {
   it("has exactly 11 emergent events", () => {
-    // 5 base + vox_revelation + potentials_remember + 2 faction_dominance + convergence + unified_second_coming
+    // 5 base events (necromancer, dreamer, terminus, antiquarian, shadow tongue)
+    // + vox_revelation + potentials_remember_origin + 2 faction-dominance events
+    // + convergence_threshold + the_unified_second_coming (climax).
     expect(ALL_EMERGENT_EVENTS.length).toBe(11);
   });
 

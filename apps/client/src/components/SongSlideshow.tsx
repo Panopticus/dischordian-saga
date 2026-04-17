@@ -51,7 +51,7 @@ export default function SongSlideshow({
   const [currentIndex, setCurrentIndex] = useState(-1); // -1 = title card
   const [dismissed, setDismissed] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const frame = currentIndex >= 0 && currentIndex < frames.length
     ? frames[currentIndex]

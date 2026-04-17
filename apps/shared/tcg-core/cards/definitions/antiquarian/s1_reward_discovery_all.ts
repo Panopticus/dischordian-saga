@@ -45,4 +45,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The complete record of everything that was, is, and will be. It fits in one spell. Barely.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence", "narrative"] as const,
+  verdict_delta: 2,
 };

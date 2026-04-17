@@ -82,4 +82,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "In Year 16,200 A.A., it escaped the infernal dominion of the Empire of Shadows\u2014one of the few horrors to slip its leash ...",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence", "narrative"] as const,
+  verdict_delta: 2,
 };

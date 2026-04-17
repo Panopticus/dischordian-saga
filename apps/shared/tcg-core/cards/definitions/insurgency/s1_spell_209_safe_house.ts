@@ -43,4 +43,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Knock three times. Wait for the candle. Say the name they gave you when you first resisted.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

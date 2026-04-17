@@ -54,4 +54,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Every academy teaches something different. The graduate who finishes them all learns the one lesson they share: adapt or die.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

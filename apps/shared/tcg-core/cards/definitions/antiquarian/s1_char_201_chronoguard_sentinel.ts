@@ -39,4 +39,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It has stood here for a thousand years. It will stand here for a thousand more.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

@@ -55,10 +55,16 @@ export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    // Node runtime contexts: scripts, drizzle config, server code.
+    // Node runtime contexts: scripts, drizzle config, server code,
+    // and runtime-agnostic shared code. apps/shared/** runs under
+    // both Node (server + vitest) and the browser bundle, but it
+    // uses console/process/Buffer freely, so it needs the Node
+    // globals list to resolve no-undef. Vite + TypeScript catch any
+    // actually-browser-hostile patterns at build time.
     files: [
       "apps/scripts/**/*.{ts,mts,cts,js,mjs,cjs}",
       "apps/server/**/*.{ts,mts,cts,js,mjs,cjs}",
+      "apps/shared/**/*.{ts,mts,cts,js,mjs,cjs}",
       "apps/db/**/*.{ts,mts,cts,js,mjs,cjs}",
       "drizzle.config.ts",
       "vite.config.ts",

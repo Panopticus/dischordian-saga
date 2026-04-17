@@ -48,4 +48,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "A thousand futures bloom in the Oracle's mind. She plucks the brightest and lets the rest wither.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 1,
 };

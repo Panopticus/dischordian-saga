@@ -47,4 +47,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The market corrects itself. It does not care who is standing when it does.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

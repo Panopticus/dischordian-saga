@@ -59,4 +59,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Establishing the Empire of Shadows, she wielded the Blood Weave to reshape reality, battling the Hierarchy of the Damned.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "evidence"] as const,
+  verdict_delta: 1,
 };

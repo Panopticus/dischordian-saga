@@ -41,4 +41,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Its glass eye never blinks. Its memory never falters. It was built to watch — and to remember.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

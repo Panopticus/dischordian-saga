@@ -53,4 +53,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She planted New Babylon's flag in contested ground and dared the world to pull it out.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

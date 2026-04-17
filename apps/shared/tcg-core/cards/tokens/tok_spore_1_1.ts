@@ -34,4 +34,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It feeds on endings. Every death is a season of plenty.",
   rulesVersion: "1.0.0",
+  trial_categories: ["reactive"] as const,
+  verdict_delta: 1,
 };

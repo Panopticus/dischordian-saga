@@ -54,4 +54,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The guild war ended. Locke's accountants moved in before the smoke cleared.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

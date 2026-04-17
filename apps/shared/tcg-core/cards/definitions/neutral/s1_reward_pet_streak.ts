@@ -45,4 +45,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It fits in your pocket. It has killed things that don't.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

@@ -34,4 +34,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "When the last grain falls, the golem shatters — and time resumes its march.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

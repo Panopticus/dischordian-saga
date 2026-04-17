@@ -52,4 +52,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Chaos doesn't choose sides. It just chooses.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

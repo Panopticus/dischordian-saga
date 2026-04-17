@@ -43,4 +43,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "In the paradox engine of Dischord, contradictions are not errors — they are ammunition.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

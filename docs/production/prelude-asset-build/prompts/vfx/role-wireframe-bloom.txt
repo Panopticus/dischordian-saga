@@ -1,0 +1,24 @@
+VFX ID:      vfx_role_wireframe_bloom
+Beat:        C (Engineering — Crew Role Choice)
+Bible:       §6.6
+Duration:    2.5 seconds, one-shot
+File:        apps/client/public/art/vfx/prelude/role-wireframe-bloom.webm
+Format:      1920×1080, VP9 WebM, alpha channel, 24fps, no audio
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+START FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Hyper-realistic cinematic still, 16:9, 4K, TRANSPARENT BACKGROUND with alpha channel. Empty space where a crewmate hologram will materialize. Center of frame contains only the faintest cyan #22d3ee hint — a single pixel-width vertical line, barely visible, suggesting a projection axis. Height ~1.8m (human scale) but nothing rendered beyond that light seed. Background is fully transparent. No text. No visible room.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+END FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Fully materialized cyan #22d3ee wireframe hologram of a generic crewmate, 1.8m tall, standing in neutral pose. Hologram renders as thin glowing wireframe lines showing skeletal structure and silhouette outline — NOT solid-filled, NOT textured. Scanline effect runs vertically through the figure (thin horizontal cyan lines at 2% opacity). Soft cyan bloom surrounds the whole figure to ~2.2m diameter. Anamorphic lens flare on the head and shoulders. Floor contact point has a bright cyan ring at the hologram's feet, 40cm diameter. Background remains transparent alpha. No rendered text. No gender, no identifying features — this is a placeholder crew role slot, not a specific person.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MOTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+At t=0s only the seed line is visible. At t=0.3s the line pulses brighter and a cyan ground ring appears at the base. At t=0.5s wireframe structure begins scanning upward — vertical construction from feet to head, like a 3D printer building the figure. At t=1.5s the full wireframe silhouette is present but dim. At t=1.8s a soft bloom expands outward from the figure, filling in the scanlines and increasing brightness. At t=2.2s bloom peaks. At t=2.5s it settles into the steady end-frame state. 24fps. Ceremonial, reverent, revealing — like a sacred interface activating.

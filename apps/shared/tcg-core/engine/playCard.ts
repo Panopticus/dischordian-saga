@@ -41,6 +41,16 @@ import { deployCard } from "./deploy";
 import { interpret } from "./effectInterpreter";
 import { makeExecCtx } from "./execCtx";
 import { mintEntityId } from "./init";
+import {
+  THREE_MOVES_CARD_DEF_ID,
+  activateLockout,
+  isCardLocked,
+} from "./lockout";
+import {
+  applyTrialPlay,
+  checkPhaseAdmissibility,
+  trialPhaseFromTurn,
+} from "./trialPhase";
 
 export function handlePlayCard(
   draft: Draft<GameState>,
@@ -76,6 +86,48 @@ export function handlePlayCard(
       code: "insufficient_mana",
       message: `card costs ${def.cost}, player has ${player.mana} mana`,
     };
+  }
+
+  // §5.5 Warlord lockout: reject locked-card plays before paying the
+  // cost. The lockout state pins specific entityIds (per-card, not
+  // per-defId) so we check on the card's runtime entityId, not the
+  // CardDefinition id. The check is side-scoped — the Warlord plays
+  // her own hand freely while the lockout is active against the
+  // player.
+  if (
+    def.cardType !== "general" &&
+    isCardLocked(draft, card.entityId, action.actor)
+  ) {
+    return {
+      code: "card_locked",
+      message: "card is locked by the Warlord's three-move lockout",
+    };
+  }
+
+  // §5.8 Authority trial: reject phase-violating plays before paying
+  // the cost. No-op on non-trial matches (trial undefined). The check
+  // applies regardless of which side acts because the Authority is a
+  // verdict not a duelist (only the player has a hand in §5.8 by
+  // spec §1, but the engine doesn't enforce single-sided play — it
+  // just gates by phase).
+  if (draft.trial && def.cardType !== "general") {
+    const phase = trialPhaseFromTurn(draft.turnNumber);
+    if (phase !== null) {
+      const rejection = checkPhaseAdmissibility(draft.trial, phase, def);
+      if (rejection !== null) {
+        ctx.events.push({
+          type: "trial_phase_violation",
+          player: action.actor,
+          cardDefId: card.defId,
+          phaseNumber: phase,
+          reason: rejection.kind,
+        });
+        return {
+          code: "phase_violation",
+          message: `card not admissible in trial phase ${phase} (${rejection.kind})`,
+        };
+      }
+    }
   }
 
   // Remove from hand and pay the cost. This happens BEFORE the effect
@@ -133,6 +185,8 @@ export function handlePlayCard(
           message: result.error!.message,
         };
       }
+      // §5.8 trial bookkeeping (no-op on non-trial matches).
+      applyTrialPlay(draft, def, ctx.events);
       return undefined;
     }
 
@@ -140,6 +194,23 @@ export function handlePlayCard(
       // Spells go into the owner's graveyard after resolution (Duelyst
       // convention: spells aren't kept as artifacts on board).
       player.graveyard = [...player.graveyard, card];
+
+      // §5.5 Warlord lockout — Three Moves cast interception. The card's
+      // CardDefinition has empty abilities by design (see the card's
+      // doc-comment); its mechanical effect is implemented entirely
+      // here as a runtime hook on the defId. The lockout targets the
+      // OPPOSITE side from the caster (the player; the Warlord is
+      // never the lockout-targeted side).
+      if (card.defId === THREE_MOVES_CARD_DEF_ID) {
+        const playerSide = (action.actor === 0 ? 1 : 0) as 0 | 1;
+        activateLockout(draft, playerSide, ctx.events);
+        // Three Moves has no further on_cast effects to interpret —
+        // its abilities array is empty. The card is warlord_only and
+        // never appears in §5.8, so we intentionally skip the
+        // applyTrialPlay bookkeeping here.
+        return undefined;
+      }
+
       // Walk the spell's abilities. Each `on_cast` ability fires through
       // the effect interpreter with the player-chosen target id
       // (propagated into the ExecCtx below).
@@ -159,6 +230,8 @@ export function handlePlayCard(
         }
         interpret(ability.effect as Effect, execCtx, draft, ctx);
       }
+      // §5.8 trial bookkeeping (no-op on non-trial matches).
+      applyTrialPlay(draft, def, ctx.events);
       return undefined;
     }
 
@@ -209,6 +282,8 @@ export function handlePlayCard(
         if (ability.trigger.kind !== "on_deploy") continue;
         interpret(ability.effect as Effect, execCtx, draft, ctx);
       }
+      // §5.8 trial bookkeeping (no-op on non-trial matches).
+      applyTrialPlay(draft, def, ctx.events);
       return undefined;
     }
 

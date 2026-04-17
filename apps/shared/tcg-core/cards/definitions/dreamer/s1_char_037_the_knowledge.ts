@@ -95,4 +95,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "By maintaining an equilibrium of enlightenment and ignorance, the Knowledge ensures the Ne-Yons remain indispensable to ...",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "evidence", "reactive"] as const,
+  verdict_delta: 1,
 };

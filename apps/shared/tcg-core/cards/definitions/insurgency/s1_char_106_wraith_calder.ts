@@ -59,4 +59,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Seven graves bear his name across seven battlefields. He has visited each one, and left them all.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "offensive"] as const,
+  verdict_delta: 1,
 };

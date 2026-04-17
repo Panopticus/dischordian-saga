@@ -67,4 +67,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It does not chase. It simply exists, and everything around it decays. Destroying it only accelerates the process.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

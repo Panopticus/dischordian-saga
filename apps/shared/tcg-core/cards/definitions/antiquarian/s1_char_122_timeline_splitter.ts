@@ -59,4 +59,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "You were never here. The Splitter does not argue this point — she simply makes it true.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

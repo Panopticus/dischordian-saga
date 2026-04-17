@@ -46,4 +46,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Ten cycles of growth. Ten cycles of patience. The Incubator endures what others cannot.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

@@ -35,4 +35,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Close your eyes. What do you see? Everything.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
+  verdict_delta: 1,
 };

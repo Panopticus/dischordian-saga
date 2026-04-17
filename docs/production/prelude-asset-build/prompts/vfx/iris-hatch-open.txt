@@ -1,0 +1,24 @@
+VFX ID:      vfx_iris_hatch_open
+Beat:        B (Corridor / Escape)
+Bible:       §5.6, §18.2
+Duration:    3 seconds, one-shot
+File:        apps/client/public/art/vfx/prelude/iris-hatch-open.webm
+Format:      1920×1080, VP9 WebM, alpha channel, 24fps, no audio
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+START FRAME (Nano Banana 2 / still generator)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Hyper-realistic cinematic still, 16:9, 4K, TRANSPARENT BACKGROUND with alpha channel. Close-up of a twelve-petal mechanical iris hatch, centered on a dark matte-brass bulkhead aboard an ancient generation ship. The iris is in its CLOSED position — twelve triangular brass petals overlapping in a flower pattern, each petal approximately 30 degrees wide, forming a perfect circle 1.5 meters in diameter. Brushed brass #a16207 with dark obsidian inlays at the petal seams. A faint cyan #22d3ee pilot light glows softly at the iris center where the petals meet. The iris is worn — scratches, carbon scoring, and light oxidation — seventeen millennia of disuse. No rendered text. No visible room background. Surface lighting from the cyan pilot light only. The iris fills the frame with ~10% dark margin around it. ONLY the iris is rendered; background is transparent alpha.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+END FRAME (Nano Banana 2 / still generator)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Same iris, 3 seconds later, fully OPEN. Twelve petals have rotated outward into the bulkhead's hidden recess, revealing a black void at the center. The pilot light has bloomed into a wider cyan #22d3ee ring around the rim of the opening, with anamorphic lens flare on the brightest points. Petal edges catch the cyan light on their inner surfaces as they sit retracted. The circular opening is approximately 1.4m diameter, slightly smaller than the iris footprint due to petal overlap in the recess. Background remains transparent alpha. No rendered text.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MOTION (Seedance 2.0)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+At t=0s the iris is fully closed (start frame). At t=0.3s a brief cyan pulse brightens the pilot light as the mechanism engages. At t=0.5s all twelve petals begin rotating simultaneously — each petal pivots outward on its outer hinge, sliding into the bulkhead recess with a smooth mechanical curve. The rotation accelerates slightly past the midpoint (t=1.5s the iris is about 60% open) then decelerates as the petals reach their rest position in the recess. At t=2.6s the petals complete their rotation. The cyan bloom builds continuously from the center outward as the aperture widens, reaching peak brightness at t=2.8s when the opening is fully revealed. At t=3.0s the effect holds on the end frame. 24fps. Mechanical, precise, reverent — this iris has been waiting seventeen thousand years to open.

@@ -34,4 +34,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It circles above the battlefield like a vulture — except it feeds on sanity, not carrion.",
   rulesVersion: "1.0.0",
+  trial_categories: ["reactive"] as const,
+  verdict_delta: 1,
 };

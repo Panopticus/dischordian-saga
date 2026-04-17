@@ -52,4 +52,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Kindness doesn't pick sides. That's what makes it kind.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

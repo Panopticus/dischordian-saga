@@ -49,4 +49,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She reached into yesterday and pulled out a moment before the wound. The body remembered.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

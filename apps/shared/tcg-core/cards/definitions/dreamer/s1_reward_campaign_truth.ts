@@ -45,4 +45,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She shattered herself rather than let the Architect possess her whole. Each shard still remembers what the world was meant to be.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

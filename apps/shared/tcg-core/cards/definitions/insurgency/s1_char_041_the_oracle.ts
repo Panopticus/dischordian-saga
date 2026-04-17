@@ -73,4 +73,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "A. The Oracle was a revered figure within the Insurgency , known for his wisdom and prophetic insights that inspired res...",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "evidence", "narrative"] as const,
+  verdict_delta: 2,
 };

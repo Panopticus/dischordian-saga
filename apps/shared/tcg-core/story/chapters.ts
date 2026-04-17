@@ -331,6 +331,82 @@ const ch8: StoryEncounter = {
   postMatchLossDialog: "dialog_ch8_loss",
 };
 
+/* ─── §5.5 — Warlord Zero, Battle of Nexon ───
+ *
+ * The first Warlord encounter. Wires the §5.5 three-move lockout
+ * (engine/lockout.ts) into the campaign by scripting the Warlord
+ * to cast `s1_warlord_three_moves` on her turn 3 (global turn 3,
+ * side 1). The card's cast intercept activates the lockout
+ * targeting the player; the lockout's full UI lives in
+ * apps/client/src/components/match/.
+ *
+ * Spec: docs/production/act1/warlord-three-move-mechanic.md.
+ * Narrative shell: apps/shared/act1Opponents.ts:176 (act1Step: 9).
+ *
+ * Boss deck is a placeholder pending a curated Warlord deck pass —
+ * other Act 1 encounters in this file use the same `bossDeck()`
+ * helper-generated placeholder set, so this is consistent with the
+ * surrounding chapters' content-buildout state. The placeholder
+ * deck includes `s1_warlord_three_moves` at index 0 so the
+ * scripted-action drain finds it without RNG sensitivity. Filler
+ * placeholders carry no card definitions (registry returns
+ * undefined) and the AI heuristic skips them, which keeps this
+ * encounter testable in isolation today.
+ */
+const chWarlordZeroFirst: StoryEncounter = {
+  id: "ch_warlord_zero_first",
+  chapterId: "ch_warlord_zero_first",
+  name: "Warlord Zero (at the Battle of Nexon)",
+  description:
+    "Warlord Zero's first full war-deck deployment. She forces a three-move lockout on the player's hand from her third turn through their sixth.",
+  bossFaction: "architect",
+  bossGeneralDefId: "gen_architect",
+  bossDeckCardDefIds: [
+    "s1_warlord_three_moves",
+    ...bossDeck("boss_warlord_zero_first").slice(0, 38),
+  ],
+  seed: "warlord_zero_first_seed",
+  winConditions: [{ kind: "general_killed" }],
+  loseConditions: [{ kind: "general_killed" }],
+  narrativeHooks: [
+    {
+      id: "warlord_pre",
+      once: true,
+      condition: { kind: "always" },
+      action: {
+        kind: "boss_taunt",
+        text: "I am going to win this war in three moves. This is not bragging. This is arithmetic.",
+      },
+    },
+    {
+      id: "warlord_thesis",
+      once: true,
+      // Three Moves fires on global turn 3 with side 1 (the Warlord).
+      // The "thesis" line is the in-narrative voice line spec §2.2.4
+      // calls for at the cast moment.
+      condition: { kind: "turn_reached", turn: 3 },
+      action: { kind: "boss_taunt", text: "Three moves. Count them." },
+    },
+  ],
+  preMatchDialog: "dialog_warlord_zero_first_pre",
+  postMatchWinDialog: "dialog_warlord_zero_first_win",
+  postMatchLossDialog: "dialog_warlord_zero_first_loss",
+  // §5.5 lockout activator. Side 1 (Warlord) on global turn 3.
+  // Engine semantics: global turn 3 is the Warlord's third turn under
+  // the round-counted turnNumber (turn 1 = P0's first, turn 1 P1 plays
+  // immediately after, turn 2 = next P0 round, etc.). The drainer in
+  // engine/scriptedActions.ts runs after refreshTurnForPlayer, so the
+  // Warlord's hand+mana are fully set up before the force-play.
+  scriptedActions: [
+    {
+      kind: "force_play_card",
+      globalTurn: 3,
+      side: 1,
+      cardDefId: "s1_warlord_three_moves",
+    },
+  ],
+};
+
 const ch9a: StoryEncounter = {
   id: "ch9a_unknown_variable",
   chapterId: "ch9a",
@@ -517,6 +593,62 @@ const ch12: StoryEncounter = {
   postMatchLossDialog: "dialog_ch12_loss",
 };
 
+/* ─── §5.8 — Authority trial, Act 1 finale ───
+ *
+ * The only §5.8 encounter. Spec:
+ * docs/production/act1/authority-trial-phase-mechanic.md.
+ *
+ * Unusual shape:
+ *  - bossGeneralDefId is the new decorative `gen_authority` (0/99,
+ *    no abilities, no Bloodborn — per spec §1 "the Authority is a
+ *    verdict, not a duelist"). The Authority's 99 HP + 0 power is
+ *    deliberately beyond reach: the only live match-outcome path
+ *    is the turn-10 verdict threshold, NOT general death.
+ *  - bossDeckCardDefIds is a 39-card placeholder list consistent
+ *    with the rest of chapters.ts. The deck is never drawn through
+ *    the current AI loop doesn't play cards for the Authority;
+ *    the trial-phase machine runs the match to completion via
+ *    turn-end cycles alone.
+ *  - trialMode: {openingVerdictBalance: 0} opts the match into the
+ *    §5.8 engine (phase guards active, verdict resolves at turn 10).
+ *    openingVerdictBalance starts at 0; when the §5.7 hand-off
+ *    lands, the campaign layer snapshots gameMasterVerdictStream
+ *    Balance here.
+ *  - winConditions intentionally omits the default general_killed
+ *    because §5.8's outcome is the verdict, not general death. The
+ *    `kill_before_turn 11` lose-condition keeps the player from
+ *    cheese-winning via general damage before the verdict phase.
+ *
+ * Wiring: ALL_CHAPTER_ENCOUNTERS export below; CHAPTER_MAP lookup
+ * by id `ch_authority_trial`. Dialog scenes in
+ * dialogBank_chapters_10_12.ts.
+ */
+const chAuthorityTrial: StoryEncounter = {
+  id: "ch_authority_trial",
+  chapterId: "ch_authority_trial",
+  name: "The Authority's Trial",
+  description:
+    "The Act 1 finale. Ten phases of an Empire judicial proceeding. Survive every phase restriction and the verdict-stream balance decides your fate.",
+  bossFaction: "architect",
+  bossGeneralDefId: "gen_authority",
+  bossDeckCardDefIds: bossDeck("boss_authority_trial"),
+  seed: "authority_trial_seed",
+  winConditions: [{ kind: "survive_turns", turns: 10 }],
+  loseConditions: [{ kind: "general_killed" }],
+  narrativeHooks: [
+    {
+      id: "authority_opening",
+      once: true,
+      condition: { kind: "always" },
+      action: { kind: "boss_taunt", text: "What do you say to the charges?" },
+    },
+  ],
+  preMatchDialog: "dialog_authority_trial_pre",
+  postMatchWinDialog: "dialog_authority_trial_win",
+  postMatchLossDialog: "dialog_authority_trial_loss",
+  trialMode: { openingVerdictBalance: 0 },
+};
+
 /* ═══════════════════════════════════════════════════════
    EXPORTS
    ═══════════════════════════════════════════════════════ */
@@ -524,7 +656,9 @@ const ch12: StoryEncounter = {
 export const ALL_CHAPTER_ENCOUNTERS: readonly StoryEncounter[] = Object.freeze([
   ch1, ch2, ch3a, ch3b,
   ch4, ch5, ch6, ch7, ch8,
+  chWarlordZeroFirst,
   ch9a, ch9b, ch10, ch11, ch12,
+  chAuthorityTrial,
 ]);
 
 export const CHAPTER_MAP: Readonly<Record<string, StoryEncounter>> =

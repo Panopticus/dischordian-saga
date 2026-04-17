@@ -39,4 +39,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She stepped out of the dream carrying a shield of starlight and a secret meant only for you.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

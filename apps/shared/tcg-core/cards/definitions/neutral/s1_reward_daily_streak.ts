@@ -45,4 +45,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Thirty consecutive days. No sick leave. No excuses. The streak is the mission.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
+  verdict_delta: 1,
 };

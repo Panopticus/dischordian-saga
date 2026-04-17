@@ -51,6 +51,20 @@ export const raritySchema = z.enum([
   "legendary",
 ]);
 
+/**
+ * Trial-phase category enum used by §5.8 Authority match.
+ * Mirrors the TrialCategory type in ../types/Card.ts.
+ * See docs/production/act1/authority-trial-phase-mechanic.md.
+ */
+export const trialCategorySchema = z.enum([
+  "defensive",
+  "offensive",
+  "narrative",
+  "evidence",
+  "reactive",
+  "confession",
+]);
+
 export const keywordSchema = z.enum([
   "rush",
   "ranged",
@@ -696,6 +710,29 @@ export const cardDefinitionSchema = z
     flavorText: z.string(),
     rulesVersion: z.string().regex(/^\d+\.\d+\.\d+$/, "semver"),
     artifactDurability: z.number().int().positive().optional(),
+    /** Player class restriction (Phase B7). When set, the card
+     *  may only be added to decks built by players of this
+     *  character class. Enforced by validateDeck in Phase B8.
+     *  Omitting the field leaves the card class-neutral. */
+    characterClass: z
+      .enum(["spy", "oracle", "assassin", "engineer", "soldier", "neyon"])
+      .optional(),
+    /** §5.8 Authority trial-phase admissibility. Optional; see
+     *  docs/production/act1/authority-trial-phase-mechanic.md. Empty
+     *  array or absent field means unplayable in every restricted
+     *  §5.8 phase — backfill planned before §5.8 runtime ships. */
+    trial_categories: z.array(trialCategorySchema).readonly().optional(),
+    /** §5.5 Warlord-deck-only marker. Cards with this flag are
+     *  filtered out of every player-buildable pool by the deck
+     *  builder; they appear only in scripted opponent decks. See
+     *  docs/production/act1/warlord-three-move-mechanic.md §6.1. */
+    warlord_only: z.literal(true).optional(),
+    /** §5.8 verdict-stream delta. Integer in [-3, +3]; absent
+     *  defaults to PLACEHOLDER_PLAY_DELTA (+1) per
+     *  engine/trialPhase.ts. See
+     *  docs/production/act1/authority-trial-phase-mechanic.md §3 for
+     *  how the delta composes into the trial balance. */
+    verdict_delta: z.number().int().min(-3).max(3).optional(),
   })
   .strict()
   .superRefine((card, ctx) => {

@@ -43,4 +43,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It has guarded the threshold between ages for so long that time itself detours around it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

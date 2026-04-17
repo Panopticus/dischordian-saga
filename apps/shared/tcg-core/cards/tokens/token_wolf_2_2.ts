@@ -22,4 +22,6 @@ export const cardDef: CardDefinition = {
   art: "/art/cards/token_wolf_2_2.webp",
   flavorText: "A spectral wolf, bound by lunar magic to fight at its master's side.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

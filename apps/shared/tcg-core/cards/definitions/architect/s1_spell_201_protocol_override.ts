@@ -44,4 +44,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "For one glorious instant, the unit operates beyond its design parameters.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

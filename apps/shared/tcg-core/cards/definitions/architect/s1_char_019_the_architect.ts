@@ -94,4 +94,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It embodies the ultimate antagonist, representing the tension between order and chaos, control and freedom.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence", "narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

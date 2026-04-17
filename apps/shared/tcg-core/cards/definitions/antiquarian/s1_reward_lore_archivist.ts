@@ -46,4 +46,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She memorized every page of the lost archives. Her mind is the last library standing.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence"] as const,
+  verdict_delta: 1,
 };

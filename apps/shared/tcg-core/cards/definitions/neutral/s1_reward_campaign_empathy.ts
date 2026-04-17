@@ -51,4 +51,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The Ark's oldest protocol had no military purpose. It simply healed what it could reach.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

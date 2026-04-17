@@ -1,0 +1,24 @@
+VFX ID:      vfx_mission_glyph_bloom
+Beat:        D (Cargo Bay)
+Bible:       §8.6, §18.4
+Duration:    1.5 seconds, one-shot
+File:        apps/client/public/art/vfx/prelude/mission-glyph-bloom.webm
+Format:      1920×1080, VP9 WebM, alpha channel, 24fps, no audio
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+START FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Hyper-realistic cinematic still, 16:9, 4K, TRANSPARENT BACKGROUND with alpha channel. Empty space where the glyph will bloom. A single cyan #22d3ee seed point at center, 2-pixel diameter, faintly glowing. Nothing else rendered. Background fully transparent. No text.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+END FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+A small holographic cyan glyph, approximately 30cm × 30cm, rendered as thin cyan #22d3ee lines with soft bloom. The glyph is an abstract geometric sigil: concentric circles with radial marker lines (like a stylized compass rose), meaningful-looking but not legible as any specific language. Bloom halo surrounds the glyph to ~60cm diameter. Anamorphic horizontal flare across the glyph center. Background remains transparent. No rendered text. The glyph is a Trade Empire mission-posting marker — it should feel like a UI affordance, not a magical rune.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MOTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+At t=0s only the seed point. At t=0.15s the seed brightens and a scanning cyan line draws the outer circle clockwise in 0.4s. At t=0.55s a second scanning line draws the inner circle counter-clockwise in 0.3s. At t=0.85s the radial marker lines flash into existence simultaneously. At t=1.0s a soft bloom expands outward from the completed glyph, reaching full size at t=1.3s. At t=1.5s the effect holds on end frame. 24fps. Precise, informational, functional — a UI element, not a spell.

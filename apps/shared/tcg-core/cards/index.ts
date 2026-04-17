@@ -46,6 +46,7 @@ import { cardDef as s1_spell_235_age_of_silence } from "./definitions/antiquaria
 
 /* ─── Architect ─── */
 import { cardDef as gen_architect } from "./definitions/architect/gen_architect.ts";
+import { cardDef as gen_authority } from "./definitions/architect/gen_authority.ts";
 import { cardDef as s1_char_006_dr_lyra_vox } from "./definitions/architect/s1_char_006_dr_lyra_vox.ts";
 import { cardDef as s1_char_007_general_alarik } from "./definitions/architect/s1_char_007_general_alarik.ts";
 import { cardDef as s1_char_008_general_binath } from "./definitions/architect/s1_char_008_general_binath.ts";
@@ -106,6 +107,7 @@ import { cardDef as s1_spell_202_system_purge } from "./definitions/architect/s1
 import { cardDef as s1_spell_203_calculated_retreat } from "./definitions/architect/s1_spell_203_calculated_retreat.ts";
 import { cardDef as s1_spell_204_architects_mandate } from "./definitions/architect/s1_spell_204_architects_mandate.ts";
 import { cardDef as s1_spell_205_panoptic_lockdown } from "./definitions/architect/s1_spell_205_panoptic_lockdown.ts";
+import { cardDef as s1_warlord_three_moves } from "./definitions/architect/s1_warlord_three_moves.ts";
 
 /* ─── Dreamer ─── */
 import { cardDef as gen_dreamer } from "./definitions/dreamer/gen_dreamer.ts";
@@ -427,6 +429,55 @@ import { cardDef as tok_spore_1_1 } from "./tokens/tok_spore_1_1";
 import { cardDef as token_crystal_senator_5_5 } from "./tokens/token_crystal_senator_5_5";
 import { cardDef as token_wolf_2_2 } from "./tokens/token_wolf_2_2";
 
+/* ─── Class-specific cards (Phase B1+) ─── */
+import { SPY_CLASS_CARDS } from "./definitions/class/spy";
+import { ORACLE_CLASS_CARDS } from "./definitions/class/oracle";
+import { ASSASSIN_CLASS_CARDS } from "./definitions/class/assassin";
+import { ENGINEER_CLASS_CARDS } from "./definitions/class/engineer";
+import { SOLDIER_CLASS_CARDS } from "./definitions/class/soldier";
+import { NEYON_CLASS_CARDS } from "./definitions/class/neyon";
+
+/* ─── Element / Dimension / Race cards (Phase C1+) ─── */
+import { EARTH_ELEMENT_CARDS } from "./definitions/elemental/earth";
+import { FIRE_ELEMENT_CARDS } from "./definitions/elemental/fire";
+import { WATER_ELEMENT_CARDS } from "./definitions/elemental/water";
+import { AIR_ELEMENT_CARDS } from "./definitions/elemental/air";
+import { SPACE_DIMENSION_CARDS } from "./definitions/dimensional/space";
+import { TIME_DIMENSION_CARDS } from "./definitions/dimensional/time";
+import { PROBABILITY_DIMENSION_CARDS } from "./definitions/dimensional/probability";
+import { REALITY_DIMENSION_CARDS } from "./definitions/dimensional/reality";
+import { DEMAGI_RACE_CARDS } from "./definitions/race/demagi";
+import { QUARCHON_RACE_CARDS } from "./definitions/race/quarchon";
+import { NEYON_RACE_CARDS } from "./definitions/race/neyon";
+import { SYNTHETIC_RACE_CARDS } from "./definitions/race/synthetic";
+import { HUMAN_RACE_CARDS } from "./definitions/race/human";
+import { ARCHITECT_ALLEGIANCE_CARDS } from "./definitions/allegiance/architect";
+import { INSURGENCY_ALLEGIANCE_CARDS } from "./definitions/allegiance/insurgency";
+import { DREAMER_ALLEGIANCE_CARDS } from "./definitions/allegiance/dreamer";
+import { NEW_BABYLON_ALLEGIANCE_CARDS } from "./definitions/allegiance/new_babylon";
+import { ANTIQUARIAN_ALLEGIANCE_CARDS } from "./definitions/allegiance/antiquarian";
+import { THOUGHT_VIRUS_ALLEGIANCE_CARDS } from "./definitions/allegiance/thought_virus";
+
+/* ─── NPC Imprints (Phase F10+) ─── */
+import { AGENT_ZERO_IMPRINT_SET } from "./definitions/imprint/agent_zero";
+import { IRON_LION_IMPRINT_SET } from "./definitions/imprint/iron_lion";
+import { THE_HUMAN_IMPRINT_SET } from "./definitions/imprint/the_human";
+import { THE_ARCHITECT_IMPRINT_SET } from "./definitions/imprint/the_architect";
+import { THE_ENGINEER_IMPRINT_SET } from "./definitions/imprint/the_engineer";
+import { ELARA_IMPRINT_SET } from "./definitions/imprint/elara";
+import { THE_ORACLE_IMPRINT_SET } from "./definitions/imprint/the_oracle";
+import { THE_NECROMANCER_IMPRINT_SET } from "./definitions/imprint/the_necromancer";
+import { ANTIQUARIAN_IMPRINT_SET } from "./definitions/imprint/antiquarian";
+import { THE_COLLECTOR_IMPRINT_SET } from "./definitions/imprint/the_collector";
+import { THE_JAILER_IMPRINT_SET } from "./definitions/imprint/the_jailer";
+import { AKAI_SHI_IMPRINT_SET } from "./definitions/imprint/akai_shi";
+import { LOCKE_IMPRINT_SET } from "./definitions/imprint/locke";
+import { THE_SOURCE_IMPRINT_SET } from "./definitions/imprint/the_source";
+import { THE_DETECTIVE_IMPRINT_SET } from "./definitions/imprint/the_detective";
+import { THE_ENIGMA_IMPRINT_SET } from "./definitions/imprint/the_enigma";
+import { FOUCAULT_IMPRINT_SET } from "./definitions/imprint/foucault";
+import { THE_DREAMER_IMPRINT_SET } from "./definitions/imprint/the_dreamer";
+
 export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   gen_antiquarian,
   s1_char_018_the_antiquarian,
@@ -468,6 +519,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_spell_234_preservation_field,
   s1_spell_235_age_of_silence,
   gen_architect,
+  gen_authority,
   s1_char_006_dr_lyra_vox,
   s1_char_007_general_alarik,
   s1_char_008_general_binath,
@@ -528,6 +580,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_spell_203_calculated_retreat,
   s1_spell_204_architects_mandate,
   s1_spell_205_panoptic_lockdown,
+  s1_warlord_three_moves,
   gen_dreamer,
   s1_char_005_destiny,
   s1_char_014_nythera,
@@ -834,4 +887,50 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   tok_spore_1_1,
   token_crystal_senator_5_5,
   token_wolf_2_2,
+  // NPC Imprints — spread in tier order per set.
+  ...AGENT_ZERO_IMPRINT_SET,
+  ...IRON_LION_IMPRINT_SET,
+  ...THE_HUMAN_IMPRINT_SET,
+  ...THE_ARCHITECT_IMPRINT_SET,
+  ...THE_ENGINEER_IMPRINT_SET,
+  ...ELARA_IMPRINT_SET,
+  ...THE_ORACLE_IMPRINT_SET,
+  ...THE_NECROMANCER_IMPRINT_SET,
+  ...ANTIQUARIAN_IMPRINT_SET,
+  ...THE_COLLECTOR_IMPRINT_SET,
+  ...THE_JAILER_IMPRINT_SET,
+  ...AKAI_SHI_IMPRINT_SET,
+  ...LOCKE_IMPRINT_SET,
+  ...THE_SOURCE_IMPRINT_SET,
+  ...THE_DETECTIVE_IMPRINT_SET,
+  ...THE_ENIGMA_IMPRINT_SET,
+  ...FOUCAULT_IMPRINT_SET,
+  ...THE_DREAMER_IMPRINT_SET,
+  // Class-specific cards — spread per class
+  ...SPY_CLASS_CARDS,
+  ...ORACLE_CLASS_CARDS,
+  ...ASSASSIN_CLASS_CARDS,
+  ...ENGINEER_CLASS_CARDS,
+  ...SOLDIER_CLASS_CARDS,
+  ...NEYON_CLASS_CARDS,
+  // Element / Dimension / Race cards
+  ...EARTH_ELEMENT_CARDS,
+  ...FIRE_ELEMENT_CARDS,
+  ...WATER_ELEMENT_CARDS,
+  ...AIR_ELEMENT_CARDS,
+  ...SPACE_DIMENSION_CARDS,
+  ...TIME_DIMENSION_CARDS,
+  ...PROBABILITY_DIMENSION_CARDS,
+  ...REALITY_DIMENSION_CARDS,
+  ...DEMAGI_RACE_CARDS,
+  ...QUARCHON_RACE_CARDS,
+  ...NEYON_RACE_CARDS,
+  ...SYNTHETIC_RACE_CARDS,
+  ...HUMAN_RACE_CARDS,
+  ...ARCHITECT_ALLEGIANCE_CARDS,
+  ...INSURGENCY_ALLEGIANCE_CARDS,
+  ...DREAMER_ALLEGIANCE_CARDS,
+  ...NEW_BABYLON_ALLEGIANCE_CARDS,
+  ...ANTIQUARIAN_ALLEGIANCE_CARDS,
+  ...THOUGHT_VIRUS_ALLEGIANCE_CARDS,
 ]);

@@ -57,4 +57,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Agent Zero's encryption keys were never recovered. The Insurgency uses them still — a dead woman's handshake that no firewall can parse.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 1,
 };

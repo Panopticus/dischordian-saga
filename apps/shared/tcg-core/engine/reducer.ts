@@ -34,6 +34,9 @@ import { runStateBasedActions, SBA_SAFETY_CAP } from "./stateBasedActions";
 import { drainTriggerQueue, type TriggerEffectRunner } from "./triggerQueue";
 import { handleMulligan, handleFinishMulligan } from "./mulligan";
 import { refreshTurnForPlayer } from "./turn";
+import { tickLockout } from "./lockout";
+import { drainScriptedActions } from "./scriptedActions";
+import { emitPhaseStartEvent, resolveTrialOutcome } from "./trialPhase";
 import { handlePlayCard as handlePlayCardReal } from "./playCard";
 import { handleMove as handleMoveReal } from "./movement";
 import { handleAttack as handleAttackReal } from "./combat";
@@ -403,6 +406,15 @@ function handleEndTurn(
   }
   const ending = draft.currentPlayer;
   ctx.events.push({ type: "turn_ended", player: ending, turnNumber: draft.turnNumber });
+  // §5.5 Warlord lockout — tick the countdown when the lockout's
+  // target side ends their turn (spec §2.3 — "as the player completes
+  // each of turns 4, 5, 6, the corresponding tile dims"). When the
+  // counter hits 0, tickLockout clears `state.lockout` and emits
+  // `warlord_lockout_ended`. Must run before refreshTurnForPlayer so
+  // the incoming side's refresh sees the post-tick lockout state.
+  if (draft.lockout && draft.lockout.targetSide === ending) {
+    tickLockout(draft, ending, ctx.events);
+  }
   const nextPlayer = (ending === 0 ? 1 : 0) as 0 | 1;
   draft.currentPlayer = nextPlayer;
   if (nextPlayer === 0) draft.turnNumber = draft.turnNumber + 1;
@@ -414,6 +426,24 @@ function handleEndTurn(
     player: nextPlayer,
     turnNumber: draft.turnNumber,
   });
+  // §5.8 trial: emit phase_started for the new turn (no-op on non-
+  // trial matches). Resolve the verdict the moment we enter phase 10
+  // since phase 10 has no card play (spec §2 row 10 — pure
+  // resolution). The campaign layer reads `state.trial.outcome` to
+  // fire the §5.8.1 Last Words cutscene. Runs BEFORE the scripted-
+  // action drain so phase events land in narrative order (phase
+  // start → scripted plays → player input).
+  emitPhaseStartEvent(draft, ctx.events);
+  if (draft.trial && draft.turnNumber === 10) {
+    resolveTrialOutcome(draft, ctx.events);
+  }
+  // Drain any scripted actions matching the new (turnNumber, side).
+  // Story encounters use this to author set-piece plays the AI can't
+  // be trusted to make on schedule (canonical case: §5.5 Warlord
+  // Three Moves on her turn 3). Runs AFTER refresh so the active
+  // side's hand/mana are fully set up before the scripted action
+  // touches them.
+  drainScriptedActions(draft, nextPlayer, ctx);
   return undefined;
 }
 

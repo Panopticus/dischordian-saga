@@ -81,4 +81,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Always concealed beneath a hood and a mask, his true identity remains a mystery, with his past entirely classified. The ...",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence", "reactive"] as const,
+  verdict_delta: 1,
 };

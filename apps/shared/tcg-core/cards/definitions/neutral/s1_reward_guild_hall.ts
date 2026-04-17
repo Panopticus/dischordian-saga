@@ -51,4 +51,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The hall stands. So do we.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

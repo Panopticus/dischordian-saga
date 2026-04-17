@@ -59,4 +59,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The Architect fell, but his schematics survived. Every line is a command. Every command still works.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

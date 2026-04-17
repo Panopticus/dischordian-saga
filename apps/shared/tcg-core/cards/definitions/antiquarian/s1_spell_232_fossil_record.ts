@@ -56,4 +56,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "In the stone are the bones of what came before. In the bones is the blueprint of what comes next.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

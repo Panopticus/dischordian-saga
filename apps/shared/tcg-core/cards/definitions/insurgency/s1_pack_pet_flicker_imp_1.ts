@@ -37,4 +37,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It exists for exactly one brilliant, violent second.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

@@ -51,4 +51,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The relic hums in her hands. A thousand years of silence, broken by the touch of someone who finally understands.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence"] as const,
+  verdict_delta: 1,
 };

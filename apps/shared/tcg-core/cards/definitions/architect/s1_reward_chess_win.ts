@@ -53,4 +53,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The Architect plays chess with civilizations. The Grandmaster learned from watching.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

@@ -92,4 +92,72 @@ export type GameEvent =
       type: "match_ended";
       winner: Side | null;
       reason: "general_killed" | "surrender" | "disconnect_forfeit" | "turn_limit";
+    }
+  /**
+   * §5.5 Warlord lockout events. The campaign layer subscribes to
+   * `architect_reality_edit_witnessed` to set the persistent
+   * Acts-3+-readable flag of the same name (spec §5).
+   */
+  | { type: "architect_reality_edit_witnessed"; player: Side }
+  | {
+      type: "warlord_lockout_started";
+      player: Side;
+      turnsRemaining: number;
+    }
+  | {
+      type: "warlord_lockout_ticked";
+      player: Side;
+      turnsRemaining: number;
+    }
+  | { type: "warlord_lockout_ended"; player: Side }
+  | {
+      type: "warlord_lockout_re_evaluated";
+      player: Side;
+      playableEntityIds: readonly string[];
+      lockedEntityIds: readonly string[];
+    }
+  /**
+   * Scripted-action queue events. Emitted by engine/scriptedActions.ts
+   * when a `MatchConfig.scriptedActions` entry fires (or fails to fire)
+   * after a turn refresh. The campaign UI subscribes for diagnostic
+   * logging; nothing else acts on these.
+   */
+  | {
+      type: "scripted_action_fired";
+      cardDefId: string;
+      side: Side;
+      globalTurn: number;
+    }
+  | {
+      type: "scripted_action_skipped";
+      reason: string;
+      cardDefId: string;
+      side: Side;
+      globalTurn: number;
+    }
+  /**
+   * §5.8 Authority trial events. The campaign layer subscribes to
+   * `trial_verdict_resolved` to write the persistent
+   * `act1_authority_outcome` flag (per spec §6).
+   */
+  | { type: "trial_phase_started"; phaseNumber: number; phaseName: string }
+  | {
+      type: "trial_phase_violation";
+      player: Side;
+      cardDefId: string;
+      phaseNumber: number;
+      reason: string;
+    }
+  | {
+      type: "trial_balance_changed";
+      player: Side;
+      cardDefId: string;
+      delta: number;
+      newBalance: number;
+    }
+  | {
+      type: "trial_verdict_resolved";
+      outcome: "overturn" | "sentence_passed";
+      trialBalance: number;
+      threshold: number;
     };

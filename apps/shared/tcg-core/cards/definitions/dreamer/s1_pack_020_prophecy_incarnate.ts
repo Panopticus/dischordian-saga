@@ -69,4 +69,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The prophecy did not predict the end. It was the end — given a body and a voice that would not be silenced.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

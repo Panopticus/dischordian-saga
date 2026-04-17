@@ -51,4 +51,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "By the time you hear the shot, she is already three sectors away.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

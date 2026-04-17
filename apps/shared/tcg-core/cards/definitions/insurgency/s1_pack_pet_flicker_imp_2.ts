@@ -48,4 +48,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It doesn't flicker to escape. It flickers to strike twice.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive", "reactive"] as const,
+  verdict_delta: 1,
 };

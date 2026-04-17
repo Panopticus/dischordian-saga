@@ -67,7 +67,34 @@ export type NarratorRoomId =
   | "trophy_room"
   | "captains_quarters"
   | "memorial_corridor" // unlocks at trust 40, §1.5
-  | "pet_garden";       // unlocks after Prelude, §2.5
+  | "pet_garden"        // unlocks after Prelude, §2.5
+  // Prelude-only rooms. The narrator slot is suppressed in these
+  // rooms by design (the narrator doesn't activate until post-Prelude),
+  // but we include them in the union so room-id values from the
+  // Prelude player can flow through `toNarratorRoomId` without losing
+  // type-safety.
+  | "corridor"
+  | "galley"
+  | "briefing_room"
+  | "mess_hall";
+
+/**
+ * The subset of NarratorRoomId that is only reachable during the
+ * Prelude (narrativeAct === 0). The narrator slot, Lyra Vox dialog,
+ * and post-Prelude touchpoint reactions do NOT apply in these rooms —
+ * their Beat-specific UX lives in `apps/client/src/components/prelude/`
+ * and `apps/shared/preludeSequence.ts`.
+ *
+ * Validators and exhaustive-registry tests should skip these rooms
+ * because the post-Prelude narrator system has no content for them
+ * by design.
+ */
+export const PRELUDE_ONLY_ROOMS: ReadonlySet<NarratorRoomId> = new Set<NarratorRoomId>([
+  "corridor",
+  "galley",
+  "briefing_room",
+  "mess_hall",
+]);
 
 /* ─── PRELUDE REVEAL BEATS (§1.4) ─── */
 
@@ -99,6 +126,12 @@ export const PRELUDE_BEAT_BY_ROOM: Record<NarratorRoomId, string | undefined> = 
   captains_quarters: undefined,
   memorial_corridor: undefined,
   pet_garden: undefined,
+  // Prelude-only rooms have their own beats in preludeSequence.ts,
+  // not in this narrator table.
+  corridor: undefined,
+  galley: undefined,
+  briefing_room: undefined,
+  mess_hall: undefined,
 };
 
 /**
@@ -213,6 +246,13 @@ export function toNarratorRoomId(gameRoomId: string | null | undefined): Narrato
     case "armory":            return "armory";
     case "cargo-hold":        return "cargo_bay";
     case "captains-quarters": return "captains_quarters";
+    // Prelude-only rooms (narrator is suppressed in these during the
+    // Prelude itself; mapped for type completeness so PreludeSequence
+    // room slugs round-trip cleanly).
+    case "corridor":          return "corridor";
+    case "galley":             return "galley";
+    case "briefing-room":     return "briefing_room";
+    case "mess-hall":         return "mess_hall";
     // §2.5 pet garden + §1.5 memorial corridor + §6 trade hub +
     // trophy room aren't yet primary rooms in GameContext. When they
     // land, add them here. Until then the slot is simply suppressed.
@@ -249,6 +289,13 @@ export const ROOM_AFFINITY: Record<NarratorRoomId, number> = {
   cryo_bay: -0.1, // she was the first voice you heard — narrow lean
   cargo_bay: 0.1, // barely favors Human (sorting records)
   trophy_room: 0.0,
+
+  // Prelude-only rooms — narrator slot is suppressed during the
+  // Prelude anyway, so affinity is neutral (0) for type completeness.
+  corridor: 0.0,
+  galley: 0.0,
+  briefing_room: 0.0,
+  mess_hall: 0.0,
 };
 
 /* ─── SEED RESULT ─── */

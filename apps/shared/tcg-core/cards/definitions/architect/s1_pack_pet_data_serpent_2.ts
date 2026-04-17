@@ -47,4 +47,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Each byte it consumes becomes a secret it can sell.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "reactive"] as const,
+  verdict_delta: 2,
 };

@@ -45,4 +45,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Words may be hollow, but the right incantation can turn them into a barrier no blade can breach.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence", "narrative"] as const,
+  verdict_delta: 2,
 };

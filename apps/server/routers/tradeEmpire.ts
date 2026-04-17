@@ -13,6 +13,7 @@ import { getDb } from "../db";
 import { characterSheets, userProgress, dreamBalance } from "../../db/schema";
 import { eq, and } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
+import { awardFragments } from "../services/imprintService";
 import type {
   CoverIdentityActivatedEvent,
   CoverIdentityBlownEvent,
@@ -226,6 +227,22 @@ export const tradeEmpireRouter = router({
 
       // Cross-system: feed Dead Man's Circuit "Kinetic Acquisition" side quest
       await ripple.emit("trade_run_complete", { userId: ctx.user.id, missionId: mission.id });
+
+      // Phase F6 — every trade empire mission completion grants 2
+      // imprint fragments to The Antiquarian, who is the canonical
+      // catalog-keeper of trade routes / endings in Dischordia.
+      // Wrapped in try/catch so an imprint failure cannot break
+      // mission completion.
+      try {
+        await awardFragments(db, {
+          userId: ctx.user.id,
+          npcSlug: "antiquarian",
+          source: "trade_empire_mission",
+          sourceDetail: mission.id,
+        });
+      } catch (e) {
+        console.warn(`[Imprints] trade_empire_mission grant failed: ${e}`);
+      }
 
       return {
         success: true,

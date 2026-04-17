@@ -46,4 +46,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Memory erased. Identity stripped. Only the shield remains.",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence"] as const,
+  verdict_delta: 1,
 };

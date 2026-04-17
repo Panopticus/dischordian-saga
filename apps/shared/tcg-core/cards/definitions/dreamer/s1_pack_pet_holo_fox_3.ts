@@ -65,4 +65,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It no longer phases between worlds. It is both at once.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

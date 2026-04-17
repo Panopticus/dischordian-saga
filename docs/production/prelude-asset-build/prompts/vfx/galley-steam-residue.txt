@@ -1,0 +1,25 @@
+VFX ID:      vfx_galley_steam_residue
+Beat:        D.5 (Galley — Breath Beat)
+Bible:       §9.6, §18.4
+Priority:    P1 (OPTIONAL — Bible §9.6: "cut if it weakens realism")
+Duration:    6 seconds, seamless loop
+File:        apps/client/public/art/vfx/prelude/galley-steam-residue.webm
+Format:      1920×1080, VP9 WebM, alpha channel, 24fps, no audio
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+START FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Hyper-realistic cinematic still, 16:9, 4K, TRANSPARENT BACKGROUND with alpha channel. A single faint vertical steam ribbon, approximately 3-5cm wide at the bottom tapering to 1-2cm at the top, rising vertically for ~30cm. Steam is pale white with blue-gray undertones #e5e7eb, rendered at 12-20% opacity (VERY subtle). The ribbon has soft wisps and twists but is generally vertical. No mug or stove rendered — just the rising vapor. Background fully transparent.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+END FRAME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+IDENTICAL to start frame (seamless loop).
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MOTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Continuous slow rise. Steam particles form at the bottom, drift upward at 4-8px per second, and fade out in the top 20% of the ribbon's height. Very subtle horizontal wobble (±3px) simulates air currents. Opacity oscillates sub-0.5Hz between 12% and 20%. At t=6s the ribbon configuration matches t=0s for seamless loop. 24fps. VERY subtle. This is an optional polish effect — if it looks fake or theatrical, cut it. Realistic subtle steam only.

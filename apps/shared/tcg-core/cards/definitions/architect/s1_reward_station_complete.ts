@@ -53,4 +53,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The station's last module locked into place. The Commander looked out at the fleet and smiled. Now they were ready.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

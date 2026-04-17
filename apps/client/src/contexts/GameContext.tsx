@@ -181,6 +181,18 @@ export interface GameState {
   // Act tracking (7 acts of the angel/demon narrative)
   narrativeAct: number;                              // Current act (0 = not started, 1-7)
   narrativeActChoices: { actId: number; sceneId: string; choiceId: string; moralityShift: number }[];
+  // ─── Prelude playhead state (save/resume inside narrativeAct 0) ───
+  /**
+   * The id of the Prelude beat the player is currently on, from
+   * `apps/shared/preludeSequence.ts` (e.g. "beat_a", "beat_c5",
+   * "beat_j"). null = Prelude not started (still on the intro).
+   * Persisted so returning players resume at their last beat.
+   */
+  currentPreludeBeat: string | null;
+  /** Completion flags fired by the Prelude orchestrator (one per beat). */
+  preludeCompletedFlags: string[];
+  /** Light/Dark alignment captured at Beat J. null until chosen. */
+  lightDarkAlignment: "light" | "dark" | null;
   humanContactMade: boolean;                         // Has the player received The Human's signal?
   humanContactSecret: boolean;                       // Is the player keeping it secret from Elara?
   elaraKnowsAboutHuman: boolean;                     // Has Elara discovered The Human's signal?
@@ -969,6 +981,10 @@ const DEFAULT_GAME_STATE: GameState = {
   // Narrative v2: Act progression & Army management
   narrativeAct: 0,
   narrativeActChoices: [],
+  // Prelude playhead — pre-Prelude default
+  currentPreludeBeat: null,
+  preludeCompletedFlags: [],
+  lightDarkAlignment: null,
   humanContactMade: false,
   humanContactSecret: false,
   elaraKnowsAboutHuman: false,
@@ -1101,6 +1117,12 @@ interface GameContextValue {
   // ═══ NARRATIVE v2 ═══
   advanceNarrativeAct: (actId: number) => void;
   recordNarrativeChoice: (actId: number, sceneId: string, choiceId: string, moralityShift: number) => void;
+  // Prelude playhead setters (see currentPreludeBeat / preludeCompletedFlags
+  // / lightDarkAlignment fields above). PreludeSequencePlayer calls these
+  // as the player moves through the 15 beats.
+  setCurrentPreludeBeat: (beatId: string | null) => void;
+  recordPreludeCompletionFlag: (flag: string) => void;
+  setLightDarkAlignment: (alignment: "light" | "dark" | null) => void;
   setHumanContact: (made: boolean) => void;
   setHumanContactSecret: (secret: boolean) => void;
   setElaraKnowsAboutHuman: (knows: boolean, path: "told" | "discovered" | "betrayed") => void;
@@ -1177,6 +1199,21 @@ const GameContext = createContext<GameContextValue | null>(null);
  */
 function migrateGameState(parsed: Partial<GameState>): GameState {
   const merged: GameState = { ...DEFAULT_GAME_STATE, ...parsed };
+
+  // Light/Dark alignment rename back-compat: this field was originally
+  // `preludeAlignment` (captured at Prelude Beat J). It moved to Act 1
+  // Cycle C in the Last Words restructure; the field was renamed to
+  // `lightDarkAlignment` to reflect the new narrative home. Preserve
+  // existing playtester choices by forwarding the legacy key.
+  const legacyAlignment = (parsed as Record<string, unknown>)[
+    "preludeAlignment"
+  ];
+  if (
+    merged.lightDarkAlignment === null &&
+    (legacyAlignment === "light" || legacyAlignment === "dark")
+  ) {
+    merged.lightDarkAlignment = legacyAlignment;
+  }
 
   // Oracle reveal back-compat: pre-tier saves stored a boolean.
   // If the legacy flag is set but the new tier defaulted to 0, bump
@@ -2146,6 +2183,31 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setState(prev => ({ ...prev, narrativeAct: actId }));
   }, []);
 
+  // ─── Prelude playhead setters ───
+  // Called by PreludeSequencePlayer as the player advances through the
+  // 15 beats. Persisted via the normal localStorage sync, so returning
+  // players resume at their last beat.
+  const setCurrentPreludeBeat = useCallback((beatId: string | null) => {
+    setState(prev => ({ ...prev, currentPreludeBeat: beatId }));
+  }, []);
+
+  const recordPreludeCompletionFlag = useCallback((flag: string) => {
+    setState(prev => {
+      if (prev.preludeCompletedFlags.includes(flag)) return prev;
+      return {
+        ...prev,
+        preludeCompletedFlags: [...prev.preludeCompletedFlags, flag],
+      };
+    });
+  }, []);
+
+  const setLightDarkAlignment = useCallback(
+    (alignment: "light" | "dark" | null) => {
+      setState(prev => ({ ...prev, lightDarkAlignment: alignment }));
+    },
+    [],
+  );
+
   const recordNarrativeChoice = useCallback((actId: number, sceneId: string, choiceId: string, moralityShift: number) => {
     setState(prev => ({
       ...prev,
@@ -2251,6 +2313,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
         // Reset progression
         narrativeAct: 0,
         narrativeActChoices: [],
+        // Reset Prelude playhead — a new game starts before Beat A
+        currentPreludeBeat: null,
+        preludeCompletedFlags: [],
+        lightDarkAlignment: null,
         // Keep: NPC trust, cards, equipment, achievements, completedGames
         // Reset: rooms (re-explore), quests, crafting materials
         rooms: Object.fromEntries(
@@ -2744,6 +2810,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
       // ═══ NARRATIVE v2 ═══
       advanceNarrativeAct,
       recordNarrativeChoice,
+      setCurrentPreludeBeat,
+      recordPreludeCompletionFlag,
+      setLightDarkAlignment,
       setHumanContact,
       setHumanContactSecret,
       setElaraKnowsAboutHuman: setElaraKnowsAboutHumanFn,

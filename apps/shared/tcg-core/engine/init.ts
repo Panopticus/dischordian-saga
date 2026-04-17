@@ -85,9 +85,38 @@ export interface MatchConfig {
    *  reading). When omitted, the match starts with default mana,
    *  hand size, and general HP. */
   startingBonuses?: MatchStartingBonuses;
+  /** Optional per-cardDefId stat overrides applied at match init.
+   *  Keyed by cardDefId, value is an additive { power, health }
+   *  delta. The faction-allegiance system (Phase D3) uses this to
+   *  scale a player's owned allegiance cards by their faction
+   *  win count: every 10 wins gives the matching cards +1/+1
+   *  capped at +5/+5. The override is applied to every minted
+   *  CardInstance whose defId is in the map, before the deck is
+   *  shuffled or the opening hand is dealt. Unknown defIds in
+   *  the map are ignored. */
+  cardStatOverrides?: Readonly<Record<string, { power: number; health: number }>>;
 }
 
-export interface CreateMatchOptions {
+export interface CreateMatchOptionsExtras {
+  /**
+   * Optional scripted-action queue copied onto the resulting
+   * GameState. Story encounters use this to author set-piece plays
+   * that the AI can't be trusted to make on schedule (the canonical
+   * case is the §5.5 Warlord Three Moves cast on her turn 3). See
+   * engine/scriptedActions.ts.
+   */
+  scriptedActions?: readonly import("../types/ScriptedAction").ScriptedAction[];
+  /**
+   * Optional §5.8 Authority trial mode. Setting this puts the
+   * resulting match into trial mode: phase guards are active in
+   * playCard, phase events fire in handleEndTurn, the verdict
+   * resolves at turn 10. See engine/trialPhase.ts +
+   * docs/production/act1/authority-trial-phase-mechanic.md.
+   */
+  trialMode?: import("../types/TrialPhase").TrialModeConfig;
+}
+
+export interface CreateMatchOptions extends CreateMatchOptionsExtras {
   matchId: string;
   seed: string;
   p1: MatchConfig;
@@ -106,6 +135,27 @@ function clampBonus(
   if (value < min) return min;
   if (value > max) return max;
   return Math.floor(value);
+}
+
+/** Apply per-cardDefId stat deltas to a freshly-minted deck of
+ *  CardInstances. Mutates each matching instance in place. Used
+ *  by createMatchState to scale faction-allegiance cards by
+ *  the player's faction win count (Phase D3). */
+function applyCardStatOverrides(
+  deck: CardInstance[],
+  overrides: Readonly<Record<string, { power: number; health: number }>> | undefined,
+): void {
+  if (!overrides) return;
+  for (const inst of deck) {
+    const delta = overrides[inst.defId];
+    if (!delta) continue;
+    const power = Math.max(0, Math.floor(delta.power ?? 0));
+    const health = Math.max(0, Math.floor(delta.health ?? 0));
+    if (power === 0 && health === 0) continue;
+    inst.currentPower += power;
+    inst.currentHealth += health;
+    inst.maxHealth += health;
+  }
 }
 
 export function createMatchState(opts: CreateMatchOptions): GameState {
@@ -132,6 +182,14 @@ export function createMatchState(opts: CreateMatchOptions): GameState {
   // config array exactly as given, then shuffling with the seeded RNG.
   const p1DeckRaw = p1.deckCardDefIds.map((id) => mint(id, 0));
   const p2DeckRaw = p2.deckCardDefIds.map((id) => mint(id, 1));
+
+  // Apply per-card stat overrides (Phase D3) BEFORE shuffling, so
+  // every copy of an allegiance card the player owns receives its
+  // win-scaled buff. The override values are added on top of the
+  // card definition's baseStats, not replaced. Unknown defIds in
+  // the override map are silently ignored.
+  applyCardStatOverrides(p1DeckRaw, p1.cardStatOverrides);
+  applyCardStatOverrides(p2DeckRaw, p2.cardStatOverrides);
   const p1Deck = rngShuffle(rng, p1DeckRaw);
   const p2Deck = rngShuffle(rng, p2DeckRaw);
 
@@ -237,6 +295,15 @@ export function createMatchState(opts: CreateMatchOptions): GameState {
     triggerQueue: [],
     actionSeq: 0,
     nextEntityCounter: counter + 1,
+    scriptedActions: opts.scriptedActions,
+    trial: opts.trialMode
+      ? {
+          openingVerdictBalance: opts.trialMode.openingVerdictBalance,
+          trialBalance: 0,
+          openingArgumentPlayed: false,
+          closingArgumentPlayed: false,
+        }
+      : undefined,
   };
 }
 

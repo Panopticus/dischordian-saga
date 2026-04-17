@@ -1,0 +1,199 @@
+/* ═══════════════════════════════════════════════════════
+   PRELUDE VFX — CSS keyframe animations
+
+   Keyframes for the 10 simple CSS-driven Prelude effects.
+   Applied via inline styles or className, NOT data-narrative
+   (these are positioned overlays, not screen-wide effects).
+
+   Naming: pvfx-{effect-name} to avoid collision with
+   void-narrative's ve-{name} keyframes.
+
+   Color tokens from Bible §18:
+   - Cyan:       #22d3ee
+   - Amber:      #fbbf24
+   - Foxfire:    #4ade80
+   - Gold:       #fde68a
+   - Deep violet:#1e1b4b
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── A11y: keyboard focus ring on all Prelude-region buttons ─── */
+[role="region"][aria-label^="Beat "] button:focus-visible,
+[role="region"][aria-label^="Last Words "] button:focus-visible,
+[role="region"][aria-label^="Prelude "] button:focus-visible,
+[role="dialog"][aria-modal="true"] button:focus-visible {
+  outline: 2px solid #22d3ee;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.2);
+}
+
+/* ─── vfx_incubator_pod_dormant_glow — Sub-1 Hz cyan shimmer ─── */
+@keyframes pvfx-cyan-shimmer {
+  0%, 100% { opacity: 0.15; }
+  50%      { opacity: 0.45; }
+}
+
+/* ─── vfx_bench_standby_pip — Foxfire-green steady with subtle pulse ─── */
+@keyframes pvfx-foxfire-standby {
+  0%, 100% { opacity: 0.6; box-shadow: 0 0 6px #4ade80; }
+  50%      { opacity: 0.8; box-shadow: 0 0 12px #4ade80; }
+}
+
+/* ─── vfx_status_pip_color_shift — Color transition loop ─── */
+@keyframes pvfx-pip-shift {
+  0%, 100% { background-color: #22d3ee; box-shadow: 0 0 8px #22d3ee; }
+  50%      { background-color: #fbbf24; box-shadow: 0 0 8px #fbbf24; }
+}
+
+/* ─── vfx_galley_pilot_warm — Amber brightness ramp over 4s ─── */
+@keyframes pvfx-pilot-warm {
+  0%   { opacity: 0.7; filter: brightness(1.0); }
+  100% { opacity: 0.75; filter: brightness(1.05); }
+}
+
+/* ─── vfx_med_pod_faint_pulse — Sub-0.5 Hz cyan pulse ─── */
+@keyframes pvfx-faint-pulse {
+  0%, 100% { opacity: 0.08; }
+  50%      { opacity: 0.25; }
+}
+
+/* ─── vfx_neural_rig_idle_hum_visual — Micro-shimmer ─── */
+@keyframes pvfx-micro-shimmer {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  25%      { opacity: 0.55; transform: scale(1.02); }
+  75%      { opacity: 0.45; transform: scale(0.98); }
+}
+
+/* ─── vfx_signal_intake_lit_panel — Sub-0.25 Hz cyan pulse ─── */
+@keyframes pvfx-signal-pulse {
+  0%, 100% { opacity: 0.3; }
+  50%      { opacity: 0.7; }
+}
+
+/* ─── vfx_elara_fade_out — Opacity 1→0 over 2s ─── */
+@keyframes pvfx-elara-fade {
+  0%   { opacity: 1; filter: drop-shadow(0 0 12px #22d3ee); }
+  80%  { opacity: 0.2; filter: drop-shadow(0 0 4px #22d3ee); }
+  100% { opacity: 0; filter: drop-shadow(0 0 0px #22d3ee); }
+}
+
+/* ─── vfx_viewport_polarization_lift — Opacity drop one-shot ─── */
+@keyframes pvfx-polarization-lift {
+  0%   { opacity: 0.85; }
+  100% { opacity: 0.65; }
+}
+
+/* ─── vfx_transfer_array_amber_standby — Steady amber glow ─── */
+@keyframes pvfx-amber-standby {
+  0%, 100% { box-shadow: 0 0 16px #fbbf24, 0 0 32px rgba(251, 191, 36, 0.3); }
+  50%      { box-shadow: 0 0 18px #fbbf24, 0 0 36px rgba(251, 191, 36, 0.35); }
+}
+
+/* ─── vfx_chair_rim_hot_edge — 3-phase amber rim ─── */
+@keyframes pvfx-rim-build {
+  0%   { opacity: 0; box-shadow: 0 0 0px #fbbf24; }
+  100% { opacity: 1; box-shadow: 0 0 20px #fbbf24, 0 0 40px rgba(251, 191, 36, 0.4); }
+}
+@keyframes pvfx-rim-hold {
+  0%, 100% { opacity: 1; box-shadow: 0 0 20px #fbbf24, 0 0 40px rgba(251, 191, 36, 0.4); }
+  50%      { opacity: 0.95; box-shadow: 0 0 22px #fbbf24, 0 0 42px rgba(251, 191, 36, 0.42); }
+}
+@keyframes pvfx-rim-fade {
+  0%   { opacity: 1; box-shadow: 0 0 20px #fbbf24, 0 0 40px rgba(251, 191, 36, 0.4); }
+  100% { opacity: 0; box-shadow: 0 0 0px #fbbf24; }
+}
+
+/* ─── vfx_lockbox_bio_recognize — Flash on recognize state ─── */
+@keyframes pvfx-bio-flash {
+  0%, 100% { filter: brightness(1); }
+  33%      { filter: brightness(2.5); }
+  66%      { filter: brightness(1.8); }
+}
+
+/* ─── vfx_data_slate_glow — Pulse with glyph mask ─── */
+@keyframes pvfx-slate-pulse {
+  0%, 100% { opacity: 0.4; filter: saturate(0.8); }
+  50%      { opacity: 0.8; filter: saturate(1.2); }
+}
+@keyframes pvfx-slate-slow {
+  0%, 100% { opacity: 0.6; }
+  50%      { opacity: 0.75; }
+}
+
+/* ─── vfx_memory_crystal_pulse — Sub-0.5 Hz dormant + bright variants ─── */
+@keyframes pvfx-crystal-dormant {
+  0%, 100% { opacity: 0.15; box-shadow: 0 0 4px #22d3ee; }
+  50%      { opacity: 0.3; box-shadow: 0 0 8px #22d3ee; }
+}
+@keyframes pvfx-crystal-bright {
+  0%, 100% { opacity: 0.7; box-shadow: 0 0 12px #22d3ee, 0 0 24px rgba(34, 211, 238, 0.4); }
+  50%      { opacity: 0.85; box-shadow: 0 0 16px #22d3ee, 0 0 32px rgba(34, 211, 238, 0.5); }
+}
+@keyframes pvfx-crystal-flare {
+  0%, 100% { opacity: 0.8; box-shadow: 0 0 16px #22d3ee, 0 0 40px rgba(34, 211, 238, 0.6); }
+  50%      { opacity: 1; box-shadow: 0 0 24px #22d3ee, 0 0 56px rgba(34, 211, 238, 0.8); }
+}
+
+/* ─── vfx_witnessing_hub_hemisphere_bloom — Activation bloom ─── */
+@keyframes pvfx-hemisphere-activate {
+  0%   { opacity: 0; transform: scaleY(0); filter: blur(8px); }
+  60%  { opacity: 0.8; transform: scaleY(0.9); filter: blur(2px); }
+  100% { opacity: 1; transform: scaleY(1); filter: blur(0); }
+}
+@keyframes pvfx-hemisphere-steady {
+  0%, 100% { opacity: 0.85; filter: brightness(1); }
+  50%      { opacity: 0.95; filter: brightness(1.05); }
+}
+@keyframes pvfx-spoke-sequence {
+  0%   { opacity: 0; }
+  8%   { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+/* ─── vfx_mission_slate_glow — Pulse loop + highlight ─── */
+@keyframes pvfx-slate-highlight {
+  0%   { filter: saturate(1) brightness(1); }
+  100% { filter: saturate(1.6) brightness(1.3); }
+}
+
+/* ─── vfx_peripheral_warm_halo — Radial warm gradient ─── */
+@keyframes pvfx-halo-build {
+  0%   { opacity: 0; }
+  100% { opacity: 0.6; }
+}
+@keyframes pvfx-halo-hold {
+  0%, 100% { opacity: 0.6; }
+  50%      { opacity: 0.55; }
+}
+@keyframes pvfx-halo-fade {
+  0%   { opacity: 0.6; }
+  100% { opacity: 0; }
+}
+
+/* ─── vfx_primary_lights_cascade — Directional warm wave ─── */
+@keyframes pvfx-cascade-forward {
+  0%   { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes pvfx-cascade-reverse {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* ─── vfx_inbox_envelope_unfold — Envelope expansion ─── */
+@keyframes pvfx-envelope-expand {
+  0%   { transform: scale(0.3); opacity: 0; border-radius: 8px; }
+  40%  { transform: scale(1); opacity: 1; border-radius: 8px; }
+  100% { transform: scale(1); opacity: 1; border-radius: 4px; }
+}
+
+/* ─── vfx_choice_pillar — Appearance + selection ─── */
+@keyframes pvfx-pillar-appear {
+  0%   { opacity: 0; transform: scaleY(0); }
+  70%  { opacity: 1; transform: scaleY(1.02); }
+  100% { opacity: 1; transform: scaleY(1); }
+}
+@keyframes pvfx-pillar-select {
+  0%   { filter: brightness(1); }
+  50%  { filter: brightness(1.8); }
+  100% { filter: brightness(1.2); }
+}

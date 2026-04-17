@@ -53,4 +53,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "He stole Ark 1047 already contaminated. The virus consumed him memory-by-memory. Now he IS the infection.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

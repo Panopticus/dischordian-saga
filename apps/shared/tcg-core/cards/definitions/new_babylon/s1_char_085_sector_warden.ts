@@ -33,4 +33,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "From the watchtower, every street is a firing lane. Every citizen, a potential target.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

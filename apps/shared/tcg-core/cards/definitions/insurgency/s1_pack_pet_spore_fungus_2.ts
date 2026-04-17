@@ -57,4 +57,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The bloom is beautiful. The spores are not.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

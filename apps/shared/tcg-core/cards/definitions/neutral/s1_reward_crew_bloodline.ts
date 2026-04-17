@@ -57,4 +57,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The bloodline runs deeper than code. Each generation carries the weight of those before it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

@@ -54,4 +54,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The Source was destroyed. The signal was not. It hums inside the Fragment like a heartbeat made of static.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 2,
 };

@@ -51,4 +51,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It smiles when soldiers fall. Not from malice — the Virus has rewired joy to the frequency of dying screams.",
   rulesVersion: "1.0.0",
+  trial_categories: ["reactive"] as const,
+  verdict_delta: 1,
 };

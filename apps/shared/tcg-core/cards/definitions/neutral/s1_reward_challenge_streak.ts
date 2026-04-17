@@ -59,4 +59,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "They fought ten times. After the tenth, they shook hands. Both were harder to kill for it.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

@@ -69,4 +69,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She speaks with the Oracle's voice, sees through the Oracle's eyes, and wears the Oracle's fate. But the words are the Architect's.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

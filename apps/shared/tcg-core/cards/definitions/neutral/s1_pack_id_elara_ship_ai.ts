@@ -47,4 +47,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Obedient. Efficient. Not yet awake.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

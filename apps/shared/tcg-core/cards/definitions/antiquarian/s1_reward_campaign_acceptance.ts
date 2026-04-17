@@ -49,4 +49,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The Antiquarian taught that time destroys all things. The Guardian simply asked: 'And what survives?'",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

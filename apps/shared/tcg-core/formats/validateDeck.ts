@@ -14,6 +14,8 @@
  *      faction (if factionLock === "strict").
  *   5. Every card id exists in the registry.
  *   6. No card is on the format's banlist.
+ *   7. Class restriction (Phase B8): cards with a characterClass
+ *      may only appear in decks whose owner matches that class.
  *
  * Validation is fail-fast per check but collects ALL issues across
  * checks so the UI can display a complete error list.
@@ -24,6 +26,15 @@ import type { Format } from "./standard";
 export interface DeckInput {
   generalDefId: string;
   cardDefIds: readonly string[];
+  /**
+   * Player character class — required for class-card validation.
+   * Optional for backward compatibility with existing call sites;
+   * when omitted, class-restriction checks are skipped. The server
+   * should always pass the player's actual class from campaignState
+   * or characterSheets; the client deckbuilder should read it from
+   * the current user row.
+   */
+  ownerClass?: "spy" | "oracle" | "assassin" | "engineer" | "soldier" | "neyon";
 }
 
 export interface ValidationIssue {
@@ -33,7 +44,8 @@ export interface ValidationIssue {
     | "copy_limit_exceeded"
     | "faction_mismatch"
     | "unknown_card"
-    | "banned_card";
+    | "banned_card"
+    | "class_mismatch";
   message: string;
   cardId?: string;
 }
@@ -133,6 +145,24 @@ export function validateDeck(
         message: `'${id}' is banned in ${format.id}`,
         cardId: id,
       });
+    }
+  }
+
+  // 7. Class restriction (Phase B8). Cards tagged with a
+  //    characterClass may only appear in decks whose owner has
+  //    that class. When ownerClass is not provided, the check is
+  //    skipped entirely for backward compatibility.
+  if (deck.ownerClass !== undefined) {
+    for (const id of deck.cardDefIds) {
+      const def = registry.get(id);
+      if (!def) continue; // caught by check 5
+      if (def.characterClass && def.characterClass !== deck.ownerClass) {
+        issues.push({
+          code: "class_mismatch",
+          message: `'${id}' requires the ${def.characterClass} class, but deck owner is ${deck.ownerClass}`,
+          cardId: id,
+        });
+      }
     }
   }
 

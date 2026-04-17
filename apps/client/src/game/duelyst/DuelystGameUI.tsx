@@ -33,7 +33,21 @@ import {
   Swords, Heart, Zap, RotateCcw, SkipForward, Shield,
   Crosshair, Move, Sparkles, BookOpen, MessageCircle,
 } from "lucide-react";
-import { ScreenReaderOnly } from "@/components/a11y";
+import { ScreenReaderOnly, announce } from "@/components/a11y";
+import { WarlordCountdownIndicator } from "@/components/match/WarlordCountdownIndicator";
+import { CardLockOverlay } from "@/components/match/CardLockOverlay";
+import { PlayRejectionToast } from "@/components/match/PlayRejectionToast";
+import { TrialPhaseIndicator } from "@/components/match/TrialPhaseIndicator";
+import { ChoicePillarLightDark } from "@/components/match/ChoicePillarLightDark";
+import {
+  setLightDarkAlignment,
+  type LightDarkAlignment,
+} from "@shared/campaignState";
+import {
+  TrialTranscriptColumn,
+  type TrialTranscriptEntry,
+} from "@/components/match/TrialTranscriptColumn";
+import type { TcgDispatchResult } from "./TcgClient";
 
 interface DuelystGameUIProps {
   playerFaction: Faction;
@@ -63,6 +77,34 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   const [log, setLog] = useState<LogEntry[]>([]);
   const [hoveredCard, setHoveredCard] = useState<DuelystCard | null>(null);
   const [turnFlash, setTurnFlash] = useState<string | null>(null);
+
+  // §5.5 Warlord lockout — UI state. Spec:
+  // docs/production/act1/warlord-three-move-mechanic.md.
+  // - rejection: shown on locked-card click. The numeric `key` re-mounts
+  //   the toast on each rejection so its fade timer restarts cleanly.
+  // - lockoutEndedFadingOut: true for ~2s after the lockout ends, so the
+  //   countdown indicator can animate its fade-out before unmounting.
+  const [rejection, setRejection] = useState<{ key: number; message: string } | null>(null);
+  const [lockoutEndedFadingOut, setLockoutEndedFadingOut] = useState(false);
+  const prevLockoutPresentRef = useRef(false);
+  const prevLockoutTurnsRef = useRef<number | null>(null);
+
+  // §5.8 Authority trial — UI state. The transcript column collects
+  // `trial_balance_changed` events from each dispatch result so the
+  // column can render the cumulative trial plays. The counter drives
+  // entry ids so React keys are stable across renders.
+  const [trialTranscriptEntries, setTrialTranscriptEntries] = useState<TrialTranscriptEntry[]>([]);
+  const trialEntrySeqRef = useRef(0);
+  const prevTrialPresentRef = useRef(false);
+
+  // §5.8.1 Light/Dark alignment pillar. Mounted when
+  // gameState.trial.outcome transitions from undefined to set (the
+  // verdict resolved at turn 10). The user picks one of Light/Dark;
+  // the pick writes campaignState.lightDarkAlignment and hides the
+  // pillar. Spec positions this as "the canonical alignment moment
+  // of the entire game" (authority-trial-phase-mechanic.md §5).
+  const [showLightDarkPillar, setShowLightDarkPillar] = useState(false);
+  const prevTrialOutcomeRef = useRef<"overturn" | "sentence_passed" | undefined>(undefined);
 
   // Tutorial state
   const [tutorialStep, setTutorialStep] = useState(0);
@@ -96,6 +138,59 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   const addLog = useCallback((text: string, type: LogEntry["type"] = "info") => {
     setLog(prev => [...prev.slice(-50), { text, type }]);
   }, []);
+
+  /**
+   * §5.8 Authority trial — extract trial_balance_changed events from a
+   * dispatch result and append them to the transcript column. Also
+   * surface a `phase_violation` error as a rejection toast with the
+   * spec §2.1 "Counsel — this is not the phase for that." line.
+   *
+   * Called from every play_card dispatch site. No-op on non-trial
+   * matches (the events simply won't include trial_balance_changed
+   * entries and a phase_violation error only surfaces from §5.8
+   * matches by engine-side construction).
+   */
+  const processTrialDispatchResult = useCallback(
+    (result: TcgDispatchResult) => {
+      // Phase-violation rejection toast (spec §2.1).
+      if (result.error && result.error.startsWith("phase_violation:")) {
+        setRejection((r) => ({
+          key: (r?.key ?? 0) + 1,
+          message: "Counsel — this is not the phase for that.",
+        }));
+      }
+      // Append transcript entries from any trial_balance_changed
+      // events in this dispatch. Each event corresponds to one
+      // admissible card play. The event carries cardDefId only; the
+      // human-readable name comes from the player's hand if the card
+      // is still there (units that deployed this turn) or falls back
+      // to the defId. A follow-up PR can add a registry-lookup when
+      // §5.7's transcript handoff lands.
+      const newEntries: TrialTranscriptEntry[] = [];
+      for (const ev of result.events) {
+        if (ev.type !== "trial_balance_changed") continue;
+        const playerHand = gameState?.players[ev.player].hand;
+        const card = playerHand?.find(
+          (c) => c.sagaCardId === ev.cardDefId || c.id === ev.cardDefId,
+        );
+        const cardName = card?.name ?? ev.cardDefId;
+        // Phase comes from the current turnNumber; during trial mode
+        // the engine keeps phaseNumber === turnNumber per spec §2.
+        const phaseNumber = result.viewState.turnNumber;
+        trialEntrySeqRef.current += 1;
+        newEntries.push({
+          id: `trial_${trialEntrySeqRef.current}`,
+          cardName,
+          phaseNumber,
+          delta: ev.delta,
+        });
+      }
+      if (newEntries.length > 0) {
+        setTrialTranscriptEntries((prev) => [...prev, ...newEntries]);
+      }
+    },
+    [gameState],
+  );
 
   // Initialize game — uses the shared tcg-core reducer via TcgClient.
   // buildStarterDeck returns DuelystCard[] from the old cardAdapter; we
@@ -160,6 +255,90 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     }
   }, [gameState, phase, onGameEnd]);
 
+  // §5.8 Authority trial — screen-reader announcement on match start +
+  // transcript reset. The TrialPhaseIndicator's own aria-live region
+  // handles the verdict announcement when `outcome` lands, so this
+  // effect only needs to handle the match-begins case.
+  useEffect(() => {
+    if (!gameState) return;
+    const trialPresent = !!gameState.trial;
+    if (trialPresent && !prevTrialPresentRef.current) {
+      announce(
+        "Authority trial begins. Ten phases. What do you say to the charges?",
+        true,
+      );
+      setTrialTranscriptEntries([]);
+      trialEntrySeqRef.current = 0;
+    }
+    prevTrialPresentRef.current = trialPresent;
+  }, [gameState]);
+
+  // §5.8.1 Light/Dark alignment — mount the pillar when the trial
+  // outcome resolves (verdict phase). The pillar is the canonical
+  // alignment moment of the entire game per spec §5; it fires after
+  // every trial regardless of overturn / sentence_passed outcome.
+  // The previous-outcome ref detects the undefined→set transition so
+  // we don't re-mount on every render.
+  useEffect(() => {
+    const outcome = gameState?.trial?.outcome;
+    if (outcome && !prevTrialOutcomeRef.current) {
+      setShowLightDarkPillar(true);
+    }
+    prevTrialOutcomeRef.current = outcome;
+  }, [gameState]);
+
+  // §5.8.1 pick handler: write the persistent alignment flag + hide
+  // the pillar. The component's own state prevents re-clicks mid-
+  // animation; this handler fires exactly once per playthrough.
+  const handleLightDarkPick = useCallback(
+    (alignment: LightDarkAlignment) => {
+      setLightDarkAlignment(alignment);
+      addLog(
+        alignment === "light"
+          ? "You chose to carry what the Engineer died for."
+          : "You let the Engineer's thought die uncarried.",
+        "system",
+      );
+      // Hide after a short delay so the component's own "picked"
+      // animation has time to play (the component locks on click
+      // and runs a ~500ms transition).
+      setTimeout(() => setShowLightDarkPillar(false), 800);
+    },
+    [addLog],
+  );
+
+  // §5.5 Warlord lockout — screen-reader announcements + fade-out.
+  // Spec §6.4 specifies the exact strings; the fade-out lets the
+  // countdown indicator animate before unmounting. The previous-state
+  // refs detect transitions; we don't announce on every state change.
+  useEffect(() => {
+    if (!gameState) return;
+    const lockoutPresent = !!gameState.lockout;
+    const wasPresent = prevLockoutPresentRef.current;
+
+    if (lockoutPresent && !wasPresent) {
+      announce(
+        "Warlord Zero has forced a three-turn lockout. Your hand is narrowed to two playable cards per turn for the next three turns. Countdown active.",
+        true,
+      );
+      setLockoutEndedFadingOut(false);
+    } else if (!lockoutPresent && wasPresent) {
+      announce("Lockout ended. Full hand restored.", true);
+      // Trigger 2-second fade-out window for the indicator. The parent
+      // unmounts the indicator after the fade by toggling fadingOut
+      // and then clearing the wasPresent flag on the next pass.
+      setLockoutEndedFadingOut(true);
+      const t = setTimeout(() => setLockoutEndedFadingOut(false), 2000);
+      // Note: the timeout cleanup on re-trigger is intentional — if
+      // another lockout starts mid-fade, the new effect-pass cancels
+      // this fade.
+      return () => clearTimeout(t);
+    }
+
+    prevLockoutPresentRef.current = lockoutPresent;
+    prevLockoutTurnsRef.current = gameState.lockout?.turnsRemaining ?? null;
+  }, [gameState]);
+
   /* ─── MULLIGAN ─── */
   const handleMulligan = useCallback(() => {
     if (!gameState || !tcgClientRef.current) return;
@@ -211,6 +390,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         if (tiles.some(([r, c]) => r === row && c === col)) {
           const result = tcgClientRef.current!.dispatch({ type: "play_card", cardIndex: selectedCard, row, col });
           setGameState(asGameState(result.viewState));
+          processTrialDispatchResult(result);
           addLog(`Summoned ${card.name} at (${row}, ${col})`, "spell");
           dischordiaSounds.play("unit_summon");
           if (isTutorial) setLastActionType("play_card");
@@ -223,7 +403,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
 
     clearSelection();
     rendererRef.current?.clearHighlights();
-  }, [gameState, phase, selectionMode, selectedUnit, selectedCard, addLog]);
+  }, [gameState, phase, selectionMode, selectedUnit, selectedCard, addLog, processTrialDispatchResult]);
 
   /* ─── UNIT CLICK ─── */
   const handleUnitClick = useCallback((unitId: string) => {
@@ -255,6 +435,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       if (card) {
         const result = tcgClientRef.current!.dispatch({ type: "play_card", cardIndex: selectedCard, row: unit.row, col: unit.col, targetId: unitId });
         setGameState(asGameState(result.viewState));
+        processTrialDispatchResult(result);
         addLog(`Cast ${card.name} on ${unit.card.name}`, "spell");
         dischordiaSounds.play("spell_cast");
         clearSelection();
@@ -279,13 +460,31 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       const attacks = getValidAttacks(gameState, unitId);
       if (attacks.length > 0) rendererRef.current?.highlightUnits(attacks, gameState, 0xff4444);
     }
-  }, [gameState, phase, selectionMode, selectedUnit, selectedCard, addLog]);
+  }, [gameState, phase, selectionMode, selectedUnit, selectedCard, addLog, processTrialDispatchResult]);
 
   /* ─── CARD CLICK ─── */
   const handleCardClick = useCallback((index: number) => {
     if (!gameState || phase !== "playing" || gameState.currentPlayer !== 0) return;
     const card = gameState.players[0].hand[index];
     if (!card || card.manaCost > gameState.players[0].mana) return;
+
+    // §5.5 Warlord lockout — reject locked-card clicks before
+    // dispatching to the engine. The engine's play_card handler
+    // would also reject (with code "card_locked"), but giving the
+    // user immediate visual feedback (the rust-orange toast)
+    // matters more than the round-trip. card.id IS the entityId in
+    // the legacy view shape; see compat/viewAdapter.ts.
+    if (
+      gameState.lockout &&
+      gameState.lockout.targetSide === 0 &&
+      gameState.lockout.lockedEntityIds.includes(card.id)
+    ) {
+      setRejection((r) => ({
+        key: (r?.key ?? 0) + 1,
+        message: "locked — next turn",
+      }));
+      return;
+    }
 
     if (card.cardType === "unit") {
       const tiles = getValidSummonTiles(gameState, card, 0);
@@ -300,6 +499,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       if (card.spellEffect?.target === "self" || card.spellEffect?.type === "draw") {
         const result = tcgClientRef.current!.dispatch({ type: "play_card", cardIndex: index, row: 0, col: 0 });
         setGameState(asGameState(result.viewState));
+        processTrialDispatchResult(result);
         addLog(`Cast ${card.name}`, "spell");
         clearSelection();
       } else {
@@ -311,11 +511,12 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     } else if (card.cardType === "artifact") {
       const result = tcgClientRef.current!.dispatch({ type: "play_card", cardIndex: index, row: 0, col: 0 });
       setGameState(asGameState(result.viewState));
+      processTrialDispatchResult(result);
       addLog(`Equipped ${card.name}`, "spell");
       dischordiaSounds.play("card_play");
       clearSelection();
     }
-  }, [gameState, phase, addLog]);
+  }, [gameState, phase, addLog, processTrialDispatchResult]);
 
   /* ─── ACTIONS ─── */
   const handleMoveMode = useCallback(() => {
@@ -476,6 +677,55 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   return (
     <div className="flex flex-col h-full max-h-screen overflow-hidden bg-black relative" role="application" aria-label="Card battle game">
       <ScreenReaderOnly>Tactical card battle game. Summon units, cast spells, and defeat the enemy general.</ScreenReaderOnly>
+
+      {/* §5.5 Warlord lockout — countdown indicator + play-rejection
+          toast. The indicator stays mounted for ~2s after the lockout
+          ends to play its fade-out (lockoutEndedFadingOut state); the
+          toast self-fades after ~1.4s and remounts on each rejection
+          via its `key`. */}
+      {(gameState?.lockout || lockoutEndedFadingOut) && (
+        <WarlordCountdownIndicator
+          turnsRemaining={gameState?.lockout?.turnsRemaining ?? 0}
+          fadingOut={lockoutEndedFadingOut}
+        />
+      )}
+      {/* §5.8 Authority trial — phase indicator + transcript column.
+          Both mount when gameState.trial is present (trial mode is
+          opted-in at match creation via MatchConfig.trialMode). The
+          phase indicator upgrades to a verdict display when
+          trial.outcome lands at turn 10. */}
+      {gameState?.trial && (
+        <>
+          <TrialPhaseIndicator
+            phaseNumber={gameState.turnNumber}
+            outcome={gameState.trial.outcome}
+          />
+          <TrialTranscriptColumn
+            balance={gameState.trial.trialBalance}
+            // Base threshold -2 per spec §3. When §5.7 handoff lands,
+            // recompute with warm/cool offsets from openingVerdictBalance.
+            threshold={
+              -2 +
+              (gameState.trial.openingVerdictBalance >= 3 ? 3 : 0) +
+              (gameState.trial.openingVerdictBalance <= -3 ? -3 : 0)
+            }
+            entries={trialTranscriptEntries}
+          />
+        </>
+      )}
+      {/* §5.8.1 Light/Dark alignment pillar — mounted after the
+          Authority trial's verdict resolves. Modal; the player must
+          pick before continuing. Spec §5 timing-sync to the Last
+          Words chorus-1 line is deferred to the cutscene work-stream. */}
+      {showLightDarkPillar && gameState?.trial?.outcome && (
+        <ChoicePillarLightDark
+          trialOutcome={gameState.trial.outcome}
+          onPick={handleLightDarkPick}
+        />
+      )}
+      {rejection && (
+        <PlayRejectionToast key={rejection.key} message={rejection.message} />
+      )}
 
       {/* Turn flash overlay */}
       {turnFlash && (
@@ -703,17 +953,26 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       <div className="border-t border-white/5 bg-black/80 px-2 py-2">
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
           {player.hand.map((card, i) => {
-            const playable = card.manaCost <= player.mana && phase === "playing" && gameState.currentPlayer === 0;
+            // §5.5 Warlord lockout — card.id is the entityId on hand
+            // cards (per compat/viewAdapter.ts). Lock check is
+            // side-scoped (player only).
+            const locked =
+              !!gameState.lockout &&
+              gameState.lockout.targetSide === 0 &&
+              gameState.lockout.lockedEntityIds.includes(card.id);
+            const playable = card.manaCost <= player.mana && phase === "playing" && gameState.currentPlayer === 0 && !locked;
             const isSelected = selectedCard === i;
             return (
               <button
                 key={`${card.id}-${i}`}
-                className={`shrink-0 w-28 rounded-lg border-2 p-2 text-left transition-all ${
+                aria-label={locked ? `${card.name} — locked` : card.name}
+                className={`relative shrink-0 w-28 rounded-lg border-2 p-2 text-left transition-all ${
+                  locked ? "border-amber-700/40 bg-white/[0.02] opacity-30 cursor-not-allowed" :
                   isSelected ? "border-white bg-white/10 -translate-y-2 shadow-lg" :
                   playable ? "border-white/20 bg-white/5 hover:border-white/40 hover:-translate-y-1" :
                   "border-white/5 bg-white/[0.02] opacity-40"
                 }`}
-                onClick={() => playable && handleCardClick(i)}
+                onClick={() => locked ? handleCardClick(i) : (playable && handleCardClick(i))}
                 onContextMenu={(e) => { e.preventDefault(); if (!player.replaceUsed) handleReplace(i); }}
                 onMouseEnter={() => setHoveredCard(card)}
                 onMouseLeave={() => setHoveredCard(null)}
@@ -735,6 +994,8 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
                 <p className="text-[8px] text-white/30 font-mono truncate">
                   {card.cardType}{card.keywords.length > 0 ? ` · ${card.keywords[0]}` : ""}
                 </p>
+                {/* §5.5 lockout overlay — brass lock icon + dim wash */}
+                {locked && <CardLockOverlay />}
               </button>
             );
           })}

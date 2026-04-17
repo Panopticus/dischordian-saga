@@ -86,6 +86,21 @@ function buildTestRegistry(): CardRegistry {
       flavorText: "",
       rulesVersion: "1.0.0",
     },
+    {
+      id: "card_spy_only" as any,
+      name: "Spy-only Card",
+      faction: "architect",
+      cardType: "unit",
+      rarity: "uncommon",
+      cost: 1,
+      baseStats: { power: 1, health: 1 },
+      keywords: [],
+      abilities: [],
+      art: "test://art",
+      flavorText: "",
+      rulesVersion: "1.0.0",
+      characterClass: "spy",
+    },
   ];
   return buildCardRegistry(defs);
 }
@@ -282,5 +297,52 @@ describe("validateDeck", () => {
       reg
     );
     expect(result.valid).toBe(true);
+  });
+
+  /* ─── Class restriction (Phase B8) ─── */
+
+  it("rejects class-restricted cards when ownerClass mismatches", () => {
+    const reg = buildTestRegistry();
+    const result = validateDeck(
+      {
+        generalDefId: "gen_test",
+        cardDefIds: ["card_a", "card_a", "card_spy_only", "card_n"],
+        ownerClass: "soldier",
+      },
+      testFormat,
+      reg
+    );
+    expect(result.valid).toBe(false);
+    const mismatch = result.issues.find((i) => i.code === "class_mismatch");
+    expect(mismatch).toBeDefined();
+    expect(mismatch?.cardId).toBe("card_spy_only");
+  });
+
+  it("allows class-restricted cards when ownerClass matches", () => {
+    const reg = buildTestRegistry();
+    const result = validateDeck(
+      {
+        generalDefId: "gen_test",
+        cardDefIds: ["card_a", "card_a", "card_spy_only", "card_n"],
+        ownerClass: "spy",
+      },
+      testFormat,
+      reg
+    );
+    expect(result.valid).toBe(true);
+  });
+
+  it("skips the class check entirely when ownerClass is omitted (backward compat)", () => {
+    const reg = buildTestRegistry();
+    const result = validateDeck(
+      {
+        generalDefId: "gen_test",
+        cardDefIds: ["card_a", "card_a", "card_spy_only", "card_n"],
+      },
+      testFormat,
+      reg
+    );
+    // No class_mismatch issue should appear
+    expect(result.issues.find((i) => i.code === "class_mismatch")).toBeUndefined();
   });
 });

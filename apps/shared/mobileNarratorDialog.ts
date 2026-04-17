@@ -356,6 +356,14 @@ export const NARRATOR_DIALOG: Record<NarratorRoomId, RoomDialogSet> = {
       },
     ],
   },
+
+  // Prelude-only rooms. The mobile narrator slot is suppressed during
+  // the Prelude (narrator activates post-Prelude — see toNarratorRoomId +
+  // seedNarratorSlot). Empty dialog arrays satisfy the Record type.
+  corridor:      { roomId: "corridor",      elara: [], the_human: [] },
+  galley:        { roomId: "galley",        elara: [], the_human: [] },
+  briefing_room: { roomId: "briefing_room", elara: [], the_human: [] },
+  mess_hall:     { roomId: "mess_hall",     elara: [], the_human: [] },
 };
 
 /**

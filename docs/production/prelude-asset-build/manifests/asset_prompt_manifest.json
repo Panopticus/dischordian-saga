@@ -1,0 +1,967 @@
+{
+  "source": "/home/ubuntu/upload/pasted_content.txt",
+  "workspace_root": "/home/ubuntu/prelude_asset_build",
+  "counts": {
+    "room_prompts": 12,
+    "cutscene_start_frames": 14,
+    "cutscene_end_frames": 14,
+    "cutscene_motion_prompts": 13,
+    "voice_csv_blocks": 10
+  },
+  "items": [
+    {
+      "type": "room_image",
+      "section": {
+        "number": 3,
+        "title": "Beat A: Cryo Wake"
+      },
+      "subsection": {
+        "number": "3.3",
+        "title": "Art \u2014 Cryo Bay environment still"
+      },
+      "output": "apps/client/public/art/rooms/room-cryo-bay.png",
+      "priority": "P0",
+      "prompt": "Hyper-realistic cinematic still, 16:9, 4K. Interior of Pod Chamber 47 aboard the cryo-bay deck of a 17,000-year-old generation ship called Ark 1047. The chamber is a long curved gallery with two facing rows of upright cryo-stasis pods \u2014 six pods per row, twelve total visible. The pods are tall vertical cylinders of brushed brass and obsidian glass, each with a faint warm cyan #22d3ee glow at the canopy where the occupant's face would be. Five pods on each row are sealed and softly luminous from within \u2014 sleeping, not empty, the cyan glow pulses at sub-1 Hz, you can almost hear them breathing. **The sixth pod on the near side \u2014 center frame \u2014 is open**: hatch lifted forty degrees, volumetric cryogas spilling out from the threshold and pooling at floor height in slow motion. The pod's interior is empty (the player just stepped out). Floor is dark composite, scuffed bare to substrate at every walkway, dust drifting in low-angle starlight. Ceiling is unlit \u2014 only emergency floor strips along both walls and the cyan canopy glow of the eleven sealed pods illuminate the room. A single brass-and-bone railing runs the length of the gallery. At the far end of the chamber, a dark archway leads into the corridor (Beat A.5). The chamber feels maintained but exhausted \u2014 every surface is worn, nothing is broken, the ship has been holding its breath for seventeen millennia. Ankle-height fog. Anamorphic lens flare from the open pod's cyan glow. Film grain. Deep space black #010020 base. No rendered text. No people. No holograms (Elara materializes in the cutscene, not the still). Dramatic cyan rim lighting on the open pod. Cinematic 4K composition, three-quarter wide shot, camera at standing eye level, looking down the gallery toward the corridor archway."
+    },
+    {
+      "type": "cutscene_start_frame",
+      "section": {
+        "number": 3,
+        "title": "Beat A: Cryo Wake"
+      },
+      "subsection": {
+        "number": "3.4",
+        "title": "Cutscene \u2014 A: Awakening"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-a-awakening.mp4",
+      "beat_id": "prelude-beat-a-awakening",
+      "duration": "35s (target \u2014 within the 30\u201345s range from `ANIMATED_CUTSCENES.md`)",
+      "priority": "P0",
+      "prompt": "Hyper-realistic cinematic still, 16:9, 4K. Extreme close-up from inside the cryo pod looking outward through the canopy glass. The glass is half-frosted; six-pointed frost crystals are still forming at the edges of frame in slow motion. The player's POV \u2014 we cannot see their face. Beyond the glass, blurred and dim, the curved gallery of Pod Chamber 47 (Ark 1047 cryo-bay) is just becoming visible: shapes of other pods softly glowing cyan #22d3ee in the background. Volumetric cryogas inside the pod is still settling. The pod's internal indicator lights (a vertical column of small cyan LEDs to the right of the canopy) are sequencing from dim to bright \u2014 three are lit, three are still dark. Shallow depth of field, focused on the inside of the canopy glass. Palette: deep space black #010020, cyan #22d3ee, white frost. Anamorphic flare on the brightest LED. Faint film grain. No text. No visible character. Cinematic 4K."
+    },
+    {
+      "type": "cutscene_end_frame",
+      "section": {
+        "number": 3,
+        "title": "Beat A: Cryo Wake"
+      },
+      "subsection": {
+        "number": "3.4",
+        "title": "Cutscene \u2014 A: Awakening"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-a-awakening.mp4",
+      "beat_id": "prelude-beat-a-awakening",
+      "duration": "35s (target \u2014 within the 30\u201345s range from `ANIMATED_CUTSCENES.md`)",
+      "priority": "P0",
+      "prompt": "Same Pod Chamber 47, thirty-five seconds later. Wide establishing shot now from outside the open pod, camera at standing eye level looking down the gallery toward the far corridor archway. The pod is fully open, cryogas has dissipated to ankle-height drift. Center of frame, three meters from the open pod, **Elara's holographic avatar** stands materialized: a translucent female figure in flowing senatorial robes rendered in cyan #22d3ee scanlines, hands clasped in front of her, expression warm and uncertain. She is two meters tall, slightly taller than the player would be. The hologram emits soft cyan rim light onto the floor and the railings around her. Behind her, the eleven sealed pods continue their slow cyan breath-pulse. The first emergency floor strip nearest camera is hot at its leading edge \u2014 the breath-rhythm pulse is at peak. Volumetric fog at ankle height. Anamorphic lens flare from Elara's hologram. Film grain. Deep space black #010020 base. No rendered text. Cinematic 4K composition. The framing must clearly show **five other pods on the near row, still sealed, still glowing** \u2014 they are the visual punchline of the cutscene and the script line in \u00a73.5 must land on them."
+    },
+    {
+      "type": "cutscene_motion",
+      "section": {
+        "number": 3,
+        "title": "Beat A: Cryo Wake"
+      },
+      "subsection": {
+        "number": "3.4",
+        "title": "Cutscene \u2014 A: Awakening"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-a-awakening.mp4",
+      "beat_id": "prelude-beat-a-awakening",
+      "duration": "35s (target \u2014 within the 30\u201345s range from `ANIMATED_CUTSCENES.md`)",
+      "priority": "P0",
+      "prompt": "Begin extreme close-up inside pod canopy as frost crystals retract and final LEDs sequence to bright. Beat at 4s: pod hatch hisses open with volumetric cryogas burst, camera pushes through the opening pod glass and out into the chamber. Beat at 12s: slow continuous pull-back along the gallery, revealing eleven sealed pods on either side, each gently breath-pulsing cyan. Beat at 22s: Elara hologram materializes center-frame in scanline wipe, soft bloom builds. Final 8s: hold on Elara, slow lateral camera drift right to lock the framing. 24fps. Reverent, fragile, just-born tone."
+    },
+    {
+      "type": "room_image",
+      "section": {
+        "number": 4,
+        "title": "Beat A.5: Corridor First Steps (Breath Beat)"
+      },
+      "subsection": {
+        "number": "4.2",
+        "title": "Art \u2014 Corridor environment still"
+      },
+      "output": "apps/client/public/art/rooms/room-corridor.png",
+      "priority": "P0",
+      "prompt": "Hyper-realistic cinematic still, 16:9, 4K. Interior of a long curving corridor on Deck 4 of Ark 1047, connecting Pod Chamber 47 (out of frame behind camera, to the left) to the engineering bay (out of frame ahead, to the right). The corridor is approximately fifteen meters long and slowly arcs to the right, so the far end is not visible from the camera position. Walls are matte composite the color of charcoal, with horizontal seams every 1.5 meters and exposed cable conduits running along the upper-left and lower-right joins. The floor is bare composite, scuffed to substrate at the center walking line. **No overhead lights** \u2014 the only illumination is two parallel **emergency floor strips**, one running along each wall at ankle height. The strips are warm cyan #22d3ee, very dim, and they **pulse together at sub-1 Hz** \u2014 render the strip closest to camera at the peak of its pulse (slightly brighter, hot leading edge) and the far strip at its trough (dimmer). Dust drifts in the air, catching the cyan glow as soft motes. Three small auxiliary fixtures (handrail emergency lights) are visible on the right wall, all dark. The corridor feels maintained but exhausted \u2014 surfaces are worn, paint has been polished off the right-side handrail by 17,000 years of human passage, but nothing is broken. At the camera position, on the floor, **a single cryogas residue trail** (faint, ankle-height white drift) extends from behind the camera (where the player just came from) and trails ahead toward the corridor's curve. Anamorphic lens flare on the nearest cyan strip. Film grain. Deep space black #010020 base. Volumetric fog at floor level. **No rendered text. No people. No holograms.** Cinematic 4K composition, low three-quarter shot, camera at hip height (slightly below standing eye level \u2014 emphasizing the floor strips), pointed down the corridor's curve."
+    },
+    {
+      "type": "cutscene_start_frame",
+      "section": {
+        "number": 4,
+        "title": "Beat A.5: Corridor First Steps (Breath Beat)"
+      },
+      "subsection": {
+        "number": "4.3",
+        "title": "Cutscene \u2014 A.5: Corridor First Steps"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-a5-corridor.mp4",
+      "beat_id": "prelude-beat-a5-corridor",
+      "duration": "15s",
+      "priority": "P0",
+      "prompt": "Identical composition to the \u00a74.2 corridor still, but framed for the start of a moving camera: camera positioned at the corridor entrance (just past the cryo-bay archway), looking down the curving corridor. Cryogas residue trail visible at the very base of frame \u2014 the player has just stepped through. Both emergency floor strips at the same brightness (mid-pulse, neither at peak nor trough). All other elements identical: dust motes, dim cyan, no overhead light, worn handrails, fifteen meters of corridor curving out of view to the right. 16:9, 4K, deep space black #010020 base. No text."
+    },
+    {
+      "type": "cutscene_end_frame",
+      "section": {
+        "number": 4,
+        "title": "Beat A.5: Corridor First Steps (Breath Beat)"
+      },
+      "subsection": {
+        "number": "4.3",
+        "title": "Cutscene \u2014 A.5: Corridor First Steps"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-a5-corridor.mp4",
+      "beat_id": "prelude-beat-a5-corridor",
+      "duration": "15s",
+      "priority": "P0",
+      "prompt": "Camera has drifted forward fifteen meters along the corridor's gentle right-hand curve. The cryo-bay archway is no longer visible behind. Ahead, partially visible around the curve, is the closed engineering-bay door: a tall vertical iris-style hatch in worn brass with a single dim cyan status pip at center. The door is closed. The breath-pulse on the nearest emergency strip is at peak (hot leading edge, slightly brighter than start frame). Dust motes thicker in this region \u2014 they have settled in the lee of the door for centuries. Same palette, same grain, same fog. 16:9, 4K. No text, no people."
+    },
+    {
+      "type": "cutscene_motion",
+      "section": {
+        "number": 4,
+        "title": "Beat A.5: Corridor First Steps (Breath Beat)"
+      },
+      "subsection": {
+        "number": "4.3",
+        "title": "Cutscene \u2014 A.5: Corridor First Steps"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-a5-corridor.mp4",
+      "beat_id": "prelude-beat-a5-corridor",
+      "duration": "15s",
+      "priority": "P0",
+      "prompt": "Slow continuous forward dolly along the corridor's gentle right-hand curve, eye level steady at hip height. No camera shake. Beat change at 6s: emergency strip pulse cycles from mid to peak (subtle global brightness shift, 12% increase). Beat change at 12s: engineering-bay door becomes visible around the curve, single cyan status pip ignites. Final 3s: hold on the closed door. Dust motes drift lazily across frame throughout. 24fps. Silent, contemplative, breathing."
+    },
+    {
+      "type": "cutscene_start_frame",
+      "section": {
+        "number": 5,
+        "title": "Beat B: Corridor / Escape"
+      },
+      "subsection": {
+        "number": "5.4",
+        "title": "Cutscene \u2014 B: Corridor / Escape"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-b-escape.mp4",
+      "beat_id": "prelude-beat-b-escape",
+      "duration": "20s",
+      "priority": "P0",
+      "prompt": "Hyper-realistic cinematic still, 16:9, 4K. Close-up of the engineering-bay iris hatch, centered in frame, camera at eye level approximately 1.5 meters from the door surface. The hatch is a tall vertical brass-and-bone disc, two meters in diameter, with twelve radial petals meeting at a central hub. The hub bears a small recessed manual release wheel made of dark brass with knurled grip, and a single dim cyan #22d3ee status pip just below the wheel. Visible age: the central hub paint has been worn off completely, leaving polished brass underneath in a perfect circle the size of a human palm \u2014 millennia of hands have touched this exact spot. The petals themselves are matte and show fine concentric scoring from past iris cycles. Behind the door (to the left and right of the hatch frame), the corridor walls fall into shadow. Two emergency floor strips are visible at the very bottom of frame, breath-pulsing dim cyan at mid-cycle. The single status pip on the hub has just turned from dim cyan to **bright foxfire green #00e676** \u2014 the lock has just released. Volumetric fog at floor level. Anamorphic lens flare on the green pip. Film grain. Deep space black #010020. **No text. No people.** Cinematic 4K composition."
+    },
+    {
+      "type": "cutscene_end_frame",
+      "section": {
+        "number": 5,
+        "title": "Beat B: Corridor / Escape"
+      },
+      "subsection": {
+        "number": "5.4",
+        "title": "Cutscene \u2014 B: Corridor / Escape"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-b-escape.mp4",
+      "beat_id": "prelude-beat-b-escape",
+      "duration": "20s",
+      "priority": "P0",
+      "prompt": "Same camera position twenty seconds later. The iris hatch is now **fully open** \u2014 the twelve brass-and-bone petals have rotated and retracted into the hatch frame, leaving a clean two-meter circular opening. Beyond the opening, the **engineering bay** is partially visible: a deep wide chamber dominated by the silhouette of the Engineer's workbench at the far end (a long industrial bench with hanging tool racks above it, currently dark and silent) and, in the foreground at floor level, **six dormant incubator pods** arranged in a semicircle facing the bench. The pods are hip-high, brass and obsidian glass, each canopy completely dark \u2014 not glowing yet. Cyan floor strips continue through the threshold and into the engineering bay, breath-pulsing at the same rhythm. A faint foxfire-green #00e676 glow emanates from somewhere beyond the workbench (the bench's standby indicator). The hatch's hub status pip has now shifted from foxfire green to **steady cyan #22d3ee** \u2014 door is open, locked in open position. Volumetric fog spills slowly through the opening from the engineering bay (warmer-tinted, faintly green). Anamorphic flare from the pip and the distant green glow. Film grain. Deep space black base. **No text. No people. No holograms** (Elara appears in the next beat). Cinematic 4K composition."
+    },
+    {
+      "type": "cutscene_motion",
+      "section": {
+        "number": 5,
+        "title": "Beat B: Corridor / Escape"
+      },
+      "subsection": {
+        "number": "5.4",
+        "title": "Cutscene \u2014 B: Corridor / Escape"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-b-escape.mp4",
+      "beat_id": "prelude-beat-b-escape",
+      "duration": "20s",
+      "priority": "P0",
+      "prompt": "Camera locked at eye level, no movement. Beat 0\u20133s: hold on closed iris, central pip glowing green. Beat at 3s: twelve petals begin synchronized rotation outward in slow mechanical opening, each petal disengaging with a half-second stagger so the iris peels back like a flower. Beat at 12s: iris fully retracted, warmer green-tinted fog spills through opening from engineering bay beyond. Beat at 16s: pip color shifts from foxfire green to steady cyan. Final 4s: hold on the open doorway and the dormant incubators in the distance. 24fps. Mechanical, reverent, anticipation building."
+    },
+    {
+      "type": "room_image",
+      "section": {
+        "number": 6,
+        "title": "Beat C: Engineering \u2014 Crew Role Choice + Six Incubators"
+      },
+      "subsection": {
+        "number": "6.3",
+        "title": "Art \u2014 Engineering bay environment still"
+      },
+      "output": "apps/client/public/art/rooms/room-engineering.png",
+      "priority": "P0",
+      "prompt": "Hyper-realistic cinematic still, 16:9, 4K. Wide interior of the engineering bay aboard Ark 1047. The room is approximately fifteen meters deep and twelve meters wide, with a high vaulted ceiling lost in shadow. The far wall is dominated by **the Engineer's workbench**: a long industrial bench three meters wide and two meters deep, made of dark brass and reinforced obsidian composite, with a hanging tool rack above it (loops, calipers, micro-welders, a row of empty data slates, all suspended in tidy order). Above the bench, mounted to the wall, a small **holographic recording rig** \u2014 a brass armature with a single dim lens \u2014 currently inactive. On the bench itself, dead center, sits **a small brass-and-bone deck box** the size of a hardcover book, latched closed. A faint **foxfire green #00e676** standby indicator glows from the side of the bench at knee height \u2014 the only colored light source in the room beyond the cyan floor strips. **In the foreground**, arranged in a semicircle facing the workbench, **six incubator pods**: hip-high upright cylinders, each one meter tall, brass and obsidian glass, each canopy completely dark and dormant. Each pod has a small dataplate at the base bearing a serial number (do not render legible text, just the suggestion of an engraved plate). The pods are spaced 1.2 meters apart in a 240-degree arc, leaving a clear walking aisle from the entrance (camera left) to the workbench (frame back). Floor is dark composite, scuffed. **No overhead lights** \u2014 illumination from cyan emergency floor strips along both walls and the foxfire-green standby indicator at the bench. Volumetric fog at ankle height, slightly warmer than the corridor's fog (the bay was built for craftwork; the air carries a faint sense of welding flux even after seventeen millennia). Dust drifting through the cyan light. The room feels **maintained, exhausted, holy**. Anamorphic lens flare on the green standby indicator. Film grain. Deep space black #010020 base. **No rendered text. No people. No holograms** (Elara appears in the cutscene). Cinematic 4K composition, three-quarter wide shot, camera at standing eye level just inside the entrance, framing the six incubators in the foreground arc and the workbench dead center at the back."
+    },
+    {
+      "type": "cutscene_start_frame",
+      "section": {
+        "number": 6,
+        "title": "Beat C: Engineering \u2014 Crew Role Choice + Six Incubators"
+      },
+      "subsection": {
+        "number": "6.4",
+        "title": "Cutscene \u2014 C: Crew Role Choice + Six Incubators"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-c-crew-and-incubators.mp4",
+      "beat_id": "prelude-beat-c-crew-and-incubators",
+      "duration": "35s",
+      "priority": "P0",
+      "prompt": "Identical composition to the \u00a76.3 engineering still, but framed for the start of a moving camera: camera at the engineering-bay threshold (just inside the now-open iris from Beat B), looking down the central aisle toward the workbench. The six incubator pods are visible in the foreground semicircle. Elara's hologram is **just beginning to materialize** at the center of the semicircle, in the spotlight position \u2014 only the lower 30% of her form has scanline-wiped in, the rest is still resolving. The bench's foxfire-green standby pip is at full brightness. Volumetric fog, ankle height. 16:9, 4K, no text."
+    },
+    {
+      "type": "cutscene_end_frame",
+      "section": {
+        "number": 6,
+        "title": "Beat C: Engineering \u2014 Crew Role Choice + Six Incubators"
+      },
+      "subsection": {
+        "number": "6.4",
+        "title": "Cutscene \u2014 C: Crew Role Choice + Six Incubators"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-c-crew-and-incubators.mp4",
+      "beat_id": "prelude-beat-c-crew-and-incubators",
+      "duration": "35s",
+      "priority": "P0",
+      "prompt": "Same engineering bay, thirty-five seconds later. Camera has drifted forward six meters along the central aisle and now rests at the heart of the incubator semicircle, looking past Elara's fully materialized hologram toward the workbench. **Elara is fully resolved** \u2014 translucent senatorial figure in cyan #22d3ee scanlines, hands open at her sides, expression watchful. Her gesture is subtle: one hand turned palm-up toward the six dormant incubator pods, as if presenting them. **The brass deck box on the workbench has its latch open** \u2014 only the latch, the lid is still closed. A single new visible detail on the bench: a **small holographic projection** has just bloomed above the recording rig: a low-fidelity 3D outline of the player's chosen starter crewmate (composite silhouette \u2014 render an ambiguous androgynous human-shaped wireframe, no facial features, no class signifier \u2014 the actual model will be substituted at runtime based on the player's choice). The wireframe is foxfire green. All six incubators remain dark and dormant. Volumetric fog has lifted slightly \u2014 the room is welcoming her. Anamorphic flare from the bench standby pip and Elara's hologram. Film grain, deep space black base. No text. Cinematic 4K composition."
+    },
+    {
+      "type": "cutscene_motion",
+      "section": {
+        "number": 6,
+        "title": "Beat C: Engineering \u2014 Crew Role Choice + Six Incubators"
+      },
+      "subsection": {
+        "number": "6.4",
+        "title": "Cutscene \u2014 C: Crew Role Choice + Six Incubators"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-c-crew-and-incubators.mp4",
+      "beat_id": "prelude-beat-c-crew-and-incubators",
+      "duration": "35s",
+      "priority": "P0",
+      "prompt": "Slow continuous forward dolly six meters down the engineering bay aisle, camera at standing eye level. Beat 0\u20136s: Elara hologram completes scanline-wipe materialization in the foreground arc, soft bloom builds. Beat at 12s: Elara turns her open palm toward the six dormant incubator pods in a presenting gesture as her line about Dr. Lyra Vox plays. Beat at 22s: brass deck box latch on workbench clicks open mechanically. Beat at 28s: low-fidelity foxfire-green wireframe of chosen crewmate blooms above the bench's recording rig. Final 7s: hold on the framing \u2014 Elara, six dark pods, lit bench, wireframe. 24fps. Reverent, careful, planting-a-seed tone."
+    },
+    {
+      "type": "cutscene_start_frame",
+      "section": {
+        "number": 7,
+        "title": "Beat C.5: Window (Breath Beat)"
+      },
+      "subsection": {
+        "number": "7.4",
+        "title": "Cutscene \u2014 C.5: Window"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-c5-window.mp4",
+      "beat_id": "prelude-beat-c5-window",
+      "duration": "20s",
+      "priority": "P0",
+      "prompt": "Hyper-realistic cinematic still, 16:9, 4K. Interior of the engineering bay's port-side wall, framed on **a tall rectangular viewport** approximately 1.2 meters wide and 2 meters tall, set into the matte-charcoal wall at standing height. The viewport glass is thick obsidian-tinted reinforced composite, slightly distorting the view. **Beyond the glass: deep space**, the Ark drifting through a broad starfield. The visible stars are scattered, dim, no nebula, no nearby planet \u2014 just the slow void. The Ark's outer hull plating is faintly visible at the bottom of the viewport (a curving brass-and-bone surface, weathered and pitted). **In front of the viewport, ten centimeters from the glass**, **Elara's hologram** stands with her back to the camera \u2014 translucent senatorial figure in cyan #22d3ee scanlines, hands at her sides, head tilted slightly upward as if looking at a particular distant star. The hologram bloom casts soft cyan rim light onto the viewport's frame. Camera is approximately three meters behind her, low three-quarter angle, framing both her silhouette and the starfield beyond. The engineering bay around the viewport is in shadow \u2014 only the cyan floor strips and Elara's hologram illuminate the scene. Volumetric fog at ankle height. Anamorphic lens flare on Elara's bloom and the brightest visible star. Film grain. Deep space black #010020 base. **No rendered text. No other people. No other holograms.** Cinematic 4K composition. The mood is silent, intimate, contemplative \u2014 the player is supposed to want to stand next to her and not say anything."
+    },
+    {
+      "type": "cutscene_end_frame",
+      "section": {
+        "number": 7,
+        "title": "Beat C.5: Window (Breath Beat)"
+      },
+      "subsection": {
+        "number": "7.4",
+        "title": "Cutscene \u2014 C.5: Window"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-c5-window.mp4",
+      "beat_id": "prelude-beat-c5-window",
+      "duration": "20s",
+      "priority": "P0",
+      "prompt": "Same composition twenty seconds later. Camera has drifted forward two meters \u2014 Elara's silhouette is closer, the viewport more dominant. **A second presence has appeared in the scene** without entering it: across the viewport's reinforced glass, **at eye level on the inside surface of the glass**, a faint pattern of frost has formed in the shape of **a single open palm** \u2014 five fingers, slightly larger than human, pressed against the glass *from the player's side of the room*. There is no body attached to the palm. No figure. Just the frost-print, suggesting that something invisible is standing right next to the player and has just touched the window. Elara has not turned \u2014 she is still looking out at the stars, unaware. The palm-print is rendered in faint white frost on dark glass, very subtle but unmistakably hand-shaped. Same starfield beyond, same cyan rim from Elara, same fog, same grain. 16:9, 4K, no text. The reveal is **the palm-print** \u2014 that is The Human, becoming briefly visible to the player and only the player."
+    },
+    {
+      "type": "cutscene_motion",
+      "section": {
+        "number": 7,
+        "title": "Beat C.5: Window (Breath Beat)"
+      },
+      "subsection": {
+        "number": "7.4",
+        "title": "Cutscene \u2014 C.5: Window"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-c5-window.mp4",
+      "beat_id": "prelude-beat-c5-window",
+      "duration": "20s",
+      "priority": "P0",
+      "prompt": "Slow continuous forward dolly two meters toward the viewport, camera at standing eye level, Elara's silhouette held in the right two-thirds of frame. No camera shake. Beat 0\u20138s: silent drift, dust motes catching cyan light. Beat at 9s: faint warm-white frost begins forming on the inside of the viewport glass at eye level, slowly resolving into the shape of an open palm over four seconds. Beat at 14s: palm-print fully formed, holds. Beat at 17s: The Human's voice begins (out of frame, no visual). Final 3s: hold on the palm-print and Elara's unaware silhouette. 24fps. Intimate, ancient, watching-from-just-beside-you tone."
+    },
+    {
+      "type": "room_image",
+      "section": {
+        "number": 8,
+        "title": "Beat D: Cargo Bay \u2014 Trade Empire Seed + Locke Mission Board"
+      },
+      "subsection": {
+        "number": "8.3",
+        "title": "Art \u2014 Cargo Bay environment still"
+      },
+      "output": "apps/client/public/art/rooms/room-cargo-hold.png",
+      "priority": "P0",
+      "prompt": "Hyper-realistic cinematic still, 16:9, 4K. Vast interior of the cargo hold aboard Ark 1047. The chamber is forty meters wide, sixty meters deep, with a vaulted ceiling thirty meters above the floor. The space is dominated by **stacks of cargo crates**: long rows of dark brass-and-bone shipping containers, six meters tall, stacked in three vertical tiers, arranged in parallel rows that recede into the distance with industrial walking aisles between them. The crates are battered, weathered, dust-coated; some bear faded glyphs and serial-number stencils (do not render legible text \u2014 just suggest engraved markings). Many of the crates have small dim cyan #22d3ee status indicators at chest height \u2014 most dark, a few pulsing faintly. **The left wall** of the bay is the focal point: a massive flat surface ten meters wide, made of dark composite, on which **a long abandoned mission board** is mounted at standing height. The board is approximately five meters wide and two meters tall, divided into a grid of **forty-eight small rectangular slate-mounts**. Most slate-mounts are empty or hold blackened, broken slates. **Three slate-mounts are still active** \u2014 three faintly glowing cyan rectangles in the grid, arranged unevenly: one in the upper-left, one center, one lower-right. Each glowing slate is the size of a hardcover book. Above the board, mounted to the wall, a small brass plate engraving (illegible) marks the board's purpose. **From the ceiling, dead center of the cargo hold's main aisle, a single dramatic shaft of starlight** falls through a high open louver in the ceiling \u2014 the only natural light in the entire chamber, a beam of cold pale blue cutting through the dust. The shaft strikes the floor and creates a circle of illumination roughly three meters across. **A faint dust column** drifts upward through the shaft, catching the light. Floor is dark composite, scuffed, with old cargo-handling tracks worn into it. **No overhead lights** \u2014 illumination comes from the cyan floor strips along the walls, the few cyan crate indicators, the three glowing mission slates, and the central starlight shaft. Volumetric fog at ankle height. Anamorphic lens flare on the starlight shaft and the brightest cyan crate indicator. Film grain. Deep space black #010020 base. **No rendered text. No people. No holograms** (Elara appears in the cutscene). Cinematic 4K composition, three-quarter wide shot, camera at standing eye level, framing both the mission board on the left wall and the central starlight shaft, with rows of crates receding into the back."
+    },
+    {
+      "type": "cutscene_start_frame",
+      "section": {
+        "number": 8,
+        "title": "Beat D: Cargo Bay \u2014 Trade Empire Seed + Locke Mission Board"
+      },
+      "subsection": {
+        "number": "8.4",
+        "title": "Cutscene \u2014 D: Trade Empire Seed + Locke Mission Board"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-d-cargo-bay.mp4",
+      "beat_id": "prelude-beat-d-cargo-bay",
+      "duration": "30s",
+      "priority": "P0",
+      "prompt": "Identical composition to the \u00a78.3 cargo hold still, but framed for the start of a moving camera: camera positioned at the entrance from the engineering bay (right side of frame), looking diagonally across the cargo hold toward the mission board on the far left wall. The starlight shaft is dead center. Elara's hologram is **in mid-stride**, walking from the entrance toward the mission board, her translucent cyan form passing through the starlight shaft (the shaft passes harmlessly through her, no shadow). Camera at standing eye level, slight low angle to emphasize the chamber's height. 16:9, 4K, no text, deep space black base."
+    },
+    {
+      "type": "cutscene_end_frame",
+      "section": {
+        "number": 8,
+        "title": "Beat D: Cargo Bay \u2014 Trade Empire Seed + Locke Mission Board"
+      },
+      "subsection": {
+        "number": "8.4",
+        "title": "Cutscene \u2014 D: Trade Empire Seed + Locke Mission Board"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-d-cargo-bay.mp4",
+      "beat_id": "prelude-beat-d-cargo-bay",
+      "duration": "30s",
+      "priority": "P0",
+      "prompt": "Same cargo hold, thirty seconds later. Camera has dollied forward and slightly left, now positioned about four meters from the mission board, looking past Elara's hologram (who has stopped at the board's center, hand raised, palm-out toward one specific slate in the upper-left corner). The slate Elara is pointing to is the **17,000-year-old posting** \u2014 its cyan glow is now visibly more saturated than the other two active slates, drawing the eye. The other two active slates are still glowing faintly. The starlight shaft is now to the right of frame, partially out of view. The mission board occupies the left two-thirds of frame. Above Elara's pointing hand, a faint cyan **glyph projection** has bloomed in front of the slate \u2014 a small holographic icon (do not render specific shape) indicating the mission's still-open status. Volumetric fog, ankle height. Anamorphic flare on the highlighted slate. Film grain. Deep space black base. **No rendered text.** Cinematic 4K composition."
+    },
+    {
+      "type": "cutscene_motion",
+      "section": {
+        "number": 8,
+        "title": "Beat D: Cargo Bay \u2014 Trade Empire Seed + Locke Mission Board"
+      },
+      "subsection": {
+        "number": "8.4",
+        "title": "Cutscene \u2014 D: Trade Empire Seed + Locke Mission Board"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-d-cargo-bay.mp4",
+      "beat_id": "prelude-beat-d-cargo-bay",
+      "duration": "30s",
+      "priority": "P0",
+      "prompt": "Slow continuous diagonal dolly from cargo entrance toward the left-wall mission board, camera at standing eye level. Beat 0\u20138s: Elara hologram walks ahead of camera, passing through the central starlight shaft (no shadow cast). Beat at 12s: Elara stops at mission board center, raises one open palm toward upper-left slate. Beat at 18s: highlighted slate's cyan glow saturates over four seconds, becoming visibly brighter than the other two active slates. Beat at 24s: small cyan holographic glyph blooms in front of the highlighted slate. Final 6s: hold on Elara, mission board, glowing slate. 24fps. Quiet, archeological, weight-of-time tone."
+    },
+    {
+      "type": "room_image",
+      "section": {
+        "number": 9,
+        "title": "Beat D.5: Galley (Breath Beat)"
+      },
+      "subsection": {
+        "number": "9.3",
+        "title": "Art \u2014 Galley environment still"
+      },
+      "output": "apps/client/public/art/rooms/room-galley.png",
+      "priority": "P0",
+      "prompt": "Hyper-realistic cinematic still, 16:9, 4K. Interior of the crew galley aboard Ark 1047 \u2014 a small, domestic-scale kitchen, six meters square, with a low ceiling (2.5 meters) that makes the room feel intimate after the vastness of the cargo hold. The galley has **a long countertop** along the right wall: dark composite surface, a small recessed sink at one end, an induction stove at the other end (six dim cyan-rimmed burner rings, all cold), and **one unwashed copper coffee mug sitting alone in the center of the counter** \u2014 handle facing left, a faint dark ring of dried liquid inside, the mug's exterior coated in 17,000 years of fine dust. Above the counter, a **hanging rack** of clean copper-bottomed pans in descending sizes, ten pans total, brass hooks, faintly catching the cyan light. The far wall holds a small **viewport** (half the size of the engineering bay's window from \u00a77), framing a slice of starfield. **Four mismatched stools** are arranged at a small bar-height counter on the left wall \u2014 one tall, one short, one with a worn cushion, one bare brass \u2014 facing the wall as if a small crew used to eat their meals shoulder-to-shoulder while looking at a now-blank wall display. A folded apron hangs on a hook beside the stove, dust-coated. The floor is dark composite, scuffed bare to substrate at the sink, the stove, and the path between the stools and the door. **No overhead lights** \u2014 the room is illuminated by cyan emergency floor strips, a small standby pip on the induction stove, the dim cyan from the window, and a single warm-amber #fbbf24 pilot light on the side of the stove (the only warm color in the entire Prelude so far). Volumetric fog at ankle height, much fainter here than in the larger rooms \u2014 the galley is sealed, the air feels stiller. Anamorphic lens flare on the warm-amber pilot light. Film grain. Deep space black #010020 base. **No rendered text. No people. No holograms.** Cinematic 4K composition, three-quarter shot from inside the doorway, framing the counter, the lone coffee mug, the hanging pans, and the stools on the opposite wall. The mood: **a kitchen where someone made coffee, set the mug down, and never came back**."
+    },
+    {
+      "type": "cutscene_start_frame",
+      "section": {
+        "number": 9,
+        "title": "Beat D.5: Galley (Breath Beat)"
+      },
+      "subsection": {
+        "number": "9.4",
+        "title": "Cutscene \u2014 D.5: Galley"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-d5-galley.mp4",
+      "beat_id": "prelude-beat-d5-galley",
+      "duration": "25s",
+      "priority": "P0",
+      "prompt": "Identical to the \u00a79.3 galley still, but framed for the start of a moving camera: camera at the galley doorway looking diagonally across the room toward the lone coffee mug on the counter. The framing emphasizes the mug as the natural focal point. Warm-amber pilot light on the stove visible. Dust motes barely moving. 16:9, 4K, no text."
+    },
+    {
+      "type": "cutscene_end_frame",
+      "section": {
+        "number": 9,
+        "title": "Beat D.5: Galley (Breath Beat)"
+      },
+      "subsection": {
+        "number": "9.4",
+        "title": "Cutscene \u2014 D.5: Galley"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-d5-galley.mp4",
+      "beat_id": "prelude-beat-d5-galley",
+      "duration": "25s",
+      "priority": "P0",
+      "prompt": "Same galley, twenty-five seconds later. Camera has dollied two meters forward and slightly right \u2014 the coffee mug now occupies the center-right of frame, much closer to the lens. **A faint warm-amber glow** from the stove's pilot light has subtly increased in intensity (5% brighter), and the mug's interior dark ring is now catching the warm light, looking almost like fresh coffee. **No other change** \u2014 the mug has not been touched, nothing has moved, no figure has appeared. Same dust, same pans, same stools. The shot is purely about the closer view of the mug and the slight warming of the pilot light. 16:9, 4K, no text."
+    },
+    {
+      "type": "cutscene_motion",
+      "section": {
+        "number": 9,
+        "title": "Beat D.5: Galley (Breath Beat)"
+      },
+      "subsection": {
+        "number": "9.4",
+        "title": "Cutscene \u2014 D.5: Galley"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-d5-galley.mp4",
+      "beat_id": "prelude-beat-d5-galley",
+      "duration": "25s",
+      "priority": "P0",
+      "prompt": "Slow continuous forward dolly two meters and slight right pan, camera at standing eye level. No camera shake. Beat 0\u20138s: silent drift, dust motes barely moving in the still air. Beat at 9s: stove's amber pilot light brightens by 5% over four seconds \u2014 almost imperceptible. Beat at 14s: The Human's voice begins (out of frame, no visual). Final 5s: hold on the close shot of the lone coffee mug, warm amber on its rim. 24fps. Domestic, fragile, fond tone."
+    },
+    {
+      "type": "room_image",
+      "section": {
+        "number": 10,
+        "title": "Beat E: Mess Hall / Prince's Archive"
+      },
+      "subsection": {
+        "number": "10.3",
+        "title": "Art \u2014 Mess Hall environment still"
+      },
+      "output": "apps/client/public/art/rooms/room-mess-hall.png",
+      "priority": "P0",
+      "prompt": "Hyper-realistic cinematic still, 16:9, 4K. Interior of the crew Mess Hall aboard Ark 1047 \u2014 a long rectangular room, twelve meters deep and six meters wide, with a ceiling of four meters. **Dead center of the room, running most of its length, a long dark brass-and-bone crew table** \u2014 ten seats, currently arranged with the chairs slightly pushed back from the table as if the last meal ended mid-conversation seventeen thousand years ago. The chairs are heavy, worn, each one slightly different in wear pattern. **One chair at the far end of the table, the seat closest to the Archive shelf, has a folded paper napkin beside an empty composite plate** \u2014 the only plate on the table. Faint ring of dried crumb-dust on the plate's surface. Along the **right wall**, four curved booth alcoves, each with a small embedded reading lamp (all dark), upholstered in dark brass leather that has cracked with age. Along the **left wall**, running nearly the entire twelve-meter length, the **Prince's Archive** \u2014 a floor-to-ceiling shelf unit made of dark composite, twelve shelves high, broken into vertical bays every meter, holding an eclectic assortment of small objects: stacks of paperbound books (render no legible spines), small mechanical parts, a wooden chess set mid-game (pieces scattered as if someone was called away mid-move), framed miniature sketches, a glass jar of small brass keys, coils of copper wire, a pair of reading glasses, a small clay teacup. **The center bay of the shelf, at standing eye level, holds three compositionally-dominant objects**: (1) a battered cast-metal child's toy soldier, twelve centimeters tall, standing at loose attention, paint worn away from the face and arms, leaning slightly against the shelf back; (2) a small dark composite strongbox the size of a shoebox, with a cyan #22d3ee biometric lock on its front \u2014 the lock is currently dim/inert, not glowing actively \u2014 and a small holographic label beside it emitting a very faint cyan glow (render no legible text); (3) a handful of other small trinkets filling the shelf space around them. **Above the Archive shelf, mounted on the left wall approximately two meters above the shelf top**, a framed parchment diploma in a dark wood frame, hung slightly askew \u2014 the frame is a simple horizontal rectangle roughly forty centimeters wide, the parchment inside bears calligraphic ink marks in the manner of academic credentials (render no legible text, but suggest the handwriting of formal signatures and a seal at the bottom). The parchment is faded. The frame is old. **Lighting**: no overhead lights. Illumination comes from cyan emergency floor strips, two dim cyan reading-lamp pilot pips on the booth alcoves, a single dim amber-yellow #fbbf24 service light mounted above the far end of the central table (the only warm light), and a very faint cyan glow from the strongbox's holographic label. Volumetric fog at ankle height, very subtle. Anamorphic lens flare on the amber service light and on the framed diploma's glass (a soft edge-glint suggesting the glass is still intact). Film grain. Deep space black #010020 base. **No rendered text anywhere \u2014 not on the plate, not on the diploma, not on the strongbox label, not on the book spines. No people. No holograms** (the Prince's holograms appear only in the cutscene). Cinematic 4K composition, three-quarter wide shot from the entrance doorway, standing eye level, framing both the long central table (which dominates the lower two-thirds of the composition) and the Archive shelf on the left wall (which holds the eye because of the visible toy soldier, strongbox, and the diploma mounted above). The mood: **a room where one specific person ate every meal of his adult life, kept the things he loved where he could see them while he ate, and then did not come back.**"
+    },
+    {
+      "type": "cutscene_start_frame",
+      "section": {
+        "number": 10,
+        "title": "Beat E: Mess Hall / Prince's Archive"
+      },
+      "subsection": {
+        "number": "10.4",
+        "title": "Cutscene \u2014 E: Mess Hall Flashback"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-e-mess-hall-flashback.mp4",
+      "beat_id": "prelude-beat-e-mess-hall-flashback",
+      "duration": "45s",
+      "priority": "P0",
+      "prompt": "Identical composition to the \u00a710.3 Mess Hall still, but framed for a camera just *inside* the entrance doorway, looking diagonally across the room with the central table dominating the lower right and the Archive shelf on the left wall just coming into frame. The framed diploma is partially visible in the upper-left corner. The plate-with-napkin on the far chair is visible. Warm-amber service light on the ceiling above the far end of the table. Full color (no sepia yet \u2014 the sepia drain is an in-motion effect). 16:9, 4K, no text."
+    },
+    {
+      "type": "cutscene_end_frame",
+      "section": {
+        "number": 10,
+        "title": "Beat E: Mess Hall / Prince's Archive"
+      },
+      "subsection": {
+        "number": "10.4",
+        "title": "Cutscene \u2014 E: Mess Hall Flashback"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-e-mess-hall-flashback.mp4",
+      "beat_id": "prelude-beat-e-mess-hall-flashback",
+      "duration": "45s",
+      "priority": "P0",
+      "prompt": "Full-color Mess Hall, sepia fully drained back to normal, both holograms gone. Camera has pulled back to a medium-wide shot of the Archive shelf, including the toy soldier, the still-dim strongbox (now the compositional focal point \u2014 faint cyan glow from its biometric lock), and the diploma mounted above. The plate-and-napkin on the far chair is visible on the right edge of frame. Warm-amber service light above the central table. The real Mess Hall \u2014 no holograms, no sepia, no flashback \u2014 but the player now knows what the room *contains*. Volumetric fog ankle height. Anamorphic lens flare on the strongbox's cyan lock. Film grain. Deep space black #010020 base. 16:9, 4K, no text."
+    },
+    {
+      "type": "cutscene_motion",
+      "section": {
+        "number": 10,
+        "title": "Beat E: Mess Hall / Prince's Archive"
+      },
+      "subsection": {
+        "number": "10.4",
+        "title": "Cutscene \u2014 E: Mess Hall Flashback"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-e-mess-hall-flashback.mp4",
+      "beat_id": "prelude-beat-e-mess-hall-flashback",
+      "duration": "45s",
+      "priority": "P0",
+      "prompt": "Slow continuous camera work across three acts inside a 45-second runtime. **Act 1 (0\u201310s):** forward dolly from the doorway into the Mess Hall, full color, camera at standing eye level, diagonally revealing the central table, the one-chair-with-plate, and the left-wall Archive shelf. Dust motes drift in the amber service light. **Transition at 10s (3 seconds long):** sepia-drain from full color to yellow-brown tones. **Act 2 (10\u201325s):** camera is now at the Archive shelf's center bay. Holographic Prince materializes holding the toy soldier (use Mid Frame A as visual anchor). Film-damage overlay appears. At 14s the Prince begins speaking (audio triggers Prince VO line 1 from \u00a710.5). The hologram holds the soldier, occasionally turning it in his hand, the gesture small and private. At 24s the line finishes. The hologram fades over 1 second. **Transition at 25s (sepia drains back to full color over 2 seconds).** **Act 3 (27\u201345s):** camera tracks up the left wall to frame the diploma. Second sepia-drain transition at 27s (3 seconds). Younger holographic Prince materializes in front of the diploma (use Mid Frame B). At 30s he begins speaking (audio triggers Prince VO line 2 from \u00a710.5). At 34s a brief pale-gold ink bloom traces across the diploma's calligraphy (render as subtle glow, holds 2 seconds, fades). At 40s the line finishes. The hologram fades over 1 second. Sepia drains back to full color over 2 seconds. Camera pulls back slightly for the final 3 seconds to frame the Archive shelf including the dormant strongbox \u2014 the final shot is the sealed strongbox's cyan lock glow catching the player's eye as the cutscene ends. 24fps. Reverent, archaeological, private-memory tone."
+    },
+    {
+      "type": "room_image",
+      "section": {
+        "number": 11,
+        "title": "Beat F: Briefing Room \u2014 Kael Contingency Memo"
+      },
+      "subsection": {
+        "number": "11.3",
+        "title": "Art \u2014 Briefing Room environment still"
+      },
+      "output": "apps/client/public/art/rooms/room-briefing-room.png",
+      "priority": "P0",
+      "prompt": "Hyper-realistic cinematic still, 16:9, 4K. Interior of the crew Briefing Room aboard Ark 1047 \u2014 a smaller, formal room approximately eight meters square with a ceiling of three and a half meters. **Dead center of the room, a low curved command table** made of dark composite with brass inlay, roughly four meters in diameter, its surface currently dark and inert. **Eight command chairs** arranged around the table \u2014 seven of them pulled neatly into the table at equal intervals, backs aligned, creating a disciplined visual rhythm; **the eighth chair sits apart from the circle**, pushed back approximately forty centimeters, angled slightly away from the table as if the last person to sit in it rose, stepped out, and never sat back down. That one chair should draw the eye subtly without dominating \u2014 the viewer may not immediately register what is off, but the asymmetry of seven-tight-one-loose reads as *wrong* in a way that is hard to look away from. The chairs are heavy, upholstered in dark brass leather, with small cyan #22d3ee status indicators at the neck (all dark). **Far wall** holds a flat rectangular holographic display, two meters wide, one meter tall, currently dark and inert \u2014 a smooth dark composite surface with faint cyan edge strips. **Left wall** holds an embedded lockbox at waist height \u2014 a recessed rectangular compartment with a cyan biometric lock on its front door. The lock is currently **bright cyan #22d3ee, pulsing at sub-1 Hz** (a visible change from Beat E's dormant version \u2014 this lockbox recognizes the player is in range). **Right wall** holds a second embedded lockbox of identical dimensions but without a biometric lock \u2014 its door is slightly ajar, revealing a faint holographic glow spilling from inside (render as soft cyan edge-light, suggest a document waiting but do not render legible text). **Lighting**: no overhead lights. Illumination comes from cyan emergency floor strips, the central table's faint cyan brass-inlay glow, the two lockbox lights (left bright and pulsing, right soft and steady), and dim cyan pips at the base of each command chair. No warm lights in this room at all \u2014 the Briefing Room is the first room in the Prelude with **no amber anywhere**, a deliberate break from the Mess Hall's warmth. Volumetric fog at ankle height, slightly denser here than in adjacent rooms. Anamorphic lens flare on the bright pulsing left-wall lockbox. Film grain. Deep space black #010020 base. **No rendered text. No people. No holograms.** Cinematic 4K composition, three-quarter wide shot from the entrance doorway, standing eye level, framing the central table (dominant middle-ground), the eight chairs (with the askew chair creating subtle asymmetry), both lockboxes on the side walls (visible as secondary focal points), and the far-wall holo display (visible but not yet active). The mood: **the room where decisions happened, empty of the people who made them, with one chair pushed back forever.**"
+    },
+    {
+      "type": "cutscene_start_frame",
+      "section": {
+        "number": 11,
+        "title": "Beat F: Briefing Room \u2014 Kael Contingency Memo"
+      },
+      "subsection": {
+        "number": "11.4",
+        "title": "Cutscene \u2014 F: Briefing Room \u2014 Kael Contingency Memo"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-f-briefing-room.mp4",
+      "beat_id": "prelude-beat-f-briefing-room",
+      "duration": "30s",
+      "priority": "P0",
+      "prompt": "Identical composition to the \u00a711.3 Briefing Room still, but framed from just inside the entrance doorway, camera at standing eye level looking diagonally across the room with the central table in the lower-middle ground, the eight chairs arranged around it (the askew chair visible on the far side of the table), and both side-wall lockboxes visible in the mid-background. The left-wall lockbox's biometric lock is bright cyan, pulsing. The right-wall lockbox's door is already slightly ajar. The far-wall holo display is dark. Full color, no flashback treatment. 16:9, 4K, no text."
+    },
+    {
+      "type": "cutscene_end_frame",
+      "section": {
+        "number": 11,
+        "title": "Beat F: Briefing Room \u2014 Kael Contingency Memo"
+      },
+      "subsection": {
+        "number": "11.4",
+        "title": "Cutscene \u2014 F: Briefing Room \u2014 Kael Contingency Memo"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-f-briefing-room.mp4",
+      "beat_id": "prelude-beat-f-briefing-room",
+      "duration": "30s",
+      "priority": "P0",
+      "prompt": "Full front view of the Briefing Room's far wall, dominated by the holographic display now active and rendering the three-bullet **Kael Contingency Memo**. The display shows, in hand-written calligraphic cyan text, the three bullet points listed in \u00a711.4 above \u2014 fully legible and readable by the player as static text in the frame. The title \"If Kael is taken \u2014 a memo from the Engineer\" sits above the three bullets in the same hand. Below and to the left of the display, the right-wall lockbox is open, its interior dark and empty (the memo has risen out of it). In the left peripheral frame, Elara's hologram is visible standing silently, one arm lowered at her side, watching the player read. The central briefing table occupies the lower third of the frame with the eight chairs visible (the askew chair central). Full color. Cinematic 4K composition. **This is the one exception to the \"no rendered text\" rule** \u2014 the three memo bullets MUST be rendered legibly in the end frame because the player is meant to read them."
+    },
+    {
+      "type": "cutscene_motion",
+      "section": {
+        "number": 11,
+        "title": "Beat F: Briefing Room \u2014 Kael Contingency Memo"
+      },
+      "subsection": {
+        "number": "11.4",
+        "title": "Cutscene \u2014 F: Briefing Room \u2014 Kael Contingency Memo"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-f-briefing-room.mp4",
+      "beat_id": "prelude-beat-f-briefing-room",
+      "duration": "30s",
+      "priority": "P0",
+      "prompt": "Slow continuous camera work across three acts and one silent beat inside a 30-second runtime. **Act 1 (0\u20135s):** forward dolly from the doorway into the Briefing Room, standing eye level, revealing the central table, eight chairs, both lockboxes, and the dark far-wall display. Dust motes drift in the dim cyan floor-strip light. **Act 2 (5\u201314s):** camera glides left to the left-wall lockbox. At 7s Elara's hologram materializes beside the lockbox. At 8s the biometric lock flashes once (three-frame brighter pulse) and the lockbox door slides open. At 9s the cyan data-slate is revealed inside. At 11s Elara speaks the `elara_beat_f_213_entries` line. At 13s the slate's pulse slows and settles. **Silent beat (14\u201320s):** camera dollies back to a wide shot of the briefing table, Elara's hologram remaining in left-frame beside the open lockbox. 6 seconds of held silence. The askew chair is centered in the composition. Music drops to a single low sustained cello note, barely audible. **Act 3 (20\u201330s):** camera glides right to the right-wall lockbox. At 21s its door swings open fully. At 22s a pale cyan holographic sheet rises out of the lockbox and projects onto the far-wall display, which wakes to bright cyan. At 23s the document title appears (\"If Kael is taken \u2014 a memo from the Engineer\"). At 24s the first bullet renders, fully legible. At 26s the second bullet renders. At 28s the third bullet renders. Camera holds on the display for the final 2 seconds. Elara remains silently in left peripheral frame. 24fps. Cold, measured, documentarian tone \u2014 this is the room where decisions were made, not where feelings were expressed."
+    },
+    {
+      "type": "cutscene_start_frame",
+      "section": {
+        "number": 12,
+        "title": "Beat F.5: Empty Chair (Breath Beat)"
+      },
+      "subsection": {
+        "number": "12.4",
+        "title": "Cutscene \u2014 F.5: Empty Chair"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-f5-empty-chair.mp4",
+      "beat_id": "prelude-beat-f5-empty-chair",
+      "duration": "90s",
+      "priority": "P0",
+      "prompt": "Medium-close shot of the askew eighth chair in the crew Briefing Room aboard Ark 1047. The chair is pushed back ~40cm from the central command table and angled slightly away. Dark brass leather upholstery, heavy construction, small cyan status indicator at the neck (dark). The other seven chairs are visible in soft focus in the background, tight to the table. The central table occupies the lower third of the frame, its surface dark and inert. The far-wall holographic display is visible in the deep background, powered off. No rim-light yet \u2014 the chair is lit only by cyan floor strips and faint cyan table glow. Dust motes in the air. Volumetric fog ankle height. Full color, no flashback treatment. 16:9, 4K, no text."
+    },
+    {
+      "type": "cutscene_end_frame",
+      "section": {
+        "number": 12,
+        "title": "Beat F.5: Empty Chair (Breath Beat)"
+      },
+      "subsection": {
+        "number": "12.4",
+        "title": "Cutscene \u2014 F.5: Empty Chair"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-f5-empty-chair.mp4",
+      "beat_id": "prelude-beat-f5-empty-chair",
+      "duration": "90s",
+      "priority": "P0",
+      "prompt": "Same shot as the mid frame, 30 seconds later. The rim-light has reached full intensity then begun fading back \u2014 the end frame shows the rim-light at ~20% intensity, clearly dimmer than the mid frame's 40%. The chair is almost cold again. The room is cold again. The composition is held. The mood is **the light has left, the words have been said, the chair is still the chair**. 16:9, 4K, no text."
+    },
+    {
+      "type": "cutscene_motion",
+      "section": {
+        "number": 12,
+        "title": "Beat F.5: Empty Chair (Breath Beat)"
+      },
+      "subsection": {
+        "number": "12.4",
+        "title": "Cutscene \u2014 F.5: Empty Chair"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-f5-empty-chair.mp4",
+      "beat_id": "prelude-beat-f5-empty-chair",
+      "duration": "90s",
+      "priority": "P0",
+      "prompt": "Minimal motion across 90 seconds. **Act 1 (0\u201320s):** held medium-close shot of the askew eighth chair, no camera movement. Dust motes drift in dim cyan light. No audio change. **Act 2 (20\u201345s):** very slow continuous zoom-in toward the chair \u2014 less than 1 degree of FOV change per second, almost imperceptible. Dust motes continue. **Act 3 (45\u201373s):** zoom halts. Subtle warm-amber `#fbbf24` rim-light begins building along the chair's upper edge and left armrest, over 28 seconds, reaching maximum intensity at 73s. Directional rim-light only \u2014 the rest of the room stays cold cyan. No audio change during buildup. **Act 4 (73\u201387s):** at 73s the `human_beat_f5_empty_chair` VO line begins playing (see \u00a712.5). Camera held, rim-light held at max intensity. At 87s the line ends. **Act 5 (87\u201390s):** rim-light fades back to zero over 3 seconds. Chair is cold again. Cutscene ends. 24fps. Still, patient, grief-adjacent. This is the slowest beat in the Prelude. Embrace it."
+    },
+    {
+      "type": "room_image",
+      "section": {
+        "number": 13,
+        "title": "Beat G: Medical Bay"
+      },
+      "subsection": {
+        "number": "13.3",
+        "title": "Art \u2014 Medical Bay environment still"
+      },
+      "output": "apps/client/public/art/rooms/room-medical-bay.png",
+      "priority": "P0",
+      "prompt": "Hyper-realistic cinematic still, 16:9, 4K. Interior of the crew Medical Bay aboard Ark 1047 \u2014 a clinical space approximately ten meters wide and seven meters deep with a slightly-arched four-meter ceiling. **The back wall** holds **four medical pods** arranged in a disciplined row \u2014 dark brass-and-white composite cylinders, each two meters long, canted at a slight incline for patient access, with transparent armored glass front panels. Three of the four med-pods are dark and cold (their glass panels opaque with 17,000 years of interior dust). **The fourth med-pod, second from the left, is faintly active** \u2014 its glass panel emitting a dim cyan #22d3ee internal glow, pulsing slowly at sub-0.5 Hz, as if something inside it is still running on the last watts of a dying standby cell. The cyan glow is so faint it reads almost as an afterimage. **Dead center of the room, a surgical console** \u2014 a rectangular workstation with a flat composite work surface, an articulated overhead boom arm currently swung aside, a sterile silver tray to one side of the console holding **exactly three empty glass syringes arranged in a disciplined parallel row** (render the syringes clearly \u2014 their emptiness is the point). The console's surface shows a **faint scorch arc** along its left edge \u2014 a curved discoloration suggesting heat damage from a single event that occurred long ago, left uncleaned. **Right wall** holds a recessed **neural-rig workstation** \u2014 a small alcove with a contoured chair, a flat desk surface, and a silver-and-brass neural headset hanging from a cable plugged into the workstation's primary port. The headset dangles motionless, caught partway between the port and the chair's headrest as if the last user lifted it off and set it down without quite returning it to its cradle. A small cyan status pip on the workstation is lit steady \u2014 the rig is powered, idle, waiting. **Left wall** holds a sealed alcove \u2014 a recessed hatch with a heavy armored door labeled (render no legible text but suggest engraved markings) \"TRANSFER ARRAY \u2014 AUTHORIZED PERSONNEL ONLY.\" The door is locked. Above the door, **a single amber-yellow #fbbf24 standby indicator** is lit steady \u2014 not pulsing, not flashing, just *on*. The amber light is one of only three warm-colored lights in the entire Prelude (the Mess Hall service light and the Beat F.5 chair rim-light are the other two). Its placement marks the transfer-array as thematically significant without explaining why. **Lighting**: no overhead lights in the main room. Illumination comes from cyan emergency floor strips, the cyan edge-strips on the four med-pods (including the faintly-active fourth pod's inner glow), the dim cyan pip on the neural-rig workstation, and the amber standby light above the transfer-array door. The amber is the only warm color in frame. Volumetric fog at ankle height, slightly denser here than in adjacent rooms (medical atmosphere is canonically thicker). Anamorphic lens flare on the amber transfer-array standby light and a softer flare on the faintly-active fourth med-pod. Film grain. Deep space black #010020 base. **No rendered text** on the transfer-array door label, the console's control surfaces, the med-pod status panels, or the neural-rig workstation. **No people. No holograms.** Cinematic 4K composition, three-quarter wide shot from the entrance doorway, standing eye level, framing the four med-pods on the back wall (middle ground), the central surgical console (lower middle with the sterile tray visible), the neural-rig workstation on the right wall (side focal point), and the locked transfer-array alcove on the left wall (the amber standby light drawing the eye to the one warm point in the frame). The mood: **a room where a specific person worked on a specific problem for a long time, left mid-task, and never came back.**"
+    },
+    {
+      "type": "cutscene_start_frame",
+      "section": {
+        "number": 13,
+        "title": "Beat G: Medical Bay"
+      },
+      "subsection": {
+        "number": "13.4",
+        "title": "Cutscene \u2014 G: Medical Bay"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-g-medical-bay.mp4",
+      "beat_id": "prelude-beat-g-medical-bay",
+      "duration": "25s",
+      "priority": "P0",
+      "prompt": "Identical composition to the \u00a713.3 Medical Bay still, framed from just inside the entrance doorway. The central surgical console is in the right-middle ground with the sterile tray of three syringes visible. The four med-pods are on the back wall (the faintly-active fourth pod's cyan glow softly visible). The neural-rig workstation is on the right wall with the hung headset. The locked transfer-array alcove is on the left wall, the amber standby light visible above the hatch. Full color. No camera movement yet \u2014 this is the still before the cutscene begins. 16:9, 4K, no text."
+    },
+    {
+      "type": "cutscene_end_frame",
+      "section": {
+        "number": 13,
+        "title": "Beat G: Medical Bay"
+      },
+      "subsection": {
+        "number": "13.4",
+        "title": "Cutscene \u2014 G: Medical Bay"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-g-medical-bay.mp4",
+      "beat_id": "prelude-beat-g-medical-bay",
+      "duration": "25s",
+      "priority": "P0",
+      "prompt": "Close shot of the locked transfer-array alcove on the left wall. The heavy armored hatch fills most of the frame, its engraved label visible but unreadable (no rendered text). Above the hatch, the single amber-yellow #fbbf24 standby indicator is lit steady \u2014 the only warm color in the frame. The rest of the Medical Bay is visible in soft peripheral blur: the surgical console behind camera-right, the med-pods in deep background, the neural-rig workstation in the right edge. The amber light is the dominant focal point. The mood: **a locked door that has been waiting for the right person for seventeen thousand years, and the right person has not arrived yet.**"
+    },
+    {
+      "type": "cutscene_motion",
+      "section": {
+        "number": 13,
+        "title": "Beat G: Medical Bay"
+      },
+      "subsection": {
+        "number": "13.4",
+        "title": "Cutscene \u2014 G: Medical Bay"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-g-medical-bay.mp4",
+      "beat_id": "prelude-beat-g-medical-bay",
+      "duration": "25s",
+      "priority": "P0",
+      "prompt": "Slow continuous camera work across three acts inside a 25-second runtime. **Act 1 (0\u201310s):** diagonal dolly from the entrance doorway across the Medical Bay, passing the surgical console on the right and the neural-rig workstation on the left. Dust motes drift. Ambient neural-rig hum + transfer-array standby tone layered at ~55%. **Act 2 (10\u201317s):** camera slows and holds briefly on the sterile silver tray with the three empty syringes on the surgical console. Scorch arc visible in soft focus. 7 seconds of held shot. No VO. **Act 3 (17\u201325s):** camera glides left to the transfer-array alcove. At 20s the amber standby light becomes the dominant focal point. Camera holds on the amber light for the final 5 seconds. Fade to black at 25s. 24fps. Clinical, patient, environmental-storytelling tone."
+    },
+    {
+      "type": "room_image",
+      "section": {
+        "number": 14,
+        "title": "Beat H: Comms Array + NPC Inbox + Locke's First Message"
+      },
+      "subsection": {
+        "number": "14.3",
+        "title": "Art \u2014 Comms Array environment still"
+      },
+      "output": "apps/client/public/art/rooms/room-comms-array.png",
+      "priority": "P0",
+      "prompt": "Hyper-realistic cinematic still, 16:9, 4K. Interior of the Comms Array aboard Ark 1047 \u2014 a cramped utilitarian room approximately six meters wide and eight meters deep with a ceiling of three meters, ceiling crossed by exposed cyan-edged brass conduits and cable bundles. **The back wall** is dominated by the **signal intake matrix** \u2014 a large rectangular grid of twenty-four small antenna-relay panels arranged in a six-wide-by-four-tall pattern, each panel approximately forty centimeters square, each with a small cyan indicator at the top-center. The matrix occupies most of the wall, from knee height to just below the ceiling. **Eighteen of the twenty-four panels are dark** (their indicators dead, their surfaces dust-coated), and **six of the twenty-four are lit cyan #22d3ee** \u2014 two in the upper-left quadrant, three in the middle row, and one in the lower-right. The six lit panels suggest the Ark is still listening to six of its twenty-four original signal-intake channels. **Dead center of the room, a curved central console** \u2014 roughly two meters wide, a dark composite work surface with an articulated holographic interface projecting a soft cyan field approximately sixty centimeters above the console's surface. The holographic field is currently showing **a single fresh-message indicator** \u2014 a small cyan envelope-glyph at the center of the projected field, rendered with slight bloom (suggest \"new incoming message\" without rendering any legible text on the envelope itself). A small amber #fbbf24 \"1\" counter is visible above the envelope \u2014 the room's third warm light in the Prelude. Below the holographic field, the console's physical surface has a few tactile controls (dark composite buttons and a small dial, no legible labels) and a dim cyan pip on the lower-right. **Left wall** holds a small recessed shelf with a neat row of dark-bound paperbound archive binders \u2014 suggest ~twelve binders standing vertically on the shelf, worn but intact. **Right wall** holds a wheeled archival cart \u2014 a four-wheeled metal frame holding three shelves, each shelf stacked with old memo slates (rectangular composite tablets, approximately book-sized, most dark but two still faintly glowing cyan). The cart is parked slightly askew, blocking a narrow pathway to a service hatch on the right wall behind it. **Lighting**: no overhead lights. Illumination comes from cyan emergency floor strips, the six lit signal intake matrix panels (back wall), the central console's holographic field and its cyan pip, the amber \"1\" counter above the message envelope, and the two faintly-glowing memo slates on the archival cart. The amber counter is the only warm light. Volumetric fog at ankle height, slightly thinner than Medical Bay \u2014 the Comms Array has better air circulation due to the active cooling fans in the exposed ceiling conduits. Anamorphic lens flare on the amber counter glyph and on the brightest signal intake panel. Film grain. Deep space black #010020 base. **No rendered text anywhere** \u2014 the envelope glyph, the archive binder spines, the memo slate surfaces, and the console controls all remain label-free. **No people. No holograms** (Elara's hologram appears only in the cutscene, standing silently beside the console). Cinematic 4K composition, three-quarter wide shot from the entrance doorway, standing eye level, framing the central console (dominant middle), the signal intake matrix (commanding the back wall), the archival cart (right foreground), and the archive binder shelf (left middle). The mood: **a small room where a small amount of information has been trickling in for seventeen thousand years, and one of the pieces of information is new**."
+    },
+    {
+      "type": "cutscene_start_frame",
+      "section": {
+        "number": 14,
+        "title": "Beat H: Comms Array + NPC Inbox + Locke's First Message"
+      },
+      "subsection": {
+        "number": "14.4",
+        "title": "Cutscene \u2014 H: Locke's First Message"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-h-comms-array.mp4",
+      "beat_id": "prelude-beat-h-comms-array",
+      "duration": "25s",
+      "priority": "P0",
+      "prompt": "Identical composition to the \u00a714.3 Comms Array still, framed from just inside the entrance doorway. The central console dominates the middle-ground with its idle holographic field showing the cyan envelope glyph and the amber \"1\" counter floating above. Elara's translucent cyan hologram stands beside the console on the left side of frame, facing the console with her back three-quarters turned to the camera \u2014 she is waiting, not guiding. The signal intake matrix fills the back wall. The archival cart is in the right foreground. Full color, no text rendered. 16:9, 4K."
+    },
+    {
+      "type": "cutscene_end_frame",
+      "section": {
+        "number": 14,
+        "title": "Beat H: Comms Array + NPC Inbox + Locke's First Message"
+      },
+      "subsection": {
+        "number": "14.4",
+        "title": "Cutscene \u2014 H: Locke's First Message"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-h-comms-array.mp4",
+      "beat_id": "prelude-beat-h-comms-array",
+      "duration": "25s",
+      "priority": "P0",
+      "prompt": "Close-up three-quarter view of the message reader UI, the full Locke message body now fully rendered and held. The header strip shows \"LOCKE\" + glyph-timestamp, the separator line, and the full message body below. The final clause of the message is **highlighted subtly** \u2014 the last sentence has a slightly brighter cyan glow than the rest of the text, suggesting it has just been read/spoken. Elara's hologram is visible on the far left edge of frame, silent. The camera has tightened very slightly on the reader \u2014 less than 3% scale change from the mid frame. 16:9, 4K, message text rendered fully legibly."
+    },
+    {
+      "type": "cutscene_motion",
+      "section": {
+        "number": 14,
+        "title": "Beat H: Comms Array + NPC Inbox + Locke's First Message"
+      },
+      "subsection": {
+        "number": "14.4",
+        "title": "Cutscene \u2014 H: Locke's First Message"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-h-comms-array.mp4",
+      "beat_id": "prelude-beat-h-comms-array",
+      "duration": "25s",
+      "priority": "P0",
+      "prompt": "Slow continuous camera work across four acts inside a 25-second runtime. **Act 1 (0\u20135s):** forward dolly from entrance doorway into the Comms Array, standing eye level. Elara's hologram is already standing beside the central console on the left, silent. The amber \"1\" counter above the holographic field is the visual focal point. **Act 2 (5\u20139s):** camera glides to three-quarter front view of the console. Holographic field expands from idle size (60cm) to reader size (90cm \u00d7 120cm) over 2 seconds. The envelope glyph unfolds into a full message reader UI pattern with the sender name \"LOCKE\" rendering legibly in the header strip. **Act 3 (9\u201324s):** at 9s the message body text renders all at once as a legible block. At 10s the `locke_beat_h_first_message` VO begins playing. Camera holds on the message reader for 14 seconds, giving the player time to both read the body and hear it spoken. **Act 4 (24\u201325s):** at 22s (during the VO's final clause) the camera tightens less than 3% scale on the message text, and the last sentence's cyan glow brightens subtly. At 24s the line ends. At 25s fade to black. 24fps. Businesslike, warm-on-the-surface, with one beat of subtle edge at the end."
+    },
+    {
+      "type": "cutscene_start_frame",
+      "section": {
+        "number": 16,
+        "title": "Beat I: Bridge \u2014 Witnessing Hub Activate"
+      },
+      "subsection": {
+        "number": "16.4",
+        "title": "Cutscene \u2014 I: Witnessing Hub Activate (Primary Lights Restore)"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-i-bridge-witnessing.mp4",
+      "beat_id": "prelude-beat-i-bridge-witnessing-activate",
+      "duration": "40s",
+      "priority": "P0",
+      "prompt": "Cinematic still of the Bridge aboard Ark 1047, framed from the rear of the command crescent looking forward toward the panoramic viewport. Full cold-cyan palette consistent with every prior Prelude room: cyan floor strips, dormant cyan duty-station pips, dim cyan emergency lighting, and the faint cold light from the polarized panoramic viewport showing the debris graveyard in silhouette. The Witnessing Hub dominates the rear wall behind camera \u2014 its circular brass-and-cyan surface visible in the peripheral/background of the composition, central well dark, twelve radial spokes dark. The five duty stations of the command crescent are visible in the middle-ground (captain's chair centered, four flanking officer stations), all dark. Full color, no warm lights anywhere in frame. 16:9, 4K, no text."
+    },
+    {
+      "type": "cutscene_end_frame",
+      "section": {
+        "number": 16,
+        "title": "Beat I: Bridge \u2014 Witnessing Hub Activate"
+      },
+      "subsection": {
+        "number": "16.4",
+        "title": "Cutscene \u2014 I: Witnessing Hub Activate (Primary Lights Restore)"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-i-bridge-witnessing.mp4",
+      "beat_id": "prelude-beat-i-bridge-witnessing-activate",
+      "duration": "40s",
+      "priority": "P0",
+      "prompt": "Full warm-sodium-gold Bridge. All five duty stations lit with amber-gold console illumination. Captain's chair armrests glowing. Panoramic viewport's polarization partially lifted, admitting more starlight from the debris graveyard outside. Witnessing Hub at rear wall fully active with cyan-white hemisphere. Elara's hologram still visible beside the Hub, hand lowered, silent. Dust motes drifting in warm gold light throughout. Anamorphic lens flares on the captain's chair, the brightest duty station, and the Hub's hemisphere. The Bridge is *alive*. This is the only frame in the Prelude where the Ark looks like the ship it used to be. 16:9, 4K, no text."
+    },
+    {
+      "type": "cutscene_motion",
+      "section": {
+        "number": 16,
+        "title": "Beat I: Bridge \u2014 Witnessing Hub Activate"
+      },
+      "subsection": {
+        "number": "16.4",
+        "title": "Cutscene \u2014 I: Witnessing Hub Activate (Primary Lights Restore)"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-i-bridge-witnessing.mp4",
+      "beat_id": "prelude-beat-i-bridge-witnessing-activate",
+      "duration": "40s",
+      "priority": "P0",
+      "prompt": "Continuous camera work across six acts inside a 40-second runtime. **Act 1 (0\u20138s):** camera rises from below (suggesting ascent from the Comms Array exit hatch to the Bridge level), arriving at the rear of the command crescent, facing forward. Full cold cyan palette. Witnessing Hub dormant in peripheral view. **Act 2 (8\u201316s):** camera glides toward the Witnessing Hub on the rear wall. Elara's hologram materializes beside the Hub's central well at 10s. At 12s Elara raises her right hand in a slow offering gesture. At 14s UI \"PRESS TO ACTIVATE\" prompt fades up. At 16s cutscene HOLDS for player input (indefinite \u2014 does not auto-advance). **Act 3 (16\u201322s):** on input, Hub's central well flares bright. Hemispheric cyan-white bloom rises over 3 seconds to ~1.5m height. Twelve radial spokes light sequentially clockwise from 12 o'clock over 3 seconds. At 22s hemisphere at max intensity. **Act 4 (22\u201330s):** primary-light-restoration cascade begins. Wave of warm sodium-gold #fde68a light travels forward from the Hub toward the viewport over 4 seconds. Each duty station lights as the wave passes. Captain's chair lights at 26s. Viewport reached at 28s, polarization lifts partially. At 30s the Bridge is fully lit warm sodium-gold. **Act 5 (30\u201338s):** slow camera pan across the warmly-lit Bridge showing duty stations, captain's chair, viewport, and the still-active Hub. 8 seconds of held warmth. Ambient audio bed shifts to powered-systems mix. **Act 6 (38\u201340s):** primary lights dim back to cold cyan over 2 seconds. Witnessing Hub hemisphere remains active. Fade to black at 40s. 24fps. Reverent, awe-tinted, the biggest visual transformation in the Prelude."
+    },
+    {
+      "type": "room_image",
+      "section": {
+        "number": 17,
+        "title": "Beat J: Archives + Two Witnesses Meet Part 1"
+      },
+      "subsection": {
+        "number": "17.3",
+        "title": "Art \u2014 Archives environment still"
+      },
+      "output": "apps/client/public/art/rooms/room-archives.png",
+      "priority": "P0",
+      "prompt": "Hyper-realistic cinematic still, 16:9, 4K. Interior of the Archives aboard Ark 1047 \u2014 a circular domed room approximately ten meters in diameter with a domed ceiling rising to five meters at its peak. **Dead center of the room, a tall waist-height pedestal** \u2014 cylindrical dark composite with brass ring inlays, one meter tall and sixty centimeters in diameter, topped by a recessed circular **holo-projection well** approximately forty centimeters across. The well is currently inactive \u2014 its interior is dark, no hologram is projecting, only a faint cyan #22d3ee edge-glow around the well's rim indicating powered-standby. **Along the curved walls**, twelve archive plinths arranged evenly around the room's circumference \u2014 each plinth is a small waist-height stand of dark composite with a brass top plate, each supporting **a single memory-crystal**: a small rectangular crystal cube approximately 10 centimeters square, faintly glowing cyan from within. Eleven of the twelve crystals are dim (steady dull cyan \u2014 dormant but still holding their content). **One crystal on the far wall directly opposite the entrance is brighter than the others** \u2014 pulsing at sub-0.5 Hz, clearly containing content the room is \"currently holding ready\" for the player. This is the Log 5 crystal, seeded by Elara off-screen in preparation for this beat. **The domed ceiling** is a single smooth surface of dark composite with **a circular star-chart etched into it** \u2014 the etching shows constellations approximately thirty centimeters across in faint gold `#fde68a` lines. The star-chart is the canonical star-sky that the Ark was originally pointed at during its construction era; those stars are now canonically long gone from this era's sky, which the player cannot see from inside the Archives. The etching is subtle \u2014 visible but not dominant. **Entrance doorway** on one wall is a simple arched composite frame, dark. No windows. **Lighting**: no overhead lights. Illumination comes from cyan emergency floor strips around the circular wall, the faint cyan glow from each of the twelve memory-crystals (especially the brighter Log 5 crystal), the cyan rim-glow around the holo-projection well on the central pedestal, a very faint ambient cyan wash from the etched star-chart on the ceiling (the gold etching is barely reflecting the cyan floor light), and \u2014 **in the far background visible through the doorway** \u2014 the amber `#fbbf24` standby light of the Medical Bay's transfer-array alcove (\u00a713.3), visible as a small distant warm point through the open archive door. The amber point is approximately 10% of the frame's right edge. It is the **only warm light in the Archives composition** and it is technically *outside* the room \u2014 a continuity hook linking Beat J to Beat G. Volumetric fog at ankle height, slightly thinner than adjacent rooms (archival climate is canonically drier). Anamorphic lens flare on the brighter Log 5 memory-crystal on the far wall, the central pedestal's rim-glow, and the distant amber transfer-array point through the doorway. Film grain. Deep space black #010020 base. **No rendered text** on any of the crystals, plinths, the pedestal, or the ceiling star-chart (the star-chart etching suggests constellation shapes but contains no legible star names or coordinates). **No people. No holograms.** Both the Antiquarian and the Enigma are absent from the base still \u2014 they are rendered into the cutscene as separate figure layers, not baked into the room asset. Cinematic 4K composition, three-quarter wide shot from the entrance doorway, standing eye level, framing the central pedestal (dominant mid-ground), the twelve archive plinths arranged in the curved background, the domed ceiling with its star-chart etching, and the far doorway with the distant amber transfer-array light visible through it. The mood: **a quiet circular room where twelve memories have been kept for seventeen thousand years, and one of them is about to be played.**"
+    },
+    {
+      "type": "cutscene_start_frame",
+      "section": {
+        "number": 17,
+        "title": "Beat J: Archives + Two Witnesses Meet Part 1"
+      },
+      "subsection": {
+        "number": "17.4",
+        "title": "Cutscene \u2014 J: Archives + Two Witnesses Meet Part 1"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-j-archives.mp4",
+      "beat_id": "prelude-beat-j-archives-two-witnesses",
+      "duration": "**~8m10s** (not 60s as a stale Master Index might suggest \u2014 the cutscene contains the full 6m40s Log 5 playback + the 1-second canonical silence + *Last Words* song intro + first Light/Dark choice UI appearance and resolution). This is the longest single cutscene in the entire Prelude, and its length is load-bearing \u2014 the Log 5 transcript is canonically one continuous take and cannot be compressed",
+      "priority": "P0",
+      "prompt": "Cinematic still of the Archives aboard Ark 1047, framed from just inside the entrance doorway. Full cold-cyan palette. The central pedestal with its inactive holo-projection well occupies the middle of the frame. The twelve archive plinths curve around the background; the Log 5 crystal on the far wall is visibly brighter than the other eleven, pulsing subtly. **The Enigma is visible** standing in the eleven-o'clock position relative to the pedestal, three-quarters back view to camera \u2014 render her as a woman in a dark traveling coat, a deep-purple scarf that catches the cyan light with a slight violet edge-glow, her hair pulled back, her hands clasped in front of her at waist level, her gaze fixed on the central pedestal. She is silent, still, and clearly *waiting*. The Antiquarian is NOT yet in frame (he enters in Act 2). The etched gold star-chart on the domed ceiling is visible but subtle. Through the entrance doorway (partially visible behind the camera's side), the distant amber transfer-array standby light from Beat G is a small warm point at the right edge of frame. 16:9, 4K, no text."
+    },
+    {
+      "type": "cutscene_end_frame",
+      "section": {
+        "number": 17,
+        "title": "Beat J: Archives + Two Witnesses Meet Part 1"
+      },
+      "subsection": {
+        "number": "17.4",
+        "title": "Cutscene \u2014 J: Archives + Two Witnesses Meet Part 1"
+      },
+      "output": "apps/client/public/videos/prelude/prelude-beat-j-archives.mp4",
+      "beat_id": "prelude-beat-j-archives-two-witnesses",
+      "duration": "**~8m10s** (not 60s as a stale Master Index might suggest \u2014 the cutscene contains the full 6m40s Log 5 playback + the 1-second canonical silence + *Last Words* song intro + first Light/Dark choice UI appearance and resolution). This is the longest single cutscene in the entire Prelude, and its length is load-bearing \u2014 the Log 5 transcript is canonically one continuous take and cannot be compressed",
+      "priority": "P0",
+      "prompt": "Wide shot of the Archives with the **Light/Dark choice UI visible center-screen**. The UI is a vertical pale pillar approximately 2 meters tall, floating at standing eye level centered between the camera and the pedestal. The pillar is split vertically down its center line: the **left half is soft-gold `#fde68a`** (Light), the **right half is deep-violet `#1e1b4b`** (Dark). No text labels, no icons, no prompts. The Antiquarian is visible on the right side of the composition, the Enigma on the left, both watching the player, both silent. The central pedestal is still in frame behind the choice pillar, the Prince hologram is still gently glowing in real-color inside the well. Around the peripheral edges of the frame, the warm-amber halo from Act 10's buildup has reached full intensity \u2014 the Archives is held in a soft amber peripheral glow that does not touch the center of the frame (where the choice UI is) but frames the composition. *Last Words* is canonically audible (the first chorus line *\"Freedom of thought is worth dying for\"* has just been sung as the choice UI appeared). 16:9, 4K, no text on the choice UI, no text anywhere."
+    },
+    {
+      "type": "room_image",
+      "section": {
+        "number": 20,
+        "title": "Cross-References and P1 Backfill Specifications"
+      },
+      "subsection": {
+        "number": "20.2",
+        "title": "P1 Backfill \u2014 Armory"
+      },
+      "output": null,
+      "priority": null,
+      "prompt": "Hyper-realistic cinematic still, 16:9, 4K. Interior of the crew Armory aboard Ark 1047 \u2014 a long rectangular room approximately twelve meters deep and five meters wide with a ceiling of three meters, lit only by emergency cyan floor strips and a few dim cyan equipment-rack indicators. **Both long walls** are lined with **tall weapon racks** \u2014 floor-to-ceiling composite cabinets with transparent armored glass fronts, each rack divided into vertical slots. Each slot holds a single weapon or piece of equipment: sidearms on the upper slots, long-barrel rifles in the middle, heavier breach tools and armored vests on the lower slots. Render approximately 24 slots per rack, both racks visible, for a total of ~48 weapon slots in frame. **Many slots are empty** (the canonical last-missions of the Ark's original crew took weapons with them), but **approximately 60% of slots still hold their contents** \u2014 suggest disciplined rows of matching weapons without rendering any legible manufacturer markings or serial numbers. The surviving weapons are dust-coated but intact, their metal surfaces still catching the dim cyan light. **The floor** down the center of the armory is a clean composite with inlaid cyan-edged floor tiles forming a central aisle. At the far end of the aisle, **a single ammunition-preparation table** \u2014 waist-height, brass-and-composite, with small brass bins along its back edge and an empty loading bench surface in front. One of the small brass bins holds **a neat row of empty brass shell casings arranged in a disciplined parallel row** \u2014 the most recent evidence of the room being used, many years ago. **The entrance wall** (behind camera in the wide shot) would hold the armory door with a biometric lock (not visible in this composition, camera is looking away from the door). **Lighting**: no overhead lights. Cyan floor strips along the central aisle, dim cyan indicator pips on each weapon rack (most dark, some faintly lit), one soft cyan wash from the overhead cyan conduit running the length of the ceiling, and a single amber-yellow `#fbbf24` standby light above the ammunition-preparation table at the far end (the room's fourth warm light in the Prelude universe, placed as a thematic callback to the Mess Hall service light and the Medical Bay transfer-array standby). Volumetric fog at ankle height, slightly thinner than other rooms \u2014 the armory is sealed and has the best air circulation. Anamorphic lens flare on the amber standby light and on the brightest cyan rack indicator. Film grain. Deep space black #010020 base. **No rendered text** on the weapons, the racks, the brass bins, or the walls. **No people. No holograms.** Cinematic 4K composition, wide shot from inside the armory doorway looking down the central aisle toward the ammunition-preparation table at the far end, with both weapon racks flanking the aisle receding into the depth of the composition. The mood: **a disciplined room where disciplined people kept disciplined equipment, and the discipline outlived the people.**"
+    },
+    {
+      "type": "room_image",
+      "section": {
+        "number": 20,
+        "title": "Cross-References and P1 Backfill Specifications"
+      },
+      "subsection": {
+        "number": "20.3",
+        "title": "P1 Backfill \u2014 Captain's Quarters"
+      },
+      "output": null,
+      "priority": null,
+      "prompt": "Hyper-realistic cinematic still, 16:9, 4K. Interior of the Ark 1047 captain's quarters \u2014 a small private cabin approximately five meters wide and seven meters deep with a ceiling of two and a half meters, more intimate than the crew rooms. **The far wall** holds a small single bunk along its length \u2014 a narrow composite-frame bed with a dark woven blanket folded at its foot in a crisp military style, a single pillow at its head, and a shelf above the bunk holding three or four paperbound books stacked horizontally (no legible spines). **The right wall** holds a small **holo-bench workstation** \u2014 a recessed alcove with a contoured work chair, a flat composite desk surface, and a silver-and-brass holo-projector embedded in the desk's center. The holo-projector is currently dormant, its cyan status pip lit steady (powered idle). A neat stack of three paperbound notebooks sits on the desk's left edge beside a single metal pen. **This is canonically where `holo_deck_remembers` was recorded** (the Prince's \"order 7\" holo-log per `CANON_REV_7_ORACLE_VEX_EXPANSION.md` \u00a75.6.14). **The left wall** holds a small closet with a composite door ajar just enough to suggest the contents are hanging neatly inside (render no legible detail). Beside the closet, a small framed photograph on the wall \u2014 the frame is approximately 20cm \u00d7 15cm, the photograph itself rendered as unreadable detail (suggest a figure or scene but do not render faces or legible elements). **The entrance wall** (behind camera) holds the cabin door. **Lighting**: no overhead lights. Illumination comes from cyan emergency floor strips, the dim cyan status pip on the holo-bench, a single small amber-yellow `#fbbf24` desk lamp on the holo-bench (warm color, reading-light quality \u2014 the fifth warm light in the Prelude universe, placed on the Prince's personal workstation as a signifier of where he worked privately), and a very faint cyan wash from a small overhead vent fan on the ceiling. Volumetric fog at ankle height, much fainter here than in other rooms \u2014 the captain's quarters is sealed, the air is still and clean. Anamorphic lens flare on the amber desk lamp and on the holo-bench's cyan pip. Film grain. Deep space black #010020 base. **No rendered text** on the book spines, the notebook covers, the framed photograph, or any other surface. **No people. No holograms** (the `holo_deck_remembers` recording plays only when triggered \u2014 the base still shows the room empty). Cinematic 4K composition, three-quarter wide shot from just inside the entrance doorway, standing eye level, framing the bunk on the far wall (middle ground), the holo-bench workstation on the right (side focal point with the amber desk lamp drawing the eye), and the closet and framed photograph on the left (soft secondary details). The mood: **a small private cabin that belonged to a specific person who kept his things exactly where he wanted them and then did not come back to disturb them.**"
+    },
+    {
+      "type": "voice_csv",
+      "section": {
+        "number": 3,
+        "title": "Beat A: Cryo Wake"
+      },
+      "subsection": {
+        "number": "3.5",
+        "title": "VO \u2014 Beat A new lines"
+      },
+      "output": null,
+      "csv": "elara_beat_a_five_pods,Elara,elara,0.65,0.85,0.30,true,\"There are five more pods on this row. They are not empty.<break time=\"\"900ms\"\"/>They are sleeping.\",\"Quiet wonder, almost protective. Long pause before 'sleeping.' Do not punch the word \u2014 land it.\",P0"
+    },
+    {
+      "type": "voice_csv",
+      "section": {
+        "number": 6,
+        "title": "Beat C: Engineering \u2014 Crew Role Choice + Six Incubators"
+      },
+      "subsection": {
+        "number": "6.5",
+        "title": "VO \u2014 Beat C new lines"
+      },
+      "output": null,
+      "csv": "elara_beat_c_six_incubators,Elara,elara,0.65,0.85,0.30,true,\"Six incubator pods. Dr. Lyra Vox built them into every Ark.<break time=\"\"500ms\"\"/>The Collector's archive is in there.<break time=\"\"500ms\"\"/>None of them are running yet.<break time=\"\"700ms\"\"/>They are waiting for someone to choose.\",\"Quiet, factual, reverent. Half-second pause after 'Lyra Vox' and 'the Collector.' Do not punch the ending \u2014 let silence carry it.\",P0"
+    },
+    {
+      "type": "voice_csv",
+      "section": {
+        "number": 7,
+        "title": "Beat C.5: Window (Breath Beat)"
+      },
+      "subsection": {
+        "number": "7.5",
+        "title": "VO \u2014 Beat C.5 new line"
+      },
+      "output": null,
+      "csv": "human_beat_c5_first_breath,The Human,the_human,0.55,0.85,0.40,true,\"I'm not supposed to be able to do this yet.<break time=\"\"600ms\"\"/>Whisper, not a voice.<break time=\"\"500ms\"\"/>Don't tell her \u2014 she's listening to a different frequency.<break time=\"\"700ms\"\"/>I just wanted you to know that you're not alone in here.<break time=\"\"500ms\"\"/>You never have been.<break time=\"\"400ms\"\"/>You won't be.\",\"Intimate whisper, unbearably close. Not seductive, not menacing \u2014 just present. Bring static layer very low; this is the quietest he ever gets in the game.\",P0"
+    },
+    {
+      "type": "voice_csv",
+      "section": {
+        "number": 8,
+        "title": "Beat D: Cargo Bay \u2014 Trade Empire Seed + Locke Mission Board"
+      },
+      "subsection": {
+        "number": "8.5",
+        "title": "VO \u2014 Beat D new lines"
+      },
+      "output": null,
+      "csv": "elara_beat_d_17000_year_mission,Elara,elara,0.65,0.85,0.30,true,\"That mission has been posted for 17,000 years.<break time=\"\"900ms\"\"/>Nobody has taken it.<break time=\"\"500ms\"\"/>It is the simplest one.<break time=\"\"500ms\"\"/>The salvage is still there.\",\"Quiet wonder edged with grief. Long beat after '17,000 years.' Each sentence its own breath. End on 'still there' without inflection.\",P0"
+    },
+    {
+      "type": "voice_csv",
+      "section": {
+        "number": 9,
+        "title": "Beat D.5: Galley (Breath Beat)"
+      },
+      "subsection": {
+        "number": "9.5",
+        "title": "VO \u2014 Beat D.5 new line"
+      },
+      "output": null,
+      "csv": "human_beat_d5_sandwich,The Human,the_human,0.55,0.85,0.40,true,\"He used to make sandwiches in here.<break time=\"\"500ms\"\"/>Two slices of black bread, something he called 'salt-protein,' a smear of the green stuff from Hydroponics.<break time=\"\"400ms\"\"/>He'd put one in front of you whether you asked or not.<break time=\"\"500ms\"\"/>He said he wasn't a cook. He was lying.<break time=\"\"400ms\"\"/>He was a wonderful cook.<break time=\"\"500ms\"\"/>He just didn't want anyone to compliment him for it.<break time=\"\"900ms\"\"/>I'm sorry \u2014 I haven't said his name in a long time.<break time=\"\"500ms\"\"/>It hurts to say his name.\",\"Quiet, fond, slightly cracked at the edges. Do NOT escalate \u2014 the Human keeps control. Final clause quieter than the rest, almost an apology. The Engineer's name is never spoken \u2014 that is the point.\",P0"
+    },
+    {
+      "type": "voice_csv",
+      "section": {
+        "number": 10,
+        "title": "Beat E: Mess Hall / Prince's Archive"
+      },
+      "subsection": {
+        "number": "10.5",
+        "title": "VO \u2014 Beat E new lines (two Prince flashback lines)"
+      },
+      "output": null,
+      "csv": "prince_beat_e_toy_soldier,The Prince,the_prince,0.55,0.85,0.35,true,\"This one belonged to Kael.<break time=\"\"500ms\"\"/>I don't know how I ended up with it \u2014 I think he gave it to me during one of the tutoring sessions, when we were seven.<break time=\"\"500ms\"\"/>He told me it was his second-favorite, and I was supposed to be grateful and I was.<break time=\"\"700ms\"\"/>I have kept it on every desk I have ever owned.<break time=\"\"500ms\"\"/>When people ask me what the first thing I would grab in a fire is, I never tell them this. I tell them the notebook.<break time=\"\"600ms\"\"/>But it would be this. It has always been this.<break time=\"\"700ms\"\"/>He made me a better person by loaning it to me, and he has never asked for it back, and I have never offered.\",\"Warm, private, half-smile in the voice. Aristocratic slip lands subtly on 'tutoring' only, no emphasis. A man alone in a room talking to himself about a childhood friend he loved. No grief yet \u2014 this recording predates Kael's capture. Same register as \u00a79.5 Human sandwich line but one degree warmer. End on 'offered' without softening, recording ends mid-breath as if he's about to put the toy soldier back on the shelf.\",P0"
+    },
+    {
+      "type": "voice_csv",
+      "section": {
+        "number": 10,
+        "title": "Beat E: Mess Hall / Prince's Archive"
+      },
+      "subsection": {
+        "number": "10.5",
+        "title": "VO \u2014 Beat E new lines (two Prince flashback lines)"
+      },
+      "output": null,
+      "csv": "prince_beat_e_diploma,The Prince,the_prince,0.50,0.85,0.30,true,\"Kanevas signed it with his left hand.<break time=\"\"500ms\"\"/>I noticed because I was in the front row at the ceremony, and I watched him sign every diploma that day, and every one of them was with the left hand.<break time=\"\"600ms\"\"/>He told me once, in his office, that he preferred to write with the hand that wasn't the dominant one because it made him slow down.<break time=\"\"500ms\"\"/>He said the slowness was where the thinking happened.<break time=\"\"700ms\"\"/>I have tried to believe that about him for years.<break time=\"\"500ms\"\"/>Some days I do.<break time=\"\"700ms\"\"/>I am going to keep this on the wall because on the days I do not believe it, the frame is still on the wall, and that means I graduated from his academy, and graduating from his academy is a true thing regardless of what I think about him on any given morning.\",\"Measured, careful, one click more formal than other Prelude Prince VO \u2014 younger Prince learning to talk about authority figures with precision. Aristocratic slip lands softly on 'academy' (both times). CANON HYGIENE: NOT a CoNexus hint. Play normal graduate ambivalence toward an influential-but-not-warm headmaster. Actor must NOT play mistrust or suspicion \u2014 respect with mild private reservation. Like a young man putting a framed diploma on the wall and thinking about whether he's proud of it. End on 'given morning' with zero irony.\",P0"
+    },
+    {
+      "type": "voice_csv",
+      "section": {
+        "number": 11,
+        "title": "Beat F: Briefing Room \u2014 Kael Contingency Memo"
+      },
+      "subsection": {
+        "number": "11.5",
+        "title": "VO \u2014 Beat F new line"
+      },
+      "output": null,
+      "csv": "elara_beat_f_213_entries,Elara,elara,0.60,0.85,0.30,true,\"Two hundred and thirteen entries.<break time=\"\"500ms\"\"/>All of them encrypted.<break time=\"\"400ms\"\"/>I cannot read any of them without his key, and his key is not in this room.<break time=\"\"600ms\"\"/>But the count is the count.<break time=\"\"700ms\"\"/>Two hundred and thirteen.<break time=\"\"600ms\"\"/>People trusted him enough to be written down by him.<break time=\"\"500ms\"\"/>I want you to hear that number and hold it.<break time=\"\"700ms\"\"/>Two hundred and thirteen.<break time=\"\"500ms\"\"/>He was carrying that many before the Collector took him.\",\"Reverent, slow, unhurried. Not grieving yet \u2014 acknowledging a weight. Say '213' twice; the second time slightly quieter and more deliberate, like a recitation of honor. Final clause 'He was carrying that many before the Collector took him' allows slight softening \u2014 not a crack, just softer. Elara is a hologram but has learned register variation from the Human over 17,000 years. End on 'took him' with slight downward inflection.\",P0"
+    },
+    {
+      "type": "voice_csv",
+      "section": {
+        "number": 12,
+        "title": "Beat F.5: Empty Chair (Breath Beat)"
+      },
+      "subsection": {
+        "number": "12.5",
+        "title": "VO \u2014 Beat F.5 new line"
+      },
+      "output": null,
+      "csv": "human_beat_f5_empty_chair,The Human,the_human,0.55,0.85,0.35,true,\"Kael.<break time=\"\"800ms\"\"/>I would not have sat in this chair while you were alive because it was yours and you hated when people sat in your chair.<break time=\"\"600ms\"\"/>I am not going to sit in it now either.<break time=\"\"700ms\"\"/>I am going to stand here and pretend you are going to come back and tell me to get out of the way of the door.<break time=\"\"600ms\"\"/>I am going to keep pretending that as long as I am able to.<break time=\"\"700ms\"\"/>I owe him that much.<break time=\"\"500ms\"\"/>I owe you that much.<break time=\"\"900ms\"\"/>I'm sorry I could not save him.<break time=\"\"500ms\"\"/>I tried.<break time=\"\"400ms\"\"/>We both tried.\",\"The most fragile Human line of the Prelude. Do NOT crack. Straight, careful, controlled. Fragility is in the withholding, not the tremor. 'Kael' at the top gets a slight downward catch; the rest is flat and true. 'We both tried' ends the line: quiet but unbroken, do not soften 'tried' into a whisper, hold the weight. The Human says 'him' twice in reference to the Prince \u2014 the name is STILL withheld. Actor must NOT improvise adding the name. Withholding is the point.\",P0"
+    },
+    {
+      "type": "voice_csv",
+      "section": {
+        "number": 14,
+        "title": "Beat H: Comms Array + NPC Inbox + Locke's First Message"
+      },
+      "subsection": {
+        "number": "14.5",
+        "title": "VO \u2014 Beat H new line (Locke's first message)"
+      },
+      "output": null,
+      "csv": "locke_beat_h_first_message,Adjudicator Locke,locke,0.50,0.80,0.35,true,\"Ark 1047 \u2014 this is Adjudicator Locke of New Babylon.<break time=\"\"500ms\"\"/>Your Trade Empire listing on Channel 6 has pinged our long-range posts twice in the last standard week, which means one of two things: your hardware is warming up, or someone is reading the old board.<break time=\"\"600ms\"\"/>I am going to assume the more interesting possibility.<break time=\"\"500ms\"\"/>I have three jobs that need a hand and I would like to offer you the first one on a standard intake contract \u2014 no obligation, no faction pledge, just a handshake.<break time=\"\"500ms\"\"/>The job is salvage retrieval from a wreck near the old Kelvara lane, I will send coordinates if you send an accept.<break time=\"\"700ms\"\"/>One more thing \u2014 and this is the only thing I will say twice in any message to you \u2014 I prefer to work with people who read everything I send them, not just the bolded parts.<break time=\"\"600ms\"\"/>I am watching to see which kind of person you are.<break time=\"\"500ms\"\"/>End transmission.\",\"Warm businesslike for 80%. Single subtle edge on 'I am watching to see which kind of person you are' \u2014 1-click pitch drop + micro-beat longer on 'watching' and 'kind of person.' Do NOT amplify into menace. Warning delivered as observation. Room temperature drops one degree, no more. End transmission line is flat sign-off. CANON HYGIENE: NOT the predatory register from Act 3+ Conquest missions. Diplomatic variant of Locke's existing voice profile. This is her warm first contact.\",P0"
+    }
+  ]
+}

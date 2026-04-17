@@ -73,4 +73,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "By resurrecting key figures on both sides, they maintain a balance favorable to the Ne-Yons, ensuring no faction becomes...",
   rulesVersion: "1.0.0",
+  trial_categories: ["evidence"] as const,
+  verdict_delta: 1,
 };

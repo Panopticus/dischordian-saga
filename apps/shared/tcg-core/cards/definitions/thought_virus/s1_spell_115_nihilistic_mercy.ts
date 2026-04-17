@@ -45,4 +45,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The Source does not prolong agony. It simply asks: why continue? And the body, at last, agrees.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

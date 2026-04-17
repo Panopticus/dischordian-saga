@@ -36,4 +36,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "When New Babylon cuts the purse strings, even gods go hungry.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

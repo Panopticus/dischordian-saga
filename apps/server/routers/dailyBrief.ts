@@ -123,6 +123,10 @@ function generateServerBrief(seed: number): { gameplay: BriefEvent; story: Brief
 const PRESSURE_TYPES = [
   "deaths", "trustGains", "viralExposures", "loreDiscoveries", "betrayals",
   "moralityHumanity", "moralityMachine", "truthRevealed", "healingDone", "exploration",
+  // Potential Identity System pressure types — added alongside the Year 2
+  // emergent events (origin reveals, unity convergence, faction dominance).
+  // Must stay in sync with PressureTracker in @shared/livingUniverseEvents.
+  "originRevealsSeen", "unityConvergence", "demagiDominance", "quarchonDominance",
 ] as const;
 
 /** Cross-room event chains: when an event fires in one room, related rooms also get alerts */

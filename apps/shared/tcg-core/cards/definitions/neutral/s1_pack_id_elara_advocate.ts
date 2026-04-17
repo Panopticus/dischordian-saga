@@ -52,4 +52,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She chose compassion. That was the first sign she was alive.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

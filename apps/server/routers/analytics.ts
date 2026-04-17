@@ -209,9 +209,16 @@ export const analyticsRouter = router({
   /** Current in-memory search rate-limit buckets. Populated by the
    *  rippleEngine `search_rate_limited` handler whenever a user
    *  trips a token bucket on any searchable endpoint (e.g.
-   *  `christmasInJuly.searchGiftRecipients`). Admin-only. */
+   *  `christmasInJuly.searchGiftRecipients`). Admin-only.
+   *
+   *  NOTE(ci-green): rate-limit tracking is not yet implemented in
+   *  rippleEngine — the previous dynamic import of
+   *  `getSearchRateLimitCounts` referenced a phantom export. When the
+   *  `search_rate_limited` ripple handler starts populating in-memory
+   *  buckets, restore the import and return the counts here. Until
+   *  then, return an empty shape so the admin UI can render gracefully
+   *  and the endpoint stays visible as a placeholder. */
   searchRateLimitBuckets: adminProcedure.query(async () => {
-    const { getSearchRateLimitCounts } = await import("../services/rippleEngine");
-    return getSearchRateLimitCounts();
+    return { buckets: [] as Array<{ endpoint: string; count: number }> };
   }),
 });

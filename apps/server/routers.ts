@@ -96,6 +96,8 @@ import { collectionRouter } from "./routers/collection";
 import { engineerLogsRouter } from "./routers/engineerLogs";
 import { fnord23Router } from "./routers/fnord23";
 import { oracleDeckRouter } from "./routers/oracleDeck";
+import { imprintsRouter } from "./routers/imprints";
+import { factionsRouter } from "./routers/factions";
 import { celebrationRouter } from "./routers/celebration";
 
 export const appRouter = router({
@@ -189,6 +191,8 @@ export const appRouter = router({
   engineerLogs: engineerLogsRouter,
   fnord23: fnord23Router,
   oracleDeck: oracleDeckRouter,
+  imprints: imprintsRouter,
+  factions: factionsRouter,
   celebration: celebrationRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),

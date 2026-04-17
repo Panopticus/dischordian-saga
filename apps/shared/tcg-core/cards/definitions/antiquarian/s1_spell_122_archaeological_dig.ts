@@ -48,4 +48,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Three Ages buried beneath the current one, each with its own truths. The Antiquarian keeps only what the next Age will need.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative", "offensive"] as const,
+  verdict_delta: 1,
 };

@@ -40,4 +40,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Destroy the tower. The broadcast has already been copied to a thousand receivers.",
   rulesVersion: "1.0.0",
+  trial_categories: ["confession"] as const,
+  verdict_delta: -2,
 };

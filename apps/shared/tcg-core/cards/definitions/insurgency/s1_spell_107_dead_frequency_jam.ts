@@ -44,4 +44,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The broadcast that killed Agent Zero was never meant for her allies. It was meant for everyone else.",
   rulesVersion: "1.0.0",
+  trial_categories: ["confession", "offensive"] as const,
+  verdict_delta: -2,
 };

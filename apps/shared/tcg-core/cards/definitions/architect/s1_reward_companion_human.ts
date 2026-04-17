@@ -58,4 +58,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The last organic Archon looked at you and saw something worth believing in. That is rarer than any algorithm.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

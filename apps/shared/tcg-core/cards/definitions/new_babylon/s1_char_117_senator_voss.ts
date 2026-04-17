@@ -60,4 +60,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The vote was unanimous. It always is, when the dissenters have already been recycled.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

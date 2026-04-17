@@ -53,4 +53,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She speaks in static. The words mean nothing. The damage is very real.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

@@ -57,4 +57,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Its wings are prayers. Its dust is a blessing.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative", "offensive", "reactive"] as const,
+  verdict_delta: 2,
 };

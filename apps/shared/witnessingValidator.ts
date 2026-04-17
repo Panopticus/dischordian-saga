@@ -33,6 +33,7 @@ import { LION_FEED_SLOTS } from "./memorableMoments";
 import { LYRA_VOX_DIALOG } from "./lyraVoxDialog";
 import {
   FORCING_FLAGS,
+  PRELUDE_ONLY_ROOMS,
   ROOM_AFFINITY,
   type NarratorRoomId,
 } from "./mobileNarrator";
@@ -267,6 +268,11 @@ export function checkMemorableMomentFeed(): ValidationIssue[] {
 export function checkLyraVoxDialog(): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
   for (const roomId of Object.keys(ROOM_AFFINITY) as NarratorRoomId[]) {
+    // Prelude-only rooms don't have post-Prelude narrator content by
+    // design — the Prelude's per-beat UX lives in preludeSequence.ts
+    // and the Prelude React components, not in the narrator registries.
+    if (PRELUDE_ONLY_ROOMS.has(roomId)) continue;
+
     const lines = LYRA_VOX_DIALOG[roomId];
     if (!lines || lines.length === 0) {
       issues.push({
@@ -321,6 +327,11 @@ export function checkForcingFlags(): ValidationIssue[] {
 export function checkRegistryCrossReferences(): ValidationIssue[] {
   const issues: ValidationIssue[] = [];
   for (const roomId of Object.keys(ROOM_AFFINITY) as NarratorRoomId[]) {
+    // Prelude-only rooms: touchpoints + dialog entries exist for type
+    // completeness but carry empty content by design. Cross-ref check
+    // skips them — see PRELUDE_ONLY_ROOMS doc in mobileNarrator.ts.
+    if (PRELUDE_ONLY_ROOMS.has(roomId)) continue;
+
     if (!ROOM_WITNESSING_TOUCHPOINTS[roomId]) {
       issues.push({
         category: "registry_cross_ref",

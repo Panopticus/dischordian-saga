@@ -24,4 +24,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "A sliver of the Arena's schematic given form. It computes, therefore it is.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive"] as const,
+  verdict_delta: 1,
 };

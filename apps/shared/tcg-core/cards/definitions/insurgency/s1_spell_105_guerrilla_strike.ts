@@ -43,4 +43,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "They never see us coming. By the time they've calculated our trajectory, we've already gone.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };

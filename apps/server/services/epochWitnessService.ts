@@ -31,7 +31,7 @@ export const epochWitnessService = {
 
     const optionCol = `option${optionChosen.toUpperCase()}Count` as const;
     await db.insert(epochVoteTallies).values({ voteId, totalVotes: 1, [optionCol]: 1 })
-      .onDuplicateKeyUpdate({ set: { totalVotes: sql`${epochVoteTallies.totalVotes} + 1`, [optionCol]: sql`${(epochVoteTallies as Record<string, unknown>)[optionCol]} + 1` } });
+      .onDuplicateKeyUpdate({ set: { totalVotes: sql`${epochVoteTallies.totalVotes} + 1`, [optionCol]: sql`${(epochVoteTallies as unknown as Record<string, unknown>)[optionCol]} + 1` } });
 
     await db.insert(playerEpochProgress).values({ userId, epochsVoted: { [voteDef.epoch]: [voteId] } })
       .onDuplicateKeyUpdate({ set: { epochsVoted: sql`JSON_SET(COALESCE(${playerEpochProgress.epochsVoted}, '{}'), '$."${sql.raw(voteDef.epoch)}"', JSON_ARRAY_APPEND(COALESCE(JSON_EXTRACT(${playerEpochProgress.epochsVoted}, '$."${sql.raw(voteDef.epoch)}"'), JSON_ARRAY()), '$', ${voteId}))` } })

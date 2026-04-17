@@ -56,4 +56,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Before the infection, Kael built something worth believing in. His soldiers would die for him. Many did.",
   rulesVersion: "1.0.0",
+  trial_categories: ["defensive", "narrative"] as const,
+  verdict_delta: 2,
 };

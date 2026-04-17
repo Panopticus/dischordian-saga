@@ -46,4 +46,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "He poured the foundations for twenty towers. The twenty-first was his own.",
   rulesVersion: "1.0.0",
+  trial_categories: ["narrative"] as const,
+  verdict_delta: 2,
 };

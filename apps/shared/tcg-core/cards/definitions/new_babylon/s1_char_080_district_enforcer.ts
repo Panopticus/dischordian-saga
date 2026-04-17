@@ -39,4 +39,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Justice in New Babylon is swift. Appeals are slower — by design.",
   rulesVersion: "1.0.0",
+  trial_categories: ["offensive"] as const,
+  verdict_delta: 1,
 };
