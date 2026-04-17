@@ -242,6 +242,62 @@ export interface BeatChronicleEntry {
 
 export const BEAT_CHRONICLE_ENTRIES: readonly BeatChronicleEntry[] = [
   {
+    flag: "cutscene_awakening_complete",
+    order: 1,
+    title: "The First Breath",
+    body:
+      "Someone woke up today. I have been waiting for this entry for longer than I should admit. The cryo fluid is still on the floor. The lights came on one at a time, in the wrong order, as if the Ark itself had forgotten how to welcome someone. I am writing this before the person has spoken. I am writing this because the silence before their first word is the part I want to remember.",
+  },
+  {
+    flag: "cutscene_engineering_intro_complete",
+    order: 2,
+    title: "The Bench Hums",
+    body:
+      "The Engineering bay responded to human proximity for the first time since the theft. The bench powered on. The hum is a C-sharp, which is the note the reactor makes, which is the note the Engineer's wife sang in, which is not a coincidence. I have checked.",
+  },
+  {
+    flag: "cutscene_cargo_intro_complete",
+    order: 2.5,
+    title: "The Cargo Manifest",
+    body:
+      "The Cargo Bay doors opened and the inventory is wrong. There are items on this ship that were not on the manifest when Kael stole it. Someone packed for a journey they did not tell anyone about. I am writing down the discrepancies because that is what I do with things that do not add up.",
+  },
+  {
+    flag: "cutscene_comms_array_intro_complete",
+    order: 3,
+    title: "A Signal Received",
+    body:
+      "The Comms Array picked up a signal today. Elara logged it as background noise. I am not sure it was noise. I am not sure it was background. I am writing this down because the waveform looked like a sentence and the sentence looked like it was addressed to someone who had not arrived yet.",
+  },
+  {
+    flag: "cutscene_bridge_intro_complete",
+    order: 3.5,
+    title: "The Bridge Opens",
+    body:
+      "The Bridge is live. The star map loaded and every sector was accounted for except one. The dark sector is a hole in the chart where data should be. I have seen holes like this before. They are never empty. They are full of the thing nobody wanted to write down.",
+  },
+  {
+    flag: "cutscene_medical_bay_intro_complete",
+    order: 3.2,
+    title: "Medical Bay Online",
+    body:
+      "The Medical Bay scanners activated. They ran a diagnostic on the cryo system and flagged an anomaly in the fluid composition that I have decided not to write about in this entry. I will write about it later. I will write about it when I understand what it means. Today I am writing about the fact that the scanners work.",
+  },
+  {
+    flag: "cutscene_briefing_room_intro_complete",
+    order: 2.8,
+    title: "The Memo on the Table",
+    body:
+      "Someone left a memo in the Briefing Room. The handwriting is the Engineer's. The content is a list of names. I recognise four of them. The other nine I will have to look up. I am writing this because the memo was face-down, as if the person who left it wanted it to be found but not immediately.",
+  },
+  {
+    flag: "cutscene_archives_two_witnesses_part1_complete",
+    order: 4,
+    title: "The Archives Open",
+    body:
+      "The Archives. The last room. The burnt card was on the desk. Both voices spoke at the same time and for a moment the Ark was quiet in a way it has not been quiet since I began keeping this record. I am writing this sentence and I cannot see the page clearly. That is all I will say about today.",
+  },
+  {
     flag: "prelude_complete",
     order: 5,
     title: "The Prelude Closes",
