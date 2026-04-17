@@ -179,7 +179,8 @@ export interface GameState {
   loyaltyTitles: string[];                         // Earned title strings
   // ═══ NARRATIVE v2: Act Progression & Army Management ═══
   // Act tracking (7 acts of the angel/demon narrative)
-  narrativeAct: number;                              // Current act (0 = not started, 1-7)
+  narrativeAct: number;                              // Current act (0 = not started, 1-5)
+  calendarMonth: number;                             // Year One calendar month (1-12), drives witnessingYearOne.ts login briefs
   narrativeActChoices: { actId: number; sceneId: string; choiceId: string; moralityShift: number }[];
   // ─── Prelude playhead state (save/resume inside narrativeAct 0) ───
   /**
@@ -980,6 +981,7 @@ const DEFAULT_GAME_STATE: GameState = {
   loyaltyTitles: [],
   // Narrative v2: Act progression & Army management
   narrativeAct: 0,
+  calendarMonth: 1,
   narrativeActChoices: [],
   // Prelude playhead — pre-Prelude default
   currentPreludeBeat: null,
@@ -1128,6 +1130,7 @@ interface GameContextValue {
   setElaraKnowsAboutHuman: (knows: boolean, path: "told" | "discovered" | "betrayed") => void;
   adjustHumanTrust: (delta: number) => void;
   adjustElaraTrust: (delta: number) => void;
+  advanceCalendarMonth: () => void;
   /** Set a flat Elara callback flag (used by roomDialogs + Palimpsest episode callbacks). */
   setElaraCallback: (flag: string, value?: boolean) => void;
   /** Set a flat Human callback flag (parallel to Elara's, for The Human's whispers). */
@@ -1221,6 +1224,12 @@ function migrateGameState(parsed: Partial<GameState>): GameState {
   // falling back to the pre-reveal pink theme after upgrading.
   if (merged.oracleRevealActive && (merged.oracleRevealTier ?? 0) === 0) {
     merged.oracleRevealTier = 1;
+  }
+
+  // Calendar month back-compat: field added for Year One witnessing
+  // timeline. Existing saves default to month 1.
+  if (merged.calendarMonth === undefined) {
+    merged.calendarMonth = 1;
   }
 
   // Legacy transmissionId collision: pre-fix code produced `ep0-N`
@@ -2236,6 +2245,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setState(prev => ({ ...prev, elaraTrustLevel: Math.max(0, Math.min(100, prev.elaraTrustLevel + delta)) }));
   }, []);
 
+  const advanceCalendarMonth = useCallback(() => {
+    setState(prev => ({ ...prev, calendarMonth: Math.min(12, prev.calendarMonth + 1) }));
+  }, []);
+
   // ═══ NPC RELATIONSHIP CALLBACKS ═══
   const adjustNpcTrust = useCallback((npcId: string, delta: number) => {
     setState(prev => {
@@ -2312,6 +2325,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         ...prev,
         // Reset progression
         narrativeAct: 0,
+        calendarMonth: 1,
         narrativeActChoices: [],
         // Reset Prelude playhead — a new game starts before Beat A
         currentPreludeBeat: null,
@@ -2818,6 +2832,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setElaraKnowsAboutHuman: setElaraKnowsAboutHumanFn,
       adjustHumanTrust,
       adjustElaraTrust,
+      advanceCalendarMonth,
       setElaraCallback,
       setHumanCallback,
       // ═══ NPC RELATIONSHIPS ═══
