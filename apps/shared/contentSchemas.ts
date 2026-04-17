@@ -309,7 +309,7 @@ const SongAppearanceSchema = z.object({
 
 export const LoredexEntrySchema = z.object({
   id: nonEmpty,
-  type: z.enum(["character", "faction", "location", "concept", "song", "event"]),
+  type: z.enum(["character", "faction", "location", "concept", "song", "event", "artifact"]),
   name: nonEmpty,
   aliases: z.array(z.string()).optional(),
   era: z.string(),
