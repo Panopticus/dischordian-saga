@@ -18,6 +18,7 @@ import type { EntityId, PlayerId, Side } from "./Ids";
 import type { ScriptedAction } from "./ScriptedAction";
 import type { TrialState } from "./TrialPhase";
 import type { ProgrammerGiftState } from "./ProgrammerGift";
+import type { PublicWitnessState } from "./PublicWitness";
 
 /** 9-wide, 5-tall board. Coordinates are (row 0..4, col 0..8). */
 export const BOARD_WIDTH = 9;
@@ -154,6 +155,16 @@ export interface GameState {
    * See ACT1_NARRATIVE_STRUCTURE.md §5.6.
    */
   programmerGift?: ProgrammerGiftState;
+  /**
+   * Optional: §5.7 Game Master public-witness state. Present only
+   * on §5.7 matches (initialized via MatchConfig.witnessMode). Each
+   * Game Master card play appends a PublicWitnessEntry and updates
+   * the clipped running balance. The final balance is handed off to
+   * the §5.8 Authority trial as openingVerdictBalance via
+   * deriveAuthorityVerdictOffset. See engine/publicWitness.ts +
+   * docs/production/act1/public-witness-ui-spec.md.
+   */
+  publicWitness?: PublicWitnessState;
 }
 
 /**

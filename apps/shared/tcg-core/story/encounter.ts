@@ -27,6 +27,7 @@ import {
 import type { ScriptedAction } from "../types/ScriptedAction";
 import type { TrialModeConfig } from "../types/TrialPhase";
 import type { GiftModeConfig } from "../types/ProgrammerGift";
+import type { WitnessModeConfig } from "../types/PublicWitness";
 import { resolveDialog, type DialogScene } from "./dialogBank";
 
 /* ─── Types ─── */
@@ -85,6 +86,15 @@ export interface StoryEncounter {
    * ACT1_NARRATIVE_STRUCTURE.md §5.6.
    */
   giftMode?: GiftModeConfig;
+  /**
+   * Optional §5.7 Game Master witness-mode opt-in. Forwarded to the
+   * engine via createMatchState. When set, the match starts with a
+   * publicWitness state (balance 0, no entries); engine/publicWitness.ts
+   * handles recordOpponentPlay transitions as the Game Master plays.
+   * Only current user is the `chGameMaster` encounter. See
+   * docs/production/act1/public-witness-ui-spec.md.
+   */
+  witnessMode?: WitnessModeConfig;
 }
 
 export type WinCondition =
@@ -160,6 +170,7 @@ export function initEncounter(input: EncounterInit): EncounterState {
     scriptedActions: encounter.scriptedActions,
     trialMode: encounter.trialMode,
     giftMode: encounter.giftMode,
+    witnessMode: encounter.witnessMode,
   });
   return { gameState, firedHooks: new Set() };
 }

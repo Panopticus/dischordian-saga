@@ -121,6 +121,14 @@ export interface CreateMatchOptionsExtras {
    * state machine. See ACT1_NARRATIVE_STRUCTURE.md §5.6.
    */
   giftMode?: import("../types/ProgrammerGift").GiftModeConfig;
+  /**
+   * Optional §5.7 Game Master witness mode. Setting this puts the
+   * resulting match into witness mode: PublicWitnessState starts at
+   * balance 0 with no entries. Engine/publicWitness.ts transitions
+   * the state when the Game Master plays a card. See
+   * docs/production/act1/public-witness-ui-spec.md.
+   */
+  witnessMode?: import("../types/PublicWitness").WitnessModeConfig;
 }
 
 export interface CreateMatchOptions extends CreateMatchOptionsExtras {
@@ -312,6 +320,16 @@ export function createMatchState(opts: CreateMatchOptions): GameState {
         }
       : undefined,
     programmerGift: opts.giftMode ? { status: "not_offered" } : undefined,
+    publicWitness: opts.witnessMode
+      ? {
+          balance:
+            typeof opts.witnessMode.openingBalance === "number" &&
+            Number.isFinite(opts.witnessMode.openingBalance)
+              ? Math.max(-10, Math.min(10, opts.witnessMode.openingBalance))
+              : 0,
+          entries: [],
+        }
+      : undefined,
   };
 }
 
