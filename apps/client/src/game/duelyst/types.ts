@@ -206,6 +206,50 @@ export interface DuelystGameState {
     closingArgumentPlayed: boolean;
     outcome?: "overturn" | "sentence_passed";
   };
+  /**
+   * §5.6 Programmer gift state, projected from tcg-core GameState.
+   * Absent on every match that isn't §5.6. The UI watches the
+   * not_offered → offered transition to mount ChoicePillarProgrammerGift,
+   * and acceptance ends the match immediately (the Programmer's
+   * throw is the win). Spec: ACT1_NARRATIVE_STRUCTURE.md §5.6.
+   */
+  programmerGift?: {
+    status: "not_offered" | "offered" | "accepted" | "declined";
+    offeredOnTurn?: number;
+    resolvedOnTurn?: number;
+  };
+  /**
+   * §5.7 Game Master public-witness state, projected from tcg-core
+   * GameState. Absent on matches that aren't §5.7. The UI renders
+   * PublicWitnessColumn from this. Final balance feeds §5.8 via
+   * deriveAuthorityVerdictOffset.
+   */
+  publicWitness?: {
+    balance: number;
+    entries: readonly {
+      id: string;
+      turnNumber: number;
+      publicLabel: string;
+      publicDelta: number;
+      privateDelta: number;
+      cardDefId: string;
+    }[];
+  };
+  /**
+   * §4.9 Seer prophecy state, projected from tcg-core GameState.
+   * Absent on matches that aren't §4.9. DuelystGameUI reads
+   * playsPerformed at match end to derive the outcome flag.
+   */
+  seerProphecy?: {
+    pending: {
+      cardDefId: string;
+      turnIndex: number;
+    } | null;
+    playsPerformed: number;
+  };
+  /** Projected so the §4.9 match-end hook can distinguish concede
+   *  from combat loss. Other match modes may read this later. */
+  winReason?: string | null;
 }
 
 export interface ActionLogEntry {

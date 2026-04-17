@@ -723,8 +723,10 @@ describe("The Bulb Breaks slideshow (§11.5 + §12 C11 — negative variant)", (
 });
 
 describe("Full registry invariants", () => {
-  it("registry has 14 slideshows total", () => {
-    expect(Object.keys(SONG_SLIDESHOWS).length).toBe(14);
+  it("registry has 15 slideshows total", () => {
+    // 14 song slideshows + ACT1_NARRATIVE_STRUCTURE.md §6
+    // Two Witnesses Part 2 (Act 1 narrative close).
+    expect(Object.keys(SONG_SLIDESHOWS).length).toBe(15);
   });
 
   it("every registered slideshow validates cleanly (second-wave audit)", () => {
@@ -746,5 +748,77 @@ describe("Full registry invariants", () => {
       const expected = `slideshow_${def.id.replace(/-/g, "_")}_complete`;
       expect(def.flagsSetOnComplete).toContain(expected);
     }
+  });
+});
+
+/* ═══════════════════════════════════════════════════════
+   §6 Two Witnesses Part 2 — canon hygiene.
+
+   Spec §8.6 forbids a specific set of phrases from landing in
+   Act 1 Part-2 dialog. Source-scan the frame captions so a
+   future edit that reintroduces them fails loudly in review.
+   ═══════════════════════════════════════════════════════ */
+describe("TWO_WITNESSES_PART_2_SLIDESHOW — §8.6 hygiene", () => {
+  const def = SONG_SLIDESHOWS["two-witnesses-part-2"];
+  const allText = def.frames
+    .map((f) => f.caption ?? "")
+    .join(" ")
+    .toLowerCase();
+
+  it("never says the forbidden duration", () => {
+    // §8.6: "1260 days" never spoken in Act 1.
+    expect(allText).not.toMatch(/1260/);
+  });
+
+  it("never names Silence in Heaven as an event", () => {
+    expect(allText).not.toMatch(/silence in heaven/);
+  });
+
+  it("never references the Heart of Time ship", () => {
+    expect(allText).not.toMatch(/heart of time/);
+  });
+
+  it("never names the Ages (Privacy / Prophecy / Insurgency / Revelation)", () => {
+    // All four Age names are forbidden as proper nouns. The
+    // permitted cross-Age phrasing is "across Ages, across the
+    // death of stars" — `Age` with a capital is fine inside that
+    // specific phrase, but the Age-name words themselves must
+    // never appear in §6 dialog.
+    expect(allText).not.toMatch(/\bage of privacy\b/);
+    expect(allText).not.toMatch(/\bage of prophecy\b/);
+    expect(allText).not.toMatch(/\bage of insurgency\b/);
+    expect(allText).not.toMatch(/\bage of revelation\b/);
+  });
+
+  it("never uses civilian names (Daniel Cross / Malkia Ukweli)", () => {
+    expect(allText).not.toMatch(/daniel cross/);
+    expect(allText).not.toMatch(/malkia/);
+    expect(allText).not.toMatch(/ukweli/);
+  });
+
+  it("lands the permitted cross-Age phrasing exactly once", () => {
+    // Spec §8.6: the only canon-permitted phrasing is the
+    // Antiquarian's "across Ages, across the death of stars".
+    const matches = allText.match(/across ages, across the death of stars/g);
+    expect(matches?.length ?? 0).toBe(1);
+  });
+
+  it("covers all four §6.1 core reveals in the authored dialog", () => {
+    // 1. Antiquarian died for what he thought, came back in next era.
+    expect(allText).toContain("executed for what i thought");
+    expect(allText).toContain("next era");
+    // 2. Enigma was the voice on Last Words; also died; also returned.
+    expect(allText).toContain("voice on the recording");
+    // 3. Engineer pre-dates the Witnesses.
+    expect(allText).toContain("not one of us");
+    expect(allText).toMatch(/pre-dates|came before/);
+    // 4. Player is the fulcrum.
+    expect(allText).toContain("fulcrum");
+  });
+
+  it("names the three §6.3 closing-choice doors so the player knows what's coming", () => {
+    expect(allText).toContain("accept");
+    expect(allText).toContain("decline");
+    expect(allText).toContain("deflect");
   });
 });

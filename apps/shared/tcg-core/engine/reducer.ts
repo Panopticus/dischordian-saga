@@ -37,6 +37,13 @@ import { refreshTurnForPlayer } from "./turn";
 import { tickLockout } from "./lockout";
 import { drainScriptedActions } from "./scriptedActions";
 import { emitPhaseStartEvent, resolveTrialOutcome } from "./trialPhase";
+import { acceptGift, declineGift } from "./programmerGift";
+import {
+  bakeSeerFuture,
+  consumeSeerFuture,
+  forceSeerPlay,
+  sampleSeerFutureCard,
+} from "./seerProphecy";
 import { handlePlayCard as handlePlayCardReal } from "./playCard";
 import { handleMove as handleMoveReal } from "./movement";
 import { handleAttack as handleAttackReal } from "./combat";
@@ -144,6 +151,9 @@ export function reduce(
           break;
         case "end_turn":
           error = handleEndTurn(draft, action, ctx);
+          break;
+        case "programmer_gift_choice":
+          error = handleProgrammerGiftChoice(draft, action, ctx);
           break;
         case "concede":
           error = handleConcede(draft, action, ctx);
@@ -437,6 +447,45 @@ function handleEndTurn(
   if (draft.trial && draft.turnNumber === 10) {
     resolveTrialOutcome(draft, ctx.events);
   }
+  // §4.9 Seer prophecy hook. Two halves:
+  //   • Incoming side 0 (player): bake the Seer's next play if none
+  //     pending. Spec §3 invariant — the pending future is visible
+  //     during the player's turn so card effects can (eventually)
+  //     resolve against it.
+  //   • Incoming side 1 (Seer): consume the pending future if one
+  //     matches the new turn and force-play it. If no bake exists yet
+  //     (canonical first Seer turn of the match), bake-then-consume
+  //     in the same tick so the Seer's very first play always fires.
+  // Silent re-route of contradicted player effects is deferred to
+  // a follow-up PR; the match plays correctly without it.
+  if (draft.seerProphecy) {
+    if (nextPlayer === 1) {
+      if (!draft.seerProphecy.pending) {
+        const sampled = sampleSeerFutureCard(draft, ctx);
+        if (sampled) {
+          draft.seerProphecy = bakeSeerFuture(
+            draft.seerProphecy,
+            sampled,
+            draft.turnNumber,
+          );
+        }
+      }
+      const result = consumeSeerFuture(draft.seerProphecy, draft.turnNumber);
+      draft.seerProphecy = result.next;
+      if (result.consumed) {
+        forceSeerPlay(draft, result.consumed.cardDefId, ctx);
+      }
+    } else if (!draft.seerProphecy.pending) {
+      const sampled = sampleSeerFutureCard(draft, ctx);
+      if (sampled) {
+        draft.seerProphecy = bakeSeerFuture(
+          draft.seerProphecy,
+          sampled,
+          draft.turnNumber,
+        );
+      }
+    }
+  }
   // Drain any scripted actions matching the new (turnNumber, side).
   // Story encounters use this to author set-piece plays the AI can't
   // be trusted to make on schedule (canonical case: §5.5 Warlord
@@ -458,6 +507,49 @@ function handleConcede(
   draft.winReason = "surrender";
   draft.phase = "ended";
   ctx.events.push({ type: "match_ended", winner, reason: "surrender" });
+  return undefined;
+}
+
+/**
+ * §5.6 Programmer gift — player accepted or declined the deliberate
+ * throw. Transitions programmerGift state via the pure helpers.
+ *
+ * Accept: the Programmer's throw lands — the player wins the match
+ * immediately (the "gift" is the win). WinReason is "surrender" for
+ * now; the post-match dialog layer differentiates gift-win from
+ * combat-win via the programmerGift.status === "accepted" read.
+ *
+ * Decline: the match continues under standard rules. The transition
+ * records the refusal so Acts 2+ codex variants can branch on it.
+ *
+ * No-op when programmerGift is absent (non-§5.6 match) or already
+ * resolved. No error — the engine treats stale/late clicks as a
+ * tolerant pass-through.
+ */
+function handleProgrammerGiftChoice(
+  draft: Draft<GameState>,
+  action: Extract<Action, { kind: "programmer_gift_choice" }>,
+  ctx: ReduceCtx
+): ReduceError | undefined {
+  const gift = draft.programmerGift;
+  if (!gift || gift.status !== "offered") return undefined;
+  const turn = draft.turnNumber;
+  if (action.choice === "accept") {
+    draft.programmerGift = acceptGift(gift, turn);
+    // Programmer concedes — the player wins immediately. The actor's
+    // side is the player; the loser is the opposite side.
+    const loser = (action.actor === 0 ? 1 : 0) as 0 | 1;
+    const winner = action.actor;
+    draft.winner = winner;
+    draft.winReason = "surrender";
+    draft.phase = "ended";
+    void loser;
+    ctx.events.push({ type: "match_ended", winner, reason: "surrender" });
+  } else {
+    draft.programmerGift = declineGift(gift, turn);
+    // Match continues under standard rules. No state change beyond
+    // the gift transition itself.
+  }
   return undefined;
 }
 

@@ -50,6 +50,75 @@ export function findBoardEntity(
 }
 
 /**
+ * §4.9 Seer "silent re-route" (spec §3.1).
+ *
+ * When the player targets the Seer's general (side 1) while the
+ * Seer has a pending future baked, swap the target for another
+ * enemy entity if one exists. This is the canon-consistent way to
+ * "the prophecy plays out" — the player's effect still resolves,
+ * but it doesn't land on the entity that is about to play the
+ * retroactive card.
+ *
+ * No event is emitted. Spec §3.1: "no UI indication of the
+ * re-route". Test visibility comes from asserting state changes on
+ * the alternate target, not from a dedicated event stream.
+ *
+ * Scope: runs only when `state.seerProphecy?.pending` is present
+ * AND the actor is side 0 (player). AI / opponent effects are not
+ * re-routed — the Seer herself may target her own general, and
+ * non-§4.9 matches never enter this branch.
+ *
+ * Selection order (tuned — was first-found, now lowest-sacrifice):
+ *   1. Prefer the lowest-currentHealth non-general enemy unit —
+ *      narratively the Seer shields her general by letting her
+ *      weakest ally take the hit. Canonically consistent with the
+ *      prophecy invariant: the smallest piece of her board is the
+ *      one she's willing to spend.
+ *   2. Tie-break by lowest currentPower (least threatening), then
+ *      by entityId lex order for deterministic replay.
+ * The specific pending-future card's own entity (if it's already
+ * on the board as some summoned minion) is also de-prioritized so
+ * the re-route doesn't land on the thing it's protecting.
+ */
+function reroutePendingFutureTargets(
+  ids: EntityId[],
+  ctx: ExecCtx,
+  state: GameState,
+): EntityId[] {
+  const pending = state.seerProphecy?.pending;
+  if (!pending) return ids;
+  if (ctx.actorSide !== 0) return ids;
+  const seerGeneralId = state.players[1].generalEntityId;
+  if (!ids.includes(seerGeneralId)) return ids;
+
+  const candidates: BoardEntity[] = [];
+  for (const entity of Object.values(state.board)) {
+    if (entity.card.owner !== 1) continue;
+    if (entity.entityId === seerGeneralId) continue;
+    candidates.push(entity);
+  }
+  if (candidates.length === 0) return ids;
+
+  // Rank candidates: (prefers-not-pending-future, health, power, id).
+  // Lower is better on each key — we pick candidates[0] after sort.
+  candidates.sort((a, b) => {
+    const aIsPending = a.card.defId === pending.cardDefId ? 1 : 0;
+    const bIsPending = b.card.defId === pending.cardDefId ? 1 : 0;
+    if (aIsPending !== bIsPending) return aIsPending - bIsPending;
+    if (a.card.currentHealth !== b.card.currentHealth) {
+      return a.card.currentHealth - b.card.currentHealth;
+    }
+    if (a.card.currentPower !== b.card.currentPower) {
+      return a.card.currentPower - b.card.currentPower;
+    }
+    return a.entityId < b.entityId ? -1 : a.entityId > b.entityId ? 1 : 0;
+  });
+
+  const alt: EntityId = candidates[0].entityId;
+  return ids.map((id) => (id === seerGeneralId ? alt : id));
+}
+
+/**
  * Resolve a TargetRef to a list of entityIds. Most refs resolve to
  * exactly one entity (or zero if the reference is stale).
  *
@@ -58,6 +127,15 @@ export function findBoardEntity(
  * general has moved or been healed.
  */
 export function resolveTargetRef(
+  ref: TargetRef,
+  ctx: ExecCtx,
+  state: GameState
+): EntityId[] {
+  const ids = resolveTargetRefRaw(ref, ctx, state);
+  return reroutePendingFutureTargets(ids, ctx, state);
+}
+
+function resolveTargetRefRaw(
   ref: TargetRef,
   ctx: ExecCtx,
   state: GameState
@@ -101,6 +179,15 @@ export function resolveTargetRef(
  * logs via events but does not crash the match.
  */
 export function resolveTargetSelector(
+  sel: TargetSelector,
+  ctx: ExecCtx,
+  state: GameState
+): EntityId[] {
+  const ids = resolveTargetSelectorRaw(sel, ctx, state);
+  return reroutePendingFutureTargets(ids, ctx, state);
+}
+
+function resolveTargetSelectorRaw(
   sel: TargetSelector,
   ctx: ExecCtx,
   state: GameState

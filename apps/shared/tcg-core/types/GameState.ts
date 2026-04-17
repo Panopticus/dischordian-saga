@@ -17,6 +17,9 @@ import type { CardInstance, Faction, CardDefinition } from "./Card";
 import type { EntityId, PlayerId, Side } from "./Ids";
 import type { ScriptedAction } from "./ScriptedAction";
 import type { TrialState } from "./TrialPhase";
+import type { ProgrammerGiftState } from "./ProgrammerGift";
+import type { PublicWitnessState } from "./PublicWitness";
+import type { SeerProphecyState } from "./SeerProphecy";
 
 /** 9-wide, 5-tall board. Coordinates are (row 0..4, col 0..8). */
 export const BOARD_WIDTH = 9;
@@ -145,6 +148,33 @@ export interface GameState {
    * See docs/production/act1/authority-trial-phase-mechanic.md.
    */
   trial?: TrialState;
+  /**
+   * Optional: §5.6 Programmer gift state. Present only on §5.6 matches
+   * (initialized via MatchConfig.giftMode). Populated + transitioned
+   * by engine/programmerGift.ts. Acts 2+ codex variants read the
+   * terminal state via the PROGRAMMER_GIFT_ACCEPTED_FLAG campaign flag.
+   * See ACT1_NARRATIVE_STRUCTURE.md §5.6.
+   */
+  programmerGift?: ProgrammerGiftState;
+  /**
+   * Optional: §5.7 Game Master public-witness state. Present only
+   * on §5.7 matches (initialized via MatchConfig.witnessMode). Each
+   * Game Master card play appends a PublicWitnessEntry and updates
+   * the clipped running balance. The final balance is handed off to
+   * the §5.8 Authority trial as openingVerdictBalance via
+   * deriveAuthorityVerdictOffset. See engine/publicWitness.ts +
+   * docs/production/act1/public-witness-ui-spec.md.
+   */
+  publicWitness?: PublicWitnessState;
+  /**
+   * Optional: §4.9 Seer prophecy state. Present only on §4.9
+   * matches (initialized via MatchConfig.prophecyMode). Holds the
+   * "pending future" bake and play counter; transitions via
+   * engine/seerProphecy.ts. Spec §3: the pending future is
+   * one-directional from engine to board — card effects can read
+   * but not write. See docs/production/act1/seer-prophecy-mechanic.md.
+   */
+  seerProphecy?: SeerProphecyState;
 }
 
 /**

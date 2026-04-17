@@ -40,13 +40,30 @@ import { PlayRejectionToast } from "@/components/match/PlayRejectionToast";
 import { TrialPhaseIndicator } from "@/components/match/TrialPhaseIndicator";
 import { ChoicePillarLightDark } from "@/components/match/ChoicePillarLightDark";
 import {
+  ChoicePillarProgrammerGift,
+  type ProgrammerGiftChoice,
+} from "@/components/match/ChoicePillarProgrammerGift";
+import {
   setLightDarkAlignment,
+  setProgrammerGiftAccepted,
   type LightDarkAlignment,
 } from "@shared/campaignState";
+import { useGame } from "@/contexts/GameContext";
+import {
+  deriveSeerOutcome,
+  playerDeckUnlocksWinnablePath,
+} from "@shared/tcg-core/engine/seerProphecy";
+import {
+  ACT1_CYCLE_B_COMPLETE_FLAG,
+  SEER_OUTCOME_FLAGS,
+  SEER_STAFF_WITNESSED_FLAG,
+} from "@shared/tcg-core/types/SeerProphecy";
 import {
   TrialTranscriptColumn,
   type TrialTranscriptEntry,
 } from "@/components/match/TrialTranscriptColumn";
+import { PublicWitnessColumn } from "@/components/match/PublicWitnessColumn";
+import { SeerPlayOverlay } from "@/components/match/SeerPlayOverlay";
 import type { TcgDispatchResult } from "./TcgClient";
 
 interface DuelystGameUIProps {
@@ -68,6 +85,21 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rendererRef = useRef<BoardRenderer | null>(null);
   const tcgClientRef = useRef<TcgClient | null>(null);
+  // Snapshot of the player's initial deck cardDefIds, captured at
+  // match start. Used by the §4.9 Seer match-end flag-write to test
+  // for burnt_card_placeholder (the canon-hidden winnable path).
+  const initialPlayerDeckRef = useRef<readonly string[]>([]);
+  // Guard so the §4.9 match-end flag writes fire exactly once.
+  const seerFlagsWrittenRef = useRef(false);
+  // §4.9 prophecy visual signal. Tracks the last observed
+  // playsPerformed so the overlay mounts once per new prophecy
+  // play and auto-dismisses after 800ms.
+  const [showSeerPlayOverlay, setShowSeerPlayOverlay] = useState(false);
+  const prevSeerPlaysRef = useRef(0);
+  // Screen-reader match-start announcement — fired once when
+  // seerProphecy first appears on state (spec §6.3).
+  const seerAnnouncedRef = useRef(false);
+  const { setNarrativeFlag } = useGame();
   const [gameState, setGameState] = useState<DuelystGameState | null>(null);
   const [phase, setPhase] = useState<Phase>("mulligan");
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
@@ -105,6 +137,15 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   // of the entire game" (authority-trial-phase-mechanic.md §5).
   const [showLightDarkPillar, setShowLightDarkPillar] = useState(false);
   const prevTrialOutcomeRef = useRef<"overturn" | "sentence_passed" | undefined>(undefined);
+
+  // §5.6 Programmer gift pillar. Mounted when
+  // gameState.programmerGift?.status transitions to "offered" (the
+  // Programmer AI's gift-offer moment). The pick dispatches the
+  // programmer_gift_choice action AND writes the persistent
+  // act1_programmer_gift_accepted campaign flag via
+  // setProgrammerGiftAccepted(). Spec: §5.6.
+  const [showProgrammerGiftPillar, setShowProgrammerGiftPillar] = useState(false);
+  const prevGiftStatusRef = useRef<string | undefined>(undefined);
 
   // Tutorial state
   const [tutorialStep, setTutorialStep] = useState(0);
@@ -205,6 +246,11 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     const p1DeckCardIds = playerStarter
       ? [...playerStarter.cardDefIds]
       : buildStarterDeck(playerFaction).map((c) => c.sagaCardId ?? c.id);
+    // Stash the player's starting deck so the §4.9 match-end hook
+    // can check for burnt_card_placeholder regardless of how many
+    // cards remain in deck/hand/graveyard at resolution time.
+    initialPlayerDeckRef.current = p1DeckCardIds;
+    seerFlagsWrittenRef.current = false;
     const p2DeckCardIds = opponentStarter
       ? [...opponentStarter.cardDefIds]
       : buildStarterDeck(opponentFaction).map((c) => c.sagaCardId ?? c.id);
@@ -255,6 +301,70 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     }
   }, [gameState, phase, onGameEnd]);
 
+  // §4.9 Seer match end — write the canonical outcome flags once the
+  // match resolves. deriveSeerOutcome picks between defeated /
+  // scripted_loss / fled based on:
+  //   • conceded (winReason === "surrender") → fled
+  //   • player-side victory + burnt-card-in-deck → defeated (the one
+  //     winnable path, spec §3.3)
+  //   • prophecy sequence completed → scripted_loss
+  // ACT1_CYCLE_B_COMPLETE_FLAG auto-fires the "to-be-the-human"
+  // slideshow via SLIDESHOW_TRIGGERS in useNarrativeIntegration, so
+  // no separate cinematic wiring is needed here.
+  useEffect(() => {
+    if (!gameState || !gameState.seerProphecy) return;
+    if (gameState.winner === null) return;
+    if (seerFlagsWrittenRef.current) return;
+    seerFlagsWrittenRef.current = true;
+
+    const conceded = gameState.winReason === "surrender";
+    const seerGeneralKilled = gameState.winner === 0 && !conceded;
+    const winnablePathUnlocked = playerDeckUnlocksWinnablePath(
+      initialPlayerDeckRef.current,
+    );
+    const outcome = deriveSeerOutcome({
+      conceded,
+      seerGeneralKilled,
+      winnablePathUnlocked,
+      playsPerformed: gameState.seerProphecy.playsPerformed,
+      turnCount: 6,
+    });
+    if (outcome) {
+      setNarrativeFlag(SEER_OUTCOME_FLAGS[outcome], true);
+    }
+    setNarrativeFlag(SEER_STAFF_WITNESSED_FLAG, true);
+    setNarrativeFlag(ACT1_CYCLE_B_COMPLETE_FLAG, true);
+  }, [gameState, setNarrativeFlag]);
+
+  // §4.9 match-start screen-reader announcement (spec §6.3). Fires
+  // exactly once per playthrough when seerProphecy first appears on
+  // state — tells screen-reader users about the asymmetric rule
+  // without naming the winnable-path secret (spec §6.3 note).
+  useEffect(() => {
+    if (!gameState?.seerProphecy) return;
+    if (seerAnnouncedRef.current) return;
+    seerAnnouncedRef.current = true;
+    announce(
+      "The Seer plays cards from a future turn. Her hand count does not decrease.",
+      true,
+    );
+  }, [gameState]);
+
+  // §4.9 prophecy visual signal. Watches the playsPerformed counter
+  // and shows SeerPlayOverlay for 800ms on each increment. Also
+  // announces the individual play for screen-readers — the match-
+  // start announcement covers the general rule; this confirms the
+  // specific moment of a new retroactive play.
+  useEffect(() => {
+    if (!gameState?.seerProphecy) return;
+    const plays = gameState.seerProphecy.playsPerformed;
+    if (plays > prevSeerPlaysRef.current) {
+      prevSeerPlaysRef.current = plays;
+      setShowSeerPlayOverlay(true);
+      announce("The Seer plays a card from a future turn.");
+    }
+  }, [gameState]);
+
   // §5.8 Authority trial — screen-reader announcement on match start +
   // transcript reset. The TrialPhaseIndicator's own aria-live region
   // handles the verdict announcement when `outcome` lands, so this
@@ -287,6 +397,20 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     prevTrialOutcomeRef.current = outcome;
   }, [gameState]);
 
+  // §5.6 gift pillar — fires on the not_offered → offered transition.
+  // Once the player resolves (accepted/declined), the status moves
+  // terminal and the pillar stays hidden.
+  useEffect(() => {
+    const status = gameState?.programmerGift?.status;
+    if (status === "offered" && prevGiftStatusRef.current !== "offered") {
+      setShowProgrammerGiftPillar(true);
+    }
+    if (status === "accepted" || status === "declined") {
+      setShowProgrammerGiftPillar(false);
+    }
+    prevGiftStatusRef.current = status;
+  }, [gameState]);
+
   // §5.8.1 pick handler: write the persistent alignment flag + hide
   // the pillar. The component's own state prevents re-clicks mid-
   // animation; this handler fires exactly once per playthrough.
@@ -303,6 +427,30 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       // animation has time to play (the component locks on click
       // and runs a ~500ms transition).
       setTimeout(() => setShowLightDarkPillar(false), 800);
+    },
+    [addLog],
+  );
+
+  // §5.6 gift pick handler: dispatch the reducer action (transitions
+  // GameState.programmerGift to accepted|declined and ends the match
+  // on accept), write the persistent campaign flag, and add a log
+  // line. Fires once per playthrough — the component's internal lock
+  // guards against re-clicks during the transition.
+  const handleProgrammerGiftPick = useCallback(
+    (choice: ProgrammerGiftChoice) => {
+      const accepted = choice === "accept";
+      setProgrammerGiftAccepted(accepted);
+      const client = tcgClientRef.current;
+      if (client) {
+        client.dispatch({ type: "programmer_gift_choice", choice });
+      }
+      addLog(
+        accepted
+          ? "The Programmer vanishes that night and does not return. You take the win."
+          : "You decline the gift. The Programmer smiles, and plays the next turn honestly.",
+        "system",
+      );
+      setTimeout(() => setShowProgrammerGiftPillar(false), 800);
     },
     [addLog],
   );
@@ -722,6 +870,19 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           trialOutcome={gameState.trial.outcome}
           onPick={handleLightDarkPick}
         />
+      )}
+      {showProgrammerGiftPillar &&
+        gameState?.programmerGift?.status === "offered" && (
+          <ChoicePillarProgrammerGift onPick={handleProgrammerGiftPick} />
+        )}
+      {gameState?.publicWitness && (
+        <PublicWitnessColumn
+          balance={gameState.publicWitness.balance}
+          entries={gameState.publicWitness.entries}
+        />
+      )}
+      {showSeerPlayOverlay && (
+        <SeerPlayOverlay onDismiss={() => setShowSeerPlayOverlay(false)} />
       )}
       {rejection && (
         <PlayRejectionToast key={rejection.key} message={rejection.message} />

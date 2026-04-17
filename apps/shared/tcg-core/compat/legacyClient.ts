@@ -114,6 +114,17 @@ export function translateClientAction(
     case "concede":
       return { ok: true, action: { kind: "concede", actor, seq } };
 
+    case "programmer_gift_choice": {
+      const choice = m.choice;
+      if (choice !== "accept" && choice !== "decline") {
+        return { ok: false, error: "programmer_gift_choice: invalid choice" };
+      }
+      return {
+        ok: true,
+        action: { kind: "programmer_gift_choice", actor, choice, seq },
+      };
+    }
+
     default:
       return { ok: false, error: `unknown action type: ${type}` };
   }

@@ -46,6 +46,7 @@ import {
   activateLockout,
   isCardLocked,
 } from "./lockout";
+import { applyPublicWitnessPlay } from "./publicWitness";
 import {
   applyTrialPlay,
   checkPhaseAdmissibility,
@@ -187,6 +188,18 @@ export function handlePlayCard(
       }
       // §5.8 trial bookkeeping (no-op on non-trial matches).
       applyTrialPlay(draft, def, ctx.events);
+      // §5.7 public-witness bookkeeping (no-op on non-§5.7 matches
+      // and on player-side plays). Private delta is the card's
+      // authored verdict_delta for now — the spec treats the public
+      // delta and the private match-scoring impact as two reads on
+      // the same authored number until divergence tuning lands.
+      applyPublicWitnessPlay(
+        draft,
+        def,
+        action.actor,
+        Number.isFinite(def.verdict_delta) ? (def.verdict_delta as number) : 0,
+        ctx,
+      );
       return undefined;
     }
 
@@ -232,6 +245,18 @@ export function handlePlayCard(
       }
       // §5.8 trial bookkeeping (no-op on non-trial matches).
       applyTrialPlay(draft, def, ctx.events);
+      // §5.7 public-witness bookkeeping (no-op on non-§5.7 matches
+      // and on player-side plays). Private delta is the card's
+      // authored verdict_delta for now — the spec treats the public
+      // delta and the private match-scoring impact as two reads on
+      // the same authored number until divergence tuning lands.
+      applyPublicWitnessPlay(
+        draft,
+        def,
+        action.actor,
+        Number.isFinite(def.verdict_delta) ? (def.verdict_delta as number) : 0,
+        ctx,
+      );
       return undefined;
     }
 
@@ -284,6 +309,18 @@ export function handlePlayCard(
       }
       // §5.8 trial bookkeeping (no-op on non-trial matches).
       applyTrialPlay(draft, def, ctx.events);
+      // §5.7 public-witness bookkeeping (no-op on non-§5.7 matches
+      // and on player-side plays). Private delta is the card's
+      // authored verdict_delta for now — the spec treats the public
+      // delta and the private match-scoring impact as two reads on
+      // the same authored number until divergence tuning lands.
+      applyPublicWitnessPlay(
+        draft,
+        def,
+        action.actor,
+        Number.isFinite(def.verdict_delta) ? (def.verdict_delta as number) : 0,
+        ctx,
+      );
       return undefined;
     }
 

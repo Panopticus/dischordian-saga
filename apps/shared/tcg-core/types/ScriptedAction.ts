@@ -9,7 +9,7 @@
  */
 import type { Side } from "./Ids";
 
-export type ScriptedAction = ScriptedForcePlayCard;
+export type ScriptedAction = ScriptedForcePlayCard | ScriptedOfferProgrammerGift;
 
 export interface ScriptedForcePlayCard {
   kind: "force_play_card";
@@ -19,4 +19,19 @@ export interface ScriptedForcePlayCard {
   side: Side;
   /** CardDefinition id to find + play. */
   cardDefId: string;
+}
+
+/**
+ * §5.6 Programmer gift offer. Transitions
+ * `state.programmerGift` from "not_offered" → "offered" on the
+ * scripted turn. No-op if the state is already offered/resolved
+ * (idempotent via the engine's pure transition). The UI surfaces
+ * the ChoicePillarProgrammerGift on the offered transition.
+ */
+export interface ScriptedOfferProgrammerGift {
+  kind: "offer_programmer_gift";
+  /** Global GameState.turnNumber at which to fire. */
+  globalTurn: number;
+  /** Which side "offers" — narratively the Programmer (opponent). */
+  side: Side;
 }

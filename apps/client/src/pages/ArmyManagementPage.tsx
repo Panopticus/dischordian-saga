@@ -462,6 +462,7 @@ export default function ArmyManagementPage() {
   const {
     state, recruitUnit, deployUnits, completeDeployment,
     getAvailableUnits, getActiveDeployments, checkDeploymentCompletion,
+    completeRecruitmentMission,
   } = useGame();
   const { playSong } = usePlayer();
   const [activeSector, setActiveSector] = useState(1);
@@ -501,7 +502,11 @@ export default function ArmyManagementPage() {
       deployed: false,
     };
     recruitUnit(newUnit);
-  }, [recruitUnit]);
+    // Mark the recruitment mission itself as complete. Idempotent.
+    // This is the counter that gates Acts 6 (5+) and 7 (15+) per
+    // Roadmap Implication §5.
+    completeRecruitmentMission(mission.id);
+  }, [recruitUnit, completeRecruitmentMission]);
 
   const handleDeploy = useCallback((templateId: string, unitId: string) => {
     const template = [...DAILY_MISSIONS, ...WEEKLY_MISSIONS, ...EVENT_MISSIONS].find((t: DeploymentMissionTemplate) => t.id === templateId);

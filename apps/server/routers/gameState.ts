@@ -56,6 +56,32 @@ const gameStateSchema = z.object({
   totalRoomsUnlocked: z.number(),
   totalItemsFound: z.number(),
   narrativeFlags: z.record(z.string(), z.boolean()),
+  // Wave 1 — unified "both narrators" bond (§14.1 milestones at 40/60/80).
+  // Optional so older clients that predate the field round-trip cleanly;
+  // the derived-value fallback in shared/narratorBond.ts handles reads.
+  narratorBond: z.number().optional(),
+  // Wave 1 — canonical Year One Calendar month (1..12). Optional for
+  // pre-field saves; the flag-scan fallback in shared/yearOneMonth.ts
+  // reads `year_one_month_N_opened` when the field is absent.
+  yearOneMonth: z.number().optional(),
+  // Wave 1 — army recruitment counter. Gates Acts 6 (5+) and 7 (15+)
+  // per shared/armyRecruitment.ts thresholds. Optional — passthrough
+  // handled pre-field saves but the explicit field documents the
+  // validation contract.
+  armyRecruitmentMissionsCompleted: z.array(z.string()).optional(),
+  // Wave 1 — prestige (§15 P3). Typed replacement for the old
+  // `(prev as any).prestige` hack on GameContext. The baseline is
+  // the carryover result from applyPrestigeCarryover() at the last
+  // prestige event; null on saves that have never prestiged.
+  prestigeLevel: z.number().optional(),
+  prestigeBaseline: z.object({
+    loredexEntries: z.number(),
+    bondPeakMemories: z.number(),
+    narratorDominanceEnergy: z.number(),
+    dischordiaCards: z.number(),
+    witnessingMilestones: z.number(),
+    memorableMoments: z.number(),
+  }).nullable().optional(),
   claimedQuestRewards: z.array(z.string()).optional(),
   completedGames: z.array(z.string()).optional(),
   collectedCards: z.array(z.string()).optional(),

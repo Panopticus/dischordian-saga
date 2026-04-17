@@ -37,4 +37,10 @@ export const cardDef: CardDefinition = {
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
+  // §5.7 alignment-but-stronger: a rebuilt-from-scrap construct reads
+  // publicly as evidence of craftsmanship — reinforces the Game
+  // Master's narrative louder than the private scoring. No sign
+  // divergence (both positive), so no warning border — just a
+  // louder row on the public record.
+  public_delta: 2,
 };

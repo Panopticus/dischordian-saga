@@ -21,6 +21,11 @@ import {
   WITNESSING_MILESTONES,
   type WitnessingMilestoneId,
 } from "@shared/witnessingEvents";
+import { NARRATOR_BOND_THRESHOLDS } from "@shared/narratorBond";
+import {
+  PRELUDE_HANDOFF_TARGET_ACT,
+  shouldAdvanceToAct1OnPreludeComplete,
+} from "@shared/preludeHandoff";
 import {
   getPendingKaelPayoffCinematic,
   KAEL_FRAGMENTS,
@@ -206,6 +211,17 @@ export const SLIDESHOW_TRIGGERS: ReadonlyArray<{
     completionFlag: "slideshow_two_witnesses_meet_complete",
   },
   {
+    // ACT1_NARRATIVE_STRUCTURE.md §6 — Two Witnesses Meet Part 2
+    // (Act 1 narrative close). Fires after §5.8.1 Light/Dark persist
+    // (the watcher below raises `act1_section_6_ready` on the
+    // lightDarkAlignment null → set transition). The slideshow's
+    // `flagsSetOnComplete` writes `act1_complete` + the two
+    // witness_*_met_part2 flags Acts 2+ consume.
+    triggerFlag: "act1_section_6_ready",
+    slideshowId: "two-witnesses-part-2",
+    completionFlag: "slideshow_two_witnesses_part_2_complete",
+  },
+  {
     // §6.5 / §12 C5 — Act 2 Thaloria cinematic. Gameplay sets
     // `thaloria_cinematic_unlocked` on the player's third
     // Collector's Arena match win.
@@ -252,7 +268,12 @@ export const SLIDESHOW_TRIGGERS: ReadonlyArray<{
 ];
 
 export function useNarrativeIntegration() {
-  const { state, setNarrativeFlag } = useGame();
+  const {
+    state,
+    setNarrativeFlag,
+    getNarratorBond,
+    advanceNarrativeAct,
+  } = useGame();
   const prevMoralityRef = useRef(state.moralityScore);
   const prevTrustRef = useRef<Record<string, number>>({});
   const prevRoomsRef = useRef<Set<string>>(new Set());
@@ -388,6 +409,32 @@ export function useNarrativeIntegration() {
     }
   }, [state.rooms, discoverLore]);
 
+  // ─── PRELUDE → ACT 1 HANDOFF ───
+  // The burnt-card mission raises `prelude_complete` (see
+  // shared/preludeCrewMissions.ts). That flag is the Prelude's
+  // "I'm done" signal. Nothing between that flag and Act 1's
+  // ACT_TRIGGERS used to advance narrativeAct, so Act 1 was
+  // unreachable from the Prelude (roadmap ship-blocker).
+  //
+  // The predicate is pure (shared/preludeHandoff.ts). This
+  // effect just calls advanceNarrativeAct when it returns true.
+  // Guarded idempotently: once narrativeAct advances past 0 the
+  // predicate returns false, so re-renders don't loop.
+  useEffect(() => {
+    if (
+      shouldAdvanceToAct1OnPreludeComplete({
+        narrativeAct: state.narrativeAct,
+        narrativeFlags: state.narrativeFlags,
+      })
+    ) {
+      advanceNarrativeAct(PRELUDE_HANDOFF_TARGET_ACT);
+    }
+  }, [
+    state.narrativeAct,
+    state.narrativeFlags?.prelude_complete,
+    advanceNarrativeAct,
+  ]);
+
   // ─── WITNESSING §1.5 / §14.1 — MUTUAL BOND MILESTONES ───
   // Three tiers of shared bond fire scripted Living Universe
   // milestones. Each is guarded by the milestone's narrative
@@ -399,17 +446,20 @@ export function useNarrativeIntegration() {
   //   bond 80 → "The Two Witnesses Meet" (triggers §12 C10
   //              cinematic via the SLIDESHOW_TRIGGERS fan-out)
   //
-  // All three use the minimum of the two bond scores so the
-  // milestones fire on TRUE mutual trust, not on one narrator
-  // lopsidedly carrying the total.
+  // The bond number comes from getNarratorBond() — which reads
+  // the canonical state.narratorBond field or falls back to
+  // min(elaraTrustLevel, humanTrustLevel) for saves that predate
+  // the field. Thresholds live in NARRATOR_BOND_THRESHOLDS so
+  // the numbers can't drift between the helper and the hook.
+  const mutualBond = getNarratorBond();
   useEffect(() => {
-    const mutualBond = Math.min(
-      state.elaraTrustLevel ?? 0,
-      state.humanTrustLevel ?? 0,
-    );
-    if (mutualBond >= 40) fireMilestone("two_witnesses_remember");
-    if (mutualBond >= 60) fireMilestone("silence_of_two_witnesses");
-    if (mutualBond >= 80) {
+    if (mutualBond >= NARRATOR_BOND_THRESHOLDS.remember) {
+      fireMilestone("two_witnesses_remember");
+    }
+    if (mutualBond >= NARRATOR_BOND_THRESHOLDS.silence) {
+      fireMilestone("silence_of_two_witnesses");
+    }
+    if (mutualBond >= NARRATOR_BOND_THRESHOLDS.meet) {
       fireMilestone("two_witnesses_meet");
       if (
         !state.narrativeFlags?.bond_80_mutual_peak &&
@@ -426,8 +476,7 @@ export function useNarrativeIntegration() {
       }
     }
   }, [
-    state.elaraTrustLevel,
-    state.humanTrustLevel,
+    mutualBond,
     state.narrativeFlags?.bond_80_mutual_peak,
     state.narrativeFlags?.slideshow_two_witnesses_meet_complete,
     setNarrativeFlag,
@@ -512,6 +561,26 @@ export function useNarrativeIntegration() {
     state.narrativeFlags?.vortex_endgame_dark_variant,
     cycleLight,
     cycleDark,
+    setNarrativeFlag,
+  ]);
+
+  // ─── ACT 1 §6 — SECTION 6 GATE RAISER ───
+  // Fires the `act1_section_6_ready` trigger flag the moment the
+  // §5.8.1 Light/Dark persist lands — that is, the first time
+  // state.lightDarkAlignment transitions from null to a value. The
+  // SLIDESHOW_TRIGGERS fan-out below picks up the raised flag and
+  // plays the two-witnesses-part-2 slideshow; its flagsSetOnComplete
+  // writes act1_complete and the two witness_*_met_part2 flags per
+  // ACT1_NARRATIVE_STRUCTURE.md §6.6.
+  useEffect(() => {
+    if (!state.lightDarkAlignment) return;
+    if (state.narrativeFlags?.act1_section_6_ready) return;
+    if (state.narrativeFlags?.slideshow_two_witnesses_part_2_complete) return;
+    setNarrativeFlag("act1_section_6_ready", true);
+  }, [
+    state.lightDarkAlignment,
+    state.narrativeFlags?.act1_section_6_ready,
+    state.narrativeFlags?.slideshow_two_witnesses_part_2_complete,
     setNarrativeFlag,
   ]);
 

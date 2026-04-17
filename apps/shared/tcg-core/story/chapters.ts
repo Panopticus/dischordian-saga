@@ -10,6 +10,8 @@
  * bridge that creates playable matches from story chapters.
  */
 import type { StoryEncounter } from "./encounter";
+import { NEUTRAL_CYCLE_C_BOSS_DECK } from "../decks/neutralCycleCBossDeck";
+import { bossDeckForFaction } from "../decks/bossDeckForFaction";
 
 /* ─── Difficulty → Boss HP scale ─── */
 
@@ -19,12 +21,6 @@ export const DIFFICULTY_HP_SCALE: Record<string, number> = {
   hard: 30,
   nightmare: 40,
 };
-
-/* ─── Helper ─── */
-
-function bossDeck(prefix: string): readonly string[] {
-  return Array.from({ length: 39 }, (_, i) => `${prefix}_${i}`);
-}
 
 /* ═══════════════════════════════════════════════════════
    CHAPTERS 1-12 (including branches 3a/3b, 9a/9b)
@@ -37,7 +33,7 @@ const ch1: StoryEncounter = {
   description: "Agent Zero hacked the scheduling matrix to reach you first.",
   bossFaction: "insurgency",
   bossGeneralDefId: "gen_insurgency",
-  bossDeckCardDefIds: bossDeck("boss_ch1"),
+  bossDeckCardDefIds: bossDeckForFaction("insurgency"),
   seed: "ch1_dead_signal_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -67,7 +63,7 @@ const ch2: StoryEncounter = {
   description: "A skull in green robes enforces the rotation.",
   bossFaction: "panopticon",
   bossGeneralDefId: "gen_panopticon",
-  bossDeckCardDefIds: bossDeck("boss_ch2"),
+  bossDeckCardDefIds: bossDeckForFaction("panopticon"),
   seed: "ch2_arenas_law_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -103,7 +99,7 @@ const ch3a: StoryEncounter = {
   description: "Iron Lion salutes you as a commander.",
   bossFaction: "new_babylon",
   bossGeneralDefId: "gen_new_babylon",
-  bossDeckCardDefIds: bossDeck("boss_ch3a"),
+  bossDeckCardDefIds: bossDeckForFaction("new_babylon"),
   seed: "ch3a_generals_honor_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -133,7 +129,7 @@ const ch3b: StoryEncounter = {
   description: "Wraith Calder — seven deaths and still standing.",
   bossFaction: "insurgency",
   bossGeneralDefId: "gen_insurgency",
-  bossDeckCardDefIds: bossDeck("boss_ch3b"),
+  bossDeckCardDefIds: bossDeckForFaction("insurgency"),
   seed: "ch3b_ghosts_gambit_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -163,7 +159,7 @@ const ch4: StoryEncounter = {
   description: "Akai Shi — the assassin who kills with a whisper.",
   bossFaction: "antiquarian",
   bossGeneralDefId: "gen_antiquarian",
-  bossDeckCardDefIds: bossDeck("boss_ch4"),
+  bossDeckCardDefIds: bossDeckForFaction("antiquarian"),
   seed: "ch4_red_death_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -199,7 +195,7 @@ const ch5: StoryEncounter = {
   description: "The Necromancer — mandatory death and resurrection.",
   bossFaction: "thought_virus",
   bossGeneralDefId: "gen_thought_virus",
-  bossDeckCardDefIds: bossDeck("boss_ch5"),
+  bossDeckCardDefIds: bossDeckForFaction("thought_virus"),
   seed: "ch5_dead_code_rising_seed",
   // Mandatory loss — the player must die and be resurrected.
   winConditions: [{ kind: "survive_turns", turns: 8 }],
@@ -236,7 +232,7 @@ const ch6: StoryEncounter = {
   description: "The White Oracle — a mirror match against your stolen face.",
   bossFaction: "dreamer",
   bossGeneralDefId: "gen_dreamer",
-  bossDeckCardDefIds: bossDeck("boss_ch6"),
+  bossDeckCardDefIds: bossDeckForFaction("dreamer"),
   seed: "ch6_false_prophet_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -272,7 +268,7 @@ const ch7: StoryEncounter = {
   description: "Dr. Vox transforms mid-battle into the Warlord.",
   bossFaction: "new_babylon",
   bossGeneralDefId: "gen_new_babylon",
-  bossDeckCardDefIds: bossDeck("boss_ch7"),
+  bossDeckCardDefIds: bossDeckForFaction("new_babylon"),
   seed: "ch7_project_vector_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -308,7 +304,7 @@ const ch8: StoryEncounter = {
   description: "The Human — the only non-augmented fighter in the Arena.",
   bossFaction: "insurgency",
   bossGeneralDefId: "gen_insurgency",
-  bossDeckCardDefIds: bossDeck("boss_ch8"),
+  bossDeckCardDefIds: bossDeckForFaction("insurgency"),
   seed: "ch8_the_detective_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -363,7 +359,7 @@ const chWarlordZeroFirst: StoryEncounter = {
   bossGeneralDefId: "gen_architect",
   bossDeckCardDefIds: [
     "s1_warlord_three_moves",
-    ...bossDeck("boss_warlord_zero_first").slice(0, 38),
+    ...bossDeckForFaction("architect").slice(0, 38),
   ],
   seed: "warlord_zero_first_seed",
   winConditions: [{ kind: "general_killed" }],
@@ -414,7 +410,7 @@ const ch9a: StoryEncounter = {
   description: "The Enigma — probability itself bends around her.",
   bossFaction: "dreamer",
   bossGeneralDefId: "gen_dreamer",
-  bossDeckCardDefIds: bossDeck("boss_ch9a"),
+  bossDeckCardDefIds: bossDeckForFaction("dreamer"),
   seed: "ch9a_unknown_variable_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -450,7 +446,7 @@ const ch9b: StoryEncounter = {
   description: "The Degen — chaos incarnate, all-in on every turn.",
   bossFaction: "antiquarian",
   bossGeneralDefId: "gen_antiquarian",
-  bossDeckCardDefIds: bossDeck("boss_ch9b"),
+  bossDeckCardDefIds: bossDeckForFaction("antiquarian"),
   seed: "ch9b_gamblers_truth_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -486,7 +482,7 @@ const ch10: StoryEncounter = {
   description: "Foucault — chrome jaw, genetic reveal, the Arena's true enforcer.",
   bossFaction: "panopticon",
   bossGeneralDefId: "gen_panopticon",
-  bossDeckCardDefIds: bossDeck("boss_ch10"),
+  bossDeckCardDefIds: bossDeckForFaction("panopticon"),
   seed: "ch10_panoptic_warden_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -522,7 +518,7 @@ const ch11: StoryEncounter = {
   description: "The Collector — Damnatio Memoriae, eraser of identities.",
   bossFaction: "panopticon",
   bossGeneralDefId: "gen_panopticon",
-  bossDeckCardDefIds: bossDeck("boss_ch11"),
+  bossDeckCardDefIds: bossDeckForFaction("panopticon"),
   seed: "ch11_harvesters_reckoning_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -558,7 +554,7 @@ const ch12: StoryEncounter = {
   description: "Final boss — the entity that built the Arena to contain you.",
   bossFaction: "architect",
   bossGeneralDefId: "gen_architect",
-  bossDeckCardDefIds: bossDeck("boss_ch12"),
+  bossDeckCardDefIds: bossDeckForFaction("architect"),
   seed: "ch12_architects_design_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -631,7 +627,7 @@ const chAuthorityTrial: StoryEncounter = {
     "The Act 1 finale. Ten phases of an Empire judicial proceeding. Survive every phase restriction and the verdict-stream balance decides your fate.",
   bossFaction: "architect",
   bossGeneralDefId: "gen_authority",
-  bossDeckCardDefIds: bossDeck("boss_authority_trial"),
+  bossDeckCardDefIds: bossDeckForFaction("architect"),
   seed: "authority_trial_seed",
   winConditions: [{ kind: "survive_turns", turns: 10 }],
   loseConditions: [{ kind: "general_killed" }],
@@ -650,14 +646,198 @@ const chAuthorityTrial: StoryEncounter = {
 };
 
 /* ═══════════════════════════════════════════════════════
+   §5.6 — THE PROGRAMMER (Cycle C step 10)
+
+   The Engineer's oldest friend, last seen at Nexon. Canonically
+   he deliberately throws the match; the player can either accept
+   the gift or decline and fight on.
+
+   Parallel to chAuthorityTrial (§5.8) in shape:
+    - bossGeneralDefId is the new decorative `gen_programmer` (3/22,
+      neutral, no abilities). Mid-range stats so the two legitimate
+      opening turns (spec §2) play honestly before the gift fires.
+    - giftMode opts the match into the §5.6 engine (ProgrammerGift-
+      State starts at "not_offered"; offerGift / acceptGift / declineGift
+      in engine/programmerGift.ts drive the transitions).
+    - winConditions keep the default general_killed — a declined
+      gift still resolves via combat. Accepting the gift is the
+      narrative winning path; DuelystGameUI resolves the match on
+      the accept transition.
+
+   Wiring: ALL_CHAPTER_ENCOUNTERS export below; CHAPTER_MAP lookup
+   by id `ch_programmer_gift`. Dialog scenes in
+   dialogBank_chapters_10_12.ts (pre/win/loss).
+*/
+const chProgrammerGift: StoryEncounter = {
+  id: "ch_programmer_gift",
+  chapterId: "ch_programmer_gift",
+  name: "The Programmer",
+  description:
+    "The Engineer's oldest friend. He plays two honest turns, then offers the gift — a deliberate throw. Accept or decline.",
+  bossFaction: "neutral",
+  bossGeneralDefId: "gen_programmer",
+  bossDeckCardDefIds: NEUTRAL_CYCLE_C_BOSS_DECK,
+  seed: "programmer_gift_seed",
+  winConditions: [{ kind: "general_killed" }],
+  loseConditions: [{ kind: "general_killed" }],
+  narrativeHooks: [
+    {
+      id: "programmer_opening",
+      once: true,
+      condition: { kind: "always" },
+      action: {
+        kind: "boss_taunt",
+        text: "I will not tell you what I am doing. Trust me. I have done the arithmetic, and the arithmetic is very bad.",
+      },
+    },
+  ],
+  preMatchDialog: "dialog_programmer_gift_pre",
+  postMatchWinDialog: "dialog_programmer_gift_win",
+  postMatchLossDialog: "dialog_programmer_gift_loss",
+  giftMode: { earliestOfferTurn: 3 },
+  // §5.6 gift-offer activator: on global turn 3 with side 1 (the
+  // Programmer), transition programmerGift from not_offered → offered.
+  // The drainer runs after refreshTurnForPlayer, so the Programmer
+  // has already made two honest plays (turns 1 and 2) before the
+  // gesture fires, matching spec §2.
+  scriptedActions: [
+    {
+      kind: "offer_programmer_gift",
+      globalTurn: 3,
+      side: 1,
+    },
+  ],
+};
+
+/* ═══════════════════════════════════════════════════════
+   §5.7 — THE GAME MASTER (Cycle C step 11)
+
+   The Engineer's actual trial opponent. Parallel to §5.6
+   Programmer + §5.8 Authority in shape:
+    - bossGeneralDefId is the new `gen_game_master_original` (4/24,
+      neutral, no abilities). The prosecutor's power is the public
+      record — not the board — so mid-range stats let the match
+      run the full spec §4 arc.
+    - witnessMode opts the match into the §5.7 engine: a publicWitness
+      state populated on match start, then updated by
+      engine/publicWitness.ts when the Game Master plays. The final
+      balance feeds §5.8 Authority's openingVerdictBalance via
+      deriveAuthorityVerdictOffset (+3 / 0 / -3).
+    - winConditions keep the default general_killed — the §5.7 match
+      resolves by normal combat. The public record carries forward
+      regardless of win or loss (spec §6 "do not reset").
+
+   Wiring: ALL_CHAPTER_ENCOUNTERS export below; CHAPTER_MAP lookup
+   by id `ch_game_master`. Dialog scenes in
+   dialogBank_chapters_10_12.ts (pre/win/loss).
+*/
+const chGameMaster: StoryEncounter = {
+  id: "ch_game_master",
+  chapterId: "ch_game_master",
+  name: "The Game Master",
+  description:
+    "Before the execution, before the Authority. A prosecutor, not a duelist. Every card he plays enters the public record.",
+  bossFaction: "neutral",
+  bossGeneralDefId: "gen_game_master_original",
+  // Real neutral cards so the verdict column actually populates —
+  // each Game Master card play triggers applyPublicWitnessPlay
+  // (engine/publicWitness.ts) which reads verdict_delta and
+  // trial_categories from the card def.
+  bossDeckCardDefIds: NEUTRAL_CYCLE_C_BOSS_DECK,
+  seed: "game_master_seed",
+  winConditions: [{ kind: "general_killed" }],
+  loseConditions: [{ kind: "general_killed" }],
+  narrativeHooks: [
+    {
+      id: "game_master_opening",
+      once: true,
+      condition: { kind: "always" },
+      action: {
+        kind: "boss_taunt",
+        text: "You have built a beautiful box. The only thing I am going to do is open it in front of everybody.",
+      },
+    },
+  ],
+  preMatchDialog: "dialog_game_master_pre",
+  postMatchWinDialog: "dialog_game_master_win",
+  postMatchLossDialog: "dialog_game_master_loss",
+  witnessMode: {},
+};
+
+/* ═══════════════════════════════════════════════════════
+   §4.9 — THE SEER (visiting fellow, Cycle B finale)
+
+   She plays cards that aren't in her hand yet. Canonically a
+   scripted loss on first playthrough; the one winnable path
+   requires `burnt_card_placeholder` in the player's deck and is
+   delivered via Acts 2+ unlock routes (spec §3.3).
+
+   Shape differs from §5.6/§5.7/§5.8:
+    - bossGeneralDefId is `gen_seer` (3/25, neutral, no abilities).
+      The Seer's power is the prophecy, not board pressure.
+    - prophecyMode: { turnCount: 6 } opts the match into the §4.9
+      engine (reducer bakes/consumes the pending future each turn,
+      Seer plays are forced via engine/seerProphecy.ts).
+    - loseConditions include `turn_limit: 8` so the prophecy
+      sequence resolves into a scripted loss if the player never
+      kills the Seer's general. Winning requires general_killed
+      + the burnt-card deck — outcome-derivation in
+      deriveSeerOutcome picks between defeated / scripted_loss
+      / fled for the campaign layer.
+
+   Wiring: ALL_CHAPTER_ENCOUNTERS below; CHAPTER_MAP id
+   `ch_seer_visit`. Dialog in dialogBank_chapters_10_12.ts.
+*/
+const chSeerVisit: StoryEncounter = {
+  id: "ch_seer_visit",
+  chapterId: "ch_seer_visit",
+  name: "The Seer",
+  description:
+    "The visiting fellow. She plays cards that aren't in her hand yet. The bench does not know how.",
+  bossFaction: "neutral",
+  bossGeneralDefId: "gen_seer",
+  // Real neutral cards — spec §3 requires a deck the Seer's AI can
+  // draw from. The pending-future sampler reads this deck's first
+  // N entries (see engine/seerProphecy.ts sampleSeerFutureCard).
+  bossDeckCardDefIds: NEUTRAL_CYCLE_C_BOSS_DECK,
+  seed: "seer_visit_seed",
+  winConditions: [{ kind: "general_killed" }],
+  loseConditions: [
+    { kind: "general_killed" },
+    // Prophecy sequence length + 2 turns of player action — past this
+    // the scripted loss lands even if combat hasn't resolved either
+    // general.
+    { kind: "turn_limit", turn: 8 },
+  ],
+  narrativeHooks: [
+    {
+      id: "seer_opening",
+      once: true,
+      condition: { kind: "always" },
+      action: {
+        kind: "boss_taunt",
+        text: "I will not raise my staff today. I want to see whether the bench has learned yet.",
+      },
+    },
+  ],
+  preMatchDialog: "dialog_seer_visit_pre",
+  postMatchWinDialog: "dialog_seer_visit_win",
+  postMatchLossDialog: "dialog_seer_visit_loss",
+  prophecyMode: { turnCount: 6 },
+};
+
+/* ═══════════════════════════════════════════════════════
    EXPORTS
    ═══════════════════════════════════════════════════════ */
 
 export const ALL_CHAPTER_ENCOUNTERS: readonly StoryEncounter[] = Object.freeze([
   ch1, ch2, ch3a, ch3b,
   ch4, ch5, ch6, ch7, ch8,
+  chSeerVisit,
   chWarlordZeroFirst,
   ch9a, ch9b, ch10, ch11, ch12,
+  chProgrammerGift,
+  chGameMaster,
   chAuthorityTrial,
 ]);
 

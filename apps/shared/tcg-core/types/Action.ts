@@ -61,6 +61,13 @@ export type Action =
     }
   /** End current turn and pass priority. */
   | { kind: "end_turn"; actor: Side; seq: number }
+  /**
+   * §5.6 Programmer gift resolution — player chose accept or decline.
+   * No-op unless state.programmerGift?.status === "offered". The
+   * engine transitions the gift state via engine/programmerGift.ts;
+   * the UI writes the canonical campaign flag alongside.
+   */
+  | { kind: "programmer_gift_choice"; actor: Side; choice: "accept" | "decline"; seq: number }
   /** Concede the match. Always legal. */
   | { kind: "concede"; actor: Side; seq: number };
 

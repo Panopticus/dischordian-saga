@@ -114,6 +114,29 @@ export interface CreateMatchOptionsExtras {
    * docs/production/act1/authority-trial-phase-mechanic.md.
    */
   trialMode?: import("../types/TrialPhase").TrialModeConfig;
+  /**
+   * Optional §5.6 Programmer gift mode. Setting this puts the
+   * resulting match into gift mode: ProgrammerGiftState starts
+   * at "not_offered" and transitions through the engine/programmerGift.ts
+   * state machine. See ACT1_NARRATIVE_STRUCTURE.md §5.6.
+   */
+  giftMode?: import("../types/ProgrammerGift").GiftModeConfig;
+  /**
+   * Optional §5.7 Game Master witness mode. Setting this puts the
+   * resulting match into witness mode: PublicWitnessState starts at
+   * balance 0 with no entries. Engine/publicWitness.ts transitions
+   * the state when the Game Master plays a card. See
+   * docs/production/act1/public-witness-ui-spec.md.
+   */
+  witnessMode?: import("../types/PublicWitness").WitnessModeConfig;
+  /**
+   * Optional §4.9 Seer prophecy mode. Setting this puts the match
+   * into prophecy mode: seerProphecy starts null-pending / 0 plays.
+   * The reducer's turn-refresh hook (follow-up PR) bakes the
+   * pending future at the start of each player turn. See
+   * engine/seerProphecy.ts.
+   */
+  prophecyMode?: import("../types/SeerProphecy").ProphecyModeConfig;
 }
 
 export interface CreateMatchOptions extends CreateMatchOptionsExtras {
@@ -303,6 +326,20 @@ export function createMatchState(opts: CreateMatchOptions): GameState {
           openingArgumentPlayed: false,
           closingArgumentPlayed: false,
         }
+      : undefined,
+    programmerGift: opts.giftMode ? { status: "not_offered" } : undefined,
+    publicWitness: opts.witnessMode
+      ? {
+          balance:
+            typeof opts.witnessMode.openingBalance === "number" &&
+            Number.isFinite(opts.witnessMode.openingBalance)
+              ? Math.max(-10, Math.min(10, opts.witnessMode.openingBalance))
+              : 0,
+          entries: [],
+        }
+      : undefined,
+    seerProphecy: opts.prophecyMode
+      ? { pending: null, playsPerformed: 0 }
       : undefined,
   };
 }

@@ -161,6 +161,34 @@ export interface CardDefinition {
    * delta is never read — proposer still emits 0 for completeness.
    */
   verdict_delta?: number;
+  /**
+   * Optional §5.7 public-witness override. When set, the card's
+   * public-record delta diverges from its private (verdict_delta)
+   * impact — the divergence drives the TranscriptColumn's
+   * rust-orange warning border (spec §3: "private good, public bad"
+   * or vice versa). Absent → public delta defaults to verdict_delta
+   * (public and private agree; no divergence).
+   *
+   * Integer, same [-3, +3] range as verdict_delta. See
+   * engine/publicWitness.ts applyPublicWitnessPlay.
+   */
+  public_delta?: number;
+  /**
+   * Optional: marks a card as reserved-from-pools — not available via
+   * normal pack openings, deck-builder UIs, or reward drops. Reserved
+   * cards still load into the CardRegistry (so the engine can resolve
+   * their effects when the card lands via a scripted route), but every
+   * card-enumeration surface must filter them out.
+   *
+   * Current use: `burnt_card_placeholder` — the §4.9 Seer winnable-path
+   * card delivered retroactively via Acts 2+ unlock routes (spec §3.3
+   * "not discoverable on first playthrough"). Surfacing it in a
+   * normal pack would break the §4.9 canon.
+   *
+   * Deck-builder + pack-opening code filters on this flag via
+   * `isReservedCard(def)` / `filterReservedFromPool(defs)`.
+   */
+  reserved?: true;
 }
 
 /** Forward-declared. Full shape lives in types/Trigger.ts. */

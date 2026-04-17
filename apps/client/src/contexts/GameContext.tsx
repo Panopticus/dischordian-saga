@@ -12,6 +12,20 @@ import { SIB_WATCHED_FLAGS } from "@shared/transmissions";
 import { useSyncStatusStore } from "@/stores/syncStatusStore";
 import { applyDischordiaEnergy } from "@/stores/dischordiaCycleStore";
 import { recordMemorableMoment } from "@/stores/memorableMomentsStore";
+import { adjustNarratorBond as adjustNarratorBondValue, deriveNarratorBond } from "@shared/narratorBond";
+import {
+  advanceYearOneMonth as advanceYearOneMonthValue,
+  deriveYearOneMonth,
+  yearOneMonthFlag,
+} from "@shared/yearOneMonth";
+import { addCompletedRecruitmentMission } from "@shared/armyRecruitment";
+import {
+  EMPTY_PRESTIGE_CYCLE_STATS,
+  addPrestigeCycleStats,
+  measurePrestigeCycleStats,
+  type PrestigeCycleStats,
+} from "@shared/prestige";
+import { applyPrestigeCarryover } from "@shared/witnessingIntegrations";
 
 /* ─── TYPES ─── */
 export type GamePhase = "FIRST_VISIT" | "AWAKENING" | "QUARTERS_UNLOCKED" | "EXPLORING" | "FULL_ACCESS";
@@ -130,6 +144,16 @@ export interface GameState {
   elaraCallbacks: Record<string, boolean>; // callback flags for future reference
   humanTrust: number;               // 0-100, trust with The Human (competing with Elara)
   humanCallbacks: Record<string, boolean>; // The Human's callback flags
+  // Unified "both narrators" bond (§14.1 witnessing milestones fire at 40/60/80).
+  // Separate from elaraTrust/humanTrust: those are per-narrator scores.
+  // This is the shared scalar the bond-threshold milestones care about.
+  // Reader: getNarratorBond() falls back to min(elaraTrust, humanTrust)
+  // for saves that predate the field.
+  narratorBond: number;
+  // Year One Calendar month (1..12). §14.1 layers + Witnessing Hub read this.
+  // Reader: getYearOneMonth() falls back to the highest set
+  // `year_one_month_N_opened` flag on saves that predate the field.
+  yearOneMonth: number;
   // NPC relationship tracking (5 additional NPCs beyond Elara + Human)
   npcTrust: Record<string, number>;                 // npcId → trust 0-100
   npcCallbacks: Record<string, Record<string, boolean>>; // npcId → { callbackId → triggered }
@@ -263,6 +287,16 @@ export interface GameState {
   legionGraduates: Record<string, unknown>;  // id → Apprentice
   /** Letters from deployed apprentices — narrative micro-updates */
   legionLetters: { id: string; fromApprenticeId: string; body: string; timestamp: number; read: boolean }[];
+  // ─── Prestige (§15 P3) ───
+  /** How many times the player has prestiged. 0 = never. */
+  prestigeLevel: number;
+  /**
+   * Carryover baseline from prior prestige cycles — the result of
+   * applyPrestigeCarryover() at the last prestige event. null on a
+   * save that has never prestiged. Added on top of the current
+   * cycle's measured stats when systems need the lifetime view.
+   */
+  prestigeBaseline: PrestigeCycleStats | null;
 }
 
 /* ─── ROOM DEFINITIONS ─── */
@@ -931,6 +965,8 @@ const DEFAULT_GAME_STATE: GameState = {
   elaraCallbacks: {},
   humanTrust: 0,
   humanCallbacks: {},
+  narratorBond: 0,
+  yearOneMonth: 1,
   // NPC relationship defaults
   npcTrust: { agent_zero: 0, locke: 0, source: 0, antiquarian: 0, shadow_tongue: 0 },
   npcCallbacks: { agent_zero: {}, locke: {}, source: {}, antiquarian: {}, shadow_tongue: {} },
@@ -1035,6 +1071,8 @@ const DEFAULT_GAME_STATE: GameState = {
   legionRoster: { assignments: [], unassigned: [], sacrificedHistory: [] },
   legionGraduates: {},
   legionLetters: [],
+  prestigeLevel: 0,
+  prestigeBaseline: null,
 };
 
 const GAME_STORAGE_KEY = "loredex_game_state";
@@ -1128,6 +1166,16 @@ interface GameContextValue {
   setElaraKnowsAboutHuman: (knows: boolean, path: "told" | "discovered" | "betrayed") => void;
   adjustHumanTrust: (delta: number) => void;
   adjustElaraTrust: (delta: number) => void;
+  /** Adjust the unified §14.1 "both narrators" bond by a delta (clamped 0..100). */
+  adjustNarratorBond: (delta: number) => void;
+  /** Read the current bond. Falls back to min(elaraTrust, humanTrust) on pre-field saves. */
+  getNarratorBond: () => number;
+  /** Open the next Year One Calendar month (raises year_one_month_N_opened; clamps at 12). */
+  advanceYearOneMonth: () => void;
+  /** Read the current Year One month (1..12). Falls back to flag-scan on pre-field saves. */
+  getYearOneMonth: () => number;
+  /** Mark a sector recruitment mission as complete. Idempotent; gates Acts 6 + 7. */
+  completeRecruitmentMission: (missionId: string) => void;
   /** Set a flat Elara callback flag (used by roomDialogs + Palimpsest episode callbacks). */
   setElaraCallback: (flag: string, value?: boolean) => void;
   /** Set a flat Human callback flag (parallel to Elara's, for The Human's whispers). */
@@ -1140,6 +1188,10 @@ interface GameContextValue {
   incrementNpcConversation: (npcId: string) => void;
   // ═══ PRESTIGE ═══
   performPrestige: () => void;
+  /** Current prestige level (0 = never prestiged). */
+  getPrestigeLevel: () => number;
+  /** Lifetime carryover baseline. Empty stats on a never-prestiged save. */
+  getPrestigeBaseline: () => PrestigeCycleStats;
   // ═══ ARMY MANAGEMENT ═══
   recruitUnit: (unit: ArmyUnit) => void;
   deployUnits: (deployment: ArmyDeployment) => void;
@@ -2236,6 +2288,72 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setState(prev => ({ ...prev, elaraTrustLevel: Math.max(0, Math.min(100, prev.elaraTrustLevel + delta)) }));
   }, []);
 
+  const adjustNarratorBond = useCallback((delta: number) => {
+    setState(prev => ({ ...prev, narratorBond: adjustNarratorBondValue(prev.narratorBond, delta) }));
+  }, []);
+
+  const getNarratorBond = useCallback(
+    () =>
+      // Fallback sources are the per-narrator bond fields (elaraTrustLevel /
+      // humanTrustLevel), NOT the legacy per-NPC trust numbers. §14.1
+      // milestones fire on the Act 1+ bond track.
+      deriveNarratorBond({
+        narratorBond: state.narratorBond,
+        fallbackElara: state.elaraTrustLevel,
+        fallbackHuman: state.humanTrustLevel,
+      }),
+    [state.narratorBond, state.elaraTrustLevel, state.humanTrustLevel],
+  );
+
+  const advanceYearOneMonth = useCallback(() => {
+    // Advance the canonical field AND raise the matching
+    // `year_one_month_N_opened` flag so pre-field readers (Hub
+    // flag-scan shim) stay in sync on the same tick.
+    setState(prev => {
+      const nextMonth = advanceYearOneMonthValue(
+        deriveYearOneMonth({
+          yearOneMonth: prev.yearOneMonth,
+          flags: prev.narrativeFlags,
+        }),
+      );
+      const flag = yearOneMonthFlag(nextMonth);
+      if (prev.yearOneMonth === nextMonth && prev.narrativeFlags?.[flag]) {
+        return prev;
+      }
+      return {
+        ...prev,
+        yearOneMonth: nextMonth,
+        narrativeFlags: { ...prev.narrativeFlags, [flag]: true },
+      };
+    });
+  }, []);
+
+  const getYearOneMonth = useCallback(
+    () =>
+      deriveYearOneMonth({
+        yearOneMonth: state.yearOneMonth,
+        flags: state.narrativeFlags,
+      }),
+    [state.yearOneMonth, state.narrativeFlags],
+  );
+
+  const completeRecruitmentMission = useCallback((missionId: string) => {
+    setState(prev => {
+      const current = prev.armyRecruitmentMissionsCompleted;
+      // Idempotent: no setState when the id is already present. This
+      // avoids churning subscribers on strict-mode double-fires and
+      // on save/load cycles.
+      if (!missionId || current.includes(missionId)) return prev;
+      return {
+        ...prev,
+        armyRecruitmentMissionsCompleted: addCompletedRecruitmentMission(
+          current,
+          missionId,
+        ),
+      };
+    });
+  }, []);
+
   // ═══ NPC RELATIONSHIP CALLBACKS ═══
   const adjustNpcTrust = useCallback((npcId: string, delta: number) => {
     setState(prev => {
@@ -2306,8 +2424,26 @@ export function GameProvider({ children }: { children: ReactNode }) {
   // ═══ PRESTIGE SYSTEM ═══
   const performPrestige = useCallback(() => {
     setState(prev => {
-      const currentPrestige = (prev as any).prestige || 0;
       if (prev.narrativeAct < 1) return prev; // Must have progressed
+
+      // Measure what the player earned this cycle, stack it onto the
+      // existing baseline, then apply the §15 P3 carryover multipliers
+      // from PRESTIGE_CARRYOVER_RULES (loredex 100%, bond 50%, cards
+      // 25%, narrator dominance 0%, milestones 100%, moments 10%).
+      // External stats (narrator dominance energy + memorable moments)
+      // default to 0 here — the respective zustand stores own those
+      // reads and a follow-up PR can thread them through if needed.
+      const thisCycle = measurePrestigeCycleStats({
+        loredexDiscovered: prev.loredexDiscovered,
+        collectedCards: prev.collectedCards,
+        narrativeFlags: prev.narrativeFlags,
+      });
+      const stacked = addPrestigeCycleStats(
+        prev.prestigeBaseline ?? EMPTY_PRESTIGE_CYCLE_STATS,
+        thisCycle,
+      );
+      const nextBaseline = applyPrestigeCarryover(stacked);
+
       return {
         ...prev,
         // Reset progression
@@ -2327,11 +2463,22 @@ export function GameProvider({ children }: { children: ReactNode }) {
         craftedItems: [],
         craftingLog: [],
         currentRoomId: "cryo-bay",
-        // Increment prestige
-        prestige: currentPrestige + 1,
-      } as any;
+        // Typed prestige fields — replace the old untyped read path.
+        prestigeLevel: prev.prestigeLevel + 1,
+        prestigeBaseline: nextBaseline,
+      };
     });
   }, []);
+
+  const getPrestigeLevel = useCallback(
+    () => state.prestigeLevel ?? 0,
+    [state.prestigeLevel],
+  );
+
+  const getPrestigeBaseline = useCallback(
+    () => state.prestigeBaseline ?? EMPTY_PRESTIGE_CYCLE_STATS,
+    [state.prestigeBaseline],
+  );
 
   // ═══ ARMY MANAGEMENT CALLBACKS ═══
   const recruitUnit = useCallback((unit: ArmyUnit) => {
@@ -2818,6 +2965,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setElaraKnowsAboutHuman: setElaraKnowsAboutHumanFn,
       adjustHumanTrust,
       adjustElaraTrust,
+      adjustNarratorBond,
+      getNarratorBond,
+      advanceYearOneMonth,
+      getYearOneMonth,
+      completeRecruitmentMission,
       setElaraCallback,
       setHumanCallback,
       // ═══ NPC RELATIONSHIPS ═══
@@ -2828,6 +2980,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       incrementNpcConversation,
       // ═══ PRESTIGE ═══
       performPrestige,
+      getPrestigeLevel,
+      getPrestigeBaseline,
       // ═══ ARMY MANAGEMENT ═══
       recruitUnit,
       deployUnits,
