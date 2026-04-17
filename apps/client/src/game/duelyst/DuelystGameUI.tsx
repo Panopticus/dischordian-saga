@@ -65,6 +65,7 @@ import {
 import { PublicWitnessColumn } from "@/components/match/PublicWitnessColumn";
 import { SeerPlayOverlay } from "@/components/match/SeerPlayOverlay";
 import { dispatchVoiceWhisper } from "@/components/VoiceWhisper";
+import { trpc } from "@/lib/trpc";
 import type { TcgDispatchResult } from "./TcgClient";
 
 interface DuelystGameUIProps {
@@ -113,6 +114,12 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   // Guard so combat_low_hp dispatches once per HP-threshold-crossing,
   // not on every re-render while HP sits below the threshold.
   const lowHpDispatchedRef = useRef(false);
+  // Guard so quest increments fire once per match resolution, not
+  // every re-render while phase === "game_over".
+  const questsRecordedRef = useRef(false);
+  // Audit 3B — card-battle quest progression. FightPage already
+  // fires fight-flavor quests; DuelystGameUI was the card-battle gap.
+  const updateQuestProgress = trpc.quests.updateProgress.useMutation();
 
   // §5.5 Warlord lockout — UI state. Spec:
   // docs/production/act1/warlord-three-move-mechanic.md.
@@ -302,8 +309,21 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     if (gameState.winner !== null) {
       setPhase("game_over");
       onGameEnd(gameState.winner === 0 ? "player" : "opponent");
+      // Audit 3B — card-battle quest progression. Mirrors FightPage's
+      // match-end quest hook; fires once per match via the guard ref.
+      // `d_play_3_battles` counts completions (win or loss);
+      // `d_play_card_battle` + weekly + season count wins only.
+      if (!questsRecordedRef.current) {
+        questsRecordedRef.current = true;
+        updateQuestProgress.mutate({ questId: "d_play_3_battles", increment: 1 });
+        if (gameState.winner === 0) {
+          updateQuestProgress.mutate({ questId: "d_play_card_battle", increment: 1 });
+          updateQuestProgress.mutate({ questId: "w_win_10_battles", increment: 1 });
+          updateQuestProgress.mutate({ questId: "e_win_100_battles", increment: 1 });
+        }
+      }
     }
-  }, [gameState, phase, onGameEnd]);
+  }, [gameState, phase, onGameEnd, updateQuestProgress]);
 
   // Inner-voice dispatch: audit 2H — combat_low_hp fires exactly
   // once when the player's general drops below 25% max HP. Guarded

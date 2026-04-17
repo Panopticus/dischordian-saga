@@ -29,6 +29,10 @@ const forgiveness = fs.readFileSync(
   path.resolve(__dirname, "../ForgivenessChoicePanel.tsx"),
   "utf-8",
 );
+const hackingPuzzle = fs.readFileSync(
+  path.resolve(__dirname, "../../game/HackingPuzzle.tsx"),
+  "utf-8",
+);
 
 describe("audit 2H — DuelystGameUI dispatches inner-voice whispers", () => {
   it("imports dispatchVoiceWhisper", () => {
@@ -100,6 +104,51 @@ describe("audit 2H — global choice panels dispatch on mount", () => {
   it("ForgivenessChoicePanel guards on `unlocked && !alreadyMade`", () => {
     expect(forgiveness).toMatch(
       /useEffect[\s\S]{0,200}if\s*\(!unlocked\s*\|\|\s*alreadyMade\)\s*return/,
+    );
+  });
+});
+
+describe("audit 2H — puzzle_attempt dispatch on HackingPuzzle mount", () => {
+  it("imports dispatchVoiceWhisper + useGame", () => {
+    expect(hackingPuzzle).toContain(
+      'import { dispatchVoiceWhisper } from "@/components/VoiceWhisper"',
+    );
+    expect(hackingPuzzle).toContain(
+      'import { useGame } from "@/contexts/GameContext"',
+    );
+  });
+
+  it("fires puzzle_attempt with the hacking puzzleId on mount", () => {
+    expect(hackingPuzzle).toMatch(
+      /dispatchVoiceWhisper\(\s*\{\s*type:\s*"puzzle_attempt",\s*puzzleId:\s*"hacking"\s*\}/,
+    );
+  });
+});
+
+describe("audit 3B — DuelystGameUI fires card-battle quest progress on match end", () => {
+  it("imports trpc + creates the updateQuestProgress mutation", () => {
+    expect(duelystUI).toContain('import { trpc } from "@/lib/trpc"');
+    expect(duelystUI).toContain(
+      "trpc.quests.updateProgress.useMutation()",
+    );
+  });
+
+  it("guards via questsRecordedRef so increments fire once per match", () => {
+    expect(duelystUI).toContain("questsRecordedRef");
+    expect(duelystUI).toMatch(
+      /if\s*\(!questsRecordedRef\.current\)[\s\S]{0,200}questsRecordedRef\.current\s*=\s*true/,
+    );
+  });
+
+  it("fires d_play_3_battles on every completion (win or loss)", () => {
+    expect(duelystUI).toContain(
+      'updateQuestProgress.mutate({ questId: "d_play_3_battles", increment: 1 })',
+    );
+  });
+
+  it("fires win-only quests (card_battle / weekly / season) when winner === 0", () => {
+    expect(duelystUI).toMatch(
+      /gameState\.winner\s*===\s*0[\s\S]{0,300}d_play_card_battle[\s\S]{0,100}w_win_10_battles[\s\S]{0,100}e_win_100_battles/,
     );
   });
 });
