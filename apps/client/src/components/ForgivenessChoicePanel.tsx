@@ -16,11 +16,12 @@
    `forgiveness_choice_made`).
    ═══════════════════════════════════════════════════════ */
 
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useGame } from "@/contexts/GameContext";
 import { applyDischordiaEnergy } from "@/stores/dischordiaCycleStore";
 import { recordMemorableMoment } from "@/stores/memorableMomentsStore";
+import { dispatchVoiceWhisper } from "@/components/VoiceWhisper";
 
 export type ForgivenessChoice =
   | "forgive_both"
@@ -77,6 +78,16 @@ export function ForgivenessChoicePanel() {
   const { state, setNarrativeFlag } = useGame();
   const unlocked = !!state.narrativeFlags?.forgiveness_choice_unlocked;
   const alreadyMade = !!state.narrativeFlags?.forgiveness_choice_made;
+
+  // Inner-voice dispatch: audit 2H — choice_presented whispers as
+  // the Bond-80 panel mounts, once per playthrough.
+  useEffect(() => {
+    if (!unlocked || alreadyMade) return;
+    dispatchVoiceWhisper(
+      { type: "choice_presented" },
+      (state.innerVoiceSkills ?? {}) as Record<string, number>,
+    );
+  }, [unlocked, alreadyMade, state.innerVoiceSkills]);
 
   const handleChoose = useCallback(
     (option: ChoiceOption) => {

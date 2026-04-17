@@ -21,9 +21,10 @@
    Spec §6.3, §6.6 forward-write surface.
    ═══════════════════════════════════════════════════════ */
 
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useGame } from "@/contexts/GameContext";
+import { dispatchVoiceWhisper } from "@/components/VoiceWhisper";
 
 export type Act1ClosingChoice = "accept" | "decline" | "deflect";
 
@@ -77,6 +78,17 @@ export function Act1ClosingChoicePanel() {
     },
     [setNarrativeFlag],
   );
+
+  // Inner-voice dispatch: audit 2H — any skill with a
+  // choice_presented utterance whispers as the panel mounts.
+  // Fires exactly once per playthrough via the alreadyMade guard.
+  useEffect(() => {
+    if (!unlocked || alreadyMade) return;
+    dispatchVoiceWhisper(
+      { type: "choice_presented" },
+      (state.innerVoiceSkills ?? {}) as Record<string, number>,
+    );
+  }, [unlocked, alreadyMade, state.innerVoiceSkills]);
 
   if (!unlocked || alreadyMade) return null;
 
