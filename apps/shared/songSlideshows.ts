@@ -1693,7 +1693,7 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
       imageUrl: "/art/rooms/room-archives.png",
       transition: "dissolve",
       caption:
-        "The Enigma: \"The song he left behind — we heard it for the first time standing in this room. Then we waited for someone to hear it who would understand.\"",
+        "The Enigma: \"The message he left behind — we heard it for the first time standing in this room. Then we waited for someone to hear it who would understand.\"",
     },
     // Frame 10 — the player as fulcrum (§6.1 core reveal 4).
     {
@@ -1712,7 +1712,7 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
       imageUrl: "/art/rooms/room-archives.png",
       transition: "dissolve",
       caption:
-        "The Enigma: \"You do not have to answer in words. Three doors leave this room. Accept. Decline. Deflect. All three close Act 1. None of them closes us.\"",
+        "The Enigma: \"You do not have to answer in words. Three doors leave this room. Accept. Decline. Deflect. Your choice will determine the fate and future of this reality.\"",
     },
     // Frame 12 — silence settles; Act1ClosingChoicePanel mounts.
     {
@@ -1744,7 +1744,7 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
   reducedMotionFallback: {
     heroImageUrl: "/art/rooms/room-archives.png",
     prose:
-      "The Archives are relit — an archive again, not a memorial. Both Witnesses are already seated when you arrive. They have been waiting through the trial, through the Last Words recording, through your Light-or-Dark choice in the gallery. The Antiquarian opens: he wasn't sure you would come. He explains he was executed for what he thought and woke up in the next era — nobody told him he could. The long version, he says, is across Ages, across the death of stars — not tonight. The Enigma speaks: she was the voice on the recording you just heard. She died a different way and came back a different way; different era, same answer. The Antiquarian closes the reveals: the Engineer was not one of them. He came before. His death is the seed of what they became. Then the Enigma says the memoir found its audience when the two of them stood in this room and heard the song for the first time — and then they waited for someone to hear it who would understand. The Antiquarian names you the fulcrum again. The Enigma names the three doors: accept, decline, deflect. The silence sits. Neither Witness presses the choice.",
+      "The Archives are relit — an archive again, not a memorial. Both Witnesses are already seated when you arrive. They have been waiting through the trial, through the Last Words recording, through your Light-or-Dark choice in the gallery. The Antiquarian opens: he wasn't sure you would come. He explains he was executed for what he thought and woke up in the next era — nobody told him he could. The long version, he says, is across Ages, across the death of stars — not tonight. The Enigma speaks: she was the voice on the recording you just heard. She died a different way and came back a different way; different era, same answer. The Antiquarian closes the reveals: the Engineer was not one of them. He came before. His death is the seed of what they became. Then the Enigma says the memoir found its audience when the two of them stood in this room and heard the Engineer's message for the first time — and then they waited for someone to hear it who would understand. The Antiquarian names you the fulcrum again. The Enigma names the three doors — accept, decline, deflect — and says the choice will determine the fate and future of this reality. The silence sits. Neither Witness presses the choice.",
     closingLine:
       "Three doors leave the Archives. All three are canon-safe endings to Act 1.",
   },
