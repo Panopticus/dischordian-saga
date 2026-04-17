@@ -699,6 +699,18 @@ const chProgrammerGift: StoryEncounter = {
   postMatchWinDialog: "dialog_programmer_gift_win",
   postMatchLossDialog: "dialog_programmer_gift_loss",
   giftMode: { earliestOfferTurn: 3 },
+  // §5.6 gift-offer activator: on global turn 3 with side 1 (the
+  // Programmer), transition programmerGift from not_offered → offered.
+  // The drainer runs after refreshTurnForPlayer, so the Programmer
+  // has already made two honest plays (turns 1 and 2) before the
+  // gesture fires, matching spec §2.
+  scriptedActions: [
+    {
+      kind: "offer_programmer_gift",
+      globalTurn: 3,
+      side: 1,
+    },
+  ],
 };
 
 /* ═══════════════════════════════════════════════════════
