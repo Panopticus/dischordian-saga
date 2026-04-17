@@ -10,6 +10,7 @@
  * bridge that creates playable matches from story chapters.
  */
 import type { StoryEncounter } from "./encounter";
+import { NEUTRAL_CYCLE_C_BOSS_DECK } from "../decks/neutralCycleCBossDeck";
 
 /* ─── Difficulty → Boss HP scale ─── */
 
@@ -680,7 +681,7 @@ const chProgrammerGift: StoryEncounter = {
     "The Engineer's oldest friend. He plays two honest turns, then offers the gift — a deliberate throw. Accept or decline.",
   bossFaction: "neutral",
   bossGeneralDefId: "gen_programmer",
-  bossDeckCardDefIds: bossDeck("boss_programmer_gift"),
+  bossDeckCardDefIds: NEUTRAL_CYCLE_C_BOSS_DECK,
   seed: "programmer_gift_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -743,7 +744,11 @@ const chGameMaster: StoryEncounter = {
     "Before the execution, before the Authority. A prosecutor, not a duelist. Every card he plays enters the public record.",
   bossFaction: "neutral",
   bossGeneralDefId: "gen_game_master_original",
-  bossDeckCardDefIds: bossDeck("boss_game_master"),
+  // Real neutral cards so the verdict column actually populates —
+  // each Game Master card play triggers applyPublicWitnessPlay
+  // (engine/publicWitness.ts) which reads verdict_delta and
+  // trial_categories from the card def.
+  bossDeckCardDefIds: NEUTRAL_CYCLE_C_BOSS_DECK,
   seed: "game_master_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -796,7 +801,10 @@ const chSeerVisit: StoryEncounter = {
     "The visiting fellow. She plays cards that aren't in her hand yet. The bench does not know how.",
   bossFaction: "neutral",
   bossGeneralDefId: "gen_seer",
-  bossDeckCardDefIds: bossDeck("boss_seer_visit"),
+  // Real neutral cards — spec §3 requires a deck the Seer's AI can
+  // draw from. The pending-future sampler reads this deck's first
+  // N entries (see engine/seerProphecy.ts sampleSeerFutureCard).
+  bossDeckCardDefIds: NEUTRAL_CYCLE_C_BOSS_DECK,
   seed: "seer_visit_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [
