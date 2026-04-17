@@ -38,6 +38,12 @@ import { tickLockout } from "./lockout";
 import { drainScriptedActions } from "./scriptedActions";
 import { emitPhaseStartEvent, resolveTrialOutcome } from "./trialPhase";
 import { acceptGift, declineGift } from "./programmerGift";
+import {
+  bakeSeerFuture,
+  consumeSeerFuture,
+  forceSeerPlay,
+  sampleSeerFutureCard,
+} from "./seerProphecy";
 import { handlePlayCard as handlePlayCardReal } from "./playCard";
 import { handleMove as handleMoveReal } from "./movement";
 import { handleAttack as handleAttackReal } from "./combat";
@@ -440,6 +446,45 @@ function handleEndTurn(
   emitPhaseStartEvent(draft, ctx.events);
   if (draft.trial && draft.turnNumber === 10) {
     resolveTrialOutcome(draft, ctx.events);
+  }
+  // §4.9 Seer prophecy hook. Two halves:
+  //   • Incoming side 0 (player): bake the Seer's next play if none
+  //     pending. Spec §3 invariant — the pending future is visible
+  //     during the player's turn so card effects can (eventually)
+  //     resolve against it.
+  //   • Incoming side 1 (Seer): consume the pending future if one
+  //     matches the new turn and force-play it. If no bake exists yet
+  //     (canonical first Seer turn of the match), bake-then-consume
+  //     in the same tick so the Seer's very first play always fires.
+  // Silent re-route of contradicted player effects is deferred to
+  // a follow-up PR; the match plays correctly without it.
+  if (draft.seerProphecy) {
+    if (nextPlayer === 1) {
+      if (!draft.seerProphecy.pending) {
+        const sampled = sampleSeerFutureCard(draft, ctx);
+        if (sampled) {
+          draft.seerProphecy = bakeSeerFuture(
+            draft.seerProphecy,
+            sampled,
+            draft.turnNumber,
+          );
+        }
+      }
+      const result = consumeSeerFuture(draft.seerProphecy, draft.turnNumber);
+      draft.seerProphecy = result.next;
+      if (result.consumed) {
+        forceSeerPlay(draft, result.consumed.cardDefId, ctx);
+      }
+    } else if (!draft.seerProphecy.pending) {
+      const sampled = sampleSeerFutureCard(draft, ctx);
+      if (sampled) {
+        draft.seerProphecy = bakeSeerFuture(
+          draft.seerProphecy,
+          sampled,
+          draft.turnNumber,
+        );
+      }
+    }
   }
   // Drain any scripted actions matching the new (turnNumber, side).
   // Story encounters use this to author set-piece plays the AI can't

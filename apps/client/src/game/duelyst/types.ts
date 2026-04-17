@@ -235,6 +235,21 @@ export interface DuelystGameState {
       cardDefId: string;
     }[];
   };
+  /**
+   * §4.9 Seer prophecy state, projected from tcg-core GameState.
+   * Absent on matches that aren't §4.9. DuelystGameUI reads
+   * playsPerformed at match end to derive the outcome flag.
+   */
+  seerProphecy?: {
+    pending: {
+      cardDefId: string;
+      turnIndex: number;
+    } | null;
+    playsPerformed: number;
+  };
+  /** Projected so the §4.9 match-end hook can distinguish concede
+   *  from combat loss. Other match modes may read this later. */
+  winReason?: string | null;
 }
 
 export interface ActionLogEntry {

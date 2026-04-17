@@ -397,6 +397,70 @@ export const DIALOG_GAME_MASTER_LOSS: DialogScene = {
 };
 
 /* ═══════════════════════════════════════════════════════
+   §4.9 — THE SEER (Cycle B finale, visiting fellow)
+   Three scenes. The win scene is the canon-hidden path
+   (spec §3.3) — the player must have burnt_card_placeholder
+   in their deck, delivered via Acts 2+ unlock routes. The
+   loss scene is the canonical first-playthrough outcome —
+   "She leaves her staff on the bench for the Engineer to
+   find later" (act1Opponents.ts:169).
+   ═══════════════════════════════════════════════════════ */
+
+export const DIALOG_SEER_VISIT_PRE: DialogScene = {
+  id: "dialog_seer_visit_pre",
+  label: "§4.9 — The Seer (pre-match)",
+  kind: "chapter_pre",
+  cues: [
+    {
+      speaker: "narrator",
+      mood: "reflective",
+      text: "The Seer visits Mechronis once. You have not learned what she is yet. The match is already decided; you will lose because it was always going to be a loss, not because you played poorly.",
+      audioClipId: "vo_narr_seer_visit_pre_01",
+    },
+    {
+      speaker: "the_oracle",
+      mood: "curious",
+      text: "I will not raise my staff today. I want to see whether the bench has learned yet.",
+      audioClipId: "vo_seer_visit_pre_01",
+    },
+  ],
+};
+
+export const DIALOG_SEER_VISIT_WIN: DialogScene = {
+  id: "dialog_seer_visit_win",
+  label: "§4.9 — The Seer (canon-hidden winnable path)",
+  kind: "chapter_post_win",
+  cues: [
+    {
+      speaker: "the_oracle",
+      mood: "warm",
+      text: "Oh. You remembered.",
+      audioClipId: "vo_seer_visit_win_01",
+    },
+    {
+      speaker: "narrator",
+      mood: "reflective",
+      text: "You carried the burnt card all the way back to the bench she left it on. She smiles — she is the only person in the Archives who is not surprised.",
+      audioClipId: "vo_narr_seer_visit_win_01",
+    },
+  ],
+};
+
+export const DIALOG_SEER_VISIT_LOSS: DialogScene = {
+  id: "dialog_seer_visit_loss",
+  label: "§4.9 — The Seer (scripted loss)",
+  kind: "chapter_post_loss",
+  cues: [
+    {
+      speaker: "narrator",
+      mood: "grieving",
+      text: "The Seer wins. She does not say anything. She leaves her staff on the bench for the Engineer to find later. The memoir carries the loss forward as a fact, not a failure.",
+      audioClipId: "vo_narr_seer_visit_loss_01",
+    },
+  ],
+};
+
+/* ═══════════════════════════════════════════════════════
    BANK EXPORT
    ═══════════════════════════════════════════════════════ */
 
@@ -419,4 +483,7 @@ export const DIALOG_BANK_CHAPTERS_10_12: readonly DialogScene[] = Object.freeze(
   DIALOG_GAME_MASTER_PRE,
   DIALOG_GAME_MASTER_WIN,
   DIALOG_GAME_MASTER_LOSS,
+  DIALOG_SEER_VISIT_PRE,
+  DIALOG_SEER_VISIT_WIN,
+  DIALOG_SEER_VISIT_LOSS,
 ]);

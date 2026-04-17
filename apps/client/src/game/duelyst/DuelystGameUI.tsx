@@ -48,6 +48,16 @@ import {
   setProgrammerGiftAccepted,
   type LightDarkAlignment,
 } from "@shared/campaignState";
+import { useGame } from "@/contexts/GameContext";
+import {
+  deriveSeerOutcome,
+  playerDeckUnlocksWinnablePath,
+} from "@shared/tcg-core/engine/seerProphecy";
+import {
+  ACT1_CYCLE_B_COMPLETE_FLAG,
+  SEER_OUTCOME_FLAGS,
+  SEER_STAFF_WITNESSED_FLAG,
+} from "@shared/tcg-core/types/SeerProphecy";
 import {
   TrialTranscriptColumn,
   type TrialTranscriptEntry,
@@ -74,6 +84,13 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rendererRef = useRef<BoardRenderer | null>(null);
   const tcgClientRef = useRef<TcgClient | null>(null);
+  // Snapshot of the player's initial deck cardDefIds, captured at
+  // match start. Used by the §4.9 Seer match-end flag-write to test
+  // for burnt_card_placeholder (the canon-hidden winnable path).
+  const initialPlayerDeckRef = useRef<readonly string[]>([]);
+  // Guard so the §4.9 match-end flag writes fire exactly once.
+  const seerFlagsWrittenRef = useRef(false);
+  const { setNarrativeFlag } = useGame();
   const [gameState, setGameState] = useState<DuelystGameState | null>(null);
   const [phase, setPhase] = useState<Phase>("mulligan");
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
@@ -220,6 +237,11 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     const p1DeckCardIds = playerStarter
       ? [...playerStarter.cardDefIds]
       : buildStarterDeck(playerFaction).map((c) => c.sagaCardId ?? c.id);
+    // Stash the player's starting deck so the §4.9 match-end hook
+    // can check for burnt_card_placeholder regardless of how many
+    // cards remain in deck/hand/graveyard at resolution time.
+    initialPlayerDeckRef.current = p1DeckCardIds;
+    seerFlagsWrittenRef.current = false;
     const p2DeckCardIds = opponentStarter
       ? [...opponentStarter.cardDefIds]
       : buildStarterDeck(opponentFaction).map((c) => c.sagaCardId ?? c.id);
@@ -269,6 +291,41 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       onGameEnd(gameState.winner === 0 ? "player" : "opponent");
     }
   }, [gameState, phase, onGameEnd]);
+
+  // §4.9 Seer match end — write the canonical outcome flags once the
+  // match resolves. deriveSeerOutcome picks between defeated /
+  // scripted_loss / fled based on:
+  //   • conceded (winReason === "surrender") → fled
+  //   • player-side victory + burnt-card-in-deck → defeated (the one
+  //     winnable path, spec §3.3)
+  //   • prophecy sequence completed → scripted_loss
+  // ACT1_CYCLE_B_COMPLETE_FLAG auto-fires the "to-be-the-human"
+  // slideshow via SLIDESHOW_TRIGGERS in useNarrativeIntegration, so
+  // no separate cinematic wiring is needed here.
+  useEffect(() => {
+    if (!gameState || !gameState.seerProphecy) return;
+    if (gameState.winner === null) return;
+    if (seerFlagsWrittenRef.current) return;
+    seerFlagsWrittenRef.current = true;
+
+    const conceded = gameState.winReason === "surrender";
+    const seerGeneralKilled = gameState.winner === 0 && !conceded;
+    const winnablePathUnlocked = playerDeckUnlocksWinnablePath(
+      initialPlayerDeckRef.current,
+    );
+    const outcome = deriveSeerOutcome({
+      conceded,
+      seerGeneralKilled,
+      winnablePathUnlocked,
+      playsPerformed: gameState.seerProphecy.playsPerformed,
+      turnCount: 6,
+    });
+    if (outcome) {
+      setNarrativeFlag(SEER_OUTCOME_FLAGS[outcome], true);
+    }
+    setNarrativeFlag(SEER_STAFF_WITNESSED_FLAG, true);
+    setNarrativeFlag(ACT1_CYCLE_B_COMPLETE_FLAG, true);
+  }, [gameState, setNarrativeFlag]);
 
   // §5.8 Authority trial — screen-reader announcement on match start +
   // transcript reset. The TrialPhaseIndicator's own aria-live region

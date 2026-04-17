@@ -90,6 +90,9 @@ export interface LegacyDuelystGameState {
   turnNumber: number;
   phase: "mulligan" | "playing" | "ended";
   winner: 0 | 1 | null;
+  /** Reason the match ended. Projected for §4.9 and other campaign
+   *  layers that need to distinguish a concede from a combat loss. */
+  winReason?: string | null;
   actionLog: Array<{ turn: number; player: 0 | 1; action: string; details: string }>;
   boardWidth: number;
   boardHeight: number;
@@ -142,6 +145,19 @@ export interface LegacyDuelystGameState {
       cardDefId: string;
     }[];
   };
+  /**
+   * §4.9 Seer prophecy state, mirrored from tcg-core GameState.
+   * Absent on matches that aren't §4.9. DuelystGameUI reads the
+   * playsPerformed counter at match end to derive the canonical
+   * outcome flag. See engine/seerProphecy.ts.
+   */
+  seerProphecy?: {
+    pending: {
+      cardDefId: string;
+      turnIndex: number;
+    } | null;
+    playsPerformed: number;
+  };
 }
 
 /* ─── Adapter ─── */
@@ -165,6 +181,7 @@ export function adaptTcgStateToLegacyView(
     turnNumber: state.turnNumber,
     phase: state.phase,
     winner: state.winner,
+    winReason: state.winReason,
     actionLog: [],
     boardWidth: BOARD_WIDTH,
     boardHeight: BOARD_HEIGHT,
@@ -203,6 +220,17 @@ export function adaptTcgStateToLegacyView(
             privateDelta: e.privateDelta,
             cardDefId: e.cardDefId,
           })),
+        }
+      : undefined,
+    seerProphecy: state.seerProphecy
+      ? {
+          pending: state.seerProphecy.pending
+            ? {
+                cardDefId: state.seerProphecy.pending.cardDefId,
+                turnIndex: state.seerProphecy.pending.turnIndex,
+              }
+            : null,
+          playsPerformed: state.seerProphecy.playsPerformed,
         }
       : undefined,
   };

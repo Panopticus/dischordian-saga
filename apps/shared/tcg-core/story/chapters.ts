@@ -765,12 +765,72 @@ const chGameMaster: StoryEncounter = {
 };
 
 /* ═══════════════════════════════════════════════════════
+   §4.9 — THE SEER (visiting fellow, Cycle B finale)
+
+   She plays cards that aren't in her hand yet. Canonically a
+   scripted loss on first playthrough; the one winnable path
+   requires `burnt_card_placeholder` in the player's deck and is
+   delivered via Acts 2+ unlock routes (spec §3.3).
+
+   Shape differs from §5.6/§5.7/§5.8:
+    - bossGeneralDefId is `gen_seer` (3/25, neutral, no abilities).
+      The Seer's power is the prophecy, not board pressure.
+    - prophecyMode: { turnCount: 6 } opts the match into the §4.9
+      engine (reducer bakes/consumes the pending future each turn,
+      Seer plays are forced via engine/seerProphecy.ts).
+    - loseConditions include `turn_limit: 8` so the prophecy
+      sequence resolves into a scripted loss if the player never
+      kills the Seer's general. Winning requires general_killed
+      + the burnt-card deck — outcome-derivation in
+      deriveSeerOutcome picks between defeated / scripted_loss
+      / fled for the campaign layer.
+
+   Wiring: ALL_CHAPTER_ENCOUNTERS below; CHAPTER_MAP id
+   `ch_seer_visit`. Dialog in dialogBank_chapters_10_12.ts.
+*/
+const chSeerVisit: StoryEncounter = {
+  id: "ch_seer_visit",
+  chapterId: "ch_seer_visit",
+  name: "The Seer",
+  description:
+    "The visiting fellow. She plays cards that aren't in her hand yet. The bench does not know how.",
+  bossFaction: "neutral",
+  bossGeneralDefId: "gen_seer",
+  bossDeckCardDefIds: bossDeck("boss_seer_visit"),
+  seed: "seer_visit_seed",
+  winConditions: [{ kind: "general_killed" }],
+  loseConditions: [
+    { kind: "general_killed" },
+    // Prophecy sequence length + 2 turns of player action — past this
+    // the scripted loss lands even if combat hasn't resolved either
+    // general.
+    { kind: "turn_limit", turn: 8 },
+  ],
+  narrativeHooks: [
+    {
+      id: "seer_opening",
+      once: true,
+      condition: { kind: "always" },
+      action: {
+        kind: "boss_taunt",
+        text: "I will not raise my staff today. I want to see whether the bench has learned yet.",
+      },
+    },
+  ],
+  preMatchDialog: "dialog_seer_visit_pre",
+  postMatchWinDialog: "dialog_seer_visit_win",
+  postMatchLossDialog: "dialog_seer_visit_loss",
+  prophecyMode: { turnCount: 6 },
+};
+
+/* ═══════════════════════════════════════════════════════
    EXPORTS
    ═══════════════════════════════════════════════════════ */
 
 export const ALL_CHAPTER_ENCOUNTERS: readonly StoryEncounter[] = Object.freeze([
   ch1, ch2, ch3a, ch3b,
   ch4, ch5, ch6, ch7, ch8,
+  chSeerVisit,
   chWarlordZeroFirst,
   ch9a, ch9b, ch10, ch11, ch12,
   chProgrammerGift,
