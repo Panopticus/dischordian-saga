@@ -19,6 +19,10 @@ import {
   PUBLIC_WITNESS_BALANCE_MIN,
   PUBLIC_WITNESS_THRESHOLDS,
 } from "../types/PublicWitness";
+import type { Draft } from "immer";
+import type { GameState } from "../types/GameState";
+import type { CardDefinition, TrialCategory } from "../types/Card";
+import type { ReduceCtx } from "./reducer";
 
 /** Clamp a balance value into the §4 clip range. Non-finite → 0. */
 export function clipWitnessBalance(value: number): number {
@@ -99,4 +103,94 @@ export function isEntryDiverged(entry: PublicWitnessEntry): boolean {
     (entry.publicDelta > 0 && entry.privateDelta < 0) ||
     (entry.publicDelta < 0 && entry.privateDelta > 0)
   );
+}
+
+/** Fallback public delta for cards that don't author verdict_delta. */
+const PLACEHOLDER_PUBLIC_DELTA = 0;
+
+/** Fallback public-record label for cards with no trial_categories. */
+const PLACEHOLDER_PUBLIC_LABEL = "procedural";
+
+/**
+ * Map the highest-priority trial_category on a card def to a short
+ * public-record label the TranscriptColumn row renders. The §5.7
+ * spec lists example labels — "admission", "deflection",
+ * "procedural", "confession" — matching the narrative character
+ * of each category. A card may carry multiple categories; we pick
+ * the single most-significant one.
+ */
+export function derivePublicLabel(
+  def: Pick<CardDefinition, "trial_categories">,
+): string {
+  const cats = def.trial_categories;
+  if (!cats || cats.length === 0) return PLACEHOLDER_PUBLIC_LABEL;
+  // Priority order — most narratively-loaded first. A card that is
+  // both evidence AND narrative reads as evidence first; a card that
+  // is confession AND anything reads as confession first (spec §2.3
+  // "how the court reads this play").
+  const priority: readonly TrialCategory[] = [
+    "confession",
+    "evidence",
+    "narrative",
+    "reactive",
+    "defensive",
+    "offensive",
+  ];
+  for (const p of priority) {
+    if (cats.includes(p)) return p;
+  }
+  return PLACEHOLDER_PUBLIC_LABEL;
+}
+
+/**
+ * §5.7 bookkeeping counterpart to §5.8's applyTrialPlay. Called from
+ * engine/playCard.ts after a successful play resolves. No-op unless
+ * the match has a publicWitness state AND the actor is the Game
+ * Master (side 1). The player's plays do NOT enter the verdict
+ * stream — spec §5.7 §5.
+ *
+ * Reads the card's authored `verdict_delta` as the public delta; the
+ * §5.7 public stream IS the §5.8 verdict stream (spec §6 hands the
+ * final balance off as openingVerdictBalance). Private delta is
+ * passed by the caller — the play's effect on the match's scoring
+ * track — so the UI's divergence check has both halves.
+ */
+export function applyPublicWitnessPlay(
+  draft: Draft<GameState>,
+  def: CardDefinition,
+  actor: 0 | 1,
+  privateDelta: number,
+  ctx: ReduceCtx,
+): void {
+  if (!draft.publicWitness) return;
+  if (actor !== 1) return;
+  const publicDelta = Number.isFinite(def.verdict_delta)
+    ? (def.verdict_delta as number)
+    : PLACEHOLDER_PUBLIC_DELTA;
+  const entry: PublicWitnessEntry = {
+    id: `pw_${draft.actionSeq}`,
+    turnNumber: draft.turnNumber,
+    publicLabel: derivePublicLabel(def),
+    publicDelta,
+    privateDelta,
+    cardDefId: String(def.id),
+  };
+  // Mutate via the draft rather than replacing the reference — Immer
+  // tracks the diff on the sub-object's fields, and PublicWitnessState's
+  // `entries` is `readonly` in the authored type but writable within
+  // a draft.
+  const nextBalance = clipWitnessBalance(
+    draft.publicWitness.balance + entry.publicDelta,
+  );
+  draft.publicWitness.balance = nextBalance;
+  draft.publicWitness.entries = [
+    ...draft.publicWitness.entries,
+    entry,
+  ];
+  ctx.events.push({
+    type: "scripted_action_fired",
+    cardDefId: String(def.id),
+    side: 1,
+    globalTurn: draft.turnNumber,
+  });
 }

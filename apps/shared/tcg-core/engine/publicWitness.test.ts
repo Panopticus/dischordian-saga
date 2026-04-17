@@ -1,11 +1,13 @@
 import { describe, it, expect } from "vitest";
 import {
   clipWitnessBalance,
+  derivePublicLabel,
   deriveAuthorityVerdictOffset,
   initPublicWitnessState,
   isEntryDiverged,
   recordOpponentPlay,
 } from "./publicWitness";
+import type { CardDefinition } from "../types/Card";
 import {
   PUBLIC_WITNESS_BALANCE_MAX,
   PUBLIC_WITNESS_BALANCE_MIN,
@@ -184,6 +186,38 @@ describe("publicWitness — isEntryDiverged (§3 divergence rule)", () => {
     expect(isEntryDiverged(entry({ publicDelta: 0, privateDelta: 3 }))).toBe(false);
     expect(isEntryDiverged(entry({ publicDelta: 2, privateDelta: 0 }))).toBe(false);
     expect(isEntryDiverged(entry({ publicDelta: 0, privateDelta: 0 }))).toBe(false);
+  });
+});
+
+describe("publicWitness — derivePublicLabel", () => {
+  const def = (
+    cats: CardDefinition["trial_categories"],
+  ): Pick<CardDefinition, "trial_categories"> => ({ trial_categories: cats });
+
+  it("confession wins over every other category", () => {
+    expect(derivePublicLabel(def(["confession", "evidence", "narrative"]))).toBe(
+      "confession",
+    );
+  });
+
+  it("evidence beats narrative/reactive/defensive", () => {
+    expect(derivePublicLabel(def(["evidence", "narrative"]))).toBe("evidence");
+    expect(derivePublicLabel(def(["reactive", "evidence"]))).toBe("evidence");
+  });
+
+  it("narrative beats reactive + defensive", () => {
+    expect(derivePublicLabel(def(["narrative", "reactive"]))).toBe("narrative");
+    expect(derivePublicLabel(def(["defensive", "narrative"]))).toBe("narrative");
+  });
+
+  it("single-category cards pass through directly", () => {
+    expect(derivePublicLabel(def(["defensive"]))).toBe("defensive");
+    expect(derivePublicLabel(def(["reactive"]))).toBe("reactive");
+  });
+
+  it("falls back to 'procedural' when no categories are authored", () => {
+    expect(derivePublicLabel(def(undefined))).toBe("procedural");
+    expect(derivePublicLabel(def([]))).toBe("procedural");
   });
 });
 
