@@ -1389,32 +1389,88 @@ without sufficient context. If authored, it should live at
 
 ## 9. Section 6 — Two Witnesses Meet Part 2 (Act 1 Narrative Close)
 
-Status: **stub**. Section 6 is the single cutscene after
+Status: **scaffolded**. Section 6 is the single cutscene after
 §6.4's *Last Words* landing resolves. It is a spoken scene
-with no card match. Section 6 is blocked on user decisions per
-`ACT1_NARRATIVE_STRUCTURE.md` §6.7.
+with no card match. The four `ACT1_NARRATIVE_STRUCTURE.md`
+§6.7 decisions are now locked (§9.4 below); authoring is
+unblocked pending dialog draft + VO recording.
 
-### 9.1 Production slots open for authoring
+### 9.1 Locked staging (from §9.4 decisions)
 
-- [ ] Dialog script (~3–5 min of voiced dialogue, 18–25 lines)
-- [ ] VO recording for every line of §6.1 core reveals
-      (Antiquarian + Enigma)
+- **Witnesses stand**, in their Beat J pedestal pose. The
+  player approaches; the Witnesses do not cross to meet them.
+  Scene reads as *being witnessed*, not befriended.
+- **Enigma is silent.** Only the Antiquarian speaks. The
+  Enigma's first live line is reserved for Act 2+. Her
+  presence carries through posture and eye-line only.
+- **Antiquarian does not name the Loredex-Programmer identity.**
+  He confirms he died for his thought and came back; the
+  player does not yet learn he was the Loredex narrator. That
+  convergence is held for a later act when it can land with
+  more accumulated weight.
+- **Closing choice is accept / decline / deflect** (not
+  forgive-both/one/neither). The three-way Rev 7 endpoint
+  replaces the archived forgiveness mechanic. Forgiveness is
+  re-scoped to Act 3 when Malkia's canonical debt becomes
+  visible per Canon Rev 7 §8.6 rule 6.
+
+### 9.2 Production slots open for authoring
+
+- [ ] Dialog script (~3–5 min of voiced dialogue, estimate
+      drops to **12–16 Antiquarian lines** now that the
+      Enigma is silent and the Programmer reveal is deferred)
+- [ ] VO recording — Antiquarian only (profile `antiq_fc_1`).
+      Enigma recording deferred to Act 2+ scope.
 - [ ] Player dialog UI — three-choice widget
-      (accept / decline / deflect), styled to match
-      `ChoicePillarLightDark`
+      (`accept` / `decline` / `deflect`) styled to match
+      `ChoicePillarLightDark` from PR #40
 - [ ] Archives ambient bed confirmed (no-music; room tone + HVAC
       hum + dripping-data-stream; pull from existing Beat J
       audio if reusable)
 - [ ] Post-scene hand-off frame: black title card reading
       *"End of Act 1"*
 
-### 9.2 Shipped / reusable
+### 9.3 Shipped / reusable
 
-- Archives room backdrop: reuse `room-archives.webp` (Beat J)
+- Archives room backdrop: reuse `room-archives.webp` (Beat J).
+  Re-light and re-dress: Engineer's chair gone, six crystal
+  coffins gone, Archives are *just* an archive again —
+  the memorial has completed its job.
 - Antiquarian VO profile: already cast (Prelude `antiq_fc_1`)
-- Enigma VO profile: Malkia Ukweli's *Last Words* voice
+- Enigma VO profile: Malkia Ukweli's *Last Words* voice —
+  not exercised in Section 6, held for Act 2+
 
-### 9.3 Canon hygiene (Canon Rev 7 §8.6)
+### 9.4 Decisions locked (2026-04-18)
+
+| # | Question | Decision | Rationale |
+|---|---|---|---|
+| 1 | Antiquarian: sit or stand? | **Stand** (Beat J pose) | Ritual gravity. Scene lands on *being witnessed*, not befriended. Mirrors Beat J staging. |
+| 2 | Enigma speaks live in Section 6? | **No — stays silent** | Holds her first live line for Act 2+ where it can land somewhere new. The player has already heard her archived voice three times (Prelude Beat J tease, full *Last Words*, this landing). |
+| 3 | Antiquarian reveals Loredex-Programmer identity? | **No — kept separate** | Deferred to a later act. Reveal lands with more emotional weight once the player knows the Witnesses better. Also widens canon-hygiene margin on the forbidden civilian name. |
+| 4 | Forgiveness mechanic or accept/decline/deflect? | **Replace** with accept/decline/deflect | Nothing canonically to forgive in Act 1 (Malkia's debt is Act 3+ per §8.6 rule 6). Forgiveness re-scoped to Act 3. Three-way choice is consequential, coherent, canon-safe. |
+
+### 9.5 Closing-choice semantics (the one Section 6 player choice)
+
+One beat mid-scene, the Antiquarian puts the ask to the player.
+The player picks one of three:
+
+- **Accept.** The player agrees to carry forward what the
+  Engineer and the Witnesses started. Writes
+  `act1_closingChoice = "accept"`. Unlocks Act 2's
+  Antiquarian-as-companion track by default.
+- **Decline.** The player refuses the Witnesses' offer.
+  Writes `act1_closingChoice = "decline"`. Act 2 still opens
+  but the Witnesses fade into the background until the player
+  reaches for them in Act 3's Witness-return arc.
+- **Deflect.** The player asks a question instead of answering.
+  The Witnesses do not press. Writes
+  `act1_closingChoice = "deflect"`. Section 6 ends with the
+  question unresolved; Act 2 opens with companion track
+  ambiguous.
+
+All three are canon-safe endpoints. None softlocks Act 2.
+
+### 9.6 Canon hygiene (Canon Rev 7 §8.6)
 
 Section 6 is still Prelude-and-Act-1 scope. The following
 must NOT appear:
@@ -1426,18 +1482,71 @@ must NOT appear:
   spoken aloud — permitted phrasing: *"Across Ages, across
   the death of stars"*
 - Civilian names "Daniel Cross" and "Malkia Ukweli"
+- **New (§9.4 decision 3 consequence):** no reference to
+  the Antiquarian having been the Loredex narrator or having
+  used the Programmer alias. He may say *"I was executed for
+  what I thought. I woke up in the next era."* and similar
+  canonical-Witness framing; he may not connect his current
+  name to a prior identity the player has heard.
 
-### 9.4 User decisions pending (blocking authoring)
+### 9.7 Reveals Section 6 IS allowed to make
 
-1. Antiquarian: sit or stand?
-2. Enigma: speaks live in Section 6, or held for Act 2+?
-3. Antiquarian reveals he was "the Programmer" of the Loredex?
-4. Preserve the original "forgive both / one / neither"
-   mechanic, or replace with the accept / decline / deflect
-   three-way?
+Per Canon Rev 7 §8.6 rule-compatible subset:
 
-**Until these four decisions resolve, no prompt work can be
-queued for Section 6.** This doc reserves the slot.
+- That the Antiquarian was a Witness who died for his
+  thought and came back. Sufficient phrasing:
+  *"I was executed for what I thought. I woke up in the
+  next era."* He need not use the word "Revelation."
+- That the Enigma was the voice on *Last Words* and that she
+  also died and came back. This fact may be spoken **by the
+  Antiquarian about the Enigma** (she is silent). She confirms
+  only with a nod or held eye contact.
+- That the Engineer whose song the player just heard is
+  **not** a Witness — he pre-dates the Witness arc. His death
+  is what Malkia carried forward; it is the seed of what she
+  became.
+- That the player is the fulcrum the Antiquarian referenced
+  in Beat J — the one who decides whether what the Engineer
+  and the Witnesses died for continues or closes.
+
+### 9.8 Suggested cutscene shape (first-draft skeleton)
+
+**Not yet canonical** — a structural scaffold for the script
+author. Revise freely.
+
+1. **Cold open (0:00–0:20).** Player walks into the Archives.
+   Ambient only. The two Witnesses are standing where they
+   stood in Beat J. They do not turn. The player crosses the
+   room and stops.
+2. **Antiquarian speaks (0:20–1:00).** He acknowledges the
+   player without moving. Lands the "executed for what I
+   thought" line. Lands *"across Ages, across the death of
+   stars."* The Enigma's gaze shifts to the player once; she
+   does not speak.
+3. **The framing (1:00–2:00).** Antiquarian establishes the
+   Engineer as the seed and Malkia as the carrier. He frames
+   the player as the fulcrum.
+4. **The ask (2:00–2:30).** Antiquarian puts the choice to
+   the player. Dialog UI appears: *accept / decline / deflect*.
+5. **The response (2:30–3:30).** Per choice:
+   - **Accept:** Antiquarian nods. Enigma holds eye contact.
+     One shared beat of silence.
+   - **Decline:** Antiquarian nods. Enigma looks away.
+     Silence.
+   - **Deflect:** Antiquarian answers the player's question
+     briefly and canon-safely, then falls silent. Enigma's
+     posture unchanged.
+6. **Close (3:30–end).** The room ambient lifts. Slow fade.
+   Title card: *"End of Act 1."*
+
+### 9.9 Forward-write surface
+
+| Field | Value source | Consumer |
+|---|---|---|
+| `act1_complete` | Set to `true` on cutscene end | Gates Act 2 entry |
+| `act1_closingChoice` | §9.5 player pick (`accept` / `decline` / `deflect`) | Act 2 companion-track default; affects Act 3 Witness-return branch weighting |
+| `witness_antiquarian_met_part2` | Always set on cutscene end | Act 2+ dialogue branches referencing the Antiquarian's Part 2 confession |
+| `witness_enigma_met_part2` | Always set on cutscene end | Act 2+ dialogue branches referencing the Enigma's Part 2 *silence* (important — her silence is the canonical fact this flag records) |
 
 ---
 
@@ -1474,12 +1583,15 @@ queued for Section 6.** This doc reserves the slot.
 | 27 | Warlord VO — three edits | `audio/act1/warlord_three_edits.mp3` | mp3 ~3s | §8.3 | PENDING |
 | 28 | Prince VO — rules themselves | `audio/act1/prince_third_edit_rules.mp3` | mp3 ~5s | §8.3 | PENDING |
 | — | Prelude VO audit | `audio/prince/`, `audio/elara/`, `audio/human/`, `audio/locke/` | audit pass | §3.1–§3.2 | AUDIT |
-| — | Section 6 (Two Witnesses Part 2) | TBD | blocked on user decisions | §9 | BLOCKED |
+| 29 | Section 6 cutscene wiring | `components/act1/TwoWitnessesPart2.tsx` | code + existing Archives backdrop | §9 | SCAFFOLDED |
+| 30 | Antiquarian Section 6 VO | `audio/antiquarian/antiq_witnesses_part2_*.mp3` | 12–16 mp3 takes | §9.2 | PENDING |
+| — | Enigma Section 6 VO | N/A — silent per §9.4 decision 2 | N/A | §9 | DEFERRED to Act 2+ |
 
 **Totals:** 17 new image renders · 3 new cutscene video
-renders · 1 runtime-only cutscene wiring · 4 new UI components
-· 4 new VO takes · 1 Prelude VO audit pass · 1 Section 6 stub
-awaiting canon decisions.
+renders · 2 runtime-only cutscene wirings (§6.4 *Last Words*,
+§9 Section 6) · 4 new UI components · 4 new cutscene VO takes
+· 12–16 Antiquarian Section 6 VO takes · 1 Prelude VO audit
+pass. Enigma Section 6 VO deferred to Act 2+.
 
 ---
 
@@ -1490,3 +1602,14 @@ awaiting canon decisions.
   sweep of Prelude + Act 1 source docs, and the on-disk
   asset enumeration. Covers Prelude VO audit and every Act 1
   production slot through Section 6's blocked stub.
+- **2026-04-18 (rev 2)** — Section 6 unblocked. Four
+  `ACT1_NARRATIVE_STRUCTURE.md` §6.7 decisions locked:
+  (1) Witnesses stand in Beat J pose; (2) Enigma silent,
+  first live line held for Act 2+; (3) Antiquarian does not
+  name the Loredex-Programmer identity; (4) closing choice
+  replaced with accept/decline/deflect, forgiveness mechanic
+  re-scoped to Act 3. §9 expanded with locked staging,
+  closing-choice semantics, canon-hygiene consequences of
+  decision 3, allowed reveals, a first-draft cutscene
+  skeleton, and forward-write surface. Inventory now lists
+  29 deliverables + Enigma VO deferred.
