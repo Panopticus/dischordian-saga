@@ -53,30 +53,30 @@ const SKILL_ICONS: Record<SkillType, typeof Brain> = {
 };
 
 const SKILL_COLORS: Record<SkillType, string> = {
-  charisma: "text-pink-400",
-  intelligence: "text-cyan-400",
-  strength: "text-red-400",
-  perception: "text-amber-400",
-  willpower: "text-purple-400",
-  agility: "text-green-400",
+  charisma: "void-text-error",
+  intelligence: "void-text-energy",
+  strength: "void-text-error",
+  perception: "void-text-error",
+  willpower: "void-text-system",
+  agility: "void-text-energy",
 };
 
 const RARITY_COLORS: Record<CardRarity, string> = {
-  common: "text-gray-400",
-  uncommon: "text-green-400",
-  rare: "text-blue-400",
-  epic: "text-purple-400",
-  legendary: "text-amber-400",
-  mythic: "text-rose-400",
+  common: "void-text",
+  uncommon: "void-text-energy",
+  rare: "void-text-energy",
+  epic: "void-text-system",
+  legendary: "void-text-error",
+  mythic: "void-text-error",
 };
 
 const RARITY_GLOW: Record<CardRarity, string> = {
   common: "",
-  uncommon: "drop-shadow-[0_0_3px_rgba(74,222,128,0.4)]",
-  rare: "drop-shadow-[0_0_4px_rgba(96,165,250,0.5)]",
-  epic: "drop-shadow-[0_0_5px_rgba(192,132,252,0.5)]",
-  legendary: "drop-shadow-[0_0_6px_rgba(251,191,36,0.6)]",
-  mythic: "drop-shadow-[0_0_8px_rgba(251,113,133,0.7)]",
+  uncommon: "drop-shadow-[0_0_3px_color-mix(in oklch, var(--energy-success) 40%, transparent)]",
+  rare: "drop-shadow-[0_0_4px_color-mix(in oklch, var(--energy-primary) 50%, transparent)]",
+  epic: "drop-shadow-[0_0_5px_color-mix(in oklch, var(--energy-system) 50%, transparent)]",
+  legendary: "drop-shadow-[0_0_6px_color-mix(in oklch, var(--energy-premium) 60%, transparent)]",
+  mythic: "drop-shadow-[0_0_8px_color-mix(in oklch, var(--energy-error) 70%, transparent)]",
 };
 
 // ─── Skill Check Logic ───
@@ -190,30 +190,30 @@ function WheelSegment({
         <div className={`
           flex items-center gap-2 px-3 py-2.5 rounded-sm border transition-all duration-200
           ${isHumanity
-            ? "border-cyan-500/30 hover:border-cyan-400/60 hover:bg-cyan-500/10"
+            ? "void-border-success void-border-success void-bg-success"
             : isMachine
-              ? "border-amber-500/30 hover:border-amber-400/60 hover:bg-amber-500/10"
+              ? "void-border-error void-border-error void-bg-error"
               : "border-border/40 hover:border-primary/40 hover:bg-primary/5"
           }
-          ${isCorrupted ? "border-red-500/40 bg-red-500/5" : ""}
+          ${isCorrupted ? "void-border-error void-bg-error" : ""}
           ${hovered && !disabled ? "translate-x-1" : ""}
           ${checking ? "animate-pulse" : ""}
         `}>
           {/* Alignment indicator bar */}
           <div className={`
             w-1 self-stretch rounded-full flex-shrink-0
-            ${isHumanity ? "bg-cyan-400" : isMachine ? "bg-amber-500" : "bg-muted-foreground/30"}
+            ${isHumanity ? "void-bg-success" : isMachine ? "void-bg-error" : "bg-muted-foreground/30"}
           `} />
 
           {/* Source indicator */}
           <div className={`
             flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center
-            ${choice.source === "elara" ? "bg-cyan-500/20" : choice.source === "human" ? "bg-amber-500/20" : "bg-muted/30"}
+            ${choice.source === "elara" ? "void-bg-success" : choice.source === "human" ? "void-bg-error" : "bg-muted/30"}
           `}>
             {choice.source === "elara" ? (
-              <Radio size={11} className="text-cyan-400" />
+              <Radio size={11} className="void-text-energy" />
             ) : choice.source === "human" ? (
-              <WifiOff size={11} className="text-amber-400" />
+              <WifiOff size={11} className="void-text-error" />
             ) : (
               <ChevronRight size={11} className="text-muted-foreground" />
             )}
@@ -227,7 +227,7 @@ function WheelSegment({
               ) : (
                 <span className={`
                   text-sm font-mono truncate
-                  ${isHumanity ? "text-cyan-300" : isMachine ? "text-amber-300" : "text-foreground"}
+                  ${isHumanity ? "void-text-energy" : isMachine ? "void-text-error" : "text-foreground"}
                 `}>
                   {choice.shortText}
                 </span>
@@ -257,8 +257,8 @@ function WheelSegment({
                 flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono
                 ${checkResult
                   ? checkResult.passed
-                    ? "bg-green-500/20 text-green-400"
-                    : "bg-red-500/20 text-red-400"
+                    ? "void-bg-success void-text-energy"
+                    : "void-bg-error void-text-error"
                   : `bg-muted/30 ${SKILL_COLORS[sc.skill]}`
                 }
               `}>
@@ -298,15 +298,15 @@ function WheelSegment({
                 <div className="flex items-center gap-1 text-[10px] font-mono font-bold">
                   {isMachine ? (
                     <>
-                      <span className="text-amber-400">+{absVal}</span>
+                      <span className="void-text-error">+{absVal}</span>
                       <span className="text-muted-foreground/40">/</span>
-                      <span className="text-cyan-400">-{absVal}</span>
+                      <span className="void-text-energy">-{absVal}</span>
                     </>
                   ) : (
                     <>
-                      <span className="text-cyan-400">+{absVal}</span>
+                      <span className="void-text-energy">+{absVal}</span>
                       <span className="text-muted-foreground/40">/</span>
-                      <span className="text-amber-400">-{absVal}</span>
+                      <span className="void-text-error">-{absVal}</span>
                     </>
                   )}
                 </div>
@@ -351,12 +351,12 @@ function WheelSegment({
               exit={{ opacity: 0 }}
               className={`
                 absolute inset-0 flex items-center justify-center rounded-sm
-                ${checkResult.passed ? "bg-green-500/10" : "bg-red-500/10"}
+                ${checkResult.passed ? "void-bg-success" : "void-bg-error"}
               `}
             >
               <span className={`
                 text-xs font-mono font-bold tracking-wider
-                ${checkResult.passed ? "text-green-400" : "text-red-400"}
+                ${checkResult.passed ? "void-text-energy" : "void-text-error"}
               `}>
                 {checkResult.passed ? "SUCCESS" : "FAILED"} [{checkResult.roll}]
               </span>
@@ -373,10 +373,10 @@ function CorruptionBar({ level }: { level: number }) {
   if (level <= 0) return null;
   return (
     <div className="flex items-center gap-2 px-3 py-1.5">
-      <Wifi size={12} className={level > 50 ? "text-red-400" : "text-amber-400"} />
+      <Wifi size={12} className={level > 50 ? "void-text-error" : "void-text-error"} />
       <div className="flex-1 h-1 bg-muted/30 rounded-full overflow-hidden">
         <motion.div
-          className={`h-full rounded-full ${level > 70 ? "bg-red-500" : level > 40 ? "bg-amber-500" : "bg-amber-400/60"}`}
+          className={`h-full rounded-full ${level > 70 ? "void-bg-error" : level > 40 ? "void-bg-error" : "void-bg-error"}`}
           initial={{ width: 0 }}
           animate={{ width: `${level}%` }}
           transition={{ duration: 0.5 }}
@@ -462,7 +462,7 @@ export default function DialogWheel({
               {speakerName.toUpperCase()}
             </span>
             {corruptionLevel > 30 && (
-              <AlertTriangle size={11} className="text-amber-400 animate-pulse" />
+              <AlertTriangle size={11} className="void-text-error animate-pulse" />
             )}
           </div>
           <p className="text-sm text-foreground/90 leading-relaxed font-mono">
@@ -481,21 +481,21 @@ export default function DialogWheel({
       {/* Alignment legend */}
       <div className="flex items-center gap-4 px-3 py-1.5 mb-2">
         <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-cyan-400" />
-          <span className="text-[10px] font-mono text-cyan-400/70 tracking-wider">HUMANITY</span>
+          <div className="w-2 h-2 rounded-full void-bg-success" />
+          <span className="text-[10px] font-mono void-text-energy tracking-wider">HUMANITY</span>
         </div>
         <div className="flex items-center gap-1.5">
           <div className="w-2 h-2 rounded-full bg-muted-foreground/40" />
           <span className="text-[10px] font-mono text-muted-foreground/50 tracking-wider">NEUTRAL</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-amber-500" />
-          <span className="text-[10px] font-mono text-amber-400/70 tracking-wider">MACHINE</span>
+          <div className="w-2 h-2 rounded-full void-bg-error" />
+          <span className="text-[10px] font-mono void-text-error tracking-wider">MACHINE</span>
         </div>
         {corruptionLevel > 0 && (
           <div className="flex items-center gap-1.5 ml-auto">
-            <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-            <span className="text-[10px] font-mono text-red-400/70 tracking-wider">CORRUPTED</span>
+            <div className="w-2 h-2 rounded-full void-bg-error animate-pulse" />
+            <span className="text-[10px] font-mono void-text-error tracking-wider">CORRUPTED</span>
           </div>
         )}
       </div>

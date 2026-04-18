@@ -27,19 +27,19 @@ function MoralityShiftBadge({ shift }: { shift: number }) {
     <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider bg-muted/30 border border-border/40">
       {isMachine ? (
         <>
-          <CircuitBoard size={10} className="text-cyan-400" />
-          <span className="text-cyan-400">MACHINE +{absVal}</span>
+          <CircuitBoard size={10} className="void-text-energy" />
+          <span className="void-text-energy">MACHINE +{absVal}</span>
           <span className="text-muted-foreground/50">/</span>
-          <Heart size={10} className="text-amber-400" />
-          <span className="text-amber-400">HUMANITY -{absVal}</span>
+          <Heart size={10} className="void-text-error" />
+          <span className="void-text-error">HUMANITY -{absVal}</span>
         </>
       ) : (
         <>
-          <Heart size={10} className="text-amber-400" />
-          <span className="text-amber-400">HUMANITY +{absVal}</span>
+          <Heart size={10} className="void-text-error" />
+          <span className="void-text-error">HUMANITY +{absVal}</span>
           <span className="text-muted-foreground/50">/</span>
-          <CircuitBoard size={10} className="text-cyan-400" />
-          <span className="text-cyan-400">MACHINE -{absVal}</span>
+          <CircuitBoard size={10} className="void-text-energy" />
+          <span className="void-text-energy">MACHINE -{absVal}</span>
         </>
       )}
     </span>
@@ -49,11 +49,11 @@ function MoralityShiftBadge({ shift }: { shift: number }) {
 /* ─── REWARD DISPLAY ─── */
 function RewardBadge({ reward }: { reward: TutorialReward }) {
   const icons: Record<string, JSX.Element> = {
-    card: <Layers size={12} className="text-purple-400" />,
-    dream_tokens: <Zap size={12} className="text-yellow-400" />,
-    xp: <Star size={12} className="text-green-400" />,
-    item: <Gift size={12} className="text-blue-400" />,
-    theme: <Award size={12} className="text-pink-400" />,
+    card: <Layers size={12} className="void-text-system" />,
+    dream_tokens: <Zap size={12} className="void-text-premium" />,
+    xp: <Star size={12} className="void-text-energy" />,
+    item: <Gift size={12} className="void-text-energy" />,
+    theme: <Award size={12} className="void-text-error" />,
   };
   return (
     <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-muted/40 border border-border/60 text-xs font-mono">
@@ -128,25 +128,25 @@ function ChoiceButton({
       className={`w-full text-left p-4 rounded-lg border transition-all ${
         selected
           ? isMachine
-            ? "bg-cyan-500/20 border-cyan-500/50 shadow-[0_0_20px_rgba(0,200,255,0.15)]"
+            ? "void-bg-success void-border-success shadow-[0_0_20px_color-mix(in oklch, var(--energy-success) 15%, transparent)]"
             : isHumanity
-            ? "bg-amber-500/20 border-amber-500/50 shadow-[0_0_20px_rgba(255,180,0,0.15)]"
+            ? "void-bg-error void-border-error shadow-[0_0_20px_color-mix(in oklch, var(--energy-error) 15%, transparent)]"
             : "bg-primary/20 border-primary/50"
           : disabled
           ? "bg-muted/25 border-border/40 opacity-40"
           : isMachine
-          ? "bg-muted/40 border-cyan-500/20 hover:bg-cyan-500/10 hover:border-cyan-500/40"
+          ? "bg-muted/40 void-border-success void-bg-success void-border-success"
           : isHumanity
-          ? "bg-muted/40 border-amber-500/20 hover:bg-amber-500/10 hover:border-amber-500/40"
+          ? "bg-muted/40 void-border-error void-bg-error void-border-error"
           : "bg-muted/40 border-border/60 hover:bg-muted/60"
       }`}
     >
       <div className="flex items-start gap-3">
         <div className={`mt-1 p-1.5 rounded ${
-          isMachine ? "bg-cyan-500/20" : isHumanity ? "bg-amber-500/20" : "bg-muted/50"
+          isMachine ? "void-bg-success" : isHumanity ? "void-bg-error" : "bg-muted/50"
         }`}>
-          {isMachine ? <CircuitBoard size={14} className="text-cyan-400" /> : 
-           isHumanity ? <Heart size={14} className="text-amber-400" /> :
+          {isMachine ? <CircuitBoard size={14} className="void-text-energy" /> : 
+           isHumanity ? <Heart size={14} className="void-text-error" /> :
            <MessageSquare size={14} className="text-muted-foreground" />}
         </div>
         <div className="flex-1 min-w-0">
@@ -271,13 +271,13 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center"
-        style={{ background: "var(--bg-overlay)", backdropFilter: "blur(12px)" }}
+        style={{ background: "var(--bg-overlay)", backdropFilter: "blur(var(--physics-blur, 12px))" /* void-ignore — 12px is fallback when --physics-blur unset */ }}
       >
         {/* Skip controls */}
         <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
           <button
             onClick={onDismiss}
-            className="px-3 py-1.5 rounded-lg bg-muted/30 hover:bg-muted/50 text-muted-foreground/50 hover:text-muted-foreground transition-colors font-mono text-[10px]"
+            className="px-3 py-1.5 rounded-lg bg-muted/30 hover:bg-muted/50 text-muted-foreground/50 hover:text-muted-foreground transition-colors font-mono text-[10px]" /* void-ignore — fixed 10px micro-text for monospace skip-control affordance */
           >
             SKIP ALL
           </button>
@@ -308,10 +308,10 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
             </h2>
             <p className="font-mono text-sm text-muted-foreground">{tutorial.subtitle}</p>
             <div className="flex items-center justify-center gap-4 mt-4 font-mono text-xs text-muted-foreground">
-              <span className="flex items-center gap-1"><Zap size={12} className="text-yellow-400" />{tutorial.totalRewards.dreamTokens} DT</span>
-              <span className="flex items-center gap-1"><Star size={12} className="text-green-400" />{tutorial.totalRewards.xp} XP</span>
+              <span className="flex items-center gap-1"><Zap size={12} className="void-text-premium" />{tutorial.totalRewards.dreamTokens} DT</span>
+              <span className="flex items-center gap-1"><Star size={12} className="void-text-energy" />{tutorial.totalRewards.xp} XP</span>
               {tutorial.totalRewards.cards > 0 && (
-                <span className="flex items-center gap-1"><Layers size={12} className="text-purple-400" />{tutorial.totalRewards.cards} Cards</span>
+                <span className="flex items-center gap-1"><Layers size={12} className="void-text-system" />{tutorial.totalRewards.cards} Cards</span>
               )}
             </div>
           </motion.div>
@@ -339,7 +339,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
             </div>
 
             {/* Dialog box */}
-            <div className="void-surface border-primary/20 overflow-hidden shadow-[0_0_40px_rgba(0,200,255,0.08)]">
+            <div className="void-surface border-primary/20 overflow-hidden shadow-[0_0_40px_color-mix(in oklch, var(--energy-success) 8%, transparent)]">
               {/* Elara header */}
               <div className="flex items-center gap-3 px-5 py-3 border-b border-border/40 bg-primary/5">
                 <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
@@ -452,7 +452,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
               ))}
             </div>
 
-            <div className="void-surface border-primary/20 overflow-hidden shadow-[0_0_40px_rgba(0,200,255,0.08)]">
+            <div className="void-surface border-primary/20 overflow-hidden shadow-[0_0_40px_color-mix(in oklch, var(--energy-success) 8%, transparent)]">
               {/* Elara response header */}
               <div className="flex items-center gap-3 px-5 py-3 border-b border-border/40 bg-primary/5">
                 <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
@@ -525,7 +525,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
             animate={{ opacity: 1, scale: 1 }}
             className="w-full max-w-lg mx-4 mb-4 sm:mb-0"
           >
-            <div className="rounded-xl border border-accent/30 bg-card/90 overflow-hidden shadow-[0_0_40px_rgba(255,180,0,0.1)]">
+            <div className="rounded-xl border border-accent/30 bg-card/90 overflow-hidden shadow-[0_0_40px_color-mix(in oklch, var(--energy-error) 10%, transparent)]">
               <div className="px-5 py-4 border-b border-border/40 bg-accent/5 text-center">
                 <Award size={32} className="text-accent mx-auto mb-2" />
                 <h3 className="font-display text-lg font-bold text-foreground tracking-wide">TUTORIAL COMPLETE</h3>
@@ -541,19 +541,19 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
                       <span className="flex items-center gap-1.5 font-mono text-sm font-bold">
                         {totalMoralityShift < 0 ? (
                           <>
-                            <CircuitBoard size={14} className="text-cyan-400" />
-                            <span className="text-cyan-400">MACHINE +{Math.abs(totalMoralityShift)}</span>
+                            <CircuitBoard size={14} className="void-text-energy" />
+                            <span className="void-text-energy">MACHINE +{Math.abs(totalMoralityShift)}</span>
                             <span className="text-muted-foreground/50">/</span>
-                            <Heart size={14} className="text-amber-400" />
-                            <span className="text-amber-400">HUMANITY {totalMoralityShift}</span>
+                            <Heart size={14} className="void-text-error" />
+                            <span className="void-text-error">HUMANITY {totalMoralityShift}</span>
                           </>
                         ) : (
                           <>
-                            <Heart size={14} className="text-amber-400" />
-                            <span className="text-amber-400">HUMANITY +{totalMoralityShift}</span>
+                            <Heart size={14} className="void-text-error" />
+                            <span className="void-text-error">HUMANITY +{totalMoralityShift}</span>
                             <span className="text-muted-foreground/50">/</span>
-                            <CircuitBoard size={14} className="text-cyan-400" />
-                            <span className="text-cyan-400">MACHINE -{totalMoralityShift}</span>
+                            <CircuitBoard size={14} className="void-text-energy" />
+                            <span className="void-text-energy">MACHINE -{totalMoralityShift}</span>
                           </>
                         )}
                       </span>

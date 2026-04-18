@@ -38,19 +38,19 @@ function MoralityShiftBadge({ shift }: { shift: number }) {
     <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider bg-muted/30 border border-border/40">
       {isMachine ? (
         <>
-          <CircuitBoard size={10} className="text-cyan-400" />
-          <span className="text-cyan-400">MACHINE +{absVal}</span>
+          <CircuitBoard size={10} className="void-text-energy" />
+          <span className="void-text-energy">MACHINE +{absVal}</span>
           <span className="text-muted-foreground/50">/</span>
-          <Heart size={10} className="text-amber-400" />
-          <span className="text-amber-400">HUMANITY -{absVal}</span>
+          <Heart size={10} className="void-text-error" />
+          <span className="void-text-error">HUMANITY -{absVal}</span>
         </>
       ) : (
         <>
-          <Heart size={10} className="text-amber-400" />
-          <span className="text-amber-400">HUMANITY +{absVal}</span>
+          <Heart size={10} className="void-text-error" />
+          <span className="void-text-error">HUMANITY +{absVal}</span>
           <span className="text-muted-foreground/50">/</span>
-          <CircuitBoard size={10} className="text-cyan-400" />
-          <span className="text-cyan-400">MACHINE -{absVal}</span>
+          <CircuitBoard size={10} className="void-text-energy" />
+          <span className="void-text-energy">MACHINE -{absVal}</span>
         </>
       )}
     </span>
@@ -60,11 +60,11 @@ function MoralityShiftBadge({ shift }: { shift: number }) {
 /* ─── REWARD DISPLAY ─── */
 function RewardBadge({ reward }: { reward: TutorialReward }) {
   const icons: Record<string, React.ReactNode> = {
-    card: <Layers size={12} className="text-purple-400" />,
-    dream_tokens: <Zap size={12} className="text-yellow-400" />,
-    xp: <Star size={12} className="text-green-400" />,
-    item: <Gift size={12} className="text-blue-400" />,
-    theme: <Award size={12} className="text-pink-400" />,
+    card: <Layers size={12} className="void-text-system" />,
+    dream_tokens: <Zap size={12} className="void-text-premium" />,
+    xp: <Star size={12} className="void-text-energy" />,
+    item: <Gift size={12} className="void-text-energy" />,
+    theme: <Award size={12} className="void-text-error" />,
   };
   return (
     <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-muted/40 border border-border/60 text-xs font-mono">
@@ -301,10 +301,10 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
   // Get the speaker icon
   const getSpeakerIcon = (speaker: string) => {
     switch (speaker) {
-      case "human": return <Skull size={14} className="text-red-400" />;
-      case "system": return <Terminal size={14} className="text-amber-400" />;
-      case "kael_log": return <Terminal size={14} className="text-amber-400" />;
-      default: return <Radio size={14} className="text-cyan-400" />;
+      case "human": return <Skull size={14} className="void-text-error" />;
+      case "system": return <Terminal size={14} className="void-text-error" />;
+      case "kael_log": return <Terminal size={14} className="void-text-error" />;
+      default: return <Radio size={14} className="void-text-energy" />;
     }
   };
 
@@ -319,28 +319,28 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
 
   const getSpeakerColor = (speaker: string) => {
     switch (speaker) {
-      case "human": return "text-red-400";
-      case "system": return "text-amber-400";
-      case "kael_log": return "text-amber-400";
-      default: return "text-cyan-400";
+      case "human": return "void-text-error";
+      case "system": return "void-text-error";
+      case "kael_log": return "void-text-error";
+      default: return "void-text-energy";
     }
   };
 
   const getSpeakerBorder = (speaker: string) => {
     switch (speaker) {
-      case "human": return "border-red-800/40";
-      case "system": return "border-amber-800/40";
-      case "kael_log": return "border-amber-800/30";
-      default: return "border-cyan-800/40";
+      case "human": return "void-border-error";
+      case "system": return "void-border-error";
+      case "kael_log": return "void-border-error";
+      default: return "void-border-success";
     }
   };
 
   const getSpeakerBg = (speaker: string) => {
     switch (speaker) {
-      case "human": return "bg-red-950/30";
-      case "system": return "bg-amber-950/30";
-      case "kael_log": return "bg-amber-950/20";
-      default: return "bg-cyan-950/30";
+      case "human": return "void-bg-error";
+      case "system": return "void-bg-error";
+      case "kael_log": return "void-bg-error";
+      default: return "void-bg-success";
     }
   };
 
@@ -351,13 +351,13 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-[100] flex items-center justify-center"
-        style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(12px)" }}
+        style={{ background: "color-mix(in oklch, var(--bg-void) 85%, transparent)", backdropFilter: "blur(var(--physics-blur, 12px))" /* void-ignore — 12px is fallback when --physics-blur unset */ }}
       >
         {/* Skip controls */}
         <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
           <button
             onClick={onDismiss}
-            className="px-3 py-1.5 rounded-lg bg-muted/30 hover:bg-muted/50 text-muted-foreground/50 hover:text-muted-foreground transition-colors font-mono text-[10px]"
+            className="px-3 py-1.5 rounded-lg bg-muted/30 hover:bg-muted/50 text-muted-foreground/50 hover:text-muted-foreground transition-colors font-mono text-[10px]" /* void-ignore — fixed 10px micro-text for monospace skip-control affordance */
           >
             SKIP NARRATIVE
           </button>
@@ -390,10 +390,10 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
             </h2>
             <p className="font-mono text-sm text-muted-foreground max-w-md mx-auto">{tutorial.subtitle}</p>
             <div className="flex items-center justify-center gap-4 mt-4 font-mono text-xs text-muted-foreground">
-              <span className="flex items-center gap-1"><Zap size={12} className="text-yellow-400" />{tutorial.totalRewards.dreamTokens} DT</span>
-              <span className="flex items-center gap-1"><Star size={12} className="text-green-400" />{tutorial.totalRewards.xp} XP</span>
+              <span className="flex items-center gap-1"><Zap size={12} className="void-text-premium" />{tutorial.totalRewards.dreamTokens} DT</span>
+              <span className="flex items-center gap-1"><Star size={12} className="void-text-energy" />{tutorial.totalRewards.xp} XP</span>
               {tutorial.totalRewards.cards > 0 && (
-                <span className="flex items-center gap-1"><Layers size={12} className="text-purple-400" />{tutorial.totalRewards.cards} Cards</span>
+                <span className="flex items-center gap-1"><Layers size={12} className="void-text-system" />{tutorial.totalRewards.cards} Cards</span>
               )}
             </div>
             {/* Signal interference animation */}
@@ -517,19 +517,19 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
                         onClick={() => handleChoice(choice)}
                         className={`w-full text-left p-4 rounded-lg border transition-all ${
                           choice.sideLabel === "machine"
-                            ? "bg-muted/40 border-cyan-500/20 hover:bg-cyan-500/10 hover:border-cyan-500/40"
+                            ? "bg-muted/40 void-border-success void-bg-success void-border-success"
                             : choice.sideLabel === "humanity"
-                            ? "bg-muted/40 border-amber-500/20 hover:bg-amber-500/10 hover:border-amber-500/40"
+                            ? "bg-muted/40 void-border-error void-bg-error void-border-error"
                             : "bg-muted/40 border-border/60 hover:bg-muted/60"
                         }`}
                       >
                         <div className="flex items-start gap-3">
                           <div className={`mt-1 p-1.5 rounded ${
-                            choice.sideLabel === "machine" ? "bg-cyan-500/20" :
-                            choice.sideLabel === "humanity" ? "bg-amber-500/20" : "bg-muted/50"
+                            choice.sideLabel === "machine" ? "void-bg-success" :
+                            choice.sideLabel === "humanity" ? "void-bg-error" : "bg-muted/50"
                           }`}>
-                            {choice.sideLabel === "machine" ? <CircuitBoard size={14} className="text-cyan-400" /> :
-                             choice.sideLabel === "humanity" ? <Heart size={14} className="text-amber-400" /> :
+                            {choice.sideLabel === "machine" ? <CircuitBoard size={14} className="void-text-energy" /> :
+                             choice.sideLabel === "humanity" ? <Heart size={14} className="void-text-error" /> :
                              <MessageSquare size={14} className="text-muted-foreground" />}
                           </div>
                           <div className="flex-1 min-w-0">
@@ -537,7 +537,7 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
                             <div className="flex items-center gap-2 mt-2 flex-wrap">
                               <MoralityShiftBadge shift={choice.moralityShift} />
                               {choice.classCheck && (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider bg-purple-500/20 text-purple-400 border border-purple-500/30">
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono tracking-wider void-bg-system void-text-system border void-border-system">
                                   {choice.classCheck.toUpperCase()} CLASS
                                 </span>
                               )}
@@ -586,14 +586,14 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
             animate={{ y: 0, opacity: 1 }}
             className="w-full max-w-2xl mx-4"
           >
-            <div className="void-surface border-red-800/30 overflow-hidden shadow-2xl">
+            <div className="void-surface void-border-error overflow-hidden shadow-2xl">
               {/* Human header */}
-              <div className="flex items-center gap-3 px-5 py-3 border-b border-red-800/30 bg-red-950/30">
-                <div className="w-8 h-8 rounded-full bg-red-950/50 border border-red-800/40 flex items-center justify-center">
-                  <Skull size={14} className="text-red-400" />
+              <div className="flex items-center gap-3 px-5 py-3 border-b void-border-error void-bg-error">
+                <div className="w-8 h-8 rounded-full void-bg-error border void-border-error flex items-center justify-center">
+                  <Skull size={14} className="void-text-error" />
                 </div>
                 <div>
-                  <p className="font-display text-sm font-bold text-red-400 tracking-wide">// SIGNAL INTERCEPT</p>
+                  <p className="font-display text-sm font-bold void-text-error tracking-wide">// SIGNAL INTERCEPT</p>
                   <p className="font-mono text-[10px] text-muted-foreground tracking-wider">THE HUMAN RESPONDS</p>
                 </div>
                 <MoralityShiftBadge shift={selectedChoice.moralityShift} />
@@ -647,14 +647,14 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
             animate={{ y: 0, opacity: 1 }}
             className="w-full max-w-2xl mx-4"
           >
-            <div className="void-surface border-cyan-800/30 overflow-hidden shadow-2xl">
+            <div className="void-surface void-border-success overflow-hidden shadow-2xl">
               {/* Elara header */}
-              <div className="flex items-center gap-3 px-5 py-3 border-b border-cyan-800/30 bg-cyan-950/30">
-                <div className="w-8 h-8 rounded-full bg-cyan-950/50 border border-cyan-800/40 flex items-center justify-center">
-                  <Radio size={14} className="text-cyan-400" />
+              <div className="flex items-center gap-3 px-5 py-3 border-b void-border-success void-bg-success">
+                <div className="w-8 h-8 rounded-full void-bg-success border void-border-success flex items-center justify-center">
+                  <Radio size={14} className="void-text-energy" />
                 </div>
                 <div>
-                  <p className="font-display text-sm font-bold text-cyan-400 tracking-wide">ELARA // SHIP AI</p>
+                  <p className="font-display text-sm font-bold void-text-energy tracking-wide">ELARA // SHIP AI</p>
                   <p className="font-mono text-[10px] text-muted-foreground tracking-wider">RESPONDING</p>
                 </div>
               </div>
@@ -743,19 +743,19 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
                       <span className="flex items-center gap-1.5 font-mono text-sm font-bold">
                         {totalMoralityShift < 0 ? (
                           <>
-                            <CircuitBoard size={14} className="text-cyan-400" />
-                            <span className="text-cyan-400">MACHINE +{Math.abs(totalMoralityShift)}</span>
+                            <CircuitBoard size={14} className="void-text-energy" />
+                            <span className="void-text-energy">MACHINE +{Math.abs(totalMoralityShift)}</span>
                             <span className="text-muted-foreground/50">/</span>
-                            <Heart size={14} className="text-amber-400" />
-                            <span className="text-amber-400">HUMANITY {totalMoralityShift}</span>
+                            <Heart size={14} className="void-text-error" />
+                            <span className="void-text-error">HUMANITY {totalMoralityShift}</span>
                           </>
                         ) : (
                           <>
-                            <Heart size={14} className="text-amber-400" />
-                            <span className="text-amber-400">HUMANITY +{totalMoralityShift}</span>
+                            <Heart size={14} className="void-text-error" />
+                            <span className="void-text-error">HUMANITY +{totalMoralityShift}</span>
                             <span className="text-muted-foreground/50">/</span>
-                            <CircuitBoard size={14} className="text-cyan-400" />
-                            <span className="text-cyan-400">MACHINE -{totalMoralityShift}</span>
+                            <CircuitBoard size={14} className="void-text-energy" />
+                            <span className="void-text-energy">MACHINE -{totalMoralityShift}</span>
                           </>
                         )}
                       </span>

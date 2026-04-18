@@ -402,6 +402,8 @@
 .void-text-accent { color: var(--energy-accent); }
 .void-text-premium { color: var(--energy-premium); }
 .void-text-system { color: var(--energy-system); }
+.void-text-success { color: var(--energy-success); }
+.void-text-error { color: var(--energy-error); }
 
 /* ── Backgrounds ── */
 .void-bg-canvas { background-color: var(--bg-void); }
