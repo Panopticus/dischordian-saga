@@ -62,10 +62,10 @@ const INVASION_EVENTS = [
 ];
 
 const FACTION_COLORS: Record<string, string> = {
-  empire: "#ef4444",
-  insurgency: "#22c55e",
+  empire: "var(--energy-error)",
+  insurgency: "var(--energy-success)",
   neyons: "#818cf8",
-  potentials: "#f59e0b",
+  potentials: "var(--energy-accent)",
   neutral: "#94a3b8",
   hierarchy: "#dc2626",
 };
@@ -446,7 +446,7 @@ export default function FightPage() {
               style={{
                 width: i % 4 === 0 ? 3 : 1.5,
                 height: i % 4 === 0 ? 3 : 1.5,
-                background: i % 5 === 0 ? "#22d3ee" : i % 5 === 1 ? "#a78bfa" : i % 5 === 2 ? "#f59e0b" : i % 5 === 3 ? "#ef4444" : "#818cf8",
+                background: i % 5 === 0 ? "var(--energy-primary)" : i % 5 === 1 ? "#a78bfa" : i % 5 === 2 ? "var(--energy-accent)" : i % 5 === 3 ? "var(--energy-error)" : "#818cf8",
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
               }}
@@ -459,25 +459,25 @@ export default function FightPage() {
         {/* Collector's glow ring */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 sm:w-96 sm:h-96 rounded-full pointer-events-none"
           style={{
-            background: "radial-gradient(circle, rgba(34,211,238,0.08) 0%, rgba(167,139,250,0.04) 40%, transparent 70%)",
-            boxShadow: "0 0 120px rgba(34,211,238,0.1), 0 0 240px rgba(167,139,250,0.05)",
+            background: "radial-gradient(circle, color-mix(in oklch, var(--energy-primary) 8%, transparent) 0%, rgba(167,139,250,0.04) 40%, transparent 70%)",
+            boxShadow: "0 0 120px color-mix(in oklch, var(--energy-primary) 10%, transparent), 0 0 240px rgba(167,139,250,0.05)",
           }}
         />
 
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="text-center relative z-10 max-w-lg">
           {/* Subtitle */}
-          <div className="font-mono text-[10px] sm:text-xs text-cyan-500/50 tracking-[0.5em] mb-3">THE DISCHORDIAN SAGA</div>
+          <div className="font-mono text-[10px] sm:text-xs void-text-energy tracking-[0.5em] mb-3">THE DISCHORDIAN SAGA</div>
 
           {/* Main title */}
           <h1 className="font-display text-4xl sm:text-6xl font-black tracking-wider mb-1 leading-tight">
-            <span className="text-cyan-400" style={{ textShadow: "0 0 40px rgba(34,211,238,0.4)" }}>THE COLLECTOR'S</span>
+            <span className="void-text-energy" style={{ textShadow: "0 0 40px color-mix(in oklch, var(--energy-primary) 40%, transparent)" }}>THE COLLECTOR'S</span>
           </h1>
           <h1 className="font-display text-5xl sm:text-7xl font-black tracking-wider mb-2 leading-tight">
-            <span className="text-foreground" style={{ textShadow: "0 0 20px rgba(255,255,255,0.15)" }}>ARENA</span>
+            <span className="text-foreground" style={{ textShadow: "0 0 20px color-mix(in oklch, var(--text-primary) 15%, transparent)" }}>ARENA</span>
           </h1>
 
           {/* Tagline */}
-          <p className="font-mono text-[10px] sm:text-xs text-amber-500/50 tracking-[0.15em] mb-8 max-w-sm mx-auto">
+          <p className="font-mono text-[10px] sm:text-xs void-text-accent tracking-[0.15em] mb-8 max-w-sm mx-auto">
             WHERE THE GREATEST POWERS IN THE UNIVERSE FIGHT FOR THE RIGHT TO EXIST
           </p>
 
@@ -490,10 +490,10 @@ export default function FightPage() {
               onClick={startStoryMode}
               className="w-full max-w-xs px-6 py-3.5 rounded-lg border-2 font-display text-base sm:text-lg tracking-wider transition-all flex items-center justify-center gap-2"
               style={{
-                background: "linear-gradient(135deg, rgba(167,139,250,0.15) 0%, rgba(34,211,238,0.1) 100%)",
-                borderColor: storyProgress.isComplete ? "rgba(251,191,36,0.6)" : "rgba(167,139,250,0.5)",
+                background: "linear-gradient(135deg, rgba(167,139,250,0.15) 0%, color-mix(in oklch, var(--energy-primary) 10%, transparent) 100%)",
+                borderColor: storyProgress.isComplete ? "color-mix(in oklch, var(--energy-premium) 60%, transparent)" : "rgba(167,139,250,0.5)",
                 color: storyProgress.isComplete ? "#fbbf24" : "#a78bfa",
-                textShadow: `0 0 15px ${storyProgress.isComplete ? "rgba(251,191,36,0.4)" : "rgba(167,139,250,0.4)"}`,
+                textShadow: `0 0 15px ${storyProgress.isComplete ? "color-mix(in oklch, var(--energy-premium) 40%, transparent)" : "rgba(167,139,250,0.4)"}`,
               }}
             >
               <BookOpen size={18} />
@@ -509,7 +509,7 @@ export default function FightPage() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => { setIsTrainingMode(false); setPhase("select"); setSelectingFor("player"); }}
-                className="flex-1 px-4 py-2.5 rounded-lg bg-red-500/15 border border-red-500/40 text-red-400 font-display text-sm tracking-wider hover:bg-red-500/25 transition-all flex items-center justify-center gap-1.5"
+                className="flex-1 px-4 py-2.5 rounded-lg void-bg-error border void-border-error void-text-error font-display text-sm tracking-wider void-bg-error transition-all flex items-center justify-center gap-1.5"
               >
                 <Swords size={15} /> FIGHT
               </motion.button>
@@ -517,7 +517,7 @@ export default function FightPage() {
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={startTraining}
-                className="flex-1 px-4 py-2.5 rounded-lg bg-cyan-500/15 border border-cyan-500/40 text-cyan-400 font-display text-sm tracking-wider hover:bg-cyan-500/25 transition-all flex items-center justify-center gap-1.5"
+                className="flex-1 px-4 py-2.5 rounded-lg void-bg-success border void-border-success void-text-energy font-display text-sm tracking-wider void-bg-success transition-all flex items-center justify-center gap-1.5"
               >
                 <Target size={15} /> TRAIN
               </motion.button>
@@ -544,22 +544,22 @@ export default function FightPage() {
                 <div className="rounded-lg border overflow-hidden cursor-pointer hover:brightness-110 transition-all"
                   style={{
                     borderColor: "rgba(147,51,234,0.4)",
-                    background: "linear-gradient(135deg, rgba(147,51,234,0.12) 0%, rgba(34,211,238,0.06) 100%)",
+                    background: "linear-gradient(135deg, rgba(147,51,234,0.12) 0%, color-mix(in oklch, var(--energy-primary) 6%, transparent) 100%)",
                   }}
                 >
                   <div className="flex items-center gap-3 px-3 py-2">
-                    <div className="p-1.5 rounded bg-purple-500/20">
-                      <Gem size={14} className="text-purple-400" />
+                    <div className="p-1.5 rounded void-bg-system">
+                      <Gem size={14} className="void-text-system" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-display text-[10px] tracking-wider text-purple-300">
+                      <div className="font-display text-[10px] tracking-wider void-text-system">
                         {holderPerks.perks.title}
                       </div>
-                      <div className="font-mono text-[8px] text-purple-400/50">
+                      <div className="font-mono text-[8px] void-text-system">
                         {holderPerks.claimedCount} Potential{holderPerks.claimedCount !== 1 ? "s" : ""} claimed • {Math.round((holderPerks.perks.fightPointsMultiplier - 1) * 100)}% bonus points
                       </div>
                     </div>
-                    <div className="font-mono text-[9px] text-purple-400/40">→</div>
+                    <div className="font-mono text-[9px] void-text-system">→</div>
                   </div>
                 </div>
               </Link>
@@ -573,9 +573,9 @@ export default function FightPage() {
           {/* Stats bar */}
           <div className="grid grid-cols-4 gap-2 mt-6 max-w-xs mx-auto">
             {[
-              { label: "WINS", value: gam.progress.fightWins, color: "#22c55e" },
-              { label: "STREAK", value: gam.gameSave.winStreak, color: "#f59e0b" },
-              { label: "POINTS", value: gam.gameSave.fightPoints, color: "#22d3ee" },
+              { label: "WINS", value: gam.progress.fightWins, color: "var(--energy-success)" },
+              { label: "STREAK", value: gam.gameSave.winStreak, color: "var(--energy-accent)" },
+              { label: "POINTS", value: gam.gameSave.fightPoints, color: "var(--energy-primary)" },
               { label: "STORY", value: `${storyProgress.completedChapters.length}/${STORY_CHAPTERS.length}`, color: "#a78bfa" },
             ].map(s => (
               <div key={s.label} className="text-center py-1.5 rounded bg-muted/40 border border-border/40">
@@ -710,7 +710,7 @@ export default function FightPage() {
         {/* Progress dots */}
         <div className="absolute bottom-8 flex gap-1.5">
           {ARENA_LORE_OPENING.map((_, i) => (
-            <div key={i} className={`w-1.5 h-1.5 rounded-full transition-all ${i <= loreIndex ? "bg-cyan-400/60" : "bg-muted/50"}`} />
+            <div key={i} className={`w-1.5 h-1.5 rounded-full transition-all ${i <= loreIndex ? "void-bg-success" : "bg-muted/50"}`} />
           ))}
         </div>
 
@@ -731,26 +731,26 @@ export default function FightPage() {
           <button onClick={() => setPhase("title")} className="text-muted-foreground/70 hover:text-white font-mono text-sm flex items-center gap-1">
             <ChevronLeft size={16} /> BACK
           </button>
-          <h2 className="font-display text-xs sm:text-sm tracking-[0.3em] text-cyan-400/80">STORY MODE</h2>
-          <div className="font-mono text-[10px] text-amber-400">CH {storyProgress.currentChapter + 1}</div>
+          <h2 className="font-display text-xs sm:text-sm tracking-[0.3em] void-text-energy">STORY MODE</h2>
+          <div className="font-mono text-[10px] void-text-accent">CH {storyProgress.currentChapter + 1}</div>
         </div>
 
         {/* Prisoner status */}
         <div className="px-4 py-3 border-b border-border/40 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg overflow-hidden border border-purple-500/40">
+          <div className="w-10 h-10 rounded-lg overflow-hidden border void-border-system">
             <img src={ALL_FIGHTERS.find(f => f.id === "oracle")?.image || ""} alt="The Prisoner" className="w-full h-full object-cover" style={{ filter: storyProgress.completedChapters.length < 6 ? "brightness(0.5) saturate(0.3)" : "none" }} />
           </div>
           <div className="flex-1 min-w-0">
             <div className="font-display text-sm text-foreground/85">
               {storyProgress.completedChapters.length >= 10 ? "The Oracle" : storyProgress.completedChapters.length >= 6 ? "The Awakening" : "The Prisoner"}
             </div>
-            <div className="font-mono text-[9px] text-purple-400/60">{prisonerStats.special.name}</div>
+            <div className="font-mono text-[9px] void-text-system">{prisonerStats.special.name}</div>
           </div>
           <div className="flex gap-2 text-center">
-            <div><div className="font-mono text-[8px] text-muted-foreground/50">HP</div><div className="font-mono text-xs text-red-400">{prisonerStats.hp}</div></div>
-            <div><div className="font-mono text-[8px] text-muted-foreground/50">ATK</div><div className="font-mono text-xs text-amber-400">{prisonerStats.attack}</div></div>
-            <div><div className="font-mono text-[8px] text-muted-foreground/50">DEF</div><div className="font-mono text-xs text-green-400">{prisonerStats.defense}</div></div>
-            <div><div className="font-mono text-[8px] text-muted-foreground/50">SPD</div><div className="font-mono text-xs text-cyan-400">{prisonerStats.speed}</div></div>
+            <div><div className="font-mono text-[8px] text-muted-foreground/50">HP</div><div className="font-mono text-xs void-text-error">{prisonerStats.hp}</div></div>
+            <div><div className="font-mono text-[8px] text-muted-foreground/50">ATK</div><div className="font-mono text-xs void-text-accent">{prisonerStats.attack}</div></div>
+            <div><div className="font-mono text-[8px] text-muted-foreground/50">DEF</div><div className="font-mono text-xs void-text-energy">{prisonerStats.defense}</div></div>
+            <div><div className="font-mono text-[8px] text-muted-foreground/50">SPD</div><div className="font-mono text-xs void-text-energy">{prisonerStats.speed}</div></div>
           </div>
         </div>
 
@@ -772,16 +772,16 @@ export default function FightPage() {
                 disabled={!isAvailable}
                 className={`w-full text-left rounded-lg border p-3 transition-all ${
                   isCompleted
-                    ? "border-green-500/30 bg-green-500/5"
+                    ? "void-border-success void-bg-success"
                     : isNext
-                    ? "border-cyan-500/40 bg-cyan-500/5 hover:bg-cyan-500/10"
+                    ? "void-border-success void-bg-success void-bg-success"
                     : "border-border/40 bg-muted/15 opacity-40"
                 }`}
               >
                 <div className="flex items-center gap-3">
                   {/* Chapter number */}
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-display font-bold shrink-0 ${
-                    isCompleted ? "bg-green-500/20 text-green-400" : isNext ? "bg-cyan-500/20 text-cyan-400" : "bg-muted/40 text-muted-foreground/35"
+                    isCompleted ? "void-bg-success void-text-energy" : isNext ? "void-bg-success void-text-energy" : "bg-muted/40 text-muted-foreground/35"
                   }`}>
                     {isCompleted ? <Star size={14} /> : ch.chapter}
                   </div>
@@ -791,10 +791,10 @@ export default function FightPage() {
                     <div className="flex items-center gap-2">
                       <span className="font-display text-xs sm:text-sm text-foreground/85 truncate">{ch.title}</span>
                       <span className={`font-mono text-[8px] px-1.5 py-0.5 rounded ${
-                        ch.difficulty === "nightmare" ? "bg-red-500/20 text-red-400"
-                        : ch.difficulty === "hard" ? "bg-amber-500/20 text-amber-400"
-                        : ch.difficulty === "normal" ? "bg-cyan-500/20 text-cyan-400"
-                        : "bg-green-500/20 text-green-400"
+                        ch.difficulty === "nightmare" ? "void-bg-error void-text-error"
+                        : ch.difficulty === "hard" ? "void-bg-sunk void-text-accent"
+                        : ch.difficulty === "normal" ? "void-bg-success void-text-energy"
+                        : "void-bg-success void-text-energy"
                       }`}>{ch.difficulty.toUpperCase()}</span>
                     </div>
                     <div className="font-mono text-[9px] text-muted-foreground/50 truncate">{ch.subtitle}</div>
@@ -811,7 +811,7 @@ export default function FightPage() {
 
                 {/* Memory fragment for completed chapters */}
                 {isCompleted && ch.memoryFragment && (
-                  <div className="mt-2 pl-11 font-mono text-[9px] text-purple-400/50 italic truncate">
+                  <div className="mt-2 pl-11 font-mono text-[9px] void-text-system italic truncate">
                     \u2728 {ch.memoryFragment.substring(0, 80)}...
                   </div>
                 )}
@@ -824,10 +824,10 @@ export default function FightPage() {
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="text-center py-6 rounded-lg border border-amber-500/30 bg-amber-500/5"
+              className="text-center py-6 rounded-lg border void-border void-bg-sunk"
             >
-              <Crown size={32} className="mx-auto text-amber-400 mb-2" />
-              <div className="font-display text-xl text-amber-400" style={{ textShadow: "0 0 20px rgba(251,191,36,0.4)" }}>
+              <Crown size={32} className="mx-auto void-text-accent mb-2" />
+              <div className="font-display text-xl void-text-accent" style={{ textShadow: "0 0 20px color-mix(in oklch, var(--energy-premium) 40%, transparent)" }}>
                 GRAND CHAMPION
               </div>
               <div className="font-mono text-xs text-muted-foreground/60 mt-1">All fighters unlocked. The Arena is yours.</div>
@@ -887,8 +887,8 @@ export default function FightPage() {
     const sceneEffect = getStorySceneEffect(currentStoryChapter.id);
     const isBossChapter = [7, 11, 12].includes(currentStoryChapter.chapter);
     const isActBoss = currentStoryChapter.chapter === 12;
-    const bossGlow = isActBoss ? "#ef4444" : currentStoryChapter.chapter === 11 ? "#22d3ee" : "#f59e0b";
-    const chapterAccent = isBossChapter ? bossGlow : currentStoryChapter.chapter <= 3 ? "#94a3b8" : currentStoryChapter.chapter <= 6 ? "#22d3ee" : currentStoryChapter.chapter <= 9 ? "#f59e0b" : "#ef4444";
+    const bossGlow = isActBoss ? "var(--energy-error)" : currentStoryChapter.chapter === 11 ? "var(--energy-primary)" : "var(--energy-accent)";
+    const chapterAccent = isBossChapter ? bossGlow : currentStoryChapter.chapter <= 3 ? "#94a3b8" : currentStoryChapter.chapter <= 6 ? "var(--energy-primary)" : currentStoryChapter.chapter <= 9 ? "var(--energy-accent)" : "var(--energy-error)";
     const isFirstLine = storyDialogueIndex === 0 && storyDialogueType === "pre";
     const isVictoryMoment = storyDialogueType === "post-win" && storyDialogueIndex === dialogues.length - 1;
     const opponent = ALL_FIGHTERS.find(f => f.id === currentStoryChapter.opponentId);
@@ -1057,7 +1057,7 @@ export default function FightPage() {
               currentLine.speaker === "narrator" ? "font-mono text-muted-foreground/70 italic" : "font-mono text-foreground/85"
             }`}>
               {currentLine.speaker === "prisoner" && currentLine.text.startsWith("(")
-                ? <span className="italic text-purple-300/70">{currentLine.text}</span>
+                ? <span className="italic void-text-system">{currentLine.text}</span>
                 : currentLine.text
               }
             </p>
@@ -1095,8 +1095,8 @@ export default function FightPage() {
             transition={{ delay: 0.5 }}
             className="absolute bottom-16 left-6 right-6 text-center"
           >
-            <div className="font-mono text-[10px] text-purple-400/40 tracking-wider mb-1">\u2728 MEMORY RECOVERED</div>
-            <div className="font-mono text-[10px] text-purple-300/50 italic">{currentStoryChapter.memoryFragment}</div>
+            <div className="font-mono text-[10px] void-text-system tracking-wider mb-1">\u2728 MEMORY RECOVERED</div>
+            <div className="font-mono text-[10px] void-text-system italic">{currentStoryChapter.memoryFragment}</div>
           </motion.div>
         )}
 
@@ -1132,7 +1132,7 @@ export default function FightPage() {
         {sceneEffect && storyDialogueType === "pre" && sceneEffect.preSceneEffect === "void_descent" && (
           <motion.div
             className="absolute inset-0 pointer-events-none"
-            animate={{ background: ["transparent", "rgba(0,0,0,0.3)", "transparent"] }}
+            animate={{ background: ["transparent", "color-mix(in oklch, var(--bg-void) 30%, transparent)", "transparent"] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           />
         )}
@@ -1156,7 +1156,7 @@ export default function FightPage() {
         {/* Progress */}
         <div className="absolute bottom-4 flex gap-1">
           {dialogues.map((_, i) => (
-            <div key={i} className={`w-1.5 h-1.5 rounded-full ${i <= storyDialogueIndex ? "bg-cyan-400/50" : "bg-muted/50"}`} />
+            <div key={i} className={`w-1.5 h-1.5 rounded-full ${i <= storyDialogueIndex ? "void-bg-success" : "bg-muted/50"}`} />
           ))}
         </div>
       </div>
@@ -1176,10 +1176,10 @@ export default function FightPage() {
             <ChevronLeft size={16} /> BACK
           </button>
           <h2 className="font-display text-xs sm:text-sm tracking-[0.3em] text-foreground/85">
-            {isTrainingMode && <span className="text-cyan-400 mr-2">[TRAINING]</span>}
+            {isTrainingMode && <span className="void-text-energy mr-2">[TRAINING]</span>}
             SELECT {selectingFor === "player" ? "YOUR FIGHTER" : "OPPONENT"}
           </h2>
-          <div className="font-mono text-xs text-amber-400">{gam.gameSave.fightPoints} PTS</div>
+          <div className="font-mono text-xs void-text-accent">{gam.gameSave.fightPoints} PTS</div>
         </div>
 
         {/* Matchup bar at top — always visible */}
@@ -1222,10 +1222,10 @@ export default function FightPage() {
               })}
             </div>
 
-            <div className="font-mono text-[10px] text-red-500/60 tracking-[0.3em] mb-2 px-1 flex items-center gap-2">
-              <span className="h-px flex-1 bg-red-500/20" />
+            <div className="font-mono text-[10px] void-text-error tracking-[0.3em] mb-2 px-1 flex items-center gap-2">
+              <span className="h-px flex-1 void-bg-error" />
               HIERARCHY OF THE DAMNED
-              <span className="h-px flex-1 bg-red-500/20" />
+              <span className="h-px flex-1 void-bg-error" />
             </div>
             <div className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 gap-2">
               {DEMON_FIGHTERS.map(f => {
@@ -1277,15 +1277,15 @@ export default function FightPage() {
               onClick={() => { setSelectedDifficulty(d); setPhase("arena"); }}
               className={`p-5 rounded-lg border-2 text-left transition-all ${
                 selectedDifficulty.id === d.id
-                  ? "border-cyan-500/60 bg-cyan-500/10"
+                  ? "void-border-success void-bg-success"
                   : "border-border/60 bg-muted/40 hover:border-border"
               }`}
             >
               <div className="font-display text-lg tracking-wider text-white mb-1">{d.name}</div>
               <div className="font-mono text-xs text-muted-foreground/60 mb-2">{d.description}</div>
               <div className="flex gap-3 font-mono text-[10px]">
-                <span className="text-red-400">DMG x{d.damageMultiplier}</span>
-                <span className="text-amber-400">PTS x{d.pointsMultiplier}</span>
+                <span className="void-text-error">DMG x{d.damageMultiplier}</span>
+                <span className="void-text-accent">PTS x{d.pointsMultiplier}</span>
               </div>
             </motion.button>
           ))}
@@ -1327,7 +1327,7 @@ export default function FightPage() {
             }} />
             {/* Vignette */}
             <div className="absolute inset-0" style={{
-              background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.85) 100%)",
+              background: "radial-gradient(ellipse at center, transparent 30%, color-mix(in oklch, var(--bg-void) 85%, transparent) 100%)",
             }} />
           </motion.div>
         </AnimatePresence>
@@ -1372,7 +1372,7 @@ export default function FightPage() {
                   onClick={() => setSelectedArena(a)}
                   className="relative rounded-lg overflow-hidden transition-all group"
                   style={{
-                    border: isSelected ? `2px solid ${a.ambientColor}` : "2px solid rgba(255,255,255,0.08)",
+                    border: isSelected ? `2px solid ${a.ambientColor}` : "2px solid color-mix(in oklch, var(--text-primary) 8%, transparent)",
                     boxShadow: isSelected ? `0 0 20px ${a.ambientColor}30, 0 0 60px ${a.ambientColor}10` : "none",
                     aspectRatio: "16/10",
                   }}
@@ -1394,7 +1394,7 @@ export default function FightPage() {
                   <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-all duration-200" />
                   {/* Bottom label */}
                   <div className="absolute inset-x-0 bottom-0 p-2" style={{
-                    background: "linear-gradient(transparent, rgba(0,0,0,0.85))",
+                    background: "linear-gradient(transparent, color-mix(in oklch, var(--bg-void) 85%, transparent))",
                   }}>
                     <div className="font-display text-xs tracking-wider text-white/90 text-center">{a.name}</div>
                   </div>
@@ -1486,7 +1486,7 @@ export default function FightPage() {
           : "radial-gradient(ellipse at 50% 50%, #1a0a0a 0%, #1a0000 50%, #030508 100%)"
         }}>
         <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} className="text-center">
-          <div className="font-mono text-xs tracking-[0.4em] mb-2" style={{ color: isVictory ? "#22c55e" : "#ef4444" }}>
+          <div className="font-mono text-xs tracking-[0.4em] mb-2" style={{ color: isVictory ? "var(--energy-success)" : "var(--energy-error)" }}>
             {isVictory ? "VICTORY" : "DEFEAT"}
           </div>
           <div className="w-28 h-28 mx-auto rounded-lg overflow-hidden border-2 mb-4" style={{ borderColor: winner.color }}>
@@ -1497,7 +1497,7 @@ export default function FightPage() {
 
           {matchResult.perfect && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
-              className="font-display text-2xl text-amber-400 mb-4" style={{ textShadow: "0 0 20px rgba(251,191,36,0.5)" }}>
+              className="font-display text-2xl void-text-accent mb-4" style={{ textShadow: "0 0 20px color-mix(in oklch, var(--energy-premium) 50%, transparent)" }}>
               PERFECT VICTORY!
             </motion.div>
           )}
@@ -1506,21 +1506,21 @@ export default function FightPage() {
             <div className="flex flex-wrap gap-3 justify-center mb-6">
               <div className="px-4 py-2 rounded bg-muted/40 border border-border/60">
                 <div className="font-mono text-[10px] text-muted-foreground/60">POINTS</div>
-                <div className="font-display text-lg text-amber-400">+{ptGain}</div>
+                <div className="font-display text-lg void-text-accent">+{ptGain}</div>
                 {bonusPt > 0 && (
-                  <div className="font-mono text-[8px] text-purple-400">
+                  <div className="font-mono text-[8px] void-text-system">
                     +{bonusPt} POTENTIAL BONUS
                   </div>
                 )}
               </div>
               <div className="px-4 py-2 rounded bg-muted/40 border border-border/60">
                 <div className="font-mono text-[10px] text-muted-foreground/60">STREAK</div>
-                <div className="font-display text-lg text-green-400">{gam.gameSave.winStreak}</div>
+                <div className="font-display text-lg void-text-energy">{gam.gameSave.winStreak}</div>
               </div>
               {holderPerks?.isHolder && (
                 <div className="px-4 py-2 rounded border" style={{ background: "rgba(147,51,234,0.1)", borderColor: "rgba(147,51,234,0.3)" }}>
-                  <div className="font-mono text-[10px] text-purple-400/60">TITLE</div>
-                  <div className="font-display text-xs text-purple-300">{holderPerks.perks.title}</div>
+                  <div className="font-mono text-[10px] void-text-system">TITLE</div>
+                  <div className="font-display text-xs void-text-system">{holderPerks.perks.title}</div>
                 </div>
               )}
             </div>
@@ -1579,7 +1579,7 @@ function FighterCard({ fighter, available, selected, onSelect, onHover, onLeave,
         onMouseLeave={onLeave}
         className={`relative rounded-lg overflow-hidden border-2 transition-all aspect-square w-full ${
           selected
-            ? "border-cyan-400 ring-2 ring-cyan-400/30"
+            ? "void-border-success ring-2 ring-cyan-400/30"
             : available
             ? "border-border hover:border-white/40"
             : "border-border/60 opacity-60"
@@ -1596,14 +1596,14 @@ function FighterCard({ fighter, available, selected, onSelect, onHover, onLeave,
         {!available && (
           <div className="absolute inset-0 bg-background/70 flex flex-col items-center justify-center">
             <Lock size={14} className="text-muted-foreground/60 mb-1" />
-            <div className="font-mono text-[9px]" style={{ color: canAfford ? "#22c55e" : "#ef4444" }}>
+            <div className="font-mono text-[9px]" style={{ color: canAfford ? "var(--energy-success)" : "var(--energy-error)" }}>
               {fighter.unlockCost} PTS
             </div>
           </div>
         )}
 
         {selected && (
-          <div className="absolute top-1 right-1 w-3.5 h-3.5 rounded-full bg-cyan-500 flex items-center justify-center">
+          <div className="absolute top-1 right-1 w-3.5 h-3.5 rounded-full void-bg-success flex items-center justify-center">
             <Star size={8} className="text-white" />
           </div>
         )}
@@ -1648,21 +1648,21 @@ function FighterDetailPanel({ fighter, traitBonuses: bonuses, activePotential }:
       </div>
 
       <div className="space-y-1.5 mb-3">
-        <StatBar label="HP" value={fighter.hp} max={140} icon={<Heart size={10} />} color="#ef4444" bonus={bonuses?.total.hp} />
-        <StatBar label="ATK" value={fighter.attack} max={12} icon={<Swords size={10} />} color="#f59e0b" bonus={bonuses?.total.attack} />
-        <StatBar label="DEF" value={fighter.defense} max={12} icon={<Shield size={10} />} color="#22c55e" bonus={bonuses?.total.defense} />
-        <StatBar label="SPD" value={fighter.speed} max={12} icon={<Wind size={10} />} color="#22d3ee" bonus={bonuses?.total.speed} />
+        <StatBar label="HP" value={fighter.hp} max={140} icon={<Heart size={10} />} color="var(--energy-error)" bonus={bonuses?.total.hp} />
+        <StatBar label="ATK" value={fighter.attack} max={12} icon={<Swords size={10} />} color="var(--energy-accent)" bonus={bonuses?.total.attack} />
+        <StatBar label="DEF" value={fighter.defense} max={12} icon={<Shield size={10} />} color="var(--energy-success)" bonus={bonuses?.total.defense} />
+        <StatBar label="SPD" value={fighter.speed} max={12} icon={<Wind size={10} />} color="var(--energy-primary)" bonus={bonuses?.total.speed} />
       </div>
 
       {/* Trait Bonuses from NFT Potentials */}
       {bonuses && bonuses.breakdown.length > 0 && (
-        <div className="rounded-md border border-purple-500/20 bg-purple-500/5 p-2 mb-3">
+        <div className="rounded-md border void-border-system void-bg-system p-2 mb-3">
           <div className="flex items-center gap-1.5 mb-1.5">
-            <Gem size={10} className="text-purple-400" />
-            <span className="font-mono text-[9px] font-bold text-purple-300 tracking-wider">POTENTIAL TRAIT BONUSES</span>
+            <Gem size={10} className="void-text-system" />
+            <span className="font-mono text-[9px] font-bold void-text-system tracking-wider">POTENTIAL TRAIT BONUSES</span>
           </div>
           {activePotential && (
-            <div className="font-mono text-[8px] text-purple-400/60 mb-1.5">
+            <div className="font-mono text-[8px] void-text-system mb-1.5">
               via {activePotential.name} (Lv.{activePotential.level})
             </div>
           )}
@@ -1720,7 +1720,7 @@ function MatchupBar({ selectedPlayer, selectedOpponent, onContinue }: {
         </div>
       </div>
 
-      <Swords size={20} className="text-cyan-500/50 shrink-0" />
+      <Swords size={20} className="void-text-energy shrink-0" />
 
       {/* Opponent portrait */}
       <div className="flex items-center gap-2">
@@ -1750,8 +1750,8 @@ function MatchupBar({ selectedPlayer, selectedOpponent, onContinue }: {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={onContinue}
-          className="px-8 py-3 rounded-lg bg-cyan-500/20 border-2 border-cyan-500/60 text-cyan-400 font-display text-base sm:text-lg tracking-wider hover:bg-cyan-500/30 transition-all shrink-0"
-          style={{ textShadow: "0 0 12px rgba(34,211,238,0.5)", boxShadow: "0 0 20px rgba(34,211,238,0.15)" }}
+          className="px-8 py-3 rounded-lg void-bg-success border-2 void-border-success void-text-energy font-display text-base sm:text-lg tracking-wider void-bg-success transition-all shrink-0"
+          style={{ textShadow: "0 0 12px color-mix(in oklch, var(--energy-primary) 50%, transparent)", boxShadow: "0 0 20px color-mix(in oklch, var(--energy-primary) 15%, transparent)" }}
         >
           <Swords className="inline mr-2" size={18} /> CONTINUE
         </motion.button>
@@ -1776,7 +1776,7 @@ function LorePopup({ fighter, onClose }: { fighter: FighterData; onClose: () => 
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: "rgba(0,0,0,0.85)" }}
+      style={{ background: "color-mix(in oklch, var(--bg-void) 85%, transparent)" }}
       onClick={onClose}
     >
       <motion.div
@@ -1804,10 +1804,10 @@ function LorePopup({ fighter, onClose }: { fighter: FighterData; onClose: () => 
           {/* Stats */}
           <div className="grid grid-cols-4 gap-2">
             {[
-              { label: "HP", value: fighter.hp, color: "#ef4444" },
-              { label: "ATK", value: fighter.attack, color: "#f59e0b" },
-              { label: "DEF", value: fighter.defense, color: "#22c55e" },
-              { label: "SPD", value: fighter.speed, color: "#22d3ee" },
+              { label: "HP", value: fighter.hp, color: "var(--energy-error)" },
+              { label: "ATK", value: fighter.attack, color: "var(--energy-accent)" },
+              { label: "DEF", value: fighter.defense, color: "var(--energy-success)" },
+              { label: "SPD", value: fighter.speed, color: "var(--energy-primary)" },
             ].map(s => (
               <div key={s.label} className="text-center py-2 rounded-lg bg-muted/40 border border-border/40">
                 <div className="font-mono text-[8px] text-muted-foreground/50">{s.label}</div>
@@ -1820,7 +1820,7 @@ function LorePopup({ fighter, onClose }: { fighter: FighterData; onClose: () => 
           {lore && (
             <>
               <div>
-                <div className="font-display text-xs tracking-[0.2em] text-cyan-400/60 mb-2">BACKSTORY</div>
+                <div className="font-display text-xs tracking-[0.2em] void-text-energy mb-2">BACKSTORY</div>
                 <p className="font-mono text-xs text-muted-foreground/80 leading-relaxed">{lore.backstory}</p>
               </div>
 
@@ -1833,7 +1833,7 @@ function LorePopup({ fighter, onClose }: { fighter: FighterData; onClose: () => 
 
               {/* Powers */}
               <div>
-                <div className="font-display text-xs tracking-[0.2em] text-amber-400/60 mb-2">POWERS</div>
+                <div className="font-display text-xs tracking-[0.2em] void-text-accent mb-2">POWERS</div>
                 <div className="flex flex-wrap gap-1.5">
                   {lore.powers.map(p => (
                     <span key={p} className="font-mono text-[10px] px-2 py-1 rounded bg-muted/40 border border-border/60 text-muted-foreground/70">
@@ -1879,13 +1879,13 @@ function StatBar({ label, value, max, icon, color, bonus }: { label: string; val
       <div className="font-mono text-[9px] text-muted-foreground/60 w-6">{label}</div>
       <div className="flex-1 h-1.5 rounded-full bg-muted/50 overflow-hidden relative">
         {bonus && bonus > 0 && (
-          <div className="absolute h-full rounded-full" style={{ width: `${Math.min(bonusPct, 100)}%`, background: "rgba(168,85,247,0.4)" }} />
+          <div className="absolute h-full rounded-full" style={{ width: `${Math.min(bonusPct, 100)}%`, background: "color-mix(in oklch, var(--energy-system) 40%, transparent)" }} />
         )}
         <div className="h-full rounded-full transition-all relative" style={{ width: `${pct}%`, background: color }} />
       </div>
       <div className="font-mono text-[9px] text-muted-foreground/80 w-5 text-right">
         {value}
-        {bonus && bonus > 0 && <span className="text-purple-400">+{bonus}</span>}
+        {bonus && bonus > 0 && <span className="void-text-system">+{bonus}</span>}
       </div>
     </div>
   );

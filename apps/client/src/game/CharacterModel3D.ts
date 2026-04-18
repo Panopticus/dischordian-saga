@@ -88,11 +88,11 @@ export const BONES = {
 export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
   "architect": {
     id: "architect", name: "The Architect",
-    primaryColor: "#1a0a00", secondaryColor: "#0a0a0f", accentColor: "#ff8c00",
+    primaryColor: "#1a0a00", secondaryColor: "#0a0a0f", accentColor: "var(--energy-premium)",
     eyeColor: "#ffaa00", skinColor: "#1a1a1a",
     height: 2.0, bulk: 1.15,
     helmetStyle: "crown", armorStyle: "heavy", weaponType: "orb",
-    hasCape: true, glowColor: "#ff8c00",
+    hasCape: true, glowColor: "var(--energy-premium)",
     fightStyle: "balanced",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_architect_112e44c3.png",
     poseSprites: {
@@ -165,7 +165,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
   "enigma": {
     id: "enigma", name: "The Enigma",
     primaryColor: "#2a0050", secondaryColor: "#001a2e", accentColor: "#9945ff",
-    eyeColor: "#22d3ee", skinColor: "#3a2020",
+    eyeColor: "var(--energy-primary)", skinColor: "#3a2020",
     height: 1.75, bulk: 0.85,
     helmetStyle: "none", armorStyle: "light", weaponType: "dual-blades",
     hasCape: false, glowColor: "#9945ff",
@@ -203,10 +203,10 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
   "warlord": {
     id: "warlord", name: "The Warlord",
     primaryColor: "#8a5a00", secondaryColor: "#1a0f00", accentColor: "#fbbf24",
-    eyeColor: "#f59e0b", skinColor: "#3a2a1a",
+    eyeColor: "var(--energy-accent)", skinColor: "#3a2a1a",
     height: 2.1, bulk: 1.3,
     helmetStyle: "visor", armorStyle: "heavy", weaponType: "hammer",
-    hasCape: false, glowColor: "#f59e0b",
+    hasCape: false, glowColor: "var(--energy-accent)",
     fightStyle: "aggressive",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_warlord_c8a0631b.png",
     poseSprites: {
@@ -241,10 +241,10 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
   "necromancer": {
     id: "necromancer", name: "The Necromancer",
     primaryColor: "#1a4a1a", secondaryColor: "#0a1a0a", accentColor: "#4ade80",
-    eyeColor: "#22c55e", skinColor: "#1a2a1a",
+    eyeColor: "var(--energy-success)", skinColor: "#1a2a1a",
     height: 1.9, bulk: 0.95,
     helmetStyle: "hood", armorStyle: "robes", weaponType: "staff",
-    hasCape: true, glowColor: "#22c55e",
+    hasCape: true, glowColor: "var(--energy-success)",
     fightStyle: "defensive",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_necromancer_19def768.png",
     poseSprites: {
@@ -583,7 +583,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
   "iron-lion": {
     id: "iron-lion", name: "Iron Lion",
     primaryColor: "#5a5a5a", secondaryColor: "#2a2a2a", accentColor: "#fbbf24",
-    eyeColor: "#f59e0b", skinColor: "#4a4a4a",
+    eyeColor: "var(--energy-accent)", skinColor: "#4a4a4a",
     height: 2.2, bulk: 1.4,
     helmetStyle: "visor", armorStyle: "heavy", weaponType: "gauntlets",
     hasCape: false, glowColor: "#fbbf24",
@@ -658,7 +658,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
   },
   "agent-zero": {
     id: "agent-zero", name: "Agent Zero",
-    primaryColor: "#1a1a1a", secondaryColor: "#0a0a0a", accentColor: "#ef4444",
+    primaryColor: "#1a1a1a", secondaryColor: "#0a0a0a", accentColor: "var(--energy-error)",
     eyeColor: "#dc2626", skinColor: "#2a2a2a",
     height: 1.8, bulk: 0.9,
     helmetStyle: "mask", armorStyle: "light", weaponType: "dual-blades",
@@ -1002,10 +1002,10 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
   "seer": {
     id: "seer", name: "The Seer",
     primaryColor: "#1a3a4a", secondaryColor: "#0a1a2a", accentColor: "#67e8f9",
-    eyeColor: "#22d3ee", skinColor: "#1a2a3a",
+    eyeColor: "var(--energy-primary)", skinColor: "#1a2a3a",
     height: 1.75, bulk: 0.8,
     helmetStyle: "none", armorStyle: "light", weaponType: "orb",
-    hasCape: false, glowColor: "#22d3ee",
+    hasCape: false, glowColor: "var(--energy-primary)",
     fightStyle: "evasive",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/fighter_seer_410f778d.png",
     poseSprites: {
@@ -1268,7 +1268,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
   "resurrectionist": {
     id: "resurrectionist", name: "The Resurrectionist",
     primaryColor: "#1a3a1a", secondaryColor: "#0a1a0a", accentColor: "#4ade80",
-    eyeColor: "#22c55e", skinColor: "#1a2a1a",
+    eyeColor: "var(--energy-success)", skinColor: "#1a2a1a",
     height: 1.85, bulk: 0.9,
     helmetStyle: "none", armorStyle: "robes", weaponType: "staff",
     hasCape: true, glowColor: "#4ade80",
@@ -1344,11 +1344,11 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
   },
   "xethraal": {
     id: "xethraal", name: "Xeth'Raal",
-    primaryColor: "#2a1a00", secondaryColor: "#1a0a00", accentColor: "#f59e0b",
+    primaryColor: "#2a1a00", secondaryColor: "#1a0a00", accentColor: "var(--energy-accent)",
     eyeColor: "#fbbf24", skinColor: "#3a1a0a",
     height: 2.0, bulk: 1.0,
     helmetStyle: "visor", armorStyle: "tech", weaponType: "chains",
-    hasCape: false, glowColor: "#f59e0b",
+    hasCape: false, glowColor: "var(--energy-accent)",
     fightStyle: "defensive",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/1_fQwRsUQ4sbto3Om2YIbNvZ_1773778542417_na1fn_L2hvbWUvdWJ1bnR1L3hldGhfcmFhbF9zcHJpdGU_3c6e7389.png",
     poseSprites: {
@@ -1421,7 +1421,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
   "draelmon": {
     id: "draelmon", name: "Drael'Mon",
     primaryColor: "#001a2a", secondaryColor: "#000a14", accentColor: "#06b6d4",
-    eyeColor: "#22d3ee", skinColor: "#0a1a2a",
+    eyeColor: "var(--energy-primary)", skinColor: "#0a1a2a",
     height: 1.95, bulk: 1.1,
     helmetStyle: "hood", armorStyle: "robes", weaponType: "staff",
     hasCape: true, glowColor: "#06b6d4",
@@ -1497,11 +1497,11 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
   },
   "sylvex": {
     id: "sylvex", name: "Syl'Vex",
-    primaryColor: "#0a2a0a", secondaryColor: "#001400", accentColor: "#22c55e",
+    primaryColor: "#0a2a0a", secondaryColor: "#001400", accentColor: "var(--energy-success)",
     eyeColor: "#4ade80", skinColor: "#1a2a1a",
     height: 1.85, bulk: 0.9,
     helmetStyle: "hood", armorStyle: "robes", weaponType: "staff",
-    hasCape: true, glowColor: "#22c55e",
+    hasCape: true, glowColor: "var(--energy-success)",
     fightStyle: "defensive",
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/6_AqlG6ENJBQWlzF7gEZSAPY_1773778535229_na1fn_L2hvbWUvdWJ1bnR1L3N5bHZleF90aGVfY29ycnVwdG9y_601de94d.png",
     poseSprites: {
@@ -1536,7 +1536,7 @@ export const CHARACTER_CONFIGS: Record<string, CharacterConfig> = {
   "varkul": {
     id: "varkul", name: "Varkul",
     primaryColor: "#3a0000", secondaryColor: "#1a0000", accentColor: "#b91c1c",
-    eyeColor: "#ef4444", skinColor: "#2a0a0a",
+    eyeColor: "var(--energy-error)", skinColor: "#2a0a0a",
     height: 2.2, bulk: 1.35,
     helmetStyle: "horns", armorStyle: "heavy", weaponType: "sword",
     hasCape: false, glowColor: "#b91c1c",

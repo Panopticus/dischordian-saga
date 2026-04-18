@@ -17,12 +17,12 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 const LEAGUE_COLORS: Record<string, { text: string; bg: string; border: string; icon: string }> = {
-  bronze: { text: "text-amber-600", bg: "bg-amber-900/10", border: "border-amber-600/30", icon: "🥉" },
-  silver: { text: "text-zinc-300", bg: "bg-zinc-500/10", border: "border-zinc-400/30", icon: "🥈" },
-  gold: { text: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-400/30", icon: "🥇" },
-  platinum: { text: "text-cyan-300", bg: "bg-cyan-500/10", border: "border-cyan-400/30", icon: "💎" },
-  diamond: { text: "text-blue-300", bg: "bg-blue-500/10", border: "border-blue-400/30", icon: "💠" },
-  champion: { text: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-400/30", icon: "👑" },
+  bronze: { text: "void-text-accent", bg: "void-bg-sunk", border: "void-border", icon: "🥉" },
+  silver: { text: "void-text", bg: "void-bg-canvas", border: "void-border", icon: "🥈" },
+  gold: { text: "void-text-accent", bg: "void-bg-sunk", border: "void-border", icon: "🥇" },
+  platinum: { text: "void-text-energy", bg: "void-bg-success", border: "void-border-success", icon: "💎" },
+  diamond: { text: "void-text-energy", bg: "void-bg-sunk", border: "void-border", icon: "💠" },
+  champion: { text: "void-text-system", bg: "void-bg-system", border: "void-border-system", icon: "👑" },
 };
 
 function getLeague(trophies: number, thresholds: any[]): string {
@@ -66,8 +66,8 @@ export default function CompetitiveArenaPage() {
           </Link>
           <div className="flex-1">
             <h1 className="font-display text-xl font-bold tracking-wider flex items-center gap-2">
-              <Swords size={20} className="text-amber-400" />
-              COMPETITIVE <span className="text-amber-400">ARENA</span>
+              <Swords size={20} className="void-text-accent" />
+              COMPETITIVE <span className="void-text-accent">ARENA</span>
             </h1>
             <p className="font-mono text-[10px] text-muted-foreground">
               Trophies, leagues, streaks, and raid rankings — your RPG build affects everything
@@ -86,27 +86,27 @@ export default function CompetitiveArenaPage() {
               </span>
             </div>
           </div>
-          <div className="border border-amber-500/20 bg-amber-950/10 rounded-lg p-3">
+          <div className="border void-border void-bg-sunk rounded-lg p-3">
             <span className="font-mono text-[8px] text-muted-foreground block">TROPHIES</span>
-            <span className="font-display text-xl font-bold text-amber-400 mt-1 block">
+            <span className="font-display text-xl font-bold void-text-accent mt-1 block">
               {myTrophies?.trophies || 0}
             </span>
           </div>
-          <div className="border border-orange-500/20 bg-orange-950/10 rounded-lg p-3">
+          <div className="border void-border void-bg-sunk rounded-lg p-3">
             <span className="font-mono text-[8px] text-muted-foreground block">STREAK</span>
             <div className="flex items-center gap-1 mt-1">
-              <Flame size={14} className="text-orange-400" />
-              <span className="font-display text-xl font-bold text-orange-400">
+              <Flame size={14} className="void-text-premium" />
+              <span className="font-display text-xl font-bold void-text-premium">
                 {streak?.currentStreak || 0}
               </span>
               <span className="font-mono text-[7px] text-muted-foreground ml-1">days</span>
             </div>
           </div>
-          <div className="border border-purple-500/20 bg-purple-950/10 rounded-lg p-3">
+          <div className="border void-border-system void-bg-system rounded-lg p-3">
             <span className="font-mono text-[8px] text-muted-foreground block">CHRONO SHARDS</span>
             <div className="flex items-center gap-1 mt-1">
-              <Sparkles size={14} className="text-purple-400" />
-              <span className="font-display text-xl font-bold text-purple-400">
+              <Sparkles size={14} className="void-text-system" />
+              <span className="font-display text-xl font-bold void-text-system">
                 {streak?.chronoShards || 0}
               </span>
             </div>
@@ -116,9 +116,9 @@ export default function CompetitiveArenaPage() {
         {/* Tab Navigation */}
         <div className="flex gap-1 mb-4 border-b border-border/20 pb-2">
           {[
-            { key: "leaderboard" as const, label: "RAID RANKINGS", icon: TrendingUp, color: "text-amber-400" },
-            { key: "streaks" as const, label: "DAILY STREAK", icon: Flame, color: "text-orange-400" },
-            { key: "leagues" as const, label: "LEAGUES", icon: Medal, color: "text-purple-400" },
+            { key: "leaderboard" as const, label: "RAID RANKINGS", icon: TrendingUp, color: "void-text-accent" },
+            { key: "streaks" as const, label: "DAILY STREAK", icon: Flame, color: "void-text-premium" },
+            { key: "leagues" as const, label: "LEAGUES", icon: Medal, color: "void-text-system" },
           ].map(tab => (
             <button
               key={tab.key}
@@ -157,10 +157,10 @@ export default function CompetitiveArenaPage() {
                     }`}
                   >
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                      i === 0 ? "bg-amber-500/20 text-amber-400" :
-                      i === 1 ? "bg-zinc-400/20 text-zinc-300" :
-                      i === 2 ? "bg-amber-700/20 text-amber-600" :
-                      "bg-zinc-800/20 text-muted-foreground"
+                      i === 0 ? "void-bg-sunk void-text-accent" :
+                      i === 1 ? "void-bg-canvas void-text" :
+                      i === 2 ? "void-bg-sunk void-text-accent" :
+                      "void-bg-canvas text-muted-foreground"
                     }`}>
                       <span className="font-display text-xs font-bold">#{i + 1}</span>
                     </div>
@@ -176,14 +176,14 @@ export default function CompetitiveArenaPage() {
                       <div className="text-right">
                         <span className="font-mono text-[7px] text-muted-foreground block">W/L</span>
                         <span className="font-mono text-[9px]">
-                          <span className="text-emerald-400">{entry.wins}</span>
+                          <span className="void-text-energy">{entry.wins}</span>
                           /
-                          <span className="text-red-400">{entry.losses}</span>
+                          <span className="void-text-error">{entry.losses}</span>
                         </span>
                       </div>
                       <div className="text-right">
                         <span className="font-mono text-[7px] text-muted-foreground block">Trophies</span>
-                        <span className="font-display text-sm font-bold text-amber-400">{entry.trophies}</span>
+                        <span className="font-display text-sm font-bold void-text-accent">{entry.trophies}</span>
                       </div>
                     </div>
                   </motion.div>
@@ -204,17 +204,17 @@ export default function CompetitiveArenaPage() {
         {/* ═══ DAILY STREAK TAB ═══ */}
         {activeTab === "streaks" && (
           <div>
-            <div className="border border-orange-500/20 bg-orange-950/10 rounded-xl p-5 mb-6 text-center">
-              <Flame size={32} className="text-orange-400 mx-auto mb-3" />
+            <div className="border void-border void-bg-sunk rounded-xl p-5 mb-6 text-center">
+              <Flame size={32} className="void-text-premium mx-auto mb-3" />
               <h3 className="font-display text-lg font-bold mb-1">
-                Day <span className="text-orange-400">{streak?.currentStreak || 0}</span> Streak
+                Day <span className="void-text-premium">{streak?.currentStreak || 0}</span> Streak
               </h3>
               <p className="font-mono text-[10px] text-muted-foreground mb-4">
                 Longest: {streak?.longestStreak || 0} days • Total check-ins: {streak?.totalCheckIns || 0}
                 {(streak?.repairItems ?? 0) > 0 ? ` • Repair items: ${streak?.repairItems}` : ""}
               </p>
               <Button
-                className="bg-orange-500/20 border border-orange-500/30 text-orange-400 hover:bg-orange-500/30"
+                className="void-bg-sunk border void-border void-text-premium void-bg-sunk"
                 onClick={() => checkIn.mutate()}
                 disabled={checkIn.isPending}
               >
@@ -228,7 +228,7 @@ export default function CompetitiveArenaPage() {
             </div>
 
             <div className="flex items-center gap-2 mb-3">
-              <Star size={14} className="text-amber-400" />
+              <Star size={14} className="void-text-accent" />
               <span className="font-display text-xs font-bold tracking-[0.2em]">STREAK REWARDS</span>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -244,9 +244,9 @@ export default function CompetitiveArenaPage() {
                     transition={{ delay: i * 0.04 }}
                     className={`border rounded-lg p-3 text-center transition-all ${
                       isCurrent
-                        ? "border-orange-500/40 bg-orange-950/20 ring-1 ring-orange-500/10"
+                        ? "void-border void-bg-sunk ring-1 ring-orange-500/10"
                         : isAchieved
-                        ? "border-emerald-500/20 bg-emerald-950/10"
+                        ? "void-border-success void-bg-success"
                         : "border-border/10 bg-card/10 opacity-50"
                     }`}
                   >
@@ -256,12 +256,12 @@ export default function CompetitiveArenaPage() {
                     <span className="text-lg block mb-1">{reward.icon || "🎁"}</span>
                     <span className="font-mono text-[9px] font-bold block">{reward.label}</span>
                     {reward.chronoShards && (
-                      <span className="font-mono text-[7px] text-purple-400 block mt-0.5">
+                      <span className="font-mono text-[7px] void-text-system block mt-0.5">
                         +{reward.chronoShards} shards
                       </span>
                     )}
                     {isAchieved && (
-                      <span className="font-mono text-[7px] text-emerald-400 block mt-0.5">Claimed</span>
+                      <span className="font-mono text-[7px] void-text-energy block mt-0.5">Claimed</span>
                     )}
                   </motion.div>
                 );
@@ -315,7 +315,7 @@ export default function CompetitiveArenaPage() {
                       {league.rewards && (
                         <div className="text-right">
                           <span className="font-mono text-[8px] text-muted-foreground block">Rewards</span>
-                          <span className="font-mono text-[9px] text-amber-400">{league.rewards}</span>
+                          <span className="font-mono text-[9px] void-text-accent">{league.rewards}</span>
                         </div>
                       )}
                     </div>
@@ -330,7 +330,7 @@ export default function CompetitiveArenaPage() {
                             {myTrophyCount}/{nextLeague.minTrophies}
                           </span>
                         </div>
-                        <div className="h-2 bg-zinc-800 rounded-full overflow-hidden">
+                        <div className="h-2 void-bg-canvas rounded-full overflow-hidden">
                           <div
                             className="h-full rounded-full bg-primary/60 transition-all"
                             style={{ width: `${progressToNext * 100}%` }}

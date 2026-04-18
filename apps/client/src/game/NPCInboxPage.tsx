@@ -77,13 +77,13 @@ export default function NPCInboxPage() {
   if (!commsDiscovered) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center p-6">
-        <div className="max-w-md text-center space-y-4 p-6 void-surface border-cyan-500/20">
-          <Lock size={32} className="mx-auto text-cyan-400/60" />
-          <h1 className="font-display text-lg tracking-[0.2em] text-cyan-400">NO RECEIVER ONLINE</h1>
+        <div className="max-w-md text-center space-y-4 p-6 void-surface void-border-success">
+          <Lock size={32} className="mx-auto void-text-energy" />
+          <h1 className="font-display text-lg tracking-[0.2em] void-text-energy">NO RECEIVER ONLINE</h1>
           <p className="font-mono text-[11px] text-white/50 leading-relaxed">
             Encrypted messages require the Comms Array receiver. Discover it before signals can reach you.
           </p>
-          <button onClick={() => navigate("/ark")} className="font-mono text-[10px] text-cyan-400 hover:underline">
+          <button onClick={() => navigate("/ark")} className="font-mono text-[10px] void-text-energy hover:underline">
             ← RETURN TO ARK
           </button>
         </div>
@@ -99,10 +99,10 @@ export default function NPCInboxPage() {
           <ArrowLeft size={14} /> BACK
         </button>
         <div className="text-center">
-          <h1 className="font-display text-xl tracking-[0.2em] text-cyan-300 flex items-center justify-center gap-2">
-            <Signal size={16} className="text-cyan-400 animate-pulse" /> ENCRYPTED MESSAGES
+          <h1 className="font-display text-xl tracking-[0.2em] void-text-energy flex items-center justify-center gap-2">
+            <Signal size={16} className="void-text-energy animate-pulse" /> ENCRYPTED MESSAGES
           </h1>
-          <p className="font-mono text-[9px] text-cyan-500/40 tracking-widest">
+          <p className="font-mono text-[9px] void-text-energy tracking-widest">
             COMMS ARRAY • {counts.unread} UNREAD / {counts.all} TOTAL
           </p>
         </div>
@@ -120,7 +120,7 @@ export default function NPCInboxPage() {
           <button key={f} onClick={() => setFilter(f)}
             className={`px-4 py-1.5 rounded font-mono text-[10px] tracking-wider transition-colors border ${
               filter === f
-                ? "bg-cyan-500/20 border-cyan-500/50 text-cyan-300"
+                ? "void-bg-success void-border-success void-text-energy"
                 : "bg-white/[0.02] border-white/10 text-white/40 hover:text-white/70"
             }`}>
             {f.toUpperCase()} ({counts[f]})
@@ -129,10 +129,10 @@ export default function NPCInboxPage() {
       </div>
 
       {/* Message list — phone-app style */}
-      <div className="max-w-3xl mx-auto void-surface border-cyan-500/20 backdrop-blur-sm overflow-hidden shadow-[0_0_40px_rgba(34,211,238,0.1)]">
-        <div className="px-4 py-2 border-b border-cyan-500/20 bg-cyan-500/5 flex items-center gap-2">
-          <Zap size={10} className="text-cyan-400" />
-          <span className="font-mono text-[9px] tracking-widest text-cyan-400/70">ARK 1047 :: SECURE CHANNEL</span>
+      <div className="max-w-3xl mx-auto void-surface void-border-success backdrop-blur-sm overflow-hidden shadow-[0_0_40px_color-mix(in oklch, var(--energy-primary) 10%, transparent)]">
+        <div className="px-4 py-2 border-b void-border-success void-bg-success flex items-center gap-2">
+          <Zap size={10} className="void-text-energy" />
+          <span className="font-mono text-[9px] tracking-widest void-text-energy">ARK 1047 :: SECURE CHANNEL</span>
         </div>
         {filtered.length === 0 && (
           <div className="text-center py-16 text-white/30 font-mono text-xs">
@@ -152,7 +152,7 @@ export default function NPCInboxPage() {
               >
                 <button onClick={() => openMessage(m)}
                   className={`w-full text-left px-4 py-3 flex items-start gap-3 transition-colors ${
-                    unread ? "bg-white/[0.02] hover:bg-cyan-500/10" : "hover:bg-white/[0.03]"
+                    unread ? "bg-white/[0.02] void-bg-success" : "hover:bg-white/[0.03]"
                   }`}>
                   {/* Avatar */}
                   <div className="shrink-0 w-9 h-9 rounded-full flex items-center justify-center border"
@@ -175,9 +175,9 @@ export default function NPCInboxPage() {
                       {m.text.slice(0, 80)}{m.text.length > 80 ? "..." : ""}
                     </p>
                     <div className="flex items-center gap-2 mt-0.5">
-                      {replied && <span className="font-mono text-[8px] text-emerald-400/60 tracking-widest">REPLIED</span>}
+                      {replied && <span className="font-mono text-[8px] void-text-energy tracking-widest">REPLIED</span>}
                       {npc?.corruption && npc.corruption !== "none" && (
-                        <span className="font-mono text-[8px] text-red-400/50 tracking-widest">[{npc.corruption.toUpperCase()}]</span>
+                        <span className="font-mono text-[8px] void-text-error tracking-widest">[{npc.corruption.toUpperCase()}]</span>
                       )}
                     </div>
                   </div>
@@ -239,10 +239,10 @@ export default function NPCInboxPage() {
                     </p>
                     {selected.replies.map(r => (
                       <button key={r.id} onClick={() => handleReply(selected, r.id)}
-                        className="w-full text-left px-3 py-2 rounded border border-white/10 hover:border-cyan-500/40 bg-white/[0.02] hover:bg-cyan-500/10 font-mono text-[11px] text-white/80 hover:text-cyan-200 transition-colors">
+                        className="w-full text-left px-3 py-2 rounded border border-white/10 void-border-success bg-white/[0.02] void-bg-success font-mono text-[11px] text-white/80 void-text-energy transition-colors">
                         &gt; {r.text}
                         {r.effect && (
-                          <span className="block text-[8px] text-cyan-400/50 mt-0.5">
+                          <span className="block text-[8px] void-text-energy mt-0.5">
                             +{r.effect.trust} trust
                           </span>
                         )}
@@ -250,7 +250,7 @@ export default function NPCInboxPage() {
                     ))}
                   </div>
                 ) : replied ? (
-                  <div className="text-center py-2 font-mono text-[10px] text-emerald-400/70 tracking-widest border border-emerald-500/20 bg-emerald-500/5 rounded">
+                  <div className="text-center py-2 font-mono text-[10px] void-text-energy tracking-widest border void-border-success void-bg-success rounded">
                     REPLY SENT
                   </div>
                 ) : (

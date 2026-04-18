@@ -71,7 +71,7 @@ export default function LevelUpCelebration({ newLevel, onContinue }: LevelUpCele
         {[0, 1, 2].map(i => (
           <motion.div
             key={i}
-            className="absolute rounded-full border-2 border-amber-400/40"
+            className="absolute rounded-full border-2 void-border"
             initial={{ width: 0, height: 0, opacity: 0.8 }}
             animate={{
               width: [0, 600 + i * 200],
@@ -87,7 +87,7 @@ export default function LevelUpCelebration({ newLevel, onContinue }: LevelUpCele
               left: "50%",
               top: "50%",
               transform: "translate(-50%, -50%)",
-              boxShadow: `0 0 40px rgba(255,215,0,0.3), inset 0 0 40px rgba(255,215,0,0.1)`,
+              boxShadow: `0 0 40px color-mix(in oklch, var(--energy-premium) 30%, transparent), inset 0 0 40px color-mix(in oklch, var(--energy-premium) 10%, transparent)`,
             }}
           />
         ))}
@@ -96,7 +96,7 @@ export default function LevelUpCelebration({ newLevel, onContinue }: LevelUpCele
         {Array.from({ length: 30 }).map((_, i) => (
           <motion.div
             key={`p-${i}`}
-            className="absolute w-1 h-1 rounded-full bg-amber-400"
+            className="absolute w-1 h-1 rounded-full void-bg-sunk"
             initial={{
               x: 0,
               y: 0,
@@ -132,22 +132,22 @@ export default function LevelUpCelebration({ newLevel, onContinue }: LevelUpCele
             <div className="relative inline-block">
               <Sparkles
                 size={24}
-                className="absolute -top-4 -right-4 text-amber-400"
+                className="absolute -top-4 -right-4 void-text-accent"
               />
               <Star
                 size={20}
-                className="absolute -top-3 -left-3 text-amber-300"
+                className="absolute -top-3 -left-3 void-text-accent"
               />
-              <p className="font-mono text-[10px] tracking-[0.4em] text-amber-400/60 mb-2">
+              <p className="font-mono text-[10px] tracking-[0.4em] void-text-accent mb-2">
                 LEVEL UP
               </p>
               <div
                 className="font-display text-8xl font-black"
                 style={{
-                  background: "linear-gradient(180deg, #FFD700 0%, #FF8C00 100%)",
+                  background: "linear-gradient(180deg, var(--energy-premium) 0%, var(--energy-premium) 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
-                  filter: "drop-shadow(0 0 30px rgba(255,215,0,0.5))",
+                  filter: "drop-shadow(0 0 30px color-mix(in oklch, var(--energy-premium) 50%, transparent))",
                 }}
               >
                 {newLevel}
@@ -164,8 +164,8 @@ export default function LevelUpCelebration({ newLevel, onContinue }: LevelUpCele
               className="mt-6"
             >
               <div className="flex items-center justify-center gap-2 mb-2">
-                <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                <span className="font-display text-xs tracking-[0.2em] text-cyan-400">
+                <div className="w-2 h-2 rounded-full void-bg-success animate-pulse" />
+                <span className="font-display text-xs tracking-[0.2em] void-text-energy">
                   ELARA
                 </span>
               </div>
@@ -181,9 +181,9 @@ export default function LevelUpCelebration({ newLevel, onContinue }: LevelUpCele
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="mt-6 p-4 rounded-xl border border-amber-500/20 bg-amber-500/5"
+              className="mt-6 p-4 rounded-xl border void-border void-bg-sunk"
             >
-              <p className="font-mono text-[9px] tracking-[0.3em] text-amber-400/60 mb-3">
+              <p className="font-mono text-[9px] tracking-[0.3em] void-text-accent mb-3">
                 NEWLY UNLOCKED
               </p>
               <div className="space-y-2">
@@ -195,8 +195,8 @@ export default function LevelUpCelebration({ newLevel, onContinue }: LevelUpCele
                     transition={{ delay: 0.6 + i * 0.15 }}
                     className="flex items-center gap-2 text-left"
                   >
-                    <Lock size={12} className="text-amber-400 flex-shrink-0" />
-                    <span className="font-mono text-xs text-amber-300">{unlock}</span>
+                    <Lock size={12} className="void-text-accent flex-shrink-0" />
+                    <span className="font-mono text-xs void-text-accent">{unlock}</span>
                   </motion.div>
                 ))}
               </div>
@@ -210,7 +210,7 @@ export default function LevelUpCelebration({ newLevel, onContinue }: LevelUpCele
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
               onClick={onContinue}
-              className="mt-8 px-8 py-3 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-400 font-mono text-sm font-bold hover:bg-amber-500/30 transition-colors flex items-center gap-2 mx-auto"
+              className="mt-8 px-8 py-3 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm font-bold void-bg-sunk transition-colors flex items-center gap-2 mx-auto"
             >
               CONTINUE
               <ChevronRight size={16} />

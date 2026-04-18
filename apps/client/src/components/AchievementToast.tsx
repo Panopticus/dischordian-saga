@@ -12,7 +12,7 @@ import { isDialogActive } from "@/lib/dialogState";
 const TIER_COLORS: Record<string, string> = {
   bronze: "#cd7f32",
   silver: "#c0c0c0",
-  gold: "#ffd700",
+  gold: "var(--energy-premium)",
   platinum: "#e5e4e2",
   legendary: "#ff6b35",
 };
@@ -110,8 +110,8 @@ export default function AchievementToast() {
               <div className="font-mono text-[10px] text-muted-foreground/70">{newAchievement.description}</div>
             </div>
             <div className="text-right ml-2">
-              <div className="font-mono text-[10px] text-amber-400">+{newAchievement.xpReward} XP</div>
-              <div className="font-mono text-[10px] text-cyan-400">+{newAchievement.pointsReward} PTS</div>
+              <div className="font-mono text-[10px] void-text-accent">+{newAchievement.xpReward} XP</div>
+              <div className="font-mono text-[10px] void-text-energy">+{newAchievement.pointsReward} PTS</div>
             </div>
           </div>
         </motion.div>

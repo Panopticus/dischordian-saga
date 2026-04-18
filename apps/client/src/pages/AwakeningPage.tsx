@@ -126,13 +126,13 @@ function ElaraDialogBox({
           className="rounded-lg p-3 sm:p-6 relative overflow-hidden"
           style={{
             background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
-            border: "1px solid rgba(51,226,230,0.2)",
-            boxShadow: "0 0 30px rgba(51,226,230,0.05), inset 0 1px 0 rgba(51,226,230,0.1)",
+            border: "1px solid color-mix(in oklch, var(--energy-primary) 20%, transparent)",
+            boxShadow: "0 0 30px color-mix(in oklch, var(--energy-primary) 5%, transparent), inset 0 1px 0 color-mix(in oklch, var(--energy-primary) 10%, transparent)",
           }}
         >
           {/* Scanline effect */}
           <div className="absolute inset-0 pointer-events-none opacity-5" style={{
-            backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(51,226,230,0.1) 2px, rgba(51,226,230,0.1) 4px)",
+            backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--energy-primary) 10%, transparent) 2px, color-mix(in oklch, var(--energy-primary) 10%, transparent) 4px)",
           }} />
 
           <p className="font-mono text-xs sm:text-base text-foreground leading-relaxed relative z-10 min-h-[2em] sm:min-h-[3em] break-words">
@@ -153,17 +153,17 @@ function ElaraDialogBox({
                     onClick={() => onChoice(choice.value)}
                     className="w-full text-left px-3 py-2 sm:px-4 sm:py-3 rounded-md font-mono text-xs sm:text-sm transition-all group"
                     style={{
-                      background: "rgba(51,226,230,0.05)",
-                      border: "1px solid rgba(51,226,230,0.15)",
+                      background: "color-mix(in oklch, var(--energy-primary) 5%, transparent)",
+                      border: "1px solid color-mix(in oklch, var(--energy-primary) 15%, transparent)",
                     }}
                     onMouseEnter={e => {
-                      e.currentTarget.style.background = "rgba(51,226,230,0.12)";
-                      e.currentTarget.style.borderColor = "rgba(51,226,230,0.4)";
-                      e.currentTarget.style.boxShadow = "0 0 15px rgba(51,226,230,0.1)";
+                      e.currentTarget.style.background = "color-mix(in oklch, var(--energy-primary) 12%, transparent)";
+                      e.currentTarget.style.borderColor = "color-mix(in oklch, var(--energy-primary) 40%, transparent)";
+                      e.currentTarget.style.boxShadow = "0 0 15px color-mix(in oklch, var(--energy-primary) 10%, transparent)";
                     }}
                     onMouseLeave={e => {
-                      e.currentTarget.style.background = "rgba(51,226,230,0.05)";
-                      e.currentTarget.style.borderColor = "rgba(51,226,230,0.15)";
+                      e.currentTarget.style.background = "color-mix(in oklch, var(--energy-primary) 5%, transparent)";
+                      e.currentTarget.style.borderColor = "color-mix(in oklch, var(--energy-primary) 15%, transparent)";
                       e.currentTarget.style.boxShadow = "none";
                     }}
                   >
@@ -238,7 +238,7 @@ function AttributeAllocator({
     >
       <div className="rounded-lg p-5" style={{
         background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
-        border: "1px solid rgba(51,226,230,0.2)",
+        border: "1px solid color-mix(in oklch, var(--energy-primary) 20%, transparent)",
       }}>
         <h3 className="font-display text-sm tracking-[0.2em] text-[var(--neon-cyan)] mb-1">NEURAL CALIBRATION</h3>
         <p className="font-mono text-[11px] text-muted-foreground/60 mb-4">
@@ -275,9 +275,9 @@ function AttributeAllocator({
           disabled={total !== 9}
           className="w-full mt-3 py-2.5 rounded-md font-mono text-sm tracking-wider transition-all disabled:opacity-30"
           style={{
-            background: total === 9 ? "rgba(51,226,230,0.15)" : "transparent",
-            border: `1px solid rgba(51,226,230,${total === 9 ? 0.4 : 0.1})`,
-            color: total === 9 ? "var(--neon-cyan)" : "rgba(255,255,255,0.3)",
+            background: total === 9 ? "color-mix(in oklch, var(--energy-primary) 15%, transparent)" : "transparent",
+            border: `1px solid color-mix(in oklch, var(--energy-primary) calc((total === 9 ? 0.4 : 0.1) * 100%), transparent)`,
+            color: total === 9 ? "var(--neon-cyan)" : "color-mix(in oklch, var(--text-primary) 30%, transparent)",
           }}
         >
           CALIBRATE NEURAL MATRIX
@@ -531,7 +531,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
       {/* Heartbeat overlay */}
       {heartbeat && (
         <div className="absolute inset-0 z-20 pointer-events-none flex items-center justify-center">
-          <div className="w-4 h-4 rounded-full bg-red-500/50 animate-ping" />
+          <div className="w-4 h-4 rounded-full void-bg-error animate-ping" />
         </div>
       )}
 
@@ -557,7 +557,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               exit={{ opacity: 0 }}
               className="text-center"
             >
-              <p className="font-mono text-xs text-red-400/60 animate-pulse tracking-[0.3em]">
+              <p className="font-mono text-xs void-text-error animate-pulse tracking-[0.3em]">
                 EMERGENCY REVIVAL PROTOCOL INITIATED
               </p>
             </motion.div>
@@ -679,7 +679,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               <div className="mt-4 max-w-md mx-auto">
                 <div className="rounded-lg p-4" style={{
                   background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
-                  border: "1px solid rgba(51,226,230,0.2)",
+                  border: "1px solid color-mix(in oklch, var(--energy-primary) 20%, transparent)",
                 }}>
                   <input
                     type="text"
@@ -706,8 +706,8 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                     disabled={nameInput.trim().length < 2}
                     className="mt-3 w-full py-2 rounded-md font-mono text-xs tracking-wider transition-all disabled:opacity-30"
                     style={{
-                      background: nameInput.trim().length >= 2 ? "rgba(51,226,230,0.12)" : "transparent",
-                      border: "1px solid rgba(51,226,230,0.2)",
+                      background: nameInput.trim().length >= 2 ? "color-mix(in oklch, var(--energy-primary) 12%, transparent)" : "transparent",
+                      border: "1px solid color-mix(in oklch, var(--energy-primary) 20%, transparent)",
                       color: "var(--neon-cyan)",
                     }}
                   >

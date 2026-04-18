@@ -28,18 +28,18 @@ const FACTION_CONFIG = {
   },
   balanced: {
     label: "Balanced",
-    color: "#33E2E6",
-    bgColor: "rgba(51, 226, 230, 0.1)",
-    borderColor: "rgba(51, 226, 230, 0.3)",
+    color: "var(--energy-primary)",
+    bgColor: "color-mix(in oklch, var(--energy-primary) 10%, transparent)",
+    borderColor: "color-mix(in oklch, var(--energy-primary) 30%, transparent)",
     icon: Scale,
     description: "Operatives who walk the razor's edge between order and freedom.",
     motto: "\"The truth lies in the tension.\"",
   },
   humanity: {
     label: "Humanity",
-    color: "#22C55E",
-    bgColor: "rgba(34, 197, 94, 0.1)",
-    borderColor: "rgba(34, 197, 94, 0.3)",
+    color: "var(--energy-success)",
+    bgColor: "color-mix(in oklch, var(--energy-success) 10%, transparent)",
+    borderColor: "color-mix(in oklch, var(--energy-success) 30%, transparent)",
     icon: Leaf,
     description: "Champions of free will who resist the machine's embrace. Freedom through chaos.",
     motto: "\"Every soul is worth saving.\"",
@@ -176,7 +176,7 @@ export default function MoralityLeaderboardPage() {
                 animate={{ width: `${factionPercentages.balanced}%` }}
                 transition={{ duration: 1, delay: 0.4 }}
                 className="h-full relative"
-                style={{ background: "linear-gradient(90deg, #1a8a8e 0%, #33E2E6 100%)" }}
+                style={{ background: "linear-gradient(90deg, #1a8a8e 0%, var(--energy-primary) 100%)" }}
               >
                 {factionPercentages.balanced > 10 && (
                   <span className="absolute inset-0 flex items-center justify-center font-mono text-[10px] text-foreground font-bold">
@@ -189,7 +189,7 @@ export default function MoralityLeaderboardPage() {
                 animate={{ width: `${factionPercentages.humanity}%` }}
                 transition={{ duration: 1, delay: 0.6 }}
                 className="h-full relative"
-                style={{ background: "linear-gradient(90deg, #22C55E 0%, #86efac 100%)" }}
+                style={{ background: "linear-gradient(90deg, var(--energy-success) 0%, #86efac 100%)" }}
               >
                 {factionPercentages.humanity > 10 && (
                   <span className="absolute inset-0 flex items-center justify-center font-mono text-[10px] text-foreground font-bold">
@@ -239,7 +239,7 @@ export default function MoralityLeaderboardPage() {
             <span className="font-mono text-[10px] text-muted-foreground">COMMUNITY AVERAGE SCORE</span>
             <span className="font-mono text-sm font-bold" style={{
               color: (distribution?.averageScore ?? 0) < -10 ? "#FF4444" :
-                     (distribution?.averageScore ?? 0) > 10 ? "#22C55E" : "#33E2E6"
+                     (distribution?.averageScore ?? 0) > 10 ? "var(--energy-success)" : "var(--energy-primary)"
             }}>
               {distribution?.averageScore ?? 0}
             </span>

@@ -29,7 +29,7 @@ export const TRUST_TIERS: TrustTier[] = [
     threshold: 20,
     name: "Trusted",
     icon: Heart,
-    color: "text-emerald-400",
+    color: "void-text-energy",
     glow: "0 0 40px rgba(52,211,153,0.5), 0 0 80px rgba(52,211,153,0.2)",
     particleColor: "rgba(52,211,153,0.8)",
   },
@@ -37,7 +37,7 @@ export const TRUST_TIERS: TrustTier[] = [
     threshold: 50,
     name: "Devoted",
     icon: Star,
-    color: "text-violet-400",
+    color: "void-text-system",
     glow: "0 0 40px rgba(167,139,250,0.5), 0 0 80px rgba(167,139,250,0.2)",
     particleColor: "rgba(167,139,250,0.8)",
   },
@@ -45,9 +45,9 @@ export const TRUST_TIERS: TrustTier[] = [
     threshold: 80,
     name: "Soulbound",
     icon: Crown,
-    color: "text-amber-400",
-    glow: "0 0 50px rgba(251,191,36,0.6), 0 0 100px rgba(251,191,36,0.3)",
-    particleColor: "rgba(251,191,36,0.8)",
+    color: "void-text-accent",
+    glow: "0 0 50px color-mix(in oklch, var(--energy-premium) 60%, transparent), 0 0 100px color-mix(in oklch, var(--energy-premium) 30%, transparent)",
+    particleColor: "color-mix(in oklch, var(--energy-premium) 80%, transparent)",
   },
 ];
 
@@ -101,8 +101,8 @@ export const MILESTONE_DIALOG: Record<string, Record<string, string>> = {
 const FACTION_COLORS: Record<string, string> = {
   elara: "rgba(167,139,250,0.8)",       // violet — dreamer
   human: "rgba(251,146,60,0.8)",        // orange — independent
-  agent_zero: "rgba(96,165,250,0.8)",   // blue — hierarchy
-  kael: "rgba(248,113,113,0.8)",        // red — insurgency
+  agent_zero: "color-mix(in oklch, var(--electric-blue) 80%, transparent)",   // blue — hierarchy
+  kael: "color-mix(in oklch, var(--energy-error) 80%, transparent)",        // red — insurgency
   lyris: "rgba(52,211,153,0.8)",        // green — dreamer
 };
 

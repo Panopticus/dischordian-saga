@@ -48,8 +48,8 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
         onClick={() => music.toggleMusic()}
         className="p-1.5 rounded-md transition-all group relative"
         style={{
-          background: music.musicEnabled ? "rgba(255,183,77,0.08)" : "rgba(255,255,255,0.02)",
-          border: `1px solid ${music.musicEnabled ? "rgba(255,183,77,0.15)" : "rgba(255,255,255,0.05)"}`,
+          background: music.musicEnabled ? "color-mix(in oklch, var(--energy-premium) 8%, transparent)" : "color-mix(in oklch, var(--text-primary) 2%, transparent)",
+          border: `1px solid ${music.musicEnabled ? "color-mix(in oklch, var(--energy-premium) 15%, transparent)" : "color-mix(in oklch, var(--text-primary) 5%, transparent)"}`,
         }}
         title={music.musicEnabled
           ? `Music: ON${music.currentTrack ? ` — ${music.currentTrack.title}` : ""}`
@@ -74,8 +74,8 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
         onClick={() => bgm.toggleBGM()}
         className="p-1.5 rounded-md transition-all group relative"
         style={{
-          background: bgm.enabled ? "rgba(168,85,247,0.08)" : "rgba(255,255,255,0.02)",
-          border: `1px solid ${bgm.enabled ? "rgba(168,85,247,0.15)" : "rgba(255,255,255,0.05)"}`,
+          background: bgm.enabled ? "color-mix(in oklch, var(--energy-system) 8%, transparent)" : "color-mix(in oklch, var(--text-primary) 2%, transparent)",
+          border: `1px solid ${bgm.enabled ? "color-mix(in oklch, var(--energy-system) 15%, transparent)" : "color-mix(in oklch, var(--text-primary) 5%, transparent)"}`,
         }}
         title={bgm.enabled
           ? `Saga BGM: ON${bgm.currentTheme ? ` — ${bgm.currentTheme.title}` : ""}`
@@ -86,14 +86,14 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
           size={13}
           className={`transition-colors ${
             bgm.isPlaying
-              ? "text-purple-400 animate-pulse"
+              ? "void-text-system animate-pulse"
               : bgm.enabled
-              ? "text-purple-400/60 group-hover:text-purple-400"
+              ? "void-text-system group-void-text-system"
               : "text-muted-foreground/35 group-hover:text-muted-foreground/60"
           }`}
         />
         {bgm.isPlaying && (
-          <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+          <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full void-bg-system animate-pulse" />
         )}
       </button>
 
@@ -103,8 +103,8 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
           onClick={onToggleTTS}
           className="p-1.5 rounded-md transition-all group relative"
           style={{
-            background: ttsEnabled ? "rgba(51,226,230,0.08)" : "rgba(255,50,50,0.05)",
-            border: `1px solid ${ttsEnabled ? "rgba(51,226,230,0.15)" : "rgba(255,255,255,0.05)"}`,
+            background: ttsEnabled ? "color-mix(in oklch, var(--energy-primary) 8%, transparent)" : "rgba(255,50,50,0.05)",
+            border: `1px solid ${ttsEnabled ? "color-mix(in oklch, var(--energy-primary) 15%, transparent)" : "color-mix(in oklch, var(--text-primary) 5%, transparent)"}`,
           }}
           title={ttsEnabled ? "Disable Elara Voice" : "Enable Elara Voice"}
         >
@@ -128,14 +128,14 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
         onContextMenu={(e) => { e.preventDefault(); setShowSlider(!showSlider); }}
         className="p-1.5 rounded-md transition-all group"
         style={{
-          background: muted ? "rgba(255,50,50,0.08)" : "rgba(51,226,230,0.05)",
-          border: `1px solid ${muted ? "rgba(255,50,50,0.15)" : "rgba(51,226,230,0.1)"}`,
+          background: muted ? "rgba(255,50,50,0.08)" : "color-mix(in oklch, var(--energy-primary) 5%, transparent)",
+          border: `1px solid ${muted ? "rgba(255,50,50,0.15)" : "color-mix(in oklch, var(--energy-primary) 10%, transparent)"}`,
         }}
         title={muted ? "Unmute (right-click for volume)" : "Mute (right-click for volume)"}
       >
         <VolumeIcon
           size={14}
-          className={`transition-colors ${muted ? "text-red-400/60" : "text-[var(--neon-cyan)]/60 group-hover:text-[var(--neon-cyan)]"}`}
+          className={`transition-colors ${muted ? "void-text-error" : "text-[var(--neon-cyan)]/60 group-hover:text-[var(--neon-cyan)]"}`}
         />
       </button>
 
@@ -145,8 +145,8 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
           className="absolute top-full right-0 mt-1 rounded-lg p-3 z-50"
           style={{
             background: "var(--bg-void)",
-            border: "1px solid rgba(51,226,230,0.2)",
-            boxShadow: "0 10px 40px rgba(0,0,0,0.5)",
+            border: "1px solid color-mix(in oklch, var(--energy-primary) 20%, transparent)",
+            boxShadow: "0 10px 40px color-mix(in oklch, var(--bg-void) 50%, transparent)",
             minWidth: "180px",
           }}
         >
@@ -164,7 +164,7 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
             }}
             className="w-full h-1 rounded-full appearance-none cursor-pointer"
             style={{
-              background: `linear-gradient(to right, var(--neon-cyan) ${volume * 100}%, rgba(255,255,255,0.1) ${volume * 100}%)`,
+              background: `linear-gradient(to right, var(--neon-cyan) ${volume * 100}%, color-mix(in oklch, var(--text-primary) 10%, transparent) ${volume * 100}%)`,
             }}
           />
           <p className="font-mono text-[10px] text-muted-foreground/50 mt-1 text-center">{Math.round(volume * 100)}%</p>
@@ -179,21 +179,21 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
             onChange={(e) => music.setVolume(parseInt(e.target.value))}
             className="w-full h-1 rounded-full appearance-none cursor-pointer"
             style={{
-              background: `linear-gradient(to right, var(--orb-orange) ${music.volume}%, rgba(255,255,255,0.1) ${music.volume}%)`,
+              background: `linear-gradient(to right, var(--orb-orange) ${music.volume}%, color-mix(in oklch, var(--text-primary) 10%, transparent) ${music.volume}%)`,
             }}
           />
           <p className="font-mono text-[10px] text-muted-foreground/50 mt-1 text-center">{music.volume}%</p>
 
           {/* BGM Volume */}
-          <p className="font-mono text-[9px] text-purple-400/50 tracking-[0.2em] mb-2 mt-3">SAGA THEME BGM</p>
+          <p className="font-mono text-[9px] void-text-system tracking-[0.2em] mb-2 mt-3">SAGA THEME BGM</p>
           <div className="flex items-center gap-2 mb-1">
             <button
               onClick={() => bgm.toggleBGM()}
               className="font-mono text-[9px] px-1.5 py-0.5 rounded"
               style={{
-                background: bgm.enabled ? "rgba(168,85,247,0.15)" : "rgba(255,255,255,0.05)",
-                border: `1px solid ${bgm.enabled ? "rgba(168,85,247,0.3)" : "rgba(255,255,255,0.1)"}`,
-                color: bgm.enabled ? "rgb(168,85,247)" : "rgba(255,255,255,0.4)",
+                background: bgm.enabled ? "color-mix(in oklch, var(--energy-system) 15%, transparent)" : "color-mix(in oklch, var(--text-primary) 5%, transparent)",
+                border: `1px solid ${bgm.enabled ? "color-mix(in oklch, var(--energy-system) 30%, transparent)" : "color-mix(in oklch, var(--text-primary) 10%, transparent)"}`,
+                color: bgm.enabled ? "var(--energy-system)" : "color-mix(in oklch, var(--text-primary) 40%, transparent)",
               }}
             >
               {bgm.enabled ? "ON" : "OFF"}
@@ -206,7 +206,7 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
               onChange={(e) => bgm.setBGMVolume(parseInt(e.target.value))}
               className="flex-1 h-1 rounded-full appearance-none cursor-pointer"
               style={{
-                background: `linear-gradient(to right, rgb(168,85,247) ${bgm.bgmVolume}%, rgba(255,255,255,0.1) ${bgm.bgmVolume}%)`,
+                background: `linear-gradient(to right, var(--energy-system) ${bgm.bgmVolume}%, color-mix(in oklch, var(--text-primary) 10%, transparent) ${bgm.bgmVolume}%)`,
               }}
             />
             <span className="font-mono text-[9px] text-muted-foreground/50 w-6 text-right">{bgm.bgmVolume}%</span>
@@ -214,8 +214,8 @@ export default function SoundControls({ ttsEnabled, onToggleTTS, isSpeaking }: S
 
           {/* Now Playing */}
           {bgm.isPlaying && bgm.currentTheme && (
-            <div className="mt-2 pt-1.5 border-t border-purple-400/20">
-              <p className="font-mono text-[8px] text-purple-400/40 tracking-[0.2em]">SAGA BGM</p>
+            <div className="mt-2 pt-1.5 border-t void-border-system">
+              <p className="font-mono text-[8px] void-text-system tracking-[0.2em]">SAGA BGM</p>
               <p className="font-mono text-[10px] text-muted-foreground/80 truncate mt-0.5">{bgm.currentTheme.title}</p>
             </div>
           )}

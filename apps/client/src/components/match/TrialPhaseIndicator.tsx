@@ -55,9 +55,9 @@ export function TrialPhaseIndicator({
         role="status"
         aria-live="assertive"
         aria-label={`Trial verdict: ${outcome.replace("_", " ")}`}
-        className="absolute top-3 left-1/2 -translate-x-1/2 z-30 px-6 py-2 rounded border border-amber-300/60 bg-black/90 shadow-[0_0_16px_rgba(255,200,100,0.4)]"
+        className="absolute top-3 left-1/2 -translate-x-1/2 z-30 px-6 py-2 rounded border void-border bg-black/90 shadow-[0_0_16px_rgba(255,200,100,0.4)]"
       >
-        <p className="font-serif text-xl tracking-[0.2em] uppercase text-amber-100">
+        <p className="font-serif text-xl tracking-[0.2em] uppercase void-text-accent">
           {outcome === "overturn" ? "OVERTURN" : "SENTENCE"}
         </p>
       </div>
@@ -68,13 +68,13 @@ export function TrialPhaseIndicator({
     <div
       role="status"
       aria-label={`Trial phase ${phaseNumber} of 10: ${phaseLabel}`}
-      className="absolute top-3 left-1/2 -translate-x-1/2 z-30 px-4 py-1.5 rounded border border-stone-300/30 bg-stone-950/90 shadow-[0_2px_12px_rgba(0,0,0,0.6)]"
+      className="absolute top-3 left-1/2 -translate-x-1/2 z-30 px-4 py-1.5 rounded border void-border void-bg-canvas shadow-[0_2px_12px_color-mix(in oklch, var(--bg-void) 60%, transparent)]"
     >
       <div className="flex items-baseline gap-3">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-stone-300/60">
+        <span className="font-mono text-[10px] uppercase tracking-[0.3em] void-text-dim">
           Phase {phaseNumber} / 10
         </span>
-        <span className="font-serif text-base tracking-wide text-stone-100">
+        <span className="font-serif text-base tracking-wide void-text">
           {phaseLabel}
         </span>
       </div>

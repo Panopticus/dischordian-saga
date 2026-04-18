@@ -28,9 +28,9 @@ export const RECAP_INACTIVITY_DAYS = 3;
 // ─── FACTION COLORS ───
 
 const FACTION_COLORS = {
-  Machine: "#ef4444",   // red
+  Machine: "var(--energy-error)",   // red
   Balanced: "#a78bfa",  // purple
-  Humanity: "#22c55e",  // green
+  Humanity: "var(--energy-success)",  // green
 } as const;
 
 // ─── COMPANION PORTRAIT MAP ───
@@ -226,13 +226,13 @@ export default function RecapOverlay({
                   speed={60}
                   as="h1"
                   className="text-2xl sm:text-4xl font-bold tracking-[0.3em] uppercase"
-                  style={{ color: "#33E2E6" }}
+                  style={{ color: "var(--energy-primary)" }}
                   showCursor={false}
                   effect="breathe"
                 />
                 <motion.div
                   className="mt-6 text-sm tracking-widest uppercase"
-                  style={{ color: "rgba(255,255,255,0.4)" }}
+                  style={{ color: "color-mix(in oklch, var(--text-primary) 40%, transparent)" }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 2.5, duration: 0.8 }}
@@ -259,8 +259,8 @@ export default function RecapOverlay({
                       key={visibleCompanion}
                       className="hidden md:block shrink-0 w-32 h-32 rounded-lg overflow-hidden"
                       style={{
-                        border: `2px solid ${visibleCompanion === "elara" ? "#22c55e" : "#ef4444"}`,
-                        boxShadow: `0 0 20px ${visibleCompanion === "elara" ? "rgba(34,197,94,0.3)" : "rgba(239,68,68,0.3)"}`,
+                        border: `2px solid ${visibleCompanion === "elara" ? "var(--energy-success)" : "var(--energy-error)"}`,
+                        boxShadow: `0 0 20px ${visibleCompanion === "elara" ? "color-mix(in oklch, var(--energy-success) 30%, transparent)" : "color-mix(in oklch, var(--energy-error) 30%, transparent)"}`,
                       }}
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
@@ -299,7 +299,7 @@ export default function RecapOverlay({
                       as="p"
                       className="text-base sm:text-lg leading-relaxed"
                       style={{
-                        color: "rgba(255,255,255,0.9)",
+                        color: "color-mix(in oklch, var(--text-primary) 90%, transparent)",
                         fontFamily: "'Georgia', serif",
                         lineHeight: 1.8,
                       }}
@@ -354,7 +354,7 @@ export default function RecapOverlay({
                   as="p"
                   className="text-lg sm:text-xl leading-relaxed italic"
                   style={{
-                    color: "#33E2E6",
+                    color: "var(--energy-primary)",
                     fontFamily: "'Georgia', serif",
                     lineHeight: 1.8,
                   }}
@@ -401,7 +401,7 @@ export default function RecapOverlay({
                   style={{
                     background: i <= currentParagraph
                       ? factionColor
-                      : "rgba(255,255,255,0.15)",
+                      : "color-mix(in oklch, var(--text-primary) 15%, transparent)",
                   }}
                 />
               ))}
@@ -436,11 +436,11 @@ export default function RecapOverlay({
         <motion.button
           className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono uppercase tracking-wider rounded border transition-opacity"
           style={{
-            color: "rgba(255,255,255,0.5)",
-            borderColor: "rgba(255,255,255,0.15)",
-            background: "rgba(0,0,0,0.4)",
+            color: "color-mix(in oklch, var(--text-primary) 50%, transparent)",
+            borderColor: "color-mix(in oklch, var(--text-primary) 15%, transparent)",
+            background: "color-mix(in oklch, var(--bg-void) 40%, transparent)",
           }}
-          whileHover={{ color: "rgba(255,255,255,0.9)", borderColor: "rgba(255,255,255,0.4)" }}
+          whileHover={{ color: "color-mix(in oklch, var(--text-primary) 90%, transparent)", borderColor: "color-mix(in oklch, var(--text-primary) 40%, transparent)" }}
           onClick={(e) => {
             e.stopPropagation();
             handleSkip();
@@ -459,11 +459,11 @@ export default function RecapOverlay({
           <motion.button
             className="absolute bottom-6 right-6 p-2 rounded-full border transition-opacity"
             style={{
-              color: "rgba(255,255,255,0.4)",
-              borderColor: "rgba(255,255,255,0.1)",
-              background: "rgba(0,0,0,0.3)",
+              color: "color-mix(in oklch, var(--text-primary) 40%, transparent)",
+              borderColor: "color-mix(in oklch, var(--text-primary) 10%, transparent)",
+              background: "color-mix(in oklch, var(--bg-void) 30%, transparent)",
             }}
-            whileHover={{ color: "rgba(255,255,255,0.8)" }}
+            whileHover={{ color: "color-mix(in oklch, var(--text-primary) 80%, transparent)" }}
             onClick={(e) => {
               e.stopPropagation();
               onToggleAudio();

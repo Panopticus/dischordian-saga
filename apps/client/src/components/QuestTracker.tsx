@@ -353,9 +353,9 @@ export default function QuestTracker() {
             onClick={() => setMinimized(false)}
             className="relative w-10 h-10 rounded-full flex items-center justify-center border transition-all"
             style={{
-              background: "rgba(0,0,0,0.8)",
-              borderColor: newQuestFlash ? "rgba(255,183,77,0.6)" : "rgba(51,226,230,0.3)",
-              boxShadow: newQuestFlash ? "0 0 15px rgba(255,183,77,0.3)" : "0 0 10px rgba(51,226,230,0.1)",
+              background: "color-mix(in oklch, var(--bg-void) 80%, transparent)",
+              borderColor: newQuestFlash ? "color-mix(in oklch, var(--energy-premium) 60%, transparent)" : "color-mix(in oklch, var(--energy-primary) 30%, transparent)",
+              boxShadow: newQuestFlash ? "0 0 15px color-mix(in oklch, var(--energy-premium) 30%, transparent)" : "0 0 10px color-mix(in oklch, var(--energy-primary) 10%, transparent)",
             }}
           >
             <Target size={16} className="text-[var(--neon-cyan)]" />
@@ -377,9 +377,9 @@ export default function QuestTracker() {
             onTouchEnd={handleTouchEnd}
             className="w-72 rounded-lg border overflow-hidden max-h-[40vh] sm:max-h-[70vh] overflow-y-auto"
             style={{
-              background: "rgba(0,0,0,0.9)",
-              borderColor: newQuestFlash ? "rgba(255,183,77,0.4)" : "rgba(51,226,230,0.2)",
-              boxShadow: newQuestFlash ? "0 0 25px rgba(255,183,77,0.15)" : "0 0 15px rgba(51,226,230,0.05)",
+              background: "color-mix(in oklch, var(--bg-void) 90%, transparent)",
+              borderColor: newQuestFlash ? "color-mix(in oklch, var(--energy-premium) 40%, transparent)" : "color-mix(in oklch, var(--energy-primary) 20%, transparent)",
+              boxShadow: newQuestFlash ? "0 0 25px color-mix(in oklch, var(--energy-premium) 15%, transparent)" : "0 0 15px color-mix(in oklch, var(--energy-primary) 5%, transparent)",
               backdropFilter: "blur(12px)",
               ...(isSwiping ? { opacity: 1 - swipeY / 250, transition: 'none' } : {}),
             }}
@@ -417,20 +417,20 @@ export default function QuestTracker() {
                     className="shrink-0 w-7 h-7 rounded-md flex items-center justify-center mt-0.5"
                     style={{
                       background: activeQuest.quest.category === "main"
-                        ? "rgba(51,226,230,0.15)"
+                        ? "color-mix(in oklch, var(--energy-primary) 15%, transparent)"
                         : activeQuest.quest.category === "exploration"
-                        ? "rgba(255,183,77,0.15)"
+                        ? "color-mix(in oklch, var(--energy-premium) 15%, transparent)"
                         : activeQuest.quest.category === "discovery"
-                        ? "rgba(168,85,247,0.15)"
-                        : "rgba(255,255,255,0.05)",
+                        ? "color-mix(in oklch, var(--energy-system) 15%, transparent)"
+                        : "color-mix(in oklch, var(--text-primary) 5%, transparent)",
                       border: `1px solid ${
                         activeQuest.quest.category === "main"
-                          ? "rgba(51,226,230,0.3)"
+                          ? "color-mix(in oklch, var(--energy-primary) 30%, transparent)"
                           : activeQuest.quest.category === "exploration"
-                          ? "rgba(255,183,77,0.3)"
+                          ? "color-mix(in oklch, var(--energy-premium) 30%, transparent)"
                           : activeQuest.quest.category === "discovery"
-                          ? "rgba(168,85,247,0.3)"
-                          : "rgba(255,255,255,0.1)"
+                          ? "color-mix(in oklch, var(--energy-system) 30%, transparent)"
+                          : "color-mix(in oklch, var(--text-primary) 10%, transparent)"
                       }`,
                     }}
                   >
@@ -440,7 +440,7 @@ export default function QuestTracker() {
                         : activeQuest.quest.category === "exploration"
                         ? "text-[var(--neon-amber)]"
                         : activeQuest.quest.category === "discovery"
-                        ? "text-purple-400"
+                        ? "void-text-system"
                         : "text-muted-foreground/70"
                     } />
                   </div>
@@ -467,10 +467,10 @@ export default function QuestTracker() {
                       className="h-full rounded-full"
                       style={{
                         background: activeQuest.quest.category === "main"
-                          ? "linear-gradient(90deg, rgba(51,226,230,0.6), rgba(51,226,230,0.9))"
+                          ? "linear-gradient(90deg, color-mix(in oklch, var(--energy-primary) 60%, transparent), color-mix(in oklch, var(--energy-primary) 90%, transparent))"
                           : activeQuest.quest.category === "exploration"
-                          ? "linear-gradient(90deg, rgba(255,183,77,0.6), rgba(255,183,77,0.9))"
-                          : "linear-gradient(90deg, rgba(168,85,247,0.6), rgba(168,85,247,0.9))",
+                          ? "linear-gradient(90deg, color-mix(in oklch, var(--energy-premium) 60%, transparent), color-mix(in oklch, var(--energy-premium) 90%, transparent))"
+                          : "linear-gradient(90deg, color-mix(in oklch, var(--energy-system) 60%, transparent), color-mix(in oklch, var(--energy-system) 90%, transparent))",
                       }}
                       initial={{ width: 0 }}
                       animate={{ width: `${(activeQuest.progress / activeQuest.max) * 100}%` }}
@@ -532,13 +532,13 @@ function QuestChainsAccordion() {
         className="w-full flex items-center justify-between px-3 py-1.5 hover:bg-muted/30 transition-colors"
       >
         <div className="flex items-center gap-1.5">
-          <Link2 size={10} className="text-purple-400" />
-          <span className="font-display text-[8px] tracking-[0.2em] text-purple-400/70">QUEST CHAINS</span>
+          <Link2 size={10} className="void-text-system" />
+          <span className="font-display text-[8px] tracking-[0.2em] void-text-system">QUEST CHAINS</span>
         </div>
         {expanded ? (
-          <ChevronUp size={10} className="text-purple-400/40" />
+          <ChevronUp size={10} className="void-text-system" />
         ) : (
-          <ChevronDown size={10} className="text-purple-400/40" />
+          <ChevronDown size={10} className="void-text-system" />
         )}
       </button>
       <AnimatePresence>
@@ -589,8 +589,8 @@ function CompletedQuestsSummary({ quests }: { quests: Array<{ quest: Quest; comp
             <div className="px-3 pb-2 space-y-1">
               {quests.map(({ quest }) => (
                 <div key={quest.id} className="flex items-center gap-2 py-0.5">
-                  <div className="w-3 h-3 rounded-full bg-green-500/20 flex items-center justify-center">
-                    <span className="text-[7px] text-green-400">✓</span>
+                  <div className="w-3 h-3 rounded-full void-bg-success flex items-center justify-center">
+                    <span className="text-[7px] void-text-energy">✓</span>
                   </div>
                   <span className="font-mono text-[9px] text-muted-foreground/50 line-through">{quest.title}</span>
                 </div>

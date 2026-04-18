@@ -200,7 +200,7 @@ function ZoomLightbox({ src, alt, onClose }: { src: string; alt: string; onClose
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
       className="fixed inset-0 z-[99999] flex flex-col"
-      style={{ background: "rgba(0,0,0,0.95)" }}
+      style={{ background: "color-mix(in oklch, var(--bg-void) 95%, transparent)" }}
     >
       {/* Top bar */}
       <div className="flex items-center justify-between px-4 py-3 z-10">

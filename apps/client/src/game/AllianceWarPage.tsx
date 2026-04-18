@@ -130,17 +130,17 @@ export default function AllianceWarPage() {
 
   if (!bridgeUnlocked) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-950 p-6">
-        <div className="max-w-md rounded-lg border border-purple-900/40 bg-slate-900/80 p-8 text-center">
-          <Lock className="mx-auto mb-4 text-purple-400" size={48} />
-          <h2 className="mb-2 text-xl font-bold text-slate-100">Bridge Access Required</h2>
-          <p className="mb-4 text-sm text-slate-400">
+      <div className="flex min-h-screen items-center justify-center void-bg-canvas p-6">
+        <div className="max-w-md rounded-lg border void-border-system void-bg-canvas p-8 text-center">
+          <Lock className="mx-auto mb-4 void-text-system" size={48} />
+          <h2 className="mb-2 text-xl font-bold void-text">Bridge Access Required</h2>
+          <p className="mb-4 text-sm void-text">
             The alliance war console is located on the command bridge. Reach the bridge
             to coordinate with your guild.
           </p>
           <button
             onClick={() => navigate("/ark")}
-            className="rounded bg-purple-600 px-4 py-2 font-semibold text-white hover:bg-purple-500"
+            className="rounded void-bg-system px-4 py-2 font-semibold text-white void-bg-system"
           >
             Return to Ark
           </button>
@@ -150,30 +150,30 @@ export default function AllianceWarPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-black text-slate-100">
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-black void-text">
       <div className="mx-auto max-w-6xl p-4 md:p-6">
         {/* Top bar */}
         <div className="mb-4 flex items-center gap-3">
           <button
             onClick={() => navigate("/ark")}
-            className="flex items-center gap-2 rounded border border-slate-700 bg-slate-900/60 px-3 py-1.5 text-sm text-slate-300 hover:bg-slate-800"
+            className="flex items-center gap-2 rounded border void-border void-bg-canvas px-3 py-1.5 text-sm void-text void-bg-canvas"
             data-testid="alliance-war-back"
           >
             <ArrowLeft size={16} /> Back
           </button>
           <h1 className="flex items-center gap-2 text-2xl font-bold tracking-wide">
-            <Swords className="text-red-400" /> Alliance War
+            <Swords className="void-text-error" /> Alliance War
           </h1>
           <div className="ml-auto flex items-center gap-3">
             <button
               onClick={() => setIsDefensePhase((v) => !v)}
-              className="rounded border border-purple-700 bg-purple-900/30 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-purple-300 hover:bg-purple-800/40"
+              className="rounded border void-border-system void-bg-system px-3 py-1.5 text-xs font-semibold uppercase tracking-wider void-text-system void-bg-system"
               data-testid="toggle-phase"
             >
               Toggle Phase (demo)
             </button>
-            <div className="flex items-center gap-2 rounded bg-slate-900/70 px-3 py-1.5 font-mono text-sm ring-1 ring-slate-700">
-              <Clock size={14} className="text-amber-400" />
+            <div className="flex items-center gap-2 rounded void-bg-canvas px-3 py-1.5 font-mono text-sm ring-1 ring-slate-700">
+              <Clock size={14} className="void-text-accent" />
               {formatTimer(timeRemaining)}
             </div>
           </div>
@@ -211,32 +211,32 @@ export default function AllianceWarPage() {
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           {/* Contributors */}
           <div className="void-surface p-4">
-            <div className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-amber-300">
+            <div className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wider void-text-accent">
               <Trophy size={16} /> Contribution Leaderboard
             </div>
             <div className="space-y-2">
               {MOCK_CONTRIBUTORS.map((c, i) => (
                 <div
                   key={c.userId}
-                  className="flex items-center gap-3 rounded border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm"
+                  className="flex items-center gap-3 rounded border void-border void-bg-canvas px-3 py-2 text-sm"
                 >
                   <span
                     className={`w-5 text-center font-mono font-bold ${
                       i === 0
-                        ? "text-amber-400"
+                        ? "void-text-accent"
                         : i === 1
-                        ? "text-slate-300"
-                        : "text-slate-500"
+                        ? "void-text"
+                        : "void-text"
                     }`}
                   >
                     {i + 1}
                   </span>
-                  {i === 0 && <Crown size={14} className="text-amber-400" />}
-                  <span className="flex-1 truncate text-slate-200">{c.name}</span>
-                  <span className="font-mono text-xs text-slate-400">
+                  {i === 0 && <Crown size={14} className="void-text-accent" />}
+                  <span className="flex-1 truncate void-text">{c.name}</span>
+                  <span className="font-mono text-xs void-text">
                     {c.nodesCleared}/{c.attacks}
                   </span>
-                  <span className="w-14 text-right font-mono font-bold text-purple-300">
+                  <span className="w-14 text-right font-mono font-bold void-text-system">
                     {c.points}
                   </span>
                 </div>
@@ -246,13 +246,13 @@ export default function AllianceWarPage() {
 
           {/* Attack log */}
           <div className="void-surface p-4">
-            <div className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-red-300">
+            <div className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wider void-text-error">
               <Zap size={16} /> Attack History
             </div>
             <div className="max-h-[260px] space-y-2 overflow-y-auto pr-1">
               <AnimatePresence initial={false}>
                 {attackLog.length === 0 ? (
-                  <div className="py-6 text-center text-xs text-slate-500">
+                  <div className="py-6 text-center text-xs void-text">
                     No attacks yet. Click a node to engage.
                   </div>
                 ) : (
@@ -264,19 +264,19 @@ export default function AllianceWarPage() {
                       exit={{ opacity: 0 }}
                       className={`flex items-center gap-2 rounded border px-3 py-2 text-xs ${
                         entry.won
-                          ? "border-green-800/60 bg-green-900/20 text-green-200"
-                          : "border-red-800/60 bg-red-900/20 text-red-200"
+                          ? "void-border-success void-bg-success void-text-energy"
+                          : "void-border-error void-bg-error void-text-error"
                       }`}
                     >
                       {entry.won ? <Shield size={12} /> : <X size={12} />}
                       <span className="font-semibold">{entry.attackerName}</span>
-                      <span className="text-slate-400">
+                      <span className="void-text">
                         {entry.won ? "cleared" : "failed at"}
                       </span>
-                      <span className="rounded bg-slate-800 px-1.5 font-mono">
+                      <span className="rounded void-bg-canvas px-1.5 font-mono">
                         {entry.nodeLabel}
                       </span>
-                      <span className="ml-auto text-slate-500">
+                      <span className="ml-auto void-text">
                         {new Date(entry.timestamp).toLocaleTimeString([], {
                           hour: "2-digit",
                           minute: "2-digit",

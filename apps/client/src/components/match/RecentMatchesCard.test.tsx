@@ -40,9 +40,10 @@ describe("RecentMatchesCard component", () => {
 
   it("tags outcome rows with distinct color classes", () => {
     expect(src).toContain("outcomeStyle");
-    expect(src).toContain("emerald-400"); // win
-    expect(src).toContain("rose-400");    // loss
-    expect(src).toContain("amber-400");   // withdrawn
+    // Post-Void-Energy migration: axis tokens instead of raw Tailwind ramps.
+    expect(src).toContain("void-text-energy"); // win → success axis
+    expect(src).toContain("void-text-error");  // loss → error axis
+    expect(src).toContain("void-text-accent"); // withdrawn → accent axis
   });
 });
 

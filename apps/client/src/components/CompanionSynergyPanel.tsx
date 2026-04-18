@@ -8,11 +8,11 @@ import { useState } from "react";
 import { Users, Heart, Zap, AlertTriangle, ChevronDown, ChevronUp } from "lucide-react";
 
 const TIER_STYLES: Record<string, { color: string; bg: string; border: string }> = {
-  none: { color: "text-zinc-500", bg: "bg-zinc-900/20", border: "border-zinc-700/30" },
-  acquaintance: { color: "text-zinc-400", bg: "bg-zinc-900/20", border: "border-zinc-600/30" },
-  ally: { color: "text-emerald-400", bg: "bg-emerald-950/20", border: "border-emerald-500/30" },
-  bonded: { color: "text-blue-400", bg: "bg-blue-950/20", border: "border-blue-500/30" },
-  soulbound: { color: "text-purple-400", bg: "bg-purple-950/20", border: "border-purple-500/30" },
+  none: { color: "void-text", bg: "void-bg-canvas", border: "void-border" },
+  acquaintance: { color: "void-text", bg: "void-bg-canvas", border: "void-border" },
+  ally: { color: "void-text-energy", bg: "void-bg-success", border: "void-border-success" },
+  bonded: { color: "void-text-energy", bg: "void-bg-sunk", border: "void-border" },
+  soulbound: { color: "void-text-system", bg: "void-bg-system", border: "void-border-system" },
 };
 
 export function CompanionSynergyPanel() {
@@ -56,7 +56,7 @@ export function CompanionSynergyPanel() {
   return (
     <div className="border border-border/30 rounded-lg bg-card/40 p-4">
       <div className="flex items-center gap-2 mb-4">
-        <Heart size={16} className="text-rose-400" />
+        <Heart size={16} className="void-text-error" />
         <span className="font-display text-xs font-bold tracking-[0.2em]">COMPANION SYNERGIES</span>
       </div>
 
@@ -87,9 +87,9 @@ export function CompanionSynergyPanel() {
 
                 {/* Synergy score bar */}
                 <div className="flex items-center gap-2 mb-1">
-                  <div className="flex-1 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                  <div className="flex-1 h-1.5 void-bg-canvas rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-rose-500/50 rounded-full transition-all duration-500"
+                      className="h-full void-bg-error rounded-full transition-all duration-500"
                       style={{ width: `${Math.min((d.synergyScore / (d.maxScore || 100)) * 100, 100)}%` }}
                     />
                   </div>
@@ -115,10 +115,10 @@ export function CompanionSynergyPanel() {
                   {/* Match details */}
                   {d.matchDetails && d.matchDetails.length > 0 && (
                     <div className="mt-2 space-y-1">
-                      <span className="font-mono text-[9px] text-emerald-400 block">Build Compatibility:</span>
+                      <span className="font-mono text-[9px] void-text-energy block">Build Compatibility:</span>
                       {d.matchDetails.map((detail: any, j: number) => (
                         <div key={j} className="flex items-center gap-1.5">
-                          <span className={`font-mono text-[9px] ${detail.matched ? 'text-emerald-400' : 'text-zinc-500'}`}>
+                          <span className={`font-mono text-[9px] ${detail.matched ? 'void-text-energy' : 'void-text'}`}>
                             {detail.matched ? '✓' : '✗'}
                           </span>
                           <span className="font-mono text-[9px] text-foreground/80">{detail.label}</span>

@@ -143,10 +143,10 @@ export default function MoralityUnlockablesPanel() {
           >
             <div className="px-4 pb-4 space-y-4 border-t border-border/20 pt-3">
               {/* Zero-sum warning */}
-              <div className="flex items-start gap-2 px-3 py-2 rounded-md bg-amber-500/5 border border-amber-500/15">
-                <AlertTriangle size={12} className="text-amber-400 shrink-0 mt-0.5" />
-                <p className="font-mono text-[10px] text-amber-400/80 leading-relaxed">
-                  The Morality Melter is <span className="font-bold text-amber-300">zero-sum</span>. Gaining Machine alignment costs Humanity alignment, and vice versa. Choose wisely — every choice has a price.
+              <div className="flex items-start gap-2 px-3 py-2 rounded-md void-bg-sunk border void-border">
+                <AlertTriangle size={12} className="void-text-accent shrink-0 mt-0.5" />
+                <p className="font-mono text-[10px] void-text-accent leading-relaxed">
+                  The Morality Melter is <span className="font-bold void-text-accent">zero-sum</span>. Gaining Machine alignment costs Humanity alignment, and vice versa. Choose wisely — every choice has a price.
                 </p>
               </div>
 
@@ -210,8 +210,8 @@ export default function MoralityUnlockablesPanel() {
                 {viewMode === "all" && balancedItems.length > 0 && (
                   <div className="mb-3">
                     <div className="flex items-center gap-2 mb-2">
-                      <Shield size={10} className="text-purple-400" />
-                      <span className="font-mono text-[9px] text-purple-400 tracking-[0.2em]">BALANCED</span>
+                      <Shield size={10} className="void-text-system" />
+                      <span className="font-mono text-[9px] void-text-system tracking-[0.2em]">BALANCED</span>
                     </div>
                     {balancedItems.map(item => (
                       <UnlockableRow key={item.id} item={item} isUnlocked={true} score={score} />
@@ -315,7 +315,7 @@ function UnlockableRow({ item, isUnlocked: unlocked, score }: {
               {CATEGORY_LABELS[item.category]}
             </span>
             {!unlocked && (
-              <span className="font-mono text-[8px] text-amber-400/60">
+              <span className="font-mono text-[8px] void-text-accent">
                 {pointsAway} pts away
               </span>
             )}
@@ -350,7 +350,7 @@ function UnlockableRow({ item, isUnlocked: unlocked, score }: {
                 </span>
               </div>
               {!unlocked && (
-                <p className="font-mono text-[9px] text-amber-400/50 mt-1">
+                <p className="font-mono text-[9px] void-text-accent mt-1">
                   Requires {item.side === "machine" ? "Machine" : "Humanity"} Level {item.requiredLevel} (score {item.side === "machine" ? "≤" : "≥"} {item.scoreThreshold})
                 </p>
               )}

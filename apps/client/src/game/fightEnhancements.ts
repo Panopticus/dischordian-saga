@@ -120,11 +120,11 @@ export interface FighterSkin {
 export const FIGHTER_SKINS: FighterSkin[] = [
   { id: 'arc-default',     fighterId: 'architect', name: 'Blueprint',        palette: { body: '#3A5FCD', accent: '#C0C0C0', energy: '#00BFFF', eye: '#FFFFFF' }, rarity: 'common',    source: 'shop',       cost: 0 },
   { id: 'arc-neon',        fighterId: 'architect', name: 'Neon Grid',        palette: { body: '#0D0D0D', accent: '#39FF14', energy: '#39FF14', eye: '#39FF14' }, rarity: 'rare',      source: 'shop',       cost: 500 },
-  { id: 'arc-golden',      fighterId: 'architect', name: 'Golden Ratio',     palette: { body: '#FFD700', accent: '#B8860B', energy: '#FFFACD', eye: '#FF4500' }, rarity: 'legendary', source: 'mastery',    cost: 0 },
+  { id: 'arc-golden',      fighterId: 'architect', name: 'Golden Ratio',     palette: { body: 'var(--energy-premium)', accent: '#B8860B', energy: '#FFFACD', eye: '#FF4500' }, rarity: 'legendary', source: 'mastery',    cost: 0 },
   { id: 'eng-default',     fighterId: 'enigma',    name: 'Cipher',           palette: { body: '#4B0082', accent: '#8A2BE2', energy: '#DA70D6', eye: '#FF00FF' }, rarity: 'common',    source: 'shop',       cost: 0 },
   { id: 'eng-void',        fighterId: 'enigma',    name: 'Void Walker',      palette: { body: '#0C0C0C', accent: '#330033', energy: '#9400D3', eye: '#EEDD00' }, rarity: 'epic',      source: 'event',      cost: 1200 },
   { id: 'eng-prism',       fighterId: 'enigma',    name: 'Prism Shift',      palette: { body: '#FFFFFF', accent: '#FF6EC7', energy: '#7DF9FF', eye: '#FF1493' }, rarity: 'rare',      source: 'battlepass', cost: 0 },
-  { id: 'war-default',     fighterId: 'warlord',   name: 'Iron Legion',      palette: { body: '#8B0000', accent: '#2F4F4F', energy: '#FF4500', eye: '#FFD700' }, rarity: 'common',    source: 'shop',       cost: 0 },
+  { id: 'war-default',     fighterId: 'warlord',   name: 'Iron Legion',      palette: { body: '#8B0000', accent: '#2F4F4F', energy: '#FF4500', eye: 'var(--energy-premium)' }, rarity: 'common',    source: 'shop',       cost: 0 },
   { id: 'war-frost',       fighterId: 'warlord',   name: 'Frost General',    palette: { body: '#4682B4', accent: '#B0E0E6', energy: '#ADD8E6', eye: '#00CED1' }, rarity: 'rare',      source: 'shop',       cost: 500 },
   { id: 'war-inferno',     fighterId: 'warlord',   name: 'Inferno Lord',     palette: { body: '#1A1A1A', accent: '#FF2400', energy: '#FF6600', eye: '#FF0000' }, rarity: 'legendary', source: 'mastery',    cost: 0 },
   { id: 'hum-default',     fighterId: 'human',     name: 'Survivor',         palette: { body: '#556B2F', accent: '#8B8682', energy: '#F5DEB3', eye: '#2E8B57' }, rarity: 'common',    source: 'shop',       cost: 0 },
@@ -132,7 +132,7 @@ export const FIGHTER_SKINS: FighterSkin[] = [
   { id: 'hum-rebel',       fighterId: 'human',     name: 'Rebel Outcast',    palette: { body: '#8B4513', accent: '#D2691E', energy: '#FFA500', eye: '#FFFF00' }, rarity: 'rare',      source: 'battlepass', cost: 0 },
   { id: 'src-default',     fighterId: 'source',    name: 'Raw Code',         palette: { body: '#006400', accent: '#00FF00', energy: '#7CFC00', eye: '#ADFF2F' }, rarity: 'common',    source: 'shop',       cost: 0 },
   { id: 'src-corrupt',     fighterId: 'source',    name: 'Corrupted Data',   palette: { body: '#4A0000', accent: '#FF0000', energy: '#8B0000', eye: '#DC143C' }, rarity: 'epic',      source: 'event',      cost: 1200 },
-  { id: 'src-ascended',    fighterId: 'source',    name: 'Ascended Matrix',  palette: { body: '#FAFAD2', accent: '#FFD700', energy: '#FFFFFF', eye: '#FFF8DC' }, rarity: 'legendary', source: 'mastery',    cost: 0 },
+  { id: 'src-ascended',    fighterId: 'source',    name: 'Ascended Matrix',  palette: { body: '#FAFAD2', accent: 'var(--energy-premium)', energy: '#FFFFFF', eye: '#FFF8DC' }, rarity: 'legendary', source: 'mastery',    cost: 0 },
 ];
 
 // ============================================================

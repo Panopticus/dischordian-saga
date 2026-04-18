@@ -80,22 +80,22 @@ export default function VoiceWhisper() {
           <div
             className="p-2.5 rounded-lg border backdrop-blur-sm cursor-pointer"
             style={{
-              background: "rgba(0,0,0,0.75)",
+              background: "color-mix(in oklch, var(--bg-void) 75%, transparent)",
               borderColor: whisper.isFalse
-                ? "rgba(239,68,68,0.15)"
-                : "var(--void-border-subtle, rgba(255,255,255,0.06))",
+                ? "color-mix(in oklch, var(--energy-error) 15%, transparent)"
+                : "var(--void-border-subtle, color-mix(in oklch, var(--text-primary) 6%, transparent))",
             }}
             onClick={() => setWhisper(null)}
           >
             <p
               className="font-mono text-[7px] tracking-[0.2em] mb-1"
-              style={{ color: whisper.isFalse ? "rgba(239,68,68,0.4)" : "var(--void-primary-muted)" }}
+              style={{ color: whisper.isFalse ? "color-mix(in oklch, var(--energy-error) 40%, transparent)" : "var(--void-primary-muted)" }}
             >
               {whisper.isFalse ? "UNRELIABLE INSTINCT" : "INNER VOICE"}
             </p>
             <p
               className="font-mono text-[10px] leading-relaxed italic"
-              style={{ color: "var(--void-text-muted, rgba(255,255,255,0.5))" }}
+              style={{ color: "var(--void-text-muted, color-mix(in oklch, var(--text-primary) 50%, transparent))" }}
             >
               &ldquo;{whisper.text}&rdquo;
             </p>

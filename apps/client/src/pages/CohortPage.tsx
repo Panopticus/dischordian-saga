@@ -77,7 +77,7 @@ export default function CohortPage() {
           </p>
           <Link
             href="/apprentice"
-            className="mt-4 inline-block px-3 py-2 rounded border border-amber-500/40 bg-amber-500/10 text-amber-400 font-mono text-[10px] uppercase tracking-wider hover:bg-amber-500/20"
+            className="mt-4 inline-block px-3 py-2 rounded border void-border void-bg-sunk void-text-accent font-mono text-[10px] uppercase tracking-wider void-bg-sunk"
           >
             Go to Apprentice
           </Link>
@@ -98,7 +98,7 @@ export default function CohortPage() {
           <Link href="/apprentice" className="text-muted-foreground hover:text-foreground transition-colors">
             <ChevronLeft size={20} />
           </Link>
-          <Users size={18} className="text-purple-400" />
+          <Users size={18} className="void-text-system" />
           <div>
             <h1 className="font-display text-lg font-bold tracking-wider">COHORT #{cohort.number}</h1>
             <p className="font-mono text-[10px] text-muted-foreground tracking-wider">
@@ -109,13 +109,13 @@ export default function CohortPage() {
 
         {/* Player standing */}
         {standing && (
-          <div className={`mb-4 p-3 rounded border ${standing.alive ? "border-amber-500/40 bg-amber-500/5" : "border-red-500/50 bg-red-500/10"}`}>
+          <div className={`mb-4 p-3 rounded border ${standing.alive ? "void-border void-bg-sunk" : "void-border-error void-bg-error"}`}>
             <div className="flex items-center justify-between">
               <span className="font-mono text-[9px] uppercase tracking-wider">
                 {standing.alive ? (
-                  <span className="text-amber-400">Your Rank</span>
+                  <span className="void-text-accent">Your Rank</span>
                 ) : (
-                  <span className="text-red-400">Fallen</span>
+                  <span className="void-text-error">Fallen</span>
                 )}
               </span>
               <span className="font-display text-base font-bold text-foreground tabular-nums">
@@ -130,11 +130,11 @@ export default function CohortPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="mb-4 p-4 rounded border border-amber-500/50 bg-gradient-to-br from-amber-500/15 to-orange-500/5 text-center"
+            className="mb-4 p-4 rounded border void-border bg-gradient-to-br from-amber-500/15 to-orange-500/5 text-center"
           >
-            <Trophy size={28} className="mx-auto text-amber-400 mb-2" />
+            <Trophy size={28} className="mx-auto void-text-accent mb-2" />
             <h2 className="font-display text-lg font-bold tracking-wider text-foreground">GRADUATED</h2>
-            <p className="font-mono text-[10px] text-amber-300 mt-1">
+            <p className="font-mono text-[10px] void-text-accent mt-1">
               {cohort.winner.apprenticeName} {cohort.winner.isPlayer ? "(YOU)" : ""}
             </p>
             <p className="font-mono text-[9px] italic text-muted-foreground/70 mt-1">
@@ -152,10 +152,10 @@ export default function CohortPage() {
                 key={m.apprenticeId}
                 className={`flex items-center gap-2 p-2 rounded border transition-all ${
                   m.isPlayer
-                    ? "border-amber-500/60 bg-amber-500/10"
+                    ? "void-border void-bg-sunk"
                     : m.alive
                     ? "border-border/30 bg-card/30"
-                    : "border-red-500/20 bg-red-950/10 opacity-50"
+                    : "void-border-error void-bg-error opacity-50"
                 }`}
                 data-testid={`cohort-member-${m.apprenticeId}`}
               >
@@ -165,9 +165,9 @@ export default function CohortPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
                     {m.alive ? (
-                      <Heart size={10} className="text-emerald-400 shrink-0" />
+                      <Heart size={10} className="void-text-energy shrink-0" />
                     ) : (
-                      <Skull size={10} className="text-red-500/70 shrink-0" />
+                      <Skull size={10} className="void-text-error shrink-0" />
                     )}
                     <span className="font-display text-xs font-bold text-foreground/90 truncate">
                       {m.apprenticeName}
@@ -179,13 +179,13 @@ export default function CohortPage() {
                       {tier.name}
                     </span>
                     {m.isPlayer && (
-                      <span className="font-mono text-[8px] uppercase tracking-wider px-1 rounded bg-amber-500/20 text-amber-300">
+                      <span className="font-mono text-[8px] uppercase tracking-wider px-1 rounded void-bg-sunk void-text-accent">
                         YOU
                       </span>
                     )}
                   </div>
                   {!m.alive && m.causeOfDeath && (
-                    <p className="font-mono text-[9px] italic text-red-300/60 mt-0.5 truncate">
+                    <p className="font-mono text-[9px] italic void-text-error mt-0.5 truncate">
                       Day {m.dayFallen}: {m.causeOfDeath}
                     </p>
                   )}

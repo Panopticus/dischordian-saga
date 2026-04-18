@@ -60,7 +60,7 @@ export function MemoryCrystalPulse({ active, state, crystalStates, onComplete: _
               width: "16px",
               height: "24px",
               borderRadius: "4px 4px 2px 2px",
-              backgroundColor: "#22d3ee",
+              backgroundColor: "var(--energy-primary)",
               animation: CRYSTAL_ANIMATIONS[crystalState],
               animationDelay: `${i * 0.1}s`,
               transform: `rotate(${(angle * 180) / Math.PI + 90}deg)`,

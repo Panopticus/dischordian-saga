@@ -45,7 +45,7 @@ const OPTIONS: ChoiceOption[] = [
     label: "Forgive Both",
     description:
       "Neither of them is finished. Neither of them is the one who broke you. They stay.",
-    accent: "border-emerald-300/60 hover:bg-emerald-300/10",
+    accent: "void-border-success void-bg-success",
     flag: "forgiveness_forgave_both",
   },
   {
@@ -53,7 +53,7 @@ const OPTIONS: ChoiceOption[] = [
     label: "Forgive Elara",
     description:
       "She was the one who signed the bill, and she was the one who sat in your chair for a thousand years. Elara carries the rest.",
-    accent: "border-cyan-300/60 hover:bg-cyan-300/10",
+    accent: "void-border-success void-bg-success",
     flag: "forgiveness_forgave_elara",
   },
   {
@@ -61,7 +61,7 @@ const OPTIONS: ChoiceOption[] = [
     label: "Forgive The Human",
     description:
       "He arrested the woman who drew the card. He was the only one who ever made the Engineer laugh. The Human carries the rest.",
-    accent: "border-amber-300/60 hover:bg-amber-300/10",
+    accent: "void-border void-bg-sunk",
     flag: "forgiveness_forgave_human",
   },
   {
@@ -69,7 +69,7 @@ const OPTIONS: ChoiceOption[] = [
     label: "Forgive Neither",
     description:
       "The universe pays its debts. Neither of them gets out of this clean. A third voice answers when both of them are gone.",
-    accent: "border-red-300/60 hover:bg-red-300/10",
+    accent: "void-border-error void-bg-error",
     flag: "forgiveness_forgave_neither",
   },
 ];

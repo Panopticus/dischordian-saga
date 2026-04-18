@@ -95,30 +95,30 @@ export default function EssenceHarvestPage() {
     <div className="min-h-screen bg-gradient-to-b from-black via-[#1a001a] to-black text-white p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         {/* ─── Header ─── */}
-        <div className="flex items-center justify-between mb-6 border-b border-purple-900/50 pb-4">
+        <div className="flex items-center justify-between mb-6 border-b void-border-system pb-4">
           <button
             onClick={() => navigate("/fight")}
-            className="flex items-center gap-2 text-purple-400 hover:text-purple-300"
+            className="flex items-center gap-2 void-text-system void-text-system"
             data-testid="back-to-fight"
           >
             <ArrowLeft className="w-5 h-5" /> Back to Arena
           </button>
           <div className="text-center">
-            <h1 className="text-xl md:text-3xl font-bold tracking-[0.2em] text-purple-300">
+            <h1 className="text-xl md:text-3xl font-bold tracking-[0.2em] void-text-system">
               THE COLLECTOR'S LEDGER
             </h1>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs void-text mt-1">
               Harvested essences from the Arena • {totalHarvested} total harvests
             </p>
           </div>
           <div className="text-right">
             <div
-              className="text-2xl font-bold text-purple-400"
+              className="text-2xl font-bold void-text-system"
               data-testid="essence-counter"
             >
               {uniqueFighters}/{registryTotal}
             </div>
-            <div className="text-xs text-gray-500 uppercase tracking-wider">Essences</div>
+            <div className="text-xs void-text uppercase tracking-wider">Essences</div>
           </div>
         </div>
 
@@ -131,8 +131,8 @@ export default function EssenceHarvestPage() {
               data-testid={`essence-filter-${t.id}`}
               className={`px-4 py-2 text-sm tracking-wider uppercase transition border ${
                 filter === t.id
-                  ? "bg-purple-500/20 border-purple-400 text-purple-300"
-                  : "border-gray-700 text-gray-400 hover:border-gray-500"
+                  ? "void-bg-system void-border-system void-text-system"
+                  : "void-border void-text void-border"
               }`}
             >
               {t.label}
@@ -141,17 +141,17 @@ export default function EssenceHarvestPage() {
         </div>
 
         {ledgerQuery.isLoading ? (
-          <div className="text-center py-20 text-gray-500">Loading ledger...</div>
+          <div className="text-center py-20 void-text">Loading ledger...</div>
         ) : ledgerQuery.isError ? (
           <div className="max-w-md mx-auto text-center py-20 space-y-3">
-            <Lock className="w-12 h-12 mx-auto text-purple-500" />
+            <Lock className="w-12 h-12 mx-auto void-text-system" />
             <h2 className="text-lg font-bold tracking-widest">LEDGER SEALED</h2>
-            <p className="text-gray-400 text-sm">
+            <p className="void-text text-sm">
               Sign in to the Collectors Arena to begin harvesting essences.
             </p>
             <button
               onClick={() => navigate("/fight")}
-              className="mt-2 px-4 py-2 border border-purple-500 text-purple-400 hover:bg-purple-500/10 transition"
+              className="mt-2 px-4 py-2 border void-border-system void-text-system void-bg-system transition"
             >
               Return to Arena
             </button>
@@ -192,7 +192,7 @@ export default function EssenceHarvestPage() {
                           {def.name.slice(0, 1)}
                         </div>
                       ) : (
-                        <div className="text-4xl text-gray-700">?</div>
+                        <div className="text-4xl void-text">?</div>
                       )}
                       {isOwned && harvest.count > 1 && (
                         <div className="absolute top-2 right-2 px-2 py-0.5 text-[10px] font-bold bg-black/80 border border-white/20 rounded">
@@ -200,10 +200,10 @@ export default function EssenceHarvestPage() {
                         </div>
                       )}
                     </div>
-                    <h3 className={`font-bold text-sm mb-1 ${isOwned ? "text-white" : "text-gray-600"}`}>
+                    <h3 className={`font-bold text-sm mb-1 ${isOwned ? "text-white" : "void-text"}`}>
                       {isOwned ? def.name : "???"}
                     </h3>
-                    <p className="text-[10px] text-gray-500 uppercase tracking-wider truncate">
+                    <p className="text-[10px] void-text uppercase tracking-wider truncate">
                       {isOwned ? name : "Unharvested"}
                     </p>
                     <p className={`text-[10px] mt-1 uppercase tracking-wider ${RARITY_TEXT_CLASS[rarity]}`}>
@@ -217,7 +217,7 @@ export default function EssenceHarvestPage() {
         )}
 
         {filtered.length === 0 && !ledgerQuery.isLoading && (
-          <div className="text-center py-12 text-gray-500 text-sm">
+          <div className="text-center py-12 void-text text-sm">
             No essences match this filter yet. Return to the Arena and harvest more.
           </div>
         )}
@@ -255,14 +255,14 @@ export default function EssenceHarvestPage() {
                       {rarity} essence
                     </p>
                     {fighterMeta && (
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-xs void-text mt-1">
                         Harvested from <span style={{ color: fighterMeta.color }}>{fighterMeta.name}</span>
                       </p>
                     )}
                   </div>
                   <button
                     onClick={() => setSelected(null)}
-                    className="text-gray-500 hover:text-white"
+                    className="void-text hover:text-white"
                     data-testid="essence-modal-close"
                   >
                     <X className="w-6 h-6" />
@@ -271,29 +271,29 @@ export default function EssenceHarvestPage() {
 
                 {harvest ? (
                   <div className="space-y-3 text-sm">
-                    <p className="text-gray-400 italic">{selected.flavor}</p>
+                    <p className="void-text italic">{selected.flavor}</p>
 
-                    <div className="pt-3 border-t border-gray-800 grid grid-cols-2 gap-3">
+                    <div className="pt-3 border-t void-border grid grid-cols-2 gap-3">
                       <div>
-                        <span className="text-gray-500 uppercase text-xs block">Harvests</span>
-                        <span className="text-purple-300 font-bold">{harvest.count}</span>
+                        <span className="void-text uppercase text-xs block">Harvests</span>
+                        <span className="void-text-system font-bold">{harvest.count}</span>
                       </div>
                       <div>
-                        <span className="text-gray-500 uppercase text-xs block">Max stacks</span>
-                        <span className="text-purple-300 font-bold">
+                        <span className="void-text uppercase text-xs block">Max stacks</span>
+                        <span className="void-text-system font-bold">
                           {selected.bonus.maxStacks}
                         </span>
                       </div>
                       <div className="col-span-2">
-                        <span className="text-gray-500 uppercase text-xs block">Passive bonus</span>
-                        <span className="text-green-400">{selected.bonus.description}</span>
+                        <span className="void-text uppercase text-xs block">Passive bonus</span>
+                        <span className="void-text-energy">{selected.bonus.description}</span>
                       </div>
                       <div className="col-span-2">
-                        <span className="text-gray-500 uppercase text-xs block">Current stacked value</span>
-                        <span className="text-amber-300">
+                        <span className="void-text uppercase text-xs block">Current stacked value</span>
+                        <span className="void-text-accent">
                           +{stackedBonus} {selected.bonus.stat}
                           {harvest.count > selected.bonus.maxStacks && (
-                            <span className="text-gray-500 text-xs ml-2">
+                            <span className="void-text text-xs ml-2">
                               (capped at {selected.bonus.maxStacks})
                             </span>
                           )}
@@ -301,7 +301,7 @@ export default function EssenceHarvestPage() {
                       </div>
                     </div>
 
-                    <div className="pt-3 border-t border-gray-800 text-[11px] text-gray-500 space-y-1">
+                    <div className="pt-3 border-t void-border text-[11px] void-text space-y-1">
                       <div>
                         First harvested: {new Date(harvest.firstHarvestedAt).toLocaleString()}
                       </div>
@@ -312,13 +312,13 @@ export default function EssenceHarvestPage() {
 
                     <button
                       onClick={() => navigate("/fight")}
-                      className="mt-4 w-full px-4 py-2 border border-purple-500 text-purple-400 hover:bg-purple-500/10 transition flex items-center justify-center gap-2"
+                      className="mt-4 w-full px-4 py-2 border void-border-system void-text-system void-bg-system transition flex items-center justify-center gap-2"
                     >
                       <Swords className="w-4 h-4" /> Return to Arena
                     </button>
                   </div>
                 ) : (
-                  <p className="text-gray-500 italic">
+                  <p className="void-text italic">
                     You have not yet defeated this fighter in the Collectors Arena. Victory
                     will harvest their essence and add it to your ledger.
                   </p>

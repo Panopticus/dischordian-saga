@@ -41,16 +41,16 @@ const TAB_ROOMS: Record<Tab, string> = {
 
 /* ─── STONE COLOR MAP ─── */
 const STONE_COLORS: Record<StoneState, { text: string; border: string; bg: string; glow: string; art: string }> = {
-  violet: { text: "text-purple-400", border: "border-purple-500/30", bg: "bg-purple-500/10", glow: "shadow-purple-500/20", art: SOUL_STONE_ART.violet },
-  red:    { text: "text-red-400",    border: "border-red-500/30",    bg: "bg-red-500/10",    glow: "shadow-red-500/20",    art: SOUL_STONE_ART.red },
-  gold:   { text: "text-amber-400",  border: "border-amber-500/30",  bg: "bg-amber-500/10",  glow: "shadow-amber-500/20",  art: SOUL_STONE_ART.gold },
+  violet: { text: "void-text-system", border: "void-border-system", bg: "void-bg-system", glow: "shadow-purple-500/20", art: SOUL_STONE_ART.violet },
+  red:    { text: "void-text-error",    border: "void-border-error",    bg: "void-bg-error",    glow: "shadow-red-500/20",    art: SOUL_STONE_ART.red },
+  gold:   { text: "void-text-accent",  border: "void-border",  bg: "void-bg-sunk",  glow: "shadow-amber-500/20",  art: SOUL_STONE_ART.gold },
 };
 
 /* ─── TIER BADGE COLORS ─── */
 const TIER_COLORS: Record<CompanionTier, { text: string; border: string; bg: string }> = {
-  1: { text: "text-cyan-400",   border: "border-cyan-500/30",   bg: "bg-cyan-500/10" },
-  2: { text: "text-purple-400", border: "border-purple-500/30", bg: "bg-purple-500/10" },
-  3: { text: "text-amber-400",  border: "border-amber-500/30",  bg: "bg-amber-500/10" },
+  1: { text: "void-text-energy",   border: "void-border-success",   bg: "void-bg-success" },
+  2: { text: "void-text-system", border: "void-border-system", bg: "void-bg-system" },
+  3: { text: "void-text-accent",  border: "void-border",  bg: "void-bg-sunk" },
 };
 
 /* ─── COUNTDOWN FORMATTER ─── */
@@ -86,9 +86,9 @@ function ActiveCompanionBanner({ companion }: { companion: ActiveCompanion | nul
   if (!entity) return null;
 
   const isDemon = companion.path === "demon";
-  const borderColor = isDemon ? "border-red-500/40" : "border-amber-500/40";
-  const bgColor = isDemon ? "bg-red-500/5" : "bg-amber-500/5";
-  const textColor = isDemon ? "text-red-400" : "text-amber-400";
+  const borderColor = isDemon ? "void-border-error" : "void-border";
+  const bgColor = isDemon ? "void-bg-error" : "void-bg-sunk";
+  const textColor = isDemon ? "void-text-error" : "void-text-accent";
 
   return (
     <motion.div
@@ -97,8 +97,8 @@ function ActiveCompanionBanner({ companion }: { companion: ActiveCompanion | nul
       className={`p-3 rounded-lg border ${borderColor} ${bgColor} mb-4 flex items-center gap-3`}
       data-narrative="breathe"
     >
-      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isDemon ? "bg-red-500/20" : "bg-amber-500/20"}`}>
-        {isDemon ? <Skull size={16} className="text-red-400" /> : <Sun size={16} className="text-amber-400" />}
+      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isDemon ? "void-bg-error" : "void-bg-sunk"}`}>
+        {isDemon ? <Skull size={16} className="void-text-error" /> : <Sun size={16} className="void-text-accent" />}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
@@ -126,10 +126,10 @@ function StatsBar() {
   const stats = useMemo(() => getPlayerStats(store), [store]);
 
   const items = [
-    { label: "TOTAL STONES",     value: stats.totalStones,       color: "text-purple-400" },
-    { label: "CORRUPTION PTS",   value: stats.corruptionPoints,  color: "text-red-400" },
-    { label: "DIVINE LIGHT",     value: stats.divineLightFragments, color: "text-amber-400" },
-    { label: "WEEKLY CAP",       value: `${stats.weeklyCollected}/15`, color: "text-cyan-400" },
+    { label: "TOTAL STONES",     value: stats.totalStones,       color: "void-text-system" },
+    { label: "CORRUPTION PTS",   value: stats.corruptionPoints,  color: "void-text-error" },
+    { label: "DIVINE LIGHT",     value: stats.divineLightFragments, color: "void-text-accent" },
+    { label: "WEEKLY CAP",       value: `${stats.weeklyCollected}/15`, color: "void-text-energy" },
   ];
 
   return (
@@ -180,7 +180,7 @@ function SoulStoneCard({ stone }: { stone: SoulStone }) {
           </span>
         </div>
         {stone.isPurifying && (
-          <span className="font-mono text-[8px] text-amber-400 flex items-center gap-1">
+          <span className="font-mono text-[8px] void-text-accent flex items-center gap-1">
             <Clock size={10} /> PURIFYING
           </span>
         )}
@@ -201,14 +201,14 @@ function SoulStoneCard({ stone }: { stone: SoulStone }) {
         <div className="flex gap-2">
           <button
             onClick={handleCorrupt}
-            className="void-btn flex-1 text-[9px] font-mono uppercase tracking-wider py-1.5 rounded border border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors"
+            className="void-btn flex-1 text-[9px] font-mono uppercase tracking-wider py-1.5 rounded border void-border-error void-bg-error void-text-error void-bg-error transition-colors"
           >
             <Flame size={10} className="inline mr-1" />
             CORRUPT
           </button>
           <button
             onClick={handlePurify}
-            className="void-btn flex-1 text-[9px] font-mono uppercase tracking-wider py-1.5 rounded border border-amber-500/30 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20 transition-colors"
+            className="void-btn flex-1 text-[9px] font-mono uppercase tracking-wider py-1.5 rounded border void-border void-bg-sunk void-text-accent void-bg-sunk transition-colors"
           >
             <Sun size={10} className="inline mr-1" />
             PURIFY
@@ -232,8 +232,8 @@ function InventoryTab() {
       <StatsBar />
 
       <div className="flex items-center gap-2 mb-4">
-        <Gem size={16} className="text-purple-400" />
-        <h2 className="font-display text-lg uppercase tracking-wider text-purple-400">
+        <Gem size={16} className="void-text-system" />
+        <h2 className="font-display text-lg uppercase tracking-wider void-text-system">
           Soul Stone Inventory
         </h2>
       </div>
@@ -281,10 +281,10 @@ function DemonPetCard({ pet, canAfford, isEquipped }: {
     <motion.div
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`void-elevated rounded-lg p-4 border ${isEquipped ? "border-red-500/60 shadow-lg shadow-red-500/20" : "border-red-500/20"}`}
+      className={`void-elevated rounded-lg p-4 border ${isEquipped ? "void-border-error shadow-lg shadow-red-500/20" : "void-border-error"}`}
     >
       <div className="flex items-center justify-between mb-2">
-        <h3 className="font-display text-sm text-red-400">{pet.name}</h3>
+        <h3 className="font-display text-sm void-text-error">{pet.name}</h3>
         <span className={`font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border ${tierColor.border} ${tierColor.bg} ${tierColor.text}`}>
           TIER {pet.tier}
         </span>
@@ -292,28 +292,28 @@ function DemonPetCard({ pet, canAfford, isEquipped }: {
 
       <div className="font-mono text-[9px] text-muted-foreground/50 mb-2">
         <span className="uppercase tracking-wider">PATRON</span>{" "}
-        <span className="text-red-400/80">{pet.patron}</span>
+        <span className="void-text-error">{pet.patron}</span>
       </div>
 
       <p className="font-mono text-[10px] text-muted-foreground/70 mb-2 leading-relaxed">
         {pet.ability.description}
       </p>
 
-      <p className="font-mono text-[9px] text-red-400/70 mb-3 leading-relaxed">
+      <p className="font-mono text-[9px] void-text-error mb-3 leading-relaxed">
         <AlertTriangle size={10} className="inline mr-1" />
         {pet.drawback.description}
       </p>
 
       <div className="flex items-center justify-between">
         <span className="font-mono text-[9px] text-muted-foreground/50">
-          <Flame size={10} className="inline mr-1 text-red-400" />
+          <Flame size={10} className="inline mr-1 void-text-error" />
           {pet.corruptionCost} CP
         </span>
 
         {isEquipped ? (
           <button
             onClick={handleDismiss}
-            className="void-btn text-[9px] font-mono uppercase tracking-wider py-1.5 px-3 rounded border border-red-500/40 bg-red-500/15 text-red-400 hover:bg-red-500/25 transition-colors"
+            className="void-btn text-[9px] font-mono uppercase tracking-wider py-1.5 px-3 rounded border void-border-error void-bg-error void-text-error void-bg-error transition-colors"
           >
             <X size={10} className="inline mr-1" />
             DISMISS
@@ -324,7 +324,7 @@ function DemonPetCard({ pet, canAfford, isEquipped }: {
             disabled={!canAfford}
             className={`void-btn text-[9px] font-mono uppercase tracking-wider py-1.5 px-3 rounded border transition-colors
               ${canAfford
-                ? "border-red-500/40 bg-red-500/15 text-red-400 hover:bg-red-500/25"
+                ? "void-border-error void-bg-error void-text-error void-bg-error"
                 : "border-muted/20 bg-muted/5 text-muted-foreground/30 cursor-not-allowed"
               }`}
           >
@@ -355,22 +355,22 @@ function SummoningCircleTab() {
     <div>
       {/* Header */}
       <div className="flex items-center gap-2 mb-2">
-        <Skull size={18} className="text-red-400" />
-        <h2 className="font-display text-lg uppercase tracking-wider text-red-400">
+        <Skull size={18} className="void-text-error" />
+        <h2 className="font-display text-lg uppercase tracking-wider void-text-error">
           The Castle of Death — Summoning Circle
         </h2>
       </div>
 
       {/* Necromancer quote */}
       <div
-        className="p-3 rounded-lg border border-red-500/20 bg-red-500/5 mb-6"
+        className="p-3 rounded-lg border void-border-error void-bg-error mb-6"
         data-narrative="breathe"
       >
-        <p className="font-mono text-[10px] text-red-400/80 italic leading-relaxed">
+        <p className="font-mono text-[10px] void-text-error italic leading-relaxed">
           "Every soul has a price, and every demon demands payment in kind.
           Choose your servant wisely — their hunger never sleeps."
         </p>
-        <span className="font-mono text-[8px] uppercase tracking-wider text-red-400/40 mt-1 block">
+        <span className="font-mono text-[8px] uppercase tracking-wider void-text-error mt-1 block">
           — The Necromancer
         </span>
       </div>
@@ -387,7 +387,7 @@ function SummoningCircleTab() {
             <span className={`font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded border ${TIER_COLORS[tier].border} ${TIER_COLORS[tier].bg} ${TIER_COLORS[tier].text}`}>
               TIER {tier}
             </span>
-            <div className="flex-1 h-px bg-red-500/10" />
+            <div className="flex-1 h-px void-bg-error" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -429,10 +429,10 @@ function DivineCompanionCard({ companion, canAfford, isEquipped }: {
     <motion.div
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`void-elevated rounded-lg p-4 border ${isEquipped ? "border-amber-500/60 shadow-lg shadow-amber-500/20" : "border-amber-500/20"}`}
+      className={`void-elevated rounded-lg p-4 border ${isEquipped ? "void-border shadow-lg shadow-amber-500/20" : "void-border"}`}
     >
       <div className="flex items-center justify-between mb-2">
-        <h3 className="font-display text-sm text-amber-400">{companion.name}</h3>
+        <h3 className="font-display text-sm void-text-accent">{companion.name}</h3>
         <span className={`font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border ${tierColor.border} ${tierColor.bg} ${tierColor.text}`}>
           TIER {companion.tier}
         </span>
@@ -442,31 +442,31 @@ function DivineCompanionCard({ companion, canAfford, isEquipped }: {
         {companion.ability.description}
       </p>
 
-      <span className="inline-block font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 mb-3">
+      <span className="inline-block font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border void-border-success void-bg-success void-text-energy mb-3">
         <Check size={8} className="inline mr-0.5" />
         NO DRAWBACK
       </span>
 
       {/* Antiquarian quote */}
-      <div className="p-2 rounded border border-emerald-500/10 bg-emerald-500/5 mb-3">
-        <p className="font-mono text-[9px] text-emerald-400/60 italic leading-relaxed">
+      <div className="p-2 rounded border void-border-success void-bg-success mb-3">
+        <p className="font-mono text-[9px] void-text-energy italic leading-relaxed">
           "{companion.antiquarianEntry}"
         </p>
-        <span className="font-mono text-[8px] uppercase tracking-wider text-emerald-400/30 mt-0.5 block">
+        <span className="font-mono text-[8px] uppercase tracking-wider void-text-energy mt-0.5 block">
           — The Antiquarian
         </span>
       </div>
 
       <div className="flex items-center justify-between">
         <span className="font-mono text-[9px] text-muted-foreground/50">
-          <Sun size={10} className="inline mr-1 text-amber-400" />
+          <Sun size={10} className="inline mr-1 void-text-accent" />
           {companion.divineLightCost} DL
         </span>
 
         {isEquipped ? (
           <button
             onClick={handleDismiss}
-            className="void-btn text-[9px] font-mono uppercase tracking-wider py-1.5 px-3 rounded border border-amber-500/40 bg-amber-500/15 text-amber-400 hover:bg-amber-500/25 transition-colors"
+            className="void-btn text-[9px] font-mono uppercase tracking-wider py-1.5 px-3 rounded border void-border void-bg-sunk void-text-accent void-bg-sunk transition-colors"
           >
             <X size={10} className="inline mr-1" />
             DISMISS
@@ -477,7 +477,7 @@ function DivineCompanionCard({ companion, canAfford, isEquipped }: {
             disabled={!canAfford}
             className={`void-btn text-[9px] font-mono uppercase tracking-wider py-1.5 px-3 rounded border transition-colors
               ${canAfford
-                ? "border-amber-500/40 bg-amber-500/15 text-amber-400 hover:bg-amber-500/25"
+                ? "void-border void-bg-sunk void-text-accent void-bg-sunk"
                 : "border-muted/20 bg-muted/5 text-muted-foreground/30 cursor-not-allowed"
               }`}
           >
@@ -505,16 +505,16 @@ function PurificationProgress({ stone, now }: { stone: SoulStone; now: number })
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="void-elevated rounded-lg p-3 border border-amber-500/20"
+      className="void-elevated rounded-lg p-3 border void-border"
     >
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
-          <Gem size={12} className="text-purple-400" />
+          <Gem size={12} className="void-text-system" />
           <span className="font-mono text-[10px] text-muted-foreground/70 uppercase tracking-wider">
             Stone from {stone.source}
           </span>
         </div>
-        <span className={`font-mono text-[9px] ${isComplete ? "text-amber-400" : "text-muted-foreground/50"}`}>
+        <span className={`font-mono text-[9px] ${isComplete ? "void-text-accent" : "text-muted-foreground/50"}`}>
           {isComplete ? (
             <><Check size={10} className="inline mr-1" />COMPLETE</>
           ) : (
@@ -571,8 +571,8 @@ function PurificationChamberTab() {
     <div>
       {/* Header */}
       <div className="flex items-center gap-2 mb-2">
-        <Sun size={18} className="text-amber-400" />
-        <h2 className="font-display text-lg uppercase tracking-wider text-amber-400">
+        <Sun size={18} className="void-text-accent" />
+        <h2 className="font-display text-lg uppercase tracking-wider void-text-accent">
           The Dreamer's Resonance Chamber
         </h2>
       </div>
@@ -581,8 +581,8 @@ function PurificationChamberTab() {
       {purifyingStones.length > 0 && (
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-3">
-            <Clock size={12} className="text-amber-400/60" />
-            <span className="font-mono text-[10px] uppercase tracking-wider text-amber-400/60">
+            <Clock size={12} className="void-text-accent" />
+            <span className="font-mono text-[10px] uppercase tracking-wider void-text-accent">
               Active Purifications ({purifyingStones.length})
             </span>
           </div>
@@ -606,7 +606,7 @@ function PurificationChamberTab() {
             <span className={`font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded border ${TIER_COLORS[tier].border} ${TIER_COLORS[tier].bg} ${TIER_COLORS[tier].text}`}>
               TIER {tier}
             </span>
-            <div className="flex-1 h-px bg-amber-500/10" />
+            <div className="flex-1 h-px void-bg-sunk" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -643,19 +643,19 @@ function AlignmentMeter({ label, level, tiers, color, icon: Icon }: {
   const pct = Math.min(level, 100);
   const colorMap = {
     red: {
-      text: "text-red-400",
-      border: "border-red-500/30",
-      bg: "bg-red-500",
+      text: "void-text-error",
+      border: "void-border-error",
+      bg: "void-bg-error",
       glow: "shadow-red-500/40",
-      barBg: "bg-red-500/20",
+      barBg: "void-bg-error",
       gradient: "from-red-600 to-red-400",
     },
     amber: {
-      text: "text-amber-400",
-      border: "border-amber-500/30",
-      bg: "bg-amber-500",
+      text: "void-text-accent",
+      border: "void-border",
+      bg: "void-bg-sunk",
       glow: "shadow-amber-500/40",
-      barBg: "bg-amber-500/20",
+      barBg: "void-bg-sunk",
       gradient: "from-amber-600 to-amber-400",
     },
   };
@@ -719,8 +719,8 @@ function AlignmentTab() {
     <div>
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
-        <Scale size={18} className="text-purple-400" />
-        <h2 className="font-display text-lg uppercase tracking-wider text-purple-400">
+        <Scale size={18} className="void-text-system" />
+        <h2 className="font-display text-lg uppercase tracking-wider void-text-system">
           The Ark's Soul
         </h2>
       </div>
@@ -745,10 +745,10 @@ function AlignmentTab() {
 
       {/* Tension text */}
       <div
-        className="p-4 rounded-lg border border-purple-500/20 bg-purple-500/5 mb-6 text-center"
+        className="p-4 rounded-lg border void-border-system void-bg-system mb-6 text-center"
         data-narrative="breathe"
       >
-        <p className="font-mono text-[10px] text-purple-400/80 uppercase tracking-wider leading-relaxed">
+        <p className="font-mono text-[10px] void-text-system uppercase tracking-wider leading-relaxed">
           Corruption and Purity are independent. Both can rise.
         </p>
       </div>
@@ -761,8 +761,8 @@ function AlignmentTab() {
         <div className="grid grid-cols-2 gap-4">
           <div className="text-center">
             <div className="flex items-center justify-center gap-2 mb-1">
-              <Skull size={14} className="text-red-400" />
-              <span className="font-display text-xl text-red-400">
+              <Skull size={14} className="void-text-error" />
+              <span className="font-display text-xl void-text-error">
                 {alignment.activeDemonPets}
               </span>
             </div>
@@ -772,8 +772,8 @@ function AlignmentTab() {
           </div>
           <div className="text-center">
             <div className="flex items-center justify-center gap-2 mb-1">
-              <Sun size={14} className="text-amber-400" />
-              <span className="font-display text-xl text-amber-400">
+              <Sun size={14} className="void-text-accent" />
+              <span className="font-display text-xl void-text-accent">
                 {alignment.activeDivineCompanions}
               </span>
             </div>
@@ -812,8 +812,8 @@ function DischordianTab() {
     <div>
       {/* Header */}
       <div className="flex items-center gap-2 mb-2">
-        <InfinityIcon size={18} className="text-violet-400" />
-        <h2 className="font-display text-lg uppercase tracking-wider text-violet-400">
+        <InfinityIcon size={18} className="void-text-system" />
+        <h2 className="font-display text-lg uppercase tracking-wider void-text-system">
           The Dischordian Companions
         </h2>
       </div>
@@ -833,7 +833,7 @@ function DischordianTab() {
               data-testid={`dischordian-card-${comp.id}`}
               className={`text-left border rounded-lg overflow-hidden transition
                 ${affordable
-                  ? "border-violet-500/40 bg-violet-950/10 hover:bg-violet-900/20 hover:border-violet-400"
+                  ? "void-border-system void-bg-system void-bg-system void-border-system"
                   : "border-muted/20 bg-muted/5 opacity-70 hover:opacity-90"}
               `}
             >
@@ -860,9 +860,9 @@ function DischordianTab() {
                   Tier {comp.tier} · Dischordian
                 </p>
                 <div className="flex gap-2 text-[10px] font-mono">
-                  <span className={stoneCounts.red    >= comp.cost.red    ? "text-red-400"    : "text-red-900"}>R{comp.cost.red}</span>
-                  <span className={stoneCounts.gold   >= comp.cost.gold   ? "text-amber-400"  : "text-amber-900"}>G{comp.cost.gold}</span>
-                  <span className={stoneCounts.violet >= comp.cost.violet ? "text-purple-400" : "text-purple-900"}>V{comp.cost.violet}</span>
+                  <span className={stoneCounts.red    >= comp.cost.red    ? "void-text-error"    : "void-text-error"}>R{comp.cost.red}</span>
+                  <span className={stoneCounts.gold   >= comp.cost.gold   ? "void-text-accent"  : "void-text-accent"}>G{comp.cost.gold}</span>
+                  <span className={stoneCounts.violet >= comp.cost.violet ? "void-text-system" : "void-text-system"}>V{comp.cost.violet}</span>
                 </div>
                 <p className="text-[10px] text-muted-foreground/60 line-clamp-3">
                   {comp.ability.description}
@@ -885,18 +885,18 @@ function DischordianTab() {
             <motion.div
               initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="max-w-2xl w-full bg-[#0a0a18] border-2 border-violet-500/40 rounded-lg p-6"
+              className="max-w-2xl w-full bg-[#0a0a18] border-2 void-border-system rounded-lg p-6"
             >
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <h2 className="text-2xl font-bold" style={{ color: selected.color }}>
                     {selected.name}
                   </h2>
-                  <p className="text-sm uppercase tracking-wider text-violet-400/70">
+                  <p className="text-sm uppercase tracking-wider void-text-system">
                     Tier {selected.tier} · Dischordian
                   </p>
                 </div>
-                <button onClick={() => setSelected(null)} className="text-gray-500 hover:text-white">
+                <button onClick={() => setSelected(null)} className="void-text hover:text-white">
                   <X className="w-6 h-6" />
                 </button>
               </div>
@@ -913,27 +913,27 @@ function DischordianTab() {
               )}
 
               <div className="space-y-3 text-sm">
-                <p className="text-gray-300">{selected.description}</p>
+                <p className="void-text">{selected.description}</p>
                 <div>
-                  <span className="text-gray-500 uppercase text-xs">Visual: </span>
-                  <p className="text-gray-400 italic mt-1">{selected.visual}</p>
+                  <span className="void-text uppercase text-xs">Visual: </span>
+                  <p className="void-text italic mt-1">{selected.visual}</p>
                 </div>
                 <div>
-                  <span className="text-gray-500 uppercase text-xs">Ability: </span>
-                  <p className="text-green-400 mt-1">{selected.ability.description}</p>
+                  <span className="void-text uppercase text-xs">Ability: </span>
+                  <p className="void-text-energy mt-1">{selected.ability.description}</p>
                 </div>
-                <div className="flex gap-4 pt-3 border-t border-violet-500/20 text-xs">
+                <div className="flex gap-4 pt-3 border-t void-border-system text-xs">
                   <div>
-                    <span className="text-gray-500 uppercase">Cost: </span>
-                    <span className="text-red-400">{selected.cost.red}R</span>{" "}
-                    <span className="text-amber-400">{selected.cost.gold}G</span>{" "}
-                    <span className="text-purple-400">{selected.cost.violet}V</span>
+                    <span className="void-text uppercase">Cost: </span>
+                    <span className="void-text-error">{selected.cost.red}R</span>{" "}
+                    <span className="void-text-accent">{selected.cost.gold}G</span>{" "}
+                    <span className="void-text-system">{selected.cost.violet}V</span>
                   </div>
                   <div>
-                    <span className="text-gray-500 uppercase">Trust: </span>
-                    <span className="text-cyan-400">Antiquarian {selected.trustRequirements.antiquarian}</span>
+                    <span className="void-text uppercase">Trust: </span>
+                    <span className="void-text-energy">Antiquarian {selected.trustRequirements.antiquarian}</span>
                     {" · "}
-                    <span className="text-red-400">Necromancer {selected.trustRequirements.necromancer}</span>
+                    <span className="void-text-error">Necromancer {selected.trustRequirements.necromancer}</span>
                   </div>
                 </div>
               </div>
@@ -949,11 +949,11 @@ function DischordianTab() {
    TAB NAVIGATION
    ═══════════════════════════════════════════════════════ */
 const TABS: { id: Tab; label: string; icon: typeof Gem; color: string }[] = [
-  { id: "inventory",     label: "INVENTORY",  icon: Gem,          color: "text-purple-400" },
-  { id: "summoning",     label: "SUMMONING",  icon: Skull,        color: "text-red-400" },
-  { id: "purification",  label: "PURIFICATION", icon: Sun,        color: "text-amber-400" },
-  { id: "alignment",     label: "ALIGNMENT",  icon: Scale,        color: "text-purple-400" },
-  { id: "dischordian",   label: "DISCHORDIAN", icon: InfinityIcon, color: "text-violet-400" },
+  { id: "inventory",     label: "INVENTORY",  icon: Gem,          color: "void-text-system" },
+  { id: "summoning",     label: "SUMMONING",  icon: Skull,        color: "void-text-error" },
+  { id: "purification",  label: "PURIFICATION", icon: Sun,        color: "void-text-accent" },
+  { id: "alignment",     label: "ALIGNMENT",  icon: Scale,        color: "void-text-system" },
+  { id: "dischordian",   label: "DISCHORDIAN", icon: InfinityIcon, color: "void-text-system" },
 ];
 
 /* ═══════════════════════════════════════════════════════
@@ -965,9 +965,9 @@ export default function SoulStonesPage() {
   // Ambient background tinting per tab
   const ambientClass = useMemo(() => {
     switch (activeTab) {
-      case "summoning":     return "bg-red-950/10";
-      case "purification":  return "bg-amber-950/10";
-      case "dischordian":   return "bg-violet-950/10";
+      case "summoning":     return "void-bg-error";
+      case "purification":  return "void-bg-sunk";
+      case "dischordian":   return "void-bg-system";
       default:              return "";
     }
   }, [activeTab]);
@@ -984,7 +984,7 @@ export default function SoulStonesPage() {
               </a>
             </Link>
             <div>
-              <h1 className="font-display text-xl uppercase tracking-wider text-cyan-400">
+              <h1 className="font-display text-xl uppercase tracking-wider void-text-energy">
                 The Soul Economy
               </h1>
               <p className="font-mono text-[8px] uppercase tracking-wider text-muted-foreground/40">

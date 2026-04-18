@@ -91,7 +91,7 @@ export default function ChessCinematic({ opponentName, onComplete }: ChessCinema
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%)",
+            background: "radial-gradient(ellipse at center, transparent 40%, color-mix(in oklch, var(--bg-void) 70%, transparent) 100%)",
           }}
         />
 
@@ -106,15 +106,15 @@ export default function ChessCinematic({ opponentName, onComplete }: ChessCinema
           className="absolute bottom-10 left-0 right-0 text-center pointer-events-none"
         >
           <div className="flex items-center justify-center gap-2 mb-2">
-            <Crown size={16} className="text-amber-400/60" />
-            <span className="font-mono text-[10px] tracking-[0.5em] text-amber-400/50">
+            <Crown size={16} className="void-text-accent" />
+            <span className="font-mono text-[10px] tracking-[0.5em] void-text-accent">
               THE ARCHITECT'S GAMBIT
             </span>
-            <Crown size={16} className="text-amber-400/60" />
+            <Crown size={16} className="void-text-accent" />
           </div>
           {opponentName && (
             <p className="font-display text-lg sm:text-xl font-bold tracking-wider text-white/70">
-              vs <span className="text-amber-300/80">{opponentName}</span>
+              vs <span className="void-text-accent">{opponentName}</span>
             </p>
           )}
         </motion.div>
@@ -128,12 +128,12 @@ export default function ChessCinematic({ opponentName, onComplete }: ChessCinema
             className="absolute inset-0 flex items-center justify-center z-50 cursor-pointer"
           >
             <div className="text-center">
-              <div className="w-16 h-16 rounded-full border-2 border-amber-400/40 flex items-center justify-center mx-auto mb-4 animate-pulse">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-amber-400/80 ml-1">
+              <div className="w-16 h-16 rounded-full border-2 void-border flex items-center justify-center mx-auto mb-4 animate-pulse">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="void-text-accent ml-1">
                   <path d="M8 5v14l11-7z" fill="currentColor" />
                 </svg>
               </div>
-              <p className="font-mono text-xs text-amber-400/60 tracking-[0.3em]">TAP TO BEGIN</p>
+              <p className="font-mono text-xs void-text-accent tracking-[0.3em]">TAP TO BEGIN</p>
             </div>
           </motion.div>
         )}
@@ -152,17 +152,17 @@ export default function ChessCinematic({ opponentName, onComplete }: ChessCinema
               }}
               className="absolute bottom-4 right-4 z-50 px-4 py-2 rounded-md font-mono text-xs tracking-wider transition-all"
               style={{
-                background: "rgba(0,0,0,0.6)",
-                border: "1px solid rgba(255,255,255,0.15)",
-                color: "rgba(255,255,255,0.5)",
+                background: "color-mix(in oklch, var(--bg-void) 60%, transparent)",
+                border: "1px solid color-mix(in oklch, var(--text-primary) 15%, transparent)",
+                color: "color-mix(in oklch, var(--text-primary) 50%, transparent)",
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.borderColor = "rgba(251,191,36,0.4)";
-                e.currentTarget.style.color = "rgba(251,191,36,0.8)";
+                e.currentTarget.style.borderColor = "color-mix(in oklch, var(--energy-premium) 40%, transparent)";
+                e.currentTarget.style.color = "color-mix(in oklch, var(--energy-premium) 80%, transparent)";
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
-                e.currentTarget.style.color = "rgba(255,255,255,0.5)";
+                e.currentTarget.style.borderColor = "color-mix(in oklch, var(--text-primary) 15%, transparent)";
+                e.currentTarget.style.color = "color-mix(in oklch, var(--text-primary) 50%, transparent)";
               }}
             >
               SKIP &gt;&gt;

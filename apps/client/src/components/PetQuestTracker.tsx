@@ -41,7 +41,7 @@ export default function PetQuestTracker({ petId, petName, bond, completedFlags }
   return (
     <div className="border border-border/30 rounded-lg bg-card/40 p-4 space-y-3" data-testid="pet-quest-tracker">
       <div className="flex items-center gap-2">
-        <ScrollText size={14} className="text-amber-400" />
+        <ScrollText size={14} className="void-text-accent" />
         <span className="font-display text-xs font-bold tracking-[0.2em]">{petName.toUpperCase()} QUESTS</span>
       </div>
       {quests.map((quest) => (
@@ -58,10 +58,10 @@ function QuestCard({ quest, bond, flags }: { quest: PetQuest; bond: number; flag
 
   const status = locked ? "locked" : allDone ? "complete" : completedSteps.length > 0 ? "in_progress" : "available";
   const statusStyle: Record<string, string> = {
-    locked: "border-zinc-700/30 bg-zinc-900/20 opacity-60",
-    available: "border-amber-500/40 bg-amber-500/5",
-    in_progress: "border-indigo-500/40 bg-indigo-500/5",
-    complete: "border-emerald-500/40 bg-emerald-500/10",
+    locked: "void-border void-bg-canvas opacity-60",
+    available: "void-border void-bg-sunk",
+    in_progress: "void-border void-bg-sunk",
+    complete: "void-border-success void-bg-success",
   };
   const statusLabel: Record<string, string> = {
     locked: "LOCKED",
@@ -87,7 +87,7 @@ function QuestCard({ quest, bond, flags }: { quest: PetQuest; bond: number; flag
         {quest.description}
       </p>
       {locked && (
-        <p className="font-mono text-[9px] text-amber-400 mt-1">
+        <p className="font-mono text-[9px] void-text-accent mt-1">
           Requires bond {quest.bondRequired} (currently {bond})
         </p>
       )}
@@ -97,7 +97,7 @@ function QuestCard({ quest, bond, flags }: { quest: PetQuest; bond: number; flag
             const done = flags.has(step.completionFlag);
             return (
               <li key={step.id} className="flex items-start gap-1.5 font-mono text-[9px]">
-                {done ? <Check size={10} className="text-emerald-400 mt-0.5" /> : <Circle size={10} className="text-muted-foreground/50 mt-0.5" />}
+                {done ? <Check size={10} className="void-text-energy mt-0.5" /> : <Circle size={10} className="text-muted-foreground/50 mt-0.5" />}
                 <span className={done ? "text-muted-foreground/50 line-through" : "text-foreground/80"}>
                   {step.description}
                 </span>
@@ -107,9 +107,9 @@ function QuestCard({ quest, bond, flags }: { quest: PetQuest; bond: number; flag
         </ul>
       )}
       <div className="mt-2 flex items-center gap-2 text-[9px] font-mono">
-        <span className="text-rose-400">+{quest.reward.bondGain} bond</span>
-        <span className="text-indigo-400">+{quest.reward.skillPoints} skills</span>
-        {quest.reward.loreUnlock && <span className="text-amber-400">lore: {quest.reward.loreUnlock}</span>}
+        <span className="void-text-error">+{quest.reward.bondGain} bond</span>
+        <span className="void-text-energy">+{quest.reward.skillPoints} skills</span>
+        {quest.reward.loreUnlock && <span className="void-text-accent">lore: {quest.reward.loreUnlock}</span>}
       </div>
     </motion.div>
   );

@@ -1667,7 +1667,7 @@ export class FightEngine2D {
       this.sound.announce(`Round ${this.round}`);
     }
     if (this.phaseTimer === 30) {
-      this.announce("FIGHT!", "#ef4444", 40);
+      this.announce("FIGHT!", "var(--energy-error)", 40);
       this.sound.play("round_bell");
       this.sound.announce("Fight!");
     }
@@ -2657,8 +2657,8 @@ export class FightEngine2D {
     const winner = loser === this.p1 ? this.p2 : this.p1;
     const winnerId: 1 | 2 = winner === this.p1 ? 1 : 2;
 
-    this.announce("K.O.!", "#ef4444", 90);
-    this.triggerScreenFlash("#ef4444", 0.5, 15);
+    this.announce("K.O.!", "var(--energy-error)", 90);
+    this.triggerScreenFlash("var(--energy-error)", 0.5, 15);
     this.triggerScreenShake(10, 20);
     this.sound.play("ko");
     this.sound.play("dramatic_boom");
@@ -2675,7 +2675,7 @@ export class FightEngine2D {
 
     const perfect = (winner === 1 ? this.p1.hp === this.p1.maxHp : this.p2.hp === this.p2.maxHp);
     if (perfect) {
-      this.announce("PERFECT!", "#f59e0b", 90);
+      this.announce("PERFECT!", "var(--energy-accent)", 90);
       this.sound.announce("Perfect!");
     }
 
@@ -3617,7 +3617,7 @@ export class FightEngine2D {
         stageCenter, GAME_HEIGHT / 2, GAME_HEIGHT * 0.9
       );
       vignette.addColorStop(0, "transparent");
-      vignette.addColorStop(1, "rgba(0,0,0,0.5)");
+      vignette.addColorStop(1, "color-mix(in oklch, var(--bg-void) 50%, transparent)");
       ctx.fillStyle = vignette;
       ctx.fillRect(-200, -200, STAGE_WIDTH + 400, GAME_HEIGHT + 400);
     } else {
@@ -4030,7 +4030,7 @@ export class FightEngine2D {
     // Damage drain (yellow)
     const drainRatio = f.displayHp / f.maxHp;
     const drainW = w * drainRatio;
-    ctx.fillStyle = "#f59e0b40";
+    ctx.fillStyle = "var(--energy-accent)40";
     if (isP1) {
       ctx.fillRect(x + w - drainW, y, drainW, h);
     } else {
@@ -4040,7 +4040,7 @@ export class FightEngine2D {
     // Current HP
     const hpRatio = f.hp / f.maxHp;
     const hpW = w * hpRatio;
-    const hpColor = hpRatio > 0.5 ? "#22c55e" : hpRatio > 0.25 ? "#f59e0b" : "#ef4444";
+    const hpColor = hpRatio > 0.5 ? "var(--energy-success)" : hpRatio > 0.25 ? "var(--energy-accent)" : "var(--energy-error)";
     ctx.fillStyle = hpColor;
     if (isP1) {
       ctx.fillRect(x + w - hpW, y, hpW, h);
@@ -4071,7 +4071,7 @@ export class FightEngine2D {
       const segEnd = (i + 1) * 100;
       const fill = Math.max(0, Math.min(1, (f.specialMeter - segStart) / 100));
       if (fill > 0) {
-        const colors = ["#3b82f6", "#8b5cf6", "#ef4444"];
+        const colors = ["#3b82f6", "#8b5cf6", "var(--energy-error)"];
         ctx.fillStyle = colors[i];
         ctx.fillRect(x + i * segW + 1, y + 1, (segW - 2) * fill, h - 2);
       }
@@ -4096,7 +4096,7 @@ export class FightEngine2D {
     ctx.font = "bold 10px 'Orbitron', monospace";
     ctx.fillStyle = "#ffffff80";
     ctx.fillText("HITS", x, y + 14);
-    ctx.fillStyle = "#ef4444";
+    ctx.fillStyle = "var(--energy-error)";
     ctx.font = "bold 12px monospace";
     ctx.fillText(`${damage} DMG`, x, y + 28);
     ctx.restore();
@@ -4106,7 +4106,7 @@ export class FightEngine2D {
     for (let i = 0; i < ROUNDS_TO_WIN; i++) {
       ctx.beginPath();
       ctx.arc(x + i * 16, y, 5, 0, Math.PI * 2);
-      ctx.fillStyle = i < wins ? "#f59e0b" : "#333";
+      ctx.fillStyle = i < wins ? "var(--energy-accent)" : "#333";
       ctx.fill();
       ctx.strokeStyle = "#ffffff30";
       ctx.lineWidth = 1;
@@ -4287,7 +4287,7 @@ export class FightEngine2D {
     const progress = this.spriteLoadTotal > 0 ? this.spriteLoadComplete / this.spriteLoadTotal : 0;
 
     // Semi-transparent overlay
-    ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+    ctx.fillStyle = "color-mix(in oklch, var(--bg-void) 60%, transparent)";
     ctx.fillRect(0, 0, w, h);
 
     // Loading text

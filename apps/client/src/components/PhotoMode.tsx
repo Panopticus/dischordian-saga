@@ -72,7 +72,7 @@ export function PhotoMode({ isOpen, onClose, captureTargetRef }: PhotoModeProps)
       if (!target) return;
 
       const canvas = await html2canvas(target, {
-        backgroundColor: "#010020",
+        backgroundColor: "var(--bg-void)",
         scale: 2,
         useCORS: true,
         logging: false,
@@ -96,7 +96,7 @@ export function PhotoMode({ isOpen, onClose, captureTargetRef }: PhotoModeProps)
       if (!target) return;
 
       const canvas = await html2canvas(target, {
-        backgroundColor: "#010020",
+        backgroundColor: "var(--bg-void)",
         scale: 2,
         useCORS: true,
       });
@@ -138,7 +138,7 @@ export function PhotoMode({ isOpen, onClose, captureTargetRef }: PhotoModeProps)
             <div
               className="absolute inset-0 pointer-events-none z-10"
               style={{
-                background: `radial-gradient(ellipse at center, transparent ${Math.round((1 - vignette) * 70)}%, rgba(0,0,0,${vignette}) 100%)`,
+                background: `radial-gradient(ellipse at center, transparent ${Math.round((1 - vignette) * 70)}%, color-mix(in oklch, var(--bg-void) calc((vignette) * 100%), transparent) 100%)`,
               }}
             />
           )}
@@ -159,8 +159,8 @@ export function PhotoMode({ isOpen, onClose, captureTargetRef }: PhotoModeProps)
               )}
               {frame === "wanted" && (
                 <div className="absolute top-8 left-0 right-0 text-center">
-                  <p className="text-2xl font-bold tracking-[0.3em] text-amber-400/80">WANTED</p>
-                  <p className="text-xs text-amber-400/50 mt-1">BY ORDER OF THE ARCHITECT</p>
+                  <p className="text-2xl font-bold tracking-[0.3em] void-text-accent">WANTED</p>
+                  <p className="text-xs void-text-accent mt-1">BY ORDER OF THE ARCHITECT</p>
                 </div>
               )}
               {frame === "loredex" && (
@@ -345,9 +345,9 @@ function getFrameStyles(frame: FrameId): string {
     case "ark_log":
       return "border-4 border-primary/20 rounded-sm";
     case "portrait":
-      return "border-8 border-double border-amber-500/30";
+      return "border-8 border-double void-border";
     case "wanted":
-      return "border-4 border-amber-600/40 bg-gradient-to-b from-amber-900/10 to-transparent";
+      return "border-4 void-border bg-gradient-to-b from-amber-900/10 to-transparent";
     case "loredex":
       return "border border-primary/30 bg-gradient-to-br from-primary/5 to-transparent";
     default:

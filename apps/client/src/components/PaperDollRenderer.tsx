@@ -33,17 +33,17 @@ interface PaperDollProps {
 /** Get element color for aura effects */
 function getElementColor(element: string): string {
   const map: Record<string, string> = {
-    earth: "#22c55e", fire: "#ef4444", water: "#3b82f6", air: "#94a3b8",
-    space: "#8b5cf6", time: "#f59e0b", probability: "#ec4899", reality: "#06b6d4",
+    earth: "var(--energy-success)", fire: "var(--energy-error)", water: "#3b82f6", air: "#94a3b8",
+    space: "#8b5cf6", time: "var(--energy-accent)", probability: "#ec4899", reality: "#06b6d4",
   };
   return map[element] || "#60a5fa";
 }
 
 /** Get morality aura color */
 function getMoralityAura(score: number): { color: string; intensity: number } {
-  if (score <= -60) return { color: "#ef4444", intensity: 0.6 };
+  if (score <= -60) return { color: "var(--energy-error)", intensity: 0.6 };
   if (score <= -30) return { color: "#f87171", intensity: 0.4 };
-  if (score >= 60) return { color: "#22c55e", intensity: 0.6 };
+  if (score >= 60) return { color: "var(--energy-success)", intensity: 0.6 };
   if (score >= 30) return { color: "#4ade80", intensity: 0.4 };
   return { color: "#60a5fa", intensity: 0.2 };
 }
@@ -131,7 +131,7 @@ export default function PaperDollRenderer({
 
         {/* ── GROUND SHADOW ── */}
         <ellipse cx={dim.w / 2} cy={dim.h * 0.88} rx={dim.w * 0.25} ry={dim.h * 0.03}
-          fill="rgba(0,0,0,0.3)" />
+          fill="color-mix(in oklch, var(--bg-void) 30%, transparent)" />
 
         {/* ── BASE BODY ── */}
         <g transform={`translate(${dim.w / 2}, ${dim.h * 0.15})`}>
@@ -173,12 +173,12 @@ export default function PaperDollRenderer({
             <>
               {/* Dual-colored eye glow (one organic, one AI) */}
               <circle cx={-8 * dim.scale} cy={16 * dim.scale} r={5 * dim.scale}
-                fill="none" stroke="#22c55e" strokeWidth={0.8 * dim.scale} strokeOpacity="0.5" filter="url(#glow-soft)" />
+                fill="none" stroke="var(--energy-success)" strokeWidth={0.8 * dim.scale} strokeOpacity="0.5" filter="url(#glow-soft)" />
               <circle cx={8 * dim.scale} cy={16 * dim.scale} r={5 * dim.scale}
-                fill="none" stroke="#f59e0b" strokeWidth={0.8 * dim.scale} strokeOpacity="0.5" filter="url(#glow-soft)" />
+                fill="none" stroke="var(--energy-accent)" strokeWidth={0.8 * dim.scale} strokeOpacity="0.5" filter="url(#glow-soft)" />
               {/* Golden crown hint */}
               <path d={`M ${-12 * dim.scale} ${-5 * dim.scale} L ${-6 * dim.scale} ${-12 * dim.scale} L 0 ${-5 * dim.scale} L ${6 * dim.scale} ${-12 * dim.scale} L ${12 * dim.scale} ${-5 * dim.scale}`}
-                stroke="#f59e0b" strokeWidth={1 * dim.scale} fill="none" strokeOpacity="0.4" filter="url(#glow-soft)" />
+                stroke="var(--energy-accent)" strokeWidth={1 * dim.scale} fill="none" strokeOpacity="0.4" filter="url(#glow-soft)" />
             </>
           )}
 
@@ -250,11 +250,11 @@ export default function PaperDollRenderer({
             <>
               {/* Hybrid veins - organic green on left, AI gold on right */}
               <line x1={-10 * dim.scale} y1={60 * dim.scale} x2={-15 * dim.scale} y2={120 * dim.scale}
-                stroke="#22c55e" strokeWidth={1 * dim.scale} strokeOpacity="0.3" filter="url(#glow-soft)" />
+                stroke="var(--energy-success)" strokeWidth={1 * dim.scale} strokeOpacity="0.3" filter="url(#glow-soft)" />
               <line x1={10 * dim.scale} y1={60 * dim.scale} x2={15 * dim.scale} y2={120 * dim.scale}
-                stroke="#f59e0b" strokeWidth={1 * dim.scale} strokeOpacity="0.3" filter="url(#glow-soft)" />
+                stroke="var(--energy-accent)" strokeWidth={1 * dim.scale} strokeOpacity="0.3" filter="url(#glow-soft)" />
               {/* Golden energy core */}
-              <circle cx="0" cy={85 * dim.scale} r={5 * dim.scale} fill="#f59e0b" fillOpacity="0.3" filter="url(#glow-strong)">
+              <circle cx="0" cy={85 * dim.scale} r={5 * dim.scale} fill="var(--energy-accent)" fillOpacity="0.3" filter="url(#glow-strong)">
                 <animate attributeName="r" values={`${5 * dim.scale};${7 * dim.scale};${5 * dim.scale}`} dur="2s" repeatCount="indefinite" />
               </circle>
             </>
@@ -353,7 +353,7 @@ export default function PaperDollRenderer({
 
           {/* Alignment aura ring */}
           <ellipse cx="0" cy={95 * dim.scale} rx={50 * dim.scale} ry={100 * dim.scale}
-            fill="none" stroke={isOrder ? "#22d3ee" : "#a855f7"} strokeWidth={0.5 * dim.scale}
+            fill="none" stroke={isOrder ? "var(--energy-primary)" : "#a855f7"} strokeWidth={0.5 * dim.scale}
             strokeOpacity="0.15" strokeDasharray={`${4 * dim.scale} ${8 * dim.scale}`}>
             <animateTransform attributeName="transform" type="rotate" from="0 0 95" to="360 0 95" dur="20s" repeatCount="indefinite" />
           </ellipse>
@@ -397,8 +397,8 @@ export default function PaperDollRenderer({
       {/* ── NAMEPLATE ── */}
       {name && size !== "sm" && (
         <div className="absolute bottom-0 left-0 right-0 text-center">
-          <span className={`font-display text-xs tracking-[0.2em] ${isOrder ? "text-cyan-400" : "text-purple-400"}`}
-            style={{ textShadow: `0 0 8px ${isOrder ? "rgba(34,211,238,0.5)" : "rgba(168,85,247,0.5)"}` }}>
+          <span className={`font-display text-xs tracking-[0.2em] ${isOrder ? "void-text-energy" : "void-text-system"}`}
+            style={{ textShadow: `0 0 8px ${isOrder ? "color-mix(in oklch, var(--energy-primary) 50%, transparent)" : "color-mix(in oklch, var(--energy-system) 50%, transparent)"}` }}>
             {name}
           </span>
         </div>

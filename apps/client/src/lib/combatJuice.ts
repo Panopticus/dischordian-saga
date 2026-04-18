@@ -192,7 +192,7 @@ export interface ComboFlashResult {
 export function comboFlash(comboCount: number): ComboFlashResult {
   if (comboCount >= 10) {
     if (!prefersReducedMotion()) screenShake("heavy");
-    return { scale: 1.4, color: "#ef4444", shake: true };
+    return { scale: 1.4, color: "var(--energy-error)", shake: true };
   }
   if (comboCount >= 6) {
     if (!prefersReducedMotion()) screenShake("light");
@@ -214,7 +214,7 @@ const LOOT_CONFIG: Record<string, { count: number; color: string; spread: number
   mythic:    { count: 40, color: "rainbow", spread: 160, duration: 800 },
 };
 
-const RAINBOW_COLORS = ["#ef4444", "#f97316", "#eab308", "#22c55e", "#3b82f6", "#8b5cf6", "#ec4899"];
+const RAINBOW_COLORS = ["var(--energy-error)", "#f97316", "#eab308", "var(--energy-success)", "#3b82f6", "#8b5cf6", "#ec4899"];
 
 /**
  * Create a particle burst celebration around a target element.
@@ -338,7 +338,7 @@ export function achievementFanfare(tier: string): void {
 /**
  * Brief flash on the screen edges to indicate a hit.
  * Defaults to white; pass a color for elemental hits
- * (e.g., "#ef4444" for fire, "#3b82f6" for ice).
+ * (e.g., "var(--energy-error)" for fire, "#3b82f6" for ice).
  */
 export function hitFlash(color: string = "#ffffff"): void {
   if (prefersReducedMotion() || typeof document === "undefined") return;

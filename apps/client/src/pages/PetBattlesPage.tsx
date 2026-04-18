@@ -423,7 +423,7 @@ export default function PetBattlesPage() {
           <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
             <ChevronLeft size={20} />
           </Link>
-          <Swords size={18} style={{ color: showArenaBackground ? arenaBackground.accentColor : undefined }} className={showArenaBackground ? "" : "text-rose-400"} />
+          <Swords size={18} style={{ color: showArenaBackground ? arenaBackground.accentColor : undefined }} className={showArenaBackground ? "" : "void-text-error"} />
           <div>
             <h1 className="font-display text-lg font-bold tracking-wider">
               {showArenaBackground ? arenaBackground.name.toUpperCase() : "ARENA OF SMALL THINGS"}
@@ -451,10 +451,10 @@ export default function PetBattlesPage() {
               })()}
 
               {/* Weekly epoch arena modifier */}
-              <div className="p-2.5 rounded-md border border-indigo-500/40 bg-indigo-500/5">
+              <div className="p-2.5 rounded-md border void-border void-bg-sunk">
                 <div className="flex items-center gap-2 mb-1">
-                  <Sparkles size={12} className="text-indigo-400" />
-                  <span className="font-mono text-[9px] uppercase tracking-wider text-indigo-300">
+                  <Sparkles size={12} className="void-text-energy" />
+                  <span className="font-mono text-[9px] uppercase tracking-wider void-text-energy">
                     This Week's Arena Modifier — {arenaModifier.epochName}
                   </span>
                 </div>
@@ -469,8 +469,8 @@ export default function PetBattlesPage() {
 
               {/* Starter pet picker — only when roster is empty */}
               {hasNoPets && (
-                <div className="border border-amber-500/40 bg-amber-500/5 rounded-lg p-4" data-testid="starter-pet-picker">
-                  <h3 className="font-display text-xs font-bold tracking-[0.2em] text-amber-300 mb-2">
+                <div className="border void-border void-bg-sunk rounded-lg p-4" data-testid="starter-pet-picker">
+                  <h3 className="font-display text-xs font-bold tracking-[0.2em] void-text-accent mb-2">
                     CLAIM YOUR STARTER SPECIMEN
                   </h3>
                   <p className="font-mono text-[9px] text-muted-foreground/80 mb-3 leading-relaxed">
@@ -486,11 +486,11 @@ export default function PetBattlesPage() {
                         key={s.petId}
                         onClick={() => grantStarterMutation.mutate({ petChoice: s.petId })}
                         disabled={grantStarterMutation.isPending}
-                        className="border border-border/40 rounded-md p-2 text-left hover:border-amber-500/60 hover:bg-amber-500/10 transition-colors disabled:opacity-50"
+                        className="border border-border/40 rounded-md p-2 text-left void-border void-bg-sunk transition-colors disabled:opacity-50"
                         data-testid={`starter-${s.petId}`}
                       >
                         <div className="font-display text-sm font-bold text-foreground">{s.name}</div>
-                        <div className="font-mono text-[9px] text-amber-300 mt-0.5">{s.species}</div>
+                        <div className="font-mono text-[9px] void-text-accent mt-0.5">{s.species}</div>
                         <p className="font-mono text-[9px] text-muted-foreground/70 italic mt-1 leading-relaxed">
                           {s.flavor}
                         </p>
@@ -515,7 +515,7 @@ export default function PetBattlesPage() {
               {rosterPets.length > 0 && rosterPets.length < 4 && (
                 <div className="border border-border/30 rounded-lg bg-card/40 p-3" data-testid="pet-shop">
                   <div className="flex items-center gap-2 mb-2">
-                    <ShoppingBag size={14} className="text-amber-400" />
+                    <ShoppingBag size={14} className="void-text-accent" />
                     <span className="font-display text-xs font-bold tracking-[0.2em]">COLLECTOR'S SHOP</span>
                     <span className="font-mono text-[9px] text-muted-foreground/50">500 Dream each</span>
                   </div>
@@ -535,7 +535,7 @@ export default function PetBattlesPage() {
                           source: "shop_purchase",
                         })}
                         disabled={acquireShopMutation.isPending}
-                        className="border border-border/40 rounded p-2 text-center hover:border-amber-500/60 hover:bg-amber-500/10 transition-colors disabled:opacity-50"
+                        className="border border-border/40 rounded p-2 text-center void-border void-bg-sunk transition-colors disabled:opacity-50"
                         data-testid={`shop-${s.petId}`}
                       >
                         <div className="font-display text-xs font-bold">{s.name}</div>
@@ -562,7 +562,7 @@ export default function PetBattlesPage() {
                     disabled={!available}
                     className={`w-full rounded border text-left transition-all overflow-hidden ${
                       available
-                        ? "border-border/40 hover:border-rose-500/40"
+                        ? "border-border/40 void-border-error"
                         : "border-border/20 opacity-40 cursor-not-allowed"
                     }`}
                     data-testid={`tier-${tier.id}`}
@@ -570,7 +570,7 @@ export default function PetBattlesPage() {
                     {/* Arena preview thumbnail */}
                     <div className="relative h-20 overflow-hidden">
                       <img src={bg.imageUrl} alt={bg.name} className="w-full h-full object-cover" loading="lazy" />
-                      <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 100%)" }} />
+                      <div className="absolute inset-0" style={{ background: "linear-gradient(to top, color-mix(in oklch, var(--bg-void) 85%, transparent) 0%, color-mix(in oklch, var(--bg-void) 20%, transparent) 100%)" }} />
                       <div className="absolute bottom-0 left-0 right-0 p-2">
                         <div className="flex items-center justify-between">
                           <span className="font-display text-sm font-bold text-white">{tier.name}</span>
@@ -585,7 +585,7 @@ export default function PetBattlesPage() {
                         {tier.lore}
                       </p>
                       <div className="mt-1 flex items-center justify-between">
-                        <span className="font-mono text-[9px] text-amber-400">
+                        <span className="font-mono text-[9px] void-text-accent">
                           +{tier.rewards.champion.xp} XP · +{tier.rewards.champion.dream} Dream
                         </span>
                         <span className="font-mono text-[8px] uppercase tracking-wider text-muted-foreground/50">
@@ -609,7 +609,7 @@ export default function PetBattlesPage() {
               <div className="flex gap-2">
                 <button
                   onClick={beginBattle}
-                  className="flex-1 px-4 py-2 rounded border border-rose-500/40 bg-rose-500/10 text-rose-400 font-mono text-[11px] uppercase tracking-wider hover:bg-rose-500/20 flex items-center justify-center gap-2"
+                  className="flex-1 px-4 py-2 rounded border void-border-error void-bg-error void-text-error font-mono text-[11px] uppercase tracking-wider void-bg-error flex items-center justify-center gap-2"
                   data-testid="begin-battle"
                 >
                   <Play size={12} /> Begin Battle
@@ -655,7 +655,7 @@ export default function PetBattlesPage() {
                 </span>
                 <button
                   onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-                  className="font-mono text-[9px] uppercase tracking-wider text-rose-400 hover:text-rose-300"
+                  className="font-mono text-[9px] uppercase tracking-wider void-text-error void-text-error"
                 >
                   {isAutoPlaying ? "⏸ Pause" : "▶ Resume"}
                 </button>
@@ -670,9 +670,9 @@ export default function PetBattlesPage() {
                     <span className="text-muted-foreground/50">R{entry.round}</span>{" "}
                     {entry.flavor}
                     {entry.damage && entry.damage > 0 && (
-                      <span className="text-red-400"> [-{entry.damage}]</span>
+                      <span className="void-text-error"> [-{entry.damage}]</span>
                     )}
-                    {entry.critical && <span className="text-amber-400"> ★</span>}
+                    {entry.critical && <span className="void-text-accent"> ★</span>}
                   </div>
                 ))}
               </div>
@@ -683,7 +683,7 @@ export default function PetBattlesPage() {
             <motion.div key="result" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="space-y-4 text-center">
               <Trophy
                 size={48}
-                className={`mx-auto ${battle.winner === "player1" ? "text-amber-400" : "text-zinc-500"}`}
+                className={`mx-auto ${battle.winner === "player1" ? "void-text-accent" : "void-text"}`}
               />
               <div>
                 <h2 className="font-display text-xl font-bold tracking-wider">
@@ -698,23 +698,23 @@ export default function PetBattlesPage() {
                 return (
                   <div className="space-y-1.5">
                     <div className="inline-flex gap-4 px-4 py-2 rounded border border-border/40 bg-card/40 font-mono text-[10px]">
-                      <span className="text-amber-400">+{rewards.xp} XP</span>
-                      <span className="text-purple-400">+{rewards.dream} Dream</span>
-                      <span className="text-emerald-400">+{rewards.bondGain} Bond</span>
-                      {rewards.injury > 0 && <span className="text-orange-400">-{rewards.injury} HP injury</span>}
+                      <span className="void-text-accent">+{rewards.xp} XP</span>
+                      <span className="void-text-system">+{rewards.dream} Dream</span>
+                      <span className="void-text-energy">+{rewards.bondGain} Bond</span>
+                      {rewards.injury > 0 && <span className="void-text-premium">-{rewards.injury} HP injury</span>}
                     </div>
                     {serverRewards && (
-                      <p className="font-mono text-[8px] text-emerald-400/60 tracking-wider">✓ REWARDS SAVED TO SERVER</p>
+                      <p className="font-mono text-[8px] void-text-energy tracking-wider">✓ REWARDS SAVED TO SERVER</p>
                     )}
                     {submitBattleMutation.isPending && (
-                      <p className="font-mono text-[8px] text-amber-400/60 tracking-wider animate-pulse">SAVING RESULTS...</p>
+                      <p className="font-mono text-[8px] void-text-accent tracking-wider animate-pulse">SAVING RESULTS...</p>
                     )}
                   </div>
                 );
               })()}
               <button
                 onClick={reset}
-                className="px-4 py-2 rounded border border-rose-500/40 bg-rose-500/10 text-rose-400 font-mono text-[11px] uppercase tracking-wider hover:bg-rose-500/20 flex items-center gap-2 mx-auto"
+                className="px-4 py-2 rounded border void-border-error void-bg-error void-text-error font-mono text-[11px] uppercase tracking-wider void-bg-error flex items-center gap-2 mx-auto"
               >
                 <RotateCcw size={12} /> Return to Arena
               </button>
@@ -785,8 +785,8 @@ export default function PetBattlesPage() {
 /* ─── PET CARD ─── */
 function PetCard({ pet, side }: { pet: BattlePet; side: "player" | "opponent" }) {
   const hpPercent = (pet.hp / pet.maxHp) * 100;
-  const color = side === "player" ? "text-cyan-400" : "text-rose-400";
-  const bg = side === "player" ? "bg-cyan-500/5 border-cyan-500/30" : "bg-rose-500/5 border-rose-500/30";
+  const color = side === "player" ? "void-text-energy" : "void-text-error";
+  const bg = side === "player" ? "void-bg-success void-border-success" : "void-bg-error void-border-error";
 
   return (
     <div className={`border rounded-lg p-3 ${bg}`} data-testid={`pet-${side}`}>
@@ -804,18 +804,18 @@ function PetCard({ pet, side }: { pet: BattlePet; side: "player" | "opponent" })
           </span>
           <span className="text-foreground tabular-nums">{pet.hp}/{pet.maxHp}</span>
         </div>
-        <div className="h-1.5 bg-zinc-800/80 rounded-full overflow-hidden">
+        <div className="h-1.5 void-bg-canvas rounded-full overflow-hidden">
           <motion.div
             animate={{ width: `${hpPercent}%` }}
-            className={`h-full ${hpPercent > 50 ? "bg-emerald-500" : hpPercent > 25 ? "bg-yellow-500" : "bg-red-500"}`}
+            className={`h-full ${hpPercent > 50 ? "void-bg-success" : hpPercent > 25 ? "void-bg-sunk" : "void-bg-error"}`}
           />
         </div>
       </div>
       {/* Stats */}
       <div className="grid grid-cols-3 gap-1 text-[9px] font-mono">
-        <div className="flex items-center gap-1"><Swords size={9} className="text-red-400/70" />{pet.attack}</div>
-        <div className="flex items-center gap-1"><Shield size={9} className="text-blue-400/70" />{pet.defense}</div>
-        <div className="flex items-center gap-1"><Zap size={9} className="text-yellow-400/70" />{pet.speed}</div>
+        <div className="flex items-center gap-1"><Swords size={9} className="void-text-error" />{pet.attack}</div>
+        <div className="flex items-center gap-1"><Shield size={9} className="void-text-energy" />{pet.defense}</div>
+        <div className="flex items-center gap-1"><Zap size={9} className="void-text-premium" />{pet.speed}</div>
       </div>
       {/* Status effects */}
       {pet.statusEffects.length > 0 && (

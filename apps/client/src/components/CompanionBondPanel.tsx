@@ -28,12 +28,12 @@ interface Props {
 
 const EVOLUTION_LABELS = ["Hatchling", "Companion", "Ascended"];
 const STATUS_COLORS: Record<string, { color: string; bg: string }> = {
-  healthy: { color: "text-emerald-400", bg: "bg-emerald-500/10" },
-  wounded: { color: "text-yellow-400", bg: "bg-yellow-500/10" },
-  injured: { color: "text-orange-400", bg: "bg-orange-500/10" },
-  critical: { color: "text-red-400", bg: "bg-red-500/10" },
-  dying: { color: "text-red-500", bg: "bg-red-500/20" },
-  dead: { color: "text-zinc-500", bg: "bg-zinc-800/50" },
+  healthy: { color: "void-text-energy", bg: "void-bg-success" },
+  wounded: { color: "void-text-premium", bg: "void-bg-sunk" },
+  injured: { color: "void-text-premium", bg: "void-bg-sunk" },
+  critical: { color: "void-text-error", bg: "void-bg-error" },
+  dying: { color: "void-text-error", bg: "void-bg-error" },
+  dead: { color: "void-text", bg: "void-bg-canvas" },
 };
 
 export default function CompanionBondPanel({ petId, petName, bond, moralityScore = 0 }: Props) {
@@ -58,7 +58,7 @@ export default function CompanionBondPanel({ petId, petName, bond, moralityScore
       {/* Header */}
       <div className="flex items-center justify-between px-4 pt-3 pb-2 border-b border-border/20">
         <div className="flex items-center gap-2">
-          <Heart size={16} className="text-rose-400" />
+          <Heart size={16} className="void-text-error" />
           <span className="font-display text-xs font-bold tracking-[0.2em]">
             {petName.toUpperCase()} · BOND
           </span>
@@ -67,7 +67,7 @@ export default function CompanionBondPanel({ petId, petName, bond, moralityScore
           <span className={`font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded border ${statusStyle.color} ${statusStyle.bg} border-current`}>
             {status}
           </span>
-          <span className="font-mono text-[9px] uppercase tracking-wider text-purple-400">
+          <span className="font-mono text-[9px] uppercase tracking-wider void-text-system">
             {EVOLUTION_LABELS[evolutionStage - 1]}
           </span>
         </div>
@@ -80,7 +80,7 @@ export default function CompanionBondPanel({ petId, petName, bond, moralityScore
             <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/70">Bond</span>
             <span className="font-mono text-[10px] text-foreground tabular-nums">{b.bond}/100</span>
           </div>
-          <div className="h-1.5 bg-zinc-800/80 rounded-full overflow-hidden">
+          <div className="h-1.5 void-bg-canvas rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${b.bond}%` }}
@@ -90,7 +90,7 @@ export default function CompanionBondPanel({ petId, petName, bond, moralityScore
           {/* Bond milestones */}
           <div className="flex justify-between mt-0.5 px-0.5">
             {[20, 50, 80].map(m => (
-              <span key={m} className={`font-mono text-[7px] ${b.bond >= m ? "text-rose-400" : "text-muted-foreground/30"}`}>
+              <span key={m} className={`font-mono text-[7px] ${b.bond >= m ? "void-text-error" : "text-muted-foreground/30"}`}>
                 {m === 20 ? "first thought" : m === 50 ? "secret shared" : "life pledged"}
               </span>
             ))}
@@ -101,17 +101,17 @@ export default function CompanionBondPanel({ petId, petName, bond, moralityScore
         <div className="grid grid-cols-3 gap-2">
           <Stat icon={Swords} label="Missions" value={b.sharedMissions.toString()} />
           <Stat icon={Award} label="Quests" value={`${b.completedQuests.length}/${PET_QUESTS.length}`} />
-          <Stat icon={Skull} label="Deaths" value={b.deathCount.toString()} valueColor={b.deathCount > 0 ? "text-red-400" : undefined} />
+          <Stat icon={Skull} label="Deaths" value={b.deathCount.toString()} valueColor={b.deathCount > 0 ? "void-text-error" : undefined} />
         </div>
 
         {/* Injury bar if injured */}
         {b.injury > 0 && (
           <div>
             <div className="flex items-center justify-between mb-1">
-              <span className="font-mono text-[9px] uppercase tracking-wider text-orange-400">Injury</span>
-              <span className="font-mono text-[10px] text-orange-400 tabular-nums">{b.injury}/100</span>
+              <span className="font-mono text-[9px] uppercase tracking-wider void-text-premium">Injury</span>
+              <span className="font-mono text-[10px] void-text-premium tabular-nums">{b.injury}/100</span>
             </div>
-            <div className="h-1 bg-zinc-800/80 rounded-full overflow-hidden">
+            <div className="h-1 void-bg-canvas rounded-full overflow-hidden">
               <div className="h-full bg-gradient-to-r from-yellow-500 to-red-500" style={{ width: `${b.injury}%` }} />
             </div>
           </div>
@@ -119,10 +119,10 @@ export default function CompanionBondPanel({ petId, petName, bond, moralityScore
 
         {/* Morality dissonance */}
         {dissonance > 10 && (
-          <div className={`p-2 rounded border ${willLeave ? "border-red-500/50 bg-red-500/10" : "border-yellow-500/30 bg-yellow-500/5"}`}>
+          <div className={`p-2 rounded border ${willLeave ? "void-border-error void-bg-error" : "void-border void-bg-sunk"}`}>
             <div className="flex items-center gap-1.5 mb-0.5">
-              <AlertTriangle size={10} className={willLeave ? "text-red-400" : "text-yellow-400"} />
-              <span className={`font-mono text-[9px] uppercase tracking-wider ${willLeave ? "text-red-400" : "text-yellow-400"}`}>
+              <AlertTriangle size={10} className={willLeave ? "void-text-error" : "void-text-premium"} />
+              <span className={`font-mono text-[9px] uppercase tracking-wider ${willLeave ? "void-text-error" : "void-text-premium"}`}>
                 Morality Dissonance: {Math.round(dissonance)}
               </span>
             </div>
@@ -138,14 +138,14 @@ export default function CompanionBondPanel({ petId, petName, bond, moralityScore
         {availableQuests.length > 0 && (
           <div>
             <div className="flex items-center gap-1.5 mb-1.5">
-              <Sparkles size={10} className="text-amber-400" />
-              <span className="font-mono text-[9px] uppercase tracking-wider text-amber-400">
+              <Sparkles size={10} className="void-text-accent" />
+              <span className="font-mono text-[9px] uppercase tracking-wider void-text-accent">
                 Companion Quests Available ({availableQuests.length})
               </span>
             </div>
             <div className="space-y-1">
               {availableQuests.slice(0, 3).map(q => (
-                <div key={q.id} className="p-1.5 rounded border border-amber-500/30 bg-amber-500/5">
+                <div key={q.id} className="p-1.5 rounded border void-border void-bg-sunk">
                   <span className="font-mono text-[10px] font-bold text-foreground block">{q.name}</span>
                   <p className="font-mono text-[9px] text-muted-foreground/70 leading-relaxed">{q.description}</p>
                 </div>

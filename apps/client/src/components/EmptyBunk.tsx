@@ -92,19 +92,19 @@ const PERSONAL_EFFECTS: Record<string, string[]> = {
 /* ─── RARITY ACCENT ─── */
 
 const RARITY_BORDER: Record<string, string> = {
-  common: "border-slate-600/30",
-  uncommon: "border-green-600/30",
-  rare: "border-blue-600/30",
-  epic: "border-purple-600/30",
-  mythic: "border-amber-600/40",
+  common: "void-border",
+  uncommon: "void-border-success",
+  rare: "void-border",
+  epic: "void-border-system",
+  mythic: "void-border",
 };
 
 const RARITY_TEXT: Record<string, string> = {
-  common: "text-slate-500",
-  uncommon: "text-green-500",
-  rare: "text-blue-500",
-  epic: "text-purple-500",
-  mythic: "text-amber-500",
+  common: "void-text",
+  uncommon: "void-text-energy",
+  rare: "void-text-energy",
+  epic: "void-text-system",
+  mythic: "void-text-accent",
 };
 
 /* ─── GHOST SILHOUETTE STYLE (injected once) ─── */
@@ -153,8 +153,8 @@ export default function EmptyBunk({ fallenApprentice }: Props) {
     ];
   }, [archetype]);
 
-  const borderColor = RARITY_BORDER[rarity] ?? "border-slate-600/30";
-  const textColor = RARITY_TEXT[rarity] ?? "text-slate-500";
+  const borderColor = RARITY_BORDER[rarity] ?? "void-border";
+  const textColor = RARITY_TEXT[rarity] ?? "void-text";
 
   return (
     <motion.div

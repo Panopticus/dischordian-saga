@@ -154,7 +154,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.6) 100%)",
+            background: "radial-gradient(ellipse at center, transparent 40%, color-mix(in oklch, var(--bg-void) 60%, transparent) 100%)",
           }}
         />
 
@@ -171,7 +171,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
           transition={{ delay: 1, duration: 2 }}
           className="absolute bottom-12 left-0 right-0 text-center pointer-events-none"
         >
-          <p className="font-mono text-[10px] sm:text-xs tracking-[0.5em] text-cyan-400/50 mb-2">
+          <p className="font-mono text-[10px] sm:text-xs tracking-[0.5em] void-text-energy mb-2">
             A DEGENEROUS DAO PRODUCTION
           </p>
           <h1 className="font-display text-2xl sm:text-4xl font-black tracking-[0.15em] text-white/80">
@@ -188,18 +188,18 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
             className="absolute inset-0 flex items-center justify-center z-50 cursor-pointer"
           >
             <div className="text-center">
-              <p className="font-mono text-[10px] tracking-[0.5em] text-cyan-400/40 mb-6">
+              <p className="font-mono text-[10px] tracking-[0.5em] void-text-energy mb-6">
                 A DEGENEROUS DAO PRODUCTION
               </p>
               <h1 className="font-display text-3xl sm:text-5xl font-black tracking-[0.15em] text-white/90 mb-8">
                 THE DISCHORDIAN SAGA
               </h1>
-              <div className="w-20 h-20 rounded-full border-2 border-cyan-400/40 flex items-center justify-center mx-auto mb-4 hover:border-cyan-400/80 hover:bg-cyan-400/5 transition-all animate-pulse">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="text-cyan-400/80 ml-1">
+              <div className="w-20 h-20 rounded-full border-2 void-border-success flex items-center justify-center mx-auto mb-4 void-border-success void-bg-success transition-all animate-pulse">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="void-text-energy ml-1">
                   <path d="M8 5v14l11-7z" fill="currentColor" />
                 </svg>
               </div>
-              <p className="font-mono text-xs text-cyan-400/60 tracking-[0.3em]">
+              <p className="font-mono text-xs void-text-energy tracking-[0.3em]">
                 TAP TO BEGIN
               </p>
             </div>
@@ -215,18 +215,18 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
             className="absolute inset-0 flex items-center justify-center z-50 cursor-pointer"
           >
             <div className="text-center">
-              <div className="w-16 h-16 rounded-full border-2 border-cyan-400/40 flex items-center justify-center mx-auto mb-4 animate-pulse">
+              <div className="w-16 h-16 rounded-full border-2 void-border-success flex items-center justify-center mx-auto mb-4 animate-pulse">
                 {showStartPrompt ? (
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-cyan-400/80 ml-1">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="void-text-energy ml-1">
                     <path d="M8 5v14l11-7z" fill="currentColor" />
                   </svg>
                 ) : (
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-cyan-400/80">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="void-text-energy">
                     <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0014 8.5v7a4.49 4.49 0 002.5-3.5zM14 3.23v2.06a6.51 6.51 0 010 13.42v2.06A8.5 8.5 0 0014 3.23z" fill="currentColor" />
                   </svg>
                 )}
               </div>
-              <p className="font-mono text-xs text-cyan-400/60 tracking-[0.3em]">
+              <p className="font-mono text-xs void-text-energy tracking-[0.3em]">
                 {showStartPrompt ? "TAP TO BEGIN" : "TAP TO UNMUTE"}
               </p>
             </div>
@@ -247,17 +247,17 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
               }}
               className="absolute bottom-4 right-4 z-50 px-4 py-2 rounded-md font-mono text-xs tracking-wider transition-all"
               style={{
-                background: "rgba(0,0,0,0.6)",
-                border: "1px solid rgba(255,255,255,0.15)",
-                color: "rgba(255,255,255,0.5)",
+                background: "color-mix(in oklch, var(--bg-void) 60%, transparent)",
+                border: "1px solid color-mix(in oklch, var(--text-primary) 15%, transparent)",
+                color: "color-mix(in oklch, var(--text-primary) 50%, transparent)",
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.borderColor = "rgba(51,226,230,0.4)";
-                e.currentTarget.style.color = "rgba(51,226,230,0.8)";
+                e.currentTarget.style.borderColor = "color-mix(in oklch, var(--energy-primary) 40%, transparent)";
+                e.currentTarget.style.color = "color-mix(in oklch, var(--energy-primary) 80%, transparent)";
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
-                e.currentTarget.style.color = "rgba(255,255,255,0.5)";
+                e.currentTarget.style.borderColor = "color-mix(in oklch, var(--text-primary) 15%, transparent)";
+                e.currentTarget.style.color = "color-mix(in oklch, var(--text-primary) 50%, transparent)";
               }}
             >
               SKIP &gt;&gt;

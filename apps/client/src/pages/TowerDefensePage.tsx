@@ -26,16 +26,16 @@ import { toast } from "sonner";
 
 /* ─── element palette ─── */
 const TOWER_ELEMENT_COLORS: Record<string, { text: string; bg: string; border: string }> = {
-  fire: { text: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20" },
-  ice: { text: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/20" },
-  lightning: { text: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20" },
-  void: { text: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20" },
-  nature: { text: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
-  shadow: { text: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20" },
-  light: { text: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
-  earth: { text: "text-stone-400", bg: "bg-stone-500/10", border: "border-stone-500/20" },
-  wind: { text: "text-sky-400", bg: "bg-sky-500/10", border: "border-sky-500/20" },
-  physical: { text: "text-zinc-400", bg: "bg-zinc-500/10", border: "border-zinc-500/20" },
+  fire: { text: "void-text-error", bg: "void-bg-error", border: "void-border-error" },
+  ice: { text: "void-text-energy", bg: "void-bg-success", border: "void-border-success" },
+  lightning: { text: "void-text-premium", bg: "void-bg-sunk", border: "void-border" },
+  void: { text: "void-text-system", bg: "void-bg-system", border: "void-border-system" },
+  nature: { text: "void-text-energy", bg: "void-bg-success", border: "void-border-success" },
+  shadow: { text: "void-text-energy", bg: "void-bg-sunk", border: "void-border" },
+  light: { text: "void-text-accent", bg: "void-bg-sunk", border: "void-border" },
+  earth: { text: "void-text", bg: "void-bg-canvas", border: "void-border" },
+  wind: { text: "void-text-energy", bg: "void-bg-sunk", border: "void-border" },
+  physical: { text: "void-text", bg: "void-bg-canvas", border: "void-border" },
 };
 const NEUTRAL_COLORS = TOWER_ELEMENT_COLORS.physical;
 
@@ -50,12 +50,12 @@ const getIcon = (name?: string): IconComponent => (name && ICON_MAP[name]) || Cr
 
 /* ─── league formatting ─── */
 const LEAGUE_TEXT: Record<string, string> = {
-  bronze_1: "text-amber-700", bronze_2: "text-amber-700", bronze_3: "text-amber-700",
-  silver_1: "text-zinc-300", silver_2: "text-zinc-300", silver_3: "text-zinc-300",
-  gold_1: "text-yellow-400", gold_2: "text-yellow-400", gold_3: "text-yellow-400",
-  platinum_1: "text-cyan-300", platinum_2: "text-cyan-300", platinum_3: "text-cyan-300",
-  diamond_1: "text-blue-300", diamond_2: "text-blue-300", diamond_3: "text-blue-300",
-  champion: "text-purple-400", legend: "text-pink-400",
+  bronze_1: "void-text-accent", bronze_2: "void-text-accent", bronze_3: "void-text-accent",
+  silver_1: "void-text", silver_2: "void-text", silver_3: "void-text",
+  gold_1: "void-text-premium", gold_2: "void-text-premium", gold_3: "void-text-premium",
+  platinum_1: "void-text-energy", platinum_2: "void-text-energy", platinum_3: "void-text-energy",
+  diamond_1: "void-text-energy", diamond_2: "void-text-energy", diamond_3: "void-text-energy",
+  champion: "void-text-system", legend: "void-text-error",
 };
 const formatLeague = (k?: string): string =>
   !k ? "Bronze 1" : k.split("_").map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(" ");
@@ -291,13 +291,13 @@ export default function TowerDefensePage() {
           </Link>
           <div className="flex-1">
             <h1 className="font-display text-xl font-bold tracking-wider flex items-center gap-2">
-              <Shield size={20} className="text-red-400" />
-              THE WARDEN'S <span className="text-red-400">VIGIL</span>
+              <Shield size={20} className="void-text-error" />
+              THE WARDEN'S <span className="void-text-error">VIGIL</span>
             </h1>
             <p className="font-mono text-[10px] text-muted-foreground">
               Total DMG: {totalDefense} • Towers: {towerList.length}/{maxTowers} • {trophies?.trophies ?? 0} 🏆
               {isShielded && (
-                <span className="ml-2 text-emerald-400">
+                <span className="ml-2 void-text-energy">
                   • <ShieldCheck size={10} className="inline mr-0.5" /> Shielded {formatCountdown(station.shieldUntil)}
                 </span>
               )}
@@ -308,11 +308,11 @@ export default function TowerDefensePage() {
         {/* Tab Navigation */}
         <div className="flex gap-1 mb-4 border-b border-border/20 pb-2 overflow-x-auto">
           {[
-            { key: "defense" as const, label: "DEFENSE", icon: Shield, color: "text-red-400" },
-            { key: "raid" as const, label: "RAID", icon: Swords, color: "text-amber-400" },
-            { key: "history" as const, label: "HISTORY", icon: Trophy, color: "text-purple-400" },
-            { key: "trophies" as const, label: "TROPHIES", icon: Crown, color: "text-yellow-400" },
-            { key: "streak" as const, label: "STREAK", icon: Calendar, color: "text-cyan-400" },
+            { key: "defense" as const, label: "DEFENSE", icon: Shield, color: "void-text-error" },
+            { key: "raid" as const, label: "RAID", icon: Swords, color: "void-text-accent" },
+            { key: "history" as const, label: "HISTORY", icon: Trophy, color: "void-text-system" },
+            { key: "trophies" as const, label: "TROPHIES", icon: Crown, color: "void-text-premium" },
+            { key: "streak" as const, label: "STREAK", icon: Calendar, color: "void-text-energy" },
           ].map(tab => (
             <button
               key={tab.key}
@@ -354,27 +354,27 @@ export default function TowerDefensePage() {
                   className="overflow-hidden"
                 >
                   <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2">
-                    <div className="bg-zinc-800/20 rounded-md p-2">
+                    <div className="void-bg-canvas rounded-md p-2">
                       <span className="font-mono text-[8px] text-muted-foreground block">Build Speed</span>
-                      <span className="font-display text-sm font-bold text-emerald-400">
+                      <span className="font-display text-sm font-bold void-text-energy">
                         x{stationBonuses.buildSpeedMultiplier.toFixed(2)}
                       </span>
                     </div>
-                    <div className="bg-zinc-800/20 rounded-md p-2">
+                    <div className="void-bg-canvas rounded-md p-2">
                       <span className="font-mono text-[8px] text-muted-foreground block">Production</span>
-                      <span className="font-display text-sm font-bold text-amber-400">
+                      <span className="font-display text-sm font-bold void-text-accent">
                         x{stationBonuses.productionMultiplier.toFixed(2)}
                       </span>
                     </div>
-                    <div className="bg-zinc-800/20 rounded-md p-2">
+                    <div className="void-bg-canvas rounded-md p-2">
                       <span className="font-mono text-[8px] text-muted-foreground block">Defense</span>
-                      <span className="font-display text-sm font-bold text-red-400">
+                      <span className="font-display text-sm font-bold void-text-error">
                         x{stationBonuses.defenseMultiplier.toFixed(2)}
                       </span>
                     </div>
-                    <div className="bg-zinc-800/20 rounded-md p-2">
+                    <div className="void-bg-canvas rounded-md p-2">
                       <span className="font-mono text-[8px] text-muted-foreground block">Extra Slots</span>
-                      <span className="font-display text-sm font-bold text-purple-400">
+                      <span className="font-display text-sm font-bold void-text-system">
                         +{stationBonuses.moduleSlotBonus}
                       </span>
                     </div>
@@ -404,27 +404,27 @@ export default function TowerDefensePage() {
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-2">
               {tdBonuses.towerDamageMultiplier > 1 && (
-                <div className="bg-red-500/10 rounded-md p-2">
+                <div className="void-bg-error rounded-md p-2">
                   <span className="font-mono text-[8px] text-muted-foreground block">Tower DMG</span>
-                  <span className="font-display text-sm font-bold text-red-400">+{Math.round((tdBonuses.towerDamageMultiplier - 1) * 100)}%</span>
+                  <span className="font-display text-sm font-bold void-text-error">+{Math.round((tdBonuses.towerDamageMultiplier - 1) * 100)}%</span>
                 </div>
               )}
               {tdBonuses.towerHpMultiplier > 1 && (
-                <div className="bg-green-500/10 rounded-md p-2">
+                <div className="void-bg-success rounded-md p-2">
                   <span className="font-mono text-[8px] text-muted-foreground block">Tower HP</span>
-                  <span className="font-display text-sm font-bold text-green-400">+{Math.round((tdBonuses.towerHpMultiplier - 1) * 100)}%</span>
+                  <span className="font-display text-sm font-bold void-text-energy">+{Math.round((tdBonuses.towerHpMultiplier - 1) * 100)}%</span>
                 </div>
               )}
               {tdBonuses.raidUnitDamageMultiplier > 1 && (
-                <div className="bg-amber-500/10 rounded-md p-2">
+                <div className="void-bg-sunk rounded-md p-2">
                   <span className="font-mono text-[8px] text-muted-foreground block">Raid DMG</span>
-                  <span className="font-display text-sm font-bold text-amber-400">+{Math.round((tdBonuses.raidUnitDamageMultiplier - 1) * 100)}%</span>
+                  <span className="font-display text-sm font-bold void-text-accent">+{Math.round((tdBonuses.raidUnitDamageMultiplier - 1) * 100)}%</span>
                 </div>
               )}
               {tdBonuses.raidLootMultiplier > 1 && (
-                <div className="bg-purple-500/10 rounded-md p-2">
+                <div className="void-bg-system rounded-md p-2">
                   <span className="font-mono text-[8px] text-muted-foreground block">Raid Loot</span>
-                  <span className="font-display text-sm font-bold text-purple-400">x{tdBonuses.raidLootMultiplier.toFixed(1)}</span>
+                  <span className="font-display text-sm font-bold void-text-system">x{tdBonuses.raidLootMultiplier.toFixed(1)}</span>
                 </div>
               )}
             </div>
@@ -446,12 +446,12 @@ export default function TowerDefensePage() {
           <div>
             <div className="flex items-center justify-between mb-3">
               <span className="font-display text-xs font-bold tracking-[0.2em] flex items-center gap-2">
-                <Shield size={14} className="text-red-400" />
+                <Shield size={14} className="void-text-error" />
                 DEFENSE GRID
               </span>
               <Button
                 size="sm" variant="outline"
-                className="text-xs h-9 border-red-500/30 text-red-400"
+                className="text-xs h-9 void-border-error void-text-error"
                 onClick={() => { setShowBuildMenu(!showBuildMenu); if (showBuildMenu) setSelectedTowerKey(null); }}
                 disabled={towerList.filter(t => t.status !== "destroyed").length >= maxTowers}
               >
@@ -461,9 +461,9 @@ export default function TowerDefensePage() {
             </div>
 
             {selectedTowerDef && (
-              <div className="mb-2 p-2 border border-amber-500/40 bg-amber-500/10 rounded-md flex items-center gap-2">
-                <Target size={12} className="text-amber-400" />
-                <span className="font-mono text-[10px] text-amber-300">
+              <div className="mb-2 p-2 border void-border void-bg-sunk rounded-md flex items-center gap-2">
+                <Target size={12} className="void-text-accent" />
+                <span className="font-mono text-[10px] void-text-accent">
                   Placing <strong>{selectedTowerDef.name}</strong> ({selectedTowerDef.gridSize[0]}×{selectedTowerDef.gridSize[1]}) — click an empty cell
                 </span>
                 <button
@@ -475,7 +475,7 @@ export default function TowerDefensePage() {
 
             {/* Grid view */}
             <div
-              className="grid gap-1 mb-4 p-2 border border-border/30 rounded-lg bg-zinc-950/60"
+              className="grid gap-1 mb-4 p-2 border border-border/30 rounded-lg void-bg-canvas"
               style={{
                 gridTemplateColumns: `repeat(${stationGridSize}, minmax(0, 1fr))`,
                 aspectRatio: "1 / 1",
@@ -520,15 +520,15 @@ export default function TowerDefensePage() {
                     >
                       <Icon size={14} className={elem.text} />
                       <span className={`font-mono text-[7px] ${elem.text}`}>L{slot.tower.level}</span>
-                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-zinc-800">
-                        <div className="h-full bg-emerald-400" style={{ width: `${hpPct}%` }} />
+                      <div className="absolute bottom-0 left-0 right-0 h-0.5 void-bg-canvas">
+                        <div className="h-full void-bg-success" style={{ width: `${hpPct}%` }} />
                       </div>
                       {isBusy && (
                         <div className="absolute inset-0 bg-black/60 flex items-center justify-center rounded">
                           {isReady ? (
-                            <Check size={12} className="text-emerald-400" />
+                            <Check size={12} className="void-text-energy" />
                           ) : (
-                            <span className="font-mono text-[7px] text-amber-300 flex items-center gap-0.5">
+                            <span className="font-mono text-[7px] void-text-accent flex items-center gap-0.5">
                               <Clock size={8} /> {formatCountdown(slot.tower.completesAt)}
                             </span>
                           )}
@@ -543,7 +543,7 @@ export default function TowerDefensePage() {
                   <button
                     key={`${x}-${y}`}
                     className={`rounded border border-dashed ${
-                      selectedTowerDef ? "border-amber-500/30 hover:border-amber-400 hover:bg-amber-500/10" : "border-border/20"
+                      selectedTowerDef ? "void-border void-border void-bg-sunk" : "border-border/20"
                     } transition-colors`}
                     disabled={!selectedTowerDef || placeTower.isPending}
                     onClick={() => tryPlaceAt(x, y)}
@@ -577,15 +577,15 @@ export default function TowerDefensePage() {
                         <span className={`font-mono text-[8px] ${elem.text}`}>Lv.{tower.level}</span>
                       </div>
                       <div className="grid grid-cols-3 gap-1 mb-1">
-                        <div className="bg-zinc-800/20 rounded px-1 py-0.5">
+                        <div className="void-bg-canvas rounded px-1 py-0.5">
                           <span className="font-mono text-[7px] text-muted-foreground block">DMG</span>
                           <span className="font-mono text-[9px] font-bold">{Math.ceil(dmg * (tdBonuses?.towerDamageMultiplier || 1))}</span>
                         </div>
-                        <div className="bg-zinc-800/20 rounded px-1 py-0.5">
+                        <div className="void-bg-canvas rounded px-1 py-0.5">
                           <span className="font-mono text-[7px] text-muted-foreground block">HP</span>
                           <span className="font-mono text-[9px] font-bold">{tower.currentHp}/{tower.maxHp}</span>
                         </div>
-                        <div className="bg-zinc-800/20 rounded px-1 py-0.5">
+                        <div className="void-bg-canvas rounded px-1 py-0.5">
                           <span className="font-mono text-[7px] text-muted-foreground block">RNG</span>
                           <span className="font-mono text-[9px] font-bold">{(def?.baseRange || 0) + (tdBonuses?.towerRangeBonus || 0)}</span>
                         </div>
@@ -593,13 +593,13 @@ export default function TowerDefensePage() {
                       <div className="flex items-center gap-2">
                         {busy ? (
                           <>
-                            <span className="font-mono text-[8px] text-amber-300 flex items-center gap-0.5">
+                            <span className="font-mono text-[8px] void-text-accent flex items-center gap-0.5">
                               <Clock size={8} /> {formatCountdown(tower.completesAt)}
                             </span>
                             {ready && (
                               <Button
                                 size="sm" variant="ghost"
-                                className="text-[8px] h-5 px-2 ml-auto text-emerald-400 hover:text-emerald-300"
+                                className="text-[8px] h-5 px-2 ml-auto void-text-energy void-text-energy"
                                 onClick={() => completeTower.mutate({ towerId: tower.id })}
                                 disabled={completeTower.isPending}
                               >
@@ -629,10 +629,10 @@ export default function TowerDefensePage() {
             )}
 
             {/* PvE WAVE DEFENSE */}
-            <div className="border border-amber-500/30 rounded-lg bg-amber-500/5 p-3 mb-4">
+            <div className="border void-border rounded-lg void-bg-sunk p-3 mb-4">
               <div className="flex items-center gap-2 mb-2">
-                <AlertTriangle size={12} className="text-amber-400" />
-                <span className="font-mono text-[10px] font-bold tracking-wider text-amber-300">PVE WAVE DEFENSE</span>
+                <AlertTriangle size={12} className="void-text-accent" />
+                <span className="font-mono text-[10px] font-bold tracking-wider void-text-accent">PVE WAVE DEFENSE</span>
                 <span className="ml-auto font-mono text-[9px] text-muted-foreground">
                   Cleared {lastCompletedWaveNumber} · Next wave {nextWaveNumber}
                 </span>
@@ -643,7 +643,7 @@ export default function TowerDefensePage() {
                 with upgrades between waves.
               </p>
               <Button
-                className="w-full bg-amber-500/20 border border-amber-500/30 text-amber-300 hover:bg-amber-500/30"
+                className="w-full void-bg-sunk border void-border void-text-accent void-bg-sunk"
                 disabled={runDefenseWave.isPending || towerList.filter(t => t.status === "active").length === 0}
                 onClick={() => {
                   if (!stationId) return;
@@ -667,12 +667,12 @@ export default function TowerDefensePage() {
                       .join(", ");
                     return (
                       <div key={w.id} className={`flex items-center gap-2 text-[9px] font-mono px-2 py-1 rounded ${
-                        won ? "bg-emerald-500/5 text-emerald-400" : "bg-red-500/5 text-red-400"
+                        won ? "void-bg-success void-text-energy" : "void-bg-error void-text-error"
                       }`}>
                         <span>Wave {w.waveNumber}</span>
                         <span className="opacity-60">· {w.difficultyMultiplier}% diff</span>
                         <span className="flex-1">{won ? "SURVIVED" : "FAILED"}</span>
-                        {won && rewardsStr && <span className="text-amber-300">{rewardsStr}</span>}
+                        {won && rewardsStr && <span className="void-text-accent">{rewardsStr}</span>}
                       </div>
                     );
                   })}
@@ -687,7 +687,7 @@ export default function TowerDefensePage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
-                  className="border border-red-500/30 rounded-xl bg-zinc-950/95 p-4 mb-6"
+                  className="border void-border-error rounded-xl void-bg-canvas p-4 mb-6"
                 >
                   <div className="flex items-center justify-between mb-4">
                     <span className="font-display text-sm font-bold tracking-wider">SELECT TOWER TO BUILD</span>
@@ -704,7 +704,7 @@ export default function TowerDefensePage() {
                         onClick={() => setSelectedElement(elem === "all" ? null : elem)}
                         className={`font-mono text-[8px] px-2 py-1 rounded-md border transition-all ${
                           (elem === "all" && !selectedElement) || selectedElement === elem
-                            ? "border-red-500/40 bg-red-500/10 text-red-400"
+                            ? "void-border-error void-bg-error void-text-error"
                             : "border-border/20 bg-card/20 text-muted-foreground hover:border-border/40"
                         }`}
                       >
@@ -733,12 +733,12 @@ export default function TowerDefensePage() {
                               <div className="flex-1">
                                 <span className="font-display text-xs font-bold">{tower.name}</span>
                                 {tower.requiredClass && (
-                                  <span className="font-mono text-[7px] text-amber-400 ml-1 capitalize">
+                                  <span className="font-mono text-[7px] void-text-accent ml-1 capitalize">
                                     <Lock size={7} className="inline mr-0.5" />{tower.requiredClass}
                                   </span>
                                 )}
                                 {tower.requiredPrestige && (
-                                  <span className="font-mono text-[7px] text-purple-400 ml-1 capitalize">
+                                  <span className="font-mono text-[7px] void-text-system ml-1 capitalize">
                                     <Crown size={7} className="inline mr-0.5" />{tower.requiredPrestige}
                                   </span>
                                 )}
@@ -759,8 +759,8 @@ export default function TowerDefensePage() {
                       })}
                   </div>
                   {selectedTowerDef && (
-                    <div className="mt-3 p-2 border border-amber-500/30 bg-amber-500/10 rounded-md text-center">
-                      <span className="font-mono text-[9px] text-amber-300">
+                    <div className="mt-3 p-2 border void-border void-bg-sunk rounded-md text-center">
+                      <span className="font-mono text-[9px] void-text-accent">
                         Close this menu and click an empty grid cell to place{" "}
                         <strong>{selectedTowerDef.name}</strong>.
                       </span>
@@ -777,14 +777,14 @@ export default function TowerDefensePage() {
           <div>
             <div className="flex items-center justify-between gap-2 mb-4">
               <div className="flex items-center gap-2">
-                <Swords size={14} className="text-amber-400" />
+                <Swords size={14} className="void-text-accent" />
                 <span className="font-display text-xs font-bold tracking-[0.2em]">AVAILABLE TARGETS</span>
               </div>
               <div className="flex items-center gap-1 border border-border/30 rounded-md p-0.5">
                 <button
                   onClick={() => { setTargetType("station"); setSelectedTarget(null); }}
                   className={`flex items-center gap-1 px-2 py-1 rounded text-[9px] font-mono transition-colors ${
-                    targetType === "station" ? "bg-amber-500/20 text-amber-300" : "text-muted-foreground hover:text-foreground"
+                    targetType === "station" ? "void-bg-sunk void-text-accent" : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   <Building size={10} /> STATION
@@ -792,7 +792,7 @@ export default function TowerDefensePage() {
                 <button
                   onClick={() => { setTargetType("world"); setSelectedTarget(null); }}
                   className={`flex items-center gap-1 px-2 py-1 rounded text-[9px] font-mono transition-colors ${
-                    targetType === "world" ? "bg-amber-500/20 text-amber-300" : "text-muted-foreground hover:text-foreground"
+                    targetType === "world" ? "void-bg-sunk void-text-accent" : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   <Globe size={10} /> WORLD
@@ -829,15 +829,15 @@ export default function TowerDefensePage() {
                       animate={{ opacity: 1, y: 0 }}
                       className={`border rounded-lg overflow-hidden transition-all cursor-pointer ${
                         isSelected
-                          ? "border-amber-500/30 bg-amber-950/10 ring-1 ring-amber-500/10"
+                          ? "void-border void-bg-sunk ring-1 ring-amber-500/10"
                           : "border-border/30 bg-card/20 hover:border-border/50"
                       }`}
                       onClick={() => setSelectedTarget(isSelected ? null : target.id)}
                     >
                       <div className="p-3">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-zinc-800/30 border border-border/20 flex items-center justify-center">
-                            <TargetIcon size={18} className="text-amber-400" />
+                          <div className="w-10 h-10 rounded-lg void-bg-canvas border border-border/20 flex items-center justify-center">
+                            <TargetIcon size={18} className="void-text-accent" />
                           </div>
                           <div className="flex-1">
                             <span className="font-display text-sm font-bold">{target.name}</span>
@@ -851,7 +851,7 @@ export default function TowerDefensePage() {
                                 {target.towerCount} towers
                               </span>
                               {lootEntries.length > 0 && (
-                                <span className="font-mono text-[8px] text-amber-400">
+                                <span className="font-mono text-[8px] void-text-accent">
                                   <Coins size={8} className="inline mr-0.5" />
                                   {lootEntries.slice(0, 3).map(([k, v]) => `${v} ${k}`).join(", ")}
                                 </span>
@@ -891,13 +891,13 @@ export default function TowerDefensePage() {
                                     ? undefined // server enforces; we just don't hide — show req
                                     : undefined;
                                   return (
-                                    <div key={unit.key} className="flex items-center gap-2 bg-zinc-800/20 rounded-md px-2 py-1.5 border border-border/10">
-                                      <UnitIcon size={12} className="text-amber-400" />
+                                    <div key={unit.key} className="flex items-center gap-2 void-bg-canvas rounded-md px-2 py-1.5 border border-border/10">
+                                      <UnitIcon size={12} className="void-text-accent" />
                                       <div className="flex-1 min-w-0">
                                         <div className="flex items-center gap-1">
                                           <span className="font-mono text-[9px] font-bold truncate">{unit.name}</span>
                                           {unit.requiredClass && (
-                                            <span className="font-mono text-[7px] text-amber-400 capitalize">
+                                            <span className="font-mono text-[7px] void-text-accent capitalize">
                                               <Lock size={6} className="inline" />{unit.requiredClass}
                                             </span>
                                           )}
@@ -908,7 +908,7 @@ export default function TowerDefensePage() {
                                       </div>
                                       <div className="flex items-center gap-1">
                                         <button
-                                          className="w-5 h-5 rounded bg-zinc-700/40 flex items-center justify-center text-xs hover:bg-zinc-600/40"
+                                          className="w-5 h-5 rounded void-bg-canvas flex items-center justify-center text-xs void-bg-canvas"
                                           onClick={(e) => {
                                             e.stopPropagation();
                                             setRaidUnits(prev => ({ ...prev, [unit.key]: Math.max(0, (prev[unit.key] || 0) - 1) }));
@@ -916,7 +916,7 @@ export default function TowerDefensePage() {
                                         >-</button>
                                         <span className="font-mono text-[10px] w-5 text-center">{count}</span>
                                         <button
-                                          className="w-5 h-5 rounded bg-zinc-700/40 flex items-center justify-center text-xs hover:bg-zinc-600/40 disabled:opacity-40"
+                                          className="w-5 h-5 rounded void-bg-canvas flex items-center justify-center text-xs void-bg-canvas disabled:opacity-40"
                                           disabled={locked !== undefined || totalRaidUnits >= maxRaidUnits}
                                           onClick={(e) => {
                                             e.stopPropagation();
@@ -931,7 +931,7 @@ export default function TowerDefensePage() {
                               </div>
 
                               <Button
-                                className="w-full bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:bg-amber-500/30"
+                                className="w-full void-bg-sunk border void-border void-text-accent void-bg-sunk"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   const units = Object.entries(raidUnits)
@@ -971,7 +971,7 @@ export default function TowerDefensePage() {
         {activeTab === "history" && (
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <Trophy size={14} className="text-purple-400" />
+              <Trophy size={14} className="void-text-system" />
               <span className="font-display text-xs font-bold tracking-[0.2em]">RAID HISTORY</span>
             </div>
 
@@ -998,43 +998,43 @@ export default function TowerDefensePage() {
                       transition={{ delay: i * 0.03 }}
                       className={`border rounded-lg p-3 ${
                         playerWon
-                          ? "border-emerald-500/20 bg-emerald-950/10"
-                          : "border-red-500/20 bg-red-950/10"
+                          ? "void-border-success void-bg-success"
+                          : "void-border-error void-bg-error"
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                          playerWon ? "bg-emerald-500/20" : "bg-red-500/20"
+                          playerWon ? "void-bg-success" : "void-bg-error"
                         }`}>
                           {playerWon ? (
-                            <Trophy size={14} className="text-emerald-400" />
+                            <Trophy size={14} className="void-text-energy" />
                           ) : (
-                            <AlertTriangle size={14} className="text-red-400" />
+                            <AlertTriangle size={14} className="void-text-error" />
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
                             <span className={`font-display text-xs font-bold ${
-                              playerWon ? "text-emerald-400" : "text-red-400"
+                              playerWon ? "void-text-energy" : "void-text-error"
                             }`}>
                               {playerWon ? "VICTORY" : "DEFEAT"}
                             </span>
                             <span className="font-mono text-[8px] text-muted-foreground">
                               {isAttacker ? "Attacked" : "Defended against"} {raid.opponentName}
                             </span>
-                            <span className="font-mono text-[8px] text-amber-300">
+                            <span className="font-mono text-[8px] void-text-accent">
                               {"★".repeat(raid.stars)}{"☆".repeat(3 - raid.stars)}
                             </span>
                             <span className="font-mono text-[8px] text-muted-foreground">
                               {raid.destructionPercent}%
                             </span>
-                            <span className={`font-mono text-[8px] ${raid.trophiesChanged >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+                            <span className={`font-mono text-[8px] ${raid.trophiesChanged >= 0 ? "void-text-energy" : "void-text-error"}`}>
                               {raid.trophiesChanged >= 0 ? "+" : ""}{raid.trophiesChanged} 🏆
                             </span>
                           </div>
                           <div className="flex items-center gap-3 mt-0.5 flex-wrap">
                             {lootEntries.length > 0 && (
-                              <span className="font-mono text-[8px] text-amber-400">
+                              <span className="font-mono text-[8px] void-text-accent">
                                 <Coins size={8} className="inline mr-0.5" />
                                 {lootEntries.map(([k, v]) => `${v} ${k}`).join(", ")}
                               </span>
@@ -1062,15 +1062,15 @@ export default function TowerDefensePage() {
         {activeTab === "trophies" && (
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <Crown size={14} className="text-yellow-400" />
+              <Crown size={14} className="void-text-premium" />
               <span className="font-display text-xs font-bold tracking-[0.2em]">TROPHIES & LEAGUE</span>
             </div>
 
             {/* Player trophy card */}
-            <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-4 mb-4">
+            <div className="border void-border void-bg-sunk rounded-lg p-4 mb-4">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-12 rounded-lg bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center">
-                  <Trophy size={24} className="text-yellow-400" />
+                <div className="w-12 h-12 rounded-lg void-bg-sunk border void-border flex items-center justify-center">
+                  <Trophy size={24} className="void-text-premium" />
                 </div>
                 <div className="flex-1">
                   <div className={`font-display text-lg font-bold ${LEAGUE_TEXT[trophies?.league || "bronze_1"] || "text-muted-foreground"}`}>
@@ -1082,19 +1082,19 @@ export default function TowerDefensePage() {
                 </div>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                <div className="bg-zinc-800/30 rounded px-2 py-1">
+                <div className="void-bg-canvas rounded px-2 py-1">
                   <div className="font-mono text-[8px] text-muted-foreground">TOTAL RAIDS</div>
                   <div className="font-display text-sm font-bold">{trophies?.totalRaids ?? 0}</div>
                 </div>
-                <div className="bg-zinc-800/30 rounded px-2 py-1">
+                <div className="void-bg-canvas rounded px-2 py-1">
                   <div className="font-mono text-[8px] text-muted-foreground">WIN STREAK</div>
-                  <div className="font-display text-sm font-bold text-emerald-400">{trophies?.winStreak ?? 0}</div>
+                  <div className="font-display text-sm font-bold void-text-energy">{trophies?.winStreak ?? 0}</div>
                 </div>
-                <div className="bg-zinc-800/30 rounded px-2 py-1">
+                <div className="void-bg-canvas rounded px-2 py-1">
                   <div className="font-mono text-[8px] text-muted-foreground">BEST STREAK</div>
-                  <div className="font-display text-sm font-bold text-amber-400">{trophies?.bestWinStreak ?? 0}</div>
+                  <div className="font-display text-sm font-bold void-text-accent">{trophies?.bestWinStreak ?? 0}</div>
                 </div>
-                <div className="bg-zinc-800/30 rounded px-2 py-1">
+                <div className="void-bg-canvas rounded px-2 py-1">
                   <div className="font-mono text-[8px] text-muted-foreground">DEFENSES</div>
                   <div className="font-display text-sm font-bold">{trophies?.totalDefenses ?? 0}</div>
                 </div>
@@ -1105,7 +1105,7 @@ export default function TowerDefensePage() {
             {leagueThresholds && leagueThresholds.length > 0 && (
               <div className="border border-border/30 rounded-lg bg-card/30 p-3 mb-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Star size={12} className="text-yellow-400" />
+                  <Star size={12} className="void-text-premium" />
                   <span className="font-mono text-[10px] font-bold tracking-wider">LEAGUE LADDER</span>
                 </div>
                 <div className="space-y-1">
@@ -1114,11 +1114,11 @@ export default function TowerDefensePage() {
                     const achieved = (trophies?.trophies ?? 0) >= minTrophies;
                     return (
                       <div key={league} className={`flex items-center gap-2 px-2 py-1 rounded text-[9px] font-mono ${
-                        current ? "bg-yellow-500/10 border border-yellow-500/30" : achieved ? "text-muted-foreground" : "text-muted-foreground/50"
+                        current ? "void-bg-sunk border void-border" : achieved ? "text-muted-foreground" : "text-muted-foreground/50"
                       }`}>
                         <span className={`flex-1 ${LEAGUE_TEXT[league] || ""}`}>{formatLeague(league)}</span>
                         <span>{minTrophies} 🏆</span>
-                        {current && <span className="text-yellow-400">← YOU</span>}
+                        {current && <span className="void-text-premium">← YOU</span>}
                       </div>
                     );
                   })}
@@ -1130,18 +1130,18 @@ export default function TowerDefensePage() {
             {leaderboard && leaderboard.length > 0 && (
               <div className="border border-border/30 rounded-lg bg-card/30 p-3">
                 <div className="flex items-center gap-2 mb-2">
-                  <Crown size={12} className="text-purple-400" />
+                  <Crown size={12} className="void-text-system" />
                   <span className="font-mono text-[10px] font-bold tracking-wider">TOP 10 RAIDERS</span>
                 </div>
                 <div className="space-y-1">
                   {leaderboard.slice(0, 10).map((row, idx) => (
-                    <div key={row.id} className="flex items-center gap-2 px-2 py-1 rounded text-[9px] font-mono hover:bg-zinc-800/20">
-                      <span className={`w-4 text-right ${idx < 3 ? "text-yellow-400" : "text-muted-foreground"}`}>
+                    <div key={row.id} className="flex items-center gap-2 px-2 py-1 rounded text-[9px] font-mono void-bg-canvas">
+                      <span className={`w-4 text-right ${idx < 3 ? "void-text-premium" : "text-muted-foreground"}`}>
                         #{idx + 1}
                       </span>
                       <span className="flex-1 truncate">{row.userName}</span>
                       <span className={LEAGUE_TEXT[row.league] || "text-muted-foreground"}>{formatLeague(row.league)}</span>
-                      <span className="text-yellow-400">{row.trophies} 🏆</span>
+                      <span className="void-text-premium">{row.trophies} 🏆</span>
                     </div>
                   ))}
                 </div>
@@ -1154,18 +1154,18 @@ export default function TowerDefensePage() {
         {activeTab === "streak" && (
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <Calendar size={14} className="text-cyan-400" />
+              <Calendar size={14} className="void-text-energy" />
               <span className="font-display text-xs font-bold tracking-[0.2em]">DAILY CHECK-IN</span>
             </div>
 
             {/* Current streak card */}
-            <div className="border border-cyan-500/30 bg-cyan-500/5 rounded-lg p-4 mb-4">
+            <div className="border void-border-success void-bg-success rounded-lg p-4 mb-4">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-12 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center">
-                  <Calendar size={24} className="text-cyan-400" />
+                <div className="w-12 h-12 rounded-lg void-bg-success border void-border-success flex items-center justify-center">
+                  <Calendar size={24} className="void-text-energy" />
                 </div>
                 <div className="flex-1">
-                  <div className="font-display text-lg font-bold text-cyan-400">
+                  <div className="font-display text-lg font-bold void-text-energy">
                     Day {streak?.currentStreak ?? 0}
                   </div>
                   <div className="font-mono text-[10px] text-muted-foreground">
@@ -1173,7 +1173,7 @@ export default function TowerDefensePage() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="font-display text-xl font-bold text-purple-300">
+                  <div className="font-display text-xl font-bold void-text-system">
                     {streak?.chronoShards ?? 0}
                   </div>
                   <div className="font-mono text-[8px] text-muted-foreground">Chrono Shards</div>
@@ -1185,7 +1185,7 @@ export default function TowerDefensePage() {
                 const alreadyCheckedIn = streak?.lastCheckIn === today;
                 return (
                   <Button
-                    className="w-full bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30"
+                    className="w-full void-bg-success border void-border-success void-text-energy void-bg-success"
                     onClick={() => checkIn.mutate()}
                     disabled={checkIn.isPending || alreadyCheckedIn}
                   >
@@ -1205,7 +1205,7 @@ export default function TowerDefensePage() {
             {streakRewards && streakRewards.length > 0 && (
               <div className="border border-border/30 rounded-lg bg-card/30 p-3">
                 <div className="flex items-center gap-2 mb-3">
-                  <Gift size={12} className="text-amber-400" />
+                  <Gift size={12} className="void-text-accent" />
                   <span className="font-mono text-[10px] font-bold tracking-wider">STREAK REWARDS</span>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
@@ -1217,20 +1217,20 @@ export default function TowerDefensePage() {
                         key={reward.day}
                         className={`rounded-md border p-2 ${
                           current
-                            ? "border-cyan-500/40 bg-cyan-500/10"
+                            ? "void-border-success void-bg-success"
                             : achieved
-                              ? "border-emerald-500/30 bg-emerald-500/5"
+                              ? "void-border-success void-bg-success"
                               : "border-border/20 bg-card/20"
                         }`}
                       >
                         <div className="flex items-center justify-between mb-1">
                           <span className="font-mono text-[9px] font-bold">Day {reward.day}</span>
-                          {achieved && !current && <Check size={10} className="text-emerald-400" />}
+                          {achieved && !current && <Check size={10} className="void-text-energy" />}
                         </div>
-                        <div className="font-mono text-[8px] text-purple-300">
+                        <div className="font-mono text-[8px] void-text-system">
                           +{reward.chronoShards} shards
                         </div>
-                        <div className="font-mono text-[8px] text-amber-300">
+                        <div className="font-mono text-[8px] void-text-accent">
                           +{reward.credits} ₵
                         </div>
                         <div className="font-mono text-[7px] text-muted-foreground mt-0.5 truncate">
@@ -1244,8 +1244,8 @@ export default function TowerDefensePage() {
             )}
 
             {streak && streak.repairItems > 0 && (
-              <div className="mt-3 p-2 border border-amber-500/30 bg-amber-500/5 rounded-md">
-                <span className="font-mono text-[9px] text-amber-300">
+              <div className="mt-3 p-2 border void-border void-bg-sunk rounded-md">
+                <span className="font-mono text-[9px] void-text-accent">
                   🛠 {streak.repairItems} streak repair{streak.repairItems > 1 ? "s" : ""} available — will auto-use if you miss a day.
                 </span>
               </div>

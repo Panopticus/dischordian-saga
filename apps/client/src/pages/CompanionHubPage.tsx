@@ -76,11 +76,11 @@ export default function CompanionHubPage() {
   }, [state.companionRelationships]);
 
   const getRelationshipTier = useCallback((level: number) => {
-    if (level >= 90) return { name: "Soulbound", color: "text-amber-400", icon: Crown, glow: "shadow-amber-500/30" };
-    if (level >= 75) return { name: "Devoted", color: "text-rose-400", icon: Heart, glow: "shadow-rose-500/30" };
-    if (level >= 60) return { name: "Trusted", color: "text-emerald-400", icon: Shield, glow: "shadow-emerald-500/30" };
-    if (level >= 40) return { name: "Allied", color: "text-blue-400", icon: Users, glow: "shadow-blue-500/30" };
-    if (level >= 20) return { name: "Acquainted", color: "text-cyan-400", icon: Eye, glow: "shadow-cyan-500/30" };
+    if (level >= 90) return { name: "Soulbound", color: "void-text-accent", icon: Crown, glow: "shadow-amber-500/30" };
+    if (level >= 75) return { name: "Devoted", color: "void-text-error", icon: Heart, glow: "shadow-rose-500/30" };
+    if (level >= 60) return { name: "Trusted", color: "void-text-energy", icon: Shield, glow: "shadow-emerald-500/30" };
+    if (level >= 40) return { name: "Allied", color: "void-text-energy", icon: Users, glow: "shadow-blue-500/30" };
+    if (level >= 20) return { name: "Acquainted", color: "void-text-energy", icon: Eye, glow: "shadow-cyan-500/30" };
     if (level >= 5) return { name: "Known", color: "text-muted-foreground", icon: MessageCircle, glow: "" };
     return { name: "Stranger", color: "text-muted-foreground/50", icon: AlertTriangle, glow: "" };
   }, []);
@@ -151,25 +151,25 @@ export default function CompanionHubPage() {
                   onClick={() => setSelectedCompanion(companion)}
                   className={`group text-left rounded-lg border overflow-hidden transition-all duration-300 hover:scale-[1.02] ${
                     companion.id === "elara"
-                      ? "border-cyan-500/30 bg-cyan-950/10 hover:border-cyan-400/50 hover:shadow-lg hover:shadow-cyan-500/10"
-                      : "border-red-500/30 bg-red-950/10 hover:border-red-400/50 hover:shadow-lg hover:shadow-red-500/10"
+                      ? "void-border-success void-bg-success void-border-success hover:shadow-lg hover:shadow-cyan-500/10"
+                      : "void-border-error void-bg-error void-border-error hover:shadow-lg hover:shadow-red-500/10"
                   }`}
                 >
                   <div className="p-5">
                     {/* Avatar + Info */}
                     <div className="flex items-start gap-4 mb-4">
                       <div className={`relative w-16 h-16 rounded-lg overflow-hidden border-2 flex-shrink-0 ${
-                        companion.id === "elara" ? "border-cyan-500/50" : "border-red-500/50"
+                        companion.id === "elara" ? "void-border-success" : "void-border-error"
                       }`}>
                         {avatar ? (
                           <AnimatedPortrait npcId={companion.id} expression="neutral" trustLevel={level} size="bust" />
                         ) : isHumanLocked ? (
                           <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-                            <Lock size={20} className="text-red-500/50" />
+                            <Lock size={20} className="void-text-error" />
                           </div>
                         ) : (
                           <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-                            <Radio size={20} className="text-red-400 animate-pulse" />
+                            <Radio size={20} className="void-text-error animate-pulse" />
                           </div>
                         )}
                         {/* Holographic scan line */}
@@ -224,7 +224,7 @@ export default function CompanionHubPage() {
                           {companion.faction === "dreamer" ? "DREAMER" : "ARCHITECT"}
                         </span>
                         <div className={`w-2 h-2 rounded-full ${
-                          companion.faction === "dreamer" ? "bg-cyan-400" : "bg-red-500"
+                          companion.faction === "dreamer" ? "void-bg-success" : "void-bg-error"
                         }`} />
                       </div>
                     </div>
@@ -257,19 +257,19 @@ export default function CompanionHubPage() {
               Your companions offer opposing counsel. Elara champions compassion and free will. The Human argues that survival demands pragmatism. Your choices shape not just the galaxy — but which voice you trust.
             </p>
             <div className="grid grid-cols-2 gap-3">
-              <div className="rounded border border-cyan-500/20 bg-cyan-950/10 p-3">
+              <div className="rounded border void-border-success void-bg-success p-3">
                 <div className="flex items-center gap-2 mb-1">
-                  <Heart size={12} className="text-cyan-400" />
-                  <span className="font-mono text-[10px] text-cyan-400 tracking-wider">HUMANITY</span>
+                  <Heart size={12} className="void-text-energy" />
+                  <span className="font-mono text-[10px] void-text-energy tracking-wider">HUMANITY</span>
                 </div>
                 <p className="font-mono text-[10px] text-muted-foreground">
                   Elara guides you toward empathy, freedom, and organic connection. High humanity unlocks her deepest trust — and her heart.
                 </p>
               </div>
-              <div className="rounded border border-red-500/20 bg-red-950/10 p-3">
+              <div className="rounded border void-border-error void-bg-error p-3">
                 <div className="flex items-center gap-2 mb-1">
-                  <Skull size={12} className="text-red-400" />
-                  <span className="font-mono text-[10px] text-red-400 tracking-wider">MACHINE</span>
+                  <Skull size={12} className="void-text-error" />
+                  <span className="font-mono text-[10px] void-text-error tracking-wider">MACHINE</span>
                 </div>
                 <p className="font-mono text-[10px] text-muted-foreground">
                   The Human respects cold logic and necessary sacrifice. High machine alignment earns his respect — and his secrets.
@@ -322,28 +322,28 @@ export default function CompanionHubPage() {
 
         {/* Companion Header */}
         <div className={`rounded-lg border overflow-hidden mb-6 ${
-          isElara ? "border-cyan-500/30 bg-cyan-950/10" : "border-red-500/30 bg-red-950/10"
+          isElara ? "void-border-success void-bg-success" : "void-border-error void-bg-error"
         }`}>
           <div className="p-5 sm:p-6">
             <div className="flex items-start gap-4 sm:gap-6">
               {/* Avatar */}
               <div className={`relative w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden border-2 flex-shrink-0 ${
-                isElara ? "border-cyan-500/50" : "border-red-500/50"
+                isElara ? "void-border-success" : "void-border-error"
               }`}>
                 {isElara ? (
                   <AnimatedPortrait npcId="elara" expression="neutral" trustLevel={level} size="bust" />
                 ) : level >= 50 ? (
                   <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
-                    <Eye size={32} className="text-red-400" />
+                    <Eye size={32} className="void-text-error" />
                   </div>
                 ) : level >= 15 ? (
                   <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-                    <Radio size={28} className="text-red-500/60 animate-pulse" />
+                    <Radio size={28} className="void-text-error animate-pulse" />
                   </div>
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center relative">
                     <div className="absolute inset-0 bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(255,0,0,0.03)_2px,rgba(255,0,0,0.03)_4px)]" />
-                    <Lock size={24} className="text-red-500/30" />
+                    <Lock size={24} className="void-text-error" />
                   </div>
                 )}
               </div>
@@ -355,7 +355,7 @@ export default function CompanionHubPage() {
                     {level >= 50 || isElara ? selectedCompanion.name : "???"}
                   </h2>
                   {romanceActive && (
-                    <Heart size={16} className="text-rose-400 fill-rose-400" />
+                    <Heart size={16} className="void-text-error fill-rose-400" />
                   )}
                 </div>
                 <p className="font-mono text-[10px] text-muted-foreground tracking-wider mb-2">
@@ -367,7 +367,7 @@ export default function CompanionHubPage() {
                     <span className={`font-mono text-[10px] font-bold ${tier.color}`}>{tier.name}</span>
                   </div>
                   <div className={`px-2 py-0.5 rounded text-[9px] font-mono tracking-wider ${
-                    isElara ? "bg-cyan-500/20 text-cyan-400" : "bg-red-500/20 text-red-400"
+                    isElara ? "void-bg-success void-text-energy" : "void-bg-error void-text-error"
                   }`}>
                     {selectedCompanion.faction.toUpperCase()}
                   </div>
@@ -402,14 +402,14 @@ export default function CompanionHubPage() {
           </div>
 
           {/* Tab Navigation */}
-          <div className={`flex border-t ${isElara ? "border-cyan-500/20" : "border-red-500/20"}`}>
+          <div className={`flex border-t ${isElara ? "void-border-success" : "void-border-error"}`}>
             {(["overview", "backstory", "quests", "gifts", "loyalty", "dialog"] as const).map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`flex-1 py-2.5 font-mono text-[10px] tracking-wider transition-colors ${
                   activeTab === tab
-                    ? `${isElara ? "text-cyan-400 bg-cyan-500/10" : "text-red-400 bg-red-500/10"} font-bold`
+                    ? `${isElara ? "void-text-energy void-bg-success" : "void-text-error void-bg-error"} font-bold`
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -432,13 +432,13 @@ export default function CompanionHubPage() {
               {/* Personality Traits */}
               <div className="void-surface p-4">
                 <h3 className="font-display text-sm font-bold tracking-wider text-foreground mb-3 flex items-center gap-2">
-                  <Sparkles size={14} className={isElara ? "text-cyan-400" : "text-red-400"} />
+                  <Sparkles size={14} className={isElara ? "void-text-energy" : "void-text-error"} />
                   PERSONALITY PROFILE
                 </h3>
                 <div className="space-y-2">
                   {selectedCompanion.personality.map((trait, i) => (
                     <div key={i} className="flex items-start gap-2">
-                      <div className={`w-1 h-1 rounded-full mt-1.5 flex-shrink-0 ${isElara ? "bg-cyan-400" : "bg-red-400"}`} />
+                      <div className={`w-1 h-1 rounded-full mt-1.5 flex-shrink-0 ${isElara ? "void-bg-success" : "void-bg-error"}`} />
                       <p className="font-mono text-xs text-muted-foreground">{trait}</p>
                     </div>
                   ))}
@@ -464,10 +464,10 @@ export default function CompanionHubPage() {
                     return (
                       <div key={i} className="flex items-center gap-3">
                         <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
-                          reached ? (isElara ? "bg-cyan-500/20" : "bg-red-500/20") : "bg-secondary"
+                          reached ? (isElara ? "void-bg-success" : "void-bg-error") : "bg-secondary"
                         }`}>
                           {reached ? (
-                            <Check size={12} className={isElara ? "text-cyan-400" : "text-red-400"} />
+                            <Check size={12} className={isElara ? "void-text-energy" : "void-text-error"} />
                           ) : (
                             <Lock size={10} className="text-muted-foreground/50" />
                           )}
@@ -507,9 +507,9 @@ export default function CompanionHubPage() {
 
               {/* The Human's Ark (for The Human) */}
               {!isElara && level >= 35 && (
-                <div className="void-surface border-red-500/20 p-4">
+                <div className="void-surface void-border-error p-4">
                   <h3 className="font-display text-sm font-bold tracking-wider text-foreground mb-3 flex items-center gap-2">
-                    <Radio size={14} className="text-red-400" />
+                    <Radio size={14} className="void-text-error" />
                     THE ARCHON'S GAMBIT
                   </h3>
                   <p className="font-mono text-xs text-muted-foreground">
@@ -540,12 +540,12 @@ export default function CompanionHubPage() {
                 const isUnlocked = stage.requiredLevel <= level;
                 const isExpanded = expandedBackstory === stage.id;
                 const moodColors: Record<string, string> = {
-                  guarded: "text-blue-400",
-                  reflective: "text-purple-400",
-                  vulnerable: "text-rose-400",
-                  passionate: "text-orange-400",
-                  haunted: "text-gray-400",
-                  resolute: "text-emerald-400",
+                  guarded: "void-text-energy",
+                  reflective: "void-text-system",
+                  vulnerable: "void-text-error",
+                  passionate: "void-text-premium",
+                  haunted: "void-text",
+                  resolute: "void-text-energy",
                 };
 
                 return (
@@ -566,10 +566,10 @@ export default function CompanionHubPage() {
                       className="w-full flex items-center gap-3 p-4 text-left"
                     >
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                        isUnlocked ? (isElara ? "bg-cyan-500/20" : "bg-red-500/20") : "bg-secondary"
+                        isUnlocked ? (isElara ? "void-bg-success" : "void-bg-error") : "bg-secondary"
                       }`}>
                         {isUnlocked ? (
-                          <BookOpen size={14} className={isElara ? "text-cyan-400" : "text-red-400"} />
+                          <BookOpen size={14} className={isElara ? "void-text-energy" : "void-text-error"} />
                         ) : (
                           <Lock size={12} className="text-muted-foreground/30" />
                         )}
@@ -600,7 +600,7 @@ export default function CompanionHubPage() {
                           exit={{ height: 0, opacity: 0 }}
                           className="overflow-hidden"
                         >
-                          <div className={`px-4 pb-4 border-t ${isElara ? "border-cyan-500/10" : "border-red-500/10"}`}>
+                          <div className={`px-4 pb-4 border-t ${isElara ? "void-border-success" : "void-border-error"}`}>
                             <div className="pt-4 font-mono text-xs text-muted-foreground leading-relaxed whitespace-pre-line">
                               {stage.content}
                             </div>
@@ -640,7 +640,7 @@ export default function CompanionHubPage() {
                     transition={{ delay: i * 0.05 }}
                     className={`rounded-lg border p-4 ${
                       isCompleted
-                        ? "border-emerald-500/20 bg-emerald-950/10"
+                        ? "void-border-success void-bg-success"
                         : isActive
                         ? `border-${accentColor}-500/30 bg-${accentColor}-950/10`
                         : isAvailable
@@ -650,14 +650,14 @@ export default function CompanionHubPage() {
                   >
                     <div className="flex items-start gap-3">
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                        isCompleted ? "bg-emerald-500/20" : isActive ? (isElara ? "bg-cyan-500/20" : "bg-red-500/20") : "bg-secondary"
+                        isCompleted ? "void-bg-success" : isActive ? (isElara ? "void-bg-success" : "void-bg-error") : "bg-secondary"
                       }`}>
                         {isCompleted ? (
-                          <Check size={14} className="text-emerald-400" />
+                          <Check size={14} className="void-text-energy" />
                         ) : quest.isRomanceQuest ? (
-                          <Heart size={14} className={isElara ? "text-cyan-400" : "text-red-400"} />
+                          <Heart size={14} className={isElara ? "void-text-energy" : "void-text-error"} />
                         ) : (
-                          <Swords size={14} className={isAvailable ? (isElara ? "text-cyan-400" : "text-red-400") : "text-muted-foreground/30"} />
+                          <Swords size={14} className={isAvailable ? (isElara ? "void-text-energy" : "void-text-error") : "text-muted-foreground/30"} />
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -666,7 +666,7 @@ export default function CompanionHubPage() {
                             {isAvailable || isCompleted ? quest.title : `[LOCKED — Level ${quest.requiredLevel}]`}
                           </h4>
                           {quest.isRomanceQuest && (
-                            <span className="px-1.5 py-0.5 rounded text-[8px] font-mono bg-rose-500/20 text-rose-400">ROMANCE</span>
+                            <span className="px-1.5 py-0.5 rounded text-[8px] font-mono void-bg-error void-text-error">ROMANCE</span>
                           )}
                         </div>
                         {(isAvailable || isCompleted) && (
@@ -680,7 +680,7 @@ export default function CompanionHubPage() {
                           </>
                         )}
                         {quest.moralityRequirement && !meetsmorality && isAvailable && (
-                          <p className="font-mono text-[10px] text-amber-400 mt-1">
+                          <p className="font-mono text-[10px] void-text-accent mt-1">
                             Requires morality {quest.moralityRequirement > 0 ? `≥ ${quest.moralityRequirement}` : `≤ ${quest.moralityRequirement}`}
                           </p>
                         )}
@@ -697,8 +697,8 @@ export default function CompanionHubPage() {
                         }}
                         className={`mt-3 w-full py-2 rounded font-mono text-[10px] tracking-wider transition-colors ${
                           isElara
-                            ? "bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30 border border-cyan-500/30"
-                            : "bg-red-500/20 text-red-400 hover:bg-red-500/30 border border-red-500/30"
+                            ? "void-bg-success void-text-energy void-bg-success border void-border-success"
+                            : "void-bg-error void-text-error void-bg-error border void-border-error"
                         }`}
                       >
                         BEGIN QUEST
@@ -711,7 +711,7 @@ export default function CompanionHubPage() {
                           setActiveDialog(quest);
                           setDialogPhase("completion");
                         }}
-                        className="mt-3 w-full py-2 rounded font-mono text-[10px] tracking-wider bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border border-emerald-500/30 transition-colors"
+                        className="mt-3 w-full py-2 rounded font-mono text-[10px] tracking-wider void-bg-success void-text-energy void-bg-success border void-border-success transition-colors"
                       >
                         COMPLETE QUEST
                       </button>
@@ -730,7 +730,7 @@ export default function CompanionHubPage() {
               className="space-y-4"
             >
               <div className="flex items-center gap-2 mb-2">
-                <Gift size={14} className={isElara ? "text-cyan-400" : "text-red-400"} />
+                <Gift size={14} className={isElara ? "void-text-energy" : "void-text-error"} />
                 <span className="font-mono text-xs text-muted-foreground">COMPANION GIFTS — Craft and give gifts to strengthen your bond</span>
               </div>
 
@@ -741,16 +741,16 @@ export default function CompanionHubPage() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
-                    className={`rounded-lg border p-4 ${isElara ? "border-cyan-500/40 bg-cyan-500/10" : "border-red-500/40 bg-red-500/10"}`}
+                    className={`rounded-lg border p-4 ${isElara ? "void-border-success void-bg-success" : "void-border-error void-bg-error"}`}
                   >
                     <div className="flex items-center gap-3 mb-3">
                       <span className="text-2xl">{giftResult.gift.icon}</span>
                       <div>
                         <p className="font-display text-sm font-bold" style={{ color: giftResult.gift.color }}>{giftResult.gift.name}</p>
-                        <p className="font-mono text-xs text-green-400">+{giftResult.xpGained} RELATIONSHIP XP</p>
+                        <p className="font-mono text-xs void-text-energy">+{giftResult.xpGained} RELATIONSHIP XP</p>
                       </div>
                     </div>
-                    <div className={`rounded-md p-3 mb-3 ${isElara ? "bg-cyan-500/5 border border-cyan-500/20" : "bg-red-500/5 border border-red-500/20"}`}>
+                    <div className={`rounded-md p-3 mb-3 ${isElara ? "void-bg-success border void-border-success" : "void-bg-error border void-border-error"}`}>
                       <p className="font-mono text-xs text-foreground/80 italic">"{giftResult.response}"</p>
                     </div>
                     <button
@@ -778,7 +778,7 @@ export default function CompanionHubPage() {
                         key={gift.id}
                         className={`rounded-lg border transition-all ${
                           isExpanded
-                            ? `${isElara ? "border-cyan-500/40 bg-cyan-500/5" : "border-red-500/40 bg-red-500/5"}`
+                            ? `${isElara ? "void-border-success void-bg-success" : "void-border-error void-bg-error"}`
                             : "border-border/30 bg-card/30 hover:border-border/50"
                         }`}
                       >
@@ -791,7 +791,7 @@ export default function CompanionHubPage() {
                             <div className="flex items-center gap-2">
                               <span className="font-mono text-xs font-bold" style={{ color: rarityColor }}>{gift.name}</span>
                               {isPreferred && (
-                                <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded ${isElara ? "bg-cyan-500/20 text-cyan-400" : "bg-red-500/20 text-red-400"}`}>
+                                <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded ${isElara ? "void-bg-success void-text-energy" : "void-bg-error void-text-error"}`}>
                                   ♥ FAVORITE
                                 </span>
                               )}
@@ -799,7 +799,7 @@ export default function CompanionHubPage() {
                             <p className="font-mono text-[10px] text-muted-foreground truncate">{gift.description}</p>
                           </div>
                           <div className="text-right">
-                            <p className="font-mono text-xs text-green-400">+{xpGain} XP</p>
+                            <p className="font-mono text-xs void-text-energy">+{xpGain} XP</p>
                             <p className="font-mono text-[9px]" style={{ color: rarityColor }}>{gift.rarity.toUpperCase()}</p>
                           </div>
                           <ChevronDown size={14} className={`text-muted-foreground transition-transform ${isExpanded ? "rotate-180" : ""}`} />
@@ -823,7 +823,7 @@ export default function CompanionHubPage() {
                                       const owned = state.craftingMaterials[req.materialId] || 0;
                                       const hasEnough = owned >= req.quantity;
                                       return (
-                                        <div key={req.materialId} className={`flex items-center gap-1 font-mono text-[10px] ${hasEnough ? "text-green-400" : "text-red-400"}`}>
+                                        <div key={req.materialId} className={`flex items-center gap-1 font-mono text-[10px] ${hasEnough ? "void-text-energy" : "void-text-error"}`}>
                                           <span>{mat?.icon || "?"}</span>
                                           <span>{owned}/{req.quantity} {mat?.name || req.materialId}</span>
                                         </div>
@@ -834,7 +834,7 @@ export default function CompanionHubPage() {
 
                                 {/* Special Effect */}
                                 {gift.specialEffect && (
-                                  <div className="flex items-center gap-1.5 font-mono text-[9px] text-amber-400">
+                                  <div className="flex items-center gap-1.5 font-mono text-[9px] void-text-accent">
                                     <Sparkles size={10} />
                                     <span>SPECIAL: {gift.specialEffect.type === "unlock_backstory" ? "Unlocks hidden backstory" : gift.specialEffect.type === "morality_shift" ? `Shifts morality by ${gift.specialEffect.value}` : gift.specialEffect.type === "unlock_quest" ? "Unlocks special quest" : "Bonus materials"}</span>
                                   </div>
@@ -865,7 +865,7 @@ export default function CompanionHubPage() {
                                   disabled={!canCraft}
                                   className={`w-full py-2 rounded-md font-mono text-xs font-bold transition-all ${
                                     canCraft
-                                      ? `${isElara ? "bg-cyan-500/20 text-cyan-400 hover:bg-cyan-500/30" : "bg-red-500/20 text-red-400 hover:bg-red-500/30"}`
+                                      ? `${isElara ? "void-bg-success void-text-energy void-bg-success" : "void-bg-error void-text-error void-bg-error"}`
                                       : "bg-secondary/20 text-muted-foreground/50 cursor-not-allowed"
                                   }`}
                                 >
@@ -1050,8 +1050,8 @@ function CompanionChatTab({
   }, [inputText, sendMessage]);
 
   const accentColor = isElara ? "cyan" : "red";
-  const accentBg = isElara ? "bg-cyan-950/20" : "bg-red-950/20";
-  const accentBorder = isElara ? "border-cyan-500/20" : "border-red-500/20";
+  const accentBg = isElara ? "void-bg-success" : "void-bg-error";
+  const accentBorder = isElara ? "void-border-success" : "void-border-error";
 
   return (
     <motion.div
@@ -1067,11 +1067,11 @@ function CompanionChatTab({
             {isElara ? (
               <HolographicElara size="sm" isSpeaking={isTyping} />
             ) : (
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center border border-red-500/30">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center border void-border-error">
                 {level >= 50 ? (
-                  <Eye size={20} className="text-red-400" />
+                  <Eye size={20} className="void-text-error" />
                 ) : (
-                  <Radio size={18} className={`text-red-500/60 ${isTyping ? "animate-pulse" : ""}`} />
+                  <Radio size={18} className={`void-text-error ${isTyping ? "animate-pulse" : ""}`} />
                 )}
               </div>
             )}
@@ -1093,7 +1093,7 @@ function CompanionChatTab({
         <div className="h-80 overflow-y-auto p-4 bg-card/10 space-y-3 scrollbar-thin">
           {chatMessages.length === 0 && isElara && (
             <div className="text-center py-8">
-              <MessageCircle size={24} className="text-cyan-500/30 mx-auto mb-3" />
+              <MessageCircle size={24} className="void-text-energy mx-auto mb-3" />
               <p className="font-mono text-xs text-muted-foreground/50">
                 Open a channel with Elara. Ask about the Saga, the Ark, or anything on your mind.
               </p>
@@ -1111,8 +1111,8 @@ function CompanionChatTab({
                 msg.role === "user"
                   ? "bg-primary/15 border border-primary/20"
                   : isElara
-                    ? "bg-cyan-950/20 border border-cyan-500/10"
-                    : "bg-red-950/20 border border-red-500/10"
+                    ? "void-bg-success border void-border-success"
+                    : "void-bg-error border void-border-error"
               }`}>
                 {msg.role === "user" ? (
                   <p className="font-mono text-xs text-foreground">{msg.content}</p>
@@ -1130,11 +1130,11 @@ function CompanionChatTab({
               animate={{ opacity: 1 }}
               className="flex justify-start"
             >
-              <div className={`rounded-lg px-3 py-2 ${isElara ? "bg-cyan-950/20 border border-cyan-500/10" : "bg-red-950/20 border border-red-500/10"}`}>
+              <div className={`rounded-lg px-3 py-2 ${isElara ? "void-bg-success border void-border-success" : "void-bg-error border void-border-error"}`}>
                 <div className="flex items-center gap-1.5">
-                  <div className={`w-1.5 h-1.5 rounded-full ${isElara ? "bg-cyan-400" : "bg-red-400"} animate-bounce`} style={{ animationDelay: "0ms" }} />
-                  <div className={`w-1.5 h-1.5 rounded-full ${isElara ? "bg-cyan-400" : "bg-red-400"} animate-bounce`} style={{ animationDelay: "150ms" }} />
-                  <div className={`w-1.5 h-1.5 rounded-full ${isElara ? "bg-cyan-400" : "bg-red-400"} animate-bounce`} style={{ animationDelay: "300ms" }} />
+                  <div className={`w-1.5 h-1.5 rounded-full ${isElara ? "void-bg-success" : "void-bg-error"} animate-bounce`} style={{ animationDelay: "0ms" }} />
+                  <div className={`w-1.5 h-1.5 rounded-full ${isElara ? "void-bg-success" : "void-bg-error"} animate-bounce`} style={{ animationDelay: "150ms" }} />
+                  <div className={`w-1.5 h-1.5 rounded-full ${isElara ? "void-bg-success" : "void-bg-error"} animate-bounce`} style={{ animationDelay: "300ms" }} />
                 </div>
               </div>
             </motion.div>
@@ -1156,8 +1156,8 @@ function CompanionChatTab({
             )}
             {dialogPhase === "completion" && (
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded border border-emerald-500/20 bg-emerald-950/10">
-                  <p className="font-mono text-[9px] text-emerald-400 font-bold">QUEST COMPLETE</p>
+                <div className="p-2 rounded border void-border-success void-bg-success">
+                  <p className="font-mono text-[9px] void-text-energy font-bold">QUEST COMPLETE</p>
                   <div className="flex items-center gap-2 text-[9px] font-mono text-muted-foreground mt-1">
                     <span>+{activeDialog.rewards.relationshipXp} REL</span>
                     <span>+{activeDialog.rewards.dreamTokens} DREAM</span>
@@ -1185,8 +1185,8 @@ function CompanionChatTab({
                   onClick={() => handleChoiceClick(choice)}
                   className={`px-2.5 py-1.5 rounded text-[10px] font-mono border transition-all hover:scale-[1.02] ${
                     isElara
-                      ? "border-cyan-500/20 text-cyan-300/70 hover:bg-cyan-500/10 hover:text-cyan-300"
-                      : "border-red-500/20 text-red-300/70 hover:bg-red-500/10 hover:text-red-300"
+                      ? "void-border-success void-text-energy void-bg-success void-text-energy"
+                      : "void-border-error void-text-error void-bg-error void-text-error"
                   }`}
                 >
                   {choice.text}
@@ -1214,8 +1214,8 @@ function CompanionChatTab({
               className={`p-2 rounded transition-all ${
                 inputText.trim() && !isTyping
                   ? isElara
-                    ? "text-cyan-400 hover:bg-cyan-500/10"
-                    : "text-red-400 hover:bg-red-500/10"
+                    ? "void-text-energy void-bg-success"
+                    : "void-text-error void-bg-error"
                   : "text-muted-foreground/20"
               }`}
             >
@@ -1254,9 +1254,9 @@ function LoyaltyMissionsTab({
   const [missionComplete, setMissionComplete] = useState<LoyaltyMission | null>(null);
 
   const accentColor = isElara ? "cyan" : "red";
-  const accentBg = isElara ? "bg-cyan-500/10" : "bg-red-500/10";
-  const accentBorder = isElara ? "border-cyan-500/30" : "border-red-500/30";
-  const accentText = isElara ? "text-cyan-400" : "text-red-400";
+  const accentBg = isElara ? "void-bg-success" : "void-bg-error";
+  const accentBorder = isElara ? "void-border-success" : "void-border-error";
+  const accentText = isElara ? "void-text-energy" : "void-text-error";
 
   const companionMissions = ALL_LOYALTY_MISSIONS.filter(m => m.companionId === companion.id);
   const available = getAvailableLoyaltyMissions(
@@ -1312,29 +1312,29 @@ function LoyaltyMissionsTab({
           <p className={`font-display text-sm ${accentText} mb-4`}>{missionComplete.title}</p>
 
           {missionComplete.reward.title && (
-            <div className="mb-4 py-2 px-4 rounded-md bg-amber-500/10 border border-amber-500/30 inline-block">
-              <p className="font-mono text-[10px] text-amber-400/60 tracking-wider">TITLE EARNED</p>
-              <p className="font-display text-sm font-bold text-amber-400">{missionComplete.reward.title}</p>
+            <div className="mb-4 py-2 px-4 rounded-md void-bg-sunk border void-border inline-block">
+              <p className="font-mono text-[10px] void-text-accent tracking-wider">TITLE EARNED</p>
+              <p className="font-display text-sm font-bold void-text-accent">{missionComplete.reward.title}</p>
             </div>
           )}
 
           <div className="space-y-2 text-left max-w-md mx-auto">
             <div className="flex items-center gap-2">
-              <BookOpen size={12} className="text-purple-400" />
-              <span className="font-mono text-xs text-purple-400">LORE: {missionComplete.reward.loreUnlock}</span>
+              <BookOpen size={12} className="void-text-system" />
+              <span className="font-mono text-xs void-text-system">LORE: {missionComplete.reward.loreUnlock}</span>
             </div>
             <div className="flex items-center gap-2">
-              <Heart size={12} className="text-rose-400" />
-              <span className="font-mono text-xs text-rose-400">+{missionComplete.reward.relationshipBonus} RELATIONSHIP</span>
+              <Heart size={12} className="void-text-error" />
+              <span className="font-mono text-xs void-text-error">+{missionComplete.reward.relationshipBonus} RELATIONSHIP</span>
             </div>
             <div className="flex items-center gap-2">
-              <Zap size={12} className="text-amber-400" />
-              <span className="font-mono text-xs text-amber-400">+{missionComplete.reward.moralityBonus} MORALITY</span>
+              <Zap size={12} className="void-text-accent" />
+              <span className="font-mono text-xs void-text-accent">+{missionComplete.reward.moralityBonus} MORALITY</span>
             </div>
             {missionComplete.reward.specialUnlock && (
               <div className="flex items-center gap-2">
-                <Sparkles size={12} className="text-emerald-400" />
-                <span className="font-mono text-xs text-emerald-400">UNLOCKED: {missionComplete.reward.specialUnlock.replace(/_/g, " ").toUpperCase()}</span>
+                <Sparkles size={12} className="void-text-energy" />
+                <span className="font-mono text-xs void-text-energy">UNLOCKED: {missionComplete.reward.specialUnlock.replace(/_/g, " ").toUpperCase()}</span>
               </div>
             )}
           </div>
@@ -1370,7 +1370,7 @@ function LoyaltyMissionsTab({
           <div className="mt-2 flex items-center gap-2">
             <div className="flex-1 h-1 rounded-full bg-secondary/50">
               <div
-                className={`h-full rounded-full transition-all duration-500 ${isElara ? "bg-cyan-500" : "bg-red-500"}`}
+                className={`h-full rounded-full transition-all duration-500 ${isElara ? "void-bg-success" : "void-bg-error"}`}
                 style={{ width: `${((activeMissionStepIdx + 1) / activeMission.steps.length) * 100}%` }}
               />
             </div>
@@ -1385,10 +1385,10 @@ function LoyaltyMissionsTab({
           {/* Step type indicator */}
           <div className="flex items-center gap-2 mb-3">
             {currentStep.type === "dialogue" && <MessageCircle size={12} className={accentText} />}
-            {currentStep.type === "investigation" && <Eye size={12} className="text-amber-400" />}
-            {currentStep.type === "choice" && <Swords size={12} className="text-purple-400" />}
-            {currentStep.type === "revelation" && <Sparkles size={12} className="text-emerald-400" />}
-            {currentStep.type === "combat_challenge" && <Skull size={12} className="text-red-400" />}
+            {currentStep.type === "investigation" && <Eye size={12} className="void-text-accent" />}
+            {currentStep.type === "choice" && <Swords size={12} className="void-text-system" />}
+            {currentStep.type === "revelation" && <Sparkles size={12} className="void-text-energy" />}
+            {currentStep.type === "combat_challenge" && <Skull size={12} className="void-text-error" />}
             <span className="font-mono text-[9px] text-muted-foreground tracking-wider">
               {currentStep.type.toUpperCase().replace("_", " ")}
             </span>
@@ -1429,13 +1429,13 @@ function LoyaltyMissionsTab({
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="mt-4 p-4 rounded-md bg-purple-500/5 border border-purple-500/30"
+              className="mt-4 p-4 rounded-md void-bg-system border void-border-system"
             >
               <div className="flex items-center gap-2 mb-2">
-                <BookOpen size={12} className="text-purple-400" />
-                <span className="font-mono text-[9px] text-purple-400 tracking-wider">LORE REVEALED</span>
+                <BookOpen size={12} className="void-text-system" />
+                <span className="font-mono text-[9px] void-text-system tracking-wider">LORE REVEALED</span>
               </div>
-              <p className="font-mono text-[10px] text-purple-300/80 leading-relaxed">
+              <p className="font-mono text-[10px] void-text-system leading-relaxed">
                 {currentStep.revealedLore}
               </p>
             </motion.div>
@@ -1450,13 +1450,13 @@ function LoyaltyMissionsTab({
                   onClick={() => handleChoice(choice)}
                   className={`w-full text-left p-3 rounded-md border transition-all hover:scale-[1.01] ${
                     isElara
-                      ? "border-cyan-500/20 hover:border-cyan-500/40 hover:bg-cyan-500/5"
-                      : "border-red-500/20 hover:border-red-500/40 hover:bg-red-500/5"
+                      ? "void-border-success void-border-success void-bg-success"
+                      : "void-border-error void-border-error void-bg-error"
                   }`}
                 >
                   <p className="font-mono text-xs text-foreground/80">{choice.text}</p>
                   {choice.moralityShift !== 0 && (
-                    <p className={`font-mono text-[9px] mt-1 ${choice.moralityShift > 0 ? "text-cyan-400" : "text-red-400"}`}>
+                    <p className={`font-mono text-[9px] mt-1 ${choice.moralityShift > 0 ? "void-text-energy" : "void-text-error"}`}>
                       {choice.moralityShift > 0 ? "▲" : "▼"} MORALITY {choice.moralityShift > 0 ? "+" : ""}{choice.moralityShift}
                     </p>
                   )}
@@ -1472,7 +1472,7 @@ function LoyaltyMissionsTab({
             onClick={handleAdvance}
             className={`w-full py-3 rounded-md font-mono text-xs font-bold tracking-wider transition-all ${
               isLastStep
-                ? "bg-amber-500/20 text-amber-400 border border-amber-500/30 hover:bg-amber-500/30"
+                ? "void-bg-sunk void-text-accent border void-border void-bg-sunk"
                 : `${accentBg} ${accentText} border ${accentBorder} hover:opacity-80`
             }`}
           >
@@ -1504,7 +1504,7 @@ function LoyaltyMissionsTab({
           <p className="font-mono text-[9px] text-muted-foreground tracking-wider mb-2">EARNED TITLES</p>
           <div className="flex flex-wrap gap-2">
             {titles.map(t => (
-              <span key={t} className="font-mono text-[10px] text-amber-400 px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">
+              <span key={t} className="font-mono text-[10px] void-text-accent px-2 py-0.5 rounded void-bg-sunk border void-border">
                 ⚜ {t}
               </span>
             ))}
@@ -1514,12 +1514,12 @@ function LoyaltyMissionsTab({
 
       {/* Unlocked Lore */}
       {loreUnlocked.length > 0 && (
-        <div className="void-surface border-purple-500/30 p-3">
-          <p className="font-mono text-[9px] text-purple-400/60 tracking-wider mb-2">PANOPTICON LORE UNLOCKED</p>
+        <div className="void-surface void-border-system p-3">
+          <p className="font-mono text-[9px] void-text-system tracking-wider mb-2">PANOPTICON LORE UNLOCKED</p>
           {loreUnlocked.map(l => (
             <div key={l} className="flex items-center gap-2 mb-1">
-              <BookOpen size={10} className="text-purple-400" />
-              <span className="font-mono text-[10px] text-purple-300/80">{l}</span>
+              <BookOpen size={10} className="void-text-system" />
+              <span className="font-mono text-[10px] void-text-system">{l}</span>
             </div>
           ))}
         </div>
@@ -1542,7 +1542,7 @@ function LoyaltyMissionsTab({
             key={mission.id}
             className={`rounded-lg border p-4 transition-all ${
               isCompleted
-                ? "border-emerald-500/30 bg-emerald-500/5"
+                ? "void-border-success void-bg-success"
                 : isAvailable
                 ? `${accentBorder} ${accentBg} hover:scale-[1.01] cursor-pointer`
                 : "border-border/20 bg-card/20 opacity-60"
@@ -1552,13 +1552,13 @@ function LoyaltyMissionsTab({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   {isCompleted ? (
-                    <Check size={14} className="text-emerald-400" />
+                    <Check size={14} className="void-text-energy" />
                   ) : isLocked ? (
                     <Lock size={14} className="text-muted-foreground/50" />
                   ) : (
                     <Shield size={14} className={accentText} />
                   )}
-                  <h4 className={`font-display text-sm font-bold ${isCompleted ? "text-emerald-400" : isAvailable ? "text-foreground" : "text-muted-foreground/50"}`}>
+                  <h4 className={`font-display text-sm font-bold ${isCompleted ? "void-text-energy" : isAvailable ? "text-foreground" : "text-muted-foreground/50"}`}>
                     {isLocked ? "???" : mission.title}
                   </h4>
                 </div>
@@ -1569,13 +1569,13 @@ function LoyaltyMissionsTab({
                 {/* Requirements */}
                 <div className="flex flex-wrap gap-2">
                   <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded ${
-                    meetsRelationship ? "bg-emerald-500/10 text-emerald-400" : "bg-red-500/10 text-red-400"
+                    meetsRelationship ? "void-bg-success void-text-energy" : "void-bg-error void-text-error"
                   }`}>
                     {meetsRelationship ? "✓" : "✗"} REL {mission.requiredRelationship}+
                   </span>
                   {mission.requiredMorality && (
                     <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded ${
-                      meetsMorality ? "bg-emerald-500/10 text-emerald-400" : "bg-red-500/10 text-red-400"
+                      meetsMorality ? "void-bg-success void-text-energy" : "void-bg-error void-text-error"
                     }`}>
                       {meetsMorality ? "✓" : "✗"} {mission.requiredMorality.side.toUpperCase()} ≥{mission.requiredMorality.min}
                     </span>
@@ -1596,7 +1596,7 @@ function LoyaltyMissionsTab({
                 </button>
               )}
               {isCompleted && (
-                <span className="font-mono text-[9px] text-emerald-400 px-2 py-1 rounded bg-emerald-500/10">
+                <span className="font-mono text-[9px] void-text-energy px-2 py-1 rounded void-bg-success">
                   COMPLETED
                 </span>
               )}
@@ -1605,10 +1605,10 @@ function LoyaltyMissionsTab({
             {/* Rewards Preview */}
             {!isLocked && (
               <div className="mt-3 pt-2 border-t border-border/20 flex flex-wrap gap-3">
-                <span className="font-mono text-[9px] text-purple-400">📖 {mission.reward.loreUnlock}</span>
-                <span className="font-mono text-[9px] text-rose-400">♥ +{mission.reward.relationshipBonus}</span>
+                <span className="font-mono text-[9px] void-text-system">📖 {mission.reward.loreUnlock}</span>
+                <span className="font-mono text-[9px] void-text-error">♥ +{mission.reward.relationshipBonus}</span>
                 {mission.reward.title && (
-                  <span className="font-mono text-[9px] text-amber-400">⚜ {mission.reward.title}</span>
+                  <span className="font-mono text-[9px] void-text-accent">⚜ {mission.reward.title}</span>
                 )}
               </div>
             )}

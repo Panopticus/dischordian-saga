@@ -11,10 +11,10 @@ import { X, CheckCircle, RotateCcw, Zap, Navigation } from "lucide-react";
 /* ─── ALIEN GLYPHS (SVG-based symbols) ─── */
 const ALIEN_GLYPHS = [
   { id: "glyph-void", name: "Void Gate", svg: "M12 2L2 12l10 10 10-10L12 2zm0 4l6 6-6 6-6-6 6-6z", color: "#a855f7" },
-  { id: "glyph-nexus", name: "Nexus Point", svg: "M12 2v20M2 12h20M5.64 5.64l12.72 12.72M18.36 5.64L5.64 18.36", color: "#33E2E6" },
-  { id: "glyph-warp", name: "Warp Spiral", svg: "M12 2a10 10 0 0110 10 8 8 0 01-8 8 6 6 0 01-6-6 4 4 0 014-4 2 2 0 012 2", color: "#FF8C00" },
-  { id: "glyph-anchor", name: "Anchor Lock", svg: "M12 2l3 6h6l-5 4 2 6-6-4-6 4 2-6-5-4h6z", color: "#3875fa" },
-  { id: "glyph-pulse", name: "Pulse Wave", svg: "M2 12h3l2-6 3 12 3-8 2 4h5", color: "#22c55e" },
+  { id: "glyph-nexus", name: "Nexus Point", svg: "M12 2v20M2 12h20M5.64 5.64l12.72 12.72M18.36 5.64L5.64 18.36", color: "var(--energy-primary)" },
+  { id: "glyph-warp", name: "Warp Spiral", svg: "M12 2a10 10 0 0110 10 8 8 0 01-8 8 6 6 0 01-6-6 4 4 0 014-4 2 2 0 012 2", color: "var(--energy-premium)" },
+  { id: "glyph-anchor", name: "Anchor Lock", svg: "M12 2l3 6h6l-5 4 2 6-6-4-6 4 2-6-5-4h6z", color: "var(--electric-blue)" },
+  { id: "glyph-pulse", name: "Pulse Wave", svg: "M2 12h3l2-6 3 12 3-8 2 4h5", color: "var(--energy-success)" },
   { id: "glyph-rift", name: "Rift Tear", svg: "M12 2C7 2 3 6 3 12s4 10 9 10c-3-2-5-6-5-10S9 4 12 2zm0 0c5 0 9 4 9 10s-4 10-9 10c3-2 5-6 5-10S15 4 12 2z", color: "#DC2626" },
 ];
 
@@ -120,9 +120,9 @@ export default function AlienSymbolPuzzle({ onSolve, onClose }: AlienSymbolPuzzl
         exit={{ scale: 0.9, opacity: 0 }}
         className="w-full max-w-lg rounded-lg overflow-hidden"
         style={{
-          background: "linear-gradient(135deg, var(--bg-void) 0%, rgba(56,117,250,0.05) 100%)",
-          border: "1px solid rgba(51,226,230,0.25)",
-          boxShadow: "0 0 60px rgba(51,226,230,0.1), 0 0 120px rgba(56,117,250,0.05)",
+          background: "linear-gradient(135deg, var(--bg-void) 0%, color-mix(in oklch, var(--electric-blue) 5%, transparent) 100%)",
+          border: "1px solid color-mix(in oklch, var(--energy-primary) 25%, transparent)",
+          boxShadow: "0 0 60px color-mix(in oklch, var(--energy-primary) 10%, transparent), 0 0 120px color-mix(in oklch, var(--electric-blue) 5%, transparent)",
         }}
       >
         {/* Header */}
@@ -141,8 +141,8 @@ export default function AlienSymbolPuzzle({ onSolve, onClose }: AlienSymbolPuzzl
         <div className="p-5 space-y-5">
           {/* Elara instruction */}
           <div className="rounded-md px-4 py-3" style={{
-            background: "rgba(51,226,230,0.04)",
-            border: "1px solid rgba(51,226,230,0.12)",
+            background: "color-mix(in oklch, var(--energy-primary) 4%, transparent)",
+            border: "1px solid color-mix(in oklch, var(--energy-primary) 12%, transparent)",
           }}>
             <p className="font-mono text-[10px] text-[var(--neon-cyan)]/60 tracking-[0.2em] mb-1">ELARA</p>
             <p className="font-mono text-xs text-muted-foreground/80 leading-relaxed">
@@ -208,11 +208,11 @@ export default function AlienSymbolPuzzle({ onSolve, onClose }: AlienSymbolPuzzl
                       onClick={() => handleSlotClick(i)}
                       className="w-16 h-16 rounded-lg flex items-center justify-center transition-all"
                       style={{
-                        background: slot ? `${slot.color}10` : "rgba(255,255,255,0.02)",
+                        background: slot ? `${slot.color}10` : "color-mix(in oklch, var(--text-primary) 2%, transparent)",
                         border: `1.5px ${i === activeSlot ? "solid" : "dashed"} ${
-                          slot ? `${slot.color}40` : i === activeSlot ? "rgba(51,226,230,0.5)" : "rgba(255,255,255,0.1)"
+                          slot ? `${slot.color}40` : i === activeSlot ? "color-mix(in oklch, var(--energy-primary) 50%, transparent)" : "color-mix(in oklch, var(--text-primary) 10%, transparent)"
                         }`,
-                        boxShadow: i === activeSlot ? "0 0 15px rgba(51,226,230,0.15)" : "none",
+                        boxShadow: i === activeSlot ? "0 0 15px color-mix(in oklch, var(--energy-primary) 15%, transparent)" : "none",
                       }}
                     >
                       {slot ? <GlyphIcon glyph={slot} size={36} /> : (
@@ -263,8 +263,8 @@ export default function AlienSymbolPuzzle({ onSolve, onClose }: AlienSymbolPuzzl
                     disabled={selectedSlots.some(s => s === null)}
                     className="px-5 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all disabled:opacity-30"
                     style={{
-                      background: "rgba(51,226,230,0.1)",
-                      border: "1px solid rgba(51,226,230,0.3)",
+                      background: "color-mix(in oklch, var(--energy-primary) 10%, transparent)",
+                      border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
                       color: "var(--neon-cyan)",
                     }}
                   >
@@ -277,14 +277,14 @@ export default function AlienSymbolPuzzle({ onSolve, onClose }: AlienSymbolPuzzl
               <AnimatePresence>
                 {showResult === "correct" && (
                   <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-                    className="flex items-center gap-2 text-green-400 font-mono text-xs justify-center"
+                    className="flex items-center gap-2 void-text-energy font-mono text-xs justify-center"
                   >
                     <CheckCircle size={14} /> CALIBRATION SUCCESSFUL — NAVIGATION ONLINE
                   </motion.div>
                 )}
                 {showResult === "wrong" && (
                   <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-                    className="flex items-center gap-2 text-red-400 font-mono text-xs justify-center"
+                    className="flex items-center gap-2 void-text-error font-mono text-xs justify-center"
                   >
                     <Zap size={14} /> SEQUENCE MISMATCH — TRY AGAIN ({attempts} attempt{attempts !== 1 ? "s" : ""})
                   </motion.div>
@@ -294,8 +294,8 @@ export default function AlienSymbolPuzzle({ onSolve, onClose }: AlienSymbolPuzzl
               {/* Hint */}
               {showHint && (
                 <div className="rounded-md px-3 py-2" style={{
-                  background: "rgba(255,183,77,0.05)",
-                  border: "1px solid rgba(255,183,77,0.15)",
+                  background: "color-mix(in oklch, var(--energy-premium) 5%, transparent)",
+                  border: "1px solid color-mix(in oklch, var(--energy-premium) 15%, transparent)",
                 }}>
                   <p className="font-mono text-[10px] text-[var(--orb-orange)]/70">
                     ELARA HINT: The first symbol was {targetSequence[0].name}. The sequence follows the pattern: {targetSequence.map(g => g.name.split(" ")[0]).join(" → ")}.

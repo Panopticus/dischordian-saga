@@ -48,7 +48,7 @@ export default function DeadMansCircuitCrewPicker({ onClose, onPicked }: Props) 
         initial={{ scale: 0.95 }}
         animate={{ scale: 1 }}
         exit={{ scale: 0.95 }}
-        className="bg-card border border-red-500/40 rounded max-w-md w-full p-5 relative"
+        className="bg-card border void-border-error rounded max-w-md w-full p-5 relative"
         onClick={e => e.stopPropagation()}
       >
         <button
@@ -59,7 +59,7 @@ export default function DeadMansCircuitCrewPicker({ onClose, onPicked }: Props) 
         </button>
 
         <div className="flex items-center gap-2 mb-1">
-          <Skull size={16} className="text-red-400" />
+          <Skull size={16} className="void-text-error" />
           <span className="font-display text-base font-bold">CIRCUIT CLONE SEAT</span>
         </div>
         <div className="text-[11px] font-mono italic text-muted-foreground mb-4">
@@ -77,7 +77,7 @@ export default function DeadMansCircuitCrewPicker({ onClose, onPicked }: Props) 
                 key={m.id}
                 onClick={() => setPicked(m.id)}
                 className={`w-full text-left p-2 border rounded text-xs font-mono ${
-                  picked === m.id ? "border-red-400 bg-red-500/10" : "border-border/30"
+                  picked === m.id ? "void-border-error void-bg-error" : "border-border/30"
                 }`}
               >
                 <div className="flex items-center justify-between">

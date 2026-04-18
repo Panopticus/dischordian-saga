@@ -33,16 +33,16 @@ export const MATERIALS: Material[] = [
 
   // ── Trade Empire Materials ──
   { id: "iron_ore", name: "Iron Ore", icon: "⛏️", description: "Raw iron mined from asteroid belts. Essential for armor and weapons.", rarity: "common", source: "trade_empire", sourceDetail: "Mine at asteroid belt sectors", color: "#94a3b8" },
-  { id: "crystal_shard", name: "Crystal Shard", icon: "💠", description: "Crystalline fragments with energy-conducting properties.", rarity: "uncommon", source: "trade_empire", sourceDetail: "Trade at crystal nebula ports", color: "#22d3ee" },
+  { id: "crystal_shard", name: "Crystal Shard", icon: "💠", description: "Crystalline fragments with energy-conducting properties.", rarity: "uncommon", source: "trade_empire", sourceDetail: "Trade at crystal nebula ports", color: "var(--energy-primary)" },
   { id: "void_metal", name: "Void Metal", icon: "🌑", description: "Metal infused with void energy. Incredibly strong and lightweight.", rarity: "rare", source: "trade_empire", sourceDetail: "Rare trade goods from deep space sectors", color: "#6366f1" },
-  { id: "quantum_flux", name: "Quantum Flux", icon: "⚡", description: "Unstable quantum energy captured in containment. Used for reality-bending crafts.", rarity: "epic", source: "trade_empire", sourceDetail: "Harvest from wormhole sectors", color: "#f59e0b" },
+  { id: "quantum_flux", name: "Quantum Flux", icon: "⚡", description: "Unstable quantum energy captured in containment. Used for reality-bending crafts.", rarity: "epic", source: "trade_empire", sourceDetail: "Harvest from wormhole sectors", color: "var(--energy-accent)" },
   { id: "stardust", name: "Stardust", icon: "✨", description: "Cosmic dust from dying stars. Universal crafting enhancer.", rarity: "common", source: "trade_empire", sourceDetail: "Collect from any nebula sector", color: "#e2e8f0" },
 
   // ── Combat Drop Materials ──
-  { id: "battle_shard", name: "Battle Shard", icon: "⚔️", description: "Crystallized combat energy. Dropped by defeated opponents.", rarity: "common", source: "combat_drop", sourceDetail: "Win fights in the Arena", color: "#ef4444" },
-  { id: "champions_mark", name: "Champion's Mark", icon: "🏆", description: "Proof of exceptional combat prowess. Rare arena drop.", rarity: "uncommon", source: "combat_drop", sourceDetail: "Win 3+ fights in a row", color: "#f59e0b" },
+  { id: "battle_shard", name: "Battle Shard", icon: "⚔️", description: "Crystallized combat energy. Dropped by defeated opponents.", rarity: "common", source: "combat_drop", sourceDetail: "Win fights in the Arena", color: "var(--energy-error)" },
+  { id: "champions_mark", name: "Champion's Mark", icon: "🏆", description: "Proof of exceptional combat prowess. Rare arena drop.", rarity: "uncommon", source: "combat_drop", sourceDetail: "Win 3+ fights in a row", color: "var(--energy-accent)" },
   { id: "void_catalyst", name: "Void Catalyst", icon: "🌀", description: "A catalyst that bends reality. Extremely rare combat drop.", rarity: "rare", source: "combat_drop", sourceDetail: "Defeat hard+ difficulty opponents", color: "#8b5cf6" },
-  { id: "architects_tear", name: "Architect's Tear", icon: "👁️", description: "A tear shed by the Architect himself. The rarest crafting material.", rarity: "legendary", source: "combat_drop", sourceDetail: "Defeat legendary difficulty opponents", color: "#ef4444" },
+  { id: "architects_tear", name: "Architect's Tear", icon: "👁️", description: "A tear shed by the Architect himself. The rarest crafting material.", rarity: "legendary", source: "combat_drop", sourceDetail: "Defeat legendary difficulty opponents", color: "var(--energy-error)" },
 
   // ── Exploration Materials ──
   { id: "ark_fragment", name: "Ark Fragment", icon: "🚀", description: "Piece of ancient Ark technology. Found in hidden rooms.", rarity: "uncommon", source: "exploration", sourceDetail: "Discover hidden Ark rooms", color: "#06b6d4" },
@@ -78,7 +78,7 @@ export const CRAFTING_SKILLS: CraftingSkill[] = [
     name: "Weaponsmithing",
     icon: "⚔️",
     description: "Forge weapons of increasing power. Higher levels unlock rare and epic weapon recipes.",
-    color: "#ef4444",
+    color: "var(--energy-error)",
     maxLevel: 10,
     xpPerLevel: [0, 50, 120, 220, 360, 550, 800, 1100, 1500, 2000],
   },
@@ -105,7 +105,7 @@ export const CRAFTING_SKILLS: CraftingSkill[] = [
     name: "Alchemy",
     icon: "🧪",
     description: "Brew potions and consumables. Create powerful one-use items for combat and trade.",
-    color: "#22c55e",
+    color: "var(--energy-success)",
     maxLevel: 10,
     xpPerLevel: [0, 30, 80, 150, 250, 380, 550, 770, 1050, 1400],
   },
@@ -114,7 +114,7 @@ export const CRAFTING_SKILLS: CraftingSkill[] = [
     name: "Engineering",
     icon: "⚙️",
     description: "Build ship upgrades and tech gadgets. Enhance Trade Empire ships and craft utility items.",
-    color: "#f59e0b",
+    color: "var(--energy-accent)",
     maxLevel: 10,
     xpPerLevel: [0, 60, 140, 260, 420, 640, 920, 1280, 1720, 2300],
   },
@@ -535,21 +535,21 @@ export function calculateSuccessRate(recipe: CraftingRecipe, skillLevel: number)
 export function getMaterialRarityColor(rarity: Material["rarity"]): string {
   const map = {
     common: "#9ca3af",
-    uncommon: "#22c55e",
+    uncommon: "var(--energy-success)",
     rare: "#3b82f6",
     epic: "#a855f7",
-    legendary: "#f59e0b",
+    legendary: "var(--energy-accent)",
   };
   return map[rarity];
 }
 
 /** Category display info */
 export const CATEGORY_INFO: Record<RecipeCategory, { label: string; icon: string; color: string }> = {
-  weapon: { label: "Weapons", icon: "⚔️", color: "#ef4444" },
+  weapon: { label: "Weapons", icon: "⚔️", color: "var(--energy-error)" },
   armor: { label: "Armor & Helms", icon: "🛡️", color: "#3b82f6" },
   accessory: { label: "Accessories", icon: "💎", color: "#a855f7" },
-  potion: { label: "Potions", icon: "🧪", color: "#22c55e" },
-  ship_upgrade: { label: "Ship Upgrades", icon: "🚀", color: "#f59e0b" },
+  potion: { label: "Potions", icon: "🧪", color: "var(--energy-success)" },
+  ship_upgrade: { label: "Ship Upgrades", icon: "🚀", color: "var(--energy-accent)" },
   card_enhancement: { label: "Card Enhancements", icon: "✨", color: "#ec4899" },
   intermediate: { label: "Materials", icon: "🔩", color: "#94a3b8" },
 };

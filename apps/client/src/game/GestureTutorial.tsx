@@ -32,8 +32,8 @@ const TUTORIAL_STEPS: TutorialStep[] = [
     gesture: "hold",
     icon: <Shield size={28} />,
     keyboardHint: "Hold S",
-    color: "#22d3ee",
-    glowColor: "rgba(34, 211, 238, 0.3)",
+    color: "var(--energy-primary)",
+    glowColor: "color-mix(in oklch, var(--energy-primary) 30%, transparent)",
   },
   {
     id: "dash_back",
@@ -43,8 +43,8 @@ const TUTORIAL_STEPS: TutorialStep[] = [
     gesture: "swipe_left",
     icon: <ArrowLeft size={28} />,
     keyboardHint: "Press Q",
-    color: "#22d3ee",
-    glowColor: "rgba(34, 211, 238, 0.3)",
+    color: "var(--energy-primary)",
+    glowColor: "color-mix(in oklch, var(--energy-primary) 30%, transparent)",
   },
   {
     id: "dash_fwd",
@@ -54,8 +54,8 @@ const TUTORIAL_STEPS: TutorialStep[] = [
     gesture: "swipe_right",
     icon: <ArrowRight size={28} />,
     keyboardHint: "Press E",
-    color: "#22d3ee",
-    glowColor: "rgba(34, 211, 238, 0.3)",
+    color: "var(--energy-primary)",
+    glowColor: "color-mix(in oklch, var(--energy-primary) 30%, transparent)",
   },
   {
     id: "light",
@@ -65,8 +65,8 @@ const TUTORIAL_STEPS: TutorialStep[] = [
     gesture: "tap",
     icon: <Hand size={28} />,
     keyboardHint: "Press J",
-    color: "#f59e0b",
-    glowColor: "rgba(245, 158, 11, 0.3)",
+    color: "var(--energy-accent)",
+    glowColor: "color-mix(in oklch, var(--energy-accent) 30%, transparent)",
   },
   {
     id: "medium",
@@ -76,8 +76,8 @@ const TUTORIAL_STEPS: TutorialStep[] = [
     gesture: "swipe_right",
     icon: <Swords size={28} />,
     keyboardHint: "Press K",
-    color: "#f59e0b",
-    glowColor: "rgba(245, 158, 11, 0.3)",
+    color: "var(--energy-accent)",
+    glowColor: "color-mix(in oklch, var(--energy-accent) 30%, transparent)",
   },
   {
     id: "heavy",
@@ -87,8 +87,8 @@ const TUTORIAL_STEPS: TutorialStep[] = [
     gesture: "hold_release",
     icon: <Zap size={28} />,
     keyboardHint: "Hold L",
-    color: "#f59e0b",
-    glowColor: "rgba(245, 158, 11, 0.3)",
+    color: "var(--energy-accent)",
+    glowColor: "color-mix(in oklch, var(--energy-accent) 30%, transparent)",
   },
   {
     id: "special",
@@ -98,8 +98,8 @@ const TUTORIAL_STEPS: TutorialStep[] = [
     gesture: "swipe_up",
     icon: <ChevronUp size={28} />,
     keyboardHint: "Press Space",
-    color: "#ef4444",
-    glowColor: "rgba(239, 68, 68, 0.3)",
+    color: "var(--energy-error)",
+    glowColor: "color-mix(in oklch, var(--energy-error) 30%, transparent)",
   },
 ];
 
@@ -385,7 +385,7 @@ export default function GestureTutorial({ onComplete, onSkip }: GestureTutorialP
             key={s.id}
             className="w-2 h-2 rounded-full transition-all duration-300"
             style={{
-              backgroundColor: i < currentStep ? step.color : i === currentStep ? step.color : "rgba(255,255,255,0.2)",
+              backgroundColor: i < currentStep ? step.color : i === currentStep ? step.color : "color-mix(in oklch, var(--text-primary) 20%, transparent)",
               opacity: i <= currentStep ? 1 : 0.4,
               transform: i === currentStep ? "scale(1.3)" : "scale(1)",
             }}

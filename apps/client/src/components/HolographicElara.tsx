@@ -75,7 +75,7 @@ export default function HolographicElara({
 
         ctx.beginPath();
         ctx.arc(p.x, adjustedY, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(51, 226, 230, ${p.opacity * flicker})`;
+        ctx.fillStyle = `color-mix(in oklch, var(--energy-primary) calc((p.opacity * flicker) * 100%), transparent)`;
         ctx.fill();
       }
 
@@ -117,7 +117,7 @@ export default function HolographicElara({
           <div
             className="absolute inset-0 rounded-full"
             style={{
-              background: `radial-gradient(circle, rgba(51,226,230,${isSpeaking ? 0.25 : 0.1}) 0%, transparent 70%)`,
+              background: `radial-gradient(circle, color-mix(in oklch, var(--energy-primary) calc((isSpeaking ? 0.25 : 0.1) * 100%), transparent) 0%, transparent 70%)`,
               animation: isSpeaking ? "holoPulse 1s ease-in-out infinite" : "holoPulse 3s ease-in-out infinite",
             }}
           />
@@ -130,8 +130,8 @@ export default function HolographicElara({
               height: dims.image + 12,
               left: (dims.container - dims.image - 12) / 2,
               top: (dims.container - dims.image - 12) / 2,
-              border: "1px solid rgba(51,226,230,0.3)",
-              boxShadow: `0 0 15px rgba(51,226,230,${isSpeaking ? 0.4 : 0.15}), inset 0 0 15px rgba(51,226,230,${isSpeaking ? 0.2 : 0.05})`,
+              border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
+              boxShadow: `0 0 15px color-mix(in oklch, var(--energy-primary) calc((isSpeaking ? 0.4 : 0.15) * 100%), transparent), inset 0 0 15px color-mix(in oklch, var(--energy-primary) calc((isSpeaking ? 0.2 : 0.05) * 100%), transparent)`,
               animation: "holoRotate 8s linear infinite",
             }}
           />
@@ -144,7 +144,7 @@ export default function HolographicElara({
               height: dims.image + 20,
               left: (dims.container - dims.image - 20) / 2,
               top: (dims.container - dims.image - 20) / 2,
-              border: "1px dashed rgba(51,226,230,0.15)",
+              border: "1px dashed color-mix(in oklch, var(--energy-primary) 15%, transparent)",
               animation: "holoRotateReverse 12s linear infinite",
             }}
           />
@@ -190,7 +190,7 @@ export default function HolographicElara({
             <div
               className="absolute inset-0"
               style={{
-                background: "linear-gradient(180deg, rgba(51,226,230,0.1) 0%, rgba(51,226,230,0.05) 50%, rgba(51,226,230,0.15) 100%)",
+                background: "linear-gradient(180deg, color-mix(in oklch, var(--energy-primary) 10%, transparent) 0%, color-mix(in oklch, var(--energy-primary) 5%, transparent) 50%, color-mix(in oklch, var(--energy-primary) 15%, transparent) 100%)",
                 mixBlendMode: "overlay",
               }}
             />
@@ -199,7 +199,7 @@ export default function HolographicElara({
             <div
               className="absolute inset-0 pointer-events-none"
               style={{
-                backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(51,226,230,0.06) 2px, rgba(51,226,230,0.06) 4px)",
+                backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--energy-primary) 6%, transparent) 2px, color-mix(in oklch, var(--energy-primary) 6%, transparent) 4px)",
               }}
             />
 
@@ -208,7 +208,7 @@ export default function HolographicElara({
               className="absolute left-0 right-0 pointer-events-none"
               style={{
                 height: 3,
-                background: "linear-gradient(90deg, transparent, rgba(51,226,230,0.4), transparent)",
+                background: "linear-gradient(90deg, transparent, color-mix(in oklch, var(--energy-primary) 40%, transparent), transparent)",
                 animation: "holoScan 2.5s linear infinite",
               }}
             />
@@ -255,7 +255,7 @@ export default function HolographicElara({
                 className="absolute bottom-[20%] left-[30%] right-[30%] rounded-full"
                 style={{
                   height: 4,
-                  background: "rgba(51,226,230,0.6)",
+                  background: "color-mix(in oklch, var(--energy-primary) 60%, transparent)",
                   filter: "blur(3px)",
                   animation: "holoSpeak 0.15s ease-in-out infinite alternate",
                 }}
@@ -284,7 +284,7 @@ export default function HolographicElara({
               cy={dims.container / 2}
               r={dims.image / 2 + 8}
               fill="none"
-              stroke="rgba(51,226,230,0.2)"
+              stroke="color-mix(in oklch, var(--energy-primary) 20%, transparent)"
               strokeWidth="0.5"
               strokeDasharray="4 8"
               style={{ animation: "holoRotate 15s linear infinite" }}
@@ -302,7 +302,7 @@ export default function HolographicElara({
                   y1={cy + (r - 3) * Math.sin(angle)}
                   x2={cx + (r + 2) * Math.cos(angle)}
                   y2={cy + (r + 2) * Math.sin(angle)}
-                  stroke="rgba(51,226,230,0.3)"
+                  stroke="color-mix(in oklch, var(--energy-primary) 30%, transparent)"
                   strokeWidth="0.5"
                 />
               );
@@ -313,8 +313,8 @@ export default function HolographicElara({
           <div
             className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap"
           >
-            <div className="px-2 py-0.5 rounded-full bg-background/80 border border-[rgba(51,226,230,0.3)]">
-              <span className="font-mono text-[8px] tracking-[0.3em]" style={{ color: "rgba(51,226,230,0.8)" }}>
+            <div className="px-2 py-0.5 rounded-full bg-background/80 border border-[color-mix(in oklch, var(--energy-primary) 30%, transparent)]">
+              <span className="font-mono text-[8px] tracking-[0.3em]" style={{ color: "color-mix(in oklch, var(--energy-primary) 80%, transparent)" }}>
                 {isSpeaking ? "◉ TRANSMITTING" : "◎ STANDBY"}
               </span>
             </div>

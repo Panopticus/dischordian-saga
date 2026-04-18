@@ -34,11 +34,11 @@ export interface LightDarkMeterDisplayProps {
 
 const PHASE_TINT: Record<DischordiaPhase, string> = {
   dawn: "border-white/10",
-  dimming: "border-amber-400/30",
-  long_night: "border-red-400/40",
-  vortex_advance: "border-red-600/60",
-  reclamation: "border-yellow-300/60",
-  light_holds: "border-cyan-300/60",
+  dimming: "void-border",
+  long_night: "void-border-error",
+  vortex_advance: "void-border-error",
+  reclamation: "void-border",
+  light_holds: "void-border-success",
 };
 
 const PHASE_LABEL: Record<DischordiaPhase, string> = {
@@ -81,18 +81,18 @@ export function LightDarkMeterDisplay({
       )}
 
       <MeterLine
-        tint="text-cyan-200"
+        tint="void-text-energy"
         label={compact ? null : "Light"}
         text={lightText}
       />
       <MeterLine
-        tint="text-amber-200"
+        tint="void-text-accent"
         label={compact ? null : "Dark"}
         text={darkText}
       />
       {vortexText && (
         <MeterLine
-          tint="text-red-300"
+          tint="void-text-error"
           label={compact ? null : "Vortex"}
           text={vortexText}
         />

@@ -28,21 +28,21 @@ type ConsoleView = "surveillance" | "governance" | "live_ops" | "requisitions" |
 
 /* ═══ VOID ENERGY STYLE HELPERS ═══ */
 const voidPanel = "bg-white/[0.02] border border-white/10 rounded-xl backdrop-blur";
-const voidGlow = "shadow-[0_0_15px_rgba(34,211,238,0.15)]";
+const voidGlow = "shadow-[0_0_15px_color-mix(in oklch, var(--energy-primary) 15%, transparent)]";
 const voidBtn = "px-4 py-2 rounded-lg font-mono text-[11px] tracking-wider transition-all";
-const voidBtnPrimary = `${voidBtn} bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)]`;
-const voidBtnDanger = `${voidBtn} bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20`;
-const voidInput = "w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2 font-mono text-sm text-white placeholder-white/20 focus:border-cyan-500/50 focus:outline-none";
-const voidSelect = "bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2 font-mono text-sm text-white focus:border-cyan-500/50 focus:outline-none";
+const voidBtnPrimary = `${voidBtn} void-bg-success border void-border-success void-text-energy void-bg-success hover:shadow-[0_0_20px_color-mix(in oklch, var(--energy-primary) 30%, transparent)]`;
+const voidBtnDanger = `${voidBtn} void-bg-error border void-border-error void-text-error void-bg-error`;
+const voidInput = "w-full bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2 font-mono text-sm text-white placeholder-white/20 focus:void-border-success focus:outline-none";
+const voidSelect = "bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2 font-mono text-sm text-white focus:void-border-success focus:outline-none";
 const voidLabel = "block font-mono text-[10px] text-white/40 tracking-wider mb-1";
 
 function MetricCard({ label, value, icon: Icon, color = "cyan" }: { label: string; value: string | number; icon: typeof Eye; color?: string }) {
   const colorMap: Record<string, string> = {
-    cyan: "text-cyan-400 border-cyan-500/20 bg-cyan-500/5",
-    amber: "text-amber-400 border-amber-500/20 bg-amber-500/5",
-    purple: "text-purple-400 border-purple-500/20 bg-purple-500/5",
-    green: "text-green-400 border-green-500/20 bg-green-500/5",
-    red: "text-red-400 border-red-500/20 bg-red-500/5",
+    cyan: "void-text-energy void-border-success void-bg-success",
+    amber: "void-text-accent void-border void-bg-sunk",
+    purple: "void-text-system void-border-system void-bg-system",
+    green: "void-text-energy void-border-success void-bg-success",
+    red: "void-text-error void-border-error void-bg-error",
   };
   return (
     <div className={`p-4 rounded-xl border ${colorMap[color] || colorMap.cyan}`}>
@@ -78,8 +78,8 @@ function SurveillanceView() {
           const entries = Object.entries(morality.data as Record<string, number>);
           const total = entries.reduce((s, [, v]) => s + v, 0) || 1;
           const colorMap: Record<string, string> = {
-            machine: "bg-red-500", leaning_machine: "bg-orange-500", neutral: "bg-white/30",
-            leaning_humanity: "bg-blue-400", humanity: "bg-cyan-400",
+            machine: "void-bg-error", leaning_machine: "void-bg-sunk", neutral: "bg-white/30",
+            leaning_humanity: "void-bg-sunk", humanity: "void-bg-success",
           };
           return (
             <div className="space-y-2">
@@ -108,7 +108,7 @@ function SurveillanceView() {
             {Object.entries(species.data as Record<string, number>).map(([sp, count]) => (
               <div key={sp} className="flex items-center justify-between p-2 rounded-lg bg-white/[0.03]">
                 <span className="font-mono text-[10px] text-white/60">{sp}</span>
-                <span className="font-mono text-xs text-cyan-400 font-bold">{count}</span>
+                <span className="font-mono text-xs void-text-energy font-bold">{count}</span>
               </div>
             ))}
           </div>
@@ -177,10 +177,10 @@ function GovernanceView() {
             {options.map((opt, i) => (
               <div key={i} className="flex gap-2">
                 <input className={voidInput} value={opt} onChange={e => { const o = [...options]; o[i] = e.target.value; setOptions(o); }} placeholder={`Option ${i + 1}`} />
-                {options.length > 2 && <button onClick={() => setOptions(options.filter((_, j) => j !== i))} className="text-red-400/50 hover:text-red-400"><X size={14} /></button>}
+                {options.length > 2 && <button onClick={() => setOptions(options.filter((_, j) => j !== i))} className="void-text-error void-text-error"><X size={14} /></button>}
               </div>
             ))}
-            {options.length < 5 && <button onClick={() => setOptions([...options, ""])} className="font-mono text-[10px] text-cyan-400/50 hover:text-cyan-400">+ Add option</button>}
+            {options.length < 5 && <button onClick={() => setOptions([...options, ""])} className="font-mono text-[10px] void-text-energy void-text-energy">+ Add option</button>}
             <div className="flex gap-2 pt-2">
               <button onClick={handleCreate} className={voidBtnPrimary} disabled={createVoteMut.isPending}>{createVoteMut.isPending ? "DEPLOYING..." : "DEPLOY DIRECTIVE"}</button>
               <button onClick={() => setShowCreate(false)} className={voidBtn + " text-white/30 hover:text-white/50"}>CANCEL</button>
@@ -195,7 +195,7 @@ function GovernanceView() {
           <div className="flex items-center justify-between mb-2">
             <div>
               <h4 className="font-mono text-sm text-white font-bold">{vote.title}</h4>
-              <span className={`font-mono text-[9px] tracking-wider ${vote.status === "active" ? "text-green-400" : vote.status === "closed" ? "text-white/30" : "text-amber-400"}`}>
+              <span className={`font-mono text-[9px] tracking-wider ${vote.status === "active" ? "void-text-energy" : vote.status === "closed" ? "text-white/30" : "void-text-accent"}`}>
                 {vote.status.toUpperCase()} • {vote.category.toUpperCase()}
               </span>
             </div>
@@ -213,7 +213,7 @@ function GovernanceView() {
               <div key={opt.optionNumber} className="flex items-center gap-2 mb-1">
                 <span className="font-mono text-[10px] text-white/50 w-32 truncate">{opt.optionText}</span>
                 <div className="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
-                  <div className={`h-full rounded-full ${opt.isWinner ? "bg-cyan-400" : "bg-white/20"}`} style={{ width: `${pct}%` }} />
+                  <div className={`h-full rounded-full ${opt.isWinner ? "void-bg-success" : "bg-white/20"}`} style={{ width: `${pct}%` }} />
                 </div>
                 <span className="font-mono text-[10px] text-white/40 w-10 text-right">{opt.voteCount || 0}</span>
               </div>
@@ -292,7 +292,7 @@ function LiveOpsView() {
           <div>
             <h4 className="font-mono text-sm text-white">{evt.eventName}</h4>
             <div className="flex items-center gap-2 mt-1">
-              <span className={`font-mono text-[9px] px-2 py-0.5 rounded-full ${evt.isActive ? "bg-green-500/20 text-green-400" : "bg-white/5 text-white/30"}`}>
+              <span className={`font-mono text-[9px] px-2 py-0.5 rounded-full ${evt.isActive ? "void-bg-success void-text-energy" : "bg-white/5 text-white/30"}`}>
                 {evt.isActive ? "ACTIVE" : "INACTIVE"}
               </span>
               <span className="font-mono text-[9px] text-white/30">{evt.eventType.replace("_", " ").toUpperCase()}</span>
@@ -388,8 +388,8 @@ function RequisitionsView() {
         <div key={promo.id} className={`${voidPanel} p-3 flex items-center justify-between`}>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-mono text-sm text-cyan-400 font-bold">{promo.code}</span>
-              <span className={`font-mono text-[9px] px-2 py-0.5 rounded-full ${promo.isActive ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}`}>
+              <span className="font-mono text-sm void-text-energy font-bold">{promo.code}</span>
+              <span className={`font-mono text-[9px] px-2 py-0.5 rounded-full ${promo.isActive ? "void-bg-success void-text-energy" : "void-bg-error void-text-error"}`}>
                 {promo.isActive ? "ACTIVE" : "INACTIVE"}
               </span>
             </div>
@@ -489,13 +489,13 @@ function InspectView() {
         </div>
       </div>
 
-      {player.isLoading && <p className="font-mono text-[10px] text-cyan-400/50 text-center py-8">Scanning player data...</p>}
+      {player.isLoading && <p className="font-mono text-[10px] void-text-energy text-center py-8">Scanning player data...</p>}
 
       {p && (
         <div className="space-y-3">
           {/* Identity */}
           <div className={`${voidPanel} p-4`}>
-            <h3 className="font-mono text-[10px] text-cyan-400/60 tracking-wider mb-3">IDENTITY</h3>
+            <h3 className="font-mono text-[10px] void-text-energy tracking-wider mb-3">IDENTITY</h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
               <div><span className="text-white/30 text-[9px]">ID</span><br/>{p.user.id}</div>
               <div><span className="text-white/30 text-[9px]">NAME</span><br/>{p.user.name || "—"}</div>
@@ -507,7 +507,7 @@ function InspectView() {
           {/* Character */}
           {p.character && (
             <div className={`${voidPanel} p-4`}>
-              <h3 className="font-mono text-[10px] text-cyan-400/60 tracking-wider mb-3">CHARACTER</h3>
+              <h3 className="font-mono text-[10px] void-text-energy tracking-wider mb-3">CHARACTER</h3>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
                 <div><span className="text-white/30 text-[9px]">NAME</span><br/>{p.character.name}</div>
                 <div><span className="text-white/30 text-[9px]">SPECIES</span><br/>{p.character.species}</div>
@@ -515,18 +515,18 @@ function InspectView() {
                 <div><span className="text-white/30 text-[9px]">ALIGNMENT</span><br/>{p.character.alignment}</div>
                 <div>
                   <span className="text-white/30 text-[9px]">MORALITY</span><br/>
-                  <span className={p.character.moralityScore > 0 ? "text-cyan-400" : p.character.moralityScore < 0 ? "text-red-400" : "text-white/50"}>
+                  <span className={p.character.moralityScore > 0 ? "void-text-energy" : p.character.moralityScore < 0 ? "void-text-error" : "text-white/50"}>
                     {p.character.moralityScore}
                   </span>
-                  <button onClick={() => { setEditField("morality"); setEditValue(String(p.character!.moralityScore)); }} className="ml-1 text-cyan-500/40 hover:text-cyan-400 text-[8px]">✎</button>
+                  <button onClick={() => { setEditField("morality"); setEditValue(String(p.character!.moralityScore)); }} className="ml-1 void-text-energy void-text-energy text-[8px]">✎</button>
                 </div>
                 <div>
                   <span className="text-white/30 text-[9px]">LEVEL</span><br/>{p.level}
-                  <button onClick={() => { setEditField("level"); setEditValue(String(p.level)); }} className="ml-1 text-cyan-500/40 hover:text-cyan-400 text-[8px]">✎</button>
+                  <button onClick={() => { setEditField("level"); setEditValue(String(p.level)); }} className="ml-1 void-text-energy void-text-energy text-[8px]">✎</button>
                 </div>
                 <div>
                   <span className="text-white/30 text-[9px]">PRESTIGE</span><br/>T{p.character.prestigeTier}
-                  <button onClick={() => { setEditField("prestige"); setEditValue(String(p.character!.prestigeTier)); }} className="ml-1 text-cyan-500/40 hover:text-cyan-400 text-[8px]">✎</button>
+                  <button onClick={() => { setEditField("prestige"); setEditValue(String(p.character!.prestigeTier)); }} className="ml-1 void-text-energy void-text-energy text-[8px]">✎</button>
                 </div>
                 <div><span className="text-white/30 text-[9px]">CREDITS</span><br/>{p.character.credits}</div>
               </div>
@@ -535,30 +535,30 @@ function InspectView() {
 
           {/* Economy */}
           <div className={`${voidPanel} p-4`}>
-            <h3 className="font-mono text-[10px] text-cyan-400/60 tracking-wider mb-3">ECONOMY</h3>
+            <h3 className="font-mono text-[10px] void-text-energy tracking-wider mb-3">ECONOMY</h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-xs">
-              <div><span className="text-white/30 text-[9px]">DREAM</span><br/><span className="text-amber-400">{p.economy.dreamTokens}</span></div>
-              <div><span className="text-white/30 text-[9px]">SOUL-BOUND</span><br/><span className="text-purple-400">{p.economy.soulBoundDream}</span></div>
-              <div><span className="text-white/30 text-[9px]">DNA CODE</span><br/><span className="text-cyan-400">{p.economy.dnaCode}</span></div>
+              <div><span className="text-white/30 text-[9px]">DREAM</span><br/><span className="void-text-accent">{p.economy.dreamTokens}</span></div>
+              <div><span className="text-white/30 text-[9px]">SOUL-BOUND</span><br/><span className="void-text-system">{p.economy.soulBoundDream}</span></div>
+              <div><span className="text-white/30 text-[9px]">DNA CODE</span><br/><span className="void-text-energy">{p.economy.dnaCode}</span></div>
               <div><span className="text-white/30 text-[9px]">LIFETIME EARNED</span><br/>{p.economy.totalDreamEarned}</div>
             </div>
             <div className="mt-2 flex gap-2">
-              <button onClick={() => grantItem.mutate({ userId: inspecting!, itemType: "dream", amount: 100 })} className={`${voidBtn} bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[9px]`}>+100 Dream</button>
-              <button onClick={() => grantItem.mutate({ userId: inspecting!, itemType: "dream", amount: 1000 })} className={`${voidBtn} bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[9px]`}>+1000 Dream</button>
-              <button onClick={() => grantItem.mutate({ userId: inspecting!, itemType: "credits", amount: 5000 })} className={`${voidBtn} bg-green-500/10 border border-green-500/30 text-green-400 text-[9px]`}>+5000 Credits</button>
+              <button onClick={() => grantItem.mutate({ userId: inspecting!, itemType: "dream", amount: 100 })} className={`${voidBtn} void-bg-sunk border void-border void-text-accent text-[9px]`}>+100 Dream</button>
+              <button onClick={() => grantItem.mutate({ userId: inspecting!, itemType: "dream", amount: 1000 })} className={`${voidBtn} void-bg-sunk border void-border void-text-accent text-[9px]`}>+1000 Dream</button>
+              <button onClick={() => grantItem.mutate({ userId: inspecting!, itemType: "credits", amount: 5000 })} className={`${voidBtn} void-bg-success border void-border-success void-text-energy text-[9px]`}>+5000 Credits</button>
             </div>
           </div>
 
           {/* NPC Trust */}
           {p.npcTrust.length > 0 && (
             <div className={`${voidPanel} p-4`}>
-              <h3 className="font-mono text-[10px] text-cyan-400/60 tracking-wider mb-3">NPC TRUST</h3>
+              <h3 className="font-mono text-[10px] void-text-energy tracking-wider mb-3">NPC TRUST</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 font-mono text-xs">
                 {p.npcTrust.map(n => (
                   <div key={n.npcId} className="flex items-center gap-2 bg-white/[0.02] rounded p-2">
-                    <Heart size={10} className="text-pink-400/50" />
+                    <Heart size={10} className="void-text-error" />
                     <span className="text-white/50 flex-1">{n.npcId}</span>
-                    <span className="text-cyan-400">{n.trust}</span>
+                    <span className="void-text-energy">{n.trust}</span>
                   </div>
                 ))}
               </div>
@@ -568,7 +568,7 @@ function InspectView() {
           {/* Companions */}
           {p.companions.length > 0 && (
             <div className={`${voidPanel} p-4`}>
-              <h3 className="font-mono text-[10px] text-cyan-400/60 tracking-wider mb-3">COMPANIONS ({p.companions.length}) {p.fallenCompanions > 0 && <span className="text-red-400/50">// {p.fallenCompanions} fallen</span>}</h3>
+              <h3 className="font-mono text-[10px] void-text-energy tracking-wider mb-3">COMPANIONS ({p.companions.length}) {p.fallenCompanions > 0 && <span className="void-text-error">// {p.fallenCompanions} fallen</span>}</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 font-mono text-xs">
                 {p.companions.map(c => (
                   <div key={c.eidolonId} className="bg-white/[0.02] rounded p-2">
@@ -582,7 +582,7 @@ function InspectView() {
 
           {/* Progress Summary */}
           <div className={`${voidPanel} p-4`}>
-            <h3 className="font-mono text-[10px] text-cyan-400/60 tracking-wider mb-3">PROGRESS</h3>
+            <h3 className="font-mono text-[10px] void-text-energy tracking-wider mb-3">PROGRESS</h3>
             <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 font-mono text-xs text-center">
               <div><span className="text-white/30 text-[8px] block">ROOMS</span>{p.rooms.unlocked}/{p.rooms.total}</div>
               <div><span className="text-white/30 text-[8px] block">EPISODES</span>{p.episodesWatched}</div>
@@ -595,10 +595,10 @@ function InspectView() {
 
           {/* Narrative Flags */}
           <div className={`${voidPanel} p-4`}>
-            <h3 className="font-mono text-[10px] text-cyan-400/60 tracking-wider mb-3">NARRATIVE FLAGS ({p.narrativeFlags.length})</h3>
+            <h3 className="font-mono text-[10px] void-text-energy tracking-wider mb-3">NARRATIVE FLAGS ({p.narrativeFlags.length})</h3>
             <div className="flex flex-wrap gap-1">
               {p.narrativeFlags.map(f => (
-                <span key={f} className="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400/70 text-[8px] font-mono">{f}</span>
+                <span key={f} className="px-2 py-0.5 rounded void-bg-success void-text-energy text-[8px] font-mono">{f}</span>
               ))}
               {p.narrativeFlags.length === 0 && <span className="text-white/20 text-[9px]">No flags set</span>}
             </div>
@@ -606,8 +606,8 @@ function InspectView() {
 
           {/* Inline Edit Modal */}
           {editField && (
-            <div className={`${voidPanel} p-4 border-cyan-500/40`}>
-              <h3 className="font-mono text-[10px] text-cyan-400 tracking-wider mb-2">EDIT: {editField.toUpperCase()}</h3>
+            <div className={`${voidPanel} p-4 void-border-success`}>
+              <h3 className="font-mono text-[10px] void-text-energy tracking-wider mb-2">EDIT: {editField.toUpperCase()}</h3>
               <div className="flex gap-2">
                 <input value={editValue} onChange={e => setEditValue(e.target.value)} className={voidInput} />
                 <button className={voidBtnPrimary} onClick={() => {
@@ -661,19 +661,19 @@ function EconomyView() {
 
       {/* Daily Flow */}
       <div className={`${voidPanel} p-4`}>
-        <h3 className="font-mono text-[10px] text-cyan-400/60 tracking-wider mb-3">DAILY FLOW</h3>
+        <h3 className="font-mono text-[10px] void-text-energy tracking-wider mb-3">DAILY FLOW</h3>
         <div className="grid grid-cols-3 gap-4 font-mono text-xs text-center">
           <div>
             <span className="text-white/30 text-[9px] block">EARNED TODAY</span>
-            <span className="text-green-400 text-lg font-bold">{e.dailyEarned.toLocaleString()}</span>
+            <span className="void-text-energy text-lg font-bold">{e.dailyEarned.toLocaleString()}</span>
           </div>
           <div>
             <span className="text-white/30 text-[9px] block">SPENT TODAY</span>
-            <span className="text-red-400 text-lg font-bold">{e.dailySpent.toLocaleString()}</span>
+            <span className="void-text-error text-lg font-bold">{e.dailySpent.toLocaleString()}</span>
           </div>
           <div>
             <span className="text-white/30 text-[9px] block">NET FLOW</span>
-            <span className={`text-lg font-bold ${e.netFlow >= 0 ? "text-green-400" : "text-red-400"}`}>
+            <span className={`text-lg font-bold ${e.netFlow >= 0 ? "void-text-energy" : "void-text-error"}`}>
               {e.netFlow > 0 ? "+" : ""}{e.netFlow.toLocaleString()}
             </span>
           </div>
@@ -705,13 +705,13 @@ function UniverseView() {
     <div className="space-y-4">
       {/* Pressure Meters */}
       <div className={`${voidPanel} p-4`}>
-        <h3 className="font-mono text-[10px] text-cyan-400/60 tracking-wider mb-3">PRESSURE METERS (30-DAY)</h3>
+        <h3 className="font-mono text-[10px] void-text-energy tracking-wider mb-3">PRESSURE METERS (30-DAY)</h3>
         {p ? (
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
             {Object.entries(p).map(([key, val]) => (
               <div key={key} className="text-center">
                 <div className="h-20 w-full bg-white/[0.03] rounded-lg relative overflow-hidden mb-1">
-                  <div className="absolute bottom-0 inset-x-0 bg-cyan-500/30 transition-all" style={{ height: `${Math.min(100, (val / 500) * 100)}%` }} />
+                  <div className="absolute bottom-0 inset-x-0 void-bg-success transition-all" style={{ height: `${Math.min(100, (val / 500) * 100)}%` }} />
                   <span className="absolute inset-0 flex items-center justify-center font-mono text-xs text-white font-bold">{val}</span>
                 </div>
                 <span className="font-mono text-[8px] text-white/30">{key}</span>
@@ -723,17 +723,17 @@ function UniverseView() {
 
       {/* Active Events */}
       <div className={`${voidPanel} p-4`}>
-        <h3 className="font-mono text-[10px] text-red-400/60 tracking-wider mb-3">
+        <h3 className="font-mono text-[10px] void-text-error tracking-wider mb-3">
           ACTIVE EVENTS ({activeEvents.data?.length || 0})
         </h3>
         {activeEvents.data?.map((ev: any) => (
-          <div key={ev.eventId} className="flex items-center gap-3 p-2 bg-red-500/5 border border-red-500/20 rounded-lg mb-2">
-            <AlertTriangle size={14} className="text-red-400" />
+          <div key={ev.eventId} className="flex items-center gap-3 p-2 void-bg-error border void-border-error rounded-lg mb-2">
+            <AlertTriangle size={14} className="void-text-error" />
             <div className="flex-1 font-mono text-xs">
-              <span className="text-red-400 font-bold">{ev.eventId}</span>
+              <span className="void-text-error font-bold">{ev.eventId}</span>
               <span className="text-white/30 ml-2">Score: {ev.pressureScore} • Since: {ev.activatedAt ? new Date(ev.activatedAt).toLocaleDateString() : "—"}</span>
             </div>
-            <button onClick={() => forceResolve.mutate({ eventId: ev.eventId })} className={`${voidBtn} bg-red-500/10 border border-red-500/30 text-red-400 text-[9px]`}>RESOLVE</button>
+            <button onClick={() => forceResolve.mutate({ eventId: ev.eventId })} className={`${voidBtn} void-bg-error border void-border-error void-text-error text-[9px]`}>RESOLVE</button>
           </div>
         ))}
         {(!activeEvents.data || activeEvents.data.length === 0) && <p className="text-white/20 text-[10px]">No active events</p>}
@@ -741,7 +741,7 @@ function UniverseView() {
 
       {/* Force Activate */}
       <div className={`${voidPanel} p-4`}>
-        <h3 className="font-mono text-[10px] text-cyan-400/60 tracking-wider mb-2">FORCE ACTIVATE EVENT</h3>
+        <h3 className="font-mono text-[10px] void-text-energy tracking-wider mb-2">FORCE ACTIVATE EVENT</h3>
         <div className="flex gap-2">
           <input value={eventId} onChange={e => setEventId(e.target.value)} placeholder="Event ID..." className={voidInput} />
           <button onClick={() => { forceActivate.mutate({ eventId }); setEventId(""); }} className={voidBtnPrimary}>ACTIVATE</button>
@@ -750,11 +750,11 @@ function UniverseView() {
 
       {/* Event History */}
       <div className={`${voidPanel} p-4`}>
-        <h3 className="font-mono text-[10px] text-cyan-400/60 tracking-wider mb-3">EVENT HISTORY</h3>
+        <h3 className="font-mono text-[10px] void-text-energy tracking-wider mb-3">EVENT HISTORY</h3>
         <div className="space-y-1">
           {eventHistory.data?.slice(0, 20).map((ev: any) => (
             <div key={ev.id} className="flex items-center gap-2 font-mono text-[10px] py-1 border-b border-white/5">
-              <span className={ev.isActive ? "text-red-400" : "text-white/30"}>{ev.isActive ? "●" : "○"}</span>
+              <span className={ev.isActive ? "void-text-error" : "text-white/30"}>{ev.isActive ? "●" : "○"}</span>
               <span className="text-white/50 flex-1">{ev.eventId}</span>
               <span className="text-white/20">x{ev.occurrenceCount}</span>
             </div>
@@ -780,8 +780,8 @@ function ChristmasQaPanel() {
   const override = statusQuery.data?.overrideActive ?? false;
   const tickerEnabled = statusQuery.data?.tickerEnabled ?? true;
   return (
-    <div className={`${voidPanel} p-4 border-red-500/30`}>
-      <h3 className="font-mono text-[10px] text-red-400/80 tracking-wider mb-3">
+    <div className={`${voidPanel} p-4 void-border-error`}>
+      <h3 className="font-mono text-[10px] void-text-error tracking-wider mb-3">
         CHRISTMAS IN JULY — QA OVERRIDES
       </h3>
       <div className="space-y-3">
@@ -789,14 +789,14 @@ function ChristmasQaPanel() {
           <button
             onClick={() => setTesting.mutate({ enabled: !override })}
             disabled={setTesting.isPending}
-            className={`w-10 h-5 rounded-full transition-colors ${override ? "bg-red-500/40" : "bg-gray-500/20"}`}
+            className={`w-10 h-5 rounded-full transition-colors ${override ? "void-bg-error" : "void-bg-canvas"}`}
           >
-            <div className={`w-4 h-4 rounded-full transition-transform ${override ? "translate-x-5 bg-red-300" : "translate-x-0.5 bg-gray-400"}`} />
+            <div className={`w-4 h-4 rounded-full transition-transform ${override ? "translate-x-5 void-bg-error" : "translate-x-0.5 void-bg-canvas"}`} />
           </button>
           <div className="flex-1">
             <p className="font-mono text-xs text-white/80">Force-activate event (ignore window)</p>
             <p className="font-mono text-[10px] text-white/30">
-              Flips <span className="text-red-400/70">xmas_july_testing</span>. Overrides the July 1–14 window.
+              Flips <span className="void-text-error">xmas_july_testing</span>. Overrides the July 1–14 window.
               Currently: {active ? "ACTIVE" : "inactive"}
             </p>
           </div>
@@ -805,14 +805,14 @@ function ChristmasQaPanel() {
           <button
             onClick={() => setTicker.mutate({ enabled: !tickerEnabled })}
             disabled={setTicker.isPending}
-            className={`w-10 h-5 rounded-full transition-colors ${tickerEnabled ? "bg-green-500/30" : "bg-red-500/20"}`}
+            className={`w-10 h-5 rounded-full transition-colors ${tickerEnabled ? "void-bg-success" : "void-bg-error"}`}
           >
-            <div className={`w-4 h-4 rounded-full transition-transform ${tickerEnabled ? "translate-x-5 bg-green-400" : "translate-x-0.5 bg-red-400"}`} />
+            <div className={`w-4 h-4 rounded-full transition-transform ${tickerEnabled ? "translate-x-5 void-bg-success" : "translate-x-0.5 void-bg-error"}`} />
           </button>
           <div className="flex-1">
             <p className="font-mono text-xs text-white/80">Holiday dialog ticker visible</p>
             <p className="font-mono text-[10px] text-white/30">
-              Flips <span className="text-green-400/70">xmas_july_ticker</span>. Hides the NPC holiday dialog
+              Flips <span className="void-text-energy">xmas_july_ticker</span>. Hides the NPC holiday dialog
               banner without disabling the event.
             </p>
           </div>
@@ -869,8 +869,8 @@ function CasinoResetPanel() {
   };
 
   return (
-    <div className={`${voidPanel} p-4 border-amber-500/30`}>
-      <h3 className="font-mono text-[10px] text-amber-400/80 tracking-wider mb-3">
+    <div className={`${voidPanel} p-4 void-border`}>
+      <h3 className="font-mono text-[10px] void-text-accent tracking-wider mb-3">
         CASINO — SEASONAL RESET
       </h3>
       <p className="font-mono text-[10px] text-white/40 mb-3 leading-relaxed">
@@ -885,15 +885,15 @@ function CasinoResetPanel() {
           value={targetUserId}
           onChange={(e) => setTargetUserId(e.target.value)}
           disabled={resetMut.isPending}
-          className="flex-1 px-3 py-2 rounded-lg bg-gray-900/60 border border-gray-700/40 text-gray-200 text-xs font-mono"
+          className="flex-1 px-3 py-2 rounded-lg void-bg-canvas border void-border void-text text-xs font-mono"
         />
         <button
           onClick={onResetClick}
           disabled={resetMut.isPending}
           className={`px-4 py-2 rounded-lg border font-mono text-[10px] transition-colors ${
             isResetAll
-              ? "bg-red-500/10 border-red-500/30 text-red-300 hover:bg-red-500/20"
-              : "bg-amber-500/10 border-amber-500/30 text-amber-300 hover:bg-amber-500/20"
+              ? "void-bg-error void-border-error void-text-error void-bg-error"
+              : "void-bg-sunk void-border void-text-accent void-bg-sunk"
           } disabled:opacity-50`}
         >
           {resetMut.isPending ? "Resetting..." : isResetAll ? "Reset ALL" : "Reset session"}
@@ -905,7 +905,7 @@ function CasinoResetPanel() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle className="flex items-center gap-2">
-              <AlertTriangle size={16} className="text-red-400" />
+              <AlertTriangle size={16} className="void-text-error" />
               Reset every casino session?
             </AlertDialogTitle>
             <AlertDialogDescription>
@@ -923,7 +923,7 @@ function CasinoResetPanel() {
             <AlertDialogAction
               onClick={executeResetAll}
               disabled={resetMut.isPending}
-              className="bg-red-500/80 hover:bg-red-500 text-white"
+              className="void-bg-error void-bg-error text-white"
             >
               {resetMut.isPending ? "Resetting..." : "Yes, reset all"}
             </AlertDialogAction>
@@ -944,7 +944,7 @@ function FlagsView() {
       <ChristmasQaPanel />
       <CasinoResetPanel />
       <div className="flex items-center justify-between">
-        <h3 className="font-mono text-[10px] text-cyan-400/60 tracking-wider">FEATURE FLAGS</h3>
+        <h3 className="font-mono text-[10px] void-text-energy tracking-wider">FEATURE FLAGS</h3>
         <button onClick={() => seedFlags.mutate()} className={voidBtnPrimary}>
           <Plus size={12} className="mr-1 inline" /> SEED DEFAULTS
         </button>
@@ -955,9 +955,9 @@ function FlagsView() {
             <div key={f.id} className="flex items-center gap-3 py-2 border-b border-white/5">
               <button
                 onClick={() => setFlag.mutate({ name: f.featureName, enabled: !f.enabled })}
-                className={`w-10 h-5 rounded-full transition-colors ${f.enabled ? "bg-green-500/30" : "bg-red-500/20"}`}
+                className={`w-10 h-5 rounded-full transition-colors ${f.enabled ? "void-bg-success" : "void-bg-error"}`}
               >
-                <div className={`w-4 h-4 rounded-full transition-transform ${f.enabled ? "translate-x-5 bg-green-400" : "translate-x-0.5 bg-red-400"}`} />
+                <div className={`w-4 h-4 rounded-full transition-transform ${f.enabled ? "translate-x-5 void-bg-success" : "translate-x-0.5 void-bg-error"}`} />
               </button>
               <span className={`font-mono text-xs flex-1 ${f.enabled ? "text-white/70" : "text-white/30 line-through"}`}>
                 {f.featureName}
@@ -995,8 +995,8 @@ function RateLimitDashboard() {
   return (
     <div className={`${voidPanel} p-4`}>
       <div className="flex items-center gap-2 mb-3">
-        <Activity size={14} className="text-red-400/70" />
-        <h4 className="font-mono text-[10px] text-red-400/80 tracking-wider">
+        <Activity size={14} className="void-text-error" />
+        <h4 className="font-mono text-[10px] void-text-error tracking-wider">
           SEARCH RATE-LIMIT HITS (24H)
         </h4>
         <span className="ml-auto font-mono text-[9px] text-white/30">
@@ -1018,9 +1018,9 @@ function RateLimitDashboard() {
               key={`${b.userId}-${b.hourEpoch}`}
               className={`flex items-center gap-2 px-2 py-1 rounded font-mono text-[10px] ${
                 b.count >= 50
-                  ? "bg-red-500/10 border border-red-500/30 text-red-300"
+                  ? "void-bg-error border void-border-error void-text-error"
                   : b.count >= 20
-                  ? "bg-amber-500/10 border border-amber-500/30 text-amber-300"
+                  ? "void-bg-sunk border void-border void-text-accent"
                   : "bg-white/[0.02] border border-white/10 text-white/50"
               }`}
             >
@@ -1055,14 +1055,14 @@ function AuditLogView() {
     <div className="space-y-4">
       <RateLimitDashboard />
       <div className="flex items-center justify-between gap-2">
-        <h3 className="font-mono text-[10px] text-cyan-400/60 tracking-wider">ADMIN AUDIT LOG</h3>
+        <h3 className="font-mono text-[10px] void-text-energy tracking-wider">ADMIN AUDIT LOG</h3>
         <span className="font-mono text-[9px] text-white/30 flex-1">
           {entries.length} entries {entries.length >= 200 && "(capped)"}
         </span>
         <button
           onClick={() => rotateMut.mutate()}
           disabled={rotateMut.isPending}
-          className="px-3 py-1 rounded border border-red-500/30 bg-red-500/10 text-red-300 font-mono text-[9px] hover:bg-red-500/20 disabled:opacity-50"
+          className="px-3 py-1 rounded border void-border-error void-bg-error void-text-error font-mono text-[9px] void-bg-error disabled:opacity-50"
         >
           {rotateMut.isPending ? "Rotating..." : "Rotate now (90d TTL)"}
         </button>
@@ -1083,8 +1083,8 @@ function AuditLogView() {
           {entries.map((entry: { id: number; adminId: number; action: string; details: unknown; createdAt: string | Date }) => (
             <div key={entry.id} className={`${voidPanel} p-3 font-mono text-[11px]`}>
               <div className="flex items-center gap-3 mb-1">
-                <ShieldAlert size={12} className="text-amber-400/60 shrink-0" />
-                <span className="text-amber-300">{entry.action}</span>
+                <ShieldAlert size={12} className="void-text-accent shrink-0" />
+                <span className="void-text-accent">{entry.action}</span>
                 <span className="text-white/30">· admin #{entry.adminId}</span>
                 <span className="ml-auto text-[9px] text-white/30">
                   {new Date(entry.createdAt).toLocaleString()}
@@ -1111,7 +1111,7 @@ function TestGamesView() {
   return (
     <div className="space-y-4">
       <div className={`${voidPanel} p-4`}>
-        <h3 className="font-mono text-[10px] text-cyan-400/60 tracking-wider mb-1">GAME MODE TEST LAUNCHER</h3>
+        <h3 className="font-mono text-[10px] void-text-energy tracking-wider mb-1">GAME MODE TEST LAUNCHER</h3>
         <p className="font-mono text-[9px] text-white/20 mb-4">Launch any game mode instantly — bypasses all unlock requirements</p>
 
         {categories.map(cat => {
@@ -1164,23 +1164,23 @@ export default function ArchitectConsolePage() {
 
   if (!isAuthenticated || user?.role !== "admin") {
     return (
-      <div className="min-h-screen bg-[#010020] flex items-center justify-center p-8">
+      <div className="min-h-screen bg-[var(--bg-void)] flex items-center justify-center p-8">
         <div className="text-center">
-          <Shield size={48} className="text-red-500 mx-auto mb-4" />
+          <Shield size={48} className="void-text-error mx-auto mb-4" />
           <h1 className="font-mono text-xl tracking-[0.3em] text-white mb-2">ACCESS DENIED</h1>
           <p className="font-mono text-[10px] text-white/30 mb-4">Architect clearance required.</p>
-          <Link href="/" className="font-mono text-[10px] text-cyan-400 hover:underline">← Return to Ark</Link>
+          <Link href="/" className="font-mono text-[10px] void-text-energy hover:underline">← Return to Ark</Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#010020] p-4">
+    <div className="min-h-screen bg-[var(--bg-void)] p-4">
       {/* Header */}
       <div className="max-w-6xl mx-auto mb-6">
         <div className="flex items-center gap-3 mb-1">
-          <Eye size={18} className="text-cyan-400" />
+          <Eye size={18} className="void-text-energy" />
           <h1 className="font-mono text-lg tracking-[0.3em] text-white">THE ARCHITECT&apos;S CONSOLE</h1>
         </div>
         <p className="font-mono text-[10px] text-white/20 ml-8">Panopticon Surveillance Network — All-Seeing Eye Active</p>
@@ -1197,7 +1197,7 @@ export default function ArchitectConsolePage() {
             <button key={tab.id} onClick={() => setView(tab.id)}
               className={`flex items-center gap-1.5 px-4 py-2.5 rounded-lg font-mono text-[10px] tracking-[0.15em] transition-all ${
                 active
-                  ? `bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 ${voidGlow}`
+                  ? `void-bg-success void-text-energy border void-border-success ${voidGlow}`
                   : "bg-white/[0.02] text-white/30 border border-transparent hover:text-white/50 hover:bg-white/[0.04]"
               }`}>
               <Icon size={13} /> {tab.label}

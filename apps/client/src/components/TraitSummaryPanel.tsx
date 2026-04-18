@@ -19,45 +19,45 @@ const SYSTEM_CONFIGS = [
     key: "cardGame",
     label: "CARD GAME",
     icon: Layers,
-    color: "text-cyan-400",
-    borderColor: "border-cyan-400/20",
-    bgColor: "bg-cyan-500/5",
-    glowColor: "shadow-[0_0_8px_rgba(51,226,230,0.1)]",
+    color: "void-text-energy",
+    borderColor: "void-border-success",
+    bgColor: "void-bg-success",
+    glowColor: "shadow-[0_0_8px_color-mix(in oklch, var(--energy-primary) 10%, transparent)]",
   },
   {
     key: "fightGame",
     label: "FIGHT ARENA",
     icon: Swords,
-    color: "text-red-400",
-    borderColor: "border-red-400/20",
-    bgColor: "bg-red-500/5",
-    glowColor: "shadow-[0_0_8px_rgba(248,113,113,0.1)]",
+    color: "void-text-error",
+    borderColor: "void-border-error",
+    bgColor: "void-bg-error",
+    glowColor: "shadow-[0_0_8px_color-mix(in oklch, var(--energy-error) 10%, transparent)]",
   },
   {
     key: "tradeEmpire",
     label: "TRADE EMPIRE",
     icon: Globe,
-    color: "text-amber-400",
-    borderColor: "border-amber-400/20",
-    bgColor: "bg-amber-500/5",
-    glowColor: "shadow-[0_0_8px_rgba(251,191,36,0.1)]",
+    color: "void-text-accent",
+    borderColor: "void-border",
+    bgColor: "void-bg-sunk",
+    glowColor: "shadow-[0_0_8px_color-mix(in oklch, var(--energy-premium) 10%, transparent)]",
   },
   {
     key: "crafting",
     label: "CRAFTING",
     icon: Wrench,
-    color: "text-emerald-400",
-    borderColor: "border-emerald-400/20",
-    bgColor: "bg-emerald-500/5",
+    color: "void-text-energy",
+    borderColor: "void-border-success",
+    bgColor: "void-bg-success",
     glowColor: "shadow-[0_0_8px_rgba(52,211,153,0.1)]",
   },
   {
     key: "exploration",
     label: "EXPLORATION",
     icon: Telescope,
-    color: "text-indigo-400",
-    borderColor: "border-indigo-400/20",
-    bgColor: "bg-indigo-500/5",
+    color: "void-text-energy",
+    borderColor: "void-border",
+    bgColor: "void-bg-sunk",
     glowColor: "shadow-[0_0_8px_rgba(129,140,248,0.1)]",
   },
 ] as const;
@@ -81,7 +81,7 @@ function StatRow({ icon: Icon, label, value, color = "text-foreground", isPercen
     : String(value);
 
   const isPositive = typeof value === "number" && value > 0;
-  const valueColor = isPositive ? "text-emerald-400" : typeof value === "number" && value === 0 ? "text-muted-foreground/40" : color;
+  const valueColor = isPositive ? "void-text-energy" : typeof value === "number" && value === 0 ? "text-muted-foreground/40" : color;
 
   return (
     <div className="flex items-center justify-between py-1 group">
@@ -180,7 +180,7 @@ function SystemCard({ config, data, isExpanded, onToggle }: {
                   <StatRow icon={TrendingUp} label="XP Multiplier" value={data.xpMultiplier} isMultiplier />
                   <StatRow icon={Gem} label="Dream Multiplier" value={data.dreamMultiplier} isMultiplier />
                   {data.elementResistance && (
-                    <StatRow icon={Sparkles} label={`${data.elementResistance} Resistance`} value="Active" color="text-emerald-400" />
+                    <StatRow icon={Sparkles} label={`${data.elementResistance} Resistance`} value="Active" color="void-text-energy" />
                   )}
                 </div>
               )}
@@ -288,7 +288,7 @@ export default function TraitSummaryPanel({ isAuthenticated }: { isAuthenticated
             <span className="font-mono text-[8px] text-muted-foreground/40">
               Live bonuses across all game systems
               {nftMultiplier > 1.0 && (
-                <span className="text-amber-400 ml-2">✦ {((nftMultiplier - 1) * 100).toFixed(0)}% POTENTIAL BOOST</span>
+                <span className="void-text-accent ml-2">✦ {((nftMultiplier - 1) * 100).toFixed(0)}% POTENTIAL BOOST</span>
               )}
             </span>
           </div>
@@ -339,12 +339,12 @@ export default function TraitSummaryPanel({ isAuthenticated }: { isAuthenticated
                 <>
                   {/* Species Multiplier Banner */}
                   {nftMultiplier > 1.0 && (
-                    <div className="mb-4 p-2.5 rounded-lg bg-amber-500/5 border border-amber-400/15 flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-400/20 flex items-center justify-center flex-shrink-0">
-                        <Gem size={14} className="text-amber-400" />
+                    <div className="mb-4 p-2.5 rounded-lg void-bg-sunk border void-border flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-full void-bg-sunk border void-border flex items-center justify-center flex-shrink-0">
+                        <Gem size={14} className="void-text-accent" />
                       </div>
                       <div>
-                        <span className="font-display text-[10px] font-bold text-amber-400 tracking-wider block">
+                        <span className="font-display text-[10px] font-bold void-text-accent tracking-wider block">
                           POTENTIAL ACTIVE — {((nftMultiplier - 1) * 100).toFixed(0)}% UNIVERSAL BOOST
                         </span>
                         <span className="font-mono text-[8px] text-muted-foreground/50">

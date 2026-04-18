@@ -24,12 +24,12 @@ export function MissionSlateGlow({ active, state = "idle", onComplete, className
         width: "100px",
         height: "140px",
         borderRadius: "4px",
-        backgroundColor: "rgba(34, 211, 238, 0.06)",
-        border: "1px solid rgba(34, 211, 238, 0.25)",
+        backgroundColor: "color-mix(in oklch, var(--energy-primary) 6%, transparent)",
+        border: "1px solid color-mix(in oklch, var(--energy-primary) 25%, transparent)",
         animation,
         boxShadow: isHighlighted
-          ? "0 0 20px rgba(34, 211, 238, 0.5)"
-          : "0 0 8px rgba(34, 211, 238, 0.2)",
+          ? "0 0 20px color-mix(in oklch, var(--energy-primary) 50%, transparent)"
+          : "0 0 8px color-mix(in oklch, var(--energy-primary) 20%, transparent)",
         pointerEvents: "none",
       }}
       onAnimationEnd={onComplete}

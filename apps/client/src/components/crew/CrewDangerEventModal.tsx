@@ -71,10 +71,10 @@ export default function CrewDangerEventModal({ state, onClose }: Props) {
   const target = state.roster.members.find(m => m.id === event.targetCrewIds[0]);
 
   const severityColor = {
-    minor: "border-yellow-500/50",
-    serious: "border-orange-500/50",
-    critical: "border-red-500/60",
-    fatal: "border-red-700",
+    minor: "void-border",
+    serious: "void-border",
+    critical: "void-border-error",
+    fatal: "void-border-error",
   }[event.severity];
 
   const handleChoice = async (choiceIdx: number) => {
@@ -129,16 +129,16 @@ export default function CrewDangerEventModal({ state, onClose }: Props) {
 
         <div className="flex items-center gap-2 mb-1">
           {event.severity === "fatal" ? (
-            <Skull size={16} className="text-red-400" />
+            <Skull size={16} className="void-text-error" />
           ) : (
             <AlertTriangle
               size={16}
               className={
                 event.severity === "critical"
-                  ? "text-red-400"
+                  ? "void-text-error"
                   : event.severity === "serious"
-                    ? "text-orange-400"
-                    : "text-yellow-400"
+                    ? "void-text-premium"
+                    : "void-text-premium"
               }
             />
           )}
@@ -158,8 +158,8 @@ export default function CrewDangerEventModal({ state, onClose }: Props) {
           <div
             className={`p-3 border rounded mb-3 text-[11px] font-mono ${
               outcome.success
-                ? "border-green-500/40 bg-green-500/5 text-green-200"
-                : "border-red-500/40 bg-red-500/5 text-red-200"
+                ? "void-border-success void-bg-success void-text-energy"
+                : "void-border-error void-bg-error void-text-error"
             }`}
           >
             {outcome.narrative}
@@ -188,7 +188,7 @@ export default function CrewDangerEventModal({ state, onClose }: Props) {
                   {choice.description}
                 </div>
                 {choice.cost && (
-                  <div className="mt-1 text-[9px] font-mono text-yellow-400">
+                  <div className="mt-1 text-[9px] font-mono void-text-premium">
                     cost:{" "}
                     {Object.entries(choice.cost)
                       .map(([k, v]) => `${v} ${k}`)

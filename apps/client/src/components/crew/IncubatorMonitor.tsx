@@ -30,9 +30,9 @@ function PodCard({ pod, onHatch, onRepair, onCancel }: {
 
   const statusColor = {
     empty: "border-border/30",
-    gestating: "border-cyan-500/40",
-    ready: "border-green-500/60",
-    malfunction: "border-red-500/60",
+    gestating: "void-border-success",
+    ready: "void-border-success",
+    malfunction: "void-border-error",
   }[pod.status];
 
   return (
@@ -80,7 +80,7 @@ function PodCard({ pod, onHatch, onRepair, onCancel }: {
               </span>
             </div>
             {pod.geneticIntegrity < 80 && (
-              <div className="flex items-center gap-1 text-[9px] font-mono text-yellow-500">
+              <div className="flex items-center gap-1 text-[9px] font-mono void-text-premium">
                 <AlertTriangle size={10} />
                 genetic integrity warning
               </div>

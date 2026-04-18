@@ -24,13 +24,13 @@ import { getRarityTier, type Apprentice } from "@shared/apprentices";
 import { toast } from "sonner";
 
 const ROLE_META: Record<GraduateRole, { label: string; icon: any; color: string; description: string }> = {
-  companion: { label: "On Ship (Companion)", icon: Heart, color: "text-rose-400", description: "With you. Daily bond. Personal quests." },
-  cryo_vault: { label: "Cryo Vault", icon: Snowflake, color: "text-cyan-400", description: "Frozen. Stored for later deployment." },
-  army_leader: { label: "Army Leader", icon: Swords, color: "text-red-400", description: "Commands a squad in your military." },
-  trade_envoy: { label: "Trade Envoy", icon: Ship, color: "text-amber-400", description: "Runs trade routes + faction relations." },
-  tower_captain: { label: "Tower Captain", icon: Shield, color: "text-emerald-400", description: "Leads a Tower Defense front." },
-  sacrificed: { label: "Sacrificed", icon: Skull, color: "text-red-600", description: "Killed. Dark power gained. Cannot be undone." },
-  relationship_gift: { label: "Gifted", icon: Gift, color: "text-purple-400", description: "Given to an NPC as a loyal student." },
+  companion: { label: "On Ship (Companion)", icon: Heart, color: "void-text-error", description: "With you. Daily bond. Personal quests." },
+  cryo_vault: { label: "Cryo Vault", icon: Snowflake, color: "void-text-energy", description: "Frozen. Stored for later deployment." },
+  army_leader: { label: "Army Leader", icon: Swords, color: "void-text-error", description: "Commands a squad in your military." },
+  trade_envoy: { label: "Trade Envoy", icon: Ship, color: "void-text-accent", description: "Runs trade routes + faction relations." },
+  tower_captain: { label: "Tower Captain", icon: Shield, color: "void-text-energy", description: "Leads a Tower Defense front." },
+  sacrificed: { label: "Sacrificed", icon: Skull, color: "void-text-error", description: "Killed. Dark power gained. Cannot be undone." },
+  relationship_gift: { label: "Gifted", icon: Gift, color: "void-text-system", description: "Given to an NPC as a loyal student." },
 };
 
 export default function GraduateLegionPage() {
@@ -112,7 +112,7 @@ export default function GraduateLegionPage() {
           <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
             <ChevronLeft size={20} />
           </Link>
-          <Users size={18} className="text-amber-400" />
+          <Users size={18} className="void-text-accent" />
           <div className="flex-1">
             <h1 className="font-display text-lg font-bold tracking-wider">GRADUATE LEGION</h1>
             <p className="font-mono text-[10px] text-muted-foreground tracking-wider">
@@ -126,7 +126,7 @@ export default function GraduateLegionPage() {
           >
             <Mail size={12} /> Letters
             {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-red-500 text-white font-mono text-[9px] flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full void-bg-error text-white font-mono text-[9px] flex items-center justify-center">
                 {unreadCount}
               </span>
             )}
@@ -146,8 +146,8 @@ export default function GraduateLegionPage() {
 
         {/* Letters panel */}
         {showLetters && (
-          <div className="mb-4 p-3 rounded border border-indigo-500/30 bg-indigo-500/5 max-h-96 overflow-y-auto space-y-2">
-            <span className="font-mono text-[9px] uppercase tracking-wider text-indigo-400 block">
+          <div className="mb-4 p-3 rounded border void-border void-bg-sunk max-h-96 overflow-y-auto space-y-2">
+            <span className="font-mono text-[9px] uppercase tracking-wider void-text-energy block">
               LETTERS FROM THE FRONT ({letters.length})
             </span>
             {letters.length === 0 ? (
@@ -160,7 +160,7 @@ export default function GraduateLegionPage() {
                 return (
                   <div key={l.id} className="p-2 rounded border border-border/30 bg-background/40">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-display text-xs font-bold text-indigo-300">
+                      <span className="font-display text-xs font-bold void-text-energy">
                         {sender?.name ?? "Unknown"}
                       </span>
                       <span className="font-mono text-[8px] text-muted-foreground/50">
@@ -185,7 +185,7 @@ export default function GraduateLegionPage() {
               <p className="font-mono text-[10px] text-muted-foreground/70">
                 No graduates yet. Complete the Celebration trial with an Apprentice to build your Legion.
               </p>
-              <Link href="/apprentice" className="mt-3 inline-block px-3 py-1.5 rounded border border-amber-500/40 bg-amber-500/10 text-amber-400 font-mono text-[10px] uppercase tracking-wider hover:bg-amber-500/20">
+              <Link href="/apprentice" className="mt-3 inline-block px-3 py-1.5 rounded border void-border void-bg-sunk void-text-accent font-mono text-[10px] uppercase tracking-wider void-bg-sunk">
                 Go to Apprentice
               </Link>
             </div>
@@ -234,7 +234,7 @@ function SlotBox({ role, usage, limit }: { role: keyof typeof SLOT_LIMITS; usage
           {role === "companion" ? "Ship" : role === "cryo_vault" ? "Cryo" : role === "army_leader" ? "Army" : role === "trade_envoy" ? "Trade" : "Tower"}
         </span>
       </div>
-      <div className={`font-display text-sm font-bold tabular-nums ${usage === limit ? "text-red-400" : meta.color}`}>
+      <div className={`font-display text-sm font-bold tabular-nums ${usage === limit ? "void-text-error" : meta.color}`}>
         {usage}/{limit}
       </div>
     </div>
@@ -361,10 +361,10 @@ function AssignModal({ apprentice, onAssign, onUnassign, onSacrifice, onClose, c
             </div>
 
             {/* Sacrifice section */}
-            <div className="pt-2 border-t border-red-500/20">
+            <div className="pt-2 border-t void-border-error">
               <button
                 onClick={() => setConfirmSacrifice(true)}
-                className="w-full p-2 rounded border border-red-500/40 bg-red-500/5 text-red-400 font-mono text-[10px] uppercase tracking-wider hover:bg-red-500/10 flex items-center justify-center gap-2"
+                className="w-full p-2 rounded border void-border-error void-bg-error void-text-error font-mono text-[10px] uppercase tracking-wider void-bg-error flex items-center justify-center gap-2"
                 data-testid="sacrifice-init"
               >
                 <Skull size={11} /> Sacrifice for Dark Power
@@ -375,27 +375,27 @@ function AssignModal({ apprentice, onAssign, onUnassign, onSacrifice, onClose, c
 
         {/* Sacrifice confirmation */}
         {confirmSacrifice && (
-          <div className="p-3 rounded border-2 border-red-500/60 bg-red-500/10 space-y-2">
+          <div className="p-3 rounded border-2 void-border-error void-bg-error space-y-2">
             <div className="flex items-center gap-2">
-              <AlertTriangle size={14} className="text-red-400" />
-              <span className="font-mono text-[10px] uppercase tracking-wider text-red-400">
+              <AlertTriangle size={14} className="void-text-error" />
+              <span className="font-mono text-[10px] uppercase tracking-wider void-text-error">
                 IRREVERSIBLE
               </span>
             </div>
             <p className="font-mono text-[10px] italic text-foreground/80 leading-relaxed">
               {apprentice.name} will die. Every other apprentice in your roster will react. Corruption will rise. The Dreamer will notice.
             </p>
-            <div className="p-2 rounded border border-red-500/30 bg-background/40">
-              <span className="font-mono text-[9px] uppercase tracking-wider text-red-400 block mb-1">
+            <div className="p-2 rounded border void-border-error bg-background/40">
+              <span className="font-mono text-[9px] uppercase tracking-wider void-text-error block mb-1">
                 Reward ({tier.name})
               </span>
               <p className="font-mono text-[9px] text-foreground/85">+{sacrificeReward.corruptionGain} corruption</p>
-              <p className="font-mono text-[9px] italic text-amber-300/80 mt-0.5">{sacrificeReward.reward}</p>
+              <p className="font-mono text-[9px] italic void-text-accent mt-0.5">{sacrificeReward.reward}</p>
             </div>
             <div className="flex gap-2">
               <button
                 onClick={() => onSacrifice(apprentice)}
-                className="flex-1 px-3 py-2 rounded border border-red-500/60 bg-red-500/20 text-red-300 font-mono text-[10px] uppercase tracking-wider hover:bg-red-500/30"
+                className="flex-1 px-3 py-2 rounded border void-border-error void-bg-error void-text-error font-mono text-[10px] uppercase tracking-wider void-bg-error"
                 data-testid="sacrifice-confirm"
               >
                 Confirm Sacrifice

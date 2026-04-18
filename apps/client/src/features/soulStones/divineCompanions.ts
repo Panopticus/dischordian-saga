@@ -59,7 +59,7 @@ export const DIVINE_COMPANIONS: DivineCompanion[] = [
     drawback: null,
     purityContribution: 2,
     icon: "Bell",
-    color: "#22d3ee",
+    color: "var(--energy-primary)",
     visual:
       "A crystalline bell the size of a thimble, suspended by a thread of pale blue light. It chimes softly when secrets are near — a sound only you can hear. The tone changes with proximity: lower for far, higher for close, and a perfect middle C when you're standing right on top of it.",
     description:
@@ -117,7 +117,7 @@ export const DIVINE_COMPANIONS: DivineCompanion[] = [
     drawback: null,
     purityContribution: 4,
     icon: "Shield",
-    color: "#22c55e",
+    color: "var(--energy-success)",
     visual:
       "A shard of something that was once much larger — translucent green crystal veined with gold. It orbits your torso in a slow ellipse, and when danger comes, it snaps into position between you and the threat. For five seconds each day, it remembers being whole.",
     description:
@@ -263,7 +263,7 @@ export const DISCHORDIAN_COMPANIONS: DischordianCompanion[] = [
     visual:
       "A single letter — not from any alphabet you recognize — floating in the air at eye level. It hums with the frequency of a story being told. When the Chronicle updates, the letter trembles. When you speak your sentence, the letter burns itself into the Chronicle and is gone. The companion remains, but its gift does not.",
     icon: "Pen",
-    color: "#f59e0b",
+    color: "var(--energy-accent)",
     artPath: DISCHORDIAN_COMPANION_ART.firstWord,
   },
 ];

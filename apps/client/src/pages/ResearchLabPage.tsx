@@ -13,13 +13,13 @@ import { getLoginUrl } from "@/const";
 import { toast } from "sonner";
 
 const RARITY_COLORS: Record<string, string> = {
-  common: "text-zinc-400 border-zinc-500/30 bg-zinc-900/30",
-  uncommon: "text-green-400 border-green-500/30 bg-green-900/30",
-  rare: "text-blue-400 border-blue-500/30 bg-blue-900/30",
-  epic: "text-purple-400 border-purple-500/30 bg-purple-900/30",
-  legendary: "text-amber-400 border-amber-500/30 bg-amber-900/30",
-  mythic: "text-pink-400 border-pink-500/30 bg-pink-900/30",
-  neyon: "text-cyan-400 border-cyan-500/30 bg-cyan-900/30",
+  common: "void-text void-border void-bg-canvas",
+  uncommon: "void-text-energy void-border-success void-bg-success",
+  rare: "void-text-energy void-border void-bg-sunk",
+  epic: "void-text-system void-border-system void-bg-system",
+  legendary: "void-text-accent void-border void-bg-sunk",
+  mythic: "void-text-error void-border-error void-bg-error",
+  neyon: "void-text-energy void-border-success void-bg-success",
 };
 
 const RARITY_ICONS: Record<string, any> = {
@@ -190,7 +190,7 @@ export default function ResearchLabPage() {
               </Link>
               <div>
                 <div className="flex items-center gap-2">
-                  <FlaskConical size={18} className="text-purple-400" />
+                  <FlaskConical size={18} className="void-text-system" />
                   <h1 className="font-display text-lg font-black tracking-wider text-foreground">
                     RESEARCH LAB
                   </h1>
@@ -203,19 +203,19 @@ export default function ResearchLabPage() {
 
             {/* Dream Balance */}
             <div className="flex items-center gap-2 sm:gap-4">
-              <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-purple-900/20 border border-purple-500/20">
-                <Sparkles size={12} className="text-purple-400 sm:!w-3.5 sm:!h-3.5" />
-                <span className="font-display text-xs sm:text-sm font-bold text-purple-300">
+              <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg void-bg-system border void-border-system">
+                <Sparkles size={12} className="void-text-system sm:!w-3.5 sm:!h-3.5" />
+                <span className="font-display text-xs sm:text-sm font-bold void-text-system">
                   {dreamBal?.dream ?? 0}
                 </span>
-                <span className="font-mono text-[8px] sm:text-[9px] text-purple-400/60 hidden sm:inline">DREAM</span>
+                <span className="font-mono text-[8px] sm:text-[9px] void-text-system hidden sm:inline">DREAM</span>
               </div>
-              <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-pink-900/20 border border-pink-500/20">
-                <Crown size={12} className="text-pink-400 sm:!w-3.5 sm:!h-3.5" />
-                <span className="font-display text-xs sm:text-sm font-bold text-pink-300">
+              <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg void-bg-error border void-border-error">
+                <Crown size={12} className="void-text-error sm:!w-3.5 sm:!h-3.5" />
+                <span className="font-display text-xs sm:text-sm font-bold void-text-error">
                   {dreamBal?.soulBoundDream ?? 0}
                 </span>
-                <span className="font-mono text-[8px] sm:text-[9px] text-pink-400/60 hidden sm:inline">SOUL</span>
+                <span className="font-mono text-[8px] sm:text-[9px] void-text-error hidden sm:inline">SOUL</span>
               </div>
             </div>
           </div>
@@ -279,18 +279,18 @@ export default function ResearchLabPage() {
                   <p className="font-mono text-[10px] text-muted-foreground mt-1">{recipe.description}</p>
                   <div className="flex items-center gap-3 mt-2">
                     {recipe.creditsCost > 0 && (
-                      <span className="font-mono text-[9px] text-amber-400">
+                      <span className="font-mono text-[9px] void-text-accent">
                         <Zap size={9} className="inline mr-0.5" />{recipe.creditsCost} Credits
                       </span>
                     )}
                     {recipe.dreamCost > 0 && (
-                      <span className="font-mono text-[9px] text-purple-400">
+                      <span className="font-mono text-[9px] void-text-system">
                         <Sparkles size={9} className="inline mr-0.5" />{recipe.dreamCost} Dream
                       </span>
                     )}
                     <span className={`font-mono text-[9px] ${
-                      recipe.successRate >= 90 ? "text-green-400" :
-                      recipe.successRate >= 70 ? "text-amber-400" :
+                      recipe.successRate >= 90 ? "void-text-energy" :
+                      recipe.successRate >= 70 ? "void-text-accent" :
                       "text-destructive"
                     }`}>
                       {recipe.successRate}% Success
@@ -312,7 +312,7 @@ export default function ResearchLabPage() {
                       key={i}
                       className={`px-3 py-2 rounded border text-[10px] font-mono ${
                         log.success
-                          ? "border-green-500/20 bg-green-900/10 text-green-400"
+                          ? "void-border-success void-bg-success void-text-energy"
                           : "border-destructive/20 bg-destructive/10 text-destructive"
                       }`}
                     >
@@ -402,7 +402,7 @@ export default function ResearchLabPage() {
                         exit={{ opacity: 0, scale: 0.8 }}
                         className={`w-24 h-32 rounded-lg border-2 flex items-center justify-center ${
                           craftResult.success
-                            ? "border-green-500/40 bg-green-900/10"
+                            ? "void-border-success void-bg-success"
                             : "border-destructive/40 bg-destructive/10"
                         }`}
                       >
@@ -411,9 +411,9 @@ export default function ResearchLabPage() {
                             {craftResult.outputCard?.imageUrl ? (
                               <img src={craftResult.outputCard.imageUrl} alt="" className="w-14 h-14 rounded object-cover mx-auto mb-1" />
                             ) : craftResult.dreamGained ? (
-                              <Sparkles size={24} className="text-purple-400 mx-auto mb-1" />
+                              <Sparkles size={24} className="void-text-system mx-auto mb-1" />
                             ) : (
-                              <Check size={24} className="text-green-400 mx-auto mb-1" />
+                              <Check size={24} className="void-text-energy mx-auto mb-1" />
                             )}
                             <p className="font-mono text-[7px] text-foreground/80 truncate">
                               {craftResult.outputCard?.name || (craftResult.dreamGained ? `+${craftResult.dreamGained} Dream` : "Enhanced!")}
@@ -449,7 +449,7 @@ export default function ResearchLabPage() {
                     disabled={!canCraft || isCrafting}
                     className={`px-6 py-3 rounded-lg font-mono text-sm transition-all ${
                       canCraft && !isCrafting
-                        ? "bg-primary/10 border border-primary/40 text-primary hover:bg-primary/20 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)]"
+                        ? "bg-primary/10 border border-primary/40 text-primary hover:bg-primary/20 hover:shadow-[0_0_20px_color-mix(in oklch, var(--energy-primary) 15%, transparent)]"
                         : "bg-secondary/20 border border-border/10 text-muted-foreground/40 cursor-not-allowed"
                     }`}
                   >
@@ -480,13 +480,13 @@ export default function ResearchLabPage() {
                   {currentRecipe && (
                     <div className="flex items-center gap-3 mt-2">
                       {currentRecipe.creditsCost > 0 && (
-                        <span className="font-mono text-[9px] text-amber-400/60">
+                        <span className="font-mono text-[9px] void-text-accent">
                           Cost: {currentRecipe.creditsCost} Credits
                         </span>
                       )}
                       {currentRecipe.dreamCost > 0 && (
                         <span className={`font-mono text-[9px] ${
-                          currentRecipe.dreamCost > (dreamBal?.dream ?? 0) ? "text-destructive" : "text-purple-400/60"
+                          currentRecipe.dreamCost > (dreamBal?.dream ?? 0) ? "text-destructive" : "void-text-system"
                         }`}>
                           + {currentRecipe.dreamCost} Dream
                         </span>

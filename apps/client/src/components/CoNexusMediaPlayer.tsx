@@ -58,8 +58,8 @@ interface EpochInfo {
 
 const SAGA_EPOCHS: EpochInfo[] = [
   { id: "fall-of-reality", title: "THE FALL OF REALITY", subtitle: "Epoch Zero", playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaQFYJatsDLPtvbQVDpzydl1", color: "#FF3C40", keyCharacters: ["The Architect", "The Enigma", "The Human", "The Warlord"] },
-  { id: "epoch-1a", title: "THE AWAKENING", subtitle: "First Epoch", playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaRniDT5eztLsXFTzbR0JaCu", color: "#33E2E6", keyCharacters: ["The Oracle", "The Collector", "Iron Lion", "The Source"] },
-  { id: "epoch-1b", title: "THE ENGINEER", subtitle: "Fall of Reality", playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaQfuKeeqx7cLOfhZ1Fr1-jb", color: "#33E2E6", keyCharacters: ["The Architect", "The Human", "The Enigma"] },
+  { id: "epoch-1a", title: "THE AWAKENING", subtitle: "First Epoch", playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaRniDT5eztLsXFTzbR0JaCu", color: "var(--energy-primary)", keyCharacters: ["The Oracle", "The Collector", "Iron Lion", "The Source"] },
+  { id: "epoch-1b", title: "THE ENGINEER", subtitle: "Fall of Reality", playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaQfuKeeqx7cLOfhZ1Fr1-jb", color: "var(--energy-primary)", keyCharacters: ["The Architect", "The Human", "The Enigma"] },
   { id: "epoch-2", title: "THE AGE OF PRIVACY", subtitle: "Second Epoch", playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaRcuVOdFiT1YZRQR0GQXR4D", color: "#FFB800", keyCharacters: ["The Enigma", "Agent Zero", "The Spy"] },
   { id: "epoch-3", title: "THE AGE OF REVELATION", subtitle: "Third Epoch", playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaS-7bVGxdWLLfPxKjG5WNQP", color: "#A855F7", keyCharacters: ["The Necromancer", "The Oracle", "The Collector"] },
   { id: "epoch-4", title: "SILENCE IN HEAVEN", subtitle: "Fourth Epoch", playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaQFYJatsDLPtvbQVDpzydl1", color: "#EC4899", keyCharacters: ["The Source", "The Meme", "The Programmer"] },
@@ -97,7 +97,7 @@ function MiniPlayer({
       <div className="h-[2px] relative" style={{ background: "var(--glass-border)" }}>
         <div
           className="h-full transition-all duration-150"
-          style={{ width: `${progress}%`, background: "var(--brand-gradient, linear-gradient(90deg, #33E2E6, #3875FA))" }}
+          style={{ width: `${progress}%`, background: "var(--brand-gradient, linear-gradient(90deg, var(--energy-primary), var(--electric-blue)))" }}
         />
       </div>
 
@@ -145,8 +145,8 @@ function MiniPlayer({
             onClick={onPlayPause}
             className="p-2 rounded-full transition-all hover:scale-105"
             style={{
-              background: "linear-gradient(135deg, rgba(51,226,230,0.2), var(--glass-border))",
-              border: "1px solid rgba(51,226,230,0.3)",
+              background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-primary) 20%, transparent), var(--glass-border))",
+              border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
             }}
           >
             {isPlaying ? <Pause size={14} className="text-[var(--neon-cyan)]" /> : <Play size={14} className="text-[var(--neon-cyan)] ml-0.5" />}
@@ -465,7 +465,7 @@ function ExpandedSeekBar() {
       <div
         ref={barRef}
         className="relative h-1.5 rounded-full cursor-pointer group"
-        style={{ background: "rgba(255,255,255,0.08)" }}
+        style={{ background: "color-mix(in oklch, var(--text-primary) 8%, transparent)" }}
         onMouseDown={handleMouseDown}
       >
         <div
@@ -473,8 +473,8 @@ function ExpandedSeekBar() {
           style={{
             width: `${progress}%`,
             background: hasAudio
-              ? "linear-gradient(90deg, rgba(51,226,230,0.8), rgba(56,117,250,0.8))"
-              : "rgba(255,255,255,0.15)",
+              ? "linear-gradient(90deg, color-mix(in oklch, var(--energy-primary) 80%, transparent), color-mix(in oklch, var(--electric-blue) 80%, transparent))"
+              : "color-mix(in oklch, var(--text-primary) 15%, transparent)",
           }}
         />
         {hasAudio && (
@@ -483,8 +483,8 @@ function ExpandedSeekBar() {
             style={{
               left: `${progress}%`,
               marginLeft: "-6px",
-              background: "rgb(51,226,230)",
-              boxShadow: "0 0 6px rgba(51,226,230,0.5)",
+              background: "var(--energy-primary)",
+              boxShadow: "0 0 6px color-mix(in oklch, var(--energy-primary) 50%, transparent)",
             }}
           />
         )}
@@ -554,7 +554,7 @@ function ExpandedPlayer({
         <div className="shrink-0">
           {song.image ? (
             <img src={song.image} alt={song.name}
-              className={`w-20 h-20 sm:w-24 sm:h-24 rounded-lg object-cover ring-1 ring-white/10 ${isPlaying ? "shadow-[0_0_20px_rgba(51,226,230,0.15)]" : ""}`}
+              className={`w-20 h-20 sm:w-24 sm:h-24 rounded-lg object-cover ring-1 ring-white/10 ${isPlaying ? "shadow-[0_0_20px_color-mix(in oklch, var(--energy-primary) 15%, transparent)]" : ""}`}
             />
           ) : (
             <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg bg-muted/40 flex items-center justify-center">
@@ -589,9 +589,9 @@ function ExpandedPlayer({
               onClick={onPlayPause}
               className="p-2.5 rounded-full transition-all hover:scale-105"
               style={{
-                background: "linear-gradient(135deg, rgba(51,226,230,0.25), rgba(56,117,250,0.25))",
-                border: "1px solid rgba(51,226,230,0.4)",
-                boxShadow: isPlaying ? "0 0 15px rgba(51,226,230,0.2)" : "none",
+                background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-primary) 25%, transparent), color-mix(in oklch, var(--electric-blue) 25%, transparent))",
+                border: "1px solid color-mix(in oklch, var(--energy-primary) 40%, transparent)",
+                boxShadow: isPlaying ? "0 0 15px color-mix(in oklch, var(--energy-primary) 20%, transparent)" : "none",
               }}
             >
               {isPlaying ? <Pause size={16} className="text-[var(--neon-cyan)]" /> : <Play size={16} className="text-[var(--neon-cyan)] ml-0.5" />}

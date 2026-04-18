@@ -47,11 +47,11 @@ const STEP_BADGE: Record<string, string> = {
 };
 
 const STEP_ACCENT: Record<string, string> = {
-  text: "text-amber-200",
-  reveal: "text-violet-300",
-  combat: "text-rose-300",
-  puzzle: "text-sky-300",
-  choice: "text-emerald-300",
+  text: "void-text-accent",
+  reveal: "void-text-system",
+  combat: "void-text-error",
+  puzzle: "void-text-energy",
+  choice: "void-text-energy",
 };
 
 export function PreludeMissionRunner({
@@ -97,7 +97,7 @@ export function PreludeMissionRunner({
 
   return (
     <div
-      className="fixed inset-0 z-[70] flex items-center justify-center bg-stone-950/90 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-[70] flex items-center justify-center void-bg-canvas backdrop-blur-sm p-4"
       role="dialog"
       aria-modal="true"
       aria-label={`Prelude mission: ${mission.title}`}
@@ -106,17 +106,17 @@ export function PreludeMissionRunner({
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 18 }}
-        className="w-full max-w-2xl rounded-md border border-amber-900/60 bg-stone-950/95 shadow-[0_0_40px_rgba(245,158,11,0.2)]"
+        className="w-full max-w-2xl rounded-md border void-border void-bg-canvas shadow-[0_0_40px_color-mix(in oklch, var(--energy-accent) 20%, transparent)]"
       >
         {/* Top bezel — mission header */}
-        <div className="flex items-center justify-between border-b border-amber-900/60 px-5 py-3">
+        <div className="flex items-center justify-between border-b void-border px-5 py-3">
           <div className="flex items-center gap-3">
-            <Sparkles size={14} className="text-amber-400" />
+            <Sparkles size={14} className="void-text-accent" />
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-amber-300/70">
+              <p className="font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
                 PRELUDE MISSION · LED BY {leader.name.toUpperCase()}
               </p>
-              <h2 className="font-display text-base text-amber-100">
+              <h2 className="font-display text-base void-text-accent">
                 {mission.title}
               </h2>
             </div>
@@ -125,7 +125,7 @@ export function PreludeMissionRunner({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-sm p-1 text-amber-300/50 hover:text-amber-100 hover:bg-amber-900/30 transition-colors"
+              className="rounded-sm p-1 void-text-accent void-text-accent void-bg-sunk transition-colors"
               aria-label="Close mission"
             >
               <X size={18} />
@@ -135,15 +135,15 @@ export function PreludeMissionRunner({
 
         {/* Progress bar */}
         <div className="px-5 pt-3">
-          <div className="h-0.5 w-full rounded bg-amber-900/30 overflow-hidden">
+          <div className="h-0.5 w-full rounded void-bg-sunk overflow-hidden">
             <motion.div
-              className="h-full bg-amber-400/80"
+              className="h-full void-bg-sunk"
               initial={false}
               animate={{ width: `${progressPct}%` }}
               transition={{ duration: 0.4, ease: "easeOut" }}
             />
           </div>
-          <p className="mt-1 text-right font-mono text-[9px] uppercase tracking-wider text-amber-300/50">
+          <p className="mt-1 text-right font-mono text-[9px] uppercase tracking-wider void-text-accent">
             Step {Math.min(state.stepIndex + 1, mission.steps.length)} / {mission.steps.length}
           </p>
         </div>
@@ -160,11 +160,11 @@ export function PreludeMissionRunner({
                 transition={{ duration: 0.35 }}
               >
                 <p
-                  className={`mb-3 font-mono text-[10px] uppercase tracking-[0.25em] ${STEP_ACCENT[step.kind] ?? "text-amber-300"}`}
+                  className={`mb-3 font-mono text-[10px] uppercase tracking-[0.25em] ${STEP_ACCENT[step.kind] ?? "void-text-accent"}`}
                 >
                   {STEP_BADGE[step.kind] ?? step.kind.toUpperCase()}
                 </p>
-                <p className="font-serif text-base leading-relaxed text-stone-100">
+                <p className="font-serif text-base leading-relaxed void-text">
                   {step.text}
                 </p>
 
@@ -176,12 +176,12 @@ export function PreludeMissionRunner({
                         key={opt.id}
                         type="button"
                         onClick={() => handleChoice(opt.id)}
-                        className="group flex w-full items-center justify-between rounded-sm border border-emerald-900/50 bg-emerald-950/20 px-4 py-3 text-left font-mono text-[13px] text-emerald-100 hover:border-emerald-500/70 hover:bg-emerald-900/30 transition-all"
+                        className="group flex w-full items-center justify-between rounded-sm border void-border-success void-bg-success px-4 py-3 text-left font-mono text-[13px] void-text-energy void-border-success void-bg-success transition-all"
                       >
                         <span>{opt.label}</span>
                         <ChevronRight
                           size={14}
-                          className="text-emerald-400/40 group-hover:translate-x-0.5 group-hover:text-emerald-300 transition-all"
+                          className="void-text-energy group-hover:translate-x-0.5 group-void-text-energy transition-all"
                         />
                       </button>
                     ))}
@@ -196,31 +196,31 @@ export function PreludeMissionRunner({
                 exit={{ opacity: 0 }}
                 className="flex flex-col items-center justify-center text-center"
               >
-                <Sparkles size={28} className="mb-3 text-amber-300" />
-                <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-amber-200">
+                <Sparkles size={28} className="mb-3 void-text-accent" />
+                <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] void-text-accent">
                   MISSION COMPLETE
                 </p>
-                <p className="mb-4 max-w-md font-serif text-sm text-stone-200">
+                <p className="mb-4 max-w-md font-serif text-sm void-text">
                   {mission.title} is on the record. {leader.name} will remember this.
                 </p>
-                <div className="mb-4 flex flex-wrap justify-center gap-2 font-mono text-[10px] text-amber-300/80">
-                  <span className="rounded border border-amber-900/50 px-2 py-0.5">
+                <div className="mb-4 flex flex-wrap justify-center gap-2 font-mono text-[10px] void-text-accent">
+                  <span className="rounded border void-border px-2 py-0.5">
                     +{mission.rewards.memoryEnergy} Memory Energy
                   </span>
-                  <span className="rounded border border-amber-900/50 px-2 py-0.5">
+                  <span className="rounded border void-border px-2 py-0.5">
                     +{mission.rewards.bondDelta} Bond with {leader.name}
                   </span>
                   {mission.rewards.materialIds.map((m) => (
                     <span
                       key={m}
-                      className="rounded border border-amber-900/50 px-2 py-0.5"
+                      className="rounded border void-border px-2 py-0.5"
                     >
                       {m}
                     </span>
                   ))}
                 </div>
                 {state.outcomeTrail.length > 0 && (
-                  <details className="mb-4 font-mono text-[10px] text-amber-300/60">
+                  <details className="mb-4 font-mono text-[10px] void-text-accent">
                     <summary className="cursor-pointer">
                       Outcome trail ({state.outcomeTrail.length})
                     </summary>
@@ -237,15 +237,15 @@ export function PreludeMissionRunner({
         </div>
 
         {/* Footer — Continue / Close button */}
-        <div className="flex items-center justify-between border-t border-amber-900/60 px-5 py-3">
-          <p className="font-mono text-[9px] uppercase tracking-wider text-amber-300/40">
+        <div className="flex items-center justify-between border-t void-border px-5 py-3">
+          <p className="font-mono text-[9px] uppercase tracking-wider void-text-accent">
             {leader.role.replace("_", " ")} · {mission.durationMins} min
           </p>
           {!state.complete && step && step.kind !== "choice" ? (
             <button
               type="button"
               onClick={handleAdvance}
-              className="flex items-center gap-2 rounded-sm border border-amber-700/60 bg-amber-900/20 px-4 py-1.5 font-mono text-[11px] uppercase tracking-wider text-amber-100 hover:border-amber-500/80 hover:bg-amber-900/40 transition-colors"
+              className="flex items-center gap-2 rounded-sm border void-border void-bg-sunk px-4 py-1.5 font-mono text-[11px] uppercase tracking-wider void-text-accent void-border void-bg-sunk transition-colors"
             >
               Continue
               <ChevronRight size={12} />
@@ -254,13 +254,13 @@ export function PreludeMissionRunner({
             <button
               type="button"
               onClick={onClose}
-              className="flex items-center gap-2 rounded-sm border border-emerald-700/60 bg-emerald-900/20 px-4 py-1.5 font-mono text-[11px] uppercase tracking-wider text-emerald-100 hover:border-emerald-500/80 hover:bg-emerald-900/40 transition-colors"
+              className="flex items-center gap-2 rounded-sm border void-border-success void-bg-success px-4 py-1.5 font-mono text-[11px] uppercase tracking-wider void-text-energy void-border-success void-bg-success transition-colors"
             >
               Return to Hub
               <ChevronRight size={12} />
             </button>
           ) : (
-            <span className="font-mono text-[10px] text-amber-300/40">
+            <span className="font-mono text-[10px] void-text-accent">
               Make a choice above
             </span>
           )}

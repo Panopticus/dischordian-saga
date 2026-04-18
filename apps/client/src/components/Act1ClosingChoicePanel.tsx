@@ -44,7 +44,7 @@ const OPTIONS: ChoiceOption[] = [
     label: "Accept the burden",
     description:
       "Carry forward what the Engineer and the Witnesses started. The Antiquarian leads the way into Act 2; the Enigma follows at his pace.",
-    accent: "border-amber-300/60 hover:bg-amber-300/10",
+    accent: "void-border void-bg-sunk",
     flag: "act1_closing_choice_accept",
   },
   {
@@ -52,7 +52,7 @@ const OPTIONS: ChoiceOption[] = [
     label: "Decline the burden",
     description:
       "The Witnesses made an offer. You refuse it. Act 2 still opens — you carry the weight alone until you choose to reach back in Act 3.",
-    accent: "border-stone-400/60 hover:bg-stone-400/10",
+    accent: "void-border void-bg-canvas",
     flag: "act1_closing_choice_decline",
   },
   {
@@ -60,7 +60,7 @@ const OPTIONS: ChoiceOption[] = [
     label: "Deflect — ask a question instead",
     description:
       "You neither accept nor decline. The Witnesses do not press. Act 2 opens with your companion track ambiguous.",
-    accent: "border-indigo-300/60 hover:bg-indigo-300/10",
+    accent: "void-border void-bg-sunk",
     flag: "act1_closing_choice_deflect",
   },
 ];
@@ -106,10 +106,10 @@ export function Act1ClosingChoicePanel() {
       >
         <div className="max-w-3xl w-full">
           <div className="mb-8 text-center">
-            <p className="font-serif text-[10px] uppercase tracking-[0.4em] text-stone-400/70 mb-2">
+            <p className="font-serif text-[10px] uppercase tracking-[0.4em] void-text-dim mb-2">
               Act 1 — closing choice
             </p>
-            <p className="font-serif text-lg text-stone-200/80 italic">
+            <p className="font-serif text-lg void-text-dim italic">
               The silence sits. Neither Witness presses.
             </p>
           </div>
@@ -123,21 +123,21 @@ export function Act1ClosingChoicePanel() {
                 transition={{ duration: 0.4, delay: 0.1 }}
                 onClick={() => handleChoose(option)}
                 className={
-                  "flex flex-col gap-3 p-5 rounded border bg-stone-950/70 " +
+                  "flex flex-col gap-3 p-5 rounded border void-bg-canvas " +
                   "text-left transition-all duration-300 cursor-pointer " +
                   option.accent
                 }
               >
-                <span className="font-serif text-base tracking-wider text-stone-100">
+                <span className="font-serif text-base tracking-wider void-text">
                   {option.label}
                 </span>
-                <span className="font-serif text-[12px] leading-relaxed text-stone-300/75">
+                <span className="font-serif text-[12px] leading-relaxed void-text-dim">
                   {option.description}
                 </span>
               </motion.button>
             ))}
           </div>
-          <p className="mt-6 text-center font-mono text-[9px] tracking-[0.3em] text-stone-500/50">
+          <p className="mt-6 text-center font-mono text-[9px] tracking-[0.3em] void-text-dim">
             All three are canon-safe. The choice is permanent.
           </p>
         </div>

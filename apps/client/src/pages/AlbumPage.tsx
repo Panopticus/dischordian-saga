@@ -14,9 +14,9 @@ const ALBUM_SLUGS: Record<string, string> = {
 };
 
 const ALBUM_META: Record<string, { date: string; color: string }> = {
-  "Dischordian Logic": { date: "March 18, 2025", color: "var(--void-primary, #33E2E6)" },
+  "Dischordian Logic": { date: "March 18, 2025", color: "var(--void-primary, var(--energy-primary))" },
   "The Age of Privacy": { date: "October 2, 2025", color: "var(--void-gold, #eab308)" },
-  "The Book of Daniel 2:47": { date: "December 15, 2025", color: "var(--void-system, #a078ff)" },
+  "The Book of Daniel 2:47": { date: "December 15, 2025", color: "var(--void-system, var(--energy-system))" },
   "Silence in Heaven": { date: "July 30, 2026", color: "var(--void-error, #ff3c40)" },
 };
 

@@ -66,11 +66,11 @@ const YEAR_MARKERS: YearMarker[] = [
 /* ─── Era dividers ─── */
 interface EraDivider { afterYear: number; label: string; color: string }
 const ERA_DIVIDERS: EraDivider[] = [
-  { afterYear: 600, label: "Ne-Yon Era", color: "#22d3ee" },
-  { afterYear: 16200, label: "Fall Era", color: "#ef4444" },
-  { afterYear: 17000, label: "Epoch Zero", color: "#22c55e" },
-  { afterYear: 101000, label: "First Epoch", color: "#22c55e" },
-  { afterYear: 107600, label: "Second Epoch", color: "#22c55e" },
+  { afterYear: 600, label: "Ne-Yon Era", color: "var(--energy-primary)" },
+  { afterYear: 16200, label: "Fall Era", color: "var(--energy-error)" },
+  { afterYear: 17000, label: "Epoch Zero", color: "var(--energy-success)" },
+  { afterYear: 101000, label: "First Epoch", color: "var(--energy-success)" },
+  { afterYear: 107600, label: "Second Epoch", color: "var(--energy-success)" },
 ];
 
 /* ─── CoNexus Events ─── */
@@ -97,12 +97,12 @@ function getAlignment(entry: LoredexEntry): "empire" | "insurgency" | "neyons" |
 }
 
 const ALIGNMENT_COLORS: Record<string, { border: string; glow: string; bg: string; label: string }> = {
-  empire: { border: "#ef4444", glow: "rgba(239,68,68,0.3)", bg: "rgba(239,68,68,0.08)", label: "AI Empire" },
-  insurgency: { border: "#22c55e", glow: "rgba(34,197,94,0.3)", bg: "rgba(34,197,94,0.08)", label: "Insurgency" },
-  neyons: { border: "#22d3ee", glow: "rgba(34,211,238,0.3)", bg: "rgba(34,211,238,0.08)", label: "Ne-Yons" },
-  potentials: { border: "#a855f7", glow: "rgba(168,85,247,0.3)", bg: "rgba(168,85,247,0.08)", label: "Potentials" },
+  empire: { border: "var(--energy-error)", glow: "color-mix(in oklch, var(--energy-error) 30%, transparent)", bg: "color-mix(in oklch, var(--energy-error) 8%, transparent)", label: "AI Empire" },
+  insurgency: { border: "var(--energy-success)", glow: "color-mix(in oklch, var(--energy-success) 30%, transparent)", bg: "color-mix(in oklch, var(--energy-success) 8%, transparent)", label: "Insurgency" },
+  neyons: { border: "var(--energy-primary)", glow: "color-mix(in oklch, var(--energy-primary) 30%, transparent)", bg: "color-mix(in oklch, var(--energy-primary) 8%, transparent)", label: "Ne-Yons" },
+  potentials: { border: "#a855f7", glow: "color-mix(in oklch, var(--energy-system) 30%, transparent)", bg: "color-mix(in oklch, var(--energy-system) 8%, transparent)", label: "Potentials" },
   demonic: { border: "#f97316", glow: "rgba(249,115,22,0.3)", bg: "rgba(249,115,22,0.08)", label: "Demonic" },
-  neutral: { border: "#3b82f6", glow: "rgba(59,130,246,0.3)", bg: "rgba(59,130,246,0.08)", label: "Neutral" },
+  neutral: { border: "#3b82f6", glow: "color-mix(in oklch, var(--electric-blue) 30%, transparent)", bg: "color-mix(in oklch, var(--electric-blue) 8%, transparent)", label: "Neutral" },
 };
 
 const TYPE_ICONS: Record<string, typeof Users> = {
@@ -468,7 +468,7 @@ export default function CharacterTimeline() {
                 {row.marker.note && <span className="font-mono text-[9px] text-muted-foreground">{row.marker.note}</span>}
                 {row.marker.action && <span className="font-mono text-[9px] text-accent mt-0.5 leading-tight">{row.marker.action}</span>}
                 <div className="mt-1 h-px" style={{
-                  width: totalWidth - YEAR_COL_W, background: "linear-gradient(90deg, rgba(255,255,255,0.1), transparent)",
+                  width: totalWidth - YEAR_COL_W, background: "linear-gradient(90deg, color-mix(in oklch, var(--text-primary) 10%, transparent), transparent)",
                   position: "absolute", left: YEAR_COL_W - 8, top: 10,
                 }} />
               </div>

@@ -74,7 +74,7 @@ export function ElementalCombosPanel() {
           {advantages.strong.map((adv: string, i: number) => (
             <span
               key={i}
-              className="font-mono text-[9px] bg-emerald-950/20 border border-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded"
+              className="font-mono text-[9px] void-bg-success border void-border-success void-text-energy px-2 py-0.5 rounded"
             >
               {ELEMENT_ICONS[adv] || "⚡"} Strong vs {adv}
             </span>
@@ -82,7 +82,7 @@ export function ElementalCombosPanel() {
           {advantages.weak.map((adv: string, i: number) => (
             <span
               key={`w-${i}`}
-              className="font-mono text-[9px] bg-red-950/20 border border-red-500/20 text-red-400 px-2 py-0.5 rounded"
+              className="font-mono text-[9px] void-bg-error border void-border-error void-text-error px-2 py-0.5 rounded"
             >
               {ELEMENT_ICONS[adv] || "⚡"} Weak vs {adv}
             </span>
@@ -138,7 +138,7 @@ export function ElementalCombosPanel() {
                   })}
                   <div className="flex flex-wrap gap-1 mt-1">
                     {combo.applicableSystems.map(sys => (
-                      <span key={sys} className="font-mono text-[7px] bg-zinc-800/50 px-1 py-0.5 rounded text-muted-foreground capitalize">
+                      <span key={sys} className="font-mono text-[7px] void-bg-canvas px-1 py-0.5 rounded text-muted-foreground capitalize">
                         {sys.replace("_", " ")}
                       </span>
                     ))}

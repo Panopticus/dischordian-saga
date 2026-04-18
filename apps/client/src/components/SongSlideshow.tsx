@@ -164,7 +164,7 @@ export default function SongSlideshow({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3, duration: 0.6 }}
                   className="font-display text-xl sm:text-3xl font-bold text-white leading-relaxed"
-                  style={{ textShadow: "0 2px 20px rgba(0,0,0,0.8)" }}
+                  style={{ textShadow: "0 2px 20px color-mix(in oklch, var(--bg-void) 80%, transparent)" }}
                 >
                   {frame.lyric}
                 </motion.p>

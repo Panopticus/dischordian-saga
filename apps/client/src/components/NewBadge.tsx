@@ -156,19 +156,19 @@ export default function NewBadge({
         >
           {variant === "dot" && (
             <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full void-bg-error opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 void-bg-error" />
             </span>
           )}
 
           {variant === "text" && (
-            <span className="font-mono text-[9px] font-bold uppercase tracking-wider text-red-400">
+            <span className="font-mono text-[9px] font-bold uppercase tracking-wider void-text-error">
               NEW
             </span>
           )}
 
           {variant === "pill" && (
-            <span className="px-1.5 py-0.5 rounded-full bg-red-500/90 text-white text-[8px] font-mono font-bold uppercase tracking-wider leading-none">
+            <span className="px-1.5 py-0.5 rounded-full void-bg-error text-white text-[8px] font-mono font-bold uppercase tracking-wider leading-none">
               NEW
             </span>
           )}

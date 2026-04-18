@@ -68,13 +68,13 @@ export default function PurchaseConfirmation({
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="w-full max-w-sm bg-black/95 border border-amber-500/20 rounded-2xl overflow-hidden"
+            className="w-full max-w-sm bg-black/95 border void-border rounded-2xl overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-amber-500/20 bg-gradient-to-r from-amber-500/10 to-transparent">
+            <div className="flex items-center justify-between px-4 py-3 border-b void-border bg-gradient-to-r from-amber-500/10 to-transparent">
               <div className="flex items-center gap-2">
-                <ShieldCheck size={18} className="text-amber-400" />
-                <h2 className="font-display text-lg tracking-[0.2em] text-amber-400">
+                <ShieldCheck size={18} className="void-text-accent" />
+                <h2 className="font-display text-lg tracking-[0.2em] void-text-accent">
                   CONFIRM PURCHASE
                 </h2>
               </div>
@@ -101,7 +101,7 @@ export default function PurchaseConfirmation({
 
               <div className="flex justify-between items-center">
                 <span className="font-mono text-xs text-white/40">PRICE</span>
-                <span className="font-mono text-sm text-amber-400 font-bold">
+                <span className="font-mono text-sm void-text-accent font-bold">
                   {purchase.price}
                 </span>
               </div>
@@ -117,12 +117,12 @@ export default function PurchaseConfirmation({
               </div>
 
               {/* Warning */}
-              <div className="flex items-start gap-2 p-3 rounded-lg bg-amber-500/5 border border-amber-500/20">
+              <div className="flex items-start gap-2 p-3 rounded-lg void-bg-sunk border void-border">
                 <AlertTriangle
                   size={16}
-                  className="text-amber-400 mt-0.5 shrink-0"
+                  className="void-text-accent mt-0.5 shrink-0"
                 />
-                <p className="font-mono text-[11px] text-amber-400/80 leading-relaxed">
+                <p className="font-mono text-[11px] void-text-accent leading-relaxed">
                   This will charge your account. This action cannot be undone.
                 </p>
               </div>
@@ -142,7 +142,7 @@ export default function PurchaseConfirmation({
                 disabled={!canConfirm}
                 className={`flex-1 py-2.5 rounded-lg font-mono text-sm font-bold transition-colors ${
                   canConfirm
-                    ? "bg-amber-500/20 border border-amber-500/40 text-amber-400 hover:bg-amber-500/30 cursor-pointer"
+                    ? "void-bg-sunk border void-border void-text-accent void-bg-sunk cursor-pointer"
                     : "bg-white/5 border border-white/10 text-white/20 cursor-not-allowed"
                 }`}
               >

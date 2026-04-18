@@ -37,9 +37,9 @@ export default function Act3EndingReveal({ eligible, pathCounts, onConfirm, onCl
             Your paths are mixed. Resolve at least one more arc on your leading path.
           </p>
           <div className="mt-4 grid grid-cols-3 gap-2 text-[10px] font-mono">
-            <div className="p-2 rounded bg-red-500/10 text-red-400">Conquest: {pathCounts.conquest}</div>
-            <div className="p-2 rounded bg-amber-500/10 text-amber-400">Diplomacy: {pathCounts.diplomacy}</div>
-            <div className="p-2 rounded bg-purple-500/10 text-purple-400">Infiltration: {pathCounts.infiltration}</div>
+            <div className="p-2 rounded void-bg-error void-text-error">Conquest: {pathCounts.conquest}</div>
+            <div className="p-2 rounded void-bg-sunk void-text-accent">Diplomacy: {pathCounts.diplomacy}</div>
+            <div className="p-2 rounded void-bg-system void-text-system">Infiltration: {pathCounts.infiltration}</div>
           </div>
           <button onClick={onClose} className="mt-4 px-4 py-2 rounded bg-white/5 border border-white/10 text-white/60 font-mono text-[10px]">
             CLOSE
@@ -103,9 +103,9 @@ export default function Act3EndingReveal({ eligible, pathCounts, onConfirm, onCl
         </motion.div>
 
         <div className="grid grid-cols-3 gap-2 mb-6 text-[9px] font-mono">
-          <div className="p-2 rounded bg-red-500/10 text-red-400">Conquest: {pathCounts.conquest}</div>
-          <div className="p-2 rounded bg-amber-500/10 text-amber-400">Diplomacy: {pathCounts.diplomacy}</div>
-          <div className="p-2 rounded bg-purple-500/10 text-purple-400">Infiltration: {pathCounts.infiltration}</div>
+          <div className="p-2 rounded void-bg-error void-text-error">Conquest: {pathCounts.conquest}</div>
+          <div className="p-2 rounded void-bg-sunk void-text-accent">Diplomacy: {pathCounts.diplomacy}</div>
+          <div className="p-2 rounded void-bg-system void-text-system">Infiltration: {pathCounts.infiltration}</div>
         </div>
 
         <motion.button

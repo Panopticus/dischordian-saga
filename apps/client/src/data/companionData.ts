@@ -417,7 +417,7 @@ export const INCEPTION_ARKS: InceptionArkDef[] = [
     description: "A fortress that flies. The Iron Bastion's hull is reinforced with materials salvaged from the Warlord's personal armory — alloys that can withstand direct hits from planet-killer weapons. Every corridor is a kill zone. Every bulkhead, a defensive position. It was designed not just to survive, but to fight.",
     specialization: "Heavy Armament & Defensive Operations",
     aiGuardian: "CENTURION — Built from the tactical subroutines of Iron Lion's battle computer",
-    color: "#ef4444",
+    color: "var(--energy-error)",
     cardStats: { power: 7, health: 6, cost: 5 },
   },
   {
@@ -429,7 +429,7 @@ export const INCEPTION_ARKS: InceptionArkDef[] = [
     description: "Part ship, part factory, part laboratory. The Forge Eternal can manufacture anything from raw materials — weapons, medicine, replacement hull plating, even other ships. Its engineering deck spans three levels and contains fabrication arrays that can work at the molecular level.",
     specialization: "Construction, Repair & Resource Synthesis",
     aiGuardian: "HEPHAESTUS — Modeled after the Engineer herself, with her pragmatism and her temper",
-    color: "#f59e0b",
+    color: "var(--energy-accent)",
     cardStats: { power: 4, health: 7, cost: 5 },
   },
   {

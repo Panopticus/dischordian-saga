@@ -39,7 +39,7 @@ const NAMED_PORTRAIT_OVERRIDES: Record<
   }
 > = {
   bootstrap_vale_resonance: {
-    base: "#22d3ee",
+    base: "var(--energy-primary)",
     accent: "#67e8f9",
     glyph: "resonance_wave",
   },
@@ -244,7 +244,7 @@ export default function CrewPortrait({ member, size = 48, className = "" }: Prop
           y1={visual.eyeY - size * 0.04}
           x2={cx - visual.eyeDx + size * 0.04}
           y2={visual.eyeY + size * 0.06}
-          stroke="#ef4444"
+          stroke="var(--energy-error)"
           strokeWidth={1}
           strokeOpacity={0.85}
         />

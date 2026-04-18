@@ -12,11 +12,11 @@ import { getFighterIntro, type FighterIntro } from "./cinematicDesign";
 
 /* ─── ENTRANCE EFFECT CONFIGS ─── */
 const EFFECT_PARTICLES: Record<string, { count: number; color: string; shape: "circle" | "square" | "line"; spread: number }> = {
-  teleport: { count: 20, color: "#22d3ee", shape: "square", spread: 200 },
+  teleport: { count: 20, color: "var(--energy-primary)", shape: "square", spread: 200 },
   shadow_emerge: { count: 15, color: "#6b21a8", shape: "circle", spread: 150 },
   lightning: { count: 25, color: "#fbbf24", shape: "line", spread: 300 },
-  fire_burst: { count: 30, color: "#ef4444", shape: "circle", spread: 250 },
-  glitch_in: { count: 20, color: "#22d3ee", shape: "square", spread: 180 },
+  fire_burst: { count: 30, color: "var(--energy-error)", shape: "circle", spread: 250 },
+  glitch_in: { count: 20, color: "var(--energy-primary)", shape: "square", spread: 180 },
   void_tear: { count: 18, color: "#7c3aed", shape: "line", spread: 200 },
   nanobot_assemble: { count: 40, color: "#94a3b8", shape: "square", spread: 300 },
   phase_shift: { count: 15, color: "#818cf8", shape: "circle", spread: 160 },
@@ -181,14 +181,14 @@ export default function FighterIntroOverlay({
               <motion.span
                 className="font-display text-5xl sm:text-7xl font-black tracking-[0.2em]"
                 style={{
-                  color: "#ef4444",
-                  textShadow: "0 0 40px rgba(239,68,68,0.8), 0 0 80px rgba(239,68,68,0.4)",
+                  color: "var(--energy-error)",
+                  textShadow: "0 0 40px color-mix(in oklch, var(--energy-error) 80%, transparent), 0 0 80px color-mix(in oklch, var(--energy-error) 40%, transparent)",
                 }}
                 animate={{
                   textShadow: [
-                    "0 0 40px rgba(239,68,68,0.8), 0 0 80px rgba(239,68,68,0.4)",
-                    "0 0 60px rgba(239,68,68,1), 0 0 120px rgba(239,68,68,0.6)",
-                    "0 0 40px rgba(239,68,68,0.8), 0 0 80px rgba(239,68,68,0.4)",
+                    "0 0 40px color-mix(in oklch, var(--energy-error) 80%, transparent), 0 0 80px color-mix(in oklch, var(--energy-error) 40%, transparent)",
+                    "0 0 60px color-mix(in oklch, var(--energy-error) 100%, transparent), 0 0 120px color-mix(in oklch, var(--energy-error) 60%, transparent)",
+                    "0 0 40px color-mix(in oklch, var(--energy-error) 80%, transparent), 0 0 80px color-mix(in oklch, var(--energy-error) 40%, transparent)",
                   ],
                 }}
                 transition={{ duration: 0.8, repeat: Infinity }}
@@ -205,7 +205,7 @@ export default function FighterIntroOverlay({
                     style={{
                       width: 2,
                       height: 40,
-                      background: "linear-gradient(to bottom, #ef4444, transparent)",
+                      background: "linear-gradient(to bottom, var(--energy-error), transparent)",
                       transformOrigin: "center top",
                       transform: `translate(-50%, 0) rotate(${angle}rad)`,
                     }}
@@ -247,8 +247,8 @@ export default function FighterIntroOverlay({
               transition={{ duration: 0.3, repeat: 3 }}
               className="font-display text-4xl sm:text-6xl font-black tracking-[0.4em]"
               style={{
-                color: "#22d3ee",
-                textShadow: "0 0 40px rgba(34,211,238,0.8), 0 0 80px rgba(34,211,238,0.4)",
+                color: "var(--energy-primary)",
+                textShadow: "0 0 40px color-mix(in oklch, var(--energy-primary) 80%, transparent), 0 0 80px color-mix(in oklch, var(--energy-primary) 40%, transparent)",
               }}
             >
               FIGHT!
@@ -266,7 +266,7 @@ export default function FighterIntroOverlay({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="absolute inset-0 z-50 pointer-events-none"
-            style={{ background: phase === "fight_ready" ? "#22d3ee" : "#ffffff" }}
+            style={{ background: phase === "fight_ready" ? "var(--energy-primary)" : "#ffffff" }}
           />
         )}
       </AnimatePresence>

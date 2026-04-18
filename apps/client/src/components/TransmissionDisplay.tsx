@@ -66,41 +66,41 @@ const SPEAKER_CONFIG: Record<TransmissionSpeaker, {
 }> = {
   elara: {
     label: "ELARA // SHIP AI",
-    color: "#22d3ee",
-    textClass: "text-cyan-400",
-    glowClass: "shadow-[0_0_15px_rgba(34,211,238,0.3)]",
-    bgClass: "bg-cyan-950/30",
-    borderClass: "border-cyan-800/40",
+    color: "var(--energy-primary)",
+    textClass: "void-text-energy",
+    glowClass: "shadow-[0_0_15px_color-mix(in oklch, var(--energy-primary) 30%, transparent)]",
+    bgClass: "void-bg-success",
+    borderClass: "void-border-success",
     icon: Radio,
     defaultSpeed: 18,
   },
   human: {
     label: "// SIGNAL INTERCEPT",
     color: "#f87171",
-    textClass: "text-red-400",
-    glowClass: "shadow-[0_0_15px_rgba(248,113,113,0.3)]",
-    bgClass: "bg-red-950/30",
-    borderClass: "border-red-800/40",
+    textClass: "void-text-error",
+    glowClass: "shadow-[0_0_15px_color-mix(in oklch, var(--energy-error) 30%, transparent)]",
+    bgClass: "void-bg-error",
+    borderClass: "void-border-error",
     icon: Skull,
     defaultSpeed: 25,
   },
   system: {
     label: "SYSTEM // ARK 47",
     color: "#fbbf24",
-    textClass: "text-amber-400",
-    glowClass: "shadow-[0_0_15px_rgba(251,191,36,0.3)]",
-    bgClass: "bg-amber-950/30",
-    borderClass: "border-amber-800/40",
+    textClass: "void-text-accent",
+    glowClass: "shadow-[0_0_15px_color-mix(in oklch, var(--energy-premium) 30%, transparent)]",
+    bgClass: "void-bg-sunk",
+    borderClass: "void-border",
     icon: Terminal,
     defaultSpeed: 15,
   },
   kael: {
     label: "RECRUITER'S LOG // ARCHIVED",
     color: "#fbbf24",
-    textClass: "text-amber-400",
-    glowClass: "shadow-[0_0_15px_rgba(251,191,36,0.2)]",
-    bgClass: "bg-amber-950/20",
-    borderClass: "border-amber-800/30",
+    textClass: "void-text-accent",
+    glowClass: "shadow-[0_0_15px_color-mix(in oklch, var(--energy-premium) 20%, transparent)]",
+    bgClass: "void-bg-sunk",
+    borderClass: "void-border",
     icon: Terminal,
     defaultSpeed: 15,
   },
@@ -325,14 +325,14 @@ function TransmissionMessage({
       <div className={`
         font-mono leading-relaxed
         ${compact ? "text-xs" : "text-sm"}
-        ${isHuman ? "text-red-400/90" : config.textClass.replace("text-", "text-").replace("-400", "-300")}
+        ${isHuman ? "void-text-error" : config.textClass.replace("text-", "text-").replace("-400", "-300")}
       `}>
         {isHuman ? (
           <>
             {renderCorruptedText(corruptedDisplay)}
             {/* Scan line effect for human messages */}
             {isActive && !done && (
-              <span className="inline-block w-2 h-4 bg-red-500/60 animate-pulse ml-0.5" />
+              <span className="inline-block w-2 h-4 void-bg-error animate-pulse ml-0.5" />
             )}
           </>
         ) : (
@@ -351,7 +351,7 @@ function TransmissionMessage({
           <div
             className="absolute inset-0 opacity-[0.03]"
             style={{
-              backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(248,113,113,0.1) 2px, rgba(248,113,113,0.1) 4px)",
+              backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--energy-error) 10%, transparent) 2px, color-mix(in oklch, var(--energy-error) 10%, transparent) 4px)",
               animation: "scan 3s linear infinite",
             }}
           />

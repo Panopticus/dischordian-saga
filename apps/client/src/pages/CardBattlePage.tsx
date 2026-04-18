@@ -38,15 +38,15 @@ import PostBattleDialog from "@/components/PostBattleDialog";
 
 /* ─── ELEMENT COLORS ─── */
 const ELEMENT_COLORS: Record<string, string> = {
-  fire: "#f97316", water: "#3b82f6", earth: "#22c55e", air: "#38bdf8",
-  void: "#a855f7", light: "#fbbf24", dark: "#ef4444",
+  fire: "#f97316", water: "#3b82f6", earth: "var(--energy-success)", air: "#38bdf8",
+  void: "#a855f7", light: "#fbbf24", dark: "var(--energy-error)",
 };
 
 const RARITY_GLOW: Record<string, { border: string; shadow: string; animClass: string }> = {
   common: { border: "rgba(161,161,170,0.25)", shadow: "none", animClass: "" },
-  uncommon: { border: "rgba(74,222,128,0.35)", shadow: "0 0 8px rgba(74,222,128,0.15)", animClass: "" },
-  rare: { border: "rgba(96,165,250,0.45)", shadow: "0 0 14px rgba(96,165,250,0.2)", animClass: "" },
-  legendary: { border: "rgba(251,191,36,0.6)", shadow: "0 0 20px rgba(251,191,36,0.3)", animClass: "animate-legendary-border" },
+  uncommon: { border: "color-mix(in oklch, var(--energy-success) 35%, transparent)", shadow: "0 0 8px color-mix(in oklch, var(--energy-success) 15%, transparent)", animClass: "" },
+  rare: { border: "color-mix(in oklch, var(--electric-blue) 45%, transparent)", shadow: "0 0 14px color-mix(in oklch, var(--electric-blue) 20%, transparent)", animClass: "" },
+  legendary: { border: "color-mix(in oklch, var(--energy-premium) 60%, transparent)", shadow: "0 0 20px color-mix(in oklch, var(--energy-premium) 30%, transparent)", animClass: "animate-legendary-border" },
 };
 
 /* ─── BATTLE CARD (AAA version) ─── */
@@ -80,7 +80,7 @@ function BattleCardView({
   const isDead = card.currentHP <= 0;
   const isLegendary = card.rarity === "legendary";
   const isRare = card.rarity === "rare" || isLegendary;
-  const elementColor = card.element ? ELEMENT_COLORS[card.element] || "#33e2e6" : "#33e2e6";
+  const elementColor = card.element ? ELEMENT_COLORS[card.element] || "var(--energy-primary)" : "var(--energy-primary)";
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!cardRef.current) return;
@@ -125,9 +125,9 @@ function BattleCardView({
           }`}
           style={{
             boxShadow: selected
-              ? "0 0 20px rgba(51,226,230,0.4), 0 0 40px rgba(51,226,230,0.15)"
+              ? "0 0 20px color-mix(in oklch, var(--energy-primary) 40%, transparent), 0 0 40px color-mix(in oklch, var(--energy-primary) 15%, transparent)"
               : targetable
-              ? "0 0 16px rgba(239,68,68,0.3), 0 0 32px rgba(239,68,68,0.1)"
+              ? "0 0 16px color-mix(in oklch, var(--energy-error) 30%, transparent), 0 0 32px color-mix(in oklch, var(--energy-error) 10%, transparent)"
               : undefined,
             borderRadius: "12px",
           }}
@@ -142,11 +142,11 @@ function BattleCardView({
           transition-all duration-300
         `}
         style={{
-          border: `1.5px solid ${selected ? "rgba(51,226,230,0.7)" : targetable ? "rgba(239,68,68,0.6)" : rarity.border}`,
+          border: `1.5px solid ${selected ? "color-mix(in oklch, var(--energy-primary) 70%, transparent)" : targetable ? "color-mix(in oklch, var(--energy-error) 60%, transparent)" : rarity.border}`,
           boxShadow: selected
-            ? "0 0 20px rgba(51,226,230,0.3), inset 0 0 15px rgba(51,226,230,0.05)"
+            ? "0 0 20px color-mix(in oklch, var(--energy-primary) 30%, transparent), inset 0 0 15px color-mix(in oklch, var(--energy-primary) 5%, transparent)"
             : targetable
-            ? "0 0 15px rgba(239,68,68,0.2)"
+            ? "0 0 15px color-mix(in oklch, var(--energy-error) 20%, transparent)"
             : rarity.shadow,
           background: "linear-gradient(180deg, rgba(12,12,35,0.97) 0%, rgba(5,5,18,0.99) 100%)",
         }}
@@ -180,7 +180,7 @@ function BattleCardView({
             className="absolute inset-0 pointer-events-none z-10"
             style={{
               opacity: 0.12,
-              background: `radial-gradient(circle at ${mousePos.x * 100}% ${mousePos.y * 100}%, rgba(255,255,255,0.35) 0%, transparent 45%)`,
+              background: `radial-gradient(circle at ${mousePos.x * 100}% ${mousePos.y * 100}%, color-mix(in oklch, var(--text-primary) 35%, transparent) 0%, transparent 45%)`,
             }}
           />
         )}
@@ -192,12 +192,12 @@ function BattleCardView({
             <div
               className="w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center shrink-0 relative"
               style={{
-                background: `radial-gradient(circle, ${elementColor}33 0%, rgba(0,0,0,0.5) 100%)`,
+                background: `radial-gradient(circle, ${elementColor}33 0%, color-mix(in oklch, var(--bg-void) 50%, transparent) 100%)`,
                 border: `1px solid ${elementColor}55`,
                 boxShadow: `0 0 6px ${elementColor}33`,
               }}
             >
-              <span className="font-display text-[9px] sm:text-[10px] font-black text-blue-300">{card.cost}</span>
+              <span className="font-display text-[9px] sm:text-[10px] font-black void-text-energy">{card.cost}</span>
             </div>
             <p className="font-display text-[8px] sm:text-[9px] font-bold tracking-wide text-foreground truncate flex-1">
               {card.name}
@@ -224,7 +224,7 @@ function BattleCardView({
               <div
                 className="w-full h-full flex items-center justify-center"
                 style={{
-                  background: `linear-gradient(135deg, ${elementColor}15 0%, rgba(0,0,0,0.4) 100%)`,
+                  background: `linear-gradient(135deg, ${elementColor}15 0%, color-mix(in oklch, var(--bg-void) 40%, transparent) 100%)`,
                 }}
               >
                 <TypeIcon size={small ? 16 : 20} className="text-muted-foreground/40" />
@@ -238,10 +238,10 @@ function BattleCardView({
                   className="h-full"
                   style={{
                     background: hpPercent > 50
-                      ? "linear-gradient(90deg, #22c55e, #4ade80)"
+                      ? "linear-gradient(90deg, var(--energy-success), #4ade80)"
                       : hpPercent > 25
                       ? "linear-gradient(90deg, #eab308, #facc15)"
-                      : "linear-gradient(90deg, #dc2626, #ef4444)",
+                      : "linear-gradient(90deg, #dc2626, var(--energy-error))",
                   }}
                   animate={{ width: `${Math.max(0, hpPercent)}%` }}
                   transition={{ duration: 0.4, ease: "easeOut" }}
@@ -273,16 +273,16 @@ function BattleCardView({
             {card.type === "unit" ? (
               <>
                 <div className="flex items-center gap-0.5">
-                  <Swords size={8} className="text-red-400" />
+                  <Swords size={8} className="void-text-error" />
                   <span className={`font-display text-[9px] sm:text-[10px] font-black ${
-                    card.tempAttackMod > 0 ? "text-green-400" : card.tempAttackMod < 0 ? "text-red-300" : "text-red-400"
+                    card.tempAttackMod > 0 ? "void-text-energy" : card.tempAttackMod < 0 ? "void-text-error" : "void-text-error"
                   }`}>
                     {card.attack + card.tempAttackMod}
                   </span>
                 </div>
                 <div className="flex items-center gap-0.5">
-                  <Heart size={8} className={isDamaged ? "text-yellow-400" : "text-green-400"} />
-                  <span className={`font-display text-[9px] sm:text-[10px] font-black ${isDamaged ? "text-yellow-400" : "text-green-400"}`}>
+                  <Heart size={8} className={isDamaged ? "void-text-premium" : "void-text-energy"} />
+                  <span className={`font-display text-[9px] sm:text-[10px] font-black ${isDamaged ? "void-text-premium" : "void-text-energy"}`}>
                     {card.currentHP}
                   </span>
                 </div>
@@ -316,8 +316,8 @@ function EnergyCrystals({ current, max, color }: { current: number; max: number;
             style={{
               background: i < current
                 ? `linear-gradient(180deg, ${color} 0%, ${color}88 100%)`
-                : "rgba(255,255,255,0.05)",
-              border: `1px solid ${i < current ? color : "rgba(255,255,255,0.1)"}`,
+                : "color-mix(in oklch, var(--text-primary) 5%, transparent)",
+              border: `1px solid ${i < current ? color : "color-mix(in oklch, var(--text-primary) 10%, transparent)"}`,
               boxShadow: i < current ? `0 0 6px ${color}44` : "none",
               clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
             }}
@@ -348,7 +348,7 @@ function HPBar({ current, max, label, color, isPlayer }: {
           </span>
         </div>
         <div className="h-2 sm:h-2.5 rounded-full overflow-hidden relative"
-          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
+          style={{ background: "color-mix(in oklch, var(--text-primary) 5%, transparent)", border: "1px solid color-mix(in oklch, var(--text-primary) 8%, transparent)" }}
         >
           <motion.div
             className="h-full rounded-full relative"
@@ -361,7 +361,7 @@ function HPBar({ current, max, label, color, isPlayer }: {
           >
             {/* Shine on HP bar */}
             <div className="absolute inset-0 rounded-full"
-              style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 60%)" }}
+              style={{ background: "linear-gradient(180deg, color-mix(in oklch, var(--text-primary) 20%, transparent) 0%, transparent 60%)" }}
             />
           </motion.div>
           {/* Low HP danger pulse */}
@@ -370,7 +370,7 @@ function HPBar({ current, max, label, color, isPlayer }: {
               className="absolute inset-0 rounded-full"
               animate={{ opacity: [0, 0.3, 0] }}
               transition={{ duration: 1, repeat: Infinity }}
-              style={{ background: "#ef4444" }}
+              style={{ background: "var(--energy-error)" }}
             />
           )}
         </div>
@@ -391,8 +391,8 @@ function BattleLog({ logs }: { logs: BattleState["logs"] }) {
       ref={scrollRef}
       className="h-20 sm:h-24 overflow-y-auto rounded-lg p-2 no-scrollbar"
       style={{
-        background: "rgba(0,0,0,0.5)",
-        border: "1px solid rgba(51,226,230,0.06)",
+        background: "color-mix(in oklch, var(--bg-void) 50%, transparent)",
+        border: "1px solid color-mix(in oklch, var(--energy-primary) 6%, transparent)",
         backdropFilter: "blur(8px)",
       }}
     >
@@ -404,8 +404,8 @@ function BattleLog({ logs }: { logs: BattleState["logs"] }) {
             animate={{ opacity: 1, x: 0 }}
             className={`font-mono text-[8px] sm:text-[9px] leading-relaxed ${
               log.actor === "system" ? "text-muted-foreground/40 italic" :
-              log.actor === "player" ? "text-cyan-400/60" :
-              "text-red-400/60"
+              log.actor === "player" ? "void-text-energy" :
+              "void-text-error"
             }`}
           >
             <span className="text-muted-foreground/25 mr-1">▸</span>
@@ -426,11 +426,11 @@ function EnemySelect({ onSelect }: { onSelect: (enemyId: string, diff: "easy" | 
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden"
       style={{ background: "linear-gradient(180deg, #030308 0%, #0a0a2e 50%, #050510 100%)" }}
     >
-      <AmbientParticles count={30} color="rgba(239,68,68,0.2)" />
+      <AmbientParticles count={30} color="color-mix(in oklch, var(--energy-error) 20%, transparent)" />
 
       {/* Background glow */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-10"
-        style={{ background: "radial-gradient(circle, rgba(239,68,68,0.3) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, color-mix(in oklch, var(--energy-error) 30%, transparent) 0%, transparent 70%)" }}
       />
 
       <motion.div
@@ -444,10 +444,10 @@ function EnemySelect({ onSelect }: { onSelect: (enemyId: string, diff: "easy" | 
             animate={{ rotate: [0, 5, -5, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           >
-            <Swords size={36} className="text-red-400/50 mx-auto mb-3" />
+            <Swords size={36} className="void-text-error mx-auto mb-3" />
           </motion.div>
           <h1 className="font-display text-2xl sm:text-3xl tracking-[0.3em] text-white mb-2">
-            COMBAT <span className="text-red-400">ARENA</span>
+            COMBAT <span className="void-text-error">ARENA</span>
           </h1>
           <p className="font-mono text-[10px] sm:text-xs text-muted-foreground/50 tracking-wider">
             Choose your opponent, Operative.
@@ -467,10 +467,10 @@ function EnemySelect({ onSelect }: { onSelect: (enemyId: string, diff: "easy" | 
               className="w-full text-left rounded-lg p-4 sm:p-5 transition-all group relative overflow-hidden"
               style={{
                 background: hoveredIdx === i
-                  ? "rgba(239,68,68,0.06)"
+                  ? "color-mix(in oklch, var(--energy-error) 6%, transparent)"
                   : "rgba(12,12,35,0.8)",
-                border: `1px solid ${hoveredIdx === i ? "rgba(239,68,68,0.25)" : "rgba(255,255,255,0.06)"}`,
-                boxShadow: hoveredIdx === i ? "0 0 30px rgba(239,68,68,0.08)" : "none",
+                border: `1px solid ${hoveredIdx === i ? "color-mix(in oklch, var(--energy-error) 25%, transparent)" : "color-mix(in oklch, var(--text-primary) 6%, transparent)"}`,
+                boxShadow: hoveredIdx === i ? "0 0 30px color-mix(in oklch, var(--energy-error) 8%, transparent)" : "none",
               }}
             >
               {/* Hover shimmer */}
@@ -481,27 +481,27 @@ function EnemySelect({ onSelect }: { onSelect: (enemyId: string, diff: "easy" | 
                   animate={{ x: "100%" }}
                   transition={{ duration: 0.8 }}
                   style={{
-                    background: "linear-gradient(90deg, transparent, rgba(239,68,68,0.05), transparent)",
+                    background: "linear-gradient(90deg, transparent, color-mix(in oklch, var(--energy-error) 5%, transparent), transparent)",
                   }}
                 />
               )}
 
               <div className="flex items-center justify-between relative z-10">
                 <div>
-                  <h3 className="font-display text-sm sm:text-base tracking-wider text-white group-hover:text-red-400 transition-colors">
+                  <h3 className="font-display text-sm sm:text-base tracking-wider text-white group-void-text-error transition-colors">
                     {enemy.name}
                   </h3>
                   <p className="font-mono text-[9px] sm:text-[10px] text-muted-foreground/40 mt-0.5">{enemy.description}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className={`font-mono text-[9px] sm:text-[10px] px-2 py-0.5 rounded-full ${
-                    enemy.difficulty === "Easy" ? "bg-green-400/10 text-green-400/70 border border-green-400/20" :
-                    enemy.difficulty === "Normal" ? "bg-yellow-400/10 text-yellow-400/70 border border-yellow-400/20" :
-                    "bg-red-400/10 text-red-400/70 border border-red-400/20"
+                    enemy.difficulty === "Easy" ? "void-bg-success void-text-energy border void-border-success" :
+                    enemy.difficulty === "Normal" ? "void-bg-sunk void-text-premium border void-border" :
+                    "void-bg-error void-text-error border void-border-error"
                   }`}>
                     {enemy.difficulty}
                   </span>
-                  <ChevronRight size={14} className="text-muted-foreground/25 group-hover:text-red-400/50 transition-colors" />
+                  <ChevronRight size={14} className="text-muted-foreground/25 group-void-text-error transition-colors" />
                 </div>
               </div>
             </motion.button>
@@ -553,9 +553,9 @@ function GameOverScreen({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: "rgba(0,0,0,0.9)" }}
+      style={{ background: "color-mix(in oklch, var(--bg-void) 90%, transparent)" }}
     >
-      <AmbientParticles count={40} color={isVictory ? "rgba(251,191,36,0.3)" : "rgba(239,68,68,0.2)"} />
+      <AmbientParticles count={40} color={isVictory ? "color-mix(in oklch, var(--energy-premium) 30%, transparent)" : "color-mix(in oklch, var(--energy-error) 20%, transparent)"} />
 
       <motion.div
         initial={{ scale: 0.7, y: 40 }}
@@ -568,14 +568,14 @@ function GameOverScreen({
           transition={{ duration: 3, repeat: Infinity }}
         >
           {isVictory ? (
-            <Trophy size={56} className="text-amber-400 mx-auto mb-4 drop-shadow-[0_0_20px_rgba(251,191,36,0.5)]" />
+            <Trophy size={56} className="void-text-accent mx-auto mb-4 drop-shadow-[0_0_20px_color-mix(in oklch, var(--energy-premium) 50%, transparent)]" />
           ) : (
-            <Skull size={56} className="text-red-400/60 mx-auto mb-4" />
+            <Skull size={56} className="void-text-error mx-auto mb-4" />
           )}
         </motion.div>
 
         <h2 className={`font-display text-3xl sm:text-4xl tracking-[0.3em] mb-2 ${
-          isVictory ? "text-amber-400 animate-victory-glow" : "text-red-400"
+          isVictory ? "void-text-accent animate-victory-glow" : "void-text-error"
         }`}>
           {isVictory ? "VICTORY" : "DEFEATED"}
         </h2>
@@ -589,17 +589,17 @@ function GameOverScreen({
             transition={{ delay: 0.5 }}
             className="mb-6"
           >
-            <p className="font-mono text-[10px] text-amber-400/50 mb-2">+50 XP earned</p>
+            <p className="font-mono text-[10px] void-text-accent mb-2">+50 XP earned</p>
             {drops.length > 0 && (
               <div className="space-y-1">
-                <p className="font-mono text-[9px] text-cyan-400/60 tracking-wider">MATERIALS FOUND</p>
+                <p className="font-mono text-[9px] void-text-energy tracking-wider">MATERIALS FOUND</p>
                 {drops.map((drop, i) => (
                   <motion.p
                     key={drop.materialId}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.7 + i * 0.15 }}
-                    className="font-mono text-[10px] text-emerald-400/70"
+                    className="font-mono text-[10px] void-text-energy"
                   >
                     {drop.icon} +{drop.quantity} {drop.name}
                   </motion.p>
@@ -616,10 +616,10 @@ function GameOverScreen({
             onClick={onPlayAgain}
             className="px-6 py-2.5 rounded-lg font-mono text-xs tracking-wider transition-all"
             style={{
-              background: "rgba(51,226,230,0.1)",
-              border: "1px solid rgba(51,226,230,0.3)",
+              background: "color-mix(in oklch, var(--energy-primary) 10%, transparent)",
+              border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
               color: "var(--neon-cyan)",
-              boxShadow: "0 0 15px rgba(51,226,230,0.1)",
+              boxShadow: "0 0 15px color-mix(in oklch, var(--energy-primary) 10%, transparent)",
             }}
           >
             <RotateCcw size={12} className="inline mr-1.5" />
@@ -631,9 +631,9 @@ function GameOverScreen({
             onClick={onExit}
             className="px-6 py-2.5 rounded-lg font-mono text-xs tracking-wider transition-all"
             style={{
-              background: "rgba(255,255,255,0.03)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              color: "rgba(255,255,255,0.4)",
+              background: "color-mix(in oklch, var(--text-primary) 3%, transparent)",
+              border: "1px solid color-mix(in oklch, var(--text-primary) 8%, transparent)",
+              color: "color-mix(in oklch, var(--text-primary) 40%, transparent)",
             }}
           >
             EXIT ARENA
@@ -660,17 +660,17 @@ function BattlefieldDivider() {
     <div className="relative py-1">
       <div className="h-px w-full animate-divider-pulse"
         style={{
-          background: "linear-gradient(90deg, transparent, rgba(51,226,230,0.3), rgba(51,226,230,0.5), rgba(51,226,230,0.3), transparent)",
+          background: "linear-gradient(90deg, transparent, color-mix(in oklch, var(--energy-primary) 30%, transparent), color-mix(in oklch, var(--energy-primary) 50%, transparent), color-mix(in oklch, var(--energy-primary) 30%, transparent), transparent)",
         }}
       />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center"
         style={{
           background: "rgba(5,5,18,0.9)",
-          border: "1px solid rgba(51,226,230,0.3)",
-          boxShadow: "0 0 10px rgba(51,226,230,0.15)",
+          border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
+          boxShadow: "0 0 10px color-mix(in oklch, var(--energy-primary) 15%, transparent)",
         }}
       >
-        <Swords size={10} className="text-cyan-400/50" />
+        <Swords size={10} className="void-text-energy" />
       </div>
     </div>
   );
@@ -750,7 +750,7 @@ export default function CardBattlePage() {
           const bx = window.innerWidth / 2 + (Math.random() - 0.5) * 100;
           const by = window.innerHeight * 0.55;
           const burstId = `burst-${Date.now()}`;
-          setDeployBursts(prev => [...prev, { id: burstId, x: bx, y: by, color: "#33e2e6" }]);
+          setDeployBursts(prev => [...prev, { id: burstId, x: bx, y: by, color: "var(--energy-primary)" }]);
           setTimeout(() => setDeployBursts(prev => prev.filter(b => b.id !== burstId)), 800);
         }
       }
@@ -770,7 +770,7 @@ export default function CardBattlePage() {
           const toX = window.innerWidth * 0.5 + (Math.random() - 0.5) * 80;
           const toY = window.innerHeight * 0.25;
           const projId = `proj-${Date.now()}`;
-          const projColor = damage >= 5 ? "#fbbf24" : "#ef4444";
+          const projColor = damage >= 5 ? "#fbbf24" : "var(--energy-error)";
           setActiveProjectiles(prev => [...prev, { id: projId, fromX, fromY, toX, toY, color: projColor }]);
           setTimeout(() => setActiveProjectiles(prev => prev.filter(p => p.id !== projId)), 500);
           // Spawn damage VFX at target
@@ -909,7 +909,7 @@ export default function CardBattlePage() {
       {/* ── VFX Layers ── */}
       <FloatingNumbers texts={vfx.floatingTexts} onComplete={vfx.removeFloatingText} />
       <ScreenFlash effects={vfx.screenEffects} onComplete={vfx.removeScreenEffect} />
-      <AmbientParticles count={15} color="rgba(51,226,230,0.15)" />
+      <AmbientParticles count={15} color="color-mix(in oklch, var(--energy-primary) 15%, transparent)" />
 
       {/* ── Board State Effects ── */}
       <EnergyFieldOverlay
@@ -959,7 +959,7 @@ export default function CardBattlePage() {
         {showTurnBanner && (
           <TurnBanner
             text={turnBannerText}
-            color={turnBannerText.includes("YOUR") ? "#33e2e6" : "#ef4444"}
+            color={turnBannerText.includes("YOUR") ? "var(--energy-primary)" : "var(--energy-error)"}
           />
         )}
       </AnimatePresence>
@@ -980,9 +980,9 @@ export default function CardBattlePage() {
         {/* Enemy HP + Energy */}
         <div className="flex items-center gap-3">
           <div className="flex-1">
-            <HPBar current={enemy.hp} max={enemy.maxHP} label={getEnemyName(enemyId || "")} color="#ef4444" />
+            <HPBar current={enemy.hp} max={enemy.maxHP} label={getEnemyName(enemyId || "")} color="var(--energy-error)" />
           </div>
-          <EnergyCrystals current={enemy.energy} max={enemy.maxEnergy} color="#ef4444" />
+          <EnergyCrystals current={enemy.energy} max={enemy.maxEnergy} color="var(--energy-error)" />
         </div>
         <p className="font-mono text-[8px] text-muted-foreground/25 mt-1 ml-6">
           Hand: {enemy.hand.length} | Deck: {enemy.deck.length}
@@ -1026,10 +1026,10 @@ export default function CardBattlePage() {
             onClick={() => handleTargetClick("face")}
             className="px-4 py-1.5 rounded-lg font-mono text-[10px] tracking-wider"
             style={{
-              background: "rgba(239,68,68,0.12)",
-              border: "1px solid rgba(239,68,68,0.3)",
-              color: "#ef4444",
-              boxShadow: "0 0 12px rgba(239,68,68,0.1)",
+              background: "color-mix(in oklch, var(--energy-error) 12%, transparent)",
+              border: "1px solid color-mix(in oklch, var(--energy-error) 30%, transparent)",
+              color: "var(--energy-error)",
+              boxShadow: "0 0 12px color-mix(in oklch, var(--energy-error) 10%, transparent)",
             }}
           >
             <Target size={10} className="inline mr-1" />
@@ -1042,7 +1042,7 @@ export default function CardBattlePage() {
             Turn {turnNumber}
           </p>
           <p className={`font-display text-[10px] tracking-[0.2em] ${
-            turn === "player" ? "text-cyan-400/70" : "text-red-400/70"
+            turn === "player" ? "void-text-energy" : "void-text-error"
           }`}>
             {turn === "player" ? "YOUR MOVE" : "ENEMY MOVE"}
           </p>
@@ -1065,9 +1065,9 @@ export default function CardBattlePage() {
         <div className="flex items-center justify-center gap-2 sm:gap-3 min-h-[7rem] sm:min-h-[9rem]">
           {player.field.length === 0 ? (
             <div className="flex items-center gap-2">
-              <div className="w-16 h-24 sm:w-20 sm:h-28 rounded-lg border border-dashed border-cyan-400/8" />
-              <div className="w-16 h-24 sm:w-20 sm:h-28 rounded-lg border border-dashed border-cyan-400/8" />
-              <div className="w-16 h-24 sm:w-20 sm:h-28 rounded-lg border border-dashed border-cyan-400/8" />
+              <div className="w-16 h-24 sm:w-20 sm:h-28 rounded-lg border border-dashed void-border-success" />
+              <div className="w-16 h-24 sm:w-20 sm:h-28 rounded-lg border border-dashed void-border-success" />
+              <div className="w-16 h-24 sm:w-20 sm:h-28 rounded-lg border border-dashed void-border-success" />
             </div>
           ) : (
             player.field.map(card => (
@@ -1098,7 +1098,7 @@ export default function CardBattlePage() {
         {/* Player info bar */}
         <div className="px-3 sm:px-6 py-2 flex items-center gap-3">
           <div className="flex-1">
-            <HPBar current={player.hp} max={player.maxHP} label={gameState.characterChoices.name || "You"} color="#33e2e6" isPlayer />
+            <HPBar current={player.hp} max={player.maxHP} label={gameState.characterChoices.name || "You"} color="var(--energy-primary)" isPlayer />
           </div>
           <EnergyCrystals current={player.energy} max={player.maxEnergy} color="#3b82f6" />
           <motion.button
@@ -1108,10 +1108,10 @@ export default function CardBattlePage() {
             disabled={turn !== "player" || !!winner}
             className="px-4 py-2 rounded-lg font-display text-[10px] sm:text-xs tracking-[0.2em] transition-all disabled:opacity-20"
             style={{
-              background: turn === "player" ? "rgba(51,226,230,0.1)" : "transparent",
-              border: `1px solid rgba(51,226,230,${turn === "player" ? 0.3 : 0.08})`,
+              background: turn === "player" ? "color-mix(in oklch, var(--energy-primary) 10%, transparent)" : "transparent",
+              border: `1px solid color-mix(in oklch, var(--energy-primary) calc((turn === "player" ? 0.3 : 0.08) * 100%), transparent)`,
               color: "var(--neon-cyan)",
-              boxShadow: turn === "player" ? "0 0 15px rgba(51,226,230,0.08)" : "none",
+              boxShadow: turn === "player" ? "0 0 15px color-mix(in oklch, var(--energy-primary) 8%, transparent)" : "none",
             }}
           >
             END TURN
@@ -1122,8 +1122,8 @@ export default function CardBattlePage() {
         <div
           className="px-2 sm:px-4 py-3 overflow-x-auto no-scrollbar"
           style={{
-            background: "linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.7) 100%)",
-            borderTop: "1px solid rgba(51,226,230,0.06)",
+            background: "linear-gradient(180deg, color-mix(in oklch, var(--bg-void) 40%, transparent) 0%, color-mix(in oklch, var(--bg-void) 70%, transparent) 100%)",
+            borderTop: "1px solid color-mix(in oklch, var(--energy-primary) 6%, transparent)",
           }}
         >
           <div className="flex items-end justify-center gap-1 sm:gap-1.5">

@@ -21,8 +21,8 @@ const QUEST_TYPE_ICONS: Record<string, typeof Swords> = {
   craft: Zap, explore: Target, social: Star,
 };
 const QUEST_TYPE_COLORS: Record<string, string> = {
-  fight: "text-red-400", card_battle: "text-blue-400", trade: "text-amber-400",
-  craft: "text-purple-400", explore: "text-cyan-400", social: "text-green-400",
+  fight: "void-text-error", card_battle: "void-text-energy", trade: "void-text-accent",
+  craft: "void-text-system", explore: "void-text-energy", social: "void-text-energy",
 };
 
 const TAB_IDS = ["daily", "weekly", "epoch", "crew", "calendar"] as const;
@@ -47,7 +47,7 @@ export default function QuestBoardPage() {
   if (authLoading) {
     return (
       <div className="min-h-screen relative overflow-hidden flex items-center justify-center grid-bg">
-      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/QST-001_mission-briefing.jpg" accent="#ef4444" opacity={0.13} particleCount={4} scanlines={false} />
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/QST-001_mission-briefing.jpg" accent="var(--energy-error)" opacity={0.13} particleCount={4} scanlines={false} />
         <Loader2 className="animate-spin text-primary" size={32} />
       </div>
     );
@@ -259,17 +259,17 @@ function QuestListTab({ period }: { period: "daily" | "weekly" | "epoch" }) {
                     {/* Rewards */}
                     <div className="flex items-center gap-3 flex-wrap">
                       {quest.rewardDream > 0 && (
-                        <span className="font-mono text-[10px] text-purple-400 flex items-center gap-1">
+                        <span className="font-mono text-[10px] void-text-system flex items-center gap-1">
                           <Sparkles size={10} /> {quest.rewardDream} Dream
                         </span>
                       )}
                       {quest.rewardXp > 0 && (
-                        <span className="font-mono text-[10px] text-cyan-400 flex items-center gap-1">
+                        <span className="font-mono text-[10px] void-text-energy flex items-center gap-1">
                           <Zap size={10} /> {quest.rewardXp} XP
                         </span>
                       )}
                       {quest.rewardCredits > 0 && (
-                        <span className="font-mono text-[10px] text-amber-400 flex items-center gap-1">
+                        <span className="font-mono text-[10px] void-text-accent flex items-center gap-1">
                           <TrendingUp size={10} /> {quest.rewardCredits.toLocaleString()} Credits
                         </span>
                       )}
@@ -596,8 +596,8 @@ function CrewMissionsTab() {
                   key={m.id}
                   className={`p-3 border rounded ${
                     isWin
-                      ? "border-green-500/30 bg-green-500/5"
-                      : "border-red-500/30 bg-red-500/5"
+                      ? "void-border-success void-bg-success"
+                      : "void-border-error void-bg-error"
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1">

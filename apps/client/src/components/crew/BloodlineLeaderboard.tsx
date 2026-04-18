@@ -48,7 +48,7 @@ export default function BloodlineLeaderboard() {
       {/* Longest bloodlines */}
       <section>
         <div className="flex items-center gap-2 mb-3">
-          <Crown size={14} className="text-yellow-400" />
+          <Crown size={14} className="void-text-premium" />
           <span className="font-display text-sm font-bold">LONGEST BLOODLINES</span>
         </div>
         {hasBloodlines ? (
@@ -95,7 +95,7 @@ export default function BloodlineLeaderboard() {
       {/* Oldest living crew */}
       <section>
         <div className="flex items-center gap-2 mb-3">
-          <Hourglass size={14} className="text-cyan-300" />
+          <Hourglass size={14} className="void-text-energy" />
           <span className="font-display text-sm font-bold">OLDEST LIVING CREW</span>
         </div>
         {hasSurvivors ? (
@@ -121,7 +121,7 @@ export default function BloodlineLeaderboard() {
                       {row.generation}
                     </div>
                   </span>
-                  <span className="font-display text-lg font-bold text-cyan-300 shrink-0">
+                  <span className="font-display text-lg font-bold void-text-energy shrink-0">
                     {row.age}/{row.maxAge}
                   </span>
                 </div>

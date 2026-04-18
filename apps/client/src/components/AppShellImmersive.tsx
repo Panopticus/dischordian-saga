@@ -45,10 +45,10 @@ const ARK_CONTROL_ROOM = "https://d2xsxph8kpxj0f.cloudfront.net/3104196630320801
 
 /* ─── NAV BAR ITEMS ─── */
 const NAV_ITEMS = [
-  { id: "map", path: "/ship-map", label: "MAP", icon: Map, color: "#33E2E6" },
+  { id: "map", path: "/ship-map", label: "MAP", icon: Map, color: "var(--energy-primary)" },
   { id: "cabin", path: "/cabin", label: "CABIN", icon: Home, color: "#34d399" },
   { id: "operative", path: "/character-sheet", label: "OPERATIVE", icon: Shield, color: "#a855f7" },
-  { id: "journal", path: "/clue-journal", label: "JOURNAL", icon: ScrollText, color: "#f59e0b" },
+  { id: "journal", path: "/clue-journal", label: "JOURNAL", icon: ScrollText, color: "var(--energy-accent)" },
   { id: "comms", path: "/comms-array", label: "COMMS", icon: Radio, color: "#f87171" },
 ] as const;
 
@@ -139,7 +139,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
           style={{ filter: "blur(2px) saturate(0.3)" }}
         />
         <div className="absolute inset-0" style={{
-          background: "radial-gradient(ellipse at 50% 30%, rgba(5,2,20,0.85) 0%, rgba(0,0,0,0.98) 70%)"
+          background: "radial-gradient(ellipse at 50% 30%, rgba(5,2,20,0.85) 0%, color-mix(in oklch, var(--bg-void) 98%, transparent) 70%)"
         }} />
       </div>
 
@@ -159,7 +159,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
           }}>
           {/* Ship identity */}
           <Link href="/ark" className="flex items-center gap-2 group">
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.5)]" />
+            <div className="w-1.5 h-1.5 rounded-full void-bg-success shadow-[0_0_6px_rgba(52,211,153,0.5)]" />
             <span className="font-mono text-[9px] tracking-[0.4em] text-white/30 group-hover:text-white/50 transition-colors">
               ARK 1047 // INCEPTION CLASS
             </span>
@@ -228,17 +228,17 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
                     className={`flex flex-col items-center justify-center gap-0.5 w-16 h-12 rounded-lg transition-all relative ${!hasMediaAccess ? "opacity-20" : ""}`}
                   >
                     <div className="relative">
-                      <Icon size={20} style={{ color: active ? item.color : hasMediaAccess ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.1)" }} className="transition-colors" />
+                      <Icon size={20} style={{ color: active ? item.color : hasMediaAccess ? "color-mix(in oklch, var(--text-primary) 30%, transparent)" : "color-mix(in oklch, var(--text-primary) 10%, transparent)" }} className="transition-colors" />
                       {active && (
                         <motion.div layoutId="nav-indicator" className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full" style={{ backgroundColor: item.color, boxShadow: `0 0 8px ${item.color}` }} />
                       )}
                       {hasMediaAccess && badge > 0 && !active && (
-                        <div className="absolute -top-1 -right-1.5 w-3.5 h-3.5 rounded-full bg-red-500 flex items-center justify-center">
+                        <div className="absolute -top-1 -right-1.5 w-3.5 h-3.5 rounded-full void-bg-error flex items-center justify-center">
                           <span className="font-mono text-[7px] text-white font-bold">{badge}</span>
                         </div>
                       )}
                     </div>
-                    <span className="font-mono text-[8px] tracking-[0.15em] transition-colors" style={{ color: active ? item.color : hasMediaAccess ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.08)" }}>
+                    <span className="font-mono text-[8px] tracking-[0.15em] transition-colors" style={{ color: active ? item.color : hasMediaAccess ? "color-mix(in oklch, var(--text-primary) 20%, transparent)" : "color-mix(in oklch, var(--text-primary) 8%, transparent)" }}>
                       {item.label}
                     </span>
                   </button>
@@ -254,7 +254,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
                   <div className="relative">
                     <Icon
                       size={20}
-                      style={{ color: active ? item.color : "rgba(255,255,255,0.3)" }}
+                      style={{ color: active ? item.color : "color-mix(in oklch, var(--text-primary) 30%, transparent)" }}
                       className="transition-colors"
                     />
                     {active && (
@@ -265,14 +265,14 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
                       />
                     )}
                     {badge > 0 && !active && (
-                      <div className="absolute -top-1 -right-1.5 w-3.5 h-3.5 rounded-full bg-red-500 flex items-center justify-center">
+                      <div className="absolute -top-1 -right-1.5 w-3.5 h-3.5 rounded-full void-bg-error flex items-center justify-center">
                         <span className="font-mono text-[7px] text-white font-bold">{badge}</span>
                       </div>
                     )}
                   </div>
                   <span
                     className="font-mono text-[8px] tracking-[0.15em] transition-colors"
-                    style={{ color: active ? item.color : "rgba(255,255,255,0.2)" }}
+                    style={{ color: active ? item.color : "color-mix(in oklch, var(--text-primary) 20%, transparent)" }}
                   >
                     {item.label}
                   </span>

@@ -52,7 +52,7 @@ export default function SystemsLibraryPage() {
 
   const systems = useMemo<SystemCard[]>(() => [
     {
-      id: "minigames", icon: Gamepad2, color: "text-cyan-400", category: "games",
+      id: "minigames", icon: Gamepad2, color: "void-text-energy", category: "games",
       title: "Minigames Collection",
       description: "Three self-contained puzzle games within the Saga: hacking, signal decryption, and starchart navigation.",
       stats: [
@@ -64,7 +64,7 @@ export default function SystemsLibraryPage() {
       preview: [HACKING_MINIGAME.name, SIGNAL_DECRYPTION_MINIGAME.name, STAR_CHART_MINIGAME.name],
     },
     {
-      id: "metapuzzle", icon: Puzzle, color: "text-purple-400", category: "narrative",
+      id: "metapuzzle", icon: Puzzle, color: "void-text-system", category: "narrative",
       title: "The Meta Puzzle",
       description: "Eight room-based puzzles combine into ONE meta-answer. Players who solve all 8 unlock the legendary title.",
       stats: [
@@ -74,7 +74,7 @@ export default function SystemsLibraryPage() {
       preview: [`Meta: "${META_SOLUTION}"`],
     },
     {
-      id: "quizspectator", icon: Eye, color: "text-amber-400", category: "games",
+      id: "quizspectator", icon: Eye, color: "void-text-accent", category: "games",
       title: "Quiz Spectator Betting",
       description: "Watch live quiz games. Bet Dream tokens on outcomes. Three bets max per game.",
       stats: [
@@ -84,7 +84,7 @@ export default function SystemsLibraryPage() {
       ],
     },
     {
-      id: "adventure", icon: Map, color: "text-emerald-400", category: "narrative",
+      id: "adventure", icon: Map, color: "void-text-energy", category: "narrative",
       title: "Adventure Features",
       description: "Point-and-click mechanics: inventory combos, room state changes, interactive hotspots.",
       stats: [
@@ -95,7 +95,7 @@ export default function SystemsLibraryPage() {
       preview: ADVENTURE_HOTSPOTS.slice(0, 3).map(h => h.name ?? h.id),
     },
     {
-      id: "storypuzzles", icon: BookOpen, color: "text-indigo-400", category: "narrative",
+      id: "storypuzzles", icon: BookOpen, color: "void-text-energy", category: "narrative",
       title: "Story Puzzles",
       description: "Narrative-gated puzzles. Trust level and chapter progression unlock them.",
       stats: [
@@ -104,7 +104,7 @@ export default function SystemsLibraryPage() {
       preview: STORY_PUZZLES.slice(0, 3).map(p => p.name ?? p.id),
     },
     {
-      id: "persistent", icon: Sparkles, color: "text-fuchsia-400", category: "games",
+      id: "persistent", icon: Sparkles, color: "void-text-system", category: "games",
       title: "Persistent World (Mythic+)",
       description: "Keystone affixes, extraction points, live events — MMO-style infinite progression.",
       stats: [
@@ -114,7 +114,7 @@ export default function SystemsLibraryPage() {
       ],
     },
     {
-      id: "epochpass", icon: TrendingUp, color: "text-pink-400", category: "progression",
+      id: "epochpass", icon: TrendingUp, color: "void-text-error", category: "progression",
       title: "Epoch Pass Seasons",
       description: "Seasonal progression track. Each Epoch = 50-tier battle pass with narrative rewards.",
       stats: [
@@ -123,7 +123,7 @@ export default function SystemsLibraryPage() {
       preview: EPOCH_SEASONS.slice(0, 3).map(e => e.name ?? e.id),
     },
     {
-      id: "guildhall", icon: Castle, color: "text-yellow-400", category: "guilds",
+      id: "guildhall", icon: Castle, color: "void-text-premium", category: "guilds",
       title: "Guild Hall Housing",
       description: "WoW-style guild bases: 5 tier upgrades, 12 room types, 30+ decorations.",
       stats: [
@@ -133,7 +133,7 @@ export default function SystemsLibraryPage() {
       ],
     },
     {
-      id: "guildwonders", icon: Castle, color: "text-orange-400", category: "guilds",
+      id: "guildwonders", icon: Castle, color: "void-text-premium", category: "guilds",
       title: "Guild Wonders",
       description: "Construction projects (1-4 week builds) granting server-wide bonuses.",
       stats: [
@@ -142,7 +142,7 @@ export default function SystemsLibraryPage() {
       preview: GUILD_WONDERS.slice(0, 3).map((w: any) => w.name ?? w.id),
     },
     {
-      id: "monetization", icon: ShoppingBag, color: "text-teal-400", category: "economy",
+      id: "monetization", icon: ShoppingBag, color: "void-text-energy", category: "economy",
       title: "Dream Packs & Premium",
       description: "Ark Commander subscription, Epoch Pass Premium, 10+ Dream pack bundles.",
       stats: [
@@ -151,7 +151,7 @@ export default function SystemsLibraryPage() {
       preview: DREAM_PACKS.slice(0, 3).map((p: any) => p.name ?? p.id),
     },
     {
-      id: "quarters", icon: UsersIcon, color: "text-blue-400", category: "guilds",
+      id: "quarters", icon: UsersIcon, color: "void-text-energy", category: "guilds",
       title: "Quarter Visitors",
       description: "Social visiting + guest book reactions in Personal Quarters. 5 visits/day, 10 reactions/visit.",
       stats: [
@@ -160,7 +160,7 @@ export default function SystemsLibraryPage() {
       ],
     },
     {
-      id: "progression", icon: Zap, color: "text-red-400", category: "progression",
+      id: "progression", icon: Zap, color: "void-text-error", category: "progression",
       title: "Progression Systems",
       description: "NPC special days, ark restorations, limit breaks. Meta-progression backbone.",
       stats: [
@@ -180,7 +180,7 @@ export default function SystemsLibraryPage() {
           <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
             <ChevronLeft size={20} />
           </Link>
-          <Library size={18} className="text-indigo-400" />
+          <Library size={18} className="void-text-energy" />
           <div>
             <h1 className="font-display text-lg font-bold tracking-wider">SYSTEMS LIBRARY</h1>
             <p className="font-mono text-[10px] text-muted-foreground tracking-wider">
@@ -196,7 +196,7 @@ export default function SystemsLibraryPage() {
               onClick={() => setFilter(cat)}
               className={`px-3 py-1.5 rounded border font-mono text-[9px] uppercase tracking-wider transition-colors ${
                 filter === cat
-                  ? "border-indigo-500/60 bg-indigo-500/15 text-indigo-300"
+                  ? "void-border void-bg-sunk void-text-energy"
                   : "border-border/40 text-muted-foreground/70 hover:border-border/70"
               }`}
               data-testid={`filter-${cat}`}

@@ -59,18 +59,18 @@ function CasualtyCrawl({
     >
       <div className="max-w-lg w-full px-6">
         <div className="text-center mb-6">
-          <Skull size={40} className="text-red-400/80 mx-auto mb-3" />
-          <h2 className="font-display text-xl font-black tracking-[0.3em] text-red-400 mb-1">
+          <Skull size={40} className="void-text-error mx-auto mb-3" />
+          <h2 className="font-display text-xl font-black tracking-[0.3em] void-text-error mb-1">
             CASUALTY CRAWL
           </h2>
-          <p className="font-mono text-[10px] text-red-300/50 tracking-wider">
+          <p className="font-mono text-[10px] void-text-error tracking-wider">
             EPISODE {episode.episodeNumber} · {episode.title.toUpperCase()}
           </p>
         </div>
 
-        <div className="h-56 overflow-hidden relative border-y border-red-500/20">
+        <div className="h-56 overflow-hidden relative border-y void-border-error">
           {names.length === 0 ? (
-            <p className="text-center font-mono text-xs text-green-400/70 pt-24">
+            <p className="text-center font-mono text-xs void-text-energy pt-24">
               No casualties this week. The Host sulks.
             </p>
           ) : (
@@ -83,7 +83,7 @@ function CasualtyCrawl({
               {names.map((name, i) => (
                 <div
                   key={`${name}-${i}`}
-                  className="py-2 font-serif text-base text-red-200/80 text-center italic"
+                  className="py-2 font-serif text-base void-text-error text-center italic"
                 >
                   {name}
                 </div>
@@ -229,7 +229,7 @@ export default function PalimpsestEpisodesPage() {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-black/95 border-b border-red-500/15 px-4 py-3">
+      <div className="sticky top-0 z-10 bg-black/95 border-b void-border-error px-4 py-3">
         <div className="max-w-5xl mx-auto flex items-center gap-2 sm:gap-3 min-w-0">
           <button
             onClick={() => navigate("/ark")}
@@ -238,9 +238,9 @@ export default function PalimpsestEpisodesPage() {
           >
             <ChevronLeft size={18} />
           </button>
-          <Radio size={16} className="text-red-400 shrink-0" />
+          <Radio size={16} className="void-text-error shrink-0" />
           <div className="min-w-0 flex-1">
-            <h1 className="font-display text-sm font-bold tracking-[0.2em] text-red-400 truncate">
+            <h1 className="font-display text-sm font-bold tracking-[0.2em] void-text-error truncate">
               THE PALIMPSEST
             </h1>
             <p className="font-mono text-[8px] text-white/30 truncate">
@@ -251,7 +251,7 @@ export default function PalimpsestEpisodesPage() {
             </p>
           </div>
           {maskSlipping && (
-            <div className="flex items-center gap-1 text-red-400 shrink-0">
+            <div className="flex items-center gap-1 void-text-error shrink-0">
               <AlertTriangle size={12} className="animate-pulse" />
               <span className="font-mono text-[9px] hidden sm:inline">MASK SLIPPING</span>
               <span className="font-mono text-[9px] sm:hidden">SLIP</span>
@@ -263,8 +263,8 @@ export default function PalimpsestEpisodesPage() {
       {/* ═══ LOBBY ═══ */}
       {phase === "lobby" && (
         <div className="max-w-5xl mx-auto px-4 py-6">
-          <div className="mb-6 p-4 rounded border border-amber-500/20 bg-amber-500/5">
-            <p className="font-serif text-[12px] italic text-amber-200/70 leading-relaxed">
+          <div className="mb-6 p-4 rounded border void-border void-bg-sunk">
+            <p className="font-serif text-[12px] italic void-text-accent leading-relaxed">
               {getBalanceDescription(palimpsestState)}
             </p>
           </div>
@@ -287,8 +287,8 @@ export default function PalimpsestEpisodesPage() {
                     isLocked
                       ? "opacity-30 cursor-not-allowed border-white/5 bg-white/[0.02]"
                       : isCompleted
-                      ? "border-amber-500/30 bg-amber-500/5 hover:bg-amber-500/10"
-                      : "border-white/10 bg-white/[0.02] hover:border-red-400/30"
+                      ? "void-border void-bg-sunk void-bg-sunk"
+                      : "border-white/10 bg-white/[0.02] void-border-error"
                   }`}
                   data-testid={`palimpsest-episode-${ep.episodeNumber}`}
                 >
@@ -299,9 +299,9 @@ export default function PalimpsestEpisodesPage() {
                     {isLocked ? (
                       <Lock size={10} className="text-white/20" />
                     ) : isCompleted ? (
-                      <Trophy size={12} className="text-amber-400" />
+                      <Trophy size={12} className="void-text-accent" />
                     ) : (
-                      <Radio size={12} className="text-red-400/40" />
+                      <Radio size={12} className="void-text-error" />
                     )}
                   </div>
                   <h3 className="font-display text-sm font-bold text-white/90 mb-1">
@@ -311,18 +311,18 @@ export default function PalimpsestEpisodesPage() {
                     {ep.synopsis}
                   </p>
                   <div className="flex items-center gap-3 text-[8px] font-mono">
-                    <span className="text-cyan-400/60">{ep.round3Format.toUpperCase()}</span>
+                    <span className="void-text-energy">{ep.round3Format.toUpperCase()}</span>
                     {ep.guests.length > 0 && (
-                      <span className="text-purple-400/60 flex items-center gap-0.5">
+                      <span className="void-text-system flex items-center gap-0.5">
                         <Users size={8} /> {ep.guests.length}
                       </span>
                     )}
                     {hack && !hack.blocked && (
-                      <span className="text-green-400/50 flex items-center gap-0.5" title={hack.description}>
+                      <span className="void-text-energy flex items-center gap-0.5" title={hack.description}>
                         <Eye size={8} /> HACK
                       </span>
                     )}
-                    {ep.safePoint && <span className="text-amber-400/60">★ SAFE</span>}
+                    {ep.safePoint && <span className="void-text-accent">★ SAFE</span>}
                   </div>
                 </motion.button>
               );
@@ -331,9 +331,9 @@ export default function PalimpsestEpisodesPage() {
 
           {/* Darren absence notice */}
           {isDarrenGone(completedCount) && (
-            <div className="mt-6 p-4 rounded border border-blue-500/20 bg-blue-500/5 text-center">
-              <BookOpen size={16} className="mx-auto text-blue-400/70 mb-2" />
-              <p className="font-mono text-[10px] text-blue-300/70">
+            <div className="mt-6 p-4 rounded border void-border void-bg-sunk text-center">
+              <BookOpen size={16} className="mx-auto void-text-energy mb-2" />
+              <p className="font-mono text-[10px] void-text-energy">
                 Darren's desk in the Dreams Workshop is now accessible. The blue folder is on top.
               </p>
             </div>
@@ -445,24 +445,24 @@ function DarrenLetterModal({
       data-testid="palimpsest-darren-letter"
     >
       <div
-        className="max-w-md w-full p-5 rounded-lg border border-amber-500/30 bg-[#1a1308] font-serif text-amber-100/80"
+        className="max-w-md w-full p-5 rounded-lg border void-border bg-[#1a1308] font-serif void-text-accent"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="font-mono text-[9px] text-amber-400/50 mb-2 tracking-wider">
+        <div className="font-mono text-[9px] void-text-accent mb-2 tracking-wider">
           FROM: DARREN FESSLER · SUBJECT: {letter.subject.toUpperCase()}
         </div>
-        <hr className="border-amber-500/20 mb-3" />
+        <hr className="void-border mb-3" />
         <p className="text-[12px] leading-relaxed italic mb-4">{letter.surface}</p>
-        <hr className="border-amber-500/10 mb-3 border-dashed" />
-        <p className="text-[11px] leading-relaxed text-amber-200/90">
-          <span className="font-mono text-[8px] text-red-300/60 uppercase tracking-wider mr-1">
+        <hr className="void-border mb-3 border-dashed" />
+        <p className="text-[11px] leading-relaxed void-text-accent">
+          <span className="font-mono text-[8px] void-text-error uppercase tracking-wider mr-1">
             BURIED:
           </span>
           {letter.buried}
         </p>
         <button
           onClick={onDismiss}
-          className="mt-5 w-full py-2 rounded border border-amber-500/30 font-mono text-[10px] tracking-wider text-amber-300 hover:bg-amber-500/10"
+          className="mt-5 w-full py-2 rounded border void-border font-mono text-[10px] tracking-wider void-text-accent void-bg-sunk"
         >
           CLOSE LETTER
         </button>
@@ -574,11 +574,11 @@ function Episode13Funeral({ onDismiss }: { onDismiss: () => void }) {
           transition={{ duration: 2 }}
           className="max-w-md text-center px-6"
         >
-          <p className="font-serif text-[14px] italic text-amber-200/70 leading-relaxed mb-4">
+          <p className="font-serif text-[14px] italic void-text-accent leading-relaxed mb-4">
             A small graveside service. The Celebration sector cemetery. The sky is
             painted; the flowers are real.
           </p>
-          <p className="font-serif text-[13px] italic text-amber-200/60 leading-relaxed mb-4">
+          <p className="font-serif text-[13px] italic void-text-accent leading-relaxed mb-4">
             Nine people attend. One wears red goggles. One of them shimmers faintly.
             Nobody speaks.
           </p>
@@ -595,7 +595,7 @@ function Episode13Funeral({ onDismiss }: { onDismiss: () => void }) {
           animate={{ opacity: 1 }}
           className="text-center max-w-md px-6"
         >
-          <p className="font-serif text-[14px] italic text-amber-200/80 mb-6">
+          <p className="font-serif text-[14px] italic void-text-accent mb-6">
             You stayed until the end. The Palimpsest remembers what you did.
           </p>
           <p className="font-mono text-[10px] text-white/40 mb-6 tracking-wider">
@@ -603,7 +603,7 @@ function Episode13Funeral({ onDismiss }: { onDismiss: () => void }) {
           </p>
           <button
             onClick={onDismiss}
-            className="px-6 py-2 rounded border border-amber-500/30 font-mono text-[10px] tracking-wider text-amber-300 hover:bg-amber-500/10"
+            className="px-6 py-2 rounded border void-border font-mono text-[10px] tracking-wider void-text-accent void-bg-sunk"
           >
             RETURN TO THE ARK
           </button>

@@ -175,10 +175,10 @@ export default function ConsolePage() {
   const PANELS: { id: ConsolePanel; label: string; icon: typeof Tv; color: string }[] = [
     { id: "media", label: "MEDIA BAY", icon: Tv, color: theme.primary },
     { id: "lore", label: "DATABASE", icon: BookOpen, color: theme.accent },
-    { id: "combat", label: "COMBAT SIM", icon: Gamepad2, color: "#ef4444" },
+    { id: "combat", label: "COMBAT SIM", icon: Gamepad2, color: "var(--energy-error)" },
     { id: "timeline", label: "TIMELINE", icon: Clock, color: "#a855f7" },
     { id: "trophies", label: "TROPHIES", icon: Trophy, color: "#eab308" },
-    { id: "themes", label: "ARK THEMES", icon: Palette, color: "#22c55e" },
+    { id: "themes", label: "ARK THEMES", icon: Palette, color: "var(--energy-success)" },
     { id: "doom", label: "DOOM SCROLL", icon: Newspaper, color: "#f97316" },
   ];
 
@@ -259,8 +259,8 @@ export default function ConsolePage() {
 
             {/* Points */}
             <div className="hidden sm:flex items-center gap-1 px-2 py-1 rounded-md" style={{ background: theme.panel }}>
-              <Zap size={10} className="text-amber-400" />
-              <span className="font-mono text-[10px] text-amber-400">{gam.gameSave.fightPoints}</span>
+              <Zap size={10} className="void-text-accent" />
+              <span className="font-mono text-[10px] void-text-accent">{gam.gameSave.fightPoints}</span>
             </div>
 
             {/* Theme toggle */}
@@ -507,7 +507,7 @@ export default function ConsolePage() {
                     {[
                       { label: "CHARACTERS", count: stats.characters, icon: Users, href: "/search?type=character", color: theme.primary },
                       { label: "LOCATIONS", count: stats.locations, icon: MapPin, href: "/search?type=location", color: theme.accent },
-                      { label: "FACTIONS", count: stats.factions, icon: Swords, href: "/search?type=faction", color: "#ef4444" },
+                      { label: "FACTIONS", count: stats.factions, icon: Swords, href: "/search?type=faction", color: "var(--energy-error)" },
                       { label: "SONGS", count: stats.songs, icon: Music, href: "/search?type=song", color: "#a855f7" },
                     ].map((stat) => {
                       const Icon = stat.icon;
@@ -579,24 +579,24 @@ export default function ConsolePage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                 >
-                  <div className="rounded-lg p-4 sm:p-6 text-center" style={{ background: theme.panel, border: `1px solid #ef444430` }}>
-                    <Gamepad2 size={32} className="mx-auto mb-3 text-red-400" />
-                    <h3 className="font-display text-lg font-bold tracking-wider text-red-400 mb-1">COMBAT SIMULATOR</h3>
+                  <div className="rounded-lg p-4 sm:p-6 text-center" style={{ background: theme.panel, border: `1px solid var(--energy-error)30` }}>
+                    <Gamepad2 size={32} className="mx-auto mb-3 void-text-error" />
+                    <h3 className="font-display text-lg font-bold tracking-wider void-text-error mb-1">COMBAT SIMULATOR</h3>
                     <p className="font-mono text-[10px] opacity-50 mb-4">
                       2D fighting game featuring Dischordian Saga characters
                     </p>
 
                     <div className="grid grid-cols-3 gap-3 mb-4 max-w-md mx-auto">
                       <div className="rounded-lg p-2" style={{ background: theme.secondary }}>
-                        <p className="font-display text-lg font-bold text-red-400">{gam.gameSave.totalFights}</p>
+                        <p className="font-display text-lg font-bold void-text-error">{gam.gameSave.totalFights}</p>
                         <p className="font-mono text-[8px] opacity-40">TOTAL FIGHTS</p>
                       </div>
                       <div className="rounded-lg p-2" style={{ background: theme.secondary }}>
-                        <p className="font-display text-lg font-bold text-green-400">{gam.progress.fightWins}</p>
+                        <p className="font-display text-lg font-bold void-text-energy">{gam.progress.fightWins}</p>
                         <p className="font-mono text-[8px] opacity-40">VICTORIES</p>
                       </div>
                       <div className="rounded-lg p-2" style={{ background: theme.secondary }}>
-                        <p className="font-display text-lg font-bold text-amber-400">{gam.gameSave.bestWinStreak}</p>
+                        <p className="font-display text-lg font-bold void-text-accent">{gam.gameSave.bestWinStreak}</p>
                         <p className="font-mono text-[8px] opacity-40">BEST STREAK</p>
                       </div>
                     </div>
@@ -605,9 +605,9 @@ export default function ConsolePage() {
                       href="/fight"
                       className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg font-mono text-sm tracking-wider transition-all hover:scale-105"
                       style={{
-                        background: "linear-gradient(135deg, #ef4444, #dc2626)",
+                        background: "linear-gradient(135deg, var(--energy-error), #dc2626)",
                         color: "white",
-                        boxShadow: "0 0 20px rgba(239,68,68,0.3)",
+                        boxShadow: "0 0 20px color-mix(in oklch, var(--energy-error) 30%, transparent)",
                       }}
                     >
                       <Swords size={16} /> ENTER ARENA
@@ -624,8 +624,8 @@ export default function ConsolePage() {
                   exit={{ opacity: 0, y: -10 }}
                 >
                   <div className="rounded-lg p-4 sm:p-6" style={{ background: theme.panel, border: `1px solid #a855f730` }}>
-                    <Clock size={24} className="text-purple-400 mb-2" />
-                    <h3 className="font-display text-sm font-bold tracking-wider text-purple-400 mb-1">INTERACTIVE TIMELINE</h3>
+                    <Clock size={24} className="void-text-system mb-2" />
+                    <h3 className="font-display text-sm font-bold tracking-wider void-text-system mb-1">INTERACTIVE TIMELINE</h3>
                     <p className="font-mono text-[10px] opacity-50 mb-4">
                       Explore {stats.total_entries} entities across 107,600 years of the A.A. calendar
                     </p>
@@ -659,10 +659,10 @@ export default function ConsolePage() {
                   {/* Trophy Header */}
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
-                      <Trophy size={16} className="text-amber-400" />
-                      <h3 className="font-display text-xs font-bold tracking-wider text-amber-400">TROPHY CASE</h3>
+                      <Trophy size={16} className="void-text-accent" />
+                      <h3 className="font-display text-xs font-bold tracking-wider void-text-accent">TROPHY CASE</h3>
                     </div>
-                    <span className="font-mono text-[10px] text-amber-400">{earnedCount}/{totalCount}</span>
+                    <span className="font-mono text-[10px] void-text-accent">{earnedCount}/{totalCount}</span>
                   </div>
 
                   {/* Achievement Grid */}
@@ -672,7 +672,7 @@ export default function ConsolePage() {
                       const tierColor: Record<string, string> = {
                         bronze: "#cd7f32",
                         silver: "#c0c0c0",
-                        gold: "#ffd700",
+                        gold: "var(--energy-premium)",
                         platinum: "#e5e4e2",
                         legendary: "#ff6b35",
                       };
@@ -696,7 +696,7 @@ export default function ConsolePage() {
                               <p className="font-mono text-[8px] opacity-50 line-clamp-2">{ach.description}</p>
                               <div className="flex items-center gap-2 mt-1">
                                 <span className="font-mono text-[7px]" style={{ color }}>{ach.tier.toUpperCase()}</span>
-                                <span className="font-mono text-[7px] text-amber-400">+{ach.xpReward} XP</span>
+                                <span className="font-mono text-[7px] void-text-accent">+{ach.xpReward} XP</span>
                               </div>
                             </div>
                           </div>
@@ -715,8 +715,8 @@ export default function ConsolePage() {
                   exit={{ opacity: 0, y: -10 }}
                 >
                   <div className="flex items-center gap-2 mb-3">
-                    <Palette size={16} className="text-green-400" />
-                    <h3 className="font-display text-xs font-bold tracking-wider text-green-400">ARK THEMES</h3>
+                    <Palette size={16} className="void-text-energy" />
+                    <h3 className="font-display text-xs font-bold tracking-wider void-text-energy">ARK THEMES</h3>
                   </div>
                   <p className="font-mono text-[10px] opacity-40 mb-4">
                     Customize your Inception Ark console. Unlock new themes by leveling up.
@@ -752,7 +752,7 @@ export default function ConsolePage() {
                           </div>
                           <p className="font-mono text-[8px] opacity-40 mt-0.5">{t.description}</p>
                           {!unlocked && (
-                            <p className="font-mono text-[8px] text-amber-400/50 mt-1">Unlock at LV.{t.unlockLevel}</p>
+                            <p className="font-mono text-[8px] void-text-accent mt-1">Unlock at LV.{t.unlockLevel}</p>
                           )}
                           {active && (
                             <p className="font-mono text-[8px] mt-1" style={{ color: t.colors.primary }}>ACTIVE</p>
@@ -813,11 +813,11 @@ export default function ConsolePage() {
                   </div>
                   <div className="flex justify-between">
                     <span className="font-mono text-[10px] opacity-60">Fight Points</span>
-                    <span className="font-mono text-[10px] text-amber-400">{gam.gameSave.fightPoints}</span>
+                    <span className="font-mono text-[10px] void-text-accent">{gam.gameSave.fightPoints}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="font-mono text-[10px] opacity-60">Achievements</span>
-                    <span className="font-mono text-[10px] text-green-400">{earnedCount}/{totalCount}</span>
+                    <span className="font-mono text-[10px] void-text-energy">{earnedCount}/{totalCount}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="font-mono text-[10px] opacity-60">Entries Discovered</span>
@@ -908,7 +908,7 @@ export default function ConsolePage() {
 /* ═══════════════════════════════════════════════════════
    DOOM SCROLL PANEL — LLM-powered apocalyptic news feed
    ═══════════════════════════════════════════════════════ */
-const SEVERITY_COLORS = ["#22c55e", "#eab308", "#f97316", "#ef4444", "#dc2626"];
+const SEVERITY_COLORS = ["var(--energy-success)", "#eab308", "#f97316", "var(--energy-error)", "#dc2626"];
 const CATEGORY_ICONS: Record<string, typeof Skull> = {
   ai_advance: Zap,
   surveillance: Eye,
@@ -920,8 +920,8 @@ const CATEGORY_COLORS: Record<string, string> = {
   ai_advance: "#06b6d4",
   surveillance: "#f97316",
   revelation: "#a855f7",
-  collapse: "#ef4444",
-  resistance: "#22c55e",
+  collapse: "var(--energy-error)",
+  resistance: "var(--energy-success)",
 };
 const CATEGORY_LABELS: Record<string, string> = {
   ai_advance: "AI ADVANCEMENT",
@@ -959,9 +959,9 @@ function DoomScrollPanel({ theme }: { theme: any }) {
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <Newspaper size={16} className="text-orange-400" />
-          <h3 className="font-display text-xs font-bold tracking-wider text-orange-400">DOOM SCROLL</h3>
-          <span className="font-mono text-[8px]" style={{ color: "rgba(255,255,255,0.4)" }}>CONFIRMING THE END TIMES</span>
+          <Newspaper size={16} className="void-text-premium" />
+          <h3 className="font-display text-xs font-bold tracking-wider void-text-premium">DOOM SCROLL</h3>
+          <span className="font-mono text-[8px]" style={{ color: "color-mix(in oklch, var(--text-primary) 40%, transparent)" }}>CONFIRMING THE END TIMES</span>
         </div>
         <button
           onClick={handleRefresh}
@@ -1024,10 +1024,10 @@ function DoomScrollPanel({ theme }: { theme: any }) {
 
       {/* Error state */}
       {error && (
-        <div className="rounded-lg p-4 text-center" style={{ background: theme.panel, border: "1px solid #ef444430" }}>
-          <Skull size={24} className="mx-auto mb-2 text-red-400" />
-          <p className="font-mono text-[10px] text-red-400">TRANSMISSION INTERRUPTED</p>
-          <p className="font-mono text-[9px] mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>Failed to receive doom feed. Try refreshing.</p>
+        <div className="rounded-lg p-4 text-center" style={{ background: theme.panel, border: "1px solid var(--energy-error)30" }}>
+          <Skull size={24} className="mx-auto mb-2 void-text-error" />
+          <p className="font-mono text-[10px] void-text-error">TRANSMISSION INTERRUPTED</p>
+          <p className="font-mono text-[9px] mt-1" style={{ color: "color-mix(in oklch, var(--text-primary) 50%, transparent)" }}>Failed to receive doom feed. Try refreshing.</p>
         </div>
       )}
 
@@ -1069,16 +1069,16 @@ function DoomScrollPanel({ theme }: { theme: any }) {
                   <span className="font-mono text-[8px] tracking-wider" style={{ color: catColor }}>
                     {CATEGORY_LABELS[story.category] || story.category.toUpperCase()}
                   </span>
-                  <span className="font-mono text-[8px] ml-auto" style={{ color: "rgba(255,255,255,0.35)" }}>{story.source}</span>
+                  <span className="font-mono text-[8px] ml-auto" style={{ color: "color-mix(in oklch, var(--text-primary) 35%, transparent)" }}>{story.source}</span>
                 </div>
 
                 {/* Headline */}
-                <h4 className="font-display text-xs font-bold leading-tight mb-1" style={{ color: expanded ? catColor : "#ffffff", textShadow: expanded ? `0 0 10px ${catColor}60` : "0 0 8px rgba(255,255,255,0.15)" }}>
+                <h4 className="font-display text-xs font-bold leading-tight mb-1" style={{ color: expanded ? catColor : "#ffffff", textShadow: expanded ? `0 0 10px ${catColor}60` : "0 0 8px color-mix(in oklch, var(--text-primary) 15%, transparent)" }}>
                   {story.headline}
                 </h4>
 
                 {/* Summary (always visible) */}
-                <p className="font-mono text-[10px] leading-relaxed" style={{ color: "rgba(255,255,255,0.75)" }}>
+                <p className="font-mono text-[10px] leading-relaxed" style={{ color: "color-mix(in oklch, var(--text-primary) 75%, transparent)" }}>
                   {story.summary}
                 </p>
 
@@ -1105,7 +1105,7 @@ function DoomScrollPanel({ theme }: { theme: any }) {
                 </AnimatePresence>
 
                 {/* Timestamp */}
-                <p className="font-mono text-[8px] mt-1.5" style={{ color: "rgba(255,255,255,0.3)" }}>
+                <p className="font-mono text-[8px] mt-1.5" style={{ color: "color-mix(in oklch, var(--text-primary) 30%, transparent)" }}>
                   {new Date(story.timestamp).toLocaleString()}
                 </p>
               </motion.div>
@@ -1117,7 +1117,7 @@ function DoomScrollPanel({ theme }: { theme: any }) {
       {/* Auto-refresh timer */}
       {!isLoading && stories && stories.length > 0 && (
         <div className="mt-4 pt-3 text-center" style={{ borderTop: `1px solid ${theme.primary}10` }}>
-          <p className="font-mono text-[8px]" style={{ color: "rgba(255,255,255,0.3)" }}>
+          <p className="font-mono text-[8px]" style={{ color: "color-mix(in oklch, var(--text-primary) 30%, transparent)" }}>
             Feed auto-refreshes every 5 minutes. Click REFRESH FEED for new transmissions.
           </p>
         </div>

@@ -116,18 +116,18 @@ const GUILD_ACCENT_HEX: Record<string, string> = {
 };
 
 const GUILD_AESTHETICS: Record<string, { bg: string; accent: string; borderColor: string }> = {
-  "The Chorus": { bg: "from-indigo-950/30 to-purple-950/20", accent: "text-indigo-300", borderColor: "border-indigo-500/40" },
-  "The Eyes": { bg: "from-slate-950/40 to-zinc-950/20", accent: "text-zinc-300", borderColor: "border-zinc-500/40" },
-  "The Archive": { bg: "from-amber-950/25 to-yellow-950/15", accent: "text-amber-300", borderColor: "border-amber-500/40" },
-  "The Between": { bg: "from-fuchsia-950/25 to-violet-950/15", accent: "text-fuchsia-300", borderColor: "border-fuchsia-500/40" },
-  "The Influencers": { bg: "from-pink-950/25 to-rose-950/15", accent: "text-pink-300", borderColor: "border-pink-500/40" },
-  "The Yellow Coats": { bg: "from-yellow-950/30 to-orange-950/20", accent: "text-yellow-300", borderColor: "border-yellow-500/50" },
-  "The Congress": { bg: "from-purple-950/25 to-indigo-950/15", accent: "text-purple-300", borderColor: "border-purple-500/40" },
-  "The Locks": { bg: "from-emerald-950/25 to-teal-950/15", accent: "text-emerald-300", borderColor: "border-emerald-500/40" },
-  "The Grey Gamers": { bg: "from-blue-950/30 to-slate-950/15", accent: "text-blue-300", borderColor: "border-blue-500/40" },
-  "The Living": { bg: "from-red-950/30 to-black/40", accent: "text-red-300", borderColor: "border-red-500/50" },
-  "The Forge": { bg: "from-orange-950/30 to-red-950/20", accent: "text-orange-300", borderColor: "border-orange-500/40" },
-  "The Architect's Study": { bg: "from-stone-900/40 to-amber-950/15", accent: "text-stone-300", borderColor: "border-stone-500/40" },
+  "The Chorus": { bg: "from-indigo-950/30 to-purple-950/20", accent: "void-text-energy", borderColor: "void-border" },
+  "The Eyes": { bg: "from-slate-950/40 to-zinc-950/20", accent: "void-text", borderColor: "void-border" },
+  "The Archive": { bg: "from-amber-950/25 to-yellow-950/15", accent: "void-text-accent", borderColor: "void-border" },
+  "The Between": { bg: "from-fuchsia-950/25 to-violet-950/15", accent: "void-text-system", borderColor: "void-border-system" },
+  "The Influencers": { bg: "from-pink-950/25 to-rose-950/15", accent: "void-text-error", borderColor: "void-border-error" },
+  "The Yellow Coats": { bg: "from-yellow-950/30 to-orange-950/20", accent: "void-text-premium", borderColor: "void-border" },
+  "The Congress": { bg: "from-purple-950/25 to-indigo-950/15", accent: "void-text-system", borderColor: "void-border-system" },
+  "The Locks": { bg: "from-emerald-950/25 to-teal-950/15", accent: "void-text-energy", borderColor: "void-border-success" },
+  "The Grey Gamers": { bg: "from-blue-950/30 to-slate-950/15", accent: "void-text-energy", borderColor: "void-border" },
+  "The Living": { bg: "from-red-950/30 to-black/40", accent: "void-text-error", borderColor: "void-border-error" },
+  "The Forge": { bg: "from-orange-950/30 to-red-950/20", accent: "void-text-premium", borderColor: "void-border" },
+  "The Architect's Study": { bg: "from-stone-900/40 to-amber-950/15", accent: "void-text", borderColor: "void-border" },
 };
 
 const GUILD_ROOM_ART: Record<string, string> = {
@@ -188,7 +188,7 @@ export default function GuildCommonRoomPage() {
             className="w-[110%] h-[110%] object-cover guild-room-drift"
             style={{ opacity: 0.18, filter: "brightness(0.5) saturate(0.8)", position: "absolute", top: "-5%", left: "-5%" }}
           />
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%)" }} />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, color-mix(in oklch, var(--bg-void) 30%, transparent) 0%, color-mix(in oklch, var(--bg-void) 70%, transparent) 100%)" }} />
         </div>
       )}
 
@@ -203,7 +203,7 @@ export default function GuildCommonRoomPage() {
 
       {/* Scanline overlay */}
       <div className="absolute inset-0 z-[3] pointer-events-none" style={{
-        backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.008) 2px, rgba(255,255,255,0.008) 4px)",
+        backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--text-primary) 1%, transparent) 2px, color-mix(in oklch, var(--text-primary) 1%, transparent) 4px)",
       }} />
 
       {/* CSS animations */}
@@ -251,9 +251,9 @@ export default function GuildCommonRoomPage() {
           {roomArt && (
             <div className="relative h-40 sm:h-52 overflow-hidden">
               <img src={roomArt} alt={guild.name} className="w-full h-full object-cover" style={{ filter: "brightness(0.7) contrast(1.1)" }} />
-              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%)" }} />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, color-mix(in oklch, var(--bg-void) 85%, transparent) 0%, transparent 60%)" }} />
               <div className="absolute bottom-0 inset-x-0 p-5">
-                <h2 className={`font-display text-3xl font-bold tracking-wider ${aesthetic.accent}`} style={{ textShadow: "0 2px 20px rgba(0,0,0,0.8)" }}>
+                <h2 className={`font-display text-3xl font-bold tracking-wider ${aesthetic.accent}`} style={{ textShadow: "0 2px 20px color-mix(in oklch, var(--bg-void) 80%, transparent)" }}>
                   {guild.name}
                 </h2>
                 <p className="font-mono text-xs italic text-foreground/70 mt-1">"{guild.motto}"</p>
@@ -286,7 +286,7 @@ export default function GuildCommonRoomPage() {
                 Graduates Become
               </span>
               <p className="font-mono text-[10px] text-foreground/85">{guild.graduatesBecome}</p>
-              <p className="font-mono text-[9px] italic text-red-300/70 mt-1">
+              <p className="font-mono text-[9px] italic void-text-error mt-1">
                 ⚠ {guild.darkTruth}
               </p>
             </div>
@@ -316,11 +316,11 @@ export default function GuildCommonRoomPage() {
                 eager
               />
               <div className="absolute inset-0" style={{
-                background: `linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%),
+                background: `linear-gradient(to top, color-mix(in oklch, var(--bg-void) 80%, transparent) 0%, transparent 50%),
                   radial-gradient(ellipse at 50% 80%, ${accentHex}15 0%, transparent 60%)`,
               }} />
               <div className="absolute bottom-0 inset-x-0 p-4">
-                <h3 className={`font-display text-lg font-bold ${aesthetic.accent}`} style={{ textShadow: "0 2px 12px rgba(0,0,0,0.8)" }}>
+                <h3 className={`font-display text-lg font-bold ${aesthetic.accent}`} style={{ textShadow: "0 2px 12px color-mix(in oklch, var(--bg-void) 80%, transparent)" }}>
                   {professor.teacherName}
                 </h3>
                 <p className="font-mono text-[9px] italic text-foreground/70">{professor.title}</p>
@@ -348,17 +348,17 @@ export default function GuildCommonRoomPage() {
                   <p className="font-mono text-[10px] text-foreground/85">{professor.gradingStyle}</p>
                 </div>
               </div>
-              <div className="p-2 rounded border border-red-500/30 bg-red-500/5">
-                <span className="font-mono text-[9px] uppercase tracking-wider text-red-400 block mb-0.5">
+              <div className="p-2 rounded border void-border-error void-bg-error">
+                <span className="font-mono text-[9px] uppercase tracking-wider void-text-error block mb-0.5">
                   ⚠ Hidden Agenda
                 </span>
-                <p className="font-mono text-[10px] italic text-red-300/85 leading-relaxed">{professor.hiddenAgenda}</p>
+                <p className="font-mono text-[10px] italic void-text-error leading-relaxed">{professor.hiddenAgenda}</p>
               </div>
-              <div className="p-2 rounded border border-purple-500/30 bg-purple-500/5">
-                <span className="font-mono text-[9px] uppercase tracking-wider text-purple-400 block mb-0.5">
+              <div className="p-2 rounded border void-border-system void-bg-system">
+                <span className="font-mono text-[9px] uppercase tracking-wider void-text-system block mb-0.5">
                   ◈ Divergence from the real Archon
                 </span>
-                <p className="font-mono text-[10px] italic text-purple-300/85 leading-relaxed">{professor.divergenceFromReal}</p>
+                <p className="font-mono text-[10px] italic void-text-system leading-relaxed">{professor.divergenceFromReal}</p>
               </div>
             </div>
           </motion.div>
@@ -388,25 +388,25 @@ export default function GuildCommonRoomPage() {
               <span className="font-mono text-[9px] text-muted-foreground/60">
                 Cooldown: {ability.cooldownMinutes}min · Requires skill {ability.skillThreshold}
               </span>
-              <span className={`font-mono text-[9px] tabular-nums ${abilityUnlocked ? "text-emerald-400" : "text-yellow-400"}`}>
+              <span className={`font-mono text-[9px] tabular-nums ${abilityUnlocked ? "void-text-energy" : "void-text-premium"}`}>
                 {playerSkillLevel} / {ability.skillThreshold}
                 {abilityUnlocked && " ✓"}
               </span>
             </div>
-            <div className="mt-1.5 h-1 rounded-full bg-zinc-800/80 overflow-hidden">
+            <div className="mt-1.5 h-1 rounded-full void-bg-canvas overflow-hidden">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${Math.min(100, (playerSkillLevel / ability.skillThreshold) * 100)}%` }}
-                className={`h-full ${abilityUnlocked ? "bg-emerald-500" : "bg-yellow-500"}`}
+                className={`h-full ${abilityUnlocked ? "void-bg-success" : "void-bg-sunk"}`}
               />
             </div>
             {ability.darkVariant && abilityUnlocked && (
-              <div className="mt-3 pt-2 border-t border-red-500/20">
-                <span className="font-mono text-[9px] uppercase tracking-wider text-red-400 block mb-1">
+              <div className="mt-3 pt-2 border-t void-border-error">
+                <span className="font-mono text-[9px] uppercase tracking-wider void-text-error block mb-1">
                   ⚠ Dark Arts Variant
                 </span>
-                <p className="font-mono text-[10px] font-bold text-red-300">{ability.darkVariant.name}</p>
-                <p className="font-mono text-[9px] italic text-red-300/70 mt-0.5">
+                <p className="font-mono text-[10px] font-bold void-text-error">{ability.darkVariant.name}</p>
+                <p className="font-mono text-[9px] italic void-text-error mt-0.5">
                   ▸ {ability.darkVariant.mechanics} · +{ability.darkVariant.corruptionGain} corruption
                 </p>
               </div>

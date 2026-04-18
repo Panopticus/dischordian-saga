@@ -117,7 +117,7 @@ export const ESSENCES: Record<string, EssenceDef> = {
     name: "Blueprint of the End",
     flavor: "A brittle schematic that keeps redrawing itself at the edges.",
     baseRarity: "legendary",
-    color: "#ef4444",
+    color: "var(--energy-error)",
     bonus: { description: "+2 attack while equipped", stat: "attack", valuePerStack: 2, maxStacks: 3 },
   },
   collector: {
@@ -133,7 +133,7 @@ export const ESSENCES: Record<string, EssenceDef> = {
     name: "Unresolved Variable",
     flavor: "A number that refuses to hold still long enough to be named.",
     baseRarity: "epic",
-    color: "#22d3ee",
+    color: "var(--energy-primary)",
     bonus: { description: "+2 speed while equipped", stat: "speed", valuePerStack: 2, maxStacks: 3 },
   },
   warlord: {
@@ -149,7 +149,7 @@ export const ESSENCES: Record<string, EssenceDef> = {
     name: "Green Ember",
     flavor: "A coal that burns cold and resurrects whoever it warms.",
     baseRarity: "legendary",
-    color: "#22c55e",
+    color: "var(--energy-success)",
     bonus: { description: "+5 max HP while equipped", stat: "hp", valuePerStack: 5, maxStacks: 3 },
   },
   meme: {
@@ -207,7 +207,7 @@ export const ESSENCES: Record<string, EssenceDef> = {
     name: "The Lion Crest",
     flavor: "A brass sigil once pinned to a commander's chest. The sigil still salutes you when you pick it up.",
     baseRarity: "epic",
-    color: "#f59e0b",
+    color: "var(--energy-accent)",
     bonus: { description: "+3 defense while equipped", stat: "defense", valuePerStack: 3, maxStacks: 3 },
   },
   "wraith-calder": {
@@ -255,7 +255,7 @@ export const ESSENCES: Record<string, EssenceDef> = {
     name: "Loaded Deck",
     flavor: "A deck that contains one more ace than any deck has a right to.",
     baseRarity: "epic",
-    color: "#f59e0b",
+    color: "var(--energy-accent)",
     bonus: { description: "+3 meter gain per hit", stat: "meter_gain", valuePerStack: 3, maxStacks: 3 },
   },
 };
@@ -302,17 +302,17 @@ export function computeStackedBonus(def: EssenceDef, count: number): number {
 export const RARITY_ORDER_EXPORT = RARITY_ORDER;
 
 export const RARITY_BORDER_CLASS: Record<EssenceRarity, string> = {
-  common:    "border-gray-500   shadow-[0_0_12px_rgba(156,163,175,0.35)]",
-  rare:      "border-blue-500   shadow-[0_0_16px_rgba(59,130,246,0.45)]",
-  epic:      "border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.55)]",
-  legendary: "border-yellow-400 shadow-[0_0_24px_rgba(250,204,21,0.65)]",
-  mythic:    "border-pink-400   shadow-[0_0_28px_rgba(244,114,182,0.75)]",
+  common:    "void-border   shadow-[0_0_12px_rgba(156,163,175,0.35)]",
+  rare:      "void-border   shadow-[0_0_16px_color-mix(in oklch, var(--electric-blue) 45%, transparent)]",
+  epic:      "void-border-system shadow-[0_0_20px_color-mix(in oklch, var(--energy-system) 55%, transparent)]",
+  legendary: "void-border shadow-[0_0_24px_rgba(250,204,21,0.65)]",
+  mythic:    "void-border-error   shadow-[0_0_28px_rgba(244,114,182,0.75)]",
 };
 
 export const RARITY_TEXT_CLASS: Record<EssenceRarity, string> = {
-  common:    "text-gray-300",
-  rare:      "text-blue-400",
-  epic:      "text-purple-400",
-  legendary: "text-yellow-400",
-  mythic:    "text-pink-400",
+  common:    "void-text",
+  rare:      "void-text-energy",
+  epic:      "void-text-system",
+  legendary: "void-text-premium",
+  mythic:    "void-text-error",
 };

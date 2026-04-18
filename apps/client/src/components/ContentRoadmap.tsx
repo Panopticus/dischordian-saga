@@ -55,7 +55,7 @@ const SEASONS: Season[] = [
       "500 Void Crystals",
     ],
     theme: "architect",
-    color: "#A078FF",
+    color: "var(--energy-system)",
     isCurrent: true,
   },
   {
@@ -126,10 +126,10 @@ const UPCOMING_FEATURES: UpcomingFeature[] = [
 ];
 
 const CATEGORY_COLORS: Record<string, string> = {
-  gameplay: "text-cyan-400 bg-cyan-500/10 border-cyan-500/20",
-  social: "text-purple-400 bg-purple-500/10 border-purple-500/20",
-  story: "text-amber-400 bg-amber-500/10 border-amber-500/20",
-  economy: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
+  gameplay: "void-text-energy void-bg-success void-border-success",
+  social: "void-text-system void-bg-system void-border-system",
+  story: "void-text-accent void-bg-sunk void-border",
+  economy: "void-text-energy void-bg-success void-border-success",
 };
 
 /* ── Helpers ── */
@@ -171,7 +171,7 @@ export default function ContentRoadmap({ onClose, onPin, isPinned = false }: Con
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-gradient-to-r from-purple-500/10 to-transparent flex-shrink-0">
           <div className="flex items-center gap-3">
-            <Calendar size={20} className="text-purple-400" />
+            <Calendar size={20} className="void-text-system" />
             <h2 className="font-display text-lg tracking-[0.15em] text-white">
               CONTENT ROADMAP
             </h2>
@@ -182,7 +182,7 @@ export default function ContentRoadmap({ onClose, onPin, isPinned = false }: Con
                 onClick={onPin}
                 className={`p-2 rounded-lg transition-colors ${
                   isPinned
-                    ? "bg-purple-500/20 text-purple-400"
+                    ? "void-bg-system void-text-system"
                     : "text-white/30 hover:text-white/60 hover:bg-white/5"
                 }`}
                 title={isPinned ? "Unpin from dashboard" : "Pin to dashboard"}
@@ -207,7 +207,7 @@ export default function ContentRoadmap({ onClose, onPin, isPinned = false }: Con
               onClick={() => setActiveTab(tab)}
               className={`flex-1 py-2.5 font-mono text-xs tracking-[0.15em] transition-colors ${
                 activeTab === tab
-                  ? "text-purple-400 border-b-2 border-purple-400 bg-purple-500/5"
+                  ? "void-text-system border-b-2 void-border-system void-bg-system"
                   : "text-white/30 hover:text-white/50"
               }`}
             >
@@ -247,13 +247,13 @@ export default function ContentRoadmap({ onClose, onPin, isPinned = false }: Con
                       <div
                         className="absolute inset-0 pointer-events-none"
                         style={{
-                          background: `linear-gradient(180deg, transparent 0%, ${currentSeason.color}10 60%, rgba(0,0,0,0.85) 100%)`,
+                          background: `linear-gradient(180deg, transparent 0%, ${currentSeason.color}10 60%, color-mix(in oklch, var(--bg-void) 85%, transparent) 100%)`,
                         }}
                       />
                       <ResponsiveImage
                         src={FACTION_ICONS[currentSeason.theme]}
                         alt={`${currentSeason.theme} emblem`}
-                        className="absolute bottom-2 right-2 size-12 object-contain drop-shadow-[0_0_12px_rgba(0,0,0,0.8)]"
+                        className="absolute bottom-2 right-2 size-12 object-contain drop-shadow-[0_0_12px_color-mix(in oklch, var(--bg-void) 80%, transparent)]"
                       />
                     </div>
                     <div className="p-5">
@@ -330,7 +330,7 @@ export default function ContentRoadmap({ onClose, onPin, isPinned = false }: Con
                       <ResponsiveImage
                         src={FACTION_ICONS[nextSeason.theme]}
                         alt={`${nextSeason.theme} emblem`}
-                        className="absolute bottom-2 right-2 size-10 object-contain opacity-80 drop-shadow-[0_0_10px_rgba(0,0,0,0.9)]"
+                        className="absolute bottom-2 right-2 size-10 object-contain opacity-80 drop-shadow-[0_0_10px_color-mix(in oklch, var(--bg-void) 90%, transparent)]"
                       />
                     </div>
                     {/* Blur overlay for teaser effect */}
@@ -421,11 +421,11 @@ export function ContentRoadmapWidget({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="void-surface p-4 w-full text-left hover:border-purple-500/30 transition-all group"
+      className="void-surface p-4 w-full text-left void-border-system transition-all group"
     >
       <div className="flex items-center gap-2 mb-2">
-        <Calendar size={14} className="text-purple-400" />
-        <span className="font-mono text-[9px] tracking-[0.2em] text-purple-400/60">
+        <Calendar size={14} className="void-text-system" />
+        <span className="font-mono text-[9px] tracking-[0.2em] void-text-system">
           CURRENT SEASON
         </span>
         <ResponsiveImage
@@ -443,7 +443,7 @@ export function ContentRoadmapWidget({ onClick }: { onClick: () => void }) {
         </span>
         <ChevronRight
           size={14}
-          className="text-white/20 group-hover:text-purple-400 transition-colors"
+          className="text-white/20 group-void-text-system transition-colors"
         />
       </div>
     </button>

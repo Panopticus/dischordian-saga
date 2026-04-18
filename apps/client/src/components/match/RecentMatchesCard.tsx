@@ -29,9 +29,9 @@ function formatRelativeTime(now: number, then: number): string {
 }
 
 function outcomeStyle(outcome: string): string {
-  if (outcome === "win") return "text-emerald-400 border-emerald-400/40 bg-emerald-400/5";
-  if (outcome === "withdrawn") return "text-amber-400 border-amber-400/40 bg-amber-400/5";
-  return "text-rose-400 border-rose-400/40 bg-rose-400/5";
+  if (outcome === "win") return "void-text-energy void-border-success void-bg-success";
+  if (outcome === "withdrawn") return "void-text-accent void-border void-bg-sunk";
+  return "void-text-error void-border-error void-bg-error";
 }
 
 export function RecentMatchesCard() {
@@ -48,7 +48,7 @@ export function RecentMatchesCard() {
         <span className="font-mono text-[9px] text-primary/60 tracking-[0.2em]">
           RECENT MATCHES
         </span>
-        <span className="font-mono text-[9px] text-stone-500 ml-auto">
+        <span className="font-mono text-[9px] void-text ml-auto">
           {stats.wins}W · {stats.losses}L
           {stats.withdrawn > 0 && ` · ${stats.withdrawn}F`}
         </span>
@@ -57,7 +57,7 @@ export function RecentMatchesCard() {
         {history.slice(0, 5).map((entry, i) => (
           <li
             key={`${entry.at}-${i}`}
-            className="flex items-center gap-3 p-2.5 rounded border border-stone-800 bg-stone-950/60"
+            className="flex items-center gap-3 p-2.5 rounded border void-border void-bg-canvas"
           >
             <span
               className={
@@ -68,15 +68,15 @@ export function RecentMatchesCard() {
               {entry.outcome === "withdrawn" ? "WDRW" : entry.outcome.toUpperCase()}
             </span>
             <div className="flex-1 min-w-0">
-              <p className="font-serif text-[13px] text-stone-200 truncate">
+              <p className="font-serif text-[13px] void-text truncate">
                 {entry.opponent}
               </p>
-              <p className="font-mono text-[9px] text-stone-500">
+              <p className="font-mono text-[9px] void-text">
                 {entry.turns} turn{entry.turns === 1 ? "" : "s"} · {entry.cardsPlayed} card
                 {entry.cardsPlayed === 1 ? "" : "s"} · {entry.playerFaction}
               </p>
             </div>
-            <span className="font-mono text-[9px] text-stone-600 shrink-0">
+            <span className="font-mono text-[9px] void-text shrink-0">
               {formatRelativeTime(now, entry.at)}
             </span>
           </li>

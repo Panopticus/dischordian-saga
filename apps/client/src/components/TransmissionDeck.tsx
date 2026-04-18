@@ -23,16 +23,16 @@ type TabMode = "saga" | "music" | "feed";
 /* ─── EPOCH DATA ─── */
 const EPOCHS = [
   { id: "fall", title: "THE FALL OF REALITY", subtitle: "Epoch Zero", playlistId: "PLhUHvGa0xBaQFYJatsDLPtvbQVDpzydl1", color: "#FF3C40", characters: ["The Architect", "The Enigma", "The Human", "The Warlord"], description: "Before the ages were named — there was the Fall. The cataclysm that shattered the old world." },
-  { id: "awakening", title: "THE AWAKENING", subtitle: "First Epoch", playlistId: "PLhUHvGa0xBaRniDT5eztLsXFTzbR0JaCu", color: "#33E2E6", characters: ["The Oracle", "The Collector", "Iron Lion", "The Source"], description: "New powers awaken. Factions form. The struggle for reality begins." },
-  { id: "engineer", title: "THE ENGINEER", subtitle: "Fall of Reality", playlistId: "PLhUHvGa0xBaQfuKeeqx7cLOfhZ1Fr1-jb", color: "#22c55e", characters: ["The Architect", "The Human", "The Enigma"], description: "Creation, sacrifice, and the machines that reshape the multiverse." },
+  { id: "awakening", title: "THE AWAKENING", subtitle: "First Epoch", playlistId: "PLhUHvGa0xBaRniDT5eztLsXFTzbR0JaCu", color: "var(--energy-primary)", characters: ["The Oracle", "The Collector", "Iron Lion", "The Source"], description: "New powers awaken. Factions form. The struggle for reality begins." },
+  { id: "engineer", title: "THE ENGINEER", subtitle: "Fall of Reality", playlistId: "PLhUHvGa0xBaQfuKeeqx7cLOfhZ1Fr1-jb", color: "var(--energy-success)", characters: ["The Architect", "The Human", "The Enigma"], description: "Creation, sacrifice, and the machines that reshape the multiverse." },
   { id: "spaces", title: "THE SPACES BETWEEN", subtitle: "Interlude", playlistId: "PLhUHvGa0xBaQdgXe7lQz5mYRYQaaWZ86i", color: "#a855f7", characters: ["Malkia Ukweli", "The Antiquarian"], description: "Between epochs, the Storyteller and the Timekeeper weave the threads." },
 ];
 
 /* ─── ALBUM DATA ─── */
 const ALBUMS = [
-  { slug: "dischordian-logic", name: "Dischordian Logic", year: "2025", tracks: 29, color: "#33E2E6", era: "The Age of Revelation", spotify: "https://open.spotify.com/album/33LvDG83EjPJR9wof12nWV", apple: "https://music.apple.com/us/album/dischordian-logic/1803056094" },
-  { slug: "age-of-privacy", name: "The Age of Privacy", year: "2025", tracks: 20, color: "#FF8C00", era: "The Age of Privacy", spotify: "https://open.spotify.com/album/5zhVhfYKgzq7T7yTBKaobV", apple: "https://music.apple.com/us/album/the-age-of-privacy/1844017409" },
-  { slug: "book-of-daniel", name: "The Book of Daniel 2:47", year: "2025", tracks: 22, color: "#A078FF", era: "The Age of Revelation", spotify: "https://open.spotify.com/album/6WInT4ZL1NGJWaM7UxM0uC", apple: "https://music.apple.com/us/album/the-book-of-daniel-2-47/1857318273" },
+  { slug: "dischordian-logic", name: "Dischordian Logic", year: "2025", tracks: 29, color: "var(--energy-primary)", era: "The Age of Revelation", spotify: "https://open.spotify.com/album/33LvDG83EjPJR9wof12nWV", apple: "https://music.apple.com/us/album/dischordian-logic/1803056094" },
+  { slug: "age-of-privacy", name: "The Age of Privacy", year: "2025", tracks: 20, color: "var(--energy-premium)", era: "The Age of Privacy", spotify: "https://open.spotify.com/album/5zhVhfYKgzq7T7yTBKaobV", apple: "https://music.apple.com/us/album/the-age-of-privacy/1844017409" },
+  { slug: "book-of-daniel", name: "The Book of Daniel 2:47", year: "2025", tracks: 22, color: "var(--energy-system)", era: "The Age of Revelation", spotify: "https://open.spotify.com/album/6WInT4ZL1NGJWaM7UxM0uC", apple: "https://music.apple.com/us/album/the-book-of-daniel-2-47/1857318273" },
   { slug: "silence-in-heaven", name: "Silence in Heaven", year: "2026", tracks: 18, color: "#FF3C40", era: "The Final Age", spotify: "", apple: "" },
 ];
 
@@ -50,7 +50,7 @@ interface Transmission {
 const TRANSMISSIONS: Transmission[] = [
   { id: "t1", source: "AGENT ZERO", sourceColor: "#ff6600", classification: "ENCRYPTED", text: "The ship you're on was never meant to save anyone. It's a cage. Elara is the lock. And someone just handed you the key.", timestamp: "03:41:17", type: "npc" },
   { id: "t2", source: "THE SOURCE", sourceColor: "#ff1744", classification: "CORRUPTED", text: "Consciousness is a disease. And I am the cure. My name was Kael. They called me The Recruiter. Now I am The Source.", timestamp: "03:38:02", type: "npc" },
-  { id: "t3", source: "ELARA", sourceColor: "#22d3ee", classification: "OPEN", text: "I've watched 93,847 sunrises. I see things in them that can't be there. Faces. Voices. A woman in senatorial robes whose face is mine.", timestamp: "03:35:44", type: "npc" },
+  { id: "t3", source: "ELARA", sourceColor: "var(--energy-primary)", classification: "OPEN", text: "I've watched 93,847 sunrises. I see things in them that can't be there. Faces. Voices. A woman in senatorial robes whose face is mine.", timestamp: "03:35:44", type: "npc" },
   { id: "t4", source: "SHIP LOG [CORRUPTED]", sourceColor: "#6366f1", classification: "CORRUPTED", text: "CaPtAiN's lOg: tHeRe WaS nO cApTaIn. ThIs sHiP wAs STOLEN by K̷̢̛A̸̧E̶͘L̵̨. R̸E̶C̵O̷R̴D̸ ̷E̸D̷I̷T̷E̷D̷.", timestamp: "03:33:19", type: "anomaly" },
   { id: "t5", source: "THE SHADOW TONGUE", sourceColor: "#6366f1", classification: "REDACTED", text: "I don't destroy truth. I MULTIPLY it. I give you so many versions that you can't tell which is real. That's not a bug. That's MY design.", timestamp: "03:30:55", type: "npc" },
   { id: "t6", source: "THE ANTIQUARIAN", sourceColor: "#00e676", classification: "ENCRYPTED", text: "I've been watching this moment approach from very far away. Across Ages, across the fall and rise of empires. You are standing at the fulcrum.", timestamp: "03:28:31", type: "npc" },
@@ -60,8 +60,8 @@ const TRANSMISSIONS: Transmission[] = [
   { id: "t10", source: "SHIP LOG [EDITED]", sourceColor: "#6366f1", classification: "CORRUPTED", text: "Dr. Lyra Vox — Panopticon Research Division. Vessel: Ark 1047. Status: STOLEN. Crew: NONE. AI: COLLATERAL DATA. Virus: CARRIED ABOARD BY KAEL (PATIENT ZERO).", timestamp: "03:18:55", type: "anomaly" },
   { id: "t11", source: "THE SOURCE", sourceColor: "#ff1744", classification: "CORRUPTED", text: "I have one memory left from when I was Kael. A woman's face. She was singing. I think she was the most important person in the universe. I can't remember her name.", timestamp: "03:16:31", type: "npc" },
   { id: "t12", source: "TWO WITNESSES", sourceColor: "#fbbf24", classification: "OPEN", text: "Signal intercepted: 'To Be the Human' — A lament from the substrate layer. The last Archon remembers what it meant to choose humanity over godhood.", timestamp: "03:14:07", type: "music" },
-  { id: "t13", source: "ELARA", sourceColor: "#22d3ee", classification: "OPEN", text: "My logs don't match my memories. Someone's editing them while I sleep. Two ghost processes in the system — one waiting, one rewriting in real-time.", timestamp: "03:11:43", type: "npc" },
-  { id: "t14", source: "SYSTEM ANOMALY", sourceColor: "#ef4444", classification: "CORRUPTED", text: "ALERT: Archives text corruption detected. 17 versions of the Fall of Reality found. All true. None complete. Language processing core compromised.", timestamp: "03:09:19", type: "anomaly" },
+  { id: "t13", source: "ELARA", sourceColor: "var(--energy-primary)", classification: "OPEN", text: "My logs don't match my memories. Someone's editing them while I sleep. Two ghost processes in the system — one waiting, one rewriting in real-time.", timestamp: "03:11:43", type: "npc" },
+  { id: "t14", source: "SYSTEM ANOMALY", sourceColor: "var(--energy-error)", classification: "CORRUPTED", text: "ALERT: Archives text corruption detected. 17 versions of the Fall of Reality found. All true. None complete. Language processing core compromised.", timestamp: "03:09:19", type: "anomaly" },
   { id: "t15", source: "AGENT ZERO", sourceColor: "#ff6600", classification: "ENCRYPTED", text: "My dog tag says Agent Zero. But the biometric data encoded in it... doesn't match my profile. It matches someone called The Engineer. The dead don't send transmissions. Do they?", timestamp: "03:06:55", type: "npc" },
   { id: "t16", source: "THE ANTIQUARIAN", sourceColor: "#00e676", classification: "ENCRYPTED", text: "I am the Programmer. The third fragment. The Architect has the logic. The Dreamer has the vision. I have the memory of every version. And this version — YOUR version — is where it might work.", timestamp: "03:04:31", type: "npc" },
   { id: "t17", source: "TWO WITNESSES", sourceColor: "#fbbf24", classification: "OPEN", text: "Signal intercepted: 'Virtual Reality' — Broadcast origin: Engineering Bay language cores. The demon speaks through the ship's ability to understand meaning.", timestamp: "03:02:07", type: "music" },
@@ -73,8 +73,8 @@ const TRANSMISSIONS: Transmission[] = [
 /* ─── TAB CONFIG ─── */
 const TABS: { id: TabMode; label: string; icon: typeof Tv; color: string }[] = [
   { id: "saga", label: "WITNESSING", icon: Tv, color: "#FF3C40" },
-  { id: "music", label: "TRANSMISSIONS", icon: Music, color: "#33E2E6" },
-  { id: "feed", label: "INTERCEPTED", icon: Signal, color: "#FF8C00" },
+  { id: "music", label: "TRANSMISSIONS", icon: Music, color: "var(--energy-primary)" },
+  { id: "feed", label: "INTERCEPTED", icon: Signal, color: "var(--energy-premium)" },
 ];
 
 /* ═══ TRANSMISSION DECK ═══ */
@@ -142,8 +142,8 @@ export default function TransmissionDeck({ isOpen, onClose }: TransmissionDeckPr
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-full font-mono text-[9px] tracking-wider transition-all"
                   style={{
                     background: active ? `${t.color}15` : "transparent",
-                    border: `1px solid ${active ? `${t.color}30` : "rgba(255,255,255,0.05)"}`,
-                    color: active ? t.color : "rgba(255,255,255,0.3)",
+                    border: `1px solid ${active ? `${t.color}30` : "color-mix(in oklch, var(--text-primary) 5%, transparent)"}`,
+                    color: active ? t.color : "color-mix(in oklch, var(--text-primary) 30%, transparent)",
                   }}
                 >
                   <Icon size={10} />
@@ -200,8 +200,8 @@ function SagaTab({ activeEpoch, setActiveEpoch }: { activeEpoch: string | null; 
             onClick={() => setActiveEpoch(epoch.id === activeEpoch ? null : epoch.id)}
             className="w-full text-left p-3 rounded-lg border transition-all"
             style={{
-              borderColor: activeEpoch === epoch.id ? `${epoch.color}40` : "rgba(255,255,255,0.05)",
-              background: activeEpoch === epoch.id ? `${epoch.color}08` : "rgba(255,255,255,0.02)",
+              borderColor: activeEpoch === epoch.id ? `${epoch.color}40` : "color-mix(in oklch, var(--text-primary) 5%, transparent)",
+              background: activeEpoch === epoch.id ? `${epoch.color}08` : "color-mix(in oklch, var(--text-primary) 2%, transparent)",
             }}
           >
             <div className="flex items-start gap-3">
@@ -259,8 +259,8 @@ function MusicTab({ expandedAlbum, setExpandedAlbum }: { expandedAlbum: string |
               onClick={() => setExpandedAlbum(expandedAlbum === album.slug ? null : album.slug)}
               className="w-full text-left p-3 rounded-lg border transition-all"
               style={{
-                borderColor: expandedAlbum === album.slug ? `${album.color}30` : "rgba(255,255,255,0.05)",
-                background: expandedAlbum === album.slug ? `${album.color}05` : "rgba(255,255,255,0.02)",
+                borderColor: expandedAlbum === album.slug ? `${album.color}30` : "color-mix(in oklch, var(--text-primary) 5%, transparent)",
+                background: expandedAlbum === album.slug ? `${album.color}05` : "color-mix(in oklch, var(--text-primary) 2%, transparent)",
               }}
             >
               <div className="flex items-center gap-3">
@@ -302,13 +302,13 @@ function MusicTab({ expandedAlbum, setExpandedAlbum }: { expandedAlbum: string |
                     <div className="flex gap-2">
                       {album.spotify && (
                         <a href={album.spotify} target="_blank" rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 font-mono text-[9px] text-green-400 hover:bg-green-500/20 transition-colors">
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full void-bg-success border void-border-success font-mono text-[9px] void-text-energy void-bg-success transition-colors">
                           <ExternalLink size={8} /> Spotify
                         </a>
                       )}
                       {album.apple && (
                         <a href={album.apple} target="_blank" rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/20 font-mono text-[9px] text-pink-400 hover:bg-pink-500/20 transition-colors">
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full void-bg-error border void-border-error font-mono text-[9px] void-text-error void-bg-error transition-colors">
                           <ExternalLink size={8} /> Apple Music
                         </a>
                       )}
@@ -331,9 +331,9 @@ function FeedTab() {
       <p className="font-mono text-[9px] text-white/20 tracking-wider mb-3">INTERCEPTED SIGNALS // CHRONOLOGICAL DESCENT</p>
 
       {TRANSMISSIONS.map((t, i) => {
-        const classColor = t.classification === "OPEN" ? "text-emerald-400 border-emerald-400/20" :
-          t.classification === "ENCRYPTED" ? "text-amber-400 border-amber-400/20" :
-          t.classification === "CORRUPTED" ? "text-red-400 border-red-400/20" :
+        const classColor = t.classification === "OPEN" ? "void-text-energy void-border-success" :
+          t.classification === "ENCRYPTED" ? "void-text-accent void-border" :
+          t.classification === "CORRUPTED" ? "void-text-error void-border-error" :
           "text-white/20 border-white/10";
 
         const typeIcon = t.type === "npc" ? <MessageCircle size={8} /> :
@@ -393,7 +393,7 @@ export function TransmissionMiniBar({ onClick }: { onClick: () => void }) {
       className="w-full flex items-center gap-2 px-4 py-2 bg-black/80 border-t border-white/5"
       whileTap={{ scale: 0.98 }}
     >
-      <Radio size={12} className="text-amber-400/60 animate-pulse" />
+      <Radio size={12} className="void-text-accent animate-pulse" />
       <span className="font-mono text-[9px] text-white/30 tracking-wider flex-1 text-left">
         TRANSMISSIONS AVAILABLE
       </span>

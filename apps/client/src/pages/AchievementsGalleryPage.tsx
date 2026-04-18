@@ -28,11 +28,11 @@ type FilterAge = "all" | Age;
 
 /* ─── RARITY COLORS ─── */
 const RARITY_COLORS: Record<string, { text: string; bg: string; border: string }> = {
-  common: { text: "text-zinc-400", bg: "bg-zinc-500/10", border: "border-zinc-500/30" },
-  uncommon: { text: "text-green-400", bg: "bg-green-500/10", border: "border-green-500/30" },
-  rare: { text: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/30" },
-  epic: { text: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/30" },
-  legendary: { text: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/30" },
+  common: { text: "void-text", bg: "void-bg-canvas", border: "void-border" },
+  uncommon: { text: "void-text-energy", bg: "void-bg-success", border: "void-border-success" },
+  rare: { text: "void-text-energy", bg: "void-bg-sunk", border: "void-border" },
+  epic: { text: "void-text-system", bg: "void-bg-system", border: "void-border-system" },
+  legendary: { text: "void-text-accent", bg: "void-bg-sunk", border: "void-border" },
 };
 
 /* ─── ACHIEVEMENT DETAIL MODAL ─── */
@@ -62,7 +62,7 @@ function AchievementModal({ achievement, earned, onClose }: {
         exit={{ scale: 0.85, y: 30 }}
         onClick={e => e.stopPropagation()}
         className={`relative w-full max-w-md rounded-xl border bg-card shadow-2xl overflow-hidden ${
-          earned ? "border-amber-500/40" : "border-border/30"
+          earned ? "void-border" : "border-border/30"
         }`}
       >
         {/* Header */}
@@ -75,7 +75,7 @@ function AchievementModal({ achievement, earned, onClose }: {
           </button>
 
           <div className="flex items-start gap-4">
-            <div className={`p-3 rounded-xl ${earned ? "bg-amber-500/20 border border-amber-500/30" : "bg-secondary/50 border border-border/30"}`}>
+            <div className={`p-3 rounded-xl ${earned ? "void-bg-sunk border void-border" : "bg-secondary/50 border border-border/30"}`}>
               {earned ? (
                 <span className="text-3xl">{achievement.icon}</span>
               ) : (
@@ -90,7 +90,7 @@ function AchievementModal({ achievement, earned, onClose }: {
                   </span>
                 )}
               </div>
-              <h3 className={`font-display text-lg font-bold tracking-wide ${earned ? "text-amber-200" : "text-muted-foreground/40"}`}>
+              <h3 className={`font-display text-lg font-bold tracking-wide ${earned ? "void-text-accent" : "text-muted-foreground/40"}`}>
                 {earned ? achievement.title : "???"}
               </h3>
               <p className="font-mono text-[10px] text-muted-foreground/50 mt-0.5">
@@ -112,11 +112,11 @@ function AchievementModal({ achievement, earned, onClose }: {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="void-surface border-amber-500/20 p-4"
+              className="void-surface void-border p-4"
             >
               <div className="flex items-center gap-2 mb-2">
-                <Scroll size={12} className="text-amber-400" />
-                <span className="font-mono text-[10px] text-amber-400/70 tracking-wider">LORE FRAGMENT</span>
+                <Scroll size={12} className="void-text-accent" />
+                <span className="font-mono text-[10px] void-text-accent tracking-wider">LORE FRAGMENT</span>
               </div>
               <p className="text-xs text-muted-foreground/80 leading-relaxed italic">
                 "{achievement.loreFragment}"
@@ -126,9 +126,9 @@ function AchievementModal({ achievement, earned, onClose }: {
 
           {/* Rewards */}
           <div className="flex items-center gap-3">
-            <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md ${earned ? "bg-amber-500/10 border border-amber-500/20" : "bg-secondary/30 border border-border/20"}`}>
-              <Zap size={12} className={earned ? "text-amber-400" : "text-muted-foreground/30"} />
-              <span className={`font-mono text-xs font-bold ${earned ? "text-amber-300" : "text-muted-foreground/30"}`}>
+            <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md ${earned ? "void-bg-sunk border void-border" : "bg-secondary/30 border border-border/20"}`}>
+              <Zap size={12} className={earned ? "void-text-accent" : "text-muted-foreground/30"} />
+              <span className={`font-mono text-xs font-bold ${earned ? "void-text-accent" : "text-muted-foreground/30"}`}>
                 +{achievement.xpReward} XP
               </span>
             </div>
@@ -149,7 +149,7 @@ function AchievementModal({ achievement, earned, onClose }: {
           {!earned && game && (
             <Link
               href="/conexus-portal"
-              className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg bg-purple-600/20 border border-purple-500/40 text-purple-300 text-xs font-mono tracking-wider hover:bg-purple-600/30 transition-all"
+              className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg void-bg-system border void-border-system void-text-system text-xs font-mono tracking-wider void-bg-system transition-all"
             >
               <BookOpen size={14} />
               GO TO STORY LIBRARY
@@ -217,7 +217,7 @@ export default function AchievementsGalleryPage() {
             </Link>
             <div className="flex-1">
               <h1 className="font-display text-lg font-bold tracking-wider flex items-center gap-2">
-                <Trophy size={18} className="text-amber-400" />
+                <Trophy size={18} className="void-text-accent" />
                 LORE ACHIEVEMENTS
               </h1>
               <p className="font-mono text-[10px] text-muted-foreground tracking-wider">
@@ -227,10 +227,10 @@ export default function AchievementsGalleryPage() {
           </div>
 
           {/* Overall progress */}
-          <div className="void-surface border-amber-500/20 p-4">
+          <div className="void-surface void-border p-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="font-mono text-[10px] text-amber-400/70 tracking-wider">SAGA COMPLETION</span>
-              <span className="font-mono text-sm font-bold text-amber-300">{overallPercent}%</span>
+              <span className="font-mono text-[10px] void-text-accent tracking-wider">SAGA COMPLETION</span>
+              <span className="font-mono text-sm font-bold void-text-accent">{overallPercent}%</span>
             </div>
             <div className="h-2.5 bg-secondary/50 rounded-full overflow-hidden">
               <motion.div
@@ -247,7 +247,7 @@ export default function AchievementsGalleryPage() {
               {earnedFragments.length > 0 && (
                 <button
                   onClick={() => setShowLoreNarrative(true)}
-                  className="flex items-center gap-1 font-mono text-[9px] text-amber-400/70 hover:text-amber-300 transition-colors"
+                  className="flex items-center gap-1 font-mono text-[9px] void-text-accent void-text-accent transition-colors"
                 >
                   <Eye size={10} /> READ COLLECTED LORE
                 </button>
@@ -283,9 +283,9 @@ export default function AchievementsGalleryPage() {
                 <motion.div
                   className="h-full rounded-full"
                   style={{ backgroundColor: ageStat.color.includes("blue") ? "#3b82f6" :
-                    ageStat.color.includes("amber") ? "#f59e0b" :
-                    ageStat.color.includes("red") ? "#ef4444" :
-                    ageStat.color.includes("green") ? "#22c55e" : "#a855f7" }}
+                    ageStat.color.includes("amber") ? "var(--energy-accent)" :
+                    ageStat.color.includes("red") ? "var(--energy-error)" :
+                    ageStat.color.includes("green") ? "var(--energy-success)" : "#a855f7" }}
                   initial={{ width: 0 }}
                   animate={{ width: `${ageStat.percent}%` }}
                   transition={{ duration: 0.8, delay: 0.1 * i }}
@@ -341,7 +341,7 @@ export default function AchievementsGalleryPage() {
                     onClick={() => setSelectedAchievement(ach)}
                     className={`w-full text-left group rounded-lg border overflow-hidden transition-all hover-lift ${
                       earned
-                        ? "border-amber-500/30 bg-card/50 hover:border-amber-500/50"
+                        ? "void-border bg-card/50 void-border"
                         : "border-border/20 bg-card/20 hover:border-border/40"
                     }`}
                   >
@@ -349,7 +349,7 @@ export default function AchievementsGalleryPage() {
                       <div className="flex items-start gap-3">
                         {/* Icon */}
                         <div className={`p-2.5 rounded-lg shrink-0 ${
-                          earned ? "bg-amber-500/20 border border-amber-500/30" : "bg-secondary/50 border border-border/20"
+                          earned ? "void-bg-sunk border void-border" : "bg-secondary/50 border border-border/20"
                         }`}>
                           {earned ? (
                             <span className="text-xl">{ach.icon}</span>
@@ -368,7 +368,7 @@ export default function AchievementsGalleryPage() {
 
                           {/* Title */}
                           <h3 className={`font-display text-sm font-bold tracking-wide ${
-                            earned ? "text-amber-200" : "text-muted-foreground/40"
+                            earned ? "void-text-accent" : "text-muted-foreground/40"
                           }`}>
                             {earned ? ach.title : "???"}
                           </h3>
@@ -380,7 +380,7 @@ export default function AchievementsGalleryPage() {
 
                           {/* Lore preview */}
                           {earned && (
-                            <p className="font-mono text-[10px] text-amber-400/50 mt-1.5 line-clamp-2 leading-relaxed italic">
+                            <p className="font-mono text-[10px] void-text-accent mt-1.5 line-clamp-2 leading-relaxed italic">
                               "{ach.loreFragment.substring(0, 120)}..."
                             </p>
                           )}
@@ -388,7 +388,7 @@ export default function AchievementsGalleryPage() {
                           {/* Rewards */}
                           <div className="flex items-center gap-2 mt-2">
                             <span className={`font-mono text-[9px] flex items-center gap-0.5 ${
-                              earned ? "text-amber-400/70" : "text-muted-foreground/30"
+                              earned ? "void-text-accent" : "text-muted-foreground/30"
                             }`}>
                               <Zap size={9} /> +{ach.xpReward} XP
                             </span>
@@ -400,7 +400,7 @@ export default function AchievementsGalleryPage() {
                               </span>
                             )}
                             {earned && (
-                              <CheckCircle2 size={12} className="text-green-400/60 ml-auto" />
+                              <CheckCircle2 size={12} className="void-text-energy ml-auto" />
                             )}
                           </div>
                         </div>
@@ -422,19 +422,19 @@ export default function AchievementsGalleryPage() {
         )}
 
         {/* ═══ BOTTOM CTA ═══ */}
-        <div className="void-surface border-purple-500/20 p-4 flex items-center gap-4">
-          <div className="p-2 rounded-md bg-purple-500/10">
-            <BookOpen size={20} className="text-purple-400" />
+        <div className="void-surface void-border-system p-4 flex items-center gap-4">
+          <div className="p-2 rounded-md void-bg-system">
+            <BookOpen size={20} className="void-text-system" />
           </div>
           <div className="flex-1">
-            <p className="font-mono text-xs text-purple-300 mb-0.5">Play CoNexus stories to unlock achievements</p>
+            <p className="font-mono text-xs void-text-system mb-0.5">Play CoNexus stories to unlock achievements</p>
             <p className="font-mono text-[10px] text-muted-foreground/50">
               Each story has a unique lore fragment and card reward waiting to be discovered.
             </p>
           </div>
           <Link
             href="/conexus-portal"
-            className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-md bg-purple-500/20 border border-purple-500/30 text-purple-300 font-mono text-[10px] hover:bg-purple-500/30 transition-colors"
+            className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-md void-bg-system border void-border-system void-text-system font-mono text-[10px] void-bg-system transition-colors"
           >
             STORY LIBRARY <ChevronRight size={10} />
           </Link>
@@ -468,12 +468,12 @@ export default function AchievementsGalleryPage() {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               onClick={e => e.stopPropagation()}
-              className="relative w-full max-w-2xl max-h-[80vh] overflow-y-auto void-surface border-amber-500/30 shadow-2xl"
+              className="relative w-full max-w-2xl max-h-[80vh] overflow-y-auto void-surface void-border shadow-2xl"
             >
-              <div className="sticky top-0 bg-card/95 backdrop-blur-sm border-b border-amber-500/20 p-4 flex items-center justify-between z-10">
+              <div className="sticky top-0 bg-card/95 backdrop-blur-sm border-b void-border p-4 flex items-center justify-between z-10">
                 <div className="flex items-center gap-2">
-                  <Scroll size={16} className="text-amber-400" />
-                  <h3 className="font-display text-sm font-bold tracking-wider text-amber-200">
+                  <Scroll size={16} className="void-text-accent" />
+                  <h3 className="font-display text-sm font-bold tracking-wider void-text-accent">
                     COLLECTED LORE FRAGMENTS
                   </h3>
                   <span className="font-mono text-[10px] text-muted-foreground">({earnedFragments.length})</span>
@@ -498,13 +498,13 @@ export default function AchievementsGalleryPage() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.05 * i }}
-                      className="relative pl-6 border-l-2 border-amber-500/20"
+                      className="relative pl-6 border-l-2 void-border"
                     >
-                      <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center">
+                      <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full void-bg-sunk border void-border flex items-center justify-center">
                         <span className="text-[8px]">{frag.icon}</span>
                       </div>
                       <div className="flex items-center gap-2 mb-1.5">
-                        <span className="font-display text-xs font-bold text-amber-300">{frag.title}</span>
+                        <span className="font-display text-xs font-bold void-text-accent">{frag.title}</span>
                         <span className="font-mono text-[8px] text-muted-foreground/40">
                           {frag.age}
                         </span>

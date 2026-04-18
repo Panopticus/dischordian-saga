@@ -19,10 +19,10 @@ interface Props {
 }
 
 const RARITY_COLOR = {
-  common: "border-gray-500/40",
-  uncommon: "border-green-500/40",
-  rare: "border-blue-500/40",
-  exotic: "border-purple-500/40 text-purple-300",
+  common: "void-border",
+  uncommon: "void-border-success",
+  rare: "void-border",
+  exotic: "void-border-system void-text-system",
 };
 
 export default function CloneFromTemplateModal({ onClose, onClone, founded }: Props) {

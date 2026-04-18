@@ -60,8 +60,8 @@ interface GalaxyMapProps {
 }
 
 const FACTION_COLORS: Record<string, { fill: string; stroke: string; text: string }> = {
-  empire: { fill: "rgba(239,68,68,0.25)", stroke: "#ef4444", text: "#fca5a5" },
-  insurgency: { fill: "rgba(59,130,246,0.25)", stroke: "#3b82f6", text: "#93c5fd" },
+  empire: { fill: "color-mix(in oklch, var(--energy-error) 25%, transparent)", stroke: "var(--energy-error)", text: "#fca5a5" },
+  insurgency: { fill: "color-mix(in oklch, var(--electric-blue) 25%, transparent)", stroke: "#3b82f6", text: "#93c5fd" },
   unaligned: { fill: "rgba(156,163,175,0.2)", stroke: "#9ca3af", text: "#d1d5db" },
 };
 
@@ -71,13 +71,13 @@ const FACTION_COLORS: Record<string, { fill: string; stroke: string; text: strin
 
 const SECTOR_COLORS: Record<string, { fill: string; stroke: string; glow: string }> = {
   stardock:  { fill: "#00ffff", stroke: "#00cccc", glow: "rgba(0,255,255,0.4)" },
-  station:   { fill: "#60a5fa", stroke: "#3b82f6", glow: "rgba(96,165,250,0.3)" },
+  station:   { fill: "#60a5fa", stroke: "#3b82f6", glow: "color-mix(in oklch, var(--electric-blue) 30%, transparent)" },
   port:      { fill: "#34d399", stroke: "#10b981", glow: "rgba(52,211,153,0.3)" },
   planet:    { fill: "#a78bfa", stroke: "#8b5cf6", glow: "rgba(167,139,250,0.3)" },
   nebula:    { fill: "#f472b6", stroke: "#ec4899", glow: "rgba(244,114,182,0.25)" },
-  asteroid:  { fill: "#fbbf24", stroke: "#f59e0b", glow: "rgba(251,191,36,0.3)" },
-  hazard:    { fill: "#f87171", stroke: "#ef4444", glow: "rgba(248,113,113,0.3)" },
-  wormhole:  { fill: "#c084fc", stroke: "#a855f7", glow: "rgba(192,132,252,0.4)" },
+  asteroid:  { fill: "#fbbf24", stroke: "var(--energy-accent)", glow: "color-mix(in oklch, var(--energy-premium) 30%, transparent)" },
+  hazard:    { fill: "#f87171", stroke: "var(--energy-error)", glow: "color-mix(in oklch, var(--energy-error) 30%, transparent)" },
+  wormhole:  { fill: "#c084fc", stroke: "#a855f7", glow: "color-mix(in oklch, var(--energy-system) 40%, transparent)" },
   empty:     { fill: "#6b7280", stroke: "#4b5563", glow: "rgba(107,114,128,0.15)" },
 };
 
@@ -311,38 +311,38 @@ export default function GalaxyMap({ sectors, playerSector, totalDiscovered, tota
   return (
     <div className="fixed inset-0 z-50 bg-black/95 flex flex-col">
       {/* ── Header ── */}
-      <div className="flex items-center justify-between px-3 sm:px-4 py-2 bg-gray-900/80 border-b border-cyan-500/20">
+      <div className="flex items-center justify-between px-3 sm:px-4 py-2 void-bg-canvas border-b void-border-success">
         <div className="flex items-center gap-3">
-          <span className="font-mono text-xs sm:text-sm text-cyan-400 tracking-wider">GALAXY MAP</span>
-          <span className="font-mono text-[10px] text-gray-500">
+          <span className="font-mono text-xs sm:text-sm void-text-energy tracking-wider">GALAXY MAP</span>
+          <span className="font-mono text-[10px] void-text">
             {totalDiscovered}/{totalSectors} SECTORS DISCOVERED
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <button onClick={() => zoom(0.75)} className="p-1.5 text-gray-400 hover:text-cyan-400 transition-colors" title="Zoom In">
+          <button onClick={() => zoom(0.75)} className="p-1.5 void-text void-text-energy transition-colors" title="Zoom In">
             <ZoomIn size={16} />
           </button>
-          <button onClick={() => zoom(1.35)} className="p-1.5 text-gray-400 hover:text-cyan-400 transition-colors" title="Zoom Out">
+          <button onClick={() => zoom(1.35)} className="p-1.5 void-text void-text-energy transition-colors" title="Zoom Out">
             <ZoomOut size={16} />
           </button>
-          <button onClick={centerOnPlayer} className="p-1.5 text-gray-400 hover:text-cyan-400 transition-colors" title="Center on Ship">
+          <button onClick={centerOnPlayer} className="p-1.5 void-text void-text-energy transition-colors" title="Center on Ship">
             <Crosshair size={16} />
           </button>
-          <button onClick={fitAll} className="p-1.5 text-gray-400 hover:text-cyan-400 transition-colors" title="Fit All">
+          <button onClick={fitAll} className="p-1.5 void-text void-text-energy transition-colors" title="Fit All">
             <Maximize2 size={16} />
           </button>
           <button
             onClick={() => setShowTerritories(!showTerritories)}
             className={`px-2 py-1 text-[10px] font-mono rounded border transition-colors ${
               showTerritories
-                ? "bg-amber-500/20 border-amber-500/40 text-amber-400"
-                : "bg-gray-800 border-gray-600 text-gray-500"
+                ? "void-bg-sunk void-border void-text-accent"
+                : "void-bg-canvas void-border void-text"
             }`}
             title="Toggle Territory Overlay"
           >
             {showTerritories ? "🏰 TERRITORIES" : "🏰 OFF"}
           </button>
-          <button onClick={onClose} className="p-1.5 text-gray-400 hover:text-red-400 transition-colors ml-2" title="Close Map">
+          <button onClick={onClose} className="p-1.5 void-text void-text-error transition-colors ml-2" title="Close Map">
             <X size={18} />
           </button>
         </div>
@@ -606,23 +606,23 @@ export default function GalaxyMap({ sectors, playerSector, totalDiscovered, tota
 
       {/* ── Sector Info Panel ── */}
       {selectedSector && (
-        <div className="absolute bottom-14 left-3 right-3 sm:left-auto sm:right-4 sm:bottom-4 sm:w-80 bg-gray-900/95 border border-cyan-500/30 rounded-lg p-3 font-mono backdrop-blur-sm">
+        <div className="absolute bottom-14 left-3 right-3 sm:left-auto sm:right-4 sm:bottom-4 sm:w-80 void-bg-canvas border void-border-success rounded-lg p-3 font-mono backdrop-blur-sm">
           <div className="flex items-start justify-between mb-2">
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-lg">{SECTOR_ICONS[selectedSector.sectorType] || "·"}</span>
-                <span className="text-cyan-400 text-sm font-bold">SECTOR {selectedSector.sectorId}</span>
+                <span className="void-text-energy text-sm font-bold">SECTOR {selectedSector.sectorId}</span>
               </div>
               <p className="text-white text-xs mt-0.5">{selectedSector.name}</p>
             </div>
-            <button onClick={() => setSelectedSector(null)} className="text-gray-500 hover:text-white">
+            <button onClick={() => setSelectedSector(null)} className="void-text hover:text-white">
               <X size={14} />
             </button>
           </div>
 
           <div className="space-y-1.5 text-[10px]">
             <div className="flex items-center gap-2">
-              <span className="text-gray-500">TYPE:</span>
+              <span className="void-text">TYPE:</span>
               <span
                 className="font-bold uppercase"
                 style={{ color: SECTOR_COLORS[selectedSector.sectorType]?.fill || "#6b7280" }}
@@ -631,14 +631,14 @@ export default function GalaxyMap({ sectors, playerSector, totalDiscovered, tota
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-gray-500">WARPS:</span>
-              <span className="text-gray-300">
+              <span className="void-text">WARPS:</span>
+              <span className="void-text">
                 {(selectedSector.warps || []).slice(0, 8).join(", ")}
                 {(selectedSector.warps || []).length > 8 ? ` +${selectedSector.warps.length - 8} more` : ""}
               </span>
             </div>
             {selectedSector.sectorId === playerSector && (
-              <div className="text-cyan-400 font-bold mt-1">▶ YOU ARE HERE</div>
+              <div className="void-text-energy font-bold mt-1">▶ YOU ARE HERE</div>
             )}
             {/* Territory info for selected sector */}
             {(() => {
@@ -646,20 +646,20 @@ export default function GalaxyMap({ sectors, playerSector, totalDiscovered, tota
               const sb = baseBySector.get(selectedSector.sectorId);
               if (!sc?.length && !sb?.length) return null;
               return (
-                <div className="mt-2 pt-2 border-t border-gray-700">
-                  <span className="text-gray-500">TERRITORY:</span>
+                <div className="mt-2 pt-2 border-t void-border">
+                  <span className="void-text">TERRITORY:</span>
                   {sc?.map(c => (
                     <div key={c.id} className="mt-1">
-                      <span className="text-amber-400">🌍 {c.name}</span>
-                      <span className="text-gray-400"> (Lv.{c.level} {c.type}) — {c.owner}</span>
-                      <span className="text-gray-500"> [{c.ownerFaction}]</span>
+                      <span className="void-text-accent">🌍 {c.name}</span>
+                      <span className="void-text"> (Lv.{c.level} {c.type}) — {c.owner}</span>
+                      <span className="void-text"> [{c.ownerFaction}]</span>
                     </div>
                   ))}
                   {sb?.map(b => (
                     <div key={b.id} className="mt-1">
-                      <span className="text-blue-400">🏰 {b.name}</span>
-                      <span className="text-gray-400"> (Lv.{b.level}) — {b.owner}</span>
-                      <span className="text-gray-500"> [{b.ownerFaction}]</span>
+                      <span className="void-text-energy">🏰 {b.name}</span>
+                      <span className="void-text"> (Lv.{b.level}) — {b.owner}</span>
+                      <span className="void-text"> [{b.ownerFaction}]</span>
                     </div>
                   ))}
                 </div>
@@ -674,13 +674,13 @@ export default function GalaxyMap({ sectors, playerSector, totalDiscovered, tota
                 onWarp(selectedSector.sectorId);
                 setSelectedSector(null);
               }}
-              className="w-full mt-3 px-3 py-2 bg-cyan-500/20 border border-cyan-500/40 text-cyan-400 text-xs font-mono rounded hover:bg-cyan-500/30 transition-colors"
+              className="w-full mt-3 px-3 py-2 void-bg-success border void-border-success void-text-energy text-xs font-mono rounded void-bg-success transition-colors"
             >
               ⚡ WARP TO SECTOR {selectedSector.sectorId}
             </button>
           )}
           {!adjacentToPlayer.has(selectedSector.sectorId) && selectedSector.sectorId !== playerSector && (
-            <div className="mt-2 text-[10px] text-gray-500 italic">
+            <div className="mt-2 text-[10px] void-text italic">
               No direct warp lane. Navigate through connected sectors.
             </div>
           )}
@@ -688,29 +688,29 @@ export default function GalaxyMap({ sectors, playerSector, totalDiscovered, tota
       )}
 
       {/* ── Legend ── */}
-      <div className="px-3 py-2 bg-gray-900/80 border-t border-cyan-500/20 flex flex-wrap items-center gap-x-4 gap-y-1">
+      <div className="px-3 py-2 void-bg-canvas border-t void-border-success flex flex-wrap items-center gap-x-4 gap-y-1">
         {Object.entries(SECTOR_COLORS).filter(([type]) => type !== "empty").map(([type, colors]) => (
           <div key={type} className="flex items-center gap-1.5">
             <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: colors.fill }} />
-            <span className="font-mono text-[9px] text-gray-400 uppercase">{type}</span>
+            <span className="font-mono text-[9px] void-text uppercase">{type}</span>
           </div>
         ))}
         {showTerritories && (
           <>
-            <div className="w-px h-3 bg-gray-600 mx-1" />
+            <div className="w-px h-3 void-bg-canvas mx-1" />
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "#ef4444" }} />
-              <span className="font-mono text-[9px] text-red-400">EMPIRE</span>
+              <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "var(--energy-error)" }} />
+              <span className="font-mono text-[9px] void-text-error">EMPIRE</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "#3b82f6" }} />
-              <span className="font-mono text-[9px] text-blue-400">INSURGENCY</span>
+              <span className="font-mono text-[9px] void-text-energy">INSURGENCY</span>
             </div>
           </>
         )}
         <div className="flex items-center gap-1.5 ml-auto">
-          <div className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse" />
-          <span className="font-mono text-[9px] text-cyan-400">YOUR SHIP</span>
+          <div className="w-2.5 h-2.5 rounded-full void-bg-success animate-pulse" />
+          <span className="font-mono text-[9px] void-text-energy">YOUR SHIP</span>
         </div>
       </div>
     </div>

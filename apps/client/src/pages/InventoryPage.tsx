@@ -15,12 +15,12 @@ import LivingBackground from "@/components/LivingBackground";
 
 /* ═══ DISENCHANT RARITY CONFIG ═══ */
 const RARITY_CONFIG: Record<string, { label: string; color: string; dream: number; dust: number; essence: number }> = {
-  common: { label: "Common", color: "text-zinc-400", dream: 5, dust: 10, essence: 0 },
-  uncommon: { label: "Uncommon", color: "text-green-400", dream: 10, dust: 20, essence: 1 },
-  rare: { label: "Rare", color: "text-cyan-400", dream: 25, dust: 50, essence: 3 },
-  epic: { label: "Epic", color: "text-purple-400", dream: 50, dust: 100, essence: 8 },
-  legendary: { label: "Legendary", color: "text-amber-400", dream: 100, dust: 200, essence: 15 },
-  mythic: { label: "Mythic", color: "text-red-400", dream: 250, dust: 500, essence: 30 },
+  common: { label: "Common", color: "void-text", dream: 5, dust: 10, essence: 0 },
+  uncommon: { label: "Uncommon", color: "void-text-energy", dream: 10, dust: 20, essence: 1 },
+  rare: { label: "Rare", color: "void-text-energy", dream: 25, dust: 50, essence: 3 },
+  epic: { label: "Epic", color: "void-text-system", dream: 50, dust: 100, essence: 8 },
+  legendary: { label: "Legendary", color: "void-text-accent", dream: 100, dust: 200, essence: 15 },
+  mythic: { label: "Mythic", color: "void-text-error", dream: 250, dust: 500, essence: 30 },
 };
 
 export default function InventoryPage() {
@@ -123,18 +123,18 @@ function OverviewTab() {
     <div className="space-y-6">
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         <div className="p-4 void-surface">
-          <Sparkles size={18} className="text-cyan-400 mb-2" />
+          <Sparkles size={18} className="void-text-energy mb-2" />
           <p className="font-display text-2xl font-bold">{summary?.cards || 0}</p>
           <p className="font-mono text-[10px] text-muted-foreground tracking-wider">TOTAL CARDS</p>
         </div>
-        <div className="p-4 rounded-lg bg-purple-400/5 border border-purple-400/20">
-          <Gem size={18} className="text-purple-400 mb-2" />
-          <p className="font-display text-2xl font-bold text-purple-400">{(summary?.dream || 0).toLocaleString()}</p>
+        <div className="p-4 rounded-lg void-bg-system border void-border-system">
+          <Gem size={18} className="void-text-system mb-2" />
+          <p className="font-display text-2xl font-bold void-text-system">{(summary?.dream || 0).toLocaleString()}</p>
           <p className="font-mono text-[10px] text-muted-foreground tracking-wider">DREAM TOKENS</p>
         </div>
-        <div className="p-4 rounded-lg bg-amber-400/5 border border-amber-400/20">
-          <Flame size={18} className="text-amber-400 mb-2" />
-          <p className="font-display text-2xl font-bold text-amber-400">—</p>
+        <div className="p-4 rounded-lg void-bg-sunk border void-border">
+          <Flame size={18} className="void-text-accent mb-2" />
+          <p className="font-display text-2xl font-bold void-text-accent">—</p>
           <p className="font-mono text-[10px] text-muted-foreground tracking-wider">STAR DUST</p>
         </div>
       </div>
@@ -149,9 +149,9 @@ function OverviewTab() {
             <div key={key} className="flex items-center justify-between py-1.5 border-b border-border/10 last:border-0">
               <span className={`font-mono text-xs font-semibold ${cfg.color}`}>{cfg.label}</span>
               <div className="flex items-center gap-3 font-mono text-[10px] text-muted-foreground">
-                <span><Gem size={9} className="inline text-purple-400" /> {cfg.dream}</span>
-                <span><Flame size={9} className="inline text-amber-400" /> {cfg.dust}</span>
-                {cfg.essence > 0 && <span><Sparkles size={9} className="inline text-cyan-400" /> {cfg.essence}</span>}
+                <span><Gem size={9} className="inline void-text-system" /> {cfg.dream}</span>
+                <span><Flame size={9} className="inline void-text-accent" /> {cfg.dust}</span>
+                {cfg.essence > 0 && <span><Sparkles size={9} className="inline void-text-energy" /> {cfg.essence}</span>}
               </div>
             </div>
           ))}
@@ -191,7 +191,7 @@ function CardsTab() {
             <div className="flex items-center justify-between mt-1">
               <span className="font-mono text-[10px] text-muted-foreground">Qty: {card.quantity}</span>
               {card.quantity > 2 && (
-                <span className="font-mono text-[9px] text-amber-400">{card.quantity - 2} excess</span>
+                <span className="font-mono text-[9px] void-text-accent">{card.quantity - 2} excess</span>
               )}
             </div>
           </motion.div>
@@ -267,9 +267,9 @@ function DisenchantTab() {
           </button>
         ) : (
           <div className="space-y-2">
-            <div className="flex items-center gap-2 p-2 rounded-md bg-amber-400/10 border border-amber-400/20">
-              <AlertTriangle size={14} className="text-amber-400 shrink-0" />
-              <p className="font-mono text-[10px] text-amber-400">This action cannot be undone. All excess cards will be permanently destroyed.</p>
+            <div className="flex items-center gap-2 p-2 rounded-md void-bg-sunk border void-border">
+              <AlertTriangle size={14} className="void-text-accent shrink-0" />
+              <p className="font-mono text-[10px] void-text-accent">This action cannot be undone. All excess cards will be permanently destroyed.</p>
             </div>
             <div className="flex gap-2">
               <button

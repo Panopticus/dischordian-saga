@@ -47,10 +47,10 @@ export function dispatchLegendaryAchievement(payload: LegendaryAchievementPayloa
 /* ── Tier configs ── */
 const TIER_CONFIG = {
   legendary: {
-    color: "#FFD700",
-    secondaryColor: "#FF8C00",
-    glow: "0 0 80px rgba(255,215,0,0.4), 0 0 200px rgba(255,215,0,0.15)",
-    gradient: "linear-gradient(135deg, #FFD700 0%, #FF8C00 50%, #FFD700 100%)",
+    color: "var(--energy-premium)",
+    secondaryColor: "var(--energy-premium)",
+    glow: "0 0 80px color-mix(in oklch, var(--energy-premium) 40%, transparent), 0 0 200px color-mix(in oklch, var(--energy-premium) 15%, transparent)",
+    gradient: "linear-gradient(135deg, var(--energy-premium) 0%, var(--energy-premium) 50%, var(--energy-premium) 100%)",
     label: "LEGENDARY ACHIEVEMENT",
     Icon: Crown,
     particleCount: 60,
@@ -58,7 +58,7 @@ const TIER_CONFIG = {
   mythic: {
     color: "#E879F9",
     secondaryColor: "#A855F7",
-    glow: "0 0 80px rgba(232,121,249,0.4), 0 0 200px rgba(168,85,247,0.2)",
+    glow: "0 0 80px rgba(232,121,249,0.4), 0 0 200px color-mix(in oklch, var(--energy-system) 20%, transparent)",
     gradient: "linear-gradient(135deg, #E879F9 0%, #A855F7 50%, #E879F9 100%)",
     label: "MYTHIC ACHIEVEMENT",
     Icon: Gem,
@@ -122,7 +122,7 @@ export default function LegendaryAchievementModal() {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-[99999] flex items-center justify-center"
-        style={{ background: "radial-gradient(ellipse at center, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.97) 100%)" }}
+        style={{ background: "radial-gradient(ellipse at center, color-mix(in oklch, var(--bg-void) 85%, transparent) 0%, color-mix(in oklch, var(--bg-void) 97%, transparent) 100%)" }}
       >
         {/* Golden/mythic particle explosion */}
         {Array.from({ length: cfg.particleCount }).map((_, i) => {
@@ -284,12 +284,12 @@ export default function LegendaryAchievementModal() {
               className="flex items-center justify-center gap-4 mb-6"
             >
               {current.xpReward && (
-                <span className="font-mono text-sm text-amber-400 font-bold">
+                <span className="font-mono text-sm void-text-accent font-bold">
                   +{current.xpReward} XP
                 </span>
               )}
               {current.pointsReward && (
-                <span className="font-mono text-sm text-cyan-400 font-bold">
+                <span className="font-mono text-sm void-text-energy font-bold">
                   +{current.pointsReward} PTS
                 </span>
               )}
@@ -302,16 +302,16 @@ export default function LegendaryAchievementModal() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="p-5 rounded-xl border border-amber-500/15 bg-amber-500/[0.03] mb-8"
+              className="p-5 rounded-xl border void-border void-bg-sunk/[0.03] mb-8"
             >
               <div className="flex items-center justify-center gap-2 mb-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-amber-400/60" />
-                <span className="font-display text-[10px] tracking-[0.25em] text-amber-400/50">
+                <div className="w-1.5 h-1.5 rounded-full void-bg-sunk" />
+                <span className="font-display text-[10px] tracking-[0.25em] void-text-accent">
                   THE ANTIQUARIAN
                 </span>
-                <div className="w-1.5 h-1.5 rounded-full bg-amber-400/60" />
+                <div className="w-1.5 h-1.5 rounded-full void-bg-sunk" />
               </div>
-              <p className="font-mono text-sm text-amber-200/60 leading-relaxed italic">
+              <p className="font-mono text-sm void-text-accent leading-relaxed italic">
                 "{loreText}"
               </p>
             </motion.div>

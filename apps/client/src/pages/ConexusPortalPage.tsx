@@ -123,19 +123,19 @@ export default function ConexusPortalPage() {
 
           <div className="flex items-center gap-2 mb-3">
             <div className="h-px flex-1 max-w-8 bg-gradient-to-r from-transparent to-purple-500/50" />
-            <span className="font-mono text-[10px] text-purple-400/70 tracking-[0.4em]">
+            <span className="font-mono text-[10px] void-text-system tracking-[0.4em]">
               POCKET DIMENSION // OUTSIDE TIME
             </span>
             <div className="h-px flex-1 max-w-8 bg-gradient-to-l from-transparent to-purple-500/50" />
           </div>
 
           <h1 className="font-display text-2xl sm:text-4xl font-black tracking-wider text-foreground mb-2 leading-tight">
-            THE <span className="text-purple-400" style={{ textShadow: "0 0 20px rgba(168,85,247,0.5)" }}>ANTIQUARIAN'S</span> LIBRARY
+            THE <span className="void-text-system" style={{ textShadow: "0 0 20px color-mix(in oklch, var(--energy-system) 50%, transparent)" }}>ANTIQUARIAN'S</span> LIBRARY
           </h1>
           <p className="font-mono text-xs sm:text-sm text-muted-foreground max-w-2xl mb-4 leading-relaxed">
             A hidden pocket dimension woven from secret magics and cunning technology. Here, suspended beyond
-            the reach of time, the <span className="text-purple-400">Antiquarian</span> watches the universe
-            through the <span className="text-amber-400">Orb of Worlds</span> — a miniature city floating
+            the reach of time, the <span className="void-text-system">Antiquarian</span> watches the universe
+            through the <span className="void-text-accent">Orb of Worlds</span> — a miniature city floating
             within a glove on his desk. Each story is a window into another reality of the{" "}
             <span className="text-primary">Dischordian Saga</span>.
           </p>
@@ -143,10 +143,10 @@ export default function ConexusPortalPage() {
           {/* Progress bar */}
           <div className="max-w-md mb-4">
             <div className="flex items-center justify-between mb-1">
-              <span className="font-mono text-[10px] text-purple-300/70 tracking-wider">SAGA PROGRESS</span>
-              <span className="font-mono text-[10px] text-purple-300">{completedCount}/{totalGames} STORIES</span>
+              <span className="font-mono text-[10px] void-text-system tracking-wider">SAGA PROGRESS</span>
+              <span className="font-mono text-[10px] void-text-system">{completedCount}/{totalGames} STORIES</span>
             </div>
-            <div className="h-2 rounded-full bg-purple-900/30 border border-purple-500/20 overflow-hidden">
+            <div className="h-2 rounded-full void-bg-system border void-border-system overflow-hidden">
               <motion.div
                 className="h-full rounded-full bg-gradient-to-r from-purple-600 to-purple-400"
                 initial={{ width: 0 }}
@@ -156,19 +156,19 @@ export default function ConexusPortalPage() {
             </div>
             <div className="flex items-center justify-between mt-1">
               <span className="font-mono text-[10px] text-muted-foreground/50">{completionPercent}% COMPLETE</span>
-              <span className="font-mono text-[10px] text-amber-400/70">{state.conexusXp} XP EARNED</span>
+              <span className="font-mono text-[10px] void-text-accent">{state.conexusXp} XP EARNED</span>
             </div>
           </div>
 
           <div className="flex items-center gap-3 flex-wrap">
-            <span className="px-3 py-1.5 rounded-md bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-mono">
+            <span className="px-3 py-1.5 rounded-md void-bg-system border void-border-system void-text-system text-xs font-mono">
               {totalGames} STORIES ACROSS {AGE_CATEGORIES.length} AGES
             </span>
             <a
               href="https://conexus.ink/s/Dischordian%20Saga"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-2 px-4 py-2 rounded-md bg-purple-500/10 border border-purple-500/40 text-purple-300 text-xs font-mono hover:bg-purple-500/20 transition-all"
+              className="group flex items-center gap-2 px-4 py-2 rounded-md void-bg-system border void-border-system void-text-system text-xs font-mono void-bg-system transition-all"
             >
               <Globe size={14} />
               ENTER CONEXUS
@@ -193,8 +193,8 @@ export default function ConexusPortalPage() {
             onClick={() => setViewMode("library")}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono tracking-wider border transition-all ${
               viewMode === "library"
-                ? "bg-purple-500/20 border-purple-500/50 text-purple-300"
-                : "bg-secondary/50 border-border/30 text-muted-foreground hover:border-purple-500/30"
+                ? "void-bg-system void-border-system void-text-system"
+                : "bg-secondary/50 border-border/30 text-muted-foreground void-border-system"
             }`}
           >
             <BookOpen size={14} />
@@ -204,8 +204,8 @@ export default function ConexusPortalPage() {
             onClick={() => setViewMode("achievements")}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono tracking-wider border transition-all ${
               viewMode === "achievements"
-                ? "bg-amber-500/20 border-amber-500/50 text-amber-300"
-                : "bg-secondary/50 border-border/30 text-muted-foreground hover:border-amber-500/30"
+                ? "void-bg-sunk void-border void-text-accent"
+                : "bg-secondary/50 border-border/30 text-muted-foreground void-border"
             }`}
           >
             <Trophy size={14} />
@@ -219,18 +219,18 @@ export default function ConexusPortalPage() {
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              className="void-surface border-amber-500/20 p-4"
+              className="void-surface void-border p-4"
             >
               <div className="flex items-start gap-3">
-                <div className="p-2 rounded-md bg-amber-500/10 mt-0.5">
-                  <Scroll size={16} className="text-amber-400" />
+                <div className="p-2 rounded-md void-bg-sunk mt-0.5">
+                  <Scroll size={16} className="void-text-accent" />
                 </div>
                 <div>
-                  <p className="font-mono text-xs text-amber-300 mb-1 tracking-wider">LORE FRAGMENTS</p>
+                  <p className="font-mono text-xs void-text-accent mb-1 tracking-wider">LORE FRAGMENTS</p>
                   <p className="text-sm text-muted-foreground leading-relaxed">
                     Each CoNexus story holds a hidden lore fragment — a piece of the greater truth behind the
                     Dischordian Saga. Complete a story to unlock its fragment and earn XP. Collect all{" "}
-                    <span className="text-amber-400">{totalAchievements}</span> fragments to reveal the
+                    <span className="void-text-accent">{totalAchievements}</span> fragments to reveal the
                     Antiquarian's deepest secret.
                   </p>
                 </div>
@@ -252,36 +252,36 @@ export default function ConexusPortalPage() {
                       onClick={() => earned ? setShowAchievementModal(ach) : (game && setSelectedGame(game))}
                       className={`w-full text-left rounded-lg border p-3 transition-all ${
                         earned
-                          ? "border-amber-500/30 bg-amber-500/5 hover:border-amber-500/50"
+                          ? "void-border void-bg-sunk void-border"
                           : "border-border/20 bg-card/20 opacity-60 hover:opacity-80 hover:border-border/40"
                       }`}
                     >
                       <div className="flex items-start gap-3">
-                        <div className={`p-2 rounded-md shrink-0 ${earned ? "bg-amber-500/20" : "bg-secondary/50"}`}>
+                        <div className={`p-2 rounded-md shrink-0 ${earned ? "void-bg-sunk" : "bg-secondary/50"}`}>
                           {earned ? (
-                            <Star size={16} className="text-amber-400" />
+                            <Star size={16} className="void-text-accent" />
                           ) : (
                             <Lock size={16} className="text-muted-foreground/40" />
                           )}
                         </div>
                         <div className="min-w-0">
-                          <p className={`font-mono text-xs font-semibold truncate ${earned ? "text-amber-300" : "text-muted-foreground/60"}`}>
+                          <p className={`font-mono text-xs font-semibold truncate ${earned ? "void-text-accent" : "text-muted-foreground/60"}`}>
                             {earned ? ach.title : "???"}
                           </p>
                           <p className="font-mono text-[10px] text-muted-foreground/50 truncate">
                             {game?.title ?? "Unknown Story"}
                           </p>
                           {earned && (
-                            <p className="font-mono text-[10px] text-amber-400/60 mt-1 line-clamp-2">
+                            <p className="font-mono text-[10px] void-text-accent mt-1 line-clamp-2">
                               {ach.loreFragment.substring(0, 100)}...
                             </p>
                           )}
                           <div className="flex items-center gap-2 mt-1">
-                            <span className={`font-mono text-[9px] ${earned ? "text-amber-400/70" : "text-muted-foreground/30"}`}>
+                            <span className={`font-mono text-[9px] ${earned ? "void-text-accent" : "text-muted-foreground/30"}`}>
                               +{ach.xpReward} XP
                             </span>
                             {ach.cardReward && (
-                              <span className={`font-mono text-[9px] ${earned ? "text-purple-400/70" : "text-muted-foreground/30"}`}>
+                              <span className={`font-mono text-[9px] ${earned ? "void-text-system" : "text-muted-foreground/30"}`}>
                                 + CARD
                               </span>
                             )}
@@ -302,21 +302,21 @@ export default function ConexusPortalPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="void-surface border-purple-500/20 p-4"
+              className="void-surface void-border-system p-4"
             >
               <div className="flex items-start gap-3">
-                <div className="p-2 rounded-md bg-purple-500/10 mt-0.5">
-                  <BookMarked size={16} className="text-purple-400" />
+                <div className="p-2 rounded-md void-bg-system mt-0.5">
+                  <BookMarked size={16} className="void-text-system" />
                 </div>
                 <div>
-                  <p className="font-mono text-xs text-purple-300 mb-1 tracking-wider">ANTIQUARIAN'S NOTE</p>
+                  <p className="font-mono text-xs void-text-system mb-1 tracking-wider">ANTIQUARIAN'S NOTE</p>
                   <p className="text-sm text-muted-foreground leading-relaxed">
                     "I have watched every epoch unfold. Every betrayal, every sacrifice, every moment of hope
                     crushed beneath the weight of inevitability. These stories are not fiction — they are windows
                     into parallel timelines, each one as real as the one you inhabit. Touch the Orb. Choose a
                     reality. And remember: in the Dischordian Saga, every choice echoes across every universe."
                   </p>
-                  <p className="font-mono text-[10px] text-purple-400/50 mt-2">
+                  <p className="font-mono text-[10px] void-text-system mt-2">
                     — The Antiquarian, formerly known as The Programmer (Dr. Daniel Cross)
                   </p>
                 </div>
@@ -329,8 +329,8 @@ export default function ConexusPortalPage() {
                 onClick={() => setFilterAge("all")}
                 className={`shrink-0 px-3 py-1.5 rounded-full text-[10px] font-mono tracking-wider border transition-all ${
                   filterAge === "all"
-                    ? "bg-purple-500/20 border-purple-500/50 text-purple-300"
-                    : "bg-secondary/50 border-border/30 text-muted-foreground hover:border-purple-500/30"
+                    ? "void-bg-system void-border-system void-text-system"
+                    : "bg-secondary/50 border-border/30 text-muted-foreground void-border-system"
                 }`}
               >
                 ALL AGES ({totalGames})
@@ -344,7 +344,7 @@ export default function ConexusPortalPage() {
                     className={`shrink-0 px-3 py-1.5 rounded-full text-[10px] font-mono tracking-wider border transition-all ${
                       filterAge === cat.age
                         ? `${cat.bgColor} ${cat.borderColor} ${cat.color}`
-                        : "bg-secondary/50 border-border/30 text-muted-foreground hover:border-purple-500/30"
+                        : "bg-secondary/50 border-border/30 text-muted-foreground void-border-system"
                     }`}
                   >
                     {cat.age.toUpperCase()} ({catCompleted}/{cat.games.length})
@@ -387,7 +387,7 @@ export default function ConexusPortalPage() {
                             </div>
                           </div>
                           {catCompleted > 0 && (
-                            <span className="px-2 py-1 rounded-md bg-green-500/10 border border-green-500/30 text-green-400 text-[10px] font-mono">
+                            <span className="px-2 py-1 rounded-md void-bg-success border void-border-success void-text-energy text-[10px] font-mono">
                               {catCompleted}/{category.games.length} COMPLETE
                             </span>
                           )}
@@ -417,8 +417,8 @@ export default function ConexusPortalPage() {
                             onClick={() => setSelectedGame(game)}
                             className={`w-full text-left group rounded-lg border overflow-hidden hover-lift transition-all ${
                               completed
-                                ? "border-green-500/30 bg-card/40"
-                                : "border-border/30 bg-card/30 hover:border-purple-500/40"
+                                ? "void-border-success bg-card/40"
+                                : "border-border/30 bg-card/30 void-border-system"
                             }`}
                           >
                             {/* Cover art poster */}
@@ -432,7 +432,7 @@ export default function ConexusPortalPage() {
                                 />
                               ) : (
                                 <div className="absolute inset-0 flex items-center justify-center">
-                                  <BookOpen size={28} className="text-purple-400/30" />
+                                  <BookOpen size={28} className="void-text-system" />
                                 </div>
                               )}
                               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -440,7 +440,7 @@ export default function ConexusPortalPage() {
                               {/* Completion badge */}
                               {completed && (
                                 <div className="absolute top-2 left-2">
-                                  <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[8px] font-mono tracking-wider bg-green-500/20 border border-green-500/40 text-green-300">
+                                  <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[8px] font-mono tracking-wider void-bg-success border void-border-success void-text-energy">
                                     <CheckCircle2 size={9} /> COMPLETE
                                   </span>
                                 </div>
@@ -449,7 +449,7 @@ export default function ConexusPortalPage() {
                               {/* Achievement badge */}
                               {achievementEarned && (
                                 <div className="absolute top-2 right-2">
-                                  <span className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[8px] font-mono bg-amber-500/20 border border-amber-500/40 text-amber-300">
+                                  <span className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[8px] font-mono void-bg-sunk border void-border void-text-accent">
                                     <Star size={8} />
                                   </span>
                                 </div>
@@ -485,7 +485,7 @@ export default function ConexusPortalPage() {
                                   <Users size={9} /> {game.characters.length}
                                 </span>
                                 {achievement && (
-                                  <span className="flex items-center gap-0.5 text-amber-400/50">
+                                  <span className="flex items-center gap-0.5 void-text-accent">
                                     <Star size={9} /> +{achievement.xpReward} XP
                                   </span>
                                 )}
@@ -509,7 +509,7 @@ export default function ConexusPortalPage() {
               className="void-surface p-4"
             >
               <h3 className="font-display text-xs font-bold tracking-[0.2em] text-foreground flex items-center gap-2 mb-3">
-                <Gamepad2 size={14} className="text-purple-400" />
+                <Gamepad2 size={14} className="void-text-system" />
                 ABOUT CONEXUS
               </h3>
               <p className="text-xs text-muted-foreground leading-relaxed mb-3">
@@ -528,7 +528,7 @@ export default function ConexusPortalPage() {
                   href="https://conexus.ink"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-purple-500/10 border border-purple-500/30 text-purple-300 text-[10px] font-mono hover:bg-purple-500/20 transition-all"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-md void-bg-system border void-border-system void-text-system text-[10px] font-mono void-bg-system transition-all"
                 >
                   <Globe size={10} /> CONEXUS.INK <ExternalLink size={9} />
                 </a>
@@ -562,7 +562,7 @@ export default function ConexusPortalPage() {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               onClick={e => e.stopPropagation()}
-              className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto void-surface border-purple-500/30 shadow-2xl"
+              className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto void-surface void-border-system shadow-2xl"
             >
               {/* Header */}
               <div className="relative aspect-video bg-gradient-to-br from-purple-900/60 to-indigo-900/60 flex items-center justify-center overflow-hidden">
@@ -573,7 +573,7 @@ export default function ConexusPortalPage() {
                     className="w-full h-full object-cover absolute inset-0"
                   />
                 ) : (
-                  <BookOpen size={48} className="text-purple-400/40" />
+                  <BookOpen size={48} className="void-text-system" />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
                 <button
@@ -584,7 +584,7 @@ export default function ConexusPortalPage() {
                 </button>
                 {isGameCompleted(selectedGame.id) && (
                   <div className="absolute top-3 left-3">
-                    <span className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-mono bg-green-500/20 border border-green-500/40 text-green-300 backdrop-blur-sm">
+                    <span className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-mono void-bg-success border void-border-success void-text-energy backdrop-blur-sm">
                       <CheckCircle2 size={12} /> COMPLETED
                     </span>
                   </div>
@@ -620,23 +620,23 @@ export default function ConexusPortalPage() {
                   return (
                     <div className={`rounded-lg border p-3 ${
                       earned
-                        ? "border-amber-500/30 bg-amber-500/5"
+                        ? "void-border void-bg-sunk"
                         : "border-border/20 bg-secondary/20"
                     }`}>
                       <div className="flex items-center gap-2 mb-2">
                         {earned ? (
-                          <Star size={14} className="text-amber-400" />
+                          <Star size={14} className="void-text-accent" />
                         ) : (
                           <Lock size={14} className="text-muted-foreground/40" />
                         )}
-                        <span className={`font-mono text-[10px] tracking-wider ${earned ? "text-amber-300" : "text-muted-foreground/50"}`}>
+                        <span className={`font-mono text-[10px] tracking-wider ${earned ? "void-text-accent" : "text-muted-foreground/50"}`}>
                           LORE ACHIEVEMENT
                         </span>
-                        <span className={`font-mono text-[10px] ml-auto ${earned ? "text-amber-400/70" : "text-muted-foreground/30"}`}>
+                        <span className={`font-mono text-[10px] ml-auto ${earned ? "void-text-accent" : "text-muted-foreground/30"}`}>
                           +{ach.xpReward} XP
                         </span>
                       </div>
-                      <p className={`font-mono text-xs font-semibold ${earned ? "text-amber-200" : "text-muted-foreground/40"}`}>
+                      <p className={`font-mono text-xs font-semibold ${earned ? "void-text-accent" : "text-muted-foreground/40"}`}>
                         {earned ? ach.title : "???"}
                       </p>
                       {earned && (
@@ -698,9 +698,9 @@ export default function ConexusPortalPage() {
 
                 {/* 18+ warning */}
                 {selectedGame.tags.includes("18+") && (
-                  <div className="void-surface border-amber-500/30 p-3 flex items-start gap-2">
-                    <AlertTriangle size={14} className="text-amber-400 mt-0.5 shrink-0" />
-                    <p className="text-xs text-amber-300/80">
+                  <div className="void-surface void-border p-3 flex items-start gap-2">
+                    <AlertTriangle size={14} className="void-text-accent mt-0.5 shrink-0" />
+                    <p className="text-xs void-text-accent">
                       This story contains mature content and is intended for players 18 years and older.
                     </p>
                   </div>
@@ -710,7 +710,7 @@ export default function ConexusPortalPage() {
                 <div className="space-y-2">
                   <button
                     onClick={() => handlePlayGame(selectedGame)}
-                    className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-foreground text-sm font-mono tracking-wider transition-all group"
+                    className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg void-bg-system void-bg-system text-foreground text-sm font-mono tracking-wider transition-all group"
                   >
                     <Gamepad2 size={16} />
                     PLAY ON CONEXUS
@@ -723,13 +723,13 @@ export default function ConexusPortalPage() {
                         handleMarkComplete(selectedGame);
                         setSelectedGame(null);
                       }}
-                      className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg bg-green-600/20 border border-green-500/40 text-green-300 text-xs font-mono tracking-wider hover:bg-green-600/30 transition-all"
+                      className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg void-bg-success border void-border-success void-text-energy text-xs font-mono tracking-wider void-bg-success transition-all"
                     >
                       <CheckCircle2 size={14} />
                       MARK AS COMPLETED
                     </button>
                   ) : (
-                    <div className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400/60 text-xs font-mono tracking-wider">
+                    <div className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg void-bg-success border void-border-success void-text-energy text-xs font-mono tracking-wider">
                       <CheckCircle2 size={14} />
                       STORY COMPLETED
                     </div>
@@ -761,7 +761,7 @@ export default function ConexusPortalPage() {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               onClick={e => e.stopPropagation()}
-              className="relative w-full max-w-md void-surface border-amber-500/30 shadow-2xl p-6"
+              className="relative w-full max-w-md void-surface void-border shadow-2xl p-6"
             >
               <button
                 onClick={() => setShowAchievementModal(null)}
@@ -771,25 +771,25 @@ export default function ConexusPortalPage() {
               </button>
 
               <div className="flex items-center gap-3 mb-4">
-                <div className="p-3 rounded-lg bg-amber-500/20 border border-amber-500/30">
-                  <Star size={24} className="text-amber-400" />
+                <div className="p-3 rounded-lg void-bg-sunk border void-border">
+                  <Star size={24} className="void-text-accent" />
                 </div>
                 <div>
-                  <p className="font-mono text-[10px] text-amber-400/70 tracking-wider">LORE ACHIEVEMENT</p>
-                  <h3 className="font-display text-lg font-bold text-amber-200">{showAchievementModal.title}</h3>
+                  <p className="font-mono text-[10px] void-text-accent tracking-wider">LORE ACHIEVEMENT</p>
+                  <h3 className="font-display text-lg font-bold void-text-accent">{showAchievementModal.title}</h3>
                 </div>
               </div>
 
-              <div className="void-surface border-amber-500/20 p-4 mb-4">
+              <div className="void-surface void-border p-4 mb-4">
                 <p className="text-sm text-muted-foreground leading-relaxed italic">
                   "{showAchievementModal.loreFragment}"
                 </p>
               </div>
 
               <div className="flex items-center gap-4 text-xs font-mono text-muted-foreground/60">
-                <span className="text-amber-400">+{showAchievementModal.xpReward} XP</span>
+                <span className="void-text-accent">+{showAchievementModal.xpReward} XP</span>
                 {showAchievementModal.cardReward && (
-                  <span className="text-purple-400">+ {showAchievementModal.cardReward.name} Card</span>
+                  <span className="void-text-system">+ {showAchievementModal.cardReward.name} Card</span>
                 )}
               </div>
             </motion.div>

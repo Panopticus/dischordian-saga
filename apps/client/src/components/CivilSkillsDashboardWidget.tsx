@@ -20,12 +20,12 @@ const SKILL_ICONS: Record<string, React.ComponentType<any>> = {
 };
 
 const SKILL_COLORS: Record<string, { text: string; bg: string; border: string }> = {
-  bartering: { text: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
-  lore_mastery: { text: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20" },
-  diplomacy: { text: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
-  engineering: { text: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20" },
-  espionage: { text: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20" },
-  alchemy: { text: "text-teal-400", bg: "bg-teal-500/10", border: "border-teal-500/20" },
+  bartering: { text: "void-text-accent", bg: "void-bg-sunk", border: "void-border" },
+  lore_mastery: { text: "void-text-energy", bg: "void-bg-sunk", border: "void-border" },
+  diplomacy: { text: "void-text-energy", bg: "void-bg-success", border: "void-border-success" },
+  engineering: { text: "void-text-premium", bg: "void-bg-sunk", border: "void-border" },
+  espionage: { text: "void-text-system", bg: "void-bg-system", border: "void-border-system" },
+  alchemy: { text: "void-text-energy", bg: "void-bg-success", border: "void-border-success" },
 };
 
 /** Impact descriptions for each skill on various game systems */
@@ -101,7 +101,7 @@ export function CivilSkillsDashboardWidget() {
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <BookOpen size={14} className="text-teal-400" />
+          <BookOpen size={14} className="void-text-energy" />
           <span className="font-display text-[10px] font-bold tracking-[0.2em]">CIVIL SKILLS</span>
           <span className="font-mono text-[8px] text-muted-foreground">
             {totalLevel}/{maxPossible}
@@ -119,7 +119,7 @@ export function CivilSkillsDashboardWidget() {
       <div className="grid grid-cols-3 gap-1.5">
         {data.map((skill, i) => {
           const Icon = SKILL_ICONS[skill.key] || BookOpen;
-          const colors = SKILL_COLORS[skill.key] || { text: "text-teal-400", bg: "bg-teal-500/10", border: "border-teal-500/20" };
+          const colors = SKILL_COLORS[skill.key] || { text: "void-text-energy", bg: "void-bg-success", border: "void-border-success" };
           const impacts = SKILL_IMPACTS[skill.key] || [];
           const isHovered = hoveredSkill === skill.key;
 
@@ -146,7 +146,7 @@ export function CivilSkillsDashboardWidget() {
                   {skill.level}
                 </span>
                 <div className="flex-1">
-                  <div className="h-1 bg-zinc-800 rounded-full overflow-hidden">
+                  <div className="h-1 void-bg-canvas rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${colors.bg.replace("/10", "/60")}`}
                       style={{ width: `${skill.xpProgress * 100}%` }}
@@ -170,7 +170,7 @@ export function CivilSkillsDashboardWidget() {
                 <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="absolute z-20 left-0 right-0 -bottom-1 translate-y-full bg-zinc-900/95 border border-border/40 rounded-md p-2 shadow-lg"
+                  className="absolute z-20 left-0 right-0 -bottom-1 translate-y-full void-bg-canvas border border-border/40 rounded-md p-2 shadow-lg"
                 >
                   <span className="font-mono text-[8px] text-muted-foreground block mb-1">
                     Impact at Lv.{skill.level}:

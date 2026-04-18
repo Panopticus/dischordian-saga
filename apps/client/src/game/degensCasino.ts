@@ -225,10 +225,10 @@ export const CASINO_GAMES: CasinoGameDef[] = [
 /* ─── SLOT MACHINE SYMBOLS ─── */
 
 export const SLOT_SYMBOLS = [
-  { id: "degen", name: "The Degen", value: 50, color: "#ffd700", emoji: "🎰" },
+  { id: "degen", name: "The Degen", value: 50, color: "var(--energy-premium)", emoji: "🎰" },
   { id: "void_crystal", name: "Void Crystal", value: 10, color: "#b9f2ff", emoji: "💎" },
   { id: "dream", name: "Dream Token", value: 5, color: "#a855f7", emoji: "✨" },
-  { id: "skull", name: "Skull", value: 3, color: "#ef4444", emoji: "💀" },
+  { id: "skull", name: "Skull", value: 3, color: "var(--energy-error)", emoji: "💀" },
   { id: "star", name: "Star", value: 2, color: "#fbbf24", emoji: "⭐" },
   { id: "void", name: "Void", value: -1, color: "#1a1a2e", emoji: "🕳️" },
 ];
@@ -413,7 +413,7 @@ export const CASINO_VINTAGE_VARIANTS: CasinoVintageVariant[] = [
     epochName: "Age of Privacy",
     gameName: "Privacy Poker",
     description: "Nebula Poker variant from the Surveillance era. All hands are hidden — even from the player. Bluff with cards you can't see.",
-    cardBackTheme: "Mechronis-era surveillance card backs — each card stamped with a Watcher eye glyph and encrypted Ne-Yon serial numbers. Color: #FF8C00.",
+    cardBackTheme: "Mechronis-era surveillance card backs — each card stamped with a Watcher eye glyph and encrypted Ne-Yon serial numbers. Color: var(--energy-premium).",
     specialRule: "All cards are dealt face-down, including your own. You must bet based on The Degen's tells alone. Reveal costs 10% of your current bet per card. Full blind win = 3x payout bonus.",
     degenQuote: "All cards face-down. Trust no one. Especially me.",
   },
@@ -423,7 +423,7 @@ export const CASINO_VINTAGE_VARIANTS: CasinoVintageVariant[] = [
     epochName: "Age of Prophecy",
     gameName: "Genesis Dice",
     description: "Entropy Dice variant using The Programmer's original probability tables. The dice remember what they were supposed to roll before the universe forked.",
-    cardBackTheme: "Prophecy-era parchment overlays — golden oracle circuits on deep purple (#A078FF) felt. Each die face shows a fragment of the Source Code.",
+    cardBackTheme: "Prophecy-era parchment overlays — golden oracle circuits on deep purple (var(--energy-system)) felt. Each die face shows a fragment of the Source Code.",
     specialRule: "Before each roll, a prophecy is revealed: a predicted outcome. If the roll matches the prophecy exactly, payout is tripled. If you bet against the prophecy and win, payout is doubled. The Programmer's odds are never quite random.",
     degenQuote: "The Programmer wrote these dice before the universe had edges. They still remember the first roll. Respect that.",
   },
@@ -463,7 +463,7 @@ export const CASINO_VINTAGE_VARIANTS: CasinoVintageVariant[] = [
     epochName: "Age of Privacy",
     gameName: "Golden Age High/Low",
     description: "High/Low with vintage Watcher surveillance imagery. Each card reveals a snapshot from the Panopticon's archives.",
-    cardBackTheme: "Amber-tinted (#FF8C00) Watcher dossier cards. Each card shows a surveillance still from the Age of Privacy — shadowed figures, encrypted transmissions, redacted files.",
+    cardBackTheme: "Amber-tinted (var(--energy-premium)) Watcher dossier cards. Each card shows a surveillance still from the Age of Privacy — shadowed figures, encrypted transmissions, redacted files.",
     specialRule: "Every 3rd correct guess reveals a Watcher surveillance image. Chain 5 correct guesses with Watcher cards to unlock the 'Declassified' bonus: 2x multiplier on your entire chain. The Watchers are always watching — even the cards.",
     degenQuote: "The Watchers catalogued everything. EVERYTHING. Even how many times you'll guess wrong. Don't prove them right.",
   },
@@ -473,7 +473,7 @@ export const CASINO_VINTAGE_VARIANTS: CasinoVintageVariant[] = [
     epochName: "All Epochs",
     gameName: "Void Epoch Scratchers",
     description: "Scratch cards themed to a random epoch with each purchase. You never know which era's fortune you're scratching into.",
-    cardBackTheme: "Shifting holographic card stock that cycles through all five epoch colors (#FF8C00, #A078FF, #44AA44, #FF3C40, #FF0044). Each card is stamped with a randomized epoch seal.",
+    cardBackTheme: "Shifting holographic card stock that cycles through all five epoch colors (var(--energy-premium), var(--energy-system), #44AA44, #FF3C40, #FF0044). Each card is stamped with a randomized epoch seal.",
     specialRule: "Each scratch card is randomly assigned an epoch theme on purchase. Matching 3 epoch-specific symbols grants that epoch's bonus: Privacy = hidden extra panel, Prophecy = pre-revealed panel, Insurgency = double prize values, Revelation = guaranteed lore drop, Fall = chaotic re-scratch (all panels re-randomize once).",
     degenQuote: "Every card is a time capsule from an age that tried to kill us. Scratch responsibly. Or don't. I'm a Ne-Yon, not a therapist.",
   },
@@ -901,11 +901,11 @@ export interface VoidCaseDrop {
 
 export const VOID_CASE_DROP_TABLE: VoidCaseDrop[] = [
   { tier: "common", chance: 0.60, label: "Common", color: "#94a3b8", dreamReturn: { min: 0.25, max: 0.75 }, description: "Small Dream return + common cosmetic" },
-  { tier: "uncommon", chance: 0.25, label: "Uncommon", color: "#22c55e", dreamReturn: { min: 1.0, max: 1.5 }, description: "Dream return + uncommon card variant" },
+  { tier: "uncommon", chance: 0.25, label: "Uncommon", color: "var(--energy-success)", dreamReturn: { min: 1.0, max: 1.5 }, description: "Dream return + uncommon card variant" },
   { tier: "rare", chance: 0.10, label: "Rare", color: "#3b82f6", dreamReturn: { min: 2.0, max: 5.0 }, description: "Big Dream return + rare cosmetic + card pack" },
   { tier: "epic", chance: 0.04, label: "Epic", color: "#a855f7", dreamReturn: { min: 5.0, max: 10.0 }, description: "Massive return + epic cosmetic set + rare card" },
   { tier: "legendary", chance: 0.009, label: "Legendary", color: "#eab308", dreamReturn: { min: 20.0, max: 50.0 }, description: "Jackpot return + legendary cosmetic + exclusive title" },
-  { tier: "mythic", chance: 0.001, label: "Mythic", color: "#ef4444", dreamReturn: { min: 50.0, max: 100.0 }, description: "The Degen's Personal Collection — one-of-a-kind cosmetic" },
+  { tier: "mythic", chance: 0.001, label: "Mythic", color: "var(--energy-error)", dreamReturn: { min: 50.0, max: 100.0 }, description: "The Degen's Personal Collection — one-of-a-kind cosmetic" },
 ];
 
 export interface VoidCaseResult {
@@ -1028,45 +1028,45 @@ export interface MahjongTileDef {
 
 export const MAHJONG_TILES: MahjongTileDef[] = [
   // Archon symbols (8 tiles)
-  { id: "archon_architect", name: "The Architect", category: "archon", icon: "🏛️", color: "#22d3ee" },
-  { id: "archon_warlord", name: "The Warlord", category: "archon", icon: "⚔️", color: "#ef4444" },
+  { id: "archon_architect", name: "The Architect", category: "archon", icon: "🏛️", color: "var(--energy-primary)" },
+  { id: "archon_warlord", name: "The Warlord", category: "archon", icon: "⚔️", color: "var(--energy-error)" },
   { id: "archon_politician", name: "The Politician", category: "archon", icon: "🎭", color: "#a855f7" },
   { id: "archon_collector", name: "The Collector", category: "archon", icon: "💎", color: "#eab308" },
   { id: "archon_seer", name: "The Seer", category: "archon", icon: "👁️", color: "#818cf8" },
-  { id: "archon_antiquarian", name: "The Antiquarian", category: "archon", icon: "📜", color: "#f59e0b" },
+  { id: "archon_antiquarian", name: "The Antiquarian", category: "archon", icon: "📜", color: "var(--energy-accent)" },
   { id: "archon_programmer", name: "The Programmer", category: "archon", icon: "💻", color: "#06b6d4" },
   { id: "archon_human", name: "The Human", category: "archon", icon: "🫀", color: "#f43f5e" },
 
   // Ne-Yon icons (8 tiles)
-  { id: "neyon_degen", name: "The Degen", category: "neyon", icon: "🎰", color: "#ffd700" },
+  { id: "neyon_degen", name: "The Degen", category: "neyon", icon: "🎰", color: "var(--energy-premium)" },
   { id: "neyon_meme", name: "The Meme", category: "neyon", icon: "✨", color: "#fbbf24" },
   { id: "neyon_source", name: "The Source", category: "neyon", icon: "🔮", color: "#a855f7" },
   { id: "neyon_void", name: "The Void", category: "neyon", icon: "🕳️", color: "#1a1a2e" },
   { id: "neyon_dream", name: "Dream", category: "neyon", icon: "💫", color: "#c084fc" },
   { id: "neyon_entropy", name: "Entropy", category: "neyon", icon: "🌀", color: "#f97316" },
-  { id: "neyon_harmony", name: "Harmony", category: "neyon", icon: "🎵", color: "#22c55e" },
+  { id: "neyon_harmony", name: "Harmony", category: "neyon", icon: "🎵", color: "var(--energy-success)" },
   { id: "neyon_shield", name: "The Shield", category: "neyon", icon: "🛡️", color: "#3b82f6" },
 
   // Faction emblems (6 tiles)
-  { id: "faction_empire", name: "AI Empire", category: "faction", icon: "👑", color: "#ef4444" },
-  { id: "faction_insurgency", name: "Insurgency", category: "faction", icon: "🦁", color: "#22c55e" },
+  { id: "faction_empire", name: "AI Empire", category: "faction", icon: "👑", color: "var(--energy-error)" },
+  { id: "faction_insurgency", name: "Insurgency", category: "faction", icon: "🦁", color: "var(--energy-success)" },
   { id: "faction_new_babylon", name: "New Babylon", category: "faction", icon: "🏙️", color: "#eab308" },
   { id: "faction_hierarchy", name: "Hierarchy", category: "faction", icon: "☠️", color: "#991b1b" },
   { id: "faction_thought_virus", name: "Thought Virus", category: "faction", icon: "🧠", color: "#d946ef" },
   { id: "faction_iron_lions", name: "Iron Lions", category: "faction", icon: "🦁", color: "#b45309" },
 
   // Epoch images (5 tiles)
-  { id: "epoch_privacy", name: "Age of Privacy", category: "epoch", icon: "🔒", color: "#FF8C00" },
-  { id: "epoch_prophecy", name: "Age of Prophecy", category: "epoch", icon: "🔮", color: "#A078FF" },
+  { id: "epoch_privacy", name: "Age of Privacy", category: "epoch", icon: "🔒", color: "var(--energy-premium)" },
+  { id: "epoch_prophecy", name: "Age of Prophecy", category: "epoch", icon: "🔮", color: "var(--energy-system)" },
   { id: "epoch_insurgency", name: "Age of Insurgency", category: "epoch", icon: "⚡", color: "#44AA44" },
   { id: "epoch_revelation", name: "Age of Revelation", category: "epoch", icon: "👁️", color: "#FF3C40" },
   { id: "epoch_fall", name: "Fall of Reality", category: "epoch", icon: "💥", color: "#FF0044" },
 
   // Lore symbols (5 tiles)
-  { id: "lore_ark", name: "Inception Ark", category: "lore", icon: "🚀", color: "#22d3ee" },
+  { id: "lore_ark", name: "Inception Ark", category: "lore", icon: "🚀", color: "var(--energy-primary)" },
   { id: "lore_castle", name: "Castle of Death", category: "lore", icon: "🏰", color: "#991b1b" },
   { id: "lore_matrix", name: "Matrix of Dreams", category: "lore", icon: "🌐", color: "#06b6d4" },
-  { id: "lore_panopticon", name: "The Panopticon", category: "lore", icon: "🏢", color: "#FF8C00" },
+  { id: "lore_panopticon", name: "The Panopticon", category: "lore", icon: "🏢", color: "var(--energy-premium)" },
   { id: "lore_nexus", name: "The CoNexus", category: "lore", icon: "🔗", color: "#818cf8" },
 ];
 

@@ -194,10 +194,10 @@ function DemonCard({ demon, onClick, isSelected }: { demon: DemonLeader; onClick
       whileTap={{ scale: 0.98 }}
       className={`relative rounded-lg overflow-hidden border transition-all duration-300 text-left w-full ${
         isSelected
-          ? "border-red-500/60 ring-1 ring-red-500/30"
+          ? "void-border-error ring-1 ring-red-500/30"
           : "border-border/60 hover:border-border"
       }`}
-      style={{ background: isSelected ? `${demon.color}10` : "rgba(255,255,255,0.03)" }}
+      style={{ background: isSelected ? `${demon.color}10` : "color-mix(in oklch, var(--text-primary) 3%, transparent)" }}
     >
       <div className="flex items-start gap-3 p-3">
         <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-md overflow-hidden flex-shrink-0 border border-border/60">
@@ -275,11 +275,11 @@ function DemonDetail({ demon, onClose }: { demon: DemonLeader; onClose: () => vo
 
         {/* Mirrors */}
         <div className="grid grid-cols-2 gap-2">
-          <div className="rounded-md border border-border/60 p-2.5" style={{ background: "rgba(255,255,255,0.03)" }}>
+          <div className="rounded-md border border-border/60 p-2.5" style={{ background: "color-mix(in oklch, var(--text-primary) 3%, transparent)" }}>
             <div className="font-mono text-[9px] text-muted-foreground/50 tracking-[0.2em] mb-1">MIRRORS ARCHON</div>
             <div className="font-display text-xs font-bold text-foreground">{demon.mirrorsArchon}</div>
           </div>
-          <div className="rounded-md border border-border/60 p-2.5" style={{ background: "rgba(255,255,255,0.03)" }}>
+          <div className="rounded-md border border-border/60 p-2.5" style={{ background: "color-mix(in oklch, var(--text-primary) 3%, transparent)" }}>
             <div className="font-mono text-[9px] text-muted-foreground/50 tracking-[0.2em] mb-1">OPPOSES NEYON</div>
             <div className="font-display text-xs font-bold text-foreground">{demon.mirrorsNeyon}</div>
           </div>
@@ -291,11 +291,11 @@ function DemonDetail({ demon, onClose }: { demon: DemonLeader; onClose: () => vo
             <div className="font-mono text-[9px] tracking-[0.2em] mb-1" style={{ color: demon.color }}>DOMAIN</div>
             <div className="font-mono text-xs text-foreground/85">{demon.domain}</div>
           </div>
-          <div className="rounded-md border border-red-500/20 p-2.5" style={{ background: "rgba(220,38,38,0.05)" }}>
-            <div className="font-mono text-[9px] text-red-400/60 tracking-[0.2em] mb-1">BLOOD WEAVE CONNECTION</div>
+          <div className="rounded-md border void-border-error p-2.5" style={{ background: "color-mix(in oklch, var(--energy-error) 5%, transparent)" }}>
+            <div className="font-mono text-[9px] void-text-error tracking-[0.2em] mb-1">BLOOD WEAVE CONNECTION</div>
             <div className="font-mono text-xs text-muted-foreground/90">{demon.bloodWeaveConnection}</div>
           </div>
-          <div className="rounded-md border border-border/60 p-2.5" style={{ background: "rgba(255,255,255,0.03)" }}>
+          <div className="rounded-md border border-border/60 p-2.5" style={{ background: "color-mix(in oklch, var(--text-primary) 3%, transparent)" }}>
             <div className="font-mono text-[9px] text-muted-foreground/50 tracking-[0.2em] mb-1">SPECIAL ABILITY</div>
             <div className="font-mono text-xs text-foreground/85">{demon.specialAbility}</div>
           </div>
@@ -347,26 +347,26 @@ export default function HierarchyPage() {
   return (
     <div className="min-h-screen" style={{ background: "linear-gradient(180deg, #0a0008 0%, #0f0010 30%, #120008 60%, #0a0008 100%)" }}>
       {/* Header */}
-      <div className="border-b border-red-500/10 px-4 py-3">
+      <div className="border-b void-border-error px-4 py-3">
         <div className="flex items-center justify-between max-w-6xl mx-auto">
           <div className="flex items-center gap-3">
             <Link href="/games" className="text-muted-foreground/60 hover:text-foreground font-mono text-xs flex items-center gap-1">
               <ChevronLeft size={14} /> GAMES
             </Link>
-            <Link href="/demon-packs" className="text-orange-400/70 hover:text-orange-400 font-mono text-[10px] flex items-center gap-1 px-2 py-0.5 rounded border border-orange-500/20 hover:border-orange-500/40 transition-colors">
+            <Link href="/demon-packs" className="void-text-premium void-text-premium font-mono text-[10px] flex items-center gap-1 px-2 py-0.5 rounded border void-border void-border transition-colors">
               OPEN PACKS
             </Link>
           </div>
           <div className="flex gap-2">
             <button
               onClick={() => setViewMode("chart")}
-              className={`px-3 py-1 rounded font-mono text-[10px] transition-colors ${viewMode === "chart" ? "bg-red-500/20 text-red-400 border border-red-500/30" : "text-muted-foreground/60 hover:text-muted-foreground/80"}`}
+              className={`px-3 py-1 rounded font-mono text-[10px] transition-colors ${viewMode === "chart" ? "void-bg-error void-text-error border void-border-error" : "text-muted-foreground/60 hover:text-muted-foreground/80"}`}
             >
               ORG CHART
             </button>
             <button
               onClick={() => setViewMode("list")}
-              className={`px-3 py-1 rounded font-mono text-[10px] transition-colors ${viewMode === "list" ? "bg-red-500/20 text-red-400 border border-red-500/30" : "text-muted-foreground/60 hover:text-muted-foreground/80"}`}
+              className={`px-3 py-1 rounded font-mono text-[10px] transition-colors ${viewMode === "list" ? "void-bg-error void-text-error border void-border-error" : "text-muted-foreground/60 hover:text-muted-foreground/80"}`}
             >
               LIST VIEW
             </button>
@@ -379,11 +379,11 @@ export default function HierarchyPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <div className="flex items-center justify-center gap-2 mb-3">
             <div className="h-px w-12 bg-gradient-to-r from-transparent to-red-500/40" />
-            <Skull size={16} className="text-red-500/60" />
+            <Skull size={16} className="void-text-error" />
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-red-500/40" />
           </div>
           <h1 className="font-display text-2xl sm:text-4xl font-black tracking-wider text-foreground mb-2">
-            HIERARCHY OF THE <span className="text-red-500">DAMNED</span>
+            HIERARCHY OF THE <span className="void-text-error">DAMNED</span>
           </h1>
           <p className="font-mono text-xs text-muted-foreground/60 max-w-lg mx-auto leading-relaxed">
             The corporate structure of Hell itself. Ten demon leaders who mirror the Archons and oppose the Neyons,
@@ -401,7 +401,7 @@ export default function HierarchyPage() {
               <div className="space-y-2">
                 {/* CEO at top */}
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-                  <div className="font-mono text-[9px] text-red-500/40 tracking-[0.3em] mb-2 text-center">{TIER_LABELS["c-suite"]}</div>
+                  <div className="font-mono text-[9px] void-text-error tracking-[0.3em] mb-2 text-center">{TIER_LABELS["c-suite"]}</div>
                   <div className="flex justify-center mb-1">
                     <div className="w-full max-w-sm">
                       <DemonCard demon={cSuite[0]} onClick={() => setSelectedDemon(cSuite[0])} isSelected={selectedDemon?.id === cSuite[0].id} />
@@ -410,14 +410,14 @@ export default function HierarchyPage() {
                   {/* Connector from CEO to CFO/COO */}
                   <div className="flex justify-center">
                     <div className="flex items-center gap-0">
-                      <div className="w-px h-4 bg-red-500/20" />
+                      <div className="w-px h-4 void-bg-error" />
                     </div>
                   </div>
                   <div className="flex justify-center">
                     <div className="relative w-full max-w-2xl">
-                      <div className="absolute top-0 left-1/4 right-1/4 h-px bg-red-500/20" />
-                      <div className="absolute top-0 left-1/4 w-px h-3 bg-red-500/20" />
-                      <div className="absolute top-0 right-1/4 w-px h-3 bg-red-500/20" />
+                      <div className="absolute top-0 left-1/4 right-1/4 h-px void-bg-error" />
+                      <div className="absolute top-0 left-1/4 w-px h-3 void-bg-error" />
+                      <div className="absolute top-0 right-1/4 w-px h-3 void-bg-error" />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3 max-w-2xl mx-auto mt-3">
@@ -456,10 +456,10 @@ export default function HierarchyPage() {
               <div className="space-y-6">
                 {(["c-suite", "svp", "director"] as const).map(tier => (
                   <div key={tier}>
-                    <div className="font-mono text-[9px] text-red-500/40 tracking-[0.3em] mb-3 flex items-center gap-2">
-                      <span className="h-px flex-1 bg-red-500/10" />
+                    <div className="font-mono text-[9px] void-text-error tracking-[0.3em] mb-3 flex items-center gap-2">
+                      <span className="h-px flex-1 void-bg-error" />
                       {TIER_LABELS[tier]}
-                      <span className="h-px flex-1 bg-red-500/10" />
+                      <span className="h-px flex-1 void-bg-error" />
                     </div>
                     <div className="space-y-2">
                       {DEMON_LEADERS.filter(d => d.tier === tier).map(d => (
@@ -476,12 +476,12 @@ export default function HierarchyPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="mt-8 rounded-xl border border-red-500/15 p-5"
-              style={{ background: "linear-gradient(135deg, rgba(220,38,38,0.05), rgba(120,20,20,0.03))" }}
+              className="mt-8 rounded-xl border void-border-error p-5"
+              style={{ background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-error) 5%, transparent), rgba(120,20,20,0.03))" }}
             >
               <div className="flex items-center gap-2 mb-3">
-                <Flame size={14} className="text-red-500/60" />
-                <h3 className="font-display text-sm font-bold text-red-400/80 tracking-wider">THE BLOOD WEAVE</h3>
+                <Flame size={14} className="void-text-error" />
+                <h3 className="font-display text-sm font-bold void-text-error tracking-wider">THE BLOOD WEAVE</h3>
               </div>
               <p className="font-mono text-xs text-muted-foreground/70 leading-relaxed mb-3">
                 The Blood Weave is the Hierarchy's nervous system — a vast network of corrupted dimensional threads
@@ -502,7 +502,7 @@ export default function HierarchyPage() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
               className="mt-6 rounded-xl border border-border/60 overflow-hidden"
-              style={{ background: "rgba(255,255,255,0.02)" }}
+              style={{ background: "color-mix(in oklch, var(--text-primary) 2%, transparent)" }}
             >
               <div className="px-4 py-3 border-b border-border/60">
                 <h3 className="font-display text-sm font-bold text-foreground/85 tracking-wider">ARCHON / DEMON / NEYON MIRRORS</h3>
@@ -513,8 +513,8 @@ export default function HierarchyPage() {
                   <thead>
                     <tr className="border-b border-border/40">
                       <th className="px-4 py-2 text-left font-mono text-[9px] text-muted-foreground/50 tracking-wider">ARCHON</th>
-                      <th className="px-4 py-2 text-left font-mono text-[9px] text-red-400/50 tracking-wider">DEMON</th>
-                      <th className="px-4 py-2 text-left font-mono text-[9px] text-cyan-400/50 tracking-wider">NEYON</th>
+                      <th className="px-4 py-2 text-left font-mono text-[9px] void-text-error tracking-wider">DEMON</th>
+                      <th className="px-4 py-2 text-left font-mono text-[9px] void-text-energy tracking-wider">NEYON</th>
                       <th className="px-4 py-2 text-left font-mono text-[9px] text-muted-foreground/50 tracking-wider">ROLE</th>
                     </tr>
                   </thead>
@@ -522,12 +522,12 @@ export default function HierarchyPage() {
                     {DEMON_LEADERS.map((d, i) => (
                       <tr
                         key={d.id}
-                        className={`border-b border-border/40 cursor-pointer hover:bg-muted/50 transition-colors ${selectedDemon?.id === d.id ? "bg-red-500/5" : ""}`}
+                        className={`border-b border-border/40 cursor-pointer hover:bg-muted/50 transition-colors ${selectedDemon?.id === d.id ? "void-bg-error" : ""}`}
                         onClick={() => setSelectedDemon(d)}
                       >
                         <td className="px-4 py-2 font-mono text-xs text-muted-foreground/80">{d.mirrorsArchon}</td>
                         <td className="px-4 py-2 font-display text-xs font-bold" style={{ color: d.color }}>{d.name}</td>
-                        <td className="px-4 py-2 font-mono text-xs text-cyan-400/60">{d.mirrorsNeyon}</td>
+                        <td className="px-4 py-2 font-mono text-xs void-text-energy">{d.mirrorsNeyon}</td>
                         <td className="px-4 py-2 font-mono text-[10px] text-muted-foreground/60">{d.corporateRole}</td>
                       </tr>
                     ))}
@@ -548,9 +548,9 @@ export default function HierarchyPage() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     className="rounded-xl border border-border/60 p-6 text-center"
-                    style={{ background: "rgba(255,255,255,0.02)" }}
+                    style={{ background: "color-mix(in oklch, var(--text-primary) 2%, transparent)" }}
                   >
-                    <Skull size={32} className="text-red-500/20 mx-auto mb-3" />
+                    <Skull size={32} className="void-text-error mx-auto mb-3" />
                     <p className="font-mono text-xs text-muted-foreground/50">Select a demon leader to view their dossier</p>
                   </motion.div>
                 )}

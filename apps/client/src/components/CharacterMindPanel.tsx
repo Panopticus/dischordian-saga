@@ -53,12 +53,12 @@ export default function CharacterMindPanel({ skills, thoughtState, archetypeStat
       {/* Header */}
       <div className="px-4 pt-3 pb-2 border-b border-border/20 bg-gradient-to-r from-purple-950/20 via-indigo-950/10 to-transparent">
         <div className="flex items-center gap-2 mb-0.5">
-          <Moon size={14} className="text-purple-400" />
+          <Moon size={14} className="void-text-system" />
           <span className="font-display text-xs font-bold tracking-[0.2em]">
             {MATRIX_OF_DREAMS_LORE.heading.toUpperCase()}
           </span>
         </div>
-        <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-purple-400/60">
+        <span className="font-mono text-[8px] uppercase tracking-[0.2em] void-text-system">
           {MATRIX_OF_DREAMS_LORE.subheading}
         </span>
       </div>
@@ -88,7 +88,7 @@ function TabButton({ active, onClick, icon: Icon, label }: {
     <button
       onClick={onClick}
       className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-2 font-mono text-[10px] tracking-wider transition-colors ${
-        active ? "text-purple-400 border-b border-purple-400 bg-purple-500/5" : "text-muted-foreground/60 hover:text-foreground"
+        active ? "void-text-system border-b void-border-system void-bg-system" : "text-muted-foreground/60 hover:text-foreground"
       }`}
       data-testid={`mind-tab-${label.toLowerCase()}`}
     >
@@ -118,14 +118,14 @@ function VoicesTab({ skills }: { skills: Record<SkillId, number> }) {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-3 space-y-3">
       {/* Canonical Academy prompt — from CoNexus story */}
-      <div className="px-2 py-1.5 rounded border-l-2 border-amber-500/40 bg-amber-950/10">
-        <p className="font-mono text-[9px] italic text-amber-300/80 leading-relaxed">
+      <div className="px-2 py-1.5 rounded border-l-2 void-border void-bg-sunk">
+        <p className="font-mono text-[9px] italic void-text-accent leading-relaxed">
           ✦ {MATRIX_OF_DREAMS_LORE.academyPrompt}
         </p>
       </div>
 
       {/* Intro lore */}
-      <p className="font-mono text-[9px] italic text-purple-300/70 leading-relaxed px-1">
+      <p className="font-mono text-[9px] italic void-text-system leading-relaxed px-1">
         {MATRIX_OF_DREAMS_LORE.intro}
       </p>
 
@@ -135,9 +135,9 @@ function VoicesTab({ skills }: { skills: Record<SkillId, number> }) {
         const topSkillLevel = skills[dominantGuild.skillId] ?? 0;
         const unlocked = signatureAbility ? topSkillLevel >= signatureAbility.skillThreshold : false;
         return (
-          <div className="p-2.5 rounded border border-amber-600/30 bg-gradient-to-br from-amber-900/10 via-background/40 to-purple-900/10" data-testid="academy-standing">
+          <div className="p-2.5 rounded border void-border bg-gradient-to-br from-amber-900/10 via-background/40 to-purple-900/10" data-testid="academy-standing">
             <div className="flex items-center gap-1.5 mb-1">
-              <span className="font-mono text-[8px] uppercase tracking-[0.25em] text-amber-400/80">
+              <span className="font-mono text-[8px] uppercase tracking-[0.25em] void-text-accent">
                 ◊ Your Academy Standing ◊
               </span>
             </div>
@@ -146,27 +146,27 @@ function VoicesTab({ skills }: { skills: Record<SkillId, number> }) {
                 <h3 className="font-display text-sm font-bold text-foreground">
                   {dominantGuild.guild.name}
                 </h3>
-                <p className="font-mono text-[8px] italic text-amber-300/70">
+                <p className="font-mono text-[8px] italic void-text-accent">
                   "{dominantGuild.guild.motto}"
                 </p>
                 <p className="font-mono text-[9px] text-muted-foreground/80 mt-1 leading-snug">
-                  Mentored by <span className="text-purple-300">{dominantGuild.mentor.archonName}</span> ·
+                  Mentored by <span className="void-text-system">{dominantGuild.mentor.archonName}</span> ·
                   Graduates become <span className="text-foreground/80">{dominantGuild.guild.graduatesBecome.toLowerCase()}</span>
                 </p>
-                <p className="font-mono text-[9px] italic text-red-300/60 mt-1 leading-relaxed">
+                <p className="font-mono text-[9px] italic void-text-error mt-1 leading-relaxed">
                   ⚠ {dominantGuild.guild.darkTruth}
                 </p>
                 {signatureAbility && (
-                  <div className={`mt-2 pt-2 border-t border-amber-500/20 ${unlocked ? "" : "opacity-50"}`}>
+                  <div className={`mt-2 pt-2 border-t void-border ${unlocked ? "" : "opacity-50"}`}>
                     <div className="flex items-center justify-between mb-0.5">
-                      <span className="font-mono text-[8px] uppercase tracking-wider text-amber-400">
+                      <span className="font-mono text-[8px] uppercase tracking-wider void-text-accent">
                         ✦ Signature: {signatureAbility.name}
                       </span>
-                      <span className={`font-mono text-[8px] ${unlocked ? "text-emerald-400" : "text-muted-foreground/50"}`}>
+                      <span className={`font-mono text-[8px] ${unlocked ? "void-text-energy" : "text-muted-foreground/50"}`}>
                         {unlocked ? "UNLOCKED" : `${topSkillLevel}/${signatureAbility.skillThreshold}`}
                       </span>
                     </div>
-                    <p className="font-mono text-[9px] italic text-amber-200/70 leading-snug">{signatureAbility.flavor}</p>
+                    <p className="font-mono text-[9px] italic void-text-accent leading-snug">{signatureAbility.flavor}</p>
                     <p className="font-mono text-[9px] text-foreground/70 leading-snug mt-0.5">
                       ▸ {signatureAbility.mechanics}
                     </p>
@@ -179,8 +179,8 @@ function VoicesTab({ skills }: { skills: Record<SkillId, number> }) {
       })()}
 
       {/* Warning */}
-      <div className="p-2 rounded border-l-2 border-red-500/40 bg-red-500/5">
-        <p className="font-mono text-[9px] italic text-red-300/80 leading-relaxed">
+      <div className="p-2 rounded border-l-2 void-border-error void-bg-error">
+        <p className="font-mono text-[9px] italic void-text-error leading-relaxed">
           ⚠ {MATRIX_OF_DREAMS_LORE.warning}
         </p>
       </div>
@@ -201,7 +201,7 @@ function VoicesTab({ skills }: { skills: Record<SkillId, number> }) {
                     <span className="font-mono text-[9px] font-bold tracking-wider" style={{ color: voice.color }}>
                       {voice.name.toUpperCase()}
                     </span>
-                    <span className="font-mono text-[8px] text-purple-300/60">
+                    <span className="font-mono text-[8px] void-text-system">
                       ◈ {mentor.archonName} (Archon {mentor.archonNumber})
                     </span>
                   </div>
@@ -238,18 +238,18 @@ function VoicesTab({ skills }: { skills: Record<SkillId, number> }) {
                     <span className="font-mono text-[9px] font-bold tracking-wider" style={{ color: voice.color }}>
                       {voice.name}
                     </span>
-                    <span className="font-mono text-[8px] text-purple-300/50 truncate">
+                    <span className="font-mono text-[8px] void-text-system truncate">
                       ◈ {mentor.archonName}
                     </span>
                     {mentor.mechronisGuild && (
-                      <span className="font-mono text-[7px] text-amber-400/50 truncate hidden sm:inline">
+                      <span className="font-mono text-[7px] void-text-accent truncate hidden sm:inline">
                         [{mentor.mechronisGuild}]
                       </span>
                     )}
                   </div>
                   <span className="font-mono text-[9px] text-muted-foreground tabular-nums shrink-0">{level}</span>
                 </div>
-                <div className="h-0.5 bg-zinc-800/80 rounded-full overflow-hidden">
+                <div className="h-0.5 void-bg-canvas rounded-full overflow-hidden">
                   <div
                     className="h-full rounded-full"
                     style={{ width: `${level}%`, backgroundColor: voice.color }}
@@ -308,7 +308,7 @@ function ThoughtsTab({ state, onStart, onComplete }: {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-3 space-y-3">
-      <p className="font-mono text-[9px] italic text-purple-300/70 leading-relaxed px-1">
+      <p className="font-mono text-[9px] italic void-text-system leading-relaxed px-1">
         Your Dream Partition holds idea-seeds gestating in the substrate across real-time hours.
         What you decide to keep thinking about becomes part of who you are — permanently.
         The Game Master designed these partitions as training environments. The Game Master is dead.
@@ -320,8 +320,8 @@ function ThoughtsTab({ state, onStart, onComplete }: {
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <div className="flex items-center gap-1.5">
-              <Sparkles size={10} className="text-indigo-400" />
-              <span className="font-mono text-[9px] uppercase tracking-wider text-indigo-400">
+              <Sparkles size={10} className="void-text-energy" />
+              <span className="font-mono text-[9px] uppercase tracking-wider void-text-energy">
                 Discovered · ready to internalize ({availableThoughts.length})
               </span>
             </div>
@@ -331,7 +331,7 @@ function ThoughtsTab({ state, onStart, onComplete }: {
           </div>
           <div className="space-y-1.5">
             {availableThoughts.slice(0, 5).map(t => (
-              <div key={t.id} className="p-2 rounded border border-indigo-500/30 bg-indigo-500/5">
+              <div key={t.id} className="p-2 rounded border void-border void-bg-sunk">
                 <div className="flex items-start justify-between gap-2 mb-0.5">
                   <span className="font-mono text-[10px] font-bold text-foreground">{t.name}</span>
                   <button
@@ -339,7 +339,7 @@ function ThoughtsTab({ state, onStart, onComplete }: {
                     disabled={!canStartMore || !onStart}
                     className={`shrink-0 flex items-center gap-1 px-1.5 py-0.5 rounded border font-mono text-[8px] uppercase tracking-wider transition-colors ${
                       canStartMore && onStart
-                        ? "border-indigo-500/40 text-indigo-300 hover:bg-indigo-500/20"
+                        ? "void-border void-text-energy void-bg-sunk"
                         : "border-border/20 text-muted-foreground/40 cursor-not-allowed"
                     }`}
                     data-testid={`start-thought-${t.id}`}
@@ -357,8 +357,8 @@ function ThoughtsTab({ state, onStart, onComplete }: {
       {/* In progress */}
       <div>
         <div className="flex items-center gap-1.5 mb-1.5">
-          <Clock size={10} className="text-amber-400" />
-          <span className="font-mono text-[9px] uppercase tracking-wider text-amber-400">
+          <Clock size={10} className="void-text-accent" />
+          <span className="font-mono text-[9px] uppercase tracking-wider void-text-accent">
             Gestating in Your Dream Partition ({internalizingItems.length})
           </span>
         </div>
@@ -369,14 +369,14 @@ function ThoughtsTab({ state, onStart, onComplete }: {
         ) : (
           <div className="space-y-1.5">
             {internalizingItems.map(item => item && (
-              <div key={item.thought.id} className="p-2 rounded border border-amber-500/30 bg-amber-500/5">
+              <div key={item.thought.id} className="p-2 rounded border void-border void-bg-sunk">
                 <div className="flex items-center justify-between mb-1">
                   <span className="font-mono text-[10px] font-bold text-foreground">{item.thought.name}</span>
-                  <span className="font-mono text-[9px] text-amber-400 tabular-nums">{Math.floor(item.progress * 100)}%</span>
+                  <span className="font-mono text-[9px] void-text-accent tabular-nums">{Math.floor(item.progress * 100)}%</span>
                 </div>
-                <div className="h-1 bg-zinc-800/80 rounded-full overflow-hidden">
+                <div className="h-1 void-bg-canvas rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-amber-400 transition-all"
+                    className="h-full void-bg-sunk transition-all"
                     style={{ width: `${item.progress * 100}%` }}
                   />
                 </div>
@@ -392,8 +392,8 @@ function ThoughtsTab({ state, onStart, onComplete }: {
       {/* Internalized */}
       <div>
         <div className="flex items-center gap-1.5 mb-1.5">
-          <Check size={10} className="text-emerald-400" />
-          <span className="font-mono text-[9px] uppercase tracking-wider text-emerald-400">
+          <Check size={10} className="void-text-energy" />
+          <span className="font-mono text-[9px] uppercase tracking-wider void-text-energy">
             Internalized ({internalizedThoughts.length})
           </span>
         </div>
@@ -404,7 +404,7 @@ function ThoughtsTab({ state, onStart, onComplete }: {
         ) : (
           <div className="space-y-1.5">
             {internalizedThoughts.map(t => (
-              <div key={t.id} className="p-2 rounded border border-emerald-500/30 bg-emerald-500/5">
+              <div key={t.id} className="p-2 rounded border void-border-success void-bg-success">
                 <span className="font-mono text-[10px] font-bold text-foreground block">{t.name}</span>
                 <p className="font-mono text-[9px] text-muted-foreground/70 mt-0.5 leading-relaxed">{t.description}</p>
               </div>
@@ -441,7 +441,7 @@ function ArchetypeTab({ state }: { state?: ArchetypeState }) {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-3 space-y-3">
-      <p className="font-mono text-[9px] italic text-purple-300/70 leading-relaxed px-1">
+      <p className="font-mono text-[9px] italic void-text-system leading-relaxed px-1">
         Project Celebration is still running — even without the Game Master. It watches how you
         act and decides what shape you are becoming. The same algorithm that graded The Seeker
         is grading you now. It does not know its creator is dead. It grades with the same rigor.
@@ -449,16 +449,16 @@ function ArchetypeTab({ state }: { state?: ArchetypeState }) {
 
       {/* Primary archetype */}
       {primaryArchetype ? (
-        <div className="p-3 rounded border border-purple-500/40 bg-gradient-to-br from-purple-500/10 to-indigo-500/5">
+        <div className="p-3 rounded border void-border-system bg-gradient-to-br from-purple-500/10 to-indigo-500/5">
           <div className="flex items-center gap-2 mb-1">
-            <User2 size={14} className="text-purple-400" />
-            <span className="font-mono text-[9px] uppercase tracking-wider text-purple-400">Primary Archetype</span>
+            <User2 size={14} className="void-text-system" />
+            <span className="font-mono text-[9px] uppercase tracking-wider void-text-system">Primary Archetype</span>
           </div>
           <h3 className="font-display text-base font-bold text-foreground">{primaryArchetype.name}</h3>
-          <p className="font-mono text-[9px] italic text-purple-300/80 mb-2">{primaryArchetype.title}</p>
+          <p className="font-mono text-[9px] italic void-text-system mb-2">{primaryArchetype.title}</p>
           <p className="font-mono text-[10px] text-foreground/80 leading-relaxed">{primaryArchetype.description}</p>
           {primaryArchetype.bonuses.length > 0 && (
-            <div className="mt-2 pt-2 border-t border-purple-500/20">
+            <div className="mt-2 pt-2 border-t void-border-system">
               <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/70 block mb-1">
                 Bonuses
               </span>
@@ -491,7 +491,7 @@ function ArchetypeTab({ state }: { state?: ArchetypeState }) {
             return (
               <div
                 key={a.id}
-                className={`p-2 rounded border ${emerged ? "border-emerald-500/30 bg-emerald-500/5" : "border-border/20 bg-background/20 opacity-60"}`}
+                className={`p-2 rounded border ${emerged ? "void-border-success void-bg-success" : "border-border/20 bg-background/20 opacity-60"}`}
                 title={a.description}
               >
                 <span className="font-mono text-[10px] font-bold block text-foreground">{a.name}</span>

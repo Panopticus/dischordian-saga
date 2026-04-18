@@ -52,13 +52,13 @@ type CodexCategory =
 
 const CATEGORY_INFO: Record<CodexCategory, { name: string; icon: React.ReactNode; color: string }> = {
   the_struggle: { name: "THE ETERNAL STRUGGLE", icon: <Swords size={14} />, color: "text-foreground" },
-  architect: { name: "THE ARCHITECT", icon: <Eye size={14} />, color: "text-cyan-400" },
-  dreamer: { name: "THE DREAMER", icon: <Star size={14} />, color: "text-amber-400" },
+  architect: { name: "THE ARCHITECT", icon: <Eye size={14} />, color: "void-text-energy" },
+  dreamer: { name: "THE DREAMER", icon: <Star size={14} />, color: "void-text-accent" },
   cades: { name: "C.A.D.E.S. SYSTEM", icon: <Zap size={14} />, color: "text-primary" },
   multiverse: { name: "THE MULTIVERSE", icon: <Globe size={14} />, color: "text-chart-4" },
   factions: { name: "FACTIONS & FORCES", icon: <Shield size={14} />, color: "text-destructive" },
   artifacts: { name: "ARTIFACTS & WEAPONS", icon: <ScrollText size={14} />, color: "text-accent" },
-  classified: { name: "CLASSIFIED", icon: <Lock size={14} />, color: "text-red-500" },
+  classified: { name: "CLASSIFIED", icon: <Lock size={14} />, color: "void-text-error" },
 };
 
 // ── Codex Entries ──
@@ -539,18 +539,18 @@ The struggle is eternal. But it is not a curse. It is the engine of existence. W
 
 const RARITY_COLORS: Record<string, string> = {
   common: "text-muted-foreground border-border/30",
-  uncommon: "text-green-400 border-green-500/30",
-  rare: "text-blue-400 border-blue-500/30",
-  legendary: "text-amber-400 border-amber-500/30",
-  classified: "text-red-400 border-red-500/30",
+  uncommon: "void-text-energy void-border-success",
+  rare: "void-text-energy void-border",
+  legendary: "void-text-accent void-border",
+  classified: "void-text-error void-border-error",
 };
 
 const RARITY_BG: Record<string, string> = {
   common: "bg-muted/10",
-  uncommon: "bg-green-500/5",
-  rare: "bg-blue-500/5",
-  legendary: "bg-amber-500/5",
-  classified: "bg-red-500/5",
+  uncommon: "void-bg-success",
+  rare: "void-bg-sunk",
+  legendary: "void-bg-sunk",
+  classified: "void-bg-error",
 };
 
 const CODEX_RARITY_FRAMES: Record<string, string> = {

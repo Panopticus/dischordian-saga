@@ -27,20 +27,20 @@ interface Props {
 
 const TIER_STYLES: Record<string, { bg: string; border: string; text: string; glow: string }> = {
   Bronze: {
-    bg: "bg-amber-900/20", border: "border-amber-600/40",
-    text: "text-amber-400", glow: "shadow-amber-500/20",
+    bg: "void-bg-sunk", border: "void-border",
+    text: "void-text-accent", glow: "shadow-amber-500/20",
   },
   Silver: {
-    bg: "bg-slate-500/10", border: "border-slate-400/40",
-    text: "text-slate-300", glow: "shadow-slate-400/30",
+    bg: "void-bg-canvas", border: "void-border",
+    text: "void-text", glow: "shadow-slate-400/30",
   },
   Gold: {
-    bg: "bg-yellow-500/10", border: "border-yellow-400/50",
-    text: "text-yellow-300", glow: "shadow-yellow-400/40",
+    bg: "void-bg-sunk", border: "void-border",
+    text: "void-text-premium", glow: "shadow-yellow-400/40",
   },
   Locked: {
-    bg: "bg-zinc-900/20", border: "border-zinc-700/30",
-    text: "text-zinc-500", glow: "",
+    bg: "void-bg-canvas", border: "void-border",
+    text: "void-text", glow: "",
   },
 };
 
@@ -75,11 +75,11 @@ export default function PartyTraitThresholdPanel({
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <Zap size={16} className="text-indigo-400" />
+          <Zap size={16} className="void-text-energy" />
           <span className="font-display text-xs font-bold tracking-[0.2em]">{title}</span>
         </div>
         <div className="flex items-center gap-2 text-[9px] font-mono">
-          <span className="text-emerald-400">{activeCount} active</span>
+          <span className="void-text-energy">{activeCount} active</span>
           {aspirationalCount > 0 && (
             <>
               <span className="text-muted-foreground/30">·</span>
@@ -94,13 +94,13 @@ export default function PartyTraitThresholdPanel({
         <motion.div
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-3 p-2.5 rounded-md border border-indigo-500/30 bg-indigo-500/5 flex items-start gap-2"
+          className="mb-3 p-2.5 rounded-md border void-border void-bg-sunk flex items-start gap-2"
           data-testid="trait-suggestion"
         >
-          <Lightbulb size={12} className="text-indigo-400 shrink-0 mt-0.5" />
+          <Lightbulb size={12} className="void-text-energy shrink-0 mt-0.5" />
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5 mb-0.5">
-              <span className="font-mono text-[9px] uppercase tracking-wider text-indigo-400">
+              <span className="font-mono text-[9px] uppercase tracking-wider void-text-energy">
                 Next Unlock
               </span>
               <span className="font-display text-[10px] font-bold text-foreground">
@@ -183,9 +183,9 @@ function TraitRow({ trait, expanded, onToggle }: {
 
             {/* Progress bar */}
             <div className="flex items-center gap-2 mt-1">
-              <div className="flex-1 h-1 bg-zinc-800/80 rounded-full overflow-hidden relative">
+              <div className="flex-1 h-1 void-bg-canvas rounded-full overflow-hidden relative">
                 <div
-                  className={`absolute inset-y-0 left-0 rounded-full transition-all duration-500 ${trait.activeThreshold ? "bg-gradient-to-r from-amber-500 via-slate-300 to-yellow-400" : "bg-zinc-600"}`}
+                  className={`absolute inset-y-0 left-0 rounded-full transition-all duration-500 ${trait.activeThreshold ? "bg-gradient-to-r from-amber-500 via-slate-300 to-yellow-400" : "void-bg-canvas"}`}
                   style={{ width: `${progress}%` }}
                 />
                 {/* Threshold ticks */}
@@ -195,7 +195,7 @@ function TraitRow({ trait, expanded, onToggle }: {
                   return (
                     <div
                       key={th.count}
-                      className="absolute top-0 bottom-0 w-px bg-zinc-900"
+                      className="absolute top-0 bottom-0 w-px void-bg-canvas"
                       style={{ left: `${pct}%` }}
                     />
                   );
@@ -277,7 +277,7 @@ function TierBlock({ threshold, active }: { threshold: TraitThreshold; active: b
       <ul className="space-y-0.5">
         {threshold.bonuses.map((b, i) => (
           <li key={i} className="flex items-start gap-1.5">
-            <span className={`font-mono text-[9px] ${active ? "text-emerald-400" : "text-zinc-500"} mt-0.5`}>
+            <span className={`font-mono text-[9px] ${active ? "void-text-energy" : "void-text"} mt-0.5`}>
               {active ? "▸" : "◦"}
             </span>
             <span className={`font-mono text-[9px] ${active ? "text-foreground/90" : "text-muted-foreground/60"} leading-relaxed`}>

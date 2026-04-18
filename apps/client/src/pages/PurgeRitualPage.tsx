@@ -43,7 +43,7 @@ export default function PurgeRitualPage() {
           <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
             <ChevronLeft size={20} />
           </Link>
-          <Flame size={18} className="text-red-400" />
+          <Flame size={18} className="void-text-error" />
           <div>
             <h1 className="font-display text-lg font-bold tracking-wider">PURGE RITUALS</h1>
             <p className="font-mono text-[10px] text-muted-foreground tracking-wider">
@@ -65,7 +65,7 @@ export default function PurgeRitualPage() {
           <p className="font-mono text-[10px] italic text-foreground/75 leading-relaxed">
             {tier.description}
           </p>
-          <div className="mt-2 h-1.5 rounded-full bg-zinc-800/80 overflow-hidden">
+          <div className="mt-2 h-1.5 rounded-full void-bg-canvas overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${corruption}%` }}
@@ -87,8 +87,8 @@ export default function PurgeRitualPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
                 className={`p-4 rounded-lg border ${
-                  done ? "border-emerald-500/30 bg-emerald-500/5 opacity-60"
-                  : affordable ? "border-red-500/40 bg-red-500/5"
+                  done ? "void-border-success void-bg-success opacity-60"
+                  : affordable ? "void-border-error void-bg-error"
                   : "border-border/30 bg-card/30 opacity-70"
                 }`}
                 data-testid={`ritual-${ritual.id}`}
@@ -97,9 +97,9 @@ export default function PurgeRitualPage() {
                   <div>
                     <h3 className="font-display text-base font-bold tracking-wider text-foreground">
                       {ritual.name}
-                      {done && <Check size={14} className="inline ml-2 text-emerald-400" />}
+                      {done && <Check size={14} className="inline ml-2 void-text-energy" />}
                     </h3>
-                    <span className="font-mono text-[9px] uppercase tracking-wider text-red-400">
+                    <span className="font-mono text-[9px] uppercase tracking-wider void-text-error">
                       -{ritual.corruptionReduction} corruption
                     </span>
                   </div>
@@ -116,24 +116,24 @@ export default function PurgeRitualPage() {
                   </span>
                   <p className="font-mono text-[10px] italic text-foreground/80 leading-relaxed">{ritual.requires}</p>
                 </div>
-                <div className="mb-3 p-2 rounded border border-yellow-500/30 bg-yellow-500/5">
+                <div className="mb-3 p-2 rounded border void-border void-bg-sunk">
                   <div className="flex items-center gap-1.5 mb-0.5">
-                    <AlertTriangle size={10} className="text-yellow-400" />
-                    <span className="font-mono text-[9px] uppercase tracking-wider text-yellow-400">
+                    <AlertTriangle size={10} className="void-text-premium" />
+                    <span className="font-mono text-[9px] uppercase tracking-wider void-text-premium">
                       Sacrifice
                     </span>
                   </div>
-                  <p className="font-mono text-[10px] italic text-yellow-200/80 leading-relaxed">{ritual.sacrifice}</p>
+                  <p className="font-mono text-[10px] italic void-text-premium leading-relaxed">{ritual.sacrifice}</p>
                 </div>
                 <button
                   onClick={() => handlePurge(ritual)}
                   disabled={done || !affordable}
                   className={`w-full px-3 py-2 rounded font-mono text-[10px] uppercase tracking-wider transition-all ${
                     done
-                      ? "border border-emerald-500/40 bg-emerald-500/10 text-emerald-400 cursor-not-allowed"
+                      ? "border void-border-success void-bg-success void-text-energy cursor-not-allowed"
                       : !affordable
                       ? "border border-border/30 text-muted-foreground/50 cursor-not-allowed"
-                      : "border border-red-500/50 bg-red-500/15 text-red-300 hover:bg-red-500/25"
+                      : "border void-border-error void-bg-error void-text-error void-bg-error"
                   }`}
                   data-testid={`enact-${ritual.id}`}
                 >

@@ -220,7 +220,7 @@ function NavGroupSection({ group, location, onNavigate, rooms }: { group: NavGro
                       <Lock size={11} className="text-muted-foreground/40" />
                       <div className="flex-1 min-w-0">
                         <span className="text-muted-foreground/40 block truncate">{item.label}</span>
-                        <span className="text-[8px] text-amber-400/40 block truncate">{getLockedHint(item.path)}</span>
+                        <span className="text-[8px] void-text-accent block truncate">{getLockedHint(item.path)}</span>
                       </div>
                     </div>
                   );
@@ -233,7 +233,7 @@ function NavGroupSection({ group, location, onNavigate, rooms }: { group: NavGro
                     onClick={onNavigate}
                     className={`flex items-center gap-2.5 px-3 py-2 rounded-md text-[11px] font-mono tracking-wider transition-all group ${
                       active
-                        ? "bg-[var(--neon-cyan)]/8 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/20 shadow-[0_0_12px_rgba(51,226,230,0.08)]"
+                        ? "bg-[var(--neon-cyan)]/8 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/20 shadow-[0_0_12px_color-mix(in oklch, var(--energy-primary) 8%, transparent)]"
                         : "text-muted-foreground/70 hover:text-foreground/90 hover:bg-muted/50 border border-transparent"
                     }`}
                   >
@@ -310,8 +310,8 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
         <Link href="/" className="flex items-center gap-2 group">
           <div className="w-7 h-7 rounded-md flex items-center justify-center relative"
             style={{
-              background: "linear-gradient(135deg, rgba(51,226,230,0.15) 0%, var(--glass-border) 100%)",
-              border: "1px solid rgba(51,226,230,0.3)",
+              background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-primary) 15%, transparent) 0%, var(--glass-border) 100%)",
+              border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
             }}>
             <Terminal size={14} className="text-[var(--neon-cyan)]" />
             <div className="absolute inset-0 rounded-md animate-cyber-pulse opacity-50" />

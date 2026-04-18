@@ -76,7 +76,7 @@ const SIMULATIONS: GameTile[] = [
     description: "Three operational scenarios: hold the Bridge of Kael as Iron Lion, defend Inception Ark 1047 from three factions, or explore the Matrix of Dreams and its archived consciousness-imprints. The Game Masters are watching.",
     loreContext: "CADES DIMENSION: Consciousness Archive",
     icon: Skull,
-    color: "#f59e0b",
+    color: "var(--energy-accent)",
     badge: "ENTER SIMULATION",
     primary: true,
     unlockCheck: (s) => isCadesUnlocked({ narrativeAct: s.narrativeAct }),
@@ -155,7 +155,7 @@ const SIMULATIONS: GameTile[] = [
     description: "Face the most powerful entities in the Dischordian Saga. Each boss guards a room of the Ark with lore-accurate abilities and unique rewards.",
     loreContext: "COMBAT: Guardian Battles",
     icon: Crown,
-    color: "#ef4444",
+    color: "var(--energy-error)",
   },
   {
     href: "/card-challenge",
@@ -164,7 +164,7 @@ const SIMULATIONS: GameTile[] = [
     description: "Challenge other operatives from the leaderboard. Your deck fights their deck — even when they're offline. Earn XP and climb the ranks.",
     loreContext: "PVP: Operative Duels",
     icon: Users,
-    color: "#f59e0b",
+    color: "var(--energy-accent)",
   },
   {
     href: "/pvp",
@@ -173,7 +173,7 @@ const SIMULATIONS: GameTile[] = [
     description: "Enter the arena for real-time multiplayer card battles. Match against live opponents, climb the ELO ladder, and earn your rank from Bronze to Grandmaster.",
     loreContext: "PVP: Live Combat",
     icon: Swords,
-    color: "#ef4444",
+    color: "var(--energy-error)",
   },
   {
     href: "/achievements",
@@ -236,7 +236,7 @@ const SIMULATIONS: GameTile[] = [
     description: "Track your card game milestones across PvP wins, collection completion, draft victories, and trading. Earn Dream tokens and exclusive rewards.",
     loreContext: "ARCHIVE: Service Record",
     icon: Medal,
-    color: "#f59e0b",
+    color: "var(--energy-accent)",
   },
   {
     href: "/marketplace",
@@ -272,7 +272,7 @@ const SIMULATIONS: GameTile[] = [
     description: "Progress through 50 tiers of free and premium rewards. Earn XP from every game mode to unlock cards, Dream tokens, titles, and exclusive fighters.",
     loreContext: "EPOCH: Seasonal Protocol",
     icon: Star,
-    color: "#f59e0b",
+    color: "var(--energy-accent)",
   },
   {
     href: "/inventory",
@@ -290,7 +290,7 @@ const SIMULATIONS: GameTile[] = [
     description: "Fortify your station with elemental towers and raid enemy bases with specialized units. Your class, species, and skills determine which towers and units you command.",
     loreContext: "CADES DIMENSION: Fortification Timeline",
     icon: Shield,
-    color: "#ef4444",
+    color: "var(--energy-error)",
     badge: "ENTER SIMULATION",
     primary: true,
   },
@@ -477,7 +477,7 @@ export default function GamesPage() {
                 ) : (
                   <Link
                     href={sim.href}
-                    className="group block rounded-lg overflow-hidden glass-float hover:shadow-[0_0_30px_rgba(51,226,230,0.12)] transition-all duration-300"
+                    className="group block rounded-lg overflow-hidden glass-float hover:shadow-[0_0_30px_color-mix(in oklch, var(--energy-primary) 12%, transparent)] transition-all duration-300"
                   >
                     {tileInner}
                   </Link>

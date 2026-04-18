@@ -138,8 +138,8 @@ export default function StoryProgress({
         className={`void-surface p-3 w-full text-left hover:border-primary/30 transition-all group ${className}`}
       >
         <div className="flex items-center gap-2 mb-1.5">
-          <BookOpen size={12} className="text-cyan-400" />
-          <span className="font-mono text-[8px] tracking-[0.2em] text-cyan-400/60">
+          <BookOpen size={12} className="void-text-energy" />
+          <span className="font-mono text-[8px] tracking-[0.2em] void-text-energy">
             STORY
           </span>
           <span className="font-mono text-[8px] text-white/20 ml-auto">
@@ -162,7 +162,7 @@ export default function StoryProgress({
 
         <div className="w-full h-1 rounded-full bg-white/5 mt-1.5 overflow-hidden">
           <motion.div
-            className="h-full rounded-full bg-cyan-400/60"
+            className="h-full rounded-full void-bg-success"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.5, ease: "easeOut" }}
@@ -181,8 +181,8 @@ export default function StoryProgress({
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <BookOpen size={16} className="text-cyan-400" />
-          <span className="font-mono text-[9px] tracking-[0.2em] text-cyan-400/60">
+          <BookOpen size={16} className="void-text-energy" />
+          <span className="font-mono text-[9px] tracking-[0.2em] void-text-energy">
             STORY PROGRESS
           </span>
         </div>
@@ -209,7 +209,7 @@ export default function StoryProgress({
                 className="size-5 flex-shrink-0 object-contain"
               />
             )}
-            <span className="font-mono text-[9px] text-amber-400/60 tracking-wider">
+            <span className="font-mono text-[9px] void-text-accent tracking-wider">
               EPOCH {chapter.epoch}
             </span>
             <span className="font-mono text-[8px] text-white/20 truncate">
@@ -231,7 +231,7 @@ export default function StoryProgress({
           <span className="font-mono text-[9px] text-white/25">
             {beatsCompleted}/{chapter.totalBeats} beats
           </span>
-          <span className="font-mono text-[9px] text-cyan-400/60 font-bold">
+          <span className="font-mono text-[9px] void-text-energy font-bold">
             {progress}%
           </span>
         </div>
@@ -239,7 +239,7 @@ export default function StoryProgress({
           <motion.div
             className="h-full rounded-full"
             style={{
-              background: "linear-gradient(90deg, #33E2E6 0%, #3875FA 100%)",
+              background: "linear-gradient(90deg, var(--energy-primary) 0%, var(--electric-blue) 100%)",
             }}
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}

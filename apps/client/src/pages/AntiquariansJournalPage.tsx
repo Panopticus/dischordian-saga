@@ -30,7 +30,7 @@ export default function AntiquariansJournalPage() {
           <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
             <ChevronLeft size={20} />
           </Link>
-          <BookOpen size={18} className="text-amber-300" />
+          <BookOpen size={18} className="void-text-accent" />
           <div>
             <h1 className="font-display text-lg font-bold tracking-wider">THE ANTIQUARIAN'S JOURNAL</h1>
             <p className="font-mono text-[10px] text-muted-foreground tracking-wider italic">
@@ -40,8 +40,8 @@ export default function AntiquariansJournalPage() {
         </div>
 
         {entries.length === 0 ? (
-          <div className="text-center py-12 border border-dashed border-amber-500/30 rounded-lg">
-            <BookOpen size={32} className="mx-auto text-amber-500/30 mb-2" />
+          <div className="text-center py-12 border border-dashed void-border rounded-lg">
+            <BookOpen size={32} className="mx-auto void-text-accent mb-2" />
             <p className="font-mono text-[10px] text-muted-foreground/60 max-w-md mx-auto leading-relaxed">
               The Antiquarian has not written anything for you yet. Watch a transmission, and his pen will move.
             </p>
@@ -60,7 +60,7 @@ export default function AntiquariansJournalPage() {
           </div>
         )}
 
-        <p className="mt-8 text-center font-mono text-[9px] italic text-amber-500/40">
+        <p className="mt-8 text-center font-mono text-[9px] italic void-text-accent">
           "I remain the Eternal Observer." — The Antiquarian
         </p>
       </div>
@@ -79,11 +79,11 @@ function JournalEntryCard({ entry, expanded, onToggle, index }: {
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.04 }}
-      className="border border-amber-500/20 bg-gradient-to-b from-amber-950/15 to-amber-950/5 rounded-lg overflow-hidden"
+      className="border void-border bg-gradient-to-b from-amber-950/15 to-amber-950/5 rounded-lg overflow-hidden"
       data-testid={`journal-${entry.transmissionId}`}
     >
-      <button onClick={onToggle} className="w-full text-left p-4 hover:bg-amber-500/5 transition-colors">
-        <h2 className="font-display text-base font-bold tracking-wider text-amber-200 mb-2">{entry.title}</h2>
+      <button onClick={onToggle} className="w-full text-left p-4 void-bg-sunk transition-colors">
+        <h2 className="font-display text-base font-bold tracking-wider void-text-accent mb-2">{entry.title}</h2>
         <p className="font-mono text-[11px] text-foreground/85 leading-relaxed italic">{entry.body}</p>
       </button>
 
@@ -93,17 +93,17 @@ function JournalEntryCard({ entry, expanded, onToggle, index }: {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="border-t border-amber-500/20 bg-amber-950/10"
+            className="border-t void-border void-bg-sunk"
           >
             {entry.annotation && (
-              <div className="p-4 border-b border-amber-500/15">
+              <div className="p-4 border-b void-border">
                 <div className="flex items-center gap-1.5 mb-1.5">
-                  <AlertCircle size={10} className="text-red-300" />
-                  <span className="font-mono text-[9px] uppercase tracking-wider text-red-300">
+                  <AlertCircle size={10} className="void-text-error" />
+                  <span className="font-mono text-[9px] uppercase tracking-wider void-text-error">
                     His Private Annotation
                   </span>
                 </div>
-                <p className="font-mono text-[10px] italic text-red-200/85 leading-relaxed">
+                <p className="font-mono text-[10px] italic void-text-error leading-relaxed">
                   {entry.annotation}
                 </p>
               </div>
@@ -111,14 +111,14 @@ function JournalEntryCard({ entry, expanded, onToggle, index }: {
             {entry.crossReferences && entry.crossReferences.length > 0 && (
               <div className="p-4">
                 <div className="flex items-center gap-1.5 mb-1">
-                  <Eye size={10} className="text-amber-400/70" />
-                  <span className="font-mono text-[9px] uppercase tracking-wider text-amber-400/70">
+                  <Eye size={10} className="void-text-accent" />
+                  <span className="font-mono text-[9px] uppercase tracking-wider void-text-accent">
                     Cross-References
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-1.5 mt-1">
                   {entry.crossReferences.map(ref => (
-                    <span key={ref} className="font-mono text-[9px] px-2 py-0.5 rounded border border-amber-500/30 text-amber-300/80">
+                    <span key={ref} className="font-mono text-[9px] px-2 py-0.5 rounded border void-border void-text-accent">
                       ↗ {ref}
                     </span>
                   ))}

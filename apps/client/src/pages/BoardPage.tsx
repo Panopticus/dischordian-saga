@@ -31,10 +31,10 @@ interface Edge {
 
 // Void Energy color palette for node types
 const TYPE_COLORS: Record<string, { primary: string; glow: string; rgb: string }> = {
-  character: { primary: "#33E2E6", glow: "rgba(51,226,230,", rgb: "51,226,230" },
-  location:  { primary: "#FF8C00", glow: "rgba(255,140,0,", rgb: "255,140,0" },
-  faction:   { primary: "#A078FF", glow: "rgba(160,120,255,", rgb: "160,120,255" },
-  concept:   { primary: "#3875FA", glow: "rgba(56,117,250,", rgb: "56,117,250" },
+  character: { primary: "var(--energy-primary)", glow: "rgba(51,226,230,", rgb: "51,226,230" },
+  location:  { primary: "var(--energy-premium)", glow: "rgba(255,140,0,", rgb: "255,140,0" },
+  faction:   { primary: "var(--energy-system)", glow: "rgba(160,120,255,", rgb: "160,120,255" },
+  concept:   { primary: "var(--electric-blue)", glow: "rgba(56,117,250,", rgb: "56,117,250" },
   song:      { primary: "#FF2D55", glow: "rgba(255,45,85,", rgb: "255,45,85" },
 };
 
@@ -265,7 +265,7 @@ export default function BoardPage() {
     // Deep void gradient
     const bgGrad = ctx.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, Math.max(w, h) * 0.7);
     bgGrad.addColorStop(0, "#020030");
-    bgGrad.addColorStop(0.5, "#010020");
+    bgGrad.addColorStop(0.5, "var(--bg-void)");
     bgGrad.addColorStop(1, "#000010");
     ctx.fillStyle = bgGrad;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -282,7 +282,7 @@ export default function BoardPage() {
     for (let x = -500; x < 1500; x += gridSize) {
       const distFromCenter = Math.abs(x - 500) / 1000;
       const alpha = 0.04 * (1 - distFromCenter * 0.5);
-      ctx.strokeStyle = `rgba(56,117,250,${alpha})`;
+      ctx.strokeStyle = `color-mix(in oklch, var(--electric-blue) calc((alpha) * 100%), transparent)`;
       ctx.beginPath();
       ctx.moveTo(x, -500);
       ctx.lineTo(x, 1300);
@@ -291,7 +291,7 @@ export default function BoardPage() {
     for (let y = -500; y < 1300; y += gridSize) {
       const distFromCenter = Math.abs(y - 400) / 900;
       const alpha = 0.04 * (1 - distFromCenter * 0.5);
-      ctx.strokeStyle = `rgba(56,117,250,${alpha})`;
+      ctx.strokeStyle = `color-mix(in oklch, var(--electric-blue) calc((alpha) * 100%), transparent)`;
       ctx.beginPath();
       ctx.moveTo(-500, y);
       ctx.lineTo(1500, y);
@@ -366,7 +366,7 @@ export default function BoardPage() {
         ctx.beginPath();
         ctx.moveTo(s.x, s.y);
         ctx.lineTo(t.x, t.y);
-        ctx.strokeStyle = `rgba(56,117,250,${alpha})`;
+        ctx.strokeStyle = `color-mix(in oklch, var(--electric-blue) calc((alpha) * 100%), transparent)`;
         ctx.lineWidth = 0.5;
         ctx.setLineDash([3, 8]);
         ctx.stroke();
@@ -502,7 +502,7 @@ export default function BoardPage() {
         ctx.fillStyle = `${typeColor.glow}${labelAlpha * 0.3})`;
         ctx.fillText(n.name.length > 18 ? n.name.slice(0, 16) + "..." : n.name, n.x + 0.5, n.y + n.radius + 15.5);
       }
-      ctx.fillStyle = `rgba(255,255,255,${labelAlpha})`;
+      ctx.fillStyle = `color-mix(in oklch, var(--text-primary) calc((labelAlpha) * 100%), transparent)`;
       ctx.fillText(n.name.length > 18 ? n.name.slice(0, 16) + "..." : n.name, n.x, n.y + n.radius + 15);
 
       // Connection count badge for important nodes
@@ -696,7 +696,7 @@ export default function BoardPage() {
             { type: "location", label: "LOC", icon: MapPin },
             { type: "faction", label: "FACT", icon: Shield },
           ].map(({ type, label, icon: Icon }) => {
-            const color = type ? TYPE_COLORS[type]?.primary : "#33E2E6";
+            const color = type ? TYPE_COLORS[type]?.primary : "var(--energy-primary)";
             return (
               <button
                 key={type}
@@ -706,7 +706,7 @@ export default function BoardPage() {
                     ? "border-current bg-current/10"
                     : "border-transparent hover:border-border/60 hover:bg-muted/50"
                 }`}
-                style={{ color: filter === type ? color : "rgba(255,255,255,0.4)" }}
+                style={{ color: filter === type ? color : "color-mix(in oklch, var(--text-primary) 40%, transparent)" }}
               >
                 <Icon size={11} />
                 <span className="hidden sm:inline">{label}</span>
@@ -721,8 +721,8 @@ export default function BoardPage() {
             onClick={() => setDiscoveryMode(m => m === "discovered" ? "all" : "discovered")}
             className={`flex items-center gap-1 px-1.5 sm:px-2 py-1 rounded-md text-[9px] sm:text-[10px] font-mono transition-all border ${
               discoveryMode === "discovered"
-                ? "border-[var(--orb-orange)] bg-[rgba(255,183,77,0.1)] text-[var(--orb-orange)]"
-                : "border-[var(--neon-cyan)]/30 bg-[rgba(51,226,230,0.05)] text-[var(--neon-cyan)]/70"
+                ? "border-[var(--orb-orange)] bg-[color-mix(in oklch, var(--energy-premium) 10%, transparent)] text-[var(--orb-orange)]"
+                : "border-[var(--neon-cyan)]/30 bg-[color-mix(in oklch, var(--energy-primary) 5%, transparent)] text-[var(--neon-cyan)]/70"
             }`}
             title={discoveryMode === "discovered" ? "Showing discovered entries only" : "Showing all entries"}
           >
@@ -773,7 +773,7 @@ export default function BoardPage() {
                 background: "linear-gradient(135deg, color-mix(in srgb, var(--glass-base) 85%, transparent) 0%, var(--bg-void) 100%)",
                 backdropFilter: "blur(20px)",
                 border: `1px solid ${TYPE_COLORS[selectedNode.type]?.glow || "rgba(51,226,230,"}0.3)`,
-                boxShadow: `0 0 30px ${TYPE_COLORS[selectedNode.type]?.glow || "rgba(51,226,230,"}0.15), 0 20px 60px rgba(0,0,0,0.5)`,
+                boxShadow: `0 0 30px ${TYPE_COLORS[selectedNode.type]?.glow || "rgba(51,226,230,"}0.15), 0 20px 60px color-mix(in oklch, var(--bg-void) 50%, transparent)`,
               }}
             >
               {/* Header with image */}
@@ -791,7 +791,7 @@ export default function BoardPage() {
                      style={{
                        background: `${TYPE_COLORS[selectedNode.type]?.glow || "rgba(51,226,230,"}0.15)`,
                        border: `1px solid ${TYPE_COLORS[selectedNode.type]?.glow || "rgba(51,226,230,"}0.3)`,
-                       color: TYPE_COLORS[selectedNode.type]?.primary || "#33E2E6",
+                       color: TYPE_COLORS[selectedNode.type]?.primary || "var(--energy-primary)",
                      }}>
                   {selectedNode.type.toUpperCase()}
                 </div>
@@ -818,7 +818,7 @@ export default function BoardPage() {
                           style={{
                             background: `${TYPE_COLORS[cn.type]?.glow || "rgba(51,226,230,"}0.08)`,
                             border: `1px solid ${TYPE_COLORS[cn.type]?.glow || "rgba(51,226,230,"}0.15)`,
-                            color: `${TYPE_COLORS[cn.type]?.primary || "#33E2E6"}`,
+                            color: `${TYPE_COLORS[cn.type]?.primary || "var(--energy-primary)"}`,
                           }}
                         >
                           {cn.name.length > 16 ? cn.name.slice(0, 14) + "..." : cn.name}
@@ -834,7 +834,7 @@ export default function BoardPage() {
                   style={{
                     background: `${TYPE_COLORS[selectedNode.type]?.glow || "rgba(51,226,230,"}0.1)`,
                     border: `1px solid ${TYPE_COLORS[selectedNode.type]?.glow || "rgba(51,226,230,"}0.3)`,
-                    color: TYPE_COLORS[selectedNode.type]?.primary || "#33E2E6",
+                    color: TYPE_COLORS[selectedNode.type]?.primary || "var(--energy-primary)",
                   }}
                 >
                   OPEN DOSSIER <ChevronRight size={12} />

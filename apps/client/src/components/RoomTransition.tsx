@@ -56,17 +56,17 @@ const RETURN_TO_BRIDGE_VIDEO = "https://d2xsxph8kpxj0f.cloudfront.net/3104196630
 
 /* Corridor segment colors based on destination */
 const CORRIDOR_THEMES: Record<string, { primary: string; secondary: string; accent: string }> = {
-  "cryo-bay": { primary: "#33e2e6", secondary: "#1a5c5e", accent: "#0a2a2b" },
-  "bridge": { primary: "#3875fa", secondary: "#1a3a7d", accent: "#0a1a3d" },
+  "cryo-bay": { primary: "var(--energy-primary)", secondary: "#1a5c5e", accent: "#0a2a2b" },
+  "bridge": { primary: "var(--electric-blue)", secondary: "#1a3a7d", accent: "#0a1a3d" },
   "archives": { primary: "#a855f7", secondary: "#5a2d7d", accent: "#2a1540" },
-  "comms-array": { primary: "#22c55e", secondary: "#115e2e", accent: "#0a2d15" },
+  "comms-array": { primary: "var(--energy-success)", secondary: "#115e2e", accent: "#0a2d15" },
   "engineering": { primary: "#f97316", secondary: "#7d3a0b", accent: "#3d1d05" },
-  "armory": { primary: "#ef4444", secondary: "#7d2222", accent: "#3d1111" },
+  "armory": { primary: "var(--energy-error)", secondary: "#7d2222", accent: "#3d1111" },
   "cargo-hold": { primary: "#eab308", secondary: "#7d5f04", accent: "#3d2f02" },
   "observation-deck": { primary: "#6366f1", secondary: "#3133a0", accent: "#191a50" },
   "medical-bay": { primary: "#14b8a6", secondary: "#0a5c53", accent: "#052e2a" },
   "hangar-bay": { primary: "#64748b", secondary: "#334155", accent: "#1e293b" },
-  "mess-hall": { primary: "#f59e0b", secondary: "#7d4f06", accent: "#3d2703" },
+  "mess-hall": { primary: "var(--energy-accent)", secondary: "#7d4f06", accent: "#3d2703" },
   "captains-quarters": { primary: "#d4af37", secondary: "#6a5818", accent: "#35300c" },
 };
 
@@ -200,14 +200,14 @@ function VideoCinematic({
           transition={{ delay: 1 }}
           className="text-center"
         >
-          <p className="font-mono text-[9px] tracking-[0.5em] text-cyan-400/50 mb-1">
+          <p className="font-mono text-[9px] tracking-[0.5em] void-text-energy mb-1">
             NAVIGATING TO
           </p>
           <p className="font-display text-lg font-bold tracking-[0.2em] text-white/90">
             {toRoomName.toUpperCase()}
           </p>
           {isNewRoom && (
-            <p className="font-mono text-[9px] text-amber-400/60 tracking-[0.3em] mt-1">
+            <p className="font-mono text-[9px] void-text-accent tracking-[0.3em] mt-1">
               ★ NEW AREA DISCOVERED ★
             </p>
           )}
@@ -223,7 +223,7 @@ function VideoCinematic({
               className="h-0.5 rounded-full transition-all duration-300"
               style={{
                 width: i === currentVideoIdx ? 24 : 8,
-                background: i <= currentVideoIdx ? "rgba(51, 226, 230, 0.8)" : "rgba(255,255,255,0.2)",
+                background: i <= currentVideoIdx ? "color-mix(in oklch, var(--energy-primary) 80%, transparent)" : "color-mix(in oklch, var(--text-primary) 20%, transparent)",
               }}
             />
           ))}
@@ -289,7 +289,7 @@ function CanvasTransition({
       const elapsed = (Date.now() - startTime.current) / 1000;
       const speed = 2 + elapsed * 3;
 
-      ctx.fillStyle = "#010020";
+      ctx.fillStyle = "var(--bg-void)";
       ctx.fillRect(0, 0, w, h);
 
       const vpX = w / 2;
@@ -362,7 +362,7 @@ function CanvasTransition({
       }
 
       for (let y = 0; y < h; y += 4) {
-        ctx.fillStyle = `rgba(0, 0, 0, ${0.05 + Math.sin(y * 0.1 + elapsed * 10) * 0.02})`;
+        ctx.fillStyle = `color-mix(in oklch, var(--bg-void) calc((0.05 + Math.sin(y * 0.1 + elapsed * 10) * 0.02) * 100%), transparent)`;
         ctx.fillRect(0, y, w, 2);
       }
 
@@ -391,7 +391,7 @@ function CanvasTransition({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-[100] flex items-center justify-center"
-      style={{ background: "#010020" }}
+      style={{ background: "var(--bg-void)" }}
     >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
       <div className="relative z-10 text-center">
@@ -477,7 +477,7 @@ function CanvasTransition({
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3 }}
-                    className="font-mono text-[10px] text-amber-400/60 tracking-[0.3em] mt-1"
+                    className="font-mono text-[10px] void-text-accent tracking-[0.3em] mt-1"
                   >
                     ★ NEW AREA DISCOVERED ★
                   </motion.p>

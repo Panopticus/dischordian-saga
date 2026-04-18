@@ -115,7 +115,7 @@ export default function HanoiPuzzle({ numDiscs = 4, onComplete, onSkip }: HanoiP
     <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6 p-4">
       {/* Header */}
       <div className="text-center">
-        <h2 className="font-display text-xl tracking-[0.2em] text-amber-400 mb-2">COMMS ARRAY REPAIR</h2>
+        <h2 className="font-display text-xl tracking-[0.2em] void-text-accent mb-2">COMMS ARRAY REPAIR</h2>
         <p className="font-mono text-sm text-white/60 max-w-md">
           The cascading gear mechanism is misaligned. Move all {numDiscs} gears
           from the Input Shaft to the Output Shaft. A larger gear can never be
@@ -127,7 +127,7 @@ export default function HanoiPuzzle({ numDiscs = 4, onComplete, onSkip }: HanoiP
       <div className="flex items-center gap-4 font-mono text-sm">
         <span className="text-white/40">Moves: <span className="text-white font-bold">{moves}</span></span>
         <span className="text-white/20">|</span>
-        <span className="text-white/40">Optimal: <span className="text-amber-400">{optimalMoves}</span></span>
+        <span className="text-white/40">Optimal: <span className="void-text-accent">{optimalMoves}</span></span>
       </div>
 
       {/* Error message */}
@@ -137,7 +137,7 @@ export default function HanoiPuzzle({ numDiscs = 4, onComplete, onSkip }: HanoiP
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="text-red-400 font-mono text-xs"
+            className="void-text-error font-mono text-xs"
           >
             {error}
           </motion.p>
@@ -149,7 +149,7 @@ export default function HanoiPuzzle({ numDiscs = 4, onComplete, onSkip }: HanoiP
         {spindles.map((spindle, spIdx) => (
           <div key={spIdx} className="flex flex-col items-center gap-2">
             {/* Spindle label */}
-            <p className={`font-mono text-[10px] tracking-wider ${selectedSpindle === spIdx ? "text-amber-400" : "text-white/30"}`}>
+            <p className={`font-mono text-[10px] tracking-wider ${selectedSpindle === spIdx ? "void-text-accent" : "text-white/30"}`}>
               {SPINDLE_NAMES[spIdx]}
             </p>
 
@@ -158,7 +158,7 @@ export default function HanoiPuzzle({ numDiscs = 4, onComplete, onSkip }: HanoiP
               onClick={() => handleSpindleClick(spIdx)}
               className={`relative w-32 h-48 sm:w-40 sm:h-56 flex flex-col-reverse items-center justify-start gap-1 pt-2 rounded-xl border-2 transition-all ${
                 selectedSpindle === spIdx
-                  ? "border-amber-500 bg-amber-500/10 shadow-[0_0_20px_rgba(245,158,11,0.3)]"
+                  ? "void-border void-bg-sunk shadow-[0_0_20px_color-mix(in oklch, var(--energy-accent) 30%, transparent)]"
                   : "border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04]"
               }`}
             >
@@ -215,7 +215,7 @@ export default function HanoiPuzzle({ numDiscs = 4, onComplete, onSkip }: HanoiP
           animate={{ opacity: 1, scale: 1 }}
           className="text-center"
         >
-          <p className="font-display text-lg text-amber-400 tracking-wider mb-2">COMMS ARRAY ONLINE</p>
+          <p className="font-display text-lg void-text-accent tracking-wider mb-2">COMMS ARRAY ONLINE</p>
           <p className="font-mono text-sm text-white/60">
             Completed in {moves} moves{moves === optimalMoves ? " — PERFECT!" : ""}
           </p>

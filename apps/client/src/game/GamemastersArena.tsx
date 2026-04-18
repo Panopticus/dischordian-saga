@@ -184,7 +184,7 @@ export default function GamemastersArena({ onComplete, onClose }: Props) {
   const currentQ = questions[round];
   const timerMax = Math.max(15, 30 - round * 1.5);
   const timerPercent = (timeLeft / timerMax) * 100;
-  const timerColor = timerPercent > 50 ? "#22c55e" : timerPercent > 25 ? "#eab308" : "#ef4444";
+  const timerColor = timerPercent > 50 ? "var(--energy-success)" : timerPercent > 25 ? "#eab308" : "var(--energy-error)";
 
   const handleAnswer = useCallback((idx: number) => {
     if (answered !== null) return;
@@ -271,21 +271,21 @@ export default function GamemastersArena({ onComplete, onClose }: Props) {
     onComplete(finalScore, won ? 10 : round);
   };
 
-  const ANSWER_COLORS = ["#3b82f6", "#eab308", "#22c55e", "#ef4444"];
+  const ANSWER_COLORS = ["#3b82f6", "#eab308", "var(--energy-success)", "var(--energy-error)"];
 
   return (
     <div className="fixed inset-0 z-[60] bg-black flex flex-col overflow-hidden">
       {/* Coliseum background */}
       <img src="/art/special-maps/special-gamemasters-coliseum.png" alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none" style={{ opacity: 0.15, filter: "brightness(0.35) saturate(0.8)" }} />
-      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.8) 100%)" }} />
+      <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at center, transparent 40%, color-mix(in oklch, var(--bg-void) 80%, transparent) 100%)" }} />
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-red-500/20 bg-black/90">
+      <div className="flex items-center justify-between px-4 py-2 border-b void-border-error bg-black/90">
         <div className="flex items-center gap-2">
-          <Skull size={16} className="text-red-400" />
-          <span className="font-display text-sm tracking-[0.2em] text-red-400">THE GAMEMASTER'S ARENA</span>
+          <Skull size={16} className="void-text-error" />
+          <span className="font-display text-sm tracking-[0.2em] void-text-error">THE GAMEMASTER'S ARENA</span>
         </div>
         <div className="flex items-center gap-3">
-          <span className="font-mono text-[9px] text-amber-400">CLONES: {clonesLeft}</span>
+          <span className="font-mono text-[9px] void-text-accent">CLONES: {clonesLeft}</span>
           <button onClick={onClose} className="text-white/20 hover:text-white/50"><X size={16} /></button>
         </div>
       </div>
@@ -294,19 +294,19 @@ export default function GamemastersArena({ onComplete, onClose }: Props) {
       {phase === "intro" && (
         <div className="flex-1 flex items-center justify-center p-6" onClick={() => introComplete && clonesLeft > 0 && setPhase("playing")}>
           <div className="max-w-lg text-center">
-            <Skull size={48} className="text-red-400 mx-auto mb-6 opacity-60" />
+            <Skull size={48} className="void-text-error mx-auto mb-6 opacity-60" />
             <pre className="font-mono text-sm text-white/80 whitespace-pre-wrap leading-relaxed text-left mb-8">{introText}
-              {!introComplete && <span className="inline-block w-2 h-4 bg-red-400 ml-0.5 animate-pulse" />}
+              {!introComplete && <span className="inline-block w-2 h-4 void-bg-error ml-0.5 animate-pulse" />}
             </pre>
             {introComplete && (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 {clonesLeft > 0 ? (
                   <button onClick={() => setPhase("playing")}
-                    className="px-8 py-3 rounded-lg bg-red-500/20 border border-red-500/40 text-red-400 font-mono text-sm font-bold tracking-wider hover:bg-red-500/30 transition-all">
+                    className="px-8 py-3 rounded-lg void-bg-error border void-border-error void-text-error font-mono text-sm font-bold tracking-wider void-bg-error transition-all">
                     ENTER THE ARENA
                   </button>
                 ) : (
-                  <p className="font-mono text-sm text-red-400/60">CLONE BAY DEPLETED — Return tomorrow</p>
+                  <p className="font-mono text-sm void-text-error">CLONE BAY DEPLETED — Return tomorrow</p>
                 )}
               </motion.div>
             )}
@@ -327,8 +327,8 @@ export default function GamemastersArena({ onComplete, onClose }: Props) {
           <div className="flex items-center justify-between mb-4">
             <span className="font-mono text-[10px] text-white/30">ROUND {round + 1}/10</span>
             <div className="flex items-center gap-4">
-              <span className="font-mono text-xs text-amber-400">{score} <span className="text-white/20">Dream</span></span>
-              {SAFE_ROUNDS.has(round) && <span className="font-mono text-[8px] text-green-400 animate-pulse">★ SAFE POINT</span>}
+              <span className="font-mono text-xs void-text-accent">{score} <span className="text-white/20">Dream</span></span>
+              {SAFE_ROUNDS.has(round) && <span className="font-mono text-[8px] void-text-energy animate-pulse">★ SAFE POINT</span>}
             </div>
           </div>
 
@@ -336,9 +336,9 @@ export default function GamemastersArena({ onComplete, onClose }: Props) {
           <div className="flex gap-1 mb-4 overflow-x-auto">
             {PRIZES.map((p, i) => (
               <div key={i} className={`px-2 py-1 rounded font-mono text-[8px] shrink-0 ${
-                i === round ? "bg-red-500/20 text-red-400 border border-red-500/30" :
+                i === round ? "void-bg-error void-text-error border void-border-error" :
                 i < round ? "bg-white/5 text-white/20 line-through" :
-                SAFE_ROUNDS.has(i) ? "bg-green-500/5 text-green-400/40 border border-green-500/10" :
+                SAFE_ROUNDS.has(i) ? "void-bg-success void-text-energy border void-border-success" :
                 "bg-white/[0.02] text-white/15"
               }`}>{p}D</div>
             ))}
@@ -362,8 +362,8 @@ export default function GamemastersArena({ onComplete, onClose }: Props) {
                   whileTap={!isEliminated && answered === null ? { scale: 0.98 } : {}}
                   className={`p-3 rounded-lg border font-mono text-xs text-left transition-all ${
                     isEliminated ? "opacity-10 cursor-not-allowed" :
-                    isCorrect ? "bg-green-500/20 border-green-500/50 text-green-400" :
-                    isWrong ? "bg-red-500/20 border-red-500/50 text-red-400" :
+                    isCorrect ? "void-bg-success void-border-success void-text-energy" :
+                    isWrong ? "void-bg-error void-border-error void-text-error" :
                     answered !== null ? "opacity-30" :
                     "hover:brightness-125 cursor-pointer"
                   }`}
@@ -373,7 +373,7 @@ export default function GamemastersArena({ onComplete, onClose }: Props) {
                   {ans}
                   {audienceData && !isEliminated && (
                     <div className="mt-1 h-1 rounded-full bg-white/5 overflow-hidden">
-                      <div className="h-full rounded-full bg-cyan-400/50" style={{ width: `${audienceData[i]}%` }} />
+                      <div className="h-full rounded-full void-bg-success" style={{ width: `${audienceData[i]}%` }} />
                     </div>
                   )}
                 </motion.button>
@@ -383,23 +383,23 @@ export default function GamemastersArena({ onComplete, onClose }: Props) {
 
           {/* Ghost hint */}
           {ghostHint && (
-            <div className="p-2 rounded-lg bg-orange-500/5 border border-orange-500/20 mb-3">
-              <p className="font-mono text-[10px] text-orange-400/80">{ghostHint}</p>
+            <div className="p-2 rounded-lg void-bg-sunk border void-border mb-3">
+              <p className="font-mono text-[10px] void-text-premium">{ghostHint}</p>
             </div>
           )}
 
           {/* Lifelines */}
           <div className="flex gap-2 mb-4">
             <button onClick={useFiftyFifty} disabled={!lifelines.has("fifty_fifty") || answered !== null}
-              className={`flex-1 p-2 rounded-lg border font-mono text-[9px] transition-all ${lifelines.has("fifty_fifty") ? "border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10" : "opacity-20"}`}>
+              className={`flex-1 p-2 rounded-lg border font-mono text-[9px] transition-all ${lifelines.has("fifty_fifty") ? "void-border-success void-text-energy void-bg-success" : "opacity-20"}`}>
               50:50
             </button>
             <button onClick={useAskAudience} disabled={!lifelines.has("ask_audience") || answered !== null}
-              className={`flex-1 p-2 rounded-lg border font-mono text-[9px] transition-all ${lifelines.has("ask_audience") ? "border-purple-500/30 text-purple-400 hover:bg-purple-500/10" : "opacity-20"}`}>
+              className={`flex-1 p-2 rounded-lg border font-mono text-[9px] transition-all ${lifelines.has("ask_audience") ? "void-border-system void-text-system void-bg-system" : "opacity-20"}`}>
               <Users size={10} className="inline mr-1" />AUDIENCE
             </button>
             <button onClick={usePhoneGhost} disabled={!lifelines.has("phone_ghost") || answered !== null}
-              className={`flex-1 p-2 rounded-lg border font-mono text-[9px] transition-all ${lifelines.has("phone_ghost") ? "border-orange-500/30 text-orange-400 hover:bg-orange-500/10" : "opacity-20"}`}>
+              className={`flex-1 p-2 rounded-lg border font-mono text-[9px] transition-all ${lifelines.has("phone_ghost") ? "void-border void-text-premium void-bg-sunk" : "opacity-20"}`}>
               <Radio size={10} className="inline mr-1" />GHOST
             </button>
           </div>
@@ -408,8 +408,8 @@ export default function GamemastersArena({ onComplete, onClose }: Props) {
           <AnimatePresence>
             {commentary && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-                className="p-3 rounded-lg bg-red-500/5 border border-red-500/15">
-                <p className="font-mono text-[10px] text-red-400/80">
+                className="p-3 rounded-lg void-bg-error border void-border-error">
+                <p className="font-mono text-[10px] void-text-error">
                   <Skull size={10} className="inline mr-1" />GAME MASTER: "{commentary}"
                 </p>
               </motion.div>
@@ -424,24 +424,24 @@ export default function GamemastersArena({ onComplete, onClose }: Props) {
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center max-w-md">
             {won ? (
               <>
-                <Trophy size={48} className="text-amber-400 mx-auto mb-4" />
-                <h2 className="font-display text-2xl font-bold text-amber-400 mb-2">CLONE SURVIVED!</h2>
+                <Trophy size={48} className="void-text-accent mx-auto mb-4" />
+                <h2 className="font-display text-2xl font-bold void-text-accent mb-2">CLONE SURVIVED!</h2>
                 <p className="font-mono text-sm text-white/60 mb-1">Perfect run — all 10 rounds</p>
               </>
             ) : (
               <>
-                <Skull size={48} className="text-red-400 mx-auto mb-4" />
-                <h2 className="font-display text-2xl font-bold text-red-400 mb-2">CLONE TERMINATED</h2>
+                <Skull size={48} className="void-text-error mx-auto mb-4" />
+                <h2 className="font-display text-2xl font-bold void-text-error mb-2">CLONE TERMINATED</h2>
                 <p className="font-mono text-sm text-white/60 mb-1">Eliminated on round {round + 1}</p>
               </>
             )}
-            <p className="font-display text-3xl font-black text-amber-400 my-4">{finalScore} Dream</p>
+            <p className="font-display text-3xl font-black void-text-accent my-4">{finalScore} Dream</p>
             <p className="font-mono text-[10px] text-white/30 mb-6">
               {won ? COMMENTARY.perfect : `Safe checkpoint earnings: ${safeScore} Dream`}
             </p>
             <div className="flex gap-3 justify-center">
               <button onClick={handleFinish}
-                className="px-6 py-2.5 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-400 font-mono text-sm hover:bg-amber-500/30 transition-all">
+                className="px-6 py-2.5 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk transition-all">
                 COLLECT {finalScore} DREAM
               </button>
               <button onClick={onClose}

@@ -77,7 +77,7 @@ export default function TransmissionInboxPage() {
             <ChevronLeft size={20} />
           </Link>
           <motion.div animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.2, repeat: Infinity }}>
-            <Radio size={18} className="text-red-500" />
+            <Radio size={18} className="void-text-error" />
           </motion.div>
           <div className="flex-1">
             <h1 className="font-display text-lg font-bold tracking-wider">TRANSMISSIONS</h1>
@@ -147,7 +147,7 @@ export default function TransmissionInboxPage() {
                           transition={{ delay: i * 0.02 }}
                           onClick={() => setPlaying(t)}
                           className={`w-full p-3 rounded border text-left transition-colors ${
-                            isShift ? "border-purple-500/40 bg-purple-500/5 hover:bg-purple-500/10"
+                            isShift ? "void-border-system void-bg-system void-bg-system"
                             : "border-border/30 bg-card/40 hover:bg-card/60"
                           }`}
                           data-testid={`transmission-${id}`}
@@ -160,15 +160,15 @@ export default function TransmissionInboxPage() {
                               <div className="flex items-center gap-2 flex-wrap">
                                 <span className="font-display text-sm font-bold text-foreground truncate">{t.title}</span>
                                 {!isWatched && !resumeLabel && (
-                                  <span className="font-mono text-[8px] px-1 py-0.5 rounded bg-red-500/20 text-red-300 uppercase tracking-wider">NEW</span>
+                                  <span className="font-mono text-[8px] px-1 py-0.5 rounded void-bg-error void-text-error uppercase tracking-wider">NEW</span>
                                 )}
                                 {resumeLabel && (
-                                  <span className="font-mono text-[8px] px-1 py-0.5 rounded bg-amber-500/20 text-amber-300 uppercase tracking-wider">
+                                  <span className="font-mono text-[8px] px-1 py-0.5 rounded void-bg-sunk void-text-accent uppercase tracking-wider">
                                     {resumeLabel}
                                   </span>
                                 )}
-                                {isWatched && <CheckCircle size={10} className="text-emerald-400" />}
-                                {isShift && <Sparkles size={10} className="text-purple-400" />}
+                                {isWatched && <CheckCircle size={10} className="void-text-energy" />}
+                                {isShift && <Sparkles size={10} className="void-text-system" />}
                               </div>
                               <p className="font-mono text-[9px] text-muted-foreground/70 leading-snug mt-0.5">{t.synopsis}</p>
                               <div className="flex items-center gap-2 mt-1">
@@ -176,11 +176,11 @@ export default function TransmissionInboxPage() {
                                   Epoch {t.epoch} · Ep {t.episodeNumber} · {Math.floor(t.lengthSeconds / 60)}:{String(t.lengthSeconds % 60).padStart(2, "0")}
                                 </span>
                                 {!isWatched && (
-                                  <span className="font-mono text-[8px] text-amber-400">+{t.reward.xp} XP · +{t.reward.dream} Dream</span>
+                                  <span className="font-mono text-[8px] void-text-accent">+{t.reward.xp} XP · +{t.reward.dream} Dream</span>
                                 )}
                               </div>
                             </div>
-                            <Play size={16} className={isWatched ? "text-muted-foreground/40" : "text-red-400"} />
+                            <Play size={16} className={isWatched ? "text-muted-foreground/40" : "void-text-error"} />
                           </div>
                         </motion.button>
                       );

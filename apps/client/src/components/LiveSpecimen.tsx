@@ -261,7 +261,7 @@ export default function LiveSpecimen({
               width: px * 0.06,
               height: px * 0.06,
               borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(255,255,255,0.6) 0%, transparent 70%)",
+              background: "radial-gradient(circle, color-mix(in oklch, var(--text-primary) 60%, transparent) 0%, transparent 70%)",
               filter: "blur(1px)",
               left: glintX as any,
               top: glintY as any,
@@ -360,10 +360,10 @@ export default function LiveSpecimen({
               className="px-3 py-1.5 rounded-md font-mono italic"
               style={{
                 fontSize: size === "sm" ? 8 : 10,
-                background: "rgba(0,0,0,0.9)",
+                background: "color-mix(in oklch, var(--bg-void) 90%, transparent)",
                 border: `1px solid ${palette.energy}30`,
                 color: palette.energy,
-                boxShadow: `0 0 16px ${palette.energy}15, 0 4px 12px rgba(0,0,0,0.5)`,
+                boxShadow: `0 0 16px ${palette.energy}15, 0 4px 12px color-mix(in oklch, var(--bg-void) 50%, transparent)`,
                 backdropFilter: "blur(8px)",
               }}
             >
@@ -402,8 +402,8 @@ export default function LiveSpecimen({
             0deg,
             transparent 0px,
             transparent 3px,
-            rgba(255,255,255,0.03) 3px,
-            rgba(255,255,255,0.03) 6px
+            color-mix(in oklch, var(--text-primary) 3%, transparent) 3px,
+            color-mix(in oklch, var(--text-primary) 3%, transparent) 6px
           );
           animation: specimen-ghost-flicker 3s ease-in-out infinite;
         }

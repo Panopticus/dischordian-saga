@@ -47,14 +47,14 @@ const TIER_CONFIG: Record<string, {
     shimmer: "linear-gradient(135deg, #A0A0A0 0%, #E8E8E8 40%, #C0C0C0 60%, #F0F0F0 100%)",
   },
   gold: {
-    color: "#FFD700",
-    glow: "0 0 40px rgba(255,215,0,0.5), 0 0 80px rgba(255,215,0,0.2)",
+    color: "var(--energy-premium)",
+    glow: "0 0 40px color-mix(in oklch, var(--energy-premium) 50%, transparent), 0 0 80px color-mix(in oklch, var(--energy-premium) 20%, transparent)",
     icon: Crown,
-    shimmer: "linear-gradient(135deg, #FFD700 0%, #FFF7A0 30%, #FFD700 50%, #FFEC80 70%, #FFD700 100%)",
+    shimmer: "linear-gradient(135deg, var(--energy-premium) 0%, #FFF7A0 30%, var(--energy-premium) 50%, #FFEC80 70%, var(--energy-premium) 100%)",
   },
   diamond: {
     color: "#B9F2FF",
-    glow: "0 0 40px rgba(185,242,255,0.6), 0 0 80px rgba(185,242,255,0.3), 0 0 2px rgba(255,255,255,0.8)",
+    glow: "0 0 40px rgba(185,242,255,0.6), 0 0 80px rgba(185,242,255,0.3), 0 0 2px color-mix(in oklch, var(--text-primary) 80%, transparent)",
     icon: Gem,
     shimmer: "linear-gradient(135deg, #B9F2FF 0%, #E0FCFF 25%, #88E0EF 50%, #FFFFFF 75%, #B9F2FF 100%)",
   },
@@ -117,7 +117,7 @@ export default function AchievementUnlockToast() {
             zIndex: 9999,
             background: `linear-gradient(180deg, rgba(10,10,14,0.97) 0%, rgba(18,18,24,0.95) 100%)`,
             borderBottom: `2px solid ${cfg.color}`,
-            boxShadow: `0 4px 40px rgba(0,0,0,0.6), inset 0 -1px 0 ${cfg.color}40`,
+            boxShadow: `0 4px 40px color-mix(in oklch, var(--bg-void) 60%, transparent), inset 0 -1px 0 ${cfg.color}40`,
             backdropFilter: "blur(12px)",
           }}
         >

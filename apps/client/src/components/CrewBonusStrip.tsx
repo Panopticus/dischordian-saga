@@ -34,28 +34,28 @@ export function CrewBonusStrip() {
       parts.push({
         icon: <TrendingUp className="w-3 h-3" />,
         label: `+${Math.round(b.tokenMultiplier * 100)}% tokens`,
-        color: "text-green-300",
+        color: "void-text-energy",
       });
     }
     if (b.giftBonusTokens > 0) {
       parts.push({
         icon: <Gift className="w-3 h-3" />,
         label: `+${b.giftBonusTokens}/gift`,
-        color: "text-amber-300",
+        color: "void-text-accent",
       });
     }
     if (b.wheelLuckBonus > 0) {
       parts.push({
         icon: <RotateCw className="w-3 h-3" />,
         label: `+${Math.round(b.wheelLuckBonus * 100)}% wheel luck`,
-        color: "text-red-300",
+        color: "void-text-error",
       });
     }
     if (b.crapsLuckBonus > 0) {
       parts.push({
         icon: <Dice5 className="w-3 h-3" />,
         label: `+${Math.round(b.crapsLuckBonus * 100)}% craps luck`,
-        color: "text-purple-300",
+        color: "void-text-system",
       });
     }
     return {
@@ -67,9 +67,9 @@ export function CrewBonusStrip() {
   if (!summary) return null;
 
   return (
-    <div className="px-4 py-2 border-b border-amber-500/10">
-      <div className="flex items-center gap-3 rounded-lg px-3 py-1.5 border border-green-500/20 bg-gradient-to-r from-green-950/30 via-amber-950/20 to-red-950/30">
-        <div className="flex items-center gap-1 text-[10px] font-mono uppercase tracking-widest text-amber-300 shrink-0">
+    <div className="px-4 py-2 border-b void-border">
+      <div className="flex items-center gap-3 rounded-lg px-3 py-1.5 border void-border-success bg-gradient-to-r from-green-950/30 via-amber-950/20 to-red-950/30">
+        <div className="flex items-center gap-1 text-[10px] font-mono uppercase tracking-widest void-text-accent shrink-0">
           <Sparkles className="w-3 h-3" />
           Crew Holiday Bonus
         </div>
@@ -81,7 +81,7 @@ export function CrewBonusStrip() {
             </span>
           ))}
         </div>
-        <span className="ml-auto text-[9px] text-amber-400/40 font-mono shrink-0">
+        <span className="ml-auto text-[9px] void-text-accent font-mono shrink-0">
           {summary.contributingCount} crew
         </span>
       </div>

@@ -26,12 +26,12 @@ export default function MoralityCardIndicator({ moralityScore, cardAlignment, si
       className={`absolute top-0 right-0 ${px} rounded-bl-md font-mono ${text} font-bold z-10`}
       style={{
         background: isBonus
-          ? "linear-gradient(135deg, rgba(34,197,94,0.9), rgba(22,163,74,0.9))"
-          : "linear-gradient(135deg, rgba(239,68,68,0.9), rgba(220,38,38,0.9))",
+          ? "linear-gradient(135deg, color-mix(in oklch, var(--energy-success) 90%, transparent), rgba(22,163,74,0.9))"
+          : "linear-gradient(135deg, color-mix(in oklch, var(--energy-error) 90%, transparent), color-mix(in oklch, var(--energy-error) 90%, transparent))",
         color: "#fff",
         boxShadow: isBonus
-          ? "0 0 8px rgba(34,197,94,0.4)"
-          : "0 0 8px rgba(239,68,68,0.4)",
+          ? "0 0 8px color-mix(in oklch, var(--energy-success) 40%, transparent)"
+          : "0 0 8px color-mix(in oklch, var(--energy-error) 40%, transparent)",
       }}
       title={mod.description}
     >
@@ -61,13 +61,13 @@ export function MoralityCardSummaryPanel({ moralityScore }: { moralityScore: num
     <div
       className="flex items-center gap-2 px-2 py-1 rounded-md"
       style={{
-        background: isMachine ? "rgba(220,38,38,0.08)" : "rgba(5,150,105,0.08)",
-        border: `1px solid ${isMachine ? "rgba(220,38,38,0.2)" : "rgba(5,150,105,0.2)"}`,
+        background: isMachine ? "color-mix(in oklch, var(--energy-error) 8%, transparent)" : "color-mix(in oklch, var(--energy-success) 8%, transparent)",
+        border: `1px solid ${isMachine ? "color-mix(in oklch, var(--energy-error) 20%, transparent)" : "color-mix(in oklch, var(--energy-success) 20%, transparent)"}`,
       }}
     >
       <span
         className="font-mono text-[9px] font-bold tracking-wider"
-        style={{ color: isMachine ? "var(--alert-red, #ef4444)" : "var(--signal-green, #22c55e)" }}
+        style={{ color: isMachine ? "var(--alert-red, var(--energy-error))" : "var(--signal-green, var(--energy-success))" }}
       >
         {isMachine ? "MACHINE" : "HUMANITY"}
         {summary.isExtreme && " ⚡"}

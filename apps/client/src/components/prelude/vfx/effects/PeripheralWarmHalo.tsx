@@ -38,7 +38,7 @@ export function PeripheralWarmHalo({ active, state, onComplete, className = "" }
         pointerEvents: "none",
         zIndex: 50,
         background:
-          "radial-gradient(ellipse at center, transparent 70%, rgba(253, 230, 138, 0.25) 85%, rgba(251, 191, 36, 0.35) 100%)",
+          "radial-gradient(ellipse at center, transparent 70%, rgba(253, 230, 138, 0.25) 85%, color-mix(in oklch, var(--energy-premium) 35%, transparent) 100%)",
         animation: phaseAnimations[phase],
       }}
       onAnimationEnd={() => {

@@ -343,19 +343,19 @@ export default function EasterEggs() {
 
   const getCategoryIcon = (category?: string) => {
     switch (category) {
-      case "lore": return <BookOpen size={14} className="text-amber-400" />;
+      case "lore": return <BookOpen size={14} className="void-text-accent" />;
       case "character": return <Eye size={14} className="text-[var(--neon-cyan)]" />;
       case "meta": return <Zap size={14} className="text-[var(--deep-purple)]" />;
-      case "room_discovery": return <FlaskConical size={14} className="text-red-400" />;
+      case "room_discovery": return <FlaskConical size={14} className="void-text-error" />;
       default: return <Sparkles size={14} className="text-[var(--deep-purple)]" />;
     }
   };
 
   const getCategoryColor = (category?: string) => {
     switch (category) {
-      case "lore": return { border: "rgba(251,191,36,0.4)", bg: "rgba(251,191,36,0.05)", accent: "#fbbf24" };
-      case "character": return { border: "rgba(51,226,230,0.4)", bg: "rgba(51,226,230,0.05)", accent: "var(--neon-cyan)" };
-      case "room_discovery": return { border: "rgba(239,68,68,0.4)", bg: "rgba(239,68,68,0.05)", accent: "#ef4444" };
+      case "lore": return { border: "color-mix(in oklch, var(--energy-premium) 40%, transparent)", bg: "color-mix(in oklch, var(--energy-premium) 5%, transparent)", accent: "#fbbf24" };
+      case "character": return { border: "color-mix(in oklch, var(--energy-primary) 40%, transparent)", bg: "color-mix(in oklch, var(--energy-primary) 5%, transparent)", accent: "var(--neon-cyan)" };
+      case "room_discovery": return { border: "color-mix(in oklch, var(--energy-error) 40%, transparent)", bg: "color-mix(in oklch, var(--energy-error) 5%, transparent)", accent: "var(--energy-error)" };
       default: return { border: "rgba(160,120,255,0.4)", bg: "rgba(160,120,255,0.05)", accent: "var(--deep-purple)" };
     }
   };
@@ -500,7 +500,7 @@ export function SecretsProgress() {
               key={key}
               className={`w-3 h-3 rounded-sm ${
                 discoveredEggs.includes(key)
-                  ? "bg-red-500/60"
+                  ? "void-bg-error"
                   : "bg-muted/40"
               }`}
               title={discoveredEggs.includes(key) ? ROOM_EASTER_EGGS[key].title : "???"}
@@ -516,7 +516,7 @@ export function SecretsProgress() {
           <div className="space-y-1 max-h-32 overflow-y-auto">
             {getLoreFragments().map(f => (
               <div key={f.id} className="px-2 py-1 rounded bg-muted/25 border border-border/40">
-                <p className="font-mono text-[9px] text-amber-400/70">{f.title}</p>
+                <p className="font-mono text-[9px] void-text-accent">{f.title}</p>
               </div>
             ))}
           </div>
@@ -531,7 +531,7 @@ export function SecretsProgress() {
             {getBonusCards().map(c => (
               <div key={c.name} className="px-2 py-1 rounded bg-muted/25 border border-border/40 flex items-center gap-2">
                 <span className={`font-mono text-[8px] font-bold ${
-                  c.rarity === "mythic" ? "text-red-400" : c.rarity === "legendary" ? "text-amber-400" : "text-blue-400"
+                  c.rarity === "mythic" ? "void-text-error" : c.rarity === "legendary" ? "void-text-accent" : "void-text-energy"
                 }`}>
                   {c.rarity.toUpperCase()}
                 </span>

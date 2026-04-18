@@ -431,7 +431,7 @@ export const ARENA_BACKGROUNDS: ArenaBackground[] = [
     defaultForTier: "bronze_gauntlet",
     activatedByEvent: null,
     lore: "Deep in the Cargo Bay, crates are shoved aside to form a makeshift ring. This is where specimens cut their teeth — no glory, no audience, just survival.",
-    overlayColor: "rgba(0,0,0,0.55)",
+    overlayColor: "color-mix(in oklch, var(--bg-void) 55%, transparent)",
     accentColor: "#d97706",
   },
   {
@@ -441,7 +441,7 @@ export const ARENA_BACKGROUNDS: ArenaBackground[] = [
     defaultForTier: "silver_circle",
     activatedByEvent: null,
     lore: "The Collector's laboratory doubles as an arena. Containment fields keep the combatants in; observation glass lets the scientists watch. Clinical. Precise. Lethal.",
-    overlayColor: "rgba(0,0,0,0.5)",
+    overlayColor: "color-mix(in oklch, var(--bg-void) 50%, transparent)",
     accentColor: "#06b6d4",
   },
   {
@@ -451,7 +451,7 @@ export const ARENA_BACKGROUNDS: ArenaBackground[] = [
     defaultForTier: "gold_coliseum",
     activatedByEvent: "dreamer_awakening",
     lore: "The Dreamer's frequency resonates through the Matrix Ring. Reality bends here — the arena exists in the space between timelines. Only Ascended specimens fight in this light.",
-    overlayColor: "rgba(0,0,0,0.45)",
+    overlayColor: "color-mix(in oklch, var(--bg-void) 45%, transparent)",
     accentColor: "#a855f7",
   },
   {
@@ -461,7 +461,7 @@ export const ARENA_BACKGROUNDS: ArenaBackground[] = [
     defaultForTier: null,
     activatedByEvent: "necromancer_return",
     lore: "When the Necromancer stirs, the arena transforms. Bone and void replace steel and glass. Every death here feeds the Resurrection Protocols. He is watching.",
-    overlayColor: "rgba(0,0,0,0.6)",
+    overlayColor: "color-mix(in oklch, var(--bg-void) 60%, transparent)",
     accentColor: "#dc2626",
   },
   {
@@ -471,8 +471,8 @@ export const ARENA_BACKGROUNDS: ArenaBackground[] = [
     defaultForTier: null,
     activatedByEvent: "antiquarian_revelation",
     lore: "The Antiquarian opened this dome across seven timelines. Champions from every age converge here. The ceiling shows constellations from worlds that no longer exist.",
-    overlayColor: "rgba(0,0,0,0.5)",
-    accentColor: "#f59e0b",
+    overlayColor: "color-mix(in oklch, var(--bg-void) 50%, transparent)",
+    accentColor: "var(--energy-accent)",
   },
 ];
 

@@ -4,20 +4,20 @@ import { useState } from "react";
 
 const RANK_COLORS: Record<number, string> = {
   0: "text-muted-foreground",
-  1: "text-emerald-400",
-  2: "text-blue-400",
-  3: "text-purple-400",
-  4: "text-amber-400",
-  5: "text-red-400",
+  1: "void-text-energy",
+  2: "void-text-energy",
+  3: "void-text-system",
+  4: "void-text-accent",
+  5: "void-text-error",
 };
 
 const RANK_BG: Record<number, string> = {
   0: "bg-muted/20",
-  1: "bg-emerald-500/10 border-emerald-500/30",
-  2: "bg-blue-500/10 border-blue-500/30",
-  3: "bg-purple-500/10 border-purple-500/30",
-  4: "bg-amber-500/10 border-amber-500/30",
-  5: "bg-red-500/10 border-red-500/30",
+  1: "void-bg-success void-border-success",
+  2: "void-bg-sunk void-border",
+  3: "void-bg-system void-border-system",
+  4: "void-bg-sunk void-border",
+  5: "void-bg-error void-border-error",
 };
 
 const CLASS_ICONS: Record<string, string> = {

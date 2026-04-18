@@ -113,8 +113,8 @@ const SNOW_STYLES = `
   100% { transform: translateY(110vh) translateX(-10px); opacity: 0; }
 }
 @keyframes casino-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(239,68,68,0.15), 0 0 40px rgba(34,197,94,0.1); }
-  50%      { box-shadow: 0 0 30px rgba(239,68,68,0.25), 0 0 60px rgba(34,197,94,0.15); }
+  0%, 100% { box-shadow: 0 0 20px color-mix(in oklch, var(--energy-error) 15%, transparent), 0 0 40px color-mix(in oklch, var(--energy-success) 10%, transparent); }
+  50%      { box-shadow: 0 0 30px color-mix(in oklch, var(--energy-error) 25%, transparent), 0 0 60px color-mix(in oklch, var(--energy-success) 15%, transparent); }
 }
 @keyframes wheel-decel {
   0%   { transform: rotate(var(--start-angle)); }
@@ -172,10 +172,10 @@ function GiftSendBar() {
     sendGift.mutate({ recipientId: picked.id, giftType, message: message || undefined });
   };
   return (
-    <div className="bg-gradient-to-r from-red-950/20 via-amber-900/10 to-green-950/20 border border-amber-500/20 rounded-xl p-4">
+    <div className="bg-gradient-to-r from-red-950/20 via-amber-900/10 to-green-950/20 border void-border rounded-xl p-4">
       <div className="flex items-center gap-2 mb-3">
-        <Gift className="w-4 h-4 text-amber-400" />
-        <span className="font-display text-sm text-amber-300">Send a Gift</span>
+        <Gift className="w-4 h-4 void-text-accent" />
+        <span className="font-display text-sm void-text-accent">Send a Gift</span>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-2 relative">
         <div className="relative">
@@ -187,15 +187,15 @@ function GiftSendBar() {
               setPicked(null);
               setQuery(e.target.value);
             }}
-            className="w-full px-3 py-2 rounded-lg bg-gray-900/60 border border-gray-700/40 text-gray-200 text-sm"
+            className="w-full px-3 py-2 rounded-lg void-bg-canvas border void-border void-text text-sm"
           />
           {query.length >= 2 && !picked && searchQuery.data && searchQuery.data.length > 0 && (
-            <div className="absolute top-full left-0 right-0 z-10 mt-1 rounded-lg bg-gray-900 border border-gray-700/60 shadow-xl max-h-48 overflow-auto">
+            <div className="absolute top-full left-0 right-0 z-10 mt-1 rounded-lg void-bg-canvas border void-border shadow-xl max-h-48 overflow-auto">
               {searchQuery.data.map((u) => (
                 <button
                   key={u.id}
                   onClick={() => { setPicked(u); setQuery(""); }}
-                  className="w-full text-left px-3 py-2 text-sm text-gray-200 hover:bg-amber-500/10 border-b border-gray-800/60 last:border-b-0"
+                  className="w-full text-left px-3 py-2 text-sm void-text void-bg-sunk border-b void-border last:border-b-0"
                 >
                   {u.name ?? `User #${u.id}`}
                 </button>
@@ -206,7 +206,7 @@ function GiftSendBar() {
         <select
           value={giftType}
           onChange={(e) => setGiftType(e.target.value as typeof giftType)}
-          className="px-3 py-2 rounded-lg bg-gray-900/60 border border-gray-700/40 text-gray-200 text-sm"
+          className="px-3 py-2 rounded-lg void-bg-canvas border void-border void-text text-sm"
         >
           <option value="gift_box">Gift Box</option>
           <option value="candy_cane">Candy Cane</option>
@@ -222,29 +222,29 @@ function GiftSendBar() {
           placeholder="Message (optional)"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="px-3 py-2 rounded-lg bg-gray-900/60 border border-gray-700/40 text-gray-200 text-sm"
+          className="px-3 py-2 rounded-lg void-bg-canvas border void-border void-text text-sm"
         />
         <button
           onClick={onSend}
           disabled={sendGift.isPending || !picked}
-          className="px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-200 font-mono text-sm hover:bg-amber-500/30 disabled:opacity-50"
+          className="px-4 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk disabled:opacity-50"
         >
           {sendGift.isPending ? "Sending..." : "Send"}
         </button>
       </div>
       {sendGift.isError && (
-        <p className="mt-2 text-xs text-red-400/80 font-mono">{sendGift.error.message}</p>
+        <p className="mt-2 text-xs void-text-error font-mono">{sendGift.error.message}</p>
       )}
       {sendGift.isSuccess && sendGift.data && (
         <div className="mt-2 space-y-1">
-          <p className="text-xs text-green-400/80 font-mono">
+          <p className="text-xs void-text-energy font-mono">
             Gift sent! +{sendGift.data.tokensEarned} tokens earned
             {sendGift.data.bonusDelta > 0 && (
-              <span className="text-amber-300/80"> ({sendGift.data.baseTokens} base + {sendGift.data.bonusDelta} crew bonus)</span>
+              <span className="void-text-accent"> ({sendGift.data.baseTokens} base + {sendGift.data.bonusDelta} crew bonus)</span>
             )}
           </p>
           {sendGift.data.bonusDelta > 0 && sendGift.data.crewBonus && (
-            <p className="text-[10px] text-amber-400/60 font-mono">
+            <p className="text-[10px] void-text-accent font-mono">
               Attributable to{" "}
               {sendGift.data.crewBonus.sourceBloodlines.length > 0 && (
                 <span>
@@ -261,7 +261,7 @@ function GiftSendBar() {
             </p>
           )}
           {sendGift.data.crewMembersAffected > 0 && (
-            <p className="text-[10px] text-green-400/50 font-mono">
+            <p className="text-[10px] void-text-energy font-mono">
               Morale +{sendGift.data.crewMoraleDelta} for {sendGift.data.crewMembersAffected} crew
               {sendGift.data.newMilestonesReached.length > 0 && " (milestone bonus!)"}
             </p>
@@ -296,7 +296,7 @@ function CrewBonusPanel() {
     bonus.crapsLuckBonus > 0;
   if (!hasAnyBonus) {
     return (
-      <div className="bg-gray-900/30 border border-gray-700/20 rounded-xl p-4 text-center text-xs text-gray-500 font-mono">
+      <div className="void-bg-canvas border void-border rounded-xl p-4 text-center text-xs void-text font-mono">
         Your crew has no active holiday bonus yet. Recruit members with distinct bloodlines and
         roles during the event to stack token multipliers and luck buffs.
       </div>
@@ -310,7 +310,7 @@ function CrewBonusPanel() {
       label: "Festive Token Earnings",
       value: `+${pct(bonus.tokenMultiplier)}`,
       icon: <TrendingUp className="w-4 h-4" />,
-      color: "text-green-300",
+      color: "void-text-energy",
     });
   }
   if (bonus.giftBonusTokens > 0) {
@@ -318,7 +318,7 @@ function CrewBonusPanel() {
       label: "Bonus Tokens / Gift",
       value: `+${bonus.giftBonusTokens}`,
       icon: <Gift className="w-4 h-4" />,
-      color: "text-amber-300",
+      color: "void-text-accent",
     });
   }
   if (bonus.wheelLuckBonus > 0) {
@@ -326,7 +326,7 @@ function CrewBonusPanel() {
       label: "Wheel Luck (Common Reroll)",
       value: `+${pct(bonus.wheelLuckBonus)}`,
       icon: <RotateCw className="w-4 h-4" />,
-      color: "text-red-300",
+      color: "void-text-error",
     });
   }
   if (bonus.crapsLuckBonus > 0) {
@@ -334,16 +334,16 @@ function CrewBonusPanel() {
       label: "Craps Luck (Snake-Eyes Reroll)",
       value: `+${pct(bonus.crapsLuckBonus)}`,
       icon: <Dice5 className="w-4 h-4" />,
-      color: "text-purple-300",
+      color: "void-text-system",
     });
   }
 
   return (
-    <div className="bg-gradient-to-br from-green-950/20 via-amber-950/10 to-red-950/20 border border-amber-500/30 rounded-xl p-4">
+    <div className="bg-gradient-to-br from-green-950/20 via-amber-950/10 to-red-950/20 border void-border rounded-xl p-4">
       <div className="flex items-center gap-2 mb-3">
-        <Sparkles className="w-4 h-4 text-amber-300" />
-        <span className="font-display text-sm text-amber-300">Crew Holiday Bonus</span>
-        <span className="ml-auto text-[10px] font-mono text-amber-400/50 uppercase tracking-widest">
+        <Sparkles className="w-4 h-4 void-text-accent" />
+        <span className="font-display text-sm void-text-accent">Crew Holiday Bonus</span>
+        <span className="ml-auto text-[10px] font-mono void-text-accent uppercase tracking-widest">
           {bonus.contributingMemberIds.length} contributing
         </span>
       </div>
@@ -351,11 +351,11 @@ function CrewBonusPanel() {
         {stats.map((stat) => (
           <div
             key={stat.label}
-            className="flex items-center gap-2 p-2 rounded-lg bg-gray-900/40 border border-gray-700/30"
+            className="flex items-center gap-2 p-2 rounded-lg void-bg-canvas border void-border"
           >
             <span className={stat.color}>{stat.icon}</span>
             <div className="flex-1 min-w-0">
-              <p className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">{stat.label}</p>
+              <p className="text-[10px] void-text font-mono uppercase tracking-wider">{stat.label}</p>
               <p className={`font-mono text-sm font-bold ${stat.color}`}>{stat.value}</p>
             </div>
           </div>
@@ -366,7 +366,7 @@ function CrewBonusPanel() {
           {bonus.sourceBloodlines.map((b) => (
             <span
               key={b}
-              className="text-[10px] px-2 py-0.5 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300 font-mono"
+              className="text-[10px] px-2 py-0.5 rounded-full border void-border void-bg-sunk void-text-accent font-mono"
             >
               {b.replace(/_/g, " ")}
             </span>
@@ -374,7 +374,7 @@ function CrewBonusPanel() {
           {bonus.sourceRoles.map((r) => (
             <span
               key={r}
-              className="text-[10px] px-2 py-0.5 rounded-full border border-green-500/30 bg-green-500/10 text-green-300 font-mono"
+              className="text-[10px] px-2 py-0.5 rounded-full border void-border-success void-bg-success void-text-energy font-mono"
             >
               {r.replace(/_/g, " ")}
             </span>
@@ -421,18 +421,18 @@ function StrainChristmasMoment() {
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
-          className="max-w-md w-full p-6 rounded-xl border-2 border-amber-500/50 bg-gradient-to-b from-amber-950/60 to-black"
+          className="max-w-md w-full p-6 rounded-xl border-2 void-border bg-gradient-to-b from-amber-950/60 to-black"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex items-center gap-2 mb-4">
-            <Sparkles className="w-4 h-4 text-amber-300" />
-            <span className="font-display text-xs text-amber-300 uppercase tracking-widest">
+            <Sparkles className="w-4 h-4 void-text-accent" />
+            <span className="font-display text-xs void-text-accent uppercase tracking-widest">
               Strain's First Christmas
             </span>
           </div>
-          <p className="font-mono text-sm text-amber-100 leading-relaxed mb-5">"{line}"</p>
+          <p className="font-mono text-sm void-text-accent leading-relaxed mb-5">"{line}"</p>
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono text-amber-400/40">
+            <span className="text-[10px] font-mono void-text-accent">
               {dialogStep + 1} / {fired.dialog.length}
             </span>
             <button
@@ -440,7 +440,7 @@ function StrainChristmasMoment() {
                 if (isLast) setFired(null);
                 else setDialogStep((s) => s + 1);
               }}
-              className="px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-200 font-mono text-xs hover:bg-amber-500/30"
+              className="px-4 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-xs void-bg-sunk"
             >
               {isLast ? `Bond +${fired.bondGain}` : "Continue"}
             </button>
@@ -457,18 +457,18 @@ function StrainChristmasMoment() {
   // one-shot cutscene. Reloading mid-dialog won't burn the unlock — the
   // server only marks the reward on a successful mutation.
   return (
-    <div className="rounded-xl border border-amber-500/30 bg-amber-950/10 p-4 flex items-center gap-3">
-      <Sparkles className="w-5 h-5 text-amber-300 shrink-0" />
+    <div className="rounded-xl border void-border void-bg-sunk p-4 flex items-center gap-3">
+      <Sparkles className="w-5 h-5 void-text-accent shrink-0" />
       <div className="flex-1 min-w-0">
-        <p className="font-display text-sm text-amber-300">Strain's First Christmas</p>
-        <p className="text-[11px] text-amber-200/70 font-mono mt-0.5">
+        <p className="font-display text-sm void-text-accent">Strain's First Christmas</p>
+        <p className="text-[11px] void-text-accent font-mono mt-0.5">
           {status.petName ?? "Your Strain"} has never seen a holiday. Play the cutscene to deepen your bond.
         </p>
       </div>
       <button
         onClick={() => mut.mutate()}
         disabled={mut.isPending}
-        className="px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-200 font-mono text-xs hover:bg-amber-500/30 disabled:opacity-50"
+        className="px-4 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-xs void-bg-sunk disabled:opacity-50"
       >
         {mut.isPending ? "…" : "Play Cutscene"}
       </button>
@@ -495,21 +495,21 @@ function HolidayDangerPanel() {
   if (!data) return null;
   const { danger, alreadyResolved } = data;
   const severityStyles =
-    danger.severity === "critical" ? "bg-red-950/30 border-red-500/40 text-red-200" :
-    danger.severity === "serious"  ? "bg-amber-950/30 border-amber-500/40 text-amber-200" :
-    "bg-gray-900/40 border-gray-700/30 text-gray-300";
+    danger.severity === "critical" ? "void-bg-error void-border-error void-text-error" :
+    danger.severity === "serious"  ? "void-bg-sunk void-border void-text-accent" :
+    "void-bg-canvas void-border void-text";
   return (
     <div className={`rounded-xl border p-4 ${severityStyles}`}>
       <div className="flex items-center gap-2 mb-2">
         <Flame className="w-4 h-4" />
         <span className="font-display text-sm">Festive Emergency — {danger.severity.toUpperCase()}</span>
         {alreadyResolved && (
-          <span className="ml-auto text-[10px] font-mono uppercase tracking-widest text-green-400/70">Resolved</span>
+          <span className="ml-auto text-[10px] font-mono uppercase tracking-widest void-text-energy">Resolved</span>
         )}
       </div>
-      <p className="text-xs font-mono leading-relaxed mb-3 text-gray-200">{danger.description}</p>
+      <p className="text-xs font-mono leading-relaxed mb-3 void-text">{danger.description}</p>
       {resolveMut.data && (
-        <p className={`text-xs font-mono italic mb-3 ${resolveMut.data.success ? "text-green-300" : "text-red-300"}`}>
+        <p className={`text-xs font-mono italic mb-3 ${resolveMut.data.success ? "void-text-energy" : "void-text-error"}`}>
           {resolveMut.data.success
             ? `✓ ${resolveMut.data.flavor ?? "Crisis averted"} — earned ${resolveMut.data.tokensEarned} festive tokens`
             : "✗ The choice backfired. No tokens earned."}
@@ -522,23 +522,23 @@ function HolidayDangerPanel() {
               key={choice.id}
               onClick={() => resolveMut.mutate({ choiceId: choice.id })}
               disabled={resolveMut.isPending}
-              className="w-full text-left p-3 rounded-lg bg-gray-900/60 border border-gray-700/40 hover:border-amber-500/40 disabled:opacity-50 transition-colors"
+              className="w-full text-left p-3 rounded-lg void-bg-canvas border void-border void-border disabled:opacity-50 transition-colors"
             >
               <div className="flex items-center justify-between">
-                <span className="font-mono text-xs text-amber-300">{choice.label}</span>
-                <span className="text-[10px] text-gray-500 font-mono">
+                <span className="font-mono text-xs void-text-accent">{choice.label}</span>
+                <span className="text-[10px] void-text font-mono">
                   {Math.round(choice.successChance * 100)}% success
                   {choice.dreamCost ? ` · ${choice.dreamCost}D cost` : ""}
                   {choice.rewardTokens ? ` · +${choice.rewardTokens} tokens` : ""}
                 </span>
               </div>
-              <p className="text-[10px] text-gray-400 mt-1">{choice.description}</p>
+              <p className="text-[10px] void-text mt-1">{choice.description}</p>
             </button>
           ))}
         </div>
       )}
       {resolveMut.isError && (
-        <p className="text-xs text-red-400/80 font-mono mt-2">{resolveMut.error.message}</p>
+        <p className="text-xs void-text-error font-mono mt-2">{resolveMut.error.message}</p>
       )}
     </div>
   );
@@ -554,7 +554,7 @@ function RewardsPanel() {
   const rewards = rewardsQuery.data ?? [];
   if (rewards.length === 0) {
     return (
-      <div className="bg-gray-900/30 border border-gray-700/20 rounded-xl p-4 text-center text-xs text-gray-500 font-mono">
+      <div className="void-bg-canvas border void-border rounded-xl p-4 text-center text-xs void-text font-mono">
         No holiday rewards earned yet. Spin, roll, and claim daily challenges to collect them.
       </div>
     );
@@ -565,16 +565,16 @@ function RewardsPanel() {
     item: rewards.filter(r => r.kind === "item"),
   };
   return (
-    <div className="bg-gradient-to-br from-amber-950/20 to-red-950/20 border border-amber-500/20 rounded-xl p-4">
+    <div className="bg-gradient-to-br from-amber-950/20 to-red-950/20 border void-border rounded-xl p-4">
       <div className="flex items-center gap-2 mb-3">
-        <Star className="w-4 h-4 text-amber-400" />
-        <span className="font-display text-sm text-amber-300">Holiday Rewards Earned</span>
-        <span className="ml-auto text-xs text-amber-400/50 font-mono">{rewards.length} total</span>
+        <Star className="w-4 h-4 void-text-accent" />
+        <span className="font-display text-sm void-text-accent">Holiday Rewards Earned</span>
+        <span className="ml-auto text-xs void-text-accent font-mono">{rewards.length} total</span>
       </div>
       {(["title", "badge", "item"] as const).map((kind) =>
         byKind[kind].length > 0 ? (
           <div key={kind} className="mb-3 last:mb-0">
-            <p className="text-[10px] uppercase tracking-widest text-gray-500 font-mono mb-1">
+            <p className="text-[10px] uppercase tracking-widest void-text font-mono mb-1">
               {kind}s
             </p>
             <div className="flex flex-wrap gap-2">
@@ -585,10 +585,10 @@ function RewardsPanel() {
                     key={r.id}
                     className={`inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full border font-mono ${
                       kind === "title"
-                        ? "bg-amber-500/10 border-amber-500/30 text-amber-300"
+                        ? "void-bg-sunk void-border void-text-accent"
                         : kind === "badge"
-                        ? "bg-red-500/10 border-red-500/30 text-red-300"
-                        : "bg-green-500/10 border-green-500/30 text-green-300"
+                        ? "void-bg-error void-border-error void-text-error"
+                        : "void-bg-success void-border-success void-text-energy"
                     }`}
                   >
                     <Icon className="w-3 h-3" />
@@ -622,18 +622,18 @@ function GiftInbox({ userId }: { userId: number }) {
   const unclaimed = received.filter(g => !g.claimed);
   if (received.length === 0) {
     return (
-      <div className="bg-gray-900/40 border border-gray-700/20 rounded-xl p-4 text-center text-xs text-gray-500 font-mono">
+      <div className="void-bg-canvas border void-border rounded-xl p-4 text-center text-xs void-text font-mono">
         No gifts received yet. Tell your friends you love presents.
       </div>
     );
   }
   return (
-    <div className="bg-amber-950/20 border border-amber-500/20 rounded-xl p-4">
+    <div className="void-bg-sunk border void-border rounded-xl p-4">
       <div className="flex items-center gap-2 mb-3">
-        <Package className="w-4 h-4 text-amber-400" />
-        <span className="font-display text-sm text-amber-300">Gift Inbox</span>
+        <Package className="w-4 h-4 void-text-accent" />
+        <span className="font-display text-sm void-text-accent">Gift Inbox</span>
         {unclaimed.length > 0 && (
-          <span className="ml-auto text-xs px-2 py-0.5 rounded-full bg-red-500/20 border border-red-500/40 text-red-300 font-mono">
+          <span className="ml-auto text-xs px-2 py-0.5 rounded-full void-bg-error border void-border-error void-text-error font-mono">
             {unclaimed.length} unclaimed
           </span>
         )}
@@ -644,28 +644,28 @@ function GiftInbox({ userId }: { userId: number }) {
             key={gift.id}
             className={`flex items-center justify-between gap-3 p-3 rounded-lg border ${
               gift.claimed
-                ? "bg-gray-900/30 border-gray-700/20 opacity-60"
-                : "bg-amber-500/10 border-amber-500/30"
+                ? "void-bg-canvas void-border opacity-60"
+                : "void-bg-sunk void-border"
             }`}
           >
             <div className="flex-1 min-w-0">
-              <p className="font-mono text-xs text-amber-300 truncate">
+              <p className="font-mono text-xs void-text-accent truncate">
                 {gift.giftType.replace(/_/g, " ")}
               </p>
               {gift.message && (
-                <p className="text-[10px] text-gray-400 italic mt-1 truncate">"{gift.message}"</p>
+                <p className="text-[10px] void-text italic mt-1 truncate">"{gift.message}"</p>
               )}
             </div>
             {!gift.claimed ? (
               <button
                 onClick={() => claimGift.mutate({ giftId: gift.id })}
                 disabled={claimGift.isPending}
-                className="px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-200 font-mono text-xs hover:bg-amber-500/30 disabled:opacity-50"
+                className="px-3 py-1.5 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-xs void-bg-sunk disabled:opacity-50"
               >
                 Claim
               </button>
             ) : (
-              <span className="text-[10px] text-gray-500 font-mono">claimed</span>
+              <span className="text-[10px] void-text font-mono">claimed</span>
             )}
           </div>
         ))}
@@ -927,10 +927,10 @@ export default function CasinoFloor() {
 
   /* ─── RARITY COLORS ─── */
   const rarityColor: Record<string, string> = {
-    common: "text-gray-300",
-    uncommon: "text-green-400",
-    rare: "text-blue-400",
-    legendary: "text-amber-400",
+    common: "void-text",
+    uncommon: "void-text-energy",
+    rare: "void-text-energy",
+    legendary: "void-text-accent",
   };
 
 
@@ -957,9 +957,9 @@ export default function CasinoFloor() {
 
       {/* ── AMBIENT GLOW OVERLAYS ── */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-green-500/5 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-500/3 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 void-bg-error rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 void-bg-success rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] void-bg-sunk rounded-full blur-3xl" />
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 py-6">
@@ -969,9 +969,9 @@ export default function CasinoFloor() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="p-2 rounded-lg bg-red-950/30 border border-red-500/20 hover:border-red-500/40 transition-colors"
+              className="p-2 rounded-lg void-bg-error border void-border-error void-border-error transition-colors"
             >
-              <ChevronLeft className="w-5 h-5 text-red-400" />
+              <ChevronLeft className="w-5 h-5 void-text-error" />
             </motion.button>
           </Link>
           <div className="flex items-center gap-3">
@@ -979,13 +979,13 @@ export default function CasinoFloor() {
               animate={{ rotate: [0, 5, -5, 0] }}
               transition={{ duration: 3, repeat: Infinity }}
             >
-              <Gem className="w-8 h-8 text-amber-400" />
+              <Gem className="w-8 h-8 void-text-accent" />
             </motion.div>
             <div>
               <h1 className="font-display text-2xl md:text-3xl font-bold bg-gradient-to-r from-red-400 via-amber-400 to-green-400 bg-clip-text text-transparent">
                 DEGEN'S CASINO
               </h1>
-              <p className="text-xs text-amber-400/60 font-mono tracking-widest uppercase">
+              <p className="text-xs void-text-accent font-mono tracking-widest uppercase">
                 Christmas in July — Season of Giving
               </p>
             </div>
@@ -1003,9 +1003,9 @@ export default function CasinoFloor() {
               className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-display text-sm whitespace-nowrap transition-all ${
                 activeTab === tab.id
                   ? tab.id === "charity"
-                    ? "bg-amber-500/20 border border-amber-500/40 text-amber-300 shadow-lg shadow-amber-500/10"
-                    : "bg-red-500/20 border border-red-500/40 text-red-300 shadow-lg shadow-red-500/10"
-                  : "bg-gray-900/50 border border-gray-700/30 text-gray-400 hover:text-gray-200 hover:border-gray-600/40"
+                    ? "void-bg-sunk border void-border void-text-accent shadow-lg shadow-amber-500/10"
+                    : "void-bg-error border void-border-error void-text-error shadow-lg shadow-red-500/10"
+                  : "void-bg-canvas border void-border void-text void-text void-border"
               }`}
             >
               {tab.icon}
@@ -1028,23 +1028,23 @@ export default function CasinoFloor() {
               <div className="space-y-6">
                 {/* Welcome Banner */}
                 <motion.div
-                  className="casino-panel rounded-2xl bg-gradient-to-r from-red-950/40 via-gray-900/60 to-green-950/40 border border-red-500/20 p-6"
+                  className="casino-panel rounded-2xl bg-gradient-to-r from-red-950/40 via-gray-900/60 to-green-950/40 border void-border-error p-6"
                   initial={{ scale: 0.95 }}
                   animate={{ scale: 1 }}
                 >
                   <div className="flex items-center gap-4">
                     <motion.div
-                      className="w-16 h-16 rounded-full bg-amber-500/20 border-2 border-amber-500/40 flex items-center justify-center flex-shrink-0"
+                      className="w-16 h-16 rounded-full void-bg-sunk border-2 void-border flex items-center justify-center flex-shrink-0"
                       animate={{ boxShadow: ["0 0 10px rgba(234,179,8,0.2)", "0 0 25px rgba(234,179,8,0.4)", "0 0 10px rgba(234,179,8,0.2)"] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     >
-                      <Gem className="w-8 h-8 text-amber-400" />
+                      <Gem className="w-8 h-8 void-text-accent" />
                     </motion.div>
                     <div>
-                      <h2 className="font-display text-xl text-amber-300 gold-pulse">
+                      <h2 className="font-display text-xl void-text-accent gold-pulse">
                         Welcome to Degen's Casino!
                       </h2>
-                      <p className="text-gray-400 text-sm mt-1">
+                      <p className="void-text text-sm mt-1">
                         {isEventActive && degenLines
                           ? degenLines.welcome
                           : "'Tis the season to be degenerate! Spin the wheel, roll the bones, spread some holiday cheer, and help us reach our charity milestones. Every gift counts — 10% of premium purchases go to LCIF."}
@@ -1056,15 +1056,15 @@ export default function CasinoFloor() {
                 {/* Stats Bar */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {[
-                    { label: "Festive Tokens", value: festiveTokens, icon: <CircleDollarSign className="w-5 h-5" />, color: "text-amber-400", bg: "bg-amber-950/20", border: "border-amber-500/20" },
-                    { label: "Gifts Sent",     value: giftsSent,     icon: <Gift className="w-5 h-5" />,             color: "text-red-400",   bg: "bg-red-950/20",   border: "border-red-500/20" },
-                    { label: "Gifts Received",  value: giftsReceived, icon: <Package className="w-5 h-5" />,          color: "text-green-400", bg: "bg-green-950/20", border: "border-green-500/20" },
-                    { label: "Days Remaining",  value: daysRemaining, icon: <Timer className="w-5 h-5" />,            color: "text-red-300",   bg: "bg-red-950/20",   border: "border-red-500/20" },
+                    { label: "Festive Tokens", value: festiveTokens, icon: <CircleDollarSign className="w-5 h-5" />, color: "void-text-accent", bg: "void-bg-sunk", border: "void-border" },
+                    { label: "Gifts Sent",     value: giftsSent,     icon: <Gift className="w-5 h-5" />,             color: "void-text-error",   bg: "void-bg-error",   border: "void-border-error" },
+                    { label: "Gifts Received",  value: giftsReceived, icon: <Package className="w-5 h-5" />,          color: "void-text-energy", bg: "void-bg-success", border: "void-border-success" },
+                    { label: "Days Remaining",  value: daysRemaining, icon: <Timer className="w-5 h-5" />,            color: "void-text-error",   bg: "void-bg-error",   border: "void-border-error" },
                   ].map((stat) => (
                     <div key={stat.label} className={`${stat.bg} ${stat.border} border rounded-xl p-4 text-center`}>
                       <div className={`${stat.color} flex justify-center mb-1`}>{stat.icon}</div>
                       <div className={`font-mono text-2xl font-bold ${stat.color}`}>{stat.value.toLocaleString()}</div>
-                      <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
+                      <div className="text-xs void-text mt-1">{stat.label}</div>
                     </div>
                   ))}
                 </div>
@@ -1076,13 +1076,13 @@ export default function CasinoFloor() {
                     disabled={claimTokensMut.isPending}
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
-                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500/20 via-amber-500/30 to-amber-500/20 border border-amber-400/40 text-amber-200 font-display tracking-wider disabled:opacity-50"
+                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500/20 via-amber-500/30 to-amber-500/20 border void-border void-text-accent font-display tracking-wider disabled:opacity-50"
                   >
                     {claimTokensMut.isPending ? "Claiming..." : "Claim 10 Free Festive Tokens"}
                   </motion.button>
                 </div>
                 {claimTokensMut.isError && (
-                  <p className="text-center text-xs text-red-400/80 font-mono">{claimTokensMut.error?.message}</p>
+                  <p className="text-center text-xs void-text-error font-mono">{claimTokensMut.error?.message}</p>
                 )}
 
                 {/* Crew holiday preview + quick gift dispatcher + inbox + holiday rewards + crew chatter */}
@@ -1097,10 +1097,10 @@ export default function CasinoFloor() {
                 {/* Quick Access Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {[
-                    { label: "Naughty or Nice Wheel", icon: <RotateCw className="w-6 h-6" />, tab: "wheel" as Tab,    color: "text-red-400",   bg: "from-red-950/30 to-red-900/10",   border: "border-red-500/20" },
-                    { label: "Soul Stone Craps",      icon: <Dice5 className="w-6 h-6" />,    tab: "craps" as Tab,    color: "text-green-400", bg: "from-green-950/30 to-green-900/10", border: "border-green-500/20" },
-                    { label: "Gift Exchange",          icon: <Gift className="w-6 h-6" />,     tab: "charity" as Tab,  color: "text-amber-400", bg: "from-amber-950/30 to-amber-900/10", border: "border-amber-500/20" },
-                    { label: "12 Days Calendar",       icon: <Calendar className="w-6 h-6" />, tab: "calendar" as Tab, color: "text-red-300",   bg: "from-red-950/30 to-red-900/10",   border: "border-red-500/20" },
+                    { label: "Naughty or Nice Wheel", icon: <RotateCw className="w-6 h-6" />, tab: "wheel" as Tab,    color: "void-text-error",   bg: "from-red-950/30 to-red-900/10",   border: "void-border-error" },
+                    { label: "Soul Stone Craps",      icon: <Dice5 className="w-6 h-6" />,    tab: "craps" as Tab,    color: "void-text-energy", bg: "from-green-950/30 to-green-900/10", border: "void-border-success" },
+                    { label: "Gift Exchange",          icon: <Gift className="w-6 h-6" />,     tab: "charity" as Tab,  color: "void-text-accent", bg: "from-amber-950/30 to-amber-900/10", border: "void-border" },
+                    { label: "12 Days Calendar",       icon: <Calendar className="w-6 h-6" />, tab: "calendar" as Tab, color: "void-text-error",   bg: "from-red-950/30 to-red-900/10",   border: "void-border-error" },
                   ].map((game) => (
                     <motion.button
                       key={game.label}
@@ -1110,24 +1110,24 @@ export default function CasinoFloor() {
                       className={`bg-gradient-to-b ${game.bg} ${game.border} border rounded-xl p-5 text-center transition-all hover:shadow-lg`}
                     >
                       <div className={`${game.color} flex justify-center mb-3`}>{game.icon}</div>
-                      <div className="font-display text-sm text-gray-200">{game.label}</div>
-                      <ArrowRight className="w-3 h-3 text-gray-600 mx-auto mt-2" />
+                      <div className="font-display text-sm void-text">{game.label}</div>
+                      <ArrowRight className="w-3 h-3 void-text mx-auto mt-2" />
                     </motion.button>
                   ))}
                 </div>
 
                 {/* Community Charity Thermometer (compact) */}
-                <div className="bg-amber-950/20 border border-amber-500/20 rounded-xl p-5">
+                <div className="void-bg-sunk border void-border rounded-xl p-5">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
-                      <Heart className="w-5 h-5 text-red-400" />
-                      <span className="font-display text-amber-300">Community Charity Thermometer</span>
+                      <Heart className="w-5 h-5 void-text-error" />
+                      <span className="font-display void-text-accent">Community Charity Thermometer</span>
                     </div>
-                    <span className="font-mono text-sm text-amber-400">
+                    <span className="font-mono text-sm void-text-accent">
                       {animatedGifts.toLocaleString()} / 250,000
                     </span>
                   </div>
-                  <div className="h-4 bg-gray-900 rounded-full overflow-hidden border border-gray-700/30">
+                  <div className="h-4 void-bg-canvas rounded-full overflow-hidden border void-border">
                     <motion.div
                       className="h-full rounded-full bg-gradient-to-r from-red-500 via-amber-500 to-green-500"
                       initial={{ width: 0 }}
@@ -1135,9 +1135,9 @@ export default function CasinoFloor() {
                       transition={{ duration: 1.5, ease: "easeOut" }}
                     />
                   </div>
-                  <div className="flex justify-between mt-2 text-xs text-gray-600">
+                  <div className="flex justify-between mt-2 text-xs void-text">
                     {MILESTONES.map((m) => (
-                      <span key={m.name} className={communityGifts >= m.threshold ? "text-amber-400" : ""}>
+                      <span key={m.name} className={communityGifts >= m.threshold ? "void-text-accent" : ""}>
                         {(m.threshold / 1000).toFixed(0)}k
                       </span>
                     ))}
@@ -1145,23 +1145,23 @@ export default function CasinoFloor() {
                 </div>
 
                 {/* The Giving Tree */}
-                <div className="bg-green-950/20 border border-green-500/20 rounded-xl p-5 text-center">
+                <div className="void-bg-success border void-border-success rounded-xl p-5 text-center">
                   <motion.div
                     animate={{ scale: [1, 1.05, 1] }}
                     transition={{ duration: 3, repeat: Infinity }}
                   >
-                    <TreePine className="w-16 h-16 text-green-400 mx-auto mb-3" />
+                    <TreePine className="w-16 h-16 void-text-energy mx-auto mb-3" />
                   </motion.div>
-                  <h3 className="font-display text-lg text-green-300 mb-1">The Giving Tree</h3>
-                  <p className="text-sm text-gray-400 mb-3">
+                  <h3 className="font-display text-lg void-text-energy mb-1">The Giving Tree</h3>
+                  <p className="text-sm void-text mb-3">
                     Community gifts to fill the tree. Every gift adds an ornament!
                   </p>
                   <div className="max-w-sm mx-auto">
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-green-400 font-mono">{treeGifts.toLocaleString()} gifts</span>
-                      <span className="text-gray-500 font-mono">{treeGoal.toLocaleString()} goal</span>
+                      <span className="void-text-energy font-mono">{treeGifts.toLocaleString()} gifts</span>
+                      <span className="void-text font-mono">{treeGoal.toLocaleString()} goal</span>
                     </div>
-                    <div className="h-3 bg-gray-900 rounded-full overflow-hidden border border-gray-700/30">
+                    <div className="h-3 void-bg-canvas rounded-full overflow-hidden border void-border">
                       <motion.div
                         className="h-full rounded-full bg-gradient-to-r from-green-600 to-green-400"
                         initial={{ width: 0 }}
@@ -1169,7 +1169,7 @@ export default function CasinoFloor() {
                         transition={{ duration: 1, ease: "easeOut" }}
                       />
                     </div>
-                    <p className="text-xs text-green-400/60 mt-2 font-mono uppercase tracking-wider">
+                    <p className="text-xs void-text-energy mt-2 font-mono uppercase tracking-wider">
                       {treeProgress >= 100 ? "TREE FILLED! 🎄" : `Fill the Tree — ${treeProgress.toFixed(1)}%`}
                     </p>
                   </div>
@@ -1181,11 +1181,11 @@ export default function CasinoFloor() {
             {/* ══════════ TAB 2: NAUGHTY OR NICE WHEEL ══════════ */}
             {activeTab === "wheel" && (
               <div className="space-y-6">
-                <div className="casino-panel bg-red-950/20 border border-red-500/20 rounded-2xl p-6">
-                  <h2 className="font-display text-xl text-red-300 text-center mb-6 flex items-center justify-center gap-2">
-                    <Sparkles className="w-5 h-5 text-amber-400" />
+                <div className="casino-panel void-bg-error border void-border-error rounded-2xl p-6">
+                  <h2 className="font-display text-xl void-text-error text-center mb-6 flex items-center justify-center gap-2">
+                    <Sparkles className="w-5 h-5 void-text-accent" />
                     Naughty or Nice Wheel
-                    <Sparkles className="w-5 h-5 text-amber-400" />
+                    <Sparkles className="w-5 h-5 void-text-accent" />
                   </h2>
 
                   {/* Wheel + Pointer */}
@@ -1199,7 +1199,7 @@ export default function CasinoFloor() {
                     <div className="relative w-72 h-72 md:w-80 md:h-80">
                       <motion.div
                         ref={wheelRef}
-                        className="w-full h-full rounded-full border-4 border-amber-500/40 shadow-2xl shadow-amber-500/10 relative overflow-hidden"
+                        className="w-full h-full rounded-full border-4 void-border shadow-2xl shadow-amber-500/10 relative overflow-hidden"
                         animate={{ rotate: wheelRotation }}
                         transition={{
                           duration: spinning ? 3.5 : 0,
@@ -1228,8 +1228,8 @@ export default function CasinoFloor() {
                         })}
                         {/* Center hub */}
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-16 h-16 rounded-full bg-gray-900 border-2 border-amber-500/60 flex items-center justify-center shadow-lg">
-                            <Gem className="w-6 h-6 text-amber-400" />
+                          <div className="w-16 h-16 rounded-full void-bg-canvas border-2 void-border flex items-center justify-center shadow-lg">
+                            <Gem className="w-6 h-6 void-text-accent" />
                           </div>
                         </div>
                         {/* Prize labels */}
@@ -1266,10 +1266,10 @@ export default function CasinoFloor() {
                       whileTap={{ scale: spinning ? 1 : 0.95 }}
                       className={`px-8 py-3 rounded-xl font-display text-lg transition-all ${
                         spinning
-                          ? "bg-gray-700/50 border border-gray-600/30 text-gray-500 cursor-wait"
+                          ? "void-bg-canvas border void-border void-text cursor-wait"
                           : festiveTokens < 5
-                          ? "bg-gray-800/50 border border-gray-700/30 text-gray-600 cursor-not-allowed"
-                          : "bg-gradient-to-r from-red-600 to-green-600 border border-amber-500/30 text-white shadow-lg shadow-red-500/20 hover:shadow-red-500/30"
+                          ? "void-bg-canvas border void-border void-text cursor-not-allowed"
+                          : "bg-gradient-to-r from-red-600 to-green-600 border void-border text-white shadow-lg shadow-red-500/20 hover:shadow-red-500/30"
                       }`}
                     >
                       {spinning ? (
@@ -1282,7 +1282,7 @@ export default function CasinoFloor() {
                         </span>
                       )}
                     </motion.button>
-                    <p className="text-xs text-gray-500 mt-2 font-mono">
+                    <p className="text-xs void-text mt-2 font-mono">
                       Balance: {festiveTokens} Festive Tokens
                     </p>
                   </div>
@@ -1294,9 +1294,9 @@ export default function CasinoFloor() {
                         initial={{ opacity: 0, scale: 0.8, y: 10 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.8 }}
-                        className="text-center mb-6 p-4 rounded-xl bg-gray-900/60 border border-amber-500/30"
+                        className="text-center mb-6 p-4 rounded-xl void-bg-canvas border void-border"
                       >
-                        <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">You Won</p>
+                        <p className="text-xs void-text uppercase tracking-wider mb-1">You Won</p>
                         <p className={`font-display text-2xl ${rarityColor[result.rarity]}`}>
                           {result.label}
                         </p>
@@ -1310,17 +1310,17 @@ export default function CasinoFloor() {
                   {/* Spin History */}
                   {history.length > 0 && (
                     <div>
-                      <h3 className="text-sm font-display text-gray-400 mb-2">Recent Spins</h3>
+                      <h3 className="text-sm font-display void-text mb-2">Recent Spins</h3>
                       <div className="flex gap-2 flex-wrap">
                         {history.map((h, i) => (
                           <span
                             key={i}
                             className={`text-xs px-3 py-1.5 rounded-full border ${
                               h.rarity === "legendary"
-                                ? "bg-amber-950/30 border-amber-500/30 text-amber-400"
+                                ? "void-bg-sunk void-border void-text-accent"
                                 : h.rarity === "rare"
-                                ? "bg-blue-950/30 border-blue-500/30 text-blue-400"
-                                : "bg-gray-900/50 border-gray-700/30 text-gray-400"
+                                ? "void-bg-sunk void-border void-text-energy"
+                                : "void-bg-canvas void-border void-text"
                             } font-mono`}
                           >
                             {h.label}
@@ -1337,11 +1337,11 @@ export default function CasinoFloor() {
             {/* ══════════ TAB 3: SOUL STONE CRAPS ══════════ */}
             {activeTab === "craps" && (
               <div className="space-y-6">
-                <div className="casino-panel bg-red-950/20 border border-red-500/20 rounded-2xl p-6">
-                  <h2 className="font-display text-xl text-green-300 text-center mb-6 flex items-center justify-center gap-2">
-                    <Gem className="w-5 h-5 text-amber-400" />
+                <div className="casino-panel void-bg-error border void-border-error rounded-2xl p-6">
+                  <h2 className="font-display text-xl void-text-energy text-center mb-6 flex items-center justify-center gap-2">
+                    <Gem className="w-5 h-5 void-text-accent" />
                     Soul Stone Craps
-                    <Gem className="w-5 h-5 text-amber-400" />
+                    <Gem className="w-5 h-5 void-text-accent" />
                   </h2>
 
                   {/* Dice Display */}
@@ -1353,9 +1353,9 @@ export default function CasinoFloor() {
                           key={i}
                           animate={rolling ? { rotate: [0, 360], scale: [1, 1.2, 1] } : { rotate: 0 }}
                           transition={rolling ? { duration: 0.3, repeat: Infinity } : { duration: 0.3 }}
-                          className="w-24 h-24 md:w-28 md:h-28 bg-gray-900/80 border-2 border-green-500/30 rounded-2xl flex items-center justify-center shadow-xl shadow-green-500/10"
+                          className="w-24 h-24 md:w-28 md:h-28 void-bg-canvas border-2 void-border-success rounded-2xl flex items-center justify-center shadow-xl shadow-green-500/10"
                         >
-                          <DieIcon className={`w-14 h-14 ${rolling ? "text-green-300" : "text-white"}`} />
+                          <DieIcon className={`w-14 h-14 ${rolling ? "void-text-energy" : "text-white"}`} />
                         </motion.div>
                       );
                     })}
@@ -1363,7 +1363,7 @@ export default function CasinoFloor() {
 
                   {/* Stone Selection */}
                   <div className="mb-6 text-center">
-                    <p className="text-sm text-gray-400 mb-3">Select a Soul Stone to wager:</p>
+                    <p className="text-sm void-text mb-3">Select a Soul Stone to wager:</p>
                     <div className="flex justify-center gap-2 flex-wrap">
                       {(["violet", "red", "gold"] as const).map((color) => (
                         <motion.button
@@ -1374,11 +1374,11 @@ export default function CasinoFloor() {
                           className={`px-4 py-2 rounded-lg border font-mono text-sm transition-all ${
                             selectedStone === color
                               ? color === "violet"
-                                ? "bg-purple-500/20 border-purple-500/40 text-purple-300"
+                                ? "void-bg-system void-border-system void-text-system"
                                 : color === "red"
-                                ? "bg-red-500/20 border-red-500/40 text-red-300"
-                                : "bg-amber-500/20 border-amber-500/40 text-amber-300"
-                              : "bg-gray-900/50 border-gray-700/30 text-gray-500"
+                                ? "void-bg-error void-border-error void-text-error"
+                                : "void-bg-sunk void-border void-text-accent"
+                              : "void-bg-canvas void-border void-text"
                           }`}
                         >
                           <Gem className="w-4 h-4 inline mr-1" />
@@ -1397,10 +1397,10 @@ export default function CasinoFloor() {
                       whileTap={{ scale: rolling ? 1 : 0.95 }}
                       className={`px-8 py-3 rounded-xl font-display text-lg transition-all ${
                         rolling
-                          ? "bg-gray-700/50 border border-gray-600/30 text-gray-500 cursor-wait"
+                          ? "void-bg-canvas border void-border void-text cursor-wait"
                           : !selectedStone
-                          ? "bg-gray-800/50 border border-gray-700/30 text-gray-600 cursor-not-allowed"
-                          : "bg-gradient-to-r from-green-700 to-green-600 border border-green-500/30 text-white shadow-lg shadow-green-500/20"
+                          ? "void-bg-canvas border void-border void-text cursor-not-allowed"
+                          : "bg-gradient-to-r from-green-700 to-green-600 border void-border-success text-white shadow-lg shadow-green-500/20"
                       }`}
                     >
                       {rolling ? (
@@ -1414,7 +1414,7 @@ export default function CasinoFloor() {
                       )}
                     </motion.button>
                     {!selectedStone && !rolling && (
-                      <p className="text-xs text-gray-600 mt-2">Select a stone to wager</p>
+                      <p className="text-xs void-text mt-2">Select a stone to wager</p>
                     )}
                   </div>
 
@@ -1425,16 +1425,16 @@ export default function CasinoFloor() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0 }}
-                        className="text-center mb-6 p-4 rounded-xl bg-gray-900/60 border border-green-500/20"
+                        className="text-center mb-6 p-4 rounded-xl void-bg-canvas border void-border-success"
                       >
                         <p className={`font-display text-xl ${
                           crapsResult.includes("win") || crapsResult.includes("JACKPOT")
-                            ? "text-green-400"
-                            : "text-red-400"
+                            ? "void-text-energy"
+                            : "void-text-error"
                         }`}>
                           {crapsResult}
                         </p>
-                        <p className="text-sm text-amber-400/80 italic mt-2">
+                        <p className="text-sm void-text-accent italic mt-2">
                           "{crapsCommentary}"
                         </p>
                       </motion.div>
@@ -1444,14 +1444,14 @@ export default function CasinoFloor() {
                   {/* Craps Stats */}
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     {[
-                      { label: "Stones Wagered",  value: stonesWagered,       color: "text-purple-400" },
-                      { label: "Stones Won",       value: stonesWon,           color: "text-green-400" },
-                      { label: "Blessed",          value: blessedPurifications, color: "text-amber-400" },
-                      { label: "Community Pool",   value: communityPool,       color: "text-red-400" },
+                      { label: "Stones Wagered",  value: stonesWagered,       color: "void-text-system" },
+                      { label: "Stones Won",       value: stonesWon,           color: "void-text-energy" },
+                      { label: "Blessed",          value: blessedPurifications, color: "void-text-accent" },
+                      { label: "Community Pool",   value: communityPool,       color: "void-text-error" },
                     ].map((stat) => (
-                      <div key={stat.label} className="bg-gray-900/40 border border-gray-700/20 rounded-lg p-3 text-center">
+                      <div key={stat.label} className="void-bg-canvas border void-border rounded-lg p-3 text-center">
                         <div className={`font-mono text-xl font-bold ${stat.color}`}>{stat.value}</div>
-                        <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
+                        <div className="text-xs void-text mt-1">{stat.label}</div>
                       </div>
                     ))}
                   </div>
@@ -1463,24 +1463,24 @@ export default function CasinoFloor() {
             {/* ══════════ TAB 4: TWELVE DAYS OF DEGENMAS ══════════ */}
             {activeTab === "calendar" && (
               <div className="space-y-6">
-                <div className="casino-panel bg-red-950/20 border border-red-500/20 rounded-2xl p-6">
-                  <h2 className="font-display text-xl text-red-300 text-center mb-2 flex items-center justify-center gap-2">
-                    <Calendar className="w-5 h-5 text-amber-400" />
+                <div className="casino-panel void-bg-error border void-border-error rounded-2xl p-6">
+                  <h2 className="font-display text-xl void-text-error text-center mb-2 flex items-center justify-center gap-2">
+                    <Calendar className="w-5 h-5 void-text-accent" />
                     Twelve Days of Degenmas
-                    <Calendar className="w-5 h-5 text-amber-400" />
+                    <Calendar className="w-5 h-5 void-text-accent" />
                   </h2>
-                  <p className="text-center text-sm text-gray-400 mb-4">
+                  <p className="text-center text-sm void-text mb-4">
                     Complete daily challenges for rewards. Consecutive streaks multiply bonuses!
                   </p>
 
                   {/* Streak Indicator */}
-                  <div className="flex items-center justify-center gap-3 mb-6 p-3 rounded-xl bg-amber-950/20 border border-amber-500/20">
-                    <Flame className="w-5 h-5 text-amber-400" />
-                    <span className="font-display text-amber-300">Current Streak:</span>
-                    <span className="font-mono text-2xl font-bold text-amber-400">{streak}</span>
-                    <span className="text-sm text-gray-400">days</span>
+                  <div className="flex items-center justify-center gap-3 mb-6 p-3 rounded-xl void-bg-sunk border void-border">
+                    <Flame className="w-5 h-5 void-text-accent" />
+                    <span className="font-display void-text-accent">Current Streak:</span>
+                    <span className="font-mono text-2xl font-bold void-text-accent">{streak}</span>
+                    <span className="text-sm void-text">days</span>
                     {streak >= 3 && (
-                      <span className="text-xs px-2 py-0.5 bg-amber-500/20 rounded-full text-amber-300 border border-amber-500/30 font-mono">
+                      <span className="text-xs px-2 py-0.5 void-bg-sunk rounded-full void-text-accent border void-border font-mono">
                         x{Math.min(streak, 7)} BONUS
                       </span>
                     )}
@@ -1504,37 +1504,37 @@ export default function CasinoFloor() {
                           whileTap={!isLocked ? { scale: 0.95 } : undefined}
                           className={`relative rounded-xl p-2 md:p-3 text-center border transition-all min-h-[80px] flex flex-col items-center justify-center gap-1 ${
                             isCompleted
-                              ? "bg-green-950/30 border-green-500/30"
+                              ? "void-bg-success void-border-success"
                               : isCurrent
-                              ? "bg-red-950/30 border-red-500/40 shadow-lg shadow-red-500/10 ring-1 ring-red-500/20"
+                              ? "void-bg-error void-border-error shadow-lg shadow-red-500/10 ring-1 ring-red-500/20"
                               : isLocked
-                              ? "bg-gray-900/30 border-gray-800/20 opacity-40 cursor-not-allowed"
-                              : "bg-gray-900/40 border-gray-700/20 hover:border-red-500/30"
+                              ? "void-bg-canvas void-border opacity-40 cursor-not-allowed"
+                              : "void-bg-canvas void-border void-border-error"
                           }`}
                           disabled={isLocked}
                         >
                           {/* Day number */}
                           <span className={`font-mono text-xs ${
-                            isCompleted ? "text-green-400" : isCurrent ? "text-red-400" : "text-gray-500"
+                            isCompleted ? "void-text-energy" : isCurrent ? "void-text-error" : "void-text"
                           }`}>
                             Day {day.day}
                           </span>
 
                           {/* Status icon */}
                           {isCompleted ? (
-                            <Check className="w-5 h-5 text-green-400" />
+                            <Check className="w-5 h-5 void-text-energy" />
                           ) : isCurrent ? (
                             <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>
-                              <Star className="w-5 h-5 text-amber-400" />
+                              <Star className="w-5 h-5 void-text-accent" />
                             </motion.div>
                           ) : isLocked ? (
-                            <Snowflake className="w-4 h-4 text-gray-600" />
+                            <Snowflake className="w-4 h-4 void-text" />
                           ) : (
-                            <Gift className="w-4 h-4 text-red-400/60" />
+                            <Gift className="w-4 h-4 void-text-error" />
                           )}
 
                           {/* Reward preview */}
-                          <span className="text-[9px] text-gray-500 leading-tight hidden md:block">
+                          <span className="text-[9px] void-text leading-tight hidden md:block">
                             {day.reward.length > 16 ? day.reward.slice(0, 14) + "..." : day.reward}
                           </span>
                         </motion.button>
@@ -1544,17 +1544,17 @@ export default function CasinoFloor() {
 
                   {/* Current Day Detail */}
                   {CALENDAR_DAYS.find((d) => d.day === currentDay) && (
-                    <div className="mt-6 p-4 rounded-xl bg-gray-900/40 border border-red-500/20">
+                    <div className="mt-6 p-4 rounded-xl void-bg-canvas border void-border-error">
                       <div className="flex items-center gap-2 mb-2">
-                        <Star className="w-4 h-4 text-amber-400" />
-                        <span className="font-display text-red-300">Today's Challenge — Day {currentDay}</span>
+                        <Star className="w-4 h-4 void-text-accent" />
+                        <span className="font-display void-text-error">Today's Challenge — Day {currentDay}</span>
                       </div>
-                      <p className="text-sm text-gray-300 mb-2">
+                      <p className="text-sm void-text mb-2">
                         {CALENDAR_DAYS.find((d) => d.day === currentDay)!.challenge}
                       </p>
                       <div className="flex items-center gap-2">
-                        <Trophy className="w-4 h-4 text-amber-400" />
-                        <span className="text-sm text-amber-400 font-mono">
+                        <Trophy className="w-4 h-4 void-text-accent" />
+                        <span className="text-sm void-text-accent font-mono">
                           {CALENDAR_DAYS.find((d) => d.day === currentDay)!.reward}
                         </span>
                       </div>
@@ -1570,25 +1570,25 @@ export default function CasinoFloor() {
               <div className="space-y-6">
                 {/* LCIF Banner */}
                 <motion.div
-                  className="bg-gradient-to-r from-amber-950/40 via-amber-900/20 to-amber-950/40 border border-amber-500/30 rounded-xl p-4 text-center"
+                  className="bg-gradient-to-r from-amber-950/40 via-amber-900/20 to-amber-950/40 border void-border rounded-xl p-4 text-center"
                   animate={{ borderColor: ["rgba(234,179,8,0.3)", "rgba(234,179,8,0.5)", "rgba(234,179,8,0.3)"] }}
                   transition={{ duration: 3, repeat: Infinity }}
                 >
                   <div className="flex items-center justify-center gap-2 mb-1">
-                    <Heart className="w-5 h-5 text-red-400" />
-                    <span className="font-display text-amber-300">Lions Clubs International Foundation</span>
-                    <Heart className="w-5 h-5 text-red-400" />
+                    <Heart className="w-5 h-5 void-text-error" />
+                    <span className="font-display void-text-accent">Lions Clubs International Foundation</span>
+                    <Heart className="w-5 h-5 void-text-error" />
                   </div>
-                  <p className="text-sm text-amber-400/80">
+                  <p className="text-sm void-text-accent">
                     10% of all premium purchases during Christmas in July are donated to LCIF
                   </p>
                 </motion.div>
 
                 {/* Direct donation widget */}
-                <div className="bg-amber-950/20 border border-amber-500/20 rounded-xl p-4 flex flex-col sm:flex-row items-center gap-3 justify-between">
+                <div className="void-bg-sunk border void-border rounded-xl p-4 flex flex-col sm:flex-row items-center gap-3 justify-between">
                   <div className="text-center sm:text-left">
-                    <p className="font-display text-sm text-amber-300">Donate Festive Tokens</p>
-                    <p className="text-xs text-gray-400 mt-1">
+                    <p className="font-display text-sm void-text-accent">Donate Festive Tokens</p>
+                    <p className="text-xs void-text mt-1">
                       Each 5 tokens donated counts as +1 community gift toward the next milestone.
                     </p>
                   </div>
@@ -1598,7 +1598,7 @@ export default function CasinoFloor() {
                         key={amount}
                         onClick={() => donateToCharityMut.mutate({ amount })}
                         disabled={donateToCharityMut.isPending || (progress?.festiveTokens ?? 0) < amount}
-                        className="px-3 py-2 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-200 font-mono text-xs hover:bg-amber-500/30 disabled:opacity-50"
+                        className="px-3 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-xs void-bg-sunk disabled:opacity-50"
                       >
                         {amount}
                       </button>
@@ -1608,7 +1608,7 @@ export default function CasinoFloor() {
 
                 {/* Community Gifts Counter */}
                 <div className="text-center py-6">
-                  <p className="text-sm text-gray-400 uppercase tracking-widest mb-2 font-mono">
+                  <p className="text-sm void-text uppercase tracking-widest mb-2 font-mono">
                     Total Community Gifts
                   </p>
                   <motion.div
@@ -1617,21 +1617,21 @@ export default function CasinoFloor() {
                   >
                     {animatedGifts.toLocaleString()}
                   </motion.div>
-                  <p className="text-sm text-gray-500 mt-2">
+                  <p className="text-sm void-text mt-2">
                     gifts donated by the community
                   </p>
                 </div>
 
                 {/* Large Charity Thermometer */}
-                <div className="bg-amber-950/20 border border-amber-500/20 rounded-2xl p-6">
-                  <h2 className="font-display text-xl text-amber-300 text-center mb-6 flex items-center justify-center gap-2">
+                <div className="void-bg-sunk border void-border rounded-2xl p-6">
+                  <h2 className="font-display text-xl void-text-accent text-center mb-6 flex items-center justify-center gap-2">
                     <TrendingUp className="w-5 h-5" />
                     Charity Thermometer
                   </h2>
 
                   <div className="relative">
                     {/* Thermometer */}
-                    <div className="h-8 bg-gray-900 rounded-full overflow-hidden border border-gray-700/30 mb-4">
+                    <div className="h-8 void-bg-canvas rounded-full overflow-hidden border void-border mb-4">
                       <motion.div
                         className="h-full rounded-full bg-gradient-to-r from-red-600 via-amber-500 to-green-500 relative"
                         initial={{ width: 0 }}
@@ -1652,8 +1652,8 @@ export default function CasinoFloor() {
                         >
                           <div className={`w-3 h-3 rounded-full border-2 ${
                             communityGifts >= m.threshold
-                              ? "bg-amber-400 border-amber-300"
-                              : "bg-gray-700 border-gray-600"
+                              ? "void-bg-sunk void-border"
+                              : "void-bg-canvas void-border"
                           }`} />
                         </div>
                       ))}
@@ -1674,35 +1674,35 @@ export default function CasinoFloor() {
                           transition={{ delay: idx * 0.1 }}
                           className={`rounded-xl p-4 border transition-all ${
                             reached
-                              ? "bg-green-950/20 border-green-500/30"
-                              : "bg-gray-900/40 border-gray-700/20"
+                              ? "void-bg-success void-border-success"
+                              : "void-bg-canvas void-border"
                           }`}
                         >
                           <div className="flex items-start justify-between gap-4">
                             <div className="flex items-center gap-3">
                               <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
                                 reached
-                                  ? "bg-green-500/20 border border-green-500/30"
-                                  : "bg-gray-800/50 border border-gray-700/30"
+                                  ? "void-bg-success border void-border-success"
+                                  : "void-bg-canvas border void-border"
                               }`}>
                                 {reached ? (
-                                  <Check className="w-5 h-5 text-green-400" />
+                                  <Check className="w-5 h-5 void-text-energy" />
                                 ) : (
-                                  <Target className="w-5 h-5 text-gray-500" />
+                                  <Target className="w-5 h-5 void-text" />
                                 )}
                               </div>
                               <div>
-                                <h3 className={`font-display text-sm ${reached ? "text-green-300" : "text-gray-300"}`}>
+                                <h3 className={`font-display text-sm ${reached ? "void-text-energy" : "void-text"}`}>
                                   {milestone.name}
                                 </h3>
-                                <p className="text-xs text-gray-500 font-mono">
+                                <p className="text-xs void-text font-mono">
                                   {milestone.threshold.toLocaleString()} gifts
                                 </p>
                               </div>
                             </div>
                             <div className="text-right">
-                              <p className="text-xs text-amber-400 font-mono">{milestone.reward}</p>
-                              <p className="text-xs text-red-400/60 mt-1">
+                              <p className="text-xs void-text-accent font-mono">{milestone.reward}</p>
+                              <p className="text-xs void-text-error mt-1">
                                 LCIF: {milestone.lcifDonation}
                               </p>
                             </div>
@@ -1710,7 +1710,7 @@ export default function CasinoFloor() {
 
                           {/* Progress bar per milestone */}
                           {!reached && (
-                            <div className="mt-3 h-1.5 bg-gray-800 rounded-full overflow-hidden">
+                            <div className="mt-3 h-1.5 void-bg-canvas rounded-full overflow-hidden">
                               <motion.div
                                 className="h-full bg-gradient-to-r from-amber-600 to-amber-400 rounded-full"
                                 initial={{ width: 0 }}

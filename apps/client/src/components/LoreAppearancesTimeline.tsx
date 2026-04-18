@@ -20,11 +20,11 @@ const AGE_ORDER = [
 ];
 
 const AGE_COLORS: Record<string, string> = {
-  "Age of Privacy": "#33E2E6",
+  "Age of Privacy": "var(--energy-primary)",
   "Age of Revelation": "#FFB700",
   "Fall of Reality": "#FF3C40",
   "Age of Potentials": "#A855F7",
-  "Age of Dischord": "#22C55E",
+  "Age of Dischord": "var(--energy-success)",
   "Unknown": "#94A3B8",
 };
 

@@ -86,9 +86,9 @@ export default function OffspringReviewModal({ pending, state, onClose, onDismis
         </div>
 
         {pending.inbreedingPenalty > 0 && (
-          <div className="mb-3 p-2 border border-red-500/40 bg-red-500/10 rounded flex items-start gap-2">
-            <AlertTriangle size={12} className="text-red-400 mt-0.5" />
-            <div className="text-[10px] font-mono text-red-300">
+          <div className="mb-3 p-2 border void-border-error void-bg-error rounded flex items-start gap-2">
+            <AlertTriangle size={12} className="void-text-error mt-0.5" />
+            <div className="text-[10px] font-mono void-text-error">
               Inbreeding penalty: -{pending.inbreedingPenalty}% to all stats.
               {pending.inbreedingPenalty > 20 && " Clone degradation has manifested."}
             </div>
@@ -141,7 +141,7 @@ export default function OffspringReviewModal({ pending, state, onClose, onDismis
         {/* Mutations */}
         {pending.newMutations.length > 0 && (
           <div className="mb-4">
-            <div className="text-[10px] font-mono uppercase text-purple-300 mb-1 flex items-center gap-1">
+            <div className="text-[10px] font-mono uppercase void-text-system mb-1 flex items-center gap-1">
               <Sparkles size={10} />
               Mutations
             </div>
@@ -153,7 +153,7 @@ export default function OffspringReviewModal({ pending, state, onClose, onDismis
                   <span
                     key={tid}
                     title={trait.description}
-                    className="text-[9px] font-mono px-1.5 py-0.5 border border-purple-500/60 text-purple-200 rounded"
+                    className="text-[9px] font-mono px-1.5 py-0.5 border void-border-system void-text-system rounded"
                   >
                     {trait.name}
                   </span>
