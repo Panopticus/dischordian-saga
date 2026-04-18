@@ -1,0 +1,19 @@
+# Void Energy adopted files
+# ─────────────────────────
+# One path per line, relative to repo root. Files listed here are checked
+# by `node scripts/void-energy-lint.mjs` and must not contain hardcoded
+# Tailwind color-ramp classes (e.g. text-cyan-400) or hex literals.
+#
+# See docs/design/VOID_ENERGY_ADOPTION_ROADMAP.md for the migration plan.
+# Add a file here when you land its migration; CI will block regressions.
+#
+# Intentional exceptions (speaker-accent colors in companion components,
+# narrative-signal colors in act UI) go in `.void-energy-intentional`,
+# not here.
+#
+# First-slice adopters (PR #TBD) — chrome + semantic-color components
+# migrated from Tailwind ramps to Void Energy tokens.
+apps/client/src/components/ReconnectingOverlay.tsx
+apps/client/src/components/MoralityShiftToast.tsx
+apps/client/src/components/AutoTutorialPrompt.tsx
+apps/client/src/components/GameErrorBoundary.tsx

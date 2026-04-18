@@ -53,8 +53,8 @@ export const ALL_GAME_MODE_REWARDS: readonly GameModeReward[] = Object.freeze([
     rarity: i < 4 ? "common" : i < 10 ? "rare" : "epic",
   })),
 
-  /* ── Tutorial — 4 gates, fixed per gate ── */
-  ...Array.from({ length: 4 }, (_, i): GameModeReward => ({
+  /* ── Tutorial — 6 gates, fixed per gate (audit backfill expanded 4→6) ── */
+  ...Array.from({ length: 6 }, (_, i): GameModeReward => ({
     id: `tutorial_gate${i + 1}`,
     gameMode: "tutorial",
     trigger: `Complete tutorial gate ${i + 1}`,

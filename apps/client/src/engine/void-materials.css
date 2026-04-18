@@ -101,6 +101,29 @@
   --ve-space-3xl: calc(64px * var(--ve-density));
   --ve-text-scale: 1;
 
+  /* ─── Void Energy library-compatible spacing scale ───
+     Semantic aliases for inline-style consumers. Values
+     mirror the --spacing-* theme tokens in index.css so
+     `var(--space-lg)` in a style={{}} and Tailwind's `p-lg`
+     resolve to the same pixel value. Naming follows
+     dimonb19/void-energy-ui CHEAT-SHEET.md. Offset scale
+     vs --ve-space-* intentionally: library's xs = 8px,
+     ours was previously 4px. This aligns us.
+     ──────────────────────────────────────────────── */
+  --space-xs: calc(8px * var(--ve-density));
+  --space-sm: calc(16px * var(--ve-density));
+  --space-md: calc(24px * var(--ve-density));
+  --space-lg: calc(32px * var(--ve-density));
+  --space-xl: calc(48px * var(--ve-density));
+  --space-2xl: calc(64px * var(--ve-density));
+  --space-3xl: calc(96px * var(--ve-density));
+  --space-4xl: calc(128px * var(--ve-density));
+  --space-5xl: calc(160px * var(--ve-density));
+
+  /* Physics tokens (library parity) */
+  --physics-blur: var(--ve-blur, 0px);
+  --physics-border-width: var(--ve-border-width, 1px);
+
   /* ─── PALETTE TOKENS (Task 7.1) ───
      Canonical --ve-* names for the upstream void-energy-ui palette.
      These are derived from the semantic aliases exposed under

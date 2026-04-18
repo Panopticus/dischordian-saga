@@ -66,6 +66,7 @@ export default tseslint.config(
       "apps/server/**/*.{ts,mts,cts,js,mjs,cjs}",
       "apps/shared/**/*.{ts,mts,cts,js,mjs,cjs}",
       "apps/db/**/*.{ts,mts,cts,js,mjs,cjs}",
+      "scripts/**/*.{ts,mts,cts,js,mjs,cjs}",
       "drizzle.config.ts",
       "vite.config.ts",
       "vitest.config.ts",

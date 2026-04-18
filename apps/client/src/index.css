@@ -48,6 +48,25 @@
   --font-display: 'Orbitron', sans-serif;
   --font-mono: 'Source Code Pro', monospace;
   --font-sans: 'Inter', sans-serif;
+
+  /* ─── VOID ENERGY SPACING SCALE ───
+     Library-compatible names from dimonb19/void-energy-ui
+     (CHEAT-SHEET.md + rules/tokens-reference.md). 4px base
+     unit × density scaling. Exposed here as --spacing-*
+     so Tailwind v4 generates gap-xs, p-md, m-lg, etc.
+     utilities automatically. Law 5 (Spacing Gravity)
+     floors documented in
+     docs/design/VOID_ENERGY_ADOPTION_ROADMAP.md.
+     ──────────────────────────────────────────────── */
+  --spacing-xs: 0.5rem;    /* 8px  — tight couplings only */
+  --spacing-sm: 1rem;      /* 16px — sunk-dense exception */
+  --spacing-md: 1.5rem;    /* 24px — sunk surfaces, form field groups */
+  --spacing-lg: 2rem;      /* 32px — floating-surface floor */
+  --spacing-xl: 3rem;      /* 48px — content-block gap inside sections */
+  --spacing-2xl: 4rem;     /* 64px — section gap in page wrappers */
+  --spacing-3xl: 6rem;     /* 96px */
+  --spacing-4xl: 8rem;     /* 128px */
+  --spacing-5xl: 10rem;    /* 160px */
 }
 
 /* ═══════════════════════════════════════════════════════

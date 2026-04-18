@@ -36,11 +36,15 @@ import {
   X,
 } from "lucide-react";
 import { ACT_1_OPPONENTS, type Act1Opponent } from "@shared/act1Opponents";
+import { getAct1OpponentDialog } from "@shared/act1OpponentDialog";
 import { getNextAct1Opponent } from "@shared/witnessingRuntime";
 import { useAct1LadderStore } from "@/stores/act1CardLadderStore";
 import { useGame } from "@/contexts/GameContext";
 import { playSlideshow } from "@/stores/witnessingStore";
 import DuelystGameUI from "@/game/duelyst/DuelystGameUI";
+import { Act1OpponentTauntOverlay } from "@/components/act1/Act1OpponentTauntOverlay";
+import { CompanionAskPanel } from "@/components/companion/CompanionAskPanel";
+import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import {
   FACTION_COLORS,
   FACTION_NAMES,
@@ -109,6 +113,10 @@ export default function Act1CardLadderPage() {
 
   const handleEngage = useCallback(() => {
     if (!playerFaction || !currentOpponent) return;
+    // Fire the first-opponent bookends on step 1 of the ladder.
+    if (currentOpponent.act1Step === 1) {
+      fireCompanionComment("act1_first_opponent_entered");
+    }
     setView("battle");
   }, [playerFaction, currentOpponent]);
 
@@ -245,6 +253,10 @@ export default function Act1CardLadderPage() {
                   opponentFaction={resolveOpponentFaction(currentOpponent)}
                   onGameEnd={handleGameEnd}
                   onBack={() => setView("matchup")}
+                />
+                <Act1OpponentTauntOverlay
+                  dialog={getAct1OpponentDialog(currentOpponent.id)}
+                  opponentName={currentOpponent.name}
                 />
               </motion.div>
             )}
@@ -402,10 +414,34 @@ function MatchupView({
   onEngage: () => void;
   onBack: () => void;
 }) {
+  const { state: gameState } = useGame();
   const opponentFaction = resolveOpponentFaction(opponent);
   const opponentColor = FACTION_COLORS[opponentFaction];
+  const dialog = getAct1OpponentDialog(opponent.id);
+  const flags = useMemo(
+    () =>
+      new Set(
+        Object.entries(gameState.narrativeFlags)
+          .filter(([, v]) => v)
+          .map(([k]) => k),
+      ),
+    [gameState.narrativeFlags],
+  );
+  const [askSpeaker, setAskSpeaker] = useState<"elara" | "human" | null>(null);
   return (
     <div className="space-y-6">
+      {/* Engineer memoir frame — opens every Act 1 match */}
+      {dialog && (
+        <div className="rounded-md border border-amber-800/50 bg-stone-950/60 p-4">
+          <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-amber-300/50">
+            Engineer · memoir
+          </p>
+          <p className="mt-2 font-serif text-[13px] leading-relaxed text-amber-50/90">
+            {dialog.engineerMemoirIntro}
+          </p>
+        </div>
+      )}
+
       {/* Opponent card */}
       <div
         className="rounded-md border p-6"
@@ -431,12 +467,75 @@ function MatchupView({
             "{opponent.preMatchLine}"
           </p>
         </div>
+        {dialog && (
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="rounded border border-cyan-900/50 bg-cyan-950/20 p-3">
+              <p className="font-mono text-[9px] uppercase tracking-wider text-cyan-300/70">
+                Elara · recognition
+              </p>
+              <p className="mt-1 font-serif text-[12px] leading-relaxed text-cyan-50/90">
+                {dialog.elaraPreMatch}
+              </p>
+            </div>
+            <div className="rounded border border-rose-900/50 bg-rose-950/20 p-3">
+              <p className="font-mono text-[9px] uppercase tracking-wider text-rose-300/70">
+                The Human · counter-perspective
+              </p>
+              <p className="mt-1 font-serif text-[12px] leading-relaxed text-rose-50/90">
+                {dialog.humanPreMatch}
+              </p>
+            </div>
+          </div>
+        )}
         <p
           className="mt-4 font-mono text-[10px] uppercase tracking-wider"
           style={{ color: opponentColor }}
         >
           Deck · {FACTION_NAMES[opponentFaction]}
         </p>
+      </div>
+
+      {/* Ask a companion — optional, non-blocking */}
+      <div className="rounded-md border border-stone-800 bg-stone-950/40 p-4">
+        <div className="flex items-center justify-between">
+          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-stone-400">
+            Ask a companion
+          </p>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => setAskSpeaker(askSpeaker === "elara" ? null : "elara")}
+              className={`rounded border px-3 py-1 font-mono text-[10px] uppercase tracking-wider transition-colors ${
+                askSpeaker === "elara"
+                  ? "border-cyan-400 bg-cyan-900/30 text-cyan-100"
+                  : "border-cyan-900/50 bg-stone-950/40 text-cyan-300/70 hover:border-cyan-700/60 hover:text-cyan-200"
+              }`}
+            >
+              Elara
+            </button>
+            <button
+              type="button"
+              onClick={() => setAskSpeaker(askSpeaker === "human" ? null : "human")}
+              className={`rounded border px-3 py-1 font-mono text-[10px] uppercase tracking-wider transition-colors ${
+                askSpeaker === "human"
+                  ? "border-rose-400 bg-rose-900/30 text-rose-100"
+                  : "border-rose-900/50 bg-stone-950/40 text-rose-300/70 hover:border-rose-700/60 hover:text-rose-200"
+              }`}
+            >
+              The Human
+            </button>
+          </div>
+        </div>
+        {askSpeaker && (
+          <div className="mt-3">
+            <CompanionAskPanel
+              speaker={askSpeaker}
+              flags={flags}
+              currentAct={gameState.narrativeAct || 1}
+              onClose={() => setAskSpeaker(null)}
+            />
+          </div>
+        )}
       </div>
 
       {/* Player faction picker */}
@@ -508,6 +607,22 @@ function PostMatchView({
   const accent = outcome === "win" ? "border-amber-500/60 bg-amber-950/30" : "border-rose-900/50 bg-rose-950/20";
   const Icon = outcome === "win" ? Trophy : Sparkles;
   const label = outcome === "win" ? "VICTORY" : "SETBACK";
+  const dialog = getAct1OpponentDialog(opponent.id);
+  const elaraLine = dialog
+    ? outcome === "win"
+      ? dialog.elaraPostMatchWin
+      : dialog.elaraPostMatchLoss
+    : null;
+  const humanLine = dialog
+    ? outcome === "win"
+      ? dialog.humanPostMatchWin
+      : dialog.humanPostMatchLoss
+    : null;
+  const engineerClose = dialog
+    ? outcome === "win"
+      ? dialog.engineerMemoirCloseWin
+      : dialog.engineerMemoirCloseLoss
+    : null;
   return (
     <div className={`rounded-md border p-6 ${accent}`}>
       <div className="flex items-center gap-2">
@@ -522,6 +637,40 @@ function PostMatchView({
       <p className="mt-4 font-serif text-[14px] leading-relaxed text-stone-100">
         {body}
       </p>
+      {(elaraLine || humanLine) && (
+        <div className="mt-5 grid gap-3 sm:grid-cols-2">
+          {elaraLine && (
+            <div className="rounded border border-cyan-900/50 bg-cyan-950/20 p-3">
+              <p className="font-mono text-[9px] uppercase tracking-wider text-cyan-300/70">
+                Elara · reflection
+              </p>
+              <p className="mt-1 font-serif text-[12px] leading-relaxed text-cyan-50/90">
+                {elaraLine}
+              </p>
+            </div>
+          )}
+          {humanLine && (
+            <div className="rounded border border-rose-900/50 bg-rose-950/20 p-3">
+              <p className="font-mono text-[9px] uppercase tracking-wider text-rose-300/70">
+                The Human · counter-reflection
+              </p>
+              <p className="mt-1 font-serif text-[12px] leading-relaxed text-rose-50/90">
+                {humanLine}
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+      {engineerClose && (
+        <div className="mt-4 rounded border border-amber-800/50 bg-stone-950/60 p-3">
+          <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-amber-300/50">
+            Engineer · memoir closes
+          </p>
+          <p className="mt-1 font-serif italic text-[13px] leading-relaxed text-amber-50/90">
+            {engineerClose}
+          </p>
+        </div>
+      )}
       {opponent.postBattleSlideshow && outcome === "win" && (
         <p className="mt-3 font-mono text-[10px] text-amber-300/60">
           · Cinematic queued: {opponent.postBattleSlideshow}
