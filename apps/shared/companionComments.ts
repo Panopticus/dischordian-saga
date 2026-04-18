@@ -59,4 +59,87 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
   { id: "cc_both_trust_80", speaker: "human", trigger: "both_narrators_trust_80",
     voiceLine: "I'm going to tell you something I've never told anyone. I chose to be imprisoned here. Freely. Because someone had to witness. And I was the only one who knew what needed witnessing.",
     loreReveal: "entity_human", timing: "immediate", maxPlays: 1 },
+
+  // ── PRELUDE BEAT C — CREW ROLE CHOICE ──
+  { id: "cc_role_engineer", speaker: "elara", trigger: "prelude_role_engineer_chosen",
+    voiceLine: "Engineer. He would have liked you. I am not in the habit of saying that about anyone, and certainly not about a stranger I just woke up. Take the bench seriously. He did, eventually.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_role_oracle", speaker: "elara", trigger: "prelude_role_oracle_chosen",
+    voiceLine: "Oracle. Be careful what you sense first. The first thing an Oracle perceives is usually the loudest, and the loudest is rarely the truest. I'll be the second voice on every reading you do.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_role_soldier", speaker: "elara", trigger: "prelude_role_soldier_chosen",
+    voiceLine: "Soldier. Discipline is mercy in disguise. I served alongside three of you in the Senate guard. Two of them died well. The third is still alive, and is the one I worry about.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_role_assassin", speaker: "elara", trigger: "prelude_role_assassin_chosen",
+    voiceLine: "Assassin. The Engineer respected the discipline and never tried it. I'll respect it too. I'll also remind you, from time to time, that there are options that look slower and aren't.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_role_spy", speaker: "elara", trigger: "prelude_role_spy_chosen",
+    voiceLine: "Spy. Cover identities are also a kind of honesty, if you stay in them long enough. I have one. I'll show it to you when I'm sure I have a use for the unmasking.",
+    timing: "immediate", maxPlays: 1 },
+
+  // ── PRELUDE BEAT C.5 — FIRST BREATH ──
+  { id: "cc_beat_c5_palm_frost", speaker: "human", trigger: "prelude_beat_c5_palm_frost_seen",
+    voiceLine: "That's me. The frost on the window. I leave it where I look. You weren't supposed to see me yet. I'm not upset that you did.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── PRELUDE BEAT D — MISSION BOARD (player-driven) ──
+  { id: "cc_beat_d_first_slate", speaker: "elara", trigger: "prelude_beat_d_first_slate_read",
+    voiceLine: "First posting. Whoever pinned that to the board pinned it before any of my parents had been born. Read it slowly. The slow reading is part of the respect.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_beat_d_first_slate_human", speaker: "human", trigger: "prelude_beat_d_first_slate_read",
+    voiceLine: "Locke posted three jobs the year the comm relays went down. Two of them are still open. The third is the one nobody is supposed to take. You will be offered all three before this is over.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_beat_d_all_slates", speaker: "elara", trigger: "prelude_beat_d_all_slates_read",
+    voiceLine: "All three. There is a pattern in the order they were posted. I'm not going to tell you what it is — finding it should be yours.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // ── PRELUDE BEAT E — FLASHBACK HOTSPOTS ──
+  { id: "cc_beat_e_first_hotspot", speaker: "elara", trigger: "prelude_beat_e_first_hotspot_seen",
+    voiceLine: "I remember this. Not the room — the angle. Someone stood here and looked at exactly this. I have the recording in my Archive. I do not remember loading it.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_beat_e_flashback_complete", speaker: "human", trigger: "prelude_beat_e_flashback_complete",
+    voiceLine: "The substrate hummed when that flashback resolved. It does that. It means a piece of the Engineer's memory just synced with you. Don't decide yet whether that's a gift.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── PRELUDE BEAT F — BIOMETRIC LOCKBOX ──
+  { id: "cc_beat_f_lock_first_try", speaker: "human", trigger: "prelude_beat_f_lock_first_attempt",
+    voiceLine: "I know this lock. I helped design the family of locks it belongs to. The trick to it is patience. The trick to most things is patience. I am still learning that.",
+    timing: "immediate", maxPlays: 1 },
+
+  // ── PRELUDE BEAT G — BRIDGE FIRST VIEW ──
+  { id: "cc_beat_g_bridge_first", speaker: "elara", trigger: "prelude_beat_g_bridge_first_view",
+    voiceLine: "The bridge. I have held this seat for a very long time. I was looking forward to handing it to someone. I was not looking forward to it being you, specifically — I had no preference. I have a preference now.",
+    timing: "immediate", maxPlays: 1 },
+
+  // ── PRELUDE BEAT H — INBOX ──
+  { id: "cc_beat_h_inbox_first_open", speaker: "human", trigger: "prelude_beat_h_inbox_first_open",
+    voiceLine: "The Inbox runs on a substrate-adjacent channel. I see what you see, almost. If a message ever arrives that I cannot read, that will mean something. I'll tell you when.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_beat_h_inbox_first_reply", speaker: "elara", trigger: "prelude_beat_h_inbox_first_reply",
+    voiceLine: "You replied. Most people don't, the first time. They read the message, they let it sit, they tell themselves they'll get back to it. You answered. That's a thing about you. I'm filing it.",
+    timing: "immediate", maxPlays: 1 },
+
+  // ── PRELUDE BEAT I — PREPARATION ──
+  { id: "cc_beat_i_prep_elara", speaker: "elara", trigger: "prelude_beat_i_preparation",
+    voiceLine: "I am with you when the doors open. I am with you when they close. I am not always with you when they should be open and aren't. That part is on you.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_beat_i_prep_human", speaker: "human", trigger: "prelude_beat_i_preparation",
+    voiceLine: "Whatever Elara forgets to tell you, ask me. Whatever I refuse to tell you, ask her. Between the two of us, you'll have most of the picture. The rest is yours to assemble.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── PRELUDE BEAT J — LAST WORDS TEASE ──
+  { id: "cc_beat_j_tease_start", speaker: "human", trigger: "prelude_beat_j_last_words_tease_start",
+    voiceLine: "She's about to sing. Listen with the back of your skull, not the front of your ear. The first verse is the only verse you get this round.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_beat_j_tease_end", speaker: "elara", trigger: "prelude_beat_j_last_words_tease_end",
+    voiceLine: "I have heard this song my entire life. I am hearing it again for the first time. I do not know how to hold both of those at once. I am holding them anyway.",
+    timing: "immediate", maxPlays: 1 },
+
+  // ── ACT 1 FIRST OPPONENT ENTRANCE ──
+  { id: "cc_act1_first_opponent_elara", speaker: "elara", trigger: "act1_first_opponent_entered",
+    voiceLine: "First opponent. Don't try to win the Act in match one. Just stand on the line. The line is what we are here to learn.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act1_first_opponent_human", speaker: "human", trigger: "act1_first_opponent_entered",
+    voiceLine: "The Engineer is narrating these matches from the inside. Listen to what he leaves out. The leavings are where I live.",
+    timing: "delayed_5s", maxPlays: 1 },
 ];
