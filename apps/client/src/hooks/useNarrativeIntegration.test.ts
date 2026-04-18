@@ -212,3 +212,73 @@ describe("useNarrativeIntegration — Prelude → Act 1 handoff", () => {
     expect(hookSrc).toContain("state.narrativeFlags?.prelude_complete");
   });
 });
+
+/* ═══════════════════════════════════════════════════════
+   Engineer Recording watcher (roadmap §Act 1 item).
+
+   The 7 holograms fire on card-battle milestones (1/3/4/8/9/10/12
+   wins + optional dischordiaStep + allAct1Complete gates) via
+   CARD_BATTLE_MILESTONES. Source-scan asserts the wiring lives in
+   useNarrativeIntegration and reads from the shared constant, so
+   the recording flags can't silently drift out of the hook.
+   ═══════════════════════════════════════════════════════ */
+describe("useNarrativeIntegration — Engineer Recording watcher", () => {
+  const hookSrc = fs.readFileSync(
+    path.resolve(__dirname, "useNarrativeIntegration.ts"),
+    "utf-8",
+  );
+
+  it("imports CARD_BATTLE_MILESTONES + ENGINEER_RECORDINGS", () => {
+    expect(hookSrc).toContain(
+      'import { CARD_BATTLE_MILESTONES } from "@shared/dischordiaCycle"',
+    );
+    expect(hookSrc).toContain(
+      'import { ENGINEER_RECORDINGS } from "@shared/engineerRecordings"',
+    );
+  });
+
+  it("iterates CARD_BATTLE_MILESTONES to raise recording flags", () => {
+    expect(hookSrc).toMatch(/for\s*\(\s*const\s+milestone\s+of\s+CARD_BATTLE_MILESTONES/);
+  });
+
+  it("gates each recording on cardWins and the discovery flag", () => {
+    // The loop body must read both so late hops (#6, #7) don't fire
+    // prematurely and already-discovered flags are skipped.
+    expect(hookSrc).toMatch(/cardWins\s*<\s*milestone\.minWins/);
+    expect(hookSrc).toMatch(/state\.narrativeFlags\?\.\[milestone\.discoveryFlag\]/);
+  });
+
+  it("surfaces a toast with the recording title when discovered", () => {
+    expect(hookSrc).toContain("Engineer Recording");
+    expect(hookSrc).toContain("recording.title");
+  });
+});
+
+/* ═══════════════════════════════════════════════════════
+   Seer screen-reader announcement (spec §6.3).
+
+   The Seer plays a card from a future turn; AT users must hear the
+   full invariant sentence ("Her hand count does not decrease"),
+   not a truncated version. Source-scan protects the spec string.
+   ═══════════════════════════════════════════════════════ */
+describe("DuelystGameUI — §4.9 Seer announcement", () => {
+  const uiSrc = fs.readFileSync(
+    path.resolve(
+      __dirname,
+      "../game/duelyst/DuelystGameUI.tsx",
+    ),
+    "utf-8",
+  );
+
+  it("match-start announcement includes the hand-count invariant", () => {
+    expect(uiSrc).toContain(
+      "The Seer plays cards from a future turn. Her hand count does not decrease.",
+    );
+  });
+
+  it("per-play announcement includes the hand-count invariant (spec §6.3)", () => {
+    expect(uiSrc).toContain(
+      "The Seer plays a card from a future turn. Her hand count does not decrease.",
+    );
+  });
+});

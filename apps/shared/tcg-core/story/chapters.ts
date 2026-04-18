@@ -10,8 +10,12 @@
  * bridge that creates playable matches from story chapters.
  */
 import type { StoryEncounter } from "./encounter";
-import { NEUTRAL_CYCLE_C_BOSS_DECK } from "../decks/neutralCycleCBossDeck";
 import { bossDeckForFaction } from "../decks/bossDeckForFaction";
+import { AUTHORITY_TRIAL_BOSS_DECK } from "../decks/authorityTrialBossDeck";
+import { WARLORD_ZERO_BOSS_DECK } from "../decks/warlordZeroBossDeck";
+import { PROGRAMMER_GIFT_BOSS_DECK } from "../decks/programmerGiftBossDeck";
+import { GAME_MASTER_BOSS_DECK } from "../decks/gameMasterBossDeck";
+import { SEER_VISIT_BOSS_DECK } from "../decks/seerVisitBossDeck";
 
 /* ─── Difficulty → Boss HP scale ─── */
 
@@ -357,10 +361,7 @@ const chWarlordZeroFirst: StoryEncounter = {
     "Warlord Zero's first full war-deck deployment. She forces a three-move lockout on the player's hand from her third turn through their sixth.",
   bossFaction: "architect",
   bossGeneralDefId: "gen_architect",
-  bossDeckCardDefIds: [
-    "s1_warlord_three_moves",
-    ...bossDeckForFaction("architect").slice(0, 38),
-  ],
+  bossDeckCardDefIds: WARLORD_ZERO_BOSS_DECK,
   seed: "warlord_zero_first_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -627,7 +628,7 @@ const chAuthorityTrial: StoryEncounter = {
     "The Act 1 finale. Ten phases of an Empire judicial proceeding. Survive every phase restriction and the verdict-stream balance decides your fate.",
   bossFaction: "architect",
   bossGeneralDefId: "gen_authority",
-  bossDeckCardDefIds: bossDeckForFaction("architect"),
+  bossDeckCardDefIds: AUTHORITY_TRIAL_BOSS_DECK,
   seed: "authority_trial_seed",
   winConditions: [{ kind: "survive_turns", turns: 10 }],
   loseConditions: [{ kind: "general_killed" }],
@@ -676,7 +677,7 @@ const chProgrammerGift: StoryEncounter = {
     "The Engineer's oldest friend. He plays two honest turns, then offers the gift — a deliberate throw. Accept or decline.",
   bossFaction: "neutral",
   bossGeneralDefId: "gen_programmer",
-  bossDeckCardDefIds: NEUTRAL_CYCLE_C_BOSS_DECK,
+  bossDeckCardDefIds: PROGRAMMER_GIFT_BOSS_DECK,
   seed: "programmer_gift_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -739,11 +740,11 @@ const chGameMaster: StoryEncounter = {
     "Before the execution, before the Authority. A prosecutor, not a duelist. Every card he plays enters the public record.",
   bossFaction: "neutral",
   bossGeneralDefId: "gen_game_master_original",
-  // Real neutral cards so the verdict column actually populates —
-  // each Game Master card play triggers applyPublicWitnessPlay
-  // (engine/publicWitness.ts) which reads verdict_delta and
-  // trial_categories from the card def.
-  bossDeckCardDefIds: NEUTRAL_CYCLE_C_BOSS_DECK,
+  // Curated §5.7 deck over-selects `public_delta` authored cards
+  // (Field Medic, Hired Blade, Scrapyard Golem, Dischordian Logic)
+  // so applyPublicWitnessPlay (engine/publicWitness.ts) actually
+  // populates the verdict column during the match.
+  bossDeckCardDefIds: GAME_MASTER_BOSS_DECK,
   seed: "game_master_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [{ kind: "general_killed" }],
@@ -796,10 +797,11 @@ const chSeerVisit: StoryEncounter = {
     "The visiting fellow. She plays cards that aren't in her hand yet. The bench does not know how.",
   bossFaction: "neutral",
   bossGeneralDefId: "gen_seer",
-  // Real neutral cards — spec §3 requires a deck the Seer's AI can
-  // draw from. The pending-future sampler reads this deck's first
-  // N entries (see engine/seerProphecy.ts sampleSeerFutureCard).
-  bossDeckCardDefIds: NEUTRAL_CYCLE_C_BOSS_DECK,
+  // Curated §4.9 deck — `sampleSeerFutureCard` reads the first
+  // SEER_FUTURE_LOOKAHEAD_WINDOW entries. Composition leans on
+  // scout/oracle flavor (Border Scout, Ruin Stalker, Dimensional
+  // Rift) so the pending-future reveals feel thematically coherent.
+  bossDeckCardDefIds: SEER_VISIT_BOSS_DECK,
   seed: "seer_visit_seed",
   winConditions: [{ kind: "general_killed" }],
   loseConditions: [

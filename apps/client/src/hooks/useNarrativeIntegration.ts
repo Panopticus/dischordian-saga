@@ -36,6 +36,8 @@ import {
   type KaelFragmentWatcherContext,
 } from "@shared/kaelFragmentWatchers";
 import { act4PrisonerFlagsForCompletedStoryChapters } from "@shared/actsFourFiveShells";
+import { CARD_BATTLE_MILESTONES } from "@shared/dischordiaCycle";
+import { ENGINEER_RECORDINGS } from "@shared/engineerRecordings";
 import { loadStoryProgress } from "@/game/storyMode";
 
 /* ─── LORE DISCOVERY TRIGGERS ───
@@ -821,6 +823,35 @@ export function useNarrativeIntegration() {
       toast.info("Cycle C — The Deck Reforged", {
         description: "New Babylon. A tall figure in a worn engineer's coat.",
       });
+    }
+
+    // Engineer Recording 1-7 watcher. `CARD_BATTLE_MILESTONES`
+    // defines the 7 hologram triggers (spec §12 / roadmap §Act 1,
+    // "Engineer Recording 1 — The Bench Speaks"). Recording #1 fires
+    // on the first Dischordia win; #2-#5 on subsequent wins; #6 and
+    // #7 gate on `dischordiaStep` / `act_1_complete` which we don't
+    // yet track at the watcher level, so those remain latent — same
+    // placeholder pattern the Kael fragment watcher uses above.
+    const dischordiaStepPlaceholder = 0;
+    const allAct1Complete = !!state.narrativeFlags?.act_1_complete;
+    for (const milestone of CARD_BATTLE_MILESTONES) {
+      if (state.narrativeFlags?.[milestone.discoveryFlag]) continue;
+      if (cardWins < milestone.minWins) continue;
+      if (
+        milestone.dischordiaStep != null &&
+        dischordiaStepPlaceholder < milestone.dischordiaStep
+      ) continue;
+      if (milestone.allAct1Complete && !allAct1Complete) continue;
+      setNarrativeFlag(milestone.discoveryFlag, true);
+      const recording = ENGINEER_RECORDINGS.find(
+        (r) => r.order === milestone.recordingOrder,
+      );
+      if (recording) {
+        toast.info(`Engineer Recording ${milestone.recordingOrder}: ${recording.title}`, {
+          description: recording.transcript.slice(0, 140) + "…",
+          duration: 12000,
+        });
+      }
     }
 
     // Witnessing §6.5 — Thaloria cinematic triggers on the

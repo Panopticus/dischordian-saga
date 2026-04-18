@@ -409,7 +409,13 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     if (plays > prevSeerPlaysRef.current) {
       prevSeerPlaysRef.current = plays;
       setShowSeerPlayOverlay(true);
-      announce("The Seer plays a card from a future turn.");
+      // Spec §6.3 — full screen-reader sentence including the hand-
+      // count invariant, so AT users get the same mechanical rule as
+      // the sighted players see via SeerPlayOverlay's "hand size
+      // preserved" visual.
+      announce(
+        "The Seer plays a card from a future turn. Her hand count does not decrease.",
+      );
     }
   }, [gameState]);
 
