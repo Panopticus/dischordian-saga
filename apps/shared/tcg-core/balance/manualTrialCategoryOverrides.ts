@@ -22,6 +22,14 @@ import type { TrialCategory } from "../types/Card";
 export const MANUAL_TRIAL_CATEGORIES: Readonly<
   Record<string, readonly TrialCategory[]>
 > = {
+  // ---- §4.9 Seer — reserved winnable-path card ----
+  // Narrative because the card IS the narrative beat ("you
+  // remembered"); evidence because playing it IS the proof. Not
+  // reachable via normal deck-building — delivered via Acts 2+
+  // unlock routes (spec §3.3), so §5.8 admissibility never fires
+  // against it during Act 1 play.
+  burnt_card_placeholder: ["evidence", "narrative"],
+
   // ---- Tokens (vanilla, no abilities, basic rarity) ----
   // Flavor weight is light; categorize by board-presence only.
   // The Crystal Senator token is the exception: 5/5 with civic

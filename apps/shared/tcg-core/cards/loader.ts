@@ -22,6 +22,7 @@
 import type { CardDefinition, CardRegistry } from "../index";
 import { RULES_VERSION, isReplayCompatible } from "../engine/version";
 import { cardDefinitionSchema } from "./schema";
+import { resolveTrialCategories } from "../balance/resolveTrialCategories";
 
 export class CardRegistryLoadError extends Error {
   constructor(
@@ -45,8 +46,23 @@ export class CardRegistryLoadError extends Error {
  *         offending card id and a descriptive message. The intent is to
  *         fail CI loudly rather than silently drop malformed cards.
  */
+export interface BuildCardRegistryOptions {
+  /**
+   * When true, the loader throws if any non-general card has no
+   * `trial_categories` after the resolver pipeline (proposer +
+   * second-pass + manual override). Production registries (the
+   * client/server `ALL_CARD_DEFINITIONS` load) opt in so §5.8
+   * admissibility has full coverage; test fixtures opt out so
+   * small ad-hoc card lists don't have to invent categories.
+   *
+   * Default: false.
+   */
+  strictTrialCategoryCoverage?: boolean;
+}
+
 export function buildCardRegistry(
-  allDefinitions: readonly unknown[]
+  allDefinitions: readonly unknown[],
+  opts: BuildCardRegistryOptions = {},
 ): CardRegistry {
   const byId = new Map<string, CardDefinition>();
   for (let i = 0; i < allDefinitions.length; i++) {
@@ -78,7 +94,44 @@ export function buildCardRegistry(
         `rulesVersion '${parsed.rulesVersion}' is incompatible with engine '${RULES_VERSION}'`
       );
     }
+    // P1.5 — backfill `trial_categories` for the §5.8 Authority
+    // trial admissibility check. `resolveTrialCategories` composes
+    // the proposer + second-pass + manual-override pipeline and
+    // fills the field when the authored card def leaves it empty.
+    // Cards that the resolver can't categorize are collected and
+    // reported below as a single registry-level error so CI fails
+    // loudly rather than silently admitting un-§5.8-playable cards
+    // into the pool.
+    const resolvedCats = resolveTrialCategories(parsed);
+    if (resolvedCats.length > 0 && (!parsed.trial_categories || parsed.trial_categories.length === 0)) {
+      parsed = { ...parsed, trial_categories: resolvedCats };
+    }
     byId.set(parsed.id, parsed);
+  }
+
+  // §5.8 admissibility: when strict, assert every non-general card
+  // has at least one category. Generals are deployed at turn 0
+  // (not played from hand) and bypass the §5.8 phase-filter
+  // entirely, so they're exempt. Strict is opt-in; test fixtures
+  // skip so small ad-hoc card lists don't have to invent
+  // categories for every stub card.
+  if (opts.strictTrialCategoryCoverage) {
+    const uncategorized: string[] = [];
+    for (const card of byId.values()) {
+      if (card.cardType === "general") continue;
+      if (!card.trial_categories || card.trial_categories.length === 0) {
+        uncategorized.push(card.id);
+      }
+    }
+    if (uncategorized.length > 0) {
+      throw new CardRegistryLoadError(
+        null,
+        `${uncategorized.length} cards have no trial_categories after the resolver pipeline. ` +
+          `Either author \`trial_categories\` on each card or add an entry to ` +
+          `apps/shared/tcg-core/balance/manualTrialCategoryOverrides.ts. ` +
+          `Missing: ${uncategorized.slice(0, 10).join(", ")}${uncategorized.length > 10 ? "..." : ""}`,
+      );
+    }
   }
 
   // Build the CardRegistry interface. Freeze the underlying map so

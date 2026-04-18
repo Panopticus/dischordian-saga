@@ -52,7 +52,14 @@ import { getValidMoves, type Coord } from "@shared/tcg-core";
 import type { Faction } from "./types";
 
 /** The client-side CardRegistry. Built once, shared across the session. */
-const clientRegistry: CardRegistry = buildCardRegistry(ALL_CARD_DEFINITIONS);
+/**
+ * Production client registry — opts into strict trial-category
+ * coverage so a missing `trial_categories` backfill fails at client
+ * bundle evaluation rather than silently at §5.8 runtime.
+ */
+const clientRegistry: CardRegistry = buildCardRegistry(ALL_CARD_DEFINITIONS, {
+  strictTrialCategoryCoverage: true,
+});
 
 export { clientRegistry };
 
