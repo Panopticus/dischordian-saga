@@ -73,40 +73,40 @@ export default function WitnessingHubPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-stone-950 to-[#0d0a05] relative">
+    <div className="min-h-screen bg-gradient-to-b from-[var(--bg-void)] to-[var(--bg-void)] relative">
       <LivingBackground
         src="/art/rooms/room-archives.png"
-        accent="#f59e0b"
+        accent="var(--energy-accent)"
         opacity={0.1}
         particleCount={4}
         scanlines={false}
       />
       <div className="relative z-10">
         {/* Header */}
-        <div className="border-b border-amber-900/40 bg-stone-950/60 backdrop-blur-sm">
+        <div className="border-b void-border-subtle void-bg-canvas backdrop-blur-sm">
           <div className="mx-auto max-w-4xl px-4 py-4 sm:px-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Link
                   href="/ark"
-                  className="text-amber-300/60 hover:text-amber-200 transition-colors"
+                  className="void-text-dim void-text-accent transition-colors"
                   aria-label="Back to Ark"
                 >
                   <ChevronLeft size={18} />
                 </Link>
                 <div>
-                  <h1 className="font-display text-lg font-bold tracking-wider text-amber-100 flex items-center gap-2">
-                    <Sparkles size={16} className="text-amber-400" />
+                  <h1 className="font-display text-lg font-bold tracking-wider void-text-accent flex items-center gap-2">
+                    <Sparkles size={16} className="void-text-accent" />
                     THE WITNESSING
                   </h1>
-                  <p className="font-mono text-[10px] text-amber-300/60 tracking-wider">
+                  <p className="font-mono text-[10px] void-text-dim tracking-wider">
                     {hubState.currentActTitle}
                   </p>
                 </div>
               </div>
               <Link
                 href="/trophy"
-                className="font-mono text-[10px] uppercase tracking-wider text-amber-300/60 hover:text-amber-200 transition-colors"
+                className="font-mono text-[10px] uppercase tracking-wider void-text-dim void-text-accent transition-colors"
               >
                 Trophy Wall →
               </Link>
@@ -126,8 +126,8 @@ export default function WitnessingHubPage() {
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex items-center gap-2 rounded-t-md border-b-2 px-3 py-2 font-mono text-[11px] uppercase tracking-wider transition-colors ${
                       active
-                        ? "border-amber-400 text-amber-100"
-                        : "border-transparent text-amber-300/50 hover:text-amber-200"
+                        ? "void-border void-text-accent"
+                        : "border-transparent void-text-dim void-text-accent"
                     }`}
                   >
                     <Icon size={12} />
@@ -191,89 +191,89 @@ function JourneyPanel({ hubState }: { hubState: WitnessingHubState }) {
           the player is in Act 1 or has pending ladder progress. */}
       <Link
         href="/act1-ladder"
-        className="block rounded-md border border-emerald-700/60 bg-emerald-950/20 p-4 hover:border-emerald-500/80 hover:bg-emerald-900/30 transition-colors"
+        className="block rounded-md border void-border void-bg-sunk p-4 void-border void-bg-sunk transition-colors"
       >
         <div className="flex items-center justify-between gap-3">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-emerald-300/70">
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] void-text-energy">
               PLAY · DISCHORDIA LADDER
             </p>
-            <h3 className="mt-0.5 font-display text-base text-emerald-100">
+            <h3 className="mt-0.5 font-display text-base void-text-energy">
               The Twelve Steps
             </h3>
-            <p className="mt-1 font-serif text-[12px] text-stone-300">
+            <p className="mt-1 font-serif text-[12px] void-text">
               Fight every canonical Act 1 opponent in order — from Little Meme to The Authority.
             </p>
           </div>
-          <ChevronRight size={20} className="text-emerald-300/70 shrink-0" />
+          <ChevronRight size={20} className="void-text-energy shrink-0" />
         </div>
       </Link>
 
       {/* Vortex Incursion entry — §11.5 community endgame. */}
       <Link
         href="/vortex-incursion"
-        className="block rounded-md border border-violet-700/60 bg-violet-950/20 p-4 hover:border-violet-500/80 hover:bg-violet-900/30 transition-colors"
+        className="block rounded-md border void-border-system void-bg-system p-4   transition-colors"
       >
         <div className="flex items-center justify-between gap-3">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-violet-300/70">
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] void-text-system">
               PLAY · §11.5 COMMUNITY ENDGAME
             </p>
-            <h3 className="mt-0.5 font-display text-base text-violet-100">
+            <h3 className="mt-0.5 font-display text-base void-text-system">
               The Vortex Incursion
             </h3>
-            <p className="mt-1 font-serif text-[12px] text-stone-300">
+            <p className="mt-1 font-serif text-[12px] void-text">
               Ten rooms between you and the Vortex itself. Hold the line long enough for the next Ark to take the watch.
             </p>
           </div>
-          <ChevronRight size={20} className="text-violet-300/70 shrink-0" />
+          <ChevronRight size={20} className="void-text-system shrink-0" />
         </div>
       </Link>
 
       {/* Current act banner */}
-      <section className="rounded-md border border-amber-900/50 bg-stone-950/60 p-5">
+      <section className="rounded-md border void-border-subtle void-bg-canvas p-5">
         <div className="flex items-center justify-between">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-amber-300/60">
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] void-text-dim">
               CURRENT ACT
             </p>
-            <h2 className="mt-1 font-display text-xl text-amber-100">
+            <h2 className="mt-1 font-display text-xl void-text-accent">
               {hubState.currentActTitle}
             </h2>
           </div>
-          <Compass size={32} className="text-amber-400/60" />
+          <Compass size={32} className="void-text-dim" />
         </div>
       </section>
 
       {/* Year One calendar strip */}
-      <section className="rounded-md border border-amber-900/50 bg-stone-950/60 p-5">
-        <header className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-amber-200">
+      <section className="rounded-md border void-border-subtle void-bg-canvas p-5">
+        <header className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
           <Calendar size={12} />
           YEAR ONE CALENDAR
         </header>
-        <div className="mb-3 rounded border-l-2 border-amber-400 bg-amber-950/20 p-3">
-          <p className="font-mono text-[9px] uppercase tracking-wider text-amber-400">
+        <div className="mb-3 rounded border-l-2 void-border void-bg-sunk p-3">
+          <p className="font-mono text-[9px] uppercase tracking-wider void-text-accent">
             MONTH {hubState.calendar.current.month} · NOW
           </p>
-          <h3 className="mt-1 font-display text-base text-amber-100">
+          <h3 className="mt-1 font-display text-base void-text-accent">
             {hubState.calendar.current.title}
           </h3>
-          <p className="mt-1 font-serif text-[13px] leading-snug text-stone-200">
+          <p className="mt-1 font-serif text-[13px] leading-snug void-text">
             {hubState.calendar.current.brief}
           </p>
         </div>
         {hubState.calendar.upcoming.length > 0 && (
           <div>
-            <p className="mb-1 font-mono text-[9px] uppercase tracking-wider text-amber-300/50">
+            <p className="mb-1 font-mono text-[9px] uppercase tracking-wider void-text-dim">
               Upcoming
             </p>
             <ul className="space-y-1">
               {hubState.calendar.upcoming.slice(0, 3).map((r) => (
                 <li
                   key={r.month}
-                  className="flex items-baseline gap-2 font-mono text-[10px] text-amber-200/60"
+                  className="flex items-baseline gap-2 font-mono text-[10px] void-text-dim"
                 >
-                  <span className="w-6 shrink-0 text-amber-300/40">
+                  <span className="w-6 shrink-0 void-text-dim">
                     M{r.month}
                   </span>
                   <span className="flex-1 truncate">{r.title}</span>
@@ -285,25 +285,25 @@ function JourneyPanel({ hubState }: { hubState: WitnessingHubState }) {
       </section>
 
       {/* Infiltration path */}
-      <section className="rounded-md border border-amber-900/50 bg-stone-950/60 p-5">
-        <header className="mb-2 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-amber-200">
+      <section className="rounded-md border void-border-subtle void-bg-canvas p-5">
+        <header className="mb-2 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
           <Flame size={12} />
           INFILTRATION PATH
         </header>
         {hubState.infiltrationPath ? (
           <div>
-            <h3 className="font-display text-base text-amber-100">
+            <h3 className="font-display text-base void-text-accent">
               {hubState.infiltrationPath.label}
             </h3>
-            <p className="mt-1 font-serif text-[13px] text-stone-200">
+            <p className="mt-1 font-serif text-[13px] void-text">
               {hubState.infiltrationPath.pitch}
             </p>
-            <p className="mt-2 font-mono text-[10px] uppercase tracking-wider text-amber-300/50">
+            <p className="mt-2 font-mono text-[10px] uppercase tracking-wider void-text-dim">
               Ending: {hubState.infiltrationPath.endingLabel}
             </p>
           </div>
         ) : (
-          <p className="font-serif text-[13px] text-amber-300/50">
+          <p className="font-serif text-[13px] void-text-dim">
             No path committed. The three routes await you in Act 3.
           </p>
         )}
@@ -322,8 +322,8 @@ function PreludePanel({
   const { prelude } = hubState;
   return (
     <div className="space-y-6">
-      <section className="rounded-md border border-amber-900/50 bg-stone-950/60 p-5">
-        <header className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-amber-200">
+      <section className="rounded-md border void-border-subtle void-bg-canvas p-5">
+        <header className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
           <PlayCircle size={12} />
           CREW
         </header>
@@ -335,23 +335,23 @@ function PreludePanel({
                 key={id}
                 className={`rounded border p-3 ${
                   onboard
-                    ? "border-emerald-700/60 bg-emerald-950/20"
-                    : "border-amber-900/40 bg-stone-900/40"
+                    ? "void-border void-bg-sunk"
+                    : "void-border-subtle void-bg-canvas"
                 }`}
               >
-                <p className="font-mono text-[10px] uppercase tracking-wider text-amber-300/80">
+                <p className="font-mono text-[10px] uppercase tracking-wider void-text-dim">
                   {id.replace("_", " ")}
                 </p>
                 <div className="mt-1 flex items-center gap-1.5 font-mono text-[10px]">
                   {onboard ? (
                     <>
-                      <CheckCircle2 size={10} className="text-emerald-400" />
-                      <span className="text-emerald-200">Aboard</span>
+                      <CheckCircle2 size={10} className="void-text-energy" />
+                      <span className="void-text-energy">Aboard</span>
                     </>
                   ) : (
                     <>
-                      <Lock size={10} className="text-amber-300/40" />
-                      <span className="text-amber-300/40">Not yet</span>
+                      <Lock size={10} className="void-text-dim" />
+                      <span className="void-text-dim">Not yet</span>
                     </>
                   )}
                 </div>
@@ -360,20 +360,20 @@ function PreludePanel({
           })}
         </div>
         {prelude.nextCrewName && (
-          <p className="mt-3 font-mono text-[10px] text-amber-300/60">
-            Next to board: <span className="text-amber-100">{prelude.nextCrewName}</span>
+          <p className="mt-3 font-mono text-[10px] void-text-dim">
+            Next to board: <span className="void-text-accent">{prelude.nextCrewName}</span>
           </p>
         )}
       </section>
 
       {/* Available missions */}
-      <section className="rounded-md border border-amber-900/50 bg-stone-950/60 p-5">
-        <header className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-amber-200">
+      <section className="rounded-md border void-border-subtle void-bg-canvas p-5">
+        <header className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
           <PlayCircle size={12} />
           AVAILABLE MISSIONS
         </header>
         {prelude.availableMissions.length === 0 ? (
-          <p className="font-serif text-[13px] text-amber-300/50">
+          <p className="font-serif text-[13px] void-text-dim">
             {prelude.complete
               ? "All Prelude missions complete. The Ark is yours now."
               : "No missions yet. Wake the crew first."}
@@ -383,18 +383,18 @@ function PreludePanel({
             {prelude.availableMissions.map((m) => (
               <li
                 key={m.id}
-                className="rounded border border-amber-900/40 bg-stone-900/40 p-3"
+                className="rounded border void-border-subtle void-bg-canvas p-3"
               >
                 <div className="mb-2 flex items-start justify-between gap-3">
                   <div className="flex-1">
-                    <h3 className="font-display text-sm text-amber-100">
+                    <h3 className="font-display text-sm void-text-accent">
                       {m.title}
                     </h3>
-                    <p className="mt-0.5 font-serif text-[12px] text-stone-300">
+                    <p className="mt-0.5 font-serif text-[12px] void-text">
                       {m.briefing}
                     </p>
                   </div>
-                  <span className="flex items-center gap-1 font-mono text-[9px] text-amber-300/50">
+                  <span className="flex items-center gap-1 font-mono text-[9px] void-text-dim">
                     <Clock size={9} />
                     {m.durationMins}m
                   </span>
@@ -402,7 +402,7 @@ function PreludePanel({
                 <button
                   type="button"
                   onClick={() => onStartMission(m.id)}
-                  className="flex items-center gap-2 rounded-sm border border-emerald-700/60 bg-emerald-900/20 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-emerald-100 hover:border-emerald-500/80 hover:bg-emerald-900/40 transition-colors"
+                  className="flex items-center gap-2 rounded-sm border void-border void-bg-sunk px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider void-text-energy void-border void-bg-sunk transition-colors"
                 >
                   <PlayCircle size={11} />
                   Begin Mission
@@ -424,13 +424,13 @@ function KaelFragmentsPanel({
   const { kaelFragments } = hubState;
   return (
     <div className="space-y-4">
-      <section className="rounded-md border border-amber-900/50 bg-stone-950/60 p-5">
+      <section className="rounded-md border void-border-subtle void-bg-canvas p-5">
         <div className="mb-3 flex items-center justify-between">
-          <header className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-amber-200">
+          <header className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
             <Flame size={12} />
             SIX FRAGMENTS
           </header>
-          <p className="font-mono text-[10px] text-amber-300/60">
+          <p className="font-mono text-[10px] void-text-dim">
             {kaelFragments.unlockedCount} / {kaelFragments.totalCount} unlocked
           </p>
         </div>
@@ -440,26 +440,26 @@ function KaelFragmentsPanel({
               key={fragment.id}
               className={`rounded border p-3 ${
                 unlocked
-                  ? "border-amber-500/70 bg-amber-950/30"
+                  ? "void-border-subtle void-bg-sunk"
                   : pending
-                  ? "border-violet-500/60 bg-violet-950/20"
-                  : "border-amber-900/30 bg-stone-900/40"
+                  ? "void-border-system void-bg-system"
+                  : "void-border-subtle void-bg-canvas"
               }`}
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1">
-                  <p className="font-mono text-[9px] uppercase tracking-wider text-amber-300/60">
+                  <p className="font-mono text-[9px] uppercase tracking-wider void-text-dim">
                     FRAGMENT {fragment.id.toUpperCase()}
                   </p>
-                  <h3 className="mt-0.5 font-display text-sm text-amber-100">
+                  <h3 className="mt-0.5 font-display text-sm void-text-accent">
                     {fragment.title}
                   </h3>
                   {unlocked ? (
-                    <p className="mt-1 font-serif text-[12px] text-stone-200">
+                    <p className="mt-1 font-serif text-[12px] void-text">
                       {fragment.whatPlayerLearns}
                     </p>
                   ) : (
-                    <p className="mt-1 font-serif text-[12px] text-amber-300/40 italic">
+                    <p className="mt-1 font-serif text-[12px] void-text-dim italic">
                       {pending
                         ? "Conditions met — awaiting unlock."
                         : fragment.unlockCondition}
@@ -467,18 +467,18 @@ function KaelFragmentsPanel({
                   )}
                 </div>
                 {unlocked ? (
-                  <CheckCircle2 size={14} className="text-amber-400 shrink-0" />
+                  <CheckCircle2 size={14} className="void-text-accent shrink-0" />
                 ) : pending ? (
-                  <Sparkles size={14} className="text-violet-400 shrink-0" />
+                  <Sparkles size={14} className="void-text-system shrink-0" />
                 ) : (
-                  <Lock size={14} className="text-amber-300/30 shrink-0" />
+                  <Lock size={14} className="void-text-dim shrink-0" />
                 )}
               </div>
             </li>
           ))}
         </ul>
         {kaelFragments.questlineComplete && (
-          <p className="mt-4 text-center font-mono text-[11px] uppercase tracking-wider text-amber-200">
+          <p className="mt-4 text-center font-mono text-[11px] uppercase tracking-wider void-text-accent">
             THE MAN WHO CAME BACK — QUESTLINE COMPLETE
           </p>
         )}
@@ -514,13 +514,13 @@ function ChroniclePanel({ hubState }: { hubState: WitnessingHubState }) {
   );
   return (
     <div className="space-y-4">
-      <section className="rounded-md border border-amber-900/50 bg-stone-950/60 p-5">
-        <header className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-amber-200">
+      <section className="rounded-md border void-border-subtle void-bg-canvas p-5">
+        <header className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
           <Scroll size={12} />
           THE ANTIQUARIAN'S CHRONICLE
         </header>
         {merged.length === 0 ? (
-          <p className="font-serif text-[13px] text-amber-300/50 italic">
+          <p className="font-serif text-[13px] void-text-dim italic">
             The Chronicle is waiting. The Antiquarian sharpens his pen. No milestones have fired yet.
           </p>
         ) : (
@@ -530,17 +530,17 @@ function ChroniclePanel({ hubState }: { hubState: WitnessingHubState }) {
                 key={item.key}
                 className={`pl-4 ${
                   item.kind === "milestone"
-                    ? "border-l-2 border-amber-600/50"
-                    : "border-l-2 border-violet-700/50"
+                    ? "border-l-2 void-border-subtle"
+                    : "border-l-2 void-border-system"
                 }`}
               >
-                <p className="font-mono text-[9px] uppercase tracking-wider text-amber-300/60">
+                <p className="font-mono text-[9px] uppercase tracking-wider void-text-dim">
                   {item.kind === "milestone" ? "MILESTONE" : "BEAT"} · ENTRY {i + 1}
                 </p>
-                <h3 className="mt-0.5 font-display text-base text-amber-100">
+                <h3 className="mt-0.5 font-display text-base void-text-accent">
                   {item.title}
                 </h3>
-                <p className="mt-2 font-serif text-[13px] leading-relaxed text-stone-200">
+                <p className="mt-2 font-serif text-[13px] leading-relaxed void-text">
                   {item.body}
                 </p>
               </li>
@@ -555,8 +555,8 @@ function ChroniclePanel({ hubState }: { hubState: WitnessingHubState }) {
 function ArchivePanel({ hubState }: { hubState: WitnessingHubState }) {
   return (
     <div className="space-y-4">
-      <section className="rounded-md border border-amber-900/50 bg-stone-950/60 p-5">
-        <header className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-amber-200">
+      <section className="rounded-md border void-border-subtle void-bg-canvas p-5">
+        <header className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
           <BookOpen size={12} />
           APPENDIX SHELLS
         </header>
@@ -564,21 +564,21 @@ function ArchivePanel({ hubState }: { hubState: WitnessingHubState }) {
           {hubState.appendixSummaries.map((s) => (
             <div
               key={s.appendix}
-              className="rounded border border-amber-900/40 bg-stone-900/40 p-3"
+              className="rounded border void-border-subtle void-bg-canvas p-3"
             >
-              <p className="font-mono text-[9px] uppercase tracking-wider text-amber-300/60">
+              <p className="font-mono text-[9px] uppercase tracking-wider void-text-dim">
                 APPENDIX {s.appendix}
               </p>
-              <p className="mt-1 font-display text-xl text-amber-100">
+              <p className="mt-1 font-display text-xl void-text-accent">
                 {s.progressPct}%
               </p>
-              <div className="mt-2 h-0.5 w-full rounded bg-amber-900/30 overflow-hidden">
+              <div className="mt-2 h-0.5 w-full rounded void-bg-sunk overflow-hidden">
                 <div
-                  className="h-full bg-amber-400"
+                  className="h-full void-bg-sunk"
                   style={{ width: `${s.progressPct}%` }}
                 />
               </div>
-              <p className="mt-1 font-mono text-[9px] text-amber-300/50">
+              <p className="mt-1 font-mono text-[9px] void-text-dim">
                 {s.shipped} / {s.total}
               </p>
             </div>
@@ -586,25 +586,25 @@ function ArchivePanel({ hubState }: { hubState: WitnessingHubState }) {
         </div>
       </section>
 
-      <section className="rounded-md border border-amber-900/50 bg-stone-950/60 p-5">
-        <header className="mb-2 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-amber-200">
+      <section className="rounded-md border void-border-subtle void-bg-canvas p-5">
+        <header className="mb-2 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
           <BookOpen size={12} />
           LEGEND
         </header>
-        <ul className="space-y-1 font-mono text-[10px] text-amber-300/70">
+        <ul className="space-y-1 font-mono text-[10px] void-text-dim">
           <li>
-            <span className="text-amber-400">A</span> — Cross-system integration
+            <span className="void-text-accent">A</span> — Cross-system integration
             notes (Matrix of Dreams substrate, Trade Empire agents, Four New
             Babylon Guilds, pet-crew legacy, Celebration Trial, Mechronis
             Professors, DMC identity chain, Trophy Room wall).
           </li>
           <li>
-            <span className="text-amber-400">B</span> — Kael asynchronous
+            <span className="void-text-accent">B</span> — Kael asynchronous
             questline (Six Fragments, tower memorials, Apprentice's Stand,
             three payoff cinematics).
           </li>
           <li>
-            <span className="text-amber-400">C</span> — The Palimpsest game
+            <span className="void-text-accent">C</span> — The Palimpsest game
             show (Signal/Noise meter, Darren Fessler, General Alaric, The
             Inventor, 13 episode formats, Host-is-Meme reveal).
           </li>

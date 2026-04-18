@@ -17,3 +17,14 @@ apps/client/src/components/ReconnectingOverlay.tsx
 apps/client/src/components/MoralityShiftToast.tsx
 apps/client/src/components/AutoTutorialPrompt.tsx
 apps/client/src/components/GameErrorBoundary.tsx
+# Slice 2A — page-level shell. Speaker-accent blocks extracted into
+# Act1CompanionPanel (intentional) so the parent page stays adopted.
+apps/client/src/pages/Act1CardLadderPage.tsx
+# Slice 2B — page-level shell. Vortex Incursion violet now uses the
+# new void-{bg,border}-system utilities (energy-system axis).
+apps/client/src/pages/WitnessingHubPage.tsx
+# Slice 2C — page-level shell. 38 raw-px hits resolved (most snap to
+# --space-* tokens; decorative blur radii rounded to nearest token;
+# Tailwind arbitrary-value widths annotated // void-ignore). Hotspot
+# semantic palette migrated to --energy-{primary,system,success,premium}.
+apps/client/src/pages/ArkExplorerPage.tsx

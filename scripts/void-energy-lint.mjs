@@ -77,7 +77,12 @@ const COLOR_FN_RE = /\b(?:rgb|rgba|hsl|hsla)\s*\(/;
  * `border: 2px solid ...` (2px will be allowlisted).
  * Negative values are captured too.
  */
-const PX_AFTER_COLON_RE = /:[^;]*?(-?\d+)px\b/g;
+/**
+ * Raw pixel values after a colon. Negative-lookbehind for `.` or digit
+ * prevents false positives on decimal values (e.g. `1.5px` would match
+ * `5px` without the lookbehind).
+ */
+const PX_AFTER_COLON_RE = /:[^;]*?(?<![.\d])(-?\d+)px\b/g;
 
 /**
  * Utility-class state markers ("is-active", "is-open", etc.)
@@ -89,8 +94,11 @@ const STATE_CLASS_RE = /["'`][^"'`]*\bis-(?:active|open|disabled|selected|hidden
 
 /* ─── Void-ignore directive ─────────────────────────── */
 
-const VOID_IGNORE_LINE_RE = /^\s*\/\/\s*void-ignore\b/;
-const VOID_IGNORE_INLINE_RE = /\/\/\s*void-ignore\b/;
+// Honor three comment forms: `// void-ignore` (single-line),
+// `/* void-ignore */` (block, JS context), and `{/* void-ignore */}`
+// (block, JSX context).
+const VOID_IGNORE_LINE_RE = /^\s*(?:\/\/|\{?\/\*)\s*void-ignore\b/;
+const VOID_IGNORE_INLINE_RE = /(?:\/\/|\{?\/\*)\s*void-ignore\b/;
 
 /* ─── Helpers ─────────────────────────────────────── */
 

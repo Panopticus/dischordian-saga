@@ -76,11 +76,41 @@ function getHotspotIcon(type: HotspotDef["type"]) {
 
 function getHotspotColor(type: HotspotDef["type"]) {
   switch (type) {
-    case "terminal": return { border: "rgba(51,226,230,0.5)", bg: "rgba(51,226,230,0.15)", glow: "rgba(51,226,230,0.3)", text: "var(--neon-cyan)" };
-    case "item": return { border: "rgba(255,183,77,0.5)", bg: "rgba(255,183,77,0.15)", glow: "rgba(255,183,77,0.3)", text: "var(--orb-orange)" };
-    case "door": return { border: "rgba(56,117,250,0.5)", bg: "var(--glass-border)", glow: "rgba(56,117,250,0.3)", text: "#3875fa" };
-    case "examine": return { border: "rgba(168,85,247,0.5)", bg: "rgba(168,85,247,0.15)", glow: "rgba(168,85,247,0.3)", text: "#a855f7" };
-    case "interact": return { border: "rgba(34,197,94,0.5)", bg: "rgba(34,197,94,0.15)", glow: "rgba(34,197,94,0.3)", text: "#22c55e" };
+    case "terminal":
+      return {
+        border: "color-mix(in oklch, var(--energy-primary) 50%, transparent)",
+        bg: "color-mix(in oklch, var(--energy-primary) 15%, transparent)",
+        glow: "color-mix(in oklch, var(--energy-primary) 30%, transparent)",
+        text: "var(--energy-primary)",
+      };
+    case "item":
+      return {
+        border: "color-mix(in oklch, var(--energy-premium) 50%, transparent)",
+        bg: "color-mix(in oklch, var(--energy-premium) 15%, transparent)",
+        glow: "color-mix(in oklch, var(--energy-premium) 30%, transparent)",
+        text: "var(--energy-premium)",
+      };
+    case "door":
+      return {
+        border: "color-mix(in oklch, var(--energy-primary) 50%, transparent)",
+        bg: "var(--glass-border)",
+        glow: "color-mix(in oklch, var(--energy-primary) 30%, transparent)",
+        text: "var(--energy-primary)",
+      };
+    case "examine":
+      return {
+        border: "color-mix(in oklch, var(--energy-system) 50%, transparent)",
+        bg: "color-mix(in oklch, var(--energy-system) 15%, transparent)",
+        glow: "color-mix(in oklch, var(--energy-system) 30%, transparent)",
+        text: "var(--energy-system)",
+      };
+    case "interact":
+      return {
+        border: "color-mix(in oklch, var(--energy-success) 50%, transparent)",
+        bg: "color-mix(in oklch, var(--energy-success) 15%, transparent)",
+        glow: "color-mix(in oklch, var(--energy-success) 30%, transparent)",
+        text: "var(--energy-success)",
+      };
   }
 }
 
@@ -161,15 +191,17 @@ function ElaraPopup({ text, onClose, voUrl }: { text: string; onClose: () => voi
       initial={{ opacity: 0, y: 20, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 10, scale: 0.95 }}
+      /* void-ignore — sidebar fixed width on sm+ breakpoint */
       className="fixed top-4 left-4 right-4 sm:top-auto sm:bottom-4 sm:left-auto sm:right-4 sm:w-[420px] z-50"
     >
       <div
         className="rounded-lg p-4 relative"
         style={{
           background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
-          border: "1px solid rgba(51,226,230,0.25)",
-          boxShadow: "0 0 30px rgba(51,226,230,0.08), 0 20px 60px rgba(0,0,0,0.5)",
-          backdropFilter: "blur(20px)",
+          border: "1px solid color-mix(in oklch, var(--energy-primary) 25%, transparent)",
+          boxShadow: "0 0 var(--space-lg) color-mix(in oklch, var(--energy-primary) 8%, transparent), 0 var(--space-md) var(--space-2xl) color-mix(in oklch, var(--bg-void) 50%, transparent)",
+          // void-ignore — 20px is the fallback default when --physics-blur is unset (flat physics)
+          backdropFilter: "blur(var(--physics-blur, 20px))",
         }}
       >
         <button
@@ -255,7 +287,7 @@ function RoomScene({
 
       {/* Scanline effect */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{
-        backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(51,226,230,0.15) 2px, rgba(51,226,230,0.15) 4px)",
+        backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--energy-primary) 15%, transparent) 2px, color-mix(in oklch, var(--energy-primary) 15%, transparent) 4px)",
       }} />
 
       {/* Markers toggle moved to Settings page */}
@@ -295,7 +327,7 @@ function RoomScene({
                 style={{
                   border: `1px solid ${isHovered ? colors.border : "transparent"}`,
                   background: isHovered ? colors.bg : "transparent",
-                  boxShadow: isHovered ? `0 0 20px ${colors.glow}` : "none",
+                  boxShadow: isHovered ? `0 0 var(--space-md) ${colors.glow}` : "none",
                 }}
               />
 
@@ -310,9 +342,9 @@ function RoomScene({
                 <div
                   className={`${isEasterEgg ? "w-4 h-4" : hotspot.type === "door" ? "w-10 h-10" : "w-8 h-8"} rounded-full flex items-center justify-center`}
                   style={{
-                    background: isEasterEgg ? "transparent" : hotspot.type === "door" ? "rgba(56,117,250,0.25)" : colors.bg,
-                    border: isEasterEgg ? "none" : hotspot.type === "door" ? "2px solid rgba(56,117,250,0.7)" : `1.5px solid ${colors.border}`,
-                    boxShadow: isEasterEgg ? "none" : hotspot.type === "door" ? "0 0 20px rgba(56,117,250,0.5), 0 0 40px var(--glass-border)" : `0 0 12px ${colors.glow}`,
+                    background: isEasterEgg ? "transparent" : hotspot.type === "door" ? "color-mix(in oklch, var(--electric-blue) 25%, transparent)" : colors.bg,
+                    border: isEasterEgg ? "none" : hotspot.type === "door" ? "2px solid color-mix(in oklch, var(--electric-blue) 70%, transparent)" : `1.5px solid ${colors.border}`,
+                    boxShadow: isEasterEgg ? "none" : hotspot.type === "door" ? "0 0 var(--space-md) color-mix(in oklch, var(--electric-blue) 50%, transparent), 0 0 var(--space-xl) var(--glass-border)" : `0 0 var(--space-sm) ${colors.glow}`,
                   }}
                 >
                   {!isEasterEgg && <Icon size={hotspot.type === "door" ? 18 : 14} style={{ color: colors.text }} />}
@@ -323,12 +355,12 @@ function RoomScene({
                   <div
                     className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center z-20"
                     style={{
-                      background: "rgba(51,226,230,0.85)",
-                      border: "1px solid rgba(51,226,230,0.5)",
-                      boxShadow: "0 0 6px rgba(51,226,230,0.4)",
+                      background: "color-mix(in oklch, var(--energy-primary) 85%, transparent)",
+                      border: "1px solid color-mix(in oklch, var(--energy-primary) 50%, transparent)",
+                      boxShadow: "0 0 var(--space-xs) color-mix(in oklch, var(--energy-primary) 40%, transparent)",
                     }}
                   >
-                    <FeatureIcon size={8} style={{ color: "#000" }} />
+                    <FeatureIcon size={8} style={{ color: "var(--bg-void)" }} />
                   </div>
                 )}
                 {/* Door pulse rings - always visible, slower pulse */}
@@ -336,7 +368,7 @@ function RoomScene({
                   <>
                     <div
                       className="absolute inset-[-4px] rounded-full animate-ping"
-                      style={{ border: "2px solid rgba(56,117,250,0.4)", opacity: 0.5, animationDuration: "2s" }}
+                      style={{ border: "2px solid color-mix(in oklch, var(--electric-blue) 40%, transparent)", opacity: 0.5, animationDuration: "2s" }}
                     />
                     <div
                       className="absolute inset-[-8px] rounded-full animate-ping"
@@ -356,19 +388,19 @@ function RoomScene({
                   <>
                     <div
                       className="absolute inset-[-6px] rounded-full animate-ping"
-                      style={{ border: "2px solid rgba(51,226,230,0.6)", opacity: 0.6, animationDuration: "1.5s" }}
+                      style={{ border: "2px solid color-mix(in oklch, var(--energy-primary) 60%, transparent)", opacity: 0.6, animationDuration: "1.5s" }}
                     />
                     <div
                       className="absolute inset-[-12px] rounded-full animate-ping"
-                      style={{ border: "1px solid rgba(51,226,230,0.3)", opacity: 0.3, animationDuration: "2.5s" }}
+                      style={{ border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)", opacity: 0.3, animationDuration: "2.5s" }}
                     />
                     {/* Exclamation badge */}
                     <div
                       className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-bold z-20"
                       style={{
-                        background: "rgba(255,183,77,0.9)",
-                        color: "#000",
-                        boxShadow: "0 0 8px rgba(255,183,77,0.6)",
+                        background: "color-mix(in oklch, var(--energy-premium) 90%, transparent)",
+                        color: "var(--bg-void)",
+                        boxShadow: "0 0 var(--space-xs) color-mix(in oklch, var(--energy-premium) 60%, transparent)",
                         animation: "pulse 2s ease-in-out infinite",
                       }}
                     >
@@ -381,19 +413,19 @@ function RoomScene({
                   <>
                     <div
                       className="absolute inset-[-6px] rounded-full animate-ping"
-                      style={{ border: "2px solid rgba(255,215,0,0.6)", opacity: 0.6, animationDuration: "1.5s" }}
+                      style={{ border: "2px solid color-mix(in oklch, var(--energy-premium) 60%, transparent)", opacity: 0.6, animationDuration: "1.5s" }}
                     />
                     <div
                       className="absolute inset-[-12px] rounded-full animate-ping"
-                      style={{ border: "1px solid rgba(255,215,0,0.3)", opacity: 0.3, animationDuration: "2.5s" }}
+                      style={{ border: "1px solid color-mix(in oklch, var(--energy-premium) 30%, transparent)", opacity: 0.3, animationDuration: "2.5s" }}
                     />
                     {/* Key badge */}
                     <div
                       className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center z-20"
                       style={{
-                        background: "rgba(255,215,0,0.9)",
-                        color: "#000",
-                        boxShadow: "0 0 8px rgba(255,215,0,0.6)",
+                        background: "color-mix(in oklch, var(--energy-premium) 90%, transparent)",
+                        color: "var(--bg-void)",
+                        boxShadow: "0 0 var(--space-xs) color-mix(in oklch, var(--energy-premium) 60%, transparent)",
                         animation: "pulse 2s ease-in-out infinite",
                       }}
                     >
@@ -406,19 +438,19 @@ function RoomScene({
                   <>
                     <div
                       className="absolute inset-[-6px] rounded-full animate-ping"
-                      style={{ border: "2px solid rgba(168,85,247,0.6)", opacity: 0.6, animationDuration: "1.8s" }}
+                      style={{ border: "2px solid color-mix(in oklch, var(--energy-system) 60%, transparent)", opacity: 0.6, animationDuration: "1.8s" }}
                     />
                     <div
                       className="absolute inset-[-12px] rounded-full animate-ping"
-                      style={{ border: "1px solid rgba(168,85,247,0.3)", opacity: 0.3, animationDuration: "2.8s" }}
+                      style={{ border: "1px solid color-mix(in oklch, var(--energy-system) 30%, transparent)", opacity: 0.3, animationDuration: "2.8s" }}
                     />
                     {/* Signal badge */}
                     <div
                       className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-[7px] font-bold z-20"
                       style={{
-                        background: "rgba(168,85,247,0.9)",
-                        color: "#fff",
-                        boxShadow: "0 0 8px rgba(168,85,247,0.6)",
+                        background: "color-mix(in oklch, var(--energy-system) 90%, transparent)",
+                        color: "var(--text-primary)",
+                        boxShadow: "0 0 var(--space-xs) color-mix(in oklch, var(--energy-system) 60%, transparent)",
                         animation: "pulse 2s ease-in-out infinite",
                       }}
                     >
@@ -432,14 +464,14 @@ function RoomScene({
                 <div className="absolute left-1/2 -translate-x-1/2 -top-1 -translate-y-full pointer-events-none">
                   <div className="px-2.5 py-1 rounded flex items-center gap-1.5" style={{
                     background: "var(--bg-overlay)",
-                    border: `1px solid ${hotspot.action && roomsWithEvents.has(hotspot.action.replace(/-/g, "_")) ? "rgba(255,183,77,0.6)" : "rgba(56,117,250,0.35)"}`,
-                    boxShadow: hotspot.action && roomsWithEvents.has(hotspot.action.replace(/-/g, "_")) ? "0 0 16px rgba(255,183,77,0.4)" : "0 0 12px var(--glass-border)",
+                    border: `1px solid ${hotspot.action && roomsWithEvents.has(hotspot.action.replace(/-/g, "_")) ? "color-mix(in oklch, var(--energy-premium) 60%, transparent)" : "color-mix(in oklch, var(--electric-blue) 35%, transparent)"}`,
+                    boxShadow: hotspot.action && roomsWithEvents.has(hotspot.action.replace(/-/g, "_")) ? "0 0 var(--space-sm) color-mix(in oklch, var(--energy-premium) 40%, transparent)" : "0 0 var(--space-sm) var(--glass-border)",
                   }}>
-                    <p className="font-mono text-[9px] text-[#3875fa] tracking-wider whitespace-nowrap font-bold">
+                    <p className="font-mono text-[9px] void-text-energy tracking-wider whitespace-nowrap font-bold">
                       ▶ {hotspot.name}
                     </p>
                     {hotspot.action && roomsWithEvents.has(hotspot.action.replace(/-/g, "_")) && (
-                      <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" title="Event available" />
+                      <span className="w-2 h-2 rounded-full void-bg-sunk animate-pulse" title="Event available" />
                     )}
                   </div>
                 </div>
@@ -453,14 +485,14 @@ function RoomScene({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 5 }}
                     className="absolute left-1/2 -translate-x-1/2 -bottom-2 translate-y-full z-30 pointer-events-none"
-                    style={{ minWidth: "180px" }}
+                    /* void-ignore — fixed minWidth for hotspot tooltips, not a spacing token */ style={{ minWidth: "180px" }}
                   >
                     <div
                       className="rounded-md px-3 py-2"
                       style={{
                         background: "var(--bg-void)",
                         border: `1px solid ${colors.border}`,
-                        boxShadow: `0 0 15px ${colors.glow}`,
+                        boxShadow: `0 0 var(--space-sm) ${colors.glow}`,
                       }}
                     >
                       <p className="font-mono text-[10px] font-bold" style={{ color: colors.text }}>{hotspot.name}</p>
@@ -1142,9 +1174,9 @@ export default function ArkExplorerPage() {
               onClick={toggleFullscreen}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-md font-mono text-[11px] transition-all"
               style={{
-                background: isFullscreen ? "rgba(51,226,230,0.15)" : "rgba(255,255,255,0.03)",
-                border: `1px solid ${isFullscreen ? "rgba(51,226,230,0.3)" : "rgba(255,255,255,0.1)"}`,
-                color: isFullscreen ? "var(--neon-cyan)" : "rgba(255,255,255,0.5)",
+                background: isFullscreen ? "color-mix(in oklch, var(--energy-primary) 15%, transparent)" : "color-mix(in oklch, var(--text-primary) 3%, transparent)",
+                border: `1px solid ${isFullscreen ? "color-mix(in oklch, var(--energy-primary) 30%, transparent)" : "color-mix(in oklch, var(--text-primary) 10%, transparent)"}`,
+                color: isFullscreen ? "var(--neon-cyan)" : "color-mix(in oklch, var(--text-primary) 50%, transparent)",
               }}
               title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
             >
@@ -1204,10 +1236,10 @@ export default function ArkExplorerPage() {
                     navigate(route);
                   }
                 }}
-                className="px-3 py-1.5 rounded-md font-mono text-[10px] tracking-wider transition-all hover:bg-[rgba(51,226,230,0.12)]"
+                className="px-3 py-1.5 rounded-md font-mono text-[10px] tracking-wider transition-all hover:bg-[color-mix(in oklch, var(--energy-primary) 12%, transparent)]"
                 style={{
-                  background: "rgba(51,226,230,0.05)",
-                  border: "1px solid rgba(51,226,230,0.15)",
+                  background: "color-mix(in oklch, var(--energy-primary) 5%, transparent)",
+                  border: "1px solid color-mix(in oklch, var(--energy-primary) 15%, transparent)",
                   color: "var(--neon-cyan)",
                   cursor: currentRoom.featureRoutes[i] ? "pointer" : "default",
                 }}
@@ -1226,9 +1258,9 @@ export default function ArkExplorerPage() {
           ) : (
             <div className="mt-4">
               <div className="flex items-center gap-2 mb-3">
-                <Compass size={12} className="text-[#3875fa]" />
-                <p className="font-mono text-[10px] text-[#3875fa] tracking-[0.3em] font-bold">PATHWAYS</p>
-                <div className="flex-1 h-px bg-gradient-to-r from-[rgba(56,117,250,0.3)] to-transparent" />
+                <Compass size={12} className="void-text-energy" />
+                <p className="font-mono text-[10px] void-text-energy tracking-[0.3em] font-bold">PATHWAYS</p>
+                <div className="flex-1 h-px bg-gradient-to-r from-[color-mix(in oklch, var(--electric-blue) 30%, transparent)] to-transparent" />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {currentRoom.connections.map(connId => {
@@ -1256,28 +1288,28 @@ export default function ArkExplorerPage() {
                       className="flex items-center gap-3 px-4 py-3 rounded-lg font-mono text-[11px] transition-all group"
                       style={{
                         background: unlocked
-                          ? hasPuzzle ? "rgba(255,183,77,0.06)" : "rgba(56,117,250,0.06)"
-                          : "rgba(255,255,255,0.015)",
+                          ? hasPuzzle ? "color-mix(in oklch, var(--energy-premium) 6%, transparent)" : "color-mix(in oklch, var(--electric-blue) 6%, transparent)"
+                          : "color-mix(in oklch, var(--text-primary) 2%, transparent)",
                         border: `1px solid ${
                           unlocked
-                            ? hasPuzzle ? "rgba(255,183,77,0.25)" : "rgba(56,117,250,0.25)"
-                            : "rgba(255,255,255,0.05)"
+                            ? hasPuzzle ? "color-mix(in oklch, var(--energy-premium) 25%, transparent)" : "color-mix(in oklch, var(--electric-blue) 25%, transparent)"
+                            : "color-mix(in oklch, var(--text-primary) 5%, transparent)"
                         }`,
                       }}
                     >
                       {/* Icon */}
                       <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center" style={{
                         background: unlocked
-                          ? hasPuzzle ? "rgba(255,183,77,0.15)" : "var(--glass-border)"
-                          : "rgba(255,255,255,0.03)",
+                          ? hasPuzzle ? "color-mix(in oklch, var(--energy-premium) 15%, transparent)" : "var(--glass-border)"
+                          : "color-mix(in oklch, var(--text-primary) 3%, transparent)",
                         border: `1px solid ${
                           unlocked
-                            ? hasPuzzle ? "rgba(255,183,77,0.3)" : "rgba(56,117,250,0.3)"
-                            : "rgba(255,255,255,0.08)"
+                            ? hasPuzzle ? "color-mix(in oklch, var(--energy-premium) 30%, transparent)" : "color-mix(in oklch, var(--electric-blue) 30%, transparent)"
+                            : "color-mix(in oklch, var(--text-primary) 8%, transparent)"
                         }`,
                       }}>
                         {unlocked ? (
-                          hasPuzzle ? <Zap size={14} className="text-[var(--orb-orange)]" /> : <DoorOpen size={14} className="text-[#3875fa]" />
+                          hasPuzzle ? <Zap size={14} className="text-[var(--orb-orange)]" /> : <DoorOpen size={14} className="void-text-energy" />
                         ) : (
                           <Lock size={14} className="text-muted-foreground/25" />
                         )}
@@ -1285,14 +1317,14 @@ export default function ArkExplorerPage() {
                       {/* Text */}
                       <div className="flex-1 text-left">
                         <p className="font-bold tracking-wider" style={{
-                          color: unlocked ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.2)",
+                          color: unlocked ? "color-mix(in oklch, var(--text-primary) 85%, transparent)" : "color-mix(in oklch, var(--text-primary) 20%, transparent)",
                         }}>
                           {unlocked ? (connRoom?.name || connId) : "???"}
                         </p>
                         <p className="text-[9px] mt-0.5" style={{
                           color: unlocked
-                            ? hasPuzzle ? "rgba(255,183,77,0.6)" : "rgba(56,117,250,0.6)"
-                            : "rgba(255,255,255,0.1)",
+                            ? hasPuzzle ? "color-mix(in oklch, var(--energy-premium) 60%, transparent)" : "color-mix(in oklch, var(--electric-blue) 60%, transparent)"
+                            : "color-mix(in oklch, var(--text-primary) 10%, transparent)",
                         }}>
                           {unlocked ? (hasPuzzle ? "🔒 PUZZLE REQUIRED" : deckLabel) : "LOCKED"}
                         </p>
@@ -1324,11 +1356,11 @@ export default function ArkExplorerPage() {
               className="flex items-center gap-2 px-3 py-2 rounded-lg font-mono text-[10px] tracking-wider animate-pulse"
               style={{
                 background: t.side === "machine"
-                  ? "linear-gradient(135deg, rgba(220,38,38,0.15), rgba(220,38,38,0.05))"
-                  : "linear-gradient(135deg, rgba(5,150,105,0.15), rgba(5,150,105,0.05))",
-                border: `1px solid ${t.side === "machine" ? "rgba(220,38,38,0.3)" : "rgba(5,150,105,0.3)"}`,
+                  ? "linear-gradient(135deg, color-mix(in oklch, var(--energy-error) 15%, transparent), color-mix(in oklch, var(--energy-error) 5%, transparent))"
+                  : "linear-gradient(135deg, color-mix(in oklch, var(--energy-success) 15%, transparent), color-mix(in oklch, var(--energy-success) 5%, transparent))",
+                border: `1px solid ${t.side === "machine" ? "color-mix(in oklch, var(--energy-error) 30%, transparent)" : "color-mix(in oklch, var(--energy-success) 30%, transparent)"}`,
                 color: t.side === "machine" ? "var(--alert-red)" : "var(--signal-green)",
-                boxShadow: t.side === "machine" ? "0 0 20px rgba(220,38,38,0.15)" : "0 0 20px rgba(5,150,105,0.15)",
+                boxShadow: t.side === "machine" ? "0 0 var(--space-md) color-mix(in oklch, var(--energy-error) 15%, transparent)" : "0 0 var(--space-md) color-mix(in oklch, var(--energy-success) 15%, transparent)",
               }}
             >
               <span className="w-2 h-2 rounded-full animate-ping" style={{ background: t.side === "machine" ? "var(--alert-red)" : "var(--signal-green)" }} />
@@ -1522,21 +1554,21 @@ export default function ArkExplorerPage() {
               }}
               className="w-full text-left p-3 rounded-xl border backdrop-blur-md shadow-2xl transition-all hover:scale-[1.02]"
               style={{
-                background: "rgba(0,0,0,0.85)",
-                borderColor: activeRoomEvent.type === "npc_conversation" ? "rgba(34,211,238,0.4)" :
-                              activeRoomEvent.type === "quarantine" ? "rgba(239,68,68,0.4)" :
-                              activeRoomEvent.type === "signal_fragment" ? "rgba(248,113,113,0.4)" :
-                              activeRoomEvent.type === "tome_discovered" ? "rgba(168,85,247,0.4)" :
-                              "rgba(255,183,77,0.4)",
+                background: "color-mix(in oklch, var(--bg-void) 85%, transparent)",
+                borderColor: activeRoomEvent.type === "npc_conversation" ? "color-mix(in oklch, var(--energy-primary) 40%, transparent)" :
+                              activeRoomEvent.type === "quarantine" ? "color-mix(in oklch, var(--energy-error) 40%, transparent)" :
+                              activeRoomEvent.type === "signal_fragment" ? "color-mix(in oklch, var(--energy-error) 40%, transparent)" :
+                              activeRoomEvent.type === "tome_discovered" ? "color-mix(in oklch, var(--energy-system) 40%, transparent)" :
+                              "color-mix(in oklch, var(--energy-premium) 40%, transparent)",
               }}
             >
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
                   style={{
-                    backgroundColor: activeRoomEvent.type === "npc_conversation" ? "rgba(34,211,238,0.15)" :
-                                     activeRoomEvent.type === "quarantine" ? "rgba(239,68,68,0.15)" :
-                                     "rgba(255,183,77,0.15)",
-                    border: `1px solid ${activeRoomEvent.type === "npc_conversation" ? "rgba(34,211,238,0.4)" : "rgba(255,183,77,0.4)"}`,
+                    backgroundColor: activeRoomEvent.type === "npc_conversation" ? "color-mix(in oklch, var(--energy-primary) 15%, transparent)" :
+                                     activeRoomEvent.type === "quarantine" ? "color-mix(in oklch, var(--energy-error) 15%, transparent)" :
+                                     "color-mix(in oklch, var(--energy-premium) 15%, transparent)",
+                    border: `1px solid ${activeRoomEvent.type === "npc_conversation" ? "color-mix(in oklch, var(--energy-primary) 40%, transparent)" : "color-mix(in oklch, var(--energy-premium) 40%, transparent)"}`,
                   }}>
                   <span className="text-xs">
                     {activeRoomEvent.type === "npc_conversation" ? "💬" :
@@ -1592,15 +1624,16 @@ export default function ArkExplorerPage() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
+            /* void-ignore — toast fixed width on sm+ breakpoint */
             className="fixed top-14 left-4 right-4 sm:left-auto sm:right-4 sm:w-[360px] z-[82]"
           >
-            <div className="p-3 rounded-xl bg-cyan-950/90 border border-cyan-400/20 backdrop-blur-md"
+            <div className="p-3 rounded-xl void-bg-sunk border void-border backdrop-blur-md"
               onClick={() => setBreadcrumbMessage(null)}>
               <div className="flex items-center gap-2 mb-1">
-                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                <span className="font-mono text-[8px] text-cyan-400/60 tracking-wider">ELARA // SYSTEM ALERT</span>
+                <div className="w-1.5 h-1.5 rounded-full void-bg-sunk animate-pulse" />
+                <span className="font-mono text-[8px] void-text-energy tracking-wider">ELARA // SYSTEM ALERT</span>
               </div>
-              <p className="font-mono text-[10px] text-cyan-300/80 leading-relaxed">{breadcrumbMessage}</p>
+              <p className="font-mono text-[10px] void-text-energy leading-relaxed">{breadcrumbMessage}</p>
             </div>
           </motion.div>
         )}
@@ -1615,9 +1648,9 @@ export default function ArkExplorerPage() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 0.6, y: 0 }}
               transition={{ delay: 3 + i * 2 }}
-              className="mb-1.5 p-2 rounded-lg bg-amber-950/60 border border-amber-500/10"
+              className="mb-1.5 p-2 rounded-lg void-bg-sunk border void-border-subtle"
             >
-              <p className="font-mono text-[8px] text-amber-400/50 leading-relaxed">{clue.text}</p>
+              <p className="font-mono text-[8px] void-text-dim leading-relaxed">{clue.text}</p>
             </motion.div>
           ))}
         </div>
@@ -1633,11 +1666,11 @@ export default function ArkExplorerPage() {
             className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[80] max-w-md w-full px-4"
           >
             <div className="void-surface p-3 rounded-xl backdrop-blur-md"
-              style={{ borderColor: "var(--void-glow, rgba(168,85,247,0.2))" }}
+              style={{ borderColor: "var(--void-glow, color-mix(in oklch, var(--energy-system) 20%, transparent))" }}
               onClick={() => setBanterText(null)}>
               <p className="font-mono text-[8px] tracking-wider mb-2" style={{ color: "var(--void-primary-muted)" }}>OVERHEARD TRANSMISSION</p>
               <pre className="font-mono text-[10px] whitespace-pre-wrap leading-relaxed void-text-muted">{banterText}</pre>
-              <p className="font-mono text-[7px] mt-2 text-right" style={{ color: "var(--void-text-muted, rgba(255,255,255,0.15))" }}>tap to dismiss</p>
+              <p className="font-mono text-[7px] mt-2 text-right" style={{ color: "var(--void-text-muted, color-mix(in oklch, var(--text-primary) 15%, transparent))" }}>tap to dismiss</p>
             </div>
           </motion.div>
         )}
@@ -1655,18 +1688,18 @@ export default function ArkExplorerPage() {
           >
             <div className="p-2.5 rounded-lg border backdrop-blur-sm"
               style={{
-                background: "rgba(0,0,0,0.75)",
+                background: "color-mix(in oklch, var(--bg-void) 75%, transparent)",
                 borderColor: voiceWhisper.isFalse
-                  ? "rgba(239,68,68,0.15)"
-                  : "var(--void-border-subtle, rgba(255,255,255,0.06))",
+                  ? "color-mix(in oklch, var(--energy-error) 15%, transparent)"
+                  : "var(--void-border-subtle, color-mix(in oklch, var(--text-primary) 6%, transparent))",
               }}
               onClick={() => setVoiceWhisper(null)}>
               <p className="font-mono text-[7px] tracking-[0.2em] mb-1"
-                style={{ color: voiceWhisper.isFalse ? "rgba(239,68,68,0.4)" : "var(--void-primary-muted)" }}>
+                style={{ color: voiceWhisper.isFalse ? "color-mix(in oklch, var(--energy-error) 40%, transparent)" : "var(--void-primary-muted)" }}>
                 {voiceWhisper.isFalse ? "UNRELIABLE INSTINCT" : "INNER VOICE"}
               </p>
               <p className="font-mono text-[10px] leading-relaxed italic"
-                style={{ color: "var(--void-text-muted, rgba(255,255,255,0.5))" }}>
+                style={{ color: "var(--void-text-muted, color-mix(in oklch, var(--text-primary) 50%, transparent))" }}>
                 &ldquo;{voiceWhisper.text}&rdquo;
               </p>
             </div>
@@ -1688,11 +1721,11 @@ export default function ArkExplorerPage() {
                 navigate(gameHint.route);
                 setGameHint(null);
               }}
-              className="w-full text-left p-3 rounded-xl border border-cyan-500/30 bg-black/90 backdrop-blur-md shadow-2xl hover:border-cyan-400/50 transition-all"
+              className="w-full text-left p-3 rounded-xl border void-border bg-black/90 backdrop-blur-md shadow-2xl void-border transition-all"
             >
-              <p className="font-mono text-[9px] text-cyan-400/60 tracking-wider mb-1">SYSTEM RECOMMENDATION</p>
+              <p className="font-mono text-[9px] void-text-energy tracking-wider mb-1">SYSTEM RECOMMENDATION</p>
               <p className="font-mono text-xs text-white/80">{gameHint.label}</p>
-              <p className="font-mono text-[8px] text-cyan-400/40 mt-1 flex items-center gap-1">
+              <p className="font-mono text-[8px] void-text-energy mt-1 flex items-center gap-1">
                 <ChevronRight size={8} /> TAP TO LAUNCH {gameHint.game.replace(/_/g, " ").toUpperCase()}
               </p>
             </button>
@@ -1746,7 +1779,7 @@ export default function ArkExplorerPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[200] flex items-end justify-center pb-6 sm:pb-10"
-            style={{ background: "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.2) 100%)" }}
+            style={{ background: "linear-gradient(to top, color-mix(in oklch, var(--bg-void) 90%, transparent) 0%, color-mix(in oklch, var(--bg-void) 50%, transparent) 40%, color-mix(in oklch, var(--bg-void) 20%, transparent) 100%)" }}
             onClick={advanceOrientation}
           >
             {/* Holographic Elara in the center-top */}
@@ -1765,7 +1798,7 @@ export default function ArkExplorerPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.4 }}
               className="max-w-xl w-full mx-4 rounded-lg border border-[var(--neon-cyan)]/30 bg-background/90 p-5 cursor-pointer"
-              style={{ boxShadow: "0 0 30px rgba(51,226,230,0.1)" }}
+              style={{ boxShadow: "0 0 var(--space-lg) color-mix(in oklch, var(--energy-primary) 10%, transparent)" }}
             >
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-2 h-2 rounded-full bg-[var(--neon-cyan)] animate-pulse" />

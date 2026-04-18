@@ -7,6 +7,8 @@
 
 # Speaker-accent colors (narrative signal — cyan=Elara, rose=Human, amber=Locke, violet=Seer):
 apps/client/src/components/act1/Act1OpponentTauntOverlay.tsx
+# Speaker-accent pair extracted from Act1CardLadderPage (cyan=Elara, rose=Human):
+apps/client/src/components/act1/Act1CompanionPanel.tsx
 apps/client/src/components/companion/CompanionAskPanel.tsx
 apps/client/src/components/companion/CompanionCommentToast.tsx
 apps/client/src/components/prelude/PreludeTutorCard.tsx
