@@ -1847,6 +1847,143 @@ Antiquarian is sometimes *reacting to* (especially on `l06`
 when his eye-line crosses to her and back). Flag these
 cross-actor cues in the director's script margins.
 
+### 9.10.3 Enigma still-reference sheet — 4-panel composite
+
+**Purpose.** A single 1920×1080 PNG the animator pins to
+their workspace while authoring the Section 6 cutscene. It
+is a character-blocking sheet, not a rendered frame — the
+job is to lock her appearance, pose, and three canonical
+gaze poses in one glance so no subsequent animation drifts.
+
+- **Path:** `docs/production/act1/reference/enigma-blocking-sheet.png`
+- **Format:** 1920×1080 PNG (4-panel 2×2 grid, each panel 960×540)
+- **Source canon:** Beat J Archives render + 20 *Last Words*
+  slides for face continuity
+- **Style anchor:** Archives palette — warm amber reading
+  lamps, cold blue data-crystal glow, volumetric dust motes.
+  Same room, re-lit and re-dressed: Engineer's chair gone,
+  six crystal coffins gone, Archives are *just* an archive
+  again. Soft film grain. Faint anamorphic flare on the
+  nearest data crystal.
+- **Priority:** P0 — blocks §9 cutscene animation
+
+**Nano Banana 2 prompt (full 4-panel composite):**
+
+> Hyper-realistic cinematic character-reference sheet,
+> 1920×1080, 4K, composed as a 2×2 grid of four panels
+> separated by thin black dividers. Single character across
+> all four panels: the Enigma (Malkia from the *Last Words*
+> slides and Beat J Archives render — do NOT alter her face,
+> skin tone, hair, or costume; character continuity is the
+> entire point of this sheet). She is a woman of
+> indeterminate middle age with warm dark skin, long dark
+> hair worn loose, dressed in ceremonial non-institutional
+> robes darker than the Antiquarian's — deep burgundy or
+> charcoal with subtle geometric piping, no Empire insignia,
+> no faction marks. Hands clasped loosely at her waist.
+> Posture: upright, still, unhurried, the body-language of
+> a person who has learned to carry silence for a long time.
+> Setting: the Archives reading room from Beat J, re-lit
+> and re-dressed (the Engineer's chair from Act 1's §4.5
+> finale is gone; the six crystal coffins are gone; the
+> Archives are *just* an archive again, memorial completed).
+> Warm amber reading lamps and cold blue data-crystal glow
+> provide the only illumination. Volumetric dust motes. Soft
+> film grain. The central Archives pedestal is visible in
+> the deep background of each panel.
+>
+> **Panel 1 (top-left) — GAZE #1 at l01 onset, ~1.5s duration.**
+> Medium shot. The Enigma stands a half-step behind and to
+> the viewer's right of frame-center (the Antiquarian is
+> off-frame to her right, implied by her positioning, NOT
+> rendered). Her eye-line has just lifted from the pedestal
+> and found the camera — *looking directly at the viewer*,
+> calm, measuring, a first confirmation that the player has
+> arrived. Not a smile. Not a frown. Assessment. Panel label
+> in small lower-right corner: "GAZE #1 — l01 — 1.5s".
+>
+> **Panel 2 (top-right) — GAZE #2 at l07 mid-hold, ~5s duration.**
+> Medium shot, identical framing to Panel 1. The Enigma's
+> eye-line is *deep into the camera* — this is the longest
+> and most sustained gaze of the scene; her face is softer
+> than Panel 1, the measuring has landed, now she is
+> *present*. The Antiquarian has just licensed her silence
+> with the line "She has chosen silence tonight, you will
+> hear her voice again when she is ready to give it to you,
+> and not before." Her look at the viewer is her own answer
+> to that promise. Panel label lower-right: "GAZE #2 — l07 — 5s".
+>
+> **Panel 3 (bottom-left) — GAZE #3 on l14 final frame, through fade.**
+> Medium shot, identical framing. The Enigma is looking at
+> the camera for the last time in Act 1. Her face holds the
+> faintest warmth — not a smile, a *knowing* — the
+> cumulative weight of the entire scene's silence. Render
+> the lighting as if the scene is about to fade to black:
+> the warm amber lamps are slightly dimmed, the data-crystal
+> glow muted, the edges of frame already softening toward
+> darkness. The Archives around her are already beginning
+> to dissolve into the fade. Panel label lower-right:
+> "GAZE #3 — l14 — through fade".
+>
+> **Panel 4 (bottom-right) — AT-REST middle-distance, default blocking.**
+> Medium shot, identical framing. The Enigma's eye-line is
+> off-camera to the viewer's left, neither at the
+> Antiquarian nor at the viewer — the neutral middle-distance
+> pose she holds for ~70% of the scene's runtime. Face
+> composed, unreadable, neither warm nor cold. Posture
+> identical to Panels 1–3 (same clasped-hands, same upright
+> carriage, same standing position). This is the baseline
+> from which all three gazes depart and to which she
+> returns. Panel label lower-right: "AT-REST — default blocking".
+>
+> Palette across all four panels: warm amber `#d9a66a`
+> reading-lamp glow (dominant lighting on her face in
+> Panels 1, 2, 4; dimmed in Panel 3), cold blue `#4ba3b5`
+> data-crystal glow on her robes and the background, deep
+> burgundy/charcoal `#3a1a1a` or `#2a2a2d` on her ceremonial
+> robe, warm skin tone rendered with amber undertones,
+> dust-motes as fine bright specks. Archives pedestal and
+> bookshelves in soft defocus behind her at approximately
+> 30% visibility — enough to anchor the room, not enough
+> to compete with the character. Thin 2px black borders
+> between the four panels. Thin 8px black border around
+> the entire 1920×1080 composite. Small title bar along the
+> top edge: "ENIGMA — SECTION 6 BLOCKING REFERENCE". No
+> other rendered text beyond the four panel labels and the
+> title bar. Cinematic 4K, character-reference-sheet
+> composition, consistent lighting and character rendering
+> across all four panels so the animator can compare pose
+> deltas cleanly.
+
+**Post-processing:**
+
+- Save as PNG to the output path above. No WebP companion —
+  this is a production reference, not a runtime asset.
+- Verify face, hair, skin tone, and costume match the Beat J
+  Enigma render within standard NanoBanna seed drift. If not,
+  re-run with the Beat J image as a reference-image input.
+- Verify the four panel framings are *identical* (same
+  medium-shot crop, same camera height, same distance to
+  subject). The sheet's utility depends on this — if the
+  framings drift, pose comparisons become unreliable.
+
+**Animator acceptance criteria:**
+
+- [ ] Face, hair, skin tone, costume match Beat J Enigma within seed drift
+- [ ] All four panels use identical medium-shot framing
+- [ ] Gaze target in each panel is unambiguously readable
+- [ ] Panel labels are legible at 50% zoom
+- [ ] No spurious character-detail changes between panels
+      (wardrobe, jewelry, hair position must be constant —
+      only eye-line and expression change)
+- [ ] Posture and hand position identical across all four panels
+
+**Sister deliverable.** The gaze-beat timeline CSV at
+`docs/production/act1/reference/enigma-gaze-timeline.csv`
+is the working file; this 4-panel PNG is the visual
+cover-sheet. The two should be printed side-by-side for
+the animator's desk.
+
 ---
 
 ## 10. Final Inventory Checklist
@@ -1885,8 +2022,8 @@ cross-actor cues in the director's script margins.
 | 29 | Section 6 cutscene wiring | `components/act1/TwoWitnessesPart2.tsx` | code + existing Archives backdrop | §9 | SCAFFOLDED |
 | 30 | Antiquarian Section 6 VO | `audio/antiquarian/antiq_s6_*.mp3` | 19 mp3 takes (14 base + 1 catch-all + 4 deflect variants) | §9.10, §9.10.1 | DRAFTED |
 | — | Enigma Section 6 VO | N/A — silent per §9.4 decision 2 | N/A | §9 | DEFERRED to Act 2+ |
-| 31 | Enigma blocking still-reference sheet | `docs/production/act1/reference/enigma-blocking-sheet.png` | 1920×1080 PNG, 4-panel composite | §9.10.2 | PENDING |
-| 32 | Enigma gaze-beat timeline | `docs/production/act1/reference/enigma-gaze-timeline.csv` | CSV, one row per Antiquarian line | §9.10.2 | PENDING |
+| 31 | Enigma blocking still-reference sheet | `docs/production/act1/reference/enigma-blocking-sheet.png` | 1920×1080 PNG, 4-panel composite | §9.10.2, §9.10.3 | PROMPTED |
+| 32 | Enigma gaze-beat timeline | `docs/production/act1/reference/enigma-gaze-timeline.csv` | CSV, 24 rows (1 scene_open + 10 shared + 13 branch rows) | §9.10.2 | SHIPPED |
 | 33 | Enigma branch-deltas sheet | `docs/production/act1/reference/enigma-branch-deltas.md` | markdown, 3-page | §9.10.2 | PENDING |
 
 **Totals:** 17 new image renders · 3 new cutscene video
@@ -1941,3 +2078,13 @@ pass. Enigma Section 6 VO deferred to Act 2+.
   deliverables queued: still-reference sheet, gaze-beat
   timeline CSV, branch-deltas sheet. Inventory now tracks
   33 numbered deliverables.
+- **2026-04-18 (rev 6)** — Two Enigma animator deliverables
+  landed. §9.10.3 adds the full Nano Banana 2 prompt for the
+  1920×1080 4-panel blocking-reference composite (GAZE #1 /
+  GAZE #2 / GAZE #3 / AT-REST). `enigma-gaze-timeline.csv`
+  written to `docs/production/act1/reference/` with 24 rows
+  covering the scene open, 10 shared Antiquarian lines,
+  three branch-response rows, five deflect variants, two
+  branch-split l13 rows, and four branch-split l14 rows
+  (including the v3-shortened gaze #3). Inventory status:
+  row 32 SHIPPED, row 31 PROMPTED.
