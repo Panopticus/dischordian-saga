@@ -98,6 +98,27 @@ export const COSMETIC_ITEMS: CosmeticItem[] = [
   // Shadow Colossus
   { key: "shadow_mark_badge", name: "Shadow Mark Badge", description: "Earned by defeating Shadow Colossus 5 times", icon: "Moon", color: "#1e1b4b", type: "badge", rarity: "rare", price: 0, limited: false, earnedFromBoss: "shadow_colossus" },
   { key: "colossus_armor_skin", name: "Colossus Armor Skin", description: "Earned by defeating Shadow Colossus 25 times", icon: "Moon", color: "#1e1b4b", type: "armor_skin", rarity: "epic", price: 0, limited: false, earnedFromBoss: "shadow_colossus" },
+
+  // ═══ ACT 1 NAMED BOSSES (card-battle mastery) ═══
+  // Paired level-3 badge + level-5 board/armor skin per boss.
+  // Threshold curves are in bossMastery.ts (shallower than the
+  // fight-arena bosses — Act 1 narrative encounters aren't
+  // grindable).
+  // Warlord Zero (§5.5)
+  { key: "warlord_badge", name: "Broken Arithmetic Badge", description: "Earned by defeating Warlord Zero in a card battle", icon: "Swords", color: "#d97706", type: "badge", rarity: "rare", price: 0, limited: false, earnedFromBoss: "act1_warlord_zero" },
+  { key: "warlord_banner", name: "Banner of Nexon", description: "Earned by mastering Warlord Zero (10 card-battle defeats)", icon: "Swords", color: "#d97706", type: "board_skin", rarity: "epic", price: 0, limited: false, earnedFromBoss: "act1_warlord_zero" },
+  // The Programmer (§5.6)
+  { key: "programmer_badge", name: "Programmer's Friend Badge", description: "Earned by winning against The Programmer", icon: "Heart", color: "#0ea5e9", type: "badge", rarity: "rare", price: 0, limited: false, earnedFromBoss: "act1_programmer" },
+  { key: "programmer_card_back", name: "Cedar & Steel Card Art", description: "Earned by mastering The Programmer (10 card-battle defeats)", icon: "Heart", color: "#0ea5e9", type: "card_art", rarity: "epic", price: 0, limited: false, earnedFromBoss: "act1_programmer" },
+  // The Game Master (§5.7)
+  { key: "game_master_badge", name: "Prosecutor Humbled Badge", description: "Earned by outwitting The Game Master", icon: "Gavel", color: "#dc2626", type: "badge", rarity: "rare", price: 0, limited: false, earnedFromBoss: "act1_game_master" },
+  { key: "game_master_gavel_skin", name: "Broken Gavel Board Skin", description: "Earned by mastering The Game Master (10 card-battle defeats)", icon: "Gavel", color: "#dc2626", type: "board_skin", rarity: "epic", price: 0, limited: false, earnedFromBoss: "act1_game_master" },
+  // The Authority (§5.8)
+  { key: "authority_badge", name: "Overturned Verdict Badge", description: "Earned by surviving the Authority's Trial", icon: "Scale", color: "#1e40af", type: "badge", rarity: "rare", price: 0, limited: false, earnedFromBoss: "act1_authority" },
+  { key: "authority_robe_skin", name: "Robe of the Acquitted", description: "Earned by mastering the Authority Trial (10 card-battle survivals)", icon: "Scale", color: "#1e40af", type: "armor_skin", rarity: "epic", price: 0, limited: false, earnedFromBoss: "act1_authority" },
+  // The Seer (§4.9)
+  { key: "seer_badge", name: "Prophecy Broken Badge", description: "Earned by defeating The Seer along the winnable path", icon: "Eye", color: "#7c3aed", type: "badge", rarity: "epic", price: 0, limited: false, earnedFromBoss: "act1_seer" },
+  { key: "seer_staff_skin", name: "Reclaimed Staff Board Skin", description: "Earned by mastering The Seer (rare — 5 winnable-path defeats)", icon: "Eye", color: "#7c3aed", type: "board_skin", rarity: "legendary", price: 0, limited: false, earnedFromBoss: "act1_seer" },
 ];
 
 export const COSMETIC_TYPE_LABELS: Record<CosmeticType, string> = {
