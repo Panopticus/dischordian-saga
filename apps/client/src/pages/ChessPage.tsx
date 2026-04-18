@@ -85,6 +85,11 @@ export default function ChessPage() {
   const [activeGameId, setActiveGameId] = useState<number | null>(null);
   const [gameFen, setGameFen] = useState("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
   const [gameStatus, setGameStatus] = useState<string>("active");
+  // Audit 3B — fire the daily chess quest once per checkmate win.
+  // Player is always white; the side TO MOVE in a checkmate position
+  // is the loser (per handleSkipChallengeMatchEnd's same rule).
+  const chessQuestFiredRef = useRef(false);
+  const updateQuestProgress = trpc.quests.updateProgress.useMutation();
   const [lastAiMove, setLastAiMove] = useState<{from: string; to: string} | null>(null);
   const [moveHistory, setMoveHistory] = useState<string[]>([]);
   const [rewards, setRewards] = useState<any>(null);
@@ -345,6 +350,24 @@ export default function ChessPage() {
 
   const characters = trpc.chess.getCharacters.useQuery(undefined, { enabled: isAuthenticated });
   const ranking = trpc.chess.getMyRanking.useQuery(undefined, { enabled: isAuthenticated });
+
+  // Audit 3B — checkmate → d_chess_win. Player is always white so
+  // `chess.turn() === "b"` at checkmate means black is the side
+  // to move (and therefore the loser): player won. Ref-guarded so
+  // re-renders while the over-screen is visible don't spam the
+  // mutation.
+  useEffect(() => {
+    if (gameStatus !== "checkmate") {
+      chessQuestFiredRef.current = false;
+      return;
+    }
+    if (chessQuestFiredRef.current) return;
+    const playerWon = chessRef.current.turn() === "b";
+    if (playerWon) {
+      chessQuestFiredRef.current = true;
+      updateQuestProgress.mutate({ questId: "d_chess_win", increment: 1 });
+    }
+  }, [gameStatus, updateQuestProgress]);
   const leaderboard = trpc.chess.getLeaderboard.useQuery(undefined, { enabled: view === "ladder" });
   const history = trpc.chess.getHistory.useQuery({ limit: 20 }, { enabled: view === "history" });
   const activeGame = trpc.chess.getActiveGame.useQuery(undefined, { enabled: isAuthenticated });

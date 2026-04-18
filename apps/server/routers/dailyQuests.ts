@@ -45,6 +45,11 @@ const DAILY_TEMPLATES: QuestTemplate[] = [
   { id: "d_buy_marketplace", title: "Smart Shopper", description: "Purchase from the marketplace", questType: "trade", target: 1, rewardDream: 3, rewardXp: 30, rewardCredits: 0 },
   { id: "d_earn_credits", title: "Credit Mogul", description: "Earn 5,000 credits from trading", questType: "trade", target: 5000, rewardDream: 10, rewardXp: 100, rewardCredits: 0 },
   { id: "d_use_special", title: "Special Forces", description: "Use 3 special moves in fights", questType: "fight", target: 3, rewardDream: 0, rewardXp: 60, rewardCredits: 300 },
+  // Minigame dailies — audit 3B gap. Quest ids referenced from
+  // ChessPage / HackingPuzzle / SignalDecryptionPage on completion.
+  { id: "d_chess_win", title: "Grandmaster's Gambit", description: "Win a chess match", questType: "fight", target: 1, rewardDream: 5, rewardXp: 60, rewardCredits: 0 },
+  { id: "d_hack_success", title: "System Infiltrator", description: "Successfully hack a system", questType: "explore", target: 1, rewardDream: 4, rewardXp: 50, rewardCredits: 0 },
+  { id: "d_decrypt_signal", title: "Signal Analyst", description: "Decrypt a captured signal", questType: "explore", target: 1, rewardDream: 4, rewardXp: 50, rewardCredits: 0 },
 ];
 
 const WEEKLY_TEMPLATES: QuestTemplate[] = [
