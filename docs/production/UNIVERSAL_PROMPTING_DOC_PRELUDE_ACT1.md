@@ -1548,6 +1548,117 @@ author. Revise freely.
 | `witness_antiquarian_met_part2` | Always set on cutscene end | Act 2+ dialogue branches referencing the Antiquarian's Part 2 confession |
 | `witness_enigma_met_part2` | Always set on cutscene end | Act 2+ dialogue branches referencing the Enigma's Part 2 *silence* (important — her silence is the canonical fact this flag records) |
 
+### 9.10 First-pass dialog script (Antiquarian — 14 lines)
+
+**Status:** first-pass draft. Revise freely. All lines pass
+§9.6 canon hygiene; none names Ages, Witnesses-in-the-abstract,
+*1260 days*, *Silence in Heaven*, *Heart of Time*, civilian
+names, or the Antiquarian's prior Loredex-Programmer identity.
+
+**Speaker:** the Antiquarian only. The Enigma is silent
+throughout; her presence is staged through eye-line and
+posture per §9.4 decision 2.
+
+**Voice profile:** `antiq_fc_1` (ElevenLabs, Prelude Beat J
+casting carried forward). Loudnorm −18 LUFS. Mono MP3 128 kbps.
+
+**Output directory:** `apps/client/public/audio/antiquarian/`
+
+**Tonal register.** The Antiquarian is ceremonial without
+being stagey. He has had more time to think about what he is
+going to say than anyone the player has ever met; he does not
+rush. Half-second pauses are load-bearing. He is warm, but he
+is speaking from the other side of a thing the player has not
+yet crossed. Do not punch endings. Let silence carry.
+
+---
+
+**Beat 2 — The Antiquarian acknowledges the player (0:20–1:00)**
+
+| Line id | Text | Direction |
+|---|---|---|
+| `antiq_s6_l01` | "You came back. That is the part we were not certain of." | Measured, quiet. Half-beat on *came back*. The word *we* lands with an almost-turn toward the Enigma, not a full one. |
+| `antiq_s6_l02` | "I was executed for what I thought. <break time=\"600ms\"/>I woke up in the next era." | The canonical confession. Flat, factual, no self-pity. The 600ms break between the two clauses is non-negotiable. |
+| `antiq_s6_l03` | "Across Ages. <break time=\"400ms\"/>Across the death of stars. <break time=\"400ms\"/>I have been waiting in rooms very much like this one." | The permitted canonical phrasing per §9.6. Two short pauses, neither punched. |
+
+**Beat 3 — The framing: Engineer, Enigma, player (1:00–2:00)**
+
+| Line id | Text | Direction |
+|---|---|---|
+| `antiq_s6_l04` | "The song you heard a few minutes ago. <break time=\"500ms\"/>It was recorded a very long time ago, by someone you will never meet." | He means the Engineer. He does not say his name. He does not need to. |
+| `antiq_s6_l05` | "He was not one of us. <break time=\"400ms\"/>He died before any of this had a shape. His death is the shape." | The core reveal — the Engineer is the seed, not a Witness. *His death is the shape* lands softly, not for emphasis. |
+| `antiq_s6_l06` | "The voice you heard *carrying* his words — <break time=\"400ms\"/>she also died for what she thought. <break time=\"500ms\"/>She also woke up in the next era." | Indirect reference to the Enigma. He does not name her. The word *carrying* is emphasized lightly; she is the carrier, he is the keeper. On this line his eye-line shifts once to the Enigma and back. |
+| `antiq_s6_l07` | "She has chosen silence tonight. <break time=\"400ms\"/>You will hear her voice again when she is ready to give it to you, and not before." | Licenses her silence in-fiction. Canon-safe — does not promise *when* she speaks, only that she will. |
+| `antiq_s6_l08` | "So: what was begun in him, <break time=\"400ms\"/>carried by her, <break time=\"500ms\"/>now waits. <break time=\"600ms\"/>In you." | The pivot to the player. Long build of pauses. *In you* is the softest two syllables in the scene. Do not emphasize. |
+
+**Beat 4 — The ask (2:00–2:30)**
+
+| Line id | Text | Direction |
+|---|---|---|
+| `antiq_s6_l09` | "A thing was begun, and it has not finished. <break time=\"600ms\"/>It can continue in the weight you agree to carry, or it can end here, in this room, with us." | Still measured. No pressure in the voice. He is describing a door, not a demand. |
+| `antiq_s6_l10` | "Will you carry it?" | The ask. Four syllables. Leave 1.0s of silence after the render — the dialog UI fades in on that silence. |
+
+*(UI appears: ACCEPT / DECLINE / DEFLECT. Player chooses.)*
+
+**Beat 5 — The response (2:30–3:30). One of three branches fires.**
+
+| Line id | Branch | Text | Direction |
+|---|---|---|---|
+| `antiq_s6_l11a` | ACCEPT | "Then we have not waited in vain. <break time=\"500ms\"/>Go carefully. The road does not forgive hurry." | Warmth allowed on *we have not waited in vain*. The closing advice is gentle, not foreboding. |
+| `antiq_s6_l11b` | DECLINE | "Then we will wait longer. <break time=\"500ms\"/>We have learned how." | No rebuke. Calm. *We have learned how* lands with the specific tiredness of someone who has done it before. |
+| `antiq_s6_l11c` | DEFLECT | "Ask, then. <break time=\"400ms\"/>Tonight, an answer costs nothing." | Open, patient. A licensing line — the player's follow-up is dialogue-UI text, not voiced. |
+| `antiq_s6_l12c` | DEFLECT (Antiquarian's canon-safe answer) | "What we are is not the question. <break time=\"400ms\"/>What you do with what you have heard tonight — that is the question. <break time=\"500ms\"/>Consider it, and come back when you can." | Catch-all canon-safe response that closes the deflect branch without revealing anything forbidden. If the script later authors specific deflect-questions, add `l12c_v1`, `l12c_v2`, etc. alongside this default. |
+
+**Beat 6 — Close (3:30–end)**
+
+| Line id | Text | Direction |
+|---|---|---|
+| `antiq_s6_l13` | "We will be here. <break time=\"400ms\"/>We have nowhere else we are expected to be." | The Witnesses' canonical standing posture is licensed by this line. Final breath low. |
+| `antiq_s6_l14` | "End of memoir. <break time=\"600ms\"/>The next breath is yours." | Closing line. Delivered softer than anything else in the scene. The title card *End of Act 1* fades in on the final syllable. |
+
+---
+
+**Totals:** 14 base lines + 1 extra deflect-answer line
+(`antiq_s6_l12c`) = 15 VO takes. Middle of the §9.2 estimate.
+
+**Branch VO table:**
+
+| Branch | Lines played |
+|---|---|
+| Accept | l01 → l02 → l03 → l04 → l05 → l06 → l07 → l08 → l09 → l10 → **l11a** → l13 → l14 |
+| Decline | l01 → l02 → l03 → l04 → l05 → l06 → l07 → l08 → l09 → l10 → **l11b** → l13 → l14 |
+| Deflect | l01 → l02 → l03 → l04 → l05 → l06 → l07 → l08 → l09 → l10 → **l11c → [player question] → l12c** → l13 → l14 |
+
+Every branch shares 12 lines (l01–l10 + l13–l14); only the
+response beat differs. Accept/decline trade one line each;
+deflect adds one line over the shared baseline.
+
+**VO production order (recommended recording sequence):**
+
+1. `l01`–`l03` (opening canonical confession — set the
+   register for the whole take)
+2. `l13`–`l14` (closing — matches the opening's quiet
+   register; record in the same session to keep timbre)
+3. `l04`–`l08` (framing — warmer register allowed,
+   especially on `l08`)
+4. `l09`–`l10` (the ask — land the word *carry* carefully)
+5. `l11a`, `l11b`, `l11c` (branch responses — record all
+   three in one take session for tonal consistency)
+6. `l12c` (deflect catch-all — optional if deflect branch
+   gets per-question variants later)
+
+**Open authoring slots (follow-up):**
+
+- [ ] Review by canon owner for §9.6 hygiene compliance
+- [ ] Optional: author 2–4 per-question deflect-variant
+      lines (`antiq_s6_l12c_v1`–`_v4`) covering the most
+      likely player questions (*who was he?*, *how long have
+      you been waiting?*, *what happens if I say no?*,
+      *why me?*)
+- [ ] Enigma blocking pass — staged eye-line and posture
+      cues for each branch, recorded as a still-reference
+      sheet for the cutscene animator
+
 ---
 
 ## 10. Final Inventory Checklist
@@ -1584,7 +1695,7 @@ author. Revise freely.
 | 28 | Prince VO — rules themselves | `audio/act1/prince_third_edit_rules.mp3` | mp3 ~5s | §8.3 | PENDING |
 | — | Prelude VO audit | `audio/prince/`, `audio/elara/`, `audio/human/`, `audio/locke/` | audit pass | §3.1–§3.2 | AUDIT |
 | 29 | Section 6 cutscene wiring | `components/act1/TwoWitnessesPart2.tsx` | code + existing Archives backdrop | §9 | SCAFFOLDED |
-| 30 | Antiquarian Section 6 VO | `audio/antiquarian/antiq_witnesses_part2_*.mp3` | 12–16 mp3 takes | §9.2 | PENDING |
+| 30 | Antiquarian Section 6 VO | `audio/antiquarian/antiq_s6_l{01..14,11a,11b,11c,12c}.mp3` | 15 mp3 takes | §9.2, §9.10 | DRAFTED |
 | — | Enigma Section 6 VO | N/A — silent per §9.4 decision 2 | N/A | §9 | DEFERRED to Act 2+ |
 
 **Totals:** 17 new image renders · 3 new cutscene video
@@ -1613,3 +1724,11 @@ pass. Enigma Section 6 VO deferred to Act 2+.
   decision 3, allowed reveals, a first-draft cutscene
   skeleton, and forward-write surface. Inventory now lists
   29 deliverables + Enigma VO deferred.
+- **2026-04-18 (rev 3)** — §9.10 added. First-pass
+  Antiquarian dialog script drafted: 14 base lines + 1
+  deflect catch-all = 15 total VO takes. All lines pass
+  §9.6 canon hygiene. Branch table maps each of the three
+  player choices to 13 played lines (12 shared + 1 branch
+  response); deflect adds an extra catch-all. Recommended
+  recording order and open authoring slots (per-question
+  deflect variants, Enigma blocking pass) documented.
