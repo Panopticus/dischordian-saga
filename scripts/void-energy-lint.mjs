@@ -89,8 +89,8 @@ const STATE_CLASS_RE = /["'`][^"'`]*\bis-(?:active|open|disabled|selected|hidden
 
 /* ─── Void-ignore directive ─────────────────────────── */
 
-const VOID_IGNORE_LINE_RE = /^\s*\/\/\s*void-ignore\b/;
-const VOID_IGNORE_INLINE_RE = /\/\/\s*void-ignore\b/;
+const VOID_IGNORE_LINE_RE = /^\s*(?:\/\/|\{\/\*)\s*void-ignore\b/;
+const VOID_IGNORE_INLINE_RE = /(?:\/\/|\{\/\*)\s*void-ignore\b/;
 
 /* ─── Helpers ─────────────────────────────────────── */
 

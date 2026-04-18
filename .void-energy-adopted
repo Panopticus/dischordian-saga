@@ -17,3 +17,6 @@ apps/client/src/components/ReconnectingOverlay.tsx
 apps/client/src/components/MoralityShiftToast.tsx
 apps/client/src/components/AutoTutorialPrompt.tsx
 apps/client/src/components/GameErrorBoundary.tsx
+# Slice 2A — page-level shell. Speaker-accent blocks extracted into
+# Act1CompanionPanel (intentional) so the parent page stays adopted.
+apps/client/src/pages/Act1CardLadderPage.tsx

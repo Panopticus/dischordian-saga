@@ -43,6 +43,10 @@ import { useGame } from "@/contexts/GameContext";
 import { playSlideshow } from "@/stores/witnessingStore";
 import DuelystGameUI from "@/game/duelyst/DuelystGameUI";
 import { Act1OpponentTauntOverlay } from "@/components/act1/Act1OpponentTauntOverlay";
+import {
+  Act1AskSpeakerToggle,
+  Act1CompanionPanel,
+} from "@/components/act1/Act1CompanionPanel";
 import { CompanionAskPanel } from "@/components/companion/CompanionAskPanel";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import {
@@ -158,10 +162,10 @@ export default function Act1CardLadderPage() {
   /* ─── RENDER ─── */
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-stone-950 to-[#0d0a05] relative">
+    <div className="min-h-screen bg-gradient-to-b from-[var(--bg-void)] to-[var(--bg-void)] relative">
       <LivingBackground
         src="/art/rooms/room-archives.png"
-        accent="#f59e0b"
+        accent="var(--energy-accent)"
         opacity={0.1}
         particleCount={4}
         scanlines={false}
@@ -169,28 +173,28 @@ export default function Act1CardLadderPage() {
       <div className="relative z-10">
         {/* Header — shown on all views except the full-screen battle */}
         {view !== "battle" && (
-          <div className="border-b border-amber-900/40 bg-stone-950/60 backdrop-blur-sm">
+          <div className="border-b void-border-subtle void-bg-canvas backdrop-blur-sm">
             <div className="mx-auto max-w-4xl px-4 py-4 sm:px-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Link
                     href="/witnessing"
-                    className="text-amber-300/60 hover:text-amber-200 transition-colors"
+                    className="void-text-dim void-text-accent transition-colors"
                     aria-label="Back to Witnessing Hub"
                   >
                     <ChevronLeft size={18} />
                   </Link>
                   <div>
-                    <h1 className="font-display text-lg font-bold tracking-wider text-amber-100 flex items-center gap-2">
-                      <Swords size={16} className="text-amber-400" />
+                    <h1 className="font-display text-lg font-bold tracking-wider void-text-accent flex items-center gap-2">
+                      <Swords size={16} className="void-text-accent" />
                       THE TWELVE STEPS
                     </h1>
-                    <p className="font-mono text-[10px] text-amber-300/60 tracking-wider">
+                    <p className="font-mono text-[10px] void-text-dim tracking-wider">
                       Act 1 · Dischordia Ladder · {wins}/12
                     </p>
                   </div>
                 </div>
-                <p className="font-mono text-[10px] text-amber-300/50">
+                <p className="font-mono text-[10px] void-text-dim">
                   W {wins} · L {losses}
                 </p>
               </div>
@@ -308,12 +312,12 @@ function LadderListView({
   return (
     <div className="space-y-4">
       {ladderComplete && (
-        <div className="rounded-md border border-amber-500/60 bg-amber-950/30 p-5 text-center">
-          <Trophy size={28} className="mx-auto mb-2 text-amber-300" />
-          <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-amber-200">
+        <div className="rounded-md border void-border void-bg-sunk p-5 text-center">
+          <Trophy size={28} className="mx-auto mb-2 void-text-accent" />
+          <p className="font-mono text-[11px] uppercase tracking-[0.3em] void-text-accent">
             TWELVE STEPS COMPLETE
           </p>
-          <p className="mt-2 font-serif text-sm text-stone-200">
+          <p className="mt-2 font-serif text-sm void-text">
             Act 1 is written. Last Words has been played. The Engineer's
             memoir is complete.
           </p>
@@ -331,20 +335,20 @@ function LadderListView({
               key={opponent.id}
               className={`rounded border p-3 transition-colors ${
                 defeated
-                  ? "border-amber-700/60 bg-amber-950/20"
+                  ? "void-border void-bg-sunk"
                   : isCurrent
-                  ? "border-emerald-500/70 bg-emerald-950/30 shadow-[0_0_20px_rgba(52,211,153,0.1)]"
-                  : "border-amber-900/30 bg-stone-900/30 opacity-60"
+                  ? "void-border void-bg-sunk shadow-[0_0_20px_color-mix(in_oklch,var(--energy-success)_10%,transparent)]"
+                  : "void-border-subtle void-bg-canvas opacity-60"
               }`}
             >
               <div className="flex items-start gap-3">
                 <span
                   className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-sm border text-[10px] font-mono ${
                     defeated
-                      ? "border-amber-500/70 text-amber-200"
+                      ? "void-border void-text-accent"
                       : isCurrent
-                      ? "border-emerald-400/80 text-emerald-200"
-                      : "border-amber-900/50 text-amber-300/50"
+                      ? "void-border void-text-energy"
+                      : "void-border-subtle void-text-dim"
                   }`}
                 >
                   {opponent.act1Step}
@@ -354,26 +358,26 @@ function LadderListView({
                     <h3
                       className={`font-display text-sm ${
                         defeated
-                          ? "text-amber-200"
+                          ? "void-text-accent"
                           : isCurrent
-                          ? "text-emerald-100"
-                          : "text-amber-300/50"
+                          ? "void-text-energy"
+                          : "void-text-dim"
                       }`}
                     >
                       {opponent.name}
                     </h3>
                     {defeated && (
-                      <CheckCircle2 size={12} className="text-amber-400" />
+                      <CheckCircle2 size={12} className="void-text-accent" />
                     )}
                     {isLocked && (
-                      <Lock size={10} className="text-amber-300/30" />
+                      <Lock size={10} className="void-text-muted" />
                     )}
                   </div>
-                  <p className="mt-0.5 font-mono text-[9px] uppercase tracking-wider text-amber-300/40">
+                  <p className="mt-0.5 font-mono text-[9px] uppercase tracking-wider void-text-muted">
                     {opponent.cycle.replace(/_/g, " ")}
                   </p>
                   {(defeated || isCurrent) && (
-                    <p className="mt-1 font-serif text-[12px] text-stone-300">
+                    <p className="mt-1 font-serif text-[12px] void-text-dim">
                       {opponent.backstory}
                     </p>
                   )}
@@ -382,7 +386,7 @@ function LadderListView({
                   <button
                     type="button"
                     onClick={onOpenMatchup}
-                    className="shrink-0 flex items-center gap-1.5 rounded-sm border border-emerald-700/60 bg-emerald-900/20 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-emerald-100 hover:border-emerald-500/80 hover:bg-emerald-900/40 transition-colors"
+                    className="shrink-0 flex items-center gap-1.5 rounded-sm border void-border void-bg-sunk px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider void-text-energy void-border void-bg-sunk transition-colors"
                   >
                     <Play size={11} />
                     Engage
@@ -432,11 +436,11 @@ function MatchupView({
     <div className="space-y-6">
       {/* Engineer memoir frame — opens every Act 1 match */}
       {dialog && (
-        <div className="rounded-md border border-amber-800/50 bg-stone-950/60 p-4">
-          <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-amber-300/50">
+        <div className="rounded-md border void-border void-bg-canvas p-4">
+          <p className="font-mono text-[9px] uppercase tracking-[0.25em] void-text-dim">
             Engineer · memoir
           </p>
-          <p className="mt-2 font-serif text-[13px] leading-relaxed text-amber-50/90">
+          <p className="mt-2 font-serif text-[13px] leading-relaxed void-text-accent">
             {dialog.engineerMemoirIntro}
           </p>
         </div>
@@ -447,45 +451,33 @@ function MatchupView({
         className="rounded-md border p-6"
         style={{
           borderColor: `${opponentColor}60`,
-          background: `radial-gradient(circle at 50% 0%, ${opponentColor}15, transparent 70%), rgba(12,10,5,0.6)`,
+          background: `radial-gradient(circle at 50% 0%, ${opponentColor}15, transparent 70%), color-mix(in oklch, var(--bg-void) 80%, black 20%)`,
         }}
       >
-        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-amber-300/60">
+        <p className="font-mono text-[10px] uppercase tracking-[0.25em] void-text-dim">
           STEP {opponent.act1Step} · {opponent.cycle.replace(/_/g, " ")}
         </p>
-        <h2 className="mt-1 font-display text-2xl text-amber-100">
+        <h2 className="mt-1 font-display text-2xl void-text-accent">
           {opponent.name}
         </h2>
-        <p className="mt-3 font-serif text-[13px] leading-relaxed text-stone-200">
+        <p className="mt-3 font-serif text-[13px] leading-relaxed void-text">
           {opponent.backstory}
         </p>
-        <div className="mt-4 border-l-2 border-amber-500/60 pl-4">
-          <p className="font-mono text-[9px] uppercase tracking-wider text-amber-300/50">
+        <div className="mt-4 border-l-2 void-border pl-4">
+          <p className="font-mono text-[9px] uppercase tracking-wider void-text-dim">
             Their opening line
           </p>
-          <p className="mt-1 font-serif italic text-sm text-amber-100">
+          <p className="mt-1 font-serif italic text-sm void-text-accent">
             "{opponent.preMatchLine}"
           </p>
         </div>
         {dialog && (
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <div className="rounded border border-cyan-900/50 bg-cyan-950/20 p-3">
-              <p className="font-mono text-[9px] uppercase tracking-wider text-cyan-300/70">
-                Elara · recognition
-              </p>
-              <p className="mt-1 font-serif text-[12px] leading-relaxed text-cyan-50/90">
-                {dialog.elaraPreMatch}
-              </p>
-            </div>
-            <div className="rounded border border-rose-900/50 bg-rose-950/20 p-3">
-              <p className="font-mono text-[9px] uppercase tracking-wider text-rose-300/70">
-                The Human · counter-perspective
-              </p>
-              <p className="mt-1 font-serif text-[12px] leading-relaxed text-rose-50/90">
-                {dialog.humanPreMatch}
-              </p>
-            </div>
-          </div>
+          <Act1CompanionPanel
+            elaraLabel="Elara · recognition"
+            elaraText={dialog.elaraPreMatch}
+            humanLabel="The Human · counter-perspective"
+            humanText={dialog.humanPreMatch}
+          />
         )}
         <p
           className="mt-4 font-mono text-[10px] uppercase tracking-wider"
@@ -496,35 +488,17 @@ function MatchupView({
       </div>
 
       {/* Ask a companion — optional, non-blocking */}
-      <div className="rounded-md border border-stone-800 bg-stone-950/40 p-4">
+      <div className="rounded-md border void-border void-bg-canvas p-4">
         <div className="flex items-center justify-between">
-          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-stone-400">
+          <p className="font-mono text-[10px] uppercase tracking-[0.25em] void-text-muted">
             Ask a companion
           </p>
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={() => setAskSpeaker(askSpeaker === "elara" ? null : "elara")}
-              className={`rounded border px-3 py-1 font-mono text-[10px] uppercase tracking-wider transition-colors ${
-                askSpeaker === "elara"
-                  ? "border-cyan-400 bg-cyan-900/30 text-cyan-100"
-                  : "border-cyan-900/50 bg-stone-950/40 text-cyan-300/70 hover:border-cyan-700/60 hover:text-cyan-200"
-              }`}
-            >
-              Elara
-            </button>
-            <button
-              type="button"
-              onClick={() => setAskSpeaker(askSpeaker === "human" ? null : "human")}
-              className={`rounded border px-3 py-1 font-mono text-[10px] uppercase tracking-wider transition-colors ${
-                askSpeaker === "human"
-                  ? "border-rose-400 bg-rose-900/30 text-rose-100"
-                  : "border-rose-900/50 bg-stone-950/40 text-rose-300/70 hover:border-rose-700/60 hover:text-rose-200"
-              }`}
-            >
-              The Human
-            </button>
-          </div>
+          <Act1AskSpeakerToggle
+            active={askSpeaker}
+            onToggle={(speaker) =>
+              setAskSpeaker(askSpeaker === speaker ? null : speaker)
+            }
+          />
         </div>
         {askSpeaker && (
           <div className="mt-3">
@@ -539,8 +513,8 @@ function MatchupView({
       </div>
 
       {/* Player faction picker */}
-      <div className="rounded-md border border-amber-900/50 bg-stone-950/60 p-5">
-        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] text-amber-200">
+      <div className="rounded-md border void-border-subtle void-bg-canvas p-5">
+        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
           CHOOSE YOUR FACTION
         </p>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
@@ -553,8 +527,8 @@ function MatchupView({
                 onClick={() => onPickFaction(f)}
                 className={`rounded border px-3 py-2 text-left font-mono text-[10px] uppercase tracking-wider transition-colors ${
                   active
-                    ? "border-amber-400 bg-amber-900/30 text-amber-100"
-                    : "border-amber-900/40 bg-stone-900/40 text-amber-300/60 hover:border-amber-700/60 hover:text-amber-200"
+                    ? "void-border void-bg-sunk void-text-accent"
+                    : "void-border-subtle void-bg-canvas void-text-dim void-border void-text-accent"
                 }`}
                 style={active ? { borderColor: FACTION_COLORS[f] } : {}}
               >
@@ -570,7 +544,7 @@ function MatchupView({
         <button
           type="button"
           onClick={onBack}
-          className="flex items-center gap-2 rounded-sm border border-amber-900/50 bg-stone-950/40 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-amber-300/70 hover:text-amber-100 hover:border-amber-700/70 transition-colors"
+          className="flex items-center gap-2 rounded-sm border void-border-subtle void-bg-canvas px-4 py-2 font-mono text-[10px] uppercase tracking-wider void-text-dim void-text-accent void-border transition-colors"
         >
           <X size={12} />
           Back to ladder
@@ -579,7 +553,7 @@ function MatchupView({
           type="button"
           onClick={onEngage}
           disabled={!playerFaction}
-          className="flex items-center gap-2 rounded-sm border border-emerald-700/70 bg-emerald-900/20 px-5 py-2 font-mono text-[11px] uppercase tracking-wider text-emerald-100 hover:border-emerald-500/80 hover:bg-emerald-900/40 transition-colors disabled:cursor-not-allowed disabled:opacity-40"
+          className="flex items-center gap-2 rounded-sm border void-border void-bg-sunk px-5 py-2 font-mono text-[11px] uppercase tracking-wider void-text-energy void-border void-bg-sunk transition-colors disabled:cursor-not-allowed disabled:opacity-40"
         >
           <Swords size={12} />
           Engage
@@ -604,7 +578,17 @@ function PostMatchView({
   onContinue: () => void;
 }) {
   const body = outcome === "win" ? opponent.postMatchWin : opponent.postMatchLoss;
-  const accent = outcome === "win" ? "border-amber-500/60 bg-amber-950/30" : "border-rose-900/50 bg-rose-950/20";
+  // Outcome chrome: win = sunk surface, loss = sunk surface with
+  // error-axis tint. Inline style for the tint since there's no
+  // utility class that mixes the sunk bg with --energy-error yet.
+  const accent = "void-border void-bg-sunk";
+  const accentStyle =
+    outcome === "loss"
+      ? {
+          backgroundColor:
+            "color-mix(in oklch, var(--bg-sunk) 70%, var(--energy-error) 30%)",
+        }
+      : undefined;
   const Icon = outcome === "win" ? Trophy : Sparkles;
   const label = outcome === "win" ? "VICTORY" : "SETBACK";
   const dialog = getAct1OpponentDialog(opponent.id);
@@ -624,55 +608,39 @@ function PostMatchView({
       : dialog.engineerMemoirCloseLoss
     : null;
   return (
-    <div className={`rounded-md border p-6 ${accent}`}>
+    <div className={`rounded-md border p-6 ${accent}`} style={accentStyle}>
       <div className="flex items-center gap-2">
-        <Icon size={16} className="text-amber-300" />
-        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-amber-200">
+        <Icon size={16} className="void-text-accent" />
+        <p className="font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
           {label} · STEP {opponent.act1Step}
         </p>
       </div>
-      <h2 className="mt-2 font-display text-xl text-amber-100">
+      <h2 className="mt-2 font-display text-xl void-text-accent">
         {opponent.name}
       </h2>
-      <p className="mt-4 font-serif text-[14px] leading-relaxed text-stone-100">
+      <p className="mt-4 font-serif text-[14px] leading-relaxed void-text">
         {body}
       </p>
-      {(elaraLine || humanLine) && (
-        <div className="mt-5 grid gap-3 sm:grid-cols-2">
-          {elaraLine && (
-            <div className="rounded border border-cyan-900/50 bg-cyan-950/20 p-3">
-              <p className="font-mono text-[9px] uppercase tracking-wider text-cyan-300/70">
-                Elara · reflection
-              </p>
-              <p className="mt-1 font-serif text-[12px] leading-relaxed text-cyan-50/90">
-                {elaraLine}
-              </p>
-            </div>
-          )}
-          {humanLine && (
-            <div className="rounded border border-rose-900/50 bg-rose-950/20 p-3">
-              <p className="font-mono text-[9px] uppercase tracking-wider text-rose-300/70">
-                The Human · counter-reflection
-              </p>
-              <p className="mt-1 font-serif text-[12px] leading-relaxed text-rose-50/90">
-                {humanLine}
-              </p>
-            </div>
-          )}
-        </div>
+      {elaraLine && humanLine && (
+        <Act1CompanionPanel
+          elaraLabel="Elara · reflection"
+          elaraText={elaraLine}
+          humanLabel="The Human · counter-reflection"
+          humanText={humanLine}
+        />
       )}
       {engineerClose && (
-        <div className="mt-4 rounded border border-amber-800/50 bg-stone-950/60 p-3">
-          <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-amber-300/50">
+        <div className="mt-4 rounded border void-border void-bg-canvas p-3">
+          <p className="font-mono text-[9px] uppercase tracking-[0.25em] void-text-dim">
             Engineer · memoir closes
           </p>
-          <p className="mt-1 font-serif italic text-[13px] leading-relaxed text-amber-50/90">
+          <p className="mt-1 font-serif italic text-[13px] leading-relaxed void-text-accent">
             {engineerClose}
           </p>
         </div>
       )}
       {opponent.postBattleSlideshow && outcome === "win" && (
-        <p className="mt-3 font-mono text-[10px] text-amber-300/60">
+        <p className="mt-3 font-mono text-[10px] void-text-dim">
           · Cinematic queued: {opponent.postBattleSlideshow}
         </p>
       )}
@@ -680,7 +648,7 @@ function PostMatchView({
         <button
           type="button"
           onClick={onContinue}
-          className="flex items-center gap-2 rounded-sm border border-amber-700/70 bg-amber-900/20 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-amber-100 hover:border-amber-500/80 hover:bg-amber-900/40 transition-colors"
+          className="flex items-center gap-2 rounded-sm border void-border void-bg-sunk px-4 py-2 font-mono text-[10px] uppercase tracking-wider void-text-accent void-border-subtle void-bg-sunk transition-colors"
         >
           Continue
           <ChevronRight size={12} />
