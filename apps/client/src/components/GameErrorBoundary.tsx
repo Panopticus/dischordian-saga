@@ -38,14 +38,20 @@ export default class GameErrorBoundary extends Component<Props, State> {
     return (
       <div className="flex items-center justify-center min-h-[60vh] p-8">
         <div className="flex flex-col items-center w-full max-w-md text-center">
-          <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mb-4">
-            <AlertTriangle size={32} className="text-red-400" />
+          <div
+            className="w-16 h-16 rounded-full flex items-center justify-center mb-4"
+            style={{ backgroundColor: "color-mix(in oklch, var(--energy-error) 10%, transparent)" }}
+          >
+            <AlertTriangle size={32} style={{ color: "var(--energy-error)" }} />
           </div>
 
           <h2 className="font-display text-lg font-bold tracking-wider text-foreground mb-2">
             SYSTEM MALFUNCTION
           </h2>
-          <p className="font-mono text-[10px] tracking-[0.3em] text-red-400/60 uppercase mb-4">
+          <p
+            className="font-mono text-[10px] tracking-[0.3em] uppercase mb-4"
+            style={{ color: "color-mix(in oklch, var(--energy-error) 60%, transparent)" }}
+          >
             {this.props.pageName || "MODULE"} — CRITICAL ERROR
           </p>
 
@@ -74,7 +80,11 @@ export default class GameErrorBoundary extends Component<Props, State> {
             </button>
             <a
               href="/"
-              className="flex items-center gap-2 px-4 py-2 rounded-lg border border-cyan-500/30 bg-cyan-500/5 font-mono text-xs text-cyan-400 hover:bg-cyan-500/10 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg border void-text-energy font-mono text-xs transition-colors"
+              style={{
+                borderColor: "color-mix(in oklch, var(--energy-primary) 30%, transparent)",
+                backgroundColor: "color-mix(in oklch, var(--energy-primary) 5%, transparent)",
+              }}
             >
               <Home size={14} /> Return to Ark
             </a>

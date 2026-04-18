@@ -80,11 +80,13 @@ export default function MoralityShiftToast() {
   const isHumanity = current.delta > 0;
   const magnitude = Math.abs(current.delta);
 
-  // Theme colors
-  const color = isHumanity ? "#22C55E" : "#FF4444";
+  // Theme colors — humanity = success axis, machine = error axis.
+  // Sourced from Void Energy's --energy-success / --energy-error so
+  // atmosphere + physics changes propagate automatically.
+  const color = isHumanity ? "var(--energy-success)" : "var(--energy-error)";
   const bgGradient = isHumanity
-    ? "linear-gradient(135deg, rgba(34,197,94,0.12) 0%, rgba(6,182,212,0.06) 100%)"
-    : "linear-gradient(135deg, rgba(255,68,68,0.12) 0%, rgba(139,0,0,0.06) 100%)";
+    ? "linear-gradient(135deg, color-mix(in oklch, var(--energy-success) 12%, transparent) 0%, color-mix(in oklch, var(--energy-primary) 6%, transparent) 100%)"
+    : "linear-gradient(135deg, color-mix(in oklch, var(--energy-error) 12%, transparent) 0%, color-mix(in oklch, var(--energy-error) 6%, transparent) 100%)";
   const directionLabel = isHumanity ? "Humanity" : "the Machine";
   const Icon = isHumanity ? Heart : Cpu;
   const quote = pickRandom(isHumanity ? HUMANITY_QUOTES : MACHINE_QUOTES);

@@ -11,5 +11,9 @@
 # narrative-signal colors in act UI) go in `.void-energy-intentional`,
 # not here.
 #
-# Registry starts empty. First adopters: add your file + PR link as a
-# comment on the line above for traceability.
+# First-slice adopters (PR #TBD) — chrome + semantic-color components
+# migrated from Tailwind ramps to Void Energy tokens.
+apps/client/src/components/ReconnectingOverlay.tsx
+apps/client/src/components/MoralityShiftToast.tsx
+apps/client/src/components/AutoTutorialPrompt.tsx
+apps/client/src/components/GameErrorBoundary.tsx

@@ -98,10 +98,13 @@ export default function AutoTutorialPrompt({
                     {tutorial.subtitle}
                   </p>
                   <div className="flex items-center gap-3 font-mono text-[10px]">
-                    <span className="flex items-center gap-1 text-yellow-400">
+                    <span className="flex items-center gap-1 void-text-premium">
                       <Zap size={10} /> {tutorial.totalRewards.dreamTokens} DT
                     </span>
-                    <span className="flex items-center gap-1 text-green-400">
+                    <span
+                      className="flex items-center gap-1"
+                      style={{ color: "var(--energy-success)" }}
+                    >
                       <Star size={10} /> {tutorial.totalRewards.xp} XP
                     </span>
                     <span className="flex items-center gap-1 text-muted-foreground">

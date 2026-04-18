@@ -4,3 +4,11 @@
 # path only with a one-line written justification on the preceding line.
 # Valid justifications: speaker-accent colors (narrative signal), faction
 # colors (game-rule signal), outcome colors (win/loss semantics).
+
+# Speaker-accent colors (narrative signal — cyan=Elara, rose=Human, amber=Locke, violet=Seer):
+apps/client/src/components/act1/Act1OpponentTauntOverlay.tsx
+apps/client/src/components/companion/CompanionAskPanel.tsx
+apps/client/src/components/companion/CompanionCommentToast.tsx
+apps/client/src/components/prelude/PreludeTutorCard.tsx
+# Per-NPC identity color read from a registry (RememberThisToast consumes FACTION_NPCS.color):
+apps/client/src/components/RememberThisToast.tsx
