@@ -1650,14 +1650,71 @@ deflect adds one line over the shared baseline.
 **Open authoring slots (follow-up):**
 
 - [ ] Review by canon owner for §9.6 hygiene compliance
-- [ ] Optional: author 2–4 per-question deflect-variant
-      lines (`antiq_s6_l12c_v1`–`_v4`) covering the most
-      likely player questions (*who was he?*, *how long have
-      you been waiting?*, *what happens if I say no?*,
-      *why me?*)
+- [x] Per-question deflect-variant lines — see §9.10.1 below
 - [ ] Enigma blocking pass — staged eye-line and posture
       cues for each branch, recorded as a still-reference
       sheet for the cutscene animator
+
+### 9.10.1 Deflect-branch per-question variants (4 lines)
+
+**Runtime shape.** When the player picks DEFLECT, the dialog
+UI presents four question buttons. The runtime plays the
+matching `antiq_s6_l12c_vN` line, then resumes the shared
+close beat (l13 → l14). If a player question outside this set
+is ever added (e.g. a dynamic free-text input or a branch
+unlocked by a late-Act-1 flag), fall back to the §9.10
+catch-all `antiq_s6_l12c`.
+
+All four lines pass §9.6 canon hygiene: no Ages, no
+forbidden phrases, no civilian names, no Loredex-Programmer
+identity. Each expands a single canon-safe fact without
+committing the player to a choice — the deflect branch ends
+with `act1_closingChoice = "deflect"` regardless.
+
+| Line id | Player question | Antiquarian response | Direction |
+|---|---|---|---|
+| `antiq_s6_l12c_v1` | *"Who was he?"* (the Engineer) | "He was an engineer. <break time=\"400ms\"/>He built the tool that ended him, and he chose the shape of its use. <break time=\"500ms\"/>That is not a tragedy. That is craft. <break time=\"600ms\"/>He kept one name at the end — *the Prince*. <break time=\"400ms\"/>He believed it was the only name he was allowed to keep." | Warmest line in the scene. The word *craft* lands flat, not proud. *The Prince* is the only permitted name-reveal; do not italicize aloud, just give it the same weight as the surrounding clause. |
+| `antiq_s6_l12c_v2` | *"How long have you been waiting?"* | "Long enough that the word itself has worn smooth. <break time=\"500ms\"/>Short enough, still, that I remember what I was waiting for. <break time=\"600ms\"/>Measure it any way you like. <break time=\"400ms\"/>The important part is not the length. <break time=\"400ms\"/>The important part is that you have arrived." | Do not quantify. The subjective answer is the point. Tired warmth. *Worn smooth* is a hand-gesture line — the VA may breathe the *sh* of *smooth*. |
+| `antiq_s6_l12c_v3` | *"What happens if I say no?"* | "Then the work continues without you for a little longer. <break time=\"400ms\"/>It has done so before. <break time=\"500ms\"/>We will be here when you come back to the question. <break time=\"400ms\"/>We have nothing else on our calendars." | The dryest line in the scene. *Nothing else on our calendars* is a quiet joke — deliver it straight, no wink. Canon-safe: does not pre-commit the player to decline. |
+| `antiq_s6_l12c_v4` | *"Why me?"* | "You are not chosen. <break time=\"400ms\"/>No one is. <break time=\"500ms\"/>You are the one whose feet crossed this threshold tonight. <break time=\"500ms\"/>That turns out to be enough. <break time=\"400ms\"/>It always turns out to be enough." | Rejects destiny framing outright — important canon guardrail. *It always turns out to be enough* lands with the specific certainty of someone who has seen it happen before. Do not emphasize *always*. |
+
+---
+
+**Updated totals for Section 6 VO:**
+
+- 14 base lines (l01–l10, l11a, l11b, l11c, l13, l14)
+- 1 deflect catch-all (l12c)
+- 4 deflect per-question variants (l12c_v1 through l12c_v4)
+- **Grand total: 19 VO takes**
+
+**Updated branch table:**
+
+| Branch | Lines played | Takes consumed |
+|---|---|---|
+| Accept | l01…l10 → l11a → l13 → l14 | 13 |
+| Decline | l01…l10 → l11b → l13 → l14 | 13 |
+| Deflect (catch-all) | l01…l10 → l11c → l12c → l13 → l14 | 14 |
+| Deflect (v1–v4) | l01…l10 → l11c → l12c_vN → l13 → l14 | 14 (one variant swapped in) |
+
+The player experiences exactly 13 or 14 lines per run. Takes
+12c and 12c_v1–v4 are mutually exclusive in any given
+playthrough — the runtime picks one based on the player's
+question.
+
+**Fallback logic for the runtime:**
+
+```
+if deflect_branch_triggered:
+  play l11c
+  match player_question:
+    case "who_was_he":          play l12c_v1
+    case "how_long_waiting":    play l12c_v2
+    case "what_if_no":          play l12c_v3
+    case "why_me":              play l12c_v4
+    default:                    play l12c
+  play l13
+  play l14
+```
 
 ---
 
@@ -1695,7 +1752,7 @@ deflect adds one line over the shared baseline.
 | 28 | Prince VO — rules themselves | `audio/act1/prince_third_edit_rules.mp3` | mp3 ~5s | §8.3 | PENDING |
 | — | Prelude VO audit | `audio/prince/`, `audio/elara/`, `audio/human/`, `audio/locke/` | audit pass | §3.1–§3.2 | AUDIT |
 | 29 | Section 6 cutscene wiring | `components/act1/TwoWitnessesPart2.tsx` | code + existing Archives backdrop | §9 | SCAFFOLDED |
-| 30 | Antiquarian Section 6 VO | `audio/antiquarian/antiq_s6_l{01..14,11a,11b,11c,12c}.mp3` | 15 mp3 takes | §9.2, §9.10 | DRAFTED |
+| 30 | Antiquarian Section 6 VO | `audio/antiquarian/antiq_s6_*.mp3` | 19 mp3 takes (14 base + 1 catch-all + 4 deflect variants) | §9.10, §9.10.1 | DRAFTED |
 | — | Enigma Section 6 VO | N/A — silent per §9.4 decision 2 | N/A | §9 | DEFERRED to Act 2+ |
 
 **Totals:** 17 new image renders · 3 new cutscene video
@@ -1732,3 +1789,11 @@ pass. Enigma Section 6 VO deferred to Act 2+.
   response); deflect adds an extra catch-all. Recommended
   recording order and open authoring slots (per-question
   deflect variants, Enigma blocking pass) documented.
+- **2026-04-18 (rev 4)** — §9.10.1 added. Four deflect
+  per-question variants drafted (`antiq_s6_l12c_v1`–`_v4`)
+  covering *who was he?*, *how long waiting?*, *what if I
+  say no?*, *why me?*. v1 permits the one canonical
+  name-reveal (*the Prince*, from Log 5 — still canon-safe
+  under §9.6). v4 explicitly rejects destiny framing as an
+  Act 1 guardrail. Total Section 6 Antiquarian VO takes:
+  19. Runtime fallback logic documented.
