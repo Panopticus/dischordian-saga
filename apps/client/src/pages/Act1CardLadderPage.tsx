@@ -36,6 +36,7 @@ import {
   X,
 } from "lucide-react";
 import { ACT_1_OPPONENTS, type Act1Opponent } from "@shared/act1Opponents";
+import { getAct1OpponentDialog } from "@shared/act1OpponentDialog";
 import { getNextAct1Opponent } from "@shared/witnessingRuntime";
 import { useAct1LadderStore } from "@/stores/act1CardLadderStore";
 import { useGame } from "@/contexts/GameContext";
@@ -404,8 +405,21 @@ function MatchupView({
 }) {
   const opponentFaction = resolveOpponentFaction(opponent);
   const opponentColor = FACTION_COLORS[opponentFaction];
+  const dialog = getAct1OpponentDialog(opponent.id);
   return (
     <div className="space-y-6">
+      {/* Engineer memoir frame — opens every Act 1 match */}
+      {dialog && (
+        <div className="rounded-md border border-amber-800/50 bg-stone-950/60 p-4">
+          <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-amber-300/50">
+            Engineer · memoir
+          </p>
+          <p className="mt-2 font-serif text-[13px] leading-relaxed text-amber-50/90">
+            {dialog.engineerMemoirIntro}
+          </p>
+        </div>
+      )}
+
       {/* Opponent card */}
       <div
         className="rounded-md border p-6"
@@ -431,6 +445,26 @@ function MatchupView({
             "{opponent.preMatchLine}"
           </p>
         </div>
+        {dialog && (
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="rounded border border-cyan-900/50 bg-cyan-950/20 p-3">
+              <p className="font-mono text-[9px] uppercase tracking-wider text-cyan-300/70">
+                Elara · recognition
+              </p>
+              <p className="mt-1 font-serif text-[12px] leading-relaxed text-cyan-50/90">
+                {dialog.elaraPreMatch}
+              </p>
+            </div>
+            <div className="rounded border border-rose-900/50 bg-rose-950/20 p-3">
+              <p className="font-mono text-[9px] uppercase tracking-wider text-rose-300/70">
+                The Human · counter-perspective
+              </p>
+              <p className="mt-1 font-serif text-[12px] leading-relaxed text-rose-50/90">
+                {dialog.humanPreMatch}
+              </p>
+            </div>
+          </div>
+        )}
         <p
           className="mt-4 font-mono text-[10px] uppercase tracking-wider"
           style={{ color: opponentColor }}
@@ -508,6 +542,22 @@ function PostMatchView({
   const accent = outcome === "win" ? "border-amber-500/60 bg-amber-950/30" : "border-rose-900/50 bg-rose-950/20";
   const Icon = outcome === "win" ? Trophy : Sparkles;
   const label = outcome === "win" ? "VICTORY" : "SETBACK";
+  const dialog = getAct1OpponentDialog(opponent.id);
+  const elaraLine = dialog
+    ? outcome === "win"
+      ? dialog.elaraPostMatchWin
+      : dialog.elaraPostMatchLoss
+    : null;
+  const humanLine = dialog
+    ? outcome === "win"
+      ? dialog.humanPostMatchWin
+      : dialog.humanPostMatchLoss
+    : null;
+  const engineerClose = dialog
+    ? outcome === "win"
+      ? dialog.engineerMemoirCloseWin
+      : dialog.engineerMemoirCloseLoss
+    : null;
   return (
     <div className={`rounded-md border p-6 ${accent}`}>
       <div className="flex items-center gap-2">
@@ -522,6 +572,40 @@ function PostMatchView({
       <p className="mt-4 font-serif text-[14px] leading-relaxed text-stone-100">
         {body}
       </p>
+      {(elaraLine || humanLine) && (
+        <div className="mt-5 grid gap-3 sm:grid-cols-2">
+          {elaraLine && (
+            <div className="rounded border border-cyan-900/50 bg-cyan-950/20 p-3">
+              <p className="font-mono text-[9px] uppercase tracking-wider text-cyan-300/70">
+                Elara · reflection
+              </p>
+              <p className="mt-1 font-serif text-[12px] leading-relaxed text-cyan-50/90">
+                {elaraLine}
+              </p>
+            </div>
+          )}
+          {humanLine && (
+            <div className="rounded border border-rose-900/50 bg-rose-950/20 p-3">
+              <p className="font-mono text-[9px] uppercase tracking-wider text-rose-300/70">
+                The Human · counter-reflection
+              </p>
+              <p className="mt-1 font-serif text-[12px] leading-relaxed text-rose-50/90">
+                {humanLine}
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+      {engineerClose && (
+        <div className="mt-4 rounded border border-amber-800/50 bg-stone-950/60 p-3">
+          <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-amber-300/50">
+            Engineer · memoir closes
+          </p>
+          <p className="mt-1 font-serif italic text-[13px] leading-relaxed text-amber-50/90">
+            {engineerClose}
+          </p>
+        </div>
+      )}
       {opponent.postBattleSlideshow && outcome === "win" && (
         <p className="mt-3 font-mono text-[10px] text-amber-300/60">
           · Cinematic queued: {opponent.postBattleSlideshow}
