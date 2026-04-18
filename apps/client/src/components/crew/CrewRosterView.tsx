@@ -122,7 +122,7 @@ export default function CrewRosterView({ state, onAssignRole }: Props) {
               <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2 min-w-0">
                   {m.isFounder && (
-                    <Crown size={11} className="text-yellow-400 shrink-0" aria-label="founder" />
+                    <Crown size={11} className="void-text-premium shrink-0" aria-label="founder" />
                   )}
                   <span className="font-display font-semibold truncate">{m.name}</span>
                   <span className="font-mono text-[10px] text-muted-foreground shrink-0">
@@ -145,7 +145,7 @@ export default function CrewRosterView({ state, onAssignRole }: Props) {
                 const label = holidayBonusLabelFor(m);
                 if (!label) return null;
                 return (
-                  <div className="mt-1 flex items-center gap-1 text-[10px] font-mono text-amber-300/90 truncate">
+                  <div className="mt-1 flex items-center gap-1 text-[10px] font-mono void-text-accent truncate">
                     <Sparkles className="w-2.5 h-2.5 shrink-0" />
                     <span className="truncate">{label}</span>
                   </div>
@@ -156,8 +156,8 @@ export default function CrewRosterView({ state, onAssignRole }: Props) {
         ))}
 
         {unfilledRoles.length > 0 && (
-          <div className="mt-4 p-3 border border-yellow-500/30 bg-yellow-500/5 rounded">
-            <div className="text-[11px] font-mono text-yellow-300 mb-1">
+          <div className="mt-4 p-3 border void-border void-bg-sunk rounded">
+            <div className="text-[11px] font-mono void-text-premium mb-1">
               UNFILLED ROLES ({unfilledRoles.length})
             </div>
             <div className="flex flex-wrap gap-1">
@@ -179,7 +179,7 @@ export default function CrewRosterView({ state, onAssignRole }: Props) {
               <CrewPortrait member={selected} size={72} className="shrink-0" />
               <div className="flex-1 min-w-0">
                 <div className="font-display text-lg font-bold flex items-center gap-2">
-                  {selected.isFounder && <Crown size={14} className="text-yellow-400" />}
+                  {selected.isFounder && <Crown size={14} className="void-text-premium" />}
                   {selected.name}
                 </div>
                 <div className="font-mono text-[11px] text-muted-foreground">
@@ -220,30 +220,30 @@ export default function CrewRosterView({ state, onAssignRole }: Props) {
                 : null;
               if (!bloodline && !role) return null;
               return (
-                <div className="mb-4 rounded-lg border border-amber-500/30 bg-amber-500/5 p-3">
-                  <div className="text-[10px] font-mono uppercase text-amber-300/80 mb-2 flex items-center gap-1">
+                <div className="mb-4 rounded-lg border void-border void-bg-sunk p-3">
+                  <div className="text-[10px] font-mono uppercase void-text-accent mb-2 flex items-center gap-1">
                     <Sparkles size={10} />
                     Christmas in July contribution
                   </div>
                   {bloodline && (
                     <div className="mb-1.5">
-                      <div className="text-xs font-display text-amber-200">
+                      <div className="text-xs font-display void-text-accent">
                         {bloodline.bonusName}
                       </div>
-                      <div className="text-[10px] font-mono text-amber-400/70 leading-relaxed">
+                      <div className="text-[10px] font-mono void-text-accent leading-relaxed">
                         {bloodline.description}
                       </div>
                     </div>
                   )}
                   {role && (
                     <div>
-                      <div className="text-xs font-display text-green-200">
+                      <div className="text-xs font-display void-text-energy">
                         Role: {role.roleName}
                       </div>
-                      <div className="text-[10px] font-mono text-green-400/70 leading-relaxed">
+                      <div className="text-[10px] font-mono void-text-energy leading-relaxed">
                         {role.bonusDescription}
                       </div>
-                      <div className="text-[9px] font-mono text-green-400/50 mt-0.5 italic">
+                      <div className="text-[9px] font-mono void-text-energy mt-0.5 italic">
                         {role.effect}
                       </div>
                     </div>
@@ -263,10 +263,10 @@ export default function CrewRosterView({ state, onAssignRole }: Props) {
                     const trait = getTrait(tid);
                     if (!trait) return null;
                     const rarityColor = {
-                      common: "border-gray-500/40",
-                      uncommon: "border-green-500/40",
-                      rare: "border-blue-500/40",
-                      mythic: "border-purple-500/40 text-purple-300",
+                      common: "void-border",
+                      uncommon: "void-border-success",
+                      rare: "void-border",
+                      mythic: "void-border-system void-text-system",
                     };
                     return (
                       <span
@@ -332,11 +332,11 @@ export default function CrewRosterView({ state, onAssignRole }: Props) {
                       >
                         <span>
                           {r.status === "partnered" ? "partnered with" : "courting"}{" "}
-                          <span className="text-cyan-300">{other.name}</span>
+                          <span className="void-text-energy">{other.name}</span>
                         </span>
                         <button
                           onClick={() => endRomance.mutate({ romanceId: r.id })}
-                          className="text-[9px] text-red-300/70 hover:text-red-300"
+                          className="text-[9px] void-text-error void-text-error"
                         >
                           end
                         </button>
@@ -385,11 +385,11 @@ export default function CrewRosterView({ state, onAssignRole }: Props) {
                       const isDead = other.status === "dead";
                       const color =
                         score >= 40
-                          ? "text-green-300"
+                          ? "void-text-energy"
                           : score >= 10
-                            ? "text-cyan-300"
+                            ? "void-text-energy"
                             : score <= -40
-                              ? "text-red-300"
+                              ? "void-text-error"
                               : "text-muted-foreground";
                       return (
                         <div

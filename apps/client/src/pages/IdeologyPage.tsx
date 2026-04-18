@@ -21,12 +21,12 @@ import {
 } from "@/game/politicalVisions";
 
 const VISION_COLORS: Record<string, { color: string; border: string; bg: string; gradient: string }> = {
-  architect: { color: "text-cyan-400", border: "border-cyan-500/40", bg: "bg-cyan-500/10", gradient: "from-cyan-500/20 to-blue-500/10" },
-  dreamer: { color: "text-amber-400", border: "border-amber-500/40", bg: "bg-amber-500/10", gradient: "from-amber-500/20 to-orange-500/10" },
-  insurgency: { color: "text-red-400", border: "border-red-500/40", bg: "bg-red-500/10", gradient: "from-red-500/20 to-rose-500/10" },
-  new_babylon: { color: "text-purple-400", border: "border-purple-500/40", bg: "bg-purple-500/10", gradient: "from-purple-500/20 to-indigo-500/10" },
-  hierarchy: { color: "text-slate-300", border: "border-slate-400/40", bg: "bg-slate-400/10", gradient: "from-slate-500/20 to-zinc-500/10" },
-  antiquarian: { color: "text-yellow-300", border: "border-yellow-400/40", bg: "bg-yellow-400/10", gradient: "from-yellow-500/20 to-amber-500/10" },
+  architect: { color: "void-text-energy", border: "void-border-success", bg: "void-bg-success", gradient: "from-cyan-500/20 to-blue-500/10" },
+  dreamer: { color: "void-text-accent", border: "void-border", bg: "void-bg-sunk", gradient: "from-amber-500/20 to-orange-500/10" },
+  insurgency: { color: "void-text-error", border: "void-border-error", bg: "void-bg-error", gradient: "from-red-500/20 to-rose-500/10" },
+  new_babylon: { color: "void-text-system", border: "void-border-system", bg: "void-bg-system", gradient: "from-purple-500/20 to-indigo-500/10" },
+  hierarchy: { color: "void-text", border: "void-border", bg: "void-bg-canvas", gradient: "from-slate-500/20 to-zinc-500/10" },
+  antiquarian: { color: "void-text-premium", border: "void-border", bg: "void-bg-sunk", gradient: "from-yellow-500/20 to-amber-500/10" },
 };
 
 export default function IdeologyPage() {
@@ -47,7 +47,7 @@ export default function IdeologyPage() {
           <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
             <ChevronLeft size={20} />
           </Link>
-          <Flag size={18} className="text-purple-400" />
+          <Flag size={18} className="void-text-system" />
           <div>
             <h1 className="font-display text-lg font-bold tracking-wider">POLITICAL VISIONS</h1>
             <p className="font-mono text-[10px] text-muted-foreground tracking-wider">
@@ -58,8 +58,8 @@ export default function IdeologyPage() {
 
         {/* Commitment status */}
         {committedTo && (
-          <div className="mb-4 p-2 rounded border border-purple-500/40 bg-purple-500/5">
-            <span className="font-mono text-[9px] uppercase tracking-wider text-purple-400">Committed To: </span>
+          <div className="mb-4 p-2 rounded border void-border-system void-bg-system">
+            <span className="font-mono text-[9px] uppercase tracking-wider void-text-system">Committed To: </span>
             <span className="font-display text-xs font-bold text-foreground">
               {POLITICAL_VISIONS.find(v => v.id === committedTo)?.name}
             </span>
@@ -131,14 +131,14 @@ export default function IdeologyPage() {
 
                   {/* Promise / Cost */}
                   <div className="grid grid-cols-2 gap-2 mb-3">
-                    <div className="p-2 rounded border border-emerald-500/30 bg-emerald-500/5">
-                      <span className="font-mono text-[9px] uppercase tracking-wider text-emerald-400 block mb-0.5">
+                    <div className="p-2 rounded border void-border-success void-bg-success">
+                      <span className="font-mono text-[9px] uppercase tracking-wider void-text-energy block mb-0.5">
                         Promise
                       </span>
                       <p className="font-mono text-[10px] text-foreground/90 leading-relaxed">{selected.promise}</p>
                     </div>
-                    <div className="p-2 rounded border border-red-500/30 bg-red-500/5">
-                      <span className="font-mono text-[9px] uppercase tracking-wider text-red-400 block mb-0.5">
+                    <div className="p-2 rounded border void-border-error void-bg-error">
+                      <span className="font-mono text-[9px] uppercase tracking-wider void-text-error block mb-0.5">
                         Cost
                       </span>
                       <p className="font-mono text-[10px] text-foreground/90 leading-relaxed">{selected.cost}</p>
@@ -147,10 +147,10 @@ export default function IdeologyPage() {
 
                   {/* Consequences */}
                   {selected.consequences.length > 0 && (
-                    <div className="mb-3 p-2 rounded border border-yellow-500/30 bg-yellow-500/5">
+                    <div className="mb-3 p-2 rounded border void-border void-bg-sunk">
                       <div className="flex items-center gap-1.5 mb-1">
-                        <AlertTriangle size={10} className="text-yellow-400" />
-                        <span className="font-mono text-[9px] uppercase tracking-wider text-yellow-400">
+                        <AlertTriangle size={10} className="void-text-premium" />
+                        <span className="font-mono text-[9px] uppercase tracking-wider void-text-premium">
                           What Commits Away
                         </span>
                       </div>
@@ -209,7 +209,7 @@ export default function IdeologyPage() {
                     </button>
                   )}
                   {committedTo === selected.id && (
-                    <div className="text-center py-2 font-mono text-[10px] uppercase tracking-wider text-emerald-400">
+                    <div className="text-center py-2 font-mono text-[10px] uppercase tracking-wider void-text-energy">
                       ✓ COMMITTED — There is no going back
                     </div>
                   )}

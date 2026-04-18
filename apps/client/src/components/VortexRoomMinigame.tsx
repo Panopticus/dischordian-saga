@@ -107,8 +107,8 @@ function PuzzleRoom({
   }, [state.outcome, onResolve]);
 
   return (
-    <div className="rounded-md border border-violet-800/60 bg-stone-950/70 p-5">
-      <div className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-violet-200">
+    <div className="rounded-md border void-border-system void-bg-canvas p-5">
+      <div className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] void-text-system">
         <Brain size={12} />
         PUZZLE · {variant.toUpperCase()}
       </div>
@@ -153,7 +153,7 @@ function SequencePuzzle({
 
   return (
     <div>
-      <p className="mb-3 font-serif text-[13px] text-stone-200">
+      <p className="mb-3 font-serif text-[13px] void-text">
         {state.hintVisibleCount > 0
           ? "Memorize the sequence. The tiles will fade soon."
           : state.outcome === "pending"
@@ -172,10 +172,10 @@ function SequencePuzzle({
               disabled={state.hintVisibleCount > 0 || state.outcome !== "pending"}
               className={`aspect-square rounded border transition-all font-mono text-[11px] ${
                 highlighted
-                  ? "border-violet-300 bg-violet-700/50 text-violet-50 shadow-[0_0_10px_rgba(167,139,250,0.4)]"
+                  ? "void-border-system void-bg-system void-text-system shadow-[0_0_10px_rgba(167,139,250,0.4)]"
                   : tappedCorrect
-                  ? "border-emerald-400/80 bg-emerald-900/30 text-emerald-100"
-                  : "border-violet-900/60 bg-stone-900/60 text-violet-300/40 hover:border-violet-700/80"
+                  ? "void-border-success void-bg-success void-text-energy"
+                  : "void-border-system void-bg-canvas void-text-system void-border-system"
               }`}
             >
               {tappedCorrect ? "✓" : highlighted ? "●" : i + 1}
@@ -183,7 +183,7 @@ function SequencePuzzle({
           );
         })}
       </div>
-      <p className="mt-3 text-center font-mono text-[10px] text-violet-300/60">
+      <p className="mt-3 text-center font-mono text-[10px] void-text-system">
         {state.playerInput.length} / {state.targetSequence.length}
       </p>
     </div>
@@ -203,13 +203,13 @@ function CipherPuzzle({
   const cipher = useMemo(() => getCiphertext(state), [state]);
   return (
     <div>
-      <p className="mb-3 font-serif text-[13px] text-stone-200">
+      <p className="mb-3 font-serif text-[13px] void-text">
         Decode the intercepted transmission. It's a Caesar shift.
       </p>
-      <div className="mb-3 rounded border border-violet-900/50 bg-stone-900/60 p-3 font-mono text-center">
-        <p className="text-[9px] uppercase text-violet-300/50">CIPHERTEXT</p>
-        <p className="mt-1 text-lg tracking-widest text-violet-100">{cipher}</p>
-        <p className="mt-1 text-[9px] uppercase text-violet-300/50">
+      <div className="mb-3 rounded border void-border-system void-bg-canvas p-3 font-mono text-center">
+        <p className="text-[9px] uppercase void-text-system">CIPHERTEXT</p>
+        <p className="mt-1 text-lg tracking-widest void-text-system">{cipher}</p>
+        <p className="mt-1 text-[9px] uppercase void-text-system">
           SHIFT · {state.shift}
         </p>
       </div>
@@ -220,7 +220,7 @@ function CipherPuzzle({
           onChange={(e) => setGuess(e.target.value)}
           disabled={state.outcome !== "pending"}
           placeholder="DECRYPTED WORD"
-          className="flex-1 rounded border border-violet-800/60 bg-stone-900/60 px-3 py-2 font-mono text-sm uppercase text-violet-100 placeholder:text-violet-300/30"
+          className="flex-1 rounded border void-border-system void-bg-canvas px-3 py-2 font-mono text-sm uppercase void-text-system placeholder:void-text-system"
           onKeyDown={(e) => {
             if (e.key === "Enter") setState(submitCipherGuess(state, guess));
           }}
@@ -229,7 +229,7 @@ function CipherPuzzle({
           type="button"
           onClick={() => setState(submitCipherGuess(state, guess))}
           disabled={state.outcome !== "pending" || guess.trim().length === 0}
-          className="rounded border border-violet-700 bg-violet-900/30 px-4 py-2 font-mono text-[11px] uppercase tracking-wider text-violet-100 hover:border-violet-500 hover:bg-violet-900/50 transition-colors disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded border void-border-system void-bg-system px-4 py-2 font-mono text-[11px] uppercase tracking-wider void-text-system void-border-system void-bg-system transition-colors disabled:cursor-not-allowed disabled:opacity-40"
         >
           Decrypt
         </button>
@@ -249,10 +249,10 @@ function HackingPuzzle({
 }) {
   return (
     <div>
-      <p className="mb-3 font-serif text-[13px] text-stone-200">
+      <p className="mb-3 font-serif text-[13px] void-text">
         Set six hex bytes (0-F) to match the intercepted target.
       </p>
-      <div className="mb-2 flex items-center justify-center gap-1 font-mono text-[10px] uppercase tracking-wider text-violet-300/60">
+      <div className="mb-2 flex items-center justify-center gap-1 font-mono text-[10px] uppercase tracking-wider void-text-system">
         <Terminal size={10} />
         TARGET &middot;{" "}
         {state.target.map((b) => b.toString(16).toUpperCase()).join(" ")}
@@ -264,19 +264,19 @@ function HackingPuzzle({
               type="button"
               onClick={() => setState(setHackingByte(state, i, byte + 1))}
               disabled={state.outcome !== "pending"}
-              className="w-8 text-[10px] text-violet-300/50 hover:text-violet-100"
+              className="w-8 text-[10px] void-text-system void-text-system"
               aria-label={`Increment byte ${i + 1}`}
             >
               ▲
             </button>
-            <div className="flex h-10 w-10 items-center justify-center rounded border border-violet-700/60 bg-stone-900/60 font-mono text-lg text-violet-100">
+            <div className="flex h-10 w-10 items-center justify-center rounded border void-border-system void-bg-canvas font-mono text-lg void-text-system">
               {byte.toString(16).toUpperCase()}
             </div>
             <button
               type="button"
               onClick={() => setState(setHackingByte(state, i, byte - 1))}
               disabled={state.outcome !== "pending"}
-              className="w-8 text-[10px] text-violet-300/50 hover:text-violet-100"
+              className="w-8 text-[10px] void-text-system void-text-system"
               aria-label={`Decrement byte ${i + 1}`}
             >
               ▼
@@ -289,7 +289,7 @@ function HackingPuzzle({
           type="button"
           onClick={() => setState(submitHackingPuzzle(state))}
           disabled={state.outcome !== "pending"}
-          className="rounded border border-violet-700 bg-violet-900/30 px-4 py-2 font-mono text-[11px] uppercase tracking-wider text-violet-100 hover:border-violet-500 hover:bg-violet-900/50 transition-colors disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded border void-border-system void-bg-system px-4 py-2 font-mono text-[11px] uppercase tracking-wider void-text-system void-border-system void-bg-system transition-colors disabled:cursor-not-allowed disabled:opacity-40"
         >
           <Hash size={11} className="inline mr-1" />
           Breach
@@ -329,12 +329,12 @@ function CardRoom({
 
   if (!picked) {
     return (
-      <div className="rounded-md border border-violet-800/60 bg-stone-950/70 p-5">
-        <div className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-violet-200">
+      <div className="rounded-md border void-border-system void-bg-canvas p-5">
+        <div className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] void-text-system">
           <Swords size={12} />
           DISCHORDIA DUEL
         </div>
-        <p className="mb-4 font-serif text-[13px] text-stone-200">
+        <p className="mb-4 font-serif text-[13px] void-text">
           The Vortex has dealt a hand. Choose your faction. The opposing
           deck is already at the table.
         </p>
@@ -353,7 +353,7 @@ function CardRoom({
               key={f}
               type="button"
               onClick={() => setPicked(f)}
-              className="rounded border border-violet-900/50 bg-stone-900/40 px-3 py-2 font-mono text-[10px] uppercase tracking-wider text-violet-200 hover:border-violet-500/80 hover:bg-violet-900/30 transition-colors"
+              className="rounded border void-border-system void-bg-canvas px-3 py-2 font-mono text-[10px] uppercase tracking-wider void-text-system void-border-system void-bg-system transition-colors"
             >
               {f.replace("_", " ")}
             </button>
@@ -395,12 +395,12 @@ function SimpleRoom({
     ? "Claim the Cache"
     : "Engage";
   return (
-    <div className="rounded-md border border-violet-800/60 bg-stone-950/70 p-5">
-      <div className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-violet-200">
+    <div className="rounded-md border void-border-system void-bg-canvas p-5">
+      <div className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] void-text-system">
         <Icon size={12} />
         {roomDef.type.toUpperCase()}
       </div>
-      <p className="mb-4 font-serif text-[13px] text-stone-200">
+      <p className="mb-4 font-serif text-[13px] void-text">
         {isBoss
           ? "The room narrows. The thing at the end of it knows you. You have about one minute of breath before it moves."
           : isTreasure
@@ -411,7 +411,7 @@ function SimpleRoom({
         <button
           type="button"
           onClick={() => onResolve("won")}
-          className="flex items-center gap-2 rounded-sm border border-emerald-700/70 bg-emerald-900/20 px-5 py-2 font-mono text-[11px] uppercase tracking-wider text-emerald-100 hover:border-emerald-500/80 hover:bg-emerald-900/40 transition-colors"
+          className="flex items-center gap-2 rounded-sm border void-border-success void-bg-success px-5 py-2 font-mono text-[11px] uppercase tracking-wider void-text-energy void-border-success void-bg-success transition-colors"
         >
           <CheckCircle2 size={12} />
           {label}
@@ -436,8 +436,8 @@ function OutcomeBanner({ outcome }: { outcome: "pending" | "won" | "lost" }) {
           exit={{ opacity: 0 }}
           className={`mt-4 rounded border p-3 text-center font-mono text-[11px] uppercase tracking-[0.25em] ${
             outcome === "won"
-              ? "border-emerald-500/70 bg-emerald-900/20 text-emerald-100"
-              : "border-rose-700/70 bg-rose-950/20 text-rose-200"
+              ? "void-border-success void-bg-success void-text-energy"
+              : "void-border-error void-bg-error void-text-error"
           }`}
         >
           {outcome === "won" ? "BREACH · CLEAN" : "FAILURE · DETECTED"}

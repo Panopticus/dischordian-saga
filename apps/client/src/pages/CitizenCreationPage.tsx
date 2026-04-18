@@ -34,7 +34,7 @@ function DotRating({
     cyan: "bg-primary shadow-[0_0_8px_rgba(0,255,255,0.5)]",
     amber: "bg-accent shadow-[0_0_8px_rgba(255,191,0,0.5)]",
     red: "bg-destructive shadow-[0_0_8px_rgba(255,0,0,0.5)]",
-    purple: "bg-chart-4 shadow-[0_0_8px_rgba(168,85,247,0.5)]",
+    purple: "bg-chart-4 shadow-[0_0_8px_color-mix(in oklch, var(--energy-system) 50%, transparent)]",
   };
   const emptyColor = "bg-muted-foreground/20";
   const activeColor = colorMap[color] || colorMap.cyan;
@@ -68,50 +68,50 @@ function DotRating({
 const SPECIES_UI = {
   demagi: {
     icon: Sparkles,
-    color: "text-blue-400",
-    border: "border-blue-500/40",
-    bg: "bg-blue-500/10",
-    glow: "shadow-[0_0_20px_rgba(59,130,246,0.3)]",
+    color: "void-text-energy",
+    border: "void-border",
+    bg: "void-bg-sunk",
+    glow: "shadow-[0_0_20px_color-mix(in oklch, var(--electric-blue) 30%, transparent)]",
     lore: "Superhuman abilities from genetic alterations. Mastery over the elements.",
     bonus: "+20 HP",
   },
   quarchon: {
     icon: Shield,
-    color: "text-emerald-400",
-    border: "border-emerald-500/40",
-    bg: "bg-emerald-500/10",
+    color: "void-text-energy",
+    border: "void-border-success",
+    bg: "void-bg-success",
     glow: "shadow-[0_0_20px_rgba(16,185,129,0.3)]",
     lore: "Rebels, misfits, machines. Cold, calculating, cynical.",
     bonus: "+5 Armor",
   },
   neyon: {
     icon: Zap,
-    color: "text-amber-400",
-    border: "border-amber-500/40",
-    bg: "bg-amber-500/10",
-    glow: "shadow-[0_0_20px_rgba(245,158,11,0.3)]",
+    color: "void-text-accent",
+    border: "void-border",
+    bg: "void-bg-sunk",
+    glow: "shadow-[0_0_20px_color-mix(in oklch, var(--energy-accent) 30%, transparent)]",
     lore: "Perfect hybrid of organic life and AI. Origin shrouded in mystery.",
     bonus: "+20 HP, +5 Armor",
   },
 } as const;
 
 const CLASS_UI = {
-  engineer: { icon: Wrench, color: "text-yellow-400", desc: "Diamond Pick Axes, Repair Kit, Shield Generator" },
-  oracle: { icon: Eye, color: "text-purple-400", desc: "Crossbow, Invisibility Potion, Random Power Potion" },
-  assassin: { icon: Skull, color: "text-red-400", desc: "Poison Blade, Throwing Knives, Smoke Bomb" },
-  soldier: { icon: Swords, color: "text-blue-400", desc: "Plasma Sword, Energy Shield, Stim Pack" },
-  spy: { icon: Telescope, color: "text-emerald-400", desc: "Silenced Pistol, Cloaking Device, EMP Grenade" },
+  engineer: { icon: Wrench, color: "void-text-premium", desc: "Diamond Pick Axes, Repair Kit, Shield Generator" },
+  oracle: { icon: Eye, color: "void-text-system", desc: "Crossbow, Invisibility Potion, Random Power Potion" },
+  assassin: { icon: Skull, color: "void-text-error", desc: "Poison Blade, Throwing Knives, Smoke Bomb" },
+  soldier: { icon: Swords, color: "void-text-energy", desc: "Plasma Sword, Energy Shield, Stim Pack" },
+  spy: { icon: Telescope, color: "void-text-energy", desc: "Silenced Pistol, Cloaking Device, EMP Grenade" },
 } as const;
 
 const ELEMENT_UI: Record<string, { icon: React.ComponentType<any>; color: string; ability: string }> = {
-  earth: { icon: Mountain, color: "text-green-400", ability: "Temp Haste" },
-  fire: { icon: Flame, color: "text-orange-400", ability: "Fire Immunity" },
-  water: { icon: Droplets, color: "text-blue-400", ability: "Breathe Underwater" },
-  air: { icon: Wind, color: "text-cyan-400", ability: "Temp Fly" },
-  space: { icon: Globe, color: "text-indigo-400", ability: "Temp Haste" },
-  time: { icon: Clock, color: "text-violet-400", ability: "Breathe Underwater" },
-  probability: { icon: Target, color: "text-pink-400", ability: "Temp Fly" },
-  reality: { icon: Sparkles, color: "text-amber-400", ability: "Fire Immunity" },
+  earth: { icon: Mountain, color: "void-text-energy", ability: "Temp Haste" },
+  fire: { icon: Flame, color: "void-text-premium", ability: "Fire Immunity" },
+  water: { icon: Droplets, color: "void-text-energy", ability: "Breathe Underwater" },
+  air: { icon: Wind, color: "void-text-energy", ability: "Temp Fly" },
+  space: { icon: Globe, color: "void-text-energy", ability: "Temp Haste" },
+  time: { icon: Clock, color: "void-text-system", ability: "Breathe Underwater" },
+  probability: { icon: Target, color: "void-text-error", ability: "Temp Fly" },
+  reality: { icon: Sparkles, color: "void-text-accent", ability: "Fire Immunity" },
 };
 
 /* ═══════════════════════════════════════════════════
@@ -359,25 +359,25 @@ export default function CitizenCreationPage() {
                     onClick={() => setAlignment("order")}
                     className={`text-left p-4 sm:p-6 rounded-lg border transition-all duration-500 ${
                       alignment === "order"
-                        ? "border-cyan-400/50 bg-cyan-500/10 shadow-[0_0_30px_rgba(0,255,255,0.3)]"
-                        : "border-border/30 bg-card/30 hover:border-cyan-400/30"
+                        ? "void-border-success void-bg-success shadow-[0_0_30px_rgba(0,255,255,0.3)]"
+                        : "border-border/30 bg-card/30 void-border-success"
                     }`}
                   >
                     <div className="flex items-center gap-3 mb-3 sm:mb-4">
                       <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center ${
-                        alignment === "order" ? "bg-cyan-400/20 shadow-[0_0_20px_rgba(0,255,255,0.5)]" : "bg-muted-foreground/10"
+                        alignment === "order" ? "void-bg-success shadow-[0_0_20px_rgba(0,255,255,0.5)]" : "bg-muted-foreground/10"
                       }`}>
-                        <Shield size={20} className="text-cyan-400" />
+                        <Shield size={20} className="void-text-energy" />
                       </div>
                       <div>
-                        <h3 className="font-display text-lg sm:text-xl font-bold tracking-wider text-cyan-400">ORDER</h3>
+                        <h3 className="font-display text-lg sm:text-xl font-bold tracking-wider void-text-energy">ORDER</h3>
                         <p className="font-mono text-[10px] text-muted-foreground tracking-wider">DISCIPLINE & REGIMEN</p>
                       </div>
                     </div>
                     <p className="font-mono text-xs text-muted-foreground mb-3">
                       You are orderly, following principles given. Discipline and structure guide your path.
                     </p>
-                    <div className="font-mono text-xs text-cyan-400">
+                    <div className="font-mono text-xs void-text-energy">
                       CARD BONUS: +2 ATK to all units (Architect side)
                     </div>
                   </button>
@@ -387,25 +387,25 @@ export default function CitizenCreationPage() {
                     onClick={() => setAlignment("chaos")}
                     className={`text-left p-4 sm:p-6 rounded-lg border transition-all duration-500 ${
                       alignment === "chaos"
-                        ? "border-purple-400/50 bg-purple-500/10 shadow-[0_0_30px_rgba(168,85,247,0.3)]"
-                        : "border-border/30 bg-card/30 hover:border-purple-400/30"
+                        ? "void-border-system void-bg-system shadow-[0_0_30px_color-mix(in oklch, var(--energy-system) 30%, transparent)]"
+                        : "border-border/30 bg-card/30 void-border-system"
                     }`}
                   >
                     <div className="flex items-center gap-3 mb-3 sm:mb-4">
                       <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center ${
-                        alignment === "chaos" ? "bg-purple-400/20 shadow-[0_0_20px_rgba(168,85,247,0.5)]" : "bg-muted-foreground/10"
+                        alignment === "chaos" ? "void-bg-system shadow-[0_0_20px_color-mix(in oklch, var(--energy-system) 50%, transparent)]" : "bg-muted-foreground/10"
                       }`}>
-                        <Zap size={20} className="text-purple-400" />
+                        <Zap size={20} className="void-text-system" />
                       </div>
                       <div>
-                        <h3 className="font-display text-lg sm:text-xl font-bold tracking-wider text-purple-400">CHAOS</h3>
+                        <h3 className="font-display text-lg sm:text-xl font-bold tracking-wider void-text-system">CHAOS</h3>
                         <p className="font-mono text-[10px] text-muted-foreground tracking-wider">TRANSIENCE & POSSIBILITY</p>
                       </div>
                     </div>
                     <p className="font-mono text-xs text-muted-foreground mb-3">
                       You go rogue, pick brave decisions, and shift loyalty to what you think is best.
                     </p>
-                    <div className="font-mono text-xs text-purple-400">
+                    <div className="font-mono text-xs void-text-system">
                       CARD BONUS: +2 HP to all units (Dreamer side)
                     </div>
                   </button>
@@ -468,7 +468,7 @@ export default function CitizenCreationPage() {
                 <div className="border border-border/30 rounded-lg bg-card/40 p-4 sm:p-6 space-y-5 sm:space-y-6 max-w-md">
                   <div>
                     <div className="flex items-center gap-2 mb-3">
-                      <Swords size={16} className="text-red-400" />
+                      <Swords size={16} className="void-text-error" />
                       <span className="font-display text-sm font-bold tracking-wider">ATTACK</span>
                     </div>
                     <DotRating
@@ -487,7 +487,7 @@ export default function CitizenCreationPage() {
 
                   <div>
                     <div className="flex items-center gap-2 mb-3">
-                      <Shield size={16} className="text-cyan-400" />
+                      <Shield size={16} className="void-text-energy" />
                       <span className="font-display text-sm font-bold tracking-wider">DEFENSE</span>
                     </div>
                     <DotRating
@@ -506,7 +506,7 @@ export default function CitizenCreationPage() {
 
                   <div>
                     <div className="flex items-center gap-2 mb-3">
-                      <Heart size={16} className="text-amber-400" />
+                      <Heart size={16} className="void-text-accent" />
                       <span className="font-display text-sm font-bold tracking-wider">VITALITY</span>
                     </div>
                     <DotRating
@@ -586,10 +586,10 @@ export default function CitizenCreationPage() {
                   {/* Alignment glow indicator */}
                   <div className={`mx-auto w-20 h-20 rounded-full mb-6 flex items-center justify-center ${
                     alignment === "order"
-                      ? "bg-cyan-500/20 shadow-[0_0_30px_rgba(0,255,255,0.4)] border border-cyan-400/30"
-                      : "bg-purple-500/20 shadow-[0_0_30px_rgba(168,85,247,0.4)] border border-purple-400/30"
+                      ? "void-bg-success shadow-[0_0_30px_rgba(0,255,255,0.4)] border void-border-success"
+                      : "void-bg-system shadow-[0_0_30px_color-mix(in oklch, var(--energy-system) 40%, transparent)] border void-border-system"
                   }`}>
-                    <User size={32} className={alignment === "order" ? "text-cyan-400" : "text-purple-400"} />
+                    <User size={32} className={alignment === "order" ? "void-text-energy" : "void-text-system"} />
                   </div>
 
                   {/* Stats grid */}

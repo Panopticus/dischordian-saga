@@ -52,7 +52,7 @@ export const FACTION_WAR_EVENTS: FactionWarEvent[] = [
       "Machine-aligned players earn double war XP",
     ],
     loreText: "The Architect's surveillance network pulses with renewed energy. Every camera, every sensor, every data stream feeds the Panopticon's hunger for control. Those who serve the machine will be rewarded.",
-    color: "#ef4444",
+    color: "var(--energy-error)",
   },
   {
     id: "dreamers-uprising",
@@ -120,7 +120,7 @@ export const FACTION_WAR_EVENTS: FactionWarEvent[] = [
       "The top contributor earns a unique Oracle title",
     ],
     loreText: "The Oracle speaks: 'I have seen the branching paths. In one, the machine perfects itself. In the other, humanity transcends. You have 24 hours to choose which future you will build.'",
-    color: "#f59e0b",
+    color: "var(--energy-accent)",
   },
   {
     id: "babylon-siege",

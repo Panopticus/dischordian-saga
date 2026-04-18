@@ -29,13 +29,13 @@ import LivingBackground from "@/components/LivingBackground";
 
 /* ─── TIER CONFIG ─── */
 const TIER_CONFIG: Record<string, { color: string; bg: string; border: string; label: string; icon: string; glow?: string }> = {
-  bronze:      { color: "text-amber-700",  bg: "bg-amber-700/10",  border: "border-amber-700/30",  label: "Bronze",      icon: "🥉" },
-  silver:      { color: "text-gray-400",   bg: "bg-gray-400/10",   border: "border-gray-400/30",   label: "Silver",      icon: "🥈" },
-  gold:        { color: "text-yellow-400", bg: "bg-yellow-400/10", border: "border-yellow-400/30", label: "Gold",        icon: "🥇", glow: "shadow-[0_0_12px_rgba(250,204,21,0.3)]" },
-  platinum:    { color: "text-cyan-400",   bg: "bg-cyan-400/10",   border: "border-cyan-400/30",   label: "Platinum",    icon: "💎", glow: "shadow-[0_0_12px_rgba(34,211,238,0.3)]" },
-  diamond:     { color: "text-violet-400", bg: "bg-violet-400/10", border: "border-violet-400/30", label: "Diamond",     icon: "💠", glow: "shadow-[0_0_16px_rgba(167,139,250,0.4)]" },
-  master:      { color: "text-rose-400",   bg: "bg-rose-400/10",   border: "border-rose-400/30",   label: "Master",      icon: "🏆", glow: "shadow-[0_0_16px_rgba(251,113,133,0.4)]" },
-  grandmaster: { color: "text-amber-300",  bg: "bg-amber-300/10",  border: "border-amber-300/30",  label: "Grandmaster", icon: "👑", glow: "shadow-[0_0_20px_rgba(252,211,77,0.5)]" },
+  bronze:      { color: "void-text-accent",  bg: "void-bg-sunk",  border: "void-border",  label: "Bronze",      icon: "🥉" },
+  silver:      { color: "void-text",   bg: "void-bg-canvas",   border: "void-border",   label: "Silver",      icon: "🥈" },
+  gold:        { color: "void-text-premium", bg: "void-bg-sunk", border: "void-border", label: "Gold",        icon: "🥇", glow: "shadow-[0_0_12px_rgba(250,204,21,0.3)]" },
+  platinum:    { color: "void-text-energy",   bg: "void-bg-success",   border: "void-border-success",   label: "Platinum",    icon: "💎", glow: "shadow-[0_0_12px_color-mix(in oklch, var(--energy-primary) 30%, transparent)]" },
+  diamond:     { color: "void-text-system", bg: "void-bg-system", border: "void-border-system", label: "Diamond",     icon: "💠", glow: "shadow-[0_0_16px_rgba(167,139,250,0.4)]" },
+  master:      { color: "void-text-error",   bg: "void-bg-error",   border: "void-border-error",   label: "Master",      icon: "🏆", glow: "shadow-[0_0_16px_color-mix(in oklch, var(--energy-error) 40%, transparent)]" },
+  grandmaster: { color: "void-text-accent",  bg: "void-bg-sunk",  border: "void-border",  label: "Grandmaster", icon: "👑", glow: "shadow-[0_0_20px_rgba(252,211,77,0.5)]" },
 };
 
 const STYLE_ICONS: Record<string, typeof Crown> = {
@@ -65,13 +65,13 @@ const CHARACTER_AI_TIER: Record<string, string> = {
 
 /* ─── AI TIER LABELS ─── */
 const AI_TIER_INFO: Record<string, { label: string; color: string; description: string }> = {
-  neyon_spark:      { label: "NEYON I",    color: "text-emerald-400", description: "Beginner — Learning the basics" },
-  neyon_echo:       { label: "NEYON II",   color: "text-emerald-400", description: "Intermediate — Developing strategy" },
-  neyon_flux:       { label: "NEYON III",  color: "text-emerald-400", description: "Advanced beginner — Tactical awareness" },
-  archon_sentinel:  { label: "ARCHON I",   color: "text-blue-400",    description: "Strong club player — Positional understanding" },
-  archon_warden:    { label: "ARCHON II",  color: "text-blue-400",    description: "Expert — Deep calculation" },
-  archon_sovereign: { label: "ARCHON III", color: "text-violet-400",  description: "Master level — Near-perfect play" },
-  the_architect:    { label: "ARCHITECT",  color: "text-amber-400",   description: "Grandmaster — The ultimate challenge" },
+  neyon_spark:      { label: "NEYON I",    color: "void-text-energy", description: "Beginner — Learning the basics" },
+  neyon_echo:       { label: "NEYON II",   color: "void-text-energy", description: "Intermediate — Developing strategy" },
+  neyon_flux:       { label: "NEYON III",  color: "void-text-energy", description: "Advanced beginner — Tactical awareness" },
+  archon_sentinel:  { label: "ARCHON I",   color: "void-text-energy",    description: "Strong club player — Positional understanding" },
+  archon_warden:    { label: "ARCHON II",  color: "void-text-energy",    description: "Expert — Deep calculation" },
+  archon_sovereign: { label: "ARCHON III", color: "void-text-system",  description: "Master level — Near-perfect play" },
+  the_architect:    { label: "ARCHITECT",  color: "void-text-accent",   description: "Grandmaster — The ultimate challenge" },
 };
 
 type GameView = "menu" | "character_select" | "cinematic" | "playing" | "multiplayer_lobby" | "multiplayer_playing" | "ladder" | "history" | "story_select";
@@ -919,7 +919,7 @@ export default function ChessPage() {
 
   return (
     <div className="min-h-screen grid-bg relative overflow-hidden">
-      <LivingBackground src="/art/chess/chess-holographic-board.png" accent="#f59e0b" opacity={0.15} voidRoomKey="gamemasters_arena" particleCount={8} />
+      <LivingBackground src="/art/chess/chess-holographic-board.png" accent="var(--energy-accent)" opacity={0.15} voidRoomKey="gamemasters_arena" particleCount={8} />
       <div className="relative z-10">
       <AnimatePresence mode="wait">
         {/* ═══ MAIN MENU ═══ */}
@@ -935,9 +935,9 @@ export default function ChessPage() {
                 </h1>
                 <p className="font-mono text-xs text-muted-foreground">
                   Stockfish-Powered Chess // {stockfish.isReady ? (
-                    <span className="text-emerald-400">Engine Ready</span>
+                    <span className="void-text-energy">Engine Ready</span>
                   ) : (
-                    <span className="text-amber-400">Loading Engine...</span>
+                    <span className="void-text-accent">Loading Engine...</span>
                   )}
                 </p>
               </div>
@@ -957,7 +957,7 @@ export default function ChessPage() {
                   <div className="text-right font-mono text-xs text-muted-foreground space-y-0.5">
                     <p>W: {ranking.data.wins} / L: {ranking.data.losses} / D: {ranking.data.draws}</p>
                     <p>Streak: {ranking.data.winStreak} // Best: {ranking.data.bestWinStreak}</p>
-                    {ranking.data.defeatedGameMaster && <p className="text-amber-400 font-bold">GAME MASTER DEFEATED</p>}
+                    {ranking.data.defeatedGameMaster && <p className="void-text-accent font-bold">GAME MASTER DEFEATED</p>}
                   </div>
                 </div>
               </div>
@@ -966,11 +966,11 @@ export default function ChessPage() {
             {/* The Celebration Academy — tutorial entry point */}
             <Link
               href="/chess/tutorial"
-              className="block p-4 rounded-lg border border-amber-400/40 bg-gradient-to-br from-amber-400/10 to-transparent hover-lift"
+              className="block p-4 rounded-lg border void-border bg-gradient-to-br from-amber-400/10 to-transparent hover-lift"
             >
               <div className="flex items-center gap-3 mb-1">
-                <BookOpen size={18} className="text-amber-300" />
-                <span className="font-display text-sm font-bold tracking-wider text-amber-100">
+                <BookOpen size={18} className="void-text-accent" />
+                <span className="font-display text-sm font-bold tracking-wider void-text-accent">
                   THE CELEBRATION ACADEMY
                 </span>
               </div>
@@ -985,11 +985,11 @@ export default function ChessPage() {
             {/* Game Modes — 5 modes now */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {[
-                { mode: "casual" as const, title: "CASUAL MATCH", desc: "Practice against AI. No ELO change.", icon: Gamepad2, color: "text-emerald-400", border: "border-emerald-400/20" },
+                { mode: "casual" as const, title: "CASUAL MATCH", desc: "Practice against AI. No ELO change.", icon: Gamepad2, color: "void-text-energy", border: "void-border-success" },
                 { mode: "ranked" as const, title: "RANKED MATCH", desc: "Climb the ladder. ELO at stake.", icon: TrendingUp, color: "text-primary", border: "border-primary/20" },
                 { mode: "story" as const, title: "STORY MODE", desc: "Face each character in order.", icon: BookOpen, color: "text-accent", border: "border-accent/20" },
-                { mode: "multiplayer" as const, title: "MULTIPLAYER", desc: "Challenge other players online.", icon: Users, color: "text-rose-400", border: "border-rose-400/20" },
-                { mode: "game_master" as const, title: "THE GAME MASTER", desc: "Grandmaster-level boss. Only the worthy.", icon: Crown, color: "text-amber-400", border: "border-amber-400/20", locked: tier !== "grandmaster" },
+                { mode: "multiplayer" as const, title: "MULTIPLAYER", desc: "Challenge other players online.", icon: Users, color: "void-text-error", border: "void-border-error" },
+                { mode: "game_master" as const, title: "THE GAME MASTER", desc: "Grandmaster-level boss. Only the worthy.", icon: Crown, color: "void-text-accent", border: "void-border", locked: tier !== "grandmaster" },
               ].map(({ mode, title, desc, icon: Icon, color, border, locked }) => (
                 <button
                   key={mode}
@@ -1020,17 +1020,17 @@ export default function ChessPage() {
               </h3>
               <div className="grid grid-cols-3 gap-2">
                 <div className="space-y-1">
-                  <p className="font-mono text-[10px] text-emerald-400 font-bold">NEYONS</p>
+                  <p className="font-mono text-[10px] void-text-energy font-bold">NEYONS</p>
                   <p className="font-mono text-[9px] text-muted-foreground">Beginner to Intermediate</p>
                   <p className="font-mono text-[9px] text-muted-foreground/60">Depth 3-7 // Skill 2-8</p>
                 </div>
                 <div className="space-y-1">
-                  <p className="font-mono text-[10px] text-blue-400 font-bold">ARCHONS</p>
+                  <p className="font-mono text-[10px] void-text-energy font-bold">ARCHONS</p>
                   <p className="font-mono text-[9px] text-muted-foreground">Advanced to Expert</p>
                   <p className="font-mono text-[9px] text-muted-foreground/60">Depth 10-14 // Skill 12-16</p>
                 </div>
                 <div className="space-y-1">
-                  <p className="font-mono text-[10px] text-amber-400 font-bold">THE ARCHITECT</p>
+                  <p className="font-mono text-[10px] void-text-accent font-bold">THE ARCHITECT</p>
                   <p className="font-mono text-[9px] text-muted-foreground">Grandmaster Level</p>
                   <p className="font-mono text-[9px] text-muted-foreground/60">Depth 20 // Skill 20</p>
                 </div>
@@ -1095,12 +1095,12 @@ export default function ChessPage() {
                     <p className="font-mono text-[9px] text-muted-foreground line-clamp-2">{char.description}</p>
                     <div className="mt-2 flex items-center gap-1 flex-wrap">
                       <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded ${
-                        char.style === "aggressive" ? "bg-red-500/10 text-red-400" :
-                        char.style === "defensive" ? "bg-blue-500/10 text-blue-400" :
-                        char.style === "tactical" ? "bg-yellow-500/10 text-yellow-400" :
-                        char.style === "positional" ? "bg-purple-500/10 text-purple-400" :
-                        char.style === "endgame" ? "bg-emerald-500/10 text-emerald-400" :
-                        "bg-amber-500/10 text-amber-400"
+                        char.style === "aggressive" ? "void-bg-error void-text-error" :
+                        char.style === "defensive" ? "void-bg-sunk void-text-energy" :
+                        char.style === "tactical" ? "void-bg-sunk void-text-premium" :
+                        char.style === "positional" ? "void-bg-system void-text-system" :
+                        char.style === "endgame" ? "void-bg-success void-text-energy" :
+                        "void-bg-sunk void-text-accent"
                       }`}>{char.style.toUpperCase()}</span>
                       {tierInfo && (
                         <span className={`font-mono text-[8px] px-1.5 py-0.5 rounded bg-white/5 ${tierInfo.color}`}>
@@ -1172,8 +1172,8 @@ export default function ChessPage() {
           if (!cue) return null;
           const isCelebrationLeak = cue.speaker === "game_master_celebration";
           const bg = isCelebrationLeak
-            ? "border-amber-400/40 bg-amber-400/5 text-amber-100"
-            : "border-rose-500/40 bg-rose-500/5 text-rose-100";
+            ? "void-border void-bg-sunk void-text-accent"
+            : "void-border-error void-bg-error void-text-error";
           const speakerLabel = isCelebrationLeak
             ? "— Celebration Game Master —"
             : cue.speaker === "narrator"
@@ -1321,7 +1321,7 @@ export default function ChessPage() {
                   {gameStatus === "active" && (
                     <button
                       onClick={handleResign}
-                      className="px-3 py-1.5 rounded-md bg-red-900/40 backdrop-blur-sm border border-red-500/30 text-red-400 text-xs font-mono hover:bg-red-900/60"
+                      className="px-3 py-1.5 rounded-md void-bg-error backdrop-blur-sm border void-border-error void-text-error text-xs font-mono void-bg-error"
                     >
                       <Flag size={12} className="inline mr-1" /> RESIGN
                     </button>
@@ -1344,7 +1344,7 @@ export default function ChessPage() {
                           style={{ height: `${evalPercent}%` }}
                         />
                         <div
-                          className="w-full bg-gray-900"
+                          className="w-full void-bg-canvas"
                           style={{ height: `${100 - evalPercent}%` }}
                         />
                       </div>
@@ -1428,7 +1428,7 @@ export default function ChessPage() {
                           : "RESIGNED"}
                       </p>
                       {eloChange !== 0 && (
-                        <p className={`font-mono text-sm ${eloChange > 0 ? "text-emerald-400" : "text-red-400"}`}>
+                        <p className={`font-mono text-sm ${eloChange > 0 ? "void-text-energy" : "void-text-error"}`}>
                           ELO: {eloChange > 0 ? "+" : ""}{eloChange}
                         </p>
                       )}
@@ -1469,9 +1469,9 @@ export default function ChessPage() {
                           onClick={handleBackToMenu}
                           className="px-4 py-2.5 rounded-md text-xs font-mono border"
                           style={{
-                            backgroundColor: "rgba(255,255,255,0.05)",
-                            borderColor: "rgba(255,255,255,0.15)",
-                            color: "rgba(255,255,255,0.6)",
+                            backgroundColor: "color-mix(in oklch, var(--text-primary) 5%, transparent)",
+                            borderColor: "color-mix(in oklch, var(--text-primary) 15%, transparent)",
+                            color: "color-mix(in oklch, var(--text-primary) 60%, transparent)",
                           }}
                         >
                           MENU
@@ -1484,7 +1484,7 @@ export default function ChessPage() {
                   <div
                     className="rounded-lg p-3 backdrop-blur-md border"
                     style={{
-                      backgroundColor: "rgba(0,0,0,0.4)",
+                      backgroundColor: "color-mix(in oklch, var(--bg-void) 40%, transparent)",
                       borderColor: `${arena.accentColor}20`,
                     }}
                   >
@@ -1516,7 +1516,7 @@ export default function ChessPage() {
                     <div
                       className="rounded-lg p-3 backdrop-blur-md border"
                       style={{
-                        backgroundColor: "rgba(0,0,0,0.4)",
+                        backgroundColor: "color-mix(in oklch, var(--bg-void) 40%, transparent)",
                         borderColor: `${arena.accentColor}20`,
                       }}
                     >
@@ -1538,7 +1538,7 @@ export default function ChessPage() {
                   <div
                     className="rounded-lg p-2 text-center backdrop-blur-sm border"
                     style={{
-                      backgroundColor: "rgba(0,0,0,0.3)",
+                      backgroundColor: "color-mix(in oklch, var(--bg-void) 30%, transparent)",
                       borderColor: `${arena.accentColor}15`,
                     }}
                   >
@@ -1570,8 +1570,8 @@ export default function ChessPage() {
           const isCelebrationLeak = cue.speaker === "game_master_celebration";
           const isCelebrationNormal = cue.speaker === "game_master_celebration" && !arenaEndingScene;
           const bg = isCelebrationLeak
-            ? "border-amber-400/40 bg-amber-400/5 text-amber-100"
-            : "border-rose-500/40 bg-rose-500/5 text-rose-100";
+            ? "void-border void-bg-sunk void-text-accent"
+            : "void-border-error void-bg-error void-text-error";
           const speakerLabel = isCelebrationNormal
             ? "The Celebration Game Master"
             : isCelebrationLeak
@@ -1639,16 +1639,16 @@ export default function ChessPage() {
               <button onClick={() => { handleCancelSearch(); setView("menu"); }} className="p-2 rounded-md bg-secondary/50 hover:bg-secondary"><ArrowLeft size={16} /></button>
               <div>
                 <h2 className="font-display text-lg font-bold tracking-wider flex items-center gap-2">
-                  <Users size={18} className="text-rose-400" /> MULTIPLAYER ARENA
+                  <Users size={18} className="void-text-error" /> MULTIPLAYER ARENA
                 </h2>
                 <p className="font-mono text-xs text-muted-foreground">Challenge other operatives in real-time</p>
               </div>
             </div>
 
             {/* Beta Notice */}
-            <div className="rounded-lg border border-amber-400/30 bg-amber-400/5 px-4 py-2 flex items-center gap-2">
-              <Wifi size={14} className="text-amber-400 shrink-0" />
-              <p className="font-mono text-xs text-amber-300/80">Multiplayer is in <span className="font-bold text-amber-400">BETA PREVIEW</span> — matchmaking is live. Expect occasional issues.</p>
+            <div className="rounded-lg border void-border void-bg-sunk px-4 py-2 flex items-center gap-2">
+              <Wifi size={14} className="void-text-accent shrink-0" />
+              <p className="font-mono text-xs void-text-accent">Multiplayer is in <span className="font-bold void-text-accent">BETA PREVIEW</span> — matchmaking is live. Expect occasional issues.</p>
             </div>
 
             {/* ── IDLE: Find Match ── */}
@@ -1656,9 +1656,9 @@ export default function ChessPage() {
               <>
                 {/* Player Info */}
                 {ranking.data && (
-                  <div className="rounded-lg border border-rose-400/20 bg-card/30 p-4 flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-rose-400/20 flex items-center justify-center">
-                      <Swords size={18} className="text-rose-400" />
+                  <div className="rounded-lg border void-border-error bg-card/30 p-4 flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full void-bg-error flex items-center justify-center">
+                      <Swords size={18} className="void-text-error" />
                     </div>
                     <div className="flex-1">
                       <p className="font-display text-sm font-bold">{user?.name || "Operative"}</p>
@@ -1671,7 +1671,7 @@ export default function ChessPage() {
                   <button
                     onClick={handleFindMatch}
                     disabled={!isAuthenticated}
-                    className="w-full sm:w-auto px-8 py-4 rounded-lg bg-rose-500/20 border-2 border-rose-400/50 text-rose-300 font-display text-lg font-bold tracking-wider hover:bg-rose-500/30 hover:border-rose-400/70 hover:scale-[1.02] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="w-full sm:w-auto px-8 py-4 rounded-lg void-bg-error border-2 void-border-error void-text-error font-display text-lg font-bold tracking-wider void-bg-error void-border-error hover:scale-[1.02] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     <div className="flex items-center justify-center gap-3">
                       <Swords size={22} />
@@ -1701,19 +1701,19 @@ export default function ChessPage() {
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  className="mx-auto w-16 h-16 rounded-full border-2 border-rose-400/30 border-t-rose-400 flex items-center justify-center"
+                  className="mx-auto w-16 h-16 rounded-full border-2 void-border-error border-t-rose-400 flex items-center justify-center"
                 >
-                  <Swords size={24} className="text-rose-400" />
+                  <Swords size={24} className="void-text-error" />
                 </motion.div>
 
                 <div>
-                  <p className="font-display text-lg font-bold tracking-wider text-rose-300">SEARCHING FOR OPPONENT</p>
+                  <p className="font-display text-lg font-bold tracking-wider void-text-error">SEARCHING FOR OPPONENT</p>
                   <p className="font-mono text-sm text-muted-foreground mt-1">Time elapsed: {mpFormatSearchTime(mpSearchElapsed)}</p>
                 </div>
 
                 {mpPlayersInQueue > 0 && (
                   <div className="rounded-lg border border-border/30 bg-card/30 p-3 inline-block">
-                    <p className="font-mono text-xs text-muted-foreground">Queue position: <span className="text-rose-400 font-bold">{mpQueuePos}</span> // Players searching: <span className="text-rose-400 font-bold">{mpPlayersInQueue}</span></p>
+                    <p className="font-mono text-xs text-muted-foreground">Queue position: <span className="void-text-error font-bold">{mpQueuePos}</span> // Players searching: <span className="void-text-error font-bold">{mpPlayersInQueue}</span></p>
                   </div>
                 )}
 
@@ -1721,7 +1721,7 @@ export default function ChessPage() {
                   {[0, 1, 2].map(i => (
                     <motion.div
                       key={i}
-                      className="w-2 h-2 rounded-full bg-rose-400"
+                      className="w-2 h-2 rounded-full void-bg-error"
                       animate={{ opacity: [0.3, 1, 0.3] }}
                       transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.3 }}
                     />
@@ -1752,20 +1752,20 @@ export default function ChessPage() {
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
-                  <div className="mx-auto w-16 h-16 rounded-full bg-emerald-400/20 border-2 border-emerald-400/50 flex items-center justify-center">
-                    <Swords size={24} className="text-emerald-400" />
+                  <div className="mx-auto w-16 h-16 rounded-full void-bg-success border-2 void-border-success flex items-center justify-center">
+                    <Swords size={24} className="void-text-energy" />
                   </div>
                 </motion.div>
 
                 <div>
-                  <p className="font-display text-lg font-bold tracking-wider text-emerald-300">MATCH FOUND</p>
+                  <p className="font-display text-lg font-bold tracking-wider void-text-energy">MATCH FOUND</p>
                   <p className="font-mono text-xs text-muted-foreground mt-1">Prepare for battle</p>
                 </div>
 
-                <div className="rounded-lg border border-emerald-400/30 bg-emerald-400/5 p-4 max-w-xs mx-auto space-y-2">
+                <div className="rounded-lg border void-border-success void-bg-success p-4 max-w-xs mx-auto space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-xs text-muted-foreground">Opponent</span>
-                    <span className="font-display text-sm font-bold text-emerald-300">{mpOpponent.opponentName}</span>
+                    <span className="font-display text-sm font-bold void-text-energy">{mpOpponent.opponentName}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-xs text-muted-foreground">ELO</span>
@@ -1781,7 +1781,7 @@ export default function ChessPage() {
                   </div>
                 </div>
 
-                <p className="font-mono text-xs text-emerald-400 animate-pulse">Loading game board...</p>
+                <p className="font-mono text-xs void-text-energy animate-pulse">Loading game board...</p>
               </motion.div>
             )}
           </motion.div>
@@ -1812,7 +1812,7 @@ export default function ChessPage() {
                   </button>
                   <div>
                     <h2 className="font-display text-sm font-bold tracking-wider text-white flex items-center gap-2">
-                      <Swords size={14} className="text-rose-400" />
+                      <Swords size={14} className="void-text-error" />
                       MULTIPLAYER ARENA
                     </h2>
                     <p className="font-mono text-[10px] text-white/50">
@@ -1821,8 +1821,8 @@ export default function ChessPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="px-2 py-1 rounded bg-rose-400/10 border border-rose-400/20">
-                    <span className="font-mono text-[10px] text-rose-300">BETA</span>
+                  <div className="px-2 py-1 rounded void-bg-error border void-border-error">
+                    <span className="font-mono text-[10px] void-text-error">BETA</span>
                   </div>
                 </div>
               </div>
@@ -1832,16 +1832,16 @@ export default function ChessPage() {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mb-4 rounded-lg border border-amber-400/30 bg-amber-400/10 p-3 flex items-center justify-between"
+                  className="mb-4 rounded-lg border void-border void-bg-sunk p-3 flex items-center justify-between"
                 >
                   <div className="flex items-center gap-2">
-                    <HandshakeIcon size={16} className="text-amber-400" />
-                    <span className="font-mono text-sm text-amber-300">Opponent offers a draw</span>
+                    <HandshakeIcon size={16} className="void-text-accent" />
+                    <span className="font-mono text-sm void-text-accent">Opponent offers a draw</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={handleMpAcceptDraw}
-                      className="px-3 py-1 rounded bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-mono text-xs hover:bg-emerald-500/30"
+                      className="px-3 py-1 rounded void-bg-success border void-border-success void-text-energy font-mono text-xs void-bg-success"
                     >
                       Accept
                     </button>
@@ -1863,14 +1863,14 @@ export default function ChessPage() {
                   className="mb-4 rounded-lg border p-4 text-center space-y-3"
                   style={{
                     borderColor: mpGameOver.winner === "draw" ? "rgba(234, 179, 8, 0.3)" :
-                      (mpGameOver.winner === mpOpponent.color ? "rgba(239, 68, 68, 0.3)" : "rgba(34, 197, 94, 0.3)"),
+                      (mpGameOver.winner === mpOpponent.color ? "color-mix(in oklch, var(--energy-error) 30%, transparent)" : "color-mix(in oklch, var(--energy-success) 30%, transparent)"),
                     backgroundColor: mpGameOver.winner === "draw" ? "rgba(234, 179, 8, 0.05)" :
-                      (mpGameOver.winner === mpOpponent.color ? "rgba(239, 68, 68, 0.05)" : "rgba(34, 197, 94, 0.05)"),
+                      (mpGameOver.winner === mpOpponent.color ? "color-mix(in oklch, var(--energy-error) 5%, transparent)" : "color-mix(in oklch, var(--energy-success) 5%, transparent)"),
                   }}
                 >
                   <p className="font-display text-lg font-bold tracking-wider" style={{
                     color: mpGameOver.winner === "draw" ? "#eab308" :
-                      (mpGameOver.winner === mpOpponent.color ? "#22c55e" : "#ef4444"),
+                      (mpGameOver.winner === mpOpponent.color ? "var(--energy-success)" : "var(--energy-error)"),
                   }}>
                     {mpGameOver.winner === "draw" ? "DRAW" :
                       mpGameOver.winner === mpOpponent.color ? "DEFEAT" : "VICTORY"}
@@ -1878,7 +1878,7 @@ export default function ChessPage() {
                   <p className="font-mono text-xs text-muted-foreground capitalize">{mpGameOver.reason}</p>
                   <div className="flex items-center justify-center gap-4 text-sm">
                     <span className="font-mono text-muted-foreground">
-                      ELO: <span className={mpGameOver.eloChange >= 0 ? "text-emerald-400" : "text-red-400"}>
+                      ELO: <span className={mpGameOver.eloChange >= 0 ? "void-text-energy" : "void-text-error"}>
                         {mpGameOver.eloChange >= 0 ? "+" : ""}{mpGameOver.eloChange}
                       </span>
                     </span>
@@ -1886,7 +1886,7 @@ export default function ChessPage() {
                   </div>
                   <button
                     onClick={handleMpBackToMenu}
-                    className="mt-2 px-6 py-2 rounded-lg bg-rose-500/20 border border-rose-400/40 text-rose-300 font-display text-sm font-bold tracking-wider hover:bg-rose-500/30"
+                    className="mt-2 px-6 py-2 rounded-lg void-bg-error border void-border-error void-text-error font-display text-sm font-bold tracking-wider void-bg-error"
                   >
                     BACK TO LOBBY
                   </button>
@@ -1900,15 +1900,15 @@ export default function ChessPage() {
                   {/* Opponent clock (top) */}
                   <div className="flex items-center justify-between mb-2 px-1">
                     <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-full bg-rose-400/20 flex items-center justify-center">
-                        <Users size={12} className="text-rose-400" />
+                      <div className="w-6 h-6 rounded-full void-bg-error flex items-center justify-center">
+                        <Users size={12} className="void-text-error" />
                       </div>
                       <span className="font-display text-sm font-bold text-white/80">{mpOpponent.opponentName}</span>
                       <span className="font-mono text-[10px] text-muted-foreground">({mpOpponent.opponentElo})</span>
                     </div>
                     <div className={`px-3 py-1 rounded font-mono text-sm font-bold ${
                       (mpOpponent.color === "white" ? mpTurn === "b" : mpTurn === "w")
-                        ? "bg-rose-400/20 text-rose-300 border border-rose-400/30"
+                        ? "void-bg-error void-text-error border void-border-error"
                         : "bg-black/40 text-white/50 border border-white/10"
                     }`}>
                       <Clock size={12} className="inline mr-1.5" />
@@ -2002,7 +2002,7 @@ export default function ChessPage() {
                       <h3 className="font-display text-xs font-bold tracking-wider text-white/60 mb-2">ACTIONS</h3>
                       <button
                         onClick={handleMpOfferDraw}
-                        className="w-full px-3 py-2 rounded bg-amber-500/10 border border-amber-400/20 text-amber-300 font-mono text-xs hover:bg-amber-500/20 flex items-center justify-center gap-2"
+                        className="w-full px-3 py-2 rounded void-bg-sunk border void-border void-text-accent font-mono text-xs void-bg-sunk flex items-center justify-center gap-2"
                       >
                         <HandshakeIcon size={14} /> Offer Draw
                       </button>
@@ -2071,11 +2071,11 @@ export default function ChessPage() {
                 const isDraw = game.status === "stalemate" || game.status === "draw";
                 return (
                   <div key={game.id} className={`flex items-center gap-3 p-3 rounded-lg border ${
-                    won ? "border-emerald-400/20 bg-emerald-400/5" :
+                    won ? "void-border-success void-bg-success" :
                     isDraw ? "border-accent/20 bg-accent/5" :
                     "border-destructive/20 bg-destructive/5"
                   }`}>
-                    <div className={`w-2 h-2 rounded-full ${won ? "bg-emerald-400" : isDraw ? "bg-accent" : "bg-destructive"}`} />
+                    <div className={`w-2 h-2 rounded-full ${won ? "void-bg-success" : isDraw ? "bg-accent" : "bg-destructive"}`} />
                     <div className="flex-1">
                       <p className="font-mono text-xs">
                         <span className="text-foreground">{game.whiteCharacterName}</span>
@@ -2087,11 +2087,11 @@ export default function ChessPage() {
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className={`font-mono text-xs font-bold ${won ? "text-emerald-400" : isDraw ? "text-accent" : "text-destructive"}`}>
+                      <p className={`font-mono text-xs font-bold ${won ? "void-text-energy" : isDraw ? "text-accent" : "text-destructive"}`}>
                         {won ? "WIN" : isDraw ? "DRAW" : "LOSS"}
                       </p>
                       {game.whiteEloChange !== null && game.whiteEloChange !== 0 && (
-                        <p className={`font-mono text-[9px] ${(game.whiteEloChange || 0) > 0 ? "text-emerald-400" : "text-destructive"}`}>
+                        <p className={`font-mono text-[9px] ${(game.whiteEloChange || 0) > 0 ? "void-text-energy" : "text-destructive"}`}>
                           {(game.whiteEloChange || 0) > 0 ? "+" : ""}{game.whiteEloChange}
                         </p>
                       )}
@@ -2136,12 +2136,12 @@ export default function ChessPage() {
                 const defeated = i < progress;
                 const current = i === progress;
                 const locked = i > progress;
-                const tierColor = entry.tier.startsWith("NEYON") ? "text-emerald-400"
-                  : entry.tier.startsWith("ARCHON") ? "text-blue-400"
-                  : "text-amber-400";
+                const tierColor = entry.tier.startsWith("NEYON") ? "void-text-energy"
+                  : entry.tier.startsWith("ARCHON") ? "void-text-energy"
+                  : "void-text-accent";
                 return (
                   <div key={entry.name} className={`flex items-center gap-3 p-3 rounded-lg border ${
-                    defeated ? "border-emerald-400/20 bg-emerald-400/5" :
+                    defeated ? "void-border-success void-bg-success" :
                     current ? "border-primary/30 bg-primary/5" :
                     "border-border/10 bg-card/10 opacity-40"
                   }`}>
@@ -2153,7 +2153,7 @@ export default function ChessPage() {
                         <span className={` ml-2 ${tierColor}`}>[{entry.tier}]</span>
                       </p>
                     </div>
-                    {defeated && <Trophy size={16} className="text-emerald-400" />}
+                    {defeated && <Trophy size={16} className="void-text-energy" />}
                     {current && (
                       <button
                         onClick={() => { setSelectedMode("story"); setView("character_select"); }}

@@ -240,10 +240,10 @@ function SystemCard({ sys, isActive, isUnlocked, onSelect }: {
         style={{
           background: isUnlocked
             ? `linear-gradient(135deg, color-mix(in srgb, ${sys.color} 15%, transparent), color-mix(in srgb, ${sys.color} 5%, transparent))`
-            : "rgba(255,255,255,0.03)",
+            : "color-mix(in oklch, var(--text-primary) 3%, transparent)",
           border: isUnlocked
             ? `1px solid color-mix(in srgb, ${sys.color} 25%, transparent)`
-            : "1px solid rgba(255,255,255,0.05)",
+            : "1px solid color-mix(in oklch, var(--text-primary) 5%, transparent)",
         }}
       >
         {isUnlocked ? (
@@ -449,8 +449,8 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
         <Link href="/" className="flex items-center gap-2 group">
           <div className="w-7 h-7 rounded-md flex items-center justify-center relative"
             style={{
-              background: "linear-gradient(135deg, rgba(51,226,230,0.15) 0%, var(--glass-border) 100%)",
-              border: "1px solid rgba(51,226,230,0.3)",
+              background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-primary) 15%, transparent) 0%, var(--glass-border) 100%)",
+              border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
             }}>
             <Terminal size={14} className="text-[var(--neon-cyan)]" />
             <div className="absolute inset-0 rounded-md animate-cyber-pulse opacity-50" />
@@ -602,7 +602,7 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
               onClick={handleNavigate}
               className={`flex items-center gap-2.5 px-3 py-2 rounded-md text-[11px] font-mono tracking-wider transition-all group ${
                 location === "/clue-journal"
-                  ? "text-foreground bg-[rgba(51,226,230,0.08)] border border-[rgba(51,226,230,0.2)]"
+                  ? "text-foreground bg-[color-mix(in oklch, var(--energy-primary) 8%, transparent)] border border-[color-mix(in oklch, var(--energy-primary) 20%, transparent)]"
                   : "text-foreground/45 hover:text-muted-foreground/90 hover:bg-foreground/4 border border-transparent"
               }`}
             >

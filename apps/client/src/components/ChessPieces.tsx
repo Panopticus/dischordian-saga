@@ -21,7 +21,7 @@ function makePiece(code: string) {
           height: "90%",
           objectFit: "contain",
           pointerEvents: "none",
-          filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.5))",
+          filter: "drop-shadow(0 2px 4px color-mix(in oklch, var(--bg-void) 50%, transparent))",
         }}
         draggable={false}
       />

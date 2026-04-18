@@ -28,11 +28,11 @@ interface GraphEdge {
 }
 
 const TYPE_COLORS: Record<string, string> = {
-  character: "#33e2e6",
+  character: "var(--energy-primary)",
   location: "#ffb74d",
   faction: "#a855f7",
-  song: "#ef4444",
-  concept: "#22c55e",
+  song: "var(--energy-error)",
+  concept: "var(--energy-success)",
 };
 
 export default function RelationshipMiniGraph({ entityName }: { entityName: string }) {
@@ -200,7 +200,7 @@ export default function RelationshipMiniGraph({ entityName }: { entityName: stri
         ctx.beginPath();
         ctx.moveTo(s.x, s.y);
         ctx.lineTo(t.x, t.y);
-        ctx.strokeStyle = isHovered ? "rgba(51,226,230,0.5)" : "var(--glass-border)";
+        ctx.strokeStyle = isHovered ? "color-mix(in oklch, var(--energy-primary) 50%, transparent)" : "var(--glass-border)";
         ctx.lineWidth = isHovered ? 1.5 : 0.8;
         ctx.stroke();
 
@@ -209,7 +209,7 @@ export default function RelationshipMiniGraph({ entityName }: { entityName: stri
           const mx = (s.x + t.x) / 2;
           const my = (s.y + t.y) / 2;
           ctx.font = "9px monospace";
-          ctx.fillStyle = "rgba(51,226,230,0.7)";
+          ctx.fillStyle = "color-mix(in oklch, var(--energy-primary) 70%, transparent)";
           ctx.textAlign = "center";
           ctx.fillText(edge.label, mx, my - 4);
         }
@@ -217,7 +217,7 @@ export default function RelationshipMiniGraph({ entityName }: { entityName: stri
 
       // Draw nodes
       for (const node of simNodes) {
-        const color = TYPE_COLORS[node.type] || "#33e2e6";
+        const color = TYPE_COLORS[node.type] || "var(--energy-primary)";
         const isHovered = hoveredNode === node.id;
 
         // Glow
@@ -242,7 +242,7 @@ export default function RelationshipMiniGraph({ entityName }: { entityName: stri
 
         // Name label
         ctx.font = node.isCenter ? "bold 10px monospace" : "9px monospace";
-        ctx.fillStyle = isHovered || node.isCenter ? color : "rgba(255,255,255,0.6)";
+        ctx.fillStyle = isHovered || node.isCenter ? color : "color-mix(in oklch, var(--text-primary) 60%, transparent)";
         ctx.textAlign = "center";
         const label = node.name.length > 14 ? node.name.slice(0, 12) + "..." : node.name;
         ctx.fillText(label, node.x, node.y + node.radius + 12);

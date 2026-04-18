@@ -34,7 +34,7 @@ export function PlayRejectionToast({
       aria-live="assertive"
       className={
         "absolute bottom-44 left-1/2 -translate-x-1/2 z-40 px-3 py-1.5 " +
-        "rounded border-2 border-orange-700 bg-orange-950/80 text-orange-200 " +
+        "rounded border-2 void-border void-bg-sunk void-text-premium " +
         "font-mono text-xs shadow-[0_0_8px_rgba(255,80,30,0.5)] " +
         "transition-opacity duration-300 " +
         (visible ? "opacity-100" : "opacity-0")

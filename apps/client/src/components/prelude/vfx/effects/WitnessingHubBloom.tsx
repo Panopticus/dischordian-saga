@@ -55,11 +55,11 @@ export function WitnessingHubBloom({ active, state = "activation", onComplete, c
           width: "180px",
           height: "90px",
           borderRadius: "90px 90px 0 0",
-          background: "radial-gradient(ellipse at bottom, rgba(34, 211, 238, 0.3), transparent)",
+          background: "radial-gradient(ellipse at bottom, color-mix(in oklch, var(--energy-primary) 30%, transparent), transparent)",
           animation: phase === "activation"
             ? "pvfx-hemisphere-activate 3s ease-out forwards"
             : "pvfx-hemisphere-steady 4s ease-in-out infinite",
-          boxShadow: "0 0 40px rgba(34, 211, 238, 0.3)",
+          boxShadow: "0 0 40px color-mix(in oklch, var(--energy-primary) 30%, transparent)",
         }}
       />
       {/* 12 radial spokes */}
@@ -81,7 +81,7 @@ export function WitnessingHubBloom({ active, state = "activation", onComplete, c
                 left: "50%",
                 width: "2px",
                 height: "80px",
-                background: "linear-gradient(to top, #22d3ee, transparent)",
+                background: "linear-gradient(to top, var(--energy-primary), transparent)",
                 transformOrigin: "bottom center",
                 transform: `translateX(-1px) rotate(${angle - 90}deg)`,
               }}

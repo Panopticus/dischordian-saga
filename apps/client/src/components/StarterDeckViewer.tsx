@@ -232,10 +232,10 @@ function getSpeciesSpellLore(species: string): string {
 /* ─── RARITY COLORS ─── */
 function getRarityColor(rarity: StarterCard["rarity"]) {
   switch (rarity) {
-    case "legendary": return { border: "#FFD700", bg: "rgba(255,215,0,0.08)", glow: "rgba(255,215,0,0.3)", text: "#FFD700" };
-    case "rare": return { border: "#a855f7", bg: "rgba(168,85,247,0.08)", glow: "rgba(168,85,247,0.3)", text: "#a855f7" };
-    case "uncommon": return { border: "#3b82f6", bg: "rgba(59,130,246,0.08)", glow: "rgba(59,130,246,0.3)", text: "#3b82f6" };
-    default: return { border: "rgba(255,255,255,0.3)", bg: "rgba(255,255,255,0.03)", glow: "rgba(255,255,255,0.1)", text: "rgba(255,255,255,0.6)" };
+    case "legendary": return { border: "var(--energy-premium)", bg: "color-mix(in oklch, var(--energy-premium) 8%, transparent)", glow: "color-mix(in oklch, var(--energy-premium) 30%, transparent)", text: "var(--energy-premium)" };
+    case "rare": return { border: "#a855f7", bg: "color-mix(in oklch, var(--energy-system) 8%, transparent)", glow: "color-mix(in oklch, var(--energy-system) 30%, transparent)", text: "#a855f7" };
+    case "uncommon": return { border: "#3b82f6", bg: "color-mix(in oklch, var(--electric-blue) 8%, transparent)", glow: "color-mix(in oklch, var(--electric-blue) 30%, transparent)", text: "#3b82f6" };
+    default: return { border: "color-mix(in oklch, var(--text-primary) 30%, transparent)", bg: "color-mix(in oklch, var(--text-primary) 3%, transparent)", glow: "color-mix(in oklch, var(--text-primary) 10%, transparent)", text: "color-mix(in oklch, var(--text-primary) 60%, transparent)" };
   }
 }
 
@@ -270,7 +270,7 @@ function CardDisplay({ card, index, isActive, onClick }: {
         className="relative rounded-lg overflow-hidden w-full"
         style={{
           border: `2px solid ${colors.border}`,
-          boxShadow: isActive ? `0 0 30px ${colors.glow}, 0 10px 40px rgba(0,0,0,0.5)` : `0 0 10px ${colors.glow}`,
+          boxShadow: isActive ? `0 0 30px ${colors.glow}, 0 10px 40px color-mix(in oklch, var(--bg-void) 50%, transparent)` : `0 0 10px ${colors.glow}`,
           background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
           minHeight: "260px",
         }}
@@ -319,12 +319,12 @@ function CardDisplay({ card, index, isActive, onClick }: {
           {/* Stats */}
           <div className="flex items-center gap-3 mb-2">
             <div className="flex items-center gap-1">
-              <Swords size={9} className="text-red-400" />
-              <span className="font-mono text-[10px] text-red-400 font-bold">{card.attack}</span>
+              <Swords size={9} className="void-text-error" />
+              <span className="font-mono text-[10px] void-text-error font-bold">{card.attack}</span>
             </div>
             <div className="flex items-center gap-1">
-              <Shield size={9} className="text-blue-400" />
-              <span className="font-mono text-[10px] text-blue-400 font-bold">{card.defense}</span>
+              <Shield size={9} className="void-text-energy" />
+              <span className="font-mono text-[10px] void-text-energy font-bold">{card.defense}</span>
             </div>
             {card.element && (
               <span className="font-mono text-[8px] text-muted-foreground/50 uppercase">{card.element}</span>
@@ -362,7 +362,7 @@ function CardDetailModal({ card, onClose }: { card: StarterCard; onClose: () => 
         className="relative rounded-xl overflow-hidden max-w-sm w-full"
         style={{
           border: `2px solid ${colors.border}`,
-          boxShadow: `0 0 60px ${colors.glow}, 0 20px 80px rgba(0,0,0,0.7)`,
+          boxShadow: `0 0 60px ${colors.glow}, 0 20px 80px color-mix(in oklch, var(--bg-void) 70%, transparent)`,
           background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
         }}
       >
@@ -401,32 +401,32 @@ function CardDetailModal({ card, onClose }: { card: StarterCard; onClose: () => 
         <div className="p-4 space-y-3">
           {/* Stats row */}
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-red-500/10 border border-red-500/20">
-              <Swords size={12} className="text-red-400" />
-              <span className="font-mono text-sm text-red-400 font-bold">{card.attack}</span>
-              <span className="font-mono text-[9px] text-red-400/50">ATK</span>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-md void-bg-error border void-border-error">
+              <Swords size={12} className="void-text-error" />
+              <span className="font-mono text-sm void-text-error font-bold">{card.attack}</span>
+              <span className="font-mono text-[9px] void-text-error">ATK</span>
             </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-blue-500/10 border border-blue-500/20">
-              <Shield size={12} className="text-blue-400" />
-              <span className="font-mono text-sm text-blue-400 font-bold">{card.defense}</span>
-              <span className="font-mono text-[9px] text-blue-400/50">DEF</span>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-md void-bg-sunk border void-border">
+              <Shield size={12} className="void-text-energy" />
+              <span className="font-mono text-sm void-text-energy font-bold">{card.defense}</span>
+              <span className="font-mono text-[9px] void-text-energy">DEF</span>
             </div>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-amber-500/10 border border-amber-500/20">
-              <Heart size={12} className="text-amber-400" />
-              <span className="font-mono text-sm text-amber-400 font-bold">{card.cost}</span>
-              <span className="font-mono text-[9px] text-amber-400/50">COST</span>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-md void-bg-sunk border void-border">
+              <Heart size={12} className="void-text-accent" />
+              <span className="font-mono text-sm void-text-accent font-bold">{card.cost}</span>
+              <span className="font-mono text-[9px] void-text-accent">COST</span>
             </div>
           </div>
 
           {/* Ability */}
-          <div className="rounded-md p-3" style={{ background: "rgba(51,226,230,0.03)", border: "1px solid rgba(51,226,230,0.1)" }}>
+          <div className="rounded-md p-3" style={{ background: "color-mix(in oklch, var(--energy-primary) 3%, transparent)", border: "1px solid color-mix(in oklch, var(--energy-primary) 10%, transparent)" }}>
             <p className="font-mono text-[9px] text-[var(--neon-cyan)]/50 tracking-[0.2em] mb-1">ABILITY</p>
             <p className="font-mono text-xs text-muted-foreground/90 leading-relaxed">{card.ability}</p>
           </div>
 
           {/* Lore */}
-          <div className="rounded-md p-3" style={{ background: "rgba(168,85,247,0.03)", border: "1px solid rgba(168,85,247,0.1)" }}>
-            <p className="font-mono text-[9px] text-purple-400/50 tracking-[0.2em] mb-1">LORE</p>
+          <div className="rounded-md p-3" style={{ background: "color-mix(in oklch, var(--energy-system) 3%, transparent)", border: "1px solid color-mix(in oklch, var(--energy-system) 10%, transparent)" }}>
+            <p className="font-mono text-[9px] void-text-system tracking-[0.2em] mb-1">LORE</p>
             <p className="font-mono text-[11px] text-muted-foreground/70 leading-relaxed italic">{card.lore}</p>
           </div>
 
@@ -476,7 +476,7 @@ export default function StarterDeckViewer({
           className="absolute top-2 right-2 z-30 p-2 rounded-full transition-all hover:scale-110"
           style={{
             background: "var(--bg-void)",
-            border: "1px solid rgba(255,255,255,0.2)",
+            border: "1px solid color-mix(in oklch, var(--text-primary) 20%, transparent)",
           }}
           aria-label="Close starter deck"
         >
@@ -494,13 +494,13 @@ export default function StarterDeckViewer({
             className="text-center py-8"
           >
             <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style={{
-              background: "rgba(255,215,0,0.1)",
-              border: "2px solid rgba(255,215,0,0.3)",
-              boxShadow: "0 0 30px rgba(255,215,0,0.15)",
+              background: "color-mix(in oklch, var(--energy-premium) 10%, transparent)",
+              border: "2px solid color-mix(in oklch, var(--energy-premium) 30%, transparent)",
+              boxShadow: "0 0 30px color-mix(in oklch, var(--energy-premium) 15%, transparent)",
             }}>
-              <Star size={24} className="text-amber-400 animate-pulse" />
+              <Star size={24} className="void-text-accent animate-pulse" />
             </div>
-            <h2 className="font-display text-lg font-bold tracking-[0.2em] text-amber-400 mb-2">
+            <h2 className="font-display text-lg font-bold tracking-[0.2em] void-text-accent mb-2">
               INITIALIZING STARTER DECK
             </h2>
             <p className="font-mono text-xs text-muted-foreground/60">Generating cards from your neural profile...</p>
@@ -516,15 +516,15 @@ export default function StarterDeckViewer({
             {/* ─── Mysterious top text ─── */}
             <div className="text-center mb-3">
               <p className="font-mono text-xs italic tracking-wide" style={{
-                color: "rgba(255,215,0,0.7)",
-                textShadow: "0 0 12px rgba(255,215,0,0.3)",
+                color: "color-mix(in oklch, var(--energy-premium) 70%, transparent)",
+                textShadow: "0 0 12px color-mix(in oklch, var(--energy-premium) 30%, transparent)",
               }}>
                 "These are the keys to a universe of power, possibility and potential."
               </p>
             </div>
 
             <div className="text-center mb-4">
-              <h2 className="font-display text-sm font-bold tracking-[0.2em] text-amber-400">
+              <h2 className="font-display text-sm font-bold tracking-[0.2em] void-text-accent">
                 YOUR STARTER DECK
               </h2>
               <p className="font-mono text-[10px] text-muted-foreground/50 mt-1">
@@ -540,8 +540,8 @@ export default function StarterDeckViewer({
                 className="hidden sm:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 p-2 rounded-full items-center justify-center"
                 style={{
                   background: "var(--bg-void)",
-                  border: "1px solid rgba(51,226,230,0.3)",
-                  boxShadow: "0 0 12px rgba(51,226,230,0.15)",
+                  border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
+                  boxShadow: "0 0 12px color-mix(in oklch, var(--energy-primary) 15%, transparent)",
                 }}
               >
                 <ChevronLeft size={16} className="text-[var(--neon-cyan)]" />
@@ -551,8 +551,8 @@ export default function StarterDeckViewer({
                 className="hidden sm:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 p-2 rounded-full items-center justify-center"
                 style={{
                   background: "var(--bg-void)",
-                  border: "1px solid rgba(51,226,230,0.3)",
-                  boxShadow: "0 0 12px rgba(51,226,230,0.15)",
+                  border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
+                  boxShadow: "0 0 12px color-mix(in oklch, var(--energy-primary) 15%, transparent)",
                 }}
               >
                 <ChevronRight size={16} className="text-[var(--neon-cyan)]" />
@@ -587,7 +587,7 @@ export default function StarterDeckViewer({
                     key={card.id}
                     className="w-1.5 h-1.5 rounded-full transition-all"
                     style={{
-                      background: i === 0 ? "var(--neon-cyan)" : "rgba(255,255,255,0.15)",
+                      background: i === 0 ? "var(--neon-cyan)" : "color-mix(in oklch, var(--text-primary) 15%, transparent)",
                     }}
                   />
                 ))}
@@ -597,8 +597,8 @@ export default function StarterDeckViewer({
             {/* ─── Mysterious bottom text ─── */}
             <div className="text-center mt-4">
               <p className="font-mono text-xs italic tracking-wide" style={{
-                color: "rgba(51,226,230,0.6)",
-                textShadow: "0 0 12px rgba(51,226,230,0.25)",
+                color: "color-mix(in oklch, var(--energy-primary) 60%, transparent)",
+                textShadow: "0 0 12px color-mix(in oklch, var(--energy-primary) 25%, transparent)",
               }}>
                 "Master the Game and the Truth will be Revealed."
               </p>
@@ -614,15 +614,15 @@ export default function StarterDeckViewer({
               >
                 <div className="flex justify-center gap-4 mb-4">
                   <div className="font-mono text-[10px]">
-                    <span className="text-amber-400">{cards.filter(c => c.rarity === "legendary").length}</span>
+                    <span className="void-text-accent">{cards.filter(c => c.rarity === "legendary").length}</span>
                     <span className="text-muted-foreground/50 ml-1">LEGENDARY</span>
                   </div>
                   <div className="font-mono text-[10px]">
-                    <span className="text-purple-400">{cards.filter(c => c.rarity === "rare").length}</span>
+                    <span className="void-text-system">{cards.filter(c => c.rarity === "rare").length}</span>
                     <span className="text-muted-foreground/50 ml-1">RARE</span>
                   </div>
                   <div className="font-mono text-[10px]">
-                    <span className="text-blue-400">{cards.filter(c => c.rarity === "uncommon").length}</span>
+                    <span className="void-text-energy">{cards.filter(c => c.rarity === "uncommon").length}</span>
                     <span className="text-muted-foreground/50 ml-1">UNCOMMON</span>
                   </div>
                   <div className="font-mono text-[10px]">
@@ -637,9 +637,9 @@ export default function StarterDeckViewer({
                       onClick={onClose}
                       className="px-5 py-2.5 rounded-md font-mono text-xs tracking-wider transition-all hover:scale-105"
                       style={{
-                        background: "rgba(255,255,255,0.05)",
-                        border: "1px solid rgba(255,255,255,0.15)",
-                        color: "rgba(255,255,255,0.5)",
+                        background: "color-mix(in oklch, var(--text-primary) 5%, transparent)",
+                        border: "1px solid color-mix(in oklch, var(--text-primary) 15%, transparent)",
+                        color: "color-mix(in oklch, var(--text-primary) 50%, transparent)",
                       }}
                     >
                       SKIP FOR NOW
@@ -650,10 +650,10 @@ export default function StarterDeckViewer({
                       onClick={onContinue}
                       className="px-6 py-2.5 rounded-md font-mono text-xs tracking-wider transition-all hover:scale-105 animate-pulse"
                       style={{
-                        background: "rgba(51,226,230,0.15)",
-                        border: "1px solid rgba(51,226,230,0.4)",
+                        background: "color-mix(in oklch, var(--energy-primary) 15%, transparent)",
+                        border: "1px solid color-mix(in oklch, var(--energy-primary) 40%, transparent)",
                         color: "var(--neon-cyan)",
-                        boxShadow: "0 0 25px rgba(51,226,230,0.15)",
+                        boxShadow: "0 0 25px color-mix(in oklch, var(--energy-primary) 15%, transparent)",
                       }}
                     >
                       REVIEW NEURAL SCAN RESULTS →

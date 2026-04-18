@@ -32,17 +32,17 @@ interface CompanionOption {
 
 const COMPANION_OPTIONS: Record<string, CompanionOption[]> = {
   demagi: [
-    { id: "lux", name: "Lux", species: "Holographic Fox", flavor: "A creature of pure light given form. It phases between solid and luminous.", personality: "Curious, playful, bonds fast", bonus: "+5% XP gain", color: "#22d3ee", portrait: "/art/specimens/lux-fragment.png" },
+    { id: "lux", name: "Lux", species: "Holographic Fox", flavor: "A creature of pure light given form. It phases between solid and luminous.", personality: "Curious, playful, bonds fast", bonus: "+5% XP gain", color: "var(--energy-primary)", portrait: "/art/specimens/lux-fragment.png" },
     { id: "echo", name: "Echo", species: "Temporal Kitten", flavor: "A kitten that exists slightly out of sync with time. It purrs 3 seconds before you pet it.", personality: "Sleepy, ancient, wise", bonus: "+5% lore discovery", color: "#10b981", portrait: "/art/specimens/echo-fragment.png" },
-    { id: "spore", name: "Spore", species: "Viral Symbiote", flavor: "A tendriled organism that bonds to its host. Not infectious. Just protective. Mostly.", personality: "Unsettling, fiercely loyal", bonus: "+5% Terminus defense", color: "#ef4444", portrait: "/art/specimens/spore-fragment.png" },
+    { id: "spore", name: "Spore", species: "Viral Symbiote", flavor: "A tendriled organism that bonds to its host. Not infectious. Just protective. Mostly.", personality: "Unsettling, fiercely loyal", bonus: "+5% Terminus defense", color: "var(--energy-error)", portrait: "/art/specimens/spore-fragment.png" },
   ],
   quarchon: [
     { id: "cipher", name: "Cipher", species: "Data Serpent", flavor: "A snake composed of moving data streams. Its scales are scrolling code.", personality: "Calculating, methodical", bonus: "+5% puzzle solve speed", color: "#a855f7", portrait: "/art/specimens/cipher-fragment.png" },
-    { id: "flicker", name: "Flicker", species: "Static Bird", flavor: "A bird made of electromagnetic interference. It flickers in and out of visibility.", personality: "Alert, twitchy, brave", bonus: "+5% signal detection", color: "#f59e0b", portrait: "/art/specimens/flicker-fragment.png" },
+    { id: "flicker", name: "Flicker", species: "Static Bird", flavor: "A bird made of electromagnetic interference. It flickers in and out of visibility.", personality: "Alert, twitchy, brave", bonus: "+5% signal detection", color: "var(--energy-accent)", portrait: "/art/specimens/flicker-fragment.png" },
     { id: "gilt", name: "Gilt", species: "Golden Beetle", flavor: "A beetle with a shell that grows more ornate the more treasure it's near.", personality: "Greedy, affectionate", bonus: "+5% Dream income", color: "#fbbf24", portrait: "/art/specimens/gilt-fragment.png" },
   ],
   default: [
-    { id: "lux", name: "Lux", species: "Holographic Fox", flavor: "A creature of pure light given form.", personality: "Curious, playful", bonus: "+5% XP gain", color: "#22d3ee", portrait: "/art/specimens/lux-fragment.png" },
+    { id: "lux", name: "Lux", species: "Holographic Fox", flavor: "A creature of pure light given form.", personality: "Curious, playful", bonus: "+5% XP gain", color: "var(--energy-primary)", portrait: "/art/specimens/lux-fragment.png" },
     { id: "cipher", name: "Cipher", species: "Data Serpent", flavor: "A snake composed of moving data streams.", personality: "Calculating", bonus: "+5% puzzle solve speed", color: "#a855f7", portrait: "/art/specimens/cipher-fragment.png" },
     { id: "echo", name: "Echo", species: "Temporal Kitten", flavor: "Exists slightly out of sync with time.", personality: "Ancient, wise", bonus: "+5% lore discovery", color: "#10b981", portrait: "/art/specimens/echo-fragment.png" },
   ],
@@ -57,7 +57,7 @@ const CLASS_PETS: Record<string, CompanionOption> = {
 };
 
 const THOUGHT_VIRUS_PET: CompanionOption = {
-  id: "strain", name: "Strain", species: "Living Infection", flavor: "A piece of the Source that developed independent consciousness. The only Thought Virus entity to ever defect. Or it's a Trojan horse. You won't know for a long time.", personality: "Mute at first, then achingly curious", bonus: "+5% Terminus resistance", color: "#ef4444", portrait: "/art/specimens/strain-fragment.png",
+  id: "strain", name: "Strain", species: "Living Infection", flavor: "A piece of the Source that developed independent consciousness. The only Thought Virus entity to ever defect. Or it's a Trojan horse. You won't know for a long time.", personality: "Mute at first, then achingly curious", bonus: "+5% Terminus resistance", color: "var(--energy-error)", portrait: "/art/specimens/strain-fragment.png",
 };
 
 const ELARA_INTRO = [
@@ -83,7 +83,7 @@ function seededRandom(seed: string): number {
 }
 
 const BOND_LABELS: string[] = ["RACE BOND", "CLASS BOND", "THOUGHT VIRUS"];
-const BOND_LABEL_COLORS: string[] = ["#22d3ee", "#fbbf24", "#ef4444"];
+const BOND_LABEL_COLORS: string[] = ["var(--energy-primary)", "#fbbf24", "var(--energy-error)"];
 
 export default function CompanionSelectionScene({ species, playerClass, onComplete }: Props) {
   const [phase, setPhase] = useState<"intro" | "select" | "bonding">("intro");
@@ -160,10 +160,10 @@ export default function CompanionSelectionScene({ species, playerClass, onComple
               animate={{ opacity: 1, scale: 1 }}
               className="mb-8"
             >
-              <Sparkles size={40} className="text-cyan-400 mx-auto mb-4 animate-pulse" />
+              <Sparkles size={40} className="void-text-energy mx-auto mb-4 animate-pulse" />
               <div className="flex items-center justify-center gap-2 mb-3">
                 <div className="h-px w-12 bg-gradient-to-r from-transparent to-cyan-400/60" />
-                <span className="font-mono text-[10px] text-cyan-400/80 tracking-[0.4em]">ELARA</span>
+                <span className="font-mono text-[10px] void-text-energy tracking-[0.4em]">ELARA</span>
                 <div className="h-px w-12 bg-gradient-to-l from-transparent to-cyan-400/60" />
               </div>
             </motion.div>
@@ -176,13 +176,13 @@ export default function CompanionSelectionScene({ species, playerClass, onComple
             >
               <p className="font-mono text-sm sm:text-base text-white/90 leading-relaxed">
                 {typedText}
-                {isTyping && <span className="inline-block w-2 h-4 bg-cyan-400 ml-0.5 animate-pulse" />}
+                {isTyping && <span className="inline-block w-2 h-4 void-bg-success ml-0.5 animate-pulse" />}
               </p>
             </motion.div>
 
             <div className="flex items-center justify-center gap-2 mt-8">
               {ELARA_INTRO.map((_, i) => (
-                <div key={i} className={`h-1 rounded-full transition-all ${i === introStep ? "w-6 bg-cyan-400" : i < introStep ? "w-3 bg-cyan-400/40" : "w-3 bg-white/15"}`} />
+                <div key={i} className={`h-1 rounded-full transition-all ${i === introStep ? "w-6 void-bg-success" : i < introStep ? "w-3 void-bg-success" : "w-3 bg-white/15"}`} />
               ))}
             </div>
 
@@ -202,7 +202,7 @@ export default function CompanionSelectionScene({ species, playerClass, onComple
         >
           <div className="text-center mb-6 sm:mb-10">
             <p className="font-mono text-[9px] text-white/30 tracking-[0.3em] mb-2">CHOOSE YOUR COMPANION</p>
-            <h2 className="font-display text-2xl sm:text-3xl font-bold text-cyan-400 mb-1">Three souls await.</h2>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold void-text-energy mb-1">Three souls await.</h2>
             <p className="font-mono text-xs text-white/40">Choose one back.</p>
           </div>
 
@@ -350,7 +350,7 @@ export default function CompanionSelectionScene({ species, playerClass, onComple
               transition={{ delay: 2.5 }}
               className="mt-8"
             >
-              <p className="font-mono text-xs text-cyan-400/60 tracking-[0.15em]">The Ark awaits, Operative.</p>
+              <p className="font-mono text-xs void-text-energy tracking-[0.15em]">The Ark awaits, Operative.</p>
             </motion.div>
           </div>
         </motion.div>

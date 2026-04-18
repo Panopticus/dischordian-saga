@@ -35,35 +35,35 @@ const ERAS: LoreEra[] = [
   {
     id: "foundation",
     name: "The Foundation",
-    color: "text-emerald-400",
+    color: "void-text-energy",
     description: "The building of the Ark and the first age of cooperation.",
     icon: "🏛️",
   },
   {
     id: "privacy",
     name: "The Age of Privacy",
-    color: "text-blue-400",
+    color: "void-text-energy",
     description: "When the veil fell and secrets became the only currency.",
     icon: "🔒",
   },
   {
     id: "fall",
     name: "The Fall",
-    color: "text-red-400",
+    color: "void-text-error",
     description: "The collapse of the old order and the Architect's betrayal.",
     icon: "🔥",
   },
   {
     id: "potentials",
     name: "The Potentials",
-    color: "text-violet-400",
+    color: "void-text-system",
     description: "The emergence of the Awakened and the war for what comes next.",
     icon: "⚡",
   },
   {
     id: "visions",
     name: "Visions of Tomorrow",
-    color: "text-amber-400",
+    color: "void-text-accent",
     description: "Prophecies, dreams, and glimpses of possible futures.",
     icon: "👁️",
   },
@@ -137,11 +137,11 @@ const ALL_FRAGMENTS: LoreFragment[] = [
 /* ─── RARITY CONFIG ─── */
 
 const RARITY_CONFIG: Record<string, { label: string; color: string; bg: string }> = {
-  common: { label: "Common", color: "text-slate-400", bg: "bg-slate-500/10" },
-  uncommon: { label: "Uncommon", color: "text-green-400", bg: "bg-green-500/10" },
-  rare: { label: "Rare", color: "text-blue-400", bg: "bg-blue-500/10" },
-  epic: { label: "Epic", color: "text-purple-400", bg: "bg-purple-500/10" },
-  legendary: { label: "Legendary", color: "text-amber-400", bg: "bg-amber-500/10" },
+  common: { label: "Common", color: "void-text", bg: "void-bg-canvas" },
+  uncommon: { label: "Uncommon", color: "void-text-energy", bg: "void-bg-success" },
+  rare: { label: "Rare", color: "void-text-energy", bg: "void-bg-sunk" },
+  epic: { label: "Epic", color: "void-text-system", bg: "void-bg-system" },
+  legendary: { label: "Legendary", color: "void-text-accent", bg: "void-bg-sunk" },
 };
 
 /* ─── PROPS ─── */
@@ -205,7 +205,7 @@ export default function LoreGalleryPage({ unlockedAchievements = new Set() }: Pr
         </Link>
         <div className="flex-1 min-w-0">
           <h1 className="font-display text-xl font-bold tracking-wide flex items-center gap-2">
-            <ScrollText size={20} className="text-amber-400" />
+            <ScrollText size={20} className="void-text-accent" />
             Lore Fragment Gallery
           </h1>
           <p className="text-xs text-muted-foreground mt-0.5">
@@ -213,7 +213,7 @@ export default function LoreGalleryPage({ unlockedAchievements = new Set() }: Pr
           </p>
         </div>
         <div className="shrink-0 text-right">
-          <div className="font-mono text-sm font-bold text-amber-400">
+          <div className="font-mono text-sm font-bold void-text-accent">
             {discoveredCount}/{totalCount}
           </div>
           <div className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
@@ -242,7 +242,7 @@ export default function LoreGalleryPage({ unlockedAchievements = new Set() }: Pr
             placeholder="Search fragments..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 text-sm bg-card/30 border border-border/20 rounded-lg focus:outline-none focus:border-amber-500/40 placeholder:text-muted-foreground/40"
+            className="w-full pl-9 pr-3 py-2 text-sm bg-card/30 border border-border/20 rounded-lg focus:outline-none focus:void-border placeholder:text-muted-foreground/40"
           />
         </div>
 
@@ -253,7 +253,7 @@ export default function LoreGalleryPage({ unlockedAchievements = new Set() }: Pr
             onClick={() => setSelectedEra(null)}
             className={`px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider rounded-md border transition-colors shrink-0 ${
               selectedEra === null
-                ? "border-amber-500/40 bg-amber-500/10 text-amber-400"
+                ? "void-border void-bg-sunk void-text-accent"
                 : "border-border/20 bg-card/20 text-muted-foreground hover:bg-card/40"
             }`}
           >
@@ -265,7 +265,7 @@ export default function LoreGalleryPage({ unlockedAchievements = new Set() }: Pr
               onClick={() => setSelectedEra(era.id === selectedEra ? null : era.id)}
               className={`px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider rounded-md border transition-colors shrink-0 ${
                 selectedEra === era.id
-                  ? "border-amber-500/40 bg-amber-500/10 text-amber-400"
+                  ? "void-border void-bg-sunk void-text-accent"
                   : "border-border/20 bg-card/20 text-muted-foreground hover:bg-card/40"
               }`}
             >
@@ -395,10 +395,10 @@ export default function LoreGalleryPage({ unlockedAchievements = new Set() }: Pr
                                 className="mt-2 pt-2 border-t border-border/10"
                               >
                                 <div className="flex items-center gap-1.5">
-                                  <Sparkles size={10} className="text-amber-400" />
+                                  <Sparkles size={10} className="void-text-accent" />
                                   <span className="font-mono text-[9px] text-muted-foreground">
                                     Unlocked via:{" "}
-                                    <span className="text-amber-400">
+                                    <span className="void-text-accent">
                                       {fragment.achievementName}
                                     </span>
                                   </span>

@@ -138,7 +138,7 @@ export default function EntityPage() {
                 </span>
                 {entry.status && (
                   <span className={`font-mono text-[10px] px-1.5 py-0.5 rounded ${
-                    entry.status === "Active" ? "bg-green-500/10 text-green-400 border border-green-500/20" :
+                    entry.status === "Active" ? "void-bg-success void-text-energy border void-border-success" :
                     entry.status === "Deceased" ? "bg-destructive/10 text-destructive border border-destructive/20" :
                     "bg-accent/10 text-accent border border-accent/20"
                   }`}>
@@ -200,14 +200,14 @@ export default function EntityPage() {
             <h2 className="font-display text-xs font-bold tracking-[0.2em] text-primary mb-3 flex items-center gap-2">
               <Eye size={13} /> DOSSIER
               {bioOverride && (
-                <span className="font-mono text-[9px] text-purple-400/70 tracking-wider ml-2">
+                <span className="font-mono text-[9px] void-text-system tracking-wider ml-2">
                   · REWRITTEN
                 </span>
               )}
             </h2>
             <p className="text-sm text-foreground/80 leading-relaxed whitespace-pre-line">{displayBio}</p>
             {bioOverride && (
-              <p className="mt-2 font-mono text-[10px] text-purple-400/60 italic">
+              <p className="mt-2 font-mono text-[10px] void-text-system italic">
                 This entry has been altered by the Shadow Tongue's Apprentice path. The original reading is gone.
               </p>
             )}

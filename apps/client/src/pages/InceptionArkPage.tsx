@@ -39,8 +39,8 @@ const ARK_DECKS: ArkDeck[] = [
     id: 1,
     name: "COMMAND DECK",
     subtitle: "Bridge & Operations",
-    color: "text-cyan-400",
-    borderColor: "border-cyan-500/30",
+    color: "void-text-energy",
+    borderColor: "void-border-success",
     bgGlow: "rgba(0,255,255,0.08)",
     icon: Compass,
     rooms: [
@@ -56,8 +56,8 @@ const ARK_DECKS: ArkDeck[] = [
     id: 2,
     name: "CREW DECK",
     subtitle: "Living Quarters & Recreation",
-    color: "text-amber-400",
-    borderColor: "border-amber-500/30",
+    color: "void-text-accent",
+    borderColor: "void-border",
     bgGlow: "rgba(255,191,0,0.08)",
     icon: Users,
     rooms: [
@@ -73,8 +73,8 @@ const ARK_DECKS: ArkDeck[] = [
     id: 3,
     name: "CARGO DECK",
     subtitle: "Storage & Engineering",
-    color: "text-green-400",
-    borderColor: "border-green-500/30",
+    color: "void-text-energy",
+    borderColor: "void-border-success",
     bgGlow: "rgba(0,255,128,0.08)",
     icon: Package,
     rooms: [
@@ -89,8 +89,8 @@ const ARK_DECKS: ArkDeck[] = [
     id: 4,
     name: "LOWER DECK",
     subtitle: "Secrets & Restricted Areas",
-    color: "text-red-400",
-    borderColor: "border-red-500/30",
+    color: "void-text-error",
+    borderColor: "void-border-error",
     bgGlow: "rgba(255,0,0,0.08)",
     icon: Skull,
     rooms: [
@@ -200,15 +200,15 @@ const ROOM_FEATURES: Record<string, RoomFeature[]> = {
 };
 
 const ROOM_TYPE_COLORS: Record<string, { bg: string; border: string; text: string }> = {
-  command: { bg: "bg-cyan-500/15", border: "border-cyan-500/30", text: "text-cyan-400" },
-  utility: { bg: "bg-blue-500/12", border: "border-blue-500/25", text: "text-blue-400" },
-  combat: { bg: "bg-red-500/12", border: "border-red-500/25", text: "text-red-400" },
-  social: { bg: "bg-amber-500/12", border: "border-amber-500/25", text: "text-amber-400" },
-  entertainment: { bg: "bg-purple-500/12", border: "border-purple-500/25", text: "text-purple-400" },
-  storage: { bg: "bg-green-500/12", border: "border-green-500/25", text: "text-green-400" },
-  commerce: { bg: "bg-emerald-500/12", border: "border-emerald-500/25", text: "text-emerald-400" },
-  special: { bg: "bg-amber-500/8", border: "border-amber-500/30", text: "text-amber-400" },
-  lore: { bg: "bg-purple-500/8", border: "border-purple-500/30", text: "text-purple-400" },
+  command: { bg: "void-bg-success", border: "void-border-success", text: "void-text-energy" },
+  utility: { bg: "void-bg-sunk", border: "void-border", text: "void-text-energy" },
+  combat: { bg: "void-bg-error", border: "void-border-error", text: "void-text-error" },
+  social: { bg: "void-bg-sunk", border: "void-border", text: "void-text-accent" },
+  entertainment: { bg: "void-bg-system", border: "void-border-system", text: "void-text-system" },
+  storage: { bg: "void-bg-success", border: "void-border-success", text: "void-text-energy" },
+  commerce: { bg: "void-bg-success", border: "void-border-success", text: "void-text-energy" },
+  special: { bg: "void-bg-sunk", border: "void-border", text: "void-text-accent" },
+  lore: { bg: "void-bg-system", border: "void-border-system", text: "void-text-system" },
 };
 
 /* ═══════════════════════════════════════════════════

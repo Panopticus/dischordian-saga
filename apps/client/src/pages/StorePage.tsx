@@ -26,12 +26,12 @@ const CATEGORY_ICONS: Record<Category, typeof Gem> = {
 };
 
 const RARITY_COLORS: Record<string, string> = {
-  common: "text-zinc-400",
-  uncommon: "text-green-400",
-  rare: "text-blue-400",
-  epic: "text-purple-400",
-  legendary: "text-amber-400",
-  mythic: "text-rose-400",
+  common: "void-text",
+  uncommon: "void-text-energy",
+  rare: "void-text-energy",
+  epic: "void-text-system",
+  legendary: "void-text-accent",
+  mythic: "void-text-error",
 };
 
 export default function StorePage() {
@@ -109,7 +109,7 @@ export default function StorePage() {
 
   return (
     <div className="min-h-screen relative overflow-hidden animate-fade-in">
-      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/STR-001_requisition-terminal.jpg" accent="#f59e0b" opacity={0.13} particleCount={4} scanlines={false} />
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/STR-001_requisition-terminal.jpg" accent="var(--energy-accent)" opacity={0.13} particleCount={4} scanlines={false} />
       {/* Header */}
       <div className="border-b border-border/30 bg-card/20 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
@@ -131,16 +131,16 @@ export default function StorePage() {
 
             {isAuthenticated && dreamBalance && (
               <div className="flex items-center gap-2 sm:gap-4">
-                <div className="flex items-center gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-md bg-purple-500/10 border border-purple-500/30">
-                  <Gem size={12} className="text-purple-400" />
-                  <span className="font-mono text-xs sm:text-sm text-purple-300">{dreamBalance.dreamTokens}</span>
-                  <span className="font-mono text-[9px] sm:text-[10px] text-purple-400/60">DREAM</span>
+                <div className="flex items-center gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-md void-bg-system border void-border-system">
+                  <Gem size={12} className="void-text-system" />
+                  <span className="font-mono text-xs sm:text-sm void-text-system">{dreamBalance.dreamTokens}</span>
+                  <span className="font-mono text-[9px] sm:text-[10px] void-text-system">DREAM</span>
                 </div>
                 {dreamBalance.soulBoundDream > 0 && (
-                  <div className="flex items-center gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-md bg-rose-500/10 border border-rose-500/30">
-                    <Crown size={12} className="text-rose-400" />
-                    <span className="font-mono text-xs sm:text-sm text-rose-300">{dreamBalance.soulBoundDream}</span>
-                    <span className="font-mono text-[9px] sm:text-[10px] text-rose-400/60">SOUL</span>
+                  <div className="flex items-center gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-md void-bg-error border void-border-error">
+                    <Crown size={12} className="void-text-error" />
+                    <span className="font-mono text-xs sm:text-sm void-text-error">{dreamBalance.soulBoundDream}</span>
+                    <span className="font-mono text-[9px] sm:text-[10px] void-text-error">SOUL</span>
                   </div>
                 )}
               </div>
@@ -152,20 +152,20 @@ export default function StorePage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-8">
         {/* Success/Cancel banners */}
         {showSuccess && (
-          <div className="flex items-center gap-3 p-4 rounded-lg bg-green-500/10 border border-green-500/30">
-            <CheckCircle size={20} className="text-green-400" />
+          <div className="flex items-center gap-3 p-4 rounded-lg void-bg-success border void-border-success">
+            <CheckCircle size={20} className="void-text-energy" />
             <div>
-              <p className="font-mono text-sm text-green-300 font-semibold">Payment successful!</p>
-              <p className="font-mono text-xs text-green-400/60">Your items have been delivered to your account.</p>
+              <p className="font-mono text-sm void-text-energy font-semibold">Payment successful!</p>
+              <p className="font-mono text-xs void-text-energy">Your items have been delivered to your account.</p>
             </div>
           </div>
         )}
         {showCanceled && (
-          <div className="flex items-center gap-3 p-4 rounded-lg bg-amber-500/10 border border-amber-500/30">
-            <XCircle size={20} className="text-amber-400" />
+          <div className="flex items-center gap-3 p-4 rounded-lg void-bg-sunk border void-border">
+            <XCircle size={20} className="void-text-accent" />
             <div>
-              <p className="font-mono text-sm text-amber-300 font-semibold">Payment canceled</p>
-              <p className="font-mono text-xs text-amber-400/60">No charges were made. You can try again anytime.</p>
+              <p className="font-mono text-sm void-text-accent font-semibold">Payment canceled</p>
+              <p className="font-mono text-xs void-text-accent">No charges were made. You can try again anytime.</p>
             </div>
           </div>
         )}
@@ -196,17 +196,17 @@ export default function StorePage() {
                   {/* Rewards preview */}
                   <div className="flex flex-wrap gap-2 mb-4">
                     {product.rewards.dreamTokens && (
-                      <span className="px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 font-mono text-[10px]">
+                      <span className="px-2 py-0.5 rounded void-bg-system void-text-system font-mono text-[10px]">
                         +{product.rewards.dreamTokens} Dream
                       </span>
                     )}
                     {product.rewards.cardPacks && (
-                      <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 font-mono text-[10px]">
+                      <span className="px-2 py-0.5 rounded void-bg-sunk void-text-energy font-mono text-[10px]">
                         {product.rewards.cardPacks} Card Pack{product.rewards.cardPacks > 1 ? "s" : ""}
                       </span>
                     )}
                     {product.rewards.shipUpgrade && (
-                      <span className="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 font-mono text-[10px]">
+                      <span className="px-2 py-0.5 rounded void-bg-success void-text-energy font-mono text-[10px]">
                         Ship Upgrade
                       </span>
                     )}
@@ -233,7 +233,7 @@ export default function StorePage() {
                       <Button
                         size="sm"
                         variant="outline"
-                        className="font-mono text-xs border-purple-500/40 text-purple-400 hover:bg-purple-500/10"
+                        className="font-mono text-xs void-border-system void-text-system void-bg-system"
                         disabled={purchasing === product.key}
                         onClick={() => handleBuyWithDream(product.key)}
                       >
@@ -281,11 +281,11 @@ export default function StorePage() {
                   {product.name}
                 </h3>
                 <span className={`font-mono text-[10px] px-1.5 py-0.5 rounded ${
-                  product.category === "dream" ? "bg-purple-500/10 text-purple-400" :
-                  product.category === "cards" ? "bg-blue-500/10 text-blue-400" :
-                  product.category === "ship" ? "bg-cyan-500/10 text-cyan-400" :
-                  product.category === "cosmetic" ? "bg-green-500/10 text-green-400" :
-                  "bg-amber-500/10 text-amber-400"
+                  product.category === "dream" ? "void-bg-system void-text-system" :
+                  product.category === "cards" ? "void-bg-sunk void-text-energy" :
+                  product.category === "ship" ? "void-bg-success void-text-energy" :
+                  product.category === "cosmetic" ? "void-bg-success void-text-energy" :
+                  "void-bg-sunk void-text-accent"
                 }`}>
                   {product.category.toUpperCase()}
                 </span>
@@ -298,38 +298,38 @@ export default function StorePage() {
               {/* Rewards */}
               <div className="flex flex-wrap gap-1.5 mb-3">
                 {product.rewards.dreamTokens && (
-                  <span className="px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-400 font-mono text-[9px]">
+                  <span className="px-1.5 py-0.5 rounded void-bg-system void-text-system font-mono text-[9px]">
                     +{product.rewards.dreamTokens} Dream
                   </span>
                 )}
                 {product.rewards.soulBoundDream && (
-                  <span className="px-1.5 py-0.5 rounded bg-rose-500/10 text-rose-400 font-mono text-[9px]">
+                  <span className="px-1.5 py-0.5 rounded void-bg-error void-text-error font-mono text-[9px]">
                     +{product.rewards.soulBoundDream} Soul Dream
                   </span>
                 )}
                 {product.rewards.cardPacks && (
-                  <span className="px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400 font-mono text-[9px]">
+                  <span className="px-1.5 py-0.5 rounded void-bg-sunk void-text-energy font-mono text-[9px]">
                     {product.rewards.cardPacks} Pack{product.rewards.cardPacks > 1 ? "s" : ""}
                     {product.rewards.cardPackRarity && ` (${product.rewards.cardPackRarity}+)`}
                   </span>
                 )}
                 {product.rewards.shipUpgrade && (
-                  <span className="px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-400 font-mono text-[9px]">
+                  <span className="px-1.5 py-0.5 rounded void-bg-success void-text-energy font-mono text-[9px]">
                     {product.rewards.shipUpgrade.type} Lv{product.rewards.shipUpgrade.level}
                   </span>
                 )}
                 {product.rewards.baseUpgrade && (
-                  <span className="px-1.5 py-0.5 rounded bg-green-500/10 text-green-400 font-mono text-[9px]">
+                  <span className="px-1.5 py-0.5 rounded void-bg-success void-text-energy font-mono text-[9px]">
                     Base: {product.rewards.baseUpgrade.type}
                   </span>
                 )}
                 {product.rewards.cargoExpansion && (
-                  <span className="px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 font-mono text-[9px]">
+                  <span className="px-1.5 py-0.5 rounded void-bg-sunk void-text-accent font-mono text-[9px]">
                     +Cargo
                   </span>
                 )}
                 {product.rewards.fuelCapacity && (
-                  <span className="px-1.5 py-0.5 rounded bg-orange-500/10 text-orange-400 font-mono text-[9px]">
+                  <span className="px-1.5 py-0.5 rounded void-bg-sunk void-text-premium font-mono text-[9px]">
                     +Fuel
                   </span>
                 )}
@@ -357,7 +357,7 @@ export default function StorePage() {
                   <Button
                     size="sm"
                     variant="outline"
-                    className="font-mono text-[11px] h-9 border-purple-500/30 text-purple-400 hover:bg-purple-500/10"
+                    className="font-mono text-[11px] h-9 void-border-system void-text-system void-bg-system"
                     disabled={purchasing === product.key}
                     onClick={() => handleBuyWithDream(product.key)}
                   >
@@ -407,9 +407,9 @@ export default function StorePage() {
                       </td>
                       <td className="p-2 sm:p-3">
                         <span className={`font-mono text-[9px] sm:text-[10px] px-1 sm:px-1.5 py-0.5 rounded ${
-                          p.paymentMethod === "stripe" ? "bg-blue-500/10 text-blue-400" :
-                          p.paymentMethod === "dream" ? "bg-purple-500/10 text-purple-400" :
-                          "bg-amber-500/10 text-amber-400"
+                          p.paymentMethod === "stripe" ? "void-bg-sunk void-text-energy" :
+                          p.paymentMethod === "dream" ? "void-bg-system void-text-system" :
+                          "void-bg-sunk void-text-accent"
                         }`}>
                           {(p.paymentMethod || "unknown").toUpperCase()}
                         </span>

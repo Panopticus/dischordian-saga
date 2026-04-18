@@ -72,7 +72,7 @@ export function ChoicePillarLightDark({
           pointerEvents: isSelectable ? "auto" : "none",
         }}
       >
-        {/* Light half (left) — soft gold #fde68a */}
+        {/* Light half (left) — soft gold var(--energy-accent) */}
         <motion.button
           aria-label="Choose Light"
           onClick={() => handleSelect("light")}
@@ -87,9 +87,9 @@ export function ChoicePillarLightDark({
             border: "none",
             cursor: isSelectable ? "pointer" : "default",
             borderRadius: "4px 0 0 4px",
-            background: "linear-gradient(180deg, #fde68a, #fbbf24)",
+            background: "linear-gradient(180deg, var(--energy-accent), #fbbf24)",
             boxShadow: selectedSide === "light"
-              ? "0 0 24px #fde68a, 0 0 48px rgba(253, 230, 138, 0.5)"
+              ? "0 0 24px var(--energy-accent), 0 0 48px rgba(253, 230, 138, 0.5)"
               : "0 0 12px rgba(253, 230, 138, 0.3)",
           }}
         />

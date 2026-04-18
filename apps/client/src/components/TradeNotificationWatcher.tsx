@@ -85,7 +85,7 @@ export default function TradeNotificationWatcher() {
                   handleAccept(trade.id);
                   toast.dismiss(`trade-${trade.id}`);
                 }}
-                className="flex items-center gap-1 px-3 py-1.5 rounded bg-green-500/20 border border-green-500/40 text-green-400 font-mono text-[10px] hover:bg-green-500/30 transition-colors"
+                className="flex items-center gap-1 px-3 py-1.5 rounded void-bg-success border void-border-success void-text-energy font-mono text-[10px] void-bg-success transition-colors"
               >
                 <Check size={10} /> ACCEPT
               </button>
@@ -94,7 +94,7 @@ export default function TradeNotificationWatcher() {
                   handleDecline(trade.id);
                   toast.dismiss(`trade-${trade.id}`);
                 }}
-                className="flex items-center gap-1 px-3 py-1.5 rounded bg-red-500/20 border border-red-500/40 text-red-400 font-mono text-[10px] hover:bg-red-500/30 transition-colors"
+                className="flex items-center gap-1 px-3 py-1.5 rounded void-bg-error border void-border-error void-text-error font-mono text-[10px] void-bg-error transition-colors"
               >
                 <X size={10} /> DECLINE
               </button>
@@ -118,9 +118,9 @@ export default function TradeNotificationWatcher() {
         const receiverName = (trade as any).receiverName || "An operative";
         toast.success(
           <div className="flex items-center gap-2">
-            <ArrowLeftRight size={14} className="text-green-400 shrink-0" />
+            <ArrowLeftRight size={14} className="void-text-energy shrink-0" />
             <span className="font-mono text-xs">
-              <span className="text-green-400 font-bold">{receiverName}</span> accepted your trade!
+              <span className="void-text-energy font-bold">{receiverName}</span> accepted your trade!
             </span>
           </div>,
           { duration: 8_000, position: "top-right" }
@@ -131,9 +131,9 @@ export default function TradeNotificationWatcher() {
         const receiverName = (trade as any).receiverName || "An operative";
         toast.error(
           <div className="flex items-center gap-2">
-            <X size={14} className="text-red-400 shrink-0" />
+            <X size={14} className="void-text-error shrink-0" />
             <span className="font-mono text-xs">
-              <span className="text-red-400 font-bold">{receiverName}</span> declined your trade.
+              <span className="void-text-error font-bold">{receiverName}</span> declined your trade.
             </span>
           </div>,
           { duration: 8_000, position: "top-right" }

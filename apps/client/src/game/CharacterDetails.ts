@@ -122,9 +122,9 @@ function drawArchitect(ctx: Ctx, p: DetailParams) {
 
     // Outer glow
     const orbGrad = ctx.createRadialGradient(orbX, orbY, 0, orbX, orbY, 14 * orbPulse);
-    orbGrad.addColorStop(0, "rgba(239,68,68,0.4)");
-    orbGrad.addColorStop(0.5, "rgba(239,68,68,0.15)");
-    orbGrad.addColorStop(1, "rgba(239,68,68,0)");
+    orbGrad.addColorStop(0, "color-mix(in oklch, var(--energy-error) 40%, transparent)");
+    orbGrad.addColorStop(0.5, "color-mix(in oklch, var(--energy-error) 15%, transparent)");
+    orbGrad.addColorStop(1, "color-mix(in oklch, var(--energy-error) 0%, transparent)");
     ctx.fillStyle = orbGrad;
     ctx.beginPath();
     ctx.arc(orbX, orbY, 14 * orbPulse, 0, Math.PI * 2);
@@ -155,7 +155,7 @@ function drawArchitect(ctx: Ctx, p: DetailParams) {
   }
 
   // ── Red energy veins on arms (tech/magic hybrid) ──
-  ctx.strokeStyle = "rgba(239,68,68,0.25)";
+  ctx.strokeStyle = "color-mix(in oklch, var(--energy-error) 25%, transparent)";
   ctx.lineWidth = 0.5;
   // Left arm vein
   ctx.beginPath();
@@ -171,7 +171,7 @@ function drawArchitect(ctx: Ctx, p: DetailParams) {
   // ── Ground shadow / power aura ──
   if (state === "idle" || state === "special" || state === "victory") {
     const auraAlpha = 0.1 + Math.sin(t * 0.3) * 0.05;
-    ctx.fillStyle = `rgba(239,68,68,${auraAlpha})`;
+    ctx.fillStyle = `color-mix(in oklch, var(--energy-error) calc((auraAlpha) * 100%), transparent)`;
     ctx.beginPath();
     ctx.ellipse(cx, baseY + 2, 25, 4, 0, 0, Math.PI * 2);
     ctx.fill();
@@ -184,7 +184,7 @@ function drawArchitect(ctx: Ctx, p: DetailParams) {
     ctx.save();
     ctx.translate(cx, baseY - 60);
     ctx.rotate(t * 0.05);
-    ctx.strokeStyle = `rgba(239,68,68,${0.3 + pulse * 0.3})`;
+    ctx.strokeStyle = `color-mix(in oklch, var(--energy-error) calc((0.3 + pulse * 0.3) * 100%), transparent)`;
     ctx.lineWidth = 1;
     // Hexagonal pattern
     for (let ring = 0; ring < 3; ring++) {
@@ -222,7 +222,7 @@ function drawCollector(ctx: Ctx, p: DetailParams) {
       const ax = cx + Math.cos(angle) * orbitR;
       const ay = baseY - 50 + Math.sin(angle) * 8 + Math.sin(t * 0.3 + i) * 3;
       // Artifact glow
-      ctx.fillStyle = `rgba(168,85,247,${0.3 + Math.sin(t * 0.4 + i) * 0.2})`;
+      ctx.fillStyle = `color-mix(in oklch, var(--energy-system) calc((0.3 + Math.sin(t * 0.4 + i) * 0.2) * 100%), transparent)`;
       ctx.beginPath();
       ctx.arc(ax, ay, 3, 0, Math.PI * 2);
       ctx.fill();
@@ -237,7 +237,7 @@ function drawCollector(ctx: Ctx, p: DetailParams) {
   }
 
   // ── Hood shadow deepening ──
-  ctx.fillStyle = "rgba(0,0,0,0.4)";
+  ctx.fillStyle = "color-mix(in oklch, var(--bg-void) 40%, transparent)";
   ctx.beginPath();
   ctx.arc(cx, bodyTop - 8, 10, 0.3, Math.PI - 0.3);
   ctx.closePath();
@@ -264,8 +264,8 @@ function drawCollector(ctx: Ctx, p: DetailParams) {
   if (state !== "ko") {
     const crystalPulse = 0.5 + Math.sin(t * 0.5) * 0.5;
     const crystalGrad = ctx.createRadialGradient(cx + 20, bodyTop - 5, 0, cx + 20, bodyTop - 5, 10);
-    crystalGrad.addColorStop(0, `rgba(168,85,247,${0.5 * crystalPulse})`);
-    crystalGrad.addColorStop(1, "rgba(168,85,247,0)");
+    crystalGrad.addColorStop(0, `color-mix(in oklch, var(--energy-system) calc((0.5 * crystalPulse) * 100%), transparent)`);
+    crystalGrad.addColorStop(1, "color-mix(in oklch, var(--energy-system) 0%, transparent)");
     ctx.fillStyle = crystalGrad;
     ctx.beginPath();
     ctx.arc(cx + 20, bodyTop - 5, 10, 0, Math.PI * 2);
@@ -277,7 +277,7 @@ function drawCollector(ctx: Ctx, p: DetailParams) {
     for (let i = 0; i < 3; i++) {
       const wispX = cx - 15 + i * 15 + Math.sin(t * 0.3 + i * 2) * 5;
       const wispY = baseY - 20 - Math.abs(Math.sin(t * 0.2 + i)) * 15;
-      ctx.fillStyle = `rgba(192,132,252,${0.15 + Math.sin(t * 0.4 + i) * 0.1})`;
+      ctx.fillStyle = `color-mix(in oklch, var(--energy-system) calc((0.15 + Math.sin(t * 0.4 + i) * 0.1) * 100%), transparent)`;
       ctx.beginPath();
       ctx.arc(wispX, wispY, 2 + Math.sin(t * 0.3 + i) * 1, 0, Math.PI * 2);
       ctx.fill();
@@ -296,7 +296,7 @@ function drawEnigma(ctx: Ctx, p: DetailParams) {
   const bodyTop = baseY - 70 - 34;
 
   // ── Flowing hair strands ──
-  ctx.strokeStyle = "#22d3ee60";
+  ctx.strokeStyle = "var(--energy-primary)60";
   ctx.lineWidth = 1.5;
   for (let i = 0; i < 4; i++) {
     const hairX = cx - 6 + i * 4;
@@ -309,7 +309,7 @@ function drawEnigma(ctx: Ctx, p: DetailParams) {
 
   // ── Blade energy trails ──
   if (state === "punch" || state === "kick" || state === "special") {
-    ctx.strokeStyle = "rgba(34,211,238,0.4)";
+    ctx.strokeStyle = "color-mix(in oklch, var(--energy-primary) 40%, transparent)";
     ctx.lineWidth = 2;
     ctx.setLineDash([3, 3]);
     ctx.lineDashOffset = -t * 6;
@@ -325,7 +325,7 @@ function drawEnigma(ctx: Ctx, p: DetailParams) {
 
   // ── Speed lines when walking ──
   if (state === "walk") {
-    ctx.strokeStyle = "rgba(34,211,238,0.15)";
+    ctx.strokeStyle = "color-mix(in oklch, var(--energy-primary) 15%, transparent)";
     ctx.lineWidth = 1;
     for (let i = 0; i < 4; i++) {
       const ly = baseY - 30 - i * 12;
@@ -339,7 +339,7 @@ function drawEnigma(ctx: Ctx, p: DetailParams) {
   // ── Cyan energy pulse at feet ──
   if (state !== "ko") {
     const footGlow = Math.sin(t * 0.5) * 0.15 + 0.1;
-    ctx.fillStyle = `rgba(34,211,238,${footGlow})`;
+    ctx.fillStyle = `color-mix(in oklch, var(--energy-primary) calc((footGlow) * 100%), transparent)`;
     ctx.beginPath();
     ctx.ellipse(cx, baseY + 1, 15, 3, 0, 0, Math.PI * 2);
     ctx.fill();
@@ -347,7 +347,7 @@ function drawEnigma(ctx: Ctx, p: DetailParams) {
 
   // ── Determination marks (anime style) ──
   if (state === "special") {
-    ctx.strokeStyle = "rgba(34,211,238,0.6)";
+    ctx.strokeStyle = "color-mix(in oklch, var(--energy-primary) 60%, transparent)";
     ctx.lineWidth = 2;
     // Cross marks near head
     ctx.beginPath();
@@ -370,8 +370,8 @@ function drawWarlord(ctx: Ctx, p: DetailParams) {
   const bodyTop = baseY - 70 - 40;
 
   // ── Visor glow line ──
-  ctx.fillStyle = "#f59e0b";
-  ctx.shadowColor = "#f59e0b";
+  ctx.fillStyle = "var(--energy-accent)";
+  ctx.shadowColor = "var(--energy-accent)";
   ctx.shadowBlur = 4;
   ctx.fillRect(cx - 10, bodyTop - 12, 20, 3);
   ctx.shadowBlur = 0;
@@ -405,7 +405,7 @@ function drawWarlord(ctx: Ctx, p: DetailParams) {
 
   // ── Hammer energy crackle ──
   if (state !== "ko" && state !== "hit") {
-    ctx.strokeStyle = `rgba(251,191,36,${0.3 + Math.sin(t * 0.8) * 0.2})`;
+    ctx.strokeStyle = `color-mix(in oklch, var(--energy-premium) calc((0.3 + Math.sin(t * 0.8) * 0.2) * 100%), transparent)`;
     ctx.lineWidth = 1;
     const hammerX = cx + 22;
     const hammerY = bodyTop + 10;
@@ -428,7 +428,7 @@ function drawWarlord(ctx: Ctx, p: DetailParams) {
 
   // ── Ground crack effect on special ──
   if (state === "special") {
-    ctx.strokeStyle = "rgba(251,191,36,0.5)";
+    ctx.strokeStyle = "color-mix(in oklch, var(--energy-premium) 50%, transparent)";
     ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.moveTo(cx, baseY + 2);
@@ -641,7 +641,7 @@ function drawIronLion(ctx: Ctx, p: DetailParams) {
 
   // ── Mechanical joint glows ──
   const jointGlow = 0.4 + Math.sin(t * 0.6) * 0.2;
-  ctx.fillStyle = `rgba(245,158,11,${jointGlow})`;
+  ctx.fillStyle = `color-mix(in oklch, var(--energy-accent) calc((jointGlow) * 100%), transparent)`;
   // Shoulder joints
   ctx.beginPath(); ctx.arc(cx - 22, bodyTop + 8, 3, 0, Math.PI * 2); ctx.fill();
   ctx.beginPath(); ctx.arc(cx + 22, bodyTop + 8, 3, 0, Math.PI * 2); ctx.fill();
@@ -703,8 +703,8 @@ function drawAgentZero(ctx: Ctx, p: DetailParams) {
   const bodyTop = baseY - 70 - 34;
 
   // ── Red targeting eye (single glowing dot) ──
-  ctx.fillStyle = "#ef4444";
-  ctx.shadowColor = "#ef4444";
+  ctx.fillStyle = "var(--energy-error)";
+  ctx.shadowColor = "var(--energy-error)";
   ctx.shadowBlur = 8;
   ctx.beginPath();
   ctx.arc(cx + 3, bodyTop - 10, 2, 0, Math.PI * 2);
@@ -713,7 +713,7 @@ function drawAgentZero(ctx: Ctx, p: DetailParams) {
 
   // ── Targeting reticle ──
   if (state === "idle" || state === "punch") {
-    ctx.strokeStyle = "rgba(239,68,68,0.2)";
+    ctx.strokeStyle = "color-mix(in oklch, var(--energy-error) 20%, transparent)";
     ctx.lineWidth = 0.5;
     ctx.setLineDash([2, 2]);
     ctx.beginPath();
@@ -742,7 +742,7 @@ function drawAgentZero(ctx: Ctx, p: DetailParams) {
   // ── Stealth shimmer (scanline effect) ──
   if (state === "idle") {
     const shimmerY = bodyTop + (t * 3) % 60;
-    ctx.fillStyle = "rgba(255,255,255,0.03)";
+    ctx.fillStyle = "color-mix(in oklch, var(--text-primary) 3%, transparent)";
     ctx.fillRect(cx - 15, shimmerY, 30, 2);
   }
 
@@ -816,7 +816,7 @@ function drawAkaiShi(ctx: Ctx, p: DetailParams) {
 
   // ── Blood trail from sword ──
   if (state === "punch" || state === "special") {
-    ctx.strokeStyle = "rgba(220,38,38,0.3)";
+    ctx.strokeStyle = "color-mix(in oklch, var(--energy-error) 30%, transparent)";
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.arc(cx + 20, baseY - 40, 18, -1.5, 0.5);
@@ -824,7 +824,7 @@ function drawAkaiShi(ctx: Ctx, p: DetailParams) {
   }
 
   // ── Red mist at feet ──
-  ctx.fillStyle = `rgba(220,38,38,${0.06 + Math.sin(t * 0.3) * 0.03})`;
+  ctx.fillStyle = `color-mix(in oklch, var(--energy-error) calc((0.06 + Math.sin(t * 0.3) * 0.03) * 100%), transparent)`;
   ctx.beginPath();
   ctx.ellipse(cx, baseY + 1, 22, 4, 0, 0, Math.PI * 2);
   ctx.fill();
@@ -938,7 +938,7 @@ function drawSource(ctx: Ctx, p: DetailParams) {
   const { cx, baseY, t } = p;
   const bodyTop = baseY - 70 - 40;
   // Horns energy
-  ctx.fillStyle = `rgba(220,38,38,${0.3 + Math.sin(t * 0.5) * 0.15})`;
+  ctx.fillStyle = `color-mix(in oklch, var(--energy-error) calc((0.3 + Math.sin(t * 0.5) * 0.15) * 100%), transparent)`;
   ctx.beginPath();
   ctx.arc(cx - 14, bodyTop - 18, 3, 0, Math.PI * 2);
   ctx.fill();
@@ -986,7 +986,7 @@ function drawHost(ctx: Ctx, p: DetailParams) {
   ctx.beginPath();
   ctx.ellipse(cx - 8, baseY - 50, 15, 35, -0.1, 0, Math.PI * 2);
   ctx.fill();
-  ctx.fillStyle = `rgba(59,130,246,${0.1 + Math.cos(t * 0.4) * 0.05})`;
+  ctx.fillStyle = `color-mix(in oklch, var(--electric-blue) calc((0.1 + Math.cos(t * 0.4) * 0.05) * 100%), transparent)`;
   ctx.beginPath();
   ctx.ellipse(cx + 8, baseY - 50, 15, 35, 0.1, 0, Math.PI * 2);
   ctx.fill();
@@ -1128,13 +1128,13 @@ function drawEyes(ctx: Ctx, p: DetailParams) {
   for (let i = 0; i < 5; i++) {
     const ex = cx - 16 + i * 8 + Math.sin(t * 0.2 + i) * 2;
     const ey = bodyTop - 5 + Math.cos(t * 0.15 + i * 1.5) * 3;
-    ctx.fillStyle = `rgba(34,211,238,${0.2 + Math.sin(t * 0.4 + i) * 0.1})`;
+    ctx.fillStyle = `color-mix(in oklch, var(--energy-primary) calc((0.2 + Math.sin(t * 0.4 + i) * 0.1) * 100%), transparent)`;
     ctx.beginPath();
     ctx.ellipse(ex, ey, 2, 1.5, 0, 0, Math.PI * 2);
     ctx.fill();
   }
   // Scan beam
-  ctx.strokeStyle = "rgba(34,211,238,0.1)";
+  ctx.strokeStyle = "color-mix(in oklch, var(--energy-primary) 10%, transparent)";
   ctx.lineWidth = 0.5;
   const beamAngle = Math.sin(t * 0.1) * 0.5;
   ctx.beginPath();

@@ -81,9 +81,9 @@ const SEVERITY_ICON = {
 
 const SEVERITY_COLOR = {
   info: "text-muted-foreground border-border/30",
-  warning: "text-yellow-400 border-yellow-500/30",
-  alert: "text-orange-400 border-orange-500/30",
-  critical: "text-red-400 border-red-500/50",
+  warning: "void-text-premium void-border",
+  alert: "void-text-premium void-border",
+  critical: "void-text-error void-border-error",
 };
 
 function formatAge(ts: number): string {

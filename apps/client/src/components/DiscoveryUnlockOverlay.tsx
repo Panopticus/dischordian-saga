@@ -34,7 +34,7 @@ const DISCOVERABLE_SYSTEMS: SystemDiscovery[] = [
     id: "bridge", roomId: "bridge",
     label: "COMMAND BRIDGE",
     description: "Central command — conspiracy board, timelines, and saga overview",
-    icon: Home, color: "#33e2e6",
+    icon: Home, color: "var(--energy-primary)",
     features: ["Bridge Overview", "Conspiracy Board", "Era Timeline", "Saga Timeline", "Character Arcs", "Power Hierarchy"],
     elaraAnnouncement: "The cryo-bay systems are cycling down. I've traced a power conduit from your pod to the Command Bridge — it's two decks up. The ship's central nervous system. If we can reach it, I can start bringing the Ark's primary systems back online. Follow the corridor. I'll guide you.",
   },
@@ -42,7 +42,7 @@ const DISCOVERABLE_SYSTEMS: SystemDiscovery[] = [
     id: "archives", roomId: "archives",
     label: "ARCHIVES",
     description: "The lore database — search entries, browse the codex",
-    icon: Search, color: "#33e2e6",
+    icon: Search, color: "var(--energy-primary)",
     features: ["Database Search", "The Codex"],
     elaraAnnouncement: "Now that the Bridge is operational, I'm detecting a sealed data vault one deck below — the Archives. Centuries of classified intelligence, dossiers, and historical records are stored there. The Bridge's authentication codes just unlocked the blast doors. Everything we need to understand what happened to this ship is in that room.",
   },
@@ -66,7 +66,7 @@ const DISCOVERABLE_SYSTEMS: SystemDiscovery[] = [
     id: "armory", roomId: "armory",
     label: "ARMORY",
     description: "Combat simulations, card battles, and lore quizzes",
-    icon: Swords, color: "#ef4444",
+    icon: Swords, color: "var(--energy-error)",
     features: ["Combat Sim", "Card Game", "PvP Arena", "Boss Battle", "Lore Quiz"],
     elaraAnnouncement: "Engineering's combat subsystems just came online. The Armory's magnetic locks have disengaged — I can hear the containment fields cycling down from here. That room houses the ship's combat simulation chambers, tactical training systems, and... something the crew called 'Card Battles.' The weapons are still live. Proceed with caution, Operative.",
   },
@@ -74,7 +74,7 @@ const DISCOVERABLE_SYSTEMS: SystemDiscovery[] = [
     id: "engineering", roomId: "engineering",
     label: "ENGINEERING BAY",
     description: "Research lab — craft and upgrade cards",
-    icon: FlaskConical, color: "#22c55e",
+    icon: FlaskConical, color: "var(--energy-success)",
     features: ["Research Lab", "Deck Builder", "Card Gallery", "Demon Packs"],
     elaraAnnouncement: "I've been monitoring the Comms Array's power grid diagnostics. There's a massive energy fluctuation coming from Deck 4 — the Engineering Bay. The reactor is running at minimal capacity, but it's enough to power the research stations and crafting systems. I've stabilized the corridor pressure seals. The path to Engineering is clear.",
   },
@@ -90,7 +90,7 @@ const DISCOVERABLE_SYSTEMS: SystemDiscovery[] = [
     id: "quarters", roomId: "captains-quarters",
     label: "CAPTAIN'S QUARTERS",
     description: "Your operative dossier, trophies, and achievements",
-    icon: Users, color: "#33e2e6",
+    icon: Users, color: "var(--energy-primary)",
     features: ["Operative Dossier", "Character Sheet", "Trophy Room", "Achievements", "Leaderboard"],
     elaraAnnouncement: "That master key you found on the Bridge — it's the Captain's personal access key. Highest clearance level on the entire ship. The Captain's Quarters are sealed behind a biometric lock that only responds to that key. Inside you'll find the trophy room, the personal log archive, and the deck builder station. This was the most restricted room on the Ark. Now it's yours.",
   },
@@ -189,7 +189,7 @@ export default function DiscoveryUnlockOverlay() {
           transition={{ duration: 0.4 }}
           className="fixed inset-0 z-[9999] flex items-center justify-center"
           style={{
-            background: "radial-gradient(ellipse at center, var(--bg-void) 0%, rgba(0,0,0,0.98) 100%)",
+            background: "radial-gradient(ellipse at center, var(--bg-void) 0%, color-mix(in oklch, var(--bg-void) 98%, transparent) 100%)",
             backdropFilter: "blur(20px)",
           }}
           onClick={handleDismiss}
@@ -310,9 +310,9 @@ export default function DiscoveryUnlockOverlay() {
                   <div
                     className="relative rounded-xl p-4 text-left"
                     style={{
-                      background: "linear-gradient(135deg, rgba(51,226,230,0.08) 0%, rgba(51,226,230,0.02) 100%)",
-                      border: "1px solid rgba(51,226,230,0.2)",
-                      boxShadow: "0 0 20px rgba(51,226,230,0.05), inset 0 1px 0 rgba(51,226,230,0.1)",
+                      background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-primary) 8%, transparent) 0%, color-mix(in oklch, var(--energy-primary) 2%, transparent) 100%)",
+                      border: "1px solid color-mix(in oklch, var(--energy-primary) 20%, transparent)",
+                      boxShadow: "0 0 20px color-mix(in oklch, var(--energy-primary) 5%, transparent), inset 0 1px 0 color-mix(in oklch, var(--energy-primary) 10%, transparent)",
                     }}
                   >
                     {/* Elara avatar + name */}
@@ -320,8 +320,8 @@ export default function DiscoveryUnlockOverlay() {
                       <div
                         className="w-10 h-10 rounded-full overflow-hidden shrink-0 relative"
                         style={{
-                          border: "2px solid rgba(51,226,230,0.4)",
-                          boxShadow: "0 0 12px rgba(51,226,230,0.2)",
+                          border: "2px solid color-mix(in oklch, var(--energy-primary) 40%, transparent)",
+                          boxShadow: "0 0 12px color-mix(in oklch, var(--energy-primary) 20%, transparent)",
                         }}
                       >
                         <img
@@ -333,7 +333,7 @@ export default function DiscoveryUnlockOverlay() {
                         <motion.div
                           className="absolute inset-0"
                           style={{
-                            background: "linear-gradient(180deg, transparent 0%, rgba(51,226,230,0.15) 50%, transparent 100%)",
+                            background: "linear-gradient(180deg, transparent 0%, color-mix(in oklch, var(--energy-primary) 15%, transparent) 50%, transparent 100%)",
                             backgroundSize: "100% 200%",
                           }}
                           animate={{ backgroundPosition: ["0% 0%", "0% 200%"] }}
@@ -343,7 +343,7 @@ export default function DiscoveryUnlockOverlay() {
                       <div>
                         <p
                           className="font-display text-sm font-bold tracking-wider"
-                          style={{ color: "rgba(51,226,230,0.9)" }}
+                          style={{ color: "color-mix(in oklch, var(--energy-primary) 90%, transparent)" }}
                         >
                           ELARA
                         </p>
@@ -357,7 +357,7 @@ export default function DiscoveryUnlockOverlay() {
                           <motion.div
                             key={i}
                             className="w-1 rounded-full"
-                            style={{ background: "rgba(51,226,230,0.6)" }}
+                            style={{ background: "color-mix(in oklch, var(--energy-primary) 60%, transparent)" }}
                             animate={{ height: [4, 12, 4] }}
                             transition={{
                               duration: 0.6,
@@ -375,7 +375,7 @@ export default function DiscoveryUnlockOverlay() {
                       animate={{ opacity: 1 }}
                       transition={{ delay: 0.3, duration: 0.6 }}
                       className="font-mono text-xs text-muted-foreground/80 leading-relaxed"
-                      style={{ textShadow: "0 0 8px rgba(51,226,230,0.1)" }}
+                      style={{ textShadow: "0 0 8px color-mix(in oklch, var(--energy-primary) 10%, transparent)" }}
                     >
                       "{currentDiscovery.elaraAnnouncement}"
                     </motion.p>

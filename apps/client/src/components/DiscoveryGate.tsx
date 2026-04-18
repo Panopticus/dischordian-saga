@@ -61,14 +61,14 @@ export default function DiscoveryGate({
           transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
           className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 relative"
           style={{
-            background: "linear-gradient(135deg, rgba(239,68,68,0.1) 0%, rgba(239,68,68,0.05) 100%)",
-            border: "1px solid rgba(239,68,68,0.25)",
-            boxShadow: "0 0 30px rgba(239,68,68,0.1), inset 0 0 20px rgba(239,68,68,0.05)",
+            background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-error) 10%, transparent) 0%, color-mix(in oklch, var(--energy-error) 5%, transparent) 100%)",
+            border: "1px solid color-mix(in oklch, var(--energy-error) 25%, transparent)",
+            boxShadow: "0 0 30px color-mix(in oklch, var(--energy-error) 10%, transparent), inset 0 0 20px color-mix(in oklch, var(--energy-error) 5%, transparent)",
           }}
         >
-          <Lock size={32} className="text-red-400" />
+          <Lock size={32} className="void-text-error" />
           <div className="absolute inset-0 rounded-2xl animate-pulse opacity-30"
-            style={{ border: "1px solid rgba(239,68,68,0.3)" }} />
+            style={{ border: "1px solid color-mix(in oklch, var(--energy-error) 30%, transparent)" }} />
         </motion.div>
 
         {/* Title */}
@@ -92,11 +92,11 @@ export default function DiscoveryGate({
 
         {/* Security clearance bar */}
         <div className="flex items-center justify-center gap-2 mb-6">
-          <Shield size={12} className="text-red-400/60" />
+          <Shield size={12} className="void-text-error" />
           <div className="w-32 h-1 rounded-full overflow-hidden" style={{ background: "var(--glass-dark)" }}>
-            <div className="h-full w-0 rounded-full bg-red-400/50" />
+            <div className="h-full w-0 rounded-full void-bg-error" />
           </div>
-          <span className="font-mono text-[10px] text-red-400/60 tracking-wider">RESTRICTED</span>
+          <span className="font-mono text-[10px] void-text-error tracking-wider">RESTRICTED</span>
         </div>
 
         {/* CTA */}
@@ -104,8 +104,8 @@ export default function DiscoveryGate({
           href="/ark"
           className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-lg font-mono text-sm tracking-wider transition-all group"
           style={{
-            background: "linear-gradient(135deg, rgba(51,226,230,0.1) 0%, var(--glass-border) 100%)",
-            border: "1px solid rgba(51,226,230,0.3)",
+            background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-primary) 10%, transparent) 0%, var(--glass-border) 100%)",
+            border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
             color: "var(--neon-cyan)",
           }}
         >

@@ -34,11 +34,11 @@ function fill(value: number): number {
 }
 
 const PHASE_FLAVOR: Record<ReturnType<typeof getPhase>, { color: string; label: string }> = {
-  radiant: { color: "text-amber-200", label: "RADIANT" },
-  truthful: { color: "text-amber-300/80", label: "TRUTHFUL" },
+  radiant: { color: "void-text-accent", label: "RADIANT" },
+  truthful: { color: "void-text-accent", label: "TRUTHFUL" },
   balanced: { color: "text-muted-foreground/70", label: "BALANCED" },
-  corrupted: { color: "text-red-400", label: "CORRUPTED" },
-  overwritten: { color: "text-red-500", label: "OVERWRITTEN" },
+  corrupted: { color: "void-text-error", label: "CORRUPTED" },
+  overwritten: { color: "void-text-error", label: "OVERWRITTEN" },
 };
 
 export function PalimpsestMeterPanel({ state = DEFAULT_PALIMPSEST_STATE }: Props) {
@@ -52,7 +52,7 @@ export function PalimpsestMeterPanel({ state = DEFAULT_PALIMPSEST_STATE }: Props
     <div
       className="void-elevated p-5 relative overflow-hidden"
       style={{
-        borderColor: "rgba(251,191,36,0.15)",
+        borderColor: "color-mix(in oklch, var(--energy-premium) 15%, transparent)",
         background:
           "linear-gradient(135deg, rgba(24,18,8,0.85) 0%, rgba(20,10,8,0.85) 100%)",
       }}
@@ -64,17 +64,17 @@ export function PalimpsestMeterPanel({ state = DEFAULT_PALIMPSEST_STATE }: Props
         className="absolute inset-0 pointer-events-none opacity-[0.07]"
         style={{
           backgroundImage:
-            "repeating-linear-gradient(0deg, rgba(251,191,36,0.3) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(220,60,60,0.2) 0 1px, transparent 1px 3px)",
+            "repeating-linear-gradient(0deg, color-mix(in oklch, var(--energy-premium) 30%, transparent) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(220,60,60,0.2) 0 1px, transparent 1px 3px)",
         }}
       />
 
       <div className="relative">
         <div className="text-center mb-4">
-          <BookOpen size={18} className="mx-auto text-amber-300 mb-1" />
-          <h2 className="font-display text-sm font-bold tracking-[0.2em] text-amber-200">
+          <BookOpen size={18} className="mx-auto void-text-accent mb-1" />
+          <h2 className="font-display text-sm font-bold tracking-[0.2em] void-text-accent">
             THE PALIMPSEST
           </h2>
-          <p className="font-mono text-[8px] text-amber-400/50 tracking-wider">
+          <p className="font-mono text-[8px] void-text-accent tracking-wider">
             SIGNAL &amp; NOISE · EPISODE {state.currentEpisode}/13
           </p>
         </div>
@@ -84,12 +84,12 @@ export function PalimpsestMeterPanel({ state = DEFAULT_PALIMPSEST_STATE }: Props
           {/* Signal column */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <span className="font-mono text-[8px] uppercase tracking-wider text-amber-300/70">
+              <span className="font-mono text-[8px] uppercase tracking-wider void-text-accent">
                 Signal
               </span>
-              <span className="font-mono text-[8px] text-amber-400/40">gold ink</span>
+              <span className="font-mono text-[8px] void-text-accent">gold ink</span>
             </div>
-            <div className="h-28 rounded border border-amber-500/20 bg-black/30 relative overflow-hidden">
+            <div className="h-28 rounded border void-border bg-black/30 relative overflow-hidden">
               <motion.div
                 className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-amber-400/70 via-amber-300/40 to-amber-200/10"
                 initial={{ height: 0 }}
@@ -103,11 +103,11 @@ export function PalimpsestMeterPanel({ state = DEFAULT_PALIMPSEST_STATE }: Props
                 className="absolute inset-0 pointer-events-none"
                 style={{
                   backgroundImage:
-                    "repeating-linear-gradient(0deg, rgba(251,191,36,0.15) 0 1px, transparent 1px 8px)",
+                    "repeating-linear-gradient(0deg, color-mix(in oklch, var(--energy-premium) 15%, transparent) 0 1px, transparent 1px 8px)",
                 }}
               />
             </div>
-            <p className="font-serif text-[10px] italic text-amber-100/70 mt-2 leading-snug">
+            <p className="font-serif text-[10px] italic void-text-accent mt-2 leading-snug">
               {getSignalDescription(state.signal)}
             </p>
           </div>
@@ -115,12 +115,12 @@ export function PalimpsestMeterPanel({ state = DEFAULT_PALIMPSEST_STATE }: Props
           {/* Noise column */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <span className="font-mono text-[8px] uppercase tracking-wider text-red-400/70">
+              <span className="font-mono text-[8px] uppercase tracking-wider void-text-error">
                 Noise
               </span>
-              <span className="font-mono text-[8px] text-red-500/40">red ink</span>
+              <span className="font-mono text-[8px] void-text-error">red ink</span>
             </div>
-            <div className="h-28 rounded border border-red-500/20 bg-black/30 relative overflow-hidden">
+            <div className="h-28 rounded border void-border-error bg-black/30 relative overflow-hidden">
               <motion.div
                 className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-red-600/70 via-red-500/40 to-red-400/10"
                 initial={{ height: 0 }}
@@ -138,25 +138,25 @@ export function PalimpsestMeterPanel({ state = DEFAULT_PALIMPSEST_STATE }: Props
                 }}
               />
             </div>
-            <p className="font-serif text-[10px] italic text-red-200/70 mt-2 leading-snug">
+            <p className="font-serif text-[10px] italic void-text-error mt-2 leading-snug">
               {getNoiseDescription(state.noise)}
             </p>
           </div>
         </div>
 
         {/* Balance caption */}
-        <div className="p-3 rounded border border-amber-500/10 bg-black/30 mb-3">
+        <div className="p-3 rounded border void-border bg-black/30 mb-3">
           <div className="flex items-center gap-2 mb-1">
             <span className={`font-mono text-[8px] uppercase tracking-[0.2em] ${flavor.color}`}>
               {flavor.label}
             </span>
             <span className="font-mono text-[8px] text-muted-foreground/30">·</span>
-            <Eye size={10} className="text-amber-400/40" />
-            <span className="font-mono text-[8px] text-amber-400/40">
+            <Eye size={10} className="void-text-accent" />
+            <span className="font-mono text-[8px] void-text-accent">
               {state.history.length} episode{state.history.length === 1 ? "" : "s"} inscribed
             </span>
           </div>
-          <p className="font-serif text-[10px] italic text-amber-100/60 leading-relaxed">
+          <p className="font-serif text-[10px] italic void-text-accent leading-relaxed">
             {getBalanceDescription(state)}
           </p>
         </div>
@@ -167,11 +167,11 @@ export function PalimpsestMeterPanel({ state = DEFAULT_PALIMPSEST_STATE }: Props
             initial={{ opacity: 0 }}
             animate={{ opacity: [0.4, 1, 0.4] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="p-2 rounded border border-red-500/40 bg-red-950/40 flex items-center gap-2"
+            className="p-2 rounded border void-border-error void-bg-error flex items-center gap-2"
             data-testid="palimpsest-mask-slip-warning"
           >
-            <AlertTriangle size={12} className="text-red-400 shrink-0" />
-            <p className="font-mono text-[9px] text-red-300 leading-snug">
+            <AlertTriangle size={12} className="void-text-error shrink-0" />
+            <p className="font-mono text-[9px] void-text-error leading-snug">
               The Host's face is slipping. Watch the next broadcast carefully.
             </p>
           </motion.div>

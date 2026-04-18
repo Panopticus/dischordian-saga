@@ -9,10 +9,10 @@ import { useCadesFeed } from "@/hooks/useCadesFeed";
 
 const SEVERITY_COLORS: Record<string, string> = {
   info: "#64748b",
-  warning: "#f59e0b",
+  warning: "var(--energy-accent)",
   alert: "#f97316",
-  critical: "#ef4444",
-  celebration: "#22c55e",
+  critical: "var(--energy-error)",
+  celebration: "var(--energy-success)",
 };
 
 const SEVERITY_ICONS = {

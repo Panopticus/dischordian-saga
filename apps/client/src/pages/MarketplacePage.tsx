@@ -19,18 +19,18 @@ import LivingBackground from "@/components/LivingBackground";
 type CardData = (typeof season1Cards)[number];
 
 const RARITY_COLORS: Record<string, string> = {
-  Common: "text-muted-foreground border-gray-500/30",
-  Uncommon: "text-green-400 border-green-500/30",
-  Rare: "text-blue-400 border-blue-500/30",
-  Epic: "text-purple-400 border-purple-500/30",
-  Legendary: "text-amber-400 border-amber-500/30",
+  Common: "text-muted-foreground void-border",
+  Uncommon: "void-text-energy void-border-success",
+  Rare: "void-text-energy void-border",
+  Epic: "void-text-system void-border-system",
+  Legendary: "void-text-accent void-border",
 };
 const RARITY_BG: Record<string, string> = {
-  Common: "bg-gray-500/10",
-  Uncommon: "bg-green-500/10",
-  Rare: "bg-blue-500/10",
-  Epic: "bg-purple-500/10",
-  Legendary: "bg-amber-500/10",
+  Common: "void-bg-canvas",
+  Uncommon: "void-bg-success",
+  Rare: "void-bg-sunk",
+  Epic: "void-bg-system",
+  Legendary: "void-bg-sunk",
 };
 
 type Tab = "browse" | "auctions" | "buy_orders" | "exchange" | "my_listings" | "history";
@@ -58,7 +58,7 @@ export default function MarketplacePage() {
   if (authLoading) {
     return (
       <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
-      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/MKT-001_marketplace.jpg" accent="#f59e0b" opacity={0.13} particleCount={4} scanlines={false} />
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/MKT-001_marketplace.jpg" accent="var(--energy-accent)" opacity={0.13} particleCount={4} scanlines={false} />
         <Loader2 className="animate-spin text-primary" size={32} />
       </div>
     );
@@ -1105,7 +1105,7 @@ function HistoryTab() {
                   <div>
                     <p className="font-mono text-sm font-semibold">{tx.itemName}</p>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className={`font-mono text-[10px] px-1.5 py-0.5 rounded ${isSeller ? "bg-green-500/10 text-green-400" : "bg-blue-500/10 text-blue-400"}`}>
+                      <span className={`font-mono text-[10px] px-1.5 py-0.5 rounded ${isSeller ? "void-bg-success void-text-energy" : "void-bg-sunk void-text-energy"}`}>
                         {isSeller ? "SOLD" : "BOUGHT"}
                       </span>
                       <span className="font-mono text-[10px] text-muted-foreground">x{tx.quantity}</span>
@@ -1113,12 +1113,12 @@ function HistoryTab() {
                   </div>
                   <div className="text-right">
                     {tx.priceDream > 0 && (
-                      <p className={`font-mono text-sm font-bold ${isSeller ? "text-green-400" : "text-destructive"}`}>
+                      <p className={`font-mono text-sm font-bold ${isSeller ? "void-text-energy" : "text-destructive"}`}>
                         {isSeller ? "+" : "-"}{tx.priceDream * tx.quantity} ✦
                       </p>
                     )}
                     {tx.priceCredits > 0 && (
-                      <p className={`font-mono text-sm font-bold ${isSeller ? "text-green-400" : "text-destructive"}`}>
+                      <p className={`font-mono text-sm font-bold ${isSeller ? "void-text-energy" : "text-destructive"}`}>
                         {isSeller ? "+" : "-"}{tx.priceCredits * tx.quantity} CR
                       </p>
                     )}

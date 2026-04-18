@@ -23,8 +23,8 @@ const ROOM_THEMES = [
     name: "Void Chamber",
     description: "A dark, minimalist display against the endless void",
     bg: "bg-gradient-to-b from-[#0a0a0f] to-[#0d0d15]",
-    accent: "border-cyan-500/20",
-    glow: "shadow-[0_0_30px_rgba(34,211,238,0.05)]",
+    accent: "void-border-success",
+    glow: "shadow-[0_0_30px_color-mix(in oklch, var(--energy-primary) 5%, transparent)]",
     unlocked: true,
   },
   {
@@ -32,8 +32,8 @@ const ROOM_THEMES = [
     name: "Neon Gallery",
     description: "Pulsing neon lights illuminate your finest cards",
     bg: "bg-gradient-to-b from-[#0a0510] to-[#100520]",
-    accent: "border-purple-500/30",
-    glow: "shadow-[0_0_30px_rgba(168,85,247,0.1)]",
+    accent: "void-border-system",
+    glow: "shadow-[0_0_30px_color-mix(in oklch, var(--energy-system) 10%, transparent)]",
     unlocked: true,
   },
   {
@@ -41,8 +41,8 @@ const ROOM_THEMES = [
     name: "Golden Vault",
     description: "A prestigious display worthy of legendary cards",
     bg: "bg-gradient-to-b from-[#151005] to-[#0f0d05]",
-    accent: "border-amber-500/30",
-    glow: "shadow-[0_0_30px_rgba(245,158,11,0.1)]",
+    accent: "void-border",
+    glow: "shadow-[0_0_30px_color-mix(in oklch, var(--energy-accent) 10%, transparent)]",
     unlocked: false,
     requirement: "Collect 10 Legendary cards",
   },
@@ -51,8 +51,8 @@ const ROOM_THEMES = [
     name: "Inferno Shrine",
     description: "Flames dance around your battle-hardened collection",
     bg: "bg-gradient-to-b from-[#150505] to-[#100505]",
-    accent: "border-red-500/30",
-    glow: "shadow-[0_0_30px_rgba(239,68,68,0.1)]",
+    accent: "void-border-error",
+    glow: "shadow-[0_0_30px_color-mix(in oklch, var(--energy-error) 10%, transparent)]",
     unlocked: false,
     requirement: "Win 50 card game matches",
   },
@@ -61,7 +61,7 @@ const ROOM_THEMES = [
     name: "Crystal Sanctum",
     description: "Prismatic crystals refract light across your cards",
     bg: "bg-gradient-to-b from-[#050f15] to-[#050a10]",
-    accent: "border-teal-500/30",
+    accent: "void-border-success",
     glow: "shadow-[0_0_30px_rgba(20,184,166,0.1)]",
     unlocked: false,
     requirement: "Complete Season 1 collection",
@@ -71,7 +71,7 @@ const ROOM_THEMES = [
     name: "Neyon Throne Room",
     description: "The ultimate display — reserved for Neyon collectors",
     bg: "bg-gradient-to-b from-[#0f0a15] to-[#0a0510]",
-    accent: "border-pink-500/40",
+    accent: "void-border-error",
     glow: "shadow-[0_0_40px_rgba(236,72,153,0.15)]",
     unlocked: false,
     requirement: "Own all 10 Neyon cards",
@@ -119,7 +119,7 @@ export default function TrophyRoomPage() {
 
   return (
     <div className={`min-h-screen ${activeTheme.bg} transition-colors duration-700 relative overflow-hidden`}>
-      <LivingBackground src="/art/rooms/room-trophy-room.png" accent="#f59e0b" opacity={0.15} particleCount={6} scanlines={false} />
+      <LivingBackground src="/art/rooms/room-trophy-room.png" accent="var(--energy-accent)" opacity={0.15} particleCount={6} scanlines={false} />
       <div className="relative z-10">
       {/* Header */}
       <div className="border-b border-border/20 bg-muted/50 backdrop-blur-sm">
@@ -131,7 +131,7 @@ export default function TrophyRoomPage() {
               </Link>
               <div>
                 <h1 className="font-display text-lg font-bold tracking-wider text-foreground flex items-center gap-2">
-                  <Trophy size={18} className="text-amber-400" />
+                  <Trophy size={18} className="void-text-accent" />
                   TROPHY ROOM
                 </h1>
                 <p className="font-mono text-[10px] text-muted-foreground tracking-wider">
@@ -214,9 +214,9 @@ export default function TrophyRoomPage() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
           {[
             { label: "TOTAL CARDS", value: topCards?.total ?? 0, icon: Package, color: "text-primary" },
-            { label: "LEGENDARY", value: rarityStats?.total ?? 0, icon: Crown, color: "text-amber-400" },
-            { label: "NEYON", value: neyonCards?.total ?? 0, icon: Sparkles, color: "text-pink-400" },
-            { label: "THEMES", value: ROOM_THEMES.filter(t => t.unlocked).length, icon: Palette, color: "text-purple-400" },
+            { label: "LEGENDARY", value: rarityStats?.total ?? 0, icon: Crown, color: "void-text-accent" },
+            { label: "NEYON", value: neyonCards?.total ?? 0, icon: Sparkles, color: "void-text-error" },
+            { label: "THEMES", value: ROOM_THEMES.filter(t => t.unlocked).length, icon: Palette, color: "void-text-system" },
           ].map((stat) => {
             const Icon = stat.icon;
             return (
@@ -235,7 +235,7 @@ export default function TrophyRoomPage() {
         {/* Featured display - Neyon cards */}
         {neyonCards && neyonCards.cards.length > 0 && (
           <div className="mb-8">
-            <h2 className="font-display text-sm font-bold tracking-wider text-pink-400 mb-4 flex items-center gap-2">
+            <h2 className="font-display text-sm font-bold tracking-wider void-text-error mb-4 flex items-center gap-2">
               <Sparkles size={14} />
               NEYON COLLECTION
             </h2>
@@ -263,7 +263,7 @@ export default function TrophyRoomPage() {
         {/* Main card display grid */}
         <div className="mb-6">
           <h2 className="font-display text-sm font-bold tracking-wider text-foreground mb-4 flex items-center gap-2">
-            <Trophy size={14} className="text-amber-400" />
+            <Trophy size={14} className="void-text-accent" />
             TOP CARDS
           </h2>
           <div
@@ -292,8 +292,8 @@ export default function TrophyRoomPage() {
       {/* ═══ ACHIEVEMENT CHAINS ═══ */}
       <div className="max-w-4xl mx-auto px-4 mt-8 mb-6">
         <div className="flex items-center gap-2 mb-4">
-          <Star size={14} className="text-amber-400" />
-          <h2 className="font-display text-sm font-bold tracking-[0.2em] text-amber-400">ACHIEVEMENT CHAINS</h2>
+          <Star size={14} className="void-text-accent" />
+          <h2 className="font-display text-sm font-bold tracking-[0.2em] void-text-accent">ACHIEVEMENT CHAINS</h2>
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
           {Object.values(ACHIEVEMENT_CHAINS).map((chain: AchievementChain) => {
@@ -327,13 +327,13 @@ export default function TrophyRoomPage() {
               <div
                 key={chain.id}
                 className={`p-3 rounded-lg border transition-all ${
-                  done ? "border-amber-400/40 bg-amber-500/5" : "border-white/5 bg-white/[0.02]"
+                  done ? "void-border void-bg-sunk" : "border-white/5 bg-white/[0.02]"
                 }`}
               >
                 <div className="flex items-start gap-2 mb-2">
                   <span className="text-lg">{chain.icon}</span>
                   <div className="flex-1 min-w-0">
-                    <p className={`font-mono text-xs font-bold ${done ? "text-amber-400" : "text-white/70"}`}>
+                    <p className={`font-mono text-xs font-bold ${done ? "void-text-accent" : "text-white/70"}`}>
                       {chain.name}
                     </p>
                     <p className="font-mono text-[9px] text-white/30 mt-0.5">{chain.description}</p>
@@ -341,11 +341,11 @@ export default function TrophyRoomPage() {
                 </div>
                 <div className="flex items-center gap-2 mb-1.5">
                   <div className="flex-1 h-1 rounded-full bg-white/5 overflow-hidden">
-                    <div className="h-full rounded-full bg-amber-400 transition-all" style={{ width: `${percent}%` }} />
+                    <div className="h-full rounded-full void-bg-sunk transition-all" style={{ width: `${percent}%` }} />
                   </div>
                   <span className="font-mono text-[8px] text-white/20">{completedCount}/{total}</span>
                 </div>
-                <p className="font-mono text-[8px] text-amber-400/50">
+                <p className="font-mono text-[8px] void-text-accent">
                   Reward: {chain.reward.name}
                 </p>
               </div>

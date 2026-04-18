@@ -94,10 +94,10 @@ export const STARTER_FIGHTERS: FighterData[] = [
       damage: 35,
       description: "Rewrites reality itself, dealing massive damage",
       cooldown: 300,
-      color: "#ef4444",
+      color: "var(--energy-error)",
     },
     combos: ["Thought Virus", "Neural Overload", "Code Injection"],
-    color: "#ef4444",
+    color: "var(--energy-error)",
     frameProfile: { archetype: "zoner", walkSpeedMult: 0.95, dashSpeedMult: 0.9, jumpForceMult: 1.0, lightStartup: 6, lightRecovery: 9, mediumStartup: 10, mediumRecovery: 16, heavyStartup: 10, heavyRecovery: 24, damageMult: 0.95, hitstunMult: 1.0, pushbackMult: 1.1, rangeMult: 1.2, meterGainMult: 1.1, maxComboHits: 10 },
   },
   {
@@ -140,10 +140,10 @@ export const STARTER_FIGHTERS: FighterData[] = [
       damage: 32,
       description: "Breaks the rules of combat with chaotic energy",
       cooldown: 250,
-      color: "#22d3ee",
+      color: "var(--energy-primary)",
     },
     combos: ["Cipher Strike", "Paradox Kick", "Entropy Wave"],
-    color: "#22d3ee",
+    color: "var(--energy-primary)",
     frameProfile: { archetype: "rushdown", walkSpeedMult: 1.2, dashSpeedMult: 1.15, jumpForceMult: 1.1, lightStartup: 3, lightRecovery: 6, mediumStartup: 7, mediumRecovery: 13, heavyStartup: 7, heavyRecovery: 20, damageMult: 0.9, hitstunMult: 0.95, pushbackMult: 0.85, rangeMult: 0.95, meterGainMult: 1.1, maxComboHits: 14 },
   },
   {
@@ -163,10 +163,10 @@ export const STARTER_FIGHTERS: FighterData[] = [
       damage: 28,
       description: "Unleashes a devastating swarm of nanobots",
       cooldown: 260,
-      color: "#f59e0b",
+      color: "var(--energy-accent)",
     },
     combos: ["War Hammer", "Tactical Strike", "Swarm Rush"],
-    color: "#f59e0b",
+    color: "var(--energy-accent)",
     frameProfile: { archetype: "powerhouse", walkSpeedMult: 0.8, dashSpeedMult: 0.85, jumpForceMult: 0.9, lightStartup: 7, lightRecovery: 11, mediumStartup: 11, mediumRecovery: 18, heavyStartup: 9, heavyRecovery: 24, damageMult: 1.25, hitstunMult: 1.1, pushbackMult: 1.3, rangeMult: 1.05, meterGainMult: 0.9, maxComboHits: 8 },
   },
   {
@@ -545,8 +545,8 @@ export const UNLOCKABLE_FIGHTERS: FighterData[] = [
     id: "eyes", loredexId: "entity_22", name: "The Eyes", title: "The Spy — Synthetic Protege of the Watcher",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/015_the_eyes_21e946fa.png",
     faction: "empire", locked: true, unlockCost: 900, hp: 85, attack: 8, defense: 5, speed: 10,
-    special: { name: "ALL-SEEING STRIKE", damage: 30, description: "Sees every weakness and exploits them all at once", cooldown: 240, color: "#22d3ee" },
-    combos: ["Spy Kick", "Lens Flare", "Stealth Strike"], color: "#22d3ee",
+    special: { name: "ALL-SEEING STRIKE", damage: 30, description: "Sees every weakness and exploits them all at once", cooldown: 240, color: "var(--energy-primary)" },
+    combos: ["Spy Kick", "Lens Flare", "Stealth Strike"], color: "var(--energy-primary)",
     frameProfile: { archetype: "rushdown", walkSpeedMult: 1.25, dashSpeedMult: 1.2, jumpForceMult: 1.1, lightStartup: 3, lightRecovery: 5, mediumStartup: 7, mediumRecovery: 12, heavyStartup: 7, heavyRecovery: 19, damageMult: 0.85, hitstunMult: 0.9, pushbackMult: 0.8, rangeMult: 0.85, meterGainMult: 1.15, maxComboHits: 15 },
   },
   {
@@ -685,7 +685,7 @@ export const ARENAS: ArenaData[] = [
     name: "The Panopticon",
     bgGradient: "linear-gradient(180deg, #0f0f0f 0%, #1a0000 40%, #3d0000 70%, #1a0000 100%)",
     floorColor: "#1c1917",
-    ambientColor: "#ef4444",
+    ambientColor: "var(--energy-error)",
     backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/panopticon_bg-gApTAVKfeK2mH2t2EjSnXa.webp",
   },
   {
@@ -709,7 +709,7 @@ export const ARENAS: ArenaData[] = [
     name: "Mechronis Academy",
     bgGradient: "linear-gradient(180deg, #0a1a0a 0%, #1a2a1a 40%, #2a3a2a 70%, #0a1a0a 100%)",
     floorColor: "#1a2e1a",
-    ambientColor: "#22c55e",
+    ambientColor: "var(--energy-success)",
     backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/mechronis_bg-CYQGpJMy45LhszadcxaySY.webp",
   },
   {
@@ -741,7 +741,7 @@ export const ARENAS: ArenaData[] = [
     name: "The Ranked Table",
     bgGradient: "linear-gradient(180deg, #030310 0%, #0a0a2e 30%, #0d1033 50%, #0a0a2e 70%, #030310 100%)",
     floorColor: "#0a0a2e",
-    ambientColor: "#33E2E6",
+    ambientColor: "var(--energy-primary)",
     backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775669323/PVP-001_THE_RANKED_TABLE_rkljqj.jpg",
   },
   {
@@ -749,7 +749,7 @@ export const ARENAS: ArenaData[] = [
     name: "The Tournament Hall",
     bgGradient: "linear-gradient(180deg, #0a0508 0%, #1a0a14 30%, #2d0f1f 50%, #1a0a14 70%, #0a0508 100%)",
     floorColor: "#1a0a14",
-    ambientColor: "#f59e0b",
+    ambientColor: "var(--energy-accent)",
     backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775669326/PVP-002_THE_TOURNAMENT_HALL_mytr5n.jpg",
   },
   {
@@ -766,7 +766,7 @@ export const ARENAS: ArenaData[] = [
     name: "The Watcher's Panopticon",
     bgGradient: "linear-gradient(180deg, #0a0a0a 0%, #1a0a00 30%, #2d1500 50%, #1a0a00 70%, #0a0a0a 100%)",
     floorColor: "#1a0a00",
-    ambientColor: "#f59e0b",
+    ambientColor: "var(--energy-accent)",
     backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775675934/BB-001_THE_WATCHERS_PANOPTICON_ep9jye.jpg",
   },
   {
@@ -774,7 +774,7 @@ export const ARENAS: ArenaData[] = [
     name: "The Architect's Throne Room",
     bgGradient: "linear-gradient(180deg, #0a0000 0%, #1a0000 30%, #3d0000 50%, #1a0000 70%, #0a0000 100%)",
     floorColor: "#1a0000",
-    ambientColor: "#ef4444",
+    ambientColor: "var(--energy-error)",
     backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775675932/BB-002_THE_ARCHITECTS_THRONE_ROOM_fypjip.jpg",
   },
   {
@@ -782,7 +782,7 @@ export const ARENAS: ArenaData[] = [
     name: "Castle of Death Throne Hall",
     bgGradient: "linear-gradient(180deg, #000a04 0%, #001a0a 30%, #003d14 50%, #001a0a 70%, #000a04 100%)",
     floorColor: "#001a0a",
-    ambientColor: "#22c55e",
+    ambientColor: "var(--energy-success)",
     backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775675930/BB-003_CASTLE_OF_DEATH_THRONE_HALL_utwvu9.jpg",
   },
   {

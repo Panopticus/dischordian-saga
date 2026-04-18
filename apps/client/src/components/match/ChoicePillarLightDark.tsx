@@ -79,7 +79,7 @@ export function ChoicePillarLightDark({
     >
       {/* Caption above the pillars — quiet instruction, not a prompt */}
       <div className="absolute top-[18%] left-1/2 -translate-x-1/2 text-center">
-        <p className="font-serif text-sm uppercase tracking-[0.4em] text-stone-300/60">
+        <p className="font-serif text-sm uppercase tracking-[0.4em] void-text-dim">
           The last words
         </p>
       </div>
@@ -93,27 +93,27 @@ export function ChoicePillarLightDark({
           onClick={() => handlePick("light")}
           className={
             "group relative flex-col flex w-64 h-[60vh] px-6 py-10 " +
-            "border border-amber-200/30 bg-gradient-to-b from-amber-100/10 via-amber-200/5 to-amber-50/10 " +
+            "border void-border bg-gradient-to-b from-amber-100/10 via-amber-200/5 to-amber-50/10 " +
             "transition-all duration-500 " +
             (picked === "light"
-              ? "border-amber-100/80 shadow-[0_0_40px_rgba(255,220,130,0.5)] scale-[1.02]"
+              ? "void-border shadow-[0_0_40px_rgba(255,220,130,0.5)] scale-[1.02]"
               : picked !== null
                 ? "opacity-30"
-                : "hover:border-amber-100/60 hover:shadow-[0_0_24px_rgba(255,220,130,0.3)] cursor-pointer")
+                : "void-border hover:shadow-[0_0_24px_rgba(255,220,130,0.3)] cursor-pointer")
           }
         >
           <div className="flex-1 flex items-start justify-center pt-4">
-            <span className="font-serif text-4xl tracking-[0.2em] text-amber-100">
+            <span className="font-serif text-4xl tracking-[0.2em] void-text-accent">
               LIGHT
             </span>
           </div>
-          <p className="font-serif text-[11px] text-amber-100/70 leading-relaxed text-center mt-auto">
+          <p className="font-serif text-[11px] void-text-accent leading-relaxed text-center mt-auto">
             {subtitles.light}
           </p>
         </button>
 
         {/* Separator — thin brass rule */}
-        <div className="w-px bg-amber-600/30" />
+        <div className="w-px void-bg-sunk" />
 
         {/* Dark pillar */}
         <button
@@ -123,21 +123,21 @@ export function ChoicePillarLightDark({
           onClick={() => handlePick("dark")}
           className={
             "group relative flex-col flex w-64 h-[60vh] px-6 py-10 " +
-            "border border-stone-700/60 bg-gradient-to-b from-stone-900/80 via-black/90 to-stone-950/95 " +
+            "border void-border bg-gradient-to-b from-stone-900/80 via-black/90 to-stone-950/95 " +
             "transition-all duration-500 " +
             (picked === "dark"
-              ? "border-stone-300/80 shadow-[0_0_40px_rgba(0,0,0,0.9)] scale-[1.02]"
+              ? "void-border shadow-[0_0_40px_color-mix(in oklch, var(--bg-void) 90%, transparent)] scale-[1.02]"
               : picked !== null
                 ? "opacity-30"
-                : "hover:border-stone-300/40 hover:shadow-[0_0_24px_rgba(40,40,50,0.8)] cursor-pointer")
+                : "void-border hover:shadow-[0_0_24px_rgba(40,40,50,0.8)] cursor-pointer")
           }
         >
           <div className="flex-1 flex items-start justify-center pt-4">
-            <span className="font-serif text-4xl tracking-[0.2em] text-stone-200">
+            <span className="font-serif text-4xl tracking-[0.2em] void-text">
               DARK
             </span>
           </div>
-          <p className="font-serif text-[11px] text-stone-300/70 leading-relaxed text-center mt-auto">
+          <p className="font-serif text-[11px] void-text-dim leading-relaxed text-center mt-auto">
             {subtitles.dark}
           </p>
         </button>

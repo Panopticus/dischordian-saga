@@ -16,9 +16,9 @@ const CENTER = MAP_SIZE / 2;
 const GOLDEN_ANGLE = 137.508;
 
 const FACTION_COLORS = {
-  empire: { primary: "#ef4444", bg: "rgba(239,68,68,0.15)", glow: "rgba(239,68,68,0.4)", text: "text-red-400" },
-  insurgency: { primary: "#3b82f6", bg: "rgba(59,130,246,0.15)", glow: "rgba(59,130,246,0.4)", text: "text-blue-400" },
-  contested: { primary: "#a855f7", bg: "rgba(168,85,247,0.15)", glow: "rgba(168,85,247,0.3)", text: "text-purple-400" },
+  empire: { primary: "var(--energy-error)", bg: "color-mix(in oklch, var(--energy-error) 15%, transparent)", glow: "color-mix(in oklch, var(--energy-error) 40%, transparent)", text: "void-text-error" },
+  insurgency: { primary: "#3b82f6", bg: "color-mix(in oklch, var(--electric-blue) 15%, transparent)", glow: "color-mix(in oklch, var(--electric-blue) 40%, transparent)", text: "void-text-energy" },
+  contested: { primary: "#a855f7", bg: "color-mix(in oklch, var(--energy-system) 15%, transparent)", glow: "color-mix(in oklch, var(--energy-system) 30%, transparent)", text: "void-text-system" },
 };
 
 function sectorPosition(sectorId: number) {
@@ -157,7 +157,7 @@ export default function WarMapPage() {
               <span className="font-mono text-[10px] text-muted-foreground tracking-wider">
                 SEASON {season.number}: {season.name.toUpperCase()}
               </span>
-              <span className={`font-mono text-xs ${playerFaction === "empire" ? "text-red-400" : "text-blue-400"}`}>
+              <span className={`font-mono text-xs ${playerFaction === "empire" ? "void-text-error" : "void-text-energy"}`}>
                 YOUR FACTION: {playerFaction === "empire" ? "THE ARCHITECT'S EMPIRE" : "THE DREAMER'S INSURGENCY"}
               </span>
             </div>
@@ -176,7 +176,7 @@ export default function WarMapPage() {
                 <span className="font-mono text-[10px] font-bold text-foreground drop-shadow-lg flex items-center gap-1">
                   <Shield size={10} /> EMPIRE {empirePercent}%
                 </span>
-                <span className="font-mono text-[10px] text-purple-300">
+                <span className="font-mono text-[10px] void-text-system">
                   {factionTotals.contested} CONTESTED
                 </span>
                 <span className="font-mono text-[10px] font-bold text-foreground drop-shadow-lg flex items-center gap-1">
@@ -207,7 +207,7 @@ export default function WarMapPage() {
             {/* Background grid */}
             <defs>
               <pattern id="warGrid" width="50" height="50" patternUnits="userSpaceOnUse">
-                <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5" />
+                <path d="M 50 0 L 0 0 0 50" fill="none" stroke="color-mix(in oklch, var(--text-primary) 3%, transparent)" strokeWidth="0.5" />
               </pattern>
               <filter id="warGlow">
                 <feGaussianBlur stdDeviation="3" result="blur" />
@@ -219,7 +219,7 @@ export default function WarMapPage() {
               {/* Territory glow filters */}
               <filter id="empireGlow">
                 <feGaussianBlur stdDeviation="6" result="blur" />
-                <feFlood floodColor="#ef4444" floodOpacity="0.4" result="color" />
+                <feFlood floodColor="var(--energy-error)" floodOpacity="0.4" result="color" />
                 <feComposite in="color" in2="blur" operator="in" result="shadow" />
                 <feMerge><feMergeNode in="shadow" /><feMergeNode in="SourceGraphic" /></feMerge>
               </filter>
@@ -305,16 +305,16 @@ export default function WarMapPage() {
           <div className="absolute bottom-3 left-3 bg-card/80 backdrop-blur-sm border border-border/30 rounded-lg p-3 space-y-1.5">
             <p className="font-mono text-[9px] text-muted-foreground tracking-wider mb-2">TERRITORY LEGEND</p>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500" />
-              <span className="font-mono text-[10px] text-red-400">Empire</span>
+              <div className="w-3 h-3 rounded-full void-bg-error" />
+              <span className="font-mono text-[10px] void-text-error">Empire</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-blue-500" />
-              <span className="font-mono text-[10px] text-blue-400">Insurgency</span>
+              <div className="w-3 h-3 rounded-full void-bg-sunk" />
+              <span className="font-mono text-[10px] void-text-energy">Insurgency</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-purple-500 opacity-40" />
-              <span className="font-mono text-[10px] text-purple-400">Contested</span>
+              <div className="w-3 h-3 rounded-full void-bg-system opacity-40" />
+              <span className="font-mono text-[10px] void-text-system">Contested</span>
             </div>
           </div>
         </div>
@@ -351,10 +351,10 @@ export default function WarMapPage() {
                     <h3 className="font-display text-sm font-bold">{selectedTerritory.sectorName}</h3>
                     <span className={`font-mono text-[10px] px-2 py-0.5 rounded ${
                       selectedTerritory.faction === "empire"
-                        ? "bg-red-500/20 text-red-400"
+                        ? "void-bg-error void-text-error"
                         : selectedTerritory.faction === "insurgency"
-                        ? "bg-blue-500/20 text-blue-400"
-                        : "bg-purple-500/20 text-purple-400"
+                        ? "void-bg-sunk void-text-energy"
+                        : "void-bg-system void-text-system"
                     }`}>
                       {selectedTerritory.faction?.toUpperCase() || "CONTESTED"}
                     </span>
@@ -377,9 +377,9 @@ export default function WarMapPage() {
                     <div className="h-2 rounded-full bg-secondary/50 overflow-hidden">
                       <div
                         className={`h-full transition-all duration-500 ${
-                          selectedTerritory.faction === "empire" ? "bg-red-500" :
-                          selectedTerritory.faction === "insurgency" ? "bg-blue-500" :
-                          "bg-purple-500"
+                          selectedTerritory.faction === "empire" ? "void-bg-error" :
+                          selectedTerritory.faction === "insurgency" ? "void-bg-sunk" :
+                          "void-bg-system"
                         }`}
                         style={{ width: `${selectedTerritory.controlPoints}%` }}
                       />
@@ -448,12 +448,12 @@ export default function WarMapPage() {
               </h3>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <p className="font-mono text-[9px] text-red-400 mb-1">EMPIRE</p>
+                  <p className="font-mono text-[9px] void-text-error mb-1">EMPIRE</p>
                   {warData.leaderboard.empire.length > 0 ? (
                     warData.leaderboard.empire.map((e, i) => (
                       <div key={i} className="flex items-center justify-between font-mono text-[10px] py-0.5">
                         <span className="text-muted-foreground">#{i + 1}</span>
-                        <span className="text-red-400">{e.points} pts</span>
+                        <span className="void-text-error">{e.points} pts</span>
                       </div>
                     ))
                   ) : (
@@ -461,12 +461,12 @@ export default function WarMapPage() {
                   )}
                 </div>
                 <div>
-                  <p className="font-mono text-[9px] text-blue-400 mb-1">INSURGENCY</p>
+                  <p className="font-mono text-[9px] void-text-energy mb-1">INSURGENCY</p>
                   {warData.leaderboard.insurgency.length > 0 ? (
                     warData.leaderboard.insurgency.map((e, i) => (
                       <div key={i} className="flex items-center justify-between font-mono text-[10px] py-0.5">
                         <span className="text-muted-foreground">#{i + 1}</span>
-                        <span className="text-blue-400">{e.points} pts</span>
+                        <span className="void-text-energy">{e.points} pts</span>
                       </div>
                     ))
                   ) : (
@@ -493,7 +493,7 @@ export default function WarMapPage() {
                       {seasonHistory.map((s, i) => (
                         <div key={i} className="flex items-center justify-between font-mono text-[10px] py-1 border-b border-border/10 last:border-0">
                           <span className="text-muted-foreground">S{s.number}: {s.name}</span>
-                          <span className={s.winner === "empire" ? "text-red-400" : "text-blue-400"}>
+                          <span className={s.winner === "empire" ? "void-text-error" : "void-text-energy"}>
                             {s.winner === "empire" ? "EMPIRE" : "INSURGENCY"} WON
                           </span>
                         </div>

@@ -32,7 +32,7 @@ export function AmberCounterGlyph({ active, count = 1, className = "" }: AmberCo
         alignItems: "center",
         justifyContent: "center",
         padding: "0 6px",
-        boxShadow: "0 0 8px #fbbf24, 0 0 16px rgba(251, 191, 36, 0.3)",
+        boxShadow: "0 0 8px #fbbf24, 0 0 16px color-mix(in oklch, var(--energy-premium) 30%, transparent)",
         pointerEvents: "none",
       }}
     >

@@ -84,8 +84,8 @@ export default function FactionWarPage() {
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-md bg-red-500/10 border border-red-500/30">
-            <Swords size={18} className="text-red-400" />
+          <div className="p-2 rounded-md void-bg-error border void-border-error">
+            <Swords size={18} className="void-text-error" />
           </div>
           <div>
             <h1 className="font-display text-lg font-bold tracking-wider">FACTION WARS</h1>
@@ -95,10 +95,10 @@ export default function FactionWarPage() {
 
         {/* War History Banner */}
         {fw.warHistory.length > 0 && phase === "lobby" && (
-          <div className="void-surface border-amber-500/20 p-3">
+          <div className="void-surface void-border p-3">
             <div className="flex items-center gap-2 mb-2">
-              <Trophy size={14} className="text-amber-400" />
-              <span className="font-mono text-xs font-bold text-amber-400">WAR RECORD</span>
+              <Trophy size={14} className="void-text-accent" />
+              <span className="font-mono text-xs font-bold void-text-accent">WAR RECORD</span>
             </div>
             <div className="grid grid-cols-3 gap-2">
               {fw.warHistory.map((h, i) => {
@@ -106,7 +106,7 @@ export default function FactionWarPage() {
                 return (
                   <div key={i} className="rounded-md bg-card/30 border border-border/20 p-2">
                     <p className="font-mono text-[10px] text-muted-foreground truncate">{war?.name || h.warId}</p>
-                    <p className={`font-mono text-xs font-bold ${h.winner === "empire" ? "text-blue-400" : h.winner === "insurgency" ? "text-red-400" : "text-muted-foreground"}`}>
+                    <p className={`font-mono text-xs font-bold ${h.winner === "empire" ? "void-text-energy" : h.winner === "insurgency" ? "void-text-error" : "text-muted-foreground"}`}>
                       {h.winner.toUpperCase()}
                     </p>
                   </div>
@@ -118,10 +118,10 @@ export default function FactionWarPage() {
 
         {/* Active Exclusive Routes */}
         {fw.activeExclusiveRoutes.length > 0 && phase === "lobby" && (
-          <div className="void-surface border-green-500/20 p-3">
+          <div className="void-surface void-border-success p-3">
             <div className="flex items-center gap-2 mb-2">
-              <Map size={14} className="text-green-400" />
-              <span className="font-mono text-xs font-bold text-green-400">ACTIVE EXCLUSIVE ROUTES</span>
+              <Map size={14} className="void-text-energy" />
+              <span className="font-mono text-xs font-bold void-text-energy">ACTIVE EXCLUSIVE ROUTES</span>
             </div>
             {fw.activeExclusiveRoutes.map(r => (
               <div key={r.routeId} className="flex items-center justify-between font-mono text-xs">
@@ -142,7 +142,7 @@ export default function FactionWarPage() {
             {/* Available Wars */}
             <div className="void-surface p-4">
               <h2 className="font-display text-sm font-bold tracking-wider mb-4 flex items-center gap-2">
-                <AlertTriangle size={14} className="text-amber-400" />
+                <AlertTriangle size={14} className="void-text-accent" />
                 AVAILABLE CONFLICTS
               </h2>
 
@@ -158,7 +158,7 @@ export default function FactionWarPage() {
                       isAvailable
                         ? "border-border/40 bg-card/20 hover:border-primary/30 cursor-pointer"
                         : isCompleted
-                        ? "border-green-500/20 bg-green-500/5 opacity-60"
+                        ? "void-border-success void-bg-success opacity-60"
                         : "border-border/20 bg-card/10 opacity-40"
                     }`}
                     onClick={() => {
@@ -173,7 +173,7 @@ export default function FactionWarPage() {
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
                           <span className="font-display text-sm font-bold" style={{ color: war.color }}>{war.name}</span>
-                          {isCompleted && <span className="font-mono text-[9px] text-green-400 bg-green-500/20 px-1.5 py-0.5 rounded">COMPLETED</span>}
+                          {isCompleted && <span className="font-mono text-[9px] void-text-energy void-bg-success px-1.5 py-0.5 rounded">COMPLETED</span>}
                           {isLocked && <span className="font-mono text-[9px] text-muted-foreground bg-secondary/30 px-1.5 py-0.5 rounded">LVL {war.minLevel}+</span>}
                         </div>
                         <p className="font-mono text-[10px] text-muted-foreground mt-1 line-clamp-2">{war.description}</p>
@@ -191,8 +191,8 @@ export default function FactionWarPage() {
 
               {!nextWar && fw.completedWars.length === FACTION_WAR_EVENTS.length && (
                 <div className="text-center py-8">
-                  <Crown size={32} className="text-amber-400 mx-auto mb-3" />
-                  <p className="font-display text-sm font-bold text-amber-400">ALL WARS COMPLETED</p>
+                  <Crown size={32} className="void-text-accent mx-auto mb-3" />
+                  <p className="font-display text-sm font-bold void-text-accent">ALL WARS COMPLETED</p>
                   <p className="font-mono text-xs text-muted-foreground mt-1">You have shaped the fate of the galaxy.</p>
                 </div>
               )}
@@ -208,7 +208,7 @@ export default function FactionWarPage() {
             className="space-y-4"
           >
             {/* War Briefing */}
-            <div className="void-surface border-amber-500/30 p-5">
+            <div className="void-surface void-border p-5">
               <div className="flex items-center gap-2 mb-4">
                 <span className="text-2xl">{selectedWar.icon}</span>
                 <div>
@@ -217,14 +217,14 @@ export default function FactionWarPage() {
                 </div>
               </div>
 
-              <div className="rounded-md bg-black/30 border border-amber-500/20 p-4 mb-4 font-mono text-xs text-foreground/80 whitespace-pre-line leading-relaxed">
+              <div className="rounded-md bg-black/30 border void-border p-4 mb-4 font-mono text-xs text-foreground/80 whitespace-pre-line leading-relaxed">
                 {selectedWar.narratives.start}
               </div>
 
               {/* Contested Sectors */}
               <div className="flex flex-wrap gap-2 mb-4">
                 {selectedWar.contestedSectors.map(s => (
-                  <span key={s} className="font-mono text-[9px] px-2 py-1 rounded bg-red-500/10 border border-red-500/20 text-red-400">
+                  <span key={s} className="font-mono text-[9px] px-2 py-1 rounded void-bg-error border void-border-error void-text-error">
                     {s.replace(/_/g, " ").toUpperCase()}
                   </span>
                 ))}
@@ -234,12 +234,12 @@ export default function FactionWarPage() {
               <div className="rounded-md bg-secondary/20 p-3 mb-4">
                 <p className="font-mono text-[9px] text-muted-foreground mb-2">VICTORY REWARDS</p>
                 <div className="flex flex-wrap gap-3 font-mono text-xs">
-                  <span className="text-amber-400">{selectedWar.victoryRewards.credits.toLocaleString()} CR</span>
+                  <span className="void-text-accent">{selectedWar.victoryRewards.credits.toLocaleString()} CR</span>
                   {selectedWar.victoryRewards.materials.map(m => (
-                    <span key={m.materialId} className="text-green-400">{m.quantity}x {m.materialId.replace(/_/g, " ")}</span>
+                    <span key={m.materialId} className="void-text-energy">{m.quantity}x {m.materialId.replace(/_/g, " ")}</span>
                   ))}
                   {selectedWar.victoryRewards.exclusiveRoute && (
-                    <span className="text-purple-400">+ Exclusive Trade Route</span>
+                    <span className="void-text-system">+ Exclusive Trade Route</span>
                   )}
                 </div>
               </div>
@@ -251,31 +251,31 @@ export default function FactionWarPage() {
                   onClick={() => setSelectedFaction("empire")}
                   className={`rounded-lg border p-4 text-left transition-all ${
                     selectedFaction === "empire"
-                      ? "border-blue-500/50 bg-blue-500/10 box-glow-cyan"
-                      : "border-border/30 bg-card/20 hover:border-blue-500/30"
+                      ? "void-border void-bg-sunk box-glow-cyan"
+                      : "border-border/30 bg-card/20 void-border"
                   }`}
                 >
                   <div className="flex items-center gap-2 mb-2">
-                    <Shield size={16} className="text-blue-400" />
-                    <span className="font-display text-sm font-bold text-blue-400">THE EMPIRE</span>
+                    <Shield size={16} className="void-text-energy" />
+                    <span className="font-display text-sm font-bold void-text-energy">THE EMPIRE</span>
                   </div>
                   <p className="font-mono text-[10px] text-muted-foreground">Order through strength. Control through commerce. The Empire's vision of a unified galaxy under one banner.</p>
-                  <p className="font-mono text-[9px] text-blue-400/60 mt-2">Current Rep: {state.factionReputation.empire || 0}</p>
+                  <p className="font-mono text-[9px] void-text-energy mt-2">Current Rep: {state.factionReputation.empire || 0}</p>
                 </button>
                 <button
                   onClick={() => setSelectedFaction("insurgency")}
                   className={`rounded-lg border p-4 text-left transition-all ${
                     selectedFaction === "insurgency"
-                      ? "border-red-500/50 bg-red-500/10"
-                      : "border-border/30 bg-card/20 hover:border-red-500/30"
+                      ? "void-border-error void-bg-error"
+                      : "border-border/30 bg-card/20 void-border-error"
                   }`}
                 >
                   <div className="flex items-center gap-2 mb-2">
-                    <Skull size={16} className="text-red-400" />
-                    <span className="font-display text-sm font-bold text-red-400">THE INSURGENCY</span>
+                    <Skull size={16} className="void-text-error" />
+                    <span className="font-display text-sm font-bold void-text-error">THE INSURGENCY</span>
                   </div>
                   <p className="font-mono text-[10px] text-muted-foreground">Freedom through resistance. Liberation through chaos. The Insurgency fights for a galaxy without masters.</p>
-                  <p className="font-mono text-[9px] text-red-400/60 mt-2">Current Rep: {state.factionReputation.insurgency || 0}</p>
+                  <p className="font-mono text-[9px] void-text-error mt-2">Current Rep: {state.factionReputation.insurgency || 0}</p>
                 </button>
               </div>
 
@@ -292,8 +292,8 @@ export default function FactionWarPage() {
                   className={`flex-1 py-2.5 rounded-md font-mono text-xs font-bold transition-all ${
                     selectedFaction
                       ? selectedFaction === "empire"
-                        ? "bg-blue-500/20 text-blue-400 border border-blue-500/40 hover:bg-blue-500/30"
-                        : "bg-red-500/20 text-red-400 border border-red-500/40 hover:bg-red-500/30"
+                        ? "void-bg-sunk void-text-energy border void-border void-bg-sunk"
+                        : "void-bg-error void-text-error border void-border-error void-bg-error"
                       : "bg-secondary/20 text-muted-foreground/50 border border-border/20 cursor-not-allowed"
                   }`}
                 >
@@ -313,7 +313,7 @@ export default function FactionWarPage() {
           >
             {/* War Status */}
             <div className={`rounded-lg border p-4 ${
-              fw.playerFaction === "empire" ? "border-blue-500/30 bg-blue-500/5" : "border-red-500/30 bg-red-500/5"
+              fw.playerFaction === "empire" ? "void-border void-bg-sunk" : "void-border-error void-bg-error"
             }`}>
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
@@ -348,20 +348,20 @@ export default function FactionWarPage() {
 
               {/* Faction Contributions */}
               <div className="grid grid-cols-2 gap-3 mb-4">
-                <div className={`rounded-md p-3 ${fw.playerFaction === "empire" ? "bg-blue-500/10 border border-blue-500/20" : "bg-blue-500/5 border border-border/20"}`}>
+                <div className={`rounded-md p-3 ${fw.playerFaction === "empire" ? "void-bg-sunk border void-border" : "void-bg-sunk border border-border/20"}`}>
                   <div className="flex items-center gap-1.5 mb-1">
-                    <Shield size={12} className="text-blue-400" />
-                    <span className="font-mono text-[10px] font-bold text-blue-400">EMPIRE</span>
+                    <Shield size={12} className="void-text-energy" />
+                    <span className="font-mono text-[10px] font-bold void-text-energy">EMPIRE</span>
                   </div>
-                  <p className="font-display text-lg font-bold text-blue-300">{fw.empireContribution.toLocaleString()}</p>
+                  <p className="font-display text-lg font-bold void-text-energy">{fw.empireContribution.toLocaleString()}</p>
                   <p className="font-mono text-[9px] text-muted-foreground">WAR POINTS</p>
                 </div>
-                <div className={`rounded-md p-3 ${fw.playerFaction === "insurgency" ? "bg-red-500/10 border border-red-500/20" : "bg-red-500/5 border border-border/20"}`}>
+                <div className={`rounded-md p-3 ${fw.playerFaction === "insurgency" ? "void-bg-error border void-border-error" : "void-bg-error border border-border/20"}`}>
                   <div className="flex items-center gap-1.5 mb-1">
-                    <Skull size={12} className="text-red-400" />
-                    <span className="font-mono text-[10px] font-bold text-red-400">INSURGENCY</span>
+                    <Skull size={12} className="void-text-error" />
+                    <span className="font-mono text-[10px] font-bold void-text-error">INSURGENCY</span>
                   </div>
-                  <p className="font-display text-lg font-bold text-red-300">{fw.insurgencyContribution.toLocaleString()}</p>
+                  <p className="font-display text-lg font-bold void-text-error">{fw.insurgencyContribution.toLocaleString()}</p>
                   <p className="font-mono text-[9px] text-muted-foreground">WAR POINTS</p>
                 </div>
               </div>
@@ -370,7 +370,7 @@ export default function FactionWarPage() {
               <div className="rounded-md bg-secondary/20 p-3 mb-4">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-xs text-muted-foreground">YOUR CONTRIBUTION</span>
-                  <span className="font-display text-sm font-bold text-amber-400">{fw.playerContribution.toLocaleString()} pts</span>
+                  <span className="font-display text-sm font-bold void-text-accent">{fw.playerContribution.toLocaleString()} pts</span>
                 </div>
               </div>
 
@@ -389,14 +389,14 @@ export default function FactionWarPage() {
                         onClick={() => handleContribute(opt.amount)}
                         className={`rounded-md border p-2.5 text-center transition-all hover:scale-[1.02] active:scale-95 ${
                           fw.playerFaction === "empire"
-                            ? "border-blue-500/30 bg-blue-500/5 hover:bg-blue-500/10"
-                            : "border-red-500/30 bg-red-500/5 hover:bg-red-500/10"
+                            ? "void-border void-bg-sunk void-bg-sunk"
+                            : "void-border-error void-bg-error void-bg-error"
                         } ${showContributeEffect ? "ring-2 ring-amber-400/50" : ""}`}
                       >
-                        <Zap size={14} className="mx-auto mb-1 text-amber-400" />
+                        <Zap size={14} className="mx-auto mb-1 void-text-accent" />
                         <p className="font-mono text-[10px] font-bold">{opt.label}</p>
                         <p className="font-mono text-[9px] text-muted-foreground">{opt.desc}</p>
-                        <p className="font-mono text-xs text-amber-400 mt-1">+{opt.amount.toLocaleString()}</p>
+                        <p className="font-mono text-xs void-text-accent mt-1">+{opt.amount.toLocaleString()}</p>
                       </button>
                     ))}
                   </div>
@@ -411,13 +411,13 @@ export default function FactionWarPage() {
                     animate={{ scale: 1 }}
                     transition={{ type: "spring", bounce: 0.5 }}
                   >
-                    <Swords size={32} className="mx-auto mb-3 text-amber-400" />
+                    <Swords size={32} className="mx-auto mb-3 void-text-accent" />
                   </motion.div>
-                  <p className="font-display text-sm font-bold text-amber-400 mb-2">WAR CONCLUDED</p>
+                  <p className="font-display text-sm font-bold void-text-accent mb-2">WAR CONCLUDED</p>
                   <p className="font-mono text-xs text-muted-foreground mb-4">The battle is over. View the outcome.</p>
                   <button
                     onClick={handleEndWar}
-                    className="px-6 py-2.5 rounded-md bg-amber-500/20 border border-amber-500/40 text-amber-400 font-mono text-xs font-bold hover:bg-amber-500/30 transition-all"
+                    className="px-6 py-2.5 rounded-md void-bg-sunk border void-border void-text-accent font-mono text-xs font-bold void-bg-sunk transition-all"
                   >
                     VIEW OUTCOME
                   </button>
@@ -438,15 +438,15 @@ export default function FactionWarPage() {
                   return (
                     <div key={sector} className="rounded-md bg-secondary/20 p-2">
                       <p className="font-mono text-[10px] text-foreground mb-1">{sector.replace(/_/g, " ").toUpperCase()}</p>
-                      <div className="h-1.5 rounded-full bg-red-500/30 overflow-hidden">
+                      <div className="h-1.5 rounded-full void-bg-error overflow-hidden">
                         <div
-                          className="h-full bg-blue-500 rounded-full transition-all duration-500"
+                          className="h-full void-bg-sunk rounded-full transition-all duration-500"
                           style={{ width: `${empirePercent}%` }}
                         />
                       </div>
                       <div className="flex justify-between font-mono text-[8px] text-muted-foreground mt-0.5">
-                        <span className="text-blue-400">EMPIRE</span>
-                        <span className="text-red-400">INSURGENCY</span>
+                        <span className="void-text-energy">EMPIRE</span>
+                        <span className="void-text-error">INSURGENCY</span>
                       </div>
                     </div>
                   );
@@ -463,21 +463,21 @@ export default function FactionWarPage() {
             animate={{ opacity: 1 }}
             className="space-y-4"
           >
-            <div className="void-surface border-amber-500/30 p-6">
+            <div className="void-surface void-border p-6">
               <div className="flex items-center gap-3 mb-4">
-                <Trophy size={24} className="text-amber-400" />
+                <Trophy size={24} className="void-text-accent" />
                 <div>
-                  <h2 className="font-display text-lg font-bold text-amber-400">WAR OUTCOME</h2>
+                  <h2 className="font-display text-lg font-bold void-text-accent">WAR OUTCOME</h2>
                   <p className="font-mono text-[10px] text-muted-foreground">{selectedWar.name} // DECLASSIFIED</p>
                 </div>
               </div>
 
               {/* Typewriter Narrative */}
-              <div className="rounded-md bg-black/40 border border-amber-500/20 p-4 mb-4 min-h-[120px]">
+              <div className="rounded-md bg-black/40 border void-border p-4 mb-4 min-h-[120px]">
                 <p className="font-mono text-xs text-foreground/80 whitespace-pre-line leading-relaxed">
                   {outcomeText.slice(0, typewriterIdx)}
                   {typewriterIdx < outcomeText.length && (
-                    <span className="inline-block w-1.5 h-4 bg-amber-400 animate-pulse ml-0.5" />
+                    <span className="inline-block w-1.5 h-4 void-bg-sunk animate-pulse ml-0.5" />
                   )}
                 </p>
               </div>
@@ -495,11 +495,11 @@ export default function FactionWarPage() {
                       <p className="font-mono text-[9px] text-muted-foreground">YOUR RANK</p>
                     </div>
                     <div className="rounded-md bg-secondary/20 p-3 text-center">
-                      <p className="font-display text-lg font-bold text-amber-400">{fw.playerContribution.toLocaleString()}</p>
+                      <p className="font-display text-lg font-bold void-text-accent">{fw.playerContribution.toLocaleString()}</p>
                       <p className="font-mono text-[9px] text-muted-foreground">CONTRIBUTION</p>
                     </div>
                     <div className="rounded-md bg-secondary/20 p-3 text-center">
-                      <p className="font-display text-lg font-bold text-green-400">{selectedWar.victoryRewards.credits.toLocaleString()}</p>
+                      <p className="font-display text-lg font-bold void-text-energy">{selectedWar.victoryRewards.credits.toLocaleString()}</p>
                       <p className="font-mono text-[9px] text-muted-foreground">CREDITS WON</p>
                     </div>
                   </div>

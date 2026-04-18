@@ -18,14 +18,14 @@ const ELEMENT_ICONS: Record<string, React.ComponentType<any>> = {
 };
 
 const ELEMENT_COLORS: Record<string, { text: string; bg: string; border: string }> = {
-  earth: { text: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-400/30" },
-  fire: { text: "text-red-400", bg: "bg-red-500/10", border: "border-red-400/30" },
-  water: { text: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-400/30" },
-  air: { text: "text-emerald-300", bg: "bg-emerald-500/10", border: "border-emerald-300/30" },
-  space: { text: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-400/30" },
-  time: { text: "text-yellow-300", bg: "bg-yellow-500/10", border: "border-yellow-300/30" },
-  probability: { text: "text-pink-400", bg: "bg-pink-500/10", border: "border-pink-400/30" },
-  reality: { text: "text-violet-400", bg: "bg-violet-500/10", border: "border-violet-400/30" },
+  earth: { text: "void-text-accent", bg: "void-bg-sunk", border: "void-border" },
+  fire: { text: "void-text-error", bg: "void-bg-error", border: "void-border-error" },
+  water: { text: "void-text-energy", bg: "void-bg-sunk", border: "void-border" },
+  air: { text: "void-text-energy", bg: "void-bg-success", border: "void-border-success" },
+  space: { text: "void-text-energy", bg: "void-bg-sunk", border: "void-border" },
+  time: { text: "void-text-premium", bg: "void-bg-sunk", border: "void-border" },
+  probability: { text: "void-text-error", bg: "void-bg-error", border: "void-border-error" },
+  reality: { text: "void-text-system", bg: "void-bg-system", border: "void-border-system" },
 };
 
 const SPECIES_ELEMENTS: Record<string, string[]> = {
@@ -41,9 +41,9 @@ function DotSelector({ value, onChange, label, color, icon: Icon, max = 5 }: {
   color: "red" | "cyan" | "amber"; icon: React.ComponentType<any>; max?: number;
 }) {
   const colorMap = {
-    red: { text: "text-red-400", fill: "bg-red-400", empty: "bg-red-400/15", border: "border-red-400/30" },
-    cyan: { text: "text-cyan-400", fill: "bg-cyan-400", empty: "bg-cyan-400/15", border: "border-cyan-400/30" },
-    amber: { text: "text-amber-400", fill: "bg-amber-400", empty: "bg-amber-400/15", border: "border-amber-400/30" },
+    red: { text: "void-text-error", fill: "void-bg-error", empty: "void-bg-error", border: "void-border-error" },
+    cyan: { text: "void-text-energy", fill: "void-bg-success", empty: "void-bg-success", border: "void-border-success" },
+    amber: { text: "void-text-accent", fill: "void-bg-sunk", empty: "void-bg-sunk", border: "void-border" },
   };
   const c = colorMap[color];
 
@@ -204,8 +204,8 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
           {/* Header */}
           <div className="p-4 border-b border-border/50 flex items-center justify-between bg-muted/30">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-400/20 flex items-center justify-center">
-                <RotateCcw size={16} className="text-purple-400" />
+              <div className="w-8 h-8 rounded-lg void-bg-system border void-border-system flex items-center justify-center">
+                <RotateCcw size={16} className="void-text-system" />
               </div>
               <div>
                 <h2 className="font-display text-sm font-bold tracking-wider text-foreground">NEURAL RESPEC</h2>
@@ -219,11 +219,11 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
 
           {/* Dream Balance */}
           {data && (
-            <div className="px-4 py-2 border-b border-border/50 flex items-center justify-between bg-purple-500/[0.05]">
+            <div className="px-4 py-2 border-b border-border/50 flex items-center justify-between void-bg-system/[0.05]">
               <span className="font-mono text-[9px] text-muted-foreground/50 tracking-wider">DREAM BALANCE</span>
               <div className="flex items-center gap-1.5">
-                <Gem size={10} className="text-purple-400" />
-                <span className="font-mono text-xs font-bold text-purple-400 tabular-nums">{data.currentDreamTokens}</span>
+                <Gem size={10} className="void-text-system" />
+                <span className="font-mono text-xs font-bold void-text-system tabular-nums">{data.currentDreamTokens}</span>
               </div>
             </div>
           )}
@@ -240,7 +240,7 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
                 onClick={() => setTab(t.key)}
                 className={`flex-1 py-2.5 font-mono text-[9px] tracking-[0.15em] transition-all border-b-2 ${
                   tab === t.key
-                    ? "text-purple-400 border-purple-400 bg-purple-500/5"
+                    ? "void-text-system void-border-system void-bg-system"
                     : "text-muted-foreground/40 border-transparent hover:text-muted-foreground/60 hover:bg-muted/15"
                 }`}
               >
@@ -256,8 +256,8 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
           <div className="p-4 min-h-[200px]">
             {respecCosts.isLoading ? (
               <div className="flex items-center justify-center py-12">
-                <div className="w-8 h-8 rounded-full border border-dashed border-purple-400/20 animate-[spin_4s_linear_infinite] flex items-center justify-center">
-                  <RotateCcw size={14} className="text-purple-400 animate-pulse" />
+                <div className="w-8 h-8 rounded-full border border-dashed void-border-system animate-[spin_4s_linear_infinite] flex items-center justify-center">
+                  <RotateCcw size={14} className="void-text-system animate-pulse" />
                 </div>
               </div>
             ) : !data ? (
@@ -273,10 +273,10 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="mb-4 p-3 rounded-lg bg-emerald-500/10 border border-emerald-400/20 flex items-center gap-2"
+                      className="mb-4 p-3 rounded-lg void-bg-success border void-border-success flex items-center gap-2"
                     >
-                      <Check size={14} className="text-emerald-400" />
-                      <span className="font-mono text-[10px] text-emerald-400">{success}</span>
+                      <Check size={14} className="void-text-energy" />
+                      <span className="font-mono text-[10px] void-text-energy">{success}</span>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -287,14 +287,14 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
                     <div className="mb-4 p-2.5 rounded-lg bg-muted/15 border border-border/40">
                       <div className="flex items-center justify-between mb-1">
                         <span className="font-mono text-[8px] text-muted-foreground/40 tracking-wider">DOT BUDGET</span>
-                        <span className={`font-mono text-[10px] font-bold tabular-nums ${dotsRemaining === 0 ? "text-emerald-400" : dotsRemaining > 0 ? "text-amber-400" : "text-red-400"}`}>
+                        <span className={`font-mono text-[10px] font-bold tabular-nums ${dotsRemaining === 0 ? "void-text-energy" : dotsRemaining > 0 ? "void-text-accent" : "void-text-error"}`}>
                           {currentTotal} / {totalDots}
                           {dotsRemaining !== 0 && ` (${dotsRemaining > 0 ? "+" : ""}${dotsRemaining} remaining)`}
                         </span>
                       </div>
                       <div className="h-1 bg-muted/40 rounded-full overflow-hidden">
                         <div
-                          className={`h-full rounded-full transition-all ${dotsRemaining === 0 ? "bg-emerald-400" : "bg-amber-400"}`}
+                          className={`h-full rounded-full transition-all ${dotsRemaining === 0 ? "void-bg-success" : "void-bg-sunk"}`}
                           style={{ width: `${Math.min(100, (currentTotal / totalDots) * 100)}%` }}
                         />
                       </div>
@@ -305,9 +305,9 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
                     <DotSelector value={attrVitality} onChange={(v) => handleAttrChange("vitality", v)} label="VITALITY" color="amber" icon={Heart} />
 
                     {dotsRemaining !== 0 && (
-                      <div className="mt-3 p-2 rounded bg-amber-500/10 border border-amber-400/20 flex items-center gap-2">
-                        <AlertTriangle size={12} className="text-amber-400 flex-shrink-0" />
-                        <span className="font-mono text-[9px] text-amber-400">
+                      <div className="mt-3 p-2 rounded void-bg-sunk border void-border flex items-center gap-2">
+                        <AlertTriangle size={12} className="void-text-accent flex-shrink-0" />
+                        <span className="font-mono text-[9px] void-text-accent">
                           Dots must total {totalDots}. Adjust before confirming.
                         </span>
                       </div>
@@ -316,10 +316,10 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
                     <button
                       onClick={() => respecAttributes.mutate({ attrAttack, attrDefense, attrVitality })}
                       disabled={!attrChanged || dotsRemaining !== 0 || respecAttributes.isPending || (data.currentDreamTokens < data.attributeRespecCost)}
-                      className="w-full mt-4 py-2.5 rounded-lg bg-purple-500/10 border border-purple-400/20 text-purple-400 font-mono text-[10px] tracking-[0.15em] hover:bg-purple-500/20 transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      className="w-full mt-4 py-2.5 rounded-lg void-bg-system border void-border-system void-text-system font-mono text-[10px] tracking-[0.15em] void-bg-system transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                       {respecAttributes.isPending ? (
-                        <div className="w-3 h-3 rounded-full border border-purple-400/30 border-t-purple-400 animate-spin" />
+                        <div className="w-3 h-3 rounded-full border void-border-system border-t-purple-400 animate-spin" />
                       ) : (
                         <RotateCcw size={12} />
                       )}
@@ -335,7 +335,7 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
                 {tab === "alignment" && (
                   <div>
                     <p className="font-mono text-[9px] text-muted-foreground/50 mb-4">
-                      Current alignment: <span className={data.currentAlignment === "order" ? "text-cyan-400" : "text-purple-400"}>{data.currentAlignment.toUpperCase()}</span>
+                      Current alignment: <span className={data.currentAlignment === "order" ? "void-text-energy" : "void-text-system"}>{data.currentAlignment.toUpperCase()}</span>
                     </p>
 
                     <div className="grid grid-cols-2 gap-3 mb-4">
@@ -354,8 +354,8 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
                             }`}
                           >
                             <div className="flex items-center gap-2 mb-2">
-                              {al === "order" ? <Shield size={16} className="text-cyan-400" /> : <Zap size={16} className="text-purple-400" />}
-                              <span className={`font-display text-sm font-bold tracking-wider ${al === "order" ? "text-cyan-400" : "text-purple-400"}`}>
+                              {al === "order" ? <Shield size={16} className="void-text-energy" /> : <Zap size={16} className="void-text-system" />}
+                              <span className={`font-display text-sm font-bold tracking-wider ${al === "order" ? "void-text-energy" : "void-text-system"}`}>
                                 {al.toUpperCase()}
                               </span>
                               {isCurrent && (
@@ -375,10 +375,10 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
                     <button
                       onClick={() => respecAlignment.mutate({ alignment: selectedAlignment })}
                       disabled={!alignChanged || respecAlignment.isPending || (data.currentDreamTokens < data.alignmentRespecCost)}
-                      className="w-full py-2.5 rounded-lg bg-purple-500/10 border border-purple-400/20 text-purple-400 font-mono text-[10px] tracking-[0.15em] hover:bg-purple-500/20 transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      className="w-full py-2.5 rounded-lg void-bg-system border void-border-system void-text-system font-mono text-[10px] tracking-[0.15em] void-bg-system transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                       {respecAlignment.isPending ? (
-                        <div className="w-3 h-3 rounded-full border border-purple-400/30 border-t-purple-400 animate-spin" />
+                        <div className="w-3 h-3 rounded-full border void-border-system border-t-purple-400 animate-spin" />
                       ) : (
                         <RotateCcw size={12} />
                       )}
@@ -412,7 +412,7 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
                             onClick={() => setSelectedElement(el)}
                             className={`p-3 rounded-lg border transition-all flex items-center gap-2.5 ${
                               isSelected
-                                ? `${colors.border} ${colors.bg} shadow-[0_0_10px_rgba(255,255,255,0.05)]`
+                                ? `${colors.border} ${colors.bg} shadow-[0_0_10px_color-mix(in oklch, var(--text-primary) 5%, transparent)]`
                                 : "border-border/60 bg-muted/15 hover:bg-muted/25"
                             }`}
                           >
@@ -433,10 +433,10 @@ export default function RespecDialog({ isOpen, onClose, isAuthenticated }: {
                     <button
                       onClick={() => respecElement.mutate({ element: selectedElement as any })}
                       disabled={!elemChanged || respecElement.isPending || (data.currentDreamTokens < data.elementRespecCost)}
-                      className="w-full py-2.5 rounded-lg bg-purple-500/10 border border-purple-400/20 text-purple-400 font-mono text-[10px] tracking-[0.15em] hover:bg-purple-500/20 transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      className="w-full py-2.5 rounded-lg void-bg-system border void-border-system void-text-system font-mono text-[10px] tracking-[0.15em] void-bg-system transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                       {respecElement.isPending ? (
-                        <div className="w-3 h-3 rounded-full border border-purple-400/30 border-t-purple-400 animate-spin" />
+                        <div className="w-3 h-3 rounded-full border void-border-system border-t-purple-400 animate-spin" />
                       ) : (
                         <RotateCcw size={12} />
                       )}

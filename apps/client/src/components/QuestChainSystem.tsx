@@ -92,9 +92,9 @@ const ENGINEER_CHAIN: QuestChain = {
   chainName: "THE ARCHITECT'S BLUEPRINT",
   chainDescription: "Your engineering aptitude has caught the Ark's attention. Repair, rebuild, and uncover the ship's hidden systems.",
   icon: Wrench,
-  iconColor: "text-cyan-400",
-  borderColor: "border-cyan-400/25",
-  bgColor: "bg-cyan-400/5",
+  iconColor: "void-text-energy",
+  borderColor: "void-border-success",
+  bgColor: "void-bg-success",
   requirement: { characterClass: "engineer" },
   quests: [
     {
@@ -169,9 +169,9 @@ const ORACLE_CHAIN: QuestChain = {
   chainName: "THE PROPHET'S VISION",
   chainDescription: "Your prophetic abilities are awakening. Discover the hidden truths woven through the Dischordian Saga.",
   icon: Eye,
-  iconColor: "text-purple-400",
-  borderColor: "border-purple-400/25",
-  bgColor: "bg-purple-400/5",
+  iconColor: "void-text-system",
+  borderColor: "void-border-system",
+  bgColor: "void-bg-system",
   requirement: { characterClass: "oracle" },
   quests: [
     {
@@ -246,9 +246,9 @@ const ASSASSIN_CHAIN: QuestChain = {
   chainName: "THE SHADOW PROTOCOL",
   chainDescription: "Your stealth capabilities make you the perfect operative. Strike from the shadows, collect intelligence, eliminate targets.",
   icon: Crosshair,
-  iconColor: "text-red-400",
-  borderColor: "border-red-400/25",
-  bgColor: "bg-red-400/5",
+  iconColor: "void-text-error",
+  borderColor: "void-border-error",
+  bgColor: "void-bg-error",
   requirement: { characterClass: "assassin" },
   quests: [
     {
@@ -323,9 +323,9 @@ const SOLDIER_CHAIN: QuestChain = {
   chainName: "THE IRON CAMPAIGN",
   chainDescription: "Your combat training defines you. Fight, conquer, and prove that strength is the ultimate truth.",
   icon: Shield,
-  iconColor: "text-orange-400",
-  borderColor: "border-orange-400/25",
-  bgColor: "bg-orange-400/5",
+  iconColor: "void-text-premium",
+  borderColor: "void-border",
+  bgColor: "void-bg-sunk",
   requirement: { characterClass: "soldier" },
   quests: [
     {
@@ -400,9 +400,9 @@ const SPY_CHAIN: QuestChain = {
   chainName: "THE DEEP COVER OPERATION",
   chainDescription: "Your intelligence gathering skills are unmatched. Infiltrate, analyze, and uncover the truth behind the Saga.",
   icon: Search,
-  iconColor: "text-teal-400",
-  borderColor: "border-teal-400/25",
-  bgColor: "bg-teal-400/5",
+  iconColor: "void-text-energy",
+  borderColor: "void-border-success",
+  bgColor: "void-bg-success",
   requirement: { characterClass: "spy" },
   quests: [
     {
@@ -482,9 +482,9 @@ const ORDER_CHAIN: QuestChain = {
   chainName: "THE PATH OF ORDER",
   chainDescription: "You walk the path of structure and discipline. Complete systematic objectives to strengthen the Ark's order.",
   icon: Scale,
-  iconColor: "text-blue-400",
-  borderColor: "border-blue-400/25",
-  bgColor: "bg-blue-400/5",
+  iconColor: "void-text-energy",
+  borderColor: "void-border",
+  bgColor: "void-bg-sunk",
   requirement: { alignment: "order" },
   quests: [
     {
@@ -543,9 +543,9 @@ const CHAOS_CHAIN: QuestChain = {
   chainName: "THE PATH OF CHAOS",
   chainDescription: "You embrace the unpredictable. Break patterns, defy expectations, and let chaos guide your path.",
   icon: Skull,
-  iconColor: "text-red-500",
-  borderColor: "border-red-500/25",
-  bgColor: "bg-red-500/5",
+  iconColor: "void-text-error",
+  borderColor: "void-border-error",
+  bgColor: "void-bg-error",
   requirement: { alignment: "chaos" },
   quests: [
     {
@@ -610,9 +610,9 @@ const DEMAGI_CHAIN: QuestChain = {
   chainName: "THE ELEMENTAL HERITAGE",
   chainDescription: "Your DeMagi blood carries the memory of ancient elemental powers. Awaken the primal forces that sleep in your DNA and master the elements that shaped civilizations.",
   icon: Flame,
-  iconColor: "text-orange-500",
-  borderColor: "border-orange-500/25",
-  bgColor: "bg-orange-500/5",
+  iconColor: "void-text-premium",
+  borderColor: "void-border",
+  bgColor: "void-bg-sunk",
   requirement: { species: "demagi" },
   quests: [
     {
@@ -687,9 +687,9 @@ const QUARCHON_CHAIN: QuestChain = {
   chainName: "THE QUANTUM DIRECTIVE",
   chainDescription: "Your Quarchon processing cores are more than circuitry — they're quantum probability engines. Unlock the computational powers that make your kind the most advanced synthetic intelligence in the Saga.",
   icon: ZapIcon,
-  iconColor: "text-blue-500",
-  borderColor: "border-blue-500/25",
-  bgColor: "bg-blue-500/5",
+  iconColor: "void-text-energy",
+  borderColor: "void-border",
+  bgColor: "void-bg-sunk",
   requirement: { species: "quarchon" },
   quests: [
     {
@@ -764,9 +764,9 @@ const NEYON_CHAIN: QuestChain = {
   chainName: "THE HYBRID CONVERGENCE",
   chainDescription: "You are Ne-Yon — neither fully organic nor fully synthetic, but something greater than both. Your hybrid nature bridges worlds that were never meant to connect.",
   icon: Wind,
-  iconColor: "text-emerald-400",
-  borderColor: "border-emerald-400/25",
-  bgColor: "bg-emerald-400/5",
+  iconColor: "void-text-energy",
+  borderColor: "void-border-success",
+  bgColor: "void-bg-success",
   requirement: { species: "neyon" },
   quests: [
     {
@@ -867,23 +867,23 @@ function ChainQuestItem({ quest, isActive, isLocked, checkResult }: {
       {/* Status Icon */}
       <div className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 mt-0.5 ${
         checkResult.complete
-          ? "bg-green-500/20 border border-green-500/40"
+          ? "void-bg-success border void-border-success"
           : isActive
-          ? "bg-amber-500/20 border border-amber-500/40"
+          ? "void-bg-sunk border void-border"
           : "bg-muted/40 border border-border/60"
       }`}>
         {checkResult.complete ? (
-          <Trophy size={10} className="text-green-400" />
+          <Trophy size={10} className="void-text-energy" />
         ) : isLocked ? (
           <Lock size={10} className="text-muted-foreground/50" />
         ) : (
-          <Target size={10} className={isActive ? "text-amber-400" : "text-muted-foreground/50"} />
+          <Target size={10} className={isActive ? "void-text-accent" : "text-muted-foreground/50"} />
         )}
       </div>
 
       <div className="flex-1 min-w-0">
         <p className={`font-display text-[10px] font-bold tracking-[0.1em] ${
-          checkResult.complete ? "text-green-400" : isActive ? "text-foreground" : "text-muted-foreground/60"
+          checkResult.complete ? "void-text-energy" : isActive ? "text-foreground" : "text-muted-foreground/60"
         }`}>
           {quest.title}
         </p>
@@ -904,7 +904,7 @@ function ChainQuestItem({ quest, isActive, isLocked, checkResult }: {
             <div className="flex items-center gap-2">
               <div className="flex-1 h-1 rounded-full bg-muted/40 overflow-hidden">
                 <motion.div
-                  className="h-full rounded-full bg-amber-400/60"
+                  className="h-full rounded-full void-bg-sunk"
                   initial={{ width: 0 }}
                   animate={{ width: `${(checkResult.progress / checkResult.max) * 100}%` }}
                   transition={{ duration: 0.5 }}
@@ -914,13 +914,13 @@ function ChainQuestItem({ quest, isActive, isLocked, checkResult }: {
                 {checkResult.progress}/{checkResult.max}
               </span>
             </div>
-            <p className="font-mono text-[8px] text-amber-400/50 mt-1 italic">{quest.hint}</p>
+            <p className="font-mono text-[8px] void-text-accent mt-1 italic">{quest.hint}</p>
           </div>
         )}
 
         {/* Reward display */}
         {checkResult.complete && (
-          <p className="font-mono text-[8px] text-green-400/60 mt-0.5">
+          <p className="font-mono text-[8px] void-text-energy mt-0.5">
             ✓ {quest.reward}
           </p>
         )}
@@ -973,7 +973,7 @@ function QuestChainCard({ chain, ctx }: { chain: QuestChain; ctx: ChainCheckCont
               {chain.chainName}
             </h3>
             {chainComplete && (
-              <span className="font-mono text-[8px] text-green-400 bg-green-500/10 px-1.5 py-0.5 rounded">
+              <span className="font-mono text-[8px] void-text-energy void-bg-success px-1.5 py-0.5 rounded">
                 COMPLETE
               </span>
             )}
@@ -985,7 +985,7 @@ function QuestChainCard({ chain, ctx }: { chain: QuestChain; ctx: ChainCheckCont
         {/* Chain progress */}
         <div className="w-16 h-1.5 rounded-full bg-muted/40 overflow-hidden">
           <div
-            className={`h-full rounded-full transition-all duration-500 ${chainComplete ? "bg-green-400/60" : "bg-amber-400/40"}`}
+            className={`h-full rounded-full transition-all duration-500 ${chainComplete ? "void-bg-success" : "void-bg-sunk"}`}
             style={{ width: `${(completedCount / totalQuests) * 100}%` }}
           />
         </div>

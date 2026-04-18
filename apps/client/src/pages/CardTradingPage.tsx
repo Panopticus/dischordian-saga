@@ -15,19 +15,19 @@ import season1Cards from "@/data/season1-cards.json";
 type CardData = (typeof season1Cards)[number];
 
 const RARITY_COLORS: Record<string, string> = {
-  Common: "text-muted-foreground border-gray-500/30",
-  Uncommon: "text-green-400 border-green-500/30",
-  Rare: "text-blue-400 border-blue-500/30",
-  Epic: "text-purple-400 border-purple-500/30",
-  Legendary: "text-amber-400 border-amber-500/30",
+  Common: "text-muted-foreground void-border",
+  Uncommon: "void-text-energy void-border-success",
+  Rare: "void-text-energy void-border",
+  Epic: "void-text-system void-border-system",
+  Legendary: "void-text-accent void-border",
 };
 
 const RARITY_BG: Record<string, string> = {
-  Common: "bg-gray-500/10",
-  Uncommon: "bg-green-500/10",
-  Rare: "bg-blue-500/10",
-  Epic: "bg-purple-500/10",
-  Legendary: "bg-amber-500/10",
+  Common: "void-bg-canvas",
+  Uncommon: "void-bg-success",
+  Rare: "void-bg-sunk",
+  Epic: "void-bg-system",
+  Legendary: "void-bg-sunk",
 };
 
 type Tab = "create" | "incoming" | "outgoing" | "history";
@@ -509,7 +509,7 @@ export default function CardTradingPage() {
                     <span className="font-mono text-sm font-semibold">To: {trade.receiverName || "Unknown"}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-[10px] text-yellow-400 bg-yellow-500/10 px-2 py-0.5 rounded">PENDING</span>
+                    <span className="font-mono text-[10px] void-text-premium void-bg-sunk px-2 py-0.5 rounded">PENDING</span>
                     <span className="font-mono text-[10px] text-muted-foreground">
                       {new Date(trade.createdAt).toLocaleDateString()}
                     </span>
@@ -578,7 +578,7 @@ export default function CardTradingPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <span className={`font-mono text-[10px] px-2 py-0.5 rounded ${
-                      trade.status === "accepted" ? "bg-green-500/10 text-green-400" : "bg-red-500/10 text-red-400"
+                      trade.status === "accepted" ? "void-bg-success void-text-energy" : "void-bg-error void-text-error"
                     }`}>
                       {trade.status === "accepted" ? "COMPLETED" : "DECLINED"}
                     </span>

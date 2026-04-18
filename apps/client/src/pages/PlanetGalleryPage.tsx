@@ -25,25 +25,25 @@ const PLANETS: Planet[] = [
     faction: "Voltari",
   },
   {
-    id: "terminus", name: "Terminus", image: "/art/planets/planet-terminus.png", color: "#ef4444",
+    id: "terminus", name: "Terminus", image: "/art/planets/planet-terminus.png", color: "var(--energy-error)",
     description: "The former Panopticon — the Architect's prison planet, broken free and drifting. Every soul the Architect ever imprisoned is here. At its center sits Kael, the self-proclaimed Sovereign. The Thought Virus turned them all into the Swarm.",
     faction: "The Source",
   },
   {
-    id: "castle-of-death", name: "Castle of Death", image: "/art/planets/planet-castle-of-death.png", color: "#22c55e",
+    id: "castle-of-death", name: "Castle of Death", image: "/art/planets/planet-castle-of-death.png", color: "var(--energy-success)",
     description: "The Necromancer's domain in the Matrix of Dreams, now potentially manifesting in reality. A gothic castle of black bone floating in white mist, surrounded by swirling souls. Death is not an ending here — it is a beginning.",
     faction: "The Necromancer",
   },
   {
-    id: "degens-casino", name: "The Degen's Casino", image: "/art/planets/planet-degens-casino.png", color: "#f59e0b",
+    id: "degens-casino", name: "The Degen's Casino", image: "/art/planets/planet-degens-casino.png", color: "var(--energy-accent)",
     description: "A lavish casino station on the edge of the Shield — the only open zone in Ne-Yon space. Neon signs in impossible languages, crystal chandeliers made of lightning. The Degen (Ne-Yon #8) — the only Ne-Yon in the known universe — runs the games. Entropy is the house specialty. Some say the station itself responds to his moods like an extension of his will.",
     faction: "The Degen (Ne-Yon #8)",
   },
   // Placeholder entries for planets not yet uploaded
   { id: "atarion", name: "Atarion", image: "", color: "#60a5fa", description: "Crystal spires that sing in the wind. Bioluminescent forests. Elara's homeworld — beautiful, destroyed.", faction: "Elara" },
   { id: "new-babylon", name: "New Babylon", image: "", color: "#a855f7", description: "Corrupt mega-city planet. Orbital trade stations. Where Adjudicator Locke makes deals that reshape civilizations.", faction: "Locke" },
-  { id: "mechronis", name: "Mechronis", image: "", color: "#22c55e", description: "The Architect's academy world. Gothic spires, institutional cold. Where Potentials are shaped into weapons.", faction: "The Architect" },
-  { id: "panopticon", name: "The Panopticon", image: "", color: "#ef4444", description: "Planet-sized surveillance megastructure. Eyes everywhere. Now broken free, becoming Terminus.", faction: "The Architect" },
+  { id: "mechronis", name: "Mechronis", image: "", color: "var(--energy-success)", description: "The Architect's academy world. Gothic spires, institutional cold. Where Potentials are shaped into weapons.", faction: "The Architect" },
+  { id: "panopticon", name: "The Panopticon", image: "", color: "var(--energy-error)", description: "Planet-sized surveillance megastructure. Eyes everywhere. Now broken free, becoming Terminus.", faction: "The Architect" },
 ];
 
 export default function PlanetGalleryPage() {
@@ -76,7 +76,7 @@ export default function PlanetGalleryPage() {
         {/* Header */}
         <div className="flex items-center gap-3 mb-8">
           <Link href="/" className="text-muted-foreground hover:text-white"><ChevronLeft size={20} /></Link>
-          <Globe size={18} className="text-cyan-400" />
+          <Globe size={18} className="void-text-energy" />
           <div>
             <h1 className="font-display text-xl font-bold tracking-wider">STELLAR CARTOGRAPHY</h1>
             <p className="font-mono text-[10px] text-muted-foreground/60">Known worlds of the Dischordian Saga</p>
@@ -138,7 +138,7 @@ export default function PlanetGalleryPage() {
               {/* Hero image */}
               <div className="relative h-64 overflow-hidden">
                 <ResponsiveImage src={selected.image} alt={selected.name} eager className="w-full h-full object-cover" style={{ filter: "brightness(0.7)" }} />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%)" }} />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to top, color-mix(in oklch, var(--bg-void) 90%, transparent) 0%, transparent 50%)" }} />
                 <button onClick={() => setSelected(null)} className="absolute top-3 right-3 text-white/50 hover:text-white">
                   <X size={20} />
                 </button>

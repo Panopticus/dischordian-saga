@@ -52,7 +52,7 @@ export default function DecisionDeck() {
         <DeckCard
           href="/apprentice"
           icon={Sparkles}
-          color="text-amber-400"
+          color="void-text-accent"
           title={`${apprentice.name} — Day ${apprentice.trialDay}/${TRIAL_LENGTH_DAYS}`}
           subtitle="A Mascoteer waits with today's decision."
           cta="Face the day"
@@ -66,7 +66,7 @@ export default function DecisionDeck() {
         <DeckCard
           href="/cohort"
           icon={Users}
-          color="text-purple-400"
+          color="void-text-system"
           title={`Cohort Leaderboard`}
           subtitle="See who's still alive in the Celebration class."
           cta="View cohort"
@@ -83,7 +83,7 @@ export default function DecisionDeck() {
         <DeckCard
           href="/apprentice"
           icon={Sparkles}
-          color="text-emerald-400"
+          color="void-text-energy"
           title={`${apprentice.name} survived Celebration`}
           subtitle="They board your ship now. Welcome them aboard."
           cta="Welcome them"
@@ -100,7 +100,7 @@ export default function DecisionDeck() {
         <DeckCard
           href="/apprentice"
           icon={Sparkles}
-          color="text-amber-400"
+          color="void-text-accent"
           title="Train an Apprentice"
           subtitle="Recruit a candidate. Send them to Celebration. Earn a companion."
           cta="Roll a candidate"
@@ -117,7 +117,7 @@ export default function DecisionDeck() {
         <DeckCard
           href="/house-cup"
           icon={Users}
-          color="text-indigo-400"
+          color="void-text-energy"
           title={`${guild.guild.name} · House Cup`}
           subtitle="See where your Guild stands this week."
           cta="Check standing"
@@ -134,7 +134,7 @@ export default function DecisionDeck() {
         <DeckCard
           href="/academy"
           icon={GraduationCap}
-          color="text-indigo-400"
+          color="void-text-energy"
           title="Mechronis Academy"
           subtitle={`${guild.guild.name} — a lesson awaits from your Professor.`}
           cta="Attend class"
@@ -151,7 +151,7 @@ export default function DecisionDeck() {
         <DeckCard
           href="/common-room"
           icon={Home}
-          color="text-purple-400"
+          color="void-text-system"
           title="Your Common Room"
           subtitle={`${guild.guild.motto}`}
           cta="Enter"
@@ -171,7 +171,7 @@ export default function DecisionDeck() {
           <DeckCard
             href="/character-sheet"
             icon={Brain}
-            color="text-indigo-300"
+            color="void-text-energy"
             title={`New Thought: ${thought.name}`}
             subtitle={`${discoveredUnstarted.length} idea-seed(s) ready to internalize in the Matrix.`}
             cta="Begin internalizing"
@@ -196,7 +196,7 @@ export default function DecisionDeck() {
         <DeckCard
           href="/character-sheet"
           icon={Clock}
-          color="text-amber-300"
+          color="void-text-accent"
           title={`${t?.name ?? "Thought"} · almost ready`}
           subtitle="It has nearly gestated. Check soon."
           cta="View Matrix"
@@ -213,7 +213,7 @@ export default function DecisionDeck() {
         <DeckCard
           href="/ideology"
           icon={Flag}
-          color="text-purple-400"
+          color="void-text-system"
           title="Six Political Visions"
           subtitle="Each promises something. Each costs something. Choose carefully."
           cta="Study the visions"
@@ -250,7 +250,7 @@ export default function DecisionDeck() {
         <DeckCard
           href="/transmissions"
           icon={Radio}
-          color="text-red-400"
+          color="void-text-error"
           title={`▸ Incoming Transmission (${unwatchedUnlocked.length})`}
           subtitle={`Late Night with the Meme: "${next.title}"`}
           cta="Watch broadcast"
@@ -266,7 +266,7 @@ export default function DecisionDeck() {
       <DeckCard
         href="/pet-battles"
         icon={Swords}
-        color="text-rose-400"
+        color="void-text-error"
         title="Arena of Small Things"
         subtitle="Watch specimens battle. Bet on outcomes."
         cta="Enter arena"
@@ -284,7 +284,7 @@ export default function DecisionDeck() {
         <DeckCard
           href="/legion"
           icon={unreadLetters > 0 ? Mail : Users}
-          color={unreadLetters > 0 ? "text-indigo-400" : "text-amber-400"}
+          color={unreadLetters > 0 ? "void-text-energy" : "void-text-accent"}
           title={`Graduate Legion (${graduateCount})`}
           subtitle={unreadLetters > 0
             ? `${unreadLetters} unread letter${unreadLetters > 1 ? "s" : ""} from the front.`

@@ -144,7 +144,7 @@ export const DEMON_PETS: DemonPet[] = [
     },
     corruptionContribution: 4,
     icon: "Heart",
-    color: "#ef4444",
+    color: "var(--energy-error)",
     visual:
       "A sphere of slowly rotating blood, perfectly suspended, reflecting light that isn't there. Tiny crimson tendrils reach outward like capillaries seeking connection. At its core, something pulses — not a heart, but close enough to be unsettling.",
     description:
@@ -180,7 +180,7 @@ export const DEMON_PETS: DemonPet[] = [
     },
     corruptionContribution: 4,
     icon: "Grip",
-    color: "#22c55e",
+    color: "var(--energy-success)",
     visual:
       "A vine-like appendage of dark green chitin that grows from the ground at your feet. It ends in a cluster of translucent pods, each containing a faintly glowing stone. Some glow violet. Some glow red. The Tendril doesn't let you choose.",
     description:

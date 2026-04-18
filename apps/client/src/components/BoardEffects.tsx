@@ -30,7 +30,7 @@ export function EnergyFieldOverlay({
         }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
         style={{
-          background: `radial-gradient(ellipse at 50% 100%, rgba(51,226,230,${0.04 + playerIntensity * 0.08}) 0%, transparent 70%)`,
+          background: `radial-gradient(ellipse at 50% 100%, color-mix(in oklch, var(--energy-primary) calc((0.04 + playerIntensity * 0.08) * 100%), transparent) 0%, transparent 70%)`,
         }}
       />
 
@@ -42,7 +42,7 @@ export function EnergyFieldOverlay({
         }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
         style={{
-          background: `radial-gradient(ellipse at 50% 0%, rgba(239,68,68,${0.04 + enemyIntensity * 0.08}) 0%, transparent 70%)`,
+          background: `radial-gradient(ellipse at 50% 0%, color-mix(in oklch, var(--energy-error) calc((0.04 + enemyIntensity * 0.08) * 100%), transparent) 0%, transparent 70%)`,
         }}
       />
 
@@ -55,8 +55,8 @@ export function EnergyFieldOverlay({
         transition={{ duration: 2, repeat: Infinity }}
         style={{
           background: turn === "player"
-            ? "linear-gradient(0deg, rgba(51,226,230,0.1) 0%, transparent 40%)"
-            : "linear-gradient(180deg, rgba(239,68,68,0.08) 0%, transparent 40%)",
+            ? "linear-gradient(0deg, color-mix(in oklch, var(--energy-primary) 10%, transparent) 0%, transparent 40%)"
+            : "linear-gradient(180deg, color-mix(in oklch, var(--energy-error) 8%, transparent) 0%, transparent 40%)",
         }}
       />
 
@@ -67,13 +67,13 @@ export function EnergyFieldOverlay({
             className="absolute bottom-0 left-0 w-px"
             animate={{ height: ["0%", `${20 + playerIntensity * 30}%`, "0%"], opacity: [0, 0.6, 0] }}
             transition={{ duration: 2 + Math.random(), repeat: Infinity, delay: Math.random() * 2 }}
-            style={{ background: "linear-gradient(0deg, rgba(51,226,230,0.4), transparent)" }}
+            style={{ background: "linear-gradient(0deg, color-mix(in oklch, var(--energy-primary) 40%, transparent), transparent)" }}
           />
           <motion.div
             className="absolute bottom-0 right-0 w-px"
             animate={{ height: ["0%", `${20 + playerIntensity * 30}%`, "0%"], opacity: [0, 0.6, 0] }}
             transition={{ duration: 2.5 + Math.random(), repeat: Infinity, delay: Math.random() * 2 }}
-            style={{ background: "linear-gradient(0deg, rgba(51,226,230,0.4), transparent)" }}
+            style={{ background: "linear-gradient(0deg, color-mix(in oklch, var(--energy-primary) 40%, transparent), transparent)" }}
           />
         </>
       )}
@@ -83,13 +83,13 @@ export function EnergyFieldOverlay({
             className="absolute top-0 left-0 w-px"
             animate={{ height: ["0%", `${20 + enemyIntensity * 30}%`, "0%"], opacity: [0, 0.5, 0] }}
             transition={{ duration: 2 + Math.random(), repeat: Infinity, delay: Math.random() * 2 }}
-            style={{ background: "linear-gradient(180deg, rgba(239,68,68,0.4), transparent)" }}
+            style={{ background: "linear-gradient(180deg, color-mix(in oklch, var(--energy-error) 40%, transparent), transparent)" }}
           />
           <motion.div
             className="absolute top-0 right-0 w-px"
             animate={{ height: ["0%", `${20 + enemyIntensity * 30}%`, "0%"], opacity: [0, 0.5, 0] }}
             transition={{ duration: 2.5 + Math.random(), repeat: Infinity, delay: Math.random() * 2 }}
-            style={{ background: "linear-gradient(180deg, rgba(239,68,68,0.4), transparent)" }}
+            style={{ background: "linear-gradient(180deg, color-mix(in oklch, var(--energy-error) 40%, transparent), transparent)" }}
           />
         </>
       )}
@@ -108,10 +108,10 @@ export function FactionBanners({
 }) {
   const getFactionColor = (faction?: string) => {
     switch (faction?.toLowerCase()) {
-      case "architect": return { primary: "#33e2e6", secondary: "#1a7a7d", icon: Crown };
+      case "architect": return { primary: "var(--energy-primary)", secondary: "#1a7a7d", icon: Crown };
       case "dreamer": return { primary: "#a855f7", secondary: "#6b21a8", icon: Zap };
       case "order": return { primary: "#3b82f6", secondary: "#1d4ed8", icon: Shield };
-      case "chaos": return { primary: "#ef4444", secondary: "#b91c1c", icon: Flame };
+      case "chaos": return { primary: "var(--energy-error)", secondary: "#b91c1c", icon: Flame };
       default: return { primary: "#6b7280", secondary: "#374151", icon: Shield };
     }
   };
@@ -206,7 +206,7 @@ export function WeatherEffects({
                 top: `${10 + Math.random() * 80}%`,
                 width: 2,
                 height: 2,
-                background: "rgba(255,255,255,0.5)",
+                background: "color-mix(in oklch, var(--text-primary) 50%, transparent)",
               }}
             />
           ))}
@@ -232,7 +232,7 @@ export function WeatherEffects({
             transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 3 }}
             style={{
               top: "55%",
-              background: "radial-gradient(ellipse, rgba(51,226,230,0.06) 0%, transparent 70%)",
+              background: "radial-gradient(ellipse, color-mix(in oklch, var(--energy-primary) 6%, transparent) 0%, transparent 70%)",
               filter: "blur(15px)",
             }}
           />
@@ -248,7 +248,7 @@ export function WeatherEffects({
             animate={{ opacity: [0.15, 0.25, 0.15] }}
             transition={{ duration: 2, repeat: Infinity }}
             style={{
-              background: "radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(239,68,68,0.08) 100%)",
+              background: "radial-gradient(ellipse at 50% 50%, transparent 40%, color-mix(in oklch, var(--energy-error) 8%, transparent) 100%)",
             }}
           />
 
@@ -286,7 +286,7 @@ export function WeatherEffects({
             transition={{ duration: 1.5, repeat: Infinity }}
           >
             <div className="w-full h-full" style={{
-              background: "linear-gradient(90deg, transparent, rgba(239,68,68,0.2), transparent)",
+              background: "linear-gradient(90deg, transparent, color-mix(in oklch, var(--energy-error) 20%, transparent), transparent)",
             }} />
           </motion.div>
         </>
@@ -299,7 +299,7 @@ export function WeatherEffects({
           animate={{ opacity: [0, 0.04, 0] }}
           transition={{ duration: 4, repeat: Infinity }}
           style={{
-            boxShadow: "inset 0 0 60px rgba(251,191,36,0.05)",
+            boxShadow: "inset 0 0 60px color-mix(in oklch, var(--energy-premium) 5%, transparent)",
           }}
         />
       )}
@@ -324,13 +324,13 @@ export function DynamicBoardLighting({
     if (!lastAction) return;
 
     if (lastAction.includes("attacks") || lastAction.includes("damage")) {
-      setLightPulse({ color: "rgba(239,68,68,0.12)", intensity: 0.8 });
+      setLightPulse({ color: "color-mix(in oklch, var(--energy-error) 12%, transparent)", intensity: 0.8 });
     } else if (lastAction.includes("plays") || lastAction.includes("summon")) {
-      setLightPulse({ color: "rgba(51,226,230,0.1)", intensity: 0.6 });
+      setLightPulse({ color: "color-mix(in oklch, var(--energy-primary) 10%, transparent)", intensity: 0.6 });
     } else if (lastAction.includes("heal") || lastAction.includes("restore")) {
-      setLightPulse({ color: "rgba(34,197,94,0.1)", intensity: 0.5 });
+      setLightPulse({ color: "color-mix(in oklch, var(--energy-success) 10%, transparent)", intensity: 0.5 });
     } else if (lastAction.includes("destroy") || lastAction.includes("killed")) {
-      setLightPulse({ color: "rgba(168,85,247,0.12)", intensity: 0.9 });
+      setLightPulse({ color: "color-mix(in oklch, var(--energy-system) 12%, transparent)", intensity: 0.9 });
     }
 
     const timer = setTimeout(() => setLightPulse(null), 600);
@@ -357,7 +357,7 @@ export function DynamicBoardLighting({
 
 /* ─── CARD DEPLOY TRAIL ─── 
    Trail effect when a card is played from hand to field */
-export function CardDeployTrail({ active, color = "#33e2e6" }: { active: boolean; color?: string }) {
+export function CardDeployTrail({ active, color = "var(--energy-primary)" }: { active: boolean; color?: string }) {
   if (!active) return null;
 
   return (
@@ -379,7 +379,7 @@ export function CardDeployTrail({ active, color = "#33e2e6" }: { active: boolean
 
 /* ─── FIELD SLOT GLOW ─── 
    Glowing slot indicators when hovering to play a card */
-export function FieldSlotGlow({ active, color = "rgba(51,226,230,0.15)" }: { active: boolean; color?: string }) {
+export function FieldSlotGlow({ active, color = "color-mix(in oklch, var(--energy-primary) 15%, transparent)" }: { active: boolean; color?: string }) {
   if (!active) return null;
 
   return (
@@ -408,11 +408,11 @@ export function ComboCounter({ count }: { count: number }) {
       className="absolute top-4 right-4 z-30 pointer-events-none"
     >
       <div className="px-3 py-1.5 rounded-lg" style={{
-        background: "rgba(251,191,36,0.15)",
-        border: "1px solid rgba(251,191,36,0.3)",
-        boxShadow: "0 0 20px rgba(251,191,36,0.1)",
+        background: "color-mix(in oklch, var(--energy-premium) 15%, transparent)",
+        border: "1px solid color-mix(in oklch, var(--energy-premium) 30%, transparent)",
+        boxShadow: "0 0 20px color-mix(in oklch, var(--energy-premium) 10%, transparent)",
       }}>
-        <span className="font-display text-xs tracking-[0.3em] text-amber-400">
+        <span className="font-display text-xs tracking-[0.3em] void-text-accent">
           {count}x COMBO
         </span>
       </div>
@@ -454,10 +454,10 @@ export function GraveyardSouls({ playerGraveyardCount, enemyGraveyardCount }: {
               top: isPlayer ? `${60 + Math.random() * 20}%` : `${10 + Math.random() * 20}%`,
               width: 3 + Math.random() * 2,
               height: 3 + Math.random() * 2,
-              background: isPlayer ? "rgba(51,226,230,0.3)" : "rgba(239,68,68,0.3)",
+              background: isPlayer ? "color-mix(in oklch, var(--energy-primary) 30%, transparent)" : "color-mix(in oklch, var(--energy-error) 30%, transparent)",
               boxShadow: isPlayer
-                ? "0 0 8px rgba(51,226,230,0.2)"
-                : "0 0 8px rgba(239,68,68,0.2)",
+                ? "0 0 8px color-mix(in oklch, var(--energy-primary) 20%, transparent)"
+                : "0 0 8px color-mix(in oklch, var(--energy-error) 20%, transparent)",
               filter: "blur(1px)",
             }}
           />

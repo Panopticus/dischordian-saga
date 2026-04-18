@@ -201,10 +201,10 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
         >
           <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
             style={{
-              background: "rgba(239,68,68,0.1)",
-              border: "1px solid rgba(239,68,68,0.3)",
+              background: "color-mix(in oklch, var(--energy-error) 10%, transparent)",
+              border: "1px solid color-mix(in oklch, var(--energy-error) 30%, transparent)",
             }}>
-            <Lock size={28} className="text-red-400" />
+            <Lock size={28} className="void-text-error" />
           </div>
           <h2 className="font-display text-xl font-bold text-foreground mb-2 tracking-wider">
             SYSTEM LOCKED
@@ -212,7 +212,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
           <p className="font-mono text-sm text-muted-foreground/70 mb-2 leading-relaxed">
             You need to discover <span className="text-[var(--neon-cyan)]">{roomName}</span> in the Ark to access this area.
           </p>
-          <p className="font-mono text-xs text-amber-400/60 mb-4 leading-relaxed">
+          <p className="font-mono text-xs void-text-accent mb-4 leading-relaxed">
             {requiredRoom && ROOM_NARRATIVE_HINTS[requiredRoom] ? ROOM_NARRATIVE_HINTS[requiredRoom] : "Continue exploring the Ark to unlock new areas."}
           </p>
           <div className="flex items-center justify-center gap-2 text-muted-foreground/50">

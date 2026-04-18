@@ -33,22 +33,22 @@ export default function StreakCounter({ currentStreak, className = "" }: StreakC
 
   // Flame color based on streak length
   const flameColor = currentStreak >= 60
-    ? "text-purple-400"
+    ? "void-text-system"
     : currentStreak >= 30
-      ? "text-amber-400"
+      ? "void-text-accent"
       : currentStreak >= 14
-        ? "text-orange-400"
+        ? "void-text-premium"
         : currentStreak >= 7
-          ? "text-yellow-400"
-          : "text-orange-300";
+          ? "void-text-premium"
+          : "void-text-premium";
 
   const flameBg = currentStreak >= 60
-    ? "bg-purple-500/10 border-purple-500/20"
+    ? "void-bg-system void-border-system"
     : currentStreak >= 30
-      ? "bg-amber-500/10 border-amber-500/20"
+      ? "void-bg-sunk void-border"
       : currentStreak >= 7
-        ? "bg-orange-500/10 border-orange-500/20"
-        : "bg-orange-500/5 border-orange-500/10";
+        ? "void-bg-sunk void-border"
+        : "void-bg-sunk void-border";
 
   return (
     <div className={`relative flex items-center gap-1.5 ${className}`}>
@@ -94,7 +94,7 @@ export default function StreakCounter({ currentStreak, className = "" }: StreakC
           animate={{ opacity: [0, 0.4, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
           style={{
-            boxShadow: `0 0 12px rgba(255,215,0,0.4)`,
+            boxShadow: `0 0 12px color-mix(in oklch, var(--energy-premium) 40%, transparent)`,
           }}
         />
       )}

@@ -19,21 +19,21 @@ import { motion } from "framer-motion";
 /** Faction → accent color for the gallery card frame. Matches
  *  the card back palette from docs/TCG_ART_SPEC.md. */
 const FACTION_ACCENT: Record<string, string> = {
-  architect: "border-red-500/40 bg-red-500/5",
-  insurgency: "border-emerald-500/40 bg-emerald-500/5",
-  dreamer: "border-violet-500/40 bg-violet-500/5",
-  new_babylon: "border-amber-500/40 bg-amber-500/5",
-  antiquarian: "border-sky-500/40 bg-sky-500/5",
-  thought_virus: "border-fuchsia-500/40 bg-fuchsia-500/5",
-  neutral: "border-slate-400/40 bg-slate-400/5",
+  architect: "void-border-error void-bg-error",
+  insurgency: "void-border-success void-bg-success",
+  dreamer: "void-border-system void-bg-system",
+  new_babylon: "void-border void-bg-sunk",
+  antiquarian: "void-border void-bg-sunk",
+  thought_virus: "void-border-system void-bg-system",
+  neutral: "void-border void-bg-canvas",
 };
 
 const TIER_BADGE_COLOR: Record<string, string> = {
-  common: "text-slate-300 border-slate-400/40",
-  uncommon: "text-emerald-300 border-emerald-400/40",
-  rare: "text-sky-300 border-sky-400/40",
-  epic: "text-violet-300 border-violet-400/40",
-  legendary: "text-amber-300 border-amber-400/40",
+  common: "void-text void-border",
+  uncommon: "void-text-energy void-border-success",
+  rare: "void-text-energy void-border",
+  epic: "void-text-system void-border-system",
+  legendary: "void-text-accent void-border",
 };
 
 export default function ImprintGalleryPage() {
@@ -79,7 +79,7 @@ export default function ImprintGalleryPage() {
         </Link>
         <div className="flex-1">
           <h1 className="font-display text-2xl font-bold tracking-wider flex items-center gap-2">
-            <Sparkles size={20} className="text-amber-300" />
+            <Sparkles size={20} className="void-text-accent" />
             THE IMPRINT GALLERY
           </h1>
           <p className="font-mono text-xs text-muted-foreground">
@@ -110,7 +110,7 @@ export default function ImprintGalleryPage() {
           <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
             Legendaries
           </p>
-          <p className="font-display text-xl font-bold text-amber-300">
+          <p className="font-display text-xl font-bold void-text-accent">
             {legendaryUnlocked} <span className="text-muted-foreground text-sm">/ 18</span>
           </p>
         </div>
@@ -158,14 +158,14 @@ export default function ImprintGalleryPage() {
                     className={`flex-1 h-1.5 rounded-full ${
                       row.highestTierUnlocked >= t
                         ? t === 5
-                          ? "bg-amber-400"
+                          ? "void-bg-sunk"
                           : t === 4
-                            ? "bg-violet-400"
+                            ? "void-bg-system"
                             : t === 3
-                              ? "bg-sky-400"
+                              ? "void-bg-sunk"
                               : t === 2
-                                ? "bg-emerald-400"
-                                : "bg-slate-400"
+                                ? "void-bg-success"
+                                : "void-bg-canvas"
                         : "bg-border/30"
                     }`}
                   />
@@ -182,7 +182,7 @@ export default function ImprintGalleryPage() {
                     Next: {row.fragments} / {row.nextThreshold}
                   </span>
                 ) : (
-                  <span className="text-amber-300 flex items-center gap-1">
+                  <span className="void-text-accent flex items-center gap-1">
                     <Crown size={10} /> complete
                   </span>
                 )}

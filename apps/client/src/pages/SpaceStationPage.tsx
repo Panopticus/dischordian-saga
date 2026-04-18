@@ -29,12 +29,12 @@ const MODULE_CATEGORY_ICONS: Record<string, React.ComponentType<any>> = {
 };
 
 const MODULE_CATEGORY_COLORS: Record<string, { text: string; bg: string; border: string }> = {
-  production: { text: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
-  defense: { text: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20" },
-  living: { text: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
-  research: { text: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20" },
-  special: { text: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20" },
-  prestige: { text: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
+  production: { text: "void-text-accent", bg: "void-bg-sunk", border: "void-border" },
+  defense: { text: "void-text-error", bg: "void-bg-error", border: "void-border-error" },
+  living: { text: "void-text-energy", bg: "void-bg-success", border: "void-border-success" },
+  research: { text: "void-text-energy", bg: "void-bg-sunk", border: "void-border" },
+  special: { text: "void-text-system", bg: "void-bg-system", border: "void-border-system" },
+  prestige: { text: "void-text-accent", bg: "void-bg-sunk", border: "void-border" },
 };
 
 const RESOURCE_ICONS: Record<string, string> = {
@@ -117,7 +117,7 @@ export default function SpaceStationPage() {
             <input
               type="text"
               placeholder="Station Name (e.g., Nexus Prime)"
-              className="w-full bg-zinc-900/50 border border-border/30 rounded-lg px-4 py-2 font-mono text-sm text-foreground placeholder:text-muted-foreground/40 mb-4"
+              className="w-full void-bg-canvas border border-border/30 rounded-lg px-4 py-2 font-mono text-sm text-foreground placeholder:text-muted-foreground/40 mb-4"
               id="station-name-input"
             />
             <Button
@@ -168,7 +168,7 @@ export default function SpaceStationPage() {
             <p className="font-mono text-[10px] text-muted-foreground">
               Tier {station.tier} • Defense: {station.totalDefense}
               {station.shieldUntil && new Date(station.shieldUntil) > new Date() && (
-                <span className="text-emerald-400 ml-2">
+                <span className="void-text-energy ml-2">
                   <Shield size={8} className="inline mr-0.5" />
                   Shielded
                 </span>
@@ -188,12 +188,12 @@ export default function SpaceStationPage() {
         {/* Resources Bar */}
         <div className="border border-border/30 rounded-lg bg-card/30 p-3 mb-4">
           <div className="flex items-center gap-2 mb-2">
-            <Package size={12} className="text-amber-400" />
+            <Package size={12} className="void-text-accent" />
             <span className="font-mono text-[9px] font-bold tracking-wider">STORED RESOURCES</span>
           </div>
           <div className="flex flex-wrap gap-3">
             {Object.entries(resources).filter(([, v]) => (v as number) > 0).map(([key, value]) => (
-              <div key={key} className="flex items-center gap-1.5 bg-zinc-800/30 rounded-md px-2 py-1">
+              <div key={key} className="flex items-center gap-1.5 void-bg-canvas rounded-md px-2 py-1">
                 <span className="text-sm">{RESOURCE_ICONS[key] || "📦"}</span>
                 <div>
                   <span className="font-mono text-[8px] text-muted-foreground capitalize">{key.replace(/_/g, " ")}</span>
@@ -229,39 +229,39 @@ export default function SpaceStationPage() {
                   className="overflow-hidden"
                 >
                   <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    <div className="bg-zinc-800/20 rounded-md p-2">
+                    <div className="void-bg-canvas rounded-md p-2">
                       <span className="font-mono text-[8px] text-muted-foreground block">Build Speed</span>
-                      <span className="font-display text-sm font-bold text-emerald-400">
+                      <span className="font-display text-sm font-bold void-text-energy">
                         x{bonuses.buildSpeedMultiplier.toFixed(2)}
                       </span>
                     </div>
-                    <div className="bg-zinc-800/20 rounded-md p-2">
+                    <div className="void-bg-canvas rounded-md p-2">
                       <span className="font-mono text-[8px] text-muted-foreground block">Production</span>
-                      <span className="font-display text-sm font-bold text-amber-400">
+                      <span className="font-display text-sm font-bold void-text-accent">
                         x{bonuses.productionMultiplier.toFixed(2)}
                       </span>
                     </div>
-                    <div className="bg-zinc-800/20 rounded-md p-2">
+                    <div className="void-bg-canvas rounded-md p-2">
                       <span className="font-mono text-[8px] text-muted-foreground block">Defense</span>
-                      <span className="font-display text-sm font-bold text-red-400">
+                      <span className="font-display text-sm font-bold void-text-error">
                         x{bonuses.defenseMultiplier.toFixed(2)}
                       </span>
                     </div>
-                    <div className="bg-zinc-800/20 rounded-md p-2">
+                    <div className="void-bg-canvas rounded-md p-2">
                       <span className="font-mono text-[8px] text-muted-foreground block">Cost Reduction</span>
-                      <span className="font-display text-sm font-bold text-blue-400">
+                      <span className="font-display text-sm font-bold void-text-energy">
                         -{(bonuses.costReduction * 100).toFixed(0)}%
                       </span>
                     </div>
-                    <div className="bg-zinc-800/20 rounded-md p-2">
+                    <div className="void-bg-canvas rounded-md p-2">
                       <span className="font-mono text-[8px] text-muted-foreground block">Module Slots</span>
-                      <span className="font-display text-sm font-bold text-purple-400">
+                      <span className="font-display text-sm font-bold void-text-system">
                         +{bonuses.moduleSlotBonus}
                       </span>
                     </div>
-                    <div className="bg-zinc-800/20 rounded-md p-2">
+                    <div className="void-bg-canvas rounded-md p-2">
                       <span className="font-mono text-[8px] text-muted-foreground block">Stealth</span>
-                      <span className="font-display text-sm font-bold text-indigo-400">
+                      <span className="font-display text-sm font-bold void-text-energy">
                         +{bonuses.stealthBonus}
                       </span>
                     </div>
@@ -329,14 +329,14 @@ export default function SpaceStationPage() {
 
                   {isBuilding && (
                     <div className="flex items-center gap-1.5 mb-2">
-                      <Clock size={10} className="text-amber-400 animate-pulse" />
-                      <span className="font-mono text-[8px] text-amber-400">
+                      <Clock size={10} className="void-text-accent animate-pulse" />
+                      <span className="font-mono text-[8px] void-text-accent">
                         {mod.status === "upgrading" ? "Upgrading" : "Building"}...
                       </span>
                       {canComplete && (
                         <Button
                           size="sm" variant="outline"
-                          className="text-[8px] h-5 px-2 ml-auto border-emerald-500/30 text-emerald-400"
+                          className="text-[8px] h-5 px-2 ml-auto void-border-success void-text-energy"
                           onClick={() => completeModule.mutate({ moduleId: mod.id })}
                           disabled={completeModule.isPending}
                         >
@@ -348,7 +348,7 @@ export default function SpaceStationPage() {
 
                   {mod.status === "active" && (
                     <div className="flex items-center gap-2">
-                      <span className="font-mono text-[8px] text-emerald-400">
+                      <span className="font-mono text-[8px] void-text-energy">
                         <Check size={8} className="inline mr-0.5" />
                         Active
                       </span>
@@ -376,7 +376,7 @@ export default function SpaceStationPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              className="border border-primary/30 rounded-xl bg-zinc-950/95 p-4 mb-6"
+              className="border border-primary/30 rounded-xl void-bg-canvas p-4 mb-6"
             >
               <div className="flex items-center justify-between mb-4">
                 <span className="font-display text-sm font-bold tracking-wider">BUILD MODULE</span>
@@ -415,7 +415,7 @@ export default function SpaceStationPage() {
                         key={mod.key}
                         className={`border rounded-lg p-3 transition-all ${
                           isLocked
-                            ? "border-zinc-800/20 bg-zinc-900/20 opacity-50"
+                            ? "void-border void-bg-canvas opacity-50"
                             : `${catColors.border} ${catColors.bg} hover:ring-1 hover:ring-primary/20`
                         }`}
                       >
@@ -424,19 +424,19 @@ export default function SpaceStationPage() {
                           <div className="flex-1">
                             <span className="font-display text-xs font-bold">{mod.name}</span>
                             {mod.requiredClass && (
-                              <span className="font-mono text-[7px] text-amber-400 ml-1 capitalize">
+                              <span className="font-mono text-[7px] void-text-accent ml-1 capitalize">
                                 {mod.requiredClass}
                               </span>
                             )}
                           </div>
-                          {isLocked && <Lock size={10} className="text-zinc-600" />}
+                          {isLocked && <Lock size={10} className="void-text" />}
                         </div>
                         <p className="font-mono text-[8px] text-muted-foreground mb-2">{mod.description}</p>
 
                         {/* Cost */}
                         <div className="flex flex-wrap gap-1 mb-2">
                           {Object.entries(mod.baseCost).map(([res, cost]) => (
-                            <span key={res} className="font-mono text-[7px] bg-zinc-800/40 px-1 py-0.5 rounded">
+                            <span key={res} className="font-mono text-[7px] void-bg-canvas px-1 py-0.5 rounded">
                               {RESOURCE_ICONS[res] || "📦"} {(cost as number).toLocaleString()} {res}
                             </span>
                           ))}
@@ -471,25 +471,25 @@ export default function SpaceStationPage() {
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           <Link
             href="/tower-defense"
-            className="border border-red-500/20 bg-red-950/10 rounded-lg p-3 hover:border-red-500/40 transition-all group"
+            className="border void-border-error void-bg-error rounded-lg p-3 void-border-error transition-all group"
           >
-            <Shield size={16} className="text-red-400 mb-1" />
+            <Shield size={16} className="void-text-error mb-1" />
             <span className="font-display text-xs font-bold block">Warden's Vigil</span>
             <span className="font-mono text-[8px] text-muted-foreground">Defend your station</span>
           </Link>
           <Link
             href="/tower-defense"
-            className="border border-amber-500/20 bg-amber-950/10 rounded-lg p-3 hover:border-amber-500/40 transition-all group"
+            className="border void-border void-bg-sunk rounded-lg p-3 void-border transition-all group"
           >
-            <Target size={16} className="text-amber-400 mb-1" />
+            <Target size={16} className="void-text-accent mb-1" />
             <span className="font-display text-xs font-bold block">Raid Others</span>
             <span className="font-mono text-[8px] text-muted-foreground">Attack for resources</span>
           </Link>
           <Link
             href="/prestige-quests"
-            className="border border-purple-500/20 bg-purple-950/10 rounded-lg p-3 hover:border-purple-500/40 transition-all group"
+            className="border void-border-system void-bg-system rounded-lg p-3 void-border-system transition-all group"
           >
-            <Crown size={16} className="text-purple-400 mb-1" />
+            <Crown size={16} className="void-text-system mb-1" />
             <span className="font-display text-xs font-bold block">Prestige Quests</span>
             <span className="font-mono text-[8px] text-muted-foreground">Unlock prestige classes</span>
           </Link>

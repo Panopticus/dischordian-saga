@@ -38,7 +38,7 @@ const FrameBar = memo(({ startup, active, recovery, currentFrame }: {
         className="relative"
         style={{
           width: `${(startup / total) * 100}%`,
-          backgroundColor: currentFrame < startup ? "#f59e0b" : "#78350f",
+          backgroundColor: currentFrame < startup ? "var(--energy-accent)" : "#78350f",
         }}
       >
         {currentFrame < startup && (
@@ -56,7 +56,7 @@ const FrameBar = memo(({ startup, active, recovery, currentFrame }: {
         className="relative"
         style={{
           width: `${(active / total) * 100}%`,
-          backgroundColor: currentFrame >= startup && currentFrame < startup + active ? "#ef4444" : "#7f1d1d",
+          backgroundColor: currentFrame >= startup && currentFrame < startup + active ? "var(--energy-error)" : "#7f1d1d",
         }}
       >
         {currentFrame >= startup && currentFrame < startup + active && (
@@ -93,9 +93,9 @@ const FrameBar = memo(({ startup, active, recovery, currentFrame }: {
 
 /** State display badge */
 const StateBadge = ({ state, phase }: { state: string; phase?: string }) => {
-  const phaseColor = phase === "startup" ? "bg-yellow-500/30 text-yellow-300" :
-                     phase === "active" ? "bg-red-500/30 text-red-300" :
-                     phase === "recovery" ? "bg-blue-500/30 text-blue-300" :
+  const phaseColor = phase === "startup" ? "void-bg-sunk void-text-premium" :
+                     phase === "active" ? "void-bg-error void-text-error" :
+                     phase === "recovery" ? "void-bg-sunk void-text-energy" :
                      "bg-white/10 text-white/60";
   return (
     <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono uppercase tracking-wider ${phaseColor}`}>
@@ -212,10 +212,10 @@ export default function TrainingModeOverlay({
             transition={{ duration: 0.2 }}
             className="absolute top-14 left-2 w-48 pointer-events-auto"
           >
-            <div className="bg-black/80 border border-cyan-500/20 rounded-md p-2 backdrop-blur-sm">
-              <div className="flex items-center gap-1.5 mb-2 border-b border-cyan-500/10 pb-1.5">
-                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-                <span className="font-mono text-[9px] text-cyan-400 tracking-wider">P1 — {p1Name.toUpperCase()}</span>
+            <div className="bg-black/80 border void-border-success rounded-md p-2 backdrop-blur-sm">
+              <div className="flex items-center gap-1.5 mb-2 border-b void-border-success pb-1.5">
+                <div className="w-1.5 h-1.5 rounded-full void-bg-success" />
+                <span className="font-mono text-[9px] void-text-energy tracking-wider">P1 — {p1Name.toUpperCase()}</span>
               </div>
 
               {/* State */}
@@ -241,21 +241,21 @@ export default function TrainingModeOverlay({
                   />
                   <div className="grid grid-cols-3 gap-1 text-center">
                     <div>
-                      <p className="font-mono text-[7px] text-yellow-400/60">STARTUP</p>
-                      <p className="font-mono text-[10px] text-yellow-400 font-bold">{data.p1.moveData.startup}f</p>
+                      <p className="font-mono text-[7px] void-text-premium">STARTUP</p>
+                      <p className="font-mono text-[10px] void-text-premium font-bold">{data.p1.moveData.startup}f</p>
                     </div>
                     <div>
-                      <p className="font-mono text-[7px] text-red-400/60">ACTIVE</p>
-                      <p className="font-mono text-[10px] text-red-400 font-bold">{data.p1.moveData.active}f</p>
+                      <p className="font-mono text-[7px] void-text-error">ACTIVE</p>
+                      <p className="font-mono text-[10px] void-text-error font-bold">{data.p1.moveData.active}f</p>
                     </div>
                     <div>
-                      <p className="font-mono text-[7px] text-blue-400/60">RECOVERY</p>
-                      <p className="font-mono text-[10px] text-blue-400 font-bold">{data.p1.moveData.recovery}f</p>
+                      <p className="font-mono text-[7px] void-text-energy">RECOVERY</p>
+                      <p className="font-mono text-[10px] void-text-energy font-bold">{data.p1.moveData.recovery}f</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[8px] text-white/40">DMG</span>
-                    <span className="font-mono text-[10px] text-red-300">{data.p1.moveData.damage}</span>
+                    <span className="font-mono text-[10px] void-text-error">{data.p1.moveData.damage}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[8px] text-white/40">TYPE</span>
@@ -266,20 +266,20 @@ export default function TrainingModeOverlay({
 
               {/* Combo info */}
               {data.p1.comboCount > 0 && (
-                <div className="border-t border-cyan-500/10 pt-1.5 mt-1.5">
+                <div className="border-t void-border-success pt-1.5 mt-1.5">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[8px] text-white/40">COMBO</span>
-                    <span className="font-mono text-xs text-cyan-400 font-bold">{data.p1.comboCount} HITS</span>
+                    <span className="font-mono text-xs void-text-energy font-bold">{data.p1.comboCount} HITS</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[8px] text-white/40">DMG</span>
-                    <span className="font-mono text-[10px] text-red-300">{data.p1.comboDamage}</span>
+                    <span className="font-mono text-[10px] void-text-error">{data.p1.comboDamage}</span>
                   </div>
                 </div>
               )}
 
               {/* Position */}
-              <div className="border-t border-cyan-500/10 pt-1.5 mt-1.5">
+              <div className="border-t void-border-success pt-1.5 mt-1.5">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-[8px] text-white/40">POS</span>
                   <span className="font-mono text-[9px] text-white/50">
@@ -287,8 +287,8 @@ export default function TrainingModeOverlay({
                   </span>
                 </div>
                 <div className="flex gap-1.5 mt-0.5">
-                  {data.p1.airborne && <span className="font-mono text-[7px] text-purple-400 bg-purple-400/10 px-1 rounded">AIR</span>}
-                  {data.p1.isCrouching && <span className="font-mono text-[7px] text-green-400 bg-green-400/10 px-1 rounded">CROUCH</span>}
+                  {data.p1.airborne && <span className="font-mono text-[7px] void-text-system void-bg-system px-1 rounded">AIR</span>}
+                  {data.p1.isCrouching && <span className="font-mono text-[7px] void-text-energy void-bg-success px-1 rounded">CROUCH</span>}
                 </div>
               </div>
             </div>
@@ -306,10 +306,10 @@ export default function TrainingModeOverlay({
             transition={{ duration: 0.2 }}
             className="absolute top-14 right-2 w-48 pointer-events-auto"
           >
-            <div className="bg-black/80 border border-red-500/20 rounded-md p-2 backdrop-blur-sm">
-              <div className="flex items-center gap-1.5 mb-2 border-b border-red-500/10 pb-1.5">
-                <div className="w-1.5 h-1.5 rounded-full bg-red-400" />
-                <span className="font-mono text-[9px] text-red-400 tracking-wider">P2 — {p2Name.toUpperCase()}</span>
+            <div className="bg-black/80 border void-border-error rounded-md p-2 backdrop-blur-sm">
+              <div className="flex items-center gap-1.5 mb-2 border-b void-border-error pb-1.5">
+                <div className="w-1.5 h-1.5 rounded-full void-bg-error" />
+                <span className="font-mono text-[9px] void-text-error tracking-wider">P2 — {p2Name.toUpperCase()}</span>
               </div>
 
               {/* State */}
@@ -335,35 +335,35 @@ export default function TrainingModeOverlay({
                   />
                   <div className="grid grid-cols-3 gap-1 text-center">
                     <div>
-                      <p className="font-mono text-[7px] text-yellow-400/60">STARTUP</p>
-                      <p className="font-mono text-[10px] text-yellow-400 font-bold">{data.p2.moveData.startup}f</p>
+                      <p className="font-mono text-[7px] void-text-premium">STARTUP</p>
+                      <p className="font-mono text-[10px] void-text-premium font-bold">{data.p2.moveData.startup}f</p>
                     </div>
                     <div>
-                      <p className="font-mono text-[7px] text-red-400/60">ACTIVE</p>
-                      <p className="font-mono text-[10px] text-red-400 font-bold">{data.p2.moveData.active}f</p>
+                      <p className="font-mono text-[7px] void-text-error">ACTIVE</p>
+                      <p className="font-mono text-[10px] void-text-error font-bold">{data.p2.moveData.active}f</p>
                     </div>
                     <div>
-                      <p className="font-mono text-[7px] text-blue-400/60">RECOVERY</p>
-                      <p className="font-mono text-[10px] text-blue-400 font-bold">{data.p2.moveData.recovery}f</p>
+                      <p className="font-mono text-[7px] void-text-energy">RECOVERY</p>
+                      <p className="font-mono text-[10px] void-text-energy font-bold">{data.p2.moveData.recovery}f</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[8px] text-white/40">DMG</span>
-                    <span className="font-mono text-[10px] text-red-300">{data.p2.moveData.damage}</span>
+                    <span className="font-mono text-[10px] void-text-error">{data.p2.moveData.damage}</span>
                   </div>
                 </div>
               )}
 
               {/* Combo info */}
               {data.p2.comboCount > 0 && (
-                <div className="border-t border-red-500/10 pt-1.5 mt-1.5">
+                <div className="border-t void-border-error pt-1.5 mt-1.5">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[8px] text-white/40">COMBO</span>
-                    <span className="font-mono text-xs text-red-400 font-bold">{data.p2.comboCount} HITS</span>
+                    <span className="font-mono text-xs void-text-error font-bold">{data.p2.comboCount} HITS</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[8px] text-white/40">DMG</span>
-                    <span className="font-mono text-[10px] text-red-300">{data.p2.comboDamage}</span>
+                    <span className="font-mono text-[10px] void-text-error">{data.p2.comboDamage}</span>
                   </div>
                 </div>
               )}
@@ -377,17 +377,17 @@ export default function TrainingModeOverlay({
         <div className="flex items-center gap-4 px-4 py-1.5 rounded-md bg-black/70 border border-white/10 backdrop-blur-sm">
           <div className="text-center">
             <p className="font-mono text-[7px] text-white/30 tracking-wider">MAX COMBO</p>
-            <p className="font-mono text-sm text-cyan-400 font-bold">{data.stats.maxCombo}</p>
+            <p className="font-mono text-sm void-text-energy font-bold">{data.stats.maxCombo}</p>
           </div>
           <div className="w-px h-6 bg-white/10" />
           <div className="text-center">
             <p className="font-mono text-[7px] text-white/30 tracking-wider">TOTAL DMG</p>
-            <p className="font-mono text-sm text-red-400 font-bold">{data.stats.totalDamage}</p>
+            <p className="font-mono text-sm void-text-error font-bold">{data.stats.totalDamage}</p>
           </div>
           <div className="w-px h-6 bg-white/10" />
           <div className="text-center">
             <p className="font-mono text-[7px] text-white/30 tracking-wider">HITS</p>
-            <p className="font-mono text-sm text-amber-400 font-bold">{data.stats.hitsLanded}</p>
+            <p className="font-mono text-sm void-text-accent font-bold">{data.stats.hitsLanded}</p>
           </div>
         </div>
       </div>
@@ -399,7 +399,7 @@ export default function TrainingModeOverlay({
           onClick={toggleHitboxes}
           className={`p-1.5 rounded-md border transition-colors ${
             showHitboxes
-              ? "bg-cyan-500/20 border-cyan-500/40 text-cyan-400"
+              ? "void-bg-success void-border-success void-text-energy"
               : "bg-black/60 border-white/10 text-white/40"
           }`}
           title="Toggle Hitbox/Hurtbox Display"
@@ -412,7 +412,7 @@ export default function TrainingModeOverlay({
           onClick={toggleFrameData}
           className={`p-1.5 rounded-md border transition-colors ${
             showFrameDataPanel
-              ? "bg-amber-500/20 border-amber-500/40 text-amber-400"
+              ? "void-bg-sunk void-border void-text-accent"
               : "bg-black/60 border-white/10 text-white/40"
           }`}
           title="Toggle Frame Data Panel"
@@ -425,7 +425,7 @@ export default function TrainingModeOverlay({
           onClick={() => setShowMoveList(!showMoveList)}
           className={`p-1.5 rounded-md border transition-colors ${
             showMoveList
-              ? "bg-purple-500/20 border-purple-500/40 text-purple-400"
+              ? "void-bg-system void-border-system void-text-system"
               : "bg-black/60 border-white/10 text-white/40"
           }`}
           title="Move List"
@@ -438,7 +438,7 @@ export default function TrainingModeOverlay({
           onClick={() => setShowSettings(!showSettings)}
           className={`p-1.5 rounded-md border transition-colors ${
             showSettings
-              ? "bg-green-500/20 border-green-500/40 text-green-400"
+              ? "void-bg-success void-border-success void-text-energy"
               : "bg-black/60 border-white/10 text-white/40"
           }`}
           title="Training Settings"
@@ -466,9 +466,9 @@ export default function TrainingModeOverlay({
             transition={{ duration: 0.2 }}
             className="absolute bottom-20 left-2 right-14 max-h-[50%] overflow-y-auto pointer-events-auto"
           >
-            <div className="bg-black/90 border border-purple-500/20 rounded-md p-2 backdrop-blur-sm">
-              <div className="flex items-center justify-between mb-2 border-b border-purple-500/10 pb-1.5">
-                <span className="font-mono text-[10px] text-purple-400 tracking-wider flex items-center gap-1.5">
+            <div className="bg-black/90 border void-border-system rounded-md p-2 backdrop-blur-sm">
+              <div className="flex items-center justify-between mb-2 border-b void-border-system pb-1.5">
+                <span className="font-mono text-[10px] void-text-system tracking-wider flex items-center gap-1.5">
                   <List size={12} />
                   MOVE LIST — {p1Name.toUpperCase()}
                 </span>
@@ -480,11 +480,11 @@ export default function TrainingModeOverlay({
               {/* Table header */}
               <div className="grid grid-cols-8 gap-1 mb-1 text-center">
                 <span className="font-mono text-[7px] text-white/30 col-span-2 text-left">MOVE</span>
-                <span className="font-mono text-[7px] text-yellow-400/50">START</span>
-                <span className="font-mono text-[7px] text-red-400/50">ACTIVE</span>
-                <span className="font-mono text-[7px] text-blue-400/50">RECOV</span>
+                <span className="font-mono text-[7px] void-text-premium">START</span>
+                <span className="font-mono text-[7px] void-text-error">ACTIVE</span>
+                <span className="font-mono text-[7px] void-text-energy">RECOV</span>
                 <span className="font-mono text-[7px] text-white/30">TOTAL</span>
-                <span className="font-mono text-[7px] text-red-400/50">DMG</span>
+                <span className="font-mono text-[7px] void-text-error">DMG</span>
                 <span className="font-mono text-[7px] text-white/30">TYPE</span>
               </div>
 
@@ -494,32 +494,32 @@ export default function TrainingModeOverlay({
                   key={move.input}
                   className={`grid grid-cols-8 gap-1 py-0.5 text-center ${
                     i % 2 === 0 ? "bg-white/[0.02]" : ""
-                  } ${move.input.startsWith("special") ? "border-t border-purple-500/10" : ""}`}
+                  } ${move.input.startsWith("special") ? "border-t void-border-system" : ""}`}
                 >
                   <span className="font-mono text-[8px] text-white/70 col-span-2 text-left truncate" title={move.name}>
                     {move.name}
                   </span>
-                  <span className="font-mono text-[9px] text-yellow-400">{move.startup}f</span>
-                  <span className="font-mono text-[9px] text-red-400">{move.active}f</span>
-                  <span className="font-mono text-[9px] text-blue-400">{move.recovery}f</span>
+                  <span className="font-mono text-[9px] void-text-premium">{move.startup}f</span>
+                  <span className="font-mono text-[9px] void-text-error">{move.active}f</span>
+                  <span className="font-mono text-[9px] void-text-energy">{move.recovery}f</span>
                   <span className="font-mono text-[9px] text-white/50">{move.total}f</span>
-                  <span className="font-mono text-[9px] text-red-300">{move.damage}</span>
+                  <span className="font-mono text-[9px] void-text-error">{move.damage}</span>
                   <span className="font-mono text-[7px] text-white/40 uppercase">{move.type}</span>
                 </div>
               ))}
 
               {/* Legend */}
-              <div className="mt-2 pt-1.5 border-t border-purple-500/10 flex gap-3">
+              <div className="mt-2 pt-1.5 border-t void-border-system flex gap-3">
                 <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 rounded-sm bg-yellow-500/50" />
+                  <div className="w-2 h-2 rounded-sm void-bg-sunk" />
                   <span className="font-mono text-[7px] text-white/30">Startup</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 rounded-sm bg-red-500/50" />
+                  <div className="w-2 h-2 rounded-sm void-bg-error" />
                   <span className="font-mono text-[7px] text-white/30">Active</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 rounded-sm bg-blue-500/50" />
+                  <div className="w-2 h-2 rounded-sm void-bg-sunk" />
                   <span className="font-mono text-[7px] text-white/30">Recovery</span>
                 </div>
               </div>
@@ -538,9 +538,9 @@ export default function TrainingModeOverlay({
             transition={{ duration: 0.2 }}
             className="absolute bottom-20 right-14 w-52 pointer-events-auto"
           >
-            <div className="bg-black/90 border border-green-500/20 rounded-md p-2 backdrop-blur-sm">
-              <div className="flex items-center justify-between mb-2 border-b border-green-500/10 pb-1.5">
-                <span className="font-mono text-[10px] text-green-400 tracking-wider flex items-center gap-1.5">
+            <div className="bg-black/90 border void-border-success rounded-md p-2 backdrop-blur-sm">
+              <div className="flex items-center justify-between mb-2 border-b void-border-success pb-1.5">
+                <span className="font-mono text-[10px] void-text-energy tracking-wider flex items-center gap-1.5">
                   <Settings2 size={12} />
                   TRAINING SETTINGS
                 </span>
@@ -556,11 +556,11 @@ export default function TrainingModeOverlay({
                   className="w-full flex items-center justify-between px-2 py-1.5 rounded border border-white/5 hover:border-white/10 transition-colors"
                 >
                   <span className="flex items-center gap-1.5">
-                    <Heart size={12} className={infiniteHealth ? "text-green-400" : "text-white/30"} />
+                    <Heart size={12} className={infiniteHealth ? "void-text-energy" : "text-white/30"} />
                     <span className="font-mono text-[9px] text-white/70">Infinite Health (P2)</span>
                   </span>
                   <span className={`font-mono text-[8px] px-1.5 py-0.5 rounded ${
-                    infiniteHealth ? "bg-green-500/20 text-green-400" : "bg-white/5 text-white/30"
+                    infiniteHealth ? "void-bg-success void-text-energy" : "bg-white/5 text-white/30"
                   }`}>
                     {infiniteHealth ? "ON" : "OFF"}
                   </span>
@@ -572,11 +572,11 @@ export default function TrainingModeOverlay({
                   className="w-full flex items-center justify-between px-2 py-1.5 rounded border border-white/5 hover:border-white/10 transition-colors"
                 >
                   <span className="flex items-center gap-1.5">
-                    <Zap size={12} className={infiniteMeter ? "text-amber-400" : "text-white/30"} />
+                    <Zap size={12} className={infiniteMeter ? "void-text-accent" : "text-white/30"} />
                     <span className="font-mono text-[9px] text-white/70">Infinite Meter (P1)</span>
                   </span>
                   <span className={`font-mono text-[8px] px-1.5 py-0.5 rounded ${
-                    infiniteMeter ? "bg-amber-500/20 text-amber-400" : "bg-white/5 text-white/30"
+                    infiniteMeter ? "void-bg-sunk void-text-accent" : "bg-white/5 text-white/30"
                   }`}>
                     {infiniteMeter ? "ON" : "OFF"}
                   </span>
@@ -588,11 +588,11 @@ export default function TrainingModeOverlay({
                   className="w-full flex items-center justify-between px-2 py-1.5 rounded border border-white/5 hover:border-white/10 transition-colors"
                 >
                   <span className="flex items-center gap-1.5">
-                    <Shield size={12} className={autoRecover ? "text-blue-400" : "text-white/30"} />
+                    <Shield size={12} className={autoRecover ? "void-text-energy" : "text-white/30"} />
                     <span className="font-mono text-[9px] text-white/70">Auto Recover (P2)</span>
                   </span>
                   <span className={`font-mono text-[8px] px-1.5 py-0.5 rounded ${
-                    autoRecover ? "bg-blue-500/20 text-blue-400" : "bg-white/5 text-white/30"
+                    autoRecover ? "void-bg-sunk void-text-energy" : "bg-white/5 text-white/30"
                   }`}>
                     {autoRecover ? "ON" : "OFF"}
                   </span>
@@ -602,7 +602,7 @@ export default function TrainingModeOverlay({
                 <div className="border-t border-white/5 pt-2">
                   <button
                     onClick={() => { onResetDummy(); onResetPositions(); }}
-                    className="w-full flex items-center justify-center gap-1.5 px-2 py-1.5 rounded border border-red-500/20 hover:border-red-500/40 text-red-400/70 hover:text-red-400 transition-colors"
+                    className="w-full flex items-center justify-center gap-1.5 px-2 py-1.5 rounded border void-border-error void-border-error void-text-error void-text-error transition-colors"
                   >
                     <RotateCcw size={12} />
                     <span className="font-mono text-[9px]">RESET ALL</span>

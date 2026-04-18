@@ -14,20 +14,20 @@ import { useAuth } from "@/_core/hooks/useAuth";
 
 /* ─── Tier Config ─── */
 const TIER_CONFIG: Record<string, { label: string; color: string; bg: string; glow: string }> = {
-  legendary: { label: "GRAND COLLECTOR", color: "text-amber-300", bg: "bg-amber-500/15 border-amber-500/30", glow: "0 0 12px rgba(251,191,36,0.3)" },
-  epic: { label: "ARCHON", color: "text-purple-400", bg: "bg-purple-500/15 border-purple-500/30", glow: "0 0 12px rgba(168,85,247,0.3)" },
-  rare: { label: "ELITE", color: "text-cyan-300", bg: "bg-cyan-500/15 border-cyan-500/30", glow: "0 0 12px rgba(34,211,238,0.3)" },
-  common: { label: "CHAMPION", color: "text-green-400", bg: "bg-green-500/15 border-green-500/30", glow: "0 0 12px rgba(34,197,94,0.3)" },
+  legendary: { label: "GRAND COLLECTOR", color: "void-text-accent", bg: "void-bg-sunk void-border", glow: "0 0 12px color-mix(in oklch, var(--energy-premium) 30%, transparent)" },
+  epic: { label: "ARCHON", color: "void-text-system", bg: "void-bg-system void-border-system", glow: "0 0 12px color-mix(in oklch, var(--energy-system) 30%, transparent)" },
+  rare: { label: "ELITE", color: "void-text-energy", bg: "void-bg-success void-border-success", glow: "0 0 12px color-mix(in oklch, var(--energy-primary) 30%, transparent)" },
+  common: { label: "CHAMPION", color: "void-text-energy", bg: "void-bg-success void-border-success", glow: "0 0 12px color-mix(in oklch, var(--energy-success) 30%, transparent)" },
 };
 
 const RANK_TIER_COLORS: Record<string, string> = {
-  grandmaster: "text-amber-300",
-  master: "text-purple-400",
-  diamond: "text-cyan-300",
-  platinum: "text-emerald-400",
-  gold: "text-yellow-400",
+  grandmaster: "void-text-accent",
+  master: "void-text-system",
+  diamond: "void-text-energy",
+  platinum: "void-text-energy",
+  gold: "void-text-premium",
   silver: "text-muted-foreground",
-  bronze: "text-orange-400",
+  bronze: "void-text-premium",
 };
 
 export default function PotentialsLeaderboardPage() {
@@ -51,7 +51,7 @@ export default function PotentialsLeaderboardPage() {
               </Link>
               <div>
                 <h1 className="font-display text-lg tracking-[0.2em] text-foreground flex items-center gap-2">
-                  <Gem size={18} className="text-purple-400" />
+                  <Gem size={18} className="void-text-system" />
                   POTENTIALS LEADERBOARD
                 </h1>
                 <p className="font-mono text-[10px] text-muted-foreground tracking-wider">
@@ -67,7 +67,7 @@ export default function PotentialsLeaderboardPage() {
       <div className="max-w-5xl mx-auto px-4 py-6">
         {isLoading ? (
           <div className="text-center py-20">
-            <Loader2 size={32} className="mx-auto text-purple-400 animate-spin mb-4" />
+            <Loader2 size={32} className="mx-auto void-text-system animate-spin mb-4" />
             <p className="font-mono text-muted-foreground">Loading rankings...</p>
           </div>
         ) : !data?.entries.length ? (
@@ -105,17 +105,17 @@ export default function PotentialsLeaderboardPage() {
                   transition={{ delay: i * 0.03 }}
                   className={`grid grid-cols-12 gap-2 px-4 py-3 rounded-lg border transition-colors ${
                     isMe
-                      ? "bg-purple-500/10 border-purple-500/30"
+                      ? "void-bg-system void-border-system"
                       : i < 3
-                      ? "bg-amber-500/5 border-amber-500/10 hover:border-amber-500/30"
+                      ? "void-bg-sunk void-border void-border"
                       : "bg-muted/15 border-border/40 hover:border-border/80"
                   }`}
                 >
                   {/* Rank */}
                   <div className="col-span-1 flex items-center">
-                    {i === 0 ? <Crown size={16} className="text-amber-400" /> :
+                    {i === 0 ? <Crown size={16} className="void-text-accent" /> :
                      i === 1 ? <Medal size={16} className="text-muted-foreground" /> :
-                     i === 2 ? <Medal size={16} className="text-orange-400" /> :
+                     i === 2 ? <Medal size={16} className="void-text-premium" /> :
                      <span className="font-mono text-sm text-muted-foreground/60">{entry.rank}</span>}
                   </div>
 
@@ -125,7 +125,7 @@ export default function PotentialsLeaderboardPage() {
                       {entry.userName}
                     </span>
                     {isMe && (
-                      <span className="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono">
+                      <span className="text-[9px] px-1.5 py-0.5 rounded void-bg-system void-text-system font-mono">
                         YOU
                       </span>
                     )}
@@ -146,17 +146,17 @@ export default function PotentialsLeaderboardPage() {
                   </div>
 
                   {/* Claims */}
-                  <div className="col-span-1 text-center font-mono text-sm text-purple-400">
+                  <div className="col-span-1 text-center font-mono text-sm void-text-system">
                     {entry.claimedCount}
                   </div>
 
                   {/* Fight Wins */}
-                  <div className="col-span-1 text-center font-mono text-sm text-green-400">
+                  <div className="col-span-1 text-center font-mono text-sm void-text-energy">
                     {entry.fightWins}
                   </div>
 
                   {/* ELO */}
-                  <div className="col-span-1 text-center font-mono text-sm text-amber-400">
+                  <div className="col-span-1 text-center font-mono text-sm void-text-accent">
                     {entry.elo}
                   </div>
 
@@ -175,11 +175,11 @@ export default function PotentialsLeaderboardPage() {
                           <img
                             src={entry.featuredPotential.imageUrl}
                             alt=""
-                            className="w-7 h-7 rounded-full object-cover border border-purple-500/30"
+                            className="w-7 h-7 rounded-full object-cover border void-border-system"
                           />
                         ) : (
-                          <div className="w-7 h-7 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
-                            <Gem size={12} className="text-purple-400" />
+                          <div className="w-7 h-7 rounded-full void-bg-system border void-border-system flex items-center justify-center">
+                            <Gem size={12} className="void-text-system" />
                           </div>
                         )}
                         <span className="font-mono text-[10px] text-muted-foreground/70 truncate max-w-[80px]">

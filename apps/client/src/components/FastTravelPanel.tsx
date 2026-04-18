@@ -22,13 +22,13 @@ interface FastTravelPanelProps {
 }
 
 const DECK_COLORS: Record<number, string> = {
-  1: "#33E2E6",  // Habitation - cyan
-  2: "#3875fa",  // Command - blue
+  1: "var(--energy-primary)",  // Habitation - cyan
+  2: "var(--electric-blue)",  // Command - blue
   3: "#a855f7",  // Operations - purple
-  4: "#FF8C00",  // Technical - orange
-  5: "#22c55e",  // Logistics - green
+  4: "var(--energy-premium)",  // Technical - orange
+  5: "var(--energy-success)",  // Logistics - green
   6: "#DC2626",  // Restricted - red
-  7: "#FFD700",  // Pocket Dimension - gold
+  7: "var(--energy-premium)",  // Pocket Dimension - gold
   8: "#FF69B4",  // Hidden - pink
 };
 
@@ -81,12 +81,12 @@ export default function FastTravelPanel({
         style={{
           top: "50%",
           transform: "translateY(-50%)",
-          background: isOpen ? "rgba(51,226,230,0.15)" : "linear-gradient(135deg, rgba(1,0,32,0.95), rgba(56,117,250,0.1))",
-          border: `1px solid ${isOpen ? "rgba(51,226,230,0.4)" : "rgba(51,226,230,0.2)"}`,
+          background: isOpen ? "color-mix(in oklch, var(--energy-primary) 15%, transparent)" : "linear-gradient(135deg, color-mix(in oklch, var(--bg-void) 95%, transparent), color-mix(in oklch, var(--electric-blue) 10%, transparent))",
+          border: `1px solid ${isOpen ? "color-mix(in oklch, var(--energy-primary) 40%, transparent)" : "color-mix(in oklch, var(--energy-primary) 20%, transparent)"}`,
           borderRight: "none",
           borderRadius: "8px 0 0 8px",
           padding: "8px 10px 8px 12px",
-          boxShadow: "0 0 20px rgba(51,226,230,0.1), -4px 0 20px rgba(0,0,0,0.3)",
+          boxShadow: "0 0 20px color-mix(in oklch, var(--energy-primary) 10%, transparent), -4px 0 20px color-mix(in oklch, var(--bg-void) 30%, transparent)",
           backdropFilter: "blur(12px)",
         }}
         whileHover={{ x: -2 }}
@@ -107,7 +107,7 @@ export default function FastTravelPanel({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-40 sm:hidden"
-              style={{ background: "rgba(0,0,0,0.5)" }}
+              style={{ background: "color-mix(in oklch, var(--bg-void) 50%, transparent)" }}
               onClick={() => setIsOpen(false)}
             />
             <motion.div
@@ -117,9 +117,9 @@ export default function FastTravelPanel({
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               className="fixed right-0 top-0 bottom-0 z-40 w-72 sm:w-64 overflow-y-auto"
               style={{
-                background: "linear-gradient(180deg, var(--bg-void) 0%, rgba(1,0,32,0.98) 100%)",
-                borderLeft: "1px solid rgba(51,226,230,0.15)",
-                boxShadow: "-10px 0 40px rgba(0,0,0,0.5)",
+                background: "linear-gradient(180deg, var(--bg-void) 0%, color-mix(in oklch, var(--bg-void) 98%, transparent) 100%)",
+                borderLeft: "1px solid color-mix(in oklch, var(--energy-primary) 15%, transparent)",
+                boxShadow: "-10px 0 40px color-mix(in oklch, var(--bg-void) 50%, transparent)",
                 backdropFilter: "blur(20px)",
               }}
             >
@@ -157,7 +157,7 @@ export default function FastTravelPanel({
               {/* Room list by deck */}
               <div className="p-3 space-y-3">
                 {deckGroups.map(([deckNum, { deckName, rooms: deckRooms }]: [number, { deckName: string; rooms: (RoomDef & { isUnlocked: boolean; isVisited: boolean })[] }]) => {
-                  const deckColor = DECK_COLORS[deckNum] || "#33E2E6";
+                  const deckColor = DECK_COLORS[deckNum] || "var(--energy-primary)";
                   return (
                     <div key={deckNum}>
                       {/* Deck header */}
@@ -181,15 +181,15 @@ export default function FastTravelPanel({
                               style={{
                                 background: isCurrent
                                   ? `${deckColor}12`
-                                  : room.isUnlocked ? "rgba(255,255,255,0.015)" : "rgba(255,255,255,0.005)",
+                                  : room.isUnlocked ? "color-mix(in oklch, var(--text-primary) 2%, transparent)" : "color-mix(in oklch, var(--text-primary) 1%, transparent)",
                                 border: `1px solid ${isCurrent ? `${deckColor}30` : "transparent"}`,
                                 cursor: canTravel ? "pointer" : room.isUnlocked && !isCurrent ? "default" : "not-allowed",
                                 opacity: room.isUnlocked ? 1 : 0.4,
                               }}
                             >
                               <div className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center" style={{
-                                background: isCurrent ? `${deckColor}20` : room.isUnlocked ? "rgba(255,255,255,0.03)" : "rgba(255,255,255,0.01)",
-                                border: `1px solid ${isCurrent ? `${deckColor}40` : room.isUnlocked ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.03)"}`,
+                                background: isCurrent ? `${deckColor}20` : room.isUnlocked ? "color-mix(in oklch, var(--text-primary) 3%, transparent)" : "color-mix(in oklch, var(--text-primary) 1%, transparent)",
+                                border: `1px solid ${isCurrent ? `${deckColor}40` : room.isUnlocked ? "color-mix(in oklch, var(--text-primary) 6%, transparent)" : "color-mix(in oklch, var(--text-primary) 3%, transparent)"}`,
                               }}>
                                 {isCurrent ? (
                                   <div className="w-2 h-2 rounded-full" style={{ background: deckColor, boxShadow: `0 0 6px ${deckColor}` }} />
@@ -203,7 +203,7 @@ export default function FastTravelPanel({
                                 <p className={`tracking-wider truncate transition-colors ${
                                   isCurrent ? "font-bold" : room.isVisited ? "group-hover:text-foreground/90" : ""
                                 }`} style={{
-                                  color: isCurrent ? deckColor : room.isUnlocked ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.2)",
+                                  color: isCurrent ? deckColor : room.isUnlocked ? "color-mix(in oklch, var(--text-primary) 60%, transparent)" : "color-mix(in oklch, var(--text-primary) 20%, transparent)",
                                 }}>
                                   {room.isUnlocked ? room.name : "???"}
                                 </p>
@@ -230,7 +230,7 @@ export default function FastTravelPanel({
               {itemsCollected.length > 0 && (
                 <div className="mx-3 mb-3 rounded-lg p-3" style={{
                   background: "var(--bg-overlay)",
-                  border: "1px solid rgba(255,183,77,0.15)",
+                  border: "1px solid color-mix(in oklch, var(--energy-premium) 15%, transparent)",
                 }}>
                   <div className="flex items-center gap-2 mb-2">
                     <Package size={12} className="text-[var(--orb-orange)]" />
@@ -250,7 +250,7 @@ export default function FastTravelPanel({
                             cursor: onItemClick ? "pointer" : "default",
                           }}
                           onMouseEnter={(e) => {
-                            e.currentTarget.style.background = "rgba(255,183,77,0.08)";
+                            e.currentTarget.style.background = "color-mix(in oklch, var(--energy-premium) 8%, transparent)";
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.background = "transparent";
@@ -272,16 +272,16 @@ export default function FastTravelPanel({
               {solvedPuzzles.size > 0 && (
                 <div className="mx-3 mb-3 rounded-lg p-3" style={{
                   background: "var(--bg-overlay)",
-                  border: "1px solid rgba(34,197,94,0.15)",
+                  border: "1px solid color-mix(in oklch, var(--energy-success) 15%, transparent)",
                 }}>
                   <div className="flex items-center gap-2 mb-2">
-                    <Zap size={12} className="text-green-400" />
-                    <span className="font-mono text-[10px] text-green-400 tracking-[0.2em]">PUZZLES SOLVED</span>
+                    <Zap size={12} className="void-text-energy" />
+                    <span className="font-mono text-[10px] void-text-energy tracking-[0.2em]">PUZZLES SOLVED</span>
                   </div>
                   <div className="space-y-1">
                     {Array.from(solvedPuzzles).map(roomId => (
                       <div key={roomId} className="flex items-center gap-2 px-2 py-1 rounded text-muted-foreground/60 font-mono text-[10px]">
-                        <Zap size={8} className="text-green-400/60" />
+                        <Zap size={8} className="void-text-energy" />
                         {getRoomDef(roomId)?.name || roomId}
                       </div>
                     ))}

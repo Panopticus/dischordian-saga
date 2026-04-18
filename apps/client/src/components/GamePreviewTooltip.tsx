@@ -78,7 +78,7 @@ export default function GamePreviewTooltip({ game, children }: GamePreviewToolti
               position === "above" ? "bottom-full mb-2" : "top-full mt-2"
             }`}
           >
-            <div className="rounded-lg border border-purple-500/30 bg-card/95 backdrop-blur-md shadow-xl overflow-hidden">
+            <div className="rounded-lg border void-border-system bg-card/95 backdrop-blur-md shadow-xl overflow-hidden">
               {/* Character portraits row */}
               {hasPortraits && (
                 <div className="flex items-center gap-0 border-b border-border/20">
@@ -129,7 +129,7 @@ export default function GamePreviewTooltip({ game, children }: GamePreviewToolti
                     <Shield size={8} /> {game.difficulty}
                   </span>
                   {achievement && (
-                    <span className="flex items-center gap-0.5 text-amber-400/60">
+                    <span className="flex items-center gap-0.5 void-text-accent">
                       <Star size={8} /> +{achievement.xpReward} XP
                     </span>
                   )}
@@ -137,7 +137,7 @@ export default function GamePreviewTooltip({ game, children }: GamePreviewToolti
               </div>
 
               {/* Arrow */}
-              <div className={`absolute left-1/2 -translate-x-1/2 w-2 h-2 rotate-45 bg-card/95 border-purple-500/30 ${
+              <div className={`absolute left-1/2 -translate-x-1/2 w-2 h-2 rotate-45 bg-card/95 void-border-system ${
                 position === "above"
                   ? "bottom-[-5px] border-r border-b"
                   : "top-[-5px] border-l border-t"

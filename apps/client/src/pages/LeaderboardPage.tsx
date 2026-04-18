@@ -22,10 +22,10 @@ const SORT_OPTIONS: { value: SortBy; label: string; icon: typeof Trophy; descrip
 ];
 
 const RANK_COLORS: Record<string, string> = {
-  "Grand Archivist": "text-amber-400",
-  "Master Operative": "text-purple-400",
-  "Senior Agent": "text-blue-400",
-  "Field Operative": "text-emerald-400",
+  "Grand Archivist": "void-text-accent",
+  "Master Operative": "void-text-system",
+  "Senior Agent": "void-text-energy",
+  "Field Operative": "void-text-energy",
   "Recruit": "text-muted-foreground",
   "Unranked": "text-muted-foreground/50",
 };
@@ -38,21 +38,21 @@ const SPECIES_ICONS: Record<string, string> = {
 
 const POSITION_STYLES: Record<number, { bg: string; border: string; badge: string; glow: string }> = {
   1: {
-    bg: "bg-amber-500/10",
-    border: "border-amber-500/40",
-    badge: "bg-amber-500 text-black",
-    glow: "shadow-[0_0_20px_rgba(245,158,11,0.15)]",
+    bg: "void-bg-sunk",
+    border: "void-border",
+    badge: "void-bg-sunk text-black",
+    glow: "shadow-[0_0_20px_color-mix(in oklch, var(--energy-accent) 15%, transparent)]",
   },
   2: {
-    bg: "bg-slate-300/10",
-    border: "border-slate-400/40",
-    badge: "bg-slate-400 text-black",
+    bg: "void-bg-canvas",
+    border: "void-border",
+    badge: "void-bg-canvas text-black",
     glow: "shadow-[0_0_15px_rgba(148,163,184,0.1)]",
   },
   3: {
-    bg: "bg-amber-700/10",
-    border: "border-amber-700/40",
-    badge: "bg-amber-700 text-foreground",
+    bg: "void-bg-sunk",
+    border: "void-border",
+    badge: "void-bg-sunk text-foreground",
     glow: "shadow-[0_0_15px_rgba(180,83,9,0.1)]",
   },
 };
@@ -238,9 +238,9 @@ export default function LeaderboardPage() {
                     {/* Completion */}
                     <div className="flex-shrink-0 text-right w-16">
                       <p className={`font-display text-lg font-black ${
-                        entry.completionPercent >= 90 ? "text-amber-400" :
-                        entry.completionPercent >= 65 ? "text-purple-400" :
-                        entry.completionPercent >= 40 ? "text-blue-400" :
+                        entry.completionPercent >= 90 ? "void-text-accent" :
+                        entry.completionPercent >= 65 ? "void-text-system" :
+                        entry.completionPercent >= 40 ? "void-text-energy" :
                         "text-foreground"
                       }`}>
                         {entry.completionPercent}%

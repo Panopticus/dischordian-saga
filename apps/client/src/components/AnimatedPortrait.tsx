@@ -268,7 +268,7 @@ export function AnimatedPortrait({
             style={{
               top: "20%",
               height: "12%",
-              background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.15) 60%, transparent 100%)",
+              background: "linear-gradient(180deg, transparent 0%, color-mix(in oklch, var(--bg-void) 15%, transparent) 40%, color-mix(in oklch, var(--bg-void) 15%, transparent) 60%, transparent 100%)",
             }}
           />
         )}
@@ -300,7 +300,7 @@ export function AnimatedPortrait({
               className="absolute inset-0 pointer-events-none z-20"
               style={{
                 backgroundImage:
-                  "repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(248,113,113,0.06) 2px, rgba(248,113,113,0.06) 4px)",
+                  "repeating-linear-gradient(0deg, transparent 0, transparent 2px, color-mix(in oklch, var(--energy-error) 6%, transparent) 2px, color-mix(in oklch, var(--energy-error) 6%, transparent) 4px)",
                 mixBlendMode: "overlay",
                 animation: "portrait-human-static 3s ease-in-out infinite",
               }}
@@ -316,7 +316,7 @@ export function AnimatedPortrait({
               }}
               className="absolute left-0 right-0 h-8 pointer-events-none z-20"
               style={{
-                background: `linear-gradient(180deg, transparent 0%, rgba(248,113,113,${0.1 - trustLevel * 0.0015}) 40%, rgba(248,113,113,${0.1 - trustLevel * 0.0015}) 60%, transparent 100%)`,
+                background: `linear-gradient(180deg, transparent 0%, color-mix(in oklch, var(--energy-error) calc((0.1 - trustLevel * 0.0015) * 100%), transparent) 40%, color-mix(in oklch, var(--energy-error) calc((0.1 - trustLevel * 0.0015) * 100%), transparent) 60%, transparent 100%)`,
               }}
             />
 
@@ -333,7 +333,7 @@ export function AnimatedPortrait({
                 style={{
                   top: "35%",
                   height: trustLevel < 10 ? "10px" : "5px",
-                  background: `rgba(248,113,113,${trustLevel < 10 ? 0.22 : 0.1})`,
+                  background: `color-mix(in oklch, var(--energy-error) calc((trustLevel < 10 ? 0.22 : 0.1) * 100%), transparent)`,
                   mixBlendMode: "screen",
                 }}
               />
@@ -344,10 +344,10 @@ export function AnimatedPortrait({
               <div
                 className="absolute bottom-0 left-0 right-0 p-2 z-30"
                 style={{
-                  background: "linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 100%)",
+                  background: "linear-gradient(0deg, color-mix(in oklch, var(--bg-void) 70%, transparent) 0%, transparent 100%)",
                 }}
               >
-                <p className="font-mono text-[7px] tracking-[0.3em] text-red-400/60 text-center uppercase">
+                <p className="font-mono text-[7px] tracking-[0.3em] void-text-error text-center uppercase">
                   {humanStage.label}
                 </p>
               </div>

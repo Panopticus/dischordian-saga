@@ -99,13 +99,13 @@ export const SPECIES_MODELS: Record<Species, {
   build: "slim" | "medium" | "heavy";
 }> = {
   demagi: { bodyColor: "#2a1f4e", skinTone: "#d4b896", featureColor: "#7c3aed", eyeColor: "#a78bfa", height: 180, build: "medium" },
-  quarchon: { bodyColor: "#1a1a2e", skinTone: "#8b9dc3", featureColor: "#06b6d4", eyeColor: "#22d3ee", height: 190, build: "heavy" },
-  neyon: { bodyColor: "#1a0a2e", skinTone: "#c4a882", featureColor: "#f59e0b", eyeColor: "#fbbf24", height: 175, build: "slim" },
+  quarchon: { bodyColor: "#1a1a2e", skinTone: "#8b9dc3", featureColor: "#06b6d4", eyeColor: "var(--energy-primary)", height: 190, build: "heavy" },
+  neyon: { bodyColor: "#1a0a2e", skinTone: "#c4a882", featureColor: "var(--energy-accent)", eyeColor: "#fbbf24", height: 175, build: "slim" },
 };
 
 /** Alignment aura properties */
 export const ALIGNMENT_AURAS = {
-  order: { color: "#33e2e6", animation: "pulse" as const, physics: "glass" as PhysicsType, description: "Steady cyan glow — discipline and clarity" },
+  order: { color: "var(--energy-primary)", animation: "pulse" as const, physics: "glass" as PhysicsType, description: "Steady cyan glow — discipline and clarity" },
   chaos: { color: "#a855f7", animation: "shimmer" as const, physics: "glass" as PhysicsType, description: "Shifting purple energy — passion and defiance" },
 };
 
@@ -127,8 +127,8 @@ export const CHARACTER_DYES: CharacterDye[] = [
   // Basic dyes (craftable)
   { id: "dye_midnight", name: "Midnight", description: "Deep void black with blue undertones", targets: ["body", "armor"], palette: { primary: "#0f172a", secondary: "#1e293b", glow: "#3b82f6" }, source: "craft", cost: { dream: 15 } },
   { id: "dye_blood", name: "Blood of Kael", description: "Deep crimson — the color of revolution", targets: ["body", "armor"], palette: { primary: "#7f1d1d", secondary: "#dc2626", glow: "#f87171" }, source: "craft", cost: { dream: 15 } },
-  { id: "dye_forest", name: "Living Green", description: "The color of the Dreamer's first garden", targets: ["body", "armor"], palette: { primary: "#14532d", secondary: "#22c55e", glow: "#86efac" }, source: "craft", cost: { dream: 15 } },
-  { id: "dye_solar", name: "Solar Gold", description: "The light of Atarion's last sunrise", targets: ["body", "armor", "weapon"], palette: { primary: "#78350f", secondary: "#f59e0b", glow: "#fde68a" }, source: "craft", cost: { dream: 25 } },
+  { id: "dye_forest", name: "Living Green", description: "The color of the Dreamer's first garden", targets: ["body", "armor"], palette: { primary: "#14532d", secondary: "var(--energy-success)", glow: "#86efac" }, source: "craft", cost: { dream: 15 } },
+  { id: "dye_solar", name: "Solar Gold", description: "The light of Atarion's last sunrise", targets: ["body", "armor", "weapon"], palette: { primary: "#78350f", secondary: "var(--energy-accent)", glow: "var(--energy-accent)" }, source: "craft", cost: { dream: 25 } },
 
   // Premium dyes
   { id: "dye_void_touched", name: "Void-Touched", description: "Colors that shouldn't exist — seen between dimensions", targets: ["body", "armor", "weapon", "aura"], palette: { primary: "#0a0a0a", secondary: "#6366f1", glow: "#a5b4fc" }, source: "shop", cost: { dream: 75, voidCrystals: 3 } },
@@ -139,7 +139,7 @@ export const CHARACTER_DYES: CharacterDye[] = [
   { id: "dye_prestige_7", name: "Transcendent", description: "Beyond the Seventh Seal — colors that exist outside the spectrum", targets: ["body", "armor", "weapon", "aura"], palette: { primary: "#fdf4ff", secondary: "#d946ef", glow: "#f0abfc" }, source: "prestige", cost: { dream: 0 } },
 
   // NPC gift dyes
-  { id: "dye_elara_cyan", name: "Elara's Frequency", description: "The exact wavelength of Elara's holographic projection", targets: ["aura"], palette: { primary: "#164e63", secondary: "#33e2e6", glow: "#67e8f9" }, source: "npc", cost: { dream: 0 } },
+  { id: "dye_elara_cyan", name: "Elara's Frequency", description: "The exact wavelength of Elara's holographic projection", targets: ["aura"], palette: { primary: "#164e63", secondary: "var(--energy-primary)", glow: "#67e8f9" }, source: "npc", cost: { dream: 0 } },
   { id: "dye_human_red", name: "Substrate Red", description: "The color of The Human's prison — the substrate layer", targets: ["aura"], palette: { primary: "#450a0a", secondary: "#f87171", glow: "#fca5a5" }, source: "npc", cost: { dream: 0 } },
 ];
 
@@ -196,7 +196,7 @@ export function buildCharacterAppearance(
   if (prestige > 0) {
     layers.push({
       id: "prestige_stars", zIndex: 9, shape: "prestige",
-      palette: { primary: "#fbbf24", secondary: "#fde68a", glow: "#fbbf24" },
+      palette: { primary: "#fbbf24", secondary: "var(--energy-accent)", glow: "#fbbf24" },
       physics: "glass", opacity: 0.8, animation: "float",
     });
   }

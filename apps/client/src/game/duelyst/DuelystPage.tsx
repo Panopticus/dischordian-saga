@@ -42,7 +42,7 @@ const PLAYABLE_FACTIONS: Faction[] = ["architect", "dreamer", "insurgency", "new
 const RANKED_TIERS = [
   { name: "Bronze", minElo: 0, color: "#cd7f32", icon: "🥉" },
   { name: "Silver", minElo: 1400, color: "#c0c0c0", icon: "🥈" },
-  { name: "Gold", minElo: 1600, color: "#ffd700", icon: "🥇" },
+  { name: "Gold", minElo: 1600, color: "var(--energy-premium)", icon: "🥇" },
   { name: "Platinum", minElo: 1800, color: "#00bcd4", icon: "💎" },
   { name: "Diamond", minElo: 2000, color: "#b388ff", icon: "💠" },
   { name: "Master", minElo: 2200, color: "#ff5722", icon: "🔥" },
@@ -299,16 +299,16 @@ export default function DuelystPage() {
                 </div>
                 {(wins > 0 || losses > 0) && (
                   <div className="flex gap-3 ml-4 font-mono text-[10px]">
-                    <span className="text-green-400">{wins}W</span>
-                    <span className="text-red-400">{losses}L</span>
+                    <span className="void-text-energy">{wins}W</span>
+                    <span className="void-text-error">{losses}L</span>
                   </div>
                 )}
               </div>
               {dreamQuery.data && (
-                <div className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-purple-500/10 border border-purple-500/20">
-                  <Sparkles size={14} className="text-purple-400" />
-                  <span className="font-mono text-xs text-purple-400 font-bold">{dreamQuery.data.dream}</span>
-                  <span className="font-mono text-[9px] text-purple-400/50">DREAM</span>
+                <div className="flex items-center gap-1.5 px-3 py-2 rounded-lg void-bg-system border void-border-system">
+                  <Sparkles size={14} className="void-text-system" />
+                  <span className="font-mono text-xs void-text-system font-bold">{dreamQuery.data.dream}</span>
+                  <span className="font-mono text-[9px] void-text-system">DREAM</span>
                 </div>
               )}
             </div>
@@ -324,7 +324,7 @@ export default function DuelystPage() {
                     setView("playing");
                     dischordiaSounds.play("button_click");
                   }}
-                  className="group flex items-center gap-3 px-5 py-3 rounded-lg bg-amber-500/10 border border-amber-500/40 text-amber-400 font-mono text-sm hover:bg-amber-500/20 transition-all animate-pulse"
+                  className="group flex items-center gap-3 px-5 py-3 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk transition-all animate-pulse"
                 >
                   <BookOpen size={16} />
                   <span className="flex-1 text-left">PLAY TUTORIAL</span>
@@ -361,7 +361,7 @@ export default function DuelystPage() {
 
               <button
                 onClick={() => { handleOpenPack(); dischordiaSounds.play("button_click"); }}
-                className="group flex items-center gap-3 px-5 py-3 rounded-lg bg-amber-500/5 border border-amber-500/20 text-amber-400/70 font-mono text-sm hover:bg-amber-500/10 hover:text-amber-400 transition-all"
+                className="group flex items-center gap-3 px-5 py-3 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk void-text-accent transition-all"
               >
                 <Package size={16} />
                 <span className="flex-1 text-left">OPEN PACKS</span>
@@ -516,7 +516,7 @@ export default function DuelystPage() {
                       className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/5 hover:bg-white/[0.06] transition-colors"
                     >
                       {/* Mana cost */}
-                      <span className="w-5 h-5 flex items-center justify-center rounded-full bg-blue-500/20 text-blue-300 font-mono text-[10px] font-bold shrink-0">
+                      <span className="w-5 h-5 flex items-center justify-center rounded-full void-bg-sunk void-text-energy font-mono text-[10px] font-bold shrink-0">
                         {card?.manaCost ?? "?"}
                       </span>
                       {/* Card name */}
@@ -596,7 +596,7 @@ export default function DuelystPage() {
         {view === "result" && (
           <motion.div key="result" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}
             className="flex flex-col items-center justify-center min-h-[80vh] gap-6 p-4">
-            <Trophy size={48} className={result === "player" ? "text-amber-400" : "text-muted-foreground"} />
+            <Trophy size={48} className={result === "player" ? "void-text-accent" : "text-muted-foreground"} />
             <h2 className={`font-display text-3xl tracking-[0.3em] ${result === "player" ? "text-primary glow-cyan" : "text-destructive"}`}>
               {result === "player" ? "VICTORY" : "DEFEAT"}
             </h2>
@@ -609,7 +609,7 @@ export default function DuelystPage() {
                 PLAY AGAIN
               </button>
               <button onClick={() => { handleOpenPack(); setResult(null); }}
-                className="px-5 py-2 bg-amber-500/10 border border-amber-500/40 text-amber-400 rounded font-mono text-sm hover:bg-amber-500/20 transition-colors">
+                className="px-5 py-2 void-bg-sunk border void-border void-text-accent rounded font-mono text-sm void-bg-sunk transition-colors">
                 OPEN REWARD PACK
               </button>
               <button onClick={() => { setView("menu"); setResult(null); }}
@@ -700,8 +700,8 @@ export default function DuelystPage() {
                 <p className="font-mono text-sm text-white/40">{elo} ELO</p>
               </div>
               <div className="ml-auto text-right">
-                <p className="font-mono text-sm text-green-400">{wins}W</p>
-                <p className="font-mono text-sm text-red-400">{losses}L</p>
+                <p className="font-mono text-sm void-text-energy">{wins}W</p>
+                <p className="font-mono text-sm void-text-error">{losses}L</p>
                 <p className="font-mono text-[10px] text-white/30">{wins + losses > 0 ? Math.round((wins / (wins + losses)) * 100) : 0}% WR</p>
               </div>
             </div>

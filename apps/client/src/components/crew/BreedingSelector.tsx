@@ -151,12 +151,12 @@ export default function BreedingSelector({ state, onBreed }: Props) {
         ) : (
           <div className="space-y-3">
             {inbreeding > 0 && (
-              <div className="p-2 border border-red-500/40 bg-red-500/10 rounded">
-                <div className="flex items-center gap-1 text-[10px] font-mono text-red-300 mb-0.5">
+              <div className="p-2 border void-border-error void-bg-error rounded">
+                <div className="flex items-center gap-1 text-[10px] font-mono void-text-error mb-0.5">
                   <AlertTriangle size={10} />
                   INBREEDING PENALTY: -{inbreeding}%
                 </div>
-                <div className="text-[9px] font-mono text-red-200/70">
+                <div className="text-[9px] font-mono void-text-error">
                   {Number.isFinite(gensShared)
                     ? gensShared === 0
                       ? "Full siblings or direct ancestry — maximum penalty."
@@ -183,7 +183,7 @@ export default function BreedingSelector({ state, onBreed }: Props) {
                     className="flex items-center justify-between text-[10px] font-mono"
                   >
                     <span className="text-muted-foreground">{stat}</span>
-                    <span className={inbreeding > 0 ? "text-red-300" : ""}>
+                    <span className={inbreeding > 0 ? "void-text-error" : ""}>
                       ≈ {Math.round(val * (1 - inbreeding / 100))}
                     </span>
                   </div>
@@ -206,7 +206,7 @@ export default function BreedingSelector({ state, onBreed }: Props) {
                         trait.inheritanceChance * (isShared ? 1.5 : 1) * 100,
                       )}%`}
                       className={`text-[9px] font-mono px-1.5 py-0.5 border rounded ${
-                        isShared ? "border-cyan-500/60 text-cyan-200" : "border-border/40"
+                        isShared ? "void-border-success void-text-energy" : "border-border/40"
                       }`}
                     >
                       {trait.name}

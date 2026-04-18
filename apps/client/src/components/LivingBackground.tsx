@@ -38,7 +38,7 @@ interface LivingBackgroundProps {
 
 export default function LivingBackground({
   src,
-  accent = "#33E2E6",
+  accent = "var(--energy-primary)",
   opacity = 0.2,
   driftSpeed = 25,
   particleCount = 12,
@@ -90,7 +90,7 @@ export default function LivingBackground({
       <div
         className="absolute inset-0"
         style={{
-          background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.7) 100%)",
+          background: "radial-gradient(ellipse at center, transparent 30%, color-mix(in oklch, var(--bg-void) 70%, transparent) 100%)",
         }}
       />
 
@@ -98,7 +98,7 @@ export default function LivingBackground({
       <div
         className="absolute inset-0"
         style={{
-          background: "linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%)",
+          background: "linear-gradient(to bottom, color-mix(in oklch, var(--bg-void) 20%, transparent) 0%, color-mix(in oklch, var(--bg-void) 60%, transparent) 100%)",
         }}
       />
 
@@ -108,7 +108,7 @@ export default function LivingBackground({
           className="absolute inset-0"
           style={{
             backgroundImage:
-              "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.008) 2px, rgba(255,255,255,0.008) 4px)",
+              "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--text-primary) 1%, transparent) 2px, color-mix(in oklch, var(--text-primary) 1%, transparent) 4px)",
           }}
         />
       )}

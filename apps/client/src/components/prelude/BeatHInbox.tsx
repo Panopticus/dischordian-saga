@@ -126,12 +126,12 @@ export function BeatHInbox({ onComplete, volume = 0.9 }: BeatHInboxProps) {
               width: 96,
               height: 96,
               borderRadius: 8,
-              border: "1px solid rgba(34, 211, 238, 0.45)",
-              background: "rgba(1, 0, 32, 0.85)",
-              color: "#22d3ee",
+              border: "1px solid color-mix(in oklch, var(--energy-primary) 45%, transparent)",
+              background: "color-mix(in oklch, var(--bg-void) 85%, transparent)",
+              color: "var(--energy-primary)",
               fontSize: 44,
               cursor: "pointer",
-              boxShadow: "0 0 32px rgba(34, 211, 238, 0.35)",
+              boxShadow: "0 0 32px color-mix(in oklch, var(--energy-primary) 35%, transparent)",
               animation: "pvfx-cyan-shimmer 2.6s ease-in-out infinite",
               zIndex: 40,
             }}
@@ -173,10 +173,10 @@ export function BeatHInbox({ onComplete, volume = 0.9 }: BeatHInboxProps) {
               maxHeight: "80vh",
               display: "flex",
               flexDirection: "column",
-              background: "rgba(1, 0, 32, 0.95)",
-              border: "1px solid rgba(34, 211, 238, 0.45)",
-              boxShadow: "0 0 44px rgba(34, 211, 238, 0.25)",
-              color: "rgba(255, 255, 255, 0.9)",
+              background: "color-mix(in oklch, var(--bg-void) 95%, transparent)",
+              border: "1px solid color-mix(in oklch, var(--energy-primary) 45%, transparent)",
+              boxShadow: "0 0 44px color-mix(in oklch, var(--energy-primary) 25%, transparent)",
+              color: "color-mix(in oklch, var(--text-primary) 90%, transparent)",
               fontFamily: "monospace",
               overflow: "hidden",
               zIndex: 60,
@@ -186,7 +186,7 @@ export function BeatHInbox({ onComplete, volume = 0.9 }: BeatHInboxProps) {
             <div
               style={{
                 padding: "18px 24px",
-                borderBottom: "1px solid rgba(34, 211, 238, 0.25)",
+                borderBottom: "1px solid color-mix(in oklch, var(--energy-primary) 25%, transparent)",
                 display: "flex",
                 flexDirection: "column",
                 gap: 4,
@@ -194,7 +194,7 @@ export function BeatHInbox({ onComplete, volume = 0.9 }: BeatHInboxProps) {
             >
               <div
                 style={{
-                  color: "#22d3ee",
+                  color: "var(--energy-primary)",
                   fontSize: 15,
                   fontWeight: 600,
                   letterSpacing: "0.02em",
@@ -205,7 +205,7 @@ export function BeatHInbox({ onComplete, volume = 0.9 }: BeatHInboxProps) {
               <div
                 style={{
                   fontSize: 11,
-                  color: "rgba(34, 211, 238, 0.6)",
+                  color: "color-mix(in oklch, var(--energy-primary) 60%, transparent)",
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
                 }}
@@ -219,7 +219,7 @@ export function BeatHInbox({ onComplete, volume = 0.9 }: BeatHInboxProps) {
               style={{
                 height: 1,
                 background:
-                  "linear-gradient(90deg, transparent, #22d3ee, transparent)",
+                  "linear-gradient(90deg, transparent, var(--energy-primary), transparent)",
               }}
             />
 
@@ -230,7 +230,7 @@ export function BeatHInbox({ onComplete, volume = 0.9 }: BeatHInboxProps) {
                 overflowY: "auto",
                 fontSize: 13,
                 lineHeight: 1.65,
-                color: "rgba(255, 255, 255, 0.82)",
+                color: "color-mix(in oklch, var(--text-primary) 82%, transparent)",
                 flex: 1,
               }}
             >
@@ -246,9 +246,9 @@ export function BeatHInbox({ onComplete, volume = 0.9 }: BeatHInboxProps) {
                       transition:
                         "text-shadow 0.9s ease-out, color 0.9s ease-out",
                       textShadow: isHighlighted
-                        ? "0 0 12px #22d3ee, 0 0 22px rgba(34, 211, 238, 0.4)"
+                        ? "0 0 12px var(--energy-primary), 0 0 22px color-mix(in oklch, var(--energy-primary) 40%, transparent)"
                         : "none",
-                      color: isHighlighted ? "#22d3ee" : undefined,
+                      color: isHighlighted ? "var(--energy-primary)" : undefined,
                     }}
                   >
                     {sentence}{" "}
@@ -261,7 +261,7 @@ export function BeatHInbox({ onComplete, volume = 0.9 }: BeatHInboxProps) {
             <div
               style={{
                 padding: "14px 24px",
-                borderTop: "1px solid rgba(34, 211, 238, 0.25)",
+                borderTop: "1px solid color-mix(in oklch, var(--energy-primary) 25%, transparent)",
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
@@ -272,7 +272,7 @@ export function BeatHInbox({ onComplete, volume = 0.9 }: BeatHInboxProps) {
                 aria-live="polite"
                 style={{
                   fontSize: 10,
-                  color: "rgba(34, 211, 238, 0.5)",
+                  color: "color-mix(in oklch, var(--energy-primary) 50%, transparent)",
                   letterSpacing: "0.15em",
                   textTransform: "uppercase",
                 }}
@@ -291,14 +291,14 @@ export function BeatHInbox({ onComplete, volume = 0.9 }: BeatHInboxProps) {
                 style={{
                   padding: "10px 22px",
                   background: canContinue
-                    ? "rgba(34, 211, 238, 0.18)"
-                    : "rgba(1, 0, 32, 0.5)",
+                    ? "color-mix(in oklch, var(--energy-primary) 18%, transparent)"
+                    : "color-mix(in oklch, var(--bg-void) 50%, transparent)",
                   border: `1px solid ${
                     canContinue
-                      ? "rgba(34, 211, 238, 0.6)"
-                      : "rgba(34, 211, 238, 0.2)"
+                      ? "color-mix(in oklch, var(--energy-primary) 60%, transparent)"
+                      : "color-mix(in oklch, var(--energy-primary) 20%, transparent)"
                   }`,
-                  color: canContinue ? "#22d3ee" : "rgba(34, 211, 238, 0.35)",
+                  color: canContinue ? "var(--energy-primary)" : "color-mix(in oklch, var(--energy-primary) 35%, transparent)",
                   fontFamily: "monospace",
                   fontSize: 11,
                   letterSpacing: "0.18em",

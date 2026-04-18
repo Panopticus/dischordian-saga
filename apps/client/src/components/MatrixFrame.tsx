@@ -58,10 +58,10 @@ export function MatrixFrame({
 
       {/* Top bezel — manuscript page header */}
       <div className="pointer-events-none absolute left-0 right-0 top-0 px-6 py-2">
-        <div className="mx-auto flex max-w-4xl items-center justify-between rounded-b-md border-x border-b border-amber-900/60 bg-stone-950/80 px-4 py-2 text-[10px] uppercase tracking-[0.25em] text-amber-300/80 font-mono">
+        <div className="mx-auto flex max-w-4xl items-center justify-between rounded-b-md border-x border-b void-border void-bg-canvas px-4 py-2 text-[10px] uppercase tracking-[0.25em] void-text-accent font-mono">
           <span>MATRIX PULL · {archiveCaption}</span>
-          <span className="truncate px-3 text-amber-100/90">{title}</span>
-          <span className="text-amber-300/60">operator: {operator}</span>
+          <span className="truncate px-3 void-text-accent">{title}</span>
+          <span className="void-text-accent">operator: {operator}</span>
         </div>
       </div>
 
@@ -71,7 +71,7 @@ export function MatrixFrame({
 
       {/* Bottom bezel — manuscript footer */}
       <div className="pointer-events-none absolute left-0 right-0 bottom-0 px-6 py-2">
-        <div className="mx-auto max-w-4xl rounded-t-md border-x border-t border-amber-900/60 bg-stone-950/80 px-4 py-2 text-center text-[10px] uppercase tracking-[0.25em] text-amber-300/60 font-mono">
+        <div className="mx-auto max-w-4xl rounded-t-md border-x border-t void-border void-bg-canvas px-4 py-2 text-center text-[10px] uppercase tracking-[0.25em] void-text-accent font-mono">
           this is not a flashback. this is an archived moment, played for you.
         </div>
       </div>

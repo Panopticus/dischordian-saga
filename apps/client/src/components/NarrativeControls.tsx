@@ -180,7 +180,7 @@ export function DialogLine({
   );
 
   const color = speakerColor || (
-    speaker === "elara" ? "#22d3ee" :
+    speaker === "elara" ? "var(--energy-primary)" :
     speaker === "human" ? "#f87171" :
     speaker === "system" ? "#fbbf24" :
     "#94a3b8"
@@ -273,9 +273,9 @@ export function DockedNarrative({ messages, onDismiss, mode = "panel", game }: D
           messages.forEach(m => narrativeLog.add(m.speaker, m.text, game));
           onDismiss();
         }}
-        className="absolute top-2 right-2 z-20 flex items-center gap-2 px-3 py-2 rounded-lg bg-black/70 backdrop-blur-sm border border-amber-500/30 text-amber-400 font-mono text-[10px] hover:bg-black/80 animate-pulse transition-colors"
+        className="absolute top-2 right-2 z-20 flex items-center gap-2 px-3 py-2 rounded-lg bg-black/70 backdrop-blur-sm border void-border void-text-accent font-mono text-[10px] hover:bg-black/80 animate-pulse transition-colors"
       >
-        <span className="w-2 h-2 rounded-full bg-amber-400" />
+        <span className="w-2 h-2 rounded-full void-bg-sunk" />
         NEW TRANSMISSION ({messages.length})
       </button>
     );
@@ -284,7 +284,7 @@ export function DockedNarrative({ messages, onDismiss, mode = "panel", game }: D
   const current = messages[currentIndex];
   if (!current) return null;
 
-  const color = current.speaker === "elara" ? "#22d3ee" :
+  const color = current.speaker === "elara" ? "var(--energy-primary)" :
                 current.speaker === "human" ? "#f87171" :
                 "#fbbf24";
 

@@ -39,11 +39,11 @@ function JackpotPoolBanner() {
   });
   const balance = poolQuery.data?.balance ?? 0;
   return (
-    <div className="px-4 py-2 border-b border-amber-500/10">
-      <div className="flex items-center justify-between gap-3 bg-gradient-to-r from-amber-950/40 via-amber-900/20 to-amber-950/40 border border-amber-500/30 rounded-lg px-4 py-2">
+    <div className="px-4 py-2 border-b void-border">
+      <div className="flex items-center justify-between gap-3 bg-gradient-to-r from-amber-950/40 via-amber-900/20 to-amber-950/40 border void-border rounded-lg px-4 py-2">
         <div className="flex items-center gap-2">
-          <Trophy size={14} className="text-amber-300" />
-          <span className="font-display text-[11px] tracking-widest text-amber-300 uppercase">
+          <Trophy size={14} className="void-text-accent" />
+          <span className="font-display text-[11px] tracking-widest void-text-accent uppercase">
             Progressive Jackpot
           </span>
         </div>
@@ -51,10 +51,10 @@ function JackpotPoolBanner() {
           key={balance}
           initial={{ scale: 0.9 }}
           animate={{ scale: 1 }}
-          className="font-mono text-sm text-amber-200 font-bold"
+          className="font-mono text-sm void-text-accent font-bold"
         >
           {balance.toLocaleString()}
-          <span className="text-amber-400/60 text-[10px] ml-1">DREAM</span>
+          <span className="void-text-accent text-[10px] ml-1">DREAM</span>
         </motion.span>
       </div>
     </div>
@@ -210,12 +210,12 @@ export default function DegensCasinoPage() {
             animate={{ rotate: [0, 5, -5, 0] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
-            <Skull size={48} className="text-amber-400 mx-auto mb-4" />
+            <Skull size={48} className="void-text-accent mx-auto mb-4" />
           </motion.div>
-          <h1 className="font-display text-3xl sm:text-4xl tracking-[0.3em] text-amber-400 mb-2">
+          <h1 className="font-display text-3xl sm:text-4xl tracking-[0.3em] void-text-accent mb-2">
             THE DEGEN'S CASINO
           </h1>
-          <p className="font-mono text-[10px] text-amber-400/40 tracking-[0.2em] mb-6">
+          <p className="font-mono text-[10px] void-text-accent tracking-[0.2em] mb-6">
             EDGE OF THE SHIELD // NE-YON SPACE // THE HOST WATCHES
           </p>
           <motion.div
@@ -227,7 +227,7 @@ export default function DegensCasinoPage() {
           <motion.p
             animate={{ opacity: [0.3, 1, 0.3] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="font-mono text-[9px] text-amber-400/50"
+            className="font-mono text-[9px] void-text-accent"
           >
             ENTERING THE FLOOR...
           </motion.p>
@@ -258,29 +258,29 @@ export default function DegensCasinoPage() {
       />
 
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-amber-500/20 bg-gradient-to-r from-black via-amber-950/20 to-black relative z-10">
+      <div className="flex items-center justify-between px-4 py-3 border-b void-border bg-gradient-to-r from-black via-amber-950/20 to-black relative z-10">
         <div className="flex items-center gap-3">
           <img
             src={degenPortrait}
             alt="The Degen"
-            className="w-10 h-10 rounded-full object-cover bg-amber-500/10 border border-amber-500/30"
+            className="w-10 h-10 rounded-full object-cover void-bg-sunk border void-border"
           />
           <div>
-            <h1 className="font-display text-lg tracking-[0.2em] text-amber-400">THE DEGEN'S CASINO</h1>
-            <p className="font-mono text-[8px] text-amber-400/40">EDGE OF THE SHIELD // ONLY OPEN ZONE IN NE-YON SPACE // THE HOST WATCHES</p>
+            <h1 className="font-display text-lg tracking-[0.2em] void-text-accent">THE DEGEN'S CASINO</h1>
+            <p className="font-mono text-[8px] void-text-accent">EDGE OF THE SHIELD // ONLY OPEN ZONE IN NE-YON SPACE // THE HOST WATCHES</p>
           </div>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <img src={vipChipImg} alt={vip.name} className="w-6 h-6 object-contain" />
             <div className="text-right">
-              <p className="font-mono text-[9px] text-amber-400/50">VIP: {vip.name}</p>
+              <p className="font-mono text-[9px] void-text-accent">VIP: {vip.name}</p>
               <p className="font-mono text-[8px] text-white/20">Wagered: {casinoState.totalWagered}D</p>
             </div>
           </div>
           <button
             onClick={() => navigate("/casino/leaderboard")}
-            className="font-mono text-[9px] text-amber-400/50 hover:text-amber-300 px-2 py-1 rounded border border-amber-500/10 hover:border-amber-500/30"
+            className="font-mono text-[9px] void-text-accent void-text-accent px-2 py-1 rounded border void-border void-border"
             title="View jackpot leaderboard"
           >
             LEADERBOARD
@@ -293,15 +293,15 @@ export default function DegensCasinoPage() {
 
       {/* Streak & Favor Bar */}
       {(casinoState.currentStreak >= 3 || casinoState.degenFavor > 0) && (
-        <div className="px-4 py-1.5 border-b border-amber-500/10 bg-amber-500/[0.02] flex items-center justify-between font-mono text-[8px]">
+        <div className="px-4 py-1.5 border-b void-border void-bg-sunk/[0.02] flex items-center justify-between font-mono text-[8px]">
           {casinoState.currentStreak >= 3 && (
-            <span className="text-amber-300">
+            <span className="void-text-accent">
               🔥 STREAK: {casinoState.currentStreak} — {streakReward?.effect ?? ""}
               {getStreakMultiplier(casinoState.currentStreak) > 1 && ` (${getStreakMultiplier(casinoState.currentStreak)}x)`}
             </span>
           )}
           {casinoState.degenFavor > 0 && (
-            <span className="text-amber-400/40">
+            <span className="void-text-accent">
               Degen's Favor: {casinoState.degenFavor}/100
               {favorMilestone && ` — ${favorMilestone.name}`}
             </span>
@@ -323,9 +323,9 @@ export default function DegensCasinoPage() {
           <img
             src={degenPortrait}
             alt="The Degen"
-            className="w-10 h-10 rounded-full object-cover border border-amber-500/30 shrink-0"
+            className="w-10 h-10 rounded-full object-cover border void-border shrink-0"
           />
-          <p className="font-mono text-xs text-amber-400/70 italic leading-relaxed">"{degenText}"</p>
+          <p className="font-mono text-xs void-text-accent italic leading-relaxed">"{degenText}"</p>
         </div>
       </div>
 
@@ -347,7 +347,7 @@ export default function DegensCasinoPage() {
                 onClick={() => setCasinoFloor(floor.id as typeof casinoFloor)}
                 className={`px-3 py-1.5 rounded-lg font-mono text-[9px] whitespace-nowrap transition-all ${
                   casinoFloor === floor.id
-                    ? "bg-amber-500/20 border border-amber-500/40 text-amber-300"
+                    ? "void-bg-sunk border void-border void-text-accent"
                     : "bg-white/[0.02] border border-white/5 text-white/30 hover:text-white/50"
                 }`}>
                 {floor.icon} {floor.label}
@@ -364,20 +364,20 @@ export default function DegensCasinoPage() {
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
             onClick={() => setShowTale(false)}>
             <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }}
-              className="max-w-md w-full p-6 rounded-xl border border-amber-500/30 bg-gradient-to-b from-amber-950/40 to-black"
+              className="max-w-md w-full p-6 rounded-xl border void-border bg-gradient-to-b from-amber-950/40 to-black"
               onClick={e => e.stopPropagation()}>
               <div className="flex items-center gap-2 mb-3">
-                <span className="text-amber-400 text-lg">📖</span>
-                <p className="font-mono text-[10px] text-amber-400/60 tracking-wider">DEGEN'S TALE DISCOVERED</p>
+                <span className="void-text-accent text-lg">📖</span>
+                <p className="font-mono text-[10px] void-text-accent tracking-wider">DEGEN'S TALE DISCOVERED</p>
               </div>
-              <h3 className="font-display text-lg text-amber-300 mb-3">{latestTale.title}</h3>
+              <h3 className="font-display text-lg void-text-accent mb-3">{latestTale.title}</h3>
               <p className="font-mono text-xs text-white/60 leading-relaxed mb-4">{latestTale.text}</p>
               <div className="flex justify-between items-center">
-                <p className="font-mono text-[8px] text-amber-400/30">
+                <p className="font-mono text-[8px] void-text-accent">
                   Tale {casinoState.collectedTales.length} collected
                 </p>
                 <button onClick={() => setShowTale(false)}
-                  className="px-3 py-1 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-[10px]">
+                  className="px-3 py-1 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-[10px]">
                   Continue
                 </button>
               </div>
@@ -402,9 +402,9 @@ export default function DegensCasinoPage() {
             </p>
             {/* Equilibrium alert */}
             {isEquilibrium && (
-              <div className="mb-4 p-4 rounded-xl border border-amber-300/50 bg-amber-300/5 text-center">
-                <p className="font-display text-lg text-amber-300">THE EQUILIBRIUM</p>
-                <p className="font-mono text-[10px] text-amber-400/70 mt-1">
+              <div className="mb-4 p-4 rounded-xl border void-border void-bg-sunk text-center">
+                <p className="font-display text-lg void-text-accent">THE EQUILIBRIUM</p>
+                <p className="font-mono text-[10px] void-text-accent mt-1">
                   {casinoState.totalBetsPlaced} bets. Exactly even. The Degen is terrified.
                 </p>
               </div>
@@ -424,9 +424,9 @@ export default function DegensCasinoPage() {
                 })
                 .map(game => (
                 <button key={game.id} onClick={() => setSelectedGame(game.id)}
-                  className="p-4 rounded-xl border border-amber-500/15 bg-amber-500/[0.03] hover:bg-amber-500/[0.06] transition-all text-left group">
+                  className="p-4 rounded-xl border void-border void-bg-sunk/[0.03] void-bg-sunk/[0.06] transition-all text-left group">
                   <div className="flex items-center justify-between mb-1">
-                    <p className="font-mono text-sm text-amber-400 font-bold group-hover:text-amber-300">{game.name}</p>
+                    <p className="font-mono text-sm void-text-accent font-bold group-void-text-accent">{game.name}</p>
                     {(casinoState.gamesPlayed[game.id] ?? 0) > 0 && (
                       <span className="font-mono text-[7px] text-white/15">played {casinoState.gamesPlayed[game.id]}x</span>
                     )}
@@ -440,7 +440,7 @@ export default function DegensCasinoPage() {
                         <span>Edge: {game.houseEdge}%</span>
                       </>
                     ) : (
-                      <span className="text-green-400/40">FREE TO PLAY</span>
+                      <span className="void-text-energy">FREE TO PLAY</span>
                     )}
                   </div>
                 </button>
@@ -486,13 +486,13 @@ export default function DegensCasinoPage() {
       </div>
 
       {/* Session Stats */}
-      <div className="fixed bottom-0 left-0 right-0 px-4 py-2 border-t border-amber-500/10 bg-black/90 backdrop-blur-md">
+      <div className="fixed bottom-0 left-0 right-0 px-4 py-2 border-t void-border bg-black/90 backdrop-blur-md">
         <div className="flex items-center justify-between max-w-2xl mx-auto font-mono text-[9px] text-white/20">
           <span>W: {casinoState.sessionWins} / L: {casinoState.sessionLosses}</span>
-          <span>Net: <span className={casinoState.totalWon - casinoState.totalWagered >= 0 ? "text-green-400/60" : "text-red-400/60"}>
+          <span>Net: <span className={casinoState.totalWon - casinoState.totalWagered >= 0 ? "void-text-energy" : "void-text-error"}>
             {casinoState.totalWon - casinoState.totalWagered}D
           </span></span>
-          {casinoState.currentStreak >= 3 && <span className="text-amber-400/60">🔥{casinoState.currentStreak}</span>}
+          {casinoState.currentStreak >= 3 && <span className="void-text-accent">🔥{casinoState.currentStreak}</span>}
           <span>Bets: {casinoState.totalBetsPlaced}</span>
           <span>Tales: {casinoState.collectedTales.length}/12</span>
           <span>VIP: {vip.name}</span>

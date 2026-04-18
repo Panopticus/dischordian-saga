@@ -100,13 +100,13 @@ interface DeckConfig {
 }
 
 const DECK_LAYOUT: DeckConfig[] = [
-  { deck: 1, name: "HABITATION", color: "#33E2E6", glowColor: "rgba(51,226,230,0.15)", y: 10 },
-  { deck: 2, name: "COMMAND", color: "#3875fa", glowColor: "rgba(56,117,250,0.15)", y: 22 },
-  { deck: 3, name: "OPERATIONS", color: "#a855f7", glowColor: "rgba(168,85,247,0.15)", y: 34 },
-  { deck: 4, name: "TECHNICAL", color: "#FF8C00", glowColor: "rgba(255,140,0,0.15)", y: 46 },
-  { deck: 5, name: "LOGISTICS", color: "#22c55e", glowColor: "rgba(34,197,94,0.15)", y: 58 },
-  { deck: 6, name: "RESTRICTED", color: "#DC2626", glowColor: "rgba(220,38,38,0.15)", y: 70 },
-  { deck: 7, name: "SPECIAL", color: "#FFD700", glowColor: "rgba(255,215,0,0.15)", y: 82 },
+  { deck: 1, name: "HABITATION", color: "var(--energy-primary)", glowColor: "color-mix(in oklch, var(--energy-primary) 15%, transparent)", y: 10 },
+  { deck: 2, name: "COMMAND", color: "var(--electric-blue)", glowColor: "color-mix(in oklch, var(--electric-blue) 15%, transparent)", y: 22 },
+  { deck: 3, name: "OPERATIONS", color: "#a855f7", glowColor: "color-mix(in oklch, var(--energy-system) 15%, transparent)", y: 34 },
+  { deck: 4, name: "TECHNICAL", color: "var(--energy-premium)", glowColor: "color-mix(in oklch, var(--energy-premium) 15%, transparent)", y: 46 },
+  { deck: 5, name: "LOGISTICS", color: "var(--energy-success)", glowColor: "color-mix(in oklch, var(--energy-success) 15%, transparent)", y: 58 },
+  { deck: 6, name: "RESTRICTED", color: "#DC2626", glowColor: "color-mix(in oklch, var(--energy-error) 15%, transparent)", y: 70 },
+  { deck: 7, name: "SPECIAL", color: "var(--energy-premium)", glowColor: "color-mix(in oklch, var(--energy-premium) 15%, transparent)", y: 82 },
 ];
 
 function getUnlockHint(def: RoomDef): string {
@@ -196,11 +196,11 @@ function RoomNode({
         disabled={!isUnlocked && !canUnlock}
         className={`relative flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-300 ${showGlow ? 'ring-1 ring-offset-0' : ''} ${
           isCurrent
-            ? "border-white/60 bg-white/10 shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+            ? "border-white/60 bg-white/10 shadow-[0_0_15px_color-mix(in oklch, var(--text-primary) 20%, transparent)]"
             : isUnlocked
             ? "border-white/20 bg-white/5 hover:bg-white/10 hover:border-white/30 cursor-pointer"
             : canUnlock
-            ? "border-amber-500/30 bg-amber-500/5 hover:bg-amber-500/10 cursor-pointer animate-pulse"
+            ? "void-border void-bg-sunk void-bg-sunk cursor-pointer animate-pulse"
             : "border-white/5 bg-white/[0.02] cursor-not-allowed opacity-40"
         }`}
         style={showGlow ? { borderColor: `${deckColor}60` } : undefined}
@@ -226,9 +226,9 @@ function RoomNode({
             background: isUnlocked
               ? `${deckColor}15`
               : canUnlock
-              ? "rgba(255,140,0,0.1)"
-              : "rgba(255,255,255,0.03)",
-            border: `1px solid ${isUnlocked ? deckColor + "40" : canUnlock ? "rgba(255,140,0,0.3)" : "rgba(255,255,255,0.05)"}`,
+              ? "color-mix(in oklch, var(--energy-premium) 10%, transparent)"
+              : "color-mix(in oklch, var(--text-primary) 3%, transparent)",
+            border: `1px solid ${isUnlocked ? deckColor + "40" : canUnlock ? "color-mix(in oklch, var(--energy-premium) 30%, transparent)" : "color-mix(in oklch, var(--text-primary) 5%, transparent)"}`,
           }}
         >
           {isUnlocked && ROOM_ARTWORK[def.id] ? (
@@ -241,7 +241,7 @@ function RoomNode({
           ) : isUnlocked ? (
             <Icon size={14} style={{ color: deckColor }} />
           ) : canUnlock ? (
-            <Zap size={14} className="text-amber-400" />
+            <Zap size={14} className="void-text-accent" />
           ) : (
             <Lock size={12} className="text-white/20" />
           )}
@@ -256,7 +256,7 @@ function RoomNode({
                 : isUnlocked
                 ? "text-white/80"
                 : canUnlock
-                ? "text-amber-400/70"
+                ? "void-text-accent"
                 : "text-white/20"
             }`}
           >
@@ -283,7 +283,7 @@ function RoomNode({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 5, scale: 0.95 }}
             className="absolute z-50 left-0 top-full mt-1 rounded-lg border border-white/10 backdrop-blur-xl overflow-hidden"
-            style={{ background: "rgba(1,0,32,0.95)", width: isUnlocked && ROOM_ARTWORK[def.id] ? "280px" : "224px" }}
+            style={{ background: "color-mix(in oklch, var(--bg-void) 95%, transparent)", width: isUnlocked && ROOM_ARTWORK[def.id] ? "280px" : "224px" }}
           >
             {/* Room artwork preview — only for unlocked rooms with artwork */}
             {isUnlocked && ROOM_ARTWORK[def.id] && (
@@ -294,7 +294,7 @@ function RoomNode({
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[rgba(1,0,32,0.95)] via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[color-mix(in oklch, var(--bg-void) 95%, transparent)] via-transparent to-transparent" />
                 {/* Deck badge overlay */}
                 <div
                   className="absolute top-2 right-2 px-1.5 py-0.5 rounded font-mono text-[7px] tracking-[0.2em] font-bold"
@@ -331,13 +331,13 @@ function RoomNode({
                     ))}
                   </div>
                   {!isCurrent && (
-                    <p className="font-mono text-[9px] text-cyan-400/70 mt-2 flex items-center gap-1">
+                    <p className="font-mono text-[9px] void-text-energy mt-2 flex items-center gap-1">
                       <Crosshair size={9} /> Click to fast travel
                     </p>
                   )}
                 </>
               ) : canUnlock ? (
-                <p className="font-mono text-[10px] text-amber-400/70 leading-relaxed">
+                <p className="font-mono text-[10px] void-text-accent leading-relaxed">
                   <Zap size={9} className="inline mr-1" />
                   Faint energy readings detected. Tap to investigate.
                 </p>
@@ -429,7 +429,7 @@ export default function ShipSchematicMap() {
         <div className="flex items-center gap-3 mb-2">
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ background: "rgba(51,226,230,0.08)", border: "1px solid rgba(51,226,230,0.2)" }}
+            style={{ background: "color-mix(in oklch, var(--energy-primary) 8%, transparent)", border: "1px solid color-mix(in oklch, var(--energy-primary) 20%, transparent)" }}
           >
             <Ship size={16} className="text-[var(--neon-cyan)]" />
           </div>
@@ -456,8 +456,8 @@ export default function ShipSchematicMap() {
         <div
           className="relative rounded-2xl border overflow-hidden"
           style={{
-            background: "linear-gradient(180deg, rgba(1,0,32,0.9) 0%, rgba(1,0,32,0.95) 100%)",
-            borderColor: "rgba(51,226,230,0.1)",
+            background: "linear-gradient(180deg, color-mix(in oklch, var(--bg-void) 90%, transparent) 0%, color-mix(in oklch, var(--bg-void) 95%, transparent) 100%)",
+            borderColor: "color-mix(in oklch, var(--energy-primary) 10%, transparent)",
           }}
         >
           {/* Grid overlay */}
@@ -465,8 +465,8 @@ export default function ShipSchematicMap() {
             className="absolute inset-0 opacity-[0.03]"
             style={{
               backgroundImage: `
-                linear-gradient(rgba(51,226,230,0.5) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(51,226,230,0.5) 1px, transparent 1px)
+                linear-gradient(color-mix(in oklch, var(--energy-primary) 50%, transparent) 1px, transparent 1px),
+                linear-gradient(90deg, color-mix(in oklch, var(--energy-primary) 50%, transparent) 1px, transparent 1px)
               `,
               backgroundSize: "40px 40px",
             }}
@@ -475,7 +475,7 @@ export default function ShipSchematicMap() {
           {/* Ship spine line */}
           <div
             className="absolute left-6 sm:left-10 top-0 bottom-0 w-px"
-            style={{ background: "linear-gradient(180deg, rgba(51,226,230,0.3) 0%, rgba(255,140,0,0.3) 50%, rgba(220,38,38,0.3) 100%)" }}
+            style={{ background: "linear-gradient(180deg, color-mix(in oklch, var(--energy-primary) 30%, transparent) 0%, color-mix(in oklch, var(--energy-premium) 30%, transparent) 50%, color-mix(in oklch, var(--energy-error) 30%, transparent) 100%)" }}
           />
 
           <div className="relative p-4 sm:p-6 space-y-1">
@@ -503,24 +503,24 @@ export default function ShipSchematicMap() {
                     <div
                       className="absolute left-4 sm:left-8 w-4 h-4 rounded-full flex items-center justify-center -translate-x-1/2 z-10"
                       style={{
-                        background: hasAnyUnlocked ? deckConfig.color : "rgba(255,255,255,0.1)",
+                        background: hasAnyUnlocked ? deckConfig.color : "color-mix(in oklch, var(--text-primary) 10%, transparent)",
                         boxShadow: hasAnyUnlocked ? `0 0 10px ${deckConfig.color}40` : "none",
                       }}
                     >
-                      <span className="font-mono text-[7px] font-bold" style={{ color: hasAnyUnlocked ? "#010020" : "rgba(255,255,255,0.3)" }}>
+                      <span className="font-mono text-[7px] font-bold" style={{ color: hasAnyUnlocked ? "var(--bg-void)" : "color-mix(in oklch, var(--text-primary) 30%, transparent)" }}>
                         {deckConfig.deck}
                       </span>
                     </div>
 
                     <span
                       className="font-mono text-[9px] tracking-[0.25em] font-bold"
-                      style={{ color: hasAnyUnlocked ? deckConfig.color : "rgba(255,255,255,0.15)" }}
+                      style={{ color: hasAnyUnlocked ? deckConfig.color : "color-mix(in oklch, var(--text-primary) 15%, transparent)" }}
                     >
                       {deckConfig.name} SECTOR
                     </span>
 
                     {hasAnyCanUnlock && !hasAnyUnlocked && (
-                      <span className="font-mono text-[8px] text-amber-400/50 animate-pulse ml-2">
+                      <span className="font-mono text-[8px] void-text-accent animate-pulse ml-2">
                         SYSTEMS RESTORING...
                       </span>
                     )}
@@ -559,9 +559,9 @@ export default function ShipSchematicMap() {
                     className="absolute left-4 sm:left-8 w-4 h-4 rounded-full flex items-center justify-center -translate-x-1/2 z-10"
                     style={{ background: "#FF69B4", boxShadow: "0 0 10px rgba(255,105,180,0.4)" }}
                   >
-                    <span className="font-mono text-[7px] font-bold" style={{ color: "#010020" }}>?</span>
+                    <span className="font-mono text-[7px] font-bold" style={{ color: "var(--bg-void)" }}>?</span>
                   </div>
-                  <span className="font-mono text-[9px] tracking-[0.25em] font-bold text-pink-400">
+                  <span className="font-mono text-[9px] tracking-[0.25em] font-bold void-text-error">
                     HIDDEN CHAMBERS
                   </span>
                 </div>

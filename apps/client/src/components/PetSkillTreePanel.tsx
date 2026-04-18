@@ -64,20 +64,20 @@ export default function PetSkillTreePanel({
     <div className="border border-border/30 rounded-lg bg-card/40 p-4" data-testid="pet-skill-tree">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <Sparkles size={14} className="text-indigo-400" />
+          <Sparkles size={14} className="void-text-energy" />
           <span className="font-display text-xs font-bold tracking-[0.2em]">
             SKILL TREE · {petName.toUpperCase()}
           </span>
         </div>
-        <span className="font-mono text-[9px] text-indigo-300">
+        <span className="font-mono text-[9px] void-text-energy">
           {availablePoints} point{availablePoints !== 1 ? "s" : ""}
         </span>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <BranchColumn branch={tree.combat} unlocked={unlockedNodes} canUnlock={canUnlock} onUnlock={handleUnlock} accent="text-red-400" />
-        <BranchColumn branch={tree.utility} unlocked={unlockedNodes} canUnlock={canUnlock} onUnlock={handleUnlock} accent="text-emerald-400" />
-        <BranchColumn branch={tree.social} unlocked={unlockedNodes} canUnlock={canUnlock} onUnlock={handleUnlock} accent="text-sky-400" />
+        <BranchColumn branch={tree.combat} unlocked={unlockedNodes} canUnlock={canUnlock} onUnlock={handleUnlock} accent="void-text-error" />
+        <BranchColumn branch={tree.utility} unlocked={unlockedNodes} canUnlock={canUnlock} onUnlock={handleUnlock} accent="void-text-energy" />
+        <BranchColumn branch={tree.social} unlocked={unlockedNodes} canUnlock={canUnlock} onUnlock={handleUnlock} accent="void-text-energy" />
       </div>
     </div>
   );
@@ -107,9 +107,9 @@ function BranchColumn({
             disabled={isUnlocked || !check.ok}
             className={`w-full text-left border rounded-md p-2 transition-colors ${
               isUnlocked
-                ? "border-emerald-500/40 bg-emerald-500/10"
+                ? "void-border-success void-bg-success"
                 : check.ok
-                ? "border-indigo-500/40 bg-indigo-500/5 hover:bg-indigo-500/10"
+                ? "void-border void-bg-sunk void-bg-sunk"
                 : "border-border/30 bg-card/30 opacity-60 cursor-not-allowed"
             }`}
             data-testid={`skill-${node.id}`}
@@ -118,8 +118,8 @@ function BranchColumn({
             <div className="flex items-center justify-between">
               <span className="font-mono text-[10px] font-bold text-foreground">{node.name}</span>
               <span className="flex items-center gap-1 text-[9px] font-mono">
-                {isUnlocked ? <Check size={10} className="text-emerald-400" /> : locked ? <Lock size={10} className="text-muted-foreground/60" /> : null}
-                <span className="text-amber-400">{node.cost}</span>
+                {isUnlocked ? <Check size={10} className="void-text-energy" /> : locked ? <Lock size={10} className="text-muted-foreground/60" /> : null}
+                <span className="void-text-accent">{node.cost}</span>
               </span>
             </div>
             <p className="font-mono text-[9px] text-muted-foreground/70 mt-0.5 leading-relaxed">

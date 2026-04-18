@@ -56,7 +56,7 @@ export default function CoopRaidPage() {
         <LivingBackground
           key={raidBg}
           src={raidBg}
-          accent={activeBoss?.color || "#ef4444"}
+          accent={activeBoss?.color || "var(--energy-error)"}
           opacity={0.14}
           particleCount={8}
           scanlines={false}

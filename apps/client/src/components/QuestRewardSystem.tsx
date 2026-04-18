@@ -136,21 +136,21 @@ function RewardToast({ notification, onDismiss }: { notification: RewardNotifica
       className="pointer-events-auto w-full max-w-[320px] sm:max-w-[360px] rounded-xl overflow-hidden"
       style={{
         background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
-        border: "1px solid rgba(255,183,77,0.4)",
-        boxShadow: "0 0 40px rgba(255,183,77,0.15), 0 20px 60px rgba(0,0,0,0.6)",
+        border: "1px solid color-mix(in oklch, var(--energy-premium) 40%, transparent)",
+        boxShadow: "0 0 40px color-mix(in oklch, var(--energy-premium) 15%, transparent), 0 20px 60px color-mix(in oklch, var(--bg-void) 60%, transparent)",
       }}
     >
       {/* Header */}
       <div
         className="px-4 py-2.5 flex items-center justify-between"
         style={{
-          background: "linear-gradient(90deg, rgba(255,183,77,0.15), rgba(255,183,77,0.05))",
-          borderBottom: "1px solid rgba(255,183,77,0.2)",
+          background: "linear-gradient(90deg, color-mix(in oklch, var(--energy-premium) 15%, transparent), color-mix(in oklch, var(--energy-premium) 5%, transparent))",
+          borderBottom: "1px solid color-mix(in oklch, var(--energy-premium) 20%, transparent)",
         }}
       >
         <div className="flex items-center gap-2">
-          <Trophy size={14} className="text-amber-400" />
-          <span className="font-display text-[10px] font-bold tracking-[0.2em] text-amber-400">
+          <Trophy size={14} className="void-text-accent" />
+          <span className="font-display text-[10px] font-bold tracking-[0.2em] void-text-accent">
             QUEST COMPLETE
           </span>
         </div>
@@ -176,38 +176,38 @@ function RewardToast({ notification, onDismiss }: { notification: RewardNotifica
       <div className="px-4 pb-3">
         <div className="grid grid-cols-2 gap-2">
           {reward.dreamTokens > 0 && (
-            <div className="flex items-center gap-2 rounded-lg bg-amber-500/5 border border-amber-500/15 px-2.5 py-1.5">
-              <Coins size={12} className="text-amber-400 shrink-0" />
+            <div className="flex items-center gap-2 rounded-lg void-bg-sunk border void-border px-2.5 py-1.5">
+              <Coins size={12} className="void-text-accent shrink-0" />
               <div>
-                <p className="font-mono text-[10px] font-bold text-amber-400">+{reward.dreamTokens}</p>
-                <p className="font-mono text-[8px] text-amber-400/50">DREAM</p>
+                <p className="font-mono text-[10px] font-bold void-text-accent">+{reward.dreamTokens}</p>
+                <p className="font-mono text-[8px] void-text-accent">DREAM</p>
               </div>
             </div>
           )}
           {reward.xp > 0 && (
-            <div className="flex items-center gap-2 rounded-lg bg-cyan-500/5 border border-cyan-500/15 px-2.5 py-1.5">
-              <Zap size={12} className="text-cyan-400 shrink-0" />
+            <div className="flex items-center gap-2 rounded-lg void-bg-success border void-border-success px-2.5 py-1.5">
+              <Zap size={12} className="void-text-energy shrink-0" />
               <div>
-                <p className="font-mono text-[10px] font-bold text-cyan-400">+{reward.xp}</p>
-                <p className="font-mono text-[8px] text-cyan-400/50">CITIZEN XP</p>
+                <p className="font-mono text-[10px] font-bold void-text-energy">+{reward.xp}</p>
+                <p className="font-mono text-[8px] void-text-energy">CITIZEN XP</p>
               </div>
             </div>
           )}
           {reward.gamificationPoints > 0 && (
-            <div className="flex items-center gap-2 rounded-lg bg-purple-500/5 border border-purple-500/15 px-2.5 py-1.5">
-              <Star size={12} className="text-purple-400 shrink-0" />
+            <div className="flex items-center gap-2 rounded-lg void-bg-system border void-border-system px-2.5 py-1.5">
+              <Star size={12} className="void-text-system shrink-0" />
               <div>
-                <p className="font-mono text-[10px] font-bold text-purple-400">+{reward.gamificationPoints}</p>
-                <p className="font-mono text-[8px] text-purple-400/50">POINTS</p>
+                <p className="font-mono text-[10px] font-bold void-text-system">+{reward.gamificationPoints}</p>
+                <p className="font-mono text-[8px] void-text-system">POINTS</p>
               </div>
             </div>
           )}
           {reward.cardReward && (
-            <div className="flex items-center gap-2 rounded-lg bg-green-500/5 border border-green-500/15 px-2.5 py-1.5">
-              <Gift size={12} className="text-green-400 shrink-0" />
+            <div className="flex items-center gap-2 rounded-lg void-bg-success border void-border-success px-2.5 py-1.5">
+              <Gift size={12} className="void-text-energy shrink-0" />
               <div>
-                <p className="font-mono text-[10px] font-bold text-green-400">CARD</p>
-                <p className="font-mono text-[8px] text-green-400/50">UNLOCKED</p>
+                <p className="font-mono text-[10px] font-bold void-text-energy">CARD</p>
+                <p className="font-mono text-[8px] void-text-energy">UNLOCKED</p>
               </div>
             </div>
           )}
@@ -218,7 +218,7 @@ function RewardToast({ notification, onDismiss }: { notification: RewardNotifica
       <div className="h-0.5 w-full overflow-hidden">
         <motion.div
           className="h-full"
-          style={{ background: "linear-gradient(90deg, transparent, rgba(255,183,77,0.6), transparent)" }}
+          style={{ background: "linear-gradient(90deg, transparent, color-mix(in oklch, var(--energy-premium) 60%, transparent), transparent)" }}
           animate={{ x: ["-100%", "200%"] }}
           transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
         />

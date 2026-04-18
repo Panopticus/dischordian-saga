@@ -134,7 +134,7 @@ const PURITY_TIERS: {
 }[] = [
   { tier: 0, min: 0, name: "Mundane", color: "#a0a0a0" },
   { tier: 1, min: 25, name: "Glimmering", color: "#ffe066" },
-  { tier: 2, min: 50, name: "Radiant", color: "#ffd700" },
+  { tier: 2, min: 50, name: "Radiant", color: "var(--energy-premium)" },
   { tier: 3, min: 75, name: "Sanctified", color: "#ffaa00" },
   { tier: 4, min: 90, name: "Transcendent", color: "#ff8800" },
 ];

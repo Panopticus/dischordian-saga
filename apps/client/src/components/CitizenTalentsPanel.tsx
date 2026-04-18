@@ -9,9 +9,9 @@ import { Star, Lock, Check, ChevronDown, ChevronUp, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
-const TIER_COLORS = ["text-emerald-400", "text-blue-400", "text-purple-400", "text-amber-400"];
-const TIER_BG = ["bg-emerald-950/20", "bg-blue-950/20", "bg-purple-950/20", "bg-amber-950/20"];
-const TIER_BORDER = ["border-emerald-500/30", "border-blue-500/30", "border-purple-500/30", "border-amber-500/30"];
+const TIER_COLORS = ["void-text-energy", "void-text-energy", "void-text-system", "void-text-accent"];
+const TIER_BG = ["void-bg-success", "void-bg-sunk", "void-bg-system", "void-bg-sunk"];
+const TIER_BORDER = ["void-border-success", "void-border", "void-border-system", "void-border"];
 
 export function CitizenTalentsPanel() {
   const { data, isLoading, refetch } = trpc.rpg.getTalentStatus.useQuery();
@@ -61,7 +61,7 @@ export function CitizenTalentsPanel() {
     <div className="border border-border/30 rounded-lg bg-card/40 p-4">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Flame size={16} className="text-amber-400" />
+          <Flame size={16} className="void-text-accent" />
           <span className="font-display text-xs font-bold tracking-[0.2em]">CITIZEN TALENTS</span>
           <span className="font-mono text-[10px] text-muted-foreground ml-2">
             {selectedTalents.length}/{allMilestoneLevels.filter(l => citizenLevel >= l).length} selected
@@ -88,13 +88,13 @@ export function CitizenTalentsPanel() {
                     ? `${TIER_BORDER[i]} ${TIER_BG[i]} ${TIER_COLORS[i]}`
                     : unlocked
                     ? "border-primary/40 bg-primary/10 text-primary"
-                    : "border-zinc-700/30 bg-zinc-900/30 text-zinc-600"
+                    : "void-border void-bg-canvas void-text"
                 }`}
               >
                 {chosen ? <Check size={14} /> : unlocked ? level : <Lock size={10} />}
               </div>
               {i < allMilestoneLevels.length - 1 && (
-                <div className={`flex-1 h-0.5 ${unlocked ? "bg-primary/30" : "bg-zinc-800"}`} />
+                <div className={`flex-1 h-0.5 ${unlocked ? "bg-primary/30" : "void-bg-canvas"}`} />
               )}
             </div>
           );
@@ -171,7 +171,7 @@ export function CitizenTalentsPanel() {
                       </div>
                       <p className="font-mono text-[9px] text-muted-foreground">{talent.description}</p>
                       {talent.classRestriction && (
-                        <span className="font-mono text-[8px] text-amber-400 mt-1 block">
+                        <span className="font-mono text-[8px] void-text-accent mt-1 block">
                           {talent.classRestriction} only
                         </span>
                       )}

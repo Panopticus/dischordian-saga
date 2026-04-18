@@ -35,7 +35,7 @@ const ALBUMS: AlbumInfo[] = [
     name: "Dischordian Logic",
     releaseDate: "March 18, 2025",
     description: "The first album in the Saga. Dischordian Logic introduces the core mythology — the Architect's rise, the Enigma's rebellion, and the fractured multiverse where logic itself is weaponized.",
-    color: "#33E2E6",
+    color: "var(--energy-primary)",
     era: "The Age of Revelation",
     trackCount: 29,
     streaming: {
@@ -49,7 +49,7 @@ const ALBUMS: AlbumInfo[] = [
     name: "The Age of Privacy",
     releaseDate: "October 2, 2025",
     description: "The era of surveillance and secrets. Malkia Ukweli — the Enigma — fights to expose truth in a world where privacy is the ultimate currency and the Panopticon sees all.",
-    color: "#FF8C00",
+    color: "var(--energy-premium)",
     era: "The Age of Privacy",
     trackCount: 20,
     streaming: {
@@ -63,7 +63,7 @@ const ALBUMS: AlbumInfo[] = [
     name: "The Book of Daniel 2:47",
     releaseDate: "December 15, 2025",
     description: "The Programmer's journey through time. Dr. Daniel Cross decodes the architecture of reality itself, discovering that the multiverse is a construct — and he holds the key to rewriting it.",
-    color: "#A078FF",
+    color: "var(--energy-system)",
     era: "The Age of Revelation",
     trackCount: 22,
     streaming: {
@@ -129,7 +129,7 @@ export default function DiscographyPage() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute inset-0" style={{
-            background: "radial-gradient(ellipse at 30% 20%, rgba(160,120,255,0.12) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(51,226,230,0.08) 0%, transparent 50%)"
+            background: "radial-gradient(ellipse at 30% 20%, rgba(160,120,255,0.12) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, color-mix(in oklch, var(--energy-primary) 8%, transparent) 0%, transparent 50%)"
           }} />
         </div>
         <div className="relative px-4 sm:px-6 pt-8 pb-6 sm:pt-12 sm:pb-8">

@@ -26,12 +26,12 @@ const BUILDING_CATEGORY_ICONS: Record<string, React.ComponentType<any>> = {
 };
 
 const BUILDING_CATEGORY_COLORS: Record<string, { text: string; bg: string; border: string }> = {
-  resource: { text: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
-  defense: { text: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20" },
-  utility: { text: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
-  military: { text: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20" },
-  research: { text: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20" },
-  prestige: { text: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20" },
+  resource: { text: "void-text-accent", bg: "void-bg-sunk", border: "void-border" },
+  defense: { text: "void-text-error", bg: "void-bg-error", border: "void-border-error" },
+  utility: { text: "void-text-energy", bg: "void-bg-success", border: "void-border-success" },
+  military: { text: "void-text-premium", bg: "void-bg-sunk", border: "void-border" },
+  research: { text: "void-text-energy", bg: "void-bg-sunk", border: "void-border" },
+  prestige: { text: "void-text-system", bg: "void-bg-system", border: "void-border-system" },
 };
 
 const RESOURCE_ICONS: Record<string, string> = {
@@ -40,11 +40,11 @@ const RESOURCE_ICONS: Record<string, string> = {
 };
 
 const BIOME_COLORS: Record<string, { text: string; bg: string; border: string }> = {
-  forge_world: { text: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20" },
-  shadow_realm: { text: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/20" },
-  crystal_spire: { text: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/20" },
-  void_nexus: { text: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20" },
-  eden_prime: { text: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
+  forge_world: { text: "void-text-premium", bg: "void-bg-sunk", border: "void-border" },
+  shadow_realm: { text: "void-text-system", bg: "void-bg-system", border: "void-border-system" },
+  crystal_spire: { text: "void-text-energy", bg: "void-bg-success", border: "void-border-success" },
+  void_nexus: { text: "void-text-energy", bg: "void-bg-sunk", border: "void-border" },
+  eden_prime: { text: "void-text-energy", bg: "void-bg-success", border: "void-border-success" },
 };
 
 export default function SyndicateWorldPage() {
@@ -111,10 +111,10 @@ export default function SyndicateWorldPage() {
           animate={{ opacity: 1, scale: 1 }}
           className="max-w-md w-full text-center"
         >
-          <div className="border border-amber-500/30 rounded-xl bg-card/40 p-8">
-            <Castle size={48} className="text-amber-400 mx-auto mb-4" />
+          <div className="border void-border rounded-xl bg-card/40 p-8">
+            <Castle size={48} className="void-text-accent mx-auto mb-4" />
             <h2 className="font-display text-xl font-bold tracking-wider mb-2">
-              SYNDICATE <span className="text-amber-400">HOMEWORLD</span>
+              SYNDICATE <span className="void-text-accent">HOMEWORLD</span>
             </h2>
             <p className="font-mono text-[10px] text-muted-foreground mb-6">
               Your guild's capital world. Build structures, generate resources,
@@ -122,7 +122,7 @@ export default function SyndicateWorldPage() {
             </p>
             <div className="flex gap-3 justify-center">
               <Link href="/guild">
-                <Button variant="outline" className="border-amber-500/30 text-amber-400">
+                <Button variant="outline" className="void-border void-text-accent">
                   <Users size={14} className="mr-1" />
                   Go to Guild
                 </Button>
@@ -156,7 +156,7 @@ export default function SyndicateWorldPage() {
               Level {world.level} • <span className={biomeColors.text}>{world.biome.replace(/_/g, " ")}</span> •
               Defense: {world.totalDefense}
               {world.shieldUntil && new Date(world.shieldUntil) > new Date() && (
-                <span className="text-emerald-400 ml-2">
+                <span className="void-text-energy ml-2">
                   <Shield size={8} className="inline mr-0.5" />
                   Shielded
                 </span>
@@ -181,7 +181,7 @@ export default function SyndicateWorldPage() {
           </div>
           <div className="flex flex-wrap gap-3">
             {Object.entries(resources).filter(([, v]) => (v as number) > 0).map(([key, value]) => (
-              <div key={key} className="flex items-center gap-1.5 bg-zinc-800/30 rounded-md px-2 py-1">
+              <div key={key} className="flex items-center gap-1.5 void-bg-canvas rounded-md px-2 py-1">
                 <span className="text-sm">{RESOURCE_ICONS[key] || "📦"}</span>
                 <div>
                   <span className="font-mono text-[8px] text-muted-foreground capitalize">{key.replace(/_/g, " ")}</span>
@@ -217,39 +217,39 @@ export default function SyndicateWorldPage() {
                   className="overflow-hidden"
                 >
                   <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    <div className="bg-zinc-800/20 rounded-md p-2">
+                    <div className="void-bg-canvas rounded-md p-2">
                       <span className="font-mono text-[8px] text-muted-foreground block">Build Speed</span>
-                      <span className="font-display text-sm font-bold text-emerald-400">
+                      <span className="font-display text-sm font-bold void-text-energy">
                         x{bonuses.buildSpeedMultiplier.toFixed(2)}
                       </span>
                     </div>
-                    <div className="bg-zinc-800/20 rounded-md p-2">
+                    <div className="void-bg-canvas rounded-md p-2">
                       <span className="font-mono text-[8px] text-muted-foreground block">Resources</span>
-                      <span className="font-display text-sm font-bold text-amber-400">
+                      <span className="font-display text-sm font-bold void-text-accent">
                         x{bonuses.resourceMultiplier.toFixed(2)}
                       </span>
                     </div>
-                    <div className="bg-zinc-800/20 rounded-md p-2">
+                    <div className="void-bg-canvas rounded-md p-2">
                       <span className="font-mono text-[8px] text-muted-foreground block">Defense</span>
-                      <span className="font-display text-sm font-bold text-red-400">
+                      <span className="font-display text-sm font-bold void-text-error">
                         x{bonuses.defenseMultiplier.toFixed(2)}
                       </span>
                     </div>
-                    <div className="bg-zinc-800/20 rounded-md p-2">
+                    <div className="void-bg-canvas rounded-md p-2">
                       <span className="font-mono text-[8px] text-muted-foreground block">Cost Reduction</span>
-                      <span className="font-display text-sm font-bold text-blue-400">
+                      <span className="font-display text-sm font-bold void-text-energy">
                         -{(bonuses.costReduction * 100).toFixed(0)}%
                       </span>
                     </div>
-                    <div className="bg-zinc-800/20 rounded-md p-2">
+                    <div className="void-bg-canvas rounded-md p-2">
                       <span className="font-mono text-[8px] text-muted-foreground block">Max Buildings</span>
-                      <span className="font-display text-sm font-bold text-purple-400">
+                      <span className="font-display text-sm font-bold void-text-system">
                         +{bonuses.maxBuildingBonus}
                       </span>
                     </div>
-                    <div className="bg-zinc-800/20 rounded-md p-2">
+                    <div className="void-bg-canvas rounded-md p-2">
                       <span className="font-mono text-[8px] text-muted-foreground block">Raid Troops</span>
-                      <span className="font-display text-sm font-bold text-orange-400">
+                      <span className="font-display text-sm font-bold void-text-premium">
                         +{bonuses.raidTroopBonus}
                       </span>
                     </div>
@@ -317,14 +317,14 @@ export default function SyndicateWorldPage() {
 
                   {isBuilding && (
                     <div className="flex items-center gap-1.5 mb-2">
-                      <Clock size={10} className="text-amber-400 animate-pulse" />
-                      <span className="font-mono text-[8px] text-amber-400">
+                      <Clock size={10} className="void-text-accent animate-pulse" />
+                      <span className="font-mono text-[8px] void-text-accent">
                         {bld.status === "upgrading" ? "Upgrading" : "Building"}...
                       </span>
                       {canComplete && (
                         <Button
                           size="sm" variant="outline"
-                          className="text-[8px] h-5 px-2 ml-auto border-emerald-500/30 text-emerald-400"
+                          className="text-[8px] h-5 px-2 ml-auto void-border-success void-text-energy"
                           onClick={() => completeBuilding.mutate({ buildingId: bld.id })}
                           disabled={completeBuilding.isPending}
                         >
@@ -336,7 +336,7 @@ export default function SyndicateWorldPage() {
 
                   {bld.status === "active" && (
                     <div className="flex items-center gap-2">
-                      <span className="font-mono text-[8px] text-emerald-400">
+                      <span className="font-mono text-[8px] void-text-energy">
                         <Check size={8} className="inline mr-0.5" />
                         Active
                       </span>
@@ -364,7 +364,7 @@ export default function SyndicateWorldPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              className={`border ${biomeColors.border} rounded-xl bg-zinc-950/95 p-4 mb-6`}
+              className={`border ${biomeColors.border} rounded-xl void-bg-canvas p-4 mb-6`}
             >
               <div className="flex items-center justify-between mb-4">
                 <span className="font-display text-sm font-bold tracking-wider">BUILD STRUCTURE</span>
@@ -407,7 +407,7 @@ export default function SyndicateWorldPage() {
                           <div className="flex-1">
                             <span className="font-display text-xs font-bold">{bld.name}</span>
                             {bld.requiredClass && (
-                              <span className="font-mono text-[7px] text-amber-400 ml-1 capitalize">
+                              <span className="font-mono text-[7px] void-text-accent ml-1 capitalize">
                                 {bld.requiredClass}
                               </span>
                             )}
@@ -418,7 +418,7 @@ export default function SyndicateWorldPage() {
                         {/* Cost */}
                         <div className="flex flex-wrap gap-1 mb-2">
                           {Object.entries(bld.baseCost).map(([res, cost]) => (
-                            <span key={res} className="font-mono text-[7px] bg-zinc-800/40 px-1 py-0.5 rounded">
+                            <span key={res} className="font-mono text-[7px] void-bg-canvas px-1 py-0.5 rounded">
                               {RESOURCE_ICONS[res] || "📦"} {(cost as number).toLocaleString()} {res}
                             </span>
                           ))}
@@ -452,17 +452,17 @@ export default function SyndicateWorldPage() {
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4">
           <Link
             href="/tower-defense"
-            className="border border-red-500/20 bg-red-950/10 rounded-lg p-3 hover:border-red-500/40 transition-all"
+            className="border void-border-error void-bg-error rounded-lg p-3 void-border-error transition-all"
           >
-            <Shield size={16} className="text-red-400 mb-1" />
+            <Shield size={16} className="void-text-error mb-1" />
             <span className="font-display text-xs font-bold block">Warden's Vigil</span>
             <span className="font-mono text-[8px] text-muted-foreground">Defend the capital</span>
           </Link>
           <Link
             href="/guild-wars"
-            className="border border-orange-500/20 bg-orange-950/10 rounded-lg p-3 hover:border-orange-500/40 transition-all"
+            className="border void-border void-bg-sunk rounded-lg p-3 void-border transition-all"
           >
-            <Swords size={16} className="text-orange-400 mb-1" />
+            <Swords size={16} className="void-text-premium mb-1" />
             <span className="font-display text-xs font-bold block">Guild Wars</span>
             <span className="font-mono text-[8px] text-muted-foreground">Syndicate conflicts</span>
           </Link>

@@ -189,8 +189,8 @@ export default function BridgeConsole() {
       {/* ═══ BRIDGE HEADER ═══ */}
       <div className="px-4 pt-4 pb-3">
         <div className="flex items-center gap-2 mb-1">
-          <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.5)]" />
-          <span className="font-mono text-[8px] text-emerald-400/60 tracking-[0.3em]">BRIDGE // ACTIVE</span>
+          <div className="w-1.5 h-1.5 rounded-full void-bg-success shadow-[0_0_6px_rgba(52,211,153,0.5)]" />
+          <span className="font-mono text-[8px] void-text-energy tracking-[0.3em]">BRIDGE // ACTIVE</span>
         </div>
         <h1 className="font-display text-lg font-bold tracking-wider text-white/80 mb-0.5">
           Good {hour < 12 ? "morning" : hour < 18 ? "afternoon" : "evening"}, Operative.
@@ -201,21 +201,21 @@ export default function BridgeConsole() {
       {/* ═══ DAILY BRIEF ═══ */}
       <div className="px-4 mb-5">
         <div className="flex items-center gap-2 mb-3">
-          <Clock size={10} className="text-cyan-400/60" />
-          <span className="font-mono text-[9px] text-cyan-400/60 tracking-[0.2em]">TODAY'S BRIEF</span>
+          <Clock size={10} className="void-text-energy" />
+          <span className="font-mono text-[9px] void-text-energy tracking-[0.2em]">TODAY'S BRIEF</span>
         </div>
         <div className="space-y-2">
-          {dailyBrief.gameplay && <EventCard event={dailyBrief.gameplay} accent="#33E2E6" />}
+          {dailyBrief.gameplay && <EventCard event={dailyBrief.gameplay} accent="var(--energy-primary)" />}
           {dailyBrief.story && <EventCard event={dailyBrief.story} accent="#a855f7" />}
-          {dailyBrief.relationship && <EventCard event={dailyBrief.relationship} accent="#f59e0b" />}
+          {dailyBrief.relationship && <EventCard event={dailyBrief.relationship} accent="var(--energy-accent)" />}
         </div>
       </div>
 
       {/* ═══ GALACTIC BULB — Witnessing §3.5 Light/Dark poetic meter ═══ */}
       <div className="px-4 mb-5">
         <div className="flex items-center gap-2 mb-3">
-          <Star size={10} className="text-amber-300/60" />
-          <span className="font-mono text-[9px] text-amber-300/60 tracking-[0.2em]">GALACTIC BULB</span>
+          <Star size={10} className="void-text-accent" />
+          <span className="font-mono text-[9px] void-text-accent tracking-[0.2em]">GALACTIC BULB</span>
         </div>
         <LightDarkMeterDisplay />
       </div>
@@ -237,7 +237,7 @@ export default function BridgeConsole() {
               <p className="font-mono text-xs font-bold mb-1" style={{ color: npc.color }}>{npc.name}</p>
               <p className="font-mono text-[10px] text-white/50 leading-relaxed">{featured.dailyGreeting}</p>
               <div className="mt-2 p-2 rounded bg-white/[0.02] border border-white/5">
-                <p className="font-mono text-[8px] text-amber-400/60">{featured.dailyQuest.title}</p>
+                <p className="font-mono text-[8px] void-text-accent">{featured.dailyQuest.title}</p>
                 <p className="font-mono text-[8px] text-white/20">{featured.dailyQuest.description}</p>
                 <p className="font-mono text-[7px] text-white/10 mt-1">+{featured.dailyQuest.reward.dream}D +{featured.dailyQuest.reward.xp}XP +{featured.dailyQuest.reward.trust} trust</p>
               </div>
@@ -250,8 +250,8 @@ export default function BridgeConsole() {
       {discoveredNPCs.length > 0 && (
         <div className="px-4 mb-5">
           <div className="flex items-center gap-2 mb-3">
-            <Radio size={10} className="text-red-400/60" />
-            <span className="font-mono text-[9px] text-red-400/60 tracking-[0.2em]">ACTIVE SIGNALS</span>
+            <Radio size={10} className="void-text-error" />
+            <span className="font-mono text-[9px] void-text-error tracking-[0.2em]">ACTIVE SIGNALS</span>
           </div>
           <div className="space-y-1.5">
             {discoveredNPCs.map(npc => (
@@ -269,15 +269,15 @@ export default function BridgeConsole() {
         </div>
         <div className="grid grid-cols-3 gap-2">
           <div className="p-2.5 rounded-lg void-surface">
-            <p className="font-display text-lg font-bold text-cyan-400">{discoveredRooms}</p>
+            <p className="font-display text-lg font-bold void-text-energy">{discoveredRooms}</p>
             <p className="font-mono text-[7px] text-white/20 tracking-wider">SECTORS</p>
           </div>
           <div className="p-2.5 void-surface">
-            <p className="font-display text-lg font-bold text-amber-400">{totalVisits}</p>
+            <p className="font-display text-lg font-bold void-text-accent">{totalVisits}</p>
             <p className="font-mono text-[7px] text-white/20 tracking-wider">VISITS</p>
           </div>
           <div className="p-2.5 void-surface">
-            <p className="font-display text-lg font-bold text-purple-400">{discoveredNPCs.length}</p>
+            <p className="font-display text-lg font-bold void-text-system">{discoveredNPCs.length}</p>
             <p className="font-mono text-[7px] text-white/20 tracking-wider">CONTACTS</p>
           </div>
         </div>
@@ -291,7 +291,7 @@ export default function BridgeConsole() {
               <Eye size={10} className="text-white/20" />
               <span className="font-mono text-[9px] text-white/20 tracking-[0.2em]">RECENT INTEL</span>
             </div>
-            <Link href="/search" className="font-mono text-[8px] text-cyan-400/40 hover:text-cyan-400/60 transition-colors">
+            <Link href="/search" className="font-mono text-[8px] void-text-energy void-text-energy transition-colors">
               VIEW ALL
             </Link>
           </div>
@@ -307,10 +307,10 @@ export default function BridgeConsole() {
       {discoveredRooms < 3 && (
         <div className="px-4">
           <Link href="/ark">
-            <div className="p-4 rounded-lg border border-cyan-500/15 bg-cyan-500/[0.03] text-center cursor-pointer hover:bg-cyan-500/[0.06] transition-all">
-              <Compass size={20} className="text-cyan-400/50 mx-auto mb-2" />
+            <div className="p-4 rounded-lg border void-border-success void-bg-success/[0.03] text-center cursor-pointer void-bg-success/[0.06] transition-all">
+              <Compass size={20} className="void-text-energy mx-auto mb-2" />
               <p className="font-mono text-xs text-white/50">The Ark awaits exploration.</p>
-              <p className="font-mono text-[9px] text-cyan-400/40 mt-1">Tap to enter the ship.</p>
+              <p className="font-mono text-[9px] void-text-energy mt-1">Tap to enter the ship.</p>
             </div>
           </Link>
         </div>

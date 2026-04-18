@@ -40,7 +40,7 @@ const TAB_CONFIG: { id: Tab; label: string; icon: typeof Target }[] = [
 const GAME_COLORS: Record<string, string> = {
   terminus: "#ff4444",
   dischordia: "#00bcd4",
-  chess: "#ffd700",
+  chess: "var(--energy-premium)",
   fight: "#ff6600",
   any: "#aa88ff",
 };
@@ -48,7 +48,7 @@ const GAME_COLORS: Record<string, string> = {
 const TIER_COLORS: Record<string, string> = {
   bronze: "#cd7f32",
   silver: "#c0c0c0",
-  gold: "#ffd700",
+  gold: "var(--energy-premium)",
   diamond: "#b388ff",
   legendary: "#ff4444",
 };
@@ -78,7 +78,7 @@ export default function QuestTracker({ progress, onClaimReward, onClose, current
         transition={{ delay: index * 0.05 }}
         className={`rounded-xl border overflow-hidden transition-all ${
           prog.claimedReward ? "border-white/5 bg-white/[0.01] opacity-50" :
-          prog.completed ? "border-emerald-500/40 bg-emerald-500/5" :
+          prog.completed ? "void-border-success void-bg-success" :
           "border-white/10 bg-white/[0.02]"
         }`}
       >
@@ -93,7 +93,7 @@ export default function QuestTracker({ progress, onClaimReward, onClose, current
             <div className="flex items-center gap-2">
               <p className="font-mono text-xs font-bold text-white/90 truncate">{quest.name}</p>
               {prog.completed && !prog.claimedReward && (
-                <span className="shrink-0 px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[8px] font-mono font-bold">COMPLETE</span>
+                <span className="shrink-0 px-1.5 py-0.5 rounded void-bg-success void-text-energy text-[8px] font-mono font-bold">COMPLETE</span>
               )}
               {prog.claimedReward && (
                 <span className="shrink-0 px-1.5 py-0.5 rounded bg-white/10 text-white/30 text-[8px] font-mono">CLAIMED</span>
@@ -107,7 +107,7 @@ export default function QuestTracker({ progress, onClaimReward, onClose, current
                 className="h-full rounded-full transition-all duration-500"
                 style={{
                   width: `${pct}%`,
-                  backgroundColor: prog.completed ? "#22c55e" : gameColor,
+                  backgroundColor: prog.completed ? "var(--energy-success)" : gameColor,
                 }}
               />
             </div>
@@ -133,30 +133,30 @@ export default function QuestTracker({ progress, onClaimReward, onClose, current
               {/* Rewards */}
               <div className="flex flex-wrap gap-1.5">
                 {quest.reward.salvage && (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 font-mono">{quest.reward.salvage} Salvage</span>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded void-bg-sunk void-text-accent font-mono">{quest.reward.salvage} Salvage</span>
                 )}
                 {quest.reward.viralIchor && (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-green-500/10 text-green-400 font-mono">{quest.reward.viralIchor} Ichor</span>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded void-bg-success void-text-energy font-mono">{quest.reward.viralIchor} Ichor</span>
                 )}
                 {quest.reward.neuralCores && (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-400 font-mono">{quest.reward.neuralCores} Cores</span>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded void-bg-system void-text-system font-mono">{quest.reward.neuralCores} Cores</span>
                 )}
                 {quest.reward.voidCrystals && (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-400 font-mono">{quest.reward.voidCrystals} Void</span>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded void-bg-success void-text-energy font-mono">{quest.reward.voidCrystals} Void</span>
                 )}
                 {quest.reward.dream && (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-300 font-mono">{quest.reward.dream} Dream</span>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded void-bg-system void-text-system font-mono">{quest.reward.dream} Dream</span>
                 )}
                 {quest.reward.xp && (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400 font-mono">{quest.reward.xp} XP</span>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded void-bg-sunk void-text-energy font-mono">{quest.reward.xp} XP</span>
                 )}
                 {quest.reward.titleUnlock && (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-300 font-mono flex items-center gap-1">
+                  <span className="text-[9px] px-1.5 py-0.5 rounded void-bg-sunk void-text-accent font-mono flex items-center gap-1">
                     <Medal size={8} /> {quest.reward.titleUnlock}
                   </span>
                 )}
                 {quest.reward.cardPack && (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 font-mono flex items-center gap-1">
+                  <span className="text-[9px] px-1.5 py-0.5 rounded void-bg-sunk void-text-accent font-mono flex items-center gap-1">
                     <Gift size={8} /> Card Pack
                   </span>
                 )}
@@ -166,7 +166,7 @@ export default function QuestTracker({ progress, onClaimReward, onClose, current
               {prog.completed && !prog.claimedReward && (
                 <button
                   onClick={(e) => { e.stopPropagation(); onClaimReward(quest.id); }}
-                  className="w-full py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-mono text-xs font-bold hover:bg-emerald-500/30 transition-colors flex items-center justify-center gap-1"
+                  className="w-full py-2 rounded-lg void-bg-success border void-border-success void-text-energy font-mono text-xs font-bold void-bg-success transition-colors flex items-center justify-center gap-1"
                 >
                   <Sparkles size={12} /> CLAIM REWARD
                 </button>

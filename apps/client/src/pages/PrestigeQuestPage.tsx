@@ -86,8 +86,8 @@ export default function PrestigeQuestPage() {
           </Link>
           <div>
             <h1 className="font-display text-xl font-bold tracking-wider flex items-center gap-2">
-              <Crown size={20} className="text-amber-400" />
-              PRESTIGE <span className="text-amber-400">QUEST CHAINS</span>
+              <Crown size={20} className="void-text-accent" />
+              PRESTIGE <span className="void-text-accent">QUEST CHAINS</span>
             </h1>
             <p className="font-mono text-[10px] text-muted-foreground">
               Complete quest chains to unlock prestige classes — your RPG stats affect progression
@@ -113,12 +113,12 @@ export default function PrestigeQuestPage() {
                 transition={{ delay: i * 0.06 }}
                 className={`border rounded-xl overflow-hidden transition-all ${
                   isCompleted
-                    ? "border-amber-500/30 bg-amber-950/10"
+                    ? "void-border void-bg-sunk"
                     : isActive
                     ? "border-primary/30 bg-primary/5"
                     : chain.canStart
                     ? "border-border/30 bg-card/30 hover:border-border/50"
-                    : "border-zinc-800/30 bg-zinc-900/20 opacity-60"
+                    : "void-border void-bg-canvas opacity-60"
                 }`}
               >
                 {/* Chain Header */}
@@ -128,27 +128,27 @@ export default function PrestigeQuestPage() {
                 >
                   <div className="flex items-center gap-3">
                     <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                      isCompleted ? "bg-amber-500/20 border border-amber-500/30" :
+                      isCompleted ? "void-bg-sunk border void-border" :
                       isActive ? "bg-primary/20 border border-primary/30" :
-                      "bg-zinc-800/30 border border-zinc-700/20"
+                      "void-bg-canvas border void-border"
                     }`}>
                       {isCompleted ? (
-                        <Trophy size={20} className="text-amber-400" />
+                        <Trophy size={20} className="void-text-accent" />
                       ) : chain.canStart ? (
                         <Scroll size={20} className="text-primary" />
                       ) : (
-                        <Lock size={16} className="text-zinc-600" />
+                        <Lock size={16} className="void-text" />
                       )}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <h3 className={`font-display text-sm font-bold ${
-                          isCompleted ? "text-amber-400" : isActive ? "text-primary" : ""
+                          isCompleted ? "void-text-accent" : isActive ? "text-primary" : ""
                         }`}>
                           {chain.name}
                         </h3>
                         {isCompleted && (
-                          <span className="font-mono text-[8px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded">
+                          <span className="font-mono text-[8px] void-bg-sunk void-text-accent px-1.5 py-0.5 rounded">
                             COMPLETED
                           </span>
                         )}
@@ -164,12 +164,12 @@ export default function PrestigeQuestPage() {
                           <Swords size={8} className="inline mr-0.5" />
                           {chain.steps.length} steps
                         </span>
-                        <span className="font-mono text-[8px] text-amber-400/70">
+                        <span className="font-mono text-[8px] void-text-accent">
                           <Crown size={8} className="inline mr-0.5" />
                           Unlocks: {chain.completionReward.prestigeClass}
                         </span>
                         {!chain.canStart && chain.lockReason && (
-                          <span className="font-mono text-[8px] text-red-400/70">
+                          <span className="font-mono text-[8px] void-text-error">
                             <Lock size={8} className="inline mr-0.5" />
                             {chain.lockReason}
                           </span>
@@ -183,7 +183,7 @@ export default function PrestigeQuestPage() {
                         <span className="font-mono text-[10px] text-primary">
                           {completedSteps.length}/{chain.steps.length}
                         </span>
-                        <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden mt-1">
+                        <div className="h-1.5 void-bg-canvas rounded-full overflow-hidden mt-1">
                           <div
                             className="h-full bg-primary/60 rounded-full transition-all"
                             style={{ width: `${(completedSteps.length / chain.steps.length) * 100}%` }}
@@ -216,14 +216,14 @@ export default function PrestigeQuestPage() {
                           </span>
                           <div className="flex flex-wrap gap-2">
                             <span className={`font-mono text-[8px] px-2 py-1 rounded ${
-                              chain.canStart ? "bg-emerald-950/20 text-emerald-400 border border-emerald-500/20" :
-                              "bg-red-950/20 text-red-400 border border-red-500/20"
+                              chain.canStart ? "void-bg-success void-text-energy border void-border-success" :
+                              "void-bg-error void-text-error border void-border-error"
                             }`}>
                               Class: {chain.requiredBaseClass} Rank {chain.requiredClassRank}+
                             </span>
                             <span className={`font-mono text-[8px] px-2 py-1 rounded ${
-                              chain.canStart ? "bg-emerald-950/20 text-emerald-400 border border-emerald-500/20" :
-                              "bg-red-950/20 text-red-400 border border-red-500/20"
+                              chain.canStart ? "void-bg-success void-text-energy border void-border-success" :
+                              "void-bg-error void-text-error border void-border-error"
                             }`}>
                               Citizen Level {chain.requiredLevel}+
                             </span>
@@ -243,7 +243,7 @@ export default function PrestigeQuestPage() {
                                 key={step.stepId}
                                 className={`flex items-start gap-3 p-3 rounded-lg border transition-all ${
                                   isStepDone
-                                    ? "border-emerald-500/20 bg-emerald-950/10"
+                                    ? "void-border-success void-bg-success"
                                     : isCurrent
                                     ? "border-primary/30 bg-primary/5 ring-1 ring-primary/10"
                                     : "border-border/10 bg-card/10 opacity-50"
@@ -252,13 +252,13 @@ export default function PrestigeQuestPage() {
                                 {/* Step number / status */}
                                 <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${
                                   isStepDone
-                                    ? "bg-emerald-500/20 border border-emerald-500/30"
+                                    ? "void-bg-success border void-border-success"
                                     : isCurrent
                                     ? "bg-primary/20 border border-primary/30"
-                                    : "bg-zinc-800/30 border border-zinc-700/20"
+                                    : "void-bg-canvas border void-border"
                                 }`}>
                                   {isStepDone ? (
-                                    <Check size={12} className="text-emerald-400" />
+                                    <Check size={12} className="void-text-energy" />
                                   ) : (
                                     <span className="font-mono text-[9px]">{si + 1}</span>
                                   )}
@@ -268,12 +268,12 @@ export default function PrestigeQuestPage() {
                                   <div className="flex items-center gap-2">
                                     <StepIcon size={12} className={isCurrent ? "text-primary" : "text-muted-foreground"} />
                                     <span className={`font-display text-xs font-bold ${
-                                      isStepDone ? "text-emerald-400" : isCurrent ? "text-primary" : ""
+                                      isStepDone ? "void-text-energy" : isCurrent ? "text-primary" : ""
                                     }`}>
                                       {step.name}
                                     </span>
                                     {wasSkipped && (
-                                      <span className="font-mono text-[7px] bg-purple-950/20 text-purple-400 px-1 py-0.5 rounded">
+                                      <span className="font-mono text-[7px] void-bg-system void-text-system px-1 py-0.5 rounded">
                                         TALENT SKIP
                                       </span>
                                     )}
@@ -288,8 +288,8 @@ export default function PrestigeQuestPage() {
                                   {/* Civil skill requirement */}
                                   {step.requirement?.civilSkill && (
                                     <div className="flex items-center gap-1 mt-1">
-                                      <BookOpen size={8} className="text-teal-400" />
-                                      <span className="font-mono text-[8px] text-teal-400">
+                                      <BookOpen size={8} className="void-text-energy" />
+                                      <span className="font-mono text-[8px] void-text-energy">
                                         Requires {step.requirement.civilSkill.skill} Lv.{step.requirement.civilSkill.level}
                                       </span>
                                     </div>
@@ -298,8 +298,8 @@ export default function PrestigeQuestPage() {
                                   {/* Skippable by talent */}
                                   {step.skippableByTalent && !isStepDone && (
                                     <div className="flex items-center gap-1 mt-1">
-                                      <Sparkles size={8} className="text-purple-400" />
-                                      <span className="font-mono text-[8px] text-purple-400/70">
+                                      <Sparkles size={8} className="void-text-system" />
+                                      <span className="font-mono text-[8px] void-text-system">
                                         Skippable with "{step.skippableByTalent}" talent
                                       </span>
                                     </div>
@@ -309,12 +309,12 @@ export default function PrestigeQuestPage() {
                                   {step.rewards && (
                                     <div className="flex items-center gap-2 mt-1">
                                       {step.rewards.xp && (
-                                        <span className="font-mono text-[7px] text-amber-400/60">
+                                        <span className="font-mono text-[7px] void-text-accent">
                                           +{step.rewards.xp} XP
                                         </span>
                                       )}
                                       {step.rewards.item && (
-                                        <span className="font-mono text-[7px] text-blue-400/60">
+                                        <span className="font-mono text-[7px] void-text-energy">
                                           +{step.rewards.item}
                                         </span>
                                       )}
@@ -342,15 +342,15 @@ export default function PrestigeQuestPage() {
                         </div>
 
                         {/* Completion Reward */}
-                        <div className="mt-4 p-3 border border-amber-500/20 bg-amber-950/10 rounded-lg">
-                          <span className="font-mono text-[9px] text-amber-400 block mb-1">
+                        <div className="mt-4 p-3 border void-border void-bg-sunk rounded-lg">
+                          <span className="font-mono text-[9px] void-text-accent block mb-1">
                             <Trophy size={10} className="inline mr-1" />
                             COMPLETION REWARD:
                           </span>
                           <div className="flex items-center gap-3">
-                            <Crown size={16} className="text-amber-400" />
+                            <Crown size={16} className="void-text-accent" />
                             <div>
-                              <span className="font-display text-sm font-bold text-amber-400">
+                              <span className="font-display text-sm font-bold void-text-accent">
                                 {chain.completionReward.prestigeClass}
                               </span>
                               <span className="font-mono text-[9px] text-muted-foreground ml-2">
@@ -376,7 +376,7 @@ export default function PrestigeQuestPage() {
                             <>
                               {confirmAbandon === chain.key ? (
                                 <div className="flex items-center gap-2">
-                                  <span className="font-mono text-[9px] text-red-400">
+                                  <span className="font-mono text-[9px] void-text-error">
                                     <AlertTriangle size={10} className="inline mr-1" />
                                     Abandon this quest?
                                   </span>
@@ -401,7 +401,7 @@ export default function PrestigeQuestPage() {
                               ) : (
                                 <Button
                                   size="sm" variant="ghost"
-                                  className="text-[9px] h-6 px-3 text-red-400/60 hover:text-red-400"
+                                  className="text-[9px] h-6 px-3 void-text-error void-text-error"
                                   onClick={() => setConfirmAbandon(chain.key)}
                                 >
                                   Abandon Quest

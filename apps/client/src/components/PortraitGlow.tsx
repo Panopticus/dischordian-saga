@@ -7,8 +7,8 @@ import type { ReactNode } from "react";
 
 /* ─── FACTION → GLOW COLOR MAP ─── */
 const FACTION_GLOW_COLORS: Record<string, string> = {
-  architect:     "#22d3ee", // cyan
-  dreamer:       "#22d3ee", // cyan (Elara/Potentials — aligned with dreamer but uses cyan)
+  architect:     "var(--energy-primary)", // cyan
+  dreamer:       "var(--energy-primary)", // cyan (Elara/Potentials — aligned with dreamer but uses cyan)
   insurgency:    "#ff6600", // orange
   new_babylon:   "#e040fb", // magenta
   thought_virus: "#ff1744", // red

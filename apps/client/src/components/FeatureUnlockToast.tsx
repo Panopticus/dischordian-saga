@@ -91,7 +91,7 @@ export default function FeatureUnlockToast() {
         <div
           className="rounded-xl border backdrop-blur-md p-4 shadow-2xl"
           style={{
-            background: `linear-gradient(135deg, rgba(0,0,0,0.95) 0%, ${category.color}15 100%)`,
+            background: `linear-gradient(135deg, color-mix(in oklch, var(--bg-void) 95%, transparent) 0%, ${category.color}15 100%)`,
             borderColor: `${category.color}40`,
             boxShadow: `0 0 40px ${category.color}30`,
           }}

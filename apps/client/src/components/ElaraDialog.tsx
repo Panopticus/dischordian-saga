@@ -510,7 +510,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
             <div className="relative">
               {/* Pulsing ring */}
               <div className="absolute inset-0 rounded-full animate-cyber-pulse" 
-                   style={{ background: "radial-gradient(circle, rgba(51,226,230,0.2) 0%, transparent 70%)" }} />
+                   style={{ background: "radial-gradient(circle, color-mix(in oklch, var(--energy-primary) 20%, transparent) 0%, transparent 70%)" }} />
               {/* Holographic Avatar */}
               <HolographicElara size="sm" isSpeaking={false} />
               {/* Label */}
@@ -536,7 +536,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[59]"
-            style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(6px)" }}
+            style={{ background: "color-mix(in oklch, var(--bg-void) 70%, transparent)", backdropFilter: "blur(6px)" }}
             onClick={() => setIsOpen(false)}
           />
           <motion.div
@@ -547,7 +547,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
             className="fixed inset-4 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-[520px] sm:h-[640px] sm:max-h-[85vh] z-[60] flex flex-col"
           >
             {/* Glass container */}
-            <div className="flex-1 flex flex-col void-elevated sm:rounded-xl overflow-hidden shadow-[0_0_60px_rgba(51,226,230,0.1)]">
+            <div className="flex-1 flex flex-col void-elevated sm:rounded-xl overflow-hidden shadow-[0_0_60px_color-mix(in oklch, var(--energy-primary) 10%, transparent)]">
               
               {/* ── HEADER ── */}
               <div className="flex items-center gap-3 px-4 py-3 border-b border-[var(--glass-border)]"
@@ -616,8 +616,8 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
                 
                 {/* Portrait bar — hidden on mobile to save space */}
                 <div className="flex items-end gap-3 px-4 pt-3">
-                  <div className="hidden sm:block w-20 h-20 rounded-lg overflow-hidden border border-[var(--neon-cyan)]/30 shadow-[0_0_15px_rgba(51,226,230,0.15)] flex-shrink-0 transition-all duration-300"
-                    style={isLoading ? { boxShadow: "0 0 20px rgba(51,226,230,0.3)" } : undefined}>
+                  <div className="hidden sm:block w-20 h-20 rounded-lg overflow-hidden border border-[var(--neon-cyan)]/30 shadow-[0_0_15px_color-mix(in oklch, var(--energy-primary) 15%, transparent)] flex-shrink-0 transition-all duration-300"
+                    style={isLoading ? { boxShadow: "0 0 20px color-mix(in oklch, var(--energy-primary) 30%, transparent)" } : undefined}>
                     <img src={isLoading ? ELARA_SPEAKING : ELARA_PORTRAIT} alt="Elara" className="w-full h-full object-cover object-top transition-all duration-300" />
                   </div>
                   <div className="flex-1 pb-1">
@@ -655,7 +655,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
                         value={customInput}
                         onChange={(e) => setCustomInput(e.target.value)}
                         placeholder="Ask Elara anything..."
-                        className="flex-1 bg-[var(--glass-dark)] border border-[var(--glass-border)] rounded-md px-3 py-2 text-xs font-mono text-white placeholder:text-muted-foreground/50 focus:border-[var(--neon-cyan)] focus:outline-none focus:shadow-[0_0_10px_rgba(51,226,230,0.15)]"
+                        className="flex-1 bg-[var(--glass-dark)] border border-[var(--glass-border)] rounded-md px-3 py-2 text-xs font-mono text-white placeholder:text-muted-foreground/50 focus:border-[var(--neon-cyan)] focus:outline-none focus:shadow-[0_0_10px_color-mix(in oklch, var(--energy-primary) 15%, transparent)]"
                       />
                       <button
                         type="submit"

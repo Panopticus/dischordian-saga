@@ -19,13 +19,13 @@ const SEASONS = ["Season 1", "Season 2", "Season 3"];
 const ALIGNMENTS = ["order", "chaos"];
 
 const RARITY_BADGE_COLORS: Record<string, string> = {
-  common: "bg-zinc-700/60 text-zinc-300 border-zinc-600/40",
-  uncommon: "bg-green-900/40 text-green-300 border-green-600/40",
-  rare: "bg-blue-900/40 text-blue-300 border-blue-600/40",
-  epic: "bg-purple-900/40 text-purple-300 border-purple-600/40",
-  legendary: "bg-amber-900/40 text-amber-300 border-amber-600/40",
-  mythic: "bg-red-900/40 text-red-300 border-red-600/40",
-  neyon: "bg-cyan-900/40 text-cyan-200 border-cyan-500/40",
+  common: "void-bg-canvas void-text void-border",
+  uncommon: "void-bg-success void-text-energy void-border-success",
+  rare: "void-bg-sunk void-text-energy void-border",
+  epic: "void-bg-system void-text-system void-border-system",
+  legendary: "void-bg-sunk void-text-accent void-border",
+  mythic: "void-bg-error void-text-error void-border-error",
+  neyon: "void-bg-success void-text-energy void-border-success",
 };
 
 export default function CardBrowserPage() {
@@ -350,7 +350,7 @@ export default function CardBrowserPage() {
                   {/* Stats */}
                   <div className="grid grid-cols-3 gap-2 mb-4">
                     <StatBox label="POWER" value={selectedCard.power} color="text-destructive" />
-                    <StatBox label="HEALTH" value={selectedCard.health} color="text-green-400" />
+                    <StatBox label="HEALTH" value={selectedCard.health} color="void-text-energy" />
                     <StatBox label="COST" value={selectedCard.cost} color="text-primary" />
                   </div>
 

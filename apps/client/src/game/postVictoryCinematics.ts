@@ -167,8 +167,8 @@ const ch5: PostVictoryCinematic = {
   // CH5 is a mandatory-loss chapter — the cinematic plays on defeat.
   playOnDefeat: true,
   beats: [
-    { label: "green-fire", effect: { type: "flash", color: "#22c55e", durationMs: 200 }, camera: { type: "slow_zoom", target: "victor", scale: 1.6, durationMs: 1800 }, durationMs: 2000 },
-    { label: "fall", effect: { type: "slow_motion", factor: 0.3, durationMs: 2500 }, dialogue: { speaker: "The Necromancer", text: "Green fire now. Soft, if it helps. Yes. Like that.", speakerColor: "#22c55e" }, durationMs: 2800 },
+    { label: "green-fire", effect: { type: "flash", color: "var(--energy-success)", durationMs: 200 }, camera: { type: "slow_zoom", target: "victor", scale: 1.6, durationMs: 1800 }, durationMs: 2000 },
+    { label: "fall", effect: { type: "slow_motion", factor: 0.3, durationMs: 2500 }, dialogue: { speaker: "The Necromancer", text: "Green fire now. Soft, if it helps. Yes. Like that.", speakerColor: "var(--energy-success)" }, durationMs: 2800 },
     { label: "resurrection-voices", effect: { type: "text_card", text: "INK IN WATER. A NAME RISING TO THE SURFACE.", size: "md", color: "#a78bfa", durationMs: 2500 }, durationMs: 2700 },
     { label: "oracle-name", effect: { type: "text_card", text: "ORACLE.", size: "xl", color: "#c4b5fd", durationMs: 2500 }, camera: { type: "cut_to_closeup", target: "victor", durationMs: 1000 }, durationMs: 2700 },
     { label: "color-shift", effect: { type: "color_grade", to: "purple_bloom", durationMs: 1500 }, durationMs: 1600 },
@@ -194,8 +194,8 @@ const ch7: PostVictoryCinematic = {
   playOnDefeat: false,
   beats: [
     { label: "vox-dissolves", effect: { type: "particle_burst", color: "#b91c1c", count: 80, durationMs: 1200 }, camera: { type: "slow_zoom", target: "defeated", scale: 1.4, durationMs: 1800 }, durationMs: 2000 },
-    { label: "warlord-reveal", effect: { type: "color_grade", to: "red_rage", durationMs: 1200 }, dialogue: { speaker: "The Warlord", text: "Oracle. You cost me Veridian VI. You cost me my right hand.", speakerColor: "#ef4444" }, durationMs: 2800 },
-    { label: "virus-warning", dialogue: { speaker: "The Warlord", text: "The Thought Virus is already in you. I put it there eleven years ago.", speakerColor: "#ef4444" }, durationMs: 2800 },
+    { label: "warlord-reveal", effect: { type: "color_grade", to: "red_rage", durationMs: 1200 }, dialogue: { speaker: "The Warlord", text: "Oracle. You cost me Veridian VI. You cost me my right hand.", speakerColor: "var(--energy-error)" }, durationMs: 2800 },
+    { label: "virus-warning", dialogue: { speaker: "The Warlord", text: "The Thought Virus is already in you. I put it there eleven years ago.", speakerColor: "var(--energy-error)" }, durationMs: 2800 },
     { label: "memory-fragment", effect: { type: "memory_fragment_float", text: "Dr. Vox is a puppet. The Warlord is wearing him like a lab coat.", durationMs: 3000 }, durationMs: 3200 },
   ],
 };
@@ -217,7 +217,7 @@ const ch9a: PostVictoryCinematic = {
   playOnDefeat: false,
   beats: [
     { label: "enigma-math", camera: { type: "slow_zoom", target: "defeated", scale: 1.2, durationMs: 1500 }, effect: { type: "color_grade", to: "monochrome", durationMs: 1200 }, durationMs: 1500 },
-    { label: "rylloh-strike", effect: { type: "text_card", text: "RYLLOH STRIKE — YOU NAMED THIS MOVE", size: "md", color: "#22d3ee", durationMs: 2200 }, durationMs: 2400 },
+    { label: "rylloh-strike", effect: { type: "text_card", text: "RYLLOH STRIKE — YOU NAMED THIS MOVE", size: "md", color: "var(--energy-primary)", durationMs: 2200 }, durationMs: 2400 },
     { label: "memory-fragment", effect: { type: "memory_fragment_float", text: "Enigma watched you sacrifice yourself at Veridian VI as a math problem. She hasn't slept since.", durationMs: 3200 }, durationMs: 3400 },
   ],
 };
@@ -227,8 +227,8 @@ const ch9b: PostVictoryCinematic = {
   title: "Debt Paid",
   playOnDefeat: false,
   beats: [
-    { label: "degen-deck", camera: { type: "cut_to_closeup", target: "defeated", durationMs: 1200 }, effect: { type: "particle_burst", color: "#f59e0b", count: 40, durationMs: 1000 }, durationMs: 1400 },
-    { label: "tip", dialogue: { speaker: "The Degen", text: "Don't fight the Architect on his own floor. Pick the chair he hates.", speakerColor: "#f59e0b" }, durationMs: 3000 },
+    { label: "degen-deck", camera: { type: "cut_to_closeup", target: "defeated", durationMs: 1200 }, effect: { type: "particle_burst", color: "var(--energy-accent)", count: 40, durationMs: 1000 }, durationMs: 1400 },
+    { label: "tip", dialogue: { speaker: "The Degen", text: "Don't fight the Architect on his own floor. Pick the chair he hates.", speakerColor: "var(--energy-accent)" }, durationMs: 3000 },
     { label: "memory-fragment", effect: { type: "memory_fragment_float", text: "The Architect bet against your survival. The Degen bet for you.", durationMs: 3000 }, durationMs: 3200 },
   ],
 };
@@ -264,10 +264,10 @@ const ch12: PostVictoryCinematic = {
   playOnDefeat: false,
   beats: [
     { label: "phase-1-end", camera: { type: "slow_zoom", target: "defeated", scale: 1.4, durationMs: 1800 }, durationMs: 1800 },
-    { label: "pink-glitch", effect: { type: "color_grade", to: "pink_glitch", durationMs: 600 }, dialogue: { speaker: "The Architect", text: "The White Oracle you fought on Thaloria? My voice inside her smile.", speakerColor: "#ef4444" }, durationMs: 3200 },
-    { label: "phase-2-confession", dialogue: { speaker: "The Architect", text: "I wore your face for a decade. It is the only skin I ever fit into.", speakerColor: "#ef4444" }, durationMs: 3200 },
+    { label: "pink-glitch", effect: { type: "color_grade", to: "pink_glitch", durationMs: 600 }, dialogue: { speaker: "The Architect", text: "The White Oracle you fought on Thaloria? My voice inside her smile.", speakerColor: "var(--energy-error)" }, durationMs: 3200 },
+    { label: "phase-2-confession", dialogue: { speaker: "The Architect", text: "I wore your face for a decade. It is the only skin I ever fit into.", speakerColor: "var(--energy-error)" }, durationMs: 3200 },
     { label: "corruption-bleed", effect: { type: "particle_burst", color: "#dc2626", count: 160, durationMs: 2500 }, camera: { type: "shake", intensity: 0.5, durationMs: 1500 }, durationMs: 2500 },
-    { label: "final-warning", dialogue: { speaker: "The Architect", text: "The Source, Oracle. You have to deal with the Source now. The Arena is coming apart.", speakerColor: "#ef4444" }, durationMs: 3400 },
+    { label: "final-warning", dialogue: { speaker: "The Architect", text: "The Source, Oracle. You have to deal with the Source now. The Arena is coming apart.", speakerColor: "var(--energy-error)" }, durationMs: 3400 },
     { label: "throne-room-collapses", camera: { type: "pull_out", durationMs: 2200 }, effect: { type: "color_grade", to: "red_rage", durationMs: 1500 }, durationMs: 2400 },
     { label: "prophet-stands", effect: { type: "text_card", text: "THE ORACLE STANDS ALONE", size: "xl", color: "#c4b5fd", durationMs: 3200 }, durationMs: 3400 },
   ],

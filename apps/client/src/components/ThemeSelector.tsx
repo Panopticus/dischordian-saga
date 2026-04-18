@@ -37,9 +37,9 @@ export function ThemeSelector({
   const availableCharIds = new Set(availableChar.map(t => t.id));
 
   const sideIcon = (side: string) => {
-    if (side === "machine") return <Cpu size={12} className="text-red-400" />;
-    if (side === "humanity") return <Heart size={12} className="text-green-400" />;
-    return <Shield size={12} className="text-purple-400" />;
+    if (side === "machine") return <Cpu size={12} className="void-text-error" />;
+    if (side === "humanity") return <Heart size={12} className="void-text-energy" />;
+    return <Shield size={12} className="void-text-system" />;
   };
 
   return (
@@ -51,7 +51,7 @@ export function ThemeSelector({
           <span className="font-display text-xs font-bold tracking-[0.15em]">THEME SELECTOR</span>
         </div>
         <span className="font-mono text-[10px] text-muted-foreground">
-          MORALITY: <span className={score < 0 ? "text-red-400" : score > 0 ? "text-green-400" : "text-purple-400"}>{score}</span>
+          MORALITY: <span className={score < 0 ? "void-text-error" : score > 0 ? "void-text-energy" : "void-text-system"}>{score}</span>
         </span>
       </div>
 
@@ -146,9 +146,9 @@ function ShipThemeCard({ theme, unlocked, equipped, onEquip }: {
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 mb-0.5">
-            {theme.side === "machine" ? <Cpu size={10} className="text-red-400" /> :
-             theme.side === "humanity" ? <Heart size={10} className="text-green-400" /> :
-             <Shield size={10} className="text-purple-400" />}
+            {theme.side === "machine" ? <Cpu size={10} className="void-text-error" /> :
+             theme.side === "humanity" ? <Heart size={10} className="void-text-energy" /> :
+             <Shield size={10} className="void-text-system" />}
             <span className="font-mono text-xs font-semibold truncate">{theme.name}</span>
             {equipped && <span className="text-[9px] bg-primary/20 text-primary px-1.5 py-0.5 rounded font-mono">EQUIPPED</span>}
           </div>
@@ -158,7 +158,7 @@ function ShipThemeCard({ theme, unlocked, equipped, onEquip }: {
               {theme.bgPattern.toUpperCase()} • {theme.particleEffect.toUpperCase()}
             </span>
             {!unlocked && (
-              <span className="font-mono text-[9px] text-amber-400/70">
+              <span className="font-mono text-[9px] void-text-accent">
                 REQ: {theme.requiredScore > 0 ? "+" : ""}{theme.requiredScore}
               </span>
             )}
@@ -204,9 +204,9 @@ function CharThemeCard({ theme, unlocked, equipped, onEquip }: {
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 mb-0.5">
-            {theme.side === "machine" ? <Cpu size={10} className="text-red-400" /> :
-             theme.side === "humanity" ? <Heart size={10} className="text-green-400" /> :
-             <Shield size={10} className="text-purple-400" />}
+            {theme.side === "machine" ? <Cpu size={10} className="void-text-error" /> :
+             theme.side === "humanity" ? <Heart size={10} className="void-text-energy" /> :
+             <Shield size={10} className="void-text-system" />}
             <span className="font-mono text-xs font-semibold truncate">{theme.name}</span>
             {equipped && <span className="text-[9px] bg-accent/20 text-accent px-1.5 py-0.5 rounded font-mono">EQUIPPED</span>}
           </div>
@@ -216,7 +216,7 @@ function CharThemeCard({ theme, unlocked, equipped, onEquip }: {
               {theme.auraType.toUpperCase()} • {theme.overlayPattern === "none" ? "NO OVERLAY" : theme.overlayPattern.toUpperCase()}
             </span>
             {!unlocked && (
-              <span className="font-mono text-[9px] text-amber-400/70">
+              <span className="font-mono text-[9px] void-text-accent">
                 REQ: {theme.requiredScore > 0 ? "+" : ""}{theme.requiredScore}
               </span>
             )}

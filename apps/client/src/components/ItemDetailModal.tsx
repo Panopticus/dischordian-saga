@@ -249,17 +249,17 @@ const ITEM_DATABASE: Record<string, ItemMeta> = {
 };
 
 const CATEGORY_CONFIG: Record<string, { icon: typeof Star; label: string; color: string }> = {
-  intel: { icon: FileText, label: "INTELLIGENCE", color: "#3875fa" },
+  intel: { icon: FileText, label: "INTELLIGENCE", color: "var(--electric-blue)" },
   artifact: { icon: Sparkles, label: "ARTIFACT", color: "#a855f7" },
-  evidence: { icon: AlertTriangle, label: "EVIDENCE", color: "#FF8C00" },
+  evidence: { icon: AlertTriangle, label: "EVIDENCE", color: "var(--energy-premium)" },
   weapon: { icon: Swords, label: "WEAPON", color: "#DC2626" },
-  key: { icon: Key, label: "KEY ITEM", color: "#FFD700" },
+  key: { icon: Key, label: "KEY ITEM", color: "var(--energy-premium)" },
 };
 
 const DANGER_CONFIG: Record<string, { label: string; color: string; bars: number }> = {
-  low: { label: "LOW", color: "#22c55e", bars: 1 },
-  medium: { label: "MEDIUM", color: "#FFD700", bars: 2 },
-  high: { label: "HIGH", color: "#FF8C00", bars: 3 },
+  low: { label: "LOW", color: "var(--energy-success)", bars: 1 },
+  medium: { label: "MEDIUM", color: "var(--energy-premium)", bars: 2 },
+  high: { label: "HIGH", color: "var(--energy-premium)", bars: 3 },
   critical: { label: "CRITICAL", color: "#DC2626", bars: 4 },
 };
 
@@ -284,7 +284,7 @@ export default function ItemDetailModal({ itemAction, onClose }: ItemDetailModal
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-[70] flex items-center justify-center p-3 sm:p-6"
-        style={{ background: "rgba(0,0,0,0.8)", backdropFilter: "blur(8px)" }}
+        style={{ background: "color-mix(in oklch, var(--bg-void) 80%, transparent)", backdropFilter: "blur(8px)" }}
         onClick={onClose}
       >
         <motion.div
@@ -294,9 +294,9 @@ export default function ItemDetailModal({ itemAction, onClose }: ItemDetailModal
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
           className="w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-lg"
           style={{
-            background: "linear-gradient(180deg, rgba(1,0,32,0.98) 0%, rgba(10,5,40,0.98) 100%)",
+            background: "linear-gradient(180deg, color-mix(in oklch, var(--bg-void) 98%, transparent) 0%, rgba(10,5,40,0.98) 100%)",
             border: `1px solid ${catConfig.color}30`,
-            boxShadow: `0 0 40px ${catConfig.color}15, 0 0 80px rgba(0,0,0,0.5)`,
+            boxShadow: `0 0 40px ${catConfig.color}15, 0 0 80px color-mix(in oklch, var(--bg-void) 50%, transparent)`,
           }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -337,7 +337,7 @@ export default function ItemDetailModal({ itemAction, onClose }: ItemDetailModal
                       key={i}
                       className="w-2 h-1 rounded-sm"
                       style={{
-                        background: i <= dangerConfig.bars ? dangerConfig.color : "rgba(255,255,255,0.08)",
+                        background: i <= dangerConfig.bars ? dangerConfig.color : "color-mix(in oklch, var(--text-primary) 8%, transparent)",
                         boxShadow: i <= dangerConfig.bars ? `0 0 4px ${dangerConfig.color}40` : "none",
                       }}
                     />
@@ -357,8 +357,8 @@ export default function ItemDetailModal({ itemAction, onClose }: ItemDetailModal
               <span className="font-mono text-[9px] text-[var(--neon-cyan)] tracking-[0.25em]">ELARA'S ANALYSIS</span>
             </div>
             <div className="rounded-md p-3" style={{
-              background: "rgba(51,226,230,0.03)",
-              border: "1px solid rgba(51,226,230,0.1)",
+              background: "color-mix(in oklch, var(--energy-primary) 3%, transparent)",
+              border: "1px solid color-mix(in oklch, var(--energy-primary) 10%, transparent)",
             }}>
               <p className="font-mono text-xs text-muted-foreground/80 leading-relaxed italic">
                 "{item.elaraAnalysis}"
@@ -373,8 +373,8 @@ export default function ItemDetailModal({ itemAction, onClose }: ItemDetailModal
               <span className="font-mono text-[9px] text-[var(--orb-orange)] tracking-[0.25em]">DECODED CONTENTS</span>
             </div>
             <div className="rounded-md p-4" style={{
-              background: "rgba(255,183,77,0.02)",
-              border: "1px solid rgba(255,183,77,0.08)",
+              background: "color-mix(in oklch, var(--energy-premium) 2%, transparent)",
+              border: "1px solid color-mix(in oklch, var(--energy-premium) 8%, transparent)",
             }}>
               <pre className="font-mono text-[11px] text-muted-foreground/70 leading-relaxed whitespace-pre-wrap break-words">
                 {item.loreExcerpt}
@@ -394,8 +394,8 @@ export default function ItemDetailModal({ itemAction, onClose }: ItemDetailModal
                   key={entity}
                   className="px-2.5 py-1 rounded-md font-mono text-[9px] text-muted-foreground/50"
                   style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(255,255,255,0.06)",
+                    background: "color-mix(in oklch, var(--text-primary) 3%, transparent)",
+                    border: "1px solid color-mix(in oklch, var(--text-primary) 6%, transparent)",
                   }}
                 >
                   {entity}

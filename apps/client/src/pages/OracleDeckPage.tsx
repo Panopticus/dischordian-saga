@@ -35,29 +35,29 @@ type View = "deck" | "daily_reading" | "weekly_reading";
  *  tarot loves color. Dischordia gets a cooler, more digital
  *  palette than Crowley's. */
 const ARCANUM_ACCENT: Record<string, string> = {
-  fool: "border-sky-400/40 text-sky-100",
-  magician: "border-amber-400/40 text-amber-100",
-  high_priestess: "border-indigo-400/40 text-indigo-100",
-  empress: "border-emerald-400/40 text-emerald-100",
-  emperor: "border-slate-400/40 text-slate-100",
-  hierophant: "border-violet-400/40 text-violet-100",
-  lovers: "border-rose-400/40 text-rose-100",
-  chariot: "border-orange-400/40 text-orange-100",
-  justice: "border-teal-400/40 text-teal-100",
-  hermit: "border-stone-400/40 text-stone-100",
-  fortune: "border-yellow-400/40 text-yellow-100",
-  strength: "border-red-400/40 text-red-100",
-  hanged_man: "border-cyan-400/40 text-cyan-100",
-  death: "border-neutral-400/40 text-neutral-100",
-  temperance: "border-lime-400/40 text-lime-100",
-  devil: "border-fuchsia-400/40 text-fuchsia-100",
-  tower: "border-red-500/40 text-red-100",
-  star: "border-blue-400/40 text-blue-100",
-  moon: "border-purple-400/40 text-purple-100",
-  sun: "border-yellow-300/40 text-yellow-50",
-  judgment: "border-emerald-500/40 text-emerald-100",
-  world: "border-violet-500/40 text-violet-100",
-  fnord: "border-rose-500/40 text-rose-100",
+  fool: "void-border void-text-energy",
+  magician: "void-border void-text-accent",
+  high_priestess: "void-border void-text-energy",
+  empress: "void-border-success void-text-energy",
+  emperor: "void-border void-text",
+  hierophant: "void-border-system void-text-system",
+  lovers: "void-border-error void-text-error",
+  chariot: "void-border void-text-premium",
+  justice: "void-border-success void-text-energy",
+  hermit: "void-border void-text",
+  fortune: "void-border void-text-premium",
+  strength: "void-border-error void-text-error",
+  hanged_man: "void-border-success void-text-energy",
+  death: "void-border void-text",
+  temperance: "void-border-success void-text-energy",
+  devil: "void-border-system void-text-system",
+  tower: "void-border-error void-text-error",
+  star: "void-border void-text-energy",
+  moon: "void-border-system void-text-system",
+  sun: "void-border void-text-premium",
+  judgment: "void-border-success void-text-energy",
+  world: "void-border-system void-text-system",
+  fnord: "void-border-error void-text-error",
 };
 
 export default function OracleDeckPage() {
@@ -143,7 +143,7 @@ export default function OracleDeckPage() {
         </Link>
         <div>
           <h1 className="font-display text-2xl font-bold tracking-wider flex items-center gap-2">
-            <Moon size={20} className="text-violet-300" />
+            <Moon size={20} className="void-text-system" />
             THE ORACLE DECK
           </h1>
           <p className="font-mono text-xs text-muted-foreground">
@@ -170,15 +170,15 @@ export default function OracleDeckPage() {
               if (!card) return null;
               return (
                 <div
-                  className="rounded-lg border border-amber-400/40 bg-amber-400/5 p-4 cursor-pointer hover-lift"
+                  className="rounded-lg border void-border void-bg-sunk p-4 cursor-pointer hover-lift"
                   onClick={() => {
                     setDailyReading(activeDailyQ.data);
                     setView("daily_reading");
                   }}
                 >
                   <div className="flex items-center gap-2 mb-1">
-                    <Sparkles size={14} className="text-amber-300" />
-                    <span className="font-display text-xs font-bold tracking-wider text-amber-100">
+                    <Sparkles size={14} className="void-text-accent" />
+                    <span className="font-display text-xs font-bold tracking-wider void-text-accent">
                       TODAY&apos;S READING
                     </span>
                     <span className="font-mono text-[10px] text-muted-foreground ml-auto">
@@ -191,7 +191,7 @@ export default function OracleDeckPage() {
                       ({draw.orientation})
                     </span>
                   </p>
-                  <p className="font-mono text-[11px] text-amber-200/80 mt-1">
+                  <p className="font-mono text-[11px] void-text-accent mt-1">
                     {draw.buff.label}
                   </p>
                   <p className="font-mono text-[10px] text-muted-foreground mt-2 italic line-clamp-2">
@@ -206,10 +206,10 @@ export default function OracleDeckPage() {
               <button
                 onClick={handleCastDaily}
                 disabled={!canCastDaily || castDaily.isPending}
-                className="rounded-lg border border-sky-400/40 bg-sky-400/5 p-4 text-left hover-lift disabled:opacity-40 disabled:cursor-not-allowed"
+                className="rounded-lg border void-border void-bg-sunk p-4 text-left hover-lift disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <Sun size={16} className="text-sky-300" />
+                  <Sun size={16} className="void-text-energy" />
                   <span className="font-display text-sm font-bold tracking-wider">
                     DAILY READING
                   </span>
@@ -224,10 +224,10 @@ export default function OracleDeckPage() {
               <button
                 onClick={handleCastWeekly}
                 disabled={!canCastWeekly || castWeekly.isPending}
-                className="rounded-lg border border-violet-400/40 bg-violet-400/5 p-4 text-left hover-lift disabled:opacity-40 disabled:cursor-not-allowed"
+                className="rounded-lg border void-border-system void-bg-system p-4 text-left hover-lift disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <div className="flex items-center gap-2 mb-1">
-                  <Calendar size={16} className="text-violet-300" />
+                  <Calendar size={16} className="void-text-system" />
                   <span className="font-display text-sm font-bold tracking-wider">
                     WEEKLY SPREAD — THE FIVE FORCES
                   </span>
@@ -244,9 +244,9 @@ export default function OracleDeckPage() {
 
             {/* Charges display */}
             <div className="rounded-lg border border-border/30 bg-card/20 p-3 flex items-center gap-3">
-              <Sparkles size={16} className="text-amber-300" />
+              <Sparkles size={16} className="void-text-accent" />
               <span className="font-mono text-xs">
-                Oracle Charges: <span className="text-amber-200">{charges}</span>
+                Oracle Charges: <span className="void-text-accent">{charges}</span>
               </span>
               <span className="font-mono text-[10px] text-muted-foreground">
                 // earned from governance votes, chapter completions, and
@@ -258,7 +258,7 @@ export default function OracleDeckPage() {
             {owned.length > 0 && (
               <div>
                 <h2 className="font-display text-sm font-bold tracking-wider mb-2 flex items-center gap-2">
-                  <CheckCircle2 size={14} className="text-emerald-400" />
+                  <CheckCircle2 size={14} className="void-text-energy" />
                   IN YOUR DECK
                 </h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
@@ -366,7 +366,7 @@ function ReadingView({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className="rounded-lg border border-violet-400/30 bg-gradient-to-br from-violet-500/5 to-transparent p-6 space-y-4"
+      className="rounded-lg border void-border-system bg-gradient-to-br from-violet-500/5 to-transparent p-6 space-y-4"
     >
       <div className="flex items-center justify-between">
         <h2 className="font-display text-lg font-bold tracking-wider">
@@ -398,7 +398,7 @@ function ReadingView({
       </div>
 
       {reading.fallback && (
-        <p className="font-mono text-[10px] text-amber-300/80 border-l-2 border-amber-400/40 pl-3">
+        <p className="font-mono text-[10px] void-text-accent border-l-2 void-border pl-3">
           Fallback reading — you own fewer cards than the spread length. The
           Prisoner stood in for you today. Collect more Oracle cards to
           unlock the full reading.
@@ -413,7 +413,7 @@ function DrawnCard({ drawn, hidden }: { drawn: any; hidden: boolean }) {
   // and upright/reversed meaning instead of the raw slug.
   const card = !hidden ? getOracleCardBySlug(drawn.cardSlug) : undefined;
   const accent = hidden
-    ? "border-rose-500/50 text-rose-100"
+    ? "void-border-error void-text-error"
     : card
       ? ARCANUM_ACCENT[card.arcanum] ?? "border-border/30 text-foreground"
       : "border-border/30 text-foreground";
@@ -424,7 +424,7 @@ function DrawnCard({ drawn, hidden }: { drawn: any; hidden: boolean }) {
       </p>
       {hidden ? (
         <>
-          <p className="font-display text-sm font-bold text-rose-200">???</p>
+          <p className="font-display text-sm font-bold void-text-error">???</p>
           <p className="font-mono text-[10px] text-muted-foreground">
             The Hidden card is not revealed in the reading UI. Its effect
             fires at an unspecified moment during the week.
@@ -441,7 +441,7 @@ function DrawnCard({ drawn, hidden }: { drawn: any; hidden: boolean }) {
           <p className="font-mono text-[10px] text-muted-foreground italic line-clamp-3">
             &ldquo;{drawn.orientation === "upright" ? card?.uprightMeaning : card?.reversedMeaning}&rdquo;
           </p>
-          <p className="font-mono text-[10px] text-amber-200/80">
+          <p className="font-mono text-[10px] void-text-accent">
             {drawn.buff?.label}
           </p>
           <p className="font-mono text-[9px] text-muted-foreground">

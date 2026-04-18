@@ -80,13 +80,13 @@ export default function SpendingDashboard({
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="w-full max-w-md bg-black/95 border border-amber-500/20 rounded-2xl overflow-hidden max-h-[85vh] flex flex-col"
+        className="w-full max-w-md bg-black/95 border void-border rounded-2xl overflow-hidden max-h-[85vh] flex flex-col"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-amber-500/20 bg-gradient-to-r from-amber-500/10 to-transparent">
+        <div className="flex items-center justify-between px-4 py-3 border-b void-border bg-gradient-to-r from-amber-500/10 to-transparent">
           <div className="flex items-center gap-2">
-            <DollarSign size={18} className="text-amber-400" />
-            <h2 className="font-display text-lg tracking-[0.2em] text-amber-400">
+            <DollarSign size={18} className="void-text-accent" />
+            <h2 className="font-display text-lg tracking-[0.2em] void-text-accent">
               SPENDING DASHBOARD
             </h2>
           </div>
@@ -101,17 +101,17 @@ export default function SpendingDashboard({
             <div
               className={`flex items-start gap-2 p-3 rounded-lg border ${
                 overBudget
-                  ? "bg-red-500/10 border-red-500/30"
-                  : "bg-amber-500/5 border-amber-500/20"
+                  ? "void-bg-error void-border-error"
+                  : "void-bg-sunk void-border"
               }`}
             >
               <AlertTriangle
                 size={16}
-                className={`mt-0.5 shrink-0 ${overBudget ? "text-red-400" : "text-amber-400"}`}
+                className={`mt-0.5 shrink-0 ${overBudget ? "void-text-error" : "void-text-accent"}`}
               />
               <p
                 className={`font-mono text-[11px] leading-relaxed ${
-                  overBudget ? "text-red-400/80" : "text-amber-400/80"
+                  overBudget ? "void-text-error" : "void-text-accent"
                 }`}
               >
                 {overBudget
@@ -130,7 +130,7 @@ export default function SpendingDashboard({
                   THIS MONTH
                 </span>
               </div>
-              <p className="font-mono text-lg text-amber-400 font-bold">
+              <p className="font-mono text-lg void-text-accent font-bold">
                 {formatCurrency(spentThisMonth)}
               </p>
             </div>
@@ -161,10 +161,10 @@ export default function SpendingDashboard({
                 <div
                   className={`h-full rounded-full transition-all ${
                     overBudget
-                      ? "bg-red-500"
+                      ? "void-bg-error"
                       : nearBudget
-                        ? "bg-amber-500"
-                        : "bg-emerald-500"
+                        ? "void-bg-sunk"
+                        : "void-bg-success"
                   }`}
                   style={{ width: `${Math.min(budgetPercent, 100)}%` }}
                 />
@@ -181,7 +181,7 @@ export default function SpendingDashboard({
             </span>
             <button
               onClick={() => setShowBudgetSettings(!showBudgetSettings)}
-              className="flex items-center gap-1 font-mono text-[10px] text-amber-400/60 hover:text-amber-400 transition-colors"
+              className="flex items-center gap-1 font-mono text-[10px] void-text-accent void-text-accent transition-colors"
             >
               <Settings size={12} />
               {showBudgetSettings ? "CLOSE" : "SET BUDGET"}
@@ -189,7 +189,7 @@ export default function SpendingDashboard({
           </div>
 
           {showBudgetSettings && (
-            <div className="p-3 rounded-xl border border-amber-500/20 bg-amber-500/5 space-y-2">
+            <div className="p-3 rounded-xl border void-border void-bg-sunk space-y-2">
               <p className="font-mono text-[11px] text-white/40">
                 Alert me when I've spent this much per month:
               </p>
@@ -201,11 +201,11 @@ export default function SpendingDashboard({
                   value={budgetInput}
                   onChange={e => setBudgetInput(e.target.value)}
                   placeholder="e.g. 20"
-                  className="flex-1 px-3 py-2 rounded-lg bg-black/50 border border-white/10 text-white/80 font-mono text-sm focus:outline-none focus:border-amber-500/40"
+                  className="flex-1 px-3 py-2 rounded-lg bg-black/50 border border-white/10 text-white/80 font-mono text-sm focus:outline-none focus:void-border"
                 />
                 <button
                   onClick={handleSaveBudget}
-                  className="px-4 py-2 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-400 font-mono text-xs font-bold hover:bg-amber-500/30 transition-colors"
+                  className="px-4 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-xs font-bold void-bg-sunk transition-colors"
                 >
                   SAVE
                 </button>
@@ -213,7 +213,7 @@ export default function SpendingDashboard({
               {monthlyBudget && (
                 <button
                   onClick={() => { onSetBudget(null); setShowBudgetSettings(false); setBudgetInput(""); }}
-                  className="font-mono text-[10px] text-red-400/60 hover:text-red-400 transition-colors"
+                  className="font-mono text-[10px] void-text-error void-text-error transition-colors"
                 >
                   Remove budget limit
                 </button>
@@ -245,7 +245,7 @@ export default function SpendingDashboard({
                         {new Date(p.date).toLocaleDateString()}
                       </p>
                     </div>
-                    <span className="font-mono text-xs text-amber-400/80 font-bold">
+                    <span className="font-mono text-xs void-text-accent font-bold">
                       {formatCurrency(p.price)}
                     </span>
                   </div>

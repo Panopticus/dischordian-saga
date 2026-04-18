@@ -227,12 +227,12 @@ function PromoCodeSection({ isAuthenticated }: { isAuthenticated: boolean }) {
               onKeyDown={(e) => { if (e.key === "Enter") handleRedeem(); }}
               placeholder="ENTER-CODE-HERE"
               maxLength={64}
-              className="flex-1 px-3 py-2 rounded-md border border-white/10 bg-white/[0.02] font-mono text-xs tracking-widest text-cyan-400 placeholder:text-muted-foreground/30 focus:outline-none focus:border-cyan-400/40 focus:ring-1 focus:ring-cyan-400/20 transition-colors"
+              className="flex-1 px-3 py-2 rounded-md border border-white/10 bg-white/[0.02] font-mono text-xs tracking-widest void-text-energy placeholder:text-muted-foreground/30 focus:outline-none focus:void-border-success focus:ring-1 focus:ring-cyan-400/20 transition-colors"
             />
             <button
               onClick={handleRedeem}
               disabled={!code.trim() || redeemMutation.isPending}
-              className="px-4 py-2 rounded-md border border-cyan-400/30 bg-cyan-400/5 text-cyan-400 font-mono text-[10px] tracking-[0.2em] hover:bg-cyan-400/10 hover:border-cyan-400/50 transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0"
+              className="px-4 py-2 rounded-md border void-border-success void-bg-success void-text-energy font-mono text-[10px] tracking-[0.2em] void-bg-success void-border-success transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0"
             >
               {redeemMutation.isPending ? "..." : "REDEEM"}
             </button>
@@ -242,8 +242,8 @@ function PromoCodeSection({ isAuthenticated }: { isAuthenticated: boolean }) {
           {status !== "idle" && (
             <div className={`flex items-start gap-2 px-3 py-2.5 rounded-md border font-mono text-[10px] leading-relaxed ${
               status === "success"
-                ? "border-green-400/30 bg-green-400/5 text-green-400"
-                : "border-red-400/30 bg-red-400/5 text-red-400"
+                ? "void-border-success void-bg-success void-text-energy"
+                : "void-border-error void-bg-error void-text-error"
             }`}>
               {status === "success" ? <Gift size={13} className="shrink-0 mt-0.5" /> : <Shield size={13} className="shrink-0 mt-0.5" />}
               <span>{message}</span>
@@ -341,8 +341,8 @@ export default function SettingsPage() {
       <div className="flex items-center gap-3 mb-6">
         <div className="w-10 h-10 rounded-lg flex items-center justify-center"
           style={{
-            background: "linear-gradient(135deg, rgba(51,226,230,0.15), var(--glass-border))",
-            border: "1px solid rgba(51,226,230,0.3)",
+            background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-primary) 15%, transparent), var(--glass-border))",
+            border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
           }}>
           <Settings size={18} className="text-[var(--neon-cyan)]" />
         </div>
@@ -655,7 +655,7 @@ export default function SettingsPage() {
             <div className="flex items-center justify-between py-2 border-t border-border/40">
               <div className="flex items-center gap-2.5">
                 {syncStatus === "synced" ? (
-                  <Cloud size={14} className="text-green-400/70" />
+                  <Cloud size={14} className="void-text-energy" />
                 ) : syncStatus === "saving" ? (
                   <Cloud size={14} className="text-[var(--neon-cyan)] animate-pulse" />
                 ) : syncStatus === "error" ? (
@@ -716,13 +716,13 @@ export default function SettingsPage() {
           <div className="space-y-3">
             <div className="p-3 rounded-lg border border-border/60 bg-gradient-to-br from-indigo-500/5 to-purple-500/5">
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-md bg-indigo-500/20 border border-indigo-500/40 flex items-center justify-center shrink-0">
-                  <MessageCircle size={18} className="text-indigo-400" />
+                <div className="w-10 h-10 rounded-md void-bg-sunk border void-border flex items-center justify-center shrink-0">
+                  <MessageCircle size={18} className="void-text-energy" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <h3 className="font-display text-sm font-bold tracking-wider text-foreground">DISCORD</h3>
-                    <span className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 tracking-wider">LIVE</span>
+                    <span className="font-mono text-[8px] px-1.5 py-0.5 rounded void-bg-sunk void-text-energy tracking-wider">LIVE</span>
                   </div>
                   <p className="font-mono text-[10px] text-muted-foreground/80 leading-relaxed mb-3">
                     Join the Dischordian community. Decode Voltari signals together, coordinate alliance wars, share lore theories, and hear announcements straight from the Storyteller.
@@ -732,7 +732,7 @@ export default function SettingsPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => toast.success("Opening Discord…")}
-                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-indigo-500 hover:bg-indigo-400 text-white font-mono text-[10px] tracking-wider transition-colors"
+                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md void-bg-sunk void-bg-sunk text-white font-mono text-[10px] tracking-wider transition-colors"
                     data-testid="link-discord"
                   >
                     JOIN DISCORD
@@ -748,8 +748,8 @@ export default function SettingsPage() {
             {/* DGRS Labs */}
             <div className="pt-3 mt-3 border-t border-border/30">
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-6 h-6 rounded bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border border-purple-500/40 flex items-center justify-center shrink-0">
-                  <span className="font-display text-[9px] font-bold text-purple-300">DG</span>
+                <div className="w-6 h-6 rounded bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border void-border-system flex items-center justify-center shrink-0">
+                  <span className="font-display text-[9px] font-bold void-text-system">DG</span>
                 </div>
                 <div className="flex-1">
                   <h4 className="font-display text-[11px] font-bold tracking-wider text-foreground">DGRS LABS</h4>
@@ -771,13 +771,13 @@ export default function SettingsPage() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-between gap-1.5 px-2 py-1.5 rounded border border-border/40 hover:border-purple-500/40 hover:bg-purple-500/5 transition-colors group"
+                    className="flex items-center justify-between gap-1.5 px-2 py-1.5 rounded border border-border/40 void-border-system void-bg-system transition-colors group"
                     data-testid={`link-dgrs-${link.label.toLowerCase().replace(/\W+/g, "-")}`}
                   >
                     <span className="font-mono text-[9px] text-muted-foreground/80 group-hover:text-foreground tracking-wider truncate">
                       {link.label}
                     </span>
-                    <ExternalLink size={9} className="text-muted-foreground/40 group-hover:text-purple-400 shrink-0" />
+                    <ExternalLink size={9} className="text-muted-foreground/40 group-void-text-system shrink-0" />
                   </a>
                 ))}
               </div>

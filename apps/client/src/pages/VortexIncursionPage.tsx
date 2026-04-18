@@ -166,30 +166,30 @@ export default function VortexIncursionPage() {
       />
       <div className="relative z-10">
         {/* Header */}
-        <div className="border-b border-violet-900/40 bg-stone-950/60 backdrop-blur-sm">
+        <div className="border-b void-border-system void-bg-canvas backdrop-blur-sm">
           <div className="mx-auto max-w-4xl px-4 py-4 sm:px-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Link
                   href="/witnessing"
-                  className="text-violet-300/60 hover:text-violet-200 transition-colors"
+                  className="void-text-system void-text-system transition-colors"
                   aria-label="Back to Witnessing Hub"
                 >
                   <ChevronLeft size={18} />
                 </Link>
                 <div>
-                  <h1 className="font-display text-lg font-bold tracking-wider text-violet-100 flex items-center gap-2">
-                    <CircleDashed size={16} className="text-violet-400" />
+                  <h1 className="font-display text-lg font-bold tracking-wider void-text-system flex items-center gap-2">
+                    <CircleDashed size={16} className="void-text-system" />
                     THE VORTEX INCURSION
                   </h1>
-                  <p className="font-mono text-[10px] text-violet-300/60 tracking-wider">
+                  <p className="font-mono text-[10px] void-text-system tracking-wider">
                     §11.5 · Community Endgame · {stats.runsCompleted} run
                     {stats.runsCompleted === 1 ? "" : "s"} complete
                   </p>
                 </div>
               </div>
               {activeRun && view === "running" && (
-                <p className="font-mono text-[10px] text-violet-300/50">
+                <p className="font-mono text-[10px] void-text-system">
                   Room {activeRun.currentRoomIndex + 1} / 10
                 </p>
               )}
@@ -276,14 +276,14 @@ function BriefingView({
 }) {
   return (
     <div className="space-y-6">
-      <section className="rounded-md border border-violet-700/50 bg-stone-950/70 p-6">
-        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-violet-300/70">
+      <section className="rounded-md border void-border-system void-bg-canvas p-6">
+        <p className="font-mono text-[10px] uppercase tracking-[0.25em] void-text-system">
           COMMUNITY ENDGAME
         </p>
-        <h2 className="mt-1 font-display text-2xl text-violet-100">
+        <h2 className="mt-1 font-display text-2xl void-text-system">
           Push Back the Vortex
         </h2>
-        <p className="mt-4 font-serif text-[14px] leading-relaxed text-stone-200">
+        <p className="mt-4 font-serif text-[14px] leading-relaxed void-text">
           Ten rooms separate you from the Vortex itself. The first four are
           the drift into its territory — silence, memory, a chapel of lost
           names, and the first thing that notices you. The fifth is its
@@ -292,7 +292,7 @@ function BriefingView({
           remembers itself, a library of erased books, and a room that has
           refused to be consumed.
         </p>
-        <p className="mt-3 font-serif text-[14px] leading-relaxed text-stone-200">
+        <p className="mt-3 font-serif text-[14px] leading-relaxed void-text">
           The tenth room is the Vortex. It does not stop eating. You do not
           defeat it. You hold the line long enough for another Ark to take
           the next watch.
@@ -301,28 +301,28 @@ function BriefingView({
 
       {/* Community progress — aggregated across every Ark
           that reported a Vortex room clear in the last 7 days. */}
-      <section className="rounded-md border border-violet-700/50 bg-violet-950/20 p-4">
-        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] text-violet-200">
+      <section className="rounded-md border void-border-system void-bg-system p-4">
+        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] void-text-system">
           COMMUNITY THIS WEEK
         </p>
         {communityProgress ? (
-          <div className="grid grid-cols-3 gap-3 font-mono text-[10px] text-violet-300/80">
+          <div className="grid grid-cols-3 gap-3 font-mono text-[10px] void-text-system">
             <Stat label="Rooms held" value={communityProgress.roomsClearedThisWeek} />
             <Stat label="Cores held" value={communityProgress.coresHeldThisWeek} />
             <Stat label="Arks active" value={communityProgress.uniqueArksThisWeek} />
           </div>
         ) : (
-          <p className="font-mono text-[10px] text-violet-300/40">
+          <p className="font-mono text-[10px] void-text-system">
             Fetching the next watch…
           </p>
         )}
       </section>
 
-      <section className="rounded-md border border-violet-900/40 bg-stone-950/50 p-4">
-        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] text-violet-200">
+      <section className="rounded-md border void-border-system void-bg-canvas p-4">
+        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] void-text-system">
           YOUR RECORD
         </p>
-        <div className="grid grid-cols-3 gap-3 font-mono text-[10px] text-violet-300/80">
+        <div className="grid grid-cols-3 gap-3 font-mono text-[10px] void-text-system">
           <Stat label="Runs" value={stats.runsCompleted} />
           <Stat label="Rooms cleared" value={stats.roomsCleared} />
           <Stat label="Cores reached" value={stats.coresReached} />
@@ -333,7 +333,7 @@ function BriefingView({
         <button
           type="button"
           onClick={onStart}
-          className="flex items-center gap-2 rounded-sm border border-violet-600 bg-violet-900/30 px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-violet-100 hover:border-violet-400 hover:bg-violet-900/50 transition-colors"
+          className="flex items-center gap-2 rounded-sm border void-border-system void-bg-system px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider void-text-system void-border-system void-bg-system transition-colors"
         >
           <CircleDashed size={14} />
           Begin the Incursion
@@ -346,9 +346,9 @@ function BriefingView({
 
 function Stat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded border border-violet-900/40 bg-stone-900/40 p-2">
-      <p className="text-[8px] uppercase text-violet-300/50">{label}</p>
-      <p className="font-display text-lg text-violet-100">{value}</p>
+    <div className="rounded border void-border-system void-bg-canvas p-2">
+      <p className="text-[8px] uppercase void-text-system">{label}</p>
+      <p className="font-display text-lg void-text-system">{value}</p>
     </div>
   );
 }
@@ -377,15 +377,15 @@ function RunningView({
     <div className="space-y-5">
       {/* Progress bar */}
       <div>
-        <div className="h-1 w-full rounded bg-violet-950/60 overflow-hidden">
+        <div className="h-1 w-full rounded void-bg-system overflow-hidden">
           <motion.div
-            className="h-full bg-violet-400/80"
+            className="h-full void-bg-system"
             initial={false}
             animate={{ width: `${progressPct}%` }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           />
         </div>
-        <div className="mt-1 flex items-center justify-between font-mono text-[9px] uppercase tracking-wider text-violet-300/60">
+        <div className="mt-1 flex items-center justify-between font-mono text-[9px] uppercase tracking-wider void-text-system">
           <span>{clearedCount} cleared</span>
           <span>{run.rooms.length - clearedCount} remaining</span>
         </div>
@@ -395,17 +395,17 @@ function RunningView({
       <section
         className={`rounded-md border p-6 ${
           isCore
-            ? "border-violet-400/80 bg-violet-950/40 shadow-[0_0_40px_rgba(167,139,250,0.2)]"
-            : "border-violet-800/60 bg-stone-950/70"
+            ? "void-border-system void-bg-system shadow-[0_0_40px_rgba(167,139,250,0.2)]"
+            : "void-border-system void-bg-canvas"
         }`}
       >
         <div className="mb-3 flex items-center gap-2">
           {isCore ? (
-            <Crosshair size={14} className="text-violet-300" />
+            <Crosshair size={14} className="void-text-system" />
           ) : (
-            <CircleDashed size={14} className="text-violet-400" />
+            <CircleDashed size={14} className="void-text-system" />
           )}
-          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-violet-300/80">
+          <p className="font-mono text-[10px] uppercase tracking-[0.25em] void-text-system">
             ROOM {roomIndex + 1} · {currentRoomDef.type.toUpperCase()}
             {currentRoomDef.puzzleVariant
               ? ` · ${currentRoomDef.puzzleVariant.toUpperCase()}`
@@ -414,23 +414,23 @@ function RunningView({
         </div>
         <h2
           className={`font-display text-xl ${
-            isCore ? "text-violet-100" : "text-violet-100"
+            isCore ? "void-text-system" : "void-text-system"
           }`}
         >
           {currentRoomDef.name}
         </h2>
-        <p className="mt-3 font-serif text-[14px] leading-relaxed text-stone-100">
+        <p className="mt-3 font-serif text-[14px] leading-relaxed void-text">
           {currentRoomDef.description}
         </p>
-        <div className="mt-5 rounded border border-violet-900/40 bg-stone-900/50 p-3">
-          <p className="font-mono text-[9px] uppercase tracking-wider text-violet-300/60">
+        <div className="mt-5 rounded border void-border-system void-bg-canvas p-3">
+          <p className="font-mono text-[9px] uppercase tracking-wider void-text-system">
             Buff on clear
           </p>
-          <p className="mt-1 font-mono text-[11px] text-violet-100">
+          <p className="mt-1 font-mono text-[11px] void-text-system">
             {currentRoomDef.buff.label}
           </p>
         </div>
-        <p className="mt-3 font-mono text-[10px] text-violet-300/60">
+        <p className="mt-3 font-mono text-[10px] void-text-system">
           Difficulty modifier · ×{currentRoomDef.difficultyMod.toFixed(2)}
         </p>
       </section>
@@ -454,7 +454,7 @@ function RunningView({
         <button
           type="button"
           onClick={onAbandon}
-          className="flex items-center gap-1.5 rounded-sm border border-rose-900/60 bg-rose-950/20 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-rose-200 hover:border-rose-700/80 hover:bg-rose-900/30 transition-colors"
+          className="flex items-center gap-1.5 rounded-sm border void-border-error void-bg-error px-4 py-2 font-mono text-[10px] uppercase tracking-wider void-text-error void-border-error void-bg-error transition-colors"
         >
           <X size={11} />
           Abandon
@@ -462,8 +462,8 @@ function RunningView({
       </div>
 
       {/* Mini-map of all ten rooms */}
-      <section className="rounded-md border border-violet-900/30 bg-stone-950/40 p-3">
-        <p className="mb-2 font-mono text-[9px] uppercase tracking-wider text-violet-300/60">
+      <section className="rounded-md border void-border-system void-bg-canvas p-3">
+        <p className="mb-2 font-mono text-[9px] uppercase tracking-wider void-text-system">
           Incursion map
         </p>
         <ul className="grid grid-cols-10 gap-1">
@@ -476,10 +476,10 @@ function RunningView({
                 key={room.def.key}
                 className={`h-8 rounded border flex items-center justify-center text-[9px] font-mono ${
                   done
-                    ? "border-violet-400/60 bg-violet-900/30 text-violet-200"
+                    ? "void-border-system void-bg-system void-text-system"
                     : current
-                    ? "border-emerald-400/80 bg-emerald-950/30 text-emerald-100"
-                    : "border-violet-900/30 bg-stone-900/40 text-violet-300/30"
+                    ? "void-border-success void-bg-success void-text-energy"
+                    : "void-border-system void-bg-canvas void-text-system"
                 }`}
                 title={room.def.name}
               >
@@ -517,27 +517,27 @@ function CompleteView({
   const seconds = Math.floor((totalTime % 60000) / 1000);
   return (
     <div className="space-y-6">
-      <section className="rounded-md border border-violet-400/80 bg-violet-950/40 p-8 text-center shadow-[0_0_50px_rgba(167,139,250,0.25)]">
-        <Trophy size={36} className="mx-auto mb-3 text-violet-200" />
-        <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-violet-200">
+      <section className="rounded-md border void-border-system void-bg-system p-8 text-center shadow-[0_0_50px_rgba(167,139,250,0.25)]">
+        <Trophy size={36} className="mx-auto mb-3 void-text-system" />
+        <p className="font-mono text-[10px] uppercase tracking-[0.35em] void-text-system">
           VORTEX HELD
         </p>
-        <h2 className="mt-2 font-display text-2xl text-violet-50">
+        <h2 className="mt-2 font-display text-2xl void-text-system">
           The line held.
         </h2>
-        <p className="mt-4 max-w-md mx-auto font-serif text-[14px] leading-relaxed text-stone-100">
+        <p className="mt-4 max-w-md mx-auto font-serif text-[14px] leading-relaxed void-text">
           The Vortex pauses. Not for long. Long enough for another Ark to
           take the next watch. Every player on the server gets a little
           more Light for the next day.
         </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-3 font-mono text-[10px] text-violet-200">
-          <span className="rounded border border-violet-500/50 bg-violet-900/40 px-3 py-1">
+        <div className="mt-6 flex flex-wrap justify-center gap-3 font-mono text-[10px] void-text-system">
+          <span className="rounded border void-border-system void-bg-system px-3 py-1">
             +{stats.lastRunLightEnergy} Community Light
           </span>
-          <span className="rounded border border-violet-500/50 bg-violet-900/40 px-3 py-1">
+          <span className="rounded border void-border-system void-bg-system px-3 py-1">
             {minutes}m {seconds}s total
           </span>
-          <span className="rounded border border-violet-500/50 bg-violet-900/40 px-3 py-1">
+          <span className="rounded border void-border-system void-bg-system px-3 py-1">
             Cores reached · {stats.coresReached}
           </span>
         </div>
@@ -547,7 +547,7 @@ function CompleteView({
         <button
           type="button"
           onClick={onBackToBriefing}
-          className="flex items-center gap-2 rounded-sm border border-violet-700/60 bg-violet-900/20 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-violet-100 hover:border-violet-500/80 hover:bg-violet-900/40 transition-colors"
+          className="flex items-center gap-2 rounded-sm border void-border-system void-bg-system px-4 py-2 font-mono text-[10px] uppercase tracking-wider void-text-system void-border-system void-bg-system transition-colors"
         >
           Return to briefing
           <ChevronRight size={12} />

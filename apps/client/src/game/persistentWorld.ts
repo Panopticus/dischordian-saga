@@ -209,11 +209,11 @@ export const APPEARANCE_COLLECTION: AppearanceItem[] = [
   // Prestige appearances
   { id: "app_prestige_1", name: "Rebirth Glow", slot: "aura", source: "prestige", rarity: "epic", description: "Achieved Prestige 1", previewColor: "#ffffff" },
   { id: "app_prestige_3", name: "Cycle Breaker Trail", slot: "trail", source: "prestige", rarity: "legendary", description: "Achieved Prestige 3", previewColor: "#ff4040" },
-  { id: "app_prestige_5", name: "Eternal Radiance", slot: "aura", source: "prestige", rarity: "mythic", description: "Achieved Prestige 5", previewColor: "#ffd700" },
+  { id: "app_prestige_5", name: "Eternal Radiance", slot: "aura", source: "prestige", rarity: "mythic", description: "Achieved Prestige 5", previewColor: "var(--energy-premium)" },
   { id: "app_prestige_7", name: "Beyond the Veil", slot: "aura", source: "prestige", rarity: "mythic", description: "Achieved Prestige 7 — Transcendent", previewColor: "#b9f2ff" },
 
   // NPC gifts
-  { id: "app_elara_holo", name: "Holographic Overlay", slot: "aura", source: "npc_gift", rarity: "epic", description: "Gift from Elara at trust 80", previewColor: "#33e2e6" },
+  { id: "app_elara_holo", name: "Holographic Overlay", slot: "aura", source: "npc_gift", rarity: "epic", description: "Gift from Elara at trust 80", previewColor: "var(--energy-primary)" },
   { id: "app_human_glitch", name: "Substrate Glitch", slot: "trail", source: "npc_gift", rarity: "epic", description: "Gift from The Human at trust 80", previewColor: "#f87171" },
   { id: "app_shadow_text", name: "Living Text Aura", slot: "aura", source: "npc_gift", rarity: "legendary", description: "Gift from Shadow Tongue at trust 80", previewColor: "#6366f1" },
 

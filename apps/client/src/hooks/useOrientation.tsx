@@ -108,15 +108,15 @@ export function RequireLandscape({
     <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/95 p-6">
       <div className="max-w-sm text-center">
         <div className="mb-4 flex justify-center">
-          <div className="h-20 w-12 rounded-md border-2 border-amber-400 relative">
-            <div className="absolute -top-1 left-1/2 h-1 w-6 -translate-x-1/2 bg-amber-400 rounded" />
-            <div className="absolute bottom-2 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full border-2 border-amber-400" />
+          <div className="h-20 w-12 rounded-md border-2 void-border relative">
+            <div className="absolute -top-1 left-1/2 h-1 w-6 -translate-x-1/2 void-bg-sunk rounded" />
+            <div className="absolute bottom-2 left-1/2 h-2 w-2 -translate-x-1/2 rounded-full border-2 void-border" />
           </div>
         </div>
-        <p className="font-display text-lg font-bold tracking-wider text-amber-400 mb-2">
+        <p className="font-display text-lg font-bold tracking-wider void-text-accent mb-2">
           ROTATE DEVICE
         </p>
-        <p className="font-mono text-xs text-amber-400/60 leading-relaxed">
+        <p className="font-mono text-xs void-text-accent leading-relaxed">
           This page is built for landscape orientation. Turn your phone sideways to continue.
         </p>
       </div>

@@ -12,22 +12,22 @@ import { toast } from "sonner";
 import LivingBackground from "@/components/LivingBackground";
 
 const TIER_COLORS: Record<string, string> = {
-  common: "border-zinc-500/30 bg-zinc-500/5",
-  rare: "border-cyan-400/30 bg-cyan-400/5",
-  epic: "border-purple-400/30 bg-purple-400/5",
-  legendary: "border-amber-400/30 bg-amber-400/5",
-  mythic: "border-red-400/30 bg-red-400/5",
+  common: "void-border void-bg-canvas",
+  rare: "void-border-success void-bg-success",
+  epic: "void-border-system void-bg-system",
+  legendary: "void-border void-bg-sunk",
+  mythic: "void-border-error void-bg-error",
 };
 
 function getRewardIcon(reward: Record<string, unknown>) {
-  if (reward.cardPack) return <Gift size={16} className="text-cyan-400" />;
-  if (reward.dream) return <Gem size={16} className="text-purple-400" />;
-  if (reward.title) return <Crown size={16} className="text-amber-400" />;
-  if (reward.fighter) return <Swords size={16} className="text-red-400" />;
-  if (reward.emblem) return <Shield size={16} className="text-green-400" />;
-  if (reward.materials) return <Star size={16} className="text-cyan-400" />;
-  if (reward.credits) return <Zap size={16} className="text-amber-400" />;
-  if (reward.xp) return <Trophy size={16} className="text-blue-400" />;
+  if (reward.cardPack) return <Gift size={16} className="void-text-energy" />;
+  if (reward.dream) return <Gem size={16} className="void-text-system" />;
+  if (reward.title) return <Crown size={16} className="void-text-accent" />;
+  if (reward.fighter) return <Swords size={16} className="void-text-error" />;
+  if (reward.emblem) return <Shield size={16} className="void-text-energy" />;
+  if (reward.materials) return <Star size={16} className="void-text-energy" />;
+  if (reward.credits) return <Zap size={16} className="void-text-accent" />;
+  if (reward.xp) return <Trophy size={16} className="void-text-energy" />;
   return <Gift size={16} className="text-muted-foreground" />;
 }
 
@@ -108,7 +108,7 @@ export default function BattlePassPage() {
       <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-8 grid-bg">
       <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/BTP-001_season-command.jpg" accent="#fbbf24" opacity={0.13} particleCount={4} scanlines={false} />
         <div className="text-center">
-          <Star size={48} className="text-amber-400 mx-auto mb-4 opacity-50" />
+          <Star size={48} className="void-text-accent mx-auto mb-4 opacity-50" />
           <h2 className="font-display text-xl font-bold mb-2">EPOCH PASS</h2>
           <p className="font-mono text-sm text-muted-foreground mb-4">Authentication required to track your pass progress.</p>
           <a href={getLoginUrl()} className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
@@ -126,7 +126,7 @@ export default function BattlePassPage() {
         <div className="flex items-center justify-between mb-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <Star size={18} className="text-amber-400" />
+              <Star size={18} className="void-text-accent" />
               <h1 className="font-display text-xl font-bold tracking-wider">EPOCH PASS</h1>
             </div>
             <p className="font-mono text-xs text-muted-foreground">
@@ -137,14 +137,14 @@ export default function BattlePassPage() {
             <button
               onClick={() => upgradeMut.mutate()}
               disabled={upgradeMut.isPending}
-              className="px-4 py-2 rounded-md bg-gradient-to-r from-amber-500/20 to-purple-500/20 border border-amber-400/40 text-amber-400 font-mono text-xs font-bold tracking-wider hover:from-amber-500/30 hover:to-purple-500/30 transition-all"
+              className="px-4 py-2 rounded-md bg-gradient-to-r from-amber-500/20 to-purple-500/20 border void-border void-text-accent font-mono text-xs font-bold tracking-wider hover:from-amber-500/30 hover:to-purple-500/30 transition-all"
             >
               {upgradeMut.isPending ? <Loader2 size={14} className="animate-spin" /> : "UPGRADE PREMIUM"}
             </button>
           )}
           {isPremium && (
-            <div className="px-3 py-1.5 rounded-md bg-amber-400/10 border border-amber-400/30">
-              <span className="font-mono text-xs text-amber-400 font-bold tracking-wider flex items-center gap-1.5">
+            <div className="px-3 py-1.5 rounded-md void-bg-sunk border void-border">
+              <span className="font-mono text-xs void-text-accent font-bold tracking-wider flex items-center gap-1.5">
                 <Crown size={12} /> PREMIUM
               </span>
             </div>
@@ -201,7 +201,7 @@ export default function BattlePassPage() {
             <div />
             <div className="font-mono text-[10px] text-muted-foreground tracking-wider text-center">FREE TRACK</div>
             <div />
-            <div className="font-mono text-[10px] text-amber-400/70 tracking-wider text-center">
+            <div className="font-mono text-[10px] void-text-accent tracking-wider text-center">
               <Crown size={10} className="inline mr-1" />PREMIUM
             </div>
           </div>
@@ -225,7 +225,7 @@ export default function BattlePassPage() {
 
               {/* Free Reward */}
               <div className={`p-2 rounded-md border ${
-                t.free ? (t.freeClaimed ? "border-green-500/30 bg-green-500/5" : t.reached ? "border-primary/30 bg-primary/5" : "border-border/20 bg-card/20") : "border-border/10 bg-card/10"
+                t.free ? (t.freeClaimed ? "void-border-success void-bg-success" : t.reached ? "border-primary/30 bg-primary/5" : "border-border/20 bg-card/20") : "border-border/10 bg-card/10"
               }`}>
                 {t.free ? (
                   <div className="flex items-center justify-between">
@@ -236,7 +236,7 @@ export default function BattlePassPage() {
                       </span>
                     </div>
                     {t.freeClaimed ? (
-                      <Check size={14} className="text-green-400 shrink-0" />
+                      <Check size={14} className="void-text-energy shrink-0" />
                     ) : t.reached ? (
                       <button
                         onClick={() => claimMut.mutate({ tier: t.tier, track: "free" })}
@@ -261,8 +261,8 @@ export default function BattlePassPage() {
 
               {/* Premium Reward */}
               <div className={`p-2 rounded-md border ${
-                !isPremium ? "border-amber-400/10 bg-amber-400/3" :
-                t.premium ? (t.premiumClaimed ? "border-green-500/30 bg-green-500/5" : t.reached ? "border-amber-400/30 bg-amber-400/5" : "border-border/20 bg-card/20") : "border-border/10 bg-card/10"
+                !isPremium ? "void-border void-bg-sunk" :
+                t.premium ? (t.premiumClaimed ? "void-border-success void-bg-success" : t.reached ? "void-border void-bg-sunk" : "border-border/20 bg-card/20") : "border-border/10 bg-card/10"
               }`}>
                 {t.premium ? (
                   <div className="flex items-center justify-between">
@@ -273,14 +273,14 @@ export default function BattlePassPage() {
                       </span>
                     </div>
                     {!isPremium ? (
-                      <Lock size={12} className="text-amber-400/40 shrink-0" />
+                      <Lock size={12} className="void-text-accent shrink-0" />
                     ) : t.premiumClaimed ? (
-                      <Check size={14} className="text-green-400 shrink-0" />
+                      <Check size={14} className="void-text-energy shrink-0" />
                     ) : t.reached ? (
                       <button
                         onClick={() => claimMut.mutate({ tier: t.tier, track: "premium" })}
                         disabled={claimMut.isPending}
-                        className="px-2 py-0.5 rounded bg-amber-400/20 text-amber-400 font-mono text-[9px] hover:bg-amber-400/30 shrink-0"
+                        className="px-2 py-0.5 rounded void-bg-sunk void-text-accent font-mono text-[9px] void-bg-sunk shrink-0"
                       >
                         CLAIM
                       </button>

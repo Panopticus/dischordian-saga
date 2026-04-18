@@ -36,11 +36,11 @@ import { useGovernanceStore } from "@/stores/governanceStore";
 
 const voidPanel =
   "bg-white/[0.02] border border-white/10 rounded-xl backdrop-blur";
-const voidGlow = "shadow-[0_0_15px_rgba(34,211,238,0.15)]";
+const voidGlow = "shadow-[0_0_15px_color-mix(in oklch, var(--energy-primary) 15%, transparent)]";
 const voidBtn =
   "px-4 py-2 rounded-lg font-mono text-[11px] tracking-wider transition-all";
-const voidBtnPrimary = `${voidBtn} bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)]`;
-const voidBtnDanger = `${voidBtn} bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20`;
+const voidBtnPrimary = `${voidBtn} void-bg-success border void-border-success void-text-energy void-bg-success hover:shadow-[0_0_20px_color-mix(in oklch, var(--energy-primary) 30%, transparent)]`;
+const voidBtnDanger = `${voidBtn} void-bg-error border void-border-error void-text-error void-bg-error`;
 const voidLabel =
   "block font-mono text-[10px] text-white/40 tracking-wider mb-1";
 
@@ -48,31 +48,31 @@ const voidLabel =
 
 const ACT_COLORS: Record<number, { bg: string; text: string; border: string; dot: string; glow: string }> = {
   1: {
-    bg: "bg-cyan-500/10",
-    text: "text-cyan-400",
-    border: "border-cyan-500/30",
-    dot: "bg-cyan-400",
-    glow: "shadow-[0_0_8px_rgba(34,211,238,0.4)]",
+    bg: "void-bg-success",
+    text: "void-text-energy",
+    border: "void-border-success",
+    dot: "void-bg-success",
+    glow: "shadow-[0_0_8px_color-mix(in oklch, var(--energy-primary) 40%, transparent)]",
   },
   2: {
-    bg: "bg-amber-500/10",
-    text: "text-amber-400",
-    border: "border-amber-500/30",
-    dot: "bg-amber-400",
-    glow: "shadow-[0_0_8px_rgba(245,158,11,0.4)]",
+    bg: "void-bg-sunk",
+    text: "void-text-accent",
+    border: "void-border",
+    dot: "void-bg-sunk",
+    glow: "shadow-[0_0_8px_color-mix(in oklch, var(--energy-accent) 40%, transparent)]",
   },
   3: {
-    bg: "bg-red-500/10",
-    text: "text-red-400",
-    border: "border-red-500/30",
-    dot: "bg-red-400",
-    glow: "shadow-[0_0_8px_rgba(248,113,113,0.4)]",
+    bg: "void-bg-error",
+    text: "void-text-error",
+    border: "void-border-error",
+    dot: "void-bg-error",
+    glow: "shadow-[0_0_8px_color-mix(in oklch, var(--energy-error) 40%, transparent)]",
   },
   4: {
-    bg: "bg-emerald-500/10",
-    text: "text-emerald-400",
-    border: "border-emerald-500/30",
-    dot: "bg-emerald-400",
+    bg: "void-bg-success",
+    text: "void-text-energy",
+    border: "void-border-success",
+    dot: "void-bg-success",
     glow: "shadow-[0_0_8px_rgba(52,211,153,0.4)]",
   },
 };
@@ -84,11 +84,11 @@ const ACT_LABELS = ["", "ACT I — AWAKENING", "ACT II — FRACTURE", "ACT III �
 function typeBadge(type: CoNexusEvent["type"]) {
   switch (type) {
     case "weekly_vote":
-      return "bg-cyan-500/20 text-cyan-300 border-cyan-500/30";
+      return "void-bg-success void-text-energy void-border-success";
     case "monthly_vote":
-      return "bg-purple-500/20 text-purple-300 border-purple-500/30";
+      return "void-bg-system void-text-system void-border-system";
     case "seasonal":
-      return "bg-amber-500/20 text-amber-300 border-amber-500/30";
+      return "void-bg-sunk void-text-accent void-border";
   }
 }
 
@@ -125,10 +125,10 @@ function TimelineBar({
 
       {/* Act sections */}
       <div className="flex gap-0.5 mb-2 h-2 rounded-full overflow-hidden">
-        <div className="flex-[13] bg-cyan-500/20 rounded-l-full" />
-        <div className="flex-[13] bg-amber-500/20" />
-        <div className="flex-[13] bg-red-500/20" />
-        <div className="flex-[13] bg-emerald-500/20 rounded-r-full" />
+        <div className="flex-[13] void-bg-success rounded-l-full" />
+        <div className="flex-[13] void-bg-sunk" />
+        <div className="flex-[13] void-bg-error" />
+        <div className="flex-[13] void-bg-success rounded-r-full" />
       </div>
 
       {/* Act labels */}
@@ -184,10 +184,10 @@ function PositionDisplay({ position }: { position: { week: number; month: number
   return (
     <div className={`${voidPanel} p-4 flex items-center gap-3`}>
       <div className="relative">
-        <div className={`w-3 h-3 rounded-full ${position ? "bg-amber-400" : "bg-white/20"}`} />
+        <div className={`w-3 h-3 rounded-full ${position ? "void-bg-sunk" : "bg-white/20"}`} />
         {position && (
           <motion.div
-            className="absolute -inset-0.5 rounded-full bg-amber-400 opacity-40"
+            className="absolute -inset-0.5 rounded-full void-bg-sunk opacity-40"
             animate={{ scale: [1, 1.6, 1], opacity: [0.4, 0, 0.4] }}
             transition={{ duration: 1.5, repeat: Infinity }}
           />
@@ -248,7 +248,7 @@ function ActiveEventDetail({
     >
       <div>
         <div className="flex items-center gap-2 mb-1">
-          <Zap size={14} className="text-cyan-400" />
+          <Zap size={14} className="void-text-energy" />
           <span
             className={`font-mono text-[9px] px-2 py-0.5 rounded-full border ${typeBadge(event.type)}`}
           >
@@ -279,7 +279,7 @@ function ActiveEventDetail({
               key={opt.id}
               onClick={() => onSimulate(activeVote.id, opt.id)}
               disabled={isSimulating}
-              className="w-full text-left p-3 rounded-lg bg-white/[0.03] border border-white/5 hover:border-cyan-500/30 hover:bg-white/[0.05] transition-all group"
+              className="w-full text-left p-3 rounded-lg bg-white/[0.03] border border-white/5 void-border-success hover:bg-white/[0.05] transition-all group"
               whileHover={{ x: 4 }}
             >
               <div className="flex items-center justify-between mb-1">
@@ -290,7 +290,7 @@ function ActiveEventDetail({
                   <span className="font-mono text-[10px] text-white/30">
                     {count} votes ({pct}%)
                   </span>
-                  <span className="font-mono text-[9px] px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="font-mono text-[9px] px-2 py-0.5 rounded void-bg-success void-text-energy border void-border-success opacity-0 group-hover:opacity-100 transition-opacity">
                     <Play size={8} className="inline mr-1" />
                     SIMULATE WIN
                   </span>
@@ -302,7 +302,7 @@ function ActiveEventDetail({
               {/* Vote bar */}
               <div className="h-1 bg-white/5 rounded-full overflow-hidden">
                 <motion.div
-                  className="h-full bg-cyan-500/40 rounded-full"
+                  className="h-full void-bg-success rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${pct}%` }}
                   transition={{ duration: 0.5, delay: 0.1 }}
@@ -428,7 +428,7 @@ export default function TimeMachineView() {
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <Clock size={16} className="text-cyan-400" />
+            <Clock size={16} className="void-text-energy" />
             <h2 className="font-mono text-sm tracking-[0.2em] text-white">
               THE PROGRAMMER&apos;S TIME MACHINE
             </h2>
@@ -460,8 +460,8 @@ export default function TimeMachineView() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* CoNexus Event List */}
         <div className={`${voidPanel} p-4 max-h-[600px] overflow-y-auto`}>
-          <h3 className="font-mono text-[10px] tracking-[0.2em] text-white/40 mb-3 sticky top-0 bg-[#010020]/90 pb-2">
-            <FastForward size={12} className="inline mr-1.5 text-cyan-400" />
+          <h3 className="font-mono text-[10px] tracking-[0.2em] text-white/40 mb-3 sticky top-0 bg-[var(--bg-void)]/90 pb-2">
+            <FastForward size={12} className="inline mr-1.5 void-text-energy" />
             CONEXUS DECISION POINTS
             <span className="text-white/20 ml-2">({events.length})</span>
           </h3>
@@ -568,9 +568,9 @@ export default function TimeMachineView() {
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
               >
-                <Clock size={24} className="text-cyan-400 mx-auto" />
+                <Clock size={24} className="void-text-energy mx-auto" />
               </motion.div>
-              <p className="font-mono text-[10px] text-cyan-400 mt-2 tracking-wider">
+              <p className="font-mono text-[10px] void-text-energy mt-2 tracking-wider">
                 WARPING TIMELINE...
               </p>
             </div>

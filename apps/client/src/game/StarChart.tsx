@@ -323,7 +323,7 @@ export default function StarChart({ onComplete, onClose }: StarChartProps) {
         const alpha = 0.3 + 0.4 * Math.sin(t * 1.5 + s.twinkleOffset);
         ctx.beginPath();
         ctx.arc((s.x / 100) * W, (s.y / 100) * H, s.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${alpha.toFixed(2)})`;
+        ctx.fillStyle = `color-mix(in oklch, var(--text-primary) calc((alpha.toFixed(2)) * 100%), transparent)`;
         ctx.fill();
       }
 
@@ -332,8 +332,8 @@ export default function StarChart({ onComplete, onClose }: StarChartProps) {
       for (const [a, b] of completedEdges) {
         const from = toCanvas(constellation.stars[a], W, H);
         const to = toCanvas(constellation.stars[b], W, H);
-        ctx.strokeStyle = won ? "#ffd700" : "rgba(0,255,255,0.8)";
-        ctx.shadowColor = won ? "#ffd700" : "#00ffff";
+        ctx.strokeStyle = won ? "var(--energy-premium)" : "rgba(0,255,255,0.8)";
+        ctx.shadowColor = won ? "var(--energy-premium)" : "#00ffff";
         ctx.shadowBlur = 10;
         ctx.beginPath();
         ctx.moveTo(from.cx, from.cy);
@@ -351,7 +351,7 @@ export default function StarChart({ onComplete, onClose }: StarChartProps) {
       // -- golden glow flood on win
       if (won) {
         const gAlpha = Math.min((t % 100) * 0.04, 0.12);
-        ctx.fillStyle = `rgba(255,215,0,${gAlpha.toFixed(3)})`;
+        ctx.fillStyle = `color-mix(in oklch, var(--energy-premium) calc((gAlpha.toFixed(3)) * 100%), transparent)`;
         ctx.fillRect(0, 0, W, H);
       }
 
@@ -375,7 +375,7 @@ export default function StarChart({ onComplete, onClose }: StarChartProps) {
         // core
         ctx.beginPath();
         ctx.arc(cx, cy, r, 0, Math.PI * 2);
-        ctx.fillStyle = won ? "#ffd700" : isSelected ? "#aaffff" : "#ffffff";
+        ctx.fillStyle = won ? "var(--energy-premium)" : isSelected ? "#aaffff" : "#ffffff";
         ctx.fill();
       }
 
@@ -384,8 +384,8 @@ export default function StarChart({ onComplete, onClose }: StarChartProps) {
         const text = constellation.name.slice(0, revealedChars);
         ctx.font = `bold ${Math.round(W * 0.05)}px serif`;
         ctx.textAlign = "center";
-        ctx.fillStyle = "#ffd700";
-        ctx.shadowColor = "#ffd700";
+        ctx.fillStyle = "var(--energy-premium)";
+        ctx.shadowColor = "var(--energy-premium)";
         ctx.shadowBlur = 16;
         ctx.fillText(text, W / 2, H * 0.12);
         ctx.shadowBlur = 0;
@@ -485,7 +485,7 @@ export default function StarChart({ onComplete, onClose }: StarChartProps) {
               padding: "16px 24px",
               background: "rgba(6,6,14,0.85)",
               borderRadius: 8,
-              border: "1px solid rgba(255,215,0,0.25)",
+              border: "1px solid color-mix(in oklch, var(--energy-premium) 25%, transparent)",
               animation: "fadeIn 1s ease",
             }}
           >

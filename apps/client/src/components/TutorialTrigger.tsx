@@ -82,16 +82,16 @@ export default function TutorialTrigger({
           animate={{ opacity: 1, y: 0 }}
           className={`relative rounded-lg border overflow-hidden ${
             isCompleted
-              ? "border-green-500/20 bg-green-500/5"
+              ? "void-border-success void-bg-success"
               : "border-primary/20 bg-primary/5"
           } ${className}`}
         >
           <div className="flex items-center gap-3 px-4 py-3">
             <div className={`p-2 rounded-lg shrink-0 ${
-              isCompleted ? "bg-green-500/20" : "bg-primary/20"
+              isCompleted ? "void-bg-success" : "bg-primary/20"
             }`}>
               {isCompleted ? (
-                <CheckCircle2 size={16} className="text-green-400" />
+                <CheckCircle2 size={16} className="void-text-energy" />
               ) : (
                 <BookOpen size={16} className="text-primary" />
               )}
@@ -106,7 +106,7 @@ export default function TutorialTrigger({
             </div>
             {!isCompleted && (
               <div className="flex items-center gap-2 shrink-0">
-                <span className="font-mono text-[10px] text-yellow-400 flex items-center gap-1 hidden sm:flex">
+                <span className="font-mono text-[10px] void-text-premium flex items-center gap-1 hidden sm:flex">
                   <Zap size={10} /> {tutorial.totalRewards.dreamTokens} DT
                 </span>
                 <button
@@ -156,7 +156,7 @@ export default function TutorialTrigger({
           onClick={() => setShowEngine(true)}
           className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all ${
             isCompleted
-              ? "border-green-500/20 bg-green-500/5 text-green-400"
+              ? "void-border-success void-bg-success void-text-energy"
               : "border-primary/20 bg-primary/5 text-primary hover:bg-primary/10"
           } ${className}`}
         >
@@ -165,7 +165,7 @@ export default function TutorialTrigger({
             {isCompleted ? "REPLAY TUTORIAL" : "LEARN WITH ELARA"}
           </span>
           {!isCompleted && (
-            <span className="font-mono text-[10px] text-yellow-400 flex items-center gap-0.5">
+            <span className="font-mono text-[10px] void-text-premium flex items-center gap-0.5">
               <Zap size={9} /> {tutorial.totalRewards.dreamTokens}
             </span>
           )}
@@ -193,7 +193,7 @@ export default function TutorialTrigger({
         title={isCompleted ? "Replay tutorial" : `Tutorial: ${tutorial.title}`}
         className={`p-2 rounded-lg border transition-all ${
           isCompleted
-            ? "border-green-500/20 bg-green-500/5 text-green-400"
+            ? "void-border-success void-bg-success void-text-energy"
             : "border-primary/20 bg-primary/5 text-primary hover:bg-primary/10"
         } ${className}`}
       >

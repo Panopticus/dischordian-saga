@@ -23,10 +23,10 @@ interface Props {
 }
 
 const DIFFICULTY_COLOR: Record<CrewMissionDifficulty, string> = {
-  routine: "text-green-400 border-green-500/30",
-  challenging: "text-yellow-400 border-yellow-500/30",
-  dangerous: "text-orange-400 border-orange-500/30",
-  suicidal: "text-red-400 border-red-500/50",
+  routine: "void-text-energy void-border-success",
+  challenging: "void-text-premium void-border",
+  dangerous: "void-text-premium void-border",
+  suicidal: "void-text-error void-border-error",
 };
 
 function formatTimeLeft(ms: number): string {
@@ -142,7 +142,7 @@ export default function CrewMissionsBoard({ state, onRefetch }: Props) {
                 <div
                   key={m.id}
                   className={`p-3 border rounded ${
-                    isWin ? "border-green-500/30 bg-green-500/5" : "border-red-500/30 bg-red-500/5"
+                    isWin ? "void-border-success void-bg-success" : "void-border-error void-bg-error"
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1">
@@ -155,7 +155,7 @@ export default function CrewMissionsBoard({ state, onRefetch }: Props) {
                     {m.resolution?.narrative}
                   </div>
                   {m.resolution && m.resolution.casualties.length > 0 && (
-                    <div className="text-[10px] font-mono text-red-300 flex items-center gap-1 mb-2">
+                    <div className="text-[10px] font-mono void-text-error flex items-center gap-1 mb-2">
                       <Skull size={10} />
                       {m.resolution.casualties.length} lost
                     </div>
@@ -207,7 +207,7 @@ export default function CrewMissionsBoard({ state, onRefetch }: Props) {
                   {t.preferredRole ?? "any"}
                 </div>
                 {t.cost && Object.values(t.cost).some(v => v && v > 0) && (
-                  <div className="text-[9px] font-mono text-yellow-400/80 mt-1">
+                  <div className="text-[9px] font-mono void-text-premium mt-1">
                     cost:{" "}
                     {Object.entries(t.cost)
                       .filter(([, v]) => v && v > 0)
@@ -249,7 +249,7 @@ export default function CrewMissionsBoard({ state, onRefetch }: Props) {
                     >
                       {m.name}
                       {m.role === template.preferredRole && (
-                        <span className="text-cyan-300 ml-1">✓</span>
+                        <span className="void-text-energy ml-1">✓</span>
                       )}
                     </button>
                   ))}
@@ -261,7 +261,7 @@ export default function CrewMissionsBoard({ state, onRefetch }: Props) {
                     success projection: {Math.round(successPreview * 100)}%
                   </div>
                   {rivalPairs.length > 0 && (
-                    <div className="text-[9px] font-mono text-red-300 flex items-start gap-1">
+                    <div className="text-[9px] font-mono void-text-error flex items-start gap-1">
                       <AlertTriangle size={9} className="mt-0.5 shrink-0" />
                       <span>
                         Rivals on squad:{" "}
@@ -273,7 +273,7 @@ export default function CrewMissionsBoard({ state, onRefetch }: Props) {
                     </div>
                   )}
                   {bondedPairs.length > 0 && (
-                    <div className="text-[9px] font-mono text-cyan-300 flex items-start gap-1">
+                    <div className="text-[9px] font-mono void-text-energy flex items-start gap-1">
                       <Heart size={9} className="mt-0.5 shrink-0" />
                       <span>
                         Close bonds:{" "}

@@ -48,7 +48,7 @@ export function CivilSkillsPanel() {
   return (
     <div className="border border-border/30 rounded-lg bg-card/40 p-4">
       <div className="flex items-center gap-2 mb-4">
-        <BookOpen size={16} className="text-teal-400" />
+        <BookOpen size={16} className="void-text-energy" />
         <span className="font-display text-xs font-bold tracking-[0.2em]">CIVIL SKILLS</span>
         <span className="font-mono text-[10px] text-muted-foreground ml-2">
           Non-combat proficiencies
@@ -76,16 +76,16 @@ export function CivilSkillsPanel() {
                 <div className="flex-1 text-left">
                   <div className="flex items-center gap-2">
                     <span className="font-display text-sm font-bold">{skill.name}</span>
-                    <span className="font-mono text-[9px] text-teal-400">Lv.{skill.level}</span>
+                    <span className="font-mono text-[9px] void-text-energy">Lv.{skill.level}</span>
                     {skill.maxLevel && (
-                      <span className="font-mono text-[8px] text-amber-400 bg-amber-950/30 px-1.5 py-0.5 rounded">MAX</span>
+                      <span className="font-mono text-[8px] void-text-accent void-bg-sunk px-1.5 py-0.5 rounded">MAX</span>
                     )}
                   </div>
                   {/* XP Progress bar */}
                   <div className="flex items-center gap-2 mt-1">
-                    <div className="flex-1 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                    <div className="flex-1 h-1.5 void-bg-canvas rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-teal-500/60 rounded-full transition-all duration-500"
+                        className="h-full void-bg-success rounded-full transition-all duration-500"
                         style={{ width: `${skill.xpProgress * 100}%` }}
                       />
                     </div>
@@ -109,11 +109,11 @@ export function CivilSkillsPanel() {
                   {/* Active bonuses */}
                   {skill.activeBonuses.length > 0 && (
                     <div className="mb-2">
-                      <span className="font-mono text-[9px] text-teal-400 mb-1 block">Active Bonuses:</span>
+                      <span className="font-mono text-[9px] void-text-energy mb-1 block">Active Bonuses:</span>
                       <div className="space-y-1">
                         {skill.activeBonuses.map((bonus, j) => (
                           <div key={j} className="flex items-center gap-1.5">
-                            <Zap size={8} className="text-teal-400" />
+                            <Zap size={8} className="void-text-energy" />
                             <span className="font-mono text-[9px] text-foreground/80">{bonus.label}</span>
                           </div>
                         ))}
@@ -137,7 +137,7 @@ export function CivilSkillsPanel() {
                     <span className="font-mono text-[9px] text-muted-foreground mb-1 block">Leveled by:</span>
                     <div className="flex flex-wrap gap-1">
                       {skill.leveledBy.map(action => (
-                        <span key={action.action} className="font-mono text-[8px] bg-zinc-800/50 px-1.5 py-0.5 rounded text-muted-foreground">
+                        <span key={action.action} className="font-mono text-[8px] void-bg-canvas px-1.5 py-0.5 rounded text-muted-foreground">
                           {action.label} (+{action.xpPerAction} XP)
                         </span>
                       ))}

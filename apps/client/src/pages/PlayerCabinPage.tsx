@@ -27,8 +27,8 @@ import { ROOM_ART } from "@/data/nanobanna2Assets";
 type CabinRoomId = "memorial" | "purification" | "summoning";
 const CABIN_ROOMS: Record<CabinRoomId, { label: string; url: string; accent: string; hint: string }> = {
   memorial:     { label: "Memorial Chamber",     url: ROOM_ART.memorial,     accent: "#9333ea", hint: "For remembering fallen apprentices." },
-  purification: { label: "Purification Chamber", url: ROOM_ART.purification, accent: "#22c55e", hint: "Where violet stones become gold." },
-  summoning:    { label: "Summoning Chamber",    url: ROOM_ART.summoning,    accent: "#f59e0b", hint: "The circle where Dischordians answer." },
+  purification: { label: "Purification Chamber", url: ROOM_ART.purification, accent: "var(--energy-success)", hint: "Where violet stones become gold." },
+  summoning:    { label: "Summoning Chamber",    url: ROOM_ART.summoning,    accent: "var(--energy-accent)", hint: "The circle where Dischordians answer." },
 };
 
 /* ─── SLOT DEFINITIONS ─── */
@@ -325,7 +325,7 @@ export default function PlayerCabinPage() {
                     </div>
                     <p className="text-[9px] text-primary/30 leading-tight line-clamp-2">{item.description}</p>
                     {!unlocked && (
-                      <p className="text-[8px] text-amber-500/40 mt-1 flex items-center gap-1">
+                      <p className="text-[8px] void-text-accent mt-1 flex items-center gap-1">
                         <ChevronRight className="w-2 h-2" /> {item.source}
                       </p>
                     )}

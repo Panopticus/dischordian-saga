@@ -80,14 +80,14 @@ function StageFrame({
           animate={{ opacity: [0.15, 0.35, 0.15] }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
           className="absolute inset-0"
-          style={{ background: "radial-gradient(circle at 50% 50%, rgba(168,85,247,0.08) 0%, transparent 60%)" }}
+          style={{ background: "radial-gradient(circle at 50% 50%, color-mix(in oklch, var(--energy-system) 8%, transparent) 0%, transparent 60%)" }}
         />
       </div>
 
       <div className="relative z-10 w-full max-w-2xl">
         <div className="flex items-center gap-2 mb-2">
-          <Icon size={14} className="text-purple-400" />
-          <p className="font-mono text-[9px] tracking-[0.3em] text-purple-400/70">
+          <Icon size={14} className="void-text-system" />
+          <p className="font-mono text-[9px] tracking-[0.3em] void-text-system">
             INFILTRATION · {stage.type.replace("_", " ").toUpperCase()}
           </p>
         </div>
@@ -124,13 +124,13 @@ function OptionButton({
       onClick={() => onPick(option)}
       className={`w-full text-left p-3 rounded-lg border transition-all mb-2 ${
         variant === "danger"
-          ? "bg-red-500/5 border-red-500/30 hover:bg-red-500/10"
+          ? "void-bg-error void-border-error void-bg-error"
           : "bg-white/[0.02] border-white/10 hover:bg-white/[0.05] hover:border-white/20"
       }`}
     >
       <p className="font-mono text-[11px] text-white font-bold">{option.label}</p>
       {option.fails && (
-        <p className="font-mono text-[9px] text-red-400/80 mt-1">
+        <p className="font-mono text-[9px] void-text-error mt-1">
           <AlertTriangle size={8} className="inline mr-1" />
           This choice closes the path permanently.
         </p>
@@ -177,13 +177,13 @@ function ChoiceRenderer({
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-4 rounded-xl bg-purple-500/5 border border-purple-500/20"
+          className="p-4 rounded-xl void-bg-system border void-border-system"
         >
-          <p className="font-mono text-[9px] text-purple-400/70 tracking-wider mb-2">OUTCOME</p>
+          <p className="font-mono text-[9px] void-text-system tracking-wider mb-2">OUTCOME</p>
           <p className="font-mono text-[11px] text-white/70 italic leading-relaxed mb-4">{picked.outcome}</p>
           <button
             onClick={commit}
-            className="w-full py-2.5 rounded bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono text-[10px] font-bold hover:bg-purple-500/30"
+            className="w-full py-2.5 rounded void-bg-system border void-border-system void-text-system font-mono text-[10px] font-bold void-bg-system"
           >
             {picked.fails ? "ACCEPT THE COST & CLOSE PATH" : "CONTINUE"}
           </button>
@@ -235,7 +235,7 @@ function JudgmentRenderer({
               CASE {idx + 1} / {stage.cases.length}
             </span>
           </div>
-          <p className="font-mono text-[11px] text-amber-400 font-bold mb-2">{current.caseTitle}</p>
+          <p className="font-mono text-[11px] void-text-accent font-bold mb-2">{current.caseTitle}</p>
           <p className="font-mono text-[10px] text-white/70 italic mb-4 leading-relaxed">{current.prompt}</p>
           {current.verdicts.map(v => (
             <OptionButton key={v.id} option={v} onPick={pickVerdict} />
@@ -246,9 +246,9 @@ function JudgmentRenderer({
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-4 rounded-xl bg-purple-500/5 border border-purple-500/20"
+          className="p-4 rounded-xl void-bg-system border void-border-system"
         >
-          <p className="font-mono text-[9px] text-purple-400/70 tracking-wider mb-2">RULINGS ENTERED</p>
+          <p className="font-mono text-[9px] void-text-system tracking-wider mb-2">RULINGS ENTERED</p>
           <ol className="space-y-2 mb-4">
             {verdicts.map((v, i) => (
               <li key={i} className="font-mono text-[10px] text-white/70">
@@ -258,13 +258,13 @@ function JudgmentRenderer({
             ))}
           </ol>
           {stage.finalLine && (
-            <p className="font-mono text-[10px] text-white/60 italic mb-4 border-l-2 border-purple-500/30 pl-3">
+            <p className="font-mono text-[10px] text-white/60 italic mb-4 border-l-2 void-border-system pl-3">
               {stage.finalLine}
             </p>
           )}
           <button
             onClick={commit}
-            className="w-full py-2.5 rounded bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono text-[10px] font-bold hover:bg-purple-500/30"
+            className="w-full py-2.5 rounded void-bg-system border void-border-system void-text-system font-mono text-[10px] font-bold void-bg-system"
           >
             ENTER INTO THE RECORD
           </button>
@@ -314,7 +314,7 @@ function DialogueRenderer({
     <StageFrame stage={stage} onClose={onClose}>
       {!done && current && !showingReply && (
         <div>
-          <p className="font-mono text-[9px] text-purple-400/70 tracking-wider mb-1">
+          <p className="font-mono text-[9px] void-text-system tracking-wider mb-1">
             {stage.speaker.toUpperCase()}
           </p>
           <p className="font-mono text-[11px] text-white/80 italic leading-relaxed mb-4 whitespace-pre-line">
@@ -332,7 +332,7 @@ function DialogueRenderer({
           animate={{ opacity: 1, y: 0 }}
           className="p-4 rounded-xl bg-white/[0.02] border border-white/10"
         >
-          <p className="font-mono text-[9px] text-purple-400/70 tracking-wider mb-2">
+          <p className="font-mono text-[9px] void-text-system tracking-wider mb-2">
             {stage.speaker.toUpperCase()} · REPLIES
           </p>
           <p className="font-mono text-[11px] text-white/80 italic leading-relaxed mb-4 whitespace-pre-line">
@@ -340,7 +340,7 @@ function DialogueRenderer({
           </p>
           <button
             onClick={advanceExchange}
-            className="w-full py-2.5 rounded bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono text-[10px] font-bold hover:bg-purple-500/30"
+            className="w-full py-2.5 rounded void-bg-system border void-border-system void-text-system font-mono text-[10px] font-bold void-bg-system"
           >
             CONTINUE
           </button>
@@ -350,12 +350,12 @@ function DialogueRenderer({
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-4 rounded-xl bg-purple-500/5 border border-purple-500/20"
+          className="p-4 rounded-xl void-bg-system border void-border-system"
         >
-          <p className="font-mono text-[9px] text-purple-400/70 tracking-wider mb-2">CONVERSATION CLOSED</p>
+          <p className="font-mono text-[9px] void-text-system tracking-wider mb-2">CONVERSATION CLOSED</p>
           <button
             onClick={commit}
-            className="w-full py-2.5 rounded bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono text-[10px] font-bold hover:bg-purple-500/30"
+            className="w-full py-2.5 rounded void-bg-system border void-border-system void-text-system font-mono text-[10px] font-bold void-bg-system"
           >
             WALK AWAY
           </button>
@@ -413,8 +413,8 @@ function RewriteRenderer({
     <StageFrame stage={stage} onClose={onClose}>
       <div className="p-4 rounded-xl bg-white/[0.02] border border-white/10 mb-4">
         <div className="flex items-center gap-2 mb-1">
-          <BookOpen size={12} className="text-amber-400" />
-          <p className="font-mono text-[9px] text-amber-400/70 tracking-wider">LOREDEX · {stage.entityName.toUpperCase()}</p>
+          <BookOpen size={12} className="void-text-accent" />
+          <p className="font-mono text-[9px] void-text-accent tracking-wider">LOREDEX · {stage.entityName.toUpperCase()}</p>
         </div>
         <p className="font-mono text-[10px] text-white/50 italic leading-relaxed">{stage.entityPreview}</p>
       </div>
@@ -439,19 +439,19 @@ function RewriteRenderer({
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-4 rounded-xl bg-purple-500/5 border border-purple-500/20"
+          className="p-4 rounded-xl void-bg-system border void-border-system"
         >
-          <p className="font-mono text-[9px] text-purple-400/70 tracking-wider mb-2">REWRITE PREVIEW</p>
+          <p className="font-mono text-[9px] void-text-system tracking-wider mb-2">REWRITE PREVIEW</p>
           <div className="mb-3">
-            <p className="font-mono text-[9px] text-red-400/70 tracking-wider mb-1">WAS</p>
-            <p className="font-mono text-[10px] text-white/60 italic border-l-2 border-red-500/30 pl-2">{picked.find}</p>
+            <p className="font-mono text-[9px] void-text-error tracking-wider mb-1">WAS</p>
+            <p className="font-mono text-[10px] text-white/60 italic border-l-2 void-border-error pl-2">{picked.find}</p>
           </div>
           <div className="mb-4">
-            <p className="font-mono text-[9px] text-emerald-400/70 tracking-wider mb-1">BECOMES</p>
-            <p className="font-mono text-[10px] text-white/80 italic border-l-2 border-emerald-500/30 pl-2">{picked.replace}</p>
+            <p className="font-mono text-[9px] void-text-energy tracking-wider mb-1">BECOMES</p>
+            <p className="font-mono text-[10px] text-white/80 italic border-l-2 void-border-success pl-2">{picked.replace}</p>
           </div>
           {stage.binding && (
-            <p className="font-mono text-[9px] text-red-400/70 mb-3">
+            <p className="font-mono text-[9px] void-text-error mb-3">
               <AlertTriangle size={8} className="inline mr-1" />
               This rewrite is BINDING. The change is permanent on your device.
             </p>
@@ -465,7 +465,7 @@ function RewriteRenderer({
             </button>
             <button
               onClick={commit}
-              className="flex-1 py-2 rounded bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono text-[10px] font-bold hover:bg-purple-500/30"
+              className="flex-1 py-2 rounded void-bg-system border void-border-system void-text-system font-mono text-[10px] font-bold void-bg-system"
             >
               {stage.binding ? "COMMIT PERMANENTLY" : "LOCK IN"}
             </button>
@@ -508,7 +508,7 @@ function RitualRenderer({
           className="p-4 rounded-xl bg-white/[0.02] border border-white/10"
         >
           {current.label && (
-            <p className="font-mono text-[9px] text-purple-400/70 tracking-wider mb-2">{current.label}</p>
+            <p className="font-mono text-[9px] void-text-system tracking-wider mb-2">{current.label}</p>
           )}
           <p className="font-mono text-[11px] text-white/70 italic leading-relaxed whitespace-pre-line mb-4">
             {current.text}
@@ -519,7 +519,7 @@ function RitualRenderer({
             </p>
             <button
               onClick={() => setIdx(i => i + 1)}
-              className="px-4 py-2 rounded bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono text-[10px] font-bold hover:bg-purple-500/30"
+              className="px-4 py-2 rounded void-bg-system border void-border-system void-text-system font-mono text-[10px] font-bold void-bg-system"
             >
               {current.buttonLabel}
             </button>
@@ -530,12 +530,12 @@ function RitualRenderer({
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-4 rounded-xl bg-purple-500/5 border border-purple-500/20"
+          className="p-4 rounded-xl void-bg-system border void-border-system"
         >
           <p className="font-mono text-[11px] text-white/70 italic mb-4">{stage.closingLine}</p>
           <button
             onClick={commit}
-            className="w-full py-2.5 rounded bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono text-[10px] font-bold hover:bg-purple-500/30"
+            className="w-full py-2.5 rounded void-bg-system border void-border-system void-text-system font-mono text-[10px] font-bold void-bg-system"
           >
             WALK OUT
           </button>
@@ -592,7 +592,7 @@ function DecryptRenderer({
 
   return (
     <StageFrame stage={stage} onClose={onClose}>
-      <p className="font-mono text-[10px] text-amber-400/70 italic mb-3">{stage.hint}</p>
+      <p className="font-mono text-[10px] void-text-accent italic mb-3">{stage.hint}</p>
       {!done && !failed && (
         <div>
           <p className="font-mono text-[9px] text-white/30 tracking-wider mb-2">
@@ -615,15 +615,15 @@ function DecryptRenderer({
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/20"
+          className="p-4 rounded-xl void-bg-success border void-border-success"
         >
           <div className="flex items-center gap-2 mb-2">
-            <Check size={14} className="text-emerald-400" />
-            <p className="font-mono text-[10px] text-emerald-300 font-bold">SIGNAL DECRYPTED</p>
+            <Check size={14} className="void-text-energy" />
+            <p className="font-mono text-[10px] void-text-energy font-bold">SIGNAL DECRYPTED</p>
           </div>
           <button
             onClick={() => commit(true)}
-            className="w-full mt-3 py-2.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-mono text-[10px] font-bold hover:bg-emerald-500/30"
+            className="w-full mt-3 py-2.5 rounded void-bg-success border void-border-success void-text-energy font-mono text-[10px] font-bold void-bg-success"
           >
             CONTINUE
           </button>
@@ -633,11 +633,11 @@ function DecryptRenderer({
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-4 rounded-xl bg-red-500/5 border border-red-500/20"
+          className="p-4 rounded-xl void-bg-error border void-border-error"
         >
           <div className="flex items-center gap-2 mb-2">
-            <X size={14} className="text-red-400" />
-            <p className="font-mono text-[10px] text-red-300 font-bold">SIGNAL LOST</p>
+            <X size={14} className="void-text-error" />
+            <p className="font-mono text-[10px] void-text-error font-bold">SIGNAL LOST</p>
           </div>
           <p className="font-mono text-[10px] text-white/60 italic">
             Too many wrong picks. The handshake's gone quiet. You can retry this stage another time.
@@ -683,22 +683,22 @@ function DarkFlipRenderer({
           key={idx}
           initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="p-4 rounded-xl bg-red-900/20 border border-red-500/30"
+          className="p-4 rounded-xl void-bg-error border void-border-error"
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="flex-1 text-center">
-              <p className="font-mono text-[9px] text-emerald-400/70 tracking-wider mb-1">LIGHT</p>
-              <p className="font-mono text-sm text-emerald-300">{current.light}</p>
+              <p className="font-mono text-[9px] void-text-energy tracking-wider mb-1">LIGHT</p>
+              <p className="font-mono text-sm void-text-energy">{current.light}</p>
             </div>
             <motion.div
               animate={{ rotate: [0, 180, 360] }}
               transition={{ duration: 1.2, repeat: Infinity, ease: "linear" }}
             >
-              <Flame size={18} className="text-red-400/80" />
+              <Flame size={18} className="void-text-error" />
             </motion.div>
             <div className="flex-1 text-center">
-              <p className="font-mono text-[9px] text-red-400/70 tracking-wider mb-1">DARK</p>
-              <p className="font-mono text-sm text-red-300">{current.dark}</p>
+              <p className="font-mono text-[9px] void-text-error tracking-wider mb-1">DARK</p>
+              <p className="font-mono text-sm void-text-error">{current.dark}</p>
             </div>
           </div>
           <p className="font-mono text-[10px] text-white/60 italic mb-4">{current.note}</p>
@@ -708,7 +708,7 @@ function DarkFlipRenderer({
             </p>
             <button
               onClick={() => setIdx(i => i + 1)}
-              className="px-4 py-2 rounded bg-red-500/20 border border-red-500/40 text-red-300 font-mono text-[10px] font-bold hover:bg-red-500/30"
+              className="px-4 py-2 rounded void-bg-error border void-border-error void-text-error font-mono text-[10px] font-bold void-bg-error"
             >
               WATCH IT FLIP
             </button>
@@ -719,12 +719,12 @@ function DarkFlipRenderer({
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-4 rounded-xl bg-red-900/20 border border-red-500/30"
+          className="p-4 rounded-xl void-bg-error border void-border-error"
         >
           <p className="font-mono text-[11px] text-white/70 italic mb-4">{stage.closingLine}</p>
           <button
             onClick={commit}
-            className="w-full py-2.5 rounded bg-red-500/20 border border-red-500/40 text-red-300 font-mono text-[10px] font-bold hover:bg-red-500/30"
+            className="w-full py-2.5 rounded void-bg-error border void-border-error void-text-error font-mono text-[10px] font-bold void-bg-error"
           >
             LET THE SESSION END
           </button>
@@ -783,7 +783,7 @@ function SilenceRenderer({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               onClick={commit}
-              className="px-6 py-3 rounded bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono text-[10px] font-bold hover:bg-purple-500/30"
+              className="px-6 py-3 rounded void-bg-system border void-border-system void-text-system font-mono text-[10px] font-bold void-bg-system"
             >
               {stage.finalButton}
             </motion.button>
@@ -835,8 +835,8 @@ function TimeSkipRenderer({
               transition={{ duration: 0.8 }}
               className="text-center px-4"
             >
-              <Clock3 size={18} className="text-amber-400/60 mx-auto mb-3" />
-              <p className="font-mono text-xs text-amber-100/80 italic leading-relaxed">
+              <Clock3 size={18} className="void-text-accent mx-auto mb-3" />
+              <p className="font-mono text-xs void-text-accent italic leading-relaxed">
                 {stage.fragments[idx].text}
               </p>
             </motion.div>
@@ -846,7 +846,7 @@ function TimeSkipRenderer({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               onClick={commit}
-              className="px-6 py-3 rounded bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono text-[10px] font-bold hover:bg-amber-500/30"
+              className="px-6 py-3 rounded void-bg-sunk border void-border void-text-accent font-mono text-[10px] font-bold void-bg-sunk"
             >
               {stage.finalButton}
             </motion.button>

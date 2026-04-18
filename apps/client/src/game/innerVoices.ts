@@ -38,19 +38,19 @@ export const SKILL_VOICES: Record<SkillId, SkillVoice> = {
   tactics: {
     id: "tactics", name: "TACTICS", personality: "Cold, analytical, always calculating",
     voiceDescriptor: "speaks in chess moves and battlefield geometry",
-    color: "#ef4444", specialty: "combat advantage, positioning, reading posture",
+    color: "var(--energy-error)", specialty: "combat advantage, positioning, reading posture",
     failureMode: "sees threats where there are none, advises violence unnecessarily",
   },
   perception: {
     id: "perception", name: "PERCEPTION", personality: "Observant, detail-obsessed, sees what others miss",
     voiceDescriptor: "whispers about micro-expressions and inconsistencies",
-    color: "#22d3ee", specialty: "hidden details, lies, physical evidence",
+    color: "var(--energy-primary)", specialty: "hidden details, lies, physical evidence",
     failureMode: "paranoid pattern-matching, sees conspiracies in coincidence",
   },
   craftsmanship: {
     id: "craftsmanship", name: "CRAFTSMANSHIP", personality: "Hands-on, proud, appreciates good work",
     voiceDescriptor: "inspects objects with practiced eyes",
-    color: "#f59e0b", specialty: "quality assessment, repair, fabrication tells",
+    color: "var(--energy-accent)", specialty: "quality assessment, repair, fabrication tells",
     failureMode: "dismisses well-made things as junk, overvalues flawed work",
   },
   endurance: {

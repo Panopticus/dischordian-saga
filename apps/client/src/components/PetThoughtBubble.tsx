@@ -25,14 +25,14 @@ interface Props {
 }
 
 const EMOTION_STYLES: Record<PetThought["emotion"], { color: string; glow: string }> = {
-  happy:    { color: "text-emerald-300",  glow: "shadow-emerald-500/30" },
-  worried:  { color: "text-amber-300",    glow: "shadow-amber-500/30" },
-  excited:  { color: "text-pink-300",     glow: "shadow-pink-500/30" },
-  sad:      { color: "text-blue-300",     glow: "shadow-blue-500/30" },
-  curious:  { color: "text-sky-300",      glow: "shadow-sky-500/30" },
-  afraid:   { color: "text-purple-300",   glow: "shadow-purple-500/30" },
-  angry:    { color: "text-red-300",      glow: "shadow-red-500/30" },
-  proud:    { color: "text-yellow-300",   glow: "shadow-yellow-500/30" },
+  happy:    { color: "void-text-energy",  glow: "shadow-emerald-500/30" },
+  worried:  { color: "void-text-accent",    glow: "shadow-amber-500/30" },
+  excited:  { color: "void-text-error",     glow: "shadow-pink-500/30" },
+  sad:      { color: "void-text-energy",     glow: "shadow-blue-500/30" },
+  curious:  { color: "void-text-energy",      glow: "shadow-sky-500/30" },
+  afraid:   { color: "void-text-system",   glow: "shadow-purple-500/30" },
+  angry:    { color: "void-text-error",      glow: "shadow-red-500/30" },
+  proud:    { color: "void-text-premium",   glow: "shadow-yellow-500/30" },
 };
 
 export default function PetThoughtBubble({ petId, trigger, bond, durationMs = 4500 }: Props) {

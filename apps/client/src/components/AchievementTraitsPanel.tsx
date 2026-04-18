@@ -10,10 +10,10 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 const TIER_STYLES: Record<string, { color: string; bg: string; border: string }> = {
-  bronze: { color: "text-orange-400", bg: "bg-orange-950/20", border: "border-orange-500/30" },
-  silver: { color: "text-zinc-300", bg: "bg-zinc-800/20", border: "border-zinc-400/30" },
-  gold: { color: "text-amber-400", bg: "bg-amber-950/20", border: "border-amber-500/30" },
-  platinum: { color: "text-cyan-300", bg: "bg-cyan-950/20", border: "border-cyan-400/30" },
+  bronze: { color: "void-text-premium", bg: "void-bg-sunk", border: "void-border" },
+  silver: { color: "void-text", bg: "void-bg-canvas", border: "void-border" },
+  gold: { color: "void-text-accent", bg: "void-bg-sunk", border: "void-border" },
+  platinum: { color: "void-text-energy", bg: "void-bg-success", border: "void-border-success" },
 };
 
 export function AchievementTraitsPanel() {
@@ -63,7 +63,7 @@ export function AchievementTraitsPanel() {
     <div className="border border-border/30 rounded-lg bg-card/40 p-4">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Trophy size={16} className="text-amber-400" />
+          <Trophy size={16} className="void-text-accent" />
           <span className="font-display text-xs font-bold tracking-[0.2em]">ACHIEVEMENT TRAITS</span>
         </div>
         <span className="font-mono text-[9px] text-muted-foreground">
@@ -94,7 +94,7 @@ export function AchievementTraitsPanel() {
                 </div>
                 <button
                   onClick={() => unequipTrait.mutate({ traitKey: trait.key })}
-                  className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-600 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute -top-1 -right-1 w-4 h-4 rounded-full void-bg-error text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                 >
                   <Minus size={8} />
                 </button>
@@ -102,8 +102,8 @@ export function AchievementTraitsPanel() {
             );
           }
           return (
-            <div key={i} className="flex-1 border border-dashed border-zinc-700/30 rounded-lg p-2 flex items-center justify-center">
-              <span className="font-mono text-[8px] text-zinc-600">Empty</span>
+            <div key={i} className="flex-1 border border-dashed void-border rounded-lg p-2 flex items-center justify-center">
+              <span className="font-mono text-[8px] void-text">Empty</span>
             </div>
           );
         })}
@@ -112,7 +112,7 @@ export function AchievementTraitsPanel() {
       {/* Unlocked (unequipped) traits */}
       {unlockedTraits.filter(t => !t.equipped).length > 0 && (
         <div className="mb-3">
-          <span className="font-mono text-[9px] text-emerald-400 block mb-2">Available to Equip:</span>
+          <span className="font-mono text-[9px] void-text-energy block mb-2">Available to Equip:</span>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
             {unlockedTraits.filter(t => !t.equipped).map(trait => {
               const style = TIER_STYLES[trait.tier] || TIER_STYLES.bronze;
@@ -163,19 +163,19 @@ export function AchievementTraitsPanel() {
                 const progress = trait.progress;
                 return (
                   <div key={trait.key} className="flex items-center gap-2 opacity-50">
-                    <Lock size={10} className="text-zinc-600" />
+                    <Lock size={10} className="void-text" />
                     <span className="text-sm">{trait.icon}</span>
                     <div className="flex-1 min-w-0">
                       <span className="font-mono text-[9px] text-foreground/60 truncate block">{trait.name}</span>
                       {progress && (
                         <div className="flex items-center gap-1.5">
-                          <div className="flex-1 h-1 bg-zinc-800 rounded-full overflow-hidden max-w-20">
+                          <div className="flex-1 h-1 void-bg-canvas rounded-full overflow-hidden max-w-20">
                             <div
-                              className="h-full bg-zinc-600 rounded-full"
+                              className="h-full void-bg-canvas rounded-full"
                               style={{ width: `${progress.progress * 100}%` }}
                             />
                           </div>
-                          <span className="font-mono text-[7px] text-zinc-600">
+                          <span className="font-mono text-[7px] void-text">
                             {progress.current}/{progress.target}
                           </span>
                         </div>

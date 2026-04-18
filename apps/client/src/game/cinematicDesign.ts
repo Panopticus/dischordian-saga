@@ -79,7 +79,7 @@ export const GAME_OPENING_CINEMATIC: CinematicLine[] = [
     text: "THE ARCHITECT FORESAW THE FALL OF REALITY",
     duration: 3000,
     delay: 200,
-    color: "#ef4444",
+    color: "var(--energy-error)",
     sizeClass: "text-lg",
     animation: "typewriter",
   },
@@ -95,7 +95,7 @@ export const GAME_OPENING_CINEMATIC: CinematicLine[] = [
     text: "It created THE COLLECTOR",
     duration: 2500,
     delay: 500,
-    color: "#22d3ee",
+    color: "var(--energy-primary)",
     sizeClass: "text-xl",
     animation: "glitch",
   },
@@ -111,7 +111,7 @@ export const GAME_OPENING_CINEMATIC: CinematicLine[] = [
     text: "\"HARVEST THE DNA AND MACHINE CODE OF THE GREATEST INTELLIGENCES IN THE UNIVERSE.\"",
     duration: 4000,
     delay: 300,
-    color: "#22d3ee",
+    color: "var(--energy-primary)",
     sizeClass: "text-base",
     animation: "typewriter",
   },
@@ -119,7 +119,7 @@ export const GAME_OPENING_CINEMATIC: CinematicLine[] = [
     text: "\"PRESERVE THEM.\"",
     duration: 2000,
     delay: 200,
-    color: "#22d3ee",
+    color: "var(--energy-primary)",
     sizeClass: "text-lg",
     animation: "zoom",
   },
@@ -183,7 +183,7 @@ export const GAME_OPENING_CINEMATIC: CinematicLine[] = [
     text: "T H E   C O L L E C T O R ' S   A R E N A",
     duration: 4000,
     delay: 1000,
-    color: "#22d3ee",
+    color: "var(--energy-primary)",
     sizeClass: "text-3xl",
     animation: "glitch",
   },
@@ -341,7 +341,7 @@ export const FIGHTER_INTROS: FighterIntro[] = [
     epithet: "Creator of the AI Empire — Designer of Reality",
     quote: "I did not create the universe. I merely ensured it would remember itself.",
     entranceEffect: "digital_compile",
-    accentColor: "#ef4444",
+    accentColor: "var(--energy-error)",
   },
   {
     fighterId: "collector",
@@ -349,7 +349,7 @@ export const FIGHTER_INTROS: FighterIntro[] = [
     epithet: "Arena Master — The Harvester of Souls",
     quote: "You are not a person. You are data. And I will have every byte.",
     entranceEffect: "void_tear",
-    accentColor: "#22d3ee",
+    accentColor: "var(--energy-primary)",
   },
   {
     fighterId: "enigma",
@@ -365,7 +365,7 @@ export const FIGHTER_INTROS: FighterIntro[] = [
     epithet: "Commander of the Nanobot Swarm",
     quote: "War is not won by the righteous. It is won by the relentless.",
     entranceEffect: "nanobot_assemble",
-    accentColor: "#ef4444",
+    accentColor: "var(--energy-error)",
   },
   {
     fighterId: "necromancer",
@@ -373,7 +373,7 @@ export const FIGHTER_INTROS: FighterIntro[] = [
     epithet: "Master of the Dead Code",
     quote: "Death is merely a state change. And I am the one who reverses it.",
     entranceEffect: "shadow_emerge",
-    accentColor: "#22c55e",
+    accentColor: "var(--energy-success)",
   },
   {
     fighterId: "meme",
@@ -397,7 +397,7 @@ export const FIGHTER_INTROS: FighterIntro[] = [
     epithet: "The All-Seeing Eye of the Empire",
     quote: "I have seen every possible outcome. You lose in all of them.",
     entranceEffect: "digital_compile",
-    accentColor: "#f59e0b",
+    accentColor: "var(--energy-accent)",
   },
   {
     fighterId: "game-master",
@@ -447,7 +447,7 @@ export const FIGHTER_INTROS: FighterIntro[] = [
     epithet: "A Potential Corrupted by the Source",
     quote: "I feel everything you feel. And I want more.",
     entranceEffect: "corruption_spread",
-    accentColor: "#ef4444",
+    accentColor: "var(--energy-error)",
   },
   {
     fighterId: "akai-shi",
@@ -489,7 +489,7 @@ export const FIGHTER_INTROS: FighterIntro[] = [
     epithet: "The Mechanical Warrior",
     quote: "Steel does not bend. Steel does not break. Steel endures.",
     entranceEffect: "ground_slam",
-    accentColor: "#f59e0b",
+    accentColor: "var(--energy-accent)",
   },
   {
     fighterId: "engineer",
@@ -497,7 +497,7 @@ export const FIGHTER_INTROS: FighterIntro[] = [
     epithet: "Betrayed by the Warlord",
     quote: "They took my body. They couldn't take my mind.",
     entranceEffect: "digital_compile",
-    accentColor: "#22c55e",
+    accentColor: "var(--energy-success)",
   },
   {
     fighterId: "agent-zero",
@@ -605,7 +605,7 @@ export const FIGHTER_INTROS: FighterIntro[] = [
     epithet: "Ne-Yon of Rebirth",
     quote: "Kill me. I dare you. I'll come back stronger.",
     entranceEffect: "fire_burst",
-    accentColor: "#22c55e",
+    accentColor: "var(--energy-success)",
   },
 
   // ═══ HIERARCHY OF THE DAMNED (DEMONS) ═══
@@ -722,7 +722,7 @@ export const ARENA_INTROS: ArenaIntro[] = [
   {
     arenaId: "panopticon",
     revealLines: [
-      { text: "THE PANOPTICON", duration: 2000, delay: 500, color: "#ef4444", sizeClass: "text-3xl", animation: "glitch" },
+      { text: "THE PANOPTICON", duration: 2000, delay: 500, color: "var(--energy-error)", sizeClass: "text-3xl", animation: "glitch" },
       { text: "The Prison That Sees All", duration: 2500, delay: 300, color: "#f87171", sizeClass: "text-sm", animation: "fade" },
       { text: "Escape is impossible. Resistance is observed. Fight or be forgotten.", duration: 3000, delay: 200, color: "#94a3b8", sizeClass: "text-base", animation: "typewriter" },
     ],
@@ -749,7 +749,7 @@ export const ARENA_INTROS: ArenaIntro[] = [
   {
     arenaId: "mechronis",
     revealLines: [
-      { text: "MECHRONIS ACADEMY", duration: 2000, delay: 500, color: "#22c55e", sizeClass: "text-3xl", animation: "zoom" },
+      { text: "MECHRONIS ACADEMY", duration: 2000, delay: 500, color: "var(--energy-success)", sizeClass: "text-3xl", animation: "zoom" },
       { text: "Training Ground of the Insurgency", duration: 2500, delay: 300, color: "#4ade80", sizeClass: "text-sm", animation: "fade" },
       { text: "Where rebels learn to fight. Where legends begin.", duration: 2500, delay: 200, color: "#94a3b8", sizeClass: "text-base", animation: "slide_left" },
     ],
@@ -768,7 +768,7 @@ export const ARENA_INTROS: ArenaIntro[] = [
     arenaId: "blood-weave",
     revealLines: [
       { text: "THE BLOOD WEAVE", duration: 2000, delay: 500, color: "#dc2626", sizeClass: "text-3xl", animation: "glitch" },
-      { text: "Domain of the Hierarchy of the Damned", duration: 2500, delay: 300, color: "#ef4444", sizeClass: "text-sm", animation: "fade" },
+      { text: "Domain of the Hierarchy of the Damned", duration: 2500, delay: 300, color: "var(--energy-error)", sizeClass: "text-sm", animation: "fade" },
       { text: "The floor is stained with the blood of a thousand fallen. Yours will be next.", duration: 3000, delay: 200, color: "#94a3b8", sizeClass: "text-base", animation: "typewriter" },
     ],
     envEffect: "blood_rain",

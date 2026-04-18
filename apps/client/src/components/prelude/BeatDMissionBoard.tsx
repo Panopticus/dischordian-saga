@@ -121,16 +121,16 @@ export function BeatDMissionBoard({ onComplete }: BeatDMissionBoardProps) {
               width: 96,
               height: 60,
               borderRadius: 4,
-              border: `1px solid rgba(34, 211, 238, ${isRead ? dimAlpha : baseAlpha})`,
+              border: `1px solid color-mix(in oklch, var(--energy-primary) calc((isRead ? dimAlpha : baseAlpha) * 100%), transparent)`,
               background: `linear-gradient(
                 135deg,
-                rgba(34, 211, 238, ${isRead ? 0.06 : 0.18}) 0%,
-                rgba(34, 211, 238, ${isRead ? 0.04 : 0.1}) 100%
+                color-mix(in oklch, var(--energy-primary) calc((isRead ? 0.06 : 0.18) * 100%), transparent) 0%,
+                color-mix(in oklch, var(--energy-primary) calc((isRead ? 0.04 : 0.1) * 100%), transparent) 100%
               )`,
               cursor: isOpen ? "default" : "pointer",
               boxShadow: isRead
-                ? `0 0 ${glowIntensity / 3}px rgba(34, 211, 238, 0.15)`
-                : `0 0 ${glowIntensity}px rgba(34, 211, 238, ${posting.highlighted ? 0.55 : 0.3})`,
+                ? `0 0 ${glowIntensity / 3}px color-mix(in oklch, var(--energy-primary) 15%, transparent)`
+                : `0 0 ${glowIntensity}px color-mix(in oklch, var(--energy-primary) calc((posting.highlighted ? 0.55 : 0.3) * 100%), transparent)`,
               animation:
                 !isRead && posting.highlighted
                   ? "pvfx-cyan-shimmer 3.2s ease-in-out infinite"
@@ -152,8 +152,8 @@ export function BeatDMissionBoard({ onComplete }: BeatDMissionBoardProps) {
                 width: 6,
                 height: 6,
                 borderRadius: "50%",
-                backgroundColor: "#22d3ee",
-                boxShadow: "0 0 8px #22d3ee",
+                backgroundColor: "var(--energy-primary)",
+                boxShadow: "0 0 8px var(--energy-primary)",
                 opacity: isRead ? 0.35 : posting.highlighted ? 0.9 : 0.65,
               }}
             />
@@ -168,7 +168,7 @@ export function BeatDMissionBoard({ onComplete }: BeatDMissionBoardProps) {
                   width: 10,
                   height: 10,
                   borderRadius: "50%",
-                  backgroundColor: "rgba(34, 211, 238, 0.8)",
+                  backgroundColor: "color-mix(in oklch, var(--energy-primary) 80%, transparent)",
                 }}
               />
             )}
@@ -197,10 +197,10 @@ export function BeatDMissionBoard({ onComplete }: BeatDMissionBoardProps) {
               maxHeight: "80vh",
               display: "flex",
               flexDirection: "column",
-              background: "rgba(1, 0, 32, 0.95)",
-              border: "1px solid rgba(34, 211, 238, 0.4)",
-              boxShadow: "0 0 40px rgba(34, 211, 238, 0.2)",
-              color: "rgba(255, 255, 255, 0.9)",
+              background: "color-mix(in oklch, var(--bg-void) 95%, transparent)",
+              border: "1px solid color-mix(in oklch, var(--energy-primary) 40%, transparent)",
+              boxShadow: "0 0 40px color-mix(in oklch, var(--energy-primary) 20%, transparent)",
+              color: "color-mix(in oklch, var(--text-primary) 90%, transparent)",
               fontFamily: "monospace",
               zIndex: 60,
             }}
@@ -209,12 +209,12 @@ export function BeatDMissionBoard({ onComplete }: BeatDMissionBoardProps) {
             <div
               style={{
                 padding: "18px 24px",
-                borderBottom: "1px solid rgba(34, 211, 238, 0.25)",
+                borderBottom: "1px solid color-mix(in oklch, var(--energy-primary) 25%, transparent)",
               }}
             >
               <div
                 style={{
-                  color: "#22d3ee",
+                  color: "var(--energy-primary)",
                   fontSize: 16,
                   fontWeight: 600,
                   letterSpacing: "0.02em",
@@ -228,7 +228,7 @@ export function BeatDMissionBoard({ onComplete }: BeatDMissionBoardProps) {
                   display: "flex",
                   justifyContent: "space-between",
                   fontSize: 11,
-                  color: "rgba(34, 211, 238, 0.6)",
+                  color: "color-mix(in oklch, var(--energy-primary) 60%, transparent)",
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
                 }}
@@ -245,7 +245,7 @@ export function BeatDMissionBoard({ onComplete }: BeatDMissionBoardProps) {
                 overflowY: "auto",
                 fontSize: 13,
                 lineHeight: 1.65,
-                color: "rgba(255, 255, 255, 0.78)",
+                color: "color-mix(in oklch, var(--text-primary) 78%, transparent)",
                 flex: 1,
               }}
             >
@@ -262,7 +262,7 @@ export function BeatDMissionBoard({ onComplete }: BeatDMissionBoardProps) {
             <div
               style={{
                 padding: "14px 24px",
-                borderTop: "1px solid rgba(34, 211, 238, 0.25)",
+                borderTop: "1px solid color-mix(in oklch, var(--energy-primary) 25%, transparent)",
                 display: "flex",
                 justifyContent: "flex-end",
                 gap: 12,
@@ -274,8 +274,8 @@ export function BeatDMissionBoard({ onComplete }: BeatDMissionBoardProps) {
                 style={{
                   padding: "8px 18px",
                   background: "transparent",
-                  border: "1px solid rgba(34, 211, 238, 0.4)",
-                  color: "#22d3ee",
+                  border: "1px solid color-mix(in oklch, var(--energy-primary) 40%, transparent)",
+                  color: "var(--energy-primary)",
                   fontFamily: "monospace",
                   fontSize: 11,
                   letterSpacing: "0.15em",
@@ -301,12 +301,12 @@ export function BeatDMissionBoard({ onComplete }: BeatDMissionBoardProps) {
           right: 32,
           padding: "12px 24px",
           background: canContinue
-            ? "rgba(34, 211, 238, 0.18)"
-            : "rgba(1, 0, 32, 0.5)",
+            ? "color-mix(in oklch, var(--energy-primary) 18%, transparent)"
+            : "color-mix(in oklch, var(--bg-void) 50%, transparent)",
           border: `1px solid ${
-            canContinue ? "rgba(34, 211, 238, 0.6)" : "rgba(34, 211, 238, 0.2)"
+            canContinue ? "color-mix(in oklch, var(--energy-primary) 60%, transparent)" : "color-mix(in oklch, var(--energy-primary) 20%, transparent)"
           }`,
-          color: canContinue ? "#22d3ee" : "rgba(34, 211, 238, 0.35)",
+          color: canContinue ? "var(--energy-primary)" : "color-mix(in oklch, var(--energy-primary) 35%, transparent)",
           fontFamily: "monospace",
           fontSize: 12,
           letterSpacing: "0.18em",
@@ -329,7 +329,7 @@ export function BeatDMissionBoard({ onComplete }: BeatDMissionBoardProps) {
           left: 16,
           fontFamily: "monospace",
           fontSize: 10,
-          color: "rgba(34, 211, 238, 0.55)",
+          color: "color-mix(in oklch, var(--energy-primary) 55%, transparent)",
           letterSpacing: "0.15em",
           textTransform: "uppercase",
           zIndex: 60,

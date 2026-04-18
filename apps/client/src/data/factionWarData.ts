@@ -102,7 +102,7 @@ export const FACTION_WAR_EVENTS: FactionWarEvent[] = [
       stalemate: "Neither side can claim victory. The Crystal Nebula remains contested, a no-man's-land of drifting wreckage and opportunistic pirates. Both factions withdraw to regroup. The Nebula Express Lane remains closed — for now.",
     },
     minLevel: 0,
-    color: "#22d3ee",
+    color: "var(--energy-primary)",
     icon: "⚔️",
   },
   {
@@ -169,7 +169,7 @@ export const FACTION_WAR_EVENTS: FactionWarEvent[] = [
       stalemate: "The Pirate King is unimpressed by both sides. \"You're all pathetic,\" he broadcasts. \"I'll keep my fleet — and my independence. Come back when you've grown a spine.\" The Outer Rim remains lawless.",
     },
     minLevel: 200,
-    color: "#f59e0b",
+    color: "var(--energy-accent)",
     icon: "☠️",
   },
   {
@@ -203,7 +203,7 @@ export const FACTION_WAR_EVENTS: FactionWarEvent[] = [
       stalemate: "The AIs observe both factions and find them wanting. \"You are not ready for us,\" they announce, before retreating into the deep network. The awakened machines go silent — but they are still watching. Always watching.",
     },
     minLevel: 1000,
-    color: "#ef4444",
+    color: "var(--energy-error)",
     icon: "🤖",
   },
 ];
@@ -233,7 +233,7 @@ export function getContributionRank(contribution: number): { rank: string; color
   if (contribution >= 100000) return { rank: "WAR HERO", color: "#fbbf24" };
   if (contribution >= 50000) return { rank: "COMMANDER", color: "#a855f7" };
   if (contribution >= 25000) return { rank: "CAPTAIN", color: "#3b82f6" };
-  if (contribution >= 10000) return { rank: "LIEUTENANT", color: "#22c55e" };
+  if (contribution >= 10000) return { rank: "LIEUTENANT", color: "var(--energy-success)" };
   if (contribution >= 5000) return { rank: "SERGEANT", color: "#94a3b8" };
   return { rank: "RECRUIT", color: "#64748b" };
 }

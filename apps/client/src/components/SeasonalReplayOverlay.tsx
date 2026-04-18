@@ -44,7 +44,7 @@ const SCANLINE_STYLE: React.CSSProperties = {
   position: "absolute",
   inset: 0,
   background:
-    "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px)",
+    "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--bg-void) 15%, transparent) 2px, color-mix(in oklch, var(--bg-void) 15%, transparent) 4px)",
   pointerEvents: "none",
   zIndex: 10,
 };
@@ -65,7 +65,7 @@ const CRT_VIGNETTE_STYLE: React.CSSProperties = {
   position: "absolute",
   inset: 0,
   background:
-    "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%)",
+    "radial-gradient(ellipse at center, transparent 50%, color-mix(in oklch, var(--bg-void) 60%, transparent) 100%)",
   pointerEvents: "none",
   zIndex: 12,
 };
@@ -147,12 +147,12 @@ function CommunityResultsBar({
         style={{
           width: "100%",
           height: 20,
-          background: "rgba(255,255,255,0.08)",
+          background: "color-mix(in oklch, var(--text-primary) 8%, transparent)",
           borderRadius: 2,
           overflow: "hidden",
           border: isPlayerChoice
             ? `1px solid ${color}`
-            : "1px solid rgba(255,255,255,0.1)",
+            : "1px solid color-mix(in oklch, var(--text-primary) 10%, transparent)",
         }}
       >
         <motion.div
@@ -351,8 +351,8 @@ export default function SeasonalReplayOverlay({
                   onClick={() => handleChoice(currentChoice.choiceId, option)}
                   style={{
                     width: "100%",
-                    background: "rgba(255,255,255,0.05)",
-                    border: "1px solid rgba(255,255,255,0.15)",
+                    background: "color-mix(in oklch, var(--text-primary) 5%, transparent)",
+                    border: "1px solid color-mix(in oklch, var(--text-primary) 15%, transparent)",
                     color: "#e0e0e0",
                     fontFamily: "'Courier New', monospace",
                     fontSize: 14,
@@ -463,13 +463,13 @@ export default function SeasonalReplayOverlay({
               alignItems: "center",
               gap: 12,
               padding: "10px 16px",
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.08)",
+              background: "color-mix(in oklch, var(--text-primary) 4%, transparent)",
+              border: "1px solid color-mix(in oklch, var(--text-primary) 8%, transparent)",
               borderRadius: 4,
             }}
           >
             {reward.type === "xp" ? (
-              <Award size={18} style={{ color: "#f59e0b", flexShrink: 0 }} />
+              <Award size={18} style={{ color: "var(--energy-accent)", flexShrink: 0 }} />
             ) : (
               <BookOpen size={18} style={{ color: "#8b5cf6", flexShrink: 0 }} />
             )}
@@ -508,8 +508,8 @@ export default function SeasonalReplayOverlay({
         style={{
           marginTop: 20,
           padding: "12px 16px",
-          background: "rgba(239, 68, 68, 0.08)",
-          border: "1px solid rgba(239, 68, 68, 0.2)",
+          background: "color-mix(in oklch, var(--energy-error) 8%, transparent)",
+          border: "1px solid color-mix(in oklch, var(--energy-error) 20%, transparent)",
           borderRadius: 4,
         }}
       >
@@ -517,7 +517,7 @@ export default function SeasonalReplayOverlay({
           style={{
             fontFamily: "'Courier New', monospace",
             fontSize: 11,
-            color: "#ef4444",
+            color: "var(--energy-error)",
             margin: 0,
             textTransform: "uppercase",
             letterSpacing: 1,
@@ -597,7 +597,7 @@ export default function SeasonalReplayOverlay({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "rgba(0, 0, 0, 0.95)",
+          background: "color-mix(in oklch, var(--bg-void) 95%, transparent)",
         }}
       >
         {/* CRT Effects */}
@@ -741,8 +741,8 @@ export default function SeasonalReplayOverlay({
                 width: 6,
                 height: 6,
                 borderRadius: "50%",
-                background: "#ef4444",
-                boxShadow: "0 0 6px #ef4444",
+                background: "var(--energy-error)",
+                boxShadow: "0 0 6px var(--energy-error)",
                 animation: "meme-blink 1.5s infinite",
               }}
             />
@@ -750,7 +750,7 @@ export default function SeasonalReplayOverlay({
               style={{
                 fontFamily: "'Courier New', monospace",
                 fontSize: 11,
-                color: "#ef4444",
+                color: "var(--energy-error)",
                 textTransform: "uppercase",
                 letterSpacing: 2,
               }}
@@ -766,8 +766,8 @@ export default function SeasonalReplayOverlay({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
             style={{
-              background: "rgba(255, 255, 255, 0.02)",
-              border: "1px solid rgba(255, 255, 255, 0.06)",
+              background: "color-mix(in oklch, var(--text-primary) 2%, transparent)",
+              border: "1px solid color-mix(in oklch, var(--text-primary) 6%, transparent)",
               borderRadius: 4,
               padding: 24,
               maxHeight: "60vh",

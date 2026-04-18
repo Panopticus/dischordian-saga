@@ -356,10 +356,10 @@ export function LoreOverlay({ gameMode, contextId, onMoralityShift, onCardUnlock
   if (!activeComment) return null;
 
   const isHuman = activeComment.speaker === "human";
-  const borderColor = isHuman ? "border-red-500/40" : "border-cyan-400/40";
+  const borderColor = isHuman ? "void-border-error" : "void-border-success";
   const glowColor = isHuman ? "shadow-red-500/20" : "shadow-cyan-400/20";
-  const textColor = isHuman ? "text-red-400" : "text-cyan-400";
-  const bgColor = isHuman ? "bg-red-950/80" : "bg-cyan-950/80";
+  const textColor = isHuman ? "void-text-error" : "void-text-energy";
+  const bgColor = isHuman ? "void-bg-error" : "void-bg-success";
   const Icon = isHuman ? Skull : Radio;
 
   return (
@@ -370,7 +370,7 @@ export function LoreOverlay({ gameMode, contextId, onMoralityShift, onCardUnlock
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-[90] flex items-center justify-center"
-        style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(8px)" }}
+        style={{ background: "color-mix(in oklch, var(--bg-void) 75%, transparent)", backdropFilter: "blur(8px)" }}
         onClick={handleDismiss}
       >
       <motion.div
@@ -384,8 +384,8 @@ export function LoreOverlay({ gameMode, contextId, onMoralityShift, onCardUnlock
         {/* Scan line effect for Human */}
         {isHuman && (
           <div className="absolute inset-0 pointer-events-none opacity-10">
-            <div className="w-full h-px bg-red-500 animate-pulse" style={{ position: "absolute", top: "30%" }} />
-            <div className="w-full h-px bg-red-500 animate-pulse" style={{ position: "absolute", top: "60%", animationDelay: "0.5s" }} />
+            <div className="w-full h-px void-bg-error animate-pulse" style={{ position: "absolute", top: "30%" }} />
+            <div className="w-full h-px void-bg-error animate-pulse" style={{ position: "absolute", top: "60%", animationDelay: "0.5s" }} />
           </div>
         )}
 
@@ -405,7 +405,7 @@ export function LoreOverlay({ gameMode, contextId, onMoralityShift, onCardUnlock
                 {isHuman ? "// SIGNAL INTERCEPT" : "ELARA // SHIP AI"}
               </span>
               {isHuman && activeComment.voAudioUrl && (
-                <Volume2 size={10} className="text-red-400/50 animate-pulse" />
+                <Volume2 size={10} className="void-text-error animate-pulse" />
               )}
             </div>
             <button
@@ -417,7 +417,7 @@ export function LoreOverlay({ gameMode, contextId, onMoralityShift, onCardUnlock
           </div>
 
           {/* Message — typed out character by character */}
-          <p className={`font-mono text-xs leading-relaxed ${isHuman ? "text-red-200/90" : "text-cyan-100/90"}`}>
+          <p className={`font-mono text-xs leading-relaxed ${isHuman ? "void-text-error" : "void-text-energy"}`}>
             <TypedMessage
               text={activeComment.text}
               speed={isHuman ? 20 : 15}
@@ -436,22 +436,22 @@ export function LoreOverlay({ gameMode, contextId, onMoralityShift, onCardUnlock
                 animate={{ opacity: 1 }}
                 className="mt-2 flex items-center gap-1.5"
               >
-                <ChevronRight size={10} className={isMachine ? "text-cyan-400" : "text-amber-400"} />
+                <ChevronRight size={10} className={isMachine ? "void-text-energy" : "void-text-accent"} />
                 {isMachine ? (
                   <span className="font-mono text-[9px] flex items-center gap-1">
-                    <CircuitBoard size={9} className="text-cyan-400" />
-                    <span className="text-cyan-400">MACHINE +{absVal}</span>
+                    <CircuitBoard size={9} className="void-text-energy" />
+                    <span className="void-text-energy">MACHINE +{absVal}</span>
                     <span className="text-muted-foreground/40">/</span>
-                    <Heart size={9} className="text-amber-400" />
-                    <span className="text-amber-400">HUMANITY -{absVal}</span>
+                    <Heart size={9} className="void-text-accent" />
+                    <span className="void-text-accent">HUMANITY -{absVal}</span>
                   </span>
                 ) : (
                   <span className="font-mono text-[9px] flex items-center gap-1">
-                    <Heart size={9} className="text-amber-400" />
-                    <span className="text-amber-400">HUMANITY +{absVal}</span>
+                    <Heart size={9} className="void-text-accent" />
+                    <span className="void-text-accent">HUMANITY +{absVal}</span>
                     <span className="text-muted-foreground/40">/</span>
-                    <CircuitBoard size={9} className="text-cyan-400" />
-                    <span className="text-cyan-400">MACHINE -{absVal}</span>
+                    <CircuitBoard size={9} className="void-text-energy" />
+                    <span className="void-text-energy">MACHINE -{absVal}</span>
                   </span>
                 )}
               </motion.div>

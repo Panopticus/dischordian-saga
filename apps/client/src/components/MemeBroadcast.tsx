@@ -178,10 +178,10 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
     ? oracleRevealTier
     : oracleRevealActive ? 1 : 0;
   const THEME = [
-    { accent: "text-pink-400",  borderColor: "border-pink-500/60",   glow: "rgba(236,72,153,0.2)", color: "#f472b6" },
-    { accent: "text-fuchsia-300", borderColor: "border-fuchsia-500/60", glow: "rgba(217,70,239,0.22)", color: "#e879f9" },
-    { accent: "text-purple-300", borderColor: "border-purple-400/60", glow: "rgba(168,85,247,0.26)", color: "#c084fc" },
-    { accent: "text-violet-200", borderColor: "border-violet-400/70", glow: "rgba(139,92,246,0.32)", color: "#a78bfa" },
+    { accent: "void-text-error",  borderColor: "void-border-error",   glow: "rgba(236,72,153,0.2)", color: "#f472b6" },
+    { accent: "void-text-system", borderColor: "void-border-system", glow: "rgba(217,70,239,0.22)", color: "#e879f9" },
+    { accent: "void-text-system", borderColor: "void-border-system", glow: "color-mix(in oklch, var(--energy-system) 26%, transparent)", color: "#c084fc" },
+    { accent: "void-text-system", borderColor: "void-border-system", glow: "rgba(139,92,246,0.32)", color: "#a78bfa" },
   ] as const;
   const theme = THEME[Math.max(0, Math.min(3, effectiveTier))];
   const accent = theme.accent;
@@ -226,7 +226,7 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
           style={{
             borderRadius: "12px",
             border: `3px solid ${memeColor}40`,
-            boxShadow: `0 0 40px ${glowColor}, 0 0 80px ${glowColor}, inset 0 0 60px rgba(0,0,0,0.5)`,
+            boxShadow: `0 0 40px ${glowColor}, 0 0 80px ${glowColor}, inset 0 0 60px color-mix(in oklch, var(--bg-void) 50%, transparent)`,
             background: "linear-gradient(180deg, #0a0a0a 0%, #050505 100%)",
           }}
         >
@@ -237,7 +237,7 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
             <div
               className="absolute inset-0 pointer-events-none z-[60]"
               style={{
-                backgroundImage: "repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px)",
+                backgroundImage: "repeating-linear-gradient(0deg, transparent 0, transparent 2px, color-mix(in oklch, var(--bg-void) 15%, transparent) 2px, color-mix(in oklch, var(--bg-void) 15%, transparent) 4px)",
                 mixBlendMode: "multiply",
               }}
             />
@@ -246,7 +246,7 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
             <div
               className="absolute inset-0 pointer-events-none z-[55]"
               style={{
-                background: "radial-gradient(ellipse 85% 85% at 50% 50%, transparent 50%, rgba(0,0,0,0.7) 100%)",
+                background: "radial-gradient(ellipse 85% 85% at 50% 50%, transparent 50%, color-mix(in oklch, var(--bg-void) 70%, transparent) 100%)",
               }}
             />
 
@@ -266,9 +266,9 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
                   animate={{ opacity: [1, 0.2, 1] }}
                   transition={{ duration: 0.8, repeat: Infinity }}
                 >
-                  <div className="w-2 h-2 rounded-full bg-red-500" style={{ boxShadow: "0 0 6px rgba(239,68,68,0.8)" }} />
+                  <div className="w-2 h-2 rounded-full void-bg-error" style={{ boxShadow: "0 0 6px color-mix(in oklch, var(--energy-error) 80%, transparent)" }} />
                 </motion.div>
-                <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-red-500 font-bold">LIVE</span>
+                <span className="font-mono text-[9px] uppercase tracking-[0.3em] void-text-error font-bold">LIVE</span>
                 <span className="font-mono text-[8px] uppercase tracking-wider text-white/30">
                   Late Night with the Meme · #{transmission.broadcastOrder}
                 </span>
@@ -496,10 +496,10 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
                               <span className="font-mono text-[8px] uppercase tracking-[0.3em]" style={{ color: memeColor }}>TRANSMISSION REWARDS</span>
                             </div>
                             <div className="flex gap-4 font-mono text-[10px]">
-                              <span className="text-amber-300">+{transmission.reward.xp} XP</span>
-                              <span className="text-purple-300">+{transmission.reward.dream} Dream</span>
+                              <span className="void-text-accent">+{transmission.reward.xp} XP</span>
+                              <span className="void-text-system">+{transmission.reward.dream} Dream</span>
                               {transmission.reward.achievement && (
-                                <span className="text-cyan-300">◈ {transmission.reward.achievement.replace(/_/g, " ")}</span>
+                                <span className="void-text-energy">◈ {transmission.reward.achievement.replace(/_/g, " ")}</span>
                               )}
                             </div>
                             {/* Loredex unlock preview */}
@@ -508,8 +508,8 @@ export default function MemeBroadcast({ transmission, onClose, onComplete, alrea
                               if (!unlocks || unlocks.entityIds.length === 0) return null;
                               return (
                                 <div className="mt-2 pt-2 border-t border-white/5 flex items-center gap-2">
-                                  <BookOpen size={10} className="text-cyan-400" />
-                                  <span className="font-mono text-[9px] text-cyan-400/80">
+                                  <BookOpen size={10} className="void-text-energy" />
+                                  <span className="font-mono text-[9px] void-text-energy">
                                     {unlocks.discoveryLabel} — {unlocks.entityIds.length} Loredex {unlocks.entityIds.length === 1 ? "entry" : "entries"}
                                   </span>
                                 </div>
@@ -586,7 +586,7 @@ function TextTransmissionFallback({
       <motion.div
         animate={{ opacity: [0.3, 1, 0.3] }}
         transition={{ duration: 1.8, repeat: Infinity }}
-        className="font-mono text-[10px] uppercase tracking-[0.3em] text-amber-400"
+        className="font-mono text-[10px] uppercase tracking-[0.3em] void-text-accent"
       >
         ▸ AUDIO INTERCEPT · VIDEO UNAVAILABLE
       </motion.div>

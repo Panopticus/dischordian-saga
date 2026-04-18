@@ -31,12 +31,12 @@ type TutorialStage = "loading" | "intro" | "lesson" | "outro" | "complete" | "sk
  *  ElaraDialog so the Celebration Game Master reads as a character,
  *  not a UI string. */
 const MOOD_ACCENT: Record<string, string> = {
-  warm: "border-amber-400/40 text-amber-100",
-  curious: "border-sky-400/40 text-sky-100",
-  reflective: "border-violet-400/40 text-violet-100",
-  protective: "border-emerald-400/40 text-emerald-100",
-  guarded: "border-rose-400/40 text-rose-100",
-  cryptic: "border-fuchsia-400/40 text-fuchsia-100",
+  warm: "void-border void-text-accent",
+  curious: "void-border void-text-energy",
+  reflective: "void-border-system void-text-system",
+  protective: "void-border-success void-text-energy",
+  guarded: "void-border-error void-text-error",
+  cryptic: "void-border-system void-text-system",
   default: "border-border/40 text-foreground",
 };
 
@@ -276,8 +276,8 @@ export default function ChessTutorialPage() {
         >
           <ArrowLeft size={16} /> Back to Chess
         </Link>
-        <div className="rounded-lg border border-amber-400/40 bg-amber-400/5 p-6 space-y-4">
-          <Sparkles className="text-amber-400" size={32} />
+        <div className="rounded-lg border void-border void-bg-sunk p-6 space-y-4">
+          <Sparkles className="void-text-accent" size={32} />
           <h1 className="font-display text-2xl font-bold tracking-wider">
             The Academy is Closed
           </h1>
@@ -320,7 +320,7 @@ export default function ChessTutorialPage() {
         </Link>
         <div className="flex-1">
           <h1 className="font-display text-xl font-bold tracking-wider flex items-center gap-2">
-            <BookOpen size={18} className="text-amber-400" />
+            <BookOpen size={18} className="void-text-accent" />
             THE CELEBRATION ACADEMY — Gate {activeGate.gateNumber} of{" "}
             {totalGates}
           </h1>
@@ -341,9 +341,9 @@ export default function ChessTutorialPage() {
               key={gateNum}
               className={`flex-1 h-1.5 rounded-full ${
                 isDone
-                  ? "bg-emerald-500"
+                  ? "void-bg-success"
                   : isActive
-                    ? "bg-amber-400"
+                    ? "void-bg-sunk"
                     : "bg-border/30"
               }`}
             />
@@ -362,7 +362,7 @@ export default function ChessTutorialPage() {
             className={`rounded-lg border ${moodClass} bg-card/40 p-6 space-y-4`}
           >
             <div className="flex items-center gap-2">
-              <Crown size={16} className="text-amber-300" />
+              <Crown size={16} className="void-text-accent" />
               <span className="font-mono text-[11px] uppercase tracking-wider">
                 {introCue.speaker === "narrator"
                   ? "Narrator"
@@ -390,7 +390,7 @@ export default function ChessTutorialPage() {
                   <button
                     onClick={handleSkipChallenge}
                     disabled={skipAndChallenge.isPending}
-                    className="px-4 py-2 rounded-md border border-rose-400/40 text-rose-200 font-bold text-sm hover:bg-rose-400/10 flex items-center gap-2"
+                    className="px-4 py-2 rounded-md border void-border-error void-text-error font-bold text-sm void-bg-error flex items-center gap-2"
                     title="Challenge the Game Master at full strength. He will play at absolute maximum AI skill."
                   >
                     <Swords size={14} />
@@ -444,7 +444,7 @@ export default function ChessTutorialPage() {
               className={`rounded-lg border ${MOOD_ACCENT[stepQ.data.step.mood ?? "default"]} bg-card/40 p-5 space-y-3`}
             >
               <div className="flex items-center gap-2">
-                <Crown size={14} className="text-amber-300" />
+                <Crown size={14} className="void-text-accent" />
                 <span className="font-mono text-[10px] uppercase tracking-wider">
                   Celebration Game Master // {stepQ.data.step.mood}
                 </span>
@@ -454,13 +454,13 @@ export default function ChessTutorialPage() {
               </p>
 
               {showHint && stepQ.data.step.hint && (
-                <p className="font-mono text-[11px] text-amber-200/80 border-l-2 border-amber-400/40 pl-3">
+                <p className="font-mono text-[11px] void-text-accent border-l-2 void-border pl-3">
                   Hint: {stepQ.data.step.hint}
                 </p>
               )}
 
               {lastMoveError && (
-                <p className="font-mono text-[11px] text-rose-300">
+                <p className="font-mono text-[11px] void-text-error">
                   {lastMoveError}
                 </p>
               )}
@@ -489,7 +489,7 @@ export default function ChessTutorialPage() {
             className={`rounded-lg border ${moodClass} bg-card/40 p-6 space-y-4`}
           >
             <div className="flex items-center gap-2">
-              <CheckCircle2 size={16} className="text-emerald-400" />
+              <CheckCircle2 size={16} className="void-text-energy" />
               <span className="font-mono text-[11px] uppercase tracking-wider">
                 Gate {activeGate.gateNumber} Complete //{" "}
                 {outroCue.speaker === "narrator"

@@ -160,7 +160,7 @@ export default function CompanionFarewell({ onLetGo, onRedemption }: Props) {
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.6) 100%)",
+              "radial-gradient(ellipse at center, transparent 30%, color-mix(in oklch, var(--bg-void) 60%, transparent) 100%)",
           }}
         />
 
@@ -175,11 +175,11 @@ export default function CompanionFarewell({ onLetGo, onRedemption }: Props) {
                 transition={{ delay: 0.2 }}
                 className="flex items-center justify-center gap-2 mb-6"
               >
-                <AlertTriangle size={14} className="text-red-400" />
-                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-red-400">
+                <AlertTriangle size={14} className="void-text-error" />
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] void-text-error">
                   Morality Dissonance Critical
                 </span>
-                <AlertTriangle size={14} className="text-red-400" />
+                <AlertTriangle size={14} className="void-text-error" />
               </motion.div>
 
               {/* Fading portrait */}
@@ -197,9 +197,9 @@ export default function CompanionFarewell({ onLetGo, onRedemption }: Props) {
                 className="mx-auto mb-6"
               >
                 <div
-                  className="w-28 h-28 mx-auto rounded-full border-2 border-red-500/30 bg-card/40 flex items-center justify-center overflow-hidden"
+                  className="w-28 h-28 mx-auto rounded-full border-2 void-border-error bg-card/40 flex items-center justify-center overflow-hidden"
                   style={{
-                    boxShadow: "0 0 30px rgba(239,68,68,0.2), 0 0 60px rgba(239,68,68,0.1)",
+                    boxShadow: "0 0 30px color-mix(in oklch, var(--energy-error) 20%, transparent), 0 0 60px color-mix(in oklch, var(--energy-error) 10%, transparent)",
                   }}
                 >
                   {event.portraitUrl ? (
@@ -231,8 +231,8 @@ export default function CompanionFarewell({ onLetGo, onRedemption }: Props) {
                 transition={{ delay: 0.5 }}
                 className="flex items-center justify-center gap-2 mb-6"
               >
-                <HeartCrack size={14} className="text-red-400" />
-                <span className="font-mono text-[10px] uppercase tracking-wider text-red-400/80">
+                <HeartCrack size={14} className="void-text-error" />
+                <span className="font-mono text-[10px] uppercase tracking-wider void-text-error">
                   Preparing to leave
                 </span>
               </motion.div>
@@ -242,9 +242,9 @@ export default function CompanionFarewell({ onLetGo, onRedemption }: Props) {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7, duration: 0.6 }}
-                className="relative bg-card/30 border border-red-500/20 rounded-lg p-5 mb-6"
+                className="relative bg-card/30 border void-border-error rounded-lg p-5 mb-6"
               >
-                <div className="absolute -top-3 left-4 px-2 bg-black/60 rounded text-[9px] font-mono uppercase tracking-wider text-red-400/60">
+                <div className="absolute -top-3 left-4 px-2 bg-black/60 rounded text-[9px] font-mono uppercase tracking-wider void-text-error">
                   Farewell
                 </div>
                 <p className="text-sm leading-relaxed text-white/85 italic">
@@ -262,14 +262,14 @@ export default function CompanionFarewell({ onLetGo, onRedemption }: Props) {
                 <Button
                   onClick={handleLetGo}
                   variant="outline"
-                  className="gap-2 border-red-500/30 text-red-400 hover:bg-red-500/10"
+                  className="gap-2 void-border-error void-text-error void-bg-error"
                 >
                   <DoorOpen size={14} />
                   Let Them Go
                 </Button>
                 <Button
                   onClick={handleRedemption}
-                  className="gap-2 bg-violet-600 hover:bg-violet-500"
+                  className="gap-2 void-bg-system void-bg-system"
                 >
                   <Undo2 size={14} />
                   Prove Yourself

@@ -7,8 +7,8 @@ import { useCadesAmbientLines } from "@/hooks/useCadesAmbientLines";
 
 const NPC_LABELS: Record<string, { name: string; color: string }> = {
   elara:             { name: "ELARA",             color: "#8b5cf6" },
-  the_human:         { name: "THE HUMAN",         color: "#ef4444" },
-  agent_zero:        { name: "AGENT ZERO",        color: "#f59e0b" },
+  the_human:         { name: "THE HUMAN",         color: "var(--energy-error)" },
+  agent_zero:        { name: "AGENT ZERO",        color: "var(--energy-accent)" },
   adjudicator_locke: { name: "ADJUDICATOR LOCKE", color: "#eab308" },
   the_antiquarian:   { name: "THE ANTIQUARIAN",   color: "#a855f7" },
   the_source:        { name: "THE SOURCE",        color: "#06b6d4" },

@@ -58,11 +58,11 @@ const STAGE_LABELS: Record<string, string> = {
 };
 
 const RARITY_BG: Record<Rarity, string> = {
-  common: "from-slate-500/10 to-slate-600/5 border-slate-400/30",
-  uncommon: "from-emerald-500/10 to-green-600/5 border-emerald-400/40",
-  rare: "from-blue-500/10 to-indigo-600/5 border-blue-400/50",
-  epic: "from-purple-500/10 to-fuchsia-600/5 border-purple-400/60",
-  mythic: "from-amber-500/15 to-orange-600/10 border-amber-400/70 shadow-amber-400/20 shadow-lg",
+  common: "from-slate-500/10 to-slate-600/5 void-border",
+  uncommon: "from-emerald-500/10 to-green-600/5 void-border-success",
+  rare: "from-blue-500/10 to-indigo-600/5 void-border",
+  epic: "from-purple-500/10 to-fuchsia-600/5 void-border-system",
+  mythic: "from-amber-500/15 to-orange-600/10 void-border shadow-amber-400/20 shadow-lg",
 };
 
 export default function ApprenticePage() {
@@ -233,7 +233,7 @@ export default function ApprenticePage() {
           <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
             <ChevronLeft size={20} />
           </Link>
-          <Sparkles size={18} className="text-amber-400" />
+          <Sparkles size={18} className="void-text-accent" />
           <div>
             <h1 className="font-display text-lg font-bold tracking-wider">THE APPRENTICE</h1>
             <p className="font-mono text-[10px] text-muted-foreground tracking-wider">
@@ -248,7 +248,7 @@ export default function ApprenticePage() {
             <CurrentApprenticeCard app={currentApprentice} onMarkFallen={handleFallen} />
             {/* Recruited → send to Celebration */}
             {currentApprentice.stage === "recruited" && (
-              <div className="mt-4 rounded-lg border border-amber-500/40 overflow-hidden relative">
+              <div className="mt-4 rounded-lg border void-border overflow-hidden relative">
                 {/* Celebration aerial view background */}
                 <div className="absolute inset-0 z-0 overflow-hidden">
                   <ResponsiveImage
@@ -261,16 +261,16 @@ export default function ApprenticePage() {
                     }}
                   />
                   <div className="absolute inset-0" style={{
-                    background: "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%)",
+                    background: "linear-gradient(to bottom, color-mix(in oklch, var(--bg-void) 30%, transparent) 0%, color-mix(in oklch, var(--bg-void) 80%, transparent) 100%)",
                   }} />
                 </div>
                 <div className="relative z-10 p-3">
-                  <p className="font-mono text-[10px] italic text-amber-300/80 leading-relaxed mb-2">
+                  <p className="font-mono text-[10px] italic void-text-accent leading-relaxed mb-2">
                     Celebration awaits. Four weeks. Twenty-eight days. One graduation, or none. The Mascoteers know you're coming.
                   </p>
                   <button
                     onClick={sendToCelebration}
-                    className="w-full px-3 py-2 rounded border border-amber-500/50 bg-amber-500/15 text-amber-300 font-mono text-[11px] uppercase tracking-wider hover:bg-amber-500/25"
+                    className="w-full px-3 py-2 rounded border void-border void-bg-sunk void-text-accent font-mono text-[11px] uppercase tracking-wider void-bg-sunk"
                     data-testid="send-to-celebration"
                   >
                     Send {currentApprentice.name} to Celebration
@@ -293,11 +293,11 @@ export default function ApprenticePage() {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mt-4 p-4 rounded-lg border-2 border-red-500/50 bg-gradient-to-br from-red-950/20 to-amber-950/10"
+                className="mt-4 p-4 rounded-lg border-2 void-border-error bg-gradient-to-br from-red-950/20 to-amber-950/10"
               >
                 <div className="flex items-center gap-2 mb-2">
-                  <Zap size={16} className="text-red-400" />
-                  <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-red-400">
+                  <Zap size={16} className="void-text-error" />
+                  <span className="font-mono text-[9px] uppercase tracking-[0.25em] void-text-error">
                     Graduation Exam · Day {pendingBattle.triggerDay}
                   </span>
                 </div>
@@ -306,29 +306,29 @@ export default function ApprenticePage() {
                     <img
                       src={MASCOTEER_PORTRAIT[pendingBattle.opponentId] ?? OPPONENT_PORTRAIT[pendingBattle.opponentId]}
                       alt={pendingBattle.opponentName}
-                      className="w-12 h-12 rounded-lg object-cover border border-red-500/30"
+                      className="w-12 h-12 rounded-lg object-cover border void-border-error"
                     />
                   )}
                   <h3 className="font-display text-lg font-bold text-foreground">{pendingBattle.opponentName}</h3>
                 </div>
                 <p className="font-mono text-[10px] text-foreground/80 leading-relaxed mb-2">{pendingBattle.narrativeBeat}</p>
                 <div className="p-2 rounded border border-border/30 bg-black/20 mb-3">
-                  <span className="font-mono text-[8px] uppercase tracking-wider text-amber-400 block mb-0.5">
+                  <span className="font-mono text-[8px] uppercase tracking-wider void-text-accent block mb-0.5">
                     Deck Theme: {pendingBattle.deckTheme}
                   </span>
                   <p className="font-mono text-[9px] text-foreground/70">{pendingBattle.deckMechanics}</p>
                 </div>
-                <div className="p-2 rounded border border-emerald-500/30 bg-emerald-500/5 mb-3">
-                  <span className="font-mono text-[8px] uppercase tracking-wider text-emerald-400 block mb-0.5">
+                <div className="p-2 rounded border void-border-success void-bg-success mb-3">
+                  <span className="font-mono text-[8px] uppercase tracking-wider void-text-energy block mb-0.5">
                     Card Unlock
                   </span>
                   <p className="font-mono text-[10px] text-foreground/85">
-                    <strong className="text-emerald-300">{pendingBattle.cardUnlock.name}</strong> ({pendingBattle.cardUnlock.rarity}) — {pendingBattle.cardUnlock.effect}
+                    <strong className="void-text-energy">{pendingBattle.cardUnlock.name}</strong> ({pendingBattle.cardUnlock.rarity}) — {pendingBattle.cardUnlock.effect}
                   </p>
                 </div>
                 <Link
                   href={`/dischordia?exam=${pendingBattle.id}&opponent=${pendingBattle.opponentId}`}
-                  className="block w-full text-center px-3 py-2 rounded border border-red-500/50 bg-red-500/15 text-red-300 font-mono text-[11px] uppercase tracking-wider hover:bg-red-500/25"
+                  className="block w-full text-center px-3 py-2 rounded border void-border-error void-bg-error void-text-error font-mono text-[11px] uppercase tracking-wider void-bg-error"
                 >
                   Enter the Exam
                 </Link>
@@ -348,15 +348,15 @@ export default function ApprenticePage() {
             )}
             {/* Graduated → slideshow + welcome */}
             {currentApprentice.stage === "graduated" && !showSlideshow && (
-              <div className="mt-4 p-4 rounded border border-emerald-500/40 bg-gradient-to-br from-emerald-500/10 to-amber-500/5 text-center">
-                <Award size={32} className="mx-auto text-amber-400 mb-2" />
+              <div className="mt-4 p-4 rounded border void-border-success bg-gradient-to-br from-emerald-500/10 to-amber-500/5 text-center">
+                <Award size={32} className="mx-auto void-text-accent mb-2" />
                 <h3 className="font-display text-lg font-bold tracking-wider text-foreground">GRADUATED</h3>
-                <p className="font-mono text-[10px] italic text-emerald-300/80 mt-1 leading-relaxed">
+                <p className="font-mono text-[10px] italic void-text-energy mt-1 leading-relaxed">
                   {currentApprentice.name} survived Celebration. They board your ship now. They remember every choice.
                 </p>
                 <button
                   onClick={() => setShowSlideshow(true)}
-                  className="mt-3 px-4 py-1.5 rounded border border-amber-500/50 bg-amber-500/15 text-amber-300 font-mono text-[11px] uppercase tracking-wider hover:bg-amber-500/25"
+                  className="mt-3 px-4 py-1.5 rounded border void-border void-bg-sunk void-text-accent font-mono text-[11px] uppercase tracking-wider void-bg-sunk"
                 >
                   Watch the Ceremony
                 </button>
@@ -366,7 +366,7 @@ export default function ApprenticePage() {
                     setApprentice(graduated);
                     addGraduate(graduated);
                   }}
-                  className="mt-2 px-4 py-1.5 rounded border border-emerald-500/50 bg-emerald-500/15 text-emerald-300 font-mono text-[11px] uppercase tracking-wider hover:bg-emerald-500/25"
+                  className="mt-2 px-4 py-1.5 rounded border void-border-success void-bg-success void-text-energy font-mono text-[11px] uppercase tracking-wider void-bg-success"
                   data-testid="welcome-aboard"
                 >
                   Skip — Welcome Them Aboard
@@ -407,8 +407,8 @@ export default function ApprenticePage() {
         {fallen.length > 0 && (
           <div className="mt-6">
             <div className="flex items-center gap-2 mb-2">
-              <Skull size={14} className="text-zinc-500" />
-              <span className="font-display text-xs font-bold tracking-[0.2em] text-zinc-400">
+              <Skull size={14} className="void-text" />
+              <span className="font-display text-xs font-bold tracking-[0.2em] void-text">
                 FALLEN ({fallen.length})
               </span>
             </div>
@@ -428,7 +428,7 @@ export default function ApprenticePage() {
 function EmptyRecruitState({ onRoll, hasFallen }: { onRoll: () => void; hasFallen: boolean }) {
   return (
     <div className="text-center py-12 border border-dashed border-border/40 rounded-lg bg-card/20">
-      <Sparkles size={32} className="mx-auto text-amber-400/40 mb-3" />
+      <Sparkles size={32} className="mx-auto void-text-accent mb-3" />
       <h2 className="font-display text-sm font-bold tracking-wider text-foreground mb-1">
         {hasFallen ? "No Living Apprentice" : "No Apprentice Yet"}
       </h2>
@@ -439,7 +439,7 @@ function EmptyRecruitState({ onRoll, hasFallen }: { onRoll: () => void; hasFalle
       </p>
       <button
         onClick={onRoll}
-        className="px-4 py-2 rounded-md border border-amber-500/40 bg-amber-500/10 text-amber-400 font-mono text-[11px] uppercase tracking-wider hover:bg-amber-500/20 transition-all inline-flex items-center gap-2"
+        className="px-4 py-2 rounded-md border void-border void-bg-sunk void-text-accent font-mono text-[11px] uppercase tracking-wider void-bg-sunk transition-all inline-flex items-center gap-2"
         data-testid="roll-apprentice"
       >
         <Sparkles size={12} /> Roll a Candidate
@@ -487,16 +487,16 @@ function CandidateReview({ candidate, nameInput, onNameChange, onConfirm, onRero
           type="text"
           value={nameInput}
           onChange={e => onNameChange(e.target.value)}
-          className="w-full px-3 py-2 rounded border border-border/40 bg-background/60 font-display text-lg font-bold tracking-wider text-foreground focus:border-amber-500/60 focus:outline-none"
+          className="w-full px-3 py-2 rounded border border-border/40 bg-background/60 font-display text-lg font-bold tracking-wider text-foreground focus:void-border focus:outline-none"
           data-testid="apprentice-name-input"
           maxLength={40}
         />
-        <p className="font-mono text-[9px] italic text-amber-400/70 mt-1">{def.title}</p>
+        <p className="font-mono text-[9px] italic void-text-accent mt-1">{def.title}</p>
       </div>
 
       {/* Archetype */}
       <div className="mb-3 p-2.5 rounded border border-border/30 bg-background/30">
-        <span className="font-mono text-[9px] uppercase tracking-wider text-purple-400 block mb-1">
+        <span className="font-mono text-[9px] uppercase tracking-wider void-text-system block mb-1">
           {def.name}
         </span>
         <p className="font-mono text-[10px] text-foreground/80 leading-relaxed">{def.personality}</p>
@@ -522,20 +522,20 @@ function CandidateReview({ candidate, nameInput, onNameChange, onConfirm, onRero
       </div>
 
       {/* Loyalty bonus */}
-      <div className="mb-3 p-2 rounded border border-emerald-500/30 bg-emerald-500/5">
-        <span className="font-mono text-[9px] uppercase tracking-wider text-emerald-400 block mb-0.5">
+      <div className="mb-3 p-2 rounded border void-border-success void-bg-success">
+        <span className="font-mono text-[9px] uppercase tracking-wider void-text-energy block mb-0.5">
           ▸ Loyalty Bonus (at bond 40+)
         </span>
         <p className="font-mono text-[10px] text-foreground/90">
-          {def.loyaltyBonus.label} <span className="text-emerald-300">(×{tier.loyaltyMultiplier} rarity)</span>
+          {def.loyaltyBonus.label} <span className="void-text-energy">(×{tier.loyaltyMultiplier} rarity)</span>
         </p>
       </div>
 
       {/* Corruption risk */}
-      <div className="mb-3 p-2 rounded border border-red-500/30 bg-red-500/5">
+      <div className="mb-3 p-2 rounded border void-border-error void-bg-error">
         <div className="flex items-center gap-1.5 mb-0.5">
-          <AlertTriangle size={10} className="text-red-400" />
-          <span className="font-mono text-[9px] uppercase tracking-wider text-red-400">
+          <AlertTriangle size={10} className="void-text-error" />
+          <span className="font-mono text-[9px] uppercase tracking-wider void-text-error">
             Corruption Risk: {Math.round(def.corruptionRisk * 100)}%
           </span>
         </div>
@@ -548,7 +548,7 @@ function CandidateReview({ candidate, nameInput, onNameChange, onConfirm, onRero
       <div className="flex gap-2">
         <button
           onClick={onConfirm}
-          className="flex-1 px-3 py-2 rounded border border-amber-500/50 bg-amber-500/15 text-amber-300 font-mono text-[11px] uppercase tracking-wider hover:bg-amber-500/25"
+          className="flex-1 px-3 py-2 rounded border void-border void-bg-sunk void-text-accent font-mono text-[11px] uppercase tracking-wider void-bg-sunk"
           data-testid="confirm-recruit"
         >
           Take {nameInput || candidate.name} as Apprentice
@@ -573,9 +573,9 @@ function CandidateReview({ candidate, nameInput, onNameChange, onConfirm, onRero
 
 function StatCard({ label, value, primary }: { label: string; value: number; primary?: boolean }) {
   return (
-    <div className={`text-center p-2 rounded border ${primary ? "border-amber-500/40 bg-amber-500/5" : "border-border/30 bg-background/40"}`}>
+    <div className={`text-center p-2 rounded border ${primary ? "void-border void-bg-sunk" : "border-border/30 bg-background/40"}`}>
       <div className="font-mono text-[8px] uppercase tracking-wider text-muted-foreground/60">{label}</div>
-      <div className={`font-display text-lg font-bold tabular-nums ${primary ? "text-amber-300" : "text-foreground"}`}>{value}</div>
+      <div className={`font-display text-lg font-bold tabular-nums ${primary ? "void-text-accent" : "text-foreground"}`}>{value}</div>
     </div>
   );
 }
@@ -590,7 +590,7 @@ function CurrentApprenticeCard({ app, onMarkFallen }: { app: Apprentice; onMarkF
       <div className="flex items-center justify-between mb-2">
         <div>
           <h2 className="font-display text-xl font-bold tracking-wider text-foreground">{app.name}</h2>
-          <p className="font-mono text-[9px] italic text-amber-400/80">{def.title} · {def.name}</p>
+          <p className="font-mono text-[9px] italic void-text-accent">{def.title} · {def.name}</p>
         </div>
         <span
           className="font-mono text-[9px] uppercase tracking-[0.25em] px-2 py-0.5 rounded border"
@@ -601,10 +601,10 @@ function CurrentApprenticeCard({ app, onMarkFallen }: { app: Apprentice; onMarkF
       </div>
 
       <div className="grid grid-cols-2 gap-2 mb-3">
-        <Stat icon={Heart} label="Bond" value={`${app.bond}/100`} color={app.bond >= 40 ? "text-emerald-400" : "text-yellow-400"} />
-        <Stat icon={AlertTriangle} label="Corruption" value={`${app.corruption}/100`} color={app.corruption >= 50 ? "text-red-400" : app.corruption >= 20 ? "text-orange-400" : "text-muted-foreground"} />
-        <Stat icon={Award} label="Stage" value={STAGE_LABELS[app.stage] ?? app.stage} color="text-purple-400" />
-        <Stat icon={Zap} label="Trial Day" value={`${app.trialDay}/28`} color="text-blue-400" />
+        <Stat icon={Heart} label="Bond" value={`${app.bond}/100`} color={app.bond >= 40 ? "void-text-energy" : "void-text-premium"} />
+        <Stat icon={AlertTriangle} label="Corruption" value={`${app.corruption}/100`} color={app.corruption >= 50 ? "void-text-error" : app.corruption >= 20 ? "void-text-premium" : "text-muted-foreground"} />
+        <Stat icon={Award} label="Stage" value={STAGE_LABELS[app.stage] ?? app.stage} color="void-text-system" />
+        <Stat icon={Zap} label="Trial Day" value={`${app.trialDay}/28`} color="void-text-energy" />
       </div>
 
       {/* Stats mini */}
@@ -616,8 +616,8 @@ function CurrentApprenticeCard({ app, onMarkFallen }: { app: Apprentice; onMarkF
       </div>
 
       {loyaltyBonus && (
-        <div className="p-2 rounded border border-emerald-500/30 bg-emerald-500/5 mb-3">
-          <span className="font-mono text-[9px] uppercase tracking-wider text-emerald-400 block mb-0.5">
+        <div className="p-2 rounded border void-border-success void-bg-success mb-3">
+          <span className="font-mono text-[9px] uppercase tracking-wider void-text-energy block mb-0.5">
             Loyalty Bonus Active
           </span>
           <p className="font-mono text-[10px] text-foreground/90">{loyaltyBonus.label}</p>
@@ -631,7 +631,7 @@ function CurrentApprenticeCard({ app, onMarkFallen }: { app: Apprentice; onMarkF
       <div className="flex items-center justify-end">
         <button
           onClick={onMarkFallen}
-          className="px-3 py-1.5 rounded border border-red-500/30 text-red-400/70 font-mono text-[9px] uppercase tracking-wider hover:bg-red-500/10"
+          className="px-3 py-1.5 rounded border void-border-error void-text-error font-mono text-[9px] uppercase tracking-wider void-bg-error"
           data-testid="mark-fallen"
         >
           <Skull size={10} className="inline mr-1" /> Mark as Fallen
@@ -685,7 +685,7 @@ function BetrayalEventCard({ event, onChoose }: {
           <button
             key={opt.id}
             onClick={() => onChoose(opt)}
-            className="w-full text-left p-2.5 rounded border border-border/40 bg-background/40 hover:border-red-400/40 hover:bg-red-950/20 transition-colors"
+            className="w-full text-left p-2.5 rounded border border-border/40 bg-background/40 void-border-error void-bg-error transition-colors"
             data-testid={`betrayal-choice-${opt.id}`}
           >
             <div className="font-mono text-[10px] font-bold text-foreground">{opt.label}</div>
@@ -794,7 +794,7 @@ function DailyDecisionCard({ decision, day, onChoose }: {
           />
           {/* Gradient fade */}
           <div className="absolute inset-0" style={{
-            background: `linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.75) 100%)`,
+            background: `linear-gradient(to bottom, color-mix(in oklch, var(--bg-void) 20%, transparent) 0%, color-mix(in oklch, var(--bg-void) 75%, transparent) 100%)`,
           }} />
         </div>
       )}
@@ -870,7 +870,7 @@ function DailyDecisionCard({ decision, day, onChoose }: {
                   className="w-28 h-28 rounded-lg object-cover object-top cel-portrait-breathe border-2 shadow-xl"
                   style={{
                     borderColor: `${accent}50`,
-                    boxShadow: `0 0 24px ${accent}25, 0 4px 16px rgba(0,0,0,0.5)`,
+                    boxShadow: `0 0 24px ${accent}25, 0 4px 16px color-mix(in oklch, var(--bg-void) 50%, transparent)`,
                     filter: isNight ? "brightness(0.75) saturate(0.8)" : undefined,
                   }}
                   eager
@@ -878,21 +878,21 @@ function DailyDecisionCard({ decision, day, onChoose }: {
                 {/* Danger indicator on risky decisions */}
                 {decision.options.some(o => (o.outcome.deathChance ?? 0) > 0.05) && (
                   <div
-                    className="absolute -top-1 -right-1 w-4 h-4 rounded-full border border-red-500/60 bg-red-900/80 flex items-center justify-center"
+                    className="absolute -top-1 -right-1 w-4 h-4 rounded-full border void-border-error void-bg-error flex items-center justify-center"
                     title="Dangerous day"
                   >
-                    <AlertTriangle size={8} className="text-red-400" />
+                    <AlertTriangle size={8} className="void-text-error" />
                   </div>
                 )}
               </div>
             </div>
             {/* Gradient overlays */}
             <div className="absolute inset-0" style={{
-              background: `linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 40%), linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 30%)`,
+              background: `linear-gradient(to top, color-mix(in oklch, var(--bg-void) 90%, transparent) 0%, transparent 40%), linear-gradient(to bottom, color-mix(in oklch, var(--bg-void) 40%, transparent) 0%, transparent 30%)`,
             }} />
             {/* Game name at bottom */}
             <div className="absolute bottom-2 left-4 right-4">
-              <div className="font-display text-sm font-bold tracking-wider" style={{ color: accent, textShadow: `0 2px 12px rgba(0,0,0,0.8)` }}>
+              <div className="font-display text-sm font-bold tracking-wider" style={{ color: accent, textShadow: `0 2px 12px color-mix(in oklch, var(--bg-void) 80%, transparent)` }}>
                 {mascoteer.dailyGame.split("—")[0].trim()}
               </div>
             </div>
@@ -909,16 +909,16 @@ function DailyDecisionCard({ decision, day, onChoose }: {
               onClick={() => onChoose(opt)}
               className="w-full text-left p-2.5 rounded border transition-colors"
               style={{
-                borderColor: "rgba(255,255,255,0.08)",
-                background: "rgba(0,0,0,0.4)",
+                borderColor: "color-mix(in oklch, var(--text-primary) 8%, transparent)",
+                background: "color-mix(in oklch, var(--bg-void) 40%, transparent)",
               }}
               onMouseEnter={e => {
                 e.currentTarget.style.borderColor = `${accent}50`;
                 e.currentTarget.style.background = `${accent}08`;
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
-                e.currentTarget.style.background = "rgba(0,0,0,0.4)";
+                e.currentTarget.style.borderColor = "color-mix(in oklch, var(--text-primary) 8%, transparent)";
+                e.currentTarget.style.background = "color-mix(in oklch, var(--bg-void) 40%, transparent)";
               }}
               data-testid={`decision-option-${opt.id}`}
             >
@@ -928,7 +928,7 @@ function DailyDecisionCard({ decision, day, onChoose }: {
           ))}
         </div>
         {mascoteer && (
-          <p className="mt-3 pt-2 border-t font-mono text-[8px] italic text-red-300/60 leading-relaxed" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+          <p className="mt-3 pt-2 border-t font-mono text-[8px] italic void-text-error leading-relaxed" style={{ borderColor: "color-mix(in oklch, var(--text-primary) 6%, transparent)" }}>
             ⚠ {mascoteer.failureMethod}
           </p>
         )}

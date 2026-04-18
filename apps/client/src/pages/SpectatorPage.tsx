@@ -39,14 +39,14 @@ function MiniChessBoard({ fen }: { fen: string }) {
             for (let i = 0; i < parseInt(ch); i++) {
               const isLight = (r + col) % 2 === 0;
               cells.push(
-                <div key={`${r}-${col}`} className={`aspect-square flex items-center justify-center text-[6px] sm:text-[8px] ${isLight ? "bg-slate-600/40" : "bg-slate-800/60"}`} />
+                <div key={`${r}-${col}`} className={`aspect-square flex items-center justify-center text-[6px] sm:text-[8px] ${isLight ? "void-bg-canvas" : "void-bg-canvas"}`} />
               );
               col++;
             }
           } else {
             const isLight = (r + col) % 2 === 0;
             cells.push(
-              <div key={`${r}-${col}`} className={`aspect-square flex items-center justify-center text-[10px] sm:text-xs ${isLight ? "bg-slate-600/40" : "bg-slate-800/60"}`}>
+              <div key={`${r}-${col}`} className={`aspect-square flex items-center justify-center text-[10px] sm:text-xs ${isLight ? "void-bg-canvas" : "void-bg-canvas"}`}>
                 {PIECE_MAP[ch] || ""}
               </div>
             );
@@ -133,8 +133,8 @@ function PvpSpectatorView({ matchId, onBack }: { matchId: string; onBack: () => 
           <ArrowLeft size={14} /> LOBBY
         </button>
         <div className="flex items-center gap-2">
-          <Radio size={12} className="text-red-400 animate-pulse" />
-          <span className="font-mono text-[10px] text-red-400 tracking-wider">LIVE</span>
+          <Radio size={12} className="void-text-error animate-pulse" />
+          <span className="font-mono text-[10px] void-text-error tracking-wider">LIVE</span>
         </div>
       </div>
 
@@ -223,8 +223,8 @@ function ChessSpectatorView({ gameId, onBack }: { gameId: number; onBack: () => 
         <div className="flex items-center gap-2">
           {isLive ? (
             <>
-              <Radio size={12} className="text-red-400 animate-pulse" />
-              <span className="font-mono text-[10px] text-red-400 tracking-wider">LIVE</span>
+              <Radio size={12} className="void-text-error animate-pulse" />
+              <span className="font-mono text-[10px] void-text-error tracking-wider">LIVE</span>
             </>
           ) : (
             <span className="font-mono text-[10px] text-muted-foreground tracking-wider">{data.status.toUpperCase()}</span>
@@ -245,7 +245,7 @@ function ChessSpectatorView({ gameId, onBack }: { gameId: number; onBack: () => 
           <div className="px-3 font-mono text-xs text-muted-foreground">VS</div>
           <div className="text-center flex-1">
             <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono ${data.turn === "black" && isLive ? "bg-primary/10 text-primary" : "text-muted-foreground"}`}>
-              <div className="w-2.5 h-2.5 rounded-sm bg-slate-900 border border-border/30" />
+              <div className="w-2.5 h-2.5 rounded-sm void-bg-canvas border border-border/30" />
               {data.blackCharacter?.name || (data.isVsAI ? `AI (Lvl ${data.aiDifficulty})` : "Black")}
             </div>
             <p className="font-mono text-[9px] text-muted-foreground mt-0.5">{data.blackCharacter?.elo} ELO</p>
@@ -260,8 +260,8 @@ function ChessSpectatorView({ gameId, onBack }: { gameId: number; onBack: () => 
         {/* Status indicators */}
         <div className="flex items-center justify-center gap-3 font-mono text-[10px]">
           <span className="text-muted-foreground">{data.moveCount} moves</span>
-          {data.isCheck && <span className="text-amber-400 font-bold">CHECK!</span>}
-          {data.isCheckmate && <span className="text-red-400 font-bold">CHECKMATE</span>}
+          {data.isCheck && <span className="void-text-accent font-bold">CHECK!</span>}
+          {data.isCheckmate && <span className="void-text-error font-bold">CHECKMATE</span>}
           {data.isStalemate && <span className="text-muted-foreground font-bold">STALEMATE</span>}
           {data.isDraw && <span className="text-muted-foreground font-bold">DRAW</span>}
           <span className="text-muted-foreground">{data.mode.toUpperCase()}</span>
@@ -448,7 +448,7 @@ export default function SpectatorPage() {
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <h2 className="font-display text-sm font-bold tracking-[0.2em] flex items-center gap-2">
-                    <Radio size={13} className="text-red-400 animate-pulse" />
+                    <Radio size={13} className="void-text-error animate-pulse" />
                     LIVE GAMES
                   </h2>
                   <button onClick={() => refetchChess()} className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
@@ -470,24 +470,24 @@ export default function SpectatorPage() {
                       >
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
-                            {game.featured && <Star size={12} className="text-amber-400 fill-amber-400" />}
+                            {game.featured && <Star size={12} className="void-text-accent fill-amber-400" />}
                             <span className="font-mono text-[10px] text-muted-foreground tracking-wider">{game.mode.toUpperCase()}</span>
                           </div>
                           <div className="flex items-center gap-1">
-                            <Radio size={8} className="text-red-400 animate-pulse" />
-                            <span className="font-mono text-[8px] text-red-400">LIVE</span>
+                            <Radio size={8} className="void-text-error animate-pulse" />
+                            <span className="font-mono text-[8px] void-text-error">LIVE</span>
                           </div>
                         </div>
                         <div className="flex items-center gap-2 mb-1">
                           <div className="w-2.5 h-2.5 rounded-sm bg-white border border-border/30" />
                           <span className="font-mono text-xs font-medium">{game.whiteCharacterName}</span>
                           <span className="font-mono text-[10px] text-muted-foreground">vs</span>
-                          <div className="w-2.5 h-2.5 rounded-sm bg-slate-900 border border-border/30" />
+                          <div className="w-2.5 h-2.5 rounded-sm void-bg-canvas border border-border/30" />
                           <span className="font-mono text-xs font-medium">{game.blackCharacterName}</span>
                         </div>
                         <div className="flex items-center gap-3 font-mono text-[9px] text-muted-foreground">
                           <span>{game.moveCount} moves</span>
-                          {game.isCheck && <span className="text-amber-400">CHECK</span>}
+                          {game.isCheck && <span className="void-text-accent">CHECK</span>}
                           <span>{game.isVsAI ? "vs AI" : "PvP"}</span>
                           <ChevronRight size={10} className="ml-auto opacity-0 group-hover:opacity-100 text-primary transition-opacity" />
                         </div>
@@ -507,7 +507,7 @@ export default function SpectatorPage() {
               {featuredGames && featuredGames.length > 0 && (
                 <div>
                   <h2 className="font-display text-sm font-bold tracking-[0.2em] flex items-center gap-2 mb-3">
-                    <Star size={13} className="text-amber-400" />
+                    <Star size={13} className="void-text-accent" />
                     RECENT MATCHES
                   </h2>
                   <div className="space-y-2">
@@ -518,14 +518,14 @@ export default function SpectatorPage() {
                         className="w-full group void-surface p-2.5 text-left hover:border-primary/20 transition-all flex items-center gap-3"
                       >
                         <div className="flex items-center gap-2 flex-1">
-                          {game.featured && <Star size={10} className="text-amber-400 fill-amber-400 shrink-0" />}
+                          {game.featured && <Star size={10} className="void-text-accent fill-amber-400 shrink-0" />}
                           <span className="font-mono text-xs">{game.whiteCharacterName}</span>
                           <span className="font-mono text-[10px] text-muted-foreground">vs</span>
                           <span className="font-mono text-xs">{game.blackCharacterName}</span>
                         </div>
                         <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded ${
-                          game.status === "checkmate" ? "bg-red-400/10 text-red-400"
-                          : game.status === "active" ? "bg-green-400/10 text-green-400"
+                          game.status === "checkmate" ? "void-bg-error void-text-error"
+                          : game.status === "active" ? "void-bg-success void-text-energy"
                           : "bg-white/5 text-muted-foreground"
                         }`}>
                           {game.status.toUpperCase()}
@@ -544,7 +544,7 @@ export default function SpectatorPage() {
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <h2 className="font-display text-sm font-bold tracking-[0.2em] flex items-center gap-2">
-                    <Radio size={13} className="text-red-400 animate-pulse" />
+                    <Radio size={13} className="void-text-error animate-pulse" />
                     LIVE PVP MATCHES
                   </h2>
                   <button onClick={fetchPvpMatches} className="font-mono text-[10px] text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
@@ -566,8 +566,8 @@ export default function SpectatorPage() {
                       >
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-1">
-                            <Radio size={8} className="text-red-400 animate-pulse" />
-                            <span className="font-mono text-[8px] text-red-400">LIVE</span>
+                            <Radio size={8} className="void-text-error animate-pulse" />
+                            <span className="font-mono text-[8px] void-text-error">LIVE</span>
                           </div>
                           <div className="flex items-center gap-1">
                             <Eye size={10} className="text-muted-foreground" />

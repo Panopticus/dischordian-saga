@@ -306,9 +306,9 @@ export default function FamilyTreeView({ state }: Props) {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1 mb-0.5">
                             {n.member.isFounder && (
-                              <Crown size={9} className="text-yellow-400 shrink-0" />
+                              <Crown size={9} className="void-text-premium shrink-0" />
                             )}
-                            {n.dead && <Skull size={9} className="text-red-400 shrink-0" />}
+                            {n.dead && <Skull size={9} className="void-text-error shrink-0" />}
                             <span className="font-display text-[10px] font-semibold truncate">
                               {n.member.name}
                             </span>

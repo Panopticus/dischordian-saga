@@ -177,7 +177,7 @@ export function PreludeSequencePlayer({
       style={{
         position: "fixed",
         inset: 0,
-        backgroundColor: "#010020",
+        backgroundColor: "var(--bg-void)",
         overflow: "hidden",
       }}
       role="region"
@@ -249,9 +249,9 @@ export function PreludeSequencePlayer({
             bottom: 32,
             right: 32,
             padding: "10px 20px",
-            background: "rgba(1, 0, 32, 0.6)",
-            border: "1px solid rgba(34, 211, 238, 0.4)",
-            color: "#22d3ee",
+            background: "color-mix(in oklch, var(--bg-void) 60%, transparent)",
+            border: "1px solid color-mix(in oklch, var(--energy-primary) 40%, transparent)",
+            color: "var(--energy-primary)",
             fontFamily: "monospace",
             fontSize: 12,
             letterSpacing: "0.15em",
@@ -273,7 +273,7 @@ export function PreludeSequencePlayer({
           left: 16,
           fontFamily: "monospace",
           fontSize: 11,
-          color: "rgba(34, 211, 238, 0.6)",
+          color: "color-mix(in oklch, var(--energy-primary) 60%, transparent)",
           letterSpacing: "0.15em",
           textTransform: "uppercase",
           zIndex: 140,
@@ -288,7 +288,7 @@ export function PreludeSequencePlayer({
               style={{
                 marginLeft: 8,
                 padding: "1px 6px",
-                border: "1px solid rgba(34, 211, 238, 0.35)",
+                border: "1px solid color-mix(in oklch, var(--energy-primary) 35%, transparent)",
                 borderRadius: 2,
                 fontSize: 9,
                 letterSpacing: "0.25em",
@@ -326,10 +326,10 @@ export function PreludeSequencePlayer({
                 height: 2,
                 backgroundColor:
                   i < beatIndex
-                    ? "rgba(34, 211, 238, 0.6)"
+                    ? "color-mix(in oklch, var(--energy-primary) 60%, transparent)"
                     : i === beatIndex
-                    ? "#22d3ee"
-                    : "rgba(34, 211, 238, 0.15)",
+                    ? "var(--energy-primary)"
+                    : "color-mix(in oklch, var(--energy-primary) 15%, transparent)",
                 opacity: breath ? 0.7 : 1,
                 transition: "background-color 0.3s",
               }}

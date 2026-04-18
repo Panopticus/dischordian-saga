@@ -35,26 +35,26 @@ interface Deployment {
 
 const MAP_NODES: Deployment[] = [
   // Center: the ship
-  { id: "ship", role: "companion", name: "The Ark", x: 50, y: 50, icon: Anchor, color: "text-amber-400", description: "Your ship. The Companion stands here beside you." },
+  { id: "ship", role: "companion", name: "The Ark", x: 50, y: 50, icon: Anchor, color: "void-text-accent", description: "Your ship. The Companion stands here beside you." },
 
   // Armies — three fronts
-  { id: "army_1", role: "army_1", name: "Front I: Thaloria Wastes", x: 15, y: 20, icon: Swords, color: "text-red-400", description: "Primary combat front. Most casualties, most promotions." },
-  { id: "army_2", role: "army_2", name: "Front II: Circuit Wastes", x: 85, y: 25, icon: Swords, color: "text-orange-400", description: "Signal-dead territory. Long silences between updates." },
-  { id: "army_3", role: "army_3", name: "Front III: New Babylon Perimeter", x: 20, y: 80, icon: Swords, color: "text-red-500", description: "Urban defense. Political pressure, slow grind." },
+  { id: "army_1", role: "army_1", name: "Front I: Thaloria Wastes", x: 15, y: 20, icon: Swords, color: "void-text-error", description: "Primary combat front. Most casualties, most promotions." },
+  { id: "army_2", role: "army_2", name: "Front II: Circuit Wastes", x: 85, y: 25, icon: Swords, color: "void-text-premium", description: "Signal-dead territory. Long silences between updates." },
+  { id: "army_3", role: "army_3", name: "Front III: New Babylon Perimeter", x: 20, y: 80, icon: Swords, color: "void-text-error", description: "Urban defense. Political pressure, slow grind." },
 
   // Trade routes
-  { id: "trade_1", role: "trade_1", name: "Route I: Violetta Run", x: 80, y: 75, icon: Flag, color: "text-green-400", description: "Voltari trade. Diplomatic posting." },
-  { id: "trade_2", role: "trade_2", name: "Route II: Degens Spiral", x: 70, y: 35, icon: Flag, color: "text-green-500", description: "Casino station deals. Slippery envoy work. The host knows your name before you introduce yourself." },
+  { id: "trade_1", role: "trade_1", name: "Route I: Violetta Run", x: 80, y: 75, icon: Flag, color: "void-text-energy", description: "Voltari trade. Diplomatic posting." },
+  { id: "trade_2", role: "trade_2", name: "Route II: Degens Spiral", x: 70, y: 35, icon: Flag, color: "void-text-energy", description: "Casino station deals. Slippery envoy work. The host knows your name before you introduce yourself." },
 
   // Tower garrison
-  { id: "tower", role: "tower", name: "Terminus Swarm Defense", x: 30, y: 65, icon: Zap, color: "text-yellow-400", description: "Tower Captain's post. Defends the supply lines." },
+  { id: "tower", role: "tower", name: "Terminus Swarm Defense", x: 30, y: 65, icon: Zap, color: "void-text-premium", description: "Tower Captain's post. Defends the supply lines." },
 
   // Cryo vault
-  { id: "cryo_1", role: "cryo", name: "Cryo Vault · Slot 1", x: 40, y: 40, icon: Snowflake, color: "text-cyan-300", description: "Frozen. Dreaming. Awaiting thaw." },
-  { id: "cryo_2", role: "cryo", name: "Cryo Vault · Slot 2", x: 60, y: 40, icon: Snowflake, color: "text-cyan-300", description: "Frozen. Dreaming. Awaiting thaw." },
+  { id: "cryo_1", role: "cryo", name: "Cryo Vault · Slot 1", x: 40, y: 40, icon: Snowflake, color: "void-text-energy", description: "Frozen. Dreaming. Awaiting thaw." },
+  { id: "cryo_2", role: "cryo", name: "Cryo Vault · Slot 2", x: 60, y: 40, icon: Snowflake, color: "void-text-energy", description: "Frozen. Dreaming. Awaiting thaw." },
 
   // Graveyard (off-map)
-  { id: "graveyard", role: "graveyard", name: "The Fallen", x: 5, y: 95, icon: Skull, color: "text-zinc-500", description: "Those who did not return." },
+  { id: "graveyard", role: "graveyard", name: "The Fallen", x: 5, y: 95, icon: Skull, color: "void-text", description: "Those who did not return." },
 ];
 
 export default function LegionMapPage() {
@@ -89,7 +89,7 @@ export default function LegionMapPage() {
           <Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">
             <ChevronLeft size={20} />
           </Link>
-          <MapIcon size={18} className="text-indigo-400" />
+          <MapIcon size={18} className="void-text-energy" />
           <div>
             <h1 className="font-display text-lg font-bold tracking-wider">LEGION MAP</h1>
             <p className="font-mono text-[10px] text-muted-foreground tracking-wider">
@@ -140,8 +140,8 @@ export default function LegionMapPage() {
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ delay: 0.05 * MAP_NODES.indexOf(node) }}
                     className={`absolute -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all ${
-                      isSelected ? "scale-125 border-amber-400 bg-amber-500/20" :
-                      isActive ? "border-indigo-400/60 bg-indigo-500/15 hover:scale-110" :
+                      isSelected ? "scale-125 void-border void-bg-sunk" :
+                      isActive ? "void-border void-bg-sunk hover:scale-110" :
                       "border-border/30 bg-background/40 opacity-40 hover:opacity-70"
                     }`}
                     style={{ left: `${node.x}%`, top: `${node.y}%` }}
@@ -153,7 +153,7 @@ export default function LegionMapPage() {
                       <motion.span
                         animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0, 0.6] }}
                         transition={{ duration: 2, repeat: Infinity }}
-                        className="absolute inset-0 rounded-full border border-indigo-400/50"
+                        className="absolute inset-0 rounded-full border void-border"
                       />
                     )}
                   </motion.button>
@@ -199,7 +199,7 @@ function DeploymentDetail({ node, apprentice }: { node: Deployment; apprentice: 
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="p-4 rounded border border-amber-500/40 bg-gradient-to-br from-amber-950/20 to-indigo-950/10"
+      className="p-4 rounded border void-border bg-gradient-to-br from-amber-950/20 to-indigo-950/10"
     >
       <div className="flex items-center gap-2 mb-2">
         <Icon size={14} className={node.color} />
@@ -208,7 +208,7 @@ function DeploymentDetail({ node, apprentice }: { node: Deployment; apprentice: 
         </span>
       </div>
       <h3 className="font-display text-lg font-bold text-foreground">{apprentice.name}</h3>
-      <p className="font-mono text-[9px] italic text-amber-300/80 mb-2">{def.title} · {def.name}</p>
+      <p className="font-mono text-[9px] italic void-text-accent mb-2">{def.title} · {def.name}</p>
 
       <div className="flex items-center gap-2 mb-3">
         <span
@@ -221,10 +221,10 @@ function DeploymentDetail({ node, apprentice }: { node: Deployment; apprentice: 
       </div>
 
       <div className="space-y-1.5 mb-3">
-        <StatLine icon={Heart} label="Bond" value={`${apprentice.bond}/100`} color="text-rose-400" />
-        <StatLine icon={Zap} label="Trial Day" value={`${apprentice.trialDay}/28`} color="text-blue-400" />
+        <StatLine icon={Heart} label="Bond" value={`${apprentice.bond}/100`} color="void-text-error" />
+        <StatLine icon={Zap} label="Trial Day" value={`${apprentice.trialDay}/28`} color="void-text-energy" />
         {apprentice.corruption > 0 && (
-          <StatLine icon={Skull} label="Corruption" value={`${apprentice.corruption}/100`} color="text-red-400" />
+          <StatLine icon={Skull} label="Corruption" value={`${apprentice.corruption}/100`} color="void-text-error" />
         )}
       </div>
 

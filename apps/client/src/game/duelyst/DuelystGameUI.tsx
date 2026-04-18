@@ -1020,7 +1020,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
               {card.imageUrl && <img src={card.imageUrl} alt="" className="w-full h-20 object-cover rounded mb-2" />}
               <p className="font-mono text-xs font-bold truncate">{card.name}</p>
               <div className="flex justify-between mt-1">
-                <span className="text-[10px] text-blue-400 font-mono">{card.manaCost} mana</span>
+                <span className="text-[10px] void-text-energy font-mono">{card.manaCost} mana</span>
                 {card.cardType === "unit" && (
                   <span className="text-[10px] text-muted-foreground font-mono">{card.attack}/{card.health}</span>
                 )}
@@ -1152,30 +1152,30 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           <button
             onClick={advanceTutorial}
             className={`w-full text-left flex items-start gap-3 p-4 rounded-xl border backdrop-blur-md shadow-2xl transition-colors hover:bg-black/90 ${
-            currentTutorialStep.mood === "warning" ? "bg-amber-950/80 border-amber-500/40" :
-            currentTutorialStep.mood === "excited" ? "bg-emerald-950/80 border-emerald-500/40" :
-            currentTutorialStep.mood === "celebration" ? "bg-purple-950/80 border-purple-500/40" :
+            currentTutorialStep.mood === "warning" ? "void-bg-sunk void-border" :
+            currentTutorialStep.mood === "excited" ? "void-bg-success void-border-success" :
+            currentTutorialStep.mood === "celebration" ? "void-bg-system void-border-system" :
             "bg-black/80 border-white/20"
           }`}>
             {/* Elara avatar */}
             <div className={`w-10 h-10 rounded-full shrink-0 flex items-center justify-center ${
-              currentTutorialStep.mood === "warning" ? "bg-amber-500/20 border-2 border-amber-500" :
-              currentTutorialStep.mood === "excited" ? "bg-emerald-500/20 border-2 border-emerald-500" :
-              currentTutorialStep.mood === "celebration" ? "bg-purple-500/20 border-2 border-purple-500" :
-              "bg-cyan-500/20 border-2 border-cyan-500"
+              currentTutorialStep.mood === "warning" ? "void-bg-sunk border-2 void-border" :
+              currentTutorialStep.mood === "excited" ? "void-bg-success border-2 void-border-success" :
+              currentTutorialStep.mood === "celebration" ? "void-bg-system border-2 void-border-system" :
+              "void-bg-success border-2 void-border-success"
             }`}>
               <MessageCircle size={16} className={
-                currentTutorialStep.mood === "warning" ? "text-amber-400" :
-                currentTutorialStep.mood === "excited" ? "text-emerald-400" :
-                currentTutorialStep.mood === "celebration" ? "text-purple-400" :
-                "text-cyan-400"
+                currentTutorialStep.mood === "warning" ? "void-text-accent" :
+                currentTutorialStep.mood === "excited" ? "void-text-energy" :
+                currentTutorialStep.mood === "celebration" ? "void-text-system" :
+                "void-text-energy"
               } />
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-mono text-[10px] text-white/40 tracking-wider mb-1">ELARA</p>
               <p className="text-sm text-white/90 leading-relaxed">{currentTutorialStep.message}</p>
               {currentTutorialStep.requiredAction ? (
-                <p className="font-mono text-[10px] text-cyan-400/60 mt-2 animate-pulse">
+                <p className="font-mono text-[10px] void-text-energy mt-2 animate-pulse">
                   {currentTutorialStep.requiredAction === "move" && "↑ Click your General and move them"}
                   {currentTutorialStep.requiredAction === "attack" && "↑ Select your unit, then attack an enemy"}
                   {currentTutorialStep.requiredAction === "play_card" && "↓ Click a card in your hand, then click a tile"}
@@ -1190,7 +1190,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           <div className="flex justify-center gap-1 mt-2">
             {TUTORIAL_STEPS.map((_, i) => (
               <div key={i} className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                i === tutorialStep ? "bg-cyan-400" : i < tutorialStep ? "bg-cyan-400/30" : "bg-white/10"
+                i === tutorialStep ? "void-bg-success" : i < tutorialStep ? "void-bg-success" : "bg-white/10"
               }`} />
             ))}
           </div>
@@ -1219,13 +1219,13 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           <p className="font-mono text-xs font-bold truncate" style={{ color: enemyColor }}>{FACTION_NAMES[opponentFaction]}</p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-red-500/10">
-            <Heart size={10} className="text-red-400" />
-            <span className="font-mono text-xs font-bold text-red-400">{opponentGen?.currentHealth ?? 0}</span>
+          <div className="flex items-center gap-1 px-2 py-0.5 rounded void-bg-error">
+            <Heart size={10} className="void-text-error" />
+            <span className="font-mono text-xs font-bold void-text-error">{opponentGen?.currentHealth ?? 0}</span>
           </div>
-          <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-blue-500/10">
-            <Zap size={10} className="text-blue-400" />
-            <span className="font-mono text-xs text-blue-400">{opponent.mana}</span>
+          <div className="flex items-center gap-1 px-2 py-0.5 rounded void-bg-sunk">
+            <Zap size={10} className="void-text-energy" />
+            <span className="font-mono text-xs void-text-energy">{opponent.mana}</span>
           </div>
           <span className="font-mono text-[10px] text-white/30">{opponent.hand.length} cards</span>
         </div>
@@ -1245,9 +1245,9 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           style={{ backgroundColor: factionColor + "20", border: `2px solid ${factionColor}` }}>
           <Swords size={12} style={{ color: factionColor }} />
         </div>
-        <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-red-500/10">
-          <Heart size={10} className="text-red-400" />
-          <span className="font-mono text-xs font-bold text-red-400">{playerGen?.currentHealth ?? 0}</span>
+        <div className="flex items-center gap-1 px-2 py-0.5 rounded void-bg-error">
+          <Heart size={10} className="void-text-error" />
+          <span className="font-mono text-xs font-bold void-text-error">{playerGen?.currentHealth ?? 0}</span>
         </div>
 
         {/* Artifact slots — up to 3 */}
@@ -1287,8 +1287,8 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
             <div key={i} className={`w-5 h-5 rounded-full border-2 transition-all duration-300 ${
               i < player.maxMana
                 ? i < player.mana
-                  ? "bg-blue-500 border-blue-400 shadow-[0_0_8px_rgba(59,130,246,0.6)]"
-                  : "bg-blue-900/40 border-blue-800/50"
+                  ? "void-bg-sunk void-border shadow-[0_0_8px_color-mix(in oklch, var(--electric-blue) 60%, transparent)]"
+                  : "void-bg-sunk void-border"
                 : "bg-transparent border-white/5"
             }`} />
           ))}
@@ -1298,10 +1298,10 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         <div className="flex items-center gap-1.5 shrink-0">
           {selectedUnit && (
             <>
-              <button onClick={handleMoveMode} className="w-8 h-8 flex items-center justify-center rounded-lg bg-green-500/20 border border-green-500/40 text-green-400 hover:bg-green-500/30">
+              <button onClick={handleMoveMode} className="w-8 h-8 flex items-center justify-center rounded-lg void-bg-success border void-border-success void-text-energy void-bg-success">
                 <Move size={14} />
               </button>
-              <button onClick={handleAttackMode} className="w-8 h-8 flex items-center justify-center rounded-lg bg-red-500/20 border border-red-500/40 text-red-400 hover:bg-red-500/30">
+              <button onClick={handleAttackMode} className="w-8 h-8 flex items-center justify-center rounded-lg void-bg-error border void-border-error void-text-error void-bg-error">
                 <Crosshair size={14} />
               </button>
             </>
@@ -1317,10 +1317,10 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
                 disabled={!bbsAvailable}
                 className="h-8 px-3 flex items-center gap-1.5 rounded-lg font-mono text-[10px] font-bold tracking-wider transition-all"
                 style={{
-                  backgroundColor: bbsAvailable ? factionColor + "20" : "rgba(255,255,255,0.03)",
-                  borderColor: bbsAvailable ? factionColor + "60" : "rgba(255,255,255,0.1)",
-                  color: bbsAvailable ? factionColor : "rgba(255,255,255,0.25)",
-                  border: `1px solid ${bbsAvailable ? factionColor + "60" : "rgba(255,255,255,0.1)"}`,
+                  backgroundColor: bbsAvailable ? factionColor + "20" : "color-mix(in oklch, var(--text-primary) 3%, transparent)",
+                  borderColor: bbsAvailable ? factionColor + "60" : "color-mix(in oklch, var(--text-primary) 10%, transparent)",
+                  color: bbsAvailable ? factionColor : "color-mix(in oklch, var(--text-primary) 25%, transparent)",
+                  border: `1px solid ${bbsAvailable ? factionColor + "60" : "color-mix(in oklch, var(--text-primary) 10%, transparent)"}`,
                   cursor: bbsAvailable ? "pointer" : "not-allowed",
                   opacity: bbsAvailable ? 1 : 0.5,
                 }}
@@ -1364,7 +1364,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
                 key={`${card.id}-${i}`}
                 aria-label={locked ? `${card.name} — locked` : card.name}
                 className={`relative shrink-0 w-28 rounded-lg border-2 p-2 text-left transition-all ${
-                  locked ? "border-amber-700/40 bg-white/[0.02] opacity-30 cursor-not-allowed" :
+                  locked ? "void-border bg-white/[0.02] opacity-30 cursor-not-allowed" :
                   isSelected ? "border-white bg-white/10 -translate-y-2 shadow-lg" :
                   playable ? "border-white/20 bg-white/5 hover:border-white/40 hover:-translate-y-1" :
                   "border-white/5 bg-white/[0.02] opacity-40"
@@ -1376,7 +1376,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
               >
                 {/* Mana cost badge */}
                 <div className="flex items-center justify-between mb-1">
-                  <span className="w-5 h-5 flex items-center justify-center rounded-full bg-blue-500/30 text-blue-300 font-mono text-[10px] font-bold">
+                  <span className="w-5 h-5 flex items-center justify-center rounded-full void-bg-sunk void-text-energy font-mono text-[10px] font-bold">
                     {card.manaCost}
                   </span>
                   {card.cardType === "unit" && (
@@ -1406,7 +1406,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       {hoveredCard && (
         <div className="absolute bottom-44 left-1/2 -translate-x-1/2 z-30 w-64 p-3 rounded-xl border border-white/20 bg-black/90 backdrop-blur-md shadow-2xl">
           <div className="flex items-center gap-2 mb-2">
-            <span className="w-6 h-6 flex items-center justify-center rounded-full bg-blue-500/30 text-blue-300 font-mono text-xs font-bold">
+            <span className="w-6 h-6 flex items-center justify-center rounded-full void-bg-sunk void-text-energy font-mono text-xs font-bold">
               {hoveredCard.manaCost}
             </span>
             <p className="font-mono text-sm font-bold text-white">{hoveredCard.name}</p>

@@ -32,7 +32,7 @@ export interface ScreenEffect {
 }
 
 /* ── Ambient Particles (floating background embers) ── */
-export function AmbientParticles({ count = 20, color = "rgba(51,226,230,0.3)" }: { count?: number; color?: string }) {
+export function AmbientParticles({ count = 20, color = "color-mix(in oklch, var(--energy-primary) 30%, transparent)" }: { count?: number; color?: string }) {
   const particles = Array.from({ length: count }, (_, i) => ({
     id: `amb-${i}`,
     left: `${Math.random() * 100}%`,
@@ -84,7 +84,7 @@ export function FloatingNumbers({ texts, onComplete }: { texts: FloatingText[]; 
               top: t.y,
               color: t.color,
               fontSize: t.type === "damage" ? "28px" : t.type === "heal" ? "24px" : "18px",
-              textShadow: `0 0 12px ${t.color}, 0 2px 4px rgba(0,0,0,0.8)`,
+              textShadow: `0 0 12px ${t.color}, 0 2px 4px color-mix(in oklch, var(--bg-void) 80%, transparent)`,
               zIndex: 100,
             }}
           >
@@ -111,10 +111,10 @@ export function ScreenFlash({ effects, onComplete }: { effects: ScreenEffect[]; 
           className="fixed inset-0 pointer-events-none z-40"
           style={{
             background: e.type === "redFlash"
-              ? "radial-gradient(circle, rgba(239,68,68,0.3) 0%, transparent 70%)"
+              ? "radial-gradient(circle, color-mix(in oklch, var(--energy-error) 30%, transparent) 0%, transparent 70%)"
               : e.type === "blueFlash"
-              ? "radial-gradient(circle, rgba(59,130,246,0.3) 0%, transparent 70%)"
-              : "radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 60%)",
+              ? "radial-gradient(circle, color-mix(in oklch, var(--electric-blue) 30%, transparent) 0%, transparent 70%)"
+              : "radial-gradient(circle, color-mix(in oklch, var(--text-primary) 40%, transparent) 0%, transparent 60%)",
           }}
         />
       ))}
@@ -123,7 +123,7 @@ export function ScreenFlash({ effects, onComplete }: { effects: ScreenEffect[]; 
 }
 
 /* ── Summon Ring Effect ── */
-export function SummonRing({ x, y, color = "rgba(51,226,230,0.5)" }: { x: number; y: number; color?: string }) {
+export function SummonRing({ x, y, color = "color-mix(in oklch, var(--energy-primary) 50%, transparent)" }: { x: number; y: number; color?: string }) {
   return (
     <motion.div
       initial={{ scale: 0, opacity: 0.8 }}
@@ -144,7 +144,7 @@ export function SummonRing({ x, y, color = "rgba(51,226,230,0.5)" }: { x: number
 }
 
 /* ── Impact Sparks ── */
-export function ImpactSparks({ x, y, count = 8, color = "#ef4444" }: { x: number; y: number; count?: number; color?: string }) {
+export function ImpactSparks({ x, y, count = 8, color = "var(--energy-error)" }: { x: number; y: number; count?: number; color?: string }) {
   const sparks = Array.from({ length: count }, (_, i) => {
     const angle = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.5;
     const dist = 30 + Math.random() * 40;
@@ -208,7 +208,7 @@ export function TurnBanner({ text, color }: { text: string; color: string }) {
 }
 
 /* ── Attack Projectile Trail ── */
-export function AttackProjectile({ fromX, fromY, toX, toY, color = "#ef4444", onComplete }: {
+export function AttackProjectile({ fromX, fromY, toX, toY, color = "var(--energy-error)", onComplete }: {
   fromX: number; fromY: number; toX: number; toY: number; color?: string; onComplete?: () => void;
 }) {
   return (
@@ -246,7 +246,7 @@ export function AttackProjectile({ fromX, fromY, toX, toY, color = "#ef4444", on
 }
 
 /* ── Card Deploy Burst ── */
-export function DeployBurst({ x, y, color = "#33e2e6" }: { x: number; y: number; color?: string }) {
+export function DeployBurst({ x, y, color = "var(--energy-primary)" }: { x: number; y: number; color?: string }) {
   const rings = [0, 0.1, 0.2];
   return (
     <>
@@ -327,7 +327,7 @@ export function WarpTransition({ active, onComplete }: { active: boolean; onComp
             className="absolute h-px"
             style={{
               top: `${y}%`,
-              background: `linear-gradient(90deg, transparent, rgba(51,226,230,${0.3 + Math.random() * 0.5}), transparent)`,
+              background: `linear-gradient(90deg, transparent, color-mix(in oklch, var(--energy-primary) calc((0.3 + Math.random() * 0.5) * 100%), transparent), transparent)`,
             }}
           />
         );
@@ -340,7 +340,7 @@ export function WarpTransition({ active, onComplete }: { active: boolean; onComp
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{
           width: 100, height: 100,
-          background: "radial-gradient(circle, rgba(51,226,230,0.4), transparent 70%)",
+          background: "radial-gradient(circle, color-mix(in oklch, var(--energy-primary) 40%, transparent), transparent 70%)",
         }}
       />
     </motion.div>
@@ -358,7 +358,7 @@ export function useVFX() {
 
   const spawnDamage = useCallback((x: number, y: number, amount: number) => {
     const id = nextId();
-    setFloatingTexts(prev => [...prev, { id, text: String(amount), x, y, color: "#ef4444", type: "damage" }]);
+    setFloatingTexts(prev => [...prev, { id, text: String(amount), x, y, color: "var(--energy-error)", type: "damage" }]);
     setScreenEffects(prev => [...prev, { id: nextId(), type: "redFlash" }]);
     setShakeClass("animate-screen-shake");
     setTimeout(() => setShakeClass(""), 400);
@@ -377,7 +377,7 @@ export function useVFX() {
     setFloatingTexts(prev => [...prev, { id, text: String(amount), x, y, color: "#00e055", type: "heal" }]);
   }, []);
 
-  const spawnStatus = useCallback((x: number, y: number, text: string, color = "#33e2e6") => {
+  const spawnStatus = useCallback((x: number, y: number, text: string, color = "var(--energy-primary)") => {
     const id = nextId();
     setFloatingTexts(prev => [...prev, { id, text, x, y, color, type: "status" }]);
   }, []);

@@ -44,7 +44,7 @@ const FEATURES: LockedFeature[] = [
     description: "Create or join a guild. Access guild quests, shared vault, and alliance wars.",
     levelRequired: 5,
     icon: Users,
-    color: "text-emerald-400",
+    color: "void-text-energy",
     category: "Social",
   },
   {
@@ -53,7 +53,7 @@ const FEATURES: LockedFeature[] = [
     description: "Three rotating challenges each day with bonus XP and rare item rewards.",
     levelRequired: 7,
     icon: Star,
-    color: "text-yellow-400",
+    color: "void-text-premium",
     category: "Progression",
   },
   {
@@ -62,7 +62,7 @@ const FEATURES: LockedFeature[] = [
     description: "Battle other players in ranked matches. Climb the leaderboard for exclusive rewards.",
     levelRequired: 10,
     icon: Swords,
-    color: "text-red-400",
+    color: "void-text-error",
     category: "Combat",
   },
   {
@@ -71,7 +71,7 @@ const FEATURES: LockedFeature[] = [
     description: "Send companions on timed expeditions to gather resources and discover lore fragments.",
     levelRequired: 12,
     icon: Compass,
-    color: "text-blue-400",
+    color: "void-text-energy",
     category: "Exploration",
   },
   {
@@ -80,7 +80,7 @@ const FEATURES: LockedFeature[] = [
     description: "Reset progress for permanent multipliers, unique titles, and prestige-only cosmetics.",
     levelRequired: 15,
     icon: Crown,
-    color: "text-amber-400",
+    color: "void-text-accent",
     category: "Progression",
   },
   {
@@ -89,7 +89,7 @@ const FEATURES: LockedFeature[] = [
     description: "Combine lore fragments, battle spoils, and raw materials into legendary equipment.",
     levelRequired: 18,
     icon: Gem,
-    color: "text-purple-400",
+    color: "void-text-system",
     category: "Systems",
   },
   {
@@ -98,7 +98,7 @@ const FEATURES: LockedFeature[] = [
     description: "Cooperative server-wide boss encounters with escalating difficulty and massive loot.",
     levelRequired: 20,
     icon: Shield,
-    color: "text-orange-400",
+    color: "void-text-premium",
     category: "Combat",
   },
   {
@@ -107,7 +107,7 @@ const FEATURES: LockedFeature[] = [
     description: "Guide newer players as a mentor. Earn mentor XP and exclusive mentor cosmetics.",
     levelRequired: 25,
     icon: BookOpen,
-    color: "text-teal-400",
+    color: "void-text-energy",
     category: "Social",
   },
   {
@@ -116,7 +116,7 @@ const FEATURES: LockedFeature[] = [
     description: "Deep specialization trees for each class. Unlock powerful passives and signature abilities.",
     levelRequired: 30,
     icon: Layers,
-    color: "text-indigo-400",
+    color: "void-text-energy",
     category: "Progression",
   },
   {
@@ -125,7 +125,7 @@ const FEATURES: LockedFeature[] = [
     description: "Endgame roguelike dungeons with procedurally generated floors and escalating corruption.",
     levelRequired: 35,
     icon: Zap,
-    color: "text-fuchsia-400",
+    color: "void-text-system",
     category: "Combat",
   },
   {
@@ -134,7 +134,7 @@ const FEATURES: LockedFeature[] = [
     description: "Guild-based territorial warfare. Capture, fortify, and defend sectors of the Ark.",
     levelRequired: 40,
     icon: Map,
-    color: "text-cyan-400",
+    color: "void-text-energy",
     category: "Social",
   },
   {
@@ -143,7 +143,7 @@ const FEATURES: LockedFeature[] = [
     description: "Transcend mortal limits. Access the final story arc and ultimate character transformation.",
     levelRequired: 50,
     icon: Trophy,
-    color: "text-rose-400",
+    color: "void-text-error",
     category: "Progression",
   },
 ];
@@ -190,13 +190,13 @@ export default function LockedFeaturesGuide({ currentLevel, className = "" }: Pr
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative border border-amber-500/30 rounded-lg bg-amber-500/5 p-4 overflow-hidden"
+          className="relative border void-border rounded-lg void-bg-sunk p-4 overflow-hidden"
         >
-          <div className="absolute top-0 right-0 px-2 py-0.5 bg-amber-500/20 text-amber-400 font-mono text-[9px] uppercase tracking-wider rounded-bl">
+          <div className="absolute top-0 right-0 px-2 py-0.5 void-bg-sunk void-text-accent font-mono text-[9px] uppercase tracking-wider rounded-bl">
             Coming at your level
           </div>
           <div className="flex items-center gap-3 mt-2">
-            <div className={`w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center ${nextUnlock.color}`}>
+            <div className={`w-10 h-10 rounded-lg void-bg-sunk flex items-center justify-center ${nextUnlock.color}`}>
               <nextUnlock.icon size={20} />
             </div>
             <div className="flex-1 min-w-0">
@@ -204,7 +204,7 @@ export default function LockedFeaturesGuide({ currentLevel, className = "" }: Pr
                 <span className="font-display text-sm font-bold text-white">
                   {nextUnlock.name}
                 </span>
-                <span className="font-mono text-[10px] text-amber-400">
+                <span className="font-mono text-[10px] void-text-accent">
                   Lv.{nextUnlock.levelRequired}
                 </span>
               </div>
@@ -217,7 +217,7 @@ export default function LockedFeaturesGuide({ currentLevel, className = "" }: Pr
                   <span className="font-mono text-[9px] text-muted-foreground">
                     Progress
                   </span>
-                  <span className="font-mono text-[9px] text-amber-400">
+                  <span className="font-mono text-[9px] void-text-accent">
                     Lv.{currentLevel} / Lv.{nextUnlock.levelRequired}
                   </span>
                 </div>
@@ -283,7 +283,7 @@ export default function LockedFeaturesGuide({ currentLevel, className = "" }: Pr
                   <span
                     className={`font-mono text-[9px] px-1.5 py-0.5 rounded border ${
                       unlocked
-                        ? "text-emerald-400 border-emerald-500/20 bg-emerald-500/10"
+                        ? "void-text-energy void-border-success void-bg-success"
                         : "text-muted-foreground border-border/20 bg-white/[0.02]"
                     }`}
                   >

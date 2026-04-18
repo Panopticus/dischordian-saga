@@ -33,11 +33,11 @@ export function InboxSentenceBloom({
             transition: "text-shadow 0.4s ease-out, color 0.4s ease-out",
             textShadow:
               i === highlightSentenceIndex
-                ? "0 0 12px #22d3ee, 0 0 24px rgba(34, 211, 238, 0.4)"
+                ? "0 0 12px var(--energy-primary), 0 0 24px color-mix(in oklch, var(--energy-primary) 40%, transparent)"
                 : "none",
             color:
               i === highlightSentenceIndex
-                ? "#22d3ee"
+                ? "var(--energy-primary)"
                 : "inherit",
           }}
           onTransitionEnd={i === highlightSentenceIndex ? onComplete : undefined}

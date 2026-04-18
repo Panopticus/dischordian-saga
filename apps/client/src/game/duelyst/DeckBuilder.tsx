@@ -124,7 +124,7 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
         <h2 className="font-display text-lg tracking-[0.2em]" style={{ color: factionColor }}>
           {FACTION_NAMES[faction]} DECK
         </h2>
-        <span className={`font-mono text-sm ${deckSize === DECK_SIZE ? "text-emerald-400" : deckSize > DECK_SIZE ? "text-red-400" : "text-white/40"}`}>
+        <span className={`font-mono text-sm ${deckSize === DECK_SIZE ? "void-text-energy" : deckSize > DECK_SIZE ? "void-text-error" : "text-white/40"}`}>
           {deckSize}/{DECK_SIZE}
         </span>
       </div>
@@ -142,7 +142,7 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
 
               return (
                 <div key={card.id} className={`flex items-center gap-2 p-2 rounded-lg border ${rs.bg} ${rs.border} transition-opacity ${canAdd ? "opacity-100" : "opacity-40"}`}>
-                  <span className="w-6 h-6 flex items-center justify-center rounded-full bg-blue-500/30 text-blue-300 font-mono text-[10px] font-bold shrink-0">
+                  <span className="w-6 h-6 flex items-center justify-center rounded-full void-bg-sunk void-text-energy font-mono text-[10px] font-bold shrink-0">
                     {card.manaCost}
                   </span>
                   <div className="flex-1 min-w-0">
@@ -153,13 +153,13 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
                   </div>
                   <div className="flex items-center gap-1 shrink-0">
                     {inDeck > 0 && (
-                      <button onClick={() => removeCard(card)} className="w-6 h-6 flex items-center justify-center rounded bg-red-500/20 text-red-400 hover:bg-red-500/30">
+                      <button onClick={() => removeCard(card)} className="w-6 h-6 flex items-center justify-center rounded void-bg-error void-text-error void-bg-error">
                         <Minus size={12} />
                       </button>
                     )}
                     <span className="font-mono text-[10px] text-white/40 w-6 text-center">{inDeck}/{maxAllowed}</span>
                     {canAdd && (
-                      <button onClick={() => addCard(card)} className="w-6 h-6 flex items-center justify-center rounded bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30">
+                      <button onClick={() => addCard(card)} className="w-6 h-6 flex items-center justify-center rounded void-bg-success void-text-energy void-bg-success">
                         <Plus size={12} />
                       </button>
                     )}
@@ -201,11 +201,11 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
                 <p className="text-[8px] text-white/30 font-mono">UNITS</p>
               </div>
               <div className="flex-1 text-center px-2 py-1.5 rounded bg-white/5">
-                <p className="font-mono text-sm font-bold text-purple-400">{typeDist.spell}</p>
+                <p className="font-mono text-sm font-bold void-text-system">{typeDist.spell}</p>
                 <p className="text-[8px] text-white/30 font-mono">SPELLS</p>
               </div>
               <div className="flex-1 text-center px-2 py-1.5 rounded bg-white/5">
-                <p className="font-mono text-sm font-bold text-amber-400">{typeDist.artifact}</p>
+                <p className="font-mono text-sm font-bold void-text-accent">{typeDist.artifact}</p>
                 <p className="text-[8px] text-white/30 font-mono">ARTIFACTS</p>
               </div>
             </div>
@@ -215,7 +215,7 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
           <div className="flex flex-col gap-2 mt-auto">
             <button
               onClick={() => setDeck(new Map())}
-              className="flex items-center justify-center gap-1 px-3 py-2 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-xs hover:bg-red-500/20"
+              className="flex items-center justify-center gap-1 px-3 py-2 rounded-lg void-bg-error border void-border-error void-text-error font-mono text-xs void-bg-error"
             >
               <Trash2 size={12} /> CLEAR DECK
             </button>
@@ -224,7 +224,7 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
               disabled={deckSize !== DECK_SIZE}
               className={`flex items-center justify-center gap-1 px-3 py-2 rounded-lg font-mono text-xs transition-all ${
                 deckSize === DECK_SIZE
-                  ? "bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/30"
+                  ? "void-bg-success border void-border-success void-text-energy void-bg-success"
                   : "bg-white/5 border border-white/10 text-white/20 cursor-not-allowed"
               }`}
             >

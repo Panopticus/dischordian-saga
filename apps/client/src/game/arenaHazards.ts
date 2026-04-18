@@ -125,7 +125,7 @@ export const ARENA_HAZARDS: ArenaHazard[] = [
     id: "panopticon_watching_eyes", arenaId: "panopticon",
     name: "100 Watching Eyes", description: "The cell's surveillance cameras rotate in a slow, unified pattern.",
     type: "ambient_effect", activation: "always", damagePerTick: 0,
-    ambientEffect: { type: "drone_hum", color: "#f59e0b", pulseRate: 0.2 },
+    ambientEffect: { type: "drone_hum", color: "var(--energy-accent)", pulseRate: 0.2 },
     loreTag: "The Jailer never blinks. None of them blink.",
   },
   {
@@ -168,7 +168,7 @@ export const ARENA_HAZARDS: ArenaHazard[] = [
     id: "terminus_equation_flicker", arenaId: "terminus",
     name: "Equation Flicker", description: "Equations scrawled on the walls rewrite themselves mid-fight.",
     type: "ambient_effect", activation: "periodic", periodMs: 4000, activeDurationMs: 400, damagePerTick: 0,
-    ambientEffect: { type: "static_flicker", color: "#22d3ee", frequency: 0.6 },
+    ambientEffect: { type: "static_flicker", color: "var(--energy-primary)", frequency: 0.6 },
   },
 
   /* ─── mechronis ─── */
@@ -176,13 +176,13 @@ export const ARENA_HAZARDS: ArenaHazard[] = [
     id: "mechronis_circuitry", arenaId: "mechronis",
     name: "Living Circuitry", description: "The walls themselves are a data center. Green circuit pulses travel the floor.",
     type: "ambient_effect", activation: "always", damagePerTick: 0,
-    ambientEffect: { type: "pulse", color: "#22c55e", intervalMs: 2000, fadeMs: 400 },
+    ambientEffect: { type: "pulse", color: "var(--energy-success)", intervalMs: 2000, fadeMs: 400 },
   },
   {
     id: "mechronis_data_surge", arenaId: "mechronis",
     name: "Data Surge", description: "Every 18 seconds, a floor panel shoots a vertical data column — visual only.",
     type: "ambient_effect", activation: "periodic", periodMs: 18000, activeDurationMs: 800, damagePerTick: 0,
-    ambientEffect: { type: "particle_drift", color: "#22c55e", density: 0.5, direction: "up" },
+    ambientEffect: { type: "particle_drift", color: "var(--energy-success)", density: 0.5, direction: "up" },
   },
 
   /* ─── crucible ─── */
@@ -235,7 +235,7 @@ export const ARENA_HAZARDS: ArenaHazard[] = [
     id: "ranked-table_cyan_grid", arenaId: "ranked-table",
     name: "Cyan Grid", description: "An ELO-leaderboard grid pulses under the arena floor.",
     type: "ambient_effect", activation: "periodic", periodMs: 3000, activeDurationMs: 800, damagePerTick: 0,
-    ambientEffect: { type: "pulse", color: "#33E2E6", intervalMs: 3000, fadeMs: 800 },
+    ambientEffect: { type: "pulse", color: "var(--energy-primary)", intervalMs: 3000, fadeMs: 800 },
   },
 
   /* ─── tournament-hall ─── */
@@ -243,7 +243,7 @@ export const ARENA_HAZARDS: ArenaHazard[] = [
     id: "tournament-hall_crowd_glow", arenaId: "tournament-hall",
     name: "Crowd Glow", description: "Thousands of amber torches pulse in the spectator tiers.",
     type: "ambient_effect", activation: "periodic", periodMs: 4500, activeDurationMs: 700, damagePerTick: 0,
-    ambientEffect: { type: "pulse", color: "#f59e0b", intervalMs: 4500, fadeMs: 700 },
+    ambientEffect: { type: "pulse", color: "var(--energy-accent)", intervalMs: 4500, fadeMs: 700 },
   },
 
   /* ─── draft-chamber ─── */
@@ -274,7 +274,7 @@ export const ARENA_HAZARDS: ArenaHazard[] = [
     id: "architect-throne_schematic_overlay", arenaId: "architect-throne",
     name: "Schematic Overlay", description: "Blueprints of the Arena itself project onto the air around the throne.",
     type: "ambient_effect", activation: "always", damagePerTick: 0,
-    ambientEffect: { type: "static_flicker", color: "#ef4444", frequency: 0.15 },
+    ambientEffect: { type: "static_flicker", color: "var(--energy-error)", frequency: 0.15 },
     loreTag: "The Architect is reviewing his design in real-time.",
   },
   {
@@ -295,14 +295,14 @@ export const ARENA_HAZARDS: ArenaHazard[] = [
     id: "necromancer-castle_green_fire", arenaId: "necromancer-castle",
     name: "Green Fire Floor", description: "Cold green fire licks the throne-hall floor in continuous, low-intensity flames.",
     type: "ambient_effect", activation: "always", damagePerTick: 0,
-    ambientEffect: { type: "ember_rain", color: "#22c55e", density: 0.3 },
+    ambientEffect: { type: "ember_rain", color: "var(--energy-success)", density: 0.3 },
     loreTag: "The fire does not warm. It is the Necromancer's own pulse, made visible.",
   },
   {
     id: "necromancer-castle_death_tide", arenaId: "necromancer-castle",
     name: "Death Tide", description: "Every 12 seconds a green wavefront rolls across the arena floor — visual only.",
     type: "ambient_effect", activation: "periodic", periodMs: 12000, activeDurationMs: 1000, damagePerTick: 0,
-    ambientEffect: { type: "pulse", color: "#22c55e", intervalMs: 12000, fadeMs: 1000 },
+    ambientEffect: { type: "pulse", color: "var(--energy-success)", intervalMs: 12000, fadeMs: 1000 },
   },
   {
     id: "necromancer-castle_resurrection_vortex", arenaId: "necromancer-castle",
@@ -317,14 +317,14 @@ export const ARENA_HAZARDS: ArenaHazard[] = [
     id: "terminus-core_unsolved_equations", arenaId: "terminus-core",
     name: "Unsolved Equations", description: "The walls are covered in equations that rewrite themselves every few seconds.",
     type: "ambient_effect", activation: "periodic", periodMs: 2000, activeDurationMs: 300, damagePerTick: 0,
-    ambientEffect: { type: "static_flicker", color: "#22d3ee", frequency: 0.7 },
+    ambientEffect: { type: "static_flicker", color: "var(--energy-primary)", frequency: 0.7 },
     loreTag: "Enigma's unsolvable proofs, slowly coming apart for the first time.",
   },
   {
     id: "terminus-core_data_storm", arenaId: "terminus-core",
     name: "Data Storm", description: "Periodic data bursts scour the arena from above.",
     type: "ambient_effect", activation: "periodic", periodMs: 15000, activeDurationMs: 1200, damagePerTick: 0,
-    ambientEffect: { type: "particle_drift", color: "#22d3ee", density: 0.4, direction: "down" },
+    ambientEffect: { type: "particle_drift", color: "var(--energy-primary)", density: 0.4, direction: "down" },
   },
 
   /* ─── the-trench ─── */

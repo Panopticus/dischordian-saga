@@ -46,44 +46,44 @@ const RARITY_CONFIG: Record<string, {
   borderGradient: string;
 }> = {
   common: {
-    border: "border-zinc-600/40", glow: "", bg: "bg-zinc-800/30",
-    text: "text-zinc-400", badge: "bg-zinc-700 text-zinc-300",
+    border: "void-border", glow: "", bg: "void-bg-canvas",
+    text: "void-text", badge: "void-bg-canvas void-text",
     shimmerSpeed: "0s", holoIntensity: 0,
     borderGradient: "from-zinc-600/40 via-zinc-500/20 to-zinc-600/40",
   },
   uncommon: {
-    border: "border-green-500/40", glow: "shadow-[0_0_10px_rgba(34,197,94,0.15)]",
-    bg: "bg-green-950/20", text: "text-green-400", badge: "bg-green-900/60 text-green-300",
+    border: "void-border-success", glow: "shadow-[0_0_10px_color-mix(in oklch, var(--energy-success) 15%, transparent)]",
+    bg: "void-bg-success", text: "void-text-energy", badge: "void-bg-success void-text-energy",
     shimmerSpeed: "0s", holoIntensity: 0,
     borderGradient: "from-green-600/40 via-green-400/30 to-green-600/40",
   },
   rare: {
-    border: "border-blue-500/40", glow: "shadow-[0_0_14px_rgba(59,130,246,0.2)]",
-    bg: "bg-blue-950/20", text: "text-blue-400", badge: "bg-blue-900/60 text-blue-300",
+    border: "void-border", glow: "shadow-[0_0_14px_color-mix(in oklch, var(--electric-blue) 20%, transparent)]",
+    bg: "void-bg-sunk", text: "void-text-energy", badge: "void-bg-sunk void-text-energy",
     shimmerSpeed: "4s", holoIntensity: 0.08,
     borderGradient: "from-blue-600/50 via-blue-400/40 to-blue-600/50",
   },
   epic: {
-    border: "border-purple-500/50", glow: "shadow-[0_0_20px_rgba(168,85,247,0.25)]",
-    bg: "bg-purple-950/20", text: "text-purple-400", badge: "bg-purple-900/60 text-purple-300",
+    border: "void-border-system", glow: "shadow-[0_0_20px_color-mix(in oklch, var(--energy-system) 25%, transparent)]",
+    bg: "void-bg-system", text: "void-text-system", badge: "void-bg-system void-text-system",
     shimmerSpeed: "3s", holoIntensity: 0.15,
     borderGradient: "from-purple-600/60 via-purple-400/50 to-purple-600/60",
   },
   legendary: {
-    border: "border-amber-500/60", glow: "shadow-[0_0_28px_rgba(245,158,11,0.35)]",
-    bg: "bg-amber-950/20", text: "text-amber-400", badge: "bg-amber-900/60 text-amber-300",
+    border: "void-border", glow: "shadow-[0_0_28px_color-mix(in oklch, var(--energy-accent) 35%, transparent)]",
+    bg: "void-bg-sunk", text: "void-text-accent", badge: "void-bg-sunk void-text-accent",
     shimmerSpeed: "2s", holoIntensity: 0.25,
     borderGradient: "from-amber-500/70 via-yellow-400/60 to-amber-500/70",
   },
   mythic: {
-    border: "border-red-500/60", glow: "shadow-[0_0_32px_rgba(239,68,68,0.4)]",
-    bg: "bg-red-950/20", text: "text-red-400", badge: "bg-red-900/60 text-red-300",
+    border: "void-border-error", glow: "shadow-[0_0_32px_color-mix(in oklch, var(--energy-error) 40%, transparent)]",
+    bg: "void-bg-error", text: "void-text-error", badge: "void-bg-error void-text-error",
     shimmerSpeed: "1.5s", holoIntensity: 0.35,
     borderGradient: "from-red-500/70 via-orange-400/60 to-red-500/70",
   },
   neyon: {
-    border: "border-cyan-400/70", glow: "shadow-[0_0_40px_rgba(34,211,238,0.5)]",
-    bg: "bg-cyan-950/25", text: "text-cyan-300", badge: "bg-cyan-900/60 text-cyan-200",
+    border: "void-border-success", glow: "shadow-[0_0_40px_color-mix(in oklch, var(--energy-primary) 50%, transparent)]",
+    bg: "void-bg-success", text: "void-text-energy", badge: "void-bg-success void-text-energy",
     shimmerSpeed: "1s", holoIntensity: 0.45,
     borderGradient: "from-cyan-400/80 via-teal-300/70 to-cyan-400/80",
   },
@@ -96,15 +96,15 @@ const TYPE_ICONS: Record<string, any> = {
 };
 
 const ELEMENT_CONFIG: Record<string, { color: string; icon: string; particle: string; bgGlow: string }> = {
-  earth: { color: "text-emerald-400", icon: "🜃", particle: "bg-emerald-400", bgGlow: "from-emerald-900/20" },
-  fire: { color: "text-orange-400", icon: "🜂", particle: "bg-orange-400", bgGlow: "from-orange-900/20" },
-  water: { color: "text-blue-400", icon: "🜄", particle: "bg-blue-400", bgGlow: "from-blue-900/20" },
-  air: { color: "text-sky-300", icon: "🜁", particle: "bg-sky-300", bgGlow: "from-sky-900/20" },
+  earth: { color: "void-text-energy", icon: "🜃", particle: "void-bg-success", bgGlow: "from-emerald-900/20" },
+  fire: { color: "void-text-premium", icon: "🜂", particle: "void-bg-sunk", bgGlow: "from-orange-900/20" },
+  water: { color: "void-text-energy", icon: "🜄", particle: "void-bg-sunk", bgGlow: "from-blue-900/20" },
+  air: { color: "void-text-energy", icon: "🜁", particle: "void-bg-sunk", bgGlow: "from-sky-900/20" },
 };
 
 const ALIGNMENT_CONFIG: Record<string, { glow: string; aura: string; symbol: string; label: string }> = {
   order: { glow: "shadow-[0_0_15px_rgba(147,197,253,0.2)]", aura: "from-blue-400/10 via-transparent to-transparent", symbol: "⚖", label: "ORDER" },
-  chaos: { glow: "shadow-[0_0_15px_rgba(248,113,113,0.2)]", aura: "from-red-400/10 via-transparent to-transparent", symbol: "☢", label: "CHAOS" },
+  chaos: { glow: "shadow-[0_0_15px_color-mix(in oklch, var(--energy-error) 20%, transparent)]", aura: "from-red-400/10 via-transparent to-transparent", symbol: "☢", label: "CHAOS" },
 };
 
 const KEYWORD_ICONS: Record<string, string> = {
@@ -182,7 +182,7 @@ export default function GameCard({
     >
       {/* ── CARD BACK (flipped state) ── */}
       {flipped ? (
-        <div className="relative w-full h-full rounded-lg overflow-hidden border-2 border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.15)]">
+        <div className="relative w-full h-full rounded-lg overflow-hidden border-2 void-border shadow-[0_0_15px_rgba(99,102,241,0.15)]">
           <img
             src="/art/card-game/card-back-dischordia.png"
             alt="Card Back"
@@ -192,7 +192,7 @@ export default function GameCard({
           <div
             className="absolute inset-0 pointer-events-none card-back-sheen"
             style={{
-              background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.06) 45%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.06) 55%, transparent 60%)",
+              background: "linear-gradient(105deg, transparent 40%, color-mix(in oklch, var(--text-primary) 6%, transparent) 45%, color-mix(in oklch, var(--text-primary) 12%, transparent) 50%, color-mix(in oklch, var(--text-primary) 6%, transparent) 55%, transparent 60%)",
               backgroundSize: "200% 100%",
             }}
           />
@@ -267,7 +267,7 @@ export default function GameCard({
               className="absolute inset-0 animate-shimmer"
               style={{
                 animationDuration: rarity.shimmerSpeed,
-                background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.06) 45%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.06) 55%, transparent 60%)",
+                background: "linear-gradient(105deg, transparent 40%, color-mix(in oklch, var(--text-primary) 6%, transparent) 45%, color-mix(in oklch, var(--text-primary) 12%, transparent) 50%, color-mix(in oklch, var(--text-primary) 6%, transparent) 55%, transparent 60%)",
               }}
             />
           </div>
@@ -279,7 +279,7 @@ export default function GameCard({
             className="absolute inset-0 pointer-events-none transition-opacity duration-200"
             style={{
               opacity: 0.15,
-              background: `radial-gradient(circle at ${mousePos.x * 100}% ${mousePos.y * 100}%, rgba(255,255,255,0.3) 0%, transparent 50%)`,
+              background: `radial-gradient(circle at ${mousePos.x * 100}% ${mousePos.y * 100}%, color-mix(in oklch, var(--text-primary) 30%, transparent) 0%, transparent 50%)`,
             }}
           />
         )}
@@ -305,7 +305,7 @@ export default function GameCard({
             </div>
             {/* Alignment symbol */}
             {alignment && (
-              <span className={`text-xs ${card.alignment === "order" ? "text-blue-400" : "text-red-400"}`}>
+              <span className={`text-xs ${card.alignment === "order" ? "void-text-energy" : "void-text-error"}`}>
                 {alignment.symbol}
               </span>
             )}
@@ -415,8 +415,8 @@ export default function GameCard({
               </div>
               {/* Health */}
               <div className="flex items-center gap-0.5">
-                <Heart size={10} className="text-green-400" />
-                <span className="font-display text-[10px] font-bold text-green-400">{card.health}</span>
+                <Heart size={10} className="void-text-energy" />
+                <span className="font-display text-[10px] font-bold void-text-energy">{card.health}</span>
               </div>
             </div>
             {/* Element */}

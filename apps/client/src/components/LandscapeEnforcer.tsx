@@ -85,7 +85,7 @@ export default function LandscapeEnforcer({ children, forceRotate = false, messa
         <button
           onClick={() => setDismissed(false)}
           className="fixed bottom-4 right-4 z-[9998] flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-primary/30 bg-background/90 backdrop-blur-sm text-primary/70 font-mono text-xs tracking-wider hover:bg-primary/10 transition-all"
-          style={{ boxShadow: "0 0 12px rgba(51,226,230,0.1)" }}
+          style={{ boxShadow: "0 0 12px color-mix(in oklch, var(--energy-primary) 10%, transparent)" }}
         >
           <RotateCcw size={10} />
           ROTATE
@@ -109,7 +109,7 @@ export default function LandscapeEnforcer({ children, forceRotate = false, messa
           className="absolute inset-0 opacity-20"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(51,226,230,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(51,226,230,0.08) 1px, transparent 1px)",
+              "linear-gradient(color-mix(in oklch, var(--energy-primary) 8%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in oklch, var(--energy-primary) 8%, transparent) 1px, transparent 1px)",
             backgroundSize: "40px 40px",
           }}
         />
@@ -118,7 +118,7 @@ export default function LandscapeEnforcer({ children, forceRotate = false, messa
         <div
           className="absolute inset-0 pointer-events-none opacity-30"
           style={{
-            background: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.05) 2px, rgba(0,0,0,0.05) 4px)",
+            background: "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--bg-void) 5%, transparent) 2px, color-mix(in oklch, var(--bg-void) 5%, transparent) 4px)",
           }}
         />
 
@@ -135,7 +135,7 @@ export default function LandscapeEnforcer({ children, forceRotate = false, messa
                 top: "50%",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
-                background: "radial-gradient(circle, rgba(51,226,230,0.15) 0%, transparent 70%)",
+                background: "radial-gradient(circle, color-mix(in oklch, var(--energy-primary) 15%, transparent) 0%, transparent 70%)",
                 animation: "landscape-pulse 2s ease-in-out infinite",
               }}
             />
@@ -161,7 +161,7 @@ export default function LandscapeEnforcer({ children, forceRotate = false, messa
               <div className="h-px w-8 bg-gradient-to-l from-transparent to-primary/50" />
             </div>
             <h2 className="font-display text-xl font-bold tracking-wider text-foreground">
-              ROTATE YOUR <span className="text-primary" style={{ textShadow: "0 0 8px rgba(51,226,230,0.4)" }}>DEVICE</span>
+              ROTATE YOUR <span className="text-primary" style={{ textShadow: "0 0 8px color-mix(in oklch, var(--energy-primary) 40%, transparent)" }}>DEVICE</span>
             </h2>
             <p className="font-mono text-xs text-muted-foreground max-w-[280px] leading-relaxed">
               {message || "This experience is optimized for landscape orientation. Rotate your device for the best view."}
