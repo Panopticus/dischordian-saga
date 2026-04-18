@@ -452,8 +452,29 @@ export function getRoomTransmissions(moralityScore: number, roomId: string): Sec
 }
 
 /** Get the best Elara dialog variant for a room based on morality */
+/**
+ * Canonical-room → variant-room id remap.
+ *
+ * ELARA_MORALITY_VARIANTS was authored against an older room
+ * schema (command-bridge / engine-room / garden-biodome / security-
+ * hub). The live room schema (GameContext.tsx ROOM_DEFINITIONS)
+ * uses bridge / engineering / etc. Without this remap the variants
+ * silently never fire in Tier 4A "morality visibly changes the
+ * world". The remap keeps the audit gap closed without a content
+ * rewrite — each authored variant still lands, just on the
+ * canonical room id.
+ */
+const CANONICAL_TO_VARIANT_ROOM_ID: Record<string, string> = {
+  bridge: "command-bridge",
+  engineering: "engine-room",
+  // archives + observation-deck already match; biodome and
+  // security-hub have no canonical equivalent so their variants
+  // never fire until those rooms land in the canon.
+};
+
 export function getElaraVariant(moralityScore: number, roomId: string): string | null {
-  const variant = ELARA_MORALITY_VARIANTS.find(v => v.roomId === roomId);
+  const variantRoomId = CANONICAL_TO_VARIANT_ROOM_ID[roomId] ?? roomId;
+  const variant = ELARA_MORALITY_VARIANTS.find(v => v.roomId === variantRoomId);
   if (!variant) return null;
 
   if (moralityScore <= -60 && variant.deepMachineDialog) return variant.deepMachineDialog;
