@@ -124,7 +124,7 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
         <h2 className="font-display text-lg tracking-[0.2em]" style={{ color: factionColor }}>
           {FACTION_NAMES[faction]} DECK
         </h2>
-        <span className={`font-mono text-sm ${deckSize === DECK_SIZE ? "text-emerald-400" : deckSize > DECK_SIZE ? "text-red-400" : "text-white/40"}`}>
+        <span className={`font-mono text-sm ${deckSize === DECK_SIZE ? "void-text-energy" : deckSize > DECK_SIZE ? "void-text-error" : "text-white/40"}`}>
           {deckSize}/{DECK_SIZE}
         </span>
       </div>
@@ -132,7 +132,7 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
         {/* Left: Available cards */}
         <div className="flex-1 overflow-y-auto border-r border-white/5 p-3">
-          <p className="font-mono text-[10px] text-white/30 tracking-wider mb-2">AVAILABLE CARDS</p>
+          <p className="font-mono text-[var(--space-sm)] text-white/30 tracking-wider mb-2">AVAILABLE CARDS</p>
           <div className="space-y-1">
             {availableCards.map(card => {
               const inDeck = deck.get(card.id) || 0;
@@ -142,7 +142,7 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
 
               return (
                 <div key={card.id} className={`flex items-center gap-2 p-2 rounded-lg border ${rs.bg} ${rs.border} transition-opacity ${canAdd ? "opacity-100" : "opacity-40"}`}>
-                  <span className="w-6 h-6 flex items-center justify-center rounded-full bg-blue-500/30 text-blue-300 font-mono text-[10px] font-bold shrink-0">
+                  <span className="w-6 h-6 flex items-center justify-center rounded-full void-bg-sunk void-text-energy font-mono text-[var(--space-sm)] font-bold shrink-0">
                     {card.manaCost}
                   </span>
                   <div className="flex-1 min-w-0">
@@ -153,13 +153,13 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
                   </div>
                   <div className="flex items-center gap-1 shrink-0">
                     {inDeck > 0 && (
-                      <button onClick={() => removeCard(card)} className="w-6 h-6 flex items-center justify-center rounded bg-red-500/20 text-red-400 hover:bg-red-500/30">
+                      <button onClick={() => removeCard(card)} className="w-6 h-6 flex items-center justify-center rounded void-bg-error void-text-error void-bg-error">
                         <Minus size={12} />
                       </button>
                     )}
-                    <span className="font-mono text-[10px] text-white/40 w-6 text-center">{inDeck}/{maxAllowed}</span>
+                    <span className="font-mono text-[var(--space-sm)] text-white/40 w-6 text-center">{inDeck}/{maxAllowed}</span>
                     {canAdd && (
-                      <button onClick={() => addCard(card)} className="w-6 h-6 flex items-center justify-center rounded bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30">
+                      <button onClick={() => addCard(card)} className="w-6 h-6 flex items-center justify-center rounded void-bg-success void-text-energy void-bg-success">
                         <Plus size={12} />
                       </button>
                     )}
@@ -174,7 +174,7 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
         <div className="w-full lg:w-64 p-3 flex flex-col gap-4 overflow-y-auto">
           {/* Mana curve */}
           <div>
-            <p className="font-mono text-[10px] text-white/30 tracking-wider mb-2 flex items-center gap-1">
+            <p className="font-mono text-[var(--space-sm)] text-white/30 tracking-wider mb-2 flex items-center gap-1">
               <BarChart3 size={10} /> MANA CURVE
             </p>
             <div className="flex items-end gap-1 h-20">
@@ -184,9 +184,9 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
                     height: `${(count / maxCurveHeight) * 100}%`,
                     backgroundColor: factionColor + "60",
                     border: count > 0 ? `1px solid ${factionColor}` : "none",
-                    minHeight: count > 0 ? "4px" : "0",
+                    minHeight: count > 0 ? "var(--space-xs)" : "0",
                   }} />
-                  <span className="text-[8px] font-mono text-white/30">{cost === 9 ? "9+" : cost}</span>
+                  <span className="text-[var(--space-xs)] font-mono text-white/30">{cost === 9 ? "9+" : cost}</span>
                 </div>
               ))}
             </div>
@@ -194,19 +194,19 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
 
           {/* Type distribution */}
           <div>
-            <p className="font-mono text-[10px] text-white/30 tracking-wider mb-2">CARD TYPES</p>
+            <p className="font-mono text-[var(--space-sm)] text-white/30 tracking-wider mb-2">CARD TYPES</p>
             <div className="flex gap-2">
               <div className="flex-1 text-center px-2 py-1.5 rounded bg-white/5">
                 <p className="font-mono text-sm font-bold text-white">{typeDist.unit}</p>
-                <p className="text-[8px] text-white/30 font-mono">UNITS</p>
+                <p className="text-[var(--space-xs)] text-white/30 font-mono">UNITS</p>
               </div>
               <div className="flex-1 text-center px-2 py-1.5 rounded bg-white/5">
-                <p className="font-mono text-sm font-bold text-purple-400">{typeDist.spell}</p>
-                <p className="text-[8px] text-white/30 font-mono">SPELLS</p>
+                <p className="font-mono text-sm font-bold void-text-system">{typeDist.spell}</p>
+                <p className="text-[var(--space-xs)] text-white/30 font-mono">SPELLS</p>
               </div>
               <div className="flex-1 text-center px-2 py-1.5 rounded bg-white/5">
-                <p className="font-mono text-sm font-bold text-amber-400">{typeDist.artifact}</p>
-                <p className="text-[8px] text-white/30 font-mono">ARTIFACTS</p>
+                <p className="font-mono text-sm font-bold void-text-accent">{typeDist.artifact}</p>
+                <p className="text-[var(--space-xs)] text-white/30 font-mono">ARTIFACTS</p>
               </div>
             </div>
           </div>
@@ -215,7 +215,7 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
           <div className="flex flex-col gap-2 mt-auto">
             <button
               onClick={() => setDeck(new Map())}
-              className="flex items-center justify-center gap-1 px-3 py-2 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-xs hover:bg-red-500/20"
+              className="flex items-center justify-center gap-1 px-3 py-2 rounded-lg void-bg-error border void-border-error void-text-error font-mono text-xs void-bg-error"
             >
               <Trash2 size={12} /> CLEAR DECK
             </button>
@@ -224,7 +224,7 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
               disabled={deckSize !== DECK_SIZE}
               className={`flex items-center justify-center gap-1 px-3 py-2 rounded-lg font-mono text-xs transition-all ${
                 deckSize === DECK_SIZE
-                  ? "bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/30"
+                  ? "void-bg-success border void-border-success void-text-energy void-bg-success"
                   : "bg-white/5 border border-white/10 text-white/20 cursor-not-allowed"
               }`}
             >

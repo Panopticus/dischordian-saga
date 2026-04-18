@@ -39,19 +39,22 @@ interface PackType {
 }
 
 const PACK_TYPES: PackType[] = [
+  // void-ignore — Season 1 identity + glow colors
   { id: "season1", name: "Season 1: Genesis", description: "The first wave of the Dischordian conflict", color: "#00bcd4", glowColor: "#00bcd480", season: "1", cost: 0 },
+  // void-ignore — Season 2 identity + glow colors
   { id: "season2", name: "Season 2: Schism", description: "The factions fracture and new alliances form", color: "#9c27b0", glowColor: "#9c27b080", season: "2", cost: 100 },
+  // void-ignore — Season 3 identity + glow colors
   { id: "season3", name: "Season 3: Convergence", description: "The final battle approaches", color: "#ff9800", glowColor: "#ff980080", season: "3", cost: 100 },
 ];
 
 const RARITY_COLORS: Record<string, { bg: string; border: string; text: string; glow: string }> = {
-  common:    { bg: "bg-zinc-800", border: "border-zinc-600", text: "text-zinc-400", glow: "" },
-  uncommon:  { bg: "bg-emerald-900/50", border: "border-emerald-500/60", text: "text-emerald-400", glow: "" },
-  rare:      { bg: "bg-blue-900/50", border: "border-blue-500/60", text: "text-blue-400", glow: "shadow-[0_0_20px_rgba(59,130,246,0.3)]" },
-  epic:      { bg: "bg-purple-900/50", border: "border-purple-500/60", text: "text-purple-400", glow: "shadow-[0_0_30px_rgba(168,85,247,0.4)]" },
-  legendary: { bg: "bg-amber-900/50", border: "border-amber-500/60", text: "text-amber-400", glow: "shadow-[0_0_40px_rgba(245,158,11,0.5)]" },
-  mythic:    { bg: "bg-red-900/50", border: "border-red-500/60", text: "text-red-400", glow: "shadow-[0_0_50px_rgba(239,68,68,0.6)]" },
-  neyon:     { bg: "bg-cyan-900/50", border: "border-cyan-400/60", text: "text-cyan-300", glow: "shadow-[0_0_60px_rgba(34,211,238,0.7)]" },
+  common:    { bg: "void-bg-canvas", border: "void-border", text: "void-text", glow: "" },
+  uncommon:  { bg: "void-bg-success", border: "void-border-success", text: "void-text-energy", glow: "" },
+  rare:      { bg: "void-bg-sunk", border: "void-border", text: "void-text-energy", glow: "shadow-[0_0_20px_color-mix(in oklch, var(--electric-blue) 30%, transparent)]" },
+  epic:      { bg: "void-bg-system", border: "void-border-system", text: "void-text-system", glow: "shadow-[0_0_30px_color-mix(in oklch, var(--energy-system) 40%, transparent)]" },
+  legendary: { bg: "void-bg-sunk", border: "void-border", text: "void-text-accent", glow: "shadow-[0_0_40px_color-mix(in oklch, var(--energy-accent) 50%, transparent)]" },
+  mythic:    { bg: "void-bg-error", border: "void-border-error", text: "void-text-error", glow: "shadow-[0_0_50px_color-mix(in oklch, var(--energy-error) 60%, transparent)]" },
+  neyon:     { bg: "void-bg-success", border: "void-border-success", text: "void-text-energy", glow: "shadow-[0_0_60px_color-mix(in oklch, var(--energy-primary) 70%, transparent)]" },
 };
 
 interface PackOpeningProps {
@@ -119,13 +122,13 @@ export default function PackOpening({ cards, packType, onComplete, onClose }: Pa
                 style={{
                   backgroundColor: pack.color + "15",
                   borderColor: pack.color,
-                  boxShadow: `0 0 40px ${pack.glowColor}, 0 0 80px ${pack.glowColor}`,
+                  boxShadow: `0 0 var(--space-xl) ${pack.glowColor}, 0 0 var(--space-2xl) ${pack.glowColor}`,
                 }}
               >
                 <Package size={48} style={{ color: pack.color }} />
                 <div className="text-center px-4">
                   <p className="font-display text-sm font-bold text-white">{pack.name}</p>
-                  <p className="text-[10px] text-white/40 font-mono mt-1">5 CARDS</p>
+                  <p className="text-[var(--space-sm)] text-white/40 font-mono mt-1">5 CARDS</p>
                 </div>
               </div>
               {/* Shimmer overlay */}
@@ -159,7 +162,7 @@ export default function PackOpening({ cards, packType, onComplete, onClose }: Pa
               style={{
                 backgroundColor: pack.color + "15",
                 borderColor: pack.color,
-                boxShadow: `0 0 60px ${pack.glowColor}`,
+                boxShadow: `0 0 var(--space-2xl) ${pack.glowColor}`,
               }}
             >
               <Package size={48} style={{ color: pack.color }} />
@@ -170,7 +173,7 @@ export default function PackOpening({ cards, packType, onComplete, onClose }: Pa
               animate={{ scale: [0, 2, 3], opacity: [0, 0.8, 0] }}
               transition={{ delay: 0.8, duration: 0.7 }}
               className="absolute w-64 h-64 rounded-full"
-              style={{ boxShadow: `0 0 100px 50px ${pack.glowColor}` }}
+              style={{ boxShadow: `0 0 var(--space-3xl) var(--space-xl) ${pack.glowColor}` }}
             />
           </motion.div>
         )}
@@ -190,7 +193,7 @@ export default function PackOpening({ cards, packType, onComplete, onClose }: Pa
             {isHighRarity && (
               <div
                 className="absolute w-96 h-96 rounded-full opacity-30 animate-pulse"
-                style={{ boxShadow: `0 0 120px 60px ${RARITY_COLORS[currentCard.rarity]?.glow || ""}` }}
+                style={{ boxShadow: `0 0 var(--space-4xl) var(--space-2xl) ${RARITY_COLORS[currentCard.rarity]?.glow || ""}` }}
               />
             )}
 
@@ -198,10 +201,10 @@ export default function PackOpening({ cards, packType, onComplete, onClose }: Pa
             <div className={`w-56 h-80 rounded-2xl border-2 overflow-hidden ${rarityStyle.bg} ${rarityStyle.border} ${rarityStyle.glow} transition-all`}>
               {/* Header: cost + rarity */}
               <div className="flex items-center justify-between px-3 pt-3">
-                <span className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-500/30 text-blue-300 font-mono text-sm font-bold">
+                <span className="w-8 h-8 flex items-center justify-center rounded-full void-bg-sunk void-text-energy font-mono text-sm font-bold">
                   {currentCard.manaCost}
                 </span>
-                <span className={`text-[10px] font-mono uppercase tracking-wider ${rarityStyle.text}`}>
+                <span className={`text-[var(--space-sm)] font-mono uppercase tracking-wider ${rarityStyle.text}`}>
                   {currentCard.rarity}
                 </span>
               </div>
@@ -220,38 +223,38 @@ export default function PackOpening({ cards, packType, onComplete, onClose }: Pa
               {/* Name */}
               <div className="px-3">
                 <p className="font-mono text-sm font-bold text-white truncate">{currentCard.name}</p>
-                <p className="text-[10px] text-white/40 font-mono">{currentCard.cardType}</p>
+                <p className="text-[var(--space-sm)] text-white/40 font-mono">{currentCard.cardType}</p>
               </div>
 
               {/* Stats */}
               {currentCard.cardType === "unit" && (
                 <div className="flex gap-4 px-3 mt-2">
-                  <span className="text-xs font-mono text-red-400">ATK {currentCard.attack}</span>
-                  <span className="text-xs font-mono text-green-400">HP {currentCard.health}</span>
+                  <span className="text-xs font-mono void-text-error">ATK {currentCard.attack}</span>
+                  <span className="text-xs font-mono void-text-energy">HP {currentCard.health}</span>
                 </div>
               )}
 
               {/* Variant indicator */}
               {(currentCard.isFoil || (currentCard.variant && currentCard.variant !== "standard")) && (
                 <div className="absolute top-2 right-2 flex items-center gap-1">
-                  {currentCard.variant === "holographic" && <Sparkles size={14} className="text-cyan-400" />}
-                  {currentCard.variant === "animated" && <Sparkles size={14} className="text-purple-400 animate-pulse" />}
-                  {currentCard.variant === "golden" && <Star size={14} className="text-amber-400 fill-amber-400" />}
-                  {currentCard.variant === "void_touched" && <Gem size={14} className="text-indigo-400" />}
-                  {currentCard.variant === "signature" && <Star size={14} className="text-red-400 fill-red-400" />}
-                  {currentCard.isFoil && !currentCard.variant && <Star size={14} className="text-amber-400 fill-amber-400" />}
+                  {currentCard.variant === "holographic" && <Sparkles size={14} className="void-text-energy" />}
+                  {currentCard.variant === "animated" && <Sparkles size={14} className="void-text-system animate-pulse" />}
+                  {currentCard.variant === "golden" && <Star size={14} className="void-text-accent fill-amber-400" />}
+                  {currentCard.variant === "void_touched" && <Gem size={14} className="void-text-energy" />}
+                  {currentCard.variant === "signature" && <Star size={14} className="void-text-error fill-red-400" />}
+                  {currentCard.isFoil && !currentCard.variant && <Star size={14} className="void-text-accent fill-amber-400" />}
                 </div>
               )}
               {/* Variant label */}
               {currentCard.variant && currentCard.variant !== "standard" && (
                 <div className="absolute top-2 left-2 px-1.5 py-0.5 rounded bg-black/60 backdrop-blur-sm">
-                  <span className="font-mono text-[7px] text-amber-300 tracking-wider">{currentCard.variant.replace(/_/g, " ").toUpperCase()}</span>
+                  <span className="font-mono text-[7px] void-text-accent tracking-wider">{currentCard.variant.replace(/_/g, " ").toUpperCase()}</span>
                 </div>
               )}
 
               {/* NEW badge */}
               {currentCard.isNew && (
-                <div className="absolute top-12 right-3 px-2 py-0.5 rounded bg-cyan-500 text-black text-[9px] font-mono font-bold">
+                <div className="absolute top-12 right-3 px-2 py-0.5 rounded void-bg-success text-black text-[9px] font-mono font-bold">
                   NEW
                 </div>
               )}
@@ -260,7 +263,7 @@ export default function PackOpening({ cards, packType, onComplete, onClose }: Pa
             {/* Card counter */}
             <div className="flex items-center gap-2">
               <span className="font-mono text-xs text-white/30">{revealIndex + 1} / {cards.length}</span>
-              <span className="font-mono text-[10px] text-white/20 animate-pulse">TAP FOR NEXT</span>
+              <span className="font-mono text-[var(--space-sm)] text-white/20 animate-pulse">TAP FOR NEXT</span>
             </div>
           </motion.div>
         )}
@@ -295,13 +298,13 @@ export default function PackOpening({ cards, packType, onComplete, onClose }: Pa
                       </div>
                     )}
                     <p className="text-[9px] font-mono text-white/80 truncate">{card.name}</p>
-                    <p className={`text-[8px] font-mono ${rs.text}`}>{card.rarity}</p>
+                    <p className={`text-[var(--space-xs)] font-mono ${rs.text}`}>{card.rarity}</p>
                     {card.variant && card.variant !== "standard" && (
-                      <span className="text-[7px] text-amber-300 font-mono">✦ {card.variant.replace(/_/g, " ")}</span>
+                      <span className="text-[7px] void-text-accent font-mono">✦ {card.variant.replace(/_/g, " ")}</span>
                     )}
-                    {card.isNew && <span className="text-[8px] text-cyan-400 font-mono">NEW!</span>}
+                    {card.isNew && <span className="text-[var(--space-xs)] void-text-energy font-mono">NEW!</span>}
                     {card.isDuplicate && card.shardValue && (
-                      <span className="text-[7px] text-purple-400 font-mono flex items-center gap-0.5">
+                      <span className="text-[7px] void-text-system font-mono flex items-center gap-0.5">
                         <Gem size={7} /> +{card.shardValue} shards
                       </span>
                     )}
@@ -314,32 +317,32 @@ export default function PackOpening({ cards, packType, onComplete, onClose }: Pa
             <div className="flex gap-4 text-center">
               <div>
                 <p className="font-mono text-lg font-bold text-white">{revealedCards.filter(c => c.isNew).length}</p>
-                <p className="text-[10px] text-white/40 font-mono">NEW CARDS</p>
+                <p className="text-[var(--space-sm)] text-white/40 font-mono">NEW CARDS</p>
               </div>
               <div>
-                <p className="font-mono text-lg font-bold text-amber-400">{revealedCards.filter(c => c.isFoil).length}</p>
-                <p className="text-[10px] text-white/40 font-mono">FOILS</p>
+                <p className="font-mono text-lg font-bold void-text-accent">{revealedCards.filter(c => c.isFoil).length}</p>
+                <p className="text-[var(--space-sm)] text-white/40 font-mono">FOILS</p>
               </div>
               <div>
-                <p className="font-mono text-lg font-bold text-purple-400">
+                <p className="font-mono text-lg font-bold void-text-system">
                   {revealedCards.filter(c => ["epic", "legendary", "mythic", "neyon"].includes(c.rarity)).length}
                 </p>
-                <p className="text-[10px] text-white/40 font-mono">RARE+</p>
+                <p className="text-[var(--space-sm)] text-white/40 font-mono">RARE+</p>
               </div>
               {revealedCards.some(c => c.variant && c.variant !== "standard") && (
                 <div>
-                  <p className="font-mono text-lg font-bold text-cyan-400">
+                  <p className="font-mono text-lg font-bold void-text-energy">
                     {revealedCards.filter(c => c.variant && c.variant !== "standard").length}
                   </p>
-                  <p className="text-[10px] text-white/40 font-mono">VARIANTS</p>
+                  <p className="text-[var(--space-sm)] text-white/40 font-mono">VARIANTS</p>
                 </div>
               )}
               {revealedCards.some(c => c.isDuplicate && c.shardValue) && (
                 <div>
-                  <p className="font-mono text-lg font-bold text-purple-300">
+                  <p className="font-mono text-lg font-bold void-text-system">
                     {revealedCards.reduce((sum, c) => sum + (c.isDuplicate && c.shardValue ? c.shardValue : 0), 0)}
                   </p>
-                  <p className="text-[10px] text-white/40 font-mono">SHARDS</p>
+                  <p className="text-[var(--space-sm)] text-white/40 font-mono">SHARDS</p>
                 </div>
               )}
             </div>

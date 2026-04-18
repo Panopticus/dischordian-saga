@@ -42,3 +42,11 @@ apps/client/src/components/prelude/BeatEFlashback.tsx
 apps/client/src/components/prelude/BeatHInbox.tsx
 apps/client/src/components/prelude/LastWordsWitnessing.tsx
 apps/client/src/components/prelude/PreludeSequencePlayer.tsx
+# Slice 5 — card/battle UI (duelyst stack). Rank-tier and season-pack
+# identity hex colors annotated via preceding-line // void-ignore
+# directives; all other palette usage migrated to semantic Void tokens.
+apps/client/src/game/duelyst/CollectionView.tsx
+apps/client/src/game/duelyst/DeckBuilder.tsx
+apps/client/src/game/duelyst/DuelystGameUI.tsx
+apps/client/src/game/duelyst/DuelystPage.tsx
+apps/client/src/game/duelyst/PackOpening.tsx

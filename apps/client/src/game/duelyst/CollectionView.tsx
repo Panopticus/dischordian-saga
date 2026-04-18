@@ -75,7 +75,7 @@ export default function CollectionView({ cards, onCardClick, onBack, onOpenPacks
         <button onClick={onBack} className="text-white/40 hover:text-white/70 font-mono text-sm">← BACK</button>
         <h2 className="font-display text-lg tracking-[0.2em] text-white">COLLECTION</h2>
         <div className="flex items-center gap-2">
-          <span className="font-mono text-xs text-cyan-400">{completionPct}%</span>
+          <span className="font-mono text-xs void-text-energy">{completionPct}%</span>
           <span className="font-mono text-[10px] text-white/30">{totalOwned}/{totalCards}</span>
         </div>
       </div>
@@ -83,8 +83,14 @@ export default function CollectionView({ cards, onCardClick, onBack, onOpenPacks
       {/* Completion bar */}
       <div className="px-4 py-2">
         <div className="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
-          <div className="h-full rounded-full bg-gradient-to-r from-cyan-500 to-cyan-400 transition-all duration-500"
-            style={{ width: `${completionPct}%` }} />
+          <div
+            className="h-full rounded-full transition-all duration-500"
+            style={{
+              background:
+                "linear-gradient(to right, var(--energy-primary), var(--energy-primary))",
+              width: `${completionPct}%`,
+            }}
+          />
         </div>
       </div>
 
@@ -102,12 +108,12 @@ export default function CollectionView({ cards, onCardClick, onBack, onOpenPacks
         </div>
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className={`p-2 rounded-lg border transition-colors ${showFilters ? "bg-cyan-500/20 border-cyan-500/40 text-cyan-400" : "bg-white/5 border-white/10 text-white/40"}`}
+          className={`p-2 rounded-lg border transition-colors ${showFilters ? "void-bg-success void-border-success void-text-energy" : "bg-white/5 border-white/10 text-white/40"}`}
         >
           <Filter size={14} />
         </button>
         {onOpenPacks && (
-          <button onClick={onOpenPacks} className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-400 font-mono text-xs">
+          <button onClick={onOpenPacks} className="flex items-center gap-1 px-3 py-1.5 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-xs">
             <Package size={12} /> OPEN PACKS
           </button>
         )}
@@ -176,7 +182,7 @@ export default function CollectionView({ cards, onCardClick, onBack, onOpenPacks
                 className={`rounded-lg border overflow-hidden transition-all ${
                   card.owned
                     ? `${rs.bg} ${rs.border} hover:scale-105 cursor-pointer`
-                    : "bg-zinc-900/50 border-zinc-800/50 opacity-30 cursor-default"
+                    : "void-bg-canvas void-border opacity-30 cursor-default"
                 }`}
               >
                 {/* Image or silhouette */}
@@ -184,12 +190,12 @@ export default function CollectionView({ cards, onCardClick, onBack, onOpenPacks
                   {card.owned && card.imageUrl ? (
                     <img src={card.imageUrl} alt="" className="w-full h-full object-cover" />
                   ) : (
-                    <div className="w-full h-full bg-zinc-900 flex items-center justify-center">
+                    <div className="w-full h-full void-bg-canvas flex items-center justify-center">
                       <span className="text-2xl text-white/5">{card.owned ? card.name.charAt(0) : "?"}</span>
                     </div>
                   )}
                   {/* Mana cost */}
-                  <span className="absolute top-1 left-1 w-5 h-5 flex items-center justify-center rounded-full bg-blue-500/80 text-white text-[9px] font-mono font-bold">
+                  <span className="absolute top-1 left-1 w-5 h-5 flex items-center justify-center rounded-full void-bg-sunk text-white text-[9px] font-mono font-bold">
                     {card.manaCost}
                   </span>
                   {/* Quantity badge */}
@@ -200,7 +206,7 @@ export default function CollectionView({ cards, onCardClick, onBack, onOpenPacks
                   )}
                   {/* Foil star */}
                   {card.isFoil && (
-                    <Star size={10} className="absolute bottom-1 right-1 text-amber-400 fill-amber-400" />
+                    <Star size={10} className="absolute bottom-1 right-1 void-text-accent fill-amber-400" />
                   )}
                 </div>
                 {/* Card name */}

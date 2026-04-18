@@ -14,3 +14,5 @@ apps/client/src/components/companion/CompanionCommentToast.tsx
 apps/client/src/components/prelude/PreludeTutorCard.tsx
 # Per-NPC identity color read from a registry (RememberThisToast consumes FACTION_NPCS.color):
 apps/client/src/components/RememberThisToast.tsx
+# Faction-identity colors (game-rule signal) live in types.ts FACTION_COLORS.
+apps/client/src/game/duelyst/types.ts
