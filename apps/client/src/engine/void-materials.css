@@ -413,6 +413,29 @@
 .void-border { border-color: var(--material-border); }
 .void-border-subtle { border-color: var(--material-border-subtle); }
 
+/* ── Feature-accent surfaces (semantic — used where a non-speaker
+   accent identifies a feature: Vortex Incursion = system/violet,
+   Ladder Engage = success/emerald, etc.). Surface variants tint
+   bg/border with the relevant energy token via color-mix. ── */
+.void-bg-system {
+  background-color: color-mix(in oklch, var(--energy-system) 20%, transparent);
+}
+.void-border-system {
+  border-color: color-mix(in oklch, var(--energy-system) 60%, transparent);
+}
+.void-bg-success {
+  background-color: color-mix(in oklch, var(--energy-success) 20%, transparent);
+}
+.void-border-success {
+  border-color: color-mix(in oklch, var(--energy-success) 60%, transparent);
+}
+.void-bg-error {
+  background-color: color-mix(in oklch, var(--energy-error) 20%, transparent);
+}
+.void-border-error {
+  border-color: color-mix(in oklch, var(--energy-error) 60%, transparent);
+}
+
 /* ── Glow ── */
 .void-glow { box-shadow: 0 0 20px var(--material-glow); }
 .void-glow-sm { box-shadow: 0 0 8px var(--material-glow); }

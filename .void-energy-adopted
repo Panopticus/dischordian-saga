@@ -20,3 +20,6 @@ apps/client/src/components/GameErrorBoundary.tsx
 # Slice 2A — page-level shell. Speaker-accent blocks extracted into
 # Act1CompanionPanel (intentional) so the parent page stays adopted.
 apps/client/src/pages/Act1CardLadderPage.tsx
+# Slice 2B — page-level shell. Vortex Incursion violet now uses the
+# new void-{bg,border}-system utilities (energy-system axis).
+apps/client/src/pages/WitnessingHubPage.tsx
