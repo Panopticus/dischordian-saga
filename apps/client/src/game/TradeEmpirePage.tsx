@@ -3,7 +3,7 @@
    Galaxy map, mission dispatch, agent management,
    diplomacy, and fleet operations.
    ═══════════════════════════════════════════════════════ */
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Globe, Users, Swords, Shield, Package, Target, ChevronRight,
@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import GalacticMap from "./GalacticMap";
 import { useGame } from "@/contexts/GameContext";
+import { dispatchVoiceWhisper } from "@/components/VoiceWhisper";
 import { getEquipmentGameBonuses } from "./equipmentState";
 import {
   GALACTIC_MAP, GALACTIC_FACTIONS, STARTER_MISSIONS,
@@ -246,6 +247,20 @@ export default function TradeEmpirePage() {
   });
   const [selectedSector, setSelectedSector] = useState<string | null>(null);
   const [selectedMission, setSelectedMission] = useState<MissionDef | null>(null);
+  // Audit 2H — trade_offered whisper fires when a new mission is
+  // selected (the first time the player looks at the dispatch dialog
+  // for that mission). Guarded by a ref so re-opening the same
+  // mission doesn't re-whisper.
+  const lastTradeWhisperedRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!selectedMission) return;
+    if (lastTradeWhisperedRef.current === selectedMission.id) return;
+    lastTradeWhisperedRef.current = selectedMission.id;
+    dispatchVoiceWhisper(
+      { type: "trade_offered" },
+      (gameState.innerVoiceSkills ?? {}) as Record<string, number>,
+    );
+  }, [selectedMission, gameState.innerVoiceSkills]);
 
   // ─── Act 3 cinematic overlays ───
   const [showEyesTransmission, setShowEyesTransmission] = useState(false);

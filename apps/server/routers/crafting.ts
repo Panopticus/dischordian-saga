@@ -3,7 +3,7 @@ import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { trackCraftAction, trackDisenchant, trackCollectionSize } from "../achievementTracker";
-import { cards, userCards, craftingLog, dreamBalance, userProgress } from "../../db/schema";
+import { cards, userCards, craftingLog, disenchantLog, dreamBalance, userProgress } from "../../db/schema";
 import { eq, and, sql, desc, inArray } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveCraftingBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
@@ -398,7 +398,7 @@ export const craftingRouter = router({
           });
         }
 
-        // Log
+        // Log to craftingLog (shared with all recipe types)
         await db.insert(craftingLog).values({
           userId: ctx.user.id,
           recipeType: recipe.id,
@@ -407,6 +407,25 @@ export const craftingRouter = router({
           success: 1,
           creditsCost: 0,
         });
+
+        // Audit 5A — dedicated disenchantLog entry. Previously the
+        // disenchant_log table existed in schema but was never written
+        // to (orphaned). This write denormalizes the disenchant-specific
+        // fields (cardName, cardRarity, materialsReceived, dreamReceived)
+        // so analytics can query disenchant history without filtering
+        // craftingLog by recipeType.
+        try {
+          await db.insert(disenchantLog).values({
+            userId: ctx.user.id,
+            cardId: input.inputCardIds[0],
+            cardName: cardDetail[0]?.name ?? input.inputCardIds[0],
+            cardRarity: cardDetail[0]?.rarity ?? "common",
+            materialsReceived: {},
+            dreamReceived: dreamGain,
+          });
+        } catch (e) {
+          logger.warn("[Crafting] disenchantLog insert failed (non-blocking):", e);
+        }
 
         // Achievement auto-tracking for disenchant
         trackDisenchant(ctx.user.id).catch(e => logger.error("[Crafting] Achievement error:", e));

@@ -64,6 +64,8 @@ import {
 } from "@/components/match/TrialTranscriptColumn";
 import { PublicWitnessColumn } from "@/components/match/PublicWitnessColumn";
 import { SeerPlayOverlay } from "@/components/match/SeerPlayOverlay";
+import { dispatchVoiceWhisper } from "@/components/VoiceWhisper";
+import { trpc } from "@/lib/trpc";
 import type { TcgDispatchResult } from "./TcgClient";
 
 interface DuelystGameUIProps {
@@ -99,7 +101,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   // Screen-reader match-start announcement — fired once when
   // seerProphecy first appears on state (spec §6.3).
   const seerAnnouncedRef = useRef(false);
-  const { setNarrativeFlag } = useGame();
+  const { setNarrativeFlag, state: gameStateContext } = useGame();
   const [gameState, setGameState] = useState<DuelystGameState | null>(null);
   const [phase, setPhase] = useState<Phase>("mulligan");
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
@@ -109,6 +111,15 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   const [log, setLog] = useState<LogEntry[]>([]);
   const [hoveredCard, setHoveredCard] = useState<DuelystCard | null>(null);
   const [turnFlash, setTurnFlash] = useState<string | null>(null);
+  // Guard so combat_low_hp dispatches once per HP-threshold-crossing,
+  // not on every re-render while HP sits below the threshold.
+  const lowHpDispatchedRef = useRef(false);
+  // Guard so quest increments fire once per match resolution, not
+  // every re-render while phase === "game_over".
+  const questsRecordedRef = useRef(false);
+  // Audit 3B — card-battle quest progression. FightPage already
+  // fires fight-flavor quests; DuelystGameUI was the card-battle gap.
+  const updateQuestProgress = trpc.quests.updateProgress.useMutation();
 
   // §5.5 Warlord lockout — UI state. Spec:
   // docs/production/act1/warlord-three-move-mechanic.md.
@@ -298,8 +309,45 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     if (gameState.winner !== null) {
       setPhase("game_over");
       onGameEnd(gameState.winner === 0 ? "player" : "opponent");
+      // Audit 3B — card-battle quest progression. Mirrors FightPage's
+      // match-end quest hook; fires once per match via the guard ref.
+      // `d_play_3_battles` counts completions (win or loss);
+      // `d_play_card_battle` + weekly + season count wins only.
+      if (!questsRecordedRef.current) {
+        questsRecordedRef.current = true;
+        updateQuestProgress.mutate({ questId: "d_play_3_battles", increment: 1 });
+        if (gameState.winner === 0) {
+          updateQuestProgress.mutate({ questId: "d_play_card_battle", increment: 1 });
+          updateQuestProgress.mutate({ questId: "w_win_10_battles", increment: 1 });
+          updateQuestProgress.mutate({ questId: "e_win_100_battles", increment: 1 });
+        }
+      }
     }
-  }, [gameState, phase, onGameEnd]);
+  }, [gameState, phase, onGameEnd, updateQuestProgress]);
+
+  // Inner-voice dispatch: audit 2H — combat_low_hp fires exactly
+  // once when the player's general drops below 25% max HP. Guarded
+  // by a ref so re-renders while already-low don't spam the whisper
+  // panel (the VoiceWhisper listener has its own 15s cooldown but a
+  // fresh dispatch every tick is still wasteful).
+  useEffect(() => {
+    if (!gameState || phase !== "playing") return;
+    const playerGeneral = findUnit(gameState, gameState.players[0].generalId);
+    if (!playerGeneral) return;
+    const max = playerGeneral.maxHealth ?? 25;
+    const cur = playerGeneral.currentHealth ?? max;
+    const pct = max > 0 ? cur / max : 1;
+    if (pct < 0.25 && !lowHpDispatchedRef.current) {
+      lowHpDispatchedRef.current = true;
+      dispatchVoiceWhisper(
+        { type: "combat_low_hp" },
+        (gameStateContext.innerVoiceSkills ?? {}) as Record<string, number>,
+      );
+    } else if (pct >= 0.25 && lowHpDispatchedRef.current) {
+      // Reset the guard when HP recovers so a second crossing re-fires.
+      lowHpDispatchedRef.current = false;
+    }
+  }, [gameState, phase, gameStateContext.innerVoiceSkills]);
 
   // §4.9 Seer match end — write the canonical outcome flags once the
   // match resolves. deriveSeerOutcome picks between defeated /
@@ -393,9 +441,15 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     const outcome = gameState?.trial?.outcome;
     if (outcome && !prevTrialOutcomeRef.current) {
       setShowLightDarkPillar(true);
+      // Inner-voice dispatch: audit 2H — any skill with a
+      // choice_presented utterance whispers as the pillar mounts.
+      dispatchVoiceWhisper(
+        { type: "choice_presented" },
+        (gameStateContext.innerVoiceSkills ?? {}) as Record<string, number>,
+      );
     }
     prevTrialOutcomeRef.current = outcome;
-  }, [gameState]);
+  }, [gameState, gameStateContext.innerVoiceSkills]);
 
   // §5.6 gift pillar — fires on the not_offered → offered transition.
   // Once the player resolves (accepted/declined), the status moves
@@ -404,12 +458,16 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     const status = gameState?.programmerGift?.status;
     if (status === "offered" && prevGiftStatusRef.current !== "offered") {
       setShowProgrammerGiftPillar(true);
+      dispatchVoiceWhisper(
+        { type: "choice_presented" },
+        (gameStateContext.innerVoiceSkills ?? {}) as Record<string, number>,
+      );
     }
     if (status === "accepted" || status === "declined") {
       setShowProgrammerGiftPillar(false);
     }
     prevGiftStatusRef.current = status;
-  }, [gameState]);
+  }, [gameState, gameStateContext.innerVoiceSkills]);
 
   // §5.8.1 pick handler: write the persistent alignment flag + hide
   // the pillar. The component's own state prevents re-clicks mid-
@@ -508,6 +566,14 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     const finalView = asGameState(client.getViewState());
     setGameState(finalView);
     setPhase("playing");
+    // Inner-voice dispatch: audit 2H — combat_start is the canonical
+    // "match has begun" beat. Any skill with a registered utterance
+    // for this trigger surfaces a whisper via the global VoiceWhisper
+    // listener. No-op when no utterance qualifies.
+    dispatchVoiceWhisper(
+      { type: "combat_start" },
+      (gameStateContext.innerVoiceSkills ?? {}) as Record<string, number>,
+    );
     addLog(`Mulligan complete. Your turn — ${finalView.players[0].mana} mana available.`, "system");
     setTurnFlash("YOUR TURN");
     setTimeout(() => setTurnFlash(null), 1500);

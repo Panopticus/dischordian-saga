@@ -9,6 +9,8 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Zap, X, ShieldAlert } from "lucide-react";
+import { useGame } from "@/contexts/GameContext";
+import { dispatchVoiceWhisper } from "@/components/VoiceWhisper";
 
 /* ═══ PROPS ═══ */
 interface HackingPuzzleProps {
@@ -355,6 +357,21 @@ export default function HackingPuzzle({
   const [timeLeft, setTimeLeft] = useState(timeLimit);
   const [gameState, setGameState] = useState<GameState>("playing");
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Audit 2H — puzzle_attempt whisper fires once on mount. Any
+  // skill (tactics / perception / craftsmanship) with a registered
+  // puzzle_attempt utterance surfaces a hint. No-op when no match.
+  const { state: gameCtxState } = useGame();
+  useEffect(() => {
+    dispatchVoiceWhisper(
+      { type: "puzzle_attempt", puzzleId: "hacking" },
+      (gameCtxState.innerVoiceSkills ?? {}) as Record<string, number>,
+    );
+    // Mount-once — intentionally empty deps. Re-triggers on puzzle
+    // restart would require unmounting + remounting this component,
+    // which the parent already does via onClose/navigate.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const powered = useMemo(() => computePowered(grid), [grid]);
   const mid = Math.floor(GRID / 2);
