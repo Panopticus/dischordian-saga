@@ -107,19 +107,19 @@ export function DeckPickerModal({
       className="fixed inset-0 z-[70] bg-black/85 backdrop-blur-sm flex items-center justify-center p-6"
       data-testid="deck-picker-modal"
     >
-      <div className="max-w-lg w-full bg-stone-950 border border-stone-700 rounded p-6">
+      <div className="max-w-lg w-full void-bg-canvas border void-border rounded p-6">
         <header className="mb-4 text-center">
-          <p className="font-mono text-[10px] tracking-[0.3em] text-stone-500 uppercase mb-1">
+          <p className="font-mono text-[10px] tracking-[0.3em] void-text uppercase mb-1">
             Choose your deck
           </p>
-          <h2 className="font-serif text-xl text-stone-100">
+          <h2 className="font-serif text-xl void-text">
             {FACTION_NAMES[faction]}
           </h2>
         </header>
 
         <ul className="space-y-2 max-h-80 overflow-y-auto mb-4">
           {options.length === 0 && (
-            <li className="text-center font-mono text-xs text-stone-500 py-8">
+            <li className="text-center font-mono text-xs void-text py-8">
               No decks available. Claim your starter pack from the Bridge Console.
             </li>
           )}
@@ -136,13 +136,13 @@ export function DeckPickerModal({
                     "w-full text-left p-3 rounded border transition " +
                     (active
                       ? "bg-primary/10 border-primary/60"
-                      : "bg-stone-900 border-stone-800 hover:bg-stone-800")
+                      : "void-bg-canvas void-border void-bg-canvas")
                   }
                 >
-                  <p className="font-serif text-sm text-stone-100">
+                  <p className="font-serif text-sm void-text">
                     {option.label}
                   </p>
-                  <p className="font-mono text-[10px] text-stone-500 mt-1">
+                  <p className="font-mono text-[10px] void-text mt-1">
                     {option.detail}
                   </p>
                 </button>
@@ -165,7 +165,7 @@ export function DeckPickerModal({
             type="button"
             onClick={onCancel}
             data-testid="deck-picker-cancel"
-            className="px-4 py-2 bg-stone-900 border border-stone-700 text-stone-300 rounded font-mono text-xs hover:bg-stone-800 transition-colors"
+            className="px-4 py-2 void-bg-canvas border void-border void-text rounded font-mono text-xs void-bg-canvas transition-colors"
           >
             CANCEL
           </button>

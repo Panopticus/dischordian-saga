@@ -35,7 +35,7 @@ const TIMELINE_ERAS: TimelineEra[] = [
     yearRange: "2020–2030",
     color: "#3b82f6",
     bgGradient: "from-blue-500/20 to-blue-500/5",
-    glowColor: "rgba(59,130,246,0.4)",
+    glowColor: "color-mix(in oklch, var(--electric-blue) 40%, transparent)",
     description: "The world before the Fall. Surveillance capitalism, digital resistance, and the seeds of revolution.",
     loreQuote: "In the Age of Privacy, the greatest weapon was information — and the greatest crime was keeping it to yourself.",
   },
@@ -43,9 +43,9 @@ const TIMELINE_ERAS: TimelineEra[] = [
     age: "Haven: Sundown Bazaar",
     eraLabel: "ERA II",
     yearRange: "2030–2035",
-    color: "#f59e0b",
+    color: "var(--energy-accent)",
     bgGradient: "from-amber-500/20 to-amber-500/5",
-    glowColor: "rgba(245,158,11,0.4)",
+    glowColor: "color-mix(in oklch, var(--energy-accent) 40%, transparent)",
     description: "The underground market where deals are made in shadows. Haven exists outside the law, outside time.",
     loreQuote: "At Sundown, everything has a price. The question is whether you can afford what it costs to leave.",
   },
@@ -53,9 +53,9 @@ const TIMELINE_ERAS: TimelineEra[] = [
     age: "Fall of Reality (Prequel)",
     eraLabel: "ERA III",
     yearRange: "2035–2045",
-    color: "#ef4444",
+    color: "var(--energy-error)",
     bgGradient: "from-red-500/20 to-red-500/5",
-    glowColor: "rgba(239,68,68,0.4)",
+    glowColor: "color-mix(in oklch, var(--energy-error) 40%, transparent)",
     description: "The collapse of civilization as we knew it. The Panopticon rises, reality fractures, and heroes emerge from the ashes.",
     loreQuote: "Reality didn't fall — it was pushed. And the ones who pushed it are still watching.",
   },
@@ -224,11 +224,11 @@ export default function SagaTimelinePage() {
             <CheckCircle2 size={11} className="inline mr-1" />
             {completedCount}/{totalGames} STORIES
           </span>
-          <span className="px-3 py-1.5 rounded-md bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono">
+          <span className="px-3 py-1.5 rounded-md void-bg-sunk border void-border void-text-accent text-xs font-mono">
             <Trophy size={11} className="inline mr-1" />
             {achievementCount} ACHIEVEMENTS
           </span>
-          <span className="px-3 py-1.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-mono">
+          <span className="px-3 py-1.5 rounded-md void-bg-success border void-border-success void-text-energy text-xs font-mono">
             <Zap size={11} className="inline mr-1" />
             {state.conexusXp} XP
           </span>
@@ -373,12 +373,12 @@ export default function SagaTimelinePage() {
                           <div
                             className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all group-hover:scale-110`}
                             style={{
-                              borderColor: isGameCompleted(game.id) ? "#22c55e" : `${era.color}60`,
-                              backgroundColor: isGameCompleted(game.id) ? "#22c55e20" : "transparent",
+                              borderColor: isGameCompleted(game.id) ? "var(--energy-success)" : `${era.color}60`,
+                              backgroundColor: isGameCompleted(game.id) ? "var(--energy-success)20" : "transparent",
                             }}
                           >
                             {isGameCompleted(game.id) ? (
-                              <CheckCircle2 size={8} className="text-green-400" />
+                              <CheckCircle2 size={8} className="void-text-energy" />
                             ) : (
                               <Gamepad2 size={7} style={{ color: `${era.color}80` }} />
                             )}
@@ -391,7 +391,7 @@ export default function SagaTimelinePage() {
                             style={{
                               borderColor: selectedGame?.id === game.id
                                 ? `${era.color}60`
-                                : isGameCompleted(game.id) ? "#22c55e30" : "var(--border)",
+                                : isGameCompleted(game.id) ? "var(--energy-success)30" : "var(--border)",
                             }}
                           >
                             <p className="font-display text-[10px] font-bold tracking-wide text-foreground leading-tight truncate">
@@ -474,7 +474,7 @@ export default function SagaTimelinePage() {
                               <span className="font-mono text-[10px] text-muted-foreground/70">{era.yearRange}</span>
                             </div>
                             {completed > 0 && (
-                              <span className="flex items-center gap-1 font-mono text-[10px] text-green-400/80 bg-muted/60 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                              <span className="flex items-center gap-1 font-mono text-[10px] void-text-energy bg-muted/60 px-2 py-0.5 rounded-md backdrop-blur-sm">
                                 <CheckCircle2 size={10} /> {completed}/{games.length}
                               </span>
                             )}
@@ -588,7 +588,7 @@ export default function SagaTimelinePage() {
                           />
                           <div
                             className={`absolute -left-9 sm:-left-13 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full ${
-                              gameCompleted ? "bg-green-400" : ""
+                              gameCompleted ? "void-bg-success" : ""
                             }`}
                             style={!gameCompleted ? { backgroundColor: `${era.color}30` } : undefined}
                           />
@@ -599,17 +599,17 @@ export default function SagaTimelinePage() {
                             rel="noopener noreferrer"
                             className={`group flex items-center gap-3 p-2.5 rounded-lg border transition-all hover-lift ${
                               gameCompleted
-                                ? "border-green-500/20 bg-green-500/5 hover:border-green-500/40"
+                                ? "void-border-success void-bg-success void-border-success"
                                 : "border-border/10 bg-card/10 hover:bg-card/25"
                             }`}
                             style={!gameCompleted ? { ["--hover-border" as string]: `${era.color}30` } : undefined}
                           >
                             {/* Game icon */}
                             <div className={`w-9 h-9 rounded-md shrink-0 flex items-center justify-center ${
-                              gameCompleted ? "bg-green-500/10" : ""
+                              gameCompleted ? "void-bg-success" : ""
                             }`} style={!gameCompleted ? { backgroundColor: `${era.color}08` } : undefined}>
                               {gameCompleted ? (
-                                <CheckCircle2 size={16} className="text-green-400" />
+                                <CheckCircle2 size={16} className="void-text-energy" />
                               ) : (
                                 <Gamepad2 size={16} style={{ color: `${era.color}80` }} />
                               )}
@@ -619,11 +619,11 @@ export default function SagaTimelinePage() {
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2">
                                 <p className={`font-mono text-[11px] font-semibold truncate ${
-                                  gameCompleted ? "text-green-300/80" : "text-foreground/80"
+                                  gameCompleted ? "void-text-energy" : "text-foreground/80"
                                 }`}>
                                   {game.title}
                                 </p>
-                                {achEarned && <Star size={9} className="text-amber-400 shrink-0" />}
+                                {achEarned && <Star size={9} className="void-text-accent shrink-0" />}
                               </div>
                               <p className="font-mono text-[9px] text-muted-foreground/40 truncate">
                                 {game.description.substring(0, 70)}...
@@ -636,7 +636,7 @@ export default function SagaTimelinePage() {
                                 <Clock size={8} /> {game.estimatedTime}
                               </span>
                               {ach && (
-                                <span className={`font-mono text-[8px] ${achEarned ? "text-amber-400/60" : "text-muted-foreground/25"}`}>
+                                <span className={`font-mono text-[8px] ${achEarned ? "void-text-accent" : "text-muted-foreground/25"}`}>
                                   +{ach.xpReward}XP
                                 </span>
                               )}
@@ -667,7 +667,7 @@ export default function SagaTimelinePage() {
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                   {isGameCompleted(selectedGame.id) ? (
-                    <CheckCircle2 size={24} className="text-green-400" />
+                    <CheckCircle2 size={24} className="void-text-energy" />
                   ) : (
                     <Gamepad2 size={24} className="text-primary" />
                   )}
@@ -684,15 +684,15 @@ export default function SagaTimelinePage() {
                     if (!ach) return null;
                     const earned = state.loreAchievements.includes(ach.id);
                     return (
-                      <div className={`rounded-md border p-2.5 mb-3 ${earned ? "border-amber-500/30 bg-amber-500/5" : "border-border/20 bg-secondary/10"}`}>
+                      <div className={`rounded-md border p-2.5 mb-3 ${earned ? "void-border void-bg-sunk" : "border-border/20 bg-secondary/10"}`}>
                         <div className="flex items-center gap-2 mb-1">
-                          {earned ? <Trophy size={12} className="text-amber-400" /> : <Lock size={12} className="text-muted-foreground/40" />}
-                          <span className={`font-mono text-[10px] font-bold ${earned ? "text-amber-300" : "text-muted-foreground/50"}`}>
+                          {earned ? <Trophy size={12} className="void-text-accent" /> : <Lock size={12} className="text-muted-foreground/40" />}
+                          <span className={`font-mono text-[10px] font-bold ${earned ? "void-text-accent" : "text-muted-foreground/50"}`}>
                             {ach.title}
                           </span>
                           <span className="font-mono text-[9px] text-muted-foreground/30">+{ach.xpReward} XP</span>
                         </div>
-                        <p className={`font-mono text-[9px] ${earned ? "text-amber-200/60" : "text-muted-foreground/30"}`}>
+                        <p className={`font-mono text-[9px] ${earned ? "void-text-accent" : "text-muted-foreground/30"}`}>
                           {earned ? ach.loreFragment : "Complete the story to unlock this lore fragment."}
                         </p>
                       </div>
@@ -753,7 +753,7 @@ export default function SagaTimelinePage() {
         <div className="flex items-center gap-3 flex-wrap">
           <Link
             href="/conexus-portal"
-            className="flex items-center gap-2 px-4 py-2 rounded-md bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-mono hover:bg-purple-500/20 transition-all"
+            className="flex items-center gap-2 px-4 py-2 rounded-md void-bg-system border void-border-system void-text-system text-xs font-mono void-bg-system transition-all"
           >
             <BookOpen size={14} />
             ANTIQUARIAN'S LIBRARY

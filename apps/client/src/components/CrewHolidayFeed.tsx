@@ -110,11 +110,11 @@ export function CrewHolidayFeed({ playerName = "Captain", limit = 6 }: CrewHolid
     <div className="space-y-3">
       {/* Primary crew activity feed (existing) */}
       {entries.length > 0 && (
-        <div className="bg-gradient-to-br from-red-950/20 via-green-950/20 to-amber-950/20 border border-amber-500/20 rounded-xl p-4">
+        <div className="bg-gradient-to-br from-red-950/20 via-green-950/20 to-amber-950/20 border void-border rounded-xl p-4">
           <div className="flex items-center gap-2 mb-3">
-            <Users className="w-4 h-4 text-amber-300" />
-            <span className="font-display text-sm text-amber-300">Crew Holiday Chatter</span>
-            <span className="ml-auto text-[10px] text-amber-400/50 font-mono uppercase tracking-widest">
+            <Users className="w-4 h-4 void-text-accent" />
+            <span className="font-display text-sm void-text-accent">Crew Holiday Chatter</span>
+            <span className="ml-auto text-[10px] void-text-accent font-mono uppercase tracking-widest">
               Live
             </span>
           </div>
@@ -129,15 +129,15 @@ export function CrewHolidayFeed({ playerName = "Captain", limit = 6 }: CrewHolid
                   transition={{ delay: i * 0.04 }}
                   className={`px-3 py-2 rounded-lg border text-xs font-mono leading-relaxed ${
                     entry.severity === "alert" || entry.severity === "critical"
-                      ? "bg-red-950/30 border-red-500/30 text-red-200"
+                      ? "void-bg-error void-border-error void-text-error"
                       : entry.severity === "warning"
-                      ? "bg-amber-950/30 border-amber-500/30 text-amber-200"
-                      : "bg-gray-900/40 border-gray-700/30 text-gray-300"
+                      ? "void-bg-sunk void-border void-text-accent"
+                      : "void-bg-canvas void-border void-text"
                   }`}
                 >
                   <div className="flex items-start gap-2">
                     {(entry.severity === "alert" || entry.severity === "critical") && (
-                      <AlertTriangle className="w-3 h-3 text-red-400 shrink-0 mt-0.5" />
+                      <AlertTriangle className="w-3 h-3 void-text-error shrink-0 mt-0.5" />
                     )}
                     <span>{entry.text}</span>
                   </div>
@@ -150,11 +150,11 @@ export function CrewHolidayFeed({ playerName = "Captain", limit = 6 }: CrewHolid
 
       {/* Crew-to-crew gift exchanges — autonomous ticker */}
       {exchanges.length > 0 && (
-        <div className="bg-gradient-to-br from-amber-950/20 to-red-950/20 border border-amber-500/30 rounded-xl p-4">
+        <div className="bg-gradient-to-br from-amber-950/20 to-red-950/20 border void-border rounded-xl p-4">
           <div className="flex items-center gap-2 mb-3">
-            <Gift className="w-4 h-4 text-amber-300" />
-            <span className="font-display text-sm text-amber-300">Crew Gift Exchange</span>
-            <span className="ml-auto text-[10px] text-amber-400/50 font-mono uppercase tracking-widest">
+            <Gift className="w-4 h-4 void-text-accent" />
+            <span className="font-display text-sm void-text-accent">Crew Gift Exchange</span>
+            <span className="ml-auto text-[10px] void-text-accent font-mono uppercase tracking-widest">
               {exchanges.length} today
             </span>
           </div>
@@ -165,10 +165,10 @@ export function CrewHolidayFeed({ playerName = "Captain", limit = 6 }: CrewHolid
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
-                className="px-3 py-2 rounded-lg border border-amber-500/20 bg-gray-900/40 font-mono text-[11px] leading-relaxed text-amber-100/90"
+                className="px-3 py-2 rounded-lg border void-border void-bg-canvas font-mono text-[11px] leading-relaxed void-text-accent"
               >
                 <div className="flex items-start gap-2">
-                  <Gift className="w-3 h-3 text-amber-400/70 shrink-0 mt-0.5" />
+                  <Gift className="w-3 h-3 void-text-accent shrink-0 mt-0.5" />
                   <span>{resolveExchangeText(exchange, daySeed + i)}</span>
                 </div>
               </motion.div>

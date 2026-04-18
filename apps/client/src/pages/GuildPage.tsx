@@ -15,9 +15,9 @@ import LivingBackground from "@/components/LivingBackground";
 
 /* ═══ FACTION COLORS ═══ */
 const FACTION_STYLE: Record<string, { color: string; bg: string; border: string }> = {
-  empire: { color: "text-red-400", bg: "bg-red-400/10", border: "border-red-400/30" },
-  insurgency: { color: "text-cyan-400", bg: "bg-cyan-400/10", border: "border-cyan-400/30" },
-  neutral: { color: "text-amber-400", bg: "bg-amber-400/10", border: "border-amber-400/30" },
+  empire: { color: "void-text-error", bg: "void-bg-error", border: "void-border-error" },
+  insurgency: { color: "void-text-energy", bg: "void-bg-success", border: "void-border-success" },
+  neutral: { color: "void-text-accent", bg: "void-bg-sunk", border: "void-border" },
 };
 
 const ROLE_ICONS: Record<string, typeof Crown> = {
@@ -189,11 +189,11 @@ function NoGuildView({ invites, onJoined }: { invites: any[]; onJoined: () => vo
         {/* Pending Invites */}
         {invites.length > 0 && (
           <div className="mb-6 space-y-2">
-            <h3 className="font-display text-xs font-bold tracking-[0.2em] text-amber-400 flex items-center gap-2">
+            <h3 className="font-display text-xs font-bold tracking-[0.2em] void-text-accent flex items-center gap-2">
               <UserPlus size={13} /> PENDING INVITATIONS
             </h3>
             {invites.map(inv => (
-              <div key={inv.id} className="flex items-center justify-between p-3 rounded-lg bg-card/40 border border-amber-400/20">
+              <div key={inv.id} className="flex items-center justify-between p-3 rounded-lg bg-card/40 border void-border">
                 <div>
                   <p className="font-mono text-sm font-semibold">{inv.guildName} <span className="text-muted-foreground">[{inv.guildTag}]</span></p>
                   <p className="font-mono text-[10px] text-muted-foreground">{inv.guildFaction?.toUpperCase()}</p>
@@ -201,13 +201,13 @@ function NoGuildView({ invites, onJoined }: { invites: any[]; onJoined: () => vo
                 <div className="flex gap-2">
                   <button
                     onClick={() => respondMut.mutate({ inviteId: inv.id, accept: true })}
-                    className="p-1.5 rounded bg-green-500/20 text-green-400 hover:bg-green-500/30"
+                    className="p-1.5 rounded void-bg-success void-text-energy void-bg-success"
                   >
                     <Check size={14} />
                   </button>
                   <button
                     onClick={() => respondMut.mutate({ inviteId: inv.id, accept: false })}
-                    className="p-1.5 rounded bg-red-500/20 text-red-400 hover:bg-red-500/30"
+                    className="p-1.5 rounded void-bg-error void-text-error void-bg-error"
                   >
                     <X size={14} />
                   </button>
@@ -281,7 +281,7 @@ function NoGuildView({ invites, onJoined }: { invites: any[]; onJoined: () => vo
                   <p className="font-mono text-xs text-muted-foreground leading-relaxed">{p.description}</p>
                   <div className="flex flex-wrap gap-2">
                     {p.minLevel > 1 && (
-                      <span className="px-2 py-0.5 rounded bg-amber-400/10 border border-amber-400/20 font-mono text-[10px] text-amber-400">MIN LVL {p.minLevel}</span>
+                      <span className="px-2 py-0.5 rounded void-bg-sunk border void-border font-mono text-[10px] void-text-accent">MIN LVL {p.minLevel}</span>
                     )}
                     {p.requirements && (
                       <span className="px-2 py-0.5 rounded bg-card/60 border border-border/30 font-mono text-[10px] text-muted-foreground">{p.requirements}</span>
@@ -454,10 +454,10 @@ function GuildOverview({ guild, membership, onRefetch }: { guild: any; membershi
       {/* Stats Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: "LEVEL", value: guild.level, icon: Star, color: "text-amber-400" },
-          { label: "MEMBERS", value: `${guild.memberCount}/${guild.maxMembers}`, icon: Users, color: "text-cyan-400" },
-          { label: "WAR POINTS", value: guild.totalWarPoints.toLocaleString(), icon: Swords, color: "text-red-400" },
-          { label: "XP", value: guild.xp.toLocaleString(), icon: Trophy, color: "text-purple-400" },
+          { label: "LEVEL", value: guild.level, icon: Star, color: "void-text-accent" },
+          { label: "MEMBERS", value: `${guild.memberCount}/${guild.maxMembers}`, icon: Users, color: "void-text-energy" },
+          { label: "WAR POINTS", value: guild.totalWarPoints.toLocaleString(), icon: Swords, color: "void-text-error" },
+          { label: "XP", value: guild.xp.toLocaleString(), icon: Trophy, color: "void-text-system" },
         ].map(s => {
           const Icon = s.icon;
           return (
@@ -511,7 +511,7 @@ function GuildOverview({ guild, membership, onRefetch }: { guild: any; membershi
               <p className="font-mono text-xs text-foreground/80">{myRecruitPost.description}</p>
               <div className="flex items-center gap-2">
                 <span className={`px-2 py-0.5 rounded font-mono text-[10px] ${
-                  myRecruitPost.status === "open" ? "bg-green-400/10 text-green-400 border border-green-400/20" : "bg-red-400/10 text-red-400 border border-red-400/20"
+                  myRecruitPost.status === "open" ? "void-bg-success void-text-energy border void-border-success" : "void-bg-error void-text-error border void-border-error"
                 }`}>{myRecruitPost.status.toUpperCase()}</span>
                 <span className="font-mono text-[10px] text-muted-foreground">MIN LVL {myRecruitPost.minLevel}</span>
               </div>
@@ -602,13 +602,13 @@ function GuildRoster({ guildId, myRole }: { guildId: number; myRole: string }) {
           >
             <div className="flex items-center gap-3">
               <div className={`w-8 h-8 rounded-md flex items-center justify-center ${
-                m.role === "leader" ? "bg-amber-400/10 border border-amber-400/30" :
-                m.role === "officer" ? "bg-cyan-400/10 border border-cyan-400/30" :
+                m.role === "leader" ? "void-bg-sunk border void-border" :
+                m.role === "officer" ? "void-bg-success border void-border-success" :
                 "bg-secondary/30 border border-border/20"
               }`}>
                 <Icon size={14} className={
-                  m.role === "leader" ? "text-amber-400" :
-                  m.role === "officer" ? "text-cyan-400" :
+                  m.role === "leader" ? "void-text-accent" :
+                  m.role === "officer" ? "void-text-energy" :
                   "text-muted-foreground"
                 } />
               </div>
@@ -760,14 +760,14 @@ function GuildTreasury({ guild }: { guild: any }) {
 
       {/* Treasury Balances */}
       <div className="grid grid-cols-2 gap-3">
-        <div className="p-4 rounded-lg bg-purple-400/5 border border-purple-400/20">
-          <Gem size={20} className="text-purple-400 mb-2" />
-          <p className="font-display text-2xl font-bold text-purple-400">{guild.treasuryDream.toLocaleString()}</p>
+        <div className="p-4 rounded-lg void-bg-system border void-border-system">
+          <Gem size={20} className="void-text-system mb-2" />
+          <p className="font-display text-2xl font-bold void-text-system">{guild.treasuryDream.toLocaleString()}</p>
           <p className="font-mono text-[10px] text-muted-foreground tracking-wider">DREAM TOKENS</p>
         </div>
-        <div className="p-4 rounded-lg bg-amber-400/5 border border-amber-400/20">
-          <Coins size={20} className="text-amber-400 mb-2" />
-          <p className="font-display text-2xl font-bold text-amber-400">{guild.treasuryCredits.toLocaleString()}</p>
+        <div className="p-4 rounded-lg void-bg-sunk border void-border">
+          <Coins size={20} className="void-text-accent mb-2" />
+          <p className="font-display text-2xl font-bold void-text-accent">{guild.treasuryCredits.toLocaleString()}</p>
           <p className="font-mono text-[10px] text-muted-foreground tracking-wider">CREDITS</p>
         </div>
       </div>
@@ -779,7 +779,7 @@ function GuildTreasury({ guild }: { guild: any }) {
           <button
             onClick={() => setCurrency("dream")}
             className={`flex-1 py-2 rounded-md font-mono text-xs transition-all ${
-              currency === "dream" ? "bg-purple-400/10 border border-purple-400/30 text-purple-400" : "bg-card/30 border border-border/20 text-muted-foreground"
+              currency === "dream" ? "void-bg-system border void-border-system void-text-system" : "bg-card/30 border border-border/20 text-muted-foreground"
             }`}
           >
             DREAM
@@ -787,7 +787,7 @@ function GuildTreasury({ guild }: { guild: any }) {
           <button
             onClick={() => setCurrency("credits")}
             className={`flex-1 py-2 rounded-md font-mono text-xs transition-all ${
-              currency === "credits" ? "bg-amber-400/10 border border-amber-400/30 text-amber-400" : "bg-card/30 border border-border/20 text-muted-foreground"
+              currency === "credits" ? "void-bg-sunk border void-border void-text-accent" : "bg-card/30 border border-border/20 text-muted-foreground"
             }`}
           >
             CREDITS
@@ -815,7 +815,7 @@ function GuildTreasury({ guild }: { guild: any }) {
           {donateMut.isPending ? <Loader2 size={14} className="animate-spin mx-auto" /> : "DONATE"}
         </button>
         {donateMut.data?.xpGain && (
-          <p className="font-mono text-xs text-green-400 text-center">+{donateMut.data.xpGain} Guild XP earned!</p>
+          <p className="font-mono text-xs void-text-energy text-center">+{donateMut.data.xpGain} Guild XP earned!</p>
         )}
       </div>
     </div>
@@ -828,9 +828,9 @@ function GuildTerritoryMap() {
   const [selectedTerritory, setSelectedTerritory] = useState<number | null>(null);
 
   const FACTION_MAP: Record<string, { color: string; glow: string; label: string; icon: typeof Shield }> = {
-    empire: { color: "#ef4444", glow: "rgba(239,68,68,0.4)", label: "EMPIRE", icon: Crown },
-    insurgency: { color: "#33e2e6", glow: "rgba(51,226,230,0.4)", label: "INSURGENCY", icon: Shield },
-    neutral: { color: "#ffb74d", glow: "rgba(255,183,77,0.4)", label: "NEUTRAL", icon: Flag },
+    empire: { color: "var(--energy-error)", glow: "color-mix(in oklch, var(--energy-error) 40%, transparent)", label: "EMPIRE", icon: Crown },
+    insurgency: { color: "var(--energy-primary)", glow: "color-mix(in oklch, var(--energy-primary) 40%, transparent)", label: "INSURGENCY", icon: Shield },
+    neutral: { color: "#ffb74d", glow: "color-mix(in oklch, var(--energy-premium) 40%, transparent)", label: "NEUTRAL", icon: Flag },
   };
 
   const TERRITORY_POSITIONS = [
@@ -879,7 +879,7 @@ function GuildTerritoryMap() {
           <p className="font-mono text-[10px] text-muted-foreground mt-1">
             {data.activeWarCount} active war{data.activeWarCount !== 1 ? "s" : ""} •{" "}
             {data.userFaction ? (
-              <span className={data.userFaction === "empire" ? "text-red-400" : data.userFaction === "insurgency" ? "text-cyan-400" : "text-amber-400"}>
+              <span className={data.userFaction === "empire" ? "void-text-error" : data.userFaction === "insurgency" ? "void-text-energy" : "void-text-accent"}>
                 Your faction: {data.userFaction.toUpperCase()}
               </span>
             ) : (
@@ -896,7 +896,7 @@ function GuildTerritoryMap() {
       }}>
         {/* Grid background */}
         <div className="absolute inset-0 opacity-10" style={{
-          backgroundImage: "radial-gradient(circle, rgba(51,226,230,0.3) 1px, transparent 1px)",
+          backgroundImage: "radial-gradient(circle, color-mix(in oklch, var(--energy-primary) 30%, transparent) 1px, transparent 1px)",
           backgroundSize: "30px 30px",
         }} />
 
@@ -915,7 +915,7 @@ function GuildTerritoryMap() {
               y1={`${TERRITORY_POSITIONS[a].y}%`}
               x2={`${TERRITORY_POSITIONS[b].x}%`}
               y2={`${TERRITORY_POSITIONS[b].y}%`}
-              stroke="rgba(51,226,230,0.1)"
+              stroke="color-mix(in oklch, var(--energy-primary) 10%, transparent)"
               strokeWidth="0.3"
               strokeDasharray="2,2"
             />
@@ -940,7 +940,7 @@ function GuildTerritoryMap() {
               {/* Glow ring for contested */}
               {isContested && (
                 <div className="absolute inset-0 -m-3 rounded-full animate-pulse" style={{
-                  background: "radial-gradient(circle, rgba(168,85,247,0.3) 0%, transparent 70%)",
+                  background: "radial-gradient(circle, color-mix(in oklch, var(--energy-system) 30%, transparent) 0%, transparent 70%)",
                 }} />
               )}
 
@@ -951,33 +951,33 @@ function GuildTerritoryMap() {
                 }`}
                 style={{
                   background: isContested
-                    ? "rgba(168,85,247,0.15)"
+                    ? "color-mix(in oklch, var(--energy-system) 15%, transparent)"
                     : factionStyle
                     ? `${factionStyle.color}22`
-                    : "rgba(255,255,255,0.05)",
+                    : "color-mix(in oklch, var(--text-primary) 5%, transparent)",
                   borderColor: isContested
-                    ? "rgba(168,85,247,0.5)"
+                    ? "color-mix(in oklch, var(--energy-system) 50%, transparent)"
                     : factionStyle
                     ? `${factionStyle.color}66`
-                    : "rgba(255,255,255,0.15)",
+                    : "color-mix(in oklch, var(--text-primary) 15%, transparent)",
                   boxShadow: isSelected
-                    ? `0 0 20px ${isContested ? "rgba(168,85,247,0.4)" : factionStyle?.glow || "rgba(51,226,230,0.2)"}`
+                    ? `0 0 20px ${isContested ? "color-mix(in oklch, var(--energy-system) 40%, transparent)" : factionStyle?.glow || "color-mix(in oklch, var(--energy-primary) 20%, transparent)"}`
                     : "none",
                 }}
               >
                 <span className="text-lg">{BONUS_ICONS[territory.bonus] || "🏛️"}</span>
                 {isContested && (
-                  <Swords size={10} className="text-purple-400 absolute -top-1 -right-1" />
+                  <Swords size={10} className="void-text-system absolute -top-1 -right-1" />
                 )}
                 {isUserFaction && !isContested && (
-                  <Star size={8} className="text-amber-400 absolute -top-1 -right-1 fill-amber-400" />
+                  <Star size={8} className="void-text-accent absolute -top-1 -right-1 fill-amber-400" />
                 )}
               </div>
 
               {/* Territory name label */}
               <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 whitespace-nowrap">
                 <span className={`font-mono text-[8px] sm:text-[9px] tracking-wider ${
-                  isContested ? "text-purple-400" : factionStyle ? `text-[${factionStyle.color}]` : "text-muted-foreground/50"
+                  isContested ? "void-text-system" : factionStyle ? `text-[${factionStyle.color}]` : "text-muted-foreground/50"
                 }`}>
                   {territory.name.replace("The ", "").split("'s")[0].toUpperCase().slice(0, 12)}
                 </span>
@@ -1021,18 +1021,18 @@ function GuildTerritoryMap() {
               {selected.contested && selected.activeWar ? (
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
-                    <Swords size={14} className="text-purple-400" />
-                    <span className="font-mono text-xs text-purple-400 tracking-wider">CONTESTED — WAR IN PROGRESS</span>
+                    <Swords size={14} className="void-text-system" />
+                    <span className="font-mono text-xs void-text-system tracking-wider">CONTESTED — WAR IN PROGRESS</span>
                   </div>
                   <p className="font-mono text-xs text-muted-foreground">{selected.activeWar.name}</p>
 
                   {/* Score bar */}
                   <div className="space-y-1">
                     <div className="flex justify-between font-mono text-[10px]">
-                      <span className={selected.activeWar.factionA === "empire" ? "text-red-400" : "text-cyan-400"}>
+                      <span className={selected.activeWar.factionA === "empire" ? "void-text-error" : "void-text-energy"}>
                         {selected.activeWar.factionA.toUpperCase()} — {selected.activeWar.scoreA}
                       </span>
-                      <span className={selected.activeWar.factionB === "empire" ? "text-red-400" : "text-cyan-400"}>
+                      <span className={selected.activeWar.factionB === "empire" ? "void-text-error" : "void-text-energy"}>
                         {selected.activeWar.scoreB} — {selected.activeWar.factionB.toUpperCase()}
                       </span>
                     </div>
@@ -1042,8 +1042,8 @@ function GuildTerritoryMap() {
                         style={{
                           width: `${selected.controlScore}%`,
                           background: selected.activeWar.factionA === "empire"
-                            ? "linear-gradient(90deg, #ef4444, #ef444488)"
-                            : "linear-gradient(90deg, #33e2e6, #33e2e688)",
+                            ? "linear-gradient(90deg, var(--energy-error), var(--energy-error)88)"
+                            : "linear-gradient(90deg, var(--energy-primary), var(--energy-primary)88)",
                         }}
                       />
                       <div
@@ -1051,8 +1051,8 @@ function GuildTerritoryMap() {
                         style={{
                           width: `${100 - selected.controlScore}%`,
                           background: selected.activeWar.factionB === "empire"
-                            ? "linear-gradient(90deg, #ef444488, #ef4444)"
-                            : "linear-gradient(90deg, #33e2e688, #33e2e6)",
+                            ? "linear-gradient(90deg, var(--energy-error)88, var(--energy-error))"
+                            : "linear-gradient(90deg, var(--energy-primary)88, var(--energy-primary))",
                         }}
                       />
                     </div>
@@ -1067,9 +1067,9 @@ function GuildTerritoryMap() {
               ) : selected.controller ? (
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <Crown size={14} className={selected.controller === "empire" ? "text-red-400" : "text-cyan-400"} />
+                    <Crown size={14} className={selected.controller === "empire" ? "void-text-error" : "void-text-energy"} />
                     <span className={`font-mono text-xs tracking-wider ${
-                      selected.controller === "empire" ? "text-red-400" : "text-cyan-400"
+                      selected.controller === "empire" ? "void-text-error" : "void-text-energy"
                     }`}>
                       CONTROLLED BY {selected.controller.toUpperCase()}
                     </span>
@@ -1097,19 +1097,19 @@ function GuildTerritoryMap() {
       {/* Territory Legend */}
       <div className="flex flex-wrap gap-3 font-mono text-[9px] text-muted-foreground/60">
         <span className="flex items-center gap-1">
-          <div className="w-2 h-2 rounded-full bg-red-400" /> Empire
+          <div className="w-2 h-2 rounded-full void-bg-error" /> Empire
         </span>
         <span className="flex items-center gap-1">
-          <div className="w-2 h-2 rounded-full bg-cyan-400" /> Insurgency
+          <div className="w-2 h-2 rounded-full void-bg-success" /> Insurgency
         </span>
         <span className="flex items-center gap-1">
-          <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" /> Contested
+          <div className="w-2 h-2 rounded-full void-bg-system animate-pulse" /> Contested
         </span>
         <span className="flex items-center gap-1">
           <div className="w-2 h-2 rounded-full bg-white/20" /> Unclaimed
         </span>
         <span className="flex items-center gap-1">
-          <Star size={8} className="text-amber-400 fill-amber-400" /> Your faction
+          <Star size={8} className="void-text-accent fill-amber-400" /> Your faction
         </span>
       </div>
     </div>

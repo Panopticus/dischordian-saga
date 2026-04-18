@@ -56,7 +56,7 @@ export const COMPANION_GIFTS: CompanionGift[] = [
       elara: "Oh! The refraction patterns are beautiful. Each crystal stores light differently — like memories. Thank you. I'll add them to my collection.",
       the_human: "Crystals. Pretty. Not really my thing, but... I appreciate the thought. Reminds me of something from before the Fall.",
     },
-    color: "#22d3ee",
+    color: "var(--energy-primary)",
   },
   {
     id: "noir_whiskey",
@@ -77,7 +77,7 @@ export const COMPANION_GIFTS: CompanionGift[] = [
       elara: "Alcohol? I can analyze its molecular composition, but I don't have taste receptors. Still, the gesture is... warm. Thank you.",
       the_human: "*Takes a long sip* ...That's not bad. Not the real thing, but close enough to remember. You know how to make an old detective feel human.",
     },
-    color: "#f59e0b",
+    color: "var(--energy-accent)",
   },
   {
     id: "star_map_fragment",
@@ -297,7 +297,7 @@ export function canCraftGift(gift: CompanionGift, materials: Record<string, numb
 export function getRarityColor(rarity: CompanionGift["rarity"]): string {
   switch (rarity) {
     case "common": return "#94a3b8";
-    case "uncommon": return "#22c55e";
+    case "uncommon": return "var(--energy-success)";
     case "rare": return "#3b82f6";
     case "epic": return "#a855f7";
     case "legendary": return "#fbbf24";

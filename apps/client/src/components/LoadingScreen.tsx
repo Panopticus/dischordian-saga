@@ -13,10 +13,10 @@ import { KineticText } from "@/components/void";
 import { useLoadingWithFallback } from "@/hooks/useLoadingProgress";
 
 const LOADING_SCREENS = [
-  { id: "bridge", src: "/art/loading/loading-bridge.png", label: "INITIALIZING BRIDGE SYSTEMS", color: "#33E2E6" },
-  { id: "combat", src: "/art/loading/loading-combat.png", label: "COMBAT SIMULATOR ONLINE", color: "#ef4444" },
+  { id: "bridge", src: "/art/loading/loading-bridge.png", label: "INITIALIZING BRIDGE SYSTEMS", color: "var(--energy-primary)" },
+  { id: "combat", src: "/art/loading/loading-combat.png", label: "COMBAT SIMULATOR ONLINE", color: "var(--energy-error)" },
   { id: "terminus", src: "/art/loading/loading-terminus.png", label: "TERMINUS DEFENSE GRID ACTIVE", color: "#a855f7" },
-  { id: "trade", src: "/art/loading/loading-trade.png", label: "CONNECTING TRADE NETWORK", color: "#f59e0b" },
+  { id: "trade", src: "/art/loading/loading-trade.png", label: "CONNECTING TRADE NETWORK", color: "var(--energy-accent)" },
   { id: "archives", src: "/art/loading/loading-archives.png", label: "INDEXING ARCHIVES", color: "#6366f1" },
   { id: "matrix", src: "/art/loading/loading-matrix-of-dreams.png", label: "ENTERING THE MATRIX OF DREAMS", color: "#c084fc" },
   { id: "celebration", src: "/art/loading/loading-celebration.png", label: "WELCOME TO CELEBRATION", color: "#f472b6" },
@@ -178,7 +178,7 @@ export default function LoadingScreen({
       <div
         className="absolute inset-0"
         style={{
-          background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.85) 100%)",
+          background: "radial-gradient(ellipse at center, transparent 30%, color-mix(in oklch, var(--bg-void) 85%, transparent) 100%)",
         }}
       />
 
@@ -186,7 +186,7 @@ export default function LoadingScreen({
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.01) 2px, rgba(255,255,255,0.01) 4px)",
+          backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--text-primary) 1%, transparent) 2px, color-mix(in oklch, var(--text-primary) 1%, transparent) 4px)",
         }}
       />
 

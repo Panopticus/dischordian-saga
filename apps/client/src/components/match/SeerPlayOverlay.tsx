@@ -41,12 +41,12 @@ export function SeerPlayOverlay({ onDismiss }: SeerPlayOverlayProps) {
       className="absolute inset-0 z-40 flex items-center justify-center pointer-events-none"
     >
       <div
-        className="px-8 py-4 rounded border border-amber-200/40 bg-stone-950/75 backdrop-blur-sm"
+        className="px-8 py-4 rounded border void-border void-bg-canvas backdrop-blur-sm"
         style={{
           animation: `seer-flicker ${SEER_PLAY_OVERLAY_MS}ms ease-out forwards`,
         }}
       >
-        <p className="font-serif text-sm tracking-[0.3em] uppercase text-amber-100/80 text-center">
+        <p className="font-serif text-sm tracking-[0.3em] uppercase void-text-accent text-center">
           The Seer plays a card from a future turn
         </p>
       </div>

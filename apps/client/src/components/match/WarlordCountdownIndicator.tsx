@@ -72,10 +72,10 @@ export function WarlordCountdownIndicator({
             className={
               "w-9 h-9 flex items-center justify-center rounded border font-mono text-sm font-bold transition-all duration-300 " +
               (spent
-                ? "bg-amber-900/30 border-amber-800/40 text-amber-200/40"
+                ? "void-bg-sunk void-border void-text-accent"
                 : highlighted
-                  ? "bg-amber-700/60 border-amber-500 text-orange-200 shadow-[0_0_8px_rgba(255,140,40,0.55)]"
-                  : "bg-amber-800/40 border-amber-600/60 text-amber-100/80")
+                  ? "void-bg-sunk void-border void-text-premium shadow-[0_0_8px_rgba(255,140,40,0.55)]"
+                  : "void-bg-sunk void-border void-text-accent")
             }
           >
             {t.label}

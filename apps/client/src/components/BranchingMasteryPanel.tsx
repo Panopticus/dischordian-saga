@@ -62,9 +62,9 @@ export function BranchingMasteryPanel() {
         <p className="font-mono text-[10px] text-muted-foreground">
           Reach mastery rank 3 to unlock specialization branches. Current rank: {masteryRank}/3
         </p>
-        <div className="w-full h-2 bg-zinc-800 rounded-full mt-2 overflow-hidden">
+        <div className="w-full h-2 void-bg-canvas rounded-full mt-2 overflow-hidden">
           <div
-            className="h-full bg-purple-500/50 rounded-full transition-all duration-500"
+            className="h-full void-bg-system rounded-full transition-all duration-500"
             style={{ width: `${(masteryRank / 3) * 100}%` }}
           />
         </div>
@@ -82,10 +82,10 @@ export function BranchingMasteryPanel() {
         animate={{ opacity: 1, y: 0 }}
         className={`border rounded-lg p-3 transition-all ${
           isChosen
-            ? "border-purple-500/50 bg-purple-950/20 shadow-sm shadow-purple-500/10"
+            ? "void-border-system void-bg-system shadow-sm shadow-purple-500/10"
             : isOther
-            ? "border-zinc-700/30 bg-zinc-900/30 opacity-50"
-            : "border-border/30 bg-card/30 hover:border-purple-500/30 cursor-pointer"
+            ? "void-border void-bg-canvas opacity-50"
+            : "border-border/30 bg-card/30 void-border-system cursor-pointer"
         }`}
       >
         <div className="flex items-center gap-2 mb-2">
@@ -96,13 +96,13 @@ export function BranchingMasteryPanel() {
             </h4>
             <p className="font-mono text-[9px] text-muted-foreground">{branch.title}</p>
           </div>
-          {isChosen && <Check size={14} className="text-purple-400 ml-auto" />}
+          {isChosen && <Check size={14} className="void-text-system ml-auto" />}
         </div>
         <p className="font-mono text-[10px] text-muted-foreground mb-2">{branch.description}</p>
         <div className="space-y-1">
           {branch.perks.map(perk => (
             <div key={perk.key} className="flex items-center gap-1.5">
-              <span className="font-mono text-[9px] text-purple-400">R{perk.rank}</span>
+              <span className="font-mono text-[9px] void-text-system">R{perk.rank}</span>
               <span className="font-mono text-[9px] text-foreground/80">{perk.name}</span>
             </div>
           ))}
@@ -111,7 +111,7 @@ export function BranchingMasteryPanel() {
           <div className="mt-3">
             {confirming === pathKey ? (
               <div className="space-y-2">
-                <div className="flex items-center gap-1 text-amber-400">
+                <div className="flex items-center gap-1 void-text-accent">
                   <AlertTriangle size={10} />
                   <span className="font-mono text-[9px]">This choice is permanent!</span>
                 </div>
@@ -126,7 +126,7 @@ export function BranchingMasteryPanel() {
                   </Button>
                   <Button
                     size="sm"
-                    className="text-[10px] h-6 px-2 bg-purple-600 hover:bg-purple-500"
+                    className="text-[10px] h-6 px-2 void-bg-system void-bg-system"
                     onClick={() => chooseBranch.mutate({ branchKey: pathKey })}
                     disabled={chooseBranch.isPending}
                   >
@@ -153,10 +153,10 @@ export function BranchingMasteryPanel() {
   return (
     <div className="border border-border/30 rounded-lg bg-card/40 p-4">
       <div className="flex items-center gap-2 mb-4">
-        <GitBranch size={16} className="text-purple-400" />
+        <GitBranch size={16} className="void-text-system" />
         <span className="font-display text-xs font-bold tracking-[0.2em]">MASTERY BRANCHES</span>
         {chosenBranch && (
-          <span className="font-mono text-[9px] text-purple-400 bg-purple-950/30 px-2 py-0.5 rounded ml-auto">
+          <span className="font-mono text-[9px] void-text-system void-bg-system px-2 py-0.5 rounded ml-auto">
             PATH CHOSEN
           </span>
         )}

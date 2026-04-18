@@ -79,14 +79,14 @@ export default function MemorialWall({ state }: Props) {
       {/* Extinct bloodlines get a dramatic full-width block */}
       {extinctBloodlines.length > 0 && (
         <section>
-          <div className="text-[10px] font-mono uppercase text-red-400 mb-2 tracking-wider">
+          <div className="text-[10px] font-mono uppercase void-text-error mb-2 tracking-wider">
             EXTINCT BLOODLINES
           </div>
           <div className="space-y-2">
             {extinctBloodlines.map(bl => (
               <div
                 key={bl.bloodlineId}
-                className="p-3 border border-red-900/40 bg-red-500/5 rounded"
+                className="p-3 border void-border-error void-bg-error rounded"
                 style={{ borderLeftWidth: "4px", borderLeftColor: bl.color }}
               >
                 <div className="flex items-start justify-between mb-1">
@@ -98,7 +98,7 @@ export default function MemorialWall({ state }: Props) {
                       No living members. House fallen.
                     </div>
                   </div>
-                  <span className="text-[9px] font-mono text-red-300">
+                  <span className="text-[9px] font-mono void-text-error">
                     {bl.deadCount} lost
                   </span>
                 </div>
@@ -145,7 +145,7 @@ export default function MemorialWall({ state }: Props) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-1">
                     <span className="font-display font-semibold text-sm flex items-center gap-1">
-                      {m.isFounder && <Crown size={11} className="text-yellow-400" />}
+                      {m.isFounder && <Crown size={11} className="void-text-premium" />}
                       {m.name}
                     </span>
                     <span className="text-[9px] font-mono text-muted-foreground">
@@ -159,7 +159,7 @@ export default function MemorialWall({ state }: Props) {
                   </div>
                   {m.deathRecord && (
                     <>
-                      <div className="text-[10px] font-mono text-red-300/80 mb-1">
+                      <div className="text-[10px] font-mono void-text-error mb-1">
                         {m.deathRecord.cause}
                       </div>
                       <div className="text-[10px] font-mono italic text-foreground/60">

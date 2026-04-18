@@ -100,7 +100,7 @@ export function CorruptibleBio({ entryId, text, className, truncate }: Props) {
             >
               {t.word}
             </span>
-            <span className="text-red-300/80 italic ml-1">{t.forgery}</span>
+            <span className="void-text-error italic ml-1">{t.forgery}</span>
             {" "}
           </span>
         );

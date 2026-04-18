@@ -255,7 +255,7 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
               the tRPC endpoint would reject the deck. */}
           {validationError && (
             <div
-              className="flex items-start gap-2 px-3 py-2 rounded-lg bg-rose-950/40 border border-rose-500/40 text-rose-300 font-mono text-[10px] mt-2"
+              className="flex items-start gap-2 px-3 py-2 rounded-lg void-bg-error border void-border-error void-text-error font-mono text-[10px] mt-2"
               data-testid="deckbuilder-validation-error"
               role="alert"
             >

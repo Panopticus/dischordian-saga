@@ -106,7 +106,7 @@ export function MatchSummary({
           {title}
         </h2>
         {encounterName && (
-          <p className="font-serif text-sm text-stone-400 italic">
+          <p className="font-serif text-sm void-text italic">
             {encounterName}
           </p>
         )}
@@ -118,20 +118,20 @@ export function MatchSummary({
       {/* ─── Per-match stats ─── */}
       <section
         aria-label="Match statistics"
-        className="flex flex-wrap justify-center gap-6 font-mono text-xs uppercase tracking-[0.2em] text-stone-500"
+        className="flex flex-wrap justify-center gap-6 font-mono text-xs uppercase tracking-[0.2em] void-text"
       >
         <div>
-          <div className="text-[9px] text-stone-600">Turns</div>
-          <div className="text-stone-300 text-base">{stats.turnsTaken}</div>
+          <div className="text-[9px] void-text">Turns</div>
+          <div className="void-text text-base">{stats.turnsTaken}</div>
         </div>
         <div>
-          <div className="text-[9px] text-stone-600">Cards played</div>
-          <div className="text-stone-300 text-base">{stats.cardsPlayed}</div>
+          <div className="text-[9px] void-text">Cards played</div>
+          <div className="void-text text-base">{stats.cardsPlayed}</div>
         </div>
         {stats.damageDealt !== undefined && (
           <div>
-            <div className="text-[9px] text-stone-600">Damage dealt</div>
-            <div className="text-stone-300 text-base">{stats.damageDealt}</div>
+            <div className="text-[9px] void-text">Damage dealt</div>
+            <div className="void-text text-base">{stats.damageDealt}</div>
           </div>
         )}
       </section>
@@ -140,18 +140,18 @@ export function MatchSummary({
       {reward && (bond !== 0 || flags.length > 0 || moments.length > 0) && (
         <section
           aria-label="Rewards earned"
-          className="border border-stone-800 rounded p-4 max-w-md w-full"
+          className="border void-border rounded p-4 max-w-md w-full"
           data-testid="match-summary-rewards"
         >
-          <h3 className="font-mono text-[10px] tracking-[0.3em] text-stone-500 uppercase mb-3">
+          <h3 className="font-mono text-[10px] tracking-[0.3em] void-text uppercase mb-3">
             Rewards
           </h3>
-          <ul className="font-serif text-sm text-stone-300 space-y-2">
+          <ul className="font-serif text-sm void-text space-y-2">
             {bond !== 0 && (
               <li>
                 Narrator bond{" "}
                 <span
-                  className={bond > 0 ? "text-emerald-400" : "text-amber-400"}
+                  className={bond > 0 ? "void-text-energy" : "void-text-accent"}
                 >
                   {bond > 0 ? "+" : ""}
                   {bond}
@@ -159,12 +159,12 @@ export function MatchSummary({
               </li>
             )}
             {moments.map((m, i) => (
-              <li key={`m${i}`} className="italic text-stone-400">
+              <li key={`m${i}`} className="italic void-text">
                 "{m.subtitle}"
               </li>
             ))}
             {flags.length > 0 && (
-              <li className="font-mono text-[10px] text-stone-500">
+              <li className="font-mono text-[10px] void-text">
                 {flags.length} narrative flag{flags.length > 1 ? "s" : ""}{" "}
                 recorded.
               </li>
@@ -187,7 +187,7 @@ export function MatchSummary({
           type="button"
           onClick={onReturnToMenu}
           data-testid="match-summary-return-menu"
-          className="px-6 py-2 bg-stone-900 border border-stone-700 text-stone-300 rounded font-mono text-sm hover:bg-stone-800 transition-colors"
+          className="px-6 py-2 void-bg-canvas border void-border void-text rounded font-mono text-sm void-bg-canvas transition-colors"
         >
           RETURN TO MENU
         </button>

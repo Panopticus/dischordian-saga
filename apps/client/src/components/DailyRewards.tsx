@@ -33,13 +33,13 @@ interface DailyRewardsProps {
 function formatRewardBadge(r: ServerReward) {
   if (r.type === "dream") {
     return (
-      <span className="px-2 py-1 rounded bg-purple-500/10 text-purple-400 font-mono text-xs flex items-center gap-1">
+      <span className="px-2 py-1 rounded void-bg-system void-text-system font-mono text-xs flex items-center gap-1">
         <Sparkles size={10} /> +{r.amount} Dream
       </span>
     );
   }
   return (
-    <span className="px-2 py-1 rounded bg-amber-500/10 text-amber-400 font-mono text-xs flex items-center gap-1">
+    <span className="px-2 py-1 rounded void-bg-sunk void-text-accent font-mono text-xs flex items-center gap-1">
       <Coins size={10} /> +{r.amount.toLocaleString()} Credits
     </span>
   );
@@ -62,13 +62,13 @@ export default function DailyRewards({
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="w-full max-w-md bg-black/95 border border-amber-500/20 rounded-2xl overflow-hidden"
+        className="w-full max-w-md bg-black/95 border void-border rounded-2xl overflow-hidden"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-amber-500/20 bg-gradient-to-r from-amber-500/10 to-transparent">
+        <div className="flex items-center justify-between px-4 py-3 border-b void-border bg-gradient-to-r from-amber-500/10 to-transparent">
           <div className="flex items-center gap-2">
-            <Gift size={18} className="text-amber-400" />
-            <h2 className="font-display text-lg tracking-[0.2em] text-amber-400">DAILY REWARDS</h2>
+            <Gift size={18} className="void-text-accent" />
+            <h2 className="font-display text-lg tracking-[0.2em] void-text-accent">DAILY REWARDS</h2>
           </div>
           <button onClick={onClose} className="text-white/30 hover:text-white/60"><X size={18} /></button>
         </div>
@@ -87,8 +87,8 @@ export default function DailyRewards({
         {/* Today's reward */}
         {todayReward && (
           <div className="px-4 pb-4">
-            <div className={`p-4 rounded-xl border ${claimedToday ? "border-white/10 bg-white/[0.02] opacity-50" : "border-amber-500/40 bg-amber-500/5"}`}>
-              <p className="font-mono text-xs text-amber-400 font-bold mb-2">
+            <div className={`p-4 rounded-xl border ${claimedToday ? "border-white/10 bg-white/[0.02] opacity-50" : "void-border void-bg-sunk"}`}>
+              <p className="font-mono text-xs void-text-accent font-bold mb-2">
                 {claimedToday ? "CLAIMED TODAY" : "TODAY'S REWARD"}
               </p>
               <div className="flex flex-wrap gap-2">
@@ -99,7 +99,7 @@ export default function DailyRewards({
                 <button
                   onClick={onClaim}
                   disabled={claiming}
-                  className="w-full mt-3 py-2.5 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-400 font-mono text-sm font-bold hover:bg-amber-500/30 transition-colors disabled:opacity-50"
+                  className="w-full mt-3 py-2.5 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm font-bold void-bg-sunk transition-colors disabled:opacity-50"
                 >
                   {claiming ? "CLAIMING…" : "CLAIM REWARD"}
                 </button>
@@ -120,18 +120,18 @@ export default function DailyRewards({
               return (
                 <div key={reward.day}
                   className={`p-1.5 rounded text-center transition-all ${
-                    isToday ? "bg-amber-500/20 border border-amber-500/40 scale-110" :
+                    isToday ? "void-bg-sunk border void-border scale-110" :
                     isPast ? "bg-white/[0.02] opacity-30" :
-                    isDream ? "bg-purple-500/5 border border-purple-500/10" :
-                    "bg-amber-500/5 border border-amber-500/10"
+                    isDream ? "void-bg-system border void-border-system" :
+                    "void-bg-sunk border void-border"
                   }`}>
                   <p className="font-mono text-[8px] text-white/30">{reward.day}</p>
                   <p className={`font-mono text-[9px] font-bold ${
-                    isDream ? "text-purple-400" : "text-amber-400/80"
+                    isDream ? "void-text-system" : "void-text-accent"
                   }`}>
                     {isDream ? `${reward.amount}D` : `${Math.round(reward.amount / 100)}00c`}
                   </p>
-                  {isPast && <span className="text-[7px] text-green-400">✓</span>}
+                  {isPast && <span className="text-[7px] void-text-energy">✓</span>}
                 </div>
               );
             })}

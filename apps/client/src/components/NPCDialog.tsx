@@ -37,48 +37,48 @@ const MANIFESTATION_CONFIG: Record<string, {
   label: string;
 }> = {
   hologram: {
-    bgClass: "bg-cyan-950/90",
-    borderClass: "border-cyan-400/30",
+    bgClass: "void-bg-success",
+    borderClass: "void-border-success",
     scanlineClass: "bg-gradient-to-b from-cyan-400/5 via-transparent to-cyan-400/5",
     textEffect: "",
     icon: Eye,
     label: "HOLOGRAPHIC LINK",
   },
   comms_signal: {
-    bgClass: "bg-gray-950/95",
-    borderClass: "border-amber-500/30",
+    bgClass: "void-bg-canvas",
+    borderClass: "void-border",
     scanlineClass: "bg-gradient-to-b from-amber-500/3 via-transparent to-amber-500/3",
     textEffect: "tracking-wider",
     icon: Radio,
     label: "ENCRYPTED SIGNAL",
   },
   substrate: {
-    bgClass: "bg-red-950/90",
-    borderClass: "border-red-500/30",
+    bgClass: "void-bg-error",
+    borderClass: "void-border-error",
     scanlineClass: "bg-gradient-to-b from-red-500/5 via-transparent to-red-500/5",
     textEffect: "",
     icon: Zap,
     label: "SUBSTRATE LINK",
   },
   possessed_system: {
-    bgClass: "bg-purple-950/90",
-    borderClass: "border-purple-500/30",
+    bgClass: "void-bg-system",
+    borderClass: "void-border-system",
     scanlineClass: "bg-gradient-to-b from-purple-500/5 via-transparent to-purple-500/5",
     textEffect: "",
     icon: Skull,
     label: "CORRUPTED CHANNEL",
   },
   temporal_echo: {
-    bgClass: "bg-emerald-950/90",
-    borderClass: "border-emerald-400/30",
+    bgClass: "void-bg-success",
+    borderClass: "void-border-success",
     scanlineClass: "bg-gradient-to-b from-emerald-400/5 via-transparent to-emerald-400/5",
     textEffect: "",
     icon: Clock,
     label: "TEMPORAL ECHO",
   },
   physical_trace: {
-    bgClass: "bg-orange-950/90",
-    borderClass: "border-orange-500/30",
+    bgClass: "void-bg-sunk",
+    borderClass: "void-border",
     scanlineClass: "bg-gradient-to-b from-orange-500/3 via-transparent to-orange-500/3",
     textEffect: "",
     icon: AlertTriangle,
@@ -341,7 +341,7 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
                     <div
                       className="absolute inset-0 pointer-events-none z-10"
                       style={{
-                        backgroundImage: "repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(248,113,113,0.07) 2px, rgba(248,113,113,0.07) 4px)",
+                        backgroundImage: "repeating-linear-gradient(0deg, transparent 0, transparent 2px, color-mix(in oklch, var(--energy-error) 7%, transparent) 2px, color-mix(in oklch, var(--energy-error) 7%, transparent) 4px)",
                         mixBlendMode: "overlay",
                       }}
                     />
@@ -351,7 +351,7 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
                       transition={{ duration: 2.5 + (trust / 20), repeat: Infinity, ease: "linear" }}
                       className="absolute left-0 right-0 h-8 pointer-events-none z-10"
                       style={{
-                        background: `linear-gradient(180deg, transparent 0%, rgba(248,113,113,${0.12 - trust * 0.002}) 40%, rgba(248,113,113,${0.12 - trust * 0.002}) 60%, transparent 100%)`,
+                        background: `linear-gradient(180deg, transparent 0%, color-mix(in oklch, var(--energy-error) calc((0.12 - trust * 0.002) * 100%), transparent) 40%, color-mix(in oklch, var(--energy-error) calc((0.12 - trust * 0.002) * 100%), transparent) 60%, transparent 100%)`,
                       }}
                     />
                     {/* Random horizontal glitch bars — more frequent at low trust */}
@@ -363,15 +363,15 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
                         style={{
                           top: `${30 + Math.random() * 40}%`,
                           height: `${trust < 10 ? 12 : 6}px`,
-                          background: `rgba(248,113,113,${trust < 10 ? 0.25 : 0.12})`,
+                          background: `color-mix(in oklch, var(--energy-error) calc((trust < 10 ? 0.25 : 0.12) * 100%), transparent)`,
                           mixBlendMode: "screen",
                         }}
                       />
                     )}
                     {/* Stage label overlay at bottom */}
                     <div className="absolute bottom-0 left-0 right-0 p-2 z-20"
-                      style={{ background: "linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 100%)" }}>
-                      <p className="font-mono text-[7px] tracking-[0.3em] text-red-400/60 text-center uppercase">
+                      style={{ background: "linear-gradient(0deg, color-mix(in oklch, var(--bg-void) 70%, transparent) 0%, transparent 100%)" }}>
+                      <p className="font-mono text-[7px] tracking-[0.3em] void-text-error text-center uppercase">
                         {trust < 10 ? "SIGNAL STATIC" : trust < 20 ? "SIGNAL GHOST" : trust < 40 ? "SIGNAL FRAGMENT" : "SIGNAL CONVERGENCE"}
                       </p>
                     </div>
@@ -438,7 +438,7 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
 
             {/* Dialog text with KineticText per-character reveal */}
             <div className={`font-mono text-sm leading-relaxed ${manifest.textEffect}`}
-              style={{ color: "rgba(255,255,255,0.85)" }}>
+              style={{ color: "color-mix(in oklch, var(--text-primary) 85%, transparent)" }}>
               {isTyping ? (
                 <KineticText
                   key={kineticKey}
@@ -484,7 +484,7 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
             <motion.div
               initial={{ opacity: 0, x: -4 }}
               animate={{ opacity: 0.85, x: 0 }}
-              className="mt-2 p-2 rounded border-l-2 border-indigo-400/40 bg-indigo-500/5"
+              className="mt-2 p-2 rounded border-l-2 void-border void-bg-sunk"
               data-testid="archon-whisper"
             >
               <div className="flex items-center gap-1.5 mb-0.5">
@@ -494,7 +494,7 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
                 >
                   {archonWhisper.voice.name}
                 </span>
-                <span className="font-mono text-[8px] text-indigo-300/60">
+                <span className="font-mono text-[8px] void-text-energy">
                   ◈ {archonWhisper.mentor.archonName}
                 </span>
               </div>
@@ -509,10 +509,10 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
             <motion.div
               initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 0.7, y: 0 }}
-              className="mt-2 p-2 rounded border-l-2 border-purple-400/40 bg-purple-500/5"
+              className="mt-2 p-2 rounded border-l-2 void-border-system void-bg-system"
               data-testid="ambient-leak"
             >
-              <span className="font-mono text-[8px] uppercase tracking-wider text-purple-400/70 block mb-0.5">
+              <span className="font-mono text-[8px] uppercase tracking-wider void-text-system block mb-0.5">
                 (unprompted, quietly)
               </span>
               <p className="font-mono text-[10px] italic text-foreground/70 leading-relaxed">
@@ -558,10 +558,10 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
                           [{choice.archetype}]
                         </span>
                         {choice.secretFromElara && (
-                          <span className="font-mono text-[7px] text-red-400/50">SECRET</span>
+                          <span className="font-mono text-[7px] void-text-error">SECRET</span>
                         )}
                         {choice.trustChange !== 0 && (
-                          <span className={`font-mono text-[8px] ${choice.trustChange > 0 ? "text-green-400/50" : "text-red-400/50"}`}>
+                          <span className={`font-mono text-[8px] ${choice.trustChange > 0 ? "void-text-energy" : "void-text-error"}`}>
                             {choice.trustChange > 0 ? "+" : ""}{choice.trustChange} trust
                           </span>
                         )}

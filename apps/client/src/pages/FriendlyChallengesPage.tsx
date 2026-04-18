@@ -85,14 +85,14 @@ export default function FriendlyChallengesPage() {
                 </div>
               )}
               {friendlyBonuses.dreamMultiplier > 1 && (
-                <div className="border border-amber-500/20 bg-amber-500/5 rounded p-2 text-center">
-                  <p className="font-display text-sm font-bold text-amber-400">x{friendlyBonuses.dreamMultiplier.toFixed(1)}</p>
+                <div className="border void-border void-bg-sunk rounded p-2 text-center">
+                  <p className="font-display text-sm font-bold void-text-accent">x{friendlyBonuses.dreamMultiplier.toFixed(1)}</p>
                   <p className="font-mono text-[8px] text-muted-foreground">DREAM TOKENS</p>
                 </div>
               )}
               {friendlyBonuses.dailyChallengeBonus > 0 && (
-                <div className="border border-green-500/20 bg-green-500/5 rounded p-2 text-center">
-                  <p className="font-display text-sm font-bold text-green-400">+{Math.round(friendlyBonuses.dailyChallengeBonus * 100)}%</p>
+                <div className="border void-border-success void-bg-success rounded p-2 text-center">
+                  <p className="font-display text-sm font-bold void-text-energy">+{Math.round(friendlyBonuses.dailyChallengeBonus * 100)}%</p>
                   <p className="font-mono text-[8px] text-muted-foreground">DAILY BONUS</p>
                 </div>
               )}

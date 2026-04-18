@@ -51,24 +51,24 @@ interface FullCard {
 
 /* ─── CONSTANTS ─── */
 const RARITY_COLORS: Record<string, { bg: string; border: string; text: string; glow: string; ring: string }> = {
-  common:    { bg: "bg-zinc-800/60",    border: "border-zinc-600/40",    text: "text-zinc-300",   glow: "",                        ring: "ring-zinc-600/30" },
-  uncommon:  { bg: "bg-emerald-950/40", border: "border-emerald-600/40", text: "text-emerald-400", glow: "",                        ring: "ring-emerald-600/30" },
-  rare:      { bg: "bg-blue-950/40",    border: "border-blue-500/40",    text: "text-blue-400",   glow: "shadow-blue-500/20",      ring: "ring-blue-500/30" },
-  epic:      { bg: "bg-purple-950/40",  border: "border-purple-500/40",  text: "text-purple-400", glow: "shadow-purple-500/25",    ring: "ring-purple-500/30" },
-  legendary: { bg: "bg-amber-950/40",   border: "border-amber-500/40",   text: "text-amber-400",  glow: "shadow-amber-500/30",     ring: "ring-amber-500/30" },
-  mythic:    { bg: "bg-rose-950/40",    border: "border-rose-500/50",    text: "text-rose-400",   glow: "shadow-rose-500/40",      ring: "ring-rose-500/30" },
+  common:    { bg: "void-bg-canvas",    border: "void-border",    text: "void-text",   glow: "",                        ring: "ring-zinc-600/30" },
+  uncommon:  { bg: "void-bg-success", border: "void-border-success", text: "void-text-energy", glow: "",                        ring: "ring-emerald-600/30" },
+  rare:      { bg: "void-bg-sunk",    border: "void-border",    text: "void-text-energy",   glow: "shadow-blue-500/20",      ring: "ring-blue-500/30" },
+  epic:      { bg: "void-bg-system",  border: "void-border-system",  text: "void-text-system", glow: "shadow-purple-500/25",    ring: "ring-purple-500/30" },
+  legendary: { bg: "void-bg-sunk",   border: "void-border",   text: "void-text-accent",  glow: "shadow-amber-500/30",     ring: "ring-amber-500/30" },
+  mythic:    { bg: "void-bg-error",    border: "void-border-error",    text: "void-text-error",   glow: "shadow-rose-500/40",      ring: "ring-rose-500/30" },
 };
 
 const RARITY_ORDER = ["common", "uncommon", "rare", "epic", "legendary", "mythic"];
 
 const ELEMENT_CONFIG: Record<string, { icon: typeof Flame; color: string; bg: string }> = {
-  fire:      { icon: Flame,    color: "text-orange-400", bg: "bg-orange-900/30" },
-  water:     { icon: Droplets, color: "text-blue-400",   bg: "bg-blue-900/30" },
-  earth:     { icon: Mountain, color: "text-green-400",  bg: "bg-green-900/30" },
-  air:       { icon: Wind,     color: "text-sky-400",    bg: "bg-sky-900/30" },
-  void:      { icon: Skull,    color: "text-purple-400", bg: "bg-purple-900/30" },
-  lightning: { icon: Zap,      color: "text-yellow-400", bg: "bg-yellow-900/30" },
-  light:     { icon: Sun,      color: "text-amber-300",  bg: "bg-amber-900/30" },
+  fire:      { icon: Flame,    color: "void-text-premium", bg: "void-bg-sunk" },
+  water:     { icon: Droplets, color: "void-text-energy",   bg: "void-bg-sunk" },
+  earth:     { icon: Mountain, color: "void-text-energy",  bg: "void-bg-success" },
+  air:       { icon: Wind,     color: "void-text-energy",    bg: "void-bg-sunk" },
+  void:      { icon: Skull,    color: "void-text-system", bg: "void-bg-system" },
+  lightning: { icon: Zap,      color: "void-text-premium", bg: "void-bg-sunk" },
+  light:     { icon: Sun,      color: "void-text-accent",  bg: "void-bg-sunk" },
 };
 
 const TYPE_ICONS: Record<string, typeof Sword> = {
@@ -81,8 +81,8 @@ const TYPE_ICONS: Record<string, typeof Sword> = {
 };
 
 const ALIGNMENT_COLORS: Record<string, string> = {
-  order: "text-blue-400",
-  chaos: "text-red-400",
+  order: "void-text-energy",
+  chaos: "void-text-error",
 };
 
 /* ─── BUILD FULL CATALOG ─── */
@@ -181,8 +181,8 @@ function CardDisplay({ card, onClick, viewMode }: { card: FullCard; onClick: () 
           {card.imageUrl ? (
             <img src={card.imageUrl} alt={card.name} className="w-full h-full object-cover" loading="lazy" />
           ) : (
-            <div className="w-full h-full bg-zinc-800 flex items-center justify-center">
-              <TypeIcon size={16} className="text-zinc-600" />
+            <div className="w-full h-full void-bg-canvas flex items-center justify-center">
+              <TypeIcon size={16} className="void-text" />
             </div>
           )}
         </div>
@@ -198,16 +198,16 @@ function CardDisplay({ card, onClick, viewMode }: { card: FullCard; onClick: () 
         </div>
         <div className="flex items-center gap-3 flex-shrink-0">
           <div className="flex items-center gap-0.5">
-            <Zap size={10} className="text-blue-400" />
-            <span className="font-mono text-[10px] text-blue-300">{card.cost}</span>
+            <Zap size={10} className="void-text-energy" />
+            <span className="font-mono text-[10px] void-text-energy">{card.cost}</span>
           </div>
           <div className="flex items-center gap-0.5">
-            <Sword size={10} className="text-red-400" />
-            <span className="font-mono text-[10px] text-red-300">{card.power}</span>
+            <Sword size={10} className="void-text-error" />
+            <span className="font-mono text-[10px] void-text-error">{card.power}</span>
           </div>
           <div className="flex items-center gap-0.5">
-            <Shield size={10} className="text-green-400" />
-            <span className="font-mono text-[10px] text-green-300">{card.health}</span>
+            <Shield size={10} className="void-text-energy" />
+            <span className="font-mono text-[10px] void-text-energy">{card.health}</span>
           </div>
         </div>
       </motion.div>
@@ -230,13 +230,13 @@ function CardDisplay({ card, onClick, viewMode }: { card: FullCard; onClick: () 
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-full bg-zinc-800 flex items-center justify-center">
-            <TypeIcon size={24} className="text-zinc-600" />
+          <div className="w-full h-full void-bg-canvas flex items-center justify-center">
+            <TypeIcon size={24} className="void-text" />
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
         {/* Cost badge */}
-        <div className="absolute top-1.5 left-1.5 w-6 h-6 rounded-full bg-blue-600/90 flex items-center justify-center border border-blue-400/50">
+        <div className="absolute top-1.5 left-1.5 w-6 h-6 rounded-full void-bg-sunk flex items-center justify-center border void-border">
           <span className="font-display text-[10px] font-bold text-foreground">{card.cost}</span>
         </div>
         {/* Element badge */}
@@ -247,13 +247,13 @@ function CardDisplay({ card, onClick, viewMode }: { card: FullCard; onClick: () 
         )}
         {/* Stats */}
         <div className="absolute bottom-1.5 left-1.5 right-1.5 flex justify-between">
-          <div className="flex items-center gap-0.5 bg-red-900/70 px-1.5 py-0.5 rounded">
-            <Sword size={9} className="text-red-400" />
-            <span className="font-mono text-[9px] text-red-300 font-bold">{card.power}</span>
+          <div className="flex items-center gap-0.5 void-bg-error px-1.5 py-0.5 rounded">
+            <Sword size={9} className="void-text-error" />
+            <span className="font-mono text-[9px] void-text-error font-bold">{card.power}</span>
           </div>
-          <div className="flex items-center gap-0.5 bg-green-900/70 px-1.5 py-0.5 rounded">
-            <Shield size={9} className="text-green-400" />
-            <span className="font-mono text-[9px] text-green-300 font-bold">{card.health}</span>
+          <div className="flex items-center gap-0.5 void-bg-success px-1.5 py-0.5 rounded">
+            <Shield size={9} className="void-text-energy" />
+            <span className="font-mono text-[9px] void-text-energy font-bold">{card.health}</span>
           </div>
         </div>
       </div>
@@ -312,13 +312,13 @@ function CardDetailModal({ card, onClose, onSacrifice }: { card: FullCard | null
           {card.imageUrl ? (
             <ZoomableImage src={card.imageUrl} alt={card.name} className="w-full h-full" />
           ) : (
-            <div className="w-full h-full bg-zinc-800 flex items-center justify-center">
-              <TypeIcon size={48} className="text-zinc-600" />
+            <div className="w-full h-full void-bg-canvas flex items-center justify-center">
+              <TypeIcon size={48} className="void-text" />
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
           {/* Cost */}
-          <div className="absolute top-3 left-3 w-12 h-12 rounded-full bg-blue-600/90 flex items-center justify-center border-2 border-blue-400/50 shadow-lg shadow-blue-500/30">
+          <div className="absolute top-3 left-3 w-12 h-12 rounded-full void-bg-sunk flex items-center justify-center border-2 void-border shadow-lg shadow-blue-500/30">
             <span className="font-display text-xl font-bold text-foreground">{card.cost}</span>
           </div>
           {/* Element + Type */}
@@ -336,13 +336,13 @@ function CardDetailModal({ card, onClose, onSacrifice }: { card: FullCard | null
           </div>
           {/* Stats bar */}
           <div className="absolute bottom-3 left-3 right-3 flex justify-between">
-            <div className="flex items-center gap-1.5 bg-red-900/80 px-3 py-1.5 rounded-lg shadow-lg">
-              <Sword size={14} className="text-red-400" />
-              <span className="font-display text-lg text-red-300 font-bold">{card.power}</span>
+            <div className="flex items-center gap-1.5 void-bg-error px-3 py-1.5 rounded-lg shadow-lg">
+              <Sword size={14} className="void-text-error" />
+              <span className="font-display text-lg void-text-error font-bold">{card.power}</span>
             </div>
-            <div className="flex items-center gap-1.5 bg-green-900/80 px-3 py-1.5 rounded-lg shadow-lg">
-              <Shield size={14} className="text-green-400" />
-              <span className="font-display text-lg text-green-300 font-bold">{card.health}</span>
+            <div className="flex items-center gap-1.5 void-bg-success px-3 py-1.5 rounded-lg shadow-lg">
+              <Shield size={14} className="void-text-energy" />
+              <span className="font-display text-lg void-text-energy font-bold">{card.health}</span>
             </div>
           </div>
         </div>
@@ -430,7 +430,7 @@ function CardDetailModal({ card, onClose, onSacrifice }: { card: FullCard | null
               {!showSacrificeConfirm && !sacrificeResult && (
                 <button
                   onClick={() => setShowSacrificeConfirm(true)}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-red-950/30 border border-red-800/30 text-red-400 font-mono text-xs hover:bg-red-950/50 hover:border-red-700/40 transition-all"
+                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg void-bg-error border void-border-error void-text-error font-mono text-xs void-bg-error void-border-error transition-all"
                 >
                   <Trash2 size={14} />
                   SACRIFICE FOR MATERIALS
@@ -439,7 +439,7 @@ function CardDetailModal({ card, onClose, onSacrifice }: { card: FullCard | null
 
               {showSacrificeConfirm && !sacrificeResult && (
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-amber-400 font-mono text-xs">
+                  <div className="flex items-center gap-2 void-text-accent font-mono text-xs">
                     <AlertTriangle size={14} />
                     <span>This will destroy the card permanently!</span>
                   </div>
@@ -471,7 +471,7 @@ function CardDetailModal({ card, onClose, onSacrifice }: { card: FullCard | null
                         const rewards = getCardSacrificeRewards(card.rarity);
                         setSacrificeResult(rewards);
                       }}
-                      className="flex-1 py-2 rounded-lg bg-red-900/50 border border-red-700/40 text-red-300 font-mono text-xs hover:bg-red-900/70 transition-all flex items-center justify-center gap-1.5"
+                      className="flex-1 py-2 rounded-lg void-bg-error border void-border-error void-text-error font-mono text-xs void-bg-error transition-all flex items-center justify-center gap-1.5"
                     >
                       <Trash2 size={12} />
                       CONFIRM SACRIFICE
@@ -544,7 +544,7 @@ function FilterSelect({ label, value, onChange, options }: {
       <select
         value={value}
         onChange={e => onChange(e.target.value)}
-        className="appearance-none bg-zinc-800/60 border border-zinc-700/30 rounded-md px-2.5 py-1.5 pr-7 font-mono text-[10px] text-muted-foreground cursor-pointer hover:border-zinc-600/50 transition-colors focus:outline-none focus:ring-1 focus:ring-primary/30"
+        className="appearance-none void-bg-canvas border void-border rounded-md px-2.5 py-1.5 pr-7 font-mono text-[10px] text-muted-foreground cursor-pointer void-border transition-colors focus:outline-none focus:ring-1 focus:ring-primary/30"
       >
         {options.map(opt => (
           <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -683,21 +683,21 @@ export default function CardGalleryPage() {
             <Link href="/games" className="text-muted-foreground hover:text-primary transition-colors">
               <ChevronLeft size={18} />
             </Link>
-            <Crown size={18} className="text-amber-400" />
+            <Crown size={18} className="void-text-accent" />
             <h1 className="font-display text-sm font-bold tracking-[0.2em]">CARD COLLECTION</h1>
             <div className="ml-auto flex items-center gap-3">
               <span className="font-mono text-xs text-muted-foreground">{totalCards} cards</span>
               {/* View toggle */}
-              <div className="flex rounded-md border border-zinc-700/30 overflow-hidden">
+              <div className="flex rounded-md border void-border overflow-hidden">
                 <button
                   onClick={() => setViewMode("grid")}
-                  className={`p-1.5 transition-colors ${viewMode === "grid" ? "bg-primary/20 text-primary" : "bg-zinc-800/30 text-zinc-500"}`}
+                  className={`p-1.5 transition-colors ${viewMode === "grid" ? "bg-primary/20 text-primary" : "void-bg-canvas void-text"}`}
                 >
                   <LayoutGrid size={12} />
                 </button>
                 <button
                   onClick={() => setViewMode("list")}
-                  className={`p-1.5 transition-colors ${viewMode === "list" ? "bg-primary/20 text-primary" : "bg-zinc-800/30 text-zinc-500"}`}
+                  className={`p-1.5 transition-colors ${viewMode === "list" ? "bg-primary/20 text-primary" : "void-bg-canvas void-text"}`}
                 >
                   <List size={12} />
                 </button>
@@ -713,7 +713,7 @@ export default function CardGalleryPage() {
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder="Search cards by name, ability, lore..."
-              className="w-full bg-zinc-800/60 border border-zinc-700/30 rounded-lg pl-9 pr-8 py-2 font-mono text-xs text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary/30 focus:border-primary/30"
+              className="w-full void-bg-canvas border void-border rounded-lg pl-9 pr-8 py-2 font-mono text-xs text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary/30 focus:border-primary/30"
             />
             {searchQuery && (
               <button
@@ -732,7 +732,7 @@ export default function CardGalleryPage() {
               className={`flex items-center gap-1 px-2.5 py-1 rounded-md border text-[10px] font-mono uppercase tracking-wider transition-all whitespace-nowrap ${
                 filterRarity === "all"
                   ? "border-primary/40 bg-primary/10 text-primary"
-                  : "border-zinc-700/30 bg-zinc-800/30 text-zinc-500 hover:text-zinc-300"
+                  : "void-border void-bg-canvas void-text void-text"
               }`}
             >
               ALL {totalCards}
@@ -748,7 +748,7 @@ export default function CardGalleryPage() {
                   className={`flex items-center gap-1 px-2.5 py-1 rounded-md border text-[10px] font-mono uppercase tracking-wider transition-all whitespace-nowrap ${
                     filterRarity === r
                       ? `${colors.border} ${colors.bg} ${colors.text}`
-                      : "border-zinc-700/30 bg-zinc-800/30 text-zinc-500 hover:text-zinc-300"
+                      : "void-border void-bg-canvas void-text void-text"
                   }`}
                 >
                   <Gem size={9} />
@@ -765,7 +765,7 @@ export default function CardGalleryPage() {
               className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border text-[10px] font-mono uppercase tracking-wider transition-all ${
                 showFilters || activeFilters > 0
                   ? "border-primary/40 bg-primary/10 text-primary"
-                  : "border-zinc-700/30 bg-zinc-800/30 text-zinc-500 hover:text-zinc-300"
+                  : "void-border void-bg-canvas void-text void-text"
               }`}
             >
               <Filter size={10} />
@@ -787,7 +787,7 @@ export default function CardGalleryPage() {
             {activeFilters > 0 && (
               <button
                 onClick={clearFilters}
-                className="flex items-center gap-1 px-2 py-1.5 rounded-md text-[10px] font-mono text-red-400 hover:bg-red-900/20 transition-colors"
+                className="flex items-center gap-1 px-2 py-1.5 rounded-md text-[10px] font-mono void-text-error void-bg-error transition-colors"
               >
                 <X size={10} />
                 CLEAR
@@ -878,8 +878,8 @@ export default function CardGalleryPage() {
       <div className="px-4 sm:px-6 pt-6" {...swipeHandlers} style={swipeStyle}>
         {filtered.length === 0 ? (
           <div className="text-center py-20">
-            <Search size={32} className="text-zinc-600 mx-auto mb-3" />
-            <p className="font-mono text-sm text-zinc-500">No cards match your filters.</p>
+            <Search size={32} className="void-text mx-auto mb-3" />
+            <p className="font-mono text-sm void-text">No cards match your filters.</p>
             <button
               onClick={clearFilters}
               className="mt-3 font-mono text-xs text-primary hover:underline"

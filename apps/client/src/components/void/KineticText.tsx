@@ -167,7 +167,7 @@ export default function KineticText({
         {showCursor && isRunning && !isComplete && (
           <span
             className="inline-block w-[2px] h-[1em] ml-[1px] align-text-bottom animate-pulse"
-            style={{ background: "var(--void-primary, #33E2E6)" }}
+            style={{ background: "var(--void-primary, var(--energy-primary))" }}
           />
         )}
 
@@ -182,7 +182,7 @@ export default function KineticText({
     <Tag className={className} style={style}>
       {displayText}
       {showCursor && isRunning && !isComplete && (
-        <span className="inline-block w-[2px] h-[1em] ml-[1px] align-text-bottom animate-pulse" style={{ background: "var(--void-primary, #33E2E6)" }} />
+        <span className="inline-block w-[2px] h-[1em] ml-[1px] align-text-bottom animate-pulse" style={{ background: "var(--void-primary, var(--energy-primary))" }} />
       )}
     </Tag>
   );

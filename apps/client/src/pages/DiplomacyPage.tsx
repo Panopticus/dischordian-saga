@@ -20,18 +20,18 @@ import {
 // ═══════════════════════════════════════════════════════
 
 const FACTION_COLORS: Record<string, { color: string; icon: typeof Crown }> = {
-  empire: { color: "#ef4444", icon: Crown },
-  insurgency: { color: "#22d3ee", icon: Shield },
+  empire: { color: "var(--energy-error)", icon: Crown },
+  insurgency: { color: "var(--energy-primary)", icon: Shield },
   independent: { color: "#a855f7", icon: Compass },
-  pirate: { color: "#f59e0b", icon: Skull },
+  pirate: { color: "var(--energy-accent)", icon: Skull },
 };
 
 const BEHAVIOR_LABELS: Record<string, { label: string; color: string }> = {
-  aggressive: { label: "AGGRESSIVE", color: "text-red-400" },
-  diplomatic: { label: "DIPLOMATIC", color: "text-cyan-400" },
-  cunning: { label: "CUNNING", color: "text-purple-400" },
-  honorable: { label: "HONORABLE", color: "text-emerald-400" },
-  ruthless: { label: "RUTHLESS", color: "text-amber-400" },
+  aggressive: { label: "AGGRESSIVE", color: "void-text-error" },
+  diplomatic: { label: "DIPLOMATIC", color: "void-text-energy" },
+  cunning: { label: "CUNNING", color: "void-text-system" },
+  honorable: { label: "HONORABLE", color: "void-text-energy" },
+  ruthless: { label: "RUTHLESS", color: "void-text-accent" },
 };
 
 export default function DiplomacyPage() {
@@ -113,16 +113,16 @@ export default function DiplomacyPage() {
                 {/* Morality */}
                 <div className={`rounded border p-3 ${
                   choice.moralityDelta > 0
-                    ? "border-cyan-500/20 bg-cyan-950/10"
+                    ? "void-border-success void-bg-success"
                     : choice.moralityDelta < 0
-                    ? "border-red-500/20 bg-red-950/10"
+                    ? "void-border-error void-bg-error"
                     : "border-border/20 bg-card/10"
                 }`}>
                   <p className="font-mono text-[9px] text-muted-foreground tracking-wider mb-1">MORALITY</p>
                   {choice.moralityDelta !== 0 ? (
                     <>
                       <div className="flex items-center gap-1.5">
-                        <span className={`font-display text-lg font-bold ${choice.moralityDelta > 0 ? "text-cyan-400" : "text-red-400"}`}>
+                        <span className={`font-display text-lg font-bold ${choice.moralityDelta > 0 ? "void-text-energy" : "void-text-error"}`}>
                           {choice.moralityDelta > 0 ? "+" : ""}{choice.moralityDelta}
                         </span>
                       </div>
@@ -143,14 +143,14 @@ export default function DiplomacyPage() {
                 {/* Credits */}
                 <div className={`rounded border p-3 ${
                   choice.creditDelta > 0
-                    ? "border-emerald-500/20 bg-emerald-950/10"
+                    ? "void-border-success void-bg-success"
                     : choice.creditDelta < 0
-                    ? "border-amber-500/20 bg-amber-950/10"
+                    ? "void-border void-bg-sunk"
                     : "border-border/20 bg-card/10"
                 }`}>
                   <p className="font-mono text-[9px] text-muted-foreground tracking-wider mb-1">CREDITS</p>
                   <p className={`font-display text-lg font-bold ${
-                    choice.creditDelta > 0 ? "text-emerald-400" : choice.creditDelta < 0 ? "text-amber-400" : "text-muted-foreground"
+                    choice.creditDelta > 0 ? "void-text-energy" : choice.creditDelta < 0 ? "void-text-accent" : "text-muted-foreground"
                   }`}>
                     {choice.creditDelta > 0 ? "+" : ""}{choice.creditDelta.toLocaleString()}
                   </p>
@@ -169,7 +169,7 @@ export default function DiplomacyPage() {
                         <FactionIcon size={12} style={{ color: factionInfo?.color || "#888" }} />
                         <span className="font-mono text-[10px] text-muted-foreground capitalize flex-1">{faction}</span>
                         <span className={`font-mono text-[10px] font-bold ${
-                          delta > 0 ? "text-emerald-400" : delta < 0 ? "text-red-400" : "text-muted-foreground"
+                          delta > 0 ? "void-text-energy" : delta < 0 ? "void-text-error" : "text-muted-foreground"
                         }`}>
                           {delta > 0 ? "+" : ""}{delta}
                         </span>
@@ -222,8 +222,8 @@ export default function DiplomacyPage() {
             {/* Event Header */}
             <div className="p-5 border-b border-border/20 bg-gradient-to-r from-amber-500/5 to-transparent">
               <div className="flex items-center gap-2 mb-2">
-                <AlertTriangle size={14} className="text-amber-400" />
-                <span className="font-mono text-[10px] text-amber-400 tracking-wider">DIPLOMATIC CRISIS</span>
+                <AlertTriangle size={14} className="void-text-accent" />
+                <span className="font-mono text-[10px] void-text-accent tracking-wider">DIPLOMATIC CRISIS</span>
               </div>
               <h2 className="font-display text-xl font-bold tracking-wider text-foreground mb-2">
                 {selectedEvent.title}
@@ -283,11 +283,11 @@ export default function DiplomacyPage() {
                     {choice.text}
                   </p>
                   <div className="flex flex-wrap gap-2 text-[9px] font-mono">
-                    <span className={choice.moralityDelta > 0 ? "text-cyan-400" : choice.moralityDelta < 0 ? "text-red-400" : "text-muted-foreground"}>
+                    <span className={choice.moralityDelta > 0 ? "void-text-energy" : choice.moralityDelta < 0 ? "void-text-error" : "text-muted-foreground"}>
                       MORALITY: {choice.moralityDelta > 0 ? "+" : ""}{choice.moralityDelta}
                     </span>
                     <span className="text-muted-foreground/30">|</span>
-                    <span className={choice.creditDelta > 0 ? "text-emerald-400" : choice.creditDelta < 0 ? "text-amber-400" : "text-muted-foreground"}>
+                    <span className={choice.creditDelta > 0 ? "void-text-energy" : choice.creditDelta < 0 ? "void-text-accent" : "text-muted-foreground"}>
                       CREDITS: {choice.creditDelta > 0 ? "+" : ""}{choice.creditDelta.toLocaleString()}
                     </span>
                   </div>
@@ -410,14 +410,14 @@ export default function DiplomacyPage() {
                         <div
                           key={event.id}
                           className={`rounded border p-3 ${
-                            isCompleted ? "border-emerald-500/20 bg-emerald-950/10" : "border-border/20 bg-card/10"
+                            isCompleted ? "void-border-success void-bg-success" : "border-border/20 bg-card/10"
                           }`}
                         >
                           <div className="flex items-center gap-2">
                             {isCompleted ? (
-                              <Check size={12} className="text-emerald-400" />
+                              <Check size={12} className="void-text-energy" />
                             ) : (
-                              <AlertTriangle size={12} className="text-amber-400" />
+                              <AlertTriangle size={12} className="void-text-accent" />
                             )}
                             <span className="font-mono text-[10px] text-foreground font-bold">{event.title}</span>
                           </div>
@@ -456,11 +456,11 @@ export default function DiplomacyPage() {
         >
           <div className="flex items-center gap-2 mb-1">
             <div className="h-px flex-1 max-w-8 bg-gradient-to-r from-transparent to-amber-500/50" />
-            <span className="font-mono text-[10px] text-amber-400/70 tracking-[0.3em]">TRADE EMPIRE // DIPLOMATIC CORPS</span>
+            <span className="font-mono text-[10px] void-text-accent tracking-[0.3em]">TRADE EMPIRE // DIPLOMATIC CORPS</span>
             <div className="h-px flex-1 max-w-8 bg-gradient-to-l from-transparent to-amber-500/50" />
           </div>
           <h1 className="font-display text-2xl sm:text-3xl font-black tracking-wider text-foreground mb-2">
-            <span className="text-amber-400">DIPLOMACY</span> & ENCOUNTERS
+            <span className="void-text-accent">DIPLOMACY</span> & ENCOUNTERS
           </h1>
           <p className="font-mono text-xs text-muted-foreground max-w-xl leading-relaxed">
             Navigate moral dilemmas, forge alliances, and shape the galaxy through your choices. Every decision shifts the balance between humanity and machine.
@@ -477,14 +477,14 @@ export default function DiplomacyPage() {
           {/* Morality */}
           <div className={`col-span-2 sm:col-span-1 rounded-lg border p-3 ${
             state.moralityScore > 0
-              ? "border-cyan-500/20 bg-cyan-950/10"
+              ? "void-border-success void-bg-success"
               : state.moralityScore < 0
-              ? "border-red-500/20 bg-red-950/10"
+              ? "void-border-error void-bg-error"
               : "border-border/20 bg-card/10"
           }`}>
             <p className="font-mono text-[9px] text-muted-foreground tracking-wider mb-1">MORALITY</p>
             <p className={`font-display text-xl font-bold ${
-              state.moralityScore > 0 ? "text-cyan-400" : state.moralityScore < 0 ? "text-red-400" : "text-muted-foreground"
+              state.moralityScore > 0 ? "void-text-energy" : state.moralityScore < 0 ? "void-text-error" : "text-muted-foreground"
             }`}>
               {state.moralityScore > 0 ? "+" : ""}{state.moralityScore}
             </p>
@@ -543,7 +543,7 @@ export default function DiplomacyPage() {
               {availableEvents.length > 0 && (
                 <div>
                   <h3 className="font-display text-sm font-bold tracking-wider text-foreground mb-3 flex items-center gap-2">
-                    <AlertTriangle size={14} className="text-amber-400" />
+                    <AlertTriangle size={14} className="void-text-accent" />
                     ACTIVE CRISES ({availableEvents.length})
                   </h3>
                   <div className="space-y-3">
@@ -554,14 +554,14 @@ export default function DiplomacyPage() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.05 }}
                         onClick={() => setSelectedEvent(event)}
-                        className="w-full text-left rounded-lg border border-amber-500/20 bg-amber-950/5 p-4 hover:border-amber-400/40 hover:bg-amber-950/10 transition-all group"
+                        className="w-full text-left rounded-lg border void-border void-bg-sunk p-4 void-border void-bg-sunk transition-all group"
                       >
                         <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0">
-                            <Scale size={18} className="text-amber-400" />
+                          <div className="w-10 h-10 rounded-lg void-bg-sunk border void-border flex items-center justify-center flex-shrink-0">
+                            <Scale size={18} className="void-text-accent" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h4 className="font-display text-sm font-bold text-foreground group-hover:text-amber-400 transition-colors mb-1">
+                            <h4 className="font-display text-sm font-bold text-foreground group-void-text-accent transition-colors mb-1">
                               {event.title}
                             </h4>
                             <p className="font-mono text-[10px] text-muted-foreground line-clamp-2 mb-2">
@@ -573,7 +573,7 @@ export default function DiplomacyPage() {
                               <span className="italic">"{event.theme}"</span>
                             </div>
                           </div>
-                          <ChevronRight size={16} className="text-muted-foreground/30 group-hover:text-amber-400 transition-colors mt-1" />
+                          <ChevronRight size={16} className="text-muted-foreground/30 group-void-text-accent transition-colors mt-1" />
                         </div>
                       </motion.button>
                     ))}
@@ -585,7 +585,7 @@ export default function DiplomacyPage() {
               {completedEvents.length > 0 && (
                 <div>
                   <h3 className="font-display text-sm font-bold tracking-wider text-foreground mb-3 flex items-center gap-2">
-                    <Check size={14} className="text-emerald-400" />
+                    <Check size={14} className="void-text-energy" />
                     RESOLVED ({completedEvents.length})
                   </h3>
                   <div className="space-y-2">
@@ -595,10 +595,10 @@ export default function DiplomacyPage() {
                       return (
                         <div
                           key={event.id}
-                          className="rounded-lg border border-emerald-500/15 bg-emerald-950/5 p-3"
+                          className="rounded-lg border void-border-success void-bg-success p-3"
                         >
                           <div className="flex items-center gap-2 mb-1">
-                            <Check size={12} className="text-emerald-400" />
+                            <Check size={12} className="void-text-energy" />
                             <span className="font-display text-sm font-bold text-foreground">{event.title}</span>
                           </div>
                           {choiceObj && (
@@ -744,15 +744,15 @@ export default function DiplomacyPage() {
                     />
                   </div>
                   <div className="flex justify-between mt-1">
-                    <span className="font-mono text-[9px] text-red-400">MACHINE (-100)</span>
+                    <span className="font-mono text-[9px] void-text-error">MACHINE (-100)</span>
                     <span className="font-mono text-[9px] text-muted-foreground">NEUTRAL</span>
-                    <span className="font-mono text-[9px] text-cyan-400">HUMANITY (+100)</span>
+                    <span className="font-mono text-[9px] void-text-energy">HUMANITY (+100)</span>
                   </div>
                 </div>
                 <p className="font-mono text-xs text-muted-foreground text-center">
                   Current alignment: {state.moralityScore !== 0 ? (
                     <>
-                      <span className={`font-bold ${state.moralityScore > 0 ? "text-cyan-400" : "text-red-400"}`}>
+                      <span className={`font-bold ${state.moralityScore > 0 ? "void-text-energy" : "void-text-error"}`}>
                         {state.moralityScore > 0 ? "HUMANITY" : "MACHINE"}
                       </span>
                       {" "}({state.moralityScore > 0
@@ -770,7 +770,7 @@ export default function DiplomacyPage() {
                 const rep = state.factionReputation[faction] || 0;
                 const FIcon = info.icon;
                 const standing = rep >= 50 ? "ALLIED" : rep >= 20 ? "FRIENDLY" : rep >= -20 ? "NEUTRAL" : rep >= -50 ? "HOSTILE" : "ENEMY";
-                const standingColor = rep >= 20 ? "text-emerald-400" : rep >= -20 ? "text-muted-foreground" : "text-red-400";
+                const standingColor = rep >= 20 ? "void-text-energy" : rep >= -20 ? "text-muted-foreground" : "void-text-error";
 
                 return (
                   <div
@@ -818,13 +818,13 @@ export default function DiplomacyPage() {
                       return (
                         <div key={i} className="flex items-center gap-3 py-1.5 border-b border-border/10 last:border-0">
                           <div className={`w-2 h-2 rounded-full ${
-                            choice.moralityDelta > 0 ? "bg-cyan-400" : choice.moralityDelta < 0 ? "bg-red-400" : "bg-muted-foreground"
+                            choice.moralityDelta > 0 ? "void-bg-success" : choice.moralityDelta < 0 ? "void-bg-error" : "bg-muted-foreground"
                           }`} />
                           <div className="flex-1 min-w-0">
                             <span className="font-mono text-[10px] text-foreground">{event?.title || "Unknown"}</span>
                           </div>
                           <span className={`font-mono text-[10px] ${
-                            choice.moralityDelta > 0 ? "text-cyan-400" : choice.moralityDelta < 0 ? "text-red-400" : "text-muted-foreground"
+                            choice.moralityDelta > 0 ? "void-text-energy" : choice.moralityDelta < 0 ? "void-text-error" : "text-muted-foreground"
                           }`}>
                             {choice.moralityDelta > 0 ? "+" : ""}{choice.moralityDelta}
                           </span>

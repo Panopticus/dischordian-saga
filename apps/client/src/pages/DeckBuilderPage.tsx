@@ -52,23 +52,23 @@ const RARITY_ORDER: Record<string, number> = {
 };
 
 const RARITY_COLORS: Record<string, string> = {
-  common: "text-zinc-400",
-  uncommon: "text-green-400",
-  rare: "text-blue-400",
-  epic: "text-purple-400",
-  legendary: "text-amber-400",
-  mythic: "text-red-400",
-  neyon: "text-cyan-300",
+  common: "void-text",
+  uncommon: "void-text-energy",
+  rare: "void-text-energy",
+  epic: "void-text-system",
+  legendary: "void-text-accent",
+  mythic: "void-text-error",
+  neyon: "void-text-energy",
 };
 
 const RARITY_BG: Record<string, string> = {
-  common: "bg-zinc-800/30 border-zinc-700/30",
-  uncommon: "bg-green-900/20 border-green-700/30",
-  rare: "bg-blue-900/20 border-blue-700/30",
-  epic: "bg-purple-900/20 border-purple-700/30",
-  legendary: "bg-amber-900/20 border-amber-700/30",
-  mythic: "bg-red-900/20 border-red-700/30",
-  neyon: "bg-cyan-900/20 border-cyan-600/30",
+  common: "void-bg-canvas void-border",
+  uncommon: "void-bg-success void-border-success",
+  rare: "void-bg-sunk void-border",
+  epic: "void-bg-system void-border-system",
+  legendary: "void-bg-sunk void-border",
+  mythic: "void-bg-error void-border-error",
+  neyon: "void-bg-success void-border-success",
 };
 
 // ═══════════════════════════════════════════════════════
@@ -528,8 +528,8 @@ export default function DeckBuilderPage() {
                           {(deck.wins > 0 || deck.losses > 0) && (
                             <>
                               <span className="text-border">|</span>
-                              <span className="text-green-400">{deck.wins}W</span>
-                              <span className="text-red-400">{deck.losses}L</span>
+                              <span className="void-text-energy">{deck.wins}W</span>
+                              <span className="void-text-error">{deck.losses}L</span>
                             </>
                           )}
                         </div>
@@ -665,7 +665,7 @@ export default function DeckBuilderPage() {
                           )}
                           {/* Owned indicator */}
                           {owned && (
-                            <div className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-background/80 text-[9px] font-mono text-green-400 z-10">
+                            <div className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-background/80 text-[9px] font-mono void-text-energy z-10">
                               x{owned.quantity}
                             </div>
                           )}
@@ -729,7 +729,7 @@ export default function DeckBuilderPage() {
 
                 {/* Stats bar */}
                 <div className="flex items-center gap-3 text-[10px] font-mono text-muted-foreground">
-                  <span className={deckStats.totalCards >= MIN_DECK_SIZE ? "text-green-400" : "text-amber-400"}>
+                  <span className={deckStats.totalCards >= MIN_DECK_SIZE ? "void-text-energy" : "void-text-accent"}>
                     {deckStats.totalCards}/{MAX_DECK_SIZE} cards
                   </span>
                   <span className="text-border">|</span>
@@ -739,7 +739,7 @@ export default function DeckBuilderPage() {
                   {deckStats.totalCards < MIN_DECK_SIZE && (
                     <>
                       <span className="text-border">|</span>
-                      <span className="text-amber-400 flex items-center gap-1">
+                      <span className="void-text-accent flex items-center gap-1">
                         <AlertCircle size={10} />
                         Need {MIN_DECK_SIZE - deckStats.totalCards} more
                       </span>
@@ -752,14 +752,14 @@ export default function DeckBuilderPage() {
                   <div className="flex h-1.5 rounded-full overflow-hidden bg-secondary/50">
                     {Object.entries(deckStats.typeCounts).map(([type, count]) => {
                       const colors: Record<string, string> = {
-                        character: "bg-blue-500", action: "bg-amber-500", combat: "bg-red-500",
-                        reaction: "bg-green-500", event: "bg-purple-500", item: "bg-cyan-500",
-                        location: "bg-pink-500", master: "bg-yellow-500",
+                        character: "void-bg-sunk", action: "void-bg-sunk", combat: "void-bg-error",
+                        reaction: "void-bg-success", event: "void-bg-system", item: "void-bg-success",
+                        location: "void-bg-error", master: "void-bg-sunk",
                       };
                       return (
                         <div
                           key={type}
-                          className={`${colors[type] || "bg-gray-500"} transition-all`}
+                          className={`${colors[type] || "void-bg-canvas"} transition-all`}
                           style={{ width: `${(count / deckStats.totalCards) * 100}%` }}
                           title={`${type}: ${count}`}
                         />
@@ -784,8 +784,8 @@ export default function DeckBuilderPage() {
                     {sortedDeckCards.map((dc) => {
                       const card = cardMap.get(dc.cardId);
                       if (!card) return null;
-                      const rarityColor = RARITY_COLORS[card.rarity] || "text-zinc-400";
-                      const rarityBg = RARITY_BG[card.rarity] || "bg-zinc-800/30 border-zinc-700/30";
+                      const rarityColor = RARITY_COLORS[card.rarity] || "void-text";
+                      const rarityBg = RARITY_BG[card.rarity] || "void-bg-canvas void-border";
 
                       return (
                         <motion.div

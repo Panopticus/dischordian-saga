@@ -18,7 +18,7 @@ export function CardLockOverlay() {
       aria-hidden="true"
       className="absolute inset-0 rounded-lg bg-black/70 flex items-center justify-center pointer-events-none"
     >
-      <Lock className="w-6 h-6 text-amber-400/90 drop-shadow-[0_0_3px_rgba(255,180,80,0.7)]" />
+      <Lock className="w-6 h-6 void-text-accent drop-shadow-[0_0_3px_rgba(255,180,80,0.7)]" />
     </div>
   );
 }

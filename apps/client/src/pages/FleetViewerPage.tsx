@@ -110,7 +110,7 @@ export default function FleetViewerPage() {
                 >
                   <ClassIcon size={36} style={{ color: selectedArk.color }} />
                   {isAssigned && (
-                    <div className="absolute top-1 right-1 w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center">
+                    <div className="absolute top-1 right-1 w-5 h-5 rounded-full void-bg-success flex items-center justify-center">
                       <Star size={10} className="text-white fill-white" />
                     </div>
                   )}
@@ -133,12 +133,12 @@ export default function FleetViewerPage() {
                   {/* Status badges */}
                   <div className="flex flex-wrap gap-2">
                     {isAssigned && (
-                      <span className="px-2 py-0.5 rounded text-[9px] font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                      <span className="px-2 py-0.5 rounded text-[9px] font-mono void-bg-success void-text-energy border void-border-success">
                         YOUR ARK
                       </span>
                     )}
                     {isPlayerClassMatch && !isAssigned && (
-                      <span className="px-2 py-0.5 rounded text-[9px] font-mono bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                      <span className="px-2 py-0.5 rounded text-[9px] font-mono void-bg-sunk void-text-accent border void-border">
                         CLASS MATCH
                       </span>
                     )}
@@ -193,24 +193,24 @@ export default function FleetViewerPage() {
                 </h3>
                 <div className="grid grid-cols-3 gap-3">
                   <div className="text-center">
-                    <div className="w-12 h-12 mx-auto rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-1">
-                      <Swords size={18} className="text-red-400" />
+                    <div className="w-12 h-12 mx-auto rounded-lg void-bg-error border void-border-error flex items-center justify-center mb-1">
+                      <Swords size={18} className="void-text-error" />
                     </div>
-                    <p className="font-display text-lg font-bold text-red-400">{selectedArk.cardStats.power}</p>
+                    <p className="font-display text-lg font-bold void-text-error">{selectedArk.cardStats.power}</p>
                     <p className="font-mono text-[9px] text-muted-foreground tracking-wider">POWER</p>
                   </div>
                   <div className="text-center">
-                    <div className="w-12 h-12 mx-auto rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-1">
-                      <Shield size={18} className="text-emerald-400" />
+                    <div className="w-12 h-12 mx-auto rounded-lg void-bg-success border void-border-success flex items-center justify-center mb-1">
+                      <Shield size={18} className="void-text-energy" />
                     </div>
-                    <p className="font-display text-lg font-bold text-emerald-400">{selectedArk.cardStats.health}</p>
+                    <p className="font-display text-lg font-bold void-text-energy">{selectedArk.cardStats.health}</p>
                     <p className="font-mono text-[9px] text-muted-foreground tracking-wider">HEALTH</p>
                   </div>
                   <div className="text-center">
-                    <div className="w-12 h-12 mx-auto rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-1">
-                      <Zap size={18} className="text-amber-400" />
+                    <div className="w-12 h-12 mx-auto rounded-lg void-bg-sunk border void-border flex items-center justify-center mb-1">
+                      <Zap size={18} className="void-text-accent" />
                     </div>
-                    <p className="font-display text-lg font-bold text-amber-400">{selectedArk.cardStats.cost}</p>
+                    <p className="font-display text-lg font-bold void-text-accent">{selectedArk.cardStats.cost}</p>
                     <p className="font-mono text-[9px] text-muted-foreground tracking-wider">COST</p>
                   </div>
                 </div>
@@ -311,8 +311,8 @@ export default function FleetViewerPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <Star size={12} className="text-emerald-400 fill-emerald-400" />
-                        <span className="font-mono text-[9px] text-emerald-400 tracking-wider">YOUR ASSIGNED ARK</span>
+                        <Star size={12} className="void-text-energy fill-emerald-400" />
+                        <span className="font-mono text-[9px] void-text-energy tracking-wider">YOUR ASSIGNED ARK</span>
                       </div>
                       <h3 className="font-display text-lg font-bold tracking-wide text-foreground group-hover:text-primary transition-colors">
                         {ark.name}
@@ -336,14 +336,14 @@ export default function FleetViewerPage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="mb-6 rounded-lg border border-amber-500/30 bg-amber-950/10 p-4"
+            className="mb-6 rounded-lg border void-border void-bg-sunk p-4"
           >
             <div className="flex items-center gap-2 mb-2">
-              <Sparkles size={14} className="text-amber-400" />
-              <span className="font-mono text-[10px] text-amber-400 tracking-wider">CLASS MATCH DETECTED</span>
+              <Sparkles size={14} className="void-text-accent" />
+              <span className="font-mono text-[10px] void-text-accent tracking-wider">CLASS MATCH DETECTED</span>
             </div>
             <p className="font-mono text-xs text-muted-foreground mb-3">
-              As a <span className="text-amber-400 font-bold">{playerClass.toUpperCase()}</span>, the{" "}
+              As a <span className="void-text-accent font-bold">{playerClass.toUpperCase()}</span>, the{" "}
               <span className="text-foreground font-bold">{playerArk.name}</span> ({playerArk.designation}) is designed for your specialization.
             </p>
             <button
@@ -351,7 +351,7 @@ export default function FleetViewerPage() {
                 handleAssignArk(playerArk.id);
                 setSelectedArk(playerArk);
               }}
-              className="px-4 py-2 rounded font-mono text-[10px] tracking-wider bg-amber-500/20 text-amber-400 border border-amber-500/30 hover:bg-amber-500/30 transition-colors"
+              className="px-4 py-2 rounded font-mono text-[10px] tracking-wider void-bg-sunk void-text-accent border void-border void-bg-sunk transition-colors"
             >
               ASSIGN & VIEW ARK
             </button>
@@ -417,12 +417,12 @@ export default function FleetViewerPage() {
                       {ark.class}
                     </span>
                     {isAssigned && (
-                      <span className="px-1.5 py-0.5 rounded text-[8px] font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                      <span className="px-1.5 py-0.5 rounded text-[8px] font-mono void-bg-success void-text-energy border void-border-success">
                         YOUR ARK
                       </span>
                     )}
                     {isClassMatch && !isAssigned && (
-                      <span className="px-1.5 py-0.5 rounded text-[8px] font-mono bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                      <span className="px-1.5 py-0.5 rounded text-[8px] font-mono void-bg-sunk void-text-accent border void-border">
                         CLASS MATCH
                       </span>
                     )}
@@ -436,13 +436,13 @@ export default function FleetViewerPage() {
                   {/* Card Stats Mini */}
                   <div className="flex items-center gap-3 text-[10px] font-mono text-muted-foreground/50">
                     <span className="flex items-center gap-1">
-                      <Swords size={10} className="text-red-400/60" /> {ark.cardStats.power}
+                      <Swords size={10} className="void-text-error" /> {ark.cardStats.power}
                     </span>
                     <span className="flex items-center gap-1">
-                      <Shield size={10} className="text-emerald-400/60" /> {ark.cardStats.health}
+                      <Shield size={10} className="void-text-energy" /> {ark.cardStats.health}
                     </span>
                     <span className="flex items-center gap-1">
-                      <Zap size={10} className="text-amber-400/60" /> {ark.cardStats.cost}
+                      <Zap size={10} className="void-text-accent" /> {ark.cardStats.cost}
                     </span>
                   </div>
                 </div>

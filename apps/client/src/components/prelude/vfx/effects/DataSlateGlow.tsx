@@ -26,8 +26,8 @@ export function DataSlateGlow({ active, state = "pulsing", onComplete, className
             style={{
               width: "25%",
               height: "25%",
-              borderRight: "1px solid rgba(34, 211, 238, 0.15)",
-              borderBottom: "1px solid rgba(34, 211, 238, 0.15)",
+              borderRight: "1px solid color-mix(in oklch, var(--energy-primary) 15%, transparent)",
+              borderBottom: "1px solid color-mix(in oklch, var(--energy-primary) 15%, transparent)",
               boxSizing: "border-box",
             }}
           />,
@@ -47,8 +47,8 @@ export function DataSlateGlow({ active, state = "pulsing", onComplete, className
         width: "120px",
         height: "80px",
         borderRadius: "4px",
-        backgroundColor: "rgba(34, 211, 238, 0.08)",
-        border: "1px solid rgba(34, 211, 238, 0.3)",
+        backgroundColor: "color-mix(in oklch, var(--energy-primary) 8%, transparent)",
+        border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
         animation,
         overflow: "hidden",
         pointerEvents: "none",

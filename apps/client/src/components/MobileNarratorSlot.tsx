@@ -52,9 +52,9 @@ const NARRATOR_NAME: Record<NarratorId, string> = {
 };
 
 const NARRATOR_ACCENT: Record<NarratorId, { ring: string; text: string; dot: string }> = {
-  elara: { ring: "ring-cyan-400/40", text: "text-cyan-200", dot: "bg-cyan-400" },
-  the_human: { ring: "ring-amber-400/40", text: "text-amber-200", dot: "bg-amber-400" },
-  lyra_vox: { ring: "ring-violet-400/40", text: "text-violet-200", dot: "bg-violet-400" },
+  elara: { ring: "ring-cyan-400/40", text: "void-text-energy", dot: "void-bg-success" },
+  the_human: { ring: "ring-amber-400/40", text: "void-text-accent", dot: "void-bg-sunk" },
+  lyra_vox: { ring: "ring-violet-400/40", text: "void-text-system", dot: "void-bg-system" },
 };
 
 export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorSlotProps) {
@@ -237,7 +237,7 @@ export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorS
 
       {/* Bond lock hints (§1.3 teeth). */}
       {locks.length > 0 && (
-        <p className="mt-2 font-mono text-[10px] text-red-300/70">
+        <p className="mt-2 font-mono text-[10px] void-text-error">
           Locked: {locks.join(", ")}
         </p>
       )}

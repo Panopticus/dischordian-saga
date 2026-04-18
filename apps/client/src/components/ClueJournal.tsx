@@ -394,7 +394,7 @@ const CLUE_TYPE_META: Record<ClueType, { label: string; icon: typeof Diamond; co
 };
 
 const DIFFICULTY_META: Record<string, { label: string; color: string }> = {
-  easy: { label: "EASY", color: "text-green-400" },
+  easy: { label: "EASY", color: "void-text-energy" },
   medium: { label: "MEDIUM", color: "text-accent" },
   hard: { label: "HARD", color: "text-destructive" },
   legendary: { label: "LEGENDARY", color: "text-chart-4" },

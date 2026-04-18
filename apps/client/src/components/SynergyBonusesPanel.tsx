@@ -8,9 +8,9 @@ import { useState } from "react";
 import { Sparkles, ChevronDown, ChevronUp, Lock, Zap } from "lucide-react";
 
 const RARITY_STYLES = {
-  uncommon: { border: "border-emerald-500/30", bg: "bg-emerald-950/20", text: "text-emerald-400", glow: "shadow-emerald-500/10" },
-  rare: { border: "border-blue-500/30", bg: "bg-blue-950/20", text: "text-blue-400", glow: "shadow-blue-500/10" },
-  legendary: { border: "border-amber-500/30", bg: "bg-amber-950/20", text: "text-amber-400", glow: "shadow-amber-500/10" },
+  uncommon: { border: "void-border-success", bg: "void-bg-success", text: "void-text-energy", glow: "shadow-emerald-500/10" },
+  rare: { border: "void-border", bg: "void-bg-sunk", text: "void-text-energy", glow: "shadow-blue-500/10" },
+  legendary: { border: "void-border", bg: "void-bg-sunk", text: "void-text-accent", glow: "shadow-amber-500/10" },
 };
 
 export function SynergyBonusesPanel() {
@@ -58,12 +58,12 @@ export function SynergyBonusesPanel() {
         </div>
         <div className="flex items-center gap-2">
           {counts.legendary > 0 && (
-            <span className="font-mono text-[9px] text-amber-400 bg-amber-950/30 px-2 py-0.5 rounded">
+            <span className="font-mono text-[9px] void-text-accent void-bg-sunk px-2 py-0.5 rounded">
               {counts.legendary} LEGENDARY
             </span>
           )}
           {counts.rare > 0 && (
-            <span className="font-mono text-[9px] text-blue-400 bg-blue-950/30 px-2 py-0.5 rounded">
+            <span className="font-mono text-[9px] void-text-energy void-bg-sunk px-2 py-0.5 rounded">
               {counts.rare} RARE
             </span>
           )}

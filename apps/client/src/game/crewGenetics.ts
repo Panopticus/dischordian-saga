@@ -133,13 +133,13 @@ export const FOUNDING_BLOODLINES: Record<BloodlineId, Omit<Bloodline, "generatio
   void_resonance: {
     id: "void_resonance", founderTemplateId: "tpl_terran_prime",
     name: "House Resonance", motto: "We echo forward.",
-    color: "#22d3ee",
+    color: "var(--energy-primary)",
     power: { name: "Void Resonance", description: "Trade routes hum with an efficiency others can't explain.", stat: "trade_income", baseValue: 5, perGeneration: 2 },
   },
   iron_memory: {
     id: "iron_memory", founderTemplateId: "tpl_demagi_ashborn",
     name: "House Ashkari", motto: "We remember what fire forgets.",
-    color: "#ef4444",
+    color: "var(--energy-error)",
     power: { name: "Iron Memory", description: "Knowledge accumulates faster. Every lesson burns into the bloodline.", stat: "xp_gain", baseValue: 8, perGeneration: 3 },
   },
   crimson_vigil: {
@@ -175,7 +175,7 @@ export const FOUNDING_BLOODLINES: Record<BloodlineId, Omit<Bloodline, "generatio
   terminus_aegis: {
     id: "terminus_aegis", founderTemplateId: "tpl_terminus_reclaimed",
     name: "House Aegis", motto: "What survived Terminus fears nothing.",
-    color: "#f59e0b",
+    color: "var(--energy-accent)",
     power: { name: "Terminus Aegis", description: "Quarantine resistance and viral immunity run in the blood.", stat: "quarantine_resistance", baseValue: 12, perGeneration: 3 },
   },
   blood_weave: {

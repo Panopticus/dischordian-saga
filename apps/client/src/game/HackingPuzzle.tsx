@@ -287,8 +287,8 @@ const W = 10;
 function PipeTile({ tile, powered, onClick, frozen }: {
   tile: Tile; powered: boolean; onClick: () => void; frozen: boolean;
 }) {
-  const col = powered ? "#22d3ee" : "#4b5563";
-  const glow = powered ? "drop-shadow(0 0 6px #22d3ee)" : "none";
+  const col = powered ? "var(--energy-primary)" : "#4b5563";
+  const glow = powered ? "drop-shadow(0 0 6px var(--energy-primary))" : "none";
   const isFixed = tile.kind === "source" || tile.kind === "target";
 
   const pipe = (() => {
@@ -312,15 +312,15 @@ function PipeTile({ tile, powered, onClick, frozen }: {
         </>);
       case "source":
         return (<>
-          <circle cx={H} cy={H} r={14} fill="none" stroke="#22c55e" strokeWidth={3} />
-          <circle cx={H} cy={H} r={7} fill="#22c55e" opacity={0.8} />
-          <rect x={H} y={H - W / 2} width={H} height={W} fill="#22c55e" rx={2} />
+          <circle cx={H} cy={H} r={14} fill="none" stroke="var(--energy-success)" strokeWidth={3} />
+          <circle cx={H} cy={H} r={7} fill="var(--energy-success)" opacity={0.8} />
+          <rect x={H} y={H - W / 2} width={H} height={W} fill="var(--energy-success)" rx={2} />
         </>);
       case "target":
         return (<>
-          <circle cx={H} cy={H} r={14} fill="none" stroke="#f59e0b" strokeWidth={3} />
-          <circle cx={H} cy={H} r={7} fill="#f59e0b" opacity={0.8} />
-          <rect x={0} y={H - W / 2} width={H} height={W} fill="#f59e0b" rx={2} />
+          <circle cx={H} cy={H} r={14} fill="none" stroke="var(--energy-accent)" strokeWidth={3} />
+          <circle cx={H} cy={H} r={7} fill="var(--energy-accent)" opacity={0.8} />
+          <rect x={0} y={H - W / 2} width={H} height={W} fill="var(--energy-accent)" rx={2} />
         </>);
       default: return null;
     }
@@ -413,7 +413,7 @@ export default function HackingPuzzle({
   }, [gameState]);
 
   const pct = timeLeft / timeLimit;
-  const barCol = pct > 0.5 ? "#22c55e" : pct > 0.25 ? "#f59e0b" : "#ef4444";
+  const barCol = pct > 0.5 ? "var(--energy-success)" : pct > 0.25 ? "var(--energy-accent)" : "var(--energy-error)";
 
   return (
     <motion.div
@@ -441,7 +441,7 @@ export default function HackingPuzzle({
         {/* Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <Zap size={20} color="#22d3ee" />
+            <Zap size={20} color="var(--energy-primary)" />
             <span style={{ color: "#e0e7ff", fontWeight: 700, fontSize: 18 }}>POWER GRID HACK</span>
             <span style={{
               fontSize: 11, padding: "2px 8px", borderRadius: 8,
@@ -498,8 +498,8 @@ export default function HackingPuzzle({
         {gameState === "playing" && (
           <p style={{ color: "#818cf8", fontSize: 12, textAlign: "center", margin: 0, opacity: 0.7 }}>
             Click pipes to rotate. Connect{" "}
-            <span style={{ color: "#22c55e" }}>source</span> to{" "}
-            <span style={{ color: "#f59e0b" }}>target</span>.
+            <span style={{ color: "var(--energy-success)" }}>source</span> to{" "}
+            <span style={{ color: "var(--energy-accent)" }}>target</span>.
           </p>
         )}
 
@@ -549,9 +549,9 @@ export default function HackingPuzzle({
                 animate={{ opacity: [1, 0.4, 1] }}
                 transition={{ repeat: Infinity, duration: 0.6 }}
               >
-                <ShieldAlert size={48} color="#ef4444" />
+                <ShieldAlert size={48} color="var(--energy-error)" />
               </motion.div>
-              <h2 style={{ color: "#ef4444", fontSize: 28, margin: "12px 0 4px", letterSpacing: 4 }}>
+              <h2 style={{ color: "var(--energy-error)", fontSize: 28, margin: "12px 0 4px", letterSpacing: 4 }}>
                 LOCKOUT
               </h2>
               <p style={{ color: "#fca5a5", fontSize: 14, margin: 0 }}>

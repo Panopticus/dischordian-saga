@@ -17,24 +17,24 @@ type FilterTab = "all" | EnemyType;
 
 const TYPE_META: Record<EnemyType, { label: string; color: string; glow: string; border: string }> = {
   thought_virus: {
-    label: "Thought Virus", color: "text-red-400",
-    glow: "shadow-[0_0_20px_rgba(239,68,68,0.5)]", border: "border-red-600/60",
+    label: "Thought Virus", color: "void-text-error",
+    glow: "shadow-[0_0_20px_color-mix(in oklch, var(--energy-error) 50%, transparent)]", border: "void-border-error",
   },
   terminus_swarm: {
-    label: "Terminus Swarm", color: "text-orange-400",
-    glow: "shadow-[0_0_20px_rgba(249,115,22,0.5)]", border: "border-orange-600/60",
+    label: "Terminus Swarm", color: "void-text-premium",
+    glow: "shadow-[0_0_20px_rgba(249,115,22,0.5)]", border: "void-border",
   },
   ai_construct: {
-    label: "AI Construct", color: "text-cyan-400",
-    glow: "shadow-[0_0_20px_rgba(34,211,238,0.5)]", border: "border-cyan-600/60",
+    label: "AI Construct", color: "void-text-energy",
+    glow: "shadow-[0_0_20px_color-mix(in oklch, var(--energy-primary) 50%, transparent)]", border: "void-border-success",
   },
   hierarchy_demon: {
-    label: "Hierarchy Demon", color: "text-purple-400",
-    glow: "shadow-[0_0_20px_rgba(168,85,247,0.5)]", border: "border-purple-600/60",
+    label: "Hierarchy Demon", color: "void-text-system",
+    glow: "shadow-[0_0_20px_color-mix(in oklch, var(--energy-system) 50%, transparent)]", border: "void-border-system",
   },
   rogue_npc: {
-    label: "Rogue NPC", color: "text-amber-400",
-    glow: "shadow-[0_0_20px_rgba(251,191,36,0.5)]", border: "border-amber-600/60",
+    label: "Rogue NPC", color: "void-text-accent",
+    glow: "shadow-[0_0_20px_color-mix(in oklch, var(--energy-premium) 50%, transparent)]", border: "void-border",
   },
 };
 
@@ -96,15 +96,15 @@ export default function BestiaryPage() {
   if (!archivesDiscovered) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center p-6">
-        <div className="max-w-md text-center space-y-4 p-6 void-surface border-amber-500/20">
-          <Lock size={32} className="mx-auto text-amber-400/60" />
-          <h2 className="text-xl font-bold tracking-wider text-amber-300">BESTIARY SEALED</h2>
-          <p className="text-sm text-amber-200/70">
+        <div className="max-w-md text-center space-y-4 p-6 void-surface void-border">
+          <Lock size={32} className="mx-auto void-text-accent" />
+          <h2 className="text-xl font-bold tracking-wider void-text-accent">BESTIARY SEALED</h2>
+          <p className="text-sm void-text-accent">
             The bestiary is encoded in the Archives. Discover the Archives first to unlock this codex.
           </p>
           <button
             onClick={() => navigate("/ark")}
-            className="px-6 py-2 border border-amber-500/40 text-amber-300 hover:bg-amber-500/10 transition rounded"
+            className="px-6 py-2 border void-border void-text-accent void-bg-sunk transition rounded"
             data-testid="back-to-ark"
           >
             Return to Ark
@@ -115,39 +115,39 @@ export default function BestiaryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#1a1208] via-[#0f0a05] to-black text-amber-50 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-b from-[#1a1208] via-[#0f0a05] to-black void-text-accent p-4 md:p-8">
       {/* Parchment texture overlay */}
       <div
         className="fixed inset-0 pointer-events-none opacity-10 mix-blend-overlay"
         style={{
-          backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(251,191,36,0.08) 2px, rgba(251,191,36,0.08) 3px)",
+          backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--energy-premium) 8%, transparent) 2px, color-mix(in oklch, var(--energy-premium) 8%, transparent) 3px)",
         }}
       />
 
       <div className="max-w-7xl mx-auto relative">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6 border-b-2 border-amber-700/40 pb-4">
+        <div className="flex items-center justify-between mb-6 border-b-2 void-border pb-4">
           <button
             onClick={() => navigate("/ark")}
-            className="flex items-center gap-2 text-amber-400 hover:text-amber-300 transition"
+            className="flex items-center gap-2 void-text-accent void-text-accent transition"
             data-testid="back-to-ark"
           >
             <ArrowLeft className="w-5 h-5" /> Back
           </button>
           <div className="text-center">
-            <h1 className="text-xl md:text-3xl font-bold tracking-[0.25em] text-amber-300"
-                style={{ fontFamily: "serif", textShadow: "0 0 20px rgba(251,191,36,0.4)" }}>
+            <h1 className="text-xl md:text-3xl font-bold tracking-[0.25em] void-text-accent"
+                style={{ fontFamily: "serif", textShadow: "0 0 20px color-mix(in oklch, var(--energy-premium) 40%, transparent)" }}>
               BESTIARY // ARK 1047
             </h1>
-            <p className="text-[10px] text-amber-700 mt-1 uppercase tracking-widest">
+            <p className="text-[10px] void-text-accent mt-1 uppercase tracking-widest">
               Creatures catalogued through combat
             </p>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-amber-400" data-testid="bestiary-counter">
+            <div className="text-2xl font-bold void-text-accent" data-testid="bestiary-counter">
               {discoveredSet.size}/{BESTIARY.length}
             </div>
-            <div className="text-[10px] text-amber-700 uppercase tracking-wider">Discovered</div>
+            <div className="text-[10px] void-text-accent uppercase tracking-wider">Discovered</div>
           </div>
         </div>
 
@@ -164,11 +164,11 @@ export default function BestiaryPage() {
                 data-testid={`filter-${t.id}`}
                 className={`px-3 py-2 text-xs tracking-wider uppercase transition border rounded ${
                   filter === t.id
-                    ? "bg-amber-500/20 border-amber-400 text-amber-200"
-                    : "border-amber-800/40 text-amber-600 hover:border-amber-600"
+                    ? "void-bg-sunk void-border void-text-accent"
+                    : "void-border void-text-accent void-border"
                 }`}
               >
-                {t.label} {count > 0 && <span className="ml-1 text-amber-400">({count})</span>}
+                {t.label} {count > 0 && <span className="ml-1 void-text-accent">({count})</span>}
               </button>
             );
           })}
@@ -192,31 +192,31 @@ export default function BestiaryPage() {
                   onClick={() => setSelected(entry)}
                   data-testid={`bestiary-card-${entry.id}`}
                   className={`relative p-5 text-left rounded-lg border-2 transition bg-gradient-to-br from-[#1a1208]/90 to-[#0a0604]/90 ${
-                    discovered ? `${meta.border} ${meta.glow}` : "border-amber-900/30 opacity-60"
+                    discovered ? `${meta.border} ${meta.glow}` : "void-border opacity-60"
                   }`}
                 >
                   {/* Silhouette / Art area */}
-                  <div className={`aspect-[3/2] mb-3 bg-gradient-to-br from-black/60 to-amber-950/40 border ${discovered ? "border-amber-700/40" : "border-amber-900/20"} rounded flex items-center justify-center relative overflow-hidden`}>
+                  <div className={`aspect-[3/2] mb-3 bg-gradient-to-br from-black/60 to-amber-950/40 border ${discovered ? "void-border" : "void-border"} rounded flex items-center justify-center relative overflow-hidden`}>
                     {discovered ? (
                       <Skull className={`w-16 h-16 ${meta.color}`} style={{ filter: `drop-shadow(0 0 12px currentColor)` }} />
                     ) : (
                       <div className="flex flex-col items-center gap-2">
-                        <EyeOff className="w-10 h-10 text-amber-900" />
-                        <span className="text-xs text-amber-900 tracking-widest">UNDISCOVERED</span>
+                        <EyeOff className="w-10 h-10 void-text-accent" />
+                        <span className="text-xs void-text-accent tracking-widest">UNDISCOVERED</span>
                       </div>
                     )}
                   </div>
 
-                  <h3 className={`font-bold text-base mb-1 tracking-wide ${discovered ? "text-amber-200" : "text-amber-800"}`}
+                  <h3 className={`font-bold text-base mb-1 tracking-wide ${discovered ? "void-text-accent" : "void-text-accent"}`}
                       style={{ fontFamily: "serif" }}>
                     {discovered ? entry.name : "???"}
                   </h3>
-                  <p className={`text-[10px] uppercase tracking-widest ${discovered ? meta.color : "text-amber-900"}`}>
+                  <p className={`text-[10px] uppercase tracking-widest ${discovered ? meta.color : "void-text-accent"}`}>
                     {discovered ? meta.label : "Classification Unknown"}
                   </p>
                   {discovered && kills > 0 && (
-                    <div className="mt-2 pt-2 border-t border-amber-900/30 flex items-center justify-between text-[10px]">
-                      <span className="text-amber-700 uppercase tracking-wider">Kills</span>
+                    <div className="mt-2 pt-2 border-t void-border flex items-center justify-between text-[10px]">
+                      <span className="void-text-accent uppercase tracking-wider">Kills</span>
                       <span className={`font-bold ${meta.color}`} data-testid={`kill-count-${entry.id}`}>
                         {kills}
                       </span>
@@ -245,21 +245,21 @@ export default function BestiaryPage() {
                 initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
                 onClick={e => e.stopPropagation()}
                 className={`max-w-2xl w-full bg-gradient-to-b from-[#1a1208] to-[#0a0604] border-2 rounded-lg p-6 ${
-                  discovered ? `${meta.border} ${meta.glow}` : "border-amber-900/40"
+                  discovered ? `${meta.border} ${meta.glow}` : "void-border"
                 }`}
               >
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h2 className="text-2xl font-bold text-amber-200" style={{ fontFamily: "serif" }}>
+                    <h2 className="text-2xl font-bold void-text-accent" style={{ fontFamily: "serif" }}>
                       {discovered ? selected.name : "???"}
                     </h2>
-                    <p className={`text-xs uppercase tracking-widest mt-1 ${discovered ? meta.color : "text-amber-800"}`}>
+                    <p className={`text-xs uppercase tracking-widest mt-1 ${discovered ? meta.color : "void-text-accent"}`}>
                       {discovered ? meta.label : "Unclassified"}
                     </p>
                   </div>
                   <button
                     onClick={() => setSelected(null)}
-                    className="text-amber-600 hover:text-amber-300"
+                    className="void-text-accent void-text-accent"
                     data-testid="close-modal"
                   >
                     <X className="w-6 h-6" />
@@ -269,50 +269,50 @@ export default function BestiaryPage() {
                 {discovered ? (
                   <div className="space-y-4 text-sm">
                     <div className="flex items-start gap-3">
-                      <Eye className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" />
+                      <Eye className="w-4 h-4 void-text-accent mt-0.5 shrink-0" />
                       <div>
-                        <div className="text-[10px] text-amber-700 uppercase tracking-wider mb-1">Description</div>
-                        <p className="text-amber-200">{selected.description}</p>
+                        <div className="text-[10px] void-text-accent uppercase tracking-wider mb-1">Description</div>
+                        <p className="void-text-accent">{selected.description}</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <Zap className="w-4 h-4 text-green-400 mt-0.5 shrink-0" />
+                      <Zap className="w-4 h-4 void-text-energy mt-0.5 shrink-0" />
                       <div>
-                        <div className="text-[10px] text-amber-700 uppercase tracking-wider mb-1">Weakness</div>
-                        <p className="text-green-300">{selected.weakness}</p>
+                        <div className="text-[10px] void-text-accent uppercase tracking-wider mb-1">Weakness</div>
+                        <p className="void-text-energy">{selected.weakness}</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <Shield className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
+                      <Shield className="w-4 h-4 void-text-error mt-0.5 shrink-0" />
                       <div>
-                        <div className="text-[10px] text-amber-700 uppercase tracking-wider mb-1">Resistance</div>
-                        <p className="text-red-300">{selected.resistance}</p>
+                        <div className="text-[10px] void-text-accent uppercase tracking-wider mb-1">Resistance</div>
+                        <p className="void-text-error">{selected.resistance}</p>
                       </div>
                     </div>
-                    <div className="pt-3 border-t border-amber-900/40 flex items-start gap-3">
-                      <BookOpen className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" />
+                    <div className="pt-3 border-t void-border flex items-start gap-3">
+                      <BookOpen className="w-4 h-4 void-text-accent mt-0.5 shrink-0" />
                       <div>
-                        <div className="text-[10px] text-amber-700 uppercase tracking-wider mb-1">Lore</div>
-                        <p className="text-amber-300/80 italic" style={{ fontFamily: "serif" }}>
+                        <div className="text-[10px] void-text-accent uppercase tracking-wider mb-1">Lore</div>
+                        <p className="void-text-accent italic" style={{ fontFamily: "serif" }}>
                           {selected.loreText}
                         </p>
                       </div>
                     </div>
-                    <div className="pt-3 border-t border-amber-900/40 grid grid-cols-2 gap-4 text-xs">
+                    <div className="pt-3 border-t void-border grid grid-cols-2 gap-4 text-xs">
                       <div>
-                        <div className="text-[10px] text-amber-700 uppercase tracking-wider">Discovered Via</div>
-                        <div className="text-amber-300 mt-1">{selected.discoveredVia}</div>
+                        <div className="text-[10px] void-text-accent uppercase tracking-wider">Discovered Via</div>
+                        <div className="void-text-accent mt-1">{selected.discoveredVia}</div>
                       </div>
                       <div className="text-right">
-                        <div className="text-[10px] text-amber-700 uppercase tracking-wider">Confirmed Kills</div>
+                        <div className="text-[10px] void-text-accent uppercase tracking-wider">Confirmed Kills</div>
                         <div className={`text-lg font-bold ${meta.color} mt-1`}>{kills}</div>
                       </div>
                     </div>
                   </div>
                 ) : (
                   <div className="text-center py-12 space-y-3">
-                    <EyeOff className="w-12 h-12 text-amber-900 mx-auto" />
-                    <p className="text-amber-700 italic" style={{ fontFamily: "serif" }}>
+                    <EyeOff className="w-12 h-12 void-text-accent mx-auto" />
+                    <p className="void-text-accent italic" style={{ fontFamily: "serif" }}>
                       No records exist for this creature. Encounter it in combat to unlock its entry.
                     </p>
                   </div>

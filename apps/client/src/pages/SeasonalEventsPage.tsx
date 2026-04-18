@@ -181,10 +181,10 @@ function ProgressBar({ current, max, color }: { current: number; max: number; co
 /* ─── RARITY BADGE ─── */
 function RarityBadge({ rarity }: { rarity: string }) {
   const colors: Record<string, string> = {
-    common: "bg-zinc-500/20 text-zinc-400 border-zinc-500/30",
-    rare: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-    legendary: "bg-amber-500/20 text-amber-400 border-amber-500/30",
-    mythic: "bg-purple-500/20 text-purple-400 border-purple-500/30",
+    common: "void-bg-canvas void-text void-border",
+    rare: "void-bg-sunk void-text-energy void-border",
+    legendary: "void-bg-sunk void-text-accent void-border",
+    mythic: "void-bg-system void-text-system void-border-system",
   };
   return (
     <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono tracking-wider border ${colors[rarity] || colors.common}`}>
@@ -316,7 +316,7 @@ export default function SeasonalEventsPage() {
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                  background: `linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0.9) 100%)`,
+                  background: `linear-gradient(180deg, color-mix(in oklch, var(--bg-void) 35%, transparent) 0%, color-mix(in oklch, var(--bg-void) 55%, transparent) 50%, color-mix(in oklch, var(--bg-void) 90%, transparent) 100%)`,
                 }}
               />
             </>
@@ -386,13 +386,13 @@ export default function SeasonalEventsPage() {
                 <p className="font-mono text-[9px] text-muted-foreground tracking-wider">CONTRIBUTION</p>
               </div>
               <div className="void-surface p-2.5 text-center">
-                <p className="font-display text-lg font-bold text-amber-400">{myTokens}</p>
+                <p className="font-display text-lg font-bold void-text-accent">{myTokens}</p>
                 <p className="font-mono text-[9px] text-muted-foreground tracking-wider">
                   {activeEventDef.tokenName.toUpperCase()}S
                 </p>
               </div>
               <div className="void-surface p-2.5 text-center">
-                <p className="font-display text-lg font-bold text-green-400">
+                <p className="font-display text-lg font-bold void-text-energy">
                   {eventDetail?.milestones?.filter((_: any, i: number) =>
                     myContribution >= (activeEventDef.milestones[i]?.threshold || Infinity)
                   ).length || 0}
@@ -486,7 +486,7 @@ export default function SeasonalEventsPage() {
             <div className="void-surface p-4">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-display text-xs font-bold tracking-[0.15em] flex items-center gap-2">
-                  <Trophy size={14} className="text-amber-400" />
+                  <Trophy size={14} className="void-text-accent" />
                   NEXT MILESTONE
                 </h3>
                 <button
@@ -501,8 +501,8 @@ export default function SeasonalEventsPage() {
                 if (!nextMilestone) {
                   return (
                     <div className="text-center py-3">
-                      <Crown size={24} className="mx-auto text-amber-400 mb-2" />
-                      <p className="font-mono text-xs text-amber-400">ALL MILESTONES COMPLETE</p>
+                      <Crown size={24} className="mx-auto void-text-accent mb-2" />
+                      <p className="font-mono text-xs void-text-accent">ALL MILESTONES COMPLETE</p>
                     </div>
                   );
                 }
@@ -581,7 +581,7 @@ export default function SeasonalEventsPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3">
             <div className="flex items-center justify-between mb-1">
               <p className="font-mono text-[10px] text-muted-foreground tracking-wider">EVENT SHOP</p>
-              <span className="font-mono text-xs text-amber-400 flex items-center gap-1">
+              <span className="font-mono text-xs void-text-accent flex items-center gap-1">
                 <Gem size={12} /> {myTokens} {activeEventDef.tokenName}s
               </span>
             </div>
@@ -609,14 +609,14 @@ export default function SeasonalEventsPage() {
                       </div>
                       <p className="font-mono text-[10px] text-muted-foreground leading-relaxed">{item.description}</p>
                       <div className="flex items-center gap-3 mt-2">
-                        <span className="font-mono text-xs text-amber-400 flex items-center gap-1">
+                        <span className="font-mono text-xs void-text-accent flex items-center gap-1">
                           <Gem size={10} /> {item.cost}
                         </span>
                         <span className="font-mono text-[9px] text-muted-foreground/60">
                           Max: {item.maxPurchases}
                         </span>
                         {item.requiredCivilSkill && (
-                          <span className="font-mono text-[9px] text-purple-400">
+                          <span className="font-mono text-[9px] void-text-system">
                             Requires {item.requiredCivilSkill.skill} Lv.{item.requiredCivilSkill.level}
                           </span>
                         )}
@@ -673,10 +673,10 @@ export default function SeasonalEventsPage() {
                     const result = quest.check(gameState.narrativeFlags);
                     const QIcon = quest.icon;
                     const catColors: Record<string, string> = {
-                      exploration: "border-blue-500/20 bg-blue-500/5",
-                      combat: "border-red-500/20 bg-red-500/5",
-                      discovery: "border-purple-500/20 bg-purple-500/5",
-                      social: "border-green-500/20 bg-green-500/5",
+                      exploration: "void-border void-bg-sunk",
+                      combat: "void-border-error void-bg-error",
+                      discovery: "void-border-system void-bg-system",
+                      social: "void-border-success void-bg-success",
                     };
                     return (
                       <motion.div
@@ -697,10 +697,10 @@ export default function SeasonalEventsPage() {
                               </span>
                               {result.complete && <Check size={12} className="text-accent" />}
                               <span className={`ml-auto px-1.5 py-0.5 rounded text-[8px] font-mono border ${
-                                quest.category === "exploration" ? "border-blue-500/30 text-blue-400" :
-                                quest.category === "combat" ? "border-red-500/30 text-red-400" :
-                                quest.category === "discovery" ? "border-purple-500/30 text-purple-400" :
-                                "border-green-500/30 text-green-400"
+                                quest.category === "exploration" ? "void-border void-text-energy" :
+                                quest.category === "combat" ? "void-border-error void-text-error" :
+                                quest.category === "discovery" ? "void-border-system void-text-system" :
+                                "void-border-success void-text-energy"
                               }`}>
                                 {quest.category.toUpperCase()}
                               </span>
@@ -1083,8 +1083,8 @@ function RecapCard({ data }: { data: any }) {
         <div className="absolute inset-0 grid-bg opacity-20" />
         <div className="relative">
           <div className="flex items-center gap-2 mb-2">
-            <Trophy size={14} className="text-amber-400" />
-            <span className="font-display text-xs font-bold tracking-[0.15em] text-amber-400">
+            <Trophy size={14} className="void-text-accent" />
+            <span className="font-display text-xs font-bold tracking-[0.15em] void-text-accent">
               EVENT RECAP — {rankTitle}
             </span>
           </div>
@@ -1098,9 +1098,9 @@ function RecapCard({ data }: { data: any }) {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-border/20">
         {[
           { label: "CONTRIBUTION", value: contribution.toLocaleString(), icon: Zap, color: def?.color || '#888' },
-          { label: "RANK", value: rank > 0 ? `#${rank} of ${totalParticipants}` : "—", icon: Crown, color: "#f59e0b" },
+          { label: "RANK", value: rank > 0 ? `#${rank} of ${totalParticipants}` : "—", icon: Crown, color: "var(--energy-accent)" },
           { label: "MILESTONES", value: `${milestonesReached}/${totalMilestones}`, icon: Trophy, color: "#a855f7" },
-          { label: "ITEMS COLLECTED", value: itemsBought.toString(), icon: Gift, color: "#22c55e" },
+          { label: "ITEMS COLLECTED", value: itemsBought.toString(), icon: Gift, color: "var(--energy-success)" },
         ].map((stat) => {
           const SIcon = stat.icon;
           return (
@@ -1118,7 +1118,7 @@ function RecapCard({ data }: { data: any }) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <span className="font-mono text-[10px] text-muted-foreground">
-              Tokens Earned: <span className="text-amber-400 font-bold">{tokensEarned}</span>
+              Tokens Earned: <span className="void-text-accent font-bold">{tokensEarned}</span>
             </span>
             <span className="font-mono text-[10px] text-muted-foreground">
               Tokens Spent: <span className="text-foreground">{tokensSpent}</span>

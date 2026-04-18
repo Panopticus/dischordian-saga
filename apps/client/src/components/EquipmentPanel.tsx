@@ -159,10 +159,10 @@ export default function EquipmentPanel({
           <h4 className="font-mono text-[10px] text-muted-foreground/60 tracking-[0.15em] mb-2">EQUIPMENT BONUSES</h4>
           <div className="grid grid-cols-2 gap-2">
             {[
-              { key: "atk", label: "ATK", color: "text-red-400", icon: Sword },
-              { key: "def", label: "DEF", color: "text-blue-400", icon: Shield },
-              { key: "hp", label: "HP", color: "text-green-400", icon: Sparkles },
-              { key: "speed", label: "SPD", color: "text-amber-400", icon: Crosshair },
+              { key: "atk", label: "ATK", color: "void-text-error", icon: Sword },
+              { key: "def", label: "DEF", color: "void-text-energy", icon: Shield },
+              { key: "hp", label: "HP", color: "void-text-energy", icon: Sparkles },
+              { key: "speed", label: "SPD", color: "void-text-accent", icon: Crosshair },
             ].map(s => (
               <div key={s.key} className="flex items-center gap-2">
                 <s.icon size={12} className={s.color} />
@@ -264,16 +264,16 @@ export default function EquipmentPanel({
                             {/* Stats */}
                             <div className="flex flex-wrap gap-2 mt-2">
                               {item.stats.atk && (
-                                <StatBadge label="ATK" value={item.stats.atk} diff={diff?.atk.diff} color="text-red-400" />
+                                <StatBadge label="ATK" value={item.stats.atk} diff={diff?.atk.diff} color="void-text-error" />
                               )}
                               {item.stats.def && (
-                                <StatBadge label="DEF" value={item.stats.def} diff={diff?.def.diff} color="text-blue-400" />
+                                <StatBadge label="DEF" value={item.stats.def} diff={diff?.def.diff} color="void-text-energy" />
                               )}
                               {item.stats.hp && (
-                                <StatBadge label="HP" value={item.stats.hp} diff={diff?.hp.diff} color="text-green-400" />
+                                <StatBadge label="HP" value={item.stats.hp} diff={diff?.hp.diff} color="void-text-energy" />
                               )}
                               {item.stats.speed && (
-                                <StatBadge label="SPD" value={item.stats.speed} diff={diff?.speed.diff} color="text-amber-400" />
+                                <StatBadge label="SPD" value={item.stats.speed} diff={diff?.speed.diff} color="void-text-accent" />
                               )}
                             </div>
                           </div>
@@ -315,7 +315,7 @@ function StatBadge({ label, value, diff, color }: {
     <span className={`inline-flex items-center gap-1 font-mono text-[10px] ${color}`}>
       {label} +{value}
       {diff !== undefined && diff !== 0 && (
-        <span className={`flex items-center ${diff > 0 ? "text-green-400" : "text-red-400"}`}>
+        <span className={`flex items-center ${diff > 0 ? "void-text-energy" : "void-text-error"}`}>
           {diff > 0 ? <ArrowUpRight size={8} /> : <ArrowDownRight size={8} />}
           {Math.abs(diff)}
         </span>

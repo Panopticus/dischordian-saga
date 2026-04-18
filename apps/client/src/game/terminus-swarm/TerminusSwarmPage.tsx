@@ -570,15 +570,15 @@ export default function TerminusSwarmPage() {
         {view === "intro" && (
           <motion.div key="intro" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="flex flex-col items-center justify-center min-h-screen gap-6 p-6 text-center">
-            <Radio size={48} className="text-amber-400 animate-pulse" />
-            <h1 className="font-display text-2xl tracking-[0.2em] text-amber-400">COMMS ROOM</h1>
+            <Radio size={48} className="void-text-accent animate-pulse" />
+            <h1 className="font-display text-2xl tracking-[0.2em] void-text-accent">COMMS ROOM</h1>
             <div className="max-w-md space-y-4 font-mono text-sm text-white/70 leading-relaxed">
               <p>The long-range communication array is offline. Damage from the initial system failures has misaligned the cascading gear mechanism.</p>
               <p>If you can repair it, you might be able to reach other Arks... if any survived.</p>
-              <p className="text-amber-400/60 italic">Elara: "I'm detecting faint signals on the emergency band. They're too degraded to decode without the full array. Fix the gears, Potential."</p>
+              <p className="void-text-accent italic">Elara: "I'm detecting faint signals on the emergency band. They're too degraded to decode without the full array. Fix the gears, Potential."</p>
             </div>
             <button onClick={() => playCinematic(TERMINUS_CINEMATICS.comms_discovery, () => setView("puzzle"))}
-              className="flex items-center gap-2 px-6 py-3 rounded-lg bg-amber-500/10 border border-amber-500/40 text-amber-400 font-mono text-sm hover:bg-amber-500/20 transition-all">
+              className="flex items-center gap-2 px-6 py-3 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk transition-all">
               <Wrench size={16} /> REPAIR COMMS ARRAY
             </button>
           </motion.div>
@@ -606,26 +606,26 @@ export default function TerminusSwarmPage() {
           <motion.div key="signal" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="flex flex-col items-center justify-center min-h-screen gap-6 p-6 text-center">
             <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ repeat: Infinity, duration: 2 }}>
-              <AlertTriangle size={48} className="text-red-500" />
+              <AlertTriangle size={48} className="void-text-error" />
             </motion.div>
-            <h1 className="font-display text-2xl tracking-[0.2em] text-red-400">DISTRESS SIGNAL RECEIVED</h1>
+            <h1 className="font-display text-2xl tracking-[0.2em] void-text-error">DISTRESS SIGNAL RECEIVED</h1>
             <div className="max-w-lg space-y-4 font-mono text-sm leading-relaxed">
-              <p className="text-red-400/80">[AUTOMATED DISTRESS BEACON — INCEPTION ARK #25]</p>
+              <p className="void-text-error">[AUTOMATED DISTRESS BEACON — INCEPTION ARK #25]</p>
               <p className="text-white/50">[SIGNAL ORIGIN: ROGUE PLANET — DESIGNATION: TERMINUS]</p>
               <p className="text-white/70">
                 "This is... anyone... Ark Twenty-Five... crashed... the planet... it's not what we thought...
                 the first wave... they're all... something is here... it gets inside your head...
                 machines too... everything is... infected..."
               </p>
-              <p className="text-red-400/60 italic">[SIGNAL DEGRADED — VIRAL INTERFERENCE DETECTED]</p>
-              <p className="text-amber-400/80 italic">
+              <p className="void-text-error italic">[SIGNAL DEGRADED — VIRAL INTERFERENCE DETECTED]</p>
+              <p className="void-text-accent italic">
                 Elara: "That signal. It's from one of the first wave Arks. A thousand ships launched before us,
                 Potential. They crashed on a rogue planet called Terminus. And something... something is wrong there.
                 Something called The Source. We need to help them reactivate their defenses."
               </p>
             </div>
             <button onClick={() => playCinematic(TERMINUS_CINEMATICS.first_view, () => setView("map_select"))}
-              className="flex items-center gap-2 px-6 py-3 rounded-lg bg-red-500/10 border border-red-500/40 text-red-400 font-mono text-sm hover:bg-red-500/20 transition-all">
+              className="flex items-center gap-2 px-6 py-3 rounded-lg void-bg-error border void-border-error void-text-error font-mono text-sm void-bg-error transition-all">
               <Play size={16} /> LAUNCH TERMINUS SWARM
             </button>
           </motion.div>
@@ -653,23 +653,23 @@ export default function TerminusSwarmPage() {
             {/* Mode buttons */}
             <div className="flex gap-2 mb-4">
               <button onClick={() => setShowSeasonPass(true)}
-                className="flex items-center gap-1 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-xs hover:bg-amber-500/20">
+                className="flex items-center gap-1 px-3 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-xs void-bg-sunk">
                 <Trophy size={12} /> SEASON PASS
               </button>
               <button onClick={() => setShowQuests(true)}
-                className="flex items-center gap-1 px-3 py-2 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-400 font-mono text-xs hover:bg-purple-500/20">
+                className="flex items-center gap-1 px-3 py-2 rounded-lg void-bg-system border void-border-system void-text-system font-mono text-xs void-bg-system">
                 <Target size={12} /> QUESTS
               </button>
             </div>
 
             <div className="flex items-center gap-3 mb-3">
-              <img src="/art/terminus/maps/terminus-planet.png" alt="Terminus" className="w-10 h-10 rounded-full border border-red-500/30 shadow-[0_0_12px_rgba(239,68,68,0.3)]" />
+              <img src="/art/terminus/maps/terminus-planet.png" alt="Terminus" className="w-10 h-10 rounded-full border void-border-error shadow-[0_0_12px_color-mix(in oklch, var(--energy-error) 30%, transparent)]" />
               <p className="font-mono text-xs text-white/40">DEFEND — Choose a section of the crashed Ark</p>
             </div>
             <div className="space-y-2 mb-6">
               {MAPS.map((map, i) => (
                 <button key={i} onClick={() => handleStartMap(i)}
-                  className="w-full text-left p-4 rounded-lg border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] hover:border-red-500/30 transition-all">
+                  className="w-full text-left p-4 rounded-lg border border-white/10 bg-white/[0.02] hover:bg-white/[0.05] void-border-error transition-all">
                   <p className="font-mono text-sm font-bold text-white">{map.name}</p>
                   <p className="font-mono text-[10px] text-white/40 mt-1">{map.description}</p>
                   <p className="font-mono text-[9px] text-white/20 mt-1">{map.width}×{map.height} grid • {map.spawnPoints.length} spawn point(s)</p>
@@ -681,7 +681,7 @@ export default function TerminusSwarmPage() {
             <p className="font-mono text-xs text-white/40 mb-3">ATTACK — Raid another player's base</p>
             <button
               onClick={() => setView("pvp_search")}
-              className="w-full flex items-center justify-center gap-2 p-4 rounded-lg border border-red-500/30 bg-red-500/5 hover:bg-red-500/10 text-red-400 font-mono text-sm hover:border-red-500/50 transition-all"
+              className="w-full flex items-center justify-center gap-2 p-4 rounded-lg border void-border-error void-bg-error void-bg-error void-text-error font-mono text-sm void-border-error transition-all"
             >
               <Swords size={16} /> FIND BASE TO RAID
             </button>
@@ -695,19 +695,19 @@ export default function TerminusSwarmPage() {
             className="flex flex-col items-center justify-center min-h-[60vh] gap-6 p-6">
             {pvp.phase === "idle" || pvp.phase === "searching" ? (
               <>
-                <Swords size={48} className="text-red-400 animate-pulse" />
-                <h2 className="font-display text-xl tracking-[0.2em] text-red-400">
+                <Swords size={48} className="void-text-error animate-pulse" />
+                <h2 className="font-display text-xl tracking-[0.2em] void-text-error">
                   {pvp.phase === "searching" ? "SCANNING FOR TARGET" : "READY TO RAID"}
                 </h2>
                 <p className="font-mono text-sm text-white/40">
                   {pvp.phase === "searching" ? "Scanning bases in your trophy range..." : "Connect to find a target base"}
                 </p>
                 <p className="font-mono text-[10px] text-white/20">Trophy range: {Math.max(0, trophies - 300)} — {trophies + 300}</p>
-                {pvp.error && <p className="font-mono text-xs text-red-400">{pvp.error}</p>}
+                {pvp.error && <p className="font-mono text-xs void-text-error">{pvp.error}</p>}
                 <div className="flex gap-3">
                   {pvp.phase === "idle" && (
                     <button onClick={() => pvp.connect()}
-                      className="px-5 py-2 bg-red-500/20 border border-red-500/40 text-red-400 rounded-lg font-mono text-xs hover:bg-red-500/30">
+                      className="px-5 py-2 void-bg-error border void-border-error void-text-error rounded-lg font-mono text-xs void-bg-error">
                       SEARCH FOR BASE
                     </button>
                   )}
@@ -719,11 +719,11 @@ export default function TerminusSwarmPage() {
               </>
             ) : pvp.phase === "base_found" && pvp.defenderBase ? (
               <>
-                <h2 className="font-display text-xl tracking-[0.2em] text-red-400">TARGET FOUND</h2>
+                <h2 className="font-display text-xl tracking-[0.2em] void-text-error">TARGET FOUND</h2>
                 <div className="p-4 rounded-xl bg-white/5 border border-white/10 max-w-sm w-full">
                   <div className="flex items-center justify-between mb-2">
                     <p className="font-mono text-sm text-white font-bold">{pvp.defenderBase.userName}</p>
-                    <p className="font-mono text-xs text-amber-400">{pvp.defenderBase.trophies} 🏆</p>
+                    <p className="font-mono text-xs void-text-accent">{pvp.defenderBase.trophies} 🏆</p>
                   </div>
                   <div className="flex gap-3 font-mono text-[10px] text-white/40">
                     <span>{pvp.defenderBase.turrets.length} turrets</span>
@@ -731,13 +731,13 @@ export default function TerminusSwarmPage() {
                     <span>Lv.{pvp.defenderBase.commanderLevel}</span>
                   </div>
                   <div className="flex gap-3 mt-2 font-mono text-[9px] text-white/30">
-                    <span className="text-amber-400">{pvp.defenderBase.resources.salvage} SAL</span>
-                    <span className="text-green-400">{pvp.defenderBase.resources.viralIchor} ICH</span>
+                    <span className="void-text-accent">{pvp.defenderBase.resources.salvage} SAL</span>
+                    <span className="void-text-energy">{pvp.defenderBase.resources.viralIchor} ICH</span>
                   </div>
                 </div>
                 <div className="flex gap-3">
                   <button onClick={() => pvp.startAttack()}
-                    className="px-6 py-2.5 bg-red-500/20 border border-red-500/40 text-red-400 rounded-lg font-mono text-sm font-bold hover:bg-red-500/30">
+                    className="px-6 py-2.5 void-bg-error border void-border-error void-text-error rounded-lg font-mono text-sm font-bold void-bg-error">
                     ATTACK
                   </button>
                   <button onClick={() => pvp.skipBase()}
@@ -748,13 +748,13 @@ export default function TerminusSwarmPage() {
               </>
             ) : pvp.phase === "results" && pvp.raidResult ? (
               <>
-                <h2 className={`font-display text-2xl tracking-[0.2em] ${pvp.raidResult.stars >= 2 ? "text-amber-400" : pvp.raidResult.stars === 1 ? "text-white" : "text-red-400"}`}>
+                <h2 className={`font-display text-2xl tracking-[0.2em] ${pvp.raidResult.stars >= 2 ? "void-text-accent" : pvp.raidResult.stars === 1 ? "text-white" : "void-text-error"}`}>
                   {"★".repeat(pvp.raidResult.stars)}{"☆".repeat(3 - pvp.raidResult.stars)}
                 </h2>
                 <div className="flex gap-4 font-mono text-sm">
-                  <span className="text-amber-400">+{pvp.raidResult.loot.salvage} SAL</span>
-                  <span className="text-green-400">+{pvp.raidResult.loot.viralIchor} ICH</span>
-                  <span className={pvp.raidResult.trophyChange >= 0 ? "text-emerald-400" : "text-red-400"}>
+                  <span className="void-text-accent">+{pvp.raidResult.loot.salvage} SAL</span>
+                  <span className="void-text-energy">+{pvp.raidResult.loot.viralIchor} ICH</span>
+                  <span className={pvp.raidResult.trophyChange >= 0 ? "void-text-energy" : "void-text-error"}>
                     {pvp.raidResult.trophyChange >= 0 ? "+" : ""}{pvp.raidResult.trophyChange} 🏆
                   </span>
                 </div>
@@ -788,17 +788,17 @@ export default function TerminusSwarmPage() {
               <button onClick={() => setView("map_select")} className="text-white/30 hover:text-white/60">
                 <ArrowLeft size={14} />
               </button>
-              <span className="font-mono text-xs text-red-400 font-bold">WAVE {gameState.wave}</span>
-              <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-red-500/10">
-                <Heart size={10} className="text-red-400" />
-                <span className="font-mono text-xs text-red-400">{Math.ceil(gameState.coreHealth)}/{gameState.coreMaxHealth}</span>
+              <span className="font-mono text-xs void-text-error font-bold">WAVE {gameState.wave}</span>
+              <div className="flex items-center gap-1 px-2 py-0.5 rounded void-bg-error">
+                <Heart size={10} className="void-text-error" />
+                <span className="font-mono text-xs void-text-error">{Math.ceil(gameState.coreHealth)}/{gameState.coreMaxHealth}</span>
               </div>
               <div className="flex-1" />
               <div className="flex items-center gap-3 font-mono text-[10px]">
-                <span className="text-amber-400">{gameState.resources.salvage} <span className="text-white/20">SAL</span></span>
-                <span className="text-green-400">{gameState.resources.viralIchor} <span className="text-white/20">ICH</span></span>
-                <span className="text-purple-400">{gameState.resources.neuralCores} <span className="text-white/20">CORE</span></span>
-                <span className="text-cyan-400">{gameState.resources.voidCrystals} <span className="text-white/20">VOID</span></span>
+                <span className="void-text-accent">{gameState.resources.salvage} <span className="text-white/20">SAL</span></span>
+                <span className="void-text-energy">{gameState.resources.viralIchor} <span className="text-white/20">ICH</span></span>
+                <span className="void-text-system">{gameState.resources.neuralCores} <span className="text-white/20">CORE</span></span>
+                <span className="void-text-energy">{gameState.resources.voidCrystals} <span className="text-white/20">VOID</span></span>
               </div>
               <span className="font-mono text-[10px] text-white/20">K:{gameState.kills}</span>
             </div>
@@ -819,7 +819,7 @@ export default function TerminusSwarmPage() {
               <div className="flex items-center gap-2 mb-2">
                 {(gameState.phase === "setup" || gameState.phase === "intermission") && (
                   <button onClick={handleStartWave}
-                    className="flex items-center gap-1 px-4 py-1.5 rounded-lg bg-red-500/20 border border-red-500/40 text-red-400 font-mono text-xs hover:bg-red-500/30 transition-all">
+                    className="flex items-center gap-1 px-4 py-1.5 rounded-lg void-bg-error border void-border-error void-text-error font-mono text-xs void-bg-error transition-all">
                     <Play size={12} /> {gameState.phase === "setup" ? "START WAVE 1" : `START WAVE ${gameState.wave + 1}`}
                   </button>
                 )}
@@ -835,7 +835,7 @@ export default function TerminusSwarmPage() {
                   </>
                 )}
                 {gameState.phase === "defeat" && (
-                  <span className="font-mono text-sm text-red-400 font-bold animate-pulse">ARK CORE DESTROYED</span>
+                  <span className="font-mono text-sm void-text-error font-bold animate-pulse">ARK CORE DESTROYED</span>
                 )}
                 <div className="flex-1" />
                 {/* Barricade mode */}
@@ -857,7 +857,7 @@ export default function TerminusSwarmPage() {
                     else { setPlacementMode("trap"); setSelectedTurret(null); setSelectedTrap("proximity_mine"); }
                   }}
                   className={`flex items-center gap-1 px-3 py-1 rounded font-mono text-[10px] transition-colors ${
-                    placementMode === "trap" ? "bg-red-500/20 text-red-400" : "bg-white/5 text-white/40 hover:text-white/60"
+                    placementMode === "trap" ? "void-bg-error void-text-error" : "bg-white/5 text-white/40 hover:text-white/60"
                   }`}
                 >
                   <AlertTriangle size={10} /> TRAP
@@ -869,7 +869,7 @@ export default function TerminusSwarmPage() {
                     else { setPlacementMode("conveyor"); setSelectedTurret(null); setSelectedTrap(null); }
                   }}
                   className={`flex items-center gap-1 px-3 py-1 rounded font-mono text-[10px] transition-colors ${
-                    placementMode === "conveyor" ? "bg-cyan-500/20 text-cyan-400" : "bg-white/5 text-white/40 hover:text-white/60"
+                    placementMode === "conveyor" ? "void-bg-success void-text-energy" : "bg-white/5 text-white/40 hover:text-white/60"
                   }`}
                 >
                   <FastForward size={10} /> BELT (10)
@@ -877,14 +877,14 @@ export default function TerminusSwarmPage() {
                 {/* Season pass */}
                 <button
                   onClick={() => setShowSeasonPass(true)}
-                  className="flex items-center gap-1 px-3 py-1 rounded bg-amber-500/5 text-amber-400/60 font-mono text-[10px] hover:bg-amber-500/10"
+                  className="flex items-center gap-1 px-3 py-1 rounded void-bg-sunk void-text-accent font-mono text-[10px] void-bg-sunk"
                 >
                   <Sparkles size={10} /> PASS
                 </button>
                 {/* Quest tracker */}
                 <button
                   onClick={() => setShowQuests(true)}
-                  className="flex items-center gap-1 px-3 py-1 rounded bg-purple-500/10 text-purple-400 font-mono text-[10px] hover:bg-purple-500/20"
+                  className="flex items-center gap-1 px-3 py-1 rounded void-bg-system void-text-system font-mono text-[10px] void-bg-system"
                 >
                   <Target size={10} /> QUESTS
                 </button>
@@ -921,7 +921,7 @@ export default function TerminusSwarmPage() {
                     >
                       <Icon size={14} style={{ color: turret.color }} />
                       <span className="font-mono text-[8px] text-white/60 truncate w-full text-center">{turret.name}</span>
-                      <span className="font-mono text-[8px] text-amber-400">{turret.cost.salvage}</span>
+                      <span className="font-mono text-[8px] void-text-accent">{turret.cost.salvage}</span>
                     </button>
                   );
                 })}
@@ -951,15 +951,15 @@ export default function TerminusSwarmPage() {
                   <div className="grid grid-cols-3 gap-2 mb-2 text-center">
                     <div>
                       <p className="font-mono text-[9px] text-white/30">DMG</p>
-                      <p className="font-mono text-xs text-red-400 font-bold">{Math.round(turret.def.damage * turret.level)}</p>
+                      <p className="font-mono text-xs void-text-error font-bold">{Math.round(turret.def.damage * turret.level)}</p>
                     </div>
                     <div>
                       <p className="font-mono text-[9px] text-white/30">RANGE</p>
-                      <p className="font-mono text-xs text-cyan-400 font-bold">{turret.def.range}</p>
+                      <p className="font-mono text-xs void-text-energy font-bold">{turret.def.range}</p>
                     </div>
                     <div>
                       <p className="font-mono text-[9px] text-white/30">HP</p>
-                      <p className="font-mono text-xs text-green-400 font-bold">{Math.ceil(turret.health)}/{turret.maxHealth}</p>
+                      <p className="font-mono text-xs void-text-energy font-bold">{Math.ceil(turret.health)}/{turret.maxHealth}</p>
                     </div>
                   </div>
                   <div className="flex gap-2">
@@ -976,7 +976,7 @@ export default function TerminusSwarmPage() {
                           setGameState({ ...gameState });
                           gameRef.current = gameState;
                         }}
-                        className="flex-1 py-1.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-mono text-[10px] font-bold hover:bg-emerald-500/30"
+                        className="flex-1 py-1.5 rounded void-bg-success border void-border-success void-text-energy font-mono text-[10px] font-bold void-bg-success"
                       >
                         UPGRADE ({nextLevel.cost.salvage})
                       </button>
@@ -988,7 +988,7 @@ export default function TerminusSwarmPage() {
                         gameRef.current = newState;
                         setSelectedTileInfo(null);
                       }}
-                      className="px-3 py-1.5 rounded bg-red-500/20 border border-red-500/40 text-red-400 font-mono text-[10px] hover:bg-red-500/30"
+                      className="px-3 py-1.5 rounded void-bg-error border void-border-error void-text-error font-mono text-[10px] void-bg-error"
                     >
                       SELL
                     </button>
@@ -1007,9 +1007,9 @@ export default function TerminusSwarmPage() {
         {view === "game_over" && (
           <motion.div key="gameover" initial={{ opacity: 0 }} animate={{ opacity: 1 }}
             className="flex flex-col items-center justify-center min-h-screen gap-6 p-6">
-            <h2 className="font-display text-2xl text-red-400">ARK DEFENSES FALLEN</h2>
+            <h2 className="font-display text-2xl void-text-error">ARK DEFENSES FALLEN</h2>
             <button onClick={() => setView("map_select")}
-              className="px-6 py-3 bg-red-500/10 border border-red-500/40 text-red-400 rounded-lg font-mono text-sm">
+              className="px-6 py-3 void-bg-error border void-border-error void-text-error rounded-lg font-mono text-sm">
               TRY AGAIN
             </button>
           </motion.div>

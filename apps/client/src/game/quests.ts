@@ -391,7 +391,7 @@ export const TITLES: TitleDef[] = [
   // Dischordia
   { id: "archivist", name: "Archivist", description: "Collected 50% of all cards", color: "#9c27b0", source: "Epoch quest" },
   { id: "grand_strategist", name: "Grand Strategist", description: "Won 25 tactical battles", color: "#00bcd4", source: "Epoch quest" },
-  { id: "completionist", name: "Completionist", description: "Collected every card", color: "#ffd700", source: "Achievement: 100% collection" },
+  { id: "completionist", name: "Completionist", description: "Collected every card", color: "var(--energy-premium)", source: "Achievement: 100% collection" },
 
   // Chess
   { id: "grandmaster", name: "Grandmaster", description: "Reached 2400 ELO in chess", color: "#e91e63", source: "Epoch quest" },
@@ -402,7 +402,7 @@ export const TITLES: TitleDef[] = [
   // Cross-game
   { id: "true_potential", name: "True Potential", description: "Played 100 games across all modes", color: "#00e5ff", source: "Epoch quest" },
   { id: "master_trader", name: "Master Trader", description: "Completed 10 trades", color: "#4caf50", source: "Epoch quest" },
-  { id: "renaissance", name: "Renaissance Potential", description: "Mastered all game modes", color: "#ffd700", source: "Achievement: win in every mode" },
+  { id: "renaissance", name: "Renaissance Potential", description: "Mastered all game modes", color: "var(--energy-premium)", source: "Achievement: win in every mode" },
 ];
 
 /* ─── HELPER: Get today's quests ─── */

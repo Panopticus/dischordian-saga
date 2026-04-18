@@ -16,10 +16,10 @@ import { toast } from "sonner";
 
 const TIER_LABELS = ["Initiate", "Adept", "Master", "Grandmaster"];
 const TIER_COLORS = [
-  { text: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/30", glow: "shadow-[0_0_20px_rgba(52,211,153,0.15)]" },
-  { text: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/30", glow: "shadow-[0_0_20px_rgba(96,165,250,0.15)]" },
-  { text: "text-purple-400", bg: "bg-purple-500/10", border: "border-purple-500/30", glow: "shadow-[0_0_20px_rgba(192,132,252,0.15)]" },
-  { text: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/30", glow: "shadow-[0_0_20px_rgba(251,191,36,0.15)]" },
+  { text: "void-text-energy", bg: "void-bg-success", border: "void-border-success", glow: "shadow-[0_0_20px_rgba(52,211,153,0.15)]" },
+  { text: "void-text-energy", bg: "void-bg-sunk", border: "void-border", glow: "shadow-[0_0_20px_color-mix(in oklch, var(--electric-blue) 15%, transparent)]" },
+  { text: "void-text-system", bg: "void-bg-system", border: "void-border-system", glow: "shadow-[0_0_20px_color-mix(in oklch, var(--energy-system) 15%, transparent)]" },
+  { text: "void-text-accent", bg: "void-bg-sunk", border: "void-border", glow: "shadow-[0_0_20px_color-mix(in oklch, var(--energy-premium) 15%, transparent)]" },
 ];
 
 /** Impact descriptions for talents on game systems */
@@ -135,7 +135,7 @@ export function TalentSelectionModal({ open, onClose, milestoneLevel }: TalentSe
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className={`w-full max-w-2xl max-h-[85vh] overflow-y-auto border ${tier.border} rounded-xl bg-zinc-950/95 ${tier.glow}`}
+          className={`w-full max-w-2xl max-h-[85vh] overflow-y-auto border ${tier.border} rounded-xl void-bg-canvas ${tier.glow}`}
         >
           {/* Header */}
           <div className={`p-5 border-b ${tier.border}`}>
@@ -155,7 +155,7 @@ export function TalentSelectionModal({ open, onClose, milestoneLevel }: TalentSe
               </div>
               <button
                 onClick={onClose}
-                className="p-2 rounded-lg hover:bg-zinc-800 transition-colors"
+                className="p-2 rounded-lg void-bg-canvas transition-colors"
               >
                 <X size={18} className="text-muted-foreground" />
               </button>
@@ -192,7 +192,7 @@ export function TalentSelectionModal({ open, onClose, milestoneLevel }: TalentSe
                             {talent.name}
                           </h3>
                           {talent.classRestriction && (
-                            <span className="font-mono text-[8px] bg-amber-950/30 text-amber-400 px-1.5 py-0.5 rounded">
+                            <span className="font-mono text-[8px] void-bg-sunk void-text-accent px-1.5 py-0.5 rounded">
                               {talent.classRestriction} only
                             </span>
                           )}
@@ -250,7 +250,7 @@ export function TalentSelectionModal({ open, onClose, milestoneLevel }: TalentSe
                           <div className="mt-4">
                             {isConfirming ? (
                               <div className="space-y-2">
-                                <div className="flex items-center gap-1.5 text-amber-400">
+                                <div className="flex items-center gap-1.5 void-text-accent">
                                   <AlertTriangle size={12} />
                                   <span className="font-mono text-xs">
                                     This choice is permanent and cannot be undone!

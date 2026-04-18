@@ -28,9 +28,9 @@ const NODE_STYLES: Record<WarNodeType, {
 }> = {
   path: { fill: "#4b5563", stroke: "#d1d5db", glow: "#9ca3af", label: "Path" },
   gate: { fill: "#6b21a8", stroke: "#c084fc", glow: "#a855f7", label: "Gate +20%" },
-  buff: { fill: "#166534", stroke: "#4ade80", glow: "#22c55e", label: "Buff" },
-  trap: { fill: "#7f1d1d", stroke: "#f87171", glow: "#ef4444", label: "Trap" },
-  boss: { fill: "#78350f", stroke: "#fbbf24", glow: "#f59e0b", label: "Boss" },
+  buff: { fill: "#166534", stroke: "#4ade80", glow: "var(--energy-success)", label: "Buff" },
+  trap: { fill: "#7f1d1d", stroke: "#f87171", glow: "var(--energy-error)", label: "Trap" },
+  boss: { fill: "#78350f", stroke: "#fbbf24", glow: "var(--energy-accent)", label: "Boss" },
 };
 
 interface AllianceWarMapProps {
@@ -131,18 +131,18 @@ export default function AllianceWarMap({
   }, [warMap, positions, clearedNodes]);
 
   return (
-    <div className="relative w-full overflow-x-auto rounded-lg border border-purple-900/40 bg-gradient-to-b from-slate-950 via-slate-900 to-black p-4 shadow-[0_0_60px_rgba(139,92,246,0.15)_inset]">
+    <div className="relative w-full overflow-x-auto rounded-lg border void-border-system bg-gradient-to-b from-slate-950 via-slate-900 to-black p-4 shadow-[0_0_60px_rgba(139,92,246,0.15)_inset]">
       {/* Phase banner */}
       <div className="mb-3 flex items-center justify-between text-xs uppercase tracking-widest">
         <span className={`flex items-center gap-2 rounded px-3 py-1 font-bold ${
           isDefensePhase
-            ? "bg-purple-900/40 text-purple-300 ring-1 ring-purple-500/50"
-            : "bg-red-900/40 text-red-300 ring-1 ring-red-500/50"
+            ? "void-bg-system void-text-system ring-1 ring-purple-500/50"
+            : "void-bg-error void-text-error ring-1 ring-red-500/50"
         }`}>
           {isDefensePhase ? <Shield size={14} /> : <Swords size={14} />}
           {isDefensePhase ? "Defense Placement" : "Attack Phase"}
         </span>
-        <span className="text-slate-500">19 Nodes · 5-4-5-4-1</span>
+        <span className="void-text">19 Nodes · 5-4-5-4-1</span>
       </div>
 
       <svg
@@ -289,7 +289,7 @@ function HexNodeSvg({
           cx={cx}
           cy={cy + 8}
           r={5}
-          fill="#22c55e"
+          fill="var(--energy-success)"
           stroke="#052e16"
           strokeWidth={1.5}
         />
@@ -311,7 +311,7 @@ function HexNodeSvg({
       {/* Cleared checkmark overlay */}
       {cleared && (
         <g>
-          <circle cx={cx} cy={cy} r={HEX_HALF * 0.55} fill="rgba(0,0,0,0.55)" />
+          <circle cx={cx} cy={cy} r={HEX_HALF * 0.55} fill="color-mix(in oklch, var(--bg-void) 55%, transparent)" />
           <path
             d={`M ${cx - 10} ${cy} L ${cx - 2} ${cy + 8} L ${cx + 12} ${cy - 8}`}
             stroke="#4ade80"
@@ -369,15 +369,15 @@ export function WarMapLegend() {
         return (
           <div
             key={type}
-            className="flex items-center gap-2 rounded border border-slate-800 bg-slate-900/50 px-2 py-1.5"
+            className="flex items-center gap-2 rounded border void-border void-bg-canvas px-2 py-1.5"
           >
             <span
               className="inline-block h-4 w-4 rotate-45 rounded-sm"
               style={{ background: s.fill, outline: `1.5px solid ${s.stroke}` }}
             />
             <div className="leading-tight">
-              <div className="font-semibold text-slate-200">{s.label}</div>
-              <div className="text-[10px] text-slate-500">{desc}</div>
+              <div className="font-semibold void-text">{s.label}</div>
+              <div className="text-[10px] void-text">{desc}</div>
             </div>
           </div>
         );
@@ -408,21 +408,21 @@ export function WarHeader({
     ? "Defense Placement"
     : "Attack Phase";
   const phaseColour = phaseEnded
-    ? "text-amber-400"
+    ? "void-text-accent"
     : isDefensePhase
-    ? "text-purple-300"
-    : "text-red-400";
+    ? "void-text-system"
+    : "void-text-error";
 
   return (
     <div className="flex flex-col gap-3 void-surface p-4 md:flex-row md:items-center md:justify-between">
       {/* Guild A */}
       <div className="flex flex-1 items-center gap-3">
-        <Shield className="text-blue-400" size={28} />
+        <Shield className="void-text-energy" size={28} />
         <div>
-          <div className="text-xs uppercase text-slate-500">Allied</div>
-          <div className="text-lg font-bold text-slate-100">{guildAName}</div>
+          <div className="text-xs uppercase void-text">Allied</div>
+          <div className="text-lg font-bold void-text">{guildAName}</div>
         </div>
-        <div className="ml-auto font-mono text-2xl font-bold text-blue-300">
+        <div className="ml-auto font-mono text-2xl font-bold void-text-energy">
           {guildAScore}
         </div>
       </div>
@@ -432,21 +432,21 @@ export function WarHeader({
         <div className={`text-xs font-bold uppercase tracking-widest ${phaseColour}`}>
           {phaseLabel}
         </div>
-        <div className="flex items-center gap-2 rounded bg-slate-800/60 px-3 py-1 text-xs text-slate-300">
+        <div className="flex items-center gap-2 rounded void-bg-canvas px-3 py-1 text-xs void-text">
           <Swords size={12} />
           <span className="font-mono">{attacksUsed}/{maxAttacks}</span>
-          <span className="text-slate-500">attacks</span>
+          <span className="void-text">attacks</span>
         </div>
       </div>
 
       {/* Guild B */}
       <div className="flex flex-1 items-center gap-3 md:flex-row-reverse">
-        <Trophy className="text-red-400" size={28} />
+        <Trophy className="void-text-error" size={28} />
         <div className="md:text-right">
-          <div className="text-xs uppercase text-slate-500">Enemy</div>
-          <div className="text-lg font-bold text-slate-100">{guildBName}</div>
+          <div className="text-xs uppercase void-text">Enemy</div>
+          <div className="text-lg font-bold void-text">{guildBName}</div>
         </div>
-        <div className="mr-auto font-mono text-2xl font-bold text-red-300 md:mr-0 md:ml-auto">
+        <div className="mr-auto font-mono text-2xl font-bold void-text-error md:mr-0 md:ml-auto">
           {guildBScore}
         </div>
       </div>

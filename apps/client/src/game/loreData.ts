@@ -344,7 +344,7 @@ export const EPOCHS: EpochDef[] = [
     era: "Late Empire (~16,500–16,700 A.A.)",
     description: "The era when surveillance became absolute. The Watcher's Eyes covered every surface, every signal, every thought. Privacy died — and with it, the last illusion of freedom.",
     keyEvents: ["The Watcher's network achieves total coverage", "The Silence begins hoarding secrets", "The Insurgency goes underground", "The Two Witnesses begin broadcasting"],
-    color: "#FF8C00",
+    color: "var(--energy-premium)",
   },
   {
     id: "age_of_prophecy",
@@ -353,7 +353,7 @@ export const EPOCHS: EpochDef[] = [
     era: "Late Empire (~16,700–16,800 A.A.)",
     description: "Prophets and seers emerged across the galaxy. The Oracle spoke of the Fall. The Seer mapped timelines of destruction. The Two Witnesses prophesied for 1,260 days before the Empire struck them down.",
     keyEvents: ["The Oracle's prophecies spread through the Insurgency", "The Two Witnesses prophesy for 1,260 days", "The Seer maps the Fall of Reality", "The Book of Daniel 2:47 is written"],
-    color: "#A078FF",
+    color: "var(--energy-system)",
   },
   {
     id: "age_of_insurgency",
@@ -387,9 +387,9 @@ export const EPOCHS: EpochDef[] = [
 /* ─── THE FIVE ALBUMS AS SCRIPTURE ─── */
 
 export const ALBUMS = [
-  { title: "Dischordian Logic", era: "Genesis / Foundation", theme: "The creation, the warning, the first cracks", color: "#33E2E6" },
-  { title: "The Age of Privacy", era: "Surveillance Era", theme: "Control, secrets, the erosion of freedom", color: "#FF8C00" },
-  { title: "The Book of Daniel 2:47", era: "Prophecy", theme: "The prophet in Babylon, dreams interpreted", color: "#A078FF" },
+  { title: "Dischordian Logic", era: "Genesis / Foundation", theme: "The creation, the warning, the first cracks", color: "var(--energy-primary)" },
+  { title: "The Age of Privacy", era: "Surveillance Era", theme: "Control, secrets, the erosion of freedom", color: "var(--energy-premium)" },
+  { title: "The Book of Daniel 2:47", era: "Prophecy", theme: "The prophet in Babylon, dreams interpreted", color: "var(--energy-system)" },
   { title: "West By God", era: "Age of Prophecy", theme: "The Insurgency's anthem, political awakening", color: "#44AA44" },
   { title: "Silence in Heaven", era: "The Fall of Reality", theme: "Revelation. The end. The new beginning.", color: "#FF3C40" },
 ];

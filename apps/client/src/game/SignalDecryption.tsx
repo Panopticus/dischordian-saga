@@ -174,16 +174,16 @@ function StaticNoise() {
 function Tile({ cell, delay, revealed }: { cell: CellData; delay: number; revealed: boolean }) {
   const bg =
     cell.state === "correct"
-      ? "bg-cyan-600 border-cyan-500"
+      ? "void-bg-success void-border-success"
       : cell.state === "present"
-        ? "bg-amber-600 border-amber-500"
+        ? "void-bg-sunk void-border"
         : cell.state === "absent"
-          ? "bg-zinc-700 border-zinc-600"
-          : "border-zinc-600";
+          ? "void-bg-canvas void-border"
+          : "void-border";
 
   return (
     <motion.div
-      className={`flex h-14 w-14 items-center justify-center rounded border-2 text-2xl font-bold uppercase ${revealed ? bg : cell.letter ? "border-zinc-400" : "border-zinc-600"}`}
+      className={`flex h-14 w-14 items-center justify-center rounded border-2 text-2xl font-bold uppercase ${revealed ? bg : cell.letter ? "void-border" : "void-border"}`}
       initial={revealed ? { rotateX: 0 } : false}
       animate={revealed ? { rotateX: [0, 90, 0] } : {}}
       transition={{ delay, duration: 0.45, ease: "easeInOut" }}
@@ -329,20 +329,20 @@ export default function SignalDecryption({ onComplete, onClose }: SignalDecrypti
 
   /* ═══ RENDER ═══ */
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center bg-zinc-950 px-4 py-6 text-white select-none overflow-hidden">
+    <div className="relative flex min-h-screen flex-col items-center justify-center void-bg-canvas px-4 py-6 text-white select-none overflow-hidden">
       {/* Background art */}
       <img src="/art/minigames/minigame-signal-decryption.png" alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none" style={{ opacity: 0.12, filter: "brightness(0.35) saturate(0.7)" }} />
       <StaticNoise />
 
       {/* Header */}
       <div className="relative z-10 mb-4 flex w-full max-w-sm items-center justify-between">
-        <div className="flex items-center gap-2 text-cyan-400">
+        <div className="flex items-center gap-2 void-text-energy">
           <Radio size={20} />
           <span className="text-sm font-bold tracking-widest uppercase">Signal Decryption</span>
         </div>
         <div className="flex gap-2">
-          <button onClick={() => setShowStats(true)} className="rounded px-2 py-1 text-xs text-zinc-400 hover:bg-zinc-800">Stats</button>
-          <button onClick={onClose} className="text-zinc-500 hover:text-white"><X size={20} /></button>
+          <button onClick={() => setShowStats(true)} className="rounded px-2 py-1 text-xs void-text void-bg-canvas">Stats</button>
+          <button onClick={onClose} className="void-text hover:text-white"><X size={20} /></button>
         </div>
       </div>
 
@@ -351,7 +351,7 @@ export default function SignalDecryption({ onComplete, onClose }: SignalDecrypti
         {message && (
           <motion.div
             initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-            className="absolute top-16 z-20 rounded bg-zinc-800 px-4 py-2 text-sm font-semibold"
+            className="absolute top-16 z-20 rounded void-bg-canvas px-4 py-2 text-sm font-semibold"
           >
             {message}
           </motion.div>
@@ -378,10 +378,10 @@ export default function SignalDecryption({ onComplete, onClose }: SignalDecrypti
         {showHint && (
           <motion.div
             initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}
-            className="relative z-10 mb-3 max-w-sm rounded border border-cyan-900/50 bg-cyan-950/40 px-4 py-2 text-center text-xs text-cyan-300"
+            className="relative z-10 mb-3 max-w-sm rounded border void-border-success void-bg-success px-4 py-2 text-center text-xs void-text-energy"
           >
             <span className="font-semibold">Elara:</span> "The signal starts with{" "}
-            <span className="font-bold text-cyan-100">{answer[0]}</span>... I can feel it."
+            <span className="font-bold void-text-energy">{answer[0]}</span>... I can feel it."
           </motion.div>
         )}
       </AnimatePresence>
@@ -394,12 +394,12 @@ export default function SignalDecryption({ onComplete, onClose }: SignalDecrypti
               const state = keyStates.get(key);
               const bg =
                 state === "correct"
-                  ? "bg-cyan-600"
+                  ? "void-bg-success"
                   : state === "present"
-                    ? "bg-amber-600"
+                    ? "void-bg-sunk"
                     : state === "absent"
-                      ? "bg-zinc-700 text-zinc-500"
-                      : "bg-zinc-600";
+                      ? "void-bg-canvas void-text"
+                      : "void-bg-canvas";
               const wide = key === "ENTER" || key === "⌫";
               return (
                 <button
@@ -418,7 +418,7 @@ export default function SignalDecryption({ onComplete, onClose }: SignalDecrypti
       {/* Game-over share button */}
       {gameOver && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="relative z-10 mt-4">
-          <button onClick={handleShare} className="flex items-center gap-2 rounded-lg bg-cyan-600 px-5 py-2.5 font-semibold text-white hover:bg-cyan-500">
+          <button onClick={handleShare} className="flex items-center gap-2 rounded-lg void-bg-success px-5 py-2.5 font-semibold text-white void-bg-success">
             <Share2 size={16} /> {copied ? "Copied!" : "Share Result"}
           </button>
         </motion.div>
@@ -437,7 +437,7 @@ export default function SignalDecryption({ onComplete, onClose }: SignalDecrypti
               className="w-72 void-surface p-5"
               onClick={(e) => e.stopPropagation()}
             >
-              <h3 className="mb-3 text-center text-sm font-bold tracking-wider uppercase text-cyan-400">Statistics</h3>
+              <h3 className="mb-3 text-center text-sm font-bold tracking-wider uppercase void-text-energy">Statistics</h3>
               <div className="mb-4 grid grid-cols-4 gap-2 text-center">
                 {[
                   [stats.played, "Played"],
@@ -447,25 +447,25 @@ export default function SignalDecryption({ onComplete, onClose }: SignalDecrypti
                 ].map(([val, label]) => (
                   <div key={label as string}>
                     <div className="text-2xl font-bold">{val}</div>
-                    <div className="text-[10px] text-zinc-400">{label}</div>
+                    <div className="text-[10px] void-text">{label}</div>
                   </div>
                 ))}
               </div>
-              <h4 className="mb-2 text-center text-xs font-semibold text-zinc-400">Guess Distribution</h4>
+              <h4 className="mb-2 text-center text-xs font-semibold void-text">Guess Distribution</h4>
               <div className="space-y-1">
                 {stats.distribution.map((count, i) => {
                   const maxD = Math.max(...stats.distribution, 1);
                   return (
                     <div key={i} className="flex items-center gap-2 text-xs">
-                      <span className="w-3 text-right text-zinc-400">{i + 1}</span>
-                      <div className="h-4 rounded-sm bg-cyan-700" style={{ width: `${Math.max((count / maxD) * 100, 8)}%` }}>
+                      <span className="w-3 text-right void-text">{i + 1}</span>
+                      <div className="h-4 rounded-sm void-bg-success" style={{ width: `${Math.max((count / maxD) * 100, 8)}%` }}>
                         <span className="px-1 text-[10px] font-bold leading-4">{count}</span>
                       </div>
                     </div>
                   );
                 })}
               </div>
-              <button onClick={() => setShowStats(false)} className="mt-4 w-full rounded bg-zinc-700 py-1.5 text-xs hover:bg-zinc-600">Close</button>
+              <button onClick={() => setShowStats(false)} className="mt-4 w-full rounded void-bg-canvas py-1.5 text-xs void-bg-canvas">Close</button>
             </motion.div>
           </motion.div>
         )}

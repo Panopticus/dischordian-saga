@@ -14,8 +14,8 @@ import {
 } from "@/data/cadesNarrativeIntegration";
 
 const NODE_COLORS: Record<string, string> = {
-  concept:  "#f59e0b",
-  faction:  "#ef4444",
+  concept:  "var(--energy-accent)",
+  faction:  "var(--energy-error)",
   default:  "#8b5cf6",
 };
 
@@ -105,7 +105,7 @@ export function CADESConspiracyBoard() {
             const color = NODE_COLORS[node.type] ?? NODE_COLORS.default;
             return (
               <g key={node.id} transform={`translate(${pos.x} ${pos.y})`}>
-                <circle r={28} fill="rgba(0, 0, 0, 0.8)" stroke={color} strokeWidth={1.5} />
+                <circle r={28} fill="color-mix(in oklch, var(--bg-void) 80%, transparent)" stroke={color} strokeWidth={1.5} />
                 <circle r={4} fill={color} />
                 <text
                   y={46}

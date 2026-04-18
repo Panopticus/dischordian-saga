@@ -30,13 +30,13 @@ import { EmptyMatchHistory } from "@/components/EmptyStates";
 
 /* ─── RANK CONFIG ─── */
 const RANK_CONFIG: Record<string, { color: string; bg: string; border: string; label: string; icon: string; glow?: string }> = {
-  bronze:      { color: "text-amber-700",  bg: "bg-amber-700/10",  border: "border-amber-700/30",  label: "Bronze",      icon: "🥉" },
-  silver:      { color: "text-gray-400",   bg: "bg-gray-400/10",   border: "border-gray-400/30",   label: "Silver",      icon: "🥈" },
-  gold:        { color: "text-yellow-400", bg: "bg-yellow-400/10", border: "border-yellow-400/30", label: "Gold",        icon: "🥇", glow: "shadow-[0_0_12px_rgba(250,204,21,0.3)]" },
-  platinum:    { color: "text-cyan-400",   bg: "bg-cyan-400/10",   border: "border-cyan-400/30",   label: "Platinum",    icon: "💎", glow: "shadow-[0_0_12px_rgba(34,211,238,0.3)]" },
-  diamond:     { color: "text-blue-400",   bg: "bg-blue-400/10",   border: "border-blue-400/30",   label: "Diamond",     icon: "💠", glow: "shadow-[0_0_12px_rgba(96,165,250,0.3)]" },
-  master:      { color: "text-purple-400", bg: "bg-purple-400/10", border: "border-purple-400/30", label: "Master",      icon: "👑", glow: "shadow-[0_0_16px_rgba(192,132,252,0.4)]" },
-  grandmaster: { color: "text-red-400",    bg: "bg-red-400/10",    border: "border-red-400/30",    label: "Grandmaster", icon: "🔥", glow: "shadow-[0_0_20px_rgba(248,113,113,0.4)]" },
+  bronze:      { color: "void-text-accent",  bg: "void-bg-sunk",  border: "void-border",  label: "Bronze",      icon: "🥉" },
+  silver:      { color: "void-text",   bg: "void-bg-canvas",   border: "void-border",   label: "Silver",      icon: "🥈" },
+  gold:        { color: "void-text-premium", bg: "void-bg-sunk", border: "void-border", label: "Gold",        icon: "🥇", glow: "shadow-[0_0_12px_rgba(250,204,21,0.3)]" },
+  platinum:    { color: "void-text-energy",   bg: "void-bg-success",   border: "void-border-success",   label: "Platinum",    icon: "💎", glow: "shadow-[0_0_12px_color-mix(in oklch, var(--energy-primary) 30%, transparent)]" },
+  diamond:     { color: "void-text-energy",   bg: "void-bg-sunk",   border: "void-border",   label: "Diamond",     icon: "💠", glow: "shadow-[0_0_12px_color-mix(in oklch, var(--electric-blue) 30%, transparent)]" },
+  master:      { color: "void-text-system", bg: "void-bg-system", border: "void-border-system", label: "Master",      icon: "👑", glow: "shadow-[0_0_16px_color-mix(in oklch, var(--energy-system) 40%, transparent)]" },
+  grandmaster: { color: "void-text-error",    bg: "void-bg-error",    border: "void-border-error",    label: "Grandmaster", icon: "🔥", glow: "shadow-[0_0_20px_color-mix(in oklch, var(--energy-error) 40%, transparent)]" },
 };
 
 const ELO_THRESHOLDS = [
@@ -483,15 +483,15 @@ export default function PvpArenaPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className={`w-12 h-12 rounded-lg border flex items-center justify-center ${
-                        deck.faction === "architect" ? "bg-cyan-400/10 border-cyan-400/30" : "bg-amber-400/10 border-amber-400/30"
+                        deck.faction === "architect" ? "void-bg-success void-border-success" : "void-bg-sunk void-border"
                       }`}>
-                        <Swords size={20} className={deck.faction === "architect" ? "text-cyan-400" : "text-amber-400"} />
+                        <Swords size={20} className={deck.faction === "architect" ? "void-text-energy" : "void-text-accent"} />
                       </div>
                       <div>
                         <h3 className="font-display text-sm font-bold tracking-wider flex items-center gap-2">
                           {deck.name}
                           {deck.id === activeId && (
-                            <span className="px-1.5 py-0.5 bg-green-400/10 border border-green-400/30 text-green-400 font-mono text-[8px] rounded">ACTIVE</span>
+                            <span className="px-1.5 py-0.5 void-bg-success border void-border-success void-text-energy font-mono text-[8px] rounded">ACTIVE</span>
                           )}
                         </h3>
                         <p className="font-mono text-[10px] text-muted-foreground capitalize">{deck.faction} faction • {deck.cardCount} cards</p>
@@ -564,12 +564,12 @@ export default function PvpArenaPage() {
                   <div className="mt-2 w-24 mx-auto">
                     <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
                       <div className={`h-full rounded-full transition-all duration-500 ${
-                        eloInfo.tier === "bronze" ? "bg-amber-700" :
-                        eloInfo.tier === "silver" ? "bg-gray-400" :
-                        eloInfo.tier === "gold" ? "bg-yellow-400" :
-                        eloInfo.tier === "platinum" ? "bg-cyan-400" :
-                        eloInfo.tier === "diamond" ? "bg-blue-400" :
-                        eloInfo.tier === "master" ? "bg-purple-400" : "bg-red-400"
+                        eloInfo.tier === "bronze" ? "void-bg-sunk" :
+                        eloInfo.tier === "silver" ? "void-bg-canvas" :
+                        eloInfo.tier === "gold" ? "void-bg-sunk" :
+                        eloInfo.tier === "platinum" ? "void-bg-success" :
+                        eloInfo.tier === "diamond" ? "void-bg-sunk" :
+                        eloInfo.tier === "master" ? "void-bg-system" : "void-bg-error"
                       }`} style={{ width: `${eloInfo.progress}%` }} />
                     </div>
                     {eloInfo.nextTier && (
@@ -630,7 +630,7 @@ export default function PvpArenaPage() {
               {/* Leaderboard */}
               <div className="border border-border/30 rounded-lg bg-card/40 p-5">
                 <h3 className="font-display text-sm font-bold tracking-[0.2em] mb-4 flex items-center gap-2">
-                  <Trophy size={14} className="text-yellow-400" />
+                  <Trophy size={14} className="void-text-premium" />
                   GLOBAL LEADERBOARD
                 </h3>
                 {leaderboard.data && leaderboard.data.length > 0 ? (
@@ -643,7 +643,7 @@ export default function PvpArenaPage() {
                         }`}>
                           <div className="flex items-center gap-3">
                             <span className={`font-display text-sm font-bold w-6 text-center ${
-                              i === 0 ? "text-yellow-400" : i === 1 ? "text-gray-400" : i === 2 ? "text-amber-600" : "text-muted-foreground"
+                              i === 0 ? "void-text-premium" : i === 1 ? "void-text" : i === 2 ? "void-text-accent" : "text-muted-foreground"
                             }`}>
                               #{i + 1}
                             </span>
@@ -683,10 +683,10 @@ export default function PvpArenaPage() {
                   {(myDecks.data || []).slice(0, 5).map(deck => (
                     <div key={deck.id} className="flex items-center justify-between py-2 px-3 rounded border border-border/20 bg-secondary/30">
                       <div className="flex items-center gap-2">
-                        <Swords size={14} className={deck.faction === "architect" ? "text-cyan-400" : "text-amber-400"} />
+                        <Swords size={14} className={deck.faction === "architect" ? "void-text-energy" : "void-text-accent"} />
                         <span className="font-mono text-xs">{deck.name}</span>
                         {deck.id === activeDeck.data?.id && (
-                          <span className="px-1 py-0.5 bg-green-400/10 text-green-400 font-mono text-[7px] rounded">ACTIVE</span>
+                          <span className="px-1 py-0.5 void-bg-success void-text-energy font-mono text-[7px] rounded">ACTIVE</span>
                         )}
                       </div>
                       <span className="font-mono text-[10px] text-muted-foreground">{deck.cardCount} cards</span>
@@ -709,38 +709,38 @@ export default function PvpArenaPage() {
                   </h3>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
                     {pvpBonuses.eloGainMultiplier > 1 && (
-                      <div className="border border-green-500/20 bg-green-500/5 rounded p-2 text-center">
-                        <p className="font-display text-lg font-bold text-green-400">+{Math.round((pvpBonuses.eloGainMultiplier - 1) * 100)}%</p>
+                      <div className="border void-border-success void-bg-success rounded p-2 text-center">
+                        <p className="font-display text-lg font-bold void-text-energy">+{Math.round((pvpBonuses.eloGainMultiplier - 1) * 100)}%</p>
                         <p className="font-mono text-[9px] text-muted-foreground">ELO GAIN</p>
                       </div>
                     )}
                     {pvpBonuses.eloLossReduction > 0 && (
-                      <div className="border border-blue-500/20 bg-blue-500/5 rounded p-2 text-center">
-                        <p className="font-display text-lg font-bold text-blue-400">-{Math.round(pvpBonuses.eloLossReduction * 100)}%</p>
+                      <div className="border void-border void-bg-sunk rounded p-2 text-center">
+                        <p className="font-display text-lg font-bold void-text-energy">-{Math.round(pvpBonuses.eloLossReduction * 100)}%</p>
                         <p className="font-mono text-[9px] text-muted-foreground">ELO LOSS</p>
                       </div>
                     )}
                     {pvpBonuses.startingHandBonus > 0 && (
-                      <div className="border border-purple-500/20 bg-purple-500/5 rounded p-2 text-center">
-                        <p className="font-display text-lg font-bold text-purple-400">+{pvpBonuses.startingHandBonus}</p>
+                      <div className="border void-border-system void-bg-system rounded p-2 text-center">
+                        <p className="font-display text-lg font-bold void-text-system">+{pvpBonuses.startingHandBonus}</p>
                         <p className="font-mono text-[9px] text-muted-foreground">STARTING CARDS</p>
                       </div>
                     )}
                     {pvpBonuses.streakMultiplier > 1 && (
-                      <div className="border border-amber-500/20 bg-amber-500/5 rounded p-2 text-center">
-                        <p className="font-display text-lg font-bold text-amber-400">+{Math.round((pvpBonuses.streakMultiplier - 1) * 100)}%</p>
+                      <div className="border void-border void-bg-sunk rounded p-2 text-center">
+                        <p className="font-display text-lg font-bold void-text-accent">+{Math.round((pvpBonuses.streakMultiplier - 1) * 100)}%</p>
                         <p className="font-mono text-[9px] text-muted-foreground">STREAK BONUS</p>
                       </div>
                     )}
                     {pvpBonuses.dreamMultiplier > 1 && (
-                      <div className="border border-cyan-500/20 bg-cyan-500/5 rounded p-2 text-center">
-                        <p className="font-display text-lg font-bold text-cyan-400">+{Math.round((pvpBonuses.dreamMultiplier - 1) * 100)}%</p>
+                      <div className="border void-border-success void-bg-success rounded p-2 text-center">
+                        <p className="font-display text-lg font-bold void-text-energy">+{Math.round((pvpBonuses.dreamMultiplier - 1) * 100)}%</p>
                         <p className="font-mono text-[9px] text-muted-foreground">DREAM TOKENS</p>
                       </div>
                     )}
                     {pvpBonuses.xpMultiplier > 1 && (
-                      <div className="border border-yellow-500/20 bg-yellow-500/5 rounded p-2 text-center">
-                        <p className="font-display text-lg font-bold text-yellow-400">+{Math.round((pvpBonuses.xpMultiplier - 1) * 100)}%</p>
+                      <div className="border void-border void-bg-sunk rounded p-2 text-center">
+                        <p className="font-display text-lg font-bold void-text-premium">+{Math.round((pvpBonuses.xpMultiplier - 1) * 100)}%</p>
                         <p className="font-mono text-[9px] text-muted-foreground">XP BONUS</p>
                       </div>
                     )}
@@ -778,7 +778,7 @@ export default function PvpArenaPage() {
                     </div>
                     <div className="text-right">
                       {season.isActive ? (
-                        <span className="px-3 py-1 bg-green-400/10 border border-green-400/30 text-green-400 font-mono text-xs rounded-full">
+                        <span className="px-3 py-1 void-bg-success border void-border-success void-text-energy font-mono text-xs rounded-full">
                           ACTIVE
                         </span>
                       ) : (
@@ -815,9 +815,9 @@ export default function PvpArenaPage() {
                     <div className="text-center">
                       <p className="font-mono text-[10px] text-muted-foreground">RECORD</p>
                       <p className="font-display text-lg font-bold">
-                        <span className="text-green-400">{seasonRecord.seasonWins}</span>
+                        <span className="void-text-energy">{seasonRecord.seasonWins}</span>
                         <span className="text-muted-foreground mx-1">/</span>
-                        <span className="text-red-400">{seasonRecord.seasonLosses}</span>
+                        <span className="void-text-error">{seasonRecord.seasonLosses}</span>
                       </p>
                     </div>
                     <div className="text-center">
@@ -859,7 +859,7 @@ export default function PvpArenaPage() {
                         </button>
                       )}
                       {seasonRecord.rewardsClaimed && (
-                        <p className="mt-3 font-mono text-[10px] text-green-400">✓ Rewards claimed</p>
+                        <p className="mt-3 font-mono text-[10px] void-text-energy">✓ Rewards claimed</p>
                       )}
                     </div>
                   )}
@@ -867,9 +867,9 @@ export default function PvpArenaPage() {
               )}
 
               {/* Faction War Standings */}
-              <div className="border border-purple-500/30 rounded-lg bg-purple-500/5 p-5">
+              <div className="border void-border-system rounded-lg void-bg-system p-5">
                 <h3 className="font-display text-sm font-bold tracking-[0.2em] mb-4 flex items-center gap-2">
-                  <Swords size={14} className="text-purple-400" />
+                  <Swords size={14} className="void-text-system" />
                   FACTION WAR STANDINGS
                 </h3>
                 <p className="font-mono text-[10px] text-muted-foreground mb-4">
@@ -878,10 +878,10 @@ export default function PvpArenaPage() {
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {Object.entries(gameState.factionReputation).map(([faction, rep]) => {
                     const factionColors: Record<string, { text: string; bg: string; border: string }> = {
-                      empire: { text: "text-cyan-400", bg: "bg-cyan-400/10", border: "border-cyan-400/30" },
-                      insurgency: { text: "text-red-400", bg: "bg-red-400/10", border: "border-red-400/30" },
-                      independent: { text: "text-amber-400", bg: "bg-amber-400/10", border: "border-amber-400/30" },
-                      pirate: { text: "text-purple-400", bg: "bg-purple-400/10", border: "border-purple-400/30" },
+                      empire: { text: "void-text-energy", bg: "void-bg-success", border: "void-border-success" },
+                      insurgency: { text: "void-text-error", bg: "void-bg-error", border: "void-border-error" },
+                      independent: { text: "void-text-accent", bg: "void-bg-sunk", border: "void-border" },
+                      pirate: { text: "void-text-system", bg: "void-bg-system", border: "void-border-system" },
                     };
                     const fc = factionColors[faction] || factionColors.empire;
                     return (
@@ -894,7 +894,7 @@ export default function PvpArenaPage() {
                   })}
                 </div>
                 <div className="mt-3 flex items-center gap-2 font-mono text-[9px] text-muted-foreground/60">
-                  <Zap size={10} className="text-amber-400" />
+                  <Zap size={10} className="void-text-accent" />
                   <span>Ranked wins grant +{myStats.data?.elo && myStats.data.elo >= 1600 ? 3 : myStats.data?.elo && myStats.data.elo >= 1200 ? 2 : 1} faction rep per victory based on your rank tier</span>
                 </div>
               </div>
@@ -902,7 +902,7 @@ export default function PvpArenaPage() {
               {/* Season Leaderboard */}
               <div className="border border-border/30 rounded-lg bg-card/40 p-5">
                 <h3 className="font-display text-sm font-bold tracking-[0.2em] mb-4 flex items-center gap-2">
-                  <Trophy size={14} className="text-yellow-400" />
+                  <Trophy size={14} className="void-text-premium" />
                   SEASON LEADERBOARD
                 </h3>
                 {seasonLeaderboard.data && seasonLeaderboard.data.length > 0 ? (
@@ -915,7 +915,7 @@ export default function PvpArenaPage() {
                         }`}>
                           <div className="flex items-center gap-3">
                             <span className={`font-display text-sm font-bold w-6 text-center ${
-                              i === 0 ? "text-yellow-400" : i === 1 ? "text-gray-400" : i === 2 ? "text-amber-600" : "text-muted-foreground"
+                              i === 0 ? "void-text-premium" : i === 1 ? "void-text" : i === 2 ? "void-text-accent" : "text-muted-foreground"
                             }`}>
                               #{i + 1}
                             </span>
@@ -960,8 +960,8 @@ export default function PvpArenaPage() {
                     <div key={match.matchId} className="border border-border/30 rounded-lg bg-card/40 p-4 hover:border-primary/30 transition-colors">
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2">
-                          <Radio size={10} className="text-red-400 animate-pulse" />
-                          <span className="font-mono text-[10px] text-red-400">LIVE</span>
+                          <Radio size={10} className="void-text-error animate-pulse" />
+                          <span className="font-mono text-[10px] void-text-error">LIVE</span>
                         </div>
                         <span className="font-mono text-[10px] text-muted-foreground">Turn {match.totalTurns}</span>
                       </div>
@@ -1008,10 +1008,10 @@ export default function PvpArenaPage() {
                 <div className="space-y-2">
                   {matchHistory.data.map((match, i) => (
                     <div key={i} className={`flex items-center justify-between py-3 px-4 rounded border ${
-                      match.won ? "border-green-400/20 bg-green-400/5" : "border-red-400/20 bg-red-400/5"
+                      match.won ? "void-border-success void-bg-success" : "void-border-error void-bg-error"
                     }`}>
                       <div className="flex items-center gap-4">
-                        <span className={`font-display text-lg font-bold ${match.won ? "text-green-400" : "text-red-400"}`}>
+                        <span className={`font-display text-lg font-bold ${match.won ? "void-text-energy" : "void-text-error"}`}>
                           {match.won ? "W" : "L"}
                         </span>
                         <div>
@@ -1022,7 +1022,7 @@ export default function PvpArenaPage() {
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className={`font-mono text-sm font-bold ${match.eloChange >= 0 ? "text-green-400" : "text-red-400"}`}>
+                        <p className={`font-mono text-sm font-bold ${match.eloChange >= 0 ? "void-text-energy" : "void-text-error"}`}>
                           {match.eloChange >= 0 ? "+" : ""}{match.eloChange}
                         </p>
                         <p className="font-mono text-[10px] text-muted-foreground">ELO</p>
@@ -1103,13 +1103,13 @@ export default function PvpArenaPage() {
           <motion.div initial={{ y: -20 }} animate={{ y: 0 }} transition={{ delay: 0.2 }}>
             {resultData.won ? (
               <>
-                <Crown size={64} className="text-yellow-400 mx-auto mb-4" />
-                <h2 className="font-display text-3xl font-black tracking-wider text-yellow-400 mb-2">VICTORY!</h2>
+                <Crown size={64} className="void-text-premium mx-auto mb-4" />
+                <h2 className="font-display text-3xl font-black tracking-wider void-text-premium mb-2">VICTORY!</h2>
               </>
             ) : (
               <>
-                <Skull size={64} className="text-red-400 mx-auto mb-4" />
-                <h2 className="font-display text-3xl font-black tracking-wider text-red-400 mb-2">DEFEAT</h2>
+                <Skull size={64} className="void-text-error mx-auto mb-4" />
+                <h2 className="font-display text-3xl font-black tracking-wider void-text-error mb-2">DEFEAT</h2>
               </>
             )}
           </motion.div>
@@ -1126,7 +1126,7 @@ export default function PvpArenaPage() {
               <div className="flex items-center justify-center gap-6">
                 <div className="text-center">
                   <p className="font-mono text-[10px] text-muted-foreground">ELO CHANGE</p>
-                  <p className={`font-display text-2xl font-bold ${resultData.eloChange >= 0 ? "text-green-400" : "text-red-400"}`}>
+                  <p className={`font-display text-2xl font-bold ${resultData.eloChange >= 0 ? "void-text-energy" : "void-text-error"}`}>
                     {resultData.eloChange >= 0 ? "+" : ""}{resultData.eloChange}
                   </p>
                 </div>
@@ -1143,12 +1143,12 @@ export default function PvpArenaPage() {
                 <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
                   <motion.div
                     className={`h-full rounded-full ${
-                      newEloInfo.tier === "bronze" ? "bg-amber-700" :
-                      newEloInfo.tier === "silver" ? "bg-gray-400" :
-                      newEloInfo.tier === "gold" ? "bg-yellow-400" :
-                      newEloInfo.tier === "platinum" ? "bg-cyan-400" :
-                      newEloInfo.tier === "diamond" ? "bg-blue-400" :
-                      newEloInfo.tier === "master" ? "bg-purple-400" : "bg-red-400"
+                      newEloInfo.tier === "bronze" ? "void-bg-sunk" :
+                      newEloInfo.tier === "silver" ? "void-bg-canvas" :
+                      newEloInfo.tier === "gold" ? "void-bg-sunk" :
+                      newEloInfo.tier === "platinum" ? "void-bg-success" :
+                      newEloInfo.tier === "diamond" ? "void-bg-sunk" :
+                      newEloInfo.tier === "master" ? "void-bg-system" : "void-bg-error"
                     }`}
                     initial={{ width: "0%" }}
                     animate={{ width: `${newEloInfo.progress}%` }}
@@ -1216,7 +1216,7 @@ export default function PvpArenaPage() {
       )}
 
       {/* VFX Layer */}
-      <AmbientParticles count={15} color="rgba(51,226,230,0.2)" />
+      <AmbientParticles count={15} color="color-mix(in oklch, var(--energy-primary) 20%, transparent)" />
 
       {/* Spectator Banner */}
       {isSpectating && (
@@ -1312,11 +1312,11 @@ export default function PvpArenaPage() {
                 </div>
                 <p className="font-mono text-[8px] truncate text-center">{card.name}</p>
                 <div className="flex items-center justify-between mt-0.5">
-                  <span className="font-mono text-[9px] text-red-400">⚔{card.attack + card.tempAttackMod}</span>
-                  <span className="font-mono text-[9px] text-blue-400">🛡{card.currentHP}</span>
+                  <span className="font-mono text-[9px] void-text-error">⚔{card.attack + card.tempAttackMod}</span>
+                  <span className="font-mono text-[9px] void-text-energy">🛡{card.currentHP}</span>
                 </div>
                 {card.justDeployed && (
-                  <div className="absolute top-0 right-0 w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
+                  <div className="absolute top-0 right-0 w-2 h-2 void-bg-sunk rounded-full animate-pulse" />
                 )}
               </div>
             </motion.div>
@@ -1377,11 +1377,11 @@ export default function PvpArenaPage() {
                 </div>
                 <p className="font-mono text-[8px] truncate text-center">{card.name}</p>
                 <div className="flex items-center justify-between mt-0.5">
-                  <span className="font-mono text-[9px] text-red-400">⚔{card.attack + card.tempAttackMod}</span>
-                  <span className="font-mono text-[9px] text-blue-400">🛡{card.currentHP}</span>
+                  <span className="font-mono text-[9px] void-text-error">⚔{card.attack + card.tempAttackMod}</span>
+                  <span className="font-mono text-[9px] void-text-energy">🛡{card.currentHP}</span>
                 </div>
                 {card.justDeployed && (
-                  <div className="absolute top-0 right-0 w-2 h-2 bg-yellow-400 rounded-full animate-pulse" title="Summoning sickness" />
+                  <div className="absolute top-0 right-0 w-2 h-2 void-bg-sunk rounded-full animate-pulse" title="Summoning sickness" />
                 )}
                 {card.hasAttacked && (
                   <div className="absolute inset-0 bg-muted/50 rounded flex items-center justify-center">
@@ -1412,14 +1412,14 @@ export default function PvpArenaPage() {
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <Heart size={14} className="text-green-400" />
+              <Heart size={14} className="void-text-energy" />
               <div className="w-24 h-2 bg-secondary rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-green-400 transition-all duration-500"
+                  className="h-full void-bg-success transition-all duration-500"
                   style={{ width: `${(myPlayer.hp / myPlayer.maxHP) * 100}%` }}
                 />
               </div>
-              <span className="font-mono text-xs text-green-400">{myPlayer.hp}/{myPlayer.maxHP}</span>
+              <span className="font-mono text-xs void-text-energy">{myPlayer.hp}/{myPlayer.maxHP}</span>
             </div>
             <div className="flex items-center gap-1">
               {Array.from({ length: myPlayer.maxEnergy }).map((_, i) => (
@@ -1427,12 +1427,12 @@ export default function PvpArenaPage() {
                   key={i}
                   className={`w-3 h-3 rounded-full border ${
                     i < myPlayer.energy
-                      ? "bg-blue-400 border-blue-400 shadow-[0_0_4px_rgba(96,165,250,0.5)]"
+                      ? "void-bg-sunk void-border shadow-[0_0_4px_color-mix(in oklch, var(--electric-blue) 50%, transparent)]"
                       : "bg-secondary border-border/30"
                   }`}
                 />
               ))}
-              <span className="font-mono text-[10px] text-blue-400 ml-1">{myPlayer.energy}/{myPlayer.maxEnergy}</span>
+              <span className="font-mono text-[10px] void-text-energy ml-1">{myPlayer.energy}/{myPlayer.maxEnergy}</span>
             </div>
             {!isSpectating && (
               <div className="flex items-center gap-2">
@@ -1511,9 +1511,9 @@ export default function PvpArenaPage() {
                     </div>
                     <p className="font-mono text-[7px] truncate text-center">{card.name}</p>
                     <div className="flex items-center justify-between mt-0.5">
-                      <span className="font-mono text-[8px] text-red-400">⚔{card.attack}</span>
-                      <span className="font-mono text-[8px] text-blue-400 bg-blue-400/10 rounded px-1">{card.cost}⚡</span>
-                      <span className="font-mono text-[8px] text-green-400">🛡{card.defense}</span>
+                      <span className="font-mono text-[8px] void-text-error">⚔{card.attack}</span>
+                      <span className="font-mono text-[8px] void-text-energy void-bg-sunk rounded px-1">{card.cost}⚡</span>
+                      <span className="font-mono text-[8px] void-text-energy">🛡{card.defense}</span>
                     </div>
                   </div>
                   {selectedCard === card.instanceId && (

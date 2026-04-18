@@ -72,7 +72,7 @@ export const FACTION_NPCS: Record<FactionNPCId, FactionNPC> = {
     title: "Ship Intelligence, Ark 1047",
     faction: "dreamer",
     manifestation: "hologram",
-    color: "#22d3ee",
+    color: "var(--energy-primary)",
     typeSpeed: 18,
     agenda: "Protect the Potentials. Guide them toward their destiny. She was created to serve the Artificial Empire's design, but her bond with the Potentials has become something more — she represents THEIR interests now, not the Architect's. She may not fully realize this yet.",
     primaryRoom: "bridge",

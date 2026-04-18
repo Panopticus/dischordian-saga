@@ -53,9 +53,9 @@ export function InboxEnvelopeUnfold({
           position: "absolute",
           width: unfolded ? "360px" : "60px",
           height: unfolded ? "480px" : "60px",
-          backgroundColor: "rgba(1, 0, 32, 0.95)",
-          border: "1px solid rgba(34, 211, 238, 0.4)",
-          boxShadow: "0 0 24px rgba(34, 211, 238, 0.2)",
+          backgroundColor: "color-mix(in oklch, var(--bg-void) 95%, transparent)",
+          border: "1px solid color-mix(in oklch, var(--energy-primary) 40%, transparent)",
+          boxShadow: "0 0 24px color-mix(in oklch, var(--energy-primary) 20%, transparent)",
           overflow: "hidden",
           cursor: unfolded ? "default" : "pointer",
           display: "flex",
@@ -71,7 +71,7 @@ export function InboxEnvelopeUnfold({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "#22d3ee",
+              color: "var(--energy-primary)",
               fontSize: "28px",
             }}
           >
@@ -84,8 +84,8 @@ export function InboxEnvelopeUnfold({
             <div
               style={{
                 padding: "16px",
-                borderBottom: "1px solid rgba(34, 211, 238, 0.2)",
-                color: "#22d3ee",
+                borderBottom: "1px solid color-mix(in oklch, var(--energy-primary) 20%, transparent)",
+                color: "var(--energy-primary)",
                 fontSize: "14px",
                 fontFamily: "monospace",
               }}
@@ -101,7 +101,7 @@ export function InboxEnvelopeUnfold({
             <div
               style={{
                 height: "1px",
-                background: "linear-gradient(90deg, transparent, #22d3ee, transparent)",
+                background: "linear-gradient(90deg, transparent, var(--energy-primary), transparent)",
               }}
             />
             {/* Region 3: Message body */}
@@ -109,7 +109,7 @@ export function InboxEnvelopeUnfold({
               style={{
                 flex: 1,
                 padding: "16px",
-                color: "rgba(255, 255, 255, 0.85)",
+                color: "color-mix(in oklch, var(--text-primary) 85%, transparent)",
                 fontSize: "13px",
                 fontFamily: "monospace",
                 lineHeight: 1.6,

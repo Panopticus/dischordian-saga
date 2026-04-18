@@ -93,7 +93,7 @@ export default function CardChallengePage() {
           </Link>
           <div>
             <h1 className="font-display text-xl sm:text-2xl tracking-wider flex items-center gap-2">
-              <Swords size={20} className="text-red-400" /> MULTIPLAYER ARENA
+              <Swords size={20} className="void-text-error" /> MULTIPLAYER ARENA
             </h1>
             <p className="font-mono text-[10px] text-muted-foreground tracking-wider">CHALLENGE OTHER OPERATIVES</p>
           </div>
@@ -109,29 +109,29 @@ export default function CardChallengePage() {
                 className="rounded-xl p-8 text-center max-w-sm w-full"
                 style={{
                   background: "rgba(10,10,40,0.95)",
-                  border: `2px solid ${showResult.isWinner ? "rgba(34,197,94,0.4)" : "rgba(239,68,68,0.4)"}`,
+                  border: `2px solid ${showResult.isWinner ? "color-mix(in oklch, var(--energy-success) 40%, transparent)" : "color-mix(in oklch, var(--energy-error) 40%, transparent)"}`,
                 }}
                 onClick={e => e.stopPropagation()}>
                 <div className="mb-4">
                   {showResult.isWinner
-                    ? <Crown size={48} className="mx-auto text-yellow-400 mb-2" />
-                    : <Shield size={48} className="mx-auto text-red-400 mb-2" />}
+                    ? <Crown size={48} className="mx-auto void-text-premium mb-2" />
+                    : <Shield size={48} className="mx-auto void-text-error mb-2" />}
                   <h2 className="font-display text-2xl tracking-wider">
                     {showResult.isWinner ? "VICTORY" : "DEFEAT"}
                   </h2>
                 </div>
                 <div className="grid grid-cols-2 gap-4 mb-6">
-                  <div className="rounded-lg p-3" style={{ background: "rgba(255,255,255,0.03)" }}>
+                  <div className="rounded-lg p-3" style={{ background: "color-mix(in oklch, var(--text-primary) 3%, transparent)" }}>
                     <p className="font-mono text-[9px] text-muted-foreground">ATTACKER</p>
-                    <p className="font-display text-xl text-red-400">{showResult.attackerPower}</p>
+                    <p className="font-display text-xl void-text-error">{showResult.attackerPower}</p>
                   </div>
-                  <div className="rounded-lg p-3" style={{ background: "rgba(255,255,255,0.03)" }}>
+                  <div className="rounded-lg p-3" style={{ background: "color-mix(in oklch, var(--text-primary) 3%, transparent)" }}>
                     <p className="font-mono text-[9px] text-muted-foreground">DEFENDER</p>
-                    <p className="font-display text-xl text-blue-400">{showResult.defenderPower}</p>
+                    <p className="font-display text-xl void-text-energy">{showResult.defenderPower}</p>
                   </div>
                 </div>
                 {showResult.isWinner && (
-                  <p className="font-mono text-xs text-green-400 mb-4">+50 XP // +25 POINTS</p>
+                  <p className="font-mono text-xs void-text-energy mb-4">+50 XP // +25 POINTS</p>
                 )}
                 <button onClick={() => setShowResult(null)}
                   className="px-6 py-2 rounded-lg font-mono text-xs tracking-wider bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20 transition-colors">
@@ -145,13 +145,13 @@ export default function CardChallengePage() {
         {/* Incoming challenges */}
         {isAuthenticated && incoming.length > 0 && (
           <motion.section initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
-            <h2 className="font-display text-sm tracking-[0.2em] text-red-400 flex items-center gap-2 mb-3">
+            <h2 className="font-display text-sm tracking-[0.2em] void-text-error flex items-center gap-2 mb-3">
               <Zap size={14} /> INCOMING CHALLENGES ({incoming.length})
             </h2>
             <div className="space-y-2">
               {incoming.map(ch => (
                 <div key={ch.id} className="rounded-lg p-4 flex items-center justify-between"
-                  style={{ background: "rgba(239,68,68,0.05)", border: "1px solid rgba(239,68,68,0.15)" }}>
+                  style={{ background: "color-mix(in oklch, var(--energy-error) 5%, transparent)", border: "1px solid color-mix(in oklch, var(--energy-error) 15%, transparent)" }}>
                   <div>
                     <p className="font-mono text-sm text-foreground">{ch.player1Name}</p>
                     <p className="font-mono text-[9px] text-muted-foreground">
@@ -161,11 +161,11 @@ export default function CardChallengePage() {
                   </div>
                   <div className="flex gap-2">
                     <button onClick={() => handleAccept(ch.id)} disabled={acceptChallenge.isPending}
-                      className="px-3 py-1.5 rounded-md font-mono text-[10px] tracking-wider bg-green-500/10 border border-green-500/30 text-green-400 hover:bg-green-500/20 transition-colors flex items-center gap-1">
+                      className="px-3 py-1.5 rounded-md font-mono text-[10px] tracking-wider void-bg-success border void-border-success void-text-energy void-bg-success transition-colors flex items-center gap-1">
                       {acceptChallenge.isPending ? <Loader2 size={10} className="animate-spin" /> : <Check size={10} />} ACCEPT
                     </button>
                     <button onClick={() => declineChallenge.mutate({ matchId: ch.id })}
-                      className="px-3 py-1.5 rounded-md font-mono text-[10px] tracking-wider bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20 transition-colors flex items-center gap-1">
+                      className="px-3 py-1.5 rounded-md font-mono text-[10px] tracking-wider void-bg-error border void-border-error void-text-error void-bg-error transition-colors flex items-center gap-1">
                       <X size={10} /> DECLINE
                     </button>
                   </div>
@@ -178,18 +178,18 @@ export default function CardChallengePage() {
         {/* Outgoing challenges */}
         {isAuthenticated && outgoing.length > 0 && (
           <motion.section initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
-            <h2 className="font-display text-sm tracking-[0.2em] text-amber-400 flex items-center gap-2 mb-3">
+            <h2 className="font-display text-sm tracking-[0.2em] void-text-accent flex items-center gap-2 mb-3">
               <Send size={14} /> PENDING CHALLENGES ({outgoing.length})
             </h2>
             <div className="space-y-2">
               {outgoing.map(ch => (
                 <div key={ch.id} className="rounded-lg p-3 flex items-center justify-between"
-                  style={{ background: "rgba(245,158,11,0.05)", border: "1px solid rgba(245,158,11,0.1)" }}>
+                  style={{ background: "color-mix(in oklch, var(--energy-accent) 5%, transparent)", border: "1px solid color-mix(in oklch, var(--energy-accent) 10%, transparent)" }}>
                   <div>
                     <p className="font-mono text-sm text-foreground">→ {ch.player2Name}</p>
                     <p className="font-mono text-[9px] text-muted-foreground">Awaiting response...</p>
                   </div>
-                  <Clock size={14} className="text-amber-400/40" />
+                  <Clock size={14} className="void-text-accent" />
                 </div>
               ))}
             </div>
@@ -207,14 +207,14 @@ export default function CardChallengePage() {
                 const won = ch.winnerId === user?.id;
                 return (
                   <div key={ch.id} className="rounded-lg p-3 flex items-center justify-between"
-                    style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                    style={{ background: "color-mix(in oklch, var(--text-primary) 2%, transparent)", border: "1px solid color-mix(in oklch, var(--text-primary) 4%, transparent)" }}>
                     <div className="flex items-center gap-2">
-                      {won ? <Crown size={12} className="text-yellow-400" /> : <Shield size={12} className="text-red-400/40" />}
+                      {won ? <Crown size={12} className="void-text-premium" /> : <Shield size={12} className="void-text-error" />}
                       <span className="font-mono text-xs">
                         vs {ch.player1Id === user?.id ? ch.player2Name : ch.player1Name}
                       </span>
                     </div>
-                    <span className={`font-mono text-[10px] ${won ? "text-green-400" : "text-red-400"}`}>
+                    <span className={`font-mono text-[10px] ${won ? "void-text-energy" : "void-text-error"}`}>
                       {won ? "WON" : "LOST"}
                     </span>
                   </div>
@@ -234,7 +234,7 @@ export default function CardChallengePage() {
               <Loader2 size={24} className="animate-spin text-primary/40" />
             </div>
           ) : players.length === 0 ? (
-            <div className="text-center py-12 rounded-lg" style={{ background: "rgba(255,255,255,0.02)" }}>
+            <div className="text-center py-12 rounded-lg" style={{ background: "color-mix(in oklch, var(--text-primary) 2%, transparent)" }}>
               <Users size={32} className="mx-auto text-muted-foreground/30 mb-3" />
               <p className="font-mono text-sm text-muted-foreground">No operatives found</p>
               <p className="font-mono text-[10px] text-muted-foreground/50 mt-1">Start exploring the Ark to appear on the leaderboard</p>
@@ -246,7 +246,7 @@ export default function CardChallengePage() {
                   initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.03 }}
                   className="rounded-lg p-3 flex items-center justify-between group hover:border-primary/20 transition-all"
-                  style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}>
+                  style={{ background: "color-mix(in oklch, var(--text-primary) 2%, transparent)", border: "1px solid color-mix(in oklch, var(--text-primary) 4%, transparent)" }}>
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                       <span className="font-display text-xs text-primary">#{player.rank_position}</span>
@@ -262,7 +262,7 @@ export default function CardChallengePage() {
                     <div className="flex gap-2">
                       <button onClick={() => handleChallenge(player.userId)}
                         disabled={createChallenge.isPending}
-                        className="px-3 py-1.5 rounded-md font-mono text-[10px] tracking-wider bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20 transition-colors flex items-center gap-1">
+                        className="px-3 py-1.5 rounded-md font-mono text-[10px] tracking-wider void-bg-error border void-border-error void-text-error void-bg-error transition-colors flex items-center gap-1">
                         {createChallenge.isPending ? <Loader2 size={10} className="animate-spin" /> : <Swords size={10} />} CONFIRM
                       </button>
                       <button onClick={() => setSelectedTarget(null)}

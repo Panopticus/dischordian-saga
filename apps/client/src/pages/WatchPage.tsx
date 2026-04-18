@@ -58,7 +58,7 @@ const EPOCHS: Epoch[] = [
     loreContext: "Epoch 1 chronicles the emergence of the Potentials — beings of extraordinary power born from the chaos of the Fall. The Architect builds the Panopticon, the Warlord conquers worlds, and the seeds of the Dischordian conflict are sown.",
     playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaRniDT5eztLsXFTzbR0JaCu",
     playlistId: "PLhUHvGa0xBaRniDT5eztLsXFTzbR0JaCu",
-    color: "#33E2E6",
+    color: "var(--energy-primary)",
     icon: Globe,
     order: 1,
     type: "epoch",
@@ -73,7 +73,7 @@ const EPOCHS: Epoch[] = [
     loreContext: "The Engineer's arc reveals the technological foundations of the Dischordian universe. From the construction of the first dimensional bridges to the creation of sentient machines, this chapter explores how engineering ambition both saved and doomed civilizations.",
     playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaQfuKeeqx7cLOfhZ1Fr1-jb",
     playlistId: "PLhUHvGa0xBaQfuKeeqx7cLOfhZ1Fr1-jb",
-    color: "#33E2E6",
+    color: "var(--energy-primary)",
     icon: Globe,
     order: 2,
     type: "epoch",
@@ -88,7 +88,7 @@ const EPOCHS: Epoch[] = [
     loreContext: "The Spaces Between are not empty. They are filled with visions — random stories set across the universe, glimpses of lives lived in the margins of the great epochs. The CoNexus records everything.",
     playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaQdgXe7lQz5mYRYQaaWZ86i",
     playlistId: "PLhUHvGa0xBaQdgXe7lQz5mYRYQaaWZ86i",
-    color: "#A078FF",
+    color: "var(--energy-system)",
     icon: Sparkles,
     order: 3,
     type: "interlude",
@@ -103,7 +103,7 @@ const EPOCHS: Epoch[] = [
     loreContext: "Epoch 2: Being and Time explores the philosophical dimensions of the Dischordian universe. Dr. Daniel Cross — the Programmer — begins his journey through time. The Age of Revelation approaches, and with it, truths that will reshape everything.",
     playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaQXcM_dscfjlqjYOeGCvtoE",
     playlistId: "PLhUHvGa0xBaQXcM_dscfjlqjYOeGCvtoE",
-    color: "#3875FA",
+    color: "var(--electric-blue)",
     icon: Clock,
     order: 4,
     type: "epoch",
@@ -118,7 +118,7 @@ const EPOCHS: Epoch[] = [
     loreContext: "The Age of Privacy is the penultimate era before everything changes. It is a time of secrets, surveillance, and the struggle between those who would control information and those who would set it free. This era leads directly into the Age of Revelation, which precedes the Fall of Reality.",
     playlistUrl: "https://youtube.com/playlist?list=PLhUHvGa0xBaQ8W2PK16gS07gtBg3m64m2",
     playlistId: "PLhUHvGa0xBaQ8W2PK16gS07gtBg3m64m2",
-    color: "#FF8C00",
+    color: "var(--energy-premium)",
     icon: Eye,
     order: 5,
     type: "era",
@@ -172,9 +172,9 @@ const ALBUM_SHORT: Record<string, string> = {
 };
 
 const ALBUM_COLORS: Record<string, string> = {
-  "Dischordian Logic": "#33E2E6",
-  "The Age of Privacy": "#FF8C00",
-  "The Book of Daniel 2:47": "#A078FF",
+  "Dischordian Logic": "var(--energy-primary)",
+  "The Age of Privacy": "var(--energy-premium)",
+  "The Book of Daniel 2:47": "var(--energy-system)",
   "Silence in Heaven": "#FF3C40",
 };
 
@@ -434,7 +434,7 @@ export default function WatchPage() {
                 className="h-1 rounded-full transition-all"
                 style={{
                   width: i === storyIdx ? "24px" : "8px",
-                  background: i === storyIdx ? ep.color : i < storyIdx ? ep.color + "40" : "rgba(255,255,255,0.1)",
+                  background: i === storyIdx ? ep.color : i < storyIdx ? ep.color + "40" : "color-mix(in oklch, var(--text-primary) 10%, transparent)",
                 }}
               />
             ))}
@@ -678,7 +678,7 @@ export default function WatchPage() {
             style={{
               background: "linear-gradient(135deg, var(--glass-base) 0%, var(--glass-dark) 100%)",
               border: "1px solid var(--neon-cyan)20",
-              boxShadow: "0 0 20px rgba(51,226,230,0.05)",
+              boxShadow: "0 0 20px color-mix(in oklch, var(--energy-primary) 5%, transparent)",
             }}
           >
             <div className="flex items-center gap-2 mb-3">
@@ -764,7 +764,7 @@ export default function WatchPage() {
                 style={{
                   borderColor: activeEpoch === epoch.id ? epoch.color + "66" : undefined,
                   backgroundColor: activeEpoch === epoch.id ? epoch.color + "15" : undefined,
-                  color: activeEpoch === epoch.id ? epoch.color : "rgba(255,255,255,0.5)",
+                  color: activeEpoch === epoch.id ? epoch.color : "color-mix(in oklch, var(--text-primary) 50%, transparent)",
                 }}
               >
                 <Icon size={12} />
@@ -952,7 +952,7 @@ const EpochSection = forwardRef<HTMLDivElement, EpochSectionProps>(
                   <div
                     className="rounded-lg p-3 sm:p-4 relative overflow-hidden"
                     style={{
-                      background: `linear-gradient(135deg, rgba(255,255,255,0.03) 0%, ${epoch.color}08 100%)`,
+                      background: `linear-gradient(135deg, color-mix(in oklch, var(--text-primary) 3%, transparent) 0%, ${epoch.color}08 100%)`,
                       border: `1px solid ${epoch.color}15`,
                     }}
                   >
@@ -1134,7 +1134,7 @@ function EpisodeViewer({
   videoContainerRef,
 }: EpisodeViewerProps) {
   const [showEpisodeList, setShowEpisodeList] = useState(false);
-  const albumColor = ALBUM_COLORS[currentEpisode.album] || "#33E2E6";
+  const albumColor = ALBUM_COLORS[currentEpisode.album] || "var(--energy-primary)";
 
   const resolvedCharacters = currentEpisode.characters
     .map((name) => getEntry(name))
@@ -1224,7 +1224,7 @@ function EpisodeViewer({
           >
             <div className="max-h-60 overflow-y-auto p-2 space-y-0.5">
               {episodes.map((ep, i) => {
-                const epColor = ALBUM_COLORS[ep.album] || "#33E2E6";
+                const epColor = ALBUM_COLORS[ep.album] || "var(--energy-primary)";
                 return (
                   <button
                     key={ep.id}

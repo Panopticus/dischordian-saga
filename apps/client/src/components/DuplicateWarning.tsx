@@ -53,13 +53,13 @@ export default function DuplicateWarning({
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="w-full max-w-sm bg-black/95 border border-yellow-500/30 rounded-2xl overflow-hidden"
+            className="w-full max-w-sm bg-black/95 border void-border rounded-2xl overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-yellow-500/20 bg-gradient-to-r from-yellow-500/10 to-transparent">
+            <div className="flex items-center justify-between px-4 py-3 border-b void-border bg-gradient-to-r from-yellow-500/10 to-transparent">
               <div className="flex items-center gap-2">
-                <AlertTriangle size={18} className="text-yellow-400" />
-                <h2 className="font-display text-lg tracking-[0.2em] text-yellow-400">
+                <AlertTriangle size={18} className="void-text-premium" />
+                <h2 className="font-display text-lg tracking-[0.2em] void-text-premium">
                   DUPLICATE ITEM
                 </h2>
               </div>
@@ -73,8 +73,8 @@ export default function DuplicateWarning({
 
             {/* Warning content */}
             <div className="p-4 space-y-4">
-              <div className="p-3 rounded-xl border border-yellow-500/20 bg-yellow-500/5">
-                <p className="font-mono text-sm text-yellow-400 leading-relaxed">
+              <div className="p-3 rounded-xl border void-border void-bg-sunk">
+                <p className="font-mono text-sm void-text-premium leading-relaxed">
                   You already own <span className="font-bold">{item.itemName}</span>.
                   Are you sure you want to purchase it again?
                 </p>
@@ -82,7 +82,7 @@ export default function DuplicateWarning({
 
               <div className="flex justify-between items-center px-1">
                 <span className="font-mono text-xs text-white/40">PRICE</span>
-                <span className="font-mono text-sm text-amber-400 font-bold">
+                <span className="font-mono text-sm void-text-accent font-bold">
                   {item.price}
                 </span>
               </div>
@@ -98,7 +98,7 @@ export default function DuplicateWarning({
               </button>
               <button
                 onClick={onProceed}
-                className="flex-1 py-2.5 rounded-lg bg-yellow-500/20 border border-yellow-500/40 text-yellow-400 font-mono text-sm font-bold hover:bg-yellow-500/30 transition-colors"
+                className="flex-1 py-2.5 rounded-lg void-bg-sunk border void-border void-text-premium font-mono text-sm font-bold void-bg-sunk transition-colors"
               >
                 BUY ANYWAY
               </button>

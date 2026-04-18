@@ -49,7 +49,7 @@ export const ACTS: ActDefinition[] = [
     weekEnd: 13,
     monthStart: 1,
     monthEnd: 3,
-    themeColor: "text-cyan-400",
+    themeColor: "void-text-energy",
     description:
       "The Potentials awaken from cryo. The Ark's systems come online. " +
       "The first votes are cast. The Antiquarian begins writing.",
@@ -62,7 +62,7 @@ export const ACTS: ActDefinition[] = [
     weekEnd: 26,
     monthStart: 4,
     monthEnd: 6,
-    themeColor: "text-amber-400",
+    themeColor: "void-text-accent",
     description:
       "The Ark ventures deeper into uncharted space. New factions emerge. " +
       "The Thought Virus signal intensifies. Alliances form and fracture.",
@@ -75,7 +75,7 @@ export const ACTS: ActDefinition[] = [
     weekEnd: 39,
     monthStart: 7,
     monthEnd: 9,
-    themeColor: "text-red-400",
+    themeColor: "void-text-error",
     description:
       "War comes to the Ark. The Architect reveals their hand. " +
       "Community decisions carry permanent, irreversible consequences.",
@@ -88,7 +88,7 @@ export const ACTS: ActDefinition[] = [
     weekEnd: 52,
     monthStart: 10,
     monthEnd: 12,
-    themeColor: "text-emerald-400",
+    themeColor: "void-text-energy",
     description:
       "The final chapters are written. The Potentials face the truth " +
       "of their choices. The Antiquarian finishes the Chronicle.",
@@ -409,9 +409,9 @@ export function getCategoryLabel(category: EventCategory): string {
  */
 export function getStatusColor(status: EventStatus): string {
   switch (status) {
-    case "upcoming": return "text-cyan-400";
-    case "active": return "text-green-400";
+    case "upcoming": return "void-text-energy";
+    case "active": return "void-text-energy";
     case "completed": return "text-muted-foreground/50";
-    case "skipped": return "text-red-400/50";
+    case "skipped": return "void-text-error";
   }
 }

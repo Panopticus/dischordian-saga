@@ -50,12 +50,12 @@ export function MoralityMilestoneRewards() {
 
   const rewardIcon = (type: string) => {
     switch (type) {
-      case "card": return <Star size={10} className="text-amber-400" />;
-      case "credits": return <Coins size={10} className="text-yellow-400" />;
-      case "xp": return <Sparkles size={10} className="text-cyan-400" />;
-      case "dream_tokens": return <BookOpen size={10} className="text-purple-400" />;
-      case "item": return <Gift size={10} className="text-green-400" />;
-      case "title": return <Shield size={10} className="text-blue-400" />;
+      case "card": return <Star size={10} className="void-text-accent" />;
+      case "credits": return <Coins size={10} className="void-text-premium" />;
+      case "xp": return <Sparkles size={10} className="void-text-energy" />;
+      case "dream_tokens": return <BookOpen size={10} className="void-text-system" />;
+      case "item": return <Gift size={10} className="void-text-energy" />;
+      case "title": return <Shield size={10} className="void-text-energy" />;
       default: return <Gift size={10} />;
     }
   };
@@ -89,15 +89,15 @@ export function MoralityMilestoneRewards() {
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-1.5">
-                  {m.side === "machine" ? <Cpu size={12} className="text-red-400" /> :
-                   <Heart size={12} className="text-green-400" />}
+                  {m.side === "machine" ? <Cpu size={12} className="void-text-error" /> :
+                   <Heart size={12} className="void-text-energy" />}
                   <span className="font-mono text-xs font-semibold">{m.tierName}</span>
                   <span className="font-mono text-[9px] text-muted-foreground">
                     ({m.scoreThreshold > 0 ? "+" : ""}{m.scoreThreshold})
                   </span>
                 </div>
                 {claimed ? (
-                  <span className="text-[9px] bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded font-mono flex items-center gap-1">
+                  <span className="text-[9px] void-bg-success void-text-energy px-1.5 py-0.5 rounded font-mono flex items-center gap-1">
                     <Check size={8} /> CLAIMED
                   </span>
                 ) : claimable ? (

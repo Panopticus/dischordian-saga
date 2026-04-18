@@ -16,8 +16,8 @@ const SLOT_LABELS: Record<EquipmentSlot, string> = {
 };
 
 const RARITY_COLORS: Record<string, string> = {
-  common: "#9ca3af", uncommon: "#22c55e", rare: "#3b82f6",
-  epic: "#a855f7", legendary: "#f59e0b", mythic: "#ef4444",
+  common: "#9ca3af", uncommon: "var(--energy-success)", rare: "#3b82f6",
+  epic: "#a855f7", legendary: "var(--energy-accent)", mythic: "var(--energy-error)",
 };
 
 export default function CharacterWidget() {
@@ -44,13 +44,13 @@ export default function CharacterWidget() {
       {/* Floating button — bottom-left on mobile, top-left on desktop */}
       <button
         onClick={() => setExpanded(!expanded)}
-        className="fixed bottom-20 left-3 z-40 w-12 h-12 rounded-full bg-black/70 backdrop-blur-md border border-cyan-500/30 flex items-center justify-center shadow-lg hover:border-cyan-500/50 transition-all group"
-        style={{ boxShadow: "0 0 12px rgba(34,211,238,0.2)" }}
+        className="fixed bottom-20 left-3 z-40 w-12 h-12 rounded-full bg-black/70 backdrop-blur-md border void-border-success flex items-center justify-center shadow-lg void-border-success transition-all group"
+        style={{ boxShadow: "0 0 12px color-mix(in oklch, var(--energy-primary) 20%, transparent)" }}
       >
-        <User size={18} className="text-cyan-400 group-hover:scale-110 transition-transform" />
+        <User size={18} className="void-text-energy group-hover:scale-110 transition-transform" />
         {/* Stat indicator dot */}
         {summary.equipped > 0 && (
-          <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-cyan-500 text-black text-[8px] font-bold flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full void-bg-success text-black text-[8px] font-bold flex items-center justify-center">
             {summary.equipped}
           </span>
         )}
@@ -69,7 +69,7 @@ export default function CharacterWidget() {
             <div className="flex items-center justify-between px-3 py-2 border-b border-white/10">
               <div>
                 <p className="font-mono text-xs font-bold text-white">{characterName}</p>
-                <p className="font-mono text-[9px] text-cyan-400 capitalize">{characterClass}</p>
+                <p className="font-mono text-[9px] void-text-energy capitalize">{characterClass}</p>
               </div>
               <button onClick={() => setExpanded(false)} className="text-white/30 hover:text-white/60">
                 <X size={14} />
@@ -79,20 +79,20 @@ export default function CharacterWidget() {
             {/* Stats summary */}
             <div className="flex gap-2 px-3 py-2 border-b border-white/5">
               <div className="flex items-center gap-1">
-                <Swords size={10} className="text-red-400" />
-                <span className="font-mono text-[10px] text-red-400 font-bold">{summary.stats.totalAtk}</span>
+                <Swords size={10} className="void-text-error" />
+                <span className="font-mono text-[10px] void-text-error font-bold">{summary.stats.totalAtk}</span>
               </div>
               <div className="flex items-center gap-1">
-                <Shield size={10} className="text-cyan-400" />
-                <span className="font-mono text-[10px] text-cyan-400 font-bold">{summary.stats.totalDef}</span>
+                <Shield size={10} className="void-text-energy" />
+                <span className="font-mono text-[10px] void-text-energy font-bold">{summary.stats.totalDef}</span>
               </div>
               <div className="flex items-center gap-1">
-                <Heart size={10} className="text-green-400" />
-                <span className="font-mono text-[10px] text-green-400 font-bold">{summary.stats.totalHp}</span>
+                <Heart size={10} className="void-text-energy" />
+                <span className="font-mono text-[10px] void-text-energy font-bold">{summary.stats.totalHp}</span>
               </div>
               <div className="flex items-center gap-1">
-                <Zap size={10} className="text-amber-400" />
-                <span className="font-mono text-[10px] text-amber-400 font-bold">{summary.stats.totalSpeed}</span>
+                <Zap size={10} className="void-text-accent" />
+                <span className="font-mono text-[10px] void-text-accent font-bold">{summary.stats.totalSpeed}</span>
               </div>
             </div>
 
@@ -117,7 +117,7 @@ export default function CharacterWidget() {
 
             {/* Full character sheet link */}
             <Link href="/character-sheet">
-              <a className="flex items-center justify-center gap-1 px-3 py-2 border-t border-white/5 text-cyan-400/60 hover:text-cyan-400 font-mono text-[10px] transition-colors"
+              <a className="flex items-center justify-center gap-1 px-3 py-2 border-t border-white/5 void-text-energy void-text-energy font-mono text-[10px] transition-colors"
                 onClick={() => setExpanded(false)}>
                 OPEN CHARACTER SHEET <ChevronRight size={10} />
               </a>

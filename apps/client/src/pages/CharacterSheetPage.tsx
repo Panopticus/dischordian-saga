@@ -48,14 +48,14 @@ const CLASS_ICONS: Record<string, React.ComponentType<any>> = {
 };
 
 const ELEMENT_COLORS: Record<string, { text: string; bg: string; glow: string; border: string }> = {
-  earth: { text: "text-amber-400", bg: "bg-amber-500/10", glow: "shadow-[0_0_12px_rgba(245,158,11,0.3)]", border: "border-amber-400/30" },
-  fire: { text: "text-red-400", bg: "bg-red-500/10", glow: "shadow-[0_0_12px_rgba(248,113,113,0.3)]", border: "border-red-400/30" },
-  water: { text: "text-blue-400", bg: "bg-blue-500/10", glow: "shadow-[0_0_12px_rgba(96,165,250,0.3)]", border: "border-blue-400/30" },
-  air: { text: "text-emerald-300", bg: "bg-emerald-500/10", glow: "shadow-[0_0_12px_rgba(110,231,183,0.3)]", border: "border-emerald-300/30" },
-  space: { text: "text-indigo-400", bg: "bg-indigo-500/10", glow: "shadow-[0_0_12px_rgba(129,140,248,0.3)]", border: "border-indigo-400/30" },
-  time: { text: "text-yellow-300", bg: "bg-yellow-500/10", glow: "shadow-[0_0_12px_rgba(253,224,71,0.3)]", border: "border-yellow-300/30" },
-  probability: { text: "text-pink-400", bg: "bg-pink-500/10", glow: "shadow-[0_0_12px_rgba(244,114,182,0.3)]", border: "border-pink-400/30" },
-  reality: { text: "text-violet-400", bg: "bg-violet-500/10", glow: "shadow-[0_0_12px_rgba(167,139,250,0.3)]", border: "border-violet-400/30" },
+  earth: { text: "void-text-accent", bg: "void-bg-sunk", glow: "shadow-[0_0_12px_color-mix(in oklch, var(--energy-accent) 30%, transparent)]", border: "void-border" },
+  fire: { text: "void-text-error", bg: "void-bg-error", glow: "shadow-[0_0_12px_color-mix(in oklch, var(--energy-error) 30%, transparent)]", border: "void-border-error" },
+  water: { text: "void-text-energy", bg: "void-bg-sunk", glow: "shadow-[0_0_12px_color-mix(in oklch, var(--electric-blue) 30%, transparent)]", border: "void-border" },
+  air: { text: "void-text-energy", bg: "void-bg-success", glow: "shadow-[0_0_12px_rgba(110,231,183,0.3)]", border: "void-border-success" },
+  space: { text: "void-text-energy", bg: "void-bg-sunk", glow: "shadow-[0_0_12px_rgba(129,140,248,0.3)]", border: "void-border" },
+  time: { text: "void-text-premium", bg: "void-bg-sunk", glow: "shadow-[0_0_12px_rgba(253,224,71,0.3)]", border: "void-border" },
+  probability: { text: "void-text-error", bg: "void-bg-error", glow: "shadow-[0_0_12px_rgba(244,114,182,0.3)]", border: "void-border-error" },
+  reality: { text: "void-text-system", bg: "void-bg-system", glow: "shadow-[0_0_12px_rgba(167,139,250,0.3)]", border: "void-border-system" },
 };
 
 const SPECIES_LORE: Record<string, { title: string; tagline: string }> = {
@@ -116,11 +116,11 @@ const SLOT_NAMES: Record<string, string> = {
 
 const RARITY_NAMES: Record<string, { label: string; color: string }> = {
   common: { label: "STANDARD ISSUE", color: "text-muted-foreground" },
-  uncommon: { label: "FIELD MODIFIED", color: "text-green-400" },
-  rare: { label: "PRE-AWAKENING", color: "text-blue-400" },
-  epic: { label: "CONSCIOUSNESS-ATTUNED", color: "text-purple-400" },
-  legendary: { label: "VOID-PATTERN", color: "text-amber-400" },
-  mythic: { label: "DREAMER'S DESIGN", color: "text-pink-400" },
+  uncommon: { label: "FIELD MODIFIED", color: "void-text-energy" },
+  rare: { label: "PRE-AWAKENING", color: "void-text-energy" },
+  epic: { label: "CONSCIOUSNESS-ATTUNED", color: "void-text-system" },
+  legendary: { label: "VOID-PATTERN", color: "void-text-accent" },
+  mythic: { label: "DREAMER'S DESIGN", color: "void-text-error" },
 };
 
 const CLEARANCE_TITLES: Record<number, { order: string; chaos: string }> = {
@@ -145,27 +145,27 @@ function BioscanReadout({ value, max = 5, label, immersiveName, color, icon: Ico
   const colorMap = {
     red: {
       bar: "bg-gradient-to-r from-red-500 to-red-400",
-      glow: "shadow-[0_0_12px_rgba(248,113,113,0.3)]",
-      text: "text-red-400",
-      track: "bg-red-400/10",
-      border: "border-red-400/20",
-      bg: "bg-red-500/5",
+      glow: "shadow-[0_0_12px_color-mix(in oklch, var(--energy-error) 30%, transparent)]",
+      text: "void-text-error",
+      track: "void-bg-error",
+      border: "void-border-error",
+      bg: "void-bg-error",
     },
     cyan: {
       bar: "bg-gradient-to-r from-cyan-500 to-cyan-400",
-      glow: "shadow-[0_0_12px_rgba(51,226,230,0.3)]",
-      text: "text-cyan-400",
-      track: "bg-cyan-400/10",
-      border: "border-cyan-400/20",
-      bg: "bg-cyan-500/5",
+      glow: "shadow-[0_0_12px_color-mix(in oklch, var(--energy-primary) 30%, transparent)]",
+      text: "void-text-energy",
+      track: "void-bg-success",
+      border: "void-border-success",
+      bg: "void-bg-success",
     },
     amber: {
       bar: "bg-gradient-to-r from-amber-500 to-amber-400",
-      glow: "shadow-[0_0_12px_rgba(251,191,36,0.3)]",
-      text: "text-amber-400",
-      track: "bg-amber-400/10",
-      border: "border-amber-400/20",
-      bg: "bg-amber-500/5",
+      glow: "shadow-[0_0_12px_color-mix(in oklch, var(--energy-premium) 30%, transparent)]",
+      text: "void-text-accent",
+      track: "void-bg-sunk",
+      border: "void-border",
+      bg: "void-bg-sunk",
     },
   };
   const c = colorMap[color];
@@ -223,11 +223,11 @@ function TacticalPanel({ icon: Icon, label, subtitle, value, color = "cyan" }: {
   icon: React.ComponentType<any>; label: string; subtitle: string; value: string | number; color?: string;
 }) {
   const colorMap: Record<string, string> = {
-    cyan: "text-cyan-400 border-cyan-400/20 bg-cyan-500/5",
-    red: "text-red-400 border-red-400/20 bg-red-500/5",
-    amber: "text-amber-400 border-amber-400/20 bg-amber-500/5",
-    green: "text-emerald-400 border-emerald-400/20 bg-emerald-500/5",
-    purple: "text-purple-400 border-purple-400/20 bg-purple-500/5",
+    cyan: "void-text-energy void-border-success void-bg-success",
+    red: "void-text-error void-border-error void-bg-error",
+    amber: "void-text-accent void-border void-bg-sunk",
+    green: "void-text-energy void-border-success void-bg-success",
+    purple: "void-text-system void-border-system void-bg-system",
   };
   const cls = colorMap[color] || colorMap.cyan;
   const [textColor] = cls.split(" ");
@@ -424,10 +424,10 @@ export default function CharacterSheetPage() {
   if (authLoading) {
     return (
       <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
-      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/CHR-001_operative-dossier.jpg" accent="#33E2E6" opacity={0.13} particleCount={4} scanlines={false} />
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/CHR-001_operative-dossier.jpg" accent="var(--energy-primary)" opacity={0.13} particleCount={4} scanlines={false} />
         <div className="text-center">
-          <div className="w-16 h-16 rounded-full border-2 border-cyan-400/30 mx-auto mb-4 flex items-center justify-center animate-cyber-pulse">
-            <Cpu size={24} className="text-cyan-400" />
+          <div className="w-16 h-16 rounded-full border-2 void-border-success mx-auto mb-4 flex items-center justify-center animate-cyber-pulse">
+            <Cpu size={24} className="void-text-energy" />
           </div>
           <p className="font-mono text-xs text-muted-foreground tracking-[0.2em]">ESTABLISHING NEURAL LINK...</p>
           <p className="font-mono text-[8px] text-muted-foreground/30 mt-1 tracking-wider">Temporal Vault handshake in progress</p>
@@ -440,7 +440,7 @@ export default function CharacterSheetPage() {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="glass-float rounded-lg p-8 max-w-md text-center">
-          <Lock size={48} className="text-red-400 mx-auto mb-4" />
+          <Lock size={48} className="void-text-error mx-auto mb-4" />
           <h2 className="font-display text-xl font-bold tracking-wider mb-2">NEURAL LINK DENIED</h2>
           <p className="font-mono text-xs text-muted-foreground mb-6">Authentication required to access Neural Imprint Reader.</p>
           <a href={getLoginUrl()} className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
@@ -455,8 +455,8 @@ export default function CharacterSheetPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-20 h-20 rounded-full border border-dashed border-cyan-400/20 mx-auto mb-4 animate-[spin_8s_linear_infinite] flex items-center justify-center">
-            <Activity size={28} className="text-cyan-400 animate-pulse" />
+          <div className="w-20 h-20 rounded-full border border-dashed void-border-success mx-auto mb-4 animate-[spin_8s_linear_infinite] flex items-center justify-center">
+            <Activity size={28} className="void-text-energy animate-pulse" />
           </div>
           <p className="font-mono text-xs text-muted-foreground tracking-[0.2em]">SCANNING NEURAL IMPRINT...</p>
           <p className="font-mono text-[8px] text-muted-foreground/30 mt-1 tracking-wider">Decrypting biosignature from cryo records</p>
@@ -485,11 +485,11 @@ export default function CharacterSheetPage() {
   const dream = dreamBalance.data;
   const isOrder = char.alignment === "order";
   const alignGlow = isOrder
-    ? "shadow-[0_0_60px_rgba(51,226,230,0.15),0_0_120px_rgba(51,226,230,0.05)]"
-    : "shadow-[0_0_60px_rgba(168,85,247,0.15),0_0_120px_rgba(168,85,247,0.05)]";
-  const alignBorderColor = isOrder ? "border-cyan-400/25" : "border-purple-400/25";
-  const alignTextColor = isOrder ? "text-cyan-400" : "text-purple-400";
-  const alignBg = isOrder ? "bg-cyan-500/8" : "bg-purple-500/8";
+    ? "shadow-[0_0_60px_color-mix(in oklch, var(--energy-primary) 15%, transparent),0_0_120px_color-mix(in oklch, var(--energy-primary) 5%, transparent)]"
+    : "shadow-[0_0_60px_color-mix(in oklch, var(--energy-system) 15%, transparent),0_0_120px_color-mix(in oklch, var(--energy-system) 5%, transparent)]";
+  const alignBorderColor = isOrder ? "void-border-success" : "void-border-system";
+  const alignTextColor = isOrder ? "void-text-energy" : "void-text-system";
+  const alignBg = isOrder ? "void-bg-success" : "void-bg-system";
   const alignGlowText = isOrder ? "glow-cyan" : "glow-purple";
 
   const ElIcon = ELEMENT_ICONS[char.element] || Sparkles;
@@ -514,8 +514,8 @@ export default function CharacterSheetPage() {
     <div className="min-h-screen relative">
       {/* ═══ BACKGROUND DECORATIONS ═══ */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className={`nebula-blob w-[500px] h-[500px] ${isOrder ? "bg-cyan-500" : "bg-purple-500"} top-[-100px] right-[-100px]`} style={{ animationDelay: "-5s" }} />
-        <div className={`nebula-blob w-[400px] h-[400px] ${isOrder ? "bg-blue-600" : "bg-violet-600"} bottom-[-100px] left-[-100px]`} style={{ animationDelay: "-12s" }} />
+        <div className={`nebula-blob w-[500px] h-[500px] ${isOrder ? "void-bg-success" : "void-bg-system"} top-[-100px] right-[-100px]`} style={{ animationDelay: "-5s" }} />
+        <div className={`nebula-blob w-[400px] h-[400px] ${isOrder ? "void-bg-sunk" : "void-bg-system"} bottom-[-100px] left-[-100px]`} style={{ animationDelay: "-12s" }} />
         <div className="absolute inset-0 grid-bg opacity-60" />
         <div className="absolute inset-0 crt-scanlines pointer-events-none opacity-20" />
       </div>
@@ -530,7 +530,7 @@ export default function CharacterSheetPage() {
             transition={{ duration: 0.5 }}
             className="fixed inset-0 z-50 flex items-center justify-center cursor-pointer"
             onClick={advanceNarrative}
-            style={{ background: "radial-gradient(ellipse at center, rgba(0,5,30,0.95) 0%, rgba(0,0,0,0.98) 100%)" }}
+            style={{ background: "radial-gradient(ellipse at center, rgba(0,5,30,0.95) 0%, color-mix(in oklch, var(--bg-void) 98%, transparent) 100%)" }}
           >
             <div className="absolute inset-0 crt-scanlines pointer-events-none opacity-30" />
             <div className="absolute inset-0 grid-bg opacity-20" />
@@ -551,7 +551,7 @@ export default function CharacterSheetPage() {
               >
                 <div className="flex items-center justify-center gap-2 mb-1">
                   <div className="h-px w-8 bg-gradient-to-r from-transparent to-cyan-400/50" />
-                  <span className="font-mono text-[10px] text-cyan-400/80 tracking-[0.4em]">ELARA // AI COMPANION</span>
+                  <span className="font-mono text-[10px] void-text-energy tracking-[0.4em]">ELARA // AI COMPANION</span>
                   <div className="h-px w-8 bg-gradient-to-l from-transparent to-cyan-400/50" />
                 </div>
               </motion.div>
@@ -563,7 +563,7 @@ export default function CharacterSheetPage() {
               >
                 <p className="font-mono text-sm sm:text-base text-foreground leading-relaxed">
                   {narrativeText}
-                  {isTyping && <span className="inline-block w-2 h-4 bg-cyan-400 ml-0.5 animate-pulse" />}
+                  {isTyping && <span className="inline-block w-2 h-4 void-bg-success ml-0.5 animate-pulse" />}
                 </p>
               </motion.div>
               <div className="flex items-center justify-center gap-2 mt-8">
@@ -571,7 +571,7 @@ export default function CharacterSheetPage() {
                   <div
                     key={i}
                     className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                      i === narrativeStep ? "bg-cyan-400 w-4" : i < narrativeStep ? "bg-cyan-400/40" : "bg-foreground/15"
+                      i === narrativeStep ? "void-bg-success w-4" : i < narrativeStep ? "void-bg-success" : "bg-foreground/15"
                     }`}
                   />
                 ))}
@@ -600,24 +600,24 @@ export default function CharacterSheetPage() {
           </button>
           <div className="flex flex-col items-center gap-0.5">
             <div className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+              <div className="w-1.5 h-1.5 rounded-full void-bg-success animate-pulse" />
               <span className="font-mono text-[9px] text-muted-foreground/60 tracking-[0.3em]">NEURAL IMPRINT // LIVE SCAN</span>
             </div>
             <span className="font-mono text-[7px] text-muted-foreground/30 tracking-[0.2em]">Temporal Vault Status: LOCKED // Time Remaining: [UNKNOWN]</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
-              <span className="font-mono text-[7px] text-red-400/60 tracking-wider">GAME MASTER PROTOCOL: ACTIVE</span>
+              <div className="w-1.5 h-1.5 rounded-full void-bg-error animate-pulse" />
+              <span className="font-mono text-[7px] void-text-error tracking-wider">GAME MASTER PROTOCOL: ACTIVE</span>
             </div>
           </div>
         </div>
         {/* Elara monitoring status */}
         <div className="max-w-5xl mx-auto px-4 pb-2 flex items-center gap-2">
-          <div className="w-4 h-4 rounded-full bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center" data-narrative="breathe">
-            <Eye size={8} className="text-cyan-400" />
+          <div className="w-4 h-4 rounded-full void-bg-success border void-border-success flex items-center justify-center" data-narrative="breathe">
+            <Eye size={8} className="void-text-energy" />
           </div>
-          <span className="font-mono text-[8px] text-cyan-400/50 tracking-[0.2em]">ELARA STATUS: MONITORING</span>
+          <span className="font-mono text-[8px] void-text-energy tracking-[0.2em]">ELARA STATUS: MONITORING</span>
           <div className="flex-1 h-px bg-gradient-to-r from-cyan-400/10 to-transparent" />
           <span className="font-mono text-[8px] text-muted-foreground/30">LVL {char.level}</span>
         </div>
@@ -633,9 +633,9 @@ export default function CharacterSheetPage() {
           animate={{ opacity: 1, y: 0 }}
           className={`relative rounded-xl border ${alignBorderColor} ${alignGlow} overflow-hidden mb-6`}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-[#010020]/80 to-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-[var(--bg-void)]/80 to-black/60" />
           <div className="absolute inset-0 rounded-xl" style={{
-            background: `linear-gradient(90deg, transparent 0%, ${isOrder ? "rgba(51,226,230,0.1)" : "rgba(168,85,247,0.1)"} 50%, transparent 100%)`,
+            background: `linear-gradient(90deg, transparent 0%, ${isOrder ? "color-mix(in oklch, var(--energy-primary) 10%, transparent)" : "color-mix(in oklch, var(--energy-system) 10%, transparent)"} 50%, transparent 100%)`,
             backgroundSize: "200% 100%",
             animation: "border-trace 6s linear infinite",
           }} />
@@ -645,7 +645,7 @@ export default function CharacterSheetPage() {
             {/* Classification header */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${isOrder ? "bg-cyan-400" : "bg-purple-400"} animate-pulse`} />
+                <div className={`w-2 h-2 rounded-full ${isOrder ? "void-bg-success" : "void-bg-system"} animate-pulse`} />
                 <span className="font-mono text-[8px] tracking-[0.4em] text-muted-foreground/50">
                   IDENTITY SCAN // {isOrder ? "ORDER PROTOCOL" : "CHAOS PROTOCOL"}
                 </span>
@@ -660,11 +660,11 @@ export default function CharacterSheetPage() {
               {/* LEFT: Paper Doll Portrait */}
               <div className="flex flex-col items-center sm:items-start gap-3">
                 <div className={`relative rounded-lg border-2 ${alignBorderColor} overflow-hidden flex-shrink-0`}
-                  style={{ boxShadow: isOrder ? '0 0 30px rgba(51,226,230,0.1)' : '0 0 30px rgba(168,85,247,0.1)' }}>
+                  style={{ boxShadow: isOrder ? '0 0 30px color-mix(in oklch, var(--energy-primary) 10%, transparent)' : '0 0 30px color-mix(in oklch, var(--energy-system) 10%, transparent)' }}>
                   <div className={`absolute inset-0 ${alignBg}`} />
                   <div className="absolute inset-0 grid-bg opacity-20" />
                   <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <div className={`absolute w-full h-0.5 ${isOrder ? "bg-cyan-400/20" : "bg-purple-400/20"} animate-scan-line`} />
+                    <div className={`absolute w-full h-0.5 ${isOrder ? "void-bg-success" : "void-bg-system"} animate-scan-line`} />
                   </div>
                   <div className="relative z-10 p-2">
                     <PaperDollRenderer
@@ -679,13 +679,13 @@ export default function CharacterSheetPage() {
                       moralityScore={gameState.moralityScore || 0}
                     />
                   </div>
-                  <div className={`absolute top-1 left-1 w-4 h-4 border-t-2 border-l-2 ${isOrder ? "border-cyan-400/40" : "border-purple-400/40"}`} />
-                  <div className={`absolute top-1 right-1 w-4 h-4 border-t-2 border-r-2 ${isOrder ? "border-cyan-400/40" : "border-purple-400/40"}`} />
-                  <div className={`absolute bottom-1 left-1 w-4 h-4 border-b-2 border-l-2 ${isOrder ? "border-cyan-400/40" : "border-purple-400/40"}`} />
-                  <div className={`absolute bottom-1 right-1 w-4 h-4 border-b-2 border-r-2 ${isOrder ? "border-cyan-400/40" : "border-purple-400/40"}`} />
+                  <div className={`absolute top-1 left-1 w-4 h-4 border-t-2 border-l-2 ${isOrder ? "void-border-success" : "void-border-system"}`} />
+                  <div className={`absolute top-1 right-1 w-4 h-4 border-t-2 border-r-2 ${isOrder ? "void-border-success" : "void-border-system"}`} />
+                  <div className={`absolute bottom-1 left-1 w-4 h-4 border-b-2 border-l-2 ${isOrder ? "void-border-success" : "void-border-system"}`} />
+                  <div className={`absolute bottom-1 right-1 w-4 h-4 border-b-2 border-r-2 ${isOrder ? "void-border-success" : "void-border-system"}`} />
                   {char.species === "neyon" && char.neyonTokenId && (
-                    <div className="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-amber-500/20 border border-amber-400/40 z-20">
-                      <span className="font-mono text-[7px] text-amber-400 font-bold">#{char.neyonTokenId} ✦ 1/1</span>
+                    <div className="absolute top-2 right-2 px-1.5 py-0.5 rounded void-bg-sunk border void-border z-20">
+                      <span className="font-mono text-[7px] void-text-accent font-bold">#{char.neyonTokenId} ✦ 1/1</span>
                     </div>
                   )}
                 </div>
@@ -693,10 +693,10 @@ export default function CharacterSheetPage() {
                 {/* Equipment Stats Summary */}
                 {(equipStats.atk > 0 || equipStats.def > 0 || equipStats.hp > 0 || equipStats.speed > 0) && (
                   <div className="flex flex-wrap gap-1.5 justify-center">
-                    {equipStats.atk > 0 && <span className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-400/15">+{equipStats.atk} ATK</span>}
-                    {equipStats.def > 0 && <span className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-400/15">+{equipStats.def} DEF</span>}
-                    {equipStats.hp > 0 && <span className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-400/15">+{equipStats.hp} HP</span>}
-                    {equipStats.speed > 0 && <span className="font-mono text-[8px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-400/15">+{equipStats.speed} SPD</span>}
+                    {equipStats.atk > 0 && <span className="font-mono text-[8px] px-1.5 py-0.5 rounded void-bg-error void-text-error border void-border-error">+{equipStats.atk} ATK</span>}
+                    {equipStats.def > 0 && <span className="font-mono text-[8px] px-1.5 py-0.5 rounded void-bg-sunk void-text-energy border void-border">+{equipStats.def} DEF</span>}
+                    {equipStats.hp > 0 && <span className="font-mono text-[8px] px-1.5 py-0.5 rounded void-bg-success void-text-energy border void-border-success">+{equipStats.hp} HP</span>}
+                    {equipStats.speed > 0 && <span className="font-mono text-[8px] px-1.5 py-0.5 rounded void-bg-sunk void-text-accent border void-border">+{equipStats.speed} SPD</span>}
                   </div>
                 )}
               </div>
@@ -715,10 +715,10 @@ export default function CharacterSheetPage() {
 
                 {/* Species / Class / Element tags */}
                 <div className="flex flex-wrap gap-1.5 mb-4">
-                  <span className="font-mono text-[9px] px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-400/20">
+                  <span className="font-mono text-[9px] px-2 py-0.5 rounded-full void-bg-sunk void-text-energy border void-border">
                     {speciesLore.title}
                   </span>
-                  <span className="font-mono text-[9px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-400/20 flex items-center gap-1">
+                  <span className="font-mono text-[9px] px-2 py-0.5 rounded-full void-bg-sunk void-text-accent border void-border flex items-center gap-1">
                     <ClIcon size={8} /> {classLore.title} Lv.{char.classLevel}
                   </span>
                   <span className={`font-mono text-[9px] px-2 py-0.5 rounded-full ${elColors.bg} ${elColors.text} ${elColors.border} border flex items-center gap-1`}>
@@ -769,7 +769,7 @@ export default function CharacterSheetPage() {
           transition={{ delay: 0.08 }}
           className="mb-6"
         >
-          <SectionHeader icon={Activity} label="VITAL SIGNS" subtitle="Real-time bioscan diagnostics" color="text-cyan-400" />
+          <SectionHeader icon={Activity} label="VITAL SIGNS" subtitle="Real-time bioscan diagnostics" color="void-text-energy" />
           <div className="grid gap-3">
             <BioscanReadout
               value={char.attrAttack}
@@ -824,7 +824,7 @@ export default function CharacterSheetPage() {
             transition={{ delay: 0.12 }}
             className="glass-float rounded-lg p-4 sm:p-5"
           >
-            <SectionHeader icon={Crosshair} label="TACTICAL ANALYSIS" color="text-red-400" />
+            <SectionHeader icon={Crosshair} label="TACTICAL ANALYSIS" color="void-text-error" />
             <div className="grid grid-cols-2 gap-2.5">
               <TacticalPanel icon={Heart} label="SYSTEM INTEGRITY" subtitle="Total bio-structural capacity" value={char.maxHp} color="red" />
               <TacticalPanel icon={Shield} label="KINETIC ABSORPTION" subtitle="Damage mitigation threshold" value={char.armor} color="cyan" />
@@ -835,7 +835,7 @@ export default function CharacterSheetPage() {
             <button
               onClick={() => levelUpClass.mutate()}
               disabled={levelUpClass.isPending}
-              className="w-full mt-3 py-2 rounded-md bg-amber-500/8 border border-amber-400/20 text-amber-400 font-mono text-[10px] tracking-[0.1em] hover:bg-amber-500/15 transition-all disabled:opacity-50 flex items-center justify-center gap-1.5"
+              className="w-full mt-3 py-2 rounded-md void-bg-sunk border void-border void-text-accent font-mono text-[10px] tracking-[0.1em] void-bg-sunk transition-all disabled:opacity-50 flex items-center justify-center gap-1.5"
             >
               <ArrowUp size={10} /> ENHANCE CLEARANCE ({classLevelCostXp} XP + {classLevelCostDream} Dream)
             </button>
@@ -851,7 +851,7 @@ export default function CharacterSheetPage() {
             transition={{ delay: 0.16 }}
             className="glass-float rounded-lg p-4 sm:p-5"
           >
-            <SectionHeader icon={Layers} label="NEURAL AUGMENTATIONS" color="text-amber-400" />
+            <SectionHeader icon={Layers} label="NEURAL AUGMENTATIONS" color="void-text-accent" />
             {gearEntries.length > 0 ? (
               <div>
                 {gearEntries.map(([slot, itemName]) => {
@@ -871,8 +871,8 @@ export default function CharacterSheetPage() {
                       </div>
                       {equipItem && (
                         <div className="flex gap-1">
-                          {equipItem.stats.atk ? <span className="font-mono text-[8px] text-red-400">+{equipItem.stats.atk}</span> : null}
-                          {equipItem.stats.def ? <span className="font-mono text-[8px] text-blue-400">+{equipItem.stats.def}</span> : null}
+                          {equipItem.stats.atk ? <span className="font-mono text-[8px] void-text-error">+{equipItem.stats.atk}</span> : null}
+                          {equipItem.stats.def ? <span className="font-mono text-[8px] void-text-energy">+{equipItem.stats.def}</span> : null}
                         </div>
                       )}
                     </div>
@@ -888,7 +888,7 @@ export default function CharacterSheetPage() {
             )}
             <button
               onClick={() => setShowEquipPanel(true)}
-              className="w-full mt-3 py-2 rounded-md bg-cyan-500/8 border border-cyan-400/20 text-cyan-400 font-mono text-[10px] tracking-[0.1em] hover:bg-cyan-500/15 transition-all flex items-center justify-center gap-1.5"
+              className="w-full mt-3 py-2 rounded-md void-bg-success border void-border-success void-text-energy font-mono text-[10px] tracking-[0.1em] void-bg-success transition-all flex items-center justify-center gap-1.5"
             >
               <Layers size={10} /> MANAGE AUGMENTATIONS
             </button>
@@ -904,7 +904,7 @@ export default function CharacterSheetPage() {
           transition={{ delay: 0.2 }}
           className="glass-float rounded-lg p-4 sm:p-5 mb-6"
         >
-          <SectionHeader icon={Gem} label="DREAM SUBSTRATE RESERVES" color="text-purple-400" />
+          <SectionHeader icon={Gem} label="DREAM SUBSTRATE RESERVES" color="void-text-system" />
           {dream ? (
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
               <TacticalPanel icon={Gem} label="DREAM RESONANCE" subtitle="Crystallized consciousness units" value={dream.dreamTokens} color="purple" />
@@ -930,7 +930,7 @@ export default function CharacterSheetPage() {
           className="mb-4"
         >
           {/* SECURITY CLEARANCE (Prestige) */}
-          <SectionHeader icon={Star} label="SECURITY CLEARANCE" color="text-amber-400" />
+          <SectionHeader icon={Star} label="SECURITY CLEARANCE" color="void-text-accent" />
           {(() => {
             const prestige = (gameState as any).prestige || 0;
             const stars = getPrestigeStars(prestige);
@@ -942,7 +942,7 @@ export default function CharacterSheetPage() {
               <div className="glass-float rounded-lg p-4 mb-4">
                 <div className="flex items-center justify-between mb-3">
                   <div>
-                    <p className="font-display text-sm font-bold text-amber-400">
+                    <p className="font-display text-sm font-bold void-text-accent">
                       {clearanceLabel} {prestige > 0 ? stars : ""}
                     </p>
                     <p className="font-mono text-[9px] text-muted-foreground/50">
@@ -951,21 +951,21 @@ export default function CharacterSheetPage() {
                   </div>
                   {prestige > 0 && (
                     <div className="text-right">
-                      <p className="font-mono text-[9px] text-amber-400/60">{((getPrestigeLevel(prestige)?.xpMultiplier || 1) * 100 - 100).toFixed(0)}% XP bonus</p>
-                      <p className="font-mono text-[9px] text-green-400/60">{((getPrestigeLevel(prestige)?.resourceMultiplier || 1) * 100 - 100).toFixed(0)}% resource bonus</p>
+                      <p className="font-mono text-[9px] void-text-accent">{((getPrestigeLevel(prestige)?.xpMultiplier || 1) * 100 - 100).toFixed(0)}% XP bonus</p>
+                      <p className="font-mono text-[9px] void-text-energy">{((getPrestigeLevel(prestige)?.resourceMultiplier || 1) * 100 - 100).toFixed(0)}% resource bonus</p>
                     </div>
                   )}
                 </div>
                 {nextLevel && (
-                  <div className="border border-amber-400/10 rounded-lg p-3 bg-amber-500/[0.03]">
-                    <p className="font-mono text-[9px] text-amber-400/70 mb-1">NEXT: {nextLevel.titlePrefix} ({nextLevel.stars}★)</p>
+                  <div className="border void-border rounded-lg p-3 void-bg-sunk/[0.03]">
+                    <p className="font-mono text-[9px] void-text-accent mb-1">NEXT: {nextLevel.titlePrefix} ({nextLevel.stars}★)</p>
                     <p className="font-mono text-[8px] text-white/30">{nextLevel.reward.description}</p>
                     <p className="font-mono text-[8px] text-white/15 italic mt-1">{nextLevel.loreText.substring(0, 120)}...</p>
                   </div>
                 )}
                 {canP && (
                   <button onClick={() => { if (window.confirm("Security clearance upgrade will reset your level, rooms, and quests. NPC trust, cards, equipment, and achievements are kept. Continue?")) { performPrestige(); } }}
-                    className="w-full mt-3 py-2.5 rounded-lg bg-amber-500/10 border border-amber-400/30 text-amber-400 font-mono text-[10px] font-bold tracking-wider hover:bg-amber-500/20 transition-all">
+                    className="w-full mt-3 py-2.5 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-[10px] font-bold tracking-wider void-bg-sunk transition-all">
                     UPGRADE CLEARANCE — Reset level, keep everything that matters
                   </button>
                 )}
@@ -981,7 +981,7 @@ export default function CharacterSheetPage() {
           transition={{ delay: 0.28 }}
           className="mb-4 space-y-3"
         >
-          <SectionHeader icon={Shield} label="MORALITY ALIGNMENT" color="text-purple-400" />
+          <SectionHeader icon={Shield} label="MORALITY ALIGNMENT" color="void-text-system" />
           <MoralityMeter showDetails={true} />
           <MoralityUnlockablesPanel />
           <MoralityMilestoneRewards />
@@ -1004,7 +1004,7 @@ export default function CharacterSheetPage() {
           transition={{ delay: 0.3 }}
           className="mb-4"
         >
-          <SectionHeader icon={Cpu} label="DREAM PARTITION" subtitle="Your corner of the Matrix of Dreams" color="text-violet-400" />
+          <SectionHeader icon={Cpu} label="DREAM PARTITION" subtitle="Your corner of the Matrix of Dreams" color="void-text-system" />
           <CharacterMindPanel
             skills={gameState.innerVoiceSkills as any}
             thoughtState={{
@@ -1032,10 +1032,10 @@ export default function CharacterSheetPage() {
         >
           <button
             onClick={() => setShowRespec(true)}
-            className="w-full py-3 rounded-lg glass-float border border-purple-400/15 hover:border-purple-400/30 hover:bg-purple-500/5 transition-all flex items-center justify-center gap-2.5 group"
+            className="w-full py-3 rounded-lg glass-float border void-border-system void-border-system void-bg-system transition-all flex items-center justify-center gap-2.5 group"
           >
-            <RotateCcw size={14} className="text-purple-400 group-hover:animate-spin" style={{ animationDuration: '2s' }} />
-            <span className="font-display text-[10px] font-bold tracking-[0.25em] text-purple-400">NEURAL RESPEC</span>
+            <RotateCcw size={14} className="void-text-system group-hover:animate-spin" style={{ animationDuration: '2s' }} />
+            <span className="font-display text-[10px] font-bold tracking-[0.25em] void-text-system">NEURAL RESPEC</span>
             <span className="font-mono text-[8px] text-muted-foreground/30">— Reassign attributes, alignment, or element</span>
           </button>
         </motion.div>
@@ -1051,13 +1051,13 @@ export default function CharacterSheetPage() {
           transition={{ delay: 0.34 }}
           className="mb-4"
         >
-          <SectionHeader icon={Target} label="OPERATIONAL RECORD" color="text-green-400" />
+          <SectionHeader icon={Target} label="OPERATIONAL RECORD" color="void-text-energy" />
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
             {[
-              { label: "SECTORS ACCESSED", value: gameState.totalRoomsUnlocked, icon: Unlock, color: "text-cyan-400", border: "border-cyan-400/20" },
-              { label: "ARTIFACTS RECOVERED", value: gameState.totalItemsFound, icon: Star, color: "text-amber-400", border: "border-amber-400/20" },
-              { label: "SIMULATIONS SURVIVED", value: gam.gameSave.totalFights, icon: Swords, color: "text-red-400", border: "border-red-400/20" },
-              { label: "CONSECUTIVE VICTORIES", value: gam.gameSave.bestWinStreak, icon: Trophy, color: "text-purple-400", border: "border-purple-400/20" },
+              { label: "SECTORS ACCESSED", value: gameState.totalRoomsUnlocked, icon: Unlock, color: "void-text-energy", border: "void-border-success" },
+              { label: "ARTIFACTS RECOVERED", value: gameState.totalItemsFound, icon: Star, color: "void-text-accent", border: "void-border" },
+              { label: "SIMULATIONS SURVIVED", value: gam.gameSave.totalFights, icon: Swords, color: "void-text-error", border: "void-border-error" },
+              { label: "CONSECUTIVE VICTORIES", value: gam.gameSave.bestWinStreak, icon: Trophy, color: "void-text-system", border: "void-border-system" },
             ].map((stat) => {
               const Icon = stat.icon;
               return (
@@ -1073,15 +1073,15 @@ export default function CharacterSheetPage() {
           </div>
 
           {/* Achievements as OPERATION: [NAME] */}
-          <SectionHeader icon={Trophy} label="OPERATIONS COMPLETED" color="text-amber-400" />
+          <SectionHeader icon={Trophy} label="OPERATIONS COMPLETED" color="void-text-accent" />
           <div className="space-y-1.5 mb-4">
             {gameState.achievementsEarned.length === 0 ? (
               <p className="font-mono text-[10px] text-muted-foreground/40 text-center py-4">No operations completed. Explore the Ark to unlock classified objectives.</p>
             ) : (
               gameState.achievementsEarned.slice(0, 8).map((ach, i) => (
-                <div key={ach} className="flex items-center gap-2 px-3 py-2 rounded-md bg-amber-500/5 border border-amber-500/10">
-                  <Trophy size={12} className="text-amber-400" />
-                  <span className="font-mono text-[10px] text-amber-300/80 flex-1">OP: {ach.replace(/_/g, ' ').toUpperCase()}</span>
+                <div key={ach} className="flex items-center gap-2 px-3 py-2 rounded-md void-bg-sunk border void-border">
+                  <Trophy size={12} className="void-text-accent" />
+                  <span className="font-mono text-[10px] void-text-accent flex-1">OP: {ach.replace(/_/g, ' ').toUpperCase()}</span>
                 </div>
               ))
             )}
@@ -1091,17 +1091,17 @@ export default function CharacterSheetPage() {
           </div>
 
           {/* ARK RECONNAISSANCE */}
-          <SectionHeader icon={Compass} label="ARK RECONNAISSANCE" color="text-cyan-400" />
+          <SectionHeader icon={Compass} label="ARK RECONNAISSANCE" color="void-text-energy" />
           <div className="grid grid-cols-3 gap-2 mb-4">
             {[
               { label: "Sectors Accessed", value: gameState.totalRoomsUnlocked, max: 10 },
               { label: "Artifacts Found", value: gameState.totalItemsFound, max: 30 },
               { label: "Cards Collected", value: gameState.collectedCards.length, max: 50 },
             ].map((prog) => (
-              <div key={prog.label} className="rounded-lg bg-muted/40 border border-cyan-400/10 p-3">
+              <div key={prog.label} className="rounded-lg bg-muted/40 border void-border-success p-3">
                 <p className="font-mono text-[8px] text-muted-foreground/50 tracking-wider mb-1">{prog.label.toUpperCase()}</p>
                 <div className="flex items-end gap-1">
-                  <span className="font-display text-lg font-bold text-cyan-400">{prog.value}</span>
+                  <span className="font-display text-lg font-bold void-text-energy">{prog.value}</span>
                   <span className="font-mono text-[9px] text-muted-foreground/30 pb-0.5">/ {prog.max}</span>
                 </div>
                 <div className="h-1 rounded-full bg-muted/40 mt-1.5 overflow-hidden">
@@ -1117,13 +1117,13 @@ export default function CharacterSheetPage() {
           </div>
 
           {/* Operative Rank */}
-          <SectionHeader icon={Crown} label="OPERATIVE RANK" color="text-purple-400" />
-          <div className="flex items-center gap-4 px-4 py-3 rounded-lg bg-purple-500/5 border border-purple-500/10 mb-4">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border border-purple-400/30 flex items-center justify-center">
-              <span className="font-display text-lg font-black text-purple-400">{gam.level}</span>
+          <SectionHeader icon={Crown} label="OPERATIVE RANK" color="void-text-system" />
+          <div className="flex items-center gap-4 px-4 py-3 rounded-lg void-bg-system border void-border-system mb-4">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border void-border-system flex items-center justify-center">
+              <span className="font-display text-lg font-black void-text-system">{gam.level}</span>
             </div>
             <div className="flex-1">
-              <p className="font-display text-sm font-bold tracking-wider text-purple-300">{gam.title}</p>
+              <p className="font-display text-sm font-bold tracking-wider void-text-system">{gam.title}</p>
               <p className="font-mono text-[9px] text-muted-foreground/50">{gam.xp} XP // Level {gam.level}</p>
               <div className="h-1.5 rounded-full bg-muted/40 mt-1.5 overflow-hidden">
                 <motion.div
@@ -1146,11 +1146,11 @@ export default function CharacterSheetPage() {
           transition={{ delay: 0.5, duration: 1.5 }}
           className="mb-6 mt-8"
         >
-          <div className="rounded-lg border border-red-500/15 bg-red-500/[0.02] p-4">
+          <div className="rounded-lg border void-border-error void-bg-error/[0.02] p-4">
             <div className="flex items-start gap-3">
-              <AlertTriangle size={14} className="text-red-400/40 mt-0.5 flex-shrink-0" />
+              <AlertTriangle size={14} className="void-text-error mt-0.5 flex-shrink-0" />
               <div>
-                <p className="font-mono text-[9px] text-red-400/50 tracking-[0.2em] mb-1.5">
+                <p className="font-mono text-[9px] void-text-error tracking-[0.2em] mb-1.5">
                   GAME MASTER PROTOCOL: ACTIVE // STATUS: SELF-EXECUTING
                 </p>
                 <p className="font-mono text-[8px] text-muted-foreground/25 leading-relaxed">
@@ -1171,12 +1171,12 @@ export default function CharacterSheetPage() {
           >
             <Link
               href="/ark"
-              className="w-full py-4 rounded-lg border border-cyan-400/30 bg-cyan-500/10 hover:bg-cyan-500/20 hover:border-cyan-400/50 transition-all flex items-center justify-center gap-3 group"
-              style={{ boxShadow: "0 0 30px rgba(51,226,230,0.1)" }}
+              className="w-full py-4 rounded-lg border void-border-success void-bg-success void-bg-success void-border-success transition-all flex items-center justify-center gap-3 group"
+              style={{ boxShadow: "0 0 30px color-mix(in oklch, var(--energy-primary) 10%, transparent)" }}
             >
-              <Sparkles size={16} className="text-cyan-400 group-hover:animate-pulse" />
-              <span className="font-display text-sm font-bold tracking-[0.2em] text-cyan-400">PROCEED TO THE ARK</span>
-              <span className="font-mono text-[9px] text-cyan-400/50">— Begin exploring the ship</span>
+              <Sparkles size={16} className="void-text-energy group-hover:animate-pulse" />
+              <span className="font-display text-sm font-bold tracking-[0.2em] void-text-energy">PROCEED TO THE ARK</span>
+              <span className="font-mono text-[9px] void-text-energy">— Begin exploring the ship</span>
             </Link>
             <p className="text-center font-mono text-[9px] text-muted-foreground/30 mt-2 tracking-wider">
               Elara will guide you through the Cryo Bay and beyond
@@ -1198,10 +1198,10 @@ export default function CharacterSheetPage() {
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-black/95 border border-cyan-500/20 rounded-2xl p-4 sm:p-6"
+                className="w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-black/95 border void-border-success rounded-2xl p-4 sm:p-6"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="font-display text-lg tracking-[0.2em] text-cyan-400">AUGMENTATION GRID</h2>
+                  <h2 className="font-display text-lg tracking-[0.2em] void-text-energy">AUGMENTATION GRID</h2>
                   <button onClick={() => setShowEquipPanel(false)} className="text-white/30 hover:text-white/60">
                     <X size={18} />
                   </button>

@@ -317,12 +317,12 @@ export default function DiscoveryVideoOverlay() {
                   {entry.type && (
                     <span className="font-mono text-[9px] px-2 py-0.5 rounded-full border tracking-wider"
                       style={{
-                        borderColor: entry.type === "character" ? "rgba(51,226,230,0.4)" :
+                        borderColor: entry.type === "character" ? "color-mix(in oklch, var(--energy-primary) 40%, transparent)" :
                           entry.type === "location" ? "rgba(255,176,0,0.4)" :
-                          entry.type === "faction" ? "rgba(168,85,247,0.4)" : "rgba(255,255,255,0.2)",
+                          entry.type === "faction" ? "color-mix(in oklch, var(--energy-system) 40%, transparent)" : "color-mix(in oklch, var(--text-primary) 20%, transparent)",
                         color: entry.type === "character" ? "var(--neon-cyan)" :
                           entry.type === "location" ? "var(--amber-glow)" :
-                          entry.type === "faction" ? "#a855f7" : "rgba(255,255,255,0.6)",
+                          entry.type === "faction" ? "#a855f7" : "color-mix(in oklch, var(--text-primary) 60%, transparent)",
                       }}
                     >
                       {entry.type?.toUpperCase()}
@@ -333,7 +333,7 @@ export default function DiscoveryVideoOverlay() {
                   )}
                 </div>
                 <h2 className="font-display text-2xl sm:text-4xl font-black tracking-wider text-white mb-2"
-                  style={{ textShadow: "0 0 30px rgba(51,226,230,0.3)" }}
+                  style={{ textShadow: "0 0 30px color-mix(in oklch, var(--energy-primary) 30%, transparent)" }}
                 >
                   {videoData?.title || entry.name?.toUpperCase()}
                 </h2>

@@ -48,12 +48,12 @@ export default function SortingCeremony({ skillId, onComplete }: Props) {
       >
         {/* Mechronis Grand Hall background */}
         <ResponsiveImage src="/art/mechronis/environments/mechronis_grand_hall.jpg" alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none" style={{ opacity: 0.2, filter: "brightness(0.4) saturate(1.2)" }} eager />
-        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.85) 100%)" }} />
+        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 30%, color-mix(in oklch, var(--bg-void) 85%, transparent) 100%)" }} />
         <div className="max-w-xl w-full text-center relative z-10">
           {/* Phase 1: arrival */}
           {phase === "arrival" && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-purple-400/60 mb-4">
+              <p className="font-mono text-[10px] uppercase tracking-[0.4em] void-text-system mb-4">
                 Mechronis Academy · Sorting
               </p>
               <h1 className="font-display text-3xl font-bold tracking-wider text-foreground mb-6">
@@ -69,7 +69,7 @@ export default function SortingCeremony({ skillId, onComplete }: Props) {
           {/* Phase 2: vote */}
           {phase === "vote" && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-purple-400/60 mb-4">
+              <p className="font-mono text-[10px] uppercase tracking-[0.4em] void-text-system mb-4">
                 The Vote
               </p>
               <h1 className="font-display text-3xl font-bold tracking-wider text-foreground mb-6">
@@ -105,10 +105,10 @@ export default function SortingCeremony({ skillId, onComplete }: Props) {
           {/* Phase 4: welcome */}
           {phase === "welcome" && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-red-400/70 mb-4">
+              <p className="font-mono text-[10px] uppercase tracking-[0.4em] void-text-error mb-4">
                 The Dark Truth
               </p>
-              <p className="font-mono text-xs italic text-red-300/80 leading-relaxed mb-6">
+              <p className="font-mono text-xs italic void-text-error leading-relaxed mb-6">
                 ⚠ {guild.darkTruth}
               </p>
               <button

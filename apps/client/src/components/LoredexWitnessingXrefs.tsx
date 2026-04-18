@@ -57,13 +57,13 @@ export function LoredexWitnessingXrefs({
   return (
     <section
       aria-label="Witnessing cross-references"
-      className="mt-6 rounded-md border border-amber-900/40 bg-stone-950/60 p-4"
+      className="mt-6 rounded-md border void-border void-bg-canvas p-4"
     >
-      <header className="mb-3 flex items-center gap-2 font-mono text-[11px] text-amber-200 tracking-[0.2em]">
+      <header className="mb-3 flex items-center gap-2 font-mono text-[11px] void-text-accent tracking-[0.2em]">
         <Sparkles size={14} />
         <span>WITNESSING CROSS-REFERENCES</span>
         {entryName && (
-          <span className="ml-auto text-amber-300/50">{entryName}</span>
+          <span className="ml-auto void-text-accent">{entryName}</span>
         )}
       </header>
 
@@ -72,13 +72,13 @@ export function LoredexWitnessingXrefs({
           {directXrefs.map((ref, i) => (
             <li
               key={`${ref.refId}_${i}`}
-              className="flex items-baseline gap-2 border-l border-amber-900/30 pl-3 font-mono text-[11px] text-amber-100/85"
+              className="flex items-baseline gap-2 border-l void-border pl-3 font-mono text-[11px] void-text-accent"
             >
-              <span className="w-20 shrink-0 text-[10px] uppercase text-amber-400/70">
+              <span className="w-20 shrink-0 text-[10px] uppercase void-text-accent">
                 {KIND_LABEL[ref.kind]}
               </span>
               <span className="flex-1">{ref.context}</span>
-              <span className="shrink-0 text-[10px] text-amber-300/50">
+              <span className="shrink-0 text-[10px] void-text-accent">
                 {ref.refId}
               </span>
             </li>
@@ -87,19 +87,19 @@ export function LoredexWitnessingXrefs({
       )}
 
       {activeNotes.length > 0 && (
-        <div className="mt-3 border-t border-amber-900/20 pt-3">
-          <p className="mb-2 font-mono text-[10px] uppercase tracking-wider text-amber-400/70">
+        <div className="mt-3 border-t void-border pt-3">
+          <p className="mb-2 font-mono text-[10px] uppercase tracking-wider void-text-accent">
             Active integrations
           </p>
           <ul className="space-y-1">
             {activeNotes.map((n) => (
               <li
                 key={n.id}
-                className="flex items-start gap-2 font-mono text-[11px] text-amber-100/80"
+                className="flex items-start gap-2 font-mono text-[11px] void-text-accent"
               >
                 <ExternalLink
                   size={10}
-                  className="mt-0.5 shrink-0 text-amber-400/60"
+                  className="mt-0.5 shrink-0 void-text-accent"
                 />
                 <span>{n.reason}</span>
               </li>

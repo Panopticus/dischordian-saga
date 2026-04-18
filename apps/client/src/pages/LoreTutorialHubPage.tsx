@@ -41,7 +41,7 @@ const CATEGORIES: TutorialCategory[] = [
     id: "exploration",
     label: "EXPLORATION & LORE",
     icon: Map,
-    color: "text-cyan-400",
+    color: "void-text-energy",
     mechanics: [
       "Onboarding", "Ark Exploration", "Loredex & Search", "Conspiracy Board", "Timeline",
       "Clue Journal", "Hierarchy", "Doom Scroll",
@@ -51,7 +51,7 @@ const CATEGORIES: TutorialCategory[] = [
     id: "card-games",
     label: "CARD SYSTEMS",
     icon: Layers,
-    color: "text-purple-400",
+    color: "void-text-system",
     mechanics: [
       "Card Collection", "Card Battles", "Card Trading", "Deck Building",
       "Demon Packs", "Draft Tournament", "Card Challenges", "Card Achievements",
@@ -61,7 +61,7 @@ const CATEGORIES: TutorialCategory[] = [
     id: "combat",
     label: "COMBAT & PVP",
     icon: Swords,
-    color: "text-red-400",
+    color: "void-text-error",
     mechanics: [
       "Fighting Game", "PvP Arena", "Boss Battles",
     ],
@@ -70,7 +70,7 @@ const CATEGORIES: TutorialCategory[] = [
     id: "strategy",
     label: "STRATEGY & ECONOMY",
     icon: TrendingUp,
-    color: "text-amber-400",
+    color: "void-text-accent",
     mechanics: [
       "Trade Wars", "War Map", "Store & Economy", "Research Lab",
     ],
@@ -79,7 +79,7 @@ const CATEGORIES: TutorialCategory[] = [
     id: "progression",
     label: "PROGRESSION & MEDIA",
     icon: Star,
-    color: "text-green-400",
+    color: "void-text-energy",
     mechanics: [
       "Character Sheet", "CoNexus Games", "Discography", "Lore Quiz",
       "Potential Registry",
@@ -111,17 +111,17 @@ function TutorialCard({
       onClick={() => onLaunch(tutorial)}
       className={`w-full text-left rounded-lg border overflow-hidden transition-all ${
         isCompleted
-          ? "border-green-500/30 bg-green-500/5 hover:bg-green-500/10"
+          ? "void-border-success void-bg-success void-bg-success"
           : "border-border/60 bg-muted/20 hover:bg-muted/40 hover:border-primary/30"
       }`}
     >
       {/* Header */}
       <div className="px-4 pt-4 pb-2 flex items-start gap-3">
         <div className={`p-2 rounded-lg shrink-0 ${
-          isCompleted ? "bg-green-500/20" : "bg-primary/10"
+          isCompleted ? "void-bg-success" : "bg-primary/10"
         }`}>
           {isCompleted ? (
-            <CheckCircle2 size={18} className="text-green-400" />
+            <CheckCircle2 size={18} className="void-text-energy" />
           ) : (
             <IconComp size={18} className="text-primary" />
           )}
@@ -143,17 +143,17 @@ function TutorialCard({
           <Clock size={10} /> {tutorial.estimatedMinutes}m
         </span>
         {totalDT > 0 && (
-          <span className="font-mono text-[10px] text-yellow-400 flex items-center gap-1">
+          <span className="font-mono text-[10px] void-text-premium flex items-center gap-1">
             <Zap size={10} /> {totalDT} DT
           </span>
         )}
         {totalXP > 0 && (
-          <span className="font-mono text-[10px] text-green-400 flex items-center gap-1">
+          <span className="font-mono text-[10px] void-text-energy flex items-center gap-1">
             <Star size={10} /> {totalXP} XP
           </span>
         )}
         {totalCards > 0 && (
-          <span className="font-mono text-[10px] text-purple-400 flex items-center gap-1">
+          <span className="font-mono text-[10px] void-text-system flex items-center gap-1">
             <Layers size={10} /> {totalCards}
           </span>
         )}
@@ -161,11 +161,11 @@ function TutorialCard({
 
       {/* Alignment preview */}
       <div className="px-4 pb-3 flex items-center gap-2">
-        <CircuitBoard size={10} className="text-cyan-400" />
+        <CircuitBoard size={10} className="void-text-energy" />
         <div className="flex-1 h-1 rounded-full bg-muted/50 overflow-hidden">
           <div className="h-full w-1/2 bg-gradient-to-r from-cyan-500/40 via-purple-500/40 to-amber-500/40" />
         </div>
-        <Heart size={10} className="text-amber-400" />
+        <Heart size={10} className="void-text-accent" />
         <span className="font-mono text-[9px] text-muted-foreground">CHOICES INSIDE</span>
       </div>
     </motion.button>
@@ -284,7 +284,7 @@ export default function LoreTutorialHubPage() {
             {/* Total DT Available */}
             <div>
               <p className="font-mono text-[10px] text-muted-foreground tracking-wider mb-1">TOTAL DREAM TOKENS</p>
-              <span className="font-display text-xl font-bold text-yellow-400 flex items-center gap-1.5">
+              <span className="font-display text-xl font-bold void-text-premium flex items-center gap-1.5">
                 <Zap size={16} /> {totalRewards.dreamTokens.toLocaleString()}
               </span>
             </div>
@@ -292,7 +292,7 @@ export default function LoreTutorialHubPage() {
             {/* Total XP Available */}
             <div>
               <p className="font-mono text-[10px] text-muted-foreground tracking-wider mb-1">TOTAL XP</p>
-              <span className="font-display text-xl font-bold text-green-400 flex items-center gap-1.5">
+              <span className="font-display text-xl font-bold void-text-energy flex items-center gap-1.5">
                 <Star size={16} /> {totalRewards.xp.toLocaleString()}
               </span>
             </div>

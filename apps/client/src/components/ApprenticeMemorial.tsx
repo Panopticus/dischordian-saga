@@ -32,11 +32,11 @@ interface Props {
 /* ─── RARITY COLORS ─── */
 
 const RARITY_COLORS: Record<string, string> = {
-  common: "text-slate-400",
-  uncommon: "text-green-400",
-  rare: "text-blue-400",
-  epic: "text-purple-400",
-  mythic: "text-amber-400",
+  common: "void-text",
+  uncommon: "void-text-energy",
+  rare: "void-text-energy",
+  epic: "void-text-system",
+  mythic: "void-text-accent",
 };
 
 const RARITY_GLOW: Record<string, string> = {
@@ -69,7 +69,7 @@ const ARCHETYPE_TITLES: Record<string, string> = {
 function MemorialEntry({ entry, index }: { entry: FallenApprentice; index: number }) {
   const [expanded, setExpanded] = useState(false);
   const epitaph = generateEpitaph(entry.archetype, entry.causeOfDeath);
-  const rarityColor = RARITY_COLORS[entry.rarity] ?? "text-slate-400";
+  const rarityColor = RARITY_COLORS[entry.rarity] ?? "void-text";
   const rarityGlow = RARITY_GLOW[entry.rarity] ?? "";
   const title = ARCHETYPE_TITLES[entry.archetype] ?? entry.archetype;
   const spectralKey = ARCHETYPE_TO_SPECTRAL[entry.archetype];
@@ -103,8 +103,8 @@ function MemorialEntry({ entry, index }: { entry: FallenApprentice; index: numbe
             />
           )}
           <div className="relative w-5 h-5">
-            <Flame className="w-5 h-5 text-amber-400 candle-glow" />
-            <div className="absolute inset-0 w-5 h-5 rounded-full bg-amber-400/20 candle-glow" />
+            <Flame className="w-5 h-5 void-text-accent candle-glow" />
+            <div className="absolute inset-0 w-5 h-5 rounded-full void-bg-sunk candle-glow" />
           </div>
         </div>
 
@@ -230,7 +230,7 @@ export default function ApprenticeMemorial({ fallen }: Props) {
       {/* Header */}
       <div className="px-4 pt-3 pb-2 border-b border-border/20">
         <div className="flex items-center gap-2">
-          <Flame className="w-4 h-4 text-amber-400/80" />
+          <Flame className="w-4 h-4 void-text-accent" />
           <h2 className="text-sm font-semibold text-foreground tracking-wide">
             Memorial Wall
           </h2>
@@ -251,7 +251,7 @@ export default function ApprenticeMemorial({ fallen }: Props) {
             transition={{ duration: 0.8 }}
             className="py-8 text-center"
           >
-            <Flame className="w-6 h-6 text-amber-400/30 mx-auto mb-3" />
+            <Flame className="w-6 h-6 void-text-accent mx-auto mb-3" />
             <p className="text-sm text-muted-foreground/60 italic">
               No names yet grace this wall. May it stay that way.
             </p>

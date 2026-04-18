@@ -19,7 +19,7 @@ interface Props {
 }
 
 const WORD_KIND_META: Record<DiplomacyWordKind, { label: string; icon: typeof MessageCircle; color: string; description: string }> = {
-  offer: { label: "OFFER", icon: Handshake, color: "#22c55e", description: "A generous offer. Spends goodwill." },
+  offer: { label: "OFFER", icon: Handshake, color: "var(--energy-success)", description: "A generous offer. Spends goodwill." },
   concession: { label: "CONCEDE", icon: Check, color: "#60a5fa", description: "Give ground. Costs pride." },
   threat: { label: "THREAT", icon: AlertTriangle, color: "#f97316", description: "Show teeth. Costs reputation." },
   truth: { label: "TRUTH", icon: Sparkles, color: "#e0b3ff", description: "An uncomfortable truth. Costs privacy." },
@@ -104,8 +104,8 @@ export default function DiplomacyTable({ tableId, onClose, onResolve }: Props) {
         {/* Resolution view */}
         {state.resolved && (
           <div className="space-y-3 mb-4">
-            <div className={`p-4 rounded-lg border ${state.resolved === "success" ? "bg-emerald-500/10 border-emerald-500/30" : "bg-red-500/10 border-red-500/30"}`}>
-              <p className={`font-mono text-sm font-bold ${state.resolved === "success" ? "text-emerald-400" : "text-red-400"}`}>
+            <div className={`p-4 rounded-lg border ${state.resolved === "success" ? "void-bg-success void-border-success" : "void-bg-error void-border-error"}`}>
+              <p className={`font-mono text-sm font-bold ${state.resolved === "success" ? "void-text-energy" : "void-text-error"}`}>
                 {state.resolved === "success" ? "TREATY SIGNED" : "THE TABLE BREAKS"}
               </p>
               <p className="font-mono text-[10px] text-white/60 mt-1">
@@ -176,7 +176,7 @@ export default function DiplomacyTable({ tableId, onClose, onResolve }: Props) {
                   >
                     <div className="flex items-center justify-between mb-1">
                       <p className="font-mono text-[11px] font-bold text-white">{npc.name}</p>
-                      {satisfied && <Check size={12} className="text-emerald-400" />}
+                      {satisfied && <Check size={12} className="void-text-energy" />}
                     </div>
                     <p className="font-mono text-[8px] text-white/40 mb-2">{npc.title}</p>
                     <p className="font-mono text-[8px] text-white/30 italic leading-tight mb-2">{npc.portrait}</p>
@@ -186,7 +186,7 @@ export default function DiplomacyTable({ tableId, onClose, onResolve }: Props) {
                         return (
                           <div
                             key={d.id}
-                            className={`flex-1 h-1 rounded-full ${dMet ? "bg-emerald-400" : "bg-white/10"}`}
+                            className={`flex-1 h-1 rounded-full ${dMet ? "void-bg-success" : "bg-white/10"}`}
                           />
                         );
                       })}
@@ -210,14 +210,14 @@ export default function DiplomacyTable({ tableId, onClose, onResolve }: Props) {
                       key={d.id}
                       onClick={() => setSelectedDemand(d.id)}
                       className={`w-full p-2.5 rounded-lg border text-left transition-colors ${
-                        met ? "border-emerald-500/40 bg-emerald-500/5" :
+                        met ? "void-border-success void-bg-success" :
                         selected ? "border-white/30 bg-white/5" :
                         "border-white/10 bg-white/[0.02] hover:bg-white/[0.04]"
                       }`}
                     >
                       <div className="flex items-start justify-between gap-2">
                         <p className="font-mono text-[10px] text-white flex-1">{d.text}</p>
-                        {met && <Check size={10} className="text-emerald-400 shrink-0 mt-0.5" />}
+                        {met && <Check size={10} className="void-text-energy shrink-0 mt-0.5" />}
                       </div>
                       <div className="flex gap-1.5 mt-1.5">
                         {(Object.entries(d.need) as [DiplomacyWordKind, number][]).map(([kind, need]) => {
@@ -236,7 +236,7 @@ export default function DiplomacyTable({ tableId, onClose, onResolve }: Props) {
                           );
                         })}
                       </div>
-                      {met && <p className="font-mono text-[8px] text-emerald-400/80 italic mt-1">{d.metLine}</p>}
+                      {met && <p className="font-mono text-[8px] void-text-energy italic mt-1">{d.metLine}</p>}
                     </button>
                   );
                 })}

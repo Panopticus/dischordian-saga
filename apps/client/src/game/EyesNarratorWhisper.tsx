@@ -80,16 +80,16 @@ export default function EyesNarratorWhisper({ selectedSectorId, narrativeFlags, 
             className="p-3 rounded-lg border backdrop-blur-sm cursor-pointer"
             style={{
               background: "linear-gradient(135deg, rgba(40,10,60,0.9), rgba(10,0,20,0.95))",
-              borderColor: "rgba(168,85,247,0.35)",
-              boxShadow: "0 0 24px rgba(168,85,247,0.15)",
+              borderColor: "color-mix(in oklch, var(--energy-system) 35%, transparent)",
+              boxShadow: "0 0 24px color-mix(in oklch, var(--energy-system) 15%, transparent)",
             }}
             onClick={() => setVisibleLine(null)}
           >
             <div className="flex items-center gap-1.5 mb-1.5">
-              <Eye size={9} className="text-purple-400" />
-              <p className="font-mono text-[7px] tracking-[0.3em] text-purple-400/70">THE EYES</p>
+              <Eye size={9} className="void-text-system" />
+              <p className="font-mono text-[7px] tracking-[0.3em] void-text-system">THE EYES</p>
             </div>
-            <p className="font-mono text-[10px] leading-relaxed italic text-purple-100/70">
+            <p className="font-mono text-[10px] leading-relaxed italic void-text-system">
               &ldquo;{visibleLine.line}&rdquo;
             </p>
           </div>

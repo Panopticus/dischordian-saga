@@ -29,7 +29,7 @@ export const NPC_PORTRAITS: Record<string, NPCPortrait> = {
     id: "elara", name: "Elara",
     fullPortrait: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528068/elara-base_i4kbzp.jpg",
     bustPortrait: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528068/elara-base_i4kbzp.jpg",
-    color: "#22d3ee",
+    color: "var(--energy-primary)",
     expressions: {
       neutral: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528070/elara-neutral_oeyniw.jpg",
       emotional1: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528069/elara-concerned_mlepd8.jpg",

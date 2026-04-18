@@ -45,15 +45,15 @@ import { getNPCPortrait } from "@/game/npcPortraits";
 const TRADE_BACKGROUNDS: Record<string, { url: string; accent: string }> = {
   map: {
     url: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775675352/TE-001_THE_TRADE_MAP_a5bppy.jpg",
-    accent: "#33E2E6",
+    accent: "var(--energy-primary)",
   },
   market: {
     url: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775675353/TE-002_THE_MARKET_FLOOR_gvqfsj.jpg",
-    accent: "#f59e0b",
+    accent: "var(--energy-accent)",
   },
   colony: {
     url: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775675348/TE-003_THE_COLONY_VIEW_bkon59.jpg",
-    accent: "#22c55e",
+    accent: "var(--energy-success)",
   },
   office: {
     url: "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775675350/TE-004_LOCKES_OFFICE_sqkcmx.jpg",
@@ -92,7 +92,7 @@ const MISSION_TYPE_ICONS: Record<string, typeof Globe> = {
 };
 
 const DIFFICULTY_COLORS: Record<string, string> = {
-  routine: "#22c55e", challenging: "#eab308", dangerous: "#f97316", suicidal: "#ef4444",
+  routine: "var(--energy-success)", challenging: "#eab308", dangerous: "#f97316", suicidal: "var(--energy-error)",
 };
 
 /** Which Act 3 factions have a diplomacy minigame table. Maps faction → table id. */
@@ -177,7 +177,7 @@ function RoutesPanel({
             <div className="flex gap-2">
               <button
                 onClick={() => runRoute(route.id)}
-                className="px-3 py-1 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-[9px] font-bold hover:bg-emerald-500/20"
+                className="px-3 py-1 rounded void-bg-success border void-border-success void-text-energy font-mono text-[9px] font-bold void-bg-success"
               >
                 RUN ROUTE
               </button>
@@ -212,7 +212,7 @@ function RoutesPanel({
                 key={sector.id}
                 onClick={() => toggleSector(sector.id)}
                 className={`p-1.5 rounded text-left font-mono text-[9px] border transition-colors ${
-                  selected ? "border-cyan-500/40 bg-cyan-500/10 text-cyan-300" : "border-white/10 bg-white/[0.02] text-white/50 hover:bg-white/5"
+                  selected ? "void-border-success void-bg-success void-text-energy" : "border-white/10 bg-white/[0.02] text-white/50 hover:bg-white/5"
                 }`}
               >
                 {selected && `${idx + 1}. `}{sector.name}
@@ -223,7 +223,7 @@ function RoutesPanel({
         <button
           onClick={saveRoute}
           disabled={draft.length < 2 || !newName.trim()}
-          className="w-full py-2 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-[10px] font-bold disabled:opacity-30 disabled:cursor-not-allowed hover:bg-cyan-500/20"
+          className="w-full py-2 rounded void-bg-success border void-border-success void-text-energy font-mono text-[10px] font-bold disabled:opacity-30 disabled:cursor-not-allowed void-bg-success"
         >
           SAVE ROUTE
         </button>
@@ -709,10 +709,10 @@ export default function TradeEmpirePage() {
           </div>
         </div>
         <div className="flex items-center gap-3 font-mono text-[10px]">
-          <span className="text-amber-400">{empire.credits} <span className="text-white/20">CRD</span></span>
-          <span className="text-cyan-400">{empire.materials} <span className="text-white/20">MAT</span></span>
-          <span className="text-purple-400">{empire.influence} <span className="text-white/20">INF</span></span>
-          <span className="text-blue-400">{empire.intelligence} <span className="text-white/20">INT</span></span>
+          <span className="void-text-accent">{empire.credits} <span className="text-white/20">CRD</span></span>
+          <span className="void-text-energy">{empire.materials} <span className="text-white/20">MAT</span></span>
+          <span className="void-text-system">{empire.influence} <span className="text-white/20">INF</span></span>
+          <span className="void-text-energy">{empire.intelligence} <span className="text-white/20">INT</span></span>
           <span className="text-white/20">{empire.controlledSectors.length} sectors</span>
         </div>
       </div>
@@ -738,7 +738,7 @@ export default function TradeEmpirePage() {
               }`}>
               <Icon size={12} /> {tab.label}
               {tab.id === "missions" && completedActiveMissions.length > 0 && (
-                <span className="w-4 h-4 rounded-full bg-emerald-500 text-black text-[8px] flex items-center justify-center">{completedActiveMissions.length}</span>
+                <span className="w-4 h-4 rounded-full void-bg-success text-black text-[8px] flex items-center justify-center">{completedActiveMissions.length}</span>
               )}
             </button>
           );
@@ -766,7 +766,7 @@ export default function TradeEmpirePage() {
                   style={{
                     backgroundColor: factionFilter === f.id ? f.color + "40" : f.color + "10",
                     border: `1px solid ${f.color}30`,
-                    color: factionFilter === f.id ? "#fff" : "rgba(255,255,255,0.5)",
+                    color: factionFilter === f.id ? "#fff" : "color-mix(in oklch, var(--text-primary) 50%, transparent)",
                   }}
                 >
                   {f.name.replace("The ", "")}
@@ -787,7 +787,7 @@ export default function TradeEmpirePage() {
                     <button
                       key={id}
                       onClick={() => setSelectedSector(id)}
-                      className="px-2 py-1 rounded bg-amber-500/10 border border-amber-500/30 font-mono text-[9px] text-amber-300 hover:bg-amber-500/20 flex items-center gap-1"
+                      className="px-2 py-1 rounded void-bg-sunk border void-border font-mono text-[9px] void-text-accent void-bg-sunk flex items-center gap-1"
                     >
                       <Bookmark size={9} />
                       {sec.name}
@@ -825,7 +825,7 @@ export default function TradeEmpirePage() {
                     >
                       <Bookmark
                         size={12}
-                        className={(empire.sectorBookmarks ?? []).includes(selectedSectorData.id) ? "text-amber-400 fill-amber-400" : "text-white/30"}
+                        className={(empire.sectorBookmarks ?? []).includes(selectedSectorData.id) ? "void-text-accent fill-amber-400" : "text-white/30"}
                       />
                     </button>
                   </div>
@@ -835,15 +835,15 @@ export default function TradeEmpirePage() {
                 </div>
                 <div className="grid grid-cols-4 gap-3 mb-3">
                   <div className="text-center p-2 rounded bg-white/5">
-                    <p className="font-mono text-xs text-amber-400 font-bold">{selectedSectorData.resources.credits}</p>
+                    <p className="font-mono text-xs void-text-accent font-bold">{selectedSectorData.resources.credits}</p>
                     <p className="font-mono text-[8px] text-white/30">Credits/cycle</p>
                   </div>
                   <div className="text-center p-2 rounded bg-white/5">
-                    <p className="font-mono text-xs text-cyan-400 font-bold">{selectedSectorData.resources.materials}</p>
+                    <p className="font-mono text-xs void-text-energy font-bold">{selectedSectorData.resources.materials}</p>
                     <p className="font-mono text-[8px] text-white/30">Materials</p>
                   </div>
                   <div className="text-center p-2 rounded bg-white/5">
-                    <p className={`font-mono text-xs font-bold ${selectedSectorData.threat > 60 ? "text-red-400" : "text-green-400"}`}>{selectedSectorData.threat}%</p>
+                    <p className={`font-mono text-xs font-bold ${selectedSectorData.threat > 60 ? "void-text-error" : "void-text-energy"}`}>{selectedSectorData.threat}%</p>
                     <p className="font-mono text-[8px] text-white/30">Threat</p>
                   </div>
                   <div className="text-center p-2 rounded bg-white/5">
@@ -857,10 +857,10 @@ export default function TradeEmpirePage() {
                 {/* Available missions for this sector */}
                 {availableMissions.filter(m => m.targetSector === selectedSector).map(mission => (
                   <button key={mission.id} onClick={() => setSelectedMission(mission)}
-                    className="w-full mt-2 flex items-center gap-2 p-2 rounded-lg bg-amber-500/5 border border-amber-500/20 text-left hover:bg-amber-500/10 transition-colors">
-                    <Target size={12} className="text-amber-400 shrink-0" />
+                    className="w-full mt-2 flex items-center gap-2 p-2 rounded-lg void-bg-sunk border void-border text-left void-bg-sunk transition-colors">
+                    <Target size={12} className="void-text-accent shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <p className="font-mono text-[10px] text-amber-400 font-bold truncate">{mission.name}</p>
+                      <p className="font-mono text-[10px] void-text-accent font-bold truncate">{mission.name}</p>
                       <p className="font-mono text-[8px] text-white/30">from {mission.offeredBy}</p>
                     </div>
                     <ChevronRight size={10} className="text-white/20" />
@@ -877,24 +877,24 @@ export default function TradeEmpirePage() {
             {/* Completed missions ready to collect */}
             {completedActiveMissions.length > 0 && (
               <div className="space-y-2">
-                <p className="font-mono text-[10px] text-emerald-400 tracking-wider">MISSIONS COMPLETE — COLLECT REWARDS</p>
+                <p className="font-mono text-[10px] void-text-energy tracking-wider">MISSIONS COMPLETE — COLLECT REWARDS</p>
                 {completedActiveMissions.map(am => {
                   const mission = STARTER_MISSIONS.find(m => m.id === am.missionId);
                   if (!mission) return null;
                   return (
                     <button key={am.missionId} onClick={() => collectRewards(am.missionId)}
-                      className="w-full flex items-center gap-3 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-left hover:bg-emerald-500/20 transition-colors">
-                      <Star size={16} className="text-emerald-400 shrink-0" />
+                      className="w-full flex items-center gap-3 p-3 rounded-xl void-bg-success border void-border-success text-left void-bg-success transition-colors">
+                      <Star size={16} className="void-text-energy shrink-0" />
                       <div className="flex-1">
                         <p className="font-mono text-xs text-white font-bold">{mission.name}</p>
                         <div className="flex gap-2 mt-1 font-mono text-[9px]">
-                          {mission.rewards.credits && <span className="text-amber-400">+{mission.rewards.credits} CRD</span>}
-                          {mission.rewards.materials && <span className="text-cyan-400">+{mission.rewards.materials} MAT</span>}
-                          {mission.rewards.influence && <span className="text-purple-400">+{mission.rewards.influence} INF</span>}
-                          {mission.rewards.intelligence && <span className="text-blue-400">+{mission.rewards.intelligence} INT</span>}
+                          {mission.rewards.credits && <span className="void-text-accent">+{mission.rewards.credits} CRD</span>}
+                          {mission.rewards.materials && <span className="void-text-energy">+{mission.rewards.materials} MAT</span>}
+                          {mission.rewards.influence && <span className="void-text-system">+{mission.rewards.influence} INF</span>}
+                          {mission.rewards.intelligence && <span className="void-text-energy">+{mission.rewards.intelligence} INT</span>}
                         </div>
                       </div>
-                      <span className="font-mono text-[10px] text-emerald-400 font-bold">COLLECT</span>
+                      <span className="font-mono text-[10px] void-text-energy font-bold">COLLECT</span>
                     </button>
                   );
                 })}
@@ -917,7 +917,7 @@ export default function TradeEmpirePage() {
                         <span className="font-mono text-[9px] text-white/30 flex items-center gap-1"><Clock size={9} /> {hoursLeft}h</span>
                       </div>
                       <div className="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
-                        <div className="h-full rounded-full bg-cyan-500 transition-all" style={{ width: `${progress}%` }} />
+                        <div className="h-full rounded-full void-bg-success transition-all" style={{ width: `${progress}%` }} />
                       </div>
                     </div>
                   );
@@ -980,7 +980,7 @@ export default function TradeEmpirePage() {
                   </div>
                   <div className="text-right shrink-0">
                     <p className={`font-mono text-xs font-bold ${
-                      dip.reputation > 30 ? "text-emerald-400" : dip.reputation > 0 ? "text-amber-400" : dip.reputation > -30 ? "text-orange-400" : "text-red-400"
+                      dip.reputation > 30 ? "void-text-energy" : dip.reputation > 0 ? "void-text-accent" : dip.reputation > -30 ? "void-text-premium" : "void-text-error"
                     }`}>{dip.reputation > 0 ? "+" : ""}{dip.reputation}</p>
                     <p className="font-mono text-[8px] text-white/20">
                       {dip.atWar ? "AT WAR" : dip.reputation > 50 ? "Allied" : dip.reputation > 20 ? "Friendly" : dip.reputation > -20 ? "Neutral" : dip.reputation > -50 ? "Hostile" : "Enemy"}
@@ -1009,7 +1009,7 @@ export default function TradeEmpirePage() {
             <p className="font-mono text-[10px] text-white/30 tracking-wider mb-3">YOUR FLEET</p>
             {empire.fleet.map(ship => (
               <div key={ship.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/10">
-                <Send size={14} className="text-cyan-400 shrink-0" />
+                <Send size={14} className="void-text-energy shrink-0" />
                 <div className="flex-1">
                   <p className="font-mono text-xs text-white font-bold">{ship.name}</p>
                   <p className="font-mono text-[9px] text-white/30">{ship.type} • {ship.currentSector}</p>
@@ -1018,7 +1018,7 @@ export default function TradeEmpirePage() {
                   <span>⚔{ship.combat}</span>
                   <span>🚀{ship.speed}</span>
                   <span>📦{ship.cargo}</span>
-                  <span className={ship.health < ship.maxHealth * 0.5 ? "text-red-400" : "text-green-400"}>
+                  <span className={ship.health < ship.maxHealth * 0.5 ? "void-text-error" : "void-text-energy"}>
                     HP {ship.health}/{ship.maxHealth}
                   </span>
                 </div>
@@ -1035,11 +1035,11 @@ export default function TradeEmpirePage() {
               const tech = getTechById(techState.currentResearch.techId);
               const progress = Math.min(100, ((Date.now() - techState.currentResearch.startedAt) / (techState.currentResearch.endsAt - techState.currentResearch.startedAt)) * 100);
               return tech ? (
-                <div className="p-3 rounded-xl bg-cyan-500/5 border border-cyan-500/20">
-                  <p className="font-mono text-[9px] text-cyan-400/60 tracking-wider mb-1">RESEARCHING</p>
-                  <p className="font-mono text-sm text-cyan-400 font-bold">{tech.name}</p>
+                <div className="p-3 rounded-xl void-bg-success border void-border-success">
+                  <p className="font-mono text-[9px] void-text-energy tracking-wider mb-1">RESEARCHING</p>
+                  <p className="font-mono text-sm void-text-energy font-bold">{tech.name}</p>
                   <div className="h-1.5 rounded-full bg-white/5 mt-2 overflow-hidden">
-                    <div className="h-full rounded-full bg-cyan-400 transition-all" style={{ width: `${progress}%` }} />
+                    <div className="h-full rounded-full void-bg-success transition-all" style={{ width: `${progress}%` }} />
                   </div>
                   <p className="font-mono text-[8px] text-white/20 mt-1">{Math.round(progress)}% complete</p>
                 </div>
@@ -1049,7 +1049,7 @@ export default function TradeEmpirePage() {
             {/* Tech branches */}
             {(["military", "economic", "diplomatic"] as TechBranch[]).map(branch => {
               const techs = getTechsByBranch(branch);
-              const branchColor = branch === "military" ? "#ef4444" : branch === "economic" ? "#22c55e" : "#a855f7";
+              const branchColor = branch === "military" ? "var(--energy-error)" : branch === "economic" ? "var(--energy-success)" : "#a855f7";
               return (
                 <div key={branch}>
                   <p className="font-mono text-[10px] tracking-wider mb-2" style={{ color: branchColor }}>
@@ -1067,13 +1067,13 @@ export default function TradeEmpirePage() {
                           disabled={researched || !available || !!techState.currentResearch}
                           className={`w-full text-left p-3 rounded-lg border transition-all ${
                             researched ? "border-white/10 bg-white/5 opacity-60" :
-                            isResearching ? "border-cyan-500/30 bg-cyan-500/5" :
+                            isResearching ? "void-border-success void-bg-success" :
                             available ? "border-white/10 bg-white/[0.02] hover:bg-white/[0.04] cursor-pointer" :
                             "border-white/5 bg-white/[0.01] opacity-30"
                           }`}
                         >
                           <div className="flex items-center justify-between mb-1">
-                            <span className="font-mono text-xs font-bold" style={{ color: researched ? "rgba(255,255,255,0.4)" : branchColor }}>
+                            <span className="font-mono text-xs font-bold" style={{ color: researched ? "color-mix(in oklch, var(--text-primary) 40%, transparent)" : branchColor }}>
                               {researched ? "✓ " : ""}{tech.name}
                             </span>
                             <span className="font-mono text-[8px] text-white/20">T{tech.tier} • {tech.cost.influence} INF{tech.researchHours}h</span>
@@ -1096,15 +1096,15 @@ export default function TradeEmpirePage() {
           if (!act3 || !act3.eyesTransmissionSeen) {
             return (
               <div className="flex flex-col items-center justify-center min-h-[40vh] gap-4 text-center">
-                <Eye size={48} className="text-purple-400/40" />
-                <p className="font-display text-sm tracking-widest text-purple-300">THE EYES IN THE DARK</p>
+                <Eye size={48} className="void-text-system" />
+                <p className="font-display text-sm tracking-widest void-text-system">THE EYES IN THE DARK</p>
                 <p className="font-mono text-[11px] text-white/50 max-w-md leading-relaxed">
                   An archival transmission is waiting in the Ark's substrate layer. Seventeen thousand years old.
                   A woman's voice. She knows both of your companions by name.
                 </p>
                 <button
                   onClick={() => setShowEyesTransmission(true)}
-                  className="mt-2 px-5 py-2.5 rounded-lg bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono text-xs font-bold hover:bg-purple-500/30"
+                  className="mt-2 px-5 py-2.5 rounded-lg void-bg-system border void-border-system void-text-system font-mono text-xs font-bold void-bg-system"
                 >
                   PLAY THE TRANSMISSION
                 </button>
@@ -1127,16 +1127,16 @@ export default function TradeEmpirePage() {
                   <p className="font-mono text-[8px] text-white/40">{act3Complete ? "Act 3 complete" : `${5 - resolvedCount} to unlock ending`}</p>
                 </div>
                 <div>
-                  <p className="font-mono text-[9px] text-red-400/60 tracking-wider">CONQUEST</p>
-                  <p className="font-mono text-lg font-bold text-red-400">{paths.conquest}</p>
+                  <p className="font-mono text-[9px] void-text-error tracking-wider">CONQUEST</p>
+                  <p className="font-mono text-lg font-bold void-text-error">{paths.conquest}</p>
                 </div>
                 <div>
-                  <p className="font-mono text-[9px] text-amber-400/60 tracking-wider">DIPLOMACY</p>
-                  <p className="font-mono text-lg font-bold text-amber-400">{paths.diplomacy}</p>
+                  <p className="font-mono text-[9px] void-text-accent tracking-wider">DIPLOMACY</p>
+                  <p className="font-mono text-lg font-bold void-text-accent">{paths.diplomacy}</p>
                 </div>
                 <div>
-                  <p className="font-mono text-[9px] text-purple-400/60 tracking-wider">INFILTRATION</p>
-                  <p className="font-mono text-lg font-bold text-purple-400">{paths.infiltration}</p>
+                  <p className="font-mono text-[9px] void-text-system tracking-wider">INFILTRATION</p>
+                  <p className="font-mono text-lg font-bold void-text-system">{paths.infiltration}</p>
                 </div>
               </div>
 
@@ -1146,11 +1146,11 @@ export default function TradeEmpirePage() {
                   {!act3.collectorBossFought && (
                     <button
                       onClick={() => setShowCollector(true)}
-                      className="flex-1 p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-left hover:bg-rose-500/20"
+                      className="flex-1 p-3 rounded-xl void-bg-error border void-border-error text-left void-bg-error"
                     >
                       <div className="flex items-center gap-2">
-                        <Flower2 size={14} className="text-rose-400" />
-                        <p className="font-mono text-xs font-bold text-rose-300">THE COLLECTOR'S GARDEN</p>
+                        <Flower2 size={14} className="void-text-error" />
+                        <p className="font-mono text-xs font-bold void-text-error">THE COLLECTOR'S GARDEN</p>
                       </div>
                       <p className="font-mono text-[9px] text-white/40 mt-1">A Thalorian field. A helmet in the grass. A boss fight.</p>
                     </button>
@@ -1158,20 +1158,20 @@ export default function TradeEmpirePage() {
                   {act3.collectorBossFought && !act3.act3Ending && (
                     <button
                       onClick={() => setShowEndingReveal(true)}
-                      className="flex-1 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-left hover:bg-amber-500/20"
+                      className="flex-1 p-3 rounded-xl void-bg-sunk border void-border text-left void-bg-sunk"
                     >
                       <div className="flex items-center gap-2">
-                        <Crown size={14} className="text-amber-400" />
-                        <p className="font-mono text-xs font-bold text-amber-300">REACH AN ENDING</p>
+                        <Crown size={14} className="void-text-accent" />
+                        <p className="font-mono text-xs font-bold void-text-accent">REACH AN ENDING</p>
                       </div>
                       <p className="font-mono text-[9px] text-white/40 mt-1">Eligible: {eligibleEnding ? ACT3_ENDINGS[eligibleEnding].title : "none yet"}</p>
                     </button>
                   )}
                   {act3.act3Ending && (
-                    <div className="flex-1 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
+                    <div className="flex-1 p-3 rounded-xl void-bg-success border void-border-success">
                       <div className="flex items-center gap-2">
-                        <Check size={14} className="text-emerald-400" />
-                        <p className="font-mono text-xs font-bold text-emerald-300">ENDING: {ACT3_ENDINGS[act3.act3Ending].title.toUpperCase()}</p>
+                        <Check size={14} className="void-text-energy" />
+                        <p className="font-mono text-xs font-bold void-text-energy">ENDING: {ACT3_ENDINGS[act3.act3Ending].title.toUpperCase()}</p>
                       </div>
                       <p className="font-mono text-[9px] text-white/40 mt-1">Act 4 unlocked.</p>
                     </div>
@@ -1195,9 +1195,9 @@ export default function TradeEmpirePage() {
                     <div
                       key={fId}
                       className={`p-3 rounded-xl border transition-colors ${
-                        isResolved ? "bg-emerald-500/5 border-emerald-500/30" :
-                        isFailed ? "bg-red-500/5 border-red-500/20" :
-                        isInProgress ? "bg-cyan-500/5 border-cyan-500/30" :
+                        isResolved ? "void-bg-success void-border-success" :
+                        isFailed ? "void-bg-error void-border-error" :
+                        isInProgress ? "void-bg-success void-border-success" :
                         "bg-white/[0.02] border-white/10"
                       }`}
                     >
@@ -1205,9 +1205,9 @@ export default function TradeEmpirePage() {
                         <div className="flex items-center gap-2 mb-1">
                           <div className="w-3 h-3 rounded-full" style={{ backgroundColor: faction.color }} />
                           <p className="font-mono text-xs font-bold text-white flex-1">{faction.name}</p>
-                          {isResolved && <Check size={12} className="text-emerald-400" />}
-                          {isFailed && <AlertTriangle size={12} className="text-red-400" />}
-                          {isInProgress && <Clock size={12} className="text-cyan-400" />}
+                          {isResolved && <Check size={12} className="void-text-energy" />}
+                          {isFailed && <AlertTriangle size={12} className="void-text-error" />}
+                          {isInProgress && <Clock size={12} className="void-text-energy" />}
                         </div>
                         <p className="font-mono text-[9px] text-white/40">Boss: {def.boss}</p>
                         {chosenPathDef && (
@@ -1241,7 +1241,7 @@ export default function TradeEmpirePage() {
                                       {pathDef.name}
                                     </p>
                                     <p className="font-mono text-[8px] text-white/40 mt-1 leading-tight">{pathDef.summary}</p>
-                                    {impossible && <p className="font-mono text-[8px] text-red-400/80 mt-1 italic">IMPOSSIBLE (see spec)</p>}
+                                    {impossible && <p className="font-mono text-[8px] void-text-error mt-1 italic">IMPOSSIBLE (see spec)</p>}
                                   </button>
                                 );
                               })}
@@ -1259,14 +1259,14 @@ export default function TradeEmpirePage() {
                                   <div
                                     key={stage.id}
                                     className={`p-2 rounded-lg mb-1 border ${
-                                      done ? "bg-emerald-500/5 border-emerald-500/30" :
-                                      available ? "bg-cyan-500/5 border-cyan-500/30" :
+                                      done ? "void-bg-success void-border-success" :
+                                      available ? "void-bg-success void-border-success" :
                                       "bg-white/[0.02] border-white/5 opacity-50"
                                     }`}
                                   >
                                     <div className="flex items-center justify-between">
                                       <p className="font-mono text-[10px] text-white font-bold">{idx + 1}. {stage.name}</p>
-                                      {done && <Check size={10} className="text-emerald-400" />}
+                                      {done && <Check size={10} className="void-text-energy" />}
                                     </div>
                                     <p className="font-mono text-[9px] text-white/50 mt-0.5">{stage.description}</p>
                                     <p className="font-mono text-[8px] text-white/30 italic mt-0.5">→ {stage.objective}</p>
@@ -1286,7 +1286,7 @@ export default function TradeEmpirePage() {
                                                   completeArcStage(fId, stage.id);
                                                 }
                                               }}
-                                              className="px-2 py-1 rounded bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-[9px] hover:bg-amber-500/20"
+                                              className="px-2 py-1 rounded void-bg-sunk border void-border void-text-accent font-mono text-[9px] void-bg-sunk"
                                             >
                                               OPEN THE TABLE
                                             </button>
@@ -1297,14 +1297,14 @@ export default function TradeEmpirePage() {
                                                 setActiveInfiltrationFaction(fId);
                                                 setActiveInfiltrationStage(stage.id);
                                               }}
-                                              className="px-2 py-1 rounded bg-purple-500/10 border border-purple-500/30 text-purple-400 font-mono text-[9px] hover:bg-purple-500/20"
+                                              className="px-2 py-1 rounded void-bg-system border void-border-system void-text-system font-mono text-[9px] void-bg-system"
                                             >
                                               ENTER INFILTRATION
                                             </button>
                                           )}
                                           <button
                                             onClick={() => completeArcStage(fId, stage.id)}
-                                            className="px-2 py-1 rounded bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-[9px] hover:bg-cyan-500/20"
+                                            className="px-2 py-1 rounded void-bg-success border void-border-success void-text-energy font-mono text-[9px] void-bg-success"
                                           >
                                             MARK STAGE COMPLETE
                                           </button>
@@ -1315,7 +1315,7 @@ export default function TradeEmpirePage() {
                                 );
                               })}
                               {chosenPathDef.reward.description && (
-                                <p className="font-mono text-[9px] text-emerald-300/80 italic mt-2 border-l-2 border-emerald-500/30 pl-2">
+                                <p className="font-mono text-[9px] void-text-energy italic mt-2 border-l-2 void-border-success pl-2">
                                   Reward on completion: {chosenPathDef.reward.description}
                                 </p>
                               )}
@@ -1324,14 +1324,14 @@ export default function TradeEmpirePage() {
 
                           {isResolved && chosenPathDef && (
                             <div>
-                              <p className="font-mono text-[9px] text-emerald-400 tracking-wider">RESOLVED — {chosenPathDef.name}</p>
+                              <p className="font-mono text-[9px] void-text-energy tracking-wider">RESOLVED — {chosenPathDef.name}</p>
                               <p className="font-mono text-[9px] text-white/60 mt-1 italic">{chosenPathDef.reward.description}</p>
                             </div>
                           )}
 
                           {isFailed && chosenPathDef && (
                             <div>
-                              <p className="font-mono text-[9px] text-red-400 tracking-wider">FAILED — {chosenPathDef.name}</p>
+                              <p className="font-mono text-[9px] void-text-error tracking-wider">FAILED — {chosenPathDef.name}</p>
                               <p className="font-mono text-[9px] text-white/60 mt-1 italic">{chosenPathDef.summary}</p>
                             </div>
                           )}
@@ -1350,8 +1350,8 @@ export default function TradeEmpirePage() {
                   </p>
                   <div className="space-y-2">
                     {EYES_LORE_FRAGMENTS.filter(f => act3.discoveredFragments.includes(f.id)).map(frag => (
-                      <div key={frag.id} className="p-3 rounded-lg bg-purple-500/5 border border-purple-500/20">
-                        <p className="font-mono text-[10px] font-bold text-purple-300">{frag.title}</p>
+                      <div key={frag.id} className="p-3 rounded-lg void-bg-system border void-border-system">
+                        <p className="font-mono text-[10px] font-bold void-text-system">{frag.title}</p>
                         <p className="font-mono text-[8px] text-white/30">{frag.period}</p>
                         <p className="font-mono text-[9px] text-white/60 italic mt-1 leading-relaxed">{frag.narrative}</p>
                       </div>
@@ -1365,11 +1365,11 @@ export default function TradeEmpirePage() {
                 ((act3.arcs.new_babylon?.status === "resolved") || (act3.arcs.artificial_empire?.status === "resolved")) && (
                 <button
                   onClick={() => setShowOcularum(true)}
-                  className="w-full p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 text-left"
+                  className="w-full p-3 rounded-xl void-bg-sunk border void-border void-bg-sunk text-left"
                 >
                   <div className="flex items-center gap-2">
-                    <Eye size={14} className="text-amber-400" />
-                    <p className="font-mono text-xs font-bold text-amber-300">OCULARUM — THE WATCHER'S ORIGIN</p>
+                    <Eye size={14} className="void-text-accent" />
+                    <p className="font-mono text-xs font-bold void-text-accent">OCULARUM — THE WATCHER'S ORIGIN</p>
                   </div>
                   <p className="font-mono text-[9px] text-white/40 mt-1">New slideshow available. The Watcher was not a man. He was a network.</p>
                 </button>
@@ -1394,7 +1394,7 @@ export default function TradeEmpirePage() {
               const tone = e.tone;
               const toneColor = tone === "light" ? "emerald-400" : tone === "dark" ? "red-400" : "white/60";
               return (
-                <div key={e.id} className={`p-2.5 rounded-lg border bg-white/[0.02] ${tone === "light" ? "border-emerald-500/20" : tone === "dark" ? "border-red-500/20" : "border-white/10"}`}>
+                <div key={e.id} className={`p-2.5 rounded-lg border bg-white/[0.02] ${tone === "light" ? "void-border-success" : tone === "dark" ? "void-border-error" : "border-white/10"}`}>
                   <div className="flex items-center justify-between">
                     <p className={`font-mono text-[10px] font-bold text-${toneColor}`}>{e.label}</p>
                     <span className="font-mono text-[8px] text-white/20">{new Date(e.timestamp).toLocaleString()}</span>
@@ -1521,19 +1521,19 @@ export default function TradeEmpirePage() {
                 <div>
                   <p className="font-mono text-[9px] text-white/30 mb-1">COST</p>
                   <div className="space-y-0.5 font-mono text-[10px]">
-                    {selectedMission.cost.credits && <p className="text-amber-400">{selectedMission.cost.credits} Credits</p>}
-                    {selectedMission.cost.materials && <p className="text-cyan-400">{selectedMission.cost.materials} Materials</p>}
-                    {selectedMission.cost.influence && <p className="text-purple-400">{selectedMission.cost.influence} Influence</p>}
-                    {!selectedMission.cost.credits && !selectedMission.cost.materials && !selectedMission.cost.influence && <p className="text-green-400">Free</p>}
+                    {selectedMission.cost.credits && <p className="void-text-accent">{selectedMission.cost.credits} Credits</p>}
+                    {selectedMission.cost.materials && <p className="void-text-energy">{selectedMission.cost.materials} Materials</p>}
+                    {selectedMission.cost.influence && <p className="void-text-system">{selectedMission.cost.influence} Influence</p>}
+                    {!selectedMission.cost.credits && !selectedMission.cost.materials && !selectedMission.cost.influence && <p className="void-text-energy">Free</p>}
                   </div>
                 </div>
                 <div>
                   <p className="font-mono text-[9px] text-white/30 mb-1">REWARD</p>
                   <div className="space-y-0.5 font-mono text-[10px]">
-                    {selectedMission.rewards.credits && <p className="text-amber-400">+{selectedMission.rewards.credits} Credits</p>}
-                    {selectedMission.rewards.materials && <p className="text-cyan-400">+{selectedMission.rewards.materials} Materials</p>}
-                    {selectedMission.rewards.influence && <p className="text-purple-400">+{selectedMission.rewards.influence} Influence</p>}
-                    {selectedMission.rewards.intelligence && <p className="text-blue-400">+{selectedMission.rewards.intelligence} Intel</p>}
+                    {selectedMission.rewards.credits && <p className="void-text-accent">+{selectedMission.rewards.credits} Credits</p>}
+                    {selectedMission.rewards.materials && <p className="void-text-energy">+{selectedMission.rewards.materials} Materials</p>}
+                    {selectedMission.rewards.influence && <p className="void-text-system">+{selectedMission.rewards.influence} Influence</p>}
+                    {selectedMission.rewards.intelligence && <p className="void-text-energy">+{selectedMission.rewards.intelligence} Intel</p>}
                   </div>
                 </div>
               </div>
@@ -1543,7 +1543,7 @@ export default function TradeEmpirePage() {
               </div>
               <div className="flex gap-2">
                 <button onClick={() => dispatchMission(selectedMission)}
-                  className="flex-1 py-2.5 rounded-lg bg-cyan-500/20 border border-cyan-500/40 text-cyan-400 font-mono text-xs font-bold hover:bg-cyan-500/30 transition-colors">
+                  className="flex-1 py-2.5 rounded-lg void-bg-success border void-border-success void-text-energy font-mono text-xs font-bold void-bg-success transition-colors">
                   DISPATCH MISSION
                 </button>
                 <button onClick={() => setSelectedMission(null)}

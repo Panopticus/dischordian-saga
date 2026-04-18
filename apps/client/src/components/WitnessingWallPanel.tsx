@@ -96,7 +96,7 @@ export function WitnessingWallPanel() {
   const hubLink = (
     <Link
       href="/witnessing"
-      className="mt-3 flex items-center justify-center gap-1.5 rounded-sm border border-amber-700/60 bg-amber-900/20 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-amber-100 hover:border-amber-500/80 hover:bg-amber-900/40 transition-colors"
+      className="mt-3 flex items-center justify-center gap-1.5 rounded-sm border void-border void-bg-sunk px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider void-text-accent void-border void-bg-sunk transition-colors"
     >
       Open the Witnessing Hub
       <ExternalLink size={11} />
@@ -105,12 +105,12 @@ export function WitnessingWallPanel() {
 
   if (entries.length === 0) {
     return (
-      <div className="rounded-md border border-amber-900/40 bg-stone-950/60 p-4 font-mono text-[11px] text-amber-300/70">
-        <div className="mb-2 flex items-center gap-2 text-amber-200">
+      <div className="rounded-md border void-border void-bg-canvas p-4 font-mono text-[11px] void-text-accent">
+        <div className="mb-2 flex items-center gap-2 void-text-accent">
           <Scroll size={14} />
           <span className="tracking-[0.2em]">THE WITNESSING WALL</span>
         </div>
-        <p className="text-amber-300/60">
+        <p className="void-text-accent">
           The wall is blank. It is waiting for something to happen.
         </p>
         {hubLink}
@@ -119,11 +119,11 @@ export function WitnessingWallPanel() {
   }
 
   return (
-    <div className="rounded-md border border-amber-900/40 bg-stone-950/60 p-4">
-      <div className="mb-3 flex items-center gap-2 font-mono text-[11px] text-amber-200 tracking-[0.2em]">
+    <div className="rounded-md border void-border void-bg-canvas p-4">
+      <div className="mb-3 flex items-center gap-2 font-mono text-[11px] void-text-accent tracking-[0.2em]">
         <Scroll size={14} />
         <span>THE WITNESSING WALL</span>
-        <span className="ml-auto text-amber-300/50">
+        <span className="ml-auto void-text-accent">
           {entries.length} {entries.length === 1 ? "entry" : "entries"}
         </span>
       </div>
@@ -131,17 +131,17 @@ export function WitnessingWallPanel() {
         {entries.map((e, i) => (
           <li
             key={`${e.kind}_${i}`}
-            className="flex items-baseline gap-2 border-l border-amber-900/30 pl-3 font-mono text-[11px] text-amber-100/85"
+            className="flex items-baseline gap-2 border-l void-border pl-3 font-mono text-[11px] void-text-accent"
           >
             <span
               aria-hidden
-              className="w-3 shrink-0 text-center text-amber-400/80"
+              className="w-3 shrink-0 text-center void-text-accent"
             >
               {KIND_GLYPH[e.kind]}
             </span>
             <span className="flex-1 truncate">{e.title}</span>
             {e.subtitle && (
-              <span className="truncate text-[10px] text-amber-300/50">
+              <span className="truncate text-[10px] void-text-accent">
                 {e.subtitle}
               </span>
             )}

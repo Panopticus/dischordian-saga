@@ -101,7 +101,7 @@ function generateNarrative(session: SessionData): string[] {
 function StatCard({ icon: Icon, label, value, color }: { icon: any; label: string; value: number | string; color: string }) {
   return (
     <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }}
-      className="rounded-lg p-3 text-center" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+      className="rounded-lg p-3 text-center" style={{ background: "color-mix(in oklch, var(--text-primary) 3%, transparent)", border: "1px solid color-mix(in oklch, var(--text-primary) 6%, transparent)" }}>
       <Icon size={16} className={`mx-auto mb-1.5 ${color}`} />
       <p className="font-display text-lg font-bold text-white">{value}</p>
       <p className="font-mono text-[9px] text-muted-foreground/50 tracking-wider">{label}</p>
@@ -146,7 +146,7 @@ export default function PreviouslyOn({ onDismiss }: { onDismiss: () => void }) {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-      style={{ background: "radial-gradient(ellipse at center, rgba(10,5,30,0.97) 0%, rgba(0,0,0,0.99) 100%)" }}>
+      style={{ background: "radial-gradient(ellipse at center, rgba(10,5,30,0.97) 0%, color-mix(in oklch, var(--bg-void) 99%, transparent) 100%)" }}>
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {Array.from({ length: 20 }).map((_, i) => (
           <motion.div key={i} className="absolute w-0.5 h-0.5 rounded-full bg-[var(--neon-cyan)]"
@@ -173,7 +173,7 @@ export default function PreviouslyOn({ onDismiss }: { onDismiss: () => void }) {
           </motion.div>
         </div>
         <div className="rounded-lg p-5 mb-4 cursor-pointer" onClick={advance}
-          style={{ background: "rgba(10,10,40,0.8)", border: "1px solid rgba(51,226,230,0.1)" }}>
+          style={{ background: "rgba(10,10,40,0.8)", border: "1px solid color-mix(in oklch, var(--energy-primary) 10%, transparent)" }}>
           <div className="flex items-start gap-3">
             <div className="w-8 h-8 rounded-full bg-[var(--neon-cyan)]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
               <span className="font-display text-xs text-[var(--neon-cyan)]">E</span>
@@ -198,13 +198,13 @@ export default function PreviouslyOn({ onDismiss }: { onDismiss: () => void }) {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
                 {session.roomsExplored.length > 0 && <StatCard icon={Map} label="ROOMS" value={session.roomsExplored.length} color="text-[var(--neon-cyan)]" />}
-                {session.battlesWon > 0 && <StatCard icon={Swords} label="BATTLES" value={session.battlesWon} color="text-red-400" />}
-                {session.itemsFound.length > 0 && <StatCard icon={Package} label="ITEMS" value={session.itemsFound.length} color="text-amber-400" />}
-                {session.puzzlesSolved.length > 0 && <StatCard icon={Puzzle} label="PUZZLES" value={session.puzzlesSolved.length} color="text-purple-400" />}
+                {session.battlesWon > 0 && <StatCard icon={Swords} label="BATTLES" value={session.battlesWon} color="void-text-error" />}
+                {session.itemsFound.length > 0 && <StatCard icon={Package} label="ITEMS" value={session.itemsFound.length} color="void-text-accent" />}
+                {session.puzzlesSolved.length > 0 && <StatCard icon={Puzzle} label="PUZZLES" value={session.puzzlesSolved.length} color="void-text-system" />}
               </div>
               <button onClick={handleDismiss}
                 className="w-full py-3 rounded-lg font-mono text-xs tracking-[0.2em] transition-all hover:scale-[1.02]"
-                style={{ background: "rgba(51,226,230,0.08)", border: "1px solid rgba(51,226,230,0.2)", color: "var(--neon-cyan)" }}>
+                style={{ background: "color-mix(in oklch, var(--energy-primary) 8%, transparent)", border: "1px solid color-mix(in oklch, var(--energy-primary) 20%, transparent)", color: "var(--neon-cyan)" }}>
                 CONTINUE MISSION
               </button>
             </motion.div>

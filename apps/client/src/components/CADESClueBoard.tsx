@@ -43,7 +43,7 @@ export function CADESClueBoard() {
 
   return (
     <div className="rounded-xl border border-white/10 bg-white/[0.02] backdrop-blur p-4">
-      <p className="font-mono text-[9px] tracking-[0.3em] mb-3" style={{ color: "#f59e0b" }}>
+      <p className="font-mono text-[9px] tracking-[0.3em] mb-3" style={{ color: "var(--energy-accent)" }}>
         CADES INVESTIGATION CLUES
       </p>
       <div className="space-y-3">
@@ -59,13 +59,13 @@ export function CADESClueBoard() {
               key={clue.id}
               className="flex gap-3 p-3 rounded-lg"
               style={{
-                background: discovered ? "rgba(245, 158, 11, 0.06)" : "rgba(100, 100, 100, 0.04)",
-                borderLeft: discovered ? "2px solid #f59e0b" : "2px dashed rgba(148, 163, 184, 0.4)",
+                background: discovered ? "color-mix(in oklch, var(--energy-accent) 6%, transparent)" : "rgba(100, 100, 100, 0.04)",
+                borderLeft: discovered ? "2px solid var(--energy-accent)" : "2px dashed rgba(148, 163, 184, 0.4)",
                 opacity: discovered ? 1 : 0.45,
                 filter: discovered ? undefined : "grayscale(0.6)",
               }}
             >
-              <Icon size={14} className="mt-0.5 shrink-0" style={{ color: discovered ? "#f59e0b" : "#94a3b8" }} />
+              <Icon size={14} className="mt-0.5 shrink-0" style={{ color: discovered ? "var(--energy-accent)" : "#94a3b8" }} />
               <div className="flex-1">
                 <p className="font-mono text-[10px] font-bold tracking-wider mb-1" style={{ color: discovered ? "#fbbf24" : "#94a3b8" }}>
                   {discovered ? clue.description.split(" — ")[0] : "[LOCKED CLUE]"}

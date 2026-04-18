@@ -36,19 +36,19 @@ interface DraftCard {
 type DraftPhase = "lobby" | "drafting" | "review" | "battling" | "results";
 
 const RARITY_COLORS: Record<string, string> = {
-  common: "text-zinc-400 border-zinc-500/30",
-  uncommon: "text-green-400 border-green-500/30",
-  rare: "text-blue-400 border-blue-500/30",
-  epic: "text-purple-400 border-purple-500/30",
-  legendary: "text-amber-400 border-amber-500/30",
+  common: "void-text void-border",
+  uncommon: "void-text-energy void-border-success",
+  rare: "void-text-energy void-border",
+  epic: "void-text-system void-border-system",
+  legendary: "void-text-accent void-border",
 };
 
 const RARITY_BG: Record<string, string> = {
-  common: "bg-zinc-500/10",
-  uncommon: "bg-green-500/10",
-  rare: "bg-blue-500/10",
-  epic: "bg-purple-500/10",
-  legendary: "bg-amber-500/10",
+  common: "void-bg-canvas",
+  uncommon: "void-bg-success",
+  rare: "void-bg-sunk",
+  epic: "void-bg-system",
+  legendary: "void-bg-sunk",
 };
 
 const ELEMENT_ICONS: Record<string, typeof Flame> = {
@@ -147,8 +147,8 @@ function DraftCardDisplay({
         <div className="absolute bottom-1 left-1 right-1 flex items-center justify-between">
           <span className="font-mono text-[9px] bg-background/70 px-1 rounded text-primary">{card.cost}⚡</span>
           <div className="flex gap-1">
-            <span className="font-mono text-[9px] bg-background/70 px-1 rounded text-red-400">{card.power}⚔</span>
-            <span className="font-mono text-[9px] bg-background/70 px-1 rounded text-green-400">{card.health}♥</span>
+            <span className="font-mono text-[9px] bg-background/70 px-1 rounded void-text-error">{card.power}⚔</span>
+            <span className="font-mono text-[9px] bg-background/70 px-1 rounded void-text-energy">{card.health}♥</span>
           </div>
         </div>
 
@@ -429,20 +429,20 @@ export default function DraftTournamentPage() {
                     </div>
                   )}
                   {draftBonuses.rarityBoostChance > 0 && (
-                    <div className="border border-purple-500/20 bg-purple-500/5 rounded p-2 text-center">
-                      <p className="font-display text-lg font-bold text-purple-400">+{Math.round(draftBonuses.rarityBoostChance * 100)}%</p>
+                    <div className="border void-border-system void-bg-system rounded p-2 text-center">
+                      <p className="font-display text-lg font-bold void-text-system">+{Math.round(draftBonuses.rarityBoostChance * 100)}%</p>
                       <p className="font-mono text-[8px] text-muted-foreground">RARITY LUCK</p>
                     </div>
                   )}
                   {draftBonuses.rerollChances > 0 && (
-                    <div className="border border-amber-500/20 bg-amber-500/5 rounded p-2 text-center">
-                      <p className="font-display text-lg font-bold text-amber-400">{draftBonuses.rerollChances}</p>
+                    <div className="border void-border void-bg-sunk rounded p-2 text-center">
+                      <p className="font-display text-lg font-bold void-text-accent">{draftBonuses.rerollChances}</p>
                       <p className="font-mono text-[8px] text-muted-foreground">REROLLS</p>
                     </div>
                   )}
                   {draftBonuses.dreamMultiplier > 1 && (
-                    <div className="border border-green-500/20 bg-green-500/5 rounded p-2 text-center">
-                      <p className="font-display text-lg font-bold text-green-400">x{draftBonuses.dreamMultiplier.toFixed(1)}</p>
+                    <div className="border void-border-success void-bg-success rounded p-2 text-center">
+                      <p className="font-display text-lg font-bold void-text-energy">x{draftBonuses.dreamMultiplier.toFixed(1)}</p>
                       <p className="font-mono text-[8px] text-muted-foreground">DREAM TOKENS</p>
                     </div>
                   )}
@@ -471,9 +471,9 @@ export default function DraftTournamentPage() {
                     <div key={draft.id} className="border border-border/20 rounded-lg bg-card/30 p-3 flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                          draft.result === "won" ? "bg-green-500/20 text-green-400" :
-                          draft.result === "lost" ? "bg-red-500/20 text-red-400" :
-                          "bg-yellow-500/20 text-yellow-400"
+                          draft.result === "won" ? "void-bg-success void-text-energy" :
+                          draft.result === "lost" ? "void-bg-error void-text-error" :
+                          "void-bg-sunk void-text-premium"
                         }`}>
                           {draft.result === "won" ? <Trophy size={14} /> :
                            draft.result === "lost" ? <X size={14} /> :
@@ -514,8 +514,8 @@ export default function DraftTournamentPage() {
                         <span className="font-mono text-xs">{entry.userName || "Unknown"}</span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="font-mono text-[10px] text-green-400">{entry.wins}W</span>
-                        <span className="font-mono text-[10px] text-red-400">{entry.losses}L</span>
+                        <span className="font-mono text-[10px] void-text-energy">{entry.wins}W</span>
+                        <span className="font-mono text-[10px] void-text-error">{entry.losses}L</span>
                         <span className="font-mono text-[10px] text-accent">{entry.totalDreamEarned}💎</span>
                       </div>
                     </div>
@@ -625,8 +625,8 @@ export default function DraftTournamentPage() {
               {[
                 { label: "TOTAL", value: draftedCards.length, color: "text-primary" },
                 { label: "AVG COST", value: (draftedCards.reduce((s, c) => s + c.cost, 0) / draftedCards.length).toFixed(1), color: "text-accent" },
-                { label: "AVG POWER", value: (draftedCards.reduce((s, c) => s + c.power, 0) / draftedCards.length).toFixed(1), color: "text-red-400" },
-                { label: "AVG HEALTH", value: (draftedCards.reduce((s, c) => s + c.health, 0) / draftedCards.length).toFixed(1), color: "text-green-400" },
+                { label: "AVG POWER", value: (draftedCards.reduce((s, c) => s + c.power, 0) / draftedCards.length).toFixed(1), color: "void-text-error" },
+                { label: "AVG HEALTH", value: (draftedCards.reduce((s, c) => s + c.health, 0) / draftedCards.length).toFixed(1), color: "void-text-energy" },
               ].map(stat => (
                 <div key={stat.label} className="border border-border/20 rounded-lg p-3 bg-card/30 text-center">
                   <p className={`font-display text-lg font-bold ${stat.color}`}>{stat.value}</p>
@@ -710,17 +710,17 @@ export default function DraftTournamentPage() {
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", delay: 0.2 }}
                 className={`w-24 h-24 mx-auto mb-4 rounded-full flex items-center justify-center ${
-                  battleResult.won ? "bg-green-500/20 border-2 border-green-500/40" : "bg-red-500/20 border-2 border-red-500/40"
+                  battleResult.won ? "void-bg-success border-2 void-border-success" : "void-bg-error border-2 void-border-error"
                 }`}
               >
                 {battleResult.won ? (
-                  <Trophy size={40} className="text-green-400" />
+                  <Trophy size={40} className="void-text-energy" />
                 ) : (
-                  <X size={40} className="text-red-400" />
+                  <X size={40} className="void-text-error" />
                 )}
               </motion.div>
               <h2 className={`font-display text-2xl font-bold tracking-wider mb-2 ${
-                battleResult.won ? "text-green-400" : "text-red-400"
+                battleResult.won ? "void-text-energy" : "void-text-error"
               }`}>
                 {battleResult.won ? "VICTORY!" : "DEFEAT"}
               </h2>

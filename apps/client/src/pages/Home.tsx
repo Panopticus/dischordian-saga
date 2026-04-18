@@ -159,7 +159,7 @@ function SignalHeader({ stats }: { stats: Record<string, number> }) {
           <div className="flex items-center gap-2">
             <div className="relative">
               <Radio size={12} className="text-primary animate-pulse-glow" />
-              <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-green-500" />
+              <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full void-bg-success" />
             </div>
             <span className="font-mono text-[9px] text-primary/70 tracking-wider">
               LIVE FEED
@@ -170,7 +170,7 @@ function SignalHeader({ stats }: { stats: Record<string, number> }) {
               {timestamp}
             </span>
             <div className="flex items-center gap-1">
-              <Wifi size={10} className={signalStrength > 80 ? "text-green-500" : "text-accent"} />
+              <Wifi size={10} className={signalStrength > 80 ? "void-text-energy" : "text-accent"} />
               <span className="font-mono text-[8px] text-muted-foreground">{signalStrength}%</span>
             </div>
           </div>
@@ -253,7 +253,7 @@ function DossierCard({ entry, index, onDiscover }: { entry: LoredexEntry; index:
 
             {/* Content */}
             <div className="flex-1 min-w-0">
-              <h3 className="font-mono text-sm font-bold text-foreground group-hover:text-primary transition-colors truncate" style={{ textShadow: "0 0 6px rgba(255,255,255,0.1)" }}>
+              <h3 className="font-mono text-sm font-bold text-foreground group-hover:text-primary transition-colors truncate" style={{ textShadow: "0 0 6px color-mix(in oklch, var(--text-primary) 10%, transparent)" }}>
                 {entry.name}
               </h3>
 
@@ -488,7 +488,7 @@ function ArkExplorationCard() {
         >
           {/* Subtle grid overlay */}
           <div className="absolute inset-0 opacity-[0.03]" style={{
-            backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(51,226,230,0.2) 2px, rgba(51,226,230,0.2) 4px)",
+            backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--energy-primary) 20%, transparent) 2px, color-mix(in oklch, var(--energy-primary) 20%, transparent) 4px)",
           }} />
           <div className="relative flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/15 transition-colors">

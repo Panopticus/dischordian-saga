@@ -77,7 +77,7 @@ function Sparkline({ data, color = "cyan" }: { data: number[]; color?: string })
       <polyline
         points={points}
         fill="none"
-        stroke={`var(--color-${color}-400, #22d3ee)`}
+        stroke={`var(--color-${color}-400, var(--energy-primary))`}
         strokeWidth="1.5"
         strokeLinejoin="round"
       />
@@ -179,9 +179,9 @@ function ActiveVotePanel() {
         </p>
         {upcoming[0] && (
           <div className="void-surface p-3 inline-block">
-            <span className="font-mono text-[8px] text-cyan-400 uppercase tracking-wider">NEXT: </span>
+            <span className="font-mono text-[8px] void-text-energy uppercase tracking-wider">NEXT: </span>
             <span className="font-mono text-[10px] text-foreground/70">{upcoming[0].title}</span>
-            <span className="font-mono text-[9px] text-amber-400 ml-2">
+            <span className="font-mono text-[9px] void-text-accent ml-2">
               {formatCountdown(upcoming[0].startsAt)}
             </span>
           </div>
@@ -196,10 +196,10 @@ function ActiveVotePanel() {
     <>
       <div className="void-elevated p-5 mb-4">
         <div className="flex items-center justify-between mb-3">
-          <span className="font-mono text-[8px] uppercase tracking-[0.3em] text-cyan-400">
+          <span className="font-mono text-[8px] uppercase tracking-[0.3em] void-text-energy">
             MONTH {vote.month} · {vote.category.toUpperCase()} VOTE
           </span>
-          <span className="font-mono text-[9px] text-amber-400 flex items-center gap-1">
+          <span className="font-mono text-[9px] void-text-accent flex items-center gap-1">
             <Clock size={10} /> {timeLeft} remaining
           </span>
         </div>
@@ -209,11 +209,11 @@ function ActiveVotePanel() {
         </h2>
 
         {/* Antiquarian framing */}
-        <div className="p-3 rounded border border-emerald-500/20 bg-emerald-500/5 mb-4" data-narrative="breathe">
-          <div className="font-mono text-[8px] uppercase tracking-wider text-emerald-400 mb-1">
+        <div className="p-3 rounded border void-border-success void-bg-success mb-4" data-narrative="breathe">
+          <div className="font-mono text-[8px] uppercase tracking-wider void-text-energy mb-1">
             <BookOpen size={10} className="inline mr-1" /> THE ANTIQUARIAN WRITES
           </div>
-          <p className="font-mono text-[11px] italic text-emerald-300/80 leading-relaxed">
+          <p className="font-mono text-[11px] italic void-text-energy leading-relaxed">
             <KineticText text={vote.antiquarianIntro} mode="word" speed={25} showCursor={false} />
           </p>
         </div>
@@ -235,8 +235,8 @@ function ActiveVotePanel() {
                 onClick={() => handleCast(opt.id)}
                 disabled={!!playerVote}
                 className={`w-full text-left p-4 void-surface relative overflow-hidden transition-all ${
-                  isSelected ? "border-cyan-400/50" : ""
-                } ${!playerVote ? "cursor-pointer hover:border-cyan-400/30" : "cursor-default"}`}
+                  isSelected ? "void-border-success" : ""
+                } ${!playerVote ? "cursor-pointer void-border-success" : "cursor-default"}`}
               >
                 {playerVote && (
                   <motion.div
@@ -246,8 +246,8 @@ function ActiveVotePanel() {
                     className="absolute inset-y-0 left-0"
                     style={{
                       background: isLeading
-                        ? "linear-gradient(90deg, rgba(34,211,238,0.08), rgba(34,211,238,0.03))"
-                        : "linear-gradient(90deg, rgba(255,255,255,0.03), transparent)",
+                        ? "linear-gradient(90deg, color-mix(in oklch, var(--energy-primary) 8%, transparent), color-mix(in oklch, var(--energy-primary) 3%, transparent))"
+                        : "linear-gradient(90deg, color-mix(in oklch, var(--text-primary) 3%, transparent), transparent)",
                     }}
                   />
                 )}
@@ -257,8 +257,8 @@ function ActiveVotePanel() {
                     <div className="flex-1">
                       <div className="font-display text-sm font-bold tracking-wider text-foreground mb-1 flex items-center gap-2">
                         {opt.label}
-                        {isSelected && <Check size={14} className="text-cyan-400" />}
-                        {isLeading && playerVote && <TrendingUp size={12} className="text-amber-400" />}
+                        {isSelected && <Check size={14} className="void-text-energy" />}
+                        {isLeading && playerVote && <TrendingUp size={12} className="void-text-accent" />}
                       </div>
                       <p className="font-mono text-[10px] text-muted-foreground/70 leading-relaxed">{opt.description}</p>
                     </div>
@@ -297,7 +297,7 @@ function ActiveVotePanel() {
       {/* Live voter feed */}
       <div className="void-surface p-3">
         <div className="font-mono text-[8px] uppercase tracking-wider text-muted-foreground/50 mb-2 flex items-center gap-1">
-          <Radio size={9} className="text-cyan-400" /> LIVE ACTIVITY
+          <Radio size={9} className="void-text-energy" /> LIVE ACTIVITY
         </div>
         <AnimatePresence>
           {liveVoters.slice(0, 3).map((v, i) => (
@@ -308,7 +308,7 @@ function ActiveVotePanel() {
               exit={{ opacity: 0 }}
               className="font-mono text-[9px] text-muted-foreground/40 py-0.5"
             >
-              <span className="text-cyan-400/50">{v.voterName}</span>
+              <span className="void-text-energy">{v.voterName}</span>
               <span className="text-muted-foreground/30"> voted for </span>
               <span className="text-foreground/60">{v.optionLabel}</span>
             </motion.div>
@@ -356,11 +356,11 @@ function ChroniclePanel() {
     <AtmosphereScope themeId="golden_sanctuary">
       <div className="space-y-3">
         <div className="text-center mb-4">
-          <BookOpen size={20} className="mx-auto text-amber-400 mb-1" />
-          <h2 className="font-display text-sm font-bold tracking-wider text-amber-200">
+          <BookOpen size={20} className="mx-auto void-text-accent mb-1" />
+          <h2 className="font-display text-sm font-bold tracking-wider void-text-accent">
             THE ANTIQUARIAN'S TOME
           </h2>
-          <p className="font-mono text-[8px] text-amber-400/50 tracking-wider">
+          <p className="font-mono text-[8px] void-text-accent tracking-wider">
             EVERY CHOICE INSCRIBED
           </p>
         </div>
@@ -374,12 +374,12 @@ function ChroniclePanel() {
               transition={{ delay: i * 0.05 }}
               className="void-surface p-3"
               style={{
-                borderColor: "rgba(251,191,36,0.15)",
+                borderColor: "color-mix(in oklch, var(--energy-premium) 15%, transparent)",
                 background: "rgba(20,15,10,0.6)",
               }}
             >
               <div className="flex items-center justify-between mb-1.5">
-                <span className="font-mono text-[8px] uppercase tracking-wider text-amber-400/60">
+                <span className="font-mono text-[8px] uppercase tracking-wider void-text-accent">
                   Week {entry.week} · {entry.type}
                 </span>
                 <span className="font-mono text-[8px] text-muted-foreground/30">
@@ -388,19 +388,19 @@ function ChroniclePanel() {
               </div>
 
               {entry.title && (
-                <h3 className="font-display text-xs font-bold tracking-wider text-amber-200/90 mb-1">
+                <h3 className="font-display text-xs font-bold tracking-wider void-text-accent mb-1">
                   {entry.title}
                 </h3>
               )}
 
-              <p className="font-serif text-[11px] text-amber-100/70 leading-relaxed italic whitespace-pre-line">
+              <p className="font-serif text-[11px] void-text-accent leading-relaxed italic whitespace-pre-line">
                 {entry.body}
               </p>
 
               {entry.annotation && (
-                <div className="mt-2 pt-1.5 border-t border-amber-500/10">
-                  <p className="font-mono text-[8px] text-red-300/50 italic leading-relaxed">
-                    <span className="text-red-400/40 text-[7px] uppercase tracking-wider mr-1">
+                <div className="mt-2 pt-1.5 border-t void-border">
+                  <p className="font-mono text-[8px] void-text-error italic leading-relaxed">
+                    <span className="void-text-error text-[7px] uppercase tracking-wider mr-1">
                       PRIVATE NOTE:
                     </span>
                     {entry.annotation}
@@ -427,7 +427,7 @@ function PulsePanel() {
   return (
     <div className="space-y-3">
       <div className="text-center mb-4">
-        <BarChart3 size={20} className="mx-auto text-cyan-400 mb-1" />
+        <BarChart3 size={20} className="mx-auto void-text-energy mb-1" />
         <h2 className="font-display text-sm font-bold tracking-wider">THE PULSE</h2>
         <p className="font-mono text-[8px] text-muted-foreground/50 tracking-wider">
           ARK VITAL SIGNS
@@ -486,15 +486,15 @@ function DailyMicroVotes() {
 
   return (
     <div className="void-elevated p-4 mt-4">
-      <div className="font-mono text-[8px] uppercase tracking-[0.3em] text-amber-400 mb-2">
+      <div className="font-mono text-[8px] uppercase tracking-[0.3em] void-text-accent mb-2">
         DAILY RESOURCE ALLOCATION · {today}
       </div>
 
-      <div className="p-2 rounded border border-cyan-500/20 bg-cyan-500/5 mb-3">
-        <div className="font-mono text-[8px] uppercase tracking-wider text-cyan-400 mb-0.5">
+      <div className="p-2 rounded border void-border-success void-bg-success mb-3">
+        <div className="font-mono text-[8px] uppercase tracking-wider void-text-energy mb-0.5">
           <Eye size={9} className="inline mr-1" /> ELARA
         </div>
-        <p className="font-mono text-[10px] text-cyan-300/80 leading-relaxed italic">
+        <p className="font-mono text-[10px] void-text-energy leading-relaxed italic">
           {dailyVote.elaraContext}
         </p>
       </div>
@@ -511,12 +511,12 @@ function DailyMicroVotes() {
             onClick={() => handleChoice(opt.key)}
             disabled={!!choice}
             className={`p-3 void-surface text-left transition-all ${
-              choice === opt.key ? "border-cyan-400/50" : ""
-            } ${!choice ? "cursor-pointer hover:border-cyan-400/30" : ""}`}
+              choice === opt.key ? "void-border-success" : ""
+            } ${!choice ? "cursor-pointer void-border-success" : ""}`}
           >
             <div className="font-display text-xs font-bold tracking-wider mb-1 flex items-center gap-1.5">
               {opt.label}
-              {choice === opt.key && <Check size={12} className="text-cyan-400" />}
+              {choice === opt.key && <Check size={12} className="void-text-energy" />}
             </div>
             <p className="font-mono text-[8px] text-muted-foreground/60">{opt.effect}</p>
           </button>
@@ -527,7 +527,7 @@ function DailyMicroVotes() {
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="font-mono text-[8px] text-cyan-400/60 mt-2 text-center"
+          className="font-mono text-[8px] void-text-energy mt-2 text-center"
         >
           Your allocation has been recorded. The Antiquarian inscribes.
         </motion.p>
@@ -560,7 +560,7 @@ function UpcomingEventsBar() {
   return (
     <div className="void-surface p-3 mt-4">
       <div className="font-mono text-[8px] uppercase tracking-wider text-muted-foreground/50 mb-2 flex items-center gap-1">
-        <Calendar size={10} className="text-amber-400" /> UPCOMING EVENTS
+        <Calendar size={10} className="void-text-accent" /> UPCOMING EVENTS
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
         {events.map((event) => (
@@ -713,7 +713,7 @@ export default function GovernanceHubPage() {
             <Link href="/" className="text-muted-foreground hover:text-foreground">
               <ChevronLeft size={20} />
             </Link>
-            <Vote size={20} className="text-cyan-400" />
+            <Vote size={20} className="void-text-energy" />
             <div>
               <h1 className="font-display text-xl font-bold tracking-wider">GOVERNANCE HUB</h1>
               <p className="font-mono text-[9px] text-muted-foreground/60 tracking-wider">

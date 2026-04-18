@@ -630,7 +630,7 @@ export default function ResearchMinigamePage() {
               {displayName.map((char, i) => (
                 <motion.span
                   key={i}
-                  initial={puzzle.revealedLetters.has(targetName[i]) ? { scale: 1.3, color: "#33E2E6" } : {}}
+                  initial={puzzle.revealedLetters.has(targetName[i]) ? { scale: 1.3, color: "var(--energy-primary)" } : {}}
                   animate={{ scale: 1, color: "inherit" }}
                   className={`inline-flex items-center justify-center w-8 h-10 sm:w-10 sm:h-12 rounded border font-display text-lg sm:text-xl font-bold ${
                     char === "█"
@@ -730,7 +730,7 @@ export default function ResearchMinigamePage() {
                     className={`w-full text-left p-3 rounded-lg border transition-all ${
                       isMatched
                         ? isCorrectMatch
-                          ? "border-green-500/30 bg-green-900/10 text-green-400"
+                          ? "void-border-success void-bg-success void-text-energy"
                           : "border-destructive/30 bg-destructive/5 text-destructive"
                         : isSelected
                         ? "border-primary/50 bg-primary/10 text-primary box-glow-cyan"
@@ -741,7 +741,7 @@ export default function ResearchMinigamePage() {
                       <span className="font-mono text-xs font-semibold">{pair.character}</span>
                       {isMatched && (
                         isCorrectMatch
-                          ? <CheckCircle2 size={14} className="text-green-400" />
+                          ? <CheckCircle2 size={14} className="void-text-energy" />
                           : <XCircle size={14} className="text-destructive" />
                       )}
                     </div>

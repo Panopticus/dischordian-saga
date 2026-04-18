@@ -42,16 +42,16 @@ const STAGE_RARITY: Record<string, UnifiedSpecimen["rarity"]> = {
 };
 
 const RARITY_BORDERS: Record<string, string> = {
-  common: "border-gray-500 shadow-[0_0_12px_rgba(156,163,175,0.4)]",
-  rare: "border-blue-500 shadow-[0_0_16px_rgba(59,130,246,0.5)]",
-  epic: "border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.6)]",
-  legendary: "border-yellow-400 shadow-[0_0_24px_rgba(250,204,21,0.7)]",
-  mythic: "border-pink-400 shadow-[0_0_28px_rgba(244,114,182,0.8)]",
+  common: "void-border shadow-[0_0_12px_rgba(156,163,175,0.4)]",
+  rare: "void-border shadow-[0_0_16px_color-mix(in oklch, var(--electric-blue) 50%, transparent)]",
+  epic: "void-border-system shadow-[0_0_20px_color-mix(in oklch, var(--energy-system) 60%, transparent)]",
+  legendary: "void-border shadow-[0_0_24px_rgba(250,204,21,0.7)]",
+  mythic: "void-border-error shadow-[0_0_28px_rgba(244,114,182,0.8)]",
 };
 
 const RARITY_TEXT: Record<string, string> = {
-  common: "text-gray-300", rare: "text-blue-400", epic: "text-purple-400",
-  legendary: "text-yellow-400", mythic: "text-pink-400",
+  common: "void-text", rare: "void-text-energy", epic: "void-text-system",
+  legendary: "void-text-premium", mythic: "void-text-error",
 };
 
 interface UnifiedSpecimen {
@@ -201,10 +201,10 @@ export default function SpecimenCollectionPage() {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center p-6">
         <div className="max-w-md text-center space-y-4">
-          <Lock className="w-16 h-16 mx-auto text-cyan-500" />
+          <Lock className="w-16 h-16 mx-auto void-text-energy" />
           <h1 className="text-2xl font-bold tracking-widest">COLLECTION LOCKED</h1>
-          <p className="text-gray-400">The Collector's Archive requires discovery of the Cryo Bay first.</p>
-          <button onClick={() => navigate("/ark")} className="px-6 py-2 border border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 transition">
+          <p className="void-text">The Collector's Archive requires discovery of the Cryo Bay first.</p>
+          <button onClick={() => navigate("/ark")} className="px-6 py-2 border void-border-success void-text-energy void-bg-success transition">
             Return to Ark
           </button>
         </div>
@@ -224,19 +224,19 @@ export default function SpecimenCollectionPage() {
     <div className="min-h-screen bg-gradient-to-b from-black via-[#0a0a18] to-black text-white p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6 border-b border-cyan-900/50 pb-4">
-          <button onClick={() => navigate("/ark")} className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300" data-testid="back-to-ark">
+        <div className="flex items-center justify-between mb-6 border-b void-border-success pb-4">
+          <button onClick={() => navigate("/ark")} className="flex items-center gap-2 void-text-energy void-text-energy" data-testid="back-to-ark">
             <ArrowLeft className="w-5 h-5" /> Back
           </button>
           <div className="text-center">
-            <h1 className="text-xl md:text-3xl font-bold tracking-[0.2em] text-cyan-300">THE COLLECTOR'S ARCHIVE</h1>
-            <p className="text-xs text-gray-500 mt-1">Living DNA templates • Resurrection Protocols</p>
+            <h1 className="text-xl md:text-3xl font-bold tracking-[0.2em] void-text-energy">THE COLLECTOR'S ARCHIVE</h1>
+            <p className="text-xs void-text mt-1">Living DNA templates • Resurrection Protocols</p>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-cyan-400" data-testid="collection-counter">
+            <div className="text-2xl font-bold void-text-energy" data-testid="collection-counter">
               {ownedSet.size}/{allSpecimens.filter(s => !s.alwaysOwned).length}
             </div>
-            <div className="text-xs text-gray-500 uppercase tracking-wider">Collected</div>
+            <div className="text-xs void-text uppercase tracking-wider">Collected</div>
           </div>
         </div>
 
@@ -249,8 +249,8 @@ export default function SpecimenCollectionPage() {
               data-testid={`filter-${t.id}`}
               className={`px-4 py-2 text-sm tracking-wider uppercase transition border ${
                 filter === t.id
-                  ? "bg-cyan-500/20 border-cyan-400 text-cyan-300"
-                  : "border-gray-700 text-gray-400 hover:border-gray-500"
+                  ? "void-bg-success void-border-success void-text-energy"
+                  : "void-border void-text void-border"
               }`}
             >{t.label}</button>
           ))}
@@ -268,7 +268,7 @@ export default function SpecimenCollectionPage() {
                   data-testid={`specimen-card-${s.id}`}
                   className={`relative p-4 text-left ${RARITY_BORDERS[s.rarity]} ${!owned ? "opacity-40 grayscale" : ""}`}
                 >
-                  <div className="aspect-square mb-3 bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded flex items-center justify-center overflow-hidden">
+                  <div className="aspect-square mb-3 bg-gradient-to-br from-gray-900 to-black border void-border rounded flex items-center justify-center overflow-hidden">
                     {owned && s.artPath ? (
                       <img
                         src={s.artPath}
@@ -292,13 +292,13 @@ export default function SpecimenCollectionPage() {
                         onError={e => { (e.target as HTMLImageElement).style.display = "none"; }}
                       />
                     ) : (
-                      <div className="text-4xl text-gray-700">???</div>
+                      <div className="text-4xl void-text">???</div>
                     )}
                   </div>
-                  <h3 className={`font-bold text-sm mb-1 ${owned ? "text-white" : "text-gray-600"}`}>
+                  <h3 className={`font-bold text-sm mb-1 ${owned ? "text-white" : "void-text"}`}>
                     {owned ? s.name : "???"}
                   </h3>
-                  <p className="text-[10px] text-gray-500 uppercase tracking-wider truncate">
+                  <p className="text-[10px] void-text uppercase tracking-wider truncate">
                     {owned ? s.associatedWith.replace(/_/g, " ") : "Unknown"}
                   </p>
                   <p className={`text-[10px] mt-1 uppercase tracking-wider ${RARITY_TEXT[s.rarity]}`}>
@@ -331,7 +331,7 @@ export default function SpecimenCollectionPage() {
                     {selected.rarity} • {selected.associationType}
                   </p>
                 </div>
-                <button onClick={() => setSelected(null)} className="text-gray-500 hover:text-white" data-testid="close-modal">
+                <button onClick={() => setSelected(null)} className="void-text hover:text-white" data-testid="close-modal">
                   <X className="w-6 h-6" />
                 </button>
               </div>
@@ -361,14 +361,14 @@ export default function SpecimenCollectionPage() {
               )}
               {(ownedSet.has(selected.id) || selected.alwaysOwned) ? (
                 <div className="space-y-3 text-sm">
-                  <div><span className="text-gray-500 uppercase text-xs">Associated With: </span><span className="text-cyan-300">{selected.associatedWith}</span></div>
-                  <div><span className="text-gray-500 uppercase text-xs">Description: </span><p className="text-gray-300 mt-1">{selected.description}</p></div>
-                  <div><span className="text-gray-500 uppercase text-xs">Bonus: </span><span className="text-green-400">{selected.bonus}</span></div>
-                  <div><span className="text-gray-500 uppercase text-xs">How to Obtain: </span><p className="text-amber-300 mt-1">{selected.acquisition}</p></div>
-                  <div className="pt-3 border-t border-gray-800"><span className="text-gray-500 uppercase text-xs">Lore: </span><p className="text-gray-400 italic mt-1">{selected.lore}</p></div>
+                  <div><span className="void-text uppercase text-xs">Associated With: </span><span className="void-text-energy">{selected.associatedWith}</span></div>
+                  <div><span className="void-text uppercase text-xs">Description: </span><p className="void-text mt-1">{selected.description}</p></div>
+                  <div><span className="void-text uppercase text-xs">Bonus: </span><span className="void-text-energy">{selected.bonus}</span></div>
+                  <div><span className="void-text uppercase text-xs">How to Obtain: </span><p className="void-text-accent mt-1">{selected.acquisition}</p></div>
+                  <div className="pt-3 border-t void-border"><span className="void-text uppercase text-xs">Lore: </span><p className="void-text italic mt-1">{selected.lore}</p></div>
                 </div>
               ) : (
-                <p className="text-gray-500 italic">This specimen has not yet been discovered. Continue your journey through the Ark to unlock its template.</p>
+                <p className="void-text italic">This specimen has not yet been discovered. Continue your journey through the Ark to unlock its template.</p>
               )}
             </motion.div>
           </motion.div>

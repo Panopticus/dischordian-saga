@@ -41,9 +41,9 @@ export default function CharacterBonusesPanel() {
       id: "cardGame",
       label: "CARD BATTLES",
       icon: Crown,
-      color: "text-amber-400",
-      bgColor: "bg-amber-950/20",
-      borderColor: "border-amber-500/20",
+      color: "void-text-accent",
+      bgColor: "void-bg-sunk",
+      borderColor: "void-border",
       bonuses: [
         { label: "HP Bonus", value: `+${b.cardGame.hpBonus}`, isPositive: b.cardGame.hpBonus > 0 },
         { label: "Influence", value: `+${b.cardGame.influenceBonus}`, isPositive: b.cardGame.influenceBonus > 0 },
@@ -59,9 +59,9 @@ export default function CharacterBonusesPanel() {
       id: "fightGame",
       label: "FIGHTING",
       icon: Swords,
-      color: "text-red-400",
-      bgColor: "bg-red-950/20",
-      borderColor: "border-red-500/20",
+      color: "void-text-error",
+      bgColor: "void-bg-error",
+      borderColor: "void-border-error",
       bonuses: [
         { label: "Attack", value: `+${b.fightGame.attackBonus}`, isPositive: b.fightGame.attackBonus > 0 },
         { label: "Defense", value: `+${b.fightGame.defenseBonus}`, isPositive: b.fightGame.defenseBonus > 0 },
@@ -78,9 +78,9 @@ export default function CharacterBonusesPanel() {
       id: "chess",
       label: "CHESS",
       icon: Gamepad2,
-      color: "text-cyan-400",
-      bgColor: "bg-cyan-950/20",
-      borderColor: "border-cyan-500/20",
+      color: "void-text-energy",
+      bgColor: "void-bg-success",
+      borderColor: "void-border-success",
       bonuses: [
         { label: "Time Bonus", value: `+${b.chess.timeBonus}s`, isPositive: b.chess.timeBonus > 0 },
         { label: "Reward Bonus", value: `+${Math.round((b.chess.rewardMultiplier - 1) * 100)}%`, isPositive: b.chess.rewardMultiplier > 1 },
@@ -94,9 +94,9 @@ export default function CharacterBonusesPanel() {
       id: "tradeEmpire",
       label: "TRADE EMPIRE",
       icon: TrendingUp,
-      color: "text-emerald-400",
-      bgColor: "bg-emerald-950/20",
-      borderColor: "border-emerald-500/20",
+      color: "void-text-energy",
+      bgColor: "void-bg-success",
+      borderColor: "void-border-success",
       bonuses: [
         { label: "Combat Power", value: `+${b.tradeEmpire.combatPowerBonus}`, isPositive: b.tradeEmpire.combatPowerBonus > 0 },
         { label: "Shield", value: `${Math.round(b.tradeEmpire.shieldDamageReduction * 100)}% DR`, isPositive: b.tradeEmpire.shieldDamageReduction > 0 },
@@ -113,9 +113,9 @@ export default function CharacterBonusesPanel() {
       id: "crafting",
       label: "CRAFTING",
       icon: Pickaxe,
-      color: "text-orange-400",
-      bgColor: "bg-orange-950/20",
-      borderColor: "border-orange-500/20",
+      color: "void-text-premium",
+      bgColor: "void-bg-sunk",
+      borderColor: "void-border",
       bonuses: [
         { label: "Success Rate", value: `+${Math.round(b.crafting.successRateBonus * 100)}%`, isPositive: b.crafting.successRateBonus > 0 },
         { label: "Dream Cost", value: `-${Math.round(b.crafting.dreamCostReduction * 100)}%`, isPositive: b.crafting.dreamCostReduction > 0 },
@@ -128,9 +128,9 @@ export default function CharacterBonusesPanel() {
       id: "exploration",
       label: "EXPLORATION",
       icon: Compass,
-      color: "text-purple-400",
-      bgColor: "bg-purple-950/20",
-      borderColor: "border-purple-500/20",
+      color: "void-text-system",
+      bgColor: "void-bg-system",
+      borderColor: "void-border-system",
       bonuses: [
         { label: "Discovery XP", value: `+${b.exploration.discoveryXpBonus}`, isPositive: b.exploration.discoveryXpBonus > 0 },
         { label: "Hidden Items", value: `${Math.round(b.exploration.hiddenItemChance * 100)}%`, isPositive: b.exploration.hiddenItemChance > 0 },
@@ -145,9 +145,9 @@ export default function CharacterBonusesPanel() {
       id: "guildWar",
       label: "GUILD WARS",
       icon: Map,
-      color: "text-rose-400",
-      bgColor: "bg-rose-950/20",
-      borderColor: "border-rose-500/20",
+      color: "void-text-error",
+      bgColor: "void-bg-error",
+      borderColor: "void-border-error",
       bonuses: [
         { label: "War Points", value: `+${Math.round((b.guildWar.warPointMultiplier - 1) * 100)}%`, isPositive: b.guildWar.warPointMultiplier > 1 },
         { label: "Capture Speed", value: `+${Math.round((b.guildWar.captureSpeedMultiplier - 1) * 100)}%`, isPositive: b.guildWar.captureSpeedMultiplier > 1 },
@@ -165,9 +165,9 @@ export default function CharacterBonusesPanel() {
       id: "quest",
       label: "QUESTS & BATTLE PASS",
       icon: ScrollText,
-      color: "text-teal-400",
-      bgColor: "bg-teal-950/20",
-      borderColor: "border-teal-500/20",
+      color: "void-text-energy",
+      bgColor: "void-bg-success",
+      borderColor: "void-border-success",
       bonuses: [
         { label: "Quest Rewards", value: `+${Math.round((b.quest.rewardMultiplier - 1) * 100)}%`, isPositive: b.quest.rewardMultiplier > 1 },
         { label: "Battle Pass XP", value: `+${Math.round((b.quest.battlePassXpMultiplier - 1) * 100)}%`, isPositive: b.quest.battlePassXpMultiplier > 1 },
@@ -185,9 +185,9 @@ export default function CharacterBonusesPanel() {
       id: "market",
       label: "MARKETPLACE",
       icon: ShoppingCart,
-      color: "text-indigo-400",
-      bgColor: "bg-indigo-950/20",
-      borderColor: "border-indigo-500/20",
+      color: "void-text-energy",
+      bgColor: "void-bg-sunk",
+      borderColor: "void-border",
       bonuses: [
         { label: "Tax Reduction", value: `${Math.round((1 - b.market.taxReduction) * 100)}% off`, isPositive: b.market.taxReduction < 1 },
         { label: "Listing Slots", value: `+${b.market.listingSlots}`, isPositive: b.market.listingSlots > 0 },
@@ -281,7 +281,7 @@ export default function CharacterBonusesPanel() {
                           <div
                             key={i}
                             className={`px-2 py-1.5 rounded-md ${
-                              bonus.isPositive ? "bg-white/5" : "bg-zinc-900/30"
+                              bonus.isPositive ? "bg-white/5" : "void-bg-canvas"
                             }`}
                           >
                             <p className="font-mono text-[8px] text-muted-foreground tracking-wider">

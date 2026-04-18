@@ -41,16 +41,16 @@ export default function SecretTransmissionOverlay({ transmission, onClose, onCla
             background: isMachine
               ? "linear-gradient(180deg, color-mix(in srgb, var(--background) 95%, #dc2626) 0%, var(--background) 100%)"
               : "linear-gradient(180deg, color-mix(in srgb, var(--background) 95%, #059669) 0%, var(--background) 100%)",
-            borderColor: isMachine ? "rgba(220, 38, 38, 0.3)" : "rgba(5, 150, 105, 0.3)",
+            borderColor: isMachine ? "color-mix(in oklch, var(--energy-error) 30%, transparent)" : "color-mix(in oklch, var(--energy-success) 30%, transparent)",
             boxShadow: isMachine
-              ? "0 0 40px rgba(220, 38, 38, 0.1), inset 0 1px 0 rgba(220, 38, 38, 0.1)"
-              : "0 0 40px rgba(5, 150, 105, 0.1), inset 0 1px 0 rgba(5, 150, 105, 0.1)",
+              ? "0 0 40px color-mix(in oklch, var(--energy-error) 10%, transparent), inset 0 1px 0 color-mix(in oklch, var(--energy-error) 10%, transparent)"
+              : "0 0 40px color-mix(in oklch, var(--energy-success) 10%, transparent), inset 0 1px 0 color-mix(in oklch, var(--energy-success) 10%, transparent)",
           }}
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b" style={{ borderColor: isMachine ? "rgba(220, 38, 38, 0.2)" : "rgba(5, 150, 105, 0.2)" }}>
+          <div className="flex items-center justify-between p-4 border-b" style={{ borderColor: isMachine ? "color-mix(in oklch, var(--energy-error) 20%, transparent)" : "color-mix(in oklch, var(--energy-success) 20%, transparent)" }}>
             <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-md" style={{ background: isMachine ? "rgba(220, 38, 38, 0.15)" : "rgba(5, 150, 105, 0.15)" }}>
+              <div className="p-1.5 rounded-md" style={{ background: isMachine ? "color-mix(in oklch, var(--energy-error) 15%, transparent)" : "color-mix(in oklch, var(--energy-success) 15%, transparent)" }}>
                 {isMachine ? <Shield size={14} style={{ color: "var(--alert-red)" }} /> : <Heart size={14} style={{ color: "var(--signal-green)" }} />}
               </div>
               <div>
@@ -66,7 +66,7 @@ export default function SecretTransmissionOverlay({ transmission, onClose, onCla
           </div>
 
           {/* Sender Info */}
-          <div className="px-4 py-3 border-b" style={{ borderColor: isMachine ? "rgba(220, 38, 38, 0.1)" : "rgba(5, 150, 105, 0.1)" }}>
+          <div className="px-4 py-3 border-b" style={{ borderColor: isMachine ? "color-mix(in oklch, var(--energy-error) 10%, transparent)" : "color-mix(in oklch, var(--energy-success) 10%, transparent)" }}>
             <div className="flex items-center gap-2 mb-1">
               <Radio size={12} style={{ color: isMachine ? "var(--alert-red)" : "var(--signal-green)" }} className="animate-pulse" />
               <span className="font-display text-sm font-bold text-foreground">{transmission.sender}</span>
@@ -104,9 +104,9 @@ export default function SecretTransmissionOverlay({ transmission, onClose, onCla
                 className="w-full flex items-center justify-center gap-2 py-2.5 rounded-md font-mono text-[11px] font-bold tracking-wider transition-all hover:scale-[1.02]"
                 style={{
                   background: isMachine
-                    ? "linear-gradient(135deg, rgba(220, 38, 38, 0.2) 0%, rgba(220, 38, 38, 0.1) 100%)"
-                    : "linear-gradient(135deg, rgba(5, 150, 105, 0.2) 0%, rgba(5, 150, 105, 0.1) 100%)",
-                  border: `1px solid ${isMachine ? "rgba(220, 38, 38, 0.3)" : "rgba(5, 150, 105, 0.3)"}`,
+                    ? "linear-gradient(135deg, color-mix(in oklch, var(--energy-error) 20%, transparent) 0%, color-mix(in oklch, var(--energy-error) 10%, transparent) 100%)"
+                    : "linear-gradient(135deg, color-mix(in oklch, var(--energy-success) 20%, transparent) 0%, color-mix(in oklch, var(--energy-success) 10%, transparent) 100%)",
+                  border: `1px solid ${isMachine ? "color-mix(in oklch, var(--energy-error) 30%, transparent)" : "color-mix(in oklch, var(--energy-success) 30%, transparent)"}`,
                   color: isMachine ? "var(--alert-red)" : "var(--signal-green)",
                 }}
               >

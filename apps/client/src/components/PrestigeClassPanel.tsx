@@ -55,11 +55,11 @@ export function PrestigeClassPanel() {
     if (!pc) return null;
 
     return (
-      <div className="border border-amber-500/30 rounded-lg bg-amber-950/10 p-4">
+      <div className="border void-border rounded-lg void-bg-sunk p-4">
         <div className="flex items-center gap-2 mb-3">
-          <Crown size={16} className="text-amber-400" />
+          <Crown size={16} className="void-text-accent" />
           <span className="font-display text-xs font-bold tracking-[0.2em]">PRESTIGE CLASS</span>
-          <span className="font-mono text-[9px] text-amber-400 bg-amber-950/30 px-2 py-0.5 rounded ml-auto">
+          <span className="font-mono text-[9px] void-text-accent void-bg-sunk px-2 py-0.5 rounded ml-auto">
             RANK {activePrestige.rank}
           </span>
         </div>
@@ -79,10 +79,10 @@ export function PrestigeClassPanel() {
         {/* Active perks */}
         {activePrestige.perks && activePrestige.perks.length > 0 && (
           <div className="space-y-1.5 mb-3">
-            <span className="font-mono text-[9px] text-amber-400">Active Perks:</span>
+            <span className="font-mono text-[9px] void-text-accent">Active Perks:</span>
             {activePrestige.perks.map((perk: any) => (
-              <div key={perk.key} className="flex items-center gap-2 bg-amber-950/20 rounded px-2 py-1.5">
-                <Star size={10} className="text-amber-400" />
+              <div key={perk.key} className="flex items-center gap-2 void-bg-sunk rounded px-2 py-1.5">
+                <Star size={10} className="void-text-accent" />
                 <div>
                   <span className="font-mono text-[10px] font-semibold">{perk.name}</span>
                   <span className="font-mono text-[9px] text-muted-foreground ml-2">{perk.description}</span>
@@ -94,8 +94,8 @@ export function PrestigeClassPanel() {
 
         {/* Aura */}
         {pc.aura && (
-          <div className="border-t border-amber-500/10 pt-2">
-            <span className="font-mono text-[9px] text-amber-400/70">
+          <div className="border-t void-border pt-2">
+            <span className="font-mono text-[9px] void-text-accent">
               Aura: {pc.aura.name} — {pc.aura.description}
             </span>
           </div>
@@ -108,7 +108,7 @@ export function PrestigeClassPanel() {
   return (
     <div className="border border-border/30 rounded-lg bg-card/40 p-4">
       <div className="flex items-center gap-2 mb-4">
-        <Crown size={16} className="text-amber-400" />
+        <Crown size={16} className="void-text-accent" />
         <span className="font-display text-xs font-bold tracking-[0.2em]">PRESTIGE CLASSES</span>
         {citizenLevel < 20 && (
           <span className="font-mono text-[9px] text-muted-foreground ml-auto">
@@ -132,8 +132,8 @@ export function PrestigeClassPanel() {
               transition={{ delay: i * 0.05 }}
               className={`border rounded-lg overflow-hidden transition-all ${
                 allMet
-                  ? "border-amber-500/20 bg-amber-950/10 hover:border-amber-500/40"
-                  : "border-zinc-700/20 bg-zinc-900/20 opacity-70"
+                  ? "void-border void-bg-sunk void-border"
+                  : "void-border void-bg-canvas opacity-70"
               }`}
             >
               <button
@@ -151,9 +151,9 @@ export function PrestigeClassPanel() {
                     </span>
                   </div>
                   {allMet ? (
-                    <Check size={14} className="text-emerald-400" />
+                    <Check size={14} className="void-text-energy" />
                   ) : (
-                    <Lock size={12} className="text-zinc-600" />
+                    <Lock size={12} className="void-text" />
                   )}
                 </div>
                 <p className="font-mono text-[9px] text-muted-foreground">{pc.description}</p>
@@ -170,13 +170,13 @@ export function PrestigeClassPanel() {
                     <span className="font-mono text-[9px] text-muted-foreground block">Requirements:</span>
                     {allMet ? (
                       <div className="flex items-center gap-1.5">
-                        <span className="text-[9px] text-emerald-400">✓</span>
-                        <span className="font-mono text-[9px] text-emerald-400">All requirements met!</span>
+                        <span className="text-[9px] void-text-energy">✓</span>
+                        <span className="font-mono text-[9px] void-text-energy">All requirements met!</span>
                       </div>
                     ) : (
                       reqs.missing.map((msg: string, j: number) => (
                         <div key={j} className="flex items-center gap-1.5">
-                          <span className="text-[9px] text-red-400">✗</span>
+                          <span className="text-[9px] void-text-error">✗</span>
                           <span className="font-mono text-[9px] text-foreground/80">{msg}</span>
                         </div>
                       ))
@@ -185,10 +185,10 @@ export function PrestigeClassPanel() {
 
                   {/* Perks preview */}
                   <div className="mt-2 pt-2 border-t border-border/10">
-                    <span className="font-mono text-[9px] text-amber-400/70 block mb-1">Prestige Perks:</span>
+                    <span className="font-mono text-[9px] void-text-accent block mb-1">Prestige Perks:</span>
                     {pc.perks.map((perk: any) => (
                       <div key={perk.key} className="flex items-center gap-1.5 mb-0.5">
-                        <span className="font-mono text-[8px] text-amber-400">R{perk.rank}</span>
+                        <span className="font-mono text-[8px] void-text-accent">R{perk.rank}</span>
                         <span className="font-mono text-[9px] text-foreground/70">{perk.name}</span>
                       </div>
                     ))}
@@ -199,7 +199,7 @@ export function PrestigeClassPanel() {
                     <div className="mt-3">
                       {confirming ? (
                         <div className="space-y-2">
-                          <div className="flex items-center gap-1 text-amber-400">
+                          <div className="flex items-center gap-1 void-text-accent">
                             <AlertTriangle size={10} />
                             <span className="font-mono text-[9px]">This choice is permanent!</span>
                           </div>
@@ -213,7 +213,7 @@ export function PrestigeClassPanel() {
                             </Button>
                             <Button
                               size="sm"
-                              className="text-[10px] h-6 px-2 bg-amber-600 hover:bg-amber-500"
+                              className="text-[10px] h-6 px-2 void-bg-sunk void-bg-sunk"
                               onClick={() => selectPrestige.mutate({ prestigeClassKey: pc.key as any })}
                               disabled={selectPrestige.isPending}
                             >
@@ -224,7 +224,7 @@ export function PrestigeClassPanel() {
                       ) : (
                         <Button
                           size="sm" variant="outline"
-                          className="text-[10px] h-6 px-3 w-full border-amber-500/30 text-amber-400 hover:bg-amber-950/20"
+                          className="text-[10px] h-6 px-3 w-full void-border void-text-accent void-bg-sunk"
                           onClick={() => setConfirming(true)}
                         >
                           Select Prestige Class <ChevronRight size={10} />

@@ -92,12 +92,12 @@ export default function GalacticMap({ empire, selectedSector, onSelectSector, ac
       const sx = Math.random() * W;
       const sy = Math.random() * H;
       const brightness = 0.1 + Math.random() * 0.4;
-      ctx.fillStyle = `rgba(255,255,255,${brightness})`;
+      ctx.fillStyle = `color-mix(in oklch, var(--text-primary) calc((brightness) * 100%), transparent)`;
       ctx.fillRect(sx, sy, 1, 1);
     }
 
     // Draw connections between adjacent sectors
-    ctx.strokeStyle = "rgba(255,255,255,0.05)";
+    ctx.strokeStyle = "color-mix(in oklch, var(--text-primary) 5%, transparent)";
     ctx.lineWidth = 1;
     for (const sector of GALACTIC_MAP) {
       const pos = SECTOR_POSITIONS[sector.id];
@@ -113,7 +113,7 @@ export default function GalacticMap({ empire, selectedSector, onSelectSector, ac
     }
 
     // Draw trade routes (between controlled/allied sectors)
-    ctx.strokeStyle = "rgba(34,211,238,0.15)";
+    ctx.strokeStyle = "color-mix(in oklch, var(--energy-primary) 15%, transparent)";
     ctx.lineWidth = 2;
     ctx.setLineDash([4, 4]);
     for (const sectorId of empire.controlledSectors) {
@@ -158,9 +158,9 @@ export default function GalacticMap({ empire, selectedSector, onSelectSector, ac
       // Sector dot
       ctx.beginPath();
       ctx.arc(x, y, isHovered || isSelected ? radius + 3 : radius, 0, Math.PI * 2);
-      ctx.fillStyle = isOwned ? "#22d3ee" + "60" : faction.color + "40";
+      ctx.fillStyle = isOwned ? "var(--energy-primary)" + "60" : faction.color + "40";
       ctx.fill();
-      ctx.strokeStyle = isSelected ? "#ffffff" : isOwned ? "#22d3ee" : faction.color;
+      ctx.strokeStyle = isSelected ? "#ffffff" : isOwned ? "var(--energy-primary)" : faction.color;
       ctx.lineWidth = isSelected ? 3 : isHovered ? 2 : 1;
       ctx.stroke();
 
@@ -190,7 +190,7 @@ export default function GalacticMap({ empire, selectedSector, onSelectSector, ac
       }
 
       // Label
-      ctx.fillStyle = isHovered || isSelected ? "#ffffff" : "rgba(255,255,255,0.4)";
+      ctx.fillStyle = isHovered || isSelected ? "#ffffff" : "color-mix(in oklch, var(--text-primary) 40%, transparent)";
       ctx.font = `${isHovered || isSelected ? "bold " : ""}9px monospace`;
       ctx.textAlign = "center";
       ctx.fillText(sector.name, x, y + radius + 12);
@@ -235,10 +235,10 @@ export default function GalacticMap({ empire, selectedSector, onSelectSector, ac
           <div className="grid grid-cols-2 gap-x-4 gap-y-0.5 text-[9px] font-mono text-white/50">
             <span>Credits: {tooltipSector.resources.credits}/cycle</span>
             <span>Materials: {tooltipSector.resources.materials}/cycle</span>
-            <span>Threat: <span className={tooltipSector.threat > 60 ? "text-red-400" : tooltipSector.threat > 30 ? "text-amber-400" : "text-green-400"}>{tooltipSector.threat}%</span></span>
+            <span>Threat: <span className={tooltipSector.threat > 60 ? "void-text-error" : tooltipSector.threat > 30 ? "void-text-accent" : "void-text-energy"}>{tooltipSector.threat}%</span></span>
             <span>Stability: {tooltipSector.stability}%</span>
-            {tooltipSector.hasRuins && <span className="text-purple-400">Pre-Fall ruins</span>}
-            {tooltipSector.hasAnomaly && <span className="text-purple-400">Anomaly detected</span>}
+            {tooltipSector.hasRuins && <span className="void-text-system">Pre-Fall ruins</span>}
+            {tooltipSector.hasAnomaly && <span className="void-text-system">Anomaly detected</span>}
           </div>
           {tooltipSector.lore && <p className="text-[8px] text-white/20 mt-2 italic leading-relaxed">{tooltipSector.lore}</p>}
         </div>
@@ -246,10 +246,10 @@ export default function GalacticMap({ empire, selectedSector, onSelectSector, ac
 
       {/* Legend */}
       <div className="absolute bottom-2 right-2 flex flex-wrap gap-2 text-[8px] font-mono text-white/30">
-        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-cyan-400" /> You</span>
-        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-400" /> Mission</span>
-        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-purple-400" /> Anomaly</span>
-        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-400" /> Threat</span>
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full void-bg-success" /> You</span>
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full void-bg-sunk" /> Mission</span>
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full void-bg-system" /> Anomaly</span>
+        <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full void-bg-error" /> Threat</span>
       </div>
     </div>
   );

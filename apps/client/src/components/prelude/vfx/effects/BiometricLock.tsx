@@ -14,21 +14,21 @@ type LockState = "dormant" | "pulsing" | "recognize" | "open";
 
 const STATE_STYLES: Record<LockState, React.CSSProperties> = {
   dormant: {
-    backgroundColor: "rgba(34, 211, 238, 0.1)",
-    boxShadow: "0 0 8px rgba(34, 211, 238, 0.2)",
+    backgroundColor: "color-mix(in oklch, var(--energy-primary) 10%, transparent)",
+    boxShadow: "0 0 8px color-mix(in oklch, var(--energy-primary) 20%, transparent)",
   },
   pulsing: {
-    backgroundColor: "rgba(34, 211, 238, 0.2)",
-    boxShadow: "0 0 16px rgba(34, 211, 238, 0.4)",
+    backgroundColor: "color-mix(in oklch, var(--energy-primary) 20%, transparent)",
+    boxShadow: "0 0 16px color-mix(in oklch, var(--energy-primary) 40%, transparent)",
   },
   recognize: {
-    backgroundColor: "rgba(34, 211, 238, 0.6)",
-    boxShadow: "0 0 32px rgba(34, 211, 238, 0.8)",
+    backgroundColor: "color-mix(in oklch, var(--energy-primary) 60%, transparent)",
+    boxShadow: "0 0 32px color-mix(in oklch, var(--energy-primary) 80%, transparent)",
     animation: "pvfx-bio-flash 0.3s ease-out",
   },
   open: {
-    backgroundColor: "rgba(34, 211, 238, 0.35)",
-    boxShadow: "0 0 20px rgba(34, 211, 238, 0.5)",
+    backgroundColor: "color-mix(in oklch, var(--energy-primary) 35%, transparent)",
+    boxShadow: "0 0 20px color-mix(in oklch, var(--energy-primary) 50%, transparent)",
   },
 };
 
@@ -62,7 +62,7 @@ export function BiometricLock({ active, state = "dormant", onComplete, className
           width: "40px",
           height: "40px",
           borderRadius: "50%",
-          border: "2px solid #22d3ee",
+          border: "2px solid var(--energy-primary)",
           pointerEvents: "none",
           ...STATE_STYLES[lockState],
         }}

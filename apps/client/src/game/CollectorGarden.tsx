@@ -57,9 +57,9 @@ function MiniBattleCard({ card, onClick, selected, targetable, disabled }: {
 }) {
   const rarityBorder = {
     common: "border-white/15",
-    uncommon: "border-emerald-400/35",
-    rare: "border-blue-400/45",
-    legendary: "border-amber-400/55",
+    uncommon: "void-border-success",
+    rare: "void-border",
+    legendary: "void-border",
   }[card.rarity];
   const hpPct = card.defense > 0 ? (card.currentHP / card.defense) * 100 : 100;
   return (
@@ -76,7 +76,7 @@ function MiniBattleCard({ card, onClick, selected, targetable, disabled }: {
       `}
       style={{ background: "linear-gradient(180deg, rgba(30,10,20,0.95), rgba(10,5,10,0.98))" }}
     >
-      <div className="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-purple-500/80 flex items-center justify-center">
+      <div className="absolute top-0.5 left-0.5 w-4 h-4 rounded-full void-bg-system flex items-center justify-center">
         <span className="font-mono text-[8px] font-bold text-white">{card.cost}</span>
       </div>
       <div className="pt-6 px-1 text-center">
@@ -84,11 +84,11 @@ function MiniBattleCard({ card, onClick, selected, targetable, disabled }: {
       </div>
       {card.type === "unit" && (
         <div className="absolute bottom-1 left-0 right-0 flex items-center justify-center gap-1">
-          <span className="font-mono text-[8px] text-red-400 font-bold">{card.attack + card.tempAttackMod}</span>
+          <span className="font-mono text-[8px] void-text-error font-bold">{card.attack + card.tempAttackMod}</span>
           <span className="text-white/20 text-[7px]">/</span>
           <span
             className={`font-mono text-[8px] font-bold ${
-              card.currentHP < card.defense ? "text-amber-400" : "text-emerald-400"
+              card.currentHP < card.defense ? "void-text-accent" : "void-text-energy"
             }`}
           >
             {card.currentHP}
@@ -98,7 +98,7 @@ function MiniBattleCard({ card, onClick, selected, targetable, disabled }: {
       {card.type === "unit" && (
         <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-black/60">
           <div
-            className={`h-full ${hpPct > 50 ? "bg-emerald-400" : hpPct > 25 ? "bg-amber-400" : "bg-red-400"}`}
+            className={`h-full ${hpPct > 50 ? "void-bg-success" : hpPct > 25 ? "void-bg-sunk" : "void-bg-error"}`}
             style={{ width: `${Math.max(0, hpPct)}%` }}
           />
         </div>
@@ -218,15 +218,15 @@ export default function CollectorGarden({ lastFactionArc, onComplete, onClose }:
           animate={{ opacity: [0.1, 0.3, 0.1] }}
           transition={{ duration: 6, repeat: Infinity }}
           className="absolute inset-0"
-          style={{ background: "radial-gradient(circle at 50% 70%, rgba(34,197,94,0.12) 0%, transparent 60%)" }}
+          style={{ background: "radial-gradient(circle at 50% 70%, color-mix(in oklch, var(--energy-success) 12%, transparent) 0%, transparent 60%)" }}
         />
       </div>
 
       <div className={`relative z-10 w-full ${phase === "battle" ? "max-w-3xl" : "max-w-2xl"}`}>
         {/* Header */}
         <div className="text-center mb-6">
-          <Flower2 size={28} className="text-emerald-400 mx-auto mb-2" />
-          <p className="font-display text-xs tracking-[0.4em] text-emerald-300">THE COLLECTOR'S GARDEN</p>
+          <Flower2 size={28} className="void-text-energy mx-auto mb-2" />
+          <p className="font-display text-xs tracking-[0.4em] void-text-energy">THE COLLECTOR'S GARDEN</p>
           <p className="font-mono text-[9px] text-white/30 mt-1">Thalorian field · proximity to the Shadow Tongue's birthplace</p>
         </div>
 
@@ -264,7 +264,7 @@ export default function CollectorGarden({ lastFactionArc, onComplete, onClose }:
                 but you recognize it the way you recognize your own handwriting.
               </p>
               <p className="font-mono text-xs text-white/70 leading-relaxed italic mt-2">You pick it up.</p>
-              <button onClick={advance} className="mt-4 w-full py-2.5 rounded bg-rose-500/10 border border-rose-500/30 text-rose-400 font-mono text-[10px] hover:bg-rose-500/20">
+              <button onClick={advance} className="mt-4 w-full py-2.5 rounded void-bg-error border void-border-error void-text-error font-mono text-[10px] void-bg-error">
                 PICK UP THE HELMET
               </button>
             </motion.div>
@@ -277,18 +277,18 @@ export default function CollectorGarden({ lastFactionArc, onComplete, onClose }:
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="p-5 rounded-xl bg-gradient-to-b from-rose-950/40 to-black border border-rose-500/30"
+              className="p-5 rounded-xl bg-gradient-to-b from-rose-950/40 to-black border void-border-error"
             >
               <div className="flex items-start gap-3">
-                <Mic size={14} className="text-rose-400 mt-1 shrink-0" />
+                <Mic size={14} className="void-text-error mt-1 shrink-0" />
                 <div className="flex-1">
-                  <p className="font-mono text-[9px] text-rose-400/60 tracking-wider mb-2">THE COLLECTOR</p>
-                  <p className="font-mono text-sm text-rose-200 italic leading-relaxed">{COLLECTOR_LINES[lineIdx]}</p>
+                  <p className="font-mono text-[9px] void-text-error tracking-wider mb-2">THE COLLECTOR</p>
+                  <p className="font-mono text-sm void-text-error italic leading-relaxed">{COLLECTOR_LINES[lineIdx]}</p>
                 </div>
               </div>
               <div className="flex items-center justify-between mt-4">
                 <span className="font-mono text-[8px] text-white/20">{lineIdx + 1} / {COLLECTOR_LINES.length}</span>
-                <button onClick={advance} className="px-4 py-2 rounded bg-rose-500/10 border border-rose-500/30 text-rose-400 font-mono text-[10px] font-bold hover:bg-rose-500/20">
+                <button onClick={advance} className="px-4 py-2 rounded void-bg-error border void-border-error void-text-error font-mono text-[10px] font-bold void-bg-error">
                   {lineIdx < COLLECTOR_LINES.length - 1 ? "CONTINUE" : "DRAW YOUR DECK"}
                 </button>
               </div>
@@ -301,24 +301,24 @@ export default function CollectorGarden({ lastFactionArc, onComplete, onClose }:
               key="battle"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="rounded-xl bg-black/70 border border-rose-500/40 overflow-hidden"
+              className="rounded-xl bg-black/70 border void-border-error overflow-hidden"
             >
               {/* Boss HP strip */}
-              <div className="p-3 border-b border-rose-500/20 bg-gradient-to-r from-rose-950/40 to-black">
+              <div className="p-3 border-b void-border-error bg-gradient-to-r from-rose-950/40 to-black">
                 <div className="flex items-center gap-3">
                   <img src={collectorEncounter.image} alt="" className="w-10 h-10 rounded-full object-cover ring-1 ring-rose-400/30" />
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-0.5">
-                      <span className="font-display text-xs tracking-wider text-rose-200">{collectorEncounter.name}</span>
-                      <span className="font-mono text-[8px] text-purple-400/60 px-1.5 py-0.5 rounded-full bg-purple-400/10">
+                      <span className="font-display text-xs tracking-wider void-text-error">{collectorEncounter.name}</span>
+                      <span className="font-mono text-[8px] void-text-system px-1.5 py-0.5 rounded-full void-bg-system">
                         PHASE {battleState.bossPhase}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Heart size={10} className="text-red-400" />
+                      <Heart size={10} className="void-text-error" />
                       <div className="flex-1 h-1.5 rounded-full bg-white/10 overflow-hidden">
                         <motion.div
-                          className="h-full bg-red-500"
+                          className="h-full void-bg-error"
                           animate={{ width: `${Math.max(0, (battleState.enemy.hp / battleState.enemy.maxHP) * 100)}%` }}
                         />
                       </div>
@@ -329,7 +329,7 @@ export default function CollectorGarden({ lastFactionArc, onComplete, onClose }:
                   </div>
                 </div>
                 {battleState.bossDialog && (
-                  <p className="font-mono text-[10px] text-rose-300/80 italic mt-2">&ldquo;{battleState.bossDialog}&rdquo;</p>
+                  <p className="font-mono text-[10px] void-text-error italic mt-2">&ldquo;{battleState.bossDialog}&rdquo;</p>
                 )}
               </div>
 
@@ -354,7 +354,7 @@ export default function CollectorGarden({ lastFactionArc, onComplete, onClose }:
                 {targetMode && (
                   <button
                     onClick={() => handleTargetClick("face")}
-                    className="px-3 py-1 rounded-md font-mono text-[10px] bg-red-500/15 border border-red-400/30 text-red-300 hover:bg-red-500/25"
+                    className="px-3 py-1 rounded-md font-mono text-[10px] void-bg-error border void-border-error void-text-error void-bg-error"
                   >
                     <Target size={9} className="inline mr-1" /> ATTACK BOSS
                   </button>
@@ -394,24 +394,24 @@ export default function CollectorGarden({ lastFactionArc, onComplete, onClose }:
 
               {/* Player HP + End turn */}
               <div className="flex items-center gap-3 px-3 py-2 border-t border-white/5 bg-black/40">
-                <Heart size={12} className="text-cyan-400" />
+                <Heart size={12} className="void-text-energy" />
                 <div className="flex-1 h-1.5 rounded-full bg-white/10 overflow-hidden">
                   <motion.div
-                    className="h-full bg-cyan-400"
+                    className="h-full void-bg-success"
                     animate={{ width: `${Math.max(0, (battleState.player.hp / battleState.player.maxHP) * 100)}%` }}
                   />
                 </div>
                 <span className="font-mono text-[9px] text-white/60">
                   {battleState.player.hp}/{battleState.player.maxHP}
                 </span>
-                <Zap size={10} className="text-blue-400/70 ml-2" />
-                <span className="font-mono text-[10px] text-blue-300">
+                <Zap size={10} className="void-text-energy ml-2" />
+                <span className="font-mono text-[10px] void-text-energy">
                   {battleState.player.energy}/{battleState.player.maxEnergy}
                 </span>
                 <button
                   onClick={() => doAction({ type: "END_TURN" })}
                   disabled={battleState.turn !== "player" || !!battleState.winner}
-                  className="ml-2 px-3 py-1 rounded-md font-mono text-[10px] bg-cyan-500/15 border border-cyan-400/30 text-cyan-300 disabled:opacity-30"
+                  className="ml-2 px-3 py-1 rounded-md font-mono text-[10px] void-bg-success border void-border-success void-text-energy disabled:opacity-30"
                 >
                   END TURN
                 </button>
@@ -445,8 +445,8 @@ export default function CollectorGarden({ lastFactionArc, onComplete, onClose }:
               </div>
 
               {/* Boss passive reminder */}
-              <div className="px-3 py-1.5 border-t border-white/5 bg-rose-950/20">
-                <p className="font-mono text-[8px] text-rose-400/60">
+              <div className="px-3 py-1.5 border-t border-white/5 void-bg-error">
+                <p className="font-mono text-[8px] void-text-error">
                   <Shield size={8} className="inline mr-1" />
                   {battleState.bossPassive.name}: {battleState.bossPassive.description}
                 </p>
@@ -460,19 +460,19 @@ export default function CollectorGarden({ lastFactionArc, onComplete, onClose }:
               key="victory"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="p-5 rounded-xl bg-emerald-500/10 border border-emerald-500/30"
+              className="p-5 rounded-xl void-bg-success border void-border-success"
             >
-              <Swords size={24} className="text-emerald-400 mb-3" />
-              <p className="font-mono text-xs font-bold text-emerald-400 mb-2">THE COLLECTOR RETREATS</p>
+              <Swords size={24} className="void-text-energy mb-3" />
+              <p className="font-mono text-xs font-bold void-text-energy mb-2">THE COLLECTOR RETREATS</p>
               <p className="font-mono text-[11px] text-white/70 italic leading-relaxed">
                 He does not run. He walks, slowly, the way gardeners walk. He will be back. You know he will be back
                 and you know he is weeping as he goes. The helmet grows warm in your hands.
               </p>
-              <p className="font-mono text-[10px] text-emerald-400/80 mt-3">
+              <p className="font-mono text-[10px] void-text-energy mt-3">
                 Recovered: The Eyes' final transmission (full version)<br />
                 +500 Light Energy · Collector flagged for Act 4
               </p>
-              <button onClick={() => finish(true)} className="mt-4 w-full py-2.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-mono text-[10px] font-bold hover:bg-emerald-500/30">
+              <button onClick={() => finish(true)} className="mt-4 w-full py-2.5 rounded void-bg-success border void-border-success void-text-energy font-mono text-[10px] font-bold void-bg-success">
                 CLOSE HER EYES
               </button>
             </motion.div>
@@ -484,19 +484,19 @@ export default function CollectorGarden({ lastFactionArc, onComplete, onClose }:
               key="defeat"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="p-5 rounded-xl bg-red-500/10 border border-red-500/30"
+              className="p-5 rounded-xl void-bg-error border void-border-error"
             >
-              <Skull size={28} className="text-red-400 mb-3" />
-              <p className="font-mono text-xs font-bold text-red-400 mb-2">THE COLLECTOR TAKES SOMETHING</p>
+              <Skull size={28} className="void-text-error mb-3" />
+              <p className="font-mono text-xs font-bold void-text-error mb-2">THE COLLECTOR TAKES SOMETHING</p>
               <p className="font-mono text-[11px] text-white/70 italic leading-relaxed">
                 He plucks the helmet from your fingers gently, the way you would take a knife from a sleeping child.
                 He smiles. He reaches into your deck and takes &ldquo;{lostCard}&rdquo; without needing your permission. It is gone.
               </p>
-              <p className="font-mono text-[10px] text-red-400/80 mt-3">
+              <p className="font-mono text-[10px] void-text-error mt-3">
                 Lost: {lostCard} — permanently removed from your deck<br />
                 The Collector will remember your face.
               </p>
-              <button onClick={() => finish(false)} className="mt-4 w-full py-2.5 rounded bg-red-500/20 border border-red-500/40 text-red-300 font-mono text-[10px] font-bold hover:bg-red-500/30">
+              <button onClick={() => finish(false)} className="mt-4 w-full py-2.5 rounded void-bg-error border void-border-error void-text-error font-mono text-[10px] font-bold void-bg-error">
                 LEAVE THE GARDEN
               </button>
             </motion.div>

@@ -586,14 +586,14 @@ interface TermLine {
 
 function colorClass(type: TermLine["type"]): string {
   switch (type) {
-    case "system": return "text-cyan-400";
-    case "input": return "text-green-400";
+    case "system": return "void-text-energy";
+    case "input": return "void-text-energy";
     case "output": return "text-muted-foreground";
-    case "error": return "text-red-400";
-    case "success": return "text-green-300";
-    case "warning": return "text-amber-400";
-    case "ascii": return "text-cyan-500";
-    case "info": return "text-blue-300";
+    case "error": return "void-text-error";
+    case "success": return "void-text-energy";
+    case "warning": return "void-text-accent";
+    case "ascii": return "void-text-energy";
+    case "info": return "void-text-energy";
     default: return "text-muted-foreground";
   }
 }
@@ -1771,7 +1771,7 @@ export default function TradeWarsPage() {
   if (authLoading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="text-cyan-400 font-mono animate-pulse">Establishing uplink...</div>
+        <div className="void-text-energy font-mono animate-pulse">Establishing uplink...</div>
       </div>
     );
   }
@@ -1779,20 +1779,20 @@ export default function TradeWarsPage() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center p-4">
-        <div className="border border-cyan-500/30 bg-black/90 p-8 rounded max-w-md text-center">
-          <pre className="text-cyan-500 text-xs mb-4 whitespace-pre">{`
+        <div className="border void-border-success bg-black/90 p-8 rounded max-w-md text-center">
+          <pre className="void-text-energy text-xs mb-4 whitespace-pre">{`
   ████████╗███████╗
   ╚══██╔══╝██╔════╝
      ██║   █████╗
      ██║   ██╔══╝
      ██║   ███████╗
      ╚═╝   ╚══════╝`}</pre>
-          <h2 className="text-cyan-400 font-mono text-lg mb-2">TRADE EMPIRE</h2>
+          <h2 className="void-text-energy font-mono text-lg mb-2">TRADE EMPIRE</h2>
           <p className="text-muted-foreground font-mono text-sm mb-2">After the Fall. Before the Empire.</p>
           <p className="text-muted-foreground font-mono text-xs mb-6">Authentication required to access the Inception Ark Command Terminal.</p>
           <a
             href={getLoginUrl()}
-            className="inline-block px-6 py-2 bg-cyan-500/20 border border-cyan-500/50 text-cyan-400 font-mono text-sm hover:bg-cyan-500/30 transition-colors"
+            className="inline-block px-6 py-2 void-bg-success border void-border-success void-text-energy font-mono text-sm void-bg-success transition-colors"
           >
             [ AUTHENTICATE ]
           </a>
@@ -1808,17 +1808,17 @@ export default function TradeWarsPage() {
       {/* Warp Transition Effect */}
       <WarpTransition active={showWarpTransition} onComplete={() => setShowWarpTransition(false)} />
       {/* Header bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-3 sm:px-4 py-2 bg-background/80 border-b border-cyan-500/20 gap-1">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between px-3 sm:px-4 py-2 bg-background/80 border-b void-border-success gap-1">
         <div className="flex items-center gap-2 sm:gap-3">
-          <Link href="/games" className="text-cyan-400 font-mono text-[10px] sm:text-xs hover:text-cyan-300 transition-colors">
+          <Link href="/games" className="void-text-energy font-mono text-[10px] sm:text-xs void-text-energy transition-colors">
             ← GAMES
           </Link>
-          <span className="text-gray-600 font-mono text-[10px] sm:text-xs">|</span>
-          <span className="text-cyan-500 font-mono text-[10px] sm:text-xs tracking-wider">TRADE EMPIRE</span>
+          <span className="void-text font-mono text-[10px] sm:text-xs">|</span>
+          <span className="void-text-energy font-mono text-[10px] sm:text-xs tracking-wider">TRADE EMPIRE</span>
           {stateQuery.data?.faction && (
             <>
-              <span className="text-gray-600 font-mono text-[10px] sm:text-xs">|</span>
-              <span className={`font-mono text-[10px] sm:text-xs ${stateQuery.data.faction === "empire" ? "text-amber-400" : "text-red-400"}`}>
+              <span className="void-text font-mono text-[10px] sm:text-xs">|</span>
+              <span className={`font-mono text-[10px] sm:text-xs ${stateQuery.data.faction === "empire" ? "void-text-accent" : "void-text-error"}`}>
                 {stateQuery.data.faction === "empire" ? "⚜ EMPIRE" : "🔥 INSURGENCY"}
               </span>
             </>
@@ -1827,17 +1827,17 @@ export default function TradeWarsPage() {
         <div className="flex items-center gap-2 sm:gap-4 font-mono text-[10px] sm:text-xs">
           {stateQuery.data && (
             <>
-              <span className="text-green-400">{stateQuery.data.credits?.toLocaleString()} cr</span>
+              <span className="void-text-energy">{stateQuery.data.credits?.toLocaleString()} cr</span>
               <span className="text-muted-foreground">|</span>
-              <span className="text-amber-400">T:{stateQuery.data.turnsRemaining}</span>
+              <span className="void-text-accent">T:{stateQuery.data.turnsRemaining}</span>
               <span className="text-muted-foreground">|</span>
-              <span className="text-cyan-400">S{stateQuery.data.currentSector}</span>
+              <span className="void-text-energy">S{stateQuery.data.currentSector}</span>
               <span className="text-muted-foreground">|</span>
-              <span className="text-purple-400">RP:{stateQuery.data.researchPoints || 0}</span>
+              <span className="void-text-system">RP:{stateQuery.data.researchPoints || 0}</span>
               <span className="text-muted-foreground">|</span>
               <button
                 onClick={() => setShowGalaxyMap(true)}
-                className="text-cyan-400 hover:text-cyan-300 transition-colors uppercase tracking-wider"
+                className="void-text-energy void-text-energy transition-colors uppercase tracking-wider"
                 title="Open Galaxy Map"
               >
                 🗺 MAP
@@ -1882,7 +1882,7 @@ export default function TradeWarsPage() {
         <div
           className="pointer-events-none fixed inset-0 z-10"
           style={{
-            background: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px)",
+            background: "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--bg-void) 3%, transparent) 2px, color-mix(in oklch, var(--bg-void) 3%, transparent) 4px)",
           }}
         />
 
@@ -1893,13 +1893,13 @@ export default function TradeWarsPage() {
         ))}
 
         {isProcessing && (
-          <div className="text-cyan-400 animate-pulse">Processing...</div>
+          <div className="void-text-energy animate-pulse">Processing...</div>
         )}
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSubmit} className="flex items-center px-3 sm:px-4 py-2.5 sm:py-3 bg-background/90 border-t border-cyan-500/20">
-        <span className="text-green-400 font-mono text-xs sm:text-sm mr-2">{">"}</span>
+      <form onSubmit={handleSubmit} className="flex items-center px-3 sm:px-4 py-2.5 sm:py-3 bg-background/90 border-t void-border-success">
+        <span className="void-text-energy font-mono text-xs sm:text-sm mr-2">{">"}</span>
         <input
           ref={inputRef}
           type="text"
@@ -1908,7 +1908,7 @@ export default function TradeWarsPage() {
           onKeyDown={handleKeyDown}
           disabled={isProcessing}
           autoFocus
-          className="flex-1 bg-transparent text-green-400 font-mono text-xs sm:text-sm outline-none placeholder-gray-600 caret-green-400"
+          className="flex-1 bg-transparent void-text-energy font-mono text-xs sm:text-sm outline-none placeholder-gray-600 caret-green-400"
           placeholder={
             isProcessing ? "Processing..." :
             gamePhase === "faction_choice" ? "Type 1 or 2..." :

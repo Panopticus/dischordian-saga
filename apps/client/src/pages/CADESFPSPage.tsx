@@ -30,9 +30,9 @@ import { ResponsiveImage } from "@/components/ResponsiveImage";
 const P = {
   VOID_BLACK: "#0f172a",
   TRENCH_DARK: "#1c1917",
-  AMBER: "#f59e0b",
+  AMBER: "var(--energy-accent)",
   ORANGE: "#f97316",
-  RED: "#ef4444",
+  RED: "var(--energy-error)",
   GOLD: "#fbbf24",
   VIOLET: "#8b5cf6",
   BONE: "#f5f0e8",
@@ -386,7 +386,7 @@ export default function CADESFPSPage() {
                 </p>
                 {result.thoughtborn_contacted && (
                   <>
-                    <div className="mt-3 -mx-4 overflow-hidden rounded-md border border-violet-500/30">
+                    <div className="mt-3 -mx-4 overflow-hidden rounded-md border void-border-system">
                       <ResponsiveImage
                         src={CADES_CHARACTERS.thoughtbornLeaderBossSplash}
                         alt="The Thoughtborn Leader"

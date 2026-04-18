@@ -70,7 +70,7 @@ function MaterialBadge({ materialId, required, have }: {
   const enough = have >= required;
   return (
     <div className={`flex items-center gap-1.5 px-2 py-1 rounded-md border text-[10px] font-mono
-      ${enough ? "border-green-500/20 bg-green-500/5 text-green-400" : "border-red-500/20 bg-red-500/5 text-red-400"}`}>
+      ${enough ? "void-border-success void-bg-success void-text-energy" : "void-border-error void-bg-error void-text-error"}`}>
       <span>{mat.icon}</span>
       <span className="truncate max-w-[80px]">{mat.name}</span>
       <span className="font-bold">{have}/{required}</span>
@@ -90,11 +90,11 @@ function RecipeCard({ recipe, skillLevels, materials, dreamTokens, onSelect, isS
   const { canCraft } = canCraftRecipe(recipe, skillLevels, materials, dreamTokens);
   const successRate = calculateSuccessRate(recipe, skillLevels[recipe.skill] || 0);
   const rarityColors = {
-    common: { text: "text-muted-foreground", border: "border-gray-500/20", bg: "bg-gray-500/5" },
-    uncommon: { text: "text-green-400", border: "border-green-500/20", bg: "bg-green-500/5" },
-    rare: { text: "text-blue-400", border: "border-blue-500/20", bg: "bg-blue-500/5" },
-    epic: { text: "text-purple-400", border: "border-purple-500/20", bg: "bg-purple-500/5" },
-    legendary: { text: "text-amber-400", border: "border-amber-500/20", bg: "bg-amber-500/5" },
+    common: { text: "text-muted-foreground", border: "void-border", bg: "void-bg-canvas" },
+    uncommon: { text: "void-text-energy", border: "void-border-success", bg: "void-bg-success" },
+    rare: { text: "void-text-energy", border: "void-border", bg: "void-bg-sunk" },
+    epic: { text: "void-text-system", border: "void-border-system", bg: "void-bg-system" },
+    legendary: { text: "void-text-accent", border: "void-border", bg: "void-bg-sunk" },
   };
   const rc = rarityColors[recipe.rarity];
   const CatIcon = CATEGORY_ICONS[recipe.category];
@@ -134,7 +134,7 @@ function RecipeCard({ recipe, skillLevels, materials, dreamTokens, onSelect, isS
           </div>
         </div>
         <div className="text-right shrink-0">
-          <span className={`font-mono text-[9px] ${successRate >= 0.8 ? "text-green-400" : successRate >= 0.5 ? "text-amber-400" : "text-red-400"}`}>
+          <span className={`font-mono text-[9px] ${successRate >= 0.8 ? "void-text-energy" : successRate >= 0.5 ? "void-text-accent" : "void-text-error"}`}>
             {Math.round(successRate * 100)}%
           </span>
         </div>
@@ -278,8 +278,8 @@ export default function ForgePage() {
     <div className="min-h-screen relative">
       {/* Background */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="nebula-blob w-[500px] h-[500px] bg-orange-600 top-[-100px] right-[-100px]" style={{ animationDelay: "-5s" }} />
-        <div className="nebula-blob w-[400px] h-[400px] bg-red-700 bottom-[-100px] left-[-100px]" style={{ animationDelay: "-12s" }} />
+        <div className="nebula-blob w-[500px] h-[500px] void-bg-sunk top-[-100px] right-[-100px]" style={{ animationDelay: "-5s" }} />
+        <div className="nebula-blob w-[400px] h-[400px] void-bg-error bottom-[-100px] left-[-100px]" style={{ animationDelay: "-12s" }} />
         <div className="absolute inset-0 grid-bg opacity-60" />
       </div>
 
@@ -290,12 +290,12 @@ export default function ForgePage() {
             <ChevronLeft size={12} /> SAGAVERSE
           </Link>
           <div className="flex items-center gap-2">
-            <Hammer size={14} className="text-orange-400" />
-            <span className="font-display text-xs font-bold tracking-[0.3em] text-orange-400">THE FORGE</span>
+            <Hammer size={14} className="void-text-premium" />
+            <span className="font-display text-xs font-bold tracking-[0.3em] void-text-premium">THE FORGE</span>
           </div>
           <button
             onClick={() => setShowSkills(!showSkills)}
-            className="font-mono text-[10px] text-muted-foreground hover:text-orange-400 transition-colors flex items-center gap-1"
+            className="font-mono text-[10px] text-muted-foreground void-text-premium transition-colors flex items-center gap-1"
           >
             <ArrowUp size={10} /> SKILLS
           </button>
@@ -313,7 +313,7 @@ export default function ForgePage() {
               className="overflow-hidden mb-4"
             >
               <div className="glass-float rounded-lg p-4">
-                <h3 className="font-display text-[10px] tracking-[0.3em] text-orange-400 mb-3 flex items-center gap-2">
+                <h3 className="font-display text-[10px] tracking-[0.3em] void-text-premium mb-3 flex items-center gap-2">
                   <Flame size={12} /> CRAFTING SKILLS
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
@@ -346,7 +346,7 @@ export default function ForgePage() {
             <button
               onClick={() => { setSelectedCategory("all"); setSelectedRecipe(null); }}
               className={`w-full text-left px-3 py-2 rounded-md font-mono text-xs transition-all flex items-center gap-2
-                ${selectedCategory === "all" ? "bg-orange-500/10 text-orange-400 border border-orange-500/20" : "text-muted-foreground/60 hover:text-foreground hover:bg-muted/30"}`}
+                ${selectedCategory === "all" ? "void-bg-sunk void-text-premium border void-border" : "text-muted-foreground/60 hover:text-foreground hover:bg-muted/30"}`}
             >
               <Package size={12} /> All Recipes
               <span className="ml-auto text-[9px] text-muted-foreground/30">{CRAFTING_RECIPES.length}</span>
@@ -359,7 +359,7 @@ export default function ForgePage() {
                   key={cat}
                   onClick={() => { setSelectedCategory(cat); setSelectedRecipe(null); }}
                   className={`w-full text-left px-3 py-2 rounded-md font-mono text-xs transition-all flex items-center gap-2
-                    ${selectedCategory === cat ? "bg-orange-500/10 border border-orange-500/20" : "text-muted-foreground/60 hover:text-foreground hover:bg-muted/30"}`}
+                    ${selectedCategory === cat ? "void-bg-sunk border void-border" : "text-muted-foreground/60 hover:text-foreground hover:bg-muted/30"}`}
                   style={selectedCategory === cat ? { color: info.color } : undefined}
                 >
                   <CatIcon size={12} /> {info.label}
@@ -386,9 +386,9 @@ export default function ForgePage() {
             </div>
 
             {/* Dream Token balance */}
-            <div className="flex items-center gap-2 px-2 py-2 rounded-md bg-purple-500/5 border border-purple-500/10">
-              <Gem size={12} className="text-purple-400" />
-              <span className="font-mono text-[10px] text-purple-400">{dreamTokens} DT</span>
+            <div className="flex items-center gap-2 px-2 py-2 rounded-md void-bg-system border void-border-system">
+              <Gem size={12} className="void-text-system" />
+              <span className="font-mono text-[10px] void-text-system">{dreamTokens} DT</span>
             </div>
           </div>
 
@@ -427,12 +427,12 @@ export default function ForgePage() {
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <span className={`font-display text-base font-bold tracking-wider ${
-                        { common: "text-muted-foreground", uncommon: "text-green-400", rare: "text-blue-400", epic: "text-purple-400", legendary: "text-amber-400" }[selectedRecipe.rarity]
+                        { common: "text-muted-foreground", uncommon: "void-text-energy", rare: "void-text-energy", epic: "void-text-system", legendary: "void-text-accent" }[selectedRecipe.rarity]
                       }`}>
                         {selectedRecipe.name}
                       </span>
                       <span className={`font-mono text-[8px] px-1.5 py-0.5 rounded ${
-                        { common: "bg-gray-500/10 text-muted-foreground", uncommon: "bg-green-500/10 text-green-400", rare: "bg-blue-500/10 text-blue-400", epic: "bg-purple-500/10 text-purple-400", legendary: "bg-amber-500/10 text-amber-400" }[selectedRecipe.rarity]
+                        { common: "void-bg-canvas text-muted-foreground", uncommon: "void-bg-success void-text-energy", rare: "void-bg-sunk void-text-energy", epic: "void-bg-system void-text-system", legendary: "void-bg-sunk void-text-accent" }[selectedRecipe.rarity]
                       }`}>
                         {selectedRecipe.rarity.toUpperCase()}
                       </span>
@@ -447,9 +447,9 @@ export default function ForgePage() {
                       {CRAFTING_SKILLS.find(s => s.id === selectedRecipe.skill)?.name} Level {selectedRecipe.requiredLevel}
                     </span>
                     {(skillLevels[selectedRecipe.skill] || 0) >= selectedRecipe.requiredLevel ? (
-                      <Check size={12} className="text-green-400 ml-auto" />
+                      <Check size={12} className="void-text-energy ml-auto" />
                     ) : (
-                      <Lock size={12} className="text-red-400 ml-auto" />
+                      <Lock size={12} className="void-text-error ml-auto" />
                     )}
                   </div>
 
@@ -466,7 +466,7 @@ export default function ForgePage() {
                         />
                       ))}
                       <div className={`flex items-center gap-1.5 px-2 py-1 rounded-md border text-[10px] font-mono
-                        ${dreamTokens >= selectedRecipe.dreamCost ? "border-purple-500/20 bg-purple-500/5 text-purple-400" : "border-red-500/20 bg-red-500/5 text-red-400"}`}>
+                        ${dreamTokens >= selectedRecipe.dreamCost ? "void-border-system void-bg-system void-text-system" : "void-border-error void-bg-error void-text-error"}`}>
                         <Gem size={10} />
                         <span>{dreamTokens}/{selectedRecipe.dreamCost} DT</span>
                       </div>
@@ -507,7 +507,7 @@ export default function ForgePage() {
                           style={{ width: `${craftProgress * 100}%` }}
                         />
                       </div>
-                      <p className="font-mono text-[10px] text-orange-400 text-center animate-pulse">
+                      <p className="font-mono text-[10px] void-text-premium text-center animate-pulse">
                         FORGING... {Math.round(craftProgress * 100)}%
                       </p>
                     </div>
@@ -517,23 +517,23 @@ export default function ForgePage() {
                       animate={{ scale: 1, opacity: 1 }}
                       className={`p-3 rounded-lg border text-center ${
                         craftResult === "success"
-                          ? "border-green-500/30 bg-green-500/10"
-                          : "border-red-500/30 bg-red-500/10"
+                          ? "void-border-success void-bg-success"
+                          : "void-border-error void-bg-error"
                       }`}
                     >
                       {craftResult === "success" ? (
                         <>
-                          <Check size={24} className="text-green-400 mx-auto mb-1" />
-                          <p className="font-display text-sm font-bold text-green-400">CRAFTING SUCCESS!</p>
-                          <p className="font-mono text-[10px] text-green-400/60">
+                          <Check size={24} className="void-text-energy mx-auto mb-1" />
+                          <p className="font-display text-sm font-bold void-text-energy">CRAFTING SUCCESS!</p>
+                          <p className="font-mono text-[10px] void-text-energy">
                             {selectedRecipe.name} x{selectedRecipe.outputQuantity} created
                           </p>
                         </>
                       ) : (
                         <>
-                          <X size={24} className="text-red-400 mx-auto mb-1" />
-                          <p className="font-display text-sm font-bold text-red-400">CRAFTING FAILED</p>
-                          <p className="font-mono text-[10px] text-red-400/60">
+                          <X size={24} className="void-text-error mx-auto mb-1" />
+                          <p className="font-display text-sm font-bold void-text-error">CRAFTING FAILED</p>
+                          <p className="font-mono text-[10px] void-text-error">
                             Half materials lost. Try again with higher skill.
                           </p>
                         </>
@@ -550,7 +550,7 @@ export default function ForgePage() {
                       {!craftCheck.canCraft && craftCheck.reasons.length > 0 && (
                         <div className="mb-2 space-y-1">
                           {craftCheck.reasons.map((r, i) => (
-                            <div key={i} className="flex items-center gap-1.5 text-[9px] font-mono text-red-400/70">
+                            <div key={i} className="flex items-center gap-1.5 text-[9px] font-mono void-text-error">
                               <AlertTriangle size={10} /> {r}
                             </div>
                           ))}

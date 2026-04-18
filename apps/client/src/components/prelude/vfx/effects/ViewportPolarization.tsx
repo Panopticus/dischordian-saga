@@ -16,7 +16,7 @@ export function ViewportPolarization({ active, onComplete, className = "" }: Pre
       style={{
         position: "absolute",
         inset: 0,
-        backgroundColor: "rgba(1, 0, 32, 0.85)",
+        backgroundColor: "color-mix(in oklch, var(--bg-void) 85%, transparent)",
         animation: "pvfx-polarization-lift 3s ease-out forwards",
         pointerEvents: "none",
       }}

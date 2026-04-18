@@ -217,7 +217,7 @@ export default function ArkOrientation({ forceShow = false, onComplete }: Props)
           <rect
             width="100%"
             height="100%"
-            fill="rgba(0,0,0,0.75)"
+            fill="color-mix(in oklch, var(--bg-void) 75%, transparent)"
             mask="url(#orientation-mask)"
           />
         </svg>
@@ -226,7 +226,7 @@ export default function ArkOrientation({ forceShow = false, onComplete }: Props)
         {highlightRect && (
           <motion.div
             layoutId="highlight-border"
-            className="absolute border-2 border-violet-400/60 rounded-lg pointer-events-none"
+            className="absolute border-2 void-border-system rounded-lg pointer-events-none"
             style={{
               top: highlightRect.top,
               left: highlightRect.left,
@@ -253,12 +253,12 @@ export default function ArkOrientation({ forceShow = false, onComplete }: Props)
               transform: tooltipTransform,
             }}
           >
-            <div className="bg-card/95 border border-violet-500/30 rounded-lg p-4 backdrop-blur-md shadow-2xl">
+            <div className="bg-card/95 border void-border-system rounded-lg p-4 backdrop-blur-md shadow-2xl">
               {/* Step indicator */}
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <Sparkles size={14} className="text-violet-400" />
-                  <span className="font-display text-xs font-bold tracking-wide text-violet-400">
+                  <Sparkles size={14} className="void-text-system" />
+                  <span className="font-display text-xs font-bold tracking-wide void-text-system">
                     {currentStep.title}
                   </span>
                 </div>
@@ -269,7 +269,7 @@ export default function ArkOrientation({ forceShow = false, onComplete }: Props)
 
               {/* Elara dialog */}
               <div className="mb-4">
-                <div className="text-[9px] font-mono uppercase tracking-wider text-violet-400/60 mb-1">
+                <div className="text-[9px] font-mono uppercase tracking-wider void-text-system mb-1">
                   Elara
                 </div>
                 <p className="text-sm leading-relaxed text-white/90 italic">
@@ -284,9 +284,9 @@ export default function ArkOrientation({ forceShow = false, onComplete }: Props)
                     key={i}
                     className={`w-1.5 h-1.5 rounded-full transition-colors ${
                       i === step
-                        ? "bg-violet-400"
+                        ? "void-bg-system"
                         : i < step
-                          ? "bg-violet-400/40"
+                          ? "void-bg-system"
                           : "bg-white/10"
                     }`}
                   />
@@ -319,7 +319,7 @@ export default function ArkOrientation({ forceShow = false, onComplete }: Props)
                 <Button
                   size="sm"
                   onClick={nextStep}
-                  className="text-xs gap-1 bg-violet-600 hover:bg-violet-500"
+                  className="text-xs gap-1 void-bg-system void-bg-system"
                 >
                   {step === STEPS.length - 1 ? "Finish" : "Next"}
                   {step < STEPS.length - 1 && <ChevronRight size={14} />}
@@ -332,10 +332,10 @@ export default function ArkOrientation({ forceShow = false, onComplete }: Props)
         {/* Fallback when target not found */}
         {!highlightRect && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="bg-card/95 border border-violet-500/30 rounded-lg p-6 backdrop-blur-md shadow-2xl max-w-sm text-center">
-              <Sparkles size={24} className="text-violet-400 mx-auto mb-3" />
+            <div className="bg-card/95 border void-border-system rounded-lg p-6 backdrop-blur-md shadow-2xl max-w-sm text-center">
+              <Sparkles size={24} className="void-text-system mx-auto mb-3" />
               <h3 className="font-display text-sm font-bold mb-2">{currentStep.title}</h3>
-              <div className="text-[9px] font-mono uppercase tracking-wider text-violet-400/60 mb-1">
+              <div className="text-[9px] font-mono uppercase tracking-wider void-text-system mb-1">
                 Elara
               </div>
               <p className="text-sm text-white/90 italic mb-4">
@@ -348,7 +348,7 @@ export default function ArkOrientation({ forceShow = false, onComplete }: Props)
                 <span className="font-mono text-[10px] text-muted-foreground">
                   {step + 1}/{STEPS.length}
                 </span>
-                <Button size="sm" onClick={nextStep} className="bg-violet-600 hover:bg-violet-500">
+                <Button size="sm" onClick={nextStep} className="void-bg-system void-bg-system">
                   {step === STEPS.length - 1 ? "Finish" : "Next"}
                 </Button>
                 <Button variant="ghost" size="sm" onClick={finish} className="text-muted-foreground">

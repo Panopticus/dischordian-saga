@@ -62,7 +62,7 @@ export function HostMaskSlip({ state, forcePhase }: Props) {
             className="absolute inset-0"
             style={{
               backgroundImage:
-                "repeating-linear-gradient(0deg, rgba(255,255,255,0.12) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, rgba(0,0,0,0.2) 0 1px, transparent 1px 2px)",
+                "repeating-linear-gradient(0deg, color-mix(in oklch, var(--text-primary) 12%, transparent) 0 1px, transparent 1px 3px), repeating-linear-gradient(90deg, color-mix(in oklch, var(--bg-void) 20%, transparent) 0 1px, transparent 1px 2px)",
               mixBlendMode: "difference",
             }}
           />
@@ -84,12 +84,12 @@ export function HostMaskSlip({ state, forcePhase }: Props) {
             >
               <div className="text-center">
                 <p
-                  className="font-serif text-[10vw] text-red-400/80"
+                  className="font-serif text-[10vw] void-text-error"
                   style={{ textShadow: "0 0 30px rgba(220,40,40,0.8)" }}
                 >
                   ?
                 </p>
-                <p className="font-mono text-[10px] text-red-300/60 mt-2 tracking-[0.3em]">
+                <p className="font-mono text-[10px] void-text-error mt-2 tracking-[0.3em]">
                   THE HOST IS NOT WHAT HE WAS
                 </p>
               </div>

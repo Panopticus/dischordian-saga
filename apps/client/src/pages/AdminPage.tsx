@@ -281,9 +281,9 @@ function CardsTab() {
               <div className="flex items-center gap-2">
                 <p className="font-mono text-xs font-semibold truncate">{card.name}</p>
                 <span className={`px-1 py-0.5 rounded text-[9px] font-mono ${
-                  card.rarity === "legendary" ? "bg-amber-500/10 text-amber-400" :
-                  card.rarity === "epic" ? "bg-purple-500/10 text-purple-400" :
-                  card.rarity === "rare" ? "bg-blue-500/10 text-blue-400" :
+                  card.rarity === "legendary" ? "void-bg-sunk void-text-accent" :
+                  card.rarity === "epic" ? "void-bg-system void-text-system" :
+                  card.rarity === "rare" ? "void-bg-sunk void-text-energy" :
                   "bg-secondary text-muted-foreground"
                 }`}>
                   {card.rarity?.toUpperCase()}
@@ -302,7 +302,7 @@ function CardsTab() {
                   });
                 }}
                 className={`px-2 py-1 rounded text-[10px] border transition-all ${
-                  card.isActive ? "bg-green-500/10 text-green-400 border-green-500/20" : "bg-destructive/10 text-destructive border-destructive/20"
+                  card.isActive ? "void-bg-success void-text-energy void-border-success" : "bg-destructive/10 text-destructive border-destructive/20"
                 }`}
               >
                 {card.isActive ? "ACTIVE" : "DISABLED"}

@@ -749,8 +749,8 @@ export default function DeadMansCircuitPage() {
                     key={tier.tier}
                     className="rounded-lg p-2 border"
                     style={{
-                      background: unlocked ? `${tier.color}10` : "rgba(255,255,255,0.02)",
-                      borderColor: unlocked ? `${tier.color}60` : "rgba(255,255,255,0.08)",
+                      background: unlocked ? `${tier.color}10` : "color-mix(in oklch, var(--text-primary) 2%, transparent)",
+                      borderColor: unlocked ? `${tier.color}60` : "color-mix(in oklch, var(--text-primary) 8%, transparent)",
                     }}
                   >
                     <div className="flex items-center justify-between mb-1">
@@ -903,7 +903,7 @@ export default function DeadMansCircuitPage() {
           <div className="space-y-1">
             {lb.slice(0, 10).map((entry: any, i: number) => (
               <div key={entry.userId} className="flex items-center gap-2 font-mono text-[10px] py-1 border-b border-white/5">
-                <span className="w-6 text-right" style={{ color: i < 3 ? CIRCUIT_PALETTE.VICTORY_GOLD : "rgba(255,255,255,0.3)" }}>
+                <span className="w-6 text-right" style={{ color: i < 3 ? CIRCUIT_PALETTE.VICTORY_GOLD : "color-mix(in oklch, var(--text-primary) 30%, transparent)" }}>
                   {i + 1}
                 </span>
                 <span className="flex-1 text-white/50 truncate">{entry.username || `Driver ${entry.userId}`}</span>
@@ -933,8 +933,8 @@ export default function DeadMansCircuitPage() {
                   onClick={() => toggleAbility(ab.key)}
                   className="text-left rounded-lg p-2 border transition-colors"
                   style={{
-                    background: isSelected ? `${ab.color}22` : "rgba(255,255,255,0.02)",
-                    borderColor: isSelected ? `${ab.color}80` : "rgba(255,255,255,0.08)",
+                    background: isSelected ? `${ab.color}22` : "color-mix(in oklch, var(--text-primary) 2%, transparent)",
+                    borderColor: isSelected ? `${ab.color}80` : "color-mix(in oklch, var(--text-primary) 8%, transparent)",
                   }}
                 >
                   <div className="flex items-center justify-between mb-1">
@@ -1033,7 +1033,7 @@ export default function DeadMansCircuitPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[90] flex items-center justify-center p-4"
-            style={{ background: "rgba(0,0,0,0.9)" }}
+            style={{ background: "color-mix(in oklch, var(--bg-void) 90%, transparent)" }}
           >
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
@@ -1067,7 +1067,7 @@ export default function DeadMansCircuitPage() {
                 maxLength={64}
                 className="w-full px-3 py-2 rounded font-mono text-sm mb-3"
                 style={{
-                  background: "rgba(255,255,255,0.05)",
+                  background: "color-mix(in oklch, var(--text-primary) 5%, transparent)",
                   border: `1px solid ${CIRCUIT_PALETTE.NILMORG_ORANGE}40`,
                   color: CIRCUIT_PALETTE.BONE_WHITE,
                 }}
@@ -1078,7 +1078,7 @@ export default function DeadMansCircuitPage() {
                   type="button"
                   onClick={() => { setShowChainModal(false); setChainDraft(""); }}
                   className="flex-1 py-2 rounded font-mono text-[10px] tracking-wider border text-white/50"
-                  style={{ borderColor: "rgba(255,255,255,0.15)" }}
+                  style={{ borderColor: "color-mix(in oklch, var(--text-primary) 15%, transparent)" }}
                 >
                   LATER
                 </button>

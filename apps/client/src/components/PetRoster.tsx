@@ -137,7 +137,7 @@ function PetRosterRow({
       animate={{ opacity: 1, y: 0 }}
       className={`border rounded-md p-2.5 transition-colors ${
         selected
-          ? "border-rose-500/60 bg-rose-500/10"
+          ? "void-border-error void-bg-error"
           : "border-border/30 bg-card/40 hover:border-border/60"
       }`}
       data-testid={`pet-row-${pet.petId}`}
@@ -145,16 +145,16 @@ function PetRosterRow({
       <button onClick={onSelect} className="w-full text-left">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0">
-            <span className={`font-display text-sm font-bold truncate ${pet.isSpectral ? "text-cyan-300" : "text-foreground"}`}>
+            <span className={`font-display text-sm font-bold truncate ${pet.isSpectral ? "void-text-energy" : "text-foreground"}`}>
               {pet.name}
             </span>
-            {pet.isSpectral && <Ghost size={10} className="text-cyan-300 shrink-0" />}
+            {pet.isSpectral && <Ghost size={10} className="void-text-energy shrink-0" />}
             <span className="font-mono text-[8px] uppercase tracking-wider text-muted-foreground/60 shrink-0">
               {stageLabel}
             </span>
           </div>
           <div className="flex items-center gap-2 shrink-0">
-            <span className="font-mono text-[9px] text-emerald-400 tabular-nums">
+            <span className="font-mono text-[9px] void-text-energy tabular-nums">
               {pet.wins}W·{pet.losses}L
             </span>
           </div>
@@ -168,10 +168,10 @@ function PetRosterRow({
             </span>
             <span className="text-foreground tabular-nums">{pet.currentHp}/{pet.maxHp}</span>
           </div>
-          <div className="h-1 bg-zinc-800/80 rounded-full overflow-hidden">
+          <div className="h-1 void-bg-canvas rounded-full overflow-hidden">
             <div
               className={`h-full transition-all duration-500 ${
-                hpPercent > 50 ? "bg-emerald-500" : hpPercent > 25 ? "bg-yellow-500" : "bg-red-500"
+                hpPercent > 50 ? "void-bg-success" : hpPercent > 25 ? "void-bg-sunk" : "void-bg-error"
               }`}
               style={{ width: `${hpPercent}%` }}
             />
@@ -186,8 +186,8 @@ function PetRosterRow({
             </span>
             <span className="text-foreground tabular-nums">{pet.bond}/100</span>
           </div>
-          <div className="h-1 bg-zinc-800/80 rounded-full overflow-hidden">
-            <div className="h-full bg-rose-500" style={{ width: `${pet.bond}%` }} />
+          <div className="h-1 void-bg-canvas rounded-full overflow-hidden">
+            <div className="h-full void-bg-error" style={{ width: `${pet.bond}%` }} />
           </div>
         </div>
       </button>
@@ -195,16 +195,16 @@ function PetRosterRow({
       {/* Status chips */}
       <div className="mt-2 flex flex-wrap gap-1">
         {pet.isActive ? (
-          <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border border-emerald-500/40 bg-emerald-500/10 text-emerald-300 flex items-center gap-1">
+          <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border void-border-success void-bg-success void-text-energy flex items-center gap-1">
             <Star size={8} /> Active Party
           </span>
         ) : (
-          <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border border-zinc-700/40 bg-zinc-800/40 text-muted-foreground/60 flex items-center gap-1">
+          <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border void-border void-bg-canvas text-muted-foreground/60 flex items-center gap-1">
             <StarOff size={8} /> Benched
           </span>
         )}
         {pet.isSpectral && (
-          <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border border-cyan-500/40 bg-cyan-500/10 text-cyan-300 flex items-center gap-1">
+          <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border void-border-success void-bg-success void-text-energy flex items-center gap-1">
             <Ghost size={8} /> Spectral
           </span>
         )}
@@ -214,12 +214,12 @@ function PetRosterRow({
           </span>
         )}
         {isDowned && (
-          <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border border-red-500/40 bg-red-500/10 text-red-300 flex items-center gap-1">
+          <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border void-border-error void-bg-error void-text-error flex items-center gap-1">
             <Skull size={8} /> Downed
           </span>
         )}
         {isInjured && !isDowned && (
-          <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border border-orange-500/40 bg-orange-500/10 text-orange-300">
+          <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border void-border void-bg-sunk void-text-premium">
             Injured · {Math.ceil((injuredUntilTs - Date.now()) / 60_000)}m
           </span>
         )}
@@ -227,8 +227,8 @@ function PetRosterRow({
           <span
             className={`font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border flex items-center gap-1 ${
               willLeave
-                ? "border-red-500/60 bg-red-500/20 text-red-200"
-                : "border-amber-500/40 bg-amber-500/10 text-amber-300"
+                ? "void-border-error void-bg-error void-text-error"
+                : "void-border void-bg-sunk void-text-accent"
             }`}
             title={willLeave ? "This pet may leave your party" : "This pet is uncomfortable with your alignment"}
           >
@@ -237,7 +237,7 @@ function PetRosterRow({
           </span>
         )}
         {pet.skillPoints > 0 && (
-          <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border border-indigo-500/40 bg-indigo-500/10 text-indigo-300">
+          <span className="font-mono text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded border void-border void-bg-sunk void-text-energy">
             {pet.skillPoints} skill{pet.skillPoints > 1 ? "s" : ""} unspent
           </span>
         )}
@@ -248,14 +248,14 @@ function PetRosterRow({
         <div className="flex items-center gap-2">
           <button
             onClick={onOpenSkills}
-            className="font-mono text-[9px] uppercase tracking-wider text-indigo-400 hover:text-indigo-300 flex items-center gap-1"
+            className="font-mono text-[9px] uppercase tracking-wider void-text-energy void-text-energy flex items-center gap-1"
             data-testid={`open-skills-${pet.petId}`}
           >
             <Swords size={10} /> Skills
           </button>
           <button
             onClick={onOpenQuests}
-            className="font-mono text-[9px] uppercase tracking-wider text-amber-400 hover:text-amber-300 flex items-center gap-1"
+            className="font-mono text-[9px] uppercase tracking-wider void-text-accent void-text-accent flex items-center gap-1"
             data-testid={`open-quests-${pet.petId}`}
           >
             <Shield size={10} /> Quests
@@ -263,7 +263,7 @@ function PetRosterRow({
           <button
             onClick={onToggleActive}
             disabled={toggling}
-            className="font-mono text-[9px] uppercase tracking-wider text-emerald-400 hover:text-emerald-300 disabled:opacity-50 flex items-center gap-1"
+            className="font-mono text-[9px] uppercase tracking-wider void-text-energy void-text-energy disabled:opacity-50 flex items-center gap-1"
             data-testid={`toggle-active-${pet.petId}`}
           >
             {pet.isActive ? <StarOff size={10} /> : <Star size={10} />}
@@ -274,7 +274,7 @@ function PetRosterRow({
           <button
             onClick={onRevive}
             disabled={reviving}
-            className="font-mono text-[9px] uppercase tracking-wider text-rose-400 hover:text-rose-300 disabled:opacity-50 flex items-center gap-1"
+            className="font-mono text-[9px] uppercase tracking-wider void-text-error void-text-error disabled:opacity-50 flex items-center gap-1"
             data-testid={`revive-${pet.petId}`}
           >
             <RotateCcw size={10} /> {reviving ? "Reviving..." : pet.isSpectral ? "Restore" : "Revive"}

@@ -30,14 +30,14 @@ const UNIT_TYPE_ICONS: Record<string, typeof Shield> = {
 };
 const UNIT_TYPE_COLORS: Record<string, string> = {
   operative: "text-destructive", dreamer: "text-chart-4", engineer: "text-accent",
-  insurgent: "text-primary", diplomat: "text-yellow-400",
+  insurgent: "text-primary", diplomat: "void-text-premium",
 };
 const UNIT_TYPE_BG: Record<string, string> = {
   operative: "bg-destructive/10 border-destructive/30",
   dreamer: "bg-chart-4/10 border-chart-4/30",
   engineer: "bg-accent/10 border-accent/30",
   insurgent: "bg-primary/10 border-primary/30",
-  diplomat: "bg-yellow-400/10 border-yellow-400/30",
+  diplomat: "void-bg-sunk void-border",
 };
 
 /* Map armyRecruitment UnitType to GameContext ArmyUnitType */
@@ -195,8 +195,8 @@ function MissionBriefing({
         {briefingPhase === "elara" && (
           <motion.div key="elara" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <div className="mb-2 flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span className="font-mono text-[10px] text-cyan-400 tracking-[0.3em]">ELARA'S ASSESSMENT</span>
+              <div className="w-2 h-2 rounded-full void-bg-success animate-pulse" />
+              <span className="font-mono text-[10px] void-text-energy tracking-[0.3em]">ELARA'S ASSESSMENT</span>
             </div>
             <TransmissionDisplay
               messages={elaraMessages}
@@ -208,8 +208,8 @@ function MissionBriefing({
         {briefingPhase === "human" && (
           <motion.div key="human" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <div className="mb-2 flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-              <span className="font-mono text-[10px] text-red-500 tracking-[0.3em]">ENCRYPTED SIGNAL</span>
+              <div className="w-2 h-2 rounded-full void-bg-error animate-pulse" />
+              <span className="font-mono text-[10px] void-text-error tracking-[0.3em]">ENCRYPTED SIGNAL</span>
             </div>
             <TransmissionDisplay
               messages={humanMessages}
@@ -229,7 +229,7 @@ function MissionBriefing({
                   <span className="font-mono text-[10px]">{mission.rewards.xp} XP</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Star size={12} className="text-yellow-400" />
+                  <Star size={12} className="void-text-premium" />
                   <span className="font-mono text-[10px]">{mission.rewards.dreamTokens} DT</span>
                 </div>
                 <div className="flex items-center gap-1.5">
@@ -434,7 +434,7 @@ function DeployMissionDialog({
                 <span className="font-mono text-[10px] text-primary">{template.rewards.intel} INT</span>
               )}
               {template.rewards.xp > 0 && (
-                <span className="font-mono text-[10px] text-yellow-400">{template.rewards.xp} XP</span>
+                <span className="font-mono text-[10px] void-text-premium">{template.rewards.xp} XP</span>
               )}
             </div>
 
@@ -840,7 +840,7 @@ export default function ArmyManagementPage() {
                       <div className="mt-2">
                         <div className="w-full h-1 rounded-full bg-border/30 overflow-hidden">
                           <div
-                            className="h-full rounded-full bg-yellow-400/60"
+                            className="h-full rounded-full void-bg-sunk"
                             style={{ width: `${(unit.xp % 1000) / 10}%` }}
                           />
                         </div>
@@ -897,15 +897,15 @@ export default function ArmyManagementPage() {
               <div className="space-y-3">
                 <div>
                   <div className="flex items-center gap-1.5 mb-1">
-                    <div className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-                    <span className="font-mono text-[10px] text-cyan-400 tracking-[0.2em]">ELARA</span>
+                    <div className="w-1.5 h-1.5 rounded-full void-bg-success" />
+                    <span className="font-mono text-[10px] void-text-energy tracking-[0.2em]">ELARA</span>
                   </div>
                   <TransmissionDisplay messages={elaraReportMessages} compact />
                 </div>
                 <div>
                   <div className="flex items-center gap-1.5 mb-1">
-                    <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                    <span className="font-mono text-[10px] text-red-500 tracking-[0.2em]">SIGNAL</span>
+                    <div className="w-1.5 h-1.5 rounded-full void-bg-error" />
+                    <span className="font-mono text-[10px] void-text-error tracking-[0.2em]">SIGNAL</span>
                   </div>
                   <TransmissionDisplay messages={humanReportMessages} compact />
                 </div>

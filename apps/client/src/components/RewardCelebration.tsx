@@ -156,10 +156,10 @@ function ParticleRenderer({ particle }: { particle: Particle }) {
 /* ─── SCREEN FLASH ─── */
 function ScreenFlash({ tier }: { tier: "standard" | "major" | "legendary" }) {
   const flashColor = tier === "legendary"
-    ? "rgba(255,183,77,0.25)"
+    ? "color-mix(in oklch, var(--energy-premium) 25%, transparent)"
     : tier === "major"
     ? "rgba(0,229,255,0.15)"
-    : "rgba(255,183,77,0.1)";
+    : "color-mix(in oklch, var(--energy-premium) 10%, transparent)";
 
   return (
     <motion.div
@@ -177,8 +177,8 @@ function TierBadge({ tier }: { tier: "standard" | "major" | "legendary" }) {
   if (tier === "standard") return null;
 
   const config = tier === "legendary"
-    ? { label: "LEGENDARY REWARD", color: "text-amber-300", bg: "bg-amber-500/10", border: "border-amber-500/30", glow: "0 0 20px rgba(255,183,77,0.3)" }
-    : { label: "MAJOR REWARD", color: "text-cyan-300", bg: "bg-cyan-500/10", border: "border-cyan-500/30", glow: "0 0 15px rgba(0,229,255,0.2)" };
+    ? { label: "LEGENDARY REWARD", color: "void-text-accent", bg: "void-bg-sunk", border: "void-border", glow: "0 0 20px color-mix(in oklch, var(--energy-premium) 30%, transparent)" }
+    : { label: "MAJOR REWARD", color: "void-text-energy", bg: "void-bg-success", border: "void-border-success", glow: "0 0 15px rgba(0,229,255,0.2)" };
 
   return (
     <motion.div
@@ -289,10 +289,10 @@ export default function RewardCelebration({
               transition={{ duration: 1.2, ease: "easeOut" }}
               style={{
                 border: tier === "legendary"
-                  ? "2px solid rgba(255,183,77,0.5)"
+                  ? "2px solid color-mix(in oklch, var(--energy-premium) 50%, transparent)"
                   : "2px solid rgba(0,229,255,0.4)",
                 boxShadow: tier === "legendary"
-                  ? "0 0 40px rgba(255,183,77,0.2), inset 0 0 40px rgba(255,183,77,0.1)"
+                  ? "0 0 40px color-mix(in oklch, var(--energy-premium) 20%, transparent), inset 0 0 40px color-mix(in oklch, var(--energy-premium) 10%, transparent)"
                   : "0 0 30px rgba(0,229,255,0.15), inset 0 0 30px rgba(0,229,255,0.08)",
               }}
             />
@@ -313,15 +313,15 @@ export default function RewardCelebration({
                 style={{
                   background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
                   border: tier === "legendary"
-                    ? "1px solid rgba(255,183,77,0.5)"
+                    ? "1px solid color-mix(in oklch, var(--energy-premium) 50%, transparent)"
                     : tier === "major"
                     ? "1px solid rgba(0,229,255,0.4)"
-                    : "1px solid rgba(255,255,255,0.1)",
+                    : "1px solid color-mix(in oklch, var(--text-primary) 10%, transparent)",
                   boxShadow: tier === "legendary"
-                    ? "0 0 80px rgba(255,183,77,0.2), 0 0 160px rgba(255,183,77,0.05)"
+                    ? "0 0 80px color-mix(in oklch, var(--energy-premium) 20%, transparent), 0 0 160px color-mix(in oklch, var(--energy-premium) 5%, transparent)"
                     : tier === "major"
                     ? "0 0 60px rgba(0,229,255,0.15), 0 0 120px rgba(0,229,255,0.05)"
-                    : "0 20px 60px rgba(0,0,0,0.6)",
+                    : "0 20px 60px color-mix(in oklch, var(--bg-void) 60%, transparent)",
                 }}
               >
                 {/* Tier Badge */}
@@ -335,18 +335,18 @@ export default function RewardCelebration({
                   className="mb-3"
                 >
                   {tier === "legendary" ? (
-                    <div className="w-14 h-14 mx-auto rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center"
-                      style={{ boxShadow: "0 0 30px rgba(255,183,77,0.2)" }}>
-                      <Trophy size={28} className="text-amber-400" />
+                    <div className="w-14 h-14 mx-auto rounded-xl void-bg-sunk border void-border flex items-center justify-center"
+                      style={{ boxShadow: "0 0 30px color-mix(in oklch, var(--energy-premium) 20%, transparent)" }}>
+                      <Trophy size={28} className="void-text-accent" />
                     </div>
                   ) : tier === "major" ? (
-                    <div className="w-12 h-12 mx-auto rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center"
+                    <div className="w-12 h-12 mx-auto rounded-xl void-bg-success border void-border-success flex items-center justify-center"
                       style={{ boxShadow: "0 0 20px rgba(0,229,255,0.15)" }}>
-                      <Sparkles size={24} className="text-cyan-400" />
+                      <Sparkles size={24} className="void-text-energy" />
                     </div>
                   ) : (
-                    <div className="w-10 h-10 mx-auto rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-                      <Gift size={20} className="text-amber-400" />
+                    <div className="w-10 h-10 mx-auto rounded-lg void-bg-sunk border void-border flex items-center justify-center">
+                      <Gift size={20} className="void-text-accent" />
                     </div>
                   )}
                 </motion.div>
@@ -377,44 +377,44 @@ export default function RewardCelebration({
                   className="grid grid-cols-2 gap-2"
                 >
                   {data.dreamTokens > 0 && (
-                    <div className="flex items-center gap-2 rounded-lg bg-amber-500/5 border border-amber-500/15 px-3 py-2">
-                      <Coins size={14} className="text-amber-400 shrink-0" />
+                    <div className="flex items-center gap-2 rounded-lg void-bg-sunk border void-border px-3 py-2">
+                      <Coins size={14} className="void-text-accent shrink-0" />
                       <div>
-                        <p className="font-mono text-sm font-bold text-amber-400">
+                        <p className="font-mono text-sm font-bold void-text-accent">
                           +<AnimatedCounter value={data.dreamTokens} />
                         </p>
-                        <p className="font-mono text-[8px] text-amber-400/50">DREAM TOKENS</p>
+                        <p className="font-mono text-[8px] void-text-accent">DREAM TOKENS</p>
                       </div>
                     </div>
                   )}
                   {data.xp > 0 && (
-                    <div className="flex items-center gap-2 rounded-lg bg-cyan-500/5 border border-cyan-500/15 px-3 py-2">
-                      <Zap size={14} className="text-cyan-400 shrink-0" />
+                    <div className="flex items-center gap-2 rounded-lg void-bg-success border void-border-success px-3 py-2">
+                      <Zap size={14} className="void-text-energy shrink-0" />
                       <div>
-                        <p className="font-mono text-sm font-bold text-cyan-400">
+                        <p className="font-mono text-sm font-bold void-text-energy">
                           +<AnimatedCounter value={data.xp} />
                         </p>
-                        <p className="font-mono text-[8px] text-cyan-400/50">CITIZEN XP</p>
+                        <p className="font-mono text-[8px] void-text-energy">CITIZEN XP</p>
                       </div>
                     </div>
                   )}
                   {data.points > 0 && (
-                    <div className="flex items-center gap-2 rounded-lg bg-purple-500/5 border border-purple-500/15 px-3 py-2">
-                      <Star size={14} className="text-purple-400 shrink-0" />
+                    <div className="flex items-center gap-2 rounded-lg void-bg-system border void-border-system px-3 py-2">
+                      <Star size={14} className="void-text-system shrink-0" />
                       <div>
-                        <p className="font-mono text-sm font-bold text-purple-400">
+                        <p className="font-mono text-sm font-bold void-text-system">
                           +<AnimatedCounter value={data.points} />
                         </p>
-                        <p className="font-mono text-[8px] text-purple-400/50">POINTS</p>
+                        <p className="font-mono text-[8px] void-text-system">POINTS</p>
                       </div>
                     </div>
                   )}
                   {data.cardReward && (
-                    <div className="flex items-center gap-2 rounded-lg bg-green-500/5 border border-green-500/15 px-3 py-2">
-                      <Gift size={14} className="text-green-400 shrink-0" />
+                    <div className="flex items-center gap-2 rounded-lg void-bg-success border void-border-success px-3 py-2">
+                      <Gift size={14} className="void-text-energy shrink-0" />
                       <div>
-                        <p className="font-mono text-xs font-bold text-green-400">CARD</p>
-                        <p className="font-mono text-[8px] text-green-400/50">UNLOCKED</p>
+                        <p className="font-mono text-xs font-bold void-text-energy">CARD</p>
+                        <p className="font-mono text-[8px] void-text-energy">UNLOCKED</p>
                       </div>
                     </div>
                   )}
@@ -441,7 +441,7 @@ export default function RewardCelebration({
               animate={{ opacity: 0.4 }}
               exit={{ opacity: 0 }}
               style={{
-                background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.8) 100%)",
+                background: "radial-gradient(ellipse at center, transparent 30%, color-mix(in oklch, var(--bg-void) 80%, transparent) 100%)",
               }}
             />
           )}

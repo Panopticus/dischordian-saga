@@ -140,17 +140,17 @@ export default function StoryModePage() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-950 text-stone-100 p-6">
+    <div className="min-h-screen void-bg-canvas void-text p-6">
       <header className="max-w-4xl mx-auto mb-8">
         <button
           type="button"
           onClick={() => navigate("/")}
-          className="font-mono text-[10px] tracking-[0.3em] text-stone-500 hover:text-stone-200 mb-4"
+          className="font-mono text-[10px] tracking-[0.3em] void-text void-text mb-4"
         >
           ← Bridge
         </button>
         <h1 className="font-serif text-3xl tracking-wide">Act 1 — The Signal</h1>
-        <p className="font-serif text-sm text-stone-400 mt-2 max-w-2xl">
+        <p className="font-serif text-sm void-text mt-2 max-w-2xl">
           The Twelve Steps. Three memoir cycles ending in the Authority's
           trial. Named bosses carry campaign weight; sparring chapters build
           the card-win counter that gates cycle cinematics.
@@ -160,7 +160,7 @@ export default function StoryModePage() {
       <main className="max-w-4xl mx-auto space-y-10">
         {groups.map((group) => (
           <section key={group.id}>
-            <h2 className="font-mono text-[10px] tracking-[0.4em] text-stone-500 uppercase mb-4">
+            <h2 className="font-mono text-[10px] tracking-[0.4em] void-text uppercase mb-4">
               {group.label}
             </h2>
             <ul className="grid gap-3 md:grid-cols-2">
@@ -174,25 +174,25 @@ export default function StoryModePage() {
                       onClick={() => handlePick(enc)}
                       data-testid={`chapter-${enc.id}`}
                       className={
-                        "w-full text-left p-4 rounded border bg-stone-900/70 " +
-                        "hover:bg-stone-800/70 transition cursor-pointer " +
+                        "w-full text-left p-4 rounded border void-bg-canvas " +
+                        "void-bg-canvas transition cursor-pointer " +
                         (isNamedBoss
-                          ? "border-amber-400/40"
-                          : "border-stone-700")
+                          ? "void-border"
+                          : "void-border")
                       }
                     >
                       <div className="flex items-baseline justify-between mb-1">
                         <span className="font-serif text-base">{enc.name}</span>
                         {completed && (
-                          <span className="font-mono text-[9px] tracking-[0.3em] text-emerald-400/80">
+                          <span className="font-mono text-[9px] tracking-[0.3em] void-text-energy">
                             COMPLETED
                           </span>
                         )}
                       </div>
-                      <p className="font-mono text-[11px] text-stone-400 leading-relaxed">
+                      <p className="font-mono text-[11px] void-text leading-relaxed">
                         {enc.description}
                       </p>
-                      <p className="mt-2 font-mono text-[9px] tracking-[0.3em] text-stone-600 uppercase">
+                      <p className="mt-2 font-mono text-[9px] tracking-[0.3em] void-text uppercase">
                         {enc.bossFaction} · {enc.bossGeneralDefId}
                       </p>
                     </button>

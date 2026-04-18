@@ -232,20 +232,20 @@ export default function CutsceneOverlay({ cutscene, onComplete, onClose }: Cutsc
 
   const getMoodColor = (mood?: string) => {
     switch (mood) {
-      case "intense": return "text-red-400";
-      case "tender": return "text-pink-400";
-      case "mysterious": return "text-purple-400";
-      case "angry": return "text-orange-400";
-      case "sad": return "text-blue-400";
-      case "triumphant": return "text-amber-400";
+      case "intense": return "void-text-error";
+      case "tender": return "void-text-error";
+      case "mysterious": return "void-text-system";
+      case "angry": return "void-text-premium";
+      case "sad": return "void-text-energy";
+      case "triumphant": return "void-text-accent";
       default: return "text-foreground";
     }
   };
 
   const getSpeakerColor = (speaker: string) => {
-    if (speaker === "ELARA") return "text-cyan-400";
-    if (speaker === "???" || speaker === "THE HUMAN" || speaker === "DANIEL") return "text-amber-400";
-    if (speaker === "YOU") return "text-emerald-400";
+    if (speaker === "ELARA") return "void-text-energy";
+    if (speaker === "???" || speaker === "THE HUMAN" || speaker === "DANIEL") return "void-text-accent";
+    if (speaker === "YOU") return "void-text-energy";
     return "text-foreground";
   };
 
@@ -255,7 +255,7 @@ export default function CutsceneOverlay({ cutscene, onComplete, onClose }: Cutsc
     ? "from-amber-950/95 via-slate-950/98 to-slate-950/95"
     : "from-slate-950/95 via-slate-950/98 to-slate-950/95";
 
-  const themeAccent = cutscene.theme === "elara" ? "border-cyan-500/30" : cutscene.theme === "human" ? "border-amber-500/30" : "border-border/30";
+  const themeAccent = cutscene.theme === "elara" ? "void-border-success" : cutscene.theme === "human" ? "void-border" : "border-border/30";
   const themeGlow = cutscene.theme === "elara" ? "shadow-cyan-500/20" : cutscene.theme === "human" ? "shadow-amber-500/20" : "shadow-white/10";
 
   return (
@@ -271,13 +271,13 @@ export default function CutsceneOverlay({ cutscene, onComplete, onClose }: Cutsc
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Scanlines */}
           <div className="absolute inset-0 opacity-[0.03]" style={{
-            backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px)",
+            backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--text-primary) 3%, transparent) 2px, color-mix(in oklch, var(--text-primary) 3%, transparent) 4px)",
           }} />
           {/* Floating particles */}
           {Array.from({ length: 20 }).map((_, i) => (
             <motion.div
               key={i}
-              className={`absolute w-1 h-1 rounded-full ${cutscene.theme === "elara" ? "bg-cyan-400/30" : "bg-amber-400/30"}`}
+              className={`absolute w-1 h-1 rounded-full ${cutscene.theme === "elara" ? "void-bg-success" : "void-bg-sunk"}`}
               initial={{
                 x: Math.random() * (typeof window !== "undefined" ? window.innerWidth : 1000),
                 y: Math.random() * (typeof window !== "undefined" ? window.innerHeight : 800),
@@ -319,9 +319,9 @@ export default function CutsceneOverlay({ cutscene, onComplete, onClose }: Cutsc
               animate={{ opacity: [0, 1, 0, 1, 0] }}
               transition={{ duration: 0.3 }}
             >
-              <div className="w-full h-1/3 bg-red-500/20" />
-              <div className="w-full h-1/3 bg-green-500/20" />
-              <div className="w-full h-1/3 bg-blue-500/20" />
+              <div className="w-full h-1/3 void-bg-error" />
+              <div className="w-full h-1/3 void-bg-success" />
+              <div className="w-full h-1/3 void-bg-sunk" />
             </motion.div>
           )}
         </AnimatePresence>
@@ -359,7 +359,7 @@ export default function CutsceneOverlay({ cutscene, onComplete, onClose }: Cutsc
               className="text-center z-10"
             >
               <motion.div
-                className={`font-mono text-xs tracking-[0.5em] mb-4 ${cutscene.theme === "elara" ? "text-cyan-400/60" : "text-amber-400/60"}`}
+                className={`font-mono text-xs tracking-[0.5em] mb-4 ${cutscene.theme === "elara" ? "void-text-energy" : "void-text-accent"}`}
                 animate={{ opacity: [0.4, 1, 0.4] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
@@ -395,7 +395,7 @@ export default function CutsceneOverlay({ cutscene, onComplete, onClose }: Cutsc
             <div className="flex items-center gap-2 mb-3">
               <div className="flex-1 h-0.5 bg-white/10 rounded-full overflow-hidden">
                 <motion.div
-                  className={`h-full ${cutscene.theme === "elara" ? "bg-cyan-400/50" : "bg-amber-400/50"}`}
+                  className={`h-full ${cutscene.theme === "elara" ? "void-bg-success" : "void-bg-sunk"}`}
                   initial={{ width: 0 }}
                   animate={{ width: `${((currentLineIndex + 1) / cutscene.lines.length) * 100}%` }}
                   transition={{ duration: 0.3 }}
@@ -411,9 +411,9 @@ export default function CutsceneOverlay({ cutscene, onComplete, onClose }: Cutsc
               {/* Speaker name */}
               <div className="flex items-center gap-3 mb-4">
                 <div className={`w-2 h-2 rounded-full ${
-                  currentLine.speaker === "ELARA" ? "bg-cyan-400" :
-                  currentLine.speaker === "YOU" ? "bg-emerald-400" :
-                  "bg-amber-400"
+                  currentLine.speaker === "ELARA" ? "void-bg-success" :
+                  currentLine.speaker === "YOU" ? "void-bg-success" :
+                  "void-bg-sunk"
                 } animate-pulse`} />
                 <span className={`font-display text-sm font-bold tracking-[0.2em] ${getSpeakerColor(currentLine.speaker)}`}>
                   {currentLine.speaker}
@@ -463,7 +463,7 @@ export default function CutsceneOverlay({ cutscene, onComplete, onClose }: Cutsc
                   {!isLastLine ? (
                     <SkipForward size={14} className="text-white/30" />
                   ) : (
-                    <span className={`font-mono text-xs ${cutscene.theme === "elara" ? "text-cyan-400/60" : "text-amber-400/60"}`}>
+                    <span className={`font-mono text-xs ${cutscene.theme === "elara" ? "void-text-energy" : "void-text-accent"}`}>
                       ▶ COMPLETE
                     </span>
                   )}

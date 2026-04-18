@@ -300,7 +300,7 @@ export interface LeagueDef {
 export const LEAGUES: LeagueDef[] = [
   { name: "Salvager", minTrophies: 0, color: "#8b6914", icon: "🔧", lootBonus: { salvage: 10, viralIchor: 0, neuralCores: 0, voidCrystals: 0 } },
   { name: "Scavenger", minTrophies: 400, color: "#c0c0c0", icon: "🛡️", lootBonus: { salvage: 25, viralIchor: 2, neuralCores: 0, voidCrystals: 0 } },
-  { name: "Defender", minTrophies: 800, color: "#ffd700", icon: "⚔️", lootBonus: { salvage: 50, viralIchor: 5, neuralCores: 1, voidCrystals: 0 } },
+  { name: "Defender", minTrophies: 800, color: "var(--energy-premium)", icon: "⚔️", lootBonus: { salvage: 50, viralIchor: 5, neuralCores: 1, voidCrystals: 0 } },
   { name: "Sentinel", minTrophies: 1200, color: "#00bcd4", icon: "🏰", lootBonus: { salvage: 100, viralIchor: 10, neuralCores: 2, voidCrystals: 0 } },
   { name: "Warden", minTrophies: 1600, color: "#9c27b0", icon: "🔮", lootBonus: { salvage: 150, viralIchor: 20, neuralCores: 3, voidCrystals: 1 } },
   { name: "Commander", minTrophies: 2000, color: "#ff5722", icon: "🔥", lootBonus: { salvage: 250, viralIchor: 30, neuralCores: 5, voidCrystals: 2 } },

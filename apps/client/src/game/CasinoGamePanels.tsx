@@ -43,10 +43,10 @@ export interface EquippedCosmeticsMap {
 function tableFeltClass(equipped?: EquippedCosmeticsMap): string {
   if (!equipped?.table_felt) return "";
   if (equipped.table_felt === "cosmetic:void_slot_reels") {
-    return "ring-2 ring-purple-500/50 shadow-[0_0_30px_rgba(168,85,247,0.25)]";
+    return "ring-2 ring-purple-500/50 shadow-[0_0_30px_color-mix(in oklch, var(--energy-system) 25%, transparent)]";
   }
   if (equipped.table_felt === "cosmetic:custom_casino_theme") {
-    return "ring-2 ring-amber-500/50 shadow-[0_0_30px_rgba(245,158,11,0.25)]";
+    return "ring-2 ring-amber-500/50 shadow-[0_0_30px_color-mix(in oklch, var(--energy-accent) 25%, transparent)]";
   }
   return "";
 }
@@ -55,10 +55,10 @@ function tableFeltClass(equipped?: EquippedCosmeticsMap): string {
 function chipClass(equipped?: EquippedCosmeticsMap): string {
   if (!equipped?.chip) return "";
   if (equipped.chip === "cosmetic:golden_chip") {
-    return "shadow-[0_0_12px_rgba(234,179,8,0.6)] border-amber-300/60";
+    return "shadow-[0_0_12px_rgba(234,179,8,0.6)] void-border";
   }
   if (equipped.chip === "cosmetic:black_crown_chip") {
-    return "shadow-[0_0_12px_rgba(0,0,0,0.8)] border-white/40";
+    return "shadow-[0_0_12px_color-mix(in oklch, var(--bg-void) 80%, transparent)] border-white/40";
   }
   return "";
 }
@@ -72,13 +72,13 @@ function ResultBanner({ result }: { result: { won: boolean; payout: number; jack
       animate={{ opacity: 1, y: 0 }}
       className={`mt-4 p-3 rounded-xl border text-center font-mono text-sm ${
         result.jackpot
-          ? "bg-amber-500/10 border-amber-500/40 text-amber-300"
+          ? "void-bg-sunk void-border void-text-accent"
           : result.won
-          ? "bg-green-500/10 border-green-500/30 text-green-300"
-          : "bg-red-500/10 border-red-500/30 text-red-400"
+          ? "void-bg-success void-border-success void-text-energy"
+          : "void-bg-error void-border-error void-text-error"
       }`}
     >
-      {result.jackpot && <div className="text-amber-400 font-display mb-1">JACKPOT!</div>}
+      {result.jackpot && <div className="void-text-accent font-display mb-1">JACKPOT!</div>}
       {result.won ? `+${result.payout} DREAM` : "No payout"}
     </motion.div>
   );
@@ -97,7 +97,7 @@ function BetSelector({
           onClick={() => setBet(s)}
           className={`px-3 py-1.5 rounded-lg font-mono text-xs border transition-all ${
             bet === s
-              ? "bg-amber-500/20 border-amber-500/40 text-amber-300"
+              ? "void-bg-sunk void-border void-text-accent"
               : "bg-white/[0.03] border-white/10 text-white/40 hover:text-white/70"
           }`}
         >
@@ -121,7 +121,7 @@ export function VoidSlotsPanel({
   const chipCls = chipClass(equipped);
   return (
     <div className={`text-center rounded-xl p-4 transition-shadow ${feltCls}`}>
-      <h2 className="font-display text-xl text-amber-400 mb-2">VOID SLOTS</h2>
+      <h2 className="font-display text-xl void-text-accent mb-2">VOID SLOTS</h2>
       <div className="mx-auto mb-4 max-w-md opacity-80">
         <ResponsiveImage
           src={CASINO_SLOT_ASSETS.symbolSpriteSheet}
@@ -152,7 +152,7 @@ export function VoidSlotsPanel({
       <button
         onClick={() => mut.mutate({ bet }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
-        className={`px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50 ${chipCls}`}
+        className={`px-6 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk disabled:opacity-50 ${chipCls}`}
       >
         {mut.isPending ? "Spinning..." : `SPIN ${bet}D`}
       </button>
@@ -173,7 +173,7 @@ export function EntropyDicePanel({
   const feltCls = tableFeltClass(equipped);
   return (
     <div className={`text-center rounded-xl p-4 transition-shadow ${feltCls}`}>
-      <h2 className="font-display text-xl text-amber-400 mb-4">ENTROPY DICE</h2>
+      <h2 className="font-display text-xl void-text-accent mb-4">ENTROPY DICE</h2>
       {detail?.die1 !== undefined && (
         <div className="flex justify-center gap-6 mb-4">
           <motion.div
@@ -203,21 +203,21 @@ export function EntropyDicePanel({
         <button
           onClick={() => mut.mutate({ bet, prediction: "under" }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
           disabled={mut.isPending}
-          className="px-4 py-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400 font-mono text-sm hover:bg-blue-500/20 disabled:opacity-50"
+          className="px-4 py-2 rounded-lg void-bg-sunk border void-border void-text-energy font-mono text-sm void-bg-sunk disabled:opacity-50"
         >
           UNDER 7 (2x)
         </button>
         <button
           onClick={() => mut.mutate({ bet, prediction: "exact" }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
           disabled={mut.isPending}
-          className="px-4 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
+          className="px-4 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk disabled:opacity-50"
         >
           EXACT 7 (5x)
         </button>
         <button
           onClick={() => mut.mutate({ bet, prediction: "over" }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
           disabled={mut.isPending}
-          className="px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-sm hover:bg-red-500/20 disabled:opacity-50"
+          className="px-4 py-2 rounded-lg void-bg-error border void-border-error void-text-error font-mono text-sm void-bg-error disabled:opacity-50"
         >
           OVER 7 (2x)
         </button>
@@ -257,7 +257,7 @@ export function NebulaPokerPanel({ onResult }: { onResult?: CasinoGameResultCall
 
   return (
     <div className="text-center">
-      <h2 className="font-display text-xl text-amber-400 mb-4">NEBULA POKER</h2>
+      <h2 className="font-display text-xl void-text-accent mb-4">NEBULA POKER</h2>
       <p className="font-mono text-[10px] text-white/40 mb-4">
         5-card draw. Discard up to 3 cards before dealing.
       </p>
@@ -272,9 +272,9 @@ export function NebulaPokerPanel({ onResult }: { onResult?: CasinoGameResultCall
               }}
               className={`w-14 h-20 rounded-lg border-2 flex flex-col items-center justify-center font-display ${
                 discard.includes(i)
-                  ? "bg-red-900/40 border-red-500/60 text-red-300 opacity-50"
+                  ? "void-bg-error void-border-error void-text-error opacity-50"
                   : c.suit === "hearts" || c.suit === "diamonds"
-                  ? "bg-white/5 border-red-400/40 text-red-300"
+                  ? "bg-white/5 void-border-error void-text-error"
                   : "bg-white/5 border-white/30 text-white"
               }`}
             >
@@ -284,12 +284,12 @@ export function NebulaPokerPanel({ onResult }: { onResult?: CasinoGameResultCall
           ))}
         </div>
       )}
-      {handType && <p className="font-mono text-sm text-amber-300 mb-3 uppercase tracking-widest">{handType.replace(/_/g, " ")}</p>}
+      {handType && <p className="font-mono text-sm void-text-accent mb-3 uppercase tracking-widest">{handType.replace(/_/g, " ")}</p>}
       <BetSelector bet={bet} setBet={setBet} min={25} max={500} />
       <button
         onClick={play}
         disabled={mut.isPending}
-        className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
+        className="px-6 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk disabled:opacity-50"
       >
         {mut.isPending ? "Dealing..." : hand ? "DRAW / STAND" : `DEAL ${bet}D`}
       </button>
@@ -318,7 +318,7 @@ export function QuantumRoulettePanel({ onResult }: { onResult?: CasinoGameResult
 
   return (
     <div className="text-center">
-      <h2 className="font-display text-xl text-amber-400 mb-4">QUANTUM ROULETTE</h2>
+      <h2 className="font-display text-xl void-text-accent mb-4">QUANTUM ROULETTE</h2>
       <p className="font-mono text-[10px] text-white/40 mb-4">Pick 1-3 factions. Straight 5x, adjacent 2.5x, half 1.8x.</p>
       <div className="grid grid-cols-3 gap-2 mb-4 max-w-md mx-auto">
         {FACTIONS.map(f => {
@@ -331,7 +331,7 @@ export function QuantumRoulettePanel({ onResult }: { onResult?: CasinoGameResult
                 else if (selected.length < 3) setSelected([...selected, f]);
               }}
               className={`px-3 py-2 rounded-lg font-mono text-xs border ${
-                on ? "bg-amber-500/20 border-amber-500/40 text-amber-300" : "bg-white/[0.03] border-white/10 text-white/50"
+                on ? "void-bg-sunk void-border void-text-accent" : "bg-white/[0.03] border-white/10 text-white/50"
               }`}
             >
               {f.replace("_", " ")}
@@ -343,13 +343,13 @@ export function QuantumRoulettePanel({ onResult }: { onResult?: CasinoGameResult
       <button
         onClick={play}
         disabled={mut.isPending || selected.length === 0}
-        className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
+        className="px-6 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk disabled:opacity-50"
       >
         {mut.isPending ? "Spinning..." : `SPIN ${bet}D`}
       </button>
       {mut.data?.result && (
         <p className="mt-3 font-mono text-xs text-white/60">
-          Landed on: <span className="text-amber-300">{(mut.data.result.detail as { landed: string }).landed.replace("_", " ")}</span>
+          Landed on: <span className="void-text-accent">{(mut.data.result.detail as { landed: string }).landed.replace("_", " ")}</span>
         </p>
       )}
       <ResultBanner result={mut.data?.result ?? null} />
@@ -366,7 +366,7 @@ export function Pazaak21Panel({ onResult }: { onResult?: CasinoGameResultCallbac
 
   return (
     <div className="text-center">
-      <h2 className="font-display text-xl text-amber-400 mb-4">PAZAAK 21</h2>
+      <h2 className="font-display text-xl void-text-accent mb-4">PAZAAK 21</h2>
       <p className="font-mono text-[10px] text-white/40 mb-4">Stand at {stand}. Dealer draws to 17.</p>
       <input
         type="range" min={10} max={21} value={stand}
@@ -377,7 +377,7 @@ export function Pazaak21Panel({ onResult }: { onResult?: CasinoGameResultCallbac
       <button
         onClick={() => mut.mutate({ bet, stand }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
-        className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
+        className="px-6 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk disabled:opacity-50"
       >
         {mut.isPending ? "Dealing..." : `DEAL ${bet}D`}
       </button>
@@ -406,7 +406,7 @@ export function HighLowPanel({ onResult }: { onResult?: CasinoGameResultCallback
 
   return (
     <div className="text-center">
-      <h2 className="font-display text-xl text-amber-400 mb-4">HIGH / LOW</h2>
+      <h2 className="font-display text-xl void-text-accent mb-4">HIGH / LOW</h2>
       <p className="font-mono text-[10px] text-white/40 mb-4">Chain length {chainLength}. Each correct = 1.5x multiplier.</p>
       <input
         type="range" min={1} max={10} value={chainLength}
@@ -416,17 +416,17 @@ export function HighLowPanel({ onResult }: { onResult?: CasinoGameResultCallback
       <BetSelector bet={bet} setBet={setBet} min={5} max={50} />
       <div className="flex gap-3 justify-center">
         <button onClick={() => play("high")} disabled={mut.isPending}
-          className="px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-sm hover:bg-red-500/20 disabled:opacity-50">
+          className="px-4 py-2 rounded-lg void-bg-error border void-border-error void-text-error font-mono text-sm void-bg-error disabled:opacity-50">
           ALL HIGH
         </button>
         <button onClick={() => play("low")} disabled={mut.isPending}
-          className="px-4 py-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400 font-mono text-sm hover:bg-blue-500/20 disabled:opacity-50">
+          className="px-4 py-2 rounded-lg void-bg-sunk border void-border void-text-energy font-mono text-sm void-bg-sunk disabled:opacity-50">
           ALL LOW
         </button>
       </div>
       {mut.data?.result && (
         <p className="mt-3 font-mono text-xs text-white/60">
-          Chain: <span className="text-amber-300">{(mut.data.result.detail as { chain: number }).chain}</span>
+          Chain: <span className="void-text-accent">{(mut.data.result.detail as { chain: number }).chain}</span>
         </p>
       )}
       <ResultBanner result={mut.data?.result ?? null} />
@@ -440,12 +440,12 @@ export function ScratchCardPanel({ onResult }: { onResult?: CasinoGameResultCall
   const mut = trpc.casino.playScratchCard.useMutation();
   return (
     <div className="text-center">
-      <h2 className="font-display text-xl text-amber-400 mb-4">VOID SCRATCH CARDS</h2>
+      <h2 className="font-display text-xl void-text-accent mb-4">VOID SCRATCH CARDS</h2>
       <p className="font-mono text-[10px] text-white/40 mb-4">Fixed 10D. Match 3 for prize, curse loses 20.</p>
       <button
         onClick={() => mut.mutate(undefined, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
-        className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
+        className="px-6 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk disabled:opacity-50"
       >
         {mut.isPending ? "Scratching..." : "BUY CARD (10D)"}
       </button>
@@ -462,14 +462,14 @@ export function VoidBlackjackTournamentPanel({ onResult }: { onResult?: CasinoGa
   const mut = trpc.casino.playVoidBlackjackTournament.useMutation();
   return (
     <div className="text-center">
-      <h2 className="font-display text-xl text-amber-400 mb-4">VOID BLACKJACK TOURNAMENT</h2>
+      <h2 className="font-display text-xl void-text-accent mb-4">VOID BLACKJACK TOURNAMENT</h2>
       <p className="font-mono text-[10px] text-white/40 mb-4">Best of 3. Winner takes 6x minus 10% rake.</p>
       <input type="range" min={10} max={21} value={stand} onChange={e => setStand(Number(e.target.value))} className="w-48 mb-4" />
       <BetSelector bet={bet} setBet={setBet} min={50} max={500} />
       <button
         onClick={() => mut.mutate({ bet, stand }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
-        className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
+        className="px-6 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk disabled:opacity-50"
       >
         {mut.isPending ? "Running..." : `ENTER ${bet}D`}
       </button>
@@ -485,16 +485,16 @@ export function LiarsDicePanel({ onResult }: { onResult?: CasinoGameResultCallba
   const mut = trpc.casino.playLiarsDice.useMutation();
   return (
     <div className="text-center">
-      <h2 className="font-display text-xl text-amber-400 mb-4">LIAR'S DICE</h2>
+      <h2 className="font-display text-xl void-text-accent mb-4">LIAR'S DICE</h2>
       <p className="font-mono text-[10px] text-white/40 mb-4">The NPC bids. Trust or call liar.</p>
       <BetSelector bet={bet} setBet={setBet} min={20} max={200} />
       <div className="flex gap-3 justify-center">
         <button onClick={() => mut.mutate({ bet, call: "trust" }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })} disabled={mut.isPending}
-          className="px-4 py-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-blue-400 font-mono text-sm hover:bg-blue-500/20 disabled:opacity-50">
+          className="px-4 py-2 rounded-lg void-bg-sunk border void-border void-text-energy font-mono text-sm void-bg-sunk disabled:opacity-50">
           TRUST (2x)
         </button>
         <button onClick={() => mut.mutate({ bet, call: "liar" }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })} disabled={mut.isPending}
-          className="px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-sm hover:bg-red-500/20 disabled:opacity-50">
+          className="px-4 py-2 rounded-lg void-bg-error border void-border-error void-text-error font-mono text-sm void-bg-error disabled:opacity-50">
           LIAR (3x)
         </button>
       </div>
@@ -529,8 +529,8 @@ export function FactionWarBettingPanel({ onResult }: { onResult?: CasinoGameResu
   const odds = oddsQuery.data ?? {};
   return (
     <div className="text-center">
-      <h2 className="font-display text-xl text-amber-400 mb-4">FACTION WAR BETTING</h2>
-      <p className="font-mono text-[9px] text-amber-400/40 mb-3">
+      <h2 className="font-display text-xl void-text-accent mb-4">FACTION WAR BETTING</h2>
+      <p className="font-mono text-[9px] void-text-accent mb-3">
         Odds are computed live from the active faction war.
       </p>
       <div className="space-y-2 mb-4 max-w-md mx-auto">
@@ -541,10 +541,10 @@ export function FactionWarBettingPanel({ onResult }: { onResult?: CasinoGameResu
               key={id}
               onClick={() => setSelectedId(id)}
               className={`w-full p-2 rounded-lg border text-left text-xs font-mono ${
-                selectedId === id ? "bg-amber-500/20 border-amber-500/40 text-amber-300" : "bg-white/[0.03] border-white/10 text-white/50"
+                selectedId === id ? "void-bg-sunk void-border void-text-accent" : "bg-white/[0.03] border-white/10 text-white/50"
               }`}
             >
-              {BET_LABELS[id]} — <span className="text-amber-400">{live ? `${live.toFixed(2)}x` : "…"}</span>
+              {BET_LABELS[id]} — <span className="void-text-accent">{live ? `${live.toFixed(2)}x` : "…"}</span>
             </button>
           );
         })}
@@ -553,7 +553,7 @@ export function FactionWarBettingPanel({ onResult }: { onResult?: CasinoGameResu
       <button
         onClick={() => mut.mutate({ bet, betId: selectedId }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
-        className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
+        className="px-6 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk disabled:opacity-50"
       >
         {mut.isPending ? "Placing..." : `BET ${bet}D`}
       </button>
@@ -569,13 +569,13 @@ export function DreamRoulettePanel({ onResult }: { onResult?: CasinoGameResultCa
   const mut = trpc.casino.playDreamRoulette.useMutation();
   return (
     <div className="text-center">
-      <h2 className="font-display text-xl text-amber-400 mb-4">DREAM ROULETTE</h2>
+      <h2 className="font-display text-xl void-text-accent mb-4">DREAM ROULETTE</h2>
       <p className="font-mono text-[10px] text-white/40 mb-4">6 chambers. Survive all 6 for 5x payout.</p>
       <BetSelector bet={bet} setBet={setBet} min={25} max={300} />
       <button
         onClick={() => mut.mutate({ bet }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
-        className="px-6 py-2 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 font-mono text-sm hover:bg-red-500/20 disabled:opacity-50"
+        className="px-6 py-2 rounded-lg void-bg-error border void-border-error void-text-error font-mono text-sm void-bg-error disabled:opacity-50"
       >
         {mut.isPending ? "Cylinder spinning..." : `PULL THE TRIGGER ${bet}D`}
       </button>
@@ -596,13 +596,13 @@ export function CardBattlersGauntletPanel({ onResult }: { onResult?: CasinoGameR
   const mut = trpc.casino.playCardBattlersGauntlet.useMutation();
   return (
     <div className="text-center">
-      <h2 className="font-display text-xl text-amber-400 mb-4">CARD BATTLER'S GAUNTLET</h2>
+      <h2 className="font-display text-xl void-text-accent mb-4">CARD BATTLER'S GAUNTLET</h2>
       <p className="font-mono text-[10px] text-white/40 mb-4">Best-of-3 vs The Degen. Win = 3x.</p>
       <BetSelector bet={bet} setBet={setBet} min={30} max={250} />
       <button
         onClick={() => mut.mutate({ bet }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
-        className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
+        className="px-6 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk disabled:opacity-50"
       >
         {mut.isPending ? "Battling..." : `ENTER ${bet}D`}
       </button>
@@ -622,12 +622,12 @@ export function VoidBingoPanel({ onResult }: { onResult?: CasinoGameResultCallba
   const mut = trpc.casino.playVoidBingo.useMutation();
   return (
     <div className="text-center">
-      <h2 className="font-display text-xl text-amber-400 mb-4">VOID BINGO</h2>
+      <h2 className="font-display text-xl void-text-accent mb-4">VOID BINGO</h2>
       <p className="font-mono text-[10px] text-white/40 mb-4">Free to play. Win 50D if you line up in under 20 draws.</p>
       <button
         onClick={() => mut.mutate(undefined, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
-        className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
+        className="px-6 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk disabled:opacity-50"
       >
         {mut.isPending ? "Calling..." : "PLAY SESSION"}
       </button>
@@ -648,18 +648,18 @@ export function VoidCasesPanel({ onResult }: { onResult?: CasinoGameResultCallba
   const mut = trpc.casino.playVoidCase.useMutation();
   return (
     <div className="text-center">
-      <h2 className="font-display text-xl text-amber-400 mb-4">VOID CASES</h2>
+      <h2 className="font-display text-xl void-text-accent mb-4">VOID CASES</h2>
       <p className="font-mono text-[10px] text-white/40 mb-4">Pity timer at 20 cases. Published drop rates.</p>
       <BetSelector bet={bet} setBet={setBet} min={50} max={500} />
       <button
         onClick={() => mut.mutate({ bet }, { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) })}
         disabled={mut.isPending}
-        className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
+        className="px-6 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk disabled:opacity-50"
       >
         {mut.isPending ? "Cracking..." : `OPEN CASE ${bet}D`}
       </button>
       {mut.data?.result && (
-        <p className="mt-3 font-mono text-sm uppercase font-display tracking-widest text-amber-300">
+        <p className="mt-3 font-mono text-sm uppercase font-display tracking-widest void-text-accent">
           {(mut.data.result.detail as { tier: string }).tier}
           {(mut.data.result.detail as { pityTriggered?: boolean }).pityTriggered && " (pity)"}
         </p>
@@ -676,7 +676,7 @@ export function DischordianMahjongPanel({ onResult }: { onResult?: CasinoGameRes
   const mut = trpc.casino.reportMahjongCompletion.useMutation();
   return (
     <div className="text-center">
-      <h2 className="font-display text-xl text-amber-400 mb-4">DISCHORDIAN MAHJONG</h2>
+      <h2 className="font-display text-xl void-text-accent mb-4">DISCHORDIAN MAHJONG</h2>
       <p className="font-mono text-[10px] text-white/40 mb-4">Daily pattern challenge. Faster = more XP.</p>
       <input type="range" min={30} max={300} value={timeUsed} onChange={e => setTimeUsed(Number(e.target.value))} className="w-48 mb-2" />
       <p className="font-mono text-[10px] text-white/50 mb-4">Simulated time: {timeUsed}s / 300s</p>
@@ -686,7 +686,7 @@ export function DischordianMahjongPanel({ onResult }: { onResult?: CasinoGameRes
           { onSuccess: (data) => onResult?.({ achievementsUnlocked: data?.achievementsUnlocked, rewardsUnlocked: data?.rewardsUnlocked }) },
         )}
         disabled={mut.isPending}
-        className="px-6 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-sm hover:bg-amber-500/20 disabled:opacity-50"
+        className="px-6 py-2 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-sm void-bg-sunk disabled:opacity-50"
       >
         {mut.isPending ? "Scoring..." : "COMPLETE RUN"}
       </button>

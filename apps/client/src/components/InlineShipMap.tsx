@@ -82,13 +82,13 @@ interface DeckConfig {
 }
 
 const DECK_LAYOUT: DeckConfig[] = [
-  { deck: 1, name: "HABITATION", color: "#33E2E6" },
-  { deck: 2, name: "COMMAND", color: "#3875fa" },
+  { deck: 1, name: "HABITATION", color: "var(--energy-primary)" },
+  { deck: 2, name: "COMMAND", color: "var(--electric-blue)" },
   { deck: 3, name: "OPERATIONS", color: "#a855f7" },
-  { deck: 4, name: "TECHNICAL", color: "#FF8C00" },
-  { deck: 5, name: "LOGISTICS", color: "#22c55e" },
+  { deck: 4, name: "TECHNICAL", color: "var(--energy-premium)" },
+  { deck: 5, name: "LOGISTICS", color: "var(--energy-success)" },
   { deck: 6, name: "RESTRICTED", color: "#DC2626" },
-  { deck: 7, name: "SPECIAL", color: "#FFD700" },
+  { deck: 7, name: "SPECIAL", color: "var(--energy-premium)" },
 ];
 
 /* ─── ROOM NODE ─── */
@@ -147,8 +147,8 @@ function MapRoomNode({
         <div
           className="w-10 h-10 rounded-md flex items-center justify-center shrink-0 overflow-hidden"
           style={{
-            background: isUnlocked ? `${deckColor}10` : "rgba(255,255,255,0.02)",
-            border: `1px solid ${isUnlocked ? deckColor + "30" : "rgba(255,255,255,0.04)"}`,
+            background: isUnlocked ? `${deckColor}10` : "color-mix(in oklch, var(--text-primary) 2%, transparent)",
+            border: `1px solid ${isUnlocked ? deckColor + "30" : "color-mix(in oklch, var(--text-primary) 4%, transparent)"}`,
           }}
         >
           {isUnlocked && artwork ? (
@@ -168,7 +168,7 @@ function MapRoomNode({
             {isUnlocked ? def.name : "???"}
           </p>
           <p className="font-mono text-[8px] truncate" style={{
-            color: isCurrent ? deckColor + "80" : isUnlocked ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.08)",
+            color: isCurrent ? deckColor + "80" : isUnlocked ? "color-mix(in oklch, var(--text-primary) 25%, transparent)" : "color-mix(in oklch, var(--text-primary) 8%, transparent)",
           }}>
             {isCurrent ? "YOU ARE HERE" : isUnlocked ? def.features.slice(0, 2).join(" · ") : "LOCKED"}
           </p>
@@ -188,12 +188,12 @@ function MapRoomNode({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 5, scale: 0.95 }}
             className="absolute z-50 left-0 bottom-full mb-2 rounded-lg border border-white/10 overflow-hidden pointer-events-none"
-            style={{ background: "rgba(1,0,32,0.97)", width: "260px", backdropFilter: "blur(20px)" }}
+            style={{ background: "color-mix(in oklch, var(--bg-void) 97%, transparent)", width: "260px", backdropFilter: "blur(20px)" }}
           >
             {artwork && (
               <div className="relative w-full" style={{ height: "130px" }}>
                 <img src={artwork} alt={def.name} className="w-full h-full object-cover" loading="lazy" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[rgba(1,0,32,0.95)] via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[color-mix(in oklch, var(--bg-void) 95%, transparent)] via-transparent to-transparent" />
                 <div
                   className="absolute top-2 right-2 px-1.5 py-0.5 rounded font-mono text-[7px] tracking-[0.2em] font-bold"
                   style={{ background: `${deckColor}25`, color: deckColor, border: `1px solid ${deckColor}40` }}
@@ -219,7 +219,7 @@ function MapRoomNode({
                 ))}
               </div>
               {!isCurrent && (
-                <p className="font-mono text-[9px] text-cyan-400/70 mt-2 flex items-center gap-1">
+                <p className="font-mono text-[9px] void-text-energy mt-2 flex items-center gap-1">
                   <Crosshair size={9} /> Click to fast travel
                 </p>
               )}
@@ -265,15 +265,15 @@ export default function InlineShipMap({ currentRoomId, onTravel }: InlineShipMap
         className="w-full flex items-center gap-3 px-4 py-3 rounded-lg font-mono text-[11px] tracking-wider transition-all group"
         style={{
           background: isExpanded
-            ? "linear-gradient(135deg, rgba(51,226,230,0.08), rgba(56,117,250,0.06))"
-            : "rgba(51,226,230,0.03)",
-          border: `1px solid ${isExpanded ? "rgba(51,226,230,0.25)" : "rgba(51,226,230,0.1)"}`,
-          boxShadow: isExpanded ? "0 0 20px rgba(51,226,230,0.05)" : "none",
+            ? "linear-gradient(135deg, color-mix(in oklch, var(--energy-primary) 8%, transparent), color-mix(in oklch, var(--electric-blue) 6%, transparent))"
+            : "color-mix(in oklch, var(--energy-primary) 3%, transparent)",
+          border: `1px solid ${isExpanded ? "color-mix(in oklch, var(--energy-primary) 25%, transparent)" : "color-mix(in oklch, var(--energy-primary) 10%, transparent)"}`,
+          boxShadow: isExpanded ? "0 0 20px color-mix(in oklch, var(--energy-primary) 5%, transparent)" : "none",
         }}
       >
         <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{
-          background: "rgba(51,226,230,0.1)",
-          border: "1px solid rgba(51,226,230,0.25)",
+          background: "color-mix(in oklch, var(--energy-primary) 10%, transparent)",
+          border: "1px solid color-mix(in oklch, var(--energy-primary) 25%, transparent)",
         }}>
           <Ship size={14} className="text-[var(--neon-cyan)]" />
         </div>
@@ -285,7 +285,7 @@ export default function InlineShipMap({ currentRoomId, onTravel }: InlineShipMap
         </div>
         <div className="flex items-center gap-2">
           {/* Mini progress bar */}
-          <div className="w-16 h-1 rounded-full overflow-hidden hidden sm:block" style={{ background: "rgba(255,255,255,0.05)" }}>
+          <div className="w-16 h-1 rounded-full overflow-hidden hidden sm:block" style={{ background: "color-mix(in oklch, var(--text-primary) 5%, transparent)" }}>
             <div
               className="h-full rounded-full"
               style={{
@@ -315,8 +315,8 @@ export default function InlineShipMap({ currentRoomId, onTravel }: InlineShipMap
             <div
               className="mt-2 rounded-lg border overflow-hidden"
               style={{
-                background: "linear-gradient(180deg, rgba(1,0,32,0.85) 0%, rgba(1,0,32,0.95) 100%)",
-                borderColor: "rgba(51,226,230,0.1)",
+                background: "linear-gradient(180deg, color-mix(in oklch, var(--bg-void) 85%, transparent) 0%, color-mix(in oklch, var(--bg-void) 95%, transparent) 100%)",
+                borderColor: "color-mix(in oklch, var(--energy-primary) 10%, transparent)",
               }}
             >
               {/* Grid overlay */}
@@ -324,8 +324,8 @@ export default function InlineShipMap({ currentRoomId, onTravel }: InlineShipMap
                 className="absolute inset-0 opacity-[0.02] pointer-events-none"
                 style={{
                   backgroundImage: `
-                    linear-gradient(rgba(51,226,230,0.5) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(51,226,230,0.5) 1px, transparent 1px)
+                    linear-gradient(color-mix(in oklch, var(--energy-primary) 50%, transparent) 1px, transparent 1px),
+                    linear-gradient(90deg, color-mix(in oklch, var(--energy-primary) 50%, transparent) 1px, transparent 1px)
                   `,
                   backgroundSize: "30px 30px",
                 }}
@@ -333,7 +333,7 @@ export default function InlineShipMap({ currentRoomId, onTravel }: InlineShipMap
 
               <div className="relative p-4 space-y-3 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
                 {/* Header */}
-                <div className="flex items-center justify-between pb-2" style={{ borderBottom: "1px solid rgba(51,226,230,0.1)" }}>
+                <div className="flex items-center justify-between pb-2" style={{ borderBottom: "1px solid color-mix(in oklch, var(--energy-primary) 10%, transparent)" }}>
                   <div className="flex items-center gap-2">
                     <Navigation size={12} className="text-[var(--neon-cyan)]" />
                     <span className="font-display text-[10px] font-bold tracking-[0.3em] text-[var(--neon-cyan)]">
@@ -359,17 +359,17 @@ export default function InlineShipMap({ currentRoomId, onTravel }: InlineShipMap
                         <div
                           className="w-3 h-3 rounded-full flex items-center justify-center"
                           style={{
-                            background: hasAnyUnlocked ? deckConfig.color : "rgba(255,255,255,0.08)",
+                            background: hasAnyUnlocked ? deckConfig.color : "color-mix(in oklch, var(--text-primary) 8%, transparent)",
                             boxShadow: hasAnyUnlocked ? `0 0 8px ${deckConfig.color}40` : "none",
                           }}
                         >
-                          <span className="font-mono text-[6px] font-bold" style={{ color: hasAnyUnlocked ? "#010020" : "rgba(255,255,255,0.2)" }}>
+                          <span className="font-mono text-[6px] font-bold" style={{ color: hasAnyUnlocked ? "var(--bg-void)" : "color-mix(in oklch, var(--text-primary) 20%, transparent)" }}>
                             {deckConfig.deck}
                           </span>
                         </div>
                         <span
                           className="font-mono text-[8px] tracking-[0.25em] font-bold"
-                          style={{ color: hasAnyUnlocked ? deckConfig.color + "90" : "rgba(255,255,255,0.12)" }}
+                          style={{ color: hasAnyUnlocked ? deckConfig.color + "90" : "color-mix(in oklch, var(--text-primary) 12%, transparent)" }}
                         >
                           DECK {deckConfig.deck} — {deckConfig.name}
                         </span>
@@ -400,10 +400,10 @@ export default function InlineShipMap({ currentRoomId, onTravel }: InlineShipMap
                   <div>
                     <div className="flex items-center gap-2 mb-2">
                       <div className="w-3 h-3 rounded-full flex items-center justify-center" style={{ background: "#FF69B4", boxShadow: "0 0 8px rgba(255,105,180,0.4)" }}>
-                        <span className="font-mono text-[6px] font-bold" style={{ color: "#010020" }}>?</span>
+                        <span className="font-mono text-[6px] font-bold" style={{ color: "var(--bg-void)" }}>?</span>
                       </div>
-                      <span className="font-mono text-[8px] tracking-[0.25em] font-bold text-pink-400">HIDDEN CHAMBERS</span>
-                      <div className="flex-1 h-px bg-pink-400/15" />
+                      <span className="font-mono text-[8px] tracking-[0.25em] font-bold void-text-error">HIDDEN CHAMBERS</span>
+                      <div className="flex-1 h-px void-bg-error" />
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 mb-2">
                       {Object.entries(deckGroups)
@@ -426,7 +426,7 @@ export default function InlineShipMap({ currentRoomId, onTravel }: InlineShipMap
                 )}
 
                 {/* Legend */}
-                <div className="flex flex-wrap gap-3 justify-center pt-2" style={{ borderTop: "1px solid rgba(51,226,230,0.08)" }}>
+                <div className="flex flex-wrap gap-3 justify-center pt-2" style={{ borderTop: "1px solid color-mix(in oklch, var(--energy-primary) 8%, transparent)" }}>
                   {[
                     { icon: <div className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />, label: "CURRENT" },
                     { icon: <div className="w-1.5 h-1.5 rounded-full bg-[var(--neon-cyan)]" />, label: "DISCOVERED" },

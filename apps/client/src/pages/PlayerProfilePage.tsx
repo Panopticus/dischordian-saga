@@ -40,7 +40,7 @@ function StatRing({ value, max, label, icon: Icon, color, size = 80 }: {
           <circle
             cx={size / 2} cy={size / 2} r={radius}
             fill="none" stroke="currentColor"
-            className="text-zinc-800" strokeWidth={4}
+            className="void-text" strokeWidth={4}
           />
           <circle
             cx={size / 2} cy={size / 2} r={radius}
@@ -67,11 +67,11 @@ function AchievementBadge({ name, earned }: { name: string; earned: boolean }) {
   return (
     <div className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all ${
       earned
-        ? "border-amber-500/30 bg-amber-950/20"
-        : "border-zinc-700/20 bg-zinc-900/30 opacity-40"
+        ? "void-border void-bg-sunk"
+        : "void-border void-bg-canvas opacity-40"
     }`}>
-      <Trophy size={14} className={earned ? "text-amber-400" : "text-zinc-600"} />
-      <span className={`font-mono text-xs ${earned ? "text-amber-300" : "text-zinc-600"}`}>
+      <Trophy size={14} className={earned ? "void-text-accent" : "void-text"} />
+      <span className={`font-mono text-xs ${earned ? "void-text-accent" : "void-text"}`}>
         {earned ? name : "???"}
       </span>
     </div>
@@ -103,15 +103,15 @@ function RoomStatusRow({ room, state }: {
     <div className={`flex items-center gap-3 px-3 py-2.5 rounded-lg border transition-all ${
       unlocked
         ? "border-primary/20 bg-primary/5 hover:bg-primary/10"
-        : "border-zinc-700/20 bg-zinc-900/30 opacity-50"
+        : "void-border void-bg-canvas opacity-50"
     }`}>
       <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-        unlocked ? "bg-primary/20" : "bg-zinc-800"
+        unlocked ? "bg-primary/20" : "void-bg-canvas"
       }`}>
-        {unlocked ? <Unlock size={14} className="text-primary" /> : <Lock size={14} className="text-zinc-600" />}
+        {unlocked ? <Unlock size={14} className="text-primary" /> : <Lock size={14} className="void-text" />}
       </div>
       <div className="flex-1 min-w-0">
-        <p className={`font-mono text-xs font-semibold truncate ${unlocked ? "text-foreground" : "text-zinc-600"}`}>
+        <p className={`font-mono text-xs font-semibold truncate ${unlocked ? "text-foreground" : "void-text"}`}>
           {room.name}
         </p>
         <div className="flex items-center gap-3 mt-0.5">
@@ -126,12 +126,12 @@ function RoomStatusRow({ room, state }: {
             </span>
           )}
           {hasPuzzle && (
-            <span className={`font-mono text-xs ${puzzleSolved ? "text-emerald-400" : "text-zinc-500"}`}>
+            <span className={`font-mono text-xs ${puzzleSolved ? "void-text-energy" : "void-text"}`}>
               {puzzleSolved ? "PUZZLE ✓" : "PUZZLE"}
             </span>
           )}
           {eggFound && (
-            <span className="font-mono text-xs text-purple-400">EGG ✓</span>
+            <span className="font-mono text-xs void-text-system">EGG ✓</span>
           )}
         </div>
       </div>
@@ -295,16 +295,16 @@ export default function PlayerProfilePage() {
               </div>
               <div className="flex gap-4 mt-3">
                 <div className="flex items-center gap-1">
-                  <Sword size={12} className="text-red-400" />
-                  <span className="font-mono text-xs text-red-300">{charInfo.attrAttack} ATK</span>
+                  <Sword size={12} className="void-text-error" />
+                  <span className="font-mono text-xs void-text-error">{charInfo.attrAttack} ATK</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <Shield size={12} className="text-blue-400" />
-                  <span className="font-mono text-xs text-blue-300">{charInfo.attrDefense} DEF</span>
+                  <Shield size={12} className="void-text-energy" />
+                  <span className="font-mono text-xs void-text-energy">{charInfo.attrDefense} DEF</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <Zap size={12} className="text-emerald-400" />
-                  <span className="font-mono text-xs text-emerald-300">{charInfo.attrVitality} VIT</span>
+                  <Zap size={12} className="void-text-energy" />
+                  <span className="font-mono text-xs void-text-energy">{charInfo.attrVitality} VIT</span>
                 </div>
               </div>
             </div>
@@ -375,7 +375,7 @@ export default function PlayerProfilePage() {
             <h3 className="font-display text-xs font-bold tracking-[0.2em]">MISSION COMPLETION</h3>
             <span className="ml-auto font-display text-2xl font-bold text-primary">{stats.completionPct}%</span>
           </div>
-          <div className="w-full h-3 bg-zinc-800 rounded-full overflow-hidden mb-4">
+          <div className="w-full h-3 void-bg-canvas rounded-full overflow-hidden mb-4">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${stats.completionPct}%` }}
@@ -386,10 +386,10 @@ export default function PlayerProfilePage() {
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-4">
             <StatRing value={stats.unlockedRooms} max={stats.totalRooms} label="Rooms" icon={MapPin} color="text-primary" />
             <StatRing value={stats.puzzlesSolved} max={stats.totalPuzzles} label="Puzzles" icon={Puzzle} color="text-accent" />
-            <StatRing value={stats.eggsFound} max={stats.totalEggs} label="Eggs" icon={Eye} color="text-purple-400" />
-            <StatRing value={stats.totalOwnedCards} max={stats.totalPossibleCards} label="Cards" icon={Crown} color="text-amber-400" />
-            <StatRing value={stats.battlesWon} max={Math.max(stats.battlesPlayed, 1)} label="Battles" icon={Sword} color="text-red-400" />
-            <StatRing value={stats.totalItems} max={30} label="Items" icon={Gem} color="text-emerald-400" />
+            <StatRing value={stats.eggsFound} max={stats.totalEggs} label="Eggs" icon={Eye} color="void-text-system" />
+            <StatRing value={stats.totalOwnedCards} max={stats.totalPossibleCards} label="Cards" icon={Crown} color="void-text-accent" />
+            <StatRing value={stats.battlesWon} max={Math.max(stats.battlesPlayed, 1)} label="Battles" icon={Sword} color="void-text-error" />
+            <StatRing value={stats.totalItems} max={30} label="Items" icon={Gem} color="void-text-energy" />
           </div>
         </motion.div>
 
@@ -401,27 +401,27 @@ export default function PlayerProfilePage() {
           className="void-surface p-5"
         >
           <div className="flex items-center gap-2 mb-4">
-            <Target size={16} className="text-red-400" />
+            <Target size={16} className="void-text-error" />
             <h3 className="font-display text-xs font-bold tracking-[0.2em]">COMBAT RECORD</h3>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div className="text-center p-3 rounded-lg bg-zinc-900/40 border border-zinc-700/20">
+            <div className="text-center p-3 rounded-lg void-bg-canvas border void-border">
               <p className="font-display text-2xl font-bold text-foreground">{stats.battlesPlayed}</p>
               <p className="font-mono text-xs text-muted-foreground tracking-wider">BATTLES</p>
             </div>
-            <div className="text-center p-3 rounded-lg bg-emerald-950/20 border border-emerald-700/20">
-              <p className="font-display text-2xl font-bold text-emerald-400">{stats.battlesWon}</p>
-              <p className="font-mono text-xs text-emerald-500/70 tracking-wider">VICTORIES</p>
+            <div className="text-center p-3 rounded-lg void-bg-success border void-border-success">
+              <p className="font-display text-2xl font-bold void-text-energy">{stats.battlesWon}</p>
+              <p className="font-mono text-xs void-text-energy tracking-wider">VICTORIES</p>
             </div>
-            <div className="text-center p-3 rounded-lg bg-red-950/20 border border-red-700/20">
-              <p className="font-display text-2xl font-bold text-red-400">{stats.battlesPlayed - stats.battlesWon}</p>
-              <p className="font-mono text-xs text-red-500/70 tracking-wider">DEFEATS</p>
+            <div className="text-center p-3 rounded-lg void-bg-error border void-border-error">
+              <p className="font-display text-2xl font-bold void-text-error">{stats.battlesPlayed - stats.battlesWon}</p>
+              <p className="font-mono text-xs void-text-error tracking-wider">DEFEATS</p>
             </div>
-            <div className="text-center p-3 rounded-lg bg-amber-950/20 border border-amber-700/20">
-              <p className="font-display text-2xl font-bold text-amber-400">
+            <div className="text-center p-3 rounded-lg void-bg-sunk border void-border">
+              <p className="font-display text-2xl font-bold void-text-accent">
                 {stats.battlesPlayed > 0 ? Math.round((stats.battlesWon / stats.battlesPlayed) * 100) : 0}%
               </p>
-              <p className="font-mono text-xs text-amber-500/70 tracking-wider">WIN RATE</p>
+              <p className="font-mono text-xs void-text-accent tracking-wider">WIN RATE</p>
             </div>
           </div>
         </motion.div>
@@ -459,7 +459,7 @@ export default function PlayerProfilePage() {
           className="void-surface p-5"
         >
           <div className="flex items-center gap-2 mb-4">
-            <Trophy size={16} className="text-amber-400" />
+            <Trophy size={16} className="void-text-accent" />
             <h3 className="font-display text-xs font-bold tracking-[0.2em]">ACHIEVEMENTS</h3>
             <span className="ml-auto font-mono text-xs text-muted-foreground">
               {stats.achievementsEarned}/{knownAchievements.length}
@@ -493,7 +493,7 @@ export default function PlayerProfilePage() {
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {Object.entries(contentStats.byType).map(([type, data]) => (
-                <div key={type} className="p-3 rounded-lg bg-zinc-900/40 border border-zinc-700/20">
+                <div key={type} className="p-3 rounded-lg void-bg-canvas border void-border">
                   <p className="font-mono text-[10px] text-muted-foreground tracking-wider mb-1">
                     {type.replace(/_/g, " ").toUpperCase()}
                   </p>
@@ -523,9 +523,9 @@ export default function PlayerProfilePage() {
           className="grid grid-cols-2 sm:grid-cols-4 gap-3"
         >
           {[
-            { href: "/card-gallery", label: "Card Gallery", icon: Crown, color: "text-amber-400" },
+            { href: "/card-gallery", label: "Card Gallery", icon: Crown, color: "void-text-accent" },
             { href: "/ark", label: "Explore Ark", icon: Compass, color: "text-primary" },
-            { href: "/battle", label: "Card Battle", icon: Sword, color: "text-red-400" },
+            { href: "/battle", label: "Card Battle", icon: Sword, color: "void-text-error" },
             { href: "/codex", label: "Lore Codex", icon: BookOpen, color: "text-accent" },
           ].map(link => (
             <Link

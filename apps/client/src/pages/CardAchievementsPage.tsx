@@ -24,22 +24,22 @@ const CATEGORY_ICONS: Record<string, any> = {
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
-  combat: "text-red-400 bg-red-500/10 border-red-500/30",
-  collection: "text-amber-400 bg-amber-500/10 border-amber-500/30",
-  pvp: "text-blue-400 bg-blue-500/10 border-blue-500/30",
-  draft: "text-purple-400 bg-purple-500/10 border-purple-500/30",
-  trading: "text-pink-400 bg-pink-500/10 border-pink-500/30",
-  exploration: "text-green-400 bg-green-500/10 border-green-500/30",
-  mastery: "text-orange-400 bg-orange-500/10 border-orange-500/30",
-  social: "text-cyan-400 bg-cyan-500/10 border-cyan-500/30",
+  combat: "void-text-error void-bg-error void-border-error",
+  collection: "void-text-accent void-bg-sunk void-border",
+  pvp: "void-text-energy void-bg-sunk void-border",
+  draft: "void-text-system void-bg-system void-border-system",
+  trading: "void-text-error void-bg-error void-border-error",
+  exploration: "void-text-energy void-bg-success void-border-success",
+  mastery: "void-text-premium void-bg-sunk void-border",
+  social: "void-text-energy void-bg-success void-border-success",
 };
 
 const TIER_COLORS: Record<string, string> = {
-  bronze: "text-amber-700 bg-amber-900/20 border-amber-700/30",
-  silver: "text-muted-foreground bg-gray-500/20 border-gray-400/30",
-  gold: "text-yellow-400 bg-yellow-500/20 border-yellow-500/30",
-  platinum: "text-cyan-300 bg-cyan-500/20 border-cyan-400/30",
-  diamond: "text-blue-300 bg-blue-500/20 border-blue-400/30",
+  bronze: "void-text-accent void-bg-sunk void-border",
+  silver: "text-muted-foreground void-bg-canvas void-border",
+  gold: "void-text-premium void-bg-sunk void-border",
+  platinum: "void-text-energy void-bg-success void-border-success",
+  diamond: "void-text-energy void-bg-sunk void-border",
 };
 
 type FilterCategory = "all" | string;
@@ -147,7 +147,7 @@ export default function CardAchievementsPage() {
           <p className="font-mono text-[9px] text-muted-foreground tracking-wider">COMPLETED</p>
         </div>
         <div className="border border-border/20 rounded-lg bg-card/30 p-3 text-center">
-          <Star size={18} className="mx-auto mb-1 text-yellow-400" />
+          <Star size={18} className="mx-auto mb-1 void-text-premium" />
           <p className="font-display text-xl font-bold">{summary.data?.totalDreamEarned || 0}</p>
           <p className="font-mono text-[9px] text-muted-foreground tracking-wider">DREAM EARNED</p>
         </div>
@@ -157,7 +157,7 @@ export default function CardAchievementsPage() {
           <p className="font-mono text-[9px] text-muted-foreground tracking-wider">REWARDS CLAIMED</p>
         </div>
         <div className="border border-border/20 rounded-lg bg-card/30 p-3 text-center">
-          <Zap size={18} className="mx-auto mb-1 text-green-400" />
+          <Zap size={18} className="mx-auto mb-1 void-text-energy" />
           <p className="font-display text-xl font-bold">
             {totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0}%
           </p>
@@ -191,7 +191,7 @@ export default function CardAchievementsPage() {
         </button>
         {categories.map((cat) => {
           const Icon = CATEGORY_ICONS[cat] || Star;
-          const color = CATEGORY_COLORS[cat] || "text-muted-foreground bg-gray-500/10 border-gray-500/30";
+          const color = CATEGORY_COLORS[cat] || "text-muted-foreground void-bg-canvas void-border";
           return (
             <button
               key={cat}
@@ -209,7 +209,7 @@ export default function CardAchievementsPage() {
           <button
             onClick={() => setShowCompleted(!showCompleted)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono text-[10px] transition-all ${
-              showCompleted ? "bg-green-500/10 text-green-400" : "bg-secondary/30 text-muted-foreground"
+              showCompleted ? "void-bg-success void-text-energy" : "bg-secondary/30 text-muted-foreground"
             }`}
           >
             {showCompleted ? <Eye size={12} /> : <Lock size={12} />}
@@ -228,7 +228,7 @@ export default function CardAchievementsPage() {
         ) : (
           filteredAchievements.map((achievement: any) => {
             const Icon = CATEGORY_ICONS[achievement.category] || Star;
-            const catColor = CATEGORY_COLORS[achievement.category] || "text-muted-foreground bg-gray-500/10 border-gray-500/30";
+            const catColor = CATEGORY_COLORS[achievement.category] || "text-muted-foreground void-bg-canvas void-border";
             const tierColor = TIER_COLORS[achievement.tier] || "";
             const progress = achievement.target > 0
               ? Math.min(100, (achievement.progress / achievement.target) * 100)
@@ -299,7 +299,7 @@ export default function CardAchievementsPage() {
                       <span className="font-mono text-xs text-accent">+{achievement.dreamReward} 💎</span>
                     )}
                     {achievement.completed && !achievement.rewardClaimed && (
-                      <span className="px-2 py-0.5 rounded bg-green-500/20 text-green-400 text-[9px] font-mono font-bold animate-pulse">
+                      <span className="px-2 py-0.5 rounded void-bg-success void-text-energy text-[9px] font-mono font-bold animate-pulse">
                         CLAIM
                       </span>
                     )}
@@ -325,7 +325,7 @@ export default function CardAchievementsPage() {
                         </p>
                         <div className="flex items-center gap-4">
                           <div className="flex items-center gap-1.5">
-                            <Star size={12} className="text-yellow-400" />
+                            <Star size={12} className="void-text-premium" />
                             <span className="font-mono text-[10px] text-muted-foreground">
                               {achievement.points || 10} points
                             </span>
@@ -354,7 +354,7 @@ export default function CardAchievementsPage() {
                           </Button>
                         )}
                         {achievement.rewardClaimed && (
-                          <div className="flex items-center gap-1.5 text-green-400">
+                          <div className="flex items-center gap-1.5 void-text-energy">
                             <Check size={14} />
                             <span className="font-mono text-xs">Reward claimed</span>
                           </div>

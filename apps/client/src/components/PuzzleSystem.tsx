@@ -142,10 +142,10 @@ function RiddlePuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void
     <div className="space-y-4">
       {/* Riddle text */}
       <div className="rounded-lg p-4" style={{
-        background: "rgba(168,85,247,0.05)",
-        border: "1px solid rgba(168,85,247,0.15)",
+        background: "color-mix(in oklch, var(--energy-system) 5%, transparent)",
+        border: "1px solid color-mix(in oklch, var(--energy-system) 15%, transparent)",
       }}>
-        <Brain size={14} className="text-purple-400 mb-2" />
+        <Brain size={14} className="void-text-system mb-2" />
         <pre className="font-mono text-xs text-muted-foreground/90 leading-relaxed whitespace-pre-wrap">{puzzle.riddle}</pre>
       </div>
 
@@ -156,7 +156,7 @@ function RiddlePuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void
           value={answer}
           onChange={e => setAnswer(e.target.value)}
           placeholder="Enter your answer..."
-          className="flex-1 bg-transparent border-b border-border pb-2 font-mono text-sm text-foreground/85 placeholder:text-muted-foreground/35 focus:outline-none focus:border-purple-400/50"
+          className="flex-1 bg-transparent border-b border-border pb-2 font-mono text-sm text-foreground/85 placeholder:text-muted-foreground/35 focus:outline-none focus:void-border-system"
           onKeyDown={e => { if (e.key === "Enter") checkAnswer(); }}
           autoFocus
         />
@@ -165,8 +165,8 @@ function RiddlePuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void
           disabled={!answer.trim()}
           className="px-4 py-1.5 rounded-md font-mono text-[10px] tracking-wider transition-all disabled:opacity-30"
           style={{
-            background: "rgba(168,85,247,0.1)",
-            border: "1px solid rgba(168,85,247,0.3)",
+            background: "color-mix(in oklch, var(--energy-system) 10%, transparent)",
+            border: "1px solid color-mix(in oklch, var(--energy-system) 30%, transparent)",
             color: "#a855f7",
           }}
         >
@@ -178,14 +178,14 @@ function RiddlePuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void
       <AnimatePresence>
         {result === "correct" && (
           <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-            className="flex items-center gap-2 text-green-400 font-mono text-xs"
+            className="flex items-center gap-2 void-text-energy font-mono text-xs"
           >
             <CheckCircle size={14} /> ACCESS GRANTED
           </motion.div>
         )}
         {result === "wrong" && (
           <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-            className="flex items-center gap-2 text-red-400 font-mono text-xs"
+            className="flex items-center gap-2 void-text-error font-mono text-xs"
           >
             <XCircle size={14} /> INCORRECT — TRY AGAIN ({attempts} attempt{attempts !== 1 ? "s" : ""})
           </motion.div>
@@ -196,16 +196,16 @@ function RiddlePuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void
       {attempts >= 2 && !showHint && (
         <button
           onClick={() => setShowHint(true)}
-          className="font-mono text-[10px] text-amber-400/50 hover:text-amber-400 transition-colors"
+          className="font-mono text-[10px] void-text-accent void-text-accent transition-colors"
         >
           [Request Elara's hint]
         </button>
       )}
       {showHint && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          className="rounded-md p-3" style={{ background: "rgba(255,183,77,0.05)", border: "1px solid rgba(255,183,77,0.15)" }}
+          className="rounded-md p-3" style={{ background: "color-mix(in oklch, var(--energy-premium) 5%, transparent)", border: "1px solid color-mix(in oklch, var(--energy-premium) 15%, transparent)" }}
         >
-          <p className="font-mono text-[10px] text-amber-400/70">ELARA: {puzzle.elaraHint}</p>
+          <p className="font-mono text-[10px] void-text-accent">ELARA: {puzzle.elaraHint}</p>
         </motion.div>
       )}
     </div>
@@ -250,8 +250,8 @@ function SequencePuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => vo
             animate={{ opacity: 1, scale: 1 }}
             className="px-3 py-1.5 rounded-md font-mono text-[10px] tracking-wider"
             style={{
-              background: "rgba(51,226,230,0.1)",
-              border: "1px solid rgba(51,226,230,0.3)",
+              background: "color-mix(in oklch, var(--energy-primary) 10%, transparent)",
+              border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
               color: "var(--neon-cyan)",
             }}
           >
@@ -274,9 +274,9 @@ function SequencePuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => vo
               disabled={isSelected || result !== null}
               className="px-3 py-2 rounded-md font-mono text-[11px] tracking-wider transition-all disabled:opacity-20"
               style={{
-                background: isSelected ? "rgba(255,255,255,0.02)" : "var(--glass-border)",
-                border: `1px solid ${isSelected ? "rgba(255,255,255,0.05)" : "rgba(56,117,250,0.25)"}`,
-                color: isSelected ? "rgba(255,255,255,0.2)" : "#3b82f6",
+                background: isSelected ? "color-mix(in oklch, var(--text-primary) 2%, transparent)" : "var(--glass-border)",
+                border: `1px solid ${isSelected ? "color-mix(in oklch, var(--text-primary) 5%, transparent)" : "color-mix(in oklch, var(--electric-blue) 25%, transparent)"}`,
+                color: isSelected ? "color-mix(in oklch, var(--text-primary) 20%, transparent)" : "#3b82f6",
               }}
             >
               {item}
@@ -295,27 +295,27 @@ function SequencePuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => vo
       {/* Result */}
       <AnimatePresence>
         {result === "correct" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 text-green-400 font-mono text-xs">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 void-text-energy font-mono text-xs">
             <CheckCircle size={14} /> BOOT SEQUENCE ACCEPTED
           </motion.div>
         )}
         {result === "wrong" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 text-red-400 font-mono text-xs">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 void-text-error font-mono text-xs">
             <XCircle size={14} /> INCORRECT SEQUENCE — RESETTING
           </motion.div>
         )}
       </AnimatePresence>
 
       {attempts >= 2 && !showHint && (
-        <button onClick={() => setShowHint(true)} className="font-mono text-[10px] text-amber-400/50 hover:text-amber-400 transition-colors">
+        <button onClick={() => setShowHint(true)} className="font-mono text-[10px] void-text-accent void-text-accent transition-colors">
           [Request Elara's hint]
         </button>
       )}
       {showHint && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          className="rounded-md p-3" style={{ background: "rgba(255,183,77,0.05)", border: "1px solid rgba(255,183,77,0.15)" }}
+          className="rounded-md p-3" style={{ background: "color-mix(in oklch, var(--energy-premium) 5%, transparent)", border: "1px solid color-mix(in oklch, var(--energy-premium) 15%, transparent)" }}
         >
-          <p className="font-mono text-[10px] text-amber-400/70">ELARA: {puzzle.elaraHint}</p>
+          <p className="font-mono text-[10px] void-text-accent">ELARA: {puzzle.elaraHint}</p>
         </motion.div>
       )}
     </div>
@@ -344,8 +344,8 @@ function CipherPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void
     <div className="space-y-4">
       {/* Cipher display */}
       <div className="rounded-lg p-4 text-center" style={{
-        background: "rgba(51,226,230,0.03)",
-        border: "1px solid rgba(51,226,230,0.15)",
+        background: "color-mix(in oklch, var(--energy-primary) 3%, transparent)",
+        border: "1px solid color-mix(in oklch, var(--energy-primary) 15%, transparent)",
       }}>
         <Terminal size={14} className="text-[var(--neon-cyan)] mx-auto mb-2" />
         <p className="font-mono text-[10px] text-muted-foreground/50 mb-2">ENCRYPTED SIGNAL // {puzzle.cipherKey === "reverse" ? "REVERSE CIPHER" : `SHIFT-${puzzle.cipherKey}`}</p>
@@ -368,8 +368,8 @@ function CipherPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void
           disabled={!answer.trim()}
           className="px-4 py-1.5 rounded-md font-mono text-[10px] tracking-wider transition-all disabled:opacity-30"
           style={{
-            background: "rgba(51,226,230,0.1)",
-            border: "1px solid rgba(51,226,230,0.3)",
+            background: "color-mix(in oklch, var(--energy-primary) 10%, transparent)",
+            border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
             color: "var(--neon-cyan)",
           }}
         >
@@ -379,27 +379,27 @@ function CipherPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void
 
       <AnimatePresence>
         {result === "correct" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 text-green-400 font-mono text-xs">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 void-text-energy font-mono text-xs">
             <CheckCircle size={14} /> DECRYPTION SUCCESSFUL
           </motion.div>
         )}
         {result === "wrong" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 text-red-400 font-mono text-xs">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-2 void-text-error font-mono text-xs">
             <XCircle size={14} /> DECRYPTION FAILED
           </motion.div>
         )}
       </AnimatePresence>
 
       {attempts >= 2 && !showHint && (
-        <button onClick={() => setShowHint(true)} className="font-mono text-[10px] text-amber-400/50 hover:text-amber-400 transition-colors">
+        <button onClick={() => setShowHint(true)} className="font-mono text-[10px] void-text-accent void-text-accent transition-colors">
           [Request Elara's hint]
         </button>
       )}
       {showHint && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          className="rounded-md p-3" style={{ background: "rgba(255,183,77,0.05)", border: "1px solid rgba(255,183,77,0.15)" }}
+          className="rounded-md p-3" style={{ background: "color-mix(in oklch, var(--energy-premium) 5%, transparent)", border: "1px solid color-mix(in oklch, var(--energy-premium) 15%, transparent)" }}
         >
-          <p className="font-mono text-[10px] text-amber-400/70">ELARA: {puzzle.elaraHint}</p>
+          <p className="font-mono text-[10px] void-text-accent">ELARA: {puzzle.elaraHint}</p>
         </motion.div>
       )}
     </div>
@@ -446,15 +446,15 @@ function PowerRelayPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => 
             <div
               className="w-10 h-14 rounded-md flex items-center justify-center transition-all duration-300"
               style={{
-                background: on ? "rgba(51,226,230,0.2)" : "rgba(255,255,255,0.03)",
-                border: `2px solid ${on ? "rgba(51,226,230,0.5)" : "rgba(255,255,255,0.1)"}`,
-                boxShadow: on ? "0 0 15px rgba(51,226,230,0.2)" : "none",
+                background: on ? "color-mix(in oklch, var(--energy-primary) 20%, transparent)" : "color-mix(in oklch, var(--text-primary) 3%, transparent)",
+                border: `2px solid ${on ? "color-mix(in oklch, var(--energy-primary) 50%, transparent)" : "color-mix(in oklch, var(--text-primary) 10%, transparent)"}`,
+                boxShadow: on ? "0 0 15px color-mix(in oklch, var(--energy-primary) 20%, transparent)" : "none",
               }}
             >
               <div
                 className="w-3 h-3 rounded-full transition-all duration-300"
                 style={{
-                  background: on ? "var(--neon-cyan)" : "rgba(255,255,255,0.1)",
+                  background: on ? "var(--neon-cyan)" : "color-mix(in oklch, var(--text-primary) 10%, transparent)",
                   boxShadow: on ? "0 0 8px var(--neon-cyan)" : "none",
                 }}
               />
@@ -474,8 +474,8 @@ function PowerRelayPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => 
           onClick={checkPattern}
           className="px-6 py-2 rounded-md font-mono text-[10px] tracking-wider transition-all"
           style={{
-            background: "rgba(51,226,230,0.1)",
-            border: "1px solid rgba(51,226,230,0.3)",
+            background: "color-mix(in oklch, var(--energy-primary) 10%, transparent)",
+            border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
             color: "var(--neon-cyan)",
           }}
         >
@@ -485,27 +485,27 @@ function PowerRelayPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => 
 
       <AnimatePresence>
         {result === "correct" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center justify-center gap-2 text-green-400 font-mono text-xs">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center justify-center gap-2 void-text-energy font-mono text-xs">
             <CheckCircle size={14} /> POWER RESTORED
           </motion.div>
         )}
         {result === "wrong" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center justify-center gap-2 text-red-400 font-mono text-xs">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center justify-center gap-2 void-text-error font-mono text-xs">
             <XCircle size={14} /> FREQUENCY MISMATCH
           </motion.div>
         )}
       </AnimatePresence>
 
       {attempts >= 2 && !showHint && (
-        <button onClick={() => setShowHint(true)} className="font-mono text-[10px] text-amber-400/50 hover:text-amber-400 transition-colors block mx-auto">
+        <button onClick={() => setShowHint(true)} className="font-mono text-[10px] void-text-accent void-text-accent transition-colors block mx-auto">
           [Request Elara's hint]
         </button>
       )}
       {showHint && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          className="rounded-md p-3" style={{ background: "rgba(255,183,77,0.05)", border: "1px solid rgba(255,183,77,0.15)" }}
+          className="rounded-md p-3" style={{ background: "color-mix(in oklch, var(--energy-premium) 5%, transparent)", border: "1px solid color-mix(in oklch, var(--energy-premium) 15%, transparent)" }}
         >
-          <p className="font-mono text-[10px] text-amber-400/70">ELARA: {puzzle.elaraHint}</p>
+          <p className="font-mono text-[10px] void-text-accent">ELARA: {puzzle.elaraHint}</p>
         </motion.div>
       )}
     </div>
@@ -516,22 +516,22 @@ function KeycardPuzzle({ puzzle, hasItem, onSolve }: { puzzle: Puzzle; hasItem: 
   return (
     <div className="space-y-4 text-center">
       <div className="w-16 h-16 rounded-full mx-auto flex items-center justify-center" style={{
-        background: hasItem ? "rgba(34,197,94,0.1)" : "rgba(255,50,50,0.1)",
-        border: `2px solid ${hasItem ? "rgba(34,197,94,0.3)" : "rgba(255,50,50,0.3)"}`,
+        background: hasItem ? "color-mix(in oklch, var(--energy-success) 10%, transparent)" : "rgba(255,50,50,0.1)",
+        border: `2px solid ${hasItem ? "color-mix(in oklch, var(--energy-success) 30%, transparent)" : "rgba(255,50,50,0.3)"}`,
       }}>
-        {hasItem ? <Key size={24} className="text-green-400" /> : <Lock size={24} className="text-red-400" />}
+        {hasItem ? <Key size={24} className="void-text-energy" /> : <Lock size={24} className="void-text-error" />}
       </div>
 
       {hasItem ? (
         <>
-          <p className="font-mono text-xs text-green-400">KEYCARD DETECTED</p>
+          <p className="font-mono text-xs void-text-energy">KEYCARD DETECTED</p>
           <button
             onClick={onSolve}
             className="px-6 py-2.5 rounded-md font-mono text-xs tracking-wider transition-all hover:scale-105"
             style={{
-              background: "rgba(34,197,94,0.1)",
-              border: "1px solid rgba(34,197,94,0.3)",
-              color: "#22c55e",
+              background: "color-mix(in oklch, var(--energy-success) 10%, transparent)",
+              border: "1px solid color-mix(in oklch, var(--energy-success) 30%, transparent)",
+              color: "var(--energy-success)",
             }}
           >
             USE KEYCARD
@@ -539,15 +539,15 @@ function KeycardPuzzle({ puzzle, hasItem, onSolve }: { puzzle: Puzzle; hasItem: 
         </>
       ) : (
         <>
-          <p className="font-mono text-xs text-red-400">KEYCARD REQUIRED</p>
+          <p className="font-mono text-xs void-text-error">KEYCARD REQUIRED</p>
           <p className="font-mono text-[10px] text-muted-foreground/60 max-w-xs mx-auto">
-            You need the <span className="text-amber-400">{puzzle.requiredItem?.replace(/-/g, " ")}</span> to access this area.
+            You need the <span className="void-text-accent">{puzzle.requiredItem?.replace(/-/g, " ")}</span> to access this area.
           </p>
           <div className="rounded-md p-3 max-w-xs mx-auto" style={{
-            background: "rgba(255,183,77,0.05)",
-            border: "1px solid rgba(255,183,77,0.15)",
+            background: "color-mix(in oklch, var(--energy-premium) 5%, transparent)",
+            border: "1px solid color-mix(in oklch, var(--energy-premium) 15%, transparent)",
           }}>
-            <p className="font-mono text-[10px] text-amber-400/70">ELARA: {puzzle.elaraHint}</p>
+            <p className="font-mono text-[10px] void-text-accent">ELARA: {puzzle.elaraHint}</p>
           </div>
         </>
       )}
@@ -596,16 +596,16 @@ export default function PuzzleModal({
         className="relative rounded-xl max-w-lg w-full max-h-[85vh] overflow-y-auto"
         style={{
           background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
-          border: "1px solid rgba(51,226,230,0.2)",
-          boxShadow: "0 0 60px rgba(51,226,230,0.08), 0 20px 80px rgba(0,0,0,0.7)",
+          border: "1px solid color-mix(in oklch, var(--energy-primary) 20%, transparent)",
+          boxShadow: "0 0 60px color-mix(in oklch, var(--energy-primary) 8%, transparent), 0 20px 80px color-mix(in oklch, var(--bg-void) 70%, transparent)",
         }}
       >
         {/* Header */}
         <div className="p-4 pb-0">
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center gap-2">
-              <AlertTriangle size={14} className="text-amber-400" />
-              <h3 className="font-display text-sm font-bold tracking-[0.15em] text-amber-400">{puzzle.title}</h3>
+              <AlertTriangle size={14} className="void-text-accent" />
+              <h3 className="font-display text-sm font-bold tracking-[0.15em] void-text-accent">{puzzle.title}</h3>
             </div>
             <button onClick={onClose} className="font-mono text-[10px] text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors">
               [close]
@@ -623,13 +623,13 @@ export default function PuzzleModal({
               className="text-center py-8"
             >
               <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style={{
-                background: "rgba(34,197,94,0.15)",
-                border: "2px solid rgba(34,197,94,0.4)",
-                boxShadow: "0 0 30px rgba(34,197,94,0.2)",
+                background: "color-mix(in oklch, var(--energy-success) 15%, transparent)",
+                border: "2px solid color-mix(in oklch, var(--energy-success) 40%, transparent)",
+                boxShadow: "0 0 30px color-mix(in oklch, var(--energy-success) 20%, transparent)",
               }}>
-                <CheckCircle size={28} className="text-green-400" />
+                <CheckCircle size={28} className="void-text-energy" />
               </div>
-              <p className="font-display text-lg font-bold tracking-[0.2em] text-green-400 mb-1">PUZZLE SOLVED</p>
+              <p className="font-display text-lg font-bold tracking-[0.2em] void-text-energy mb-1">PUZZLE SOLVED</p>
               <p className="font-mono text-xs text-muted-foreground/60">Unlocking {roomId.replace(/-/g, " ")}...</p>
             </motion.div>
           ) : (

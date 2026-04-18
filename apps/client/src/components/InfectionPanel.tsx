@@ -68,7 +68,7 @@ export default function InfectionPanel({ variant = "full", onOpenFull }: Props) 
     return (
       <button
         onClick={onOpenFull}
-        className="w-full text-left border border-border/30 rounded-lg bg-card/40 p-3 hover:border-red-500/40 transition-colors group"
+        className="w-full text-left border border-border/30 rounded-lg bg-card/40 p-3 void-border-error transition-colors group"
       >
         <div className="flex items-center gap-2 mb-2">
           <Biohazard size={14} style={{ color: stageColor }} />
@@ -171,7 +171,7 @@ export default function InfectionPanel({ variant = "full", onOpenFull }: Props) 
           </div>
           <div className="rounded bg-white/5 border border-white/10 p-2">
             <p className="font-mono text-[8px] tracking-wider text-white/30">QUARANTINED</p>
-            <p className="font-display text-lg font-bold text-emerald-400">
+            <p className="font-display text-lg font-bold void-text-energy">
               {data.summary.residueQuarantinedCount}
             </p>
           </div>
@@ -204,14 +204,14 @@ export default function InfectionPanel({ variant = "full", onOpenFull }: Props) 
                       </p>
                     </div>
                     {quarantined ? (
-                      <span className="font-mono text-[8px] tracking-wider text-emerald-400 flex items-center gap-1">
+                      <span className="font-mono text-[8px] tracking-wider void-text-energy flex items-center gap-1">
                         <Shield size={10} /> SEALED
                       </span>
                     ) : (
                       <button
                         disabled={quarantineMut.isPending}
                         onClick={() => quarantineMut.mutate({ itemId: item.id })}
-                        className="font-mono text-[8px] tracking-wider text-white/60 hover:text-emerald-300 transition-colors disabled:opacity-40"
+                        className="font-mono text-[8px] tracking-wider text-white/60 void-text-energy transition-colors disabled:opacity-40"
                       >
                         QUARANTINE
                       </button>
@@ -244,7 +244,7 @@ export default function InfectionPanel({ variant = "full", onOpenFull }: Props) 
                           cureMut.mutate({ cureId: cure.id });
                         }
                       }}
-                      className="font-mono text-[8px] tracking-wider text-red-300 hover:text-red-200 transition-colors disabled:opacity-40"
+                      className="font-mono text-[8px] tracking-wider void-text-error void-text-error transition-colors disabled:opacity-40"
                     >
                       APPLY
                     </button>
@@ -261,9 +261,9 @@ export default function InfectionPanel({ variant = "full", onOpenFull }: Props) 
 
         {/* Warning footer when at critical+ */}
         {(data.summary.stage.id === "critical" || data.summary.stage.id === "consumed") && (
-          <div className="rounded border border-red-500/30 bg-red-950/20 p-2.5 flex items-start gap-2">
-            <AlertTriangle size={14} className="text-red-400 flex-shrink-0 mt-0.5" />
-            <p className="font-mono text-[9px] text-red-300 leading-relaxed">
+          <div className="rounded border void-border-error void-bg-error p-2.5 flex items-start gap-2">
+            <AlertTriangle size={14} className="void-text-error flex-shrink-0 mt-0.5" />
+            <p className="font-mono text-[9px] void-text-error leading-relaxed">
               At this stage the virus may take control during combat. Cures without companion
               sacrifice are no longer available.
             </p>

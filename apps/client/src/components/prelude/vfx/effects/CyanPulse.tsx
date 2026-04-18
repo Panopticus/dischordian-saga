@@ -17,22 +17,22 @@ type CyanVariant = "shimmer" | "faint" | "signal" | "micro";
 const VARIANT_CONFIG: Record<CyanVariant, { animation: string; color: string; size: string }> = {
   shimmer: {
     animation: "pvfx-cyan-shimmer 1.2s ease-in-out infinite",
-    color: "#22d3ee",
+    color: "var(--energy-primary)",
     size: "48px",
   },
   faint: {
     animation: "pvfx-faint-pulse 2.2s ease-in-out infinite",
-    color: "#22d3ee",
+    color: "var(--energy-primary)",
     size: "32px",
   },
   signal: {
     animation: "pvfx-signal-pulse 4s ease-in-out infinite",
-    color: "#22d3ee",
+    color: "var(--energy-primary)",
     size: "24px",
   },
   micro: {
     animation: "pvfx-micro-shimmer 1.5s ease-in-out infinite",
-    color: "#22d3ee",
+    color: "var(--energy-primary)",
     size: "16px",
   },
 };

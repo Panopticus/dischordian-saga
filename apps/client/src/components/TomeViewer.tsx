@@ -17,12 +17,12 @@ import { getAchievementByGameId } from "@/data/loreAchievements";
 import { TOME_PLACEMENTS, type TomePlacement } from "@/game/livingArk";
 
 const AGE_COLORS: Record<Age, { text: string; border: string; bg: string; glow: string }> = {
-  "The Foundation": { text: "text-amber-400", border: "border-amber-500/30", bg: "bg-amber-500/10", glow: "rgba(245,158,11,0.3)" },
-  "The Age of Privacy": { text: "text-blue-400", border: "border-blue-500/30", bg: "bg-blue-500/10", glow: "rgba(59,130,246,0.3)" },
-  "Haven: Sundown Bazaar": { text: "text-red-400", border: "border-red-500/30", bg: "bg-red-500/10", glow: "rgba(239,68,68,0.3)" },
-  "Fall of Reality (Prequel)": { text: "text-purple-400", border: "border-purple-500/30", bg: "bg-purple-500/10", glow: "rgba(168,85,247,0.3)" },
-  "Age of Potentials": { text: "text-cyan-400", border: "border-cyan-500/30", bg: "bg-cyan-500/10", glow: "rgba(6,182,212,0.3)" },
-  "Visions": { text: "text-emerald-400", border: "border-emerald-500/30", bg: "bg-emerald-500/10", glow: "rgba(52,211,153,0.3)" },
+  "The Foundation": { text: "void-text-accent", border: "void-border", bg: "void-bg-sunk", glow: "color-mix(in oklch, var(--energy-accent) 30%, transparent)" },
+  "The Age of Privacy": { text: "void-text-energy", border: "void-border", bg: "void-bg-sunk", glow: "color-mix(in oklch, var(--electric-blue) 30%, transparent)" },
+  "Haven: Sundown Bazaar": { text: "void-text-error", border: "void-border-error", bg: "void-bg-error", glow: "color-mix(in oklch, var(--energy-error) 30%, transparent)" },
+  "Fall of Reality (Prequel)": { text: "void-text-system", border: "void-border-system", bg: "void-bg-system", glow: "color-mix(in oklch, var(--energy-system) 30%, transparent)" },
+  "Age of Potentials": { text: "void-text-energy", border: "void-border-success", bg: "void-bg-success", glow: "rgba(6,182,212,0.3)" },
+  "Visions": { text: "void-text-energy", border: "void-border-success", bg: "void-bg-success", glow: "rgba(52,211,153,0.3)" },
 };
 
 interface TomeViewerProps {
@@ -179,12 +179,12 @@ export default function TomeViewer({ game, isCompleted, onComplete, onClose }: T
                     {game.difficulty.toUpperCase()}
                   </span>
                   {isCompleted && (
-                    <span className="font-mono text-[9px] px-2 py-0.5 rounded-full bg-green-500/10 text-green-400 border border-green-500/20">
+                    <span className="font-mono text-[9px] px-2 py-0.5 rounded-full void-bg-success void-text-energy border void-border-success">
                       <CheckCircle2 size={8} className="inline mr-1" />COMPLETED
                     </span>
                   )}
                   {placement?.cardReward && (
-                    <span className="font-mono text-[9px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                    <span className="font-mono text-[9px] px-2 py-0.5 rounded-full void-bg-sunk void-text-accent border void-border">
                       <Star size={8} className="inline mr-1" />Card: {placement.cardReward}
                     </span>
                   )}
@@ -223,7 +223,7 @@ export default function TomeViewer({ game, isCompleted, onComplete, onClose }: T
                         : "Complete this story to unlock the hidden lore fragment..."}
                     </p>
                     {achievement.xpReward > 0 && (
-                      <p className="font-mono text-[9px] text-amber-400/60 mt-2">
+                      <p className="font-mono text-[9px] void-text-accent mt-2">
                         <Sparkles size={8} className="inline mr-1" />+{achievement.xpReward} XP on completion
                       </p>
                     )}
@@ -251,7 +251,7 @@ export default function TomeViewer({ game, isCompleted, onComplete, onClose }: T
                   {!isCompleted && (
                     <button
                       onClick={onComplete}
-                      className="px-4 py-3 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 font-mono text-xs hover:bg-green-500/20 transition-all flex items-center gap-1.5"
+                      className="px-4 py-3 rounded-lg void-bg-success border void-border-success void-text-energy font-mono text-xs void-bg-success transition-all flex items-center gap-1.5"
                     >
                       <CheckCircle2 size={14} /> MARK COMPLETE
                     </button>
@@ -289,7 +289,7 @@ export default function TomeViewer({ game, isCompleted, onComplete, onClose }: T
                 {!isCompleted && (
                   <button
                     onClick={onComplete}
-                    className="px-3 py-1.5 rounded bg-green-500/10 border border-green-500/20 text-green-400 font-mono text-[10px] hover:bg-green-500/20 transition-colors flex items-center gap-1.5"
+                    className="px-3 py-1.5 rounded void-bg-success border void-border-success void-text-energy font-mono text-[10px] void-bg-success transition-colors flex items-center gap-1.5"
                   >
                     <CheckCircle2 size={10} /> COMPLETE
                   </button>

@@ -217,7 +217,7 @@ export default function NarrativeTrigger({
             className={`relative rounded-lg border overflow-hidden ${
               nextAct.act <= 3
                 ? "border-primary/30 bg-primary/5"
-                : "border-red-500/30 bg-red-500/5"
+                : "void-border-error void-bg-error"
             } ${className}`}
           >
             {/* Glow line */}
@@ -229,12 +229,12 @@ export default function NarrativeTrigger({
 
             <div className="flex items-center gap-3 px-4 py-3">
               <div className={`p-2 rounded-lg shrink-0 ${
-                nextAct.act <= 3 ? "bg-primary/20" : "bg-red-500/20"
+                nextAct.act <= 3 ? "bg-primary/20" : "void-bg-error"
               }`}>
                 {nextAct.act <= 3 ? (
                   <Radio size={18} className="text-primary" />
                 ) : (
-                  <Skull size={18} className="text-red-400" />
+                  <Skull size={18} className="void-text-error" />
                 )}
               </div>
               <div className="flex-1 min-w-0">
@@ -247,10 +247,10 @@ export default function NarrativeTrigger({
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 <div className="flex items-center gap-1.5 font-mono text-[10px] text-muted-foreground">
-                  <Zap size={10} className="text-yellow-400" />{actTutorial.totalRewards.dreamTokens}
-                  <Star size={10} className="text-green-400 ml-1" />{actTutorial.totalRewards.xp}
+                  <Zap size={10} className="void-text-premium" />{actTutorial.totalRewards.dreamTokens}
+                  <Star size={10} className="void-text-energy ml-1" />{actTutorial.totalRewards.xp}
                   {actTutorial.totalRewards.cards > 0 && (
-                    <><Layers size={10} className="text-purple-400 ml-1" />{actTutorial.totalRewards.cards}</>
+                    <><Layers size={10} className="void-text-system ml-1" />{actTutorial.totalRewards.cards}</>
                   )}
                 </div>
                 <button
@@ -258,7 +258,7 @@ export default function NarrativeTrigger({
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono font-bold transition-colors ${
                     nextAct.act <= 3
                       ? "bg-primary/20 border border-primary/40 text-primary hover:bg-primary/30"
-                      : "bg-red-500/20 border border-red-500/40 text-red-400 hover:bg-red-500/30"
+                      : "void-bg-error border void-border-error void-text-error void-bg-error"
                   }`}
                 >
                   BEGIN <ChevronRight size={12} />

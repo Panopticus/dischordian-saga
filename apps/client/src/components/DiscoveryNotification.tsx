@@ -95,18 +95,18 @@ export default function DiscoveryNotification() {
           <div
             className="flex items-center gap-3 px-5 py-3 rounded-xl max-w-sm"
             style={{
-              background: "linear-gradient(135deg, rgba(51,226,230,0.15) 0%, var(--glass-border) 100%)",
-              border: "1px solid rgba(51,226,230,0.35)",
+              background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-primary) 15%, transparent) 0%, var(--glass-border) 100%)",
+              border: "1px solid color-mix(in oklch, var(--energy-primary) 35%, transparent)",
               backdropFilter: "blur(20px)",
-              boxShadow: "0 0 30px rgba(51,226,230,0.15), 0 8px 32px rgba(0,0,0,0.4)",
+              boxShadow: "0 0 30px color-mix(in oklch, var(--energy-primary) 15%, transparent), 0 8px 32px color-mix(in oklch, var(--bg-void) 40%, transparent)",
             }}
           >
             {/* Icon */}
             <div
               className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 relative"
               style={{
-                background: "rgba(51,226,230,0.1)",
-                border: "1px solid rgba(51,226,230,0.3)",
+                background: "color-mix(in oklch, var(--energy-primary) 10%, transparent)",
+                border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
               }}
             >
               <Unlock size={18} className="text-[var(--neon-cyan)]" />

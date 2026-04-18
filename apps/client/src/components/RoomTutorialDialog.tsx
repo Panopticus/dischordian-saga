@@ -271,9 +271,9 @@ function CardReveal({ cardName, onDismiss }: { cardName: string; onDismiss: () =
         <div
           className="w-40 h-56 rounded-xl flex flex-col items-center justify-center gap-3 relative overflow-hidden"
           style={{
-            background: "linear-gradient(135deg, rgba(51,226,230,0.15), var(--glass-border), rgba(255,184,0,0.1))",
-            border: "2px solid rgba(51,226,230,0.4)",
-            boxShadow: "0 0 30px rgba(51,226,230,0.2), 0 0 60px var(--glass-border)",
+            background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-primary) 15%, transparent), var(--glass-border), rgba(255,184,0,0.1))",
+            border: "2px solid color-mix(in oklch, var(--energy-primary) 40%, transparent)",
+            boxShadow: "0 0 30px color-mix(in oklch, var(--energy-primary) 20%, transparent), 0 0 60px var(--glass-border)",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent" />
@@ -291,8 +291,8 @@ function CardReveal({ cardName, onDismiss }: { cardName: string; onDismiss: () =
         onClick={onDismiss}
         className="px-6 py-2 rounded-lg font-mono text-xs tracking-wider transition-all hover:scale-105"
         style={{
-          background: "linear-gradient(135deg, rgba(51,226,230,0.2), var(--glass-border))",
-          border: "1px solid rgba(51,226,230,0.3)",
+          background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-primary) 20%, transparent), var(--glass-border))",
+          border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
           color: "var(--neon-cyan)",
         }}
       >
@@ -477,9 +477,9 @@ export default function RoomTutorialDialog({
               <div className="space-y-4">
                 {/* Callback from previous room (if any) */}
                 {callbackText && (
-                  <div className="p-3 void-surface border-cyan-500/20 mb-3">
-                    <p className="font-mono text-[9px] text-cyan-400/50 tracking-wider mb-1">ELARA REMEMBERS</p>
-                    <p className="text-xs text-cyan-200/80 italic leading-relaxed">{callbackText}</p>
+                  <div className="p-3 void-surface void-border-success mb-3">
+                    <p className="font-mono text-[9px] void-text-energy tracking-wider mb-1">ELARA REMEMBERS</p>
+                    <p className="text-xs void-text-energy italic leading-relaxed">{callbackText}</p>
                   </div>
                 )}
 
@@ -489,11 +489,11 @@ export default function RoomTutorialDialog({
                   .slice(-1) // Show highest unlocked layer
                   .map((layer, i) => (
                     <div key={i} className="flex gap-3">
-                      <div className="shrink-0 w-8 h-8 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center">
-                        <MessageSquare size={12} className="text-cyan-400" />
+                      <div className="shrink-0 w-8 h-8 rounded-full void-bg-success border void-border-success flex items-center justify-center">
+                        <MessageSquare size={12} className="void-text-energy" />
                       </div>
                       <div>
-                        <p className="font-mono text-[9px] text-cyan-400/50 tracking-wider mb-1">ELARA</p>
+                        <p className="font-mono text-[9px] void-text-energy tracking-wider mb-1">ELARA</p>
                         <p className="text-xs text-foreground/80 leading-relaxed">{layer.text}</p>
                       </div>
                     </div>
@@ -501,9 +501,9 @@ export default function RoomTutorialDialog({
 
                 {/* Human whisper (if player has had Human contact) */}
                 {state.narrativeFlags?.human_contact && relationshipDialog.humanWhisper && (
-                  <div className="p-3 rounded-lg border border-red-500/20 bg-red-500/5 mt-2">
-                    <p className="font-mono text-[9px] text-red-400/50 tracking-wider mb-1">THE HUMAN — whisper</p>
-                    <p className="text-xs text-red-300/70 italic leading-relaxed font-mono">{relationshipDialog.humanWhisper}</p>
+                  <div className="p-3 rounded-lg border void-border-error void-bg-error mt-2">
+                    <p className="font-mono text-[9px] void-text-error tracking-wider mb-1">THE HUMAN — whisper</p>
+                    <p className="text-xs void-text-error italic leading-relaxed font-mono">{relationshipDialog.humanWhisper}</p>
                   </div>
                 )}
 
@@ -520,9 +520,9 @@ export default function RoomTutorialDialog({
                       <p className="text-[10px] text-muted-foreground/50 mt-0.5 italic">{choice.fullText}</p>
                       <div className="flex items-center gap-2 mt-1">
                         <span className={`text-[8px] font-mono px-1.5 py-0.5 rounded ${
-                          choice.archetype === "compassionate" ? "bg-pink-500/10 text-pink-400" :
-                          choice.archetype === "pragmatic" ? "bg-blue-500/10 text-blue-400" :
-                          "bg-amber-500/10 text-amber-400"
+                          choice.archetype === "compassionate" ? "void-bg-error void-text-error" :
+                          choice.archetype === "pragmatic" ? "void-bg-sunk void-text-energy" :
+                          "void-bg-sunk void-text-accent"
                         }`}>
                           {choice.archetype}
                         </span>
@@ -537,11 +537,11 @@ export default function RoomTutorialDialog({
             {phase === "relationship_reaction" && elaraReactionText && (
               <div className="space-y-4">
                 <div className="flex gap-3">
-                  <div className="shrink-0 w-8 h-8 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center">
-                    <MessageSquare size={12} className="text-cyan-400" />
+                  <div className="shrink-0 w-8 h-8 rounded-full void-bg-success border void-border-success flex items-center justify-center">
+                    <MessageSquare size={12} className="void-text-energy" />
                   </div>
                   <div>
-                    <p className="font-mono text-[9px] text-cyan-400/50 tracking-wider mb-1">ELARA</p>
+                    <p className="font-mono text-[9px] void-text-energy tracking-wider mb-1">ELARA</p>
                     <p className="text-xs text-foreground/80 leading-relaxed">{elaraReactionText}</p>
                   </div>
                 </div>
@@ -549,8 +549,8 @@ export default function RoomTutorialDialog({
                   onClick={() => setPhase("dialog")}
                   className="flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-[10px] tracking-wider transition-all hover:scale-105"
                   style={{
-                    background: "linear-gradient(135deg, rgba(51,226,230,0.15), var(--glass-border))",
-                    border: "1px solid rgba(51,226,230,0.3)",
+                    background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-primary) 15%, transparent), var(--glass-border))",
+                    border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
                     color: "var(--neon-cyan)",
                   }}
                 >
@@ -597,8 +597,8 @@ function OpeningPhase({ text, onContinue }: { text: string; onContinue: () => vo
           onClick={onContinue}
           className="flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-[10px] tracking-wider transition-all hover:scale-105"
           style={{
-            background: "linear-gradient(135deg, rgba(51,226,230,0.15), var(--glass-border))",
-            border: "1px solid rgba(51,226,230,0.3)",
+            background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-primary) 15%, transparent), var(--glass-border))",
+            border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
             color: "var(--neon-cyan)",
           }}
         >
@@ -676,7 +676,7 @@ function DialogPhase({
                       : "border-border/60 hover:border-[var(--neon-cyan)]/25 hover:bg-muted/20"
                 }`}
                 style={{
-                  border: `1px solid ${isSelected ? "rgba(51,226,230,0.4)" : "rgba(255,255,255,0.08)"}`,
+                  border: `1px solid ${isSelected ? "color-mix(in oklch, var(--energy-primary) 40%, transparent)" : "color-mix(in oklch, var(--text-primary) 8%, transparent)"}`,
                 }}
               >
                 <div className={`w-7 h-7 rounded-md flex items-center justify-center shrink-0 mt-0.5 ${

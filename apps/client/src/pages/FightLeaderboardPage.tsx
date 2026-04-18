@@ -16,13 +16,13 @@ import { ALL_FIGHTERS } from "@/game/gameData";
 
 /* ─── Rank Tier Config ─── */
 const RANK_TIERS: Record<string, { label: string; color: string; bg: string; min: number }> = {
-  grandmaster: { label: "GRANDMASTER", color: "text-amber-300", bg: "bg-amber-500/20 border-amber-500/40", min: 2200 },
-  master: { label: "MASTER", color: "text-purple-400", bg: "bg-purple-500/20 border-purple-500/40", min: 1900 },
-  diamond: { label: "DIAMOND", color: "text-cyan-300", bg: "bg-cyan-500/20 border-cyan-500/40", min: 1600 },
-  platinum: { label: "PLATINUM", color: "text-emerald-400", bg: "bg-emerald-500/20 border-emerald-500/40", min: 1400 },
-  gold: { label: "GOLD", color: "text-yellow-400", bg: "bg-yellow-500/20 border-yellow-500/40", min: 1200 },
-  silver: { label: "SILVER", color: "text-muted-foreground", bg: "bg-gray-500/20 border-gray-500/40", min: 1000 },
-  bronze: { label: "BRONZE", color: "text-orange-400", bg: "bg-orange-500/20 border-orange-500/40", min: 0 },
+  grandmaster: { label: "GRANDMASTER", color: "void-text-accent", bg: "void-bg-sunk void-border", min: 2200 },
+  master: { label: "MASTER", color: "void-text-system", bg: "void-bg-system void-border-system", min: 1900 },
+  diamond: { label: "DIAMOND", color: "void-text-energy", bg: "void-bg-success void-border-success", min: 1600 },
+  platinum: { label: "PLATINUM", color: "void-text-energy", bg: "void-bg-success void-border-success", min: 1400 },
+  gold: { label: "GOLD", color: "void-text-premium", bg: "void-bg-sunk void-border", min: 1200 },
+  silver: { label: "SILVER", color: "text-muted-foreground", bg: "void-bg-canvas void-border", min: 1000 },
+  bronze: { label: "BRONZE", color: "void-text-premium", bg: "void-bg-sunk void-border", min: 0 },
 };
 
 function getFighterName(id: string): string {
@@ -69,7 +69,7 @@ export default function FightLeaderboardPage() {
               </Link>
               <div>
                 <h1 className="font-display text-lg tracking-[0.2em] text-foreground flex items-center gap-2">
-                  <Trophy size={18} className="text-amber-400" />
+                  <Trophy size={18} className="void-text-accent" />
                   FIGHT LEADERBOARD
                 </h1>
                 <p className="font-mono text-[10px] text-muted-foreground tracking-wider">
@@ -84,7 +84,7 @@ export default function FightLeaderboardPage() {
                     {RANK_TIERS[myStats.rankTier ?? "bronze"]?.label}
                   </span>
                 </div>
-                <div className="font-mono text-sm text-amber-400">{myStats.elo} ELO</div>
+                <div className="font-mono text-sm void-text-accent">{myStats.elo} ELO</div>
               </div>
             )}
           </div>
@@ -152,14 +152,14 @@ export default function FightLeaderboardPage() {
                           isMe
                             ? "bg-primary/10 border-primary/30"
                             : i < 3
-                            ? "bg-amber-500/5 border-amber-500/10 hover:border-amber-500/30"
+                            ? "void-bg-sunk void-border void-border"
                             : "bg-muted/15 border-border/40 hover:border-border/80"
                         }`}
                       >
                         <div className="col-span-1 flex items-center">
-                          {i === 0 ? <Crown size={16} className="text-amber-400" /> :
+                          {i === 0 ? <Crown size={16} className="void-text-accent" /> :
                            i === 1 ? <Medal size={16} className="text-muted-foreground" /> :
-                           i === 2 ? <Medal size={16} className="text-orange-400" /> :
+                           i === 2 ? <Medal size={16} className="void-text-premium" /> :
                            <span className="font-mono text-sm text-muted-foreground/60">{entry.rank}</span>}
                         </div>
                         <div className="col-span-3 flex items-center gap-2">
@@ -171,11 +171,11 @@ export default function FightLeaderboardPage() {
                         <div className="col-span-2 flex items-center">
                           <span className={`font-mono text-xs ${tier?.color}`}>{tier?.label}</span>
                         </div>
-                        <div className="col-span-1 text-center font-mono text-sm text-amber-400">{entry.elo}</div>
-                        <div className="col-span-1 text-center font-mono text-sm text-green-400">{entry.wins}</div>
-                        <div className="col-span-1 text-center font-mono text-sm text-red-400">{entry.losses}</div>
+                        <div className="col-span-1 text-center font-mono text-sm void-text-accent">{entry.elo}</div>
+                        <div className="col-span-1 text-center font-mono text-sm void-text-energy">{entry.wins}</div>
+                        <div className="col-span-1 text-center font-mono text-sm void-text-error">{entry.losses}</div>
                         <div className="col-span-1 text-center font-mono text-sm text-muted-foreground/80">{entry.winRate}%</div>
-                        <div className="col-span-1 text-center font-mono text-sm text-cyan-400">
+                        <div className="col-span-1 text-center font-mono text-sm void-text-energy">
                           {entry.winStreak > 0 ? `${entry.winStreak}🔥` : "-"}
                         </div>
                         <div className="col-span-1 flex items-center justify-center">
@@ -215,7 +215,7 @@ export default function FightLeaderboardPage() {
                         <div className={`font-display text-3xl tracking-wider ${RANK_TIERS[myStats.rankTier ?? "bronze"]?.color}`}>
                           {RANK_TIERS[myStats.rankTier ?? "bronze"]?.label}
                         </div>
-                        <div className="font-mono text-sm text-amber-400 mt-1">{myStats.elo} ELO</div>
+                        <div className="font-mono text-sm void-text-accent mt-1">{myStats.elo} ELO</div>
                       </div>
                       <div className="text-right">
                         <div className="font-mono text-[10px] text-muted-foreground/60 tracking-wider mb-1">GLOBAL RANK</div>
@@ -227,14 +227,14 @@ export default function FightLeaderboardPage() {
                   {/* Stats Grid */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     {[
-                      { label: "WINS", value: myStats.wins, color: "text-green-400", icon: TrendingUp },
-                      { label: "LOSSES", value: myStats.losses, color: "text-red-400", icon: TrendingDown },
-                      { label: "WIN RATE", value: `${myStats.winRate}%`, color: "text-cyan-400", icon: BarChart3 },
-                      { label: "BEST STREAK", value: myStats.bestStreak, color: "text-amber-400", icon: Flame },
-                      { label: "TOTAL KOs", value: myStats.totalKOs, color: "text-purple-400", icon: Zap },
-                      { label: "PERFECTS", value: myStats.perfectWins, color: "text-pink-400", icon: Star },
-                      { label: "BEST COMBO", value: myStats.bestCombo, color: "text-orange-400", icon: Target },
-                      { label: "CUR. STREAK", value: myStats.winStreak, color: "text-emerald-400", icon: Flame },
+                      { label: "WINS", value: myStats.wins, color: "void-text-energy", icon: TrendingUp },
+                      { label: "LOSSES", value: myStats.losses, color: "void-text-error", icon: TrendingDown },
+                      { label: "WIN RATE", value: `${myStats.winRate}%`, color: "void-text-energy", icon: BarChart3 },
+                      { label: "BEST STREAK", value: myStats.bestStreak, color: "void-text-accent", icon: Flame },
+                      { label: "TOTAL KOs", value: myStats.totalKOs, color: "void-text-system", icon: Zap },
+                      { label: "PERFECTS", value: myStats.perfectWins, color: "void-text-error", icon: Star },
+                      { label: "BEST COMBO", value: myStats.bestCombo, color: "void-text-premium", icon: Target },
+                      { label: "CUR. STREAK", value: myStats.winStreak, color: "void-text-energy", icon: Flame },
                     ].map(stat => {
                       const Icon = stat.icon;
                       return (
@@ -270,8 +270,8 @@ export default function FightLeaderboardPage() {
                               </div>
                             </div>
                             <div className="text-right">
-                              <div className="font-mono text-sm text-green-400">{f.wins}W</div>
-                              <div className="font-mono text-[10px] text-red-400/60">{f.matches - f.wins}L</div>
+                              <div className="font-mono text-sm void-text-energy">{f.wins}W</div>
+                              <div className="font-mono text-[10px] void-text-error">{f.matches - f.wins}L</div>
                             </div>
                           </div>
                         ))}
@@ -305,17 +305,17 @@ export default function FightLeaderboardPage() {
                       transition={{ delay: i * 0.03 }}
                       className={`flex items-center gap-3 rounded-lg border p-3 ${
                         match.won
-                          ? "bg-green-500/5 border-green-500/10"
-                          : "bg-red-500/5 border-red-500/10"
+                          ? "void-bg-success void-border-success"
+                          : "void-bg-error void-border-error"
                       }`}
                     >
                       <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                        match.won ? "bg-green-500/20" : "bg-red-500/20"
+                        match.won ? "void-bg-success" : "void-bg-error"
                       }`}>
                         {match.won ? (
-                          <Trophy size={20} className="text-green-400" />
+                          <Trophy size={20} className="void-text-energy" />
                         ) : (
-                          <Minus size={20} className="text-red-400" />
+                          <Minus size={20} className="void-text-error" />
                         )}
                       </div>
 
@@ -343,11 +343,11 @@ export default function FightLeaderboardPage() {
                       </div>
 
                       <div className="text-right flex-shrink-0">
-                        <div className={`font-mono text-sm ${match.eloChange >= 0 ? "text-green-400" : "text-red-400"}`}>
+                        <div className={`font-mono text-sm ${match.eloChange >= 0 ? "void-text-energy" : "void-text-error"}`}>
                           {match.eloChange >= 0 ? "+" : ""}{match.eloChange} ELO
                         </div>
                         {match.bestCombo > 0 && (
-                          <div className="font-mono text-[10px] text-amber-400/60">{match.bestCombo}x combo</div>
+                          <div className="font-mono text-[10px] void-text-accent">{match.bestCombo}x combo</div>
                         )}
                       </div>
                     </motion.div>

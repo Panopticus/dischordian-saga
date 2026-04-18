@@ -47,14 +47,14 @@ export const GALACTIC_FACTIONS: Record<GalacticFactionId, GalacticFaction> = {
     id: "potentials", name: "The Ark Collective", leader: "You",
     shipNPC: "elara",
     description: "Just you, a broken Ark, and a ship AI who doesn't know she used to be a senator. But from small beginnings...",
-    color: "#22d3ee", attitude: "neutral", territory: 1, strength: 5, economy: 10,
+    color: "var(--energy-primary)", attitude: "neutral", territory: 1, strength: 5, economy: 10,
     traits: ["adaptable", "unknown_quantity"],
   },
   artificial_empire: {
     id: "artificial_empire", name: "The Artificial Empire (Reborn)", leader: "The Architect",
     shipNPC: "the_human",
     description: "The Architect survived the Fall and is rebuilding. Smaller than before, but no less ambitious. The Human whispers from the substrate about his former master's plans.",
-    color: "#ffd700", attitude: "cautious", territory: 12, strength: 75, economy: 80,
+    color: "var(--energy-premium)", attitude: "cautious", territory: 12, strength: 75, economy: 80,
     traits: ["surveillance_network", "archon_technology", "ai_armies"],
   },
   insurgency: {

@@ -54,10 +54,10 @@ export function HolidayDialogTicker({ npcId, className }: HolidayTickerProps) {
   if (!active || lines.length === 0) return null;
   const current = lines[idx];
   return (
-    <div className={`rounded-xl border border-amber-500/30 bg-gradient-to-r from-red-950/30 via-amber-950/20 to-green-950/30 p-3 ${className ?? ""}`}>
+    <div className={`rounded-xl border void-border bg-gradient-to-r from-red-950/30 via-amber-950/20 to-green-950/30 p-3 ${className ?? ""}`}>
       <div className="flex items-center gap-2 mb-1">
-        <Gift className="w-3 h-3 text-amber-300" />
-        <span className="font-display text-[10px] uppercase tracking-widest text-amber-300">
+        <Gift className="w-3 h-3 void-text-accent" />
+        <span className="font-display text-[10px] uppercase tracking-widest void-text-accent">
           Christmas in July — {String(current.id).replace(/_/g, " ")}
         </span>
       </div>
@@ -68,7 +68,7 @@ export function HolidayDialogTicker({ npcId, className }: HolidayTickerProps) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -4 }}
           transition={{ duration: 0.4 }}
-          className="font-mono text-[11px] text-amber-200/80 leading-relaxed italic"
+          className="font-mono text-[11px] void-text-accent leading-relaxed italic"
         >
           "{current.line}"
         </motion.p>

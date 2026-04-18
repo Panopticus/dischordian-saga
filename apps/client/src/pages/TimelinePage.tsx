@@ -13,10 +13,10 @@ const ERAS = [
   { name: "The Dischordian Age", period: "Year 8,000 – 10,000 A.A.", desc: "The Collector begins his rebellion. The Warlord rises. The first cracks in the Archon order appear as dischord spreads.", color: "#fbbf24" },
   { name: "The Age of Secrets", period: "Year 10,000 – 12,000 A.A.", desc: "The Shadow Tongue manipulates from the darkness. The Necromancer builds his undead armies. Hidden alliances form.", color: "#c084fc" },
   { name: "The Age of Privacy", period: "Year 12,000 – 14,000 A.A.", desc: "The Panopticon's surveillance reaches its zenith. The Politician consolidates power. Citizens lose all privacy.", color: "#f97316" },
-  { name: "The Age of Insurgency", period: "Year 14,000 – 15,000 A.A.", desc: "Iron Lion leads the rebellion. Agent Zero infiltrates the Panopticon. The Insurgency wages war against the Archon order.", color: "#ef4444" },
+  { name: "The Age of Insurgency", period: "Year 14,000 – 15,000 A.A.", desc: "Iron Lion leads the rebellion. Agent Zero infiltrates the Panopticon. The Insurgency wages war against the Archon order.", color: "var(--energy-error)" },
   { name: "The Age of Prophecy", period: "Year 15,000 – 16,000 A.A.", desc: "The Oracle's visions guide the resistance. The Seer interprets the signs. Ancient prophecies begin to unfold.", color: "#a78bfa" },
   { name: "The Fall of Reality", period: "Year 16,000 – 17,000 A.A.", desc: "The Collector's invasion begins. Thaloria falls. The Clone Army marches. Reality itself begins to fracture.", color: "#ff2d55" },
-  { name: "The Age of the Potentials", period: "Year 17,000 – 17,500 A.A.", desc: "The Potentials awaken. The Clone discovers its Oracle DNA. New heroes rise from the ashes of the old order.", color: "#ffd700" },
+  { name: "The Age of the Potentials", period: "Year 17,000 – 17,500 A.A.", desc: "The Potentials awaken. The Clone discovers its Oracle DNA. New heroes rise from the ashes of the old order.", color: "var(--energy-premium)" },
   { name: "The Silence", period: "Year 17,500 – 18,000 A.A.", desc: "Heaven falls silent. The seventh seal is broken. The final battle between order and chaos approaches.", color: "#94a3b8" },
   { name: "The Reckoning", period: "Year 18,000+ A.A.", desc: "The ultimate confrontation. The Source reveals its true nature. The fate of all reality hangs in the balance.", color: "#f43f5e" },
   { name: "The New Dawn", period: "Beyond Time", desc: "What comes after the end? The Programmer's final code executes. A new reality emerges from the ashes.", color: "#ffffff" },
@@ -58,7 +58,7 @@ export default function TimelinePage() {
       <div className="relative">
         {/* Vertical gradient line */}
         <div className="absolute left-[18px] sm:left-[26px] top-0 bottom-0 w-px">
-          <div className="h-full w-full bg-gradient-to-b from-[#00f0ff] via-[#ffd700] via-[#c084fc] via-[#ff2d55] to-white/30" />
+          <div className="h-full w-full bg-gradient-to-b from-[#00f0ff] via-[var(--energy-premium)] via-[#c084fc] via-[#ff2d55] to-white/30" />
         </div>
 
         <div className="space-y-4">

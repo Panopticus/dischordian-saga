@@ -422,8 +422,8 @@ export default function LoreQuizPage() {
 
                   if (showResult) {
                     if (isCorrect) {
-                      borderClass = "border-green-500/50";
-                      bgClass = "bg-green-500/10";
+                      borderClass = "void-border-success";
+                      bgClass = "void-bg-success";
                     } else if (isSelected && !isCorrect) {
                       borderClass = "border-destructive/50";
                       bgClass = "bg-destructive/10";
@@ -445,7 +445,7 @@ export default function LoreQuizPage() {
                     >
                       <div className={`w-6 h-6 rounded-full border flex items-center justify-center shrink-0 text-[10px] font-mono font-bold ${
                         showResult && isCorrect
-                          ? "border-green-500 text-green-500 bg-green-500/10"
+                          ? "void-border-success void-text-energy void-bg-success"
                           : showResult && isSelected
                           ? "border-destructive text-destructive bg-destructive/10"
                           : "border-border/30 text-muted-foreground"
@@ -538,7 +538,7 @@ export default function LoreQuizPage() {
               {answers.map((correct, i) => (
                 <div
                   key={i}
-                  className={`w-2.5 h-2.5 rounded-full ${correct ? "bg-green-500" : "bg-destructive"}`}
+                  className={`w-2.5 h-2.5 rounded-full ${correct ? "void-bg-success" : "bg-destructive"}`}
                   title={`Q${i + 1}: ${correct ? "Correct" : "Wrong"}`}
                 />
               ))}
