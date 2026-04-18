@@ -27,6 +27,7 @@ import { generateDailyBrief, ROOMS, type RoomEvent, type RoomId } from "@/game/l
 import { FACTION_NPCS, type FactionNPCId } from "@/game/factionNPCs";
 import { getFeaturedNPC } from "@/game/npcDailyRotation";
 import { LightDarkMeterDisplay } from "@/components/LightDarkMeterDisplay";
+import { RecentMatchesCard } from "@/components/match/RecentMatchesCard";
 
 /* ─── NPC SIGNAL CARD ─── */
 function NPCSignalCard({ npcId, trust }: { npcId: string; trust: number }) {
@@ -252,6 +253,9 @@ export default function BridgeConsole() {
           </div>
         </button>
       </div>
+
+      {/* ═══ PR — RECENT MATCHES (client-side history) ═══ */}
+      <RecentMatchesCard />
 
       {/* ═══ GALACTIC BULB — Witnessing §3.5 Light/Dark poetic meter ═══ */}
       <div className="px-4 mb-5">

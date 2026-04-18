@@ -63,6 +63,10 @@ import {
   bossMasteryKeyForEncounter,
   BOSS_MASTERY_DEFS,
 } from "@shared/bossMastery";
+import {
+  appendMatchHistoryEntry,
+  type MatchHistoryEntry,
+} from "@shared/clientMatchHistory";
 import type { StoryEncounter } from "@shared/tcg-core/story/encounter";
 import {
   deriveSeerOutcome,
@@ -599,14 +603,34 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         // PR-1 — freeze the summary snapshot so MatchSummary reads
         // stable values across state-resolution re-renders.
         setCapturedReward(appliedReward);
+        const conceded = gameState.winReason === "surrender";
+        const turnsTaken = gameState.turnNumber ?? 1;
         setCapturedMatchStats({
-          turnsTaken: gameState.turnNumber ?? 1,
+          turnsTaken,
           cardsPlayed: cardsPlayedRef.current,
-          conceded: gameState.winReason === "surrender",
+          conceded,
         });
         // Victory/defeat sting — the SoundManager's "victory" and
         // "defeat" cases were authored but never called.
         dischordiaSounds.play(gameState.winner === 0 ? "victory" : "defeat");
+        // PR — record the match to the local history so the Bridge
+        // Console can surface "you beat the Warlord yesterday." Not
+        // persisted server-side today (see clientMatchHistory.ts).
+        const outcomeForHistory: MatchHistoryEntry["outcome"] =
+          conceded && gameState.winner !== 0
+            ? "withdrawn"
+            : gameState.winner === 0
+              ? "win"
+              : "loss";
+        appendMatchHistoryEntry({
+          at: Date.now(),
+          outcome: outcomeForHistory,
+          opponent: encounter?.name ?? FACTION_NAMES[opponentFaction],
+          encounterId: encounter?.id,
+          turns: turnsTaken,
+          cardsPlayed: cardsPlayedRef.current,
+          playerFaction,
+        });
       }
     }
   }, [
