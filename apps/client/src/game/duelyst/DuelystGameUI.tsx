@@ -59,6 +59,10 @@ import {
   type EncounterOutcome,
   type EncounterReward,
 } from "@shared/act1EncounterRewards";
+import {
+  bossMasteryKeyForEncounter,
+  BOSS_MASTERY_DEFS,
+} from "@shared/bossMastery";
 import type { StoryEncounter } from "@shared/tcg-core/story/encounter";
 import {
   deriveSeerOutcome,
@@ -213,6 +217,47 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         description: "Claim your reward in the Quest Board.",
         duration: 10000,
       });
+    },
+  });
+
+  // PR — boss-mastery recordKill for Act 1 named encounters.
+  // Fires once per player-win on a named-boss match. The server
+  // returns { leveledUp, newMasteryLevel, reward }; on a level-up
+  // with a cosmetic reward we toast it so the player sees the
+  // unlock in the moment. Before this hook, BOSS_MASTERY_DEFS had
+  // the 5 Act 1 entries but nothing called recordKill for them —
+  // mastery silently stayed at 0 forever.
+  const recordBossKill = trpc.bossMastery.recordKill.useMutation({
+    onSuccess: (result, variables) => {
+      if (!result?.leveledUp) return;
+      const def = BOSS_MASTERY_DEFS.find((d) => d.bossKey === variables.bossKey);
+      if (!def) return;
+      const levelLabel =
+        def.levels.find((l) => l.level === result.newMasteryLevel)?.label ??
+        `Level ${result.newMasteryLevel}`;
+      const reward = result.reward;
+      if (reward?.type === "cosmetic") {
+        toast.success(`${def.bossName}: ${levelLabel}`, {
+          description: `Cosmetic unlocked — check your collection.`,
+          duration: 12000,
+        });
+      } else if (reward?.type === "title") {
+        toast.success(`${def.bossName}: ${levelLabel}`, {
+          description: `Title earned — equip it from your profile.`,
+          duration: 10000,
+        });
+      } else if (reward?.type === "card") {
+        toast.success(`${def.bossName}: ${levelLabel}`, {
+          description: `New card added to your collection.`,
+          duration: 10000,
+        });
+      } else {
+        // dream / xp — generic level-up toast.
+        toast.success(`${def.bossName}: ${levelLabel}`, {
+          description: `Mastery level ${result.newMasteryLevel}.`,
+          duration: 8000,
+        });
+      }
     },
   });
 
@@ -519,6 +564,19 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         if (encounter) {
           const outcome: EncounterOutcome =
             gameState.winner === 0 ? "win" : "loss";
+          // PR — boss-mastery recordKill on player victory. Keyed
+          // off the encounter id via the shared mapping
+          // (bossMasteryKeyForEncounter). Wrapped in a condition so
+          // losses / non-named encounters skip the mutation.
+          if (outcome === "win") {
+            const bossKey = bossMasteryKeyForEncounter(encounter.id);
+            if (bossKey) {
+              recordBossKill.mutate({
+                bossKey,
+                difficulty: "normal",
+              });
+            }
+          }
           const reward = getEncounterReward(encounter.id, outcome);
           if (reward) {
             appliedReward = reward;
