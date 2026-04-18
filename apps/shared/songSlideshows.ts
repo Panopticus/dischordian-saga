@@ -1611,7 +1611,7 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
     {
       startMs: 0,
       endMs: TWO_WITNESSES_PART_2_FRAME_MS,
-      imageUrl: "/art/rooms/room-archives.png",
+      imageUrl: "/assets/slideshows/two-witnesses-part-2/frame01.webp",
       transition: "fade",
       caption:
         "The Archives, relit. The Engineer's chair is gone. The six crystal coffins are gone. It is an archive again.",
@@ -1620,7 +1620,7 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
     {
       startMs: TWO_WITNESSES_PART_2_FRAME_MS,
       endMs: TWO_WITNESSES_PART_2_FRAME_MS * 2,
-      imageUrl: "/art/rooms/room-archives.png",
+      imageUrl: "/assets/slideshows/two-witnesses-part-2/frame02.webp",
       transition: "dissolve",
       caption:
         "The Antiquarian: \"You came. I wasn't sure you would.\"",
@@ -1630,7 +1630,7 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
     {
       startMs: TWO_WITNESSES_PART_2_FRAME_MS * 2,
       endMs: TWO_WITNESSES_PART_2_FRAME_MS * 3,
-      imageUrl: "/art/rooms/room-archives.png",
+      imageUrl: "/assets/slideshows/two-witnesses-part-2/frame03.webp",
       transition: "dissolve",
       caption:
         "The Antiquarian: \"The trial ended the way it ended. The song ran. You made your choice in the gallery. We stayed out of it. We were waiting for this part.\"",
@@ -1640,7 +1640,7 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
     {
       startMs: TWO_WITNESSES_PART_2_FRAME_MS * 3,
       endMs: TWO_WITNESSES_PART_2_FRAME_MS * 4,
-      imageUrl: "/art/rooms/room-archives.png",
+      imageUrl: "/assets/slideshows/two-witnesses-part-2/frame04.webp",
       transition: "dissolve",
       caption:
         "The Enigma: \"We owe you an explanation. The short version, while the silence still holds.\"",
@@ -1651,7 +1651,7 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
     {
       startMs: TWO_WITNESSES_PART_2_FRAME_MS * 4,
       endMs: TWO_WITNESSES_PART_2_FRAME_MS * 5,
-      imageUrl: "/art/rooms/room-archives.png",
+      imageUrl: "/assets/slideshows/two-witnesses-part-2/frame05.webp",
       transition: "dissolve",
       caption:
         "The Antiquarian: \"I was executed for what I thought. I woke up in the next era. Nobody told me I would. Nobody told me I could. That is the short version.\"",
@@ -1661,7 +1661,7 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
     {
       startMs: TWO_WITNESSES_PART_2_FRAME_MS * 5,
       endMs: TWO_WITNESSES_PART_2_FRAME_MS * 6,
-      imageUrl: "/art/rooms/room-archives.png",
+      imageUrl: "/assets/slideshows/two-witnesses-part-2/frame06.webp",
       transition: "dissolve",
       caption:
         "The Antiquarian: \"The long version is across Ages, across the death of stars. We will not give it to you tonight.\"",
@@ -1671,7 +1671,7 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
     {
       startMs: TWO_WITNESSES_PART_2_FRAME_MS * 6,
       endMs: TWO_WITNESSES_PART_2_FRAME_MS * 7,
-      imageUrl: "/art/rooms/room-archives.png",
+      imageUrl: "/assets/slideshows/two-witnesses-part-2/frame07.webp",
       transition: "dissolve",
       caption:
         "The Enigma: \"I was the voice on the recording you just heard. I died a different way. I came back a different way. Different era; same answer.\"",
@@ -1680,7 +1680,7 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
     {
       startMs: TWO_WITNESSES_PART_2_FRAME_MS * 7,
       endMs: TWO_WITNESSES_PART_2_FRAME_MS * 8,
-      imageUrl: "/art/rooms/room-archives.png",
+      imageUrl: "/assets/slideshows/two-witnesses-part-2/frame08.webp",
       transition: "dissolve",
       caption:
         "The Antiquarian: \"The Engineer was not one of us. He came before. His death is the seed of what we became.\"",
@@ -1690,7 +1690,7 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
     {
       startMs: TWO_WITNESSES_PART_2_FRAME_MS * 8,
       endMs: TWO_WITNESSES_PART_2_FRAME_MS * 9,
-      imageUrl: "/art/rooms/room-archives.png",
+      imageUrl: "/assets/slideshows/two-witnesses-part-2/frame09.webp",
       transition: "dissolve",
       caption:
         "The Enigma: \"The message he left behind — we heard it for the first time standing in this room. Then we waited for someone to hear it who would understand.\"",
@@ -1699,7 +1699,7 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
     {
       startMs: TWO_WITNESSES_PART_2_FRAME_MS * 9,
       endMs: TWO_WITNESSES_PART_2_FRAME_MS * 10,
-      imageUrl: "/art/rooms/room-archives.png",
+      imageUrl: "/assets/slideshows/two-witnesses-part-2/frame10.webp",
       transition: "dissolve",
       caption:
         "The Antiquarian: \"The fulcrum. I said that word to you in the first part of this scene. I meant it then. I mean it more now.\"",
@@ -1709,7 +1709,7 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
     {
       startMs: TWO_WITNESSES_PART_2_FRAME_MS * 10,
       endMs: TWO_WITNESSES_PART_2_FRAME_MS * 11,
-      imageUrl: "/art/rooms/room-archives.png",
+      imageUrl: "/assets/slideshows/two-witnesses-part-2/frame11.webp",
       transition: "dissolve",
       caption:
         "The Enigma: \"You do not have to answer in words. Three doors leave this room. Accept. Decline. Deflect. Your choice will determine the fate and future of this reality.\"",
@@ -1718,7 +1718,7 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
     {
       startMs: TWO_WITNESSES_PART_2_FRAME_MS * 11,
       endMs: TWO_WITNESSES_PART_2_FRAME_MS * 12,
-      imageUrl: "/art/rooms/room-archives.png",
+      imageUrl: "/assets/slideshows/two-witnesses-part-2/frame12.webp",
       transition: "fade",
       caption:
         "The Antiquarian: \"We will be here. Whichever door you take. We have waited longer than this.\" The silence sits.",
