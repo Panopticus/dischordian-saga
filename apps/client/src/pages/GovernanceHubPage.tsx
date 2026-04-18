@@ -589,6 +589,74 @@ function UpcomingEventsBar() {
    MAIN PAGE COMPONENT
    ═══════════════════════════════════════════════════════ */
 
+/**
+ * Audit 2E — map a server vote row (architectConsole.getActiveVotes)
+ * onto the client CommunityVote shape the zustand store holds.
+ * Not all server fields have client analogues; gaps fall back to
+ * reasonable defaults so the UI has a fully-populated vote to render.
+ */
+function mapServerVoteToClient(
+  server: {
+    voteId: string;
+    title: string;
+    description: string | null;
+    category: "lore" | "event" | "content" | "quest" | "sacrifice";
+    startedAt: Date;
+    endsAt: Date;
+    options: Array<{
+      id: number;
+      optionNumber: number;
+      optionText: string;
+      description: string | null;
+      voteCount: number;
+    }>;
+  },
+): {
+  vote: import("@shared/governance").CommunityVote;
+  tally: Record<string, number>;
+} {
+  const categoryMap: Record<
+    typeof server.category,
+    "monthly" | "daily" | "seasonal" | "crisis"
+  > = {
+    lore: "monthly",
+    event: "seasonal",
+    content: "monthly",
+    quest: "daily",
+    sacrifice: "crisis",
+  };
+  const durationMs = server.endsAt.getTime() - server.startedAt.getTime();
+  const durationHours = Math.max(1, Math.round(durationMs / (60 * 60 * 1000)));
+  const options = server.options
+    .sort((a, b) => a.optionNumber - b.optionNumber)
+    .map((opt) => ({
+      id: String(opt.optionNumber),
+      label: opt.optionText,
+      description: opt.description ?? "",
+      consequences: [],
+    }));
+  const tally: Record<string, number> = {};
+  for (const opt of server.options) {
+    tally[String(opt.optionNumber)] = opt.voteCount;
+  }
+  return {
+    vote: {
+      id: server.voteId,
+      month: 1,
+      week: 1,
+      question: server.title,
+      proposedBy: "The Antiquarian",
+      antiquarianIntro: server.description ?? "",
+      options,
+      durationHours,
+      category: categoryMap[server.category],
+      affectedSystems: [],
+      quorum: 0,
+    },
+    tally,
+  };
+}
+
 export default function GovernanceHubPage() {
   const [mobileTab, setMobileTab] = useState<"vote" | "chronicle" | "pulse" | "daily" | "palimpsest">("vote");
 
@@ -602,6 +670,39 @@ export default function GovernanceHubPage() {
 
   // Server-backed Palimpsest state via the shared hook (dedupes across components).
   const { state: palimpsestState } = usePalimpsest();
+
+  // Audit 2E — seed the governance store's activeVote from the
+  // server's getActiveVotes query. The store + UI were complete; the
+  // gap was that nothing ever queried the server-side data.
+  // Picks the most recently-created active vote (the query orders
+  // by createdAt DESC) and maps it into the CommunityVote shape.
+  const setActiveVote = useGovernanceStore((s) => s.setActiveVote);
+  const updateTally = useGovernanceStore((s) => s.updateTally);
+  const { data: serverVotes } = trpc.architectConsole.getActiveVotes.useQuery(
+    undefined,
+    { staleTime: 60_000 },
+  );
+  useEffect(() => {
+    if (!serverVotes || serverVotes.length === 0) return;
+    const first = serverVotes[0];
+    const { vote, tally } = mapServerVoteToClient({
+      voteId: first.voteId,
+      title: first.title,
+      description: first.description,
+      category: first.category,
+      startedAt: first.startedAt as unknown as Date,
+      endsAt: first.endsAt as unknown as Date,
+      options: first.options.map((o) => ({
+        id: o.id,
+        optionNumber: o.optionNumber,
+        optionText: o.optionText,
+        description: o.description,
+        voteCount: o.voteCount,
+      })),
+    });
+    setActiveVote(vote);
+    updateTally(tally);
+  }, [serverVotes, setActiveVote, updateTally]);
 
   return (
     <AtmosphereScope roomKey="guild_sanctum">
