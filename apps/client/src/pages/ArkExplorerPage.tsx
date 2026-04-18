@@ -20,6 +20,7 @@ import type { FactionNPCId } from "@/game/factionNPCs";
 import { getAvailableBanter, type CompanionBanter } from "@/game/companionDeepening";
 import { dispatchNarrativeEffect, dispatchRoomEnter } from "@/hooks/useNarrativeEvents";
 import { getActiveVoices, type VoiceUtterance } from "@/game/innerVoices";
+import { dispatchVoiceWhisper } from "@/components/VoiceWhisper";
 import { dispatchRememberThis } from "@/game/narrativeSystems";
 import { getActiveBreadcrumbs, type BreadcrumbChain } from "@/game/explorationSystems";
 import { getCluesForRoom, type EnvironmentalClue } from "@/game/puzzleClues";
@@ -1048,10 +1049,26 @@ export default function ArkExplorerPage() {
         } else {
           notify("info", "Already collected", hotspot.name);
         }
+        // Audit 2H — item_inspect whisper on any item click (both
+        // newly-picked and already-owned; the inspection moment is
+        // the same narratively).
+        dispatchVoiceWhisper(
+          { type: "item_inspect", itemId: hotspot.action ?? hotspot.id },
+          ((state as unknown as { innerVoiceSkills?: Record<string, number> }).innerVoiceSkills ?? {}) as Record<string, number>,
+        );
         break;
       }
       case "examine":
       case "interact": {
+        // Audit 2H — item_inspect whisper on examine/interact clicks.
+        // The "examine" type is the canonical passive-look moment;
+        // "interact" includes puzzles/terminals that already fire
+        // their own whispers (puzzle_attempt on mount), so this
+        // overlap is tolerable — cooldown guards against double-up.
+        dispatchVoiceWhisper(
+          { type: "item_inspect", itemId: hotspot.action ?? hotspot.id },
+          ((state as unknown as { innerVoiceSkills?: Record<string, number> }).innerVoiceSkills ?? {}) as Record<string, number>,
+        );
         if (hotspot.action === "nav-calibration") {
           if (fastTravelUnlocked) {
             notify("info", "Navigation system already calibrated", "Fast-travel is online. Use the NAV tab on the right.");
