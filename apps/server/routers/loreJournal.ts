@@ -11,6 +11,7 @@ import { awardFragments } from "../services/imprintService";
 import { getImprintNpc } from "@shared/tcg-core";
 import {
   loreJournalEntries, citizenCharacters, civilSkillProgress,
+  writingStreaks,
 } from "../../db/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
 import {
@@ -104,6 +105,52 @@ export const loreJournalRouter = router({
             logger.warn(`[Imprints] lore_entry grant failed for ${npc.slug}`, e);
           }
         }
+      }
+
+      // Audit 5A — persist writing streaks to the dedicated
+      // writing_streaks table. Orphan-table close: previously the
+      // streak was only computed on-the-fly in getMyStats (still
+      // works; this adds a denormalized cache the analytics /
+      // achievements layer can read without a full scan).
+      const todayStr = new Date().toISOString().slice(0, 10);
+      const existingStreak = await db
+        .select()
+        .from(writingStreaks)
+        .where(eq(writingStreaks.userId, ctx.user.id))
+        .limit(1);
+      if (existingStreak.length === 0) {
+        await db.insert(writingStreaks).values({
+          userId: ctx.user.id,
+          currentStreak: 1,
+          longestStreak: 1,
+          lastWriteDate: todayStr,
+          totalWordsWritten: wordCount,
+          totalEntries: 1,
+        });
+      } else {
+        const prior = existingStreak[0];
+        const last = prior.lastWriteDate ?? "";
+        let nextStreak = prior.currentStreak;
+        if (last === todayStr) {
+          // Same day — don't touch the streak, just accumulate totals.
+        } else {
+          // Compute whether yesterday was the last write day.
+          const yesterday = new Date(Date.now() - 86400000)
+            .toISOString()
+            .slice(0, 10);
+          nextStreak = last === yesterday ? prior.currentStreak + 1 : 1;
+        }
+        const nextLongest = Math.max(prior.longestStreak, nextStreak);
+        await db
+          .update(writingStreaks)
+          .set({
+            currentStreak: nextStreak,
+            longestStreak: nextLongest,
+            lastWriteDate: todayStr,
+            totalWordsWritten: prior.totalWordsWritten + wordCount,
+            totalEntries: prior.totalEntries + 1,
+          })
+          .where(eq(writingStreaks.userId, ctx.user.id));
       }
 
       return { entryId: result.id, wordCount, xpEarned };
