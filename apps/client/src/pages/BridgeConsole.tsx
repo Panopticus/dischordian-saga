@@ -211,6 +211,48 @@ export default function BridgeConsole() {
         </div>
       </div>
 
+      {/* ═══ PR-2 — PLAY DISCHORDIA CARD-GAME QUICK ENTRY ═══
+          Unified "Play" button. Before this existed the TCG was
+          reachable only via direct URLs (/duelyst, /story, /cards/play).
+          Priority routing: if Act 1 has unfinished chapters, drop
+          into /story; else /duelyst for a faction-vs-faction match.
+          Only visible post-Prelude (the page-level redirect above
+          guarantees that, but we keep the guard explicit). */}
+      <div className="px-4 mb-5">
+        <div className="flex items-center gap-2 mb-3">
+          <Swords size={10} className="text-primary/60" />
+          <span className="font-mono text-[9px] text-primary/60 tracking-[0.2em]">PLAY DISCHORDIA</span>
+        </div>
+        <button
+          type="button"
+          onClick={() => {
+            // If the story mode has chapters to play (Act 1 not
+            // complete), go there. Otherwise drop into the casual
+            // AI match flow on /duelyst.
+            const act1Done = !!state.narrativeFlags?.act_1_complete;
+            navigate(act1Done ? "/duelyst" : "/story");
+          }}
+          data-testid="bridge-play-dischordia"
+          className="w-full p-4 rounded border bg-stone-950/70 border-primary/40 hover:bg-primary/10 transition text-left"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="font-serif text-base text-stone-100 mb-1">
+                {state.narrativeFlags?.act_1_complete
+                  ? "Casual match"
+                  : "Continue Act 1"}
+              </p>
+              <p className="font-mono text-[10px] text-stone-400 tracking-wide">
+                {state.narrativeFlags?.act_1_complete
+                  ? "Faction vs. faction, no story weight."
+                  : "Story encounters — Warlord, Programmer, Game Master, Seer, Authority."}
+              </p>
+            </div>
+            <ChevronRight size={14} className="text-primary/60" />
+          </div>
+        </button>
+      </div>
+
       {/* ═══ GALACTIC BULB — Witnessing §3.5 Light/Dark poetic meter ═══ */}
       <div className="px-4 mb-5">
         <div className="flex items-center gap-2 mb-3">

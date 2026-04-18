@@ -12,6 +12,7 @@
 import { useEffect, useCallback, useRef } from "react";
 import { useGame } from "@/contexts/GameContext";
 import { toast } from "sonner";
+import { trpc } from "@/lib/trpc";
 import { dispatchNarrativeEffect, dispatchMoralityShift } from "@/hooks/useNarrativeEvents";
 import { getAtmosphereForMorality, pushTemporaryTheme, popTemporaryTheme } from "@/engine/voidEngine";
 import { playSlideshow } from "@/stores/witnessingStore";
@@ -435,6 +436,57 @@ export function useNarrativeIntegration() {
     state.narrativeAct,
     state.narrativeFlags?.prelude_complete,
     advanceNarrativeAct,
+  ]);
+
+  // ─── PR-2 — AUTO-CLAIM STARTER PACK ON PRELUDE COMPLETE ───
+  // `trpc.cardGame.claimStarterPack` grants 15 starter cards + a
+  // pre-built "Starter Deck" on first call. The mutation is
+  // idempotent (it bails with `{ success: false }` if the user
+  // already has cards), so calling it more than once is harmless.
+  // Before this effect existed, the mutation was authored but never
+  // called — fresh players had an empty collection until they
+  // manually opened booster packs.
+  //
+  // Gated on prelude_complete so the grant happens the moment the
+  // player lands in Act 1. We persist a `starter_pack_claimed`
+  // flag so the mutation doesn't fire on every render even though
+  // the server side would reject it.
+  const claimStarterPackMutation = trpc.cardGame.claimStarterPack.useMutation();
+  const starterPackClaimedRef = useRef(false);
+  useEffect(() => {
+    if (starterPackClaimedRef.current) return;
+    if (!state.narrativeFlags?.prelude_complete) return;
+    if (state.narrativeFlags?.starter_pack_claimed) {
+      starterPackClaimedRef.current = true;
+      return;
+    }
+    starterPackClaimedRef.current = true;
+    claimStarterPackMutation.mutate(undefined, {
+      onSuccess: (result) => {
+        // The server returns { success: true, cardsGranted, deckCreated }
+        // on a fresh claim, or { success: false } if the user already
+        // had cards. Either way we raise the flag so this never
+        // retries.
+        setNarrativeFlag("starter_pack_claimed", true);
+        if (result?.success) {
+          toast.success("Starter deck unlocked", {
+            description:
+              "15 cards + a starter deck added to your collection. Ready for your first match.",
+            duration: 12000,
+          });
+        }
+      },
+      onError: () => {
+        // Reset the ref so a future render can retry after a
+        // transient network hiccup — but DO NOT raise the flag.
+        starterPackClaimedRef.current = false;
+      },
+    });
+  }, [
+    state.narrativeFlags?.prelude_complete,
+    state.narrativeFlags?.starter_pack_claimed,
+    claimStarterPackMutation,
+    setNarrativeFlag,
   ]);
 
   // ─── WITNESSING §1.5 / §14.1 — MUTUAL BOND MILESTONES ───
