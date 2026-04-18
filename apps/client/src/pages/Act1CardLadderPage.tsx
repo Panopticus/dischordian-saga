@@ -42,6 +42,7 @@ import { useAct1LadderStore } from "@/stores/act1CardLadderStore";
 import { useGame } from "@/contexts/GameContext";
 import { playSlideshow } from "@/stores/witnessingStore";
 import DuelystGameUI from "@/game/duelyst/DuelystGameUI";
+import { Act1OpponentTauntOverlay } from "@/components/act1/Act1OpponentTauntOverlay";
 import {
   FACTION_COLORS,
   FACTION_NAMES,
@@ -246,6 +247,10 @@ export default function Act1CardLadderPage() {
                   opponentFaction={resolveOpponentFaction(currentOpponent)}
                   onGameEnd={handleGameEnd}
                   onBack={() => setView("matchup")}
+                />
+                <Act1OpponentTauntOverlay
+                  dialog={getAct1OpponentDialog(currentOpponent.id)}
+                  opponentName={currentOpponent.name}
                 />
               </motion.div>
             )}
