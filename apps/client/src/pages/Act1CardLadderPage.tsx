@@ -43,6 +43,7 @@ import { useGame } from "@/contexts/GameContext";
 import { playSlideshow } from "@/stores/witnessingStore";
 import DuelystGameUI from "@/game/duelyst/DuelystGameUI";
 import { Act1OpponentTauntOverlay } from "@/components/act1/Act1OpponentTauntOverlay";
+import { CompanionAskPanel } from "@/components/companion/CompanionAskPanel";
 import {
   FACTION_COLORS,
   FACTION_NAMES,
@@ -408,9 +409,20 @@ function MatchupView({
   onEngage: () => void;
   onBack: () => void;
 }) {
+  const { state: gameState } = useGame();
   const opponentFaction = resolveOpponentFaction(opponent);
   const opponentColor = FACTION_COLORS[opponentFaction];
   const dialog = getAct1OpponentDialog(opponent.id);
+  const flags = useMemo(
+    () =>
+      new Set(
+        Object.entries(gameState.narrativeFlags)
+          .filter(([, v]) => v)
+          .map(([k]) => k),
+      ),
+    [gameState.narrativeFlags],
+  );
+  const [askSpeaker, setAskSpeaker] = useState<"elara" | "human" | null>(null);
   return (
     <div className="space-y-6">
       {/* Engineer memoir frame — opens every Act 1 match */}
@@ -476,6 +488,49 @@ function MatchupView({
         >
           Deck · {FACTION_NAMES[opponentFaction]}
         </p>
+      </div>
+
+      {/* Ask a companion — optional, non-blocking */}
+      <div className="rounded-md border border-stone-800 bg-stone-950/40 p-4">
+        <div className="flex items-center justify-between">
+          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-stone-400">
+            Ask a companion
+          </p>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => setAskSpeaker(askSpeaker === "elara" ? null : "elara")}
+              className={`rounded border px-3 py-1 font-mono text-[10px] uppercase tracking-wider transition-colors ${
+                askSpeaker === "elara"
+                  ? "border-cyan-400 bg-cyan-900/30 text-cyan-100"
+                  : "border-cyan-900/50 bg-stone-950/40 text-cyan-300/70 hover:border-cyan-700/60 hover:text-cyan-200"
+              }`}
+            >
+              Elara
+            </button>
+            <button
+              type="button"
+              onClick={() => setAskSpeaker(askSpeaker === "human" ? null : "human")}
+              className={`rounded border px-3 py-1 font-mono text-[10px] uppercase tracking-wider transition-colors ${
+                askSpeaker === "human"
+                  ? "border-rose-400 bg-rose-900/30 text-rose-100"
+                  : "border-rose-900/50 bg-stone-950/40 text-rose-300/70 hover:border-rose-700/60 hover:text-rose-200"
+              }`}
+            >
+              The Human
+            </button>
+          </div>
+        </div>
+        {askSpeaker && (
+          <div className="mt-3">
+            <CompanionAskPanel
+              speaker={askSpeaker}
+              flags={flags}
+              currentAct={gameState.narrativeAct || 1}
+              onClose={() => setAskSpeaker(null)}
+            />
+          </div>
+        )}
       </div>
 
       {/* Player faction picker */}
