@@ -94,7 +94,10 @@ export function ReconnectingOverlay({
             {/* Spinner */}
             {!gaveUp && !expired && (
               <div className="flex justify-center">
-                <div className="h-10 w-10 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
+                <div
+                  className="h-10 w-10 border-2 border-t-transparent rounded-full animate-spin"
+                  style={{ borderColor: "var(--energy-accent)", borderTopColor: "transparent" }}
+                />
               </div>
             )}
 
@@ -105,7 +108,7 @@ export function ReconnectingOverlay({
                   CONNECTION LOST
                 </h2>
               ) : (
-                <h2 className="font-display text-lg font-bold tracking-wider text-amber-400">
+                <h2 className="font-display text-lg font-bold tracking-wider void-text-accent">
                   RECONNECTING
                 </h2>
               )}
@@ -119,10 +122,13 @@ export function ReconnectingOverlay({
             {/* Countdown */}
             {gracePeriodExpiresAt != null && !gaveUp && !expired && (
               <div className="void-surface p-4">
-                <p className="font-mono text-xs text-amber-400/80 mb-2">
+                <p
+                  className="font-mono text-xs mb-2"
+                  style={{ color: "color-mix(in oklch, var(--energy-accent) 80%, transparent)" }}
+                >
                   Your {context} is preserved for
                 </p>
-                <p className="font-display text-3xl font-bold text-amber-400 tabular-nums">
+                <p className="font-display text-3xl font-bold void-text-accent tabular-nums">
                   {formatCountdown(remainingMs)}
                 </p>
                 <p className="font-mono text-[10px] text-muted-foreground mt-2">
