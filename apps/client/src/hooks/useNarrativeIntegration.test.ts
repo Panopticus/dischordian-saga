@@ -212,3 +212,151 @@ describe("useNarrativeIntegration — Prelude → Act 1 handoff", () => {
     expect(hookSrc).toContain("state.narrativeFlags?.prelude_complete");
   });
 });
+
+/* ═══════════════════════════════════════════════════════
+   Engineer Recording watcher (roadmap §Act 1 item).
+
+   The 7 holograms fire on card-battle milestones (1/3/4/8/9/10/12
+   wins + optional dischordiaStep + allAct1Complete gates) via
+   CARD_BATTLE_MILESTONES. Source-scan asserts the wiring lives in
+   useNarrativeIntegration and reads from the shared constant, so
+   the recording flags can't silently drift out of the hook.
+   ═══════════════════════════════════════════════════════ */
+describe("useNarrativeIntegration — Engineer Recording watcher", () => {
+  const hookSrc = fs.readFileSync(
+    path.resolve(__dirname, "useNarrativeIntegration.ts"),
+    "utf-8",
+  );
+
+  it("imports CARD_BATTLE_MILESTONES + ENGINEER_RECORDINGS", () => {
+    expect(hookSrc).toContain(
+      'import { CARD_BATTLE_MILESTONES } from "@shared/dischordiaCycle"',
+    );
+    expect(hookSrc).toContain(
+      'import { ENGINEER_RECORDINGS } from "@shared/engineerRecordings"',
+    );
+  });
+
+  it("iterates CARD_BATTLE_MILESTONES to raise recording flags", () => {
+    expect(hookSrc).toMatch(/for\s*\(\s*const\s+milestone\s+of\s+CARD_BATTLE_MILESTONES/);
+  });
+
+  it("gates each recording on cardWins and the discovery flag", () => {
+    // The loop body must read both so late hops (#6, #7) don't fire
+    // prematurely and already-discovered flags are skipped.
+    expect(hookSrc).toMatch(/cardWins\s*<\s*milestone\.minWins/);
+    expect(hookSrc).toMatch(/state\.narrativeFlags\?\.\[milestone\.discoveryFlag\]/);
+  });
+
+  it("surfaces a toast with the recording title when discovered", () => {
+    expect(hookSrc).toContain("Engineer Recording");
+    expect(hookSrc).toContain("recording.title");
+  });
+});
+
+/* ═══════════════════════════════════════════════════════
+   Seer screen-reader announcement (spec §6.3).
+
+   The Seer plays a card from a future turn; AT users must hear the
+   full invariant sentence ("Her hand count does not decrease"),
+   not a truncated version. Source-scan protects the spec string.
+   ═══════════════════════════════════════════════════════ */
+describe("DuelystGameUI — §4.9 Seer announcement", () => {
+  const uiSrc = fs.readFileSync(
+    path.resolve(
+      __dirname,
+      "../game/duelyst/DuelystGameUI.tsx",
+    ),
+    "utf-8",
+  );
+
+  it("match-start announcement includes the hand-count invariant", () => {
+    expect(uiSrc).toContain(
+      "The Seer plays cards from a future turn. Her hand count does not decrease.",
+    );
+  });
+
+  it("per-play announcement includes the hand-count invariant (spec §6.3)", () => {
+    expect(uiSrc).toContain(
+      "The Seer plays a card from a future turn. Her hand count does not decrease.",
+    );
+  });
+});
+
+/* ═══════════════════════════════════════════════════════
+   P1.3 — Act 1 completion gate
+
+   The Act 1 closing cinematic only fires when ALL THREE of the
+   following land:
+     1. cardWins >= 12 (the twelfth match resolves)
+     2. lightDarkAlignment is not null (§5.8.1 ChoicePillar picked)
+     3. act1_authority_outcome flag set (trial resolved)
+
+   Source-scan confirms the gate is tightened — a regression that
+   drops any leg would re-open the "Act 1 closes without a verdict"
+   silent-transition bug.
+   ═══════════════════════════════════════════════════════ */
+describe("useNarrativeIntegration — Act 1 completion gate (P1.3)", () => {
+  const hookSrc = fs.readFileSync(
+    path.resolve(__dirname, "useNarrativeIntegration.ts"),
+    "utf-8",
+  );
+
+  it("requires cardWins >= 12", () => {
+    expect(hookSrc).toMatch(/cardWins\s*>=\s*12/);
+  });
+
+  it("requires lightDarkAlignment to be set (not null)", () => {
+    expect(hookSrc).toMatch(/state\.lightDarkAlignment\s*!==\s*null/);
+  });
+
+  it("requires act1_authority_outcome narrative flag", () => {
+    expect(hookSrc).toContain("act1_authority_outcome");
+  });
+});
+
+describe("DuelystGameUI — trial outcome persistence (P1.3)", () => {
+  const uiSrc = fs.readFileSync(
+    path.resolve(__dirname, "../game/duelyst/DuelystGameUI.tsx"),
+    "utf-8",
+  );
+
+  it("writes act1_authority_outcome marker + per-outcome flag on trial resolution", () => {
+    expect(uiSrc).toMatch(
+      /setNarrativeFlag\(\s*["']act1_authority_outcome["']\s*,\s*true\s*\)/,
+    );
+    expect(uiSrc).toMatch(
+      /setNarrativeFlag\(\s*`act1_authority_\$\{outcome\}`\s*,\s*true\s*\)/,
+    );
+  });
+});
+
+describe("DuelystGameUI — Programmer gift campaign consequence (P1.2)", () => {
+  const uiSrc = fs.readFileSync(
+    path.resolve(__dirname, "../game/duelyst/DuelystGameUI.tsx"),
+    "utf-8",
+  );
+
+  it("destructures adjustNarratorBond + recordMemorableMoment", () => {
+    expect(uiSrc).toContain("adjustNarratorBond,");
+    expect(uiSrc).toContain(
+      'import { recordMemorableMoment } from "@/stores/memorableMomentsStore"',
+    );
+  });
+
+  it("calls adjustNarratorBond(5) on the accept branch", () => {
+    expect(uiSrc).toMatch(/adjustNarratorBond\(\s*5\s*\)/);
+  });
+
+  it("records a bond_peak memorable moment on accept", () => {
+    expect(uiSrc).toMatch(
+      /recordMemorableMoment\(\s*["']bond_peak["']/,
+    );
+  });
+
+  it("raises act1_programmer_gift_declined on decline", () => {
+    expect(uiSrc).toMatch(
+      /setNarrativeFlag\(\s*["']act1_programmer_gift_declined["']\s*,\s*true\s*\)/,
+    );
+  });
+});

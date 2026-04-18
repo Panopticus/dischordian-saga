@@ -217,6 +217,14 @@ export interface GameState {
   preludeCompletedFlags: string[];
   /** Light/Dark alignment captured at Beat J. null until chosen. */
   lightDarkAlignment: "light" | "dark" | null;
+  /**
+   * §5.7 → §5.8 handoff: the Game Master's final public-witness
+   * balance, captured at §5.7 match end. Fed into the §5.8
+   * Authority trial via `computeAuthorityTrialOverride`
+   * (`@shared/act1TrialHandoff`) + `deriveAuthorityVerdictOffset`
+   * (+3 / 0 / −3). null = §5.7 not yet played.
+   */
+  act1PublicWitnessBalance: number | null;
   humanContactMade: boolean;                         // Has the player received The Human's signal?
   humanContactSecret: boolean;                       // Is the player keeping it secret from Elara?
   elaraKnowsAboutHuman: boolean;                     // Has Elara discovered The Human's signal?
@@ -1021,6 +1029,7 @@ const DEFAULT_GAME_STATE: GameState = {
   currentPreludeBeat: null,
   preludeCompletedFlags: [],
   lightDarkAlignment: null,
+  act1PublicWitnessBalance: null,
   humanContactMade: false,
   humanContactSecret: false,
   elaraKnowsAboutHuman: false,
@@ -1161,6 +1170,14 @@ interface GameContextValue {
   setCurrentPreludeBeat: (beatId: string | null) => void;
   recordPreludeCompletionFlag: (flag: string) => void;
   setLightDarkAlignment: (alignment: "light" | "dark" | null) => void;
+  /**
+   * §5.7 → §5.8 campaign-layer handoff. DuelystGameUI's match-end
+   * hook calls this with `gameState.publicWitness.balance` when the
+   * Game Master match resolves; `computeAuthorityTrialOverride`
+   * (`@shared/act1TrialHandoff`) reads it when the §5.8 Authority
+   * trial starts to seed `trialMode.openingVerdictBalance`.
+   */
+  setAct1PublicWitnessBalance: (balance: number | null) => void;
   setHumanContact: (made: boolean) => void;
   setHumanContactSecret: (secret: boolean) => void;
   setElaraKnowsAboutHuman: (knows: boolean, path: "told" | "discovered" | "betrayed") => void;
@@ -2260,6 +2277,13 @@ export function GameProvider({ children }: { children: ReactNode }) {
     [],
   );
 
+  const setAct1PublicWitnessBalance = useCallback(
+    (balance: number | null) => {
+      setState(prev => ({ ...prev, act1PublicWitnessBalance: balance }));
+    },
+    [],
+  );
+
   const recordNarrativeChoice = useCallback((actId: number, sceneId: string, choiceId: string, moralityShift: number) => {
     setState(prev => ({
       ...prev,
@@ -2453,6 +2477,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         currentPreludeBeat: null,
         preludeCompletedFlags: [],
         lightDarkAlignment: null,
+        act1PublicWitnessBalance: null,
         // Keep: NPC trust, cards, equipment, achievements, completedGames
         // Reset: rooms (re-explore), quests, crafting materials
         rooms: Object.fromEntries(
@@ -2960,6 +2985,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setCurrentPreludeBeat,
       recordPreludeCompletionFlag,
       setLightDarkAlignment,
+      setAct1PublicWitnessBalance,
       setHumanContact,
       setHumanContactSecret,
       setElaraKnowsAboutHuman: setElaraKnowsAboutHumanFn,

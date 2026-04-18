@@ -50,6 +50,16 @@ import {
 } from "@shared/campaignState";
 import { useGame } from "@/contexts/GameContext";
 import {
+  computeAuthorityTrialOverride,
+  rememberPublicWitnessBalance,
+} from "@shared/act1TrialHandoff";
+import { recordMemorableMoment } from "@/stores/memorableMomentsStore";
+import {
+  getEncounterReward,
+  type EncounterOutcome,
+} from "@shared/act1EncounterRewards";
+import type { StoryEncounter } from "@shared/tcg-core/story/encounter";
+import {
   deriveSeerOutcome,
   playerDeckUnlocksWinnablePath,
 } from "@shared/tcg-core/engine/seerProphecy";
@@ -74,6 +84,23 @@ interface DuelystGameUIProps {
   isTutorial?: boolean;
   /** Celebration trial history — if provided, computes combat buffs for the player's deck */
   trialHistory?: TrialHistoryEntry[];
+  /**
+   * Optional Act 1 encounter override. When set, the component
+   * launches the match in encounter mode:
+   *   - opponent faction / general / deck come from the encounter,
+   *     not from `opponentFaction`
+   *   - trialMode / giftMode / witnessMode / prophecyMode /
+   *     scriptedActions flow to TcgClient.init so per-mode state
+   *     (PublicWitnessColumn, TrialPhaseIndicator, SeerPlayOverlay,
+   *     Warlord lockout) boots correctly
+   *   - match-end applies the per-encounter rewards from
+   *     `act1EncounterRewards.ts` (narratorBond, flags, memorable
+   *     moments)
+   *   - §5.8 Authority trial reads `act1PublicWitnessBalance` via
+   *     `computeAuthorityTrialOverride` to seed its
+   *     `openingVerdictBalance` (the §5.7 → §5.8 handoff)
+   */
+  encounter?: StoryEncounter;
   onGameEnd: (winner: "player" | "opponent") => void;
   onBack: () => void;
 }
@@ -83,7 +110,7 @@ type SelectionMode = "none" | "move" | "attack" | "summon" | "spell_target";
 
 interface LogEntry { text: string; type: "info" | "attack" | "spell" | "move" | "system"; }
 
-function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onGameEnd, onBack, trialHistory }: DuelystGameUIProps) {
+function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onGameEnd, onBack, trialHistory, encounter }: DuelystGameUIProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rendererRef = useRef<BoardRenderer | null>(null);
   const tcgClientRef = useRef<TcgClient | null>(null);
@@ -101,7 +128,13 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   // Screen-reader match-start announcement — fired once when
   // seerProphecy first appears on state (spec §6.3).
   const seerAnnouncedRef = useRef(false);
-  const { setNarrativeFlag, state: gameStateContext } = useGame();
+  const {
+    setNarrativeFlag,
+    setAct1PublicWitnessBalance,
+    adjustNarratorBond,
+    completeRecruitmentMission,
+    state: gameStateContext,
+  } = useGame();
   const [gameState, setGameState] = useState<DuelystGameState | null>(null);
   const [phase, setPhase] = useState<Phase>("mulligan");
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
@@ -117,6 +150,13 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   // Guard so quest increments fire once per match resolution, not
   // every re-render while phase === "game_over".
   const questsRecordedRef = useRef(false);
+  /**
+   * §5.7 Game Master match-end guard. Ensures
+   * `setAct1PublicWitnessBalance` only fires once per match even if
+   * React re-renders the ended-state several times (state transitions,
+   * dialog callbacks, etc.). Reset at every new-match init below.
+   */
+  const publicWitnessBalanceCapturedRef = useRef(false);
   // Audit 3B — card-battle quest progression. FightPage already
   // fires fight-flavor quests; DuelystGameUI was the card-battle gap.
   const updateQuestProgress = trpc.quests.updateProgress.useMutation();
@@ -253,7 +293,6 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   useEffect(() => {
     // Prefer curated starter decks from tcg-core; fall back to ad-hoc builder
     const playerStarter = STARTER_DECK_MAP[playerFaction];
-    const opponentStarter = STARTER_DECK_MAP[opponentFaction];
     const p1DeckCardIds = playerStarter
       ? [...playerStarter.cardDefIds]
       : buildStarterDeck(playerFaction).map((c) => c.sagaCardId ?? c.id);
@@ -262,19 +301,62 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     // cards remain in deck/hand/graveyard at resolution time.
     initialPlayerDeckRef.current = p1DeckCardIds;
     seerFlagsWrittenRef.current = false;
-    const p2DeckCardIds = opponentStarter
-      ? [...opponentStarter.cardDefIds]
-      : buildStarterDeck(opponentFaction).map((c) => c.sagaCardId ?? c.id);
+    publicWitnessBalanceCapturedRef.current = false;
+
+    // Encounter-mode path: use the boss's faction / general / deck /
+    // modes. The §5.8 Authority trial's openingVerdictBalance comes
+    // from the §5.7 handoff (`computeAuthorityTrialOverride`) — any
+    // other encounter's trialMode passes through unchanged.
+    let p2FactionToUse: string = opponentFaction;
+    let p2DeckCardIds: string[];
+    let p2GeneralDefId: string | undefined;
+    let trialMode = encounter?.trialMode;
+    if (encounter) {
+      p2FactionToUse = encounter.bossFaction;
+      p2DeckCardIds = [...encounter.bossDeckCardDefIds];
+      p2GeneralDefId = encounter.bossGeneralDefId;
+      if (encounter.id === "ch_authority_trial") {
+        const override = computeAuthorityTrialOverride(
+          gameStateContext.act1PublicWitnessBalance,
+        );
+        if (override) trialMode = override;
+      }
+    } else {
+      const opponentStarter = STARTER_DECK_MAP[opponentFaction];
+      p2DeckCardIds = opponentStarter
+        ? [...opponentStarter.cardDefIds]
+        : buildStarterDeck(opponentFaction).map((c) => c.sagaCardId ?? c.id);
+    }
+
     const client = TcgClient.init({
       p1Faction: playerFaction,
       p1DeckCardIds,
-      p2Faction: opponentFaction,
+      p2Faction: p2FactionToUse,
       p2DeckCardIds,
+      p2GeneralDefId,
+      seed: encounter?.seed,
+      trialMode,
+      giftMode: encounter?.giftMode,
+      witnessMode: encounter?.witnessMode,
+      prophecyMode: encounter?.prophecyMode,
+      scriptedActions: encounter?.scriptedActions,
     });
     tcgClientRef.current = client;
     setGameState(asGameState(client.getViewState()));
-    addLog("Game started. Choose cards to mulligan.", "system");
-  }, [playerFaction, opponentFaction, trialHistory, addLog]);
+    addLog(
+      encounter
+        ? `${encounter.name} — choose cards to mulligan.`
+        : "Game started. Choose cards to mulligan.",
+      "system",
+    );
+  }, [
+    playerFaction,
+    opponentFaction,
+    trialHistory,
+    addLog,
+    encounter,
+    gameStateContext.act1PublicWitnessBalance,
+  ]);
 
   // Initialize renderer
   useEffect(() => {
@@ -303,6 +385,24 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     );
   });
 
+  // §5.7 → §5.8 campaign handoff. When a Game-Master-style match
+  // (witnessMode opt-in → `gameState.publicWitness` populated) ends,
+  // persist the final balance to campaign state so the §5.8 Authority
+  // trial can translate it into `openingVerdictBalance` via
+  // `computeAuthorityTrialOverride` + `deriveAuthorityVerdictOffset`.
+  // Guarded by publicWitnessBalanceCapturedRef to fire exactly once.
+  useEffect(() => {
+    if (!gameState || phase === "mulligan") return;
+    if (gameState.winner === null) return;
+    if (!gameState.publicWitness) return;
+    if (publicWitnessBalanceCapturedRef.current) return;
+    publicWitnessBalanceCapturedRef.current = true;
+    rememberPublicWitnessBalance(
+      setAct1PublicWitnessBalance,
+      gameState.publicWitness.balance,
+    );
+  }, [gameState, phase, setAct1PublicWitnessBalance]);
+
   // Check win condition
   useEffect(() => {
     if (!gameState || phase === "mulligan") return;
@@ -321,9 +421,45 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           updateQuestProgress.mutate({ questId: "w_win_10_battles", increment: 1 });
           updateQuestProgress.mutate({ questId: "e_win_100_battles", increment: 1 });
         }
+        // P1.1 campaign deltas — apply the per-encounter reward row
+        // when a named boss match resolves. Guarded by
+        // questsRecordedRef alongside the quest writes so both
+        // side-effects fire at most once per match. Non-named
+        // encounters and faction-vs-faction matches have no row and
+        // skip this block silently.
+        if (encounter) {
+          const outcome: EncounterOutcome =
+            gameState.winner === 0 ? "win" : "loss";
+          const reward = getEncounterReward(encounter.id, outcome);
+          if (reward) {
+            if (reward.narratorBondDelta) {
+              adjustNarratorBond(reward.narratorBondDelta);
+            }
+            if (reward.armyRecruitmentMission) {
+              completeRecruitmentMission(reward.armyRecruitmentMission);
+            }
+            if (reward.flagsToSet) {
+              for (const flag of reward.flagsToSet) setNarrativeFlag(flag, true);
+            }
+            if (reward.memorableMoments) {
+              for (const m of reward.memorableMoments) {
+                recordMemorableMoment(m.kind, m.subtitle);
+              }
+            }
+          }
+        }
       }
     }
-  }, [gameState, phase, onGameEnd, updateQuestProgress]);
+  }, [
+    gameState,
+    phase,
+    onGameEnd,
+    updateQuestProgress,
+    encounter,
+    adjustNarratorBond,
+    completeRecruitmentMission,
+    setNarrativeFlag,
+  ]);
 
   // Inner-voice dispatch: audit 2H — combat_low_hp fires exactly
   // once when the player's general drops below 25% max HP. Guarded
@@ -409,7 +545,13 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     if (plays > prevSeerPlaysRef.current) {
       prevSeerPlaysRef.current = plays;
       setShowSeerPlayOverlay(true);
-      announce("The Seer plays a card from a future turn.");
+      // Spec §6.3 — full screen-reader sentence including the hand-
+      // count invariant, so AT users get the same mechanical rule as
+      // the sighted players see via SeerPlayOverlay's "hand size
+      // preserved" visual.
+      announce(
+        "The Seer plays a card from a future turn. Her hand count does not decrease.",
+      );
     }
   }, [gameState]);
 
@@ -447,9 +589,19 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         { type: "choice_presented" },
         (gameStateContext.innerVoiceSkills ?? {}) as Record<string, number>,
       );
+      // P1.3 campaign persistence — raise the canonical outcome
+      // flag so the Act 1 cycle watcher can gate `act_1_complete`
+      // on a real verdict landing. Spec
+      // `authority-trial-phase-mechanic.md` §6 defines two outcomes
+      // (overturn / sentence_passed); we raise one per-outcome flag
+      // plus a shared `act1_authority_outcome` marker so downstream
+      // readers can do either "which outcome?" (check the specific
+      // flag) or "did the trial resolve?" (check the marker).
+      setNarrativeFlag("act1_authority_outcome", true);
+      setNarrativeFlag(`act1_authority_${outcome}`, true);
     }
     prevTrialOutcomeRef.current = outcome;
-  }, [gameState, gameStateContext.innerVoiceSkills]);
+  }, [gameState, gameStateContext.innerVoiceSkills, setNarrativeFlag]);
 
   // §5.6 gift pillar — fires on the not_offered → offered transition.
   // Once the player resolves (accepted/declined), the status moves
@@ -502,6 +654,24 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       if (client) {
         client.dispatch({ type: "programmer_gift_choice", choice });
       }
+      // P1.2 — the Programmer gift accept/decline branch needs a
+      // downstream consequence so the choice isn't a flag-only null
+      // op. Accepting the throw is a sacrifice — the Programmer
+      // vanishes and doesn't return — which deepens the player's
+      // bond with The Human (shared grief of the witness track).
+      // Declining raises a dedicated flag so Acts 2+ dialog can
+      // acknowledge the refusal.
+      if (accepted) {
+        adjustNarratorBond(5);
+        recordMemorableMoment(
+          "bond_peak",
+          "The night you let the Programmer throw the match.",
+          undefined,
+          { choice: "accept" },
+        );
+      } else {
+        setNarrativeFlag("act1_programmer_gift_declined", true);
+      }
       addLog(
         accepted
           ? "The Programmer vanishes that night and does not return. You take the win."
@@ -510,7 +680,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       );
       setTimeout(() => setShowProgrammerGiftPillar(false), 800);
     },
-    [addLog],
+    [addLog, adjustNarratorBond, setNarrativeFlag],
   );
 
   // §5.5 Warlord lockout — screen-reader announcements + fade-out.
