@@ -2024,7 +2024,7 @@ the animator's desk.
 | — | Enigma Section 6 VO | N/A — silent per §9.4 decision 2 | N/A | §9 | DEFERRED to Act 2+ |
 | 31 | Enigma blocking still-reference sheet | `docs/production/act1/reference/enigma-blocking-sheet.png` | 1920×1080 PNG, 4-panel composite | §9.10.2, §9.10.3 | PROMPTED |
 | 32 | Enigma gaze-beat timeline | `docs/production/act1/reference/enigma-gaze-timeline.csv` | CSV, 24 rows (1 scene_open + 10 shared + 13 branch rows) | §9.10.2 | SHIPPED |
-| 33 | Enigma branch-deltas sheet | `docs/production/act1/reference/enigma-branch-deltas.md` | markdown, 3-page | §9.10.2 | PENDING |
+| 33 | Enigma branch-deltas sheet | `docs/production/act1/reference/enigma-branch-deltas.md` | markdown, 3 pages | §9.10.2 | SHIPPED |
 
 **Totals:** 17 new image renders · 3 new cutscene video
 renders · 2 runtime-only cutscene wirings (§6.4 *Last Words*,
@@ -2088,3 +2088,13 @@ pass. Enigma Section 6 VO deferred to Act 2+.
   branch-split l13 rows, and four branch-split l14 rows
   (including the v3-shortened gaze #3). Inventory status:
   row 32 SHIPPED, row 31 PROMPTED.
+- **2026-04-18 (rev 7)** — `enigma-branch-deltas.md`
+  shipped (row 33 SHIPPED). 3-page animator reference at
+  `docs/production/act1/reference/`. Page 1: shared baseline
+  + accept/decline deltas. Page 2: deflect baseline + four
+  variants (with v3 flagged as gaze-budget-change). Page 3:
+  gaze-budget ledger, micro-gesture ledger, at-a-glance
+  delta matrix, pose-continuity checklist, and red-flag
+  escalation list. Section 6 animator handoff complete:
+  all three §9.10.2 deliverables are now in place (timeline
+  CSV shipped, blocking sheet prompted, deltas doc shipped).
