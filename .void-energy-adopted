@@ -34,3 +34,11 @@ apps/client/src/pages/ArkExplorerPage.tsx
 apps/client/src/components/DialogWheel.tsx
 apps/client/src/components/NarrativeEngine.tsx
 apps/client/src/components/LoreTutorialEngine.tsx
+# Slice 4 — prelude beat handlers. Brand-color hex (#33E2E6, #3875FA,
+# #FF8C00, etc.) and rgba decorations migrate to color-mix() with
+# semantic Void axes; template-literal alphas use color-mix calc().
+apps/client/src/components/prelude/BeatDMissionBoard.tsx
+apps/client/src/components/prelude/BeatEFlashback.tsx
+apps/client/src/components/prelude/BeatHInbox.tsx
+apps/client/src/components/prelude/LastWordsWitnessing.tsx
+apps/client/src/components/prelude/PreludeSequencePlayer.tsx

@@ -184,14 +184,14 @@ export function BeatEFlashback({
               width: 72,
               height: 72,
               borderRadius: "50%",
-              border: "2px solid rgba(34, 211, 238, 0.6)",
+              border: "2px solid color-mix(in oklch, var(--energy-primary) 60%, transparent)",
               background: isExamined
-                ? "rgba(34, 211, 238, 0.08)"
-                : "rgba(34, 211, 238, 0.15)",
+                ? "color-mix(in oklch, var(--energy-primary) 8%, transparent)"
+                : "color-mix(in oklch, var(--energy-primary) 15%, transparent)",
               cursor: isExamined || inFlashback ? "default" : "pointer",
               boxShadow: isExamined
                 ? "none"
-                : "0 0 24px rgba(34, 211, 238, 0.4)",
+                : "0 0 var(--space-md) color-mix(in oklch, var(--energy-primary) 40%, transparent)",
               animation:
                 !isExamined && !inFlashback
                   ? "pvfx-cyan-shimmer 2.4s ease-in-out infinite"
@@ -271,10 +271,10 @@ export function BeatEFlashback({
             fontSize: 11,
             letterSpacing: "0.3em",
             textTransform: "uppercase",
-            color: "#fde68a",
-            background: "rgba(1, 0, 32, 0.55)",
-            padding: "6px 14px",
-            border: "1px solid rgba(253, 230, 138, 0.4)",
+            color: "var(--energy-accent)",
+            background: "color-mix(in oklch, var(--bg-void) 55%, transparent)",
+            padding: "var(--space-xs) var(--space-sm)",
+            border: "1px solid color-mix(in oklch, var(--energy-accent) 40%, transparent)",
             zIndex: 60,
           }}
         >
@@ -291,14 +291,14 @@ export function BeatEFlashback({
           position: "absolute",
           bottom: 32,
           right: 32,
-          padding: "12px 24px",
+          padding: "var(--space-sm) var(--space-md)",
           background: canContinue
-            ? "rgba(34, 211, 238, 0.18)"
-            : "rgba(1, 0, 32, 0.5)",
+            ? "color-mix(in oklch, var(--energy-primary) 18%, transparent)"
+            : "color-mix(in oklch, var(--bg-void) 50%, transparent)",
           border: `1px solid ${
-            canContinue ? "rgba(34, 211, 238, 0.6)" : "rgba(34, 211, 238, 0.2)"
+            canContinue ? "color-mix(in oklch, var(--energy-primary) 60%, transparent)" : "color-mix(in oklch, var(--energy-primary) 20%, transparent)"
           }`,
-          color: canContinue ? "#22d3ee" : "rgba(34, 211, 238, 0.35)",
+          color: canContinue ? "var(--energy-primary)" : "color-mix(in oklch, var(--energy-primary) 35%, transparent)",
           fontFamily: "monospace",
           fontSize: 12,
           letterSpacing: "0.18em",
@@ -321,7 +321,7 @@ export function BeatEFlashback({
           left: 16,
           fontFamily: "monospace",
           fontSize: 10,
-          color: "rgba(34, 211, 238, 0.55)",
+          color: "color-mix(in oklch, var(--energy-primary) 55%, transparent)",
           letterSpacing: "0.15em",
           textTransform: "uppercase",
           zIndex: 60,

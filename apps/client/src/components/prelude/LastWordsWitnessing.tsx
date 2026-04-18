@@ -82,7 +82,7 @@ export function LastWordsWitnessing({
       style={{
         position: "fixed",
         inset: 0,
-        backgroundColor: "#010020",
+        backgroundColor: "var(--bg-void)",
         zIndex: 100,
         overflow: "hidden",
       }}
@@ -142,7 +142,7 @@ export function LastWordsWitnessing({
           right: 16,
           fontFamily: "monospace",
           fontSize: 10,
-          color: "rgba(34, 211, 238, 0.4)",
+          color: "color-mix(in oklch, var(--energy-primary) 40%, transparent)",
           zIndex: 130,
           letterSpacing: "0.1em",
           textTransform: "uppercase",
