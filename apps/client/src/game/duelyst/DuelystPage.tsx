@@ -62,7 +62,26 @@ export default function DuelystPage() {
   const searchString = useSearch();
   const { state: gameState } = useGame();
   const [view, setView] = useState<View>("menu");
-  const [playerFaction, setPlayerFaction] = useState<Faction | null>(null);
+  // PR — faction preference persists across reloads so a returning
+  // player doesn't have to re-pick every time. Stored in localStorage
+  // (not campaign state) because it's a UX preference, not narrative.
+  const [playerFaction, setPlayerFaction] = useState<Faction | null>(() => {
+    try {
+      const saved = localStorage.getItem("dischordia_preferred_faction");
+      if (!saved) return null;
+      const valid: Faction[] = [
+        "architect",
+        "insurgency",
+        "dreamer",
+        "new_babylon",
+        "antiquarian",
+        "thought_virus",
+      ];
+      return valid.includes(saved as Faction) ? (saved as Faction) : null;
+    } catch {
+      return null;
+    }
+  });
   const [opponentFaction, setOpponentFaction] = useState<Faction | null>(null);
   const [result, setResult] = useState<"player" | "opponent" | null>(null);
   const [wins, setWins] = useState(() => parseInt(localStorage.getItem("dischordia_wins") || "0"));
@@ -148,6 +167,8 @@ export default function DuelystPage() {
   const handleFactionSelect = (faction: Faction) => {
     dischordiaSounds.play("button_click");
     setPlayerFaction(faction);
+    // PR — persist preference so the next page load defaults here.
+    try { localStorage.setItem("dischordia_preferred_faction", faction); } catch {}
     const available = PLAYABLE_FACTIONS.filter(f => f !== faction);
     setOpponentFaction(available[Math.floor(Math.random() * available.length)]);
   };

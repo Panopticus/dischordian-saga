@@ -78,6 +78,19 @@ import { SeerPlayOverlay } from "@/components/match/SeerPlayOverlay";
 import { dispatchVoiceWhisper } from "@/components/VoiceWhisper";
 import { MatchSummary, type MatchSummaryStats } from "@/components/match/MatchSummary";
 import { toast } from "sonner";
+
+/**
+ * Human-friendly labels for card-battle quest ids. Surfaced in the
+ * quest-complete toast when `updateQuestProgress.mutate` returns
+ * `{ completed: true }`. Keep this map in sync with the quest ids
+ * DuelystGameUI fires (see match-end effect below).
+ */
+const QUEST_LABELS: Record<string, string> = {
+  d_play_3_battles: "Play 3 card battles",
+  d_play_card_battle: "Win a card battle today",
+  w_win_10_battles: "Win 10 card battles this week",
+  e_win_100_battles: "Win 100 card battles this season",
+};
 import { trpc } from "@/lib/trpc";
 import type { TcgDispatchResult } from "./TcgClient";
 
@@ -186,7 +199,22 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   const publicWitnessBalanceCapturedRef = useRef(false);
   // Audit 3B — card-battle quest progression. FightPage already
   // fires fight-flavor quests; DuelystGameUI was the card-battle gap.
-  const updateQuestProgress = trpc.quests.updateProgress.useMutation();
+  // PR — quest-complete toast: when the server reports `completed:
+  // true` on an updateProgress resolution, surface it so the player
+  // knows their card-battle win just finished a daily/weekly.
+  // Without this, the DB increment was silent (audit finding:
+  // "card-battle quest progression wired but blind").
+  const updateQuestProgress = trpc.quests.updateProgress.useMutation({
+    onSuccess: (result, variables) => {
+      if (!result || !("completed" in result)) return;
+      if (!result.completed) return;
+      const label = QUEST_LABELS[variables.questId] ?? variables.questId;
+      toast.success(`Quest complete: ${label}`, {
+        description: "Claim your reward in the Quest Board.",
+        duration: 10000,
+      });
+    },
+  });
 
   // §5.5 Warlord lockout — UI state. Spec:
   // docs/production/act1/warlord-three-move-mechanic.md.

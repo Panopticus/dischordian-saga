@@ -128,8 +128,12 @@ describe("audit 2H — puzzle_attempt dispatch on HackingPuzzle mount", () => {
 describe("audit 3B — DuelystGameUI fires card-battle quest progress on match end", () => {
   it("imports trpc + creates the updateQuestProgress mutation", () => {
     expect(duelystUI).toContain('import { trpc } from "@/lib/trpc"');
-    expect(duelystUI).toContain(
-      "trpc.quests.updateProgress.useMutation()",
+    // The mutation call may pass options (e.g. onSuccess for the
+    // quest-complete toast). Match the invocation, not the exact
+    // argument list, so either `useMutation()` or
+    // `useMutation({ onSuccess: ... })` passes.
+    expect(duelystUI).toMatch(
+      /trpc\.quests\.updateProgress\.useMutation\(/,
     );
   });
 
