@@ -13,9 +13,10 @@
    card and sets the `prelude_burnt_card_found` flag that
    triggers the §2.7 Archives opener beat.
 
-   This is a DATA SHELL — the mission runner + the text
-   adventure engine are not implemented. Future gameplay can
-   look up these ids and run the mission steps.
+   Runtime: the pure state machine lives in
+   `preludeMissionRunner.ts`; the React surface that walks
+   the player through a mission is
+   `apps/client/src/components/prelude/PreludeMissionRunner.tsx`.
    ═══════════════════════════════════════════════════════ */
 
 export type PreludeMissionStepKind =

@@ -42,7 +42,11 @@ import { useAct1LadderStore } from "@/stores/act1CardLadderStore";
 import { useGame } from "@/contexts/GameContext";
 import { playSlideshow } from "@/stores/witnessingStore";
 import DuelystGameUI from "@/game/duelyst/DuelystGameUI";
-import { Act1OpponentTauntOverlay } from "@/components/act1/Act1OpponentTauntOverlay";
+import {
+  Act1OpponentTauntOverlay,
+  type Act1TauntPhase,
+} from "@/components/act1/Act1OpponentTauntOverlay";
+import { Act1CycleCAuthorityWitnessing } from "@/components/act1/Act1CycleCAuthorityWitnessing";
 import {
   Act1AskSpeakerToggle,
   Act1CompanionPanel,
@@ -56,7 +60,12 @@ import {
 } from "@/game/duelyst/types";
 import LivingBackground from "@/components/LivingBackground";
 
-type LadderView = "ladder" | "matchup" | "battle" | "postmatch";
+type LadderView =
+  | "ladder"
+  | "matchup"
+  | "battle"
+  | "postmatch"
+  | "cycle_c_witnessing";
 
 const PLAYER_FACTIONS: Faction[] = [
   "architect",
@@ -101,6 +110,46 @@ export default function Act1CardLadderPage() {
     opponent: Act1Opponent;
     outcome: "win" | "loss";
   } | null>(null);
+  const [tauntPhase, setTauntPhase] = useState<Act1TauntPhase | null>(null);
+
+  /**
+   * Fires early/mid/late taunts on opponent turns 1/3/5. Using the
+   * opponent-turn boundary (not absolute turn number) keeps the
+   * cadence stable across matches where the player acts first.
+   */
+  const handleTurnChange = useCallback(
+    ({
+      turnNumber,
+      actor,
+    }: {
+      turnNumber: number;
+      actor: "player" | "opponent";
+    }) => {
+      if (actor !== "opponent") return;
+      if (turnNumber === 1) setTauntPhase("early");
+      else if (turnNumber === 3) setTauntPhase("mid");
+      else if (turnNumber === 5) setTauntPhase("late");
+    },
+    [],
+  );
+
+  /**
+   * HP-threshold escalator: when the opponent's general drops
+   * through 60% or 30%, bump the taunt phase forward so players who
+   * sprint past the turn triggers still see every beat.
+   */
+  const handleBossHpChange = useCallback(
+    ({ hp, maxHp }: { hp: number; previousHp: number; maxHp: number }) => {
+      if (maxHp <= 0) return;
+      const pct = hp / maxHp;
+      setTauntPhase((prev) => {
+        if (pct <= 0.3 && prev !== "late") return "late";
+        if (pct <= 0.6 && prev !== "mid" && prev !== "late") return "mid";
+        return prev;
+      });
+    },
+    [],
+  );
 
   const currentOpponent = useMemo(
     () => getNextAct1Opponent(wins),
@@ -155,7 +204,19 @@ export default function Act1CardLadderPage() {
   );
 
   const handlePostMatchContinue = useCallback(() => {
+    // If the player just finished the Authority (step 12) WIN, move
+    // into the Cycle C Witnessing sequence before returning to the
+    // ladder. Losses skip straight back to ladder so the player can
+    // retry without the finale re-firing.
+    const justBeatAuthority =
+      postMatchResult?.outcome === "win" &&
+      postMatchResult?.opponent.act1Step === 12;
     setPostMatchResult(null);
+    setTauntPhase(null);
+    setView(justBeatAuthority ? "cycle_c_witnessing" : "ladder");
+  }, [postMatchResult]);
+
+  const handleCycleCComplete = useCallback(() => {
     setView("ladder");
   }, []);
 
@@ -257,10 +318,27 @@ export default function Act1CardLadderPage() {
                   opponentFaction={resolveOpponentFaction(currentOpponent)}
                   onGameEnd={handleGameEnd}
                   onBack={() => setView("matchup")}
+                  onTurnChange={handleTurnChange}
+                  onBossHpChange={handleBossHpChange}
                 />
                 <Act1OpponentTauntOverlay
                   dialog={getAct1OpponentDialog(currentOpponent.id)}
                   opponentName={currentOpponent.name}
+                  phase={tauntPhase}
+                />
+              </motion.div>
+            )}
+
+            {view === "cycle_c_witnessing" && (
+              <motion.div
+                key="cycle_c_witnessing"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Act1CycleCAuthorityWitnessing
+                  onComplete={handleCycleCComplete}
                 />
               </motion.div>
             )}

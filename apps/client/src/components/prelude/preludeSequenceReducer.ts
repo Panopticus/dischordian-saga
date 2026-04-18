@@ -40,9 +40,13 @@ export type PreludeSequenceAction =
  * Beats that hold at `phase=completed` after their cutscene ends,
  * waiting on a post-cutscene interaction to fire `interaction_complete`.
  *
+ * - beat_c → BeatCCrewRoleChoice (pick Engineer / Assassin / Oracle
+ *            from the six incubators)
  * - beat_d → BeatDMissionBoard (click the 3 mission slates, read at
  *            least one to continue)
  * - beat_e → BeatEFlashback (click hotspots, hear Prince hologram VO)
+ * - beat_f → BeatFBiometricLockbox (open the lockbox, read Kael's
+ *            3-page contingency memo, commit with "Hold the letter")
  * - beat_h → BeatHInbox (click envelope, listen to Locke's first
  *            transmission, close message to continue)
  * - beat_j → LastWordsWitnessing (slideshow + song + Light/Dark choice)
@@ -51,8 +55,10 @@ export type PreludeSequenceAction =
  */
 export function beatHasInteraction(beat: PreludeBeat): boolean {
   return (
+    beat.id === "beat_c" ||
     beat.id === "beat_d" ||
     beat.id === "beat_e" ||
+    beat.id === "beat_f" ||
     beat.id === "beat_h" ||
     beat.id === "beat_j"
   );

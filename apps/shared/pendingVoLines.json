@@ -1,0 +1,12 @@
+{
+  "_description": "VO line IDs referenced by the Prelude Bible that are awaiting recording + manifest registration. The bible audit treats these as valid (the line is canonical and planned) while still surfacing them in the readiness dashboard so production knows what's outstanding. Remove an entry once the line has been recorded and added to the matching speaker's VoManifest.json.",
+  "antiquarian": [
+    "antiq_fc_1"
+  ],
+  "elara": [
+    "elara_fc_1",
+    "elara_fc_2",
+    "elara_fc_3",
+    "elara_fc_4"
+  ]
+}
