@@ -2,9 +2,16 @@ import { describe, it, expect, vi } from "vitest";
 
 /* ═══════════════════════════════════════════════════════
    INFRASTRUCTURE & NEW FEATURES TESTS
-   Tests for discovery router, content admin router, 
+   Tests for discovery router, content admin router,
    rate limiting, code splitting, and query caching
    ═══════════════════════════════════════════════════════ */
+
+/** `await import("./routers")` does a cold-load of the full tRPC
+ *  tree — card registries, schema validators, every router module.
+ *  5s (vitest default) is borderline; local runs without a warm
+ *  module cache consistently time out. 30s gives headroom for the
+ *  slowest realistic cold-start without masking real hangs. */
+const ROUTER_IMPORT_TIMEOUT_MS = 30_000;
 
 describe("Discovery Router", () => {
   it("should export the discoveryRouter from routers", async () => {
@@ -12,7 +19,7 @@ describe("Discovery Router", () => {
     expect(appRouter).toBeDefined();
     // The discovery router should be accessible
     expect(appRouter._def.procedures).toBeDefined();
-  });
+  }, ROUTER_IMPORT_TIMEOUT_MS);
 
   it("should have discovery procedures defined", async () => {
     const { appRouter } = await import("./routers");
@@ -22,7 +29,7 @@ describe("Discovery Router", () => {
     expect(procedures["discovery.getUnlocks"]).toBeDefined();
     expect(procedures["discovery.unlockFeature"]).toBeDefined();
     expect(procedures["discovery.getProgress"]).toBeDefined();
-  });
+  }, ROUTER_IMPORT_TIMEOUT_MS);
 });
 
 describe("Content Admin Router", () => {
@@ -35,7 +42,7 @@ describe("Content Admin Router", () => {
     expect(procedures["contentAdmin.updateEntry"]).toBeDefined();
     expect(procedures["contentAdmin.deleteEntry"]).toBeDefined();
     expect(procedures["contentAdmin.getStats"]).toBeDefined();
-  });
+  }, ROUTER_IMPORT_TIMEOUT_MS);
 });
 
 describe("Rate Limiting", () => {
