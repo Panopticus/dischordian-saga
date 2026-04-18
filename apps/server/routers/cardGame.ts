@@ -8,6 +8,7 @@ import { fetchCitizenData, fetchPotentialNftData, resolveCardGameBonuses } from 
 import { trackAiResult, trackCollectionSize } from "../achievementTracker";
 import { ripple } from "../services/rippleEngine";
 import { getConsequences } from "../services/universeConsequences";
+import { validateDbDeckComposition } from "../../shared/validateDbDeckComposition";
 
 // ═══════════════════════════════════════════════════════
 // CARD GAME STATE TYPES
@@ -890,6 +891,16 @@ export const cardGameRouter = router({
       const db = await getDb();
       if (!db) return { success: false };
 
+      // PR — server-side deck validation at the tRPC boundary.
+      // Rejects empty decks, over-limit copies, duplicate card
+      // ids, and the sum-of-quantities over the format cap. The
+      // zod schema already caps per-card qty at 4 and trims bad
+      // shape, but the composition-level rules need to run here.
+      const validation = validateDbDeckComposition(input.cardList);
+      if (!validation.ok) {
+        return { success: false, error: validation.error };
+      }
+
       await db.insert(decks).values({
         userId: ctx.user.id,
         name: input.name,
@@ -911,6 +922,15 @@ export const cardGameRouter = router({
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) return { success: false };
+
+      // PR — same validation as createDeck, only when cardList is
+      // being updated (rename-only updates bypass).
+      if (input.cardList !== undefined) {
+        const validation = validateDbDeckComposition(input.cardList);
+        if (!validation.ok) {
+          return { success: false, error: validation.error };
+        }
+      }
 
       const updateData: Record<string, unknown> = {};
       if (input.name) updateData.name = input.name;

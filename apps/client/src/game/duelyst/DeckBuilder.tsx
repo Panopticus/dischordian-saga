@@ -5,10 +5,11 @@
    ═══════════════════════════════════════════════════════ */
 import { useState, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Plus, Minus, Save, Trash2, BarChart3, Sparkles, ArrowLeft } from "lucide-react";
+import { Plus, Minus, Save, Trash2, BarChart3, Sparkles, ArrowLeft, AlertCircle } from "lucide-react";
 import type { Faction } from "./types";
 import { FACTION_COLORS, FACTION_NAMES } from "./types";
 import { RARITY_COLORS } from "./PackOpening";
+import { validateDbDeckComposition } from "@shared/validateDbDeckComposition";
 
 interface DeckCard {
   id: string;
@@ -105,7 +106,24 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
     setDeck(newDeck);
   }, [deck]);
 
+  // PR — surface the shared server validator client-side so the
+  // save button can show a clear error rather than failing
+  // silently at the tRPC boundary. The check runs on the DB-shaped
+  // cardList form (count-per-card) which matches what the server
+  // will receive.
+  const validationError = useMemo<string | null>(() => {
+    const cardList = Array.from(deck.entries()).map(([cardId, quantity]) => ({
+      cardId,
+      quantity,
+    }));
+    if (cardList.length === 0) return null; // empty deck = let
+    // the save-disabled path handle it instead of spamming an error.
+    const result = validateDbDeckComposition(cardList);
+    return result.ok ? null : result.error;
+  }, [deck]);
+
   const handleSave = () => {
+    if (validationError) return;
     const deckCards: DeckCard[] = [];
     for (const [id, count] of deck) {
       const card = collection.find(c => c.id === id);
@@ -221,9 +239,10 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
             </button>
             <button
               onClick={handleSave}
-              disabled={deckSize !== DECK_SIZE}
+              disabled={deckSize !== DECK_SIZE || validationError !== null}
+              data-testid="deckbuilder-save"
               className={`flex items-center justify-center gap-1 px-3 py-2 rounded-lg font-mono text-xs transition-all ${
-                deckSize === DECK_SIZE
+                deckSize === DECK_SIZE && !validationError
                   ? "void-bg-success border void-border-success void-text-energy void-bg-success"
                   : "bg-white/5 border border-white/10 text-white/20 cursor-not-allowed"
               }`}
@@ -231,6 +250,19 @@ export default function DeckBuilder({ collection, faction, initialDeck, onSave, 
               <Save size={12} /> SAVE DECK ({deckSize}/{DECK_SIZE})
             </button>
           </div>
+          {/* PR — inline validation error. Mirrors the shared
+              server validator so the player sees the same reason
+              the tRPC endpoint would reject the deck. */}
+          {validationError && (
+            <div
+              className="flex items-start gap-2 px-3 py-2 rounded-lg bg-rose-950/40 border border-rose-500/40 text-rose-300 font-mono text-[10px] mt-2"
+              data-testid="deckbuilder-validation-error"
+              role="alert"
+            >
+              <AlertCircle size={12} className="mt-0.5 shrink-0" />
+              <span>{validationError}</span>
+            </div>
+          )}
         </div>
       </div>
     </div>

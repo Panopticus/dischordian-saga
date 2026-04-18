@@ -16,16 +16,41 @@ export interface TutorialStep {
   /** Elara's dialogue text */
   message: string;
   /** What to highlight on the board (tile positions, UI elements) */
-  highlight?: { type: "tile" | "unit" | "hand" | "mana" | "endturn" | "general"; targets?: string[] };
+  highlight?: { type: "tile" | "unit" | "hand" | "mana" | "endturn" | "general" | "mulligan"; targets?: string[] };
   /** Action the player must take to advance */
-  requiredAction?: "move" | "attack" | "play_card" | "end_turn" | "any";
+  requiredAction?: "move" | "attack" | "play_card" | "end_turn" | "mulligan_confirm" | "any";
   /** Whether to pause for player to read (auto-advance after delay) */
   autoAdvanceMs?: number;
   /** Whether Elara should appear urgent/excited */
   mood?: "calm" | "excited" | "warning" | "celebration";
+  /**
+   * Phase this step applies to. `"mulligan"` steps fire only while
+   * `phase === "mulligan"` in DuelystGameUI so the mulligan teaching
+   * doesn't pop mid-match. Default: `"playing"` for backwards compat
+   * with the existing step list.
+   */
+  phase?: "mulligan" | "playing";
 }
 
 export const TUTORIAL_STEPS: TutorialStep[] = [
+  // === PR — MULLIGAN PHASE TEACHING (inserted ahead of the match
+  // intro so a first-time player isn't dropped on a card-selection
+  // screen with no guidance). Fires only while phase === "mulligan".
+  {
+    message: "Before the match starts, you can replace cards you don't want. Click any card in your opening hand to mark it for replacement — you can pick as many as you like.",
+    phase: "mulligan",
+    highlight: { type: "mulligan" },
+    mood: "calm",
+    autoAdvanceMs: 6000,
+  },
+  {
+    message: "When you're ready, press CONFIRM to finish the mulligan. A zero-card confirm is fine — it means you like your opening hand.",
+    phase: "mulligan",
+    highlight: { type: "mulligan" },
+    mood: "calm",
+    requiredAction: "mulligan_confirm",
+  },
+
   // === INTRO — Cryo Chamber Thought Virus Attack ===
   {
     message: "Potential! Something has breached the cryo chamber. A Thought Virus strain — it's feeding on the ship's systems. We need to contain this before it escalates. I've seen what happens when these situations aren't... addressed with decisive action. I'll guide you.",
