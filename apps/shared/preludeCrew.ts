@@ -13,10 +13,13 @@
      Little One  — Ne-Yon child. Unlocks the Pet Garden room
                    (§2.5) and the first pet.
 
-   This is a DATA SHELL — the actual crew rescue mission
-   gameplay is not yet implemented. The shell exists so
-   future gameplay can reference these canonical crew
-   definitions by id, and so the Loredex can surface them.
+   Runtime: the crew-rescue away-missions run through
+   `apps/client/src/components/prelude/PreludeMissionRunner.tsx`,
+   which walks the three canonical §2.6 missions
+   (defined in `preludeCrewMissions.ts`). Each mission's
+   flagsOnSuccess feeds the GameContext narrative-flag
+   store, so rescued crew persist across sessions and
+   Loredex entries unlock on completion.
    ═══════════════════════════════════════════════════════ */
 
 export type PreludeCrewRole = "engineer" | "navigator" | "child";

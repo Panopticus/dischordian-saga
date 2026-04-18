@@ -2,7 +2,9 @@ import { describe, it, expect } from "vitest";
 import {
   getNextPreludeRoom,
   getPreludeRoomStep,
+  isPreludeBeatRoom,
   isRoomUnlocked,
+  PRELUDE_ONLY_BEAT_ROOMS,
   PRELUDE_ROOM_ORDER,
 } from "./preludeRoomGate";
 
@@ -75,12 +77,31 @@ describe("preludeRoomGate.isRoomUnlocked — Prelude phase", () => {
     ).toBe(true);
   });
 
-  it("skips sentinel rooms (mess-hall) when computing prereqs", () => {
-    // Position 4 is mess-hall, which is a sentinel. So
-    // comms-array (position 5) should unlock when positions
-    // 0-3 are cleaned, ignoring mess-hall.
+  it("treats mess-hall as cleaned by default when no flag bridge is passed", () => {
+    // Position 4 is mess-hall, a Prelude-only beat room. Without a
+    // narrativeFlags bridge the gate assumes it's cleaned so the
+    // sequence never softlocks — so comms-array (position 5)
+    // should unlock when positions 0-3 are cleaned.
     const map = allCleaned("", 2); // cryo-bay, bridge, medical-bay
     expect(isRoomUnlocked("comms-array", { narrativeAct: 0, roomCleanedMap: map })).toBe(true);
+  });
+
+  it("blocks comms-array until the mess-hall flag is raised when flags are supplied", () => {
+    const map = allCleaned("", 2); // cryo-bay, bridge, medical-bay
+    expect(
+      isRoomUnlocked("comms-array", {
+        narrativeAct: 0,
+        roomCleanedMap: map,
+        narrativeFlags: {},
+      }),
+    ).toBe(false);
+    expect(
+      isRoomUnlocked("comms-array", {
+        narrativeAct: 0,
+        roomCleanedMap: map,
+        narrativeFlags: { prelude_mess_hall_cleaned: true },
+      }),
+    ).toBe(true);
   });
 
   it("blocks archives until every prior canonical room is cleaned", () => {
@@ -149,13 +170,14 @@ describe("preludeRoomGate.getNextPreludeRoom", () => {
     ).toBe("bridge");
   });
 
-  it("skips the mess-hall sentinel", () => {
+  it("skips mess-hall (a Prelude-only beat room) when computing next", () => {
     const map: Record<string, boolean> = {
       "cryo-bay": true,
       bridge: true,
       "medical-bay": true,
     };
-    // Next should be comms-array, not mess-hall.
+    // Next should be comms-array, not mess-hall — the latter is
+    // covered by the Prelude beat sequence, not by room nav.
     expect(
       getNextPreludeRoom({ narrativeAct: 0, roomCleanedMap: map }),
     ).toBe("comms-array");
@@ -186,5 +208,20 @@ describe("preludeRoomGate.getPreludeRoomStep", () => {
   it("returns null for non-sequence rooms", () => {
     expect(getPreludeRoomStep("forge-workshop")).toBeNull();
     expect(getPreludeRoomStep("not-a-room")).toBeNull();
+  });
+});
+
+describe("preludeRoomGate.PRELUDE_ONLY_BEAT_ROOMS", () => {
+  it("maps mess-hall to its dedicated cleaning flag", () => {
+    expect(PRELUDE_ONLY_BEAT_ROOMS["mess-hall"]).toBe(
+      "prelude_mess_hall_cleaned",
+    );
+  });
+
+  it("isPreludeBeatRoom recognises mess-hall and rejects normal rooms", () => {
+    expect(isPreludeBeatRoom("mess-hall")).toBe(true);
+    expect(isPreludeBeatRoom("cryo-bay")).toBe(false);
+    expect(isPreludeBeatRoom("bridge")).toBe(false);
+    expect(isPreludeBeatRoom("not-a-room")).toBe(false);
   });
 });

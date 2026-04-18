@@ -47,8 +47,13 @@ export interface MissionPosting {
 /**
  * Canonical order matches the Bible §8.3 board layout:
  *   1. upper-left   (Kelvara salvage — THE highlighted 17,000-year posting)
- *   2. center       (placeholder until canon rewrite)
- *   3. lower-right  (placeholder until canon rewrite)
+ *   2. center       (Nightlane Freight "Last Courier Run")
+ *   3. lower-right  (Outer Reach Cartographic "Expedition — Outer Dusk")
+ *
+ * All three postings are final-canon copy. Each matches the
+ * §8.1 spec — a legacy posting from a pre-collapse organization,
+ * auto-renewed through the silence — and §14.1 forward-references
+ * them in Locke's Beat H "three jobs that need a hand" line.
  */
 export const BEAT_D_MISSION_POSTINGS: readonly MissionPosting[] = [
   {

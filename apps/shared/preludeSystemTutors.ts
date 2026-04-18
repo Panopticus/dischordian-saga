@@ -19,8 +19,13 @@
    when the intro has been seen).
    ═══════════════════════════════════════════════════════ */
 
-export type PreludeSystemId = "mission_board" | "inbox" | "witnessing";
-export type PreludeTutorSpeaker = "locke" | "human" | "seer";
+export type PreludeSystemId =
+  | "mission_board"
+  | "inbox"
+  | "witnessing"
+  | "crew_role"
+  | "beat_f_lockbox";
+export type PreludeTutorSpeaker = "locke" | "human" | "seer" | "elara";
 
 export interface PreludeSystemTutor {
   systemId: PreludeSystemId;
@@ -96,10 +101,48 @@ const WITNESSING_TUTOR: PreludeSystemTutor = {
   completionFlag: "act1_tutor_witnessing_seen",
 };
 
+const CREW_ROLE_TUTOR: PreludeSystemTutor = {
+  systemId: "crew_role",
+  speaker: "elara",
+  narrativeJustification:
+    "Elara is the Ark's operating voice. She has watched the incubator plinths cycle through every earlier Potential's pick. She is not here to steer you, but she is here to name what the choice means.",
+  introText:
+    "Six incubators. Three roles the Ark can currently teach. Engineer, Assassin, Oracle. Each plinth will light under your hand if it recognises the weight of your attention — it cannot be fooled by curiosity. Whatever you pick here will colour the first questions Act 1 asks you. It does not lock your class at level-up. It only says: this is where the Ark saw you first.",
+  usageHints: {
+    role_hovered:
+      "The plinth is reading you back. It is not scoring. It is remembering.",
+    role_picked:
+      "Committed. The plinth dims. The Ark has filed the preference; Act 1 will use it as a starting affinity, not a cage.",
+  },
+  triggerFlag: "cutscene_engineering_intro_complete",
+  completionFlag: "prelude_tutor_crew_role_seen",
+};
+
+const LOCKBOX_TUTOR: PreludeSystemTutor = {
+  systemId: "beat_f_lockbox",
+  speaker: "elara",
+  narrativeJustification:
+    "Elara catalogued every surface in the briefing room the moment the cryo systems stabilised. The biometric lockbox is one of the few objects she cannot unlock herself — it requires a Potential's hand. She explains its shape while the player reaches.",
+  introText:
+    "This is a biometric lockbox. It will recognise you because Kael told it to, before he walked away from the chair it sits beside. Inside is a contingency memo. Three pages. Read them in order. The third page asks you to do something small and exact — please do that small exact thing. Everything downstream is easier when it is done.",
+  usageHints: {
+    lockbox_tapped:
+      "The lockbox is deciding whether to know you. Give it a moment.",
+    page_advanced:
+      "Next page. Kael paced these entries. He believed in the pause between them.",
+    memo_committed:
+      "You held the letter. The chair remains empty. Thank you.",
+  },
+  triggerFlag: "cutscene_briefing_room_intro_complete",
+  completionFlag: "prelude_tutor_beat_f_lockbox_seen",
+};
+
 export const PRELUDE_SYSTEM_TUTORS: readonly PreludeSystemTutor[] = [
   MISSION_BOARD_TUTOR,
   INBOX_TUTOR,
   WITNESSING_TUTOR,
+  CREW_ROLE_TUTOR,
+  LOCKBOX_TUTOR,
 ];
 
 export function getPreludeSystemTutor(

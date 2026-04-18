@@ -62,13 +62,20 @@ describe("preludeSequenceReducer — cutscene_ended auto-advance", () => {
   it("walks the entire 15-beat sequence via cutscene_ended + interaction_complete", () => {
     let s = initialPreludeSequenceState();
     // Non-interactive beats auto-advance on cutscene_ended. Interactive
-    // beats (Beat D, Beat E, Beat H, Beat J) hold at `completed` and
-    // need an explicit interaction_complete to advance.
-    const interactiveIds = new Set(["beat_d", "beat_e", "beat_h"]);
+    // beats (C / D / E / F / H / J) hold at `completed` and need an
+    // explicit interaction_complete to advance.
+    const interactiveIds = new Set([
+      "beat_c",
+      "beat_d",
+      "beat_e",
+      "beat_f",
+      "beat_h",
+    ]);
     for (let i = 0; i < 14; i++) {
       s = preludeSequenceReducer(s, { type: "cutscene_ended" });
-      // For beats D, E, H, fire interaction_complete so the walk
-      // continues. Beat J is the final hold — tested separately.
+      // Fire interaction_complete on any holding interactive beat so
+      // the walk continues. Beat J is the final hold — tested
+      // separately — so we don't fire the interaction for it here.
       if (
         interactiveIds.has(PRELUDE_BEATS[s.beatIndex].id) &&
         s.phase === "completed"
@@ -206,10 +213,12 @@ describe("preludeSequenceReducer — advance + reset", () => {
 });
 
 describe("beatHasInteraction", () => {
-  it("is true for Beat D, Beat E, Beat H, Beat J only", () => {
+  it("is true for Beats C, D, E, F, H, J — every beat with a shipping interactive UI", () => {
     const interactiveBeatIds = new Set<string>([
+      "beat_c",
       "beat_d",
       "beat_e",
+      "beat_f",
       "beat_h",
       "beat_j",
     ]);

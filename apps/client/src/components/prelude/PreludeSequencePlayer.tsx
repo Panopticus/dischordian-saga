@@ -10,15 +10,11 @@
  *   4. Expose overall progress + completion flags
  *   5. Fire onComplete(alignment) after Beat J's alignment choice
  *
- * Intentionally NOT included in this component (tracked in P0
- * follow-ups):
- *   - Beat C crew role choice UI — plug into the `completed` phase
- *   - Beat D mission board + Inbox first-message composition
- *   - Beat E flashback trigger on archive objects
- *   - Beat F biometric lockbox + memo-rise composition
- *
- * All of those slot into the `renderBeatInteraction` switch below
- * and reuse the already-registered VFX components.
+ * Per-beat post-cutscene interactions are dispatched by
+ * `renderBeatInteraction` and reuse the already-registered VFX
+ * components. All six interactive beats (C / D / E / F / H / J) have
+ * shipping implementations; every other beat auto-advances on
+ * cutscene end via `beatHasInteraction` returning false.
  */
 
 import { useMemo, useRef } from "react";
@@ -29,8 +25,10 @@ import {
 } from "../../../../shared/preludeSequence";
 import { PreludeVfxOverlay, type ActiveVfxEffect } from "./vfx/PreludeVfxOverlay";
 import { LastWordsWitnessing } from "./LastWordsWitnessing";
-import { BeatEFlashback } from "./BeatEFlashback";
+import { BeatCCrewRoleChoice } from "./BeatCCrewRoleChoice";
 import { BeatDMissionBoard } from "./BeatDMissionBoard";
+import { BeatEFlashback } from "./BeatEFlashback";
+import { BeatFBiometricLockbox } from "./BeatFBiometricLockbox";
 import { BeatHInbox } from "./BeatHInbox";
 import {
   usePreludeSequenceState,
@@ -131,6 +129,12 @@ export function PreludeSequencePlayer({
     if (phase !== "completed") return null;
 
     switch (beat.id) {
+      case "beat_c":
+        return (
+          <BeatCCrewRoleChoice
+            onComplete={() => interactionComplete()}
+          />
+        );
       case "beat_d":
         return (
           <BeatDMissionBoard
@@ -140,6 +144,12 @@ export function PreludeSequencePlayer({
       case "beat_e":
         return (
           <BeatEFlashback
+            onComplete={() => interactionComplete()}
+          />
+        );
+      case "beat_f":
+        return (
+          <BeatFBiometricLockbox
             onComplete={() => interactionComplete()}
           />
         );
@@ -155,18 +165,13 @@ export function PreludeSequencePlayer({
         // The canonical Light/Dark alignment choice does NOT fire
         // here — it was moved to the Act 1 Cycle C finale where
         // the full song lands. See:
-        //   docs/production/prelude-asset-build/prompts/voice/log5/
-        //     LAST_WORDS_TEASE_VS_FULL.md
+        //   apps/client/src/components/act1/Act1CycleCAuthorityWitnessing.tsx
         return (
           <LastWordsWitnessing
             onComplete={() => interactionComplete()}
             volume={volume}
           />
         );
-      // Future per-beat interactions (Beat C crew role choice, Beat F
-      // biometric lockbox) slot in here as additional cases. Until
-      // those ship, non-interactive beats auto-advance via
-      // beatHasInteraction() returning false.
       default:
         return null;
     }
