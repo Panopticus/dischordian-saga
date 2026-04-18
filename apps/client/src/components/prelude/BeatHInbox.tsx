@@ -26,6 +26,7 @@ import {
   LOCKE_FIRST_MESSAGE,
   getLockeFirstMessageVoUrl,
 } from "./beatHInboxMessage";
+import { PreludeTutorCard } from "./PreludeTutorCard";
 
 export interface BeatHInboxProps {
   /** Called when the player closes the message. */
@@ -99,6 +100,11 @@ export function BeatHInbox({ onComplete, volume = 0.9 }: BeatHInboxProps) {
       aria-label="Beat H — NPC Inbox"
       style={{ position: "absolute", inset: 0, pointerEvents: "auto" }}
     >
+      {/* The Human's first-time tutor intro */}
+      <div className="absolute left-4 top-4 z-30 max-w-md">
+        <PreludeTutorCard systemId="inbox" />
+      </div>
+
       {/* Envelope + amber counter (collapsed state) */}
       <AnimatePresence>
         {collapsed && (

@@ -25,6 +25,7 @@ import {
   formatYearsOpen,
   type MissionPosting,
 } from "./beatDMissionPostings";
+import { PreludeTutorCard } from "./PreludeTutorCard";
 
 export interface BeatDMissionBoardProps {
   /** Called when the player signals they're done at the board. */
@@ -82,6 +83,11 @@ export function BeatDMissionBoard({ onComplete }: BeatDMissionBoardProps) {
         pointerEvents: "auto",
       }}
     >
+      {/* Locke's first-time tutor intro — auto-hides once dismissed */}
+      <div className="absolute left-4 top-4 z-30 max-w-md">
+        <PreludeTutorCard systemId="mission_board" />
+      </div>
+
       {/* Mission slates — positioned per-posting on the cargo-hold backdrop */}
       {BEAT_D_MISSION_POSTINGS.map((posting) => {
         const isRead = read.has(posting.id);

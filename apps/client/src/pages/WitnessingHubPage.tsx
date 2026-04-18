@@ -38,6 +38,7 @@ import { deriveYearOneMonth } from "@shared/yearOneMonth";
 import { PreludeMissionRunner } from "@/components/PreludeMissionRunner";
 import type { PreludeCrewMission } from "@shared/preludeCrewMissions";
 import LivingBackground from "@/components/LivingBackground";
+import { PreludeTutorCard } from "@/components/prelude/PreludeTutorCard";
 
 type TabId = "journey" | "prelude" | "kael" | "chronicle" | "archive";
 
@@ -183,6 +184,9 @@ export default function WitnessingHubPage() {
 function JourneyPanel({ hubState }: { hubState: WitnessingHubState }) {
   return (
     <div className="space-y-6">
+      {/* The Seer's first-time tutor intro for Witnessing */}
+      <PreludeTutorCard systemId="witnessing" />
+
       {/* Act 1 Ladder entry — always visible, highlighted when
           the player is in Act 1 or has pending ladder progress. */}
       <Link
