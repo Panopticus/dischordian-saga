@@ -250,6 +250,106 @@ export const DIALOG_TUTORIAL_G3_LOSS: DialogScene = {
 };
 
 /* ═══════════════════════════════════════════════════════
+   GATE 5 / GATE 6 (audit backfill)
+   ═══════════════════════════════════════════════════════ */
+
+export const DIALOG_TUTORIAL_G5_PRE: DialogScene = {
+  id: "dialog_tutorial_g5_pre",
+  label: "Tutorial Gate 5 — Pre-match (Draw & Mulligan)",
+  kind: "tutorial_pre",
+  cues: [
+    {
+      speaker: "elara",
+      mood: "warm",
+      text: "Two more habits to teach you before I let you out into the world. Drawing, and changing your mind about your draw. The first is automatic. The second is the one almost nobody uses on purpose.",
+      audioClipId: "vo_elara_tut_g5_pre_01",
+    },
+    {
+      speaker: "elara",
+      mood: "curious",
+      text: "I've set up a sparring partner who will not pressure you. Take the time. Watch the deck answer. The Engineer used to say the deck doesn't lie — it just doesn't always tell you the truth in order.",
+      audioClipId: "vo_elara_tut_g5_pre_02",
+    },
+  ],
+};
+
+export const DIALOG_TUTORIAL_G5_WIN: DialogScene = {
+  id: "dialog_tutorial_g5_win",
+  label: "Tutorial Gate 5 — Post-match (Win)",
+  kind: "tutorial_post_win",
+  cues: [
+    {
+      speaker: "elara",
+      mood: "warm",
+      text: "Good. You felt the draw step. You felt the mulligan. Both will become invisible to you within a week. The point of teaching them now is so you remember they were never invisible to begin with.",
+      audioClipId: "vo_elara_tut_g5_win_01",
+    },
+  ],
+};
+
+export const DIALOG_TUTORIAL_G5_LOSS: DialogScene = {
+  id: "dialog_tutorial_g5_loss",
+  label: "Tutorial Gate 5 — Post-match (Loss)",
+  kind: "tutorial_post_loss",
+  cues: [
+    {
+      speaker: "elara",
+      mood: "guarded",
+      text: "Losing here is fine. The deck answered honestly and the answer wasn't the one you needed. That happens. Mulligan harder next time. The Engineer used to mulligan two cards every game on principle. We'll talk about why.",
+      audioClipId: "vo_elara_tut_g5_loss_01",
+    },
+  ],
+};
+
+export const DIALOG_TUTORIAL_G6_PRE: DialogScene = {
+  id: "dialog_tutorial_g6_pre",
+  label: "Tutorial Gate 6 — Pre-match (Deck-Out & Hand Limit)",
+  kind: "tutorial_pre",
+  cues: [
+    {
+      speaker: "elara",
+      mood: "guarded",
+      text: "Last lesson before I let go of your shoulder. Two clocks live inside every match — your hand can fill, and your deck can empty. Both are losses you would rather lose to anything else. We're going to feel them once, on purpose, in safety.",
+      audioClipId: "vo_elara_tut_g6_pre_01",
+    },
+    {
+      speaker: "elara",
+      mood: "protective",
+      text: "I will not pretend this match is comfortable. It isn't supposed to be. The discomfort is the lesson. Lean into it.",
+      audioClipId: "vo_elara_tut_g6_pre_02",
+    },
+  ],
+};
+
+export const DIALOG_TUTORIAL_G6_WIN: DialogScene = {
+  id: "dialog_tutorial_g6_win",
+  label: "Tutorial Gate 6 — Post-match (Win)",
+  kind: "tutorial_post_win",
+  cues: [
+    {
+      speaker: "elara",
+      mood: "reflective",
+      text: "You ended the match before the deck ended you. That is the highest skill in this game and the one I cannot teach by talking. You learn it by feeling the floor get close. You felt it. Good.",
+      audioClipId: "vo_elara_tut_g6_win_01",
+    },
+  ],
+};
+
+export const DIALOG_TUTORIAL_G6_LOSS: DialogScene = {
+  id: "dialog_tutorial_g6_loss",
+  label: "Tutorial Gate 6 — Post-match (Loss)",
+  kind: "tutorial_post_loss",
+  cues: [
+    {
+      speaker: "elara",
+      mood: "warm",
+      text: "Deck-out got you. Or burn did. Either way — you now know what those two losses feel like, which means you'll see them coming next time. That's the whole point of losing on purpose. We'll move on.",
+      audioClipId: "vo_elara_tut_g6_loss_01",
+    },
+  ],
+};
+
+/* ═══════════════════════════════════════════════════════
    BANK EXPORT
    ═══════════════════════════════════════════════════════ */
 
@@ -258,11 +358,17 @@ export const DIALOG_BANK_TUTORIAL: readonly DialogScene[] = Object.freeze([
   DIALOG_TUTORIAL_G2_PRE,
   DIALOG_TUTORIAL_G3_PRE,
   DIALOG_TUTORIAL_G4_PRE,
+  DIALOG_TUTORIAL_G5_PRE,
+  DIALOG_TUTORIAL_G6_PRE,
   DIALOG_TUTORIAL_G1_WIN,
   DIALOG_TUTORIAL_G2_WIN,
   DIALOG_TUTORIAL_G3_WIN,
   DIALOG_TUTORIAL_G4_WIN,
+  DIALOG_TUTORIAL_G5_WIN,
+  DIALOG_TUTORIAL_G6_WIN,
   DIALOG_TUTORIAL_G1_LOSS,
   DIALOG_TUTORIAL_G2_LOSS,
   DIALOG_TUTORIAL_G3_LOSS,
+  DIALOG_TUTORIAL_G5_LOSS,
+  DIALOG_TUTORIAL_G6_LOSS,
 ]);
