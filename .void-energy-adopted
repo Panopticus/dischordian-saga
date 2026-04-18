@@ -28,3 +28,9 @@ apps/client/src/pages/WitnessingHubPage.tsx
 # Tailwind arbitrary-value widths annotated // void-ignore). Hotspot
 # semantic palette migrated to --energy-{primary,system,success,premium}.
 apps/client/src/pages/ArkExplorerPage.tsx
+# Slice 3 — dialog stack. Morality-axis colors (cyan=humanity → success,
+# amber=machine → error) and rarity-glow colors mapped to semantic
+# Void axes. Atmospheric theming now propagates through dialog UI.
+apps/client/src/components/DialogWheel.tsx
+apps/client/src/components/NarrativeEngine.tsx
+apps/client/src/components/LoreTutorialEngine.tsx
