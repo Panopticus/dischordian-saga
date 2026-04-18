@@ -35,6 +35,11 @@ import {
   type MatchConfig,
   type GameEvent,
 } from "@shared/tcg-core";
+import type { TrialModeConfig } from "@shared/tcg-core/types/TrialPhase";
+import type { GiftModeConfig } from "@shared/tcg-core/types/ProgrammerGift";
+import type { WitnessModeConfig } from "@shared/tcg-core/types/PublicWitness";
+import type { ProphecyModeConfig } from "@shared/tcg-core/types/SeerProphecy";
+import type { ScriptedAction } from "@shared/tcg-core/types/ScriptedAction";
 import {
   translateClientAction,
   type TranslateResult,
@@ -80,20 +85,36 @@ export class TcgClient {
     p1DeckCardIds: string[];
     p2Faction: string;
     p2DeckCardIds: string[];
+    /** Override the default `gen_<faction>` generals. */
+    p1GeneralDefId?: string;
+    p2GeneralDefId?: string;
     localSide?: 0 | 1;
+    /* ─── Encounter-mode opt-ins ───
+       These flow straight through to createMatchState. They're the
+       piece that lets §5.5/§5.6/§5.7/§5.8/§4.9 encounters actually
+       boot their per-mode state (trial, gift, witness, prophecy)
+       when DuelystGameUI launches an encounter match. Before these
+       were plumbed, encounter-mode UI branches (PublicWitnessColumn,
+       TrialPhaseIndicator, SeerPlayOverlay) had no state to render
+       because TcgClient.init never set the mode configs. */
+    trialMode?: TrialModeConfig;
+    giftMode?: GiftModeConfig;
+    witnessMode?: WitnessModeConfig;
+    prophecyMode?: ProphecyModeConfig;
+    scriptedActions?: readonly ScriptedAction[];
   }): TcgClient {
     const matchId = opts.matchId ?? `local-${Date.now()}`;
     const seed = opts.seed ?? `s-${matchId}`;
     const p1: MatchConfig = {
       userId: 1 as MatchConfig["userId"],
       faction: opts.p1Faction as Faction,
-      generalDefId: `gen_${opts.p1Faction}`,
+      generalDefId: opts.p1GeneralDefId ?? `gen_${opts.p1Faction}`,
       deckCardDefIds: opts.p1DeckCardIds,
     };
     const p2: MatchConfig = {
       userId: 2 as MatchConfig["userId"],
       faction: opts.p2Faction as Faction,
-      generalDefId: `gen_${opts.p2Faction}`,
+      generalDefId: opts.p2GeneralDefId ?? `gen_${opts.p2Faction}`,
       deckCardDefIds: opts.p2DeckCardIds,
     };
     const state = createMatchState({
@@ -102,6 +123,11 @@ export class TcgClient {
       p1,
       p2,
       registry: clientRegistry,
+      trialMode: opts.trialMode,
+      giftMode: opts.giftMode,
+      witnessMode: opts.witnessMode,
+      prophecyMode: opts.prophecyMode,
+      scriptedActions: opts.scriptedActions,
     });
     return new TcgClient(state, opts.localSide ?? 0);
   }

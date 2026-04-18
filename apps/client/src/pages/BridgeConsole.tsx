@@ -13,7 +13,7 @@
    The Bridge is your window into the Ark — not a menu.
    ═══════════════════════════════════════════════════════ */
 import { useState, useMemo, useCallback, useEffect } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Radio, Eye, Shield, ChevronRight, Zap, AlertTriangle,
@@ -125,6 +125,16 @@ export default function BridgeConsole() {
   const { state } = useGame();
   const gam = useGamification();
   const { entries, discoverEntry } = useLoredex();
+  const [, navigate] = useLocation();
+
+  // Fresh-save entry: if the Prelude hasn't completed, route the
+  // player into the Prelude sequence instead of showing the Bridge
+  // (the Bridge is a post-Prelude surface). One-way redirect —
+  // PreludePage bounces back here once `prelude_complete` lands.
+  const preludeComplete = !!state.narrativeFlags?.prelude_complete;
+  useEffect(() => {
+    if (!preludeComplete) navigate("/prelude", { replace: true });
+  }, [preludeComplete, navigate]);
 
   // Daily Brief
   const dailyBrief = useMemo(() => {

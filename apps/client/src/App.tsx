@@ -123,6 +123,7 @@ const PlayerProfilePage = lazy(() => import("./pages/PlayerProfilePage"));
 const LeaderboardPage = lazy(() => import("./pages/LeaderboardPage"));
 const AwakeningPage = lazy(() => import("./pages/AwakeningPage"));
 const ArkExplorerPage = lazy(() => import("./pages/ArkExplorerPage"));
+const PreludePage = lazy(() => import("./pages/PreludePage"));
 const BossBattlePage = lazy(() => import("./pages/BossBattlePage"));
 const CardChallengePage = lazy(() => import("./pages/CardChallengePage"));
 const ConexusPortalPage = lazy(() => import("./pages/ConexusPortalPage"));
@@ -235,6 +236,7 @@ function Router() {
         <Route path="/duelyst">{() => <GameRoute component={DuelystPage} />}</Route>
         <Route path="/terminus-swarm">{() => <GameRoute component={TerminusSwarmPage} />}</Route>
         <Route path="/ark" component={ArkExplorerPage} />
+        <Route path="/prelude" component={PreludePage} />
         <Route path="/ark-legacy" component={InceptionArkPage} />
         <Route path="/crew" component={CrewRosterPage} />
         <Route path="/ship-map" component={ShipSchematicMap} />

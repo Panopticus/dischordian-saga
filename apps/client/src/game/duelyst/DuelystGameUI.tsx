@@ -49,6 +49,7 @@ import {
   type LightDarkAlignment,
 } from "@shared/campaignState";
 import { useGame } from "@/contexts/GameContext";
+import { rememberPublicWitnessBalance } from "@shared/act1TrialHandoff";
 import {
   deriveSeerOutcome,
   playerDeckUnlocksWinnablePath,
@@ -101,7 +102,11 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   // Screen-reader match-start announcement — fired once when
   // seerProphecy first appears on state (spec §6.3).
   const seerAnnouncedRef = useRef(false);
-  const { setNarrativeFlag, state: gameStateContext } = useGame();
+  const {
+    setNarrativeFlag,
+    setAct1PublicWitnessBalance,
+    state: gameStateContext,
+  } = useGame();
   const [gameState, setGameState] = useState<DuelystGameState | null>(null);
   const [phase, setPhase] = useState<Phase>("mulligan");
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
@@ -117,6 +122,13 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   // Guard so quest increments fire once per match resolution, not
   // every re-render while phase === "game_over".
   const questsRecordedRef = useRef(false);
+  /**
+   * §5.7 Game Master match-end guard. Ensures
+   * `setAct1PublicWitnessBalance` only fires once per match even if
+   * React re-renders the ended-state several times (state transitions,
+   * dialog callbacks, etc.). Reset at every new-match init below.
+   */
+  const publicWitnessBalanceCapturedRef = useRef(false);
   // Audit 3B — card-battle quest progression. FightPage already
   // fires fight-flavor quests; DuelystGameUI was the card-battle gap.
   const updateQuestProgress = trpc.quests.updateProgress.useMutation();
@@ -262,6 +274,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     // cards remain in deck/hand/graveyard at resolution time.
     initialPlayerDeckRef.current = p1DeckCardIds;
     seerFlagsWrittenRef.current = false;
+    publicWitnessBalanceCapturedRef.current = false;
     const p2DeckCardIds = opponentStarter
       ? [...opponentStarter.cardDefIds]
       : buildStarterDeck(opponentFaction).map((c) => c.sagaCardId ?? c.id);
@@ -302,6 +315,24 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       (unitId) => handleUnitClick(unitId),
     );
   });
+
+  // §5.7 → §5.8 campaign handoff. When a Game-Master-style match
+  // (witnessMode opt-in → `gameState.publicWitness` populated) ends,
+  // persist the final balance to campaign state so the §5.8 Authority
+  // trial can translate it into `openingVerdictBalance` via
+  // `computeAuthorityTrialOverride` + `deriveAuthorityVerdictOffset`.
+  // Guarded by publicWitnessBalanceCapturedRef to fire exactly once.
+  useEffect(() => {
+    if (!gameState || phase === "mulligan") return;
+    if (gameState.winner === null) return;
+    if (!gameState.publicWitness) return;
+    if (publicWitnessBalanceCapturedRef.current) return;
+    publicWitnessBalanceCapturedRef.current = true;
+    rememberPublicWitnessBalance(
+      setAct1PublicWitnessBalance,
+      gameState.publicWitness.balance,
+    );
+  }, [gameState, phase, setAct1PublicWitnessBalance]);
 
   // Check win condition
   useEffect(() => {
