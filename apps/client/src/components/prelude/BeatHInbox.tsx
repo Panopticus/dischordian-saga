@@ -27,6 +27,7 @@ import {
   getLockeFirstMessageVoUrl,
 } from "./beatHInboxMessage";
 import { PreludeTutorCard } from "./PreludeTutorCard";
+import { fireCompanionComment } from "@/lib/companionCommentQueue";
 
 export interface BeatHInboxProps {
   /** Called when the player closes the message. */
@@ -53,6 +54,7 @@ export function BeatHInbox({ onComplete, volume = 0.9 }: BeatHInboxProps) {
   const openMessage = useCallback(() => {
     if (phase !== "closed") return;
     setPhase("open");
+    fireCompanionComment("prelude_beat_h_inbox_first_open");
     // Kick off VO on next tick so the audio element has its src set
     setTimeout(() => {
       if (audioRef.current && voUrl) {
@@ -280,7 +282,10 @@ export function BeatHInbox({ onComplete, volume = 0.9 }: BeatHInboxProps) {
                   : "Transmission complete"}
               </span>
               <button
-                onClick={onComplete}
+                onClick={() => {
+                  fireCompanionComment("prelude_beat_h_inbox_first_reply");
+                  onComplete();
+                }}
                 disabled={!canContinue}
                 aria-label="Close message and continue"
                 style={{

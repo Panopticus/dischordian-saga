@@ -44,6 +44,7 @@ import { playSlideshow } from "@/stores/witnessingStore";
 import DuelystGameUI from "@/game/duelyst/DuelystGameUI";
 import { Act1OpponentTauntOverlay } from "@/components/act1/Act1OpponentTauntOverlay";
 import { CompanionAskPanel } from "@/components/companion/CompanionAskPanel";
+import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import {
   FACTION_COLORS,
   FACTION_NAMES,
@@ -112,6 +113,10 @@ export default function Act1CardLadderPage() {
 
   const handleEngage = useCallback(() => {
     if (!playerFaction || !currentOpponent) return;
+    // Fire the first-opponent bookends on step 1 of the ladder.
+    if (currentOpponent.act1Step === 1) {
+      fireCompanionComment("act1_first_opponent_entered");
+    }
     setView("battle");
   }, [playerFaction, currentOpponent]);
 
