@@ -94,7 +94,7 @@ function recalcStats(data: LoredexData): void {
 
 const entrySchema = z.object({
   id: z.string().min(1),
-  type: z.enum(["character", "location", "song", "faction", "concept"]),
+  type: z.enum(["character", "location", "song", "faction", "concept", "event", "artifact"]),
   name: z.string().min(1),
   aliases: z.array(z.string()).optional(),
   era: z.string().optional(),

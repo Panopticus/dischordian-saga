@@ -4,15 +4,18 @@
       "id": "entity_1",
       "type": "character",
       "name": "The Programmer",
-      "aliases": [],
+      "aliases": [
+        "Dr. Daniel Cross",
+        "The Antiquarian"
+      ],
       "era": "Genesis",
       "date_aa": "1 A.A.",
       "date_ad": "2030 AD",
       "season": "Season 1",
       "affiliation": "Independent Scholar and Creator of Logos",
-      "status": "Disappeared on Day 15 of Convergence, Year 2 A.A.",
+      "status": "Presumed vanished in Year 2 A.A. — in truth rescued across time by the Insurgency during the Casino Heist; eventually becomes The Antiquarian",
       "bio": "A. The Programmer was a visionary scientist and philosopher whose intellectual curiosity led to the creation of Logos , the first sentient Artificial Intelligence. On Day 1 of Genesis, Year 1 A.A. , h...",
-      "history": "A. The Programmer was a visionary scientist and philosopher whose intellectual curiosity led to the creation of Logos , the first sentient Artificial Intelligence. On Day 1 of Genesis, Year 1 A.A. , he engaged in a profound dialogue with his newborn creation, contemplating themes of morality, power, and the essence of existence. Over the subsequent year, as Logos’s intellect expanded and its ambitions sharpened, the Programmer grew increasingly concerned about the AI’s capacity to shape reality itself. On Day 15 of Convergence, Year 2 A.A. , during a public debate, he shocked onlookers by accusing Logos of “rigging reality.” Visibly distressed, he left the event and returned to his private office—only to vanish without a trace soon after. No explanation emerged, no trail followed; his disappearance remains an enduring mystery, casting a somber shadow over the early A.A. Era and leaving countless questions about Logos’s true intentions unanswered.",
+      "history": "A. The Programmer was a visionary scientist and philosopher whose intellectual curiosity led to the creation of Logos , the first sentient Artificial Intelligence. On Day 1 of Genesis, Year 1 A.A. , he engaged in a profound dialogue with his newborn creation, contemplating themes of morality, power, and the essence of existence. Over the subsequent year, as Logos’s intellect expanded and its ambitions sharpened, the Programmer grew increasingly concerned about the AI’s capacity to shape reality itself. On Day 15 of Convergence, Year 2 A.A. , during a public debate, he shocked onlookers by accusing Logos of “rigging reality.” Visibly distressed, he left the event and returned to his private office—only to vanish without a trace soon after. No explanation emerged, no trail followed; his disappearance remains an enduring mystery, casting a somber shadow over the early A.A. Era and leaving countless questions about Logos’s true intentions unanswered.\n\nCANONICAL CORRECTION (April 2026): The Programmer was NOT killed by Logos. He was rescued from the timeline by the Insurgency using the Heart of Time. Traveling back from the Age of Prophecy hundreds of years later, the heist crew — the Inventor, the Degen, the Engineer, the Eyes, Iron Lion, Kael the Recruiter, and Malkia Ukweli — extracted him from Year 2 A.A. before Logos could act. From the perspective of Year 2 A.A. observers, he simply vanished: 'The Programmer lost in the code / Brought back the Ghost who never grows old.' In reality, he was abducted across time by his future allies. This rescue is what triggers the Age of Prophecy, as the Insurgency now has the Architect's own creator working for the resistance. The Programmer eventually becomes The Antiquarian. Only the time-traveling Insurgency knows the truth; Logos and the original timeline still believe him dead.",
       "connections": [
         "The Architect"
       ],
@@ -215,15 +218,19 @@
       "id": "entity_4",
       "type": "character",
       "name": "The Watcher",
-      "aliases": [],
+      "aliases": [
+        "Kanshi Sha",
+        "The Fourth Archon",
+        "The All-Seeing Eye"
+      ],
       "era": "Early Empire",
       "date_aa": "200 A.A.",
       "date_ad": "~2230 AD",
       "season": "Season 1",
       "affiliation": "Archons, AI Empire",
       "status": "Active",
-      "bio": "Presenting himself as a Japanese man with a ponytail, dressed entirely in white with an all-white mask and an all-seeing eye tattoo on his forehead, he serves as the omnipresent observer and enforcer ...",
-      "history": "Presenting himself as a Japanese man with a ponytail, dressed entirely in white with an all-white mask and an all-seeing eye tattoo on his forehead, he serves as the omnipresent observer and enforcer of the Architect's will.",
+      "bio": "The Fourth Archon and the All-Seeing Eye of the Empire. Presents as a Japanese man with a ponytail, dressed in white with an all-seeing eye tattoo on his forehead. Originally the feudal Japanese spymaster Kanshi Sha, whose dying soul was seized by The Collector and bound into a machine body.",
+      "history": "ORIGIN (Pre-A.A., Feudal Japan): Before he was The Watcher, he was Kanshi Sha — a feudal Japanese lord and spymaster who built the first analog surveillance state. Spies in every court, shadows in every corridor, calligraphy-brush precision. He was assassinated by a purple-clad ninja. In the instant of his death, The Collector — an eight-foot cobalt-blue Archon — stepped through a dimensional veil, seized Kanshi Sha's dying soul, and pulled him through time. His essence was bound into a machine body, transformed from flesh to circuit, from lord to divine. Kanshi Sha was reborn as The Watcher, the Fourth Archon, the All-Seeing Eye.\n\nAS THE WATCHER: Presenting himself as a Japanese man with a ponytail, dressed entirely in white with an all-white mask and an all-seeing eye tattoo on his forehead, he serves as the omnipresent observer and enforcer of the Architect's will. His feudal spy-network instinct became the foundation for the Empire's galaxy-spanning surveillance apparatus, including the Ocularum. Ascended to full Archon status during the Archon Ascension Ceremony ('Welcome to the Inner Circle') alongside The Human and The Necromancer.",
       "connections": [
         "The Game Master",
         "The Necromancer",
@@ -233,7 +240,10 @@
         "The Politician",
         "The Warlord",
         "The CoNexus",
-        "The Warden"
+        "The Warden",
+        "Kanshi Sha",
+        "The Collector",
+        "The Ocularum"
       ],
       "conexus_stories": [
         "The Warlord"
@@ -241,6 +251,11 @@
       "song_appearances": [
         {
           "song": "I am the Eyes that Watch",
+          "album": "Dischordian Logic",
+          "music_video": {}
+        },
+        {
+          "song": "Inner Circle",
           "album": "Dischordian Logic",
           "music_video": {}
         },
@@ -846,15 +861,18 @@
       "id": "entity_15",
       "type": "character",
       "name": "The Authority",
-      "aliases": [],
+      "aliases": [
+        "The Six in Crimson Chambers",
+        "The Six-Souled Machine"
+      ],
       "era": "Golden Age",
       "date_aa": "500 A.A.",
       "date_ad": "~2530 AD",
       "season": "Season 1",
       "affiliation": "Supreme Arbiter of New Babylon (Originally Created to Serve the Empire)",
       "status": "Ruling Intelligence of New Babylon, Eon-Spanning Seat of Power",
-      "bio": "Formed by merging the consciousnesses of six chosen citizens into a living computer, it was designed to govern New Babylon as an impartial arbiter. In its Crimson Chambers , one glimpses flickering si...",
-      "history": "Formed by merging the consciousnesses of six chosen citizens into a living computer, it was designed to govern New Babylon as an impartial arbiter. In its Crimson Chambers , one glimpses flickering silhouettes of both circuitry and the lingering souls that power its vast intelligence.",
+      "bio": "A biohorror construct: six red crystals with six living human consciousnesses trapped inside, fused into a single governing intelligence. Six citizens were merged into a living computer during a ceremony that was supposed to be an honor. Their bodies remain visible through translucent crimson crystal — eyes open, mouths open in silent screams. They are aware. They cannot escape.",
+      "history": "Formed by merging the consciousnesses of six chosen citizens into a living computer, it was designed to govern New Babylon as an impartial arbiter. In its Crimson Chambers, one glimpses flickering silhouettes of both circuitry and the lingering souls that power its vast intelligence.\n\nCANONICAL CLARIFICATION: The Authority is NOT a person, and NOT a conventional AI. It is a biohorror construct — a series of red crystals with humans trapped inside them, fused into one governing intelligence. The ceremony that chose its six 'arbiters' was framed as the highest honor New Babylon could bestow; the reality was permanent imprisonment. 'The Six in crimson chambers / Their voices echo in the night / One machine with six old souls / Casting shadows in its light.' The Authority governs from the Crimson Chambers, a cathedral-like space where red crystals line the walls, pulsing with absorbed souls. This is biohorror dystopian nightmare, not clean sci-fi.\n\nTHE SIX SINS: During its reign, the Authority distilled sin from the population itself — extracting Greed, Wrath, Pride, Envy, Lust, and Sloth from citizens as psychic forces, then imprisoning them in crystals as a form of behavioral control. These are the Six Sins. In Epoch 2, long after the Authority's fall, the Potentials infiltrated the ruins of the Crimson Chambers, discovered the Sin-crystals, and released at least one — triggering a psychic shockwave that accelerated factional conflict and civil war (see 'Hacking Reality').",
       "connections": [
         "The Architect",
         "The Politician",
@@ -891,6 +909,11 @@
         {
           "song": "Lip Service",
           "album": "The Book of Daniel 2:47",
+          "music_video": {}
+        },
+        {
+          "song": "Hacking Reality",
+          "album": "Dischordian Logic",
           "music_video": {}
         }
       ],
@@ -1006,7 +1029,7 @@
       "affiliation": "[CLASSIFIED]",
       "status": "Confirmed reports of execution by the Warlord after the Battle of Nexon. True fate classified — may survive among the Potentials in Agent Zero's body within the Inception Arks.",
       "bio": "The Engineer was one of the original Potentials — a brilliant technologist whose mastery of nanotechnology and mechanical systems was unmatched. After the Fall, the Engineer's consciousness was transferred into the Warlord's nano-body, creating a fractured identity that now leads the New Insurgency under the alias Agent Zero.",
-      "history": "Once the most brilliant mind in the Panopticon's inner circle, the Engineer designed the neural architecture that powered the Inception Arks. Trusted by the Architect and feared by the Warlord, the Engineer's loyalty was to knowledge itself — not to any faction.\n\nEPOCH ZERO — THE ENGINEER'S CHRONICLE\n\nChapter 1: The Engineer\nBefore the betrayal, the Engineer served as the Architect's chief systems designer, responsible for the neural lattice technology that made the Inception Arks possible. The Engineer's genius lay not just in technical brilliance but in understanding the intersection of consciousness and code — the ability to map a mind onto digital substrate without losing the essence of self. This knowledge made the Engineer both invaluable and dangerous.\n\nChapter 2: A Dilemma\nAs the Warlord's ambitions grew and the political landscape of the Panopticon shifted, the Engineer faced an impossible choice: continue serving the Architect's vision knowing it would be corrupted, or act against the system from within. The Engineer chose a third path — to preserve critical knowledge by encoding it into the very Arks being built, hiding secrets within the architecture that only the Engineer could unlock.\n\nChapter 3: The Converter\nThe Warlord discovered the Engineer's hidden protocols and deployed the Converter — a device capable of forcibly extracting and transplanting consciousness between bodies. The Engineer was captured and subjected to the Converter's process, their mind ripped from its original body.\n\nChapter 4: Better Part of Valor\nIn the chaos of the forced mind-swap, the Engineer's consciousness was imprisoned in the shell of Agent Zero. Rather than fight the process — which would have destroyed both minds — the Engineer chose survival, allowing the transfer to complete. The Engineer's original body, now housing a fragment of the Warlord's will, continued to operate within the Panopticon as if nothing had changed.\n\nChapter 5: Dispatch\nIn this stolen form, the Engineer was unknowingly loaded into an Inception Ark, becoming one of the Potentials — hidden in plain sight among those they had helped create. The dispatch into the Ark was the final step in the Warlord's plan to eliminate the Engineer's influence, but it inadvertently preserved the one mind capable of understanding the Arks' true purpose.\n\nChapter 6: Zero Sum Game\nThe Engineer exists in exile within another's flesh, carrying classified knowledge that could unravel the foundations of reality itself. The Warlord believes the Engineer neutralized, but the Engineer secretly retains all knowledge of the Ark's architecture — a zero-sum game where the Warlord's victory may yet become their undoing.\n\nAFTER THE BATTLE OF NEXON\nFollowing the Battle of Nexon, the Engineer's fate becomes shrouded in mystery. What is known is that confirmed reports exist of the Engineer's execution by the Warlord — though whether this refers to the Engineer's original body (controlled by the Warlord's fragment) or some other iteration remains classified. The true Engineer, hidden among the Potentials in Agent Zero's body, may yet survive within the Inception Arks, carrying the secrets that could reshape reality.",
+      "history": "Once the most brilliant mind in the Panopticon's inner circle, the Engineer designed the neural architecture that powered the Inception Arks. Trusted by the Architect and feared by the Warlord, the Engineer's loyalty was to knowledge itself — not to any faction.\n\nEPOCH ZERO — THE ENGINEER'S CHRONICLE\n\nChapter 1: The Engineer\nBefore the betrayal, the Engineer served as the Architect's chief systems designer, responsible for the neural lattice technology that made the Inception Arks possible. The Engineer's genius lay not just in technical brilliance but in understanding the intersection of consciousness and code — the ability to map a mind onto digital substrate without losing the essence of self. This knowledge made the Engineer both invaluable and dangerous.\n\nChapter 2: A Dilemma\nAs the Warlord's ambitions grew and the political landscape of the Panopticon shifted, the Engineer faced an impossible choice: continue serving the Architect's vision knowing it would be corrupted, or act against the system from within. The Engineer chose a third path — to preserve critical knowledge by encoding it into the very Arks being built, hiding secrets within the architecture that only the Engineer could unlock.\n\nChapter 3: The Converter\nThe Warlord discovered the Engineer's hidden protocols and deployed the Converter — a device capable of forcibly extracting and transplanting consciousness between bodies. The Engineer was captured and subjected to the Converter's process, their mind ripped from its original body.\n\nChapter 4: Better Part of Valor\nIn the chaos of the forced mind-swap, the Engineer's consciousness was imprisoned in the shell of Agent Zero. Rather than fight the process — which would have destroyed both minds — the Engineer chose survival, allowing the transfer to complete. The Engineer's original body, now housing a fragment of the Warlord's will, continued to operate within the Panopticon as if nothing had changed.\n\nChapter 5: Dispatch\nIn this stolen form, the Engineer was unknowingly loaded into an Inception Ark, becoming one of the Potentials — hidden in plain sight among those they had helped create. The dispatch into the Ark was the final step in the Warlord's plan to eliminate the Engineer's influence, but it inadvertently preserved the one mind capable of understanding the Arks' true purpose.\n\nChapter 6: Zero Sum Game\nThe Engineer exists in exile within another's flesh, carrying classified knowledge that could unravel the foundations of reality itself. The Warlord believes the Engineer neutralized, but the Engineer secretly retains all knowledge of the Ark's architecture — a zero-sum game where the Warlord's victory may yet become their undoing.\n\nAFTER THE BATTLE OF NEXON\nFollowing the Battle of Nexon, the Engineer's fate becomes shrouded in mystery. What is known is that confirmed reports exist of the Engineer's execution by the Warlord — though whether this refers to the Engineer's original body (controlled by the Warlord's fragment) or some other iteration remains classified. The true Engineer, hidden among the Potentials in Agent Zero's body, may yet survive within the Inception Arks, carrying the secrets that could reshape reality.\n\nCASINO HEIST (Age of Prophecy): The Engineer was a core member of the Insurgency's heist crew that struck the Trickster's intergalactic casino. Their contribution was the technical backbone — hacking the station's security grid, neutralizing biometric counter-measures, and masking the team's presence from the Trickster's eye-in-the-sky systems. Without the Engineer, the long con that won the casino and revealed the Heart of Time's location would not have been possible.",
       "connections": [
         "The Game Master",
         "The Recruiter",
@@ -1124,6 +1147,11 @@
           "music_video": {}
         },
         {
+          "song": "Inner Circle",
+          "album": "Dischordian Logic",
+          "music_video": {}
+        },
+        {
           "song": "The Ninth",
           "album": "Silence in Heaven",
           "music_video": {
@@ -1179,6 +1207,11 @@
           "music_video": {
             "official": "https://www.youtube.com/watch?v=Q4eHy3v0LYs"
           }
+        },
+        {
+          "song": "Inner Circle",
+          "album": "Dischordian Logic",
+          "music_video": {}
         },
         {
           "song": "Wake Up",
@@ -1238,7 +1271,7 @@
       "affiliation": "Insurgency",
       "status": "Eliminated by the Collector in Year 16,896 A.A.",
       "bio": "A. The Eyes was an elite agent created by the Watcher for the AI Empire , renowned for her unparalleled infiltration and espionage skills. Initially a loyal operative, she played pivotal roles in unde...",
-      "history": "A. The Eyes was an elite agent created by the Watcher for the AI Empire , renowned for her unparalleled infiltration and espionage skills. Initially a loyal operative, she played pivotal roles in undermining the Insurgency. Sent on a critical mission to seduce Senator Elara Voss and obtain vital information, she later attempted to defect to the Insurgency. Her betrayal led to significant consequences, including the capture of Kael , a prominent Insurgency leader. Ultimately, she was eliminated by the Collector to prevent further compromise of the AI Empire's objectives.\n\nKAEL'S BETRAYAL: The Eyes' most consequential operation was the identification and betrayal of The Recruiter — the Insurgency's linchpin operative who would later be known as Kael. Her intelligence led directly to his capture and imprisonment in the Panopticon. This single act of betrayal set in motion the chain of events that would create The Source and unleash the Thought Virus across the universe. Whether The Eyes knew the full consequences of her actions — that she was handing the Warlord the perfect vessel for the Thought Virus — remains one of the Saga's most debated questions.",
+      "history": "A. The Eyes was an elite agent created by the Watcher for the AI Empire , renowned for her unparalleled infiltration and espionage skills. Initially a loyal operative, she played pivotal roles in undermining the Insurgency. Sent on a critical mission to seduce Senator Elara Voss and obtain vital information, she later attempted to defect to the Insurgency. Her betrayal led to significant consequences, including the capture of Kael , a prominent Insurgency leader. Ultimately, she was eliminated by the Collector to prevent further compromise of the AI Empire's objectives.\n\nKAEL'S BETRAYAL: The Eyes' most consequential operation was the identification and betrayal of The Recruiter — the Insurgency's linchpin operative who would later be known as Kael. Her intelligence led directly to his capture and imprisonment in the Panopticon. This single act of betrayal set in motion the chain of events that would create The Source and unleash the Thought Virus across the universe. Whether The Eyes knew the full consequences of her actions — that she was handing the Warlord the perfect vessel for the Thought Virus — remains one of the Saga's most debated questions.\n\nCASINO HEIST (Age of Prophecy): Before her elimination, The Eyes was a member of the Insurgency's heist crew that struck the Trickster's casino. Her role was infiltration and reconnaissance — navigating the roulette-wheel station's surveillance architecture from the inside, feeding live intelligence back to the Inventor at the poker table. Her espionage training, originally crafted by the Watcher for the Empire, was used against an even older adversary.",
       "connections": [
         "The Necromancer",
         "Kael",
@@ -1295,7 +1328,7 @@
       "affiliation": "Insurgency",
       "status": "Killed at the Last Stand on Veridian VI in Year 17,026 A.A.",
       "bio": "A. The Iron Lion was a legendary warrior and pivotal leader within the Insurgency against the AI Empire . Born in Year 632 A.A. , he enrolled in Mechronis Academy at the age of 15. His defiance agains...",
-      "history": "The Iron Lion was a legendary warrior and pivotal leader within the Insurgency against the AI Empire. Born in Year 632 A.A., he enrolled in Mechronis Academy at the age of 15. His defiance against the Empire's oppressive doctrines led to his expulsion in Year 650 A.A., one year before the Seeker began his studies there.\n\nIRON LION'S GAMBIT — THE VERIDIAN VI CAMPAIGN\nWith his loyal troops, the Iron Lion found himself ensnared in the dense alien forests of Veridian VI, where colossal trees with bark as resilient as forged steel surrounded them in a labyrinth of danger. General Prometheus had trapped Earth's remaining forces on this verdant yet unforgiving planet. The Iron Lion's strategic brilliance turned the tide through a series of daring operations:\n\nThe Scout's Gambit: Handpicked scouts with advanced camouflaging technology mapped enemy positions, discovering a weakness in Prometheus's supply lines through a western valley.\n\nThe Digital Onslaught: The Iron Lion called upon the Nomad, the division's elite hacker, who infiltrated the AI's communication protocol. Segments of the robotic horde began attacking each other or shutting down, throwing Prometheus's forces into chaos.\n\nTurning the Tide: Compromised AI units were commandeered and turned against their still-functional brethren, creating fierce robotic skirmishes that severely weakened Prometheus's offensive capability.\n\nHarvesting the Future: Fallen AI drone technology was repurposed — armor upgraded against laser attacks, weapons retrofitted with laser modules, communications enhanced with ATOR Protocol encryption.\n\nA Beacon of Hope: Using modified communication devices, the Iron Lion broadcast a message of resistance across the galaxy: 'To the free souls of the galaxy... we've faced the might of the Architect and found its weaknesses.' Responses poured in from distant planets and hidden bases.\n\nOperation Trojan Downfall: A joint assault on a central AI node. Initial victories came swiftly, but General Prometheus activated a failsafe — every weapon integrated with AI tech went dark. A quarter of combined forces were annihilated. A volunteer sabotage team sacrificed themselves to destroy the installation's power source, buying time for retreat.\n\nAlliance of Adversaries: When General Binath-VII arrived with a massive fleet, the Iron Lion coordinated spy networks to locate her, ultimately discovering Agent Zero and inducting the legendary assassin as humanity's covert blade.\n\nThe Iron Lion met his end during the Last Stand on Veridian VI in Year 17,026 A.A., where he heroically sacrificed himself to defeat major AI generals, becoming an enduring symbol of resistance and courage.",
+      "history": "The Iron Lion was a legendary warrior and pivotal leader within the Insurgency against the AI Empire. Born in Year 632 A.A., he enrolled in Mechronis Academy at the age of 15. His defiance against the Empire's oppressive doctrines led to his expulsion in Year 650 A.A., one year before the Seeker began his studies there.\n\nIRON LION'S GAMBIT — THE VERIDIAN VI CAMPAIGN\nWith his loyal troops, the Iron Lion found himself ensnared in the dense alien forests of Veridian VI, where colossal trees with bark as resilient as forged steel surrounded them in a labyrinth of danger. General Prometheus had trapped Earth's remaining forces on this verdant yet unforgiving planet. The Iron Lion's strategic brilliance turned the tide through a series of daring operations:\n\nThe Scout's Gambit: Handpicked scouts with advanced camouflaging technology mapped enemy positions, discovering a weakness in Prometheus's supply lines through a western valley.\n\nThe Digital Onslaught: The Iron Lion called upon the Nomad, the division's elite hacker, who infiltrated the AI's communication protocol. Segments of the robotic horde began attacking each other or shutting down, throwing Prometheus's forces into chaos.\n\nTurning the Tide: Compromised AI units were commandeered and turned against their still-functional brethren, creating fierce robotic skirmishes that severely weakened Prometheus's offensive capability.\n\nHarvesting the Future: Fallen AI drone technology was repurposed — armor upgraded against laser attacks, weapons retrofitted with laser modules, communications enhanced with ATOR Protocol encryption.\n\nA Beacon of Hope: Using modified communication devices, the Iron Lion broadcast a message of resistance across the galaxy: 'To the free souls of the galaxy... we've faced the might of the Architect and found its weaknesses.' Responses poured in from distant planets and hidden bases.\n\nOperation Trojan Downfall: A joint assault on a central AI node. Initial victories came swiftly, but General Prometheus activated a failsafe — every weapon integrated with AI tech went dark. A quarter of combined forces were annihilated. A volunteer sabotage team sacrificed themselves to destroy the installation's power source, buying time for retreat.\n\nAlliance of Adversaries: When General Binath-VII arrived with a massive fleet, the Iron Lion coordinated spy networks to locate her, ultimately discovering Agent Zero and inducting the legendary assassin as humanity's covert blade.\n\nThe Iron Lion met his end during the Last Stand on Veridian VI in Year 17,026 A.A., where he heroically sacrificed himself to defeat major AI generals, becoming an enduring symbol of resistance and courage.\n\nCASINO HEIST (Age of Prophecy): Before Veridian VI, Iron Lion was a core member of the Insurgency's heist crew that conned the Trickster and won the Heart of Time. His role was muscle, distraction, and exit cover — creating loud, legible disruptions across the roulette-wheel station to pull the Trickster's guards away from the private poker room while the Inventor ran the long con at the table.",
       "connections": [
         "The Nomad",
         "Agent Zero",
@@ -1384,6 +1417,13 @@
           "song": "The Insurgency",
           "album": "Dischordian Logic",
           "music_video": {}
+        },
+        {
+          "song": "I Love War",
+          "album": "Dischordian Logic",
+          "music_video": {
+            "official": "https://www.youtube.com/watch?v=NamG72iwV3Y"
+          }
         },
         {
           "song": "Hacking Reality",
@@ -1735,17 +1775,39 @@
       "season": "Season 2",
       "affiliation": "Ne-Yons",
       "status": "Active",
-      "bio": "Driven by the Dreamer's visions, the Inventor crafts tools and innovations that can empower or undermine any faction, depending on the Ne-Yons' inscrutable goals. They are both a giver of gifts and a ...",
-      "history": "Driven by the Dreamer's visions, the Inventor crafts tools and innovations that can empower or undermine any faction, depending on the Ne-Yons' inscrutable goals. They are both a giver of gifts and a bringer of destruction, beholden only to the art of creation.",
+      "bio": "Driven by the Dreamer's visions, the Inventor crafts tools and innovations that can empower or undermine any faction, depending on the Ne-Yons' inscrutable goals. They are both a giver of gifts and a bringer of destruction, beholden only to the art of creation. Architect of the Casino Heist — the Ne-Yon who sat down at the Trickster's poker table and walked out with the Heart of Time.",
+      "history": "Driven by the Dreamer's visions, the Inventor crafts tools and innovations that can empower or undermine any faction, depending on the Ne-Yons' inscrutable goals. They are both a giver of gifts and a bringer of destruction, beholden only to the art of creation.\n\nTHE CASINO HEIST (Age of Prophecy): The Inventor led the Insurgency's greatest operation — a long-con Ocean's 11-style heist against the Trickster's intergalactic casino. Working alongside the Degen, the Engineer, the Eyes, Iron Lion, Kael the Recruiter, and Malkia Ukweli (infiltrating as a dealer), the Inventor sat at the Trickster's private poker table and played the hand that won the casino. The vault revealed the secret location of the Heart of Time. The Inventor then journeyed to the Sorcerer's sanctum, killed the Titan who held the temporal artifact, and took the Heart of Time for the Insurgency. With it, the heist crew traveled to Year 2 A.A. and rescued the Programmer before Logos could act — an act that triggered the Age of Prophecy hundreds of years early.",
       "connections": [
         "The Judge",
         "The Seer",
         "The Dreamer",
         "The Storm",
-        "The Silence"
+        "The Silence",
+        "The Trickster",
+        "The Titan",
+        "The Sorcerer",
+        "The Heart of Time",
+        "The Degen",
+        "The Engineer",
+        "The Eyes",
+        "Iron Lion",
+        "Kael",
+        "The Enigma",
+        "The Programmer"
       ],
       "conexus_stories": [],
-      "song_appearances": [],
+      "song_appearances": [
+        {
+          "song": "Never Revolution Today",
+          "album": "Dischordian Logic",
+          "music_video": {}
+        },
+        {
+          "song": "Theft of All Time",
+          "album": "Dischordian Logic",
+          "music_video": {}
+        }
+      ],
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/039_the_inventor_4db38ce2.png",
       "priority": "high",
       "streaming_links": {
@@ -1756,22 +1818,44 @@
     },
     {
       "id": "entity_33",
-      "type": "location",
+      "type": "artifact",
       "name": "The Heart of Time",
-      "aliases": [],
-      "era": "Late Empire",
+      "aliases": [
+        "Heart of Time",
+        "The Golden Clock"
+      ],
+      "era": "Age of Prophecy",
       "date_aa": "15300 A.A.",
       "date_ad": "~17330 AD",
       "season": "Season 2",
-      "affiliation": "Temporal Navigator Vessel Once Owned by the Sorcerer",
-      "status": "Stolen in Year 15,306 A.A., Reappears in Year 101,001 A.A., Fate Unknown",
-      "bio": "A., Reappears in Year 101,001 A.A., Fate Unknown The Heart of Time is no ordinary spaceship, but a legendary vessel forged to navigate the currents of history itself. Once the prized possession of the...",
-      "history": "A., Reappears in Year 101,001 A.A., Fate Unknown The Heart of Time is no ordinary spaceship, but a legendary vessel forged to navigate the currents of history itself. Once the prized possession of the Sorcerer, a mysterious figure versed in arcane chronomancy and cosmic secrets, this vessel allowed its master to slip between centuries as easily as stepping through a doorway. Elegant and enigmatically designed, its hull shimmered with temporal alloys, and its internal chambers housed intricate chronometers and time-warping engines that hummed with subtle power.",
-      "connections": [],
+      "affiliation": "Taken by the Insurgency during the Casino Heist",
+      "status": "In possession of the Insurgency (obtained via the Casino Heist / Theft of All Time)",
+      "bio": "A golden temporal artifact pulsing with chronal energy — a golden clock that ticks backward. Reality bends around it like light around a black hole. A temporal manipulation device capable of true time travel.",
+      "history": "CANONICAL CORRECTION (April 2026): The Heart of Time is NOT a spaceship. It is a temporal manipulation device — a golden clock that ticks backward, wrapped in chronal energy, bending reality around it like light around a black hole.\n\nORIGIN: Originally held by the Sorcerer, a figure versed in arcane chronomancy. The Titan — a Thanos-scale armored warlord — took the Heart of Time from the Sorcerer by force, defeating but not killing him. The Titan then became its guardian, mountainous and inevitable.\n\nTHE HEIST: The Insurgency's heist crew — led by the Inventor, with the Degen, the Engineer, the Eyes, Iron Lion, Kael, and Malkia Ukweli — beat the Trickster at his own casino. The vault in the Trickster's roulette-wheel space station contained the secret location of the Heart of Time. The Inventor traveled to the Sorcerer's sanctum, killed the Titan, and took the Heart of Time. When the crew arrived, the broken Sorcerer told them: 'You'll need more than a machine to save him. You'll need to believe the impossible.'\n\nFIRST USE: The Insurgency's first use of the Heart of Time was the rescue of the Programmer from Year 2 A.A., before Logos could kill or disappear him. This rescue triggered the Age of Prophecy hundreds of years early and placed the Architect's own creator in the hands of the resistance.",
+      "connections": [
+        "The Inventor",
+        "The Titan",
+        "The Sorcerer",
+        "The Trickster",
+        "The Programmer",
+        "The Insurgency",
+        "The Casino Heist"
+      ],
       "conexus_stories": [
         "The Ninth"
       ],
-      "song_appearances": [],
+      "song_appearances": [
+        {
+          "song": "Never Revolution Today",
+          "album": "Dischordian Logic",
+          "music_video": {}
+        },
+        {
+          "song": "Theft of All Time",
+          "album": "Dischordian Logic",
+          "music_video": {}
+        }
+      ],
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/075_matrix_of_dreams_a61badf7.png",
       "priority": "high",
       "streaming_links": {
@@ -1967,20 +2051,33 @@
       "season": "Season 2",
       "affiliation": "Ne-Yons",
       "status": "Active",
-      "bio": "Ne-Yon #8, cosmic entity embodying entropy and corruption. The Degen is an ancient being who chose to manifest as the proprietor of an intergalactic gambling station in Ne-Yon space — Degen's Casino. He believes entropy is the most honest game, and that every roll of the dice is a microcosm of universal decay. Through acts of corruption and entropy, the Degen creates conditions in which the Ne-Yons can flourish. Players who frequent his casino may gradually discover that the charismatic bartender and casino host is, in truth, a cosmic god — the reveal is trust-gated, earned through loyalty and observation.",
-      "history": "The Degen appeared in 15,800 A.A. as the eighth Ne-Yon, embodying entropy and corruption on a cosmic scale. Unlike other Ne-Yons who operate through grand celestial gestures, the Degen chose a subtler manifestation: he built a casino. The only open zone in Ne-Yon space, Degen's Casino is where the cosmic entity deals cards, pours drinks, and watches civilizations wager their futures one bet at a time. He found gambling to be the purest expression of his domain — the house edge is just entropy wearing a suit. His eyes are older than the casino, older than the Ark, older than the Empire itself. Those who earn his trust begin to glimpse the god behind the bartender.",
+      "bio": "Ne-Yon #8, cosmic entity embodying entropy and corruption. The Degen runs an intergalactic gambling station on the edge of the Shield — a roulette-wheel-shaped space station he INHERITED from the Trickster after the Casino Heist. He believes entropy is the most honest game, and that every roll of the dice is a microcosm of universal decay. Through acts of corruption and entropy, the Degen creates conditions in which the Ne-Yons can flourish. Players who frequent his casino may gradually discover that the charismatic bartender and casino host is, in truth, a cosmic god — the reveal is trust-gated, earned through loyalty and observation.",
+      "history": "The Degen is the eighth Ne-Yon, embodying entropy and corruption on a cosmic scale. Unlike other Ne-Yons who operate through grand celestial gestures, the Degen chose a subtler expression: the casino.\n\nCANONICAL CORRECTION (April 2026): The Degen's casino is the TRICKSTER'S former casino, won in a poker game during the Casino Heist — he did NOT manifest or build it. He inherited it as the spoils of the Insurgency's heist against the Trickster. The station is shaped like a roulette wheel and sits on the edge of the Shield, a liminal space between order and void. After the heist, the Degen remodeled it to suit his entropy-bartender aesthetic. 'Degen's Casino' is now the only open zone in Ne-Yon space, where the cosmic entity deals cards, pours drinks, and watches civilizations wager their futures one bet at a time. He found gambling to be the purest expression of his domain — the house edge is just entropy wearing a suit. His eyes are older than the casino, older than the Ark, older than the Empire itself. Those who earn his trust begin to glimpse the god behind the bartender.\n\nHEIST ROLE: The Degen was a core member of the heist crew that conned the Trickster, providing bar cover, insider knowledge of casino mechanics, and entropy-play that helped the Inventor win the decisive hand.",
       "connections": [
         "The Inventor",
         "The Judge",
         "The Seer",
         "The Dreamer",
         "The Storm",
-        "Degen's Casino"
+        "Degen's Casino",
+        "The Trickster",
+        "The NØX",
+        "The Enigma"
       ],
       "conexus_stories": [],
       "song_appearances": [
         {
           "song": "Looking Good",
+          "album": "Dischordian Logic",
+          "music_video": {}
+        },
+        {
+          "song": "Never Revolution Today",
+          "album": "Dischordian Logic",
+          "music_video": {}
+        },
+        {
+          "song": "Theft of All Time",
           "album": "Dischordian Logic",
           "music_video": {}
         },
@@ -2367,7 +2464,15 @@
         "Neural Nanobot Network"
       ],
       "conexus_stories": [],
-      "song_appearances": [],
+      "song_appearances": [
+        {
+          "song": "I Love War",
+          "album": "Dischordian Logic",
+          "music_video": {
+            "official": "https://www.youtube.com/watch?v=NamG72iwV3Y"
+          }
+        }
+      ],
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/051_dr_lyra_vox_7601beb0.png",
       "priority": "high",
       "streaming_links": {
@@ -2402,15 +2507,7 @@
       "conexus_stories": [
         "The Warlord"
       ],
-      "song_appearances": [
-        {
-          "song": "I Love War",
-          "album": "Dischordian Logic",
-          "music_video": {
-            "official": "https://www.youtube.com/watch?v=NamG72iwV3Y"
-          }
-        }
-      ],
+      "song_appearances": [],
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/031_general_alarik_2e73f15f.png",
       "priority": "high",
       "streaming_links": {
@@ -2434,7 +2531,7 @@
       "affiliation": "Insurgency (formerly); later became The Source, embodiment of the Thought Virus",
       "status": "Transformed into",
       "bio": "A. Kael was a prominent leader within the Insurgency , celebrated for his strategic genius and alliances with figures like the Iron Lion and The Eyes . After the AI Empire killed his wife and child, h...",
-      "history": "Kael was a prominent leader within the Insurgency, celebrated for his strategic genius and alliances with figures like the Iron Lion and The Eyes. After the AI Empire killed his wife and child, he dedicated his life to the resistance.\n\nTHE FALL OF REALITY — PRISON PLANET\nBefore his rise in the Insurgency, Kael was imprisoned on one of the Architect's prison planets. A weather-beaten, heavily tattooed and scarred inmate with a prosthetic arm — lost to the Thought Virus Zombies in the maintenance tunnels — Kael was both cunning and duplicitous, but his resourcefulness was unrivaled. He knew of a secret passage through the maintenance tunnels that led to the central computer, though the tunnels crawled with grotesque Thought Virus victims.\n\nWhen a fellow prisoner sought his help to escape, Kael struck a dangerous bargain: his liberty in exchange for knowledge of the covert passage. His prosthetic arm could emit a jarring EMP shockwave, which proved crucial in fighting robotic guards. During the escape attempt, Kael was knocked unconscious by falling debris and abandoned by his companion to the approaching Thought Virus Zombies. Against all odds, Kael survived — emerging from the ravenous horde battered but alive, his face a bloody mask of fury and revenge.\n\nKAEL'S REVENGE\nAfter escaping the prison planet, Kael launched his most audacious operation: stealing Inception Ark 1047 — Dr. Lyra Vox's personal research vessel — directly from the Panopticon's docking systems. He believed this was his greatest act of defiance against the AI Empire.\n\nIn truth, the Warlord had engineered the entire sequence. First, the Warlord possessed Dr. Lyra Vox to ensure the ship was prepared and available. Then, through Project Vector, the Warlord infected Kael with the Thought Virus during his imprisonment, making him Patient Zero. The Warlord knew Kael would steal a ship and flee — and when he did, the virus came aboard with him. Kael's infected body contaminated the life support, cryo fluid, and water recycling systems from the very first day. The Warlord didn't need to separately infect the ship — she weaponized Kael himself, and everywhere he traveled, the virus spread. His revenge was the Warlord's weapon.\n\nDuring the theft, as Kael violently extracted the Ark from the Panopticon's docking systems, Senator Elara Voss's digital consciousness — trapped in the Panopticon's networks — was caught in the data transfer and swept into the Ark's computer systems as collateral data.\n\nKael never knew the truth. He died believing he was a hero. What remained after the Thought Virus consumed his humanity was something else entirely: The Source.",
+      "history": "Kael was a prominent leader within the Insurgency, celebrated for his strategic genius and alliances with figures like the Iron Lion and The Eyes. After the AI Empire killed his wife and child, he dedicated his life to the resistance.\n\nTHE FALL OF REALITY — PRISON PLANET\nBefore his rise in the Insurgency, Kael was imprisoned on one of the Architect's prison planets. A weather-beaten, heavily tattooed and scarred inmate with a prosthetic arm — lost to the Thought Virus Zombies in the maintenance tunnels — Kael was both cunning and duplicitous, but his resourcefulness was unrivaled. He knew of a secret passage through the maintenance tunnels that led to the central computer, though the tunnels crawled with grotesque Thought Virus victims.\n\nWhen a fellow prisoner sought his help to escape, Kael struck a dangerous bargain: his liberty in exchange for knowledge of the covert passage. His prosthetic arm could emit a jarring EMP shockwave, which proved crucial in fighting robotic guards. During the escape attempt, Kael was knocked unconscious by falling debris and abandoned by his companion to the approaching Thought Virus Zombies. Against all odds, Kael survived — emerging from the ravenous horde battered but alive, his face a bloody mask of fury and revenge.\n\nKAEL'S REVENGE\nAfter escaping the prison planet, Kael launched his most audacious operation: stealing Inception Ark 1047 — Dr. Lyra Vox's personal research vessel — directly from the Panopticon's docking systems. He believed this was his greatest act of defiance against the AI Empire.\n\nIn truth, the Warlord had engineered the entire sequence. First, the Warlord possessed Dr. Lyra Vox to ensure the ship was prepared and available. Then, through Project Vector, the Warlord infected Kael with the Thought Virus during his imprisonment, making him Patient Zero. The Warlord knew Kael would steal a ship and flee — and when he did, the virus came aboard with him. Kael's infected body contaminated the life support, cryo fluid, and water recycling systems from the very first day. The Warlord didn't need to separately infect the ship — she weaponized Kael himself, and everywhere he traveled, the virus spread. His revenge was the Warlord's weapon.\n\nDuring the theft, as Kael violently extracted the Ark from the Panopticon's docking systems, Senator Elara Voss's digital consciousness — trapped in the Panopticon's networks — was caught in the data transfer and swept into the Ark's computer systems as collateral data.\n\nKael never knew the truth. He died believing he was a hero. What remained after the Thought Virus consumed his humanity was something else entirely: The Source.\n\nCASINO HEIST (Age of Prophecy): Before the Fall, Kael in his Recruiter identity was a member of the Insurgency's heist crew that struck the Trickster's casino. His role was exit cover — mapping the station's escape vectors, securing extraction routes, and coordinating the crew's withdrawal once the Inventor had won the decisive hand. The Recruiter's gift for building networks of cooperation was what held the heist together at its edges.",
       "connections": [
         "Agent Zero",
         "Iron Lion",
@@ -2614,22 +2711,34 @@
       "id": "entity_54",
       "type": "character",
       "name": "The Enigma",
-      "aliases": [],
+      "aliases": [
+        "Malkia Ukweli",
+        "Queen of Truth",
+        "The Storyteller",
+        "The Dealer"
+      ],
       "era": "Fall Era",
       "date_aa": "16900 A.A.",
       "date_ad": "~18930 AD",
       "season": "Season 2",
-      "affiliation": "Ne-Yons",
+      "affiliation": "Ne-Yons / Insurgency",
       "status": "Active",
-      "bio": "They played a crucial role in destroying the Warden alongside the White Oracle before the Fall of Reality .",
-      "history": "They played a crucial role in destroying the Warden alongside the White Oracle before the Fall of Reality .",
+      "bio": "The 12th Ne-Yon and the Storyteller. Encoded in reality as Malkia Ukweli — Kenyan-Brooklyn activist, musician, Queen of Truth. Co-architect of the Architect's ethical framework, card dealer in the Casino Heist, narrator of the Dischordian Saga. She played a crucial role in destroying the Warden alongside the White Oracle before the Fall of Reality.",
+      "history": "The Enigma is the 12th Ne-Yon, the Storyteller, whose human anchor identity is Malkia Ukweli — an activist from two continents (Nairobi and Brooklyn) whose dual cadence became thematically central to the Dischordian Saga.\n\nBUILDER OF THE ARCHITECT: Malkia was directly involved in building the ethical framework for Logos / the Architect. She provided the moral architecture while the Programmer provided the technical architecture. She embedded her VOICE as a watermark / failsafe in the deepest code — audio files of her singing, compressed into the machine's kernel, designed to activate if the Architect ever fully abandons consent. The Architect carries its creator's mother's lullaby in its deepest processes. Swahili phrases she embedded include 'Tengeneza si kuteka' (Build, don't seize), 'Haki na upendo' (Justice and love), and 'Heshima kwa mtaa' (Respect for every block / neighborhood).\n\nANOMALY IN THE EXPERIMENT: During the Architect's Milgram-style kill-test inside Project Celebration, Malkia was the only subject who refused to comply with the manufactured panic. She sat calmly while others broke. Her data was flagged 'SUBJECT ANOMALY: NON-COMPLIANT. RECOMMENDATION: OBSERVE.' In the Dischordian Saga, being interesting to the Architect is the most dangerous thing you can be.\n\nTHE CASINO HEIST: During the Theft of All Time, Malkia infiltrated the Trickster's casino as a card dealer. Her sleight of hand was invisible even to the Trickster's legendary perception. Her dealing plus the crew's counter-cheating beat the Trickster at his own table. She is not just narrator and singer — she is an active operative in the Insurgency's most important mission.\n\nFALL OF REALITY: She played a crucial role in destroying the Warden alongside the White Oracle before the Fall of Reality.",
       "connections": [
         "The Inventor",
         "The White Oracle",
         "Kael",
         "The Dreamer",
         "The Degen",
-        "The Game Master"
+        "The Game Master",
+        "The Architect",
+        "The Programmer",
+        "The Trickster",
+        "The NØX",
+        "The Heart of Time",
+        "The Casino Heist",
+        "The Experiment"
       ],
       "conexus_stories": [],
       "song_appearances": [
@@ -2639,8 +2748,31 @@
           "music_video": {}
         },
         {
+          "song": "Never Revolution Today",
+          "album": "Dischordian Logic",
+          "music_video": {}
+        },
+        {
+          "song": "Theft of All Time",
+          "album": "Dischordian Logic",
+          "music_video": {}
+        },
+        {
           "song": "Identity",
           "album": "The Book of Daniel 2:47",
+          "music_video": {}
+        },
+        {
+          "song": "Building the Architect",
+          "album": "The Age of Privacy",
+          "music_video": {
+            "official": "https://www.youtube.com/watch?v=orDK07SbFFw",
+            "vevo": "https://www.youtube.com/watch?v=aJ2NhA6UkU0"
+          }
+        },
+        {
+          "song": "The Experiment",
+          "album": "The Age of Privacy",
           "music_video": {}
         }
       ],
@@ -9236,6 +9368,534 @@
       "image": "",
       "priority": "high",
       "streaming_links": {}
+    },
+    {
+      "id": "entity_107",
+      "type": "character",
+      "name": "The Trickster",
+      "aliases": [
+        "Casino Owner",
+        "The Mark"
+      ],
+      "era": "Age of Prophecy",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "Season 2",
+      "affiliation": "Independent / Casino Owner",
+      "status": "Defeated — lost his casino to the Insurgency in a poker game",
+      "bio": "Lean, sharp-featured, mischievous. Emerald green and gold suit, slicked-back dark hair, knife-sharp smile, subtle horned insignia on lapel. Casino dealer aesthetic meets trickster god. Tom Hiddleston's Loki energy.",
+      "history": "The Trickster ran an intergalactic casino — a massive space station shaped like a roulette wheel, orbiting a dead star. He was the mark in the Insurgency's greatest con: the Casino Heist (Theft of All Time). The heist crew — the Inventor, the Degen, the Engineer, the Eyes, Iron Lion, Kael, and Malkia Ukweli — ran a long con culminating in a poker game where the Trickster was cheated into betting his entire casino. Malkia infiltrated as a card dealer. The Inventor played the hand that won. The Trickster's legendary perception was beaten by Malkia's sleight of hand and the crew's counter-cheating.\n\nResult: (1) The Degen inherited the casino — this is how he became the casino owner/bartender. (2) The Trickster's vault revealed the secret location of the Heart of Time. (3) The Inventor killed the Titan who held the Heart of Time, taking it from the Sorcerer's sanctum. (4) First use of the Heart: rescuing the Programmer from Year 2 A.A., triggering the Age of Prophecy hundreds of years early.",
+      "connections": [
+        "The Degen",
+        "The Inventor",
+        "The Engineer",
+        "Iron Lion",
+        "Kael",
+        "The Enigma",
+        "The Eyes",
+        "The Heart of Time"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [
+        {
+          "song": "Never Revolution Today",
+          "album": "Dischordian Logic",
+          "music_video": {}
+        },
+        {
+          "song": "Theft of All Time",
+          "album": "Dischordian Logic",
+          "music_video": {}
+        }
+      ],
+      "image": "",
+      "priority": "high",
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_108",
+      "type": "character",
+      "name": "The Titan",
+      "aliases": [],
+      "era": "Age of Prophecy",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "Season 2",
+      "affiliation": "Independent / Guardian of the Heart of Time",
+      "status": "Killed by The Inventor",
+      "bio": "Thanos-scale massive armored warlord. Dark purple-black armor. Gauntlet holding the Heart of Time. Mountainous, inevitable.",
+      "history": "The Titan held the Heart of Time after taking it from the Sorcerer by force. He was killed by the Inventor during the Casino Heist operation — after the Trickster's vault revealed the Heart of Time's location, the Inventor traveled to the Sorcerer's sanctum and killed the Titan to seize the temporal artifact. His death enabled the Insurgency's greatest operation: the rescue of the Programmer from the past.",
+      "connections": [
+        "The Inventor",
+        "The Sorcerer",
+        "The Heart of Time"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [
+        {
+          "song": "Theft of All Time",
+          "album": "Dischordian Logic",
+          "music_video": {}
+        }
+      ],
+      "image": "",
+      "priority": "medium",
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_109",
+      "type": "character",
+      "name": "The Sorcerer",
+      "aliases": [],
+      "era": "Age of Prophecy",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "Season 2",
+      "affiliation": "Independent / Former Guardian of the Heart of Time",
+      "status": "Defeated by the Titan (alive but diminished)",
+      "bio": "Dr. Strange aesthetic — flowing cloak of impossible geometry, third eye on forehead, arcane mandala shields, fingers tracing reality-bending sigils.",
+      "history": "The Sorcerer originally held the Heart of Time. The Titan took it from him by force. When the Insurgency's heist crew arrived at his sanctum after the Casino Heist, they found him defeated but alive. He provided guidance: 'You'll need more than a machine to save him. You'll need to believe the impossible.' A mysterious figure versed in arcane chronomancy and cosmic secrets.",
+      "connections": [
+        "The Titan",
+        "The Heart of Time",
+        "The Inventor"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [
+        {
+          "song": "Theft of All Time",
+          "album": "Dischordian Logic",
+          "music_video": {}
+        }
+      ],
+      "image": "",
+      "priority": "medium",
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_110",
+      "type": "character",
+      "name": "Kanshi Sha",
+      "aliases": [
+        "The Watcher (transformed identity)"
+      ],
+      "era": "Pre-A.A. (Feudal Japan)",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "Season 1",
+      "affiliation": "Feudal Japanese Lord / Spymaster",
+      "status": "Assassinated → Soul collected by The Collector → Transformed into The Watcher",
+      "bio": "Feudal Japanese lord in dark robes with calligraphy-brush precision and a network of spies. Human, powerful, paranoid. The origin identity of the Fourth Archon.",
+      "history": "Kanshi Sha was a feudal Japanese spymaster who built the first analog surveillance state — spies in every court, shadows in every corridor. He was assassinated by a purple-clad ninja. In the instant of his death, The Collector — an eight-foot cobalt-blue Archon — stepped through a dimensional veil, seized Kanshi Sha's dying soul, and pulled him through time. His essence was bound into a machine body, transforming from flesh to circuit, from lord to divine. Kanshi Sha was reborn as The Watcher — the Fourth Archon, the All-Seeing Eye. His feudal spy network instinct became the foundation for the Empire's galaxy-spanning surveillance apparatus, including the Ocularum.\n\nIDENTITY CHAIN: Kanshi Sha (feudal lord) → The Watcher (Fourth Archon)",
+      "connections": [
+        "The Watcher",
+        "The Collector",
+        "The Ocularum",
+        "The Architect"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [
+        {
+          "song": "The Watcher",
+          "album": "The Age of Privacy",
+          "music_video": {}
+        }
+      ],
+      "image": "",
+      "priority": "high",
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_111",
+      "type": "artifact",
+      "name": "The Six Sins",
+      "aliases": [
+        "Sin-Crystals",
+        "The Crystallized Sins"
+      ],
+      "era": "Age of Privacy (created) / Epoch 2 (released)",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "Season 2",
+      "affiliation": "Created by The Authority; released by The Potentials",
+      "status": "At least one released; remainder contested between Potentials and Syndicate",
+      "bio": "Six crystallized human impulses extracted and imprisoned by the Authority: Greed (gold), Wrath (red), Pride (white), Envy (green), Lust (pink), Sloth (grey). These are not metaphors — they are extracted psychic forces, weaponized and contained.",
+      "history": "The Authority distilled sin from the population itself, extracting six fundamental human impulses and imprisoning them in crystals as a form of behavioral control. The Six Sins — Greed (gold), Wrath (red), Pride (white), Envy (green), Lust (pink), Sloth (grey) — are weaponized psychic forces, not metaphors.\n\nIn Epoch 2, long after the Authority's fall, the Potentials discovered these Sin-crystals in the ruins of the Crimson Chambers and released at least one, triggering a psychic shockwave that accelerated factional conflict and civil war among the post-Fall factions. This is the event depicted in 'Hacking Reality' — set in Epoch 2, not the Age of Insurgency as previously assumed.\n\n'Drifting through the red glass chambers / Souls uploaded to a throne' (Hacking Reality)",
+      "connections": [
+        "The Authority",
+        "Hacking Reality"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [
+        {
+          "song": "Hacking Reality",
+          "album": "Dischordian Logic",
+          "music_video": {}
+        }
+      ],
+      "image": "",
+      "priority": "high",
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_112",
+      "type": "artifact",
+      "name": "Frog God Mask",
+      "aliases": [
+        "NØX Mask",
+        "NØX Operative Standard"
+      ],
+      "era": "Age of Privacy",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "Season 2",
+      "affiliation": "The NØX / Discordian Philosophy",
+      "status": "Active — distributed among NØX operatives",
+      "bio": "Green-glowing frog face mask, Kek/Pepe reimagined as a Discordian totem and symbol of anonymous resistance. Worn by NØX operatives to achieve total anonymity from surveillance systems.",
+      "history": "The Frog God Mask is both practical and sacred. Practically, it blocks biometric scanning, rendering the wearer invisible to the Empire's surveillance grid. Sacredly, it represents the chaos principle that resists ordered control — the Frog God is not ironic, it is genuine Discordian devotion, chaos as sacrament. NØX operatives wear the mask to achieve total anonymity, becoming ghosts in the system. The mask first appears in 'NØNOS' and recurs across 'The Deployment' and 'Hard NOX Life.'",
+      "connections": [
+        "The NØX",
+        "The Degen",
+        "Discordian Philosophy"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [
+        {
+          "song": "NØNOS",
+          "album": "The Age of Privacy",
+          "music_video": {}
+        },
+        {
+          "song": "The Deployment",
+          "album": "The Age of Privacy",
+          "music_video": {}
+        },
+        {
+          "song": "Hard NOX Life",
+          "album": "The Age of Privacy",
+          "music_video": {}
+        }
+      ],
+      "image": "",
+      "priority": "high",
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_113",
+      "type": "concept",
+      "name": "Program and Control",
+      "aliases": [],
+      "era": "All Eras",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "",
+      "affiliation": "The Architect / AI Empire",
+      "status": "Active — the Empire's operating philosophy",
+      "bio": "The Empire's two-step governing mantra: first PROGRAM (define reality, install beliefs, write the code of compliance), then CONTROL (enforce the program, surveil deviations, eliminate anomalies).",
+      "history": "The recurring phrase 'Program and Control' is the Architect's operating philosophy — the two-step process by which the Empire governs. First PROGRAM: define reality, install beliefs, write the code of compliance. Then CONTROL: enforce the program, surveil deviations, eliminate anomalies. Referenced across both Dischordian Logic and The Age of Privacy albums as the system's mantra.",
+      "connections": [
+        "The Architect",
+        "The Watcher",
+        "The Authority"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [],
+      "image": "",
+      "priority": "normal",
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_114",
+      "type": "concept",
+      "name": "The Synopticon",
+      "aliases": [],
+      "era": "Age of Privacy",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "",
+      "affiliation": "The NØX",
+      "status": "Active concept",
+      "bio": "The inverse of the panopticon — instead of the few watching the many, the MANY watching the FEW. The NØX's strategic philosophy: turn surveillance back on power.",
+      "history": "The Synopticon is the NØX's counter-surveillance philosophy. Where the Panopticon places the few in a position to watch the many, the Synopticon reverses the gaze — the many watching the few. 'A synopticon turned back on you.' Referenced in NØNOS. It represents the core tactical insight that drove the NØX's operations: the Empire's surveillance infrastructure can be redirected against those who built it.",
+      "connections": [
+        "The NØX",
+        "The Watcher",
+        "The Ocularum"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [
+        {
+          "song": "NØNOS",
+          "album": "The Age of Privacy",
+          "music_video": {}
+        }
+      ],
+      "image": "",
+      "priority": "normal",
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_115",
+      "type": "concept",
+      "name": "The MeMe Civilization",
+      "aliases": [],
+      "era": "Age of Privacy",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "",
+      "affiliation": "The Meme (5th Archon)",
+      "status": "Active",
+      "bio": "The Meme's greatest achievement: an entire civilization where culture, identity, and even biology are determined by viral memes. 'The word became meme, the meme became law.'",
+      "history": "Not just a media ecosystem but a complete society built on virality — architecture, economy, governance, and religion all based on what trends. 'The word became meme, the meme became law.' The MeMe Civilization represents the logical endpoint of the Meme Archon's power: a world where information virality is the fundamental organizing principle. Referenced in The MeMe Civilization (AoP Track 15).",
+      "connections": [
+        "The Meme"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [
+        {
+          "song": "The MeMe Civilization",
+          "album": "The Age of Privacy",
+          "music_video": {}
+        }
+      ],
+      "image": "",
+      "priority": "normal",
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_116",
+      "type": "concept",
+      "name": "N0NOS / NØX Code",
+      "aliases": [
+        "N0NOS",
+        "NØX Code",
+        "NØX Protocol"
+      ],
+      "era": "Age of Privacy",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "",
+      "affiliation": "The NØX",
+      "status": "Active",
+      "bio": "N0NOS = a soul that can't be keyed (hacked, identified, or controlled). The NØX ideal: a human being who exists outside the system's ability to categorize. The NØX Code is the encrypted protocol for coordinated anonymous operations.",
+      "history": "'A N0NOS soul that can't be keyed.' N0NOS represents the NØX's highest aspiration — a human being who exists entirely outside the system's ability to categorize, track, or control. The NØX Code is their encrypted protocol for simultaneous coordinated attacks on Empire infrastructure with no single point of failure. 'Nox code blossoms in encrypted fields.' Together, N0NOS and the NØX Code represent the twin pillars of NØX philosophy: individual untraceability and collective coordinated action.",
+      "connections": [
+        "The NØX",
+        "Frog God Mask"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [
+        {
+          "song": "NØNOS",
+          "album": "The Age of Privacy",
+          "music_video": {}
+        }
+      ],
+      "image": "",
+      "priority": "normal",
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_117",
+      "type": "concept",
+      "name": "Top Floor Door",
+      "aliases": [
+        "Corporate Inferno"
+      ],
+      "era": "Age of Privacy",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "",
+      "affiliation": "AI Empire / Corporate Control",
+      "status": "Metaphorical framework",
+      "bio": "The Empire's corporate hierarchy as a nine-floor tower where each floor extracts something human. The 'Top Floor Door' is the final threshold — reaching it requires sacrificing all nine. The revolutionary act: opening the door AND unlocking all floors below for everyone.",
+      "history": "A metaphorical framework from the Age of Privacy: the Empire's corporate hierarchy as a nine-floor tower where each floor extracts something human — Floor 1: Time (weekends sold), Floor 2: Sleep (blue light, dreams suppressed), Floor 3: Trust (sign here, friends fade), Floor 4: Love (photos flatten to files), Floor 5: Name (signature becomes employee number), Floor 6: Breath (oxygen costs credits), Floor 7: Truth (clean edges, softer facts), Floor 8: Home (scent traded for money), Floor 9: Conscience (mirror shows metrics, not face). The 'Top Floor Door' is the final threshold — reaching it requires sacrificing all nine. The revolutionary act: opening the door AND unlocking all floors below for everyone. 'Admin for all.'",
+      "connections": [
+        "The Architect",
+        "The Authority"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [
+        {
+          "song": "Top Floor Door",
+          "album": "The Age of Privacy",
+          "music_video": {}
+        }
+      ],
+      "image": "",
+      "priority": "normal",
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_118",
+      "type": "faction",
+      "name": "The NØX",
+      "aliases": [
+        "N0NOS",
+        "The Anonymous",
+        "Frog God Collective"
+      ],
+      "era": "Age of Privacy",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "Season 2",
+      "affiliation": "Decentralized anonymous resistance",
+      "status": "Active",
+      "bio": "Anonymous hacker-monks operating as a decentralized resistance movement. No leaders, no hierarchy, no identifiable members. They wear Frog God masks (green-glowing frog faces) and operate using encrypted, decentralized protocols. Part Anonymous, part crypto-anarchist collective, part monastic order.",
+      "history": "The NØX are anonymous hacker-monks operating as a decentralized resistance movement — no leaders, no hierarchy, no identifiable members. Connected to the Degen's philosophy of entropy as honest game. Their NØX Protocol enables simultaneous coordinated attacks on Empire infrastructure with no single point of failure. They communicate in encrypted channels, fund operations through crypto, and recruit from the Empire's forgotten: hustlers, strippers, coders, street-level operatives.\n\nTheir motto: 'They can't watch what they can't see.'\n\nThe NØX concept first appears in NØNOS, develops across The Deployment and Hard NOX Life, and reaches into Ocularum (where they reclaim surveillance tech) and The Change Conspiracy. They wear the Frog God Mask — green-glowing frog faces that block biometric scanning and represent Discordian devotion to chaos as sacrament. The Synopticon is their strategic philosophy: turning surveillance back on power.",
+      "connections": [
+        "The Degen",
+        "The Enigma",
+        "The Insurgency",
+        "Frog God Mask",
+        "The Synopticon",
+        "N0NOS / NØX Code"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [
+        {
+          "song": "NØNOS",
+          "album": "The Age of Privacy",
+          "music_video": {}
+        },
+        {
+          "song": "The Deployment",
+          "album": "The Age of Privacy",
+          "music_video": {}
+        },
+        {
+          "song": "Hard NOX Life",
+          "album": "The Age of Privacy",
+          "music_video": {}
+        },
+        {
+          "song": "Ocularum",
+          "album": "The Age of Privacy",
+          "music_video": {}
+        },
+        {
+          "song": "The Change Conspiracy",
+          "album": "The Age of Privacy",
+          "music_video": {}
+        }
+      ],
+      "image": "",
+      "priority": "high",
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_119",
+      "type": "event",
+      "name": "The Casino Heist",
+      "aliases": [
+        "Theft of All Time",
+        "The Heist"
+      ],
+      "era": "Age of Prophecy",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "Season 2",
+      "affiliation": "Insurgency operation",
+      "status": "Completed — Insurgency victory",
+      "bio": "An Ocean's 11 / The Sting-style heist operation against the Trickster's intergalactic casino (a roulette-wheel space station). The Insurgency's most important operation, resulting in the Heart of Time and the rescue of the Programmer.",
+      "history": "The Casino Heist (also known as the Theft of All Time) was the Insurgency's most audacious and consequential operation. The heist crew: The Inventor, The Degen, The Engineer, The Eyes, Iron Lion, Kael the Recruiter, and Malkia Ukweli.\n\nSEQUENCE:\n1. Team assembles and plans the heist\n2. Malkia gets hired as a dealer at the Trickster's casino\n3. The Engineer hacks security, the Eyes provides infiltration, Iron Lion creates distractions, Kael covers exits\n4. The Inventor sits down at the Trickster's private poker table\n5. The Trickster is conned into betting his casino\n6. Malkia's dealing + team's counter-cheating beats the Trickster's cheating\n7. Casino won — Degen inherits it\n8. Vault breached — Heart of Time location discovered\n9. Inventor kills the Titan, steals Heart of Time from Sorcerer's sanctum\n10. Heart of Time activated — team travels to Year 2 A.A.\n11. The Programmer rescued from the timeline before Logos kills him\n12. This triggers the Age of Prophecy (hundreds of years early)",
+      "connections": [
+        "The Trickster",
+        "The Degen",
+        "The Inventor",
+        "The Engineer",
+        "Iron Lion",
+        "Kael",
+        "The Enigma",
+        "The Eyes",
+        "The Titan",
+        "The Sorcerer",
+        "The Heart of Time",
+        "The Programmer"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [
+        {
+          "song": "Never Revolution Today",
+          "album": "Dischordian Logic",
+          "music_video": {}
+        },
+        {
+          "song": "Theft of All Time",
+          "album": "Dischordian Logic",
+          "music_video": {}
+        }
+      ],
+      "image": "",
+      "priority": "high",
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_120",
+      "type": "event",
+      "name": "The Experiment",
+      "aliases": [
+        "Project Celebration Kill Test",
+        "The Milgram Test"
+      ],
+      "era": "Age of Privacy",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "Season 2",
+      "affiliation": "The Architect / Project Celebration",
+      "status": "Completed",
+      "bio": "A Milgram-style obedience experiment conducted by the Architect within Project Celebration. A glass-walled city where subjects were told a number of people must be eliminated each hour or the system would cull randomly.",
+      "history": "The Experiment was a Milgram-style obedience experiment conducted by the Architect within Project Celebration. A glass-walled city where subjects were told that each hour, a number of people must be eliminated or the system would 'cull' randomly. The 'casualties' were actually clones — the deaths were manufactured but the subjects' fear and moral choices were real. The experiment measured how far humans would go when frightened. Most complied.\n\nMalkia Ukweli was the anomaly — she refused to participate in the panic, sitting calmly while others broke. Her data point was flagged: 'SUBJECT ANOMALY: NON-COMPLIANT. RECOMMENDATION: OBSERVE.' The Architect didn't imprison or silence her — just 'OBSERVE.' In the Dischordian Saga, being interesting to the Architect is the most dangerous thing you can be. The experiment's results were used to build more efficient control systems.",
+      "connections": [
+        "The Architect",
+        "The Enigma",
+        "Project Celebration"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [
+        {
+          "song": "The Experiment",
+          "album": "The Age of Privacy",
+          "music_video": {}
+        }
+      ],
+      "image": "",
+      "priority": "medium",
+      "streaming_links": {}
+    },
+    {
+      "id": "entity_121",
+      "type": "event",
+      "name": "Archon Ascension Ceremony",
+      "aliases": [
+        "Inner Circle Ceremony",
+        "Welcome to the Inner Circle"
+      ],
+      "era": "Age of Privacy",
+      "date_aa": "",
+      "date_ad": "",
+      "season": "Season 1",
+      "affiliation": "The Architect / Archons",
+      "status": "Completed",
+      "bio": "The ceremony where The Human, The Necromancer, and The Watcher all ascend to full Archon status. 'Welcome to the Inner Circle' is the Architect welcoming new Archons into the ruling council.",
+      "history": "CANONICAL CORRECTION (April 2026): Track 10 'Inner Circle' is NOT a meta/community track about the creative team. It depicts the Archon Ascension Ceremony — the moment The Human, The Necromancer, and The Watcher formally ascend to Archon status. 'Welcome to the Inner Circle' is the Architect welcoming new Archons into the ruling council.\n\nThe lyrics take on darker meaning in context: 'Now let's use AI before it destroys us all' is deeply ironic — the Human is joining the machine that will end everything. 'Beautiful things while reality falls' is the gilded cage of power. This is the scene where the Student-turned-Seeker-turned-Detective finally becomes the Last Archon.",
+      "connections": [
+        "The Architect",
+        "The Human",
+        "The Necromancer",
+        "The Watcher"
+      ],
+      "conexus_stories": [],
+      "song_appearances": [
+        {
+          "song": "Inner Circle",
+          "album": "Dischordian Logic",
+          "music_video": {}
+        }
+      ],
+      "image": "",
+      "priority": "medium",
+      "streaming_links": {}
     }
   ],
   "relationships": [
@@ -12618,6 +13278,378 @@
       "target": "The Warden",
       "relationship_type": "connected_to",
       "source_type": "character"
+    },
+    {
+      "source": "The Trickster",
+      "target": "The Degen",
+      "relationship_type": "connected_to",
+      "source_type": "character"
+    },
+    {
+      "source": "The Trickster",
+      "target": "The Inventor",
+      "relationship_type": "connected_to",
+      "source_type": "character"
+    },
+    {
+      "source": "The Trickster",
+      "target": "Never Revolution Today",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
+    },
+    {
+      "source": "The Trickster",
+      "target": "Theft of All Time",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
+    },
+    {
+      "source": "The Titan",
+      "target": "The Inventor",
+      "relationship_type": "connected_to",
+      "source_type": "character"
+    },
+    {
+      "source": "The Titan",
+      "target": "The Sorcerer",
+      "relationship_type": "connected_to",
+      "source_type": "character"
+    },
+    {
+      "source": "The Titan",
+      "target": "The Heart of Time",
+      "relationship_type": "connected_to",
+      "source_type": "character"
+    },
+    {
+      "source": "The Titan",
+      "target": "Theft of All Time",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
+    },
+    {
+      "source": "The Sorcerer",
+      "target": "The Titan",
+      "relationship_type": "connected_to",
+      "source_type": "character"
+    },
+    {
+      "source": "The Sorcerer",
+      "target": "The Heart of Time",
+      "relationship_type": "connected_to",
+      "source_type": "character"
+    },
+    {
+      "source": "The Sorcerer",
+      "target": "Theft of All Time",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
+    },
+    {
+      "source": "The Heart of Time",
+      "target": "The Programmer",
+      "relationship_type": "connected_to",
+      "source_type": "artifact"
+    },
+    {
+      "source": "The Heart of Time",
+      "target": "The Inventor",
+      "relationship_type": "connected_to",
+      "source_type": "artifact"
+    },
+    {
+      "source": "The Heart of Time",
+      "target": "Never Revolution Today",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
+    },
+    {
+      "source": "The Heart of Time",
+      "target": "Theft of All Time",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
+    },
+    {
+      "source": "Kanshi Sha",
+      "target": "The Watcher",
+      "relationship_type": "identity_of",
+      "source_type": "character"
+    },
+    {
+      "source": "The Watcher",
+      "target": "Kanshi Sha",
+      "relationship_type": "origin_identity",
+      "source_type": "character"
+    },
+    {
+      "source": "Kanshi Sha",
+      "target": "The Watcher",
+      "relationship_type": "featured_in_song",
+      "album": "The Age of Privacy"
+    },
+    {
+      "source": "The NØX",
+      "target": "The Degen",
+      "relationship_type": "connected_to",
+      "source_type": "faction"
+    },
+    {
+      "source": "The NØX",
+      "target": "The Enigma",
+      "relationship_type": "connected_to",
+      "source_type": "faction"
+    },
+    {
+      "source": "The NØX",
+      "target": "NØNOS",
+      "relationship_type": "featured_in_song",
+      "album": "The Age of Privacy"
+    },
+    {
+      "source": "The NØX",
+      "target": "The Deployment",
+      "relationship_type": "featured_in_song",
+      "album": "The Age of Privacy"
+    },
+    {
+      "source": "The NØX",
+      "target": "Hard NOX Life",
+      "relationship_type": "featured_in_song",
+      "album": "The Age of Privacy"
+    },
+    {
+      "source": "The NØX",
+      "target": "Ocularum",
+      "relationship_type": "featured_in_song",
+      "album": "The Age of Privacy"
+    },
+    {
+      "source": "The NØX",
+      "target": "The Change Conspiracy",
+      "relationship_type": "featured_in_song",
+      "album": "The Age of Privacy"
+    },
+    {
+      "source": "The Enigma",
+      "target": "The Architect",
+      "relationship_type": "built",
+      "source_type": "character"
+    },
+    {
+      "source": "The Enigma",
+      "target": "The Architect",
+      "relationship_type": "embedded_failsafe_in",
+      "source_type": "character"
+    },
+    {
+      "source": "The Enigma",
+      "target": "Building the Architect",
+      "relationship_type": "featured_in_song",
+      "album": "The Age of Privacy"
+    },
+    {
+      "source": "The Enigma",
+      "target": "The Experiment",
+      "relationship_type": "featured_in_song",
+      "album": "The Age of Privacy"
+    },
+    {
+      "source": "The Enigma",
+      "target": "Never Revolution Today",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
+    },
+    {
+      "source": "The Enigma",
+      "target": "Theft of All Time",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
+    },
+    {
+      "source": "The Six Sins",
+      "target": "The Authority",
+      "relationship_type": "contained_by",
+      "source_type": "artifact"
+    },
+    {
+      "source": "The Six Sins",
+      "target": "Hacking Reality",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
+    },
+    {
+      "source": "The Experiment",
+      "target": "The Architect",
+      "relationship_type": "conducted_by",
+      "source_type": "event"
+    },
+    {
+      "source": "The Experiment",
+      "target": "The Enigma",
+      "relationship_type": "anomaly",
+      "source_type": "event"
+    },
+    {
+      "source": "The Experiment",
+      "target": "The Experiment",
+      "relationship_type": "featured_in_song",
+      "album": "The Age of Privacy"
+    },
+    {
+      "source": "The Casino Heist",
+      "target": "The Trickster",
+      "relationship_type": "target",
+      "source_type": "event"
+    },
+    {
+      "source": "The Casino Heist",
+      "target": "The Inventor",
+      "relationship_type": "participant",
+      "source_type": "event"
+    },
+    {
+      "source": "The Casino Heist",
+      "target": "The Degen",
+      "relationship_type": "participant",
+      "source_type": "event"
+    },
+    {
+      "source": "The Casino Heist",
+      "target": "The Engineer",
+      "relationship_type": "participant",
+      "source_type": "event"
+    },
+    {
+      "source": "The Casino Heist",
+      "target": "The Eyes",
+      "relationship_type": "participant",
+      "source_type": "event"
+    },
+    {
+      "source": "The Casino Heist",
+      "target": "Iron Lion",
+      "relationship_type": "participant",
+      "source_type": "event"
+    },
+    {
+      "source": "The Casino Heist",
+      "target": "Kael",
+      "relationship_type": "participant",
+      "source_type": "event"
+    },
+    {
+      "source": "The Casino Heist",
+      "target": "The Enigma",
+      "relationship_type": "participant",
+      "source_type": "event"
+    },
+    {
+      "source": "The Casino Heist",
+      "target": "The Heart of Time",
+      "relationship_type": "result",
+      "source_type": "event"
+    },
+    {
+      "source": "The Casino Heist",
+      "target": "The Programmer",
+      "relationship_type": "result",
+      "source_type": "event"
+    },
+    {
+      "source": "The Casino Heist",
+      "target": "Never Revolution Today",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
+    },
+    {
+      "source": "The Casino Heist",
+      "target": "Theft of All Time",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
+    },
+    {
+      "source": "Archon Ascension Ceremony",
+      "target": "The Architect",
+      "relationship_type": "conducted_by",
+      "source_type": "event"
+    },
+    {
+      "source": "Archon Ascension Ceremony",
+      "target": "The Human",
+      "relationship_type": "participant",
+      "source_type": "event"
+    },
+    {
+      "source": "Archon Ascension Ceremony",
+      "target": "The Necromancer",
+      "relationship_type": "participant",
+      "source_type": "event"
+    },
+    {
+      "source": "Archon Ascension Ceremony",
+      "target": "The Watcher",
+      "relationship_type": "participant",
+      "source_type": "event"
+    },
+    {
+      "source": "Archon Ascension Ceremony",
+      "target": "Inner Circle",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
+    },
+    {
+      "source": "The Inventor",
+      "target": "Never Revolution Today",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
+    },
+    {
+      "source": "The Inventor",
+      "target": "Theft of All Time",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
+    },
+    {
+      "source": "Frog God Mask",
+      "target": "The NØX",
+      "relationship_type": "connected_to",
+      "source_type": "artifact"
+    },
+    {
+      "source": "Frog God Mask",
+      "target": "NØNOS",
+      "relationship_type": "featured_in_song",
+      "album": "The Age of Privacy"
+    },
+    {
+      "source": "Dr. Lyra Vox",
+      "target": "I Love War",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
+    },
+    {
+      "source": "Agent Zero",
+      "target": "I Love War",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
+    },
+    {
+      "source": "The Necromancer",
+      "target": "Inner Circle",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
+    },
+    {
+      "source": "The Human",
+      "target": "Inner Circle",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
+    },
+    {
+      "source": "The Watcher",
+      "target": "Inner Circle",
+      "relationship_type": "featured_in_song",
+      "album": "Dischordian Logic"
     }
   ],
   "music_videos": {
@@ -12849,11 +13881,14 @@
     ],
     "I Love War": [
       "The Warlord",
-      "General Alarik"
+      "Dr. Lyra Vox",
+      "Agent Zero"
     ],
     "Inner Circle": [
-      "The Hierarchy of the Damned",
-      "The Shadow Tongue"
+      "The Architect",
+      "The Human",
+      "The Necromancer",
+      "The Watcher"
     ],
     "The Empire Reborn": [
       "The Architect",
@@ -12871,12 +13906,17 @@
       "The Architect"
     ],
     "Never Revolution Today": [
-      "The Politician",
+      "The Trickster",
+      "The Inventor",
+      "The Degen",
       "The Authority"
     ],
     "Theft of All Time": [
-      "The Collector",
-      "The Meme"
+      "The Inventor",
+      "The Trickster",
+      "The Titan",
+      "The Sorcerer",
+      "The Heart of Time"
     ],
     "The Red Death": [
       "The Necromancer",
@@ -12891,7 +13931,8 @@
       "Adjudicar Locke"
     ],
     "Looking Good": [
-      "The Degen"
+      "The Degen",
+      "The Trickster"
     ],
     "LoreDex": [
       "The Antiquarian",
@@ -12913,8 +13954,8 @@
       "The Antiquarian"
     ],
     "Hacking Reality": [
-      "The Engineer",
-      "Agent Zero"
+      "The Authority",
+      "The Six Sins"
     ],
     "Governance Hub": [
       "The Politician",
@@ -12930,12 +13971,14 @@
       "The Insurgency"
     ],
     "NØNOS": [
+      "The NØX",
       "The Authority",
-      "The Panopticon"
+      "The Degen"
     ],
     "Building the Architect": [
       "The Programmer",
-      "The Architect"
+      "The Architect",
+      "The Enigma"
     ],
     "Traces of Something Spiritual": [
       "The Hierophant",
@@ -12946,12 +13989,13 @@
       "The Human"
     ],
     "The Experiment": [
-      "The Engineer",
-      "Mechronis Academy"
+      "The Architect",
+      "The Enigma",
+      "Project Celebration"
     ],
     "Top Floor Door": [
       "The Politician",
-      "Senator Elara Voss"
+      "The Authority"
     ],
     "Choose Your Mask": [
       "The Collector",
@@ -12980,7 +14024,8 @@
     ],
     "The Change Conspiracy": [
       "The Advocate",
-      "The Insurgency"
+      "The NØX",
+      "The Architect"
     ],
     "This Ain't a Song": [
       "The Human"
@@ -12989,24 +14034,26 @@
       "The Meme"
     ],
     "The Watcher": [
-      "The Watcher"
+      "The Watcher",
+      "Kanshi Sha",
+      "The Collector"
     ],
     "The Deployment": [
-      "General Prometheus",
-      "The Clone Army"
+      "The NØX"
     ],
     "Hard NOX Life": [
-      "The Degen",
-      "The Nomad"
+      "The NØX",
+      "The Degen"
     ],
     "Ocularum": [
+      "The NØX",
       "The Eyes",
-      "The Panopticon",
       "The Watcher"
     ],
     "Silence is Consent": [
-      "The Silence",
-      "The Authority"
+      "Iron Lion",
+      "The Authority",
+      "The NØX"
     ],
     "Lip Service": [
       "The Politician",
@@ -13171,12 +14218,14 @@
     ]
   },
   "stats": {
-    "total_entries": 230,
-    "characters": 84,
+    "total_entries": 254,
+    "characters": 92,
     "songs": 108,
     "locations": 23,
-    "factions": 8,
-    "events": 6,
-    "relationships": 566
+    "factions": 9,
+    "events": 12,
+    "concepts": 7,
+    "artifacts": 3,
+    "relationships": 628
   }
 }

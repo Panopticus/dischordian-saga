@@ -50,7 +50,7 @@ export const cardDef: CardDefinition = {
   ],
   art: "/art/cards/s1_song_063.webp",
   flavorText:
-    "Every blueprint begins with a wound; every structure, with the will to mend it.",
+    "Malkia embedded her voice as a failsafe in the deepest code — a lullaby designed to activate if the Architect ever abandons consent. Tengeneza si kuteka.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 1,

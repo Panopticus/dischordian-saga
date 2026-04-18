@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
   ],
   art: "/art/cards/s1_song_060.webp",
   flavorText:
-    "The melody seeps into open wounds, knitting flesh and spirit back together in a single refrain.",
+    "A N0NOS soul that can't be keyed. They can't watch what they can't see. — NØX manifesto",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,

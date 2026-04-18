@@ -128,6 +128,14 @@ export const IDENTITY_CHAINS: IdentityChain[] = [
     ],
     faction: "Independent / Insurgency",
   },
+  {
+    finalName: "The Watcher",
+    chain: [
+      { name: "Kanshi Sha", era: "Pre-A.A. (Feudal Japan)", description: "Feudal Japanese lord and spymaster. Built the first analog surveillance state. Assassinated by a ninja in purple." },
+      { name: "The Watcher", era: "Early Empire onward", description: "Soul collected by The Collector, pulled through time, bound into a machine body. Became the Fourth Archon and the All-Seeing Eye." },
+    ],
+    faction: "Archons / AI Empire",
+  },
 ];
 
 /* ─── THE AUTHORITY (NOT an Archon) ─── */
