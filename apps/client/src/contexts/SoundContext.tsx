@@ -7,6 +7,10 @@
    - Global volume/mute control
    ═══════════════════════════════════════════════════════ */
 import { createContext, useContext, useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+// PR-4 — TCG SoundManager is a singleton; SoundContext owns the
+// volume/mute source-of-truth and mirrors into this instance so
+// the card-battle cues honor the Settings page controls.
+import { dischordiaSounds } from "@/game/duelyst/SoundManager";
 
 /* ─── TYPES ─── */
 type SoundLayer = "ship_hum" | "cryo_hiss" | "electrical" | "alarm" | "heartbeat" | "void_wind" | "reactor" | "static";
@@ -1033,6 +1037,17 @@ export function SoundProvider({ children }: { children: ReactNode }) {
   });
   const [audioReady, setAudioReady] = useState(false);
 
+  // PR-4 — apply the persisted volume/mute to the TCG SoundManager
+  // on first mount, so card-battle cues honor the user's last
+  // settings without requiring them to re-toggle the slider.
+  useEffect(() => {
+    dischordiaSounds.setMuted(muted);
+    dischordiaSounds.setVolume(volume);
+    // intentionally only fires once on mount — subsequent updates
+    // flow through setMuted / setVolume above.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Lazy init engine
   const getEngine = useCallback(() => {
     if (!engineRef.current) {
@@ -1053,12 +1068,19 @@ export function SoundProvider({ children }: { children: ReactNode }) {
   const setMuted = useCallback((m: boolean) => {
     setMutedState(m);
     getEngine().setMuted(m);
+    // PR-4 — mirror into the TCG SoundManager so the volume slider
+    // in SettingsPage affects card-battle cues (card_play,
+    // attack_hit, victory, defeat). Before this sync, the TCG
+    // manager and the global engine had independent mute/volume
+    // state, so users who muted via settings still heard TCG cues.
+    dischordiaSounds.setMuted(m);
     try { localStorage.setItem("loredex_sound_muted", String(m)); } catch {}
   }, [getEngine]);
 
   const setVolume = useCallback((v: number) => {
     setVolumeState(v);
     getEngine().setVolume(v);
+    dischordiaSounds.setVolume(v);
     try { localStorage.setItem("loredex_sound_volume", String(v)); } catch {}
   }, [getEngine]);
 

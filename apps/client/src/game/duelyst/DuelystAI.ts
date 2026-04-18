@@ -6,9 +6,57 @@ import { getValidMoves, getValidAttacks, getValidSummonTiles, findUnit, dist } f
 
 interface ScoredAction { action: GameAction; score: number; }
 
-export function getAIActions(state: DuelystGameState): GameAction[] {
-  const actions: GameAction[] = [];
+/**
+ * Severe-disadvantage threshold for the AI concede check (PR-4).
+ * Named-boss encounters (Warlord / Programmer / Game Master / Seer /
+ * Authority) pass `allowConcede: true` so the boss has a dramatic
+ * concession moment when the player has clearly won. Sparring and
+ * PvP matches pass `allowConcede: false` (or omit the option) so
+ * the AI plays to the last HP, which is the standard card-game
+ * contract.
+ *
+ * Conditions for AI concede:
+ *   - AI general at ≤ 15% of max health
+ *   - Player has ≥ 10 attack power on the board (across all units
+ *     + their general) — so the AI is facing a credible lethal
+ *     window, not just a lucky spike
+ *   - It's the AI's turn start (so the concede lands between turns
+ *     rather than mid-action)
+ */
+export interface AIOptions {
+  /** When true, getAIActions may emit `{ type: "concede" }`. */
+  allowConcede?: boolean;
+}
+
+function aiIsOutclassed(state: DuelystGameState, aiPlayer: 0 | 1): boolean {
+  const opponent: 0 | 1 = aiPlayer === 0 ? 1 : 0;
+  // state.board is a Map<string, BoardUnit>; iterate values.
+  let aiGen: BoardUnit | null = null;
+  let oppAttack = 0;
+  for (const unit of state.board.values()) {
+    if (unit.isGeneral && unit.owner === aiPlayer) aiGen = unit;
+    if (unit.owner === opponent) {
+      oppAttack += unit.currentAttack;
+    }
+  }
+  if (!aiGen || aiGen.maxHealth <= 0) return false;
+  const hpRatio = aiGen.currentHealth / aiGen.maxHealth;
+  if (hpRatio > 0.15) return false;
+  return oppAttack >= 10;
+}
+
+export function getAIActions(
+  state: DuelystGameState,
+  options: AIOptions = {},
+): GameAction[] {
   const aiPlayer = state.currentPlayer;
+  // PR-4 — named-boss encounters concede dramatically when the
+  // match is out of reach. Skipped for sparring / PvP so the
+  // standard contract (AI fights to last HP) holds there.
+  if (options.allowConcede && aiIsOutclassed(state, aiPlayer)) {
+    return [{ type: "concede" }];
+  }
+  const actions: GameAction[] = [];
   const player = state.players[aiPlayer];
 
   const cardPlays = scoreCardPlays(state, aiPlayer);

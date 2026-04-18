@@ -57,6 +57,7 @@ import { recordMemorableMoment } from "@/stores/memorableMomentsStore";
 import {
   getEncounterReward,
   type EncounterOutcome,
+  type EncounterReward,
 } from "@shared/act1EncounterRewards";
 import type { StoryEncounter } from "@shared/tcg-core/story/encounter";
 import {
@@ -75,6 +76,8 @@ import {
 import { PublicWitnessColumn } from "@/components/match/PublicWitnessColumn";
 import { SeerPlayOverlay } from "@/components/match/SeerPlayOverlay";
 import { dispatchVoiceWhisper } from "@/components/VoiceWhisper";
+import { MatchSummary, type MatchSummaryStats } from "@/components/match/MatchSummary";
+import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 import type { TcgDispatchResult } from "./TcgClient";
 
@@ -101,6 +104,16 @@ interface DuelystGameUIProps {
    *     `openingVerdictBalance` (the §5.7 → §5.8 handoff)
    */
   encounter?: StoryEncounter;
+  /**
+   * Optional custom player deck. When provided, replaces the default
+   * STARTER_DECK_MAP lookup for the player side. Format: 39-ish card
+   * def ids (string[]); if shorter than the format size, the engine
+   * will still run — but the match won't be format-legal. The
+   * DeckPickerModal already validates this against the shipped
+   * registry before handing it off, so by the time it reaches
+   * DuelystGameUI it's safe to pass through.
+   */
+  playerDeckCardDefIds?: readonly string[];
   onGameEnd: (winner: "player" | "opponent") => void;
   onBack: () => void;
 }
@@ -110,7 +123,7 @@ type SelectionMode = "none" | "move" | "attack" | "summon" | "spell_target";
 
 interface LogEntry { text: string; type: "info" | "attack" | "spell" | "move" | "system"; }
 
-function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onGameEnd, onBack, trialHistory, encounter }: DuelystGameUIProps) {
+function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onGameEnd, onBack, trialHistory, encounter, playerDeckCardDefIds }: DuelystGameUIProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rendererRef = useRef<BoardRenderer | null>(null);
   const tcgClientRef = useRef<TcgClient | null>(null);
@@ -141,6 +154,20 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
   const [selectionMode, setSelectionMode] = useState<SelectionMode>("none");
   const [mulliganSelections, setMulliganSelections] = useState<Set<number>>(new Set());
+  // PR-1 — monotonic match-run id. Bumping this forces the init
+  // useEffect below to re-run without having to tear down the
+  // parent, which is how "Play Again" rebuilds a fresh match.
+  const [matchRunId, setMatchRunId] = useState(0);
+  // PR-1 — confirm modal gate for the concede action.
+  const [showConcedeConfirm, setShowConcedeConfirm] = useState(false);
+  // PR-1 — per-match stats captured for the MatchSummary screen.
+  // Incremented by the existing card-play + event-ingest paths;
+  // snapshot into `capturedMatchStats` at game-over so the summary
+  // keeps them stable across re-renders of the ended state.
+  const cardsPlayedRef = useRef(0);
+  const [capturedMatchStats, setCapturedMatchStats] =
+    useState<MatchSummaryStats | null>(null);
+  const [capturedReward, setCapturedReward] = useState<EncounterReward | null>(null);
   const [log, setLog] = useState<LogEntry[]>([]);
   const [hoveredCard, setHoveredCard] = useState<DuelystCard | null>(null);
   const [turnFlash, setTurnFlash] = useState<string | null>(null);
@@ -291,17 +318,30 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   // trialToCombatBuff) will be re-integrated against the tcg-core state
   // shape once the trial system is adapted to the new engine.
   useEffect(() => {
-    // Prefer curated starter decks from tcg-core; fall back to ad-hoc builder
+    // PR-3 — custom deck passed from the DeckPickerModal wins over
+    // the default starter lookup. Otherwise prefer the curated
+    // starter deck for this faction; fall back to the ad-hoc
+    // builder if no starter is registered.
     const playerStarter = STARTER_DECK_MAP[playerFaction];
-    const p1DeckCardIds = playerStarter
-      ? [...playerStarter.cardDefIds]
-      : buildStarterDeck(playerFaction).map((c) => c.sagaCardId ?? c.id);
+    const p1DeckCardIds: string[] =
+      playerDeckCardDefIds && playerDeckCardDefIds.length > 0
+        ? [...playerDeckCardDefIds]
+        : playerStarter
+          ? [...playerStarter.cardDefIds]
+          : buildStarterDeck(playerFaction).map((c) => c.sagaCardId ?? c.id);
     // Stash the player's starting deck so the §4.9 match-end hook
     // can check for burnt_card_placeholder regardless of how many
     // cards remain in deck/hand/graveyard at resolution time.
     initialPlayerDeckRef.current = p1DeckCardIds;
     seerFlagsWrittenRef.current = false;
     publicWitnessBalanceCapturedRef.current = false;
+    // PR-1 — new match, reset stats + reward capture so the
+    // MatchSummary shows fresh numbers (not carryover from the
+    // previous match).
+    cardsPlayedRef.current = 0;
+    setCapturedMatchStats(null);
+    setCapturedReward(null);
+    questsRecordedRef.current = false;
 
     // Encounter-mode path: use the boss's faction / general / deck /
     // modes. The §5.8 Authority trial's openingVerdictBalance comes
@@ -356,6 +396,8 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     addLog,
     encounter,
     gameStateContext.act1PublicWitnessBalance,
+    matchRunId,
+    playerDeckCardDefIds,
   ]);
 
   // Initialize renderer
@@ -420,6 +462,24 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           updateQuestProgress.mutate({ questId: "d_play_card_battle", increment: 1 });
           updateQuestProgress.mutate({ questId: "w_win_10_battles", increment: 1 });
           updateQuestProgress.mutate({ questId: "e_win_100_battles", increment: 1 });
+          // PR-1 — reanimate the `dischordia_wins` counter that
+          // `useNarrativeIntegration.ts:787` reads for Act 1 cycle
+          // milestone triggers. This counter was a dead wire before
+          // today: cycle A/B/C flags (act_1_cycle_a_complete at 3
+          // wins, ...) could not fire from live card battles because
+          // nothing incremented it.
+          try {
+            const prev = parseInt(
+              localStorage.getItem("dischordia_wins") ?? "0",
+              10,
+            );
+            localStorage.setItem(
+              "dischordia_wins",
+              String(Number.isFinite(prev) ? prev + 1 : 1),
+            );
+          } catch {
+            /* localStorage unavailable — counter skipped, no throw */
+          }
         }
         // P1.1 campaign deltas — apply the per-encounter reward row
         // when a named boss match resolves. Guarded by
@@ -427,11 +487,13 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         // side-effects fire at most once per match. Non-named
         // encounters and faction-vs-faction matches have no row and
         // skip this block silently.
+        let appliedReward: EncounterReward | null = null;
         if (encounter) {
           const outcome: EncounterOutcome =
             gameState.winner === 0 ? "win" : "loss";
           const reward = getEncounterReward(encounter.id, outcome);
           if (reward) {
+            appliedReward = reward;
             if (reward.narratorBondDelta) {
               adjustNarratorBond(reward.narratorBondDelta);
             }
@@ -448,6 +510,17 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
             }
           }
         }
+        // PR-1 — freeze the summary snapshot so MatchSummary reads
+        // stable values across state-resolution re-renders.
+        setCapturedReward(appliedReward);
+        setCapturedMatchStats({
+          turnsTaken: gameState.turnNumber ?? 1,
+          cardsPlayed: cardsPlayedRef.current,
+          conceded: gameState.winReason === "surrender",
+        });
+        // Victory/defeat sting — the SoundManager's "victory" and
+        // "defeat" cases were authored but never called.
+        dischordiaSounds.play(gameState.winner === 0 ? "victory" : "defeat");
       }
     }
   }, [
@@ -775,6 +848,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           const result = tcgClientRef.current!.dispatch({ type: "play_card", cardIndex: selectedCard, row, col });
           setGameState(asGameState(result.viewState));
           processTrialDispatchResult(result);
+          if (result.ok) cardsPlayedRef.current += 1;
           addLog(`Summoned ${card.name} at (${row}, ${col})`, "spell");
           dischordiaSounds.play("unit_summon");
           if (isTutorial) setLastActionType("play_card");
@@ -820,6 +894,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         const result = tcgClientRef.current!.dispatch({ type: "play_card", cardIndex: selectedCard, row: unit.row, col: unit.col, targetId: unitId });
         setGameState(asGameState(result.viewState));
         processTrialDispatchResult(result);
+        if (result.ok) cardsPlayedRef.current += 1;
         addLog(`Cast ${card.name} on ${unit.card.name}`, "spell");
         dischordiaSounds.play("spell_cast");
         clearSelection();
@@ -884,6 +959,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         const result = tcgClientRef.current!.dispatch({ type: "play_card", cardIndex: index, row: 0, col: 0 });
         setGameState(asGameState(result.viewState));
         processTrialDispatchResult(result);
+        if (result.ok) cardsPlayedRef.current += 1;
         addLog(`Cast ${card.name}`, "spell");
         clearSelection();
       } else {
@@ -896,6 +972,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       const result = tcgClientRef.current!.dispatch({ type: "play_card", cardIndex: index, row: 0, col: 0 });
       setGameState(asGameState(result.viewState));
       processTrialDispatchResult(result);
+      if (result.ok) cardsPlayedRef.current += 1;
       addLog(`Equipped ${card.name}`, "spell");
       dischordiaSounds.play("card_play");
       clearSelection();
@@ -938,7 +1015,13 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     const runAITurn = async () => {
       await new Promise(r => setTimeout(r, 500));
       const aiView = asGameState(client.getViewState());
-      const aiActions = getAIActions(aiView);
+      const aiActions = getAIActions(aiView, {
+        // PR-4 — named-boss AI concedes at severe disadvantage for a
+        // dramatic end-of-match moment. Faction-vs-faction sparring
+        // and PvP matches keep the standard "fight to last HP"
+        // contract.
+        allowConcede: !!encounter,
+      });
 
       for (const action of aiActions) {
         await new Promise(r => setTimeout(r, 350));
@@ -950,6 +1033,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         else if (action.type === "play_card") { addLog(`AI plays a card`, "spell"); dischordiaSounds.play("unit_summon"); }
         else if (action.type === "move") { addLog(`AI moves a unit`, "move"); }
         else if (action.type === "bloodborn_spell") { addLog(`AI uses Bloodborn Spell!`, "spell"); dischordiaSounds.play("spell_cast"); }
+        else if (action.type === "concede") { addLog(`${encounter?.name ?? "The opponent"} withdraws from the match.`, "system"); }
 
         // Check if game ended after AI action
         if (currentView.phase === "ended") return;
@@ -1039,18 +1123,38 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   /* ─── GAME OVER ─── */
   if (phase === "game_over") {
     const won = gameState.winner === 0;
+    // Fallback stats snapshot if the ended-effect fires before the
+    // state setter commits (single-frame race on strict-mode double
+    // invoke) — the summary still renders reasonable numbers.
+    const stats: MatchSummaryStats = capturedMatchStats ?? {
+      turnsTaken: gameState.turnNumber ?? 1,
+      cardsPlayed: cardsPlayedRef.current,
+      conceded: gameState.winReason === "surrender",
+    };
     return (
-      <div className="flex flex-col items-center justify-center min-h-[600px] gap-6">
-        <h2 className={`font-display text-3xl tracking-[0.3em] ${won ? "text-primary glow-cyan" : "text-destructive"}`}>
-          {won ? "VICTORY" : "DEFEAT"}
-        </h2>
-        <p className="font-mono text-sm text-muted-foreground">
-          {won ? "The enemy general has fallen." : "Your general has been destroyed."}
-        </p>
-        <button onClick={onBack} className="px-6 py-2 bg-primary/10 border border-primary/40 text-primary rounded font-mono text-sm hover:bg-primary/20 transition-colors">
-          RETURN TO MENU
-        </button>
-      </div>
+      <MatchSummary
+        outcome={won ? "victory" : "defeat"}
+        encounterName={encounter?.name ?? null}
+        stats={stats}
+        reward={capturedReward}
+        onPlayAgain={() => {
+          // Rebuild the match from the same faction/encounter
+          // selection. Bumping matchRunId is the dep-list trigger
+          // that the init useEffect above watches — it runs
+          // TcgClient.init again, resets the board, and drops the
+          // player back into mulligan. We also wipe the UI-side
+          // state first so stale selection/mulligan/log state
+          // doesn't bleed into the new match.
+          setSelectedCard(null);
+          setSelectedUnit(null);
+          setSelectionMode("none");
+          setMulliganSelections(new Set());
+          setLog([]);
+          setMatchRunId((n) => n + 1);
+          setPhase("mulligan");
+        }}
+        onReturnToMenu={onBack}
+      />
     );
   }
 
@@ -1219,9 +1323,12 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           <p className="font-mono text-xs font-bold truncate" style={{ color: enemyColor }}>{FACTION_NAMES[opponentFaction]}</p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-red-500/10">
+          <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-red-500/10" title="Opponent general HP">
             <Heart size={10} className="text-red-400" />
-            <span className="font-mono text-xs font-bold text-red-400">{opponentGen?.currentHealth ?? 0}</span>
+            <span className="font-mono text-xs font-bold text-red-400">
+              {opponentGen?.currentHealth ?? 0}
+              <span className="text-red-400/50">/{opponentGen?.maxHealth ?? 0}</span>
+            </span>
           </div>
           <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-blue-500/10">
             <Zap size={10} className="text-blue-400" />
@@ -1343,8 +1450,66 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
               END TURN
             </button>
           )}
+          {/* PR-1 — concede button. Only visible during the player's
+              turn in a real match (not mulligan, not ai_turn, not
+              game_over). Fires a confirm modal so a misclick
+              doesn't nuke the match. The engine's `concede` action
+              sets winReason: "surrender", which §4.9 Seer flee
+              detection reads. */}
+          {phase === "playing" && gameState.currentPlayer === 0 && (
+            <button
+              onClick={() => setShowConcedeConfirm(true)}
+              className="h-8 px-3 flex items-center rounded-lg font-mono text-[10px] font-bold tracking-wider transition-all border border-red-500/40 text-red-400/80 hover:bg-red-500/10 hover:text-red-300"
+              aria-label="Concede match"
+              data-testid="concede-button"
+              title="Concede the match"
+            >
+              CONCEDE
+            </button>
+          )}
         </div>
       </div>
+
+      {/* PR-1 — concede confirmation modal */}
+      {showConcedeConfirm && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Confirm concede"
+          className="fixed inset-0 z-[80] bg-black/80 flex items-center justify-center p-6"
+        >
+          <div className="max-w-md w-full bg-stone-950 border border-red-500/40 rounded p-6 text-center">
+            <p className="font-display text-lg text-red-400 tracking-[0.2em] mb-2">CONCEDE?</p>
+            <p className="font-mono text-xs text-stone-400 mb-6">
+              The match will end in your defeat. Your opponent will be recorded as the winner.
+            </p>
+            <div className="flex gap-3 justify-center">
+              <button
+                type="button"
+                onClick={() => {
+                  const client = tcgClientRef.current;
+                  if (!client) return;
+                  const result = client.dispatch({ type: "concede" });
+                  setGameState(asGameState(result.viewState));
+                  setShowConcedeConfirm(false);
+                }}
+                data-testid="concede-confirm"
+                className="px-4 py-2 bg-red-500/20 border border-red-500/60 text-red-300 rounded font-mono text-xs hover:bg-red-500/30 transition-colors"
+              >
+                CONCEDE
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowConcedeConfirm(false)}
+                data-testid="concede-cancel"
+                className="px-4 py-2 bg-stone-900 border border-stone-700 text-stone-300 rounded font-mono text-xs hover:bg-stone-800 transition-colors"
+              >
+                KEEP PLAYING
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Hand — horizontal card spread at bottom */}
       <div className="border-t border-white/5 bg-black/80 px-2 py-2">
