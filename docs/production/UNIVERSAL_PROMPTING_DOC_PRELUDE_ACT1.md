@@ -2010,27 +2010,40 @@ the animator's desk.
 | 18 | Welcome to Celebration cutscene | `videos/act1/welcome-to-celebration.mp4` | 1920×1080 35–45s | §6.1 | PENDING |
 | 19 | To Be the Human cutscene | `videos/act1/to-be-the-human.mp4` | 1920×1080 40–55s | §6.2 | PENDING |
 | 20 | Hacking Reality cutscene | `videos/act1/hacking-reality.mp4` | 1920×1080 30–40s | §6.3 | PENDING |
-| 21 | Last Words runtime | `components/act1/LastWordsFullWitnessing.tsx` | code + existing slides | §6.4 | WIRING |
-| 22 | Verdict Stream column | `components/act1/VerdictStreamColumn.tsx` | code | §7.2 | PENDING |
-| 23 | Authority Phase bar | `components/act1/AuthorityPhaseBar.tsx` | code | §7.3 | PENDING |
-| 24 | Warlord lockout HUD | `components/act1/WarlordLockoutChip.tsx` | code | §7.4 | PENDING |
+| 21 | Last Words runtime | `components/act1/LastWordsFullWitnessing.tsx` | code + existing slides | §6.4 | SCAFFOLDED |
+| 22 | Verdict Stream column | `components/act1/VerdictStreamColumn.tsx` | code | §7.2 | SCAFFOLDED |
+| 23 | Authority Phase bar | `components/act1/AuthorityPhaseBar.tsx` | code | §7.3 | SCAFFOLDED |
+| 24 | Warlord lockout HUD | `components/act1/WarlordLockoutChip.tsx` | code | §7.4 | SCAFFOLDED |
+| 24b | Seer card-flicker | `components/act1/SeerCardFlicker.tsx` | code | §7.1 | SCAFFOLDED |
 | 25 | Little Watcher VO | `audio/act1/little_watcher_sixteen_versions.mp3` | mp3 ~3.5s | §8.1 | PENDING |
 | 26 | Prince VO — Human farewell | `audio/act1/prince_to_be_the_human.mp3` | mp3 ~8s | §8.2 | PENDING |
 | 27 | Warlord VO — three edits | `audio/act1/warlord_three_edits.mp3` | mp3 ~3s | §8.3 | PENDING |
 | 28 | Prince VO — rules themselves | `audio/act1/prince_third_edit_rules.mp3` | mp3 ~5s | §8.3 | PENDING |
 | — | Prelude VO audit | `audio/prince/`, `audio/elara/`, `audio/human/`, `audio/locke/` | audit pass | §3.1–§3.2 | AUDIT |
 | 29 | Section 6 cutscene wiring | `components/act1/TwoWitnessesPart2.tsx` | code + existing Archives backdrop | §9 | SCAFFOLDED |
-| 30 | Antiquarian Section 6 VO | `audio/antiquarian/antiq_s6_*.mp3` | 19 mp3 takes (14 base + 1 catch-all + 4 deflect variants) | §9.10, §9.10.1 | DRAFTED |
+| 30 | Antiquarian Section 6 VO | `audio/antiquarian/antiq_s6_*.mp3` | 19 mp3 takes (14 base + 1 catch-all + 4 deflect variants) | §9.10, §9.10.1 | CSV_READY |
 | — | Enigma Section 6 VO | N/A — silent per §9.4 decision 2 | N/A | §9 | DEFERRED to Act 2+ |
 | 31 | Enigma blocking still-reference sheet | `docs/production/act1/reference/enigma-blocking-sheet.png` | 1920×1080 PNG, 4-panel composite | §9.10.2, §9.10.3 | PROMPTED |
 | 32 | Enigma gaze-beat timeline | `docs/production/act1/reference/enigma-gaze-timeline.csv` | CSV, 24 rows (1 scene_open + 10 shared + 13 branch rows) | §9.10.2 | SHIPPED |
 | 33 | Enigma branch-deltas sheet | `docs/production/act1/reference/enigma-branch-deltas.md` | markdown, 3 pages | §9.10.2 | SHIPPED |
 
-**Totals:** 17 new image renders · 3 new cutscene video
-renders · 2 runtime-only cutscene wirings (§6.4 *Last Words*,
-§9 Section 6) · 4 new UI components · 4 new cutscene VO takes
-· 12–16 Antiquarian Section 6 VO takes · 1 Prelude VO audit
-pass. Enigma Section 6 VO deferred to Act 2+.
+**Totals:** 17 new image renders (all prompted) · 3 new
+cutscene video renders (all prompted) · 2 runtime cutscene
+wirings (§6.4 *Last Words*, §9 Section 6) — both SCAFFOLDED ·
+5 new UI components (including the Seer flicker) — all
+SCAFFOLDED · 4 new cutscene VO takes — ElevenLabs CSV ready
+at `docs/production/act1-asset-build/prompts/voice/cutscene_narration.csv`
+· 19 Antiquarian Section 6 VO takes — ElevenLabs CSV ready at
+`docs/production/act1-asset-build/prompts/voice/section6_antiquarian.csv`
+· 1 Prelude VO audit pass. Enigma Section 6 VO deferred to
+Act 2+.
+
+**Asset-build workspace.** All paste-ready per-asset prompts
+live at `docs/production/act1-asset-build/prompts/` mirroring
+the Prelude pattern: `rooms/` (5 files), `matchups/` (12
+files), `cutscenes/` (9 files — 3 triplets), `voice/` (2
+CSVs). Orchestration manifest at
+`docs/production/act1-asset-build/manifests/asset_prompt_manifest.json`.
 
 ---
 
@@ -2098,3 +2111,22 @@ pass. Enigma Section 6 VO deferred to Act 2+.
   escalation list. Section 6 animator handoff complete:
   all three §9.10.2 deliverables are now in place (timeline
   CSV shipped, blocking sheet prompted, deltas doc shipped).
+- **2026-04-18 (rev 8)** — Act 1 asset-build workspace
+  shipped at `docs/production/act1-asset-build/` mirroring
+  the Prelude pattern: manifest JSON, 5 per-room .txt
+  prompts, 12 per-matchup .txt prompts, 9 cutscene triplet
+  .txt prompts, and two ElevenLabs-import CSVs for the 19
+  Section 6 Antiquarian takes and the 4 Act 1 cutscene VO
+  takes. All paste-ready for parallel production.
+- **2026-04-18 (rev 9)** — Six Act 1 component scaffolds
+  landed in `apps/client/src/components/act1/`:
+  `TwoWitnessesPart2.tsx`, `LastWordsFullWitnessing.tsx`,
+  `VerdictStreamColumn.tsx`, `AuthorityPhaseBar.tsx`,
+  `WarlordLockoutChip.tsx`, `SeerCardFlicker.tsx`. Type
+  surfaces locked (including canonical constants like
+  `CHOICE_REVEAL_S=66`, `SKIP_UNLOCK_S=110`,
+  `FLICKER_DURATION_MS=800`, `EXECUTION_THRESHOLD=-5`,
+  `AUTHORITY_PHASES` schedule), GameState writer helpers
+  provided, and all follow the Prelude
+  `LastWordsWitnessing.tsx` pattern. Runtime wiring TODOs
+  flagged inline.
