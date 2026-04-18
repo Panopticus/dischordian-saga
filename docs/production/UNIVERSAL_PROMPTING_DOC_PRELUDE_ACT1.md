@@ -1716,6 +1716,137 @@ if deflect_branch_triggered:
   play l14
 ```
 
+### 9.10.2 Enigma blocking & still-reference sheet
+
+**Purpose.** The Enigma is silent for the entire scene per
+§9.4 decision 2. All of her characterization is carried by
+eye-line, posture, and four micro-gestures tied to specific
+Antiquarian lines. This subsection is the animator's
+blocking sheet — it tells them where she looks, when she
+moves, and when she does nothing.
+
+**Reference materials the animator needs in hand:**
+
+- Beat J Enigma render from `prelude-beat-j-archives` (for
+  facial and costume continuity — same character, same night,
+  same room)
+- The 20 *Last Words* slides at
+  `apps/client/public/art/prelude/last-words/slide-{1..4}-{1..5}.webp`
+  for face-match reference (she is the singer in the slides)
+- §4.5 / §5.3.4 Authority gallery stills — **not** for
+  Enigma (she is not in that room), but for the Archives
+  re-light palette the cutscene inherits
+
+**Physical anchors (non-negotiable):**
+
+- She stands. She does not sit at any point in the scene.
+- She is positioned a half-step behind and to the
+  Antiquarian's left, near the central Archives pedestal
+  from Beat J.
+- Her hands are clasped loosely at her waist at scene start
+  and remain there until the one permitted gesture at
+  l12c_v1.
+- She never crosses the room. She does not step toward the
+  player. The player crosses to her.
+- Her costume is the same as her Beat J render — ceremonial
+  but not institutional, darker than the Antiquarian's robe.
+
+**Three canonical gaze beats.** The Enigma looks directly at
+the player exactly three times in the scene. Each is
+load-bearing.
+
+| Gaze # | Triggered by | Held for | What it means |
+|---|---|---|---|
+| 1 | `l01` ("You came back…") | ~1.5s | The player has arrived. She confirms the sight of them, then looks away. |
+| 2 | `l07` ("She has chosen silence tonight…") | ~5s, through end of l07 | The Antiquarian has just licensed her silence. Her look at the player is her own answer to his promise. Longest gaze of the scene. |
+| 3 | `l14` ("The next breath is yours") | through fade to black | The last image before the title card. Her eyes are the Act 1 finale. |
+
+**Everything else is middle-distance, floor, or the pedestal.**
+Do not let the animator freelance additional player-gazes —
+the three beats above are the budget and each one is
+expensive.
+
+**Beat-by-beat blocking mapped to Antiquarian lines:**
+
+| Cue | Enigma action |
+|---|---|
+| **Cold open (0:00–0:20)** | Stands in Beat J pose beside the Antiquarian. Eye-line on the pedestal. Does not turn when the player enters. |
+| `l01` | **Gaze #1 fires.** Eye-line lifts, finds the player, held ~1.5s, returns to floor. |
+| `l02` | Motionless. The confession is the Antiquarian's alone. |
+| `l03` | On the word *waiting*, subtle weight shift from one foot to the other — a 300ms acknowledgment that the pronoun *I* is also hers. Not a gesture; a settling. |
+| `l04` | The Antiquarian refers to the song (*her* song). Head does NOT turn. Face softens around the eyes for ~500ms — a private recognition. No other movement. |
+| `l05` | Smallest possible nod, once, on the phrase *his death is the shape*. Not confirmation — acknowledgment. |
+| `l06` | On the words *the voice you heard carrying his words*, her eye-line crosses to the Antiquarian briefly (confirming his framing of her), then returns forward. She does NOT look at the player on this line. |
+| `l07` | **Gaze #2 fires.** Eye-line finds the player and stays. Held through the entire line (~5s). Her most sustained moment of presence in the scene. |
+| `l08` | Eye-line still on the player. Posture unchanged. She is the one person in the room who has already decided what this meeting is about. |
+| `l09` | On the word *end*, her gaze drifts off the player to the middle distance. The player should feel her looking away as consequence. |
+| `l10` | Motionless. Both Witnesses still. UI fades in on shared silence. |
+
+**Response branches — the Enigma's three endings:**
+
+**ACCEPT (`l11a`):**
+- On the Antiquarian's first syllable, her eye-line returns to the player.
+- Held ~3s. No smile. Sustained eye contact only.
+- At `l13` she lowers her head a fraction — not a bow, a relaxation.
+- On `l14` **gaze #3 fires** exactly on time. Through fade.
+
+**DECLINE (`l11b`):**
+- Eye-line does NOT return to the player.
+- One glance to the Antiquarian, then back to the floor.
+- Posture sags very slightly — the specific tiredness of someone who has waited before and will wait again.
+- At `l13` her eye-line is on the pedestal.
+- On `l14` **gaze #3 fires** — but from the floor upward, a slower lift than the accept variant. The fade catches her eyes mid-arrival; she never fully finishes the gaze before black.
+
+**DEFLECT (`l11c` + one of `l12c`/`l12c_v1`–`_v4`):**
+- On `l11c` ("Ask, then."): eye-line stays on middle distance. Patient, neutral. No preference about what the player asks.
+- On the catch-all `l12c`: motionless throughout.
+- On `l12c_v1` ("Who was he?"): **the one permitted physical gesture** — on the words *the Prince*, her clasped hands compress for ~200ms (finger pressure, not a reposition). This is the only time in the scene she physically reacts to a *name*. Face unchanged.
+- On `l12c_v2` ("How long waiting?"): motionless. She is the answer the Antiquarian is speaking.
+- On `l12c_v3` ("What if I say no?"): eye-line rises to the player once, ~1s, then back. A silent *"we will be here"* without the Antiquarian's words. (This counts against the gaze budget; **gaze #3 on l14 must be shortened proportionally** so the scene doesn't run four gazes.)
+- On `l12c_v4` ("Why me?"): on the closing clause *it always turns out to be enough*, her chin lifts a fraction — the smallest possible nod.
+- At `l13` she holds position.
+- On `l14` **gaze #3 fires** (or its shortened v3 variant). Through fade.
+
+**Gaze-budget enforcement rule.** The scene's emotional
+arithmetic depends on exactly three Enigma player-gazes. If
+the animator adds a fourth, the final gaze stops reading as
+a *final* and the scene's landing bleeds out. If the v3
+deflect gaze fires, shorten gaze #3 by the same duration.
+
+**Micro-gesture budget.** Only four permitted physical
+movements outside of eye-line:
+
+1. `l03` weight shift (acknowledges the *I* is hers)
+2. `l05` smallest possible nod
+3. `l11b` posture sag (decline branch only)
+4. `l12c_v1` hand compression (deflect variant 1 only)
+
+All four are sub-second. None reposition her body in space.
+Additional gestures are canon drift.
+
+**Animator deliverables:**
+
+- [ ] Still-reference sheet (single PNG, 1920×1080): four
+      composite panels showing the Enigma's pose and
+      eye-line at gaze #1 start, gaze #2 mid-hold, gaze #3
+      on the final frame, and at-rest middle-distance. Save
+      to `docs/production/act1/reference/enigma-blocking-sheet.png`.
+- [ ] Gaze-beat timeline (CSV or spreadsheet): one row per
+      Antiquarian line id, columns for eye-line target,
+      posture state, and any micro-gesture. This is the
+      animator's working file; save to
+      `docs/production/act1/reference/enigma-gaze-timeline.csv`.
+- [ ] Branch deltas sheet: a short diff listing showing
+      what changes per accept / decline / deflect / each
+      deflect variant. Three pages.
+
+**Voice team handoff.** The Antiquarian's VA does not need
+the Enigma blocking sheet for his recording passes. The
+director does — the Enigma's gaze beats are what the
+Antiquarian is sometimes *reacting to* (especially on `l06`
+when his eye-line crosses to her and back). Flag these
+cross-actor cues in the director's script margins.
+
 ---
 
 ## 10. Final Inventory Checklist
@@ -1754,6 +1885,9 @@ if deflect_branch_triggered:
 | 29 | Section 6 cutscene wiring | `components/act1/TwoWitnessesPart2.tsx` | code + existing Archives backdrop | §9 | SCAFFOLDED |
 | 30 | Antiquarian Section 6 VO | `audio/antiquarian/antiq_s6_*.mp3` | 19 mp3 takes (14 base + 1 catch-all + 4 deflect variants) | §9.10, §9.10.1 | DRAFTED |
 | — | Enigma Section 6 VO | N/A — silent per §9.4 decision 2 | N/A | §9 | DEFERRED to Act 2+ |
+| 31 | Enigma blocking still-reference sheet | `docs/production/act1/reference/enigma-blocking-sheet.png` | 1920×1080 PNG, 4-panel composite | §9.10.2 | PENDING |
+| 32 | Enigma gaze-beat timeline | `docs/production/act1/reference/enigma-gaze-timeline.csv` | CSV, one row per Antiquarian line | §9.10.2 | PENDING |
+| 33 | Enigma branch-deltas sheet | `docs/production/act1/reference/enigma-branch-deltas.md` | markdown, 3-page | §9.10.2 | PENDING |
 
 **Totals:** 17 new image renders · 3 new cutscene video
 renders · 2 runtime-only cutscene wirings (§6.4 *Last Words*,
@@ -1797,3 +1931,13 @@ pass. Enigma Section 6 VO deferred to Act 2+.
   under §9.6). v4 explicitly rejects destiny framing as an
   Act 1 guardrail. Total Section 6 Antiquarian VO takes:
   19. Runtime fallback logic documented.
+- **2026-04-18 (rev 5)** — §9.10.2 Enigma blocking sheet
+  added. Three canonical player-gazes (gaze #1 on l01 ~1.5s,
+  gaze #2 on l07 ~5s, gaze #3 on l14 through fade) and four
+  permitted micro-gestures (l03 weight shift, l05 smallest
+  nod, l11b posture sag, l12c_v1 hand compression) specified.
+  Gaze-budget enforcement rule: if deflect v3 fires its
+  player-gaze, gaze #3 must shorten proportionally. Animator
+  deliverables queued: still-reference sheet, gaze-beat
+  timeline CSV, branch-deltas sheet. Inventory now tracks
+  33 numbered deliverables.
