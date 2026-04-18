@@ -217,14 +217,22 @@ The design system should reinforce story beats:
 
 ## TIER 5: BACKEND CLEANUP
 
-### 5A. Orphaned Database Tables (5)
+### 5A. Orphaned Database Tables (4)
 | Table | Issue |
 |-------|-------|
-| `storeItems` | Never queried — store uses hardcoded `products.ts` |
 | `disenchantLog` | Schema exists, never written to |
 | `defenseWaves` | Schema exists, tower defense doesn't use it |
 | `writingStreaks` | Lore journal streak tracking never persisted |
 | `arkThemes` | Accessed inline in routers.ts, not via proper router |
+
+**Audit correction (2026-04):** `storeItems` was previously listed here. It
+is **not** orphaned — `apps/db/relations.ts:170` declares a two-way FK chain
+with `storePurchases.itemId`, and `storeItemsRelations` exposes `purchases:
+many(storePurchases)`. The original claim was "never queried from a router";
+that is correct but narrower than "orphaned." The table is part of the
+schema graph and would break referential integrity if removed. The router-
+layer gap (store still uses hardcoded `products.ts`) is a real follow-up
+but does not justify the orphan label.
 
 ### 5B. ElevenLabs TTS — Referenced but Never Connected
 Code comments mention ElevenLabs integration for companion voices. No API calls exist. Config references `elevenlabs-multilingual-v2` model in asset templates but it's never used.

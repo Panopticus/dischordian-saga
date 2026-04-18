@@ -66,8 +66,8 @@ export const CARD_REWARD_REGISTRY: readonly CardRewardSource[] = Object.freeze([
     description: `Card earned by completing campaign chapter ${i + 1}.`,
   })),
 
-  /* ── Tutorial (fixed per gate) ── */
-  ...Array.from({ length: 4 }, (_, i) => ({
+  /* ── Tutorial (fixed per gate; 6 gates after audit backfill) ── */
+  ...Array.from({ length: 6 }, (_, i) => ({
     id: `tutorial_gate${i + 1}`,
     sourceSystem: "tutorial",
     triggerCondition: `Complete tutorial gate ${i + 1}`,

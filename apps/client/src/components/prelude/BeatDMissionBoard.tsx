@@ -25,6 +25,8 @@ import {
   formatYearsOpen,
   type MissionPosting,
 } from "./beatDMissionPostings";
+import { PreludeTutorCard } from "./PreludeTutorCard";
+import { fireCompanionComment } from "@/lib/companionCommentQueue";
 
 export interface BeatDMissionBoardProps {
   /** Called when the player signals they're done at the board. */
@@ -41,6 +43,14 @@ export function BeatDMissionBoard({ onComplete }: BeatDMissionBoardProps) {
       if (prev.has(p.id)) return prev;
       const next = new Set(prev);
       next.add(p.id);
+      // Fire the "first slate read" comment on the initial pickup,
+      // and the "all slates read" comment once all three are open.
+      if (prev.size === 0) {
+        fireCompanionComment("prelude_beat_d_first_slate_read");
+      }
+      if (next.size === BEAT_D_MISSION_POSTINGS.length) {
+        fireCompanionComment("prelude_beat_d_all_slates_read");
+      }
       return next;
     });
   }, []);
@@ -82,6 +92,11 @@ export function BeatDMissionBoard({ onComplete }: BeatDMissionBoardProps) {
         pointerEvents: "auto",
       }}
     >
+      {/* Locke's first-time tutor intro — auto-hides once dismissed */}
+      <div className="absolute left-4 top-4 z-30 max-w-md">
+        <PreludeTutorCard systemId="mission_board" />
+      </div>
+
       {/* Mission slates — positioned per-posting on the cargo-hold backdrop */}
       {BEAT_D_MISSION_POSTINGS.map((posting) => {
         const isRead = read.has(posting.id);

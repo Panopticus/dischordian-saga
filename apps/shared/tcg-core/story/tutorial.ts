@@ -361,6 +361,154 @@ export const TUTORIAL_GATE_4: TutorialGate = {
   uiInteraction: "deckbuilder_swap",
 };
 
+/**
+ * Gate 5: Draw & Mulligan (audit backfill).
+ *
+ * Closes the prelude/Act 1 audit gap: the original 4 gates
+ * teach board play but never explicitly cover where new cards
+ * come from or how to reshape an opening hand.
+ */
+export const TUTORIAL_GATE_5: TutorialGate = {
+  id: "tutorial_gate_5",
+  gateNumber: 5,
+  title: "Draw & Mulligan",
+  objective: "Learn where new cards come from and how to reshape your opening hand.",
+  steps: [
+    {
+      speaker: "elara",
+      mood: "warm",
+      text: "You've been drawing cards every turn without me explaining it. That's on me. Let me fix it. At the start of every turn, the Engineer's deck shape gives you one new card from the top of the deck. He called this 'asking the deck a question.' The card is the answer.",
+      autoAdvance: true,
+    },
+    {
+      speaker: "elara",
+      mood: "curious",
+      text: "End your turn. Watch the new card slide into your hand. The deck just answered. Some answers you'll like. Some you won't. The deck is honest in a way that not many things are.",
+      highlight: "end_turn",
+      requiredAction: "end_turn",
+    },
+    {
+      speaker: "elara",
+      mood: "reflective",
+      text: "Mulligan is the move you make before the match starts. You look at your opening hand, you decide which cards you do not want to start with, and you ask for new ones. The Engineer used to mulligan exactly two cards every game, no matter how good his hand was. He said it was a way of telling the deck he was paying attention.",
+      autoAdvance: true,
+    },
+    {
+      speaker: "elara",
+      mood: "guarded",
+      text: "Pick two cards from your starting hand to send back. The deck will reshuffle them and deal you replacements. The replacements are not always better. They are always more honest about what's in the deck.",
+      highlight: "hand",
+      requiredAction: "mulligan_cards",
+    },
+  ],
+  encounter: {
+    id: "tutorial_g5",
+    chapterId: "tutorial",
+    name: "Tutorial — Draw & Mulligan",
+    description: "Learn the draw step and the opening-hand mulligan.",
+    bossFaction: "neutral",
+    bossGeneralDefId: "gen_neutral",
+    bossDeckCardDefIds: Array.from({ length: 39 }, (_, i) => `tutorial_filler_${i}`),
+    seed: "tutorial_gate_5_seed",
+    winConditions: [{ kind: "general_killed" }],
+    loseConditions: [{ kind: "general_killed" }],
+    narrativeHooks: [
+      {
+        id: "g5_welcome",
+        once: true,
+        condition: { kind: "always" },
+        action: { kind: "boss_taunt", text: "Draw your card. The top of the deck has been waiting for you." },
+      },
+      {
+        id: "g5_first_draw",
+        once: true,
+        condition: { kind: "turn_reached", turn: 2 },
+        action: { kind: "boss_taunt", text: "The deck answered. Read the answer before you spend it." },
+      },
+    ],
+    preMatchDialog: "dialog_tutorial_g5_pre",
+    postMatchWinDialog: "dialog_tutorial_g5_win",
+    postMatchLossDialog: "dialog_tutorial_g5_loss",
+  },
+};
+
+/**
+ * Gate 6: Deck-Out & Hand Limit (audit backfill).
+ *
+ * Scripts a short match where the hand-cap burn and the
+ * deck-out fatigue clock both trigger so the player feels
+ * them once in safety.
+ */
+export const TUTORIAL_GATE_6: TutorialGate = {
+  id: "tutorial_gate_6",
+  gateNumber: 6,
+  title: "Deck-Out & Hand Limit",
+  objective: "Feel the two clocks no one tells you about: a full hand and an empty deck.",
+  steps: [
+    {
+      speaker: "elara",
+      mood: "guarded",
+      text: "Two clocks no one warned you about. The first: your hand only holds ten cards. If you draw an eleventh, it burns — straight to the graveyard, untouched. The Engineer called burned cards 'questions you weren't ready to ask.' He hated burning them. So will you.",
+      autoAdvance: true,
+    },
+    {
+      speaker: "elara",
+      mood: "protective",
+      text: "Draw your card. Your hand is full. You'll watch one burn. I'm sorry. You needed to see it once.",
+      highlight: "hand",
+      requiredAction: "force_draw",
+    },
+    {
+      speaker: "elara",
+      mood: "reflective",
+      text: "The second clock: your deck. Every draw thins it. When the deck is empty and you still need to draw, the deck draws from you instead — your General takes lethal damage that scales each turn. The Engineer called this 'the deck eating its own author.' Don't let it.",
+      autoAdvance: true,
+    },
+    {
+      speaker: "elara",
+      mood: "warm",
+      text: "End your turn. The deck is empty. The first deck-out tick is small — almost forgivable. The second one will not be. End enough turns to feel it once, then end the match before it ends you.",
+      highlight: "end_turn",
+      requiredAction: "end_turn",
+    },
+  ],
+  encounter: {
+    id: "tutorial_g6",
+    chapterId: "tutorial",
+    name: "Tutorial — Deck-Out & Hand Limit",
+    description: "Learn the hand-size cap and the deck-out fatigue clock.",
+    bossFaction: "neutral",
+    bossGeneralDefId: "gen_neutral",
+    bossDeckCardDefIds: Array.from({ length: 39 }, (_, i) => `tutorial_filler_${i}`),
+    seed: "tutorial_gate_6_seed",
+    winConditions: [{ kind: "general_killed" }],
+    loseConditions: [{ kind: "general_killed" }, { kind: "turn_limit", turn: 12 }],
+    narrativeHooks: [
+      {
+        id: "g6_welcome",
+        once: true,
+        condition: { kind: "always" },
+        action: { kind: "boss_taunt", text: "Two clocks. I am only one of them. The other is in your hand." },
+      },
+      {
+        id: "g6_burn_hint",
+        once: true,
+        condition: { kind: "turn_reached", turn: 3 },
+        action: { kind: "boss_taunt", text: "A burned card is still a card. It just isn't yours anymore." },
+      },
+      {
+        id: "g6_deck_out_hint",
+        once: true,
+        condition: { kind: "turn_reached", turn: 8 },
+        action: { kind: "boss_taunt", text: "The deck is hungry now. The hunger compounds. End the match before the third bite." },
+      },
+    ],
+    preMatchDialog: "dialog_tutorial_g6_pre",
+    postMatchWinDialog: "dialog_tutorial_g6_win",
+    postMatchLossDialog: "dialog_tutorial_g6_loss",
+  },
+};
+
 /* ─── Tutorial Bot AI ─── */
 
 export interface TutorialBotConfig {
@@ -387,6 +535,8 @@ export const TUTORIAL_GATES: readonly TutorialGate[] = [
   TUTORIAL_GATE_2,
   TUTORIAL_GATE_3,
   TUTORIAL_GATE_4,
+  TUTORIAL_GATE_5,
+  TUTORIAL_GATE_6,
 ];
 
 /**
@@ -419,7 +569,7 @@ export const NEW_PLAYER_GRANT: NewPlayerGrant = {
    without needing to import the dialog bank directly.
    ═══════════════════════════════════════════════════════ */
 
-/** Look up a tutorial gate by gate number (1-4). */
+/** Look up a tutorial gate by gate number (1-6). */
 export function getTutorialGate(gateNumber: number): TutorialGate | undefined {
   return TUTORIAL_GATES.find((g) => g.gateNumber === gateNumber);
 }

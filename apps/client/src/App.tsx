@@ -21,6 +21,7 @@ import CoNexusMediaPlayer from "./components/CoNexusMediaPlayer";
 import AppShell from "./components/AppShellImmersive";
 import CommandConsole from "./components/CommandConsole";
 import AchievementToast from "./components/AchievementToast";
+import { CompanionCommentToast } from "./components/companion/CompanionCommentToast";
 import AchievementUnlockToast from "./components/AchievementUnlockToast";
 import RememberThisToast from "./components/RememberThisToast";
 import FeatureUnlockToast from "./components/FeatureUnlockToast";
@@ -485,6 +486,7 @@ function GameGate() {
       <CoNexusMediaPlayer />
       <AchievementToast />
       <AchievementUnlockToast />
+      <CompanionCommentToast />
       <RememberThisToast />
       <FeatureUnlockToast />
       {sortingTrigger.shouldTrigger && sortingTrigger.skillId && (

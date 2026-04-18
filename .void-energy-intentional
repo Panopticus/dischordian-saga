@@ -1,0 +1,6 @@
+# Void Energy intentional exceptions
+# ──────────────────────────────────
+# Files here are *not* subject to the void-energy-lint ratchet. Add a
+# path only with a one-line written justification on the preceding line.
+# Valid justifications: speaker-accent colors (narrative signal), faction
+# colors (game-rule signal), outcome colors (win/loss semantics).

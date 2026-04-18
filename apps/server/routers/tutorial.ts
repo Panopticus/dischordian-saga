@@ -8,18 +8,27 @@ import { logger } from "../logger";
 import { grantCardReward } from "../services/cardRewardService";
 
 /* ═══════════════════════════════════════════════════════
-   TUTORIAL ROUTER — 4-gate onboarding + new player grant (WS7)
+   TUTORIAL ROUTER — 6-gate onboarding + new player grant (WS7)
 
    Gate 1: Deploy & Attack
    Gate 2: Keywords (provoke, rush, forcefield)
    Gate 3: Spells & Bloodborn
    Gate 4: Deckbuilding (UI interaction)
+   Gate 5: Draw & Mulligan (audit backfill)
+   Gate 6: Deck-Out & Hand Limit (audit backfill)
 
-   After completing all 4 gates the server awards the
+   Gates 5 and 6 were added to close the prelude/Act 1 audit
+   gap on card-game tutorial coverage. The completedGates
+   bitmask is a 32-bit int and trivially fits the additional
+   bits, so existing player progress carries over without
+   migration. Players who completed Gate 4 before this PR
+   will see Gate 5 and Gate 6 available next.
+
+   After completing all 6 gates the server awards the
    new player grant (all commons, 6 starter decks, 5 packs).
    ═══════════════════════════════════════════════════════ */
 
-const TOTAL_GATES = 4;
+const TOTAL_GATES = 6;
 
 /** Pack credits awarded per gate completion. */
 const GATE_REWARDS: Record<number, { dreamTokens: number; xp: number }> = {
@@ -27,6 +36,8 @@ const GATE_REWARDS: Record<number, { dreamTokens: number; xp: number }> = {
   2: { dreamTokens: 50, xp: 150 },
   3: { dreamTokens: 75, xp: 200 },
   4: { dreamTokens: 100, xp: 300 },
+  5: { dreamTokens: 75, xp: 200 },
+  6: { dreamTokens: 100, xp: 250 },
 };
 
 export const tutorialRouter = router({
