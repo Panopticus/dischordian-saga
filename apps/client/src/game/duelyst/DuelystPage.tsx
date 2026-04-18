@@ -15,6 +15,7 @@ import { STARTER_DECK_MAP } from "@shared/tcg-core/decks/starterDecks";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import DuelystGameUI from "./DuelystGameUI";
+import { DeckPickerModal } from "@/components/match/DeckPickerModal";
 import PackOpening, { type PackCard } from "./PackOpening";
 import CollectionView from "./CollectionView";
 import DeckBuilder from "./DeckBuilder";
@@ -67,6 +68,14 @@ export default function DuelystPage() {
   const [wins, setWins] = useState(() => parseInt(localStorage.getItem("dischordia_wins") || "0"));
   const [losses, setLosses] = useState(() => parseInt(localStorage.getItem("dischordia_losses") || "0"));
   const [isTutorial, setIsTutorial] = useState(false);
+  // PR-3 — pre-match deck picker. The modal mounts after the user
+  // clicks CONFIRM & BATTLE; its onPick handler stashes the chosen
+  // 39-card deck here so DuelystGameUI can pass it through to
+  // TcgClient.init. null = use the faction starter (default).
+  const [showDeckPicker, setShowDeckPicker] = useState(false);
+  const [pickedDeckCardDefIds, setPickedDeckCardDefIds] = useState<
+    string[] | null
+  >(null);
   const [examTrialHistory, setExamTrialHistory] = useState<any[] | undefined>(undefined);
 
   // Auto-load graduation exam if ?exam= query param is present
@@ -560,7 +569,8 @@ export default function DuelystPage() {
                     BACK
                   </button>
                   <button
-                    onClick={() => { dischordiaSounds.play("button_click"); setView("playing"); }}
+                    onClick={() => { dischordiaSounds.play("button_click"); setShowDeckPicker(true); }}
+                    data-testid="duelyst-page-confirm-battle"
                     className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-mono text-sm font-bold hover:bg-primary/80 transition-colors"
                     style={{ boxShadow: `0 0 20px ${color}30` }}
                   >
@@ -572,6 +582,19 @@ export default function DuelystPage() {
           );
         })()}
 
+        {/* ═══ PR-3 — DECK PICKER ═══ */}
+        {showDeckPicker && playerFaction && (
+          <DeckPickerModal
+            faction={playerFaction}
+            onPick={(result) => {
+              setPickedDeckCardDefIds(result.cardDefIds);
+              setShowDeckPicker(false);
+              setView("playing");
+            }}
+            onCancel={() => setShowDeckPicker(false)}
+          />
+        )}
+
         {/* ═══ PLAYING ═══ */}
         {view === "playing" && playerFaction && opponentFaction && (
           <motion.div key="playing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-screen">
@@ -580,6 +603,7 @@ export default function DuelystPage() {
               opponentFaction={opponentFaction}
               isTutorial={isTutorial}
               trialHistory={examTrialHistory}
+              playerDeckCardDefIds={pickedDeckCardDefIds ?? undefined}
               onGameEnd={(winner) => {
                 if (isTutorial && winner === "player") {
                   localStorage.setItem("dischordia_tutorial_complete", "true");
@@ -587,7 +611,7 @@ export default function DuelystPage() {
                 }
                 handleGameEnd(winner);
               }}
-              onBack={() => { setIsTutorial(false); setView("menu"); }}
+              onBack={() => { setIsTutorial(false); setPickedDeckCardDefIds(null); setView("menu"); }}
             />
           </motion.div>
         )}

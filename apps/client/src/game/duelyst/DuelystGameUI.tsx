@@ -104,6 +104,16 @@ interface DuelystGameUIProps {
    *     `openingVerdictBalance` (the §5.7 → §5.8 handoff)
    */
   encounter?: StoryEncounter;
+  /**
+   * Optional custom player deck. When provided, replaces the default
+   * STARTER_DECK_MAP lookup for the player side. Format: 39-ish card
+   * def ids (string[]); if shorter than the format size, the engine
+   * will still run — but the match won't be format-legal. The
+   * DeckPickerModal already validates this against the shipped
+   * registry before handing it off, so by the time it reaches
+   * DuelystGameUI it's safe to pass through.
+   */
+  playerDeckCardDefIds?: readonly string[];
   onGameEnd: (winner: "player" | "opponent") => void;
   onBack: () => void;
 }
@@ -113,7 +123,7 @@ type SelectionMode = "none" | "move" | "attack" | "summon" | "spell_target";
 
 interface LogEntry { text: string; type: "info" | "attack" | "spell" | "move" | "system"; }
 
-function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onGameEnd, onBack, trialHistory, encounter }: DuelystGameUIProps) {
+function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onGameEnd, onBack, trialHistory, encounter, playerDeckCardDefIds }: DuelystGameUIProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rendererRef = useRef<BoardRenderer | null>(null);
   const tcgClientRef = useRef<TcgClient | null>(null);
@@ -308,11 +318,17 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   // trialToCombatBuff) will be re-integrated against the tcg-core state
   // shape once the trial system is adapted to the new engine.
   useEffect(() => {
-    // Prefer curated starter decks from tcg-core; fall back to ad-hoc builder
+    // PR-3 — custom deck passed from the DeckPickerModal wins over
+    // the default starter lookup. Otherwise prefer the curated
+    // starter deck for this faction; fall back to the ad-hoc
+    // builder if no starter is registered.
     const playerStarter = STARTER_DECK_MAP[playerFaction];
-    const p1DeckCardIds = playerStarter
-      ? [...playerStarter.cardDefIds]
-      : buildStarterDeck(playerFaction).map((c) => c.sagaCardId ?? c.id);
+    const p1DeckCardIds: string[] =
+      playerDeckCardDefIds && playerDeckCardDefIds.length > 0
+        ? [...playerDeckCardDefIds]
+        : playerStarter
+          ? [...playerStarter.cardDefIds]
+          : buildStarterDeck(playerFaction).map((c) => c.sagaCardId ?? c.id);
     // Stash the player's starting deck so the §4.9 match-end hook
     // can check for burnt_card_placeholder regardless of how many
     // cards remain in deck/hand/graveyard at resolution time.
@@ -381,6 +397,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     encounter,
     gameStateContext.act1PublicWitnessBalance,
     matchRunId,
+    playerDeckCardDefIds,
   ]);
 
   // Initialize renderer
