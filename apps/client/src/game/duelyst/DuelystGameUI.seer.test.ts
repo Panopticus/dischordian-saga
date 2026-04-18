@@ -83,9 +83,8 @@ describe("DuelystGameUI — §4.9 Seer outcome flag writes", () => {
 
 describe("DuelystGameUI — §5.7 → §5.8 handoff", () => {
   it("imports rememberPublicWitnessBalance from the shared handoff module", () => {
-    expect(uiSrc).toContain(
-      'import { rememberPublicWitnessBalance } from "@shared/act1TrialHandoff"',
-    );
+    expect(uiSrc).toContain("rememberPublicWitnessBalance");
+    expect(uiSrc).toContain('from "@shared/act1TrialHandoff"');
   });
 
   it("destructures setAct1PublicWitnessBalance from useGame()", () => {

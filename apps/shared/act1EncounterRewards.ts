@@ -51,7 +51,13 @@ export interface EncounterReward {
    */
   memorableMoments?: readonly {
     subtitle: string;
-    kind: "bond_peak" | "chamber_story" | "death_witnessed" | "choice_fork";
+    /**
+     * Must be a canonical `MemorableMomentKind` from
+     * `apps/shared/memorableMoments.ts`. Kept as a string literal
+     * union here (rather than importing the type) so this module
+     * stays a pure data table — tests assert exact membership.
+     */
+    kind: "bond_peak" | "card_battle_win" | "game_master_defeated" | "silence_chosen";
   }[];
 }
 
@@ -84,7 +90,7 @@ export const ACT_1_ENCOUNTER_REWARDS: EncounterRewardTable = {
       memorableMoments: [
         {
           subtitle: "The night you learned what arithmetic really means.",
-          kind: "chamber_story",
+          kind: "silence_chosen",
         },
       ],
     },
@@ -114,7 +120,7 @@ export const ACT_1_ENCOUNTER_REWARDS: EncounterRewardTable = {
       memorableMoments: [
         {
           subtitle: "The night you opened the beautiful box in public.",
-          kind: "bond_peak",
+          kind: "game_master_defeated",
         },
       ],
     },
@@ -136,7 +142,7 @@ export const ACT_1_ENCOUNTER_REWARDS: EncounterRewardTable = {
       memorableMoments: [
         {
           subtitle: "The night the verdict came back for you and not against you.",
-          kind: "choice_fork",
+          kind: "bond_peak",
         },
       ],
     },
@@ -146,7 +152,7 @@ export const ACT_1_ENCOUNTER_REWARDS: EncounterRewardTable = {
       memorableMoments: [
         {
           subtitle: "The night the sentence was passed.",
-          kind: "death_witnessed",
+          kind: "silence_chosen",
         },
       ],
     },

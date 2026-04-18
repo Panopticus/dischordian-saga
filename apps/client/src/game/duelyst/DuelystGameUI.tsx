@@ -49,8 +49,16 @@ import {
   type LightDarkAlignment,
 } from "@shared/campaignState";
 import { useGame } from "@/contexts/GameContext";
-import { rememberPublicWitnessBalance } from "@shared/act1TrialHandoff";
+import {
+  computeAuthorityTrialOverride,
+  rememberPublicWitnessBalance,
+} from "@shared/act1TrialHandoff";
 import { recordMemorableMoment } from "@/stores/memorableMomentsStore";
+import {
+  getEncounterReward,
+  type EncounterOutcome,
+} from "@shared/act1EncounterRewards";
+import type { StoryEncounter } from "@shared/tcg-core/story/encounter";
 import {
   deriveSeerOutcome,
   playerDeckUnlocksWinnablePath,
@@ -76,6 +84,23 @@ interface DuelystGameUIProps {
   isTutorial?: boolean;
   /** Celebration trial history — if provided, computes combat buffs for the player's deck */
   trialHistory?: TrialHistoryEntry[];
+  /**
+   * Optional Act 1 encounter override. When set, the component
+   * launches the match in encounter mode:
+   *   - opponent faction / general / deck come from the encounter,
+   *     not from `opponentFaction`
+   *   - trialMode / giftMode / witnessMode / prophecyMode /
+   *     scriptedActions flow to TcgClient.init so per-mode state
+   *     (PublicWitnessColumn, TrialPhaseIndicator, SeerPlayOverlay,
+   *     Warlord lockout) boots correctly
+   *   - match-end applies the per-encounter rewards from
+   *     `act1EncounterRewards.ts` (narratorBond, flags, memorable
+   *     moments)
+   *   - §5.8 Authority trial reads `act1PublicWitnessBalance` via
+   *     `computeAuthorityTrialOverride` to seed its
+   *     `openingVerdictBalance` (the §5.7 → §5.8 handoff)
+   */
+  encounter?: StoryEncounter;
   onGameEnd: (winner: "player" | "opponent") => void;
   onBack: () => void;
 }
@@ -85,7 +110,7 @@ type SelectionMode = "none" | "move" | "attack" | "summon" | "spell_target";
 
 interface LogEntry { text: string; type: "info" | "attack" | "spell" | "move" | "system"; }
 
-function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onGameEnd, onBack, trialHistory }: DuelystGameUIProps) {
+function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onGameEnd, onBack, trialHistory, encounter }: DuelystGameUIProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rendererRef = useRef<BoardRenderer | null>(null);
   const tcgClientRef = useRef<TcgClient | null>(null);
@@ -107,6 +132,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     setNarrativeFlag,
     setAct1PublicWitnessBalance,
     adjustNarratorBond,
+    completeRecruitmentMission,
     state: gameStateContext,
   } = useGame();
   const [gameState, setGameState] = useState<DuelystGameState | null>(null);
@@ -267,7 +293,6 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   useEffect(() => {
     // Prefer curated starter decks from tcg-core; fall back to ad-hoc builder
     const playerStarter = STARTER_DECK_MAP[playerFaction];
-    const opponentStarter = STARTER_DECK_MAP[opponentFaction];
     const p1DeckCardIds = playerStarter
       ? [...playerStarter.cardDefIds]
       : buildStarterDeck(playerFaction).map((c) => c.sagaCardId ?? c.id);
@@ -277,19 +302,61 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     initialPlayerDeckRef.current = p1DeckCardIds;
     seerFlagsWrittenRef.current = false;
     publicWitnessBalanceCapturedRef.current = false;
-    const p2DeckCardIds = opponentStarter
-      ? [...opponentStarter.cardDefIds]
-      : buildStarterDeck(opponentFaction).map((c) => c.sagaCardId ?? c.id);
+
+    // Encounter-mode path: use the boss's faction / general / deck /
+    // modes. The §5.8 Authority trial's openingVerdictBalance comes
+    // from the §5.7 handoff (`computeAuthorityTrialOverride`) — any
+    // other encounter's trialMode passes through unchanged.
+    let p2FactionToUse: string = opponentFaction;
+    let p2DeckCardIds: string[];
+    let p2GeneralDefId: string | undefined;
+    let trialMode = encounter?.trialMode;
+    if (encounter) {
+      p2FactionToUse = encounter.bossFaction;
+      p2DeckCardIds = [...encounter.bossDeckCardDefIds];
+      p2GeneralDefId = encounter.bossGeneralDefId;
+      if (encounter.id === "ch_authority_trial") {
+        const override = computeAuthorityTrialOverride(
+          gameStateContext.act1PublicWitnessBalance,
+        );
+        if (override) trialMode = override;
+      }
+    } else {
+      const opponentStarter = STARTER_DECK_MAP[opponentFaction];
+      p2DeckCardIds = opponentStarter
+        ? [...opponentStarter.cardDefIds]
+        : buildStarterDeck(opponentFaction).map((c) => c.sagaCardId ?? c.id);
+    }
+
     const client = TcgClient.init({
       p1Faction: playerFaction,
       p1DeckCardIds,
-      p2Faction: opponentFaction,
+      p2Faction: p2FactionToUse,
       p2DeckCardIds,
+      p2GeneralDefId,
+      seed: encounter?.seed,
+      trialMode,
+      giftMode: encounter?.giftMode,
+      witnessMode: encounter?.witnessMode,
+      prophecyMode: encounter?.prophecyMode,
+      scriptedActions: encounter?.scriptedActions,
     });
     tcgClientRef.current = client;
     setGameState(asGameState(client.getViewState()));
-    addLog("Game started. Choose cards to mulligan.", "system");
-  }, [playerFaction, opponentFaction, trialHistory, addLog]);
+    addLog(
+      encounter
+        ? `${encounter.name} — choose cards to mulligan.`
+        : "Game started. Choose cards to mulligan.",
+      "system",
+    );
+  }, [
+    playerFaction,
+    opponentFaction,
+    trialHistory,
+    addLog,
+    encounter,
+    gameStateContext.act1PublicWitnessBalance,
+  ]);
 
   // Initialize renderer
   useEffect(() => {
@@ -354,9 +421,45 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           updateQuestProgress.mutate({ questId: "w_win_10_battles", increment: 1 });
           updateQuestProgress.mutate({ questId: "e_win_100_battles", increment: 1 });
         }
+        // P1.1 campaign deltas — apply the per-encounter reward row
+        // when a named boss match resolves. Guarded by
+        // questsRecordedRef alongside the quest writes so both
+        // side-effects fire at most once per match. Non-named
+        // encounters and faction-vs-faction matches have no row and
+        // skip this block silently.
+        if (encounter) {
+          const outcome: EncounterOutcome =
+            gameState.winner === 0 ? "win" : "loss";
+          const reward = getEncounterReward(encounter.id, outcome);
+          if (reward) {
+            if (reward.narratorBondDelta) {
+              adjustNarratorBond(reward.narratorBondDelta);
+            }
+            if (reward.armyRecruitmentMission) {
+              completeRecruitmentMission(reward.armyRecruitmentMission);
+            }
+            if (reward.flagsToSet) {
+              for (const flag of reward.flagsToSet) setNarrativeFlag(flag, true);
+            }
+            if (reward.memorableMoments) {
+              for (const m of reward.memorableMoments) {
+                recordMemorableMoment(m.kind, m.subtitle);
+              }
+            }
+          }
+        }
       }
     }
-  }, [gameState, phase, onGameEnd, updateQuestProgress]);
+  }, [
+    gameState,
+    phase,
+    onGameEnd,
+    updateQuestProgress,
+    encounter,
+    adjustNarratorBond,
+    completeRecruitmentMission,
+    setNarrativeFlag,
+  ]);
 
   // Inner-voice dispatch: audit 2H — combat_low_hp fires exactly
   // once when the player's general drops below 25% max HP. Guarded
