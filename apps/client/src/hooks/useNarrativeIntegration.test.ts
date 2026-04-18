@@ -282,3 +282,81 @@ describe("DuelystGameUI — §4.9 Seer announcement", () => {
     );
   });
 });
+
+/* ═══════════════════════════════════════════════════════
+   P1.3 — Act 1 completion gate
+
+   The Act 1 closing cinematic only fires when ALL THREE of the
+   following land:
+     1. cardWins >= 12 (the twelfth match resolves)
+     2. lightDarkAlignment is not null (§5.8.1 ChoicePillar picked)
+     3. act1_authority_outcome flag set (trial resolved)
+
+   Source-scan confirms the gate is tightened — a regression that
+   drops any leg would re-open the "Act 1 closes without a verdict"
+   silent-transition bug.
+   ═══════════════════════════════════════════════════════ */
+describe("useNarrativeIntegration — Act 1 completion gate (P1.3)", () => {
+  const hookSrc = fs.readFileSync(
+    path.resolve(__dirname, "useNarrativeIntegration.ts"),
+    "utf-8",
+  );
+
+  it("requires cardWins >= 12", () => {
+    expect(hookSrc).toMatch(/cardWins\s*>=\s*12/);
+  });
+
+  it("requires lightDarkAlignment to be set (not null)", () => {
+    expect(hookSrc).toMatch(/state\.lightDarkAlignment\s*!==\s*null/);
+  });
+
+  it("requires act1_authority_outcome narrative flag", () => {
+    expect(hookSrc).toContain("act1_authority_outcome");
+  });
+});
+
+describe("DuelystGameUI — trial outcome persistence (P1.3)", () => {
+  const uiSrc = fs.readFileSync(
+    path.resolve(__dirname, "../game/duelyst/DuelystGameUI.tsx"),
+    "utf-8",
+  );
+
+  it("writes act1_authority_outcome marker + per-outcome flag on trial resolution", () => {
+    expect(uiSrc).toMatch(
+      /setNarrativeFlag\(\s*["']act1_authority_outcome["']\s*,\s*true\s*\)/,
+    );
+    expect(uiSrc).toMatch(
+      /setNarrativeFlag\(\s*`act1_authority_\$\{outcome\}`\s*,\s*true\s*\)/,
+    );
+  });
+});
+
+describe("DuelystGameUI — Programmer gift campaign consequence (P1.2)", () => {
+  const uiSrc = fs.readFileSync(
+    path.resolve(__dirname, "../game/duelyst/DuelystGameUI.tsx"),
+    "utf-8",
+  );
+
+  it("destructures adjustNarratorBond + recordMemorableMoment", () => {
+    expect(uiSrc).toContain("adjustNarratorBond,");
+    expect(uiSrc).toContain(
+      'import { recordMemorableMoment } from "@/stores/memorableMomentsStore"',
+    );
+  });
+
+  it("calls adjustNarratorBond(5) on the accept branch", () => {
+    expect(uiSrc).toMatch(/adjustNarratorBond\(\s*5\s*\)/);
+  });
+
+  it("records a bond_peak memorable moment on accept", () => {
+    expect(uiSrc).toMatch(
+      /recordMemorableMoment\(\s*["']bond_peak["']/,
+    );
+  });
+
+  it("raises act1_programmer_gift_declined on decline", () => {
+    expect(uiSrc).toMatch(
+      /setNarrativeFlag\(\s*["']act1_programmer_gift_declined["']\s*,\s*true\s*\)/,
+    );
+  });
+});

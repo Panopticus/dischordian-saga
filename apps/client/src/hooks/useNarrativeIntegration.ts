@@ -818,7 +818,20 @@ export function useNarrativeIntegration() {
         description: "The graduation photo. One student is missing.",
       });
     }
-    if (inAct1 && cardWins >= 12 && !state.narrativeFlags?.act_1_complete) {
+    if (
+      inAct1 &&
+      cardWins >= 12 &&
+      !state.narrativeFlags?.act_1_complete &&
+      // P1.3 — Act 1 completion must be atomic across (a) the 12-win
+      // milestone, (b) the §5.8.1 Light/Dark alignment choice, and
+      // (c) the §5.8 trial verdict landing (`act1_authority_outcome`
+      // is raised by DuelystGameUI's trial-resolution path). If any
+      // of the three is missing, hold Act 1 open rather than raise
+      // `act_1_complete` prematurely — downstream Act 2 surfaces read
+      // this flag as a hard gate.
+      state.lightDarkAlignment !== null &&
+      !!state.narrativeFlags?.act1_authority_outcome
+    ) {
       setNarrativeFlag("act_1_complete", true);
       toast.info("Cycle C — The Deck Reforged", {
         description: "New Babylon. A tall figure in a worn engineer's coat.",

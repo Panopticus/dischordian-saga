@@ -50,6 +50,7 @@ import {
 } from "@shared/campaignState";
 import { useGame } from "@/contexts/GameContext";
 import { rememberPublicWitnessBalance } from "@shared/act1TrialHandoff";
+import { recordMemorableMoment } from "@/stores/memorableMomentsStore";
 import {
   deriveSeerOutcome,
   playerDeckUnlocksWinnablePath,
@@ -105,6 +106,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   const {
     setNarrativeFlag,
     setAct1PublicWitnessBalance,
+    adjustNarratorBond,
     state: gameStateContext,
   } = useGame();
   const [gameState, setGameState] = useState<DuelystGameState | null>(null);
@@ -484,9 +486,19 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         { type: "choice_presented" },
         (gameStateContext.innerVoiceSkills ?? {}) as Record<string, number>,
       );
+      // P1.3 campaign persistence — raise the canonical outcome
+      // flag so the Act 1 cycle watcher can gate `act_1_complete`
+      // on a real verdict landing. Spec
+      // `authority-trial-phase-mechanic.md` §6 defines two outcomes
+      // (overturn / sentence_passed); we raise one per-outcome flag
+      // plus a shared `act1_authority_outcome` marker so downstream
+      // readers can do either "which outcome?" (check the specific
+      // flag) or "did the trial resolve?" (check the marker).
+      setNarrativeFlag("act1_authority_outcome", true);
+      setNarrativeFlag(`act1_authority_${outcome}`, true);
     }
     prevTrialOutcomeRef.current = outcome;
-  }, [gameState, gameStateContext.innerVoiceSkills]);
+  }, [gameState, gameStateContext.innerVoiceSkills, setNarrativeFlag]);
 
   // §5.6 gift pillar — fires on the not_offered → offered transition.
   // Once the player resolves (accepted/declined), the status moves
@@ -539,6 +551,24 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       if (client) {
         client.dispatch({ type: "programmer_gift_choice", choice });
       }
+      // P1.2 — the Programmer gift accept/decline branch needs a
+      // downstream consequence so the choice isn't a flag-only null
+      // op. Accepting the throw is a sacrifice — the Programmer
+      // vanishes and doesn't return — which deepens the player's
+      // bond with The Human (shared grief of the witness track).
+      // Declining raises a dedicated flag so Acts 2+ dialog can
+      // acknowledge the refusal.
+      if (accepted) {
+        adjustNarratorBond(5);
+        recordMemorableMoment(
+          "bond_peak",
+          "The night you let the Programmer throw the match.",
+          undefined,
+          { choice: "accept" },
+        );
+      } else {
+        setNarrativeFlag("act1_programmer_gift_declined", true);
+      }
       addLog(
         accepted
           ? "The Programmer vanishes that night and does not return. You take the win."
@@ -547,7 +577,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       );
       setTimeout(() => setShowProgrammerGiftPillar(false), 800);
     },
-    [addLog],
+    [addLog, adjustNarratorBond, setNarrativeFlag],
   );
 
   // §5.5 Warlord lockout — screen-reader announcements + fade-out.
