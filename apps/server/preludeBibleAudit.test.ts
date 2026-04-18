@@ -6,6 +6,7 @@ import {
   collectCodeImplementedVfxPaths,
   PRELUDE_BEAT_J_MUSIC,
 } from "../shared/preludeSequence";
+import { ENGINEER_RECORDINGS } from "../shared/engineerRecordings";
 
 /* ═══════════════════════════════════════════════════════
    PRELUDE BIBLE AUDIT — cross-check of "existing" claims
@@ -48,39 +49,59 @@ const BIBLE_PATH = "docs/production/PRELUDE_SHIP_READY_BIBLE.md";
  * what's wrong so a future cleanup PR has a starting point.
  *
  * When the Bible is fixed, remove the corresponding entry here.
+ *
+ * VO lines that are canonical but awaiting recording now live in
+ * `apps/shared/pendingVoLines.json` — the manifest audit treats
+ * those as valid keys and the readiness dashboard counts them as
+ * outstanding production work, rather than keeping them here
+ * indefinitely as "stale".
  */
 const STALE_REF_ALLOWLIST: ReadonlyMap<string, string> = new Map([
-  [
-    "apps/client/public/audio/antiquarian/antiq_fc_1.mp3",
-    "Bible §17.5 claims 'existing asset, no modification'. " +
-      "In reality antiquarianVoManifest.json only has antiq_fulcrum/ages/variations/library/etc. " +
-      "The antiq_fc_1 id is invented — either the line needs to be recorded (and added to the manifest) " +
-      "or Beat J's first-contact VO needs to be remapped to an actually-existing antiquarian line. " +
-      "Flagged as follow-up — must not block this PR.",
-  ],
-  // The four §X.3/§X.4 cutscene path drifts that were previously here
-  // (prelude-beat-a-awakening, prelude-beat-a5-corridor,
-  //  prelude-beat-b-escape, prelude-beat-c-crew-and-incubators)
-  // were resolved by aligning each beat sub-spec's Beat ID + Output
-  // line to the canonical §19.2 paths. The Bible now uses one
-  // consistent path per beat — no more drift to suppress.
+  // All prior entries migrated to apps/shared/pendingVoLines.json
+  // (the antiq_fc_1 line and the elara_fc_* family). If a new
+  // truly-stale reference appears, add it here with a remediation
+  // note; otherwise prefer the pending-vo-lines registry.
 ]);
 
 /**
- * The Prelude Bible uses "existing elara_fc_*" references that
- * don't map to elaraVoManifest.json keys. Rather than listing
- * every one individually in the allowlist, this prefix-based
- * allowlist suppresses the whole family.
+ * Prefix-based stale allowlist. Intentionally empty now that the
+ * elara_fc_* family has been migrated to pendingVoLines.json. Kept
+ * as a hook for future drift.
  */
-const STALE_REF_PREFIX_ALLOWLIST: readonly { prefix: string; note: string }[] = [
-  {
-    prefix: "apps/client/public/audio/elara/elara_fc",
-    note:
-      "Bible §3.5 references 'elara_fc_* lines from VOICE_OVER_BIBLE.md lines 86-91'. " +
-      "elaraVoManifest.json has no entries matching elara_fc*. These are stale IDs — " +
-      "real existing Elara lines live under other naming conventions. Flagged as follow-up.",
-  },
-];
+const STALE_REF_PREFIX_ALLOWLIST: readonly { prefix: string; note: string }[] = [];
+
+/**
+ * Load the pending-VO-lines registry. Returns a map of
+ * `apps/client/public/audio/<speaker>/<lineId>.mp3` → true for
+ * every pending line. Used by the audit to treat pending entries
+ * as valid keys (they are canonical, just not yet recorded).
+ */
+function loadPendingVoPathSet(): ReadonlySet<string> {
+  try {
+    const registry = JSON.parse(
+      fs.readFileSync(
+        resolveFromRepoRoot("apps/shared/pendingVoLines.json"),
+        "utf-8",
+      ),
+    ) as Record<string, unknown>;
+    const out = new Set<string>();
+    for (const [speaker, ids] of Object.entries(registry)) {
+      if (!Array.isArray(ids)) continue;
+      for (const id of ids) {
+        if (typeof id !== "string") continue;
+        out.add(`apps/client/public/audio/${speaker}/${id}.mp3`);
+      }
+    }
+    return out;
+  } catch {
+    return new Set();
+  }
+}
+
+const PENDING_VO_PATHS = loadPendingVoPathSet();
+function isPendingVoPath(p: string): boolean {
+  return PENDING_VO_PATHS.has(p);
+}
 
 /** Paths explicitly spec'd by the canon expansion doc, not this Bible. */
 const CANON_EXPANSION_OWNED_PATHS: ReadonlySet<string> = new Set([
@@ -278,7 +299,8 @@ describe("Prelude Bible audit — VO manifest claims", () => {
   const knownNew = buildKnownNewPaths();
 
   // Audio paths to verify via VO manifests: audio/<speaker>/*.mp3
-  // excluding music, prince (manifest-less), and canon-expansion-owned.
+  // excluding music, prince (manifest-less), canon-expansion-owned,
+  // and pending-VO-lines (canonical but awaiting recording).
   const audioToCheck = allPaths.filter(
     (p) =>
       p.startsWith("apps/client/public/audio/") &&
@@ -286,6 +308,7 @@ describe("Prelude Bible audit — VO manifest claims", () => {
       !isPrinceAudioPath(p) &&
       !knownNew.has(p) &&
       !isStaleAllowlisted(p) &&
+      !isPendingVoPath(p) &&
       !CANON_EXPANSION_OWNED_PATHS.has(p),
   );
 
@@ -359,6 +382,113 @@ describe("Prelude Bible audit — VO manifest claims", () => {
     // visible in the test output so a future PR can close it.
     // eslint-disable-next-line no-console
     console.log(`[bible audit] Prince VO gap: ${PRINCE_VO_GAP}`);
+  });
+});
+
+describe("Prelude Bible audit — Prince VO coverage (engineerRecordings)", () => {
+  const bibleSrc = loadBible();
+  const allPaths = extractPreludePathsFromBible(bibleSrc);
+  const knownNew = buildKnownNewPaths();
+
+  /**
+   * Build the id set from the typed registry. Prince VO paths in
+   * the Bible follow `apps/client/public/audio/prince/<lineId>.mp3`,
+   * and `<lineId>` should match a HoloRecordingId.
+   */
+  const engineerRecordingIds: ReadonlySet<string> = new Set(
+    ENGINEER_RECORDINGS.map((r) => r.id as string),
+  );
+
+  /**
+   * Prince audio paths from the Bible, minus anything owned by the
+   * canon expansion (those ship via a separate pipeline) and
+   * minus anything already tracked as known-new.
+   */
+  const princeToCheck = allPaths.filter(
+    (p) =>
+      isPrinceAudioPath(p) &&
+      !knownNew.has(p) &&
+      !CANON_EXPANSION_OWNED_PATHS.has(p) &&
+      !isStaleAllowlisted(p),
+  );
+
+  it(`classified ${princeToCheck.length} Prince 'existing' claims to verify`, () => {
+    // eslint-disable-next-line no-console
+    console.log(
+      `[bible audit] Prince existing claims to verify: ${princeToCheck.length}`,
+    );
+  });
+
+  it("every Bible-claimed Prince VO path maps to a HoloRecordingId in engineerRecordings.ts", () => {
+    const offenders: Array<{ path: string; reason: string }> = [];
+    for (const p of princeToCheck) {
+      const lineId = voLineIdFromPath(p);
+      if (!engineerRecordingIds.has(lineId)) {
+        offenders.push({
+          path: p,
+          reason: `id '${lineId}' not found in ENGINEER_RECORDINGS (apps/shared/engineerRecordings.ts)`,
+        });
+      }
+    }
+    if (offenders.length > 0) {
+      const details = offenders
+        .map((o) => `  ${o.path}\n    → ${o.reason}`)
+        .join("\n");
+      expect.fail(
+        `Bible references ${offenders.length} Prince VO path(s) that are not in the engineerRecordings registry:\n${details}`,
+      );
+    }
+  });
+});
+
+describe("Prelude Bible audit — pending VO lines dashboard", () => {
+  it("logs every pending VO line with its speaker", () => {
+    // Informational — surfaces the outstanding production queue so
+    // the pending list is visible in the audit output. No assertion;
+    // a future recording pipeline removes the entry from
+    // pendingVoLines.json and lands the URL in the speaker manifest.
+    // eslint-disable-next-line no-console
+    console.log(
+      `[bible audit] pending VO lines: ${PENDING_VO_PATHS.size}`,
+    );
+    for (const p of Array.from(PENDING_VO_PATHS).sort()) {
+      // eslint-disable-next-line no-console
+      console.log(`[bible audit]   pending → ${p}`);
+    }
+  });
+
+  it("every pending VO line is still referenced somewhere in the Bible", () => {
+    // Guardrail: if a pending line is no longer referenced in the
+    // Bible (by either literal path OR line-id / wildcard family),
+    // drop it from pendingVoLines.json so the list doesn't rot.
+    //
+    // We accept several reference forms because the Bible cites
+    // lines in different conventions: full path, bare id, or a
+    // `family_*` wildcard when multiple lines share a prefix.
+    const bibleSrc = loadBible();
+    const dead: string[] = [];
+    for (const p of PENDING_VO_PATHS) {
+      if (bibleSrc.includes(p)) continue; // literal path
+      const lineId = path.basename(p, ".mp3");
+      if (bibleSrc.includes(lineId)) continue; // bare id
+      // Wildcard family check: strip trailing _<digits> and look for
+      // `<family>_*` or `<family>_`.
+      const family = lineId.replace(/_\d+$/u, "");
+      if (family !== lineId) {
+        if (
+          bibleSrc.includes(`${family}_*`) ||
+          bibleSrc.includes(`\`${family}_\``)
+        ) {
+          continue;
+        }
+      }
+      dead.push(p);
+    }
+    if (dead.length > 0) {
+      expect.fail(
+        `pendingVoLines.json lists ${dead.length} line(s) no longer referenced in the Bible:\n  ${dead.join("\n  ")}\nRemove them or update the Bible.`,
+      );
+    }
   });
 });
 

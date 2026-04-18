@@ -137,6 +137,26 @@ interface DuelystGameUIProps {
   playerDeckCardDefIds?: readonly string[];
   onGameEnd: (winner: "player" | "opponent") => void;
   onBack: () => void;
+  /**
+   * Fired whenever the game's turnNumber changes. The event carries
+   * the new turn number and who's acting ("player" | "opponent").
+   * Used by Act 1 opponent-taunt overlays and other turn-reactive
+   * UI so they can drop their timer fallbacks.
+   */
+  onTurnChange?: (event: {
+    turnNumber: number;
+    actor: "player" | "opponent";
+  }) => void;
+  /**
+   * Fired when the opponent's general HP changes. Reports the new
+   * HP, the previous HP, and the max HP so listeners can compute
+   * their own thresholds (e.g. boss "bloody" phase triggers).
+   */
+  onBossHpChange?: (event: {
+    hp: number;
+    previousHp: number;
+    maxHp: number;
+  }) => void;
 }
 
 type Phase = "mulligan" | "playing" | "ai_turn" | "game_over";
@@ -144,7 +164,7 @@ type SelectionMode = "none" | "move" | "attack" | "summon" | "spell_target";
 
 interface LogEntry { text: string; type: "info" | "attack" | "spell" | "move" | "system"; }
 
-function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onGameEnd, onBack, trialHistory, encounter, playerDeckCardDefIds }: DuelystGameUIProps) {
+function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onGameEnd, onBack, trialHistory, encounter, playerDeckCardDefIds, onTurnChange, onBossHpChange }: DuelystGameUIProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rendererRef = useRef<BoardRenderer | null>(null);
   const tcgClientRef = useRef<TcgClient | null>(null);
@@ -305,7 +325,27 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   // Tutorial state
   const [tutorialStep, setTutorialStep] = useState(0);
   const [lastActionType, setLastActionType] = useState<string | null>(null);
-  const currentTutorialStep = isTutorial ? TUTORIAL_STEPS[tutorialStep] : null;
+  const rawTutorialStep = isTutorial ? TUTORIAL_STEPS[tutorialStep] : null;
+  // PR — gate tutorial steps on phase. Mulligan-phase steps must not
+  // render during "playing", and vice versa. The default phase is
+  // "playing" so pre-existing steps without a phase tag keep working.
+  const currentTutorialStep =
+    rawTutorialStep &&
+    (rawTutorialStep.phase ?? "playing") === (phase === "mulligan" ? "mulligan" : "playing")
+      ? rawTutorialStep
+      : null;
+  // Auto-advance past steps that don't apply to the current phase
+  // (e.g. skip the mulligan steps once the match is in "playing").
+  useEffect(() => {
+    if (!isTutorial) return;
+    const step = TUTORIAL_STEPS[tutorialStep];
+    if (!step) return;
+    const stepPhase = step.phase ?? "playing";
+    const currentPhase = phase === "mulligan" ? "mulligan" : "playing";
+    if (stepPhase !== currentPhase) {
+      setTutorialStep((s) => s + 1);
+    }
+  }, [isTutorial, phase, tutorialStep]);
 
   // Tutorial steps are player-paced — no auto-advance timers.
   // Steps with autoAdvanceMs show a "tap to continue" indicator.
@@ -503,6 +543,54 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       (unitId) => handleUnitClick(unitId),
     );
   });
+
+  // ─── TURN-CHANGE BROADCAST ───
+  // Emits onTurnChange whenever the engine's turnNumber advances.
+  // The Act 1 taunt overlay consumes this to drop its 10s/45s/90s
+  // timer fallback and pin taunts to real turn boundaries.
+  const prevTurnNumberRef = useRef<number | null>(null);
+  useEffect(() => {
+    if (!gameState || phase === "mulligan") return;
+    const turn = gameState.turnNumber ?? 1;
+    if (prevTurnNumberRef.current === turn) return;
+    prevTurnNumberRef.current = turn;
+    if (!onTurnChange) return;
+    const actor: "player" | "opponent" =
+      gameState.currentPlayer === 0 ? "player" : "opponent";
+    onTurnChange({ turnNumber: turn, actor });
+  }, [gameState, phase, onTurnChange]);
+
+  // ─── OPPONENT HP BROADCAST ───
+  // Emits onBossHpChange whenever the opponent general's HP
+  // changes. Listeners implement their own thresholds; the hook
+  // just reports the event. Opponent is always player index 1 in
+  // single-player encounters.
+  const prevOpponentHpRef = useRef<number | null>(null);
+  useEffect(() => {
+    if (!gameState || phase === "mulligan") return;
+    if (!onBossHpChange) return;
+    let opponentGeneral: { currentHealth: number; maxHealth: number } | null =
+      null;
+    for (const unit of gameState.board.values()) {
+      if (unit.owner === 1 && unit.isGeneral) {
+        opponentGeneral = {
+          currentHealth: unit.currentHealth,
+          maxHealth: unit.maxHealth,
+        };
+        break;
+      }
+    }
+    if (!opponentGeneral) return;
+    const hp = opponentGeneral.currentHealth;
+    if (prevOpponentHpRef.current === hp) return;
+    const previousHp = prevOpponentHpRef.current ?? hp;
+    prevOpponentHpRef.current = hp;
+    onBossHpChange({
+      hp,
+      previousHp,
+      maxHp: opponentGeneral.maxHealth,
+    });
+  }, [gameState, phase, onBossHpChange]);
 
   // §5.7 → §5.8 campaign handoff. When a Game-Master-style match
   // (witnessMode opt-in → `gameState.publicWitness` populated) ends,
@@ -919,6 +1007,8 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     const finalView = asGameState(client.getViewState());
     setGameState(finalView);
     setPhase("playing");
+    // PR — tutorial mulligan step advances on this action.
+    if (isTutorial) setLastActionType("mulligan_confirm");
     // Inner-voice dispatch: audit 2H — combat_start is the canonical
     // "match has begun" beat. Any skill with a registered utterance
     // for this trigger surfaces a whisper via the global VoiceWhisper
@@ -1394,6 +1484,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
                   {currentTutorialStep.requiredAction === "attack" && "↑ Select your unit, then attack an enemy"}
                   {currentTutorialStep.requiredAction === "play_card" && "↓ Click a card in your hand, then click a tile"}
                   {currentTutorialStep.requiredAction === "end_turn" && "→ Press END TURN"}
+                  {currentTutorialStep.requiredAction === "mulligan_confirm" && "↓ Press CONFIRM to start the match"}
                 </p>
               ) : (
                 <p className="font-mono text-[var(--space-sm)] text-white/20 mt-2">tap to continue ▼</p>

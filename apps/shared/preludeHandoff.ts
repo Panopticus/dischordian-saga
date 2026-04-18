@@ -1,23 +1,21 @@
 /* ═══════════════════════════════════════════════════════
-   PRELUDE → ACT 1 HANDOFF — the "ship-blocker" dispatcher
-
-   Roadmap note (ALL_ACTS_ROADMAP.md, Prelude entry):
-   "12/13 subsystems ready; 1 VO line pending; runtime
-   handoff dispatcher NOT wired (ship-blocker)."
+   PRELUDE → ACT 1 HANDOFF — runtime dispatcher predicate
 
    The Prelude's third crew mission (burnt card) raises:
      - prelude_mission_burnt_card_complete
      - prelude_burnt_card_found
      - prelude_complete
 
-   After those fire, the player needs narrativeAct to move
-   from 0 → 1 so ACT_TRIGGERS[0] (Act 1 "THE SIGNAL") can
-   trigger the next time they step into comms-relay.
-   Nothing wired that transition, so Act 1 was unreachable
-   from the Prelude.
+   After those fire, narrativeAct must move from 0 → 1 so
+   ACT_TRIGGERS[0] (Act 1 "THE SIGNAL") can fire the next
+   time the player steps into comms-relay.
 
-   This module is the one-line predicate that the runtime
-   hook reads. Pure; no React.
+   This module is the pure predicate. The runtime dispatcher
+   — the effect that calls advanceNarrativeAct(1) when the
+   predicate turns true — lives in
+   `apps/client/src/hooks/useNarrativeIntegration.ts` and is
+   mounted from `AppShellImmersive`. The earlier "NOT wired
+   (ship-blocker)" roadmap note is resolved.
    ═══════════════════════════════════════════════════════ */
 
 /** The narrative act the handoff advances into. */

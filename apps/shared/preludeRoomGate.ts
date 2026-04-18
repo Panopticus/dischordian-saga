@@ -7,11 +7,17 @@
    "cleaned" (in the codebase: visited at least once OR
    marked complete via a narrative flag).
 
-   The proposal's order includes "Mess Hall" as the 4th
-   room, which doesn't exist as a distinct GameContext
-   room id. We map it to a no-op sentinel in the sequence
-   so future work can slot a real Mess Hall in without
-   breaking the gate.
+   Most rooms in the order map 1:1 to GameContext room ids
+   (kebab-case). The Mess Hall (position 4) is a
+   Prelude-only beat room: it does not exist as a
+   GameContext navigable room. Its artwork is served by
+   the Prelude beat sequence (not by `enterRoom`), and its
+   "cleaned" signal is the dedicated narrative flag
+   `prelude_mess_hall_cleaned`, which is raised from the
+   Prelude beat that covers the Mess Hall scene. Callers
+   that only pass GameContext visit data will still see
+   the Mess Hall as cleaned (via the flag bridge below),
+   so gating never softlocks.
 
    This module is pure data + pure predicates. The client
    reads the predicate from GameContext.enterRoom (or a
@@ -23,8 +29,6 @@
    freely navigable.
    ═══════════════════════════════════════════════════════ */
 
-import type { NarratorRoomId } from "./mobileNarrator";
-
 /* ─── THE CANONICAL PRELUDE ORDER (§2.2) ─── */
 
 /**
@@ -33,17 +37,14 @@ import type { NarratorRoomId } from "./mobileNarrator";
  * can compare against `state.currentRoomId` without running
  * through toNarratorRoomId.
  *
- * Position 4 ("mess-hall") is a placeholder. GameContext
- * does not yet expose a Mess Hall as a distinct room. The
- * sentinel keeps the sequence positions stable for future
- * work — a real Mess Hall can slot in without re-numbering
- * the other entries.
+ * Position 4 ("mess-hall") is a Prelude-only beat room. See
+ * PRELUDE_ONLY_BEAT_ROOMS below — cleaning is flag-driven.
  */
 export const PRELUDE_ROOM_ORDER: readonly string[] = [
   "cryo-bay", //         1 — Awakening, Beat 1 interference
   "bridge", //           2 — Elara pins the holographic map
   "medical-bay", //      3 — Pet capsule; Beat 2 Human signal
-  "mess-hall", //        4 — SENTINEL: crew beacon, minigame intro
+  "mess-hall", //        4 — Prelude-only beat room (crew beacon, minigame intro)
   "comms-array", //      5 — Beat 3 The Human introduces himself
   "armory", //           6 — First combat tutorial
   "observation-deck", // 7 — Beat 4 narrator swap; Vortex glimpse
@@ -52,8 +53,25 @@ export const PRELUDE_ROOM_ORDER: readonly string[] = [
   "archives", //        10 — The Seer's burnt tarot fragment
 ];
 
-/** Room ids that are sentinels — always treated as complete. */
-const SENTINEL_ROOMS = new Set(["mess-hall"]);
+/**
+ * Rooms that live only during the Prelude (no GameContext
+ * room def, no navigable hotspot). Their "cleaned" state is
+ * set by the Prelude beat that covers them, via a
+ * narrative flag rather than a visit count.
+ *
+ * Map: roomId → narrative flag raised by the matching beat.
+ */
+export const PRELUDE_ONLY_BEAT_ROOMS: Readonly<Record<string, string>> = {
+  "mess-hall": "prelude_mess_hall_cleaned",
+};
+
+/** True if the given id is a Prelude-only beat room (no GameContext nav). */
+export function isPreludeBeatRoom(roomId: string): boolean {
+  return Object.prototype.hasOwnProperty.call(
+    PRELUDE_ONLY_BEAT_ROOMS,
+    roomId,
+  );
+}
 
 /* ─── UNLOCK PREDICATE ─── */
 
@@ -66,14 +84,38 @@ export interface PreludeGateContext {
    * at least once" as the proxy (room.visitCount > 0).
    */
   roomCleanedMap: Readonly<Record<string, boolean>>;
+  /**
+   * Optional narrative-flag map. Used to resolve the
+   * cleaning status of Prelude-only beat rooms (mess-hall)
+   * whose cleaned state is flag-driven rather than visit-
+   * driven. Callers that don't pass this default to treating
+   * Prelude-only beat rooms as already-cleaned so the gate
+   * never softlocks on a missing flag bridge.
+   */
+  narrativeFlags?: Readonly<Record<string, unknown>>;
+}
+
+/**
+ * Internal: true if `roomId` is cleaned under `ctx`. Handles
+ * both visit-based cleaning (normal GameContext rooms) and
+ * flag-based cleaning (Prelude-only beat rooms).
+ */
+function isRoomCleaned(roomId: string, ctx: PreludeGateContext): boolean {
+  if (isPreludeBeatRoom(roomId)) {
+    const flag = PRELUDE_ONLY_BEAT_ROOMS[roomId];
+    if (!ctx.narrativeFlags) return true; // no flag bridge → assume cleaned
+    return Boolean(ctx.narrativeFlags[flag]);
+  }
+  return Boolean(ctx.roomCleanedMap[roomId]);
 }
 
 /**
  * Return true if the player is allowed to enter the given
  * room right now. During the Prelude, a room unlocks only
  * when every earlier room in the PRELUDE_ROOM_ORDER has
- * been cleaned. Sentinel rooms (mess-hall) count as cleaned
- * by default so the sequence doesn't softlock.
+ * been cleaned. Prelude-only beat rooms (mess-hall) are
+ * cleaned via their narrative flag — see
+ * PRELUDE_ONLY_BEAT_ROOMS.
  *
  * During any other narrative act, every room is freely
  * navigable.
@@ -98,11 +140,10 @@ export function isRoomUnlocked(
   // The first room is always unlocked.
   if (index === 0) return true;
 
-  // Every earlier room must be cleaned (or be a sentinel).
+  // Every earlier room must be cleaned.
   for (let i = 0; i < index; i++) {
     const prior = PRELUDE_ROOM_ORDER[i];
-    if (SENTINEL_ROOMS.has(prior)) continue;
-    if (!ctx.roomCleanedMap[prior]) return false;
+    if (!isRoomCleaned(prior, ctx)) return false;
   }
   return true;
 }
@@ -110,7 +151,9 @@ export function isRoomUnlocked(
 /**
  * Return the next room in the sequence that the player has
  * not yet cleaned, given the context. Useful for the Bridge
- * console's "next objective" card.
+ * console's "next objective" card. Skips Prelude-only beat
+ * rooms (they're driven by the Prelude sequence, not by the
+ * player's room nav).
  *
  * Returns `null` when the Prelude sequence is complete.
  */
@@ -119,8 +162,8 @@ export function getNextPreludeRoom(
 ): string | null {
   if (ctx.narrativeAct > 0) return null;
   for (const roomId of PRELUDE_ROOM_ORDER) {
-    if (SENTINEL_ROOMS.has(roomId)) continue;
-    if (!ctx.roomCleanedMap[roomId]) return roomId;
+    if (isPreludeBeatRoom(roomId)) continue;
+    if (!isRoomCleaned(roomId, ctx)) return roomId;
   }
   return null;
 }
