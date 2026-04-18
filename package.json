@@ -10,6 +10,8 @@
     "check": "tsc --noEmit",
     "lint": "eslint .",
     "lint:void-energy": "node scripts/void-energy-lint.mjs",
+    "migrate:void-energy": "node scripts/void-energy-migrate.mjs",
+    "install-hook:void-energy": "ln -sf ../../scripts/void-energy-pre-commit.sh .git/hooks/pre-commit && echo 'installed .git/hooks/pre-commit → scripts/void-energy-pre-commit.sh'",
     "format": "prettier --write .",
     "test": "vitest run",
     "test:e2e": "playwright test --config apps/e2e/playwright.config.ts",

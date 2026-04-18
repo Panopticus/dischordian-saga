@@ -1,63 +1,15 @@
-# Void Energy adopted files
-# ─────────────────────────
-# One path per line, relative to repo root. Files listed here are checked
-# by `node scripts/void-energy-lint.mjs` and must not contain hardcoded
-# Tailwind color-ramp classes (e.g. text-cyan-400) or hex literals.
+# Files checked by scripts/void-energy-lint.mjs. Must not contain hardcoded
+# Tailwind color-ramp classes, hex literals, rgba/hsl, or raw px outside
+# 0-3px allowlist. See docs/design/VOID_ENERGY_ADOPTION_ROADMAP.md.
 #
-# See docs/design/VOID_ENERGY_ADOPTION_ROADMAP.md for the migration plan.
-# Add a file here when you land its migration; CI will block regressions.
-#
-# Intentional exceptions (speaker-accent colors in companion components,
-# narrative-signal colors in act UI) go in `.void-energy-intentional`,
-# not here.
-#
-# First-slice adopters (PR #TBD) — chrome + semantic-color components
-# migrated from Tailwind ramps to Void Energy tokens.
-apps/client/src/components/ReconnectingOverlay.tsx
-apps/client/src/components/MoralityShiftToast.tsx
-apps/client/src/components/AutoTutorialPrompt.tsx
-apps/client/src/components/GameErrorBoundary.tsx
-# Slice 2A — page-level shell. Speaker-accent blocks extracted into
-# Act1CompanionPanel (intentional) so the parent page stays adopted.
-apps/client/src/pages/Act1CardLadderPage.tsx
-# Slice 2B — page-level shell. Vortex Incursion violet now uses the
-# new void-{bg,border}-system utilities (energy-system axis).
-apps/client/src/pages/WitnessingHubPage.tsx
-# Slice 2C — page-level shell. 38 raw-px hits resolved (most snap to
-# --space-* tokens; decorative blur radii rounded to nearest token;
-# Tailwind arbitrary-value widths annotated // void-ignore). Hotspot
-# semantic palette migrated to --energy-{primary,system,success,premium}.
-apps/client/src/pages/ArkExplorerPage.tsx
-# Slice 3 — dialog stack. Morality-axis colors (cyan=humanity → success,
-# amber=machine → error) and rarity-glow colors mapped to semantic
-# Void axes. Atmospheric theming now propagates through dialog UI.
-apps/client/src/components/DialogWheel.tsx
-apps/client/src/components/NarrativeEngine.tsx
-apps/client/src/components/LoreTutorialEngine.tsx
-# Slice 4 — prelude beat handlers. Brand-color hex (#33E2E6, #3875FA,
-# #FF8C00, etc.) and rgba decorations migrate to color-mix() with
-# semantic Void axes; template-literal alphas use color-mix calc().
-apps/client/src/components/prelude/BeatDMissionBoard.tsx
-apps/client/src/components/prelude/BeatEFlashback.tsx
-apps/client/src/components/prelude/BeatHInbox.tsx
-apps/client/src/components/prelude/LastWordsWitnessing.tsx
-apps/client/src/components/prelude/PreludeSequencePlayer.tsx
-# Slice 5 — card/battle UI (duelyst stack). Rank-tier and season-pack
-# identity hex colors annotated via preceding-line // void-ignore
-# directives; all other palette usage migrated to semantic Void tokens.
-apps/client/src/game/duelyst/CollectionView.tsx
-apps/client/src/game/duelyst/DeckBuilder.tsx
-apps/client/src/game/duelyst/DuelystGameUI.tsx
-apps/client/src/game/duelyst/DuelystPage.tsx
-apps/client/src/game/duelyst/PackOpening.tsx
-
-# ─── Slice 6 — long-tail cleanup ───
-# Bulk-migrated chrome + signal colors across the remaining component
-# tree. Same axis recipe as Slices 3-5. Each file below was changed
-# by the migration AND passes the ratchet post-migration.
+# Format: ONE PATH PER LINE, SORTED ALPHABETICALLY. No inline comments.
+# This keeps textual git merges trivial during parallel work (both sides
+# add their own entries and git takes the union). Do not add section
+# headers or "slice" groupings — they cause merge conflicts.
 apps/client/src/components/AchievementTraitsPanel.tsx
 apps/client/src/components/Act1ClosingChoicePanel.tsx
 apps/client/src/components/ApprenticeMemorial.tsx
+apps/client/src/components/AutoTutorialPrompt.tsx
 apps/client/src/components/BranchingMasteryPanel.tsx
 apps/client/src/components/CharacterBonusesPanel.tsx
 apps/client/src/components/ChessCinematic.tsx
@@ -68,14 +20,19 @@ apps/client/src/components/CivilSkillsPanel.tsx
 apps/client/src/components/ClueJournal.tsx
 apps/client/src/components/CompanionSynergyPanel.tsx
 apps/client/src/components/DecisionDeck.tsx
+apps/client/src/components/DialogWheel.tsx
 apps/client/src/components/ElementalCombosPanel.tsx
 apps/client/src/components/EmptyBunk.tsx
 apps/client/src/components/ForgivenessChoicePanel.tsx
+apps/client/src/components/GameErrorBoundary.tsx
 apps/client/src/components/LightDarkMeterDisplay.tsx
 apps/client/src/components/LoadingStates.tsx
+apps/client/src/components/LoreTutorialEngine.tsx
 apps/client/src/components/LoredexWitnessingXrefs.tsx
 apps/client/src/components/MilestoneJournalEntries.tsx
 apps/client/src/components/MoralityMilestoneRewards.tsx
+apps/client/src/components/MoralityShiftToast.tsx
+apps/client/src/components/NarrativeEngine.tsx
 apps/client/src/components/NewBadge.tsx
 apps/client/src/components/NotificationBell.tsx
 apps/client/src/components/OpeningCinematic.tsx
@@ -87,6 +44,7 @@ apps/client/src/components/PreludeMissionRunner.tsx
 apps/client/src/components/PrestigeClassPanel.tsx
 apps/client/src/components/ProtectedRoute.tsx
 apps/client/src/components/QuestChainSystem.tsx
+apps/client/src/components/ReconnectingOverlay.tsx
 apps/client/src/components/RespecDialog.tsx
 apps/client/src/components/SongSlideshow.tsx
 apps/client/src/components/SortingCeremony.tsx
@@ -116,13 +74,25 @@ apps/client/src/components/match/SeerPlayOverlay.tsx
 apps/client/src/components/match/TranscriptColumn.tsx
 apps/client/src/components/match/TrialPhaseIndicator.tsx
 apps/client/src/components/match/WarlordCountdownIndicator.tsx
+apps/client/src/components/prelude/BeatDMissionBoard.tsx
+apps/client/src/components/prelude/BeatEFlashback.tsx
+apps/client/src/components/prelude/BeatHInbox.tsx
+apps/client/src/components/prelude/LastWordsWitnessing.tsx
+apps/client/src/components/prelude/PreludeSequencePlayer.tsx
 apps/client/src/components/prelude/vfx/effects/ViewportPolarization.tsx
 apps/client/src/components/prelude/vfx/ui/InboxSentenceBloom.tsx
 apps/client/src/components/void/KineticText.tsx
 apps/client/src/data/conexusGames.ts
 apps/client/src/data/eventsCalendar.ts
 apps/client/src/game/GestureTutorial.tsx
+apps/client/src/game/duelyst/CollectionView.tsx
+apps/client/src/game/duelyst/DeckBuilder.tsx
+apps/client/src/game/duelyst/DuelystGameUI.tsx
+apps/client/src/game/duelyst/DuelystPage.tsx
+apps/client/src/game/duelyst/PackOpening.tsx
 apps/client/src/hooks/useOrientation.tsx
+apps/client/src/pages/Act1CardLadderPage.tsx
+apps/client/src/pages/ArkExplorerPage.tsx
 apps/client/src/pages/ArmyManagementPage.tsx
 apps/client/src/pages/CardAchievementsPage.tsx
 apps/client/src/pages/CardBrowserPage.tsx
@@ -147,4 +117,5 @@ apps/client/src/pages/SpaceStationPage.tsx
 apps/client/src/pages/StoryModePage.tsx
 apps/client/src/pages/SyndicateWorldPage.tsx
 apps/client/src/pages/SystemsLibraryPage.tsx
+apps/client/src/pages/WitnessingHubPage.tsx
 apps/client/src/services/engagementTracker.ts

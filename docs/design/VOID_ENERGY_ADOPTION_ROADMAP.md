@@ -1,8 +1,24 @@
 # Void Energy Adoption Roadmap (Tier 3A)
 
-**Status:** Multi-slice sprint. The infrastructure (ratchet + token scale +
-intentional/adopted registries) is landed; the per-file migration happens
-incrementally.
+**Status:** Sprint transitioned from "bulk slice migrations" to
+**organic migration + ratchet frontier** after Slices 1–6 landed 113
+files under the ratchet. Bulk migrations fought high-velocity parallel
+work on `main`; each rebase got more expensive and the conflict surface
+grew with slice size. Organic migration removes the serialization.
+
+**How it works now:**
+
+1. The **ratchet** guards the 113 files already adopted. Any PR that
+   reintroduces hardcoded colors or raw-px into an adopted file fails CI.
+2. Every other file migrates **when a contributor touches it**, via:
+   - a **pre-commit hook** that runs the per-file migrator on staged
+     `.tsx`/`.ts` files with color hits (install via
+     `pnpm install-hook:void-energy`), or
+   - the **`/migrate-void-energy` Claude skill** a contributor runs on a
+     file before editing it.
+3. When a file migrates cleanly, the contributor appends it to
+   `.void-energy-adopted` (sorted, no section headers — see
+   that file's own comments for format rules). No more bulk PRs.
 
 **Authoritative upstream:** [dimonb19/void-energy-ui](https://github.com/dimonb19/void-energy-ui).
 The Saga is a React codebase; the reference library is Svelte 5 + Astro. The
@@ -181,32 +197,56 @@ for React:
 **Adopted to date:** see `.void-energy-adopted`.
 **Intentional exceptions:** see `.void-energy-intentional`.
 
-## Slice plan
+## Sprint history
 
-1. **Slice 1 (this PR family)** — 4 chrome utility components
-   (`ReconnectingOverlay`, `MoralityShiftToast`, `AutoTutorialPrompt`,
-   `GameErrorBoundary`) + ratchet infrastructure + spacing scale + roadmap.
-2. **Slice 2** — page-level shells (`Act1CardLadderPage.tsx`,
-   `WitnessingHubPage.tsx`, `ArkExplorerPage.tsx`). Each is one PR; each
-   migration re-themes dozens of downstream components via prop inheritance.
-3. **Slice 3** — dialog stack (`NarrativeEngine`, `LoreTutorialEngine`,
-   `DialogWheel`). Careful review needed — some colors are semantic (warning,
-   success), others are speaker-accent (`.void-energy-intentional`).
-4. **Slice 4** — prelude beat handlers (`components/prelude/*`).
-5. **Slice 5** — card / battle UI (`game/duelyst/*`). Late in the sprint —
-   testing is expensive.
-6. **Slice 6** — long-tail utility components (toasts, badges, trait panels).
-   Batch-process once Slices 1–5 land.
+- **Slice 1** (#76) — 4 chrome utility components + ratchet
+  infrastructure + spacing scale + roadmap.
+- **Slice 2** (#78) — page-level shells: Act1CardLadderPage,
+  WitnessingHubPage, ArkExplorerPage.
+- **Slice 3** (#80) — dialog stack: NarrativeEngine, LoreTutorialEngine,
+  DialogWheel.
+- **Slice 4** (#81) — prelude beat handlers.
+- **Slice 5** (#82) — card/battle UI (duelyst stack).
+- **Slice 6** (#90) — long-tail bulk migration, 93 components.
+- **Organic-migration transition PR** — pre-commit hook +
+  `/migrate-void-energy` skill + sorted append-log `.void-energy-adopted`
+  + this doc. Bulk migrations are retired.
+
+**113 files adopted** as of the transition. Every future file migrates
+organically when a contributor touches it — no more coordinated
+batches.
+
+## Organic migration workflow
+
+For contributors (human or agent) editing a non-adopted file:
+
+1. The **pre-commit hook** (install once via `pnpm install-hook:void-energy`)
+   runs the migrator on staged files automatically.
+2. Or preview with `pnpm migrate:void-energy <file>` and review the
+   diff yourself.
+3. Run `pnpm lint:void-energy` to confirm the file passes.
+4. Append the path to `.void-energy-adopted` (format is sorted,
+   comment-free — git textual merge handles parallel adds).
+5. Commit normally. Ratchet now guards the file.
+
+The migrator lives at `scripts/void-energy-migrate.mjs` and knows:
+- The full axis map (cyan → success, amber → accent, etc.)
+- The data-file denylist (palette constants that must stay hex)
+- How to rewrite rgba literals + template-literal alphas via color-mix()
+
+Residuals it can't auto-fix — raw-px and state-via-class — surface
+via the ratchet and need per-file attention.
 
 ## Done state
 
-- `.void-energy-adopted` contains every component path (minus
-  `.void-energy-intentional` narrative-signal files).
-- `grep -rE 'text-cyan-\d+|bg-amber-\d+|text-rose-\d+' apps/client/src/components` returns only
-  intentional paths.
+- Every component path either in `.void-energy-adopted` (ratchet-guarded)
+  or in `.void-energy-intentional` (narrative-signal file-level exempt).
+- `grep -rE 'text-cyan-\d+|bg-amber-\d+|text-rose-\d+' apps/client/src/components`
+  returns only intentional paths.
 - Storybook-equivalent surface (Loredex pages + UI-library demos) renders
   every component under all three physics values without layout drift.
 - Ratchet runs in CI and fails any PR that regresses an adopted file.
+- Pre-commit hook installed on every contributor's local repo.
 
 ## Relationship to the narrative PR infra (Dialogue Completeness)
 

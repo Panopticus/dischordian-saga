@@ -111,7 +111,9 @@ temp/
 
 # AI agent scratch folders
 .manus/
-.claude/
+.claude/*
+# …except shared Claude skills that describe repo conventions
+!.claude/skills/
 
 # Download bundles (build artifacts)
 downloads/*.tar.gz
