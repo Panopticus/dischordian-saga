@@ -14,6 +14,12 @@ const TILE_H = 80;
 const TILE_GAP = 2;
 const BOARD_PAD = 20;
 
+/** PR — duration of the unit-move tween. Short enough to stay
+ *  snappy on fast plays; long enough to read as movement, not
+ *  teleport. 280ms lands in the sweet spot between "readable"
+ *  and "slow enough to fight the AI pacing." */
+const MOVE_TWEEN_MS = 280;
+
 // Particle for effects
 interface Particle {
   g: Graphics;
@@ -105,6 +111,19 @@ export class BoardRenderer {
     const newBoard = new Map<string, { row: number; col: number; health: number }>();
     for (const [, unit] of state.board) {
       newBoard.set(unit.id, { row: unit.row, col: unit.col, health: unit.currentHealth });
+    }
+
+    // PR — tween unit moves. Build a quick "this unit moved" set
+    // keyed by id so the unit re-render below can start the new
+    // container at the old tile and glide it to the new one
+    // instead of teleporting. Summons (no prev) and deaths (no cur)
+    // skip the tween — they have their own effects.
+    const movedFrom = new Map<string, { row: number; col: number }>();
+    for (const [id, cur] of newBoard) {
+      const prev = this.previousBoard.get(id);
+      if (prev && (prev.row !== cur.row || prev.col !== cur.col)) {
+        movedFrom.set(id, { row: prev.row, col: prev.col });
+      }
     }
 
     // Detect deaths (units in previous but not in new)
@@ -237,7 +256,50 @@ export class BoardRenderer {
       container.on("pointerdown", (e) => { e.stopPropagation(); this.onUnitClick?.(unitId); });
       this.unitsContainer.addChild(container);
       this.unitSprites.set(unit.id, container);
+
+      // PR — if this unit moved since the last update, start it at
+      // the prior tile and animate to the new one. Otherwise it
+      // just snaps to the current position (the default).
+      const fromTile = movedFrom.get(unit.id);
+      if (fromTile) {
+        const startX = this.tileX(fromTile.col);
+        const startY = this.tileY(fromTile.row);
+        const endX = x;
+        const endY = y;
+        container.x = startX;
+        container.y = startY;
+        this.tweenContainer(container, endX, endY, MOVE_TWEEN_MS);
+      }
     }
+  }
+
+  /**
+   * PR — lightweight position tween. Uses requestAnimationFrame
+   * rather than binding to the Pixi ticker so we don't have to
+   * track per-container lifecycle; the next update() teardown
+   * (removeChildren) orphans the old container and its in-flight
+   * rAF no-ops on the next frame since it can no longer reach a
+   * mounted parent.
+   */
+  private tweenContainer(
+    container: Container,
+    toX: number,
+    toY: number,
+    durationMs: number,
+  ): void {
+    const fromX = container.x;
+    const fromY = container.y;
+    const start = performance.now();
+    const step = () => {
+      const elapsed = performance.now() - start;
+      const t = Math.min(1, elapsed / durationMs);
+      // ease-out quad — feels less mechanical than linear.
+      const eased = 1 - (1 - t) * (1 - t);
+      container.x = fromX + (toX - fromX) * eased;
+      container.y = fromY + (toY - fromY) * eased;
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
   }
 
   /* ═══ ANIMATIONS ═══ */

@@ -305,7 +305,27 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   // Tutorial state
   const [tutorialStep, setTutorialStep] = useState(0);
   const [lastActionType, setLastActionType] = useState<string | null>(null);
-  const currentTutorialStep = isTutorial ? TUTORIAL_STEPS[tutorialStep] : null;
+  const rawTutorialStep = isTutorial ? TUTORIAL_STEPS[tutorialStep] : null;
+  // PR — gate tutorial steps on phase. Mulligan-phase steps must not
+  // render during "playing", and vice versa. The default phase is
+  // "playing" so pre-existing steps without a phase tag keep working.
+  const currentTutorialStep =
+    rawTutorialStep &&
+    (rawTutorialStep.phase ?? "playing") === (phase === "mulligan" ? "mulligan" : "playing")
+      ? rawTutorialStep
+      : null;
+  // Auto-advance past steps that don't apply to the current phase
+  // (e.g. skip the mulligan steps once the match is in "playing").
+  useEffect(() => {
+    if (!isTutorial) return;
+    const step = TUTORIAL_STEPS[tutorialStep];
+    if (!step) return;
+    const stepPhase = step.phase ?? "playing";
+    const currentPhase = phase === "mulligan" ? "mulligan" : "playing";
+    if (stepPhase !== currentPhase) {
+      setTutorialStep((s) => s + 1);
+    }
+  }, [isTutorial, phase, tutorialStep]);
 
   // Tutorial steps are player-paced — no auto-advance timers.
   // Steps with autoAdvanceMs show a "tap to continue" indicator.
@@ -919,6 +939,8 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     const finalView = asGameState(client.getViewState());
     setGameState(finalView);
     setPhase("playing");
+    // PR — tutorial mulligan step advances on this action.
+    if (isTutorial) setLastActionType("mulligan_confirm");
     // Inner-voice dispatch: audit 2H — combat_start is the canonical
     // "match has begun" beat. Any skill with a registered utterance
     // for this trigger surfaces a whisper via the global VoiceWhisper
@@ -1394,6 +1416,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
                   {currentTutorialStep.requiredAction === "attack" && "↑ Select your unit, then attack an enemy"}
                   {currentTutorialStep.requiredAction === "play_card" && "↓ Click a card in your hand, then click a tile"}
                   {currentTutorialStep.requiredAction === "end_turn" && "→ Press END TURN"}
+                  {currentTutorialStep.requiredAction === "mulligan_confirm" && "↓ Press CONFIRM to start the match"}
                 </p>
               ) : (
                 <p className="font-mono text-[var(--space-sm)] text-white/20 mt-2">tap to continue ▼</p>
