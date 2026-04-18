@@ -1198,41 +1198,33 @@ narrator):**
 
 **Art asset status — NO NEW RENDERS NEEDED.** The 20 slides
 at `apps/client/public/art/prelude/last-words/slide-{1..4}-{1..5}.webp`
-are already shipped; they were originally authored for the
-Prelude's full-song treatment and are re-homed here. The
-matching audio at `apps/client/public/audio/music/song_last_words_prelude_cut.mp3`
-(219.8s, −18 LUFS, post-production complete per Canon Rev 7 §5.6.11)
-is likewise shipped.
+are already shipped. Audio at
+`apps/client/public/audio/music/song_last_words_prelude_cut.mp3`
+(219.8s, −18 LUFS) is also shipped.
 
-**What IS needed (runtime / wiring, not prompts):**
+**Runtime — SHIPPED as of PR #89.** The canonical Act 1 Cycle C
+component is `apps/client/src/components/act1/Act1CycleCAuthorityWitnessing.tsx`
+(sibling helper `act1CycleCWitnessing.ts` for the slide
+timeline + alignment-gate math; tests in
+`act1CycleCWitnessing.test.ts`). It plays the full Last Words
+track, cross-fades through 20 slides, and opens the Light/Dark
+alignment gate during the final refrain. Player pick is
+persisted via `setLightDarkAlignment(alignment)` on
+`GameContext`, and also writes
+`act1_cycle_c_alignment_light|dark` and
+`act_1_cycle_c_complete` narrative flags.
 
-- Build sibling component to Prelude's `LastWordsWitnessing`
-  at `apps/client/src/components/act1/LastWordsFullWitnessing.tsx`
-- Reuse the 20-slide timeline at
-  `apps/client/src/components/prelude/lastWordsTimeline.ts`
-  (fork or import from shared location)
-- Wire the `ChoicePillarLightDark` component (from PR #40):
-  - Reveal at **66s** from song start (chorus-1 onset)
-  - Skip unlock at **110s** from song start (chorus-1 end)
-  - Persist the player's pick to `GameState.lightDarkAlignment`
-  - Refusal handling: no default; cutscene holds on black
-    until a choice is made
-- Runtime gate: only fires when `preludeCompletedFlags`
-  contains `cutscene_archives_two_witnesses_part1_complete`
-- Post-credits hand-off to §9 (Two Witnesses Part 2) stub
+**Skip-default note.** The shipped component commits `"light"`
+as the default if the player skips past the gate without
+picking. The post-match dialog makes this visible so the
+player can redirect later via the governance hub. This
+differs from the earlier §9 proposal which held-on-black for
+refusal; the shipped behavior is the canonical one as of
+PR #89.
 
-**Image model:** none. **Video model:** none (slideshow-driven).
-**Audio model:** already rendered.
-
-**Audit items before ship:**
-
-- [ ] Confirm slide timing table in `lastWordsTimeline.ts`
-      matches the song's canonical verse/chorus/bridge structure
-      (4 sections × 5 slides each = 20 slides)
-- [ ] Confirm `ChoicePillarLightDark` uses the same visual
-      treatment as the Prelude Bible §17.5 original spec
-- [ ] Confirm the skip button is locked until 110s
-- [ ] Confirm refusal path does not auto-select
+**Post-credits hand-off to §9 (Two Witnesses Part 2) still
+pending** — see §9's `TwoWitnessesPart2.tsx` scaffold for the
+receiving surface.
 
 ---
 
@@ -2010,7 +2002,7 @@ the animator's desk.
 | 18 | Welcome to Celebration cutscene | `videos/act1/welcome-to-celebration.mp4` | 1920×1080 35–45s | §6.1 | PENDING |
 | 19 | To Be the Human cutscene | `videos/act1/to-be-the-human.mp4` | 1920×1080 40–55s | §6.2 | PENDING |
 | 20 | Hacking Reality cutscene | `videos/act1/hacking-reality.mp4` | 1920×1080 30–40s | §6.3 | PENDING |
-| 21 | Last Words runtime | `components/act1/LastWordsFullWitnessing.tsx` | code + existing slides | §6.4 | SCAFFOLDED |
+| 21 | Last Words runtime | `components/act1/Act1CycleCAuthorityWitnessing.tsx` | code + existing slides | §6.4 | SHIPPED (PR #89) |
 | 22 | Verdict Stream column | `components/act1/VerdictStreamColumn.tsx` | code | §7.2 | SCAFFOLDED |
 | 23 | Authority Phase bar | `components/act1/AuthorityPhaseBar.tsx` | code | §7.3 | SCAFFOLDED |
 | 24 | Warlord lockout HUD | `components/act1/WarlordLockoutChip.tsx` | code | §7.4 | SCAFFOLDED |
@@ -2130,3 +2122,15 @@ CSVs). Orchestration manifest at
   provided, and all follow the Prelude
   `LastWordsWitnessing.tsx` pattern. Runtime wiring TODOs
   flagged inline.
+- **2026-04-18 (rev 10)** — Merged main (PR #88 + PR #89)
+  into the branch. PR #89 already shipped the production
+  `Act1CycleCAuthorityWitnessing.tsx` runtime that my rev-9
+  `LastWordsFullWitnessing.tsx` scaffold was targeting, so
+  the redundant scaffold was removed. §6.4 now points at
+  the shipped component. Canonical skip-default is
+  `"light"` per the shipped implementation (not
+  hold-on-black — this supersedes earlier §9 proposal
+  language). Five remaining scaffolds (`TwoWitnessesPart2`,
+  `VerdictStreamColumn`, `AuthorityPhaseBar`,
+  `WarlordLockoutChip`, `SeerCardFlicker`) are preserved
+  and do not overlap with PR #89's scope.
