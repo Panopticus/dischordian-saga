@@ -1015,7 +1015,13 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     const runAITurn = async () => {
       await new Promise(r => setTimeout(r, 500));
       const aiView = asGameState(client.getViewState());
-      const aiActions = getAIActions(aiView);
+      const aiActions = getAIActions(aiView, {
+        // PR-4 — named-boss AI concedes at severe disadvantage for a
+        // dramatic end-of-match moment. Faction-vs-faction sparring
+        // and PvP matches keep the standard "fight to last HP"
+        // contract.
+        allowConcede: !!encounter,
+      });
 
       for (const action of aiActions) {
         await new Promise(r => setTimeout(r, 350));
@@ -1027,6 +1033,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         else if (action.type === "play_card") { addLog(`AI plays a card`, "spell"); dischordiaSounds.play("unit_summon"); }
         else if (action.type === "move") { addLog(`AI moves a unit`, "move"); }
         else if (action.type === "bloodborn_spell") { addLog(`AI uses Bloodborn Spell!`, "spell"); dischordiaSounds.play("spell_cast"); }
+        else if (action.type === "concede") { addLog(`${encounter?.name ?? "The opponent"} withdraws from the match.`, "system"); }
 
         // Check if game ended after AI action
         if (currentView.phase === "ended") return;
@@ -1316,9 +1323,12 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           <p className="font-mono text-xs font-bold truncate" style={{ color: enemyColor }}>{FACTION_NAMES[opponentFaction]}</p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-red-500/10">
+          <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-red-500/10" title="Opponent general HP">
             <Heart size={10} className="text-red-400" />
-            <span className="font-mono text-xs font-bold text-red-400">{opponentGen?.currentHealth ?? 0}</span>
+            <span className="font-mono text-xs font-bold text-red-400">
+              {opponentGen?.currentHealth ?? 0}
+              <span className="text-red-400/50">/{opponentGen?.maxHealth ?? 0}</span>
+            </span>
           </div>
           <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-blue-500/10">
             <Zap size={10} className="text-blue-400" />

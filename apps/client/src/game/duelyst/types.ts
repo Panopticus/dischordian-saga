@@ -266,7 +266,10 @@ export type GameAction =
   | { type: "play_card"; cardIndex: number; row: number; col: number; targetId?: string }
   | { type: "replace_card"; cardIndex: number }
   | { type: "bloodborn_spell"; targetRow?: number; targetCol?: number }
-  | { type: "end_turn" };
+  | { type: "end_turn" }
+  /** Emitted by the AI at severe disadvantage during named-boss
+   *  encounters; engine translates to winReason: "surrender". */
+  | { type: "concede" };
 
 /* ─── GENERALS ─── */
 export interface GeneralDef {
