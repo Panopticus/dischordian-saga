@@ -104,6 +104,10 @@ describe("palimpsest router", () => {
   });
 
   describe("get", () => {
+    // First `await import("./routers")` in the suite pays the
+    // cold-start cost (full tRPC tree + card registry + schema).
+    // 5s (vitest default) is borderline; 30s gives headroom without
+    // masking real hangs. Subsequent tests hit the import cache.
     it("returns the default state, global aggregate, and phase for a new user", async () => {
       const { appRouter } = await import("./routers");
       const caller = appRouter.createCaller(createAuthContext(1));
@@ -113,7 +117,7 @@ describe("palimpsest router", () => {
       expect(result.phase).toBe("balanced");
       expect(result.globalPhase).toBe("balanced");
       expect(result.state.currentEpisode).toBe(1);
-    });
+    }, 30_000);
   });
 
   describe("recordQuiz", () => {
