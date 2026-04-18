@@ -103,11 +103,12 @@ export default function MoralityShiftToast() {
         onClick={dismiss}
       >
         <div
-          className="p-4 rounded-xl border backdrop-blur-md shadow-2xl"
+          className="rounded-xl border backdrop-blur-md shadow-2xl"
           style={{
+            padding: "var(--space-md)",
             background: bgGradient,
-            borderColor: `${color}30`,
-            boxShadow: `0 0 30px ${color}15`,
+            borderColor: `color-mix(in oklch, ${color} 30%, transparent)`,
+            boxShadow: `0 0 var(--space-md) color-mix(in oklch, ${color} 15%, transparent)`,
           }}
         >
           {/* Header */}
