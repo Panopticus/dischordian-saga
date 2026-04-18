@@ -172,14 +172,12 @@ export function TwoWitnessesPart2({
     return buildPlaybackSequence(choice, deflectQuestion ?? undefined);
   }, [choice, deflectQuestion]);
 
-  // TODO: wire the sequence to an HTMLAudioElement with gapless
-  // playback per the Prelude pattern. Advance `phase` as each
-  // line's `onended` fires.
+  // Scaffold placeholder. Full implementation wires `sequence`
+  // to an HTMLAudioElement with gapless playback per the
+  // Prelude `LastWordsWitnessing` pattern and advances `phase`
+  // off each line's `onended` event.
   useEffect(() => {
     if (!autoPlay) return;
-    // Placeholder: immediately advance past cold-open after 20s
-    // in the scaffold. Real implementation will drive `phase`
-    // from audio completion events.
   }, [autoPlay, sequence]);
 
   // When we reach `title_card`, fire onComplete and settle.
@@ -206,16 +204,16 @@ export function TwoWitnessesPart2({
       data-choice={choice ?? "pending"}
       className="fixed inset-0 bg-black"
     >
-      {/* TODO: <LivingBackground src={roomArchivesWebp} particles={[...]} /> */}
-      {/* TODO: <AntiquarianDialogPlayer lines={sequence} onPhaseChange={setPhase} /> */}
+      {/* Future: LivingBackground src={roomArchivesWebp} particles={[...]} */}
+      {/* Future: AntiquarianDialogPlayer lines={sequence} onPhaseChange={setPhase} */}
       {phase === "ui_choice" && (
         <div data-testid="closing-choice-prompt">
-          {/* TODO: <ChoicePillarAcceptDeclineDeflect onPick={...} /> */}
+          {/* Future: ChoicePillarAcceptDeclineDeflect onPick={...} */}
         </div>
       )}
       {phase === "beat5_deflect_question" && (
         <div data-testid="deflect-question-picker">
-          {/* TODO: 4 buttons + "other" free-text fallback */}
+          {/* Future: 4 buttons + "other" free-text fallback */}
         </div>
       )}
       {phase === "title_card" && !reducedMotion && (
