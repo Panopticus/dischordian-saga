@@ -6026,3 +6026,153 @@ and how the handoff to §§3–5 is wired.
 
 ---
 
+## Section 20 — Apprentice System (permadeath + Memory Card)
+
+The engineering + narrative spec for the Apprentice loop — a
+parallel system inside Cycle A's 28-day Trial where the
+player's Prelude-assigned apprentice lives or dies. If the
+apprentice dies, their permadeath yields a procedurally-named
+Memory Card that becomes part of the player's deck for the
+rest of the game.
+
+### 20.1 Narrative purpose
+
+§20 is **the first permadeath system** in the game. The
+apprentice is a canonical character assigned in Prelude Beat D
+(per the Prelude Bible §3.4) and carries across into Act 1's
+Celebration Trial. Their survival depends on the player's
+Trial choices; their death is not scripted but emergent from
+trait drift. The tutorial lesson: "your choices affect
+someone else's existence."
+
+The Memory Card unlock on apprentice death is canonically
+framed not as a reward but as a **memorial**. The card is
+procedurally named using the apprentice's canonical name
+from Prelude Beat D, and its art is generated from the
+apprentice's canonical portrait. Players who lose their
+apprentice do NOT receive extra content; they receive the
+same total Act 1 content, with the Memory Card substituted
+for a beat that would otherwise have been the apprentice's
+graduation appearance.
+
+### 20.2 Apprentice traits
+
+Each apprentice has three canonical trait values, each
+ranging 0–100:
+
+- **Resilience** — physical and mental endurance
+- **Trust** — bond with the player
+- **Clarity** — cognitive performance under pressure
+
+Initial values: all three at 50 (neutral). During the 28-day
+Trial, approximately 7 apprentice-beat days (§19.3) shift
+one trait by ±5–15 per beat based on player choice.
+
+### 20.3 Permadeath rules
+
+The apprentice dies if ANY of the three traits drops to 0 by
+Day 28. The permadeath trigger fires at the end of Day 28
+(just before A3), not immediately on trait-zero. This gives
+the player the opportunity to recover a tanking trait through
+later-day beats.
+
+Canonical death causes by trait-zero path:
+- **Resilience → 0:** apprentice falls ill, dies in the
+  Celebration infirmary
+- **Trust → 0:** apprentice leaves the Engineer's household,
+  joins an Insurgency cell, dies offscreen in a training
+  accident
+- **Clarity → 0:** apprentice suffers a psychological break
+  during an advanced-theory exercise, dies in the Celebration
+  meditation garden
+
+All three death causes are **dignified** — the apprentice is
+not a scapegoat or a punishment; production must render all
+three with care.
+
+### 20.4 Memory Card specification
+
+If the apprentice dies, the Memory Card unlocks. Canonical
+card body:
+
+- **Name:** procedurally generated — *"[Apprentice Name] — In
+  Memory"* (the apprentice's canonical name from Prelude
+  Beat D)
+- **Rarity:** Epic Light
+- **Type:** Memory unit
+- **Cost:** 2
+- **Base stats:** 3 attack / 4 defense
+- **Effect:** Once per match — when this unit would die,
+  restore it to full health and grant +1/+1 permanently. (The
+  apprentice's final act: refusing to stay dead on your
+  behalf.)
+- **Flavor text (procedural):** one of three branches based
+  on which trait tanked:
+  - Resilience → 0: *"They were not strong enough. They tried
+    to be, for you."*
+  - Trust → 0: *"They left believing. You did not see them
+    go. They left anyway."*
+  - Clarity → 0: *"They asked questions. The questions
+    asked back."*
+- **Card art:** procedurally composited from the apprentice's
+  canonical portrait (from Prelude Beat D assignment) plus a
+  warm-gold memorial overlay.
+
+### 20.5 UI sub-spec
+
+The apprentice UI is rendered in the top-right panel of the
+Celebration Trial UI (per §19.5). It shows:
+
+- Apprentice portrait (from Prelude Beat D)
+- Name
+- Three trait bars (Resilience / Trust / Clarity), each
+  rendered as a horizontal bar with current value 0–100 and
+  a color shift: green 60–100, yellow 30–59, red 0–29
+- A small memorial icon that appears if a trait drops below
+  10 (warning state)
+
+### 20.6 VFX sub-spec
+
+- **Trait shift animation:** when a trait changes, the
+  affected bar animates over 0.8s with a faint particle
+  trail (warm-gold for positive shifts, cool-grey for
+  negative).
+- **Trait-zero warning:** when a trait drops below 10, a
+  single red pip appears beside the bar and a soft warning
+  chime plays (once, not looping).
+- **Permadeath cutscene (if triggered at Day 28):** a
+  12-second cinematic fires between the Celebration Trial
+  and A3 — the apprentice's dignified death beat appropriate
+  to the trait path (§20.3). Full prompts in §22.4.
+- **Memory Card unlock beat:** immediately after the
+  permadeath cutscene, a 6-second card-reveal animation
+  shows the Memory Card materializing with the apprentice's
+  face visible in the art. Warm-gold memorial lighting.
+
+### 20.7 Downstream integration
+
+The apprentice-alive-at-Day-28 state feeds forward into:
+- §5 A3 — Ocularum reveal-immune if apprentice alive
+- §6 *Welcome to Celebration* — frame 4 branches on
+  apprentice state (per §6.3)
+- §20.8 Cycle B and beyond (see below)
+
+If the apprentice survives Cycle A, they appear as a
+background character in Cycle B battles (briefly visible in
+§7 B1 pre-match establishing, §11 B5 senior common room
+frame). The apprentice is NOT a playable element in Cycle
+B+; their canonical role is "the person who got out." Their
+further fate across Acts 2–5 is spec'd in `docs/design/
+FULL-PROJECT-AUDIT.md` §apprentice-throughline and is out of
+scope for this doc.
+
+### 20.8 Implementation reference
+
+Canonical source: `apps/shared/apprentices.ts`. The file
+carries the apprentice roster (canonical Prelude Beat D
+options), trait ranges, permadeath logic, and Memory Card
+generation. Production should reference that file as the
+source of truth.
+
+---
+
