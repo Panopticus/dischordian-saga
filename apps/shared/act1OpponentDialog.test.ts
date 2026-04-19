@@ -92,18 +92,20 @@ describe("act1OpponentDialog", () => {
   });
 
   it("pairs opponent shell with dialog via getAct1OpponentWithDialog", () => {
-    const pair = getAct1OpponentWithDialog("little_meme");
+    const pair = getAct1OpponentWithDialog("minnie_meme");
     expect(pair).toBeDefined();
-    expect(pair?.opponent.name).toBe("Little Meme");
-    expect(pair?.dialog.opponentId).toBe("little_meme");
+    expect(pair?.opponent.name).toBe("Minnie the Meme");
+    expect(pair?.dialog.opponentId).toBe("minnie_meme");
     expect(getAct1OpponentWithDialog("does_not_exist")).toBeUndefined();
   });
 
   it("builds NarrativeHook-shaped taunt triggers from a dialog table", () => {
+    // Legacy id still resolves via aliases; canonical id is
+    // "vernon_vortex" (per §23.1 rename map).
     const dialog = getAct1OpponentDialog("the_warlord_zero_first");
     expect(dialog).toBeDefined();
     const hooks = buildOpponentTauntHooks(dialog!);
-    expect(hooks.early.id).toBe("the_warlord_zero_first_taunt_early");
+    expect(hooks.early.id).toBe("vernon_vortex_taunt_early");
     expect(hooks.early.turn).toBe(2);
     expect(hooks.early.text).toContain("arithmetic");
     expect(hooks.mid.hpBelowPercent).toBe(50);

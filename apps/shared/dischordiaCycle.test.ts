@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   applyEnergyGain,
   calculateBalance,
+  checkLightEnergyThresholdCrossing,
   clampProximity,
   completeReclamation,
   DEFAULT_DISCHORDIA_CYCLE_STATE,
@@ -11,6 +12,7 @@ import {
   getGalaxyBrightnessTier,
   getLightEnergyDescription,
   getVortexProximityDescription,
+  LIGHT_ENERGY_THRESHOLDS,
   recomputeDerived,
   RECLAMATION_CHAIN,
   SECTOR_LIGHT_INFO,
@@ -218,6 +220,55 @@ describe("dischordiaCycle", () => {
       const last = RECLAMATION_CHAIN[RECLAMATION_CHAIN.length - 1];
       expect(last.gameMode).toBe("cutscene");
       expect(last.objective.type).toBe("cutscene_play");
+    });
+  });
+
+  describe("§17.4 Light Energy thresholds (Last Words integration)", () => {
+    it("includes the Last Words +500 energy gain action", () => {
+      const action = getEnergyGain("last_words_cinematic_seen");
+      expect(action).toBeDefined();
+      expect(action?.light).toBe(500);
+      expect(action?.dark).toBe(0);
+    });
+
+    it("applies +500 Light on the Last Words cinematic gain", () => {
+      const next = applyEnergyGain(
+        DEFAULT_DISCHORDIA_CYCLE_STATE,
+        "last_words_cinematic_seen",
+      );
+      expect(next.lightEnergy).toBe(500);
+    });
+
+    it("exports five canonical thresholds in ascending order", () => {
+      expect(LIGHT_ENERGY_THRESHOLDS.length).toBe(5);
+      for (let i = 1; i < LIGHT_ENERGY_THRESHOLDS.length; i++) {
+        expect(LIGHT_ENERGY_THRESHOLDS[i].value).toBeGreaterThan(
+          LIGHT_ENERGY_THRESHOLDS[i - 1].value,
+        );
+      }
+    });
+
+    it("detects the first-thousand threshold crossing from a +500 gain", () => {
+      // Player at 750 Light; Last Words pushes to 1250 → crosses 1000.
+      const crossed = checkLightEnergyThresholdCrossing(750, 1250);
+      expect(crossed?.value).toBe(1_000);
+      expect(crossed?.acknowledgment).toContain("You contributed");
+    });
+
+    it("returns null when a gain doesn't cross any threshold", () => {
+      const crossed = checkLightEnergyThresholdCrossing(200, 700);
+      expect(crossed).toBeNull();
+    });
+
+    it("detects higher-tier thresholds for large jumps", () => {
+      const crossed = checkLightEnergyThresholdCrossing(9_500, 10_500);
+      expect(crossed?.value).toBe(10_000);
+    });
+
+    it("returns only the first (lowest) crossed threshold on multi-cross gains", () => {
+      // Huge jump crossing 1k, 10k, 100k, 1M — returns the lowest (1000).
+      const crossed = checkLightEnergyThresholdCrossing(500, 2_000_000);
+      expect(crossed?.value).toBe(1_000);
     });
   });
 });

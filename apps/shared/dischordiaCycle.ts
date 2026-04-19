@@ -240,6 +240,7 @@ export const ENERGY_GAIN_TABLE: readonly EnergyGainAction[] = [
   { id: "dismiss_companion", source: "Dismiss a companion (\"go away\")", light: 0, dark: 5 },
   { id: "two_witnesses_forgive", source: "Forgive at Two Witnesses Meet", light: 200, dark: 0 },
   { id: "two_witnesses_refuse", source: "Refuse both at Two Witnesses Meet", light: 0, dark: 100, vortex: 1 },
+  { id: "last_words_cinematic_seen", source: "Last Words cinematic (Act 1 finale, §17)", light: 500, dark: 0 },
 ] as const;
 
 export type EnergyGainActionId = (typeof ENERGY_GAIN_TABLE)[number]["id"];
@@ -506,4 +507,76 @@ export function getNextRecordingMilestone(
     if (m.allAct1Complete && !allAct1Complete) return false;
     return true;
   });
+}
+
+/* ═══════════════════════════════════════════════════════
+   LIGHT ENERGY THRESHOLD ACKNOWLEDGMENTS
+
+   Act 1 Ship-Ready Bible §17.4 specifies that when a
+   player's personal contribution (e.g., the +500 from the
+   Last Words cinematic) pushes the galaxy-wide lightEnergy
+   counter across a multi-thousand threshold, the Witnessing
+   Hub surfaces a "You contributed to this" acknowledgment.
+   The thresholds below are the canonical set.
+   ═══════════════════════════════════════════════════════ */
+
+export interface LightEnergyThreshold {
+  /** Counter value at which this threshold fires. */
+  value: number;
+  /** Label shown on the Hub dashboard milestone card. */
+  label: string;
+  /** Acknowledgment text shown when a player's contribution pushes the counter past this value. */
+  acknowledgment: string;
+}
+
+export const LIGHT_ENERGY_THRESHOLDS: readonly LightEnergyThreshold[] = [
+  {
+    value: 1_000,
+    label: "The First Thousand",
+    acknowledgment:
+      "You contributed to this. The first thousand Light is always the hardest.",
+  },
+  {
+    value: 10_000,
+    label: "Ten Thousand Witnesses",
+    acknowledgment:
+      "You contributed to this. Ten thousand Light Energy is a crowd that remembers.",
+  },
+  {
+    value: 100_000,
+    label: "A Sector Brightens",
+    acknowledgment:
+      "You contributed to this. The galaxy noticed the hundred-thousand mark. The Antiquarian annotated the ledger.",
+  },
+  {
+    value: 1_000_000,
+    label: "The Million-Light Line",
+    acknowledgment:
+      "You contributed to this. One million Light is where the Reclamation protocols stop being theoretical.",
+  },
+  {
+    value: 10_000_000,
+    label: "The Dreamers' Threshold",
+    acknowledgment:
+      "You contributed to this. The Dreamers' Shield flickers at ten million. Someone behind it may have noticed.",
+  },
+] as const;
+
+/**
+ * Returns the threshold a delta crosses, or null if the delta does not
+ * push the counter past any canonical threshold.
+ *
+ * @param previousLight   lightEnergy before the gain
+ * @param newLight        lightEnergy after the gain
+ */
+export function checkLightEnergyThresholdCrossing(
+  previousLight: number,
+  newLight: number,
+): LightEnergyThreshold | null {
+  for (const t of LIGHT_ENERGY_THRESHOLDS) {
+    if (previousLight < t.value && newLight >= t.value) {
+      return t;
+    }
+  }
+  return null;
 }

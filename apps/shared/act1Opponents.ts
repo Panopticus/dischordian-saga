@@ -1,25 +1,28 @@
 /* ═══════════════════════════════════════════════════════
-   ACT 1 CARD BATTLE OPPONENTS — §4.2 / §4.3 / §4.4 / §4.5
+   ACT 1 CARD BATTLE OPPONENTS — §1.1 master index
 
    Data shell for the 12 scripted Act 1 Dischordia battles.
    Act 1 is structured as a memoir told in matches — each
    battle has a named opponent, a pre-match slideshow beat,
    and a post-match narrative beat.
 
-     Cycle A — Kindergarten of Gods (3 battles, §4.3)
-     Cycle B — The Academy (5 battles, §4.4)
-     Cycle C — Nexon / Zenon / Last Words (4 battles, §4.5)
+     Cycle A — Kindergarten of Gods (3 battles)
+     Cycle B — Mechronis Academy (5 battles)
+     Cycle C — Nexon / Zenon / Last Words (4 battles)
 
-   This is a DATA SHELL. Today the Dischordia card game has
-   generic opponents; future work in the opponent pipeline
-   will look up these ids and script the per-battle content
-   (deck composition, dialog, victory/defeat beats).
+   Canonical naming per docs/production/ACT_1_SHIP_READY_
+   BIBLE.md §§2.2-2.13 + §1.1 Master Index. Legacy ids from
+   the DSFGL Rev 6.2 draft are preserved in the `aliases`
+   field so existing tests, saves, and content references
+   continue to resolve via getAct1Opponent().
    ═══════════════════════════════════════════════════════ */
 
 export type Act1Cycle = "kindergarten_of_gods" | "mechronis_academy" | "nexon_zenon";
 
 export interface Act1Opponent {
   id: string;
+  /** Legacy ids from older drafts; getAct1Opponent() resolves through these. */
+  aliases?: readonly string[];
   cycle: Act1Cycle;
   /** 1-based position within Act 1 (1 through 12). */
   act1Step: number;
@@ -37,84 +40,84 @@ export interface Act1Opponent {
   postMatchLoss: string;
   /** Optional slideshow id to fire after this battle wraps. */
   postBattleSlideshow?: string;
+  /**
+   * Host body id, if this opponent is a phenomenon/swarm riding a host.
+   * Canonical only for C3 (Warlord's Nano-Swarm hosted by Agent Zero).
+   */
+  host?: string;
+  /**
+   * If true, this opponent uses the Trial-format ruleset rather than
+   * the standard Dischordia duel engine. Canonical only for C4.
+   * See apps/client/src/game/duelyst/trialFormat.ts.
+   */
+  trialFormat?: boolean;
 }
 
-/* ─── CYCLE A — Kindergarten of Gods (§4.3) ─── */
+/* ─── CYCLE A — Kindergarten of Gods (§§3, 4, 5) ─── */
 
 export const CYCLE_A_OPPONENTS: readonly Act1Opponent[] = [
   {
-    id: "little_meme",
+    id: "minnie_meme",
+    aliases: ["little_meme"],
     cycle: "kindergarten_of_gods",
     act1Step: 1,
-    name: "Little Meme",
+    name: "Minnie the Meme",
     backstory:
-      "The classmate who yanked the Engineer's notebook in §4.3. Already a viral chant in proto-form.",
+      "Archon of the Meme, child form. Mouse ears worn earnestly; the irony lives in the player's recognition, not hers. §2.2.",
     deckLeaning: ["thought_virus", "neutral"],
     preMatchLine:
       "Let me see. Let me see. Let me see. I am going to see it whether you show me or not.",
     postMatchWin:
-      "Little Meme's viral chant stalls for a single second. In that second the Engineer finishes his card.",
+      "Minnie's viral chant stalls for a single second. In that second the Engineer finishes his card.",
     postMatchLoss:
-      "Little Meme laughs and laughs. The Engineer is fine. He is always fine, except the one time.",
+      "Minnie laughs and laughs. The Engineer is fine. He is always fine, except the one time.",
   },
   {
-    id: "little_collector",
+    id: "corey_collector",
+    aliases: ["little_collector"],
     cycle: "kindergarten_of_gods",
     act1Step: 2,
-    name: "Little Collector",
+    name: "Corey the Collector",
     backstory:
-      "The schoolyard jar. Every emotion he can trap, he keeps. §4.3 frame 3.",
+      "Archon of the Collector, child form. The schoolyard jar. Every emotion he can trap, he keeps. §2.3.",
     deckLeaning: ["new_babylon", "neutral"],
     preMatchLine:
       "I will take your tears and your laughter both. They are both currency where I am going.",
     postMatchWin:
-      "The jar cracks. Little Collector picks up the pieces and promises not to forget.",
+      "The jar cracks. Corey picks up the pieces and promises not to forget.",
     postMatchLoss:
-      "Little Collector's jar grows by one. It is full of your specific attention, which is his favorite flavor.",
+      "Corey's jar grows by one. It is full of your specific attention, which is his favorite flavor.",
   },
   {
-    id: "little_watcher",
+    id: "kanshi_sha_watcher",
+    aliases: ["little_watcher"],
     cycle: "kindergarten_of_gods",
     act1Step: 3,
-    name: "Little Watcher",
+    name: "Kanshi Sha the Watcher",
     backstory:
-      "The half-finished white mask. She is not seeing; she is recording. §4.3 finale boss.",
+      "Archon of the Watcher, child form. The half-finished white mask. She is not seeing; she is recording. §2.4 finale boss.",
     deckLeaning: ["architect", "neutral"],
     preMatchLine:
       "I have been watching. I will watch this too. I have watched sixteen versions of you already.",
     postMatchWin:
-      "Little Watcher lowers the mask. Under the mask is a child's face that looks like it's about to cry.",
+      "Kanshi Sha lowers the mask. Under the mask is a child's face that looks like it's about to cry.",
     postMatchLoss:
-      "Little Watcher raises the mask. You do not see under it. Nobody who has lost has.",
+      "Kanshi Sha raises the mask. You do not see under it. Nobody who has lost has.",
     postBattleSlideshow: "welcome-to-celebration",
   },
 ];
 
-/* ─── CYCLE B — Mechronis Academy (§4.4) ─── */
+/* ─── CYCLE B — Mechronis Academy (§§7, 8, 9, 10, 11) ─── */
 
 export const CYCLE_B_OPPONENTS: readonly Act1Opponent[] = [
   {
-    id: "the_detective_student",
+    id: "young_iron_lion",
+    aliases: ["the_detective_student"],
     cycle: "mechronis_academy",
     act1Step: 4,
-    name: "The Detective (student years)",
+    name: "Young Iron Lion",
     backstory:
-      "The young Human, before the trench coat. §4.4 — he was the only one who ever made the Engineer laugh at Mechronis.",
-    deckLeaning: ["neutral"],
-    preMatchLine:
-      "I am going to win this by reading you. I am going to lose this by letting you read me. I want both.",
-    postMatchWin:
-      "The student Human bows. He asks you if you can have coffee sometime. He means it. The answer does not matter; the asking is the thing.",
-    postMatchLoss:
-      "The student Human does not gloat. He apologizes. He is already apologizing to someone who has not been born yet.",
-  },
-  {
-    id: "iron_lion_expelled",
-    cycle: "mechronis_academy",
-    act1Step: 5,
-    name: "Iron Lion (the day of his expulsion)",
-    backstory:
-      "§4.4 — Iron Lion's last match at Mechronis, before he walked out. The Engineer watched from the back row.",
+      "Mechronis Year 1. Iron Lion at seventeen, one year past expulsion. Defensive deck built on not losing. §2.5.",
     deckLeaning: ["insurgency"],
     preMatchLine:
       "I do not want to play. I want to make a point. The point is that the point is not the rules.",
@@ -124,116 +127,140 @@ export const CYCLE_B_OPPONENTS: readonly Act1Opponent[] = [
       "Iron Lion wins and walks out anyway. Winning does not matter. Leaving does.",
   },
   {
-    id: "professor_eidola",
+    id: "young_kael",
+    aliases: ["iron_lion_expelled"],
+    cycle: "mechronis_academy",
+    act1Step: 5,
+    name: "Young Recruiter / Kael",
+    backstory:
+      "Mechronis Year 2. Kael joined Iron Lion's cell the year after expulsion. Swarm-buff deck. §2.6.",
+    deckLeaning: ["insurgency", "neutral"],
+    preMatchLine:
+      "I learned to hold a card so it looked light in my hand. You learned too. Let us see what we both remember.",
+    postMatchWin:
+      "Kael bows slightly. He says he will see the Engineer again. He means it.",
+    postMatchLoss:
+      "Kael wins. He is proud of the Engineer anyway. That is the canonical Kael response.",
+  },
+  {
+    id: "young_agent_zero",
+    aliases: ["professor_eidola"],
     cycle: "mechronis_academy",
     act1Step: 6,
-    name: "Professor Eidola",
+    name: "Young Agent Zero",
     backstory:
-      "§4.4 — the ethics professor the Empire will later forget. She tests you on whether you are worth ruining later.",
-    deckLeaning: ["architect"],
+      "Mechronis Year 3. The quiet one. She will become Vex Solène — but that is C3 and later. Zero Trust stealth deck. §2.7.",
+    deckLeaning: ["neutral"],
     preMatchLine:
-      "The test is not whether you can play. The test is whether you play the way you think you ought to play.",
+      "I don't have a strategy. I have a sequence. If you interrupt the sequence I will adjust. If you do not interrupt the sequence you will lose in nine turns. I am telling you this because it would be unfair not to.",
     postMatchWin:
-      "Professor Eidola writes a single word on your report card. She does not let you see the word.",
+      "Agent Zero's sequence breaks at turn six. She says: 'I will remember this. That is a compliment.' She leaves without a handshake.",
     postMatchLoss:
-      "Professor Eidola writes nothing. She simply looks at you for a long moment and says 'Of course.'",
+      "Agent Zero completes the sequence at turn nine, as projected. She tells you your interrupt timing was off by two cards.",
   },
   {
-    id: "professor_matrikala",
+    id: "young_eyes",
+    aliases: ["professor_matrikala"],
     cycle: "mechronis_academy",
     act1Step: 7,
-    name: "Professor Matrikala",
+    name: "Young Eyes",
     backstory:
-      "§4.4 — the reactor-calibration master. She taught the Engineer to hear the reactor hum.",
-    deckLeaning: ["neutral"],
+      "Mechronis Year 4. The Watcher's first synthetic infiltrator; NOT an Archon. Card-peek deck. §2.8.",
+    deckLeaning: ["architect", "neutral"],
     preMatchLine:
-      "Listen to the room. The room is a kind of music. So is the Deck. Do not let either of them play you.",
+      "I can see the next three. They are interesting. I am going to respond to them before you do.",
     postMatchWin:
-      "Professor Matrikala tells you the bench in Engineering was built by a student who once sat where you are sitting now.",
+      "Young Eyes bows shallowly — to the deck, not to the Engineer. She leaves without speaking.",
     postMatchLoss:
-      "Professor Matrikala does not sigh. Professors of the calibration arts do not sigh.",
+      "Young Eyes holds the line. The Engineer's precognitive information advantage was insufficient.",
   },
   {
-    id: "the_seer_visit",
+    id: "young_human_seeker",
+    aliases: ["the_seer_visit"],
     cycle: "mechronis_academy",
     act1Step: 8,
-    name: "The Seer (visiting fellow)",
+    name: "The Seeker / Young Human",
     backstory:
-      "§4.4 — the Seer visits Mechronis once. She plays one match. She wins without raising her staff.",
+      "Mechronis final year. The young Human, visiting fellow, the player's narrator-to-be. Deep Thoughts long-game. §2.9. Dual card unlock per outcome.",
     deckLeaning: ["neutral"],
     preMatchLine:
-      "I will not raise my staff today. I want to see whether the bench has learned yet.",
+      "I am going to win this by reading you. I am going to lose this by letting you read me. I want both.",
     postMatchWin:
-      "The Seer smiles. She tells you the Engineer was the only one she ever taught who made her laugh at the right time.",
+      "The young Human smiles, sets his deck face-up, and gives the Engineer a small compass. They shake hands.",
     postMatchLoss:
-      "The Seer wins. She does not say anything. She leaves her staff on the bench for the Engineer to find later.",
+      "The young Human does not smile. He leaves without a handshake. The card 'The only reason I stayed' arrives without ceremony.",
     postBattleSlideshow: "to-be-the-human",
   },
 ];
 
-/* ─── CYCLE C — Nexon / Zenon / Last Words (§4.5) ─── */
+/* ─── CYCLE C — Nexon / Zenon / Last Words (§§13, 14, 15, 16) ─── */
 
 export const CYCLE_C_OPPONENTS: readonly Act1Opponent[] = [
   {
-    id: "the_warlord_zero_first",
+    id: "vernon_vortex",
+    aliases: ["the_warlord_zero_first"],
     cycle: "nexon_zenon",
     act1Step: 9,
-    name: "Warlord Zero (at the Battle of Nexon)",
+    name: "Vernon Vortex (First Form)",
     backstory:
-      "§4.5 — the Warlord's first full war-deck deployment. The Engineer stood opposite her on the line.",
-    deckLeaning: ["architect", "new_babylon"],
+      "Battle of Nexon. The Vortex's first appearance in the Engineer's life, in child form — the canonical cycle C exception. §2.10.",
+    deckLeaning: ["architect", "neutral"],
     preMatchLine:
-      "I am going to win this war in three moves. This is not bragging. This is arithmetic.",
+      "Watch the top. It does not stop. It is never going to stop. Again!",
     postMatchWin:
-      "The Warlord retreats for exactly one measure. The war does not end. One measure is a lot.",
+      "Vernon's top stops spinning. He looks genuinely surprised. The Engineer survived the fourth wipe.",
     postMatchLoss:
-      "The Warlord advances. The line cracks. The Engineer picks up the fallen staff and keeps it.",
-    postBattleSlideshow: "hacking-reality",
+      "Vernon's top continues spinning. He claps politely. The match ended but the Vortex did not.",
   },
   {
-    id: "the_programmer",
+    id: "wanda_wyrlord",
+    aliases: ["the_programmer"],
     cycle: "nexon_zenon",
     act1Step: 10,
-    name: "The Programmer",
+    name: "Wanda Wyrlord (fragmented)",
     backstory:
-      "§4.5 — the Engineer's oldest friend, last seen at Nexon. The Last Words recording held both their voices.",
-    deckLeaning: ["neutral"],
+      "Zenon forward command. Seventeen-year-old cyborg girl; the Warlord's fragmented encounter. I Love War attack-rush. §2.11.",
+    deckLeaning: ["warlord", "insurgency"],
     preMatchLine:
-      "I will not tell you what I am doing. Trust me. I have done the arithmetic, and the arithmetic is very bad.",
+      "I remember you. You were the one who let me win that Tuesday because Kael told you to. I've been angry about that for a long time. Let's find out if you're still someone I'd let sit at my table.",
     postMatchWin:
-      "The Programmer shakes the Engineer's hand. He vanishes that night and does not return.",
+      "Wanda's aggressive opening burns out by turn five. 'You got better.' At the door, without turning: 'Tell your apprentice to keep their hand visible. The Watcher sees cards that are on the table.'",
     postMatchLoss:
-      "The Programmer loses, deliberately. Some losses are gifts. This is one.",
+      "Wanda's aggression overwhelms. 'That was too easy. I came here for a fight. The next one will be harder. I promise.'",
   },
   {
-    id: "the_game_master_original",
+    id: "warlord_nano_swarm",
+    aliases: ["the_game_master_original"],
     cycle: "nexon_zenon",
     act1Step: 11,
-    name: "The Game Master (before the execution)",
+    name: "Warlord's Nano-Swarm (inside Agent Zero)",
     backstory:
-      "§4.5 — the Engineer's actual trial opponent. Not yet the Left Game Master, not yet the Right. A single man with two lenses still in one frame.",
-    deckLeaning: ["thought_virus", "neutral"],
+      "The Engineer's transference attempt on the Vortex. MANDATORY FORCED LOSS. Tempo-decay + self-sacrifice. §2.12 / §15.",
+    deckLeaning: ["warlord"],
+    host: "young_agent_zero",
     preMatchLine:
-      "You have built a beautiful box. The only thing I am going to do is open it in front of everybody.",
+      "Engineer. Sit. We have been looking forward to this for a long time.",
     postMatchWin:
-      "The Game Master smiles the smile of a man who has already lost. He says: 'Do it again. With an audience next time.'",
+      "(CANON IMPOSSIBLE — the engine structurally blocks the win path per §15. A win state here is a canon bug of the highest severity.)",
     postMatchLoss:
-      "The Game Master does not gloat. He signs the execution warrant and waits for the Authority to co-sign.",
+      "The Engineer presses the Resurrection Protocols stud. The transference completes. Agent Zero's body inhales; the swarm dissipates into her bloodstream. She becomes Vex Solène. She walks out of the Vortex bay before the charges detonate.",
   },
   {
-    id: "the_authority",
+    id: "wayne_warden",
+    aliases: ["the_authority"],
     cycle: "nexon_zenon",
     act1Step: 12,
-    name: "The Authority",
+    name: "Wayne Warden (Authority's Tribunal)",
     backstory:
-      "§4.5 / §5.4 — the final Act 1 match. Faceless. Six crystal coffins in a gallery. The engineer below them, alone in a chair.",
-    deckLeaning: ["architect"],
+      "New Babylon trial. The Authority's Tribunal in Trial format. Jury cards + evidence cards; Elara's deposition is card e08. §2.13 / §16.",
+    deckLeaning: ["authority", "new_babylon"],
+    trialFormat: true,
     preMatchLine:
-      "What do you say to the charges?",
+      "The defendant will rise. The chamber is in session. The charges have been entered into the record and read in absentia. What do you say to the charges?",
     postMatchWin:
-      "The Authority overturns the execution. It is not freedom — it is delay. A delay long enough to make one more card. The card is the one Last Words plays.",
+      "The Tribunal runs out of evidence. Wayne removes his biretta cap. The Authority recesses. He tells the Engineer, quietly: 'You have until morning to decide what you want recorded.'",
     postMatchLoss:
-      "The Authority passes sentence. Last Words fires. Act 1 ends on the cinematic, not on the match.",
+      "The verdict scroll fills. Sentence: termination at first light. The Records Officer brings a microphone into the chamber. 'Begin when ready.'",
     postBattleSlideshow: "last-words",
   },
 ];
@@ -245,9 +272,11 @@ export const ACT_1_OPPONENTS: readonly Act1Opponent[] = [
   ...CYCLE_C_OPPONENTS,
 ];
 
-/** Look up an opponent by id. */
+/** Look up an opponent by id. Resolves through legacy aliases. */
 export function getAct1Opponent(id: string): Act1Opponent | undefined {
-  return ACT_1_OPPONENTS.find((o) => o.id === id);
+  return ACT_1_OPPONENTS.find(
+    (o) => o.id === id || (o.aliases?.includes(id) ?? false),
+  );
 }
 
 /** Return every opponent in a cycle. */
