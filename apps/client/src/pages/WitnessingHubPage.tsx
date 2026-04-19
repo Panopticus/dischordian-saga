@@ -283,6 +283,30 @@ function JourneyPanel({ hubState }: { hubState: WitnessingHubState }) {
         </Link>
       )}
 
+      {/* Cross-game threads browser — surfaces from Act 5 onward,
+          when the first transmedia beats start landing. */}
+      {gameState.narrativeAct >= 5 && (
+        <Link
+          href="/cross-game-threads"
+          className="block rounded-md border border-stone-500/40 bg-stone-900/40 p-4 transition-colors hover:bg-stone-900/60"
+        >
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-stone-300/80">
+                BROWSE · TRANSMEDIA THREADS
+              </p>
+              <h3 className="mt-0.5 font-display text-base text-stone-200">
+                What the other games are reading
+              </h3>
+              <p className="mt-1 font-serif text-[12px] void-text">
+                Cross-game beat status — what's fired, what's waiting on Cades FPS or Dead Man's Circuit.
+              </p>
+            </div>
+            <ChevronRight size={20} className="text-stone-300/80 shrink-0" />
+          </div>
+        </Link>
+      )}
+
       {/* Act 7 Convergence — four finale matches. Unlocks at Act 7. */}
       {gameState.narrativeAct >= 7 && (
         <Link

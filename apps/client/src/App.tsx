@@ -95,6 +95,7 @@ const Act6CardLadderPage = lazy(() => import("./pages/Act6CardLadderPage"));
 const Act7CardLadderPage = lazy(() => import("./pages/Act7CardLadderPage"));
 const Act4MatchPage = lazy(() => import("./pages/Act4MatchPage"));
 const DevVariantsPage = lazy(() => import("./pages/DevVariantsPage"));
+const CrossGameThreadsPage = lazy(() => import("./pages/CrossGameThreadsPage"));
 const VortexIncursionPage = lazy(() => import("./pages/VortexIncursionPage"));
 const TradeWarsPage = lazy(() => import("./game/TradeEmpirePage"));
 const WarMapPage = lazy(() => import("./pages/WarMapPage"));
@@ -257,6 +258,7 @@ function Router() {
         <Route path="/act7-ladder" component={Act7CardLadderPage} />
         <Route path="/act4-match" component={Act4MatchPage} />
         <Route path="/dev/variants" component={DevVariantsPage} />
+        <Route path="/cross-game-threads" component={CrossGameThreadsPage} />
         <Route path="/vortex-incursion" component={VortexIncursionPage} />
         <Route path="/trade-empire">{() => <GameRoute component={TradeWarsPage} />}</Route>
         <Route path="/war-map">{() => <GameRoute component={WarMapPage} />}</Route>
