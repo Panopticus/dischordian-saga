@@ -52,6 +52,7 @@ import { useAuth } from "./_core/hooks/useAuth";
 import { useAnalytics } from "./hooks/useAnalytics";
 import { useTutorialOrchestrator } from "./hooks/useTutorialOrchestrator";
 import { syncFromServer, initSync } from "@/lib/settingsSync";
+import { initCrossGameBeats } from "@/lib/crossGameBeats";
 import RecapOverlay, { shouldShowRecap, RECAP_INACTIVITY_DAYS } from "./components/RecapOverlay";
 import { loadingManager, LOADING_TASKS } from "@/lib/loadingProgress";
 import { trpc } from "@/lib/trpc";
@@ -400,6 +401,10 @@ function GameGate() {
       settingsSynced.current = true;
       initSync(trpcUtils);
       syncFromServer().catch(() => {/* silent — local settings are fallback */});
+      // Tier 4D — wire the cross-game beats helper to the same tRPC
+      // client so narrative-side code can emit cross-game beats without
+      // plumbing the client reference through props.
+      initCrossGameBeats(trpcUtils);
     }
   }, [trpcUtils]);
 
