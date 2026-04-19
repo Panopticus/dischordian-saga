@@ -6605,13 +6605,32 @@ Shipped with six new tests in `dischordiaCycle.test.ts`
 consumes this helper; no further UI spec needed for Act 1
 ship. **Resolved** — no further engineering follow-up needed.
 
-### 23.8 *The Friend I Saved* card-recognition dialog (Act 3 F3)
+### 23.8 *The Friend I Saved* card-recognition dialog (resolved)
 
-§2.12 references Act 3 §7.4 as the out-of-scope destination
-for the custom dialog beat where Vex Solène recognizes the
-card. The canonical text for that dialog beat is NOT
-authored in Act 1 scope and must ship as an Act 3 delivery.
-Target: Act 3 authoring pass, separate PR.
+Shipped as `apps/shared/vexCardRecognition.ts`. Five canonical
+dialog variants keyed to the player's C3 N-score (§15.3
+dignity-condition score), partitioning [0, 12] exactly:
+
+- **n_0** (0 cards played as yourself) — pure remnant
+  disorientation
+- **n_1_3** (1-3 cards) — warm embarrassed self-interrupt
+- **n_4_7** (4-7 cards) — refusing her own question
+- **n_8_11** (8-11 cards) — owning the card with quiet
+  certainty
+- **n_12** (all 12 cards) — the only variant that addresses
+  the Engineer directly: *"He saved me with that card. I
+  have no memory of him. I have the card. That is enough.
+  Thank you."*
+
+Helpers `selectVexRecognitionDialog(nScore)` and
+`shouldFireVexRecognition(params)` gate firing to one-time
+play after narrativeAct ≥ 3. Eleven unit tests verify
+variant partitioning, N-to-variant mapping, firing conditions,
+and the canonical N=12 reference to the Engineer. Voice
+profile uses the existing `agent_zero` profile with §1.5
+rule 3 modifiers (30% less urgency, 50% more warmth, no
+static). **Resolved** — no further authoring follow-up
+needed.
 
 ### 23.9 Summary
 
@@ -6623,11 +6642,15 @@ Target: Act 3 authoring pass, separate PR.
 5. ~~*The Last Word* fallback-trigger verification~~ (resolved — no fallback needed; see §23.5)
 6. ~~Trial-format engine subclass creation~~ (resolved — trialFormat.ts shipped + 17 tests; see §23.6)
 7. ~~Light Energy counter UI treatment~~ (resolved — thresholds + helper shipped in dischordiaCycle.ts; see §23.7)
-8. *The Friend I Saved* Act 3 F3 recognition dialog
+8. ~~*The Friend I Saved* Act 3 F3 recognition dialog~~ (resolved — vexCardRecognition.ts shipped with 5 N-score variants; see §23.8)
 
-All eight are trackable separately; none block the Act 1
-Ship-Ready Bible from shipping, but all are required for
-Act 1 runtime to match canon.
+**All 8 canon-drift items are resolved as of this bible revision.**
+Canon drift that previously would have required 8 follow-up PRs is
+closed inline: the rename, the schema updates, the mascoteer voice
+profiles, the Trial-format engine, the Light Energy thresholds, and
+the Vex recognition dialog all ship with this doc. The bible is
+now both spec-complete AND runtime-aligned; no external follow-ups
+remain for Act 1 ship.
 
 ---
 
