@@ -1,0 +1,2291 @@
+# ACT 1 SHIP-READY ASSET BIBLE — Dischordian Saga
+
+## "The Deck Reforged" — The Engineer's Story
+
+This document is the production spec for every new asset required to
+ship **Act 1** of the Dischordian Saga. It is the direct successor to
+`docs/production/PRELUDE_SHIP_READY_BIBLE.md` — that doc covered the
+15-beat Prelude; this one covers the 12-battle card-game biography
+that follows it.
+
+Act 1 is canonically called **"The Deck Reforged"** and it is *the
+Engineer's story*. Every chapter of the card game is a chapter of his
+life. Every boss is someone he loved, feared, or trained beside. His
+execution — the Cycle C finale — is the player's first full musical
+slideshow and the first community-visible Light Energy spike in the
+whole galaxy. Act 1 is the most linear act in the entire game
+deliberately so, because it is a biography. Every other act opens
+up non-linearly.
+
+**Primary game mode unlocked by Act 1:** Dischordia TCG.
+
+**Canonical authority:** `docs/design/DISCHORDIAN_SAGA_FULL_GAME_LAYOUT.md`
+Act 1 section (lines 2332–2501 of Rev 6.2). Where this production doc
+and the DSFGL disagree, the DSFGL is canonical unless this doc contains
+an explicit "CORRECTED" annotation. See §23 Cross-References for the
+full cross-reference index, including the canon drift between the DSFGL
+design and the `apps/shared/act1Opponents.ts` code data shell (which
+uses different placeholder names — this doc uses the DSFGL names).
+
+---
+
+## Section 0 — How to Use This Doc
+
+### 0.1 Scope
+
+Act 1 runs from the moment the player exits the Prelude (Beat J choice
+resolved + `act1_start` flag set by the Prelude runner) to the moment
+the player places their first blank Dischordia card on the Ark's
+central pedestal (`act1_complete` flag). Everything in between is
+Act 1 scope:
+
+- **12 scripted card battles**, structured as three cycles (A/B/C)
+- **3 master slideshow cinematics**, one per cycle finale
+- **The Celebration Trial** — a 28-day Mascoteer decision loop that
+  runs in parallel with Cycle A and writes buff/debuff state into the
+  Cycle A card battles
+- **The Apprentice system** — the apprentice assigned in Prelude Beat D
+  lives or dies through Cycle A's 28 days; death yields a Memory Card
+  for the player's deck
+- **The Act 1 finale interaction** — the "YOUR NAME" Unwritten card
+  reveal, the first of five player-authored cards the player will earn
+  across Acts 1–5
+
+**Out of scope:** Act 2+ content (the Engineer's Bench crafting loop,
+Zephyr-9's Classroom chess, the Collector's Arena, the Thaloria
+cinematic), the full Witnessing Hub Loredex expansion, any Living
+Universe events triggered by Act 1 completion (those live in their
+own pipeline per `apps/shared/livingUniverseEvents.ts`).
+
+### 0.2 Reader paths
+
+This doc is structured so three different audiences can work from it
+without reading end-to-end:
+
+- **Writers / narrative producers** read §1 (Master Index) + §2 (Voice
+  Profiles) + per-battle narrative purpose sub-sections (§X.1)
+- **Art / image-generation producers** read §1 + per-battle art
+  sub-sections (§X.3 — opponent portrait + battlefield prompts) + §6 /
+  §12 / §17 (slideshow frame prompts) + §22 (Asset Delivery Checklist)
+- **Cutscene / video producers** read §1 + per-battle cutscene
+  sub-sections (§X.4) + the three slideshow sections + §22
+- **Audio / VO producers** read §1 + §2 + per-battle VO sub-sections
+  (§X.5 with ElevenLabs CSV rows) + §22
+- **VFX producers** read §21 (Act 1 VFX Library) end-to-end + the
+  per-battle §X.6 sub-sections for contextual use
+
+If you are the **engineering** reader, you already have `act1Opponents.ts`,
+`celebrationTrial.ts`, `mascoteers.ts`, `apprentices.ts`, and
+`mechronisProfessors.ts` in `apps/shared/`. This doc references those
+as the canonical source for IDs, deck themes, and data shells. Any
+discrepancy between this doc's opponent names and those files is
+documented in §23.1 as canon drift — the DSFGL names win for production,
+the code data shells should be updated separately.
+
+### 0.3 Global style anchor
+
+All Act 1 art shares a single consistent style anchor that production
+must apply to every asset unless an override is explicitly specified
+in a sub-section. **Copy this anchor verbatim into every Nano Banana 2
+prompt's style field.**
+
+> **Act 1 Global Style Anchor:** Hyper-realistic cinematic composition
+> with a strong biographical quality — every frame should feel like
+> it's been pulled from a recovered personal archive. Palette is
+> warmer and more nostalgic than the Prelude's cold cyan emergency
+> lighting: dominant warm gold `#fbbf24`, institutional steel grey,
+> deep wood panelling, faint film-grain sepia undertone on flashback
+> content. Subjects are rendered with the specificity of photographic
+> portraiture even when fantastical — nothing decorative, nothing
+> generic. The visual grammar is "a person remembers their life." Film
+> grain. Anamorphic lens flares where warm light meets composition
+> edges. 1920×1080 / 16:9 / 4K. No rendered text unless explicitly
+> flagged in a sub-section. No people rendered in base room stills —
+> figures are rendered as separate cutscene layers.
+
+Act 1 is **warmer** than the Prelude. The Prelude was a corpse-ship;
+Act 1 is memories of the living. Production should treat the palette
+shift as intentional and resist pulling the Prelude's cold cyan into
+Act 1 assets.
+
+### 0.4 Canon hygiene rules (enforced across every Act 1 asset)
+
+The same canon hygiene rules from the Prelude Bible §0.4 apply to
+Act 1, plus five Act-1-specific additions. Violating any of these in
+a VO, subtitle, or on-screen element is a canon bug that must be
+caught before production ships:
+
+1. **The Engineer is "The Prince."** Every VO line, every subtitle
+   that references the young Engineer in Cycles A, B, or C uses the
+   role label "Engineer" or the title "The Prince." He does not have
+   a first name. See the Prelude Bible §2.1 for the full naming
+   discipline — it applies identically here.
+2. **Kanevas is a standard Mechronis headmaster.** Cycle B's academy
+   setting cannot hint at the CoNexus machine-god reveal (Act 4+
+   scope per `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §4.6). Kanevas is
+   a strict, warm-but-formal headmaster. Nothing more.
+3. **"Vex Solène" is the canonical name for Agent Zero** post the
+   Cycle C3 transference. Use "Agent Zero" for all Cycle B and
+   pre-C3 references. Use "Vex Solène" starting at Cycle C3's final
+   turn when her portrait resolves for the first time. Never mix the
+   two in the same frame.
+4. **Eden is canonically "the garden world the Warlord destroyed as
+   retaliation."** The Cycle B5 "The Seeker / Young Human" battle's
+   flavor text may reference Eden as a shared memory between the
+   Engineer and the young Human, but must not pre-reveal that the
+   Warlord is a nanobot swarm (Act 2+ reveal per
+   `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §1.6). The Human's
+   recollection of Eden should be framed as "a place that no longer
+   exists" without explaining why.
+5. **The Programmer / Daniel Cross / The Antiquarian are the same
+   person.** His voice appears in the Cycle C finale ("Last Words")
+   slideshow for the first time in the game — this is the first time
+   the player hears him. Canon hygiene: do NOT name him "Daniel Cross"
+   in any Act 1 subtitle or VO. "The Programmer" is the Act 1 framing.
+   "The Antiquarian" is reserved for post-Prelude player-facing
+   framing but does not surface in Act 1 cutscene subtitles. The
+   identity chain reveal lives in later Acts.
+6. **Cycle A1's opponent is Minnie, the Archon of the Meme.** Per
+   the 2026-04-15 production session, the canonical name for the
+   Cycle A1 opponent is **Minnie**. She is the child-form of **The
+   Meme** — canonically an Archon-tier entity. The `thought_virus`
+   deck leaning in `apps/shared/act1Opponents.ts` is consistent with
+   this: the thought_virus entity IS the Meme. Minnie is the Meme's
+   child form, the Meme is an Archon, Minnie is the Archon of the
+   Meme.
+   - **Canonical visual:** Minnie wears **Minnie Mouse ears** —
+     specifically the Disney-souvenir style ears (a black plastic
+     headband with two round felt-covered ears, the kind a child
+     gets at a theme park). The ears are the visual signifier of her
+     Archon-of-the-Meme identity: a nostalgic corporate artifact
+     worn as if it were crown jewelry. The ears are **not ironic on
+     her part** — she wears them earnestly. The irony lives in the
+     player's recognition, not in Minnie's self-awareness.
+   - **Names to NOT use:** Do not use the DSFGL draft name "Conni the
+     Conductor" in any Act 1 subtitle, VO line, or art prompt. Do
+     not use the `act1Opponents.ts` placeholder name "Little Meme"
+     either. Both are superseded by Minnie. Follow-up: update
+     `act1Opponents.ts` in a separate code PR so the runtime
+     matches production.
+   - **Archon tier canonical mapping:** Minnie is the Archon of the
+     Meme. She is NOT the CoNexus child form (the DSFGL Rev 6.2 draft
+     conflated Conni / CoNexus / Meme; that conflation is retconned
+     by the 2026-04-15 session). CoNexus remains a separate machine-
+     god entity with its own Act 4+ reveal, and CoNexus has no child
+     form in the Celebration schoolyard. Minnie is just the Meme.
+
+### 0.5 What this doc does NOT duplicate
+
+- The canonical card-game ruleset, card type system, and deck
+  composition engine — those live in `apps/shared/tcg-core/` and
+  `apps/client/src/game/duelyst-engine/`
+- The `Act1Opponent` TypeScript interface and shell data — that lives
+  in `apps/shared/act1Opponents.ts`
+- The 28-day Celebration Trial decision tree and daily events — that
+  lives in `apps/shared/celebrationTrial.ts` (1265 lines of structured
+  data; this doc references specific day numbers but does not re-encode
+  the tree)
+- The Mascoteer roster and bond mechanics — `apps/shared/mascoteers.ts`
+- The full Dischordia card registry — `apps/shared/tcg-core/cards/`
+- The slideshow frame-playback engine — `apps/shared/songSlideshow.ts`
+  and `apps/client/src/components/SongSlideshow.tsx` (the latter is
+  flagged for rewrite per PR #36's NOTE(ci-green) #10)
+- The existing Witnessing Song Slideshow anchor specs for Act 1's
+  three slideshows — those are partially spec'd in
+  `docs/production/SHIP_READY_ASSET_BIBLE.md` §3.7 and this doc
+  extends / completes them rather than duplicating
+
+Anything NOT in the list above is in scope for this doc. If you find
+something that you're not sure whether it belongs in this doc or one
+of the referenced files, default to adding it here and flag the
+overlap in a comment.
+
+---
+
+## Section 1 — Act 1 Master Index
+
+Act 1 is a **biography told in card battles**. The player is inhabiting
+the Engineer's memories, each cycle representing a phase of his life,
+each battle representing a specific person who shaped him. The 12
+battles are strictly linear — unlike every Act that follows, Act 1
+does not open up. The player moves through in fixed order because
+biography has an order.
+
+The three cycles and their finale slideshows are the load-bearing
+structure:
+
+- **Cycle A — Kindergarten of Gods** (Project Celebration school).
+  3 battles, ends with the *Welcome to Celebration* slideshow. Runs
+  in parallel with the 28-day Celebration Trial (§19) — daily
+  Mascoteer decisions during those 28 days feed buffs/debuffs into
+  the Cycle A card battles.
+- **Cycle B — The Academy** (Mechronis). 5 battles, ends with the
+  *To Be the Human* slideshow. Classmates-the-player-knows-by-name.
+  Each opponent is a canonical future figure in their academy years.
+- **Cycle C — Nexon, Zenon, Last Words** (War). 4 battles, ends with
+  the *Last Words* master slideshow (15 frames, ~3m 30s, the first
+  community-visible +500 Light Energy spike in the whole game). The
+  Engineer's war, betrayal, transference into the swarm, execution.
+
+Cycle C's third battle (C3 — Warlord Nano-Swarm inside Agent Zero) is
+the canonical **mandatory forced-loss** of Act 1: the Engineer's deck
+bleeds into Agent Zero's side of the board every turn, and on the
+final turn the Engineer is empty while Agent Zero's board is full.
+She is now Vex Solène. This is not a betrayal, it is a sacrifice. The
+surviving *"Friend I Saved"* Mythic Light card is the Engineer's last
+gift and will be played against Vex in Act 3 F3 when the player meets
+her face-to-face for the first time.
+
+### 1.1 Master Index table
+
+| Battle | Cycle | Day / Phase | Opponent | Canon source | Deck theme | Card unlock | Priority |
+|---|---|---|---|---|---|---|---|
+| **A1** | Kindergarten of Gods | Celebration Trial Day 10 | **Minnie the Meme** (Archon of the Meme, child form) | §0.4 rule 6 | "Rent Free" forced-unison mechanics | *The Countermelody* (Common Neutral) | **P0** |
+| **A2** | Kindergarten of Gods | Celebration Trial Day 20 | **Corey the Collector** (Archon of the Collector, child form) | §2 user canon + DSFGL | "Choose Your Mask" memory-card sacrifice | *The Jar That Wouldn't Close* (Rare Light) | **P0** |
+| **A3** | Kindergarten of Gods | Celebration Trial Day 28 (graduation) | **Kanshi Sha the Watcher** (Archon of the Watcher, child form) | §2 user canon | "Ocularum" full-board reveal, zero hidden cards | *The First Card* (Epic Light — blank, 3 random effects on play) | **P0** |
+| — | Cycle A finale | after A3 | *Welcome to Celebration* slideshow (8 frames) | §6 of this doc | — | — | **P0** |
+| **B1** | Mechronis Academy | Year 1 of 4 | Young Iron Lion (17, expelled Year 650 A.A.) | DSFGL | "Last Stand" defense-stacking | *The Iron Stance* (Rare Light) | **P0** |
+| **B2** | Mechronis Academy | Year 2 of 4 | Young Recruiter / Kael (joins Iron Lion a year later) | DSFGL | "The Insurgency" swarm buffs | *The Recruiter's Gift* (Epic Neutral) | **P0** |
+| **B3** | Mechronis Academy | Year 3 of 4 | Young Agent Zero (future assassin) | DSFGL | "Zero Trust" stealth / one-shots | *The Weapon I Didn't Build* (Legendary Dark) | **P0** |
+| **B4** | Mechronis Academy | Year 4 of 4 | Young Eyes (infiltrator, created by the Watcher) | DSFGL | "I Am the Eyes That Watch" card-peek | *The Memorized Page* (Epic Dark) | **P0** |
+| **B5** | Mechronis Academy | Final year (emotional pivot) | **The Seeker** (young Human, the player's own narrator) | §2 user canon | "Deep Thoughts" long-game | *The Classmate's Compass* (Legendary Light, win) **OR** *"The only reason I stayed"* (Legendary Dark, loss) | **P0** |
+| — | Cycle B finale | after B5 | *To Be the Human* slideshow (10 frames) | §12 of this doc | — | — | **P0** |
+| **C1** | Nexon / Zenon / Last Words | Battle of Nexon | **Vernon Vortex — First Form** | §2 user canon | Board wipes every 4 turns (survival puzzle, not a win condition) | *The Standstill* (Epic Light — once per match, delay a loss 1 turn) | **P0** |
+| **C2** | Nexon / Zenon / Last Words | fragmented encounter | **Wanda Wyrlord** (fragmented) | §2 user canon | "I Love War" attack-rush + instant-kills | *The Converter* (Legendary Dark) | **P0** |
+| **C3** | Nexon / Zenon / Last Words | Engineer's transference attempt | **Warlord's Nano-Swarm (inside Agent Zero)** — MANDATORY FORCED LOSS | DSFGL + user Wanda canon | Tempo-decay + self-sacrifice — Engineer's deck shrinks 1 card/turn, lost cards go to Agent Zero's side as reinforcements against the swarm | *The Friend I Saved* (Mythic Light — renamed from *The Friend I Trusted* per rev 4 canon) | **P0** |
+| **C4** | Nexon / Zenon / Last Words | New Babylon trial | **Wayne Warden** (Authority's Tribunal — Trial format) | §2 user canon | Jury cards, evidence cards, Engineer defends with his own Deck. **Elara is a card in the Tribunal's deck** | *The Last Word* (Mythic Light — triggers the Last Words slideshow on play) | **P0** |
+| — | Cycle C finale | after C4 | ***Last Words*** master slideshow (15 frames, ~3m 30s, +500 Light Energy galaxy-wide) | §17 of this doc (references existing `SHIP_READY_ASSET_BIBLE.md` §3.7 frame-by-frame spec) | — | — | **P0** |
+| — | Act 1 Finale | after *Last Words* | Return to the Ark Archives, player places first blank *"YOUR NAME — Unwritten"* Dischordia card on the pedestal | §18 of this doc | — | — | **P0** |
+| — | **Parallel:** Celebration Trial | 28-day Mascoteer decision loop (Days 1–28) | 6 Mascoteers (Minnie + 2 optional bonus forms) + daily events | §19 of this doc | Daily decisions feed buffs/debuffs into Cycle A battles | — | **P0** |
+| — | **Parallel:** Apprentice Permadeath | Days 1–28 of Celebration Trial | Apprentice assigned in Prelude Beat D | §20 of this doc | Lives or dies through Cycle A; death yields a Memory Card for the player's deck | *Memory Card* (procedurally-named Epic Light) | **P0** |
+
+### 1.2 Totals
+
+The Master Index table rolls up into the following delivery totals.
+These numbers are the denominators the Asset Delivery Checklist (§22)
+will report against.
+
+| Category | Count | Breakdown |
+|---|---:|---|
+| **Card battles** | 12 | 3 Cycle A + 5 Cycle B + 4 Cycle C |
+| **Master slideshows** | 3 | Welcome to Celebration (8 frames), To Be the Human (10 frames), Last Words (15 frames) |
+| **New opponent portraits** | 12 | one per battle — see §2 Character Roster for visual descriptions |
+| **New battlefield backgrounds** | 8 | some shared across battles of the same cycle; itemized in §22.1 |
+| **Pre-battle matchup splash stills** | 12 | one per battle, composited from opponent portrait + battlefield |
+| **Cutscene videos** | ~15 | per-battle intros (12) + 3 slideshow cinematics. Act 1 Finale is a single additional cutscene — see §18 |
+| **New VO recordings** | TBD | enumerated per-battle in §X.5 sub-sections — estimated 40–60 lines across the 12 battles + slideshow narration |
+| **New VFX assets** | TBD | enumerated per-battle in §X.6 and consolidated in §21 VFX Library |
+| **UI art for Celebration Trial daily loop** | TBD | day card layouts + 28 daily event illustrations — enumerated in §19 |
+| **Apprentice system UI art** | TBD | trait display, permadeath event, Memory Card reveal — enumerated in §20 |
+
+Act 1's total new asset count will be substantially higher than the
+Prelude's ~107 deliveries because of the 12 opponent portraits + 8
+battlefields + 3 multi-frame slideshows. Full number will be computed
+in §22.6 Summary after the per-battle sub-sections finalize their
+own asset enumerations. Current estimate: **~200–300 new asset files**.
+
+### 1.3 Scope note on the Celebration Trial and Apprentice loops
+
+The 28-day Celebration Trial runs in parallel with Cycle A. The player
+does **not** experience 28 literal days of gameplay — Cycle A compresses
+the 28 days into a narrative loop of Mascoteer decision beats + three
+card battles + apprentice status updates. The card battle at Day 10,
+Day 20, and Day 28 are the structural anchors; the in-between days are
+Mascoteer events (daily choices) and apprentice training beats
+(trait-shifting events).
+
+This doc treats the Celebration Trial and Apprentice loops as **two
+separate sub-systems** within Cycle A, each with its own dedicated
+section (§19 and §20 respectively). They are not battles, they are
+**parallel systems feeding the battles**. Production should treat
+their art assets as a distinct delivery queue from the 12-battle queue.
+
+---
+
+## Section 2 — Character Roster
+
+### 2.0 Framing principle — "cosmic beings in child bodies"
+
+Act 1 is a **simulation**. The player is inhabiting the Engineer's
+memories of his own biography — not lived reality, but a reconstruction
+of it running inside the Matrix of Dreams. The simulation has its own
+visual rules, and the most important one is this: **when an Archon-tier
+entity appears in the simulation, it is rendered as the cosmic being
+*wearing* a child's body**.
+
+The canonical justification: the Engineer's memories of his childhood
+classmates were imprinted before he understood what any of them
+*were*. He met them as other kids — on a swingset, in a classroom,
+at a graduation ceremony. The simulation preserves that. It shows the
+player what the Engineer *saw*, not what was underneath. Decades later
+when the Engineer figured out that Conni-the-classmate was actually the
+Archon of the Meme, his memory did not retroactively re-render her as a
+cosmic entity. It kept the Minnie Mouse ears. The Minnie Mouse ears
+are literally what he remembered.
+
+This framing rule governs **every** Archon-tier character in Act 1:
+
+- **Cycle A (Kindergarten of Gods):** all three opponents are Archons
+  in child form because the simulation is literally set in a
+  kindergarten (the Project Celebration school). Minnie, Corey, and
+  Kanshi Sha are cosmic entities (the Meme, the Collector, the
+  Watcher) wearing the bodies of seven-year-olds.
+- **Cycle C1 (Battle of Nexon — Vernon Vortex "First Form"):** the
+  same rule applies, but with a twist. Cycle C is the War Cycle,
+  set on battlefields and trial floors — yet Vernon appears as a
+  round-faced, cheerful child in an orange sun T-shirt. This is
+  *intentional dissonance*. The cosmic Vortex is the being that
+  wipes the board every four turns; Vernon is the child body that
+  cosmic being is wearing in the Engineer's memory. The player is
+  supposed to feel the disconnect — *this cheerful kid is doing
+  the thing that is killing me* — and the disconnect is the beat.
+  The "First Form" label on C1 refers to the first time the cosmic
+  Vortex appears in the Engineer's life, which happens to be in a
+  child body.
+- **Cycle C2–C4 (Wanda Wyrlord, Nano-Swarm, Wayne Warden):** these
+  are canonically NOT child-form Archons. The Warlord's fragmented
+  form in C2 is adolescent-to-young-adult (Wanda is described as a
+  cyborg *girl*, not child — see §2.11). The Nano-Swarm inside
+  Agent Zero in C3 is not a character in child form at all, it is
+  a swarm rendered as card-game mechanics. Wayne Warden in C4 is
+  an adult tribunal figure, old enough to sit the bench.
+- **Cycle B (Mechronis Academy):** the Cycle B opponents are NOT
+  Archons in the first place. They are canonical *humans* (or
+  human-descent entities) at their academy ages. Young Iron Lion,
+  Young Kael, Young Agent Zero, Young Eyes, and the Seeker are
+  all rendered as literal teenagers in blue school uniforms per
+  the Mechronis Academy visual canon established by §2.9.
+
+**The canon hygiene rule that falls out of this framing:** when
+writing VO or subtitles for an Archon-in-child-body character, the
+voice is the *cosmic being's voice*, not a child's voice. Minnie
+does not sound like a seven-year-old. She sounds like the Meme —
+ancient, viral, amused at the player's attention. The dissonance
+between her visual and her voice is the emotional weight of the
+encounter. Actor direction for each Archon's VO lines is carried
+in the per-battle §X.5 sub-sections.
+
+### 2.1 The Prince / The Engineer — the player's biographical subject
+
+The player does not *see* The Prince directly during Act 1's card
+battles — the player *is* The Prince, viewing the memories from
+inside his head. But his visual still matters for:
+
+- **Cycle A–C finale slideshows** (§6, §12, §17), where Prince
+  appears as a cast member in the graduation photos, the Mechronis
+  class portraits, the Nexon battlefield, the New Babylon trial,
+  and finally the execution chamber in *Last Words*
+- **Cycle B5 "The Seeker" battle** (§11), where the Prince sits on
+  one side of the card table and the young Human sits on the other,
+  and the camera is over the Prince's shoulder — so the back of his
+  head is visible to the player for the duration of the match
+- **Cycle C3 forced-loss** (§15), where the Prince's portrait fades
+  as the Engineer's deck empties, and the simulation's framing of
+  his identity dissolves into Vex Solène's
+- **Act 1 Finale cutscene** (§18), where the player sees the Prince
+  one final time — as a silhouette walking into the white frame of
+  the executed/programmer reunion at the close of *Last Words*
+
+**Canonical visual (user-provided, 2026-04-15):**
+
+> The Prince is a young African American man with short black hair
+> who wears a red steampunk trench coat.
+
+**Production expansion for this doc:**
+
+- **Age presentation:** Act 1 shows the Prince at three life phases
+  — Cycle A (childhood, ~7 years old), Cycle B (adolescence, 15–18
+  years old, Mechronis Academy uniform), Cycle C (young adult,
+  early 20s to late 20s, in his canonical red steampunk trench
+  coat). The canonical visual above describes the young-adult
+  Cycle C form.
+- **Red steampunk trench coat canonical details:** deep oxblood /
+  burgundy red wool or heavy canvas, double-breasted, falling to
+  mid-thigh, gold-brass filigree details along the lapels and
+  cuffs (the filigree is not ornamental — it is functional neural
+  lattice circuitry the Prince embedded into the coat, a foreshadow
+  of the Dischordia Deck system he would build later). Visible
+  brass gears or small cogwheels on the shoulder epaulettes. The
+  coat is worn open, shirt underneath is a simple cream linen
+  (matching the Prelude Bible §2.2 canonical wardrobe) with sleeves
+  rolled to the elbow.
+- **Skin tone:** medium-brown African American, warm undertones
+  matching the Act 1 global style anchor's palette (§0.3). Avoid
+  cool/blue undertones — the Prince is canonically a warm-palette
+  character.
+- **Hair:** short, black, cut close to the scalp, natural texture.
+  Never straightened, never braided long — the Prince keeps his
+  hair utilitarian because he spends most of his time bent over a
+  workbench.
+- **Eyes:** warm brown, slightly tired, intelligent. When he looks
+  at something he loves (a piece of tech, a childhood memento, his
+  partner) the eyes light up slightly — that light is the only
+  part of his face the execution cutscene will ever take from him.
+- **Facial hair:** clean-shaven in Cycle A and B, trim beard in
+  Cycle C. The beard grows over the course of the war. By the
+  tribunal in C4 it is slightly unkempt — he has been in custody
+  for some time.
+- **Child form (Cycle A):** same skin tone, same intelligent eyes,
+  same warm brown hair but longer (bowl cut), wearing a simple
+  beige schoolyard tunic (Project Celebration school uniform —
+  NOT the later Mechronis blue uniform). Carries a small cloth
+  satchel everywhere. Never without a pencil behind one ear.
+- **Adolescent form (Cycle B):** the Mechronis Academy blue school
+  uniform (see §2.9 for the uniform canonical spec — blue blazer,
+  blue trousers, white shirt, light blue tie), worn slightly
+  loosely. Already has the habit of rolling his sleeves. The
+  filigree on the trench coat in Cycle C is an evolution of
+  doodles he made in Mechronis schoolbook margins.
+
+**Per-cycle wardrobe reference (for slideshow and battle production):**
+
+| Cycle | Age | Canonical outfit | Prop |
+|---|---|---|---|
+| A (Kindergarten) | ~7 | Beige Project Celebration tunic, cloth satchel | pencil behind ear |
+| B (Mechronis) | 15–18 | Mechronis blue blazer + trousers + white shirt + light blue tie, sleeves rolled | notebook under arm |
+| C (War) | early–late 20s | Red steampunk trench coat + cream linen shirt (sleeves rolled) + dark trousers | brass-inlay data slate, small tool roll in coat pocket |
+
+**Voice profile:** existing `the_prince` profile from
+`docs/production/VOICE_OVER_BIBLE.md` Section 9 (added by Prelude
+Bible §2) — no new voice profile needed for Act 1. The voice
+direction shifts slightly per cycle: Cycle A uses a child-form
+version (bright, un-self-aware), Cycle B uses adolescent cadence
+(slightly formal, beginning to develop the aristocratic precision),
+Cycle C uses the canonical adult voice from the Prelude profile.
+All three are the *same actor*, same take session, different
+direction passes — per the Prelude Bible §10.5's voice-continuity
+instruction.
+
+**Cross-references:**
+
+- Prelude Bible §2 (The Prince voice profile — existing canon)
+- `apps/shared/engineerRecordings.ts` (the Prince's canonical
+  holographic recordings from the Prelude Beat C / E / J archives)
+- `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.6 (the full Log 5 text
+  that plays in the Prelude Beat J climax and is paralleled in
+  Act 1's *Last Words* slideshow)
+- §0.4 rule 1 (the Prince naming discipline — canon inherited
+  from the Prelude Bible)
+
+### 2.2 Minnie the Meme — Cycle A1 opponent (Day 10)
+
+The first boss of Act 1 and the player's first-ever scripted
+Dischordia match. The player has just stepped off the tutorial
+("Elara's briefing-paper knowledge" layer of Cycle A onboarding)
+and sits across the card table from a seven-year-old girl in
+Minnie Mouse ears who — the Engineer will not learn this for
+another twenty years — is the Archon of the Meme in a child body.
+
+**Canonical visual (user-provided, 2026-04-15):**
+
+> Minnie the Meme has short brown hair, wears a playful mouse-ear
+> headband, and is always mid-gesture, expressive and energetic.
+
+**Production expansion for this doc:**
+
+- **Mouse-ear headband:** canonical from §0.4 rule 6 — a black
+  plastic Disney-souvenir-style headband with two round felt-covered
+  ears, worn earnestly as crown jewelry. Not ironic. The felt is
+  slightly nubby from being worn daily for years. The plastic
+  headband has faint scuffs on the top curve. The ears are never
+  off in any frame — render them even when Minnie is viewed in
+  silhouette or partial profile.
+- **Hair:** short brown (user canon). Bowl-cut or slightly messy
+  shoulder-length — pushed under the headband so the ears sit
+  cleanly on top. The hair sticks out slightly around the headband
+  in tufts. Warm chestnut-brown under schoolroom lighting.
+- **Face:** seven-year-old Asian-descent child, round cheeks, a
+  gap between the front teeth that she shows every time she
+  smiles (and she smiles often). Wide brown eyes with dark lashes.
+  The eyes are the tell: they are canonically **too alert** for a
+  child's eyes. When the player is paying attention they notice
+  the eyes are tracking them like a camera, not like a kid.
+- **Expression default:** mid-gesture, expressive, energetic (user
+  canon). Minnie is never still in any frame. Render her in
+  motion — hands up, mouth open mid-word, one foot slightly lifted
+  as if she is about to run or spin. Even her static portraits
+  should feel like the artist caught her mid-leap. The energy is
+  the threat: the player will be tired and Minnie will not.
+- **Outfit:** the Project Celebration school tunic in pale cream
+  (the same tunic the young Prince wears in Cycle A — see §2.1),
+  but Minnie's is covered in fabric-marker drawings she has done
+  herself. Smiley faces, hearts, a crude picture of the other
+  classmates as stick figures with labels, a recurring motif of
+  three eyes arranged in a triangle (foreshadow — she is friends
+  with Kanshi Sha the Watcher in the simulation). Scuffed sneakers,
+  mismatched socks. Small cloth satchel worn cross-body.
+- **Body language:** she gestures with her entire body. When she
+  speaks she uses both hands, palms out, fingers splayed. When the
+  player plays a card she leans forward over the table eagerly.
+  When she plays a card she slams it down with theatrical conviction.
+  Every motion is *performance*.
+
+**Voice direction (Meme Archon in a child body):**
+
+Per §2.0's canon hygiene rule, Minnie's voice is NOT a child's
+voice. It is the Meme — ancient, viral, amused at the player's
+attention. The delivery should sound like a 35-year-old content
+creator in her prime delivered through a child's vocal tract,
+which is exactly what it is. The voice never drops into child
+babble or high-pitched squeals. It stays smooth, confident,
+slightly-too-articulate-for-a-seven-year-old, with a performative
+cadence that feels like she is always about to post. The Prelude's
+Human voice profile gave us the template for "ancient presence in
+a containing form"; Minnie is the inversion — a recent-cosmic
+presence (the Meme is canonically a young Archon, not old) in a
+containing body she enjoys more than she needs.
+
+Per `docs/production/VOICE_OVER_BIBLE.md` no existing Meme voice
+profile currently exists. A new voice profile **`the_meme_child`**
+should be added — voice direction and ElevenLabs parameters are
+enumerated in §3 (the Cycle A1 battle section) below.
+
+**Canonical pre-match line** (from `apps/shared/act1Opponents.ts`
+`little_meme.preMatchLine`, to be renamed to `minnie_meme` in the
+code cleanup PR noted in §0.4 rule 6):
+
+> *"Let me see. Let me see. Let me see. I am going to see it whether
+> you show me or not."*
+
+Delivered in three different intonations over the three "Let me
+see"s — first as playful wheedling, second as mock-exasperated,
+third as a flat observational statement that is not a request.
+The player should register that the third delivery is the real
+Minnie under the other two.
+
+**Deck theme:** "Rent Free" forced-unison mechanics. Her cards
+force the player's cards to play the same action she plays on her
+own turn. She does not take the player's turn — she *shares* it.
+The player fights by desynchronizing. This is the Meme's combat
+signature: viral pattern entrainment.
+
+**Card unlock on win:** *The Countermelody* (Common Neutral) — a
+card that, when played, forces an opponent's unison-forced card
+out of sync for one turn. The player's first tool against viral
+mechanics.
+
+**Post-match canonical beats** (from `act1Opponents.ts`):
+
+- **Win:** Minnie's viral chant stalls for a single second. In that
+  second the Engineer finishes his card. The stall is visible — a
+  half-frame of Minnie frozen mid-clap, every classmate frozen
+  with her, the Prince's pencil tapping his card on the "one"
+  beat that broke the pattern.
+- **Loss:** Minnie laughs and laughs. The Engineer is fine. He is
+  always fine, except the one time. The loss line is a
+  foreshadow to Cycle C — the "one time" the Engineer is not fine
+  is the tribunal. The player won't catch this until they get to
+  C4 and the callback lands.
+
+**Cross-references:**
+
+- §0.4 rule 6 (Minnie canonical naming + mouse-ear detail)
+- §2.0 (simulation framing — Archons in child bodies)
+- §3 (Cycle A1 battle section — full battle spec)
+- §6 (Welcome to Celebration slideshow — Minnie appears in the
+  graduation photo final frame)
+- `apps/shared/act1Opponents.ts` `little_meme` data shell (to be
+  renamed `minnie_meme` in a follow-up code PR)
+- `apps/shared/celebrationTrial.ts` Day 10 event (the Mascoteer
+  trial beat that feeds into the A1 card battle)
+
+### 2.3 Corey the Collector — Cycle A2 opponent (Day 20)
+
+The second Cycle A boss and the player's first exposure to a
+**masked** Archon. Corey never shows his face. In Cycle A the mask
+reads as kid-stuff, an elaborate costume piece a seven-year-old
+insisted on for picture day. Later in the biography — specifically
+in Cycle B when the player fights Young Eyes, and in the Act 2
+Thaloria cinematic when Curator Halverez appears — the player will
+recognize the same mask on different bodies and realize that the
+Collector Archon has been wearing it across the entire timeline.
+Corey is the **first time** the player sees the Xenomorph mask in
+the Engineer's memories, which makes him the canonical origin of
+the mask motif.
+
+**Canonical visual (user-provided, 2026-04-15):**
+
+> Corey the Collector wears a shiny blue Xenomorph-style mask that
+> hides his face completely, with a cloak full of pouches.
+
+**Production expansion for this doc:**
+
+- **The Xenomorph mask:** a full-face shell rendered in **shiny
+  cobalt-blue** — glossy plastic / polished composite, reflective
+  enough to catch the schoolroom's warm amber light as cool blue
+  highlights along the dome. The mask is H.R. Giger Xenomorph shape
+  (elongated skull, no visible eye holes, mandibular contour along
+  the jaw) shrunk down to child proportions and softened slightly
+  so it reads as *costume* to an adult viewer but *real* to another
+  child. The mask is seamless — no visible straps, no hinge, no
+  way it came on. **No facial features are ever visible underneath**,
+  even when Corey tilts his head or bends over a card. Render the
+  mask's interior as impenetrable black, never a hint of skin. The
+  mask's motif recurs exactly on Curator Halverez in the Act 2
+  Thaloria cinematic per `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §3
+  — production must preserve the shape and material for continuity.
+- **The cloak full of pouches:** a floor-length child's cloak,
+  deep midnight-purple velveteen (off-the-rack kid Halloween-costume
+  material, not quality fabric). The cloak is **covered** in small
+  cloth pouches stitched directly into the outer layer — forty to
+  fifty pouches of varying sizes, some tiny (thumb-sized), some
+  hand-sized, arranged asymmetrically over the cloak's surface. Each
+  pouch is drawstring-tied with faded ribbon in a different color.
+  When Corey moves, the pouches clink and rustle faintly (render
+  motion blur on the smallest pouches during Seedance 2.0 shots).
+  **Every pouch contains something** — a marble, a paper scrap, a
+  tooth, a dried leaf, a folded note, a single coin, a pressed
+  flower, a lock of hair. The player never sees inside any pouch
+  in Cycle A. In the Cycle A finale slideshow (§6) one pouch is
+  visible mid-fall, the contents catching the light — canonical
+  pouch-contents list is in §6's frame-by-frame spec.
+- **Body / stature:** small for seven years old. The cloak is
+  slightly too big for him, the hem dragging on the floor behind
+  him when he walks. The Xenomorph mask looks massive on the
+  narrow shoulders. Posture is hunched forward protectively over
+  his cards — the child-body language of someone who is guarding
+  his collection.
+- **Hands:** the only skin visible on Corey. Rendered as the same
+  medium-brown as the Prince's (Corey is canonically African
+  American in child form, matching the adult Curator Halverez's
+  skin tone for continuity). Hands are always slightly dirty —
+  ink-stained fingers, a scab on one knuckle, nails bitten down.
+  When he plays a card his hand emerges from under the cloak, sets
+  the card with surgical precision, and retreats back under. The
+  hand is the player's only window into his mood.
+- **Outfit underneath the cloak:** the same cream Project Celebration
+  school tunic as the other children, **but soaking wet** — as if
+  Corey was caught in a rainstorm on the way to class and never
+  dried off. The wetness is a canon detail, not a mistake: the
+  Collector Archon's child-form carries water on him because water
+  is how his pouches' contents stay preserved. Do not render the
+  wetness as dramatic dripping — it's just a persistent damp to
+  the fabric, slightly darker than the other children's tunics.
+- **No voice yet:** Corey **does not speak aloud** in the Cycle A
+  card battle. His pre-match line is text-only, rendered on the
+  matchup card in his handwriting (see below). The mask never moves.
+  The cloak never opens. The only sound Corey makes is the faint
+  pouch-clink when he shifts. This is canonically one of the two
+  **wordless opponents** in Act 1 (the other is C3's Nano-Swarm
+  in Agent Zero). Voice direction note: the Collector Archon's
+  full voice debuts in Act 2's Thaloria cinematic; Cycle A's
+  silent framing is the anti-reveal, the first time the player
+  senses an entity that refuses to be heard.
+
+**Canonical matchup-card line** (from `apps/shared/act1Opponents.ts`
+`little_collector.preMatchLine`, to be renamed to `corey_collector`
+in the code cleanup PR noted in §0.4 rule 6):
+
+> *"I will take your tears and your laughter both. They are both
+> currency where I am going."*
+
+Rendered as **Corey's own handwritten text** on the in-game matchup
+card — cursive script in faded blue ink, slightly crooked, the
+hand of a precocious seven-year-old practicing adult penmanship.
+Render the text fully legibly on the matchup splash still (this is
+one of the few places in Act 1 where rendered text is canonical and
+required; the other is Cycle C4's tribunal evidence cards). No
+audio — the line is read by the player from the card, not spoken
+by Corey.
+
+**Deck theme:** "Choose Your Mask" memory-card sacrifice. Corey's
+mechanic forces the player to discard a card from their hand each
+turn — but the player chooses **which** card, and the discarded
+card becomes a "mask" that Corey plays on his own side of the
+board, wearing it as one of his cards. The player's discards
+become the opponent's deck. The cost-benefit pivot is: which cards
+do you want to *give* him? The tutorial lesson is "your sacrifices
+shape his power," which is the entire Collector Archon's gameplay
+signature across every future encounter.
+
+**Card unlock on win:** *The Jar That Wouldn't Close* (Rare Light) —
+a card that, when played, lets the player permanently remove a
+card from their opponent's discard pile. The first card in the
+player's collection that interacts with "things the opponent has
+already let go of." Canonical reflection of the win-state beat:
+the jar cracks, Corey picks up the pieces.
+
+**Post-match canonical beats** (from `act1Opponents.ts`):
+
+- **Win:** The jar cracks. Corey picks up the pieces and promises
+  not to forget. The "jar" is visible on the card table as a
+  prop — a small glass jar sitting beside his deck, rendered
+  throughout the battle. On win, it splits along a visible hairline
+  crack. Corey silently gathers the glass shards into one of his
+  cloak pouches (a new, previously-empty pouch). The promise is
+  text-only on the post-match splash: *"I will not forget."* in
+  the same blue-ink handwriting as the pre-match line.
+- **Loss:** Corey's jar grows by one. Canonically this means a
+  new pouch has appeared on the cloak — one that wasn't there
+  at the start of the match. The new pouch contains the player's
+  "specific attention" (per the code comment: "his favorite
+  flavor"). The loss splash shows a close-up of the new pouch
+  being cinched shut by Corey's small dirty hand. No text.
+
+**Cross-references:**
+
+- §2.0 (simulation framing — Archons in child bodies)
+- §4 (Cycle A2 battle section — full battle spec)
+- §6 (Welcome to Celebration slideshow — Corey appears in the
+  graduation photo, mask still on, cloak pouches visible)
+- Prelude Bible cross-reference: the Collector is one of the
+  Antiquarian's "three Insurgency figures harvested for their
+  patterns" (per `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §3) —
+  Cycle A2 is the player's first encounter with the harvester
+- `apps/shared/act1Opponents.ts` `little_collector` data shell
+  (to be renamed `corey_collector` in the follow-up code PR)
+- `apps/shared/celebrationTrial.ts` Day 20 event
+- Act 2 Thaloria cinematic canon: Curator Halverez wears the
+  adult-form version of this same Xenomorph mask (per
+  `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §3 and DSFGL line 2438) —
+  the mask is the single continuity signifier across the two
+  appearances and must be rendered identically
+
+### 2.4 Kanshi Sha the Watcher — Cycle A3 opponent (Day 28, graduation)
+
+The third Cycle A boss and the last card battle before the *Welcome
+to Celebration* slideshow fires. Day 28 of the Celebration Trial —
+graduation day. Kanshi Sha is the child-form of the Watcher Archon,
+canonically present at every Cycle A event the player has seen, and
+at sixteen previous simulation runs the player has not. He has
+watched this schoolyard die and re-form sixteen times. This is the
+seventeenth. When the player sits down across from him they are
+not just fighting another kid — they are fighting the only entity
+in the Engineer's memories who has been watching the Engineer
+since before the Engineer had memories to record.
+
+**Canonical visual (user-provided, 2026-04-15):**
+
+> Kanshi Sha the Watcher is a slender Japanese boy in all-white
+> streetwear with glowing lines, his "all-seeing eye" graffiti tag
+> sometimes visible behind him like a magical aura.
+
+**Production expansion for this doc:**
+
+- **Physique and presentation:** seven-year-old Japanese boy, tall
+  for his age and unusually slender — long thin limbs, narrow
+  shoulders, a delicate neck. Rendered with photographic specificity:
+  straight black hair cut in a clean Japanese schoolboy style
+  (mushroom cut with a straight fringe just above the eyebrows).
+  Warm pale skin, dark almond-shaped eyes, a small mole under his
+  left eye. The face should read as *gentle* — not stern, not
+  creepy, not "evil child." Kanshi Sha looks like a kid who would
+  help you tie your shoes. The horror is not in his face.
+- **All-white streetwear:** this is the canonical override of the
+  code's "half-finished white mask" detail (from `act1Opponents.ts`
+  `little_watcher.backstory`) — **Kanshi Sha does NOT wear a mask**.
+  The mask motif belongs to Corey (§2.3). Kanshi Sha's canonical
+  visual signature is the streetwear, not the mask. Specifically:
+  - Oversized white hoodie (child-sized large, hanging off his
+    frame), drawstring hood worn down
+  - White cargo joggers, also loose-fitting
+  - Clean white sneakers with white laces
+  - White crew socks visible above the sneakers
+  - No visible logos, no brand marks, no accessories — every
+    garment is *pure white*, almost institutional. Think "blank
+    canvas meets Tokyo Harajuku streetwear meets Project Celebration
+    uniform override"
+- **Glowing lines:** faint electric-white lines trace along seams
+  and folds of the streetwear — hood edges, hoodie cuffs, jogger
+  side-stripes, sneaker soles. The lines pulse at sub-1 Hz (slower
+  than a heartbeat, matching the breath-pulse rhythm from the
+  Prelude Bible §18.1 for visual continuity). When Kanshi Sha is
+  watching something specific (the player's hand, a card they just
+  played) the lines on his hoodie cuffs pulse slightly brighter.
+  The lines are canonically **the Watcher Archon's surveillance
+  nervous system externalized** — a physical visualization of what
+  the cosmic Watcher is tracking at any given moment. Rendered as
+  faint glow-edge shader overlays with a soft bloom, color `#e0f2fe`
+  (a very pale cool cyan, slightly bluer than the Prelude's warmer
+  cyan — a visual distinction that marks Watcher-light apart from
+  emergency-strip-light).
+- **The "all-seeing eye" graffiti tag aura:** an environmental VFX
+  rather than a costume element. When Kanshi Sha is intensely
+  focused on the player (pre-match stare, mid-match card
+  evaluation, post-match loss reveal), a large spray-painted
+  **eye-shaped graffiti tag** blooms on the wall or background
+  behind him — rendered as if someone has just finished spraying
+  it in the last half-second. The tag is stylized: a single
+  enormous eye with an elongated almond shape, a small triangular
+  pupil, radiating straight lines around it like a sun ray motif.
+  The tag color is matte black with white glow-edge (consistent
+  with the streetwear lines). The tag is NOT always visible —
+  per user canon "sometimes visible... like a magical aura." Render
+  it in the pre-match matchup splash, in one mid-match beat when
+  Kanshi Sha first uses an Ocularum card, and in the post-match
+  splash. See §5 Cycle A3 battle spec for the exact timing.
+- **Posture and body language:** **preternaturally still** — the
+  opposite of Minnie's (§2.2) mid-motion energy. Kanshi Sha sits
+  with his hands folded in his lap, head slightly tilted as if
+  listening to something very far away. He does not fidget. He
+  does not adjust his hoodie. He does not look away from the
+  player's eyes between card plays. When he plays a card he moves
+  his hand from his lap to the table in a single economical
+  gesture, sets the card precisely, and returns his hand to his
+  lap. The stillness is the signal. When it *breaks* — which it
+  does, once, at the end of the battle — the player should notice
+  immediately.
+- **Voice direction (Watcher Archon in a child body):** per §2.0's
+  canon hygiene rule, Kanshi Sha's voice is not a child's voice.
+  It is the Watcher — calm, observational, older than any human
+  child could be. Slightly Japanese-inflected English (matching
+  the character's ethnicity and the Mechronis setting's
+  cosmopolitan mix). Cadence is even and almost meditative. He
+  never raises his voice. He never drops into excitement. Every
+  sentence lands with the weight of being witnessed, which is the
+  Watcher's entire thing — by speaking to you he is *recording*
+  you, and you feel it.
+
+  No existing Watcher voice profile currently exists in
+  `docs/production/VOICE_OVER_BIBLE.md`. A new voice profile
+  **`the_watcher_child`** should be added. ElevenLabs parameters
+  target: `stability: 0.80` (high — the Watcher is consistent
+  across all samples), `similarity_boost: 0.85`, `style: 0.15`
+  (very low stylization — he is almost documentary), with a
+  subtle recording-artifact layer of 0.1 applied to the whole
+  voice to reinforce the "he is recording you" sensation.
+
+**Canonical pre-match line** (from `apps/shared/act1Opponents.ts`
+`little_watcher.preMatchLine`, to be renamed to `kanshi_sha_watcher`
+in the code cleanup PR):
+
+> *"I have been watching. I will watch this too. I have watched
+> sixteen versions of you already."*
+
+Delivered with the Watcher's even cadence, no emphasis on any
+particular word. The "sixteen versions" line is canonically
+literal — the Engineer's simulation has been run sixteen times
+before this playthrough, and the Watcher has been present in all
+of them as an observer. This is the **first canonical hint in the
+player-visible game that the simulation is not the player's first
+run**. The player won't have context for this yet; it is a seed
+for the Act 5+ simulation-awareness reveal and must land matter-
+of-factly. Do not punch the line. Let the player wonder.
+
+**Deck theme:** "Ocularum" full-board reveal — every card in the
+player's hand is visible to Kanshi Sha from the start of the match,
+and every card the player draws is revealed to him as it's drawn.
+Zero hidden information. The player cannot bluff. The gameplay
+pivot is that the player must play cards whose **on-play effects**
+matter more than their bluff value — because the Watcher knows
+what's coming but cannot change the outcomes the player chooses.
+This is the Watcher Archon's signature mechanic and recurs on
+every future Watcher-adjacent opponent (Young Eyes in Cycle B4 is
+a derivative, the Act 3 "I Am the Eyes That Watch" slideshow
+reuses the mechanic as a narrative device, and the full
+Ocularum combat system is explored in later acts).
+
+**Card unlock on win:** *The First Card* (Epic Light — blank, 3
+random effects on play). A canonically blank card with no printed
+value or effect text — when played, three random effects resolve.
+This is the **first blank Dischordia card the player ever owns**,
+and it is a deliberate foreshadow of the Act 1 Finale's *"YOUR
+NAME" — Unwritten* player-authored card (§18). Both are blank
+because blank cards are the ones the player will make their own.
+The Engineer canonically crafted this card from the residue of the
+Watcher's defeat — he took an unwritten sliver of the simulation's
+observation substrate and printed it onto a Common card blank.
+Render the card art as a plain schoolyard paper card with the
+eye-graffiti motif faintly visible in the background.
+
+**Post-match canonical beats** (adapted from `act1Opponents.ts` —
+the original code text used mask imagery; this doc adapts them to
+fit the user-canon streetwear-and-aura visuals without changing
+the emotional beat):
+
+- **Win:** The glowing lines on Kanshi Sha's streetwear **dim for
+  a full second**. The graffiti eye-tag behind him fades from the
+  wall until the wall is just a wall again. For one frame his
+  face is just a child's face — small, tired, about to cry. He is
+  seven years old. He is alone. He has watched sixteen friends
+  graduate without him. Then the lines flicker back on. The eye-
+  tag returns. The moment is gone. The player has seen something
+  Kanshi Sha will not let anyone else see, and they will not see
+  it again until Act 5.
+- **Loss:** The eye-graffiti tag behind him **blooms to full
+  intensity** — the largest it gets in the entire match. The
+  glowing lines on his streetwear pulse a single bright pulse
+  and hold at peak. He does not move. He does not speak. He is
+  still watching. You do not see his face clearly because the
+  tag's glow is washing it out — nobody who has lost to Kanshi
+  Sha has ever seen his face clearly, because the Watcher never
+  gives you that vulnerability unless you earn it with a win.
+  The player moves on to the *Welcome to Celebration* slideshow
+  carrying the memory of being observed by an entity they could
+  not quite see.
+
+**Graduation-day mechanic:** per `act1Opponents.ts.little_watcher.postBattleSlideshow = "welcome-to-celebration"`,
+the A3 battle resolves directly into the *Welcome to Celebration*
+slideshow (§6). There is no intermediate beat — the card table
+dissolves, the graduation-photo setup assembles around it, and
+the slideshow fires. Production should chain the battle's
+post-match splash directly into the slideshow's first frame
+with a single cross-fade.
+
+**Cross-references:**
+
+- §2.0 (simulation framing — Archons in child bodies, "sixteen
+  versions" is the canonical hint at simulation recurrence)
+- §5 (Cycle A3 battle section — full battle spec including the
+  eye-tag environmental VFX timing)
+- §6 (*Welcome to Celebration* slideshow — fires directly on A3
+  resolution, Kanshi Sha appears in the graduation-photo final
+  frame standing precisely-still in the back row)
+- §18 (Act 1 Finale — *"YOUR NAME" — Unwritten* card; *The First
+  Card* from Kanshi Sha's defeat is its canonical prototype)
+- `apps/shared/act1Opponents.ts` `little_watcher` data shell (to
+  be renamed `kanshi_sha_watcher` in the follow-up code PR);
+  backstory field needs the mask reference removed to match the
+  user-canon streetwear-and-aura visuals
+- `apps/shared/celebrationTrial.ts` Day 28 graduation event
+- Cycle B4 Young Eyes (§2.7 — child created by the Watcher per
+  DSFGL, canonically a derivative of Kanshi Sha's surveillance
+  nervous system)
+- Act 3 opening slideshow *"I Am the Eyes That Watch"* per
+  `docs/production/SHIP_READY_ASSET_BIBLE.md` §3.7 —
+  canonically the adult-form evolution of the Watcher Archon's
+  child-form mechanics established here
+
+### 2.5 Young Iron Lion — Cycle B1 opponent (Mechronis Year 1)
+
+The first Cycle B boss and the player's first Mechronis Academy
+match. The player has advanced from the Project Celebration
+kindergarten into the academy's lower form, and the Engineer is
+now fifteen years old. The opponent is a seventeen-year-old upper-
+form student who will canonically be **expelled from Mechronis
+in Year 650 A.A.** for fighting. The Engineer knows who Iron Lion
+is going to become long before the expulsion happens; this battle
+is the player experiencing the Engineer's *before* memory of the
+man the Insurgency will one day call a founding general.
+
+**Canonical visual:** INFERRED per user direction (§0.4 / user
+guidance "Infer" for Cycle B opponents), anchored to the Mechronis
+Academy blue uniform canon established by §2.9 (The Seeker).
+
+**Production-inferred visual spec:**
+
+- **Age:** seventeen. Lanky-muscular teenage build, taller than
+  most of his classmates. Broad shoulders that haven't quite
+  filled out, a compact fighter's stance from above the waist,
+  still-slightly-awkward limbs below. Ectomorph-mesomorph mix
+  (think "high-school wrestler two years into training").
+- **Skin:** medium-dark warm brown, West African descent. A
+  small pale scar across his left cheekbone — canonically from a
+  fight earlier in the year that already should have gotten him
+  expelled but didn't.
+- **Hair:** short natural curls on top, faded at the sides and
+  back — an early version of the haircut he'll wear as an adult
+  in later acts. Neat when he woke up, slightly mussed by the
+  time the player sits across from him.
+- **Eyes:** alert amber-brown, heavy-lidded in a way that reads as
+  "sizing you up" rather than "tired." Quick to track motion. When
+  the player plays a card his eyes flick to the card, not to the
+  player's face — a fighter's read.
+- **Mechronis blue uniform, worn rebelliously:**
+  - Blue blazer (the same royal-blue wool that is the Mechronis
+    canonical uniform — see §2.9 for the full uniform spec) worn
+    open, two buttons undone
+  - Light blue tie canonically present but **loosened** to mid-
+    chest, never straightened
+  - White oxford shirt, sleeves rolled to the forearms (mirroring
+    the Prince's own sleeve-rolling habit — a foreshadow of the
+    fact that Iron Lion and the Prince became friendly at
+    Mechronis despite the two-year age gap)
+  - Blue wool trousers, creased but not pressed fresh that morning
+  - Black leather school shoes scuffed at the toes
+- **The lion detail (canonical iconography planting):** on his
+  blazer lapel, a small **brass lion pin** — heirloom-quality, a
+  couched lion in profile with one raised paw. Render it visible
+  but not emphasized. This is the canonical origin of the "Iron
+  Lion" identity: he is already wearing the symbol at seventeen,
+  before anyone has called him by that name. The pin must be
+  present in every rendering of Young Iron Lion in Act 1 (battle
+  splash, slideshow cameos, matchup card). Its adult-form evolution
+  is the armored lion sigil the full-grown Iron Lion wears across
+  his chest in the Act 3 Trade Empire faction content.
+- **Hands:** visible scrapes on the knuckles of both hands.
+  Canonical — he's been fighting. A small healing split on the
+  third knuckle of his right hand, two or three days old. When
+  he plays a card the scraped knuckles are visible in the
+  close-up shot.
+- **Posture:** when standing, feet planted shoulder-width, chin
+  up, shoulders squared. When sitting (he is sitting for the
+  card battle), he leans slightly forward over the table, forearms
+  resting on the edge. He does not relax into the chair. He is
+  never *settled*, even at rest.
+- **Voice direction:** seventeen-year-old West African teenager,
+  natural voice in the adolescent-baritone range (his voice has
+  finished cracking but is still settling). Slight Nigerian-
+  accented English, softened by academy elocution training but
+  not erased. Cadence is measured and a half-beat slower than
+  his peers — he thinks before he speaks, which is unusual for a
+  teenager who fights as much as he does, and that thinking is
+  the first hint that Iron Lion is going to become a canonical
+  Insurgency **strategist**, not just a brawler.
+
+  No existing Young Iron Lion voice profile exists. A new voice
+  profile **`young_iron_lion`** should be added to
+  `docs/production/VOICE_OVER_BIBLE.md`. ElevenLabs parameter
+  target: `stability: 0.65`, `similarity_boost: 0.80`,
+  `style: 0.25` (modest stylization — the accent carries the
+  character, not theatrical flourish).
+
+**Canonical pre-match line** (INFERRED — no text exists in
+`act1Opponents.ts` for the Cycle B opponents that matches the
+DSFGL naming; production should use this line as the primary
+audio take, and the code shell should be updated to match):
+
+> *"You're fifteen. I'm seventeen. Two years from now I'll be
+> expelled and you'll be in Curator Halverez's office defending
+> me in writing. Let's play anyway. It'll be a good memory."*
+
+Delivered with a slight wry smile — not cocky, not performative.
+Young Iron Lion is canonically **aware the Engineer is going to
+be the one to intercede for him in the future.** He is
+foreshadowing the friendship that is already forming. The line
+lands as a promise, not a threat.
+
+(Canon note: the "Curator Halverez's office" reference seeds
+§2.3's Xenomorph-mask continuity by naming the Collector Archon's
+adult form in a line the player won't yet understand the weight
+of. The callback resolves in Act 2's Thaloria cinematic.)
+
+**Deck theme:** "Last Stand" defense-stacking. Iron Lion's deck
+is built around stacking defensive buffs on his general until
+the general becomes nearly unkillable, then wearing the player
+down through attrition. The tutorial lesson is "some opponents
+win by *not losing*" — Iron Lion never has to kill the player's
+general, he just has to survive long enough for the player to
+run out of cards. The player must learn to play aggressively
+into a wall, which is a combat pattern they will see again in
+Cycle C1 (the Vortex survival puzzle, §2.10) for a different
+reason.
+
+**Card unlock on win:** *The Iron Stance* (Rare Light) — a card
+that, when played, grants the player's general a stacking
+defensive buff each time they successfully draw a card. The
+player's first "tank" tool. Canonically the Engineer designed
+this card as a tribute to Iron Lion after the expulsion — a way
+of remembering the lesson even after the friend had left.
+
+**Post-match canonical beats** (INFERRED, production-writable):
+
+- **Win:** Young Iron Lion's defensive wall finally cracks on
+  the penultimate turn. The general goes down. Iron Lion looks
+  at the empty board, then at the Prince, and laughs — genuinely,
+  not bitterly. He says *"You thought your way past it. I knew
+  you would."* He offers the Prince a handshake across the card
+  table. The Prince takes it. The scrape on Iron Lion's third
+  right knuckle is visible in close-up as the hands clasp. The
+  lion pin on the blazer is in frame. The slideshow engine
+  does not fire; the player continues to B2.
+- **Loss:** Young Iron Lion's defensive wall holds. The player's
+  cards run out. Iron Lion sits forward, looks at the empty
+  hand across from him, and says *"It's fine. I'll teach you
+  what I know. Next time will be different — I'll even go easy
+  on you for the first two turns."* He means it. The loss is
+  allowed and the game continues to B2 as if the player had
+  won — Cycle B's battles canonically have **no fail state**
+  for the Engineer's memory. Iron Lion and the Prince became
+  friends either way.
+
+**Cross-references:**
+
+- §2.0 (simulation framing — Cycle B opponents are NOT Archons,
+  they are canonical humans at their academy ages)
+- §2.9 (The Seeker — the canonical Mechronis blue uniform
+  anchor that §2.5's inferred outfit derives from)
+- §7 (Cycle B1 battle section — full battle spec including the
+  handshake animation, the brass lion pin macro shot, and the
+  scraped-knuckle close-up)
+- §12 (*To Be the Human* slideshow — Young Iron Lion canonically
+  appears in the Mechronis class photo "already expelled" per
+  DSFGL line 2458, rendered as a silhouette standing apart from
+  the class)
+- DSFGL line 2444 Cycle B table row (the canonical source for
+  "Young Iron Lion (17, expelled Year 650 A.A.)")
+- `apps/shared/act1Opponents.ts` Cycle B1 shell (current code
+  name is placeholder `the_detective_student` per the code read
+  at 21ac27e7; to be renamed `young_iron_lion` in the follow-up
+  code PR — noted as canon drift in §23.1)
+- Act 3 Trade Empire faction content: the adult Iron Lion wears
+  the same brass lion motif enlarged as the faction sigil across
+  his chest (flagged for art continuity in §23)
+
+### 2.6 Young Recruiter / Kael — Cycle B2 opponent (Mechronis Year 2)
+
+The second Cycle B boss and canonically the most narratively
+loaded battle in the entire academy sequence. The opponent is
+**Kael** — the future Insurgency recruiter, the man who compiled
+the 213-contact ledger the player opened in the Prelude's Beat F,
+the man the Prince addressed the Cycle C "to Kael" farewell to
+in Log 5 Movement 4, and the man the Human has been unable to
+name in the Prelude's Galley sandwich line and Empty Chair breath
+beat. This is the first time the player sees Kael alive in the
+Engineer's memory. He is sixteen years old, one year younger than
+Iron Lion, and he has just followed Iron Lion to Mechronis
+Academy — "joins Iron Lion a year later" per DSFGL line 2445.
+
+**The B2 battle has a canonical structural double-reveal:** during
+the match, a fragment of Kael's voice from the Prelude's Beat I
+Tower Defense recordings plays in the background — the second
+reverse-chronology Kael fragment from the questline. Per DSFGL
+line 2378: *"This is the moment the player realizes the voice in
+the Tower Defense recordings IS the Recruiter they are facing on
+the card board."* The player has heard Kael before (in Beat I's
+Tower Defense waves); now they are sitting across from the young
+version of that voice. The recognition is the beat.
+
+**Canonical visual:** INFERRED per user direction, anchored to
+the Mechronis blue uniform and informed by the Prince's
+biographical memories of Kael as documented in `CANON_REV_7_
+ORACLE_VEX_EXPANSION.md` §5.4 (Audio Log 3 "The List I Am On")
+and the Prelude Bible §10.5 (the toy soldier flashback).
+
+**Production-inferred visual spec:**
+
+- **Age:** sixteen. Lean athletic build, slightly shorter than
+  Iron Lion but more graceful in posture. He moves like someone
+  who is used to being watched and has learned to let people
+  watch.
+- **Skin:** light olive-brown, Middle Eastern descent (canonical
+  inference from the Prelude's "childhood palace" references —
+  Kael grew up in a palace culture per the Engineer's Log 5
+  Movement 4 farewell context). Smooth, no scars — Kael does not
+  fight. He talks.
+- **Hair:** thick, dark brown, slightly wavy, swept back from the
+  forehead in a way that looks effortless and is probably not.
+  Falls to his collar. He pushes it out of his eyes with a
+  habitual two-finger gesture that the player will see three
+  times during the match.
+- **Eyes:** warm hazel, bright with intelligence and a steady
+  directness that reads as "I see exactly who you are and I'm
+  going to like you anyway." When he looks at the Prince across
+  the card table the camera should catch a specific quality:
+  Kael is **interested**. Not predatory, not calculating —
+  genuinely interested in the other person. This is the
+  Recruiter's gift. People follow him because he looks at them
+  like they matter.
+- **Mechronis blue uniform, worn with personality:**
+  - Same royal-blue blazer as Iron Lion (§2.5), but buttoned
+    properly, pressed, lint-rolled — Kael takes care of his
+    appearance
+  - Light blue tie worn at full length with a neat knot
+  - White oxford shirt, **sleeves NOT rolled** (contrast with
+    Iron Lion and the Prince — Kael is formal where they are
+    informal)
+  - Blue trousers pressed with a sharp crease
+  - Clean black shoes
+  - One personal touch: a small **woven friendship bracelet** on
+    his left wrist, visible when his sleeve rides up during card
+    plays. Three colors: red (the Prince's coat color), amber
+    (Iron Lion's lion-pin brass), and dark green (Agent Zero's
+    future Insurgency affiliation). Kael made this bracelet for
+    himself. The player will not understand the color choices
+    until they meet all three as adults in later acts. Canon
+    seed, not a reveal — render the bracelet clearly but do
+    not label the colors
+- **Smile:** Kael smiles **often**. His smile is the single most
+  recognizable thing about him — warm, slightly lopsided, showing
+  teeth on the left side more than the right. When the player
+  sees the adult Kael's photo in later-act dossiers, the smile
+  is the continuity signifier (the same way Iron Lion's brass
+  pin is his). Render the smile in the pre-match splash, the
+  post-match splash, and at least two mid-match card-play
+  moments.
+- **The toy soldier:** Kael carries a small cast-metal toy soldier
+  in his blazer breast pocket — the same toy soldier from the
+  Prelude Bible §10.5 (the one the Prince kept on every desk and
+  the holographic flashback showed the Prince holding). In Cycle
+  B2 the toy soldier is still Kael's — he has not yet given it
+  to the Prince. Render it as a 5cm glint of metal peeking from
+  the breast pocket, barely visible unless the player is looking
+  for it. Canon continuity: the player who noticed the toy
+  soldier in Beat E's Mess Hall flashback will recognize it here.
+
+**Canonical pre-match line** (INFERRED):
+
+> *"I already know your name. I've been reading your class
+> reports since you were twelve. You build things that shouldn't
+> work and then they work. I want to ask you something after we
+> play — it's not about the game."*
+
+Delivered with Kael's warm directness, the smile present in the
+voice. The "I want to ask you something" is the seed for the 213
+recruitment — Kael is already scouting. The player who remembers
+the Prelude's Beat F "213 entries" line will feel the hair on
+their neck stand up: they are watching the Engineer get recruited,
+in real time, by the man who will build an entire resistance
+network from conversations like this one.
+
+**Deck theme:** "The Insurgency" swarm buffs. Kael's deck uses
+low-cost units that individually are weak but collectively buff
+each other exponentially — the more units on the board, the
+stronger each one gets. The deck is the Insurgency in miniature:
+no single powerful card, just many small ones that believe in
+each other. The tutorial lesson is "some opponents win by being
+many" — the counter is precision removal of key buff-carriers
+before the swarm reaches critical mass.
+
+**Card unlock on win:** *The Recruiter's Gift* (Epic Neutral) —
+a card that, when played, copies the last card the opponent
+played and adds it to the player's hand. Kael's canonical gift:
+he gives the player the tools the opponent was using against
+them. The card name is a direct echo of his role.
+
+**Post-match canonical beats** (INFERRED):
+
+- **Win:** Kael's swarm thins as the Prince picks off the buff
+  carriers. The last unit standing is a single 1/1 that looks
+  across the empty board and shrugs. Kael laughs — same warm
+  lopsided smile — and says *"You found the one I forgot to
+  protect. That's exactly the answer I was looking for."* He
+  reaches into his breast pocket, pulls out the toy soldier,
+  and sets it on the table between them. *"Second-favorite. But
+  you should have it."* The Prince takes the soldier. The
+  camera holds on the soldier in the Prince's hand — the same
+  12cm metal figure from Prelude Beat E's flashback, but 30
+  years younger and unpainted.
+- **Loss:** Kael's swarm overwhelms. The board is covered. The
+  Prince looks at the army of small cards facing him and Kael
+  says *"They're not mine. They're each other's. That's the
+  trick."* He smiles, pushes the toy soldier across the table
+  anyway — win or lose, the soldier changes hands. *"You'll
+  understand when you're older. I'm not being patronizing — I
+  mean it literally. You will understand when you are older."*
+  This line is a canon seed for Log 5 Movement 4's "the first
+  card Kael ever played against me" callback. Either outcome
+  delivers the soldier to the Prince.
+
+**Cross-references:**
+
+- §2.0 (simulation framing — Cycle B opponents are canonical
+  humans at their academy ages, not Archons)
+- §2.9 (The Seeker — Mechronis blue uniform anchor)
+- §8 (Cycle B2 battle section — full battle spec including the
+  Kael Tower Defense audio fragment timing and the toy-soldier
+  transfer animation)
+- §12 (*To Be the Human* slideshow — Kael canonically "already
+  gone" per DSFGL line 2458, rendered as an empty chair in the
+  Mechronis class photo — mirroring the Prelude Beat F.5 empty
+  chair motif)
+- Prelude Bible §9.5 (Galley sandwich line — the Human's first
+  unnamed reference to the Prince; Cycle B2 is where the Prince
+  and Kael become *friends*, which is the relationship the Human
+  is mourning in the Galley)
+- Prelude Bible §10.5 (Beat E toy soldier flashback — the soldier
+  in Cycle B2 is the same object, 30 years younger)
+- Prelude Bible §11.1 (Beat F Kael Contingency Memo — the 213
+  recruitment begins here at Mechronis, this is the origin)
+- `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.4 (Audio Log 3 "The
+  List I Am On" — Kael's recruiting network of 213 contacts,
+  canonically the same number from Beat F, now contextualized
+  as something that started with conversations like B2's pre-
+  match line)
+- `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5.6 Movement 4 (Log 5
+  "To Kael" — the farewell the player will hear at the end of
+  Act 1, now enriched by having *met* Kael at sixteen)
+- DSFGL line 2378 (the Tower Defense recognition beat — the
+  player realizes the recorded voice IS the recruiter they are
+  facing on the card board)
+
+### 2.7 Young Agent Zero — Cycle B3 opponent (Mechronis Year 3)
+
+The third Cycle B boss and the player's introduction to the woman
+who will become **Vex Solène** — but neither the player nor the
+Engineer knows that yet. At Mechronis she is just Agent Zero: a
+seventeen-year-old who arrived a year after Kael, sits alone in
+every class, speaks when spoken to and never first, and has the
+highest marks in the academy's covert-operations track. She is
+canonically a trained assassin already — her kill count at
+seventeen is non-zero but unknown even to herself, because the
+kills were part of training exercises she was told were
+simulations. They were not.
+
+The canonical weight of B3 is that this is the **only time in the
+entire game** the player sees Agent Zero before her transference
+into the Warlord's nanobot swarm in Cycle C3. After C3 she is
+Vex Solène. Before C3 she is this: a quiet girl in a blue uniform
+who is very, very good at not being noticed. The production must
+render her as **forgettable on first viewing** — the player's
+memory of B3 should be "oh, the quiet one" until Cycle C3's
+portrait-resolve reveals that the quiet one was carrying the
+Engineer's intellect inside her the entire time.
+
+**Canonical visual:** INFERRED per user direction, anchored to
+the Mechronis blue uniform. Agent Zero's visual signature is
+**absence of signature** — she is the one character in the roster
+who deliberately looks like no one in particular.
+
+**Production-inferred visual spec:**
+
+- **Age:** seventeen. Medium height, slender but not frail — a
+  build that disappears in a crowd. Neither the tallest nor the
+  shortest in the class. Nothing about her body type draws the
+  eye.
+- **Skin:** medium-light brown, ethnically ambiguous by design
+  (the Warlord's nanobot swarm will eventually reconfigure her
+  appearance in C3; the *before* face is the one she was born
+  with, and she has spent her life making sure no one remembers
+  it). Smooth, unblemished, unremarkable.
+- **Hair:** straight, dark brown, falling to mid-back. Parted
+  slightly off-center so the left side falls forward over her
+  left eye in a curtain. The curtain is not a style choice — it
+  is a **surveillance countermeasure**. She keeps the left eye
+  hidden so that anyone trying to identify her from profile
+  view has only half a face to work with. Render the hair
+  curtain consistently in every frame — her left eye is never
+  fully visible in any pre-C3 rendering.
+- **Eyes:** the right eye (the visible one) is dark brown, calm,
+  watchful in a way that is easy to mistake for shyness. It does
+  not track the player's movements like Iron Lion's or Kanshi
+  Sha's. It rests. It waits. When the player plays a card, Agent
+  Zero's visible eye does not flick to the card — it stays on
+  the player's face. She is reading the person, not the play.
+- **Mechronis blue uniform, worn too perfectly:**
+  - Blue blazer buttoned to the top, every button in place
+  - Light blue tie at regulation length, knot dead-center
+  - White oxford shirt pressed immaculate, sleeves at full
+    length (she never rolls her sleeves)
+  - Blue trousers with hospital-grade creases
+  - Clean black shoes, polished
+  - **No personal touches.** No pin, no bracelet, no scuff, no
+    stain, no modification. The uniform is worn as if it were
+    issued ten minutes ago. This is the visual tell the player
+    should notice but probably won't: everyone else at Mechronis
+    has made the uniform *theirs* (Iron Lion's rebellion, Kael's
+    bracelet, the Prince's rolled sleeves). Agent Zero has made
+    hers *nobody's*. She is invisible inside perfection.
+- **Posture:** sitting with spine straight, hands flat on the
+  table, palms down. She does not lean forward or back. She does
+  not shift. She breathes at a rate that is difficult to detect
+  on camera. When she plays a card she lifts one hand, sets the
+  card, and returns the hand to exactly where it was. The
+  economy of motion is not Kanshi Sha's meditative stillness —
+  it is **operational discipline**. She is not being still because
+  she is calm. She is being still because she was trained.
+- **Voice direction:** quiet, level, no affect. Not cold — merely
+  *absent*. Agent Zero's voice at seventeen sounds like a person
+  reading stage directions for someone else's play. The emotional
+  register is a fraction of a degree above monotone: just enough
+  warmth to pass as human, not enough to leave an impression.
+  Japanese-American accent (matching the Mechronis cosmopolitan
+  student body), mid-alto range. When she says something that
+  matters — which she does exactly once in the pre-match line —
+  the warmth ticks up by a single degree. That single degree is
+  the entire performance.
+
+  No existing Agent Zero voice profile exists for the *young*
+  version. A new voice profile **`young_agent_zero`** should be
+  added. ElevenLabs target: `stability: 0.85` (very high — she
+  is the most consistent speaker in the roster), `similarity_
+  boost: 0.80`, `style: 0.10` (lowest stylization of any Act 1
+  character — she is not performing, she is reporting).
+
+**Canonical pre-match line** (INFERRED):
+
+> *"I don't have a strategy. I have a sequence. If you interrupt
+> the sequence I will adjust. If you do not interrupt the
+> sequence you will lose in nine turns. I am telling you this
+> because it would be unfair not to."*
+
+Delivered flat, informational, the way a pilot reads a pre-flight
+checklist. The single warm degree lands on the word "unfair" —
+she means it. She does not want to be unfair. This is the only
+evidence the player has in B3 that Agent Zero has a conscience,
+and it is the seed for C3's sacrifice: she will accept the
+Engineer's transference because the alternative — the Warlord
+winning — is the unfair thing, and she cannot tolerate unfair.
+
+**Deck theme:** "Zero Trust" stealth / one-shots. Agent Zero's
+cards are invisible until they attack — the player sees empty
+slots on her side of the board but does not know what is in
+them until she activates a card for a one-shot strike. Each
+strike kills one player unit outright. The tutorial lesson is
+"some opponents win by being unseen" — the counter is deploying
+units with **reveal-on-proximity** effects (which the player
+unlocked from Kanshi Sha's Ocularum cards in A3) to expose
+her hidden slots before she strikes. This is the first time in
+Act 1 that the player must *combine* tools from different
+battles, and it is intentional.
+
+**Card unlock on win:** *The Weapon I Didn't Build* (Legendary
+Dark) — a card that, when played, destroys one random enemy
+unit without revealing which slot it was in. The Engineer named
+this card after Agent Zero because the weapon she became (Vex
+Solène, the swarm) was not something he built — it was something
+she *allowed* him to put inside her. The card is Dark-aligned
+because the Engineer was never fully at peace with what the
+transference required.
+
+**Post-match canonical beats** (INFERRED):
+
+- **Win:** Agent Zero's sequence breaks at turn six (three turns
+  earlier than her projected nine). She looks at the board,
+  looks at the Prince, and says nothing. A full two seconds of
+  silence. Then: *"You interrupted at six. I had not modeled
+  that."* She stands. She does not offer a handshake. She walks
+  to the classroom door, pauses, and says over her shoulder
+  without turning: *"I will remember this. That is a
+  compliment."* She leaves. The Prince watches her go. The camera
+  holds on the empty chair for a beat — a deliberate echo of
+  the Prelude's empty-chair motif.
+- **Loss:** Agent Zero's sequence completes at turn nine, exactly
+  as announced. The board is empty. She says *"Nine. As
+  projected."* She stands, walks to the door, pauses. Over her
+  shoulder: *"You tried to interrupt at turn four. That was the
+  right instinct. The timing was off by two cards. Next time."*
+  She leaves. The Prince watches her go. Cycle B canonically has
+  no fail state — the biography continues.
+
+**Cross-references:**
+
+- §0.4 rule 3 (Vex Solène name discipline — Agent Zero pre-C3,
+  Vex Solène from C3 onward, never mix)
+- §2.0 (simulation framing — Cycle B opponents are canonical
+  humans, not Archons)
+- §2.9 (Mechronis blue uniform anchor)
+- §9 (Cycle B3 battle section — full battle spec including the
+  reveal-on-proximity mechanic synergy with A3's Ocularum tools)
+- §15 (Cycle C3 — the Warlord Nano-Swarm battle where Agent
+  Zero becomes Vex Solène, paying off the portrait rendered here)
+- `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §1.2 (Vex Solène
+  identity chain — Agent Zero / Engineer Zero / Eyes of Reality
+  cover identities and reveal cadence)
+
+### 2.8 Young Eyes — Cycle B4 opponent (Mechronis Year 4)
+
+The fourth Cycle B boss and the player's second encounter with a
+Watcher-derived entity — except Young Eyes is not the Watcher. She
+is something the Watcher *made*. Per DSFGL line 2447, Young Eyes
+is an "infiltrator, created by The Watcher," which means Kanshi
+Sha's surveillance nervous system (§2.4) has a canonical offspring:
+a human-seeming student implanted at Mechronis as a living sensor
+array. Eyes does not know she is an artifact. She believes she is a
+normal student who happens to be very good at noticing things. The
+horror — which the player will not discover until Act 3's *"I Am
+the Eyes That Watch"* slideshow — is that everything Young Eyes
+sees is recorded and transmitted to the Watcher in real-time. Her
+memories are not her own.
+
+**Canonical visual:** INFERRED per user direction. Young Eyes must
+visually echo Kanshi Sha (§2.4) without being a copy — she is the
+Watcher's creation, not the Watcher's clone. The visual link is
+in the **eyes**, not the outfit.
+
+**Production-inferred visual spec:**
+
+- **Age:** sixteen. Small-framed, birdlike build — narrow wrists,
+  delicate hands, a slight tilt of the head that reads as
+  curiosity. Shorter than most of her classmates.
+- **Skin:** light East Asian complexion, Japanese descent (matching
+  Kanshi Sha's ethnicity — she was created from his template).
+  Smooth, pale, slightly translucent at the temples where the
+  veins are faintly visible under classroom lighting.
+- **Hair:** straight black, cut in a precise chin-length bob with
+  blunt bangs across the forehead. Immaculate — never a strand
+  out of place. The precision is a derivative of the Watcher's
+  stillness (§2.4) expressed through grooming rather than posture.
+- **Eyes — the canonical tell:** both eyes fully visible (contrast
+  with Agent Zero's curtain). Dark brown irises, almost black.
+  Normal-seeming at first glance. **But:** when Young Eyes focuses
+  on something specific — a card, the Prince's hand, a detail on
+  the board — her pupils dilate very slightly wider than a human
+  pupil should. Not enough to look alien. Just enough that the
+  player who is paying attention thinks *"that's a little too
+  wide."* This micro-dilation is the Watcher's recording lens
+  activating through the human host. Render it as a 15% pupil-
+  diameter increase in close-up shots only. Do not make it
+  dramatic. The subtlety is the horror.
+- **Mechronis blue uniform, worn correctly but not perfectly:**
+  - Same royal-blue blazer as the rest of the class
+  - Tie at regulation length, knotted properly
+  - White oxford shirt, sleeves at full length
+  - Blue trousers with normal creases (not Agent Zero's
+    hospital-grade — Eyes is normal-messy, not operationally
+    clean)
+  - Black shoes with one slightly scuffed toe
+  - **One personal touch:** a small **sketch notebook** tucked
+    into the blazer's inner pocket, visible as a rectangular
+    bulge. Eyes draws in this notebook constantly between classes
+    — portraits of her classmates, objects on desks, the view
+    from the academy window. She believes drawing is her hobby.
+    It is actually the Watcher's data-collection protocol
+    expressed as a creative impulse. Render the notebook's edge
+    visible in the blazer's inner pocket in every shot.
+- **Body language:** attentive, slightly over-engaged. Eyes leans
+  in when the opponent plays a card — not Iron Lion's fighter-lean,
+  but a student-lean, as if she is taking a mental photograph. She
+  smiles easily and often (contrast with Kanshi Sha's cosmic
+  stillness and Agent Zero's operational flatness). The smile is
+  *genuine* — Eyes is not performing. She actually enjoys watching
+  the card game. That enjoyment is what makes the later reveal
+  painful: she was having a good time and she was also a camera.
+- **Voice direction:** bright, engaged, teenage-girl register.
+  Unlike every other Cycle B opponent, Young Eyes's voice IS a
+  teenager's voice — she is not an Archon in a child body (that's
+  Kanshi Sha), she is a **human creation of an Archon** and does
+  not carry the cosmic presence in her vocal tract. She sounds
+  like a sharp, observant sixteen-year-old who reads a lot and
+  talks about what she notices. Slightly fast cadence, slightly
+  too many observations per sentence. Japanese-accented English
+  with native-speaker fluency (she was raised at Mechronis).
+
+  New voice profile **`young_eyes`**. ElevenLabs target:
+  `stability: 0.55` (lower than average — she is animated and
+  her voice varies with interest), `similarity_boost: 0.75`,
+  `style: 0.35` (moderate stylization — the enthusiasm is the
+  character).
+
+**Canonical pre-match line** (INFERRED):
+
+> *"I drew you this morning. Before breakfast. I draw everyone
+> before I play them — it helps me see the patterns. You hold
+> your cards high. Most people hold them low. That means you're
+> not hiding, which means you're either very confident or you
+> haven't learned to be afraid yet. I like both options."*
+
+Delivered with bright enthusiasm. The line is canonically a
+**complete read of the Prince's card-holding posture** from a
+single morning observation — the first demonstration of the
+card-peek mechanic that will define her deck. She told the
+player her strategy and they didn't notice.
+
+**Deck theme:** "I Am the Eyes That Watch" card-peek. A derivative
+of Kanshi Sha's Ocularum full-board-reveal (§2.4) but more
+targeted: Eyes does not see the player's entire hand, she sees
+**the top 3 cards of the player's draw pile** at all times. She
+knows what the player will draw next, which lets her play counters
+preemptively. The tutorial lesson is "some opponents win by
+knowing your future" — the counter is voluntary deck-shuffle
+effects (new to Act 1) that randomize the draw order and break
+her foresight.
+
+**Card unlock on win:** *The Memorized Page* (Epic Dark) — a
+card that, when played, lets the player look at the top 3 cards
+of their OWN draw pile and rearrange them. Dark-aligned because
+the Engineer took the Eyes' surveillance and turned it inward —
+he used the Watcher's own tool to see himself coming. The card
+name references the sketch notebook: a page she memorized of
+his face, now a tool he uses to see his own future.
+
+**Post-match canonical beats** (INFERRED):
+
+- **Win:** Eyes's foresight breaks when the Prince plays a
+  shuffle effect that randomizes his draw pile mid-match. Her
+  next three predictions all miss. She blinks — the first time
+  in the match her eyes have closed — and laughs. *"Oh! You
+  moved! I had you perfectly still in my notebook and then you
+  moved."* She pulls the sketch notebook from her pocket, opens
+  it to a portrait of the Prince, and tears out the page.
+  *"Here. It's more yours than mine anyway."* She hands the
+  page to the Prince. The drawing is remarkably good — the
+  Prince's face rendered in pencil with photographic accuracy,
+  his eyes looking slightly past the viewer. The player sees
+  the drawing in a close-up frame. It is the first portrait of
+  the Engineer the player has seen rendered by someone other
+  than the Engineer himself.
+- **Loss:** Eyes's foresight holds. She draws the Prince's next
+  three moves perfectly and has answers queued for all of them.
+  The match ends with the Prince's hand empty and Eyes's board
+  untouched. She smiles kindly. *"You held your cards high the
+  whole time. I liked that. Most people drop them when they
+  know they're going to lose."* She does not offer the sketch.
+  The notebook stays in her pocket. The Prince will wonder what
+  she drew and never see it — a canonical loose thread that
+  resolves in Act 3 when the Eyes' adult form's surveillance
+  archive is opened and the Prince's portrait is one of
+  thousands.
+
+**Cross-references:**
+
+- §2.4 (Kanshi Sha the Watcher — Young Eyes is canonically a
+  creation of the Watcher Archon, derivative of the surveillance
+  nervous system §2.4 established)
+- §2.0 (simulation framing — Young Eyes is NOT an Archon; she
+  is a human-seeming creation of an Archon, which is a distinct
+  category)
+- §10 (Cycle B4 battle section — full battle spec including the
+  pupil-dilation close-up and the sketch-page transfer)
+- Act 3 *"I Am the Eyes That Watch"* opening slideshow
+  (`SHIP_READY_ASSET_BIBLE.md` §3.7) — canonically the adult-form
+  reveal that everything Young Eyes saw was transmitted to the
+  Watcher. The slideshow title IS her canonical adult name
+- `apps/shared/act1Opponents.ts` Cycle B4 shell (to be updated)
+
+### 2.9 The Seeker / Young Human — Cycle B5 opponent (emotional pivot)
+
+The fifth and final Cycle B boss, and the single most emotionally
+complex battle in all of Act 1. The player — inhabiting the
+Engineer's memories — sits across the card table from a boy with
+red hair and blue eyes who is the younger version of **The Human**:
+the Yin/Yang narrator who has been whispering on the player's
+shoulder since the Prelude's Beat C.5 breath beat. The player
+knows this voice. They have heard it mourn the Engineer in the
+Galley sandwich line. They have heard it address Kael's empty
+chair in the Briefing Room. Now they are looking at the boy that
+voice used to be, decades before the mourning started.
+
+**The emotional pivot:** per DSFGL line 2448, B5 is the first
+place in the game where **losing is not failure**. Both win and
+loss unlock a different Legendary card. The win card (*The
+Classmate's Compass*, Legendary Light) and the loss card (*"The
+only reason I stayed"*, Legendary Dark) are both canonical and
+both permanent — the player carries exactly one of them through
+the rest of the game. This is the first **meaningful binary
+outcome** since the Prelude's Light/Dark choice in Beat J, and
+it is delivered through a card battle rather than a UI selector.
+The player does not choose Light or Dark here — they choose
+whether to beat the young Human or let him win, and each outcome
+writes a different card into the deck.
+
+**The Human narrates in real time:** per DSFGL line 2448, "The
+Human narrating from the shoulder slot in real time" — meaning
+the adult Human's voice (the player's existing narrator) is
+commenting on the battle AS it happens, recognizing his own
+younger self across the table, and reacting to the player's card
+choices with real-time VO barks. This is the only Act 1 battle
+where the shoulder narrator is active during gameplay.
+
+**Canonical visual (user-provided, 2026-04-15):**
+
+> The Seeker is a young boy with straight red hair, bright blue
+> eyes, and a pressed blue school uniform.
+
+**Production expansion for this doc:**
+
+- **Age:** fifteen (same age as the Engineer in Cycle B). Small
+  for his age, a half-head shorter than the Prince at the card
+  table. Slight build, bookish posture — shoulders slightly
+  rounded from reading, chin tilted up to compensate.
+- **Hair:** straight, vivid copper-red, medium length falling to
+  his ears, parted on the left. The red is natural and
+  eye-catching — in a room full of dark-haired Mechronis students,
+  the Seeker stands out. This is canonically the visual signifier
+  the player will use to recognize the adult Human in later acts:
+  the red hair persists. Render it consistently with warm copper
+  highlights under the academy's classroom lighting.
+- **Eyes:** bright blue, startlingly saturated — the most
+  color-vivid eyes in the Act 1 roster. Wide-set, slightly
+  too large for his face (an adolescent proportion that the
+  adult Human will grow into). The blue reads as *present* —
+  when the Seeker looks at the Prince across the card table, the
+  player should feel seen in a different way than any other
+  opponent has managed. Not the Watcher's cosmic observation,
+  not Eyes's data-collection, not Agent Zero's operational read.
+  Just: *I see you. You are my friend. I have always known that.*
+- **The pressed blue school uniform — the canonical Mechronis
+  Academy uniform reference:**
+  This entry establishes the definitive Mechronis Academy
+  uniform that §2.5 (Iron Lion), §2.6 (Kael), §2.7 (Agent Zero),
+  and §2.8 (Young Eyes) all derive from:
+  - **Royal-blue wool blazer** with the Mechronis Academy crest
+    on the breast pocket (render the crest as a small embroidered
+    shield shape — a book open beneath a star, in gold thread on
+    the blue wool; do NOT render legible text on the crest)
+  - **Light blue tie** (silk or satin finish, lighter than the
+    blazer by two shades)
+  - **White oxford shirt** with collar points visible above the
+    blazer
+  - **Blue wool trousers** with a single pleat
+  - **Black leather shoes**, lace-up oxford style
+  - **The Seeker's uniform is pressed** — creases sharp,
+    buttons polished, tie knotted at regulation height. Not
+    Agent Zero's operational perfection — the Seeker's neatness
+    is earnest. He dressed carefully because today matters to
+    him. He is playing against the person he will spend the next
+    seventeen thousand years mourning, and on some level he
+    already knows it.
+- **Personal touch:** a small leather-bound notebook in his
+  trouser pocket (NOT the same as Eyes's sketch notebook — the
+  Seeker's notebook is a **journal**, filled with handwritten
+  observations in tiny script that are canonically the earliest
+  drafts of what will become the Human's substrate commentary in
+  the Prelude). The notebook is never opened during the battle.
+  Its rectangular bulge is visible in one profile-shot frame.
+- **Expression:** serious but not stern. A young face carrying
+  a weight it doesn't understand yet. When the Seeker smiles —
+  which he does once, at the post-match beat — the smile is
+  small, private, and aimed at the Prince specifically. It is
+  not Kael's warm lopsided grin or Minnie's gap-toothed beam.
+  It is the smile of someone who has figured out a thing about
+  the person across from them and is keeping it as a gift.
+
+**Voice direction (dual-layer for B5):**
+
+Two voices are active during B5:
+
+1. **The Seeker's voice (young Human):** a fifteen-year-old boy,
+   mid-register, slightly reedy (his voice has not yet settled).
+   British-inflected English with a gentle bookishness — he
+   speaks in complete sentences, uses words slightly above his
+   age, and pauses before replying as if considering whether
+   his answer is worth the other person's time. This is the
+   **origin cadence** of the adult Human's substrate voice from
+   the Prelude — the same pauses, the same weight-per-word, just
+   younger and less worn.
+
+   New voice profile **`the_seeker`**. ElevenLabs target:
+   `stability: 0.60`, `similarity_boost: 0.85` (must feel like
+   the same person as `the_human` profile, just decades younger),
+   `style: 0.30`.
+
+2. **The Human's shoulder narration (adult):** the existing
+   `the_human` voice profile from `VOICE_OVER_BIBLE.md` Section 2,
+   delivering real-time barks during the match. The adult Human
+   is watching his own younger self play cards against the
+   Engineer and he cannot keep quiet. His barks are not gameplay
+   tips — they are **emotional reactions**: *"He was better at
+   this than me. I remember losing."* or *"That card. He played
+   that card against me and I've been thinking about it for
+   seventeen thousand years."* The barks are triggered by specific
+   card plays, enumerated in §11 (the Cycle B5 battle section).
+
+**Canonical pre-match line** (INFERRED for the Seeker; the adult
+Human does NOT speak the pre-match — only the Seeker):
+
+> *"I've read everything you've written in class this year. I
+> have a theory about you. I think you build things because you
+> want to understand them, and you want to understand them because
+> you're afraid they'll break if you don't. I don't think that's
+> weakness. I think that's the most honest kind of strength. Shall
+> we play?"*
+
+Delivered with the Seeker's careful cadence — each sentence
+considered before it arrives. The line is a **complete
+psychological read of the Engineer at fifteen**, delivered by
+the one person who will eventually know him better than anyone
+alive. The player should feel the weight of it: this kid knows.
+He already knows.
+
+**Deck theme:** "Deep Thoughts" long-game. The Seeker's deck
+plays slowly — cards that do nothing on the turn they are
+played but gain power each turn they remain on the board
+(accumulating "insight counters"). After four or five turns
+of quiet buildup, a single Seeker card can outscale anything
+the player has. The tutorial lesson is "some opponents win by
+thinking longer than you" — the counter is early-game
+aggression that destroys Seeker cards before their insight
+counters accumulate. But the counter has a cost: aggressive
+play means the player is rushing the biography's most tender
+scene, and the Human's shoulder barks get sadder if the player
+plays too fast. The mechanic is the emotion.
+
+**Card unlock — DUAL OUTCOME (first in Act 1):**
+
+- **Win:** *The Classmate's Compass* (Legendary Light) — a card
+  that, when played, lets the player see the **emotional state**
+  of every unit on the opponent's board (a metadata overlay
+  showing which units are "afraid," "angry," "loyal," etc.).
+  Named by the Engineer after the Seeker's ability to read
+  people. Light-aligned because understanding is compassion.
+- **Loss:** *"The only reason I stayed"* (Legendary Dark) — a
+  card that, when played, makes the player's general immune to
+  damage for one turn but prevents them from attacking. Named
+  after the Seeker's answer to a question the Prince asked years
+  later: "Why did you stay at Mechronis?" The answer: "You."
+  Dark-aligned because the Engineer felt guilt about being
+  someone else's reason for enduring a place that hurt them.
+
+**Post-match canonical beats** (INFERRED):
+
+- **Win:** the Seeker's insight cards are destroyed before they
+  reach critical mass. The board clears. The Seeker looks at
+  the empty space where his long-game was building and says
+  quietly: *"You were too fast. I had something beautiful
+  planned for turn twelve."* He smiles — the small private
+  smile. *"I'll show you what it was going to be someday."* The
+  adult Human's shoulder voice, almost inaudible: *"He did. He
+  showed me. It took him forty years but he showed me. It was
+  worth the wait."*
+- **Loss:** the Seeker's insight cards reach critical mass. A
+  single card with twelve insight counters sweeps the Prince's
+  board in one action. The Seeker looks at the Prince and says
+  quietly: *"I wasn't trying to beat you. I was trying to show
+  you what patience looks like."* The adult Human's shoulder
+  voice, cracking for the first time since the Prelude's
+  Empty Chair line: *"He was. He was showing me. And I spent
+  seventeen thousand years trying to learn the lesson."*
+
+**Cross-references:**
+
+- §2.0 (simulation framing — the Seeker is canonical human,
+  not an Archon, not a Watcher derivative)
+- §11 (Cycle B5 battle section — full battle spec including the
+  adult Human's shoulder barks triggered by specific card plays,
+  the dual-outcome card unlock, and the Small Private Smile
+  close-up)
+- §12 (*To Be the Human* slideshow — the Seeker/young Human is
+  canonically "at the center, looking at the Engineer" per DSFGL
+  line 2458)
+- Prelude Bible §7.5 (`human_beat_c5_first_breath` — the Human's
+  first whisper in the Prelude is the voice the player now sees
+  the origin of at B5)
+- Prelude Bible §9.5 (Galley sandwich line — the Human's mourning
+  of the Prince is now contextualized by having seen the friendship
+  form)
+- Prelude Bible §12.5 (Empty Chair line — the Human addressing
+  Kael's chair is enriched by the Seeker's post-match beat where
+  the adult Human's voice almost cracks)
+- `docs/production/VOICE_OVER_BIBLE.md` Section 2 (The Human
+  voice profile — the adult shoulder-narration barks in B5 use
+  this existing profile)
+
+### 2.10 Vernon Vortex — Cycle C1 opponent (Battle of Nexon, "First Form")
+
+The first Cycle C boss and canonically the player's first
+encounter with a **cosmic-scale Archon** in the Engineer's memory.
+Per DSFGL line 2467, C1 is the Battle of Nexon — a survival
+puzzle, not a win condition. The player cannot win this match.
+They can only last long enough for the Engineer's memory to
+render the survivability lesson.
+
+Vernon is the personified avatar of **the Vortex** — canonically
+the cosmic force that wiped the Nexon battlefield, that the
+Insurgency spent a decade trying to fight before they realized
+it was not a weapon but a weather system. Per user canon
+(§0.4-adjacent, 2026-04-15): *"Vernon is the personified avatar.
+It's a simulation so it's the cosmic being in the body of a
+child."* The Vortex is rendering itself in the Engineer's
+biographical memory as a preteen boy with peach fuzz and a sun
+T-shirt because that is the **least alarming possible shape** the
+cosmic entity could take, and the simulation preserves the
+Engineer's memory of what Vernon *felt* like: friendly, warm,
+completely undefeatable.
+
+The "First Form" label in DSFGL line 2467 is canonical: this is
+the *first time* the cosmic Vortex appears in the Engineer's
+life. It happens to appear as a preteen because that was the
+Engineer's last pure-hearted age when the Vortex first touched
+his awareness, and the simulation renders what the memory
+recorded. Later Vortex appearances (canonically in Acts 3+) will
+use different avatars, but the "First Form" is always Vernon.
+
+**Canonical visual (user-provided, 2026-04-15):**
+
+> Vernon Vortex is round-faced and cheerful, with short brown
+> hair, a small beard/goatee, and an orange T-shirt with a large
+> sun symbol.
+
+**Production expansion for this doc:**
+
+- **Age presentation:** approximately **twelve years old** —
+  preteen, just hitting the earliest signs of puberty. The
+  "small beard/goatee" from user canon is interpreted as **wispy
+  peach-fuzz chin hair** that a twelve-year-old is proud of and
+  convinced looks adult. It does not look adult. It looks like
+  what it is: a kid with some chin scruff for the first time in
+  his life. Render it as fine, light-brown hairs on the chin and
+  faintly along the jawline. **Not a drawn beard.** The
+  dissonance between "cosmic Vortex being" and "kid with first-
+  chin-hair" is the beat.
+- **Build:** slightly chubby, round-cheeked, healthy preteen
+  physique. Short for his age in a way that reads as "still
+  growing." Warm sun-kissed complexion — medium brown skin,
+  possibly Latinx or mixed-heritage (canonically ambiguous;
+  Vernon is the Vortex, his ethnicity is whatever the Engineer's
+  memory fills in, and the Engineer's Nexon cohort was diverse).
+- **Face:** round, open, cheerful. Wide easy grin showing front
+  teeth (one slightly chipped — he fell off something once,
+  laughed about it). Bright dark-brown eyes with a **too-intense
+  inner glow** that does not read as child-like. The eyes are
+  the tell: Vernon's face looks twelve, but his eyes are older
+  than the universe. Render the eye-glow as subtle — a 5%
+  brightness boost with warm-amber internal refraction, visible
+  in close-up shots only. Do not overdo it. The player should
+  think *"he's looking at me funny"* not *"that is a monster."*
+- **Hair:** short brown, slightly messy in the way preteen boys'
+  hair is messy at the end of a long day. Naturally straight
+  with a slight cowlick at the crown he has stopped trying to
+  fix.
+- **The peach-fuzz goatee:** canonical detail. Must be rendered.
+  It is wispy, sparse, embarrassingly proud. Vernon has decided
+  this is his *thing*. The other Insurgency children teased him
+  for it. He took the teasing as confirmation he looked mature.
+  Light brown hairs on the chin, patchy along the jaw. Do NOT
+  render as a stylized goatee — render as authentic early-puberty
+  fuzz. The authenticity is the beat.
+- **The orange T-shirt with sun symbol:** canonical and central
+  to his visual signature. Specifically:
+  - **Warm tangerine-orange** cotton T-shirt (`#f97316` reference
+    color), slightly too big — the kind of shirt a kid picks
+    because it's his favorite and he wears it even after he
+    outgrows a size
+  - **Large yellow sun symbol** centered on the chest, rendered
+    as a simple childlike sun: round yellow center with eight
+    straight ray lines radiating outward. Screen-printed, slightly
+    faded from washing. The sun is the **Vortex's canonical
+    sigil in its First Form appearance** — it will recur in
+    later-act Vortex content, always as the same childlike sun.
+    In Cycle C1's final board-wipe, the sun symbol canonically
+    **glows** for half a second before the wipe fires.
+  - Shirt is worn over blue jeans (regular kid denim, slightly
+    dusty at the knees — he's been outside) and white sneakers
+    with orange laces (he matched the laces on purpose).
+- **Body language:** bouncy, energetic, can't sit still. Vernon
+  is the **opposite** of Agent Zero's operational stillness and
+  Kanshi Sha's meditative stillness — he fidgets, taps his feet,
+  hums under his breath, drums his fingers on the card table.
+  The constant motion is canonically the cosmic Vortex expressing
+  its nature: the Vortex is the thing that moves, that cycles,
+  that never stops. Vernon's preteen body is struggling to
+  contain it. Every four turns, the body loses the struggle, and
+  the Vortex **wipes the board**.
+
+**Voice direction (Vortex Archon in a preteen body):**
+
+Per §2.0's canon hygiene rule, Vernon's voice is NOT a twelve-
+year-old's voice. The Vortex speaks through him, and the Vortex's
+voice is canonically **ancient, warm, and oceanic** — wide, slow
+breaths between phrases, a resonance that feels like speaking
+through a much larger space than a twelve-year-old's vocal tract.
+The warmth is genuine: Vernon / the Vortex does not hate the
+player. The Vortex is simply the Vortex. It wipes boards because
+that is what it does, the same way a tide comes in because it is
+a tide. There is no malice. There is also no mercy. The voice
+should convey both: fondness toward the player, and the
+inevitability of the wipe.
+
+Cadence is unhurried. Vernon does not interrupt himself. He does
+not speak quickly even in excitement. When the Vortex is about
+to wipe the board, the voice gets *slightly quieter* rather than
+louder — the way an ocean pulls back before a wave.
+
+New voice profile **`the_vortex_first_form`**. ElevenLabs target:
+`stability: 0.75`, `similarity_boost: 0.85`, `style: 0.40`
+(moderate-high stylization — the warm-oceanic resonance needs
+performance). Apply a subtle **sub-bass harmonic layer** at -24dB
+to every take, reinforcing the "speaking through a larger space"
+effect. The harmonic layer is not a reverb — it is an additive
+frequency that makes Vernon sound like he has more chest than
+his twelve-year-old ribcage could contain.
+
+**Canonical pre-match line** (INFERRED):
+
+> *"Hi! I'm Vernon. You can't win this one, but that's okay — I
+> need you to last. Every turn you're still here, the people you
+> came with get a little further away from the battlefield. This
+> is how you save them. By losing slowly. Are you ready? I'll
+> count us in."*
+
+Delivered with the Vortex's warm oceanic cadence through the
+preteen's voice. Vernon **counts the player in** — "three, two,
+one, go" — before the first turn begins. The count is audible on
+the battle audio mix. This is the only Act 1 battle with a
+spoken pre-match countdown, and it is the canonical signature of
+any future Vortex encounter (Acts 3+) — whenever the Vortex
+speaks, it counts you in.
+
+**Deck theme:** board wipes every 4 turns (survival puzzle, not
+a win condition). Per DSFGL line 2467, this battle **cannot be
+won** by defeating Vernon's general. The Engineer lost at Nexon;
+the biography cannot be rewritten. What the player *can* do is
+**last four turns**, then **last another four turns**, then
+**last a third four turns** — each four-turn cycle is a complete
+wipe of the board, and the player's score is the number of cycles
+they survived before their own deck ran empty. Each surviving
+cycle counts as a "save" — every turn the player is still on the
+board, canonical Insurgency refugees are getting further from the
+Nexon battlefield. The tutorial lesson is "not-winning is a valid
+outcome" — the first time in the Engineer's biography that the
+player is explicitly told they cannot win, and that the not-
+winning is *the point*.
+
+**Card unlock (awarded regardless of survival count):** *The
+Standstill* (Epic Light) — a card that, when played, lets the
+player delay a loss by one turn, once per match. Named after the
+canonical beat in Vernon's post-match dialog where he says "you
+stood still while the world moved around you, and that was
+enough." Light-aligned because refusing to lose is a form of
+faith, and Vernon / the Vortex canonically respects faith even
+when it is aimed against him.
+
+**Post-match canonical beats** (INFERRED — there is no "win"
+state for C1, only survival-count outcomes):
+
+- **High survival (3+ complete wipe cycles):** Vernon claps —
+  genuine, delighted, child-clap. *"Three! That's the best I've
+  seen in a while. The last one to last three was the Prince's
+  friend with the lion pin. You remind me of him."* The callback
+  to Iron Lion (§2.5) lands here — Vernon / the Vortex
+  canonically respects Iron Lion, which is the first player-
+  facing evidence that Iron Lion survived Nexon. Vernon then:
+  *"Okay. Go. They're waiting for you."* The battlefield
+  dissolves into the cross-fade to C2.
+- **Low survival (0-2 complete wipe cycles):** Vernon's smile
+  stays warm but dims slightly. *"That's okay. You're going to
+  get better at this. You have a lot of battles left to lose."*
+  He pats the air between them — a reassuring gesture across a
+  card table he will not come around. *"Go. They're still
+  waiting. You bought them enough."* The battlefield dissolves
+  into the cross-fade to C2.
+
+**Cross-references:**
+
+- §0.4 rule 3 (no CoNexus machine-god hints — the Vortex is a
+  separate cosmic entity, not CoNexus)
+- §2.0 (simulation framing — Vernon is the single-case of a
+  cosmic Archon rendered in child form during Cycle C, per user
+  canon. The intentional dissonance is the beat)
+- §13 (Cycle C1 battle section — full battle spec including the
+  four-turn wipe cycle timing, the sun-symbol pre-wipe glow, and
+  the preteen-body + cosmic-voice audio mix)
+- §2.5 (Young Iron Lion — Vernon's high-survival callback
+  canonically confirms Iron Lion survived Nexon, which affects
+  later-act Insurgency content)
+- DSFGL line 2467 (canonical "Battle of Nexon" / "First Form"
+  survival-puzzle framing)
+- Act 3+ Vortex content (flagged for continuity — the orange sun
+  sigil must recur in any future Vortex appearance, and the
+  countdown "three, two, one, go" is Vernon's canonical speech
+  signature)
+
+### 2.11 Wanda Wyrlord — Cycle C2 opponent (fragmented encounter)
+
+The second Cycle C boss. Per DSFGL line 2468, C2 is the
+Warlord's fragmented encounter — the player meets the Warlord
+**before** she reconstitutes into the full adult form the
+Engineer will face later. In the biographical simulation, Wanda
+is a seventeen-year-old cyborg girl with partial-plate
+augmentations showing through her skin. The player is meant to
+read her as **wounded** — a soldier who has been through
+something. That reading is canonically correct in the surface
+narrative. It is also canonically incomplete. (See canon hygiene
+note below.)
+
+**CRITICAL canon hygiene rule (§0.4 rule 4):** The Warlord is
+canonically a weaponized nanobot swarm per
+`CANON_REV_7_ORACLE_VEX_EXPANSION.md` §1.6. **That reveal is
+Act 2+ scope.** This section must render Wanda as a cyborg
+(human with cybernetic augmentation) and **NOT** as a swarm
+wearing a human form. The visible metal on her face reads as
+prosthetic plating, not swarm integration. The "fragmented" label
+reads as cybernetic damage, not swarm fragmentation. The voice
+glitches read as cybernetic comms interference, not swarm voices
+bleeding through. All of these will be retroactively recontextualized
+as swarm evidence in Act 2+ when the reveal lands, but in Act 1
+the player must read Wanda as a *person*. Production must resist
+any visual cue that pre-reveals the swarm — no silver-liquid
+motion, no dispersal particles, no cloud-form transitions. Plate
+and circuitry only.
+
+**Canonical visual (user-provided, 2026-04-15):**
+
+> Wanda Wyrlord is a striking blonde cyborg girl with light-
+> enhanced eyes, some visible metal on her face, and a yellow
+> hooded jacket.
+
+**Production expansion for this doc:**
+
+- **Age:** seventeen. Taller than most of the Mechronis cohort
+  at the same age (she did not attend Mechronis — she grew up
+  in Kael's household before the war, per
+  `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §1.6, and the Engineer
+  knew her as a childhood tutoring companion before she left
+  for military service). Athletic build — broader shoulders
+  than Agent Zero's, narrower than Iron Lion's, muscled in a
+  way that reads as "trained" rather than "grown into." Her
+  posture is military — shoulders back, spine straight, chin
+  level.
+- **Skin:** fair, lightly sun-weathered, with a small constellation
+  of freckles across the nose and cheekbones (canonical — these
+  are the freckles the Engineer remembers from his childhood
+  tutoring sessions with her, preserved by the simulation as
+  continuity evidence). Where the plating is visible, the skin
+  around the plate edges shows faint scar tissue — the plates
+  were installed, they did not grow. Clean surgical integration.
+- **Hair:** striking platinum-to-gold blonde, cropped short at
+  the sides and back, medium length on top, swept back from the
+  forehead. Naturally thick, slightly wavy. When she moves her
+  head the hair catches the battlefield's warm gold lighting
+  and reads as almost-metallic itself — a visual rhyme with the
+  plates that the player should register subconsciously.
+- **Eyes — "light-enhanced":** the canonical tell. Both eyes are
+  cybernetic optics, rendered as:
+  - Base iris color: glacial blue-gray (`#9cb4c1` reference),
+    matching the Warlord's canonical adult form per existing
+    game lore
+  - A thin **electric-blue inner ring** (`#3b82f6`) circles each
+    iris, glowing faintly from within — this is the cybernetic
+    optic's active-tracking indicator
+  - The pupil is **not black** — it is a matte dark-charcoal
+    with a tiny pinpoint light dead center. The light moves
+    independently of the pupil during targeting motion (like a
+    sniper scope's reticle). Render the pinpoint shift in
+    close-up shots when Wanda's attention locks onto a card.
+  - The glow from both eyes casts faint cool-blue light on her
+    upper cheekbones in low-light conditions — visible in the
+    battlefield scenes with warm-gold dominant lighting as a
+    subtle cross-color rim
+- **Visible metal on her face:** canonical but **limited**. Do
+  not over-augment. The plating is:
+  - **Left temple and cheekbone:** a flush-mounted metal plate
+    approximately 4cm × 3cm, running from the temple down along
+    the cheekbone toward the ear. Brushed titanium finish with
+    faint cool-gold undertones, no visible seams except where
+    it meets skin. A single small diagnostic port at the rear
+    edge near the ear
+  - **Right jawline:** a smaller matching plate, 3cm × 2cm,
+    along the angle of the jaw
+  - **No plating elsewhere on the face** — the nose, mouth,
+    forehead, chin, and right cheek are all unmodified human skin
+  - The plating should read as **necessary medical augmentation**,
+    not aesthetic choice. Wanda was injured. The plates are what
+    keep her face symmetrical and functional
+- **The yellow hooded jacket:** canonical. Specifically:
+  - Warm mustard-yellow (`#eab308` reference), not neon — a
+    military-spec yellow that was originally standard-issue for
+    Insurgency medic corps before Wanda defected. The jacket
+    predates her defection by a few years, but she kept it
+  - Heavy canvas construction, zipper up the front (currently
+    unzipped), hood currently thrown back
+  - Two chest pockets (empty), two hip pockets (one holding a
+    small data slate, visible as a bulge)
+  - A small faded **Insurgency field-medic patch** sewn onto
+    the left shoulder — canonical. Wanda has not removed it.
+    The player who is paying attention should notice that the
+    Warlord is wearing Insurgency colors, and wonder what that
+    means. (Canon seed: Wanda's defection is not clean. She
+    misses the Insurgency. The patch is grief she refuses to
+    admit.)
+- **Underneath the jacket:** a simple black military undershirt,
+  snug fit. No other visible modifications — the plating stops
+  at the face. The player does not know if there is more
+  augmentation underneath. Production should render the undershirt
+  covering everything below the collarbone and leave the
+  augmentation question open.
+- **Hands:** human. Unmodified. Nails bitten (same canonical
+  fidget as the Prince's sleeve-rolling — they were tutored
+  together as children; shared habits persist). Callused
+  palms from weapons training. One small cross-shaped scar on
+  the back of the right hand, between the thumb and forefinger
+  — canonical mark from a specific childhood Dischordia match
+  with Kael and the Engineer, when Kael was teaching her to
+  shuffle cards and she cut herself on the deck's edge. The
+  Engineer remembers this. Production must render the scar
+  visible in any close-up of her hands.
+- **Body language:** alert, coiled, ready to fight. But not
+  aggressive — she is **waiting**. Wanda sits forward at the
+  card table, forearms braced on the edge, head level, eyes
+  tracking. When she plays a card, she slams it down — not with
+  theater (Minnie's performative slams, §2.2) but with
+  **commitment**. The slam is canonical: she means every card
+  she plays.
+
+**Voice direction:** seventeen-year-old young woman, alto-range,
+military-firm cadence. English with no particular regional
+accent — her voice is the canonical "soldier from a palace who
+chose the army" accent the Warlord uses in her adult form. Not
+warm (contrast Kael's warmth), not absent (contrast Agent Zero's
+flatness) — **commanding**, in the way that trained officers are
+commanding even when they are not giving orders.
+
+**The voice-glitch hygiene note:** the Warlord is canonically a
+nanobot swarm (per §0.4 rule 4) but that reveal is Act 2+. In
+Cycle C2, occasional subtle voice glitches are permitted as
+**cybernetic comms interference** — a brief digital artifact
+(100ms) on one or two words per line, attributable to her
+optic-audio implants. These are foreshadows of the swarm voices
+that will bleed through in Act 2+, but they must be **ambiguous**
+in Act 1. No dramatic multi-voice overlap. No swarm-chorus
+effect. Just: occasional short glitches on specific words,
+easily dismissed as tech failure.
+
+New voice profile **`wanda_wyrlord`**. ElevenLabs target:
+`stability: 0.70`, `similarity_boost: 0.80`, `style: 0.30`, with
+a layered post-processing pass for the cybernetic glitches
+(specified per-line in §14 Cycle C2 battle section).
+
+**Canonical pre-match line** (INFERRED):
+
+> *"I remember you. You were the one who let me win that Tuesday
+> because Kael told you to. I've been angry about that for a long
+> time. I don't need you to let me win. I never did. Let's find
+> out if you're still someone I'd let sit at my table."*
+
+Delivered with the commanding cadence — no anger in the voice,
+anger in the *content*. The callback to "that Tuesday" is the
+canonical childhood tutoring memory: the Engineer, at age nine,
+deliberately lost a card match to let young Wanda win because
+Kael (who was directing the lesson) told him she needed the
+confidence. Wanda caught it. She has carried it for eight years.
+The word *"Kael"* gets one of the 100ms cybernetic-glitch artifacts
+— the first canonical hint that saying his name costs her something
+the implants are not quite processing.
+
+**Deck theme:** "I Love War" attack-rush + instant-kills. Wanda's
+deck is aggression — every card she plays attacks immediately,
+and several cards have instant-kill effects that bypass defensive
+buffs. The tutorial lesson is "some opponents win by not letting
+you build" — the counter is disruption effects that delay her
+card plays, forcing her to hold her aggression for turns she
+cannot afford to lose. Card-count is Wanda's weakness; she
+plays four or five cards and then her hand is empty. The player
+must survive the opening volley.
+
+**Card unlock on win:** *The Converter* (Legendary Dark) — a
+card that, when played, takes one of the opponent's units and
+flips it to the player's side permanently. Named after Wanda's
+canonical ability: she is a *converter*, someone who turns
+things into other things (Insurgency medic into Warlord
+lieutenant, friend into enemy, child into soldier). Dark-aligned
+because conversion is almost always a loss.
+
+**Post-match canonical beats** (INFERRED):
+
+- **Win:** Wanda's aggressive opening burns out by turn five.
+  Her hand is empty. The Prince's board holds. She looks at the
+  empty space in front of her — for the first time in the match,
+  her posture loosens slightly. The commanding alto drops a half-
+  register. *"You got better. I thought you'd coast on what you
+  learned from him. You didn't."* The *"him"* is Kael again —
+  another glitch on the word, longer this time (200ms). She
+  stands. She does not offer a handshake. At the door she pauses
+  and, without turning: *"Tell your apprentice to keep their
+  hand visible. The Watcher sees cards that are on the table."*
+  This is the first in-game warning about §2.8 Young Eyes's
+  surveillance mechanic — Wanda is canonically *trying to help*.
+  The player will not understand this was a gift until after
+  they meet Eyes in Act 1 replay or in Act 3's surveillance
+  reveals.
+- **Loss:** Wanda's aggression overwhelms. The Prince's board
+  empties before he can stabilize. She plays her final
+  instant-kill and the Prince's general drops. Her commanding
+  posture does not relax; she is not satisfied. *"That was too
+  easy. I came here for a fight."* She stands, and at the door,
+  without turning: *"The next one will be harder. I promise."*
+  The *"I promise"* glitches at the end — a 300ms cybernetic
+  stutter that sounds almost like two voices saying the same
+  words a half-syllable apart. The player hears it. Cannot
+  name what they heard.
+
+**Cross-references:**
+
+- §0.4 rule 4 (CRITICAL canon hygiene — swarm reveal is Act 2+,
+  Act 1 must render Wanda as cyborg only; all voice-glitch
+  effects attributable to implants)
+- §2.0 (simulation framing — Wanda is an adolescent Archon,
+  NOT a child-form Archon, canonically distinct from the Cycle
+  A pattern)
+- §14 (Cycle C2 battle section — full battle spec including the
+  per-line glitch timing, the childhood-tutoring-flashback beat,
+  and the Insurgency patch close-up)
+- §2.5 (Young Iron Lion — the Insurgency connection through
+  the yellow jacket's medic patch, planting a later cross-act
+  beat about Wanda's defection)
+- §2.6 (Young Kael — Wanda's childhood tutoring with Kael and
+  the Engineer, the "Tuesday" memory, and the glitch on Kael's
+  name)
+- §15 (Cycle C3 — Wanda's swarm reveal canonically lands AFTER
+  C3's forced loss, in Act 2+ content; Act 1's C2 is the last
+  time the player sees her as "cyborg girl" before the swarm
+  reframing)
+- `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §1.6 (Warlord retcon —
+  weaponized nanobot swarm, childhood-palace persistence
+  experiment, Engineer unknowingly tutored her, Eden destruction
+  retaliation context)
+- `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §6 (Eden — the garden
+  world Wanda destroyed; production must NOT have Wanda mention
+  Eden in Cycle C2, that beat belongs to Act 2+)
+
+---
