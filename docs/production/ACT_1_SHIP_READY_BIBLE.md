@@ -3406,11 +3406,17 @@ who hold it for the right moment are rewarded with a
 contextual integration the player who plays it on day one
 will not get; the slideshow's introductory frame includes a
 small textual epigraph naming the match the player was in
-when they triggered it. Players who never play *The Last Word*
-will see the *Last Words* slideshow at the start of Act 5
-regardless (per Year One Calendar Month 6 — fallback trigger),
-but the +5 mechanical reward and the personalized epigraph
-land only on player-triggered plays.
+when they triggered it. Every player sees the *Last Words*
+slideshow during the Act 1 completion sequence regardless of
+card play, because C4's `postBattleSlideshow: "last-words"`
+flag triggers it unconditionally (see §2.13 post-match beats
+and §16.9 slideshow trigger handoff). *The Last Word* card is
+a **re-triggerable replay mechanism** for later matches, not
+the sole surface of the cinematic — the +5 mechanical reward
+and the personalized epigraph land only on player-triggered
+card plays, but the cinematic itself is guaranteed to play
+once during Act 1 completion via the C4 postBattleSlideshow
+path.
 
 **Post-match canonical beats** — note: C4 is the **only** Cycle
 C match where **both** outcomes are canonically reachable. The
@@ -6544,14 +6550,20 @@ settings, one direction note per profile, and an
 specified by §§2.2–2.4. **Resolved** — no further follow-up
 needed.
 
-### 23.5 *The Last Word* fallback-trigger wiring
+### 23.5 *The Last Word* fallback-trigger wiring (resolved)
 
-§17.4 references the Year One Calendar Month 6 fallback for
-*The Last Word* if the player never plays the card. The
-fallback wiring lives in `witnessingYearOne.ts` but needs
-verification that the fallback correctly fires the *Last
-Words* slideshow with canonical branch epigraph. A separate
-engineering PR to validate.
+Earlier drafts specified a Year One Calendar Month 6 fallback
+for the *Last Words* slideshow. That fallback is unnecessary
+— verification of `witnessingYearOne.ts` confirms that Month
+6 is canonically "The Engineer's Bench" (an Act 2 beat),
+not a slideshow fallback point, and that the "Last Words"
+Chronicle entry already keys to the `act_1_complete` flag
+(line 266-270 of that file). The canonical slideshow trigger
+path is the C4 `postBattleSlideshow: "last-words"` flag,
+which fires unconditionally on Act 1 completion regardless
+of card play. §17.4 has been patched in-place to match this
+reality. **Resolved** — no further engineering follow-up
+needed.
 
 ### 23.6 Trial-format engine subclass
 
@@ -6584,7 +6596,7 @@ Target: Act 3 authoring pass, separate PR.
 2. DSFGL Rev 6.2 line 5536 correction
 3. ~~Apprentice Cycle A recruitment beat cross-reference~~ (resolved inline — see §23.3)
 4. ~~3 non-boss Mascoteer voice profile authoring~~ (resolved — mascoteerVoiceProfiles.ts shipped; see §23.4)
-5. *The Last Word* fallback-trigger verification
+5. ~~*The Last Word* fallback-trigger verification~~ (resolved — no fallback needed; see §23.5)
 6. Trial-format engine subclass creation
 7. Light Energy counter UI treatment
 8. *The Friend I Saved* Act 3 F3 recognition dialog
