@@ -217,13 +217,13 @@ The design system should reinforce story beats:
 
 ## TIER 5: BACKEND CLEANUP
 
-### 5A. Orphaned Database Tables (4)
-| Table | Issue |
-|-------|-------|
-| `disenchantLog` | Schema exists, never written to |
-| `defenseWaves` | Schema exists, tower defense doesn't use it |
-| `writingStreaks` | Lore journal streak tracking never persisted |
-| `arkThemes` | Accessed inline in routers.ts, not via proper router |
+### 5A. Orphaned Database Tables — RESOLVED
+| Table | Original issue | Status |
+|-------|----------------|--------|
+| `disenchantLog` | Schema exists, never written to | ✅ `apps/server/routers/crafting.ts` writes on every disenchant (denormalized alongside `craftingLog`). |
+| `defenseWaves` | Schema exists, tower defense doesn't use it | ✅ `apps/server/routers/towerDefense.ts` reads + writes on every incoming wave. |
+| `writingStreaks` | Lore journal streak tracking never persisted | ✅ `apps/server/routers/loreJournal.ts` upserts on every journal entry. |
+| `arkThemes` | Accessed inline in routers.ts, not via proper router | ✅ Extracted into `apps/server/routers/arkThemes.ts` (April 2026). Top-level namespace: `arkThemes.get` / `arkThemes.set`. The inline `gamification.getTheme` / `setTheme` pair had zero callers and was removed. |
 
 **Audit correction (2026-04):** `storeItems` was previously listed here. It
 is **not** orphaned — `apps/db/relations.ts:170` declares a two-way FK chain

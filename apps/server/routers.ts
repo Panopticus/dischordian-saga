@@ -5,7 +5,7 @@ import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { generateDoomStories, refreshDoomStories } from "./doomScroll";
 import { z } from "zod";
 import { getDb } from "./db";
-import { userAchievements, userProgress, arkThemes } from "../db/schema";
+import { userAchievements, userProgress } from "../db/schema";
 import { eq, and } from "drizzle-orm";
 import { cardGameRouter } from "./routers/cardGame";
 import { arkRouter } from "./routers/ark";
@@ -100,6 +100,7 @@ import { imprintsRouter } from "./routers/imprints";
 import { factionsRouter } from "./routers/factions";
 import { celebrationRouter } from "./routers/celebration";
 import { crossGameThreadsRouter } from "./routers/crossGameThreads";
+import { arkThemesRouter } from "./routers/arkThemes";
 
 export const appRouter = router({
   collection: collectionRouter,
@@ -196,6 +197,7 @@ export const appRouter = router({
   factions: factionsRouter,
   celebration: celebrationRouter,
   crossGameThreads: crossGameThreadsRouter,
+  arkThemes: arkThemesRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
@@ -315,42 +317,12 @@ export const appRouter = router({
         return { success: true, alreadyUnlocked: false };
       }),
 
-    // Ark theme management
-    getTheme: protectedProcedure.query(async ({ ctx }) => {
-      const db = await getDb();
-      if (!db) return null;
-      const rows = await db
-        .select()
-        .from(arkThemes)
-        .where(eq(arkThemes.userId, ctx.user.id))
-        .limit(1);
-      return rows[0] || null;
-    }),
-
-    setTheme: protectedProcedure
-      .input(z.object({ themeId: z.string() }))
-      .mutation(async ({ ctx, input }) => {
-        const db = await getDb();
-        if (!db) return { success: false };
-        const existing = await db
-          .select()
-          .from(arkThemes)
-          .where(eq(arkThemes.userId, ctx.user.id))
-          .limit(1);
-
-        if (existing.length > 0) {
-          await db
-            .update(arkThemes)
-            .set({ themeId: input.themeId })
-            .where(eq(arkThemes.userId, ctx.user.id));
-        } else {
-          await db.insert(arkThemes).values({
-            userId: ctx.user.id,
-            themeId: input.themeId,
-          });
-        }
-        return { success: true };
-      }),
+    // Ark theme management moved to routers/arkThemes.ts
+    // (appRouter.arkThemes.get / arkThemes.set). The inline
+    // gamification.getTheme / gamification.setTheme pair was
+    // never referenced by client code; this extraction closes
+    // docs/design/FULL-PROJECT-AUDIT.md's "arkThemes accessed
+    // inline" finding.
   }),
 });
 
