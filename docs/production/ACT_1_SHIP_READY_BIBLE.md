@@ -4194,3 +4194,118 @@ On slideshow completion, the runtime fires:
 
 ---
 
+## Section 7 — Cycle B1 Battle Section (Young Iron Lion)
+
+The engineering spec for B1 — the opening match of Cycle B,
+the Engineer's first year at Mechronis Academy, and the
+player's first Mechronis battlefield. Section 2.5 authored
+Iron Lion; this section specifies the match, the *Last Stand*
+defense-stacking mechanic, and the Mechronis academic-year
+pacing.
+
+### 7.1 Narrative purpose
+
+B1 is the **shift from Archons to humans**. The player has just
+finished Cycle A's three Archon battles and the *Welcome to
+Celebration* slideshow; B1 drops them into a different tonal
+register entirely — a classroom match against a human classmate
+who will, years later, be one of the Engineer's closest
+friends and the Insurgency's first great militant. Iron Lion at
+seventeen (one year past his §2.5 expulsion date) is not yet
+that person. He is an angry, defensive teenager who has
+survived three institutional failures and has decided that
+surviving is the point. His deck is built entirely around
+**not losing** rather than around winning — the tutorial lesson
+for B1 is "some opponents win by outlasting you."
+
+### 7.2 Per-turn flow (nominal 14-turn match)
+
+- **Turn 1 (Iron Lion opens defensively):** deploys *Iron
+  Stance* — a 0-attack, 8-defense unit that taunts. The
+  Engineer must either commit damage to it or play around it.
+- **Turns 2–5 (defense stacking):** Iron Lion adds a new
+  defensive unit each turn, each with a *shields nearby units*
+  effect. By turn 5 his board is four stacked defenders with
+  cumulative +6 defense.
+- **Turns 6–10 (the Engineer's pressure window):** Engineer
+  must deal sustained damage across multiple turns; Iron Lion
+  does not counter-attack aggressively but chips away with
+  2-attack units mixed in.
+- **Turns 11–14 (the canonical close):** if the Engineer has
+  broken through by turn 13, lethal is achievable; if Iron
+  Lion's board holds, the match stalemates and Iron Lion wins
+  on turn 14 via a *last-stand* unit that deals 5 damage to
+  the player's general regardless of board state.
+
+### 7.3 Art sub-spec
+
+**Opponent portrait:** seventeen-year-old Iron Lion in three-
+quarter profile, Mechronis blue uniform worn with top button
+undone, left sleeve rolled to the elbow (the §2.5 rebellion
+tell). Jaw set. Eyes forward. Full prompt in §22.3.5.
+
+**Battlefield:** Mechronis Academy first-year classroom — warm-
+gold institutional lighting, rows of empty blue desks behind
+the card table, a single blackboard visible in the background
+with first-year mathematics still chalked on it. Afternoon
+light through tall windows. Full prompt in §22.1.2 (shared
+across all Cycle B battles).
+
+### 7.4 Cutscene sub-spec
+
+**Pre-match cutscene (0:00–0:25):** establishing the Mechronis
+first-year classroom, the two desks shoved together to form a
+card table. Iron Lion already seated, waiting. The Engineer
+enters and sits. Iron Lion delivers §2.5 pre-match line.
+
+**Post-match cutscene — win (0:00–0:30):** Iron Lion nods once
+(the §2.5 canonical beat). He stands. The Engineer does not.
+Iron Lion walks out of the classroom. Hold on the empty doorway.
+
+**Post-match cutscene — loss (0:00–0:20):** Iron Lion holds the
+line. The Engineer's board collapses. Iron Lion does not
+celebrate; he just stands and leaves (§2.5 canonical loss).
+
+### 7.5 VO sub-spec
+
+Voice profile: **`young_iron_lion`** (new — see §2.5 for
+direction: mid-register, guarded, the single warm degree on
+the word *"gate"* in the pre-match line). Six lines, IDs
+`vo_b1_iron_lion_*`:
+
+| ID | Line | Direction |
+|---|---|---|
+| `vo_b1_iron_lion_prematch` | §2.5 pre-match line | guarded; warm degree on "gate" |
+| `vo_b1_iron_lion_turn1` | *"Don't break this. You can't."* | flat, observational |
+| `vo_b1_iron_lion_turn5_stacked` | *"Four up. Come at me."* | challenging, not taunting |
+| `vo_b1_iron_lion_turn14_win` | §2.5 post-match win beat (the nod, wordless) | — |
+| `vo_b1_iron_lion_turn14_loss` | §2.5 post-match loss beat | understated |
+| `vo_b1_iron_lion_ambient` | *"I'm here."* (×3, idle) | steady |
+
+### 7.6 VFX sub-spec
+
+- **Iron Stance deployment:** a thin steel shimmer overlays
+  each defensive unit as it deploys. 0.4s shimmer, faint
+  metallic sound.
+- **Shields-nearby effect:** a faint cool-blue hex outline
+  appears around adjacent units when a new defender is
+  added to the stack. The hex fades after 1s but the
+  defensive buff persists.
+- **Last-stand trigger (turn 14 only):** if the match
+  reaches turn 14 without Engineer breakthrough, Iron
+  Lion's general pulses once in steel-shimmer and the
+  5-damage *last-stand* fires. Hold the animation brief
+  (0.6s); the mechanic is the story, not the effect.
+
+### 7.7 Cross-game beat hooks
+
+B1 is the canonical surface for **Cades FPS** cross-game
+beat `iron_lion_greeting` (per `crossGameNarrativeThreads.ts`).
+The emit fires when Iron Lion delivers his §2.5 pre-match line
+for the first time. The Loredex-side listener writes
+`xgame_iron_lion_greeted` onto the player's flag set; Cades
+FPS reads this flag and surfaces a canonical Iron Lion
+greeting NPC in its Act 1 content if the flag is set.
+
+---
+
