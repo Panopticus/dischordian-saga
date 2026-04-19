@@ -5598,3 +5598,155 @@ the full 15-frame spec.
 
 ---
 
+## Section 17 — *Last Words* (Cycle C master finale slideshow)
+
+The third and largest master slideshow. 15 frames,
+approximately 3:30 total runtime, fires after §16 Cycle C4 via
+the `postBattleSlideshow: "last-words"` flag OR by the
+player's first play of *The Last Word* card (§2.13 unlock) at
+any later moment, OR at Year One Calendar Month 6 as a
+fallback. The slideshow is the single largest cinematic
+delivery in Act 1 and is **canonically the first community-
+visible +500 Light Energy spike in the whole game** (per §1.1
+master index).
+
+This section **extends** the partial spec in
+`docs/production/SHIP_READY_ASSET_BIBLE.md` §3.7 rather than
+duplicating it. Frame-by-frame compositions already authored
+in that document are referenced here and expanded with
+Act-1-specific narration, audio, and branch rules.
+
+### 17.1 Narrative purpose
+
+*Last Words* is the Engineer's recorded final monologue, the
+canonical audio-log the player will later hear recovered from
+the Vortex wreckage in Act 5. In §17 the player hears it for
+the first time, cinematically rendered with 15 frames of
+accompanying imagery. The monologue is the Engineer speaking
+to the entire galaxy — and, on the loss-path reading, to one
+specific listener who does not yet exist in the form she will
+eventually take (Vex Solène).
+
+Narrator: **the Engineer** (Prince voice profile §2.1, mature
+register, delivered at a weight and stillness production must
+hold firmly). The recording is approximately 3:20 of voice
+across 15 frames; narration IS the slideshow rather than
+accompanying it.
+
+### 17.2 Frame-by-frame spec (extends SHIP_READY_ASSET_BIBLE §3.7)
+
+| # | Frame (per SHIP_READY §3.7 + this doc) | Duration | Narration excerpt | Audio bed |
+|---|---|---|---|---|
+| 1 | Opening epigraph — branch-specific (per §16.9). Warm-gold text on black. | 8s | — | faint room tone (cell OR chamber ambient, per branch) |
+| 2 | Extreme close-up: a microphone diaphragm, warm-gold lit, condensation visible. | 14s | *"This is the only thing I will be remembered for. I have accepted that."* | silence |
+| 3 | Wide shot of the recording space (cell on win, Tribunal chamber on loss). | 16s | *"I want to be clear about what I did and why. Not for the record — the record is not mine."* | room tone, soft |
+| 4 | The Ark Archives — the vast circular chamber, empty, ready for the blank card the player will later place. | 20s | *"I built something. I was not supposed to. The Architect has rules. I broke them."* | distant resonance, cathedral-scale |
+| 5 | Rapid cut montage — fragments of the 12 Act-1 battles, 0.8s each (Minnie, Corey, Kanshi Sha, Iron Lion, Kael, Agent Zero, Young Eyes, Seeker, Vernon, Wanda, Nano-Swarm, Wayne). | 12s (12 × 1s cut pattern) | *"Every card I ever played against someone was the same card. This is the card."* | percussive, one hit per cut |
+| 6 | The Engineer's hand holding a single blank card, warm-gold lighting, the card face empty. | 14s | *"It is blank. The name goes on later. The name is not mine to put there."* | silence, returning |
+| 7 | Kael at a card table, faded to warm-sepia, the canonical "tutoring" frame from §8 reused. | 16s | *"There was a table. There were three of us. One of us is dead. One of us is something else. I am the third."* | ambient classroom, distant |
+| 8 | Agent Zero in her Mechronis uniform, before C3, soft focus. | 18s | *"I am going to do something to a friend I do not understand yet. She will wake up alone. I am sorry. I was too late."* | silence |
+| 9 | The Vortex bay from §2.12 — empty, the explosive charges visible, the Resurrection Protocols device on the table. | 16s | *"The Protocols were not designed for this. They will have to be. I ran the math. It is thin. It is thin enough."* | subsonic device hum, 0.5Hz |
+| 10 | Agent Zero's eyes, extreme close-up, both visible, no silver — this is the memory-version of her, not the C3 version. | 14s | *"If she wakes up, tell her: the deck is hers. She does not know how to play it yet. She will."* | silence |
+| 11 | The Ark 7 exterior, distant, silent in space. | 14s | *"I am leaving something behind. The Ark is a library. I was its first librarian. I was not its last."* | space silence, light stellar rumble |
+| 12 | Elara's Prelude AI chamber, empty, waiting. | 18s | *"Someone will find this. She will not know me. That is right. It is better that way."* | Ark ambient, low hum |
+| 13 | The Engineer's face, finally shown, looking directly at the microphone. First and only direct on-camera address. | 22s | *"If you are hearing this, you are the person I made it for. I do not know who you are. I did not need to."* | silence, breath audible |
+| 14 | The Ark Archives pedestal — empty, the blank card position illuminated. | 18s | *"There will be a card. It will be yours. Write on it."* | faint chorus (the first canonical hint of the Act 5 Witnessing chorus, kept very subtle here) |
+| 15 | Black screen, warm-gold text: *"The Prince. Recorded Ark 7, Final Transmission."* Plus the branch-specific coda text (win: *"Distributed before execution."* loss: *"Recovered from the Vortex, Year 17,000+."*) | 20s | — | silence, then a single held warm-gold tone fading |
+
+**Total narration:** approximately 3:20. **Total runtime:**
+approximately 3:30 (including the silent opening and closing
+frames). Matches §1.1 master index target.
+
+### 17.3 Branch logic
+
+Only frame 1 and frame 15 branch on C4 outcome. All other
+frames are identical. The monologue audio is recorded once
+and used in both branches — the canonical text is the same
+because the Engineer said the same words; the *framing* is
+the only difference.
+
+The win-branch epigraph places the recording in Tribunal Cell
+7 the night before execution. The loss-branch epigraph places
+it in the Tribunal Chamber in the hour before execution. Both
+are canonical; the Engineer was permitted to record either
+way. The loss-branch framing implies the recording was
+extracted; the win-branch framing implies it was granted.
+
+### 17.4 The +500 Light Energy community spike
+
+Per §1.1, the *Last Words* slideshow is the first community-
+visible Light Energy spike in the game. Implementation:
+
+- Every player's completion of §17 increments the galaxy-
+  wide `lightEnergy` counter by +500.
+- The counter is visible on the Witnessing Hub dashboard
+  and on the Reclamation Chart.
+- The first time the player's own completion pushes the
+  counter past a multi-thousand threshold, the Hub surfaces
+  a "You contributed to this" acknowledgment.
+
+Implementation is in `witnessingIntegrations.ts` already
+(per `docs/production/ALL_ACTS_ROADMAP.md` §9); this section
+flags the integration point rather than duplicating it.
+
+### 17.5 Art sub-spec
+
+15 frame stills, 1920×1080 / 16:9 / 4K. Full prompts in
+§22.2.3. Note: frame 5's 12-cut montage uses cropped
+variants of prior battlefield / portrait stills already
+authored for §§3–16; production must ensure the crops are
+tight and the cuts fire on percussive audio hits.
+
+Plus:
+- 2 epigraph variant stills for frame 1 (win / loss)
+- 2 coda variant stills for frame 15 (win / loss)
+
+### 17.6 VO sub-spec
+
+The monologue is a **single continuous audio track** —
+recorded in one session, not 15 separate lines. Production
+must lock the audio length to the slideshow timing; frame
+durations in the table above are synchronized to specific
+lines.
+
+Full monologue text is canonical per
+`CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5 Log 5 — that
+section is the authoritative source. Production should
+reference it directly rather than re-authoring.
+
+Voice profile: `the_prince` (§2.1 mature register). The
+recording IS the canonical Engineer's-last-words recording
+for the entire game; production must approve the take
+against both the Prelude's hologram-Engineer voice samples
+and the Act 5 Bridge-of-Kael scene's audio recovery. The
+single take is reused in Act 5 in its entirety (the Act 5
+post-credits scene plays the same audio).
+
+### 17.7 Audio bed sub-spec
+
+Composed by Cades. Must hold the following absolute rules:
+
+- Frames 2, 6, 8, 10, 13 have **zero** music or ambient
+  beyond room tone. The Engineer's voice must dominate.
+- Frame 5's 12-cut montage uses **percussive hits** synced
+  to each cut. No melodic content.
+- Frames 14 and 15 introduce the first canonical hint of
+  the Witnessing chorus — a single warm-gold sustained
+  tone rising to audibility over frame 14, resolving to
+  silence mid-frame 15. This is the same tone that recurs
+  in Act 5's Witnessing Hub opening cinematic; using it
+  here plants the cross-reference.
+
+### 17.8 Witnessing-layer integration
+
+On slideshow completion:
+- `act_1_complete` flag fires ("Last Words" Chronicle entry
+  per `witnessingYearOne.ts`)
+- `last_words_seen` flag fires
+- +500 Light Energy applied (per §17.4)
+- The Act 1 Finale (§18) becomes available; the player
+  returns to the Ark Archives for the "YOUR NAME" pedestal
+  interaction
+
+---
+
