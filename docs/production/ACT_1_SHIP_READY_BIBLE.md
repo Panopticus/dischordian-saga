@@ -6176,3 +6176,101 @@ source of truth.
 
 ---
 
+## Section 21 — Act 1 VFX Library
+
+The consolidated visual effects library for all Act 1 battles,
+slideshows, and interactive beats. Per §0.2 Reader paths, VFX
+producers read this section end-to-end plus the per-battle
+§X.6 sub-sections for contextual application.
+
+### 21.1 Library scope
+
+§21 covers every VFX asset Act 1 needs. Totals:
+- 12 battle-specific VFX bundles (one per §§3–16)
+- 3 slideshow-specific VFX bundles (§§6, 12, 17)
+- 1 Act 1 Finale VFX bundle (§18)
+- 2 parallel-system VFX bundles (§19 Celebration Trial, §20
+  Apprentice)
+- 1 shared-library VFX bundle (the common effects used
+  across multiple sections)
+
+### 21.2 Shared library (cross-section reuse)
+
+The following VFX are used in multiple sections and should be
+implemented as **single-source shared effects**, parameterized
+by color and intensity per consumer:
+
+| Effect ID | Description | Consumers |
+|---|---|---|
+| `vfx_warm_gold_bloom` | warm-gold particle burst, configurable particle count and duration | §§3.6, 4.6, 5.7, 6.7, 8.6, 10.6, 13.6, 16.4, 18.6, 20.6 |
+| `vfx_card_flip` | standard card-face reveal animation | every battle section |
+| `vfx_card_sacrifice_to_jar` | card-into-receptacle motion, shrink-and-drop | §4.6 only, but exported as shared for potential Act 2+ reuse |
+| `vfx_reveal_on_proximity_blind` | mask-close + warm-gold overlay (A3 signature) | §5.7, §9.6 |
+| `vfx_cross_dissolve_sepia` | warm-sepia flashback transition | §8.4, §14.4 |
+| `vfx_deck_shuffle` | deck-reorder animation with soft chime | §10.6 standard gameplay |
+| `vfx_hex_board_wipe` | rust-orange radial sweep (Cycle C1 signature) | §13.6 only |
+| `vfx_inventory_unlock_flash` | warm-gold card-unlock animation | end of every battle |
+
+All shared effects live in `apps/client/src/game/duelyst-
+engine/vfx/` with parameterized signatures.
+
+### 21.3 Battle-specific VFX (per §X.6 cross-refs)
+
+Full per-battle specs are authored in the §X.6 sub-section of
+each battle section. §21 consolidates the unique-to-battle
+effects for a single source of truth on canonical IDs:
+
+| Battle | Unique VFX IDs |
+|---|---|
+| §3 A1 Minnie | `vfx_minnie_giggle_confetti`, `vfx_viral_chant_duplicate`, `vfx_rent_free_underline` |
+| §4 A2 Corey | `vfx_jar_fill_lighting`, `vfx_memory_return_halo` |
+| §5 A3 Kanshi Sha | `vfx_ocularum_trio_deploy`, `vfx_face_up_reveal_glow`, `vfx_mask_lower_raise` |
+| §7 B1 Iron Lion | `vfx_iron_stance_shimmer`, `vfx_shield_nearby_hex`, `vfx_last_stand_pulse` |
+| §8 B2 Kael | `vfx_insurgency_call_bloom`, `vfx_swarm_connective_web` |
+| §9 B3 Agent Zero | `vfx_hidden_slot_negative_space`, `vfx_one_shot_vector_trace` |
+| §10 B4 Young Eyes | `vfx_precognition_rim`, `vfx_inevitability_fade_in` |
+| §11 B5 Seeker | `vfx_question_card_mark`, `vfx_observation_tag_rim`, `vfx_claim_resolution_text` |
+| §13 C1 Vernon | `vfx_board_wipe_radial`, `vfx_top_persistent_render`, `vfx_persistence_survival_flash` |
+| §14 C2 Wanda | `vfx_aggressive_attack_flash`, `vfx_instant_kill_shatter`, `vfx_insurgency_patch_closeup_rim` |
+| §15 C3 Swarm | `vfx_swarm_standby_haze`, `vfx_swarm_active_currents`, `vfx_swarm_strike_collapse`, `vfx_silver_capillary_undertone`, `vfx_left_eye_pinpoint`, `vfx_device_blink`, `vfx_transference_chime` |
+| §16 C4 Tribunal | `vfx_coffin_amber_pulse`, `vfx_verdict_scroll_ink_bleed`, `vfx_verdict_stamp`, `vfx_chorus_light_surge` |
+
+### 21.4 Slideshow VFX bundles
+
+- **§6 *Welcome to Celebration*:** `vfx_slideshow_mascoteer_dissolve`, `vfx_slideshow_mask_float`, `vfx_parade_drums_visual` (frame-synced drum-beat visual pulse, optional)
+- **§12 *To Be the Human*:** `vfx_slideshow_warm_sepia_shift`, `vfx_slideshow_watcher_sigil_glow`, `vfx_slideshow_palette_shift_warm_to_cool`
+- **§17 *Last Words*:** `vfx_slideshow_montage_cuts` (frame-5 12-cut-sync), `vfx_slideshow_witnessing_chorus_tone_visual`, `vfx_slideshow_ark_pedestal_glow`
+
+### 21.5 Interactive-beat VFX
+
+- **§18 Finale:** `vfx_pedestal_glow_constant`, `vfx_card_levitate_trail`, `vfx_name_autowrite_calligraphy`
+- **§19 Trial:** `vfx_day_pip_flip` (calendar pip warm-gold transition), `vfx_bond_update_particle`
+- **§20 Apprentice:** `vfx_trait_shift_bar`, `vfx_trait_zero_warning_pip`, `vfx_memory_card_materialize`
+
+### 21.6 Performance budget
+
+Total Act 1 VFX draw calls must remain under 40 concurrent
+particles at any given frame on the client's mid-tier
+performance target. The most VFX-dense moment is §15 C3
+turn 11 (swarm Strike collapse + device blink silence +
+portrait resolve); production must profile this moment and
+optimize aggressively. If the budget is exceeded,
+first-to-drop is the `vfx_slideshow_parade_drums_visual`
+optional pulse (§6), then `vfx_insurgency_patch_closeup_rim`
+(§14.6) — both flagged `optional` in their respective
+sub-specs.
+
+### 21.7 Implementation
+
+All VFX live in `apps/client/src/game/duelyst-engine/vfx/` with
+per-effect modules. The shared-library effects use a
+parameterized registry; battle-specific effects extend the
+registry. Engineering work includes creating the registry,
+authoring each effect, and wiring per-battle activation
+timings per the §X.6 sub-sections.
+
+No effect is authored yet as of the Act 1 bible ship date;
+this section is the specification.
+
+---
+
