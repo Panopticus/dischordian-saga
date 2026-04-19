@@ -65,6 +65,26 @@ describe("companionAskTopics", () => {
     }
   });
 
+  it("unlocks at least one topic for every Act 2–7 boundary", () => {
+    for (const act of [2, 3, 4, 5, 6, 7]) {
+      const topics = COMPANION_ASK_TOPICS.filter(
+        (t) => t.unlockedFromAct === act
+      );
+      expect(
+        topics.length,
+        `no Ask topic with unlockedFromAct=${act}`
+      ).toBeGreaterThan(0);
+    }
+  });
+
+  it("covers both speakers across the Act 2–7 unlock range", () => {
+    const act2To7 = COMPANION_ASK_TOPICS.filter(
+      (t) => t.unlockedFromAct >= 2 && t.unlockedFromAct <= 7
+    );
+    expect(act2To7.some((t) => t.speaker === "elara")).toBe(true);
+    expect(act2To7.some((t) => t.speaker === "human")).toBe(true);
+  });
+
   it("authors every alternate answer with non-empty text and act >= base", () => {
     for (const t of COMPANION_ASK_TOPICS) {
       if (!t.alternateAnswers) continue;
