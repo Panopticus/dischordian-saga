@@ -71,19 +71,34 @@ describe("moralityTrustActVariants", () => {
     expect(resolved?.id).toBe("comms_array_first_entry_machine");
   });
 
-  it("resolveVariant returns null when act or morality gates miss", () => {
+  it("resolveVariant returns null when no registered act matches", () => {
     const resolved = resolveVariant(
       VARIANT_REGISTRY,
       "room",
       "comms-relay",
       {
-        moralityScore: 0, // balanced — no comms-relay variant for balanced
-        narrativeAct: 1,
+        moralityScore: 0,
+        narrativeAct: 99, // no variants gated on act 99
         trustByCompanion: {},
         flags: new Set(),
       },
     );
     expect(resolved).toBeNull();
+  });
+
+  it("resolveVariant picks the balanced-banded comms-relay line", () => {
+    const resolved = resolveVariant(
+      VARIANT_REGISTRY,
+      "room",
+      "comms-relay",
+      {
+        moralityScore: 0,
+        narrativeAct: 1,
+        trustByCompanion: {},
+        flags: new Set(),
+      },
+    );
+    expect(resolved?.morality).toBe("balanced");
   });
 
   it("resolveVariant gates on trust + companion correctly", () => {

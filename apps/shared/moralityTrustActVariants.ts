@@ -2947,4 +2947,317 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     act: 1,
     requiredFlags: ["act1_cycle_c_alignment_dark"],
   },
+
+  /* ─── EXPANSION PASS 7 — balanced-morality + coverage fills ─── */
+  {
+    id: "comms_array_act1_balanced",
+    surface: "room",
+    targetId: "comms-relay",
+    text:
+      "Elara reads the channel traffic aloud, skipping the philosophical asides. Her skipping is the current register — no side chosen, no pressure to choose. The Array is, tonight, a radio. A radio is enough.",
+    morality: "balanced",
+    trust: "any",
+    act: 1,
+  },
+  {
+    id: "comms_array_act3_balanced",
+    surface: "room",
+    targetId: "comms-relay",
+    text:
+      "The Array hums. Neither Elara nor the Human is leading tonight. They are taking turns, neither pushing. The taking-turns is the balance you have been holding. They are honouring it.",
+    morality: "balanced",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "comms_array_act5_balanced",
+    surface: "room",
+    targetId: "comms-relay",
+    text:
+      "The Array shows recruit replies in three columns: humanitarian, strategic, practical. The columns are equal width. Elara set the widths. The equality is a courtesy to the register you have been keeping.",
+    morality: "balanced",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "bridge_act2_balanced",
+    surface: "room",
+    targetId: "bridge",
+    text:
+      "The bridge is at baseline. Not Warm, not Factory — the middle preset Elara named 'working.' Working is what balance looks like on a ship. Sit. The chair is shaped for the posture you have.",
+    morality: "balanced",
+    trust: "any",
+    act: 2,
+  },
+  {
+    id: "bridge_act5_balanced",
+    surface: "room",
+    targetId: "bridge",
+    text:
+      "The bridge has one extra console tonight — unassigned, clean, waiting for whichever recruit you bring aboard next. The unassigned is generous. Unassigned rooms are rare on Arks. This one is intentional.",
+    morality: "balanced",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "engineering_act4_balanced",
+    surface: "room",
+    targetId: "engineering",
+    text:
+      "The bench is running a dual-mode check — crafting-quality metric and crafting-intent metric side by side. Both read as 'adequate.' Adequate is, at the bench, a compliment. Not a ceiling. A floor that is honest.",
+    morality: "balanced",
+    trust: "any",
+    act: 4,
+  },
+  {
+    id: "engineering_act6_balanced",
+    surface: "room",
+    targetId: "engineering",
+    text:
+      "The bench holds three tools laid out the way the Engineer laid them. You have neither re-arranged nor neglected them. The not-changing is respect. The bench logs respect as a separate metric from use.",
+    morality: "balanced",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "cabin_act2_balanced",
+    surface: "room",
+    targetId: "cabin",
+    text:
+      "The cabin is at room temperature. Not warm, not cool. The thermostat is set to the value it shipped with. You have not adjusted. Elara has not adjusted. The un-adjusting is, quietly, the calmest register on the ship.",
+    morality: "balanced",
+    trust: "any",
+    act: 2,
+  },
+  {
+    id: "cabin_act4_balanced",
+    surface: "room",
+    targetId: "cabin",
+    text:
+      "The cabin's mug is half-washed on the shelf. Someone started — probably you, probably distracted. The half-washing is a state neither finished nor unstarted. Act 4 is in the same state. Both will resolve when you can. No rush.",
+    morality: "balanced",
+    trust: "any",
+    act: 4,
+  },
+  {
+    id: "war_room_act5_balanced",
+    surface: "room",
+    targetId: "war-room",
+    text:
+      "The map shows three sector types at equal weight tonight: humanitarian targets, strategic nodes, resource hubs. Elara has not weighted them. You have not weighted them. The equal weighting is the current doctrine. Equal weighting is itself a doctrine.",
+    morality: "balanced",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "war_room_act7_balanced",
+    surface: "room",
+    targetId: "war-room",
+    text:
+      "The War Room's map has stabilised into a steady colour — neither warm nor cool. Stable is rare for a map at this depth of play. You built stability without committing. Both narrators register the achievement. Neither comments.",
+    morality: "balanced",
+    trust: "any",
+    act: 7,
+  },
+  {
+    id: "archive_act3_balanced",
+    surface: "room",
+    targetId: "archive",
+    text:
+      "The Antiquarian's goggles are amber — processing, not conclusion. He is reading your entries without filing them yet. The un-filing is attention. He is paying attention.",
+    morality: "balanced",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "archive_act5_balanced",
+    surface: "room",
+    targetId: "archive",
+    text:
+      "The Archive has a new shelf labelled 'In Progress.' Your entries populate it. In Progress is not a waiting room — it is a category. The Antiquarian considers uncompleted arcs to be a distinct kind of completeness.",
+    morality: "balanced",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "trade_empire_act4_balanced",
+    surface: "room",
+    targetId: "trade-empire",
+    text:
+      "Locke's ledger shows three columns active under your bond: humanitarian, strategic, speculative. All three have entries. The balance is itself an entry. She has noted the balance. She will not comment.",
+    morality: "balanced",
+    trust: "any",
+    act: 4,
+  },
+  {
+    id: "substrate_panel_act5_balanced",
+    surface: "room",
+    targetId: "substrate-panel",
+    text:
+      "The panel's query pattern tonight reads 'considered.' Considered is the metric the Human uses for queries where neither urgency nor apathy dominates. You have been considered all week. He has been noting it.",
+    morality: "balanced",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "elara_balanced_neutral_act3",
+    surface: "npc_line",
+    targetId: "elara_any",
+    text:
+      "Elara's register is neither teacher nor colleague tonight. It is something in between — someone who is genuinely curious about your current posture. Curiosity is a rare register from her. Let her keep it.",
+    morality: "balanced",
+    trust: "neutral",
+    trustCompanionId: "elara",
+    act: 3,
+  },
+  {
+    id: "elara_balanced_warm_act5",
+    surface: "npc_line",
+    targetId: "elara_any",
+    text:
+      "Elara reads your mission decisions aloud, flat and neutral, before giving her read. The flat recital is the fairness. The read that follows is hers. Both are offered. Accept the whole package.",
+    morality: "balanced",
+    trust: "warm",
+    trustCompanionId: "elara",
+    act: 5,
+  },
+  {
+    id: "human_balanced_warm_act4",
+    surface: "npc_line",
+    targetId: "the_human_any",
+    text:
+      "The Human's substrate briefings have a new section: 'Either-direction implications.' The section doesn't steer. It shows the shape of both directions equally. He has built the section for your posture specifically.",
+    morality: "balanced",
+    trust: "warm",
+    trustCompanionId: "the_human",
+    act: 4,
+  },
+  {
+    id: "human_balanced_confidant_act6",
+    surface: "npc_line",
+    targetId: "the_human_any",
+    text:
+      "The Human is quieter than usual tonight. Not because he has nothing to say — because he trusts you to figure out what to ask. The quiet is, for him, an advanced register. You are ready for it. He is betting you are.",
+    morality: "balanced",
+    trust: "confidant",
+    trustCompanionId: "the_human",
+    act: 6,
+  },
+  {
+    id: "locke_balanced_warm_act3",
+    surface: "npc_line",
+    targetId: "locke_any",
+    text:
+      "Locke quotes you the bond rate without commentary. The no-commentary is the respect. She trusts the balanced reader to do their own calibration. Most readers want her read. You want hers when you have decided. Not before.",
+    morality: "balanced",
+    trust: "warm",
+    trustCompanionId: "locke",
+    act: 3,
+  },
+  {
+    id: "seer_balanced_warm_act4",
+    surface: "npc_line",
+    targetId: "seer_any",
+    text:
+      "The Seer's transmission is a question, not a prophecy: 'Which column of my probability table would you like me to redact?' You can redact none; she will send all three. She is showing you the table's shape so you can trust the output.",
+    morality: "balanced",
+    trust: "warm",
+    trustCompanionId: "seer",
+    act: 4,
+  },
+  {
+    id: "antiquarian_balanced_neutral_act2",
+    surface: "npc_line",
+    targetId: "antiquarian_any",
+    text:
+      "The Antiquarian's goggles are steady amber all evening. Amber is processing; steady amber is patience. He is patient with balanced readers — they take longer, their files are richer when they arrive. Let him wait. It is the posture he prefers.",
+    morality: "balanced",
+    trust: "neutral",
+    trustCompanionId: "antiquarian",
+    act: 2,
+  },
+  {
+    id: "antiquarian_balanced_warm_act5",
+    surface: "npc_line",
+    targetId: "antiquarian_any",
+    text:
+      "The Antiquarian shares an entry from his own journal — handwritten, undated, marginalia: 'The readers who stay balanced the longest produce the chapters I most want to read.' He does not say you are one. He does not need to. Leave the page where he placed it.",
+    morality: "balanced",
+    trust: "warm",
+    trustCompanionId: "antiquarian",
+    act: 5,
+  },
+  {
+    id: "transmission_locke_neutral_balanced_act3",
+    surface: "transmission",
+    targetId: "locke_neutral_balanced_act3",
+    text:
+      "A transmission from Locke with three attached ledgers — humanitarian, strategic, speculative. She has not picked one for you. She has laid them out. Pick or do not pick. Picking is an act. Not picking is an act. Both are logged.",
+    morality: "balanced",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "transmission_three_narrators_balanced_act6",
+    surface: "transmission",
+    targetId: "three_narrators_balanced_act6",
+    text:
+      "An unsourced transmission lands simultaneously on Elara's channel, the Human's substrate, and the Antiquarian's archive. All three hear it. The message is two words: 'Still centred.' They all look at you. You are the answer to whose centre.",
+    morality: "balanced",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "journal_balanced_act4",
+    surface: "journal",
+    targetId: "journal_balanced_act4",
+    text:
+      "The Antiquarian has added a new page type to the journal for balanced readers: 'Under Consideration.' Entries in this category never close — they gain marginalia over time. The Antiquarian considers open entries to be their own form of commitment.",
+    morality: "balanced",
+    trust: "any",
+    act: 4,
+  },
+  {
+    id: "journal_balanced_act6",
+    surface: "journal",
+    targetId: "journal_balanced_act6",
+    text:
+      "The Act 6 page has two side-by-side columns for balanced readers: 'Heard from Elara' and 'Heard from the Human.' Both columns are active. Neither is louder. Both get equal word counts. The parity is what you built.",
+    morality: "balanced",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "wheel_followup_act3_pragmatic_balanced",
+    surface: "wheel_followup",
+    targetId: "act3_pragmatic_balanced",
+    text:
+      "You chose pragmatic on a balanced ledger. The ledger registers the choice as 'continuous middle' — neither a swing nor a commitment, just a continuation of the current posture. Continuous middle is, across many Arks, the hardest posture to maintain. You are still maintaining.",
+    morality: "balanced",
+    trust: "any",
+    act: 3,
+    requiredFlags: ["act3_partial_share"],
+  },
+  {
+    id: "wheel_followup_act5_strategic_balanced",
+    surface: "wheel_followup",
+    targetId: "act5_strategic_balanced",
+    text:
+      "You chose intelligence-first without the machine tilt it usually implies. The Human read the nuance immediately — you are not optimising; you are scouting. Scouting is what balanced strategists do. He has quietly upgraded your operational trust tag.",
+    morality: "balanced",
+    trust: "any",
+    act: 5,
+    requiredFlags: ["act5_strategic_chosen"],
+  },
+  {
+    id: "wheel_followup_act6_suspicious_balanced",
+    surface: "wheel_followup",
+    targetId: "act6_suspicious_balanced",
+    text:
+      "You challenged the Human without rejecting him. The challenge read as balance, not distrust. He heard the difference. He is not going to commend the balance out loud. He will, however, stop pre-softening his briefings. That is the silent commendation.",
+    morality: "balanced",
+    trust: "any",
+    act: 6,
+    requiredFlags: ["act6_suspicious_chosen"],
+  },
 ];
