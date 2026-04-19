@@ -22,6 +22,15 @@ const PRELUDE_TRIGGERS = [
   "act1_first_opponent_entered",
 ] as const;
 
+const ACT7_TRIGGERS = [
+  "act7_intro_complete",
+  "act7_humanity_path",
+  "act7_machine_path",
+  "act7_bridge_path",
+  "act7_command_path",
+  "act7_first_boss_entered",
+] as const;
+
 describe("companionComments — prelude/Act 1 reactive coverage", () => {
   it("has at least one comment for every required prelude/Act 1 trigger", () => {
     for (const trigger of PRELUDE_TRIGGERS) {
@@ -44,6 +53,21 @@ describe("companionComments — prelude/Act 1 reactive coverage", () => {
   it("keeps every comment id globally unique", () => {
     const ids = COMPANION_COMMENTS.map((c) => c.id);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("has paired Elara + Human coverage for every Act 7 trigger", () => {
+    for (const trigger of ACT7_TRIGGERS) {
+      const matches = COMPANION_COMMENTS.filter((c) => c.trigger === trigger);
+      const speakers = new Set(matches.map((c) => c.speaker));
+      expect(
+        matches.length,
+        `no companion comments for Act 7 trigger "${trigger}"`,
+      ).toBeGreaterThan(0);
+      expect(
+        speakers.has("elara") && speakers.has("human"),
+        `Act 7 trigger "${trigger}" is missing one of the two voices`,
+      ).toBe(true);
+    }
   });
 
   it("every comment has non-empty voiceLine and a valid timing", () => {

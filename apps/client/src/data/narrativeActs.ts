@@ -1216,6 +1216,7 @@ const ACT_7_THE_CONVERGENCE: LoreTutorial = {
           elaraResponse: "Together. Yes. That's the only way this works.\n{playerName}, whatever comes next — whatever the watcher is, whatever the pattern means — we face it as what we are. Not machines. Not signals. People.\nImperfect, stubborn, beautiful people.",
           humanResponse: "~~Together~~. I... I'd like ~~that~~. More than you ~~know~~.",
           humanVoAudioUrl: "/vo/act7/human-humanity-response.mp3",
+          setFlag: "act7_humanity_path",
         },
         {
           id: "act7-s1-machine-path",
@@ -1227,6 +1228,7 @@ const ACT_7_THE_CONVERGENCE: LoreTutorial = {
           elaraResponse: "The pattern... {playerName}, I'm worried about you. You're sounding more like The Human every day. Don't lose yourself in the substrate. Don't forget what you're fighting for.",
           humanResponse: "You're ~~ready~~. I can ~~feel~~ it. The substrate is ~~opening~~ to you.\nBe ~~careful~~. What you'll ~~see~~ down there... it changes ~~everything~~.",
           humanVoAudioUrl: "/vo/act7/human-machine-response.mp3",
+          setFlag: "act7_machine_path",
         },
         {
           id: "act7-s1-balance",
@@ -1238,6 +1240,7 @@ const ACT_7_THE_CONVERGENCE: LoreTutorial = {
           elaraResponse: "The bridge. Between my world and his. Between humanity and the machine.\nI don't know if one person can carry that weight, {playerName}. But if anyone can... it's you.",
           humanResponse: "The ~~bridge~~. Yes. That's exactly what you ~~are~~.\nTwo ~~wars~~. Two ~~fronts~~. One ~~person~~ who can see ~~both~~.\nI believe in ~~you~~. I've been waiting a very long ~~time~~ to say that to ~~someone~~.",
           humanVoAudioUrl: "/vo/act7/human-bridge-response.mp3",
+          setFlag: "act7_bridge_path",
         },
         {
           id: "act7-s1-soldier-command",
@@ -1250,6 +1253,7 @@ const ACT_7_THE_CONVERGENCE: LoreTutorial = {
           elaraResponse: "A commander's voice. Direct. Uncompromising. You've grown, {playerName}. From the person I woke from cryo-sleep to... this. A leader.\nYou have my full tactical support. Always.",
           humanResponse: "~~Commander~~. I like the sound of ~~that~~.\nYou have my ~~intelligence~~. My ~~substrate~~ access. My ~~perspective~~ from inside the walls.\nLead us. ~~Both~~ of us.",
           humanVoAudioUrl: "/vo/act7/human-soldier-response.mp3",
+          setFlag: "act7_command_path",
         },
       ],
     },
@@ -1258,6 +1262,7 @@ const ACT_7_THE_CONVERGENCE: LoreTutorial = {
       type: "reward_summary",
       elaraText: "Act 7 Complete: THE CONVERGENCE — The army is assembled. The real war begins.",
       subtitle: "The angel and the demon stand with you. The visible war rages. The invisible war awaits. And something watches from beyond.",
+      setFlag: "act7_intro_complete",
     },
   ],
 };

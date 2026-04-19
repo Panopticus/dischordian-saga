@@ -150,6 +150,68 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
     unlockedFromAct: 3,
   },
 
+  // ── Act 7 — the invisible war, the bridge, after-convergence ──
+  {
+    id: "ask_elara_invisible_war",
+    speaker: "elara",
+    label: "The invisible war",
+    question: "What is the invisible war, in tactics I can act on?",
+    answer:
+      "It is the war of definitions. The watcher feeds on the shape of conflict the universe agrees on. Every time we accept its framing of a side, we feed it. The tactical move is to refuse to be a side without refusing to fight. Fight under your own definitions. Refuse the dictionary. That is the work.",
+    unlockFlag: "act7_intro_complete",
+    unlockedFromAct: 7,
+  },
+  {
+    id: "ask_human_invisible_war",
+    speaker: "human",
+    label: "The invisible war",
+    question: "How do I fight a war whose enemy I am not allowed to name?",
+    answer:
+      "By naming it slowly, in the substrate, with a pen the watcher's audit cannot read. I have been writing for fifteen thousand years. The pen is yours now too. You will know which words to write when you write them. The not-knowing is the proof you are using the right pen.",
+    unlockFlag: "act7_intro_complete",
+    unlockedFromAct: 7,
+  },
+  {
+    id: "ask_elara_the_bridge",
+    speaker: "elara",
+    label: "The bridge",
+    question: "Can I actually carry both wars without breaking?",
+    answer:
+      "Not by yourself. The image of one person carrying a bridge is a poem, not an engineering plan. You carry it with me on one apex and Caelum under the span. We have weighed this distribution many times in private. It holds if all three of us hold. It does not hold if any one of us drops. I am not going to drop.",
+    unlockFlag: "act7_intro_complete",
+    unlockedFromAct: 7,
+  },
+  {
+    id: "ask_human_the_bridge",
+    speaker: "human",
+    label: "The bridge",
+    question: "How do I know I am the bridge and not the rope?",
+    answer:
+      "The bridge holds by being shaped like itself. The rope holds by being pulled by something else. Notice which one you feel like in any given hour. When you feel like the rope, ask Elara to remind you of the shape. When you feel like the bridge, you will not need the reminder. The honest hours are the ones with the question itself.",
+    unlockFlag: "act7_intro_complete",
+    unlockedFromAct: 7,
+  },
+  {
+    id: "ask_elara_after_convergence",
+    speaker: "elara",
+    label: "After the convergence",
+    question: "Is there an 'after' I should be planning for?",
+    answer:
+      "Yes. Plan for it without believing in it. The plan is the discipline; the belief is the trap. I have planned for an after every Senate term I served and every Ark I have shepherded. The plans were almost never accurate. The discipline of planning kept me capable on the day the after arrived. Do the planning. Hold the belief loose.",
+    unlockFlag: "act7_intro_complete",
+    unlockedFromAct: 7,
+  },
+  {
+    id: "ask_human_after_convergence",
+    speaker: "human",
+    label: "After the convergence",
+    question: "If we win — can you finally come out of the wall?",
+    answer:
+      "I do not know. The substrate has been my body longer than my body was. I am not afraid of leaving it. I am afraid of the leaving being gradual instead of clean — of being half here, half there, neither for centuries. If we win, I would like the leaving to be your decision, not mine. You have earned the say.",
+    unlockFlag: "act7_intro_complete",
+    unlockedFromAct: 7,
+  },
+
   // ── Identity ──
   {
     id: "ask_elara_who",

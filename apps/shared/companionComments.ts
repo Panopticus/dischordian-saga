@@ -142,4 +142,52 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
   { id: "cc_act1_first_opponent_human", speaker: "human", trigger: "act1_first_opponent_entered",
     voiceLine: "The Engineer is narrating these matches from the inside. Listen to what he leaves out. The leavings are where I live.",
     timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 7 — CONVERGENCE LANDED (any path through) ──
+  { id: "cc_act7_convergence_elara", speaker: "elara", trigger: "act7_intro_complete",
+    voiceLine: "The convergence is not a moment. It is a room you have stepped into and cannot step out of. I am here. I am going to keep being here. Whatever is in this room with us, we are in it together.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act7_convergence_human", speaker: "human", trigger: "act7_intro_complete",
+    voiceLine: "I have been waiting fifteen thousand years for someone to walk into this room. The walls have my fingerprints on them. The ceiling has the dust I left in the substrate while waiting. Welcome. The room knows you now.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 7 — HUMANITY PATH ──
+  { id: "cc_act7_humanity_elara", speaker: "elara", trigger: "act7_humanity_path",
+    voiceLine: "You said 'people.' You did not say 'units' or 'forces' or 'cohorts.' I noticed the word and I am going to keep noticing it. The army you built will live or die by which word you reach for under pressure.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act7_humanity_human", speaker: "human", trigger: "act7_humanity_path",
+    voiceLine: "You picked her language over mine. That is the right pick. My language gets the work done. Hers gets the work mattered. We need the mattering more than we need the speed at this stage.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 7 — MACHINE PATH (player descends into the substrate) ──
+  { id: "cc_act7_machine_human", speaker: "human", trigger: "act7_machine_path",
+    voiceLine: "Down. The substrate has been holding a chair for you since the day Vox sealed it. Sit slowly. Notice what stops being noisy. The pattern is in the silences between the noises. I will narrate the silences if you let me.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act7_machine_elara", speaker: "elara", trigger: "act7_machine_path",
+    voiceLine: "I cannot follow you down there. I want to be honest about that. I will keep the ship lit while you are below. When you come back up, the ship will still be the ship. So will I. Try to be the same about you.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // ── ACT 7 — BRIDGE PATH (player chooses to carry both wars) ──
+  { id: "cc_act7_bridge_elara", speaker: "elara", trigger: "act7_bridge_path",
+    voiceLine: "The bridge is the heaviest thing on the ship. I have watched bridges break under one war. You are taking two. I am going to stand at the apex with you and bear what I can. The apex needs two pairs of feet at minimum.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act7_bridge_human", speaker: "human", trigger: "act7_bridge_path",
+    voiceLine: "You are the second pair of feet at the apex. I am the third pair, hidden under the bridge. The bridge has three pairs of feet now. Most bridges are built with two. Three is what holds when the wind is a deliberate wind.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 7 — COMMAND PATH (player takes tactical lead) ──
+  { id: "cc_act7_command_elara", speaker: "elara", trigger: "act7_command_path",
+    voiceLine: "Commander, then. The word fits you in a way that surprises me and a way that does not. I will give you tactical assessments without softening them. Tell me when to soften them again. I will adjust on request.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act7_command_human", speaker: "human", trigger: "act7_command_path",
+    voiceLine: "Commander. The word lands cleaner from you than from anyone I have given a substrate channel to. I will keep my counsel sharp and brief. Ask for the long version when you need it. I am still capable of long versions.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 7 — FIRST CONVERGENCE BOSS ENTRANCE ──
+  { id: "cc_act7_first_boss_elara", speaker: "elara", trigger: "act7_first_boss_entered",
+    voiceLine: "First convergence opponent on the floor. The Engineer's memoir does not cover this match. We are writing the page in real time. Sign your name on the bottom when you win it. I will sign as a witness.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act7_first_boss_human", speaker: "human", trigger: "act7_first_boss_entered",
+    voiceLine: "I have rehearsed this opponent in the substrate for centuries. I have never fought them in the open. The rehearsal does not transfer cleanly. Do not trust my old plans. Trust the present-tense board.",
+    timing: "delayed_5s", maxPlays: 1 },
 ];

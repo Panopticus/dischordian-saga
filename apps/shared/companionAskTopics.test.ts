@@ -49,6 +49,46 @@ describe("companionAskTopics", () => {
     expect(act3Ids).toContain("ask_elara_kael");
   });
 
+  it("unlocks Act 7 invisible-war / bridge / after-convergence topics", () => {
+    const preAct7 = new Set<string>(["act1_intro_complete", "act3_intro_complete"]);
+    const pre = getAvailableAskTopics("elara", preAct7, 7).map((t) => t.id);
+    expect(pre).not.toContain("ask_elara_invisible_war");
+    expect(pre).not.toContain("ask_elara_after_convergence");
+
+    const postAct7 = new Set<string>([
+      "act1_intro_complete",
+      "act3_intro_complete",
+      "act7_intro_complete",
+    ]);
+    const elara = getAvailableAskTopics("elara", postAct7, 7).map((t) => t.id);
+    const human = getAvailableAskTopics("human", postAct7, 7).map((t) => t.id);
+    expect(elara).toEqual(
+      expect.arrayContaining([
+        "ask_elara_invisible_war",
+        "ask_elara_the_bridge",
+        "ask_elara_after_convergence",
+      ]),
+    );
+    expect(human).toEqual(
+      expect.arrayContaining([
+        "ask_human_invisible_war",
+        "ask_human_the_bridge",
+        "ask_human_after_convergence",
+      ]),
+    );
+  });
+
+  it("has at least one topic per speaker unlocked at Act 7", () => {
+    const act7Elara = COMPANION_ASK_TOPICS.filter(
+      (t) => t.speaker === "elara" && t.unlockedFromAct === 7,
+    );
+    const act7Human = COMPANION_ASK_TOPICS.filter(
+      (t) => t.speaker === "human" && t.unlockedFromAct === 7,
+    );
+    expect(act7Elara.length).toBeGreaterThan(0);
+    expect(act7Human.length).toBeGreaterThan(0);
+  });
+
   it("getAskTopic resolves by id and returns undefined for unknown ids", () => {
     expect(getAskTopic("ask_elara_substrate")?.label).toBe("The substrate");
     expect(getAskTopic("does_not_exist")).toBeUndefined();
