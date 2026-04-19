@@ -182,6 +182,7 @@ export default function WitnessingHubPage() {
    ═══════════════════════════════════════════════════════ */
 
 function JourneyPanel({ hubState }: { hubState: WitnessingHubState }) {
+  const { state: gameState } = useGame();
   return (
     <div className="space-y-6">
       {/* The Seer's first-time tutor intro for Witnessing */}
@@ -208,6 +209,102 @@ function JourneyPanel({ hubState }: { hubState: WitnessingHubState }) {
           <ChevronRight size={20} className="void-text-energy shrink-0" />
         </div>
       </Link>
+
+      {/* Act 3 Substrate Gates — unlocks at Act 3+. The Human
+          frames the descent; three substrate echoes guard the
+          door to Kael's logs. */}
+      {gameState.narrativeAct >= 3 && (
+        <Link
+          href="/act3-ladder"
+          className="block rounded-md border border-purple-500/40 bg-purple-950/20 p-4 transition-colors hover:bg-purple-950/30"
+        >
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-purple-300/80">
+                PLAY · ACT 3 · SUBSTRATE GATES
+              </p>
+              <h3 className="mt-0.5 font-display text-base text-purple-200">
+                Three Gates, One Door
+              </h3>
+              <p className="mt-1 font-serif text-[12px] void-text">
+                Walk past the Substrate Echo, the Kael Archivist, and the Substrate Warden. Kael's logs open behind the third.
+              </p>
+            </div>
+            <ChevronRight size={20} className="text-purple-300/80 shrink-0" />
+          </div>
+        </Link>
+      )}
+
+      {/* Act 4 Revelation — one match, path-resolved to A/B/C at
+          runtime. Unlocks at Act 4+ but needs a Path flag set. */}
+      {gameState.narrativeAct >= 4 && (
+        <Link
+          href="/act4-match"
+          className="block rounded-md border border-cyan-500/40 bg-cyan-950/20 p-4 transition-colors hover:bg-cyan-950/30"
+        >
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-cyan-300/80">
+                PLAY · ACT 4 · THE REVELATION
+              </p>
+              <h3 className="mt-0.5 font-display text-base text-cyan-200">
+                One Match, One Path
+              </h3>
+              <p className="mt-1 font-serif text-[12px] void-text">
+                Whichever version of this conversation you built, that is the one you play. The Bridge, Learning, or Betrayed — the flags decide.
+              </p>
+            </div>
+            <ChevronRight size={20} className="text-cyan-300/80 shrink-0" />
+          </div>
+        </Link>
+      )}
+
+      {/* Act 6 Confession Mirrors — two matches: The Woman She Was,
+          then The Detective in the Wall. Unlocks at Act 6+. */}
+      {gameState.narrativeAct >= 6 && (
+        <Link
+          href="/act6-ladder"
+          className="block rounded-md border border-amber-500/40 bg-amber-950/20 p-4 transition-colors hover:bg-amber-950/30"
+        >
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-amber-300/80">
+                PLAY · ACT 6 · CONFESSION MIRRORS
+              </p>
+              <h3 className="mt-0.5 font-display text-base text-amber-200">
+                The Woman, The Man
+              </h3>
+              <p className="mt-1 font-serif text-[12px] void-text">
+                Two confessions, two reconstructed hands. Elara plays the woman she was. The Human plays the man behind the role.
+              </p>
+            </div>
+            <ChevronRight size={20} className="text-amber-300/80 shrink-0" />
+          </div>
+        </Link>
+      )}
+
+      {/* Act 7 Convergence — four finale matches. Unlocks at Act 7. */}
+      {gameState.narrativeAct >= 7 && (
+        <Link
+          href="/act7-ladder"
+          className="block rounded-md border border-stone-400/40 bg-stone-800/30 p-4 transition-colors hover:bg-stone-800/50"
+        >
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-stone-300/80">
+                PLAY · ACT 7 · THE CONVERGENCE
+              </p>
+              <h3 className="mt-0.5 font-display text-base text-stone-200">
+                The Seat Awaits
+              </h3>
+              <p className="mt-1 font-serif text-[12px] void-text">
+                The Visible War. The Watcher's Shadow. Patient Zero, reborn. And the Convergence Seat — three absences, one of you.
+              </p>
+            </div>
+            <ChevronRight size={20} className="text-stone-300/80 shrink-0" />
+          </div>
+        </Link>
+      )}
 
       {/* Vortex Incursion entry — §11.5 community endgame. */}
       <Link
