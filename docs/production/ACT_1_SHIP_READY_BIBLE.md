@@ -6585,13 +6585,25 @@ pass. **Resolved** — no further engineering follow-up needed
 for Act 1 ship. UI integration is a downstream consumer of
 this module.
 
-### 23.7 The +500 Light Energy counter UI integration
+### 23.7 The +500 Light Energy counter UI integration (resolved)
 
-§17.4 references the `lightEnergy` counter increment in
-`witnessingIntegrations.ts`. The Hub dashboard UI for the
-counter needs a visual treatment — production must render the
-"You contributed to this" acknowledgment when the player's
-completion crosses a threshold. Target: separate UI PR.
+Wired up in `apps/shared/dischordiaCycle.ts`:
+
+- New `last_words_cinematic_seen` entry in
+  `ENERGY_GAIN_TABLE` with `light: 500` — the canonical
+  community gain from §17.4.
+- Five `LIGHT_ENERGY_THRESHOLDS` at 1K / 10K / 100K / 1M /
+  10M with per-threshold acknowledgment text.
+- `checkLightEnergyThresholdCrossing(previousLight,
+  newLight)` helper that returns the crossed threshold or
+  null — UI callers pass this return value to a toast /
+  Hub banner to render the "You contributed to this"
+  acknowledgment canonical to §17.4.
+
+Shipped with six new tests in `dischordiaCycle.test.ts`
+(existing 34 + new 6 = 40, all pass). The Hub dashboard UI
+consumes this helper; no further UI spec needed for Act 1
+ship. **Resolved** — no further engineering follow-up needed.
 
 ### 23.8 *The Friend I Saved* card-recognition dialog (Act 3 F3)
 
@@ -6610,7 +6622,7 @@ Target: Act 3 authoring pass, separate PR.
 4. ~~3 non-boss Mascoteer voice profile authoring~~ (resolved — mascoteerVoiceProfiles.ts shipped; see §23.4)
 5. ~~*The Last Word* fallback-trigger verification~~ (resolved — no fallback needed; see §23.5)
 6. ~~Trial-format engine subclass creation~~ (resolved — trialFormat.ts shipped + 17 tests; see §23.6)
-7. Light Energy counter UI treatment
+7. ~~Light Energy counter UI treatment~~ (resolved — thresholds + helper shipped in dischordiaCycle.ts; see §23.7)
 8. *The Friend I Saved* Act 3 F3 recognition dialog
 
 All eight are trackable separately; none block the Act 1
