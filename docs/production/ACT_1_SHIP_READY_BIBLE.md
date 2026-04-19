@@ -3863,3 +3863,182 @@ lines, canonical IDs `vo_a2_corey_*`:
 
 ---
 
+## Section 5 — Cycle A3 Battle Section (Kanshi Sha the Watcher)
+
+The engineering spec for A3 — the Cycle A finale boss, the
+first match that is **actively hard** on a first attempt, and
+the trigger for the *Welcome to Celebration* master slideshow
+(§6). Section 2.4 authored the character; this section
+specifies the match, the Ocularum mechanic, and the
+slideshow-trigger handoff.
+
+### 5.1 Narrative purpose
+
+A3 is **graduation day** — the Engineer's Celebration Trial
+ends with a card match against the child-form Archon of the
+Watcher. The tutorial lessons compound: A1 taught board-
+control, A2 taught emotional-cost, A3 teaches **information
+warfare**. Kanshi Sha plays with zero hidden cards on her
+side — her entire hand is face-up from turn 1 — and her deck
+forces the Engineer's hand face-up in stages. By turn 5 both
+players are playing open. The lesson: some opponents *want*
+you to see the board, because they have already calculated
+every line and yours is shorter than theirs.
+
+A3 is the **first canonical difficulty spike**; the design
+target is 40% first-attempt win rate. A3 is winnable on a
+first attempt but not easily, and the Act 1 pacing depends on
+the player experiencing one real loss in Cycle A to set up the
+Cycle B emotional shift.
+
+### 5.2 Per-turn flow (nominal 12-turn match)
+
+- **Turn 1 (Kanshi Sha opens face-up):** she deploys three
+  face-up units simultaneously — the *Ocularum Trio* —
+  declaring the opening. Her entire hand (8 cards) is
+  visible to the Engineer from this point forward.
+- **Turn 2 (Engineer forced face-up):** the Ocularum Trio's
+  passive effect reveals the Engineer's hand one card at a
+  time — one card per turn, starting turn 2. By turn 5 the
+  Engineer is fully face-up.
+- **Turns 3–7 (pressure phase):** Kanshi Sha plays optimal
+  lines against the revealed cards. Engineer must adapt
+  to being readable.
+- **Turns 8–10 (reveal-on-proximity counter window):** the
+  Engineer's A3-specific unlock window — deploying certain
+  A1/A2-unlocked units in proximity to the Ocularum Trio
+  *blinds* them for one turn, restoring hidden-card play.
+  This is the canonical win line.
+- **Turns 11–12:** lethal window if the blind window was
+  used correctly.
+
+### 5.3 Art sub-spec
+
+**Opponent portrait:** seven-year-old Kanshi Sha in three-
+quarter profile, wearing the half-finished white Ocularum
+mask (canonical per the existing data shell). Left half of
+mask covers forehead and left eye; right half of face is
+the child's own, visible. Expression: calm, attentive, the
+cosmic Watcher's signature non-blink. Full prompt in
+§22.3.4.
+
+**Battlefield:** Celebration schoolyard graduation pavilion —
+outdoor raised platform with Celebration graduation banners,
+low-angle evening light (approximately 6:30 PM, Day 28 of
+the Trial), parents and Mascoteers visible in soft focus at
+the edges (this is the one Cycle A battlefield with
+witnesses, because graduation is a public event).
+
+### 5.4 Cutscene sub-spec
+
+**Pre-match cutscene (0:00–0:45):** establishing the
+graduation pavilion, the Celebration crowd, the two card
+tables set up on the platform. Kanshi Sha takes her seat
+first. The Engineer approaches. Kanshi Sha delivers her
+§2.4 pre-match line. The mask catches the warm-gold
+evening light and the half of her face it covers reads as a
+single white surface.
+
+**Turn-1 tutorial overlay:** 5-second pop-up explaining the
+face-up-hand mechanic. The tutorial is sticky — it remains
+visible for the first three turns in a corner of the UI.
+
+**Post-match cutscene — win (0:00–0:40):** Kanshi Sha
+lowers her mask. Under the mask is a child's face about to
+cry (§2.4 canonical post-match win). She does not cry; she
+holds the expression for three full seconds, then her
+composure returns. She stands, bows formally, hands the
+Engineer a small folded paper. The paper is blank on both
+sides (it is *The First Card* — see §5.5).
+
+**Post-match cutscene — loss (0:00–0:30):** Kanshi Sha
+raises her mask (§2.4 canonical post-match loss). The mask
+becomes fully opaque; the player does not see under it. She
+stands, bows, and walks from the pavilion without a word.
+Graduation proceeds without the Engineer on the stage.
+
+### 5.5 Card unlock integration — *The First Card*
+
+A3's canonical unlock is *The First Card* — an Epic Light
+card with **3 random effects on play**, canonically the
+*first blank card* the Engineer's deck ever contains. On
+win, the folded-paper handoff animation in the post-match
+cutscene is the in-fiction source of the card. On loss, the
+card still unlocks (canonical per the §1.1 master index) but
+the handoff cutscene is suppressed — the card simply appears
+in the player's deck between matches, with a note that
+Kanshi Sha "left something behind." The design intent:
+*The First Card* is a **gift**, not a reward for winning;
+Kanshi Sha gives it either way. The player may not
+consciously notice the difference until replay.
+
+### 5.6 VO sub-spec (ElevenLabs CSV rows)
+
+Voice profile: **`kanshi_sha_watcher`** (new; see §2.4 —
+calm, slightly-too-old child voice). Eight lines, canonical
+IDs `vo_a3_kanshi_*`:
+
+| ID | Line | Direction |
+|---|---|---|
+| `vo_a3_kanshi_prematch` | §2.4 pre-match line ("I have been watching…") | calm, factual, the "sixteen versions" count unemphasized |
+| `vo_a3_kanshi_turn1` | *"All three open. We can see each other now."* | informational |
+| `vo_a3_kanshi_turn5` | *"Your hand is open. Mine has always been."* | the canonical philosophy line |
+| `vo_a3_kanshi_turn8_blinded` | *"That was — unexpected. Good."* | the single warm beat |
+| `vo_a3_kanshi_turn12_win` | §2.4 post-match win beat | she does not cry; hold the line steady |
+| `vo_a3_kanshi_turn12_loss` | §2.4 post-match loss beat | the mask raises; voice is muffled under it |
+| `vo_a3_kanshi_ambient` | *"I am still watching."* (×3, idle loop) | unvaried tone |
+| `vo_a3_kanshi_slideshow_bridge` | *"You have graduated. The next place is bigger."* | post-match, leading into §6 *WTC* |
+
+### 5.7 VFX sub-spec
+
+- **Ocularum Trio deployment:** three bone-white mask
+  fragments materialize above Kanshi Sha's battlefield
+  slots on turn 1, each with a single slow blink (1.0s
+  open, 0.5s closed) before locking open. The masks remain
+  open for the entire match unless blinded (§5.7 below).
+- **Face-up reveal effect:** a soft white glow traces the
+  edges of each Engineer card as it is revealed. One card
+  per turn, starting turn 2, in the order the Engineer
+  drew them.
+- **Blind-window effect:** the canonical A3 counter — when
+  a reveal-on-proximity A1/A2 unit is deployed adjacent to
+  an Ocularum mask, the mask closes for one turn and a soft
+  warm-gold overlay lifts over the Engineer's hand,
+  restoring hidden play. The effect's 0.8s close-and-
+  overlay animation is the A3 signature VFX.
+- **Mask-lower / mask-raise (post-match):** the win/loss
+  mask animation is rendered in-cutscene rather than in-
+  match, but uses the same mask rig as the Ocularum Trio
+  for continuity.
+
+### 5.8 Slideshow trigger handoff to §6
+
+A3's canonical `postBattleSlideshow` flag is
+`"welcome-to-celebration"` per `apps/shared/act1Opponents.ts`.
+Production must ensure the slideshow fires **immediately** on
+post-match cutscene completion — win and loss both trigger
+the slideshow; it is the Cycle A finale regardless of match
+outcome. The match state that feeds the slideshow's
+optional-frame selection (see §6.3) is:
+
+| State | Slideshow branch |
+|---|---|
+| A3 win + apprentice alive | frames 1–8 all present; frame 4 emphasizes Mascoteer bonds |
+| A3 win + apprentice dead | frames 1–8 all present; frame 4 substituted with the Memory Card beat |
+| A3 loss + apprentice alive | frames 1–8 with frame 3 substituted with "the graduation the Engineer missed" |
+| A3 loss + apprentice dead | frames 1–8 with both frame 3 and frame 4 substituted |
+
+The four-way branching logic is spec'd in §6.3 and implemented
+in `apps/shared/songSlideshow.ts`.
+
+### 5.9 Celebration Trial modifier inputs (§19 handoff)
+
+| Mascoteer bond at Day 28 | Modifier |
+|---|---|
+| Cumulative Mascoteer bond ≥ 15 (across all 6) | Engineer starts with 1 Ocularum-blind charge pre-allocated |
+| Minnie bond ≥ 5 + Corey bond ≥ 5 | Engineer hand-draw is +1 card for the first 3 turns |
+| Cumulative bond ≤ 0 | Kanshi Sha's Ocularum Trio reveals 2 cards per turn instead of 1 (harder) |
+| Apprentice alive at Day 28 | Memory Card (§20) is reveal-immune — the Ocularum Trio cannot see it |
+
+---
+
