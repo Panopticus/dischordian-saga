@@ -14,6 +14,14 @@
      • High-bond Apprentices can be corrupted, betray, or turn
        on you Sith-style based on your morality + their archetype.
      • Mythic combinations exist. Most players will never roll one.
+
+   Canonical Act 1 integration — see docs/production/
+   ACT_1_SHIP_READY_BIBLE.md §20 (Apprentice permadeath +
+   Memory Card). Recruitment fires at the start of the Cycle A
+   28-day Celebration Trial; permadeath triggers at Day 28 if
+   any of the three traits (Resilience / Trust / Clarity) has
+   dropped to 0. Memory Card unlock on death is procedurally
+   named from the apprentice's generated name here.
    ═══════════════════════════════════════════════════════ */
 
 export type ApprenticeArchetype =

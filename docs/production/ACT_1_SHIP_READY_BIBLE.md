@@ -44,7 +44,7 @@ Act 1 scope:
 - **The Celebration Trial** — a 28-day Mascoteer decision loop that
   runs in parallel with Cycle A and writes buff/debuff state into the
   Cycle A card battles
-- **The Apprentice system** — the apprentice assigned in Prelude Beat D
+- **The Apprentice system** — the apprentice assigned in Cycle A recruitment beat
   lives or dies through Cycle A's 28 days; death yields a Memory Card
   for the player's deck
 - **The Act 1 finale interaction** — the "YOUR NAME" Unwritten card
@@ -257,7 +257,7 @@ her face-to-face for the first time.
 | — | Cycle C finale | after C4 | ***Last Words*** master slideshow (15 frames, ~3m 30s, +500 Light Energy galaxy-wide) | §17 of this doc (references existing `SHIP_READY_ASSET_BIBLE.md` §3.7 frame-by-frame spec) | — | — | **P0** |
 | — | Act 1 Finale | after *Last Words* | Return to the Ark Archives, player places first blank *"YOUR NAME — Unwritten"* Dischordia card on the pedestal | §18 of this doc | — | — | **P0** |
 | — | **Parallel:** Celebration Trial | 28-day Mascoteer decision loop (Days 1–28) | 6 Mascoteers (Minnie + 2 optional bonus forms) + daily events | §19 of this doc | Daily decisions feed buffs/debuffs into Cycle A battles | — | **P0** |
-| — | **Parallel:** Apprentice Permadeath | Days 1–28 of Celebration Trial | Apprentice assigned in Prelude Beat D | §20 of this doc | Lives or dies through Cycle A; death yields a Memory Card for the player's deck | *Memory Card* (procedurally-named Epic Light) | **P0** |
+| — | **Parallel:** Apprentice Permadeath | Days 1–28 of Celebration Trial | Apprentice assigned in Cycle A recruitment beat | §20 of this doc | Lives or dies through Cycle A; death yields a Memory Card for the player's deck | *Memory Card* (procedurally-named Epic Light) | **P0** |
 
 ### 1.2 Totals
 
@@ -5933,7 +5933,7 @@ Three canonical event types, distributed across the 28 days:
    Wildflower, the Carnival Barker — full profiles in
    `mascoteers.ts`).
 2. **Apprentice beats (~7 days):** interactions with the
-   player's apprentice (assigned in Prelude Beat D, see
+   player's apprentice (assigned in Cycle A recruitment beat, see
    §20 for the permadeath system). Each apprentice beat
    shifts one of the apprentice's trait values.
 3. **Trial events (~3 days):** scripted non-choice events
@@ -6038,17 +6038,18 @@ rest of the game.
 ### 20.1 Narrative purpose
 
 §20 is **the first permadeath system** in the game. The
-apprentice is a canonical character assigned in Prelude Beat D
-(per the Prelude Bible §3.4) and carries across into Act 1's
-Celebration Trial. Their survival depends on the player's
-Trial choices; their death is not scripted but emergent from
-trait drift. The tutorial lesson: "your choices affect
-someone else's existence."
+apprentice is generated at the start of Cycle A's 28-day
+Celebration Trial via the `generateApprentice()` call in
+`apps/shared/apprentices.ts` (per that file's canonical
+lifecycle: Recruit → Send to Celebration). Their survival
+depends on the player's Trial choices; their death is not
+scripted but emergent from trait drift. The tutorial lesson:
+"your choices affect someone else's existence."
 
 The Memory Card unlock on apprentice death is canonically
 framed not as a reward but as a **memorial**. The card is
 procedurally named using the apprentice's canonical name
-from Prelude Beat D, and its art is generated from the
+from Cycle A recruitment beat, and its art is generated from the
 apprentice's canonical portrait. Players who lose their
 apprentice do NOT receive extra content; they receive the
 same total Act 1 content, with the Memory Card substituted
@@ -6115,7 +6116,7 @@ card body:
   - Clarity → 0: *"They asked questions. The questions
     asked back."*
 - **Card art:** procedurally composited from the apprentice's
-  canonical portrait (from Prelude Beat D assignment) plus a
+  canonical portrait (from Cycle A recruitment beat assignment) plus a
   warm-gold memorial overlay.
 
 ### 20.5 UI sub-spec
@@ -6123,7 +6124,7 @@ card body:
 The apprentice UI is rendered in the top-right panel of the
 Celebration Trial UI (per §19.5). It shows:
 
-- Apprentice portrait (from Prelude Beat D)
+- Apprentice portrait (from Cycle A recruitment beat)
 - Name
 - Three trait bars (Resilience / Trust / Clarity), each
   rendered as a horizontal bar with current value 0–100 and
@@ -6169,7 +6170,7 @@ scope for this doc.
 ### 20.8 Implementation reference
 
 Canonical source: `apps/shared/apprentices.ts`. The file
-carries the apprentice roster (canonical Prelude Beat D
+carries the apprentice roster (canonical Cycle A recruitment beat
 options), trait ranges, permadeath logic, and Memory Card
 generation. Production should reference that file as the
 source of truth.
@@ -6504,13 +6505,19 @@ memory misattribution. Required correction in a separate
 DSFGL-maintenance PR — either rewrite the sentence to remove
 "Malkia" entirely or annotate as in-character misattribution.
 
-### 23.3 Apprentice Prelude Beat D canonical options
+### 23.3 Apprentice canonical recruitment location (resolved)
 
-The Prelude Bible §3.4 establishes the apprentice-assignment
-beat but does not enumerate the canonical apprentice roster.
-`apps/shared/apprentices.ts` (per §20.8) is the canonical
-source. A cross-reference between the two should be
-established in a separate Prelude-maintenance PR.
+Earlier drafts of this doc placed apprentice assignment in
+"Prelude Beat D." That was incorrect — the Prelude Bible's
+Beat D (§8) is the Cargo Bay / Trade Empire Seed + Locke
+Mission Board, not apprentice recruitment. The canonical
+source `apps/shared/apprentices.ts` places recruitment at
+the Cycle A Celebration Trial start (its header comment
+reads: "Recruit → Send to Celebration (4-week trial)"). This
+doc has been updated in-place to reference "the Cycle A
+recruitment beat" consistently, and the apprentices.ts
+header now cross-references §20 of this bible.
+**Resolved** — no further follow-up needed.
 
 ### 23.4 Celebration Trial non-boss Mascoteer voice profiles
 
@@ -6558,7 +6565,7 @@ Target: Act 3 authoring pass, separate PR.
 **8 canon-drift / follow-up items** identified:
 1. `act1Opponents.ts` rename + schema updates
 2. DSFGL Rev 6.2 line 5536 correction
-3. Apprentice Prelude Beat D cross-reference
+3. ~~Apprentice Cycle A recruitment beat cross-reference~~ (resolved inline — see §23.3)
 4. 3 non-boss Mascoteer voice profile authoring
 5. *The Last Word* fallback-trigger verification
 6. Trial-format engine subclass creation
