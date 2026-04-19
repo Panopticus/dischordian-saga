@@ -4834,3 +4834,139 @@ Full slideshow spec in §12.
 
 ---
 
+## Section 12 — *To Be the Human* (Cycle B finale slideshow)
+
+The second master slideshow. 10 frames, approximately 2:45
+total runtime, fires after §11 Cycle B5. Heavier than §6
+*Welcome to Celebration* — the Cycle B tonal register is
+significantly less warm, reflecting the Engineer's passage
+from schoolyard to academy to the edge of war.
+
+### 12.1 Narrative purpose
+
+*To Be the Human* is structured around the Engineer's
+observations of his Mechronis classmates — Iron Lion, Kael,
+Agent Zero, Young Eyes, and the young Human — as each of
+them becomes the canonical adult figure the Engineer will
+know for the rest of his life. The slideshow is not about
+graduation; it is about **identity formation**, framed from
+the Engineer's retrospective position. Each classmate is
+shown becoming themselves; the Engineer is the only figure
+in the sequence who is still *forming*. The slideshow's title
+carries the weight: *to be the Human* is what the young
+Human — the player's narrator-to-be — is in the process of
+becoming. The Engineer envies it.
+
+Narrator: the Engineer (Prince voice profile, §2.1, mature
+register). Approximately 18 sentences across 10 frames.
+Heavier narration than §6, because Cycle B's emotional
+density requires it.
+
+### 12.2 Frame-by-frame spec
+
+| # | Frame | Duration | Narration | Audio bed |
+|---|---|---|---|---|
+| 1 | Mechronis Academy at dawn — the institutional building, blue uniforms streaming in. | 15s | *"Kindergarten ends. They put us in blue."* | morning bell, distant footsteps |
+| 2 | Young Iron Lion at the academy gate, back to camera, on the day of his expulsion. | 20s | *"He left before he graduated. He was right to."* | wind, a single door closing |
+| 3 | Young Kael's card table — the tutoring session the Engineer canonically remembers. (Wanda absent from frame — canon hygiene per §0.4 rule 4.) | 22s | *"He taught me how to hold a card so it looked light in my hand."* | ambient classroom tone |
+| 4 | Young Agent Zero in the blue uniform, sitting alone at lunch, face partially obscured by hair curtain. | 18s | *"She sat alone on purpose. It took me three years to understand why."* | cafeteria hush |
+| 5 | Young Eyes's wrist, close-up, the Watcher sigil barely visible, with a book held above it. | 14s | *"She was never one of us. I did not notice."* | quiet page turning |
+| 6 | The young Human, seventeen, in the senior common room reading by firelight. | 20s | *"He read the rooms I was in. He never told me what he saw."* | fireplace crackle |
+| 7 | A wide shot of the academy's main hall, empty, long shadows from the late sun. | 16s | *"They trained us to win. None of us learned to stop playing."* | hall echo |
+| 8 | **(Branch frame per §11.8)** Win branch: the Engineer holding the compass the young Human gave him. Loss branch: the empty common room, the Engineer alone by the fire. | 20s | Win: *"He gave me a compass. I did not ask for directions."* Loss: *"I stayed too long. I learned what the room was."* | Win: soft warm tone. Loss: fireplace ash, single note. |
+| 9 | The Engineer walking out of Mechronis for the last time, uniform replaced with civilian dress, back to camera. | 22s | *"When I left I was supposed to be someone. I was still me."* | outdoor ambient, rising |
+| 10 | Distant shot — Mechronis fading behind as the Engineer walks toward the horizon. Warm gold shifts cooler toward evening. | 18s | *"To be the Human is the thing I did not become."* (pause) *"Someone else did."* | silence into distant thunder |
+
+**Total runtime:** 185 seconds (3:05 — slightly over target
+2:45, acceptable per §1.1 master index).
+
+### 12.3 Branch logic
+
+Four canonical branches (mirroring §6.3 structure):
+- **B5 win + all cycle-B matches won:** all frames as spec'd,
+  frame 8 uses win variant with compass.
+- **B5 win + any cycle-B match lost:** same as above; B1–B4
+  losses do not branch §12.
+- **B5 loss + all cycle-B matches won:** frame 8 uses loss
+  variant; narration for frame 9 subtly shifts to *"When I
+  left I did not know if I was someone."*
+- **B5 loss + any cycle-B match lost:** both frame 8 and
+  frame 9 use loss variants.
+
+Only B5's outcome drives meaningful §12 branching; B1–B4
+outcomes carry through the framework without altering the
+slideshow. This is canonical — the emotional pivot was B5.
+
+### 12.4 Art sub-spec
+
+10 frame stills at 1920×1080 / 16:9 / 4K. Palette shifts from
+§6's Celebration warm-gold toward Mechronis institutional
+blue-grey; retain the Act 1 Global Style Anchor (§0.3) warm-
+gold undertone as a memory-framing signal, but reduce
+saturation by approximately 15% relative to §6.
+
+Plus:
+- 1 compass close-up variant for frame 8 win branch
+- 1 empty-common-room variant for frame 8 loss branch
+- 1 narration-shifted frame 9 variant (same image, narration
+  swap only)
+
+Full prompts in §22.2.2.
+
+### 12.5 VO sub-spec
+
+Voice profile: `the_prince` (mature register, same as §6 but
+with a slightly heavier delivery — production note: the
+Engineer is older in this slideshow's implied recording
+date, reflecting his greater emotional distance from Cycle B
+relative to Cycle A). 18 canonical narration lines, IDs
+`vo_tbth_narration_1` through `vo_tbth_narration_10` with
+the frame-8 and frame-9 branch variants suffixed `_win` /
+`_loss` as needed. Full CSV rows deferred to the per-line
+sheet in `apps/client/src/lib/voCsv.ts`.
+
+### 12.6 Audio bed sub-spec
+
+Custom 3:05 composition by Cades. Tonal shift from §6:
+- Morning bell + institutional footsteps (frame 1)
+- Wind + single closing door (frame 2) — the Iron Lion beat
+- Classroom ambient + faint card-flip foley (frame 3)
+- Cafeteria hush (frame 4)
+- Library page-turn (frame 5)
+- Fireplace crackle (frames 6 and loss-branch 8)
+- Hall echo (frame 7)
+- Soft warm tone OR fireplace ash + single note (frame 8,
+  by branch)
+- Outdoor rising ambient (frame 9)
+- Silence into distant thunder (frame 10) — the canonical
+  bridge into Cycle C's tonal register
+
+The distant thunder on frame 10 is **load-bearing** — it is
+the audio prelude to Cycle C's war. Production must hold it.
+
+### 12.7 VFX sub-spec
+
+- **Frame 3 card-flip foley:** subtle — a single card motion
+  captured in audio with no on-screen animation. The player
+  hears the flip without seeing it. The absence is the point.
+- **Frame 5 Watcher sigil:** faint pale-blue glow on the
+  sigil (0.3Hz pulse, very low opacity). Production must
+  hold the glow subtle; the player may not notice on first
+  viewing.
+- **Frame 10 warm-to-cool transition:** the palette shifts
+  across the frame's 18 seconds from warm-gold (0–6s) to
+  cool-grey (12–18s). The shift is canonical; production
+  must hold the transition linear.
+
+### 12.8 Witnessing-layer integration
+
+On slideshow completion:
+- `act_1_cycle_b_complete` flag fires ("Mechronis Closes Its
+  Doors" Chronicle entry per `witnessingYearOne.ts`)
+- `to_be_the_human_seen` flag fires
+- Bond milestone check at threshold 60 ("Silence of Two
+  Witnesses") — if the bond has crossed 60 between §6 and
+  §12, the milestone fires on slideshow completion
+
+---
+
