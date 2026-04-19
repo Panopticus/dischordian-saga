@@ -4519,3 +4519,139 @@ producer can use to verify visual match.
 
 ---
 
+## Section 10 — Cycle B4 Battle Section (Young Eyes)
+
+The engineering spec for B4 — Mechronis Year 4, the Engineer's
+introduction to the Eyes of the Watcher's first synthetic
+infiltrator. Section 2.8 authored the character; this section
+specifies the *I Am the Eyes That Watch* card-peek mechanic and
+the Watcher cross-reference linkage.
+
+### 10.1 Narrative purpose
+
+B4 is the **first privacy-violation match** — the Engineer's
+entire hand becomes readable to Young Eyes from turn 1 to turn
+3. The tutorial lesson: some opponents play the version of
+your deck you are about to draw, not the cards already on the
+board. Young Eyes is NOT an Archon (per §2.0) — she is a
+synthetic infiltrator the Watcher created, and her deck
+reflects that: she plays *inevitability cards* that don't care
+what the Engineer does because she already knows what he
+intends.
+
+### 10.2 Per-turn flow (nominal 10-turn match)
+
+- **Turn 1:** Young Eyes plays *"I Am the Eyes That Watch"* —
+  a passive that reveals the top 3 cards of the Engineer's
+  draw pile to her for the next 3 turns.
+- **Turns 2–4 (precognitive phase):** every card the Engineer
+  is about to draw is visible to Young Eyes. She plays cards
+  specifically tuned to counter each upcoming draw.
+- **Turn 5 (the shuffle beat):** the Engineer's deck shuffles
+  automatically at turn 5 per Mechronis fourth-year protocol,
+  breaking Young Eyes's precognition. This is a mechanical
+  gift the engine gives the player; Young Eyes canonically
+  acknowledges it with a small beat.
+- **Turns 6–8:** with precognition broken, the match becomes a
+  standard duel. Young Eyes is weaker in standard play —
+  tutorial lesson "she is only strong because of her
+  information advantage."
+- **Turns 9–10:** lethal window. Engineer's optimal close.
+
+### 10.3 Art sub-spec
+
+**Opponent portrait:** seventeen-year-old Young Eyes per §2.8
+— slight frame, pale skin, dark hair, eyes that don't track
+the opponent's face but track the opponent's *deck*. Full
+prompt in §22.3.8.
+
+**Battlefield:** Mechronis Academy fourth-year advanced-theory
+room — darker than B1/B2/B3 classrooms, single desk lamp, the
+chalkboard shows algorithmic diagrams (intentionally
+unreadable). Shared composition with §7.3 but with the
+darker-lit variant established here.
+
+### 10.4 Cutscene sub-spec
+
+**Pre-match cutscene (0:00–0:25):** Young Eyes is already
+seated, reading a small book. She closes the book without
+marking her place. She looks at the Engineer's *deck* (not
+his face) and delivers her §2.8 pre-match line. Match begins.
+
+**Turn-5 shuffle beat (in-match cutscene, 0:00–0:08):** brief
+overlay as the Engineer's deck auto-shuffles. Young Eyes's
+eyes unfocus for a single second, then refocus on the deck.
+She does not speak. The beat is canonical — production must
+hold it.
+
+**Post-match cutscene — win (0:00–0:30):** §2.8 canonical win
+beat. Young Eyes stands, bows shallowly to the Engineer's
+deck (not to him), and leaves. The bow is to the *new*
+information, not to the opponent.
+
+**Post-match cutscene — loss (0:00–0:25):** §2.8 canonical
+loss beat. Young Eyes's board holds; the Engineer's
+precognitive information advantage is insufficient.
+
+### 10.5 VO sub-spec
+
+Voice profile: **`young_eyes`** (new — see §2.8: soft, precise,
+the Watcher's synthetic cadence with seventeen-year-old pitch).
+Seven lines, IDs `vo_b4_eyes_*`.
+
+| ID | Line | Direction |
+|---|---|---|
+| `vo_b4_eyes_prematch` | §2.8 pre-match line | soft, informational |
+| `vo_b4_eyes_turn1_passive` | *"I can see the next three. They are interesting."* | unemphasized |
+| `vo_b4_eyes_turn3_counter` | *"That one I have already prepared for. Sorry."* | genuinely apologetic |
+| `vo_b4_eyes_turn5_shuffle` | (silence — the canonical shuffle beat) | — |
+| `vo_b4_eyes_turn10_win` | §2.8 post-match win beat | — |
+| `vo_b4_eyes_turn10_loss` | §2.8 post-match loss beat | — |
+| `vo_b4_eyes_ambient` | *"Continuing to observe."* (×3) | unvaried |
+
+### 10.6 VFX sub-spec
+
+- **Precognition overlay (turns 1–4):** the top 3 cards of the
+  Engineer's draw pile show a faint pale-blue rim visible only
+  to the player (Young Eyes "seeing" them is represented via
+  this UI cue — she does not see a blue rim in-fiction, but
+  the player needs the signal to understand the mechanic).
+  The rim fades on the turn-5 shuffle beat.
+- **Shuffle-beat effect:** turn 5's auto-shuffle is rendered
+  as a 0.8s animation of the deck reordering itself, with a
+  single soft chime. The pale-blue rims on the top 3 cards
+  disappear during the shuffle.
+- **Inevitability-card deployment:** Young Eyes's counter
+  cards deploy with a specific 0.4s animation — the card
+  does not flip from back to face, it *fades in face-up*,
+  suggesting it was already there waiting.
+
+### 10.7 Watcher canon cross-reference
+
+Young Eyes is canonically the Watcher's first synthetic
+infiltrator (per DSFGL line 2447). B4 is the only Act 1
+surface where this canon is *shown* rather than referenced.
+Production must ensure:
+- Young Eyes's left wrist bears a faint circular mark (the
+  Watcher's sigil at small scale, approximately 1cm). Visible
+  in any close-up of her hands during card handling.
+- The sigil is identical in composition to Kanshi Sha's
+  Ocularum Trio masks from §5.3, intentionally — the visual
+  cross-reference plants that Kanshi Sha and Young Eyes share
+  an origin.
+- The sigil is the only Watcher reference in B4; do NOT
+  surface the full Eyes-of-the-Watcher canon here (that arc
+  opens in Act 3 §7).
+
+### 10.8 Cross-game beat hooks
+
+B4 fires `watcher_weather_suppression` emit on turn 5's
+shuffle beat (per `crossGameNarrativeThreads.ts`). Cades FPS
+reads `xgame_watcher_weather_suppression` and suppresses
+ambient weather effects in specific Cades FPS zones for the
+remainder of the player's current session — an integration
+signal that the Watcher's observational network has briefly
+faltered.
+
+---
+
