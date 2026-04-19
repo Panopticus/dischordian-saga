@@ -2728,3 +2728,184 @@ card's flavor text triggers a one-time custom dialog beat
 where Vex *recognizes the card* (per Act 3 §7.4 — out of scope
 for this section, flagged for cross-pull).
 
+**Post-match canonical beats** — note: C3's match resolution is
+**inverted** relative to §2.2–§2.11. The "loss" is the canonical
+outcome and is the only path the engine offers. The "win" is
+**structurally blocked** — the engine never lets the Engineer's
+deck refill, never lets the conscription mechanic invert, never
+exposes a victory state. Production must spec both branches
+because the engine's UI surfaces a placeholder for symmetry, but
+only the loss is reachable.
+
+- **Loss (canonical, the only outcome):** the Engineer's last
+  card leaves his hand. The board on his side is empty. Agent
+  Zero's side holds his entire conscripted former deck plus
+  her own. The swarm above her shoulders collapses inward in
+  the sub-second motion specified in **Strike** mode. The
+  granular hiss cuts to absolute silence for 1.2 seconds. The
+  Engineer reaches his right hand to the Resurrection
+  Protocols cube without looking at it — his eyes are on Agent
+  Zero's face — and presses the activation stud.
+
+  *(Camera holds on his hand on the device, his thumb on the
+  stud, for one full beat before the press.)*
+
+  The Engineer (Prince voice profile, §2.1, **without** the
+  habitual warmth — flat, decided, the voice of a man who has
+  finished his arithmetic):
+
+  > *"I'm sorry I'm late. I came as fast as I could."*
+
+  The line is canonically delivered to **Agent Zero**, not to
+  the swarm. Production must compose the shot so that his eyes
+  are locked on her left eye specifically — the eye with the
+  silver-mercury rim, the eye through which the swarm is
+  watching. He is not apologizing for being late to the
+  Vortex. He is apologizing for being late to her — for not
+  having understood, in the years between Mechronis and Zenon,
+  that his classmate had been carrying a weapon inside her the
+  whole time. The apology is real. It does not save her, but
+  it is the only one anyone will ever offer her for that
+  specific loss.
+
+  Agent Zero's last line (host channel, the warm degree at
+  full strength, fighting the suppression):
+
+  > *"It's — okay. I'll — meet you on the other — side."*
+
+  The hesitation pattern is canonical: three 300ms gaps where
+  the swarm pushes against the words and she pushes back. The
+  granular hiss is audible in each gap. She does not finish
+  the sentence cleanly; the swarm overrides on the word "side"
+  and the final consonant is replaced by a single brief chord
+  of swarm-voice. That chord is the **first time** in the
+  entire game that the two channels overlap. It is also the
+  **last time** the host channel is heard until Act 3.
+
+  The Engineer presses the stud. The Resurrection Protocols
+  device emits a single soft chime (no flash, no beam — the
+  transference is bandwidth, not light). The Engineer's body
+  exhales once and goes still. Agent Zero's body inhales sharp
+  and the swarm above her shoulders **dissipates** — not
+  collapses, *dissipates* — into a fine silver-grey haze that
+  drifts downward and integrates into her bloodstream over
+  the following three seconds. Her left eye's silver rim
+  fades. Both eyes refocus. She looks at the Engineer's body
+  across the table.
+
+  *(Camera pushes in slow on her face. The portrait label at
+  the top-right of the match UI resolves: AGENT ZERO →* ***VEX
+  SOLÈNE****. Hard cut, single frame, no fade.)*
+
+  She does not speak. She does not cry. She picks up the
+  Engineer's deck from the table — the original deck, her
+  conscripted board returns to it — and slides it into her
+  jacket. She picks up the Resurrection Protocols cube. She
+  picks up the steel water flask. She walks to the cargo bay
+  door, pauses, and looks back at the explosive charges on
+  the back wall. Their countdown LEDs read approximately 1:50.
+  She walks out. The door seals behind her.
+
+  *(Camera holds on the empty room for the remaining 1:50.
+  When the charges detonate, the player does not see it — the
+  cut to black happens at 0:01.)*
+
+  The Cycle C3 finale slideshow does **not** fire here. C3
+  ends on black. The next thing the player sees is the
+  matchup card for §2.13 Wayne Warden (Cycle C4 — the New
+  Babylon trial). The transition is intentionally abrupt: the
+  player should feel that *time skipped* between the bay
+  detonation and the trial, because canonically it did. Vex's
+  escape from the Vortex, her arrival at New Babylon, and the
+  Engineer's arrest are all off-screen events the trial will
+  reference but never depict. *Last Words* lands later, after
+  C4, as the master Cycle C slideshow.
+
+- **Win (structurally blocked, never reachable):** the engine
+  must enforce that the Engineer cannot win the C3 match. The
+  conscription mechanic shrinks the deck by exactly one card
+  per turn regardless of player action; the swarm's board
+  fills regardless of player action; no card the player has
+  earned in Cycles A or B can disrupt the conscription rule.
+  Production must verify this in QA: any combination of cards
+  the player attempts must converge on the canonical loss by
+  turn 12. The engine displays the standard "Concede" button
+  during the match, but **selecting Concede during C3 fires
+  the canonical loss beat exactly as if the player had played
+  through to turn 12** (no early-quit penalty, no missed card
+  unlock — *The Friend I Saved* still drops, the post-match
+  beat still plays). The intent is to respect players who
+  recognize the forced-loss design and want to honor it
+  without grinding through 12 turns of pre-determined tempo
+  collapse. Either path resolves to the same canonical
+  outcome.
+
+  If a future engine bug allows the Engineer to actually win
+  the C3 match, that is a **canon bug** of the highest
+  severity. Production should treat the structural block as
+  load-bearing: every other Act 1 system reads C3 as having
+  resolved with the Engineer's death. A "win" state has no
+  defined narrative consequence and would corrupt every
+  downstream beat from C4 onward. QA must flag any path that
+  exposes a victory condition.
+
+**Cross-references:**
+
+- §0.4 rule 3 (Vex Solène / Agent Zero name discipline — the
+  hard-cut portrait resolve at C3's final turn is the
+  canonical handoff between the two names)
+- §0.4 rule 4 (Warlord-as-swarm canon — C2 hides the swarm,
+  C3 reveals it; this section is the unlock point for the
+  swarm visual vocabulary)
+- §1.1 (Master Index entry for C3 — MANDATORY FORCED LOSS,
+  tempo-decay + self-sacrifice deck theme, *The Friend I
+  Saved* unlock)
+- §2.0 (simulation framing — the swarm is "rendered as card-
+  game mechanics" rather than as a character in child form;
+  §2.12 is the explicit instantiation of that rule)
+- §2.1 (The Prince — the Engineer's voice profile, his
+  rolled-cuff fidget, his canonical loadout including the
+  steel water flask)
+- §2.7 (Young Agent Zero at Mechronis — the §2.12 host body
+  continuity anchor; her hair-curtain habit, her flat hands,
+  her single warm degree, her ElevenLabs profile)
+- §2.11 (Wanda Wyrlord — the cool-blue specular highlight in
+  the swarm visualization is an intentional rhyme with
+  Wanda's optic-rings; do not let production strip it)
+- §15 (Cycle C3 battle section — full per-turn breakdown of
+  the tempo-decay countdown, the per-turn animation cues for
+  Agent Zero's left-eye progression, the audio mix for the
+  granular hiss / specular pulse / device blink synchronization)
+- §17 (Cycle C finale slideshow *Last Words* — fires after
+  §2.13 Wayne Warden's C4 match, not after C3; production
+  must NOT cut to *Last Words* at the end of C3)
+- §22.3 (Asset Delivery Checklist — *The Friend I Saved*
+  card art prompt, the swarm environmental phenomenon prompts,
+  Agent Zero's field-deployment loadout reference sheet)
+- §23.1 (Canon drift — `apps/shared/act1Opponents.ts` slot 11
+  is currently `the_programmer`; per the §1.1 master index
+  the C3 opponent is `warlord_nano_swarm` with host
+  `agent_zero`. The data shell needs a follow-up code PR to
+  rename and add the host-reference field.)
+- `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §1.2 (Vex Solène
+  identity chain — the four-stage reveal cadence; C3 is
+  where Reveal 0 lands implicitly through the portrait
+  resolve, even though Vex herself doesn't surface as a
+  speaking character until Act 3)
+- `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §1.3 item 5 (the
+  canonical transference description — the Engineer's mind
+  into the swarm, the discovery of Agent Zero's surviving
+  remnant, the bandwidth sacrifice; §2.12's Loss beat is the
+  in-game rendering of this canonical event)
+- `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §1.6 (the Warlord
+  retcon — weaponized nanobot swarm, no organic body, no
+  human name, the Architect's persistence experiment
+  framing; §2.12 is the visual/audio realization of the
+  retcon)
+- `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5 (the Vortex bay,
+  the Resurrection Protocols cube, the four-minute air
+  budget, the seven-minute charge timer, the Engineer's
+  recorded final monologue; production must hold all five
+  details exactly as canon specifies them)
+
+---
