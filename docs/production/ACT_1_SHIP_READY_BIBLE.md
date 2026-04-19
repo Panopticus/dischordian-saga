@@ -5246,3 +5246,165 @@ not trigger in Act 1.
 
 ---
 
+## Section 15 — Cycle C3 Battle Section (Warlord's Nano-Swarm)
+
+The engineering spec for C3 — the mandatory forced loss, the
+canonical transference, the portrait resolve to Vex Solène.
+Section 2.12 authored the character, visual surfaces, and
+voice channels; this section specifies the per-turn tempo-
+decay countdown, the per-turn animation cues for the host
+body's silver progression, and the audio-mix synchronization.
+
+### 15.1 Narrative purpose
+
+C3 is the canonical inflection point of Act 1 (per §2.12
+opening). The engineering responsibility for C3 is to make
+the forced loss **feel inevitable without feeling broken**.
+Production must resist any impulse to let the player think
+they can win; the match is designed so that every choice
+converges on the canonical resolution.
+
+### 15.2 Per-turn tempo-decay countdown
+
+The canonical 12-turn match, with explicit per-turn state:
+
+| Turn | Engineer deck | Agent Zero board | Left-eye state | Swarm visibility | Device LED |
+|---|---:|---:|---|---|---|
+| 0 (pre) | 30 cards | 0 units | brown | faint silver haze | off |
+| 1 | 29 | 1 (conscripted) | brown | haze | armed, 0.5Hz |
+| 2 | 27 | 3 | brown | haze thickening | 0.5Hz |
+| 3 | 24 | 6 | brown | silver-liquid cloud | 0.5Hz |
+| 4 | 20 | 10 | brown | cloud | 0.5Hz |
+| 5 | 15 | 15 | brown | cloud, internal currents | 0.5Hz |
+| 6 | 10 | 20 | brown | cloud, streamers | 0.5Hz |
+| 7 | 6 | 24 | single silver pinpoint | cloud, dispersal to host | 0.5Hz |
+| 8 | 3 | 27 | pinpoint brighter | cloud integrating into host | 0.5Hz |
+| 9 | 1 | 29 | pinpoint widens | cloud armored around host | 0.5Hz |
+| 10 | 0 | 30 | iris rimmed silver | maximum density | 0.5Hz |
+| 11 (final) | — | 30 | full silver rim | collapses inward (Strike) | silent |
+
+The Engineer's hand count is not tracked in the table because
+the shrinking is automatic — the player does not actively
+lose cards to Agent Zero; cards are moved at the end of
+each of the Engineer's turns by the engine. The player's
+choice space is **which cards to play before the engine
+takes the rest**.
+
+### 15.3 Dignity-condition scoring
+
+The "Cards played as yourself: N / 12" score from §2.12 deck
+theme. Canonical accumulation rule:
+
+- Every card the Engineer plays on their own turn increments
+  N by 1.
+- Cards conscripted by the shrink mechanic do NOT increment
+  N (the swarm chose them).
+- Effects that cause replays or multi-plays count only once
+  per physical play action.
+- Maximum possible N = 12 (player plays exactly one card
+  per turn for 12 turns, all before the engine shrinks).
+- Minimum possible N = 0 (player plays no cards; engine
+  shrinks everything).
+
+The N-value is displayed in the post-match summary screen
+only. It is NOT displayed in-match; the player discovers it
+after the fact. This is canonical — the dignity condition is
+private until the match is over.
+
+### 15.4 Audio-mix synchronization
+
+Three audio layers must run in exact synchronization through
+the full match, per §2.12's canonical pulse-timing rules:
+
+1. **Swarm granular hiss** — constant 2.5kHz band, amplitude
+   modulated at 4Hz tied to Agent Zero's heart rate (canonical
+   72bpm = 1.2Hz; production rounds up to 4Hz pulse for
+   specular-highlight sync, matching the described §2.12
+   rhythm). Amplitude ramps from -24dB (turn 1) to -9dB (turn
+   11).
+2. **Swarm specular-highlight flicker** — visual cue at 4Hz
+   pulse (see §15.2 swarm visibility progression). Must be
+   frame-locked with the granular hiss amplitude peaks.
+3. **Resurrection Protocols device blink** — 0.5Hz LED blink
+   on the cube beside the Engineer's playing hand. Every
+   **other** swarm-pulse peak (8Hz / 2) syncs with a device
+   blink. Missing sync is a canonical bug.
+
+On the final turn (turn 11, Strike mode collapse), all three
+layers cut to absolute silence for exactly 1.2 seconds
+before the post-match audio resumes. This is the single
+loudest silence in Act 1 and production must hold it exactly.
+
+### 15.5 Per-turn animation cues (host body)
+
+From §2.12's "per-turn animation cue" anchor:
+
+| Turn | Left-eye pinpoint | Silver capillary undertone | Hand-play timing |
+|---|---|---|---|
+| 1–6 | absent | absent | synced (hand up = card down) |
+| 7 | single silver pinpoint at pupil center, ~5% iris area | faint on wrist capillaries only | half-beat lag introduced (hand moves 0.2s after card) |
+| 8 | 10% iris area | wrist + jaw capillaries | half-beat lag held |
+| 9 | 15% iris area | wrist + jaw + temple | half-beat lag deepening (0.3s) |
+| 10 | 25% iris area | all locations, readable on close-up | half-beat lag at 0.4s |
+| 11 | full iris rimmed silver | maximum visibility, receding on Strike | lag collapses (Strike is synced to the instant) |
+
+Production must hold the progression **strictly linear** —
+no dramatic spikes, no retreats, no inconsistencies between
+frames. The player's understanding of the match depends on
+the progression feeling inevitable.
+
+### 15.6 Cutscene sub-spec
+
+**Pre-match cutscene (0:00–1:00):** the longest pre-match
+cutscene in Act 1. Establishing the Vortex pressurized bay
+(per §2.12), the Engineer entering with the Resurrection
+Protocols device already in his coat pocket, setting it on
+the table, arming it (the single 0.5Hz blink begins). Agent
+Zero is seated opposite — already. She does not look up
+until the Engineer sits. §2.12 pre-match host-channel line,
+then swarm-channel line. The six explosive charges on the
+back wall visible in the wide establishing shot.
+
+**Final-turn transference cutscene (0:00–1:30):** the
+canonical §2.12 post-match loss beat, rendered as a single
+continuous cinematic. The Engineer's apology, Agent Zero's
+fragmented final line with the first canonical channel
+overlap, the device press, the transference chime, the
+silver-haze dissipation, the portrait resolve, her exit. No
+dialog variant; this cutscene is the only canonical C3
+resolution.
+
+**Post-match cutscene (0:00–0:15):** hold on the empty
+room. The explosives' countdown LEDs visible, ticking down.
+Cut to black at 0:01 on the explosive timer.
+
+### 15.7 VO sub-spec
+
+Full dialog authored in §2.12; this section specifies only
+the CSV row IDs:
+
+| ID | Source |
+|---|---|
+| `vo_c3_agent_zero_prematch` | §2.12 host-channel pre-match line |
+| `vo_c3_warlord_prematch` | §2.12 swarm-channel pre-match line |
+| `vo_c3_engineer_apology` | §2.12 post-match Engineer line |
+| `vo_c3_agent_zero_final` | §2.12 post-match host final line (three 300ms gap hesitations, overlap chord on final syllable) |
+| `vo_c3_ambient_hiss` | continuous-loop hiss bed, 12-minute length |
+
+### 15.8 Concede-equivalent canonical resolution
+
+Per §2.12: the Concede button fires the canonical loss beat
+exactly as if the player had played through to turn 11. No
+early-quit penalty; *The Friend I Saved* unlocks regardless;
+the post-match N-score is set to the player's actual cards-
+played count up to the Concede moment (which may be 0 if
+Concede is pressed before any play).
+
+Engineering must implement the Concede path as a direct
+fast-forward to the final-turn cutscene — not as a shortcut
+that skips VFX, but as the full transference cinematic played
+immediately with the appropriate N-score in the post-match
+summary.
+
+---
+
