@@ -81,7 +81,7 @@ const THE_DETECTIVE_IN_THE_WALL: Act6OpponentDialog = {
   opponentMidMatchEarly:
     "Coat off. This is the hand I used to play at Mechronis. Don't get used to it. I don't.",
   opponentMidMatchMid:
-    "I just laughed on purpose. First time in a very long century. Thank you. Keep playing.",
+    "That was a laugh on purpose. First in a long century. Thank you. Keep playing.",
   opponentMidMatchLate:
     "The role is standing by the door. It will be back in my voice next turn. Finish the match before it arrives.",
   elaraPostMatchWin:

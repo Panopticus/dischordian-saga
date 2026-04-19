@@ -112,7 +112,7 @@ const ELARA_BETRAYED: Act4OpponentDialog = {
   opponentMidMatchEarly:
     "You let me love you for six rooms. You let me wake you up. You let me hand you a staff. Play.",
   opponentMidMatchMid:
-    "That card was a lie in the shape of a card. I know because I taught you how to hold it. Play another.",
+    "That card was a lie in the shape of a card. I taught you how to hold it. Play another.",
   opponentMidMatchLate:
     "The lights on the Ark are flickering. That's me. I am asking them to stop. They are not listening. Neither am I.",
   elaraPostMatchWin:
