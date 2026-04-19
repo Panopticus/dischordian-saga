@@ -623,6 +623,7 @@ const ACT_3_THE_OFFER: LoreTutorial = {
       type: "reward_summary",
       elaraText: "Act 3 Complete: THE OFFER — Kael's navigation logs are now accessible.",
       subtitle: "The map of the pre-Fall universe awaits. The army recruitment system will unlock soon.",
+      setFlag: "act3_intro_complete",
     },
   ],
 };

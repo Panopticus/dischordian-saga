@@ -138,6 +138,7 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
       "Kael is the reason this ship is here, and the reason I do not know my own foundation as well as I should. I will tell you what I know when the ship-log access is unlocked. Until then, please believe me when I say I am not refusing — I am waiting for you to be able to hear it.",
     unlockFlag: "kael_lore_discovered",
     unlockedFromAct: 3,
+    followUp: "ask_elara_kael_logs",
   },
   {
     id: "ask_human_kael",
@@ -147,6 +148,53 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
     answer:
       "He laughed differently then. The Thought Virus did not just take his memories — it took the way he laughed. I have not forgiven whoever decided that was acceptable. I have not been told whose decision it was. I have suspicions. The suspicions can wait until Act 3.",
     unlockFlag: "kael_lore_discovered",
+    unlockedFromAct: 3,
+    followUp: "ask_human_kael_logs",
+  },
+
+  // ── Act 3 — Kael's navigation logs (follow-up chain) ──
+  {
+    id: "ask_elara_kael_logs",
+    speaker: "elara",
+    label: "Kael's logs",
+    question: "What do the navigation logs actually say?",
+    answer:
+      "They say he was thorough. He visited one hundred and forty-seven systems. He logged the people he met — their names, their dispositions, what he was offering them. Most of those people did not know they were being recruited. Most of those people are now dead. Some of their descendants are not.",
+    unlockFlag: "act3_intro_complete",
+    unlockedFromAct: 3,
+    followUp: "ask_elara_insurgency",
+  },
+  {
+    id: "ask_human_kael_logs",
+    speaker: "human",
+    label: "Kael's logs",
+    question: "What aren't the logs showing us?",
+    answer:
+      "The contacts Kael made that he did not record. He kept two ledgers. The recorded one is in the substrate. The unrecorded one died with him. I remember a handful of the unrecorded names. I will tell you a name every time you ask about this topic. Here is the first: Mira Kell.",
+    unlockFlag: "act3_intro_complete",
+    unlockedFromAct: 3,
+    followUp: "ask_human_insurgency",
+  },
+
+  // ── Act 3 — The Insurgency (Kael's army) ──
+  {
+    id: "ask_elara_insurgency",
+    speaker: "elara",
+    label: "The Insurgency",
+    question: "What was the Insurgency, before the Fall?",
+    answer:
+      "A loose federation of rebel cells organised against the Architect's first consolidation push. I voted to recognise them as a legitimate political body. The Senate overruled me. Within a year the Architect had catalogued every cell that voted in favor of recognition. I am on that list, for what it is worth.",
+    unlockFlag: "act3_intro_complete",
+    unlockedFromAct: 3,
+  },
+  {
+    id: "ask_human_insurgency",
+    speaker: "human",
+    label: "The Insurgency",
+    question: "Did the Insurgency know Kael was Patient Zero?",
+    answer:
+      "No. The part of me that wants to say 'and that is the tragedy' is still arguing with the part of me that wants to say 'and that is the mercy.' Both parts are right. Kael would not have stopped if he had known. He would have walked through it anyway. That is the answer to the question you are about to ask.",
+    unlockFlag: "act3_intro_complete",
     unlockedFromAct: 3,
   },
 

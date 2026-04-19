@@ -49,6 +49,43 @@ describe("companionAskTopics", () => {
     expect(act3Ids).toContain("ask_elara_kael");
   });
 
+  it("unlocks Act 3 follow-up topics once act3_intro_complete is set", () => {
+    const flagsPreAct3 = new Set<string>([
+      "act1_intro_complete",
+      "kael_lore_discovered",
+    ]);
+    const preAct3Ids = getAvailableAskTopics("elara", flagsPreAct3, 3).map((t) => t.id);
+    expect(preAct3Ids).toContain("ask_elara_kael");
+    expect(preAct3Ids).not.toContain("ask_elara_kael_logs");
+    expect(preAct3Ids).not.toContain("ask_elara_insurgency");
+    expect(preAct3Ids).not.toContain("ask_elara_warlord");
+
+    const flagsPostAct3 = new Set<string>([
+      "act1_intro_complete",
+      "kael_lore_discovered",
+      "act3_intro_complete",
+    ]);
+    const postAct3Elara = getAvailableAskTopics("elara", flagsPostAct3, 3).map((t) => t.id);
+    const postAct3Human = getAvailableAskTopics("human", flagsPostAct3, 3).map((t) => t.id);
+    expect(postAct3Elara).toContain("ask_elara_kael_logs");
+    expect(postAct3Elara).toContain("ask_elara_insurgency");
+    expect(postAct3Elara).toContain("ask_elara_warlord");
+    expect(postAct3Human).toContain("ask_human_kael_logs");
+    expect(postAct3Human).toContain("ask_human_insurgency");
+  });
+
+  it("links Kael → Kael's logs → Insurgency as a follow-up chain", () => {
+    const kaelElara = getAskTopic("ask_elara_kael")!;
+    const kaelLogsElara = getAskTopic(kaelElara.followUp!)!;
+    expect(kaelLogsElara.id).toBe("ask_elara_kael_logs");
+    expect(kaelLogsElara.followUp).toBe("ask_elara_insurgency");
+
+    const kaelHuman = getAskTopic("ask_human_kael")!;
+    const kaelLogsHuman = getAskTopic(kaelHuman.followUp!)!;
+    expect(kaelLogsHuman.id).toBe("ask_human_kael_logs");
+    expect(kaelLogsHuman.followUp).toBe("ask_human_insurgency");
+  });
+
   it("getAskTopic resolves by id and returns undefined for unknown ids", () => {
     expect(getAskTopic("ask_elara_substrate")?.label).toBe("The substrate");
     expect(getAskTopic("does_not_exist")).toBeUndefined();

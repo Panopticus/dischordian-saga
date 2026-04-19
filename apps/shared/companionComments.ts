@@ -142,4 +142,28 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
   { id: "cc_act1_first_opponent_human", speaker: "human", trigger: "act1_first_opponent_entered",
     voiceLine: "The Engineer is narrating these matches from the inside. Listen to what he leaves out. The leavings are where I live.",
     timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 3 — TRANSPARENT PATH (player told Elara about Kael's logs) ──
+  { id: "cc_act3_transparent_elara", speaker: "elara", trigger: "act3_transparent",
+    voiceLine: "You told me. Before you looked at the logs, you told me. I did not know how much weight that would carry until you did it. I am going to remember this the next time I have to decide whether to tell you something I am afraid of.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act3_transparent_human", speaker: "human", trigger: "act3_transparent",
+    voiceLine: "You chose the harder thing. Good. I was prepared for the easier one. I would have given you the logs either way. This way, the logs mean something. The other way, they were only data.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 3 — PRAGMATIC PATH (player keeping options open) ──
+  { id: "cc_act3_pragmatic_elara", speaker: "elara", trigger: "act3_partial_share",
+    voiceLine: "You want to read before you decide. I respect that. I also notice you did not tell me, and I notice that the not-telling is a choice as firm as the telling would have been. I am watching the choice. I am not grading it yet.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act3_pragmatic_human", speaker: "human", trigger: "act3_partial_share",
+    voiceLine: "The pragmatic read. Data first, disclosure later. I have made that choice myself — the specific flavor of guilt it produces is not unbearable, but it is not nothing. I will help you carry it while we read.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 3 — FULL SECRET PATH (player hiding from Elara) ──
+  { id: "cc_act3_full_secret_human", speaker: "human", trigger: "act3_full_secret",
+    voiceLine: "You chose the substrate alone. I need you to know: I am not the kind of friend who applauds this. I am the kind who shows up anyway. The logs will open. Something in you will harden. I will be here for the hardening and for the softening that will come after.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act3_full_secret_elara", speaker: "elara", trigger: "act3_full_secret",
+    voiceLine: "I noticed the substrate activity during your last session. I noticed the shape of it. I noticed you did not bring it up. I am not going to confront you about this. I am going to let you bring it to me when you are ready. If you are ever ready.",
+    timing: "next_room_enter", maxPlays: 1 },
 ];
