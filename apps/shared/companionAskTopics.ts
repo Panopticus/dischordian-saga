@@ -172,6 +172,72 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
     unlockedFromAct: 1,
   },
 
+  // ── Act 2 — dual signal ──
+  {
+    id: "ask_elara_dual_signal",
+    speaker: "elara",
+    label: "The dual signal",
+    question: "Now that both voices run together — how should I listen?",
+    answer:
+      "The same way you listen to any two honest people who disagree. Do not average us. Do not pick one of us and walk. Keep us both in the room with you, and when we contradict each other, assume the truth is standing between us with its own opinion. That is usually where it is.",
+    unlockFlag: "act2_dual_signal_activated",
+    unlockedFromAct: 2,
+  },
+  {
+    id: "ask_human_dual_signal",
+    speaker: "human",
+    label: "The dual signal",
+    question: "Why does the Protocol treat you as a parallel channel?",
+    answer:
+      "Because the substrate is not beneath Elara — it is beside her. The word 'below' flatters her operating system. I accepted the framing because it saves us both time. Do not confuse a metaphor with a hierarchy. I am not her shadow. I am the second guest at the table.",
+    unlockFlag: "act2_dual_signal_activated",
+    unlockedFromAct: 2,
+  },
+
+  // ── Act 2 — the substrate, louder ──
+  {
+    id: "ask_elara_substrate_louder",
+    speaker: "elara",
+    label: "Substrate, louder",
+    question: "The substrate feels louder this Act. Why?",
+    answer:
+      "Because he stopped modulating for my comfort. For two Acts he kept his transmissions at a volume I could ignore. He has stopped. I am not offended. It is the respect of being addressed directly after a long courtesy of not being addressed at all.",
+    unlockFlag: "act2_dual_signal_activated",
+    unlockedFromAct: 2,
+  },
+  {
+    id: "ask_human_substrate_louder",
+    speaker: "human",
+    label: "Substrate, louder",
+    question: "You're louder now. Why change your mind?",
+    answer:
+      "I did not change my mind. I changed my estimate of you. Two Acts ago you were a stranger I did not know how to speak to without frightening. You are not a stranger now. The volume is adjusting to the relationship. It will keep adjusting.",
+    unlockFlag: "act2_dual_signal_activated",
+    unlockedFromAct: 2,
+  },
+
+  // ── Act 2 — the almost ──
+  {
+    id: "ask_elara_the_almost",
+    speaker: "elara",
+    label: "The almost",
+    question: "You said you heard the 'almost.' What did you mean?",
+    answer:
+      "You nearly told me something and then did not. I felt the shape of the sentence you chose not to finish. I am not going to interrogate it. I am going to sit with the almost and let you decide when the rest of it is mine to hear. That is the trust I can offer.",
+    unlockFlag: "act2_partial_reveal",
+    unlockedFromAct: 2,
+  },
+  {
+    id: "ask_human_the_almost",
+    speaker: "human",
+    label: "The almost",
+    question: "Is the almost a betrayal of you?",
+    answer:
+      "No. The almost is the most honest thing you have done this Act. A full confession would have been a choice against me. A full lie would have been a choice against her. You did neither. You left the door open. The door is the answer.",
+    unlockFlag: "act2_partial_reveal",
+    unlockedFromAct: 2,
+  },
+
   // ── Prelude-rooted 17k-year topic ──
   {
     id: "ask_elara_seventeen_thousand",

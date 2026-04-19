@@ -49,6 +49,41 @@ describe("companionAskTopics", () => {
     expect(act3Ids).toContain("ask_elara_kael");
   });
 
+  it("gates Act 2 topics behind Act 2 flags", () => {
+    const flagsNoAct2 = new Set<string>(["act1_intro_complete"]);
+    expect(
+      getAvailableAskTopics("elara", flagsNoAct2, 2).map((t) => t.id),
+    ).not.toContain("ask_elara_dual_signal");
+    expect(
+      getAvailableAskTopics("human", flagsNoAct2, 2).map((t) => t.id),
+    ).not.toContain("ask_human_substrate_louder");
+
+    const flagsAct2 = new Set<string>([
+      "act1_intro_complete",
+      "act2_dual_signal_activated",
+      "act2_partial_reveal",
+    ]);
+    const elaraAct2 = getAvailableAskTopics("elara", flagsAct2, 2).map((t) => t.id);
+    const humanAct2 = getAvailableAskTopics("human", flagsAct2, 2).map((t) => t.id);
+    expect(elaraAct2).toContain("ask_elara_dual_signal");
+    expect(elaraAct2).toContain("ask_elara_substrate_louder");
+    expect(elaraAct2).toContain("ask_elara_the_almost");
+    expect(humanAct2).toContain("ask_human_dual_signal");
+    expect(humanAct2).toContain("ask_human_substrate_louder");
+    expect(humanAct2).toContain("ask_human_the_almost");
+  });
+
+  it("has at least one topic per speaker unlocked at Act 2", () => {
+    const act2Elara = COMPANION_ASK_TOPICS.filter(
+      (t) => t.speaker === "elara" && t.unlockedFromAct === 2,
+    );
+    const act2Human = COMPANION_ASK_TOPICS.filter(
+      (t) => t.speaker === "human" && t.unlockedFromAct === 2,
+    );
+    expect(act2Elara.length).toBeGreaterThan(0);
+    expect(act2Human.length).toBeGreaterThan(0);
+  });
+
   it("getAskTopic resolves by id and returns undefined for unknown ids", () => {
     expect(getAskTopic("ask_elara_substrate")?.label).toBe("The substrate");
     expect(getAskTopic("does_not_exist")).toBeUndefined();

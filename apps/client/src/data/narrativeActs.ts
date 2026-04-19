@@ -496,12 +496,14 @@ const ACT_2_THE_WHISPER: LoreTutorial = {
       elaraText: "[DUAL SIGNAL PROTOCOL ACTIVATED]\n[ELARA // SHIP AI — PRIMARY CHANNEL]\n[// SIGNAL INTERCEPT — SUBSTRATE LAYER]\n\nFrom this point forward, both voices will accompany you through every game mode. Elara guides from above. The Human whispers from below.",
       subtitle: "The angel and the demon take their positions.",
       autoAdvanceMs: 5000,
+      setFlag: "act2_dual_signal_activated",
     },
     {
       id: "act2-reward",
       type: "reward_summary",
       elaraText: "Act 2 Complete: THE WHISPER — The dual voice dynamic is now active across all game modes.",
       subtitle: "Every game you play will now feature commentary from both Elara and The Human.",
+      setFlag: "act2_complete",
     },
   ],
 };

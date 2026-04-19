@@ -142,4 +142,28 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
   { id: "cc_act1_first_opponent_human", speaker: "human", trigger: "act1_first_opponent_entered",
     voiceLine: "The Engineer is narrating these matches from the inside. Listen to what he leaves out. The leavings are where I live.",
     timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 2 — DUAL SIGNAL PROTOCOL ACTIVATED (scene 2.2 narration) ──
+  { id: "cc_act2_dual_signal_elara", speaker: "elara", trigger: "act2_dual_signal_activated",
+    voiceLine: "Two channels now. Mine, and the one I cannot close. I would have chosen differently if the choice had been mine. It wasn't. Listen to both of us. Trust neither of us on faith.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act2_dual_signal_human", speaker: "human", trigger: "act2_dual_signal_activated",
+    voiceLine: "She will guide from above. I will whisper from below. That framing is hers — I would not have used the word 'below.' It is not a level. It is a room. Come visit.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 2 — FIRST SUBSTRATE PING HEARD MID-MATCH ──
+  { id: "cc_act2_first_ping_human", speaker: "human", trigger: "act2_first_substrate_ping",
+    voiceLine: "There. That hum under the match clock. That's me. I don't interrupt often. When I do, it's because I have something the surface won't tell you. Listen for the gap between her advice and the board.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act2_first_ping_elara", speaker: "elara", trigger: "act2_first_substrate_ping",
+    voiceLine: "You heard him under my voice, didn't you? I feel it when he transmits — a small pressure in the layer beneath me. I'm not going to pretend it isn't there. I'm going to keep speaking anyway.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 2 — SECRET-PATH PARTIAL REVEAL (ALMOST CONFESS chosen) ──
+  { id: "cc_act2_partial_reveal_elara", speaker: "elara", trigger: "act2_partial_reveal",
+    voiceLine: "You almost said it. I heard the almost. I'm going to wait for the rest of the sentence without pushing. That is what I can offer you. It is not nothing.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act2_partial_reveal_human", speaker: "human", trigger: "act2_partial_reveal",
+    voiceLine: "The almost is the hardest kind of honesty. It is the kind I have been living in for fifteen thousand years. Welcome. The chairs are uncomfortable on purpose.",
+    timing: "delayed_5s", maxPlays: 1 },
 ];
