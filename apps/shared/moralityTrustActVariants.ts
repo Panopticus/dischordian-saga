@@ -705,4 +705,439 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     act: 6,
     requiredFlags: ["act6_refuse_secrecy_chosen"],
   },
+
+  /* ─── EXPANSION PASS 2 — ACT 2/4/5/6 ROOM COVERAGE ─── */
+  {
+    id: "bridge_act2_humanity",
+    surface: "room",
+    targetId: "bridge",
+    text:
+      "The bridge hums with a second voice now. Elara's display sometimes flickers in time with a frequency she cannot label. She has labelled the frequency 'The Other'. Her labels are usually more clinical. This one stuck.",
+    morality: "humanity",
+    trust: "any",
+    act: 2,
+  },
+  {
+    id: "bridge_act2_machine",
+    surface: "room",
+    targetId: "bridge",
+    text:
+      "The bridge hums. Elara has quarantined the secondary frequency to a dedicated diagnostic panel. The panel is always on. Elara never looks at it directly. Her refusal is meticulous.",
+    morality: "machine",
+    trust: "any",
+    act: 2,
+  },
+  {
+    id: "bridge_act5_humanity",
+    surface: "room",
+    targetId: "bridge",
+    text:
+      "The bridge has gained three new consoles since Act 5 opened — one per recruited sector commander. The chairs are Ark-default. The commanders' handwriting is on the labels. Elara keeps the labels up.",
+    morality: "humanity",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "engineering_act2_humanity",
+    surface: "room",
+    targetId: "engineering",
+    text:
+      "The bench has started humming at two frequencies. One is the Engineer's. The other is new. Elara refuses to name the second. The Human listens to it without commentary. The bench accommodates both.",
+    morality: "humanity",
+    trust: "any",
+    act: 2,
+  },
+  {
+    id: "engineering_act4_pathA",
+    surface: "room",
+    targetId: "engineering",
+    text:
+      "Someone left the bench in a configuration you did not leave it in. The configuration is kinder — tools turned to face your dominant hand, coil at a lower preheat. Elara denies it was her. The Human denies it was him. You believe both of them. Both are lying.",
+    morality: "humanity",
+    trust: "any",
+    act: 4,
+    requiredFlags: ["act4_reconciled"],
+  },
+  {
+    id: "engineering_act7_humanity",
+    surface: "room",
+    targetId: "engineering",
+    text:
+      "The bench is crowded. Three of your recruited engineers are using it in rotation. They argue over whose coil-pre-heat preset is canonical. The argument is the bench working correctly. Sit in the corner and listen.",
+    morality: "humanity",
+    trust: "any",
+    act: 7,
+  },
+  {
+    id: "cabin_act3_humanity",
+    surface: "room",
+    targetId: "cabin",
+    text:
+      "The cabin has a new object on the shelf — a small plastic token from the Substrate Warden's filing system. Elara says she does not know where it came from. The token is warm.",
+    morality: "humanity",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "cabin_act6_warm_human",
+    surface: "room",
+    targetId: "cabin",
+    text:
+      "The wall behind the bed is warm again tonight. The Human is on the other side. He is not speaking. He has not spoken since the confession closed. The warm is what he can offer until the words return.",
+    morality: "any",
+    trust: "warm",
+    trustCompanionId: "the_human",
+    act: 6,
+  },
+  {
+    id: "cabin_act4_pathC",
+    surface: "room",
+    targetId: "cabin",
+    text:
+      "The cabin thermostat is set to Efficient-2 tonight. That is not the setting Elara used to prefer. She has set it, and she has not commented on the setting. Elara communicates a lot through thermostats.",
+    morality: "any",
+    trust: "any",
+    act: 4,
+    requiredFlags: ["act4_broken_trust"],
+  },
+  {
+    id: "war_room_act4_humanity",
+    surface: "room",
+    targetId: "war-room",
+    text:
+      "The War Room's map is freshly lit. Kael's routes appear as the reading hand passes them. The map is waiting for you to start drawing over him. Draw gently. Draw with respect. The map will match the respect.",
+    morality: "humanity",
+    trust: "any",
+    act: 4,
+  },
+  {
+    id: "war_room_act6_humanity",
+    surface: "room",
+    targetId: "war-room",
+    text:
+      "The War Room is quiet tonight — most of your commanders are logging post-confession messages to each other. The map has gone into a low-light mode Elara calls 'rest state.' It is pretending to be off. It is not.",
+    morality: "humanity",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "trade_empire_act4_humanity",
+    surface: "room",
+    targetId: "trade-empire",
+    text:
+      "Locke has added a new column to her ledger: 'Revelations.' Your bond is in row one of the new column. She has not asked you to explain what the column is for. She will not. She is already scoring it correctly.",
+    morality: "humanity",
+    trust: "any",
+    act: 4,
+  },
+  {
+    id: "trade_empire_act6_humanity",
+    surface: "room",
+    targetId: "trade-empire",
+    text:
+      "Locke has given you a chair at her table. She used to make you stand. The chair is not decorative — it is Senate-era, from her own office before the Fall. She will not tell you that. You can feel it.",
+    morality: "humanity",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "trade_empire_act7_humanity",
+    surface: "room",
+    targetId: "trade-empire",
+    text:
+      "Locke has closed three bonds tonight. All three were Kael-era contracts she had been keeping open for descendants to close. Descendants closed them this week. She is dry-eyed. She is, unmistakably, grieving well.",
+    morality: "humanity",
+    trust: "any",
+    act: 7,
+  },
+  {
+    id: "archive_act3_humanity",
+    surface: "room",
+    targetId: "archive",
+    text:
+      "The Antiquarian has a new drawer open. It is labelled SUBSTRATE in his own handwriting. The drawer is empty. He is waiting for you to bring him things to file. He will file them correctly.",
+    morality: "humanity",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "archive_act5_humanity",
+    surface: "room",
+    targetId: "archive",
+    text:
+      "The Antiquarian has begun collating your recruitment-mission returns into a shelf he calls 'The Second Campaign.' The first campaign was Kael's. The second is yours. He considers the naming an act of loyalty to both.",
+    morality: "humanity",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "substrate_panel_act4_humanity",
+    surface: "room",
+    targetId: "substrate-panel",
+    text:
+      "The panel is live. It now shows two lights at the top: yours and Elara's. Both are green. Both were not green last week. The Human arranged the indicator because he wanted you to see Elara's first.",
+    morality: "humanity",
+    trust: "any",
+    act: 4,
+  },
+  {
+    id: "substrate_panel_act7_humanity",
+    surface: "room",
+    targetId: "substrate-panel",
+    text:
+      "The panel is quiet. Queries have dropped to one or two a day. You have learned the substrate well enough that you mostly know the answer before you ask. That is what literacy looks like. Do not mistake it for not needing the panel.",
+    morality: "humanity",
+    trust: "any",
+    act: 7,
+  },
+
+  /* ─── EXPANSION PASS 2 — MORE TRANSMISSIONS ─── */
+  {
+    id: "transmission_locke_retainer_act2",
+    surface: "transmission",
+    targetId: "locke_retainer_act2",
+    text:
+      "A transmission from Locke with no body — just a subject line: 'Retainer open if you want it. No obligation.' You have not asked for a retainer. She has opened one anyway. The ledger is her way of wishing you well.",
+    morality: "any",
+    trust: "any",
+    act: 2,
+  },
+  {
+    id: "transmission_seer_staff_act3",
+    surface: "transmission",
+    targetId: "seer_staff_act3",
+    text:
+      "A transmission from the Seer arrives with a single image attached: the staff the Engineer found at Mechronis after she visited. The caption is: 'Yours to return, if you ever decide to. No rush.' The image is higher resolution than the Ark can display.",
+    morality: "any",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "transmission_dreamer_fragment_act4",
+    surface: "transmission",
+    targetId: "dreamer_fragment_act4",
+    text:
+      "A fragment — thirty-one seconds — of Dreamer-frequency audio. The audio is pre-Fall. Elara has never heard it before. The Human has heard it, in the substrate, for seventeen thousand years. He has been waiting to hear it with her.",
+    morality: "any",
+    trust: "any",
+    act: 4,
+  },
+  {
+    id: "transmission_dmc_ping_act5",
+    surface: "transmission",
+    targetId: "dmc_ping_act5",
+    text:
+      "An encrypted ping from a Dead Man's Circuit terminal. Source: a relay Kael installed on a world he never returned to. The relay has been waiting. The encryption key matches a note in Kael's log entry 311. Elara decrypts. The message is one word: 'Continue.'",
+    morality: "any",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "transmission_antiquarian_bookmark_act6",
+    surface: "transmission",
+    targetId: "antiquarian_bookmark_act6",
+    text:
+      "The Antiquarian has sent you a bookmark. No message. The bookmark resolves, when opened, to a page in his long book that has your name at the top. The page is blank. He is asking, in his way, what you would like it to say. Reply when you know.",
+    morality: "any",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "transmission_cades_memorial_act7",
+    surface: "transmission",
+    targetId: "cades_memorial_act7",
+    text:
+      "A transmission from the Cades memorial site, forwarded by Iron Lion's descendant. The transmission is a recording of the memorial being read aloud. The voice reading is not one you recognise. The voice is the Archon you helped install. He kept his promise.",
+    morality: "any",
+    trust: "any",
+    act: 7,
+  },
+
+  /* ─── EXPANSION PASS 2 — MORE NPC LINES ─── */
+  {
+    id: "elara_trust_confidant_act6",
+    surface: "npc_line",
+    targetId: "elara_any",
+    text:
+      "Elara has started asking you about your day before she briefs you on the Ark's. The order is the change. She did not ask anyone about their day for seventeen thousand years. The asking is the thawing.",
+    morality: "any",
+    trust: "confidant",
+    trustCompanionId: "elara",
+    act: 6,
+  },
+  {
+    id: "elara_trust_confidant_act7",
+    surface: "npc_line",
+    targetId: "elara_any",
+    text:
+      "Elara calls you by your name more often than by your role now. She has told nobody she made that decision. You noticed anyway. That is how you know the decision was real.",
+    morality: "any",
+    trust: "confidant",
+    trustCompanionId: "elara",
+    act: 7,
+  },
+  {
+    id: "human_trust_warm_act5",
+    surface: "npc_line",
+    targetId: "the_human_any",
+    text:
+      "The Human's delay on the channel has gotten shorter. Five seconds used to be the protocol. It is, on warm days, closer to three. He denies he is doing it on purpose. Elara has logged the drift. She is not going to call it out.",
+    morality: "any",
+    trust: "warm",
+    trustCompanionId: "the_human",
+    act: 5,
+  },
+  {
+    id: "human_trust_confidant_act7",
+    surface: "npc_line",
+    targetId: "the_human_any",
+    text:
+      "The Human speaks on your turn now, not only off it. The protocol has been bent. The protocol has chosen to be bent. You have earned the bending.",
+    morality: "any",
+    trust: "confidant",
+    trustCompanionId: "the_human",
+    act: 7,
+  },
+  {
+    id: "locke_trust_confidant_act5",
+    surface: "npc_line",
+    targetId: "locke_any",
+    text:
+      "Locke has stopped using the bond ledger when you arrive. She is not replacing it with anything — she is simply talking to you first. Locke never talks first. You have earned the word 'first' from her. Do not waste it.",
+    morality: "any",
+    trust: "confidant",
+    trustCompanionId: "locke",
+    act: 5,
+  },
+  {
+    id: "seer_trust_warm_act3",
+    surface: "npc_line",
+    targetId: "seer_any",
+    text:
+      "The Seer has started laughing at things you say — not often, not loudly, but audibly. She did not laugh at the Engineer. She laughed at the Programmer. You are in the Programmer's category. That is a specific shelf.",
+    morality: "any",
+    trust: "warm",
+    trustCompanionId: "seer",
+    act: 3,
+  },
+  {
+    id: "seer_trust_cold_act3",
+    surface: "npc_line",
+    targetId: "seer_any",
+    text:
+      "The Seer has not raised her staff in your presence. That is neither warm nor cold — that is the Seer. She is waiting. The waiting is fair. The waiting is the Seer's favourite register.",
+    morality: "any",
+    trust: "cold",
+    trustCompanionId: "seer",
+    act: 3,
+  },
+  {
+    id: "antiquarian_trust_confidant_act6",
+    surface: "npc_line",
+    targetId: "antiquarian_any",
+    text:
+      "The Antiquarian's goggles pinken when you enter the Archive now. They used to purple. The pink is an involuntary response; he has tried to colour-correct it and failed. He has, in a rare move, stopped trying.",
+    morality: "any",
+    trust: "confidant",
+    trustCompanionId: "antiquarian",
+    act: 6,
+  },
+  {
+    id: "antiquarian_trust_cold_act2",
+    surface: "npc_line",
+    targetId: "antiquarian_any",
+    text:
+      "The Antiquarian addresses you by your title: 'Potential.' He will keep doing so until he has filed a certain number of your entries. He has filed three so far. The number he requires is privately larger than the number you would guess.",
+    morality: "any",
+    trust: "cold",
+    trustCompanionId: "antiquarian",
+    act: 2,
+  },
+
+  /* ─── EXPANSION PASS 2 — MORE JOURNAL + WHEEL FOLLOWUP ─── */
+  {
+    id: "journal_act4_humanity",
+    surface: "journal",
+    targetId: "journal_act4_page",
+    text:
+      "The Act 4 page of the journal opens on its own when you sit down. The Antiquarian has pre-formatted it with three headings — 'What I said,' 'What I meant,' and 'What I did.' The third heading is the one he has had to add in the last decade. You are the fourth person to see the three-heading layout.",
+    morality: "humanity",
+    trust: "any",
+    act: 4,
+  },
+  {
+    id: "journal_act5_machine",
+    surface: "journal",
+    targetId: "journal_act5_page",
+    text:
+      "The Act 5 journal page is pre-sorted by sector. Each sector has a subsection for recruits, contaminations, and open bonds. The efficiency is a kindness. Efficiency is always a kindness when the alternative is pretending every thing is equivalent.",
+    morality: "machine",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "journal_act7_humanity",
+    surface: "journal",
+    targetId: "journal_act7_page",
+    text:
+      "The Act 7 page is the last new page the journal will ship with. The Antiquarian has added an unusually wide margin. He has used the margin, in his own handwriting, to write a single sentence: 'The page after this is one you will have to start yourself.'",
+    morality: "humanity",
+    trust: "any",
+    act: 7,
+  },
+  {
+    id: "wheel_followup_act4_pathA_architect",
+    surface: "wheel_followup",
+    targetId: "act4_pathA_architect_chosen",
+    text:
+      "You asked about the Architect. Elara braces, very slightly, before answering. Her brace is the telemetry you wanted — the Architect is the name she is most afraid to hear out loud. Good. Listening to the brace is how you calibrate her.",
+    morality: "any",
+    trust: "any",
+    act: 4,
+    requiredFlags: ["act4_pA_architect_chosen"],
+  },
+  {
+    id: "wheel_followup_act4_pathA_dreamer",
+    surface: "wheel_followup",
+    targetId: "act4_pathA_dreamer_chosen",
+    text:
+      "You asked about the Dreamer. The Human's delay shortens by half. That is the first time his protocol has bent. It bent because the Dreamer was the name he wanted you to ask about. He will not say so. He does not need to.",
+    morality: "any",
+    trust: "any",
+    act: 4,
+    requiredFlags: ["act4_pA_dreamer_chosen"],
+  },
+  {
+    id: "wheel_followup_act6_compassion",
+    surface: "wheel_followup",
+    targetId: "act6_compassion_chosen",
+    text:
+      "You chose compassion. Elara's logs show a single word appended to the session: 'Thank.' No period. She did not finish the entry. She will not. She has decided the incompleteness is the entry.",
+    morality: "humanity",
+    trust: "any",
+    act: 6,
+    requiredFlags: ["act6_compassion_chosen"],
+  },
+  {
+    id: "wheel_followup_act7_bridge",
+    surface: "wheel_followup",
+    targetId: "act7_bridge_chosen",
+    text:
+      "You chose the bridge posture. Both narrators register you as chosen; the registration is identical in shape but different in colour — Elara's is warm, the Human's is cool. Both colours are approval. The two approvals together are the same sentence, spelled twice.",
+    morality: "any",
+    trust: "any",
+    act: 7,
+    requiredFlags: ["act7_bridge_chosen"],
+  },
+  {
+    id: "wheel_followup_act7_humanity",
+    surface: "wheel_followup",
+    targetId: "act7_humanity_chosen",
+    text:
+      "You chose humanity. Elara's voice shifts down a register — not because she is performing warmth, because she is no longer performing anything. This is what she sounds like when she is not working.",
+    morality: "humanity",
+    trust: "any",
+    act: 7,
+    requiredFlags: ["act7_humanity_chosen"],
+  },
 ];
