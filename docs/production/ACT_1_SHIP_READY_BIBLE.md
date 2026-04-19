@@ -4309,3 +4309,96 @@ greeting NPC in its Act 1 content if the flag is set.
 
 ---
 
+## Section 8 — Cycle B2 Battle Section (Young Recruiter / Kael)
+
+The engineering spec for B2 — Mechronis Year 2, the year Kael
+joined Iron Lion's nascent Insurgency cell inside the academy.
+Section 2.6 authored the character; this section specifies the
+*Insurgency* swarm-buff mechanic and the canonical "tutoring
+table" flashback cue.
+
+### 8.1 Narrative purpose
+
+B2 is the **first charismatic opponent** in Act 1. Iron Lion in
+B1 was guarded; Kael in B2 is the opposite — warm, engaging,
+makes the Engineer laugh twice during the match. The tutorial
+lesson: some opponents win by making you *like* them. Kael's
+deck is a **swarm** — many small cheap units — but each unit
+carries an Insurgency buff that compounds when several are on
+the board simultaneously. The player who overvalues individual
+trades loses.
+
+### 8.2 Per-turn flow (nominal 11-turn match)
+
+- **Turn 1:** Kael deploys three 1-cost *Recruits* in a single
+  play (the *Insurgency Call* action). None of them are a
+  threat individually.
+- **Turns 2–6:** Kael adds 2–3 Recruits per turn. Each new
+  Recruit buffs all existing Recruits by +1/+0. By turn 6 the
+  swarm is 14 units at cumulative +6/+0.
+- **Turns 7–9:** the swarm attacks en masse. Engineer must have
+  built board-clear infrastructure by turn 6 or the swarm
+  overruns.
+- **Turns 10–11:** canonical close. Kael's hand is empty by
+  turn 10; turn 11 is the lethal window either direction.
+
+### 8.3 Art sub-spec
+
+**Opponent portrait:** seventeen-year-old Kael — warm expression,
+genuine smile, Mechronis blue uniform with a small braided
+bracelet visible on the left wrist (canonical Kael tell per
+§2.6). Full prompt in §22.3.6.
+
+**Battlefield:** same Mechronis classroom as B1, different
+chalkboard content (second-year civics visible). Shared
+composition with §7.3; re-use the battlefield asset.
+
+### 8.4 Cutscene sub-spec
+
+**Pre-match cutscene (0:00–0:25):** Kael greets the Engineer
+warmly — a small wordless beat where they exchange a nod that
+reads as *old habit*. The tutoring-table flashback cue is
+seeded here: a 2-second dissolve to a younger Kael, younger
+Engineer, and a blurred third figure (Wanda, unnamed) at a
+palace card table years earlier. The flashback is held just
+long enough to register and dissolves back to B2.
+
+### 8.5 VO sub-spec
+
+Voice profile: **`young_kael`** (new — see §2.6: warm, engaging,
+slightly older-sounding than his age; no warmth ever directed
+at the cards, only at the player). Seven lines:
+
+| ID | Line | Direction |
+|---|---|---|
+| `vo_b2_kael_prematch` | §2.6 pre-match line | warm, inviting |
+| `vo_b2_kael_turn1_swarm` | *"They're all friends. Say hi."* | playful, sincere |
+| `vo_b2_kael_turn6_buff` | *"Now they're all friends with each other. That's how it works."* | the canonical philosophy line |
+| `vo_b2_kael_turn9_attack` | *"Go on. Go."* | quiet, to the Recruits |
+| `vo_b2_kael_turn11_win` | §2.6 post-match win beat | gentle |
+| `vo_b2_kael_turn11_loss` | §2.6 post-match loss beat | proud, not defeated |
+| `vo_b2_kael_ambient` | *"Keep going. You're doing fine."* (×3) | encouraging |
+
+### 8.6 VFX sub-spec
+
+- **Insurgency Call deployment:** three Recruit units appear
+  in soft-warm-gold bloom (the Insurgency yellow, matching
+  Wanda's jacket in §2.11 — intentional cross-reference).
+- **Swarm buff aura:** each new Recruit emits a thin
+  connective line to all existing Recruits, forming a visible
+  web. The web thickens as the swarm grows. By turn 6 it is
+  a dense yellow net across Kael's board.
+- **Tutoring-flashback cue (pre-match):** 2-second warm-sepia
+  dissolve with a faint child's laugh in the audio. Hold the
+  flashback subtle; the player should register it as "a
+  memory Kael has" without being told whose.
+
+### 8.7 Cross-game beat hooks
+
+B2 fires `kael_descendant_greeting` emit on the pre-match
+handshake (per `crossGameNarrativeThreads.ts`). Cades FPS
+reads `xgame_kael_descendant_greeted` and surfaces a Kael-
+descendant NPC in its mid-game content.
+
+---
+
