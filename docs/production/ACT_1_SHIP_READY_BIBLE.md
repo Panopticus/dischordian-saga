@@ -3744,3 +3744,122 @@ carries the 28-day decision tree that surfaces the bond values.
 
 ---
 
+## Section 4 — Cycle A2 Battle Section (Corey the Collector)
+
+The engineering spec for A2. Section 2.3 authored the character;
+this section specifies the match — per-turn shape, deck list
+summary, the "Choose Your Mask" memory-card sacrifice mechanic,
+Celebration-Trial modifier inputs.
+
+### 4.1 Narrative purpose
+
+A2 is the first **emotional-cost** match in Act 1. Where A1
+taught board-control, A2 teaches **what the player is willing
+to give up to win**. Corey's deck runs the *Choose Your Mask*
+mechanic — each turn Corey plays, the Engineer must sacrifice
+a card from their own hand *face-down* into Corey's jar. The
+sacrificed cards are not destroyed; Corey collects them. The
+Engineer can refuse the sacrifice, but doing so costs board
+tempo. The tutorial lesson: **some opponents win by making you
+choose, not by outplaying you**.
+
+### 4.2 Per-turn flow (nominal 10-turn match)
+
+- **Turn 1 (Engineer opens):** standard deployment.
+- **Turns 2–4 (Corey escalates collection):** Corey plays three
+  low-cost units in sequence, each tagged with *Choose Your
+  Mask*. Each trigger forces a sacrifice choice from the
+  Engineer's hand. Production must render each sacrifice as a
+  distinct card-into-jar animation (see §4.6 VFX).
+- **Turns 5–7 (Engineer pushes):** Engineer deploys from the
+  remainder of their hand. The jar is now visibly heavier on
+  Corey's side.
+- **Turns 8–9 (Corey opens the jar):** Corey plays *"Your
+  Memories, Now Mine"* — a unit that takes the top card from
+  his jar and deploys it on his side as his own unit. The
+  cards the Engineer sacrificed now attack the Engineer.
+- **Turn 10 (canonical resolution):** if the Engineer has held
+  back a high-value card from sacrifice, lethal is
+  achievable. If the Engineer sacrificed wastefully, the
+  match goes to Corey.
+
+### 4.3 Art sub-spec
+
+**Opponent portrait:** seven-year-old Corey in three-quarter
+profile, holding an amber glass jar in both hands. The jar
+contains what look like small translucent coins with faint
+internal imagery. Corey's expression is *grateful* — he is
+thanking the Engineer for playing. Full prompt in §22.3.3.
+
+**Battlefield:** same Celebration schoolyard as A1 (shared
+battlefield), but afternoon light has shifted to 4:30 PM
+(warmer, lower angle, longer shadows). The parade banners in
+the background show different colors than A1 — Day 20 is a
+different Celebration Trial phase. Full prompt in §22.1.1.
+
+### 4.4 Cutscene sub-spec
+
+**Pre-match cutscene (0:00–0:30):** 10-second beat of Corey
+setting up his jar on the corner of the card table, 10-second
+beat of him arranging his deck, 10-second beat of him looking
+up and delivering the §2.3 pre-match line. The jar catches
+the light deliberately in frame.
+
+**Turn-2 tutorial overlay:** 4-second pop-up explaining
+*Choose Your Mask* — the player selects a card from their
+hand to sacrifice. Tutorial-suppressed after first trigger.
+
+**Post-match cutscene — win (0:00–0:30):** Corey's jar cracks.
+He picks up the pieces carefully. §2.3 post-match win beat.
+The jar pieces glow faintly gold before going dark.
+
+**Post-match cutscene — loss (0:00–0:20):** Corey's jar grows
+by exactly one coin — a new translucent coin with a faint
+image of the Engineer's own face on its face. §2.3 post-match
+loss beat. The jar is heavier, and Corey is pleased.
+
+### 4.5 VO sub-spec (ElevenLabs CSV rows)
+
+Voice profile: **`corey_collector`** (new; see §2.3). Seven
+lines, canonical IDs `vo_a2_corey_*`:
+
+| ID | Line | Direction |
+|---|---|---|
+| `vo_a2_corey_prematch` | §2.3 pre-match line | gentle, patient, the currency line |
+| `vo_a2_corey_turn2_first` | *"Give me one. Just one. Any one you like."* | encouraging, soft |
+| `vo_a2_corey_turn5_jar` | *"The jar is heavy now. Thank you."* | grateful, not smug |
+| `vo_a2_corey_turn8_return` | *"Oh — here comes one back. Do you remember it?"* | almost sad |
+| `vo_a2_corey_turn10_win` | §2.3 post-match win beat | quiet, a promise kept |
+| `vo_a2_corey_turn10_loss` | §2.3 post-match loss beat | soft, contented |
+| `vo_a2_corey_ambient` | *"Thank you for playing."* (×4, idle loop) | unvaried tone |
+
+### 4.6 VFX sub-spec
+
+- **Jar-sacrifice animation:** 1.2s card-into-jar motion on
+  every *Choose Your Mask* trigger — the sacrificed card
+  lifts from the Engineer's hand, shrinks to coin-size,
+  drops into the jar. The coin's face briefly shows the
+  original card's art before settling face-up at the jar's
+  floor.
+- **Jar-fill lighting:** the jar's interior light intensifies
+  with each coin added. By turn 7, the jar casts a warm amber
+  glow onto Corey's hands. Production must hold the light
+  consistent across the match.
+- **"Your Memories, Now Mine" deployment effect:** when Corey
+  returns a sacrificed card as his own unit, the card emerges
+  from the jar with a brief 0.6s amber halo and the
+  deployment position is rimmed in warm gold for the
+  remainder of the match. This is the player's visual signal
+  that the returned unit is specifically *theirs*.
+
+### 4.7 Celebration Trial modifier inputs (§19 handoff)
+
+| Mascoteer bond at Day 20 | Modifier |
+|---|---|
+| Corey bond ≥ 3 | Corey offers the Engineer a "first taste" — Engineer may pre-select one card as permanently jar-immune for the match |
+| Corey bond ≤ −2 | Corey triggers *Choose Your Mask* twice on turn 1 (harder opening) |
+| Apprentice still alive at Day 20 | Engineer's Memory Card (§20) is jar-immune by default |
+| Minnie bond ≥ 5 from A1 | Engineer starts with +1 card (carry-forward from A1 mod) |
+
+---
+
