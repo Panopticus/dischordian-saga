@@ -5532,9 +5532,10 @@ a card table.
 > **The Engineer** (`engineer_beat_e_reveal`):
 > *"I taught both of them. That's the thing I've never said to
 > anyone, not even Elara, not even at the Tribunal. Kael and
-> the Warlord — she wasn't called the Warlord yet, her name
-> was Malkia — they grew up in the same palace, on the same
-> rug, playing the same games. I taught them the same rules.
+> the Warlord — and I did not know what she was in those
+> years; I taught her as a child at the same table — they grew
+> up in the same palace, on the same rug, playing the same
+> games. I taught them the same rules.
 > They chose different meanings for the rules. That's what the
 > Dischordia deck is, Potential: the same rules, read two
 > different ways. One reading saves worlds. The other burns
