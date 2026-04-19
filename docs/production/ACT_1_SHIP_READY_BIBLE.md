@@ -3006,4 +3006,105 @@ player can see it.
    Production must render him at an age that lets him plausibly
    age into the Act 6 / Act 7 frames without recasting.
 
----
+**Canonical visual — Wayne Warden** (INFERRED, anchored to §2
+user canon "Wayne Warden" + §2.0 "adult tribunal figure, old
+enough to sit the bench"):
+
+Wayne Warden is the only Act 1 antagonist the production must
+render as **categorically older than the player's avatar**. The
+visual brief is *a man who has spent forty years deciding that
+the institution is correct, and has stopped noticing the cost*.
+He is not cruel. He is not corrupt in the cinematic sense. He
+is something more difficult to play against: a competent
+technician of judgment who genuinely believes the verdict the
+Authority has assigned him to deliver. Production must resist
+the easy read of "evil judge." Wayne Warden is more dangerous
+than that — he is a *good* judge, by the only definition his
+institution recognizes.
+
+- **Age:** sixty-three. Hair gone iron-grey at the temples,
+  kept short, neatly groomed. Forehead high, lined; the lines
+  are concentration lines, not anger lines. He has not laughed
+  often in the last decade and the absence shows in the
+  resting position of his mouth.
+- **Build:** medium height, slightly stooped at the shoulders
+  from forty years on the bench. He has the body of a person
+  whose work is done seated. Not soft — the daily Authority
+  ceremonial requires standing, walking the floor, handling
+  ritual implements — but not athletic. Production should
+  render him as believably *tired* without being frail.
+- **Skin:** pale, slightly papery, with the particular waxy
+  sheen of a person who has worked indoors under
+  Authority-spec lighting (warm yellow, low-CRI, designed to
+  flatter robes and flatten skin) for most of his adult life.
+  Faint liver-spots on the backs of the hands. A small
+  shaving nick on the left jaw, two days old, healing. Wayne
+  cuts himself shaving slightly more often than he used to.
+  Production may render this consistently across his Act 1 /
+  Act 6 / Act 7 appearances as a longitudinal continuity
+  detail — the nick varies but is always somewhere on his face.
+- **Eyes:** pale grey-blue (`#9aa6b1` reference). The single
+  most important visual property of Wayne Warden's face: his
+  eyes **track the cards, not the defendant**. In every
+  composition production must verify that his gaze is locked
+  on the Engineer's deck or on the playing surface — never on
+  the Engineer's face. He looks at the Engineer exactly twice
+  in the entire C4 match: once when reading the charges (the
+  pre-match line), once when delivering the verdict (the
+  post-match beat). Both glances are brief and clinical.
+  Outside those two beats, the Engineer is processed by
+  Wayne's peripheral vision as evidence among other evidence.
+  This is the cruelty the player should *feel* without being
+  told: Wayne is not refusing to look at the Engineer because
+  he hates him. He is refusing to look at the Engineer because
+  the Engineer is a case file, not a man.
+- **Authority robes (canonical, fully prescribed by Authority
+  protocol):**
+  - **Outer robe:** deep burgundy (`#6b1d2c` reference),
+    floor-length, heavy wool with a faint vertical weave. Not
+    velvet — the Authority's robes are deliberately
+    *non-decorative*, signaling that judgment is administrative
+    work rather than theater. The collar is high, structured,
+    standing approximately 4cm from the neck.
+  - **Beneath:** a black undertunic, plain, full-length
+    sleeves, no embellishment.
+  - **The Authority sigil:** a single small silver pin worn
+    on the left breast of the outer robe — a stylized scale
+    motif, approximately 2cm tall. The pin is the *only*
+    metallic element in his entire wardrobe. Production must
+    render it with a faint specular highlight in every shot;
+    the player's eye should land on the pin first when Wayne
+    is on screen.
+  - **Sleeves:** long, falling to the wrist. Wayne keeps his
+    hands inside the sleeves except when handling Tribunal
+    implements (the gavel, the verdict scroll, the evidence
+    cards). The hands appearing from the sleeves is a visual
+    cue production should hold deliberately — the hands are
+    out only when the Authority is *acting*.
+  - **Headgear:** a flat black biretta-style cap, four-cornered,
+    worn squarely. He removes it once during the trial — at
+    the verdict — and sets it on the bench in front of him.
+    The removed cap is the player's visual cue that the
+    verdict has been decided.
+- **Hands:** long-fingered, well-kept, with a single thin
+  silver band on the left ring finger. Canon: he is widowed.
+  His wife was a fellow Authority public servant who died on
+  Atarion in the same incident that ended Elara's career
+  there (foreshadow — the connection is not explained in Act
+  1; it surfaces in Act 6 §6.2 where Wayne's grief is the
+  hinge of the Confession arc). Production must render the
+  ring visible in any close-up of his hands during card
+  handling. The Engineer does not know the ring's significance.
+  The player will not know either, until later.
+- **Posture and motion:** seated centrally on a raised bench
+  approximately 1.2m above the trial floor. His posture is
+  upright but not rigid; he leans forward slightly when
+  reading a card from the evidence stack, leans back when
+  the Engineer plays a defense. The motion is **judicial
+  cadence** — he is not in a hurry, he is not bored, he is
+  *processing*. When he plays a card from the Tribunal deck
+  he slides it across the bench surface (he does not place
+  it down; he *tables* it, with the formal Authority verb).
+  When he speaks, his hands fold in front of him on the
+  bench, sleeves obscuring the wrists.
+
