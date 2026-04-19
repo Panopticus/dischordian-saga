@@ -340,6 +340,64 @@ const CYCLE_C_BATTLEFIELDS: readonly Act1ArtPrompt[] = [
   },
 ];
 
+/* ─── BATTLEFIELDS — Finale (§§18, 22.1) ─── */
+
+const FINALE_BATTLEFIELDS: readonly Act1ArtPrompt[] = [
+  {
+    assetId: "bf_ark_archives_dimmed",
+    name: "Ark Archives — Dimmed (§18 Finale)",
+    category: "battlefield",
+    cycle: "finale",
+    bibleSection: "§22.1 / §18.2",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor", "prelude_archives_reference"],
+    prompt:
+      "Wide establishing shot of the Ark Archives central chamber — same architectural space as the Prelude Bible §4.2 establishing reference (production must match the obsidian-black plinth, the chamber dimensions, the sweep of the surrounding archive shelves), but lighting dimmed to approximately 40% of Prelude-standard Archives illumination to match the post-Last-Words tonal register. The chamber recedes into soft darkness on all sides; only the central pedestal is fully lit. The pedestal: a short obsidian-black stone plinth, waist-height, flat top, with a faint inscribed geometric pattern on the upper surface (registers only on close-up). On top of the plinth: a single blank Dischordia card, glowing faintly warm-gold from within (subtle bloom, 0.2Hz pulse, just enough to draw the eye from the chamber threshold ~15m away). Player POV is from the entrance threshold facing the pedestal. Footstep echo implied by polished obsidian floor reflectivity. NO PEOPLE in the base still — the player avatar is rendered as a separate cutscene layer per the §18 interaction flow. The composition's emotional register is RITUAL, not puzzle: the chamber is asking the player to walk to the pedestal and place a name. Faint warm-gold ambient particles drift slowly upward from the pedestal — the canonical Witnessing-chorus visual cue planted in §17 frame 14 returns subtly here.",
+  },
+];
+
+/* ─── CARD ARTS — Cycle A unlocks (§22.3.13) ─── */
+
+const CYCLE_A_CARD_ARTS: readonly Act1ArtPrompt[] = [
+  {
+    assetId: "card_art_countermelody",
+    name: "The Countermelody (A1 unlock)",
+    category: "card_art",
+    cycle: "A",
+    bibleSection: "§22.3.13 / §3 A1 unlock",
+    resolution: "1024x1024",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Square card-art composition (1024×1024). A single tuning fork in the center of the frame, struck and vibrating — the vibration rendered as a faint soft halo of sound-wave concentric rings emanating outward. Brass body with warm-gold reflectivity, sitting upright on a worn dark-wood surface (the Celebration schoolyard card table). Background: out-of-focus warm-gold afternoon Day-10 schoolyard light, faint pink-gold parade banner bokeh. The fork's tone is canonically the OPPOSITE of Minnie's viral chant — render the sound rings as a quiet, organized, single-frequency wave (contrast with chaotic). NO PEOPLE. Lower-third of the frame is the worn wood surface, leaving room for the card's name banner. Faint film-grain sepia. The card is a Common Neutral; the composition should feel modest and earnest.",
+  },
+  {
+    assetId: "card_art_jar_wouldnt_close",
+    name: "The Jar That Wouldn't Close (A2 unlock)",
+    category: "card_art",
+    cycle: "A",
+    bibleSection: "§22.3.13 / §4 A2 unlock",
+    resolution: "1024x1024",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Square card-art composition (1024×1024). An amber glass jar — Corey's jar from §2.3 — center-frame, lid askew (NOT closed), a single warm-gold light beam escaping upward through the gap between lid and rim. The light beam carries a few small translucent coin-shapes drifting upward and out, each with a faint defocused face on its surface. The jar itself is half-full of similar coins, nestled at the bottom and giving off their own subdued amber inner-glow. The lid hovers approximately 1cm above the rim, frozen in the act of failing to seal. Background: out-of-focus 4:30 PM Day-20 schoolyard light, deeper amber than A1. The jar sits on the same worn dark-wood surface. Lower third clean for the card-name banner. The card is Rare Light; the visual hinge is the LID FAILING — Corey's jar canonically wouldn't close, and the spilled-light is the player's attention escaping back to them.",
+  },
+  {
+    assetId: "card_art_first_card",
+    name: "The First Card (A3 unlock)",
+    category: "card_art",
+    cycle: "A",
+    bibleSection: "§22.3.13 / §5 A3 unlock + §5.5",
+    resolution: "1024x1024",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Square card-art composition (1024×1024). A single small folded paper card, blank on both sides, held in the warm-lit palm of a child's hand at center-frame (the Engineer's seven-year-old hand from the §5.4 graduation handoff). The paper has a faint warm-gold inner glow seeping through its fibers — the canonical 'three random effects on play' rendered as latent potential rather than literal symbols. Around the card: faint film-grain sepia bokeh of the graduation pavilion at 6:30 PM evening light, soft-focus pillars in the background. The hand is small but steady, fingers slightly curled to cradle the paper. NO faces. NO rendered text on the paper. The card is Epic Light; the composition's emotional register is GIFT, not reward — Kanshi Sha gives this card whether the player wins or loses, and the prompt should communicate that giving rather than that earning.",
+  },
+];
+
 /** Full Act 1 art prompt catalog (built up over subsequent chunks). */
 export const ACT1_ART_PROMPTS: readonly Act1ArtPrompt[] = [
   ...CYCLE_A_PORTRAITS,
@@ -348,6 +406,8 @@ export const ACT1_ART_PROMPTS: readonly Act1ArtPrompt[] = [
   ...CYCLE_A_BATTLEFIELDS,
   ...CYCLE_B_BATTLEFIELDS,
   ...CYCLE_C_BATTLEFIELDS,
+  ...FINALE_BATTLEFIELDS,
+  ...CYCLE_A_CARD_ARTS,
 ];
 
 /** Look up a single prompt by asset id. */
