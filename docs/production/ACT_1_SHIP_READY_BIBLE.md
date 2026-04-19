@@ -4970,3 +4970,131 @@ On slideshow completion:
 
 ---
 
+## Section 13 — Cycle C1 Battle Section (Vernon Vortex — First Form)
+
+The engineering spec for C1 — Cycle C opens on the Battle of
+Nexon with Vernon Vortex, the single canonical child-form
+cosmic entity in Cycle C. Section 2.10 authored the character;
+this section specifies the *board-wipe every 4 turns* survival-
+puzzle mechanic.
+
+### 13.1 Narrative purpose
+
+C1 is **not winnable in the traditional sense**. The board
+wipes every four turns — all units on both sides are destroyed
+regardless of state. The match's win condition is **surviving
+the fourth wipe**. The tutorial lesson: "some battles are
+survival puzzles; the score is whether you are still standing,
+not whether anything you built is." Vernon Vortex in child
+form is delighted by the wipes; he treats them as a game
+mechanic he is showing off.
+
+C1 is the first match that canonically **expects the player
+to lose units at a scale beyond their control**. The emotional
+register the player should carry away is *helplessness against
+a cosmic phenomenon*, which is exactly the register Cycle C is
+meant to establish.
+
+### 13.2 Per-turn flow (nominal 17-turn match, 4-turn wipe cadence)
+
+- **Turns 1–3 (build phase 1):** standard deployment; both
+  players build boards.
+- **Turn 4 (first wipe):** all units destroyed. Vernon
+  Vortex plays a *"Again!"* card and resets his hand.
+  Engineer's hand is NOT reset — cards in hand persist.
+- **Turns 5–7 (build phase 2):** re-build.
+- **Turn 8 (second wipe):** repeat. Vernon laughs.
+- **Turns 9–11 (build phase 3):** re-build. Player should
+  recognize the pattern by this phase.
+- **Turn 12 (third wipe):** repeat. Tutorial lesson lands:
+  "stop investing in units; invest in effects that
+  persist across wipes."
+- **Turns 13–15 (final build):** player deploys
+  persistent-effect cards (A1-unlocked *Rent Free* variants,
+  A2-unlocked sacrificed-card effects, etc.).
+- **Turn 16 (fourth wipe):** the canonical survival moment.
+  Persistent effects survive; units do not.
+- **Turn 17 (lethal window):** Engineer's persistent effects
+  convert into attack damage during the post-wipe turn.
+  Vernon's hand is empty by now. Lethal is achievable.
+
+### 13.3 Art sub-spec
+
+**Opponent portrait:** seven-year-old Vernon Vortex per §2.10
+— warm-eyed child, holding a spinning toy top, surrounded by
+faint rust-orange vortex particles that production must
+render distinct from Cycle A Archon imagery. Full prompt in
+§22.3.10.
+
+**Battlefield:** Battle of Nexon command bunker — institutional
+green-grey military lighting, pre-war Warlord banners visible
+on the walls, a large central window showing the battlefield
+outside with rust-orange vortex clouds in the sky. This is
+the first **non-schoolyard, non-academy** battlefield in Act
+1. Full prompt in §22.1.4.
+
+### 13.4 Cutscene sub-spec
+
+**Pre-match cutscene (0:00–0:35):** establishing the Nexon
+bunker, the two tables set up in the center, Vernon arriving
+on his own (there are no adults). He sits, delivers §2.10
+pre-match line, and begins spinning his toy top on the
+table. The top spins throughout the match.
+
+**Per-wipe cutscene overlay (0:00–0:05, fires 4×):** a brief
+rust-orange wipe animation sweeps the board; both sides
+flatten; Vernon claps once. Production must keep the wipe
+animation identical across all four triggers — the
+repetition is the point.
+
+**Post-match cutscene — win (0:00–0:30):** Vernon's top
+stops spinning. He looks genuinely surprised. §2.10 post-
+match win beat.
+
+**Post-match cutscene — loss (0:00–0:25):** Vernon's top
+continues spinning. He claps politely. §2.10 post-match loss
+beat.
+
+### 13.5 VO sub-spec
+
+Voice profile: **`vernon_vortex`** (new — see §2.10: ancient
+cosmic cadence pitched through a seven-year-old throat).
+Eight lines:
+
+| ID | Line | Direction |
+|---|---|---|
+| `vo_c1_vernon_prematch` | §2.10 pre-match line | delighted, innocent |
+| `vo_c1_vernon_wipe_1` | *"Again!"* | triumphant |
+| `vo_c1_vernon_wipe_2` | *"Again!"* | identical delivery |
+| `vo_c1_vernon_wipe_3` | *"Again!"* | identical |
+| `vo_c1_vernon_wipe_4` | *"Again!"* (final) | identical — the tutorial is the repetition |
+| `vo_c1_vernon_win` | §2.10 post-match win | subdued surprise |
+| `vo_c1_vernon_loss` | §2.10 post-match loss | content, polite |
+| `vo_c1_vernon_ambient` | *"Spin. Spin. Spin."* (idle loop, matched to top spin SFX) | — |
+
+### 13.6 VFX sub-spec
+
+- **Board-wipe animation:** rust-orange radial sweep, 0.8s
+  duration, center-outward, with a faint cosmic-scale audio
+  bed (low subsonic rumble at -20dB). The wipe is
+  deliberately beautiful; production must not make it scary.
+- **Toy-top persistent render:** the top on Vernon's side of
+  the table spins continuously throughout the match with a
+  faint 2Hz wobble and a soft rust-orange glow around its
+  base. Production must render the top identically in every
+  shot — it is the match's metronome.
+- **Persistent-effect survival highlight:** on each wipe,
+  cards with persistent effects flash warm-gold briefly as
+  they survive (0.4s highlight), teaching the player which
+  of their plays carried through.
+
+### 13.7 Cross-references to §2.5
+
+Per §2.10 cross-ref, Vernon's high-survival canon callback —
+the toy top is the same one Young Iron Lion played with in
+his pre-expulsion beat (§2.5 flashback). Production must use
+visually identical top props. The callback is an Easter egg
+for replay players.
+
+---
+
