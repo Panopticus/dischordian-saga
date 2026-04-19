@@ -5408,3 +5408,193 @@ summary.
 
 ---
 
+## Section 16 — Cycle C4 Battle Section (Wayne Warden — Trial Format)
+
+The engineering spec for C4 — the Authority Tribunal, the
+Trial format, the full jury / evidence card list, the thematic
+counter-table, and the verdict-scroll mechanic. Section 2.13
+authored the character and chamber; this section is the
+engineering spec referenced from §2.13.
+
+### 16.1 Trial format ruleset
+
+C4 does not use the standard Dischordia duel engine. It runs
+on a dedicated **Trial format** implemented as a subclass of
+the duel engine in `apps/client/src/game/duelyst-engine/
+trialFormat.ts` (NEW FILE — to be created as part of Act 1
+engineering work). Ruleset summary:
+
+- **No health pool.** The Engineer does not have a general-
+  health pool. The Engineer's "defeat condition" is the
+  verdict scroll reaching 10 lines.
+- **No Tribunal health pool.** The Tribunal does not lose by
+  having its units eliminated. The Tribunal's "defeat
+  condition" is its deck running out of cards.
+- **Turn structure:** both sides play simultaneously. The
+  Engineer plays one card per turn (a *defense*), the
+  Tribunal plays one card per turn (a *jury* or *evidence*).
+  Turn order: Tribunal plays first, Engineer responds. Each
+  turn is resolved before the next begins.
+- **No attack phase.** Cards have no attack values in Trial
+  format. Cards have *weights* (for Tribunal cards) or
+  *counter-weights* (for Engineer cards).
+
+### 16.2 Jury cards (30 total)
+
+Each jury card adds 1 ink line to the verdict scroll. Canonical
+list (abbreviated — full art/flavor in §22.3.12):
+
+| ID | Name |
+|---|---|
+| `j01` – `j30` | Generic numbered jury cards (the Tribunal's procedural mass) |
+
+The 30 jury cards have no unique flavor text beyond a
+procedural "Juror #{N}" label. They are deliberately
+interchangeable — the point of C4 is that the institution's
+bulk is an undifferentiated mass.
+
+**Engineer counter cards for jury:** any Engineer card played
+in response delays the ink-line by 1 turn (jury card resolves
+next turn instead of this turn). Cards with specific *delay*
+keyword mechanics (earned from A1, A2, C1 — see §22.3 for
+the full counter-table) delay by 2 turns instead.
+
+### 16.3 Evidence cards (12 total)
+
+Each evidence card adds 2–4 ink lines and has a specific
+thematic counter the Engineer must play to delay it. Full
+canonical list:
+
+| ID | Name | Weight | Thematic counter |
+|---|---|---:|---|
+| `e01` | *"Celebration Trial — Behavioral Irregularities"* | 2 | Any Cycle A unlock (*Countermelody*, *Jar*, *First Card*) |
+| `e02` | *"Mechronis Academic Record — Low Conformity"* | 3 | Any Cycle B unlock (*Iron Stance*, *Recruiter's Gift*, *Weapon I Didn't Build*, *Memorized Page*, *Classmate's Compass* or *"only reason"*) |
+| `e03` | *"The Engineer abandoned his post at Nexon"* | 3 | *The Standstill* (C1 unlock — canonical; see §2.10 cross-ref) |
+| `e04` | *"Association with Iron Lion (post-expulsion)"* | 3 | *The Iron Stance* (B1) |
+| `e05` | *"Insurgency Sympathies — Recruitment Logs"* | 4 | *The Recruiter's Gift* (B2) |
+| `e06` | *"Contact with Agent Zero (pre-Zenon)"* | 4 | *The Weapon I Didn't Build* (B3) |
+| `e07` | *"Unauthorized Contact with Eyes Infiltrator"* | 2 | *The Memorized Page* (B4) |
+| `e08` | *"Public Servant Testimony — Atarion, redacted"* (Elara) | 3 | No direct counter; Engineer must play any Legendary card (the ruleset permits this as a "my honor against hers" gesture) |
+| `e09` | *"Vortex Phenomenon — Unauthorized Witnessing"* | 4 | *The Standstill* (C1) OR *The Converter* (C2) |
+| `e10` | *"Insurgency Materiel — Yellow Jacket Patch"* | 2 | *The Converter* (C2) |
+| `e11` | *"Engineer's Recorded Communications — Last 72 Hours"* | 4 | *The Friend I Saved* (C3) — the ONLY evidence card *The Friend I Saved* should canonically counter; the card's flavor "he saved her anyway" is the thematic fit |
+| `e12` | *"Charge of Treason, General"* | 3 | No card counters this; Engineer must accept the 3 ink lines. Canonical design: one charge must always land. |
+
+Production must render each evidence card with its canonical
+title visible on the card face. The counter-table is the
+player's hand-authored responsibility; implementation in
+`trialFormat.ts` reads from a canonical JSON configuration
+file.
+
+### 16.4 The verdict scroll — visual spec
+
+The scroll appears in the top-right of the match UI, rendered
+as a vertical parchment strip with 10 horizontal segments.
+Each new ink line fills one segment with aged-ink opacity,
+top-to-bottom.
+
+- Segment height: 10% of scroll total.
+- Ink color: near-black `#1a1410` with faint warm-brown
+  undertone.
+- Fill animation: 0.4s ink-bleed effect when a segment fills,
+  with a soft parchment-rustle audio cue.
+- When the scroll reaches 10 segments filled (loss
+  condition), a final verdict-stamp animation (0.8s) seals
+  the scroll with a red wax impression.
+- When the Tribunal's deck runs out (win condition), the
+  scroll scrolls back upward with a softer animation (1.2s)
+  and Wayne removes his biretta cap.
+
+### 16.5 Per-turn flow (nominal 30-turn match — variable length)
+
+C4 is the **longest possible Act 1 match** if played to the
+full deck-exhaustion win. Nominal flow:
+
+- **Turns 1–15 (jury phase):** Tribunal plays jury cards.
+  Engineer plays delay responses. Verdict scroll accumulates
+  slowly. Engineer's hand remains large.
+- **Turns 16–25 (evidence phase):** Tribunal pivots to
+  evidence cards. Engineer plays thematic counters. Each
+  evidence card drops the Engineer's hand size by one (the
+  specific Cycle unlock is consumed as a counter).
+- **Turns 26–30 (final evidence + charge):** the final 3–5
+  evidence cards fire, including the unanswerable `e12`
+  Charge of Treason. Canonical 3 ink lines always land here.
+
+The match resolves based on accumulated ink:
+- 10 ink lines filled → loss (most common path — ~70% of
+  players in design target)
+- Tribunal deck empty without 10 lines filled → win (~30%
+  of players)
+
+### 16.6 Cutscene sub-spec
+
+**Pre-match cutscene (0:00–1:15):** the longest pre-match in
+Act 1 after §15's C3. Establishing the New Babylon Tribunal
+chamber per §2.13's environment spec. The Engineer led in
+by guards. The six crystal coffins overhead pulsing amber.
+Wayne's opening line (§2.13 pre-match line). The Authority
+chorus invocation. The Engineer's six-word plea. Match
+begins.
+
+**Evidence-card-specific mid-match cutscenes:** three of the
+evidence cards (e06, e08, e11) trigger brief 0.8–1.2 second
+cinematic overlays when tabled:
+- `e06` (Agent Zero contact): single flashback frame to
+  Agent Zero at Mechronis from §2.7 B3.
+- `e08` (Elara testimony): Elara's deposition recording
+  plays (full 12-second audio, per §2.13 canon hygiene
+  rule 3). During the recording, the UI shows a single
+  frame of a much-younger Elara in Authority robes at a
+  deposition booth.
+- `e11` (recorded communications): brief audio snippet from
+  the Engineer's own voice (authored separately — canonical
+  Engineer audio from the Prelude's Eden recordings).
+
+**Post-match cutscene — win:** §2.13 canonical win beat.
+
+**Post-match cutscene — loss:** §2.13 canonical loss beat.
+
+### 16.7 VO sub-spec
+
+Full dialog authored in §2.13. CSV row IDs:
+
+| ID | Source |
+|---|---|
+| `vo_c4_wayne_prematch` | §2.13 Wayne pre-match line |
+| `vo_c4_engineer_plea` | §2.13 Engineer's six-word plea |
+| `vo_c4_authority_opening` | §2.13 chorus opening line |
+| `vo_c4_wayne_evidence_*` | 12 lines, one per evidence card (Wayne reading each card's title) |
+| `vo_c4_elara_deposition` | the 12-second age-regressed recording (canonical text per §2.13 evidence card e08 flavor) |
+| `vo_c4_wayne_win` | §2.13 win beat (administered baritone, warmth tick) |
+| `vo_c4_wayne_win_private` | §2.13 "you have until morning" line |
+| `vo_c4_authority_recess` | §2.13 chorus recess line |
+| `vo_c4_wayne_loss_verdict` | §2.13 loss beat (verdict) |
+| `vo_c4_wayne_loss_procedure` | §2.13 loss beat (final recording protocol line) |
+| `vo_c4_authority_sentence` | §2.13 chorus sentence line |
+
+### 16.8 Card-art integration
+
+The 12 evidence cards carry unique art per §22.3.12. Elara's
+`e08` card is the load-bearing art — it is the Act 1's only
+on-screen rendering of Elara as a historical figure, and the
+asset must be approved against the Prelude Bible §2.2 Elara
+character reference sheet before production ships.
+
+### 16.9 Slideshow trigger handoff to §17
+
+C4's canonical `postBattleSlideshow` is `"last-words"` —
+both win and loss paths trigger §17 *Last Words* immediately
+on post-match cutscene completion. The slideshow's opening
+epigraph varies per §2.13:
+
+- **Win branch:** *"Recorded under recess, Tribunal Cell 7,
+  the night before sentence."*
+- **Loss branch:** *"Recorded under sentence, Tribunal
+  Chamber, in the hour before execution."*
+
+Content is otherwise identical across branches. See §17 for
+the full 15-frame spec.
+
+---
+
