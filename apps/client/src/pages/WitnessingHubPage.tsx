@@ -284,6 +284,31 @@ function JourneyPanel({ hubState }: { hubState: WitnessingHubState }) {
         </Link>
       )}
 
+      {/* Act 5 Map interlude — unlocks at Act 5+. Non-combat:
+          Kael's master log preamble + five-sector reveal +
+          star_map system tutor (Kael's archival voice). */}
+      {gameState.narrativeAct >= 5 && (
+        <Link
+          href="/act5-interlude"
+          className="block rounded-md border border-amber-500/40 bg-amber-950/15 p-4 transition-colors hover:bg-amber-950/25"
+        >
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-amber-300/80">
+                INTERLUDE · ACT 5 · THE MAP
+              </p>
+              <h3 className="mt-0.5 font-display text-base text-amber-200">
+                Five Sectors, Twenty Worlds
+              </h3>
+              <p className="mt-1 font-serif text-[12px] void-text">
+                Open Kael's master log. Read the five sectors. Hear the map in his own voice.
+              </p>
+            </div>
+            <ChevronRight size={20} className="text-amber-300/80 shrink-0" />
+          </div>
+        </Link>
+      )}
+
       {/* Act 6 Confession Mirrors — two matches: The Woman She Was,
           then The Detective in the Wall. Unlocks at Act 6+. */}
       {gameState.narrativeAct >= 6 && (
