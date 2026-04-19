@@ -4655,3 +4655,182 @@ faltered.
 
 ---
 
+## Section 11 — Cycle B5 Battle Section (The Seeker / Young Human)
+
+The engineering spec for B5 — Mechronis's final year, the
+Engineer's emotional pivot, and the only Act 1 match whose
+win/loss canonically determines **which of two different
+cards** the player unlocks. Section 2.9 authored the character;
+this section specifies the *Deep Thoughts* long-game deck and
+the dual-card-unlock branching.
+
+### 11.1 Narrative purpose
+
+B5 is the **emotional inflection point of Cycle B**. The young
+Human is the player's own narrator-to-be — the eventual
+Prelude-era mobile narrator, the investigator, the second
+voice that joins Elara at bond 10. In B5 he is seventeen,
+newly arrived at Mechronis as a visiting-fellow transfer, and
+the Engineer's closest friend across the four years they
+overlap at the academy. The match is slow, thoughtful, and
+dangerously intimate — the young Human plays to *understand*
+the Engineer, not to defeat him, and the match can resolve in
+either direction canonically without breaking anything.
+
+The tutorial lesson of B5 is "**some matches are
+conversations**." The win-path and loss-path card unlocks
+make this explicit:
+- **Win:** *The Classmate's Compass* (Legendary Light) — the
+  Engineer "wins" by making the young Human articulate what
+  he could not say aloud.
+- **Loss:** *"The only reason I stayed"* (Legendary Dark) —
+  the Engineer "loses" by letting the young Human see what
+  he was hiding, and accepting the loss as the cost.
+
+Both cards are canonical. Production must not frame either
+outcome as better than the other; the branch is a **reading
+choice**, not a skill test.
+
+### 11.2 Per-turn flow (nominal 16-turn match — longest in Act 1)
+
+- **Turns 1–4 (opening conversation):** both players deploy
+  slowly — one or two cards per turn, no direct aggression.
+  The young Human plays *Question* cards, each of which
+  forces the Engineer to discard-and-draw once.
+- **Turns 5–8 (mid-game probe):** the young Human plays
+  *Observation* cards that tag specific Engineer units. Tagged
+  units gain +1/+1 but become readable to the young Human
+  for the rest of the match.
+- **Turns 9–12 (commitment phase):** the young Human plays
+  *Claim* cards — assertions about the Engineer's intentions
+  that resolve based on whether the Engineer's subsequent
+  plays confirm or deny the claim. This is the longest
+  dialog in any Act 1 match.
+- **Turns 13–15:** canonical close. The match resolves on
+  turn 15 via one of two paths:
+  - **Win path:** Engineer has confirmed 4+ Claim cards. The
+    young Human's board yields; Engineer's board stands.
+  - **Loss path:** Engineer has denied 4+ Claim cards. The
+    young Human's board holds. The Engineer's *lie economy*
+    has run out.
+- **Turn 16 (optional):** if the match is tied at turn 15
+  (Engineer neither confirmed nor denied 4 claims), the
+  canonical tie-break fires — the young Human asks one final
+  question, the Engineer answers with a single card play,
+  and the card chosen determines win vs. loss. The tie-break
+  is a deliberate design choice: the player's *hand
+  selection* becomes the canonical resolution.
+
+### 11.3 Art sub-spec
+
+**Opponent portrait:** seventeen-year-old Human per §2.9 —
+trench coat absent (he acquires that years later), Mechronis
+blue uniform, glasses, slightly rumpled, kind eyes. Full
+prompt in §22.3.9.
+
+**Battlefield:** Mechronis Academy senior common room — softer
+than the classroom battlefields, fireplace visible in the
+background, armchairs instead of desks, warm-gold evening
+lighting. The one Cycle B battlefield that is *comfortable*
+rather than institutional. Full prompt in §22.1.3.
+
+### 11.4 Cutscene sub-spec
+
+**Pre-match cutscene (0:00–0:35):** extended opening — the
+young Human and the Engineer meeting in the common room,
+the young Human setting up the card table informally (a low
+coffee table between two armchairs), the Engineer joining
+without ceremony. The pre-match line from §2.9 is delivered
+while the young Human is still arranging his deck.
+
+**Per-turn dialog beats:** B5 is the only Act 1 match with
+scripted mid-match dialog beats at turns 4, 8, 12, and 15.
+Each beat is 8-12 seconds of conversation between the two
+players, delivered without pausing the match UI. Production
+must render the beats as cinematic overlays while the
+underlying match state remains visible.
+
+**Post-match cutscene — win (0:00–0:45):** the young Human
+smiles, sets his deck down face-up (revealing his remaining
+hand), and speaks the §2.9 post-match win beat. He hands the
+Engineer a small compass — the canonical in-fiction source of
+*The Classmate's Compass* card unlock. They shake hands.
+
+**Post-match cutscene — loss (0:00–0:45):** the young Human
+does not smile. He does not set his deck down. The §2.9
+post-match loss beat is delivered softly. He leaves without
+a handshake. The Engineer sits alone in the common room. The
+card *"The only reason I stayed"* appears in his hand
+between matches — no in-fiction handoff cutscene, which is
+canonical. The loss unlock arrives without ceremony.
+
+### 11.5 Card unlock branching
+
+| B5 outcome | Card unlocked | Flavor text |
+|---|---|---|
+| **Win** | *The Classmate's Compass* (Legendary Light) | *"He said: you will need this. I asked why. He said: you will know."* |
+| **Loss** | *"The only reason I stayed"* (Legendary Dark) | *"I could have asked him any question. I asked the one I already knew the answer to."* |
+| **Tie (turn-16 path)** | player-selected single card determines branch; resolves as above based on final card's alignment (Light → Compass, Dark → "The only reason I stayed") | — |
+
+The two cards are **both canonical**. The player who plays
+the game multiple times will collect both across playthroughs;
+the first-playthrough unlock is the one the player's reading
+of the young Human delivers.
+
+### 11.6 VO sub-spec
+
+Voice profile: **`young_human`** (new — slightly younger,
+lighter version of the Prelude mobile-narrator profile; see
+§2.9). Approximately 22 lines (the largest VO batch for any
+Act 1 match, reflecting B5's dialog density):
+
+| ID | Line context | Direction |
+|---|---|---|
+| `vo_b5_human_prematch` | §2.9 pre-match line | warm, curious |
+| `vo_b5_human_turn4_beat` | "What do you want this deck to say?" | genuine question |
+| `vo_b5_human_turn4_followup` | "I'm not asking to beat you. I'm asking." | earnest |
+| `vo_b5_human_turn8_beat` | "You tagged that unit on purpose. You knew I'd see it." | observational |
+| `vo_b5_human_turn8_followup` | "That's — that's interesting. Keep going." | encouraging |
+| `vo_b5_human_turn12_claim_A` | *"I claim you are not playing to win."* | soft |
+| `vo_b5_human_turn12_claim_B` | *"I claim you are playing to leave."* | the harder claim |
+| `vo_b5_human_turn15_win` | §2.9 post-match win (full beat, ~20s) | — |
+| `vo_b5_human_turn15_loss` | §2.9 post-match loss (full beat, ~20s) | — |
+| `vo_b5_human_tie_final` | "One more. Just one. Play what you actually believe." | weighted |
+| `vo_b5_human_ambient_*` | ×12 idle lines (thinking, reading, shifting) | — |
+
+### 11.7 VFX sub-spec
+
+- **Question card deployment:** a faint question-mark-shaped
+  light overlay appears briefly (0.5s) over the Engineer's
+  hand when a Question card triggers discard-and-draw.
+- **Observation tag:** a soft warm-gold rim persistent on
+  tagged units for the rest of the match.
+- **Claim card resolution:** when a Claim card resolves, a
+  single brief text overlay appears in the match UI —
+  "Claim confirmed" (green) or "Claim denied" (red). The
+  text fades after 1.5s.
+- **Turn-16 tie-break ambiance:** if the match reaches turn
+  16, the battlefield's ambient lighting dims by 10% and
+  the fireplace audio ticks up slightly. Production-note: the
+  player should *feel* the weight of the final-card selection
+  without being told it matters.
+
+### 11.8 Slideshow trigger handoff to §12
+
+B5's canonical `postBattleSlideshow` flag is
+`"to-be-the-human"`. Per §1.1, *To Be the Human* fires
+immediately on post-match cutscene completion regardless of
+win/loss. The slideshow's optional-frame branching reads the
+B5 outcome:
+
+| B5 outcome | Slideshow branch |
+|---|---|
+| Win (Compass unlocked) | frames 1–10 as canonical, frame 8 emphasizes the compass gift |
+| Loss ("only reason" unlocked) | frames 1–10 with frame 8 substituted — the empty common room, the Engineer alone |
+| Tie → Compass (Light final card) | same as Win branch |
+| Tie → "only reason" (Dark final card) | same as Loss branch |
+
+Full slideshow spec in §12.
+
+---
+
