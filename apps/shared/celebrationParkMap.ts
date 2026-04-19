@@ -30,6 +30,11 @@ export interface ParkLand {
   attractions: string[];
   /** The jingle's leitmotif description — used by the sfx layer */
   leitmotif: string;
+  /**
+   * Short ambient loop path. Silently falls back to no-audio if absent.
+   * Convention: /audio/ambient/celebration/<land-id>.mp3
+   */
+  ambientAudio: string;
   /** Brochure-cheerful description (what guests read) */
   brochure: string;
   /** The whisper underneath (what the decisions actually feel like) */
@@ -50,6 +55,7 @@ export const CELEBRATION_PARK_LANDS: ParkLand[] = [
       "The Quiet-Coach Pavilion",
     ],
     leitmotif: "A music-box waltz in F major, slightly off-pitch on every third bar.",
+    ambientAudio: "/audio/ambient/celebration/chorus-plaza.mp3",
     brochure:
       "Start your day in our grandest gathering place! Meet Conni the Conductor and join the choir. No audition required — everyone's voice belongs here.",
     undercurrent:
@@ -68,6 +74,7 @@ export const CELEBRATION_PARK_LANDS: ParkLand[] = [
       "Guest Book of Honour",
     ],
     leitmotif: "A glass-harmonica scale that never quite resolves to tonic.",
+    ambientAudio: "/audio/ambient/celebration/watchers-promenade.mp3",
     brochure:
       "Pose for a souvenir photo with Mr. Unblink! He remembers every visit. He'll mention your last one, too. Isn't that thoughtful?",
     undercurrent:
@@ -87,6 +94,7 @@ export const CELEBRATION_PARK_LANDS: ParkLand[] = [
     ],
     leitmotif:
       "A fanfare trumpet that phase-shifts into a child's birthday song halfway through.",
+    ambientAudio: "/audio/ambient/celebration/princes-domain.mp3",
     brochure:
       "His Highness personally greets every visitor! Receive a proclamation written just for you. Keep your proclamation on your person at all times — we do make sure.",
     undercurrent:
@@ -105,6 +113,7 @@ export const CELEBRATION_PARK_LANDS: ParkLand[] = [
       "The Lost-Child Fountain",
     ],
     leitmotif: "A nursery rhyme lullaby played on a toy piano with one key missing.",
+    ambientAudio: "/audio/ambient/celebration/seeker-meadow.mp3",
     brochure:
       "Bring the little ones! Our youngest Mascoteer loves new friends. Play games all day. The Meadow's clock is stopped at 3:47 PM — naptime is forever!",
     undercurrent:

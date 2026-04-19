@@ -38,6 +38,7 @@ import {
 } from "@shared/celebrationParkMap";
 import { getPinForDay, getPin, type CelebrationPin } from "@shared/celebrationPins";
 import { getParadeForDay } from "@shared/celebrationParade";
+import { useAmbientAudio } from "@/hooks/useAmbientAudio";
 import { ResponsiveImage } from "@/components/ResponsiveImage";
 import {
   getBetrayalStage,
@@ -241,6 +242,14 @@ export default function ApprenticePage() {
         : null,
     [currentApprentice],
   );
+
+  // Park-Land ambient leitmotif: the Mascoteer's Land jingle plays softly
+  // under the daily card. Swaps tracks when the mascoteer (and thus the
+  // land) changes day to day.
+  const todayLand = todayDecision
+    ? getLandForMascoteer(todayDecision.mascoteerId)
+    : undefined;
+  useAmbientAudio(todayLand?.ambientAudio, { volume: 0.12 });
 
   return (
     <div className="min-h-screen bg-background text-foreground p-4 sm:p-6">
