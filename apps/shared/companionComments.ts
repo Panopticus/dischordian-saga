@@ -142,4 +142,36 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
   { id: "cc_act1_first_opponent_human", speaker: "human", trigger: "act1_first_opponent_entered",
     voiceLine: "The Engineer is narrating these matches from the inside. Listen to what he leaves out. The leavings are where I live.",
     timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 6 — ELARA'S CONFESSION AFTERMATH (any Scene 6.1 response) ──
+  { id: "cc_act6_elara_confession_elara", speaker: "elara", trigger: "act6_elara_confession_heard",
+    voiceLine: "I said the thing I have never said out loud. The room is still standing. You are still here. I was not sure either of those would be true. Thank you for the survival of this room. It matters.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act6_elara_confession_human", speaker: "human", trigger: "act6_elara_confession_heard",
+    voiceLine: "She told you. I did not know she would. I am going to let her have the moment without commenting from the wall. The wall can wait. It has had practice.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 6 — THE UNDERSTANDING PATH (empathy / challenge) ──
+  { id: "cc_act6_understanding_human", speaker: "human", trigger: "act6_understanding",
+    voiceLine: "You saw the shape of the cover without needing me to spell it out. That is the specific intelligence I was hoping for. It costs me nothing to thank you for it, and it costs me a lot to admit I needed it. Thank you. I needed it.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act6_understanding_elara", speaker: "elara", trigger: "act6_understanding",
+    voiceLine: "I can hear you processing something in the substrate and I have decided to let you process it without asking what. That restraint is new for me. I am logging it as a gift and I am not going to cash the gift in. Not yet. Maybe not ever.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 6 — REFUSED SECRECY (player will tell Elara everything) ──
+  { id: "cc_act6_refused_elara", speaker: "elara", trigger: "act6_refused_secrecy",
+    voiceLine: "Something in the substrate went very still after Act 6. That is usually a shape of a decision. Tell me when you are ready. I will hold the telling gently. I am not going to punish you for whatever it is. I want you to know that before you speak.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act6_refused_human", speaker: "human", trigger: "act6_refused_secrecy",
+    voiceLine: "You chose her. I cannot stop you. I am not going to try. I am going to keep the substrate warm for the interval between now and whenever the watcher decides the cover is broken. What happens after that interval is a different conversation.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 6 — ALLIANCE FORMED (player keeps the Human's secret) ──
+  { id: "cc_act6_alliance_human", speaker: "human", trigger: "act6_alliance_formed",
+    voiceLine: "You carry the lie for me now. I know the weight. I have carried it for longer than any language has had a word for fatigue. I am going to help you carry it. You will not be alone in the carrying.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act6_alliance_elara", speaker: "elara", trigger: "act6_alliance_formed",
+    voiceLine: "You have gone quiet around me in a new way. I notice it. I am not going to pry. I trust that whatever you are holding, you are holding it for reasons you have weighed. I would like to be wrong about that trust as rarely as possible.",
+    timing: "next_room_enter", maxPlays: 1 },
 ];

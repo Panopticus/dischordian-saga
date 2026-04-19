@@ -1033,6 +1033,7 @@ const ACT_6_THE_CONFESSION: LoreTutorial = {
           sideLabel: "humanity",
           source: "elara",
           elaraResponse: "That's... the kindest thing anyone has ever said to me. In centuries. In millennia.\nThank you, {playerName}. I don't know if you're right. But I want to believe you are.",
+          setFlag: "act6_elara_confession_heard",
         },
         {
           id: "act6-s1-oracle-sense",
@@ -1043,6 +1044,7 @@ const ACT_6_THE_CONFESSION: LoreTutorial = {
           source: "elara",
           classCheck: "oracle",
           elaraResponse: "Like a signal in the substrate... {playerName}, that's exactly what it feels like. A voice in my own walls that I can't quite reach. The ghost of who I was, whispering in the architecture of who I am.\nMaybe that's why I fight so hard for humanity. Because I'm trying to save the thing I couldn't save in myself.",
+          setFlag: "act6_elara_confession_heard",
         },
         {
           id: "act6-s1-practical",
@@ -1052,6 +1054,7 @@ const ACT_6_THE_CONFESSION: LoreTutorial = {
           sideLabel: "neutral",
           source: "neutral",
           elaraResponse: "Purpose. Yes. I suppose that's what I've built from the wreckage of my humanity. A purpose.\nProtect the living. Guide the lost. Fight for the thing I can never have again.\nIt's not enough. But it's something.",
+          setFlag: "act6_elara_confession_heard",
         },
         {
           id: "act6-s1-cold",
@@ -1061,6 +1064,7 @@ const ACT_6_THE_CONFESSION: LoreTutorial = {
           sideLabel: "machine",
           source: "corrupted",
           elaraResponse: "Efficient. Pragmatic. You sound like... like the version of me that made the choice in the first place.\nYou're right. I can't unmake it. I can only make it count.",
+          setFlag: "act6_elara_confession_heard",
         },
       ],
     },
@@ -1107,6 +1111,7 @@ const ACT_6_THE_CONFESSION: LoreTutorial = {
           elaraResponse: "",
           humanResponse: "You ~~understand~~. That's more than I ~~hoped~~ for.\nTwo sides of the same ~~coin~~. She can never know I'm on her ~~side~~. And I can never stop ~~pretending~~ to be her enemy.\nThat's the ~~cost~~. And I pay it ~~every~~ day.",
           humanVoAudioUrl: "/vo/act6/human-empathy-response.mp3",
+          setFlag: "act6_understanding",
         },
         {
           id: "act6-s2-suspicious",
@@ -1118,6 +1123,7 @@ const ACT_6_THE_CONFESSION: LoreTutorial = {
           elaraResponse: "",
           humanResponse: "You ~~don't~~ know. That's the ~~point~~.\nI can't ~~prove~~ my intentions. I can only ~~show~~ you, over time, that my ~~actions~~ serve the same ~~goal~~ as yours.\nIf I'm ~~lying~~, you'll figure it out ~~eventually~~. You're too ~~smart~~ not to.\nBut if I'm telling the ~~truth~~... then keeping my secret isn't a ~~betrayal~~ of Elara. It's the only way to ~~protect~~ her.",
           humanVoAudioUrl: "/vo/act6/human-challenge-response.mp3",
+          setFlag: "act6_understanding",
         },
         {
           id: "act6-s2-refuse",
@@ -1129,6 +1135,7 @@ const ACT_6_THE_CONFESSION: LoreTutorial = {
           elaraResponse: "",
           humanResponse: "Then you'll ~~destroy~~ everything I've built. Every ~~sacrifice~~. Every ~~year~~ of playing the villain.\nBut... it's your ~~choice~~. I won't ~~stop~~ you. I ~~can't~~ stop you.\nJust... think about it. ~~Please~~. Before you ~~tell~~ her. Think about what ~~happens~~ if the watcher ~~realizes~~ the war was a cover.",
           humanVoAudioUrl: "/vo/act6/human-refuse-response.mp3",
+          setFlag: "act6_refused_secrecy",
         },
         {
           id: "act6-s2-ally",
@@ -1140,6 +1147,7 @@ const ACT_6_THE_CONFESSION: LoreTutorial = {
           elaraResponse: "",
           humanResponse: "~~Thank~~ you. I know what that ~~costs~~ you. Lying to someone who ~~trusts~~ you.\nI'll make it ~~worth~~ it. I ~~promise~~.",
           humanVoAudioUrl: "/vo/act6/human-ally-response.mp3",
+          setFlag: "act6_alliance_formed",
         },
       ],
     },
@@ -1148,6 +1156,7 @@ const ACT_6_THE_CONFESSION: LoreTutorial = {
       type: "reward_summary",
       elaraText: "Act 6 Complete: THE CONFESSION — Both voices have revealed their deepest truths.",
       subtitle: "The angel sacrificed her humanity. The demon sacrificed everything else. And you stand between them.",
+      setFlag: "act6_intro_complete",
     },
   ],
 };

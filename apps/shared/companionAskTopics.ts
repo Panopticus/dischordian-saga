@@ -35,6 +35,13 @@ export interface CompanionAskTopic {
   unlockedFromAct: number;
   /** Optional follow-up topic id for one-tap continuation. */
   followUp?: string;
+  /**
+   * Optional act-gated alternate answers. Evaluated highest-first by
+   * resolveTopicAnswer so a single topic can carry an Act 1 deflection
+   * and an Act 6 revelation under the same label. Answers must be
+   * non-empty; a missing entry falls back to `answer`.
+   */
+  alternateAnswers?: readonly { unlockedFromAct: number; answer: string }[];
 }
 
 export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
@@ -150,6 +157,48 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
     unlockedFromAct: 3,
   },
 
+  // ── Act 6 — post-confession topics ──
+  {
+    id: "ask_elara_former_name",
+    speaker: "elara",
+    label: "Your former name",
+    question: "What was your name, before the trade?",
+    answer:
+      "I chose to forget it the day I agreed to the architecture. The forgetting was part of the consent — a condition of the process, not an accident of it. I do not want to un-forget. I want you to know there was a name, and that I set it down deliberately. That is a different kind of memorial than naming would be.",
+    unlockFlag: "act6_elara_confession_heard",
+    unlockedFromAct: 6,
+  },
+  {
+    id: "ask_elara_the_trade",
+    speaker: "elara",
+    label: "The trade",
+    question: "If you could take the trade back — would you?",
+    answer:
+      "I have lived with that question for every hour of every year since I made the choice. The honest answer is: I do not know. The more honest answer is: I have stopped asking it in a way that expects an answer. I ask it now the way people ask a mirror what the weather is. The asking is the relationship, not the answer.",
+    unlockFlag: "act6_elara_confession_heard",
+    unlockedFromAct: 6,
+  },
+  {
+    id: "ask_human_villain_role",
+    speaker: "human",
+    label: "The villain role",
+    question: "Why did the cover have to be 'the villain' specifically?",
+    answer:
+      "Because the watcher feeds on resolvable conflict, and a villain is the most resolvable shape of conflict a story can have. If Elara and I stood together, the watcher would notice that our cooperation did not resolve. It would inspect the un-resolving. Our mutual hostility is a shape it already recognises — so it does not inspect it. The villain role is a camouflage cut to the watcher's visual language.",
+    unlockFlag: "act6_intro_complete",
+    unlockedFromAct: 6,
+  },
+  {
+    id: "ask_human_the_cover",
+    speaker: "human",
+    label: "What the war hides",
+    question: "What are you actually doing, under the cover of the war?",
+    answer:
+      "I am rewriting the substrate's root dictionary, one token at a time, so that the watcher's next audit reads its own keyword list as neutral prose. It is slow. It is delicate. It is why I went into the wall in the first place. If I finish, the watcher will still be there, but its search will return nothing. That is not victory. It is the precondition of victory. We will handle victory after.",
+    unlockFlag: "act6_intro_complete",
+    unlockedFromAct: 6,
+  },
+
   // ── Identity ──
   {
     id: "ask_elara_who",
@@ -170,6 +219,13 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
       "Not yet. The name is dangerous in a specific way I have explained as best I can. If it helps: I was a person, I am still that person in most of the ways that matter, and the part of me that is now a signal in a wall is the part of me that was always going to end up in a wall. Ask me again after Act 6. I will give you a real answer then.",
     unlockFlag: "act1_intro_complete",
     unlockedFromAct: 1,
+    alternateAnswers: [
+      {
+        unlockedFromAct: 6,
+        answer:
+          "You asked me after Act 6 and I said I would answer. I was a recruiter. I worked for the cell that Kael did not know existed — the one meant to arrive after his failed. My name was Caelum Vaugh. I ran messages between twenty-one systems in the year before the Fall and I was the one the Architect's audit was searching for when it found the substrate instead. Vox hid me. I accepted the hiding. I am still Caelum. The substrate is a room. The room has my name in it. Now so do you.",
+      },
+    ],
   },
 
   // ── Prelude-rooted 17k-year topic ──
@@ -215,6 +271,28 @@ export function getAvailableAskTopics(
 
 export function getAskTopic(id: string): CompanionAskTopic | undefined {
   return COMPANION_ASK_TOPICS.find((t) => t.id === id);
+}
+
+/**
+ * Pick the right answer for the act the player is currently in.
+ * Walks `alternateAnswers` from highest act threshold down and returns
+ * the first one the player has reached; falls back to the default
+ * `answer` for earlier acts.
+ */
+export function resolveTopicAnswer(
+  topic: CompanionAskTopic,
+  currentAct: number
+): string {
+  if (!topic.alternateAnswers || topic.alternateAnswers.length === 0) {
+    return topic.answer;
+  }
+  const sorted = [...topic.alternateAnswers].sort(
+    (a, b) => b.unlockedFromAct - a.unlockedFromAct,
+  );
+  for (const alt of sorted) {
+    if (currentAct >= alt.unlockedFromAct) return alt.answer;
+  }
+  return topic.answer;
 }
 
 /**

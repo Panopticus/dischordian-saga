@@ -3,6 +3,7 @@ import {
   COMPANION_ASK_TOPICS,
   getAvailableAskTopics,
   getAskTopic,
+  resolveTopicAnswer,
   toAskWheelChoice,
 } from "./companionAskTopics";
 
@@ -47,6 +48,53 @@ describe("companionAskTopics", () => {
     const act3Ids = getAvailableAskTopics("elara", flags, 3).map((t) => t.id);
     expect(act3Ids).toContain("ask_elara_warlord");
     expect(act3Ids).toContain("ask_elara_kael");
+  });
+
+  it("unlocks Act 6 confession topics and the Human's real identity", () => {
+    const preAct6 = new Set<string>(["act1_intro_complete", "act3_intro_complete"]);
+    const pre = getAvailableAskTopics("elara", preAct6, 6).map((t) => t.id);
+    expect(pre).not.toContain("ask_elara_former_name");
+    expect(pre).not.toContain("ask_elara_the_trade");
+
+    const postAct6 = new Set<string>([
+      "act1_intro_complete",
+      "act3_intro_complete",
+      "act6_elara_confession_heard",
+      "act6_intro_complete",
+    ]);
+    const elara = getAvailableAskTopics("elara", postAct6, 6).map((t) => t.id);
+    const human = getAvailableAskTopics("human", postAct6, 6).map((t) => t.id);
+    expect(elara).toEqual(
+      expect.arrayContaining(["ask_elara_former_name", "ask_elara_the_trade"]),
+    );
+    expect(human).toEqual(
+      expect.arrayContaining(["ask_human_villain_role", "ask_human_the_cover"]),
+    );
+  });
+
+  it("resolveTopicAnswer returns Act 6+ answer for ask_human_who after Act 6", () => {
+    const topic = getAskTopic("ask_human_who")!;
+    expect(resolveTopicAnswer(topic, 1)).toBe(topic.answer);
+    expect(resolveTopicAnswer(topic, 5)).toBe(topic.answer);
+    const act6Answer = resolveTopicAnswer(topic, 6);
+    expect(act6Answer).not.toBe(topic.answer);
+    expect(act6Answer).toContain("Caelum");
+  });
+
+  it("resolveTopicAnswer returns default answer for topics without alternates", () => {
+    const topic = getAskTopic("ask_elara_substrate")!;
+    expect(resolveTopicAnswer(topic, 1)).toBe(topic.answer);
+    expect(resolveTopicAnswer(topic, 7)).toBe(topic.answer);
+  });
+
+  it("every alternateAnswers entry has a non-empty answer and >=1 unlockedFromAct", () => {
+    for (const t of COMPANION_ASK_TOPICS) {
+      if (!t.alternateAnswers) continue;
+      for (const alt of t.alternateAnswers) {
+        expect(alt.answer.trim().length, `${t.id} has empty alt answer`).toBeGreaterThan(0);
+        expect(alt.unlockedFromAct).toBeGreaterThanOrEqual(1);
+      }
+    }
   });
 
   it("getAskTopic resolves by id and returns undefined for unknown ids", () => {
