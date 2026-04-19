@@ -101,7 +101,7 @@ describe("moralityTrustActVariants", () => {
     expect(resolved?.id).toBe("human_trust_confidant_act3");
   });
 
-  it("resolveVariant rejects trust mismatch", () => {
+  it("resolveVariant picks the neutral-banded human line when trust is 40", () => {
     const resolved = resolveVariant(
       VARIANT_REGISTRY,
       "npc_line",
@@ -113,6 +113,51 @@ describe("moralityTrustActVariants", () => {
         flags: new Set(),
       },
     );
+    // Expansion added trust-band variants for every band at Act 3.
+    expect(resolved?.id).toBe("human_trust_neutral_act3");
+  });
+
+  it("resolveVariant returns null for an unregistered target id", () => {
+    const resolved = resolveVariant(
+      VARIANT_REGISTRY,
+      "npc_line",
+      "does_not_exist_any",
+      {
+        moralityScore: 0,
+        narrativeAct: 3,
+        trustByCompanion: { the_human: 40 },
+        flags: new Set(),
+      },
+    );
     expect(resolved).toBeNull();
+  });
+
+  it("covers every act from 1 through 7 with at least one registry entry", () => {
+    for (const act of [1, 2, 3, 4, 5, 6, 7]) {
+      const matches = VARIANT_REGISTRY.filter((v) => v.act === act);
+      expect(matches.length, `act ${act} has no variants`).toBeGreaterThan(0);
+    }
+  });
+
+  it("covers every surface type with at least one entry", () => {
+    const surfaces = new Set(VARIANT_REGISTRY.map((v) => v.surface));
+    expect(surfaces.has("room")).toBe(true);
+    expect(surfaces.has("transmission")).toBe(true);
+    expect(surfaces.has("npc_line")).toBe(true);
+    expect(surfaces.has("journal")).toBe(true);
+    expect(surfaces.has("wheel_followup")).toBe(true);
+  });
+
+  it("rejects stub markers in authored variant text", () => {
+    const stubs = [/\bTODO\b/, /\bFIXME\b/, /\[placeholder\]/i, /\blorem ipsum\b/i];
+    for (const v of VARIANT_REGISTRY) {
+      for (const pattern of stubs) {
+        expect(
+          pattern.test(v.text),
+          `${v.id} contains stub marker ${pattern}`
+        ).toBe(false);
+      }
+      expect(v.text.trim().length, `${v.id} empty text`).toBeGreaterThan(0);
+    }
   });
 });
