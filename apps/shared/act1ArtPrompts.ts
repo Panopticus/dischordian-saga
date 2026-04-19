@@ -287,6 +287,59 @@ const CYCLE_B_BATTLEFIELDS: readonly Act1ArtPrompt[] = [
   },
 ];
 
+/* ─── BATTLEFIELDS — Cycle C (§22.1) ─── */
+
+const CYCLE_C_BATTLEFIELDS: readonly Act1ArtPrompt[] = [
+  {
+    assetId: "bf_nexon_command_bunker",
+    name: "Battle of Nexon — Command Bunker (C1)",
+    category: "battlefield",
+    cycle: "C",
+    bibleSection: "§22.1.4 / §13.3",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Wide establishing shot of a Battle-of-Nexon forward command bunker — the first non-schoolyard, non-academy battlefield in Act 1. Institutional green-grey military lighting from low-mounted overhead bulbs casting cool-grey wash. Reinforced concrete walls. A large central viewing window at the back of the frame shows the Nexon battlefield outside: rust-orange #e06a1a vortex clouds in a sky going to evening, distant muzzle-flashes (low-opacity, far below the horizon line), columns of black smoke rising. Pre-war Warlord propaganda banners hang on the side walls — institutional, not theatrical, deliberately worn. Center-foreground: a single sturdy regulation card table, military issue, no benches (combatants stand). A few stacked ammunition crates pushed against the side walls. NO PEOPLE in the base still. The cool-grey interior + warm rust-orange exterior through the window is the canonical palette tension; the warm gold of vortex-sky should rim-light the bunker walls subtly. Faint smoke ambient inside the bunker. The composition should feel like a place where a child should not be, even though canonically Vernon Vortex is a child here.",
+  },
+  {
+    assetId: "bf_zenon_field_tent",
+    name: "Zenon Forward Command — Canvas Tent (C2)",
+    category: "battlefield",
+    cycle: "C",
+    bibleSection: "§22.1.5 / §14.3",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Wide establishing shot of a Zenon warzone forward command tent — canvas walls (faded olive-drab military issue), a single low table at center-foreground lit by a hanging brass camp lantern that pools warm-gold light only across the center of the composition; the canvas walls and corners recede into deep shadow. The lantern's pool catches the table edges and a few inches of the floor; everything else is implied. AMBIENT SOUND CUE rendered visually: faint dust hanging in the lantern's beam, suggestive of distant artillery vibration. The canvas flap at frame-right is partially open, showing a sliver of the Zenon battlefield beyond — rust-orange smoke, a single distant muzzle-flash low in the frame. NO PEOPLE in the base still. The composition is much TIGHTER than the Cycle A/B battlefields — the lantern pool is the only light and it constrains the playable space to the central table. This is the first battlefield where active combat is an environmental ambient.",
+  },
+  {
+    assetId: "bf_vortex_pressurized_bay",
+    name: "The Vortex — Pressurized Equipment Bay (C3)",
+    category: "battlefield",
+    cycle: "C",
+    bibleSection: "§22.1 / §2.12 / §15.6",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Wide establishing shot of the Engineer's transference room aboard the Collector's flagship VORTEX — a small pressurized equipment bay off the main cargo deck. Approximate 6m × 5m, low ceiling. Metal walls, bolted seams, industrial pipework along the upper edges. A single overhead work-lamp at center-ceiling casts hard down-shadow on a hexagonal equipment crate the Engineer has cleared and aligned to use as a card table. NO chair on the player POV side; the Engineer plays standing. Opposite side of the table: a single steel utility chair (Agent Zero's seat, currently empty in the base still). On the table beside the play surface: a matte-black palm-sized cube — the Resurrection Protocols device — with a single recessed stud and a dark LED. Beside it, a thin steel water flask. CANONICAL DETAIL on the back wall: SIX explosive charges, evenly spaced, each with a small red countdown LED — the LEDs are the only red light in the frame. The charges must be visible in the wide shot; the player should understand the room is going to detonate regardless. Cool-grey industrial palette overall, single warm-gold work-lamp pool, six red countdown pinpoints. NO PEOPLE in the base still. The composition is intentionally claustrophobic — the room is small, the timer is visible, and the only warmth is the overhead lamp.",
+  },
+  {
+    assetId: "bf_newbabylon_tribunal",
+    name: "New Babylon Tribunal Chamber (C4)",
+    category: "battlefield",
+    cycle: "C",
+    bibleSection: "§22.1 / §2.13 / §16.6",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Wide establishing shot of the New Babylon Tribunal chamber — a vertically-proportioned space, approximately 24m × 18m, ceiling 12m high. The composition is COURTROOM-AS-LITURGY. Center-foreground: a single plain wooden chair on a polished black-stone floor (faintly grey-veined), the defendant's chair, illuminated from above by a clinical 4500K down-light shaft (forensic, not theatrical — production must resist making it beautiful). Center-rear: a raised dark-walnut bench 1.2m above the trial floor, approximately 6m wide, currently empty in the base still. On the right end of the bench: a single brass scale of justice (small, ceremonial). At Wayne's-left position on the bench: a face-down evidence stack. At Wayne's-right position: a blank parchment verdict scroll, unsealed. ON THE REAR WALL ABOVE THE BENCH: SIX crystal coffins mounted in a horizontal row, each ~2.4m tall × 1m wide × 0.8m deep, equally spaced, glowing faintly warm-amber from within with a slow 0.3 Hz pulse — the institutional heartbeat. Each coffin's interior is faintly visible: an Authority elder in stasis, robed in burgundy, eyes closed, hands folded; render the elders as soft-focus presence rather than sharp portraits. The 200-seat gallery on the side walls is EMPTY (canonical — Authority deemed the case too sensitive for public witnessing). Tall iron-bound chamber doors at frame-back-right, closed. Two soft-silhouette burgundy-uniformed Authority guards at parade rest in front of the doors (visible only at this widest framing). Palette: deep burgundy #6b1d2c on the bench undertone and guards' uniforms, warm-amber #d9a66a from the coffins, clinical 4500K white from the chair down-light, polished black-stone reflectivity on the floor. NO PEOPLE on the bench or in the chair in the base still — these are rendered as separate cutscene layers. The composition's emotional weight is the EMPTY gallery — the player who notices the empty seats has read the canonical hygiene rule.",
+  },
+];
+
 /** Full Act 1 art prompt catalog (built up over subsequent chunks). */
 export const ACT1_ART_PROMPTS: readonly Act1ArtPrompt[] = [
   ...CYCLE_A_PORTRAITS,
@@ -294,6 +347,7 @@ export const ACT1_ART_PROMPTS: readonly Act1ArtPrompt[] = [
   ...CYCLE_C_PORTRAITS,
   ...CYCLE_A_BATTLEFIELDS,
   ...CYCLE_B_BATTLEFIELDS,
+  ...CYCLE_C_BATTLEFIELDS,
 ];
 
 /** Look up a single prompt by asset id. */
