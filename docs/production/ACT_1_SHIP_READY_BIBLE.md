@@ -5098,3 +5098,151 @@ for replay players.
 
 ---
 
+## Section 14 — Cycle C2 Battle Section (Wanda Wyrlord)
+
+The engineering spec for C2 — the fragmented encounter with
+Wanda Wyrlord. Section 2.11 authored the character; this
+section specifies the *I Love War* attack-rush deck, the
+per-line voice-glitch timing table, the childhood-tutoring
+flashback beat, and the Insurgency patch close-up direction.
+
+### 14.1 Narrative purpose
+
+C2 is the **first aggression-check match** — Wanda plays
+every card for attack, and her opening volley is the most
+dangerous first-turn threat in Act 1. The tutorial lesson:
+"some opponents win by emptying their hand before you can
+stabilize; survive the opening, they run out of cards." The
+canonical beat per §2.11 is Wanda's exhausting her hand by
+turn 5 — the player who survives the first four turns of
+aggression wins.
+
+C2 is also the narrative setup for the §2.12 C3 reveal —
+Wanda's voice-glitches plant the swarm-Act-2+ hints that
+recontextualize retroactively. Production must hold the
+glitches **ambiguous** (per §0.4 rule 4): readable as
+cybernetic comms interference, NOT as swarm voices bleeding
+through. The player must not know what they are seeing.
+
+### 14.2 Per-turn flow (nominal 8-turn match — shortest in Cycle C)
+
+- **Turn 1 (Wanda opens aggressively):** plays two attack
+  units in a single turn, both tagged *instant-kill* (bypass
+  defensive buffs). The Engineer's defensive build from B1
+  (Iron Lion's last-stand stacks) is canonically insufficient
+  here — C2 teaches that B1's tools are not a universal
+  solution.
+- **Turns 2–3:** Wanda continues aggression, 1–2 attack
+  units per turn.
+- **Turn 4 (peak volume):** Wanda plays her most aggressive
+  card — a 5-attack, 1-defense instant-kill unit that
+  eliminates one Engineer unit outright.
+- **Turn 5 (Wanda's hand empties):** she has played through
+  her deck. Her hand is down to 0–1 cards. This is the
+  canonical pivot the player must recognize.
+- **Turns 6–7 (Engineer's counter-pressure window):** if
+  the player has survived to this point with defensive
+  tools intact, the match becomes winnable. If not, Wanda
+  closes with a lethal attack.
+- **Turn 8:** canonical resolution either direction.
+
+### 14.3 Art sub-spec
+
+**Opponent portrait:** seventeen-year-old Wanda per §2.11 —
+yellow hooded jacket, silver temple plate, light-enhanced
+blue eyes, short platinum hair swept back. The Insurgency
+medic patch on the left shoulder must be visible. Full
+prompt in §22.3.11.
+
+**Battlefield:** Zenon warzone forward command post —
+canvas-walled field tent, single table lit by a camp lantern,
+battlefield sounds audible through the canvas (distant
+artillery at 0.1Hz, muffled). This is the first battlefield
+with active combat as an ambient element. Full prompt in
+§22.1.5.
+
+### 14.4 Cutscene sub-spec
+
+**Pre-match cutscene (0:00–0:40):** establishing the Zenon
+tent, the single lantern, the table already set. Wanda
+enters from outside (the canvas flap opens briefly, showing
+the battlefield beyond — rust-orange smoke, distant muzzle
+flashes). She sits, unzipped yellow jacket catching the
+lantern light, the Insurgency patch momentarily in frame.
+She delivers §2.11 pre-match line with the canonical
+glitch-timing.
+
+**Childhood-tutoring flashback beat (mid-match, turn 4):**
+when Wanda plays her most aggressive unit on turn 4, a
+0.8-second cross-dissolve to a younger Wanda (age nine) at
+the palace tutoring table with the younger Engineer. The
+flashback is silent. The dissolve returns to C2 with Wanda's
+current expression visibly held — she remembers it too.
+
+**Insurgency patch close-up (mid-match, turn 3):** single
+0.5-second close-up on Wanda's left shoulder as she reaches
+for a card. The patch fills the frame momentarily. No
+narration, no dialog. Planting the cross-reference for
+§2.5 / §2.11 return.
+
+**Post-match cutscene — win (0:00–0:35):** §2.11 canonical
+win beat (the emptied hand, the "you got better" line, the
+"Kael" glitch, the Watcher-warning exit line).
+
+**Post-match cutscene — loss (0:00–0:30):** §2.11 canonical
+loss beat (the "I came here for a fight" line, the "I
+promise" two-voice stutter).
+
+### 14.5 VO sub-spec with per-line glitch timing
+
+Voice profile: **`wanda_wyrlord`** (new, full spec in §2.11).
+Nine lines, with canonical glitch timings production must
+hold exactly in post-processing:
+
+| ID | Line excerpt | Glitch word | Glitch duration |
+|---|---|---|---|
+| `vo_c2_wanda_prematch` | *"…because Kael told you to."* | *"Kael"* | 100ms |
+| `vo_c2_wanda_turn1_attack` | *"Opening. Both fronts."* | — | — |
+| `vo_c2_wanda_turn4_aggressive` | *"This is the one I enjoy."* | — | — |
+| `vo_c2_wanda_turn5_empty` | *"— hand clear. Your move."* | *"clear"* | 80ms |
+| `vo_c2_wanda_turn8_win_part1` | §2.11 win beat — *"you got better. I thought you'd coast on what you learned from him."* | *"him"* | 200ms |
+| `vo_c2_wanda_turn8_win_part2` | §2.11 win beat — Watcher warning line | — | — |
+| `vo_c2_wanda_turn8_loss_part1` | §2.11 loss beat — *"That was too easy. I came here for a fight."* | — | — |
+| `vo_c2_wanda_turn8_loss_part2` | §2.11 loss beat — *"The next one will be harder. I promise."* | *"I promise"* | 300ms (canonical two-voice stutter) |
+| `vo_c2_wanda_ambient` | *"Next."* (×3, idle) | — | — |
+
+All glitch timings implemented in post per the §2.11 hygiene
+rule: cybernetic comms interference, NOT swarm voice overlap.
+The 300ms "I promise" stutter is the heaviest glitch in C2
+and is the foreshadow the player will not consciously place
+until §2.12 C3 lands.
+
+### 14.6 VFX sub-spec
+
+- **Aggressive-attack deployment:** each Wanda attack card
+  deploys with a brief cool-blue edge flash (the same
+  #3b82f6 anchor as her optic-rings in §2.11) and a sharp
+  metallic stinger audio (0.2s).
+- **Instant-kill effect:** the targeted Engineer unit
+  shatters into cool-blue particles that dissipate upward
+  before vanishing. No warm-gold involvement; this is the
+  Warlord's color discipline.
+- **Insurgency patch close-up (turn 3):** a soft warm-gold
+  rim around the patch during the close-up, a visual rhyme
+  with the Insurgency Call swarm-aura from §8.6 Kael.
+- **Childhood flashback dissolve (turn 4):** warm-sepia
+  cross-dissolve, identical to the §8.4 Kael flashback
+  transition. The reuse is intentional — the player should
+  register "same visual grammar" and infer "same memory
+  source."
+
+### 14.7 Cross-game beat hooks
+
+C2 does not fire a cross-game emit canonically. Wanda's
+cross-game surface is deferred to Act 2+ when the swarm
+reveal lands. The `warlord_fragmentary` beat in
+`crossGameNarrativeThreads.ts` is marked `act2+` and should
+not trigger in Act 1.
+
+---
+
