@@ -178,7 +178,7 @@ caught before production ships:
 
 - The canonical card-game ruleset, card type system, and deck
   composition engine — those live in `apps/shared/tcg-core/` and
-  `apps/client/src/game/duelyst-engine/`
+  `apps/client/src/game/duelyst/`
 - The `Act1Opponent` TypeScript interface and shell data — that lives
   in `apps/shared/act1Opponents.ts`
 - The 28-day Celebration Trial decision tree and daily events — that
@@ -5426,7 +5426,7 @@ engineering spec referenced from §2.13.
 
 C4 does not use the standard Dischordia duel engine. It runs
 on a dedicated **Trial format** implemented as a subclass of
-the duel engine in `apps/client/src/game/duelyst-engine/
+the duel engine in `apps/client/src/game/duelyst/
 trialFormat.ts` (NEW FILE — to be created as part of Act 1
 engineering work). Ruleset summary:
 
@@ -6277,7 +6277,7 @@ sub-specs.
 
 ### 21.7 Implementation
 
-All VFX live in `apps/client/src/game/duelyst-engine/vfx/` with
+All VFX live in `apps/client/src/game/duelyst/vfx/` with
 per-effect modules. The shared-library effects use a
 parameterized registry; battle-specific effects extend the
 registry. Engineering work includes creating the registry,
@@ -6565,13 +6565,25 @@ of card play. §17.4 has been patched in-place to match this
 reality. **Resolved** — no further engineering follow-up
 needed.
 
-### 23.6 Trial-format engine subclass
+### 23.6 Trial-format engine subclass (resolved)
 
-§16.1 references `apps/client/src/game/duelyst-engine/
-trialFormat.ts` as a NEW FILE that does not yet exist.
-Engineering must create this file and implement the
-Trial-format ruleset per §16. Target: separate engineering
-PR.
+`apps/client/src/game/duelyst/trialFormat.ts` has shipped
+with the full canonical Trial-format ruleset per §16:
+- `JURY_CARDS` — 30 generic numbered jury cards
+- `EVIDENCE_CARDS` — 12 unique evidence cards including
+  e08 (Elara's deposition), e11 (Friend I Saved counter),
+  e12 (unanswerable Charge of Treason)
+- Full state machine: `createTrialState`, `tribunalPlays`,
+  `engineerResponds`, `canCounter`, `getTrialOutcome`
+- Canonical deck order (jury first, evidence mid, e12 last)
+- Win / loss resolution with canonical outcome shape
+
+Shipped with 17 unit tests covering card catalog, opponent
+integration, state transitions, counter logic, the e12
+unanswerable rule, and both win / loss end states. All tests
+pass. **Resolved** — no further engineering follow-up needed
+for Act 1 ship. UI integration is a downstream consumer of
+this module.
 
 ### 23.7 The +500 Light Energy counter UI integration
 
@@ -6597,7 +6609,7 @@ Target: Act 3 authoring pass, separate PR.
 3. ~~Apprentice Cycle A recruitment beat cross-reference~~ (resolved inline — see §23.3)
 4. ~~3 non-boss Mascoteer voice profile authoring~~ (resolved — mascoteerVoiceProfiles.ts shipped; see §23.4)
 5. ~~*The Last Word* fallback-trigger verification~~ (resolved — no fallback needed; see §23.5)
-6. Trial-format engine subclass creation
+6. ~~Trial-format engine subclass creation~~ (resolved — trialFormat.ts shipped + 17 tests; see §23.6)
 7. Light Energy counter UI treatment
 8. *The Friend I Saved* Act 3 F3 recognition dialog
 
