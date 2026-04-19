@@ -2289,3 +2289,73 @@ because conversion is almost always a loss.
   Eden in Cycle C2, that beat belongs to Act 2+)
 
 ---
+
+### 2.12 Warlord's Nano-Swarm (inside Agent Zero) — Cycle C3 opponent (MANDATORY FORCED LOSS)
+
+The third Cycle C boss and the canonical inflection point of Act 1.
+Per §1.1 master index, C3 is the **only mandatory forced loss in
+the entire act**: the Engineer's deck shrinks by one card per
+turn, every lost card is conscripted onto Agent Zero's side as a
+reinforcement against the swarm, and on the final turn the
+Engineer is empty while Agent Zero's board is full. The match is
+not a duel. It is the Engineer's transference, rendered as a
+card-game tempo collapse. He is not trying to win. He is trying
+to fit through the door before it closes.
+
+This section is **structurally different from §2.2 through §2.11**.
+The "opponent" is not a person sitting across a card table. It
+is a weaponized nanobot swarm (per `CANON_REV_7_ORACLE_VEX_
+EXPANSION.md` §1.6) that has been deployed inside the body of
+Agent Zero (the seventeen-year-old the player met in §2.7) by
+the Warlord as a persistence vector. The swarm is **the Warlord
+herself** — she has no other body, has never had one, and is
+preparing to overwrite Agent Zero's mind with her own at the
+moment of physical collapse. Agent Zero's body is the host. The
+Engineer is opposite both of them at the table on Zenon, with
+the Resurrection Protocols device armed beside his playing hand.
+
+There are therefore **two visual surfaces** the production must
+render simultaneously: the swarm (the actual opponent, rendered
+as card-game mechanics and an environmental phenomenon), and
+Agent Zero's body (the host, rendered as a now-eighteen-year-old
+in field deployment loadout, expression flat, eyes unfocused,
+playing cards she does not appear to be choosing). The player
+should read the scene as "I am playing against the swarm, but
+the cards are coming out of her hands." Both readings are correct.
+
+**CRITICAL canon hygiene rules (§0.4 rules 3 + 4):**
+
+1. **The reveal lands HERE.** Cycle C2 (§2.11 Wanda Wyrlord) is
+   the last section that must hide the swarm. Cycle C3 is where
+   the swarm becomes literal on screen. Production may — and
+   should — render distributed nano-fabric, silver-liquid motion,
+   dispersal particles, and cloud-form transitions in this
+   section. The visual vocabulary banned from C2 is **unlocked**
+   in C3. The player needs to see what the Warlord is.
+2. **Agent Zero is "Agent Zero" until the final turn.** Use the
+   identifier "Agent Zero" for every visual, subtitle, voice
+   tag, and matchup-card reference up to and including the
+   penultimate turn. The portrait resolve to **"Vex Solène"**
+   happens at the exact instant the Engineer's transference
+   completes (final turn, after the Engineer's last card is
+   conscripted). From that frame forward she is Vex Solène for
+   the rest of the game. Never mix the two names in the same
+   frame; the resolve is a single hard cut, not a fade.
+3. **The Warlord has no human name.** Per `CANON_REV_7_ORACLE_
+   VEX_EXPANSION.md` §1.6 rule 1 + rule 4: she is "the Warlord."
+   Do NOT use "Malkia" — that name belongs exclusively to
+   Malkia Ukweli (the Enigma, §5.6.9 of the canon expansion)
+   and any cross-reference is a canon bug. Subtitles for the
+   swarm's voice (where it speaks at all — see Voice Direction
+   below) attribute to **`the_warlord`**, never to a first name.
+4. **The Engineer does not say "Vex Solène" in C3.** He does
+   not know that name. He learns, in the instant of transference,
+   that "the remnant of the original Agent Zero's mind was
+   still alive within the swarm" (per §1.3 item 5 of the canon
+   expansion). The name "Vex" surfaces from the host's own
+   memory after the Engineer dies, when she wakes up alone.
+   The player sees the portrait resolve to "Vex Solène" because
+   the *simulation* is labeling its records, not because anyone
+   in the scene says the name aloud.
+
+---
