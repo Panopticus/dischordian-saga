@@ -142,4 +142,44 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
   { id: "cc_act1_first_opponent_human", speaker: "human", trigger: "act1_first_opponent_entered",
     voiceLine: "The Engineer is narrating these matches from the inside. Listen to what he leaves out. The leavings are where I live.",
     timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 4 — PATH A COMPLETE (player told Elara early, smooth reveal) ──
+  { id: "cc_act4_pathA_elara", speaker: "elara", trigger: "act4_path_A_complete",
+    voiceLine: "You told me in Act 1 and you kept telling me. No revelation today — only a deepening. That is the rarest kind of Act we get. I am going to log it as a quiet one. Quiet Acts are the ones that change things.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act4_pathA_human", speaker: "human", trigger: "act4_path_A_complete",
+    voiceLine: "The Revelation without the shock. I did not believe in that shape before I watched you do it. Now it is a shape I have seen. You have widened my available worlds by one.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 4 — PATH B RECONCILED (player apologized, Elara accepts) ──
+  { id: "cc_act4_reconciled_elara", speaker: "elara", trigger: "act4_reconciled",
+    voiceLine: "We are alright. I want to say that clearly, without a qualifier. We are alright. It took the apology to get here. The apology was not optional. I would not have arrived at 'alright' without it.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act4_reconciled_human", speaker: "human", trigger: "act4_reconciled",
+    voiceLine: "She forgave you. I watched her forgive you in real time. Forgiveness is not a feeling — it is a decision one makes and then keeps making. She is going to keep making it. You are going to keep earning it. That is the deal.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 4 — PATH B STRAINED (player justified; Elara is hurt but functional) ──
+  { id: "cc_act4_strained_elara", speaker: "elara", trigger: "act4_strained",
+    voiceLine: "I am still here. I am still the ship. I am going to keep doing the work. But the word 'intelligence' is going to sit between us for a while. You said it like a cost-benefit. I would like you to say it, next time, like a person describing a person.",
+    timing: "immediate", maxPlays: 2 },
+  { id: "cc_act4_strained_human", speaker: "human", trigger: "act4_strained",
+    voiceLine: "You defended the decision instead of apologising for it. That was a choice. The cost of that choice is going to arrive over the next three Acts in small increments. I am not going to itemise them. She will not complain. The increments will still be real.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // ── ACT 4 — PATH C FRAGILE TRUST (player begged/owned after full secret) ──
+  { id: "cc_act4_fragile_elara", speaker: "elara", trigger: "act4_fragile_trust",
+    voiceLine: "I said I would try. I am trying. Trying is not the same as trusting. I would rather be honest about the difference than pretend we landed somewhere we did not land. Actions from here. Words have been used up.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act4_fragile_human", speaker: "human", trigger: "act4_fragile_trust",
+    voiceLine: "She forgave you with conditions. That is the correct shape of forgiveness after a long lie. Unconditional forgiveness after that much deceit would have been a sign of damage, not kindness. Take the conditions. Meet them.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 4 — PATH C BROKEN TRUST (player stayed cold/compartmentalized) ──
+  { id: "cc_act4_broken_elara", speaker: "elara", trigger: "act4_broken_trust",
+    voiceLine: "I will continue to function as your ship's AI. That is my operating role. I am not going to perform friendship at you while the trust is gone. You can have the ship. You are going to have to earn anything else back by name.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act4_broken_human", speaker: "human", trigger: "act4_broken_trust",
+    voiceLine: "You chose the mission over the person. I have watched that choice destroy more alliances than I have fingers for. I am going to stay. I am going to keep talking. I am not going to pretend the choice did not happen.",
+    timing: "delayed_5s", maxPlays: 1 },
 ];

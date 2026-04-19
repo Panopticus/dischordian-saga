@@ -49,6 +49,40 @@ describe("companionAskTopics", () => {
     expect(act3Ids).toContain("ask_elara_kael");
   });
 
+  it("unlocks Act 4 cosmology + identity-progress topics once act4_intro_complete fires", () => {
+    const preAct4 = new Set<string>(["act1_intro_complete", "act3_intro_complete"]);
+    expect(
+      getAvailableAskTopics("elara", preAct4, 4).map((t) => t.id),
+    ).not.toContain("ask_elara_architect");
+    expect(
+      getAvailableAskTopics("human", preAct4, 4).map((t) => t.id),
+    ).not.toContain("ask_human_identity_progress");
+
+    const postAct4 = new Set<string>([
+      "act1_intro_complete",
+      "act3_intro_complete",
+      "act4_intro_complete",
+    ]);
+    const elara = getAvailableAskTopics("elara", postAct4, 4).map((t) => t.id);
+    const human = getAvailableAskTopics("human", postAct4, 4).map((t) => t.id);
+    expect(elara).toEqual(
+      expect.arrayContaining([
+        "ask_elara_architect",
+        "ask_elara_dreamer",
+        "ask_elara_watcher",
+        "ask_elara_post_reveal",
+      ]),
+    );
+    expect(human).toEqual(
+      expect.arrayContaining([
+        "ask_human_architect",
+        "ask_human_dreamer",
+        "ask_human_watcher",
+        "ask_human_identity_progress",
+      ]),
+    );
+  });
+
   it("getAskTopic resolves by id and returns undefined for unknown ids", () => {
     expect(getAskTopic("ask_elara_substrate")?.label).toBe("The substrate");
     expect(getAskTopic("does_not_exist")).toBeUndefined();

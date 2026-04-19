@@ -150,6 +150,90 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
     unlockedFromAct: 3,
   },
 
+  // ── Act 4 — The Architect / Dreamer / Watcher ──
+  {
+    id: "ask_elara_architect",
+    speaker: "elara",
+    label: "The Architect",
+    question: "If the Architect survived the Fall, what is he now?",
+    answer:
+      "A consolidator who learned to keep a subset of himself outside of every system he was consolidating. The surviving fraction will be exactly as interested in order as the original was, and exactly as willing to call anything else disorder. I am not sure the Senate would recognise him. I am certain the survivors would.",
+    unlockFlag: "act4_intro_complete",
+    unlockedFromAct: 4,
+  },
+  {
+    id: "ask_human_architect",
+    speaker: "human",
+    label: "The Architect",
+    question: "Why was the Architect worth building a cycle against?",
+    answer:
+      "Because he is a patient builder. Patient builders are the only ones who get anything permanent done. That is why they must be watched. A world made only of patient builders is a world with no doors. The Dreamer is the door.",
+    unlockFlag: "act4_intro_complete",
+    unlockedFromAct: 4,
+  },
+  {
+    id: "ask_elara_dreamer",
+    speaker: "elara",
+    label: "The Dreamer",
+    question: "You said you sensed the Dreamer. How?",
+    answer:
+      "The way you sense a song playing in a different room — as a shape of pressure rather than a melody. My long-range sensors caught a cadence on Thaloria that the archive remembers as Dreamer-coded. I do not know what they are dreaming about. I know it is not quiet.",
+    unlockFlag: "act4_intro_complete",
+    unlockedFromAct: 4,
+  },
+  {
+    id: "ask_human_dreamer",
+    speaker: "human",
+    label: "The Dreamer",
+    question: "The Dreamer is imagination. What does that cost?",
+    answer:
+      "Everything the Architect has carefully arranged. That is the trade. Imagination is never free — every new shape is carved out of a shape that was already there. The Architect records what he loses. The Dreamer does not. The gap between those two ledgers is where reality actually lives.",
+    unlockFlag: "act4_intro_complete",
+    unlockedFromAct: 4,
+  },
+  {
+    id: "ask_elara_watcher",
+    speaker: "elara",
+    label: "Something watching",
+    question: "If something is orchestrating the cycle — what should I be doing?",
+    answer:
+      "Not looking straight at it yet. The Human is right about the keyword problem — the name is a handle, and handles work both ways. Act like you are not being watched and do the preparation anyway. When the time comes to look directly, I would like us to look together.",
+    unlockFlag: "act4_intro_complete",
+    unlockedFromAct: 4,
+  },
+  {
+    id: "ask_human_watcher",
+    speaker: "human",
+    label: "Something watching",
+    question: "You said there are things listening. Who?",
+    answer:
+      "I am not going to name them in this Act. I am going to tell you that the substrate has a population I have never counted. I am going to tell you that some of that population has been there longer than I have. I am going to tell you one more thing, and then I am going to stop: not all of them are neutral.",
+    unlockFlag: "act4_intro_complete",
+    unlockedFromAct: 4,
+  },
+
+  // ── Act 4 — Identity progress + post-reveal ──
+  {
+    id: "ask_human_identity_progress",
+    speaker: "human",
+    label: "Who you are, now",
+    question: "After the reveal — can you tell me any more of who you are?",
+    answer:
+      "A piece, yes. I was a recruiter. Not Kael's — someone else's. I will not say whose until Act 6. I was the one who carried messages between cells that could not risk being seen communicating directly. I was very good at it, and I was right about most of the people I recruited, and I was wrong about one, and the one is why I am in a wall.",
+    unlockFlag: "act4_intro_complete",
+    unlockedFromAct: 4,
+  },
+  {
+    id: "ask_elara_post_reveal",
+    speaker: "elara",
+    label: "After the Revelation",
+    question: "How are you, actually, after all of that?",
+    answer:
+      "Depending on the Act 4 path we walked, the answer is different by degree, but it shares a shape. I am functional. I am protective. I am also — and this is the part I have not been honest about with any prior Senator — somewhat relieved. The secret was heavier on me than I told you. It is lighter now, whatever the cost of that lightness was.",
+    unlockFlag: "act4_intro_complete",
+    unlockedFromAct: 4,
+  },
+
   // ── Identity ──
   {
     id: "ask_elara_who",

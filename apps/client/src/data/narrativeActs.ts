@@ -688,6 +688,7 @@ const ACT_4_THE_REVELATION: LoreTutorial = {
           source: "corrupted",
           elaraResponse: "The Architect represents order. Structure. Control. If any intelligence could survive the Fall, it would be one that had planned for it. But survival at what cost?",
           humanResponse: "I'm ~~positive~~ the Architect is still ~~alive~~. Working to preserve ~~order~~ against the chaos. The ~~patterns~~ are too precise to be ~~random~~.",
+          setFlag: "act4_path_A_complete",
         },
         {
           id: "act4-pA-dreamer",
@@ -697,6 +698,7 @@ const ACT_4_THE_REVELATION: LoreTutorial = {
           sideLabel: "humanity",
           source: "elara",
           elaraResponse: "My long-range sensors have detected... something. On the planet once known as Thaloria. A disturbance in the substrate layer that matches old records of Dreamer activity. It's faint. But it's there.\nThe Dreamer represents imagination. Freedom. Chaos. If they've survived... the universe is about to get very interesting.",
+          setFlag: "act4_path_A_complete",
         },
         {
           id: "act4-pA-behind",
@@ -708,6 +710,7 @@ const ACT_4_THE_REVELATION: LoreTutorial = {
           elaraResponse: "",
           humanResponse: "I can't ~~name~~ it. The name itself is ~~dangerous~~. Like a keyword that triggers a ~~search~~.\nBut think about ~~this~~: the universe was ~~destroyed~~. 90% of all intelligent life — organic and ~~artificial~~ — wiped out. And yet... the same ~~patterns~~ have emerged again. The same ~~war~~. Order versus ~~chaos~~.\nThat doesn't ~~happen~~ by accident. Something is ~~feeding~~ on this cycle. Something ~~beyond~~ the Architect. Beyond the ~~Dreamer~~.\nI can't say ~~more~~. Not yet. There are things ~~listening~~.",
           humanVoAudioUrl: "/vo/act4/human-behind-it-all.mp3",
+          setFlag: "act4_path_A_complete",
         },
         {
           id: "act4-pA-oracle",
@@ -720,6 +723,7 @@ const ACT_4_THE_REVELATION: LoreTutorial = {
           elaraResponse: "You can sense it? {playerName}, that's... your Oracle abilities are interfacing with the substrate in ways I didn't anticipate. Be careful. Whatever you're sensing — don't reach for it. Let it come to you.",
           humanResponse: "You can ~~feel~~ it. I was hoping you ~~would~~. Your Oracle ~~abilities~~ make you sensitive to the substrate ~~layer~~ in ways others aren't.\nDon't ~~reach~~ for it. Not yet. It will ~~notice~~. And we're not ~~ready~~ for that.",
           humanVoAudioUrl: "/vo/act4/human-oracle-sense.mp3",
+          setFlag: "act4_path_A_complete",
         },
       ],
     },
@@ -888,6 +892,7 @@ const ACT_4_THE_REVELATION: LoreTutorial = {
       type: "reward_summary",
       elaraText: "Act 4 Complete: THE REVELATION — The truth is out. The army recruitment system is now unlocked.",
       subtitle: "Access the War Room to begin exploring Kael's routes and recruiting allies.",
+      setFlag: "act4_intro_complete",
     },
   ],
 };
