@@ -3237,3 +3237,178 @@ mechanics production must visualize are summarized here:
   Act 1; the difference is the framing of the *Last Words*
   slideshow that follows.
 
+**Voice direction:** the C4 scene has **three voice surfaces**,
+and the production must keep them sonically distinct.
+
+1. **Wayne Warden's voice — individual judicial channel** (new
+   profile **`wayne_warden`**). Sixty-three-year-old male
+   baritone, English with a slight upper-class New Babylon
+   inflection (precise diction, lightly clipped consonants,
+   the canonical Authority-academy speech pattern). The voice
+   is neither warm nor cold — it is **administered**.
+   Production note for the actor: think of a senior surgeon
+   reading a postoperative report aloud to colleagues. The
+   facts are facts; the patient may live or die; the report
+   is the report. ElevenLabs target: `stability: 0.80`
+   (high — Wayne is consistent), `similarity_boost: 0.85`,
+   `style: 0.30` (low — he is not performing, he is
+   adjudicating). Wayne speaks his individual rulings,
+   reads evidence cards aloud as he tables them, and
+   delivers the verdict if the scroll fills. He never raises
+   his voice. He never shouts. The post-match canonical loss
+   beat is delivered at exactly the same volume as his
+   opening line — production must hold the dynamic range
+   tight.
+2. **The Authority chorus — collective ritual channel** (new
+   profile composite **`the_authority`**, six-voice unison).
+   The six crystal coffins speak in unison for ritual lines
+   only — the opening invocation, the swearing-in (which the
+   Engineer declines), the verdict pronouncement (loss path),
+   and the recess declaration (win path). The chorus is six
+   distinct voices (4 male + 2 female, ages sixty-eight to
+   eighty-four, all Authority-academy diction) layered in
+   exact synchrony. ElevenLabs spec: each of the six voice
+   profiles recorded individually, mixed in post with **zero
+   timing offset** (the chorus is *unanimous*, not
+   harmonized — production must resist any temptation to
+   stagger entries or pitch-shift for "chorus effect"). The
+   six voices speak as if they were one voice with six
+   throats. Each utterance is short — never more than ten
+   words. Between utterances, the coffins are silent and the
+   amber pulse returns to its baseline 0.3 Hz.
+3. **Elara's evidence-card voice — recorded deposition
+   channel** (existing `elara` profile, age-regressed per
+   the canon hygiene rule above). Roughly seven years younger
+   than Prelude Elara, less weathered, more institutional.
+   The recording is heard by the player only when the
+   evidence card is tabled and the Engineer responds with a
+   "play" rather than a "delay" — the recording then plays
+   in full as the card resolves. Production must apply the
+   public-record artifact pass (low-bitrate compression,
+   faint room tone, the deposition-booth signature). The
+   recording is short (roughly 12 seconds of audio) and
+   delivered with deliberate institutional restraint — Elara
+   reading from prepared remarks, knowing her testimony is
+   under oath, knowing the redactions she has accepted. The
+   warmth that defines her Prelude voice is **almost
+   entirely absent** here. Production note: this is the
+   Elara who will, years later, become the AI narrator the
+   player meets in the Prelude. She does not yet know what is
+   coming.
+
+The three channels never speak simultaneously. Wayne and the
+chorus alternate cleanly (Wayne speaks, then the chorus
+responds, or vice versa). Elara's recording plays only when
+her evidence card is tabled and is fully heard before any
+further channel speaks. The Engineer in C4 has no spoken voice
+during the trial itself — his only "speech" is his ritual
+plea (see Pre-Match Line below) and his card plays. Production
+must hold his silence deliberately; in a chamber this loud
+with judgment, the Engineer's quiet is the player's
+inheritance.
+
+**Canonical pre-match line — Wayne Warden** (INFERRED from the
+data shell preMatchLine *"What do you say to the charges?"*,
+extended for production):
+
+> *"The defendant will rise. The chamber is in session under
+> the seal of the Authority, the New Babylon Tribunal, and
+> the six elders in attendance. The charges have been entered
+> into the record and read in absentia. What do you say to
+> the charges?"*
+
+Delivered in the administered baritone, eyes on the evidence
+stack, hands folded. The line is the standard Authority
+arraignment script — Wayne has read it approximately four
+hundred times in his career. There is no theater in the
+delivery. Production must resist any urge to make the moment
+weighted; the *weight* is what the Engineer brings to it,
+not what Wayne does. Wayne is reading the script.
+
+**Canonical pre-match line — the Engineer's plea** (INFERRED,
+delivered in the Prince voice profile §2.1):
+
+> *"I will let the deck answer."*
+
+Six words, level, no inflection. The ritual phrasing the
+Tribunal accepts when a defendant invokes the right to defend
+by Dischordia. The Engineer does not stand. He does not look
+up. He places his deck on his knee and waits. The chorus
+then speaks (next line below), and the match begins.
+
+**Canonical opening — the Authority chorus** (INFERRED):
+
+> *"So entered. The deck will answer. The Tribunal calls."*
+
+Spoken in unison by all six elders without their eyes
+opening. The amber pulse from the coffins surges visibly on
+each syllable. The chorus is the player's first encounter
+with the unison-voice technique that will recur in Acts 6 and
+7; production must establish it cleanly here.
+
+**Deck theme:** **"Trial format — delay over destroy."** The
+mechanic is summarized in the Tribunal mechanics block above
+and detailed in §15. The tutorial lesson C4 is teaching the
+player is "**some battles are not won, they are *survived
+long enough to record what happened*.**" The Engineer's
+optimal play is not aggressive; it is patient, thematic
+counter-play, holding cards back for the right evidence
+moments. *The Friend I Saved* (§2.12 unlock) is canonically
+**not the right card to play in C4** — a player who burns it
+on a jury card has misread the moment. The match has its own
+unique unlocks waiting; the Mythic Light from §2.12 is for
+later use against Vex Solène, not for use against the
+Tribunal.
+
+**Card unlock — guaranteed** (NOT win-gated; both paths
+unlock the same card): ***The Last Word*** (Mythic Light —
+the second and final Mythic Light card of Act 1, alongside
+*The Friend I Saved* from §2.12). The card unlocks at the
+moment the C4 match resolves (verdict passed, or Tribunal
+recessed). The card body:
+
+- **Name:** The Last Word
+- **Rarity:** Mythic Light
+- **Type:** Memory unit / Cinematic trigger
+- **Cost:** 0 (free play)
+- **Effect:** Once per game — **and only once** — when the
+  player plays *The Last Word*, the **Last Words slideshow
+  fires** (15 frames, ~3m 30s, the master Cycle C finale,
+  +500 Light Energy galaxy-wide community spike per §1.1).
+  The card is consumed after one play and cannot be drawn
+  again.
+- **Mechanical effect during the play that triggers the
+  slideshow:** the current match (whatever it is) is
+  **paused** for the slideshow's duration. After the
+  slideshow resolves, the match resumes with the player
+  granted +5 to all subsequent card plays for the remainder
+  of that match. (Mechanically: the Engineer's recorded last
+  words inspire the Engineer's heir at the table, whoever
+  that may be in the moment of play.)
+- **Flavor text (procedural, varies by C4 outcome):**
+  - **Win path** (Tribunal recessed, Engineer earned the
+    delay): *"He recorded it because they let him. He
+    recorded it for everyone."*
+  - **Loss path** (verdict passed, Engineer recorded under
+    duress): *"He recorded it because they made him. He
+    recorded it for the one person they did not know was
+    listening."*
+- **Card art (referenced; full prompt in §22.3):** a single
+  microphone on a polished black stone surface, captured in
+  warm-yellow Authority spotlighting, with the verdict
+  scroll visible in soft focus behind it. The microphone
+  shows a faint condensation halo around the diaphragm — the
+  Engineer is breathing into it. No people visible.
+
+The card is the most narratively-loaded card in the entire
+game — its first play *is* the *Last Words* cinematic. Players
+who hold it for the right moment are rewarded with a
+contextual integration the player who plays it on day one
+will not get; the slideshow's introductory frame includes a
+small textual epigraph naming the match the player was in
+when they triggered it. Players who never play *The Last Word*
+will see the *Last Words* slideshow at the start of Act 5
+regardless (per Year One Calendar Month 6 — fallback trigger),
+but the +5 mechanical reward and the personalized epigraph
+land only on player-triggered plays.
+
