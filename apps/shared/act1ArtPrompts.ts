@@ -258,12 +258,42 @@ const CYCLE_A_BATTLEFIELDS: readonly Act1ArtPrompt[] = [
   },
 ];
 
+/* ─── BATTLEFIELDS — Cycle B (§22.1) ─── */
+
+const CYCLE_B_BATTLEFIELDS: readonly Act1ArtPrompt[] = [
+  {
+    assetId: "bf_mechronis_classroom_standard",
+    name: "Mechronis Academy Classroom (B1-B4 shared)",
+    category: "battlefield",
+    cycle: "B",
+    bibleSection: "§22.1.2 / §§7.3-10.3",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Wide establishing shot of a Mechronis Academy classroom — institutional, warm-gold light through tall arched windows on the LEFT side of the frame. Rows of empty blue Mechronis student desks recede toward the back of the room. A single card table at center-foreground (two desks shoved together, regulation Mechronis blue surface). Tall wooden blackboard at the back wall, content variant per battle (B1: first-year mathematics; B2: second-year civics; B3: covert-operations diagrams kept unreadable; B4: algorithmic diagrams kept unreadable — for the base still, render as PARTIALLY-ERASED chalk with no specific subject so producers can composite the per-battle variant in post). The blue uniform color #4ba3b5 on the desks anchors the institutional palette; warm-gold #b8752d on the desk-edge brass and the classroom door fittings provides the intentional cross-color tension. Late-afternoon shadows from the windows fall across the central card table. NO PEOPLE in the base still. The architectural framing is identical for B1-B4 — production composites the chalkboard variant + lighting subtle shift (B4 should be slightly dimmer per §10.3 desk-lamp emphasis) on top of this base.",
+  },
+  {
+    assetId: "bf_mechronis_common_room",
+    name: "Mechronis Senior Common Room (B5)",
+    category: "battlefield",
+    cycle: "B",
+    bibleSection: "§22.1.3 / §11.3",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Wide establishing shot of the Mechronis Academy senior common room — distinct from and SOFTER than the standard classroom (the only comfortable Cycle B battlefield). A working stone fireplace at frame-left, low warm-gold flame light spilling onto a pair of leather armchairs angled toward each other across a low coffee-table card table. Wooden bookshelves line the back wall, leather-bound spines warm and worn. A tall arched window at frame-right shows late evening sky going dusk-blue. The institutional Mechronis blue palette is muted here — the dominant tone is wood-brown and warm-gold firelight rather than the classroom's blue-grey. A small Mechronis crest carved into the fireplace mantel, tasteful, unreadable at this scale. Two small reading lamps on side tables beside the armchairs, both lit, casting their own warm pools. The composition centers the empty coffee-table-card-table; the upper two-thirds hold the wood-paneled wall and bookshelves, the lower third is the rug. NO PEOPLE in the base still. This is the only Cycle B space where the player should feel that someone might invite them to stay for tea after the match.",
+  },
+];
+
 /** Full Act 1 art prompt catalog (built up over subsequent chunks). */
 export const ACT1_ART_PROMPTS: readonly Act1ArtPrompt[] = [
   ...CYCLE_A_PORTRAITS,
   ...CYCLE_B_PORTRAITS,
   ...CYCLE_C_PORTRAITS,
   ...CYCLE_A_BATTLEFIELDS,
+  ...CYCLE_B_BATTLEFIELDS,
 ];
 
 /** Look up a single prompt by asset id. */
