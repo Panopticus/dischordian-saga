@@ -5923,15 +5923,13 @@ days × 90s = ~42 minutes, matching the target runtime.
 Three canonical event types, distributed across the 28 days:
 
 1. **Mascoteer interactions (~18 days):** the player chooses
-   how to engage with one of the six Mascoteers (Minnie
-   plus 5 others per `apps/shared/mascoteers.ts`). Each
-   interaction adjusts the bond with that Mascoteer by
-   ±1–3 points. The Mascoteer roster canonically includes:
-   Minnie (A1 opponent, Day 10 boss), Corey (A2 opponent,
-   Day 20 boss), Kanshi Sha (A3 opponent, Day 28 boss),
-   plus three non-boss Mascoteers (the Stargazer, the
-   Wildflower, the Carnival Barker — full profiles in
-   `mascoteers.ts`).
+   how to engage with one of the twelve Mascoteers per
+   `apps/shared/mascoteers.ts`. Each interaction adjusts the
+   bond with that Mascoteer by ±1–3 points. Three of the
+   twelve are the Cycle A bosses (Minnie the Meme at A1,
+   Little Corey at A2, Mr. Unblink / Kanshi-sha at A3). The
+   remaining nine are non-boss Mascoteers whose bond states
+   feed the bonus-path unlocks in §19.4.
 2. **Apprentice beats (~7 days):** interactions with the
    player's apprentice (assigned in Cycle A recruitment beat, see
    §20 for the permadeath system). Each apprentice beat
@@ -5943,16 +5941,26 @@ Three canonical event types, distributed across the 28 days:
    foreshadow; Day 22: "The Quiet Day" — an empty day
    with no event, the only silent beat in the Trial).
 
-### 19.4 The six Mascoteers (abbreviated — see mascoteers.ts)
+### 19.4 The twelve Mascoteers (canonical per mascoteers.ts)
 
-| Mascoteer | Boss? | Bond range | Canonical role |
-|---|---|---|---|
-| **Minnie** | A1 (Day 10) | −5 to +10 | The Meme child form |
-| **Corey** | A2 (Day 20) | −5 to +10 | The Collector child form |
-| **Kanshi Sha** | A3 (Day 28) | −5 to +10 | The Watcher child form |
-| **The Stargazer** | no | −5 to +10 | Dreamy introvert; bonus path if bond ≥ 5 unlocks an extra Cycle A pre-battle scene |
-| **The Wildflower** | no | −5 to +10 | Chaotic extrovert; bonus path unlocks an apprentice-training minigame |
-| **The Carnival Barker** | no | −5 to +10 | Charismatic promoter; bonus path unlocks +1 Engineer starting-card carry-forward to Cycle B1 |
+| Mascoteer | `id` | Boss? | Archon skin | Bond range | Act 1 bonus-path unlock (if bond ≥ 5) |
+|---|---|---|---|---|---|
+| **Minnie** | `minnie` | A1 (Day 10) | The Meme | −5..+10 | (the A1 battle — no bonus path) |
+| **Little Corey** | `little_corey` | A2 (Day 20) | The Collector | −5..+10 | (the A2 battle — no bonus path) |
+| **Mr. Unblink** | `mr_unblink` | A3 (Day 28) | The Watcher (Kanshi-sha) | −5..+10 | (the A3 battle — no bonus path) |
+| **Conni the Conductor** | `the_conductor` | no | The CoNexus | −5..+10 | +1 starting card carry-forward to Cycle B1 |
+| **Vernon the Door-Finder** | `vernon` | no | The Vortex | −5..+10 | C1 Vernon Vortex's first wipe delayed by 1 turn |
+| **Wanda Wee** | `wanda_wee` | no | The Warlord | −5..+10 | Wanda Wyrlord's C2 opening aggression reduced by one card |
+| **Senator Sprout** | `senator_sprout` | no | The Politician | −5..+10 | Apprentice Trust trait starts at 55 instead of 50 |
+| **Wayne the Warden's-Boy** | `wayne` | no | The Warden | −5..+10 | Wayne Warden C4 trial opens with one favorable juror (1 ink line pre-delayed) |
+| **Gary the Ninth** | `gary` | no | The Game Master | −5..+10 | Extra Cycle A pre-battle scene unlocks per bonus path |
+| **Thazu** | `thazu` | no | The Necromancer | −5..+10 | Memory Card (if apprentice dies) drops +1/+1 pre-buffed |
+| **The Prince** | `the_prince` | no | The Engineer (self) | N/A | (the player IS the Prince; bond with self is fixed) |
+| **Red, the Seeker-Boy** | `the_seeker_child` | no | The Human / Seeker | −5..+10 | B5 Seeker match's turn-16 tie-break carries +1 card |
+
+The Prince entry is intentionally non-interactive — it is the
+player's own Mascoteer self, present in the roster for
+simulation-consistency but not part of the bond loop.
 
 ### 19.5 Daily UI sub-spec
 
@@ -6519,13 +6527,22 @@ recruitment beat" consistently, and the apprentices.ts
 header now cross-references §20 of this bible.
 **Resolved** — no further follow-up needed.
 
-### 23.4 Celebration Trial non-boss Mascoteer voice profiles
+### 23.4 Celebration Trial Mascoteer voice profiles (resolved)
 
-§19.4 introduces three non-boss Mascoteers (the Stargazer,
-the Wildflower, the Carnival Barker). Voice profiles for
-these three are NOT authored in §2. Production must add
-three profile entries in a separate VO-pipeline PR before
-the Celebration Trial VO batch can ship.
+An earlier draft of this doc invented three non-canonical
+non-boss mascoteers ("the Stargazer, the Wildflower, the
+Carnival Barker") that do not exist in
+`apps/shared/mascoteers.ts`. The canonical roster is twelve
+mascoteers, three of which are the Cycle A bosses (Minnie,
+Little Corey, Mr. Unblink), leaving nine non-boss mascoteers.
+§19.4 has been rewritten in-place to list the canonical
+twelve with their bonus-path unlock effects. Voice profiles
+for all twelve ship as
+`apps/shared/mascoteerVoiceProfiles.ts` with ElevenLabs
+settings, one direction note per profile, and an
+`authoredInBible` flag marking which three are already
+specified by §§2.2–2.4. **Resolved** — no further follow-up
+needed.
 
 ### 23.5 *The Last Word* fallback-trigger wiring
 
@@ -6566,7 +6583,7 @@ Target: Act 3 authoring pass, separate PR.
 1. `act1Opponents.ts` rename + schema updates
 2. DSFGL Rev 6.2 line 5536 correction
 3. ~~Apprentice Cycle A recruitment beat cross-reference~~ (resolved inline — see §23.3)
-4. 3 non-boss Mascoteer voice profile authoring
+4. ~~3 non-boss Mascoteer voice profile authoring~~ (resolved — mascoteerVoiceProfiles.ts shipped; see §23.4)
 5. *The Last Word* fallback-trigger verification
 6. Trial-format engine subclass creation
 7. Light Energy counter UI treatment
