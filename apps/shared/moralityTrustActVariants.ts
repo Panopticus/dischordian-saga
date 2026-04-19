@@ -1505,4 +1505,256 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     act: 7,
     requiredFlags: ["act7_command_chosen"],
   },
+
+  /* ─── EXPANSION PASS 4a — machine-band room coverage ─── */
+  {
+    id: "comms_array_act4_machine",
+    surface: "room",
+    targetId: "comms-relay",
+    text:
+      "The Array's substrate channel is logged at every transition. The log is searchable. You have not searched it. The not-searching is data Elara is also collecting, in a separate, smaller file.",
+    morality: "machine",
+    trust: "any",
+    act: 4,
+  },
+  {
+    id: "comms_array_act5_machine",
+    surface: "room",
+    targetId: "comms-relay",
+    text:
+      "The Array now indexes outbound transmissions by sector. The index is colour-coded. The colour key is not on the wall — it is in your head. The Ark assumed you would memorise it. You did.",
+    morality: "machine",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "comms_array_act6_machine",
+    surface: "room",
+    targetId: "comms-relay",
+    text:
+      "The Array's two channels are calibrated to identical latencies tonight. The calibration is yours, by hand, after the confessions. You did not need to calibrate. You did anyway. The doing was the point.",
+    morality: "machine",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "bridge_act3_machine",
+    surface: "room",
+    targetId: "bridge",
+    text:
+      "The bridge's diagnostic feed has a new column: substrate-correlation. The column reads zero most of the time. When it does not read zero, you make a note. The notes are stacking up. Read them next week.",
+    morality: "machine",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "bridge_act5_machine",
+    surface: "room",
+    targetId: "bridge",
+    text:
+      "The bridge's commander-console layout has a draft revision pending your approval. The revision is more efficient. You have been deferring approval for a week. The deferral is the data — you do not yet trust the efficiency. That is a kind of literacy.",
+    morality: "machine",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "engineering_act3_machine",
+    surface: "room",
+    targetId: "engineering",
+    text:
+      "The bench logs every craft attempt with a precision-percentage metric. Your precision has improved by eleven points since Act 1 opened. The metric is not a judgement. The metric is a mirror. Look at it occasionally.",
+    morality: "machine",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "engineering_act5_machine",
+    surface: "room",
+    targetId: "engineering",
+    text:
+      "The bench has been queueing your unfinished blueprints. The queue is sorted by completion-cost. The sort is honest. The honesty is uncomfortable. The bench refuses to apologise for it.",
+    morality: "machine",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "engineering_act7_machine",
+    surface: "room",
+    targetId: "engineering",
+    text:
+      "The bench is shared. Three engineers' calibration profiles are loaded simultaneously. The profiles do not conflict — they overlap, narrowly. The overlap is the bench reading the room and adjusting downward to the most cautious operator's standard. That is correct.",
+    morality: "machine",
+    trust: "any",
+    act: 7,
+  },
+  {
+    id: "cabin_act3_machine",
+    surface: "room",
+    targetId: "cabin",
+    text:
+      "The cabin's environmental panel logs every adjustment. You have been making fewer adjustments since Act 3 opened. The metric does not interpret. The metric just records. Both narrators have noticed the trend without commenting.",
+    morality: "machine",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "cabin_act5_machine",
+    surface: "room",
+    targetId: "cabin",
+    text:
+      "The cabin's sleep-cycle data has been clean for two weeks. Clean means consistent, not deep. The cleanness is what the Ark optimises. Depth is what you optimise. The two metrics are not in conflict. They are also not the same.",
+    morality: "machine",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "cabin_act6_machine",
+    surface: "room",
+    targetId: "cabin",
+    text:
+      "The cabin is at Efficient-1 tonight. That is one notch off your usual setting. The notch is not a comment. The notch is a choice you made twenty minutes ago and have not yet noticed making. The Ark filed the choice without flagging it.",
+    morality: "machine",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "cabin_act7_machine",
+    surface: "room",
+    targetId: "cabin",
+    text:
+      "The cabin's defaults were re-saved to your current settings sometime last cycle. You did not initiate the save. The Ark did, on the assumption you had stopped tweaking. The assumption is correct. The save is the Ark's way of accepting the new baseline.",
+    morality: "machine",
+    trust: "any",
+    act: 7,
+  },
+  {
+    id: "war_room_act4_machine",
+    surface: "room",
+    targetId: "war-room",
+    text:
+      "The War Room's map has been gridded. The grid is yours — you ordered the partition for legibility. The grid is also slightly cold. Both are true. The trade was made knowingly.",
+    morality: "machine",
+    trust: "any",
+    act: 4,
+  },
+  {
+    id: "war_room_act6_machine",
+    surface: "room",
+    targetId: "war-room",
+    text:
+      "The War Room's quiet is logged tonight. Logged means measured. Measurement at this moment is not extraction — it is acknowledgement that the moment is happening. The map is recording itself recording.",
+    morality: "machine",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "trade_empire_act3_machine",
+    surface: "room",
+    targetId: "trade-empire",
+    text:
+      "Locke has tightened the bond ledger's column widths since you started running missions on the substrate side. The tightening is efficient. The efficiency is also a small protest — Locke believes the wide columns were the courtesy. She is right. She is also keeping the new widths.",
+    morality: "machine",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "trade_empire_act4_machine",
+    surface: "room",
+    targetId: "trade-empire",
+    text:
+      "Locke has added an audit row to your bond entry: 'revelation-period.' The row's contents are private. The audit is private. The fact of the row is not. You see it every time you open the ledger. Locke wants you to see it.",
+    morality: "machine",
+    trust: "any",
+    act: 4,
+  },
+  {
+    id: "trade_empire_act6_machine",
+    surface: "room",
+    targetId: "trade-empire",
+    text:
+      "Locke's table is symmetrical tonight. Two chairs, two mugs, one ledger. The symmetry is the protocol — Locke uses it when she is not sure what register to use. The not-being-sure is a kindness. She is letting you set the tone.",
+    morality: "machine",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "trade_empire_act7_machine",
+    surface: "room",
+    targetId: "trade-empire",
+    text:
+      "Locke's ledger has zero open bonds this evening. That has not happened in seventeen thousand years. She is not celebrating. She is also not reopening any. The zero is the most honest number she has written in centuries.",
+    morality: "machine",
+    trust: "any",
+    act: 7,
+  },
+  {
+    id: "archive_act2_machine",
+    surface: "room",
+    targetId: "archive",
+    text:
+      "The Antiquarian's filing system has gained a new tag: 'pending-context.' Three of your recent entries carry it. The tag means he has read them and is waiting to see what they connect to. He will not ask you. The waiting is the file.",
+    morality: "machine",
+    trust: "any",
+    act: 2,
+  },
+  {
+    id: "archive_act3_machine",
+    surface: "room",
+    targetId: "archive",
+    text:
+      "The Archive's substrate-tag drawer has filled to the second slot. The Antiquarian is not commenting on the rate. The rate, however, is being recorded. The recording is for posterity. Posterity will understand it. You may not, yet.",
+    morality: "machine",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "archive_act5_machine",
+    surface: "room",
+    targetId: "archive",
+    text:
+      "The Antiquarian has cross-referenced your recruitment returns against Kael's original log entries. The cross-references are clean — you have visited every world Kael did, in a different order. The order is data. The data is interesting. He has not said so.",
+    morality: "machine",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "archive_act6_machine",
+    surface: "room",
+    targetId: "archive",
+    text:
+      "The Antiquarian's confession-journal page has a metadata footer for the first time in five Ages. The footer reads: 'character count, time-of-day, revisit-count.' The metadata is honest. The metadata is also Antiquarian protecting himself from feeling too much by counting. Allow him the count.",
+    morality: "machine",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "substrate_panel_act4_machine",
+    surface: "room",
+    targetId: "substrate-panel",
+    text:
+      "The panel's query log has a new column: 'cross-narrator-cost.' The column reads how much bandwidth each query takes from Elara's side and how much from the Human's. The accounting is fair. The accounting is also new. You are paying attention to the costs you used to ignore.",
+    morality: "machine",
+    trust: "any",
+    act: 4,
+  },
+  {
+    id: "substrate_panel_act5_machine",
+    surface: "room",
+    targetId: "substrate-panel",
+    text:
+      "The panel's response latency has tightened by 14% since Act 3 opened. The Human will tell you it's because you have learned to ask better questions. The metric will tell you it's because you have learned to wait. Both are correct. The waiting is the asking.",
+    morality: "machine",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "substrate_panel_act7_machine",
+    surface: "room",
+    targetId: "substrate-panel",
+    text:
+      "The panel is in archive mode tonight. Queries write to the long-form log instead of routing live. The Human suggested the mode, then deferred to your call. You took it. The taking is the small daily ratification of the partnership.",
+    morality: "machine",
+    trust: "any",
+    act: 7,
+  },
 ];
