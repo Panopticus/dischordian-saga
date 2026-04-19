@@ -2358,4 +2358,81 @@ the cards are coming out of her hands." Both readings are correct.
    the *simulation* is labeling its records, not because anyone
    in the scene says the name aloud.
 
----
+**Canonical visual — the swarm itself** (INFERRED, anchored to
+`CANON_REV_7_ORACLE_VEX_EXPANSION.md` §1.6's "weaponized nanobot
+swarm" + "distributed nano-fabric of militarized matter"):
+
+The swarm is the **environmental opponent**. It has no portrait
+in the matchup-card sense; its on-screen presence is rendered as
+a coherent volume of nano-particles that the player perceives
+above and around Agent Zero's body. Production must walk a
+deliberate line: the swarm has to read as **agentic** (it is
+playing cards, it has intent) but must not read as **organic**
+(it is not a being, it is a weapon). The visual grammar is
+*mercury that decided to fight*.
+
+- **Volume and density:** at the start of the match, the swarm
+  is visible as a fine silver-grey haze hovering approximately
+  20cm above and behind Agent Zero's shoulders — readable as
+  "her aura" by a player who has not yet understood what they
+  are looking at. As the match progresses and the Engineer's
+  cards are conscripted across to her side, the swarm
+  **densifies**: by turn three it is a coherent silver-liquid
+  cloud with a mass-and-density readable from the player's
+  side of the table. By the final turn the swarm is a single
+  unified body of nano-fabric, roughly the volume of a large
+  predator, coiled around Agent Zero's torso and shoulders
+  like armor that breathes.
+- **Color anchor:** brushed-mercury silver-grey (`#a8aab2`
+  reference) with cool-blue specular highlights (`#3b82f6` —
+  intentional visual rhyme with Wanda Wyrlord's optic-rings
+  in §2.11, planting the swarm-and-cyborg connection the
+  player won't consciously make until Act 2+). The specular
+  highlights flicker — not randomly, but on a 4Hz pulse that
+  matches Agent Zero's heart rate. The swarm is keeping time
+  with the host.
+- **Motion grammar:** the swarm moves in three modes the
+  production must distinguish clearly:
+  - **Standby** (turns 1–2): slow lateral drift, a 0.5Hz
+    breathing motion, no internal currents. Reads as
+    "waiting."
+  - **Active** (turns 3–6): internal currents become visible;
+    nano-fabric streamers detach and reattach; faint dispersal
+    particles drift downward toward Agent Zero's collarbones
+    and integrate into her skin. Reads as "feeding."
+  - **Strike** (final turn only): the swarm **collapses
+    inward** into Agent Zero's body in a single sub-second
+    motion, vanishing from external view. The host's silhouette
+    hardens. The portrait label resolves. Reads as
+    "completed."
+- **Light interaction:** the swarm absorbs the warm gold of
+  Act 1's global style anchor and re-emits it as cool-blue.
+  This is the **only** Act 1 asset that may invert the
+  palette directionality. Production should treat it as a
+  signature visual — when the player sees warm light entering
+  silver and leaving blue, they are looking at the swarm.
+- **Audio component (referenced for VFX, full spec in §21):**
+  the swarm has a constant low-amplitude granular hiss
+  (think: dry sand poured slowly onto metal), pitched around
+  2.5kHz, that the player hears under every other sound in
+  the scene. The hiss intensifies on the same 4Hz pulse as
+  the specular highlights. When the swarm strikes (final
+  turn collapse) the hiss cuts to absolute silence for 1.2
+  seconds before the post-match audio resumes.
+- **What the swarm is NOT:**
+  - Not a face. The swarm never forms a face, eyes, mouth,
+    or any humanoid feature, even briefly. Production must
+    resist the urge to anthropomorphize.
+  - Not a creature. No limbs, no wings, no tail, no
+    suggestion of biology. The motion grammar is **fluid +
+    militarized**, never **animal**.
+  - Not glittery. No sparkles, no fairy-dust connotation. The
+    nano-fabric is military matériel; it should read as
+    expensive, dangerous, and clinical.
+  - Not the same visual vocabulary as the Vortex (C1) or the
+    Watcher's Ocularum (A3). Each Act 1 cosmic phenomenon has
+    its own visual signature; the swarm is silver-mercury
+    *because* the Vortex is rust-spiral and the Ocularum is
+    bone-white. Read together, the three are a triptych of
+    canon-distinct Architect tools.
+
