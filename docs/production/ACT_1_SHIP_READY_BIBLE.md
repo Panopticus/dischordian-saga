@@ -3108,3 +3108,132 @@ institution recognizes.
   When he speaks, his hands fold in front of him on the
   bench, sleeves obscuring the wrists.
 
+**Canonical environment — the New Babylon Tribunal chamber:**
+
+The setting is canonical and load-bearing for the *Last Words*
+slideshow that follows. Production must compose the trial
+chamber so the wide shot reads as **a courtroom designed by
+people who think judgment is liturgy**. The chamber is roughly
+24m × 18m, ceiling 12m high, with a single tall vertical-
+proportioned space rather than a horizontally-spread one. The
+player perspective in C4 is from the Engineer's seat — a single
+plain wooden chair on the trial floor, no table, no podium, no
+support. The Engineer's deck is held in his hands.
+
+- **The bench (rear of chamber):** raised 1.2m off the trial
+  floor, polished dark walnut, approximately 6m wide. Wayne
+  Warden sits at center; the bench is otherwise empty during
+  the C4 trial (other Tribunal members participate as the six
+  crystal coffins overhead, not as floor seating). A single
+  brass scale of justice sits on the right end of the bench,
+  ceremonial, unused during the match. To Wayne's left: the
+  evidence stack (the Tribunal's deck), face-down. To Wayne's
+  right: the verdict scroll, unsealed, blank. The verdict
+  scroll is the chamber's only timer the player can see — a
+  single ink line is added to it at the bottom of every turn
+  the Tribunal is winning, and the scroll fills from blank to
+  full text over the course of the match. When the scroll
+  fills, the verdict is passed.
+- **The six crystal coffins** (canonical per §2 user canon and
+  the existing data shell): mounted on the rear wall above
+  Wayne's bench, in a horizontal row, each approximately 2.4m
+  tall × 1m wide × 0.8m deep, equally spaced. Each coffin
+  contains the visible body of an Authority elder in stasis
+  (sixties-to-eighties, robed identically to Wayne, eyes
+  closed, hands folded). The coffins are **lit from within**
+  by faint warm-amber light that pulses softly in unison at
+  approximately 0.3 Hz (the institutional heartbeat). The
+  coffins are not decorative — they are the rest of the
+  Tribunal. Wayne's individual rulings are advisory; the
+  collective ritual lines (see Voice Direction below) are
+  spoken in unison by the six elders without any of them
+  visibly opening their eyes. The amber pulse intensifies
+  when the chorus speaks. Production must render the chorus
+  events with a corresponding visible light surge from the
+  coffins, never with mouth movement.
+- **The trial floor:** polished black stone, faintly veined
+  with grey, no carpet. The Engineer's wooden chair sits at
+  the geometric center of the floor, facing the bench. A
+  single shaft of warm-yellow Authority-spec spotlighting
+  illuminates the chair from above; the rest of the floor
+  recedes into shadow. The lighting is forensic, not
+  theatrical — production should resist any urge to make the
+  shaft beautiful. It is a clinical down-light at 4500K with
+  no diffusion.
+- **The gallery:** the chamber walls between the bench and
+  the entrance are lined with empty observer seating —
+  approximately 200 seats, all unoccupied for the C4 trial.
+  Canonical: the Authority deemed the Engineer's case too
+  sensitive for public witnessing and closed the gallery.
+  Production must render the empty seats clearly visible in
+  any wide shot. The emptiness is the point. There is nobody
+  to bear witness to what happens here except the player and
+  the Tribunal itself.
+- **The chamber doors:** a single set of tall iron-bound
+  doors at the back of the gallery, closed and bolted from
+  outside. Two New Babylon Authority guards in burgundy
+  uniforms stand at parade rest in front of the doors,
+  visible only in the widest establishing shot. They do not
+  speak, do not move, and are not characters. They are the
+  chamber's reminder that the Engineer is not free to leave.
+
+**Canonical mechanics — the Trial format:**
+
+C4 is the **only Act 1 match** that does not use the standard
+Dischordia duel ruleset. The Trial format is documented in
+detail in §15 (Cycle C4 battle section) but the player-facing
+mechanics production must visualize are summarized here:
+
+- **The Engineer's deck** is his standard Dischordia deck as
+  accumulated through Cycles A–C3, including all card unlocks
+  he has earned. *The Friend I Saved* (§2.12 unlock) is in
+  the deck and may be played in C4 as a defense. The Engineer
+  draws and plays cards by the standard rules.
+- **The Tribunal's deck** is an entirely separate ruleset
+  comprising two card types:
+  1. **Jury cards** (~30 in the deck): each represents a
+     single member of the implied jury (the Authority does
+     not use a public jury, but its Tribunal protocol
+     requires symbolic representation). When Wayne plays a
+     jury card, it adds **one ink line** to the verdict
+     scroll regardless of the Engineer's defense. Jury cards
+     cannot be canceled, only *delayed* by specific Engineer
+     responses. The Engineer's job is to play cards that
+     **delay** rather than cards that *destroy* — Trial
+     format does not award destruction points; it awards
+     time.
+  2. **Evidence cards** (~12 in the deck): each represents a
+     piece of recorded testimony or material proof. Evidence
+     cards add **two to four ink lines** depending on weight
+     and require a specific Engineer response to delay (the
+     player must counter with an Engineer card whose flavor
+     contradicts the evidence — e.g., evidence card *"The
+     Engineer abandoned his post at Nexon"* is countered by
+     the Engineer card *"The Standstill"* (§2.10 C1 unlock,
+     thematically about holding the line)). The matchup is
+     thematic, not statistical; production must hand-author
+     the counter-table, deferred to §15.
+- **Elara's evidence card** is one of the twelve evidence
+  cards. It carries a **three-line weight** (mid-range, not
+  the heaviest). Its canonical title on the card face is
+  *"Public Servant Testimony — Atarion, redacted."* Its art
+  shows a much-younger Elara in Authority robes seated at a
+  deposition booth (full prompt in §22.3). Its flavor text
+  reads: *"The defendant was already known to my office
+  before his arrest. I cannot say more without authorization
+  I do not have. — Public Servant E. (recorded under oath)."*
+  Production note: the **single initial "E."** is the only
+  Act 1 reference to her name. Players who have just
+  finished the Prelude and recognize the initial may put it
+  together. Players who have not, will not. Both readings are
+  intended.
+- **The verdict scroll** fills from top to bottom. Ten ink
+  lines fills the scroll. When it fills, the Tribunal passes
+  sentence (canonical loss). If the Engineer survives all
+  thirty jury cards plus all twelve evidence cards without
+  the scroll filling — possible only with optimal
+  delay-counter play — the Tribunal **runs out of cards** and
+  is forced to recess (canonical win). Either path resolves
+  Act 1; the difference is the framing of the *Last Words*
+  slideshow that follows.
+
