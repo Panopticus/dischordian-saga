@@ -2436,3 +2436,136 @@ playing cards, it has intent) but must not read as **organic**
     bone-white. Read together, the three are a triptych of
     canon-distinct Architect tools.
 
+**Canonical visual — the host body** (Agent Zero, eighteen, one
+year past her §2.7 Mechronis appearance):
+
+The same person from §2.7 — same height, same build, same
+ethnically-ambiguous features, same dark brown hair — but a year
+of field deployment has passed and the production must show it.
+Agent Zero in C3 is no longer the quiet Mechronis student; she
+is an operational asset who has been carrying a swarm in her
+bloodstream for several months. Continuity with §2.7 is **load-
+bearing** — the player must recognize her on sight. The changes
+production introduces in C3 must read as "this is the same person
+later," not "this is a different character."
+
+- **Age:** eighteen, by approximately ten months. The child-fat
+  is gone from her cheeks; the jawline is slightly more
+  defined. She is not gaunt, but she is operating at a body
+  weight a few kilos under what Mechronis would have measured.
+- **Skin:** the same medium-light brown as §2.7, but with a
+  faint **silver undertone visible in the capillaries on the
+  insides of her wrists, the soft skin under her jaw, and the
+  thin skin at her temples**. Production must render the
+  undertone subtly — the player should register "she looks
+  tired" first, then on second look, "wait, why does the
+  shadow under her skin read silver?" The undertone is the
+  swarm in her circulatory system. It is canonical. It is the
+  player's first visual confirmation, before the swarm itself
+  becomes visible above her shoulders, that something is
+  inside her.
+- **Hair:** still straight, dark brown, mid-back length, but
+  now pulled back into a tight functional braid against the
+  base of the skull. The left-side curtain that hid her left
+  eye in §2.7 is gone. Both eyes are visible. The
+  surveillance-countermeasure habit has been overridden by
+  field-uniform regulations. (Subtext the player will not yet
+  catch: the swarm does not need her to hide her face. The
+  swarm is the camouflage now.)
+- **Eyes:** both visible. The right eye is the same calm dark
+  brown the player remembers from §2.7. The **left eye** —
+  the one that was hidden — is the same dark brown for the
+  first six turns of the match, then in the final two turns
+  begins to show **a single fixed silver pinpoint at the
+  pupil's center**, brightening slightly each turn until on
+  the final turn the entire iris is rimmed with the same
+  silver-mercury color the swarm reads as. The pinpoint is
+  the swarm's local instance of itself inside her optic
+  nerve. The progression is subtle but inevitable; production
+  should treat it as a **per-turn animation cue** that
+  anchors the visual to the mechanical countdown.
+- **Field deployment loadout** (replaces the §2.7 Mechronis
+  blue uniform — important: not a uniform variant, a complete
+  replacement):
+  - **Charcoal-grey tactical jacket**, fitted, hip-length,
+    high collar buttoned to the throat. Subtle insignia on
+    the right shoulder — a small black-on-charcoal sigil that
+    Act 1 viewers cannot identify. (Canon: it is the
+    **Warlord's deployment mark**, the same sigil that will
+    surface on Vex Solène's Coda dossier in Act 3 §7. The
+    player will recognize it retroactively.)
+  - **Black tactical trousers**, no creases (the perfect
+    Mechronis creasework is gone — operational dress does
+    not invest in pleats).
+  - **Magnetic-sole black combat boots**, worn in.
+  - **No personal touches.** The §2.7 visual tell of *invisible
+    inside perfection* has evolved: she is no longer trying
+    to disappear into a uniform. She is wearing field gear as
+    if it does not belong to her, because functionally it does
+    not — it belongs to the swarm.
+  - A small **memorial cord** worn around the right wrist:
+    plain black braided fiber, three knots. Canon: this is
+    the only personal item Agent Zero has carried since
+    leaving Mechronis, and it is for a person whose name she
+    has never spoken aloud (the original Eyes of the Watcher,
+    her dead handler from §1.3 item 2 of the canon expansion).
+    Production must render the cord visible in any close-up
+    of her hands. It survives the transference and Vex Solène
+    will still be wearing it in Act 3.
+- **Posture:** still operational, still economical, but the
+  §2.7 *flat hands palms-down* discipline has loosened
+  fractionally — her left hand rests slightly lower on the
+  table, the palm half-turned, as if she is listening for
+  something through the wood. (She is. The swarm has
+  acoustic sensitivity. She is using her hand as an
+  antenna.) When she plays a card, the hand motion is the
+  same one-up-one-down economy from §2.7, but the timing is
+  off by a fraction — she lifts her hand a half-beat *after*
+  the card has already left her fingers. The player should
+  feel, without being told, that **she is not the one
+  choosing the cards**. The swarm picks; her hand follows.
+
+**Canonical visual — the table and the device:**
+
+The Engineer is opposite Agent Zero on the Vortex (the
+Collector's flagship — see `CANON_REV_7_ORACLE_VEX_EXPANSION.md`
+§5 Log 5 for the canonical Engineer location at this moment).
+The setting is a pressurized equipment bay off the main cargo
+deck — small, metal-walled, lit by a single overhead work-lamp
+that casts hard down-shadow. He has approximately four minutes of
+breathable air left in the compartment. The card table between
+them is improvised: a hexagonal equipment crate the Engineer
+has cleared and aligned to play on. There is no chair on his
+side; he plays standing. The card table is canonical, the
+pressurized bay is canonical, the four-minute air budget is
+canonical. Production must not change them.
+
+- **The Resurrection Protocols device** sits on the Engineer's
+  right, beside his playing hand. It is a matte-black palm-
+  sized cube with a single recessed activation stud and a
+  preflight-status LED that blinks at exactly 0.5 Hz (per
+  `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5 — already armed,
+  already cycling preflight). The blink rate is **half** the
+  swarm's specular pulse, which means every other swarm-pulse
+  syncs with a device blink. Production must hold this
+  rhythm exactly; players who notice the sync will read it as
+  "the device is calibrated to the threat," which is canon.
+- **The Engineer's loadout:** his deck on the table in front
+  of him, a thin steel water flask to the left of the deck,
+  the hexagonal crate's edge worn from use. He wears the
+  same coat established in §2.1 with the cuffs rolled back
+  to the forearm (the rolled-cuff fidget §2.1 establishes as
+  his canonical tell). He is not visibly armed. The
+  Resurrection Protocols are his only weapon and they are not
+  a weapon, they are an exit.
+- **The compartment beyond the table:** the back wall holds
+  six **explosive charges**, evenly spaced, each with a small
+  red countdown LED reading down from approximately seven
+  minutes. Per §5 of the canon expansion, the Engineer has
+  rigged the cargo bay to detonate; the seven-minute timer is
+  the primary objective (destroy the data archive), and the
+  Protocols are the contingency. Production must include the
+  charges in the wide shot. The player should see them and
+  understand that this room is going to become a crater
+  regardless of who wins the card game.
+
