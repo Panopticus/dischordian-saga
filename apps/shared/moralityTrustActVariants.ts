@@ -1140,4 +1140,158 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     act: 7,
     requiredFlags: ["act7_humanity_chosen"],
   },
+
+  /* ─── EXPANSION PASS 3a — room coverage gap fills ─── */
+  {
+    id: "comms_array_act2_humanity",
+    surface: "room",
+    targetId: "comms-relay",
+    text:
+      "The Array hums at two frequencies now — Elara's primary, and a lower band she has not named. She pretends the second band is diagnostic noise. You both know what it is. The pretence is a kindness, aimed outward.",
+    morality: "humanity",
+    trust: "any",
+    act: 2,
+  },
+  {
+    id: "comms_array_act4_pathA",
+    surface: "room",
+    targetId: "comms-relay",
+    text:
+      "The Array carries both channels cleanly tonight. Elara has set the delay to zero — he asked, once, if she would try. She tried. Neither of them is commenting on the change.",
+    morality: "humanity",
+    trust: "any",
+    act: 4,
+    requiredFlags: ["act4_reconciled"],
+  },
+  {
+    id: "comms_array_act4_pathC",
+    surface: "room",
+    targetId: "comms-relay",
+    text:
+      "The Array hums with the delay reset to protocol default. Elara is operating the channel by the manual tonight. The manual has a page for 'after a breach of trust.' She has opened it. You can see the bookmark.",
+    morality: "any",
+    trust: "any",
+    act: 4,
+    requiredFlags: ["act4_broken_trust"],
+  },
+  {
+    id: "comms_array_act6_humanity",
+    surface: "room",
+    targetId: "comms-relay",
+    text:
+      "The Array is quieter than any other room on the Ark tonight. Both narrators are still processing what they said. The quiet is not empty — it is the sound of two people who have said enough for one cycle.",
+    morality: "humanity",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "bridge_act3_humanity",
+    surface: "room",
+    targetId: "bridge",
+    text:
+      "The bridge has a new pin on the map — a small, off-chart coordinate Elara flagged as 'not sure yet.' The coordinate is exactly where the Human told you, in the substrate, to look next. Elara has not asked how you knew to draw her attention there.",
+    morality: "humanity",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "bridge_act7_machine",
+    surface: "room",
+    targetId: "bridge",
+    text:
+      "The bridge has been optimised. Every console is positioned for reach, every panel for legibility, every alert tuned to minimum-viable-urgency. Elara denies the optimisation is hers. The denial is warm. The optimisation is kind.",
+    morality: "machine",
+    trust: "any",
+    act: 7,
+  },
+  {
+    id: "war_room_act5_machine_ops",
+    surface: "room",
+    targetId: "war-room",
+    text:
+      "The War Room has been reorganised into quadrants by recruitment status. The quadrants are colour-coded. The colour key is taped to the wall in your handwriting. The taping was not deliberate — you just forgot to take it down. It is staying up.",
+    morality: "machine",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "war_room_act7_machine",
+    surface: "room",
+    targetId: "war-room",
+    text:
+      "The War Room's map has resolved to a single shade — all yours. Kael's cool-lit pins are archived on a side console. The archive is searchable. You have not searched it. You know you will, eventually.",
+    morality: "machine",
+    trust: "any",
+    act: 7,
+  },
+  {
+    id: "trade_empire_act5_machine",
+    surface: "room",
+    targetId: "trade-empire",
+    text:
+      "Locke has audited your bond history and produced a single-page summary. The summary is accurate to within a credit. She slid it across the table without comment. The comment would have been redundant — the audit is the comment.",
+    morality: "machine",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "trade_empire_act3_humanity",
+    surface: "room",
+    targetId: "trade-empire",
+    text:
+      "Locke's hub is warmer since you started telling her about the substrate. She does not ask for details. She just notices that you have been telling someone, and calibrates her hospitality accordingly. Locke is very good at calibration.",
+    morality: "humanity",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "archive_act4_machine",
+    surface: "room",
+    targetId: "archive",
+    text:
+      "The Antiquarian has started cross-referencing your revelation-aftermath entries against historical analogues. His wall is covered in parallels. The parallels are instructive. The instructiveness is the point.",
+    morality: "machine",
+    trust: "any",
+    act: 4,
+  },
+  {
+    id: "archive_act7_machine",
+    surface: "room",
+    targetId: "archive",
+    text:
+      "The Antiquarian has prepared a dossier — not a journal, a dossier — indexing every decision the seven-act arc required. The dossier is complete. It has no commentary. The absence of commentary is the commentary.",
+    morality: "machine",
+    trust: "any",
+    act: 7,
+  },
+  {
+    id: "substrate_panel_act6_humanity",
+    surface: "room",
+    targetId: "substrate-panel",
+    text:
+      "The panel is almost silent tonight. You have not queried it since the confessions landed. The Human has not pinged it from his side either. The shared silence is the most honest traffic the channel has ever carried.",
+    morality: "humanity",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "substrate_panel_act6_machine",
+    surface: "room",
+    targetId: "substrate-panel",
+    text:
+      "The panel's query rate has dropped to near-zero this week. The efficiency is a byproduct — you are not rationing, you are just waiting. Both are valid operating modes. The panel flags neither.",
+    morality: "machine",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "cabin_act2_humanity",
+    surface: "room",
+    targetId: "cabin",
+    text:
+      "The cabin has a second thermal source tonight — not the wall, somewhere else, off-register. Neither narrator has claimed it. It is staying on. You are staying warm. You are allowed to not know.",
+    morality: "humanity",
+    trust: "any",
+    act: 2,
+  },
 ];
