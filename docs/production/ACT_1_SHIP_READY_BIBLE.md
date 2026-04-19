@@ -6445,3 +6445,137 @@ act1-asset-build/reference-sheets/`.
 
 ---
 
+## Section 23 — Canon Drift (follow-up code PRs)
+
+The consolidated list of canon-drift entries flagged across
+this doc. §23 is the authoritative source; each entry here
+is a required follow-up code PR that must ship separately
+from this doc's delivery. The doc is ship-ready on its own;
+the drift entries are items production needs to patch into
+the runtime so the code matches the canonical names,
+framing, and mechanics this doc specifies.
+
+### 23.1 `apps/shared/act1Opponents.ts` drift
+
+The data shell currently uses DSFGL Rev 6.2 draft names and
+placeholder framings. The canonical names from the §1.1
+master index supersede. Required rename map:
+
+| Current `id` | Current `name` | Canonical `id` | Canonical `name` |
+|---|---|---|---|
+| `little_meme` | Little Meme | `minnie_meme` | Minnie the Meme |
+| `little_collector` | Little Collector | `corey_collector` | Corey the Collector |
+| `little_watcher` | Little Watcher | `kanshi_sha_watcher` | Kanshi Sha the Watcher |
+| `the_detective_student` | The Detective (student years) | `young_human_seeker` | The Seeker / Young Human |
+| `iron_lion_expelled` | Iron Lion (the day of his expulsion) | `young_iron_lion` | Young Iron Lion |
+| `professor_eidola` | Professor Eidola | `young_kael` | Young Recruiter / Kael |
+| `professor_matrikala` | Professor Matrikala | `young_agent_zero` | Young Agent Zero |
+| `the_seer_visit` | The Seer (visiting fellow) | `young_eyes` | Young Eyes |
+| `the_warlord_zero_first` | Warlord Zero (at the Battle of Nexon) | `vernon_vortex` | Vernon Vortex (First Form) |
+| `the_programmer` | The Programmer | `wanda_wyrlord` | Wanda Wyrlord (fragmented) |
+| `the_game_master_original` | The Game Master | `warlord_nano_swarm` | Warlord's Nano-Swarm (inside Agent Zero) |
+| `the_authority` | The Authority | `wayne_warden` | Wayne Warden |
+
+Additional schema changes:
+- Add `host` field to C3 opponent referencing `agent_zero`
+  (the swarm has a host body, not just an opponent)
+- Add `trialFormat: true` flag to C4 opponent (distinguishes
+  from standard duel ruleset)
+- Update `preMatchLine`, `postMatchWin`, `postMatchLoss` to
+  canonical text from §§2.2–2.13
+- Update `postBattleSlideshow` values: keep `"welcome-to-
+  celebration"` for A3, add `"to-be-the-human"` for B5, add
+  `"last-words"` for C4 (currently set to `"hacking-
+  reality"` on C1 which is outdated per Rev 7)
+
+**Follow-up PR target:** single PR against `claude/` branch,
+updates `act1Opponents.ts` + any dependent code that
+references the old ids (expected: `narrativeActs.ts`,
+`witnessingCanonXref.ts`, possibly `apps/client/src/game/*`
+if battle-load uses id lookup).
+
+### 23.2 `docs/design/DISCHORDIAN_SAGA_FULL_GAME_LAYOUT.md` Rev 6.2 line 5536
+
+Per `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §1.6 cross-
+reference: DSFGL line 5536 refers to "Kael and the Warlord —
+she wasn't called the Warlord yet, her name was Malkia."
+Under Rev 7 retcon, this is either outdated or a false-
+memory misattribution. Required correction in a separate
+DSFGL-maintenance PR — either rewrite the sentence to remove
+"Malkia" entirely or annotate as in-character misattribution.
+
+### 23.3 Apprentice Prelude Beat D canonical options
+
+The Prelude Bible §3.4 establishes the apprentice-assignment
+beat but does not enumerate the canonical apprentice roster.
+`apps/shared/apprentices.ts` (per §20.8) is the canonical
+source. A cross-reference between the two should be
+established in a separate Prelude-maintenance PR.
+
+### 23.4 Celebration Trial non-boss Mascoteer voice profiles
+
+§19.4 introduces three non-boss Mascoteers (the Stargazer,
+the Wildflower, the Carnival Barker). Voice profiles for
+these three are NOT authored in §2. Production must add
+three profile entries in a separate VO-pipeline PR before
+the Celebration Trial VO batch can ship.
+
+### 23.5 *The Last Word* fallback-trigger wiring
+
+§17.4 references the Year One Calendar Month 6 fallback for
+*The Last Word* if the player never plays the card. The
+fallback wiring lives in `witnessingYearOne.ts` but needs
+verification that the fallback correctly fires the *Last
+Words* slideshow with canonical branch epigraph. A separate
+engineering PR to validate.
+
+### 23.6 Trial-format engine subclass
+
+§16.1 references `apps/client/src/game/duelyst-engine/
+trialFormat.ts` as a NEW FILE that does not yet exist.
+Engineering must create this file and implement the
+Trial-format ruleset per §16. Target: separate engineering
+PR.
+
+### 23.7 The +500 Light Energy counter UI integration
+
+§17.4 references the `lightEnergy` counter increment in
+`witnessingIntegrations.ts`. The Hub dashboard UI for the
+counter needs a visual treatment — production must render the
+"You contributed to this" acknowledgment when the player's
+completion crosses a threshold. Target: separate UI PR.
+
+### 23.8 *The Friend I Saved* card-recognition dialog (Act 3 F3)
+
+§2.12 references Act 3 §7.4 as the out-of-scope destination
+for the custom dialog beat where Vex Solène recognizes the
+card. The canonical text for that dialog beat is NOT
+authored in Act 1 scope and must ship as an Act 3 delivery.
+Target: Act 3 authoring pass, separate PR.
+
+### 23.9 Summary
+
+**8 canon-drift / follow-up items** identified:
+1. `act1Opponents.ts` rename + schema updates
+2. DSFGL Rev 6.2 line 5536 correction
+3. Apprentice Prelude Beat D cross-reference
+4. 3 non-boss Mascoteer voice profile authoring
+5. *The Last Word* fallback-trigger verification
+6. Trial-format engine subclass creation
+7. Light Energy counter UI treatment
+8. *The Friend I Saved* Act 3 F3 recognition dialog
+
+All eight are trackable separately; none block the Act 1
+Ship-Ready Bible from shipping, but all are required for
+Act 1 runtime to match canon.
+
+---
+
+## Act 1 Ship-Ready Bible — end of document
+
+This document specifies every production surface the Act 1
+delivery requires. The doc is ship-ready as of the closing
+commit; Sections 1–23 are complete. Follow-up code PRs per
+§23 are the only remaining dependencies for Act 1 to go from
+spec to runtime.
+
