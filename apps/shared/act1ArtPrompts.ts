@@ -217,11 +217,53 @@ const CYCLE_C_PORTRAITS: readonly Act1ArtPrompt[] = [
   },
 ];
 
+/* ─── BATTLEFIELDS — Cycle A (§22.1) ─── */
+
+const CYCLE_A_BATTLEFIELDS: readonly Act1ArtPrompt[] = [
+  {
+    assetId: "bf_celebration_schoolyard_day10",
+    name: "Celebration Schoolyard — Day 10 (A1)",
+    category: "battlefield",
+    cycle: "A",
+    bibleSection: "§22.1.1 / §3.3",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Wide establishing shot of the Celebration Trial schoolyard at approximately 2:00 PM, Day 10 of the Trial. Outdoor wooden card table center-foreground, two low matching benches on either side. Warm-gold afternoon sunlight, long-but-not-yet-evening shadows. Background: Celebration parade banners hanging limp in still air, the colors muted and nostalgic — pinks and golds. The schoolyard's ground is packed earth with a few patches of soft grass. NO PEOPLE in this base still — figures are rendered as separate cutscene layers. The composition leaves the upper third of the frame open for parade-banner ambiance and the lower third clean for UI overlay. Architectural framing: a low pavilion roof at the back of the frame casting a long horizontal shadow line. The lighting must read as memory, not present-tense — slightly more saturated than literal sunlight, with a faint sepia film-grain undertone. This is the Engineer's child memory of his own schoolyard; render as a recovered photograph.",
+  },
+  {
+    assetId: "bf_celebration_schoolyard_day20",
+    name: "Celebration Schoolyard — Day 20 (A2)",
+    category: "battlefield",
+    cycle: "A",
+    bibleSection: "§22.1.1 / §4.3",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor", "bf_celebration_schoolyard_day10"],
+    prompt:
+      "SAME schoolyard composition as Day 10 (A1) — must read as the same physical space, same camera angle, same architectural framing — but with three deliberate shifts: (1) lighting moved to approximately 4:30 PM; warmer, lower sun-angle, longer shadows raking across the wooden card table from the right of frame; (2) parade banners in the background are different colors than Day 10 — Day 20 of the Celebration Trial is a different parade phase; render in deeper amber and muted-red tones (Day 10 was pink-gold); (3) a single thin curl of incense smoke rising from the right edge of the frame, suggesting a Mascoteer ceremony just out of frame. NO PEOPLE in the base still. Same packed-earth ground, same low pavilion roof at back. The shift in light from A1 to A2 is canonical — the player should subliminally register that time is passing across the Celebration Trial. Production must hold the camera-angle continuity exactly with bf_celebration_schoolyard_day10.",
+  },
+  {
+    assetId: "bf_celebration_pavilion_day28",
+    name: "Celebration Graduation Pavilion — Day 28 (A3)",
+    category: "battlefield",
+    cycle: "A",
+    bibleSection: "§22.1.1 / §5.3",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Wide establishing shot of the Celebration Trial GRADUATION PAVILION (NOT the schoolyard — this is a distinct location). A raised wooden platform approximately 1m above the ground, set with two card tables in symmetrical opposition center-stage. Warm-gold evening light at approximately 6:30 PM, low-angle, raking from frame-right. Background: Celebration GRADUATION banners (specific to Day 28 — gold-on-white with stylized parade-mark ornaments, no rendered text), a soft-focus crowd of parents and Mascoteers visible at the edges of the frame as silhouettes. This is the ONLY Cycle A battlefield with witnesses — graduation is a public event. The pavilion has stylized white pillars at the back corners, slightly more architectural than the schoolyard's rough wood. The two tables are identical, professional brass-edged, contrast with the schoolyard's casual wood. Composition centers the empty stage; the upper third holds the pavilion roof and banners, the lower third is the empty platform floor. NO PEOPLE in the base still — the witnesses are rendered as separate layers. Faint film-grain sepia, warmer saturation than literal evening light.",
+  },
+];
+
 /** Full Act 1 art prompt catalog (built up over subsequent chunks). */
 export const ACT1_ART_PROMPTS: readonly Act1ArtPrompt[] = [
   ...CYCLE_A_PORTRAITS,
   ...CYCLE_B_PORTRAITS,
   ...CYCLE_C_PORTRAITS,
+  ...CYCLE_A_BATTLEFIELDS,
 ];
 
 /** Look up a single prompt by asset id. */
