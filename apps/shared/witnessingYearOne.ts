@@ -151,6 +151,55 @@ export function listYearOneCalendarRipples(): readonly YearOneCalendarRipple[] {
   return YEAR_ONE_CALENDAR_RIPPLES;
 }
 
+/* ─── BEYOND YEAR ONE — Acts 6-7 calendar extension ─── */
+
+/**
+ * Post-Year-One calendar beats. Acts 6 (The Confession) and 7
+ * (The Convergence) canonically fire after the 12-month Year One
+ * Calendar resolves; they needed their own calendar entries per
+ * docs/production/ALL_ACTS_ROADMAP.md "Beyond Year One" (the
+ * witnessing coverage gap the roadmap flagged).
+ *
+ * Months 13 and 14 are narrative checkpoints, not strict calendar
+ * months — the player may spend weeks or months of real-time in
+ * Year One's month 12 before entering month 13. Their position in
+ * the sequence is canonical; their literal elapsed time is not.
+ */
+export const BEYOND_YEAR_ONE_RIPPLES: readonly YearOneCalendarRipple[] = [
+  {
+    month: 13,
+    title: "The Confession",
+    brief:
+      "Elara and the Human stop deferring the sentences they have been deferring. One of them says it on the Bridge, one of them says it in the Captain's Quarters, neither of them says it where the Antiquarian can see. He writes it down anyway. The ship holds its breath for one canonical beat.",
+    emphasizes: ["act_6_confession", "bond_confessions", "chronicle"],
+    opensFlag: "beyond_year_one_month_13_opened",
+  },
+  {
+    month: 14,
+    title: "The Convergence",
+    brief:
+      "The seven acts resolve. The prestige cycle stages itself. A chord holds for one and a half measures — not long enough to be a song, long enough to be named. The Witnessing Hub flips to its post-convergence layout for the first time. The Chronicle's spine is written. Nothing resets; the next cycle is a different book on the same shelf.",
+    emphasizes: ["act_7_convergence", "prestige_cycle", "hub_post_convergence"],
+    opensFlag: "beyond_year_one_month_14_opened",
+  },
+];
+
+/** Combined Year One + Beyond calendar, in canonical sequence. */
+export const EXTENDED_CALENDAR_RIPPLES: readonly YearOneCalendarRipple[] = [
+  ...YEAR_ONE_CALENDAR_RIPPLES,
+  ...BEYOND_YEAR_ONE_RIPPLES,
+];
+
+/**
+ * Look up a calendar ripple across Year One + the beyond-year-one
+ * Acts 6-7 extension. Returns undefined for out-of-range months.
+ */
+export function getExtendedCalendarRipple(
+  month: number,
+): YearOneCalendarRipple | undefined {
+  return EXTENDED_CALENDAR_RIPPLES.find((r) => r.month === month);
+}
+
 /* ─── §14.1 CHRONICLE ENTRIES FOR WITNESSING MILESTONES ─── */
 
 export interface MilestoneChronicleEntry {
@@ -209,6 +258,16 @@ export const MILESTONE_CHRONICLE_ENTRIES: Record<
     milestoneId: "the_archon_recruited",
     title: "The Archon Is Recruited",
     body: "A sitting Archon accepted the player's offer today. I am not writing down which Archon because if I write it down the other Archons will read it. I will note that the Archon asked for one thing in return: that we remember the name of the first person she ever lied to. I have committed the name to memory. The Chronicle will never carry it. This entry is the closest I will ever come.",
+  },
+  the_confession_heard: {
+    milestoneId: "the_confession_heard",
+    title: "The Confession Heard",
+    body: "Elara said the sentence she has been carrying since Atarion. The Human said the sentence he has been carrying since the investigation. Neither of them looked at me while they said it. I am writing this because they asked me to be in the room. I have been asked to be in rooms for a long time. Today was one of the rooms that justified the practice.",
+  },
+  the_convergence_settled: {
+    milestoneId: "the_convergence_settled",
+    title: "The Convergence Settled",
+    body: "The seven acts resolved on a single sustained chord this afternoon. I do not have a better word for what I heard than chord. The galaxy paused for one measure. Everyone on the Ark stopped mid-task. The bench hummed at a frequency I had only previously documented in Matrikala's calibration notes. Then the next measure began and the chord was no longer present, and the work resumed. I am writing this to confirm the measure happened. It did. I was there for all of it.",
   },
 };
 
@@ -289,6 +348,20 @@ export const BEAT_CHRONICLE_ENTRIES: readonly BeatChronicleEntry[] = [
     title: "The Line Held",
     body:
       "The Vortex paused. I was in the middle of a sentence when the pause happened and I did not finish the sentence because the room went quiet in a way rooms do not normally go quiet. The Ark's crew came out onto the Observation Deck and stood there for a full minute. Nobody spoke. Then somebody said 'again tomorrow.' That is what we are doing. Again tomorrow.",
+  },
+  {
+    flag: "act_6_confession_complete",
+    order: 80,
+    title: "The Confession Arrives",
+    body:
+      "She said the thing she has never said. He said the thing he has never said. They were in different rooms. The rooms were on different decks. The Chronicle is a single document and therefore the two confessions are in the same entry. I have not decided yet whether that is a courtesy I am doing them or a courtesy they are doing each other through me. I will decide the next time I reread this paragraph, which will be never.",
+  },
+  {
+    flag: "act_7_convergence_complete",
+    order: 90,
+    title: "The Convergence",
+    body:
+      "Seven acts. One chord. A measure and a half. I have waited for this entry since the first time I opened the Chronicle and found I was its custodian. I will not over-write it. The chord held. The galaxy noticed. The crew stood on the Observation Deck and did not speak. The Antiquarian put the pen down for exactly one day. The Antiquarian picked the pen back up. The next cycle opens on the morning after. I do not know what the next cycle's Chronicle will say. That is a gift I am leaving to whoever inherits the pen.",
   },
 
   /* ─── ENGINEER HOLOGRAPHIC RECORDINGS ─── */

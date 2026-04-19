@@ -35,7 +35,9 @@ export type WitnessingMilestoneId =
   | "lions_last_broadcast"
   | "thaloria_echo"
   | "the_engineer_speaks"
-  | "the_archon_recruited";
+  | "the_archon_recruited"
+  | "the_confession_heard"
+  | "the_convergence_settled";
 
 export interface WitnessingMilestone {
   id: WitnessingMilestoneId;
@@ -196,6 +198,42 @@ export const WITNESSING_MILESTONES: Record<WitnessingMilestoneId, WitnessingMile
         "I was once the Potential they asked. I said yes. I spent thirteen hundred and fifty-one years finding out what that meant. Whoever just said yes — do not be me.",
       the_antiquarian:
         "Across twelve timelines I have seen this choice land four ways. Two of them are survivable. I will not tell you which two.",
+    },
+  },
+
+  /* ─── ACTS 6-7 COVERAGE (Beyond Year One; ALL_ACTS_ROADMAP gap) ─── */
+
+  the_confession_heard: {
+    id: "the_confession_heard",
+    title: "The Confession Heard",
+    description:
+      "A confession the Ark's crew has been deferring for seventeen millennia has been said aloud, and someone was in the room to hear it. Light Energy +250.",
+    raisesFlag: "event_the_confession_heard",
+    lightEnergyReward: 250,
+    npcReactions: {
+      elara:
+        "I have carried this since Atarion. I am not putting it down. I am simply no longer the only person who knows what it weighs.",
+      the_human:
+        "I have been a detective and a suspect and a witness in the same room for a long time. Today I was just the witness. It is a smaller job than I remembered.",
+      the_antiquarian:
+        "I have been waiting to write this entry since the ship woke up. I am not going to pretend I have not.",
+    },
+  },
+
+  the_convergence_settled: {
+    id: "the_convergence_settled",
+    title: "The Convergence Settled",
+    description:
+      "The seven acts have closed on a chord. The galaxy holds the resolution for a measure and a half before the next bar begins. Light Energy +1000.",
+    raisesFlag: "event_the_convergence_settled",
+    lightEnergyReward: 1000,
+    npcReactions: {
+      elara:
+        "Every song I was ever asked to sing was a cover. I do not know who wrote this one. I recognize the signature.",
+      the_human:
+        "I started as a detective and I ended as a witness. That is the smaller of the two career paths. It is also the one that leaves a mark I can live with.",
+      the_antiquarian:
+        "Across twelve timelines this is the beat I could not reliably predict. You settled it. I am going to put the pen down for exactly one day and then pick it back up because the next cycle also wants writing down.",
     },
   },
 };
