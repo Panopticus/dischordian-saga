@@ -31,6 +31,13 @@ import {
   type DecisionOption,
 } from "@shared/celebrationTrial";
 import { getMascoteer } from "@shared/mascoteers";
+import {
+  getLandForMascoteer,
+  getAttractionForDay,
+  type ParkLand,
+} from "@shared/celebrationParkMap";
+import { getPinForDay, getPin, type CelebrationPin } from "@shared/celebrationPins";
+import { getParadeForDay } from "@shared/celebrationParade";
 import { ResponsiveImage } from "@/components/ResponsiveImage";
 import {
   getBetrayalStage,
@@ -66,7 +73,8 @@ const RARITY_BG: Record<Rarity, string> = {
 };
 
 export default function ApprenticePage() {
-  const { state, setApprentice, recordFallenApprentice, addGraduate, addTrialHistoryEntry } = useGame();
+  const { state, setApprentice, recordFallenApprentice, addGraduate, addTrialHistoryEntry, addPin } = useGame();
+  const [pinJustAwarded, setPinJustAwarded] = useState<CelebrationPin | null>(null);
   const currentApprentice = state.apprentice as Apprentice | null;
   const fallen = (state.apprenticeFallen as Apprentice[]) ?? [];
   const [candidate, setCandidate] = useState<Apprentice | null>(null);
@@ -154,6 +162,15 @@ export default function ApprenticePage() {
       corruptionDelta: outcome.corruptionDelta,
       moralityDelta: outcome.moralityDelta,
     });
+
+    // Issue a survival pin — cosmetic by default, some cursed ones leak
+    // corruption over time via the Apprentice sheet. See celebrationPins.ts.
+    const mascoteerIdForPin = todayDecision?.mascoteerId ?? "";
+    const pin = getPinForDay(currentApprentice.trialDay, mascoteerIdForPin);
+    if (pin) {
+      addPin(pin.id);
+      setPinJustAwarded(pin);
+    }
     const newDay = currentApprentice.trialDay + 1;
     const newBond = Math.max(0, Math.min(100, currentApprentice.bond + outcome.bondDelta));
     // Daily corruption tick — evil apprentices still gain corruption
@@ -286,7 +303,76 @@ export default function ApprenticePage() {
                   day={currentApprentice.trialDay}
                   onChoose={makeDailyDecision}
                 />
+
+                {/* Pin inventory tray — souvenirs your apprentice has earned */}
+                {(state.pinInventory ?? []).length > 0 && (
+                  <div className="mt-3 rounded-lg border void-border void-bg-sunk p-3">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Sparkles size={12} className="void-text-energy" />
+                      <span className="font-mono text-[9px] uppercase tracking-wider void-text-energy">
+                        Celebration Pin Collection
+                      </span>
+                      <span className="font-mono text-[9px] text-muted-foreground/60 ml-auto tabular-nums">
+                        {state.pinInventory.length} / {15}
+                      </span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {(state.pinInventory ?? []).map(pinId => {
+                        const pin = getPin(pinId);
+                        if (!pin) return null;
+                        return (
+                          <div
+                            key={pinId}
+                            title={`${pin.name} — ${pin.flavor}${pin.cursed ? "  (cursed)" : ""}`}
+                            className={`w-7 h-7 rounded-full border flex items-center justify-center text-[12px] ${
+                              pin.cursed
+                                ? "void-border-error void-bg-error"
+                                : pin.rarity === "rare"
+                                  ? "void-border void-bg-sunk"
+                                  : "void-border void-bg-canvas"
+                            }`}
+                          >
+                            {pin.glyph}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
+            )}
+
+            {/* Pin-award toast */}
+            {pinJustAwarded && (
+              <motion.div
+                key={pinJustAwarded.id}
+                initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0 }}
+                className={`fixed bottom-6 right-6 z-50 rounded-lg border p-4 shadow-2xl max-w-xs ${
+                  pinJustAwarded.cursed
+                    ? "void-border-error bg-red-950/90"
+                    : "void-border-success void-bg-success/95"
+                }`}
+                onAnimationComplete={() => {
+                  // auto-dismiss after 3.2s
+                  setTimeout(() => setPinJustAwarded(null), 3200);
+                }}
+              >
+                <div className="flex items-start gap-3">
+                  <div className="shrink-0 w-10 h-10 rounded-full border flex items-center justify-center text-lg"
+                       style={{ borderColor: pinJustAwarded.cursed ? "#F87171" : "#34D399" }}>
+                    {pinJustAwarded.glyph}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="font-mono text-[8px] uppercase tracking-widest text-muted-foreground">
+                      {pinJustAwarded.cursed ? "Cursed Souvenir" : "Pin Earned!"}
+                    </div>
+                    <div className="font-display text-xs font-bold">{pinJustAwarded.name}</div>
+                    <div className="font-mono text-[9px] italic text-foreground/80 mt-1">"{pinJustAwarded.flavor}"</div>
+                  </div>
+                </div>
+              </motion.div>
             )}
             {/* Graduation-exam battle card (days 10/20/28) */}
             {currentApprentice.stage === "training" && pendingBattle && (
@@ -844,6 +930,59 @@ function DailyDecisionCard({ decision, day, onChoose }: {
             </div>
           )}
         </div>
+
+        {/* Parade Day marquee — only on days 7/14/21/28 */}
+        {(() => {
+          const parade = getParadeForDay(day);
+          if (!parade) return null;
+          return (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="rounded-md border-2 px-3 py-2 mb-3 text-center"
+              style={{
+                borderColor: parade.color,
+                background: `linear-gradient(90deg, ${parade.color}30, transparent 40%, ${parade.color}30)`,
+                boxShadow: `0 0 24px ${parade.color}40 inset`,
+              }}
+            >
+              <div className="font-display text-[13px] font-bold tracking-widest" style={{ color: parade.color }}>
+                🎉  {parade.title.toUpperCase()}  🎉
+              </div>
+              <div className="font-mono text-[9px] uppercase tracking-widest text-foreground/70 mt-0.5">
+                {parade.subtitle}
+              </div>
+              <div className="font-mono text-[9px] italic text-foreground/60 mt-1 leading-snug">
+                {parade.flavor}
+              </div>
+            </motion.div>
+          );
+        })()}
+
+        {/* Park Map attraction marquee — "You are in Chorus Plaza" */}
+        {(() => {
+          const land: ParkLand | undefined = getLandForMascoteer(decision.mascoteerId);
+          const attraction = getAttractionForDay(decision.mascoteerId, day);
+          if (!land) return null;
+          return (
+            <div
+              className="rounded-md border px-3 py-1.5 mb-3 flex items-center justify-between gap-2"
+              style={{
+                borderColor: `color-mix(in oklch, ${land.color} 40%, transparent)`,
+                background: `linear-gradient(90deg, color-mix(in oklch, ${land.color} 14%, transparent), transparent 70%)`,
+              }}
+            >
+              <div className="min-w-0">
+                <div className="font-display text-[11px] font-bold tracking-wider truncate" style={{ color: land.color }}>
+                  {attraction ?? land.name}
+                </div>
+                <div className="font-mono text-[8px] uppercase tracking-widest text-foreground/60 truncate">
+                  {land.name} · {land.tagline}
+                </div>
+              </div>
+            </div>
+          );
+        })()}
 
         {/* Mascoteer portrait hero */}
         {mascoteer && (

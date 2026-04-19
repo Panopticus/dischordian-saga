@@ -72,4 +72,9 @@ export const TO_BE_THE_HUMAN_FRAMES: SlideshowFrame[] = [
   },
 ];
 
-export const TO_BE_THE_HUMAN_AUDIO: string | undefined = undefined;
+/**
+ * Audio source — "To Be the Human" (Dischordian Logic).
+ * Silently falls back to no-audio if the file is absent.
+ */
+export const TO_BE_THE_HUMAN_AUDIO: string | undefined =
+  "/audio/music/mechronis/to-be-the-human.mp3";

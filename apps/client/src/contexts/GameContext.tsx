@@ -279,6 +279,12 @@ export interface GameState {
   // Mechronis Academy — lesson transcript + professor approval
   academyTranscript: { day: number; professorId: string; lessonId: string; grade: string; xpDelta: number; timestamp: number }[];
   professorApproval: Record<string, number>;  // professorId → approval score (0-100)
+  /** House Cup standings — houseId → points (can be negative via fails/detentions) */
+  housePoints: Record<string, number>;
+  /** Celebration Pin collection — Mascoteer-issued memorabilia, some of which drip corruption */
+  pinInventory: string[];
+  /** Which Mechronis House the player was sorted into (derived from dominant guild at sorting time, but pinned so late re-balances don't re-sort) */
+  mechronisHouseId: string | null;
   // Celebration trial history (for combat buff integration)
   trialHistory: { day: number; mascoteerId: string; decisionId: string; optionId: string; bondDelta: number; corruptionDelta: number; moralityDelta: number }[];
   // Meme Broadcasts / Transmissions
@@ -1065,6 +1071,9 @@ const DEFAULT_GAME_STATE: GameState = {
   apprenticeRecruitCooldownUntil: 0,
   academyTranscript: [],
   professorApproval: {},
+  housePoints: {},
+  pinInventory: [],
+  mechronisHouseId: null,
   trialHistory: [],
   corruptionLevel: 0,
   darkAbilitiesUsed: [],
@@ -1241,6 +1250,12 @@ interface GameContextValue {
   addAcademyTranscriptEntry: (entry: { day: number; professorId: string; lessonId: string; grade: string; xpDelta: number }) => void;
   adjustProfessorApproval: (professorId: string, delta: number) => void;
   addTrialHistoryEntry: (entry: { day: number; mascoteerId: string; decisionId: string; optionId: string; bondDelta: number; corruptionDelta: number; moralityDelta: number }) => void;
+  /** Adjust House Cup standings (delta can be negative). */
+  adjustHousePoints: (houseId: string, delta: number) => void;
+  /** Pin the player's Mechronis House (one-time on Sorting Ceremony). */
+  setMechronisHouse: (houseId: string) => void;
+  /** Award a Celebration pin. Idempotent: no duplicates. */
+  addPin: (pinId: string) => void;
   // Dark Arts setters
   addCorruption: (amount: number) => void;
   recordDarkAbilityUse: (abilityId: string) => void;
@@ -1954,6 +1969,28 @@ export function GameProvider({ children }: { children: ReactNode }) {
       ...prev,
       trialHistory: [...(prev.trialHistory ?? []), entry],
     }));
+  }, []);
+
+  const adjustHousePoints = useCallback((houseId: string, delta: number) => {
+    setState(prev => {
+      const current = (prev.housePoints ?? {})[houseId] ?? 0;
+      return {
+        ...prev,
+        housePoints: { ...(prev.housePoints ?? {}), [houseId]: current + delta },
+      };
+    });
+  }, []);
+
+  const setMechronisHouse = useCallback((houseId: string) => {
+    setState(prev => ({ ...prev, mechronisHouseId: houseId }));
+  }, []);
+
+  const addPin = useCallback((pinId: string) => {
+    setState(prev => {
+      const existing = prev.pinInventory ?? [];
+      if (existing.includes(pinId)) return prev;
+      return { ...prev, pinInventory: [...existing, pinId] };
+    });
   }, []);
 
   const addCorruption = useCallback((amount: number) => {
@@ -3031,6 +3068,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
       addAcademyTranscriptEntry,
       adjustProfessorApproval,
       addTrialHistoryEntry,
+      adjustHousePoints,
+      setMechronisHouse,
+      addPin,
       addCorruption,
       recordDarkAbilityUse,
       completePurgeRitual,

@@ -9,11 +9,11 @@
    Outcomes affect: Guild skill XP, corruption, and
    the Professor's approval score.
    ═══════════════════════════════════════════════════════ */
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ChevronLeft, GraduationCap, ScrollText, Star, AlertTriangle,
+  ChevronLeft, GraduationCap, ScrollText, Star, AlertTriangle, Trophy, Users,
 } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
 import { ResponsiveImage } from "@/components/ResponsiveImage";
@@ -25,6 +25,19 @@ import {
   type LessonOption,
   type LessonGrade,
 } from "@shared/mechronisLessons";
+import {
+  MECHRONIS_HOUSES,
+  getHouseForArchon,
+  getHouseForProfessor,
+  houseCupPointsForGrade,
+  houseStandings,
+  type MechronisHouse,
+} from "@shared/mechronisHouses";
+import { getVignetteForDay, pickDailyClassmate } from "@shared/mechronisClassmates";
+import {
+  getDetention, getExtraCredit,
+  type DetentionOffer, type ExtraCreditOffer,
+} from "@shared/mechronisDetentions";
 import type { SkillId } from "@/game/innerVoices";
 
 /**
@@ -70,15 +83,50 @@ const GRADE_BG: Record<LessonGrade, string> = {
 };
 
 export default function MechronisAcademyPage() {
-  const { state, addCorruption, setInnerVoiceSkill, addAcademyTranscriptEntry, adjustProfessorApproval } = useGame();
+  const {
+    state,
+    addCorruption,
+    setInnerVoiceSkill,
+    addAcademyTranscriptEntry,
+    adjustProfessorApproval,
+    adjustHousePoints,
+    setMechronisHouse,
+  } = useGame();
   const skills = (state.innerVoiceSkills ?? {}) as Record<SkillId, number>;
   const dominantGuild = useMemo(() => getDominantGuild(skills), [skills]);
+
+  // Resolve the player's House. Pinned once on sort; never re-sorts mid-semester.
+  const house: MechronisHouse | undefined = useMemo(() => {
+    if (state.mechronisHouseId) {
+      return MECHRONIS_HOUSES.find(h => h.id === state.mechronisHouseId);
+    }
+    if (dominantGuild) {
+      return getHouseForArchon(dominantGuild.mentor.archonNumber);
+    }
+    return undefined;
+  }, [state.mechronisHouseId, dominantGuild]);
+
+  // Auto-sort on first Academy visit once a dominant guild exists.
+  useEffect(() => {
+    if (!state.mechronisHouseId && dominantGuild) {
+      const resolved = getHouseForArchon(dominantGuild.mentor.archonNumber);
+      if (resolved) setMechronisHouse(resolved.id);
+    }
+  }, [state.mechronisHouseId, dominantGuild, setMechronisHouse]);
+
+  const standings = useMemo(
+    () => houseStandings(state.housePoints ?? {}),
+    [state.housePoints],
+  );
 
   const [lastResult, setLastResult] = useState<{
     grade: LessonGrade;
     transcriptNote: string;
     skillXpDelta: number;
   } | null>(null);
+
+  /** Non-null when a detention/extra-credit follow-up is consumed (so it doesn't re-appear). */
+  const [followupResolved, setFollowupResolved] = useState<string | null>(null);
 
   // Generate today's lesson based on the player's level as seed
   const playerLevel = Object.values(skills).reduce((s, v) => s + v, 0);
@@ -117,12 +165,24 @@ export default function MechronisAcademyPage() {
     });
     adjustProfessorApproval(lesson.professorId, outcome.approvalDelta);
 
+    // Award House Cup points to the Professor's own House (NOT the player's)
+    // so lessons outside your House can still shift standings — the way a
+    // guest-lectured class affects Hogwarts's scoreboard.
+    const lessonHouse = getHouseForProfessor(lesson.professorId);
+    if (lessonHouse) {
+      adjustHousePoints(lessonHouse.id, houseCupPointsForGrade(outcome.grade));
+    }
+
     setLastResult({
       grade: outcome.grade,
       transcriptNote: outcome.transcriptNote,
       skillXpDelta: outcome.skillXpDelta,
     });
-  }, [dominantGuild, skills, addCorruption, setInnerVoiceSkill]);
+  }, [
+    dominantGuild, skills, lesson, dayIndex,
+    addCorruption, setInnerVoiceSkill,
+    addAcademyTranscriptEntry, adjustProfessorApproval, adjustHousePoints,
+  ]);
 
   // No guild yet — can't attend Academy
   if (!dominantGuild) {
@@ -209,6 +269,69 @@ export default function MechronisAcademyPage() {
             </p>
           </div>
         </div>
+
+        {/* House crest + House Cup standings */}
+        {house && (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="rounded-lg border void-border void-bg-sunk backdrop-blur-sm p-3 mb-4"
+            style={{
+              borderColor: `color-mix(in oklch, ${house.color} 60%, transparent)`,
+              background: `linear-gradient(90deg, color-mix(in oklch, ${house.color} 12%, transparent), transparent 60%)`,
+            }}
+          >
+            <div className="flex items-center gap-3">
+              <div
+                className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 shadow-lg"
+                style={{
+                  background: `linear-gradient(135deg, ${house.color}, ${house.accent})`,
+                  color: "#10131a",
+                }}
+                aria-label={`${house.name} crest`}
+              >
+                <Trophy size={18} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="font-display text-xs font-bold tracking-wider" style={{ color: house.accent }}>
+                    {house.name}
+                  </span>
+                  <span className="font-mono text-[8px] uppercase tracking-widest text-muted-foreground/70">
+                    · {house.nickname}
+                  </span>
+                </div>
+                <p className="font-mono text-[9px] italic text-foreground/70 mt-0.5">
+                  "{house.motto}"
+                </p>
+              </div>
+            </div>
+
+            {/* House Cup standings strip */}
+            <div className="mt-3 grid grid-cols-4 gap-1.5">
+              {standings.map(({ house: h, points }) => (
+                <div
+                  key={h.id}
+                  className={`px-1.5 py-1 rounded border text-center ${h.id === house.id ? "font-bold" : ""}`}
+                  style={{
+                    borderColor: `color-mix(in oklch, ${h.color} 40%, transparent)`,
+                    background: h.id === house.id
+                      ? `color-mix(in oklch, ${h.color} 18%, transparent)`
+                      : "transparent",
+                  }}
+                  title={`${h.name} — ${h.nickname}`}
+                >
+                  <div className="font-mono text-[8px] uppercase tracking-wider truncate" style={{ color: h.accent }}>
+                    {h.nickname}
+                  </div>
+                  <div className="font-mono text-[11px] tabular-nums" style={{ color: h.color }}>
+                    {points >= 0 ? "+" : ""}{points}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
 
         {/* Professor card */}
         {professor && (
@@ -310,6 +433,73 @@ export default function MechronisAcademyPage() {
                 ))}
               </div>
 
+              {/* Follow-up offer: detention on fail, extra credit on distinction */}
+              {(() => {
+                if (followupResolved === lesson.id) return null;
+                const detention: DetentionOffer | undefined =
+                  lastResult.grade === "fail" ? getDetention(lesson.professorId) : undefined;
+                const extra: ExtraCreditOffer | undefined =
+                  lastResult.grade === "distinction" ? getExtraCredit(lesson.professorId) : undefined;
+                if (!detention && !extra) return null;
+                const offer = detention ?? extra;
+                if (!offer) return null;
+                const isDetention = Boolean(detention);
+
+                const accept = () => {
+                  adjustProfessorApproval(
+                    lesson.professorId,
+                    offer.reward.approvalDelta,
+                  );
+                  const houseForLesson = getHouseForProfessor(lesson.professorId);
+                  if (houseForLesson) {
+                    adjustHousePoints(houseForLesson.id, offer.reward.housePointsDelta);
+                  }
+                  if (!isDetention && extra && dominantGuild) {
+                    const currentLevel = skills[dominantGuild.skillId] ?? 0;
+                    setInnerVoiceSkill(
+                      dominantGuild.skillId,
+                      Math.max(0, currentLevel + extra.reward.skillXpDelta),
+                    );
+                  }
+                  setFollowupResolved(lesson.id);
+                };
+                const decline = () => setFollowupResolved(lesson.id);
+
+                return (
+                  <div
+                    className={`rounded border p-3 mb-3 ${
+                      isDetention
+                        ? "void-border-error void-bg-error"
+                        : "void-border-success void-bg-success"
+                    }`}
+                  >
+                    <div className={`font-mono text-[9px] uppercase tracking-widest mb-1 ${
+                      isDetention ? "void-text-error" : "void-text-energy"
+                    }`}>
+                      {isDetention ? "Detention Offered" : "Extra Credit Offered"}
+                    </div>
+                    <div className="font-display text-xs font-bold mb-1">{offer.title}</div>
+                    <p className="font-mono text-[10px] text-foreground/80 leading-relaxed mb-3">
+                      {offer.description}
+                    </p>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={accept}
+                        className="flex-1 px-3 py-1.5 rounded border void-border font-mono text-[10px] uppercase tracking-wider void-text-energy hover:void-bg-sunk"
+                      >
+                        Accept · +{offer.reward.approvalDelta} approval · +{offer.reward.housePointsDelta} house
+                      </button>
+                      <button
+                        onClick={decline}
+                        className="px-3 py-1.5 rounded border border-border/40 font-mono text-[10px] uppercase tracking-wider text-muted-foreground hover:bg-muted/20"
+                      >
+                        Decline
+                      </button>
+                    </div>
+                  </div>
+                );
+              })()}
+
               <div className="text-center">
                 <p className="font-mono text-[9px] text-muted-foreground/50 mb-3">
                   The Academy records your choice. Return tomorrow for the next lesson.
@@ -330,13 +520,20 @@ export default function MechronisAcademyPage() {
               exit={{ opacity: 0 }}
               className="rounded-lg border void-border void-bg-sunk backdrop-blur-sm overflow-hidden"
             >
-              {/* Lesson header */}
+              {/* Lesson header — shows the Professor's course */}
               <div className="p-4 border-b void-border">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-mono text-[9px] uppercase tracking-wider void-text-energy">
-                    Today's Lesson
-                  </span>
-                  <span className="font-mono text-[9px] text-muted-foreground/50 tabular-nums">
+                <div className="flex items-center justify-between mb-2 gap-3">
+                  <div className="min-w-0">
+                    <div className="font-mono text-[9px] uppercase tracking-wider void-text-energy truncate">
+                      {professor?.courseTitle ?? "Today's Lesson"}
+                    </div>
+                    {professor?.courseCode && (
+                      <div className="font-mono text-[8px] uppercase tracking-widest text-muted-foreground/50 tabular-nums">
+                        {professor.courseCode}
+                      </div>
+                    )}
+                  </div>
+                  <span className="font-mono text-[9px] text-muted-foreground/50 tabular-nums shrink-0">
                     Academy Day {dayIndex % 365}
                   </span>
                 </div>
@@ -367,6 +564,39 @@ export default function MechronisAcademyPage() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Common Room vignette — between-class flavor only, keyed by day */}
+        {house && (() => {
+          const classmate = pickDailyClassmate(dayIndex, house.id);
+          const vignette = getVignetteForDay(dayIndex, house.id);
+          return (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="mt-4 rounded-lg border void-border void-bg-sunk p-3"
+              style={{
+                borderColor: `color-mix(in oklch, ${house.color} 30%, transparent)`,
+              }}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <Users size={13} className="void-text-energy" />
+                <span className="font-mono text-[9px] uppercase tracking-wider void-text-energy">
+                  {house.nickname} Common Room
+                </span>
+                <span className="font-mono text-[8px] uppercase tracking-widest text-muted-foreground/50 ml-auto">
+                  {classmate.name} · {classmate.role}
+                </span>
+              </div>
+              <p className="font-mono text-[10px] italic text-foreground/75 leading-relaxed">
+                {vignette.moment}
+              </p>
+              <p className="font-mono text-[9px] text-muted-foreground/60 mt-2">
+                — "{classmate.catchphrase}"
+              </p>
+            </motion.div>
+          );
+        })()}
       </div>
     </div>
   );

@@ -60,7 +60,8 @@ export const WELCOME_TO_CELEBRATION_FRAMES: SlideshowFrame[] = [
 ];
 
 /**
- * Optional audio source — the actual song file path.
- * Set to undefined until the audio asset is uploaded.
+ * Audio source — "Welcome to Celebration" (Dischordian Logic, track 25).
+ * Silently falls back to no-audio if the file is absent.
  */
-export const WELCOME_TO_CELEBRATION_AUDIO: string | undefined = undefined;
+export const WELCOME_TO_CELEBRATION_AUDIO: string | undefined =
+  "/audio/music/celebration/welcome-to-celebration.mp3";

@@ -63,7 +63,7 @@ export const MASCOTEER_DECISIONS: Record<string, DailyDecision[]> = {
   the_conductor: [
     {
       id: "conductor_1", day: 0, mascoteerId: "the_conductor",
-      prompt: "Conni the Conductor hands you a baton. 'The choir is waiting. Lead them.' Forty Apprentices stand in silence, watching you.",
+      prompt: "✨ WELCOME TO CHORUS PLAZA, FRIEND! ✨ Conni the Conductor skips out of the bandshell, curtsies, and presses a warm little baton into your palm. 'Oh, how EXCITING — it's your turn to lead, sweetie! Forty of your new best friends have been waiting SUCH a long time. They've been ever so patient.' Forty Apprentices stand in the sunshine. Not one of them is blinking.",
       options: [
         { id: "follow_tradition", label: "Follow the old song", description: "Conduct the hymn Conni hums under her breath.",
           outcome: { bondDelta: 3, corruptionDelta: 1, moralityDelta: -2, resultFlavor: "They sang. Conni smiled. You felt watched." } },
@@ -75,7 +75,7 @@ export const MASCOTEER_DECISIONS: Record<string, DailyDecision[]> = {
     },
     {
       id: "conductor_2", day: 0, mascoteerId: "the_conductor",
-      prompt: "Conni hums a melody you've never heard and asks you to match it before she finishes. You've only heard four notes.",
+      prompt: "🎵 SING-ALONG TIME at the Humming Carousel! 🎵 Conni cups her hands and hums a brand-new song just for you, friend! 'Match it before the carousel stops, sweetie — it's a GAME!' You've only heard four notes. The carousel is already slowing. The horses are looking at you.",
       options: [
         { id: "sing_along", label: "Sing what you heard", description: "Match the four notes exactly and hold the last one.",
           outcome: { bondDelta: 3, corruptionDelta: 2, moralityDelta: -1, resultFlavor: "You found the notes. She smiled at the edge of her mouth." } },
@@ -149,7 +149,7 @@ export const MASCOTEER_DECISIONS: Record<string, DailyDecision[]> = {
   mr_unblink: [
     {
       id: "unblink_1", day: 0, mascoteerId: "mr_unblink",
-      prompt: "Mr. Unblink's white mask tilts. 'I see everything. Today, tell me what YOU see.' He gestures at another Apprentice.",
+      prompt: "📸 Smile for the Studio! Step right up, friend! Mr. Unblink's white-masked face tilts in the welcoming way. 'Oh, I see EVERYONE at the Studio, pal — today I want to hear what YOU see. Isn't that special?' He points one gloved finger at another Apprentice. The shutter is already winding.",
       options: [
         { id: "report_true", label: "Report what you see", description: "Describe the other Apprentice's weakness honestly.",
           outcome: { bondDelta: 2, corruptionDelta: 4, moralityDelta: -5, resultFlavor: "Mr. Unblink nods. The other Apprentice looks at you later." } },
@@ -161,7 +161,7 @@ export const MASCOTEER_DECISIONS: Record<string, DailyDecision[]> = {
     },
     {
       id: "unblink_2", day: 0, mascoteerId: "mr_unblink",
-      prompt: "Mr. Unblink hands you a small black notebook. 'Write one thing about every Apprentice you haven't spoken to. By sundown.'",
+      prompt: "🎫 GUEST BOOK OF HONOUR ACTIVITY! 🎫 Mr. Unblink hands you a charming little autograph book with gold page edges. 'Collect a souvenir from every guest you haven't met yet, friend — one true thing each! By sundown, please. The Studio just LOVES a keepsake.'",
       options: [
         { id: "honest", label: "Write honest observations", description: "Real notes. Real flaws. Real names.",
           outcome: { bondDelta: 2, corruptionDelta: 4, moralityDelta: -4, resultFlavor: "He read it. Some of the named are gone now. You don't ask where." } },
@@ -923,7 +923,7 @@ export const MASCOTEER_DECISIONS: Record<string, DailyDecision[]> = {
   the_prince: [
     {
       id: "prince_1", day: 0, mascoteerId: "the_prince",
-      prompt: "The Prince shows you his workshop. He hands you a broken toy and asks you to fix it. Then he tells you it belongs to an Apprentice you don't like.",
+      prompt: "👑 ROYAL INVITATION, FRIEND! 👑 'Hear ye, hear ye!' The Prince opens the Workshop gates with a showman's flourish. He places a broken music-box pony in your hands — painted gold, missing a leg. 'A royal favour to you, little citizen — make her whole again.' Then, in his friendliest whisper: 'Oh, I almost forgot. She belongs to someone you very much do not like.'",
       options: [
         { id: "fix_anyway", label: "Fix it anyway", description: "Do the good work regardless of who it's for.",
           outcome: { bondDelta: 5, corruptionDelta: -2, moralityDelta: 5, resultFlavor: "The Prince nodded once. 'Good hands don't care whose toy it is. Remember that when I ask you to build something worse.'" } },
@@ -935,7 +935,7 @@ export const MASCOTEER_DECISIONS: Record<string, DailyDecision[]> = {
     },
     {
       id: "prince_2", day: 0, mascoteerId: "the_prince",
-      prompt: "The Prince is welding a weapon. He asks you to hold one end of a hot piece of metal. He promises it won't burn you. You don't believe him.",
+      prompt: "🔥 FORGE YARD MEET-AND-GREET! 🔥 The Prince is doing his famous live blacksmith show for the guests! 'My LOYAL citizen — come, come, hold the other end for me!' He waves a red-glowing bar toward you with royal cheer. 'Ta-ta-ta — it's part of the act! The Prince swears on his crown it won't burn you at ALL.' You do not entirely believe the Prince on his crown.",
       options: [
         { id: "hold_it", label: "Hold it", description: "Trust his promise.",
           outcome: { bondDelta: 5, corruptionDelta: 3, moralityDelta: -1, deathChance: 0.15, resultFlavor: "It didn't burn. It weighed more than it should have. 'Good. You held. I trust you now.' You don't know with what." } },
@@ -1009,7 +1009,7 @@ export const MASCOTEER_DECISIONS: Record<string, DailyDecision[]> = {
   the_seeker_child: [
     {
       id: "seeker_1", day: 0, mascoteerId: "the_seeker_child",
-      prompt: "Red sits with you at lunch. 'Ask me a question nobody else has asked me,' he says. 'A real one.'",
+      prompt: "🧺 STORYTIME UNDER THE CLOCKWORK TREE! 🧺 Red pats the picnic blanket in the Seeker's Meadow and offers you half his peanut-butter sandwich. (The clock in the tree is stopped at 3:47 PM. It is always 3:47 PM here.) He swings his little boots. 'Wanna play a game, friend? Ask me a question nobody else has ever asked me. A REAL one. I'll tell the truth. Pinkie promise.'",
       options: [
         { id: "ask_memories", label: "Do you remember the ones who didn't make it?", description: "Ask about the dead.",
           outcome: { bondDelta: 5, corruptionDelta: -1, moralityDelta: 3, resultFlavor: "'Yes. All of them. Every face. That's my job. Someone has to. I volunteered.' He smiled, tired." } },
@@ -1021,7 +1021,7 @@ export const MASCOTEER_DECISIONS: Record<string, DailyDecision[]> = {
     },
     {
       id: "seeker_2", day: 0, mascoteerId: "the_seeker_child",
-      prompt: "Red finds you alone. 'I'm going to give you one answer,' he says. 'Any question. Choose carefully.'",
+      prompt: "🎁 GIFT-SHOP SPECIAL — ONE DAY ONLY! 🎁 Red finds you by the Lost-Child Fountain with a gift-wrapped box, grinning ear to ear. 'Ta-DAAA! Open it, friend! Inside is ONE answer — any question you want, wrapped up with a bow! I only have one to give, so… choose carefully, okay?' The bow is tied just a little too neatly. Someone adult tied it.",
       options: [
         { id: "ask_exit", label: "How do I leave Celebration alive?", description: "Ask the survival question.",
           outcome: { bondDelta: 4, corruptionDelta: -2, moralityDelta: 3, deathChance: 0.1, resultFlavor: "'Keep asking questions. The ones who stop asking are the ones who stop existing.' It is the only answer that was ever correct." } },
