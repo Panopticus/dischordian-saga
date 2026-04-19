@@ -210,6 +210,31 @@ function JourneyPanel({ hubState }: { hubState: WitnessingHubState }) {
         </div>
       </Link>
 
+      {/* Act 2 Whisper interlude — unlocks at Act 2+. Non-combat
+          activation of the dual-channel protocol + the Human's
+          first commentary. */}
+      {gameState.narrativeAct >= 2 && (
+        <Link
+          href="/act2-interlude"
+          className="block rounded-md border border-indigo-500/40 bg-indigo-950/20 p-4 transition-colors hover:bg-indigo-950/30"
+        >
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-indigo-300/80">
+                INTERLUDE · ACT 2 · THE WHISPER
+              </p>
+              <h3 className="mt-0.5 font-display text-base text-indigo-200">
+                The Second Voice
+              </h3>
+              <p className="mt-1 font-serif text-[12px] void-text">
+                Activate the dual-signal protocol. The Human's first commentary lands; Elara's recognition follows.
+              </p>
+            </div>
+            <ChevronRight size={20} className="text-indigo-300/80 shrink-0" />
+          </div>
+        </Link>
+      )}
+
       {/* Act 3 Substrate Gates — unlocks at Act 3+. The Human
           frames the descent; three substrate echoes guard the
           door to Kael's logs. */}
