@@ -24,6 +24,7 @@ import { ChevronLeft, MessageCircle } from "lucide-react";
 import {
   getAskTopic,
   getAvailableAskTopics,
+  resolveAskAnswer,
   type AskSpeaker,
   type CompanionAskTopic,
 } from "@shared/companionAskTopics";
@@ -149,7 +150,7 @@ export function CompanionAskPanel({
                 {speaker === "elara" ? "Elara" : "The Human"} · answer
               </p>
               <p className={`mt-1 font-serif text-[13px] leading-relaxed ${accent.text}`}>
-                {selected.answer}
+                {resolveAskAnswer(selected, currentAct, flags)}
               </p>
             </div>
             <div className="flex items-center justify-between">

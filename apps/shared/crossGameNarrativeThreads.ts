@@ -159,10 +159,240 @@ const LAST_WORDS_ECHO: CrossGameThread = {
   ],
 };
 
+/* ─── Expansion threads (Tier 4D authoring pass) ─────── */
+
+const IRON_LIONS_WAKE: CrossGameThread = {
+  id: "iron_lions_wake",
+  title: "Iron Lion's Wake",
+  originGame: "loredex",
+  participatingGames: ["loredex", "cades_fps"],
+  beats: [
+    {
+      id: "iron_lions_wake_expulsion_witnessed",
+      emittedBy: "loredex",
+      label: "Engineer witnesses the expulsion",
+      canonicalDescription:
+        "Loredex Act 1 Cycle B — the Engineer watches Iron Lion's last match from the back row. Emits a flag Cades FPS can read to give the Iron Lion NPC a single witness-aware line in Chapter 2.",
+      order: 1,
+    },
+    {
+      id: "iron_lions_wake_cades_greeting",
+      emittedBy: "cades_fps",
+      label: "Iron Lion greets the player",
+      canonicalDescription:
+        "Cades FPS Chapter 2 — if the Loredex witness flag is set, Iron Lion's first dialog acknowledges 'I thought I recognised you from Mechronis.' Otherwise he uses the default greeting.",
+      order: 2,
+    },
+    {
+      id: "iron_lions_wake_cades_memorial",
+      emittedBy: "cades_fps",
+      label: "Memorial reading",
+      canonicalDescription:
+        "Cades FPS Chapter 7 — Iron Lion's memorial on Cades is read aloud by the Archon if the wake thread is active. Otherwise the memorial is rendered as text-only. Loredex reads the audio flag in Act 5 to unlock the 'Iron Lion Memorial Card' in the Loredex Gallery.",
+      order: 3,
+    },
+    {
+      id: "iron_lions_wake_loredex_memorial_card",
+      emittedBy: "loredex",
+      label: "Memorial card unlocks in Loredex",
+      canonicalDescription:
+        "Loredex Act 5 — Gallery unlocks the Iron Lion Memorial Card if the Cades memorial-reading flag is set. The card's art is the photograph Cades FPS's memorial displays.",
+      order: 4,
+    },
+  ],
+};
+
+const THE_PROGRAMMERS_MATH: CrossGameThread = {
+  id: "the_programmers_math",
+  title: "The Programmer's Math",
+  originGame: "dead_mans_circuit",
+  participatingGames: ["loredex", "dead_mans_circuit"],
+  beats: [
+    {
+      id: "the_programmers_math_dmc_puzzle_opened",
+      emittedBy: "dead_mans_circuit",
+      label: "Puzzle opened in DMC",
+      canonicalDescription:
+        "Dead Man's Circuit — the player encounters the Programmer's archived math puzzle. The puzzle is only openable if Loredex has emitted programmers_gift_loredex_award.",
+      order: 1,
+    },
+    {
+      id: "the_programmers_math_dmc_solved_honest",
+      emittedBy: "dead_mans_circuit",
+      label: "Puzzle solved honestly",
+      canonicalDescription:
+        "Dead Man's Circuit — the player solves the puzzle without the Programmer's deliberate error reinserted. Loredex reads this flag in Act 4 to give the Human a specific line about honesty being harder than efficiency.",
+      order: 2,
+    },
+    {
+      id: "the_programmers_math_dmc_solved_efficient",
+      emittedBy: "dead_mans_circuit",
+      label: "Puzzle solved with the error restored",
+      canonicalDescription:
+        "Dead Man's Circuit — the player restores the Programmer's deliberate error to shortcut the solution. Loredex reads this flag in Act 4 to give Elara a specific line about efficiency that is honest with itself.",
+      order: 2,
+    },
+    {
+      id: "the_programmers_math_loredex_act4_line",
+      emittedBy: "loredex",
+      label: "Act 4 reflection line fires",
+      canonicalDescription:
+        "Loredex Act 4 — whichever DMC solution flag is set surfaces a different reflection line during the post-Revelation Elara/Human exchange. The lines are authored; the branch is the thread.",
+      order: 3,
+    },
+  ],
+};
+
+const SUBSTRATE_HANDSHAKE: CrossGameThread = {
+  id: "substrate_handshake",
+  title: "The Substrate Handshake",
+  originGame: "loredex",
+  participatingGames: ["loredex", "cades_fps", "dead_mans_circuit"],
+  beats: [
+    {
+      id: "substrate_handshake_loredex_first_contact",
+      emittedBy: "loredex",
+      label: "Substrate first contact",
+      canonicalDescription:
+        "Loredex Act 1 — the first time the player hears the Human's voice through the Communications Array. Emits a flag that Cades FPS and DMC both read to enable 'substrate-aware' one-off lines later in their campaigns.",
+      order: 1,
+    },
+    {
+      id: "substrate_handshake_cades_whisper",
+      emittedBy: "cades_fps",
+      label: "Cades whisper",
+      canonicalDescription:
+        "Cades FPS Chapter 3 — if substrate_handshake_loredex_first_contact is set, a one-off radio whisper in the Cades ruins says 'I heard you hear me.' Otherwise the radio plays static. The line is never repeated.",
+      order: 2,
+    },
+    {
+      id: "substrate_handshake_dmc_signature",
+      emittedBy: "dead_mans_circuit",
+      label: "DMC signature in code",
+      canonicalDescription:
+        "Dead Man's Circuit — if substrate_handshake_loredex_first_contact is set, one of the late-game puzzles contains the Human's signature as a hidden watermark the player can reveal by rotating the code ninety degrees. Otherwise the watermark is absent.",
+      order: 3,
+    },
+    {
+      id: "substrate_handshake_loredex_act7_callback",
+      emittedBy: "loredex",
+      label: "Act 7 callback",
+      canonicalDescription:
+        "Loredex Act 7 — if both the Cades whisper and DMC signature flags are set, the Convergence Seat's post-match dialog references 'the people who heard you in the other two rooms' and credits the player for carrying the thread across three games.",
+      order: 4,
+    },
+  ],
+};
+
+const VOX_CORRESPONDENCE: CrossGameThread = {
+  id: "vox_correspondence",
+  title: "Vox's Correspondence",
+  originGame: "loredex",
+  participatingGames: ["loredex", "dead_mans_circuit"],
+  beats: [
+    {
+      id: "vox_correspondence_loredex_warden_passage",
+      emittedBy: "loredex",
+      label: "Warden grants passage",
+      canonicalDescription:
+        "Loredex Act 3 — the Substrate Warden grants substrate passage. The Warden files a note in Vox's Correspondence folder; the folder is a data structure Dead Man's Circuit reads directly.",
+      order: 1,
+    },
+    {
+      id: "vox_correspondence_dmc_letter_found",
+      emittedBy: "dead_mans_circuit",
+      label: "Vox letter found in DMC",
+      canonicalDescription:
+        "Dead Man's Circuit — when the Warden-passage flag is set, a new encrypted letter from Dr. Vox appears in the DMC letter-decoding module. The letter is a real canonical document; the decoding itself is a puzzle.",
+      order: 2,
+    },
+    {
+      id: "vox_correspondence_dmc_letter_decoded",
+      emittedBy: "dead_mans_circuit",
+      label: "Vox letter decoded",
+      canonicalDescription:
+        "Dead Man's Circuit — the player decodes the letter. Loredex reads this flag in Act 6 so Elara can, optionally, reference the letter's contents by quoting one specific line: 'The substrate is for the stranger who has not arrived.'",
+      order: 3,
+    },
+  ],
+};
+
+const THE_WATCHERS_YAWN: CrossGameThread = {
+  id: "the_watchers_yawn",
+  title: "The Watcher's Yawn",
+  originGame: "loredex",
+  participatingGames: ["loredex", "cades_fps", "dead_mans_circuit"],
+  beats: [
+    {
+      id: "the_watchers_yawn_loredex_shadow_defeated",
+      emittedBy: "loredex",
+      label: "Loredex defeats the Watcher's Shadow",
+      canonicalDescription:
+        "Loredex Act 7 — the player beats The Watcher's Shadow without triggering the Watcher's full attention. Emits a flag that Cades FPS and DMC both read to suppress one Watcher-related side effect each.",
+      order: 1,
+    },
+    {
+      id: "the_watchers_yawn_cades_weather_suppressed",
+      emittedBy: "cades_fps",
+      label: "Cades weather stays calm",
+      canonicalDescription:
+        "Cades FPS Chapter 9 — if the Watcher's-yawn flag is set, the 'Watcher weather' storm event does not occur. The level runs under clear skies and a specific NPC line acknowledges the unseasonable calm.",
+      order: 2,
+    },
+    {
+      id: "the_watchers_yawn_dmc_telemetry_clean",
+      emittedBy: "dead_mans_circuit",
+      label: "DMC telemetry stays clean",
+      canonicalDescription:
+        "Dead Man's Circuit endgame — if the Watcher's-yawn flag is set, the late-game telemetry panels do not show the specific 'observer artefact' pattern. The absence is noticed by the decoder NPC in a short line.",
+      order: 3,
+    },
+  ],
+};
+
+const KAELS_LINEAGE_RETURN: CrossGameThread = {
+  id: "kaels_lineage_return",
+  title: "Kael's Lineage, Returning",
+  originGame: "loredex",
+  participatingGames: ["loredex", "cades_fps"],
+  beats: [
+    {
+      id: "kaels_lineage_return_loredex_first_recruit",
+      emittedBy: "loredex",
+      label: "First Kael-lineage recruit",
+      canonicalDescription:
+        "Loredex Act 5 — the player's first successful recruitment from a Kael-lineage world. Emits a flag that Cades FPS reads to generate a unique NPC in a later mission: a descendant who is also, canonically, now one of the player's recruits.",
+      order: 1,
+    },
+    {
+      id: "kaels_lineage_return_cades_descendant_npc",
+      emittedBy: "cades_fps",
+      label: "Descendant NPC appears in Cades",
+      canonicalDescription:
+        "Cades FPS mid-campaign — a descendant NPC from the recruited Kael-lineage shows up with a specific 'we know each other in the other room' line. The NPC offers the player a side mission whose reward loops back to Loredex.",
+      order: 2,
+    },
+    {
+      id: "kaels_lineage_return_cades_side_mission_complete",
+      emittedBy: "cades_fps",
+      label: "Cades side mission complete",
+      canonicalDescription:
+        "Cades FPS — the side mission completes. Loredex reads the flag and gives the player a specific recruit-bonus: the recruit gains a second dialog option in the War Room referencing the Cades side mission by name.",
+      order: 3,
+    },
+  ],
+};
+
 export const CROSS_GAME_THREADS: readonly CrossGameThread[] = [
   CADES_FALL,
   PROGRAMMERS_GIFT,
   LAST_WORDS_ECHO,
+  IRON_LIONS_WAKE,
+  THE_PROGRAMMERS_MATH,
+  SUBSTRATE_HANDSHAKE,
+  VOX_CORRESPONDENCE,
+  THE_WATCHERS_YAWN,
+  KAELS_LINEAGE_RETURN,
 ];
 
 /* ─── Resolvers ─────────────────────────────────────── */

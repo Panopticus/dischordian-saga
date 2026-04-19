@@ -2,8 +2,9 @@
    CARD COLLECTION GALLERY — All 178 cards with filtering,
    collection progress, full art detail modal, and lore
    ═══════════════════════════════════════════════════════ */
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { useGame, type CharacterChoices } from "@/contexts/GameContext";
+import { fireCrossGameBeat } from "@/lib/crossGameBeats";
 import { getCardSacrificeRewards } from "@/data/lootTables";
 import { getMaterialById } from "@/data/craftingData";
 import { toast } from "sonner";
@@ -560,6 +561,17 @@ export default function CardGalleryPage() {
   const { state } = useGame();
   const [selectedCard, setSelectedCard] = useState<FullCard | null>(null);
   const { addMaterial } = useGame();
+
+  // Tier 4D — when the player opens the Card Gallery and the Cades
+  // memorial-reading flag is set (emitted by Cades FPS), Loredex
+  // responds by emitting its own memorial-card-unlock beat. The
+  // helper is session-idempotent; firing on every gallery open is
+  // safe — only the first one round-trips to the server.
+  useEffect(() => {
+    if (state.narrativeFlags["xgame_iron_lions_wake_cades_memorial"]) {
+      void fireCrossGameBeat("iron_lions_wake_loredex_memorial_card");
+    }
+  }, [state.narrativeFlags]);
 
   const handleSacrificeCard = useCallback((card: FullCard) => {
     // Get the sacrifice rewards and add materials to inventory

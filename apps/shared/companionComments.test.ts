@@ -22,6 +22,29 @@ const PRELUDE_TRIGGERS = [
   "act1_first_opponent_entered",
 ] as const;
 
+const ACT_2_TO_7_TRIGGERS = [
+  "act2_first_substrate_ping",
+  "act2_dual_signal_activated",
+  "act3_path_transparent_chosen",
+  "act3_path_pragmatic_chosen",
+  "act3_path_full_secret_chosen",
+  "act3_kael_logs_unlocked",
+  "act4_pathA_complete",
+  "act4_pathB_complete",
+  "act4_pathC_complete",
+  "act4_army_unlocked",
+  "act5_map_first_open",
+  "act5_first_recruit_complete",
+  "act5_sector_complete",
+  "act6_elara_confession_heard",
+  "act6_human_confession_heard",
+  "act6_confession_close",
+  "act7_army_assembled",
+  "act7_visible_war_won",
+  "act7_convergence_landing",
+  "act7_arc_closes",
+] as const;
+
 describe("companionComments — prelude/Act 1 reactive coverage", () => {
   it("has at least one comment for every required prelude/Act 1 trigger", () => {
     for (const trigger of PRELUDE_TRIGGERS) {
@@ -53,5 +76,37 @@ describe("companionComments — prelude/Act 1 reactive coverage", () => {
       expect(validTimings.has(c.timing), `${c.id} has unknown timing ${c.timing}`).toBe(true);
       expect([1, 2]).toContain(c.maxPlays);
     }
+  });
+});
+
+describe("companionComments — Act 2–7 reactive coverage", () => {
+  it("has at least one comment for every required Act 2–7 trigger", () => {
+    for (const trigger of ACT_2_TO_7_TRIGGERS) {
+      const matches = COMPANION_COMMENTS.filter((c) => c.trigger === trigger);
+      expect(
+        matches.length,
+        `no companion comment registered for trigger "${trigger}"`
+      ).toBeGreaterThan(0);
+    }
+  });
+
+  it("covers every Act boundary (2, 3, 4, 5, 6, 7) with at least one reactive line", () => {
+    for (const act of [2, 3, 4, 5, 6, 7]) {
+      const matches = COMPANION_COMMENTS.filter((c) =>
+        c.trigger.startsWith(`act${act}_`)
+      );
+      expect(
+        matches.length,
+        `Act ${act} has no cc_act${act}_* reactive comment`
+      ).toBeGreaterThan(0);
+    }
+  });
+
+  it("gives both Elara and The Human reactive lines across Act 2–7", () => {
+    const act2To7 = COMPANION_COMMENTS.filter((c) =>
+      /^act[2-7]_/.test(c.trigger)
+    );
+    expect(act2To7.some((c) => c.speaker === "elara")).toBe(true);
+    expect(act2To7.some((c) => c.speaker === "human")).toBe(true);
   });
 });

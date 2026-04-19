@@ -52,6 +52,7 @@ import { useAuth } from "./_core/hooks/useAuth";
 import { useAnalytics } from "./hooks/useAnalytics";
 import { useTutorialOrchestrator } from "./hooks/useTutorialOrchestrator";
 import { syncFromServer, initSync } from "@/lib/settingsSync";
+import { initCrossGameBeats } from "@/lib/crossGameBeats";
 import RecapOverlay, { shouldShowRecap, RECAP_INACTIVITY_DAYS } from "./components/RecapOverlay";
 import { loadingManager, LOADING_TASKS } from "@/lib/loadingProgress";
 import { trpc } from "@/lib/trpc";
@@ -89,6 +90,14 @@ const CrewRosterPage = lazy(() => import("./pages/CrewRosterPage"));
 const TrophyRoomPage = lazy(() => import("./pages/TrophyRoomPage"));
 const WitnessingHubPage = lazy(() => import("./pages/WitnessingHubPage"));
 const Act1CardLadderPage = lazy(() => import("./pages/Act1CardLadderPage"));
+const Act3CardLadderPage = lazy(() => import("./pages/Act3CardLadderPage"));
+const Act6CardLadderPage = lazy(() => import("./pages/Act6CardLadderPage"));
+const Act7CardLadderPage = lazy(() => import("./pages/Act7CardLadderPage"));
+const Act4MatchPage = lazy(() => import("./pages/Act4MatchPage"));
+const DevVariantsPage = lazy(() => import("./pages/DevVariantsPage"));
+const CrossGameThreadsPage = lazy(() => import("./pages/CrossGameThreadsPage"));
+const Act2InterludePage = lazy(() => import("./pages/Act2InterludePage"));
+const Act5InterludePage = lazy(() => import("./pages/Act5InterludePage"));
 const VortexIncursionPage = lazy(() => import("./pages/VortexIncursionPage"));
 const TradeWarsPage = lazy(() => import("./game/TradeEmpirePage"));
 const WarMapPage = lazy(() => import("./pages/WarMapPage"));
@@ -246,6 +255,14 @@ function Router() {
         <Route path="/trophy" component={TrophyRoomPage} />
         <Route path="/witnessing" component={WitnessingHubPage} />
         <Route path="/act1-ladder" component={Act1CardLadderPage} />
+        <Route path="/act3-ladder" component={Act3CardLadderPage} />
+        <Route path="/act6-ladder" component={Act6CardLadderPage} />
+        <Route path="/act7-ladder" component={Act7CardLadderPage} />
+        <Route path="/act4-match" component={Act4MatchPage} />
+        <Route path="/dev/variants" component={DevVariantsPage} />
+        <Route path="/cross-game-threads" component={CrossGameThreadsPage} />
+        <Route path="/act2-interlude" component={Act2InterludePage} />
+        <Route path="/act5-interlude" component={Act5InterludePage} />
         <Route path="/vortex-incursion" component={VortexIncursionPage} />
         <Route path="/trade-empire">{() => <GameRoute component={TradeWarsPage} />}</Route>
         <Route path="/war-map">{() => <GameRoute component={WarMapPage} />}</Route>
@@ -400,6 +417,10 @@ function GameGate() {
       settingsSynced.current = true;
       initSync(trpcUtils);
       syncFromServer().catch(() => {/* silent — local settings are fallback */});
+      // Tier 4D — wire the cross-game beats helper to the same tRPC
+      // client so narrative-side code can emit cross-game beats without
+      // plumbing the client reference through props.
+      initCrossGameBeats(trpcUtils);
     }
   }, [trpcUtils]);
 
