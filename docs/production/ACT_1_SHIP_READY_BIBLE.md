@@ -3552,11 +3552,11 @@ that lets them read it that way.
   Celebration*, *To Be the Human*, and *Last Words* respectively;
   C4 resolves into §17 *Last Words* via *The Last Word* card
   trigger or via the Year One Month 6 fallback)
-- §15 (Cycle C4 battle section — full Trial-format ruleset,
+- §16 (Cycle C4 battle section — full Trial-format ruleset,
   jury card list, twelve evidence cards with their thematic
   counters, the verdict-scroll mechanic, the per-turn ink
   accumulation rules; this section is the player-facing
-  visualization, §15 is the engineering spec)
+  visualization, §16 is the engineering spec)
 - §18 (Act 1 Finale — the post-*Last Words* "YOUR NAME"
   Unwritten card pedestal interaction; C4 + *Last Words*
   resolves into §18, closing Act 1)
@@ -3590,6 +3590,157 @@ that lets them read it that way.
   recording survived to be recovered, win-path framing
   implies the cell-private recording was duplicated and
   distributed before execution)
+
+---
+
+## Section 3 — Cycle A1 Battle Section (Minnie the Meme)
+
+The engineering spec for A1. Section 2.2 authored the character;
+this section specifies the match — per-turn shape, deck list
+summary, animation cues, VO CSV rows, VFX, art / cutscene
+deliveries, and the Celebration-Trial buff/debuff inputs.
+
+### 3.1 Narrative purpose
+
+A1 is the **tutorial battle of Act 1**. The player has just
+exited the Prelude with a known card-game vocabulary from the
+Prelude tutorial; A1's job is to introduce three new concepts
+without breaking flow:
+
+1. **Archon-tier opponents** (the "cosmic being wearing a child"
+   framing, per §2.0)
+2. **Celebration Trial modifiers** (buffs/debuffs fed into the
+   match from the parallel 28-day Mascoteer loop, §19)
+3. **Per-opponent deck identity** (Minnie's `thought_virus`
+   leaning is the first time the player sees a deck *about*
+   something rather than balanced)
+
+Minnie is canonically winnable on a blind first attempt — the
+tutorial framing is strict. Her deck is aggressive but
+shallow; a player who defends reasonably should survive. The
+design target is **85% first-attempt win rate** in playtest;
+balance tuning sits in `apps/shared/act1Opponents.ts` cycle-A
+block and is out of scope for this doc.
+
+### 3.2 Per-turn flow (nominal 9-turn match)
+
+- **Turn 1 (Minnie opens):** *"Rent Free"* — a single
+  low-cost unit that forces both players to *replay* one of
+  their last turn's cards. In turn 1 there is nothing to
+  replay, so the effect is cosmetic; production uses the turn
+  1 play as the **tutorial moment** for the forced-unison
+  mechanic (see §3.4 Cutscene). Minnie giggles.
+- **Turn 2 (Engineer opens actively):** first player deploys
+  from their starting hand. Minnie responds with *"Viral
+  Chant,"* a unit that duplicates itself each turn the
+  opponent does not kill it.
+- **Turns 3–5:** Minnie's viral chant units stack; Engineer
+  must commit board-clear effects or lose tempo. Canonical
+  win condition: Engineer clears all Viral Chant copies on
+  turn 5.
+- **Turns 6–8:** Minnie deploys *"Rent Free"* a second time,
+  forcing Engineer to replay the cards they just used for
+  board-clear. Tutorial lesson: hold one response in reserve.
+- **Turn 9 (canonical resolution):** Minnie's hand is empty.
+  Engineer plays any remaining unit for lethal.
+
+Loss paths are also canonical (losses do not block progress in
+Act 1; the biography continues) and are spec'd in §3.5 as a
+single catch-all VO beat.
+
+### 3.3 Art sub-spec
+
+**Opponent portrait (matchup card):** seven-year-old Minnie in
+three-quarter profile, Minnie Mouse ears, earnest expression,
+holding up one card face-down in her right hand. Warm-gold
+Celebration schoolyard lighting behind her, faint bokeh of
+a Mascoteer parade float in the background. Full prompt in
+§22.3.2.
+
+**Battlefield:** Celebration Trial schoolyard — outdoor card
+table, two low benches, warm-gold afternoon light, Celebration
+parade banners hanging limp in the background, approximately
+2:00 PM lighting. No other children visible (the tutorial
+framing keeps the composition clean). Full prompt in §22.1.1.
+
+**Pre-battle matchup splash still:** Minnie portrait composited
+left, schoolyard battlefield right, title card *"Cycle A1 —
+Minnie the Meme"* in the Act 1 global style anchor font.
+
+### 3.4 Cutscene sub-spec
+
+**Pre-match cutscene (0:00–0:35):** 8-second establishing shot
+of the Celebration schoolyard at Day 10 of the Trial, then a
+12-second beat of Minnie setting up her side of the card
+table while the Engineer approaches. Minnie looks up, says her
+pre-match line (§2.2), and sits. The Engineer sits opposite.
+Fade into match.
+
+**Turn-1 tutorial overlay (triggered in-match, first play
+only):** a 3-second pop-up explaining Minnie's *Rent Free*
+mechanic, using the forced-unison visual vocabulary. Dismissed
+by any input.
+
+**Post-match cutscene — win (0:00–0:25):** Minnie's viral chant
+stalls, her hand is empty, she looks at the Engineer and says
+her post-match win beat from §2.2 (the "let me see" chant
+stall). Fade to Celebration Trial day-10-complete banner.
+
+**Post-match cutscene — loss (0:00–0:20):** Minnie laughs,
+plays one more card the Engineer cannot respond to, and the
+match ends on her laugh. Fade to the "try again" screen with
+the Celebration Trial modifier unchanged.
+
+### 3.5 VO sub-spec (ElevenLabs CSV rows)
+
+Voice profile: **`minnie_meme`** (new; see §2.2 for the
+ancient-viral-amused direction and ElevenLabs settings). Six
+lines total for A1, canonical IDs `vo_a1_minnie_*`:
+
+| ID | Line | Direction |
+|---|---|---|
+| `vo_a1_minnie_prematch` | §2.2 pre-match line | earnest, performative slam on the final word |
+| `vo_a1_minnie_turn1` | *"Rent free. Rent free forever."* | sing-song, two-beat repeat |
+| `vo_a1_minnie_turn5` | *"You cleared them! That was rude."* | delighted, not wounded |
+| `vo_a1_minnie_turn9_win` | §2.2 post-match win beat (full) | the chant stalls; deliver the stall |
+| `vo_a1_minnie_turn9_loss` | §2.2 post-match loss beat (full) | the laugh; hold it long |
+| `vo_a1_minnie_ambient` | *"Let me see."* (×3, randomized playback during match idle) | 4-second interval loop |
+
+All six rows will be exported in the batch CSV per
+`apps/client/src/lib/voCsv.ts` (PR #100's generator).
+
+### 3.6 VFX sub-spec
+
+Three A1-specific VFX cues; full library spec in §21.
+
+- **Minnie's earnest-giggle particle:** small warm-gold confetti
+  burst on every card Minnie plays (6–10 particles, 0.3s
+  duration, dissipates upward). Authorized for reuse in §19
+  Celebration Trial day illustrations.
+- **Viral Chant duplication effect:** soft pink "heart-meme"
+  bloom behind each new Viral Chant copy (1.2s, 20% opacity,
+  additive blend).
+- **Rent Free forced-unison highlight:** brief 0.8s cool-cyan
+  underline on both replaying cards when the effect triggers.
+  Tutorial-frame only; the highlight is suppressed on Turn 6
+  (when the mechanic is familiar).
+
+### 3.7 Celebration Trial modifier inputs (§19 handoff)
+
+A1 is the first of three Celebration-Trial-gated matches. The
+player's Mascoteer bond state at Day 10 of the Trial feeds
+the following modifiers into the A1 deck:
+
+| Mascoteer bond at Day 10 | Modifier |
+|---|---|
+| Minnie bond ≥ 3 | Minnie opens with *"Viral Chant"* instead of *"Rent Free"* (easier, lower tutorial-weight) |
+| Minnie bond ≤ −2 | Minnie opens with *"Rent Free"* + a 2-cost unit tag (harder) |
+| Any non-Minnie bond ≥ 5 | Engineer starts with +1 card in hand |
+| Apprentice alive at Day 10 | Engineer's hand includes the Memory Card (procedural; see §20) |
+
+The actual Mascoteer roster and bond mechanics live in
+`apps/shared/mascoteers.ts` and are not duplicated here. §19
+carries the 28-day decision tree that surfaces the bond values.
 
 ---
 
