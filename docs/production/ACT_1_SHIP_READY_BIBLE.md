@@ -4042,3 +4042,155 @@ in `apps/shared/songSlideshow.ts`.
 
 ---
 
+## Section 6 — *Welcome to Celebration* (Cycle A finale slideshow)
+
+The first of Act 1's three master slideshows. 8 frames,
+approximately 2 minutes 15 seconds total runtime, fires
+immediately after §5 Cycle A3 completion regardless of match
+outcome. The slideshow is the **first long-form cinematic**
+Act 1 delivers and sets the tonal grammar for §12 *To Be the
+Human* and §17 *Last Words* that follow.
+
+### 6.1 Narrative purpose
+
+*Welcome to Celebration* is structured as the Engineer's own
+retrospective memory of his Celebration school years — 28 days
+compressed into a sequence of images that the adult Engineer
+(narrating in-fiction from his Ark 7 exile) edited together
+before his death. The slideshow is not a documentary; it is
+a curated artifact. The player understands by the end that
+they are watching what the Engineer *chose to remember*, with
+the emotional weight the Engineer assigned rather than the
+weight the events might have objectively carried. Minnie,
+Corey, and Kanshi Sha each appear — not as adversaries, but
+as classmates the Engineer is forgiving in retrospect.
+
+Narrator: the Engineer (Prince voice profile, §2.1), in the
+mature tonal register. Sparse narration — approximately 12
+sentences total across the 8 frames — with long stretches of
+ambient room tone and distant Celebration music. The
+slideshow is an **image-first** delivery; narration supports
+rather than drives.
+
+### 6.2 Frame-by-frame spec
+
+| # | Frame | Duration | Narration | Audio bed |
+|---|---|---|---|---|
+| 1 | Celebration school gate at sunrise, Day 1 of the Trial. Empty path leading in. Warm gold, long shadows. | 18s | *"They called it Celebration. They called everything that."* | distant parade drums, 0.5× tempo |
+| 2 | The Engineer as a child (age seven, see §2.1.2), walking through the gate alone. Back to camera. The Celebration banners overhead. | 22s | *"I was supposed to be ready for this. I was not."* | parade drums rise, one child laughs off-camera |
+| 3 | Close-up of a card table at the schoolyard — Minnie Mouse ears on one chair, nobody seated yet. | 15s | (silence; room tone) | schoolyard ambient, light wind |
+| 4 | The Mascoteer bond montage — six portraits of the Mascoteers in soft-focus sequence, each held 2s. (Frame substituted on apprentice-dead branch, see §5.8.) | 14s | *"You learn who is on your side before you learn what sides there are."* | Mascoteer parade march, uptempo |
+| 5 | Graduation pavilion at Day 28, empty, evening light, the two card tables set up for A3. | 18s | *"They graduate you whether or not you pass."* | distant crowd murmur |
+| 6 | Kanshi Sha's white mask, close-up, mid-air (disconnected from her face, stylized memory composition). | 12s | *"Some of us took off the mask. Some of us did not."* | single sustained tone, warm gold ringing |
+| 7 | The Engineer (age seven) walking out of the pavilion, back to camera again, a folded paper in his hand (The First Card). | 18s | *"They gave me my first card the day I graduated. It was blank. I kept it."* | parade drums return, full tempo |
+| 8 | Distant shot of Celebration at night — the whole school lit warm-gold, parade banners drifting in the evening breeze, the Engineer's silhouette walking toward the exit. | 18s | *"I did not know I was leaving. Nobody told me."* (pause) *"Welcome to Celebration."* | parade drums fade to silence |
+
+**Total runtime:** 135 seconds (2:15).
+
+### 6.3 Branch logic (from §5.8 handoff)
+
+Four canonical branches based on A3 outcome × apprentice state:
+
+- **A3 win + apprentice alive:** all 8 frames as spec'd above.
+  Frame 4 uses the six-Mascoteer-portrait composition; frame
+  7 includes an apprentice cameo in soft focus beside the
+  Engineer.
+- **A3 win + apprentice dead:** frame 4 substituted with a
+  single close-up of the **Memory Card** — the procedurally-
+  named Epic Light card that spawns from apprentice
+  permadeath (§20). Narration on frame 4 becomes *"You learn
+  who is on your side before you learn what sides there are.
+  Sometimes you learn after."*
+- **A3 loss + apprentice alive:** frame 3 substituted with
+  *"the graduation the Engineer missed"* — a 15-second beat
+  of the pavilion seen from below, the Engineer's wooden
+  chair visibly empty on stage. Narration on frame 3 (now
+  present where it was silent): *"They called my name. I did
+  not come up."* Frames 4–8 otherwise unchanged.
+- **A3 loss + apprentice dead:** both frame 3 and frame 4
+  substitutions applied. Frame 7's apprentice cameo is
+  suppressed; the Engineer walks out alone.
+
+All four branches share frames 1, 2, 5, 6, 8 verbatim. The
+engineering implementation in `apps/shared/songSlideshow.ts`
+should reference this branch table as the canonical source of
+truth.
+
+### 6.4 Art sub-spec
+
+8 frame stills at 1920×1080 / 16:9 / 4K, warm-gold
+Celebration palette. Plus:
+- 1 Memory Card variant still for frame 4 (apprentice-dead
+  branch)
+- 1 empty-pavilion variant still for frame 3 (A3-loss branch)
+
+Full prompts in §22.2.1. The slideshow assets share the Act
+1 Global Style Anchor (§0.3) with one adjustment: the
+Celebration parade palette permits a slightly warmer
+saturation bump (+10% on the warm-gold channel) specific to
+this slideshow's retrospective framing.
+
+### 6.5 VO sub-spec (ElevenLabs CSV rows)
+
+Voice profile: `the_prince` (§2.1, mature register). Twelve
+sentences total; all narration IDs `vo_wtc_narration_*`:
+
+| ID | Line | Frame | Direction |
+|---|---|---|---|
+| `vo_wtc_narration_1` | *"They called it Celebration. They called everything that."* | 1 | reflective, light irony |
+| `vo_wtc_narration_2` | *"I was supposed to be ready for this. I was not."* | 2 | matter-of-fact, no self-pity |
+| `vo_wtc_narration_3` | *"They called my name. I did not come up."* | 3 (loss branch only) | flat, no defense |
+| `vo_wtc_narration_4a` | *"You learn who is on your side before you learn what sides there are."* | 4 (apprentice-alive) | gentle |
+| `vo_wtc_narration_4b` | *"You learn who is on your side before you learn what sides there are. Sometimes you learn after."* | 4 (apprentice-dead) | same, extended, slightly slower on "Sometimes you learn after" |
+| `vo_wtc_narration_5` | *"They graduate you whether or not you pass."* | 5 | wry |
+| `vo_wtc_narration_6` | *"Some of us took off the mask. Some of us did not."* | 6 | observational |
+| `vo_wtc_narration_7` | *"They gave me my first card the day I graduated. It was blank. I kept it."* | 7 | fond |
+| `vo_wtc_narration_8a` | *"I did not know I was leaving. Nobody told me."* | 8 (first half) | quiet |
+| `vo_wtc_narration_8b` | *"Welcome to Celebration."* | 8 (final line) | the canonical sign-off; deliver flat, no ceremony |
+
+### 6.6 Audio bed sub-spec
+
+The slideshow's audio bed is a custom 2:15 composition by
+Cades (see `CADES_SFX_PROMPTS.md` track-request queue, PR #93
+docs consolidation). The composition layers:
+- Celebration parade drums (slow-tempo opening, full-tempo
+  crescendo at frame 7, fade to silence on frame 8)
+- Schoolyard ambient (birds, distant children, light wind) —
+  used only on frame 3's silence
+- A single sustained warm-gold tone (2-second ring on frame
+  6, overlay across the mask close-up)
+- Parade brass (sparing — frame 4 and frame 7 only)
+
+The composition is keyed to frame durations; production must
+not re-time the slideshow without re-sequencing the audio.
+
+### 6.7 VFX sub-spec
+
+The slideshow is image-first and uses minimal VFX — the
+compositions are meant to read as still photographs. Two
+exceptions:
+
+- **Frame 4 Mascoteer portraits:** each portrait held 2s,
+  with a 0.3s cross-dissolve to the next. Total frame
+  runtime 14s (6 portraits × 2s = 12s + 2s outro).
+- **Frame 6 mask float:** the mask is rendered with a
+  faint 0.5Hz rotational drift (±3°) to break the
+  still-photograph register. Hold the drift subtle; the
+  mask should read as *almost* still.
+
+### 6.8 Witnessing-layer integration
+
+On slideshow completion, the runtime fires:
+- `act_1_cycle_a_complete` flag (per §1.1 master index and
+  `witnessingYearOne.ts` Chronicle entry "The Kindergarten
+  Lets Out")
+- `welcome_to_celebration_seen` flag (triggers the Cycle A
+  Chronicle entry in the Witnessing Hub)
+- Bond milestone check at threshold 40 ("Two Witnesses
+  Remember") — if bond has crossed 40 between Prelude end
+  and this point, the milestone fires on slideshow
+  completion rather than at the threshold-crossing moment,
+  per the deferred-milestone rule in `witnessingRuntime.ts`
+
+---
+
