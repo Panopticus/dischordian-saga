@@ -5881,3 +5881,148 @@ existing Witnessing Hub bridge logic.
 
 ---
 
+## Section 19 — Celebration Trial (28-day parallel decision loop)
+
+The engineering + narrative spec for the 28-day Mascoteer
+decision loop that runs in parallel with Cycle A. §19 is the
+player-facing visualization of the data tree in
+`apps/shared/celebrationTrial.ts` (1265 lines) — this doc does
+not re-encode the tree; it specifies how production renders
+the loop.
+
+### 19.1 Scope and framing
+
+The Celebration Trial is NOT a battle. It is a **daily
+decision loop** — 28 narrative days compressed into an
+approximately 40-minute gameplay segment that runs in parallel
+with the three Cycle A battles (A1 at Day 10, A2 at Day 20,
+A3 at Day 28). Each day surfaces a Mascoteer interaction or a
+Trial event; the player makes a choice; the choice writes
+buff/debuff state into the Cycle A battles per the modifier
+tables in §§3.7, 4.7, 5.9.
+
+The loop is **mandatory** — the player cannot skip it and
+proceed directly to A1. The three Cycle A battles are gated
+behind day counters; reaching Day 10 requires progressing
+through Days 1–9.
+
+### 19.2 Daily structure
+
+Each of the 28 days presents:
+- A **morning brief** (10–15 seconds of ambient Celebration
+  schoolyard audio + a single-line text summary of the day)
+- An **event** (one of three types; see §19.3)
+- An **evening beat** (a short narrative consequence shown
+  as a text card, 8–12 seconds read time)
+
+The player's time-on-task per day averages 90 seconds. 28
+days × 90s = ~42 minutes, matching the target runtime.
+
+### 19.3 Event types
+
+Three canonical event types, distributed across the 28 days:
+
+1. **Mascoteer interactions (~18 days):** the player chooses
+   how to engage with one of the six Mascoteers (Minnie
+   plus 5 others per `apps/shared/mascoteers.ts`). Each
+   interaction adjusts the bond with that Mascoteer by
+   ±1–3 points. The Mascoteer roster canonically includes:
+   Minnie (A1 opponent, Day 10 boss), Corey (A2 opponent,
+   Day 20 boss), Kanshi Sha (A3 opponent, Day 28 boss),
+   plus three non-boss Mascoteers (the Stargazer, the
+   Wildflower, the Carnival Barker — full profiles in
+   `mascoteers.ts`).
+2. **Apprentice beats (~7 days):** interactions with the
+   player's apprentice (assigned in Prelude Beat D, see
+   §20 for the permadeath system). Each apprentice beat
+   shifts one of the apprentice's trait values.
+3. **Trial events (~3 days):** scripted non-choice events
+   that fire on specific days (Day 7: "First Storm" — a
+   Celebration parade canceled due to weather; Day 14:
+   "The Watching Window" — a Kanshi Sha scripted
+   foreshadow; Day 22: "The Quiet Day" — an empty day
+   with no event, the only silent beat in the Trial).
+
+### 19.4 The six Mascoteers (abbreviated — see mascoteers.ts)
+
+| Mascoteer | Boss? | Bond range | Canonical role |
+|---|---|---|---|
+| **Minnie** | A1 (Day 10) | −5 to +10 | The Meme child form |
+| **Corey** | A2 (Day 20) | −5 to +10 | The Collector child form |
+| **Kanshi Sha** | A3 (Day 28) | −5 to +10 | The Watcher child form |
+| **The Stargazer** | no | −5 to +10 | Dreamy introvert; bonus path if bond ≥ 5 unlocks an extra Cycle A pre-battle scene |
+| **The Wildflower** | no | −5 to +10 | Chaotic extrovert; bonus path unlocks an apprentice-training minigame |
+| **The Carnival Barker** | no | −5 to +10 | Charismatic promoter; bonus path unlocks +1 Engineer starting-card carry-forward to Cycle B1 |
+
+### 19.5 Daily UI sub-spec
+
+The Celebration Trial runs in a **dedicated UI mode** — not
+the standard Act 1 gameplay UI. Production must render:
+
+- **Day counter:** top-left, shows "Day N of 28" with a
+  small calendar pip progression bar. Each completed day
+  flips a pip from grey to warm-gold.
+- **Current Mascoteer bonds:** bottom-left panel, shows six
+  small portraits with current bond values. Bonds update
+  live after each choice.
+- **Current apprentice state:** top-right, shows apprentice
+  portrait + three trait bars (see §20). Updates live.
+- **Event card:** center of screen, shows current day's
+  event with 1–3 choice buttons.
+- **Skip-day button:** disabled until the day's event is
+  resolved. No skip-cut-scene option; every day is played.
+
+### 19.6 Art sub-spec
+
+28 daily event illustrations, one per day. Plus:
+- 6 Mascoteer portraits (referenced from `mascoteers.ts`;
+  production re-uses existing art where available)
+- 3 Trial event illustrations for Days 7 / 14 / 22
+- 1 calendar UI asset (the 28-pip progression bar)
+
+The daily event illustrations share the Act 1 Global Style
+Anchor (§0.3) but with a **softer** palette — Celebration
+Trial days are memory-before-graduation, so the sepia
+undertone is more pronounced (bump saturation -15% relative
+to Cycle A battle art).
+
+Full prompts in §22.5.
+
+### 19.7 VO sub-spec
+
+Each Mascoteer has a dedicated voice profile (established in
+§§2.2 / 2.3 / 2.4 for the bosses; additional profiles for
+the non-boss three deferred to separate VO authoring pass).
+Total Celebration Trial VO lines: approximately 180 (28 days
+× average 6.5 lines). Full CSV generation deferred to the
+Celebration Trial VO batch (separate delivery queue per the
+§1.2 totals note).
+
+### 19.8 Handoff to Cycle A battles
+
+Per §§3.7, 4.7, 5.9, the Celebration Trial's state at
+specific day counters feeds modifiers into the Cycle A
+battles:
+
+- Day 10 state → §3 A1 (Minnie)
+- Day 20 state → §4 A2 (Corey)
+- Day 28 state → §5 A3 (Kanshi Sha)
+
+The modifier tables in those sections are the authoritative
+handoff spec. §19's responsibility is generating the state;
+§§3/4/5's responsibility is consuming it.
+
+### 19.9 Implementation reference
+
+Canonical source: `apps/shared/celebrationTrial.ts` (1265
+lines). Do NOT duplicate the decision tree here. Engineering
+should reference that file as the source of truth for day
+events, choice resolutions, bond deltas, and apprentice
+trait shifts.
+
+This section's responsibility is **production surface** — how
+the tree is rendered, what art/audio production owes per day,
+and how the handoff to §§3–5 is wired.
+
+---
+
