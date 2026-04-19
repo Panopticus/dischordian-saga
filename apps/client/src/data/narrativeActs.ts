@@ -947,6 +947,7 @@ const ACT_5_THE_MAP: LoreTutorial = {
           sideLabel: "humanity",
           source: "elara",
           elaraResponse: "The Shattered Frontier. Kael's combat veterans. They've been fighting for survival since the Fall. If anyone deserves allies, it's them.\nI'll prepare a briefing for each world. We'll approach with respect and earn their trust.",
+          setFlag: "act5_sector_chosen",
         },
         {
           id: "act5-s1-strategic",
@@ -956,6 +957,7 @@ const ACT_5_THE_MAP: LoreTutorial = {
           sideLabel: "neutral",
           source: "neutral",
           elaraResponse: "The Dreaming Expanse. Kael's intelligence network. Their descendants developed psychic traditions and prophetic cultures. If anyone can help us understand the Dreamer's return, it's them.\nStrategic thinking, {playerName}. I approve.",
+          setFlag: "act5_sector_chosen",
         },
         {
           id: "act5-s1-power",
@@ -966,6 +968,7 @@ const ACT_5_THE_MAP: LoreTutorial = {
           source: "corrupted",
           elaraResponse: "Warriors first. A military approach. Effective, but remember — strength without loyalty is a weapon that can turn in your hand.",
           humanResponse: "~~Smart~~. Build the ~~spearhead~~ first. Everything else ~~follows~~ from a position of ~~strength~~.",
+          setFlag: "act5_sector_chosen",
         },
         {
           id: "act5-s1-engineer-tech",
@@ -976,6 +979,7 @@ const ACT_5_THE_MAP: LoreTutorial = {
           source: "neutral",
           classCheck: "engineer",
           elaraResponse: "The Forge Worlds. Kael's technical corps. Their descendants built new civilizations from Inception Ark wreckage. An engineer's instinct — build the infrastructure first.\nI can see the logic. A stronger Ark means a stronger base of operations.",
+          setFlag: "act5_sector_chosen",
         },
       ],
     },
@@ -984,6 +988,7 @@ const ACT_5_THE_MAP: LoreTutorial = {
       type: "reward_summary",
       elaraText: "Act 5 Complete: THE MAP — The army recruitment system is now fully active.",
       subtitle: "Access the War Room to view the sector map and begin recruitment missions.",
+      setFlag: "act5_intro_complete",
     },
   ],
 };

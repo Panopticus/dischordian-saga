@@ -142,4 +142,28 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
   { id: "cc_act1_first_opponent_human", speaker: "human", trigger: "act1_first_opponent_entered",
     voiceLine: "The Engineer is narrating these matches from the inside. Listen to what he leaves out. The leavings are where I live.",
     timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 5 — FIRST STAR MAP OPEN (War Room) ──
+  { id: "cc_act5_map_first_elara", speaker: "elara", trigger: "act5_map_first_open",
+    voiceLine: "Seventeen thousand years I have waited for these coordinates to light up. I am not going to be composed about this. Look at them. Every pin is a world that still remembers being reached for. We are about to reach for them again.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act5_map_first_human", speaker: "human", trigger: "act5_map_first_open",
+    voiceLine: "Kael's map. Open. I stood next to him when he drew the original on a galley table with wax and coffee rings. The wax is gone. The rings are gone. The map persists. That is a small lesson about what lasts.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 5 — SECTOR CHOSEN (any wheel choice) ──
+  { id: "cc_act5_sector_chosen_elara", speaker: "elara", trigger: "act5_sector_chosen",
+    voiceLine: "You picked. I know a good pick when I see one and this is one. Which is not to say the other pins go dark — they keep glowing while we walk. We will come back to them. That is a promise.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act5_sector_chosen_human", speaker: "human", trigger: "act5_sector_chosen",
+    voiceLine: "First sector. Tell them Kael sent you and watch the door close. Tell them you are a Senator's heir and watch the door slam. Tell them who you actually are. The door stays ajar. I will be there through the ajar part.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 5 — FIRST RECRUITMENT MISSION COMPLETE ──
+  { id: "cc_act5_first_recruit_elara", speaker: "elara", trigger: "act5_first_recruit_complete",
+    voiceLine: "One ally. The number is small and the meaning is not small. They are in the ship's registry now, not as a record but as a person. I will read their file carefully. I will remember their name before you do.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act5_first_recruit_human", speaker: "human", trigger: "act5_first_recruit_complete",
+    voiceLine: "They said yes. Most people will not. The substrate has a list of every recruitment conversation I have watched over the centuries and the yes rate is brutal. You got the first one. Do not let it make you confident. Let it make you grateful.",
+    timing: "delayed_5s", maxPlays: 1 },
 ];

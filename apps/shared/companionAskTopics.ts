@@ -150,6 +150,68 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
     unlockedFromAct: 3,
   },
 
+  // ── Act 5 — the star map, Shattered Frontier, dormant contamination ──
+  {
+    id: "ask_elara_star_map",
+    speaker: "elara",
+    label: "The star map",
+    question: "What am I actually looking at when I open the War Room map?",
+    answer:
+      "Kael's field recollection, re-projected onto current charts. Every pin is a coordinate and a memory — the coordinate belongs to now, the memory belongs to then. The gap between the two is where the recruitment work happens. I will annotate the pins as we visit them. You will watch the map become a story instead of a grid.",
+    unlockFlag: "act5_intro_complete",
+    unlockedFromAct: 5,
+  },
+  {
+    id: "ask_human_star_map",
+    speaker: "human",
+    label: "The star map",
+    question: "How much of this map is accurate after seventeen thousand years?",
+    answer:
+      "Less than you hope, more than you fear. Systems drift. Names change. Successions happen. The map remains useful because Kael recorded people, not places — and people have descendants, and descendants remember longer than planets do. Trust the names. Verify the coordinates.",
+    unlockFlag: "act5_intro_complete",
+    unlockedFromAct: 5,
+  },
+  {
+    id: "ask_elara_shattered_frontier",
+    speaker: "elara",
+    label: "Shattered Frontier",
+    question: "Who are the survivors of the Shattered Frontier, really?",
+    answer:
+      "The descendants of people who were promised an army and then left without one. Millennia of holding that position without reinforcement. They are not going to be grateful to see us. They are going to be correct about our track record. I would like us to arrive ready to be corrected without defending ourselves.",
+    unlockFlag: "act5_intro_complete",
+    unlockedFromAct: 5,
+  },
+  {
+    id: "ask_human_shattered_frontier",
+    speaker: "human",
+    label: "Shattered Frontier",
+    question: "Kael promised them reinforcements. What happened to that promise?",
+    answer:
+      "It died with him on the same day he did. There is no ledger of unkept promises because the list was too long to write down. The Frontier has kept a mental ledger — every generation adds to it. You are walking into a room where the ledger is older than the room. Walk in with your hands visible.",
+    unlockFlag: "act5_intro_complete",
+    unlockedFromAct: 5,
+  },
+  {
+    id: "ask_elara_kael_contamination",
+    speaker: "elara",
+    label: "Dormant contamination",
+    question: "How do we scan for residual Thought Virus without spooking recruits?",
+    answer:
+      "Passively, and with their consent. The scan my sensors run is the same one I ran on Kael's old crew quarters before I let you open the door — non-invasive, pattern-level. I will teach you the protocol on the way down. Consent is the part that matters. Never scan a recruit without asking.",
+    unlockFlag: "act5_intro_complete",
+    unlockedFromAct: 5,
+  },
+  {
+    id: "ask_human_kael_contamination",
+    speaker: "human",
+    label: "Dormant contamination",
+    question: "Is there any cell that stayed fully clean?",
+    answer:
+      "Three. I have their sector IDs written on the inside of the substrate wall closest to you — it is the only wall in the universe where I write things down. I will give you one sector ID per Act. The first one is Sector 7. I am not going to tell you what makes them clean. You will recognise it.",
+    unlockFlag: "act5_intro_complete",
+    unlockedFromAct: 5,
+  },
+
   // ── Identity ──
   {
     id: "ask_elara_who",

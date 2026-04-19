@@ -49,6 +49,35 @@ describe("companionAskTopics", () => {
     expect(act3Ids).toContain("ask_elara_kael");
   });
 
+  it("gates Act 5 topics behind act5_intro_complete", () => {
+    const preAct5 = new Set<string>(["act1_intro_complete", "act3_intro_complete"]);
+    const preIds = getAvailableAskTopics("elara", preAct5, 5).map((t) => t.id);
+    expect(preIds).not.toContain("ask_elara_star_map");
+    expect(preIds).not.toContain("ask_elara_shattered_frontier");
+
+    const postAct5 = new Set<string>([
+      "act1_intro_complete",
+      "act3_intro_complete",
+      "act5_intro_complete",
+    ]);
+    const elara = getAvailableAskTopics("elara", postAct5, 5).map((t) => t.id);
+    const human = getAvailableAskTopics("human", postAct5, 5).map((t) => t.id);
+    expect(elara).toEqual(
+      expect.arrayContaining([
+        "ask_elara_star_map",
+        "ask_elara_shattered_frontier",
+        "ask_elara_kael_contamination",
+      ]),
+    );
+    expect(human).toEqual(
+      expect.arrayContaining([
+        "ask_human_star_map",
+        "ask_human_shattered_frontier",
+        "ask_human_kael_contamination",
+      ]),
+    );
+  });
+
   it("getAskTopic resolves by id and returns undefined for unknown ids", () => {
     expect(getAskTopic("ask_elara_substrate")?.label).toBe("The substrate");
     expect(getAskTopic("does_not_exist")).toBeUndefined();
