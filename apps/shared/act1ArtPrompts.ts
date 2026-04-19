@@ -99,9 +99,75 @@ const CYCLE_A_PORTRAITS: readonly Act1ArtPrompt[] = [
   },
 ];
 
+/* ─── CYCLE B opponent portraits (§§2.5–2.9) ─── */
+
+const CYCLE_B_PORTRAITS: readonly Act1ArtPrompt[] = [
+  {
+    assetId: "portrait_young_iron_lion",
+    name: "Young Iron Lion",
+    category: "opponent_portrait",
+    cycle: "B",
+    bibleSection: "§2.5",
+    resolution: "1536x2048",
+    priority: "P0",
+    dependencies: ["global_style_anchor", "mechronis_uniform_reference"],
+    prompt:
+      "Seventeen-year-old male in three-quarter profile, seated at a Mechronis Academy first-year classroom card table, one year past his canonical expulsion date. Mechronis blue uniform worn with the rebellion tell: top button undone, left sleeve rolled to the elbow (right sleeve still regulation length). Jaw set, eyes forward, not aggressive — coiled. Dark hair, short and unkempt. Broad shoulders for his age. A small braided-fiber bracelet on the right wrist (not the left). No personal insignia on the uniform; he has not replaced the regulation marks with anything. Warm-gold institutional Mechronis lighting from tall windows left of frame, afternoon shadows falling across a blackboard with first-year mathematics still chalked. Expression: guarded, with the single warm degree of §2.5 reserved for the word 'gate' — render as resting-guarded, not smiling. A 17-year-old who has already decided that surviving is the point.",
+  },
+  {
+    assetId: "portrait_young_kael",
+    name: "Young Recruiter / Kael",
+    category: "opponent_portrait",
+    cycle: "B",
+    bibleSection: "§2.6",
+    resolution: "1536x2048",
+    priority: "P0",
+    dependencies: ["global_style_anchor", "mechronis_uniform_reference"],
+    prompt:
+      "Seventeen-year-old male in three-quarter profile, Mechronis Academy second-year classroom setting. Warm expression, genuine smile about to land — the specific smile of someone who has just asked a question and is waiting for the answer to arrive. Mechronis blue uniform, neatly worn, small braided-fiber bracelet visible on the LEFT wrist (canonical Kael tell per §2.6; contrast with Iron Lion's right-wrist bracelet). Medium-brown skin, close-cropped black hair, slightly older-looking than his age. Broad open face. Hands folded on the card table, fingers relaxed, palms down. Warm-gold afternoon Mechronis lighting, faint chalkboard in background with second-year civics diagrams softly defocused. Expression carries charisma without performance — he is not trying to charm the viewer, he is inviting them to speak. No warmth directed at the cards between them; all warmth goes to the person opposite.",
+  },
+  {
+    assetId: "portrait_young_agent_zero",
+    name: "Young Agent Zero",
+    category: "opponent_portrait",
+    cycle: "B",
+    bibleSection: "§2.7",
+    resolution: "1536x2048",
+    priority: "P0",
+    dependencies: ["global_style_anchor", "mechronis_uniform_reference"],
+    prompt:
+      "Seventeen-year-old, ethnically ambiguous (medium-light brown, deliberately un-placeable), medium height, slender-but-not-frail build, in three-quarter profile at a Mechronis Academy third-year classroom card table. CRITICAL: her signature is absence of signature — render as forgettable on first viewing. Mechronis blue uniform worn TOO PERFECTLY: blazer buttoned to the top, every button in place, light-blue tie at regulation length, knot dead-center, white oxford pressed immaculate, sleeves at full length (she never rolls them), blue trousers with hospital-grade creases, polished black shoes. NO personal touches — no pin, no bracelet, no scuff, no stain. Straight dark-brown hair, mid-back length, parted off-center so the left side falls forward across her left eye in a curtain (surveillance-countermeasure habit); LEFT EYE NEVER VISIBLE IN THIS PRE-C3 PORTRAIT. Right eye dark brown, calm, watchful, resting. Hands flat on the table, palms down, economical posture. Warm-gold lighting through the classroom window, covert-operations chalkboard diagrams defocused in background. She is invisible inside perfection — the player who notices the over-perfect uniform has solved half the puzzle, but most will not notice.",
+  },
+  {
+    assetId: "portrait_young_eyes",
+    name: "Young Eyes",
+    category: "opponent_portrait",
+    cycle: "B",
+    bibleSection: "§2.8",
+    resolution: "1536x2048",
+    priority: "P0",
+    dependencies: ["global_style_anchor", "mechronis_uniform_reference"],
+    prompt:
+      "Seventeen-year-old female in three-quarter profile, seated at a Mechronis Academy fourth-year advanced-theory classroom card table. Slight frame, pale skin, dark hair worn in a simple low ponytail. She holds a small book in her hands, just closed — a finger still marking the page. Eyes do not track the viewer's face; her gaze is fixed on the playing surface between them (she reads decks, not people). Mechronis blue uniform worn cleanly. CANONICAL DETAIL: faint circular Watcher sigil mark on the LEFT wrist, approximately 1cm diameter, visible in any close-up of the hands — render subtle, low-opacity, easy to miss on first viewing; identical in composition to the Ocularum Trio masks in the Kanshi Sha portrait. Lighting: darker than B1/B2/B3 — single desk-lamp pool of warm-yellow light, classroom recedes into institutional shadow, algorithmic diagrams on the chalkboard deliberately unreadable. Expression: soft, precise, the Watcher's synthetic cadence rendered through a seventeen-year-old face. NOT an Archon; rendered as a canonical human-presenting synthetic.",
+  },
+  {
+    assetId: "portrait_young_human_seeker",
+    name: "The Seeker / Young Human",
+    category: "opponent_portrait",
+    cycle: "B",
+    bibleSection: "§2.9",
+    resolution: "1536x2048",
+    priority: "P0",
+    dependencies: ["global_style_anchor", "mechronis_uniform_reference"],
+    prompt:
+      "Seventeen-year-old male in three-quarter profile, seated in an armchair in the Mechronis Academy senior common room (NOT a classroom — this is the only Cycle B battlefield that is comfortable). Warm-gold evening lighting from a fireplace off-frame-left, softer than the institutional blue-gold of the classroom portraits. NO trench coat (he acquires that years later). Mechronis blue uniform, slightly rumpled at the shoulders, oxford collar open at the throat. Glasses — thin steel frames, canonical detail. Kind eyes behind the lenses, not smiling but on the verge of. Red hair, slightly messy, longer than regulation would prefer. Fair skin with a faint smattering of freckles across the nose. A small coffee-table card table between two armchairs; his deck in his hands, not yet played. His expression is the specific attention of a person listening as hard as he is looking — the visual hinge of §2.9 is that every match with him is a conversation, and the portrait must communicate that he is already in it.",
+  },
+];
+
 /** Full Act 1 art prompt catalog (built up over subsequent chunks). */
 export const ACT1_ART_PROMPTS: readonly Act1ArtPrompt[] = [
   ...CYCLE_A_PORTRAITS,
+  ...CYCLE_B_PORTRAITS,
 ];
 
 /** Look up a single prompt by asset id. */
