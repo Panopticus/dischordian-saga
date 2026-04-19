@@ -2909,3 +2909,101 @@ only the loss is reachable.
   details exactly as canon specifies them)
 
 ---
+
+### 2.13 Wayne Warden — Cycle C4 opponent (Authority's Tribunal — Trial format)
+
+The fourth and final Cycle C boss, the closing battle of Act 1,
+and the only Act 1 match that runs in the **Trial format**
+rather than as a standard Dischordia duel. Per §1.1 master
+index, C4 is the Engineer's New Babylon trial: the Tribunal
+plays jury cards and evidence cards from a stacked institutional
+deck, the Engineer defends with his own Dischordia deck (now
+including everything he has accumulated across Cycles A through
+C3, *including the just-unlocked* *The Friend I Saved* from
+§2.12), and the match resolves by the Tribunal accumulating
+enough verdict pressure to pass sentence — or the Engineer
+accumulating enough rebuttal force to delay it. Wayne Warden is
+the presiding judge, the named voice of the Authority for this
+match, and the only Act 1 antagonist who is **categorically
+older than the Engineer**: a man in his sixties, deep into a
+career he has decided is the same as a moral system.
+
+The structural weight of C4 is that the player has just
+finished §2.12 (the transference, the death) and is now playing
+the Engineer **in the brief window between his arrest at New
+Babylon and his execution**. The Engineer in C4 is canonically
+*already dead* in the §2.12 sense — his consciousness has been
+transferred — but the simulation is rewinding to the part of his
+biography the player has not yet seen: the trial, the verdict,
+the recording of *Last Words*. C4 is therefore a **biographical
+flashback embedded within the larger biographical flashback**
+that is Act 1. The player is inhabiting the Engineer
+inhabiting his own trial. Production must not signal this
+nesting visually; the C4 trial reads as a continuous scene, and
+the framing only resolves in the *Last Words* slideshow that
+follows.
+
+**Elara is a card in the Tribunal's deck.** This is the load-
+bearing canon detail of C4 and the player's first encounter with
+Elara as a *historical figure inside the Engineer's biography*,
+predating her later role as the Prelude AI narrator. She is not
+present as a person at the trial — she is an evidence card the
+Tribunal plays. The card depicts a much-younger Elara in
+Authority robes (she was an Authority public servant on Atarion
+before the events of the Prelude; this is canon per the bond-40
+"Two Witnesses Remember" milestone), and her testimony — recorded,
+not delivered live — is one of the Tribunal's strongest
+evidentiary plays. The player who has been reading carefully
+will recognize the name. The player who has been playing
+carelessly may not catch it until Act 4's revelation. Either is
+a valid reading. The C4 design intent is that the *card itself*
+is the only place this beat lands in Act 1; it is not narrated,
+not pointed to, not dwelt on. Production must render the card
+with Elara's name printed clearly in the lower banner so the
+player can see it.
+
+**CRITICAL canon hygiene rules (§0.4 + Act 1 specific):**
+
+1. **Wayne Warden is NOT the Authority itself.** He is a *member*
+   of the Authority — specifically the presiding judge of the
+   New Babylon Tribunal that tried the Engineer. The Authority
+   as an institution is a faceless multi-body entity (six
+   crystal coffins in the gallery above the Tribunal floor,
+   per the §2.13 environment spec below). Wayne Warden is the
+   one face the institution puts forward to deliver verdicts.
+   Subtitles attribute Tribunal-speech to **`wayne_warden`**
+   for his individual voice, and to **`the_authority`** for
+   the collective ritual lines that the six crystal coffins
+   speak in unison (production: see Voice Direction below for
+   the chorus spec). Never collapse the two attributions.
+2. **The Engineer does NOT confess in C4.** Win or loss, the
+   Engineer's final speech is the *Last Words* recording (the
+   slideshow content is spec'd in §17, not here). Within the
+   C4 trial itself, the Engineer is permitted to enter a plea
+   of **"I will let the deck answer"** — the ritual phrasing
+   the Tribunal accepts when a defendant invokes the right to
+   defend by Dischordia. He does not plead guilty, he does
+   not plead innocent, he does not testify. He plays cards.
+   The cards are his testimony.
+3. **Elara's evidence card is read in her voice but is NOT
+   her live presence.** The recording is canonically captured
+   on Atarion years before the trial, before she met the
+   Engineer in person. Production must use Elara's existing
+   voice profile (from the Prelude bible §2.2) but with
+   **age regression**: her recorded voice is approximately
+   seven years younger than her Prelude voice, less weathered,
+   more institutional. ElevenLabs target for the regressed
+   profile: same `elara` profile, `style: 0.50` (up from her
+   Prelude default), with a **public-record artifact pass**
+   layered in post (low-bitrate compression, faint room tone,
+   the auditory signature of a deposition booth).
+4. **Wayne Warden survives Act 1.** He does not die in this
+   match, in the *Last Words* slideshow, or anywhere in Act 1.
+   He remains a sitting Authority judge through the entire
+   game and surfaces canonically again in Act 6 §6.2 (the
+   Confession arc) and Act 7 §7.5 (the Convergence trial). C4
+   is his *first* on-screen appearance, not his last.
+   Production must render him at an age that lets him plausibly
+   age into the Act 6 / Act 7 frames without recasting.
+
+---
