@@ -164,10 +164,64 @@ const CYCLE_B_PORTRAITS: readonly Act1ArtPrompt[] = [
   },
 ];
 
+/* ─── CYCLE C opponent portraits (§§2.10–2.13) ─── */
+
+const CYCLE_C_PORTRAITS: readonly Act1ArtPrompt[] = [
+  {
+    assetId: "portrait_vernon_vortex",
+    name: "Vernon Vortex (First Form)",
+    category: "opponent_portrait",
+    cycle: "C",
+    bibleSection: "§2.10",
+    resolution: "1536x2048",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Seven-year-old boy in three-quarter profile, seated at a Nexon command-bunker card table (not a schoolyard — institutional green-grey military walls, pre-war banners visible). He is spinning a brass-rimmed wooden toy top on the table with his right hand; the top blurs in motion. CANONICAL DETAIL: the top is visually IDENTICAL to the one Young Iron Lion played with in his pre-expulsion flashback — production must match the top prop across both assets. Expression: delighted, innocent, genuine child-wonder. He is the canonical exception in Cycle C — a cosmic Archon still in child form, the only non-adult in cycles C. Warm-eyed, brown hair, plain beige tunic. Surrounding him at the edges of the frame: faint rust-orange (#e06a1a) vortex-particle motion, subtle, low-opacity — the cosmic Vortex is present but not yet dominant; render as a soft halo of rust-orange drift that does NOT obscure the child. Lighting: a large central bunker window behind him shows the Nexon battlefield outside with rust-orange vortex clouds in the sky; the warm gold of the sky catches his face in rim-light. The toy top is the visual metronome of the match; render it with a soft motion-blur ring.",
+  },
+  {
+    assetId: "portrait_wanda_wyrlord",
+    name: "Wanda Wyrlord (fragmented)",
+    category: "opponent_portrait",
+    cycle: "C",
+    bibleSection: "§2.11",
+    resolution: "1536x2048",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Seventeen-year-old cyborg young woman in three-quarter profile, seated at a Zenon forward-command canvas-tent card table, single camp lantern casting warm-gold pool-light. CRITICAL canon hygiene: render as CYBORG, never as swarm. No silver-liquid motion, no dispersal particles, no cloud-form transitions — plate and circuitry only. Platinum-to-gold blonde hair, cropped short at sides and back, medium on top, swept back from forehead, slightly wavy, catching the lantern light like almost-metal. Fair skin, lightly sun-weathered, freckle-constellation across nose and cheekbones. LIGHT-ENHANCED EYES: base iris glacial blue-grey #9cb4c1 with a thin electric-blue inner ring #3b82f6 glowing faintly; pupils dark-charcoal, not black, with tiny pinpoint lights dead center. The glow rim-lights her upper cheekbones cool-blue against the lantern's warm gold. VISIBLE METAL (limited): a flush-mounted brushed-titanium plate ~4cm × 3cm on the LEFT temple and cheekbone, a smaller ~3cm × 2cm plate along the RIGHT jawline — no plating elsewhere; nose, mouth, forehead, chin, right cheek all unmodified skin. Plates read as medical augmentation, not aesthetic. Yellow hooded jacket (mustard-yellow #eab308 military-spec canvas), unzipped, hood back, small faded Insurgency field-medic patch sewn on the LEFT shoulder — render the patch visible but worn. Black military undershirt beneath. Hands: unmodified human, nails bitten, small cross-shaped scar on the back of the right hand between thumb and forefinger. Posture: forward, braced on the card table, military-alert but not aggressive — she is waiting. The yellow jacket is her hinge; the plates are her wound; the patch is her grief.",
+  },
+  {
+    assetId: "portrait_warlord_swarm_env",
+    name: "Warlord's Nano-Swarm (environmental phenomenon + Agent Zero host)",
+    category: "opponent_portrait",
+    cycle: "C",
+    bibleSection: "§2.12",
+    resolution: "1536x2048",
+    priority: "P0",
+    dependencies: ["global_style_anchor", "agent_zero_continuity_ref"],
+    prompt:
+      "TWO SIMULTANEOUS VISUAL SURFACES required in one composition: (1) Agent Zero's host body at eighteen — same person as Young Agent Zero from §2.7 portrait (same height, build, ethnic features, dark-brown hair) but one year later. Hair now pulled back into a tight functional field braid; left-side curtain habit GONE, both eyes visible. Left eye shows a single silver pinpoint at pupil-center (mid-match progression — approximately turn 7/11). Faint silver undertone visible in the capillaries on the insides of her wrists and at her temples. Field-deployment loadout (NOT the Mechronis uniform): charcoal-grey tactical jacket fitted and hip-length, high collar buttoned to the throat, a small unreadable black-on-charcoal sigil on the right shoulder (the Warlord's deployment mark — player will recognize it retroactively in Act 3). Black tactical trousers no creases. Memorial cord on right wrist: plain black braided fiber, three knots. (2) THE SWARM above and around her shoulders: a coherent silver-liquid cloud of nano-particles, brushed-mercury #a8aab2 with cool-blue specular highlights #3b82f6 flickering on a 4Hz pulse. Volume is roughly the mass of a large predator, coiled like armor that breathes. NOT a face, NOT a creature, NOT glittery. Motion grammar: mercury that decided to fight. The swarm absorbs the warm-gold Vortex-bay lighting and re-emits it cool-blue — the composition's signature palette inversion. Setting: the Vortex bay pressurized equipment compartment, single overhead work-lamp, hard down-shadow, a matte-black palm-sized cube (Resurrection Protocols device) on a hexagonal equipment crate, six explosive charges with red countdown LEDs visible on the back wall. The Engineer is off-frame (player POV).",
+  },
+  {
+    assetId: "portrait_wayne_warden",
+    name: "Wayne Warden",
+    category: "opponent_portrait",
+    cycle: "C",
+    bibleSection: "§2.13",
+    resolution: "1536x2048",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Sixty-three-year-old male presiding judge in three-quarter profile, seated centrally at a 1.2m-raised dark-walnut bench in the New Babylon Tribunal chamber. CANONICAL FRAMING: he is NOT cruel and NOT corrupt in the cinematic sense — render as a competent technician of judgment who genuinely believes his institution is correct. Iron-grey hair at the temples, kept short, neatly groomed. High lined forehead — concentration lines, not anger lines. Pale papery skin with a waxy sheen (four decades of indoor Authority-spec lighting). Faint liver-spots on the backs of the hands. A small shaving nick on the left jaw, two days old, healing. Pale grey-blue eyes #9aa6b1. CRITICAL: his gaze is on the CARDS / the bench surface — NOT on the viewer. In this portrait his eyes track a folded evidence card on the bench in front of him. Authority robes: deep burgundy #6b1d2c wool outer robe, high 4cm collar, floor-length, non-decorative weave (Authority robes are deliberately non-theatrical). Black undertunic beneath, plain, full-length sleeves. Single silver scale-sigil pin ~2cm tall on the left breast — the ONLY metallic element in his entire wardrobe, rendered with faint specular highlight. Flat black four-cornered biretta cap, worn squarely. Hands folded on the bench, fingers long and well-kept, a thin silver band on the LEFT ring finger (widowed — Atarion-related; player does not know yet). Warm-amber lighting from the six crystal coffins mounted on the rear wall above him (soft out-of-focus, 0.3Hz pulse visible as a gentle amber glow behind his shoulders). The single brass scale of justice on the bench at his right hand. Verdict scroll on his left hand, blank. He is the single face the institution puts forward; render him tired, composed, and terrifying exactly because he is competent.",
+  },
+];
+
 /** Full Act 1 art prompt catalog (built up over subsequent chunks). */
 export const ACT1_ART_PROMPTS: readonly Act1ArtPrompt[] = [
   ...CYCLE_A_PORTRAITS,
   ...CYCLE_B_PORTRAITS,
+  ...CYCLE_C_PORTRAITS,
 ];
 
 /** Look up a single prompt by asset id. */
