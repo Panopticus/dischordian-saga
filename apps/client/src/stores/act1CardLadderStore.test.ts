@@ -22,7 +22,9 @@ describe("act1CardLadderStore", () => {
   it("peekAct1NextOpponent returns step 1 at start", () => {
     const next = peekAct1NextOpponent();
     expect(next?.act1Step).toBe(1);
-    expect(next?.id).toBe("little_meme");
+    // Canonical id (was "little_meme" in DSFGL Rev 6.2 draft);
+    // recordWin still accepts the legacy id via aliases.
+    expect(next?.id).toBe("minnie_meme");
   });
 
   it("recordWin advances only when the id matches the current step", () => {

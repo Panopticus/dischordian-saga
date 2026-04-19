@@ -22,7 +22,7 @@
 
 import { create } from "zustand";
 import type { Act1Opponent } from "@shared/act1Opponents";
-import { ACT_1_OPPONENTS } from "@shared/act1Opponents";
+import { ACT_1_OPPONENTS, getAct1Opponent } from "@shared/act1Opponents";
 
 const STORAGE_KEY = "loredex-act1-ladder";
 
@@ -100,7 +100,11 @@ export const useAct1LadderStore = create<Act1LadderStore>((set) => ({
       // replaying a retry against the same step.
       const currentStep = state.wins + 1;
       const expected = ACT_1_OPPONENTS.find((o) => o.act1Step === currentStep);
-      const isCurrentStepOpponent = expected?.id === opponentId;
+      // Resolve through legacy aliases so recordWin("little_meme")
+      // matches the canonical "minnie_meme" at step 1, etc.
+      const resolved = getAct1Opponent(opponentId);
+      const isCurrentStepOpponent =
+        expected !== undefined && resolved?.id === expected.id;
       const next: Act1LadderSnapshot = {
         wins: isCurrentStepOpponent ? state.wins + 1 : state.wins,
         losses: state.losses,
