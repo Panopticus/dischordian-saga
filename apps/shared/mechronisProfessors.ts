@@ -42,6 +42,16 @@ export interface MechronisProfessor {
   divergenceFromReal: string;
   /** Portrait image path (relative to /public) */
   portrait: string;
+  /**
+   * Course title the Professor teaches — appears above the daily lesson
+   * like a Hogwarts class name. Example: "Applied Surveillance Theory".
+   * Optional; falls back to `${title}` if absent.
+   */
+  courseTitle?: string;
+  /**
+   * Course code shown on transcripts ("UMB-204"). Optional.
+   */
+  courseCode?: string;
 }
 
 export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
@@ -57,6 +67,8 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     hiddenAgenda: "Conditioning student minds to hear the Architect's story-engine as their own inner voice.",
     divergenceFromReal: "The real CoNexus was never a teacher. Kanevas is what a teacher-shaped CoNexus looks like.",
     portrait: "/art/mechronis/professors/professor_kanevas.png",
+    courseTitle: "Choric Compliance & Unison Logic",
+    courseCode: "RES-101",
   },
   {
     id: "prof_watcher", archonNumber: 2,
@@ -70,6 +82,8 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     hiddenAgenda: "Training students to internalize self-surveillance — the watcher watches themselves forever.",
     divergenceFromReal: "The real Watcher enjoyed being seen. Aoki forbids it.",
     portrait: "/art/mechronis/professors/professor_aoki.png",
+    courseTitle: "Applied Surveillance Theory",
+    courseCode: "UMB-204",
   },
   {
     id: "prof_collector", archonNumber: 3,
@@ -83,6 +97,8 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     hiddenAgenda: "Training acquisition instinct — students will later strip-mine enemy souls for the Architect.",
     divergenceFromReal: "The real Collector traded fairly. Halverez rigs the exchanges.",
     portrait: "/art/mechronis/professors/professor_halverez.png",
+    courseTitle: "Pedagogy of the Trade",
+    courseCode: "UMB-311",
   },
   {
     id: "prof_vortex", archonNumber: 4,
@@ -96,6 +112,8 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     hiddenAgenda: "Training dimensional recon capacity — students will later map realities for Architect scouts.",
     divergenceFromReal: "The real Vortex has been missing for centuries. Orphic was programmed to FEEL like him.",
     portrait: "/art/mechronis/professors/professor_orphic.png",
+    courseTitle: "Liminal Physics & Door-Choosing",
+    courseCode: "LIM-202",
   },
   {
     id: "prof_meme", archonNumber: 5,
@@ -109,6 +127,8 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     hiddenAgenda: "Training belief-engineers — students will later seed the Thought Virus in foreign populations.",
     divergenceFromReal: "The real Meme was believed destroyed for feeling too much — though the broadcasts never stopped. Mireille feels nothing and teaches that.",
     portrait: "/art/mechronis/professors/professor_mireille.png",
+    courseTitle: "Memetics 301 — Belief Engineering",
+    courseCode: "RES-301",
   },
   {
     id: "prof_warlord", archonNumber: 6,
@@ -122,6 +142,8 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     hiddenAgenda: "Training command tolerance for loss — students will later spend Architect's troops efficiently.",
     divergenceFromReal: "The real Warlord loved her soldiers. Kasra was programmed to love the metric.",
     portrait: "/art/mechronis/professors/professor_kasra.png",
+    courseTitle: "Applied Casualty Arithmetic",
+    courseCode: "IRN-215",
   },
   {
     id: "prof_politician", archonNumber: 7,
@@ -135,6 +157,8 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     hiddenAgenda: "Training contract-architects — students will later bind entire populations through fine-print law.",
     divergenceFromReal: "The real Politician was destroyed by the Iron Lion. Vellis is an idealized replacement.",
     portrait: "/art/mechronis/professors/professor_vellis.png",
+    courseTitle: "Promise Engineering & Leverage Studies",
+    courseCode: "RES-240",
   },
   {
     id: "prof_warden", archonNumber: 8,
@@ -148,6 +172,8 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     hiddenAgenda: "Training counter-intelligence minds — students will later deploy the Virus against dissidents.",
     divergenceFromReal: "The real Warden created the Thought Virus. Greenshaw was programmed to DEPLOY it without guilt.",
     portrait: "/art/mechronis/professors/professor_greenshaw.png",
+    courseTitle: "Practical Containment & the Thought-Virus Drill",
+    courseCode: "UMB-402",
   },
   {
     id: "prof_game_master", archonNumber: 9,
@@ -161,6 +187,8 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     hiddenAgenda: "Training rules-lawyers — students will later rewrite galactic law for the Architect.",
     divergenceFromReal: "The real Game Master designed the Matrix of Dreams. Vex designed THIS classroom. They are different architects.",
     portrait: "/art/mechronis/professors/professor_vex.png",
+    courseTitle: "Rules, Exceptions & the Meta-Game",
+    courseCode: "LIM-318",
   },
   {
     id: "prof_necromancer", archonNumber: 10,
@@ -174,6 +202,8 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     hiddenAgenda: "Training soldiers who won't stay dead — students will later become the Architect's un-kill-able.",
     divergenceFromReal: "The real Necromancer retreated to the Matrix. Vasara is what he left behind to teach.",
     portrait: "/art/mechronis/professors/professor_vasara.png",
+    courseTitle: "Endurance Medicine & Resurrection Draft",
+    courseCode: "IRN-356",
   },
   {
     id: "prof_engineer", archonNumber: 11,
@@ -187,6 +217,8 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     hiddenAgenda: "Training weaponsmiths — students will later build tools that make warfare more efficient.",
     divergenceFromReal: "The real Engineer is unaccounted for. Vent is a photograph of him, animated.",
     portrait: "/art/mechronis/professors/professor_vent.png",
+    courseTitle: "Forge Studies & Impossible Machines",
+    courseCode: "IRN-270",
   },
   {
     id: "prof_human", archonNumber: 12,
@@ -200,6 +232,8 @@ export const MECHRONIS_PROFESSORS: MechronisProfessor[] = [
     hiddenAgenda: "Training investigators — students will later be the Architect's personal agents, walking history.",
     divergenceFromReal: "The real Human is imprisoned in every Ark's substrate. The Proctor was pulled from the version before that.",
     portrait: "/art/mechronis/professors/professor_proctor.png",
+    courseTitle: "The One Question — Independent Inquiry",
+    courseCode: "LIM-499",
   },
   {
     // Guest judge appearing on The Palimpsest, Episode 6 (Survivor: Mechronis).
