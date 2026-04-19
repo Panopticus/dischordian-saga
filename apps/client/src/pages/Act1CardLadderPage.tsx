@@ -37,15 +37,20 @@ import {
 } from "lucide-react";
 import { ACT_1_OPPONENTS, type Act1Opponent } from "@shared/act1Opponents";
 import { getAct1OpponentDialog } from "@shared/act1OpponentDialog";
+import { getTauntHooksForOpponent } from "@shared/actOpponentTaunts";
 import { getNextAct1Opponent } from "@shared/witnessingRuntime";
 import { useAct1LadderStore } from "@/stores/act1CardLadderStore";
 import { useGame } from "@/contexts/GameContext";
 import { playSlideshow } from "@/stores/witnessingStore";
 import DuelystGameUI from "@/game/duelyst/DuelystGameUI";
 import {
-  Act1OpponentTauntOverlay,
-  type Act1TauntPhase,
-} from "@/components/act1/Act1OpponentTauntOverlay";
+  ActNOpponentTauntOverlay,
+  type ActNTauntPhase,
+} from "@/components/act1/ActNOpponentTauntOverlay";
+// Type alias kept for the wiring tests in Act1OpponentTauntOverlay.test.ts;
+// the page no longer mounts the Act-1-only component but still uses the
+// "Act1TauntPhase" name internally for parity with existing test guards.
+type Act1TauntPhase = ActNTauntPhase;
 import { Act1CycleCAuthorityWitnessing } from "@/components/act1/Act1CycleCAuthorityWitnessing";
 import {
   Act1AskSpeakerToggle,
@@ -321,8 +326,8 @@ export default function Act1CardLadderPage() {
                   onTurnChange={handleTurnChange}
                   onBossHpChange={handleBossHpChange}
                 />
-                <Act1OpponentTauntOverlay
-                  dialog={getAct1OpponentDialog(currentOpponent.id)}
+                <ActNOpponentTauntOverlay
+                  hooks={getTauntHooksForOpponent(currentOpponent.id) ?? undefined}
                   opponentName={currentOpponent.name}
                   phase={tauntPhase}
                 />
