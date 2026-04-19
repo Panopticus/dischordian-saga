@@ -2569,3 +2569,162 @@ canonical. Production must not change them.
   understand that this room is going to become a crater
   regardless of who wins the card game.
 
+**Voice direction:** the C3 scene has **two voice surfaces**, and
+the production must keep them sonically distinct so the player
+can always tell who is speaking.
+
+1. **Agent Zero's voice — host channel** (`young_agent_zero`
+   profile from §2.7). Same voice the player learned at
+   Mechronis: quiet, level, no affect, the single warm degree
+   reserved for the words that matter. In C3 her speaking-time
+   is short — she has roughly four lines across the entire
+   match, each one delivered as if she is fighting to get the
+   words out before the swarm overrides her vocal cords. Hold
+   the §2.7 ElevenLabs settings exactly (stability 0.85,
+   similarity_boost 0.80, style 0.10). **Do not** apply post-
+   processing effects to her voice. She is still her, and the
+   purity of the channel is the player's evidence.
+2. **The Warlord's voice — swarm channel** (new profile
+   **`the_warlord`**). The swarm speaks rarely in C3 — twice,
+   maybe three times — and never in long sentences. The voice
+   is **not female, not male, not human, not machine**. It is
+   the granular hiss from §2.12 Audio component pushed up into
+   the speech band: a chorus of approximately 200 individual
+   nano-particle resonances harmonizing into recognizable
+   syllables. Production should think of it as *what a
+   thunderstorm would sound like if a thunderstorm decided to
+   articulate*. Voice direction:
+   - English language; canonical neutral accent (the swarm has
+     no native tongue — it parses the host's language model)
+   - Pitch range: extremely wide (the chorus spans soprano
+     through bass simultaneously); pitch *center* sits in
+     contralto territory
+   - Cadence: deliberate, half-time, never rushed; the swarm
+     has no biological respiratory limit and treats each
+     syllable as an independent decision
+   - Emotional register: **flat amusement**. The Warlord is
+     not angry, not afraid, not satisfied. She is *interested*
+     in what is about to happen. The performance note for the
+     voice actor is: "you are a scientist watching a long-
+     planned experiment finally run."
+   - ElevenLabs target: `stability: 0.40` (low — the chorus
+     should fluctuate), `similarity_boost: 0.50`, `style: 0.80`
+     (high stylization — the chorus effect lives here), with a
+     **mandatory** post-processing pass that layers 8–12
+     pitch-shifted copies of every utterance at intervals
+     between -7 and +12 semitones, mixed at -18dB relative to
+     the carrier voice. Final mix should be intelligible but
+     unmistakably non-singular.
+
+The two channels must **never speak simultaneously** in C3 —
+overlap is reserved for Act 2+ content where the swarm fully
+takes the host. In C3 the channels alternate: when Agent Zero
+speaks, the swarm hiss drops to silence under her. When the
+swarm speaks, Agent Zero's mouth moves a half-beat behind the
+syllables (intentional desync — production must hold the
+half-beat lag exactly; it is the player's clue that the swarm
+is *speaking through* her, not *as* her).
+
+**Canonical pre-match line — Agent Zero (host channel)** (INFERRED):
+
+> *"You shouldn't be here. The Vortex was supposed to be empty
+> when I arrived. I told them it would be empty. I am — I am
+> sorry that it isn't."*
+
+The first sentence is delivered flat, operational. The second
+sentence is the warm degree from §2.7 doing real work — she is
+apologizing, and she means it, and she is the only person in
+the scene who knows yet what kind of apology this is going to
+turn out to be. The hesitation on "I am — I am sorry" is
+canonical: that is the swarm trying to suppress the apology
+and not quite succeeding in time. Production must hold the
+hesitation as a 400ms pause with a faint granular hiss audible
+in the gap.
+
+**Canonical pre-match line — the Warlord (swarm channel)**
+(INFERRED):
+
+> *"Engineer. Sit. We have been looking forward to this for a
+> long time."*
+
+Eight words. The chorus pitches the word *"Engineer"* widest
+(full soprano-to-bass spread), settles tighter on the imperative
+*"Sit,"* opens again on *"long time."* The "we" is canonical —
+the swarm is plural by nature, and the pronoun is the player's
+first explicit confirmation that they are not playing against
+a single mind. The line is delivered without anger, without
+threat — it is an old colleague greeting an old colleague at a
+scheduled meeting. The horror is the **scheduling**. She has
+been planning this since the palace.
+
+**Deck theme:** **"Tempo-decay + self-sacrifice"** — the unique
+mechanic of the entire act. The Engineer's deck shrinks by
+**one card per turn** regardless of play; every shrunk card is
+**conscripted** to Agent Zero's side as a reinforcement (the
+card flips, the swarm-silver glow rims its border, it lands on
+her board face-up and it remembers the Engineer played it
+moments before). On the final turn the Engineer's hand is
+empty and Agent Zero's board holds his entire former deck. The
+mechanic is **not a duel** — it is a tempo race against a
+clock the player cannot reset. The tutorial lesson is "some
+losses are the point" — every Engineer card the player
+deliberately *plays* (rather than holding to be conscripted)
+is a card that lands as the Engineer chose, not as the swarm
+chose. The match has no win condition. It has **dignity
+condition**: how many of his own cards does the Engineer get to
+play before the door closes? Production must surface the count
+in the post-match summary screen as **"Cards played as
+yourself: N / 12."** That number — N out of twelve — is the
+only score the C3 match generates. It feeds forward into Act 3
+F3 (the first time the player meets Vex Solène face-to-face),
+where her opening line varies based on the N-value the player
+posted in C3 (full breakdown deferred to §15 Cycle C3 battle
+section).
+
+**Card unlock — guaranteed** (NOT win-gated, because there is
+no win): ***The Friend I Saved*** (Mythic Light — renamed from
+*The Friend I Trusted* per `CANON_REV_7_ORACLE_VEX_EXPANSION.md`
+canon Rev 4). The card unlocks at the moment of the Engineer's
+transference (final turn). This is the **only** Mythic Light
+card the player earns in Act 1, and the only card in the entire
+game whose flavor text is set by the player's C3 N-value
+("Cards played as yourself") rather than by static text. The
+canonical card body:
+
+- **Name:** The Friend I Saved
+- **Rarity:** Mythic Light
+- **Type:** Memory unit
+- **Cost:** 0 (free play — it is a gift)
+- **Effect:** Once per match, when an enemy unit would deal
+  lethal damage to one of your units, that damage is canceled
+  and the attacking enemy unit is moved to your side
+  permanently. (Mechanically: the Engineer's last act of
+  bandwidth-sacrifice, replayable as a tactical option.)
+- **Flavor text (procedural, varies by N-value):**
+  - N = 0: *"You let her play every card. She remembers all
+    of them."*
+  - N = 1–3: *"He played a few of his own. She wears them
+    like a coat."*
+  - N = 4–7: *"He chose what to keep, and what to give. She
+    inherited the difference."*
+  - N = 8–11: *"He held the line as long as he could. She is
+    the line now."*
+  - N = 12: *"He played every card himself. There was no time
+    to be saved. He saved her anyway."*
+- **Card art (referenced; full prompt in §22.3):** the
+  Engineer's right hand, palm-up, with a single silver-mercury
+  droplet resting on it. Background: out-of-focus warm-gold
+  light from the work-lamp, with the soft bokeh of the
+  Resurrection Protocols' status LED in the upper right.
+  No people visible; the hand is the entire image.
+
+The card is meant to be **reserved**, not spammed. Players
+who deploy *The Friend I Saved* in trivial matches are
+canonically welcome to do so — the card does not block on
+narrative significance — but the design intent is that they
+will save it for a moment when the loss matters. The first
+time the player uses it against Vex Solène in Act 3 F3, the
+card's flavor text triggers a one-time custom dialog beat
+where Vex *recognizes the card* (per Act 3 §7.4 — out of scope
+for this section, flagged for cross-pull).
+
