@@ -71,15 +71,28 @@ if (fallHappened) {
 
 ```ts
 // In Cades FPS, when the fall happens:
-await fetch("/api/cross-game-thread/emit", {
+await fetch("/api/trpc/crossGameThread.emit", {
   method: "POST",
-  body: JSON.stringify({ beatId: "cades_fall_fall" }),
+  headers: { "content-type": "application/json" },
+  body: JSON.stringify({ json: { beatId: "cades_fall_fall" } }),
 });
-// The server sets xgame_cades_fall_fall on the player's flag set.
+// The server validates the beat id against CROSS_GAME_THREADS,
+// then sets xgame_cades_fall_fall on the player's
+// gameData.narrativeFlags blob. Idempotent: a second emit is a
+// no-op (response reports alreadySet: true).
 ```
 
-The server-side emit endpoint is out of scope for this scaffolding PR;
-document the contract here and a future PR wires it up.
+The server-side endpoint lives at `apps/server/routers/crossGameThread.ts`
+and is wired into `appRouter` as `crossGameThread`. It exposes three
+procedures:
+
+- `crossGameThread.emit` (protected mutation) — validates the beat id,
+  sets `xgame_<beatId>` on the caller's narrativeFlags, returns
+  `{ threadId, flag, alreadySet, orderedBeats }`.
+- `crossGameThread.list` (protected query) — returns every registered
+  thread with the caller's current emitted-beat mask.
+- `crossGameThread.registry` (public query) — registry shape without
+  player state, callable by external games before they authenticate.
 
 ## Seed threads (shipped)
 

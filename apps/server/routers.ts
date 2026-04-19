@@ -99,6 +99,7 @@ import { oracleDeckRouter } from "./routers/oracleDeck";
 import { imprintsRouter } from "./routers/imprints";
 import { factionsRouter } from "./routers/factions";
 import { celebrationRouter } from "./routers/celebration";
+import { crossGameThreadRouter } from "./routers/crossGameThread";
 
 export const appRouter = router({
   collection: collectionRouter,
@@ -194,6 +195,7 @@ export const appRouter = router({
   imprints: imprintsRouter,
   factions: factionsRouter,
   celebration: celebrationRouter,
+  crossGameThread: crossGameThreadRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
