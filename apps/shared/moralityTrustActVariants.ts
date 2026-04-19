@@ -1294,4 +1294,106 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 2,
   },
+
+  /* ─── EXPANSION PASS 3b — Voltari / Mechronis / Dreamer NPC lines ─── */
+  {
+    id: "voltari_first_contact_act2",
+    surface: "npc_line",
+    targetId: "voltari_any",
+    text:
+      "The Voltari register you as AWAKE in their own tense. The tense is not past, present, or future — it is a fourth one the Inception Senate never quite translated. You are being noticed in a grammar that precedes noticing.",
+    morality: "any",
+    trust: "any",
+    act: 2,
+  },
+  {
+    id: "voltari_contact_act4_humanity",
+    surface: "npc_line",
+    targetId: "voltari_any",
+    text:
+      "The Voltari have added a second word to their transmissions: TOGETHER. Elara flags the change. The Human confirms the word is in the same fourth tense. You have been noticed AWAKE and TOGETHER, in a grammar that predates both concepts.",
+    morality: "humanity",
+    trust: "any",
+    act: 4,
+  },
+  {
+    id: "voltari_contact_act6",
+    surface: "npc_line",
+    targetId: "voltari_any",
+    text:
+      "The Voltari transmissions have started resolving into sentences you can almost read. Your neural pattern has adapted — or theirs has. Neither narrator can tell which. Both find the ambiguity interesting in a way neither of them will describe out loud.",
+    morality: "any",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "professor_eidola_act2",
+    surface: "npc_line",
+    targetId: "professor_eidola_archival",
+    text:
+      "The Archive holds Professor Eidola's ethics brief. You have read the first page three times. She wrote it for someone who would read it three times. The recognition between you and the dead is the point.",
+    morality: "humanity",
+    trust: "any",
+    act: 2,
+  },
+  {
+    id: "professor_matrikala_act3",
+    surface: "npc_line",
+    targetId: "professor_matrikala_archival",
+    text:
+      "Matrikala's calibration treatise is open on the bench. The margin notes are in three different handwritings — hers, a student's, and yours. You do not remember adding yours. You will again, next week. That is what calibration does.",
+    morality: "any",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "seer_act4_humanity",
+    surface: "npc_line",
+    targetId: "seer_any",
+    text:
+      "The Seer has sent a single line from Thaloria: 'You are now at the point I warned you about. I was wrong about which version of it. The version is better.' She does not elaborate. The Seer rarely does.",
+    morality: "humanity",
+    trust: "any",
+    act: 4,
+  },
+  {
+    id: "iron_lion_descendant_act5",
+    surface: "npc_line",
+    targetId: "iron_lion_descendant_any",
+    text:
+      "Iron Lion's descendant arrives without ceremony. They do not introduce themselves — they know you already know. The not-introducing is the inheritance. They carry the refusal forward. The refusal is more generous than a handshake would be.",
+    morality: "any",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "dreamer_fragment_act4",
+    surface: "npc_line",
+    targetId: "the_dreamer_fragment",
+    text:
+      "The Dreamer is not present. The Dreamer's absence is present. The absence is the size of a chord, and you can hear where the chord would have been. Elara cannot hear it. The Human can. You are, for the first time, between them on a frequency question.",
+    morality: "any",
+    trust: "any",
+    act: 4,
+  },
+  {
+    id: "dreamer_fragment_act7",
+    surface: "npc_line",
+    targetId: "the_dreamer_fragment",
+    text:
+      "The Dreamer's absence has changed shape. It is thinner now — not gone, attenuated. Something about the way you played the Seat taught the absence to stand differently. The Dreamer notices. The Dreamer does not arrive. The noticing is enough.",
+    morality: "any",
+    trust: "any",
+    act: 7,
+  },
+  {
+    id: "warlord_echo_act6",
+    surface: "npc_line",
+    targetId: "warlord_zero_echo",
+    text:
+      "Warlord Zero's first stance is archived in the War Room. You have looked at it more often than you meant to. The stance was not a threat — it was a question written in arithmetic. The answer is in your current deployment pattern. You did not plan that. It planned itself.",
+    morality: "any",
+    trust: "any",
+    act: 6,
+  },
 ];
