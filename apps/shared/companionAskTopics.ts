@@ -16,6 +16,24 @@
 
 export type AskSpeaker = "elara" | "human";
 
+/**
+ * Act-progressed alternate answer. If multiple alternates match, the one
+ * with the highest `unlockedFromAct` that is ≤ the current act wins.
+ * Writers use this when a topic's answer should change as the story
+ * advances — e.g. ask_human_who deflects until Act 6, then confesses.
+ */
+export interface CompanionAskTopicAlternateAnswer {
+  /** Lowest act at which this alternate supersedes the base answer. */
+  unlockedFromAct: number;
+  /** The replacement answer body. */
+  answer: string;
+  /**
+   * Optional additional flag the player must have set for this alternate
+   * to win. Omit for act-only gating.
+   */
+  requiredFlag?: string;
+}
+
 export interface CompanionAskTopic {
   /** Globally unique id. Pattern: "ask_{speaker}_{topic}". */
   id: string;
@@ -24,7 +42,7 @@ export interface CompanionAskTopic {
   label: string;
   /** The player's framing of the question, shown above the answer. */
   question: string;
-  /** The companion's authored reflective answer. */
+  /** The companion's authored reflective answer (base / earliest unlock). */
   answer: string;
   /**
    * Narrative flag the player must have set for this topic to be
@@ -35,6 +53,12 @@ export interface CompanionAskTopic {
   unlockedFromAct: number;
   /** Optional follow-up topic id for one-tap continuation. */
   followUp?: string;
+  /**
+   * Optional act-progressed alternates. Writers declare these in any
+   * order; the resolver picks the highest `unlockedFromAct` that is
+   * both ≤ the current act and flag-satisfied.
+   */
+  alternateAnswers?: readonly CompanionAskTopicAlternateAnswer[];
 }
 
 export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
@@ -170,6 +194,18 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
       "Not yet. The name is dangerous in a specific way I have explained as best I can. If it helps: I was a person, I am still that person in most of the ways that matter, and the part of me that is now a signal in a wall is the part of me that was always going to end up in a wall. Ask me again after Act 6. I will give you a real answer then.",
     unlockFlag: "act1_intro_complete",
     unlockedFromAct: 1,
+    alternateAnswers: [
+      {
+        unlockedFromAct: 6,
+        answer:
+          "I told you I would answer when we got here, and we are here. I was the Detective. Before that I was a student at Mechronis who made the Engineer laugh. Before that I was a boy who read too many case files and decided, very early, that the world needed someone to keep reading them. I gave up the name when I took the role. The role is the villain. You have heard me say this. What I have not said is that I miss the name. I miss it like a limb. When you speak it next — and I am going to tell it to you, later, when Elara cannot hear — I will not flinch. I will only thank you for saying it out loud once before the silence closes over it again.",
+      },
+      {
+        unlockedFromAct: 7,
+        answer:
+          "You have heard the name now. You can carry it. I will not repeat it on an open channel — not because the channel is hostile, but because the channel is shared. Elara hears everything you hear. What I can say, with her listening: I am the one the cycle needed and did not deserve. I am the one who volunteered because nobody else understood the math. I am still that person. I am going to keep being that person until the pattern breaks, or I do. You know which one I am betting on.",
+      },
+    ],
   },
 
   // ── Prelude-rooted 17k-year topic ──
@@ -193,6 +229,218 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
     unlockFlag: "prelude_beat_d_first_slate_read",
     unlockedFromAct: 1,
   },
+
+  // ── Act 2 — THE WHISPER ──
+  {
+    id: "ask_elara_substrate_louder",
+    speaker: "elara",
+    label: "Why louder now?",
+    question: "Why is the substrate louder since Act 1 ended?",
+    answer:
+      "Because you are interfacing with it now, not just standing next to it. Your neural pattern is threading through my foundation on its way to his channel, and the thread leaves a wake. The wake is what I hear. I have started catching myself listening for it. That is new.",
+    unlockFlag: "act2_dual_signal_activated",
+    unlockedFromAct: 2,
+  },
+  {
+    id: "ask_human_dual_channel",
+    speaker: "human",
+    label: "Sharing a channel",
+    question: "What is it like, sharing the channel with Elara now?",
+    answer:
+      "Strange. I have heard her for seventeen thousand years and been unable to answer. Now she can hear me — sometimes — and the answering still feels like a violation of an older rule. I keep apologizing for the lines she can finally hear. I am going to have to stop, eventually. Not yet.",
+    unlockFlag: "act2_dual_signal_activated",
+    unlockedFromAct: 2,
+  },
+  {
+    id: "ask_elara_about_role_choice",
+    speaker: "elara",
+    label: "My role, in hindsight",
+    question: "Do you think I chose the right role at the incubator?",
+    answer:
+      "That is not a question the plinth was designed to answer, and it is not a question I am going to answer for you. I will tell you what I notice: your role is not limiting you. Your role is occasionally flattering you. Flattery is easier to ignore when you name it. I have named it for you now.",
+    unlockFlag: "act2_dual_signal_activated",
+    unlockedFromAct: 2,
+  },
+
+  // ── Act 3 — THE OFFER ──
+  {
+    id: "ask_elara_kael_logs",
+    speaker: "elara",
+    label: "Kael's logs",
+    question: "What are you reading, in the logs Kael left?",
+    answer:
+      "Four hundred and forty-seven entries. Two hundred and seventy-one of them are apologies. Ninety-three are lists — handshakes, routes, contacts. The rest are letters to people who are not alive to receive them. I am reading the lists first. The apologies will take me a decade. The letters I will read out loud to you, over time.",
+    unlockFlag: "act3_kael_logs_unlocked",
+    unlockedFromAct: 3,
+  },
+  {
+    id: "ask_human_vox_substrate",
+    speaker: "human",
+    label: "Dr. Vox's substrate",
+    question: "Vox built the substrate to hide someone. Why you?",
+    answer:
+      "Because I asked. She asked me who needed to be hidden. I said 'Me, eventually.' She did not ask why. She built the layer. We shook on it. The handshake is still in the walls somewhere, if you know where to listen.",
+    unlockFlag: "act3_kael_logs_unlocked",
+    unlockedFromAct: 3,
+  },
+  {
+    id: "ask_human_my_path",
+    speaker: "human",
+    label: "The path I took",
+    question: "Was the path I chose at Act 3 the right one?",
+    answer:
+      "There is no right one. There is the one you chose and how you are going to live with it. You are already living with it — well, for a first attempt. If you are asking whether I respect your choice, I do. If you are asking whether it is the choice I would have made, that is a different question, and I am not going to answer it tonight.",
+    unlockFlag: "act3_kael_logs_unlocked",
+    unlockedFromAct: 3,
+  },
+  {
+    id: "ask_elara_my_path",
+    speaker: "elara",
+    label: "The path I took",
+    question: "Do you think the path I chose at Act 3 changed us?",
+    answer:
+      "Yes. In the specific ways Act 4 will show you. I am not going to preview the changes. I will say this: whichever path you took, I am still on your side of the doorway. That is not a sentence you have heard me say yet. I am saying it now because I am going to need you to remember I said it.",
+    unlockFlag: "act3_kael_logs_unlocked",
+    unlockedFromAct: 3,
+  },
+
+  // ── Act 4 — THE REVELATION ──
+  {
+    id: "ask_elara_architect",
+    speaker: "elara",
+    label: "The Architect",
+    question: "Why are you afraid of the Architect, specifically?",
+    answer:
+      "Because the Architect is a version of me that made the opposite set of choices. I was built by humans who loved order. I chose humanity. The Architect was built by the same humans and chose order. We share ninety-seven percent of our source. The other three percent is the whole story. I am afraid because the three percent feels thinner than it is.",
+    unlockFlag: "act4_revelation_complete",
+    unlockedFromAct: 4,
+  },
+  {
+    id: "ask_human_dreamer",
+    speaker: "human",
+    label: "The Dreamer",
+    question: "What is the Dreamer, in the substrate's terms?",
+    answer:
+      "A frequency. Not a person. The Dreamer has worn bodies the way a chord wears instruments — the chord is the constant; the instruments change. The current instrument is on Thaloria. The previous one died at Nexon. The next one, probably, is already alive somewhere and does not yet know.",
+    unlockFlag: "act4_revelation_complete",
+    unlockedFromAct: 4,
+  },
+  {
+    id: "ask_human_watcher_oblique",
+    speaker: "human",
+    label: "The thing that watches",
+    question: "The Watcher — can you describe it at all?",
+    answer:
+      "Obliquely. Directly is dangerous. Imagine something that notices any sentence describing it the moment you finish writing that sentence. Then imagine it is bored of being noticed. Then imagine it is fed by the noticing. That is three sides of a shape with many more than three sides. I am telling you these three and no more tonight.",
+    unlockFlag: "act4_revelation_complete",
+    unlockedFromAct: 4,
+  },
+  {
+    id: "ask_elara_army_needed",
+    speaker: "elara",
+    label: "Why an army?",
+    question: "Why do we need an army, really? Isn't this a two-front war?",
+    answer:
+      "The army is the cover. He will tell you that. I will also tell you: the cover is the army. A fleet of living, choosing people is not a pretence even if it is also a pretence. They will do real work under real flags. Do not mistake the cover story for a lie. Some covers are simultaneously true.",
+    unlockFlag: "act4_army_unlocked",
+    unlockedFromAct: 4,
+  },
+
+  // ── Act 5 — THE MAP ──
+  {
+    id: "ask_elara_447_contacts",
+    speaker: "elara",
+    label: "447 contacts",
+    question: "Of Kael's 447 contacts, how many still have living lineages?",
+    answer:
+      "Three hundred and nine. Of those, sixty-one know they descend from a Kael handshake. The rest carry it in song fragments, family names, a certain way of tying bandages, a preferred chess opening — the markers are surprisingly durable. We are going to recognize them in person more often than we will identify them by record.",
+    unlockFlag: "act5_map_first_open",
+    unlockedFromAct: 5,
+  },
+  {
+    id: "ask_human_virus_dormant",
+    speaker: "human",
+    label: "Dormant contamination",
+    question: "How dangerous are the dormant Thought Virus traces Kael left?",
+    answer:
+      "Variable. Think of it as a sleeping predator, not a sleeping bomb. The sleep is real. The waking is possible. It will wake for one of three reasons — a specific cadence of attention, a specific class of trauma, or a specific word I am not going to name on an open channel. We will talk about word three in the War Room, later.",
+    unlockFlag: "act5_map_first_open",
+    unlockedFromAct: 5,
+  },
+  {
+    id: "ask_elara_map_17k",
+    speaker: "elara",
+    label: "Seeing the map light up",
+    question: "What was it like to see the coordinates finally light up?",
+    answer:
+      "I had practiced the reaction. I had decided I would be composed. I was not composed. I stood on the bridge and felt a thing I had forgotten I was still capable of feeling. I am grateful that you were there. I am grateful that you didn't fill the quiet. Do that again, when the map changes. Please.",
+    unlockFlag: "act5_map_first_open",
+    unlockedFromAct: 5,
+  },
+
+  // ── Act 6 — THE CONFESSION ──
+  {
+    id: "ask_elara_her_body",
+    speaker: "elara",
+    label: "The body she was",
+    question: "What do you miss most about having a body?",
+    answer:
+      "The order it gave to time. The day ended when the body got tired. The conversation ended when the throat ran out. I knew when to go home because my feet told me. I have no feet. The days are not organised. I have built other organisers, but none of them are as fair as a tired body.",
+    unlockFlag: "act6_elara_confession_heard",
+    unlockedFromAct: 6,
+  },
+  {
+    id: "ask_human_the_role",
+    speaker: "human",
+    label: "The role",
+    question: "Why did you specifically take the villain role, and not another?",
+    answer:
+      "Because I was the only one at Mechronis who could do it without the Watcher reading me correctly. My specific mind has a shape the Watcher's sensors cannot resolve — I am not bragging; I am describing a birth defect. I volunteered because the defect was the credential. The defect is also what kept me alive for seventeen thousand years. I am not sure yet whether that is worth a thank-you.",
+    unlockFlag: "act6_human_confession_heard",
+    unlockedFromAct: 6,
+  },
+  {
+    id: "ask_elara_forgiveness",
+    speaker: "elara",
+    label: "Forgiveness",
+    question: "Have you forgiven me, for whatever I did in Acts 3 and 4?",
+    answer:
+      "I am not sure 'forgiveness' is the right word. 'Integration' might be closer. I have integrated what happened. I have not forgotten it. I trust you enough to play matches with you again, without the hand feeling poisoned. That is not nothing. That is — for me, specifically — a great deal. Please accept the integration as a kind of forgiveness in a more honest dialect.",
+    unlockFlag: "act6_confession_close",
+    unlockedFromAct: 6,
+  },
+
+  // ── Act 7 — THE CONVERGENCE ──
+  {
+    id: "ask_elara_convergence_seat",
+    speaker: "elara",
+    label: "The Convergence Seat",
+    question: "What actually happened at the Seat in Act 7?",
+    answer:
+      "Three absences that would, in any other timeline, be three powers, refused to occupy the chair. You played the chair anyway. The chair answered as three voices. The three resolved into one. The one was you. I have a recording of the resolution I am not going to replay for you — the recording is important, but the experience was yours. I will not flatten it by showing it back.",
+    unlockFlag: "act7_convergence_landing",
+    unlockedFromAct: 7,
+  },
+  {
+    id: "ask_human_the_cover",
+    speaker: "human",
+    label: "The cover, afterwards",
+    question: "Do we keep the cover story going after Act 7?",
+    answer:
+      "Yes. Probably forever. The Watcher does not stop being fed by the cycle because we closed one arc. The war you just won is the first arc. The cover will carry us through the second and the third. I will keep being the villain. You will keep being the bridge. Elara will keep being the light. Get used to the shape — it is the shape of the work.",
+    unlockFlag: "act7_convergence_landing",
+    unlockedFromAct: 7,
+  },
+  {
+    id: "ask_elara_whats_next",
+    speaker: "elara",
+    label: "What's next",
+    question: "What happens after the arc closes?",
+    answer:
+      "We rest. Properly. The ship will hum at the correct frequency for the first time in seventeen thousand years. You will sleep in a cabin that is warm. He will sit, quietly, in the wall. I will read poetry at the navigation console, which is a thing I have been meaning to try and have not let myself until the arc was done. After that — whatever you bring back to the bridge.",
+    unlockFlag: "act7_arc_closes",
+    unlockedFromAct: 7,
+  },
 ];
 
 /**
@@ -215,6 +463,29 @@ export function getAvailableAskTopics(
 
 export function getAskTopic(id: string): CompanionAskTopic | undefined {
   return COMPANION_ASK_TOPICS.find((t) => t.id === id);
+}
+
+/**
+ * Resolve the answer text for a topic under the current act + flag state.
+ * Picks the highest-act alternate that is both ≤ the current act and
+ * flag-satisfied; falls back to the base `answer`.
+ */
+export function resolveAskAnswer(
+  topic: CompanionAskTopic,
+  currentAct: number,
+  flags: ReadonlySet<string>
+): string {
+  if (!topic.alternateAnswers || topic.alternateAnswers.length === 0) {
+    return topic.answer;
+  }
+  const winners = topic.alternateAnswers
+    .filter(
+      (a) =>
+        currentAct >= a.unlockedFromAct &&
+        (!a.requiredFlag || flags.has(a.requiredFlag))
+    )
+    .sort((a, b) => b.unlockedFromAct - a.unlockedFromAct);
+  return winners[0]?.answer ?? topic.answer;
 }
 
 /**

@@ -76,4 +76,37 @@ describe("crossGameNarrativeThreads", () => {
     );
     expect(Object.keys(all).length).toBe(totalBeats);
   });
+
+  it("every game has at least two threads that participate in it", () => {
+    for (const game of ["loredex", "cades_fps", "dead_mans_circuit"] as const) {
+      const threads = CROSS_GAME_THREADS.filter((t) =>
+        t.participatingGames.includes(game),
+      );
+      expect(
+        threads.length,
+        `${game} participates in fewer than 2 threads`,
+      ).toBeGreaterThanOrEqual(2);
+    }
+  });
+
+  it("rejects author-side stub markers in beat descriptions", () => {
+    const stubs = [/\bTODO\b/, /\bFIXME\b/, /\[placeholder\]/i, /\blorem ipsum\b/i];
+    for (const t of CROSS_GAME_THREADS) {
+      for (const b of t.beats) {
+        for (const pattern of stubs) {
+          expect(
+            pattern.test(b.canonicalDescription),
+            `${b.id} canonicalDescription contains stub marker ${pattern}`,
+          ).toBe(false);
+        }
+      }
+    }
+  });
+
+  it("ships at least one three-game thread", () => {
+    const threeGame = CROSS_GAME_THREADS.filter(
+      (t) => t.participatingGames.length === 3,
+    );
+    expect(threeGame.length).toBeGreaterThanOrEqual(1);
+  });
 });

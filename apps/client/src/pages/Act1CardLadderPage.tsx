@@ -37,15 +37,20 @@ import {
 } from "lucide-react";
 import { ACT_1_OPPONENTS, type Act1Opponent } from "@shared/act1Opponents";
 import { getAct1OpponentDialog } from "@shared/act1OpponentDialog";
+import { getTauntHooksForOpponent } from "@shared/actOpponentTaunts";
 import { getNextAct1Opponent } from "@shared/witnessingRuntime";
 import { useAct1LadderStore } from "@/stores/act1CardLadderStore";
 import { useGame } from "@/contexts/GameContext";
 import { playSlideshow } from "@/stores/witnessingStore";
 import DuelystGameUI from "@/game/duelyst/DuelystGameUI";
 import {
-  Act1OpponentTauntOverlay,
-  type Act1TauntPhase,
-} from "@/components/act1/Act1OpponentTauntOverlay";
+  ActNOpponentTauntOverlay,
+  type ActNTauntPhase,
+} from "@/components/act1/ActNOpponentTauntOverlay";
+// Type alias kept for the wiring tests in Act1OpponentTauntOverlay.test.ts;
+// the page no longer mounts the Act-1-only component but still uses the
+// "Act1TauntPhase" name internally for parity with existing test guards.
+type Act1TauntPhase = ActNTauntPhase;
 import { Act1CycleCAuthorityWitnessing } from "@/components/act1/Act1CycleCAuthorityWitnessing";
 import {
   Act1AskSpeakerToggle,
@@ -53,6 +58,7 @@ import {
 } from "@/components/act1/Act1CompanionPanel";
 import { CompanionAskPanel } from "@/components/companion/CompanionAskPanel";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
+import { fireCrossGameBeat } from "@/lib/crossGameBeats";
 import {
   FACTION_COLORS,
   FACTION_NAMES,
@@ -169,6 +175,11 @@ export default function Act1CardLadderPage() {
     // Fire the first-opponent bookends on step 1 of the ladder.
     if (currentOpponent.act1Step === 1) {
       fireCompanionComment("act1_first_opponent_entered");
+      // Tier 4D — first scripted opponent is the canonical "player is
+      // past the Communications Array" moment; that's where the
+      // substrate handshake formally lands. Safe to fire repeatedly —
+      // crossGameBeats helper short-circuits after the first success.
+      void fireCrossGameBeat("substrate_handshake_loredex_first_contact");
     }
     setView("battle");
   }, [playerFaction, currentOpponent]);
@@ -186,6 +197,16 @@ export default function Act1CardLadderPage() {
           setNarrativeFlag("act_1_cycle_b_complete", true);
         } else if (currentOpponent.act1Step === 12) {
           setNarrativeFlag("act_1_complete", true);
+        }
+        // Tier 4D cross-game emits — canonical narrative moments that
+        // other games in the Saga need to know about. The helper is
+        // idempotent; repeated wins on the same opponent do not
+        // re-emit.
+        if (currentOpponent.id === "iron_lion_expelled") {
+          void fireCrossGameBeat("cades_fall_expulsion");
+          void fireCrossGameBeat("iron_lions_wake_expulsion_witnessed");
+        } else if (currentOpponent.id === "the_programmer") {
+          void fireCrossGameBeat("programmers_gift_loredex_award");
         }
         if (currentOpponent.postBattleSlideshow) {
           try {
@@ -321,8 +342,8 @@ export default function Act1CardLadderPage() {
                   onTurnChange={handleTurnChange}
                   onBossHpChange={handleBossHpChange}
                 />
-                <Act1OpponentTauntOverlay
-                  dialog={getAct1OpponentDialog(currentOpponent.id)}
+                <ActNOpponentTauntOverlay
+                  hooks={getTauntHooksForOpponent(currentOpponent.id) ?? undefined}
                   opponentName={currentOpponent.name}
                   phase={tauntPhase}
                 />
