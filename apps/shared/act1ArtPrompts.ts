@@ -398,6 +398,83 @@ const CYCLE_A_CARD_ARTS: readonly Act1ArtPrompt[] = [
   },
 ];
 
+/* ─── CARD ARTS — Cycle B unlocks (§22.3.13) ─── */
+
+const CYCLE_B_CARD_ARTS: readonly Act1ArtPrompt[] = [
+  {
+    assetId: "card_art_iron_stance",
+    name: "The Iron Stance (B1 unlock)",
+    category: "card_art",
+    cycle: "B",
+    bibleSection: "§22.3.13 / §7 B1 unlock",
+    resolution: "1024x1024",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Square card-art composition (1024×1024). A single weathered iron tower-shield planted upright in the center of the frame, dug slightly into a packed-earth surface. Brushed steel surface, dented from prior impacts, with a faint warm-gold rim-light catching the upper edge from the right of frame. NO heraldry, NO insignia — the shield is functional, not ceremonial (canonical Iron Lion: he refuses institutional symbols). Background: out-of-focus warm-gold afternoon light, suggestion of a Mechronis Academy gate (deep wood-and-iron archway) defocused at the back of the frame. The shield casts a long shadow toward the viewer. Lower third clean for the card-name banner. The card is Rare Light; the visual register is HOLD THE LINE — render the shield as if it has been here a long time and intends to stay.",
+  },
+  {
+    assetId: "card_art_recruiters_gift",
+    name: "The Recruiter's Gift (B2 unlock)",
+    category: "card_art",
+    cycle: "B",
+    bibleSection: "§22.3.13 / §8 B2 unlock",
+    resolution: "1024x1024",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Square card-art composition (1024×1024). A single thin braided-fiber bracelet center-frame, laid loosely on a worn dark-wood surface (the Mechronis classroom card table). The braid is in three colors: deep insurgency-yellow #eab308, warm gold, and a dark gray-blue that picks up the Mechronis uniform palette. The bracelet is canonically Kael's gift — render it as worn but cared for, slightly frayed at the closure but still intact. Behind it on the table: a half-finished Dischordia card face-down, its back showing faint warm-gold trim. Background: out-of-focus warm-gold afternoon Mechronis classroom light, soft window-shaft from the left. NO HANDS in this composition — the bracelet is offered, awaiting acceptance. Lower third clean for the card-name banner. The card is Epic Neutral; the visual register is THE OFFER — quiet, without ceremony.",
+  },
+  {
+    assetId: "card_art_weapon_i_didnt_build",
+    name: "The Weapon I Didn't Build (B3 unlock)",
+    category: "card_art",
+    cycle: "B",
+    bibleSection: "§22.3.13 / §9 B3 unlock",
+    resolution: "1024x1024",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Square card-art composition (1024×1024). A pair of EMPTY hands at center-frame, palms turned up and slightly cupped, as if recently holding something that is no longer there. The hands are the Engineer's adult hands (worn, calloused, faint scar between the thumb and forefinger of the right hand — canonical match to §2.1.2 reference). NO weapon visible. The faint silhouette of an absent shape — vague, sword-like or stance-like — hovers in the empty palm-space, rendered as a thin outline of cool-grey light, almost a memory. Background: out-of-focus institutional Mechronis blue-gray, single warm-gold shaft cutting diagonally across the upper frame from off-frame-right. Lower third clean for the card-name banner. The card is Legendary Dark; the visual register is the CANONICAL ABSENCE — what the Engineer is holding is the choice he didn't make about Agent Zero. Render the absence with weight, not with melancholy.",
+  },
+  {
+    assetId: "card_art_memorized_page",
+    name: "The Memorized Page (B4 unlock)",
+    category: "card_art",
+    cycle: "B",
+    bibleSection: "§22.3.13 / §10 B4 unlock",
+    resolution: "1024x1024",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Square card-art composition (1024×1024). A single torn page from a textbook, center-frame, lying flat on a dark wooden desk. The page's surface is BLANK — the canonical 'memorized page' is what's been removed, not what's printed. Faint impressions of erased text remain (graphite shadow, illegible). A single fingerprint smudge in the upper-left corner of the page. Beside the page: a small circular pale-blue Watcher sigil ~1cm, drawn in pencil, visually identical to the sigil on Young Eyes's wrist (§2.8 portrait cross-reference). Background: out-of-focus dark Mechronis fourth-year classroom under desk-lamp pool, single warm-yellow glow at the edge of the frame. Lower third clean for the card-name banner. The card is Epic Dark; the visual register is SURVEILLANCE-AS-INHERITANCE — the player gets this card because Young Eyes left it for them.",
+  },
+  {
+    assetId: "card_art_classmates_compass",
+    name: "The Classmate's Compass (B5 win unlock)",
+    category: "card_art",
+    cycle: "B",
+    bibleSection: "§22.3.13 / §11 B5 win unlock",
+    resolution: "1024x1024",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Square card-art composition (1024×1024). A small brass pocket compass center-frame, open and resting on a worn dark-wood surface (the senior common room coffee table). The compass face is canonical: the needle is NOT pointing north — it points slightly off-axis, toward the upper-right of the composition. The brass case has a single small engraved mark (no rendered text — abstract geometric, suggesting a younger Human's monogram). The needle catches a thin warm-gold reflection from off-frame-right (firelight). Background: out-of-focus fireplace warmth, leather armchair leg in soft focus at the back of the frame. Lower third clean for the card-name banner. The card is Legendary Light; the visual register is DIRECTION-AS-GIFT — the Human gave the Engineer this compass and the Engineer never asked why; render the brass with care, the needle's slight off-true as the canonical detail.",
+  },
+  {
+    assetId: "card_art_only_reason_i_stayed",
+    name: '"The only reason I stayed" (B5 loss unlock)',
+    category: "card_art",
+    cycle: "B",
+    bibleSection: "§22.3.13 / §11 B5 loss unlock",
+    resolution: "1024x1024",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Square card-art composition (1024×1024). The same Mechronis senior common-room setting as the Compass card, but EMPTY — a single leather armchair angled toward the fireplace, a low coffee-table-card-table in front of it with a Dischordia deck face-down on the surface. NO compass on this table; NO second armchair partner. The fireplace burns down to embers — warmer red-orange tones, softer light pool than the Compass card. Faint sepia film-grain heavier than other Cycle B cards. Background: bookshelves softly out-of-focus, a window at frame-right showing dusk-blue night beyond. Lower third clean for the card-name banner. The card is Legendary Dark; the visual register is the CANONICAL ABSENCE of the Human — the Engineer stayed for the conversation that didn't happen. Render the empty chair as the subject, not the table; the player should feel the seat is canonically the Human's seat.",
+  },
+];
+
 /** Full Act 1 art prompt catalog (built up over subsequent chunks). */
 export const ACT1_ART_PROMPTS: readonly Act1ArtPrompt[] = [
   ...CYCLE_A_PORTRAITS,
@@ -408,6 +485,7 @@ export const ACT1_ART_PROMPTS: readonly Act1ArtPrompt[] = [
   ...CYCLE_C_BATTLEFIELDS,
   ...FINALE_BATTLEFIELDS,
   ...CYCLE_A_CARD_ARTS,
+  ...CYCLE_B_CARD_ARTS,
 ];
 
 /** Look up a single prompt by asset id. */
