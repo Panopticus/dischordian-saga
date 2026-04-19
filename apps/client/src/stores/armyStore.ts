@@ -114,9 +114,22 @@ export const useArmyStore = create<ArmyStore>()(
     (set) => ({
       ...INITIAL_STATE,
 
-      recruitUnit: (unit) => set((state) => ({
-        units: [...state.units, unit],
-      })),
+      recruitUnit: (unit) => set((state) => {
+        // Tier 4D: fire the Kael's-lineage first-recruit cross-game
+        // beat on the very first unit ever recruited. The helper is
+        // session-idempotent and silent-fail; narrative flow is not
+        // affected. Imported lazily to avoid pulling tRPC into the
+        // store module's module-init path.
+        if (state.units.length === 0) {
+          void (async () => {
+            const { fireCrossGameBeat } = await import("@/lib/crossGameBeats");
+            void fireCrossGameBeat("kaels_lineage_return_loredex_first_recruit");
+          })();
+        }
+        return {
+          units: [...state.units, unit],
+        };
+      }),
 
       deployUnits: (deployment) => set((state) => ({
         units: state.units.map((u) =>

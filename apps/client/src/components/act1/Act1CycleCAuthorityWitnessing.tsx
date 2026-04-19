@@ -22,6 +22,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useGame } from "@/contexts/GameContext";
+import { fireCrossGameBeat } from "@/lib/crossGameBeats";
 import {
   ALIGNMENT_CHOICES,
   FULL_WITNESSING_SLIDES,
@@ -92,6 +93,12 @@ export function Act1CycleCAuthorityWitnessing({
       setLightDarkAlignment(alignment);
       setNarrativeFlag(descriptor.flag, true);
       setNarrativeFlag("act_1_cycle_c_complete", true);
+      // Tier 4D: Last Words performance is the canonical split point
+      // all three games read from. The Light/Dark flag lives on the
+      // narrativeFlags set above; this emit records that the
+      // performance landed so Cades FPS + DMC can cue their
+      // branch-specific callbacks in later chapters.
+      void fireCrossGameBeat("last_words_echo_loredex_performance");
       // Stop playback so the alignment blurb can land without
       // fighting the music.
       if (audioRef.current) audioRef.current.pause();
