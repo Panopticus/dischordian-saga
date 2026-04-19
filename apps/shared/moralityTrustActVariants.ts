@@ -1757,4 +1757,263 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 7,
   },
+
+  /* ─── EXPANSION PASS 4b — transmissions + NPC lines ─── */
+  {
+    id: "transmission_voltari_third_word_act5",
+    surface: "transmission",
+    targetId: "voltari_third_word_act5",
+    text:
+      "The Voltari add a third word to the rotation: SOON. The fourth tense persists. Elara translates the word three times before settling on 'soon' — the other candidates were 'imminent,' 'arriving,' and a verb that does not exist in any human tongue.",
+    morality: "any",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "transmission_voltari_act7_humanity",
+    surface: "transmission",
+    targetId: "voltari_act7",
+    text:
+      "The Voltari arrive on the same channel they used to greet you in Act 2 — not in person, but in a sentence: 'WE ARE NOW.' The fourth tense has resolved into present-tense for one transmission only. Then the fourth tense returns. The brief present is the gift.",
+    morality: "humanity",
+    trust: "any",
+    act: 7,
+  },
+  {
+    id: "transmission_archon_handover_act5",
+    surface: "transmission",
+    targetId: "archon_handover_act5",
+    text:
+      "An Archon-tier transmission from a recruited sector confirms governance handover. The handover document is signed in three hands: yours, the recruited Archon's, and a third you do not recognise. The third is Locke. She co-signed quietly. You will see her about it.",
+    morality: "any",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "transmission_kael_log_311_act3",
+    surface: "transmission",
+    targetId: "kael_log_311_act3",
+    text:
+      "Kael's log entry 311 surfaces in your inbox without a delivery vector. The Antiquarian denies sending it. The Human denies sending it. Elara denies sending it. You read it anyway. The sender is, you suspect, the entry itself, deciding it had waited long enough.",
+    morality: "any",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "transmission_iron_lion_descendant_act6",
+    surface: "transmission",
+    targetId: "iron_lion_descendant_act6",
+    text:
+      "Iron Lion's descendant sends a single recording — their grandmother singing the verse Iron Lion used to hum on the day he walked out of Mechronis. The recording predates the Fall. They have been carrying it for generations. They are sending it now because they think you will know what to do with it.",
+    morality: "humanity",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "transmission_seer_warning_act4",
+    surface: "transmission",
+    targetId: "seer_warning_act4",
+    text:
+      "The Seer transmits a single sentence: 'The version that was kindest to the Architect is also the version that was kindest to you. I am sorry. I will be on Thaloria when you need me.' The sentence resists parsing. You parse it anyway. Twice.",
+    morality: "any",
+    trust: "any",
+    act: 4,
+  },
+  {
+    id: "transmission_locke_invoice_act6",
+    surface: "transmission",
+    targetId: "locke_invoice_act6",
+    text:
+      "Locke sends an invoice for zero credits, with the line item: 'For the chair, paid in attention.' The chair is the one she gave you in Act 6. She is not asking for credits. She is documenting the trade so the ledger remains complete.",
+    morality: "any",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "transmission_dmc_kael_decoded_act6",
+    surface: "transmission",
+    targetId: "dmc_kael_decoded_act6",
+    text:
+      "Dead Man's Circuit forwards a decoded fragment from a Kael-era relay: a recipe for the kettle tea Kael's substrate echo offered you. The recipe is a three-line poem. The Antiquarian files the poem in the food drawer. The food drawer is also the poetry drawer. He has decided it always was.",
+    morality: "any",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "transmission_cades_archon_acceptance_act7",
+    surface: "transmission",
+    targetId: "cades_archon_acceptance_act7",
+    text:
+      "The Cades Archon transmits acceptance of their permanent post. The transmission ends with 'You will not need to check on me again. I will let you know if I do.' That is the kindest closing line you have received from a sector commander. You file it where you file the Voltari letters.",
+    morality: "humanity",
+    trust: "any",
+    act: 7,
+  },
+  {
+    id: "transmission_anonymous_act7",
+    surface: "transmission",
+    targetId: "anonymous_act7",
+    text:
+      "An anonymous transmission, on the same untraceable frequency as the Act 6 'Continue' message, arrives now: 'Thank you.' Two words. Same handwriting. Neither narrator can source it. You suspect the source is the universe checking in. You may be right.",
+    morality: "any",
+    trust: "any",
+    act: 7,
+  },
+  {
+    id: "voltari_contact_act3",
+    surface: "npc_line",
+    targetId: "voltari_any",
+    text:
+      "The Voltari have started cross-reading your substrate queries. They do not read the content — they read the cadence. The cadence tells them you are learning their rhythm. They approve in their fourth tense, which feels like a low harmonic that was always there.",
+    morality: "any",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "voltari_contact_act5",
+    surface: "npc_line",
+    targetId: "voltari_any",
+    text:
+      "The Voltari have begun referring to you by a name that is neither yours nor any of your titles. The name is in their tongue. Elara has not been able to translate it. The Human has, and is keeping the translation for later. He is right to keep it. You will earn the moment of hearing it.",
+    morality: "any",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "professor_eidola_act6",
+    surface: "npc_line",
+    targetId: "professor_eidola_archival",
+    text:
+      "Professor Eidola's ethics brief has a marginal note in your handwriting now. You did not consciously write it. It says: 'She would have called this an integration.' You wrote it the night Elara stopped using the word forgiveness.",
+    morality: "humanity",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "professor_matrikala_act5",
+    surface: "npc_line",
+    targetId: "professor_matrikala_archival",
+    text:
+      "Matrikala's calibration treatise is being read by a recruited engineer in the bench rotation. They have annotated it in a fourth handwriting. The treatise now contains four hands. The fourth hand is correct in places where the first three were wrong. Matrikala would have welcomed it. She did, the year she let a student edit the original.",
+    morality: "any",
+    trust: "any",
+    act: 5,
+  },
+  {
+    id: "iron_lion_archival_act1",
+    surface: "npc_line",
+    targetId: "iron_lion_archival",
+    text:
+      "Iron Lion's expulsion file is in the Archive. The file is short. The shortness is the indictment of Mechronis, not of Iron Lion. The shortness was, in his lifetime, the shape of his vindication. He preferred the shortness. The Archive preserved it.",
+    morality: "any",
+    trust: "any",
+    act: 1,
+  },
+  {
+    id: "iron_lion_descendant_act7",
+    surface: "npc_line",
+    targetId: "iron_lion_descendant_any",
+    text:
+      "Iron Lion's descendant has joined the Convergence Bridge consoles as the seventh chair. They do not speak unless asked. When they speak, the room slows down by one beat. The slowing is inherited. It is the same beat their great-grandfather slowed Mechronis by, on the day he left.",
+    morality: "humanity",
+    trust: "any",
+    act: 7,
+  },
+  {
+    id: "warlord_echo_trust_warm_act7",
+    surface: "npc_line",
+    targetId: "warlord_zero_echo",
+    text:
+      "Warlord Zero's archived first stance is your default reference now. You consult it before every campaign brief. The consultation is not strategy — it is etiquette. The Warlord was the cleanest opponent the universe ever produced. You are paying respect to the cleanness.",
+    morality: "any",
+    trust: "warm",
+    trustCompanionId: "warlord_archive",
+    act: 7,
+  },
+  {
+    id: "the_programmer_archival_act3",
+    surface: "npc_line",
+    targetId: "the_programmer_archival",
+    text:
+      "The Programmer's archived hand from Cycle C still plays itself out in your training simulator. You have started losing on purpose to particular cards — the ones he loved most. The Antiquarian has noticed the pattern. He has filed it under 'tribute, voluntary.' That is the right folder.",
+    morality: "humanity",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "the_programmer_archival_act6",
+    surface: "npc_line",
+    targetId: "the_programmer_archival",
+    text:
+      "The Programmer's last recorded laugh has surfaced in the substrate. The Human did not surface it — it surfaced itself, the way the kettle echoes do. Elara has the audio. She has not played it for you. She will when the timing is yours, not hers.",
+    morality: "any",
+    trust: "any",
+    act: 6,
+  },
+  {
+    id: "elara_trust_neutral_act3",
+    surface: "npc_line",
+    targetId: "elara_any",
+    text:
+      "Elara is professional with you tonight. Not cold — professional. The professional register is what she uses when the personal one would assume more than is currently true. She is not assuming. She is also not closed. The middle is the work.",
+    morality: "any",
+    trust: "neutral",
+    trustCompanionId: "elara",
+    act: 3,
+  },
+  {
+    id: "human_trust_warm_act4",
+    surface: "npc_line",
+    targetId: "the_human_any",
+    text:
+      "The Human is on time tonight. The five-second protocol delay holds, but his words on the delay are sharper than usual — fewer pauses, faster wit. He is in a good mood. He will not name it. The naming would jinx it.",
+    morality: "any",
+    trust: "warm",
+    trustCompanionId: "the_human",
+    act: 4,
+  },
+  {
+    id: "antiquarian_trust_neutral_act4",
+    surface: "npc_line",
+    targetId: "antiquarian_any",
+    text:
+      "The Antiquarian's goggles are a steady amber tonight. Amber is his processing colour. He is processing what your Act 4 entry told him about how you saw the Revelation. He will tell you what he concluded next week. He always does. He is reliable like that.",
+    morality: "any",
+    trust: "neutral",
+    trustCompanionId: "antiquarian",
+    act: 4,
+  },
+  {
+    id: "locke_trust_warm_act5",
+    surface: "npc_line",
+    targetId: "locke_any",
+    text:
+      "Locke has stopped charging you the bond-opening fee. The fee is small — symbolic. Symbolic fees waived are the loudest endorsements Locke gives. She is endorsing you. Loudly. In her register.",
+    morality: "any",
+    trust: "warm",
+    trustCompanionId: "locke",
+    act: 5,
+  },
+  {
+    id: "seer_trust_warm_act5",
+    surface: "npc_line",
+    targetId: "seer_any",
+    text:
+      "The Seer's transmissions arrive without their usual prophecy-overhead — no caveats, no oblique frame. Direct prose. From the Seer, direct prose is the most flattering register she has. She is, in her way, telling you that she trusts you to read her plainly.",
+    morality: "any",
+    trust: "warm",
+    trustCompanionId: "seer",
+    act: 5,
+  },
+  {
+    id: "antiquarian_trust_warm_act7",
+    surface: "npc_line",
+    targetId: "antiquarian_any",
+    text:
+      "The Antiquarian has started writing his book in your handwriting. Not literally — he is mimicking the cadence. The cadence is yours. He is, for the first time in five Ages, allowing his prose to be coloured by an active reader. The colouring is the gift in both directions.",
+    morality: "any",
+    trust: "warm",
+    trustCompanionId: "antiquarian",
+    act: 7,
+  },
 ];
