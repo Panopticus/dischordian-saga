@@ -94,6 +94,7 @@ const Act3CardLadderPage = lazy(() => import("./pages/Act3CardLadderPage"));
 const Act6CardLadderPage = lazy(() => import("./pages/Act6CardLadderPage"));
 const Act7CardLadderPage = lazy(() => import("./pages/Act7CardLadderPage"));
 const Act4MatchPage = lazy(() => import("./pages/Act4MatchPage"));
+const Act1C4TrialPage = lazy(() => import("./pages/Act1C4TrialPage"));
 const DevVariantsPage = lazy(() => import("./pages/DevVariantsPage"));
 const CrossGameThreadsPage = lazy(() => import("./pages/CrossGameThreadsPage"));
 const Act2InterludePage = lazy(() => import("./pages/Act2InterludePage"));
@@ -259,6 +260,7 @@ function Router() {
         <Route path="/act6-ladder" component={Act6CardLadderPage} />
         <Route path="/act7-ladder" component={Act7CardLadderPage} />
         <Route path="/act4-match" component={Act4MatchPage} />
+        <Route path="/act1-c4-trial" component={Act1C4TrialPage} />
         <Route path="/dev/variants" component={DevVariantsPage} />
         <Route path="/cross-game-threads" component={CrossGameThreadsPage} />
         <Route path="/act2-interlude" component={Act2InterludePage} />
