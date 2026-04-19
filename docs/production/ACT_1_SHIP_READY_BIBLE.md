@@ -4402,3 +4402,120 @@ descendant NPC in its mid-game content.
 
 ---
 
+## Section 9 — Cycle B3 Battle Section (Young Agent Zero)
+
+The engineering spec for B3 — Mechronis Year 3, the only pre-C3
+appearance of the woman who will become Vex Solène. Section 2.7
+authored the character; this section specifies the **Zero Trust
+stealth / one-shot** mechanic and the §2.7 → §2.12 visual
+continuity handoff.
+
+### 9.1 Narrative purpose
+
+B3 is the **first combinatorial match** — the first time the
+player must *combine* tools from earlier matches to counter
+the opponent. Agent Zero's hidden-slot deck is unreadable
+unless the player deploys reveal-on-proximity A3-unlocked
+units (carried forward from Kanshi Sha's Ocularum Trio). The
+tutorial lesson: "some opponents win by being unseen, and
+your earlier battles gave you what you need to see them."
+
+### 9.2 Per-turn flow (nominal 9-turn match, per §2.7 canonical)
+
+- **Turn 1:** Agent Zero deploys three face-down units in
+  hidden slots. The slots appear as empty space on her side
+  of the board.
+- **Turns 2–4 (hidden build):** Agent Zero adds one hidden
+  unit per turn. She does not attack.
+- **Turn 5 (the projected midpoint):** one hidden unit
+  activates for a one-shot strike, killing one Engineer unit
+  outright without revealing the slot it came from.
+- **Turns 6–8:** one-shot strikes continue, one per turn.
+  Engineer's board empties unless reveal-on-proximity units
+  have been deployed to blind the hidden slots.
+- **Turn 9 (canonical resolution per §2.7 pre-match line):**
+  "you will lose in nine turns" if no interrupt. Engineer's
+  optimal interrupt window is turn 6; interrupting at turn 6
+  breaks the sequence per the canonical win beat.
+
+### 9.3 Art sub-spec
+
+**Opponent portrait:** seventeen-year-old Agent Zero per §2.7
+— Mechronis blue uniform worn too perfectly, hair curtain over
+left eye, calm visible right eye. Full prompt in §22.3.7.
+
+**Battlefield:** Mechronis classroom, third-year, different
+chalkboard content (covert operations diagrams — keep them
+unreadable in frame). Shared composition with §7.3 / §8.3.
+
+### 9.4 Cutscene sub-spec
+
+**Pre-match cutscene (0:00–0:25):** Agent Zero already seated
+when the Engineer enters. She does not look up. The Engineer
+sits. Long silent beat (5 seconds of room tone). She speaks
+the §2.7 pre-match line without raising her eyes from her
+deck. Match begins.
+
+**Post-match cutscene — win (0:00–0:40):** §2.7 canonical win
+beat — the "You interrupted at six" line, the handshake she
+does not offer, the "I will remember this. That is a
+compliment." exit, the camera hold on the empty chair.
+
+**Post-match cutscene — loss (0:00–0:30):** §2.7 canonical
+loss beat — the "Nine. As projected." line, the analytical
+feedback on turn 4.
+
+### 9.5 VO sub-spec
+
+Voice profile: **`young_agent_zero`** (new, full spec in §2.7).
+Eight lines, IDs `vo_b3_agent_zero_*`:
+
+| ID | Line | Direction |
+|---|---|---|
+| `vo_b3_agent_zero_prematch` | §2.7 pre-match line | flat; single warm degree on "unfair" |
+| `vo_b3_agent_zero_turn5_strike` | *"One."* | informational |
+| `vo_b3_agent_zero_turn6_strike` | *"Two."* | unchanged tone |
+| `vo_b3_agent_zero_turn7_blinded` | *"— sequence interrupted."* (if interrupt at T6) | neutral; not frustrated |
+| `vo_b3_agent_zero_turn9_win` | §2.7 post-match win dialog (full) | — |
+| `vo_b3_agent_zero_turn9_loss` | §2.7 post-match loss dialog (full) | — |
+| `vo_b3_agent_zero_compliment` | *"I will remember this. That is a compliment."* (win-only) | single warm degree on "compliment" |
+| `vo_b3_agent_zero_ambient` | silence (4 × 8-second idle intervals with faint pen-on-paper SFX) | — |
+
+### 9.6 VFX sub-spec
+
+- **Hidden slot visualization:** each face-down unit is
+  rendered as a faintly darker rectangle on Agent Zero's
+  side of the board. Not a card back — *negative space*.
+  Production note: the slot should read as "something
+  missing" rather than "something hidden."
+- **One-shot strike effect:** when a hidden unit activates,
+  a thin silver-grey vector line traces from the hidden
+  slot to the target unit (0.3s), the target unit
+  vanishes, the vector line fades. No particles; the
+  effect is clinical.
+- **Reveal-on-proximity blind (counter):** when an A3-
+  unlocked unit is deployed adjacent to a hidden slot, the
+  slot *inverts* — the negative-space rectangle flips to a
+  visible card face for one turn. During the revealed turn,
+  Agent Zero cannot activate that slot.
+
+### 9.7 §2.7 → §2.12 visual continuity
+
+Production must verify that the Agent Zero portrait and
+character rig used for B3 is **rigidly reusable** for §2.12's
+C3 host-body rendering. The continuity rules from §2.12:
+- Same height / build / ethnic ambiguity
+- Same hair color and length (the C3 rig adds the tight
+  field braid but the underlying hair rig is B3's)
+- Same right eye visible; B3 left eye hidden by curtain, C3
+  left eye visible and progressively silver-rimmed
+- Mechronis blue uniform (B3) vs. charcoal-grey tactical
+  jacket (C3) — these are different garments, but the
+  underlying body rig is shared
+
+The asset delivery bundle for B3 must include a
+*continuity-reference sheet* (§22.3.7.1) that C3's asset
+producer can use to verify visual match.
+
+---
+
