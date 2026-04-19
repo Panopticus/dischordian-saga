@@ -19,6 +19,7 @@
        import dance
    ═══════════════════════════════════════════════════════ */
 
+import { getAct1Opponent } from "./act1Opponents";
 import {
   ACT_1_OPPONENT_DIALOGS,
   buildOpponentTauntHooks as buildAct1Hooks,
@@ -74,8 +75,11 @@ function fromAct1(hooks: Act1OpponentTauntHooks, opponentId: string): OpponentTa
 export function getTauntHooksForOpponent(
   opponentId: string,
 ): OpponentTauntHooks | null {
-  const act1 = ACT_1_OPPONENT_DIALOGS.find((d) => d.opponentId === opponentId);
-  if (act1) return fromAct1(buildAct1Hooks(act1), opponentId);
+  // Resolve through canonical Act 1 aliases so legacy ids like
+  // "little_meme" still find their dialog table.
+  const act1Canonical = getAct1Opponent(opponentId)?.id ?? opponentId;
+  const act1 = ACT_1_OPPONENT_DIALOGS.find((d) => d.opponentId === act1Canonical);
+  if (act1) return fromAct1(buildAct1Hooks(act1), act1Canonical);
 
   const act3 = ACT_3_OPPONENT_DIALOGS.find((d) => d.opponentId === opponentId);
   if (act3) {

@@ -35,7 +35,11 @@
      - Elara never lectures — she remembers
    ═══════════════════════════════════════════════════════ */
 
-import { ACT_1_OPPONENTS, type Act1Opponent } from "./act1Opponents";
+import {
+  ACT_1_OPPONENTS,
+  getAct1Opponent,
+  type Act1Opponent,
+} from "./act1Opponents";
 
 export interface Act1OpponentDialog {
   opponentId: string;
@@ -56,7 +60,7 @@ export interface Act1OpponentDialog {
 /* ─── CYCLE A — Kindergarten of Gods ─── */
 
 const LITTLE_MEME: Act1OpponentDialog = {
-  opponentId: "little_meme",
+  opponentId: "minnie_meme",
   engineerMemoirIntro:
     "I was six. The notebook was blue. The chant got into the notebook before the notebook got into me. That is the order it happened in.",
   elaraPreMatch:
@@ -84,7 +88,7 @@ const LITTLE_MEME: Act1OpponentDialog = {
 };
 
 const LITTLE_COLLECTOR: Act1OpponentDialog = {
-  opponentId: "little_collector",
+  opponentId: "corey_collector",
   engineerMemoirIntro:
     "He had a jar. He had a dozen jars. The grown-ups thought it was cute. The Oracle thought it was a warning shot.",
   elaraPreMatch:
@@ -112,7 +116,7 @@ const LITTLE_COLLECTOR: Act1OpponentDialog = {
 };
 
 const LITTLE_WATCHER: Act1OpponentDialog = {
-  opponentId: "little_watcher",
+  opponentId: "kanshi_sha_watcher",
   engineerMemoirIntro:
     "She wore a half-finished mask. The white wasn't paint, it was a placeholder. We were supposed to fill it in with our own faces.",
   elaraPreMatch:
@@ -142,7 +146,7 @@ const LITTLE_WATCHER: Act1OpponentDialog = {
 /* ─── CYCLE B — Mechronis Academy ─── */
 
 const THE_DETECTIVE_STUDENT: Act1OpponentDialog = {
-  opponentId: "the_detective_student",
+  opponentId: "young_iron_lion",
   engineerMemoirIntro:
     "He was the only one at Mechronis who ever made me laugh on purpose. He apologized for it both times.",
   elaraPreMatch:
@@ -170,7 +174,7 @@ const THE_DETECTIVE_STUDENT: Act1OpponentDialog = {
 };
 
 const IRON_LION_EXPELLED: Act1OpponentDialog = {
-  opponentId: "iron_lion_expelled",
+  opponentId: "young_kael",
   engineerMemoirIntro:
     "He had already packed. The match was a formality. The point of the match was that the match was not the point.",
   elaraPreMatch:
@@ -198,7 +202,7 @@ const IRON_LION_EXPELLED: Act1OpponentDialog = {
 };
 
 const PROFESSOR_EIDOLA: Act1OpponentDialog = {
-  opponentId: "professor_eidola",
+  opponentId: "young_agent_zero",
   engineerMemoirIntro:
     "She taught the ethics elective. Mechronis required it. Mechronis was proud of requiring it. Mechronis later required everyone forget her.",
   elaraPreMatch:
@@ -226,7 +230,7 @@ const PROFESSOR_EIDOLA: Act1OpponentDialog = {
 };
 
 const PROFESSOR_MATRIKALA: Act1OpponentDialog = {
-  opponentId: "professor_matrikala",
+  opponentId: "young_eyes",
   engineerMemoirIntro:
     "She taught the calibration arts. The calibration arts are how you make a reactor sing without it noticing it is singing.",
   elaraPreMatch:
@@ -254,7 +258,7 @@ const PROFESSOR_MATRIKALA: Act1OpponentDialog = {
 };
 
 const THE_SEER_VISIT: Act1OpponentDialog = {
-  opponentId: "the_seer_visit",
+  opponentId: "young_human_seeker",
   engineerMemoirIntro:
     "She visited Mechronis once. She played one match. She did not raise her staff. The Academy talked about it for a year.",
   elaraPreMatch:
@@ -284,7 +288,7 @@ const THE_SEER_VISIT: Act1OpponentDialog = {
 /* ─── CYCLE C — Nexon / Zenon / Last Words ─── */
 
 const THE_WARLORD_ZERO_FIRST: Act1OpponentDialog = {
-  opponentId: "the_warlord_zero_first",
+  opponentId: "vernon_vortex",
   engineerMemoirIntro:
     "Nexon. The line. I stood on it because the line needed someone standing on it. The Warlord stood opposite because the math required it.",
   elaraPreMatch:
@@ -312,7 +316,7 @@ const THE_WARLORD_ZERO_FIRST: Act1OpponentDialog = {
 };
 
 const THE_PROGRAMMER: Act1OpponentDialog = {
-  opponentId: "the_programmer",
+  opponentId: "wanda_wyrlord",
   engineerMemoirIntro:
     "He was my oldest friend. He was the best of us. He vanished the night we played this match and left a song in our place.",
   elaraPreMatch:
@@ -340,7 +344,7 @@ const THE_PROGRAMMER: Act1OpponentDialog = {
 };
 
 const THE_GAME_MASTER_ORIGINAL: Act1OpponentDialog = {
-  opponentId: "the_game_master_original",
+  opponentId: "warlord_nano_swarm",
   engineerMemoirIntro:
     "He had not yet split. The two lenses were still in one frame. He was a single man with a single charge sheet, smiling.",
   elaraPreMatch:
@@ -368,7 +372,7 @@ const THE_GAME_MASTER_ORIGINAL: Act1OpponentDialog = {
 };
 
 const THE_AUTHORITY: Act1OpponentDialog = {
-  opponentId: "the_authority",
+  opponentId: "wayne_warden",
   engineerMemoirIntro:
     "Six crystal coffins. One chair. One charge sheet. I made a card the night before. The card was for after.",
   elaraPreMatch:
@@ -415,7 +419,10 @@ export const ACT_1_OPPONENT_DIALOGS: readonly Act1OpponentDialog[] = [
 export function getAct1OpponentDialog(
   opponentId: string
 ): Act1OpponentDialog | undefined {
-  return ACT_1_OPPONENT_DIALOGS.find((d) => d.opponentId === opponentId);
+  // Resolve through canonical aliases so legacy ids like
+  // "the_warlord_zero_first" still locate their dialog table.
+  const canonical = getAct1Opponent(opponentId)?.id ?? opponentId;
+  return ACT_1_OPPONENT_DIALOGS.find((d) => d.opponentId === canonical);
 }
 
 export interface Act1OpponentWithDialog {
@@ -426,7 +433,7 @@ export interface Act1OpponentWithDialog {
 export function getAct1OpponentWithDialog(
   opponentId: string
 ): Act1OpponentWithDialog | undefined {
-  const opponent = ACT_1_OPPONENTS.find((o) => o.id === opponentId);
+  const opponent = getAct1Opponent(opponentId);
   const dialog = getAct1OpponentDialog(opponentId);
   if (!opponent || !dialog) return undefined;
   return { opponent, dialog };
