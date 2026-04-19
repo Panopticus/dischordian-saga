@@ -5750,3 +5750,134 @@ On slideshow completion:
 
 ---
 
+## Section 18 — Act 1 Finale ("YOUR NAME — Unwritten" Pedestal)
+
+The engineering + narrative spec for the final interactive
+beat of Act 1. After *Last Words* resolves, the player is
+placed back in the Ark Archives (returning from the
+biographical simulation to the Prelude-era Ark 7 present) for
+a single short interaction — the placement of their first
+blank Dischordia card on the central pedestal. This is the
+first of five player-authored cards the player will earn
+across Acts 1–5.
+
+### 18.1 Narrative purpose
+
+§18 is the **handoff from biography to authorship**. Acts 1 has
+been the Engineer's memories; §18 is the moment the player
+is explicitly invited to become the next person in the story.
+The pedestal interaction is short — perhaps 90 seconds of
+gameplay — but carries significant narrative weight. The
+blank card is the canonical visual motif of the entire game:
+*there is a card that is yours, and you will write on it*.
+
+The interaction is **not skippable**. The player must walk up
+to the pedestal, engage it, and place the card. The card's
+"name" field is populated from the player's chosen character
+name (established in Prelude Beat A). No further text input is
+required at this stage; the card says simply *"YOUR NAME —
+Unwritten"* with the name auto-filled.
+
+### 18.2 Environment
+
+Setting: the Ark Archives central chamber (re-used from the
+Prelude Bible §4.2). Lighting: dimmed to approximately 40% of
+Prelude-standard Archives illumination, reflecting the post-
+*Last Words* tonal register. Warm-gold pedestal lighting
+isolated at the center; rest of the chamber recedes into soft
+darkness.
+
+The pedestal itself (per the Prelude Bible §4.2 canonical
+description): a short obsidian-black stone plinth, waist-
+height, flat top, with a faint inscribed geometric pattern on
+the top surface that registers only in close-up. Production
+must not modify the pedestal's visual design from the Prelude
+spec; continuity is load-bearing.
+
+### 18.3 Interaction flow
+
+1. Player spawns in Ark Archives at the entrance threshold,
+   back to the door, facing the pedestal at the far end of
+   the chamber (~15m distance).
+2. Elara (Prelude voice profile) speaks the §18.5 opening
+   line. The player is free to move.
+3. Player approaches the pedestal. Production must render
+   the footstep audio on polished obsidian (canonical audio
+   cue from the Prelude Archives).
+4. Player reaches the pedestal. The blank card is visible
+   on its surface, glowing faintly warm-gold.
+5. Player presses the interact key. Card-place animation
+   fires.
+6. Elara speaks the §18.5 closing line.
+7. Fade to Act 2 opening.
+
+No dialog choices. No alternate interactions. The flow is
+deliberately simple — the interaction is ritual, not puzzle.
+
+### 18.4 Card-place animation
+
+A 12-second cinematic fires on player interact:
+- 0.0–2.0s: camera pushes in on the pedestal
+- 2.0–4.0s: the blank card lifts from the pedestal surface
+  into the player's hands (first-person view)
+- 4.0–6.0s: close-up of the player's hands holding the card;
+  the player's chosen character name auto-appears in the
+  card's "Name" field with a warm-gold writing animation
+- 6.0–8.0s: the card levitates back to the pedestal and
+  settles, now marked with the player's name above the word
+  *"Unwritten"*
+- 8.0–10.0s: the pedestal's warm-gold light intensifies
+  briefly, then normalizes
+- 10.0–12.0s: hold on the named card; cut to Act 2 opening
+  brief
+
+The animation is not interruptible.
+
+### 18.5 VO sub-spec
+
+Two Elara lines total, plus one optional post-animation line.
+Canonical IDs `vo_act1_finale_*`:
+
+| ID | Line | Direction |
+|---|---|---|
+| `vo_act1_finale_open` | *"The Archives are yours now. Go ahead. He left you a space."* | quiet; she is emotional but controlled |
+| `vo_act1_finale_close` | *"That's the first. There will be more. Write something when you're ready."* | gentle instruction |
+| `vo_act1_finale_bond_optional` | (if narratorBond ≥ 60) *"I wish he had met you. You would have liked him."* | tender; canonical bond-gated line |
+
+### 18.6 VFX sub-spec
+
+- **Pedestal warm-gold glow:** constant throughout the
+  interaction, slightly pulsing at 0.2Hz when idle,
+  intensifying during the card-place animation.
+- **Card levitation:** a soft warm-gold particle trail
+  beneath the card as it moves between pedestal and player's
+  hands. Minimal particle count (~15 particles), 0.5s
+  dissipation.
+- **Name auto-write effect:** the player's name appears
+  letter-by-letter over 1.5 seconds with a warm-gold
+  writing-calligraphy animation. The final "Unwritten" label
+  appears faintly below the name and remains visible.
+
+### 18.7 Flag integration
+
+On card-place animation complete:
+- `act1_complete` flag fires (if not already set by §17
+  slideshow completion — double-fire is canonical and
+  idempotent)
+- `unwritten_card_1_placed` flag fires
+- `narrativeAct` advances to 2 (gates the Act 2 Whisper
+  content — see `apps/shared/narrativeActs.ts`)
+- The Witnessing Hub's "Unwritten Cards" progress ring
+  updates to 1 / 5
+
+### 18.8 Return to gameplay
+
+Post-§18, the player spawns in the Prelude-era Ark 7 main
+corridor with Act 2 available. The Act 2 opening brief fires
+automatically on spawn (the Whisper interlude page — already
+shipped per commit `08c0716`). §18 does not ship its own
+follow-up navigation; the handoff to Act 2 is handled by
+existing Witnessing Hub bridge logic.
+
+---
+
