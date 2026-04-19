@@ -3412,3 +3412,184 @@ regardless (per Year One Calendar Month 6 — fallback trigger),
 but the +5 mechanical reward and the personalized epigraph
 land only on player-triggered plays.
 
+**Post-match canonical beats** — note: C4 is the **only** Cycle
+C match where **both** outcomes are canonically reachable. The
+Tribunal can pass sentence (loss) or run out of evidence
+(win). Both paths lead into the *Last Words* slideshow finale,
+but the framing is meaningfully different. Production must
+fully spec both branches.
+
+- **Win (Tribunal recessed, Engineer earned the delay):** the
+  evidence stack runs out. Wayne reaches for the next card,
+  finds none, and pauses — the only moment in the entire
+  match his hands are visible above the bench *without* a
+  card in them. The amber pulse from the coffins falters,
+  drops out of unison for a single beat, returns. Wayne does
+  not consult the chorus. He removes his biretta cap, sets
+  it on the bench in front of him, and looks at the Engineer
+  for the second canonical glance of the match.
+
+  Wayne Warden (administered baritone, the warmth ticked up
+  exactly one fraction — the only emotional movement he will
+  show in the entire trial):
+
+  > *"The Tribunal has not been outmatched in this chamber in
+  > nineteen years. The deck has answered. The Authority will
+  > consult and reconvene. You will be returned to holding."*
+
+  The Authority chorus (in unison, amber pulse surging):
+
+  > *"Recess. The deck remembers. The Tribunal withdraws."*
+
+  The two New Babylon guards approach the Engineer's chair.
+  The Engineer stands. Production must compose the shot so
+  the player sees the Engineer's face for the first time in
+  several minutes — he is not triumphant, he is *exhausted*.
+  The Engineer is escorted toward the chamber doors. As he
+  passes the bench, Wayne speaks once more, quietly, only to
+  him (the chorus does not speak; this line is Wayne's
+  private):
+
+  > *"You have until morning to decide what you want recorded.
+  > A microphone will be brought to your cell. Use it well."*
+
+  The Engineer nods once, does not respond, and is led out.
+  Cut to black.
+
+  *(The next thing the player sees is the matchup card for
+  the Cycle C finale slideshow* ***Last Words****, fired
+  immediately. The win-path framing is canonical: the
+  Engineer recorded* Last Words *in his cell overnight, in
+  privacy, because the Tribunal granted him the delay. His
+  recording is composed, deliberate, addressed to the entire
+  galaxy. The slideshow's win-path opening frame includes
+  the textual epigraph* "Recorded under recess, Tribunal
+  Cell 7, the night before sentence." *Per §17 the slideshow
+  itself does not branch on win/loss — only the opening
+  epigraph does.)*
+
+- **Loss (verdict passed, Engineer's recording is taken under
+  duress):** the verdict scroll fills. Wayne reaches for the
+  scroll, lifts it, and reads — eyes on the parchment, not
+  on the Engineer:
+
+  > *"The defendant is found guilty under all entered
+  > charges. Sentence: termination, by Authority protocol,
+  > to be carried out at first light. The deck has answered.
+  > The Tribunal records its decision."*
+
+  The Authority chorus (in unison, amber pulse surging
+  brighter than at any previous moment):
+
+  > *"Sentence. The deck has spoken. The Tribunal closes."*
+
+  Wayne removes his biretta cap, sets it on the bench, and
+  looks at the Engineer for the second canonical glance of
+  the match — the same glance as in the win path,
+  *identical in composition*, but the line that follows is
+  different. The warmth tick is absent. He is reading from
+  procedure:
+
+  > *"You will be granted a final recording before
+  > execution. Authority protocol. The microphone will be
+  > present in the chamber. You may speak for as long as
+  > the recording medium allows. Begin when ready."*
+
+  The two New Babylon guards approach the Engineer's chair
+  but do not lift him. A third figure — a Records Officer
+  in plain charcoal robes, no insignia — enters from a side
+  door carrying a small recording device on a tripod. The
+  device is set in front of the Engineer's chair. The
+  Records Officer steps back into shadow. The Engineer is
+  alone in the spotlight with the microphone. Cut to black.
+
+  *(The next thing the player sees is the matchup card for
+  the Cycle C finale slideshow* ***Last Words****, fired
+  immediately. The loss-path framing is canonical: the
+  Engineer recorded* Last Words *in the Tribunal chamber, in
+  full view of Wayne and the six elders, with the gallery
+  empty and the microphone only inches from his face. His
+  recording is more raw, more direct, addressed to one
+  specific listener. The slideshow's loss-path opening frame
+  includes the textual epigraph* "Recorded under sentence,
+  Tribunal Chamber, in the hour before execution." *Per §17
+  the slideshow content is identical between branches — the
+  only canonical difference is the opening epigraph and the
+  ambient room tone of the recording (cell-private vs.
+  chamber-public).)*
+
+**The "one specific listener" reading on the loss path** is
+canonically Vex Solène, whether the Engineer knew it or not.
+The recording survives in the Vortex wreckage that Vex
+recovers in Act 5 (per `CANON_REV_7_ORACLE_VEX_EXPANSION.md`
+§5 Log 5, the Engineer's recovered final monologue). Production
+should hold this reading in mind for the loss-path slideshow's
+direction notes (deferred to §17), but must not surface it in
+C4 itself — the player has not yet been given the framing
+that lets them read it that way.
+
+**Cross-references:**
+
+- §0.4 (general canon hygiene; this section adds the four C4-
+  specific rules above)
+- §1.1 (Master Index entry for C4 — Trial format, Wayne
+  Warden, Elara as evidence card, *The Last Word* unlock)
+- §2.0 (simulation framing — Wayne Warden is the canonical
+  *non-Archon adult tribunal figure*; the only Act 1
+  antagonist meaningfully older than the Engineer)
+- §2.1 (The Prince — the Engineer's voice profile and
+  silence discipline; he speaks only the six-word ritual
+  plea in C4)
+- §2.10 (Vernon Vortex — *The Standstill* card unlock from
+  C1, canonical counter to evidence card *"The Engineer
+  abandoned his post at Nexon"*; production must hand-author
+  the full counter-table per §15)
+- §2.12 (Warlord's Nano-Swarm — *The Friend I Saved* unlock,
+  in the Engineer's deck for C4 but **not the right card to
+  play here**; design intent is to reserve it for Act 3 F3
+  against Vex Solène)
+- §6 / §12 / §17 (Cycle finale slideshow specs — *Welcome to
+  Celebration*, *To Be the Human*, and *Last Words* respectively;
+  C4 resolves into §17 *Last Words* via *The Last Word* card
+  trigger or via the Year One Month 6 fallback)
+- §15 (Cycle C4 battle section — full Trial-format ruleset,
+  jury card list, twelve evidence cards with their thematic
+  counters, the verdict-scroll mechanic, the per-turn ink
+  accumulation rules; this section is the player-facing
+  visualization, §15 is the engineering spec)
+- §18 (Act 1 Finale — the post-*Last Words* "YOUR NAME"
+  Unwritten card pedestal interaction; C4 + *Last Words*
+  resolves into §18, closing Act 1)
+- §22.3 (Asset Delivery Checklist — *The Last Word* card art
+  prompt, Elara's evidence card art prompt with age-
+  regressed deposition booth reference, Wayne Warden
+  character portrait + bench composition reference, the six
+  crystal coffins array reference, the New Babylon Tribunal
+  chamber wide-shot reference)
+- §23.1 (Canon drift — `apps/shared/act1Opponents.ts` slot 12
+  is currently `the_authority` with a generic Tribunal
+  framing; per the §1.1 master index the C4 opponent is
+  `wayne_warden` with the institutional Authority chorus as
+  a backing voice channel rather than the named opponent.
+  The data shell needs a follow-up code PR to rename slot
+  12, add the chorus-reference field, and add the trial-
+  format flag distinguishing C4 from the standard duel
+  ruleset.)
+- Prelude Bible §2.2 (Elara voice profile — the canonical
+  source for the `elara` ElevenLabs spec that the C4
+  deposition recording age-regresses)
+- Prelude Bible §0.4 rule "the Bond-40 milestone" (the
+  canonical reference for Elara's Atarion public-servant
+  background; the C4 evidence card is the Act 1 surfacing of
+  that backstory, ahead of the Bond-40 reveal which lands
+  in Act 2+)
+- `CANON_REV_7_ORACLE_VEX_EXPANSION.md` §5 Log 5 (the
+  Engineer's recovered final monologue from the Vortex
+  wreckage — the canonical text of the *Last Words*
+  recording; loss-path framing implies the Tribunal-chamber
+  recording survived to be recovered, win-path framing
+  implies the cell-private recording was duplicated and
+  distributed before execution)
+
+---
+
