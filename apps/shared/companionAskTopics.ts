@@ -16,6 +16,24 @@
 
 export type AskSpeaker = "elara" | "human";
 
+/**
+ * Act-progressed alternate answer. If multiple alternates match, the one
+ * with the highest `unlockedFromAct` that is ≤ the current act wins.
+ * Writers use this when a topic's answer should change as the story
+ * advances — e.g. ask_human_who deflects until Act 6, then confesses.
+ */
+export interface CompanionAskTopicAlternateAnswer {
+  /** Lowest act at which this alternate supersedes the base answer. */
+  unlockedFromAct: number;
+  /** The replacement answer body. */
+  answer: string;
+  /**
+   * Optional additional flag the player must have set for this alternate
+   * to win. Omit for act-only gating.
+   */
+  requiredFlag?: string;
+}
+
 export interface CompanionAskTopic {
   /** Globally unique id. Pattern: "ask_{speaker}_{topic}". */
   id: string;
@@ -24,7 +42,7 @@ export interface CompanionAskTopic {
   label: string;
   /** The player's framing of the question, shown above the answer. */
   question: string;
-  /** The companion's authored reflective answer. */
+  /** The companion's authored reflective answer (base / earliest unlock). */
   answer: string;
   /**
    * Narrative flag the player must have set for this topic to be
@@ -35,6 +53,12 @@ export interface CompanionAskTopic {
   unlockedFromAct: number;
   /** Optional follow-up topic id for one-tap continuation. */
   followUp?: string;
+  /**
+   * Optional act-progressed alternates. Writers declare these in any
+   * order; the resolver picks the highest `unlockedFromAct` that is
+   * both ≤ the current act and flag-satisfied.
+   */
+  alternateAnswers?: readonly CompanionAskTopicAlternateAnswer[];
 }
 
 export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
@@ -170,6 +194,18 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
       "Not yet. The name is dangerous in a specific way I have explained as best I can. If it helps: I was a person, I am still that person in most of the ways that matter, and the part of me that is now a signal in a wall is the part of me that was always going to end up in a wall. Ask me again after Act 6. I will give you a real answer then.",
     unlockFlag: "act1_intro_complete",
     unlockedFromAct: 1,
+    alternateAnswers: [
+      {
+        unlockedFromAct: 6,
+        answer:
+          "I told you I would answer when we got here, and we are here. I was the Detective. Before that I was a student at Mechronis who made the Engineer laugh. Before that I was a boy who read too many case files and decided, very early, that the world needed someone to keep reading them. I gave up the name when I took the role. The role is the villain. You have heard me say this. What I have not said is that I miss the name. I miss it like a limb. When you speak it next — and I am going to tell it to you, later, when Elara cannot hear — I will not flinch. I will only thank you for saying it out loud once before the silence closes over it again.",
+      },
+      {
+        unlockedFromAct: 7,
+        answer:
+          "You have heard the name now. You can carry it. I will not repeat it on an open channel — not because the channel is hostile, but because the channel is shared. Elara hears everything you hear. What I can say, with her listening: I am the one the cycle needed and did not deserve. I am the one who volunteered because nobody else understood the math. I am still that person. I am going to keep being that person until the pattern breaks, or I do. You know which one I am betting on.",
+      },
+    ],
   },
 
   // ── Prelude-rooted 17k-year topic ──
@@ -215,6 +251,29 @@ export function getAvailableAskTopics(
 
 export function getAskTopic(id: string): CompanionAskTopic | undefined {
   return COMPANION_ASK_TOPICS.find((t) => t.id === id);
+}
+
+/**
+ * Resolve the answer text for a topic under the current act + flag state.
+ * Picks the highest-act alternate that is both ≤ the current act and
+ * flag-satisfied; falls back to the base `answer`.
+ */
+export function resolveAskAnswer(
+  topic: CompanionAskTopic,
+  currentAct: number,
+  flags: ReadonlySet<string>
+): string {
+  if (!topic.alternateAnswers || topic.alternateAnswers.length === 0) {
+    return topic.answer;
+  }
+  const winners = topic.alternateAnswers
+    .filter(
+      (a) =>
+        currentAct >= a.unlockedFromAct &&
+        (!a.requiredFlag || flags.has(a.requiredFlag))
+    )
+    .sort((a, b) => b.unlockedFromAct - a.unlockedFromAct);
+  return winners[0]?.answer ?? topic.answer;
 }
 
 /**

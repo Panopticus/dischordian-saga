@@ -3,6 +3,7 @@ import {
   COMPANION_ASK_TOPICS,
   getAvailableAskTopics,
   getAskTopic,
+  resolveAskAnswer,
   toAskWheelChoice,
 } from "./companionAskTopics";
 
@@ -62,6 +63,66 @@ describe("companionAskTopics", () => {
         `${t.id} followUp ${t.followUp} does not resolve`
       ).toBeDefined();
     }
+  });
+
+  it("authors every alternate answer with non-empty text and act >= base", () => {
+    for (const t of COMPANION_ASK_TOPICS) {
+      if (!t.alternateAnswers) continue;
+      for (const a of t.alternateAnswers) {
+        expect(
+          a.answer.trim().length,
+          `${t.id} alternate for act ${a.unlockedFromAct} is empty`
+        ).toBeGreaterThan(0);
+        expect(
+          a.unlockedFromAct,
+          `${t.id} alternate must gate above the base unlockedFromAct`
+        ).toBeGreaterThan(t.unlockedFromAct);
+      }
+      const acts = t.alternateAnswers.map((a) => a.unlockedFromAct);
+      expect(
+        new Set(acts).size,
+        `${t.id} has duplicate alternate act gates`
+      ).toBe(acts.length);
+    }
+  });
+});
+
+describe("resolveAskAnswer", () => {
+  it("returns the base answer when no alternates are declared", () => {
+    const topic = getAskTopic("ask_elara_substrate")!;
+    expect(resolveAskAnswer(topic, 7, new Set())).toBe(topic.answer);
+  });
+
+  it("returns the base answer before the earliest alternate unlocks", () => {
+    const topic = getAskTopic("ask_human_who")!;
+    expect(topic.alternateAnswers).toBeDefined();
+    const base = resolveAskAnswer(topic, 5, new Set(["act1_intro_complete"]));
+    expect(base).toBe(topic.answer);
+  });
+
+  it("picks the highest-act alternate that is ≤ current act", () => {
+    const topic = getAskTopic("ask_human_who")!;
+    const act6 = resolveAskAnswer(topic, 6, new Set());
+    const act7 = resolveAskAnswer(topic, 7, new Set());
+    expect(act6).not.toBe(topic.answer);
+    expect(act7).not.toBe(topic.answer);
+    expect(act6).not.toBe(act7);
+    // Act 7 alternate wins over Act 6 alternate once both are in range.
+    const act7Variant = topic.alternateAnswers!.find(
+      (a) => a.unlockedFromAct === 7
+    )!;
+    expect(act7).toBe(act7Variant.answer);
+  });
+
+  it("honors a requiredFlag on an alternate", () => {
+    const topic = {
+      ...getAskTopic("ask_human_who")!,
+      alternateAnswers: [
+        { unlockedFromAct: 6, answer: "gated", requiredFlag: "needs_it" },
+      ],
+    };
+    expect(resolveAskAnswer(topic, 7, new Set())).toBe(topic.answer);
+    expect(resolveAskAnswer(topic, 7, new Set(["needs_it"]))).toBe("gated");
   });
 });
 
