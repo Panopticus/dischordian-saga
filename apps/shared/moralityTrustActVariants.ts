@@ -1396,4 +1396,113 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "any",
     act: 6,
   },
+
+  /* ─── EXPANSION PASS 3c — journal pages + wheel followups ─── */
+  {
+    id: "journal_act1_humanity",
+    surface: "journal",
+    targetId: "journal_act1_page",
+    text:
+      "The Act 1 journal page is the first the Antiquarian opened for you. He hovered while you wrote the first line, then turned away on purpose. The turning-away was the permission. You wrote it anyway.",
+    morality: "humanity",
+    trust: "any",
+    act: 1,
+  },
+  {
+    id: "journal_act3_humanity",
+    surface: "journal",
+    targetId: "journal_act3_page",
+    text:
+      "The Act 3 journal page has three locked sub-pages. They unlock when you close them without writing. The locking-by-abstention is new. The Antiquarian is experimenting with you. He does not apologise for the experiment.",
+    morality: "humanity",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "journal_act3_machine",
+    surface: "journal",
+    targetId: "journal_act3_page",
+    text:
+      "The Act 3 journal page is structured: Substrate access, Kael logs, Path choice. Each subsection has a character count. You have written more under Path choice than anywhere else. The count is not a judgement. The count is data.",
+    morality: "machine",
+    trust: "any",
+    act: 3,
+  },
+  {
+    id: "wheel_followup_act2_almost_confess",
+    surface: "wheel_followup",
+    targetId: "act2_almost_confess",
+    text:
+      "You almost told Elara about the substrate. You did not quite. The 'almost' is logged separately from the 'did not' — a distinction the substrate preserves that human language usually loses. The Human respects the distinction. Elara has not seen it.",
+    morality: "humanity",
+    trust: "any",
+    act: 2,
+    requiredFlags: ["act2_partial_reveal"],
+  },
+  {
+    id: "wheel_followup_act2_lie",
+    surface: "wheel_followup",
+    targetId: "act2_lie",
+    text:
+      "You lied about the substrate. Elara accepted the lie as a sensor glitch. The acceptance was not belief — it was her choosing to grant you the benefit of the doubt once. The Human has logged that you now owe her one grant in return. The ledger is real. He did not create it — he only reads it.",
+    morality: "machine",
+    trust: "any",
+    act: 2,
+    requiredFlags: ["act2_lied"],
+  },
+  {
+    id: "wheel_followup_act3_pragmatic",
+    surface: "wheel_followup",
+    targetId: "act3_pragmatic",
+    text:
+      "You chose pragmatic. Not transparent, not secret — partial. The partiality is the most common human posture under uncertainty, and also the hardest to maintain honestly. Both narrators are watching how you keep the line. Neither has commented yet.",
+    morality: "any",
+    trust: "any",
+    act: 3,
+    requiredFlags: ["act3_partial_share"],
+  },
+  {
+    id: "wheel_followup_act5_humanity_first",
+    surface: "wheel_followup",
+    targetId: "act5_humanity_first",
+    text:
+      "You chose the Shattered Frontier first. Elara has added a flag to your profile she has not named. The flag is not evaluative — it is a marker she can reference later when she needs to remember who you were at this decision.",
+    morality: "humanity",
+    trust: "any",
+    act: 5,
+    requiredFlags: ["act5_path_humanity_first"],
+  },
+  {
+    id: "wheel_followup_act5_strength_first",
+    surface: "wheel_followup",
+    targetId: "act5_strength_first",
+    text:
+      "You chose warriors first. The Human approved in the substrate with a single frame of attention. Elara did not. The divergence in their reactions is not a problem — it is the most honest data you have ever received about where each of them stands when the stakes are practical.",
+    morality: "machine",
+    trust: "any",
+    act: 5,
+    requiredFlags: ["act5_path_strength_first"],
+  },
+  {
+    id: "wheel_followup_act7_see_the_pattern",
+    surface: "wheel_followup",
+    targetId: "act7_see_the_pattern",
+    text:
+      "You chose to see the pattern. Elara flagged concern without blocking. The Human flagged readiness without celebration. Both of them are correct. The concern and the readiness are the same signal, read from opposite sides of the same wall.",
+    morality: "machine",
+    trust: "any",
+    act: 7,
+    requiredFlags: ["act7_pattern_chosen"],
+  },
+  {
+    id: "wheel_followup_act7_take_command",
+    surface: "wheel_followup",
+    targetId: "act7_take_command",
+    text:
+      "You took command. Elara rerouted the tactical feed to your console without being asked. The Human opened a substrate channel to your neural pattern marked 'intelligence, as requested.' Both handovers happened within the same second. Neither coordinated. Both are correct.",
+    morality: "any",
+    trust: "any",
+    act: 7,
+    requiredFlags: ["act7_command_chosen"],
+  },
 ];
