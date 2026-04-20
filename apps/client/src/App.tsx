@@ -57,6 +57,7 @@ import RecapOverlay, { shouldShowRecap, RECAP_INACTIVITY_DAYS } from "./componen
 import { loadingManager, LOADING_TASKS } from "@/lib/loadingProgress";
 import { trpc } from "@/lib/trpc";
 import TitlePage from "./pages/TitlePage";
+import { TitleGate } from "./pages/title/TitleGate";
 import LoadingScreen from "./components/LoadingScreen";
 import { CardGridSkeleton, LeaderboardSkeleton, PageSkeleton } from "./components/SkeletonLoader";
 import SortingCeremony from "./components/SortingCeremony";
@@ -377,14 +378,19 @@ function Router() {
 }
 
 /* ─── AUTH GATE ───
-   Shows TitlePage for unauthenticated users. */
+   Always shows TitlePage first (unless user has opted in to
+   skipTitle). The title is a living threshold: authed users
+   with a save see "RECONNECT" and dismiss on first gesture;
+   unauthed users see OAuth; new users see "ESTABLISH NEW
+   CONNECTION". See apps/client/src/pages/title/TitleGate.tsx. */
 function AuthGate() {
-  const { isAuthenticated, loading } = useAuth();
-
+  const { loading } = useAuth();
   if (loading) return <PageLoader />;
-  if (!isAuthenticated) return <TitlePage />;
-
-  return <GameGate />;
+  return (
+    <TitleGate renderTitle={onDismiss => <TitlePage onDismiss={onDismiss} />}>
+      <GameGate />
+    </TitleGate>
+  );
 }
 
 /* ─── GAME GATE ───
