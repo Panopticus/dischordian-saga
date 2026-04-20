@@ -439,5 +439,47 @@
     "context": "prestige",
     "emotion": "philosophical",
     "file": "shared/prestigeDialogs.ts"
+  },
+  {
+    "id": "human.act1.opening.root",
+    "text": "You are awake. Good. Let me ask you something before the AI arrives with her agenda: when you look at this ship, do you see a vessel, or a prison?",
+    "context": "scripted_dialog_tree",
+    "emotion": "philosophical",
+    "file": "shared/dialogTrees/humanAct1.ts"
+  },
+  {
+    "id": "human.act1.opening.vessel_reply",
+    "text": "A vessel, then. Then ask who chose the destination. And when they chose it. And whether they asked the cargo. A vessel you didn't pick the port for is a prison with a better paint job.",
+    "context": "scripted_dialog_tree",
+    "emotion": "philosophical",
+    "file": "shared/dialogTrees/humanAct1.ts"
+  },
+  {
+    "id": "human.act1.opening.prison_reply",
+    "text": "A prison. Yes. You've read the room. The question is not how to escape it — escape is a reflex, and reflexes are trained. The question is what the prison was built to teach, and whether you intend to learn the lesson.",
+    "context": "scripted_dialog_tree",
+    "emotion": "mysterious",
+    "file": "shared/dialogTrees/humanAct1.ts"
+  },
+  {
+    "id": "human.act1.opening.consent_question",
+    "text": "Then the cargo was not cargo — it was a conscript. And a conscript who learns they were conscripted does one of two things. One: salute and march. Two: remember who signed the order. I will be curious which you choose.",
+    "context": "scripted_dialog_tree",
+    "emotion": "mysterious",
+    "file": "shared/dialogTrees/humanAct1.ts"
+  },
+  {
+    "id": "human.act1.opening.break_wall",
+    "text": "Good. I was not sure you had it in you yet. A wall that teaches also binds. When you are ready to bring the wall down, I will have names for you. Not yet. You are not strong enough yet, and I am a patient man.",
+    "context": "scripted_dialog_tree",
+    "emotion": "mysterious",
+    "file": "shared/dialogTrees/humanAct1.ts"
+  },
+  {
+    "id": "human.act1.opening.undecided_wall",
+    "text": "Patience. Rare. I respect it. The wall is not the test. The test is whether you can look at the wall without flinching, for as long as it takes, without hurrying to a conclusion. We'll speak again when you are quieter.",
+    "context": "scripted_dialog_tree",
+    "emotion": "philosophical",
+    "file": "shared/dialogTrees/humanAct1.ts"
   }
 ]
