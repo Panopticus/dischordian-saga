@@ -19,6 +19,37 @@ export interface CircuitPlayerClone {
 }
 
 /**
+ * §G.11.1 reconciliation — the TS-side `ClonePrototype` shape
+ * (apps/shared/deadMansCircuit.ts) uses `_pct` suffixed field names
+ * (velocity_ceiling_pct, surface_grip_pct), but the Godot-side
+ * WebBridge dev_mode_config and the crewDmcBridge output both use
+ * the bare names (velocity_ceiling, surface_grip). This converter
+ * is the single place that bridges the two so the CONFIG post can
+ * always ship the Godot-expected shape regardless of which source
+ * produced the prototype.
+ */
+export function normalizeToCircuitPlayerClone(
+  src: {
+    neural_sync: number;
+    physical_integrity: number;
+    survival_instinct: number;
+    velocity_ceiling?: number;
+    velocity_ceiling_pct?: number;
+    surface_grip?: number;
+    surface_grip_pct?: number;
+  },
+): CircuitPlayerClone {
+  return {
+    neural_sync: src.neural_sync,
+    physical_integrity: src.physical_integrity,
+    velocity_ceiling:
+      src.velocity_ceiling ?? src.velocity_ceiling_pct ?? 100,
+    surface_grip: src.surface_grip ?? src.surface_grip_pct ?? 65,
+    survival_instinct: src.survival_instinct,
+  };
+}
+
+/**
  * Apply suit bonuses on top of a baseline player_clone. Caller passes
  * the baseline (from character creation / current run state) and gets
  * back the merged stats ready to post into CIRCUIT_CONFIG.
