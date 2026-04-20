@@ -228,6 +228,17 @@ export const elaraRouter = router({
       // Add current message
       messages.push({ role: "user", content: sanitizedMessage });
 
+      // Step 5: LLM path is off by default. Companion Hub now runs
+      // scripted dialog trees (apps/shared/dialogTrees/*.ts). Opt-in
+      // for local experimentation with `ELARA_LLM=on`.
+      if (process.env.ELARA_LLM !== "on") {
+        return {
+          message:
+            "Free-form chat is offline. Use the scripted choice list to continue.",
+          choices: DIALOG_CHOICES.greeting,
+        };
+      }
+
       try {
         const response = await invokeLLM({ messages });
         const content = typeof response.choices[0]?.message?.content === "string"

@@ -404,6 +404,22 @@ export const companionRouter = router({
       }
       messages.push({ role: "user", content: input.message });
 
+      // Step 5: LLM path is off by default. Scripted dialog trees in
+      // apps/shared/dialogTrees/humanAct1.ts run instead. Opt-in for
+      // local experimentation with `ELARA_LLM=on`.
+      if (process.env.ELARA_LLM !== "on") {
+        const choices = getHumanFollowupChoices(
+          input.category || "lore",
+          input.relationshipLevel,
+        );
+        return {
+          message:
+            "[The Human is listening but not speaking freely.] Use the scripted choice list to continue.",
+          choices,
+          relationshipGain: 0,
+        };
+      }
+
       try {
         const response = await invokeLLM({ messages });
         const content = typeof response.choices[0]?.message?.content === "string"
@@ -533,6 +549,17 @@ export const companionRouter = router({
         messages.push({ role: msg.role, content: msg.content });
       }
       messages.push({ role: "user", content: input.message });
+
+      // Step 5: LLM path is off by default. Scripted dialog trees in
+      // apps/shared/dialogTrees/elaraAct1.ts run instead. Opt-in for
+      // local experimentation with `ELARA_LLM=on`.
+      if (process.env.ELARA_LLM !== "on") {
+        return {
+          message:
+            "[Elara is listening but not speaking freely.] Use the scripted choice list to continue.",
+          relationshipGain: 0,
+        };
+      }
 
       try {
         const response = await invokeLLM({ messages });
