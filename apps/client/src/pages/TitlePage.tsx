@@ -3,15 +3,55 @@
  * Shown to unauthenticated users. CRT sci-fi aesthetic
  * with Google sign-in. First thing anyone sees.
  */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getGoogleLoginUrl, getDiscordLoginUrl, getGitHubLoginUrl } from "@/const";
 import { KineticText } from "@/components/void";
+
+const OPENING_MUSIC_SRC = "/audio/music/main-menu/the-enigmas-lament.mp3";
 
 export default function TitlePage() {
   const [glitchText, setGlitchText] = useState(false);
   const [showSubtitle, setShowSubtitle] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [scanlineOffset, setScanlineOffset] = useState(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Opening music — try autoplay; if blocked by browser policy,
+  // start on the first user interaction anywhere on the page.
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.volume = 0.35;
+
+    let started = false;
+    const start = () => {
+      if (started) return;
+      const p = audio.play();
+      if (p && typeof p.then === "function") {
+        p.then(() => { started = true; }).catch(() => { /* will retry on next gesture */ });
+      } else {
+        started = true;
+      }
+    };
+
+    start();
+
+    const onGesture = () => {
+      start();
+      if (started) {
+        window.removeEventListener("pointerdown", onGesture);
+        window.removeEventListener("keydown", onGesture);
+      }
+    };
+    window.addEventListener("pointerdown", onGesture);
+    window.addEventListener("keydown", onGesture);
+
+    return () => {
+      window.removeEventListener("pointerdown", onGesture);
+      window.removeEventListener("keydown", onGesture);
+      audio.pause();
+    };
+  }, []);
 
   useEffect(() => {
     // Stagger the reveal
@@ -62,6 +102,13 @@ export default function TitlePage() {
         zIndex: 9999,
       }}
     >
+      <audio
+        ref={audioRef}
+        src={OPENING_MUSIC_SRC}
+        loop
+        preload="auto"
+        autoPlay
+      />
       {/* Background image */}
       <div
         style={{
