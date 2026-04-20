@@ -124,6 +124,10 @@ export interface GameState {
   totalRoomsUnlocked: number;
   totalItemsFound: number;
   narrativeFlags: Record<string, boolean>;
+  /** Section F — Clue Journal entries keyed by Clue.id. Flat list ordered by arrival. */
+  clueJournal: import("@shared/cryoBayMystery").Clue[];
+  /** Section F — inventory items the player has collected in the Cryo Bay mystery scene. */
+  mysteryInventory: import("@shared/cryoBayMystery").CryoMysteryInventoryId[];
   claimedQuestRewards: string[];   // Quest IDs whose rewards have been claimed
   completedGames: string[];       // CoNexus game IDs the player has completed
   loreAchievements: string[];     // Lore achievement IDs earned
@@ -367,6 +371,15 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "door-bridge", name: "Bridge Access", description: "A corridor leading up to Deck 2 — the Command deck.", x: 2, y: 20, width: 10, height: 50, type: "door", action: "bridge" },
       { id: "data-crystal", name: "Data Crystal", description: "A glowing crystal wedged under a pod. It contains encrypted data.", x: 55, y: 70, width: 8, height: 10, type: "item", action: "data-crystal-alpha", elaraDialog: "A data crystal! These were used by the first wave to store personal logs. This one might contain information about what happened after they woke up." },
       { id: "egg-cryo-scratch", name: "Scratched Symbol", description: "Barely visible scratch marks on the wall behind a pod.", x: 82, y: 72, width: 4, height: 5, type: "examine", elaraDialog: "Wait... those scratch marks. They form a symbol — the mark of the Antiquarian. But that's impossible. The Antiquarian is a myth, a figure from the deepest layers of the prophecy. Who carved this here, and when? This predates our launch." },
+      // Section F — Cryo Bay mystery hotspots. Each fires through the
+      // cryo-mystery hotspot-handler branch in ArkExplorerPage which
+      // resolves the Look response via resolveVerbResponse().
+      { id: "dead-pod", name: "Dark Cryo Pod", description: "A pod whose status indicator is cold-blue instead of warm-gold. Something is in there.", x: 58, y: 35, width: 12, height: 30, type: "interact", action: "cryo-mystery:dead-pod" },
+      { id: "cracked-panel", name: "Cracked Control Panel", description: "The dark pod's control panel is split along a hairline seam. Sabotage?", x: 58, y: 65, width: 12, height: 8, type: "interact", action: "cryo-mystery:cracked-panel" },
+      { id: "medical-chart", name: "Medical Chart", description: "A printed medical chart magnet-clipped to the dark pod.", x: 62, y: 42, width: 6, height: 8, type: "interact", action: "cryo-mystery:medical-chart" },
+      { id: "frosted-glass", name: "Frosted Pod Glass", description: "Wipe the frost — see who's inside.", x: 60, y: 40, width: 8, height: 12, type: "interact", action: "cryo-mystery:frosted-glass" },
+      { id: "personal-effect", name: "Fallen Locket", description: "Something small has fallen under the pod housing.", x: 64, y: 72, width: 4, height: 5, type: "interact", action: "cryo-mystery:personal-effect" },
+      { id: "data-slate", name: "Hidden Data Slate", description: "The edge of a data-slate peeks out from under the pod.", x: 54, y: 74, width: 6, height: 4, type: "interact", action: "cryo-mystery:data-slate" },
     ],
   },
   {
@@ -380,7 +393,10 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_medical_bay-gLunh6wxp8sNASjZDo5FpV.webp",
     features: ["Citizen Stats", "Upgrades", "Dream Balance"],
     featureRoutes: ["/character-sheet"],
-    unlockRequirement: { type: "room_visited", value: "cryo-bay" },
+    // Section F — Med Bay is sealed until the player has logged their
+    // first cryo-mystery clue. A single Look at any investigative
+    // hotspot flips cryo_mystery_first_clue_found and the door opens.
+    unlockRequirement: { type: "narrative_event", value: "cryo_mystery_first_clue_found" },
     connections: ["cryo-bay"],
     hotspots: [
       { id: "bio-bed", name: "Bio-Bed Scanner", description: "An advanced diagnostic bed with holographic readouts showing your current stats.", x: 40, y: 40, width: 20, height: 30, type: "terminal", action: "/character-sheet", elaraDialog: "The bio-bed can give you a full diagnostic. Your stats, your Dream resonance levels, your cellular integrity. Step on and I'll run a scan." },
@@ -962,6 +978,8 @@ const DEFAULT_GAME_STATE: GameState = {
   totalRoomsUnlocked: 0,
   totalItemsFound: 0,
   narrativeFlags: {},
+  clueJournal: [],
+  mysteryInventory: [],
   claimedQuestRewards: [],
   completedGames: [],
   loreAchievements: [],
@@ -1123,6 +1141,11 @@ interface GameContextValue {
   setActiveDeck: (cardIds: string[]) => void;
   // Narrative flags
   setNarrativeFlag: (flag: string, value?: boolean) => void;
+  // Section F — Cryo Bay mystery
+  logClue: (clue: import("@shared/cryoBayMystery").Clue) => void;
+  grantMysteryItem: (
+    itemId: import("@shared/cryoBayMystery").CryoMysteryInventoryId,
+  ) => void;
   // Quest rewards
   claimQuestReward: (questId: string) => void;
   // Morality meter
@@ -1863,6 +1886,38 @@ export function GameProvider({ children }: { children: ReactNode }) {
       narrativeFlags: { ...prev.narrativeFlags, [flag]: value },
     }));
   }, []);
+
+  /* ─── Section F — Cryo Bay mystery actions ─── */
+
+  const logClue = useCallback((clue: import("@shared/cryoBayMystery").Clue) => {
+    setState(prev => {
+      // Idempotent: re-logging the same clue is a no-op.
+      if (prev.clueJournal.some(c => c.id === clue.id)) return prev;
+      const nextFlags = { ...prev.narrativeFlags };
+      // First clue of any kind unlocks the Clue Journal row (§E).
+      if (prev.clueJournal.length === 0) {
+        nextFlags["sheet_known_clues"] = true;
+      }
+      return {
+        ...prev,
+        clueJournal: [...prev.clueJournal, clue],
+        narrativeFlags: nextFlags,
+      };
+    });
+  }, []);
+
+  const grantMysteryItem = useCallback(
+    (itemId: import("@shared/cryoBayMystery").CryoMysteryInventoryId) => {
+      setState(prev => {
+        if (prev.mysteryInventory.includes(itemId)) return prev;
+        return {
+          ...prev,
+          mysteryInventory: [...prev.mysteryInventory, itemId],
+        };
+      });
+    },
+    [],
+  );
 
   /* ─── Wave 2 narrative setters ─── */
 
@@ -2985,6 +3040,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
       collectCard,
       setActiveDeck,
       setNarrativeFlag,
+      logClue,
+      grantMysteryItem,
       claimQuestReward,
       shiftMorality,
       getMoralityLabel,

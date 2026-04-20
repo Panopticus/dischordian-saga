@@ -55,6 +55,10 @@ import {
   toNarratorRoomId,
 } from "@shared/mobileNarrator";
 import { isRoomUnlocked as isPreludeRoomUnlocked } from "@shared/preludeRoomGate";
+import {
+  resolveVerbResponse,
+  type CryoMysteryHotspotId,
+} from "@shared/cryoBayMystery";
 import LoreTutorialEngine from "@/components/LoreTutorialEngine";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
 import InlineShipMap from "@/components/InlineShipMap";
@@ -532,6 +536,7 @@ export default function ArkExplorerPage() {
     setNarrativeFlag, isTutorialCompleted, completeTutorial, shiftMorality, collectCard,
     adjustNpcTrust, discoverNpc, adjustHumanTrust, adjustElaraTrust,
     incrementNpcConversation, revealNpcSecret, setNpcCallback,
+    logClue, grantMysteryItem,
   } = useGame();
   const { discoverEntry } = useGamification();
   const { setRoomAmbience, playSFX, initAudio, audioReady } = useSound();
@@ -1124,6 +1129,36 @@ export default function ArkExplorerPage() {
             if (audioReady) playSFX("terminal_access");
             if (hotspot.elaraDialog) setElaraText(hotspot.elaraDialog);
             setShowDnaDeviceOffer(true);
+          }
+          break;
+        }
+        // Section F — Cryo Bay mystery hotspots. `cryo-mystery:<id>` is
+        // resolved against the verb × hotspot matrix in
+        // apps/shared/cryoBayMystery.ts. Default verb is Look (the
+        // verb-coin UI lands with the PointAndClickScene follow-up).
+        if (hotspot.action?.startsWith("cryo-mystery:")) {
+          const hotspotId = hotspot.action.slice("cryo-mystery:".length);
+          const mystery = resolveVerbResponse(
+            "look",
+            hotspotId as CryoMysteryHotspotId,
+          );
+          if (!mystery) {
+            setElaraText("Nothing reveals itself here.");
+            break;
+          }
+          if (audioReady) playSFX("dialog_open");
+          setElaraText(mystery.narration);
+          if (mystery.logsClue) logClue(mystery.logsClue);
+          if (mystery.grantsInventory) grantMysteryItem(mystery.grantsInventory);
+          if (mystery.setsFlag) setNarrativeFlag(mystery.setsFlag);
+          if (mystery.unlocksExit === "medical-bay") {
+            // The unlockRequirement change on medical-bay handles the
+            // actual room gating; nudge the player with a notification.
+            notify(
+              "room-unlock",
+              "MEDICAL BAY UNSEALED",
+              "The bulkhead has accepted your case file. The Med Bay is open.",
+            );
           }
           break;
         }
