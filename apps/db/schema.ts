@@ -628,6 +628,16 @@ export const dreamBalance = mysqlTable("dream_balance", {
   totalGemsPurchased: int("totalGemsPurchased").notNull().default(0),
   /** Total Dream ever earned (for milestones) */
   totalDreamEarned: int("totalDreamEarned").notNull().default(0),
+  /**
+   * Hidden Game-Master difficulty scalar — each +1 represents one
+   * irreversible cost-paying decision the operative has made (the
+   * Med Bay DNA donation is the first source; more beats will add
+   * points as they come online). Read by
+   * apps/shared/tcg-core/story/encounter.ts at match init and
+   * translated into small boss-side startingBonuses. Never surfaced
+   * to the player — the sting shows up only in how fights feel.
+   */
+  difficultyModifier: int("difficultyModifier").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({

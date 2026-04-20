@@ -5,17 +5,17 @@
    hotspot) offers the operative a DNA sample in exchange
    for a piece of loadout that fits who they are. The
    decision is logged; a refusal costs nothing; a donation
-   grants a reward AND raises a hidden difficulty counter
-   that Game Masters read at encounter init (see §Step 7 —
-   difficultyModifier, currently stashed on narrativeFlags).
+   grants a reward AND raises a hidden Game-Master
+   difficulty counter (dreamBalance.difficultyModifier)
+   that encounter.ts reads at match init.
    ═══════════════════════════════════════════════════════ */
 
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { eq, and } from "drizzle-orm";
+import { eq, and, sql } from "drizzle-orm";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { citizenCharacters, userProgress } from "../../db/schema";
+import { citizenCharacters, dreamBalance, userProgress } from "../../db/schema";
 import { logger } from "../logger";
 import {
   rollEarnedReward,
@@ -153,26 +153,38 @@ export const medbayRouter = router({
         .set({ gear: nextGear })
         .where(eq(citizenCharacters.id, character.id));
 
-      // Hidden cost — stash the donation count on narrativeFlags until
-      // Step 7 adds a typed column. Readers: encounter init code should
-      // prefer the typed column when it lands.
-      const donationCountKey = "donated_dna_sample_count";
-      const currentCount =
-        typeof gd[donationCountKey] === "number" ? (gd[donationCountKey] as number) : 0;
-      const nextGd: Record<string, unknown> = {
-        ...gd,
-        [donationCountKey]: currentCount + 1,
-      };
+      // Hidden cost — increment the typed difficultyModifier column on
+      // dreamBalance. Ensures one row exists first (createCharacter
+      // usually seeds it, but an orphan session shouldn't crash).
+      const [existingDream] = await db
+        .select()
+        .from(dreamBalance)
+        .where(eq(dreamBalance.userId, ctx.user.id))
+        .limit(1);
+      if (!existingDream) {
+        await db.insert(dreamBalance).values({
+          userId: ctx.user.id,
+          difficultyModifier: 1,
+        });
+      } else {
+        await db
+          .update(dreamBalance)
+          .set({
+            difficultyModifier: sql`${dreamBalance.difficultyModifier} + 1`,
+          })
+          .where(eq(dreamBalance.userId, ctx.user.id));
+      }
+
       const nextFlags = { ...flags, [FLAG_DONATED]: true };
       if (progressId == null) {
         await db.insert(userProgress).values({
           userId: ctx.user.id,
-          gameData: { ...nextGd, narrativeFlags: nextFlags } as Record<string, unknown>,
+          gameData: { narrativeFlags: nextFlags } as Record<string, unknown>,
         });
       } else {
         await db
           .update(userProgress)
-          .set({ gameData: { ...nextGd, narrativeFlags: nextFlags } })
+          .set({ gameData: { ...gd, narrativeFlags: nextFlags } })
           .where(eq(userProgress.id, progressId));
       }
 
