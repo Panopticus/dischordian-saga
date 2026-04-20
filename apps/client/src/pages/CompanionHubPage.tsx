@@ -1196,33 +1196,15 @@ function CompanionChatTab({
           </div>
         )}
 
-        {/* Input */}
-        <form onSubmit={handleSubmit} className={`p-3 border-t ${accentBorder} bg-card/20`}>
-          <div className="flex items-center gap-2">
-            <input
-              ref={inputRef}
-              type="text"
-              value={inputText}
-              onChange={e => setInputText(e.target.value)}
-              placeholder={isElara ? "Ask Elara anything..." : level >= 50 ? "Talk to The Human..." : "Send encrypted message..."}
-              className="flex-1 bg-transparent border-none outline-none font-mono text-xs text-foreground placeholder:text-muted-foreground/30"
-              disabled={isTyping}
-            />
-            <button
-              type="submit"
-              disabled={!inputText.trim() || isTyping}
-              className={`p-2 rounded transition-all ${
-                inputText.trim() && !isTyping
-                  ? isElara
-                    ? "void-text-energy void-bg-success"
-                    : "void-text-error void-bg-error"
-                  : "text-muted-foreground/20"
-              }`}
-            >
-              {isTyping ? <Loader2 size={14} className="animate-spin" /> : <Send size={14} />}
-            </button>
-          </div>
-        </form>
+        {/* Scripted-mode notice — the free-text input has been
+            replaced by the choice buttons above (plan §Step 5).
+            The companion is listening, but speaks only through
+            the scripted dialog tree. */}
+        <div className={`p-3 border-t ${accentBorder} bg-card/10`}>
+          <p className="font-mono text-[10px] text-muted-foreground/50 text-center tracking-wider">
+            SCRIPTED DIALOG · USE A CHOICE ABOVE TO CONTINUE
+          </p>
+        </div>
       </div>
     </motion.div>
   );

@@ -3,12 +3,27 @@ import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { trackCraftAction, trackDisenchant, trackCollectionSize } from "../achievementTracker";
-import { cards, userCards, craftingLog, disenchantLog, dreamBalance, userProgress } from "../../db/schema";
+import { cards, userCards, craftingLog, disenchantLog, dreamBalance, userProgress, citizenCharacters } from "../../db/schema";
 import { eq, and, sql, desc, inArray } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveCraftingBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
 import { getConsequences } from "../services/universeConsequences";
 import { checkFeatureFlag } from "../middleware/featureFlag";
+import { TRPCError } from "@trpc/server";
+import {
+  getRecipe,
+  type SuitRecipeId,
+} from "../../shared/suitRecipes";
+import {
+  isSchematicEligibleForOperative,
+  SCHEMATICS,
+  type OperativeIdentity,
+} from "../../shared/schematics";
+import type { ClassKey, ElementKey } from "../../shared/earnedLoadouts";
+import type {
+  FoundationKey,
+  StarterSpecies,
+} from "../../shared/starterLoadout";
 
 // ═══════════════════════════════════════════════════════
 // CRAFTING RECIPES
@@ -999,5 +1014,116 @@ export const craftingRouter = router({
       }
 
       return { success: true, materials };
+    }),
+
+  /**
+   * §G.9 bench mutation — attempt to craft a suit recipe. Validates
+   * the recipe id against the canonical registry, checks that the
+   * operative is schematic-eligible for the set (creation-choice
+   * gate per §G.7), rolls success against the recipe's base
+   * percentage, and on success writes the piece into
+   * citizenCharacters.gear keyed by slot.
+   *
+   * Material deduction awaits the suit-materials inventory system
+   * (not yet on schema). This mutation is the load-bearing wire;
+   * the material check drops in once the inventory lands.
+   */
+  attemptSuitCraft: protectedProcedure
+    .input(z.object({ recipeId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Database unavailable",
+        });
+      }
+
+      let recipe: ReturnType<typeof getRecipe>;
+      try {
+        recipe = getRecipe(input.recipeId as SuitRecipeId);
+      } catch {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Unknown suit recipe id.",
+        });
+      }
+
+      const [character] = await db
+        .select()
+        .from(citizenCharacters)
+        .where(
+          and(
+            eq(citizenCharacters.userId, ctx.user.id),
+            eq(citizenCharacters.isPrimary, 1),
+          ),
+        )
+        .limit(1);
+      if (!character) {
+        throw new TRPCError({
+          code: "PRECONDITION_FAILED",
+          message: "Create a Citizen before crafting.",
+        });
+      }
+
+      // §G.7 eligibility gate — creation-choice axes must line up.
+      const operative: OperativeIdentity = {
+        species: character.species as StarterSpecies,
+        characterClass: character.characterClass as ClassKey,
+        element: character.element as ElementKey,
+        foundation: (character.foundation ?? "humanity") as FoundationKey,
+      };
+      const schematic = SCHEMATICS.find((s) => s.setId === recipe.setId);
+      if (!schematic || !isSchematicEligibleForOperative(schematic, operative)) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: `This operative cannot craft the ${recipe.setId} set.`,
+        });
+      }
+
+      // Material deduction is deferred until the suit-materials
+      // inventory lands. Until then, the mutation grants-or-denies
+      // based on the recipe's baseSuccessPct alone.
+
+      const roll = Math.random() * 100;
+      const succeeded = roll < recipe.baseSuccessPct;
+
+      if (!succeeded) {
+        // Plan §G.9 failure state: partial refund + "Ruined Draft."
+        // Persist nothing (no materials system yet); surface a tag the
+        // client can toast.
+        return {
+          success: false as const,
+          recipeId: recipe.id,
+          outcome: "ruined_draft" as const,
+        };
+      }
+
+      const currentGear = (character.gear as Record<string, unknown>) ?? {};
+      const pieceId = `${recipe.setId}:${recipe.rarity}:${recipe.slot}`;
+      const nextGear: Record<string, unknown> = {
+        ...currentGear,
+        [recipe.slot]: {
+          id: pieceId,
+          setId: recipe.setId,
+          rarity: recipe.rarity,
+          slot: recipe.slot,
+          source: "crafted",
+        },
+      };
+      await db
+        .update(citizenCharacters)
+        .set({ gear: nextGear })
+        .where(eq(citizenCharacters.id, character.id));
+
+      logger.info(
+        `[suit-craft] ${ctx.user.id} crafted ${pieceId} (roll ${roll.toFixed(2)}/${recipe.baseSuccessPct})`,
+      );
+
+      return {
+        success: true as const,
+        recipeId: recipe.id,
+        piece: { id: pieceId, setId: recipe.setId, rarity: recipe.rarity, slot: recipe.slot },
+      };
     }),
 });

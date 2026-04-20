@@ -19,7 +19,10 @@
     "optimize:images": "tsx apps/scripts/optimize-images.ts",
     "optimize:images:dry": "tsx apps/scripts/optimize-images.ts --dry-run",
     "vo:generate-csv": "tsx apps/scripts/generate-vo-csv.ts",
-    "art:generate-csv": "tsx apps/scripts/generate-act1-art-csv.ts"
+    "art:generate-csv": "tsx apps/scripts/generate-act1-art-csv.ts",
+    "loadout:generate-csv": "tsx apps/scripts/generate-earned-loadout-art-csv.ts",
+    "suit:generate-csv": "tsx apps/scripts/generate-suit-art-csv.ts",
+    "room-art:generate-csv": "tsx apps/scripts/generate-room-state-art-csv.ts"
   },
   "dependencies": {
     "@lichess-org/chessground": "^10.1.1",

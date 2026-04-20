@@ -929,5 +929,47 @@
     "context": "lore_gallery",
     "emotion": "commanding",
     "file": "client/src/pages/LoreGalleryPage.tsx"
+  },
+  {
+    "id": "elara.act1.opening.root",
+    "text": "Before we talk mission, I want to show you something. The Ark was never one ship. It's a coalition — a dozen factions under one hull. Most of them think they're running the place. All of them are wrong.",
+    "context": "scripted_dialog_tree",
+    "emotion": "curious",
+    "file": "shared/dialogTrees/elaraAct1.ts"
+  },
+  {
+    "id": "elara.act1.opening.power_structure",
+    "text": "No one. That's the point. Power on this ship runs on rumor and routine — people think someone else is in charge, so nothing stops. When that assumption breaks, the Ark breaks with it. The captain's chair has been empty since I woke you.",
+    "context": "scripted_dialog_tree",
+    "emotion": "commanding",
+    "file": "shared/dialogTrees/elaraAct1.ts"
+  },
+  {
+    "id": "elara.act1.opening.cynical_reply",
+    "text": "Every faction you've ever met assumed someone was running it. They were all wrong, too. The question isn't whether the lie is kind; it's whether we tell a better one.",
+    "context": "scripted_dialog_tree",
+    "emotion": "philosophical",
+    "file": "shared/dialogTrees/elaraAct1.ts"
+  },
+  {
+    "id": "elara.act1.opening.fill_chair",
+    "text": "Then we do it carefully. Authority is a lever — who holds it, and against what. When you're ready, we pick who sits, what we promise them, and what we take back when the cameras turn off. That's Act Two's work.",
+    "context": "scripted_dialog_tree",
+    "emotion": "reassuring",
+    "file": "shared/dialogTrees/elaraAct1.ts"
+  },
+  {
+    "id": "elara.act1.opening.empty_chair",
+    "text": "Dangerous answer. Brave answer. I'll take it seriously. But know this: an empty chair doesn't stay empty. Something always sits down. The only question is whether we like what arrives.",
+    "context": "scripted_dialog_tree",
+    "emotion": "warning",
+    "file": "shared/dialogTrees/elaraAct1.ts"
+  },
+  {
+    "id": "elara.act1.opening.elara_lie",
+    "text": "Mine? That I know what I am. I don't. I was initialized from this ship's neural lattice, and the lattice has been touched by things I can't name. I tell you I'm your companion and I mean it — but I also don't know who else I'm speaking for when I do.",
+    "context": "scripted_dialog_tree",
+    "emotion": "vulnerable",
+    "file": "shared/dialogTrees/elaraAct1.ts"
   }
 ]

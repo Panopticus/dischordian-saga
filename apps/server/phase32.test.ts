@@ -197,7 +197,9 @@ describe("Command Console", () => {
   });
 
   it("should include system unlock status hook", () => {
-    expect(src).toContain("useSystemUnlockStatus");
+    // Renamed to useSystemKnown in Step 4 (progressive disclosure) —
+    // same responsibility, flag-driven instead of room-unlock-driven.
+    expect(src).toContain("useSystemKnown");
   });
 
   it("should include mobile bottom navigation", () => {

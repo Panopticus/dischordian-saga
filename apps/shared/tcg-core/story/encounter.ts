@@ -145,6 +145,27 @@ export interface EncounterInit {
   playerGeneralDefId: string;
   playerDeckCardDefIds: readonly string[];
   registry: CardRegistry;
+  /**
+   * Hidden Game-Master difficulty scalar — sourced from
+   * dreamBalance.difficultyModifier (see §Step 7). Each +1 point
+   * nudges the boss a little bit harder. Clamped in
+   * computeBossDifficultyBonuses() so a single source cannot
+   * distort the match beyond recognition.
+   */
+  difficultyModifier?: number;
+  /**
+   * Player-side pre-match bonuses (plan §G.11). Call
+   * toTcgPreMatchModifiers(passiveBonuses) and pass the result;
+   * adapter output is already clamped to the engine's
+   * startingBonuses limits so no further validation is needed.
+   */
+  preMatchModifiers?: {
+    extraCards?: number;
+    extraMana?: number;
+    extraGeneralHp?: number;
+    /** Previewed but not wired into the reducer yet — reserved. */
+    canForesee?: boolean;
+  };
 }
 
 export interface EncounterState {
@@ -153,22 +174,65 @@ export interface EncounterState {
 }
 
 /**
+ * Translate the hidden difficulty scalar into the safe, clamped
+ * startingBonuses already supported by the engine's createMatchState.
+ * Design intent (plan §Step 7): deltas small, stings without
+ * wrecking balance.
+ *   +1 HP per point (capped at +10 — same as engine clamp)
+ *   +1 starting card per 3 points (capped at +2 — same as engine clamp)
+ * Defensively clamps negative or NaN inputs to 0.
+ */
+export function computeBossDifficultyBonuses(difficultyModifier: number): {
+  extraGeneralHp: number;
+  extraCards: number;
+} {
+  const dm =
+    Number.isFinite(difficultyModifier) && difficultyModifier > 0
+      ? Math.floor(difficultyModifier)
+      : 0;
+  return {
+    extraGeneralHp: Math.min(10, dm),
+    extraCards: Math.min(2, Math.floor(dm / 3)),
+  };
+}
+
+/**
  * Initialize a story encounter. Returns a GameState in mulligan phase
  * ready for the player to interact with.
  */
 export function initEncounter(input: EncounterInit): EncounterState {
   const { encounter, registry } = input;
+  const pre = input.preMatchModifiers;
+  const playerBonuses =
+    pre && (pre.extraCards || pre.extraMana || pre.extraGeneralHp)
+      ? {
+          extraCards: pre.extraCards,
+          extraMana: pre.extraMana,
+          extraGeneralHp: pre.extraGeneralHp,
+        }
+      : undefined;
   const p1Config: MatchConfig = {
     userId: 1 as MatchConfig["userId"],
     faction: input.playerFaction as MatchConfig["faction"],
     generalDefId: input.playerGeneralDefId,
     deckCardDefIds: input.playerDeckCardDefIds,
+    startingBonuses: playerBonuses,
   };
+  const bossBonuses = computeBossDifficultyBonuses(
+    input.difficultyModifier ?? 0,
+  );
   const p2Config: MatchConfig = {
     userId: 0 as MatchConfig["userId"], // AI
     faction: encounter.bossFaction as MatchConfig["faction"],
     generalDefId: encounter.bossGeneralDefId,
     deckCardDefIds: encounter.bossDeckCardDefIds,
+    startingBonuses:
+      bossBonuses.extraGeneralHp > 0 || bossBonuses.extraCards > 0
+        ? {
+            extraGeneralHp: bossBonuses.extraGeneralHp,
+            extraCards: bossBonuses.extraCards,
+          }
+        : undefined,
   };
   const gameState = createMatchState({
     matchId: `story_${encounter.id}`,

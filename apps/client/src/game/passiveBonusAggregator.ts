@@ -26,6 +26,7 @@ import { findCombo, getElementAdvantages } from "@shared/elementalCombos";
 import { calculateGearStats } from "@shared/equipmentStats";
 import { computeCreationModifiers, getEndingBias, type CreationSignature } from "@shared/characterCreationImpact";
 import { resolveCompanionBonuses, type CompanionId } from "@shared/companionSynergies";
+import { getActiveBonusEffects, type BonusEffect } from "@shared/suitBonuses";
 
 /* ─── UNIFIED BONUS SHAPE ─── */
 
@@ -61,6 +62,36 @@ export interface PlayerStateForBonuses {
   morality?: number;
   /** For elemental combo resolution: partner element if any */
   partnerElement?: string;
+  /**
+   * Section G — equipped-piece counts per suit set id.
+   * Example: { "regalia-of-the-seeing-stylus": 4, "ember-bellows-array": 2 }.
+   * Read by the suit-set resolver below; missing = no suit bonuses active.
+   */
+  equippedSuitCounts?: Readonly<Record<string, number>>;
+}
+
+/**
+ * Map a suitBonuses BonusTarget to the aggregator's GameSystem so
+ * consumers can filter by the field they actually read. Unknown
+ * targets fall through to "all".
+ */
+function systemForSuitTarget(t: BonusEffect["target"]): GameSystem {
+  switch (t) {
+    case "tcg_encounter":
+    case "boss_encounter":
+      return "card_game";
+    case "ark_event_roll":
+      return "quest";
+    case "crafting_success":
+      return "crafting";
+    case "dialog_check":
+    case "dice_roll":
+    case "casino_cap":
+    case "shop_price":
+    case "cutscene_silhouette":
+    default:
+      return "all";
+  }
 }
 
 /* ─── MAIN AGGREGATOR ─── */
@@ -223,6 +254,35 @@ export function getPassiveBonuses(state: PlayerStateForBonuses): AggregatedBonus
             target: b.target,
             value: b.value,
             label: `${comp.id}: ${b.label}`,
+          });
+        }
+      }
+    }
+  } catch { /* skip */ }
+
+  // 9. Suit-set bonuses (Section G). Read equipped-piece counts,
+  // fold every active tier's effects into the aggregator with
+  // `sourceCategory: "suit_set"` so mode adapters can filter on it.
+  try {
+    const counts = state.equippedSuitCounts;
+    if (counts) {
+      for (const [setId, count] of Object.entries(counts)) {
+        if (count <= 0) continue;
+        let effects: readonly BonusEffect[];
+        try {
+          effects = getActiveBonusEffects(setId, count);
+        } catch {
+          continue; // unknown set id — silently skip rather than crash
+        }
+        for (const eff of effects) {
+          bonuses.push({
+            source: `suit-set:${setId}`,
+            sourceCategory: "suit_set",
+            system: systemForSuitTarget(eff.target),
+            type: typeof eff.value === "number" ? "multiplier" : "passive",
+            target: eff.target,
+            value: typeof eff.value === "number" ? eff.value : 1,
+            label: `${setId} (${count}pc): ${eff.label}`,
           });
         }
       }

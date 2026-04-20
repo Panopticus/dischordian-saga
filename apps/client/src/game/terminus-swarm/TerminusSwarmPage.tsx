@@ -14,7 +14,10 @@ import HanoiPuzzle from "./HanoiPuzzle";
 import {
   createGameState, placeTurret, sellTurret, startWave, tick,
   canPlaceTurret, placeBarricade, findPath, TURRETS, getWaveForNumber,
+  setSuitModifiers,
 } from "./engine";
+import { getPassiveBonuses } from "@/game/passiveBonusAggregator";
+import { toTerminusModifiers } from "@shared/suitAdapters/terminusSwarm";
 import { MAPS } from "./definitions";
 import QuestTracker from "../QuestTracker";
 import { UPGRADE_LEVELS, TRAPS, LEAGUES, getLeague, ARK_COMMANDER_PASS } from "./baseSystem";
@@ -83,6 +86,43 @@ const TILE_SIZE = 40;
 
 export default function TerminusSwarmPage() {
   const { user, isAuthenticated } = useAuth();
+
+  // §G.11 — pull suit bonuses through the passive-bonus aggregator
+  // and latch them into the engine's module state before
+  // createGameState runs. Citizen fetch is enabled only when
+  // authenticated; missing data yields an empty bonus list and the
+  // engine's module-state defaults (1.0 multipliers, 0 starting
+  // currency) keep pre-suit behavior identical.
+  const citizenQuery = trpc.citizen.getCharacter.useQuery(undefined, {
+    enabled: isAuthenticated,
+    staleTime: 60_000,
+  });
+  useEffect(() => {
+    const citizen = citizenQuery.data;
+    if (!citizen) {
+      setSuitModifiers({
+        startingCurrency: 0,
+        extraStartingTurrets: 0,
+        towerDamageMult: 1,
+        towerCooldownMult: 1,
+        virusTickReduction: 1,
+      });
+      return;
+    }
+    const bonuses = getPassiveBonuses({
+      citizen: citizen as Parameters<typeof getPassiveBonuses>[0]["citizen"],
+      gear: citizen.gear,
+    });
+    const mods = toTerminusModifiers(bonuses);
+    setSuitModifiers({
+      startingCurrency: mods.startingCurrency,
+      extraStartingTurrets: mods.extraStartingTurrets,
+      towerDamageMult: mods.towerDamageMult,
+      towerCooldownMult: mods.towerCooldownMult,
+      virusTickReduction: mods.virusTickReduction,
+    });
+  }, [citizenQuery.data]);
+
   const [view, setView] = useState<View>(() => {
     return localStorage.getItem("terminus_puzzle_complete") === "true" ? "map_select" : "intro";
   });

@@ -20,6 +20,14 @@ import {
 } from "@shared/deadMansCircuit";
 import { crewMemberToCloneStats, type DmcCloneStats } from "@shared/crewDmcBridge";
 import { useNilmorgVO } from "@/hooks/useNilmorgVO";
+import {
+  mergeCircuitSuitBonuses,
+  normalizeToCircuitPlayerClone,
+} from "@shared/suitAdapters/deadMansCircuit";
+import {
+  getPassiveBonuses,
+  type AggregatedBonus as CircuitAggregatedBonus,
+} from "@/game/passiveBonusAggregator";
 import { DMC_ENVIRONMENTS, DMC_MUSIC, DMC_CINEMATICS } from "@/data/dmcAssets";
 import { getNilmorgPortrait } from "@shared/nilmorgPortraits";
 import DeadMansCircuitCrewPicker from "@/components/crew/DeadMansCircuitCrewPicker";
@@ -144,6 +152,12 @@ export default function DeadMansCircuitPage() {
 
   // Side quest state — 8 cross-game quests tied to the active season.
   const sideQuests = trpc.deadMansCircuit.getMySideQuests.useQuery(undefined, { enabled: isAuthenticated });
+  // §G.11 — citizen fetched once to drive the suit-bonus merge at
+  // CONFIG post time. Missing citizen yields an empty bonus list.
+  const citizenQuery = trpc.citizen.getCharacter.useQuery(undefined, {
+    enabled: isAuthenticated,
+    staleTime: 60_000,
+  });
   const claimSideQuestMutation = trpc.deadMansCircuit.claimSideQuest.useMutation({
     onSuccess: () => { sideQuests.refetch(); myStats.refetch(); },
   });
@@ -293,8 +307,44 @@ export default function DeadMansCircuitPage() {
           surface_grip: 65,
           survival_instinct: 25,
         };
+        // §G.11 — reconcile the TS-side clone prototype shape
+        // (velocity_ceiling_pct / surface_grip_pct) into the
+        // Godot-expected bare-name shape, then fold current
+        // suit bonuses into the result. Latched at CONFIG post
+        // time (§G.11.1 reload semantics); mid-run swaps never
+        // retro-apply.
+        const rawClone = crewCloneStats ?? defaultClone;
+        const circuitCitizen = citizenQuery?.data;
+        const circuitPassiveBonuses: readonly CircuitAggregatedBonus[] =
+          circuitCitizen
+            ? getPassiveBonuses({
+                citizen: circuitCitizen as Parameters<
+                  typeof getPassiveBonuses
+                >[0]["citizen"],
+                gear: circuitCitizen.gear,
+              })
+            : [];
+        const normalizedClone = normalizeToCircuitPlayerClone(
+          rawClone as unknown as Parameters<
+            typeof normalizeToCircuitPlayerClone
+          >[0],
+        );
+        const mergedClone = mergeCircuitSuitBonuses(
+          normalizedClone,
+          circuitPassiveBonuses,
+        );
+        const rawCloneAny = rawClone as unknown as Record<string, unknown>;
+        const nestedClone = rawCloneAny.clone as
+          | Record<string, unknown>
+          | undefined;
+        const designation =
+          (typeof rawCloneAny.designation === "string"
+            ? rawCloneAny.designation
+            : typeof nestedClone?.designation === "string"
+              ? (nestedClone.designation as string)
+              : null) ?? "WIRED-0000-ALPHA";
         const config = {
-          player_clone: crewCloneStats ?? defaultClone,
+          player_clone: { designation, ...mergedClone },
           total_laps: 3,
           phase: season.data?.phase || 1,
           ai_count: 7,

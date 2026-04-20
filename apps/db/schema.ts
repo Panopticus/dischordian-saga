@@ -578,6 +578,13 @@ export const citizenCharacters = mysqlTable("citizen_characters", {
   alignment: mysqlEnum("alignment", ["order", "chaos"]).notNull(),
   /** Element (DeMagi) or Dimension (Quarchon) or choice (Ne-Yon) */
   element: mysqlEnum("element", ["earth", "fire", "water", "air", "space", "time", "probability", "reality"]).notNull(),
+  /**
+   * §G.2 foundation choice — Humanity (Mourner's Coat) or Machine
+   * (First Chassis). Drives the deterministic starter Base Mask +
+   * Base Suit via resolveStarterLoadout(). Defaults to "humanity"
+   * so saved characters hydrate without a migration pass.
+   */
+  foundation: mysqlEnum("foundation", ["humanity", "machine"]).notNull().default("humanity"),
   /** White Wolf dot ratings 1-5 */
   attrAttack: int("attrAttack").notNull().default(2),
   attrDefense: int("attrDefense").notNull().default(2),
@@ -628,6 +635,16 @@ export const dreamBalance = mysqlTable("dream_balance", {
   totalGemsPurchased: int("totalGemsPurchased").notNull().default(0),
   /** Total Dream ever earned (for milestones) */
   totalDreamEarned: int("totalDreamEarned").notNull().default(0),
+  /**
+   * Hidden Game-Master difficulty scalar — each +1 represents one
+   * irreversible cost-paying decision the operative has made (the
+   * Med Bay DNA donation is the first source; more beats will add
+   * points as they come online). Read by
+   * apps/shared/tcg-core/story/encounter.ts at match init and
+   * translated into small boss-side startingBonuses. Never surfaced
+   * to the player — the sting shows up only in how fights feel.
+   */
+  difficultyModifier: int("difficultyModifier").notNull().default(0),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({

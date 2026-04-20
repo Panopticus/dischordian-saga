@@ -25,6 +25,9 @@ func _process(delta: float) -> void:
 	if not active: return
 	var held_count = breach_states.values().count(true)
 	var rate = 0.4 + (held_count * 0.2)
+	# §G.11.1 — multiplier from suit-set bonuses (Mourner 10pc, etc).
+	# Defaults to 1.0 when no bonus is active; never re-posted.
+	rate *= WebBridge.get_suit_bonus("shield_rate_mult", 1.0)
 	progress += (delta / 1500.0) * rate
 	time_remaining -= delta * rate
 	progress = min(progress, 1.0)

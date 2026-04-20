@@ -24,6 +24,32 @@ export function setTDGameBonuses(turretDmg: number, coreHp: number, resource: nu
   resourceBonus = resource;
 }
 
+/**
+ * §G.11 — suit-set modifiers (TerminusModifiers shape). Read at
+ * createGameState time for starting currency/turret adjustments,
+ * and per-tick for tower / virus multipliers. Kept as module
+ * state to match the existing coreHpBonus style so no caller
+ * signature has to change.
+ */
+export let suitStartingCurrency = 0;
+export let suitExtraStartingTurrets = 0;
+export let suitTowerDamageMult = 1;
+export let suitTowerCooldownMult = 1;
+export let suitVirusTickReduction = 1;
+export function setSuitModifiers(mods: {
+  startingCurrency: number;
+  extraStartingTurrets: number;
+  towerDamageMult: number;
+  towerCooldownMult: number;
+  virusTickReduction: number;
+}): void {
+  suitStartingCurrency = mods.startingCurrency;
+  suitExtraStartingTurrets = mods.extraStartingTurrets;
+  suitTowerDamageMult = mods.towerDamageMult;
+  suitTowerCooldownMult = mods.towerCooldownMult;
+  suitVirusTickReduction = mods.virusTickReduction;
+}
+
 /* ─── A* PATHFINDING ─── */
 
 interface PathNode {
@@ -139,7 +165,7 @@ export function createGameState(map: MapDef, mapIndex: number = 0): TerminusGame
     turrets: new Map(),
     enemies: new Map(),
     projectiles: [],
-    resources: { salvage: 200, viralIchor: 0, neuralCores: 0, voidCrystals: 0 },
+    resources: { salvage: 200 + suitStartingCurrency, viralIchor: 0, neuralCores: 0, voidCrystals: 0 },
     wave: 0,
     phase: "setup",
     coreHealth: Math.round(500 * (1 + coreHpBonus / 100)),
@@ -411,7 +437,10 @@ function updateEnemies(state: TerminusGameState) {
       const dx = target.x - enemy.x;
       const dy = target.y - enemy.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      const moveSpeed = (enemy.speed * speedMult) / FPS;
+      // §G.11 — suit bonuses slow the thought-virus advance
+      // (Arcane-Rune Regalia 7pc is the flagship gate here).
+      // virusTickReduction < 1.0 → slower enemies.
+      const moveSpeed = (enemy.speed * speedMult * suitVirusTickReduction) / FPS;
 
       if (dist < moveSpeed) {
         enemy.x = target.x;
@@ -502,7 +531,7 @@ function updateTurrets(state: TerminusGameState) {
       x: turret.col,
       y: turret.row,
       targetId: target.id,
-      damage: Math.round(turret.def.damage * turret.level * (1 + turretDamageBonus / 100)),
+      damage: Math.round(turret.def.damage * turret.level * (1 + turretDamageBonus / 100) * suitTowerDamageMult),
       speed: 8,
       type: turret.def.type === "arc_emitter" ? "lightning" :
             turret.def.type === "cryo_array" ? "frost" :
@@ -511,7 +540,9 @@ function updateTurrets(state: TerminusGameState) {
       color: turret.def.color,
     };
     state.projectiles.push(proj);
-    turret.cooldown = Math.round(FPS / turret.def.fireRate);
+    // §G.11 — suit bonuses apply multiplicatively to the base cooldown.
+    // suitTowerCooldownMult < 1.0 means faster (shorter cooldown).
+    turret.cooldown = Math.round(FPS / turret.def.fireRate * suitTowerCooldownMult);
     turret.target = target.id;
   }
 }

@@ -5,6 +5,11 @@ import { getDb } from "../db";
 import { citizenCharacters, dreamBalance } from "../../db/schema";
 import { eq, and } from "drizzle-orm";
 import { getPlayerTraitBonuses } from "../traitResolver";
+import {
+  resolveStarterLoadout,
+  type StarterSpecies,
+} from "../../shared/starterLoadout";
+import type { ClassKey, ElementKey } from "../../shared/earnedLoadouts";
 
 /* ═══════════════════════════════════════════════════
    Species / Class / Element configuration
@@ -37,31 +42,28 @@ const SPECIES_CONFIG = {
   },
 } as const;
 
+// Operatives spawn bare-handed. Loadouts are earned through narrative choices
+// (see apps/shared/earnedLoadouts.ts and the Med Bay DNA-device beat).
 const CLASS_CONFIG = {
   engineer: {
     name: "Engineer",
-    description: "Master builders and craftsmen. Start with Diamond Pick Axes.",
-    startingGear: { weapon: "diamond_pick_axe", secondary: "repair_kit", consumable: "shield_generator" },
+    description: "Master builders and craftsmen. Your loadout is earned, not issued.",
   },
   oracle: {
     name: "Oracle (Prophet)",
-    description: "Seers of fate. Start with potions of random powers and a crossbow.",
-    startingGear: { weapon: "crossbow", secondary: "invisibility_potion", consumable: "random_power_potion" },
+    description: "Seers of fate. Your loadout is earned, not issued.",
   },
   assassin: {
     name: "Assassin (Virus)",
-    description: "Silent killers. Start with poison, potions, and ranged weapons.",
-    startingGear: { weapon: "poison_blade", secondary: "throwing_knives", consumable: "smoke_bomb" },
+    description: "Silent killers. Your loadout is earned, not issued.",
   },
   soldier: {
     name: "Soldier (Warrior/Drone)",
-    description: "Frontline fighters. Start with sword and shield.",
-    startingGear: { weapon: "plasma_sword", secondary: "energy_shield", consumable: "stim_pack" },
+    description: "Frontline fighters. Your loadout is earned, not issued.",
   },
   spy: {
     name: "Spy",
-    description: "Intelligence operatives. Stealth and deception specialists.",
-    startingGear: { weapon: "silenced_pistol", secondary: "cloaking_device", consumable: "emp_grenade" },
+    description: "Intelligence operatives. Your loadout is earned, not issued.",
   },
 } as const;
 
@@ -104,11 +106,6 @@ function calculateDerivedStats(
   const baseHp = 80 + attrVitality * 10 + speciesData.bonusHp;
   const baseArmor = attrDefense * 2 + speciesData.bonusArmor;
   return { maxHp: baseHp, armor: baseArmor };
-}
-
-/** Get starting gear for a class */
-function getStartingGear(characterClass: keyof typeof CLASS_CONFIG) {
-  return CLASS_CONFIG[characterClass].startingGear;
 }
 
 export const citizenRouter = router({
@@ -161,6 +158,11 @@ export const citizenRouter = router({
         characterClass: z.enum(["engineer", "oracle", "assassin", "soldier", "spy"]),
         alignment: z.enum(["order", "chaos"]),
         element: z.enum(["earth", "fire", "water", "air", "space", "time", "probability", "reality"]),
+        // §G.2 foundation choice — Humanity or Machine. Optional
+        // in the input so clients that predate the creation UI
+        // update still round-trip; defaults to "humanity" to match
+        // the schema default.
+        foundation: z.enum(["humanity", "machine"]).optional(),
         attrAttack: z.number().min(1).max(5),
         attrDefense: z.number().min(1).max(5),
         attrVitality: z.number().min(1).max(5),
@@ -199,8 +201,6 @@ export const citizenRouter = router({
         input.attrVitality
       );
 
-      const gear = getStartingGear(input.characterClass);
-
       await db.insert(citizenCharacters).values({
         userId: ctx.user.id,
         name: input.name,
@@ -213,7 +213,30 @@ export const citizenRouter = router({
         attrVitality: input.attrVitality,
         maxHp,
         armor,
-        gear: gear as unknown as Record<string, unknown>,
+        // §G.10 Step 8 — every citizen spawns with their deterministic
+        // Base Mask + Base Suit pre-equipped. These are the locked
+        // underlayer a named set is built on top of; the operative
+        // never sees an empty paper doll. Foundation defaults to
+        // "humanity" until the creation flow adds the foundation step
+        // (plan carve-out). The mask motif is the player's species for
+        // the machine-foundation path; humanity-foundation citizens
+        // wear the human-motif mask regardless of species.
+        foundation: input.foundation ?? "humanity",
+        gear: (() => {
+          const foundation: "humanity" | "machine" = input.foundation ?? "humanity";
+          const maskMotif: StarterSpecies =
+            foundation === "humanity" ? "human" : (input.species as StarterSpecies);
+          const starter = resolveStarterLoadout({
+            species: maskMotif,
+            characterClass: input.characterClass as ClassKey,
+            element: input.element as ElementKey,
+            foundation,
+          });
+          return {
+            "base-mask": { id: starter.baseMaskId, baseLocked: true },
+            "base-suit": { id: starter.baseSuitId, baseLocked: true },
+          } as Record<string, unknown>;
+        })(),
         abilities: {
           elementAbility: ELEMENT_CONFIG[input.element as keyof typeof ELEMENT_CONFIG].ability,
           elementMastery: 1,
@@ -237,7 +260,7 @@ export const citizenRouter = router({
         });
       }
 
-      return { success: true, maxHp, armor, gear };
+      return { success: true, maxHp, armor, gear: {} as Record<string, unknown> };
     }),
 
   /** Level up class (costs EXP + Dream) */

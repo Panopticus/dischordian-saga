@@ -95,12 +95,35 @@ const SPECIES_UI = {
   },
 } as const;
 
+// Class blurbs describe the archetype, not a handout. Starter loadouts are earned
+// through in-world choices (see the Med Bay DNA-device beat and
+// apps/shared/earnedLoadouts.ts).
 const CLASS_UI = {
-  engineer: { icon: Wrench, color: "void-text-premium", desc: "Diamond Pick Axes, Repair Kit, Shield Generator" },
-  oracle: { icon: Eye, color: "void-text-system", desc: "Crossbow, Invisibility Potion, Random Power Potion" },
-  assassin: { icon: Skull, color: "void-text-error", desc: "Poison Blade, Throwing Knives, Smoke Bomb" },
-  soldier: { icon: Swords, color: "void-text-energy", desc: "Plasma Sword, Energy Shield, Stim Pack" },
-  spy: { icon: Telescope, color: "void-text-energy", desc: "Silenced Pistol, Cloaking Device, EMP Grenade" },
+  engineer: {
+    icon: Wrench,
+    color: "void-text-premium",
+    desc: "Builder-savant. Bends machines and matter to your will. Your loadout is earned, not issued.",
+  },
+  oracle: {
+    icon: Eye,
+    color: "void-text-system",
+    desc: "Seer of branching fates. Reads odds, shapes them, pays for them. Your loadout is earned, not issued.",
+  },
+  assassin: {
+    icon: Skull,
+    color: "void-text-error",
+    desc: "Blade in the dark. Strikes once, vanishes, leaves debts. Your loadout is earned, not issued.",
+  },
+  soldier: {
+    icon: Swords,
+    color: "void-text-energy",
+    desc: "Frontline breaker. Holds the line until the line holds you. Your loadout is earned, not issued.",
+  },
+  spy: {
+    icon: Telescope,
+    color: "void-text-energy",
+    desc: "Shadow operative. Lies, listens, leverages. Your loadout is earned, not issued.",
+  },
 } as const;
 
 const ELEMENT_UI: Record<string, { icon: React.ComponentType<any>; color: string; ability: string }> = {
@@ -118,8 +141,8 @@ const ELEMENT_UI: Record<string, { icon: React.ComponentType<any>; color: string
    Main Component
    ═══════════════════════════════════════════════════ */
 
-type Step = "species" | "class" | "alignment" | "element" | "attributes" | "name" | "review";
-const STEPS: Step[] = ["species", "class", "alignment", "element", "attributes", "name", "review"];
+type Step = "species" | "class" | "alignment" | "element" | "foundation" | "attributes" | "name" | "review";
+const STEPS: Step[] = ["species", "class", "alignment", "element", "foundation", "attributes", "name", "review"];
 
 export default function CitizenCreationPage() {
   const { user, loading: authLoading, isAuthenticated } = useAuth();
@@ -131,6 +154,8 @@ export default function CitizenCreationPage() {
   const [charClass, setCharClass] = useState<string>("");
   const [alignment, setAlignment] = useState<string>("");
   const [element, setElement] = useState<string>("");
+  // §G.2 foundation — drives the starter Base Mask sculpt.
+  const [foundation, setFoundation] = useState<"humanity" | "machine" | "">("");
   const [attrAttack, setAttrAttack] = useState(3);
   const [attrDefense, setAttrDefense] = useState(3);
   const [attrVitality, setAttrVitality] = useState(3);
@@ -158,6 +183,7 @@ export default function CitizenCreationPage() {
       case "class": return !!charClass;
       case "alignment": return !!alignment;
       case "element": return !!element;
+      case "foundation": return foundation === "humanity" || foundation === "machine";
       case "attributes": return dotsUsed === 9;
       case "name": return charName.length >= 2;
       case "review": return true;
@@ -181,6 +207,7 @@ export default function CitizenCreationPage() {
       characterClass: charClass as any,
       alignment: alignment as any,
       element: element as any,
+      foundation: (foundation || "humanity") as "humanity" | "machine",
       attrAttack,
       attrDefense,
       attrVitality,
@@ -316,7 +343,7 @@ export default function CitizenCreationPage() {
               <div>
                 <h2 className="font-display text-xl sm:text-2xl font-bold mb-2 tracking-wider">CHOOSE YOUR CLASS</h2>
                 <p className="font-mono text-sm text-muted-foreground mb-8">
-                  Your class determines your starting gear and combat specialization.
+                  Your class is an archetype, not a kit. Gear is earned in-world.
                 </p>
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {(Object.entries(CLASS_UI) as [string, typeof CLASS_UI[keyof typeof CLASS_UI]][]).map(([key, ui]) => {
@@ -447,6 +474,52 @@ export default function CitizenCreationPage() {
                             Ability: <span className={ui.color}>{ui.ability}</span>
                           </p>
                         </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* ═══ FOUNDATION (§G.2) ═══ */}
+            {step === "foundation" && (
+              <div>
+                <h2 className="font-display text-2xl font-bold mb-2 tracking-wider">
+                  CHOOSE YOUR FOUNDATION
+                </h2>
+                <p className="font-mono text-sm text-muted-foreground mb-8">
+                  Humanity or Machine. This is the floor you stand on — every suit the Inventor forged was built on one of these two.
+                </p>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {[
+                    {
+                      key: "humanity" as const,
+                      label: "HUMANITY",
+                      desc: "The Mourner's Coat. You remember. You carry the photograph, the locket, the ink-and-paper circuit.",
+                    },
+                    {
+                      key: "machine" as const,
+                      label: "MACHINE",
+                      desc: "The First Chassis. You run on cold-rolled plating, LED-vein underglow, and replaceable-limb hardpoints.",
+                    },
+                  ].map((opt) => {
+                    const selected = foundation === opt.key;
+                    return (
+                      <button
+                        key={opt.key}
+                        onClick={() => setFoundation(opt.key)}
+                        className={`text-left p-4 rounded-lg border transition-all duration-300 ${
+                          selected
+                            ? "border-primary/50 bg-primary/10 shadow-[0_0_15px_rgba(0,255,255,0.2)]"
+                            : "border-border/30 bg-card/30 hover:border-border/60"
+                        }`}
+                      >
+                        <h3 className="font-display text-sm font-bold tracking-wider mb-1">
+                          {opt.label}
+                        </h3>
+                        <p className="font-mono text-[10px] text-muted-foreground leading-relaxed">
+                          {opt.desc}
+                        </p>
                       </button>
                     );
                   })}
