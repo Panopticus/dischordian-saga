@@ -67,6 +67,72 @@
   --spacing-3xl: 6rem;     /* 96px */
   --spacing-4xl: 8rem;     /* 128px */
   --spacing-5xl: 10rem;    /* 160px */
+
+  /* ─── SIZE UTILITIES — RESCUE FROM SPACING COLLISION ───
+     Tailwind v4 resolves `max-w-<name>`, `w-<name>`, `min-w-<name>`,
+     `h-<name>`, `min-h-<name>`, `max-h-<name>` with namespace priority
+     [--<prop>, --spacing, --container]. Our Void Energy --spacing-*
+     above uses the same T-shirt names, so `max-w-2xl` was resolving
+     to 4rem (64px) instead of 42rem (672px) — collapsing content to
+     a single character wide. Redeclaring --max-width-* / --width-* /
+     --height-* here restores Tailwind's intended container sizes
+     because those namespaces win over --spacing-*.
+     ──────────────────────────────────────────────── */
+  --max-width-3xs: 16rem;
+  --max-width-2xs: 18rem;
+  --max-width-xs: 20rem;
+  --max-width-sm: 24rem;
+  --max-width-md: 28rem;
+  --max-width-lg: 32rem;
+  --max-width-xl: 36rem;
+  --max-width-2xl: 42rem;
+  --max-width-3xl: 48rem;
+  --max-width-4xl: 56rem;
+  --max-width-5xl: 64rem;
+  --max-width-6xl: 72rem;
+  --max-width-7xl: 80rem;
+
+  --width-3xs: 16rem;
+  --width-2xs: 18rem;
+  --width-xs: 20rem;
+  --width-sm: 24rem;
+  --width-md: 28rem;
+  --width-lg: 32rem;
+  --width-xl: 36rem;
+  --width-2xl: 42rem;
+  --width-3xl: 48rem;
+  --width-4xl: 56rem;
+  --width-5xl: 64rem;
+  --width-6xl: 72rem;
+  --width-7xl: 80rem;
+
+  --min-width-3xs: 16rem;
+  --min-width-2xs: 18rem;
+  --min-width-xs: 20rem;
+  --min-width-sm: 24rem;
+  --min-width-md: 28rem;
+  --min-width-lg: 32rem;
+  --min-width-xl: 36rem;
+  --min-width-2xl: 42rem;
+  --min-width-3xl: 48rem;
+  --min-width-4xl: 56rem;
+  --min-width-5xl: 64rem;
+  --min-width-6xl: 72rem;
+  --min-width-7xl: 80rem;
+
+  --height-3xs: 16rem;
+  --height-2xs: 18rem;
+  --height-xs: 20rem;
+  --height-sm: 24rem;
+  --height-md: 28rem;
+  --height-lg: 32rem;
+  --height-xl: 36rem;
+  --height-2xl: 42rem;
+  --height-3xl: 48rem;
+  --height-4xl: 56rem;
+  --height-5xl: 64rem;
+  --height-6xl: 72rem;
+  --height-7xl: 80rem;
 }
 
 /* ═══════════════════════════════════════════════════════

@@ -112,9 +112,8 @@ function ElaraDialogBox({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       className="w-full max-w-2xl mx-auto"
-      style={{ width: "100%", maxWidth: "42rem" }}
     >
-      <div className="relative w-full" style={{ width: "100%" }}>
+      <div className="relative">
         {/* Holographic Elara portrait */}
         {showPortrait && (
           <div className="flex justify-center mb-4">
@@ -124,9 +123,8 @@ function ElaraDialogBox({
 
         {/* Dialog box */}
         <div
-          className="rounded-lg p-3 sm:p-6 relative overflow-hidden w-full"
+          className="rounded-lg p-3 sm:p-6 relative overflow-hidden"
           style={{
-            width: "100%",
             background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
             border: "1px solid color-mix(in oklch, var(--energy-primary) 20%, transparent)",
             boxShadow: "0 0 30px color-mix(in oklch, var(--energy-primary) 5%, transparent), inset 0 1px 0 color-mix(in oklch, var(--energy-primary) 10%, transparent)",
@@ -137,10 +135,7 @@ function ElaraDialogBox({
             backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--energy-primary) 10%, transparent) 2px, color-mix(in oklch, var(--energy-primary) 10%, transparent) 4px)",
           }} />
 
-          <p
-            className="font-mono text-xs sm:text-base text-foreground leading-relaxed relative z-10 min-h-[2em] sm:min-h-[3em] break-words"
-            style={{ wordBreak: "normal", overflowWrap: "break-word" }}
-          >
+          <p className="font-mono text-xs sm:text-base text-foreground leading-relaxed relative z-10 min-h-[2em] sm:min-h-[3em] break-words">
             {displayed}
             {!done && <span className="inline-block w-2 h-4 bg-[var(--neon-cyan)] ml-1 animate-pulse" />}
           </p>
@@ -551,7 +546,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
       </div>
 
       {/* Content */}
-      <div className="relative z-30 w-full min-h-screen flex flex-col items-center justify-center p-3 sm:p-8 py-16 sm:py-8 pb-20 sm:pb-8" style={{ width: "100%" }}>
+      <div className="relative z-30 min-h-screen flex flex-col items-center justify-center p-3 sm:p-8 py-16 sm:py-8 pb-20 sm:pb-8">
         <AnimatePresence mode="wait">
           {/* ─── BLACKOUT ─── */}
           {awakeningStep === "BLACKOUT" && (
