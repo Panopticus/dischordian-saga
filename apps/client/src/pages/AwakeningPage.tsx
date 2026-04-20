@@ -455,19 +455,26 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
     navigate,
   ]);
 
-  // Handle cinematic completion — receive the looping theme audio
-  const handleCinematicComplete = useCallback(async (themeAudio: HTMLAudioElement | null) => {
+  // Handle cinematic completion — receive the looping theme audio.
+  // CRITICAL: dismiss the cinematic overlay BEFORE any async work so the
+  // BLACKOUT → fade-in effect fires even if AudioContext.resume() hangs
+  // (seen on some mobile browsers where the suspended context's resume
+  // promise never settles). Without this, showCinematic stayed true and
+  // the game never advanced past the faded-out cinematic.
+  const handleCinematicComplete = useCallback((themeAudio: HTMLAudioElement | null) => {
     themeAudioRef.current = themeAudio;
-    // Initialize audio context from the cinematic user interaction
-    if (!audioInitialized) {
-      try {
-        await initAudio();
-        setAudioInitialized(true);
-        setRoomAmbience("cryo-bay");
-      } catch { /* audio blocked */ }
-    }
     setShowCinematic(false);
-    localStorage.setItem("loredex_cinematic_seen", "1");
+    try { localStorage.setItem("loredex_cinematic_seen", "1"); } catch { /* storage full */ }
+    // Initialize audio context from the cinematic user interaction — fire
+    // and forget; never block the UI transition on this.
+    if (!audioInitialized) {
+      initAudio()
+        .then(() => {
+          setAudioInitialized(true);
+          setRoomAmbience("cryo-bay");
+        })
+        .catch(() => { /* audio blocked — game still advances */ });
+    }
   }, [audioInitialized, initAudio, setRoomAmbience]);
 
   // Fade out theme music when Awakening completes
