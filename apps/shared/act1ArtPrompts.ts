@@ -665,6 +665,155 @@ const WELCOME_TO_CELEBRATION_FRAMES: readonly Act1ArtPrompt[] = [
   },
 ];
 
+/* ─── SLIDESHOW FRAMES — §12 To Be the Human (10 base + 3 branch = 13) ─── */
+
+const TO_BE_THE_HUMAN_FRAMES: readonly Act1ArtPrompt[] = [
+  {
+    assetId: "slide_tbth_frame_01",
+    name: "TBtH Frame 1 — Mechronis Academy at dawn",
+    category: "slideshow_frame",
+    cycle: "B",
+    bibleSection: "§12.2 frame 1",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Wide establishing composition of Mechronis Academy at dawn. The institutional blue-grey main building rises in the center-back of the frame, tall arched windows catching the rising sun's warm-gold reflection. Streams of blue-uniformed students flowing into the front doors from several directions — rendered as soft-focus silhouettes at medium scale, unidentifiable individually. Morning bell sound implied by a single bronze bell hanging above the main doors. A single long warm shadow from the building cuts across the stone courtyard in the foreground. Palette pulled 15% desaturated from §6 Cycle A frames — Cycle B is cooler, more institutional. Faint film-grain sepia. The composition's register: the Engineer arriving at the place he will spend five years of his biography.",
+  },
+  {
+    assetId: "slide_tbth_frame_02",
+    name: "TBtH Frame 2 — Young Iron Lion at the academy gate, day of expulsion",
+    category: "slideshow_frame",
+    cycle: "B",
+    bibleSection: "§12.2 frame 2",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor", "portrait_young_iron_lion"],
+    prompt:
+      "Medium-wide composition, Young Iron Lion walking through the academy gate outward (back to camera), on the day of his canonical expulsion. Mechronis blue uniform, top button undone, left sleeve rolled (same visual tell as his §2.5 portrait). A single duffel bag hanging from his right hand. His shoulders squared, head level, not looking back. The gate itself is open — and canonically stays open after he passes through. A single wind gust visible in the way his jacket moves; no other sound. Warm midday light from directly above. Behind him in soft focus: the academy's blue-grey facade. One door closing behind him — rendered with the gate's shadow falling on a closed academy side-door in the middle distance, the canonical audio cue 'a single door closing' realized visually as the shadow's hard edge.",
+  },
+  {
+    assetId: "slide_tbth_frame_03",
+    name: "TBtH Frame 3 — Young Kael's tutoring card table (Wanda canonically excised)",
+    category: "slideshow_frame",
+    cycle: "B",
+    bibleSection: "§12.2 frame 3 / §0.4 rule 4",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Warm-sepia memory composition — a card table in a palace tutoring room, older wood, softer light. Two figures at the table in soft-focus: a young Kael (black hair, warm expression) on the LEFT, a young Engineer (slightly smaller, more attentive) on the RIGHT. Both rendered from a three-quarter angle, hands on cards. CRITICAL canon hygiene: NO THIRD FIGURE. Wanda Wyrlord is canonically excised from this frame per §0.4 rule 4 (her tutoring-table presence belongs to Act 2+ content). The table's third chair is EMPTY. The empty chair should be composed so the viewer subliminally notices the vacancy without being told — angle it away, catch it in shadow, but include it. A single card in mid-motion between Kael and the Engineer. Warm classroom ambient, slight bokeh on the walls. Faint sepia film-grain heavy.",
+  },
+  {
+    assetId: "slide_tbth_frame_04",
+    name: "TBtH Frame 4 — Young Agent Zero alone at lunch, hair curtain",
+    category: "slideshow_frame",
+    cycle: "B",
+    bibleSection: "§12.2 frame 4",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor", "portrait_young_agent_zero"],
+    prompt:
+      "Medium composition — Young Agent Zero (the §2.7 portrait continuity) seated alone at a Mechronis Academy cafeteria table. The cafeteria around her is softly out-of-focus but populated — suggestions of other blue-uniformed students at other tables, unfocused, active. She is the ONE SHARP FIGURE in the composition. Hair curtain falling across her left eye per canon, right eye visible and downcast at her food tray. Hands flat on the table exactly as in §2.7. Her tray holds regulation academy food, half-eaten. The seats on either side of her are empty, and the empty seats are the visual hinge — render the space around her as slightly larger than the other students' spacing (she sat alone on purpose). Warm-gold cafeteria ambient lighting, low hubbub. Sepia film-grain moderate.",
+  },
+  {
+    assetId: "slide_tbth_frame_05",
+    name: "TBtH Frame 5 — Young Eyes's wrist, close-up, Watcher sigil visible",
+    category: "slideshow_frame",
+    cycle: "B",
+    bibleSection: "§12.2 frame 5 / §10.7 / §2.8",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Extreme close-up composition, shallow depth of field. Young Eyes's left wrist visible in the lower two-thirds of the frame, a book (spine-up, cloth binding) held just above the wrist at her chest — the book fills the top of the frame in soft focus. The CANONICAL DETAIL: a faint circular pale-blue Watcher sigil (~1cm) visible on her wrist where the cuff of her Mechronis blue uniform sleeve has ridden slightly up. The sigil has a soft 0.3Hz pulse (render a single frame mid-pulse, ~50% opacity). Skin tone fair, canonical light fall-off of a library setting. Quiet page-turning implied by the slight motion blur on one of the book's pages. No face visible. The sigil is the subject of the frame but must not feel foregrounded — the player should find it second, not first.",
+  },
+  {
+    assetId: "slide_tbth_frame_06",
+    name: "TBtH Frame 6 — The young Human reading by firelight",
+    category: "slideshow_frame",
+    cycle: "B",
+    bibleSection: "§12.2 frame 6",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor", "bf_mechronis_common_room"],
+    prompt:
+      "Medium composition in the Mechronis Academy senior common room (continuity with bf_mechronis_common_room). Young Human (seventeen, red hair, steel-frame glasses, rumpled blue uniform per §2.9 portrait) seated in the leather armchair angled toward a working fireplace at frame-left. He holds an open leather-bound book, reading with his head tilted slightly down, the firelight casting warm-gold orange on his face and hands. A half-empty coffee cup on the side table beside him. His expression: composed, concentrated, the specific attention of someone who is reading a room they cannot see directly. One armchair opposite is empty — the seat where the Engineer sat in B5. Fireplace crackle is the only ambient audio; render as visual warmth rather than literal sparks.",
+  },
+  {
+    assetId: "slide_tbth_frame_07",
+    name: "TBtH Frame 7 — Mechronis main hall, empty, long shadows",
+    category: "slideshow_frame",
+    cycle: "B",
+    bibleSection: "§12.2 frame 7",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Wide composition, Mechronis Academy's vaulted central hall, completely empty of people. Tall arched windows along both side walls throw long diagonal shadows from late-afternoon sun across the marble floor. Institutional blue-grey walls with academy crests carved at intervals (no rendered text, abstract geometric only). The hall recedes into the deep distance, emphasizing scale. A single pair of forgotten blue student shoes on a bench at frame-right — small, easy to miss, canonical. Hall echo implied by the vastness of the empty space. Film-grain sepia, desaturated 15% vs. Cycle A palette. The composition's register: the Engineer passed through this hall a thousand times but remembers it most clearly as empty.",
+  },
+  {
+    assetId: "slide_tbth_frame_08_win_compass",
+    name: "TBtH Frame 8 variant — Engineer holds the compass (B5 win)",
+    category: "slideshow_frame",
+    cycle: "B",
+    bibleSection: "§12.2 frame 8 (win branch)",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor", "card_art_classmates_compass"],
+    prompt:
+      "Close-up composition, the Engineer's hand holding the brass pocket compass — the same compass as card_art_classmates_compass, but now in the Engineer's grown palm, not the Human's child gift. The compass is open, needle visible, pointing slightly off-axis. His hand is steady, fingers closed loosely around the case. Warm-gold common-room firelight rim catches the brass. The compass is held up, not down — he is checking it, trusting it. Background: deep warm-gold bokeh of the common room fireplace, soft-focus bookshelf. Narration 'He gave me a compass. I did not ask for directions.' lands on this frame.",
+  },
+  {
+    assetId: "slide_tbth_frame_08_loss_empty_room",
+    name: "TBtH Frame 8 variant — Empty common room (B5 loss)",
+    category: "slideshow_frame",
+    cycle: "B",
+    bibleSection: "§12.2 frame 8 (loss branch)",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor", "card_art_only_reason_i_stayed"],
+    prompt:
+      "Medium composition, the Mechronis senior common room AFTER the B5 loss. Fireplace burnt down to red-orange embers — darker than the frame-6 warmth. Both leather armchairs empty. The coffee-table card table still holds a Dischordia deck face-down, untouched. A single glass on the side table, half-empty, amber liquid inside. Windows at frame-right show dusk-blue night beyond. Faint sepia film-grain heavy. The Engineer is sitting in the composition but OFF-FRAME — the viewer is placed where the Human's chair was. The empty room is the subject; the narration 'I stayed too long. I learned what the room was.' lands on this image. Continuity tie to card_art_only_reason_i_stayed.",
+  },
+  {
+    assetId: "slide_tbth_frame_09",
+    name: "TBtH Frame 9 — Engineer walking out of Mechronis for the last time",
+    category: "slideshow_frame",
+    cycle: "B",
+    bibleSection: "§12.2 frame 9",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "The Engineer, now aged to his late teens (~18), walking out of Mechronis Academy for the last time. Back to camera (composition callback to §6 Frame 2 and §6 Frame 7 — the back-to-camera departure motif). The Mechronis blue uniform REPLACED with civilian dress — a simple dark coat over plain under-clothes. He carries a single small satchel. Warm-gold late-afternoon light from above, his shadow falling ahead of him. The academy's blue-grey facade recedes to his right; the open gate in the middle distance ahead of him. He is not looking back. The composition's outdoor ambient rises as he walks toward the horizon — render the horizon as a soft warm band of light.",
+  },
+  {
+    assetId: "slide_tbth_frame_09_loss_variant",
+    name: "TBtH Frame 9 variant — B5 loss narration-shifted",
+    category: "slideshow_frame",
+    cycle: "B",
+    bibleSection: "§12.3 B5-loss narration shift",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor", "slide_tbth_frame_09"],
+    prompt:
+      "Same subject as slide_tbth_frame_09 but compositionally tightened: the Engineer walking out, back to camera, civilian dress. Palette pulled 20% cooler — slightly more dusk-blue than the win branch, less warm-gold. His shadow ahead of him is longer. The horizon band is narrower. Same walk, same direction, same departure, but the image weighs heavier. Narration on this frame shifts to 'When I left I did not know if I was someone.' per §12.3 — the visual counterpart is the cooler palette and the tighter framing. Sepia film-grain slightly heavier than the win-branch variant.",
+  },
+  {
+    assetId: "slide_tbth_frame_10",
+    name: "TBtH Frame 10 — Mechronis fading behind, warm-to-cool palette shift",
+    category: "slideshow_frame",
+    cycle: "B",
+    bibleSection: "§12.2 frame 10 / §12.6 load-bearing audio",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Distant wide composition. Mechronis Academy as a small blue-grey silhouette in the middle distance at frame-left, the Engineer's back-of-head and shoulder in sharp focus in the lower-right of the frame (over-the-shoulder perspective, his direction of gaze is the frame's wide space). The horizon at center: the canonical warm-to-cool palette transition — warm-gold #fbbf24 on the left-third of the frame (toward Mechronis) linearly transitioning to cool-grey on the right-third (toward the war he does not know is coming). Production must hold the transition strictly linear across the 18-second frame duration — this frame's composition must be designed so producers can render the palette shift as a smooth gradient. Canonical audio: silence into distant thunder. Render the distant thunder as a single faint dark cloud bank on the far-right horizon, visual foreshadow of Cycle C.",
+  },
+];
+
 /** Full Act 1 art prompt catalog (built up over subsequent chunks). */
 export const ACT1_ART_PROMPTS: readonly Act1ArtPrompt[] = [
   ...CYCLE_A_PORTRAITS,
@@ -678,6 +827,7 @@ export const ACT1_ART_PROMPTS: readonly Act1ArtPrompt[] = [
   ...CYCLE_B_CARD_ARTS,
   ...CYCLE_C_CARD_ARTS,
   ...WELCOME_TO_CELEBRATION_FRAMES,
+  ...TO_BE_THE_HUMAN_FRAMES,
 ];
 
 /** Look up a single prompt by asset id. */
