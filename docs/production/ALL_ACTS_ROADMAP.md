@@ -635,7 +635,12 @@ Advance, Reclamation loop) are named in §15 but have no data shell.
 The 7-act narrative arc + 12-month Year One Calendar form a finite
 story. The prestige loop is post-ship.
 
-**Witnessing system coverage stops at Act 5.** Acts 6–7 have no
-calendar entries, milestones, or chronicle entries. Extending the
-witnessing timeline to cover Acts 6–7 is a future work item — the
-narrative content exists but the horizontal layers don't.
+**Witnessing system coverage extends through Act 7 as of the
+post-Act-1-bible pass.** `witnessingYearOne.ts` ships
+`BEYOND_YEAR_ONE_RIPPLES` with month-13 "The Confession" and
+month-14 "The Convergence" entries; `witnessingEvents.ts` adds the
+`the_confession_heard` (+250 Light) and `the_convergence_settled`
+(+1000 Light) milestones; beat chronicle entries for
+`act_6_confession_complete` and `act_7_convergence_complete` surface
+at orders 80 and 90. The `EXTENDED_CALENDAR_RIPPLES` export is the
+canonical 14-beat sequence for Hub rendering.

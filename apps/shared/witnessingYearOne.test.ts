@@ -1,9 +1,12 @@
 import { describe, it, expect } from "vitest";
 import {
   BEAT_CHRONICLE_ENTRIES,
+  BEYOND_YEAR_ONE_RIPPLES,
+  EXTENDED_CALENDAR_RIPPLES,
   YEAR_ONE_CALENDAR_RIPPLES,
   MILESTONE_CHRONICLE_ENTRIES,
   getActiveBeatChronicleEntries,
+  getExtendedCalendarRipple,
   getYearOneCalendarRipple,
   getMilestoneChronicleEntry,
   listBeatChronicleEntries,
@@ -87,8 +90,8 @@ describe("witnessingYearOne — Item 14 Milestone Chronicle entries", () => {
     expect(entry.body.toLowerCase()).toContain("antiquarian");
   });
 
-  it("listMilestoneChronicleEntries returns 9 entries", () => {
-    expect(listMilestoneChronicleEntries().length).toBe(9);
+  it("listMilestoneChronicleEntries returns 11 entries (9 Year-One + 2 Acts 6-7)", () => {
+    expect(listMilestoneChronicleEntries().length).toBe(11);
   });
 });
 
@@ -141,5 +144,70 @@ describe("witnessingYearOne — Beat Chronicle entries (non-milestone)", () => {
     expect(listBeatChronicleEntries().length).toBe(
       BEAT_CHRONICLE_ENTRIES.length,
     );
+  });
+
+  describe("Beyond Year One — Acts 6-7 coverage (roadmap gap)", () => {
+    it("BEYOND_YEAR_ONE_RIPPLES has two entries at months 13 and 14", () => {
+      expect(BEYOND_YEAR_ONE_RIPPLES.length).toBe(2);
+      expect(BEYOND_YEAR_ONE_RIPPLES[0].month).toBe(13);
+      expect(BEYOND_YEAR_ONE_RIPPLES[1].month).toBe(14);
+    });
+
+    it("month 13 is The Confession and fires beyond_year_one_month_13_opened", () => {
+      const r = getExtendedCalendarRipple(13);
+      expect(r?.title).toBe("The Confession");
+      expect(r?.opensFlag).toBe("beyond_year_one_month_13_opened");
+      expect(r?.emphasizes).toContain("act_6_confession");
+    });
+
+    it("month 14 is The Convergence and fires beyond_year_one_month_14_opened", () => {
+      const r = getExtendedCalendarRipple(14);
+      expect(r?.title).toBe("The Convergence");
+      expect(r?.opensFlag).toBe("beyond_year_one_month_14_opened");
+      expect(r?.emphasizes).toContain("act_7_convergence");
+    });
+
+    it("EXTENDED_CALENDAR_RIPPLES is 14 entries in sequence", () => {
+      expect(EXTENDED_CALENDAR_RIPPLES.length).toBe(14);
+      for (let i = 0; i < 14; i++) {
+        expect(EXTENDED_CALENDAR_RIPPLES[i].month).toBe(i + 1);
+      }
+    });
+
+    it("getExtendedCalendarRipple resolves both Year One + Beyond months", () => {
+      expect(getExtendedCalendarRipple(1)?.title).toBe("First Light");
+      expect(getExtendedCalendarRipple(12)?.title).toBe("The Reckoning");
+      expect(getExtendedCalendarRipple(13)?.title).toBe("The Confession");
+      expect(getExtendedCalendarRipple(14)?.title).toBe("The Convergence");
+      expect(getExtendedCalendarRipple(15)).toBeUndefined();
+    });
+
+    it("Acts 6 and 7 have beat chronicle entries", () => {
+      const act6 = BEAT_CHRONICLE_ENTRIES.find(
+        (e) => e.flag === "act_6_confession_complete",
+      );
+      const act7 = BEAT_CHRONICLE_ENTRIES.find(
+        (e) => e.flag === "act_7_convergence_complete",
+      );
+      expect(act6?.title).toBe("The Confession Arrives");
+      expect(act7?.title).toBe("The Convergence");
+    });
+
+    it("Acts 6 and 7 milestone chronicle entries are authored", () => {
+      const confession = getMilestoneChronicleEntry("the_confession_heard");
+      const convergence = getMilestoneChronicleEntry(
+        "the_convergence_settled",
+      );
+      expect(confession.title).toBe("The Confession Heard");
+      expect(convergence.title).toBe("The Convergence Settled");
+    });
+
+    it("Acts 6 and 7 witnessing milestones are registered", () => {
+      expect(WITNESSING_MILESTONES.the_confession_heard).toBeDefined();
+      expect(WITNESSING_MILESTONES.the_convergence_settled).toBeDefined();
+      expect(
+        WITNESSING_MILESTONES.the_convergence_settled.lightEnergyReward,
+      ).toBe(1000);
+    });
   });
 });
