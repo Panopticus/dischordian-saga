@@ -25,6 +25,14 @@ interface SystemDiscovery {
   icon: typeof Home;
   color: string;
   features: string[];
+  /**
+   * Optional per-feature narrativeFlag gate. Feature strings listed here
+   * are suppressed from the announcement unless the corresponding flag is
+   * true. Features not in this map are always announced. Keeps the first-
+   * discovery splash honest — it doesn't promise capabilities the player
+   * hasn't been told about in-fiction yet. See §Step 4 of the design plan.
+   */
+  featureFlags?: Record<string, string>;
   /** Elara's lore-relevant announcement when this room becomes available */
   elaraAnnouncement: string;
 }
@@ -92,6 +100,15 @@ const DISCOVERABLE_SYSTEMS: SystemDiscovery[] = [
     description: "Your operative dossier, trophies, and achievements",
     icon: Users, color: "var(--energy-primary)",
     features: ["Operative Dossier", "Character Sheet", "Trophy Room", "Achievements", "Leaderboard"],
+    // Section E — each row is hidden until its in-fiction flag fires.
+    // The splash won't promise capabilities the player hasn't earned.
+    featureFlags: {
+      "Operative Dossier": "sheet_known_stats",
+      "Character Sheet": "sheet_known_self",
+      "Trophy Room": "sheet_known_trophies",
+      "Achievements": "sheet_known_achievements",
+      "Leaderboard": "sheet_known_leaderboard",
+    },
     elaraAnnouncement: "That master key you found on the Bridge — it's the Captain's personal access key. Highest clearance level on the entire ship. The Captain's Quarters are sealed behind a biometric lock that only responds to that key. Inside you'll find the trophy room, the personal log archive, and the deck builder station. This was the most restricted room on the Ark. Now it's yours.",
   },
 ];
@@ -140,10 +157,21 @@ export function useDiscoveryTracker() {
 
 export default function DiscoveryUnlockOverlay() {
   const { currentDiscovery, dismissCurrent } = useDiscoveryTracker();
+  const { state } = useGame();
   const [, setLocation] = useLocation();
   const [phase, setPhase] = useState<"enter" | "reveal" | "features" | "elara" | "exit">("enter");
   const [dialogSuppressed, setDialogSuppressed] = useState(() => isDialogActive());
   const { playSFX, audioReady } = useSound();
+
+  // Filter advertised features through their per-feature hintFlag. A
+  // feature without a flag entry is always shown; a feature with a flag
+  // is shown only once the flag has fired. Keeps the first-unlock
+  // splash honest — no promising capabilities the player hasn't earned.
+  const visibleFeatures = (currentDiscovery?.features ?? []).filter((feat) => {
+    const flag = currentDiscovery?.featureFlags?.[feat];
+    if (!flag) return true;
+    return !!state.narrativeFlags[flag];
+  });
 
   // Listen for dialog state changes
   useEffect(() => {
@@ -263,9 +291,9 @@ export default function DiscoveryUnlockOverlay() {
               {currentDiscovery.description}
             </motion.p>
 
-            {/* Features unlocked */}
+            {/* Features unlocked — honest subset only */}
             <AnimatePresence>
-              {(phase === "features" || phase === "elara") && (
+              {(phase === "features" || phase === "elara") && visibleFeatures.length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
@@ -276,7 +304,7 @@ export default function DiscoveryUnlockOverlay() {
                     FEATURES UNLOCKED
                   </p>
                   <div className="flex flex-wrap justify-center gap-2">
-                    {currentDiscovery.features.map((feat, i) => (
+                    {visibleFeatures.map((feat, i) => (
                       <motion.span
                         key={feat}
                         initial={{ opacity: 0, scale: 0.8 }}

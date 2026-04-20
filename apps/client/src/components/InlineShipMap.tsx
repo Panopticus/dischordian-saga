@@ -241,11 +241,15 @@ export default function InlineShipMap({ currentRoomId, onTravel }: InlineShipMap
   const { state, canUnlockRoom, isRoomUnlocked } = useGame();
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Group rooms by deck
+  // Progressive disclosure: only surface rooms the player has actually
+  // discovered. Locked, un-teased rooms are dropped from the map —
+  // no "???" placeholders. See §Step 4 of the design plan.
   const deckGroups = useMemo(() => {
     const groups: Record<number, RoomDef[]> = {};
     ROOM_DEFINITIONS.forEach(def => {
-      if (def.deck >= 8 && !state.rooms[def.id]?.unlocked) return;
+      const isUnlocked = !!state.rooms[def.id]?.unlocked;
+      const isVisited = !!state.rooms[def.id]?.visited;
+      if (!isUnlocked && !isVisited) return;
       if (!groups[def.deck]) groups[def.deck] = [];
       groups[def.deck].push(def);
     });

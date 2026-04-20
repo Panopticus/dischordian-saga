@@ -17,7 +17,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Terminal, Menu, X, Search, Shield, Trophy, Gem, Diamond,
-  ChevronRight, ChevronDown, Lock, Unlock, Compass,
+  Compass,
   Home, Tv, Gamepad2, Store, Users, Disc3, Music,
   Map, Swords, Clock, Brain, Ship, Crown, FlaskConical,
   Rocket, BookOpen, Radio, Heart, BarChart3, Crosshair,
@@ -32,6 +32,20 @@ const ARK_CONTROL_ROOM = "https://d2xsxph8kpxj0f.cloudfront.net/3104196630320801
    Each system maps to a ship room and its feature routes.
    The "deck" groups them visually. */
 
+interface RouteDef {
+  path: string;
+  label: string;
+  icon: typeof Terminal;
+  desc?: string;
+  /**
+   * Optional narrativeFlag gate. When set, the route is hidden from the
+   * subsystem list until the flag flips true via an in-fiction trigger
+   * (dialog line, room event, item examined). Undefined = always shown
+   * once the parent system is known.
+   */
+  hintFlag?: string;
+}
+
 interface SystemDef {
   id: string;
   roomId: string; // maps to GameContext room
@@ -40,7 +54,7 @@ interface SystemDef {
   icon: typeof Terminal;
   description: string;
   deck: number;
-  routes: { path: string; label: string; icon: typeof Terminal; desc?: string }[];
+  routes: RouteDef[];
   color: string; // accent color for the system
 }
 
@@ -166,15 +180,23 @@ const SYSTEMS: SystemDef[] = [
     description: "Your operative dossier, trophies, and achievements",
     deck: 1,
     color: "var(--neon-cyan)",
+    // Section E — each sub-row is gated behind a narrative-reveal flag.
+    // sheet_known_stats → Cryo Bay wake-up beat ("your vitals have stabilized")
+    // sheet_known_self → Med Bay bio-bed scan
+    // sheet_known_citizen_id → first Ark-terminal that asks for ID
+    // sheet_known_trophies → first boss falls
+    // sheet_known_achievements → second achievement fires
+    // sheet_known_leaderboard → Elara mentions "the other Potentials"
+    // sheet_known_potential → mid-Act-1 reveal that you ARE a Potential
     routes: [
-      { path: "/profile", label: "OPERATIVE DOSSIER", icon: BarChart3, desc: "Stats & progress" },
-      { path: "/character-sheet", label: "CHARACTER SHEET", icon: Shield, desc: "Stats & gear" },
-      { path: "/create-citizen", label: "CITIZEN ID", icon: Users, desc: "Create identity" },
-      { path: "/trophy", label: "TROPHY ROOM", icon: Trophy, desc: "Your trophies" },
-      { path: "/achievements", label: "ACHIEVEMENTS", icon: Trophy, desc: "Achievement gallery" },
-      { path: "/leaderboard", label: "LEADERBOARD", icon: Trophy, desc: "Top operatives" },
-      { path: "/potentials", label: "THE POTENTIALS", icon: Gem, desc: "Potential collection" },
-      { path: "/potentials/leaderboard", label: "POTENTIAL RANKS", icon: Crown, desc: "Potential holder rankings" },
+      { path: "/profile", label: "OPERATIVE DOSSIER", icon: BarChart3, desc: "Stats & progress", hintFlag: "sheet_known_stats" },
+      { path: "/character-sheet", label: "CHARACTER SHEET", icon: Shield, desc: "Stats & gear", hintFlag: "sheet_known_self" },
+      { path: "/create-citizen", label: "CITIZEN ID", icon: Users, desc: "Create identity", hintFlag: "sheet_known_citizen_id" },
+      { path: "/trophy", label: "TROPHY ROOM", icon: Trophy, desc: "Your trophies", hintFlag: "sheet_known_trophies" },
+      { path: "/achievements", label: "ACHIEVEMENTS", icon: Trophy, desc: "Achievement gallery", hintFlag: "sheet_known_achievements" },
+      { path: "/leaderboard", label: "LEADERBOARD", icon: Trophy, desc: "Top operatives", hintFlag: "sheet_known_leaderboard" },
+      { path: "/potentials", label: "THE POTENTIALS", icon: Gem, desc: "Potential collection", hintFlag: "sheet_known_potential" },
+      { path: "/potentials/leaderboard", label: "POTENTIAL RANKS", icon: Crown, desc: "Potential holder rankings", hintFlag: "sheet_known_potential" },
     ],
   },
   {
@@ -186,47 +208,66 @@ const SYSTEMS: SystemDef[] = [
     description: "Explore the Inception Ark — point and click adventure",
     deck: 1,
     color: "var(--neon-cyan)",
+    // /ark is the always-available point-and-click shell; the other three
+    // are narrative reveals:
+    //   known_route_ark_legacy  → player finds the legacy archive terminal
+    //   known_route_ark_console → player encounters the bridge console prompt
+    //   known_route_simulation_hub → player trains in the first CADES sim
     routes: [
       { path: "/ark", label: "EXPLORE THE ARK", icon: Rocket, desc: "Point & click adventure" },
-      { path: "/ark-legacy", label: "ARK LEGACY", icon: Compass, desc: "Legacy Ark view" },
-      { path: "/console", label: "ARK CONSOLE", icon: Terminal, desc: "System terminal" },
-      { path: "/games", label: "SIMULATION HUB", icon: Gamepad2, desc: "All CADES sims" },
+      { path: "/ark-legacy", label: "ARK LEGACY", icon: Compass, desc: "Legacy Ark view", hintFlag: "known_route_ark_legacy" },
+      { path: "/console", label: "ARK CONSOLE", icon: Terminal, desc: "System terminal", hintFlag: "known_route_ark_console" },
+      { path: "/games", label: "SIMULATION HUB", icon: Gamepad2, desc: "All CADES sims", hintFlag: "known_route_simulation_hub" },
     ],
   },
 ];
 
-/* ─── HELPER: Check if a system is unlocked ─── */
-function useSystemUnlockStatus() {
+/* ─── HELPERS: progressive disclosure ─── */
+
+/**
+ * A system is "known" only when the fiction has surfaced it. That means
+ * either an explicit narrative flag has fired (a dialog line, an event,
+ * an item examined), or the player has already entered the room — room
+ * entry IS in-fiction discovery by consequence. Locked-but-teased tiles
+ * are intentionally NOT rendered: a system that has never been surfaced
+ * in-fiction must not advertise itself in the nav.
+ */
+function useSystemKnown() {
   const { state } = useGame();
-  
+
   return useCallback((sys: SystemDef) => {
-    // Ark Explorer is always accessible after awakening
+    // Ark Explorer is the awakening shell — known from the first frame.
     if (sys.id === "ark-explorer") return true;
-    // All other systems (including Bridge) require their room to be discovered
+    if (state.narrativeFlags[`known_system_${sys.id}`]) return true;
     const room = state.rooms[sys.roomId];
-    return room?.unlocked ?? false;
-  }, [state.rooms]);
+    return !!room?.unlocked;
+  }, [state.narrativeFlags, state.rooms]);
+}
+
+/** Predicate: should this route appear under its (known) parent system? */
+function useRouteKnown() {
+  const { state } = useGame();
+  return useCallback((route: RouteDef) => {
+    if (!route.hintFlag) return true;
+    return !!state.narrativeFlags[route.hintFlag];
+  }, [state.narrativeFlags]);
 }
 
 /* ─── SYSTEM CARD ─── */
-function SystemCard({ sys, isActive, isUnlocked, onSelect }: {
+function SystemCard({ sys, isActive, onSelect }: {
   sys: SystemDef;
   isActive: boolean;
-  isUnlocked: boolean;
   onSelect: () => void;
 }) {
   const Icon = sys.icon;
-  
+
   return (
     <button
       onClick={onSelect}
-      disabled={!isUnlocked}
       className={`relative group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 w-full text-left ${
         isActive
           ? "bg-muted/30 border border-border/80 shadow-lg"
-          : isUnlocked
-            ? "hover:bg-muted/50 border border-transparent hover:border-border/50"
-            : "opacity-40 cursor-not-allowed border border-transparent"
+          : "hover:bg-muted/50 border border-transparent hover:border-border/50"
       }`}
       style={isActive ? {
         borderColor: `color-mix(in srgb, ${sys.color} 30%, transparent)`,
@@ -238,40 +279,24 @@ function SystemCard({ sys, isActive, isUnlocked, onSelect }: {
           isActive ? "scale-105" : ""
         }`}
         style={{
-          background: isUnlocked
-            ? `linear-gradient(135deg, color-mix(in srgb, ${sys.color} 15%, transparent), color-mix(in srgb, ${sys.color} 5%, transparent))`
-            : "color-mix(in oklch, var(--text-primary) 3%, transparent)",
-          border: isUnlocked
-            ? `1px solid color-mix(in srgb, ${sys.color} 25%, transparent)`
-            : "1px solid color-mix(in oklch, var(--text-primary) 5%, transparent)",
+          background: `linear-gradient(135deg, color-mix(in srgb, ${sys.color} 15%, transparent), color-mix(in srgb, ${sys.color} 5%, transparent))`,
+          border: `1px solid color-mix(in srgb, ${sys.color} 25%, transparent)`,
         }}
       >
-        {isUnlocked ? (
-          <Icon size={15} style={{ color: sys.color }} />
-        ) : (
-          <Lock size={13} className="text-muted-foreground/35" />
-        )}
+        <Icon size={15} style={{ color: sys.color }} />
       </div>
       <div className="min-w-0 flex-1">
         <p className={`font-mono text-[10px] tracking-[0.15em] truncate ${
-          isActive ? "text-foreground" : isUnlocked ? "text-muted-foreground/80" : "text-muted-foreground/40"
+          isActive ? "text-foreground" : "text-muted-foreground/80"
         }`}>
           {sys.label}
         </p>
-        {isActive && (
-          <p className="font-mono text-[9px] text-muted-foreground/50 truncate mt-0.5">
-            {sys.routes.length} subsystem{sys.routes.length !== 1 ? "s" : ""}
-          </p>
-        )}
       </div>
       {isActive && (
         <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{
           background: sys.color,
           boxShadow: `0 0 6px ${sys.color}`,
         }} />
-      )}
-      {!isUnlocked && (
-        <Lock size={10} className="text-muted-foreground/25 shrink-0" />
       )}
     </button>
   );
@@ -283,6 +308,9 @@ function SubsystemNav({ sys, location, onNavigate }: {
   location: string;
   onNavigate: () => void;
 }) {
+  const isRouteKnown = useRouteKnown();
+  const visibleRoutes = sys.routes.filter(isRouteKnown);
+  if (visibleRoutes.length === 0) return null;
   return (
     <div className="space-y-0.5">
       <div className="flex items-center gap-2 px-3 py-1.5 mb-1">
@@ -291,7 +319,7 @@ function SubsystemNav({ sys, location, onNavigate }: {
           {sys.label} SUBSYSTEMS
         </span>
       </div>
-      {sys.routes.map((route) => {
+      {visibleRoutes.map((route) => {
         const Icon = route.icon;
         const active = route.path === "/"
           ? location === "/"
@@ -384,7 +412,9 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
   const { stats, discoveryProgress } = useLoredex();
   const { showPlayer } = usePlayer();
   const gam = useGamification();
-  const isSystemUnlocked = useSystemUnlockStatus();
+  const { state } = useGame();
+  const isSystemKnown = useSystemKnown();
+  const knownSystems = useMemo(() => SYSTEMS.filter(isSystemKnown), [isSystemKnown]);
 
   // Determine which system is active based on current route
   const activeSystem = useMemo(() => {
@@ -411,7 +441,7 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
   const handleNavigate = () => setSidebarOpen(false);
 
   const handleSystemSelect = (sys: SystemDef) => {
-    if (!isSystemUnlocked(sys)) return;
+    if (!isSystemKnown(sys)) return;
     // Navigate to the first route of the system
     navigate(sys.routes[0].path);
     setSidebarOpen(false);
@@ -527,13 +557,13 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
             </div>
             <div className="flex items-center gap-2 mt-1.5">
               <span className="font-mono text-[9px] text-muted-foreground/40">
-                {SYSTEMS.filter(s => isSystemUnlocked(s)).length}/{SYSTEMS.length} ONLINE
+                {knownSystems.length} ONLINE
               </span>
               <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: "var(--glass-dark)" }}>
                 <div
                   className="h-full rounded-full transition-all"
                   style={{
-                    width: `${(SYSTEMS.filter(s => isSystemUnlocked(s)).length / SYSTEMS.length) * 100}%`,
+                    width: `${(knownSystems.length / SYSTEMS.length) * 100}%`,
                     background: "var(--brand-gradient)",
                   }}
                 />
@@ -541,14 +571,13 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
             </div>
           </div>
 
-          {/* System Cards */}
+          {/* System Cards — only render systems the fiction has surfaced */}
           <nav className="pt-2 px-2 space-y-0.5">
-            {SYSTEMS.map((sys) => (
+            {knownSystems.map((sys) => (
               <SystemCard
                 key={sys.id}
                 sys={sys}
                 isActive={activeSystem.id === sys.id}
-                isUnlocked={isSystemUnlocked(sys)}
                 onSelect={() => handleSystemSelect(sys)}
               />
             ))}
@@ -655,42 +684,48 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
           backdropFilter: "blur(20px)",
         }}>
         <div className="flex items-center justify-around h-14 px-1">
-          {/* Dynamic bottom nav — only show unlocked systems + always show Ark */}
+          {/* Dynamic bottom nav — only renders systems the fiction has
+              surfaced. The Simulation Hub tile (/games) is gated by its
+              route-level hintFlag so it stays hidden until the player
+              has actually trained in a sim. */}
           {[
-            { sys: SYSTEMS[8], path: "/ark", label: "Explore", icon: Rocket, alwaysShow: true },
-            { sys: SYSTEMS[0], path: "/", label: "Bridge", icon: Home, alwaysShow: false },
-            { sys: SYSTEMS[4], path: "/games", label: "CADES", icon: Gamepad2, alwaysShow: false },
-            { sys: SYSTEMS[1], path: "/search", label: "Lore", icon: Compass, alwaysShow: false },
-            { sys: SYSTEMS[6], path: "/store", label: "Store", icon: Store, alwaysShow: false },
-          ].filter(item => item.alwaysShow || isSystemUnlocked(item.sys)).slice(0, 5).map((item) => {
-            const Icon = item.icon;
-            const active = item.path === "/"
-              ? location === "/"
-              : location === item.path || location.startsWith(item.path + "/");
-            const unlocked = isSystemUnlocked(item.sys);
-            return (
-              <Link
-                key={item.path}
-                href={unlocked ? item.path : "#"}
-                onClick={(e) => { if (!unlocked) e.preventDefault(); }}
-                className={`flex flex-col items-center justify-center gap-0.5 w-14 h-12 rounded-lg transition-all ${
-                  active
-                    ? "text-[var(--neon-cyan)]"
-                    : unlocked
-                      ? "text-muted-foreground/50 hover:text-muted-foreground/70"
-                      : "text-muted-foreground/25"
-                }`}
-              >
-                <div className="relative">
-                  {unlocked ? <Icon size={18} /> : <Lock size={16} />}
-                  {active && (
-                    <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[var(--neon-cyan)] shadow-[0_0_6px_var(--neon-cyan)]" />
-                  )}
-                </div>
-                <span className="font-mono text-[9px] tracking-wider">{item.label}</span>
-              </Link>
-            );
-          })}
+            { sys: SYSTEMS[8], path: "/ark", label: "Explore", icon: Rocket },
+            { sys: SYSTEMS[0], path: "/", label: "Bridge", icon: Home },
+            { sys: SYSTEMS[4], path: "/games", label: "CADES", icon: Gamepad2, routeFlag: "known_route_simulation_hub" },
+            { sys: SYSTEMS[1], path: "/search", label: "Lore", icon: Compass },
+            { sys: SYSTEMS[6], path: "/store", label: "Store", icon: Store },
+          ]
+            .filter((item) => {
+              if (!isSystemKnown(item.sys)) return false;
+              if (item.routeFlag) return !!state.narrativeFlags[item.routeFlag];
+              return true;
+            })
+            .slice(0, 5)
+            .map((item) => {
+              const Icon = item.icon;
+              const active = item.path === "/"
+                ? location === "/"
+                : location === item.path || location.startsWith(item.path + "/");
+              return (
+                <Link
+                  key={item.path}
+                  href={item.path}
+                  className={`flex flex-col items-center justify-center gap-0.5 w-14 h-12 rounded-lg transition-all ${
+                    active
+                      ? "text-[var(--neon-cyan)]"
+                      : "text-muted-foreground/50 hover:text-muted-foreground/70"
+                  }`}
+                >
+                  <div className="relative">
+                    <Icon size={18} />
+                    {active && (
+                      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[var(--neon-cyan)] shadow-[0_0_6px_var(--neon-cyan)]" />
+                    )}
+                  </div>
+                  <span className="font-mono text-[9px] tracking-wider">{item.label}</span>
+                </Link>
+              );
+            })}
         </div>
       </nav>
     </div>

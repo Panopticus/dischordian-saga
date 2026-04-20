@@ -37,7 +37,10 @@ export default function FastTravelPanel({
 }: FastTravelPanelProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Group ALL rooms by deck (show locked rooms too)
+  // Progressive disclosure: only show rooms the fiction has surfaced.
+  // A room is surfaced when it is unlocked (in-world entry / explicit
+  // unlock event) OR visited. Locked, un-teased rooms are dropped
+  // entirely — no "???" placeholders. (See §Step 4 of the design plan.)
   type DeckRoom = RoomDef & { isUnlocked: boolean; isVisited: boolean };
   type DeckGroup = { deckName: string; rooms: DeckRoom[] };
 
@@ -46,8 +49,7 @@ export default function FastTravelPanel({
     ROOM_DEFINITIONS.forEach(def => {
       const isUnlocked = unlockedRooms.has(def.id);
       const isVisited = !!rooms[def.id]?.visited;
-      // Only show hidden rooms (deck 8+) if they're unlocked
-      if (def.deck >= 8 && !isUnlocked) return;
+      if (!isUnlocked && !isVisited) return;
       const entry: DeckRoom = { ...def, isUnlocked, isVisited };
       if (groups[def.deck]) {
         groups[def.deck].rooms.push(entry);
