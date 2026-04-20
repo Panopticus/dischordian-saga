@@ -11,17 +11,25 @@
      markDismissed→ stamps dismissedAt so the transmission
                     never auto-intercepts again.
 
+     adminList    → admin-only; every row, including expired,
+                    for the Architect's Console table.
+     adminCreate  → admin-only; inserts a new row.
+     adminUpdate  → admin-only; partial update by id.
+     adminDelete  → admin-only; removes a row.
+
    `listActive` is a publicProcedure so the unauth title
    state can fetch `audience="all"` and `"unauth"` cards
    without an auth round-trip. `markViewed`/`markDismissed`
    require auth — they write `announcement_views` rows.
+   The `admin*` procedures require `role === "admin"`.
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
 import { and, desc, eq, gt, inArray, isNull, or, sql } from "drizzle-orm";
 
 import { announcements, announcementViews } from "../../db/schema";
 import { getDb } from "../db";
-import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
+import { adminProcedure, protectedProcedure, publicProcedure, router } from "../_core/trpc";
 
 /** Audience tags the client can declare itself a member of. The
  *  server filters `announcements.audience` by set membership: any row
@@ -31,6 +39,82 @@ const AudienceTagEnum = z.enum([
 ]);
 
 type AudienceTag = z.infer<typeof AudienceTagEnum>;
+
+/* ───────────────────────────────────────────────────────
+   ADMIN INPUT SCHEMA — shared between create and update.
+   Mirrors the `announcements` table columns; nullable URL/body
+   fields accept empty-string from the form and are normalized
+   to null before insert.
+   ─────────────────────────────────────────────────────── */
+const CategoryEnum = z.enum([
+  "ark_alert", "transmission_incoming", "archival_footage", "overlay",
+]);
+const PriorityEnum = z.enum(["normal", "high"]);
+
+const optionalString = z
+  .string()
+  .trim()
+  .optional()
+  .transform(v => (v && v.length > 0 ? v : undefined));
+
+const AdminAnnouncementInputSchema = z.object({
+  slug: z.string().trim().min(1).max(128),
+  title: z.string().trim().min(1).max(256),
+  body: optionalString,
+  category: CategoryEnum.default("transmission_incoming"),
+  priority: PriorityEnum.default("normal"),
+  audience: AudienceTagEnum.default("all"),
+  artUrl: optionalString,
+  linkUrl: optionalString,
+  videoUrl: optionalString,
+  videoPosterUrl: optionalString,
+  videoDurationSec: z.number().int().nonnegative().nullable().optional(),
+  triggerOnTitle: z.boolean().default(false),
+  triggerProbability: z.number().int().min(0).max(100).default(100),
+  publishedAt: z.date().optional(),
+  expiresAt: z.date().nullable().optional(),
+});
+type AdminAnnouncementInput = z.infer<typeof AdminAnnouncementInputSchema>;
+
+function toInsertValues(input: AdminAnnouncementInput) {
+  return {
+    slug: input.slug,
+    title: input.title,
+    body: input.body ?? null,
+    category: input.category,
+    priority: input.priority,
+    audience: input.audience,
+    artUrl: input.artUrl ?? null,
+    linkUrl: input.linkUrl ?? null,
+    videoUrl: input.videoUrl ?? null,
+    videoPosterUrl: input.videoPosterUrl ?? null,
+    videoDurationSec: input.videoDurationSec ?? null,
+    triggerOnTitle: input.triggerOnTitle,
+    triggerProbability: input.triggerProbability,
+    ...(input.publishedAt ? { publishedAt: input.publishedAt } : {}),
+    expiresAt: input.expiresAt ?? null,
+  };
+}
+
+function toUpdateValues(patch: Partial<AdminAnnouncementInput>) {
+  const out: Record<string, unknown> = {};
+  if (patch.slug !== undefined) out.slug = patch.slug;
+  if (patch.title !== undefined) out.title = patch.title;
+  if (patch.body !== undefined) out.body = patch.body ?? null;
+  if (patch.category !== undefined) out.category = patch.category;
+  if (patch.priority !== undefined) out.priority = patch.priority;
+  if (patch.audience !== undefined) out.audience = patch.audience;
+  if (patch.artUrl !== undefined) out.artUrl = patch.artUrl ?? null;
+  if (patch.linkUrl !== undefined) out.linkUrl = patch.linkUrl ?? null;
+  if (patch.videoUrl !== undefined) out.videoUrl = patch.videoUrl ?? null;
+  if (patch.videoPosterUrl !== undefined) out.videoPosterUrl = patch.videoPosterUrl ?? null;
+  if (patch.videoDurationSec !== undefined) out.videoDurationSec = patch.videoDurationSec ?? null;
+  if (patch.triggerOnTitle !== undefined) out.triggerOnTitle = patch.triggerOnTitle;
+  if (patch.triggerProbability !== undefined) out.triggerProbability = patch.triggerProbability;
+  if (patch.publishedAt !== undefined) out.publishedAt = patch.publishedAt;
+  if (patch.expiresAt !== undefined) out.expiresAt = patch.expiresAt ?? null;
+  return out;
+}
 
 export const announcementsRouter = router({
   /**
@@ -170,6 +254,70 @@ export const announcementsRouter = router({
           dismissedAt: new Date(),
         });
       }
+      return { success: true } as const;
+    }),
+
+  /* ───────────────────────────────────────────────────────
+     ADMIN CRUD — wired into the Architect's Console.
+     adminProcedure enforces role === "admin" (see _core/trpc.ts).
+     ─────────────────────────────────────────────────────── */
+
+  /** List every announcement, including expired. Used by the
+   *  Architect's Console announcements tab. */
+  adminList: adminProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) return [] as AnnouncementRow[];
+    return db
+      .select()
+      .from(announcements)
+      .orderBy(desc(announcements.publishedAt));
+  }),
+
+  adminCreate: adminProcedure
+    .input(AdminAnnouncementInputSchema)
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "SERVICE_UNAVAILABLE", message: "Database unavailable" });
+      try {
+        await db.insert(announcements).values(toInsertValues(input));
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        if (/duplicate|unique/i.test(msg)) {
+          throw new TRPCError({ code: "CONFLICT", message: `Slug "${input.slug}" already exists` });
+        }
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: msg });
+      }
+      return { success: true } as const;
+    }),
+
+  adminUpdate: adminProcedure
+    .input(
+      z.object({
+        id: z.number().int().positive(),
+        patch: AdminAnnouncementInputSchema.partial(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "SERVICE_UNAVAILABLE", message: "Database unavailable" });
+      const updateSet = toUpdateValues(input.patch);
+      if (Object.keys(updateSet).length === 0) {
+        return { success: true, noop: true } as const;
+      }
+      await db
+        .update(announcements)
+        .set(updateSet)
+        .where(eq(announcements.id, input.id));
+      return { success: true } as const;
+    }),
+
+  adminDelete: adminProcedure
+    .input(z.object({ id: z.number().int().positive() }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "SERVICE_UNAVAILABLE", message: "Database unavailable" });
+      await db.delete(announcementViews).where(eq(announcementViews.announcementId, input.id));
+      await db.delete(announcements).where(eq(announcements.id, input.id));
       return { success: true } as const;
     }),
 });
