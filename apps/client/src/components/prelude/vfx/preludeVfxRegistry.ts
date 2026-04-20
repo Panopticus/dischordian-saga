@@ -85,4 +85,16 @@ export const CODE_IMPLEMENTED_VFX_IDS: ReadonlySet<string> = new Set([
   // CSS gradient/mask
   "vfx_peripheral_warm_halo",
   "vfx_primary_lights_cascade",
+  // Generic anchor state-machine effects (see UX_INTERACTION_SPEC.md).
+  // Drive idle/hover/examined painting for every hotspot in the
+  // per-room anchor tables (preludeRoomAnchors.ts and beat-specific
+  // hotspot configs). Color suffix picks the glow tone; the chime
+  // is played by the interaction layer from the matching color map.
+  "vfx_hotspot_idle_cyan",
+  "vfx_hotspot_idle_amber",
+  "vfx_hotspot_idle_red",
+  "vfx_hotspot_idle_violet",
+  "vfx_hotspot_idle_green",
+  "vfx_hotspot_hover_glint",
+  "vfx_hotspot_examined_dim",
 ]);
