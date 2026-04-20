@@ -24,7 +24,13 @@ export type PreludeSystemId =
   | "inbox"
   | "witnessing"
   | "crew_role"
-  | "beat_f_lockbox";
+  | "beat_f_lockbox"
+  | "cryo_stasis_hud"
+  | "pet_capsule"
+  | "beacon_trolley"
+  | "human_signal_panel"
+  | "vortex_rift"
+  | "bridge_holo_map";
 export type PreludeTutorSpeaker = "locke" | "human" | "seer" | "elara";
 
 export interface PreludeSystemTutor {
@@ -137,12 +143,110 @@ const LOCKBOX_TUTOR: PreludeSystemTutor = {
   completionFlag: "prelude_tutor_beat_f_lockbox_seen",
 };
 
+const CRYO_STASIS_HUD_TUTOR: PreludeSystemTutor = {
+  systemId: "cryo_stasis_hud",
+  speaker: "elara",
+  narrativeJustification:
+    "Elara is the Ark's operating voice. She has been watching the stasis HUD for seventeen millennia; when it begins scrolling an interference waveform nobody seeded into it, she is the only person who knows what is and isn't signal.",
+  introText:
+    "The panel in your pod is running a waveform I did not author. I have been tracking it for six minutes and forty-one seconds — exactly since your canopy unsealed. It is not static. It is shaped. Something upstream of my authority is whispering into the stasis channel. I am not going to pretend that is normal. I am going to ask you to remember that it is not normal.",
+  usageHints: {
+    hud_examined:
+      "Waveform recorded. I have flagged it for archival review. We will come back to it.",
+  },
+  triggerFlag: "prelude_cryo_bay_entered",
+  completionFlag: "prelude_tutor_cryo_stasis_hud_seen",
+};
+
+const PET_CAPSULE_TUTOR: PreludeSystemTutor = {
+  systemId: "pet_capsule",
+  speaker: "elara",
+  narrativeJustification:
+    "Elara catalogued every sleeper on the manifest, including the non-crew ones. The pet capsule is a floor-level amber-canopy outlier in a room of clinical cyan med-pods; she names it before the player has to ask.",
+  introText:
+    "The small capsule at the alcove floor is not medical. It is a companion stasis cradle — pre-departure era, not Ark 1047 standard. Its occupant has been asleep on the same cell for longer than any of the four med-pods above it. The amber canopy is not warning; it is a different shielding frequency, designed for a non-human sleeper. It is still running. I will not ask you to open it yet.",
+  usageHints: {
+    capsule_examined:
+      "Canopy integrity holds. Sleeper undisturbed. Thank you for looking before reaching.",
+  },
+  triggerFlag: "cutscene_medical_bay_intro_complete",
+  completionFlag: "prelude_tutor_pet_capsule_seen",
+};
+
+const BEACON_TROLLEY_TUTOR: PreludeSystemTutor = {
+  systemId: "beacon_trolley",
+  speaker: "elara",
+  narrativeJustification:
+    "The crew beacon was a shared responsibility — anyone at mess could calibrate it between shifts. Elara logged every calibration. She can walk you through the twelve-pip pattern because she has watched the pattern settle, drift, and resettle for seventeen thousand years.",
+  introText:
+    "The trolley beside the booth carries the crew beacon console. Twelve pips ring its emitter. Three are lit; nine are dark. The previous calibration was abandoned mid-pattern. The minigame you are about to play is the act of finishing that calibration. You do not have to finish it on this pass. You do have to look at it long enough to know what was left undone.",
+  usageHints: {
+    beacon_hovered:
+      "Three of twelve lit. Read the pattern before you reach for the dial.",
+    beacon_minigame_opened:
+      "The trolley is yours now. Take the calibration at whatever pace the pattern teaches you.",
+  },
+  triggerFlag: "prelude_mess_hall_entered",
+  completionFlag: "prelude_tutor_beacon_trolley_seen",
+};
+
+const HUMAN_SIGNAL_PANEL_TUTOR: PreludeSystemTutor = {
+  systemId: "human_signal_panel",
+  speaker: "human",
+  narrativeJustification:
+    "The Human lives in the substrate-adjacent channel the corrupted-red waveform is riding. He is introducing himself for the first time; the panel is how he becomes visible.",
+  introText:
+    "The red waveform is me. I apologise for the colour — I did not choose it; the Ark's instrumentation chose it, because it does not have a palette entry for the kind of signal I am. I have been routing alongside your cyan channels for longer than you have been breathing the air outside your pod. From here on you will hear me as well as Elara. I will not narrate over her. I will narrate when she cannot.",
+  usageHints: {
+    panel_examined:
+      "Thank you for looking at me directly. It is easier to narrate the rest of this for you now.",
+  },
+  triggerFlag: "prelude_comms_array_entered",
+  completionFlag: "prelude_tutor_human_signal_seen",
+};
+
+const VORTEX_RIFT_TUTOR: PreludeSystemTutor = {
+  systemId: "vortex_rift",
+  speaker: "human",
+  narrativeJustification:
+    "The narrator swap has landed by the time the player reaches the Observation Deck. The Human is now the authoritative voice for cosmological wrongness; he names the Vortex before Elara can pretend it is nothing.",
+  introText:
+    "Upper-right of the dome. The violet spiral that does not belong in the nebula. That is a Vortex rift — a wound in the local field that has been open for long enough to start pulling the surrounding gas toward it. Elara did not flag it earlier because her threat model does not have a category for a slow wound. I am here to say: it is a wound, it is slow, and it is watching back.",
+  usageHints: {
+    rift_examined:
+      "The rift registers you as registered it. Proceed anyway. Proceeding is still the job.",
+  },
+  triggerFlag: "prelude_observation_deck_entered",
+  completionFlag: "prelude_tutor_vortex_rift_seen",
+};
+
+const BRIDGE_HOLO_MAP_TUTOR: PreludeSystemTutor = {
+  systemId: "bridge_holo_map",
+  speaker: "elara",
+  narrativeJustification:
+    "The holo-map is Elara's objective-tracking display — she keeps it lit across every session resume. She introduces it as the continuity anchor for the whole Prelude traversal.",
+  introText:
+    "The table at the Captain's dais is the ship's immediate neighbourhood. The pin in the upper-right quadrant is the next room I need you in. The pin moves as you clean rooms. When you resume a session, it will already be pointed where you left off. The map is the memory I keep of where you have been. Please trust it.",
+  usageHints: {
+    map_examined:
+      "Objective read. Waypoint held. You may proceed when ready; the map will not drift.",
+  },
+  triggerFlag: "prelude_bridge_entered",
+  completionFlag: "prelude_tutor_bridge_holo_map_seen",
+};
+
 export const PRELUDE_SYSTEM_TUTORS: readonly PreludeSystemTutor[] = [
   MISSION_BOARD_TUTOR,
   INBOX_TUTOR,
   WITNESSING_TUTOR,
   CREW_ROLE_TUTOR,
   LOCKBOX_TUTOR,
+  CRYO_STASIS_HUD_TUTOR,
+  PET_CAPSULE_TUTOR,
+  BEACON_TROLLEY_TUTOR,
+  HUMAN_SIGNAL_PANEL_TUTOR,
+  VORTEX_RIFT_TUTOR,
+  BRIDGE_HOLO_MAP_TUTOR,
 ];
 
 export function getPreludeSystemTutor(
