@@ -3041,12 +3041,14 @@ export class FightEngine2D {
     f.hitThisAttack = false;
     f.cancelUsed = false;
 
-    // Stop horizontal movement when entering attack, block, stun, or other non-movement states.
-    // This prevents the "stuck forward movement" bug where walk velocity persists through attacks.
+    // Stop horizontal movement when entering attack, block, stun, idle, or other non-movement states.
+    // This prevents the "stuck forward movement" bug where walk velocity persists through attacks
+    // or leaks into idle (causing a fighter to slide in place after a taunt, jump-land, parry, etc.).
+    // Idle is intentionally NOT in the movement list: grounded idle must never carry horizontal velocity.
     const isMovementState = newState === "walk_fwd" || newState === "walk_back" ||
       newState === "dash_fwd" || newState === "dash_back" ||
       newState === "jump_fwd" || newState === "jump_back" || newState === "jump_up" ||
-      newState === "jump_start" || newState === "idle";
+      newState === "jump_start";
     if (!isMovementState && !f.airborne) {
       f.vx = 0;
     }
