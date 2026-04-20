@@ -1,3 +1,5 @@
+// Must be first — guarantees globalThis.crypto before jose/sdk initialize.
+import "./crypto-polyfill";
 import "dotenv/config";
 import express from "express";
 import { createServer } from "http";
@@ -309,6 +311,16 @@ async function startServer() {
     dischordiaCycleService
       .hydrate()
       .catch(e => console.error("[DischordiaCycle] initial hydrate error:", e));
+
+    // Ensure the `announcements` tables exist. Migration 0049 is
+    // orphaned from _journal.json (see apps/db/README.md), so drizzle
+    // skips it on deploy. The bootstrap runs the same DDL with
+    // IF NOT EXISTS guards, making the Architect's Console's
+    // announcements tab functional on every environment.
+    const { bootstrapAnnouncementsTables } = await import("../services/announcementsBootstrap");
+    bootstrapAnnouncementsTables().catch(e =>
+      console.error("[AnnouncementsBootstrap] failed:", e),
+    );
   }
 
   // Transmission achievements — upsert the `achievements` table rows

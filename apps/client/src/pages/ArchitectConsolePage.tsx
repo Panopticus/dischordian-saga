@@ -24,7 +24,7 @@ import { toast } from "sonner";
 
 const TimeMachineView = lazy(() => import("@/components/TimeMachineView"));
 
-type ConsoleView = "surveillance" | "governance" | "live_ops" | "requisitions" | "awards" | "time_machine" | "inspect" | "economy" | "universe" | "flags" | "audit_log" | "test_games";
+type ConsoleView = "surveillance" | "governance" | "live_ops" | "announcements" | "requisitions" | "awards" | "time_machine" | "inspect" | "economy" | "universe" | "flags" | "audit_log" | "test_games";
 
 /* ═══ VOID ENERGY STYLE HELPERS ═══ */
 const voidPanel = "bg-white/[0.02] border border-white/10 rounded-xl backdrop-blur";
@@ -309,6 +309,377 @@ function LiveOpsView() {
         </div>
       ))}
       {!events.data?.events?.length && <p className="font-mono text-[10px] text-white/20 text-center py-8">No events deployed</p>}
+    </div>
+  );
+}
+
+/* ═══ ANNOUNCEMENTS VIEW — TITLE-SCREEN BROADCASTS ═══ */
+
+type AnnouncementCategory = "ark_alert" | "transmission_incoming" | "archival_footage" | "overlay";
+type AnnouncementPriority = "normal" | "high";
+type AnnouncementAudience = "all" | "unauth" | "authed" | "act_ge_3" | "light_aligned" | "dark_aligned";
+
+const CATEGORY_OPTIONS: AnnouncementCategory[] = ["ark_alert", "transmission_incoming", "archival_footage", "overlay"];
+const PRIORITY_OPTIONS: AnnouncementPriority[] = ["normal", "high"];
+const AUDIENCE_OPTIONS: AnnouncementAudience[] = ["all", "unauth", "authed", "act_ge_3", "light_aligned", "dark_aligned"];
+
+interface AnnouncementFormState {
+  slug: string;
+  title: string;
+  body: string;
+  category: AnnouncementCategory;
+  priority: AnnouncementPriority;
+  audience: AnnouncementAudience;
+  artUrl: string;
+  linkUrl: string;
+  videoUrl: string;
+  videoPosterUrl: string;
+  videoDurationSec: string;
+  triggerOnTitle: boolean;
+  triggerProbability: number;
+  publishedAt: string;
+  expiresAt: string;
+}
+
+const EMPTY_ANNOUNCEMENT_FORM: AnnouncementFormState = {
+  slug: "",
+  title: "",
+  body: "",
+  category: "transmission_incoming",
+  priority: "normal",
+  audience: "all",
+  artUrl: "",
+  linkUrl: "",
+  videoUrl: "",
+  videoPosterUrl: "",
+  videoDurationSec: "",
+  triggerOnTitle: false,
+  triggerProbability: 100,
+  publishedAt: "",
+  expiresAt: "",
+};
+
+function toDateTimeLocalValue(d: Date | string | null | undefined): string {
+  if (!d) return "";
+  const date = typeof d === "string" ? new Date(d) : d;
+  if (Number.isNaN(date.getTime())) return "";
+  const pad = (n: number) => n.toString().padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
+function parseDateTimeLocal(value: string): Date | null {
+  if (!value) return null;
+  const d = new Date(value);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+function buildMutationPayload(form: AnnouncementFormState) {
+  const publishedAt = parseDateTimeLocal(form.publishedAt);
+  const expiresAt = parseDateTimeLocal(form.expiresAt);
+  const videoDurationSec = form.videoDurationSec === "" ? null : parseInt(form.videoDurationSec, 10);
+  return {
+    slug: form.slug.trim(),
+    title: form.title.trim(),
+    body: form.body.trim() || undefined,
+    category: form.category,
+    priority: form.priority,
+    audience: form.audience,
+    artUrl: form.artUrl.trim() || undefined,
+    linkUrl: form.linkUrl.trim() || undefined,
+    videoUrl: form.videoUrl.trim() || undefined,
+    videoPosterUrl: form.videoPosterUrl.trim() || undefined,
+    videoDurationSec: Number.isNaN(videoDurationSec as number) ? null : videoDurationSec,
+    triggerOnTitle: form.triggerOnTitle,
+    triggerProbability: form.triggerProbability,
+    ...(publishedAt ? { publishedAt } : {}),
+    expiresAt,
+  };
+}
+
+function AnnouncementsView() {
+  const utils = trpc.useUtils();
+  const list = trpc.announcements.adminList.useQuery();
+
+  const invalidateLists = useCallback(() => {
+    utils.announcements.adminList.invalidate();
+    utils.announcements.listActive.invalidate();
+  }, [utils]);
+
+  const createMut = trpc.announcements.adminCreate.useMutation({
+    onSuccess: () => {
+      invalidateLists();
+      toast.success("Broadcast deployed");
+      setEditing(null);
+      setForm(EMPTY_ANNOUNCEMENT_FORM);
+    },
+    onError: err => toast.error(err.message),
+  });
+  const updateMut = trpc.announcements.adminUpdate.useMutation({
+    onSuccess: () => {
+      invalidateLists();
+      toast.success("Broadcast updated");
+      setEditing(null);
+      setForm(EMPTY_ANNOUNCEMENT_FORM);
+    },
+    onError: err => toast.error(err.message),
+  });
+  const deleteMut = trpc.announcements.adminDelete.useMutation({
+    onSuccess: () => {
+      invalidateLists();
+      toast.success("Broadcast deleted");
+    },
+    onError: err => toast.error(err.message),
+  });
+
+  const [editing, setEditing] = useState<number | "new" | null>(null);
+  const [form, setForm] = useState<AnnouncementFormState>(EMPTY_ANNOUNCEMENT_FORM);
+
+  const startNew = useCallback(() => {
+    setEditing("new");
+    setForm(EMPTY_ANNOUNCEMENT_FORM);
+  }, []);
+
+  const startEdit = useCallback((row: NonNullable<typeof list.data>[number]) => {
+    setEditing(row.id);
+    setForm({
+      slug: row.slug,
+      title: row.title,
+      body: row.body ?? "",
+      category: row.category as AnnouncementCategory,
+      priority: row.priority as AnnouncementPriority,
+      audience: row.audience as AnnouncementAudience,
+      artUrl: row.artUrl ?? "",
+      linkUrl: row.linkUrl ?? "",
+      videoUrl: row.videoUrl ?? "",
+      videoPosterUrl: row.videoPosterUrl ?? "",
+      videoDurationSec: row.videoDurationSec === null || row.videoDurationSec === undefined ? "" : String(row.videoDurationSec),
+      triggerOnTitle: Boolean(row.triggerOnTitle),
+      triggerProbability: row.triggerProbability ?? 100,
+      publishedAt: toDateTimeLocalValue(row.publishedAt),
+      expiresAt: toDateTimeLocalValue(row.expiresAt),
+    });
+  }, []);
+
+  const cancel = useCallback(() => {
+    setEditing(null);
+    setForm(EMPTY_ANNOUNCEMENT_FORM);
+  }, []);
+
+  const handleSubmit = useCallback(() => {
+    if (!form.slug.trim()) return toast.error("Slug is required");
+    if (!form.title.trim()) return toast.error("Title is required");
+    const payload = buildMutationPayload(form);
+    if (editing === "new") {
+      createMut.mutate(payload);
+    } else if (typeof editing === "number") {
+      updateMut.mutate({ id: editing, patch: payload });
+    }
+  }, [form, editing, createMut, updateMut]);
+
+  const isSaving = createMut.isPending || updateMut.isPending;
+  const rows = list.data ?? [];
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <h3 className="font-mono text-[10px] tracking-[0.2em] text-white/40">TITLE-SCREEN BROADCASTS</h3>
+          <p className="font-mono text-[9px] text-white/20 mt-1">Authors the Broadcast Ticker, Broadcast Panel, and video transmission intercept.</p>
+        </div>
+        <button onClick={startNew} className={voidBtnPrimary}>
+          <Plus size={12} className="inline mr-1" /> NEW BROADCAST
+        </button>
+      </div>
+
+      <AnimatePresence>
+        {editing !== null && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className={`${voidPanel} ${voidGlow} p-4 space-y-3`}
+          >
+            <div className="flex items-center justify-between mb-1">
+              <span className="font-mono text-[10px] tracking-[0.2em] void-text-energy">
+                {editing === "new" ? "COMPOSE BROADCAST" : `EDIT BROADCAST #${editing}`}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className={voidLabel}>SLUG <span className="text-white/20">(unique)</span></label>
+                <input className={voidInput} value={form.slug} onChange={e => setForm(f => ({ ...f, slug: e.target.value }))} placeholder="dreamer-awakens-2026" />
+              </div>
+              <div>
+                <label className={voidLabel}>TITLE</label>
+                <input className={voidInput} value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} placeholder="The Dreamer Awakens" />
+              </div>
+            </div>
+
+            <label className={voidLabel}>BODY</label>
+            <textarea
+              className={`${voidInput} h-20 resize-none`}
+              value={form.body}
+              onChange={e => setForm(f => ({ ...f, body: e.target.value }))}
+              placeholder="Transmission contents..."
+            />
+
+            <div className="grid grid-cols-3 gap-3">
+              <div>
+                <label className={voidLabel}>CATEGORY</label>
+                <select className={voidSelect} value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value as AnnouncementCategory }))}>
+                  {CATEGORY_OPTIONS.map(c => <option key={c} value={c}>{c.replace(/_/g, " ").toUpperCase()}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className={voidLabel}>PRIORITY</label>
+                <select className={voidSelect} value={form.priority} onChange={e => setForm(f => ({ ...f, priority: e.target.value as AnnouncementPriority }))}>
+                  {PRIORITY_OPTIONS.map(p => <option key={p} value={p}>{p.toUpperCase()}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className={voidLabel}>AUDIENCE</label>
+                <select className={voidSelect} value={form.audience} onChange={e => setForm(f => ({ ...f, audience: e.target.value as AnnouncementAudience }))}>
+                  {AUDIENCE_OPTIONS.map(a => <option key={a} value={a}>{a.replace(/_/g, " ").toUpperCase()}</option>)}
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className={voidLabel}>ART URL <span className="text-white/20">(16:9 still)</span></label>
+                <input className={voidInput} value={form.artUrl} onChange={e => setForm(f => ({ ...f, artUrl: e.target.value }))} placeholder="https://..." />
+              </div>
+              <div>
+                <label className={voidLabel}>LINK URL</label>
+                <input className={voidInput} value={form.linkUrl} onChange={e => setForm(f => ({ ...f, linkUrl: e.target.value }))} placeholder="https://..." />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3">
+              <div>
+                <label className={voidLabel}>VIDEO URL</label>
+                <input className={voidInput} value={form.videoUrl} onChange={e => setForm(f => ({ ...f, videoUrl: e.target.value }))} placeholder="https://cdn/.../video.mp4" />
+              </div>
+              <div>
+                <label className={voidLabel}>VIDEO POSTER URL</label>
+                <input className={voidInput} value={form.videoPosterUrl} onChange={e => setForm(f => ({ ...f, videoPosterUrl: e.target.value }))} placeholder="https://..." />
+              </div>
+              <div>
+                <label className={voidLabel}>DURATION (SEC)</label>
+                <input type="number" min={0} className={voidInput} value={form.videoDurationSec} onChange={e => setForm(f => ({ ...f, videoDurationSec: e.target.value }))} />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className={voidLabel}>PUBLISHED AT</label>
+                <input type="datetime-local" className={voidInput} value={form.publishedAt} onChange={e => setForm(f => ({ ...f, publishedAt: e.target.value }))} />
+              </div>
+              <div>
+                <label className={voidLabel}>EXPIRES AT <span className="text-white/20">(optional)</span></label>
+                <input type="datetime-local" className={voidInput} value={form.expiresAt} onChange={e => setForm(f => ({ ...f, expiresAt: e.target.value }))} />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 items-end">
+              <label className="flex items-center gap-2 font-mono text-[10px] text-white/50 mt-4">
+                <input
+                  type="checkbox"
+                  checked={form.triggerOnTitle}
+                  onChange={e => setForm(f => ({ ...f, triggerOnTitle: e.target.checked }))}
+                  className="accent-cyan-400"
+                />
+                AUTO-INTERCEPT ON TITLE SCREEN
+              </label>
+              <div>
+                <label className={voidLabel}>TRIGGER PROBABILITY (0-100)</label>
+                <input
+                  type="number"
+                  min={0}
+                  max={100}
+                  className={voidInput}
+                  value={form.triggerProbability}
+                  onChange={e => setForm(f => ({ ...f, triggerProbability: Math.max(0, Math.min(100, +e.target.value || 0)) }))}
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-2 pt-2">
+              <button onClick={handleSubmit} className={voidBtnPrimary} disabled={isSaving}>
+                <Send size={12} className="inline mr-1" />
+                {isSaving ? "TRANSMITTING..." : editing === "new" ? "DEPLOY BROADCAST" : "SAVE CHANGES"}
+              </button>
+              <button onClick={cancel} className={voidBtn + " text-white/30 hover:text-white/50"}>CANCEL</button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {list.isLoading && <p className="font-mono text-[10px] text-white/20 text-center py-8">Scanning broadcasts...</p>}
+      {!list.isLoading && rows.length === 0 && (
+        <p className="font-mono text-[10px] text-white/20 text-center py-8">No broadcasts in the archive. Deploy your first transmission above.</p>
+      )}
+
+      {rows.map(row => {
+        const isExpired = row.expiresAt ? new Date(row.expiresAt).getTime() < Date.now() : false;
+        return (
+          <div key={row.id} className={`${voidPanel} p-4`}>
+            <div className="flex items-start justify-between gap-3 mb-2">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h4 className="font-mono text-sm text-white font-bold truncate">{row.title}</h4>
+                  <span className={`font-mono text-[9px] px-2 py-0.5 rounded-full ${row.priority === "high" ? "void-bg-error void-text-error" : "bg-white/5 text-white/40"}`}>
+                    {row.priority.toUpperCase()}
+                  </span>
+                  <span className="font-mono text-[9px] px-2 py-0.5 rounded-full bg-white/5 text-white/40">
+                    {row.category.replace(/_/g, " ").toUpperCase()}
+                  </span>
+                  <span className="font-mono text-[9px] px-2 py-0.5 rounded-full bg-white/5 text-white/40">
+                    {row.audience.replace(/_/g, " ").toUpperCase()}
+                  </span>
+                  {row.triggerOnTitle && (
+                    <span className="font-mono text-[9px] px-2 py-0.5 rounded-full void-bg-success void-text-energy">
+                      AUTO-INTERCEPT · {row.triggerProbability}%
+                    </span>
+                  )}
+                  {isExpired && (
+                    <span className="font-mono text-[9px] px-2 py-0.5 rounded-full void-bg-error void-text-error">EXPIRED</span>
+                  )}
+                </div>
+                <p className="font-mono text-[10px] text-white/30 mt-1 truncate">
+                  <span className="text-white/20">slug:</span> {row.slug}
+                  <span className="text-white/20"> · published </span>
+                  {new Date(row.publishedAt).toLocaleString()}
+                  {row.expiresAt && (
+                    <>
+                      <span className="text-white/20"> · expires </span>
+                      {new Date(row.expiresAt).toLocaleString()}
+                    </>
+                  )}
+                </p>
+                {row.body && <p className="font-mono text-[10px] text-white/50 mt-2 line-clamp-2">{row.body}</p>}
+              </div>
+              <div className="flex gap-2 shrink-0">
+                <button onClick={() => startEdit(row)} className={voidBtn + " void-text-energy void-border-success border"}>
+                  EDIT
+                </button>
+                <button
+                  onClick={() => {
+                    if (typeof window !== "undefined" && window.confirm(`Delete broadcast "${row.title}"?`)) {
+                      deleteMut.mutate({ id: row.id });
+                    }
+                  }}
+                  className={voidBtnDanger}
+                  disabled={deleteMut.isPending}
+                >
+                  <X size={12} />
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -1147,6 +1518,7 @@ const TABS: { id: ConsoleView; label: string; icon: typeof Eye }[] = [
   { id: "surveillance", label: "SURVEILLANCE", icon: Eye },
   { id: "governance", label: "GOVERNANCE", icon: Vote },
   { id: "live_ops", label: "LIVE OPS", icon: Radio },
+  { id: "announcements", label: "ANNOUNCEMENTS", icon: Send },
   { id: "requisitions", label: "REQUISITIONS", icon: Ticket },
   { id: "awards", label: "AWARDS", icon: Gift },
   { id: "time_machine", label: "TIME MACHINE", icon: Rewind },
@@ -1213,6 +1585,7 @@ export default function ArchitectConsolePage() {
             {view === "surveillance" && <SurveillanceView />}
             {view === "governance" && <GovernanceView />}
             {view === "live_ops" && <LiveOpsView />}
+            {view === "announcements" && <AnnouncementsView />}
             {view === "requisitions" && <RequisitionsView />}
             {view === "awards" && <AwardsView />}
             {view === "time_machine" && (
