@@ -6296,23 +6296,34 @@ Producers reference §22 as the single-source list of what Act
 1 owes. Per §0.2 reader paths, the Art / Cutscene / Audio /
 VFX reader paths all terminate here.
 
+Delivery ledger: the §22.1 battlefield stills, §22.3.1–12
+opponent portraits, and §22.3.13 card unlock arts were
+delivered via the unified Act 1 merged-remake bundle (PR
+#115, commit `c24f74a`) and live under
+`apps/client/public/art/{battlefields,portraits,card_art}/`.
+Source manifest at
+`docs/production/act1-asset-build/unified_act1_rebuild_manifest.md`.
+
 ### 22.1 Battlefield stills
 
 8 unique battlefields, 1920×1080 / 16:9 / 4K, Act 1 Global
 Style Anchor (§0.3):
 
-| ID | Battlefield | Consumers | Priority |
-|---|---|---|---|
-| `bf_celebration_schoolyard_day10` | Schoolyard, afternoon 2:00 PM, empty | §3 A1 | P0 |
-| `bf_celebration_schoolyard_day20` | Same schoolyard, 4:30 PM, different parade banners | §4 A2 | P0 |
-| `bf_celebration_pavilion_day28` | Graduation pavilion, evening 6:30 PM, crowd in soft focus | §5 A3 | P0 |
-| `bf_mechronis_classroom_standard` | Year 1 through 4 classroom, shared asset with chalkboard-content variants | §§7, 8, 9, 10 | P0 |
-| `bf_mechronis_common_room` | Senior common room with fireplace, armchairs | §11 B5 | P0 |
-| `bf_nexon_command_bunker` | Battle of Nexon bunker with vortex window | §13 C1 | P0 |
-| `bf_zenon_field_tent` | Canvas-walled field tent with lantern | §14 C2 | P0 |
-| `bf_vortex_pressurized_bay` | The Engineer's transference room + §2.12 spec | §15 C3 | P0 |
-| `bf_newbabylon_tribunal` | Full Tribunal chamber + six crystal coffins | §16 C4 | P0 |
-| `bf_ark_archives_dimmed` | Ark Archives at 40% Prelude illumination | §18 Finale | P0 |
+| ID | Battlefield | Consumers | Priority | Status |
+|---|---|---|---|---|
+| `bf_celebration_schoolyard_day10` | Schoolyard, afternoon 2:00 PM, empty | §3 A1 | P0 | Delivered |
+| `bf_celebration_schoolyard_day20` | Same schoolyard, 4:30 PM, different parade banners | §4 A2 | P0 | Delivered |
+| `bf_celebration_pavilion_day28` | Graduation pavilion, evening 6:30 PM, crowd in soft focus | §5 A3 | P0 | Delivered |
+| `bf_mechronis_classroom_standard` | Year 1 through 4 classroom, shared asset with chalkboard-content variants | §§7, 8, 9, 10 | P0 | Delivered |
+| `bf_mechronis_common_room` | Senior common room with fireplace, armchairs | §11 B5 | P0 | Delivered |
+| `bf_nexon_command_bunker` | Battle of Nexon bunker with vortex window | §13 C1 | P0 | Delivered |
+| `bf_zenon_field_tent` | Canvas-walled field tent with lantern | §14 C2 | P0 | Delivered |
+| `bf_vortex_pressurized_bay` | The Engineer's transference room + §2.12 spec | §15 C3 | P0 | Delivered |
+| `bf_newbabylon_tribunal` | Full Tribunal chamber + six crystal coffins | §16 C4 | P0 | Delivered |
+| `bf_ark_archives_dimmed` | Ark Archives at 40% Prelude illumination | §18 Finale | P0 | Delivered |
+
+A `bf_celebration_schoolyard_day10_alt` variant also shipped
+with the bundle for lighting/parade A/B use.
 
 Total: **10 battlefield stills** (one slightly over the §1.2
 projection of 8 — the Ark Archives dimmed variant was added
@@ -6334,38 +6345,38 @@ Total: **42 slideshow stills**.
 unlocks + the Memory Card):
 
 **22.3.1 – 22.3.12 opponent portraits** (by battle):
-| ID | Opponent | §2.X source |
-|---|---|---|
-| `portrait_minnie_meme` | Minnie | §2.2 |
-| `portrait_corey_collector` | Corey | §2.3 |
-| `portrait_kanshi_sha_watcher` | Kanshi Sha | §2.4 |
-| `portrait_young_iron_lion` | Iron Lion | §2.5 |
-| `portrait_young_kael` | Kael | §2.6 |
-| `portrait_young_agent_zero` | Agent Zero | §2.7 |
-| `portrait_young_eyes` | Young Eyes | §2.8 |
-| `portrait_young_human_seeker` | Seeker | §2.9 |
-| `portrait_vernon_vortex` | Vernon | §2.10 |
-| `portrait_wanda_wyrlord` | Wanda | §2.11 |
-| `portrait_warlord_swarm_env` | Swarm environment + Agent Zero host | §2.12 |
-| `portrait_wayne_warden` | Wayne | §2.13 |
+| ID | Opponent | §2.X source | Status |
+|---|---|---|---|
+| `portrait_minnie_meme` | Minnie | §2.2 | Delivered |
+| `portrait_corey_collector` | Corey | §2.3 | Delivered |
+| `portrait_kanshi_sha_watcher` | Kanshi Sha | §2.4 | Delivered |
+| `portrait_young_iron_lion` | Iron Lion | §2.5 | Delivered |
+| `portrait_young_kael` | Kael | §2.6 | Delivered |
+| `portrait_young_agent_zero` | Agent Zero | §2.7 | Delivered |
+| `portrait_young_eyes` | Young Eyes | §2.8 | Delivered |
+| `portrait_young_human_seeker` | Seeker | §2.9 | Delivered |
+| `portrait_vernon_vortex` | Vernon | §2.10 | Delivered |
+| `portrait_wanda_wyrlord` | Wanda | §2.11 | Delivered |
+| `portrait_warlord_swarm_env` | Swarm environment + Agent Zero host | §2.12 | Delivered |
+| `portrait_wayne_warden` | Wayne | §2.13 | Delivered |
 
 **22.3.13 card arts:**
-| ID | Card | Source |
-|---|---|---|
-| `card_art_countermelody` | The Countermelody | §3 A1 unlock |
-| `card_art_jar_wouldnt_close` | The Jar That Wouldn't Close | §4 A2 unlock |
-| `card_art_first_card` | The First Card | §5 A3 unlock |
-| `card_art_iron_stance` | The Iron Stance | §7 B1 unlock |
-| `card_art_recruiters_gift` | The Recruiter's Gift | §8 B2 unlock |
-| `card_art_weapon_i_didnt_build` | The Weapon I Didn't Build | §9 B3 unlock |
-| `card_art_memorized_page` | The Memorized Page | §10 B4 unlock |
-| `card_art_classmates_compass` | The Classmate's Compass | §11 B5 win unlock |
-| `card_art_only_reason_i_stayed` | "The only reason I stayed" | §11 B5 loss unlock |
-| `card_art_standstill` | The Standstill | §13 C1 unlock |
-| `card_art_converter` | The Converter | §14 C2 unlock |
-| `card_art_friend_i_saved` | The Friend I Saved (Mythic Light) | §15 C3 unlock |
-| `card_art_last_word` | The Last Word (Mythic Light) | §16 C4 unlock |
-| `card_art_memory_card_procedural` | Memory Card (procedurally composited) | §20 apprentice permadeath |
+| ID | Card | Source | Status |
+|---|---|---|---|
+| `card_art_countermelody` | The Countermelody | §3 A1 unlock | Delivered |
+| `card_art_jar_wouldnt_close` | The Jar That Wouldn't Close | §4 A2 unlock | Delivered |
+| `card_art_first_card` | The First Card | §5 A3 unlock | Delivered |
+| `card_art_iron_stance` | The Iron Stance | §7 B1 unlock | Delivered |
+| `card_art_recruiters_gift` | The Recruiter's Gift | §8 B2 unlock | Delivered |
+| `card_art_weapon_i_didnt_build` | The Weapon I Didn't Build | §9 B3 unlock | Delivered |
+| `card_art_memorized_page` | The Memorized Page | §10 B4 unlock | Delivered |
+| `card_art_classmates_compass` | The Classmate's Compass | §11 B5 win unlock | Delivered |
+| `card_art_only_reason_i_stayed` | "The only reason I stayed" | §11 B5 loss unlock | Delivered |
+| `card_art_standstill` | The Standstill | §13 C1 unlock | Delivered |
+| `card_art_converter` | The Converter | §14 C2 unlock | Delivered |
+| `card_art_friend_i_saved` | The Friend I Saved (Mythic Light) | §15 C3 unlock | Delivered |
+| `card_art_last_word` | The Last Word (Mythic Light) | §16 C4 unlock | Delivered |
+| `card_art_memory_card_procedural` | Memory Card (procedurally composited) | §20 apprentice permadeath | Delivered |
 
 **22.3.14 Tribunal evidence cards:**
 12 evidence card arts per §16.3, including the load-bearing
