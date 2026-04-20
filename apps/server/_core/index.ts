@@ -1,3 +1,5 @@
+// Must be first — guarantees globalThis.crypto before jose/sdk initialize.
+import "./crypto-polyfill";
 import "dotenv/config";
 import express from "express";
 import { createServer } from "http";

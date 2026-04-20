@@ -56,19 +56,31 @@ export const announcementsRouter = router({
           : ["all", "unauth"];
       const now = new Date();
 
-      const rows = await db
-        .select()
-        .from(announcements)
-        .where(
-          and(
-            inArray(announcements.audience, audience),
-            or(isNull(announcements.expiresAt), gt(announcements.expiresAt, now)),
-          ),
-        )
-        .orderBy(
-          desc(announcements.priority), // 'high' sorts after 'normal' lexically → use priority = desc so 'normal' sorts ascending; we sort by publishedAt too
-          desc(announcements.publishedAt),
-        );
+      // The `announcements` / `announcement_views` tables are created by
+      // migration 0049, which is currently orphaned from _journal.json
+      // (see apps/db/README.md §"Known journal drift"). On deploys where
+      // the table hasn't been hand-applied the raw MySQL error used to
+      // bubble up to the Title page and block the whole screen. Degrade
+      // to "no announcements" instead so unauth visitors can still load.
+      let rows: AnnouncementRow[];
+      try {
+        rows = await db
+          .select()
+          .from(announcements)
+          .where(
+            and(
+              inArray(announcements.audience, audience),
+              or(isNull(announcements.expiresAt), gt(announcements.expiresAt, now)),
+            ),
+          )
+          .orderBy(
+            desc(announcements.priority),
+            desc(announcements.publishedAt),
+          );
+      } catch (err) {
+        console.warn("[announcements] listActive query failed:", err instanceof Error ? err.message : String(err));
+        return [] as AnnouncementWithView[];
+      }
 
       // Sort: high-priority first, then newest first. MySQL enum order is
       // insertion order — ("normal","high") — so `desc` on the enum
@@ -83,15 +95,20 @@ export const announcementsRouter = router({
       const announcementIds = baseRows.map(r => r.id);
       if (announcementIds.length === 0) return [] as AnnouncementWithView[];
 
-      const views = await db
-        .select()
-        .from(announcementViews)
-        .where(
-          and(
-            eq(announcementViews.userId, userId),
-            inArray(announcementViews.announcementId, announcementIds),
-          ),
-        );
+      let views: Array<typeof announcementViews.$inferSelect> = [];
+      try {
+        views = await db
+          .select()
+          .from(announcementViews)
+          .where(
+            and(
+              eq(announcementViews.userId, userId),
+              inArray(announcementViews.announcementId, announcementIds),
+            ),
+          );
+      } catch (err) {
+        console.warn("[announcements] view-join query failed:", err instanceof Error ? err.message : String(err));
+      }
       const viewMap = new Map(views.map(v => [v.announcementId, v]));
 
       return baseRows.map(r => ({
