@@ -119,3 +119,7 @@ temp/
 downloads/*.tar.gz
 downloads/*.zip
 package-lock.json
+
+# Generated art-prompt catalog dumps (regenerated from apps/shared/suitArtPrompts.ts)
+output/suit-art-prompts.json
+output/suit-art-prompts.txt
