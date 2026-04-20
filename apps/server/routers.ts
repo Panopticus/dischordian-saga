@@ -12,6 +12,7 @@ import { arkRouter } from "./routers/ark";
 import { trophyRouter } from "./routers/trophy";
 import { tradeWarsRouter } from "./routers/tradeWars";
 import { citizenRouter } from "./routers/citizen";
+import { medbayRouter } from "./routers/medbay";
 import { craftingRouter } from "./routers/crafting";
 import { storeRouter } from "./routers/store";
 import { elaraRouter } from "./routers/elara";
@@ -110,6 +111,7 @@ export const appRouter = router({
   trophy: trophyRouter,
   tradeWars: tradeWarsRouter,
   citizen: citizenRouter,
+  medbay: medbayRouter,
   crafting: craftingRouter,
   store: storeRouter,
   elara: elaraRouter,

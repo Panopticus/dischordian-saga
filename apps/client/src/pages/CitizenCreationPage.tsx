@@ -95,12 +95,35 @@ const SPECIES_UI = {
   },
 } as const;
 
+// Class blurbs describe the archetype, not a handout. Starter loadouts are earned
+// through in-world choices (see the Med Bay DNA-device beat and
+// apps/shared/earnedLoadouts.ts).
 const CLASS_UI = {
-  engineer: { icon: Wrench, color: "void-text-premium", desc: "Diamond Pick Axes, Repair Kit, Shield Generator" },
-  oracle: { icon: Eye, color: "void-text-system", desc: "Crossbow, Invisibility Potion, Random Power Potion" },
-  assassin: { icon: Skull, color: "void-text-error", desc: "Poison Blade, Throwing Knives, Smoke Bomb" },
-  soldier: { icon: Swords, color: "void-text-energy", desc: "Plasma Sword, Energy Shield, Stim Pack" },
-  spy: { icon: Telescope, color: "void-text-energy", desc: "Silenced Pistol, Cloaking Device, EMP Grenade" },
+  engineer: {
+    icon: Wrench,
+    color: "void-text-premium",
+    desc: "Builder-savant. Bends machines and matter to your will. Your loadout is earned, not issued.",
+  },
+  oracle: {
+    icon: Eye,
+    color: "void-text-system",
+    desc: "Seer of branching fates. Reads odds, shapes them, pays for them. Your loadout is earned, not issued.",
+  },
+  assassin: {
+    icon: Skull,
+    color: "void-text-error",
+    desc: "Blade in the dark. Strikes once, vanishes, leaves debts. Your loadout is earned, not issued.",
+  },
+  soldier: {
+    icon: Swords,
+    color: "void-text-energy",
+    desc: "Frontline breaker. Holds the line until the line holds you. Your loadout is earned, not issued.",
+  },
+  spy: {
+    icon: Telescope,
+    color: "void-text-energy",
+    desc: "Shadow operative. Lies, listens, leverages. Your loadout is earned, not issued.",
+  },
 } as const;
 
 const ELEMENT_UI: Record<string, { icon: React.ComponentType<any>; color: string; ability: string }> = {
@@ -316,7 +339,7 @@ export default function CitizenCreationPage() {
               <div>
                 <h2 className="font-display text-xl sm:text-2xl font-bold mb-2 tracking-wider">CHOOSE YOUR CLASS</h2>
                 <p className="font-mono text-sm text-muted-foreground mb-8">
-                  Your class determines your starting gear and combat specialization.
+                  Your class is an archetype, not a kit. Gear is earned in-world.
                 </p>
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {(Object.entries(CLASS_UI) as [string, typeof CLASS_UI[keyof typeof CLASS_UI]][]).map(([key, ui]) => {

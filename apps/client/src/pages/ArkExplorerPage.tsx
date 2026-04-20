@@ -45,6 +45,7 @@ import { getRoomTransmissions, getElaraVariant, type SecretTransmission } from "
 import AlienSymbolPuzzle from "@/components/AlienSymbolPuzzle";
 import FastTravelPanel from "@/components/FastTravelPanel";
 import ItemDetailModal from "@/components/ItemDetailModal";
+import DnaDeviceOfferDialog from "@/components/DnaDeviceOfferDialog";
 import ParallaxRoom from "@/components/ParallaxRoom";
 import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
 import {
@@ -668,6 +669,7 @@ export default function ArkExplorerPage() {
 
   const [puzzleRoomId, setPuzzleRoomId] = useState<string | null>(null);
   const [showNavPuzzle, setShowNavPuzzle] = useState(false);
+  const [showDnaDeviceOffer, setShowDnaDeviceOffer] = useState(false);
 
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const fastTravelUnlocked = !!state.narrativeFlags["fast_travel_unlocked"];
@@ -1111,6 +1113,20 @@ export default function ArkExplorerPage() {
           }
           break;
         }
+        if (hotspot.action === "dna-device-offer") {
+          const alreadyDonated = !!state.narrativeFlags["donated_dna_sample"];
+          const alreadyRefused = !!state.narrativeFlags["refused_dna_sample"];
+          if (alreadyDonated) {
+            setElaraText("The device is silent now. Whatever it took, it has. Whatever it gave, we already carry.");
+          } else if (alreadyRefused) {
+            setElaraText("You already stepped back from this once. The needle-port is closed. Leave it that way.");
+          } else {
+            if (audioReady) playSFX("terminal_access");
+            if (hotspot.elaraDialog) setElaraText(hotspot.elaraDialog);
+            setShowDnaDeviceOffer(true);
+          }
+          break;
+        }
         if (hotspot.action === "comms-relay-import") {
           if (audioReady) playSFX("terminal_access");
           break;
@@ -1425,6 +1441,40 @@ export default function ArkExplorerPage() {
               setElaraText("Excellent work! The navigation grid is online. You can now use the NAV panel on the right side of your screen to instantly travel to any room you've already discovered. No more backtracking through corridors.");
             }}
             onClose={() => setShowNavPuzzle(false)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Med Bay "unkempt device" DNA offer (Section A — earned loadouts) */}
+      <AnimatePresence>
+        {showDnaDeviceOffer && (
+          <DnaDeviceOfferDialog
+            onClose={({ donated, reward }) => {
+              setShowDnaDeviceOffer(false);
+              if (donated) {
+                setNarrativeFlag("donated_dna_sample");
+                if (audioReady) playSFX("dialog_open");
+                if (reward) {
+                  notify(
+                    "room-unlock",
+                    "LOADOUT EARNED",
+                    `${reward.name} — ${reward.slot.toUpperCase()}`,
+                  );
+                  setElaraText(
+                    `The device returns something: a ${reward.name}. ${reward.flavor} Whatever this trade cost, it's paid forward, not back.`,
+                  );
+                } else {
+                  setElaraText(
+                    "The device took what it wanted. Nothing came back. Remember that.",
+                  );
+                }
+              } else {
+                setNarrativeFlag("refused_dna_sample");
+                setElaraText(
+                  "You stepped back. Smart. Some doors open only to those who know the price.",
+                );
+              }
+            }}
           />
         )}
       </AnimatePresence>
