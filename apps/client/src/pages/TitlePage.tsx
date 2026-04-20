@@ -1,43 +1,110 @@
-/**
- * TitlePage — The Dischordian Saga entry screen.
- * Shown to unauthenticated users. CRT sci-fi aesthetic
- * with Google sign-in. First thing anyone sees.
- */
-import { useEffect, useRef, useState } from "react";
-import { getGoogleLoginUrl, getDiscordLoginUrl, getGitHubLoginUrl } from "@/const";
-import { KineticText } from "@/components/void";
+/* ═══════════════════════════════════════════════════════
+   TitlePage — The Dischordian Saga entry screen.
+
+   Every session begins here (unless `skipTitle` is set in
+   localStorage). The page owns shared chrome — background
+   keyart, vignette, scanlines, opening music — and
+   delegates its body to one of three state renderers
+   based on auth + save presence:
+
+     A. Unauth       — CoNEXUS handshake (OAuth buttons)
+     B. Authed,new   — "Establish New Connection" only
+     C. Authed,returning — RECONNECT (auto-focused)
+
+   It also hosts the Broadcast ticker and panel, and the
+   Video transmission player (manual + auto-intercept).
+   The Reset Wall is launched from State C.
+   ═══════════════════════════════════════════════════════ */
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+
+import { useAuth } from "@/_core/hooks/useAuth";
+import { useGame } from "@/contexts/GameContext";
+import { trpc } from "@/lib/trpc";
+
+import { BroadcastPanel } from "./title/BroadcastPanel";
+import { BroadcastTicker } from "./title/BroadcastTicker";
+import { ResetWall } from "./title/ResetWall";
+import { TitleStateNoSave } from "./title/TitleStateNoSave";
+import { TitleStateReturning } from "./title/TitleStateReturning";
+import { TitleStateUnauth } from "./title/TitleStateUnauth";
+import { VideoTransmissionPlayer } from "./title/VideoTransmissionPlayer";
+import { resolveTitleTheme } from "./title/themes";
+import type { AnnouncementAudience, AnnouncementRow } from "./title/types";
+import { useTransmissionIntercept } from "./title/useTransmissionIntercept";
 
 const OPENING_MUSIC_SRC = "/audio/music/main-menu/the-enigmas-lament.mp3";
+const THRESHOLD_MS = 1500;
 
-export default function TitlePage() {
+interface TitlePageProps {
+  /** Optional dismiss hook from TitleGate. If absent, the page
+   *  renders the classic unauth-only flow (back-compat). */
+  onDismiss?: () => void;
+}
+
+export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
+  const auth = useAuth();
+  const { state } = useGame();
+  const isAuthenticated = auth.isAuthenticated;
+  const hasSave = state.characterCreated && state.phase !== "FIRST_VISIT";
+
+  const theme = useMemo(
+    () =>
+      resolveTitleTheme({
+        isAuthenticated,
+        phase: state.phase,
+        narrativeAct: state.narrativeAct,
+        lightDarkAlignment: state.lightDarkAlignment,
+      }),
+    [isAuthenticated, state.phase, state.narrativeAct, state.lightDarkAlignment],
+  );
+
+  /* ─── audience tags for announcement filtering ─── */
+  const audienceTags: AnnouncementAudience[] = useMemo(() => {
+    const tags: AnnouncementAudience[] = ["all"];
+    if (isAuthenticated) tags.push("authed");
+    else tags.push("unauth");
+    if (state.narrativeAct >= 3) tags.push("act_ge_3");
+    if (state.lightDarkAlignment === "light") tags.push("light_aligned");
+    if (state.lightDarkAlignment === "dark") tags.push("dark_aligned");
+    return tags;
+  }, [isAuthenticated, state.narrativeAct, state.lightDarkAlignment]);
+
+  /* ─── fetch announcements ─── */
+  const announcementsQuery = trpc.announcements.listActive.useQuery(
+    { audience: audienceTags, includeViews: isAuthenticated },
+    { staleTime: 5 * 60 * 1000, refetchOnWindowFocus: false },
+  );
+  const announcements: AnnouncementRow[] =
+    (announcementsQuery.data as AnnouncementRow[] | undefined) ?? [];
+
+  /* ─── local UI state ─── */
+  const [showPanel, setShowPanel] = useState(false);
+  const [showResetWall, setShowResetWall] = useState(false);
+  const [videoPick, setVideoPick] = useState<AnnouncementRow | null>(null);
+  const [showLoginStagger, setShowLoginStagger] = useState(false);
+  const [thresholdPassed, setThresholdPassed] = useState(false);
   const [glitchText, setGlitchText] = useState(false);
-  const [showSubtitle, setShowSubtitle] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
   const [scanlineOffset, setScanlineOffset] = useState(0);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Opening music — try autoplay; if blocked by browser policy,
-  // start on the first user interaction anywhere on the page.
+  /* ─── Open music (preserved from existing PR) ─── */
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
     audio.volume = 0.35;
-
     let started = false;
-    const start = () => {
+    const tryStart = () => {
       if (started) return;
       const p = audio.play();
       if (p && typeof p.then === "function") {
-        p.then(() => { started = true; }).catch(() => { /* will retry on next gesture */ });
+        p.then(() => { started = true; }).catch(() => { /* retry next gesture */ });
       } else {
         started = true;
       }
     };
-
-    start();
-
+    tryStart();
     const onGesture = () => {
-      start();
+      tryStart();
       if (started) {
         window.removeEventListener("pointerdown", onGesture);
         window.removeEventListener("keydown", onGesture);
@@ -45,7 +112,6 @@ export default function TitlePage() {
     };
     window.addEventListener("pointerdown", onGesture);
     window.addEventListener("keydown", onGesture);
-
     return () => {
       window.removeEventListener("pointerdown", onGesture);
       window.removeEventListener("keydown", onGesture);
@@ -53,14 +119,14 @@ export default function TitlePage() {
     };
   }, []);
 
+  /* ─── Stagger reveals + threshold gate ─── */
   useEffect(() => {
-    // Stagger the reveal
-    const t1 = setTimeout(() => setShowSubtitle(true), 1200);
-    const t2 = setTimeout(() => setShowLogin(true), 2200);
+    const t1 = setTimeout(() => setShowLoginStagger(true), 1200);
+    const t2 = setTimeout(() => setThresholdPassed(true), THRESHOLD_MS);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
-  // Periodic glitch on title
+  /* ─── Periodic glitch on title ─── */
   useEffect(() => {
     const interval = setInterval(() => {
       setGlitchText(true);
@@ -69,7 +135,7 @@ export default function TitlePage() {
     return () => clearInterval(interval);
   }, []);
 
-  // Slow scanline drift
+  /* ─── Slow scanline drift ─── */
   useEffect(() => {
     let raf: number;
     const tick = () => {
@@ -80,19 +146,84 @@ export default function TitlePage() {
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  const discordUrl = getDiscordLoginUrl();
-  const githubUrl = getGitHubLoginUrl();
+  /* ─── First-gesture RECONNECT for State C returning users ─── */
+  useEffect(() => {
+    if (!thresholdPassed) return;
+    if (!isAuthenticated || !hasSave) return;
+    if (showResetWall || showPanel || videoPick) return;
 
-  const handleLogin = (url: string) => {
-    window.location.href = url;
-  };
+    const onGesture = (e: Event) => {
+      // Ignore clicks on actual buttons/links — those handle themselves.
+      const target = e.target as HTMLElement | null;
+      if (target?.closest("button, a, input")) return;
+      onDismiss?.();
+    };
+    // Only attach keydown (Enter/Space); pointerdown would swallow the
+    // user's click on the RECONNECT button before it registers.
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      onGesture(e);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [thresholdPassed, isAuthenticated, hasSave, showResetWall, showPanel, videoPick, onDismiss]);
 
+  /* ─── Auto-intercept: pick a video to spontaneously receive ─── */
+  const interceptPick = useTransmissionIntercept({
+    announcements,
+    audienceTags,
+    interactionReady: thresholdPassed && !showResetWall && !videoPick,
+  });
+
+  // Auto-fire intercept 5s after threshold passes (the "quiet beat"
+  // before the teaser appears).
+  useEffect(() => {
+    if (!interceptPick) return;
+    if (videoPick) return;
+    const t = setTimeout(() => setVideoPick(interceptPick), 5000);
+    return () => clearTimeout(t);
+  }, [interceptPick, videoPick]);
+
+  const markViewedMutation = trpc.announcements.markViewed.useMutation();
+  const markDismissedMutation = trpc.announcements.markDismissed.useMutation();
+
+  const playVideo = useCallback((a: AnnouncementRow) => {
+    setVideoPick(a);
+    setShowPanel(false);
+    if (isAuthenticated) {
+      markViewedMutation.mutate({ announcementId: a.id });
+    }
+  }, [isAuthenticated, markViewedMutation]);
+
+  const closeVideo = useCallback(() => {
+    setVideoPick(null);
+  }, []);
+
+  const dismissVideo = useCallback(() => {
+    if (videoPick && isAuthenticated) {
+      markDismissedMutation.mutate({ announcementId: videoPick.id });
+    }
+  }, [videoPick, isAuthenticated, markDismissedMutation]);
+
+  /* ─── Identity card fields for State C ─── */
+  const lastRoomLabel = (state.currentRoomId ?? "").toUpperCase().replace(/-/g, " ") || "UNKNOWN";
+  const lastSessionLabel = useMemo(() => {
+    const stamp = Number(localStorage.getItem("loredex_last_login") ?? 0);
+    if (!stamp) return "THIS CYCLE";
+    const days = Math.floor((Date.now() - stamp) / (1000 * 60 * 60 * 24));
+    if (days <= 0) return "THIS CYCLE";
+    if (days === 1) return "1 CYCLE AGO";
+    return `${days} CYCLES AGO`;
+  }, []);
+  const actLabel = `ACT ${romanize(state.narrativeAct)}${ACT_TAGLINE[state.narrativeAct] ? ` — ${ACT_TAGLINE[state.narrativeAct]}` : ""}`;
+
+  /* ─── Render ─── */
   return (
     <div
       style={{
         position: "fixed",
         inset: 0,
-        background: "#000000",
+        background: theme.palette.void,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -109,19 +240,22 @@ export default function TitlePage() {
         preload="auto"
         autoPlay
       />
-      {/* Background image */}
+
+      {/* Background keyart — falls back to the legacy title-bg.png
+         if the theme-specific art isn't on disk yet. */}
       <div
         style={{
           position: "absolute",
           inset: 0,
-          backgroundImage: "url(/art/ui/title-bg.png)",
+          backgroundImage: `url(${theme.artUrl}), url(/art/ui/title-bg.png)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           opacity: 0.45,
           filter: "brightness(0.7) contrast(1.1)",
         }}
       />
-      {/* Scanlines overlay */}
+
+      {/* Scanlines */}
       <div
         style={{
           position: "absolute",
@@ -130,8 +264,8 @@ export default function TitlePage() {
             0deg,
             transparent,
             transparent 2px,
-            rgba(0, 255, 255, 0.015) 2px,
-            rgba(0, 255, 255, 0.015) 4px
+            ${toRgba(theme.palette.accent, 0.015)} 2px,
+            ${toRgba(theme.palette.accent, 0.015)} 4px
           )`,
           backgroundPosition: `0 ${scanlineOffset}px`,
           pointerEvents: "none",
@@ -144,293 +278,174 @@ export default function TitlePage() {
         style={{
           position: "absolute",
           inset: 0,
-          background: "radial-gradient(ellipse at center, transparent 50%, color-mix(in oklch, var(--bg-void) 80%, transparent) 100%)",
+          background: `radial-gradient(ellipse at center, transparent 50%, ${theme.palette.void}cc 100%)`,
           pointerEvents: "none",
           zIndex: 2,
         }}
       />
 
-      {/* Content */}
-      <div style={{ position: "relative", zIndex: 3, textAlign: "center", padding: "2rem" }}>
-        {/* Intercepted signal indicator */}
-        <div
-          style={{
-            color: "var(--energy-primary)",
-            fontSize: "0.65rem",
-            letterSpacing: "0.3em",
-            textTransform: "uppercase",
-            marginBottom: "2rem",
-            opacity: 0.5,
-          }}
-        >
-          <KineticText text="> INTERCEPTING SIGNAL... CLEARANCE: UNAUTHORIZED <" mode="decode" speed={30} showCursor={false} />
-        </div>
-
-        {/* Main logo + title */}
+      {/* Logo + state body */}
+      <div style={{ position: "relative", zIndex: 3, textAlign: "center", padding: "2rem", maxWidth: "min(900px, 94vw)" }}>
         <img
           src="/art/logos/dischordian-saga.png"
           alt=""
           style={{
-            maxWidth: "min(400px, 80vw)",
+            maxWidth: "min(340px, 70vw)",
             height: "auto",
-            marginBottom: "0.75rem",
-            filter: "drop-shadow(0 0 30px color-mix(in oklch, var(--energy-primary) 30%, transparent))",
+            marginBottom: "0.5rem",
+            filter: `drop-shadow(0 0 30px ${toRgba(theme.palette.accent, 0.35)})`,
           }}
         />
         <h1
           style={{
-            fontSize: "clamp(2rem, 6vw, 4.5rem)",
+            fontSize: "clamp(1.6rem, 5vw, 3.6rem)",
             fontWeight: 900,
             letterSpacing: "0.08em",
             lineHeight: 1.1,
             color: glitchText ? "#ff3366" : "#ffffff",
             textShadow: glitchText
               ? "3px 0 #00ffff, -3px 0 #ff0066, 0 0 30px rgba(255,51,102,0.5)"
-              : "0 0 40px color-mix(in oklch, var(--energy-primary) 30%, transparent), 0 0 80px color-mix(in oklch, var(--energy-primary) 10%, transparent)",
+              : `0 0 40px ${toRgba(theme.palette.accent, 0.3)}`,
             transition: "all 0.05s ease",
             transform: glitchText ? "translateX(2px)" : "none",
-            marginBottom: "0.5rem",
+            marginBottom: "0.4rem",
           }}
         >
           THE DISCHORDIAN
         </h1>
         <h1
           style={{
-            fontSize: "clamp(2.5rem, 8vw, 6rem)",
+            fontSize: "clamp(2rem, 6.5vw, 4.8rem)",
             fontWeight: 900,
             letterSpacing: "0.15em",
             lineHeight: 1,
-            color: "var(--energy-primary)",
-            textShadow: "0 0 60px color-mix(in oklch, var(--energy-primary) 50%, transparent), 0 0 120px color-mix(in oklch, var(--energy-primary) 20%, transparent)",
-            marginBottom: "1.5rem",
+            color: theme.palette.accent,
+            textShadow: `0 0 60px ${toRgba(theme.palette.accent, 0.5)}`,
+            marginBottom: "2rem",
           }}
         >
           SAGA
         </h1>
 
-        {/* Subtitle */}
-        <div
-          style={{
-            opacity: showSubtitle ? 1 : 0,
-            transform: showSubtitle ? "translateY(0)" : "translateY(10px)",
-            transition: "all 0.8s ease",
-            marginBottom: "3rem",
-          }}
-        >
-          <p
+        {/* Body — one of three states */}
+        {!isAuthenticated && (
+          <TitleStateUnauth theme={theme} showLogin={showLoginStagger} />
+        )}
+        {isAuthenticated && !hasSave && (
+          <TitleStateNoSave
+            theme={theme}
+            displayName={auth.user?.name ?? ""}
+            neuralSignature={neuralSignature(auth.user?.id ?? auth.user?.openId)}
+            onBeginNewGame={() => onDismiss?.()}
+          />
+        )}
+        {isAuthenticated && hasSave && (
+          <TitleStateReturning
+            theme={theme}
+            displayName={state.characterChoices.name || auth.user?.name || "OPERATOR"}
+            lastRoomLabel={lastRoomLabel}
+            lastSessionLabel={lastSessionLabel}
+            actLabel={actLabel}
+            onReconnect={() => onDismiss?.()}
+            onResetRequested={() => setShowResetWall(true)}
+          />
+        )}
+
+        {/* Broadcast chip — only shown past threshold so it doesn't
+           distract from the cinematic opening beat. */}
+        {thresholdPassed && announcements.length > 0 && (
+          <button
+            type="button"
+            onClick={() => setShowPanel(true)}
             style={{
-              color: "color-mix(in oklch, var(--text-primary) 40%, transparent)",
-              fontSize: "0.8rem",
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-            }}
-          >
-            INCEPTION ARK VESSEL 1047 {'//'}  LOREDEX OS v2.0
-          </p>
-          <p
-            style={{
-              color: "color-mix(in oklch, var(--text-primary) 25%, transparent)",
-              fontSize: "0.65rem",
-              letterSpacing: "0.15em",
-              marginTop: "0.5rem",
-            }}
-          >
-            A MULTIMEDIA EXPERIENCE FROM THE FALL OF REALITY
-          </p>
-        </div>
-
-        {/* Login button */}
-        <div
-          style={{
-            opacity: showLogin ? 1 : 0,
-            transform: showLogin ? "translateY(0)" : "translateY(20px)",
-            transition: "all 0.6s ease",
-          }}
-        >
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", alignItems: "center" }}>
-            {/* Google */}
-            <button
-              onClick={() => handleLogin(getGoogleLoginUrl())}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.75rem",
-                width: "280px",
-                padding: "0.875rem 2rem",
-                background: "color-mix(in oklch, var(--energy-primary) 8%, transparent)",
-                border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
-                borderRadius: "4px",
-                color: "var(--energy-primary)",
-                fontSize: "0.85rem",
-                fontWeight: 600,
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                cursor: "pointer",
-                transition: "all 0.3s ease",
-                fontFamily: "inherit",
-                justifyContent: "center",
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.background = "color-mix(in oklch, var(--energy-primary) 15%, transparent)";
-                e.currentTarget.style.borderColor = "color-mix(in oklch, var(--energy-primary) 60%, transparent)";
-                e.currentTarget.style.boxShadow = "0 0 30px color-mix(in oklch, var(--energy-primary) 20%, transparent)";
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.background = "color-mix(in oklch, var(--energy-primary) 8%, transparent)";
-                e.currentTarget.style.borderColor = "color-mix(in oklch, var(--energy-primary) 30%, transparent)";
-                e.currentTarget.style.boxShadow = "none";
-              }}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24">
-                <path fill="var(--energy-primary)" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
-                <path fill="var(--energy-primary)" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                <path fill="var(--energy-primary)" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-                <path fill="var(--energy-primary)" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-              </svg>
-              INITIALIZE WITH GOOGLE
-            </button>
-
-            {/* Discord */}
-            {discordUrl && (
-              <button
-                onClick={() => handleLogin(discordUrl)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.75rem",
-                  width: "280px",
-                  padding: "0.875rem 2rem",
-                  background: "rgba(88, 101, 242, 0.08)",
-                  border: "1px solid rgba(88, 101, 242, 0.3)",
-                  borderRadius: "4px",
-                  color: "#5865F2",
-                  fontSize: "0.85rem",
-                  fontWeight: 600,
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                  cursor: "pointer",
-                  transition: "all 0.3s ease",
-                  fontFamily: "inherit",
-                  justifyContent: "center",
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = "rgba(88, 101, 242, 0.15)";
-                  e.currentTarget.style.borderColor = "rgba(88, 101, 242, 0.6)";
-                  e.currentTarget.style.boxShadow = "0 0 30px rgba(88, 101, 242, 0.2)";
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = "rgba(88, 101, 242, 0.08)";
-                  e.currentTarget.style.borderColor = "rgba(88, 101, 242, 0.3)";
-                  e.currentTarget.style.boxShadow = "none";
-                }}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24">
-                  <path fill="#5865F2" d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.947 2.418-2.157 2.418z" />
-                </svg>
-                INITIALIZE WITH DISCORD
-              </button>
-            )}
-
-            {/* GitHub */}
-            {githubUrl && (
-              <button
-                onClick={() => handleLogin(githubUrl)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.75rem",
-                  width: "280px",
-                  padding: "0.875rem 2rem",
-                  background: "color-mix(in oklch, var(--text-primary) 5%, transparent)",
-                  border: "1px solid color-mix(in oklch, var(--text-primary) 20%, transparent)",
-                  borderRadius: "4px",
-                  color: "color-mix(in oklch, var(--text-primary) 80%, transparent)",
-                  fontSize: "0.85rem",
-                  fontWeight: 600,
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                  cursor: "pointer",
-                  transition: "all 0.3s ease",
-                  fontFamily: "inherit",
-                  justifyContent: "center",
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = "color-mix(in oklch, var(--text-primary) 12%, transparent)";
-                  e.currentTarget.style.borderColor = "color-mix(in oklch, var(--text-primary) 40%, transparent)";
-                  e.currentTarget.style.boxShadow = "0 0 30px color-mix(in oklch, var(--text-primary) 10%, transparent)";
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = "color-mix(in oklch, var(--text-primary) 5%, transparent)";
-                  e.currentTarget.style.borderColor = "color-mix(in oklch, var(--text-primary) 20%, transparent)";
-                  e.currentTarget.style.boxShadow = "none";
-                }}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24">
-                  <path fill="color-mix(in oklch, var(--text-primary) 80%, transparent)" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-                </svg>
-                INITIALIZE WITH GITHUB
-              </button>
-            )}
-          </div>
-
-          <p
-            style={{
-              color: "color-mix(in oklch, var(--text-primary) 20%, transparent)",
+              marginTop: "1.5rem",
+              padding: "0.45rem 1rem",
+              background: "transparent",
+              border: `1px solid ${theme.palette.accent}55`,
+              borderRadius: "3px",
+              color: theme.palette.accent,
               fontSize: "0.6rem",
-              marginTop: "1rem",
-              letterSpacing: "0.1em",
+              letterSpacing: "0.22em",
+              fontFamily: "inherit",
+              cursor: "pointer",
             }}
           >
-            SECURE AUTHENTICATION PROTOCOL {'//'}  NEURAL LINK REQUIRED
-          </p>
-        </div>
-
-        {/* Bottom signal */}
-        <div
-          style={{
-            position: "fixed",
-            bottom: "2rem",
-            left: "50%",
-            transform: "translateX(-50%)",
-            textAlign: "center",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              color: "color-mix(in oklch, var(--energy-primary) 30%, transparent)",
-              fontSize: "0.55rem",
-              letterSpacing: "0.2em",
-            }}
-          >
-            <span
-              style={{
-                width: "6px",
-                height: "6px",
-                borderRadius: "50%",
-                background: "var(--energy-primary)",
-                boxShadow: "0 0 10px var(--energy-primary)",
-                animation: "pulse-dot 2s ease-in-out infinite",
-              }}
-            />
-            SIGNAL ACTIVE {'//'}  ARK 1047 STANDING BY
-          </div>
-          <div style={{ display: "flex", gap: "1rem", marginTop: "0.5rem" }}>
-            <a href="/terms" style={{ color: "color-mix(in oklch, var(--energy-primary) 25%, transparent)", fontSize: "0.5rem", letterSpacing: "0.15em" }}>TERMS</a>
-            <a href="/privacy" style={{ color: "color-mix(in oklch, var(--energy-primary) 25%, transparent)", fontSize: "0.5rem", letterSpacing: "0.15em" }}>PRIVACY</a>
-          </div>
-        </div>
+            📡 BROADCASTS ({announcements.length})
+          </button>
+        )}
       </div>
 
-      {/* Pulse animation */}
-      <style>{`
-        @keyframes pulse-dot {
-          0%, 100% { opacity: 0.3; }
-          50% { opacity: 1; }
-        }
-      `}</style>
+      {/* Ticker */}
+      <BroadcastTicker announcements={announcements} accentColor={theme.palette.accent} />
+
+      {/* Broadcast panel */}
+      <BroadcastPanel
+        open={showPanel}
+        announcements={announcements}
+        accentColor={theme.palette.accent}
+        onClose={() => setShowPanel(false)}
+        onPlayVideo={playVideo}
+      />
+
+      {/* Video transmission player (manual + auto-intercept) */}
+      {videoPick && (
+        <VideoTransmissionPlayer
+          announcement={videoPick}
+          onClose={closeVideo}
+          onDismiss={dismissVideo}
+          playTeaser={interceptPick?.id === videoPick.id}
+        />
+      )}
+
+      {/* Reset wall */}
+      {showResetWall && (
+        <ResetWall
+          onAbort={() => setShowResetWall(false)}
+          onDone={() => {
+            setShowResetWall(false);
+            // After wipe, state flips to FIRST_VISIT → State B renders.
+          }}
+        />
+      )}
     </div>
   );
+}
+
+const ACT_TAGLINE: Record<number, string> = {
+  0: "PRELUDE",
+  1: "THE TWELVE STEPS",
+  2: "THE ENGINEER'S BENCH",
+  3: "EYES IN THE DARK",
+  4: "THE PRISONER",
+  5: "THE RECKONING",
+  6: "THE HIDDEN LEDGER",
+  7: "THE RECKONING'S END",
+};
+
+function romanize(n: number): string {
+  if (n <= 0) return "0";
+  const R: [number, string][] = [
+    [10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"],
+  ];
+  let out = "";
+  for (const [v, s] of R) { while (n >= v) { out += s; n -= v; } }
+  return out;
+}
+
+function neuralSignature(seed: number | string | undefined): string {
+  if (seed == null) return "████████████";
+  const s = String(seed);
+  let hash = 0;
+  for (let i = 0; i < s.length; i++) hash = (hash * 31 + s.charCodeAt(i)) >>> 0;
+  return hash.toString(16).padStart(12, "0").slice(0, 12).toUpperCase();
+}
+
+function toRgba(hex: string, alpha: number): string {
+  const m = /^#?([0-9a-f]{6})$/i.exec(hex);
+  if (!m) return hex;
+  const n = parseInt(m[1], 16);
+  const r = (n >> 16) & 0xff;
+  const g = (n >> 8) & 0xff;
+  const b = n & 0xff;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }

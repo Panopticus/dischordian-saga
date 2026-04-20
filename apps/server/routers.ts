@@ -101,6 +101,8 @@ import { factionsRouter } from "./routers/factions";
 import { celebrationRouter } from "./routers/celebration";
 import { crossGameThreadsRouter } from "./routers/crossGameThreads";
 import { arkThemesRouter } from "./routers/arkThemes";
+import { announcementsRouter } from "./routers/announcements";
+import { playerResetRouter } from "./routers/playerReset";
 
 export const appRouter = router({
   collection: collectionRouter,
@@ -198,6 +200,8 @@ export const appRouter = router({
   celebration: celebrationRouter,
   crossGameThreads: crossGameThreadsRouter,
   arkThemes: arkThemesRouter,
+  announcements: announcementsRouter,
+  playerReset: playerResetRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

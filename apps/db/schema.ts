@@ -4372,3 +4372,76 @@ export const fnord23UserState = mysqlTable("fnord23_user_state", {
 }));
 
 export type Fnord23UserStateRow = typeof fnord23UserState.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   TITLE-SCREEN BROADCASTS — "Intercepted Transmissions"
+   Drives the ticker, Broadcast Panel, and pop-out video
+   transmission player on the Title page. Authored by the
+   content team via an admin seed; users only read.
+   ═══════════════════════════════════════════════════════ */
+export const announcements = mysqlTable("announcements", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Stable slug — used by the `triggerOnTitle` intercept hook to
+   *  de-dupe across reauth/rerender, and by admin tools. */
+  slug: varchar("slug", { length: 128 }).notNull().unique(),
+  category: mysqlEnum("category", [
+    "ark_alert", "transmission_incoming", "archival_footage", "overlay",
+  ]).notNull().default("transmission_incoming"),
+  priority: mysqlEnum("priority", ["normal", "high"]).notNull().default("normal"),
+  title: varchar("title", { length: 256 }).notNull(),
+  body: text("body"),
+  /** 16:9 still for the broadcast card. */
+  artUrl: varchar("artUrl", { length: 512 }),
+  /** External link (news post, Discord, YouTube). */
+  linkUrl: varchar("linkUrl", { length: 512 }),
+  /** CDN URL for the video file (mp4/webm). null = not a video
+   *  transmission. */
+  videoUrl: varchar("videoUrl", { length: 512 }),
+  /** Still frame shown before the video loads / plays. */
+  videoPosterUrl: varchar("videoPosterUrl", { length: 512 }),
+  /** Duration in seconds. Displayed on the card chip. */
+  videoDurationSec: int("videoDurationSec"),
+  /** When true, `useTransmissionIntercept` may pick this video to
+   *  auto-play on the title screen once per user per session. */
+  triggerOnTitle: boolean("triggerOnTitle").notNull().default(false),
+  /** 0.0–1.0. Rolled once per eligible video; lets content authors
+   *  prevent over-exposure on low-priority items. */
+  triggerProbability: int("triggerProbability").notNull().default(100), // stored as 0-100 int to avoid float
+  /** Who should see this broadcast. */
+  audience: mysqlEnum("audience", [
+    "all", "unauth", "authed", "act_ge_3", "light_aligned", "dark_aligned",
+  ]).notNull().default("all"),
+  publishedAt: timestamp("publishedAt").defaultNow().notNull(),
+  expiresAt: timestamp("expiresAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  slugIdx: uniqueIndex("uq_announcements_slug").on(table.slug),
+  publishedIdx: index("idx_announcements_published").on(table.publishedAt),
+  audienceIdx: index("idx_announcements_audience").on(table.audience),
+}));
+
+export type AnnouncementRow = typeof announcements.$inferSelect;
+export type InsertAnnouncement = typeof announcements.$inferInsert;
+
+/**
+ * Per-user view tracking for announcements. The
+ * `useTransmissionIntercept` hook uses this to ensure an
+ * auto-intercept never fires twice for the same user, even
+ * across sessions or devices.
+ */
+export const announcementViews = mysqlTable("announcement_views", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  announcementId: int("announcementId").notNull(),
+  firstSeenAt: timestamp("firstSeenAt").defaultNow().notNull(),
+  /** Set when the user explicitly closes the transmission. null
+   *  while still passively-viewed. */
+  dismissedAt: timestamp("dismissedAt"),
+}, (table) => ({
+  userAnnouncementIdx: uniqueIndex("uq_announcement_views_user_ann")
+    .on(table.userId, table.announcementId),
+  userIdx: index("idx_announcement_views_user").on(table.userId),
+}));
+
+export type AnnouncementViewRow = typeof announcementViews.$inferSelect;
