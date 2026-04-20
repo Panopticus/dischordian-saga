@@ -5,6 +5,11 @@ import { getDb } from "../db";
 import { citizenCharacters, dreamBalance } from "../../db/schema";
 import { eq, and } from "drizzle-orm";
 import { getPlayerTraitBonuses } from "../traitResolver";
+import {
+  resolveStarterLoadout,
+  type StarterSpecies,
+} from "../../shared/starterLoadout";
+import type { ClassKey, ElementKey } from "../../shared/earnedLoadouts";
 
 /* ═══════════════════════════════════════════════════
    Species / Class / Element configuration
@@ -203,7 +208,29 @@ export const citizenRouter = router({
         attrVitality: input.attrVitality,
         maxHp,
         armor,
-        gear: {},
+        // §G.10 Step 8 — every citizen spawns with their deterministic
+        // Base Mask + Base Suit pre-equipped. These are the locked
+        // underlayer a named set is built on top of; the operative
+        // never sees an empty paper doll. Foundation defaults to
+        // "humanity" until the creation flow adds the foundation step
+        // (plan carve-out). The mask motif is the player's species for
+        // the machine-foundation path; humanity-foundation citizens
+        // wear the human-motif mask regardless of species.
+        gear: (() => {
+          const foundation: "humanity" | "machine" = "humanity";
+          const maskMotif: StarterSpecies =
+            foundation === "humanity" ? "human" : (input.species as StarterSpecies);
+          const starter = resolveStarterLoadout({
+            species: maskMotif,
+            characterClass: input.characterClass as ClassKey,
+            element: input.element as ElementKey,
+            foundation,
+          });
+          return {
+            "base-mask": { id: starter.baseMaskId, baseLocked: true },
+            "base-suit": { id: starter.baseSuitId, baseLocked: true },
+          } as Record<string, unknown>;
+        })(),
         abilities: {
           elementAbility: ELEMENT_CONFIG[input.element as keyof typeof ELEMENT_CONFIG].ability,
           elementMastery: 1,

@@ -4,6 +4,18 @@ signal config_received(config: Dictionary)
 
 var is_web: bool = false
 
+# Section §G.11.1 — suit-set bonuses delivered by the React side in
+# CADES_CONFIG.suit_bonuses. Any subsystem (ShieldManager,
+# future weapon/movement managers) reads these via
+# `WebBridge.get_suit_bonus(key, default)` — never hardcoded,
+# never re-posted.
+var suit_bonuses: Dictionary = {}
+
+func get_suit_bonus(key: String, default_value = 1.0):
+	if suit_bonuses.has(key):
+		return suit_bonuses[key]
+	return default_value
+
 func _ready() -> void:
 	is_web = OS.has_feature("web")
 	if is_web:
@@ -40,6 +52,11 @@ func _check_config() -> void:
 					for s in sc:
 						if s not in GameMode.scenarios_completed:
 							GameMode.scenarios_completed.append(s)
+				# §G.11.1 — latch suit_bonuses at CONFIG post time.
+				# Mid-run gear swaps are blocked on the React side.
+				var sb = cfg.get("suit_bonuses", {})
+				if sb is Dictionary:
+					suit_bonuses = sb
 				emit_signal("config_received", cfg)
 
 func send_result(data: Dictionary) -> void:
