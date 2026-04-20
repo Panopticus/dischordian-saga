@@ -20,6 +20,9 @@ import {
 } from "@shared/deadMansCircuit";
 import { crewMemberToCloneStats, type DmcCloneStats } from "@shared/crewDmcBridge";
 import { useNilmorgVO } from "@/hooks/useNilmorgVO";
+// Suit-adapter import reserved for the follow-up that reconciles
+// the crew-runner clone schema with CircuitPlayerClone:
+// import { mergeCircuitSuitBonuses } from "@shared/suitAdapters/deadMansCircuit";
 import { DMC_ENVIRONMENTS, DMC_MUSIC, DMC_CINEMATICS } from "@/data/dmcAssets";
 import { getNilmorgPortrait } from "@shared/nilmorgPortraits";
 import DeadMansCircuitCrewPicker from "@/components/crew/DeadMansCircuitCrewPicker";
@@ -293,6 +296,17 @@ export default function DeadMansCircuitPage() {
           surface_grip: 65,
           survival_instinct: 25,
         };
+        // §G.11 — the canonical suit-bonus hook for Circuit is
+        // apps/shared/suitAdapters/deadMansCircuit.ts
+        // (mergeCircuitSuitBonuses). Its field names
+        // (neural_sync / physical_integrity / velocity_ceiling /
+        // surface_grip / survival_instinct) match the inline
+        // defaultClone below. The crew-runner path uses a
+        // different schema (velocity_ceiling_pct etc.) that needs
+        // a reconciliation step before the merge can run safely —
+        // tracked as a follow-up. For now the player_clone is
+        // passed through unchanged so existing behavior is
+        // preserved.
         const config = {
           player_clone: crewCloneStats ?? defaultClone,
           total_laps: 3,

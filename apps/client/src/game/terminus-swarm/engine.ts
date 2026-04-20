@@ -24,6 +24,32 @@ export function setTDGameBonuses(turretDmg: number, coreHp: number, resource: nu
   resourceBonus = resource;
 }
 
+/**
+ * §G.11 — suit-set modifiers (TerminusModifiers shape). Read at
+ * createGameState time for starting currency/turret adjustments,
+ * and per-tick for tower / virus multipliers. Kept as module
+ * state to match the existing coreHpBonus style so no caller
+ * signature has to change.
+ */
+export let suitStartingCurrency = 0;
+export let suitExtraStartingTurrets = 0;
+export let suitTowerDamageMult = 1;
+export let suitTowerCooldownMult = 1;
+export let suitVirusTickReduction = 1;
+export function setSuitModifiers(mods: {
+  startingCurrency: number;
+  extraStartingTurrets: number;
+  towerDamageMult: number;
+  towerCooldownMult: number;
+  virusTickReduction: number;
+}): void {
+  suitStartingCurrency = mods.startingCurrency;
+  suitExtraStartingTurrets = mods.extraStartingTurrets;
+  suitTowerDamageMult = mods.towerDamageMult;
+  suitTowerCooldownMult = mods.towerCooldownMult;
+  suitVirusTickReduction = mods.virusTickReduction;
+}
+
 /* ─── A* PATHFINDING ─── */
 
 interface PathNode {
@@ -139,7 +165,7 @@ export function createGameState(map: MapDef, mapIndex: number = 0): TerminusGame
     turrets: new Map(),
     enemies: new Map(),
     projectiles: [],
-    resources: { salvage: 200, viralIchor: 0, neuralCores: 0, voidCrystals: 0 },
+    resources: { salvage: 200 + suitStartingCurrency, viralIchor: 0, neuralCores: 0, voidCrystals: 0 },
     wave: 0,
     phase: "setup",
     coreHealth: Math.round(500 * (1 + coreHpBonus / 100)),

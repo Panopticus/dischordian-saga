@@ -153,6 +153,19 @@ export interface EncounterInit {
    * distort the match beyond recognition.
    */
   difficultyModifier?: number;
+  /**
+   * Player-side pre-match bonuses (plan §G.11). Call
+   * toTcgPreMatchModifiers(passiveBonuses) and pass the result;
+   * adapter output is already clamped to the engine's
+   * startingBonuses limits so no further validation is needed.
+   */
+  preMatchModifiers?: {
+    extraCards?: number;
+    extraMana?: number;
+    extraGeneralHp?: number;
+    /** Previewed but not wired into the reducer yet — reserved. */
+    canForesee?: boolean;
+  };
 }
 
 export interface EncounterState {
@@ -189,11 +202,21 @@ export function computeBossDifficultyBonuses(difficultyModifier: number): {
  */
 export function initEncounter(input: EncounterInit): EncounterState {
   const { encounter, registry } = input;
+  const pre = input.preMatchModifiers;
+  const playerBonuses =
+    pre && (pre.extraCards || pre.extraMana || pre.extraGeneralHp)
+      ? {
+          extraCards: pre.extraCards,
+          extraMana: pre.extraMana,
+          extraGeneralHp: pre.extraGeneralHp,
+        }
+      : undefined;
   const p1Config: MatchConfig = {
     userId: 1 as MatchConfig["userId"],
     faction: input.playerFaction as MatchConfig["faction"],
     generalDefId: input.playerGeneralDefId,
     deckCardDefIds: input.playerDeckCardDefIds,
+    startingBonuses: playerBonuses,
   };
   const bossBonuses = computeBossDifficultyBonuses(
     input.difficultyModifier ?? 0,

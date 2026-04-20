@@ -1056,11 +1056,36 @@ export class FightEngine2D {
   private aiProfile: AIDifficultyProfile;
   private callbacks: FightCallbacks2D;
 
-  // Economy bonuses (from crafted items, premium, NFT)
+  // Economy bonuses (from crafted items, premium, NFT, suit-set adapters)
   public playerDamageBonus = 0;   // Percent bonus to P1 damage
   public playerDefenseBonus = 0;  // Percent bonus to P1 defense (damage reduction)
   public playerSpeedBonus = 0;    // Percent bonus to P1 speed
   public playerHpBonus = 0;       // Percent bonus to P1 max HP
+  /**
+   * Suit-set-originated frame-advantage bonus (§G.11 fighting adapter).
+   * Engine hasn't wired frame-advantage yet; field exists so
+   * suitAdapters/fighting.ts has a destination to land its data,
+   * and downstream logic can read it without creating a second
+   * channel.
+   */
+  public playerReactTimeBonus = 0;
+
+  /**
+   * Apply a pre-rendered FightingModifiers object (decimal fractions,
+   * e.g. 0.05 = +5%). Converts to the engine's percent convention
+   * (50 = +50%) so existing math at line 2289 keeps working.
+   */
+  public applyFightingSuitBonuses(mods: {
+    damageBonus: number;
+    speedBonus: number;
+    hpBonus: number;
+    reactTimeBonus: number;
+  }): void {
+    this.playerDamageBonus = Math.round(mods.damageBonus * 100);
+    this.playerSpeedBonus = Math.round(mods.speedBonus * 100);
+    this.playerHpBonus = Math.round(mods.hpBonus * 100);
+    this.playerReactTimeBonus = Math.round(mods.reactTimeBonus * 100);
+  }
 
   // Timing
   private lastTime = 0;

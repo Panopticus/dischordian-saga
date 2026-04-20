@@ -24,6 +24,8 @@ import { CADESAmbientLines } from "@/components/CADESAmbientLines";
 import { CADESClueBoard } from "@/components/CADESClueBoard";
 import { CADESConspiracyBoard } from "@/components/CADESConspiracyBoard";
 import { OpenChannelEcho } from "@/components/OpenChannelEcho";
+import { toFpsSuitBonuses } from "@shared/suitAdapters/fps";
+import type { AggregatedBonus } from "@/game/passiveBonusAggregator";
 import { ResponsiveImage } from "@/components/ResponsiveImage";
 
 /* ─── PALETTE ─── */
@@ -64,6 +66,13 @@ export default function CADESFPSPage() {
   const { user, isAuthenticated } = useAuth();
   const { state: gameState } = useGame();
 
+  // §G.11 — CADES receives the player's current suit bonuses via the
+  // CADES_CONFIG payload. This page doesn't yet read the passive-bonus
+  // aggregator (the hook is wired centrally in a follow-up); until
+  // then an empty list produces a baseline suit_bonuses payload and
+  // Godot side behaves identically to pre-suit builds.
+  const cadesPassiveBonuses: readonly AggregatedBonus[] = [];
+
   const [phase, setPhase] = useState<Phase>("select");
   const [selectedMode, setSelectedMode] = useState<CadesMode | null>(null);
   const [gameReady, setGameReady] = useState(false);
@@ -84,12 +93,16 @@ export default function CADESFPSPage() {
 
       if (e.data.type === "CADES_READY") {
         setGameReady(true);
-        // Send config
+        // Send config. Suit bonuses are latched here (§G.11.1
+        // reload semantics: no retro-apply mid-run). The adapter is
+        // pure — missing aggregator data yields a 1.0/0 payload so
+        // pre-suit-system saves behave identically.
         const config = {
           mode: selectedMode,
           loop_count: cadesData.data?.loopCount ?? 0,
           awareness_level: cadesData.data?.awarenessLevel ?? 0,
           scenarios_completed: cadesData.data?.scenariosCompleted ?? [],
+          suit_bonuses: toFpsSuitBonuses(cadesPassiveBonuses),
         };
         iframeRef.current?.contentWindow?.postMessage(
           { type: "CADES_CONFIG", payload: config }, "*"
