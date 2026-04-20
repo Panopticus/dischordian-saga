@@ -23,8 +23,10 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
   const [videoState, setVideoState] = useState<"loading" | "waiting-for-click" | "playing-muted" | "playing-unmuted" | "needs-tap">("loading");
   const completedRef = useRef(false);
   const userClickedRef = useRef(false);
+  const endSafetyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Show skip button after a short delay
+  // Show skip button after a short delay — visible regardless of playback state
+  // so users can always escape if the video fails to start.
   useEffect(() => {
     const t = setTimeout(() => setShowSkip(true), 2000);
     return () => clearTimeout(t);
@@ -64,6 +66,11 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     if (completedRef.current) return;
     completedRef.current = true;
 
+    if (endSafetyTimerRef.current) {
+      clearTimeout(endSafetyTimerRef.current);
+      endSafetyTimerRef.current = null;
+    }
+
     const video = videoRef.current;
     if (video) {
       video.pause();
@@ -92,6 +99,45 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
   const handleVideoEnd = useCallback(() => {
     handleComplete();
   }, [handleComplete]);
+
+  // Some browsers (notably iOS Safari with CDN-hosted MP4s) occasionally
+  // fail to fire `ended`. Arm a safety timer based on actual duration,
+  // and a hard cap so the cinematic can never hang forever.
+  const armEndSafety = useCallback((durationSec: number) => {
+    if (endSafetyTimerRef.current) clearTimeout(endSafetyTimerRef.current);
+    const ms = Math.min(120_000, Math.max(5_000, Math.ceil(durationSec * 1000) + 2_000));
+    endSafetyTimerRef.current = setTimeout(() => handleComplete(), ms);
+  }, [handleComplete]);
+
+  const handleLoadedMetadata = useCallback(() => {
+    const v = videoRef.current;
+    const dur = v && Number.isFinite(v.duration) ? v.duration : 0;
+    armEndSafety(dur > 0 ? dur : 90);
+  }, [armEndSafety]);
+
+  // Belt-and-suspenders: if `timeupdate` shows we've reached the end
+  // but `ended` hasn't fired, complete anyway.
+  const handleTimeUpdate = useCallback(() => {
+    const v = videoRef.current;
+    if (!v || !Number.isFinite(v.duration) || v.duration <= 0) return;
+    if (v.currentTime >= v.duration - 0.15) {
+      handleComplete();
+    }
+  }, [handleComplete]);
+
+  // Absolute fallback: if no metadata ever arrives, still exit after 90s.
+  useEffect(() => {
+    const t = setTimeout(() => {
+      if (!endSafetyTimerRef.current) handleComplete();
+    }, 90_000);
+    return () => clearTimeout(t);
+  }, [handleComplete]);
+
+  useEffect(() => {
+    return () => {
+      if (endSafetyTimerRef.current) clearTimeout(endSafetyTimerRef.current);
+    };
+  }, []);
 
   // Handle user tap — unmute or start playback
   const handleTap = useCallback(async () => {
@@ -122,7 +168,6 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     }
   }, [videoState, handleComplete]);
 
-  const isPlaying = videoState === "playing-muted" || videoState === "playing-unmuted";
   const showUnmutePrompt = videoState === "playing-muted";
   const showStartPrompt = videoState === "needs-tap";
   const showBeginSplash = videoState === "waiting-for-click";
@@ -144,6 +189,8 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
           playsInline
           preload="auto"
           onEnded={handleVideoEnd}
+          onLoadedMetadata={handleLoadedMetadata}
+          onTimeUpdate={handleTimeUpdate}
           onError={() => {
             console.error("[Opening Cinematic] Video failed to load, skipping");
             handleComplete();
@@ -233,9 +280,10 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
           </motion.div>
         )}
 
-        {/* Skip button */}
+        {/* Skip button — always available once the delay passes, even if
+            the video never reaches a playing state. */}
         <AnimatePresence>
-          {showSkip && isPlaying && (
+          {showSkip && !showBeginSplash && (
             <motion.button
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
