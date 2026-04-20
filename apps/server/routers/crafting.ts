@@ -1071,7 +1071,7 @@ export const craftingRouter = router({
         species: character.species as StarterSpecies,
         characterClass: character.characterClass as ClassKey,
         element: character.element as ElementKey,
-        foundation: "humanity", // default until citizenCharacters.foundation column lands
+        foundation: (character.foundation ?? "humanity") as FoundationKey,
       };
       const schematic = SCHEMATICS.find((s) => s.setId === recipe.setId);
       if (!schematic || !isSchematicEligibleForOperative(schematic, operative)) {

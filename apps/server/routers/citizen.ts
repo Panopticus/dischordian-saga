@@ -158,6 +158,11 @@ export const citizenRouter = router({
         characterClass: z.enum(["engineer", "oracle", "assassin", "soldier", "spy"]),
         alignment: z.enum(["order", "chaos"]),
         element: z.enum(["earth", "fire", "water", "air", "space", "time", "probability", "reality"]),
+        // §G.2 foundation choice — Humanity or Machine. Optional
+        // in the input so clients that predate the creation UI
+        // update still round-trip; defaults to "humanity" to match
+        // the schema default.
+        foundation: z.enum(["humanity", "machine"]).optional(),
         attrAttack: z.number().min(1).max(5),
         attrDefense: z.number().min(1).max(5),
         attrVitality: z.number().min(1).max(5),
@@ -216,8 +221,9 @@ export const citizenRouter = router({
         // (plan carve-out). The mask motif is the player's species for
         // the machine-foundation path; humanity-foundation citizens
         // wear the human-motif mask regardless of species.
+        foundation: input.foundation ?? "humanity",
         gear: (() => {
-          const foundation: "humanity" | "machine" = "humanity";
+          const foundation: "humanity" | "machine" = input.foundation ?? "humanity";
           const maskMotif: StarterSpecies =
             foundation === "humanity" ? "human" : (input.species as StarterSpecies);
           const starter = resolveStarterLoadout({

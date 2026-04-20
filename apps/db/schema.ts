@@ -578,6 +578,13 @@ export const citizenCharacters = mysqlTable("citizen_characters", {
   alignment: mysqlEnum("alignment", ["order", "chaos"]).notNull(),
   /** Element (DeMagi) or Dimension (Quarchon) or choice (Ne-Yon) */
   element: mysqlEnum("element", ["earth", "fire", "water", "air", "space", "time", "probability", "reality"]).notNull(),
+  /**
+   * §G.2 foundation choice — Humanity (Mourner's Coat) or Machine
+   * (First Chassis). Drives the deterministic starter Base Mask +
+   * Base Suit via resolveStarterLoadout(). Defaults to "humanity"
+   * so saved characters hydrate without a migration pass.
+   */
+  foundation: mysqlEnum("foundation", ["humanity", "machine"]).notNull().default("humanity"),
   /** White Wolf dot ratings 1-5 */
   attrAttack: int("attrAttack").notNull().default(2),
   attrDefense: int("attrDefense").notNull().default(2),
