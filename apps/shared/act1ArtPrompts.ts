@@ -540,6 +540,131 @@ const CYCLE_C_CARD_ARTS: readonly Act1ArtPrompt[] = [
   },
 ];
 
+/* ─── SLIDESHOW FRAMES — §6 Welcome to Celebration (8 base + 2 branch = 10) ─── */
+
+const WELCOME_TO_CELEBRATION_FRAMES: readonly Act1ArtPrompt[] = [
+  {
+    assetId: "slide_wtc_frame_01",
+    name: "WTC Frame 1 — Celebration school gate at sunrise",
+    category: "slideshow_frame",
+    cycle: "A",
+    bibleSection: "§6.2 frame 1",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Wide establishing composition of the Celebration school gate at sunrise, Day 1 of the Celebration Trial. Empty packed-earth path leading through a wrought-iron gate under a wide wooden arch carved with stylized parade-mark ornaments (no rendered text). Warm-gold sunrise light raking low across the composition from frame-right, long shadows pulling toward the viewer. Above the gate: strings of Celebration parade banners hanging perfectly still in the pre-morning air. No people. The gate is slightly ajar. Distant parade drums implied by morning quiet. Slight film-grain sepia, warmer saturation than literal sunrise — this is the Engineer's memory of arriving, not the literal moment.",
+  },
+  {
+    assetId: "slide_wtc_frame_02",
+    name: "WTC Frame 2 — The Engineer as a child, walking through the gate alone",
+    category: "slideshow_frame",
+    cycle: "A",
+    bibleSection: "§6.2 frame 2",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Same gate as Frame 1, camera now placed inside the schoolyard looking back out. A seven-year-old boy (the Engineer) walks through the open gate, back to camera, small in the frame. He wears plain earth-tone clothes — no Mascoteer regalia yet. His posture: small, not hesitant, determined. One hand at his side, one hand in a pocket. The Celebration banners overhead catch the still-rising sun. Warm-gold rim-light on his shoulders. Distant off-camera: a single child's laugh suggested by a faint bokeh figure way back in the deep frame. Film-grain sepia slightly heavier than Frame 1. The composition's emotional register: the Engineer arriving alone at the place that will make him into the Prince.",
+  },
+  {
+    assetId: "slide_wtc_frame_03",
+    name: "WTC Frame 3 — Close-up of the card table with Minnie Mouse ears",
+    category: "slideshow_frame",
+    cycle: "A",
+    bibleSection: "§6.2 frame 3",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Close-up, shallow depth of field. A wooden Celebration schoolyard card table, empty, polished with use. On the nearest chair to camera: a black plastic Minnie Mouse ear headband resting where a child has left it — small, theme-park-souvenir style. The chair opposite is empty. No Dischordia deck yet — this is before the first match. Light is soft midday schoolyard, warm-gold pools across the table's grain. No people. No audio cue — silence is the frame. The film grain feels like a still photograph someone paused to take before anyone noticed.",
+  },
+  {
+    assetId: "slide_wtc_frame_04",
+    name: "WTC Frame 4 — Mascoteer bond montage (apprentice-alive base)",
+    category: "slideshow_frame",
+    cycle: "A",
+    bibleSection: "§6.2 frame 4 (base)",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Montage composition — six soft-focused portraits of the six Celebration Mascoteers (Minnie, Little Corey, Mr. Unblink, plus three non-boss — Conni the Conductor, Vernon the Door-Finder, Gary the Ninth) arranged in a 3×2 grid with gentle warm-gold bokeh between them. Each portrait is a single small square, ~10% of frame area, with the Mascoteer's signature prop visible (mouse ears / amber jar / half-mask / conductor coat / many-doorknobs / red goggles). The grid is held in the center of the frame; edges fade into warm Celebration afternoon light. Parade brass uptempo cue implied visually as gentle warm particulate drift between the portraits. Intentional composition echo of §19 Celebration Trial UI.",
+  },
+  {
+    assetId: "slide_wtc_frame_04b_apprentice_dead",
+    name: "WTC Frame 4 variant — Memory Card substitute (apprentice-dead branch)",
+    category: "slideshow_frame",
+    cycle: "A",
+    bibleSection: "§6.3 apprentice-dead branch / §20.4",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor", "card_art_memory_card_procedural"],
+    prompt:
+      "Branch-variant composition replacing Frame 4's Mascoteer grid when the apprentice died during the Celebration Trial. A single close-up of the procedural Memory Card (the §20 apprentice permadeath unlock) held in a warm-gold candle-light, the apprentice's procedurally-composited portrait visible in the card's slot, the brass-frame's three notches (Resilience / Trust / Clarity) visible. The rest of the frame is deep warm-gold shadow with faint Witnessing-chorus particles drifting upward — the same visual cue as §17 frame 14. No montage, no other Mascoteers — the single card carries the frame. Producers composite the canonical apprentice portrait at runtime per §20.4.",
+  },
+  {
+    assetId: "slide_wtc_frame_05",
+    name: "WTC Frame 5 — Graduation pavilion at Day 28, empty, evening light",
+    category: "slideshow_frame",
+    cycle: "A",
+    bibleSection: "§6.2 frame 5",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor", "bf_celebration_pavilion_day28"],
+    prompt:
+      "Wide shot of the Day-28 graduation pavilion, empty of people. Two card tables still set on the raised wooden platform; the Kanshi Sha chair is empty. Low-angle 6:30 PM evening light raking across the composition from frame-right; long shadows. The pavilion's white pillars catch warm rim-light; the surrounding soft-focus witnesses (from bf_celebration_pavilion_day28) are NOT present here — the pavilion is deliberately empty, the ceremony over, the witnesses gone home. Faint distant crowd murmur implied by a single parade banner still fluttering on the back wall. Film-grain sepia heavier than earlier frames — this is how the Engineer remembers the pavilion after he left it.",
+  },
+  {
+    assetId: "slide_wtc_frame_06",
+    name: "WTC Frame 6 — Kanshi Sha's white mask, close-up, mid-air",
+    category: "slideshow_frame",
+    cycle: "A",
+    bibleSection: "§6.2 frame 6",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Close-up, centered composition. The half-finished white Ocularum mask from Kanshi Sha's §2.4 portrait, but DETACHED from any face — the mask floats mid-air at center-frame, suspended by nothing, catching a single warm-gold sustained light from frame-right. The mask rotates with a faint 0.5Hz drift (render a single frame of that motion, mask tilted ~3° off-vertical). Background: deep warm-gold void, no setting — this is stylized memory composition, not literal place. A single sustained warm-gold tone is the canonical audio cue (visual equivalent: a faint ring of light haloing the mask). No eyes, no hollow cavities where the mask was worn — the mask reads as a pure object, weightless and precise. Faint sepia film-grain.",
+  },
+  {
+    assetId: "slide_wtc_frame_07",
+    name: "WTC Frame 7 — The Engineer walking out with The First Card",
+    category: "slideshow_frame",
+    cycle: "A",
+    bibleSection: "§6.2 frame 7",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Seven-year-old Engineer walking out of the graduation pavilion, back to camera again (callback to Frame 2). A single folded paper card visible in his right hand at his side — The First Card (§5.5 unlock), the faint warm-gold inner glow catching from within the paper. Evening light 6:30 PM-ish, long shadows. Parade drums implied at full tempo (he is walking away TO the next part of his biography, not away from something). The pavilion recedes into soft focus behind him. Apprentice-alive variant: a second small figure walks beside the Engineer, slightly behind, carrying their own folded paper — visible only as warm-gold silhouette at full body scale, face unreadable. For the base still, render the apprentice's position with soft-focus silhouette ready for producer-side inclusion or removal by branch.",
+  },
+  {
+    assetId: "slide_wtc_frame_08",
+    name: "WTC Frame 8 — Celebration at night, distant shot",
+    category: "slideshow_frame",
+    cycle: "A",
+    bibleSection: "§6.2 frame 8",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Distant wide shot, the Celebration school lit warm-gold at night. Parade banners drift in a gentle evening breeze above the rooftops; small points of warm-yellow light in every window. A single silhouette walks toward the exit gate in the middle-distance — the Engineer, now departing, small in the composition. The gate is open. Beyond the school: deep evening-purple sky transitioning to dusk-blue at the horizon; a few faint stars beginning to show. Parade drums FADE to silence at this frame canonically — render as visual hush, the ambient particulate motion slowing. The composition's emotional register: the welcome ends. This is the canonical sign-off frame of the slideshow; the narration's closing line 'Welcome to Celebration' lands on this image.",
+  },
+  {
+    assetId: "slide_wtc_frame_03_loss_variant",
+    name: "WTC Frame 3 variant — the graduation the Engineer missed (A3 loss branch)",
+    category: "slideshow_frame",
+    cycle: "A",
+    bibleSection: "§6.3 A3-loss branch",
+    resolution: "1920x1080",
+    priority: "P0",
+    dependencies: ["global_style_anchor"],
+    prompt:
+      "Branch-variant composition replacing Frame 3 when the player lost A3 to Kanshi Sha. The graduation pavilion seen from BELOW (low angle, looking up toward the empty stage from an audience-seat perspective), the Engineer's wooden chair visibly empty on stage. The two card tables are set but unattended. Evening 6:30 PM light, but cooler than the other Cycle A frames — the warm-gold saturation is pulled back 25% here; this is the frame the Engineer didn't want to remember. A single folded program on an empty chair in the foreground (no rendered text). The pavilion's white pillars catch cooler rim-light. Narration lands on this frame ('They called my name. I did not come up.') — the canonical audio hush is the only soundtrack. Sepia film-grain heavy.",
+  },
+];
+
 /** Full Act 1 art prompt catalog (built up over subsequent chunks). */
 export const ACT1_ART_PROMPTS: readonly Act1ArtPrompt[] = [
   ...CYCLE_A_PORTRAITS,
@@ -552,6 +677,7 @@ export const ACT1_ART_PROMPTS: readonly Act1ArtPrompt[] = [
   ...CYCLE_A_CARD_ARTS,
   ...CYCLE_B_CARD_ARTS,
   ...CYCLE_C_CARD_ARTS,
+  ...WELCOME_TO_CELEBRATION_FRAMES,
 ];
 
 /** Look up a single prompt by asset id. */
