@@ -25,7 +25,10 @@ import { CADESClueBoard } from "@/components/CADESClueBoard";
 import { CADESConspiracyBoard } from "@/components/CADESConspiracyBoard";
 import { OpenChannelEcho } from "@/components/OpenChannelEcho";
 import { toFpsSuitBonuses } from "@shared/suitAdapters/fps";
-import type { AggregatedBonus } from "@/game/passiveBonusAggregator";
+import {
+  getPassiveBonuses,
+  type AggregatedBonus,
+} from "@/game/passiveBonusAggregator";
 import { ResponsiveImage } from "@/components/ResponsiveImage";
 
 /* ─── PALETTE ─── */
@@ -67,11 +70,21 @@ export default function CADESFPSPage() {
   const { state: gameState } = useGame();
 
   // §G.11 — CADES receives the player's current suit bonuses via the
-  // CADES_CONFIG payload. This page doesn't yet read the passive-bonus
-  // aggregator (the hook is wired centrally in a follow-up); until
-  // then an empty list produces a baseline suit_bonuses payload and
-  // Godot side behaves identically to pre-suit builds.
-  const cadesPassiveBonuses: readonly AggregatedBonus[] = [];
+  // CADES_CONFIG payload. Aggregator is read once per render; missing
+  // citizen data yields [] and the Godot side behaves identically to
+  // pre-suit builds.
+  const citizenQuery = trpc.citizen.getCharacter.useQuery(undefined, {
+    enabled: isAuthenticated,
+    staleTime: 60_000,
+  });
+  const cadesPassiveBonuses: readonly AggregatedBonus[] = (() => {
+    const citizen = citizenQuery.data;
+    if (!citizen) return [];
+    return getPassiveBonuses({
+      citizen: citizen as Parameters<typeof getPassiveBonuses>[0]["citizen"],
+      gear: citizen.gear,
+    });
+  })();
 
   const [phase, setPhase] = useState<Phase>("select");
   const [selectedMode, setSelectedMode] = useState<CadesMode | null>(null);

@@ -437,7 +437,10 @@ function updateEnemies(state: TerminusGameState) {
       const dx = target.x - enemy.x;
       const dy = target.y - enemy.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      const moveSpeed = (enemy.speed * speedMult) / FPS;
+      // §G.11 — suit bonuses slow the thought-virus advance
+      // (Arcane-Rune Regalia 7pc is the flagship gate here).
+      // virusTickReduction < 1.0 → slower enemies.
+      const moveSpeed = (enemy.speed * speedMult * suitVirusTickReduction) / FPS;
 
       if (dist < moveSpeed) {
         enemy.x = target.x;
@@ -528,7 +531,7 @@ function updateTurrets(state: TerminusGameState) {
       x: turret.col,
       y: turret.row,
       targetId: target.id,
-      damage: Math.round(turret.def.damage * turret.level * (1 + turretDamageBonus / 100)),
+      damage: Math.round(turret.def.damage * turret.level * (1 + turretDamageBonus / 100) * suitTowerDamageMult),
       speed: 8,
       type: turret.def.type === "arc_emitter" ? "lightning" :
             turret.def.type === "cryo_array" ? "frost" :
@@ -537,7 +540,9 @@ function updateTurrets(state: TerminusGameState) {
       color: turret.def.color,
     };
     state.projectiles.push(proj);
-    turret.cooldown = Math.round(FPS / turret.def.fireRate);
+    // §G.11 — suit bonuses apply multiplicatively to the base cooldown.
+    // suitTowerCooldownMult < 1.0 means faster (shorter cooldown).
+    turret.cooldown = Math.round(FPS / turret.def.fireRate * suitTowerCooldownMult);
     turret.target = target.id;
   }
 }
