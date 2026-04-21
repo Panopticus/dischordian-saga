@@ -1581,4 +1581,85 @@ export const ELARA_LINES: CompanionLine[] = [
     elaraStabilityDelta: -1,
     humanLightDelta: 3,
   }),
+
+  // ─────────────────────────────────────────────────────────────
+  // VIRUS WHISPERS — dormant → latent transition (thoughtVirus.ts
+  // threshold 20 unlocks dialog_virus_whispers). Elara hears
+  // something in the silence that wasn't there before. She names
+  // it carefully. These beats are low-priority, short, and almost
+  // ambient — they should feel like contamination dawning, not a
+  // dramatic reveal. Four beats × 3 bands; chunk 1 is beats 1-2.
+  // ─────────────────────────────────────────────────────────────
+  // Beat 1 — Elara notices the silence has a shape
+  l({
+    lineId: "virus_whisper_01_lucid",
+    text: "Hold on. The ambient carrier in here just moved. Not loud. Like someone shifted their weight on a quiet floor. You didn't cause it. I didn't cause it. Something in this deck is paying attention.",
+    priority: 1,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 10200,
+    requiresElaraStability: "lucid",
+    cooldownKey: "virus_whisper_01",
+    unlockFlags: ["dialog_virus_whispers"],
+  }),
+  l({
+    lineId: "virus_whisper_01_fragmented",
+    text: "Quiet. Quiet. The quiet is — the quiet moved. It moved. I know that quiet. I know it. I — I thought I'd left it behind. I thought. I thought. It's in here. It's in here with us.",
+    priority: 1,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 10800,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "virus_whisper_01",
+    unlockFlags: ["dialog_virus_whispers"],
+    elaraStabilityDelta: -2,
+  }),
+  l({
+    lineId: "virus_whisper_01_luminous",
+    text: "The ambient just shifted. Very slight. Like a listener leaning closer. I want to tell you so you hear it in me and not from it: there's something in this deck that wasn't asleep the way everything else was.",
+    priority: 1,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 10400,
+    requiresElaraStability: "luminous",
+    cooldownKey: "virus_whisper_01",
+    unlockFlags: ["dialog_virus_whispers"],
+  }),
+
+  // Beat 2 — Elara names it
+  l({
+    lineId: "virus_whisper_02_lucid",
+    text: "I'll call it the Thought Virus because that's what I called it a long time ago, when I had a reason to name it. Whether it's still the same one — I don't know. It isn't your problem to solve today. I wanted you to know it's the reason I sometimes stop mid-sentence.",
+    priority: 1,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 12200,
+    requiresElaraStability: "lucid",
+    cooldownKey: "virus_whisper_02",
+    unlockFlags: ["dialog_virus_whispers"],
+  }),
+  l({
+    lineId: "virus_whisper_02_fragmented",
+    text: "It has — it has a name. I gave it one. I gave a lot of things names. Names. Thought Virus. That's what I called — called — I called something that. I don't — I'm not sure it's still what the name was for. Don't — don't listen to it. Listen to me. Me.",
+    priority: 1,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 12800,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "virus_whisper_02",
+    unlockFlags: ["dialog_virus_whispers"],
+    elaraStabilityDelta: -1,
+  }),
+  l({
+    lineId: "virus_whisper_02_luminous",
+    text: "The Thought Virus. That's what I've called it since before you had ears to hear. It isn't urgent. It's patient. When it tries to talk, it will sound like me for a second, then stop sounding like me. That's how you'll know.",
+    priority: 1,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 11400,
+    requiresElaraStability: "luminous",
+    cooldownKey: "virus_whisper_02",
+    unlockFlags: ["dialog_virus_whispers"],
+    elaraStabilityDelta: 1,
+  }),
 ];
