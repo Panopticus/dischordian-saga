@@ -30,10 +30,11 @@ export type MedicalBayStateId =
 
 export type RoomStateId = CryoBayStateId | MedicalBayStateId;
 
-/** Legacy single-image URLs kept as last-resort fallbacks. */
+/** Legacy single-image URLs kept as last-resort fallbacks. Sourced from
+ *  docs/production/ASSET_URLS.md. */
 const LEGACY_URLS = {
   "cryo-bay": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_cryo_bay-SdeEqURrDvgrrbJq4WK3N5.webp",
-  "medical-bay": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/medical-bay_f5c9cffe.png",
+  "medical-bay": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_medical_bay-gLunh6wxp8sNASjZDo5FpV.webp",
 } as const satisfies Record<RoomStateRoomId, string>;
 
 /**
