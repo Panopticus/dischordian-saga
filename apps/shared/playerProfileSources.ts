@@ -164,6 +164,28 @@ const CARD_MATCH_CONCEDE_ACCEPTED: ProfileDelta = {
 };
 
 /* ═══════════════════════════════════════════════════════
+   ENGINEER'S BENCH — first-craft archetypes (Act 2 §6.2)
+   ═══════════════════════════════════════════════════════ */
+
+/** First-ever craft of a light-aligned card. The bench teaches that
+ *  "small is where the bench teaches; small is what survives the
+ *  first thousand mistakes." Nudges mercy (a small, kind first act)
+ *  and curiosity (the player chose to engage with the craft). */
+const BENCH_CRAFT_LIGHT_FIRST: ProfileDelta = {
+  mercy: 3,
+  curiosity: 2,
+};
+
+/** First-ever craft of a dark-aligned card. The Human nods: "be
+ *  honest about what you are making." Nudges vulnerability (the
+ *  player chose to be seen making a dark thing) and wit (dark
+ *  crafting carries a knowing humor in this universe). */
+const BENCH_CRAFT_DARK_FIRST: ProfileDelta = {
+  vulnerability: 3,
+  wit: 2,
+};
+
+/* ═══════════════════════════════════════════════════════
    ROOMS / NARRATIVE — placeholders
    ═══════════════════════════════════════════════════════ */
 
@@ -206,6 +228,10 @@ const PROFILE_SOURCE_DELTAS: Readonly<Record<string, ProfileDelta>> =
     card_dialog_choice: CARD_DIALOG_CHOICE_DEFAULT,
     card_match_resigned: CARD_MATCH_RESIGNED,
     card_match_concede_accepted: CARD_MATCH_CONCEDE_ACCEPTED,
+
+    // Engineer's Bench first-craft archetypes (Act 2 §6.2)
+    "bench_craft:light_first": BENCH_CRAFT_LIGHT_FIRST,
+    "bench_craft:dark_first": BENCH_CRAFT_DARK_FIRST,
 
     // Rooms / narrative (placeholders)
     room_dialog_choice: ROOM_DIALOG_CHOICE_DEFAULT,

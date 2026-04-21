@@ -138,6 +138,11 @@ export default function EngineersBenchPage() {
   );
   const dreamTokens = dreamQuery.data?.dream ?? 0;
 
+  // Psychological profile seeding (§6.2 bridge to PR #129).
+  // First-ever light/dark craft nudges mercy / vulnerability axes.
+  // Silent on the server — no UI feedback; the profile is ambient.
+  const profileEventMutation = trpc.playerProfile.recordEvent.useMutation();
+
   const craftMutation = trpc.crafting.craftRecipe.useMutation({
     onSuccess: (res) => {
       setIsCrafting(false);
@@ -209,6 +214,9 @@ export default function EngineersBenchPage() {
       setNarrativeFlag("first_light_craft_seen", true);
       fireCompanionComment("first_light_craft");
       setModal({ kind: "firstLightCraft" });
+      if (isAuthenticated) {
+        profileEventMutation.mutate({ source: "bench_craft:light_first" });
+      }
     } else if (
       selectedRecipe.alignment === "dark" &&
       !flags.first_dark_craft_seen
@@ -216,6 +224,9 @@ export default function EngineersBenchPage() {
       setNarrativeFlag("first_dark_craft_seen", true);
       fireCompanionComment("first_dark_craft");
       setModal({ kind: "firstDarkCraft" });
+      if (isAuthenticated) {
+        profileEventMutation.mutate({ source: "bench_craft:dark_first" });
+      }
     }
 
     // Server mutation when signed-in — the server remains the source of
