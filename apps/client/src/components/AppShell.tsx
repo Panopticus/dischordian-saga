@@ -254,7 +254,7 @@ function NavGroupSection({ group, location, onNavigate, rooms }: { group: NavGro
 export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: ReactNode; elaraTTS?: any }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [location] = useLocation();
-  const { stats, discoveryProgress } = useLoredex();
+  const { stats, discoveryProgress, visibleEntries, visibleRelationships } = useLoredex();
   const gam = useGamification();
   const { showPlayer } = usePlayer();
   const { state: gameState } = useGame();
@@ -307,24 +307,34 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
           {sidebarOpen ? <X size={18} /> : <Menu size={18} />}
         </button>
 
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-7 h-7 rounded-md flex items-center justify-center relative"
-            style={{
-              background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-primary) 15%, transparent) 0%, var(--glass-border) 100%)",
-              border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
-            }}>
-            <Terminal size={14} className="text-[var(--neon-cyan)]" />
-            <div className="absolute inset-0 rounded-md animate-cyber-pulse opacity-50" />
-          </div>
-          <div className="hidden sm:flex items-baseline gap-1.5">
-            <span className="font-display text-xs font-bold tracking-[0.25em] text-[var(--neon-cyan)] glow-cyan">
-              LOREDEX
-            </span>
-            <span className="font-display text-[10px] font-bold tracking-[0.2em] text-muted-foreground/60">
-              OS
-            </span>
-          </div>
-        </Link>
+        {(() => {
+          // F9 — brand reads "CoNEXUS OS" until loredex_unlocked flips.
+          // The link itself also goes dead during the cover-name era so
+          // deep-links to /loredex from bookmarks redirect (handled by
+          // routing). The framing itself was a spoiler.
+          const loredexUnlocked = Boolean(gameState.narrativeFlags?.loredex_unlocked);
+          const LinkOrFrag = loredexUnlocked ? Link : "div";
+          return (
+            <LinkOrFrag {...(loredexUnlocked ? { href: "/" } : {})} className="flex items-center gap-2 group">
+              <div className="w-7 h-7 rounded-md flex items-center justify-center relative"
+                style={{
+                  background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-primary) 15%, transparent) 0%, var(--glass-border) 100%)",
+                  border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
+                }}>
+                <Terminal size={14} className="text-[var(--neon-cyan)]" />
+                <div className="absolute inset-0 rounded-md animate-cyber-pulse opacity-50" />
+              </div>
+              <div className="hidden sm:flex items-baseline gap-1.5">
+                <span className="font-display text-xs font-bold tracking-[0.25em] text-[var(--neon-cyan)] glow-cyan">
+                  {loredexUnlocked ? "LOREDEX" : "CoNEXUS"}
+                </span>
+                <span className="font-display text-[10px] font-bold tracking-[0.2em] text-muted-foreground/60">
+                  OS
+                </span>
+              </div>
+            </LinkOrFrag>
+          );
+        })()}
 
         <div className="flex-1" />
 
@@ -348,11 +358,22 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
           </div>
         </div>
 
-        {/* Quick Stats */}
+        {/* Quick Stats. F9 — counters read as "discovered / ???" so the
+            full catalog size is never spoiled. The honest denominator
+            of the clearance progress bar is still the real total (it
+            expresses "of the whole world, you have X%"). */}
         <div className="hidden lg:flex items-center gap-3 font-mono text-[10px] text-muted-foreground/60 mr-3">
-          <span><span className="text-[var(--neon-cyan)]">{stats.total_entries}</span> ENTRIES</span>
+          <span>
+            <span className="text-[var(--neon-cyan)]">{visibleEntries.length}</span>
+            <span className="opacity-50"> / ???</span>
+            {" "}ENTRIES
+          </span>
           <span className="text-muted-foreground/20">|</span>
-          <span><span className="text-[var(--orb-orange)]">{stats.relationships}</span> LINKS</span>
+          <span>
+            <span className="text-[var(--orb-orange)]">{visibleRelationships.length}</span>
+            <span className="opacity-50"> / ???</span>
+            {" "}LINKS
+          </span>
         </div>
 
         <NotificationBell />
