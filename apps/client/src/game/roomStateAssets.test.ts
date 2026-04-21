@@ -64,4 +64,24 @@ describe("roomStateAssets — variant picker", () => {
       ["device-awakened", "donated", "initial", "refused"],
     );
   });
+
+  it("every registered state resolves to a live https URL (AAA Final drop)", () => {
+    for (const roomId of ["cryo-bay", "medical-bay"] as const) {
+      const slots = ROOM_STATE_ASSET_URLS[roomId] as Record<string, string | null>;
+      for (const [stateId, url] of Object.entries(slots)) {
+        expect(url, `${roomId}:${stateId} must be wired`).toBeTruthy();
+        expect(url!.startsWith("https://"), `${roomId}:${stateId} must be https`).toBe(true);
+        expect(url!).toContain(`${roomId}_${stateId}`);
+      }
+    }
+  });
+
+  it("resolveRoomStateAsset returns each state's specific URL", () => {
+    expect(
+      resolveRoomStateAsset("cryo-bay", { cryo_mystery_first_clue_found: true }),
+    ).toContain("cryo-bay_investigating");
+    expect(
+      resolveRoomStateAsset("medical-bay", { donated_dna_sample: true }),
+    ).toContain("medical-bay_donated");
+  });
 });

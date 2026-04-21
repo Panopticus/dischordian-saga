@@ -38,25 +38,35 @@ const LEGACY_URLS = {
 } as const satisfies Record<RoomStateRoomId, string>;
 
 /**
- * URL registry. Populate these as the Kling/Imagen render pipeline
- * produces each state variant and uploads to the CloudFront bucket.
- * Leaving a stateId null is fine — the resolver degrades gracefully.
+ * URL registry for the 4×cryo-bay + 4×medical-bay Section F state renders.
+ *
+ * Published from the AAA Final asset drop on 2026-04-21. Files live at
+ * `https://dgrsart.s3.us-east-2.amazonaws.com/AAA Final/<stateId>.png`
+ * (URL-encoded space). The S3 prefix is public via CloudFront; if the
+ * files are ever republished to the primary CloudFront bucket, swap
+ * these URLs and the resolver downstream picks up the change with no
+ * other code edits.
+ *
+ * `null` values fall back to `initial`, then to the legacy single-image
+ * URL in LEGACY_URLS above.
  */
+const ROOM_STATE_CDN_BASE = "https://dgrsart.s3.us-east-2.amazonaws.com/AAA%20Final";
+
 export const ROOM_STATE_ASSET_URLS: {
   "cryo-bay": Record<CryoBayStateId, string | null>;
   "medical-bay": Record<MedicalBayStateId, string | null>;
 } = {
   "cryo-bay": {
-    "initial": null,
-    "investigating": null,
-    "victim-identified": null,
-    "case-open-later": null,
+    "initial": `${ROOM_STATE_CDN_BASE}/cryo-bay_initial.png`,
+    "investigating": `${ROOM_STATE_CDN_BASE}/cryo-bay_investigating.png`,
+    "victim-identified": `${ROOM_STATE_CDN_BASE}/cryo-bay_victim-identified.png`,
+    "case-open-later": `${ROOM_STATE_CDN_BASE}/cryo-bay_case-open-later.png`,
   },
   "medical-bay": {
-    "initial": null,
-    "device-awakened": null,
-    "donated": null,
-    "refused": null,
+    "initial": `${ROOM_STATE_CDN_BASE}/medical-bay_initial.png`,
+    "device-awakened": `${ROOM_STATE_CDN_BASE}/medical-bay_device-awakened.png`,
+    "donated": `${ROOM_STATE_CDN_BASE}/medical-bay_donated.png`,
+    "refused": `${ROOM_STATE_CDN_BASE}/medical-bay_refused.png`,
   },
 };
 
