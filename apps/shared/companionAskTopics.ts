@@ -441,6 +441,47 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
     unlockFlag: "act7_arc_closes",
     unlockedFromAct: 7,
   },
+
+  // ─────────────────────────────────────────────────────────────
+  // BINARY-TEACH CHAIN (F10) — surfaced by the Bridge Power Relay
+  // puzzle's "Ask Elara for Help" button after clue-bridge-01 is
+  // discovered. Three topics form a linear chain via followUp;
+  // the last one names positions but does not flip them. Each
+  // topic has an authored `voId` === topic id on the VO pass.
+  // Companion substrate renders these as holographic panels per F13.
+  // ─────────────────────────────────────────────────────────────
+  {
+    id: "ask_elara_binary_basics",
+    speaker: "elara",
+    label: "Binary basics",
+    question: "Elara — can you explain binary to me?",
+    answer:
+      "Binary is a language of twos. Every column is a power of two — one, two, four, eight, sixteen, and so on, left to right as they climb. A '1' in a column means 'add that power.' A '0' means 'skip it.' Every whole number has exactly one binary spelling. Clean. No arguments.",
+    unlockFlag: "bridge_ark_designation_found",
+    unlockedFromAct: 0,
+    followUp: "ask_elara_binary_1047",
+  },
+  {
+    id: "ask_elara_binary_1047",
+    speaker: "elara",
+    label: "Why 1047?",
+    question: "Okay — how does 1047 become binary?",
+    answer:
+      "1047 is this Ark's designation. Think of it as a sum of powers of two. 1024 is in. 16 is in. 4 is in. 2 is in. 1 is in. Everything else is out. Write that left to right across eleven columns and you get 10000010111. The relay panel on the Bridge has eleven switches. That is not a coincidence — the engineers left us her name as the key to her own door.",
+    unlockFlag: "bridge_ark_designation_found",
+    unlockedFromAct: 0,
+    followUp: "ask_elara_binary_relay_mapping",
+  },
+  {
+    id: "ask_elara_binary_relay_mapping",
+    speaker: "elara",
+    label: "So which switches?",
+    question: "So which relays do I flip?",
+    answer:
+      "Switches one through eleven, left to right. The ones that need to be up: 1, 7, 9, 10, 11. Everything else stays down. That's 10000010111 — the Ark spelling her own name back to herself. I'm not going to flip them for you. The door is asking your hands for the answer, not mine. Go wake up the Bridge.",
+    unlockFlag: "bridge_ark_designation_found",
+    unlockedFromAct: 0,
+  },
 ];
 
 /**
