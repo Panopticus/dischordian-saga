@@ -2,20 +2,23 @@
 /* ═══════════════════════════════════════════════════════
    SUIT ART IMPORT — one-off
 
-   Extracts the suit-catalog tarball (two foundation sets —
-   The Mourner's Coat + The First Chassis, 120 PNGs total)
-   and resizes every piece to the §G.8 authoring spec
-   (1024x1536) to match the compositor canvas. The sibling
-   `optimize-images.ts` then emits .webp variants.
+   Extracts a suit-catalog archive (tarball or zip) and
+   resizes every piece to the §G.8 authoring spec
+   (1024x1536) to match the compositor canvas. Then the
+   sibling `optimize-images.ts` emits .webp variants.
 
    Usage:
-     pnpm tsx apps/scripts/import-suit-art.ts <path-to-tarball>
+     pnpm tsx apps/scripts/import-suit-art.ts <path-to-archive>
 
-   The tarball arranges files at
-     saga_new_suit_sets/.../apps/client/public/art/suits/<set>/<rarity>/<slot>.png
-   with a deep wrapper prefix. We extract the PNGs under
-     apps/client/public/art/suits/<set>/<rarity>/<slot>.png
-   stripping the 8-component prefix.
+   Supported archive layouts:
+     - Tarball with deep wrapper prefix
+         saga_new_suit_sets/.../apps/client/public/art/suits/<set>/<rarity>/<slot>.png
+       (the Mourner's Coat + First Chassis drop).
+     - Zip with the flat
+         <set>/<rarity>/<slot>.png
+       layout (the full 18-set drop).
+   Either way, files land at
+     apps/client/public/art/suits/<set>/<rarity>/<slot>.png.
    ═══════════════════════════════════════════════════════ */
 
 import { execFileSync } from "node:child_process";
@@ -42,14 +45,32 @@ function walkPngs(dir: string, out: string[] = []): string[] {
   return out;
 }
 
+/** Strip any leading `suits/` or `art/suits/` layer off the staged
+ *  tree so the walk always starts at the per-set directories. */
+function resolveStagedSetsRoot(stageDir: string): string {
+  let cur = stageDir;
+  for (let i = 0; i < 3; i++) {
+    const entries = readdirSync(cur, { withFileTypes: true });
+    const dirs = entries.filter((e) => e.isDirectory());
+    // Heuristic: if there's exactly one subdir and it's named
+    // "suits" or "art", descend. Otherwise we're at the set roster.
+    if (dirs.length === 1 && (dirs[0].name === "suits" || dirs[0].name === "art")) {
+      cur = join(cur, dirs[0].name);
+      continue;
+    }
+    break;
+  }
+  return cur;
+}
+
 async function main() {
-  const tarball = process.argv[2];
-  if (!tarball) {
-    console.error("usage: import-suit-art.ts <path-to-tarball>");
+  const archive = process.argv[2];
+  if (!archive) {
+    console.error("usage: import-suit-art.ts <path-to-archive(.tar.gz|.zip)>");
     process.exit(1);
   }
-  if (!existsSync(tarball)) {
-    console.error(`tarball not found: ${tarball}`);
+  if (!existsSync(archive)) {
+    console.error(`archive not found: ${archive}`);
     process.exit(1);
   }
 
@@ -57,27 +78,34 @@ async function main() {
   rmSync(stageDir, { recursive: true, force: true });
   mkdirSync(stageDir, { recursive: true });
 
-  // Extract only the deeply-nested PNGs. The wrapper prefix is
-  //   saga_new_suit_sets/home/ubuntu/suit_catalog_build/apps/client/public/art/suits/
-  // (9 segments including `suits/`) plus `<set>/<rarity>/<slot>.png`
-  // — strip 9 so we land at `<set>/<rarity>/<slot>.png` under the
-  // stage dir.
-  console.log(`[import-suit-art] extracting ${tarball} → ${stageDir}`);
-  execFileSync(
-    "tar",
-    [
-      "-xzf", tarball,
-      "-C", stageDir,
-      "--strip-components=9",
-      "--wildcards",
-      "*/apps/client/public/art/suits/*/*/*.png",
-    ],
-    { stdio: "inherit" },
-  );
+  console.log(`[import-suit-art] extracting ${archive} → ${stageDir}`);
+  const lower = archive.toLowerCase();
+  if (lower.endsWith(".tar.gz") || lower.endsWith(".tgz")) {
+    // Tarball form — deep wrapper prefix of 9 segments leading up
+    // to `<set>/<rarity>/<slot>.png`.
+    execFileSync(
+      "tar",
+      [
+        "-xzf", archive,
+        "-C", stageDir,
+        "--strip-components=9",
+        "--wildcards",
+        "*/apps/client/public/art/suits/*/*/*.png",
+      ],
+      { stdio: "inherit" },
+    );
+  } else if (lower.endsWith(".zip")) {
+    // Zip form — entries are already `<set>/<rarity>/<slot>.png`
+    // (or occasionally nested under `suits/` or `art/suits/`).
+    execFileSync("unzip", ["-q", "-o", archive, "-d", stageDir], {
+      stdio: "inherit",
+    });
+  } else {
+    console.error(`unsupported archive extension: ${archive}`);
+    process.exit(1);
+  }
 
-  // After strip-components=8 the stage dir itself holds the
-  // per-set folders directly.
-  const stagedSuits = stageDir;
+  const stagedSuits = resolveStagedSetsRoot(stageDir);
   const extractedSets = readdirSync(stagedSuits, { withFileTypes: true })
     .filter((d) => d.isDirectory())
     .map((d) => d.name);
@@ -85,10 +113,10 @@ async function main() {
     console.error(`[import-suit-art] no set folders after extraction`);
     process.exit(1);
   }
-  console.log(`[import-suit-art] extracted sets: ${extractedSets.join(", ")}`);
+  console.log(
+    `[import-suit-art] extracted ${extractedSets.length} sets: ${extractedSets.join(", ")}`,
+  );
 
-  // Move the staged tree into place. If the target suits/ already
-  // exists, individual pieces are replaced; new ones are added.
   mkdirSync(TARGET_ROOT, { recursive: true });
   const pngs = walkPngs(stagedSuits);
   console.log(`[import-suit-art] found ${pngs.length} PNGs`);
@@ -101,24 +129,21 @@ async function main() {
 
     const meta = await sharp(src).metadata();
     if (meta.width === CANVAS_W && meta.height === CANVAS_H) {
-      // Already at spec — just move.
       renameSync(src, dest);
     } else {
-      // Resize with lanczos3, preserve alpha.
       await sharp(src)
         .resize(CANVAS_W, CANVAS_H, { fit: "fill", kernel: "lanczos3" })
         .png({ compressionLevel: 9 })
         .toFile(dest);
     }
     resized++;
-    if (resized % 10 === 0) {
+    if (resized % 25 === 0) {
       console.log(`[import-suit-art] ${resized}/${pngs.length}`);
     }
   }
 
   rmSync(stageDir, { recursive: true, force: true });
 
-  // Brief size report.
   const finalPngs = walkPngs(TARGET_ROOT);
   const totalBytes = finalPngs.reduce((n, p) => n + statSync(p).size, 0);
   console.log(

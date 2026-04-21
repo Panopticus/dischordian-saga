@@ -10,7 +10,7 @@
  */
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
-import { ChevronLeft, Shield, Sparkles } from "lucide-react";
+import { ChevronLeft, Shield } from "lucide-react";
 import PaperDollBG3 from "@/components/PaperDollBG3";
 import type { Loadout } from "@/game/paperDoll/compositePaperDoll";
 import {
@@ -25,17 +25,6 @@ import {
 } from "@shared/suitArtPrompts";
 import { pieceId } from "@shared/suitSets";
 import { resolveStarterLoadout } from "@shared/starterLoadout";
-
-/**
- * Sets we've actually shipped art for. Everything else in the
- * roster stays selectable but renders via placeholder rectangles.
- * Keep this list in lockstep with directories created under
- * apps/client/public/art/suits/.
- */
-const SETS_WITH_ART: ReadonlySet<string> = new Set([
-  "the-mourners-coat",
-  "the-first-chassis",
-]);
 
 const CATEGORY_LABEL: Record<SetCategory, string> = {
   class: "Class",
@@ -92,7 +81,6 @@ export default function SuitGalleryPage() {
   );
 
   const tint = tintForSet(selectedSet);
-  const hasArt = SETS_WITH_ART.has(selectedSet.id);
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
@@ -106,8 +94,7 @@ export default function SuitGalleryPage() {
           <h1 className="font-display text-xl font-bold tracking-wider">SUIT GALLERY</h1>
         </div>
         <p className="font-mono text-xs text-muted-foreground">
-          Eighteen sets × six rarities × ten pieces — the Inventor's catalog.
-          Sets without a check are still in the forge.
+          Eighteen sets × six rarities × ten pieces — the Inventor's full catalog.
         </p>
       </div>
 
@@ -125,23 +112,17 @@ export default function SuitGalleryPage() {
               <ul className="space-y-0.5">
                 {SUIT_SET_ROSTER.filter((s) => s.category === cat).map((set) => {
                   const isSelected = set.id === selectedSet.id;
-                  const shipped = SETS_WITH_ART.has(set.id);
                   return (
                     <li key={set.id}>
                       <button
                         onClick={() => setSelectedSetId(set.id)}
-                        className={`w-full text-left px-2 py-1.5 rounded font-mono text-xs transition-all flex items-center justify-between gap-2 ${
+                        className={`w-full text-left px-2 py-1.5 rounded font-mono text-xs transition-all ${
                           isSelected
                             ? "bg-primary/20 text-primary border border-primary/40"
                             : "text-muted-foreground hover:text-foreground hover:bg-white/5"
                         }`}
                       >
                         <span className="truncate">{set.name}</span>
-                        {shipped ? (
-                          <Sparkles size={10} className="text-primary shrink-0" />
-                        ) : (
-                          <span className="text-[9px] opacity-60 shrink-0">soon</span>
-                        )}
                       </button>
                     </li>
                   );
@@ -159,13 +140,6 @@ export default function SuitGalleryPage() {
           >
             <PaperDollBG3 loadout={loadout} elementTint={tint} width={448} />
           </div>
-          {!hasArt ? (
-            <p className="mt-3 font-mono text-[11px] text-muted-foreground/80 text-center max-w-md">
-              Art pending for <span className="text-foreground">{selectedSet.name}</span>.
-              Showing layer geometry placeholder — the real PNGs swap in when
-              they ship under <code>/art/suits/{selectedSet.id}/</code>.
-            </p>
-          ) : null}
           <div className="mt-4 w-full max-w-md void-surface p-4">
             <p className="font-display text-sm font-bold tracking-wider mb-1">
               {selectedSet.name}
