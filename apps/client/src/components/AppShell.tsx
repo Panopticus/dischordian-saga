@@ -307,15 +307,13 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
           {sidebarOpen ? <X size={18} /> : <Menu size={18} />}
         </button>
 
+        {/* F9 — brand reads "CoNEXUS OS" until loredex_unlocked flips.
+            Pre-unlock the brand renders as an inert <div> so tab-clicking
+            the logo doesn't deep-link into the spoiler-heavy archive. */}
         {(() => {
-          // F9 — brand reads "CoNEXUS OS" until loredex_unlocked flips.
-          // The link itself also goes dead during the cover-name era so
-          // deep-links to /loredex from bookmarks redirect (handled by
-          // routing). The framing itself was a spoiler.
           const loredexUnlocked = Boolean(gameState.narrativeFlags?.loredex_unlocked);
-          const LinkOrFrag = loredexUnlocked ? Link : "div";
-          return (
-            <LinkOrFrag {...(loredexUnlocked ? { href: "/" } : {})} className="flex items-center gap-2 group">
+          const BrandInner = (
+            <>
               <div className="w-7 h-7 rounded-md flex items-center justify-center relative"
                 style={{
                   background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-primary) 15%, transparent) 0%, var(--glass-border) 100%)",
@@ -332,7 +330,12 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
                   OS
                 </span>
               </div>
-            </LinkOrFrag>
+            </>
+          );
+          return loredexUnlocked ? (
+            <Link href="/" className="flex items-center gap-2 group">{BrandInner}</Link>
+          ) : (
+            <div className="flex items-center gap-2 group">{BrandInner}</div>
           );
         })()}
 

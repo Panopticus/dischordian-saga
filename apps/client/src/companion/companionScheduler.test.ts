@@ -89,8 +89,11 @@ describe("companionScheduler", () => {
   });
 
   it("speaker routing: human lines carry speaker = human", () => {
-    // Shadow is the default band; human_first_words_shadow is priority 3.
-    enqueue("human_first_words_shadow");
+    // Push humanLight into the shadow band (≤ -30) so the gated line
+    // passes. Default is -20 which is the balanced band.
+    setContext({ elaraStability: 10, humanLight: -50, flags: new Set(), act: 0 });
+    const ok = enqueue("human_first_words_shadow");
+    expect(ok).toBe(true);
     expect(getActive()?.speaker).toBe("human");
   });
 
@@ -102,12 +105,13 @@ describe("companionScheduler", () => {
   });
 
   it("clamps stability to [-100, 100]", () => {
-    setContext({ elaraStability: 99, humanLight: 0, flags: new Set(), act: 0 });
-    // tut_first_steps_fs9_fragmented would add +3, but we're lucid so it
-    // fails gate; use the lucid one which adds +1.
-    enqueue("tut_first_steps_fs9_lucid");
+    // Push into the fragmented band at −99 and apply a fragmented-gated
+    // line with a negative delta (cryo_orient_05_fragmented applies −2).
+    // −99 + (−2) = −101 → clamped to −100.
+    setContext({ elaraStability: -99, humanLight: 0, flags: new Set(), act: 0 });
+    const ok = enqueue("cryo_orient_05_fragmented");
+    expect(ok).toBe(true);
     dismiss();
-    // 99 + 1 = 100 (at the cap).
-    expect(getContext().elaraStability).toBe(100);
+    expect(getContext().elaraStability).toBe(-100);
   });
 });
