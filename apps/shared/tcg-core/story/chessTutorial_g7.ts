@@ -108,6 +108,12 @@ const GATE_7_OUTRO: DialogScene = {
       text: "Games shape reality. It is how we learn. It is the only way we have ever learned anything that wasn't beaten into us. Every law you obey was a game your ancestors agreed to play. Every word you use is a token whose rules were settled before you were born. When I taught chess to the Oracle, I was not teaching her chess. I was handing her the smallest possible model of every other system she was ever going to face. She used it well. She is missing now. Probably not coincidentally.",
       audioClipId: "vo_gm_chess_g7_outro_id_04",
     },
+    {
+      speaker: "game_master_celebration",
+      mood: "cryptic",
+      text: "There is a name for the framework I am teaching you. I did not invent it. Three people — Greg Hill, Kerry Thornley, Robert Anton Wilson — did the foundational work in a different universe in the 1960s, on a Xerox machine in a bowling alley. They called it Discordianism. I call mine Dischordian Logic, because the chaos I am interested in SINGS. You will see why. It is a grid. It says: reality is a Rorschach, belief is an instrument, and the Aneristic Illusion will kill you faster than anything the Architect can send. If you remember nothing else from this room, remember the name. Dischordian Logic. You will meet it again.",
+      audioClipId: "vo_gm_chess_g7_outro_id_05",
+    },
 
     /* ─── Movement 3: the death reveal ──────────────────────
        The dead-archon line. He names what he is, when he
@@ -150,7 +156,7 @@ const GATE_7_OUTRO: DialogScene = {
     {
       speaker: "game_master_celebration",
       mood: "cryptic",
-      text: "One more thing. I have been watching you the whole time. Not in a frightening way — the same way I watched the Oracle, the same way I watched the Engineer. I am a teacher; I cannot help it. You play the way someone who has not yet decided what kind of person they are plays. That is rarer than you think. Most people decide too early and then play to confirm the decision. You are still listening. I am noting that. I am hoping it stays true.",
+      text: "One more thing. I have been watching you the whole time. Not in a frightening way — the same way I watched the Oracle, the same way I watched the Engineer. I am a teacher; I cannot help it. You play the way someone who has not yet decided what kind of person they are plays. That is rarer than you think. Most people decide too early and then play to confirm the decision. You are still listening. I am noting that. I am hoping it stays true. We're all mad here, and the ones who know it have the only usable maps.",
       audioClipId: "vo_gm_chess_g7_outro_profile_1",
     },
     {

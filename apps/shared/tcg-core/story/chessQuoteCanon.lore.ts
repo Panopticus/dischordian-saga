@@ -118,6 +118,72 @@ export const LORE_QUOTES: readonly LoreQuote[] = Object.freeze([
     text: "Promise the opponent a smaller prize than they are playing for.",
     themes: ["deception", "sacrifice"],
   },
+
+  // ─── DISCHORDIAN LOGIC IN-WORLD ───
+  {
+    id: "gm_rorschach",
+    figure: "the Game Master",
+    era: "Celebration, pre-death",
+    source: "Chess Academy Curriculum, Year 14",
+    text: "The board is honest. Your reading of the board is not. Both of these are true and neither is a problem.",
+    themes: ["chaos", "seeing", "belief"],
+  },
+  {
+    id: "gm_sacred_chao",
+    figure: "the Game Master",
+    era: "Celebration, pre-death",
+    source: "Chess Academy Curriculum, Year 17",
+    text: "The Chao is the Rorschach after you stop lying to yourself about seeing only one thing in it.",
+    themes: ["chaos", "madness"],
+  },
+  {
+    id: "gm_fnord",
+    figure: "the Game Master",
+    era: "Celebration, marginalia",
+    source: "marginalia on a student's notebook",
+    text: "You are not seeing the fnords yet. That is a good sign. When you do, do not tell anyone who is still pretending.",
+    themes: ["madness", "conspiracy"],
+  },
+  {
+    id: "engineer_door",
+    figure: "the Engineer",
+    era: "post-Labyrinth, in his workshop",
+    source: "Labyrinth Annotations, margin, in his hand",
+    text: "I believed there was a door. The door turned out to be where I was looking. QED.",
+    themes: ["belief", "design"],
+  },
+  {
+    id: "engineer_bavarian",
+    figure: "the Engineer",
+    era: "Celebration-era pamphlet",
+    source: "unsigned pamphlet, Inception Ark library",
+    text: "Bavarian shadows in the code. Keep looking. If they aren't there, you haven't looked at the right code yet.",
+    themes: ["conspiracy", "seeing"],
+  },
+  {
+    id: "gm_cheshire",
+    figure: "the Game Master",
+    era: "across the entire curriculum",
+    source: "said at least once per gate",
+    text: "We're all mad here. Especially the ones insisting they are not. You will be, too, by the time we finish.",
+    themes: ["madness"],
+  },
+  {
+    id: "antiquarian_eris",
+    figure: "the Antiquarian",
+    era: "fragment 17",
+    source: "loose page cross-referenced with the GM Curriculum",
+    text: "The goddess of discord does not break the wedding. She tells you it was already broken.",
+    themes: ["chaos"],
+  },
+  {
+    id: "gm_belief_instrument",
+    figure: "the Game Master",
+    era: "Celebration-era lectures",
+    source: "recorded by a student in the second row",
+    text: "Belief is a chisel. Most people carry it like a talisman. It does not work as a talisman. It works as a chisel.",
+    themes: ["belief", "design"],
+  },
 ]);
 
 export function getLoreQuotesByTheme(theme: QuoteTheme): readonly LoreQuote[] {

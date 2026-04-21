@@ -1006,6 +1006,19 @@ export default function ChessPage() {
               </Link>
             </div>
 
+            {/* Dischordian Logic — the post-tutorial payoff. */}
+            <Link href="/dischordian-logic" className="block rounded-lg border border-accent/40 bg-card/20 hover:bg-card/40 p-4 hover-lift">
+              <div className="flex items-center gap-3 mb-1">
+                <Crown size={16} className="text-accent" />
+                <span className="font-display text-sm font-bold tracking-wider">DISCHORDIAN LOGIC</span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">SONG / PRIMER</span>
+              </div>
+              <p className="font-mono text-[11px] text-muted-foreground">
+                Hail Eris. Kallisti. The Game Master's post-graduate seminar —
+                seven principles, one song, fifteen slides. We're all mad here.
+              </p>
+            </Link>
+
             {/* Game Modes — 5 modes now */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {[

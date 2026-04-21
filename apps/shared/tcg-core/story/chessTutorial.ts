@@ -66,6 +66,7 @@ import { CHESS_TUTORIAL_SKIP_SCENES } from "./chessTutorial_skip";
 import { CHESS_CORRUPTED_ARENA_SCENES } from "./chessArenaEncounter";
 import { CHESS_CLIMB_SCENES } from "./chessClimbDialog";
 import { MOL_GARATH_EPILOGUE_SCENES } from "./molGarathEpilogue";
+import { DISCHORDIAN_LOGIC_SCENES } from "./dischordianLogicDialog";
 
 /* ═══════════════════════════════════════════════════════
    TYPES
@@ -392,6 +393,7 @@ export const CHESS_TUTORIAL_SCENES: readonly DialogScene[] = Object.freeze([
   ...CHESS_CORRUPTED_ARENA_SCENES,
   ...CHESS_CLIMB_SCENES,
   ...MOL_GARATH_EPILOGUE_SCENES,
+  ...DISCHORDIAN_LOGIC_SCENES,
 ]);
 
 /** Lookup helper — return a gate by its 1-indexed number. */

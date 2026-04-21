@@ -21,6 +21,10 @@ export const QUOTE_THEMES = [
   "play",
   "design",
   "seeing",
+  "chaos",
+  "madness",
+  "conspiracy",
+  "belief",
 ] as const;
 
 export type QuoteTheme = (typeof QUOTE_THEMES)[number];
@@ -130,6 +134,74 @@ export const REAL_QUOTES: readonly RealQuote[] = Object.freeze([
     source: "interviews",
     text: "I'm not going to offer a draw to a person I think is about to resign.",
     themes: ["mercy", "seeing"],
+  },
+
+  // ─── DISCHORDIAN CANON (real world) ───
+  // The Game Master cites these AS HIMSELF — Discordianism is
+  // part of his operating framework, not a guest appearance.
+  {
+    id: "malaclypse_rorschach",
+    author: "Malaclypse the Younger (Greg Hill)",
+    era: "1963",
+    source: "Principia Discordia",
+    text: "Reality is the original Rorschach. Verily!",
+    themes: ["chaos", "seeing", "belief"],
+  },
+  {
+    id: "malaclypse_five_truths",
+    author: "Malaclypse the Younger",
+    era: "1963",
+    source: "Principia Discordia",
+    text: "All statements are true in some sense, false in some sense, meaningless in some sense, true and false in some sense, true and meaningless in some sense, false and meaningless in some sense, and true and false and meaningless in some sense.",
+    themes: ["chaos", "madness", "belief"],
+  },
+  {
+    id: "thornley_aneristic",
+    author: "Kerry Thornley (Lord Omar Khayyam Ravenhurst)",
+    era: "1963",
+    source: "Principia Discordia",
+    text: "The belief that order is true, and disorder false or somehow wrong, is the Aneristic Illusion.",
+    themes: ["chaos", "belief", "deception"],
+  },
+  {
+    id: "raw_thinker_prover",
+    author: "Robert Anton Wilson",
+    era: "1983",
+    source: "Prometheus Rising",
+    text: "What the Thinker thinks, the Prover proves.",
+    themes: ["belief", "madness", "seeing"],
+  },
+  {
+    id: "raw_convictions",
+    author: "Robert Anton Wilson",
+    era: "1977",
+    source: "Cosmic Trigger I",
+    text: "Convictions cause convicts; whatever you believe imprisons you.",
+    themes: ["belief", "chaos"],
+  },
+  {
+    id: "raw_illuminatus_hail",
+    author: "Robert Anton Wilson & Robert Shea",
+    era: "1975",
+    source: "The Illuminatus! Trilogy",
+    text: "Hail Eris! Kallisti! The golden apple is inscribed TO THE FAIREST, and the fairest is whichever of us is paying attention.",
+    themes: ["chaos", "conspiracy"],
+  },
+  {
+    id: "raw_schrodinger",
+    author: "Robert Anton Wilson",
+    era: "1980",
+    source: "Schrödinger's Cat Trilogy",
+    text: "The cat is in the box, the box is in the observer, and the observer is in the cat. You choose which layer to unpack first.",
+    themes: ["seeing", "madness", "belief"],
+  },
+  {
+    id: "cheshire_mad",
+    author: "Lewis Carroll (the Cheshire Cat)",
+    era: "1865",
+    source: "Alice's Adventures in Wonderland",
+    text: "We're all mad here. I'm mad. You're mad. You must be, or you wouldn't have come here.",
+    themes: ["madness"],
   },
 ]);
 
