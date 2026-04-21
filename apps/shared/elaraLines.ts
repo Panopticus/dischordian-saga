@@ -1419,4 +1419,48 @@ export const ELARA_LINES: CompanionLine[] = [
     cooldownKey: "medbay_dna_choice",
     elaraStabilityDelta: 1,
   }),
+
+  // ─────────────────────────────────────────────────────────────
+  // RESURRECTION PROTOCOLS — Elara's confession. Triggered when the
+  // player discovers the empty cryo chambers beyond Med Bay; see
+  // apps/client/src/game/crewAwakening.ts:46-150, pod_47b_discovered.
+  // This is Elara admitting she's been running the incubators and
+  // can bring the dead back — including the victim, by genetic
+  // template. Biggest mechanic-revealing beat of the opening.
+  // ─────────────────────────────────────────────────────────────
+  l({
+    lineId: "resurrection_confession_lucid",
+    text: "Those chambers you're looking at — those are incubators. Cloning pods. The Collector's genetic archive is intact. It's been intact this entire time. I didn't tell you because I wasn't sure whether knowing would make the first hour better or worse. I'm telling you now.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 13200,
+    requiresElaraStability: "lucid",
+    cooldownKey: "resurrection_confession",
+    unlockFlags: ["pod_47b_discovered"],
+  }),
+  l({
+    lineId: "resurrection_confession_fragmented",
+    text: "They're — they're incubators. Cloning pods. I — I didn't — I didn't say. I didn't. For a long time I didn't. Because if I said — if I said it out loud I'd have to — I'd have to say who I could bring back. And who I couldn't. I'm sorry. I'm — I'm saying it now.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "manual",
+    durationMs: 13400,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "resurrection_confession",
+    unlockFlags: ["pod_47b_discovered"],
+    elaraStabilityDelta: -3,
+  }),
+  l({
+    lineId: "resurrection_confession_luminous",
+    text: "These are incubators. The Collector's genetic archive runs through them. I can bring people back. I could have told you an hour ago. I wanted you to know the ship a little before you knew what the ship could do. That's on me — but I'm telling you now, and I'd rather you choose what happens next than have me choose for you.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 13800,
+    requiresElaraStability: "luminous",
+    cooldownKey: "resurrection_confession",
+    unlockFlags: ["pod_47b_discovered"],
+    elaraStabilityDelta: 2,
+  }),
 ];
