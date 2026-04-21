@@ -37,6 +37,16 @@ const BUCKET = process.env.S3_BUCKET || "dgrsvoices";
 const REGION = process.env.AWS_REGION || "us-east-2";
 const S3_PREFIX = "Prelude Voices";
 
+/**
+ * S3 upload is optional. When AWS creds aren't present, the generator
+ * writes local .mp3 files and records a /audio/... URL in the manifest
+ * so the game can play the file in dev. Replace with a CDN URL when
+ * someone with S3 access re-runs with creds set.
+ */
+const HAS_AWS_CREDS = Boolean(
+  process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY,
+);
+
 /** ElevenLabs voice IDs, keyed by the CSV's third column (voice_profile). */
 const VOICE_IDS: Record<string, string> = {
   elara: "xMyNDrPFEtQN8iZtT7l2",           // existing — from generate_elara_vo.py
@@ -301,7 +311,9 @@ async function main() {
 
   const lines = loadAllLines();
   console.log(`  ${lines.length} lines loaded from ${CSV_DIR}`);
-  console.log(`  Bucket: ${BUCKET}/${S3_PREFIX}/`);
+  console.log(
+    `  S3 upload: ${HAS_AWS_CREDS ? `enabled → ${BUCKET}/${S3_PREFIX}/` : "disabled (local-only)"}`,
+  );
   console.log("═══════════════════════════════════════\n");
 
   // Group by speaker for manifest batching
@@ -328,8 +340,10 @@ async function main() {
       );
 
       const audio = await generateSpeech(line);
-      const url = await uploadToS3(audio, s3Key);
       const localPath = writeLocalFile(audio, line.voiceProfile, line.lineId);
+      const url = HAS_AWS_CREDS
+        ? await uploadToS3(audio, s3Key)
+        : `/audio/${s3Folder}/${line.lineId}.mp3`;
 
       manifest[line.lineId] = url;
       console.log(` ✓ ${(audio.length / 1024).toFixed(0)}KB → ${localPath}`);

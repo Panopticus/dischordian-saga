@@ -7,10 +7,11 @@
 #
 #   Required env vars (export before running):
 #     ELEVENLABS_API_KEY
+#
+#   Optional (if set, mp3s are uploaded to S3 and the VoManifest gets
+#   CDN URLs instead of local /audio/... paths):
 #     AWS_ACCESS_KEY_ID
 #     AWS_SECRET_ACCESS_KEY
-#
-#   Optional (defaults applied if unset):
 #     AWS_REGION   (default: us-east-2)
 #     S3_BUCKET    (default: dgrsvoices)
 #
@@ -24,22 +25,15 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 cd "$REPO_ROOT"
 
-# ─── Validate required env vars ───
-MISSING=()
-for var in ELEVENLABS_API_KEY AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY; do
-  if [ -z "${!var:-}" ]; then
-    MISSING+=("$var")
-  fi
-done
-
-if [ ${#MISSING[@]} -gt 0 ]; then
-  echo "ERROR: Missing required environment variable(s):"
-  for var in "${MISSING[@]}"; do
-    echo "  - $var"
-  done
+# ─── Validate ElevenLabs key (required). AWS vars are optional. ───
+if [ -z "${ELEVENLABS_API_KEY:-}" ]; then
+  echo "ERROR: ELEVENLABS_API_KEY is not set."
   echo
-  echo "Export them before running:"
+  echo "Export it before running:"
   echo "  export ELEVENLABS_API_KEY=\"sk_...\""
+  echo
+  echo "Optionally also export AWS creds to upload mp3s to S3 and"
+  echo "record CDN URLs in the VoManifest files:"
   echo "  export AWS_ACCESS_KEY_ID=\"AKIA...\""
   echo "  export AWS_SECRET_ACCESS_KEY=\"...\""
   echo
