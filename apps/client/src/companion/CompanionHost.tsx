@@ -9,6 +9,7 @@
 
 import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { stabilityBand, lightBand } from "@shared/companion";
 import { useCompanionScheduler } from "./useCompanionScheduler";
 
 interface Props {
@@ -16,8 +17,24 @@ interface Props {
   portraitSize?: "sm" | "md";
 }
 
+/**
+ * Resolve the portrait PNG for the current speaker + band. Assets live
+ * in /art/portraits/{elara,human}/{band}.png. Missing files degrade
+ * gracefully (browser renders the gradient glow behind).
+ */
+function portraitSrcFor(
+  speaker: "elara" | "human",
+  elaraStability: number,
+  humanLight: number,
+): string {
+  if (speaker === "human") {
+    return `/art/portraits/human/human_${lightBand(humanLight)}.png`;
+  }
+  return `/art/portraits/elara/elara_${stabilityBand(elaraStability)}.png`;
+}
+
 export default function CompanionHost({ portraitSize = "sm" }: Props) {
-  const { active, dismiss } = useCompanionScheduler();
+  const { active, context, dismiss } = useCompanionScheduler();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const autoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -103,15 +120,24 @@ export default function CompanionHost({ portraitSize = "sm" }: Props) {
           >
             <div className="flex items-start gap-2">
               <div
-                className={`shrink-0 rounded-full mt-0.5 ${portraitSize === "sm" ? "w-6 h-6" : "w-8 h-8"}`}
+                className={`shrink-0 rounded-full overflow-hidden mt-0.5 ${portraitSize === "sm" ? "w-10 h-10" : "w-14 h-14"}`}
                 style={{
+                  // Band-tinted ring + glow; the PNG provides the face.
                   background:
                     active.speaker === "human"
-                      ? "radial-gradient(circle, color-mix(in oklch, var(--energy-premium) 70%, transparent), transparent)"
-                      : "radial-gradient(circle, color-mix(in oklch, var(--energy-primary) 70%, transparent), transparent)",
+                      ? "radial-gradient(circle, color-mix(in oklch, var(--energy-premium) 50%, transparent), transparent 70%)"
+                      : "radial-gradient(circle, color-mix(in oklch, var(--energy-primary) 50%, transparent), transparent 70%)",
+                  boxShadow: `inset 0 0 0 1px color-mix(in oklch, ${active.speaker === "human" ? "var(--energy-premium)" : "var(--energy-primary)"} 35%, transparent)`,
                 }}
-                aria-hidden
-              />
+              >
+                <img
+                  src={portraitSrcFor(active.speaker, context.elaraStability, context.humanLight)}
+                  alt=""
+                  aria-hidden
+                  onError={e => { e.currentTarget.style.display = "none"; }}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
+              </div>
               <div className="flex-1 min-w-0">
                 <p className="font-mono text-[10px] tracking-[0.25em] uppercase opacity-60 mb-1">
                   {active.speaker === "human" ? "The Human" : "Elara"}
