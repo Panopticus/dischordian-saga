@@ -35,6 +35,7 @@ import { getInfiltrationStage, type InfiltrationStageResult } from "./infiltrati
 import InfiltrationPathSelector, {
   shouldShowInfiltrationSelector,
 } from "@/components/InfiltrationPathSelector";
+import { infiltrationPathForTradeEmpireFaction } from "@shared/act3EyesBiography";
 import { applyLoredexOverride } from "./loredexRewrite";
 import {
   getTechsByBranch, canResearch, getTechById,
@@ -393,7 +394,24 @@ export default function TradeEmpirePage() {
       localStorage.setItem("trade_empire_state", JSON.stringify(next));
       return next;
     });
-  }, []);
+
+    // §7 completion bridge — when an infiltration path resolves for one
+    // of the three canon-main factions (insurgency / hierarchy / new_babylon =
+    // empire), raise the infiltration path's ending + milestone flags.
+    // Without this, the Act 3 completion gate (act3CompletionGate.ts) never
+    // fires and Act 4 content stays locked.
+    setEmpire(prev => {
+      const arc = prev.act3?.arcs[factionId];
+      if (!arc || arc.status !== "resolved" || arc.chosenPath !== "infiltration") {
+        return prev;
+      }
+      const canonPath = infiltrationPathForTradeEmpireFaction(factionId);
+      if (!canonPath) return prev;
+      setNarrativeFlag(canonPath.endingFlag, true);
+      setNarrativeFlag(canonPath.milestoneFlag, true);
+      return prev;
+    });
+  }, [setNarrativeFlag]);
 
   // ─── Act 3: fail an in-progress arc (used by infiltration fail choices) ───
   // Some choices in the infiltration runner explicitly close the path — e.g.

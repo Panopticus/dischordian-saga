@@ -6,6 +6,7 @@ import {
   getEyesStage,
   getInfiltrationPath,
   INFILTRATION_PATHS,
+  infiltrationPathForTradeEmpireFaction,
   listInfiltrationPaths,
   listTradeEmpireImprovements,
   TRADE_EMPIRE_IMPROVEMENTS,
@@ -60,15 +61,50 @@ describe("act3EyesBiography", () => {
       expect(path.livingUniverseEvent).toBe("event_the_archon_recruited");
     });
 
-    it("Hierarchy path exists but has no LU event (dark path)", () => {
+    it("Hierarchy path now declares the dreamers_shield_cracks LU event", () => {
       const path = getInfiltrationPath("hierarchy");
       expect(path.milestoneFlag).toBe("hierarchy_infiltration_complete");
+      expect(path.livingUniverseEvent).toBe("event_dreamers_shield_cracks");
     });
 
     it("every path has distinct commit + ending flags", () => {
       for (const path of listInfiltrationPaths()) {
         expect(path.commitFlag).not.toBe(path.endingFlag);
       }
+    });
+  });
+
+  describe("infiltrationPathForTradeEmpireFaction (bridge helper)", () => {
+    it("maps insurgency → insurgency path", () => {
+      const path = infiltrationPathForTradeEmpireFaction("insurgency");
+      expect(path).not.toBeNull();
+      expect(path?.id).toBe("insurgency");
+      expect(path?.endingFlag).toBe("act3_insurgency_ending");
+    });
+
+    it("maps hierarchy → hierarchy path", () => {
+      const path = infiltrationPathForTradeEmpireFaction("hierarchy");
+      expect(path).not.toBeNull();
+      expect(path?.id).toBe("hierarchy");
+      expect(path?.endingFlag).toBe("act3_hierarchy_ending");
+    });
+
+    it("maps new_babylon → empire path (New Babylon is led by The Authority)", () => {
+      const path = infiltrationPathForTradeEmpireFaction("new_babylon");
+      expect(path).not.toBeNull();
+      expect(path?.id).toBe("empire");
+      expect(path?.endingFlag).toBe("act3_empire_ending");
+    });
+
+    it("returns null for auxiliary factions", () => {
+      expect(infiltrationPathForTradeEmpireFaction("thought_virus")).toBeNull();
+      expect(infiltrationPathForTradeEmpireFaction("artificial_empire")).toBeNull();
+      expect(infiltrationPathForTradeEmpireFaction("antiquarian")).toBeNull();
+    });
+
+    it("returns null for unknown faction ids", () => {
+      expect(infiltrationPathForTradeEmpireFaction("nope")).toBeNull();
+      expect(infiltrationPathForTradeEmpireFaction("")).toBeNull();
     });
   });
 
