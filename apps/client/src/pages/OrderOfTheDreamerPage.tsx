@@ -31,6 +31,7 @@ import {
   trophiesNewlyCrossed,
   type DreamerProfile,
 } from "@shared/dreamerOrder";
+import { IRON_CLAD_LIONS_REAL_WORLD_SERVICE_MESSAGE } from "@shared/factions/ironCladLions";
 
 const DRAFT_STORAGE_KEY = "dgrs_dreamer_profile";
 const DEFAULT_CITIZEN_ID = "local-preview";
@@ -114,6 +115,15 @@ export default function OrderOfTheDreamerPage() {
 
   return (
     <div className="mx-auto max-w-4xl p-6 space-y-6">
+      <Card className="border-amber-600/40 bg-amber-500/5">
+        <CardHeader>
+          <CardTitle>This is a real service organization</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3 text-sm whitespace-pre-line">
+          {IRON_CLAD_LIONS_REAL_WORLD_SERVICE_MESSAGE}
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <CardTitle>Order of the Dreamer</CardTitle>

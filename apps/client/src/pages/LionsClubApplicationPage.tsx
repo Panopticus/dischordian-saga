@@ -28,7 +28,15 @@ import {
   calculateMembershipChargeUsd,
   type LionsClubApplication,
 } from "@shared/lionsClub";
-import { IRON_CLAD_LIONS_RENTAL_TERMS } from "@shared/factions/ironCladLions";
+import {
+  IRON_CLAD_LIONS_FACTION,
+  IRON_CLAD_LIONS_FOUNDING_NARRATIVE,
+  IRON_CLAD_LIONS_NAMED_MEMBERS,
+  IRON_CLAD_LIONS_REAL_WORLD_SERVICE_MESSAGE,
+  IRON_CLAD_LIONS_RECRUITERS,
+  IRON_CLAD_LIONS_RENTAL_TERMS,
+  IRON_CLAD_LIONS_VESSEL,
+} from "@shared/factions/ironCladLions";
 
 const APPLICATION_STORAGE_KEY = "dgrs_lions_club_draft";
 
@@ -277,6 +285,63 @@ export default function LionsClubApplicationPage() {
 
   return (
     <div className="mx-auto max-w-3xl p-6 space-y-6">
+      <Card className="border-amber-600/40 bg-amber-500/5">
+        <CardHeader>
+          <CardTitle>This is a real service organization</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3 text-sm whitespace-pre-line">
+          {IRON_CLAD_LIONS_REAL_WORLD_SERVICE_MESSAGE}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>The Iron Clad Lions — who you're joining</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4 text-sm">
+          <p>
+            The <strong>Iron Clad Lions</strong> are a service order
+            inspired by the Iron Lion's last stand at{" "}
+            {IRON_CLAD_LIONS_FOUNDING_NARRATIVE.inspiration.battle} in Year{" "}
+            {IRON_CLAD_LIONS_FOUNDING_NARRATIVE.inspiration.yearAA.toLocaleString()}{" "}
+            A.A. They dedicate their lives as a force for good against the
+            rising tide of darkness.
+          </p>
+          <p className="italic text-muted-foreground">
+            "{IRON_CLAD_LIONS_FOUNDING_NARRATIVE.inspiration.epitaph}"
+          </p>
+          <div>
+            <div className="font-semibold">Recruited by</div>
+            <ul className="list-disc pl-5 space-y-1">
+              {IRON_CLAD_LIONS_RECRUITERS.map((r) => (
+                <li key={r.name}>
+                  <strong>{r.name}</strong> — {r.role}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <div className="font-semibold">Flagship vessel</div>
+            <p>
+              <strong>{IRON_CLAD_LIONS_VESSEL.name}</strong> —{" "}
+              {IRON_CLAD_LIONS_VESSEL.summary}
+            </p>
+          </div>
+          {IRON_CLAD_LIONS_NAMED_MEMBERS.length > 0 ? (
+            <div>
+              <div className="font-semibold">First Potential to take the oath</div>
+              <p>
+                <strong>{IRON_CLAD_LIONS_NAMED_MEMBERS[0].name}</strong> —{" "}
+                {IRON_CLAD_LIONS_NAMED_MEMBERS[0].role}
+              </p>
+            </div>
+          ) : null}
+          <p className="text-xs text-muted-foreground pt-2 border-t">
+            Creed: <em>{IRON_CLAD_LIONS_FACTION.creed}</em>
+          </p>
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <CardTitle>DGRS Lions Club — Application for Membership</CardTitle>
