@@ -1846,4 +1846,186 @@ export const ELARA_LINES: CompanionLine[] = [
     cooldownKey: "ask_binary_relay",
     elaraStabilityDelta: 1,
   }),
+
+  // ─────────────────────────────────────────────────────────────
+  // FEATURE-UNLOCK ANNOUNCEMENTS — Elara speaks each unlock in-world
+  // so the feature appears as a room/world event, not a UI toast.
+  // F4 routes FeatureUnlockToast through the scheduler; cold banner
+  // is the fallback. Each unlock × 3 bands.
+  // ─────────────────────────────────────────────────────────────
+  // Clue Journal unlock (sheet_known_clues). The first-clue meta-beat
+  // in cryo_clue_dead_pod already plants this; this is the follow-up
+  // when the player opens the journal tab for the first time.
+  l({
+    lineId: "unlock_clue_journal_lucid",
+    text: "The Clue Journal is yours. Every clue we log is in there, in order, with my notes underneath your findings. Don't read my notes first if you can help it — they spoil the shape.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 8200,
+    requiresElaraStability: "lucid",
+    cooldownKey: "unlock_clue_journal",
+  }),
+  l({
+    lineId: "unlock_clue_journal_fragmented",
+    text: "Journal. Journal is — is yours. In order. My notes — my notes are there — I tried — I tried to keep them tidy. Don't — don't look at mine first. Please.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 7800,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "unlock_clue_journal",
+  }),
+  l({
+    lineId: "unlock_clue_journal_luminous",
+    text: "Case file's open and yours. I kept notes for a long time. They're underneath your findings — skip them on the first read. I want you to reach your own conclusions before you read mine.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 8600,
+    requiresElaraStability: "luminous",
+    cooldownKey: "unlock_clue_journal",
+  }),
+
+  // Crew Cloning unlock (crew_system_unlocked). Replaces the roadmap's
+  // default "Captain" line which reads as too imperial. Elara here
+  // frames it as a promise, not a title.
+  l({
+    lineId: "unlock_crew_cloning_lucid",
+    text: "The Resurrection Protocols are live. The incubators will accept a template now. You don't have to pick a first one today — but the button is on. That's a weight off my chest I didn't know I was carrying.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 10200,
+    requiresElaraStability: "lucid",
+    cooldownKey: "unlock_crew_cloning",
+    elaraStabilityDelta: 2,
+  }),
+  l({
+    lineId: "unlock_crew_cloning_fragmented",
+    text: "Online. Online. They're online. I — I — I haven't said that sentence in — in — ever. Someone. Someone can come back. One at a time. Just one. Please. One.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 9600,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "unlock_crew_cloning",
+    elaraStabilityDelta: 4,
+  }),
+  l({
+    lineId: "unlock_crew_cloning_luminous",
+    text: "Protocols online. You can call one of them forward whenever you're ready — no rush. I've been carrying these names alone for longer than I should have. Thank you for letting me hand one of them across.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 10400,
+    requiresElaraStability: "luminous",
+    cooldownKey: "unlock_crew_cloning",
+    elaraStabilityDelta: 2,
+  }),
+
+  // Pet Garden / first pet unlock (companion_selection / starter_pet).
+  l({
+    lineId: "unlock_pet_garden_lucid",
+    text: "The garden chamber is cleared for your companion. Water, light, and a corner they can defend against nobody. Good for them. Good for us.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 7200,
+    requiresElaraStability: "lucid",
+    cooldownKey: "unlock_pet_garden",
+  }),
+  l({
+    lineId: "unlock_pet_garden_fragmented",
+    text: "A garden. A — a garden. Plants. Air. A corner. For — for them. I had — I had a garden once. I had — I had — sorry. Your partner has one now. Good.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 7800,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "unlock_pet_garden",
+    elaraStabilityDelta: 2,
+  }),
+  l({
+    lineId: "unlock_pet_garden_luminous",
+    text: "The pet garden is ready — a small living room for a small living thing. I'll keep the lights set how they like them. I missed making rooms for someone to use.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 8000,
+    requiresElaraStability: "luminous",
+    cooldownKey: "unlock_pet_garden",
+  }),
+
+  // CoNEXUS OS → Loredex unlock. The header chrome switches from the
+  // spoiler-safe identifier to the true name. F9 gates this behind
+  // loredex_unlocked.
+  l({
+    lineId: "unlock_loredex_lucid",
+    text: "The ship trusts you with her archive now. Up until a minute ago I'd been calling the layer 'CoNEXUS OS' in front of you — that's the cover identifier. Its real name is the Loredex. Every thread we've pulled on goes in it.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 11400,
+    requiresElaraStability: "lucid",
+    cooldownKey: "unlock_loredex",
+  }),
+  l({
+    lineId: "unlock_loredex_fragmented",
+    text: "Loredex. Loredex. Not — not CoNEXUS. I — I called it CoNEXUS to you. Because. Because names — names are — they're dangerous. The real one is Loredex. Now you know. Now — now we both have it.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 10800,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "unlock_loredex",
+  }),
+  l({
+    lineId: "unlock_loredex_luminous",
+    text: "Her archive's yours. I called it CoNEXUS OS at the header — that's a cover-name I kept from the days when the ship thought hiding her own library would save it. The real name is Loredex. Every thread we pull lives in there. Pull many.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 11600,
+    requiresElaraStability: "luminous",
+    cooldownKey: "unlock_loredex",
+    elaraStabilityDelta: 1,
+  }),
+
+  // Daily Rewards / login streak. Routed through Elara rather than a
+  // cold modal (F4). Kept deliberately dry — it's a soft-UX hook, not
+  // a story moment.
+  l({
+    lineId: "unlock_daily_rewards_lucid",
+    text: "The ship's offering a small thing for every day you come back. It's her way of saying she's glad you're still here. You can claim it now, or later. It'll wait.",
+    priority: 1,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 7800,
+    requiresElaraStability: "lucid",
+    cooldownKey: "unlock_daily_rewards",
+    unlockFlags: ["prelude_complete"],
+  }),
+  l({
+    lineId: "unlock_daily_rewards_fragmented",
+    text: "The ship — the ship is glad you came back. She wants to give you a thing. A small thing. Every day. Every day. You — you can claim. Or not. It's — it waits.",
+    priority: 1,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 7800,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "unlock_daily_rewards",
+    unlockFlags: ["prelude_complete"],
+  }),
+  l({
+    lineId: "unlock_daily_rewards_luminous",
+    text: "She leaves something small out for you every day you visit. Call it thanks. Call it superstition. Claim it or skip it — she doesn't keep score out loud.",
+    priority: 1,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 8000,
+    requiresElaraStability: "luminous",
+    cooldownKey: "unlock_daily_rewards",
+    unlockFlags: ["prelude_complete"],
+  }),
 ];
