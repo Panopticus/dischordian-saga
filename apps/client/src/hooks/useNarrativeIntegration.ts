@@ -30,6 +30,7 @@ import {
   climbTierClearedFlag,
   climbTierCompanionTrigger,
 } from "@shared/act2ClimbBridge";
+import { deriveAct2CompletionStatus } from "@shared/act2CompletionGate";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import {
   PRELUDE_HANDOFF_TARGET_ACT,
@@ -1062,14 +1063,11 @@ export function useNarrativeIntegration() {
     if (chessWins >= 5 && !state.narrativeFlags?.chess_mastered) {
       setNarrativeFlag("chess_mastered", true);
     }
-    if (
-      (state.narrativeAct ?? 0) >= 2 &&
-      !state.narrativeFlags?.act_2_complete &&
-      state.narrativeFlags?.crafting_mastered &&
-      state.narrativeFlags?.chess_mastered &&
-      state.narrativeFlags?.thaloria_cinematic_seen &&
-      state.narrativeFlags?.game_master_loss
-    ) {
+    const act2Gate = deriveAct2CompletionStatus({
+      narrativeAct: state.narrativeAct,
+      flags: state.narrativeFlags,
+    });
+    if (act2Gate.readyToFire) {
       setNarrativeFlag("act_2_complete", true);
       setNarrativeFlag("trade_empire_unlocked", true);
       toast.info("Act 2 — The Forged Hand", {

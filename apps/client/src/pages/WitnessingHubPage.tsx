@@ -35,6 +35,7 @@ import {
   type WitnessingHubState,
 } from "@shared/witnessingHub";
 import { deriveYearOneMonth } from "@shared/yearOneMonth";
+import { deriveAct2CompletionStatus } from "@shared/act2CompletionGate";
 import { PreludeMissionRunner } from "@/components/PreludeMissionRunner";
 import type { PreludeCrewMission } from "@shared/preludeCrewMissions";
 import LivingBackground from "@/components/LivingBackground";
@@ -837,8 +838,12 @@ function Act2Panel({
     { flag: "thaloria_cinematic_seen", label: "Thaloria cinematic seen" },
     { flag: "game_master_loss", label: "Lost to a Game Master" },
   ];
-  const done = checks.filter((c) => Boolean(flags[c.flag])).length;
-  const complete = Boolean(flags.act_2_complete);
+  const gate = deriveAct2CompletionStatus({
+    narrativeAct: undefined,
+    flags,
+  });
+  const done = gate.subFlagsMet;
+  const complete = gate.alreadyComplete;
   return (
     <section className="rounded-md border void-border-subtle void-bg-canvas p-5">
       <header className="mb-3 flex items-center justify-between">
