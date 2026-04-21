@@ -23,7 +23,7 @@ import {
   WITNESSING_MILESTONES,
   type WitnessingMilestoneId,
 } from "@shared/witnessingEvents";
-import { NARRATOR_BOND_THRESHOLDS, deriveNarratorBond } from "@shared/narratorBond";
+import { NARRATOR_BOND_THRESHOLDS } from "@shared/narratorBond";
 import { ZEPHYR_9_CLASSROOM } from "@shared/act2Interlude";
 import {
   climbRankToClassroomDepth,
@@ -1000,24 +1000,18 @@ export function useNarrativeIntegration() {
       fireCompanionComment(trigger);
     }
 
-    // §14.1 Silence of Two Witnesses — fires once when the unified
-    // narrator bond crosses 60. deriveNarratorBond falls back to
-    // min(elara, human) on pre-field saves so the milestone still
-    // behaves correctly for long-running games. Setting the flag
-    // is all we need: the SLIDESHOW_TRIGGERS fan-out below will
-    // queue the cinematic, and the companion-comment trigger fires
-    // the two authored parenthetical reactions for accessibility
-    // captioning before the cinematic plays.
-    const bond = deriveNarratorBond({
-      narratorBond: state.narratorBond,
-      fallbackElara: state.elaraTrustLevel,
-      fallbackHuman: state.humanTrustLevel,
-    });
+    // §14.1 Silence of Two Witnesses — companion-comment dispatch.
+    // The flag itself is raised by the mutualBond effect at ~L538
+    // via fireMilestone("silence_of_two_witnesses"). Here we fire
+    // the authored parenthetical reactions + queue the cinematic
+    // via the SLIDESHOW_TRIGGERS fan-out. Gated on a dedicated
+    // companion-fired flag so the trigger runs exactly once even
+    // though the watching effect re-evaluates on every flag tick.
     if (
-      bond >= NARRATOR_BOND_THRESHOLDS.silence &&
-      !state.narrativeFlags?.event_silence_of_two_witnesses
+      state.narrativeFlags?.event_silence_of_two_witnesses &&
+      !state.narrativeFlags?.silence_of_two_witnesses_companions_fired
     ) {
-      setNarrativeFlag("event_silence_of_two_witnesses", true);
+      setNarrativeFlag("silence_of_two_witnesses_companions_fired", true);
       fireCompanionComment("silence_of_two_witnesses");
     }
 
@@ -1101,9 +1095,6 @@ export function useNarrativeIntegration() {
     state.narrativeAct,
     state.craftedItems,
     state.chessDepth,
-    state.narratorBond,
-    state.elaraTrustLevel,
-    state.humanTrustLevel,
     state.rooms,
     climbRank,
     setNarrativeFlag,
