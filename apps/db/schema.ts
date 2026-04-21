@@ -4577,3 +4577,26 @@ export const chessGameReviews = mysqlTable("chess_game_reviews", {
     .on(table.userId, table.createdAt),
 }));
 export type ChessGameReviewRow = typeof chessGameReviews.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════
+   MEMORY ENERGY BALANCE — Act 2 / Act 3 Trade Empire currency.
+   Migration: 0053_memory_energy_balance.sql
+   ═══════════════════════════════════════════════════════ */
+
+export const memoryEnergyBalance = mysqlTable("memory_energy_balance", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Current reserve. Cap is derived from narrative flags — see
+   *  apps/shared/memoryEnergy.ts computeMemoryEnergyCap. */
+  memoryEnergy: int("memoryEnergy").notNull().default(15),
+  /** Lifetime earned across earn-source calls. */
+  totalEarned: int("totalEarned").notNull().default(0),
+  /** Lifetime spent on crafts. */
+  totalSpent: int("totalSpent").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_memory_energy_balance_user_id").on(table.userId),
+}));
+export type MemoryEnergyBalanceRow = typeof memoryEnergyBalance.$inferSelect;

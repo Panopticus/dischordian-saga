@@ -14,6 +14,7 @@ import { tradeWarsRouter } from "./routers/tradeWars";
 import { citizenRouter } from "./routers/citizen";
 import { medbayRouter } from "./routers/medbay";
 import { craftingRouter } from "./routers/crafting";
+import { memoryEnergyRouter } from "./routers/memoryEnergy";
 import { storeRouter } from "./routers/store";
 import { elaraRouter } from "./routers/elara";
 import { lyricsRouter } from "./routers/lyrics";
@@ -119,6 +120,7 @@ export const appRouter = router({
   citizen: citizenRouter,
   medbay: medbayRouter,
   crafting: craftingRouter,
+  memoryEnergy: memoryEnergyRouter,
   store: storeRouter,
   elara: elaraRouter,
   lyrics: lyricsRouter,
