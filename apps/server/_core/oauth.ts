@@ -101,7 +101,23 @@ export function registerOAuthRoutes(app: Express) {
       res.cookie(COOKIE_NAME, accessToken, { ...cookieOptions, maxAge: ACCESS_TOKEN_MS });
       res.cookie(REFRESH_COOKIE_NAME, refreshToken, { ...cookieOptions, maxAge: REFRESH_TOKEN_MS });
 
-      res.redirect(302, "/");
+      // If the flow was initiated from a popup, signal the opener and
+      // close the window so the title page (and its music) keeps
+      // playing in the background. Otherwise fall back to a normal
+      // redirect for users who hit the callback directly.
+      res.type("html").send(`<!doctype html>
+<html><body><script>
+(function () {
+  try {
+    if (window.opener && !window.opener.closed) {
+      window.opener.postMessage({ type: "oauth:success", provider: ${JSON.stringify(provider)} }, window.location.origin);
+      window.close();
+      return;
+    }
+  } catch (e) { /* fall through to redirect */ }
+  window.location.replace("/");
+})();
+</script></body></html>`);
     } catch (error: unknown) {
       const errMsg = error instanceof Error ? error.message : String(error);
       console.error(`[OAuth] ${provider} callback failed:`, errMsg);
