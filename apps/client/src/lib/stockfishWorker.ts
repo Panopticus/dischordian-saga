@@ -211,6 +211,117 @@ export class StockfishEngine {
     this.send("stop");
   }
 
+  /**
+   * Evaluate a single position at the given depth. Returns the
+   * engine's score in centipawns (positive = White better). Used
+   * by the live eval stream during mind-game trigger detection
+   * and by postGameAnalyze in the post-game review.
+   */
+  async evaluatePosition(
+    fen: string,
+    opts: { depth?: number; moveTime?: number } = {},
+  ): Promise<{ evalCp: number; mate: number | null; bestMove: string | null }> {
+    await this.waitReady();
+
+    return new Promise((resolve) => {
+      this.setPosition(fen);
+      let evalCp = 0;
+      let mate: number | null = null;
+      let bestMove: string | null = null;
+
+      const cleanup = this.onMessage((data) => {
+        if (data.includes("info") && data.includes("score cp")) {
+          const match = data.match(/score cp (-?\d+)/);
+          if (match) evalCp = parseInt(match[1], 10);
+        }
+        if (data.includes("score mate")) {
+          const match = data.match(/score mate (-?\d+)/);
+          if (match) {
+            mate = parseInt(match[1], 10);
+            evalCp = mate > 0 ? 10000 : -10000;
+          }
+        }
+        if (data.startsWith("bestmove")) {
+          cleanup();
+          const parts = data.split(" ");
+          bestMove = parts[1] ?? null;
+          resolve({ evalCp, mate, bestMove });
+        }
+      });
+
+      const depth = opts.depth ?? 12;
+      const moveTime = opts.moveTime;
+      let goCmd = `go depth ${depth}`;
+      if (moveTime) goCmd += ` movetime ${moveTime}`;
+      this.send(goCmd);
+    });
+  }
+
+  /**
+   * Analyze a finished game move-by-move at the given depth.
+   * Returns a per-ply eval array. The caller bucket-sorts these
+   * into mistake types for the ChessPostGameReview component.
+   *
+   * `moves` is the SAN move list from the start position.
+   */
+  async postGameAnalyze(
+    startFen: string,
+    moves: readonly string[],
+    opts: { depth?: number; onProgress?: (ply: number) => void } = {},
+  ): Promise<
+    ReadonlyArray<{
+      ply: number;
+      fenBefore: string;
+      fenAfter: string;
+      evalBeforeCp: number;
+      evalAfterCp: number;
+      deltaCp: number;
+    }>
+  > {
+    // Import chess.js dynamically so the worker module stays
+    // compatible with callers that don't use this feature.
+    const { Chess } = await import("chess.js");
+    const game = new Chess(startFen);
+    const out: Array<{
+      ply: number;
+      fenBefore: string;
+      fenAfter: string;
+      evalBeforeCp: number;
+      evalAfterCp: number;
+      deltaCp: number;
+    }> = [];
+
+    let { evalCp: evalBefore } = await this.evaluatePosition(game.fen(), {
+      depth: opts.depth ?? 18,
+    });
+
+    for (let i = 0; i < moves.length; i++) {
+      const fenBefore = game.fen();
+      const legalMove = game.move(moves[i]);
+      if (!legalMove) {
+        throw new Error(
+          `postGameAnalyze: illegal move "${moves[i]}" at ply ${i + 1}`,
+        );
+      }
+      const fenAfter = game.fen();
+      const { evalCp: evalAfter } = await this.evaluatePosition(fenAfter, {
+        depth: opts.depth ?? 18,
+      });
+      out.push({
+        ply: i + 1,
+        fenBefore,
+        fenAfter,
+        evalBeforeCp: evalBefore,
+        evalAfterCp: evalAfter,
+        deltaCp: evalAfter - evalBefore,
+      });
+      evalBefore = evalAfter;
+      opts.onProgress?.(i + 1);
+    }
+
+    return out;
+  }
+
   /** Start a new game */
   newGame() {
     this.send("ucinewgame");

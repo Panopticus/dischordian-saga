@@ -58,8 +58,15 @@ import {
   CHESS_TUTORIAL_GATE_7,
   CHESS_TUTORIAL_GATE_7_SCENES,
 } from "./chessTutorial_g7";
+import {
+  CHESS_TUTORIAL_GATE_4_5,
+  CHESS_TUTORIAL_GATE_4_5_SCENES,
+} from "./chessTutorial_g4_5_princes_game";
 import { CHESS_TUTORIAL_SKIP_SCENES } from "./chessTutorial_skip";
 import { CHESS_CORRUPTED_ARENA_SCENES } from "./chessArenaEncounter";
+import { CHESS_CLIMB_SCENES } from "./chessClimbDialog";
+import { MOL_GARATH_EPILOGUE_SCENES } from "./molGarathEpilogue";
+import { DISCHORDIAN_LOGIC_SCENES } from "./dischordianLogicDialog";
 
 /* ═══════════════════════════════════════════════════════
    TYPES
@@ -191,6 +198,12 @@ const GATE_1_OUTRO: DialogScene = {
       text: "One thing chess taught me, which I will repeat at the end of every gate: the pieces do not have personalities until you give them one. A knight is a knight until you start treating it like a scalpel, and then every knight you ever play becomes a scalpel forever. Be careful what you teach yourself to expect from a piece.",
       audioClipId: "vo_gm_chess_g1_outro_02",
     },
+    {
+      speaker: "game_master_celebration",
+      mood: "guarded",
+      text: "I will see you next gate. My students from Celebration always loved this part — when the rules stop being a list and start being a — who were my students. From Celebration. It is hard to keep the tenses straight here. Forgive me. The lights in this chamber do something to my grammar.",
+      audioClipId: "vo_gm_chess_g1_outro_dread",
+    },
   ],
 };
 
@@ -312,12 +325,16 @@ export {
   CHESS_TUTORIAL_GATE_2,
   CHESS_TUTORIAL_GATE_3,
   CHESS_TUTORIAL_GATE_4,
+  CHESS_TUTORIAL_GATE_4_5,
   CHESS_TUTORIAL_GATE_5,
   CHESS_TUTORIAL_GATE_6,
   CHESS_TUTORIAL_GATE_7,
 };
 
-/** All chess tutorial gates in lesson order. */
+/** All chess tutorial gates in lesson order — the LINEAR
+ *  progression. Gate 4.5 (The Prince's Game) is a side gate and
+ *  lives in `CHESS_TUTORIAL_SIDE_GATES` instead, so it does not
+ *  perturb the existing 1..7 currentGate progression. */
 export const CHESS_TUTORIAL_GATES: readonly ChessTutorialGate[] = Object.freeze([
   CHESS_TUTORIAL_GATE_1,
   CHESS_TUTORIAL_GATE_2,
@@ -327,6 +344,37 @@ export const CHESS_TUTORIAL_GATES: readonly ChessTutorialGate[] = Object.freeze(
   CHESS_TUTORIAL_GATE_6,
   CHESS_TUTORIAL_GATE_7,
 ]);
+
+/** Optional side gates — discoverable, not required for the
+ *  linear curriculum. Each side gate has its own unlock
+ *  predicate (currently: Gate 4.5 unlocks once the player
+ *  finishes Gate 4 in the linear path). Stored separately so
+ *  `currentGate` keeps its monotonic 1..7 semantics. */
+export const CHESS_TUTORIAL_SIDE_GATES: readonly ChessTutorialGate[] =
+  Object.freeze([CHESS_TUTORIAL_GATE_4_5]);
+
+/** Lookup helper — return a side gate by its id. */
+export function getChessTutorialSideGate(
+  id: string,
+): ChessTutorialGate | undefined {
+  return CHESS_TUTORIAL_SIDE_GATES.find((g) => g.id === id);
+}
+
+/** Predicate — is this side gate unlocked given the linear
+ *  progress? Currently only Gate 4.5 is defined; it unlocks
+ *  once the player has completed Gate 4 in the linear path.
+ *  Returns false for unknown ids. */
+export function isChessSideGateUnlocked(
+  sideGateId: string,
+  completedLinearGates: readonly number[],
+): boolean {
+  switch (sideGateId) {
+    case "chess_tut_g4_5":
+      return completedLinearGates.includes(4);
+    default:
+      return false;
+  }
+}
 
 /** All dialog scenes the chess tutorial produces — every gate's
  *  intro + outro plus the three skip-path scenes. Spread into the
@@ -340,8 +388,12 @@ export const CHESS_TUTORIAL_SCENES: readonly DialogScene[] = Object.freeze([
   ...CHESS_TUTORIAL_GATE_5_SCENES,
   ...CHESS_TUTORIAL_GATE_6_SCENES,
   ...CHESS_TUTORIAL_GATE_7_SCENES,
+  ...CHESS_TUTORIAL_GATE_4_5_SCENES,
   ...CHESS_TUTORIAL_SKIP_SCENES,
   ...CHESS_CORRUPTED_ARENA_SCENES,
+  ...CHESS_CLIMB_SCENES,
+  ...MOL_GARATH_EPILOGUE_SCENES,
+  ...DISCHORDIAN_LOGIC_SCENES,
 ]);
 
 /** Lookup helper — return a gate by its 1-indexed number. */
@@ -366,20 +418,37 @@ export interface ChessTutorialVoiceCue {
 /** Flatten every chess tutorial cue with an audioClipId into a
  *  single list the server can iterate when granting the keepsake.
  *  Walks:
- *    1. Every gate's introScene.cues
- *    2. Every gate's outroScene.cues
- *    3. Every gate's step array (the lesson text itself)
- *    4. Every skip-path scene
- *    5. Every corrupted Arena encounter scene
+ *    1. Every linear gate's introScene.cues
+ *    2. Every linear gate's outroScene.cues
+ *    3. Every linear gate's step array (the lesson text itself)
+ *    4. Every side gate's intro + outro + steps (e.g. The Prince's Game)
+ *    5. Every skip-path scene
+ *    6. Every corrupted Arena encounter scene
  *  Cues without an audioClipId are skipped silently — they simply
  *  won't appear in the memory resin bank until they get voiced. */
 export function listChessTutorialVoiceCues(): readonly ChessTutorialVoiceCue[] {
   const out: ChessTutorialVoiceCue[] = [];
 
-  // Every gate's intro + outro + lesson steps
-  for (const gate of CHESS_TUTORIAL_GATES) {
-    const gateContext = `chess_tutorial_gate_${gate.gateNumber}`;
-    const gateTag = `gate_${gate.gateNumber}`;
+  // Linear + side gates share the same walking logic; only the
+  // tag set differs so memory-resin entries can be filtered.
+  const allGates: ReadonlyArray<{
+    gate: ChessTutorialGate;
+    contextPrefix: string;
+    extraTags: readonly string[];
+  }> = [
+    ...CHESS_TUTORIAL_GATES.map((gate) => ({
+      gate,
+      contextPrefix: `chess_tutorial_gate_${gate.gateNumber}`,
+      extraTags: [`gate_${gate.gateNumber}`] as const,
+    })),
+    ...CHESS_TUTORIAL_SIDE_GATES.map((gate) => ({
+      gate,
+      contextPrefix: `chess_tutorial_side_${gate.id}`,
+      extraTags: ["side_gate", gate.id] as const,
+    })),
+  ];
+
+  for (const { gate, contextPrefix: gateContext, extraTags: gateExtraTags } of allGates) {
 
     for (const cue of gate.introScene.cues) {
       if (!cue.audioClipId) continue;
@@ -388,7 +457,7 @@ export function listChessTutorialVoiceCues(): readonly ChessTutorialVoiceCue[] {
         speaker: cue.speaker,
         transcript: cue.text,
         context: `${gateContext}_intro`,
-        tags: ["chess_tutorial", gateTag, "intro"],
+        tags: ["chess_tutorial", ...gateExtraTags, "intro"],
       });
     }
     for (const cue of gate.outroScene.cues) {
@@ -398,7 +467,7 @@ export function listChessTutorialVoiceCues(): readonly ChessTutorialVoiceCue[] {
         speaker: cue.speaker,
         transcript: cue.text,
         context: `${gateContext}_outro`,
-        tags: ["chess_tutorial", gateTag, "outro"],
+        tags: ["chess_tutorial", ...gateExtraTags, "outro"],
       });
     }
     for (let i = 0; i < gate.steps.length; i++) {
@@ -409,7 +478,7 @@ export function listChessTutorialVoiceCues(): readonly ChessTutorialVoiceCue[] {
         speaker: step.speaker,
         transcript: step.text,
         context: `${gateContext}_step_${i + 1}`,
-        tags: ["chess_tutorial", gateTag, "lesson"],
+        tags: ["chess_tutorial", ...gateExtraTags, "lesson"],
       });
     }
   }

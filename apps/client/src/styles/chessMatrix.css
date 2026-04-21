@@ -1,0 +1,120 @@
+/* ═══════════════════════════════════════════════════════
+   CHESS TUTORIAL — MATRIX OF DREAMS AMBIENT LAYER
+
+   Subtle visual cues that intensify across Gates 1-7. By G6,
+   the player cannot unsee them; by G7 they are part of what
+   convinces the player the chamber is not a real room on the
+   Ark. Pure CSS — no shaders, no frame-rate cost.
+
+   Intensity is set via a CSS custom property --chess-matrix-intensity
+   on the wrapping element, ranging 0..1.  The ChessMatrixAmbient
+   React component sets this based on the current gate number.
+   ═══════════════════════════════════════════════════════ */
+
+.chess-matrix-ambient {
+  position: relative;
+}
+
+/* Warm vignette that pulses at ~6 BPM — below conscious
+   perception, above the noise floor. The opacity is scaled by
+   the intensity custom property so early gates are nearly
+   invisible and late gates are unmistakable. */
+.chess-matrix-ambient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(60, 35, 15, calc(0.25 * var(--chess-matrix-intensity, 0))) 100%
+  );
+  animation: chess-matrix-pulse 10s ease-in-out infinite;
+  mix-blend-mode: multiply;
+  z-index: 1;
+}
+
+/* Faint dust motes fading through the plane. */
+.chess-matrix-ambient::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(
+      circle at 20% 30%,
+      rgba(255, 220, 180, calc(0.08 * var(--chess-matrix-intensity, 0))) 0,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 65% 70%,
+      rgba(255, 220, 180, calc(0.06 * var(--chess-matrix-intensity, 0))) 0,
+      transparent 1px
+    ),
+    radial-gradient(
+      circle at 80% 25%,
+      rgba(255, 220, 180, calc(0.05 * var(--chess-matrix-intensity, 0))) 0,
+      transparent 1px
+    );
+  background-size: 340px 340px, 280px 280px, 400px 400px;
+  animation: chess-matrix-drift 45s linear infinite;
+  z-index: 2;
+}
+
+@keyframes chess-matrix-pulse {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+
+@keyframes chess-matrix-drift {
+  0% { background-position: 0 0, 0 0, 0 0; }
+  100% {
+    background-position: 340px -340px, -280px 280px, 200px -200px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   CORRUPTED ARENA — glitch overlay for the Climb page.
+   Toggles on briefly (120ms) whenever a keepsake-bleed cue
+   fires. Higher climb tiers run it continuously at low
+   amplitude via --chess-arena-glitch-intensity.
+   ═══════════════════════════════════════════════════════ */
+
+.chess-arena-glitch {
+  position: relative;
+  isolation: isolate;
+}
+
+.chess-arena-glitch::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 60, 60, 0) 0,
+    rgba(255, 60, 60, calc(0.04 * var(--chess-arena-glitch-intensity, 0))) 1px,
+    rgba(255, 60, 60, 0) 2px
+  );
+  mix-blend-mode: screen;
+  z-index: 3;
+}
+
+.chess-arena-glitch-flash::before {
+  animation: chess-arena-flash 120ms ease-out;
+}
+
+@keyframes chess-arena-flash {
+  0% { opacity: 0; transform: translateX(0); }
+  20% { opacity: 1; transform: translateX(2px); }
+  40% { opacity: 0.6; transform: translateX(-2px); }
+  100% { opacity: 0; transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chess-matrix-ambient::before,
+  .chess-matrix-ambient::after,
+  .chess-arena-glitch::before {
+    animation: none;
+  }
+}

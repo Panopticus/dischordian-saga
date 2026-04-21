@@ -982,6 +982,43 @@ export default function ChessPage() {
               </p>
             </Link>
 
+            {/* Companion pages — Post-tutorial content surfaces */}
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+              <Link href="/chess/princes-game" className="rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 p-3 text-left">
+                <div className="font-display text-[11px] tracking-wider text-foreground">Prince&rsquo;s Game</div>
+                <div className="font-mono text-[10px] text-muted-foreground mt-1">The only game he ever lost.</div>
+              </Link>
+              <Link href="/chess/climb" className="rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 p-3 text-left">
+                <div className="font-display text-[11px] tracking-wider text-foreground">The Climb</div>
+                <div className="font-mono text-[10px] text-muted-foreground mt-1">Four tiers. Voluntary.</div>
+              </Link>
+              <Link href="/chess/puzzle" className="rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 p-3 text-left">
+                <div className="font-display text-[11px] tracking-wider text-foreground">Puzzle of the Day</div>
+                <div className="font-mono text-[10px] text-muted-foreground mt-1">One puzzle. One theme.</div>
+              </Link>
+              <Link href="/chess/study" className="rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 p-3 text-left">
+                <div className="font-display text-[11px] tracking-wider text-foreground">Openings</div>
+                <div className="font-mono text-[10px] text-muted-foreground mt-1">Study with the Master.</div>
+              </Link>
+              <Link href="/self-portrait" className="rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 p-3 text-left">
+                <div className="font-display text-[11px] tracking-wider text-foreground">Self-Portrait</div>
+                <div className="font-mono text-[10px] text-muted-foreground mt-1">The instrument he reads you with.</div>
+              </Link>
+            </div>
+
+            {/* Dischordian Logic — the post-tutorial payoff. */}
+            <Link href="/dischordian-logic" className="block rounded-lg border border-accent/40 bg-card/20 hover:bg-card/40 p-4 hover-lift">
+              <div className="flex items-center gap-3 mb-1">
+                <Crown size={16} className="text-accent" />
+                <span className="font-display text-sm font-bold tracking-wider">DISCHORDIAN LOGIC</span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">SONG / PRIMER</span>
+              </div>
+              <p className="font-mono text-[11px] text-muted-foreground">
+                Hail Eris. Kallisti. The Game Master's post-graduate seminar —
+                seven principles, one song, fifteen slides. We're all mad here.
+              </p>
+            </Link>
+
             {/* Game Modes — 5 modes now */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {[

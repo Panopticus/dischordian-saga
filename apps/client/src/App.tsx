@@ -169,6 +169,12 @@ const BattlePassPage = lazy(() => import("./pages/BattlePassPage"));
 const InventoryPage = lazy(() => import("./pages/InventoryPage"));
 const ChessPage = lazy(() => import("./pages/ChessPage"));
 const ChessTutorialPage = lazy(() => import("./pages/ChessTutorialPage"));
+const ChessPrincesGamePage = lazy(() => import("./pages/ChessPrincesGamePage"));
+const ChessClimbPage = lazy(() => import("./pages/ChessClimbPage"));
+const DischordianLogicSongPage = lazy(() => import("./pages/DischordianLogicSongPage"));
+const ChessPuzzlePage = lazy(() => import("./pages/ChessPuzzlePage"));
+const ChessStudyPage = lazy(() => import("./pages/ChessStudyPage"));
+const SelfPortraitPage = lazy(() => import("./pages/SelfPortraitPage"));
 const OracleDeckPage = lazy(() => import("./pages/OracleDeckPage"));
 const ImprintGalleryPage = lazy(() => import("./pages/ImprintGalleryPage"));
 // DuelystClassicPage removed — Dischordia is the only card game
@@ -329,6 +335,12 @@ function Router() {
         <Route path="/inventory" component={InventoryPage} />
         <Route path="/chess">{() => <GameRoute component={ChessPage} />}</Route>
         <Route path="/chess/tutorial">{() => <GameRoute component={ChessTutorialPage} />}</Route>
+        <Route path="/chess/princes-game">{() => <GameRoute component={ChessPrincesGamePage} />}</Route>
+        <Route path="/chess/climb">{() => <GameRoute component={ChessClimbPage} />}</Route>
+        <Route path="/dischordian-logic">{() => <GameRoute component={DischordianLogicSongPage} />}</Route>
+        <Route path="/chess/puzzle">{() => <GameRoute component={ChessPuzzlePage} />}</Route>
+        <Route path="/chess/study">{() => <GameRoute component={ChessStudyPage} />}</Route>
+        <Route path="/self-portrait">{() => <GameRoute component={SelfPortraitPage} />}</Route>
         <Route path="/oracle">{() => <GameRoute component={OracleDeckPage} />}</Route>
         <Route path="/imprints">{() => <GameRoute component={ImprintGalleryPage} />}</Route>
         <Route path="/duelyst-play">{() => <GameRoute component={DuelystClassicPage} />}</Route>

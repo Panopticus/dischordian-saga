@@ -65,6 +65,8 @@ export default function ChessBoard({
   const boardRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<Api | null>(null);
   const chessRef = useRef(new Chess(fen));
+  const prevFenRef = useRef<string>(fen);
+  const prevCheckRef = useRef<boolean | Color>(false);
   const [promotionPending, setPromotionPending] = useState<{
     from: Key;
     to: Key;
@@ -173,6 +175,39 @@ export default function ChessBoard({
   );
 
   // Board theme classes
+  // Fire chess SFX on fen / check changes. Capture vs. move is
+  // detected by diffing the piece count in the FEN board segment.
+  useEffect(() => {
+    const prev = prevFenRef.current;
+    if (prev === fen) return;
+    prevFenRef.current = fen;
+    // Count non-slash, non-digit, non-space characters = pieces.
+    const countPieces = (f: string) => {
+      const board = f.split(" ")[0] ?? "";
+      let n = 0;
+      for (const ch of board) if (/[a-zA-Z]/.test(ch)) n++;
+      return n;
+    };
+    const prevPieces = countPieces(prev);
+    const nextPieces = countPieces(fen);
+    void import("@/lib/chessSfx").then(({ playChessSfx }) => {
+      if (nextPieces < prevPieces) playChessSfx("capture");
+      else playChessSfx("move");
+    });
+  }, [fen]);
+
+  useEffect(() => {
+    const wasCheck = !!prevCheckRef.current;
+    const isCheck = !!check;
+    prevCheckRef.current = check ?? false;
+    if (!wasCheck && isCheck) {
+      const chess = chessRef.current;
+      void import("@/lib/chessSfx").then(({ playChessSfx }) => {
+        playChessSfx(chess.isCheckmate() ? "mate" : "check");
+      });
+    }
+  }, [check]);
+
   const themeClasses: Record<string, string> = {
     dark: "cg-board-dark",
     cyber: "cg-board-cyber",

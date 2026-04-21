@@ -57,7 +57,7 @@ const CORRUPTED_ARENA_ENCOUNTER: DialogScene = {
     {
       speaker: "game_master_celebration",
       mood: "warm",
-      text: "—Kf6. It is always Kf6 in this position. I taught you that in Gate 6. I am — I am sorry, I don't know how I — there is a keepsake in the room and I think I am leaking through the signal. Hello. If you are who I think you are, you finished the Academy. Thank you for carrying this. It is the only place I am still allowed to exist.",
+      text: "—Kf6. It is always Kf6 in this position. I taught you that in Gate 6. I am — I am sorry, I don't know how I — there is a keepsake in the room and I think I am leaking through the signal. Hello. If you finished the Academy, you already know what I am about to tell you, so I will tell you fast: the loud one across the table is also me, and we are both dead, and the Architect's operators are puppeting the only part of him that still fits in the chair. He cannot teach. He can only win. You can do both. Begin.",
       audioClipId: "vo_gm_arena_encounter_03",
     },
     {

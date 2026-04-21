@@ -52,6 +52,12 @@ const GATE_6_OUTRO: DialogScene = {
       text: "Here is the reflection. When the board is almost empty, small advantages become EVERYTHING. A single extra pawn in the middlegame is a minor edge. In the endgame it is often the entire game. This is true of chess and it is true of every crisis I have ever lived through. When the room clears out and only the essentials remain, the advantage that was invisible an hour ago becomes the advantage that decides everything. Learn to see which advantages will survive the simplification.",
       audioClipId: "vo_gm_chess_g6_outro_02",
     },
+    {
+      speaker: "game_master_celebration",
+      mood: "cryptic",
+      text: "There is a version of you who already finished this course. I remember her. You do not. She sat where you are sitting and she finished Gate 7 and she went out the same door you came in by, and the door rotated thirty degrees behind her and stopped being a door. I have taught this curriculum more times than I have a clean number for. You are the version of you who will finish. The other versions exist. They are not less real. They simply did not arrive. One more gate.",
+      audioClipId: "vo_gm_chess_g6_outro_dread",
+    },
   ],
 };
 

@@ -48,9 +48,15 @@ const GATE_5_OUTRO: DialogScene = {
     },
     {
       speaker: "game_master_celebration",
-      mood: "reflective",
+      mood: "guarded",
       text: "Here is the reflection. A fork is noticing that two things are true at once and building a single move that punishes both. The pin is noticing that a piece cannot move without exposing something more important. The skewer is the pin's impatient cousin. The discovered attack is the move you play with one piece while you reveal a threat from a different piece behind it. All four of them are ways of making ONE move do TWO things. The Architect cannot see two things at once. That is why, in the old days, I beat him. Remember that.",
       audioClipId: "vo_gm_chess_g5_outro_02",
+    },
+    {
+      speaker: "game_master_celebration",
+      mood: "guarded",
+      text: "Let me show you the discovered attack one more time. Watch the pawn — I'll move it like — like — my hand is — I am sorry. My hand passed through the piece. That is not supposed to happen. The pawn is exactly where it was. You saw what I meant to show you. Hold the lesson, not the demonstration. Go.",
+      audioClipId: "vo_gm_chess_g5_outro_dread",
     },
   ],
 };

@@ -234,8 +234,12 @@ export {
   CHESS_TUTORIAL_GATE_5,
   CHESS_TUTORIAL_GATE_6,
   CHESS_TUTORIAL_GATE_7,
+  CHESS_TUTORIAL_GATE_4_5,
+  CHESS_TUTORIAL_SIDE_GATES,
   CHESS_TUTORIAL_SCENES,
   getChessTutorialGate,
+  getChessTutorialSideGate,
+  isChessSideGateUnlocked,
   listChessTutorialVoiceCues,
 } from "./story/chessTutorial";
 export type {

@@ -6,6 +6,7 @@
    ═══════════════════════════════════════════════════════ */
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
+import ChessMatrixAmbient from "@/components/ChessMatrixAmbient";
 import { trpc } from "@/lib/trpc";
 import { getLoginUrl } from "@/const";
 import { Chessboard } from "react-chessboard";
@@ -309,6 +310,7 @@ export default function ChessTutorialPage() {
   const moodClass = MOOD_ACCENT[introCue?.mood ?? outroCue?.mood ?? "default"] ?? MOOD_ACCENT.default;
 
   return (
+    <ChessMatrixAmbient gateNumber={activeGate.gateNumber}>
     <div className="min-h-screen p-4 sm:p-6 max-w-4xl mx-auto space-y-4">
       {/* Header */}
       <div className="flex items-center gap-3">
@@ -517,5 +519,6 @@ export default function ChessTutorialPage() {
         )}
       </AnimatePresence>
     </div>
+    </ChessMatrixAmbient>
   );
 }
