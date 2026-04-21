@@ -6,6 +6,8 @@
    lifted from the original TitlePage.tsx; the parent now
    owns the shared chrome (scanlines, music, ticker).
    ═══════════════════════════════════════════════════════ */
+import { useEffect, useRef } from "react";
+
 import { getGoogleLoginUrl, getDiscordLoginUrl, getGitHubLoginUrl } from "@/const";
 import { KineticText } from "@/components/void";
 
@@ -14,12 +16,50 @@ import type { TitleTheme } from "./themes";
 interface TitleStateUnauthProps {
   theme: TitleTheme;
   showLogin: boolean;
+  /** Called after the OAuth popup reports success, so the parent can
+   *  refetch `auth.me` without a page navigation. */
+  onAuthSuccess?: () => void;
 }
 
-export function TitleStateUnauth({ theme, showLogin }: TitleStateUnauthProps) {
+export function TitleStateUnauth({ theme, showLogin, onAuthSuccess }: TitleStateUnauthProps) {
   const discordUrl = getDiscordLoginUrl();
   const githubUrl = getGitHubLoginUrl();
-  const go = (url: string) => { window.location.href = url; };
+  const popupRef = useRef<Window | null>(null);
+
+  useEffect(() => {
+    const onMessage = (e: MessageEvent) => {
+      if (e.origin !== window.location.origin) return;
+      const data = e.data as { type?: string } | null;
+      if (data?.type !== "oauth:success") return;
+      try { popupRef.current?.close(); } catch { /* ignore */ }
+      popupRef.current = null;
+      onAuthSuccess?.();
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, [onAuthSuccess]);
+
+  const go = (url: string) => {
+    // Try a popup first so the title page (and its opening music) keeps
+    // playing in the background. If the browser blocks the popup, fall
+    // back to the legacy full-page redirect.
+    const w = 520;
+    const h = 640;
+    const y = window.top?.outerHeight
+      ? Math.max(0, (window.top.outerHeight - h) / 2 + (window.top.screenY ?? 0))
+      : 0;
+    const x = window.top?.outerWidth
+      ? Math.max(0, (window.top.outerWidth - w) / 2 + (window.top.screenX ?? 0))
+      : 0;
+    const features = `width=${w},height=${h},left=${x},top=${y},resizable,scrollbars=yes`;
+    const popup = window.open(url, "dischordia_oauth", features);
+    if (!popup) {
+      window.location.href = url;
+      return;
+    }
+    popupRef.current = popup;
+    popup.focus();
+  };
 
   return (
     <>

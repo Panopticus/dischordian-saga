@@ -329,7 +329,11 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
 
         {/* Body — one of three states */}
         {!isAuthenticated && (
-          <TitleStateUnauth theme={theme} showLogin={showLoginStagger} />
+          <TitleStateUnauth
+            theme={theme}
+            showLogin={showLoginStagger}
+            onAuthSuccess={auth.refresh}
+          />
         )}
         {isAuthenticated && !hasSave && (
           <TitleStateNoSave
