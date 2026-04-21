@@ -1662,4 +1662,81 @@ export const ELARA_LINES: CompanionLine[] = [
     unlockFlags: ["dialog_virus_whispers"],
     elaraStabilityDelta: 1,
   }),
+
+  // Beat 3 — the Strain exception. Only plays if player chose the
+  // Thought Virus pet (companion_strain_bonded flag). Elara quietly
+  // reframes why she trusted the player's instinct there.
+  l({
+    lineId: "virus_whisper_03_lucid",
+    text: "Your partner's hackles came up before mine did. Which means either Strain is warning us about the carrier — or Strain is the carrier and has stopped hiding. I'll take either answer. I'd rather know.",
+    priority: 1,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 10400,
+    requiresElaraStability: "lucid",
+    cooldownKey: "virus_whisper_03",
+    unlockFlags: ["dialog_virus_whispers", "companion_strain_bonded"],
+  }),
+  l({
+    lineId: "virus_whisper_03_fragmented",
+    text: "Strain. Strain — Strain reacted. Before me. Before — before. Either — either it's a — a guard dog. Or it's — it's the thing. I can't. I can't tell. I can't. Watch them. Watch them with me.",
+    priority: 1,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 10800,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "virus_whisper_03",
+    unlockFlags: ["dialog_virus_whispers", "companion_strain_bonded"],
+    elaraStabilityDelta: -1,
+  }),
+  l({
+    lineId: "virus_whisper_03_luminous",
+    text: "Strain noticed before I did. That's either a kept promise or a dropped mask. Good news is we'll learn which very soon — and I think your pick earned us the advance warning either way.",
+    priority: 1,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 10600,
+    requiresElaraStability: "luminous",
+    cooldownKey: "virus_whisper_03",
+    unlockFlags: ["dialog_virus_whispers", "companion_strain_bonded"],
+  }),
+
+  // Beat 4 — the vessel-contamination reveal. The "blood" on the Med
+  // Bay wall is viral residue. Ties the crime to the virus. Moderate
+  // priority beat — lands after Human confirms it's marker-not-blood.
+  l({
+    lineId: "virus_whisper_04_lucid",
+    text: "The stain wasn't blood. It wasn't marker either. It was viral residue — the Thought Virus leaves a mark that looks like both, depending on who's looking. Whoever killed them was already carrying it. The murder and the contamination aren't two cases. They're one.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 13800,
+    requiresElaraStability: "lucid",
+    cooldownKey: "virus_whisper_04",
+    unlockFlags: ["dialog_virus_whispers", "medbay_wall_identified"],
+  }),
+  l({
+    lineId: "virus_whisper_04_fragmented",
+    text: "It. It was it. The — the stain — it was IT. The virus. Signing. Signing its work. I — I cleaned it for — for years and I was cleaning IT. I was. I was. One case. One case. One case.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "manual",
+    durationMs: 12800,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "virus_whisper_04",
+    unlockFlags: ["dialog_virus_whispers", "medbay_wall_identified"],
+    elaraStabilityDelta: -4,
+  }),
+  l({
+    lineId: "virus_whisper_04_luminous",
+    text: "The stain is viral residue. The Thought Virus leaves a signature that reads as blood to one eye and ink to another. Our killer was a carrier — maybe knew it, maybe didn't. The murder case and the contamination case are the same case. That changes the shape of the rest of this.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 14200,
+    requiresElaraStability: "luminous",
+    cooldownKey: "virus_whisper_04",
+    unlockFlags: ["dialog_virus_whispers", "medbay_wall_identified"],
+    elaraStabilityDelta: 1,
+  }),
 ];
