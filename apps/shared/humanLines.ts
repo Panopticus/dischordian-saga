@@ -283,4 +283,81 @@ export const HUMAN_LINES: CompanionLine[] = [
     unlockFlags: ["cryo_mystery_victim_identified"],
     elaraStabilityDelta: 3,
   }),
+
+  // ─────────────────────────────────────────────────────────────
+  // DNA DEVICE — Human's read. Duet partner to medbay_dna_setup_*.
+  // He names the device correctly (vox-neural-bridge was a Panopticon
+  // diagnostic tool, later repurposed). He doesn't tell the player
+  // the hidden cost either — he hints and lets the player weigh it.
+  // ─────────────────────────────────────────────────────────────
+  h({
+    lineId: "human_dna_device_shadow",
+    text: "I know that device. Vox-neural-bridge. Panopticon diagnostic, back when we ran them. Never free. Whatever it gives you, it'll take something you won't miss until later. Not a trap. A trade. Your call.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 11600,
+    requiresHumanLight: "shadow",
+    cooldownKey: "human_dna_device",
+  }),
+  h({
+    lineId: "human_dna_device_balanced",
+    text: "Vox-neural-bridge. I've used these. They're honest instruments in the boring sense — what they take is real, and what they give is real. The exchange rate isn't printed. Not a reason to refuse. Just a reason to know you're trading.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 12400,
+    requiresHumanLight: "balanced",
+    cooldownKey: "human_dna_device",
+  }),
+  h({
+    lineId: "human_dna_device_warm",
+    text: "I've used one of these. It's a fair instrument in its own bloodless way. What it takes is real. What it gives is real. The ledger between them is never even. If you donate, I'll carry half whatever it ends up costing. You don't have to — I'll just do it.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 13400,
+    requiresHumanLight: "warm",
+    cooldownKey: "human_dna_device",
+    humanLightDelta: 1,
+  }),
+
+  // Resurrection Protocols reactions — duet with Elara's confession.
+  // His position: pragmatist who has already paid the price she's
+  // about to ask the player to pay.
+  h({
+    lineId: "human_resurrection_shadow",
+    text: "She's telling the truth. The incubators run. The archive is intact. I built the contingency — or signed off on it, same thing. Whatever you pick, don't pick it for her sake alone. She'll live with it. So will we. So will they.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 12400,
+    requiresHumanLight: "shadow",
+    cooldownKey: "human_resurrection",
+    unlockFlags: ["pod_47b_discovered"],
+  }),
+  h({
+    lineId: "human_resurrection_balanced",
+    text: "She's right. The archive is intact, the pods work, and I'm the one who signed the contingency that kept them running. The choice shouldn't be about comfort — hers or yours. It should be about who can carry a crew worth carrying. Take your time.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 13400,
+    requiresHumanLight: "balanced",
+    cooldownKey: "human_resurrection",
+    unlockFlags: ["pod_47b_discovered"],
+    elaraStabilityDelta: 1,
+  }),
+  h({
+    lineId: "human_resurrection_warm",
+    text: "Everything she said is accurate. I signed the contingency. I knew we'd wake up in a room like this one. Pick the answer you can look them in the eye with when they wake — that's the only part that matters. I'll back you either way.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 13200,
+    requiresHumanLight: "warm",
+    cooldownKey: "human_resurrection",
+    unlockFlags: ["pod_47b_discovered"],
+    elaraStabilityDelta: 2,
+  }),
 ];
