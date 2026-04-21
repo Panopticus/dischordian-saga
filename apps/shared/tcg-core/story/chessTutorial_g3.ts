@@ -53,6 +53,12 @@ const GATE_3_OUTRO: DialogScene = {
       text: "Here is today's reflection. The rules have exceptions written INTO them. The designers of chess saw that the basic rules trapped the king in his starting square, left pawns frozen on the edges of the board, and made late-stage pawns useless. So they added castling, en passant, and promotion. Every rule you think is immovable has a castling move hidden inside it. Look for the move that is illegal except when it isn't. Lives are full of them.",
       audioClipId: "vo_gm_chess_g3_outro_02",
     },
+    {
+      speaker: "game_master_celebration",
+      mood: "guarded",
+      text: "Go on, the door is — the door is that way. Behind you. Where I am standing there is no door. There has never been a door behind me in this room. I do not know why I just looked over my shoulder. Forget I did. See you next gate.",
+      audioClipId: "vo_gm_chess_g3_outro_dread",
+    },
   ],
 };
 

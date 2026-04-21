@@ -4462,3 +4462,52 @@ export const announcementViews = mysqlTable("announcement_views", {
 }));
 
 export type AnnouncementViewRow = typeof announcementViews.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════
+   PLAYER PSYCHOLOGICAL PROFILE
+   See `apps/shared/playerProfile.ts` for the seven axes and
+   value semantics. The profile snapshot lives in `player_profile`
+   (one row per user, INT axes in [-100, 100]); the audit log in
+   `player_profile_events` (append-only). Both written atomically
+   from `apps/server/routers/playerProfile.ts.recordEvent`.
+
+   Migration: 0050_player_profile.sql
+   ═══════════════════════════════════════════════════════ */
+
+export const playerProfile = mysqlTable("player_profile", {
+  userId: int("userId").primaryKey(),
+  aggression: int("aggression").notNull().default(0),
+  mercy: int("mercy").notNull().default(0),
+  curiosity: int("curiosity").notNull().default(0),
+  conformity: int("conformity").notNull().default(0),
+  vigilance: int("vigilance").notNull().default(0),
+  vulnerability: int("vulnerability").notNull().default(0),
+  wit: int("wit").notNull().default(0),
+  eventCount: int("eventCount").notNull().default(0),
+  lastUpdatedAt: timestamp("lastUpdatedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type PlayerProfileRow = typeof playerProfile.$inferSelect;
+
+export const playerProfileEvents = mysqlTable("player_profile_events", {
+  id: bigint("id", { mode: "number" }).autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  source: varchar("source", { length: 64 }).notNull(),
+  /** Arbitrary structured data describing what triggered this
+   *  event — e.g. `{ matchId, opponentId, moveNumber, archetype }`
+   *  for a chess mind-game choice. Lets the GM cite specific past
+   *  events instead of just aggregates. */
+  payload: json("payload").$type<Record<string, unknown> | null>(),
+  /** The actual delta applied. Stored on the event so the audit
+   *  log is self-contained — recomputing from the source registry
+   *  would lose any one-off override deltas. */
+  deltas: json("deltas").$type<Record<string, number> | null>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userCreatedIdx: index("idx_player_profile_events_user_created")
+    .on(table.userId, table.createdAt),
+  userSourceIdx: index("idx_player_profile_events_user_source")
+    .on(table.userId, table.source),
+}));
+export type PlayerProfileEventRow = typeof playerProfileEvents.$inferSelect;

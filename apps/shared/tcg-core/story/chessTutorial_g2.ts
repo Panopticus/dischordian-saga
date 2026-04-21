@@ -52,6 +52,12 @@ const GATE_2_OUTRO: DialogScene = {
       text: "Here is the reflection I owe you. Every problem you will ever face has a DECISIVE CONFIGURATION — a position where the threat against you runs out of squares. Crisis is not a feeling. Crisis is a geometry. The person who sees the geometry wins. The person who feels the feeling panics and moves the wrong piece. Learn to find the mate in the room before the room finds the mate in you.",
       audioClipId: "vo_gm_chess_g2_outro_02",
     },
+    {
+      speaker: "game_master_celebration",
+      mood: "guarded",
+      text: "I want to show you one more thing before you go. This diagram, here on the table — black king cornered, white queen on the long diagonal. This is the position I died in, once. I am sorry — the position I TAUGHT FROM, that year. There is a confusion in my notes. The Oracle herself sat where you are sitting now, the day I drew this. She lost. Not all defeats are losses. Sometimes a defeat is a courtesy. Go. We will continue.",
+      audioClipId: "vo_gm_chess_g2_outro_dread",
+    },
   ],
 };
 

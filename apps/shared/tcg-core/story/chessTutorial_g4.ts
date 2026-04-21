@@ -53,6 +53,12 @@ const GATE_4_OUTRO: DialogScene = {
       text: "Here is today's reflection. The first four moves of anything decide whether you get to play the middle game at all. In chess, in conversations, in a coup, in an argument with somebody you love — the first four moves decide whether you even get to the part where your strategy matters. Most failures are opening failures. Most people never think about the opening because they're busy imagining the finish. Do not be most people.",
       audioClipId: "vo_gm_chess_g4_outro_02",
     },
+    {
+      speaker: "game_master_celebration",
+      mood: "warm",
+      text: "I had a student once who asked me this same question — about openings, about whether the first four moves were a script or a toolkit. A prince. From a kingdom you have probably not heard of. He went on to become an inventor; people called him the Engineer once he stopped wearing the title. He beat me, eventually. Not today. Today he was where you are. He had to be taught first. Like you. Sit a moment longer if you like. There is a side door near the oak credenza if you do not. It opens onto a corridor that is sometimes there.",
+      audioClipId: "vo_gm_chess_g4_outro_dread",
+    },
   ],
 };
 

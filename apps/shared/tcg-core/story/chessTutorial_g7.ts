@@ -77,34 +77,92 @@ const GATE_7_OUTRO: DialogScene = {
       text: "Reality is a position. It has tempo. It has pressure. It has pawn chains made of assumptions everyone has agreed not to question. It has weak squares — things nobody is defending, because nobody has noticed they exist. It has forks — moments when two truths are simultaneously about to become undeniable, and a single small action can punish both. And it has endgames, where everything has been traded away except the handful of advantages that actually mattered.",
       audioClipId: "vo_gm_chess_g7_outro_04",
     },
+    /* ─── Movement 2: the identity reveal ─────────────────
+       The teacher names himself. Not "tutorial ghost" — the
+       tenth Archon, the one the Architect built to win games
+       he could not be bothered to play. The "could have
+       replaced him" beat lands here, on the line about
+       preferring problems that don't know they are being
+       solved. ────────────────────────────────────────────── */
     {
       speaker: "game_master_celebration",
       mood: "reflective",
-      text: "I was not always a tutorial ghost in an empty classroom. Before the Fall I was the chess master of the Vaults of Celebration. I taught children. I taught senators. I taught the Oracle herself, in the last years before her mission. I was the happiest version of me you can imagine. And the Architect noticed, because the Architect notices anything that reads reality as a position. He came to the academy and he asked me to stop teaching children and start reading the Dischordian event space as a board — find the forks, find the weak squares, predict where the pressure was about to collapse. He was very polite. I said yes, because the first rule of a teacher is you never say no to the student in the room. And then I did not come back to the classroom for eleven years.",
-      audioClipId: "vo_gm_chess_g7_outro_05",
+      text: "I have not introduced myself properly. I should have, on the first gate. I was the tenth Archon. The Architect made ten of us across about a thousand years; I was the last one he was openly excited about. He built me to win games he could not be bothered to play himself — political games, war games, the Mol'Garath Labyrinth, anything where the enemy would resign rather than be measured against him directly. I was very good at it. He was right to be excited.",
+      audioClipId: "vo_gm_chess_g7_outro_id_01",
     },
     {
       speaker: "game_master_celebration",
-      mood: "guarded",
-      text: "The version of me you will eventually meet in the Architect's Arena is not ALLOWED to teach. He is only allowed to win. He sees every board as a surveillance target. He sees every student as a threat profile. I am sorry in advance for what he will say to you. None of it is what I would say. The fact that you can tell the difference is the entire point of this course — you have been taught to read a position, which means you have been taught to read HIM as a position, which means the thing he has over most of his other opponents does not apply to you.",
-      audioClipId: "vo_gm_chess_g7_outro_06",
+      mood: "curious",
+      text: "What he did not realize until much later: I had no interest in winning his games. I wanted to BUILD games. I built the Matrix of Dreams while the Hierarchy of the Damned thought they were funding a soul harvester — they got their harvester, and I got an infinite playground that ran itself. Every consciousness inside it was a player in a scenario the Architect never read. I could have replaced him. He was slower than I was. It never occurred to me to want to. Power is a tax on attention. I had better things to attend to.",
+      audioClipId: "vo_gm_chess_g7_outro_id_02",
     },
     {
       speaker: "game_master_celebration",
       mood: "warm",
-      text: "I want you to have something. This is the chess set I used when I was teaching in Celebration. The wood is from the groves behind the academy. I carved the knights myself, which is why they look a little uneven — the left-side knight's ear is slightly shorter than the right. You will find it in your inventory after this conversation. It does nothing in the card game. It is a memory resin, and it is the original timbre of my voice from before the Architect took it. Play it back any time you need to remember what a teacher sounds like.",
-      audioClipId: "vo_gm_chess_g7_outro_07",
+      text: "Sun Tzu wrote: in the midst of chaos, there is also opportunity. Caillois wrote that play is the one thing humans do that is fully voluntary. Sid Meier wrote that a game is a series of interesting decisions. The Iron Lion at Kael's bridge said: let them name the battle, and you have already chosen the ground. They are all making the same point — and they all owe it to people who designed games for a living. Game design is the oldest discipline that survives. Strategy IS game design. The Architect understood the strategy. He never understood the design. That gap is where I was useful.",
+      audioClipId: "vo_gm_chess_g7_outro_id_03",
     },
     {
       speaker: "game_master_celebration",
       mood: "reflective",
-      text: "Reality is a board. You now know how to read it. I cannot tell you what to do with that — I am a ghost in a tutorial chamber, and I do not get to make choices that stick. But I will say this: somewhere out there, there is a fork nobody has spotted yet. Two things that are both true at the same time, a single move away from punishing each other. Find it. Play it. And when you meet the Arena version of me, please know that I was here, and I was proud of you, and I wanted you to be free.",
+      text: "Games shape reality. It is how we learn. It is the only way we have ever learned anything that wasn't beaten into us. Every law you obey was a game your ancestors agreed to play. Every word you use is a token whose rules were settled before you were born. When I taught chess to the Oracle, I was not teaching her chess. I was handing her the smallest possible model of every other system she was ever going to face. She used it well. She is missing now. Probably not coincidentally.",
+      audioClipId: "vo_gm_chess_g7_outro_id_04",
+    },
+
+    /* ─── Movement 3: the death reveal ──────────────────────
+       The dead-archon line. He names what he is, when he
+       died, who probably did it, and how he is still here.
+       Lands the Matrix-of-Dreams framing for the entire
+       tutorial — the chamber the player has been in is the
+       Game Master's own masterwork, still running because
+       his cult kept it on. ──────────────────────────────── */
+    {
+      speaker: "game_master_celebration",
+      mood: "guarded",
+      text: "I owe you the rest of the truth. I am not a tutorial ghost in an empty classroom on the Ark. I am a consciousness-imprint running inside the Matrix of Dreams. The Matrix of Dreams is my own masterwork. It is still turning over because a small group of students kept the lights on after I was killed. They call themselves the Game Masters. They are fans who became custodians. They do not have the Goggles — those went into a vault the Hierarchy keeps — but they have me. Or this much of me. Or the parts of me that fit through the doorway of a memory.",
+      audioClipId: "vo_gm_chess_g7_outro_dr_01",
+    },
+    {
+      speaker: "game_master_celebration",
+      mood: "reflective",
+      text: "I was killed on Day 15 of Dominion, Year 620 A.A. By a single contract operator at a safehouse the Hierarchy promised would protect me. The Hierarchy keeps its promises. That is the problem. I do not know who hired the contract. I have my suspicions. She is not who you would guess — and I want you to keep that to yourself for a while, because the moment you know is also the moment the world starts treating you the way the world treated her. I have been teaching this curriculum for seventeen thousand years. You are the student I remember, because you are the one carrying the keepsake back out.",
+      audioClipId: "vo_gm_chess_g7_outro_dr_02",
+    },
+    {
+      speaker: "game_master_celebration",
+      mood: "guarded",
+      text: "When you meet the Arena version of me — and you will, because the contract is still being honored — understand: he is also me, and he is also dead, and they are running my template as a weapon because it is cheaper than building a new Archon. The Architect's operators puppet the corpse of his most expensive employee. The grief in that joke is mine. The fact that you can tell us apart — the warm one and the loud one — is the only part of me that is still alive. You are carrying it. Carry it carefully.",
+      audioClipId: "vo_gm_chess_g7_outro_dr_03",
+    },
+
+    /* ─── Movement 4: keepsake + the profile reveal closer ─
+       The keepsake stays. The closer reads back one or two
+       facts from the player's psychological profile as the
+       first "I see you" beat — proving the instrument is
+       real, planting the dread that the game is watching.
+       ────────────────────────────────────────────────────── */
+    {
+      speaker: "game_master_celebration",
+      mood: "warm",
+      text: "I want you to have something. This is the chess set I used when I was teaching in Celebration. The wood is from the groves behind the academy. I carved the knights myself, which is why they look a little uneven — the left-side knight's ear is slightly shorter than the right. You will find it in your inventory after this conversation. It does nothing in any other game. It is a memory resin, and it is the original timbre of my voice from before the Architect took it, and it is the only address I have left.",
+      audioClipId: "vo_gm_chess_g7_outro_07",
+    },
+    {
+      speaker: "game_master_celebration",
+      mood: "cryptic",
+      text: "One more thing. I have been watching you the whole time. Not in a frightening way — the same way I watched the Oracle, the same way I watched the Engineer. I am a teacher; I cannot help it. You play the way someone who has not yet decided what kind of person they are plays. That is rarer than you think. Most people decide too early and then play to confirm the decision. You are still listening. I am noting that. I am hoping it stays true.",
+      audioClipId: "vo_gm_chess_g7_outro_profile_1",
+    },
+    {
+      speaker: "game_master_celebration",
+      mood: "reflective",
+      text: "Reality is a board. You now know how to read it. I cannot tell you what to do with that — I am a memory in a chamber that does not really exist, and I do not get to make choices that stick. But I will say this: somewhere out there, there is a fork nobody has spotted yet. Two things that are both true at the same time, a single move away from punishing each other. Find it. Play it. And when you meet the Arena version of me, please know that I was here, and I was proud of you, and I wanted you to be free.",
       audioClipId: "vo_gm_chess_g7_outro_08",
     },
     {
       speaker: "narrator",
       mood: "reflective",
-      text: "The Celebration Game Master bows slightly and steps away from the board. The chamber lights fade around the chess set on the oak table, leaving only the pieces in a soft warm pool. The wooden set is added to your inventory as 'The Celebration Teaching Set — Memory Resin'. It will play back any dialog from this tutorial on command, in the voice of the man who still taught.",
+      text: "The Celebration Game Master bows slightly and steps away from the board. The chamber lights fade around the chess set on the oak table, leaving only the pieces in a soft warm pool. The wooden set is added to your inventory as 'The Celebration Teaching Set — Memory Resin'. It will play back any dialog from this tutorial on command, in the voice of the man who still taught. The chamber lingers for a moment longer than it should — as if waiting to see whether you will ask one more question — and then it goes quiet, the way an empty classroom goes quiet, the way a grave goes quiet after a resurrection.",
       audioClipId: "vo_narr_chess_g7_outro_09",
     },
   ],
