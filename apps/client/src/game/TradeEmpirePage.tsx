@@ -32,6 +32,9 @@ import Act3EndingReveal from "./Act3EndingReveal";
 import EyesNarratorWhisper from "./EyesNarratorWhisper";
 import InfiltrationRunner from "./InfiltrationRunner";
 import { getInfiltrationStage, type InfiltrationStageResult } from "./infiltrationContent";
+import InfiltrationPathSelector, {
+  shouldShowInfiltrationSelector,
+} from "@/components/InfiltrationPathSelector";
 import { applyLoredexOverride } from "./loredexRewrite";
 import {
   getTechsByBranch, canResearch, getTechById,
@@ -1495,6 +1498,16 @@ export default function TradeEmpirePage() {
             }}
           />
         )}
+        {/* §7 — Fires once per save when the player first enters the
+            Trade Empire era in Act 3 without having committed to a
+            path. Commit writes the canonical flag; modal closes on
+            its own via the shouldShowInfiltrationSelector guard. */}
+        <InfiltrationPathSelector
+          open={shouldShowInfiltrationSelector(
+            gameState.narrativeFlags,
+            gameState.narrativeAct,
+          )}
+        />
       </AnimatePresence>
 
       {/* Mission detail modal */}
