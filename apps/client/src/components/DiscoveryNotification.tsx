@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Unlock, ChevronRight, Sparkles } from "lucide-react";
 import { useLocation } from "wouter";
 import { isDialogActive } from "@/lib/dialogState";
+import { useGame } from "@/contexts/GameContext";
 
 interface DiscoveryEvent {
   featureKey: string;
@@ -26,6 +27,11 @@ export function emitDiscoveryNotification(event: DiscoveryEvent) {
 }
 
 export default function DiscoveryNotification() {
+  const { state } = useGame();
+  // F4 — hold the entire queue until the player has cleared the opening
+  // arc. Events are still captured during the prelude (so the player's
+  // first actions after prelude_complete can drain them).
+  const preludeComplete = Boolean(state.narrativeFlags?.prelude_complete);
   const [queue, setQueue] = useState<DiscoveryEvent[]>([]);
   const [current, setCurrent] = useState<DiscoveryEvent | null>(null);
   const [dialogSuppressed, setDialogSuppressed] = useState(() => isDialogActive());
@@ -59,13 +65,14 @@ export default function DiscoveryNotification() {
     return () => window.removeEventListener("dialog-state-change", handler);
   }, [current]);
 
-  // Process queue — only when no dialog is active
+  // Process queue — only when no dialog is active AND prelude is past.
   useEffect(() => {
+    if (!preludeComplete) return; // F4
     if (!current && queue.length > 0 && !dialogSuppressed) {
       setCurrent(queue[0]);
       setQueue(prev => prev.slice(1));
     }
-  }, [current, queue, dialogSuppressed]);
+  }, [current, queue, dialogSuppressed, preludeComplete]);
 
   // Auto-dismiss after 5 seconds
   useEffect(() => {
