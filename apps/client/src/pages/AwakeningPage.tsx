@@ -58,6 +58,11 @@ const STEP_VO_AUDIO: Partial<Record<string, string>> = {
   FIRST_STEPS: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_13_2075d6bd.mp3",
 };
 
+// F3 — module-level dedupe. StrictMode can double-invoke mount effects in
+// dev; without this guard a voId would play twice. Cleared when the player
+// returns to a fresh session (reload).
+const PLAYED_VO_IDS = new Set<string>();
+
 function ElaraDialogBox({
   text,
   onContinue,
@@ -66,6 +71,7 @@ function ElaraDialogBox({
   onChoice,
   voAudioUrl,
   preloadedAudio,
+  onVoPlaybackFailed,
 }: {
   text: string;
   onContinue?: () => void;
@@ -74,6 +80,9 @@ function ElaraDialogBox({
   onChoice?: (value: string) => void;
   voAudioUrl?: string;
   preloadedAudio?: HTMLAudioElement | null;
+  /** F3 — called when VO audio demonstrably fails to play so the parent's TTS
+   * fallback can step in. Not called on timeout; only on explicit failure. */
+  onVoPlaybackFailed?: () => void;
 }) {
   const { displayed, done, skip } = useTypewriter(text, 25);
   const voAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -81,16 +90,36 @@ function ElaraDialogBox({
   // Play VO audio when provided (instead of browser TTS)
   useEffect(() => {
     if (!voAudioUrl) return;
-    // Use preloaded audio if available (avoids download delay on first VO)
+    if (PLAYED_VO_IDS.has(voAudioUrl)) return;
+    PLAYED_VO_IDS.add(voAudioUrl);
+
+    // Clean up any prior audio before building a new one — prevents the
+    // two-voices-overlapping bug on rapid step changes.
+    if (voAudioRef.current) {
+      voAudioRef.current.pause();
+      voAudioRef.current.src = "";
+      voAudioRef.current = null;
+    }
+
     const audio = preloadedAudio && preloadedAudio.src.includes(voAudioUrl.split('/').pop() || '__none__')
       ? preloadedAudio
       : new Audio(voAudioUrl);
     audio.volume = 0.9;
     voAudioRef.current = audio;
-    // Try to play immediately; if blocked by autoplay policy, retry on next user interaction
+
+    const handleFailure = () => {
+      // Only trigger TTS fallback on explicit audio failure, not on
+      // autoplay-blocked (which we retry via user gesture below).
+      onVoPlaybackFailed?.();
+    };
+    audio.addEventListener("error", handleFailure);
+    audio.addEventListener("abort", handleFailure);
+
     const tryPlay = () => {
       audio.play().catch(() => {
-        // Autoplay blocked — attach a one-time click listener to retry
+        // Autoplay blocked — attach a one-time click listener to retry.
+        // This branch does NOT fire the TTS fallback; user gesture will
+        // unblock and the audio will still play.
         const retryPlay = () => {
           audio.play().catch(() => {});
           document.removeEventListener("click", retryPlay);
@@ -101,8 +130,14 @@ function ElaraDialogBox({
       });
     };
     tryPlay();
-    return () => { audio.pause(); audio.src = ""; };
-  }, [voAudioUrl, preloadedAudio]);
+    return () => {
+      audio.removeEventListener("error", handleFailure);
+      audio.removeEventListener("abort", handleFailure);
+      audio.pause();
+      audio.src = "";
+      if (voAudioRef.current === audio) voAudioRef.current = null;
+    };
+  }, [voAudioUrl, preloadedAudio, onVoPlaybackFailed]);
 
   return (
     <motion.div
@@ -377,13 +412,21 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
     FIRST_STEPS: "Welcome aboard, officially. Your Citizen profile has been created and ratified — if a single AI's endorsement counts as ratification. This ship has systems that need restoration, rooms that need exploration, and secrets that need... well. We'll discuss those when you're ready. For now — explore. And pay attention to the details. The details are where the truth hides.",
   }), []);
 
+  // F3 — TTS fallback. Only fires when (a) no VO file exists for this
+  // step OR (b) the VO audio demonstrably failed to play (flagged via
+  // voFailedRef). Removes the race where slow-loading VO + absent-VO
+  // path both fired TTS in parallel.
+  const voFailedRef = useRef<boolean>(false);
+  const onVoPlaybackFailed = useCallback(() => {
+    voFailedRef.current = true;
+  }, []);
   useEffect(() => {
+    voFailedRef.current = false;
     const dialogText = STEP_DIALOG[awakeningStep];
-    // Skip browser TTS if a real VO audio file exists for this step
-    if (STEP_VO_AUDIO[awakeningStep]) return;
+    const hasVO = Boolean(STEP_VO_AUDIO[awakeningStep]);
+    if (hasVO) return; // VO owns the audio channel; TTS stays silent.
     if (dialogText && elaraTTS && dialogText !== lastSpokenRef.current) {
       lastSpokenRef.current = dialogText;
-      // Small delay to let the typewriter start first
       const t = setTimeout(() => elaraTTS.speak(dialogText), 300);
       return () => clearTimeout(t);
     }

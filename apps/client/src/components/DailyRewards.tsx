@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Gift, X, Sparkles, Coins } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+import { useGame } from "@/contexts/GameContext";
 
 type ServerReward = {
   day: number;
@@ -151,11 +152,16 @@ export default function DailyRewards({
  * amounts — the server does, and localStorage is not involved.
  */
 export function DailyRewardPopup() {
+  const { state } = useGame();
+  const preludeComplete = Boolean(state.narrativeFlags?.prelude_complete);
   const [show, setShow] = useState(false);
   const [claimed, setClaimed] = useState(false);
   const utils = trpc.useUtils();
+  // F4 — do not fetch the login calendar until the prelude is past; the
+  // popup and the VO both wait until the player has left the opening arc.
   const { data, isLoading } = trpc.quests.getLoginCalendar.useQuery(undefined, {
     staleTime: 60_000,
+    enabled: preludeComplete,
   });
   const claimLogin = trpc.quests.claimLogin.useMutation({
     onSuccess: () => {
@@ -168,12 +174,13 @@ export function DailyRewardPopup() {
   });
 
   useEffect(() => {
+    if (!preludeComplete) return; // F4
     if (isLoading || !data) return;
     if (data.claimedToday) return;
     // Delay popup so it doesn't compete with initial page load.
     const t = setTimeout(() => setShow(true), 2000);
     return () => clearTimeout(t);
-  }, [isLoading, data]);
+  }, [isLoading, data, preludeComplete]);
 
   if (!show || !data) return null;
 

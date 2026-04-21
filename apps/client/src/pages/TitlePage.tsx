@@ -16,6 +16,7 @@
    The Reset Wall is launched from State C.
    ═══════════════════════════════════════════════════════ */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { motion } from "framer-motion";
 
 import { useAuth } from "@/_core/hooks/useAuth";
 import { useGame } from "@/contexts/GameContext";
@@ -39,6 +40,50 @@ interface TitlePageProps {
   /** Optional dismiss hook from TitleGate. If absent, the page
    *  renders the classic unauth-only flow (back-compat). */
   onDismiss?: () => void;
+}
+
+/**
+ * F12 — diegetic boot overlay. Renders in the logo/CTA column as a
+ * top-left HUD block that types on a short handshake narrative. Uses
+ * framer-motion for the stagger because the file already imports it.
+ * Disabled animation under prefers-reduced-motion (line appears
+ * instantly instead of typing).
+ */
+function DiegeticBootSequence() {
+  const lines = [
+    "CoNEXUS HANDSHAKE . . .",
+    "LINK ESTABLISHED",
+    "ARK DESIGNATION: 1047",
+    "AWAITING OPERATOR",
+  ];
+  return (
+    <div
+      aria-hidden
+      style={{
+        fontFamily: "monospace",
+        fontSize: "11px",
+        letterSpacing: "0.2em",
+        color: "rgba(0, 255, 255, 0.7)",
+        marginBottom: "1.5rem",
+        textAlign: "left",
+        display: "inline-block",
+        lineHeight: 1.8,
+      }}
+    >
+      {lines.map((line, i) => (
+        <motion.div
+          key={line}
+          initial={{ opacity: 0, x: -4 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5 + i * 0.6, duration: 0.3 }}
+          style={{ whiteSpace: "pre" }}
+        >
+          {"> "}
+          {line}
+        </motion.div>
+      ))}
+    </div>
+  );
 }
 
 export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
@@ -296,36 +341,16 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
             filter: `drop-shadow(0 0 30px ${toRgba(theme.palette.accent, 0.35)})`,
           }}
         />
-        <h1
-          style={{
-            fontSize: "clamp(1.6rem, 5vw, 3.6rem)",
-            fontWeight: 900,
-            letterSpacing: "0.08em",
-            lineHeight: 1.1,
-            color: glitchText ? "#ff3366" : "#ffffff",
-            textShadow: glitchText
-              ? "3px 0 #00ffff, -3px 0 #ff0066, 0 0 30px rgba(255,51,102,0.5)"
-              : `0 0 40px ${toRgba(theme.palette.accent, 0.3)}`,
-            transition: "all 0.05s ease",
-            transform: glitchText ? "translateX(2px)" : "none",
-            marginBottom: "0.4rem",
-          }}
-        >
-          THE DISCHORDIAN
-        </h1>
-        <h1
-          style={{
-            fontSize: "clamp(2rem, 6.5vw, 4.8rem)",
-            fontWeight: 900,
-            letterSpacing: "0.15em",
-            lineHeight: 1,
-            color: theme.palette.accent,
-            textShadow: `0 0 60px ${toRgba(theme.palette.accent, 0.5)}`,
-            marginBottom: "2rem",
-          }}
-        >
-          SAGA
-        </h1>
+        {/* F12 — redundant title stack removed. The logo image (above)
+            already carries "THE DISCHORDIAN SAGA"; showing it twice in
+            large text was menu-flavored rather than legend-flavored.
+            The space below the logo is now used for the diegetic boot
+            sequence + the unauth CTA. */}
+
+        {/* Diegetic boot sequence (F12). Types on over ~3s. The
+            "ARK DESIGNATION: 1047" line is an intentional easter egg
+            that primes the Bridge puzzle for attentive players. */}
+        <DiegeticBootSequence />
 
         {/* Body — one of three states */}
         {!isAuthenticated && (

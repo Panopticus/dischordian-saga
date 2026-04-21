@@ -35,6 +35,8 @@ import {
 } from "lucide-react";
 import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 import { toast } from "sonner";
+import { enqueue as enqueueCompanionLine } from "@/companion/companionScheduler";
+import { lockedDoorLineId } from "@shared/lockedDoorLines";
 import { useNotificationQueue } from "@/hooks/useNotificationQueue";
 import PuzzleModal, { ROOM_PUZZLES } from "@/components/PuzzleSystem";
 import RoomTransition from "@/components/RoomTransition";
@@ -973,11 +975,29 @@ export default function ArkExplorerPage() {
         roomCleanedMap: cleanedMap,
       })
     ) {
-      toast.info("The door is sealed.", {
-        description:
-          "There's still an earlier part of the ship you haven't finished cleaning. The Ark is patient.",
-        duration: 5000,
+      // F11 — route through the companion scheduler so Elara (or the
+      // Human, where appropriate) speaks the locked-door reason in her
+      // own voice, using a line that references something the player
+      // has actually seen. Fallback sonner survives only if no line
+      // resolves (unlikely given the generic fallback in lockedDoorLines).
+      const preludeComplete = Boolean(state.narrativeFlags?.prelude_complete);
+      const bridgeDesignationFound = Boolean(
+        state.narrativeFlags?.bridge_ark_designation_found ||
+          state.clueJournal?.some(c => c.id === "clue-bridge-01"),
+      );
+      const lineRef = lockedDoorLineId(targetRoomId, "prelude", {
+        preludeComplete,
+        bridgeDesignationFound,
       });
+      const ok = enqueueCompanionLine(lineRef);
+      if (!ok) {
+        // Last-ditch fallback so the player is never silent on the door.
+        toast.info("The door is sealed.", {
+          description:
+            "There's still an earlier part of the ship you haven't finished cleaning. The Ark is patient.",
+          duration: 5000,
+        });
+      }
       return;
     }
 

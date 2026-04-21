@@ -25,6 +25,8 @@ import { CompanionCommentToast } from "./components/companion/CompanionCommentTo
 import AchievementUnlockToast from "./components/AchievementUnlockToast";
 import RememberThisToast from "./components/RememberThisToast";
 import FeatureUnlockToast from "./components/FeatureUnlockToast";
+import CompanionHost from "./companion/CompanionHost";
+import { setContext as setCompanionContext } from "./companion/companionScheduler";
 import TradeNotificationWatcher from "./components/TradeNotificationWatcher";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DiscoveryUnlockOverlay from "./components/DiscoveryUnlockOverlay";
@@ -405,6 +407,22 @@ function GameGate() {
   // A.8 Analytics — session tracking and page views
   useAnalytics();
 
+  // F13 — sync GameContext state into the companion scheduler so band
+  // gates + flag-gated lines see fresh data without an explicit push.
+  useEffect(() => {
+    setCompanionContext({
+      elaraStability: state.elaraStability ?? 10,
+      humanLight: state.humanLight ?? -20,
+      flags: new Set(
+        Object.entries(state.narrativeFlags ?? {})
+          .filter(([, v]) => v)
+          .map(([k]) => k),
+      ),
+      // Act inference: default 0 until explicit feature wires it.
+      act: state.narrativeFlags?.act_started ? 1 : 0,
+    });
+  }, [state.elaraStability, state.humanLight, state.narrativeFlags]);
+
   // ── A.12 Tutorial Orchestrator — check tutorials on route changes
   const { checkTutorial } = useTutorialOrchestrator();
   useEffect(() => {
@@ -528,6 +546,7 @@ function GameGate() {
       <TradeNotificationWatcher />
       <UniverseAtmosphere />
       <ElaraDialog elaraTTS={elaraTTS} />
+      <CompanionHost />
       <CharacterWidget />
       <DailyRewardPopup />
       <RadioMode />

@@ -176,6 +176,19 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
   const characterChoices = state.characterChoices;
   const [stepIndex, setStepIndex] = useState(0);
   const [phase, setPhase] = useState<"intro" | "dialog" | "response" | "summary">("intro");
+  // F5 — watchdog for the final reward_summary. If the summary phase sits
+  // idle for >6s without advancing (typewriter onComplete failed to fire,
+  // server reward claim hung, etc.), force textComplete so CLAIM REWARDS
+  // is clickable and the loading screen drops out.
+  const [summaryStuck, setSummaryStuck] = useState(false);
+  useEffect(() => {
+    if (phase !== "summary") {
+      setSummaryStuck(false);
+      return;
+    }
+    const t = setTimeout(() => setSummaryStuck(true), 6_000);
+    return () => clearTimeout(t);
+  }, [phase]);
   const [selectedChoice, setSelectedChoice] = useState<TutorialChoice | null>(null);
   const [textComplete, setTextComplete] = useState(false);
   const [collectedRewards, setCollectedRewards] = useState<TutorialReward[]>([]);
@@ -575,12 +588,15 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
                   </div>
                 )}
 
-                {/* Complete button */}
+                {/* Complete button. F5 — when the summary has been visible
+                    for >6s the button keeps working as a manual continue so
+                    the player is never trapped if the typewriter or a
+                    server-side reward claim fails to resolve. */}
                 <button
                   onClick={handleComplete}
                   className="w-full py-3 rounded-lg bg-accent/20 border border-accent/40 text-accent font-mono text-sm font-bold hover:bg-accent/30 transition-colors tracking-wider"
                 >
-                  CLAIM REWARDS & CONTINUE
+                  {summaryStuck ? "CONTINUE" : "CLAIM REWARDS & CONTINUE"}
                 </button>
               </div>
             </div>

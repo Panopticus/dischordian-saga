@@ -6,6 +6,8 @@
 import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Lock, Key, Brain, Terminal, AlertTriangle, CheckCircle, XCircle, RotateCcw } from "lucide-react";
+import { useGame } from "@/contexts/GameContext";
+import { enqueue as enqueueCompanionLine } from "@/companion/companionScheduler";
 
 /* ─── PUZZLE TYPES ─── */
 export type PuzzleType = "riddle" | "keycard" | "sequence" | "cipher" | "power_relay";
@@ -407,11 +409,27 @@ function CipherPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void
 }
 
 function PowerRelayPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => void }) {
+  const { state } = useGame();
   const pattern = puzzle.relayPattern || [];
   const [switches, setSwitches] = useState<boolean[]>(pattern.map(() => false));
   const [result, setResult] = useState<"correct" | "wrong" | null>(null);
-  const [showHint, setShowHint] = useState(false);
   const [attempts, setAttempts] = useState(0);
+  // F10 — attempts is still tracked for telemetry / future use but no
+  // longer gates a static hint reveal. Referenced here to keep lint green.
+  void attempts;
+
+  // F10 — "Ask Elara for Help" replaces the 2-fail timer. The button
+  // only shows once the designation clue is in the Clue Journal.
+  const bridgeDesignationFound = Boolean(
+    state.narrativeFlags?.bridge_ark_designation_found ||
+      state.clueJournal?.some(c => c.id === "clue-bridge-01"),
+  );
+  const askElaraForHelp = useCallback(() => {
+    // Seed the CompanionAsk topic chain by enqueuing the first topic's
+    // equivalent line via the scheduler. The panel surface itself is
+    // owned by CompanionAskPanel; this is the nudge.
+    enqueueCompanionLine("ask_elara_binary_basics");
+  }, []);
 
   const toggleSwitch = (i: number) => {
     const next = [...switches];
@@ -435,13 +453,15 @@ function PowerRelayPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => 
     <div className="space-y-4">
       <p className="font-mono text-[10px] text-muted-foreground/50 text-center">TOGGLE RELAYS TO MATCH EMERGENCY FREQUENCY</p>
 
-      {/* Relay switches */}
-      <div className="flex justify-center gap-3">
+      {/* Relay switches. F10 — wraps to two rows on viewports narrower
+          than ~580px so switch #1 is never clipped off the left edge.
+          justify-items-center keeps the wrap symmetrical. */}
+      <div className="grid grid-cols-6 sm:flex sm:justify-center gap-2 sm:gap-3 justify-items-center px-2">
         {switches.map((on, i) => (
           <button
             key={i}
             onClick={() => toggleSwitch(i)}
-            className="flex flex-col items-center gap-1.5 transition-all"
+            className="flex flex-col items-center gap-1.5 transition-all shrink-0"
           >
             <div
               className="w-10 h-14 rounded-md flex items-center justify-center transition-all duration-300"
@@ -496,17 +516,17 @@ function PowerRelayPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => 
         )}
       </AnimatePresence>
 
-      {attempts >= 2 && !showHint && (
-        <button onClick={() => setShowHint(true)} className="font-mono text-[10px] void-text-accent void-text-accent transition-colors block mx-auto">
-          [Request Elara's hint]
-        </button>
-      )}
-      {showHint && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          className="rounded-md p-3" style={{ background: "color-mix(in oklch, var(--energy-premium) 5%, transparent)", border: "1px solid color-mix(in oklch, var(--energy-premium) 15%, transparent)" }}
+      {/* F10 — the hint button is gated on clue-bridge-01, not on failed
+          attempts. If the player hasn't logged the Ark designation clue
+          yet, the button is not visible and the static elaraHint never
+          shows. This prevents auto-solving via brute-force retries. */}
+      {bridgeDesignationFound && (
+        <button
+          onClick={askElaraForHelp}
+          className="font-mono text-[10px] void-text-accent transition-colors block mx-auto underline underline-offset-2"
         >
-          <p className="font-mono text-[10px] void-text-accent">ELARA: {puzzle.elaraHint}</p>
-        </motion.div>
+          [Ask Elara for Help]
+        </button>
       )}
     </div>
   );

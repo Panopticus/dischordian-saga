@@ -36,7 +36,10 @@ export default function FeatureUnlockToast() {
     }
   }, []);
 
-  // Check for newly unlocked features whenever game state changes
+  // Check for newly unlocked features whenever game state changes.
+  // F4 — during the prelude we queue unlocks silently; they drain as
+  // soon as prelude_complete flips. This prevents the cold-boot
+  // "everything unlocks at once" popup swarm.
   useEffect(() => {
     const snapshot = {
       rooms: state.rooms,
@@ -60,8 +63,14 @@ export default function FeatureUnlockToast() {
     }
   }, [state.rooms, state.narrativeFlags, state.elaraTrust, state.humanTrust, state.npcTrust, state.claimedQuestRewards, state.conexusXp]);
 
+  // F4 — drain gate. Until prelude_complete we keep the queue stocked but
+  // never promote to `current`. The moment the flag flips, the existing
+  // `current/queue` effect drains in priority order.
+  const preludeComplete = Boolean(state.narrativeFlags?.prelude_complete);
+
   // Show next in queue + play Elara VO
   useEffect(() => {
+    if (!preludeComplete) return; // F4 — hold queue during opening
     if (!current && queue.length > 0) {
       const next = queue[0];
       setCurrent(next);
@@ -69,7 +78,7 @@ export default function FeatureUnlockToast() {
       // Play Elara's voice for this feature unlock
       speak(`feature_${next.featureId}`);
     }
-  }, [current, queue, speak]);
+  }, [current, queue, speak, preludeComplete]);
 
   // Auto-dismiss after 8 seconds
   useEffect(() => {

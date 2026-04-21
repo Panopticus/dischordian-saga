@@ -83,6 +83,12 @@ interface LoredexContextType {
   discoveredIds: Set<string>;
   discoverEntry: (id: string) => void;
   discoveryProgress: number;
+  // F9 — derived, discovery-gated views for grid / counters. The raw
+  // entries + relationships remain available for callers that need the
+  // full catalog (e.g. runtime lookups for a just-discovered entry).
+  visibleEntries: LoredexEntry[];
+  visibleRelationships: Relationship[];
+  redactedCount: number;
 }
 
 const LoredexContext = createContext<LoredexContextType | null>(null);
@@ -241,6 +247,19 @@ export function LoredexProvider({ children }: { children: ReactNode }) {
 
   const discoveryProgress = entries.length > 0 ? (discoveredIds.size / entries.length) * 100 : 0;
 
+  // F9 — derived views. visibleEntries is the discovery-filtered slice;
+  // visibleRelationships is relationships whose endpoints have both been
+  // discovered (unlinked relationships render as dotted stubs in the UI).
+  const visibleEntries = useMemo(
+    () => entries.filter(e => discoveredIds.has(e.id)),
+    [entries, discoveredIds],
+  );
+  const visibleRelationships = useMemo(
+    () => relationships.filter(r => discoveredIds.has(r.source) && discoveredIds.has(r.target)),
+    [relationships, discoveredIds],
+  );
+  const redactedCount = entries.length - visibleEntries.length;
+
   return (
     <LoredexContext.Provider
       value={{
@@ -263,6 +282,9 @@ export function LoredexProvider({ children }: { children: ReactNode }) {
         discoveredIds,
         discoverEntry,
         discoveryProgress,
+        visibleEntries,
+        visibleRelationships,
+        redactedCount,
       }}
     >
       {children}

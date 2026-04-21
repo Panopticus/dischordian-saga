@@ -153,6 +153,8 @@ const CRYO_STASIS_HUD_TUTOR: PreludeSystemTutor = {
   usageHints: {
     hud_examined:
       "Waveform recorded. I have flagged it for archival review. We will come back to it.",
+    hud_waveform_replayed:
+      "Replaying the segment. The shape is stable; whatever is writing it is deliberate, not noise.",
   },
   triggerFlag: "prelude_cryo_bay_entered",
   completionFlag: "prelude_tutor_cryo_stasis_hud_seen",
@@ -168,6 +170,8 @@ const PET_CAPSULE_TUTOR: PreludeSystemTutor = {
   usageHints: {
     capsule_examined:
       "Canopy integrity holds. Sleeper undisturbed. Thank you for looking before reaching.",
+    capsule_readout_requested:
+      "Telemetry intact. Respiration shallow but steady. Whoever they are, they are still with us.",
   },
   triggerFlag: "cutscene_medical_bay_intro_complete",
   completionFlag: "prelude_tutor_pet_capsule_seen",
@@ -200,6 +204,8 @@ const HUMAN_SIGNAL_PANEL_TUTOR: PreludeSystemTutor = {
   usageHints: {
     panel_examined:
       "Thank you for looking at me directly. It is easier to narrate the rest of this for you now.",
+    panel_channel_pinned:
+      "Channel pinned. I will keep the red on the side of your screen from here on. You will not have to hunt for me.",
   },
   triggerFlag: "prelude_comms_array_entered",
   completionFlag: "prelude_tutor_human_signal_seen",
@@ -215,6 +221,8 @@ const VORTEX_RIFT_TUTOR: PreludeSystemTutor = {
   usageHints: {
     rift_examined:
       "The rift registers you as registered it. Proceed anyway. Proceeding is still the job.",
+    rift_distance_measured:
+      "Distance is the wrong unit for this thing; it is closer in some moments than others. The range will read as noise. Do not trust the number.",
   },
   triggerFlag: "prelude_observation_deck_entered",
   completionFlag: "prelude_tutor_vortex_rift_seen",
@@ -230,6 +238,8 @@ const BRIDGE_HOLO_MAP_TUTOR: PreludeSystemTutor = {
   usageHints: {
     map_examined:
       "Objective read. Waypoint held. You may proceed when ready; the map will not drift.",
+    map_zoomed:
+      "Zoom retained. I will keep the ship at this scale until you ask for farther or nearer. Small ship, small neighbourhood.",
   },
   triggerFlag: "prelude_bridge_entered",
   completionFlag: "prelude_tutor_bridge_holo_map_seen",
