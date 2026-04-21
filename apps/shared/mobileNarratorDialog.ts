@@ -386,6 +386,13 @@ export function pickNarratorLine(
   narratorId: NarratorId,
   bond: number,
   activeBeats?: ReadonlySet<string>,
+  /**
+   * F8 — tier cap. The multi-companion bond-80+ "H/V/D" lines reference
+   * a second companion the player has not met yet. Callers during the
+   * opening pass `false` so tier is capped at "P" until
+   * first_human_revealed flips.
+   */
+  firstHumanRevealed: boolean = true,
 ): NarratorLine | null {
   const set = NARRATOR_DIALOG[roomId];
   if (!set) return null;
@@ -396,23 +403,30 @@ export function pickNarratorLine(
   if (narratorId !== "elara" && narratorId !== "the_human") return null;
   const lines = set[narratorId];
 
+  // F8 — allowed tier set. Pre-reveal we exclude H/V/D which are all
+  // relationship beats that assume two companions exist.
+  const allowedTiers: TrustTier[] = firstHumanRevealed
+    ? ["D", "V", "H", "P", "F"]
+    : ["P", "F"];
+  const tierAllowed = (t: TrustTier) => allowedTiers.includes(t);
+
   // Pass 1: beat-tagged lines take priority.
   if (activeBeats && activeBeats.size > 0) {
     for (const line of lines) {
       if (!line.beatFlag) continue;
       if (!activeBeats.has(line.beatFlag)) continue;
       if (bond < TRUST_TIER_MIN_BOND[line.tier]) continue;
+      if (!tierAllowed(line.tier)) continue;
       return line;
     }
   }
 
   // Pass 2: normal tier-weighted pick from non-beat-tagged lines.
   const available = lines.filter(
-    (line) => !line.beatFlag && bond >= TRUST_TIER_MIN_BOND[line.tier],
+    (line) => !line.beatFlag && bond >= TRUST_TIER_MIN_BOND[line.tier] && tierAllowed(line.tier),
   );
   if (available.length === 0) return null;
-  const tierOrder: TrustTier[] = ["D", "V", "H", "P", "F"];
-  for (const tier of tierOrder) {
+  for (const tier of allowedTiers) {
     const match = available.find((line) => line.tier === tier);
     if (match) return match;
   }
