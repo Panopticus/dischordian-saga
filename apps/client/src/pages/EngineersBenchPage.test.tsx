@@ -76,4 +76,16 @@ describe("EngineersBenchPage — crafting wiring", () => {
   it("reads Memory Energy cap from getMemoryEnergyCap()", () => {
     expect(src).toContain("getMemoryEnergyCap()");
   });
+
+  it("queries server-authoritative Memory Energy balance when signed in", () => {
+    expect(src).toContain("trpc.memoryEnergy.getBalance.useQuery");
+  });
+
+  it("spends Memory Energy server-side via trpc.memoryEnergy.spend", () => {
+    expect(src).toContain("trpc.memoryEnergy.spend.useMutation");
+  });
+
+  it("skips local Memory Energy deduction when authenticated to avoid double-spend", () => {
+    expect(src).toMatch(/isAuthenticated\s*\?\s*0\s*:\s*cost/);
+  });
 });
