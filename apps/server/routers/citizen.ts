@@ -369,14 +369,49 @@ export const citizenRouter = router({
 
   /** Get Dream balance */
   getDreamBalance: protectedProcedure.query(async ({ ctx }) => {
-    const db = await getDb();
-    if (!db) return null;
-    const rows = await db
-      .select()
-      .from(dreamBalance)
-      .where(eq(dreamBalance.userId, ctx.user.id))
-      .limit(1);
-    return rows[0] || null;
+    // Resilient: never throws. Missing table, missing row, and transient
+    // DB errors all collapse to a zeroed default so the UI can still
+    // render. Insert the row lazily when the authenticated user has none.
+    const zeroedBalance = {
+      id: 0,
+      userId: ctx.user.id,
+      dreamTokens: 0,
+      soulBoundDream: 0,
+      dnaCode: 0,
+      gems: 0,
+      totalGemsPurchased: 0,
+      totalDreamEarned: 0,
+      difficultyModifier: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    try {
+      const db = await getDb();
+      if (!db) return zeroedBalance;
+      const rows = await db
+        .select()
+        .from(dreamBalance)
+        .where(eq(dreamBalance.userId, ctx.user.id))
+        .limit(1);
+      if (rows[0]) return rows[0];
+      // No row yet — create one so downstream writes have something to
+      // update against. Failures here are non-fatal; return the zeroed
+      // default either way.
+      try {
+        await db.insert(dreamBalance).values({ userId: ctx.user.id });
+        const inserted = await db
+          .select()
+          .from(dreamBalance)
+          .where(eq(dreamBalance.userId, ctx.user.id))
+          .limit(1);
+        return inserted[0] || zeroedBalance;
+      } catch {
+        return zeroedBalance;
+      }
+    } catch (err) {
+      console.warn("[citizen.getDreamBalance] falling back to zeroed balance:", err);
+      return zeroedBalance;
+    }
   }),
 
   /** Award Dream tokens (called from combat/exploration systems) */

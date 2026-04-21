@@ -391,14 +391,16 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
       />
 
       {/* Logo + state body */}
-      <div style={{ position: "relative", zIndex: 3, textAlign: "center", padding: "2rem", maxWidth: "min(900px, 94vw)" }}>
+      <div style={{ position: "relative", zIndex: 3, textAlign: "center", padding: "2rem", maxWidth: "min(900px, 94vw)", marginLeft: "auto", marginRight: "auto" }}>
         <img
           src="/art/logos/dischordian-saga.png"
           alt=""
           style={{
+            display: "block",
             maxWidth: "min(340px, 70vw)",
+            width: "auto",
             height: "auto",
-            marginBottom: "0.5rem",
+            margin: "0 auto 0.5rem",
             filter: `drop-shadow(0 0 30px ${toRgba(theme.palette.accent, 0.35)})`,
           }}
         />

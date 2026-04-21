@@ -8,6 +8,7 @@ import { useGameAreaBGM } from "@/contexts/GameAudioContext";
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { dialogOpened, dialogClosed } from "@/lib/dialogState";
 import { useGame, ROOM_DEFINITIONS, type HotspotDef, type RoomDef } from "@/contexts/GameContext";
+import { resolveRoomStateAsset } from "@/game/roomStateAssets";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useSound } from "@/contexts/SoundContext";
 import { useAmbientMusic } from "@/contexts/AmbientMusicContext";
@@ -262,6 +263,12 @@ function RoomScene({
   roomsWithEvents?: Set<string>;
 }) {
   const [hoveredHotspot, setHoveredHotspot] = useState<string | null>(null);
+  const { state: gameStateForArt } = useGame();
+  // State-aware room backdrop for Section F mystery rooms. Falls through
+  // to the room definition's legacy imageUrl for every other room.
+  const roomArtUrl = (room.id === "cryo-bay" || room.id === "medical-bay")
+    ? resolveRoomStateAsset(room.id as "cryo-bay" | "medical-bay", gameStateForArt.narrativeFlags)
+    : room.imageUrl;
   const [showHotspots, setShowHotspots] = useState(() => {
     try {
       const v = localStorage.getItem("loredex-show-hotspots");
@@ -283,9 +290,13 @@ function RoomScene({
 
   return (
     <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-lg overflow-hidden group">
-      {/* Room background image with parallax depth effect */}
+      {/* Room background image with parallax depth effect. For the
+          Section F murder-mystery rooms, roomArtUrl swaps between the
+          initial/investigating/victim-identified/case-open-later
+          variants based on the player's narrative flags. */}
       <ParallaxRoom
-        layers={[{ src: room.imageUrl, depth: -0.3 }]}
+        key={roomArtUrl}
+        layers={[{ src: roomArtUrl, depth: -0.3 }]}
         className="absolute inset-0"
       />
 
@@ -1019,14 +1030,17 @@ export default function ArkExplorerPage() {
     const isNew = !state.rooms[targetRoomId]?.visited;
     const fromRoom = state.currentRoomId || "cryo-bay";
     if (audioReady) playSFX("room_enter");
+    const toRoomImage = (targetRoomId === "cryo-bay" || targetRoomId === "medical-bay")
+      ? resolveRoomStateAsset(targetRoomId, state.narrativeFlags)
+      : targetDef.imageUrl;
     setTransition({
       fromRoom,
       toRoom: targetRoomId,
       toRoomName: targetDef.name,
-      toRoomImage: targetDef.imageUrl,
+      toRoomImage,
       isNewRoom: isNew,
     });
-  }, [getRoomDef, state.rooms, state.currentRoomId, state.narrativeAct, audioReady, playSFX]);
+  }, [getRoomDef, state.rooms, state.currentRoomId, state.narrativeAct, state.narrativeFlags, audioReady, playSFX]);
 
   // Persist completed tutorials
   useEffect(() => {
