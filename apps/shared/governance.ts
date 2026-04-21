@@ -40,6 +40,10 @@ export interface CommunityVote {
   durationHours: number;
   /** Vote category */
   category: "monthly" | "daily" | "seasonal" | "crisis";
+  /** Cadence: most votes are one-off; `annual` marks the four
+   *  headline yearly votes that anchor governance-vote suits in
+   *  recurringSuitArtPrompts.ts. */
+  cadence?: "once" | "annual";
   /** Which game systems are affected */
   affectedSystems: string[];
   /** Minimum participation threshold (votes) for result to count */
@@ -229,3 +233,169 @@ export function generateAntiquarianInscription(
  */
 export { ENGINEER_GOVERNANCE_VOTES, getAvailableEngineerVotes } from "./engineerGovernanceVotes";
 export type { EngineerGovernanceVote } from "./engineerGovernanceVotes";
+
+/* ─── ANNUAL HEADLINE VOTES ─── */
+
+/**
+ * The four yearly headline votes that anchor the annual-vote suits in
+ * recurringSuitArtPrompts.ts. Every active Lions-Club-rented member can
+ * wear the year's vestment — having voted in all four is a
+ * recommended-but-not-required prerequisite surfaced on the
+ * Governance Hub.
+ *
+ * These use `cadence: "annual"` so the hub can filter them into the
+ * "year-long civic calendar" row. Options + consequences here are
+ * season-opening scaffolds; the Antiquarian adds per-cycle detail.
+ */
+export const ANNUAL_HEADLINE_VOTES: readonly CommunityVote[] = [
+  {
+    id: "annual-state-of-the-ark",
+    month: 1,
+    week: 1,
+    question:
+      "State of the Ark: where do we point the Ark's budget this year?",
+    proposedBy: "the Antiquarian",
+    antiquarianIntro:
+      "Every year the Ark takes stock of itself. Read the ledger. Choose the direction. I will inscribe the course you set.",
+    options: [
+      {
+        id: "ark-food",
+        label: "Food & water systems",
+        description: "Invest in the Ark's sustenance infrastructure.",
+        consequences: ["+10% global stamina regen for the year"],
+      },
+      {
+        id: "ark-defense",
+        label: "Defensive bulwarks",
+        description: "Reinforce hull and turret coverage.",
+        consequences: ["+10% global DEF for the year"],
+      },
+      {
+        id: "ark-research",
+        label: "Research labs",
+        description: "Fund Antiquarian and Architect research grants.",
+        consequences: ["+10% crafting XP for the year"],
+      },
+      {
+        id: "ark-culture",
+        label: "Cultural programs",
+        description: "Reopen libraries, festivals, rehearsal halls.",
+        consequences: ["Unlocks annual cultural quests"],
+      },
+    ],
+    durationHours: 168,
+    category: "seasonal",
+    cadence: "annual",
+    affectedSystems: ["economy", "dungeon", "crafting", "questing"],
+    quorum: 500,
+  },
+  {
+    id: "annual-faction-succession",
+    month: 4,
+    week: 2,
+    question: "Faction Succession: whose banner leads the Ark this year?",
+    proposedBy: "the Council of Factions",
+    antiquarianIntro:
+      "The banner rotates. The Council convenes. The question is older than the ship.",
+    options: [
+      {
+        id: "succession-insurgency",
+        label: "Insurgency",
+        description: "Iron Lions lead the year.",
+        consequences: ["Insurgency storylines highlighted"],
+      },
+      {
+        id: "succession-antiquarians",
+        label: "Antiquarians",
+        description: "Scholars carry the standard.",
+        consequences: ["Antiquarian storylines highlighted"],
+      },
+      {
+        id: "succession-architects",
+        label: "Architects",
+        description: "The builders take the lead.",
+        consequences: ["Architect storylines highlighted"],
+      },
+    ],
+    durationHours: 168,
+    category: "seasonal",
+    cadence: "annual",
+    affectedSystems: ["storyline", "questing", "cosmetic"],
+    quorum: 500,
+  },
+  {
+    id: "annual-apocalypse-protocol",
+    month: 7,
+    week: 3,
+    question:
+      "Apocalypse Protocol: which failsafe do we rehearse this year?",
+    proposedBy: "the Architect",
+    antiquarianIntro:
+      "Rehearsal is not fear. Rehearsal is memory. Choose which ending we practice surviving.",
+    options: [
+      {
+        id: "protocol-fire",
+        label: "Heat-death protocol",
+        description: "The fires that never go out.",
+        consequences: ["Fire-themed world event unlocks"],
+      },
+      {
+        id: "protocol-silence",
+        label: "Silence protocol",
+        description: "The signal that stops.",
+        consequences: ["Communications-outage event unlocks"],
+      },
+      {
+        id: "protocol-fracture",
+        label: "Fracture protocol",
+        description: "The Ark in pieces.",
+        consequences: ["Hull-breach event unlocks"],
+      },
+    ],
+    durationHours: 168,
+    category: "seasonal",
+    cadence: "annual",
+    affectedSystems: ["world-event"],
+    quorum: 500,
+  },
+  {
+    id: "annual-oracles-question",
+    month: 10,
+    week: 4,
+    question: "The Oracle's Question: what do we dare to know?",
+    proposedBy: "the Oracle",
+    antiquarianIntro:
+      "The Oracle offers an answer this year. The price is a matching question. Pick carefully.",
+    options: [
+      {
+        id: "oracle-past",
+        label: "A truth from before the Fall",
+        description: "A recovered record of what used to be.",
+        consequences: ["New lore entry revealed"],
+      },
+      {
+        id: "oracle-future",
+        label: "A glimpse of the next year",
+        description: "A preview of the choice to come.",
+        consequences: ["Preview of next year's headline vote"],
+      },
+      {
+        id: "oracle-self",
+        label: "A truth about ourselves",
+        description: "An aggregate profile of the community.",
+        consequences: ["Community profile reveal"],
+      },
+    ],
+    durationHours: 168,
+    category: "seasonal",
+    cadence: "annual",
+    affectedSystems: ["lore", "community"],
+    quorum: 500,
+  },
+];
+
+export function getAnnualHeadlineVote(
+  id: string,
+): CommunityVote | undefined {
+  return ANNUAL_HEADLINE_VOTES.find((v) => v.id === id);
+}

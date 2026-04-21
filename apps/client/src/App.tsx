@@ -195,6 +195,8 @@ const CoopRaidPage = lazy(() => import("./pages/CoopRaidPage"));
 const BossMasteryPage = lazy(() => import("./pages/BossMasteryPage"));
 const CosmeticShopPage = lazy(() => import("./pages/CosmeticShopPage"));
 const DonationPage = lazy(() => import("./pages/DonationPage"));
+const LionsClubApplicationPage = lazy(() => import("./pages/LionsClubApplicationPage"));
+const OrderOfTheDreamerPage = lazy(() => import("./pages/OrderOfTheDreamerPage"));
 const SocialPage = lazy(() => import("./pages/SocialPage"));
 const LoreJournalPage = lazy(() => import("./pages/LoreJournalPage"));
 const ArmyManagementPage = lazy(() => import("./pages/ArmyManagementPage"));
@@ -377,6 +379,8 @@ function Router() {
         <Route path="/boss-mastery">{() => <GameRoute component={BossMasteryPage} />}</Route>
         <Route path="/cosmetic-shop" component={CosmeticShopPage} />
         <Route path="/donations" component={DonationPage} />
+        <Route path="/lions-club/apply" component={LionsClubApplicationPage} />
+        <Route path="/order-of-the-dreamer" component={OrderOfTheDreamerPage} />
         <Route path="/social" component={SocialPage} />
         <Route path="/lore-journal" component={LoreJournalPage} />
         <Route path="/army" component={ArmyManagementPage} />

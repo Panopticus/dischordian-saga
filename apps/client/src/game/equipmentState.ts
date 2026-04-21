@@ -13,6 +13,11 @@
    ═══════════════════════════════════════════════════════ */
 
 import { getEquipmentById } from "@/data/equipmentData";
+import {
+  canEquipRentalPiece,
+  type EquipDecision,
+  type LionsClubMembership,
+} from "@shared/lionsClub";
 
 export type EquipmentSlot = "helm" | "armor" | "weapon" | "secondary" | "accessory" | "consumable";
 
@@ -27,6 +32,11 @@ export interface EquippedItem {
   /** Which game modes this item provides bonuses to */
   gameBonuses?: Array<{ game: string; stat: string; value: number; percent: boolean }>;
   imageUrl?: string;
+  /** True if this item belongs to a rental set (recurringSuitArtPrompts
+   *  ownership: "rental"). Requires an active membership to equip. */
+  isRental?: boolean;
+  /** Required membership id for rental items (e.g. "dgrs-lions-club"). */
+  membershipId?: string;
 }
 
 export interface EquipmentStats {
@@ -48,7 +58,54 @@ export function getEquippedItems(): Record<EquipmentSlot, EquippedItem | null> {
   return { helm: null, armor: null, weapon: null, secondary: null, accessory: null, consumable: null };
 }
 
+/**
+ * Latest known Lions Club memberships for the current session.
+ * Populated by the Lions Club application page / server hydration so
+ * equipItem() can gate rental items lazily. Null until populated.
+ */
+let _lionsClubMembershipsCache: readonly LionsClubMembership[] = [];
+
+/** Hydration hook called by the Lions Club / gear-sync bootstrap. */
+export function seedLionsClubMemberships(
+  memberships: readonly LionsClubMembership[] | null | undefined,
+): void {
+  _lionsClubMembershipsCache = memberships ?? [];
+}
+
+/**
+ * Returns the equip decision a rental item would make right now.
+ * UI surfaces the rejection reason; callers who just want to equip
+ * should use equipItem(), which throws on rental failure so button
+ * handlers don't need to duplicate the check.
+ */
+export function resolveEquipDecision(item: EquippedItem | null): EquipDecision {
+  if (!item) return { allowed: true };
+  return canEquipRentalPiece(
+    {
+      id: item.id,
+      name: item.name,
+      isRental: item.isRental,
+      membershipId: item.membershipId,
+    },
+    _lionsClubMembershipsCache,
+    new Date().toISOString(),
+  );
+}
+
+export class RentalEquipError extends Error {
+  constructor(readonly decision: Exclude<EquipDecision, { allowed: true }>) {
+    super(decision.reason);
+    this.name = "RentalEquipError";
+  }
+}
+
 export function equipItem(slot: EquipmentSlot, item: EquippedItem | null): void {
+  if (item) {
+    const decision = resolveEquipDecision(item);
+    if (!decision.allowed) {
+      throw new RentalEquipError(decision);
+    }
+  }
   const equipped = getEquippedItems();
   equipped[slot] = item;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(equipped));
