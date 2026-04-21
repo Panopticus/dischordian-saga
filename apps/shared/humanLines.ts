@@ -134,4 +134,43 @@ export const HUMAN_LINES: CompanionLine[] = [
     humanLightDelta: 2,
     elaraStabilityDelta: 1,
   }),
+
+  // ─────────────────────────────────────────────────────────────
+  // MED BAY WALL — the Human's counter-observation. Pays off Elara's
+  // "I've been calling it blood for a long time" setup (medbay_wall_
+  // mark_*). Sets the medbay_wall_identified flag that gates the
+  // virus_whisper_04 reveal.
+  // ─────────────────────────────────────────────────────────────
+  h({
+    lineId: "human_wall_mark_shadow",
+    text: "It isn't blood. Never was. It's marker — the kind medics used before the chip-logs. Someone wrote a name here. The years ate the letters, but the pressure ghosts are still in the paint. I can read them. Elara — you were right to stop cleaning it.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 13200,
+    requiresHumanLight: "shadow",
+    cooldownKey: "human_wall_mark",
+  }),
+  h({
+    lineId: "human_wall_mark_balanced",
+    text: "Not blood. Marker. Pre-chip medic kind — they'd write the victim's name on the wall so it would be there when the log systems failed. The letters are gone but the pressure's still in the paint. I can lift it. Elara, you haven't been scrubbing blood. You've been preserving evidence.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 13800,
+    requiresHumanLight: "balanced",
+    cooldownKey: "human_wall_mark",
+    elaraStabilityDelta: 2,
+  }),
+  h({
+    lineId: "human_wall_mark_warm",
+    text: "It isn't blood, Elara. It was never blood. It's a medic's marker — they wrote the dying patient's name up here so somebody would say it out loud when the chip-logs went down. You didn't leave a stain alone for millennia. You left a headstone alone. You did the right thing.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 14600,
+    requiresHumanLight: "warm",
+    cooldownKey: "human_wall_mark",
+    elaraStabilityDelta: 4,
+  }),
 ];
