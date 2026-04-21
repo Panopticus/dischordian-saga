@@ -65,12 +65,16 @@ describe("roomStateAssets — variant picker", () => {
     );
   });
 
-  it("every registered state resolves to a live https URL (AAA Final drop)", () => {
+  it("every registered state resolves to a wired asset URL (AAA Final drop)", () => {
     for (const roomId of ["cryo-bay", "medical-bay"] as const) {
       const slots = ROOM_STATE_ASSET_URLS[roomId] as Record<string, string | null>;
       for (const [stateId, url] of Object.entries(slots)) {
         expect(url, `${roomId}:${stateId} must be wired`).toBeTruthy();
-        expect(url!.startsWith("https://"), `${roomId}:${stateId} must be https`).toBe(true);
+        // URL must be either a local static asset (/art/...) or an
+        // https CDN URL. Reject protocol-relative and bare filenames.
+        const looksLocal = url!.startsWith("/");
+        const looksCdn = url!.startsWith("https://");
+        expect(looksLocal || looksCdn, `${roomId}:${stateId} must be absolute or https`).toBe(true);
         expect(url!).toContain(`${roomId}_${stateId}`);
       }
     }

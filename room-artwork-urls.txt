@@ -25,11 +25,12 @@ synthesis-chamber: https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quX
 war-room: https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/war-room_69f201e0.png
 
 # Section F — Cryo Bay / Medical Bay state-aware renders (AAA Final drop, 2026-04-21)
-cryo-bay:initial: https://dgrsart.s3.us-east-2.amazonaws.com/AAA%20Final/cryo-bay_initial.png
-cryo-bay:investigating: https://dgrsart.s3.us-east-2.amazonaws.com/AAA%20Final/cryo-bay_investigating.png
-cryo-bay:victim-identified: https://dgrsart.s3.us-east-2.amazonaws.com/AAA%20Final/cryo-bay_victim-identified.png
-cryo-bay:case-open-later: https://dgrsart.s3.us-east-2.amazonaws.com/AAA%20Final/cryo-bay_case-open-later.png
-medical-bay:initial: https://dgrsart.s3.us-east-2.amazonaws.com/AAA%20Final/medical-bay_initial.png
-medical-bay:device-awakened: https://dgrsart.s3.us-east-2.amazonaws.com/AAA%20Final/medical-bay_device-awakened.png
-medical-bay:donated: https://dgrsart.s3.us-east-2.amazonaws.com/AAA%20Final/medical-bay_donated.png
-medical-bay:refused: https://dgrsart.s3.us-east-2.amazonaws.com/AAA%20Final/medical-bay_refused.png
+# Served locally via apps/client/public/art/rooms/mystery-states/
+cryo-bay:initial: /art/rooms/mystery-states/cryo-bay_initial.webp
+cryo-bay:investigating: /art/rooms/mystery-states/cryo-bay_investigating.webp
+cryo-bay:victim-identified: /art/rooms/mystery-states/cryo-bay_victim-identified.webp
+cryo-bay:case-open-later: /art/rooms/mystery-states/cryo-bay_case-open-later.webp
+medical-bay:initial: /art/rooms/mystery-states/medical-bay_initial.webp
+medical-bay:device-awakened: /art/rooms/mystery-states/medical-bay_device-awakened.webp
+medical-bay:donated: /art/rooms/mystery-states/medical-bay_donated.webp
+medical-bay:refused: /art/rooms/mystery-states/medical-bay_refused.webp
