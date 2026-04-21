@@ -149,7 +149,12 @@ export default function WitnessingHubPage() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.25 }}
             >
-              {activeTab === "journey" && <JourneyPanel hubState={hubState} />}
+              {activeTab === "journey" && (
+                <JourneyPanel
+                  hubState={hubState}
+                  flags={gameState.narrativeFlags ?? {}}
+                />
+              )}
               {activeTab === "prelude" && (
                 <PreludePanel
                   hubState={hubState}
@@ -181,7 +186,13 @@ export default function WitnessingHubPage() {
    PANELS
    ═══════════════════════════════════════════════════════ */
 
-function JourneyPanel({ hubState }: { hubState: WitnessingHubState }) {
+function JourneyPanel({
+  hubState,
+  flags,
+}: {
+  hubState: WitnessingHubState;
+  flags: Record<string, unknown>;
+}) {
   const { state: gameState } = useGame();
   return (
     <div className="space-y-6">
@@ -415,6 +426,14 @@ function JourneyPanel({ hubState }: { hubState: WitnessingHubState }) {
           <Compass size={32} className="void-text-dim" />
         </div>
       </section>
+
+      {/* Act 2 progression panel — renders only when the player has
+          reached the Engineer's Bench era. Surfaces the four completion
+          sub-flags and portals to /engineers-bench, /chess/climb, and
+          /game-masters-arena. */}
+      {(hubState.currentAct === "act_2" ||
+        Boolean(flags.act_2_started) ||
+        Boolean(flags.act_2_complete)) && <Act2Panel flags={flags} />}
 
       {/* Year One calendar strip */}
       <section className="rounded-md border void-border-subtle void-bg-canvas p-5">
@@ -798,4 +817,79 @@ function inferAct1CardWins(gameState: unknown): number {
   // gameplay wiring can plumb this through.
   const maybe = gameState as { act1CardWins?: number };
   return maybe?.act1CardWins ?? 0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   ACT 2 PANEL — "The Engineer's Bench"
+   Four completion-gate checkboxes (crafting / chess / thaloria /
+   game_master_loss) + three CTA portals (Bench / Climb / Arena).
+   Only renders when the player has entered Act 2 per the
+   witnessingHub detection (narrativeAct >= 2 or act_2_started).
+   ═══════════════════════════════════════════════════════ */
+function Act2Panel({
+  flags,
+}: {
+  flags: Record<string, unknown>;
+}) {
+  const checks: { flag: string; label: string }[] = [
+    { flag: "crafting_mastered", label: "Crafted 3+ cards" },
+    { flag: "chess_mastered", label: "Won 5+ chess matches" },
+    { flag: "thaloria_cinematic_seen", label: "Thaloria cinematic seen" },
+    { flag: "game_master_loss", label: "Lost to a Game Master" },
+  ];
+  const done = checks.filter((c) => Boolean(flags[c.flag])).length;
+  const complete = Boolean(flags.act_2_complete);
+  return (
+    <section className="rounded-md border void-border-subtle void-bg-canvas p-5">
+      <header className="mb-3 flex items-center justify-between">
+        <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
+          <Compass size={12} />
+          ACT 2 · THE ENGINEER'S BENCH
+        </div>
+        <span className="font-mono text-[10px] void-text-dim">
+          {complete ? "COMPLETE" : `${done}/4`}
+        </span>
+      </header>
+      <ul className="mb-4 grid gap-1.5 sm:grid-cols-2">
+        {checks.map((c) => {
+          const met = Boolean(flags[c.flag]);
+          return (
+            <li
+              key={c.flag}
+              className="flex items-center gap-2 font-mono text-[10px] void-text-dim"
+            >
+              {met ? (
+                <CheckCircle2 size={10} className="void-text-energy" />
+              ) : (
+                <Lock size={10} className="void-text-dim" />
+              )}
+              <span className={met ? "void-text-accent" : "void-text-dim"}>
+                {c.label}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+      <div className="grid gap-2 sm:grid-cols-3">
+        <Link
+          href="/engineers-bench"
+          className="rounded border void-border-subtle void-bg-sunk px-3 py-2 text-center font-mono text-[10px] uppercase tracking-wider void-text-accent hover:void-bg-canvas"
+        >
+          Engineer's Bench
+        </Link>
+        <Link
+          href="/chess/climb"
+          className="rounded border void-border-subtle void-bg-sunk px-3 py-2 text-center font-mono text-[10px] uppercase tracking-wider void-text-accent hover:void-bg-canvas"
+        >
+          Chess Climb
+        </Link>
+        <Link
+          href="/game-masters-arena"
+          className="rounded border void-border-subtle void-bg-sunk px-3 py-2 text-center font-mono text-[10px] uppercase tracking-wider void-text-accent hover:void-bg-canvas"
+        >
+          Game Masters Arena
+        </Link>
+      </div>
+    </section>
+  );
 }
