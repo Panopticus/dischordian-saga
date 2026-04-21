@@ -124,6 +124,12 @@ export interface GameState {
   totalRoomsUnlocked: number;
   totalItemsFound: number;
   narrativeFlags: Record<string, boolean>;
+  /** F13 — hidden Elara stability (-100..100). Gates CompanionLine variants
+   *  and nudges the character's speech band per character bible. */
+  elaraStability: number;
+  /** F13 — hidden Human light (-100..100). Mirror scalar for the second
+   *  companion's noire-to-warmth arc. */
+  humanLight: number;
   /** Section F — Clue Journal entries keyed by Clue.id. Flat list ordered by arrival. */
   clueJournal: import("@shared/cryoBayMystery").Clue[];
   /** Section F — inventory items the player has collected in the Cryo Bay mystery scene. */
@@ -978,6 +984,10 @@ const DEFAULT_GAME_STATE: GameState = {
   totalRoomsUnlocked: 0,
   totalItemsFound: 0,
   narrativeFlags: {},
+  // F13 — initial band values per character bible: lucid (slightly positive) +
+  // shadow (meaningfully negative). Both reach ±100.
+  elaraStability: 10,
+  humanLight: -20,
   clueJournal: [],
   mysteryInventory: [],
   claimedQuestRewards: [],
