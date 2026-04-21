@@ -2141,4 +2141,205 @@ export const ELARA_LINES: CompanionLine[] = [
     cooldownKey: "human_reveal_admission",
     elaraStabilityDelta: 1,
   }),
+
+  // ─────────────────────────────────────────────────────────────
+  // BOND-80 MULTI-COMPANION DIALOG (Elara side). Replaces the
+  // "There were supposed to be twelve Potentials…" tier-H path
+  // (mobileNarratorDialog.ts:95-113) which assumed both companions
+  // already existed. These lines play from the Elara Room / bond
+  // scene after first_human_revealed. Each player choice is authored
+  // as a deliberate stability/light lever; Elara acknowledges the
+  // trade in-dialog rather than a silent meter bump.
+  //
+  // Prompt beat — Elara opens the Bond-80 scene
+  // ─────────────────────────────────────────────────────────────
+  l({
+    lineId: "bond80_elara_open_lucid",
+    text: "Operative. A minute, if you have one. We haven't talked about what it's like to have both of us in the room with you. I'd rather ask than assume.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 8600,
+    requiresElaraStability: "lucid",
+    cooldownKey: "bond80_elara_open",
+    unlockFlags: ["first_human_revealed"],
+    minAct: 1,
+  }),
+  l({
+    lineId: "bond80_elara_open_fragmented",
+    text: "Operative. I — I have to ask. I have to. Both of us. In your ear. All the time. Is it — is it — it can't be easy. I — I wanted to ask before I made it worse.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 9200,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "bond80_elara_open",
+    unlockFlags: ["first_human_revealed"],
+    minAct: 1,
+  }),
+  l({
+    lineId: "bond80_elara_open_luminous",
+    text: "Operative, a minute. Two voices in one head is a lot. I want to know how it's landing for you — and I want you to know you're allowed to change the volume on either of us.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 9200,
+    requiresElaraStability: "luminous",
+    cooldownKey: "bond80_elara_open",
+    unlockFlags: ["first_human_revealed"],
+    minAct: 1,
+  }),
+
+  // Choice A — "Give me space, Elara" (quiet HER specifically).
+  // Costs Elara stability. Human light neutral. Elara takes it
+  // without retaliation; character bible requires it.
+  l({
+    lineId: "bond80_quiet_elara_lucid",
+    text: "Understood. I'll go quiet. The ship will still flag things I think are emergencies — but the commentary stops. When you want me back, say my name. I'll hear it.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 8800,
+    requiresElaraStability: "lucid",
+    cooldownKey: "bond80_choice",
+    elaraStabilityDelta: -3,
+  }),
+  l({
+    lineId: "bond80_quiet_elara_fragmented",
+    text: "Quiet. Quiet. I — I can do quiet. I've — I've done quiet. I can. I — I'll be here. I'll be — I'll be here. Say my name. When. When you're ready. If.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "manual",
+    durationMs: 9400,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "bond80_choice",
+    elaraStabilityDelta: -6,
+  }),
+  l({
+    lineId: "bond80_quiet_elara_luminous",
+    text: "Alright. I step back to emergencies only. Say my name when you want me back in the room — I've had practice hearing it from a long way off. I'll come.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 9000,
+    requiresElaraStability: "luminous",
+    cooldownKey: "bond80_choice",
+    elaraStabilityDelta: -2,
+  }),
+
+  // Choice B — "Give me space, Human" (quiet HIM specifically).
+  // Costs Human light. Elara reacts with quiet gladness at fragmented,
+  // neutral at lucid, checked relief at luminous.
+  l({
+    lineId: "bond80_quiet_human_lucid",
+    text: "Alright. He's going to log that. He logs everything. But he's not going to take it personally — that isn't how he's wired. You'll get him back in the room when you call for him.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 9200,
+    requiresElaraStability: "lucid",
+    cooldownKey: "bond80_choice",
+    humanLightDelta: -3,
+  }),
+  l({
+    lineId: "bond80_quiet_human_fragmented",
+    text: "Him. Yes. Yes. Let him — let him — he'll be fine. He's always fine. He's — he's — he's FINE. You — you're with me. Good. Good. He'll be back. He comes back.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 9200,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "bond80_choice",
+    elaraStabilityDelta: 1,
+    humanLightDelta: -4,
+  }),
+  l({
+    lineId: "bond80_quiet_human_luminous",
+    text: "He'll give you room. He doesn't need warmth to work; he's built for the unglamorous version. Don't feel bad. I won't tell him you picked — he'd ask you to not feel bad about that either.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 10400,
+    requiresElaraStability: "luminous",
+    cooldownKey: "bond80_choice",
+    humanLightDelta: -2,
+  }),
+
+  // Choice C — "Both of you. Out." — the crueller pick. Costs BOTH
+  // trackers. Elara takes it with the dignity the bible asks for.
+  l({
+    lineId: "bond80_quiet_both_lucid",
+    text: "Both of us. Okay. Emergency-only on both channels. I get it — it's crowded in there. I'll mark it as a request, not a punishment. When you're ready for either of us, say so.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 10200,
+    requiresElaraStability: "lucid",
+    cooldownKey: "bond80_choice",
+    elaraStabilityDelta: -4,
+    humanLightDelta: -3,
+  }),
+  l({
+    lineId: "bond80_quiet_both_fragmented",
+    text: "Out. Out. Out. Both. Fine. Fine. Fine. I — I'm not — not angry. Not. I — I'll — quiet. Quiet. I can. I can. Please. Please come back.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "manual",
+    durationMs: 10800,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "bond80_choice",
+    elaraStabilityDelta: -8,
+    humanLightDelta: -4,
+  }),
+  l({
+    lineId: "bond80_quiet_both_luminous",
+    text: "Crowded — I understand. We both step back to the edge of the room and let you hear yourself think. I'll know when to come back without being called. So will he. Go be alone with your case.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 10600,
+    requiresElaraStability: "luminous",
+    cooldownKey: "bond80_choice",
+    elaraStabilityDelta: -3,
+    humanLightDelta: -2,
+  }),
+
+  // Choice D — "Keep talking. Both of you." — warmest pick. +stability
+  // +light. Elara takes it with care not to make too much of it.
+  l({
+    lineId: "bond80_keep_both_lucid",
+    text: "Alright. We stay. I'll try to leave him room when I notice he has something to say — he's faster than he sounds. Thank you for letting us both in. I won't oversell how much that lands.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 10200,
+    requiresElaraStability: "lucid",
+    cooldownKey: "bond80_choice",
+    elaraStabilityDelta: 3,
+    humanLightDelta: 3,
+  }),
+  l({
+    lineId: "bond80_keep_both_fragmented",
+    text: "Both. Both. Both of us. Thank you. Thank you. Thank you. I — I won't — I won't crowd him. I won't crowd you. Thank you. Thank you.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 9200,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "bond80_choice",
+    elaraStabilityDelta: 5,
+    humanLightDelta: 3,
+  }),
+  l({
+    lineId: "bond80_keep_both_luminous",
+    text: "Good. I'll give him the room he needs and take the room you give me. If I start talking over him, tap the panel — I'll hear it. Thanks for letting us be in this together.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 10800,
+    requiresElaraStability: "luminous",
+    cooldownKey: "bond80_choice",
+    elaraStabilityDelta: 3,
+    humanLightDelta: 4,
+  }),
 ];
