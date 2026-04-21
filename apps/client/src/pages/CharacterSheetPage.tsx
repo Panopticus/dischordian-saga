@@ -482,7 +482,18 @@ export default function CharacterSheetPage() {
 
   // ═══ DERIVED DATA ═══
   const char = character.data;
-  const dream = dreamBalance.data;
+  // Fall back to a zeroed balance so a transient DB miss on dream_balance
+  // never nulls out the sheet. The server also returns zeroed on error,
+  // but this is defense-in-depth for the loading/network-error window.
+  const dream = dreamBalance.data ?? {
+    dreamTokens: 0,
+    soulBoundDream: 0,
+    dnaCode: 0,
+    gems: 0,
+    totalGemsPurchased: 0,
+    totalDreamEarned: 0,
+    difficultyModifier: 0,
+  };
   const isOrder = char.alignment === "order";
   const alignGlow = isOrder
     ? "shadow-[0_0_60px_color-mix(in oklch, var(--energy-primary) 15%, transparent),0_0_120px_color-mix(in oklch, var(--energy-primary) 5%, transparent)]"

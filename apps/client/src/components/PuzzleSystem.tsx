@@ -453,10 +453,11 @@ function PowerRelayPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => 
     <div className="space-y-4">
       <p className="font-mono text-[10px] text-muted-foreground/50 text-center">TOGGLE RELAYS TO MATCH EMERGENCY FREQUENCY</p>
 
-      {/* Relay switches. F10 — wraps to two rows on viewports narrower
-          than ~580px so switch #1 is never clipped off the left edge.
-          justify-items-center keeps the wrap symmetrical. */}
-      <div className="grid grid-cols-6 sm:flex sm:justify-center gap-2 sm:gap-3 justify-items-center px-2">
+      {/* Relay switches. Flex-wrap at every viewport so all 11 switches
+          wrap cleanly rather than overflowing the modal's inner width
+          and clipping switch #1 off the left edge. max-w-full + min-w-0
+          keeps this resilient to ancestors that might clip. */}
+      <div className="flex flex-wrap justify-center gap-2 sm:gap-3 px-2 max-w-full min-w-0">
         {switches.map((on, i) => (
           <button
             key={i}
@@ -485,7 +486,7 @@ function PowerRelayPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => 
       </div>
 
       {/* Binary display */}
-      <p className="font-mono text-xs text-center tracking-[0.5em]" style={{ color: "var(--neon-cyan)" }}>
+      <p className="font-mono text-xs sm:text-sm text-center tracking-[0.3em] sm:tracking-[0.4em] break-all" style={{ color: "var(--neon-cyan)" }}>
         {switches.map(s => s ? "1" : "0").join("")}
       </p>
 

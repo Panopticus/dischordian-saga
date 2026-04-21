@@ -12,9 +12,10 @@ import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import HolographicElara from "@/components/HolographicElara";
 import OpeningCinematic from "@/components/OpeningCinematic";
+import { resolveRoomStateAsset } from "@/game/roomStateAssets";
+import { getAwakeningCinematic } from "@shared/awakeningCinematicPrompts";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
-const CRYO_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_cryo_bay-SdeEqURrDvgrrbJq4WK3N5.webp";
 
 /* ─── TYPEWRITER HOOK ─── */
 function useTypewriter(text: string, speed = 30, enabled = true) {
@@ -63,6 +64,86 @@ const STEP_VO_AUDIO: Partial<Record<string, string>> = {
 // returns to a fresh session (reload).
 const PLAYED_VO_IDS = new Set<string>();
 
+/* ─── AWAKENING VO PLAYER (singleton) ─────────────────────────────
+ * One Elara line plays at a time across the whole page. Solves the
+ * "governing force" overlap bug where a new step mounted before the
+ * prior step's audio finished, and two VO elements played on top of
+ * each other. Also ducks the looping Saga Theme bed so Elara's VO is
+ * clearly intelligible.
+ *
+ *   - play(url, themeAudio): pauses any prior VO, starts the new one,
+ *     and fades the theme from its current volume → THEME_DUCKED.
+ *   - stop(): pauses the current VO and restores the theme to
+ *     THEME_BED_AFTER_VO (a touch below the default 0.55 so Elara's
+ *     silences still feel quiet, not foreground).
+ *
+ * Theme restoration happens on `ended`, `pause`, or component cleanup.
+ * ────────────────────────────────────────────────────────────────── */
+const THEME_DUCKED = 0.12;
+const THEME_BED_AFTER_VO = 0.30;
+
+const AwakeningVOPlayer = (() => {
+  let current: HTMLAudioElement | null = null;
+  let currentUrl: string | null = null;
+  let fadeTimer: ReturnType<typeof setInterval> | null = null;
+
+  const fadeThemeTo = (theme: HTMLAudioElement | null, target: number, ms = 400) => {
+    if (!theme) return;
+    if (fadeTimer) { clearInterval(fadeTimer); fadeTimer = null; }
+    const startVol = theme.volume;
+    const delta = target - startVol;
+    if (Math.abs(delta) < 0.01) { theme.volume = target; return; }
+    const steps = Math.max(4, Math.floor(ms / 50));
+    let i = 0;
+    fadeTimer = setInterval(() => {
+      i += 1;
+      const t = Math.min(1, i / steps);
+      theme.volume = Math.max(0, Math.min(1, startVol + delta * t));
+      if (t >= 1 && fadeTimer) { clearInterval(fadeTimer); fadeTimer = null; }
+    }, 50);
+  };
+
+  const restoreTheme = (theme: HTMLAudioElement | null) => {
+    fadeThemeTo(theme, THEME_BED_AFTER_VO, 600);
+  };
+
+  return {
+    play(url: string, theme: HTMLAudioElement | null): HTMLAudioElement {
+      // Enforce single-speaker: pause whatever was playing before.
+      if (current && currentUrl !== url) {
+        current.onended = null;
+        current.pause();
+      }
+      const audio = new Audio(url);
+      audio.preload = "auto";
+      audio.volume = 0.95;
+      current = audio;
+      currentUrl = url;
+      const onDone = () => {
+        if (current === audio) { current = null; currentUrl = null; }
+        restoreTheme(theme);
+      };
+      audio.addEventListener("ended", onDone);
+      audio.addEventListener("pause", () => {
+        if (audio.ended || audio.currentTime >= audio.duration) restoreTheme(theme);
+      });
+      // Duck the theme bed while this VO plays.
+      fadeThemeTo(theme, THEME_DUCKED, 400);
+      return audio;
+    },
+    stop(theme: HTMLAudioElement | null) {
+      if (current) {
+        current.onended = null;
+        current.pause();
+        current = null;
+        currentUrl = null;
+      }
+      restoreTheme(theme);
+    },
+    get currentUrl() { return currentUrl; },
+  };
+})();
+
 function ElaraDialogBox({
   text,
   onContinue,
@@ -70,7 +151,7 @@ function ElaraDialogBox({
   choices,
   onChoice,
   voAudioUrl,
-  preloadedAudio,
+  themeAudio,
   onVoPlaybackFailed,
 }: {
   text: string;
@@ -79,47 +160,30 @@ function ElaraDialogBox({
   choices?: { label: string; value: string; description?: string }[];
   onChoice?: (value: string) => void;
   voAudioUrl?: string;
-  preloadedAudio?: HTMLAudioElement | null;
+  /** Looping Saga Theme — ducked while Elara speaks, restored after. */
+  themeAudio?: HTMLAudioElement | null;
   /** F3 — called when VO audio demonstrably fails to play so the parent's TTS
    * fallback can step in. Not called on timeout; only on explicit failure. */
   onVoPlaybackFailed?: () => void;
 }) {
   const { displayed, done, skip } = useTypewriter(text, 25);
-  const voAudioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Play VO audio when provided (instead of browser TTS)
+  // Play VO audio via the singleton AwakeningVOPlayer — enforces
+  // one-speaker-at-a-time and ducks the theme bed during playback.
   useEffect(() => {
     if (!voAudioUrl) return;
     if (PLAYED_VO_IDS.has(voAudioUrl)) return;
     PLAYED_VO_IDS.add(voAudioUrl);
 
-    // Clean up any prior audio before building a new one — prevents the
-    // two-voices-overlapping bug on rapid step changes.
-    if (voAudioRef.current) {
-      voAudioRef.current.pause();
-      voAudioRef.current.src = "";
-      voAudioRef.current = null;
-    }
+    const audio = AwakeningVOPlayer.play(voAudioUrl, themeAudio ?? null);
 
-    const audio = preloadedAudio && preloadedAudio.src.includes(voAudioUrl.split('/').pop() || '__none__')
-      ? preloadedAudio
-      : new Audio(voAudioUrl);
-    audio.volume = 0.9;
-    voAudioRef.current = audio;
-
-    const handleFailure = () => {
-      // Only trigger TTS fallback on explicit audio failure, not on
-      // autoplay-blocked (which we retry via user gesture below).
-      onVoPlaybackFailed?.();
-    };
+    const handleFailure = () => { onVoPlaybackFailed?.(); };
     audio.addEventListener("error", handleFailure);
     audio.addEventListener("abort", handleFailure);
 
     const tryPlay = () => {
       audio.play().catch(() => {
-        // Autoplay blocked — attach a one-time click listener to retry.
-        // This branch does NOT fire the TTS fallback; user gesture will
-        // unblock and the audio will still play.
+        // Autoplay blocked — attach a one-time gesture listener to retry.
         const retryPlay = () => {
           audio.play().catch(() => {});
           document.removeEventListener("click", retryPlay);
@@ -130,14 +194,17 @@ function ElaraDialogBox({
       });
     };
     tryPlay();
+
     return () => {
       audio.removeEventListener("error", handleFailure);
       audio.removeEventListener("abort", handleFailure);
-      audio.pause();
-      audio.src = "";
-      if (voAudioRef.current === audio) voAudioRef.current = null;
+      // Only stop if this effect still owns the current VO — otherwise a
+      // newer step already took over and we'd yank its audio.
+      if (AwakeningVOPlayer.currentUrl === voAudioUrl) {
+        AwakeningVOPlayer.stop(themeAudio ?? null);
+      }
     };
-  }, [voAudioUrl, preloadedAudio, onVoPlaybackFailed]);
+  }, [voAudioUrl, themeAudio, onVoPlaybackFailed]);
 
   return (
     <motion.div
@@ -189,7 +256,7 @@ function ElaraDialogBox({
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.15 }}
                     onClick={() => onChoice(choice.value)}
-                    className="w-full text-left px-3 py-2 sm:px-4 sm:py-3 rounded-md font-mono text-xs sm:text-sm transition-all group"
+                    className="w-full text-left px-4 py-3 sm:px-5 sm:py-4 rounded-md font-mono text-sm sm:text-base transition-all group"
                     style={{
                       background: "color-mix(in oklch, var(--energy-primary) 5%, transparent)",
                       border: "1px solid color-mix(in oklch, var(--energy-primary) 15%, transparent)",
@@ -206,9 +273,9 @@ function ElaraDialogBox({
                     }}
                   >
                     <span className="text-[var(--neon-cyan)]/70 mr-2">&gt;</span>
-                    <span className="text-foreground/85 group-hover:text-white">{choice.label}</span>
+                    <span className="text-foreground/90 group-hover:text-white">{choice.label}</span>
                     {choice.description && (
-                      <span className="block text-xs text-muted-foreground/50 mt-0.5 ml-4">{choice.description}</span>
+                      <span className="block text-sm sm:text-base text-foreground/75 group-hover:text-foreground/90 mt-2 ml-5 leading-relaxed tracking-normal">{choice.description}</span>
                     )}
                   </motion.button>
                 ))}
@@ -359,15 +426,16 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
     }
   }, [audioInitialized, initAudio, setRoomAmbience]);
 
-  // Preload the first VO audio during BLACKOUT so it plays instantly at CRYO_OPEN
-  const preloadedVoRef = useRef<HTMLAudioElement | null>(null);
+  // Warm the browser's HTTP cache for the first VO during BLACKOUT so
+  // the singleton AwakeningVOPlayer's `new Audio(url)` plays with minimal
+  // latency at CRYO_OPEN. We don't retain a reference; the browser cache
+  // is the benefit.
   useEffect(() => {
     if (awakeningStep === "BLACKOUT" && !showCinematic) {
       const voUrl = STEP_VO_AUDIO.CRYO_OPEN;
       if (voUrl) {
         const preload = new Audio(voUrl);
         preload.preload = "auto";
-        preloadedVoRef.current = preload;
       }
     }
   }, [awakeningStep, showCinematic]);
@@ -455,15 +523,26 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
 
   const trpcUtils = trpc.useUtils();
 
+  const [creationError, setCreationError] = useState<string | null>(null);
+  const [creationInFlight, setCreationInFlight] = useState(false);
+
   const handleCompleteCreation = useCallback(async () => {
     const c = characterChoices;
     if (!c.species || !c.characterClass || !c.alignment || !c.element || !c.name) return;
+    setCreationError(null);
+    setCreationInFlight(true);
 
-    try {
-      // Check if citizen already exists before trying to create
-      const existing = await trpcUtils.citizen.getCharacter.fetch();
-      if (!existing) {
-        // No existing citizen — create one
+    // Attempt creation up to twice; don't swallow failures silently —
+    // without a citizen row the Character Sheet falls through to the
+    // "NO NEURAL IMPRINT" empty state, which breaks the handoff.
+    let attempt = 0;
+    let created = false;
+    let lastErr: unknown = null;
+    while (attempt < 2 && !created) {
+      attempt += 1;
+      try {
+        const existing = await trpcUtils.citizen.getCharacter.fetch();
+        if (existing) { created = true; break; }
         await createCitizen.mutateAsync({
           name: c.name,
           species: c.species,
@@ -474,10 +553,31 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           attrDefense: c.attrDefense,
           attrVitality: c.attrVitality,
         });
+        created = true;
+      } catch (err) {
+        lastErr = err;
+        console.warn(`[awakening] character creation attempt ${attempt} failed:`, err);
       }
-    } catch (err) {
-      // If character already exists or any other error, continue the flow
-      console.warn("Character creation:", err);
+    }
+
+    // Poll briefly for the citizen row to appear (handles replica lag).
+    let verified: Awaited<ReturnType<typeof trpcUtils.citizen.getCharacter.fetch>> | null = null;
+    for (let i = 0; i < 3 && !verified; i += 1) {
+      try {
+        verified = await trpcUtils.citizen.getCharacter.fetch();
+      } catch { /* retry */ }
+      if (!verified) await new Promise(r => setTimeout(r, 500));
+    }
+
+    setCreationInFlight(false);
+
+    if (!verified) {
+      setCreationError(
+        lastErr instanceof Error
+          ? `Character creation failed: ${lastErr.message}. Press RETRY to try again.`
+          : "Character creation failed. Press RETRY to try again.",
+      );
+      return;
     }
 
     if (audioInitialized) playSFX("achievement");
@@ -560,11 +660,35 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
 
   return (
     <div className="fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden" style={{ background: "#000" }} onClick={handleInitAudio}>
-      {/* Background image with opacity transition */}
-      <div className="absolute inset-0 transition-opacity duration-[3000ms]" style={{ opacity: screenOpacity * 0.4 }}>
-        <img src={CRYO_BG} alt="" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/40" />
-      </div>
+      {/* Background layer — prefers a Kling cinematic for the current
+          awakening step (Bioware-style video backdrop), falling back to
+          the state-aware Section F still render if no video URL has
+          been wired yet. Third-person only: the cinematics never show
+          the player character. */}
+      {(() => {
+        const cine = getAwakeningCinematic(awakeningStep, characterChoices.species || undefined);
+        const fallback = resolveRoomStateAsset("cryo-bay", state.narrativeFlags);
+        return (
+          <div className="absolute inset-0 transition-opacity duration-[3000ms]" style={{ opacity: screenOpacity * 0.4 }}>
+            {cine?.videoUrl ? (
+              <video
+                key={cine.videoUrl}
+                src={cine.videoUrl}
+                poster={fallback}
+                className="w-full h-full object-cover"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+              />
+            ) : (
+              <img src={fallback} alt="" className="w-full h-full object-cover" />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/40" />
+          </div>
+        );
+      })()}
 
       {/* Frost overlay */}
       <AnimatePresence>
@@ -624,7 +748,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               onContinue={advanceAwakening}
               showPortrait={false}
               voAudioUrl={STEP_VO_AUDIO.CRYO_OPEN}
-              preloadedAudio={preloadedVoRef.current}
+              themeAudio={themeAudioRef.current}
             />
           )}
 
@@ -635,6 +759,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               text="I am Elara, the ship's intelligence. You've been in cryogenic suspension for... I can't determine how long. My chronometers are damaged. You are aboard Inception Ark Vessel 1047. You are a Potential. The others — the first wave — they're gone. I don't know where. All inter-Ark communications have been severed across every known universe. We are alone."
               onContinue={() => setAwakeningStep("SPECIES_QUESTION")}
               voAudioUrl={STEP_VO_AUDIO.ELARA_INTRO}
+              themeAudio={themeAudioRef.current}
             />
           )}
           {/* ─── SPECIES QUESTION ─── */}
@@ -643,6 +768,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               key="species"
               text="Your neural patterns are unusual. I'm running a deep scan... Your cellular structure doesn't match standard human baselines. I'm detecting traces of something else. What do you remember about your origin?"
               voAudioUrl={STEP_VO_AUDIO.SPECIES_QUESTION}
+              themeAudio={themeAudioRef.current}
               choices={[
                 { label: "I remember the fire in my blood, the arcane pulse in every cell...", value: "demagi", description: "DeMagi — Magically modified humans with elemental powers tied to the arcane. Still human at the core, but rewritten by forces older than science." },
                 { label: "I remember the quantum storms, the probability fields...", value: "quarchon", description: "Quarchon — Vast artificial intelligence. Cold, calculating machines that transcended their programming. Masters of dimensions and data." },
@@ -660,6 +786,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               key="class"
               text="Interesting. Your skill matrices are partially intact — the cryogenic process preserved some of your training. I can see fragments of specialized knowledge. What comes naturally to you?"
               voAudioUrl={STEP_VO_AUDIO.CLASS_QUESTION}
+              themeAudio={themeAudioRef.current}
               choices={[
                 { label: "I can see the code behind reality...", value: "engineer", description: "Engineer — Master builders. Start with Diamond Pick Axes." },
                 { label: "I sense things before they happen...", value: "oracle", description: "Oracle (Prophet) — Seers of fate. Start with crossbow and potions." },
@@ -680,6 +807,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               key="alignment"
               text="There's a fundamental question every Potential must answer. The Architect built the Panopticon to impose order — surveillance, control, a perfect machine. The Dreamer believed in the chaos of free will — unpredictable, dangerous, alive. The war between them tore reality apart. Where do you stand?"
               voAudioUrl={STEP_VO_AUDIO.ALIGNMENT_QUESTION}
+              themeAudio={themeAudioRef.current}
               choices={[
                 { label: "Order. Structure. Control.", value: "order", description: "Orderly, disciplined. Light glow aura. +2 Attack bonus on cards." },
                 { label: "Freedom. Chaos. Choice.", value: "chaos", description: "Chaotic, brave. Dark glow aura. +2 Defense bonus on cards." },
@@ -703,6 +831,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                 characterChoices.species === "demagi" ? STEP_VO_AUDIO.ELEMENT_QUESTION_DEMAGI
                 : STEP_VO_AUDIO.ELEMENT_QUESTION_QUARCHON
               }
+              themeAudio={themeAudioRef.current}
               choices={availableElements.map(e => ({
                 label: e.label,
                 value: e.value,
@@ -728,6 +857,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                 text="One last thing. The cryo manifest lists you by serial number, but every Potential deserves a name. What should I call you?"
                 showPortrait={true}
                 voAudioUrl={STEP_VO_AUDIO.NAME_INPUT}
+                themeAudio={themeAudioRef.current}
               />
               <div className="mt-4 max-w-md mx-auto">
                 <div className="rounded-lg p-4" style={{
@@ -785,6 +915,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                 text={`Good. ${characterChoices.name}, I need to calibrate your neural interface. This will determine your combat capabilities. Distribute your attribute points carefully — they define who you are.`}
                 showPortrait={true}
                 voAudioUrl={STEP_VO_AUDIO.ATTRIBUTES}
+                themeAudio={themeAudioRef.current}
               />
               </div>
               <AttributeAllocator
@@ -803,12 +934,43 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
 
           {/* ─── FIRST STEPS ─── */}
           {awakeningStep === "FIRST_STEPS" && (
-            <ElaraDialogBox
-              key="first-steps"
-              text={`Welcome aboard, ${characterChoices.name}. Your Citizen profile has been created. You are ${characterChoices.species === "demagi" ? "a DeMagi" : "a Quarchon"} ${characterChoices.characterClass}, aligned with ${characterChoices.alignment}. Your quarters are through that door — the Cryo Bay. The rest of the ship... I'll need your help to restore power to the other decks. There's so much I need to show you. And so much I need to warn you about.`}
-              onContinue={handleCompleteCreation}
-              voAudioUrl={STEP_VO_AUDIO.FIRST_STEPS}
-            />
+            <div key="first-steps" className="w-full max-w-2xl mx-auto flex flex-col items-center gap-3">
+              <ElaraDialogBox
+                text={`Welcome aboard, ${characterChoices.name}. Your Citizen profile has been created. You are ${characterChoices.species === "demagi" ? "a DeMagi" : "a Quarchon"} ${characterChoices.characterClass}, aligned with ${characterChoices.alignment}. Your quarters are through that door — the Cryo Bay. The rest of the ship... I'll need your help to restore power to the other decks. There's so much I need to show you. And so much I need to warn you about.`}
+                onContinue={creationInFlight ? undefined : handleCompleteCreation}
+                voAudioUrl={STEP_VO_AUDIO.FIRST_STEPS}
+                themeAudio={themeAudioRef.current}
+              />
+              {creationInFlight && (
+                <p className="font-mono text-xs text-muted-foreground/70 tracking-wider animate-pulse">
+                  REGISTERING CITIZEN PROFILE...
+                </p>
+              )}
+              {creationError && (
+                <div
+                  className="rounded-md px-4 py-3 max-w-xl w-full flex flex-col items-center gap-2"
+                  style={{
+                    background: "color-mix(in oklch, var(--energy-error) 10%, transparent)",
+                    border: "1px solid color-mix(in oklch, var(--energy-error) 40%, transparent)",
+                  }}
+                >
+                  <p className="font-mono text-xs text-foreground/90 text-center leading-relaxed">
+                    {creationError}
+                  </p>
+                  <button
+                    onClick={handleCompleteCreation}
+                    className="font-mono text-xs tracking-[0.2em] px-4 py-1.5 rounded-md transition-colors"
+                    style={{
+                      background: "color-mix(in oklch, var(--energy-error) 25%, transparent)",
+                      border: "1px solid color-mix(in oklch, var(--energy-error) 60%, transparent)",
+                      color: "var(--foreground)",
+                    }}
+                  >
+                    RETRY
+                  </button>
+                </div>
+              )}
+            </div>
           )}
         </AnimatePresence>
       </div>

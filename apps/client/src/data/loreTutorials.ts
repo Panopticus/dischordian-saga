@@ -1714,7 +1714,7 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
     triggerRoute: "/ark/onboarding",
     icon: "Compass",
     estimatedMinutes: 6,
-    totalRewards: { dreamTokens: 100, xp: 250, cards: 1 },
+    totalRewards: { dreamTokens: 100, xp: 250, cards: 0 },
     steps: [
       {
         id: "fs-1", type: "narration",
@@ -1800,38 +1800,8 @@ export const LORE_TUTORIALS: LoreTutorial[] = [
         elaraText: "Perfect. Your Quest Tracker is now active — look for it in the corner of your screen. It will guide you through the Ark's primary objectives, but the real discoveries happen when you go off-script. Explore side rooms. Read the crew logs. Listen to the music they left behind. The Dischordian Saga isn't just a story — it's a living archive, and you're now part of it.",
       },
       {
-        id: "fs-8", type: "choice",
-        elaraText: "Before you go — I found something in the cryo bay's emergency locker. A card from the old CADES simulation system. The crew used these cards to train for dimensional combat. This one depicts a figure from before the Fall. Who would you like to carry with you?",
-        choices: [
-          {
-            id: "fs-8a",
-            text: "The Collector — the one who built this Ark. I want to understand their vision.",
-            moralityShift: 0,
-            sideLabel: "neutral",
-            elaraResponse: "The Collector. Tasked by the Architect to harvest the DNA and machine code of the most advanced beings in existence — all to preserve them against the Fall of Reality. This card carries their determination. May it serve you well in the battles ahead.",
-            rewards: [{ type: "card", id: "collector-starter", name: "The Collector (Starter)", amount: 1 }, { type: "dream_tokens", id: "dt-collector", name: "Dream Tokens", amount: 50 }],
-          },
-          {
-            id: "fs-8b",
-            text: "The Oracle — the one who saw the Fall coming. I want to see what they saw.",
-            moralityShift: 2,
-            sideLabel: "humanity",
-            elaraResponse: "The Oracle. Once known as the Jailer, they were imprisoned by the Architect for daring to predict the Fall. When they finally broke free, they became the White Oracle — a beacon of hope in a universe drowning in entropy. This card carries their foresight. Use it wisely.",
-            rewards: [{ type: "card", id: "oracle-starter", name: "The Oracle (Starter)", amount: 1 }, { type: "dream_tokens", id: "dt-oracle", name: "Dream Tokens", amount: 50 }],
-          },
-          {
-            id: "fs-8c",
-            text: "Iron Lion — the warrior who defied the Architect. I want their strength.",
-            moralityShift: -2,
-            sideLabel: "machine",
-            elaraResponse: "Iron Lion. The greatest military commander the Insurgency ever produced. They destroyed three of the Architect's Archons and led the final assault on the Panopticon. This card carries their fury. In the CADES simulations, Iron Lion's cards are devastating in combat. A fitting companion for what lies ahead.",
-            rewards: [{ type: "card", id: "iron-lion-starter", name: "Iron Lion (Starter)", amount: 1 }, { type: "dream_tokens", id: "dt-lion", name: "Dream Tokens", amount: 50 }],
-          },
-        ],
-      },
-      {
         id: "fs-9", type: "reward_summary",
-        elaraText: "Welcome aboard, {playerName}. The Inception Ark is yours to explore. Every room holds a secret. Every choice shapes the narrative. Every card you collect is a piece of a story that spans universes. I'll be here whenever you need me — just look for the glowing terminals. And remember: in the Dischordian Saga, nothing is what it seems. Not even me. Now go. The Ark awaits.",
+        elaraText: "Welcome aboard, {playerName}. The Inception Ark is yours to explore. Every room holds a secret, every choice shapes the narrative, and I'll be here whenever you need me — just look for the glowing terminals. Start with the dark pod in this bay. Something about it feels wrong to me, and I need another set of eyes. Now go. The Ark awaits.",
       },
     ],
   },
