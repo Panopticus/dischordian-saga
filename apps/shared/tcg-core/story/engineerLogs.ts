@@ -376,6 +376,7 @@ import { ENGINEER_LOGS_BATCH_4 } from "./engineerLogs_batch4";
 import { ENGINEER_LOGS_FACTIONS } from "./engineerLogs_factions";
 import { ENGINEER_LOGS_BLOODBORN } from "./engineerLogs_bloodborn";
 import { ENGINEER_LOGS_TRIGGERS } from "./engineerLogs_triggers";
+import { ENGINEER_LOGS_LIONS_CLUB } from "./engineerLogs_lionsClub";
 
 /**
  * All Engineer's Logs currently authored.
@@ -396,6 +397,7 @@ export const ENGINEER_LOGS: readonly EngineerLog[] = Object.freeze([
   ...ENGINEER_LOGS_FACTIONS,
   ...ENGINEER_LOGS_BLOODBORN,
   ...ENGINEER_LOGS_TRIGGERS,
+  ...ENGINEER_LOGS_LIONS_CLUB,
 ]);
 
 /**

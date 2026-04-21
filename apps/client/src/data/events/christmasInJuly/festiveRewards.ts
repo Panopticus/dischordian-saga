@@ -5,9 +5,21 @@ export interface FestiveReward {
   name: string;
   description: string;
   rarity: "common" | "uncommon" | "rare" | "epic" | "legendary";
-  type: "pet_accessory" | "specimen" | "item" | "cosmetic" | "consumable" | "title";
+  type:
+    | "pet_accessory"
+    | "specimen"
+    | "item"
+    | "cosmetic"
+    | "consumable"
+    | "title"
+    | "trophy";
   artPrompt: string;
   howToObtain: string;
+  /** Only grantable during the live Christmas-in-July event window.
+   *  Pre-existing Dreamer level does NOT retroactively unlock these. */
+  eventWindowExclusive?: true;
+  /** USD threshold for donor-tier trophies. */
+  donorUsdThreshold?: number;
 }
 
 export const FESTIVE_REWARDS: FestiveReward[] = [
@@ -51,6 +63,24 @@ export const FESTIVE_REWARDS: FestiveReward[] = [
   { id: "the_ones_who_gave", name: "The Ones Who Gave", description: "Community-wide title. The community reached 250,000 gifts. You were part of it.", rarity: "legendary", type: "title",
     artPrompt: "",
     howToObtain: "Community Milestone 5: 250,000 gifts sent" },
+
+  // Iron Clad Lions Donor Trophies — event-window-exclusive. Only
+  // obtainable by donating during Christmas in July. A pre-existing
+  // Dreamer level does NOT retroactively unlock these. Donation
+  // dollars still credit the Order of the Dreamer ladder in parallel
+  // (see cijDreamerBridge.ts).
+  { id: "iron_clad_lions_trophy_bronze", name: "Bronze Lion Plaque", description: "A small bronze plaque struck with the Iron Clad Lions sigil, dated to this year's Christmas in July. Permanent display trophy on your profile and character sheet.", rarity: "rare", type: "trophy",
+    eventWindowExclusive: true, donorUsdThreshold: 25,
+    artPrompt: "Small cast-bronze plaque with the Iron Clad Lions gold-lion-mask sigil at center, year inscription beneath, oak-leaf border, warm patina, soft side light. Transparent background. 256x256.",
+    howToObtain: "Donate $25 to LCIF during Christmas in July" },
+  { id: "iron_clad_lions_trophy_silver", name: "Silver Lion Chalice", description: "A polished silver chalice engraved with the Iron Clad Lions mane rosary. Carries an inscription slot for the mane etching you unlock at next Lions Club renewal.", rarity: "epic", type: "trophy",
+    eventWindowExclusive: true, donorUsdThreshold: 50,
+    artPrompt: "Ornate silver chalice, Iron Clad Lions mane rosary engraved around the bowl, year stamped at the foot, inscription band blank for personalization, warm gallery lighting. Transparent background. 256x256.",
+    howToObtain: "Donate $50 to LCIF during Christmas in July" },
+  { id: "iron_clad_lions_trophy_gold", name: "Gold Lion Reliquary", description: "A gold reliquary in the shape of a miniature lion-mask. The flagship donor trophy for this year's Christmas in July. Companion purchase of DGRS Lions Club membership recommended for the full Iron Clad Lions armor rental.", rarity: "legendary", type: "trophy",
+    eventWindowExclusive: true, donorUsdThreshold: 100,
+    artPrompt: "Ornate gold reliquary shaped as a miniature Iron Clad Lions mask, deep-red velvet interior visible through a crystal window, engraved mane with ten names around the base, iridescent gleam. Transparent background. 256x256.",
+    howToObtain: "Donate $100 to LCIF during Christmas in July" },
 ];
 
 /** Snowflake Stone crafting recipes */
