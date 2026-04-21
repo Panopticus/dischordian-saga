@@ -255,7 +255,46 @@ export function getCullingRematchLine(
   act: number,
 ): string {
   if (!gm.cullingActs.includes(act)) return "";
-  // TODO(act-3/4): author rematch dialog. Until then, surface a
-  // narrator-agnostic placeholder so the encounter hook is wired.
-  return "";
+  const table = CULLING_REMATCH_LINES[gm.id];
+  return table?.[act] ?? "";
 }
+
+/**
+ * Culling-act rematch dialog for the two Game Masters. Referenced
+ * by encounter init in Acts 3 and 4. Keyed by GM id then by act
+ * number so new acts can be added without touching the resolver.
+ *
+ * Act 3: "The Offer" / "The Eyes in the Dark". The Game Master
+ *        returns as a faction-affiliated opponent — the same lens,
+ *        now wearing another faction's uniform. Player has seen
+ *        them before; the GM is no longer wasting introductions.
+ * Act 4: "The Prisoner" / "The Revelation". This IS the culling —
+ *        the GM appears inside Kael's extracted memory, not as a
+ *        live opponent. The line must read as a memory playing
+ *        back, not a fresh encounter.
+ */
+const CULLING_REMATCH_LINES: Record<GameMasterId, Record<number, string>> = {
+  left_game_master: {
+    3:
+      "Back. Different uniform, same hemisphere. The arithmetic has moved up a " +
+      "register — the stakes now cost something you cannot recompute. Play anyway. " +
+      "I will tell you the correct answer only after the wrong one has already " +
+      "cost you.",
+    4:
+      "You are not playing me. You are watching him play me. Seventeen thousand " +
+      "years ago. He won this game. That is why you are in this memory — you are " +
+      "here to see HOW. Watch the left hemisphere. Watch what he did not do.",
+  },
+  right_game_master: {
+    3:
+      "Oh HELLO again. You came back. I was so hoping. I have been WORKING on " +
+      "material since we last spoke. Some of it is cruel. Some of it is " +
+      "charming. You will not be able to tell which is which until it is too " +
+      "late. Sit. Sit. Let me read you again.",
+    4:
+      "This is a memory. Yes, darling. You are watching it. You are not in it. " +
+      "You cannot save him. But you can learn the SHAPE of how I lost to him " +
+      "the first time — which means you can learn the shape of how to lose to " +
+      "me. Pay attention. The next move is the one I did not see coming.",
+  },
+};
