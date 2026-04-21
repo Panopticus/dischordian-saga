@@ -1,26 +1,39 @@
 #!/usr/bin/env npx tsx
 /* ═══════════════════════════════════════════════════════
-   PRELUDE VO GENERATOR — ElevenLabs TTS + S3 Upload
+   ACT 1 OPPONENT VO GENERATOR — ElevenLabs TTS + (optional) S3
 
-   Reads the 9 Prelude voice CSV blocks from
-     docs/production/prelude-asset-build/prompts/voice/
-   and generates each line via ElevenLabs, uploads to S3,
-   and writes the URL into the matching speaker's
-   apps/shared/{speaker}VoManifest.json.
+   Generates the 144 opponent-dialog voice lines for Act 1 from the
+   CSV batches under docs/production/vo-batches/:
+     - act1-opponent-dialog__antiquarian.csv  (72 lines — Antiquarian voice)
+     - act1-opponent-dialog__elara.csv        (36 lines — Elara voice)
+     - act1-opponent-dialog__human.csv        (36 lines — The Human voice)
 
-   Run locally (needs network access):
-     npx tsx scripts/generate-prelude-vo.ts
+   For each line:
+     1. POST to ElevenLabs text-to-speech with the CSV's per-line
+        voice settings. Text may contain <break time="Nms"/> tags.
+     2. Write the mp3 to apps/client/public/audio/<speaker>/<id>.mp3.
+     3. If AWS creds are present, upload to
+        s3://$S3_BUCKET/Act 1 Voices/<speaker>/<id>.mp3 and record the
+        resulting URL in the speaker's VoManifest.json.
+     4. If AWS creds are NOT present, record a local-relative URL
+        (apps/client/public/audio/<speaker>/<id>.mp3) in the manifest
+        so the game can play the file during development, and leave a
+        follow-up for someone with S3 access to swap the URL later.
 
-   Requires env vars:
-     ELEVENLABS_API_KEY=sk_...
-     AWS_ACCESS_KEY_ID=AKIA...
-     AWS_SECRET_ACCESS_KEY=...
-     AWS_REGION=us-east-2       (default: us-east-2)
-     S3_BUCKET=dgrsvoices       (default: dgrsvoices)
+   Idempotent — skips any line whose id is already a key in the
+   speaker's manifest.
 
-   All voice IDs are hard-coded below from the existing per-speaker
-   generators (generate_elara_vo.py etc.) plus the new Prince voice
-   id provided for Beat E.
+   Run locally (from repo root):
+     export ELEVENLABS_API_KEY=sk_...
+     export AWS_ACCESS_KEY_ID=AKIA...         # optional
+     export AWS_SECRET_ACCESS_KEY=...         # optional
+     export AWS_REGION=us-east-2              # default: us-east-2
+     export S3_BUCKET=dgrsvoices              # default: dgrsvoices
+     npx tsx apps/scripts/generate-act1-opponent-vo.ts
+
+   Limit to a subset while testing:
+     npx tsx apps/scripts/generate-act1-opponent-vo.ts --only antiquarian
+     npx tsx apps/scripts/generate-act1-opponent-vo.ts --limit 3
    ═══════════════════════════════════════════════════════ */
 
 import fs from "fs";
@@ -35,78 +48,57 @@ const __dirname = path.dirname(__filename);
 const ELEVENLABS_KEY = process.env.ELEVENLABS_API_KEY || "";
 const BUCKET = process.env.S3_BUCKET || "dgrsvoices";
 const REGION = process.env.AWS_REGION || "us-east-2";
-const S3_PREFIX = "Prelude Voices";
+const S3_PREFIX = "Act 1 Voices";
 
-/**
- * S3 upload is optional. When AWS creds aren't present, the generator
- * writes local .mp3 files and records a /audio/... URL in the manifest
- * so the game can play the file in dev. Replace with a CDN URL when
- * someone with S3 access re-runs with creds set.
- */
 const HAS_AWS_CREDS = Boolean(
   process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY,
 );
 
-/** ElevenLabs voice IDs, keyed by the CSV's third column (voice_profile). */
+/** ElevenLabs voice IDs keyed by CSV's voice_profile column. */
 const VOICE_IDS: Record<string, string> = {
-  elara: "xMyNDrPFEtQN8iZtT7l2",           // existing — from generate_elara_vo.py
-  the_human: "oGbGJdgofRR8z0MxwI8L",       // existing — from generate_human_vo.py
-  the_prince: "FLW8imgp50K85LICuLQs",      // NEW — "the Engineer" voice
-  locke: "8XiBWqS5ffaH5naIFHPI",           // existing — from generate_locke_vo.py
-  the_antiquarian: "yAKlvHIsuj4SvnKQ6Mk4", // existing — from generate_antiquarian_vo.py
+  elara: "xMyNDrPFEtQN8iZtT7l2",
+  human: "oGbGJdgofRR8z0MxwI8L",
+  antiquarian: "yAKlvHIsuj4SvnKQ6Mk4",
 };
 
-/** Directory → manifest filename mapping per speaker. */
-const MANIFEST_BY_SPEAKER: Record<string, string> = {
-  elara: "apps/shared/elaraVoManifest.json",
-  the_human: "apps/shared/humanVoManifest.json",
-  the_prince: "apps/shared/princeVoManifest.json",
-  locke: "apps/shared/lockeVoManifest.json",
-  the_antiquarian: "apps/shared/antiquarianVoManifest.json",
-};
-
-/** S3 folder name per speaker (matches existing key conventions). */
-const S3_FOLDER_BY_SPEAKER: Record<string, string> = {
+/** Per-speaker output directory (matches existing /audio/<dir>/ convention). */
+const AUDIO_DIR_BY_PROFILE: Record<string, string> = {
   elara: "elara",
-  the_human: "human",
-  the_prince: "prince",
-  locke: "locke",
-  the_antiquarian: "antiquarian",
+  human: "human",
+  antiquarian: "antiquarian",
 };
+
+/** Per-speaker manifest path relative to repo root. */
+const MANIFEST_BY_PROFILE: Record<string, string> = {
+  elara: "apps/shared/elaraVoManifest.json",
+  human: "apps/shared/humanVoManifest.json",
+  antiquarian: "apps/shared/antiquarianVoManifest.json",
+};
+
+const REPO_ROOT = path.resolve(__dirname, "..", "..");
+const CSV_DIR = path.resolve(REPO_ROOT, "docs/production/vo-batches");
+const CSV_FILES = [
+  "act1-opponent-dialog__antiquarian.csv",
+  "act1-opponent-dialog__elara.csv",
+  "act1-opponent-dialog__human.csv",
+] as const;
 
 /* ─── CSV PARSING ─── */
 
-const CSV_DIR = path.resolve(
-  __dirname,
-  "..",
-  "..",
-  "docs",
-  "production",
-  "prelude-asset-build",
-  "prompts",
-  "voice",
-);
-
-interface PreludeVoLine {
+interface Act1VoLine {
   lineId: string;
-  speakerName: string;       // "Elara", "The Human", "Adjudicator Locke", etc.
-  voiceProfile: string;      // "elara", "the_human", etc.
+  speakerName: string;
+  voiceProfile: string;
   stability: number;
   similarityBoost: number;
   style: number;
   useSpeakerBoost: boolean;
-  text: string;              // may contain <break time="..."/> tags
+  text: string;
   directorNotes: string;
   priority: string;
   sourceFile: string;
 }
 
-/**
- * Parse one CSV line with quoted-field support. The Prelude voice CSVs
- * use the following 10-column schema:
- *   line_id, speaker_name, voice_profile, stability, similarity_boost,
- *   style, use_speaker_boost, text, director_notes, priority
- */
 function parseCsvRow(row: string): string[] | null {
   const fields: string[] = [];
   let cur = "";
@@ -117,7 +109,6 @@ function parseCsvRow(row: string): string[] | null {
     if (inQuotes) {
       if (ch === '"') {
         if (i + 1 < row.length && row[i + 1] === '"') {
-          // Escaped quote ""
           cur += '"';
           i += 2;
           continue;
@@ -149,21 +140,23 @@ function parseCsvRow(row: string): string[] | null {
   return fields;
 }
 
-function loadAllLines(): PreludeVoLine[] {
-  const lines: PreludeVoLine[] = [];
-  const files = fs
-    .readdirSync(CSV_DIR)
-    .filter((f) => f.startsWith("section_") && f.endsWith(".csv"))
-    .sort();
-
-  for (const file of files) {
-    const content = fs.readFileSync(path.join(CSV_DIR, file), "utf-8").trim();
-    if (!content) continue;
-    for (const row of content.split(/\r?\n/)) {
+function loadAllLines(): Act1VoLine[] {
+  const lines: Act1VoLine[] = [];
+  for (const file of CSV_FILES) {
+    const filePath = path.join(CSV_DIR, file);
+    if (!fs.existsSync(filePath)) {
+      console.warn(`[skip] missing CSV: ${filePath}`);
+      continue;
+    }
+    const content = fs.readFileSync(filePath, "utf-8").trim();
+    const rows = content.split(/\r?\n/);
+    // First row is the header — skip it.
+    for (let idx = 1; idx < rows.length; idx++) {
+      const row = rows[idx];
       if (!row.trim()) continue;
       const fields = parseCsvRow(row);
       if (!fields || fields.length < 10) {
-        console.warn(`[${file}] skipping malformed row (${fields?.length ?? 0} fields)`);
+        console.warn(`[${file}:${idx + 1}] skipping malformed row (${fields?.length ?? 0} fields)`);
         continue;
       }
       const [
@@ -198,12 +191,11 @@ function loadAllLines(): PreludeVoLine[] {
 
 /* ─── ELEVENLABS TTS ─── */
 
-async function generateSpeech(line: PreludeVoLine): Promise<Buffer> {
+async function generateSpeech(line: Act1VoLine): Promise<Buffer> {
   const voiceId = VOICE_IDS[line.voiceProfile];
   if (!voiceId) {
     throw new Error(`No voice id configured for profile "${line.voiceProfile}"`);
   }
-
   const response = await fetch(
     `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
     {
@@ -225,20 +217,17 @@ async function generateSpeech(line: PreludeVoLine): Promise<Buffer> {
       }),
     },
   );
-
   if (!response.ok) {
     const err = await response.text();
     throw new Error(`ElevenLabs API error ${response.status}: ${err}`);
   }
-
   return Buffer.from(await response.arrayBuffer());
 }
 
-/* ─── S3 UPLOAD ─── */
+/* ─── S3 UPLOAD (optional) ─── */
 
 async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
   const { S3Client, PutObjectCommand } = await import("@aws-sdk/client-s3");
-
   const s3 = new S3Client({
     region: REGION,
     credentials: {
@@ -246,9 +235,7 @@ async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
     },
   });
-
   const fullKey = `${S3_PREFIX}/${key}`;
-
   await s3.send(
     new PutObjectCommand({
       Bucket: BUCKET,
@@ -258,8 +245,6 @@ async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
       CacheControl: "public, max-age=31536000",
     }),
   );
-
-  // URL-encode path segments but preserve the slashes
   const encodedKey = fullKey
     .split("/")
     .map((seg) => encodeURIComponent(seg))
@@ -267,93 +252,130 @@ async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
   return `https://${BUCKET}.s3.${REGION}.amazonaws.com/${encodedKey}`;
 }
 
-/* ─── LOCAL MP3 COPY ─── */
+/* ─── LOCAL FILE WRITE ─── */
 
-function writeLocalFile(buffer: Buffer, speaker: string, lineId: string): string {
-  const folder = S3_FOLDER_BY_SPEAKER[speaker] || speaker;
-  const dir = path.resolve(__dirname, "..", "client", "public", "audio", folder);
+function writeLocalFile(
+  buffer: Buffer,
+  profile: string,
+  lineId: string,
+): string {
+  const folder = AUDIO_DIR_BY_PROFILE[profile] || profile;
+  const dir = path.resolve(
+    REPO_ROOT,
+    "apps",
+    "client",
+    "public",
+    "audio",
+    folder,
+  );
   fs.mkdirSync(dir, { recursive: true });
   const filePath = path.join(dir, `${lineId}.mp3`);
   fs.writeFileSync(filePath, buffer);
-  return path.relative(path.resolve(__dirname, "..", ".."), filePath);
+  return path.relative(REPO_ROOT, filePath);
 }
 
 /* ─── MANIFEST UPDATE ─── */
 
-function loadManifest(speaker: string): Record<string, string> {
-  const rel = MANIFEST_BY_SPEAKER[speaker];
+function loadManifest(profile: string): Record<string, string> {
+  const rel = MANIFEST_BY_PROFILE[profile];
   if (!rel) return {};
-  const full = path.resolve(__dirname, "..", "..", rel);
+  const full = path.resolve(REPO_ROOT, rel);
   if (!fs.existsSync(full)) return {};
   return JSON.parse(fs.readFileSync(full, "utf-8"));
 }
 
-function saveManifest(speaker: string, manifest: Record<string, string>) {
-  const rel = MANIFEST_BY_SPEAKER[speaker];
+function saveManifest(profile: string, manifest: Record<string, string>) {
+  const rel = MANIFEST_BY_PROFILE[profile];
   if (!rel) return;
-  const full = path.resolve(__dirname, "..", "..", rel);
-  // Keep keys sorted for stable diffs
+  const full = path.resolve(REPO_ROOT, rel);
   const sorted: Record<string, string> = {};
   for (const key of Object.keys(manifest).sort()) sorted[key] = manifest[key];
   fs.writeFileSync(full, JSON.stringify(sorted, null, 2) + "\n");
+}
+
+/* ─── CLI ARGS ─── */
+
+function parseArgs(): { only: string | null; limit: number | null } {
+  const args = process.argv.slice(2);
+  let only: string | null = null;
+  let limit: number | null = null;
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === "--only" && i + 1 < args.length) {
+      only = args[++i];
+    } else if (args[i] === "--limit" && i + 1 < args.length) {
+      limit = Number(args[++i]);
+    }
+  }
+  return { only, limit };
 }
 
 /* ─── MAIN ─── */
 
 async function main() {
   console.log("═══════════════════════════════════════");
-  console.log("  PRELUDE VO GENERATOR");
+  console.log("  ACT 1 OPPONENT VO GENERATOR");
+  console.log(`  S3 upload: ${HAS_AWS_CREDS ? `enabled → ${BUCKET}/${S3_PREFIX}/` : "disabled (local-only)"}`);
 
   if (!ELEVENLABS_KEY) {
     console.error("ERROR: ELEVENLABS_API_KEY not set.");
     process.exit(1);
   }
 
-  const lines = loadAllLines();
-  console.log(`  ${lines.length} lines loaded from ${CSV_DIR}`);
-  console.log(
-    `  S3 upload: ${HAS_AWS_CREDS ? `enabled → ${BUCKET}/${S3_PREFIX}/` : "disabled (local-only)"}`,
-  );
+  const { only, limit } = parseArgs();
+  let lines = loadAllLines();
+  if (only) lines = lines.filter((l) => l.voiceProfile === only);
+  if (limit !== null && Number.isFinite(limit)) lines = lines.slice(0, limit);
+
+  console.log(`  Loaded ${lines.length} lines from ${CSV_FILES.length} CSVs`);
+  if (only) console.log(`  Filter: --only ${only}`);
+  if (limit !== null) console.log(`  Filter: --limit ${limit}`);
   console.log("═══════════════════════════════════════\n");
 
-  // Group by speaker for manifest batching
-  const manifestsBySpeaker: Record<string, Record<string, string>> = {};
+  const manifestsByProfile: Record<string, Record<string, string>> = {};
   const skipped: string[] = [];
   const errors: { id: string; error: string }[] = [];
-  let completed = 0;
+  let generated = 0;
 
   for (const line of lines) {
-    const manifest = manifestsBySpeaker[line.voiceProfile]
-      ?? (manifestsBySpeaker[line.voiceProfile] = loadManifest(line.voiceProfile));
+    const manifest =
+      manifestsByProfile[line.voiceProfile] ??
+      (manifestsByProfile[line.voiceProfile] = loadManifest(line.voiceProfile));
 
     if (manifest[line.lineId]) {
       skipped.push(line.lineId);
       continue;
     }
 
-    const s3Folder = S3_FOLDER_BY_SPEAKER[line.voiceProfile] || line.voiceProfile;
+    const s3Folder = AUDIO_DIR_BY_PROFILE[line.voiceProfile] || line.voiceProfile;
     const s3Key = `${s3Folder}/${line.lineId}.mp3`;
 
     try {
       process.stdout.write(
-        `[${++completed}/${lines.length}] ${line.voiceProfile}:${line.lineId}...`,
+        `[${generated + errors.length + 1}/${lines.length}] ${line.voiceProfile}:${line.lineId}...`,
       );
-
       const audio = await generateSpeech(line);
       const localPath = writeLocalFile(audio, line.voiceProfile, line.lineId);
-      const url = HAS_AWS_CREDS
-        ? await uploadToS3(audio, s3Key)
-        : `/audio/${s3Folder}/${line.lineId}.mp3`;
+
+      let url: string;
+      if (HAS_AWS_CREDS) {
+        url = await uploadToS3(audio, s3Key);
+      } else {
+        // Local dev URL — works for `pnpm dev` but must be replaced by
+        // a real CDN URL before shipping. The manifest entry's value
+        // still resolves in the game's audio loader for local play.
+        url = `/audio/${s3Folder}/${line.lineId}.mp3`;
+      }
 
       manifest[line.lineId] = url;
       console.log(` ✓ ${(audio.length / 1024).toFixed(0)}KB → ${localPath}`);
 
-      // Periodic save after each successful generation so partial progress
-      // survives a Ctrl+C or later rate-limit failure.
+      // Persist partial progress so Ctrl+C or a rate-limit blow-up doesn't
+      // lose completed work.
       saveManifest(line.voiceProfile, manifest);
+      generated++;
 
-      // Rate limit
-      await new Promise((r) => setTimeout(r, 150));
+      // Gentle pacing to stay under ElevenLabs rate limits.
+      await new Promise((r) => setTimeout(r, 200));
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
       console.log(` ✗ ${msg}`);
@@ -365,38 +387,20 @@ async function main() {
     }
   }
 
-  // Final saves — only if at least one line was successfully generated for
-  // that speaker. Avoids rewriting manifests when every line errored
-  // (e.g. an auth/allowlist failure that aborted before any upload).
-  const addedBySpeaker = new Set<string>();
-  for (const [speaker, manifest] of Object.entries(manifestsBySpeaker)) {
-    const baseline = loadManifest(speaker);
-    const hasNew = Object.keys(manifest).some((k) => !(k in baseline));
-    if (hasNew) {
-      saveManifest(speaker, manifest);
-      addedBySpeaker.add(speaker);
-    }
-  }
-
   console.log(`\n═══ COMPLETE ═══`);
-  console.log(`Generated: ${completed - errors.length}`);
+  console.log(`Generated: ${generated}`);
   console.log(`Skipped (already in manifest): ${skipped.length}`);
   console.log(`Errors: ${errors.length}`);
-  if (skipped.length > 0) {
-    console.log(`  skipped: ${skipped.join(", ")}`);
-  }
   if (errors.length > 0) {
     console.log(`  errors:`);
     for (const e of errors) console.log(`    - ${e.id}: ${e.error}`);
   }
-
-  console.log("\nManifests updated:");
-  if (addedBySpeaker.size === 0) {
-    console.log("  (none — no new lines were generated)");
-  } else {
-    for (const speaker of Array.from(addedBySpeaker).sort()) {
-      console.log(`  ${MANIFEST_BY_SPEAKER[speaker]}`);
-    }
+  if (!HAS_AWS_CREDS && generated > 0) {
+    console.log(
+      `\nNOTE: AWS creds not set — manifest URLs point at /audio/... (local only).` +
+        `\n      Re-run with AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY set to upload to S3` +
+        `\n      and replace local URLs with permanent CDN URLs.`,
+    );
   }
 }
 
