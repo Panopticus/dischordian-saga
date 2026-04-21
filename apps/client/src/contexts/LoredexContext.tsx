@@ -255,7 +255,7 @@ export function LoredexProvider({ children }: { children: ReactNode }) {
     [entries, discoveredIds],
   );
   const visibleRelationships = useMemo(
-    () => relationships.filter(r => discoveredIds.has(r.from) && discoveredIds.has(r.to)),
+    () => relationships.filter(r => discoveredIds.has(r.source) && discoveredIds.has(r.target)),
     [relationships, discoveredIds],
   );
   const redactedCount = entries.length - visibleEntries.length;
