@@ -30,6 +30,22 @@ files and are skipped automatically.
 All three CSVs are regenerated from `apps/shared/act1OpponentDialog.ts`
 via `pnpm vo:generate-csv`.
 
+**Companion substrate (283 lines total)** — covered by `vo:companion`:
+
+| Source module (typed `CompanionLine[]`)             | Speakers        | Lines |
+|-----------------------------------------------------|-----------------|-------|
+| `apps/shared/elaraLines.ts` (`ELARA_LINES`)         | Elara           | 210   |
+| `apps/shared/humanLines.ts` (`HUMAN_LINES`)         | Human           | 49    |
+| `apps/shared/lockedDoorLines.ts` (`LOCKED_DOOR_LINES`) | Elara + Human | 24    |
+
+Unlike the CSV-driven Prelude + Act 1 batches, these three modules
+are loaded directly. Each `CompanionLine` entry becomes one mp3 at
+`apps/client/public/audio/<speaker>/<voId>.mp3` (where `voId` defaults
+to `lineId`). No per-line tuning — per-speaker defaults are applied
+inside `generate-companion-vo.ts`; band-specific register
+(fragmented/lucid/luminous, shadow/balanced/warm) comes through the
+text itself.
+
 ## Prereqs
 
 - Node.js 18 or newer (`node --version`).
