@@ -173,4 +173,114 @@ export const HUMAN_LINES: CompanionLine[] = [
     cooldownKey: "human_wall_mark",
     elaraStabilityDelta: 4,
   }),
+
+  // ─────────────────────────────────────────────────────────────
+  // CRIME-SCENE REACTIONS — the Human arrives at the Cryo Bay the
+  // player already cleared. He reads it like an old detective walking
+  // into a case file. Dry, exact, useful. These beats are post-reveal
+  // but player can re-enter the Cryo Bay after he wakes.
+  // ─────────────────────────────────────────────────────────────
+  // Dead-pod read
+  h({
+    lineId: "human_pod_read_shadow",
+    text: "Cold-blue indicator, frost inside the glass, occupant silhouette. Emergency release on the panel has been cut through the relay — single tool, single stroke, right hand. Whoever did it didn't care if the ship logged the tampering. They knew the logs would outlast any living witness who'd read them.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 13400,
+    requiresHumanLight: "shadow",
+    cooldownKey: "human_pod_read",
+  }),
+  h({
+    lineId: "human_pod_read_balanced",
+    text: "Indicator's cold-blue. Frost's on the inside. The emergency-release cut is single-stroke, right-handed, with a fabricator blade. It wasn't hidden. The killer assumed nobody would wake up who'd recognise the signature. They were wrong about you.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 12600,
+    requiresHumanLight: "balanced",
+    cooldownKey: "human_pod_read",
+  }),
+  h({
+    lineId: "human_pod_read_warm",
+    text: "Cold-blue. Frost-glass. One-stroke relay cut, right-handed. I could read this scene in my sleep, which is not a boast — I learned it by losing people. Thank you for waking me up for this one. I'm going to earn that.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 13200,
+    requiresHumanLight: "warm",
+    cooldownKey: "human_pod_read",
+    elaraStabilityDelta: 1,
+  }),
+
+  // Panel-cut read — pairs with clue-cracked-panel. He confirms Elara.
+  h({
+    lineId: "human_panel_cut_shadow",
+    text: "Elara called this right. That's not a fracture, that's a cut. Fabricator blade. Severed the release relay — the only relay that matters. Surgical is the word.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 9400,
+    requiresHumanLight: "shadow",
+    cooldownKey: "human_panel_cut",
+  }),
+  h({
+    lineId: "human_panel_cut_balanced",
+    text: "She nailed it. Fabricator blade, single pass, through the one relay that locks an occupant in. Nobody does this by accident. Nobody practices it either. Whoever did it has done this before.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 10400,
+    requiresHumanLight: "balanced",
+    cooldownKey: "human_panel_cut",
+  }),
+  h({
+    lineId: "human_panel_cut_warm",
+    text: "Elara read this one correctly, for the record. Fabricator blade, single pass, through the one relay that locked the occupant in. Someone practiced. Someone bad at mercy and good at blades. Let's find them.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 11000,
+    requiresHumanLight: "warm",
+    cooldownKey: "human_panel_cut",
+    elaraStabilityDelta: 2,
+  }),
+
+  // Victim-identified reaction — he knows the name too. Crosses with
+  // Elara's cryo_clue_victim_identified beat. This is his version.
+  h({
+    lineId: "human_victim_shadow",
+    text: "I know that name. I don't want to know that name. They were one of mine — a Panopticon officer. Briefly. A long time ago. Elara, I think the right next word is 'shit,' and I mean that respectfully. We work the case.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 13000,
+    requiresHumanLight: "shadow",
+    cooldownKey: "human_victim",
+    unlockFlags: ["cryo_mystery_victim_identified"],
+  }),
+  h({
+    lineId: "human_victim_balanced",
+    text: "That name lands. Panopticon officer, one of mine for about six months before the Fall. Junior. Competent. Elara — you knew them too, differently. I'm sorry it's this one. We keep going. We work the case.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 13800,
+    requiresHumanLight: "balanced",
+    cooldownKey: "human_victim",
+    unlockFlags: ["cryo_mystery_victim_identified"],
+    elaraStabilityDelta: 2,
+  }),
+  h({
+    lineId: "human_victim_warm",
+    text: "I knew them. Panopticon officer, briefly mine, long before the Fall. Elara, you knew them differently and probably better. I am genuinely sorry this is the body we woke up to. We owe this one more than a file. We work the case.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 14400,
+    requiresHumanLight: "warm",
+    cooldownKey: "human_victim",
+    unlockFlags: ["cryo_mystery_victim_identified"],
+    elaraStabilityDelta: 3,
+  }),
 ];
