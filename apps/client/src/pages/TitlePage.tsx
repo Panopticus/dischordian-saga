@@ -286,6 +286,67 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
         autoPlay
       />
 
+      {/* F12 hero video — Ark drift loop. When the file is missing the
+          <video> just shows its poster (the legacy keyart), so this
+          block degrades gracefully. Muted + playsInline + loop satisfies
+          mobile autoplay policies. */}
+      <video
+        src="/videos/title/ark-drift-loop.webm"
+        poster="/art/ui/title-bg.png"
+        autoPlay
+        muted
+        loop
+        playsInline
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          opacity: 0.55,
+          filter: "brightness(0.65) contrast(1.05)",
+          zIndex: 0,
+        }}
+      >
+        <source src="/videos/title/ark-drift-loop.webm" type="video/webm" />
+        <source src="/videos/title/ark-drift-loop.mp4" type="video/mp4" />
+      </video>
+
+      {/* F12 parallax far nebula — slow horizontal drift via scanline RAF
+          so we don't spawn a second tick loop. Amplitude clamped low
+          (~6px) per deliverables spec. */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: "-3% -6%",
+          backgroundImage: "url(/art/ui/title/nebula-far.png)",
+          backgroundSize: "cover",
+          backgroundPosition: `${50 + Math.sin(scanlineOffset / 30) * 0.6}% center`,
+          opacity: 0.35,
+          pointerEvents: "none",
+          zIndex: 0,
+          mixBlendMode: "screen",
+        }}
+      />
+
+      {/* F12 parallax mid Ark silhouette — wider amplitude, still subtle. */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: "-2% -4%",
+          backgroundImage: "url(/art/ui/title/ark-mid.png)",
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: `${50 + Math.sin(scanlineOffset / 22) * 1.2}% center`,
+          opacity: 0.5,
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+
       {/* Background keyart — falls back to the legacy title-bg.png
          if the theme-specific art isn't on disk yet. */}
       <div
