@@ -20,19 +20,23 @@
 
 State-aware room backdrops that swap at runtime as the player logs clues.
 Resolver: `apps/client/src/game/roomStateAssets.ts` → `resolveRoomStateAsset(roomId, narrativeFlags)`.
-Drop source: `AAA Final/dischordian_room_state_art.zip` (2026-04-21).
+Drop source: `AAA Final/dischordian_room_state_art.zip` (2026-04-21). Served
+locally via Vite's static assets at `/art/rooms/mystery-states/`; originals
+live in `apps/client/public/art/rooms/mystery-states/`. Transcoded from
+1920×1080 PNG → WebP @q82 to match the repo's existing asset convention
+(~350 KB each, ~2.9 MB total).
 
 ### Cryo Bay (4 states)
-- Initial (pristine wake, dark pod unnoticed): https://dgrsart.s3.us-east-2.amazonaws.com/AAA%20Final/cryo-bay_initial.png
-- Investigating (evidence cluster at the dark pod): https://dgrsart.s3.us-east-2.amazonaws.com/AAA%20Final/cryo-bay_investigating.png
-- Victim Identified (door mid-cycle to amber): https://dgrsart.s3.us-east-2.amazonaws.com/AAA%20Final/cryo-bay_victim-identified.png
-- Case Open Later (revisit with phosphor tape + brass patch): https://dgrsart.s3.us-east-2.amazonaws.com/AAA%20Final/cryo-bay_case-open-later.png
+- Initial (pristine wake, dark pod unnoticed): `/art/rooms/mystery-states/cryo-bay_initial.webp`
+- Investigating (evidence cluster at the dark pod): `/art/rooms/mystery-states/cryo-bay_investigating.webp`
+- Victim Identified (door mid-cycle to amber): `/art/rooms/mystery-states/cryo-bay_victim-identified.webp`
+- Case Open Later (revisit with phosphor tape + brass patch): `/art/rooms/mystery-states/cryo-bay_case-open-later.webp`
 
 ### Medical Bay (4 states)
-- Initial (maint. panel ajar, device sliver visible): https://dgrsart.s3.us-east-2.amazonaws.com/AAA%20Final/medical-bay_initial.png
-- Device Awakened (needle-arm extended, offer live): https://dgrsart.s3.us-east-2.amazonaws.com/AAA%20Final/medical-bay_device-awakened.png
-- Donated (receipt plate + rolled reward silhouette): https://dgrsart.s3.us-east-2.amazonaws.com/AAA%20Final/medical-bay_donated.png
-- Refused (panel closed but unlatched, no glow): https://dgrsart.s3.us-east-2.amazonaws.com/AAA%20Final/medical-bay_refused.png
+- Initial (maint. panel ajar, device sliver visible): `/art/rooms/mystery-states/medical-bay_initial.webp`
+- Device Awakened (needle-arm extended, offer live): `/art/rooms/mystery-states/medical-bay_device-awakened.webp`
+- Donated (receipt plate + rolled reward silhouette): `/art/rooms/mystery-states/medical-bay_donated.webp`
+- Refused (panel closed but unlatched, no glow): `/art/rooms/mystery-states/medical-bay_refused.webp`
 
 ## Card Art
 - Soldier: https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/card_soldier-5DTnHpCwXMSjQwSSLL3Y69.webp

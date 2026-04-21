@@ -40,33 +40,37 @@ const LEGACY_URLS = {
 /**
  * URL registry for the 4×cryo-bay + 4×medical-bay Section F state renders.
  *
- * Published from the AAA Final asset drop on 2026-04-21. Files live at
- * `https://dgrsart.s3.us-east-2.amazonaws.com/AAA Final/<stateId>.png`
- * (URL-encoded space). The S3 prefix is public via CloudFront; if the
- * files are ever republished to the primary CloudFront bucket, swap
- * these URLs and the resolver downstream picks up the change with no
- * other code edits.
+ * Served as static assets out of `apps/client/public/art/rooms/mystery-states/`
+ * at runtime path `/art/rooms/mystery-states/<room>_<state>.webp`. The
+ * source PNGs came from the 2026-04-21 AAA Final drop
+ * (`dischordian_room_state_art.zip`) and were transcoded to WebP @q82 —
+ * ~350 KB each, 2.9 MB total, matching the existing room-art convention.
+ *
+ * Serving locally (instead of a signed-S3 path) because the AAA Final/
+ * prefix on dgrsart is not publicly readable. If the files are ever
+ * republished to a public CDN, swap `ROOM_STATE_ASSET_BASE` and the
+ * resolver picks it up with no other code edits.
  *
  * `null` values fall back to `initial`, then to the legacy single-image
  * URL in LEGACY_URLS above.
  */
-const ROOM_STATE_CDN_BASE = "https://dgrsart.s3.us-east-2.amazonaws.com/AAA%20Final";
+const ROOM_STATE_ASSET_BASE = "/art/rooms/mystery-states";
 
 export const ROOM_STATE_ASSET_URLS: {
   "cryo-bay": Record<CryoBayStateId, string | null>;
   "medical-bay": Record<MedicalBayStateId, string | null>;
 } = {
   "cryo-bay": {
-    "initial": `${ROOM_STATE_CDN_BASE}/cryo-bay_initial.png`,
-    "investigating": `${ROOM_STATE_CDN_BASE}/cryo-bay_investigating.png`,
-    "victim-identified": `${ROOM_STATE_CDN_BASE}/cryo-bay_victim-identified.png`,
-    "case-open-later": `${ROOM_STATE_CDN_BASE}/cryo-bay_case-open-later.png`,
+    "initial": `${ROOM_STATE_ASSET_BASE}/cryo-bay_initial.webp`,
+    "investigating": `${ROOM_STATE_ASSET_BASE}/cryo-bay_investigating.webp`,
+    "victim-identified": `${ROOM_STATE_ASSET_BASE}/cryo-bay_victim-identified.webp`,
+    "case-open-later": `${ROOM_STATE_ASSET_BASE}/cryo-bay_case-open-later.webp`,
   },
   "medical-bay": {
-    "initial": `${ROOM_STATE_CDN_BASE}/medical-bay_initial.png`,
-    "device-awakened": `${ROOM_STATE_CDN_BASE}/medical-bay_device-awakened.png`,
-    "donated": `${ROOM_STATE_CDN_BASE}/medical-bay_donated.png`,
-    "refused": `${ROOM_STATE_CDN_BASE}/medical-bay_refused.png`,
+    "initial": `${ROOM_STATE_ASSET_BASE}/medical-bay_initial.webp`,
+    "device-awakened": `${ROOM_STATE_ASSET_BASE}/medical-bay_device-awakened.webp`,
+    "donated": `${ROOM_STATE_ASSET_BASE}/medical-bay_donated.webp`,
+    "refused": `${ROOM_STATE_ASSET_BASE}/medical-bay_refused.webp`,
   },
 };
 
