@@ -206,6 +206,7 @@ const AllianceWarPage = lazy(() => import("./game/AllianceWarPage"));
 const TermsPage = lazy(() => import("./pages/TermsPage"));
 const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
 const PlanetGalleryPage = lazy(() => import("./pages/PlanetGalleryPage"));
+const SuitGalleryPage = lazy(() => import("./pages/SuitGalleryPage"));
 const GovernanceHubPage = lazy(() => import("./pages/GovernanceHubPage"));
 const SoulStonesPage = lazy(() => import("./features/soulStones/SoulStonesPage"));
 const ChristmasCasinoPage = lazy(() => import("./features/events/christmasInJuly/CasinoFloor"));
@@ -367,6 +368,7 @@ function Router() {
         <Route path="/terms" component={TermsPage} />
         <Route path="/privacy" component={PrivacyPage} />
         <Route path="/planets" component={PlanetGalleryPage} />
+        <Route path="/suit-gallery" component={SuitGalleryPage} />
         <Route path="/governance" component={GovernanceHubPage} />
         <Route path="/soul-stones">{() => <GameRoute component={SoulStonesPage} />}</Route>
         <Route path="/christmas-in-july">{() => <GameRoute component={ChristmasCasinoPage} />}</Route>
