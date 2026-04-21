@@ -98,3 +98,35 @@ Defined inline in `generate-prelude-vo.ts` and
 - **S3 `AccessDenied`** — your AWS user can't `PutObject` on
   `s3://$S3_BUCKET/Prelude Voices/…` or `.../Act 1 Voices/…`. Fix the
   bucket policy or run local-only by unsetting the AWS vars.
+
+## S3 backfill (after a local-only run)
+
+A local-only run leaves manifest URLs in the dev form
+`/audio/<speaker>/<id>.mp3`. When you have AWS creds, backfill S3 and
+rewrite the URLs in one pass:
+
+```bash
+export AWS_ACCESS_KEY_ID="AKIA..."
+export AWS_SECRET_ACCESS_KEY="..."
+pnpm vo:s3-backfill                        # upload + rewrite
+pnpm vo:s3-backfill -- --dry-run           # preview only (no creds needed)
+pnpm vo:s3-backfill -- --only antiquarian  # one speaker at a time
+```
+
+Per manifest entry in the four locally-owned speakers
+(`elara`, `human`, `antiquarian`, `prince`):
+
+- `https://…` URL → skip (already on S3).
+- `/audio/<speaker>/<id>.mp3` → read the on-disk mp3, `PutObject` to
+  `s3://$S3_BUCKET/<prefix>/<speaker>/<id>.mp3`, rewrite the manifest
+  URL to the permanent CDN form. `<prefix>` is `Act 1 Voices` when the
+  id starts with `act1_`, otherwise `Prelude Voices` (matches the
+  generators' S3 layout).
+- Anything else → log and skip.
+
+Idempotent and crash-safe: manifest writes are flushed after each
+successful upload, so a re-run only sees the remainder.
+
+`--dry-run` runs entirely offline (no AWS SDK calls) and exits with
+status 1 if any line still needs uploading, 0 if everything is already
+CDN-form — suitable as a CI gate.
