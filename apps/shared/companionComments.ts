@@ -157,6 +157,52 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
     voiceLine: "I have been sharing a channel with her for seventeen thousand years. She did not know. Now she does. I am slightly relieved. I am also slightly embarrassed.",
     timing: "delayed_5s", maxPlays: 1 },
 
+  // ── ACT 2 — ENGINEER'S BENCH AMBIENT (§6.2 elaraAmbient / humanAmbient) ──
+  { id: "cc_bench_ambient_elara", speaker: "elara", trigger: "bench_elara_ambient",
+    voiceLine: "This bench… hums the same way his Deck did. Like it remembers him. I think he built it to build the Dischordia and then left it running. Just in case. Just in case one of us woke up.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_bench_ambient_human", speaker: "human", trigger: "bench_human_ambient",
+    voiceLine: "She's right. He built it twice. Once before Mechronis, and once after Nexon. The second time was the one that worked. Don't ask me how I know. I watched it.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 2 — FIRST LIGHT / DARK CRAFT (§6.2 firstLightCraft / firstDarkCraft) ──
+  { id: "cc_first_light_craft_elara", speaker: "elara", trigger: "first_light_craft",
+    voiceLine: "Your first card is small. That is not a criticism. Small is where the bench teaches. Small is what survives the first thousand mistakes. I am proud of the small thing you made.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_first_dark_craft_human", speaker: "human", trigger: "first_dark_craft",
+    voiceLine: "You chose the dark frequency. Good. Don't flinch from it. The bench hums for both sides because the Engineer refused to pretend only half of the work was real. Build what you will need, not what you want to show her.",
+    timing: "immediate", maxPlays: 1 },
+
+  // ── ACT 2 — ZEPHYR-9 CLASSROOM TIER CROSSINGS (§6.3) ──
+  { id: "cc_zephyr_tier_1_elara", speaker: "elara", trigger: "zephyr_classroom_tier_1",
+    voiceLine: "Zephyr-9 is willing to play you. That is not nothing. Quarchon don't play for fun. They play because someone has to count the moves before the universe does.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_zephyr_tier_3_human", speaker: "human", trigger: "zephyr_classroom_tier_3",
+    voiceLine: "He gave you the preview. That is the chess player's equivalent of a handshake. Don't waste it — peek at what's coming and decide what it means, not just what it is.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_zephyr_tier_5_elara", speaker: "elara", trigger: "zephyr_classroom_tier_5",
+    voiceLine: "One undo per match. That's Quarchon mercy — a concept that almost doesn't translate. Use it sparingly. You'll notice you stop wanting to after a while. That's the lesson.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_zephyr_tier_8_human", speaker: "human", trigger: "zephyr_classroom_tier_8",
+    voiceLine: "The Engineer's Opening. He drew it in his first tournament and his last. I watched him play it both times. You're the third person I've seen hold that hand. Be careful with it. It's heavier than it looks.",
+    timing: "immediate", maxPlays: 1 },
+
+  // ── ACT 2 — GAME MASTER ENCOUNTERS (§6.4) ──
+  { id: "cc_game_master_first_loss_elara", speaker: "elara", trigger: "game_master_first_loss",
+    voiceLine: "The Game Masters read from the Matrix of Dreams. They see the moves before you make them. This is not cheating. This is what the Matrix was built to do. The only way around them is through the Arena.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_game_master_first_loss_human", speaker: "human", trigger: "game_master_first_loss",
+    voiceLine: "I've lost to both of them. Many times. You will lose again. That's the design. The loss is the lesson; the win, when it comes, is the signature.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── ACT 2 — SILENCE OF TWO WITNESSES (§14.1 bond 60 milestone) ──
+  { id: "cc_silence_elara", speaker: "elara", trigger: "silence_of_two_witnesses",
+    voiceLine: "(She says nothing. Her portrait flickers but does not resolve into speech.)",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_silence_human", speaker: "human", trigger: "silence_of_two_witnesses",
+    voiceLine: "(He says nothing either. His trench coat is still on screen; his voice is not.)",
+    timing: "delayed_5s", maxPlays: 1 },
+
   // ── ACT 3 — THE OFFER (path-fork reactions, Kael logs unlocked) ──
   { id: "cc_act3_path_transparent_elara", speaker: "elara", trigger: "act3_path_transparent_chosen",
     voiceLine: "You told me before you opened the logs. Thank you. I didn't know I needed that — I do, I did — and the saying of it is what kept us on the same side of the wall.",

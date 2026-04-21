@@ -22,7 +22,9 @@ import {
   WITNESSING_MILESTONES,
   type WitnessingMilestoneId,
 } from "@shared/witnessingEvents";
-import { NARRATOR_BOND_THRESHOLDS } from "@shared/narratorBond";
+import { NARRATOR_BOND_THRESHOLDS, deriveNarratorBond } from "@shared/narratorBond";
+import { ZEPHYR_9_CLASSROOM } from "@shared/act2Interlude";
+import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import {
   PRELUDE_HANDOFF_TARGET_ACT,
   shouldAdvanceToAct1OnPreludeComplete,
@@ -907,16 +909,64 @@ export function useNarrativeIntegration() {
         dischordiaStepPlaceholder < milestone.dischordiaStep
       ) continue;
       if (milestone.allAct1Complete && !allAct1Complete) continue;
-      setNarrativeFlag(milestone.discoveryFlag, true);
+      // Room gate: Engineer Recordings are each pinned to a specific room
+      // (archives, observation_deck, …). Only fire the discovery once the
+      // player has actually entered that room; otherwise the Antiquarian
+      // is dropping holograms through walls. roomId is optional on the
+      // milestone record — when absent, fall through to the win-count gate.
       const recording = ENGINEER_RECORDINGS.find(
         (r) => r.order === milestone.recordingOrder,
       );
+      if (recording?.roomId) {
+        const visited = state.rooms?.[recording.roomId]?.visited;
+        if (!visited) continue;
+      }
+      setNarrativeFlag(milestone.discoveryFlag, true);
       if (recording) {
         toast.info(`Engineer Recording ${milestone.recordingOrder}: ${recording.title}`, {
           description: recording.transcript.slice(0, 140) + "…",
           duration: 12000,
         });
       }
+    }
+
+    // §6.3 Zephyr-9 Classroom — tier crossings fire the authored teaching
+    // line + raise a flag so downstream systems (Dischordia peek, undo,
+    // Engineer's Opening unlock) can read a clean "has crossed depth N"
+    // condition instead of re-computing from chessDepth everywhere.
+    const depth = state.chessDepth ?? 0;
+    for (const tier of ZEPHYR_9_CLASSROOM) {
+      const flag = `zephyr_classroom_tier_${tier.depth}_crossed`;
+      if (depth >= tier.depth && !state.narrativeFlags?.[flag]) {
+        setNarrativeFlag(flag, true);
+        fireCompanionComment(`zephyr_classroom_tier_${tier.depth}`);
+        toast.info("Zephyr-9", {
+          description: tier.zephyrLine,
+          duration: 10000,
+        });
+      }
+    }
+
+    // §14.1 Silence of Two Witnesses — fires once when the unified
+    // narrator bond crosses 60. deriveNarratorBond falls back to
+    // min(elara, human) on pre-field saves so the milestone still
+    // behaves correctly for long-running games.
+    const bond = deriveNarratorBond({
+      narratorBond: state.narratorBond,
+      fallbackElara: state.elaraTrustLevel,
+      fallbackHuman: state.humanTrustLevel,
+    });
+    if (
+      bond >= NARRATOR_BOND_THRESHOLDS.silence &&
+      !state.narrativeFlags?.event_silence_of_two_witnesses
+    ) {
+      setNarrativeFlag("event_silence_of_two_witnesses", true);
+      const silence = WITNESSING_MILESTONES.silence_of_two_witnesses;
+      fireCompanionComment("silence_of_two_witnesses");
+      toast.info(silence.title, {
+        description: silence.description,
+        duration: 12000,
+      });
     }
 
     // Witnessing §6.5 — Thaloria cinematic triggers on the
@@ -1001,6 +1051,11 @@ export function useNarrativeIntegration() {
     state.narrativeFlags,
     state.narrativeAct,
     state.craftedItems,
+    state.chessDepth,
+    state.narratorBond,
+    state.elaraTrustLevel,
+    state.humanTrustLevel,
+    state.rooms,
     setNarrativeFlag,
   ]);
 }

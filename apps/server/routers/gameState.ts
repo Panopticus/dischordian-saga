@@ -97,6 +97,13 @@ const gameStateSchema = z.object({
     recipeId: z.string(),
     timestamp: z.number(),
   }).passthrough()).optional(),
+  // Act 2 — Memory Energy currency (apps/shared/memoryEnergy.ts).
+  // Optional so pre-field saves round-trip through .passthrough();
+  // the client default (MEMORY_ENERGY_STARTING) kicks in on first read.
+  memoryEnergy: z.number().optional(),
+  // Act 2 — Zephyr-9 classroom progression (0..10). Tier thresholds
+  // 1/3/5/8 unlock Dischordia peek, undo, Engineer's Opening respectively.
+  chessDepth: z.number().optional(),
   // Morality system persistence
   moralityScore: z.number().optional(),
   moralityChoices: z.array(z.object({
