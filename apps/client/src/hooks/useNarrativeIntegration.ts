@@ -945,7 +945,13 @@ export function useNarrativeIntegration() {
         (r) => r.order === milestone.recordingOrder,
       );
       if (recording?.roomId) {
-        const visited = state.rooms?.[recording.roomId]?.visited;
+        // `engineerRecordings.ts` uses underscored room IDs
+        // (observation_deck, comms_array, …) while ROOM_DEFINITIONS
+        // in GameContext uses hyphenated IDs (observation-deck,
+        // comms-array, …). Normalize to the hyphenated form which
+        // is what state.rooms is keyed on.
+        const roomKey = recording.roomId.replace(/_/g, "-");
+        const visited = state.rooms?.[roomKey]?.visited;
         if (!visited) continue;
       }
       setNarrativeFlag(milestone.discoveryFlag, true);
@@ -1064,6 +1070,14 @@ export function useNarrativeIntegration() {
     if (act2Gate.readyToFire) {
       setNarrativeFlag("act_2_complete", true);
       setNarrativeFlag("trade_empire_unlocked", true);
+      // Advance into Act 3 atomically with completion. Without this,
+      // narrativeAct stays at 2 forever, `act_3_starting` never fires,
+      // and the Thaloria / Eyes slideshow / Act 3 narrative shell
+      // stays locked even though the player has finished Act 2.
+      // Mirrors the Prelude → Act 1 handoff at L462.
+      if ((state.narrativeAct ?? 0) < 3) {
+        advanceNarrativeAct(3);
+      }
       toast.info("Act 2 — The Forged Hand", {
         description:
           "The Free Ports have opened trade channels with your Ark. An agent wishes to meet.",
@@ -1098,5 +1112,6 @@ export function useNarrativeIntegration() {
     state.rooms,
     climbRank,
     setNarrativeFlag,
+    advanceNarrativeAct,
   ]);
 }
