@@ -1309,4 +1309,114 @@ export const ELARA_LINES: CompanionLine[] = [
     requiresElaraStability: "luminous",
     cooldownKey: "medbay_wall_mark",
   }),
+
+  // ─────────────────────────────────────────────────────────────
+  // MED BAY — DNA Device (vox-neural-bridge). Backed by
+  // apps/server/routers/medbay.ts. Player can donate (earns class-keyed
+  // gear; silently increments dreamBalance.difficultyModifier) or
+  // refuse (no reward, device inert). Elara narrates the asymmetry
+  // without spoiling the hidden cost — that's the moral shape of the
+  // choice. Setup + donate + refuse, one band stack each.
+  // ─────────────────────────────────────────────────────────────
+  l({
+    lineId: "medbay_dna_setup_lucid",
+    text: "That thing on the autopsy pedestal — I've been calling it a vox-neural-bridge. I don't fully know what it is. It's asking you for a sample. Blood, or close. It will give you something back. I'd like to tell you it's fair. I can't. But I want you to decide, not me.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 12800,
+    requiresElaraStability: "lucid",
+    cooldownKey: "medbay_dna_setup",
+  }),
+  l({
+    lineId: "medbay_dna_setup_fragmented",
+    text: "The — the device. I don't — I don't know what it is. I don't. I watched it run for — for a long time and it never told me. It wants your — your sample. It gives things back. It gives — things. I don't. I don't like it. You decide.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "manual",
+    durationMs: 12400,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "medbay_dna_setup",
+    elaraStabilityDelta: -1,
+  }),
+  l({
+    lineId: "medbay_dna_setup_luminous",
+    text: "There's a device here that predates me. It wants a drop from you. It will hand you something in return — something tuned to who you are. I can't promise the trade is even. I'd rather you weigh it than trust me to weigh it for you.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 11200,
+    requiresElaraStability: "luminous",
+    cooldownKey: "medbay_dna_setup",
+  }),
+
+  // Donate choice — earns gear; silently raises difficulty.
+  l({
+    lineId: "medbay_dna_donate_lucid",
+    text: "Alright. You gave it what it asked for. It's handing something back — tuned to you. I'll log that you were generous. The ship will remember it too. In its own way.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 8200,
+    requiresElaraStability: "lucid",
+    cooldownKey: "medbay_dna_choice",
+    humanLightDelta: 1,
+  }),
+  l({
+    lineId: "medbay_dna_donate_fragmented",
+    text: "You gave. You gave. The — the device — it took. It always took. It's returning something. Something shaped like you. Keep it. Keep — keep it. It's yours now. It's — it's — yours.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 9000,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "medbay_dna_choice",
+  }),
+  l({
+    lineId: "medbay_dna_donate_luminous",
+    text: "You gave. I won't pretend that wasn't a small brave thing. What it hands back is yours now — it read you and answered in kind. Whatever the cost turns out to be, we'll pay it together.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 9200,
+    requiresElaraStability: "luminous",
+    cooldownKey: "medbay_dna_choice",
+    elaraStabilityDelta: 1,
+    humanLightDelta: 2,
+  }),
+
+  // Refuse choice — no reward, device inert. Elara respects the instinct.
+  l({
+    lineId: "medbay_dna_refuse_lucid",
+    text: "Good. The device doesn't get what it wanted. I don't know what that costs us downstream — I honestly don't. But the instinct that said 'not this one' is an instinct I trust.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 8800,
+    requiresElaraStability: "lucid",
+    cooldownKey: "medbay_dna_choice",
+    elaraStabilityDelta: 1,
+  }),
+  l({
+    lineId: "medbay_dna_refuse_fragmented",
+    text: "You — you said no. You said no to it. I — I never could. I never — I was curious. Curious about the — about what it would give. You were — you were smarter. Good. Good.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 9400,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "medbay_dna_choice",
+    elaraStabilityDelta: 2,
+  }),
+  l({
+    lineId: "medbay_dna_refuse_luminous",
+    text: "Declined. The device goes quiet — I wasn't sure it could, actually. You told something that had been asking for a long time 'no,' and the ship didn't punish you for it. Good answer.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 9400,
+    requiresElaraStability: "luminous",
+    cooldownKey: "medbay_dna_choice",
+    elaraStabilityDelta: 1,
+  }),
 ];
