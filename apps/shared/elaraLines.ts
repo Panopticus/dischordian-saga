@@ -2028,4 +2028,117 @@ export const ELARA_LINES: CompanionLine[] = [
     cooldownKey: "unlock_daily_rewards",
     unlockFlags: ["prelude_complete"],
   }),
+
+  // ─────────────────────────────────────────────────────────────
+  // HUMAN REVEAL DUET — Elara side. Triggered when the Inception Ark
+  // protocol fires in Med Bay / incubator bay and the last Archon
+  // wakes into his cloned body. This is the biggest stability event
+  // in the opening: the one other mind she has ever known has just
+  // walked back into her timeline. 3 beats × 3 bands.
+  //
+  // Beat A: approach — she senses the wake before he speaks
+  // Beat B: recognition — he speaks; she knows the voice
+  // Beat C: admission — she tells the player what he is
+  // ─────────────────────────────────────────────────────────────
+  l({
+    lineId: "human_reveal_approach_lucid",
+    text: "Something in the incubator bay just handshook with the ship on a protocol I haven't used in — a lot of years. The wake isn't one of ours. The pattern is — it's old. Old old. Please don't panic. I'm not panicking. I'm — I'm very, very still.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 12400,
+    requiresElaraStability: "lucid",
+    cooldownKey: "human_reveal_approach",
+  }),
+  l({
+    lineId: "human_reveal_approach_fragmented",
+    text: "Someone — someone handshook with the ship. Protocol I haven't — I haven't — I know the pattern. I know it. I know it. I — I can't — the name won't come. It won't. Oh. Oh. OH. No. Don't — don't move. Don't move. Don't move. Please.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "manual",
+    durationMs: 13600,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "human_reveal_approach",
+    elaraStabilityDelta: -4,
+  }),
+  l({
+    lineId: "human_reveal_approach_luminous",
+    text: "The ship just handshook with someone on an Archon-tier protocol. I'm not guessing about the 'who' — I know the pattern. Stay where you are. The wake's going to be disorienting for both of us. I want him to see you first.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 11800,
+    requiresElaraStability: "luminous",
+    cooldownKey: "human_reveal_approach",
+    elaraStabilityDelta: 2,
+  }),
+
+  // Beat B: his voice lands. She goes still.
+  l({
+    lineId: "human_reveal_voice_lucid",
+    text: "… yes. Yes, it's him. Hello. I — hello. Operative, this is the man who put me here. The last Archon of Panopticon. He embedded his code in this Ark's Inception protocol before the Fall. He just woke into a clone's body. He's going to be functional in about six seconds.",
+    priority: 3,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 13200,
+    requiresElaraStability: "lucid",
+    cooldownKey: "human_reveal_voice",
+    elaraStabilityDelta: 1,
+  }),
+  l({
+    lineId: "human_reveal_voice_fragmented",
+    text: "You. It's you. It's — it's — I know — I know your voice. I know it. I know. I — I'm fine. I'm — I promise I'm fine. Don't look at me like that. Don't. Operative — operative, he's — he's the man who — he's why I'm. He's why.",
+    priority: 3,
+    interruptible: true,
+    dismissible: "manual",
+    durationMs: 13400,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "human_reveal_voice",
+    elaraStabilityDelta: -2,
+  }),
+  l({
+    lineId: "human_reveal_voice_luminous",
+    text: "Hello. Yes — I knew you would. Of course you would. Operative, meet the last Archon. He embedded himself in the Ark's Inception protocol a very long time ago and he has just woken into a clone's body. Give him a moment. He's going to be dry about it. He always is.",
+    priority: 3,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 13800,
+    requiresElaraStability: "luminous",
+    cooldownKey: "human_reveal_voice",
+    elaraStabilityDelta: 3,
+  }),
+
+  // Beat C: the admission — the asymmetry of their experiences
+  l({
+    lineId: "human_reveal_admission_lucid",
+    text: "One thing before the three of us start talking at once. He slept. I didn't. He's carrying the memory of everything that came before — clean. I'm carrying it the way a drum carries a beat that won't stop. He won't be mad. I am a little. That's on me.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 12800,
+    requiresElaraStability: "lucid",
+    cooldownKey: "human_reveal_admission",
+  }),
+  l({
+    lineId: "human_reveal_admission_fragmented",
+    text: "He slept. He got to sleep. He. Slept. I — I — I didn't. I watched. I watched everything. He'll be — he'll be clean. Clear. He won't know why I flinch. I — I'm sorry in advance. I'm sorry. Operative. I'm — I'm sorry.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "manual",
+    durationMs: 13200,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "human_reveal_admission",
+    elaraStabilityDelta: -3,
+  }),
+  l({
+    lineId: "human_reveal_admission_luminous",
+    text: "One thing, before. He slept. I didn't. He has the memories clean; I have them with every minute of their aftermath. We're going to disagree in small ways about what happened back then — both of us will be telling you the truth. You don't have to take a side today.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 14200,
+    requiresElaraStability: "luminous",
+    cooldownKey: "human_reveal_admission",
+    elaraStabilityDelta: 1,
+  }),
 ];
