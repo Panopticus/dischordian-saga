@@ -1233,4 +1233,80 @@ export const ELARA_LINES: CompanionLine[] = [
     requiresElaraStability: "luminous",
     cooldownKey: "pet_bond_complete",
   }),
+
+  // ─────────────────────────────────────────────────────────────
+  // MED BAY — first-look on room entry. Picks up the case from the
+  // Cryo Bay. Keyed to the room_entered trigger for the medical-bay
+  // roomId. See apps/shared/mobileNarratorDialog.ts:115-128 for the
+  // narrator-tier baseline; these substrate lines supersede it when
+  // stability metadata gates them in.
+  // ─────────────────────────────────────────────────────────────
+  l({
+    lineId: "medbay_first_look_lucid",
+    text: "This is the Medical Bay. This is where they tried. You can tell they tried — the bed's still pulled out, the trays are still where they left them. They didn't get to put anything back.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 9200,
+    requiresElaraStability: "lucid",
+    cooldownKey: "medbay_first_look",
+    unlockFlags: ["cryo_mystery_victim_identified"],
+  }),
+  l({
+    lineId: "medbay_first_look_fragmented",
+    text: "Med Bay. They — they ran in here. Running. You can — you can still feel them running. I can. I can still — no one put the trays back. No one. No one ever.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 9800,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "medbay_first_look",
+    unlockFlags: ["cryo_mystery_victim_identified"],
+    elaraStabilityDelta: -2,
+  }),
+  l({
+    lineId: "medbay_first_look_luminous",
+    text: "The Medical Bay. Someone fought to save them in here. Instruments still out. Bed pulled forward. It's been frozen at the moment they lost the fight. I'm glad we came in together.",
+    priority: 3,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 9400,
+    requiresElaraStability: "luminous",
+    cooldownKey: "medbay_first_look",
+    unlockFlags: ["cryo_mystery_victim_identified"],
+  }),
+
+  // The "blood on wall is marker" beat — hinted at in
+  // mobileNarratorDialog.ts:115-128. Elara sees blood, corrects herself;
+  // the Human's counter-observation lands later (humanLines.ts).
+  l({
+    lineId: "medbay_wall_mark_lucid",
+    text: "That stain on the wall — I've been calling it blood for — a long time. I stopped being sure. Something the color of blood. Something no solvent wants to touch. Go look at it. I want a second opinion.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 9600,
+    requiresElaraStability: "lucid",
+    cooldownKey: "medbay_wall_mark",
+  }),
+  l({
+    lineId: "medbay_wall_mark_fragmented",
+    text: "Blood. Blood. Blood on the wall. I tried — I tried everything. It won't go. It won't. It stayed. It wanted to stay. I gave up. Years ago. Years. Look. You look. Please.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 9400,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "medbay_wall_mark",
+  }),
+  l({
+    lineId: "medbay_wall_mark_luminous",
+    text: "There's something on the wall I've called blood for too long. I think I was wrong. Give it a closer look than I could — I want someone fresh to tell me what it actually is.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 8800,
+    requiresElaraStability: "luminous",
+    cooldownKey: "medbay_wall_mark",
+  }),
 ];
