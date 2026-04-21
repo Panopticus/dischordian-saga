@@ -55,9 +55,39 @@ function humanizeTRPCError(error: unknown): { message: string; description?: str
   return { message: "Unknown error" };
 }
 
-function shouldSurfaceError(code?: string): boolean {
-  if (!code) return true;
-  // Auth is handled elsewhere.
+// F2/F7 — boot-time read endpoints that legitimately return NOT_FOUND or
+// throw on empty rows for brand-new users. These are boot noise, not real
+// errors. Mutations on these same paths still surface.
+const SILENT_BOOT_PATHS = new Set<string>([
+  "citizen.getCharacter",
+  "citizen.getDreamBalance",
+  "quests.getLoginCalendar",
+  "quests.getDailyQuests",
+  "wallet.getBalance",
+  "loredex.getProgress",
+  "crew.list",
+  "specimens.list",
+  "deck.getStarter",
+]);
+
+// Queries that fail during the very first seconds of a session are almost
+// always the cold-boot race. Suppress NOT_FOUND for the first 5s then let
+// everything through normally.
+const BOOT_START = Date.now();
+const BOOT_GRACE_MS = 5_000;
+
+function inBootGrace(): boolean {
+  return Date.now() - BOOT_START < BOOT_GRACE_MS;
+}
+
+function shouldSurfaceQueryError(code?: string, path?: string): boolean {
+  if (code === "UNAUTHORIZED" || code === "FORBIDDEN") return false;
+  if (code === "NOT_FOUND" && path && SILENT_BOOT_PATHS.has(path)) return false;
+  if (code === "NOT_FOUND" && inBootGrace()) return false;
+  return true;
+}
+
+function shouldSurfaceMutationError(code?: string): boolean {
   if (code === "UNAUTHORIZED" || code === "FORBIDDEN") return false;
   return true;
 }
@@ -68,7 +98,7 @@ queryClient.getQueryCache().subscribe(event => {
     redirectToLoginIfUnauthorized(error);
     console.error("[API Query Error]", error);
     const info = humanizeTRPCError(error);
-    if (shouldSurfaceError(info.code)) {
+    if (shouldSurfaceQueryError(info.code, info.path)) {
       reportError(info.message, {
         description: info.description,
         dedupeKey: `trpc-query:${info.path ?? "unknown"}:${info.code ?? "unknown"}`,
@@ -84,7 +114,7 @@ queryClient.getMutationCache().subscribe(event => {
     redirectToLoginIfUnauthorized(error);
     console.error("[API Mutation Error]", error);
     const info = humanizeTRPCError(error);
-    if (shouldSurfaceError(info.code)) {
+    if (shouldSurfaceMutationError(info.code)) {
       reportError(info.message, {
         description: info.description,
         dedupeKey: `trpc-mutation:${info.path ?? "unknown"}:${info.code ?? "unknown"}`,
