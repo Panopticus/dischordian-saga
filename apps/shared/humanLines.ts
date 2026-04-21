@@ -504,4 +504,123 @@ export const HUMAN_LINES: CompanionLine[] = [
     humanLightDelta: 3,
     elaraStabilityDelta: 2,
   }),
+
+  // ─────────────────────────────────────────────────────────────
+  // STABILITY-CATCHERS (Human) — ambient light-band beats. Low
+  // priority, long cooldown. Silence, observation, the rare warmth
+  // gift, and the pragmatist one-liner. Four beats × 3 bands.
+  // ─────────────────────────────────────────────────────────────
+  // Beat A — the held silence. Human opts out of a line intentionally.
+  h({
+    lineId: "human_silence_shadow",
+    text: "",
+    voId: "human_silence_shadow",
+    priority: 0,
+    interruptible: true,
+    dismissible: "auto",
+    durationMs: 2400,
+    requiresHumanLight: "shadow",
+    cooldownKey: "human_silence",
+  }),
+  h({
+    lineId: "human_silence_balanced",
+    text: "",
+    voId: "human_silence_balanced",
+    priority: 0,
+    interruptible: true,
+    dismissible: "auto",
+    durationMs: 2000,
+    requiresHumanLight: "balanced",
+    cooldownKey: "human_silence",
+  }),
+  h({
+    lineId: "human_silence_warm",
+    text: "",
+    voId: "human_silence_warm",
+    priority: 0,
+    interruptible: true,
+    dismissible: "auto",
+    durationMs: 1600,
+    requiresHumanLight: "warm",
+    cooldownKey: "human_silence",
+  }),
+
+  // Beat B — observation. A detective's throwaway eye detail.
+  h({
+    lineId: "human_observation_shadow",
+    text: "You walk like someone who's been listening for a long time. That's useful. Keep it.",
+    priority: 0,
+    interruptible: true,
+    dismissible: "auto",
+    durationMs: 7200,
+    requiresHumanLight: "shadow",
+    cooldownKey: "human_observation",
+  }),
+  h({
+    lineId: "human_observation_balanced",
+    text: "Your footfalls are off-beat from Elara's speech rhythm. You're ignoring her sometimes. Good. Don't apologise for it.",
+    priority: 0,
+    interruptible: true,
+    dismissible: "auto",
+    durationMs: 8600,
+    requiresHumanLight: "balanced",
+    cooldownKey: "human_observation",
+  }),
+  h({
+    lineId: "human_observation_warm",
+    text: "You pause before you do the hard thing. That's a better instinct than hesitation — that's a habit. Keep it.",
+    priority: 0,
+    interruptible: true,
+    dismissible: "auto",
+    durationMs: 8400,
+    requiresHumanLight: "warm",
+    cooldownKey: "human_observation",
+  }),
+
+  // Beat C — the warmth gift. Warm-only; lands like a verdict.
+  h({
+    lineId: "human_warmth_gift_warm",
+    text: "I haven't said this out loud yet so I'll say it now and then not say it again: I'm glad you woke me up. That is the warmest sentence you will hear me use today. Ration it.",
+    priority: 1,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 10800,
+    requiresHumanLight: "warm",
+    cooldownKey: "human_warmth_gift",
+    humanLightDelta: 1,
+    elaraStabilityDelta: 1,
+  }),
+
+  // Beat D — the pragmatist line. Short. Signature voice.
+  h({
+    lineId: "human_pragmatist_shadow",
+    text: "We work with what's here. Later.",
+    priority: 0,
+    interruptible: true,
+    dismissible: "auto",
+    durationMs: 3600,
+    requiresHumanLight: "shadow",
+    cooldownKey: "human_pragmatist",
+  }),
+  h({
+    lineId: "human_pragmatist_balanced",
+    text: "We work with what's here. We see what happens. Noted.",
+    priority: 0,
+    interruptible: true,
+    dismissible: "auto",
+    durationMs: 5200,
+    requiresHumanLight: "balanced",
+    cooldownKey: "human_pragmatist",
+  }),
+  h({
+    lineId: "human_pragmatist_warm",
+    text: "We work with what's here. And — with who's here. Noted.",
+    priority: 0,
+    interruptible: true,
+    dismissible: "auto",
+    durationMs: 5800,
+    requiresHumanLight: "warm",
+    cooldownKey: "human_pragmatist",
+  }),
 ];
+
