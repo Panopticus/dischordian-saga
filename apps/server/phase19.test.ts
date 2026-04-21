@@ -133,7 +133,11 @@ describe("Card Battle Engine", () => {
 
 /* ═══ EASTER EGG DEFINITIONS TESTS ═══ */
 describe("Easter Egg System", () => {
-  it("should define room Easter eggs for all major rooms", async () => {
+  // Dynamic imports of large client bundles are slow under full-suite
+  // load. Bump the per-test timeout to 30s so the transform/collect
+  // phase doesn't race the 5s default. The test itself is cheap once
+  // the module is resolved.
+  it("should define room Easter eggs for all major rooms", { timeout: 30_000 }, async () => {
     const { ROOM_EASTER_EGGS } = await import("../client/src/components/EasterEggs");
     const eggIds = Object.keys(ROOM_EASTER_EGGS);
 

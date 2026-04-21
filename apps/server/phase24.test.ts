@@ -218,12 +218,16 @@ describe("Routes and Navigation", () => {
     expect(appContent).toContain('AchievementsGalleryPage');
   });
 
-  it("AchievementsGalleryPage should exist as a module", async () => {
+  // Dynamic imports of large client bundles are slow under full-suite
+  // load. Bump the per-test timeout to 30s so the transform/collect
+  // phase doesn't race the 5s default. The test itself is cheap once
+  // the module is resolved.
+  it("AchievementsGalleryPage should exist as a module", { timeout: 30_000 }, async () => {
     const mod = await import("../client/src/pages/AchievementsGalleryPage");
     expect(mod.default).toBeDefined();
   });
 
-  it("GamePreviewTooltip should exist as a module", async () => {
+  it("GamePreviewTooltip should exist as a module", { timeout: 30_000 }, async () => {
     const mod = await import("../client/src/components/GamePreviewTooltip");
     expect(mod.default).toBeDefined();
   });
