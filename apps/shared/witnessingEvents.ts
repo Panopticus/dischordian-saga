@@ -36,6 +36,7 @@ export type WitnessingMilestoneId =
   | "thaloria_echo"
   | "the_engineer_speaks"
   | "the_archon_recruited"
+  | "dreamers_shield_cracks"
   | "the_confession_heard"
   | "the_convergence_settled";
 
@@ -198,6 +199,24 @@ export const WITNESSING_MILESTONES: Record<WitnessingMilestoneId, WitnessingMile
         "I was once the Potential they asked. I said yes. I spent thirteen hundred and fifty-one years finding out what that meant. Whoever just said yes — do not be me.",
       the_antiquarian:
         "Across twelve timelines I have seen this choice land four ways. Two of them are survivable. I will not tell you which two.",
+    },
+  },
+
+  dreamers_shield_cracks: {
+    id: "dreamers_shield_cracks",
+    title: "The Dreamer's Shield Cracks",
+    description:
+      "A fracture in the Matrix of Dreams. Light bleeds through. The Hierarchy will not acknowledge it. Everyone who dreams will feel it anyway.",
+    raisesFlag: "event_dreamers_shield_cracks",
+    lightEnergyReward: 50,
+    darkEnergyCost: 500,
+    npcReactions: {
+      elara:
+        "A fracture. A hairline one. The Hierarchy will call it natural. It is not natural. Someone chose it.",
+      the_human:
+        "I have seen a Dreamer's Shield crack once before. I will not tell you what was on the other side. I will tell you it was not worse than this side.",
+      the_antiquarian:
+        "The Matrix of Dreams logs the fracture as 'cosmetic.' The log is a lie. I am filing the correction regardless. They will know when they read it back in four hundred years.",
     },
   },
 

@@ -90,8 +90,8 @@ describe("witnessingYearOne — Item 14 Milestone Chronicle entries", () => {
     expect(entry.body.toLowerCase()).toContain("antiquarian");
   });
 
-  it("listMilestoneChronicleEntries returns 11 entries (9 Year-One + 2 Acts 6-7)", () => {
-    expect(listMilestoneChronicleEntries().length).toBe(11);
+  it("listMilestoneChronicleEntries returns 12 entries (9 Year-One + 2 Acts 6-7 + 1 Act 3 Hierarchy)", () => {
+    expect(listMilestoneChronicleEntries().length).toBe(12);
   });
 });
 

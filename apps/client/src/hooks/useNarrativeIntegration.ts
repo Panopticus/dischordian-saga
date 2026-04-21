@@ -704,10 +704,14 @@ export function useNarrativeIntegration() {
     if (state.narrativeFlags?.empire_archon_offer_accepted) {
       fireMilestone("the_archon_recruited");
     }
+    if (state.narrativeFlags?.hierarchy_infiltration_complete) {
+      fireMilestone("dreamers_shield_cracks");
+    }
   }, [
     state.narrativeFlags?.thaloria_cinematic_seen,
     state.narrativeFlags?.insurgency_infiltration_complete,
     state.narrativeFlags?.empire_archon_offer_accepted,
+    state.narrativeFlags?.hierarchy_infiltration_complete,
     fireMilestone,
   ]);
 

@@ -8,11 +8,12 @@ import {
 
 describe("witnessingEvents (§14.1 Living Universe bridge)", () => {
   describe("registry structure", () => {
-    it("has all eleven milestones from §14.1 + Acts 6-7 roadmap extension", () => {
+    it("has all twelve milestones from §14.1 + Acts 6-7 roadmap extension", () => {
       const ids = Object.keys(WITNESSING_MILESTONES).sort();
       expect(ids).toEqual(
         [
           "bulb_dims",
+          "dreamers_shield_cracks",
           "lions_last_broadcast",
           "sector_wakes",
           "silence_of_two_witnesses",
