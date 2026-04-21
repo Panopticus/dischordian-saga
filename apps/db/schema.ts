@@ -4511,3 +4511,39 @@ export const playerProfileEvents = mysqlTable("player_profile_events", {
     .on(table.userId, table.source),
 }));
 export type PlayerProfileEventRow = typeof playerProfileEvents.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════
+   CHESS CLIMB — escalating stakes ladder.
+   See `apps/shared/chessClimbTiers.ts` for tier definitions.
+   Migration: 0051_chess_climb.sql
+   ═══════════════════════════════════════════════════════ */
+
+export const chessClimbRuns = mysqlTable("chess_climb_runs", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  tierRank: int("tierRank").notNull(),
+  tierId: varchar("tierId", { length: 64 }).notNull(),
+  game1Result: mysqlEnum("game1Result", ["win", "loss", "draw"]),
+  game2Result: mysqlEnum("game2Result", ["win", "loss", "draw"]),
+  game3Result: mysqlEnum("game3Result", ["win", "loss", "draw"]),
+  outcome: mysqlEnum("outcome", ["ongoing", "won", "lost", "abandoned"])
+    .notNull()
+    .default("ongoing"),
+  stakesApplied: json("stakesApplied").$type<Record<string, unknown> | null>(),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  finishedAt: timestamp("finishedAt"),
+}, (table) => ({
+  userIdx: index("idx_chess_climb_runs_user").on(table.userId),
+  userTierIdx: index("idx_chess_climb_runs_user_tier").on(table.userId, table.tierRank),
+  userOutcomeIdx: index("idx_chess_climb_runs_user_outcome").on(table.userId, table.outcome),
+}));
+export type ChessClimbRunRow = typeof chessClimbRuns.$inferSelect;
+
+export const chessClimbUnlocks = mysqlTable("chess_climb_unlocks", {
+  userId: int("userId").primaryKey(),
+  highestClearedRank: int("highestClearedRank").notNull().default(-1),
+  tier2LockoutUntil: timestamp("tier2LockoutUntil"),
+  lastUpdatedAt: timestamp("lastUpdatedAt").defaultNow().notNull(),
+});
+export type ChessClimbUnlocksRow = typeof chessClimbUnlocks.$inferSelect;
