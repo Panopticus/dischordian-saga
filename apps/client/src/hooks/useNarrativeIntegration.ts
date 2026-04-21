@@ -955,12 +955,10 @@ export function useNarrativeIntegration() {
         if (!visited) continue;
       }
       setNarrativeFlag(milestone.discoveryFlag, true);
-      if (recording) {
-        toast.info(`Engineer Recording ${milestone.recordingOrder}: ${recording.title}`, {
-          description: recording.transcript.slice(0, 140) + "…",
-          duration: 12000,
-        });
-      }
+      // The full cinematic reveal (transcript + NPC reactions) is
+      // handled by <EngineerRecordingDiscoveryModal /> mounted in
+      // AppShellImmersive, which watches the discovery flag. Skip
+      // the toast — we don't want two surfaces competing.
     }
 
     // §6.3 Zephyr-9 Classroom — tier crossings fire the authored teaching
