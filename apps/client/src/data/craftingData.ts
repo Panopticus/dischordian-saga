@@ -167,6 +167,13 @@ export interface CraftingRecipe {
   rarity: "common" | "uncommon" | "rare" | "epic" | "legendary";
   /** Success rate (0-1) at minimum level */
   baseSuccessRate: number;
+  /**
+   * Act 2 alignment tag. Seeds the firstLightCraft / firstDarkCraft
+   * framing lines at the Engineer's Bench. Only a few recipes carry
+   * this tag — the majority of crafts are alignment-neutral. See
+   * apps/shared/act2Interlude.ts §6.2.
+   */
+  alignment?: "light" | "dark";
 }
 
 export const CRAFTING_RECIPES: CraftingRecipe[] = [
@@ -455,6 +462,7 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
       { target: "card_battles", description: "+1 ATK or +1 HP to target card (permanent)", mechanic: "card_stat_up", value: 1 },
     ],
     rarity: "common", baseSuccessRate: 0.95,
+    alignment: "light",
   },
   {
     id: "recipe_essence_infusion", name: "Essence Infusion", category: "card_enhancement",
@@ -466,6 +474,7 @@ export const CRAFTING_RECIPES: CraftingRecipe[] = [
       { target: "card_battles", description: "+2 ATK and +2 HP to target card (permanent)", mechanic: "card_stat_up", value: 4 },
     ],
     rarity: "rare", baseSuccessRate: 0.70,
+    alignment: "dark",
   },
   {
     id: "recipe_soul_binding", name: "Soul Binding", category: "card_enhancement",

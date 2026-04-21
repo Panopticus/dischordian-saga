@@ -14,6 +14,13 @@ import { applyDischordiaEnergy } from "@/stores/dischordiaCycleStore";
 import { recordMemorableMoment } from "@/stores/memorableMomentsStore";
 import { adjustNarratorBond as adjustNarratorBondValue, deriveNarratorBond } from "@shared/narratorBond";
 import {
+  MEMORY_ENERGY_STARTING,
+  adjustMemoryEnergy as adjustMemoryEnergyValue,
+  computeMemoryEnergyCap,
+  earnMemoryEnergy as earnMemoryEnergyValue,
+  type MemoryEnergyEarnSource,
+} from "@shared/memoryEnergy";
+import {
   advanceYearOneMonth as advanceYearOneMonthValue,
   deriveYearOneMonth,
   yearOneMonthFlag,
@@ -177,6 +184,14 @@ export interface GameState {
   craftingMaterials: Record<string, number>; // Material ID → quantity
   craftedItems: string[];                    // IDs of items crafted
   craftingLog: { recipeId: string; success: boolean; timestamp: number }[]; // Crafting history
+  // Act 2 — Memory Energy: the diegetic fuel the Engineer's Bench burns.
+  // Starts at MEMORY_ENERGY_STARTING; cap lifts 50 → 200 on trade_empire_unlocked.
+  // See apps/shared/memoryEnergy.ts for rules.
+  memoryEnergy: number;
+  // Act 2 — Chess depth. Persists Zephyr-9 classroom progression; tier
+  // thresholds (1/3/5/8) unlock Dischordia peek/undo/Engineer's Opening.
+  // See apps/shared/act2Interlude.ts ZEPHYR_9_CLASSROOM.
+  chessDepth: number;
   // Companion relationship system
   companionRelationships: Record<string, number>; // companionId → relationship level (0-100)
   companionQuestsCompleted: string[];             // Quest IDs completed
@@ -1022,6 +1037,10 @@ const DEFAULT_GAME_STATE: GameState = {
   craftingMaterials: {},
   craftedItems: [],
   craftingLog: [],
+  // Act 2 defaults. Memory Energy starts with enough juice for ~3 common
+  // crafts so the pinch lands in the bench's middle-game, not its opener.
+  memoryEnergy: MEMORY_ENERGY_STARTING,
+  chessDepth: 0,
   // Companion system defaults
   companionRelationships: { elara: 5, the_human: 0 },
   companionQuestsCompleted: [],
@@ -1175,7 +1194,7 @@ interface GameContextValue {
   completeTutorial: (tutorialId: string) => void;
   isTutorialCompleted: (tutorialId: string) => boolean;
   // Crafting system
-  craftItem: (recipeId: string, materialsUsed: Record<string, number>, dreamCost: number, skillId: string, xpGain: number, outputItemId: string, outputQuantity: number) => void;
+  craftItem: (recipeId: string, materialsUsed: Record<string, number>, dreamCost: number, skillId: string, xpGain: number, outputItemId: string, outputQuantity: number, memoryEnergyCost?: number) => void;
   craftFailed: (recipeId: string, materialsUsed: Record<string, number>, dreamCost: number, skillId: string, xpGain: number) => void;
   addMaterial: (materialId: string, quantity: number) => void;
   // Companion system
@@ -1229,6 +1248,14 @@ interface GameContextValue {
   adjustNarratorBond: (delta: number) => void;
   /** Read the current bond. Falls back to min(elaraTrust, humanTrust) on pre-field saves. */
   getNarratorBond: () => number;
+  /** Apply a raw delta to Memory Energy (clamped to [0, cap]). Positive or negative. */
+  adjustMemoryEnergy: (delta: number) => void;
+  /** Earn Memory Energy from a canonical source (rate from memoryEnergy.ts). Returns the applied delta. */
+  earnMemoryEnergy: (source: MemoryEnergyEarnSource, overrideDelta?: number) => number;
+  /** Read the active Memory Energy cap (lifts 50 → 200 on trade_empire_unlocked). */
+  getMemoryEnergyCap: () => number;
+  /** Bump chess depth on a win (idempotent at same value; fires Zephyr-9 threshold unlocks via useNarrativeIntegration). */
+  recordChessWin: () => void;
   /** Open the next Year One Calendar month (raises year_one_month_N_opened; clamps at 12). */
   advanceYearOneMonth: () => void;
   /** Read the current Year One month (1..12). Falls back to flag-scan on pre-field saves. */
@@ -2351,7 +2378,19 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   // ═══ NARRATIVE v2 CALLBACKS ═══
   const advanceNarrativeAct = useCallback((actId: number) => {
-    setState(prev => ({ ...prev, narrativeAct: actId }));
+    setState(prev => {
+      // Act 2 entry writes the trigger flag + opens Year-One month 6.
+      // Witnessing Hub detection reads `act_2_started` (witnessingHub.ts:173),
+      // and the bench/classroom/GM panels read `year_one_month_6_opened`.
+      const nextFlags = { ...prev.narrativeFlags };
+      if (actId >= 2 && !nextFlags.act_2_started) {
+        nextFlags.act_2_started = true;
+      }
+      if (actId >= 2 && !nextFlags.year_one_month_6_opened) {
+        nextFlags.year_one_month_6_opened = true;
+      }
+      return { ...prev, narrativeAct: actId, narrativeFlags: nextFlags };
+    });
   }, []);
 
   // ─── Prelude playhead setters ───
@@ -2430,6 +2469,59 @@ export function GameProvider({ children }: { children: ReactNode }) {
       }),
     [state.narratorBond, state.elaraTrustLevel, state.humanTrustLevel],
   );
+
+  const getMemoryEnergyCap = useCallback(
+    () => computeMemoryEnergyCap(state.narrativeFlags),
+    [state.narrativeFlags],
+  );
+
+  const adjustMemoryEnergy = useCallback((delta: number) => {
+    setState(prev => ({
+      ...prev,
+      memoryEnergy: adjustMemoryEnergyValue(
+        prev.memoryEnergy,
+        delta,
+        computeMemoryEnergyCap(prev.narrativeFlags),
+      ),
+    }));
+  }, []);
+
+  const earnMemoryEnergy = useCallback(
+    (source: MemoryEnergyEarnSource, overrideDelta?: number) => {
+      let applied = 0;
+      setState(prev => {
+        const { next, delta } = earnMemoryEnergyValue(
+          source,
+          prev.memoryEnergy,
+          computeMemoryEnergyCap(prev.narrativeFlags),
+          overrideDelta,
+        );
+        applied = delta;
+        if (next === prev.memoryEnergy) return prev;
+        return { ...prev, memoryEnergy: next };
+      });
+      return applied;
+    },
+    [],
+  );
+
+  const recordChessWin = useCallback(() => {
+    // Write-through to localStorage for backwards-compat: the legacy
+    // useNarrativeIntegration gate at L961 watches the `chess_wins`
+    // localStorage key until we can remove it. chess_mastered fires
+    // at 5 wins per the act_2_complete gate.
+    try {
+      const prior = parseInt(localStorage.getItem("chess_wins") || "0") || 0;
+      localStorage.setItem("chess_wins", String(prior + 1));
+    } catch {
+      /* ignore storage errors */
+    }
+    setState(prev => {
+      const next = Math.min(10, (prev.chessDepth ?? 0) + 1);
+      if (next === prev.chessDepth) return prev;
+      return { ...prev, chessDepth: next };
+    });
+  }, []);
 
   const advanceYearOneMonth = useCallback(() => {
     // Advance the canonical field AND raise the matching
@@ -2725,7 +2817,16 @@ export function GameProvider({ children }: { children: ReactNode }) {
   }, [state.armyDeployments]);
 
   // ═══ CRAFTING SYSTEM CALLBACKS ═══
-  const craftItem = useCallback((recipeId: string, materialsUsed: Record<string, number>, dreamCost: number, skillId: string, xpGain: number, outputItemId: string, outputQuantity: number) => {
+  const craftItem = useCallback((
+    recipeId: string,
+    materialsUsed: Record<string, number>,
+    dreamCost: number,
+    skillId: string,
+    xpGain: number,
+    outputItemId: string,
+    outputQuantity: number,
+    memoryEnergyCost?: number,
+  ) => {
     setState(prev => {
       const newMaterials = { ...prev.craftingMaterials };
       for (const [matId, qty] of Object.entries(materialsUsed)) {
@@ -2733,14 +2834,25 @@ export function GameProvider({ children }: { children: ReactNode }) {
       }
       const newXp = { ...prev.craftingXp };
       newXp[skillId] = (newXp[skillId] || 0) + xpGain;
-      // Check for level up
       const newSkills = { ...prev.craftingSkills };
-      // Simple level-up: every 100 XP = 1 level, max 10
       const totalXp = newXp[skillId];
       const newLevel = Math.min(10, Math.floor(totalXp / 100));
       if (newLevel > (newSkills[skillId] || 0)) {
         newSkills[skillId] = newLevel;
       }
+      // Act 2 — deduct Memory Energy when the caller supplies a cost.
+      // Pre-Act-2 Forge crafts omit the parameter and remain free. The
+      // bench UI computes cost via getMemoryEnergyCostForRarity() and
+      // passes it in; the button-gate in ForgeRecipePanel already blocks
+      // un-affordable crafts, so this is the payment leg.
+      const nextMemoryEnergy =
+        typeof memoryEnergyCost === "number" && memoryEnergyCost > 0
+          ? adjustMemoryEnergyValue(
+              prev.memoryEnergy,
+              -memoryEnergyCost,
+              computeMemoryEnergyCap(prev.narrativeFlags),
+            )
+          : prev.memoryEnergy;
       return {
         ...prev,
         craftingMaterials: newMaterials,
@@ -2748,6 +2860,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
         craftingSkills: newSkills,
         craftedItems: [...prev.craftedItems, outputItemId],
         craftingLog: [...prev.craftingLog, { recipeId, success: true, timestamp: Date.now() }],
+        memoryEnergy: nextMemoryEnergy,
       };
     });
   }, []);
@@ -3097,6 +3210,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
       adjustElaraTrust,
       adjustNarratorBond,
       getNarratorBond,
+      adjustMemoryEnergy,
+      earnMemoryEnergy,
+      getMemoryEnergyCap,
+      recordChessWin,
       advanceYearOneMonth,
       getYearOneMonth,
       completeRecruitmentMission,

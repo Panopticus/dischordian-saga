@@ -40,6 +40,7 @@ import { usePetQuestEventBridge } from "@/game/petQuestHooks";
 import { useNarrativeIntegration } from "@/hooks/useNarrativeIntegration";
 import { useIncomingTransmissions } from "@/hooks/useIncomingTransmissions";
 import VoiceWhisper from "@/components/VoiceWhisper";
+import EngineerRecordingDiscoveryModal from "@/components/EngineerRecordingDiscoveryModal";
 
 const ARK_CONTROL_ROOM = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/ark_control_room_04cb4fe3.png";
 
@@ -147,6 +148,9 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
 
       {/* ═══ VOICE WHISPER — Inner voice commentary across all contexts ═══ */}
       <VoiceWhisper />
+
+      {/* ═══ ENGINEER RECORDING DISCOVERY — Act 2 holographic reveal modal ═══ */}
+      <EngineerRecordingDiscoveryModal />
 
       {/* ═══ MINIMAL HEADER — Only shows Ark identity + notifications ═══ */}
       {!isImmersive && (

@@ -51,17 +51,24 @@ export default function Act2InterludePage() {
 
   // Fire the dual-signal activation on mount if not already set.
   useEffect(() => {
+    // Belt-and-suspenders: raise the Act 2 trigger flag + open Year-One
+    // month 6 here even if the player reached this page without going
+    // through advanceNarrativeAct (e.g. dev deep-link, replay).
+    if (!gameState.narrativeFlags?.act_2_started) {
+      setNarrativeFlag("act_2_started", true);
+    }
+    if (!gameState.narrativeFlags?.year_one_month_6_opened) {
+      setNarrativeFlag("year_one_month_6_opened", true);
+    }
     if (!alreadyActivated) {
       setNarrativeFlag("act2_dual_signal_activated", true);
       fireCompanionComment("act2_dual_signal_activated");
-      // The first-ping comment is a separate trigger. Fire it a beat
-      // after the dual-signal one so the queue doesn't collide.
       const t = window.setTimeout(() => {
         fireCompanionComment("act2_first_substrate_ping");
       }, 1500);
       return () => window.clearTimeout(t);
     }
-  }, [alreadyActivated, setNarrativeFlag]);
+  }, [alreadyActivated, gameState.narrativeFlags, setNarrativeFlag]);
 
   const tutor = getActsSystemTutor("dual_channel");
 

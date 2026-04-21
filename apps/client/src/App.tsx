@@ -101,6 +101,8 @@ const Act1C4TrialPage = lazy(() => import("./pages/Act1C4TrialPage"));
 const DevVariantsPage = lazy(() => import("./pages/DevVariantsPage"));
 const CrossGameThreadsPage = lazy(() => import("./pages/CrossGameThreadsPage"));
 const Act2InterludePage = lazy(() => import("./pages/Act2InterludePage"));
+const EngineersBenchPage = lazy(() => import("./pages/EngineersBenchPage"));
+const GameMastersArenaAct2Page = lazy(() => import("./pages/GameMastersArenaAct2Page"));
 const Act5InterludePage = lazy(() => import("./pages/Act5InterludePage"));
 const VortexIncursionPage = lazy(() => import("./pages/VortexIncursionPage"));
 const TradeWarsPage = lazy(() => import("./game/TradeEmpirePage"));
@@ -274,6 +276,8 @@ function Router() {
         <Route path="/dev/variants" component={DevVariantsPage} />
         <Route path="/cross-game-threads" component={CrossGameThreadsPage} />
         <Route path="/act2-interlude" component={Act2InterludePage} />
+        <Route path="/engineers-bench" component={EngineersBenchPage} />
+        <Route path="/game-masters-arena" component={GameMastersArenaAct2Page} />
         <Route path="/act5-interlude" component={Act5InterludePage} />
         <Route path="/vortex-incursion" component={VortexIncursionPage} />
         <Route path="/trade-empire">{() => <GameRoute component={TradeWarsPage} />}</Route>

@@ -13,6 +13,7 @@ import { useEffect, useCallback, useRef } from "react";
 import { useGame } from "@/contexts/GameContext";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { dispatchNarrativeEffect, dispatchMoralityShift } from "@/hooks/useNarrativeEvents";
 import { getAtmosphereForMorality, pushTemporaryTheme, popTemporaryTheme } from "@/engine/voidEngine";
 import { playSlideshow } from "@/stores/witnessingStore";
@@ -23,6 +24,14 @@ import {
   type WitnessingMilestoneId,
 } from "@shared/witnessingEvents";
 import { NARRATOR_BOND_THRESHOLDS } from "@shared/narratorBond";
+import { ZEPHYR_9_CLASSROOM } from "@shared/act2Interlude";
+import {
+  climbRankToClassroomDepth,
+  climbTierClearedFlag,
+  climbTierCompanionTrigger,
+} from "@shared/act2ClimbBridge";
+import { deriveAct2CompletionStatus } from "@shared/act2CompletionGate";
+import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import {
   PRELUDE_HANDOFF_TARGET_ACT,
   shouldAdvanceToAct1OnPreludeComplete,
@@ -233,6 +242,14 @@ export const SLIDESHOW_TRIGGERS: ReadonlyArray<{
     completionFlag: "slideshow_the_helmet_in_the_grass_complete",
   },
   {
+    // §14.1 — Silence of Two Witnesses. The bond-60 watcher in
+    // this hook raises `event_silence_of_two_witnesses`; the
+    // slideshow sets `slideshow_silence_of_two_witnesses_complete`.
+    triggerFlag: "event_silence_of_two_witnesses",
+    slideshowId: "silence-of-two-witnesses",
+    completionFlag: "slideshow_silence_of_two_witnesses_complete",
+  },
+  {
     // §5.5 P1 — Human dark-trust confession. Watcher below
     // raises `human_dark_confession_unlocked` when Human bond
     // > 60 AND Elara bond < 20 (asymmetric trust shape).
@@ -284,6 +301,18 @@ export function useNarrativeIntegration() {
   const slideshowFiredRef = useRef<Set<string>>(new Set());
   const dischordiaCyclePhase = useDischordiaCycleStore((s) => s.state.phase);
   const applyRawDelta = useDischordiaCycleStore((s) => s.applyRawDelta);
+
+  // §6.3 Chess Climb bridge — pull the server-authoritative Climb
+  // state so the effective Zephyr-9 classroom depth reflects what
+  // the player has actually cleared. The mapping lives in
+  // act2ClimbBridge.ts. See `climbRankToClassroomDepth`.
+  const { isAuthenticated } = useAuth();
+  const climbStateQ = trpc.chessClimb.getState.useQuery(undefined, {
+    enabled: isAuthenticated,
+    refetchOnWindowFocus: false,
+    staleTime: 30_000,
+  });
+  const climbRank = climbStateQ.data?.unlocks.highestClearedRank ?? -1;
 
   /**
    * Fire a §14.1 Witnessing milestone event: raise its flag,
@@ -907,16 +936,87 @@ export function useNarrativeIntegration() {
         dischordiaStepPlaceholder < milestone.dischordiaStep
       ) continue;
       if (milestone.allAct1Complete && !allAct1Complete) continue;
-      setNarrativeFlag(milestone.discoveryFlag, true);
+      // Room gate: Engineer Recordings are each pinned to a specific room
+      // (archives, observation_deck, …). Only fire the discovery once the
+      // player has actually entered that room; otherwise the Antiquarian
+      // is dropping holograms through walls. roomId is optional on the
+      // milestone record — when absent, fall through to the win-count gate.
       const recording = ENGINEER_RECORDINGS.find(
         (r) => r.order === milestone.recordingOrder,
       );
-      if (recording) {
-        toast.info(`Engineer Recording ${milestone.recordingOrder}: ${recording.title}`, {
-          description: recording.transcript.slice(0, 140) + "…",
-          duration: 12000,
+      if (recording?.roomId) {
+        // `engineerRecordings.ts` uses underscored room IDs
+        // (observation_deck, comms_array, …) while ROOM_DEFINITIONS
+        // in GameContext uses hyphenated IDs (observation-deck,
+        // comms-array, …). Normalize to the hyphenated form which
+        // is what state.rooms is keyed on.
+        const roomKey = recording.roomId.replace(/_/g, "-");
+        const visited = state.rooms?.[roomKey]?.visited;
+        if (!visited) continue;
+      }
+      setNarrativeFlag(milestone.discoveryFlag, true);
+      // The full cinematic reveal (transcript + NPC reactions) is
+      // handled by <EngineerRecordingDiscoveryModal /> mounted in
+      // AppShellImmersive, which watches the discovery flag. Skip
+      // the toast — we don't want two surfaces competing.
+    }
+
+    // §6.3 Zephyr-9 Classroom — tier crossings fire the authored teaching
+    // line + raise a flag so downstream systems (Dischordia peek, undo,
+    // Engineer's Opening unlock) can read a clean "has crossed depth N"
+    // condition instead of re-computing from chessDepth everywhere.
+    //
+    // Two depth sources feed this watcher:
+    //   1. `state.chessDepth` — client-side counter bumped by local
+    //      wins / scripted grants.
+    //   2. `climbRank` — server-authoritative highestClearedRank from
+    //      the chess Climb (PR #129). Mapped via climbRankToClassroomDepth.
+    // The effective depth is the max of both; whichever source reaches
+    // a tier threshold first fires the flag and the teaching line.
+    const depth = Math.max(
+      state.chessDepth ?? 0,
+      climbRankToClassroomDepth(climbRank),
+    );
+    for (const tier of ZEPHYR_9_CLASSROOM) {
+      const flag = `zephyr_classroom_tier_${tier.depth}_crossed`;
+      if (depth >= tier.depth && !state.narrativeFlags?.[flag]) {
+        setNarrativeFlag(flag, true);
+        fireCompanionComment(`zephyr_classroom_tier_${tier.depth}`);
+        toast.info("Zephyr-9", {
+          description: tier.zephyrLine,
+          duration: 10000,
         });
       }
+    }
+
+    // Chess Climb tier-won companion reactions — Elara and The Human
+    // react the first time each Climb rank is cleared. Separate from
+    // the Zephyr depth-crossing above because the Climb is a series
+    // (best-of-3) event, not a depth threshold; the voice is about
+    // beating the Game Master, not about unlocking a Dischordia
+    // mechanic. See companionComments.ts `chess_climb_tier_N_won`.
+    for (let r = 0; r <= climbRank; r += 1) {
+      const clearedFlag = climbTierClearedFlag(r);
+      const trigger = climbTierCompanionTrigger(r);
+      if (!clearedFlag || !trigger) continue;
+      if (state.narrativeFlags?.[clearedFlag]) continue;
+      setNarrativeFlag(clearedFlag, true);
+      fireCompanionComment(trigger);
+    }
+
+    // §14.1 Silence of Two Witnesses — companion-comment dispatch.
+    // The flag itself is raised by the mutualBond effect at ~L538
+    // via fireMilestone("silence_of_two_witnesses"). Here we fire
+    // the authored parenthetical reactions + queue the cinematic
+    // via the SLIDESHOW_TRIGGERS fan-out. Gated on a dedicated
+    // companion-fired flag so the trigger runs exactly once even
+    // though the watching effect re-evaluates on every flag tick.
+    if (
+      state.narrativeFlags?.event_silence_of_two_witnesses &&
+      !state.narrativeFlags?.silence_of_two_witnesses_companions_fired
+    ) {
+      setNarrativeFlag("silence_of_two_witnesses_companions_fired", true);
+      fireCompanionComment("silence_of_two_witnesses");
     }
 
     // Witnessing §6.5 — Thaloria cinematic triggers on the
@@ -961,16 +1061,21 @@ export function useNarrativeIntegration() {
     if (chessWins >= 5 && !state.narrativeFlags?.chess_mastered) {
       setNarrativeFlag("chess_mastered", true);
     }
-    if (
-      (state.narrativeAct ?? 0) >= 2 &&
-      !state.narrativeFlags?.act_2_complete &&
-      state.narrativeFlags?.crafting_mastered &&
-      state.narrativeFlags?.chess_mastered &&
-      state.narrativeFlags?.thaloria_cinematic_seen &&
-      state.narrativeFlags?.game_master_loss
-    ) {
+    const act2Gate = deriveAct2CompletionStatus({
+      narrativeAct: state.narrativeAct,
+      flags: state.narrativeFlags,
+    });
+    if (act2Gate.readyToFire) {
       setNarrativeFlag("act_2_complete", true);
       setNarrativeFlag("trade_empire_unlocked", true);
+      // Advance into Act 3 atomically with completion. Without this,
+      // narrativeAct stays at 2 forever, `act_3_starting` never fires,
+      // and the Thaloria / Eyes slideshow / Act 3 narrative shell
+      // stays locked even though the player has finished Act 2.
+      // Mirrors the Prelude → Act 1 handoff at L462.
+      if ((state.narrativeAct ?? 0) < 3) {
+        advanceNarrativeAct(3);
+      }
       toast.info("Act 2 — The Forged Hand", {
         description:
           "The Free Ports have opened trade channels with your Ark. An agent wishes to meet.",
@@ -1001,6 +1106,10 @@ export function useNarrativeIntegration() {
     state.narrativeFlags,
     state.narrativeAct,
     state.craftedItems,
+    state.chessDepth,
+    state.rooms,
+    climbRank,
     setNarrativeFlag,
+    advanceNarrativeAct,
   ]);
 }

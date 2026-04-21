@@ -274,3 +274,283 @@ THE ASSISTANT card — a memorial-rarity Dischordia card unlocked after Episode 
 | 10 | Darren Badge | `art/crew/darren-fessler-badge.png` | 512×512 | PNG alpha | Done |
 
 All 10 assets generated 2026-04-12, processed (chroma key removal + resize), and placed.
+
+---
+
+# ACT 2 — "THE ENGINEER'S BENCH" / "THE WHISPER"
+
+Eleven assets for the Act 2 systems wired in PRs following #129. Paths
+below match the image URLs already referenced in the code — generate,
+process, and drop into the indicated directories.
+
+## A2.1 · Engineer's Bench Room — Powered-Off State
+
+**Path:** `apps/client/public/art/rooms/room-engineers-bench-off.webp`
+**Size:** 1920×1080 WebP
+**Referenced in:** `EngineersBenchPage.tsx` LivingBackground fallback
+**Usage:** Default room art before the bench is powered on for the first
+time. Cold, quiet, dormant.
+
+```
+A massive deep-space engineering workshop in powered-down state, central
+workbench the size of a car with dormant holographic emitters visible but
+not glowing, walls lined with crystalline tool lockers, dormant reactor
+core visible through reinforced glass in the background showing only cold
+blue-black emptiness, heavy shadows, soft ambient moonlight filtering
+from a single overhead pipe gap, dust motes drifting, parallax-friendly
+composition with clear foreground (tools on bench) midground (bench body)
+and background (reactor wall), cold cinematic sci-fi, high detail,
+atmospheric depth, dark sci-fi aesthetic — photorealistic
+--ar 16:9 --v 6.1 --s 750 --q 2
+```
+
+## A2.2 · Engineer's Bench Room — Powered-On State (neutral)
+
+**Path:** `apps/client/public/art/rooms/room-engineers-bench-powered.webp`
+**Size:** 1920×1080 WebP
+**Referenced in:** `EngineersBenchPage.tsx` (default once `engineers_bench_powered_on`)
+
+```
+The same massive engineering workshop, now powered on, central workbench
+glowing with soft amber holographic emitters projecting faint schematic
+wireframes above its surface, warm incandescent light pools under each
+tool locker, reactor core pulsing gently behind reinforced glass with a
+rhythmic 4-second cyan pulse, small drifting particles near the emitters,
+parallax layers preserved (bench foreground, workshop middle, reactor
+background), cinematic sci-fi, warm hearth-like feel despite the scale,
+high detail, dark sci-fi aesthetic — photorealistic
+--ar 16:9 --v 6.1 --s 750 --q 2
+```
+
+## A2.3 · Engineer's Bench Room — Light-Humming State
+
+**Path:** `apps/client/public/art/rooms/room-engineers-bench-humming.webp`
+**Size:** 1920×1080 WebP
+**Referenced in:** `EngineersBenchPage.tsx` Act 2 primary art (canonical hum)
+
+```
+Same engineering workshop, now active and crafting, bench holographic
+emitters projecting a rising cyan-white crystalline card form mid-forge
+above the workbench surface, strong caustic light splashing across the
+shop walls, the reactor glowing brighter in sympathy, Elara's avatar slot
+faintly visible in the back wall as a soft blue crescent, faint Quarchon
+lattice etchings glowing along the bench edges, drifting motes of light
+energy, parallax-friendly, cinematic warm-cyan palette, dark sci-fi,
+high detail — photorealistic
+--ar 16:9 --v 6.1 --s 750 --q 2
+```
+
+## A2.4 · Engineer's Bench Room — Dark-Humming State
+
+**Path:** `apps/client/public/art/rooms/room-engineers-bench-dark.webp`
+**Size:** 1920×1080 WebP
+**Referenced in:** `EngineersBenchPage.tsx` when crafting a dark-aligned card
+
+```
+Same engineering workshop, now active crafting a dark-aligned card, bench
+holographic emitters projecting a rising violet-black crystalline form
+mid-forge, deep indigo caustics splashing the walls, the reactor glowing
+a sullen magenta in sympathy, Elara's avatar slot dimmed to a flickering
+red crescent, faint Quarchon lattice etchings glowing a bruise-purple,
+motes of darker energy drifting downward as if heavier than air, parallax
+layers preserved, cinematic cool-violet palette, unsettling but beautiful,
+dark sci-fi, high detail — photorealistic
+--ar 16:9 --v 6.1 --s 750 --q 2
+```
+
+## A2.5 · Zephyr-9 Classroom Backdrop
+
+**Path:** `apps/client/public/art/rooms/room-zephyr-classroom.webp`
+**Size:** 1920×1080 WebP
+**Referenced in:** `EngineersBenchPage.tsx` Zephyr sidebar background
+
+```
+A quiet Quarchon chess classroom: a long slate-topped table with a
+holographic chess board projecting upward from its center, soft blue-
+violet ambient light, walls lined with star charts overlaid on move
+transcriptions (algebraic notation scrolling softly), a single Quarchon
+teaching portrait alcove in the back wall showing a mechanical sphinx-
+like figure with four thin mantis arms and a single cool eye, no humans
+present, deep contemplative silence, parallax-friendly depth, cinematic
+cold-calm palette, Kubrick-like symmetry, dark sci-fi aesthetic —
+photorealistic
+--ar 16:9 --v 6.1 --s 750 --q 2
+```
+
+## A2.6 · The Left Game Master — Portrait
+
+**Path:** `apps/client/public/art/npcs/portrait-game-master-left.webp`
+**Size:** 1024×1024 WebP
+**Referenced in:** `GameMastersArenaAct2Page.tsx` (Left GM hero)
+
+```
+Portrait of a tall androgynous figure in a blue trench coat, face obscured
+by a pair of split goggles — LEFT lens is glowing red, right lens is
+matte black, hands folded neatly over a brass chess clock, behind them
+a faint ghostly reflection of the Matrix of Dreams lattice, cold and
+measured expression conveyed through posture alone, minimal jewelry, a
+single silver fountain pen in the breast pocket, lit from three-quarters
+left with hard clinical blue light, void-black background with faint
+circuit traces, cinematic sci-fi villain portrait, precise geometric
+composition, dark sci-fi aesthetic — photorealistic
+--ar 1:1 --v 6.1 --s 750 --q 2
+```
+
+## A2.7 · The Right Game Master — Portrait
+
+**Path:** `apps/client/public/art/npcs/portrait-game-master-right.webp`
+**Size:** 1024×1024 WebP
+**Referenced in:** `GameMastersArenaAct2Page.tsx` (Right GM hero)
+
+```
+Portrait of a tall flamboyant figure in the same blue trench coat as the
+Left Game Master, face obscured by a pair of split goggles — LEFT lens
+is matte black, RIGHT lens is glowing red, one hand raised dramatically
+as if making a grand reveal, the other hand holding a single chess
+bishop piece delicately between thumb and forefinger, theatrical smirk
+suggested by the tilt of the head, warmer magenta rim light from the
+right, void-black background with faint circuit traces hinting at the
+Matrix of Dreams, cinematic sci-fi theatrical portrait, mirror composition
+to the Left GM so the two face each other when hung side-by-side, dark
+sci-fi aesthetic — photorealistic
+--ar 1:1 --v 6.1 --s 750 --q 2
+```
+
+## A2.8 · Split Goggles Prop
+
+**Path:** `apps/client/public/art/props/split-goggles.webp`
+**Size:** 512×512 WebP, transparent background
+**Referenced in:** `GameMastersArenaAct2Page.tsx` ClimbGate + Ark hotspot icon
+
+```
+A close-up product-shot of a pair of broken aviator-style goggles, lenses
+split down the center along a violent crack, LEFT lens glowing red and
+RIGHT lens matte black (paired version also needed with inverted glow —
+see A2.7 context), worn leather strap frayed at the edges, brass
+adjustment dials on the sides, resting on a velvet-black surface with a
+single amber halo light behind, product photography aesthetic but with
+the uncanny weight of a cursed artifact, transparent background after
+chroma-key cleanup, sharp detail, dark sci-fi aesthetic — photorealistic
+--ar 1:1 --v 6.1 --s 750 --q 2
+```
+
+**Post-processing:** Remove.bg for alpha. Export as 512×512 WebP with
+transparency. This asset also appears as a hotspot icon on the Ark
+Explorer map at the entrance to `/game-masters-arena`.
+
+## A2.9 · Silence of Two Witnesses — Frame 1 (Elara Flickering)
+
+**Path:** `apps/client/public/art/cinematics/silence-of-two-witnesses/frame01.webp`
+**Size:** 1920×1080 WebP
+**Referenced in:** `songSlideshows.ts` SILENCE_OF_TWO_WITNESSES_SLIDESHOW frame 1
+
+```
+A widescreen cinematic shot: Elara's narrator portrait frame in the
+center-left of the screen, the familiar blue crescent slot now static-
+filled and flickering as if her signal is collapsing, her lips
+caught mid-movement but her face is half-resolved, half-static, the
+rest of the frame pure void-black with a single sympathy tremor in the
+background lattice, Caravaggio chiaroscuro lighting from the crescent
+itself as the only light source, 21:9 letterboxed cinematic aspect
+despite 16:9 canvas, heavy grain, dark sci-fi aesthetic — photorealistic
+--ar 16:9 --v 6.1 --s 750 --q 2
+```
+
+## A2.10 · Silence of Two Witnesses — Frame 2 (Human Silent)
+
+**Path:** `apps/client/public/art/cinematics/silence-of-two-witnesses/frame02.webp`
+**Size:** 1920×1080 WebP
+**Referenced in:** `songSlideshows.ts` SILENCE_OF_TWO_WITNESSES_SLIDESHOW frame 2
+
+```
+A widescreen cinematic shot: The Human's trench-coated silhouette framed
+in the center-right of the screen mirrored-opposite to Elara's slot,
+head turned slightly away as if he has chosen silence rather than had it
+imposed, his substrate-signal channel visibly disconnected at the
+collar (a single broken wire hanging), a single warm amber pool of
+light from nowhere illuminating only his hands folded across his chest,
+the rest of the frame pure void-black, Caravaggio chiaroscuro, heavy
+grain, dark sci-fi aesthetic — photorealistic
+--ar 16:9 --v 6.1 --s 750 --q 2
+```
+
+## A2.11 · Silence of Two Witnesses — Frame 3 (Memorial Corridor)
+
+**Path:** `apps/client/public/art/cinematics/silence-of-two-witnesses/frame03.webp`
+**Size:** 1920×1080 WebP
+**Referenced in:** `songSlideshows.ts` SILENCE_OF_TWO_WITNESSES_SLIDESHOW frame 3
+
+```
+A wide symmetrical cinematic shot down a Memorial Corridor: a long
+cathedral-like hallway on the Ark, two narrator portrait frames hung on
+opposite walls facing each other across the corridor (Elara's crescent
+on the left, The Human's trench-coat silhouette on the right), both
+portraits dark and silent, a single warm Caravaggio spotlight falling
+from a high cathedral window onto the floor exactly between them, motes
+of dust suspended in the beam, the corridor extending into darkness at
+both ends, Kubrick symmetry, 21:9 letterboxed cinematic composition,
+heavy grain, a held breath rendered as light, dark sci-fi aesthetic —
+photorealistic
+--ar 16:9 --v 6.1 --s 750 --q 2
+```
+
+## A2.12 · Silence Cinematic — Reduced-Motion Hero
+
+**Path:** `apps/client/public/art/cinematics/silence-of-two-witnesses/hero.webp`
+**Size:** 1920×1080 WebP
+**Referenced in:** `songSlideshows.ts` reducedMotionFallback
+
+```
+A single composite key-frame summarizing the Silence cinematic: both
+narrator portraits (Elara's crescent, The Human's trench coat) mounted
+side-by-side on a black field, both dark and silent, a single warm
+amber Caravaggio spotlight falling between them from above, the
+Memorial Corridor faintly visible in the deep background, the galaxy
+holding one breath, cinematic memorial composition, heavy grain, dark
+sci-fi aesthetic — photorealistic
+--ar 16:9 --v 6.1 --s 750 --q 2
+```
+
+## A2.13 · Memory Energy HUD Icon
+
+**Path:** `apps/client/public/art/ui/icon-memory-energy.svg`
+**Size:** 48×48 SVG (with 24×24 raster fallback `icon-memory-energy-24.png`)
+**Referenced in:** `MemoryEnergyBadge.tsx` HUD chip
+
+```
+A minimal vector icon of a crystal-lattice hexagon with an inner
+clock-face suggestion, stroke-only line art with 2px strokes, single-
+color (`currentColor` for CSS theming), no fill, 48×48 viewBox with
+2px safe padding, suggesting both memory (crystalline lattice) and
+energy (clock/time) simultaneously, minimalist HUD aesthetic
+```
+
+**Delivery note:** Hand-author the SVG from the prompt above rather than
+generating via image model — SVG precision matters for HUD scaling. The
+raster 24×24 PNG fallback can be rendered directly from the final SVG.
+
+---
+
+## ACT 2 BATCH CHECKLIST
+
+| # | Asset | Path | Size | Format | Status |
+|---|-------|------|------|--------|--------|
+| A2.1 | Bench Off | `art/rooms/room-engineers-bench-off.webp` | 1920×1080 | WebP | Spec'd |
+| A2.2 | Bench Powered | `art/rooms/room-engineers-bench-powered.webp` | 1920×1080 | WebP | Spec'd |
+| A2.3 | Bench Light Humming | `art/rooms/room-engineers-bench-humming.webp` | 1920×1080 | WebP | Spec'd |
+| A2.4 | Bench Dark Humming | `art/rooms/room-engineers-bench-dark.webp` | 1920×1080 | WebP | Spec'd |
+| A2.5 | Zephyr Classroom | `art/rooms/room-zephyr-classroom.webp` | 1920×1080 | WebP | Spec'd |
+| A2.6 | Left Game Master | `art/npcs/portrait-game-master-left.webp` | 1024×1024 | WebP | Spec'd |
+| A2.7 | Right Game Master | `art/npcs/portrait-game-master-right.webp` | 1024×1024 | WebP | Spec'd |
+| A2.8 | Split Goggles | `art/props/split-goggles.webp` | 512×512 | WebP alpha | Spec'd |
+| A2.9 | Silence Frame 1 | `art/cinematics/silence-of-two-witnesses/frame01.webp` | 1920×1080 | WebP | Spec'd |
+| A2.10 | Silence Frame 2 | `art/cinematics/silence-of-two-witnesses/frame02.webp` | 1920×1080 | WebP | Spec'd |
+| A2.11 | Silence Frame 3 | `art/cinematics/silence-of-two-witnesses/frame03.webp` | 1920×1080 | WebP | Spec'd |
+| A2.12 | Silence Reduced-Motion | `art/cinematics/silence-of-two-witnesses/hero.webp` | 1920×1080 | WebP | Spec'd |
+| A2.13 | Memory Energy Icon | `art/ui/icon-memory-energy.svg` | 48×48 | SVG | **Done** |
+
+All paths match the `imageUrl` / `reducedMotionFallback.heroImageUrl`
+fields already referenced in `songSlideshows.ts:SILENCE_OF_TWO_WITNESSES_SLIDESHOW`
+and `EngineersBenchPage.tsx` / `GameMastersArenaAct2Page.tsx`. No code
+changes required when dropping assets in — they light up the moment the
+files exist at the listed paths.

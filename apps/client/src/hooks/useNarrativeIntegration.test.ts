@@ -248,9 +248,13 @@ describe("useNarrativeIntegration — Engineer Recording watcher", () => {
     expect(hookSrc).toMatch(/state\.narrativeFlags\?\.\[milestone\.discoveryFlag\]/);
   });
 
-  it("surfaces a toast with the recording title when discovered", () => {
-    expect(hookSrc).toContain("Engineer Recording");
-    expect(hookSrc).toContain("recording.title");
+  it("defers the discovery reveal to EngineerRecordingDiscoveryModal", () => {
+    // The full cinematic (transcript + NPC reactions) is handled by
+    // the mounted <EngineerRecordingDiscoveryModal /> in AppShell;
+    // the hook only sets the flag so two surfaces don't compete.
+    expect(hookSrc).toContain("EngineerRecordingDiscoveryModal");
+    // And the hook should no longer fire its own toast for the title.
+    expect(hookSrc).not.toContain("Engineer Recording ${milestone.recordingOrder}");
   });
 });
 
