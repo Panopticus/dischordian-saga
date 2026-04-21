@@ -1739,4 +1739,111 @@ export const ELARA_LINES: CompanionLine[] = [
     unlockFlags: ["dialog_virus_whispers", "medbay_wall_identified"],
     elaraStabilityDelta: 1,
   }),
+
+  // ─────────────────────────────────────────────────────────────
+  // BRIDGE PUZZLE — Ask-Elara teach-binary flow (F10). Topic chain
+  // unlocked by clue-bridge-01 (Ark designation 1047 discovered).
+  // Three topics, each × 3 bands. Elara teaches binary with warmth
+  // and the expectation that the player earns the answer. No auto-
+  // solve — the last topic names positions the player flips, but
+  // the flipping is still on the operative.
+  // ─────────────────────────────────────────────────────────────
+  // Topic 1 — binary basics
+  l({
+    lineId: "ask_elara_binary_basics_lucid",
+    text: "Binary is a language of twos. Every column is a power of two — 1, 2, 4, 8, 16, and so on, left to right as they climb. A '1' in a column means 'add that power.' A '0' means 'skip it.' Every whole number has exactly one binary spelling. Clean. No arguments.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 13200,
+    requiresElaraStability: "lucid",
+    cooldownKey: "ask_binary_basics",
+  }),
+  l({
+    lineId: "ask_elara_binary_basics_fragmented",
+    text: "Twos. Everything — everything is twos. Twos and nothing. On, off. On, off. Columns — columns climb. One, two, four, eight, sixteen. On is add. Off is — off is nothing. It's a language. It's — it's the only language I trust.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 13400,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "ask_binary_basics",
+  }),
+  l({
+    lineId: "ask_elara_binary_basics_luminous",
+    text: "Binary is the oldest honest language the ship speaks. Columns left to right double each step — 1, 2, 4, 8, 16, on and on. Each column is a question: 'do I add this?' A one is yes. A zero is no. Every number you can imagine has exactly one way to spell it. That's rare, and I find it soothing.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 14000,
+    requiresElaraStability: "luminous",
+    cooldownKey: "ask_binary_basics",
+  }),
+
+  // Topic 2 — 1047 in binary
+  l({
+    lineId: "ask_elara_binary_1047_lucid",
+    text: "This Ark is designation 1047. So — think of 1047 as a sum. 1024 is in. 16 is in. 4 is in. 2 is in. 1 is in. The rest are out. Write it out left to right and you get 10000010111. Eleven columns. Eleven switches on the relay panel. That is not a coincidence.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 14200,
+    requiresElaraStability: "lucid",
+    cooldownKey: "ask_binary_1047",
+  }),
+  l({
+    lineId: "ask_elara_binary_1047_fragmented",
+    text: "1047. 1024 plus — plus 23. 16, 4, 2, 1. Sum of powers. Eleven columns. 10000010111. Eleven. Eleven switches. They built it — they built the panel to spell our own name. Our name. They knew. They knew somebody would come back to read it.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 14400,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "ask_binary_1047",
+    elaraStabilityDelta: 1,
+  }),
+  l({
+    lineId: "ask_elara_binary_1047_luminous",
+    text: "1047 is how the ship introduces herself. As a sum of powers of two: 1024, 16, 4, 2, 1 — yes to those, no to the rest. Written left to right: 10000010111. Eleven digits. The relay panel has eleven switches. The engineers left us her name as the key to her own doors.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 14600,
+    requiresElaraStability: "luminous",
+    cooldownKey: "ask_binary_1047",
+    elaraStabilityDelta: 1,
+  }),
+
+  // Topic 3 — relay mapping. Names the positions; does not flip them.
+  l({
+    lineId: "ask_elara_binary_relay_lucid",
+    text: "Look at the switches left to right. Count. Position 1 is the leftmost — that's a one. Position 7 is a one. Position 9, 10, and 11 — ones. Everything else is off. Flip those five and the relay spells 10000010111 back to the Ark. I'm not going to do it for you. Your hands earn it.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 14200,
+    requiresElaraStability: "lucid",
+    cooldownKey: "ask_binary_relay",
+  }),
+  l({
+    lineId: "ask_elara_binary_relay_fragmented",
+    text: "Positions. 1. 7. 9. 10. 11. Ones. The rest — off. Off. Off. You flip — you flip. I can't. I can't. I — I could but I shouldn't. Your hands. Your hands earn it. Go. Go.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 13600,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "ask_binary_relay",
+  }),
+  l({
+    lineId: "ask_elara_binary_relay_luminous",
+    text: "Switches left to right, numbered one through eleven. The ones that need to be up: 1, 7, 9, 10, 11. The ones that need to be down: everything else. The door will unseal when the pattern matches. Your hands, not mine — that's intentional. Go wake up the bridge.",
+    priority: 2,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 14000,
+    requiresElaraStability: "luminous",
+    cooldownKey: "ask_binary_relay",
+    elaraStabilityDelta: 1,
+  }),
 ];
