@@ -4547,3 +4547,33 @@ export const chessClimbUnlocks = mysqlTable("chess_climb_unlocks", {
   lastUpdatedAt: timestamp("lastUpdatedAt").defaultNow().notNull(),
 });
 export type ChessClimbUnlocksRow = typeof chessClimbUnlocks.$inferSelect;
+
+
+/* ═══════════════════════════════════════════════════════
+   CHESS GAME REVIEWS — persisted post-game Stockfish analysis.
+   Migration: 0052_chess_game_reviews.sql
+   ═══════════════════════════════════════════════════════ */
+
+export const chessGameReviews = mysqlTable("chess_game_reviews", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  pgn: text("pgn").notNull(),
+  playerSide: mysqlEnum("playerSide", ["white", "black"]).notNull(),
+  /** JSON array of ReviewMistake rows. The client owns the
+   *  authoritative shape — see ChessPostGameReview.tsx. */
+  mistakes: json("mistakes").$type<
+    ReadonlyArray<{
+      moveNumber: number;
+      side: "white" | "black";
+      type: string;
+      centipawnLoss: number;
+      substitutions?: Record<string, string | number>;
+    }>
+  >().notNull(),
+  summary: varchar("summary", { length: 255 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userCreatedIdx: index("idx_chess_game_reviews_user_created")
+    .on(table.userId, table.createdAt),
+}));
+export type ChessGameReviewRow = typeof chessGameReviews.$inferSelect;

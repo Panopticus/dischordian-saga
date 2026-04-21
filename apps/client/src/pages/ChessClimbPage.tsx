@@ -16,6 +16,8 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { CHESS_CLIMB_TIERS } from "@shared/chessClimbTiers";
 import { getLoginUrl } from "@/const";
+import ClimbRevealPanel from "@/components/ClimbRevealPanel";
+import "@/styles/chessMatrix.css";
 
 type TierStateView = {
   id: keyof typeof CHESS_CLIMB_TIERS;
@@ -76,7 +78,13 @@ export default function ChessClimbPage() {
   const activeRun = state?.activeRun;
 
   return (
-    <div className="min-h-screen p-6 max-w-4xl mx-auto text-void-text">
+    <div
+      className="chess-arena-glitch min-h-screen p-6 max-w-4xl mx-auto text-void-text"
+      style={{
+        ["--chess-arena-glitch-intensity" as const]:
+          (state?.activeRun?.tierRank ?? 0) >= 2 ? 0.7 : 0.3,
+      } as React.CSSProperties}
+    >
       <header className="mb-6">
         <h1 className="text-2xl tracking-wide">The Game Master's Arena — Climb</h1>
         <p className="text-sm text-void-text-muted mt-1 italic">
@@ -108,6 +116,20 @@ export default function ChessClimbPage() {
           </button>
         </section>
       )}
+
+      {/* Reveal panel: if the player has just won a Tier 1+ climb
+          their highestClearedRank reflects it; render the matching
+          "I see you" beat dynamically from their live profile. */}
+      {(() => {
+        const rank = state?.unlocks.highestClearedRank ?? -1;
+        if (rank < 1) return null;
+        const bounded = Math.min(3, rank) as 1 | 2 | 3;
+        return (
+          <div className="mb-8">
+            <ClimbRevealPanel tierRank={bounded} />
+          </div>
+        );
+      })()}
 
       <section>
         <h2 className="text-sm uppercase tracking-widest text-void-text-muted mb-3">

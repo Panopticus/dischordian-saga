@@ -165,6 +165,80 @@ export const playerProfileRouter = router({
       return { profile: next, deltaApplied: delta };
     }),
 
+  /** Record a chess mind-game choice. Thin typed wrapper over
+   *  `recordEvent` so the client doesn't have to construct the
+   *  source id. Archetype is one of the MIND_GAME_ARCHETYPES. */
+  recordMindGameChoice: protectedProcedure
+    .input(
+      z.object({
+        archetype: z.enum([
+          "defiant",
+          "curious",
+          "philosophical",
+          "mocking",
+          "vulnerable",
+          "silent",
+        ]),
+        cueTrigger: z.string().min(1).max(64),
+        matchId: z.string().min(1).max(128).optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = (await getDb())!;
+      const userId = ctx.user.id;
+      const source = `chess_mind_game_choice:${input.archetype}`;
+      const delta = resolveDelta(source, undefined);
+      const now = new Date();
+
+      const current = await loadProfile(db, userId);
+      const next = applyDelta(current, delta, now);
+      const exists = current.eventCount > 0 || current.lastUpdatedAt !== null;
+
+      if (exists) {
+        await db
+          .update(playerProfile)
+          .set({
+            aggression: next.aggression,
+            mercy: next.mercy,
+            curiosity: next.curiosity,
+            conformity: next.conformity,
+            vigilance: next.vigilance,
+            vulnerability: next.vulnerability,
+            wit: next.wit,
+            eventCount: next.eventCount,
+            lastUpdatedAt: now,
+          })
+          .where(eq(playerProfile.userId, userId));
+      } else {
+        await db.insert(playerProfile).values({
+          userId,
+          aggression: next.aggression,
+          mercy: next.mercy,
+          curiosity: next.curiosity,
+          conformity: next.conformity,
+          vigilance: next.vigilance,
+          vulnerability: next.vulnerability,
+          wit: next.wit,
+          eventCount: next.eventCount,
+          lastUpdatedAt: now,
+        });
+      }
+
+      await db.insert(playerProfileEvents).values({
+        userId,
+        source,
+        payload: {
+          archetype: input.archetype,
+          cueTrigger: input.cueTrigger,
+          matchId: input.matchId ?? null,
+        },
+        deltas: (delta as Record<string, number>) ?? null,
+        createdAt: now,
+      });
+
+      return { profile: next };
+    }),
+
   /** Recent profile events for this user, optionally filtered by
    *  source. Used by the Game Master to cite specific past events
    *  in the Tier 2+ "I see you" reveals, and by the Self-Portrait

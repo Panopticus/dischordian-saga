@@ -167,6 +167,7 @@ const BattlePassPage = lazy(() => import("./pages/BattlePassPage"));
 const InventoryPage = lazy(() => import("./pages/InventoryPage"));
 const ChessPage = lazy(() => import("./pages/ChessPage"));
 const ChessTutorialPage = lazy(() => import("./pages/ChessTutorialPage"));
+const ChessPrincesGamePage = lazy(() => import("./pages/ChessPrincesGamePage"));
 const ChessClimbPage = lazy(() => import("./pages/ChessClimbPage"));
 const ChessPuzzlePage = lazy(() => import("./pages/ChessPuzzlePage"));
 const ChessStudyPage = lazy(() => import("./pages/ChessStudyPage"));
@@ -331,6 +332,7 @@ function Router() {
         <Route path="/inventory" component={InventoryPage} />
         <Route path="/chess">{() => <GameRoute component={ChessPage} />}</Route>
         <Route path="/chess/tutorial">{() => <GameRoute component={ChessTutorialPage} />}</Route>
+        <Route path="/chess/princes-game">{() => <GameRoute component={ChessPrincesGamePage} />}</Route>
         <Route path="/chess/climb">{() => <GameRoute component={ChessClimbPage} />}</Route>
         <Route path="/chess/puzzle">{() => <GameRoute component={ChessPuzzlePage} />}</Route>
         <Route path="/chess/study">{() => <GameRoute component={ChessStudyPage} />}</Route>

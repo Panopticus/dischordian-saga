@@ -46,6 +46,8 @@ import { inventoryRouter } from "./routers/inventory";
 import { guildWarsRouter } from "./routers/guildWars";
 import { chessRouter } from "./routers/chess";
 import { chessClimbRouter } from "./routers/chessClimb";
+import { chessSideGateRouter } from "./routers/chessSideGate";
+import { chessPuzzleRouter } from "./routers/chessPuzzle";
 import { playerProfileRouter } from "./routers/playerProfile";
 import { terminusSwarmRouter } from "./routers/terminusSwarm";
 import { questProgressRouter } from "./routers/questProgress";
@@ -149,6 +151,8 @@ export const appRouter = router({
   guildWars: guildWarsRouter,
   chess: chessRouter,
   chessClimb: chessClimbRouter,
+  chessSideGate: chessSideGateRouter,
+  chessPuzzle: chessPuzzleRouter,
   playerProfile: playerProfileRouter,
   terminusSwarm: terminusSwarmRouter,
   questProgress: questProgressRouter,

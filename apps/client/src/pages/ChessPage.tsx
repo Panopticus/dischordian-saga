@@ -982,6 +982,30 @@ export default function ChessPage() {
               </p>
             </Link>
 
+            {/* Companion pages — Post-tutorial content surfaces */}
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+              <Link href="/chess/princes-game" className="rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 p-3 text-left">
+                <div className="font-display text-[11px] tracking-wider text-foreground">Prince&rsquo;s Game</div>
+                <div className="font-mono text-[10px] text-muted-foreground mt-1">The only game he ever lost.</div>
+              </Link>
+              <Link href="/chess/climb" className="rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 p-3 text-left">
+                <div className="font-display text-[11px] tracking-wider text-foreground">The Climb</div>
+                <div className="font-mono text-[10px] text-muted-foreground mt-1">Four tiers. Voluntary.</div>
+              </Link>
+              <Link href="/chess/puzzle" className="rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 p-3 text-left">
+                <div className="font-display text-[11px] tracking-wider text-foreground">Puzzle of the Day</div>
+                <div className="font-mono text-[10px] text-muted-foreground mt-1">One puzzle. One theme.</div>
+              </Link>
+              <Link href="/chess/study" className="rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 p-3 text-left">
+                <div className="font-display text-[11px] tracking-wider text-foreground">Openings</div>
+                <div className="font-mono text-[10px] text-muted-foreground mt-1">Study with the Master.</div>
+              </Link>
+              <Link href="/self-portrait" className="rounded-lg border border-border/30 bg-card/20 hover:bg-card/40 p-3 text-left">
+                <div className="font-display text-[11px] tracking-wider text-foreground">Self-Portrait</div>
+                <div className="font-mono text-[10px] text-muted-foreground mt-1">The instrument he reads you with.</div>
+              </Link>
+            </div>
+
             {/* Game Modes — 5 modes now */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {[
