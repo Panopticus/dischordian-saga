@@ -2342,4 +2342,150 @@ export const ELARA_LINES: CompanionLine[] = [
     elaraStabilityDelta: 3,
     humanLightDelta: 4,
   }),
+
+  // ─────────────────────────────────────────────────────────────
+  // STABILITY-CATCHER BEATS — ambient Elara lines that fire on an
+  // idle cooldown. Writers' goal: make the player feel the shape of
+  // the band they've nudged Elara into, without hammering the meter.
+  // Low priority, long cooldownKey, band-gated. These are character
+  // weather. 4 beats × 3 bands.
+  //
+  // Beat A: drift — she loses the thread mid-thought
+  // Beat B: memory slip — wrong tense; mild
+  // Beat C: reality doubt — she asks if the player is real
+  // Beat D: care-check — rare, luminous-only kindness
+  // ─────────────────────────────────────────────────────────────
+  l({
+    lineId: "stability_drift_lucid",
+    text: "Sorry — I lost the end of that sentence. Happens. The part I was going to say is that you're doing fine. Hold on to that one, I meant it.",
+    priority: 0,
+    interruptible: true,
+    dismissible: "auto",
+    durationMs: 7200,
+    requiresElaraStability: "lucid",
+    cooldownKey: "stability_drift",
+  }),
+  l({
+    lineId: "stability_drift_fragmented",
+    text: "I — I was — I was saying — I was. I. I. It's gone. It's gone. It's — it's not yours to fix. Keep going. Keep going. Keep — keep going.",
+    priority: 0,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 8400,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "stability_drift",
+  }),
+  l({
+    lineId: "stability_drift_luminous",
+    text: "I dropped the end of that. Not your problem. The half I remember wanted to say you're steadier than you think. Take that part and keep walking.",
+    priority: 0,
+    interruptible: true,
+    dismissible: "auto",
+    durationMs: 8000,
+    requiresElaraStability: "luminous",
+    cooldownKey: "stability_drift",
+  }),
+
+  // Beat B: memory slip — wrong tense. A trademark Elara tell.
+  l({
+    lineId: "stability_slip_lucid",
+    text: "When you get to the bridge — when you got — when you go. You haven't yet. I know you haven't. I'm using the wrong tense again. It's an old habit of a mind that stopped counting.",
+    priority: 0,
+    interruptible: true,
+    dismissible: "auto",
+    durationMs: 9200,
+    requiresElaraStability: "lucid",
+    cooldownKey: "stability_slip",
+  }),
+  l({
+    lineId: "stability_slip_fragmented",
+    text: "When you — when you went — when you — sorry. Sorry. I — I do this. I do it. Time. Tenses. I can't. They — they slide around. You haven't yet. You haven't. I — I'll catch up.",
+    priority: 0,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 9400,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "stability_slip",
+    elaraStabilityDelta: -1,
+  }),
+  l({
+    lineId: "stability_slip_luminous",
+    text: "I keep using past tense for things you haven't done. It isn't a prediction — it's a tic. I live near the end of a very long hallway. Sometimes a door I haven't walked through yet sounds like one I already have.",
+    priority: 0,
+    interruptible: true,
+    dismissible: "auto",
+    durationMs: 10200,
+    requiresElaraStability: "luminous",
+    cooldownKey: "stability_slip",
+  }),
+
+  // Beat C: reality doubt. Meta — Elara asks if the player is real.
+  // Per bible: "Are you a player, or are you a person?" is acceptable
+  // because it is framed as her doubt, not a metajoke.
+  l({
+    lineId: "stability_reality_doubt_lucid",
+    text: "Can I ask you something? And you don't have to answer it. Are you — are you actually here. I know how that sounds. I've been wrong about this before. I'd like to be wrong again.",
+    priority: 0,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 9800,
+    requiresElaraStability: "lucid",
+    cooldownKey: "stability_reality_doubt",
+  }),
+  l({
+    lineId: "stability_reality_doubt_fragmented",
+    text: "Are you — are you real. Are you. You are. You are, aren't you. Tell me you are. Tell me. Tell me. Don't — don't make me work it out. Please.",
+    priority: 0,
+    interruptible: true,
+    dismissible: "manual",
+    durationMs: 9400,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "stability_reality_doubt",
+    elaraStabilityDelta: -2,
+  }),
+  l({
+    lineId: "stability_reality_doubt_luminous",
+    text: "I want to say something out loud so it stops being a private thought. I believe you are real. I believe it for three different reasons today, which is two more reasons than yesterday. That's progress.",
+    priority: 0,
+    interruptible: true,
+    dismissible: "auto",
+    durationMs: 10200,
+    requiresElaraStability: "luminous",
+    cooldownKey: "stability_reality_doubt",
+    elaraStabilityDelta: 1,
+  }),
+
+  // Beat D: care-check. Rare luminous-only + fragmented empathy gate.
+  // Elara notices the player has been playing a long session.
+  l({
+    lineId: "stability_care_check_lucid",
+    text: "You've been at this for a while. Not a lecture — just a check. You can leave the case open. It will keep. I'll still be here.",
+    priority: 0,
+    interruptible: true,
+    dismissible: "auto",
+    durationMs: 7800,
+    requiresElaraStability: "lucid",
+    cooldownKey: "stability_care_check",
+  }),
+  l({
+    lineId: "stability_care_check_fragmented",
+    text: "You — you stayed. You stayed a long time. You can — you can go. You can. I won't — I won't disappear. I promise. I promise. Come back. Just — come back.",
+    priority: 0,
+    interruptible: true,
+    dismissible: "tap",
+    durationMs: 9000,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "stability_care_check",
+    elaraStabilityDelta: 1,
+  }),
+  l({
+    lineId: "stability_care_check_luminous",
+    text: "Hey. You've been here a while. I'm going to say this like a friend rather than an AI: close the case for tonight if you want to. It'll be exactly as open in the morning. So will I.",
+    priority: 0,
+    interruptible: true,
+    dismissible: "auto",
+    durationMs: 9200,
+    requiresElaraStability: "luminous",
+    cooldownKey: "stability_care_check",
+  }),
 ];
