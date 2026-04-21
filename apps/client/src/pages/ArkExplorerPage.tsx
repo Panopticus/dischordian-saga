@@ -530,6 +530,21 @@ function RoomScene({
   );
 }
 
+/** Rewrite `/forge` to `/engineers-bench` once the player has entered
+ *  Act 2. Same room, same recipe data; the Bench is the diegetic Act 2
+ *  presentation of the forge (§6.2). All other routes pass through
+ *  unchanged. */
+function resolveActionRoute(
+  action: string | undefined,
+  flags: Record<string, unknown> | undefined,
+): string | undefined {
+  if (!action) return action;
+  if (action === "/forge" && flags?.act_2_started) {
+    return "/engineers-bench";
+  }
+  return action;
+}
+
 /* ─── MAIN EXPLORER PAGE ─── */
 export default function ArkExplorerPage() {
   const {
@@ -1091,7 +1106,8 @@ export default function ArkExplorerPage() {
         if (audioReady) playSFX("terminal_access");
         if (hotspot.elaraDialog) setElaraText(hotspot.elaraDialog);
         if (hotspot.action) {
-          setTimeout(() => navigate(hotspot.action!), 800);
+          const route = resolveActionRoute(hotspot.action, state.narrativeFlags);
+          if (route) setTimeout(() => navigate(route), 800);
         }
         break;
       }
@@ -1301,7 +1317,10 @@ export default function ArkExplorerPage() {
               <button
                 key={i}
                 onClick={() => {
-                  const route = currentRoom.featureRoutes[i];
+                  const route = resolveActionRoute(
+                    currentRoom.featureRoutes[i],
+                    state.narrativeFlags,
+                  );
                   if (route) {
                     if (audioReady) playSFX("terminal_access");
                     navigate(route);
