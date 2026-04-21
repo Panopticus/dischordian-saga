@@ -241,6 +241,14 @@ export const SLIDESHOW_TRIGGERS: ReadonlyArray<{
     completionFlag: "slideshow_the_helmet_in_the_grass_complete",
   },
   {
+    // §14.1 — Silence of Two Witnesses. The bond-60 watcher in
+    // this hook raises `event_silence_of_two_witnesses`; the
+    // slideshow sets `slideshow_silence_of_two_witnesses_complete`.
+    triggerFlag: "event_silence_of_two_witnesses",
+    slideshowId: "silence-of-two-witnesses",
+    completionFlag: "slideshow_silence_of_two_witnesses_complete",
+  },
+  {
     // §5.5 P1 — Human dark-trust confession. Watcher below
     // raises `human_dark_confession_unlocked` when Human bond
     // > 60 AND Elara bond < 20 (asymmetric trust shape).
@@ -994,7 +1002,11 @@ export function useNarrativeIntegration() {
     // §14.1 Silence of Two Witnesses — fires once when the unified
     // narrator bond crosses 60. deriveNarratorBond falls back to
     // min(elara, human) on pre-field saves so the milestone still
-    // behaves correctly for long-running games.
+    // behaves correctly for long-running games. Setting the flag
+    // is all we need: the SLIDESHOW_TRIGGERS fan-out below will
+    // queue the cinematic, and the companion-comment trigger fires
+    // the two authored parenthetical reactions for accessibility
+    // captioning before the cinematic plays.
     const bond = deriveNarratorBond({
       narratorBond: state.narratorBond,
       fallbackElara: state.elaraTrustLevel,
@@ -1005,12 +1017,7 @@ export function useNarrativeIntegration() {
       !state.narrativeFlags?.event_silence_of_two_witnesses
     ) {
       setNarrativeFlag("event_silence_of_two_witnesses", true);
-      const silence = WITNESSING_MILESTONES.silence_of_two_witnesses;
       fireCompanionComment("silence_of_two_witnesses");
-      toast.info(silence.title, {
-        description: silence.description,
-        duration: 12000,
-      });
     }
 
     // Witnessing §6.5 — Thaloria cinematic triggers on the

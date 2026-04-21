@@ -1756,6 +1756,88 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
  * The canonical first-wave slideshow registry. More slideshows
  * are added here as art and audio for §5.5's priority list ship.
  */
+/* ─── SILENCE OF TWO WITNESSES (§14.1 bond-60 milestone) ─── */
+
+/**
+ * "The Silence of Two Witnesses" — Act 2 horizontal milestone
+ * cinematic. Fires once when `event_silence_of_two_witnesses`
+ * is raised (narratorBond >= 60). Three 8-second frames: both
+ * narrator portraits flickering, both portraits dark, a single
+ * held-breath frame on the Memorial Corridor.
+ *
+ * Canon text comes from `witnessingEvents.ts:82` — the NPC
+ * reactions are deliberately parentheticals ("She says nothing").
+ * The slideshow shows what silence LOOKS like; the companion
+ * comments in useNarrativeIntegration.ts play the parentheticals
+ * as accessibility text immediately before.
+ */
+const SILENCE_FRAME_MS = 8_000;
+
+export const SILENCE_OF_TWO_WITNESSES_SLIDESHOW: SongSlideshowDef = {
+  id: "silence-of-two-witnesses",
+  songId: "silence_of_two_witnesses",
+  audioUrl: "/audio/act2/silence-of-two-witnesses-ambient.mp3",
+  durationMs: 3 * SILENCE_FRAME_MS,
+  title: "The Silence of Two Witnesses",
+  subtitle: "Bond 60. Both narrators go quiet. The Light freezes. The Dark pauses.",
+  credits: "§14.1 Horizontal Milestone · Act 2",
+  priority: "P1",
+  frames: [
+    {
+      startMs: 0,
+      endMs: SILENCE_FRAME_MS,
+      imageUrl: "/art/cinematics/silence-of-two-witnesses/frame01.webp",
+      transition: "fade",
+      caption: "Elara's portrait flickers. Her lips move. No sound arrives.",
+    },
+    {
+      startMs: SILENCE_FRAME_MS,
+      endMs: SILENCE_FRAME_MS * 2,
+      imageUrl: "/art/cinematics/silence-of-two-witnesses/frame02.webp",
+      transition: "dissolve",
+      caption: "The Human's trench coat is still on screen. His voice is not.",
+    },
+    {
+      startMs: SILENCE_FRAME_MS * 2,
+      endMs: SILENCE_FRAME_MS * 3,
+      imageUrl: "/art/cinematics/silence-of-two-witnesses/frame03.webp",
+      transition: "dissolve",
+      caption: "The Memorial Corridor. Caravaggio light. The galaxy holds one breath.",
+    },
+  ],
+  lyrics: [
+    {
+      startMs: 1_000,
+      endMs: 6_500,
+      text: "(She says nothing. Her portrait flickers but does not resolve into speech.)",
+      emphasis: "whisper",
+    },
+    {
+      startMs: 9_000,
+      endMs: 14_500,
+      text: "(He says nothing either. His trench coat is still on screen; his voice is not.)",
+      emphasis: "whisper",
+    },
+    {
+      startMs: 18_000,
+      endMs: 23_000,
+      text: "Both of them need a minute.",
+      emphasis: "layered",
+    },
+  ],
+  overlays: [
+    { type: "vignette", startMs: 0, endMs: 3 * SILENCE_FRAME_MS, intensity: 0.6 },
+    { type: "scanlines", startMs: 0, endMs: SILENCE_FRAME_MS, intensity: 0.2 },
+  ],
+  flagsSetOnComplete: ["slideshow_silence_of_two_witnesses_complete"],
+  lightEnergyReward: 0,
+  reducedMotionFallback: {
+    heroImageUrl: "/art/cinematics/silence-of-two-witnesses/hero.webp",
+    prose:
+      "Two narrator portraits side by side on a black field. Elara's lips move without sound. The Human stands in his trench coat with nothing to say. The camera pulls back to the Memorial Corridor in warm Caravaggio light. The galaxy is holding one breath. Both of them need a minute.",
+  },
+};
+
 export const SONG_SLIDESHOWS: Record<string, SongSlideshowDef> = {
   [LAST_WORDS_SLIDESHOW.id]: LAST_WORDS_SLIDESHOW,
   [WELCOME_TO_CELEBRATION_SLIDESHOW.id]: WELCOME_TO_CELEBRATION_SLIDESHOW,
@@ -1772,6 +1854,7 @@ export const SONG_SLIDESHOWS: Record<string, SongSlideshowDef> = {
   [IT_AINT_BEEN_THE_SAME_SLIDESHOW.id]: IT_AINT_BEEN_THE_SAME_SLIDESHOW,
   [THE_LIGHT_HOLDS_SLIDESHOW.id]: THE_LIGHT_HOLDS_SLIDESHOW,
   [THE_BULB_BREAKS_SLIDESHOW.id]: THE_BULB_BREAKS_SLIDESHOW,
+  [SILENCE_OF_TWO_WITNESSES_SLIDESHOW.id]: SILENCE_OF_TWO_WITNESSES_SLIDESHOW,
 };
 
 export function getSlideshow(id: string): SongSlideshowDef | undefined {

@@ -723,10 +723,11 @@ describe("The Bulb Breaks slideshow (§11.5 + §12 C11 — negative variant)", (
 });
 
 describe("Full registry invariants", () => {
-  it("registry has 15 slideshows total", () => {
-    // 14 song slideshows + ACT1_NARRATIVE_STRUCTURE.md §6
-    // Two Witnesses Part 2 (Act 1 narrative close).
-    expect(Object.keys(SONG_SLIDESHOWS).length).toBe(15);
+  it("registry has 16 slideshows total", () => {
+    // 14 song slideshows
+    // + ACT1_NARRATIVE_STRUCTURE.md §6 Two Witnesses Part 2
+    // + §14.1 Silence of Two Witnesses (Act 2 bond-60 milestone).
+    expect(Object.keys(SONG_SLIDESHOWS).length).toBe(16);
   });
 
   it("every registered slideshow validates cleanly (second-wave audit)", () => {
