@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- Outer hexagon — crystalline lattice memory frame -->
+  <path d="M24 4 L41 14 L41 34 L24 44 L7 34 L7 14 Z" />
+  <!-- Inner hexagon — the running clock underneath the memory -->
+  <path d="M24 12 L34 18 L34 30 L24 36 L14 30 L14 18 Z" opacity="0.55" />
+  <!-- Clock hands — pointing to a 2:00 time signature -->
+  <path d="M24 24 L24 17" />
+  <path d="M24 24 L29 27" />
+  <!-- Center pivot -->
+  <circle cx="24" cy="24" r="1.5" fill="currentColor" stroke="none" />
+  <!-- Four corner lattice nubs to suggest crystal facets -->
+  <circle cx="24" cy="4" r="1" fill="currentColor" stroke="none" />
+  <circle cx="24" cy="44" r="1" fill="currentColor" stroke="none" />
+  <circle cx="7" cy="24" r="1" fill="currentColor" stroke="none" />
+  <circle cx="41" cy="24" r="1" fill="currentColor" stroke="none" />
+</svg>

@@ -547,7 +547,7 @@ raster 24×24 PNG fallback can be rendered directly from the final SVG.
 | A2.10 | Silence Frame 2 | `art/cinematics/silence-of-two-witnesses/frame02.webp` | 1920×1080 | WebP | Spec'd |
 | A2.11 | Silence Frame 3 | `art/cinematics/silence-of-two-witnesses/frame03.webp` | 1920×1080 | WebP | Spec'd |
 | A2.12 | Silence Reduced-Motion | `art/cinematics/silence-of-two-witnesses/hero.webp` | 1920×1080 | WebP | Spec'd |
-| A2.13 | Memory Energy Icon | `art/ui/icon-memory-energy.svg` | 48×48 | SVG | Hand-author |
+| A2.13 | Memory Energy Icon | `art/ui/icon-memory-energy.svg` | 48×48 | SVG | **Done** |
 
 All paths match the `imageUrl` / `reducedMotionFallback.heroImageUrl`
 fields already referenced in `songSlideshows.ts:SILENCE_OF_TWO_WITNESSES_SLIDESHOW`
