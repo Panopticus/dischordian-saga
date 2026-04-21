@@ -23,7 +23,8 @@ describe("memoryEnergy — clamping", () => {
 
   it("treats non-finite values as 0", () => {
     expect(clampMemoryEnergy(Number.NaN, 50)).toBe(MEMORY_ENERGY_MIN);
-    expect(clampMemoryEnergy(Number.POSITIVE_INFINITY, 50)).toBe(50);
+    expect(clampMemoryEnergy(Number.POSITIVE_INFINITY, 50)).toBe(MEMORY_ENERGY_MIN);
+    expect(clampMemoryEnergy(Number.NEGATIVE_INFINITY, 50)).toBe(MEMORY_ENERGY_MIN);
   });
 
   it("falls back to base cap on invalid cap", () => {

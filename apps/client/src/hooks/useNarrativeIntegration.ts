@@ -13,6 +13,7 @@ import { useEffect, useCallback, useRef } from "react";
 import { useGame } from "@/contexts/GameContext";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { dispatchNarrativeEffect, dispatchMoralityShift } from "@/hooks/useNarrativeEvents";
 import { getAtmosphereForMorality, pushTemporaryTheme, popTemporaryTheme } from "@/engine/voidEngine";
 import { playSlideshow } from "@/stores/witnessingStore";
@@ -24,6 +25,11 @@ import {
 } from "@shared/witnessingEvents";
 import { NARRATOR_BOND_THRESHOLDS, deriveNarratorBond } from "@shared/narratorBond";
 import { ZEPHYR_9_CLASSROOM } from "@shared/act2Interlude";
+import {
+  climbRankToClassroomDepth,
+  climbTierClearedFlag,
+  climbTierCompanionTrigger,
+} from "@shared/act2ClimbBridge";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import {
   PRELUDE_HANDOFF_TARGET_ACT,
@@ -286,6 +292,18 @@ export function useNarrativeIntegration() {
   const slideshowFiredRef = useRef<Set<string>>(new Set());
   const dischordiaCyclePhase = useDischordiaCycleStore((s) => s.state.phase);
   const applyRawDelta = useDischordiaCycleStore((s) => s.applyRawDelta);
+
+  // §6.3 Chess Climb bridge — pull the server-authoritative Climb
+  // state so the effective Zephyr-9 classroom depth reflects what
+  // the player has actually cleared. The mapping lives in
+  // act2ClimbBridge.ts. See `climbRankToClassroomDepth`.
+  const { isAuthenticated } = useAuth();
+  const climbStateQ = trpc.chessClimb.getState.useQuery(undefined, {
+    enabled: isAuthenticated,
+    refetchOnWindowFocus: false,
+    staleTime: 30_000,
+  });
+  const climbRank = climbStateQ.data?.unlocks.highestClearedRank ?? -1;
 
   /**
    * Fire a §14.1 Witnessing milestone event: raise its flag,
@@ -934,7 +952,18 @@ export function useNarrativeIntegration() {
     // line + raise a flag so downstream systems (Dischordia peek, undo,
     // Engineer's Opening unlock) can read a clean "has crossed depth N"
     // condition instead of re-computing from chessDepth everywhere.
-    const depth = state.chessDepth ?? 0;
+    //
+    // Two depth sources feed this watcher:
+    //   1. `state.chessDepth` — client-side counter bumped by local
+    //      wins / scripted grants.
+    //   2. `climbRank` — server-authoritative highestClearedRank from
+    //      the chess Climb (PR #129). Mapped via climbRankToClassroomDepth.
+    // The effective depth is the max of both; whichever source reaches
+    // a tier threshold first fires the flag and the teaching line.
+    const depth = Math.max(
+      state.chessDepth ?? 0,
+      climbRankToClassroomDepth(climbRank),
+    );
     for (const tier of ZEPHYR_9_CLASSROOM) {
       const flag = `zephyr_classroom_tier_${tier.depth}_crossed`;
       if (depth >= tier.depth && !state.narrativeFlags?.[flag]) {
@@ -945,6 +974,21 @@ export function useNarrativeIntegration() {
           duration: 10000,
         });
       }
+    }
+
+    // Chess Climb tier-won companion reactions — Elara and The Human
+    // react the first time each Climb rank is cleared. Separate from
+    // the Zephyr depth-crossing above because the Climb is a series
+    // (best-of-3) event, not a depth threshold; the voice is about
+    // beating the Game Master, not about unlocking a Dischordia
+    // mechanic. See companionComments.ts `chess_climb_tier_N_won`.
+    for (let r = 0; r <= climbRank; r += 1) {
+      const clearedFlag = climbTierClearedFlag(r);
+      const trigger = climbTierCompanionTrigger(r);
+      if (!clearedFlag || !trigger) continue;
+      if (state.narrativeFlags?.[clearedFlag]) continue;
+      setNarrativeFlag(clearedFlag, true);
+      fireCompanionComment(trigger);
     }
 
     // §14.1 Silence of Two Witnesses — fires once when the unified
@@ -1056,6 +1100,7 @@ export function useNarrativeIntegration() {
     state.elaraTrustLevel,
     state.humanTrustLevel,
     state.rooms,
+    climbRank,
     setNarrativeFlag,
   ]);
 }

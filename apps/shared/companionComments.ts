@@ -195,6 +195,24 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
     voiceLine: "I've lost to both of them. Many times. You will lose again. That's the design. The loss is the lesson; the win, when it comes, is the signature.",
     timing: "delayed_5s", maxPlays: 1 },
 
+  // ── ACT 2 — CHESS CLIMB TIER-WON REACTIONS (Climb → Zephyr-9 bridge) ──
+  // Fire when the player clears a Chess Climb best-of-3 series. Elara and
+  // The Human react in the same voice as their Zephyr-9 teaching lines —
+  // the Climb is the mechanical embodiment of the classroom, not a
+  // separate progression. Triggers are one-shot per tier.
+  { id: "cc_chess_climb_tier_0_won_elara", speaker: "elara", trigger: "chess_climb_tier_0_won",
+    voiceLine: "You took two games off the Game Master at Exhibition. That is not nothing. He smiles when he says you did. I am not sure the smile means what he wants us to think it means.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_chess_climb_tier_1_won_human", speaker: "human", trigger: "chess_climb_tier_1_won",
+    voiceLine: "Wagered tier, cleared. You paid the ELO and got it back with interest. The host on the clipboard is reading from a new page now. Watch his hands while he does it.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_chess_climb_tier_2_won_elara", speaker: "elara", trigger: "chess_climb_tier_2_won",
+    voiceLine: "Hierarchy Table. You beat the demon with the clipboard. He will send you an Annotated Knight and forget to mention it is also a summons. Accept anyway. The note it comes with is the thing.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_chess_climb_tier_3_won_human", speaker: "human", trigger: "chess_climb_tier_3_won",
+    voiceLine: "Labyrinth Wager. Mol'Garath was at the audience, and you did not flinch. The Engineer finished that maze once. You're the second. There is a conversation you are now allowed to have. Don't skip it.",
+    timing: "delayed_5s", maxPlays: 1 },
+
   // ── ACT 2 — SILENCE OF TWO WITNESSES (§14.1 bond 60 milestone) ──
   { id: "cc_silence_elara", speaker: "elara", trigger: "silence_of_two_witnesses",
     voiceLine: "(She says nothing. Her portrait flickers but does not resolve into speech.)",

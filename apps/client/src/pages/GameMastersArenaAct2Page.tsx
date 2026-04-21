@@ -30,6 +30,8 @@ import { motion } from "framer-motion";
 import { ChevronLeft, Eye, EyeOff, Goal, Sword, Swords } from "lucide-react";
 import { toast } from "sonner";
 import { useGame } from "@/contexts/GameContext";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { trpc } from "@/lib/trpc";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import { getActiveAct2GameMaster } from "@shared/witnessingRuntime";
 import {
@@ -40,10 +42,24 @@ import {
 } from "@shared/act2Interlude";
 import LivingBackground from "@/components/LivingBackground";
 
+/** Minimum chess Climb rank (highestClearedRank) required before the
+ *  Left/Right Game Masters recognize the player in the Arena. The
+ *  Climb is the teaching ground; the Arena is the rematch venue. */
+const CLIMB_RANK_REQUIRED_FOR_ARENA = 1;
+
 export default function GameMastersArenaAct2Page() {
   const { state, setNarrativeFlag } = useGame();
   const flags = state.narrativeFlags ?? {};
   const moralityScore = state.moralityScore ?? 0;
+
+  const { isAuthenticated } = useAuth();
+  const climbStateQ = trpc.chessClimb.getState.useQuery(undefined, {
+    enabled: isAuthenticated,
+    refetchOnWindowFocus: false,
+    staleTime: 30_000,
+  });
+  const climbRank = climbStateQ.data?.unlocks.highestClearedRank ?? -1;
+  const climbGateMet = climbRank >= CLIMB_RANK_REQUIRED_FOR_ARENA;
 
   const activeGM = useMemo(
     () => getActiveAct2GameMaster(moralityScore),
@@ -97,6 +113,9 @@ export default function GameMastersArenaAct2Page() {
     }
   }, [activeGM, flags, setNarrativeFlag]);
 
+  if (!climbGateMet) {
+    return <ClimbGate climbRank={climbRank} loading={climbStateQ.isLoading} />;
+  }
   if (!activeGM) {
     return <ArenaGate moralityScore={moralityScore} />;
   }
@@ -304,6 +323,71 @@ function ArenaGate({ moralityScore }: { moralityScore: number }) {
           >
             Back to the Ark
           </Link>
+        </motion.div>
+      </main>
+    </div>
+  );
+}
+
+/** Rendered when the player hasn't cleared enough of the chess Climb
+ *  to earn a rematch with the split Game Masters. Canon: the Climb
+ *  (server-authoritative) is the teaching ground; the Arena is where
+ *  the Left/Right lenses show up as rematch adversaries. Tier 1
+ *  (Wagered) is the minimum — once you've paid ELO and gotten it
+ *  back, the split is ready to read you. */
+function ClimbGate({
+  climbRank,
+  loading,
+}: {
+  climbRank: number;
+  loading: boolean;
+}) {
+  return (
+    <div className="min-h-screen bg-stone-950 text-stone-100">
+      <header className="flex items-center justify-between border-b border-stone-700 bg-stone-950/80 px-4 py-3 backdrop-blur">
+        <Link
+          to="/ark"
+          className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-stone-400 hover:text-stone-100"
+        >
+          <ChevronLeft size={14} />
+          Ark
+        </Link>
+        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-stone-400">
+          §6.4 · The Climb Comes First
+        </p>
+        <span />
+      </header>
+      <main className="mx-auto max-w-xl p-8">
+        <motion.div
+          className="rounded-md border border-stone-700 bg-stone-900/50 p-6"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <Swords size={20} className="text-stone-400" />
+          <p className="mt-4 font-serif text-[14px] italic leading-relaxed text-stone-200">
+            The Left and Right Game Masters don't appear for players who
+            haven't yet taken the Wagered tier of the Climb. The Arena is
+            a rematch. Earn the first match first.
+          </p>
+          <p className="mt-3 font-mono text-[11px] text-stone-400">
+            {loading
+              ? "Reading the board…"
+              : `Current Climb rank: ${climbRank < 0 ? "—" : climbRank}. Required: ${CLIMB_RANK_REQUIRED_FOR_ARENA}.`}
+          </p>
+          <div className="mt-5 flex gap-2">
+            <Link
+              to="/chess/climb"
+              className="inline-flex rounded border border-indigo-500/40 bg-indigo-950/40 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-indigo-100 hover:bg-indigo-900/60"
+            >
+              Enter the Climb
+            </Link>
+            <Link
+              to="/ark"
+              className="inline-flex rounded border border-stone-700 bg-stone-800 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-stone-100 hover:bg-stone-700"
+            >
+              Back to the Ark
+            </Link>
+          </div>
         </motion.div>
       </main>
     </div>
