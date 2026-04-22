@@ -115,12 +115,13 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     armEndSafety(dur > 0 ? dur : 90);
   }, [armEndSafety]);
 
-  // Belt-and-suspenders: if `timeupdate` shows we've reached the end
-  // but `ended` hasn't fired, complete anyway.
+  // Belt-and-suspenders: if `timeupdate` shows the video has actually run
+  // past its reported duration but `ended` never fired, complete anyway.
+  // Must NOT trigger early, or the final moments of dialog get cut off.
   const handleTimeUpdate = useCallback(() => {
     const v = videoRef.current;
     if (!v || !Number.isFinite(v.duration) || v.duration <= 0) return;
-    if (v.currentTime >= v.duration - 0.15) {
+    if (v.currentTime >= v.duration) {
       handleComplete();
     }
   }, [handleComplete]);
