@@ -491,14 +491,23 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   useEffect(() => {
     voFailedRef.current = false;
     const dialogText = STEP_DIALOG[awakeningStep];
-    const hasVO = Boolean(STEP_VO_AUDIO[awakeningStep]);
+    // ELEMENT_QUESTION uses species-specific VO keys; all other steps key
+    // VO audio by the raw step name. Without this resolution, both the VO
+    // file and the TTS fallback played simultaneously on the element step.
+    const voKey =
+      awakeningStep === "ELEMENT_QUESTION"
+        ? characterChoices.species === "demagi"
+          ? "ELEMENT_QUESTION_DEMAGI"
+          : "ELEMENT_QUESTION_QUARCHON"
+        : awakeningStep;
+    const hasVO = Boolean(STEP_VO_AUDIO[voKey]);
     if (hasVO) return; // VO owns the audio channel; TTS stays silent.
     if (dialogText && elaraTTS && dialogText !== lastSpokenRef.current) {
       lastSpokenRef.current = dialogText;
       const t = setTimeout(() => elaraTTS.speak(dialogText), 300);
       return () => clearTimeout(t);
     }
-  }, [awakeningStep, elaraTTS, STEP_DIALOG]);
+  }, [awakeningStep, elaraTTS, STEP_DIALOG, characterChoices.species]);
 
   // Get available elements based on species
   const availableElements = useMemo(() => {
