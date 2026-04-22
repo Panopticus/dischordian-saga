@@ -15,6 +15,11 @@
 
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "node:url";
+
+// ESM polyfill for CommonJS-style __dirname.
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // ─── CONFIG ───
 const ELEVENLABS_KEY = process.env.ELEVENLABS_API_KEY || "";
