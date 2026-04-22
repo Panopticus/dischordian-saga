@@ -187,6 +187,7 @@ const SpaceStationPage = lazy(() => import("./pages/SpaceStationPage"));
 const SyndicateWorldPage = lazy(() => import("./pages/SyndicateWorldPage"));
 const TowerDefensePage = lazy(() => import("./pages/TowerDefensePage"));
 const PrestigeQuestPage = lazy(() => import("./pages/PrestigeQuestPage"));
+const PrestigeCycleResetPage = lazy(() => import("./pages/PrestigeCycleResetPage"));
 const CompetitiveArenaPage = lazy(() => import("./pages/CompetitiveArenaPage"));
 const SeasonalEventsPage = lazy(() => import("./pages/SeasonalEventsPage"));
 const ReplayPage = lazy(() => import("./pages/ReplayPage"));
@@ -372,6 +373,7 @@ function Router() {
         <Route path="/syndicate-world" component={SyndicateWorldPage} />
         <Route path="/tower-defense">{() => <GameRoute component={TowerDefensePage} />}</Route>
         <Route path="/prestige-quests" component={PrestigeQuestPage} />
+        <Route path="/prestige-cycle" component={PrestigeCycleResetPage} />
         <Route path="/competitive-arena">{() => <GameRoute component={CompetitiveArenaPage} />}</Route>
         <Route path="/seasonal-events" component={SeasonalEventsPage} />
         <Route path="/replays" component={ReplayPage} />

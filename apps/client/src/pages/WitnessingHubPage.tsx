@@ -461,10 +461,24 @@ function JourneyPanel({
         />
       )}
       {(Boolean(flags.act_6_started) || Boolean(flags.act_6_complete)) && (
-        <SpineActPanel config={SPINE_ACT_PANELS.act_6} flags={flags} />
+        <SpineActPanel
+          config={SPINE_ACT_PANELS.act_6}
+          flags={flags}
+          recruitmentCount={getRecruitmentMissionCount({
+            armyRecruitmentMissionsCompleted:
+              gameState.armyRecruitmentMissionsCompleted ?? undefined,
+          })}
+        />
       )}
       {(Boolean(flags.act_7_started) || Boolean(flags.act_7_complete)) && (
-        <SpineActPanel config={SPINE_ACT_PANELS.act_7} flags={flags} />
+        <SpineActPanel
+          config={SPINE_ACT_PANELS.act_7}
+          flags={flags}
+          recruitmentCount={getRecruitmentMissionCount({
+            armyRecruitmentMissionsCompleted:
+              gameState.armyRecruitmentMissionsCompleted ?? undefined,
+          })}
+        />
       )}
 
       {/* Year One calendar strip */}
@@ -1000,8 +1014,8 @@ const SPINE_ACT_PANELS: Record<
     ],
     ctas: [
       { href: "/act5-interlude", label: "Map / Interlude" },
+      { href: "/army", label: "Army Recruitment" },
       { href: "/fight", label: "Cades FPS" },
-      { href: "/witnessing", label: "Hub" },
     ],
     recruitmentLabel: "Army recruits",
     recruitmentThreshold: RECRUITMENT_THRESHOLDS.act6,
@@ -1017,8 +1031,13 @@ const SPINE_ACT_PANELS: Record<
     ],
     ctas: [
       { href: "/act6-ladder", label: "Confession Ladder" },
+      { href: "/army", label: "Army Recruitment" },
       { href: "/witnessing", label: "Hub" },
     ],
+    // Act 6 trigger is 5+ recruits; showing the count here
+    // gives the player a visible gate they can work toward.
+    recruitmentLabel: "Army recruits (Act 6 gate)",
+    recruitmentThreshold: RECRUITMENT_THRESHOLDS.act6,
   },
   act_7: {
     title: "ACT 7 · THE CONVERGENCE",
@@ -1031,8 +1050,12 @@ const SPINE_ACT_PANELS: Record<
     ],
     ctas: [
       { href: "/act7-ladder", label: "Convergence Ladder" },
-      { href: "/witnessing", label: "Hub" },
+      { href: "/army", label: "Army Recruitment" },
+      { href: "/prestige-cycle", label: "Begin Next Cycle" },
     ],
+    // Act 7 trigger is 15+ recruits; same panel, higher threshold.
+    recruitmentLabel: "Army recruits (Act 7 gate)",
+    recruitmentThreshold: RECRUITMENT_THRESHOLDS.act7,
   },
 };
 
