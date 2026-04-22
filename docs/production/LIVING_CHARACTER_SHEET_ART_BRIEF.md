@@ -1103,3 +1103,119 @@ Standard 15-panel. Grin is the baseline — even SIL viseme shows teeth visible,
 ```
 
 ---
+
+### 2K — EIDOLA (PROFESSOR EIDOLA, MECHRONIS ETHICS)
+
+Canon anchor: `docs/production/act1-asset-build/prompts/matchups/professor-eidola.txt`. Early-fifties ethics professor, charcoal-grey academic robe with silver piping + ethics-department sigil, silver-streaked black hair short and parted, reading glasses PUSHED UP INTO HAIR (not worn), asymmetric face (one brow lifted, one mouth-corner softened), tired-but-kind direct gaze. Chalk dust on left sleeve.
+
+Reference: `apps/client/public/references/npcs/eidola/REFERENCE.md`.
+
+#### 2K.1 — Bundle A: Neutral bust
+
+> Three-quarter bust portrait of a woman in her early fifties, Mediterranean features, weathered-beautiful face with unmistakable asymmetry — one eyebrow naturally sits 3° higher than the other, one corner of her mouth softens more than the other. Direct gaze to camera: tired (she has made this assessment a thousand times), kind (she has not stopped caring). Skin warm medium, fine laugh-lines at eye corners. Silver-streaked black hair (#2a2a2d with #a6a6a6 streaks) cut short and neat, parted to her left side. Reading glasses pushed UP into the hair at her crown (thin silver wire frames, clear lenses). A single chalk-dust smudge on her left sleeve. Wearing a long charcoal-grey wool academic robe (#3a3d42) with narrow silver piping along the lapel and a single embroidered ethics-department sigil at the collar (geometric pattern, no rendered letters). Under the robe, a plain dark high-collared blouse. Both hands folded on a surface-edge in the lower frame over a closed matte-cream folder. Backdrop: defocused academic atrium — pale cyan institutional ambient (#4ba3b5), polished brass (#b8752d) on a table edge, a warm sun-shaft falling across her hands from camera-right window. Palette balance: cyan dominant on robe shadows, brass accent, warm sun on hands, silver-grey in hair. Film grain. 4K. No rendered text.
+
+#### 2K.2 — Bundle B: Breathing loop (8 frames)
+
+> Standard chest cycle (1.000 to 1.006 peak — moderate, she's relaxed but upright). Robe folds unchanged. Reading glasses in hair UNCHANGED. Chalk-dust smudge UNCHANGED. Hair drift ±0.4px only — her hair is recently combed.
+
+#### 2K.3 — Bundle C: Blink triptych
+
+Standard. On CLOSED frame, the laugh-line creases at the outer eye corners deepen visibly — she blinks with her whole face.
+
+#### 2K.4 — Bundle D: Viseme grid
+
+Standard 15-panel, natural asymmetry preserved across all frames (one mouth-corner consistently softer).
+
+#### 2K.5 — Bundle E: Expressions (5)
+
+> 1. SPEAKING — mid-syllable, one corner of mouth slightly higher than the other, natural asymmetric speech pattern.
+> 2. CONCERNED — asymmetric brow knit (one brow pulls down more than the other), mouth tight, eyes soften — worried for, not worried about.
+> 3. EMOTIONAL1 (wry-teaching) — one brow lifted 5° higher (the natural-high brow), half-smile at the soft-corner, eyes direct. Her default teaching face.
+> 4. EMOTIONAL2 (disappointed) — both brows lower, mouth flat, eyes hold direct without warmth. Rare and devastating — she has made her assessment and it was not what she hoped.
+> 5. REVEALING — reading glasses come DOWN onto her face for the first time in the rig set, mouth parts pre-speech, eyes wet at the inner corners (a single catchlight suggesting tears). She has chosen to write a word you CAN read. Reserved for the pivotal assessment beat.
+
+#### 2K.6 — Bundle F: None required.
+
+#### 2K.7 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_eidola",
+  "shaderProgram": "AsymmetricAcademicPortrait",
+  "uniforms": {
+    "facialAsymmetry": 0.35,
+    "glassesOnFace": false,
+    "chalkDustVisible": true,
+    "academicAmbientCyan": 0.55,
+    "breathingPhase": "autoLoop:3.2s:amp=1.006"
+  },
+  "stateTriggers": {
+    "wryTeaching": "asymmetry=0.5",
+    "revealing": "glassesOnFace=true for line",
+    "disappointed": "facialAsymmetry=0.1 (uncharacteristic symmetry)"
+  }
+}
+```
+
+---
+
+### 2L — THE GAMEMASTER (PRE-SPLIT FORM)
+
+Canon anchor: `docs/production/act1-asset-build/prompts/matchups/game-master-original.txt`. Thin man, early fifties, tailored Empire legal-black suit, thin black hair combed flat and receding, clean-shaven. **Single conventional pair of wire-rimmed spectacles** (pre-split — both lenses in one frame). Measured prosecutor neutrality. Hard clinical white panel light.
+
+"Remember his face. This is the last time he is one person."
+
+Reference: `apps/client/public/references/npcs/gamemaster/REFERENCE.md`.
+
+#### 2L.1 — Bundle A: Neutral bust
+
+> Three-quarter bust portrait of a thin man, early fifties, angular scholarly features, measured neutral expression — no hostility, no smugness, no warmth. The specific professional composure of a prosecutor who has decided the outcome long before procedure begins. Hair thin, black (#1c1a1d), combed flat, receding hairline at the temples. Clean-shaven, pale skin with slight unhealthy pallor. Eyes: dark brown (#2a2318), direct to camera, unhurried, unreadable. Wearing a tailored Empire legal-black suit (#0a0a0c matte obsidian wool, no lapel insignia, no tie) with a plain high-collared white shirt (#e8e8e8) buttoned fully to the throat. Wire-rimmed spectacles: thin slim dark silver frames (#a8a8ac), TWO LENSES IN ONE CONVENTIONAL FRAME — clear glass, eyes fully visible through them, not obscured. **Critical: single frame, not the later two-eyepiece Left/Right configuration.** Hands (if visible at edge of frame): flat, palms down, fingers unnaturally still. Backdrop: defocused institutional grey cell chamber, hard clinical white (#e8e8e8) panel-light cone from above cast hard down on face and hands, deep shadow (#2a2a2d) at the frame edges and on the suit. No brass, no warm light of any kind, no cyan — the only color temperature is the panel light's clinical white. Thin silver glint on the spectacle frames. Mouth closed, neutral, completely still. Film grain. 4K. No rendered text.
+
+#### 2L.2 — Bundle B: Breathing loop (8 frames)
+
+> Shallow breathing (1.000 to 1.003 peak — he is still, deliberate). Hands (if in frame) UNCHANGED across all 8 frames — they are unnaturally motionless. Hair UNCHANGED. Spectacles UNCHANGED. Only the chest/shoulders breathe minimally.
+
+#### 2L.3 — Bundle C: Blink triptych
+
+Standard, but with one subtle detail: on the HALF frame, the spectacles' lenses catch a hard highlight briefly (the overhead panel-light glints off the glass during the blink — the viewer's eye is drawn to the lenses for a split second, reinforcing "there are still two lenses here"). This is a foreshadowing tell for Act 2's split.
+
+#### 2L.4 — Bundle D: Viseme grid
+
+Standard 15-panel. Small measured mouth movements — his visemes read at ~70% of typical openness. He speaks economically.
+
+#### 2L.5 — Bundle E: Expressions (5)
+
+> 1. SPEAKING — minimal mouth motion, eyes locked, head unmoving.
+> 2. CONCERNED — NOT genuine concern; the brows furrow with professional registration of a complication, nothing more.
+> 3. EMOTIONAL1 (procedural-pleased) — the faintest possible uptick at one mouth corner (2mm). Not a smile — a checkmark.
+> 4. EMOTIONAL2 (about-to-split) — a SINGLE reserved frame: the spectacles show a hairline vertical fracture running down the center of the frame between the two lenses. He has not noticed. The viewer does. Foreshadowing only — never played in Act 1, available for Act 2 transition moment.
+> 5. REVEALING — head tilts 3° in analytical curiosity, spectacles catch light fully (both lenses shine), a precise smile that tells the player they have been understood exactly and there is no escape. Reserved for his verdict beats.
+
+#### 2L.6 — Bundle F: Spectacle glint overlay
+
+> **Output:** `apps/client/public/vfx-atlases/gamemaster_spectacle_glint.png` — 512×256, transparent.
+
+> Two rectangular bright-white glint patterns matching the spectacles' lens positions, soft gaussian falloff, pure white at center fading to transparent. Used as animated specular overlay triggered during blinks and at emphasis beats. When the lenses split in Act 2, this atlas gets paired with a split variant.
+
+#### 2L.7 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_gamemaster_pre_split",
+  "shaderProgram": "ClinicalProcedurePortrait",
+  "uniforms": {
+    "spectacleGlintIntensity": 0.3,
+    "spectacleSplitProgress": 0.0,
+    "clinicalWhiteKey": "#e8e8e8",
+    "handMotionLock": true,
+    "breathingPhase": "autoLoop:3.2s:amp=1.003"
+  },
+  "stateTriggers": {
+    "verdict": "spectacleGlintIntensity=1.0 for 1s",
+    "preActTwoForeshadow": "expression=EMOTIONAL2 (hairline fracture visible)",
+    "actTwoTransitionTrigger": "spectacleSplitProgress ramps 0.0→1.0 over cinematic"
+  }
+}
+```
+
+---
