@@ -3,7 +3,7 @@ import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { trackCraftAction, trackDisenchant, trackCollectionSize } from "../achievementTracker";
-import { cards, userCards, craftingLog, disenchantLog, dreamBalance, userProgress, citizenCharacters } from "../../db/schema";
+import { cards, userCards, craftingLog, disenchantLog, dreamBalance, userProgress, citizenCharacters, memoryEnergyBalance } from "../../db/schema";
 import { eq, and, sql, desc, inArray } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveCraftingBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
@@ -818,6 +818,17 @@ export const craftingRouter = router({
       requiredLevel: z.number(),
       materials: z.record(z.string(), z.number()), // materialId -> amount needed
       dreamCost: z.number(),
+      /**
+       * Act 2+ recipes cost Memory Energy (see
+       * apps/shared/memoryEnergy.ts MEMORY_ENERGY_COSTS). The
+       * client passes the cost; the server validates against the
+       * authoritative memory_energy_balance row and deducts on
+       * success. Defaults to 0 for legacy recipes that don't
+       * charge Memory Energy. Rejecting here prevents the
+       * "craftRecipe succeeds, then memoryEnergy.spend fails"
+       * race that the separate-mutation client flow allowed.
+       */
+      memoryEnergyCost: z.number().min(0).max(100).optional().default(0),
       baseSuccessRate: z.number(),
       xpGain: z.number(),
       outputItemId: z.string(),
@@ -897,6 +908,21 @@ export const craftingRouter = router({
         return { success: false, error: `Need ${input.dreamCost} Dream, have ${currentDream}` };
       }
 
+      // Validate Memory Energy balance — Act 2+ recipes. Defaults to 0
+      // for legacy recipes so this check is a no-op when not needed.
+      let currentMemoryEnergy = 0;
+      if (input.memoryEnergyCost > 0) {
+        const meRow = await db.select().from(memoryEnergyBalance)
+          .where(eq(memoryEnergyBalance.userId, ctx.user.id)).limit(1);
+        currentMemoryEnergy = meRow[0]?.memoryEnergy ?? 0;
+        if (currentMemoryEnergy < input.memoryEnergyCost) {
+          return {
+            success: false,
+            error: `Need ${input.memoryEnergyCost} Memory Energy, have ${currentMemoryEnergy}`,
+          };
+        }
+      }
+
       // Apply citizen trait bonuses to success rate.
       // resolveCraftingBonuses takes (citizen, nft) objects, not a userId.
       let successRate = input.baseSuccessRate;
@@ -926,6 +952,22 @@ export const craftingRouter = router({
         await db.update(dreamBalance)
           .set({ dreamTokens: currentDream - input.dreamCost })
           .where(eq(dreamBalance.userId, ctx.user.id));
+      }
+
+      // Deduct Memory Energy (Act 2+ recipes). The validation above
+      // guarantees currentMemoryEnergy >= cost, so the subtraction is
+      // safe. We deduct BEFORE the success roll — even a failed craft
+      // consumes the Memory Energy, matching the canon §6.2 framing
+      // ("the bench hums at a lower frequency" for a dark craft even
+      // when the card doesn't stick). If we need refund-on-failure in
+      // future tuning, that's a separate row update after the roll.
+      if (input.memoryEnergyCost > 0) {
+        await db.update(memoryEnergyBalance)
+          .set({
+            memoryEnergy: currentMemoryEnergy - input.memoryEnergyCost,
+            totalSpent: sql`${memoryEnergyBalance.totalSpent} + ${input.memoryEnergyCost}`,
+          })
+          .where(eq(memoryEnergyBalance.userId, ctx.user.id));
       }
 
       // Roll for success

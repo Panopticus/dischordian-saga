@@ -81,11 +81,19 @@ describe("EngineersBenchPage — crafting wiring", () => {
     expect(src).toContain("trpc.memoryEnergy.getBalance.useQuery");
   });
 
-  it("spends Memory Energy server-side via trpc.memoryEnergy.spend", () => {
-    expect(src).toContain("trpc.memoryEnergy.spend.useMutation");
+  it("passes memoryEnergyCost to craftRecipe for atomic server-side deduction", () => {
+    // Memory Energy is now deducted inside trpc.crafting.craftRecipe
+    // (post-polish atomic path). The dedicated .spend mutation is no
+    // longer called on the signed-in path.
+    expect(src).toMatch(/memoryEnergyCost:\s*cost/);
+    expect(src).not.toContain("trpc.memoryEnergy.spend.useMutation");
   });
 
   it("skips local Memory Energy deduction when authenticated to avoid double-spend", () => {
     expect(src).toMatch(/isAuthenticated\s*\?\s*0\s*:\s*cost/);
+  });
+
+  it("invalidates memoryEnergy.getBalance after a successful craft", () => {
+    expect(src).toContain("utils.memoryEnergy.getBalance.invalidate()");
   });
 });
