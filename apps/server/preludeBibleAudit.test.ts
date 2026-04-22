@@ -43,6 +43,13 @@ import { ENGINEER_RECORDINGS } from "../shared/engineerRecordings";
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
 const BIBLE_PATH = "docs/production/PRELUDE_SHIP_READY_BIBLE.md";
 
+/** public/{art,audio,videos,music,games} are gitignored (served from S3).
+ *  Skip the on-disk asset claims block when those dirs aren't locally
+ *  present (CI); keep the check useful for local dev. */
+const LOCAL_MEDIA_PRESENT = fs.existsSync(
+  path.resolve(REPO_ROOT, "apps/client/public/art"),
+);
+
 /**
  * Known Bible bugs — references to "existing" assets that don't
  * actually exist. Each entry carries a short comment explaining
@@ -280,17 +287,20 @@ describe("Prelude Bible audit — disk asset claims (art/video/vfx)", () => {
     );
   });
 
-  it("every non-audio 'existing' asset in the Bible actually exists on disk", () => {
-    const missing = toCheck.filter(
-      (p) => !fs.existsSync(resolveFromRepoRoot(p)),
-    );
-    if (missing.length > 0) {
-      const details = missing.map((p) => `  ${p}`).join("\n");
-      expect.fail(
-        `Bible references ${missing.length} non-audio 'existing' asset(s) that don't exist on disk:\n${details}`,
+  it.skipIf(!LOCAL_MEDIA_PRESENT)(
+    "every non-audio 'existing' asset in the Bible actually exists on disk",
+    () => {
+      const missing = toCheck.filter(
+        (p) => !fs.existsSync(resolveFromRepoRoot(p)),
       );
-    }
-  });
+      if (missing.length > 0) {
+        const details = missing.map((p) => `  ${p}`).join("\n");
+        expect.fail(
+          `Bible references ${missing.length} non-audio 'existing' asset(s) that don't exist on disk:\n${details}`,
+        );
+      }
+    },
+  );
 });
 
 describe("Prelude Bible audit — VO manifest claims", () => {
