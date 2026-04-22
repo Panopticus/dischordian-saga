@@ -41,7 +41,7 @@ const SFX: SfxSpec[] = [
     id: "move",
     prompt:
       "short crisp click of a wooden chess piece being placed on a board, dry, no reverb",
-    durationSeconds: 0.4,
+    durationSeconds: 0.5,
     promptInfluence: 0.55,
   },
   {
