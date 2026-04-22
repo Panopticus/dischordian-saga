@@ -30,7 +30,9 @@
     "room-art:generate-csv": "tsx apps/scripts/generate-room-state-art-csv.ts",
     "lions-art:generate-md": "tsx apps/scripts/generate-lions-club-art-bible.ts",
     "assets:upload:dry": "tsx apps/scripts/upload-public-to-s3.ts --dry-run",
-    "assets:upload": "tsx apps/scripts/upload-public-to-s3.ts"
+    "assets:upload": "tsx apps/scripts/upload-public-to-s3.ts",
+    "assets:rewrite:dry": "tsx apps/scripts/rewrite-asset-refs.ts",
+    "assets:rewrite:apply": "tsx apps/scripts/rewrite-asset-refs.ts --apply"
   },
   "dependencies": {
     "@lichess-org/chessground": "^10.1.1",
