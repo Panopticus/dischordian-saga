@@ -1565,57 +1565,78 @@ Reference: `apps/client/public/references/npcs/necromancer/REFERENCE.md`.
 
 ---
 
-### 2P — NILMORG (DMC RACE-HOST)
+### 2P — NILMORG (REAL CANON — DEMON IN A SUIT)
 
-Canon anchor: `docs/production/SHIP_READY_ASSET_BIBLE.md` CIN-031/032. The Dead Man's Circuit kart-racing master of ceremonies. Theatrical carnival-barker with a microphone at a raised podium. Wide-brim race-flag-patterned coat, broadcast-ready showman. The prize IS the severance.
+> **CANONICAL CORRECTION (2026-04-22):** This section REPLACES an earlier draft describing Nilmorg as a "theatrical DMC kart-racing checkerboard-coat showman with microphone." That was wrong — derived from the CIN-031/032 matchup text, which is race-mode environment framing, NOT Nilmorg's actual appearance. Real canon (2026-04-22 user upload, image #2): **Nilmorg is a demon in a suit.** Tall bald pale-skinned humanoid figure with yellow glowing eyes, corporate-tailored dark suit, fingertips-touching pyramid gesture. Industrial-boiler-room backdrop. Menace without theater.
 
-Reference: `apps/client/public/references/npcs/nilmorg/REFERENCE.md`.
+Reference: `apps/client/public/references/npcs/nilmorg/front.png` (from 2026-04-22 upload).
+
+**Lore note:** Nilmorg still OPERATES the Dead Man's Circuit race (game-mode `/circuit`) as its organizing power — but his real appearance is NOT a carnival showman. He is a demonic HR-executive type who contracts with the winners to "transfer" them into Hierarchy assets. The race is performance theater around him; HE is the signatory at the end. The gracious-smile "winner-crowned" severance beat from the old canon stays intact — but it's delivered by a corporate demon, not a kart-track emcee.
 
 #### 2P.1 — Bundle A: Neutral bust
 
-> Three-quarter bust portrait of a theatrical showman, mid-forties, olive-skinned, sharp wolfish features. Dark hair slicked back with a pronounced widow's peak, thin dark mustache with curled waxed ends. Eyes: amber (#d4a04a) with warm crinkle at the corners — performative delight. Wearing a wide-shouldered tailored coat in checkerboard black-and-white (race-flag pattern) (#0a0a0a and #f0ede8), cut long at the lapels, broad brass buttons down the front. Underneath: a deep-red silk shirt (#a81e1e) with a high Mandarin collar and a single thin gold chain visible above the collar. Holding a chromed microphone (#c0c4cc) to his mouth at chest level (mic-head visible in frame lower-right, cord trailing offscreen). Backdrop: defocused kart-racing starting line — hazard lights (red and yellow) flare in the lower bokeh, distant cheering-crowd silhouettes in the darkness, a massive holographic countdown glyph suspended above but defocused. Palette: warm-red-yellow race lighting dominant, cool-blue edge hints, checkerboard accent. Film grain, anamorphic flares. 4K. No rendered text.
+> Three-quarter bust portrait of a tall humanoid figure, completely BALD, PALE BONE-WHITE SKIN (#d4ccc4 with cool undertones) — not sickly, sculptural. Gaunt angular facial structure: pronounced high cheekbones, deep-set temples, long thin jawline, narrow thin closed-lipped mouth in a composed neutral-predatory line. NO eyebrows (or nearly invisible thin brow-hairs the same pale tone as skin — reads as clean-shaven everything). Eyes: LARGE SOLID AMBER-YELLOW glowing orbs (#f5a040 emissive with hot inner-white core #fff0c8, iris fully luminous — no visible pupil; the entire eye reads as a warm yellow lamp), direct piercing stare. Faint dark venous tracing barely visible at the temples (subtle blue-black undertone vein-work beneath the pale skin, reading as "not-quite-human-circulation"). Wearing a PRECISELY TAILORED DARK CHARCOAL-BLACK CORPORATE SUIT (#0a0b0d, flat matte wool, zero sheen, visible subtle warp-weave), double-breasted or sharp single-breasted jacket with high lapels, fully buttoned. Beneath: a dark collared dress shirt with subtle vertical tonal-ribbing (also black-on-black, barely readable as texture). NO tie — the open collar exposes the pale throat with a faint bronze or brass collar-pin at the side (small, executive, non-religious). Hands in frame, both visible at chest level, FINGERTIPS TOUCHING in a precise steepled-pyramid gesture (each fingertip exactly meeting its mirror counterpart, impossibly still, thumbs extended forward at the gesture's apex) — this is his signature pose. Fingers are long, pale, slightly too-thin. Nails natural-neutral. Several small silver-brass "ball-bearing" cyber-rings stacked on the fingers at the gesture points, catching the warm light (~3-4 rings total distributed across the fingers, small, not ornamental — utilitarian). Backdrop: INDUSTRIAL FACTORY / BOILER ROOM at depth — vaulted dark-metal ceiling with visible girders and pipe-work, small warm-amber and warm-orange recessed lamps at regular intervals along the walls (#c76a3a warm work-light) providing edge rim-light, deep shadows at frame edges. The setting reads as a place where deals are finalized, not announced. Lighting: warm amber work-lamps providing upward rim-lighting on his jawline and fingertips (the light comes from BELOW in this room), top fills cool-near-black. Faint orange rim on the suit's shoulders from the lamps. Mouth closed, unreadable expression — still, composed. Film grain. 4K. No rendered text.
 
 #### 2P.2 — Bundle B: Breathing loop (8 frames)
 
-> Elevated chest amplitude (1.000 to 1.011 peak — theatrical projection). Mustache curls shift subtly on exhale (curl tightens at peak, relaxes at valley). The microphone is held STEADY — it does not move with breath. Checkerboard coat catches different-frame highlights on the black cells.
+> Barely-there chest motion (1.000 to 1.003 peak — he is SUPERNATURALLY still). The steepled pyramid gesture does NOT move across the 8 frames (the precision is the point — human hands cannot hold this position, his can). Suit UNCHANGED. Only discernible motion: the yellow eye-glow pulses subtly (0.9 to 1.1 intensity) on a 4.0s offset cycle independent of breath. He breathes like something that does not need to.
 
-#### 2P.3 — Bundle C: Blink triptych
+#### 2P.3 — Bundle C: Blink triptych + PREDATOR NICTITATE VARIANT
 
-Standard. His eyes crinkle fully at outer corners on HALF and CLOSED — a showman's blink is always half a grin.
+> Standard 3 frames (open / half / closed). On CLOSED frame, the yellow eye-glow does NOT extinguish — a strong 60% glow leaks through the closed eyelids (he is brighter-behind-the-eyelid than most characters are with eyes open). PLUS a 4th PREDATOR NICTITATE variant: a horizontal sideways nictitating membrane blink (inner corner sweeping outward across the eye) instead of a vertical eyelid blink. Runtime uses this rarely — every ~8-12 normal blinks. Subliminal wrongness. Similar pattern to Shadow Tongue's anomaly blink.
 
 #### 2P.4 — Bundle D: Viseme grid
 
-Standard 15-panel, but at 130% of baseline openness (he is OVER-projecting for the crowd). On AA and OW visemes his mouth approaches impossible theatrical scale.
+Standard 15-panel at 85% baseline openness (he speaks economically, like a man who has said everything before). Thin lips give sharp crisp viseme reads. On OPEN vowels, faint glimpse of back-teeth reveals they are ALL slightly too sharp and slightly too many — a subtle horror-tell, only legible at closest zoom on the widest vowels.
 
 #### 2P.5 — Bundle E: Expressions (5)
 
-> 1. SPEAKING — broad mouth, mustache curls pulled outward by the corners of the smile, mic at mouth.
-> 2. CONCERNED — eyebrows raised theatrically high (mock-concern, not real), mouth in an O of feigned worry. He doesn't do genuine concern.
-> 3. EMOTIONAL1 (showtime) — broadest grin, mouth wide, one arm extending offscreen-left (gesture implied). Crowd-rousing.
-> 4. EMOTIONAL2 (winner-crowned) — a gracious smile, eyes soft-warm, head tilted slightly in approval. The moment right before the prize-severs-the-winner reveal.
-> 5. REVEALING — he leans in toward camera, mic lowered from mouth, eyes sharpen from performative delight to cold assessment. The mask slips: he is NOT actually the showman. He is the Hierarchy's asset-converter. Reserved for post-race severance moment.
+> 1. SPEAKING — minimal mouth motion, eyes locked direct, fingertips UNMOVED in steepled position, yellow eye-glow modulates with phoneme emphasis.
+> 2. CONCERNED — eyes narrow 15%, brow ridge lowers (where eyebrows would be). He is registering a problem, which does not mean he cares.
+> 3. EMOTIONAL1 (cataloging-interest) — head tilts 5° to one side, yellow eye-glow intensifies 1.2×. A moment of genuine interest. Reserved for when he identifies someone he intends to contract.
+> 4. EMOTIONAL2 (contract-ready) — the steepled fingertips SEPARATE slightly — the perfectly-still pyramid opens by 3mm. Thumbs retract, fingers spread 15%. A gesture of "ready to sign." Yellow eyes dim to 0.7× (the excitement has been absorbed inward). One of his most unsettling frames. Reserved for post-race severance moments.
+> 5. REVEALING — the steepled hands lower to frame edge (out of the composition), head tilts forward, yellow eye-glow blazes to 1.8×, the thin mouth opens into a narrow smile that exposes slightly-too-sharp teeth at full view. The demon fully present. Reserved for a specific beat where a player refuses his contract — the moment he stops pretending to be executive.
 
-#### 2P.6 — Bundle F: None required. His VFX is in the cinematics (Part 9).
+#### 2P.6 — Bundle F: Yellow eye-glow + ball-bearing-ring overlays
+
+> **Output:** `apps/client/public/vfx-atlases/nilmorg_{yellow_eye_glow,ring_reflections}.png`.
+
+> - **yellow_eye_glow.png** — 512×256 transparent. A pair of radial yellow emissive textures matching the eye positions, hot white-yellow core (#fff0c8) fading through warm amber (#f5a040) to transparent at edge. No iris/pupil detail — the eyes are FULLY luminous orbs. Driven by `yellowEyeIntensity: 0..2.0` uniform.
+> - **ring_reflections.png** — 256×256 transparent. Small specular highlight sprites for the silver-brass ball-bearing rings on his fingers, animated to catch the warm amber work-lamp from below.
 
 #### 2P.7 — Shader uniform block
 
 ```json
 {
   "rigId": "npc_nilmorg",
-  "shaderProgram": "TheatricalShowmanPortrait",
+  "shaderProgram": "DemonExecutivePortrait",
   "uniforms": {
-    "micAlwaysAtMouth": true,
-    "visemeScale": 1.3,
-    "mustacheCurlTightness": 0.5,
-    "raceLightingAmbient": "#d9a66a + #a81e1e + #0a0a0a checkerboard",
-    "breathingPhase": "autoLoop:3.2s:amp=1.011"
+    "yellowEyeIntensity": 1.0,
+    "yellowEyeTexture": "vfx-atlases/nilmorg_yellow_eye_glow.png",
+    "yellowEyeGlowThroughLids": 0.6,
+    "eyePulsePeriod": 4.0,
+    "steepleGestureLocked": true,
+    "ringReflectionIntensity": 0.7,
+    "ringTexture": "vfx-atlases/nilmorg_ring_reflections.png",
+    "breathingPhase": "autoLoop:3.2s:amp=1.003",
+    "visemeScale": 0.85
   },
   "stateTriggers": {
-    "showtime": "visemeScale=1.5; crowd noise ambient +20%",
-    "maskSlips": "visemeScale=0.8; mic lowered; eyes cold"
+    "cataloging": "yellowEyeIntensity=1.2; head tilts 5°",
+    "contractReady": "steepleGestureLocked=false; fingertips separate 3mm; yellowEyeIntensity=0.7",
+    "predatorNictitate": "horizontal nictitating blink variant fires",
+    "revealing": "steeple lowers out of frame; yellowEyeIntensity=1.8; mouth opens to reveal teeth"
   }
 }
 ```
+
+#### 2P.8 — Integration with DMC game-mode
+
+The Dead Man's Circuit (`/circuit`) game-mode cinematics (CIN-031/CIN-032 in `SHIP_READY_ASSET_BIBLE.md`) were written against the OLD carnival-showman Nilmorg. Those cinematics need AUDIT:
+- CIN-031 ("kart-line countdown"): the "theatrical GO! shout" beat needs to be re-specced with Nilmorg as a demon-executive CONTRACTING RACERS at the starting line, not a showman rousing a crowd. He still counts down, but with restrained executive precision — no theatrical grin, no microphone flourishing.
+- CIN-032 ("severance trophy ceremony"): the gracious-smile beat stays intact — it is still the gracious smile that precedes the severance — but delivered by the demon-executive who steeples his fingers in front of his yellow eyes, not an emcee.
+
+Add to Part 9 cinematics audit list.
 
 ---
 
