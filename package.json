@@ -33,7 +33,8 @@
     "assets:upload": "tsx apps/scripts/upload-public-to-s3.ts",
     "assets:rewrite:dry": "tsx apps/scripts/rewrite-asset-refs.ts",
     "assets:rewrite:apply": "tsx apps/scripts/rewrite-asset-refs.ts --apply",
-    "assets:rewrite:apply-jsx": "tsx apps/scripts/rewrite-asset-refs.ts --apply-jsx"
+    "assets:rewrite:apply-jsx": "tsx apps/scripts/rewrite-asset-refs.ts --apply-jsx",
+    "sfx:chess": "tsx apps/scripts/generate-chess-sfx.ts"
   },
   "dependencies": {
     "@lichess-org/chessground": "^10.1.1",

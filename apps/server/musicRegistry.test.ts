@@ -28,6 +28,12 @@ function resolveFromRepoRoot(p: string): string {
   return path.resolve(REPO_ROOT, p);
 }
 
+/** Music files are gitignored (served from S3). Skip disk-presence checks
+ *  when the local media tree isn't there (CI); keep them for local dev. */
+const LOCAL_MEDIA_PRESENT = fs.existsSync(
+  path.resolve(REPO_ROOT, "apps/client/public/audio/music"),
+);
+
 /* ─── STRUCTURAL ─── */
 
 describe("Music registry — structural invariants", () => {
@@ -151,7 +157,7 @@ describe("Music registry — random variant selection", () => {
 /* ─── DISK PRESENCE ─── */
 
 describe("Music registry — disk presence", () => {
-  it("every registered variant exists on disk", () => {
+  it.skipIf(!LOCAL_MEDIA_PRESENT)("every registered variant exists on disk", () => {
     const missing: string[] = [];
     for (const p of collectMusicFilePaths()) {
       if (!fs.existsSync(resolveFromRepoRoot(p))) {
