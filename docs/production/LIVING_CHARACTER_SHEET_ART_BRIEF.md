@@ -414,17 +414,29 @@ Shader hooks: `veinPulseIntensity` (0–1), `thermalShimmerStrength` (default 0.
 
 Shader hooks: `refractionDepth` (default 0.25), `irisLayerParallax` (default 0.15), `cranialShimmer` (default 0.35).
 
-#### 1C.4 — NE-YON (towering mechanical war-machine)
+#### 1C.4 — NE-YON (REAL CANON — BLUE-SKINNED HUMANOID WITH MECHANICAL SUB-VARIANTS)
 
-**Turnaround prompt (M & F pass — sex dimorphism is silhouette only, mechanical bodies are genderless-coded):**
-> Hyper-realistic cinematic character turnaround sheet, 4 frames (front, 3/4 left, side left, back), neutral grey #808080 background. Subject: a Ne-Yon war-machine humanoid, towering — ~18% taller than Human baseline, broader shoulders, heavier lower legs. Fully mechanical body — not a humanoid in armor, but a constructed machine in a humanoid shape. Dark gunmetal-charcoal angular armor plates (#2a2d32) across the entire form, segmented at the joints, no exposed organic material anywhere. A visible central energy core in the chest — a rectangular inset panel glowing cyan (#06b6d4 emissive), ~15cm × 22cm, with fine glyph etchings visible around its border. Glowing cyan eyes — a pair of rectangular slit-sensors in the head's face-plate, same cyan as the core. Ancient Ne-Yon runes etched into the plates at the shoulders, forearms, and thighs — geometric angular glyphs, NOT readable text. Sex dimorphism: [MALE] variant has squarer shoulder plates, heavier gauntlets, broader chest core. [FEMALE] variant has slimmer waist plates, slightly softer shoulder curves, narrower core panel — still clearly mechanical, not gendered, just build-variant. No hair, no beard, no skin. No base undersuit — the machine IS the body. T-pose, palms forward. Same 4-frame rotation. Film grain. 4K. No rendered text.
+> **CANONICAL CORRECTION (2026-04-22):** This section REPLACES an earlier draft describing Ne-Yons as fully mechanical war-machines with cyan energy cores. That was wrong — derived from outdated bibles. Real canon (user clarification): **Ne-Yons are (usually) blue-skinned humanoids.** Examples confirmed: The Degen (Part 2J) is a Ne-Yon. The old fully-mechanical chrome war-machine is a specific sub-variant (`neyon_warmachine`) — reserved for Ne-Yon combat chassis or heavily-cyberized Ne-Yons, not the species default.
 
-Shader hooks: `coreGlowIntensity` (0–1, default 0.7), `eyeSlitEmissive` (#06b6d4), `runePulseRate` (default 6.0s period), `armorWeathering` (0–1, cosmetic only).
+**Turnaround prompt (M & F pass — standard Ne-Yon humanoid):**
+> Hyper-realistic cinematic character turnaround sheet, 4 frames (front, 3/4 left, side left, back), neutral grey #808080 background. Subject: a [MALE | FEMALE] Ne-Yon humanoid, mid-twenties, tall (~8% taller than Human baseline, muscular build). BLUE SKIN — cool mid-blue (#5a7a9e base with deeper shadow pooling at the eye sockets, jawline, and neck hollow). Pointed elf-like ears. Eyes: glowing amber-orange (#f57a1c emissive, same warm-internal-glow family as the Degen in Part 2J). Head: hairless or sparse-haired depending on individual — deliver BOTH a clean-bald variant (same as the Degen canon) AND a close-cropped dark-hair variant so the player can choose. Faint tribal-ink tattoos visible on the forearms (simple abstract pattern, not the full Degen swirl — player's ink is less elaborate). Neutral build, T-pose, base undersuit cut in dark neutral-grey (#2a2d32) that contrasts the blue skin. Same 4-frame rotation, same three-point lighting rig as Human/Demagi/Quarchon turnarounds. Film grain. 4K. No rendered text.
+
+**Shader hooks (standard Ne-Yon humanoid):**
+- `skinTone`: "#5a7a9e" (base)
+- `eyeAmberEmissive`: 0.8 (always subtle, intensifies during speech)
+- `eyeGlowThroughLids`: 0.4 (leaks through closed eyelids, same as Degen)
+- `tattooPattern`: optional forearm ink (simple pattern at character creation, more elaborate at higher progression)
+
+**Sex dimorphism:** standard humanoid — M variant has squarer jaw and broader shoulders, F variant has softer jaw and narrower shoulders. Same face-mesh template as Human/Demagi/Quarchon with the species-specific skin shader layered on top.
+
+**Sub-variant: `neyon_warmachine` (optional player path, unlocks at progression milestone):**
+> Alternative body mesh: fully-mechanized Ne-Yon (the old "chrome war-machine" description). Heavily-cyberized individuals or combat chassis. Towering (~18% taller than base Ne-Yon), gunmetal-charcoal angular armor plates, cyan chest energy-core, rectangular cyan eye-slits replacing amber, ancient Ne-Yon runes etched into plates. NO blue skin visible anywhere — the cyberization is complete. This is the war-machine form The Warlord's host armor mimics in shape (see Part 2T). Deliver as a UNLOCKABLE alternate body mesh, NOT the default Ne-Yon appearance.
+> Shader hooks: `coreGlowIntensity` (0–1, default 0.7), `eyeSlitEmissive` (#06b6d4), `runePulseRate` (default 6.0s period), `armorWeathering` (0–1, cosmetic only).
 
 #### 1C.5 — Per-species viseme handling
 
-- **Human, Demagi, Quarchon** — full 15-viseme morph set on the face mesh, same pipeline as Elara/Human protagonist tier.
-- **Ne-Yon** — NO mouth. Track D viseme timeline routes to `coreGlowIntensity` pulse (like The Architect). When the Ne-Yon player speaks, the core panel pulses in sync with phoneme intensity. No viseme morphs needed; just a shader-uniform ramp.
+- **Human, Demagi, Quarchon, Ne-Yon (standard humanoid)** — full 15-viseme morph set on the face mesh, same pipeline as Elara/Human protagonist tier.
+- **Ne-Yon (warmachine sub-variant only)** — NO mouth. Track D viseme timeline routes to `coreGlowIntensity` pulse (like The Architect). When a war-machine Ne-Yon speaks, the core panel pulses in sync with phoneme intensity. No viseme morphs needed; just a shader-uniform ramp.
 
 #### 1C.6 — Shared base-mesh rig requirements (ALL 8 meshes)
 
