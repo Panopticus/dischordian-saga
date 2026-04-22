@@ -27,7 +27,8 @@
     "art:generate-csv": "tsx apps/scripts/generate-act1-art-csv.ts",
     "loadout:generate-csv": "tsx apps/scripts/generate-earned-loadout-art-csv.ts",
     "suit:generate-csv": "tsx apps/scripts/generate-suit-art-csv.ts",
-    "room-art:generate-csv": "tsx apps/scripts/generate-room-state-art-csv.ts"
+    "room-art:generate-csv": "tsx apps/scripts/generate-room-state-art-csv.ts",
+    "lions-art:generate-md": "tsx apps/scripts/generate-lions-club-art-bible.ts"
   },
   "dependencies": {
     "@lichess-org/chessground": "^10.1.1",
