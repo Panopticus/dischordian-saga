@@ -1579,3 +1579,129 @@ Standard 15-panel, mouth at 90% baseline openness (he speaks quietly, finally).
 - **CIN-PROG-01:** 8s aging cinematic. Start frame = Programmer mid-forties at the Nexon battlefield (Bundle A). End frame = Antiquarian mid-60s at his library lectern (Part 2D Bundle A). Scrubs `antiquarianEmergenceProgress` 0.0 → 1.0 over 8s. See Part 9.
 
 ---
+
+### 2S — THE SEER
+
+Canon anchor: `docs/production/act1-asset-build/prompts/matchups/seer-visit.txt` + `docs/production/ART_PRODUCTION_BIBLE.md` ("The Seer is FEMALE — beautiful blue-skinned woman, long black hair, hooded robe"). Indeterminate age (older than she looks), unbleached linen-cream robes with no institutional markings, long dark loose hair, serene-slightly-sad expression — the expression of a person remembering something that hasn't happened yet. A dark wooden staff as tall as a standing adult, subtly burnt at its lower third (memory, not prophecy).
+
+Reference: `apps/client/public/references/npcs/seer/REFERENCE.md`.
+
+**Critical rigging note:** The Seer's aliveness tell is a "pre-echo" — her expressions sometimes PRE-RESPOND to what the player is about to do (e.g., she smiles softly 200ms before the player clicks a dialogue option). Implemented via a `precognitionLead: 0..400ms` uniform that lets the animation state lead the player's input.
+
+#### 2S.1 — Bundle A: Neutral bust
+
+> Three-quarter bust portrait of a woman of indeterminate age (could read forty or seventy — canon is older than she looks), ethereal beautiful features, soft complexion with a COOL BLUE undertone (#b0c4d4 — subtle, not cartoonish; reads as "her people are adjacent to humans"). Long dark hair (near-black #1a1818) loose and flowing over one shoulder, unstyled, silken fall. Eyes: deep blue-grey (#4a5a6a) with an unusual inner stillness, soft-focused slightly beyond the camera — she is looking at where the viewer is ABOUT to be. Wearing plain traveler's robes in unbleached linen-cream (#e6dcc2) with NO institutional markings, a wide undyed flax sash loosely tied at the waist. Hands loosely clasped in her lap (not on the surface — she does not commit). Leaning against a chair to her subject-right, angled upright: a dark wooden staff tall as a standing adult (#3a2618 dark wood), worn smooth at the middle from a hand that has held it for decades, simple blunt carved sphere at the top (no ornament, no crystal, no metal). The staff's LOWER THIRD is subtly BURNT — charred, cracked, as if it has already lived through a fire that has not yet happened. Backdrop: defocused academic atrium columns, cyan institutional ambient, a pale sun-shaft from camera-right falling across the staff's burnt section and the chair beside her, illuminating the char in warm gold while leaving her face in the cool cyan. Palette: cyan #4ba3b5 ambient on her face, warm sun #f5d98a on the staff, unbleached cream #e6dcc2 robes, dark wood #3a2618. Film grain. 4K. No rendered text.
+
+#### 2S.2 — Bundle B: Breathing loop (8 frames)
+
+> Very slow breathing cycle — 4.8s full cycle (not 3.2s), amplitude 1.000 to 1.006. She breathes the way the ocean breathes. Hair drift ±1.2px slow. Robe folds UNCHANGED. Staff UNCHANGED (it doesn't notice her breath). 8 PNGs, but at 4.8s runtime period instead of standard 3.2s.
+
+#### 2S.3 — Bundle C: Blink triptych
+
+Standard. On OPEN frame, a faint shimmer overlay across the eye-whites (the tell that the eyes are seeing something beyond the immediate frame). On CLOSED frame, the lower lashes are visibly WET (the eyes water from seeing too much).
+
+#### 2S.4 — Bundle D: Viseme grid
+
+Standard 15-panel, at 85% baseline openness — she speaks softly, as if each word has already been said before.
+
+#### 2S.5 — Bundle E: Expressions (5)
+
+> 1. SPEAKING — soft, mouth barely opens, eyes continue their pre-echo off-focus gaze.
+> 2. CONCERNED — she looks at you DIRECTLY for the first time in the rig (rare — her default is pre-echo); brows knit in present-moment worry. When she looks at you, she has stopped seeing ahead.
+> 3. EMOTIONAL1 (resignation) — the soft sadness deepens, one hand gently unclasping from the other in her lap, head tilts 3°. She has seen this ending and is at peace.
+> 4. EMOTIONAL2 (fire-memory) — her gaze drops briefly to the staff's burnt section, eyes wet. For one frame, the burnt section appears to glow faintly warm (the fire remembered as embers). Reserved for when the topic of the Prelude's staff-burn comes up.
+> 5. REVEALING — she lifts her hand from her lap and PLACES it on the staff (first contact with the prop in the rig), her grip settling into the worn smooth middle section. Mouth parts pre-sentence. Eyes DIRECT at the camera for one sustained beat. She has decided to tell you what she has seen.
+
+#### 2S.6 — Bundle F: Staff-char ember overlay
+
+> **Output:** `apps/client/public/vfx-atlases/seer_staff_ember.png` — 512×512 transparent.
+
+> A warm-amber emissive texture masked to a narrow vertical band (the staff's lower third silhouette). Ember-glow at 40% opacity, hot core at 20%, radial falloff to transparent at 80% edge. Used as animated overlay when the fire-memory is active. Subtle — barely visible without triggering.
+
+#### 2S.7 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_seer",
+  "shaderProgram": "PrecognitionPortrait",
+  "uniforms": {
+    "precognitionLead": 200,
+    "staffEmberIntensity": 0.0,
+    "staffEmberTexture": "vfx-atlases/seer_staff_ember.png",
+    "eyeShimmerAlways": 0.2,
+    "gazeOffsetFromCamera": 8,
+    "breathingPeriod": 4.8,
+    "breathingPhase": "autoLoop:4.8s:amp=1.006"
+  },
+  "stateTriggers": {
+    "directContact": "gazeOffsetFromCamera=0 (she looks AT you)",
+    "fireMemory": "staffEmberIntensity=0.6 for 2s",
+    "revealing": "hand placed on staff; precognitionLead=0 (she is fully present)"
+  }
+}
+```
+
+---
+
+### 2T — THE WARLORD
+
+Canon anchor: `docs/production/act1-asset-build/prompts/matchups/warlord-zero-first.txt` + `act1_art_prompts__opponent_portrait.csv:portrait_warlord_swarm_env`. The Warlord is a FULLY ARMORED FIGURE — no exposed face, deliberately unornamented field armor, brass-and-composite dusky-chrome plate, full-face helm with continuous horizontal scanning slit. Under the helm: the host body (Agent Zero, 18) infested with a Vex-swarm — indicated by faint iridescent shimmer inside the visor's lower inner edge. THE FACE IS NEVER SHOWN through all of Act 1.
+
+Reference: `apps/client/public/references/npcs/warlord/REFERENCE.md`.
+
+**Critical rigging note:** The Warlord has NO face, NO viseme, NO blink. All lip-sync data routes to the visor's shimmer intensity (same pattern as The Architect's maskVibration). Breathing is minimal (the armor is rigid; the body inside is half-swarm). The shimmer is her sole tell.
+
+#### 2T.1 — Bundle A: Neutral bust
+
+> Three-quarter bust portrait of a fully armored figure, standing still, mid-distance. Brass-and-composite dusky-chrome plate armor (#6b6b65 dusky chrome, #b8752d polished brass at joints and edges) — articulated segmented cuirass with visible overlapping plates, broad pauldrons, gauntlets in frame. NO Empire insignia, NO faction marks — deliberately unornamented field armor, the armor of a professional arriving to complete a transaction. The helm is full-face: a sculpted brass-rimmed visor (#b8752d brass rim, black interior #0a0a0a matte), continuous horizontal scanning slit across eye level (~8cm wide, 1.5cm tall), face completely hidden. Along the visor's lower inner edge (inside the scanning slit): a faint iridescent shimmer barely visible — almost a heat-haze, the sole visible indicator of the Vex-swarm infesting the body inside. Subtle rainbow-pale chromatic shimmer, NOT flashy. A viewer who doesn't know to look reads it as spotlight refraction on the visor metal. One gauntleted hand visible at lower frame edge resting on the hilt of a broad short-bladed weapon at the hip (not drawn). Her stance: still, not aggressive. Backdrop: defocused Nexon breach battlefield — smoke columns, torn banner at screen-right edge, distant ember-orange city fires, faint cold cyan from emergency flares. Lighting: amber spotlight on pauldron and upper visor from camera-right; ember-orange rim from back (city glow); faint cold cyan rim from back-left (flares). Visor scanning slit reflects the ember glow. Film grain. 4K. No rendered text.
+
+#### 2T.2 — Bundle B: Breathing loop (8 frames)
+
+> Minimal chest motion (1.000 to 1.002 peak — the armor is rigid, and the body inside is half-swarm). Shimmer inside the visor slit SLIGHTLY modulates across the 8 frames — intensity cycles 0.25 → 0.35 → 0.25 (subliminal). This is the swarm "breathing." Armor plates UNCHANGED. Weapon hand UNCHANGED.
+
+#### 2T.3 — Bundle C: Blink triptych — NOT GENERATED
+
+Skip. The Warlord has no eyes visible. Runtime blink channel unused. Deliver a "WARLORD: NO BLINK" marker.
+
+#### 2T.4 — Bundle D: Viseme grid — ROUTED TO VISOR SHIMMER
+
+Skip traditional visemes. Deliver 15 visor-shimmer intensity frames matching the phoneme set: SIL = 0.25 baseline; strong-open vowels (AA, AO, OW) = 0.9; soft consonants (B_M_P) = 0.35; etc. Runtime modulates shimmer via `visorShimmerIntensity` uniform in sync with the VO timeline. 15 reference frames to lock the curve. 4K.
+
+#### 2T.5 — Bundle E: Expressions (5) — ALL VISOR-MEDIATED
+
+> 1. SPEAKING — visor shimmer baseline + phoneme modulation; no other change.
+> 2. CONCERNED — shimmer dims to 0.15, a pause in modulation for 400ms; the swarm is registering.
+> 3. EMOTIONAL1 (predatory-focus) — shimmer intensity drops to 0.1 but GAIN aligns to a single concentrated 3px bright point that moves across the visor slit (the swarm focusing on a target). Unsettling.
+> 4. EMOTIONAL2 (swarm-leak) — one frame: shimmer EXITS the visor slit as a single faint rainbow-pale wisp rising ~15px above the helm before dissipating. Reserved — the swarm almost left.
+> 5. REVEALING — the weapon hand lifts from the hilt and extends toward the camera open-palmed (a transactional offer). Visor shimmer acceleratesto  a frantic 2Hz flicker. The swarm is engaged. NEVER render the helm removed — the face stays hidden for all of Act 1.
+
+#### 2T.6 — Bundle F: Visor shimmer overlay
+
+> **Output:** `apps/client/public/vfx-atlases/warlord_visor_shimmer.png` — 1024×256 transparent.
+
+> A narrow horizontal band texture matching the visor slit's aspect ratio. Subtle iridescent shimmer — rainbow-pale soft gradient (pink → cyan → gold → violet) at 25% base opacity, with an animated "scan" band traveling horizontally across. Used as additive overlay on the visor slit driven by `visorShimmerIntensity: 0..1`.
+
+#### 2T.7 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_warlord",
+  "shaderProgram": "SwarmHostedArmorPortrait",
+  "uniforms": {
+    "visorShimmerIntensity": 0.25,
+    "visorShimmerTexture": "vfx-atlases/warlord_visor_shimmer.png",
+    "breathingPhase": "autoLoop:3.2s:amp=1.002",
+    "visemeChannel": "routeToVisorShimmer",
+    "blinkChannel": null,
+    "helmRemovalLocked": true
+  },
+  "stateTriggers": {
+    "speaking": "visorShimmerIntensity modulates with phoneme",
+    "predatoryFocus": "shimmer drops; single bright point moves across slit",
+    "swarmLeak": "1-frame shimmer wisp rises above helm",
+    "transactionalOffer": "weapon hand lifts; shimmer 2Hz flicker"
+  }
+}
+```
+
+---
