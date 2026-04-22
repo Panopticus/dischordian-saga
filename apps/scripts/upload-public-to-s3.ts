@@ -123,7 +123,20 @@ async function uploadOne(
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
-  const client = new S3Client({ region: REGION });
+  const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+  if (!accessKeyId || !secretAccessKey) {
+    console.error(
+      "ERROR: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY must be set in env.",
+    );
+    process.exit(1);
+  }
+  // Explicit credentials — bypass any ~/.aws/credentials or AWS_PROFILE that
+  // might otherwise take priority on the caller's machine.
+  const client = new S3Client({
+    region: REGION,
+    credentials: { accessKeyId, secretAccessKey },
+  });
 
   const dirs = args.only ? [args.only] : [...TRACKED_DIRS];
   const files: string[] = [];
