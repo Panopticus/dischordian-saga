@@ -24,6 +24,8 @@
     "vo:companion": "bash apps/scripts/run-companion-vo.sh",
     "vo:all": "bash apps/scripts/run-prelude-vo.sh && bash apps/scripts/run-act1-opponent-vo.sh && bash apps/scripts/run-companion-vo.sh",
     "vo:s3-backfill": "bash apps/scripts/run-backfill-vo-s3.sh",
+    "vo:story-mode:extract": "tsx apps/scripts/extract-story-mode-lines.ts",
+    "vo:story-mode": "tsx apps/scripts/generate-story-mode-vo.ts",
     "art:generate-csv": "tsx apps/scripts/generate-act1-art-csv.ts",
     "loadout:generate-csv": "tsx apps/scripts/generate-earned-loadout-art-csv.ts",
     "suit:generate-csv": "tsx apps/scripts/generate-suit-art-csv.ts",
