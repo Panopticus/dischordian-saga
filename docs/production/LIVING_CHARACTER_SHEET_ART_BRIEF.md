@@ -986,3 +986,120 @@ Reference: `apps/client/public/references/npcs/cades/REFERENCE.md`.
 ```
 
 ---
+
+### 2I — THE COLLECTOR (COREY)
+
+Canon anchor: `docs/production/act1-asset-build/prompts/matchups/little-collector.txt` + `act1_art_prompts__opponent_portrait.csv:portrait_corey_collector`. A 7-year-old boy, sweet button-up sage-green shirt, neat side-parted hair, clasping a smoky glass mason jar at his chest that glows with trapped iridescent shimmer. Not a bully — a hoarder in the making. The sweetness is the menace.
+
+Reference: `apps/client/public/references/npcs/collector/REFERENCE.md`.
+
+#### 2I.1 — Bundle A: Neutral bust
+
+> Three-quarter bust portrait of a seven-year-old boy, innocent face, fair skin, medium-brown hair parted neatly to the side (over-combed for a child his age), clean-cut bangs. Earnest direct gaze, a sweet half-smile that is — on a second look — decided. He has already chosen to keep something that isn't his. Wearing a tidy button-up shirt in soft sage-green (#7ba67a) with the top button fastened, an overly-grown-up collar for his small frame. Both small hands clasped around a smoky glass mason jar (#f0ede8 translucent glass, fogged from the inside) held protectively at his chest — the jar roughly the size of his clasped hands. Inside the jar: a faint iridescent golden shimmer (#d4a04a with prismatic highlights) suggesting trapped emotions, NOT distinct creatures — ambiguous captured light. Backdrop: defocused classroom with warm afternoon window-light bokeh (honey #d9a66a), sunlight catching the jar glass and making the trapped shimmer glow golden. Key light: warm yellow window-sun from camera-right, catching his face and the jar. Fill: warm amber bounce. Soft film grain. 4K. No rendered text.
+
+#### 2I.2 — Bundle B: Breathing loop (8 frames)
+
+> 8-frame standard chest cycle (1.000 to 1.008 peak). The mason jar rises and falls with his chest — held tightly. Inside the jar, the iridescent shimmer pulses in counter-phase with his breathing (exhale brightens shimmer, inhale dims it) — the trapped emotions respond to him. 8 PNGs.
+
+#### 2I.3 — Bundle C: Blink triptych
+
+Standard. The sweet-menace read is strongest when the eyes are OPEN — eyelash sharp, catchlight clear. On CLOSED frames, a brief flicker of the jar's shimmer brightens 20% (the trapped thing notices when he isn't looking).
+
+#### 2I.4 — Bundle D: Viseme grid
+
+Standard 15-panel sheet, tight crop, child's lip tone and size. Small mouth — visemes read at ~60% of adult-scale openness by anatomy.
+
+#### 2I.5 — Bundle E: Expressions (5)
+
+> 1. SPEAKING — child's direct earnestness, jar held steady.
+> 2. CONCERNED — small pout-downturn, eyes wide, head tilted.
+> 3. EMOTIONAL1 (delighted-wrong) — broad child's smile that reaches the eyes, jar shimmer INTENSIFIES 2× baseline. He just added to the collection.
+> 4. EMOTIONAL2 (protective) — jar pulled tighter to his chest, shoulders curl forward 3°, eyes narrow with child's possessiveness. The sweet mask slips by 5%.
+> 5. REVEALING — he looks down at the jar and then back up to camera slowly, eyes now DIRECT and adult-serious (impossible on a 7-year-old's face), mouth closed. The shimmer inside the jar dims — he is no longer performing for the jar. This is the Archon beneath the child.
+
+#### 2I.6 — Bundle F: Jar-shimmer VFX overlay
+
+> **Output:** `apps/client/public/vfx-atlases/collector_jar_shimmer.png` — 512×512 transparent. A soft golden iridescent cloud confined to a ~380px circular region matching the jar's interior. Cloud structure: layered soft gaussian clouds in warm gold (#d4a04a to #f5d98a) with subtle prismatic rainbow hints at the edges (thin rings of magenta/cyan). Particle-like emberwisps distributed in the cloud, each 3-8px, slightly varying opacity. Outside the 380px circle: transparent. Used as animated pulse overlay inside the mason-jar geometry.
+
+#### 2I.7 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_collector_corey",
+  "shaderProgram": "ChildPortraitWithProp",
+  "uniforms": {
+    "jarShimmerIntensity": 0.6,
+    "jarShimmerTexture": "vfx-atlases/collector_jar_shimmer.png",
+    "shimmerBreathCounterPhase": true,
+    "breathingPhase": "autoLoop:3.2s"
+  },
+  "stateTriggers": {
+    "collectingEmotion": "jarShimmerIntensity=2.0 for 600ms then settle to 1.1",
+    "archonRevealed": "jarShimmerIntensity=0.2; eyeIntensity=adult"
+  }
+}
+```
+
+---
+
+### 2J — THE DEGEN (11TH NE-YON, CASINO HOST)
+
+Canon anchor: `docs/production/SHIP_READY_ASSET_BIBLE.md` CIN-013 + `CASINO_EXPANSION_ART_BIBLE.md`. Genderfluid mid-thirties figure in a half-violet-sequin / half-cloth-of-gold tailored suit, one gold eye + one violet eye, wild theatrical grin, standing in a deep-space casino pit with nebula skylight. Carnival-barker energy. Entropy embodied.
+
+Reference: `apps/client/public/references/npcs/degen/REFERENCE.md`.
+
+#### 2J.1 — Bundle A: Neutral bust
+
+> Three-quarter bust portrait of a genderfluid figure in their mid-thirties, androgynous striking features, medium-brown skin with a subtle sheen (slight sweat-glow — they burn hot). Wild dark hair styled in an extravagant asymmetric sweep — one side slicked up and back, the other side falling in loose waves across the forehead. Wearing the iconic split suit: the LEFT half (viewer's left / subject's right) is dense violet sequins (#e040fb, each sequin catching highlight as a tiny specular pinpoint); the RIGHT half (viewer's right / subject's left) is smooth cloth-of-gold (#fbbf24, rich warm metallic weave with fine thread detail). The split runs cleanly vertical down the center of the suit — chest, lapels, one shoulder sequin one shoulder gold. Beneath the suit: a crisp black silk shirt, collar open showing a single thin gold chain. Theatrical wide grin — mouth open, teeth showing, genuine delight. EYES: one gold (#d4a04a emissive, warm pupil-glow) and one violet (#e040fb emissive, slit-pupil narrowed), set in heterochromic asymmetry. Earrings: one gold stud, one violet crystal drop. Backdrop: defocused deep-space casino pit — circular black-velvet roulette pit edge visible in the lower bokeh, purple-and-gold neon perimeter lighting, a massive transparent dome ceiling with actual nebula visible above (blue-violet gas clouds, distant stars). Heavy anamorphic lens flares where neon meets edges. Volumetric neon haze in the foreground. Film grain. 4K. No rendered text.
+
+#### 2J.2 — Bundle B: Breathing loop (8 frames)
+
+> Standard 8-frame cycle but with elevated amplitude (1.000 to 1.012 peak — he breathes BIG; he's a carnival barker). Sequins on the left shift subtly between frames as each individual sequin catches light at different angles (simulate at render time with subtle ±2° rotation per sequin). Gold side cloth unchanged. Hair drifts ±1.5px. Grin held across all 8 frames (never fully closes).
+
+#### 2J.3 — Bundle C: Blink triptych
+
+> Standard. On CLOSED frame, the violet eye-slit emissive dims dramatically to 10% while the gold eye emissive stays at 80% — his eyes don't blink together. Always asymmetric.
+
+#### 2J.4 — Bundle D: Viseme grid
+
+Standard 15-panel. Grin is the baseline — even SIL viseme shows teeth visible, lips slightly parted. Visemes exaggerate upward from there.
+
+#### 2J.5 — Bundle E: Expressions (5)
+
+> 1. SPEAKING — theatrical over-projected, jaw dropped wider than necessary for phonemes.
+> 2. CONCERNED — rare; grin narrows but doesn't vanish, eye-asymmetry flips (gold eye slit-narrows; violet eye widens).
+> 3. EMOTIONAL1 (house-wins) — mouth opens in a WIDE bark of laughter (teeth fully exposed, head thrown back 8°), both eyes blaze 1.5× brighter. The casino just took something from someone.
+> 4. EMOTIONAL2 (predator-reveal) — rare; the theatrical grin stays but the eyes go DEAD — emissive drops to 20%, pupils contract to points. One terrifying frame where the performance pauses and the entropy-god beneath is visible.
+> 5. REVEALING — a full tarot-card card flourish mid-gesture; a single holographic card held face-up at the subject's right hand in-frame, showing the abstract "Universe" arcana (render as a stylized galaxy card-face), gold & violet neon rim light bathes the card. The Degen's smile is softer here, knowing.
+> 4K. No rendered text on card.
+
+#### 2J.6 — Bundle F: Sequin + eye-asymmetry overlay
+
+> **Output:** `apps/client/public/vfx-atlases/degen_{sequin_glint,eye_violet,eye_gold}.png`.
+> - **sequin_glint:** a tiling texture of randomized bright pinpoint sparkles (4-12px) on transparent background, purple-violet tint — used as overlay on the sequin half for animated glint.
+> - **eye_violet:** 256×256 radial violet emissive texture with slit-pupil mask.
+> - **eye_gold:** 256×256 radial gold emissive texture with round-pupil mask.
+
+#### 2J.7 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_degen",
+  "shaderProgram": "DualNeonEntropyPortrait",
+  "uniforms": {
+    "sequinGlintRate": 0.6,
+    "eyeGoldEmissive": 0.8,
+    "eyeVioletEmissive": 0.8,
+    "eyeAsymmetry": 1.0,
+    "neonAmbient": "#e040fb + #fbbf24 mix",
+    "breathingPhase": "autoLoop:3.2s:amp=1.012"
+  },
+  "stateTriggers": {
+    "housewins": "eyeEmissive both=1.5x for 1.2s",
+    "predatorReveal": "eyeEmissive both=0.2x for 400ms pupils contract",
+    "casinoVeoLoop": "playVideo:entity_99_degen.mp4 as discovery intro"
+  }
+}
+```
+
+---
