@@ -276,7 +276,10 @@ export default function CharacterSheetPage() {
   const utils = trpc.useUtils();
   const [showTraitDetails, setShowTraitDetails] = useState(false);
   const [showRespec, setShowRespec] = useState(false);
-  const { state: gameState, performPrestige, startInternalizingThought, completeInternalizingThought } = useGame();
+  // performPrestige was previously invoked here behind a window.confirm();
+  // the §15 ceremony now lives at /prestige-cycle, which imports it via
+  // useGame() directly. Leaving the action un-destructured here.
+  const { state: gameState, startInternalizingThought, completeInternalizingThought } = useGame();
   const gam = useGamification();
 
   // ═══ NARRATIVE INTRO (from Awakening) ═══
@@ -975,10 +978,18 @@ export default function CharacterSheetPage() {
                   </div>
                 )}
                 {canP && (
-                  <button onClick={() => { if (window.confirm("Security clearance upgrade will reset your level, rooms, and quests. NPC trust, cards, equipment, and achievements are kept. Continue?")) { performPrestige(); } }}
-                    className="w-full mt-3 py-2.5 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-[10px] font-bold tracking-wider void-bg-sunk transition-all">
-                    UPGRADE CLEARANCE — Reset level, keep everything that matters
-                  </button>
+                  // Routes to the proper §15 cycle-reset ceremony page
+                  // instead of the window.confirm() hack this used to
+                  // fire. The ceremony lists the carryover rules in
+                  // canon and requires a deliberate "Release" click —
+                  // `performPrestige()` is still the underlying action,
+                  // invoked from PrestigeCycleResetPage once confirmed.
+                  <Link
+                    href="/prestige-cycle"
+                    className="block w-full mt-3 py-2.5 rounded-lg void-bg-sunk border void-border void-text-accent font-mono text-[10px] font-bold tracking-wider void-bg-sunk transition-all text-center"
+                  >
+                    UPGRADE CLEARANCE — Review cycle reset ceremony
+                  </Link>
                 )}
               </div>
             );
