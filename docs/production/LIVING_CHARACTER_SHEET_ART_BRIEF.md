@@ -1042,65 +1042,77 @@ Standard 15-panel sheet, tight crop, child's lip tone and size. Small mouth — 
 
 ---
 
-### 2J — THE DEGEN (11TH NE-YON, CASINO HOST)
+### 2J — THE DEGEN (REAL CANON — BLUE-SKINNED DEMONIC WARRIOR)
 
-Canon anchor: `docs/production/SHIP_READY_ASSET_BIBLE.md` CIN-013 + `CASINO_EXPANSION_ART_BIBLE.md`. Genderfluid mid-thirties figure in a half-violet-sequin / half-cloth-of-gold tailored suit, one gold eye + one violet eye, wild theatrical grin, standing in a deep-space casino pit with nebula skylight. Carnival-barker energy. Entropy embodied.
+> **CANONICAL CORRECTION (2026-04-22):** This section REPLACES an earlier draft that described The Degen as a "genderfluid carnival-barker in half-violet-sequin / half-cloth-of-gold." That draft was wrong — derived from old bibles. Real canon below, sourced from the user's 2026-04-22 reference upload.
 
-Reference: `apps/client/public/references/npcs/degen/REFERENCE.md`.
+Canon anchors: tall muscular blue-skinned figure, completely bald, pointed elf-like ears, glowing amber-orange eyes (emissive, visible from across a room), red-and-blue swirling tribal tattoos covering both arms and bleeding across the chest and neck, olive-drab military-cut sleeveless vest with high collar and brass buttons, heavy silver chain necklaces layered at the throat with a brass pocket-watch / amulet pendant, studded leather bracers on the forearms with heavy brass buckles, belt with brass centerpiece. Predatory focused scowl — NOT theatrical, NOT a carnival host. A warrior's restraint. Casino-presence is ironic: the pit boss who is ALSO the muscle.
+
+Reference: `apps/client/public/references/npcs/degen/front.png` (from 2026-04-22 upload).
 
 #### 2J.1 — Bundle A: Neutral bust
 
-> Three-quarter bust portrait of a genderfluid figure in their mid-thirties, androgynous striking features, medium-brown skin with a subtle sheen (slight sweat-glow — they burn hot). Wild dark hair styled in an extravagant asymmetric sweep — one side slicked up and back, the other side falling in loose waves across the forehead. Wearing the iconic split suit: the LEFT half (viewer's left / subject's right) is dense violet sequins (#e040fb, each sequin catching highlight as a tiny specular pinpoint); the RIGHT half (viewer's right / subject's left) is smooth cloth-of-gold (#fbbf24, rich warm metallic weave with fine thread detail). The split runs cleanly vertical down the center of the suit — chest, lapels, one shoulder sequin one shoulder gold. Beneath the suit: a crisp black silk shirt, collar open showing a single thin gold chain. Theatrical wide grin — mouth open, teeth showing, genuine delight. EYES: one gold (#d4a04a emissive, warm pupil-glow) and one violet (#e040fb emissive, slit-pupil narrowed), set in heterochromic asymmetry. Earrings: one gold stud, one violet crystal drop. Backdrop: defocused deep-space casino pit — circular black-velvet roulette pit edge visible in the lower bokeh, purple-and-gold neon perimeter lighting, a massive transparent dome ceiling with actual nebula visible above (blue-violet gas clouds, distant stars). Heavy anamorphic lens flares where neon meets edges. Volumetric neon haze in the foreground. Film grain. 4K. No rendered text.
+> Three-quarter bust portrait of a tall muscular humanoid with cool BLUE skin (#5a7a9e base with deeper shadow pooling at the eye sockets, jawline and neck — NOT a cartoonish blue; reads as an earned demonic otherworldliness). Completely bald head, pointed elf-like ears. Face gaunt and angular — pronounced cheekbones, deep brow ridges, strong jaw, thin pressed lips. Glowing amber-orange eyes (#f57a1c emissive with a hot white-orange core), pupils contracted to focused points, direct predatory stare from beneath a lowered brow. Visible tattoo work: swirling tribal ink in layered RED (#c74a1a) and DEEP BLUE (#1a3d6e) covering both arms from shoulder to wrist in dense interlocking patterns (flame-like curls, sharp serif hooks, no readable glyphs), with the same ink bleeding faintly up the neck and onto the left pec visible inside the vest's open collar. Wearing an olive-drab/dark-green military-cut sleeveless vest (#4a5a3a canvas, weathered), high-collar turned up, large brass button-studs running down the front, a single brass pin or small mechanism at the right upper chest. Underneath the vest, skin visible — no shirt. Layered at the throat: 2-3 heavy silver/gunmetal chain necklaces (#8a8d92) of varying link sizes, with a round brass pocket-watch-style pendant (#b8752d patina brass, embossed relief, ~4cm diameter) hanging at mid-chest, reading as both jewelry and bounty token. Studded leather bracers on both forearms (#2a1a14 dark leather, small silver studs), heavy brass buckles. Belt with a large brass center-buckle visible at lower frame edge. Backdrop: deep teal-black void (#0a3a3a — heavy desaturated ocean-dark), atmospheric haze, no identifiable environment — he is lit against his own darkness. Key light: cool cyan from camera-left at 30° grazing the shoulder and jaw; warm amber eye-glow lights the cheekbones from within. NO theatrical crowd, NO casino signage, NO neon. Mouth closed in a flat predatory line. Film grain. 4K. No rendered text.
 
 #### 2J.2 — Bundle B: Breathing loop (8 frames)
 
-> Standard 8-frame cycle but with elevated amplitude (1.000 to 1.012 peak — he breathes BIG; he's a carnival barker). Sequins on the left shift subtly between frames as each individual sequin catches light at different angles (simulate at render time with subtle ±2° rotation per sequin). Gold side cloth unchanged. Hair drifts ±1.5px. Grin held across all 8 frames (never fully closes).
+> Standard chest cycle (1.000 to 1.006 peak — he is CONTAINED, not expansive; muscle breathes differently from fat). The brass pocket-watch pendant at his chest swings ±2px at peak inhalation on a fine pendulum arc — this is his signature idle tell. Chain necklaces shift 1px. Vest collar UNCHANGED. Head UNCHANGED. Arms UNCHANGED (he holds stillness). Tattoos on forearms — a SEPARATE idle channel — the ink INTENSIFIES slightly (+15% emissive saturation) on exhale and settles on inhale. The ink is alive. 8 PNGs, with an auxiliary 8-frame tattoo-glow loop at 5.8s period (intentionally offset from the 3.2s breath cycle so the two rhythms don't sync — creates an unsettling liveness).
 
 #### 2J.3 — Bundle C: Blink triptych
 
-> Standard. On CLOSED frame, the violet eye-slit emissive dims dramatically to 10% while the gold eye emissive stays at 80% — his eyes don't blink together. Always asymmetric.
+Standard. HOWEVER: On CLOSED frame, the amber eye-glow does NOT fully extinguish — faint warm light still leaks through the closed eyelids (the eyes are backlit from inside his skull). At 40% intensity on closed. On HALF, 70%. On OPEN, 100%. Never fully dark.
 
 #### 2J.4 — Bundle D: Viseme grid
 
-Standard 15-panel. Grin is the baseline — even SIL viseme shows teeth visible, lips slightly parted. Visemes exaggerate upward from there.
+Standard 15-panel. Mouth movements RESTRAINED — he speaks economically, at 80% of baseline openness. When he does open wide (AA, OW), the teeth visible are slightly too many and slightly too sharp — not Shadow-Tongue-level wrong, but a deliberate unease. Reserve the full-teeth frames for emphatic moments only.
 
 #### 2J.5 — Bundle E: Expressions (5)
 
-> 1. SPEAKING — theatrical over-projected, jaw dropped wider than necessary for phonemes.
-> 2. CONCERNED — rare; grin narrows but doesn't vanish, eye-asymmetry flips (gold eye slit-narrows; violet eye widens).
-> 3. EMOTIONAL1 (house-wins) — mouth opens in a WIDE bark of laughter (teeth fully exposed, head thrown back 8°), both eyes blaze 1.5× brighter. The casino just took something from someone.
-> 4. EMOTIONAL2 (predator-reveal) — rare; the theatrical grin stays but the eyes go DEAD — emissive drops to 20%, pupils contract to points. One terrifying frame where the performance pauses and the entropy-god beneath is visible.
-> 5. REVEALING — a full tarot-card card flourish mid-gesture; a single holographic card held face-up at the subject's right hand in-frame, showing the abstract "Universe" arcana (render as a stylized galaxy card-face), gold & violet neon rim light bathes the card. The Degen's smile is softer here, knowing.
-> 4K. No rendered text on card.
+> 1. SPEAKING — minimal mouth motion, eyes locked forward, tattoo ink pulses subtly brighter during speech.
+> 2. CONCERNED — brow lowers further (already lowered at baseline), eyes narrow, predatory calculation rather than sympathy.
+> 3. EMOTIONAL1 (house-edge) — a slow thin closed-mouth smile that does not reach the eyes. A bettor just lost more than they should have. Reserved for the casino-assessment beats.
+> 4. EMOTIONAL2 (violent-ready) — tattoo ink saturates to 180% intensity across both arms in a single frame, eye-glow doubles to 2.0× intensity, jaw sets. One frame where the muscle-beneath-the-host is visible. DO NOT show a grin — the tell is the eyes and the ink, not the mouth.
+> 5. REVEALING — the pocket-watch pendant lifts into frame held between thumb and forefinger, the watch face visible (render as an abstract compass-like face — not legible time, not legible glyphs, but symbolic: a single orange arrow pointing). Direct eye contact. This is the moment the house collects. Not a show — a transaction.
+> 4K. No rendered text.
 
-#### 2J.6 — Bundle F: Sequin + eye-asymmetry overlay
+#### 2J.6 — Bundle F: Living-tattoo emissive overlay
 
-> **Output:** `apps/client/public/vfx-atlases/degen_{sequin_glint,eye_violet,eye_gold}.png`.
-> - **sequin_glint:** a tiling texture of randomized bright pinpoint sparkles (4-12px) on transparent background, purple-violet tint — used as overlay on the sequin half for animated glint.
-> - **eye_violet:** 256×256 radial violet emissive texture with slit-pupil mask.
-> - **eye_gold:** 256×256 radial gold emissive texture with round-pupil mask.
+> **Output:** `apps/client/public/vfx-atlases/degen_living_tattoo_{ink_red,ink_blue,glow_channel}.png` — each 2048×2048 transparent.
+
+> Three-layer tattoo atlas matching the Degen's forearm/shoulder/chest ink regions:
+> - **ink_red:** full-opacity deep red (#c74a1a) tribal pattern, swirling curls, hooks, and flame-branches, organic distribution, matches the canon reference. Static texture.
+> - **ink_blue:** full-opacity deep blue (#1a3d6e) pattern overlapping the red in interlocked positions — the blue fills negative space of the red. Static texture.
+> - **glow_channel:** a grayscale mask where brighter pixels correspond to where the ink should emit — concentrated at the deepest-saturated inner curls, dim at pattern edges. Animated at runtime via `tattooBreathPhase` uniform to pulse on exhale counter-cycle to chest breath.
 
 #### 2J.7 — Shader uniform block
 
 ```json
 {
   "rigId": "npc_degen",
-  "shaderProgram": "DualNeonEntropyPortrait",
+  "shaderProgram": "LivingInkDemonicPortrait",
   "uniforms": {
-    "sequinGlintRate": 0.6,
-    "eyeGoldEmissive": 0.8,
-    "eyeVioletEmissive": 0.8,
-    "eyeAsymmetry": 1.0,
-    "neonAmbient": "#e040fb + #fbbf24 mix",
-    "breathingPhase": "autoLoop:3.2s:amp=1.012"
+    "skinTone": "#5a7a9e",
+    "eyeAmberEmissive": 1.0,
+    "eyeGlowThroughLids": 0.4,
+    "tattooRedTexture": "vfx-atlases/degen_living_tattoo_ink_red.png",
+    "tattooBlueTexture": "vfx-atlases/degen_living_tattoo_ink_blue.png",
+    "tattooGlowChannel": "vfx-atlases/degen_living_tattoo_glow_channel.png",
+    "tattooBreathPhase": "autoLoop:5.8s:offset=chest",
+    "pocketWatchSwing": "autoLoop:3.2s:amp=2px",
+    "breathingPhase": "autoLoop:3.2s:amp=1.006",
+    "visemeScale": 0.8
   },
   "stateTriggers": {
-    "housewins": "eyeEmissive both=1.5x for 1.2s",
-    "predatorReveal": "eyeEmissive both=0.2x for 400ms pupils contract",
-    "casinoVeoLoop": "playVideo:entity_99_degen.mp4 as discovery intro"
+    "houseEdge": "closed-mouth smile; no eye change",
+    "violentReady": "tattooGlowChannel *= 1.8; eyeAmberEmissive=2.0 for 1 frame",
+    "revealing": "pocketWatch lifts into frame; eyes lock direct"
   }
 }
 ```
+
+#### 2J.8 — Lore note: Casino adaptation
+
+The Degen still runs the casino (game-mode `/casino`), but his canon makes him a WARRIOR-RUN pit floor, not a barker's stage. The casino environmental art (bibles under `CASINO_EXPANSION_ART_BIBLE.md`) stays valid for the SPACE itself — but any art that depicted the Degen himself as a sequined showman must be flagged for regeneration against this real canon. Audit list for Part 4/Part 5 revision: CIN-013 (Degen discovery video) and any casino-UI art that uses the Degen's face.
 
 ---
 
