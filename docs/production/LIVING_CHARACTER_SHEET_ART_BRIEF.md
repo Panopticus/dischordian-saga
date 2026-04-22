@@ -1219,3 +1219,118 @@ Standard 15-panel. Small measured mouth movements — his visemes read at ~70% o
 ```
 
 ---
+
+### 2M — MATRIKALA (PROFESSOR MATRIKALA, MECHRONIS REACTOR MENTOR)
+
+Canon anchor: `docs/production/act1-asset-build/prompts/matchups/professor-matrikala.txt`. Early sixties, workshop-mentor energy, oxide-red canvas coveralls (NOT the academic robe), sleeves rolled, short silver-grey hair, warm weathered face. Hands are the portrait's subject weight — knuckled, scarred, callused. Brass reactor coupling on the table as prop. She will teach you to hear the reactor hum.
+
+Reference: `apps/client/public/references/npcs/matrikala/REFERENCE.md`.
+
+#### 2M.1 — Bundle A: Neutral bust
+
+> Three-quarter bust portrait of a woman in her early sixties, South-Asian features, weathered warm face, bright attentive eyes — a professor who has spent her life teaching the same thing and is still delighted every time a student finally hears it. Body-language: leaning FORWARD, forearms on a surface in the lower frame, workshop-mentor rather than formal examiner. Wearing warm oxide-red canvas coveralls (#c66b3d, heavy work canvas, visible weave), sleeves rolled to the elbows revealing strong scarred forearms, collar open. A single polished brass Academy pin (#b8752d) holds the coverall collar closed at the throat — faculty status in miniature. NO academic robe. Hands are the compositional weight: bare, strong, knuckled, a web of fine scars and callus patterns covering the backs and palms. Short silver-grey hair (#a6a6a6), practical cut. Reading glasses on a brass chain around her neck, NOT worn. On the surface beside her elbow: a half-disassembled brass reactor coupling (#b8752d polished brass, intricate inner calibration ring visible, partly exposed), with fine needle-point calipers resting across it. Backdrop: defocused atrium with a small tool-rack visible behind her (her workshop spilling into the formal room). Lighting: warm sun-shaft falls full across the coupling and her hands (camera-right window), cyan atrium ambient lights her face. Hands and work get the warm light; her face gets the cool. Palette: cyan #4ba3b5 ambient, oxide-red #c66b3d coveralls, brass #b8752d (pin, coupling, calipers, table edge), warm sun #f5d98a on hands and coupling, amber-undertone skin. Film grain. 4K. No rendered text.
+
+#### 2M.2 — Bundle B: Breathing loop (8 frames)
+
+> Standard chest cycle (1.000 to 1.007 peak). Brass pin at throat catches slightly shifted highlight across the 8 frames (subtle light-play). The forearm muscles flex subtly on the leaning-forward pose. Hair UNCHANGED. Reactor coupling in foreground UNCHANGED (it is not alive).
+
+#### 2M.3 — Bundle C: Blink triptych
+
+Standard. Her eyes have lived in dust and sparks — on CLOSED frame, render a faint crease pattern from long squinting-at-work. Catchlights on OPEN warm.
+
+#### 2M.4 — Bundle D: Viseme grid
+
+Standard 15-panel. Her mouth readily opens — she is a teacher used to projecting across a workshop. Visemes read at 110% of baseline openness.
+
+#### 2M.5 — Bundle E: Expressions (5)
+
+> 1. SPEAKING — head tilts 4° toward the listener (she leans in when she speaks), hands gesture forward toward the coupling (one finger extended pointing-indicating).
+> 2. CONCERNED — brows knit, eyes drop to the coupling on the table, lips tight. She is diagnosing a problem with the hardware, not you.
+> 3. EMOTIONAL1 (delighted) — a broad warm smile that shows teeth, laugh-lines deepen, eyes crinkle. When a student finally hears the reactor hum.
+> 4. EMOTIONAL2 (disappointed-tender) — mouth gently closes, eyes search the student's face, shoulders settle back. A disappointment that is also care.
+> 5. REVEALING — she picks up the coupling in her scarred hands, holds it up toward the camera, and her expression opens into an unguarded "look" — mouth slightly parted, eyes shining, offering. The tool is the teaching; the teaching is the gift.
+
+#### 2M.6 — Bundle F: Coupling glow overlay
+
+> **Output:** `apps/client/public/vfx-atlases/matrikala_coupling_glow.png` — 512×512 transparent. A soft warm amber emissive texture masked to a brass reactor coupling silhouette. Inner calibration ring emits a subtle cyan glow. Used as animated overlay on the coupling prop during REVEALING and during the reactor-hum teaching beats.
+
+#### 2M.7 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_matrikala",
+  "shaderProgram": "WorkshopMentorPortrait",
+  "uniforms": {
+    "couplingGlowIntensity": 0.4,
+    "couplingGlowTexture": "vfx-atlases/matrikala_coupling_glow.png",
+    "warmHandLight": 0.8,
+    "coolFaceLight": 0.6,
+    "breathingPhase": "autoLoop:3.2s:amp=1.007"
+  },
+  "stateTriggers": {
+    "teaching": "couplingGlowIntensity=0.8; hand gesture toward it",
+    "revealing": "coupling lifted in frame; couplingGlowIntensity=1.2"
+  }
+}
+```
+
+---
+
+### 2N — THE MEME (MINNIE THE MEME, FIRST FORM)
+
+Canon anchor: `docs/production/act1-asset-build/prompts/matchups/little-meme.txt` + `act1_art_prompts__opponent_portrait.csv:portrait_minnie_meme`. Seven-year-old girl in a pastel sundress and black plastic headband with felt-covered Minnie Mouse ears (worn earnestly, not ironically), short dark-brown hair under the headband, mid-chant expression with lips parted between syllables. Eyes locked at camera — certain. Archon of the Meme in a child's body.
+
+Reference: `apps/client/public/references/npcs/meme/REFERENCE.md`.
+
+#### 2N.1 — Bundle A: Neutral bust
+
+> Three-quarter bust portrait of a seven-year-old girl, sweet round face, dark-brown hair under a black plastic headband with two round felt-covered Minnie Mouse ears (Disney-theme-park-souvenir style, earnest not ironic wear), bare knees implied below frame. Skin fair, light freckles across nose bridge. Eyes: rich warm brown (#4a3828), locked directly at camera with unnatural certainty for a child her age — not shy, not cruel, just CERTAIN. Mouth closed with lips slightly parted (she is always about to chant). Wearing a plain pastel sundress in soft pink (#fbc4c4) with a thin white lace trim at the collar. One hand flat on a surface-edge in lower frame (fingers splayed over an imaginary card), the other half-raised pointing index finger extended as if tracking something the viewer cannot yet see. Backdrop: softly defocused classroom interior with a honey-oak card-table surface in the lower third empty for UI overlay — warm-yellow window sun from camera-right striping her left cheek and the table surface. Palette: honey #d9a66a dominant (table and warm-sun bounce), dusty rose #c98b8b accent, warm sunlight #f5d98a on skin. Soft film grain. 4K. No rendered text.
+
+#### 2N.2 — Bundle B: Breathing loop (8 frames)
+
+> Standard child-scale chest cycle (1.000 to 1.008 peak). The Minnie ears (rigid plastic) DO NOT MOVE with her breathing — they're a fixed accessory. Headband UNCHANGED. Pointing index finger UNCHANGED (she holds that gesture). 8 PNGs.
+
+#### 2N.3 — Bundle C: Blink triptych
+
+Standard. But add a rare CLOSED variant: every ~10 blinks, her closed frame shows one of the Minnie ears has subtly MOVED 2px (impossible — the headband is rigid). When she opens her eyes, the ear is back in place. Subliminal wrongness.
+
+#### 2N.4 — Bundle D: Viseme grid
+
+Standard 15-panel sheet, child-scale mouth (~60% of adult openness). But on the viseme for the vowel "AH" specifically: the mouth opens WIDER than physically expected for her small face (an Archon's cadence in a child's throat). That one viseme runs at 120% of expected scale — reserved for when she chants.
+
+#### 2N.5 — Bundle E: Expressions (5)
+
+> 1. SPEAKING — mid-chant lips mid-syllable, eyes locked, finger still pointing. She does not break the chant pattern.
+> 2. CONCERNED — a momentary child's pout that does NOT reach her eyes. Performed concern.
+> 3. EMOTIONAL1 (viral-spread) — broadest delighted child-grin, eyes wide, the chant has taken hold. The room around her has subtly blurred more than it was — the meme is working.
+> 4. EMOTIONAL2 (archon-visible) — one frame: the child's face stays child-shaped but her eyes go ADULT-KNOWING, direct, uncanny. Four thousand years old in a kid's face.
+> 5. REVEALING — both hands come up clapping at head-height (the chant is the gesture), mouth wide open mid-shout, eyes closed in delight. Contagious. The viewer almost joins in.
+
+#### 2N.6 — Bundle F: Chant-wave overlay (environmental)
+
+> **Output:** `apps/client/public/vfx-atlases/meme_chant_wave.png` — 1024×1024 transparent.
+
+> A radial texture of concentric ring-waves emanating outward from a center point, soft gaussian, warm-gold tinted (#f5d98a at inner rings fading to transparent at edges). Used as animated overlay during SPEAKING and REVEALING expressions — the meme propagates outward from her as visible faint rings. Fades in/out with phoneme intensity.
+
+#### 2N.7 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_meme_minnie",
+  "shaderProgram": "ChildArchonPortrait",
+  "uniforms": {
+    "chantWaveIntensity": 0.3,
+    "chantWaveTexture": "vfx-atlases/meme_chant_wave.png",
+    "archonEyesVisible": false,
+    "earMicroDrift": 0.02,
+    "breathingPhase": "autoLoop:3.2s:amp=1.008"
+  },
+  "stateTriggers": {
+    "chanting": "chantWaveIntensity ramps with phoneme peaks",
+    "archonReveal": "archonEyesVisible=true for 600ms single-frame hold",
+    "viralSpread": "chantWaveIntensity=1.0; backdrop blur +30%"
+  }
+}
+```
+
+---
