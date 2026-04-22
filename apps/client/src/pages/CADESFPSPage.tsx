@@ -68,7 +68,7 @@ const voidPanel = "bg-white/[0.02] border border-white/10 rounded-xl backdrop-bl
 
 export default function CADESFPSPage() {
   const { user, isAuthenticated } = useAuth();
-  const { state: gameState } = useGame();
+  const { state: gameState, setNarrativeFlag } = useGame();
 
   // §G.11 — CADES receives the player's current suit bonuses via the
   // CADES_CONFIG payload. Aggregator is read once per render; missing
@@ -135,6 +135,34 @@ export default function CADESFPSPage() {
         if (r.mode === "ship_defense" && (r.thoughtborn_killed ?? 0) > 0) dispatchNarrativeEffect(undefined, "cades_thoughtborn_killed");
         if (r.thoughtborn_contacted) dispatchNarrativeEffect(undefined, "cades_thoughtborn_contacted");
         if (r.scenario_completed) dispatchNarrativeEffect(undefined, `cades_scenario_${r.scenario_completed}`);
+
+        // Act 5 completion-gate bridge — map Godot CADES modes to the
+        // canonical CADES_FPS_MISSIONS completedFlag names defined in
+        // apps/shared/actsFourFiveShells.ts. Without this the Act 5
+        // gate (`cades_m7_complete` required) never fires and Act 6
+        // remains locked via dev-only flags.
+        //
+        // Canon mapping (matches the data-shell's mission ordering):
+        //   ship_defense   → M2 "The Digital Onslaught"  (hold the node)
+        //   historical_incursions → M5 "Operation Trojan Downfall"
+        //                            (joint assault; canonical partial loss)
+        //   last_stand     → M7 "The Last Stand on Veridian VI"
+        //                            (Iron Lion dies — mandatory_death beat)
+        //
+        // Any successful Cades run also raises M1 (Scout's Gambit) —
+        // the player has scouted the battlefield by playing at all.
+        // This gives the Hub panel a visible progression arc even
+        // before the player reaches last_stand.
+        if (r.success) {
+          setNarrativeFlag("cades_m1_complete", true);
+          if (r.mode === "ship_defense") {
+            setNarrativeFlag("cades_m2_complete", true);
+          } else if (r.mode === "historical_incursions") {
+            setNarrativeFlag("cades_m5_complete", true);
+          } else if (r.mode === "last_stand") {
+            setNarrativeFlag("cades_m7_complete", true);
+          }
+        }
       }
 
       if (e.data.type === "IRON_LION_CHANNEL_OPEN") {
