@@ -999,58 +999,113 @@ Reference: `apps/client/public/references/npcs/cades/REFERENCE.md`.
 
 ---
 
-### 2I — THE COLLECTOR (COREY)
+### 2I — THE COLLECTOR + COREY (TWO DISTINCT CHARACTERS)
 
-Canon anchor: `docs/production/act1-asset-build/prompts/matchups/little-collector.txt` + `act1_art_prompts__opponent_portrait.csv:portrait_corey_collector`. A 7-year-old boy, sweet button-up sage-green shirt, neat side-parted hair, clasping a smoky glass mason jar at his chest that glows with trapped iridescent shimmer. Not a bully — a hoarder in the making. The sweetness is the menace.
+> **CANONICAL CORRECTION (2026-04-22):** This section now covers TWO related characters, not one:
+> - **THE COLLECTOR** (the true entity) — a hooded, dark-robed figure with red-tipped claws, lurking in an observation/specimen chamber. He collects people, memories, experiences.
+> - **COREY** (the child disciple) — a seven-year-old boy who WEARS A FACEMASK modeled on the Collector's face. He's a follower, not the entity. The mason jar stays in his canon — it's what disciples carry to offer to the Collector.
+>
+> My earlier draft conflated them. Real canon below, sourced from the user's 2026-04-22 reference image (Collector = image #4 in the upload batch).
 
-Reference: `apps/client/public/references/npcs/collector/REFERENCE.md`.
+References:
+- `apps/client/public/references/npcs/collector/front.png` (Collector entity, image #4 from 2026-04-22 upload)
+- `apps/client/public/references/npcs/corey/front.png` (Corey disciple — mask-wearing child)
 
-#### 2I.1 — Bundle A: Neutral bust
+#### 2I.1-A — THE COLLECTOR: Bundle A neutral bust
 
-> Three-quarter bust portrait of a seven-year-old boy, innocent face, fair skin, medium-brown hair parted neatly to the side (over-combed for a child his age), clean-cut bangs. Earnest direct gaze, a sweet half-smile that is — on a second look — decided. He has already chosen to keep something that isn't his. Wearing a tidy button-up shirt in soft sage-green (#7ba67a) with the top button fastened, an overly-grown-up collar for his small frame. Both small hands clasped around a smoky glass mason jar (#f0ede8 translucent glass, fogged from the inside) held protectively at his chest — the jar roughly the size of his clasped hands. Inside the jar: a faint iridescent golden shimmer (#d4a04a with prismatic highlights) suggesting trapped emotions, NOT distinct creatures — ambiguous captured light. Backdrop: defocused classroom with warm afternoon window-light bokeh (honey #d9a66a), sunlight catching the jar glass and making the trapped shimmer glow golden. Key light: warm yellow window-sun from camera-right, catching his face and the jar. Fill: warm amber bounce. Soft film grain. 4K. No rendered text.
+> Three-quarter bust portrait of a tall hooded figure in a specimen-observation chamber. The figure wears heavy dark-charcoal-black tattered robes (#151519) with frayed hems and a deep hood pulled fully up over the head. The face beneath the hood is only partially visible: pale greenish-white skin (#b0c4a8, slightly sickly undertone — NOT quite alive), sunken dark eye sockets with small glinting pupils barely visible, a narrow mouth slightly parted. The hood's inner shadow obscures more than it reveals. Both arms extend forward: hands pale-white with long thin fingers, fingertips tapering into RED-GLOWING CLAWS (#c41020 emissive tips, hot inner core, ~3cm claw length per finger, slightly curved inward) — a subtle blood-wet sheen on the claw surfaces. The robes' sleeves are torn at the wrists, ragged hem flowing. Backdrop: a large vertical GLASS OBSERVATION CYLINDER/TANK filled with cool turquoise-green fluid (#4aa098 luminous, slightly hazy) in which the figure IS suspended — he is behind/within the glass, half-submerged in the fluid. Attached to the tank on both sides: dark cables and chains running up into the ceiling shadows. Around the chamber walls: multiple holographic DATA DISPLAYS showing abstract humanoid body-diagram silhouettes with small red annotation markers (render as stylized body-specimen dossier panels, NOT legible text — just body outlines with marker points). Lighting: cool turquoise emissive from within the tank washing the figure from behind, warm red claw-glow on his fingertips, cold cyan accents from the display screens. Atmospheric haze. Film grain. 4K. No rendered text.
 
-#### 2I.2 — Bundle B: Breathing loop (8 frames)
+#### 2I.1-B — COREY (child disciple): Bundle A neutral bust
 
-> 8-frame standard chest cycle (1.000 to 1.008 peak). The mason jar rises and falls with his chest — held tightly. Inside the jar, the iridescent shimmer pulses in counter-phase with his breathing (exhale brightens shimmer, inhale dims it) — the trapped emotions respond to him. 8 PNGs.
+> Three-quarter bust portrait of a seven-year-old boy, innocent child's body, fair skin, medium-brown hair parted neatly to the side (over-combed for a child his age). HIS FACE IS COVERED BY A COLLECTOR FACEMASK — a child-sized replica of the Collector's face: pale greenish-white resin mask (#b0c4a8) covering the entire face from hairline to chin, with small dark eye-sockets (no glowing eyes — real child eyes visible through them, catching occasional light at the sockets), narrow closed mouth painted onto the mask. The mask is clearly a WORN ACCESSORY, not his real face — faint elastic strap visible at the back of his ears, mask edges don't quite match his jawline. Above the mask: his real hair visible, his real head shape. Wearing a tidy dark-charcoal button-up shirt (NOT the old sage-green — per Collector-disciple uniform, dark robes-for-children), top button fastened. Both small hands clasped around a smoky glass mason jar (#f0ede8 translucent, fogged from inside) held at his chest — the jar roughly hand-sized. Inside the jar: a faint iridescent red-turquoise shimmer (#4aa098 + #c41020 prismatic, matching the Collector's lab palette — NOT the gold of the old canon). Ambiguous captured light. Backdrop: defocused observation chamber fragments (the Collector's laboratory, not a classroom) — cool turquoise ambient bleed, distant display-screen bokeh. Light: cool turquoise from a single display-screen direction, desaturated ambient elsewhere. Film grain. 4K. No rendered text.
 
-#### 2I.3 — Bundle C: Blink triptych
+#### 2I.2 — Bundle B: Breathing loops (separate per character)
 
-Standard. The sweet-menace read is strongest when the eyes are OPEN — eyelash sharp, catchlight clear. On CLOSED frames, a brief flicker of the jar's shimmer brightens 20% (the trapped thing notices when he isn't looking).
+> **COREY** — 8-frame standard child chest cycle (1.000 to 1.008 peak). Mason jar rises and falls with his chest. Jar shimmer pulses in counter-phase to breath (exhale brightens). FACEMASK is rigid — does not move with breath. Subliminal wrongness comes from the mask's immobility while the body under it clearly breathes.
+>
+> **THE COLLECTOR** — different rhythm. 10-frame slow cycle (4.0s period — he breathes like something preserved). The suspended figure in the tank shifts 1-2px vertically in the fluid as fluid moves. Red claw-glow pulses subtly (0.9 to 1.1 intensity) on the slow cycle. Hood-drape shifts minimally. Display screens in the background flicker once per cycle (subliminal data-update).
 
-#### 2I.4 — Bundle D: Viseme grid
+#### 2I.3 — Bundle C: Blink triptych (separate per character)
 
-Standard 15-panel sheet, tight crop, child's lip tone and size. Small mouth — visemes read at ~60% of adult-scale openness by anatomy.
+> **COREY** — Standard child-eye blink, visible through the mask's eye sockets. On CLOSED frame, the jar shimmer brightens 20% (the trapped thing notices when he isn't looking).
+>
+> **THE COLLECTOR** — Rare slow-blink. The small glint-pupils in the hood's shadow dim for 600ms then re-brighten. Not a human blink — closer to a cat's slow blink of predator-approval. Deliver as 3 frames (normal / dim / return).
 
-#### 2I.5 — Bundle E: Expressions (5)
+#### 2I.4 — Bundle D: Viseme grid (separate per character)
 
-> 1. SPEAKING — child's direct earnestness, jar held steady.
-> 2. CONCERNED — small pout-downturn, eyes wide, head tilted.
-> 3. EMOTIONAL1 (delighted-wrong) — broad child's smile that reaches the eyes, jar shimmer INTENSIFIES 2× baseline. He just added to the collection.
-> 4. EMOTIONAL2 (protective) — jar pulled tighter to his chest, shoulders curl forward 3°, eyes narrow with child's possessiveness. The sweet mask slips by 5%.
-> 5. REVEALING — he looks down at the jar and then back up to camera slowly, eyes now DIRECT and adult-serious (impossible on a 7-year-old's face), mouth closed. The shimmer inside the jar dims — he is no longer performing for the jar. This is the Archon beneath the child.
+> **COREY** — Standard 15-panel sheet, tight crop through the mask. Mouth is PAINTED on the mask as a closed neutral — it does NOT deform with phonemes. Instead, viseme timeline drives a subtle MASK-RESONANCE effect: the mask itself vibrates in place (2-3px random jitter) during strong open vowels, as if the voice is coming THROUGH the mask but the mask cannot change shape. Unsettling. 15 panels showing the jitter-intensity curve per phoneme.
+>
+> **THE COLLECTOR** — 15-panel sheet, tight crop on the hood's inner shadow where his mouth would be. Real lip-shape visible through the hood-shadow at low contrast. Mouth open-shapes read at 60% baseline openness — he speaks slowly, deliberately, like an entity rationing words. 4K.
 
-#### 2I.6 — Bundle F: Jar-shimmer VFX overlay
+#### 2I.5 — Bundle E: Expressions (per character, 5 each)
 
-> **Output:** `apps/client/public/vfx-atlases/collector_jar_shimmer.png` — 512×512 transparent. A soft golden iridescent cloud confined to a ~380px circular region matching the jar's interior. Cloud structure: layered soft gaussian clouds in warm gold (#d4a04a to #f5d98a) with subtle prismatic rainbow hints at the edges (thin rings of magenta/cyan). Particle-like emberwisps distributed in the cloud, each 3-8px, slightly varying opacity. Outside the 380px circle: transparent. Used as animated pulse overlay inside the mason-jar geometry.
+**COREY:**
+> 1. SPEAKING — mask jitter during phonemes; body still.
+> 2. CONCERNED — head tilts, jar pulled tighter; mask unchanged.
+> 3. EMOTIONAL1 (delighted-wrong) — jar shimmer intensifies 2× baseline, child's body language shows joy but the mask stays neutral.
+> 4. EMOTIONAL2 (protective) — both hands cradle the jar, shoulders curl forward 3°, mask still unmoved.
+> 5. REVEALING — he lowers the mask 30% (it slides down his face slightly to reveal the forehead and brow of his REAL face beneath — a normal child's face with uncertain/conflicted expression — mouth and chin still covered). Reserved for the moment Corey shows doubt in his cult.
 
-#### 2I.7 — Shader uniform block
+**THE COLLECTOR:**
+> 1. SPEAKING — real lip-shapes visible through hood shadow; claw-glow modulates with phoneme emphasis.
+> 2. CONCERNED — the pupils briefly sharpen-brighten, red claw emissive dims to 0.5×.
+> 3. EMOTIONAL1 (cataloging) — one clawed hand lifts as if indexing an invisible specimen; head tilts 5° in appraisal.
+> 4. EMOTIONAL2 (acquisition-imminent) — both hands extend forward, all 10 red claws blaze to 1.8× emissive intensity for one frame, tank fluid visibly churns. The moment before he takes something.
+> 5. REVEALING — the hood pulls BACK (offscreen pull) exposing the full face for the first time: narrow pale-green skin stretched over a NON-HUMAN skull shape (wider cheekbones, smaller chin, larger eye-sockets), eyes now fully visible as small pinprick red-coal glows in shadowed pits. Reserved for the one plot beat where the Collector drops the robe-theater.
+
+#### 2I.6 — Bundle F: VFX overlays (per character)
+
+> **Output:** `apps/client/public/vfx-atlases/collector_{jar_shimmer,red_claws,tank_fluid}.png`.
+
+- **corey_jar_shimmer.png** — 512×512 transparent. Prismatic shimmer cloud in cool-turquoise + red (#4aa098 + #c41020 mix) confined to a 380px circular jar region. Counter-phase to breath.
+- **collector_red_claws.png** — 1024×512 transparent. Red emissive glow aligned to the fingertip positions of the Collector's outstretched hands, hot-core (#ffa0a0) fading to deep red (#c41020) to transparent. 10 individual finger-tips, each separately masked.
+- **collector_tank_fluid.png** — 2048×2048 seamless tile, turquoise luminous fluid texture with slow caustic pattern. Animated at runtime via texture offset.
+
+#### 2I.7 — Shader uniform blocks
 
 ```json
 {
-  "rigId": "npc_collector_corey",
-  "shaderProgram": "ChildPortraitWithProp",
+  "rigId": "npc_corey_disciple",
+  "shaderProgram": "MaskedChildDisciplePortrait",
   "uniforms": {
+    "maskJitterAmplitude": 2.5,
     "jarShimmerIntensity": 0.6,
-    "jarShimmerTexture": "vfx-atlases/collector_jar_shimmer.png",
+    "jarShimmerTexture": "vfx-atlases/corey_jar_shimmer.png",
     "shimmerBreathCounterPhase": true,
+    "maskPosition": "covering_full_face",
     "breathingPhase": "autoLoop:3.2s"
   },
   "stateTriggers": {
+    "phonemeJitter": "maskJitterAmplitude pulses with phoneme intensity",
     "collectingEmotion": "jarShimmerIntensity=2.0 for 600ms then settle to 1.1",
-    "archonRevealed": "jarShimmerIntensity=0.2; eyeIntensity=adult"
+    "doubtReveal": "maskPosition='lowered_30pct' for single beat"
+  }
+}
+
+{
+  "rigId": "npc_collector_entity",
+  "shaderProgram": "HoodedEntityInTankPortrait",
+  "uniforms": {
+    "clawEmissive": 1.0,
+    "clawTexture": "vfx-atlases/collector_red_claws.png",
+    "tankFluidTexture": "vfx-atlases/collector_tank_fluid.png",
+    "tankFluidAnimSpeed": 0.04,
+    "pupilGlintIntensity": 0.6,
+    "hoodCoverage": 1.0,
+    "breathingPhase": "autoLoop:4.0s:amp=1.004",
+    "visemeScale": 0.6
+  },
+  "stateTriggers": {
+    "cataloging": "one hand extends; head tilts 5°",
+    "acquisitionImminent": "clawEmissive=1.8 for 1 frame; tankFluid churns",
+    "revealing": "hoodCoverage=0.0; pupilGlintIntensity=1.2; full face exposed"
   }
 }
 ```
+
+#### 2I.8 — Narrative relationship
+
+Corey does NOT realize the Collector is using him as a harvester. Corey thinks he's helping a benevolent "Keeper of Lost Things." In dialogue, he'll deliver lines that expose the Collector's true nature but Corey does not process what he's saying. The rig's REVEALING beats are where the truth briefly cracks the illusion.
 
 ---
 
