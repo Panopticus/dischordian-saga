@@ -1908,15 +1908,15 @@ Standard 15-panel at 85% baseline openness — she speaks softly, as if each wor
 
 ---
 
-### 2T — THE WARLORD (REAL CANON — YELLOW ARMOR, DISGUISED-FEMALE SILHOUETTE)
+### 2T — THE WARLORD (CANON CONFIRMED — YELLOW ARMOR, FACE UNDER HELM = BLONDE PUNK)
 
-> **CANONICAL CORRECTION (2026-04-22):** Earlier draft described the Warlord's armor as "brass-and-composite dusky-chrome." That was derived from the matchup txt and was wrong. Real canon (user direction): **The Warlord's armor is YELLOW.** Specifically, a hazard/ceremonial yellow that narratively RHYMES with Agent Zero's saffron-yellow tactical uniform (Part 2A) — the hijacked host body's armor carries a callback to her original color palette, whether by design or by the swarm's instinct to mimic. Additionally: she is a WOMAN, but the armor should SOMEWHAT disguise that fact. Not fully erase — ambiguous-leaning-male at first glance, with proportions readable as female on a second look.
+> **CANONICAL CORRECTION + CONFIRMATION (2026-04-22, two-pass):** Earlier draft described "brass-and-composite dusky-chrome" armor — that was wrong. Real canon (user direction): **The Warlord's armor is YELLOW**, hazard-saffron palette that rhymes thematically with Agent Zero's saffron tactical hood (Part 2A) — same color family, deliberate visual echo across both characters. Second-pass user clarification: **The Warlord IS the same character throughout** — her face is hidden under the armored helm for ALL of Act 1 (and most of the game). Image #4 (2026-04-22 upload) shows what she looks like UNDER the armor — blonde, tattooed, beautiful punk-woman — but this image is **BANKED FOR THE SWARM-REVEAL CINEMATIC**, not for the standard character-sheet render. By default she is fully armored and faceless.
 
-Reference: `apps/client/public/references/npcs/warlord/REFERENCE.md`.
+Reference: `apps/client/public/references/npcs/warlord/{front_armored.png, host_face_under_helm.png}`. The first is the default character-sheet render (helm down). The second is the host-face reference for the eventual reveal beat.
 
-**Lore callback (2A integration):** The Warlord's host body IS Agent Zero (age 18, pre-Vex-infestation). Agent Zero's canonical palette is saffron yellow (her tactical hood, Part 2A). When the Vex-swarm overtook her body, the swarm — consciously or not — painted her combat chassis in the SAME yellow. On a lore level, this is either: (a) the swarm mimicking the host's visual identity, (b) the host's will leaking through her own armor choice, or (c) a deliberate Hierarchy taunt signaling "this is the body you lost." All three readings are canonically valid. The yellow is a wound.
+**Critical rigging note:** The Warlord has NO face visible (default render), NO viseme, NO blink. All lip-sync data routes to the visor's shimmer intensity (same pattern as The Architect's maskVibration). Breathing is minimal (the armor is rigid; the body inside is half-swarm). The shimmer is her sole tell. The helm-removed-face render is RESERVED for one specific cinematic beat (the swarm reveal) and never appears in the standard sheet.
 
-**Critical rigging note:** The Warlord has NO face visible, NO viseme, NO blink. All lip-sync data routes to the visor's shimmer intensity (same pattern as The Architect's maskVibration). Breathing is minimal (the armor is rigid; the body inside is half-swarm). The shimmer is her sole tell.
+**Lore note (yellow callback):** The yellow armor matches Agent Zero's saffron tactical uniform (Part 2A) — same color family. Whether this is coincidence, an in-fiction faction-color, the swarm mimicking other yellow-coded operators, or a deliberate Hierarchy taunt is left ambiguous in Act 1. Players who notice the color resonance are doing the work the writers want them to do.
 
 #### 2T.1 — Bundle A: Neutral bust
 
@@ -1979,9 +1979,31 @@ Skip traditional visemes. Deliver 15 visor-shimmer intensity frames matching the
     "swarmLeak": "1-frame shimmer wisp rises above helm",
     "transactionalOffer": "weapon hand lifts; shimmer 2Hz flicker"
   },
-  "loreNotes": "Yellow armor mirrors Agent Zero's saffron palette (Part 2A). The swarm has painted the host body's combat chassis to match the host's own color identity. Intentional — reading unsettled either as swarm-mimicry, host-will-bleed, or Hierarchy-taunt."
+  "loreNotes": "Yellow armor mirrors Agent Zero's saffron palette (Part 2A) — same color family. The reading is left ambiguous in Act 1: faction signal, swarm mimicry, or deliberate taunt. Writers will resolve later."
 }
 ```
+
+#### 2T.9 — RESERVED: Host-face-under-helm reference (for swarm-reveal cinematic ONLY)
+
+> **CRITICAL: This asset is BANKED for a specific late-game cinematic beat. It MUST NOT appear in the standard character-sheet render, in the Bundle E expressions, or in any Act 1 dialog frame. The Warlord's face is hidden through ALL of Act 1.**
+
+When the swarm-reveal cinematic plays (TBD beat — likely Act 2 or Act 3), her helm comes off. The face beneath is locked from the user's 2026-04-22 image #4 upload.
+
+**Host-face reference prompt (for that single cinematic beat):**
+
+> Three-quarter portrait of a beautiful young woman, mid-twenties, pale porcelain skin (#e8e0d8) with cool undertones, long platinum-blonde hair (#f0e8d8) flowing loose past her shoulders — wild, slightly unkempt, with strands falling across her face. Striking bright GREEN eyes (#7da868 piercing, narrow focused gaze, the only warm color on her face), dark eyeliner smudged at the lower lid. BLOOD-RED lipstick (#a8141c) on full lips, slightly parted. **Signature face-tattoos on the LEFT side of her face only:** intricate occult-tribal black ink work covering the temple, cheekbone, and corner of the eye — sharp angular line-work, scattered small dots, two small black star-points, and ONE BLOOD-RED ASTERISK MARK (#c41020) at the cheekbone (the swarm-mark — the only spot of red ink, deliberately matching her lipstick color and signaling the corruption beneath). Small black hexagonal earring at the visible ear. She is wearing the YELLOW HOODED CANVAS JACKET that matches her armor palette (#d4a04a, hood pulled UP over the back of her head with strands of blonde hair escaping at the front), open at the chest exposing BLACK CYBERNETIC ARMOR PLATING beneath at the shoulders and collarbone (segmented black plates, visible articulation joints, low-poly tactical-cyberpunk silhouette — these plates are what the helm-down armor's chest-piece is built ONTO). Backdrop: defocused desaturated misty post-apocalyptic urban ruin (cool grey-green ambient, atmospheric haze, no environment specifics). Lighting: cool overcast key from above-right, warm-yellow rim from her hood-fabric reflecting a faint warm glow back onto her jaw. Expression: guarded, sharp-eyed, NOT defeated — the swarm has not won here. Film grain. 4K. No rendered text.
+
+**Cinematic context (when this face is shown):**
+
+The swarm-reveal cinematic is a single ~8-second beat where the Warlord's helm RETRACTS or is REMOVED, exposing this face for the first time. In the same beat:
+- Her green eyes briefly show a faint iridescent VEX-SHIMMER bleed at the pupil edge (the swarm visible inside her, NOT controlling but PRESENT)
+- The blood-red asterisk tattoo on her cheekbone subtly PULSES once with cold-iridescent under-light (the swarm's brand)
+- Her lips part for the first audible spoken line in her own voice (NOT the swarm-mediated visor-routed voice she's used through Act 1)
+- Held beat — the player meets the woman who has been the Warlord this whole time
+
+After the reveal, she may or may not put the helm back on (writer's choice). For all subsequent appearances, default render returns to fully-armored helm-down — but the player now KNOWS what's beneath.
+
+**Asset deliverable:** ONE host-face PNG at 1024×1536 for the reveal-cinematic still composite. Plus a 6-second Veo 3.1 helm-retraction clip with start frame (helm down) and end frame (face fully exposed at the pose described above). Add to Part 9 cinematics manifest as `CIN-WARLORD-REVEAL-01`.
 
 ---
 
