@@ -136,6 +136,7 @@ async function main() {
   const client = new S3Client({
     region: REGION,
     credentials: { accessKeyId, secretAccessKey },
+    ...(process.env.AWS_UPLOAD_DEBUG ? { logger: console } : {}),
   });
 
   const dirs = args.only ? [args.only] : [...TRACKED_DIRS];
