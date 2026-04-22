@@ -178,6 +178,36 @@ export function listInfiltrationPaths(): InfiltrationPathDef[] {
   ];
 }
 
+/**
+ * Bridge table mapping the Trade Empire's faction ids (used by
+ * ACT3_FACTION_ARCS in client/game/tradeEmpire.ts) to the canonical
+ * infiltration path ids used in this module. The Empire path of the
+ * canon maps to the New Babylon faction arc (New Babylon is led by
+ * "The Authority" — the same Empire the path's pitch refers to). The
+ * remaining Trade Empire factions (thought_virus, artificial_empire,
+ * antiquarian) are auxiliary arcs that don't correspond to the three
+ * main infiltration paths; they can still complete for rewards but
+ * don't satisfy the Act 3 completion gate.
+ *
+ * Consumers: `completeArcStage` in TradeEmpirePage.tsx uses this to
+ * decide whether to raise an infiltration-path ending flag on arc
+ * resolution. Returning null means "not a main-path faction."
+ */
+export function infiltrationPathForTradeEmpireFaction(
+  factionId: string,
+): InfiltrationPathDef | null {
+  switch (factionId) {
+    case "insurgency":
+      return INFILTRATION_PATHS.insurgency;
+    case "hierarchy":
+      return INFILTRATION_PATHS.hierarchy;
+    case "new_babylon":
+      return INFILTRATION_PATHS.empire;
+    default:
+      return null;
+  }
+}
+
 /* ─── §8 — TRADE EMPIRE 10 CONCRETE IMPROVEMENTS ─── */
 
 export interface TradeEmpireImprovement {

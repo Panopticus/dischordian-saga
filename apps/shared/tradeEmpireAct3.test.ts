@@ -328,9 +328,9 @@ describe("Eyes Arc", () => {
     }
   });
 
-  it("every ending sets act3_complete", () => {
+  it("every ending sets act_3_complete (canon naming mirrors act_1_complete / act_2_complete)", () => {
     for (const key of ["eyes_shadow", "iron_path", "council"] as const) {
-      expect(ACT3_ENDINGS[key].flagsOnReach).toContain("act3_complete");
+      expect(ACT3_ENDINGS[key].flagsOnReach).toContain("act_3_complete");
     }
   });
 });

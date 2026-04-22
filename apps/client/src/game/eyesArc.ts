@@ -197,20 +197,20 @@ export const ACT3_ENDINGS: Record<"eyes_shadow" | "iron_path" | "council", Act3E
     title: "The Eyes' Shadow",
     body: "She is not coming back. But her recorded voice has been waiting in the substrate layer for seventeen thousand years and now it is yours. From tonight, when you scan a Trade Empire sector, the Eyes whispers. She is wry and heartbroken and she is gone but she is here. The line between her and you is deliberately thin.",
     unlock: "The Eyes becomes the Trade Empire narrator layer. Her lines play when you scan sectors.",
-    flagsOnReach: ["act3_complete", "eyes_arc_complete", "eyes_narrator_unlocked", "act4_unlocked"],
+    flagsOnReach: ["act_3_complete", "eyes_arc_complete", "eyes_narrator_unlocked", "act4_unlocked"],
   },
   iron_path: {
     id: "iron_path",
     title: "The Iron Path",
     body: "Iron Lion broadcasts to you once. The signal arrives at 03:17 ship time. 'We buried the last of her with honors. You move like she did. Be better than she was. The Cades are circling. I'm sending you a prelude mission. Don't die on it.' The transmission ends. A new mission file is on your Bridge.",
     unlock: "Cades prelude mission unlocks. Iron Lion becomes an intermittent ally voice.",
-    flagsOnReach: ["act3_complete", "trade_empire_mastered", "iron_lion_contact", "cades_prelude_unlocked", "act4_unlocked"],
+    flagsOnReach: ["act_3_complete", "trade_empire_mastered", "iron_lion_contact", "cades_prelude_unlocked", "act4_unlocked"],
   },
   council: {
     id: "council",
     title: "The Council",
     body: "The Council Chamber unlocks as a new room on the Ark. Once per in-game week, the five faction leaders send delegates — not themselves, not Locke or the Architect, but their trusted intermediaries. They bring requests. They bring gifts. Sometimes they bring their own quiet grief. The Ark becomes a diplomatic hub. This is the quiet golden ending of Act 3.",
     unlock: "Council Chamber room unlocks. Weekly faction delegate requests begin.",
-    flagsOnReach: ["act3_complete", "trade_empire_mastered", "council_chamber_unlocked", "act4_unlocked"],
+    flagsOnReach: ["act_3_complete", "trade_empire_mastered", "council_chamber_unlocked", "act4_unlocked"],
   },
 };
