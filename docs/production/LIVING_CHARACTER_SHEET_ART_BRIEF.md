@@ -1870,21 +1870,29 @@ Standard 15-panel at 85% baseline openness — she speaks softly, as if each wor
 
 ---
 
-### 2T — THE WARLORD
+### 2T — THE WARLORD (REAL CANON — YELLOW ARMOR, DISGUISED-FEMALE SILHOUETTE)
 
-Canon anchor: `docs/production/act1-asset-build/prompts/matchups/warlord-zero-first.txt` + `act1_art_prompts__opponent_portrait.csv:portrait_warlord_swarm_env`. The Warlord is a FULLY ARMORED FIGURE — no exposed face, deliberately unornamented field armor, brass-and-composite dusky-chrome plate, full-face helm with continuous horizontal scanning slit. Under the helm: the host body (Agent Zero, 18) infested with a Vex-swarm — indicated by faint iridescent shimmer inside the visor's lower inner edge. THE FACE IS NEVER SHOWN through all of Act 1.
+> **CANONICAL CORRECTION (2026-04-22):** Earlier draft described the Warlord's armor as "brass-and-composite dusky-chrome." That was derived from the matchup txt and was wrong. Real canon (user direction): **The Warlord's armor is YELLOW.** Specifically, a hazard/ceremonial yellow that narratively RHYMES with Agent Zero's saffron-yellow tactical uniform (Part 2A) — the hijacked host body's armor carries a callback to her original color palette, whether by design or by the swarm's instinct to mimic. Additionally: she is a WOMAN, but the armor should SOMEWHAT disguise that fact. Not fully erase — ambiguous-leaning-male at first glance, with proportions readable as female on a second look.
 
 Reference: `apps/client/public/references/npcs/warlord/REFERENCE.md`.
 
-**Critical rigging note:** The Warlord has NO face, NO viseme, NO blink. All lip-sync data routes to the visor's shimmer intensity (same pattern as The Architect's maskVibration). Breathing is minimal (the armor is rigid; the body inside is half-swarm). The shimmer is her sole tell.
+**Lore callback (2A integration):** The Warlord's host body IS Agent Zero (age 18, pre-Vex-infestation). Agent Zero's canonical palette is saffron yellow (her tactical hood, Part 2A). When the Vex-swarm overtook her body, the swarm — consciously or not — painted her combat chassis in the SAME yellow. On a lore level, this is either: (a) the swarm mimicking the host's visual identity, (b) the host's will leaking through her own armor choice, or (c) a deliberate Hierarchy taunt signaling "this is the body you lost." All three readings are canonically valid. The yellow is a wound.
+
+**Critical rigging note:** The Warlord has NO face visible, NO viseme, NO blink. All lip-sync data routes to the visor's shimmer intensity (same pattern as The Architect's maskVibration). Breathing is minimal (the armor is rigid; the body inside is half-swarm). The shimmer is her sole tell.
 
 #### 2T.1 — Bundle A: Neutral bust
 
-> Three-quarter bust portrait of a fully armored figure, standing still, mid-distance. Brass-and-composite dusky-chrome plate armor (#6b6b65 dusky chrome, #b8752d polished brass at joints and edges) — articulated segmented cuirass with visible overlapping plates, broad pauldrons, gauntlets in frame. NO Empire insignia, NO faction marks — deliberately unornamented field armor, the armor of a professional arriving to complete a transaction. The helm is full-face: a sculpted brass-rimmed visor (#b8752d brass rim, black interior #0a0a0a matte), continuous horizontal scanning slit across eye level (~8cm wide, 1.5cm tall), face completely hidden. Along the visor's lower inner edge (inside the scanning slit): a faint iridescent shimmer barely visible — almost a heat-haze, the sole visible indicator of the Vex-swarm infesting the body inside. Subtle rainbow-pale chromatic shimmer, NOT flashy. A viewer who doesn't know to look reads it as spotlight refraction on the visor metal. One gauntleted hand visible at lower frame edge resting on the hilt of a broad short-bladed weapon at the hip (not drawn). Her stance: still, not aggressive. Backdrop: defocused Nexon breach battlefield — smoke columns, torn banner at screen-right edge, distant ember-orange city fires, faint cold cyan from emergency flares. Lighting: amber spotlight on pauldron and upper visor from camera-right; ember-orange rim from back (city glow); faint cold cyan rim from back-left (flares). Visor scanning slit reflects the ember glow. Film grain. 4K. No rendered text.
+> Three-quarter bust portrait of a fully armored figure, standing still at mid-distance. Armor palette: **primary YELLOW** — a weathered industrial hazard-saffron (#d4a04a to #c4862e gradient across the plates, NOT bright school-bus yellow; think "ceremonial hazard-yellow with combat wear"), with darker gunmetal-black (#2a2d32) at the articulated joint seams, collar line, gauntlet wrist-cuffs, and underside plates. Secondary accent: polished brass (#b8752d) at the joint-rivets and the visor rim. The yellow dominates upper-body plates and pauldrons; darker gunmetal fills the shadow zones between the yellow sections — the armor reads YELLOW-FIRST at silhouette distance. Subtle weathering: chips, dents, carbon-scoring streaks across the yellow plates (she has fought in this armor).
+>
+> Articulated segmented cuirass — **designed to DISGUISE but not fully erase the female silhouette:** the chest plate has moderate upper-torso volume without sculpting to breasts; pauldrons are OVERSIZED squared-off (exaggerate shoulder width by ~20%, making the upper silhouette read broader than her actual shoulders); the waist cuirass is STRAIGHT-CUT rather than tapered (no waist cinch — the armor visually widens the waistline to neutralize hip-shoulder taper); the lower torso plates flare slightly at the hip but not in a feminine-tapered way, more in a tactical-utility way. Gauntlets on both arms are heavy and squared, adding apparent forearm bulk. On close inspection: her actual female proportions are readable in the NECK and JAWLINE silhouette curve (slightly narrower than a typical male combat chassis), and in the visible BACK OF THE HAND where a slimmer wrist emerges from the gauntlet cuff. First-pass read: "this is a soldier, probably male." Second-pass read: "wait, she's a woman." Intentional ambiguity.
+>
+> NO Empire insignia, NO faction marks — deliberately unornamented field armor, the armor of a professional arriving to complete a transaction. The helm is full-face: a sculpted brass-rimmed visor (#b8752d brass rim, black interior #0a0a0a matte), continuous horizontal scanning slit across eye level (~8cm wide, 1.5cm tall), face completely hidden. Along the visor's lower inner edge (inside the scanning slit): a faint iridescent shimmer barely visible — almost a heat-haze, the sole visible indicator of the Vex-swarm infesting the body inside. Subtle rainbow-pale chromatic shimmer, NOT flashy — a viewer who doesn't know to look reads it as spotlight refraction on the visor metal.
+>
+> One gauntleted hand visible at lower frame edge resting on the hilt of a broad short-bladed weapon at the hip (not drawn). Her stance: still, not aggressive — feet squared, shoulders level, weight evenly distributed. Backdrop: defocused Nexon breach battlefield — smoke columns, torn banner at screen-right edge, distant ember-orange city fires, faint cold cyan from emergency flares. Lighting: amber spotlight on pauldron and upper visor from camera-right (the yellow armor reads BRIGHT under this warm key); ember-orange rim from back (city glow), faint cold cyan rim from back-left (flares). Visor scanning slit reflects the ember glow. Film grain. 4K. No rendered text.
 
 #### 2T.2 — Bundle B: Breathing loop (8 frames)
 
-> Minimal chest motion (1.000 to 1.002 peak — the armor is rigid, and the body inside is half-swarm). Shimmer inside the visor slit SLIGHTLY modulates across the 8 frames — intensity cycles 0.25 → 0.35 → 0.25 (subliminal). This is the swarm "breathing." Armor plates UNCHANGED. Weapon hand UNCHANGED.
+> Minimal chest motion (1.000 to 1.002 peak — the armor is rigid, and the body inside is half-swarm). Shimmer inside the visor slit SLIGHTLY modulates across the 8 frames — intensity cycles 0.25 → 0.35 → 0.25 (subliminal). This is the swarm "breathing." Armor plates UNCHANGED. Weapon hand UNCHANGED. The yellow stays static — only the visor-shimmer animates.
 
 #### 2T.3 — Bundle C: Blink triptych — NOT GENERATED
 
@@ -1915,6 +1923,11 @@ Skip traditional visemes. Deliver 15 visor-shimmer intensity frames matching the
   "rigId": "npc_warlord",
   "shaderProgram": "SwarmHostedArmorPortrait",
   "uniforms": {
+    "armorPrimaryColor": "#d4a04a",
+    "armorShadowColor": "#2a2d32",
+    "armorAccentBrass": "#b8752d",
+    "armorWeathering": 0.6,
+    "silhouetteDisguiseLevel": 0.75,
     "visorShimmerIntensity": 0.25,
     "visorShimmerTexture": "vfx-atlases/warlord_visor_shimmer.png",
     "breathingPhase": "autoLoop:3.2s:amp=1.002",
@@ -1927,7 +1940,8 @@ Skip traditional visemes. Deliver 15 visor-shimmer intensity frames matching the
     "predatoryFocus": "shimmer drops; single bright point moves across slit",
     "swarmLeak": "1-frame shimmer wisp rises above helm",
     "transactionalOffer": "weapon hand lifts; shimmer 2Hz flicker"
-  }
+  },
+  "loreNotes": "Yellow armor mirrors Agent Zero's saffron palette (Part 2A). The swarm has painted the host body's combat chassis to match the host's own color identity. Intentional — reading unsettled either as swarm-mimicry, host-will-bleed, or Hierarchy-taunt."
 }
 ```
 
