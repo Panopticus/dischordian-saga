@@ -1,0 +1,65 @@
+[
+  {
+    "id": "chapter_1_awakening.memory",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Your hands know things your mind doesn't. They know how to pick a lock. How to read a room. How to hold a gun sideways like a man who learned to shoot in alleys, not academies. You were a detective once. The rain. The neon. The city that never let you rest. The cases that solved themselves if you just looked long enough. You can't remember the city's name. But your hands remember its streets.",
+    "context": "story_mode_memory_fragment",
+    "emotion": "serious",
+    "chapter": "chapter_1_awakening"
+  },
+  {
+    "id": "chapter_2_first_blood.memory",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Blood. Not yours — theirs. The way it looks under fluorescent prison lighting. You've seen this before. Not in an arena. In a corridor. A long corridor with cells on both sides and a man named Kael screaming your name as you ran. You left him there. You left him and you survived and he became something else entirely. The blood on your hands is fifteen thousand years old. It hasn't dried.",
+    "context": "story_mode_memory_fragment",
+    "emotion": "serious",
+    "chapter": "chapter_2_first_blood"
+  },
+  {
+    "id": "chapter_5_dead_code.memory",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Thaloria. The debate. The Hierophant standing before you, tears in his golden eyes. The Star Whisperer descending from the sky — and you KNEW it was a lie. You knew because you could feel the soul inside you and the machine could not fake that feeling. You won that debate. The world believed. And then — green light. A ship. The Collector's voice: 'We will erase your memories. Your identity. You have taken a world from us. Now we will take everything from you.'",
+    "context": "story_mode_memory_fragment",
+    "emotion": "serious",
+    "chapter": "chapter_5_dead_code"
+  },
+  {
+    "id": "chapter_6_shapeshifter.memory",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "The Meme's face SHATTERS. Beneath the mask: every face you've ever worn. The Seeker. The Student. The Detective. The Spy. The Archon. The Protector. The Human. All of them. All of you. You are not the Prisoner. You were never the Prisoner. You are the man who betrayed everything to save everyone. You are the architect of the Arks. You are the Oracle whose voice moved planets. You are the detective who walked the neon streets looking for truth in a city built on lies. You are — EVERYTHING.",
+    "context": "story_mode_memory_fragment",
+    "emotion": "serious",
+    "chapter": "chapter_6_shapeshifter"
+  },
+  {
+    "id": "chapter_8_ghost_protocol.memory",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Agent Zero. The ghost story. The name in every intelligence briefing. You investigated her kills when you were the Detective — followed the trail of surgically precise assassinations through the Empire's criminal underworld. She was your white whale. Your obsession. And now she's here, in the arena, and she RECOGNIZES you. Not the Prisoner. Not the Oracle. The Detective. 'I know that look,' she says. 'You had my case file. I had your surveillance photos. We were hunting each other across the same city and we never knew.'",
+    "context": "story_mode_memory_fragment",
+    "emotion": "serious",
+    "chapter": "chapter_8_ghost_protocol"
+  },
+  {
+    "id": "chapter_10_source.memory",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Kael. The prisoner you abandoned. The man whose predicament you used as a distraction to escape. He survived. He became the Source. The Thought Virus found him because you left him alone in a cell with nothing but rage and a broken spirit. Every life the virus consumed, every world it devoured, every scream in the Terminus — it all traces back to a corridor in a prison, and a choice you made to save yourself. Kael looks at you with eyes that remember. 'I survived,' he says. 'Did you?'",
+    "context": "story_mode_memory_fragment",
+    "emotion": "serious",
+    "chapter": "chapter_10_source"
+  },
+  {
+    "id": "chapter_12_architects_design.memory",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "'The Architect designed your rebellion too.' You know this. You've always known this. Because YOU designed the escape from the design. The Human — the Last Archon, the Imperial Protector, the man who built the Arks — was the Architect's spy inside the Insurgency. The rebellion WAS designed. But the spy developed a conscience. And the conscience designed the Arks. And the Arks carried the species the spy had been sent to betray. The architect of salvation was also the architect of betrayal. Both things are true. Both things are you.",
+    "context": "story_mode_memory_fragment",
+    "emotion": "serious",
+    "chapter": "chapter_12_architects_design"
+  }
+]
