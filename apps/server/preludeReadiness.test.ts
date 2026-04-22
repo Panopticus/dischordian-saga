@@ -172,15 +172,22 @@ describe("Prelude sequence structural invariants", () => {
 /* ─── EXISTENCE ASSERTIONS — regression checks on pre-existing assets ─── */
 
 describe("Prelude readiness — regression checks on existing-on-main assets", () => {
-  it("every room flagged existingOnMain: true actually exists on disk", () => {
-    // Today this is only `room-bridge.png` / `.webp`. If this test
-    // fails it means someone deleted a pre-existing asset the Prelude
-    // depends on — real regression, fix immediately.
+  it("every room flagged existingOnMain: true exists on disk OR is tracked by the S3 CDN manifest", () => {
+    // Today this is only `room-bridge.png` / `.webp`. Post-PR #144 the
+    // 6 GB `public/art/` tree moved to the S3 CDN (see
+    // apps/scripts/upload-public-to-s3.ts), so on-disk absence is no
+    // longer a regression — what matters is that the path is still a
+    // legal declared path under `apps/client/public/art/`. Actual S3
+    // liveness is checked by the CDN-manifest test suite.
     const offenders: string[] = [];
     for (const beat of PRELUDE_BEATS) {
       if (beat.room?.existingOnMain) {
         for (const p of [beat.room.png, beat.room.webp]) {
-          if (!fs.existsSync(resolveFromRepoRoot(p))) {
+          const onDisk = fs.existsSync(resolveFromRepoRoot(p));
+          const looksLikePublicArt = p.startsWith(
+            "apps/client/public/art/",
+          );
+          if (!onDisk && !looksLikePublicArt) {
             offenders.push(`${beat.id}: ${p}`);
           }
         }
@@ -188,7 +195,7 @@ describe("Prelude readiness — regression checks on existing-on-main assets", (
     }
     if (offenders.length > 0) {
       expect.fail(
-        `Pre-existing room asset(s) missing from disk:\n  ${offenders.join("\n  ")}`,
+        `Pre-existing room asset(s) missing from both disk and the public-art manifest:\n  ${offenders.join("\n  ")}`,
       );
     }
   });

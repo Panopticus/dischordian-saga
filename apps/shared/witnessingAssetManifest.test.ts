@@ -79,10 +79,17 @@ describe("witnessingAssetManifest", () => {
       expect(paths.length).toBe(totals.totalImageCount);
     });
 
-    it("every path starts with /assets/slideshows/ or /art/", () => {
+    it("every path is a slideshows/art URL or the public-asset CDN", () => {
+      // Post-PR #144 the public asset pipeline routes through assetUrl()
+      // which returns a full S3 URL (PUBLIC_ASSET_BASE). Literal slideshow
+      // paths (e.g. "/assets/slideshows/.../hero.webp") are still allowed
+      // for manifests authored before the codemod.
+      const CDN_BASE = "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/";
       for (const path of listAllAssetPaths()) {
         expect(
-          path.startsWith("/assets/slideshows/") || path.startsWith("/art/"),
+          path.startsWith("/assets/slideshows/") ||
+            path.startsWith("/art/") ||
+            path.startsWith(CDN_BASE),
         ).toBe(true);
       }
     });
