@@ -1640,69 +1640,91 @@ Add to Part 9 cinematics audit list.
 
 ---
 
-### 2Q — PALIMPSEST HOST
+### 2Q — PALIMPSEST HOST (REAL CANON — MEME-ARCHETYPE CHILD-ARCHON)
 
-> **⚠️ NO CANON LOOK YET (2026-04-22).** The user has confirmed there is NO established canonical visual for the Palimpsest Host. The prompts below are a WORKING SKETCH derived from the game-mode description (`/palimpsest` broadcast with reversed casualty crawl) — they are NOT canon and must NOT be used for final asset generation until the user uploads a canon reference to `apps/client/public/references/npcs/palimpsest_host/front.png`. Treat everything below as placeholder-only. The RIGGING behavior (backward-scrolling crawl, rewind breathing frames, edit-ghost overlay) is likely canon-compatible and can stay; the physical appearance is not locked.
+> **CANONICAL CORRECTION (2026-04-22):** This section REPLACES an earlier placeholder draft describing the Palimpsest Host as a "composed 40s broadcast anchor in a navy blazer." That was wrong. Real canon (user direction): **The Palimpsest Host LOOKS LIKE THE MEME.** Same uncanny child-archon archetype as Minnie the Meme (Part 2N) — a seven-year-old's body with ancient Archon eyes, Disney-theme-park-souvenir-aesthetic accessory, honey-gold broadcast-era warmth. Where Minnie's signature is Mickey ears, Palimpsest's signature is her OWN themed accessory.
 
-Provisional anchor (NOT canon): the Palimpsest is an in-fiction episodic broadcast (game-mode `/palimpsest`) where the "casualty crawl runs backwards mid-broadcast." The Palimpsest Host is the broadcast-medium NPC who anchors each episode — a showrunner presenting from a broadcast studio set. Polished veneer, something fundamentally wrong beneath.
+#### 2Q.0 — Archetype note
 
-Reference: `apps/client/public/references/npcs/palimpsest_host/REFERENCE.md`.
+Both Minnie (the Meme) and the Palimpsest Host are CHILD-ARCHONS in the same broadcast-era trope family. They are the same visual species of horror: ancient cosmic powers wearing the faces of children who LOVED the Celebration broadcast so much they became its liturgy. Minnie is the Archon of the Meme (seven-year-old girl with Mickey ears); Palimpsest is the Archon of the Broadcast Edit (seven-year-old-girl with a Palimpsest-themed accessory — see 2Q.1 below).
 
-**Critical rigging note:** The Palimpsest Host's broadcast frame subtly REWINDS when plot edits are in progress — background crawl text scrolls backward, fine detail deresolves, their own posture rewinds a micro-beat (head jerks back 1° then forward again in a stutter). This is the signature aliveness tell.
+Visual continuity: when Minnie and Palimpsest appear in the same scene (rare but plot-relevant), they should READ as siblings or classmates — same playground, same era, same nostalgic camera palette. The horror is that they could be anyone's children.
 
 #### 2Q.1 — Bundle A: Neutral bust
 
-> Three-quarter bust portrait of a composed broadcast host in their forties, ambiguous ethnicity (deliberately smoothed/generic — broadcast-appropriate), polished-camera-ready features. Hair: perfectly styled (slicked back for male presentation / neat chignon for female presentation — deliver BOTH variants, runtime picks one based on canon), artificial highlight sheen. Eyes: hazel (#8a6a3a), direct to camera, unwavering broadcast gaze. A tasteful earpiece visible in one ear (skin-tone silicone, subtle). Wearing a tailored broadcast-studio blazer in navy-charcoal (#2a2d3a) with crisp white inner collar, no tie (the open-collar anchor look), a small metallic lapel pin in brushed silver (no rendered logo — abstract geometric). Hands folded at the lower frame edge on a desktop surface. Backdrop: polished broadcast-studio set — deep indigo backdrop with a subtle large-scale logo silhouette (geometric, no legible text), soft warm key from camera-right, cool practicals along the wall, a holographic "crawl" strip running horizontally across the lower backdrop (scrolling abstract glyph shapes — NOT legible text). Lighting: broadcast-perfect three-point with warm key + cool fill + soft backlight rim. Mouth closed in a practiced neutral-ready expression — the mouth that has just finished one sentence and will start the next. Film grain, very subtle (broadcast cameras). 4K. No rendered text.
+> Three-quarter bust portrait of a seven-year-old girl, sweet innocent face, fair skin with light freckles across the nose bridge, round cheeks. Medium-dark-brown hair styled in neat matching PIGTAILS with small bows at the base of each (the bows in pale cream or honey-gold ribbon, not rainbow — restrained broadcast aesthetic). Eyes: rich warm brown (#4a3828), LOCKED DIRECTLY AT CAMERA with the same uncanny adult certainty as Minnie the Meme — not shy, not cruel, just CERTAIN. Mouth closed with a faint practiced smile — the professional-child smile of someone who has been the host of SOMETHING since she was three.
+>
+> **Signature accessory (her Mickey-ear-equivalent):** A pair of MINNIE-MOUSE-ADJACENT but distinctly different "broadcast bow" head accessories — instead of round felt Mickey ears on a band, she wears a black plastic headband with two TALL BROADCAST ANTENNA-SHAPED PROTRUSIONS rising ~8cm from the band (like little retro TV-antenna rabbit-ears), each antenna capped with a small round felt ball at the tip (in pale warm honey-gold #d9a66a). Distinctly Disney-theme-park-souvenir in spirit — cheap plastic, earnest wear — but broadcast-themed rather than mouse-themed. The antennas subtly pick up a nostalgic TV-broadcast signifier.
+>
+> Wearing a plain pastel dress in soft cream (#e6dcc2) with a thin white lace collar trim, small ribbon detail at the waist. Both hands resting folded on a surface at lower-frame edge, posture rehearsed-ladylike (a little TOO rehearsed for her age).
+>
+> Backdrop: defocused CHILDREN'S-SHOW STUDIO set — warm honey-gold (#d9a66a) ambient (the Celebration-broadcast palette), pastel-trim wallscaping in the mid-distance, a small defocused PUPPET or MASCOT figure watching from the deep background (off to one side, blurred enough that the viewer doesn't quite catch what kind of creature it is — implied but not resolved). Warm yellow window-sun key from camera-right like the other child-archon portraits (Minnie, Corey). Palette: honey-gold dominant, pastel cream accent, warm sunlight. Soft film grain. 4K. No rendered text.
 
-#### 2Q.2 — Bundle B: Breathing loop (8 frames) + Rewind variants
+#### 2Q.2 — Bundle B: Breathing loop (8 frames) + REWIND variants
 
-> Standard chest cycle (1.000 to 1.007 peak). Earpiece UNCHANGED. Backdrop crawl strip: across the 8 frames, the glyphs scroll LEFT normally. Hair UNCHANGED.
-> **BONUS: 4 additional REWIND frames** (deliver as `breathing/rewind_01..04.png`): same subject but the backdrop crawl scrolls RIGHT (backward), and the host's head is subtly rewound 1° on frames 1–2 then forward 1° on frames 3–4 (net-zero; it's a stutter-revert). These 4 frames splice into the normal loop when narrative edits trigger.
+> Standard child chest cycle (1.000 to 1.008 peak). **The ANTENNA HEADBAND is rigid — does NOT move with breath** (same rigidity tell as Minnie's Mickey ears). The small felt-ball antenna tips DO drift ±0.5px with subtle resonance, as if picking up a signal. Dress fabric UNCHANGED. Pigtails drift ±0.8px.
+> **BONUS: 4 additional REWIND frames** (`breathing/rewind_01..04.png`): same subject but all motion plays BACKWARD for that segment. Pigtails drift opposite direction, breath reverses (chest contracts instead of expands), the child's head jerks back 1° then forward again in a stutter-revert. These frames splice into the normal loop when narrative edits trigger — the broadcast is being rewritten in real time.
 
 #### 2Q.3 — Bundle C: Blink triptych + REWIND-BLINK variant
 
-> Standard 3 frames. PLUS a rewind-blink variant: 3 additional frames where the blink plays BACKWARD (closed → half → open). Used at edit-triggered moments. 6 total PNGs.
+> Standard 3 frames. PLUS a rewind-blink variant: 3 additional frames where the blink plays BACKWARD (closed → half → open — eyes OPEN from a closed start). Child-creepy. 6 total PNGs.
 
 #### 2Q.4 — Bundle D: Viseme grid
 
-Standard 15-panel. Broadcast-ready enunciation — crisp, over-articulated at ~110% of baseline openness. The host is PAID to be intelligible.
+> Standard 15-panel sheet with child-scale mouth (~65% of adult openness). Broadcast-ready enunciation — she is PROFESSIONALLY trained, every phoneme crisply articulated. On AA and OW specifically, the mouth opens a little WIDER than anatomically normal for a child this size (an Archon's cadence in a kid's throat — same trick as Minnie).
 
 #### 2Q.5 — Bundle E: Expressions (5)
 
-> 1. SPEAKING — broadcast-perfect delivery, mouth crisp, eyes locked.
-> 2. CONCERNED — a practiced sympathetic furrow; the brows pull together but the eyes stay bright. Performed empathy.
-> 3. EMOTIONAL1 (segment-transition) — a subtle knowing smile; head tilts 2°, eyebrow raises in the "and now, something remarkable" broadcaster cadence.
-> 4. EMOTIONAL2 (edit-in-progress) — the face FROZEN mid-expression with one eye half-closed and mouth slightly open, as if paused; a barely-perceptible double-exposure ghost of an ALTERNATE expression hovers 2px offset. The broadcast is being edited. Rare.
-> 5. REVEALING — direct gaze, the practiced neutral drops, the mouth forms a single sentence they were not supposed to say. One frame, no theatrics. The host has broken the broadcast.
+> 1. SPEAKING — broadcast-perfect child delivery, antenna tips subtly resonating with phoneme rhythm.
+> 2. CONCERNED — a practiced sympathetic child-pout; the brows pull together in a learned performance.
+> 3. EMOTIONAL1 (segment-transition) — broadest delighted child-grin, eyes bright, head tilts 2° in the "and now, something remarkable" cadence. The segment is changing.
+> 4. EMOTIONAL2 (edit-in-progress) — the face FROZEN mid-expression with one eye half-closed, a barely-perceptible double-exposure ghost of an ALTERNATE child-expression hovers 2px offset. The broadcast is being edited. The child appears to be TWO DIFFERENT CHILDREN briefly. Rare and horrifying.
+> 5. REVEALING (archon-visible) — one frame: the child's face stays child-shaped but her eyes go ADULT-KNOWING, direct, uncanny (same technique as Minnie's archon-reveal). The antennas on the headband briefly LENGTHEN 20% and emit a faint broadcast-interference static at their tips. Reserved for the beat where the Palimpsest Host admits what she is.
 
-#### 2Q.6 — Bundle F: Broadcast-crawl overlay
+#### 2Q.6 — Bundle F: Broadcast-crawl overlay + antenna-static overlay
 
-> **Output:** `apps/client/public/vfx-atlases/palimpsest_crawl.png` — 2048×128 (wide strip), transparent.
+> **Output:** `apps/client/public/vfx-atlases/palimpsest_{crawl,antenna_static}.png`.
 
-> A horizontal strip texture of abstract glyph-shape crawl text (NOT legible letters — stylized character-like forms), 2048px wide x 128px tall, on transparent background. Characters alternate in two sizes (24px primary + 16px secondary) and drift on dark gradient backing. Used as tiling texture on the backdrop crawl strip, scrolling left at 12px/s normally, reversing direction and accelerating on edit triggers.
+> - **palimpsest_crawl.png** — 2048×128 transparent. Horizontal strip of abstract glyph-shape crawl text (NOT legible letters, stylized character-forms). Used as tiling overlay on the backdrop at bottom edge of frame. Scrolls left at 12px/s normally, REVERSES direction at 18px/s during edit-triggered beats.
+> - **palimpsest_antenna_static.png** — 256×256 transparent. A small sprite of broadcast-static interference (black-white noise with subtle chromatic bleed) used as overlay at the antenna tips during REVEALING — a burst of signal from the accessory.
 
 #### 2Q.7 — Shader uniform block
 
 ```json
 {
   "rigId": "npc_palimpsest_host",
-  "shaderProgram": "BroadcastHostPortrait",
+  "shaderProgram": "ChildArchonBroadcastPortrait",
   "uniforms": {
     "crawlScrollSpeed": -12,
     "crawlTexture": "vfx-atlases/palimpsest_crawl.png",
+    "antennaStaticIntensity": 0.0,
+    "antennaStaticTexture": "vfx-atlases/palimpsest_antenna_static.png",
+    "antennaLength": 1.0,
     "editInProgress": 0.0,
     "rewindAmplitude": 0.0,
     "ghostDoubleExposure": 0.0,
-    "breathingPhase": "autoLoop:3.2s:amp=1.007",
-    "broadcastKeyLight": 0.9
+    "archonEyesVisible": false,
+    "breathingPhase": "autoLoop:3.2s:amp=1.008",
+    "visemeScale": 0.65
   },
   "stateTriggers": {
     "editTriggered": "crawlScrollSpeed=+18; rewindAmplitude=1.0 for 1.2s",
     "castingRewindFrames": "swap breathing frames to rewind variants",
-    "brokenBroadcast": "expression=REVEALING; editInProgress=1.0 held"
+    "archonReveal": "archonEyesVisible=true; antennaLength=1.2; antennaStaticIntensity=0.8 for 600ms"
   }
 }
 ```
+
+#### 2Q.8 — Parallel arc with Minnie (2N)
+
+The Palimpsest Host + Minnie the Meme + Corey (the child-disciple of the Collector, 2I) form an implied trio of CHILD-ARCHON / CHILD-CULTIST figures. All three share:
+- Seven-year-old anatomy
+- Disney-theme-park-souvenir-aesthetic accessory (Mickey ears / broadcast antennas / Collector facemask)
+- Honey-gold Celebration-era lighting palette
+- Rigid accessory that does NOT move with breath
+- Archon-visible REVEALING frame (the adult-knowing eyes inside the child's face)
+
+Narrative plant: in scenes where two or more of these children appear together, render them in the same HONEY-GOLD warm-studio lighting rig so the viewer gets the subliminal "these are children of the same broken era" read. The user-facing horror is that they're all dressed up for the same nostalgic party.
 
 ---
 
