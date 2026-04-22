@@ -171,7 +171,24 @@ async function main() {
             }
           } catch (err) {
             failed++;
-            console.error(`FAIL ${rel}:`, (err as Error).message);
+            const e = err as Error & {
+              name?: string;
+              code?: string;
+              $metadata?: { httpStatusCode?: number; requestId?: string };
+              Code?: string;
+            };
+            const parts = [
+              e.name ? `name=${e.name}` : null,
+              e.code ? `code=${e.code}` : null,
+              e.Code ? `Code=${e.Code}` : null,
+              e.$metadata?.httpStatusCode ? `http=${e.$metadata.httpStatusCode}` : null,
+              e.$metadata?.requestId ? `req=${e.$metadata.requestId}` : null,
+              e.message ? `msg=${e.message}` : null,
+            ].filter(Boolean);
+            console.error(`FAIL ${rel}: ${parts.join(" ")}`);
+            if (process.env.AWS_UPLOAD_DEBUG) {
+              console.error(err);
+            }
           }
         }
       })(),
