@@ -1768,3 +1768,79 @@ Skip traditional visemes. Deliver 15 visor-shimmer intensity frames matching the
 ```
 
 ---
+
+### 2U — THE WATCHER (CORPORATE FORM)
+
+Canon anchors (2026-04-22 user direction): take the reference image of the pale-skinned man in white monk robes with a black-haired top-knot ponytail, WHITE COVID MASK covering the lower face, and a THIRD EYE symbol marked directly on the forehead — then adapt him into a CORPORATE VERSION. Three-piece business suit replaces monk robes. Still wearing the white Covid mask. Still the third-eye mark.
+
+Reference source: `apps/client/public/references/npcs/watcher/front_monastic.png` (the upload) → CORPORATE adaptation as the canon default at `apps/client/public/references/npcs/watcher/front.png`.
+
+**Critical rigging notes:**
+1. The WHITE SURGICAL/COVID MASK physically covers the lower face — visemes read entirely through mask tension. The mask is fabric, not rigid, so it DEFORMS subtly on open vowels (AA, OW pushing the fabric 2-3px forward at the chin plane).
+2. The THIRD EYE on the forehead is the signature aliveness tell. It is a small (~2cm) eye-glyph tattoo/scar mark at mid-forehead — but it BLINKS independently from the two normal eyes on an irregular 6-14s cycle, NOT synced to the normal blink. When the third eye blinks, the normal eyes stay open. When the normal eyes blink, the third eye stays open. Subliminal wrongness.
+3. The Watcher NEVER LOOKS DIRECTLY at the camera with his normal eyes. Gaze is always offset 4-6° to the side. The THIRD EYE is what meets the camera.
+
+#### 2U.1 — Bundle A: Neutral bust
+
+> Three-quarter bust portrait of a man, mid-thirties, ethereally beautiful East-Asian features, pale porcelain skin with a cool neutral undertone (#e8e4dc). Long jet-black hair (#0a0606) pulled up into a tight high top-knot / samurai bun at the crown of the head, the bun secured cleanly with a few stray hair strands falling loose past his jawline and down his shoulders. Dark slender eyebrows arched subtly. Eyes: clear cool-grey (#6a7278), direct but offset — the gaze pulls 5° to the viewer's left (i.e., the subject's right), NEVER meeting the camera directly. Long dark eyelashes. Bridge of the nose visible above the mask. Forehead CENTER, between the brows and slightly above, bears a small (~2cm) THIRD-EYE glyph marking: a simple ink-drawn almond-shaped eye with a dark-grey iris and a single small circular pupil, drawn cleanly in dark ink (#1a1a1d) on the pale skin — reads as tattoo or ritual scar. The third eye is OPEN, iris gently luminous with a soft cyan inner glow (#7ac4d4 subtle emissive), PUPIL LOCKED DIRECTLY ON THE CAMERA (the third eye IS the eye contact the normal eyes refuse). Lower face COVERED by a clean WHITE SURGICAL/COVID MASK (#f8f8f4, crisp fabric, clearly a modern medical-style mask), fitted with small thin elastic ear-loops visible at the cheeks (#e6e4e0, tucked behind the ears, faintly visible), mask tied clean across the bridge of the nose with a subtle nose-wire indent visible. Mask fabric drapes clean over chin and extends to just below the jawline — no beard visible through or around it. Wearing a CORPORATE THREE-PIECE BUSINESS SUIT — specifically: a deep charcoal-grey (#2a2d32) three-piece suit, crisp flat lapels, with a matching waistcoat underneath visible above the jacket's front closure; crisp white dress shirt (#f0ede8) buttoned to the collar with a thin dark-charcoal tie (#1a1d22) knotted tight; a small silver lapel pin (abstract geometric — a tiny eye-within-triangle motif in brushed silver, very subtle). Shoulders of the suit structured and sharp. Hair falls cleanly down the back/side despite the suit's formal context. Backdrop: defocused minimalist neutral-grey corporate lobby or gallery wall (#b4b8bc), soft diffuse even lighting from multiple directions (soft box simulation — he is lit for a corporate headshot), faint vertical strip of warmer light on one side suggesting a modern interior window. Lighting: clean, corporate, no drama. Film grain subtle. 4K. No rendered text.
+
+#### 2U.2 — Bundle B: Breathing loop (8 frames)
+
+> Standard chest cycle (1.000 to 1.004 peak — contained, controlled). Suit shoulders UNCHANGED (well-tailored). The WHITE MASK flexes subtly with breath: on inhale the mask expands 1-2px outward at the cheeks and chin plane; on exhale the mask pulls slightly back and a barely-perceptible 3px-wide zone of condensation-haze appears briefly at the mask's mouth-plane center (warm breath through fabric — use a very faint warm-white translucent overlay) then fades. 8 PNGs.
+
+#### 2U.3 — Bundle C: Blink triptych + THIRD-EYE BLINK variants
+
+> Standard 3 frames for normal eyes (open / half / closed). PLUS 3 additional frames for THIRD-EYE independent blink: third_eye_open / third_eye_half / third_eye_closed. During runtime, the normal-eye blink channel and the third-eye blink channel fire INDEPENDENTLY on offset cycles. Normal eyes blink every 4-9s (standard); third eye blinks every 6-14s (less frequent, irregular). They NEVER synchronize. When the third eye blinks, the cyan glow extinguishes for 140ms and the eye visually closes — the lower eyelid line of the tattoo becomes temporarily the only visible line. 6 PNGs total.
+
+#### 2U.4 — Bundle D: Viseme grid — ROUTED TO MASK DEFORMATION
+
+> Skip traditional mouth-plate visemes. Instead, deliver 15 reference frames showing the white mask DEFORMING per phoneme, with the mask fabric being the only mouth-shape indicator. Viseme mechanics:
+> - SIL: mask flat neutral
+> - Open vowels (AA, AO, OW): mask pushes forward 3-5px at the chin plane, creating a visible outward-protruding curve in the fabric
+> - Closed consonants (B_M_P): mask unchanged (lips pressed BEHIND mask)
+> - Fricatives (F_V, CH_SH): mask pulls INWARD slightly at the upper-lip position, creating a small inward dimple
+> - Tongue visemes (D_S_T, L): minimal mask deformation; rely on surrounding expression
+> The 15 panels reference the mask-deformation pose; runtime drives via a `maskFabricDeformation: 0..1` uniform that triggers subtle mesh-push on the mask geometry at the chin plane. Eye region UNCHANGED across all 15. 4K.
+
+#### 2U.5 — Bundle E: Expressions (5)
+
+> 1. SPEAKING — normal eyes continue 5° offset gaze; third eye LOCKS on camera; mask deforms per viseme.
+> 2. CONCERNED — third eye's cyan glow DIMS to 0.3×; normal eyes pull further offset (7-8°); mask unchanged.
+> 3. EMOTIONAL1 (watching-intently) — third eye's cyan glow BRIGHTENS to 1.4×; normal eyes close HALF (he closes his normal eyes to see with the third); mask unchanged.
+> 4. EMOTIONAL2 (watcher-seen-seeing-you) — rare; the NORMAL EYES pull to camera for ONE FRAME, direct and cold; third eye closes tight on same frame. Inversion: the normal eyes have been watching all along. Reserved for specific reveal beats.
+> 5. REVEALING — the mask is lowered 40% (pulled down by an offscreen hand to expose the mouth for a single line); lower face visible: thin pale lips forming a single sentence; third eye blazes to 1.8× intensity; normal eyes close fully as if praying. Reserved for the single line where the Watcher must speak with his whole face. After the line, the mask returns.
+> 4K. No rendered text.
+
+#### 2U.6 — Bundle F: Third-eye emissive + mask-breath condensation overlays
+
+> **Output:** `apps/client/public/vfx-atlases/watcher_{third_eye_glow,mask_condensation}.png`.
+
+> - **third_eye_glow:** 256×256 transparent. Soft cyan emissive texture masked to the third-eye iris shape — hot white-cyan core (#d8f0f4) fading to cyan (#7ac4d4) to transparent. Intensity driven by `thirdEyeIntensity: 0..1.8`.
+> - **mask_condensation:** 512×256 transparent. Faint warm-white translucent gaussian patch for the breath-through-mask effect. Spawns briefly on exhale frames (frames 5-6 of breathing loop). Low opacity, quick fade.
+
+#### 2U.7 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_watcher",
+  "shaderProgram": "MaskedTripleEyePortrait",
+  "uniforms": {
+    "normalEyeGazeOffset": 5,
+    "thirdEyeGazeLocked": true,
+    "thirdEyeIntensity": 0.8,
+    "thirdEyeTexture": "vfx-atlases/watcher_third_eye_glow.png",
+    "thirdEyeBlinkCycle": "random:6s-14s",
+    "maskFabricDeformation": 0.0,
+    "maskCondensationIntensity": 0.0,
+    "visemeChannel": "routeToMaskDeformation",
+    "breathingPhase": "autoLoop:3.2s:amp=1.004"
+  },
+  "stateTriggers": {
+    "watchingIntently": "thirdEyeIntensity=1.4; normal eyes half-closed",
+    "watcherInverted": "normalEyeGazeOffset=0 for 1 frame; thirdEyeIntensity=0 same frame",
+    "revealing": "mask lowered 40%; thirdEyeIntensity=1.8; normal eyes fully closed"
+  }
+}
+```
+
+---
