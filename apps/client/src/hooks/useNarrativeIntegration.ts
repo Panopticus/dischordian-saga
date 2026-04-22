@@ -32,6 +32,17 @@ import {
 } from "@shared/act2ClimbBridge";
 import { deriveAct2CompletionStatus } from "@shared/act2CompletionGate";
 import { deriveAct3CompletionStatus } from "@shared/act3CompletionGate";
+import { deriveAct4CompletionStatus } from "@shared/act4CompletionGate";
+import { deriveAct4_5CompletionStatus } from "@shared/act4_5CompletionGate";
+import { deriveAct5CompletionStatus } from "@shared/act5CompletionGate";
+import { deriveAct6CompletionStatus } from "@shared/act6CompletionGate";
+import { deriveAct7CompletionStatus } from "@shared/act7CompletionGate";
+import {
+  RECRUITMENT_THRESHOLDS,
+  hasReachedAct6Threshold,
+  hasReachedAct7Threshold,
+  getRecruitmentMissionCount,
+} from "@shared/armyRecruitment";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import {
   PRELUDE_HANDOFF_TARGET_ACT,
@@ -285,6 +296,47 @@ export const SLIDESHOW_TRIGGERS: ReadonlyArray<{
     triggerFlag: "vortex_endgame_dark_variant",
     slideshowId: "the-bulb-breaks",
     completionFlag: "slideshow_the_bulb_breaks_complete",
+  },
+  {
+    // §9 — Act 4 opener. GameContext advances narrativeAct to 4
+    // after act_3_complete fires; the Act 4 gate also watches
+    // `act_4_started` which advanceNarrativeAct sets, so the
+    // slideshow fan-out picks it up and plays the intro. The
+    // completion flag feeds the Act 4 completion gate's first
+    // required field.
+    triggerFlag: "act_4_started",
+    slideshowId: "act-4-revelation-intro",
+    completionFlag: "slideshow_act_4_revelation_intro_complete",
+  },
+  {
+    // §10 — Act 4.5 opener. SIBLING to Act 5 — fires when the
+    // player accepts Dead Man's Circuit. advanceNarrativeAct does
+    // NOT raise this; it's set from the Act 4 gate atomically.
+    triggerFlag: "act_4_5_started",
+    slideshowId: "act-4-5-intro",
+    completionFlag: "slideshow_act_4_5_intro_complete",
+  },
+  {
+    // §11 — Act 5 opener. Fires when act_5_started raises
+    // (set atomically by the Act 4 gate or by GameContext's
+    // advanceNarrativeAct(5)).
+    triggerFlag: "act_5_started",
+    slideshowId: "act-5-map-intro",
+    completionFlag: "slideshow_act_5_map_intro_complete",
+  },
+  {
+    // §12 — Act 6 opener. Trigger watcher above raises
+    // act_6_started when recruitment >= 5 AND narrativeAct >= 5.
+    triggerFlag: "act_6_started",
+    slideshowId: "act-6-confession-intro",
+    completionFlag: "slideshow_act_6_confession_intro_complete",
+  },
+  {
+    // §13 — Act 7 opener. Trigger watcher raises act_7_started
+    // when recruitment >= 15 AND act_6_complete is true.
+    triggerFlag: "act_7_started",
+    slideshowId: "act-7-convergence-intro",
+    completionFlag: "slideshow_act_7_convergence_intro_complete",
   },
 ];
 
@@ -1122,6 +1174,133 @@ export function useNarrativeIntegration() {
       });
     }
 
+    // Witnessing §9 — Act 4 wrap. Fires act_4_complete + advances
+    // narrativeAct to 5 when slideshow + an Act-1 path flag + any
+    // Prisoner chapter are all true. Also fires act_4_5_started so
+    // Dead Man's Circuit becomes available as a SIBLING track to
+    // Act 5. See apps/shared/act4CompletionGate.ts.
+    const act4Gate = deriveAct4CompletionStatus({
+      narrativeAct: state.narrativeAct,
+      flags: state.narrativeFlags,
+    });
+    if (act4Gate.readyToFire) {
+      setNarrativeFlag("act_4_complete", true);
+      setNarrativeFlag("act_5_started", true);
+      setNarrativeFlag("act_4_5_started", true);
+      if ((state.narrativeAct ?? 0) < 5) {
+        advanceNarrativeAct(5);
+      }
+      toast.info("Act 4 — The Revelation", {
+        description:
+          "The Prisoner lays down the fight. The map is open. Kael's logs are yours now.",
+      });
+    }
+
+    // Witnessing §10 — Act 4.5 wrap. Fires act_4_5_complete when
+    // the slideshow is seen and at least one track (Circuit or
+    // Casino) is cleared. Does NOT advance narrativeAct — Act 5
+    // is the sequential successor, 4.5 is an optional sibling.
+    const act4_5Gate = deriveAct4_5CompletionStatus({
+      narrativeAct: state.narrativeAct,
+      flags: state.narrativeFlags,
+    });
+    if (act4_5Gate.readyToFire) {
+      setNarrativeFlag("act_4_5_complete", true);
+      toast.info("Act 4.5 — Dead Man's Circuit", {
+        description:
+          "You named the wager. You paid the wager. The chain keeps the identity you lost.",
+      });
+    }
+
+    // Witnessing §11 — Act 5 wrap. Fires act_5_complete + Act 6
+    // trigger when slideshow + map revealed + Cades M7 complete
+    // AND the player has cleared 5+ army recruitment missions.
+    // See apps/shared/act5CompletionGate.ts. The Bridge of Kael
+    // post-credits scene is a SEPARATE trigger handled by
+    // witnessingIntegrations.shouldPlayBridgeOfKaelPostCredits.
+    const act5Gate = deriveAct5CompletionStatus({
+      narrativeAct: state.narrativeAct,
+      flags: state.narrativeFlags,
+      armyRecruitmentMissionsCompleted:
+        state.armyRecruitmentMissionsCompleted ?? undefined,
+    });
+    if (act5Gate.readyToFire) {
+      setNarrativeFlag("act_5_complete", true);
+      setNarrativeFlag("act_6_started", true);
+      if ((state.narrativeAct ?? 0) < 6) {
+        advanceNarrativeAct(6);
+      }
+      toast.info("Act 5 — The Reckoning", {
+        description:
+          "Veridian VI is a helmet in the grass. The army is yours. The Confession waits.",
+      });
+    }
+
+    // Witnessing §12 — Act 6 trigger. When the player reaches the
+    // recruitment threshold while in Act 5 (or already Act 6-
+    // eligible), raise act_6_started so the SLIDESHOW_TRIGGERS
+    // opener fires. Guarded on !act_6_started + !act_6_complete.
+    const recruitCount = getRecruitmentMissionCount({
+      armyRecruitmentMissionsCompleted:
+        state.armyRecruitmentMissionsCompleted ?? undefined,
+    });
+    if (
+      hasReachedAct6Threshold(recruitCount) &&
+      !state.narrativeFlags?.act_6_started &&
+      !state.narrativeFlags?.act_6_complete &&
+      (state.narrativeAct ?? 0) >= 5
+    ) {
+      setNarrativeFlag("act_6_started", true);
+    }
+
+    // Witnessing §12 — Act 6 wrap. Fires act_6_complete + act_7_
+    // started + advances narrativeAct to 7 when slideshow + both
+    // confessions heard + a stance chosen.
+    const act6Gate = deriveAct6CompletionStatus({
+      narrativeAct: state.narrativeAct,
+      flags: state.narrativeFlags,
+    });
+    if (act6Gate.readyToFire) {
+      setNarrativeFlag("act_6_complete", true);
+      setNarrativeFlag("act_7_started", true);
+      if ((state.narrativeAct ?? 0) < 7) {
+        advanceNarrativeAct(7);
+      }
+      toast.info("Act 6 — The Confession", {
+        description:
+          "Both of them finally spoke. The Watcher is named. The bond is at sync.",
+      });
+    }
+
+    // Witnessing §13 — Act 7 trigger. Requires 15+ recruitment
+    // missions. Guarded on act_6_complete so the player has at
+    // least heard the confessions before the Convergence opens.
+    if (
+      hasReachedAct7Threshold(recruitCount) &&
+      !state.narrativeFlags?.act_7_started &&
+      !state.narrativeFlags?.act_7_complete &&
+      Boolean(state.narrativeFlags?.act_6_complete)
+    ) {
+      setNarrativeFlag("act_7_started", true);
+    }
+
+    // Witnessing §13 — Act 7 wrap. Final completion beat of the
+    // spine. Fires act_7_complete when slideshow + arc-closes.
+    // Downstream prestige cycle rolls over per the canon
+    // carryover rules in witnessingIntegrations.ts.
+    const act7Gate = deriveAct7CompletionStatus({
+      narrativeAct: state.narrativeAct,
+      flags: state.narrativeFlags,
+    });
+    if (act7Gate.readyToFire) {
+      setNarrativeFlag("act_7_complete", true);
+      setNarrativeFlag("narrative_spine_complete", true);
+      toast.info("Act 7 — The Convergence", {
+        description:
+          "I've been waiting a very long time to say that to someone. The cycle closes.",
+      });
+    }
+
     // Check terminus
     const terminusWave = parseInt(localStorage.getItem("terminus_highest_wave") || "0");
     if (terminusWave >= 20 && !state.narrativeFlags?.terminus_champion) {
@@ -1135,6 +1314,7 @@ export function useNarrativeIntegration() {
     state.craftedItems,
     state.chessDepth,
     state.rooms,
+    state.armyRecruitmentMissionsCompleted,
     climbRank,
     setNarrativeFlag,
     advanceNarrativeAct,

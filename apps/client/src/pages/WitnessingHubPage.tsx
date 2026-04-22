@@ -36,6 +36,10 @@ import {
 } from "@shared/witnessingHub";
 import { deriveYearOneMonth } from "@shared/yearOneMonth";
 import { deriveAct2CompletionStatus } from "@shared/act2CompletionGate";
+import {
+  RECRUITMENT_THRESHOLDS,
+  getRecruitmentMissionCount,
+} from "@shared/armyRecruitment";
 import { PreludeMissionRunner } from "@/components/PreludeMissionRunner";
 import type { PreludeCrewMission } from "@shared/preludeCrewMissions";
 import LivingBackground from "@/components/LivingBackground";
@@ -435,6 +439,33 @@ function JourneyPanel({
       {(hubState.currentAct === "act_2" ||
         Boolean(flags.act_2_started) ||
         Boolean(flags.act_2_complete)) && <Act2Panel flags={flags} />}
+
+      {/* Acts 4 / 4.5 / 5 / 6 / 7 progression panels — each renders once
+          the player enters that act's era, using the shared
+          SpineActPanel below. Panels are additive: reaching Act 5 shows
+          both Act 4 (now complete) and Act 5 (in-progress). */}
+      {(Boolean(flags.act_4_started) || Boolean(flags.act_4_complete)) && (
+        <SpineActPanel config={SPINE_ACT_PANELS.act_4} flags={flags} />
+      )}
+      {(Boolean(flags.act_4_5_started) || Boolean(flags.act_4_5_complete)) && (
+        <SpineActPanel config={SPINE_ACT_PANELS.act_4_5} flags={flags} />
+      )}
+      {(Boolean(flags.act_5_started) || Boolean(flags.act_5_complete)) && (
+        <SpineActPanel
+          config={SPINE_ACT_PANELS.act_5}
+          flags={flags}
+          recruitmentCount={getRecruitmentMissionCount({
+            armyRecruitmentMissionsCompleted:
+              gameState.armyRecruitmentMissionsCompleted ?? undefined,
+          })}
+        />
+      )}
+      {(Boolean(flags.act_6_started) || Boolean(flags.act_6_complete)) && (
+        <SpineActPanel config={SPINE_ACT_PANELS.act_6} flags={flags} />
+      )}
+      {(Boolean(flags.act_7_started) || Boolean(flags.act_7_complete)) && (
+        <SpineActPanel config={SPINE_ACT_PANELS.act_7} flags={flags} />
+      )}
 
       {/* Year One calendar strip */}
       <section className="rounded-md border void-border-subtle void-bg-canvas p-5">
@@ -894,6 +925,190 @@ function Act2Panel({
         >
           Game Masters Arena
         </Link>
+      </div>
+    </section>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   SPINE ACT PANELS — Acts 4 / 4.5 / 5 / 6 / 7
+   Shared panel component driven by a per-act config table.
+   Each config lists the act's required flags + per-flag labels
+   + CTA links + (optionally) a recruitment-count display for
+   Act 5. The panel renders the same checkbox grid the Act 2
+   panel uses so the Hub's visual language stays consistent
+   across the whole spine.
+   ═══════════════════════════════════════════════════════ */
+
+interface SpineActFlagCheck {
+  flag: string;
+  label: string;
+}
+interface SpineActCta {
+  href: string;
+  label: string;
+}
+interface SpineActPanelConfig {
+  title: string;
+  completeFlag: string;
+  checks: SpineActFlagCheck[];
+  ctas: SpineActCta[];
+  /** Optional recruitment threshold display (Act 5 only today). */
+  recruitmentLabel?: string;
+  recruitmentThreshold?: number;
+}
+
+const SPINE_ACT_PANELS: Record<
+  "act_4" | "act_4_5" | "act_5" | "act_6" | "act_7",
+  SpineActPanelConfig
+> = {
+  act_4: {
+    title: "ACT 4 · THE REVELATION",
+    completeFlag: "act_4_complete",
+    checks: [
+      { flag: "slideshow_act_4_revelation_intro_complete", label: "Opener seen" },
+      { flag: "act1_path_A", label: "Willing path (any §3.1 commit)" },
+      { flag: "act4_prisoner_cell_complete", label: "Prisoner chapter cleared" },
+    ],
+    ctas: [
+      { href: "/act4-match", label: "The Prisoner Match" },
+      { href: "/arena", label: "Collector's Arena" },
+      { href: "/witnessing", label: "Hub" },
+    ],
+  },
+  act_4_5: {
+    title: "ACT 4.5 · DEAD MAN'S CIRCUIT",
+    completeFlag: "act_4_5_complete",
+    checks: [
+      { flag: "slideshow_act_4_5_intro_complete", label: "Opener seen" },
+      { flag: "act_4_5_circuit_complete", label: "Circuit run completed" },
+      { flag: "act_4_5_casino_complete", label: "Degen Casino completed" },
+    ],
+    ctas: [
+      { href: "/dead-mans-circuit", label: "Dead Man's Circuit" },
+      { href: "/casino", label: "The Degen Casino" },
+    ],
+  },
+  act_5: {
+    title: "ACT 5 · THE RECKONING",
+    completeFlag: "act_5_complete",
+    checks: [
+      { flag: "slideshow_act_5_map_intro_complete", label: "Map opened" },
+      { flag: "act_5_map_revealed", label: "Kael's map revealed" },
+      { flag: "cades_m1_complete", label: "Cades M1 complete" },
+      { flag: "cades_m7_complete", label: "Iron Lion's Last Stand" },
+    ],
+    ctas: [
+      { href: "/act5-interlude", label: "Map / Interlude" },
+      { href: "/fight", label: "Cades FPS" },
+      { href: "/witnessing", label: "Hub" },
+    ],
+    recruitmentLabel: "Army recruits",
+    recruitmentThreshold: RECRUITMENT_THRESHOLDS.act6,
+  },
+  act_6: {
+    title: "ACT 6 · THE CONFESSION",
+    completeFlag: "act_6_complete",
+    checks: [
+      { flag: "slideshow_act_6_confession_intro_complete", label: "Opener seen" },
+      { flag: "act6_elara_confession_heard", label: "Elara's confession heard" },
+      { flag: "act6_human_confession_heard", label: "Human's confession heard" },
+      { flag: "act6_confession_close", label: "Stance taken" },
+    ],
+    ctas: [
+      { href: "/act6-ladder", label: "Confession Ladder" },
+      { href: "/witnessing", label: "Hub" },
+    ],
+  },
+  act_7: {
+    title: "ACT 7 · THE CONVERGENCE",
+    completeFlag: "act_7_complete",
+    checks: [
+      { flag: "slideshow_act_7_convergence_intro_complete", label: "Opener seen" },
+      { flag: "act7_visible_war_won", label: "Visible war won" },
+      { flag: "act7_convergence_landing", label: "Convergence landed" },
+      { flag: "act7_arc_closes", label: "Arc closes" },
+    ],
+    ctas: [
+      { href: "/act7-ladder", label: "Convergence Ladder" },
+      { href: "/witnessing", label: "Hub" },
+    ],
+  },
+};
+
+function SpineActPanel({
+  config,
+  flags,
+  recruitmentCount,
+}: {
+  config: SpineActPanelConfig;
+  flags: Record<string, unknown>;
+  recruitmentCount?: number;
+}) {
+  const done = config.checks.filter((c) => Boolean(flags[c.flag])).length;
+  const total = config.checks.length;
+  const complete = Boolean(flags[config.completeFlag]);
+  return (
+    <section className="rounded-md border void-border-subtle void-bg-canvas p-5">
+      <header className="mb-3 flex items-center justify-between">
+        <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
+          <Compass size={12} />
+          {config.title}
+        </div>
+        <span className="font-mono text-[10px] void-text-dim">
+          {complete ? "COMPLETE" : `${done}/${total}`}
+        </span>
+      </header>
+      <ul className="mb-4 grid gap-1.5 sm:grid-cols-2">
+        {config.checks.map((c) => {
+          const met = Boolean(flags[c.flag]);
+          return (
+            <li
+              key={c.flag}
+              className="flex items-center gap-2 font-mono text-[10px] void-text-dim"
+            >
+              {met ? (
+                <CheckCircle2 size={10} className="void-text-energy" />
+              ) : (
+                <Lock size={10} className="void-text-dim" />
+              )}
+              <span className={met ? "void-text-accent" : "void-text-dim"}>
+                {c.label}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+      {typeof recruitmentCount === "number" &&
+        typeof config.recruitmentThreshold === "number" && (
+          <div className="mb-4 flex items-center justify-between rounded border void-border-subtle void-bg-sunk px-3 py-2 font-mono text-[10px] void-text-dim">
+            <span className="uppercase tracking-wider">
+              {config.recruitmentLabel ?? "Recruitment"}
+            </span>
+            <span
+              className={
+                recruitmentCount >= config.recruitmentThreshold
+                  ? "void-text-energy"
+                  : "void-text-accent"
+              }
+            >
+              {recruitmentCount} / {config.recruitmentThreshold}
+            </span>
+          </div>
+        )}
+      <div
+        className="grid gap-2"
+        style={{ gridTemplateColumns: `repeat(${config.ctas.length}, minmax(0, 1fr))` }}
+      >
+        {config.ctas.map((cta) => (
+          <Link
+            key={cta.href}
+            href={cta.href}
+            className="rounded border void-border-subtle void-bg-sunk px-3 py-2 text-center font-mono text-[10px] uppercase tracking-wider void-text-accent hover:void-bg-canvas"
+          >
+            {cta.label}
+          </Link>
+        ))}
       </div>
     </section>
   );

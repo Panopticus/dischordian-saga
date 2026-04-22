@@ -127,7 +127,9 @@ export default function EngineersBenchPage() {
     staleTime: 10_000,
   });
   const memoryEnergyEarn = trpc.memoryEnergy.earn.useMutation();
-  const memoryEnergySpend = trpc.memoryEnergy.spend.useMutation();
+  // Memory Energy spend is now handled atomically inside
+  // trpc.crafting.craftRecipe via the memoryEnergyCost input; no
+  // separate spend mutation needed on the client.
   const utils = trpc.useUtils();
 
   // Server-authoritative balance when signed in; client fallback otherwise.
@@ -171,6 +173,10 @@ export default function EngineersBenchPage() {
       }
       void utils.crafting.getCraftingProfile.invalidate();
       void utils.crafting.getDreamBalance.invalidate();
+      // Server deducted Memory Energy inside craftRecipe; refresh
+      // the HUD balance immediately so the next craft reads the
+      // authoritative value.
+      void utils.memoryEnergy.getBalance.invalidate();
     },
     onError: (err) => {
       setIsCrafting(false);
@@ -210,12 +216,14 @@ export default function EngineersBenchPage() {
     setIsCrafting(true);
 
     // Memory Energy deduction:
-    //   - Signed in → server is authoritative via trpc.memoryEnergy.spend.
-    //     Local state is left untouched; the next getBalance query will
-    //     reconcile the UI. This prevents double-deducting.
-    //   - Offline → local craftItem deducts; the server reconciles on
-    //     next sign-in via initial getBalance seed.
-    // The client-side bag push for craftedItems is needed in BOTH paths
+    //   - Signed in → server crafting router validates + deducts
+    //     Memory Energy atomically inside craftRecipe (see the
+    //     `memoryEnergyCost` input added to crafting.ts). The local
+    //     craftItem call passes 0 so we don't double-deduct; the
+    //     bench's HUD reconciles on the next getBalance refetch
+    //     triggered below.
+    //   - Offline → local craftItem deducts from client state.
+    // The client-side craftedItems push is needed in BOTH paths
     // because `crafting_mastered` (Act 2 gate) watches
     // state.craftedItems.length regardless of auth state.
     const spendCost = isAuthenticated ? 0 : cost;
@@ -229,14 +237,6 @@ export default function EngineersBenchPage() {
       selectedRecipe.outputQuantity,
       spendCost,
     );
-    if (isAuthenticated && cost > 0) {
-      memoryEnergySpend.mutate(
-        { amount: cost },
-        {
-          onSuccess: () => utils.memoryEnergy.getBalance.invalidate(),
-        },
-      );
-    }
 
     // First-light / first-dark framing hooks.
     if (selectedRecipe.alignment === "light" && !flags.first_light_craft_seen) {
@@ -259,7 +259,10 @@ export default function EngineersBenchPage() {
     }
 
     // Server mutation when signed-in — the server remains the source of
-    // truth for XP, level-ups, and randomized success rolls.
+    // truth for XP, level-ups, randomized success rolls, AND the
+    // Memory Energy deduction (passed as memoryEnergyCost). The
+    // server's atomic path means if the balance is insufficient the
+    // whole craft rejects before any materials or dream are consumed.
     if (isAuthenticated) {
       craftMutation.mutate({
         recipeId: selectedRecipe.id,
@@ -267,6 +270,7 @@ export default function EngineersBenchPage() {
         requiredLevel: selectedRecipe.requiredLevel,
         materials: selectedRecipe.materials,
         dreamCost: selectedRecipe.dreamCost,
+        memoryEnergyCost: cost,
         baseSuccessRate: selectedRecipe.baseSuccessRate,
         xpGain: selectedRecipe.xpGain,
         outputItemId: selectedRecipe.outputItemId,

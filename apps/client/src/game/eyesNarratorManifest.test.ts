@@ -30,6 +30,12 @@ const REQUIRED_EYES_SECTORS = [
   "hell_gate",
   "dreamer_barrier",
   "black_hole_gate",
+  // Auxiliary-faction + canon-narrative depth pass:
+  "abyssal_sectors",    // Past the Gate — the Hierarchy depth she did not enter
+  "syndicate_route_prime", // She ran the route seven times; the Collector remembers
+  "command_post_iron",  // Iron Lion's files on her
+  "atarion_ruins",      // Her two years on the Senate level
+  "tidewater_archive",  // The Antiquarian's declined favor
 ] as const;
 
 describe("Eyes Voice Layer — sector manifest coverage", () => {
@@ -48,9 +54,9 @@ describe("Eyes Voice Layer — sector manifest coverage", () => {
     });
   }
 
-  it("at least 15 sectors carry Eyes whispers (MVP floor)", () => {
+  it("at least 20 sectors carry Eyes whispers (post-polish floor)", () => {
     const populated = GALACTIC_MAP.filter((s) => s.eyesNarrator);
-    expect(populated.length).toBeGreaterThanOrEqual(15);
+    expect(populated.length).toBeGreaterThanOrEqual(20);
   });
 
   it("canonical biographical sectors reference their canon beats", () => {
