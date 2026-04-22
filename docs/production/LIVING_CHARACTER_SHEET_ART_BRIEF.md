@@ -1354,61 +1354,91 @@ Add a `gamemasterMechanizationProgress: 0..1` uniform if a transition cinematic 
 
 ---
 
-### 2M — MATRIKALA (PROFESSOR MATRIKALA, MECHRONIS REACTOR MENTOR)
+### 2M — MATRIKALA (REAL CANON — CELEBRATION SURVIVOR, REACTOR MENTOR)
 
-> **⚠️ NO CANON LOOK YET (2026-04-22).** The user has confirmed there is NO established canonical visual for Matrikala. The prompts below are a WORKING SKETCH derived from the Act 1 matchup txt file — they are NOT canon and must NOT be used for final asset generation until the user uploads a canon reference to `apps/client/public/references/npcs/matrikala/front.png`. Treat everything below as placeholder-only.
+> **CANONICAL CORRECTION (2026-04-22):** The earlier placeholder draft described Matrikala as a vanilla "workshop-mentor professor" from the matchup txt. That was wrong. Real canon (user direction): Matrikala is a **former Celebration survivor**. Custom lore canonized below. She is the second half of a paired lore arc with Eidola (2K): Eidola is Project Sorrow's survivor, Matrikala is Celebration's. Two women who walked out of two halves of the same classified childhood, both now shaping the next generation.
 
-Provisional anchor (NOT canon): `docs/production/act1-asset-build/prompts/matchups/professor-matrikala.txt`. Early sixties, workshop-mentor energy, oxide-red canvas coveralls (NOT the academic robe), sleeves rolled, short silver-grey hair, warm weathered face. Hands are the portrait's subject weight — knuckled, scarred, callused. Brass reactor coupling on the table as prop. She will teach you to hear the reactor hum.
+#### 2M.0 — Lore (custom, canonized here)
 
-Reference: `apps/client/public/references/npcs/matrikala/REFERENCE.md`.
+Matrikala was a **Celebration contestant** — one of the children who "graduated" before the broadcast format turned existential. She survived the broadcast era, which puts her in an extraordinarily small group. Most Celebration graduates either became compliant broadcast personalities for life (the Hierarchy's intended outcome) or were quietly unpersoned when their trauma made them inconvenient. Matrikala did neither. She **went dark** for twenty years, re-emerged with a doctorate in reactor engineering under a different name, and rebuilt herself around the one thing the broadcast could not weaponize: **physical craft**.
+
+Her reactor-engineering classroom is her response to Celebration. Where the broadcast taught children to perform for cameras, she teaches students to listen to a machine's hum. Where Celebration rewarded ambiguity, she rewards precision. Where the broadcast made ethics decorative, she teaches that a miscalibrated reactor kills everyone in the room — moral physics, not moral abstraction. Every student she graduates is immunized against the kind of pressure Celebration used to break her.
+
+**Her scars are literal.** Celebration's finale round for her cohort involved an "engineering challenge" that was actually a psychological trial disguised as a reactor-assembly exercise under a fake countdown clock. Children who completed the assembly correctly passed. Children who panicked and misassembled were exposed to a small actual flash burn. Matrikala completed her assembly — AND, on her way out of the chamber, disassembled and re-sabotaged the trial for the child behind her, saving them. The resulting burns cover the backs of both her forearms in a specific mottled pattern. She has never hidden them.
+
+**Her mentor energy IS the counter-weapon to Celebration.** She listens longer than she needs to. She waits for the student's real answer rather than the camera-ready one. Every interaction she has is an implicit correction of the broadcast's pathology.
 
 #### 2M.1 — Bundle A: Neutral bust
 
-> Three-quarter bust portrait of a woman in her early sixties, South-Asian features, weathered warm face, bright attentive eyes — a professor who has spent her life teaching the same thing and is still delighted every time a student finally hears it. Body-language: leaning FORWARD, forearms on a surface in the lower frame, workshop-mentor rather than formal examiner. Wearing warm oxide-red canvas coveralls (#c66b3d, heavy work canvas, visible weave), sleeves rolled to the elbows revealing strong scarred forearms, collar open. A single polished brass Academy pin (#b8752d) holds the coverall collar closed at the throat — faculty status in miniature. NO academic robe. Hands are the compositional weight: bare, strong, knuckled, a web of fine scars and callus patterns covering the backs and palms. Short silver-grey hair (#a6a6a6), practical cut. Reading glasses on a brass chain around her neck, NOT worn. On the surface beside her elbow: a half-disassembled brass reactor coupling (#b8752d polished brass, intricate inner calibration ring visible, partly exposed), with fine needle-point calipers resting across it. Backdrop: defocused atrium with a small tool-rack visible behind her (her workshop spilling into the formal room). Lighting: warm sun-shaft falls full across the coupling and her hands (camera-right window), cyan atrium ambient lights her face. Hands and work get the warm light; her face gets the cool. Palette: cyan #4ba3b5 ambient, oxide-red #c66b3d coveralls, brass #b8752d (pin, coupling, calipers, table edge), warm sun #f5d98a on hands and coupling, amber-undertone skin. Film grain. 4K. No rendered text.
+> Three-quarter bust portrait of a woman in her early sixties, South-Asian features, weathered warm face, strong jawline, bright attentive dark eyes. Medium-warm skin tone (#a07858) with a subtle red-sun undertone (she has worked outdoors in her reactor-yard decades). Short practical silver-grey hair (#a6a6a6), cut close, parted simply. Face has laugh-lines at the eye corners AND worry-lines between the brows — both earned. Body-language: leaning FORWARD, forearms on a workbench surface in the lower frame. She is already paying attention to you.
+>
+> Wearing warm oxide-red heavy canvas coveralls (#c66b3d, visible weave, slightly weathered), sleeves rolled to the elbows. On both exposed forearms: VISIBLE BURN SCAR PATTERNS — mottled paler skin patches in a specific organic shape running from wrist to mid-forearm (render as deliberate canonical detail, NOT hidden, NOT ornamental — just what is there). The scars are old, healed-smooth, a permanent canvas of what happened to her. Her hands are strong, knuckled, with fine additional reactor-work scars and callus patterns across the backs and palms. A single polished brass Academy pin (#b8752d) holds the coverall collar closed at the throat. Around her neck, on a simple leather cord: an unusual small PENDANT — a fragment of melted green glass, irregular edge, clearly shaped by heat (a shard of the Celebration broadcast stage floor that fused during her trial, kept as a reminder). Reading glasses on a brass chain around her neck, NOT worn.
+>
+> On the workbench beside her elbow: a half-disassembled brass reactor coupling (#b8752d polished brass, intricate inner calibration ring exposed), fine needle-point calipers resting across it, a small open leather-bound teaching journal (closed at a page, pages visible edge-worn). Backdrop: defocused reactor workshop — towering brass-and-steel cylindrical reactor housings in the deep background, cool cyan institutional ambient from above, warm amber emissive from an open reactor access-port providing a secondary warm key from lower-left. A small potted green plant on a distant shelf — life in a technical room, a deliberate accent. Palette: cyan ambient #4ba3b5 + amber reactor-glow #f5a040 + brass fixtures #b8752d + oxide-red coveralls + warm skin tones. Film grain. 4K. No rendered text.
 
 #### 2M.2 — Bundle B: Breathing loop (8 frames)
 
-> Standard chest cycle (1.000 to 1.007 peak). Brass pin at throat catches slightly shifted highlight across the 8 frames (subtle light-play). The forearm muscles flex subtly on the leaning-forward pose. Hair UNCHANGED. Reactor coupling in foreground UNCHANGED (it is not alive).
+> Standard chest cycle (1.000 to 1.007 peak — she breathes deeply, like a woman who remembers oxygen is a privilege). Brass pin at throat catches shifted highlights across 8 frames. Forearm muscles flex subtly on the leaning-forward pose. The GREEN GLASS PENDANT at her chest sways 1-2px with breath — her signature idle tell (the fragment of the stage floor that almost killed her, swinging on her breath). Reactor coupling in foreground UNCHANGED. Hair UNCHANGED. Scars UNCHANGED.
 
 #### 2M.3 — Bundle C: Blink triptych
 
-Standard. Her eyes have lived in dust and sparks — on CLOSED frame, render a faint crease pattern from long squinting-at-work. Catchlights on OPEN warm.
+> Standard. Her eyes have lived in dust, sparks, and camera-flashes — on CLOSED frame, the crease pattern at the outer corners deepens (half from squinting at work, half from broadcast-era flashbulb muscle memory). Bonus subtle detail: on HALF frame, her eyes briefly FOCUS PAST the camera (a microscopic flinch — old trauma response to sudden attention) before reopening with full direct gaze. Runtime triggers this variant occasionally but not always. 4 PNGs (standard 3 + flinch half).
 
 #### 2M.4 — Bundle D: Viseme grid
 
-Standard 15-panel. Her mouth readily opens — she is a teacher used to projecting across a workshop. Visemes read at 110% of baseline openness.
+> Standard 15-panel. Her mouth readily opens — she is a teacher used to projecting across a workshop (110% baseline openness). Preserve the asymmetric laugh-line wrinkles at the eye corners across all viseme frames.
 
 #### 2M.5 — Bundle E: Expressions (5)
 
-> 1. SPEAKING — head tilts 4° toward the listener (she leans in when she speaks), hands gesture forward toward the coupling (one finger extended pointing-indicating).
-> 2. CONCERNED — brows knit, eyes drop to the coupling on the table, lips tight. She is diagnosing a problem with the hardware, not you.
-> 3. EMOTIONAL1 (delighted) — a broad warm smile that shows teeth, laugh-lines deepen, eyes crinkle. When a student finally hears the reactor hum.
-> 4. EMOTIONAL2 (disappointed-tender) — mouth gently closes, eyes search the student's face, shoulders settle back. A disappointment that is also care.
-> 5. REVEALING — she picks up the coupling in her scarred hands, holds it up toward the camera, and her expression opens into an unguarded "look" — mouth slightly parted, eyes shining, offering. The tool is the teaching; the teaching is the gift.
+> 1. SPEAKING — head tilts 4° toward the listener, hands gesture toward the coupling (one finger extended pointing-indicating); green pendant sways with the head-tilt.
+> 2. CONCERNED — brows knit CENTRALLY (the worry-line between the brows deepens — her old tell), eyes drop to the coupling. She is diagnosing a problem with the hardware, not you. Public version of her worry.
+> 3. EMOTIONAL1 (delighted-teaching) — broad warm smile showing teeth, laugh-lines deepen, eyes crinkle, scar-patterns on forearms briefly catch the warm reactor light. When a student finally hears the reactor hum. Her signature expression.
+> 4. EMOTIONAL2 (broadcast-flashback) — rare; eyes unfocus briefly, hands go VERY still on the workbench (unnatural stillness — the old freeze response), mouth tight-closed. One frame where Celebration is still inside her. The green pendant stops swaying as if it froze too. Reserved for moments when her dialogue triggers unexpected trauma. She recovers within one frame.
+> 5. REVEALING — she rolls her sleeves UP further (already rolled, now pushed higher), fully exposing the burn-scar patterns, and lifts her forearms toward the camera in the gesture of someone showing a wound that has been a teacher. No shame. Mouth opens softly for the sentence: "This is what happens when a child is made to perform in a fire. Do not make your students perform. Listen to them." Reserved for the pivotal beat when she chooses to tell the player who she actually is.
 
-#### 2M.6 — Bundle F: Coupling glow overlay
+#### 2M.6 — Bundle F: Coupling glow + scar-memory overlays
 
-> **Output:** `apps/client/public/vfx-atlases/matrikala_coupling_glow.png` — 512×512 transparent. A soft warm amber emissive texture masked to a brass reactor coupling silhouette. Inner calibration ring emits a subtle cyan glow. Used as animated overlay on the coupling prop during REVEALING and during the reactor-hum teaching beats.
+> **Output:** `apps/client/public/vfx-atlases/matrikala_{coupling_glow,scar_memory_glow,pendant_green}.png`.
+
+> - **coupling_glow.png** — 512×512 transparent. Soft warm amber emissive masked to the brass reactor coupling silhouette, with a small cyan inner-ring sub-glow for the calibration band. Animates during teaching beats.
+> - **scar_memory_glow.png** — 1024×256 transparent. Two masked strips matching the burn-scar patterns on her forearms. At baseline, renders invisible (alpha 0). During EMOTIONAL2 broadcast-flashback, the scars briefly emit a SUBTLE warm-red glow (#c41020 at 20% opacity) — not canonical physics, a metaphorical "the memory is still warm underneath" beat. Intensity driven by `scarMemoryActive: 0..1` uniform.
+> - **pendant_green.png** — 128×128 transparent. The melted-green-glass fragment with subtle internal emerald emissive (#4a9a6a, barely luminous). Sways with breath phase.
 
 #### 2M.7 — Shader uniform block
 
 ```json
 {
   "rigId": "npc_matrikala",
-  "shaderProgram": "WorkshopMentorPortrait",
+  "shaderProgram": "CelebrationSurvivorMentorPortrait",
   "uniforms": {
     "couplingGlowIntensity": 0.4,
     "couplingGlowTexture": "vfx-atlases/matrikala_coupling_glow.png",
+    "scarMemoryActive": 0.0,
+    "scarMemoryTexture": "vfx-atlases/matrikala_scar_memory_glow.png",
+    "pendantSwayAmplitude": 1.5,
+    "pendantTexture": "vfx-atlases/matrikala_pendant_green.png",
     "warmHandLight": 0.8,
     "coolFaceLight": 0.6,
     "breathingPhase": "autoLoop:3.2s:amp=1.007"
   },
   "stateTriggers": {
-    "teaching": "couplingGlowIntensity=0.8; hand gesture toward it",
-    "revealing": "coupling lifted in frame; couplingGlowIntensity=1.2"
+    "teachingDelighted": "couplingGlowIntensity=0.8; reactor-ambient +20% warmth",
+    "broadcastFlashback": "scarMemoryActive=0.4 for 800ms; pendant sway stops; hands unnaturally still",
+    "revealing": "sleeves pushed higher; scarMemoryActive=0.15 sustained; pendant visible at forward angle"
   }
 }
 ```
+
+#### 2M.8 — Paired lore arc with Eidola
+
+Matrikala (2M) + Eidola (2K) form a deliberate paired arc:
+- Both are women who survived classified childhood programs (Celebration + Sorrow).
+- Both teach a discipline that is actually their response to what was done to them.
+- Both identify students who might matter and quietly prepare them.
+- Their dialogues reference each other obliquely ("the woman on the ethics faculty" / "the engineer who teaches the reactor-hum") without ever meeting on-screen in Act 1.
+- If/when they share a scene in later Acts, it should be treated as a major reveal beat — the meeting of Celebration's survivor and Sorrow's survivor. Possibly the single most loaded non-protagonist scene in the game.
+
+This paired arc is reinforced by ROOM DESIGN: Matrikala's reactor workshop lighting (warm amber from the reactor + cool cyan ambient) mirrors Eidola's lecture hall (warm amber from her desk lamp + cold violet ambient). Same two-key structure, different palettes — deliberately visually linked for players who see both characters.
 
 ---
 
