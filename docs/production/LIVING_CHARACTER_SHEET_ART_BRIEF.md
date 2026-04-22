@@ -2441,3 +2441,98 @@ Faction-specific lighting rigs applied to the scene when player is in that facti
 **Total textures to commission: ~58 atlases.** Estimated 2-3 days of batched generation through Substance 3D Sampler + procedural authoring for geometric atlases.
 
 ---
+
+## PART 8 — UI ATMOSPHERE
+
+### 8.0 — Overview
+
+Interface-level art that frames the character sheet itself: rarity-tier glyph badges, equip-slot frames, buff/debuff icons, status-effect overlays. Smaller but numerous — ~80 UI sprites.
+
+### 8.1 — Rarity-tier glyph badges (7 tiers, 3 sizes each = 21 sprites)
+
+Displayed on gear tooltips, inventory grid cells, equip-slot corners. Consistent visual language across the 7 tiers (common / uncommon / rare / epic / legendary / mythic / relic) — differentiated by color and complexity.
+
+> **Output:** `apps/client/public/ui/rarity-glyphs/{tier}_{size}.png` — three sizes (32px / 64px / 128px).
+
+**Generation prompt template:**
+> Small UI sprite of a geometric sigil/glyph badge representing "[TIER] rarity" in a sci-fi game. Sizes: 32×32, 64×64, and 128×128. Transparent background. Design: clean geometric linework in the tier's signature color ([TIER COLOR]). Single symmetric glyph centered in frame. Complexity scales with tier:
+> - COMMON (neutral grey #808080): single hexagon outline
+> - UNCOMMON (green #7dd87a): hexagon with inner 3-segment leaf mark
+> - RARE (blue #4a8ad6): hexagon with inset 6-pointed star
+> - EPIC (violet #a555d6): ornate hexagon with double-ring and inner diamond
+> - LEGENDARY (gold-orange #f5a040): crown-circled hexagon with 8-point starburst
+> - MYTHIC (iridescent rainbow gradient): radial mandala with concentric fractal edges
+> - RELIC (LCIF donor tier, chromatic): laurel-wreath-circled hexagon with inset lion-head sigil in center, multi-color iridescent fill
+> Each glyph should read clearly at 32×32 while holding detail at 128×128. Sharp clean vector-feel but rendered as PNG. No text. No rendered letters. No shadows or complex gradients — flat-design with subtle gradient fill only.
+
+### 8.2 — Equip-slot frames (16 slot types × 3 states = 48 sprites)
+
+Each equipment slot in the character sheet has a visual frame: empty / filled / locked. Per Part 1C.6 there are 15 attachment sockets + 1 for the rarity indicator.
+
+Slots: `head`, `chest`, `shoulders`, `arms`, `gloves`, `belt`, `legs`, `feet`, `weapon_primary`, `weapon_secondary`, `back`, `neck`, `L_shoulder`, `R_shoulder`, `L_forearm`, `R_forearm`.
+
+States per slot:
+- **EMPTY** — faint silhouette of what the slot expects (e.g., head slot shows a dim helm-silhouette), 40% opacity.
+- **FILLED** — rendered gear PNG in the slot frame, rarity-tier color-tinted border.
+- **LOCKED** — ghosted slot with a small lock-glyph overlay.
+
+> **Output:** `apps/client/public/ui/slot-frames/{slot}_{state}.png` — 256×256 each.
+
+Standard UI frame generation prompt:
+> A 256×256 UI equipment-slot frame sprite for a sci-fi RPG character sheet. Transparent background. Clean geometric outer border (~8px thickness) in dark-metallic gunmetal tone. Inner area has a faint silhouette of a [SLOT TYPE] item (40% opacity, matching the slot's expected equipment — head = helmet, chest = torso armor, etc.). Subtle rarity-border color can be color-shifted at runtime (author in neutral grey; apply rarity tint via CSS/shader). Sharp clean edges, no drop shadows, no text. Readable at small scales.
+
+### 8.3 — Buff / debuff / status icons (~40 sprites)
+
+Characters accumulate temporary status effects (stat boosts, temporary penalties, situational buffs). Each needs a small 32×32 or 48×48 icon visible on the character-sheet status strip.
+
+Categories:
+- **Stat buffs (6)** — STR+, DEX+, INT+, CHA+, WIS+, CON+ (each 48×48)
+- **Stat debuffs (6)** — same stats with inverted downward-arrow variants
+- **Element affinities (5)** — fire, water, air, earth, void (48×48 each, rich emissive color)
+- **Status effects (8)** — bleeding, poisoned, blessed, frozen, burning, stunned, shielded, hidden
+- **Rental-state indicators (4)** — membership-active, membership-grace, membership-expired, membership-locked (Part 4)
+- **Narrative flags (5)** — Source-aligned, Authority-aligned, Lions-aligned, Casino-aligned, Palimpsest-viewer
+- **Rarity promotion indicators (3)** — tier-up-pending, tier-up-available, tier-up-completed (small badge overlays)
+- **Cinematic-unlock indicators (3)** — reveal-available, reveal-viewed, reveal-locked
+
+> **Output:** `apps/client/public/ui/status-icons/{category}_{effect}.png` — 48×48 each.
+
+**Generation prompt template:**
+> Small UI sprite 48×48 representing a "[EFFECT NAME]" status effect in a sci-fi RPG. Transparent background. Clean geometric glyph centered in frame. Single dominant color [EFFECT COLOR]. Recognizable silhouette at small scale — players should identify the effect category without reading text. No rendered letters. Simple shape vocabulary: upward arrows for buffs, downward for debuffs, rings for protective, jagged lines for damage-over-time, etc.
+
+### 8.4 — Character-sheet frame chrome (persistent UI)
+
+The character sheet's static UI frame — borders, corner decorations, title-bar glyph, section dividers. Each is a small PNG used as CSS background-image in the UI layout.
+
+> **Output:** `apps/client/public/ui/sheet-chrome/`
+
+- `frame_corner_top_left.png` (128×128) — ornate corner-piece, brass-and-violet tone
+- `frame_corner_top_right.png` (128×128) — mirrored
+- `frame_corner_bottom_left.png` (128×128) — simplified (no rarity indicator on bottom corners)
+- `frame_corner_bottom_right.png` (128×128) — mirrored
+- `frame_edge_top.png` (512×64) — top-edge ornamental strip tileable
+- `frame_edge_side.png` (64×512) — side ornamental strip tileable
+- `title_bar_glyph.png` (256×32) — thin horizontal ornamental strip above the character name
+- `section_divider.png` (512×16) — simple thin divider between UI sections
+
+### 8.5 — Special-state overlays (full-frame effects)
+
+When certain narrative/state events occur, a full-character-sheet overlay plays briefly. Most are driven by NPC-visit context.
+
+- `overlays/shadow_tongue_detected.png` (1920×1080 transparent) — faint violet glitch-distortion overlay (like Shadow Tongue has passed through the UI). Plays briefly on initial load if Shadow Tongue has recently edited the player's Loredex.
+- `overlays/authority_verdict_pending.png` (1920×1080 transparent) — faint cold-cyan gradient from top-left, hinting at a pending judgment beat.
+- `overlays/source_emergence.png` (1920×1080 transparent) — fracture-crack web pattern with cold-blue inner glow, fade-in on first encounter with the Source.
+- `overlays/lions_membership_active.png` (1920×1080 transparent) — subtle warm-gold rim with faint laurel motif in corners.
+- `overlays/casino_guest.png` (1920×1080 transparent) — faint violet-gold neon haze from bottom edge.
+
+### 8.6 — Total UI atmosphere count
+
+- Rarity glyphs: 21 sprites
+- Equip-slot frames: 48 sprites
+- Status icons: ~40 sprites
+- Chrome elements: 8 sprites
+- Special overlays: 5 sprites
+
+**Total UI atmosphere: ~122 sprites.** Simple geometric work, ideal for batched generation via Midjourney v7 or SDXL with consistent prompt templates. Estimated 1-2 days.
+
+---
