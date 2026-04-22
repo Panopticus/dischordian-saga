@@ -88,11 +88,12 @@ async function objectMatches(
     const remoteEtag = head.ETag?.replace(/"/g, "") ?? "";
     const remoteSize = head.ContentLength ?? -1;
     return remoteEtag === localMd5 && remoteSize === localSize;
-  } catch (err: unknown) {
-    if ((err as { name?: string }).name === "NotFound") return false;
-    if ((err as { $metadata?: { httpStatusCode?: number } }).$metadata?.httpStatusCode === 404)
-      return false;
-    throw err;
+  } catch {
+    // Any HEAD failure (404 not-found, 403 access-denied, 400 bad-request)
+    // means we can't verify whether the object is already up to date, so
+    // fall through and re-upload. Keeps the script functional for
+    // credentials that have s3:PutObject but not s3:GetObject/HeadObject.
+    return false;
   }
 }
 
