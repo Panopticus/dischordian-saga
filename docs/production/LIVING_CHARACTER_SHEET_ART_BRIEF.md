@@ -2323,3 +2323,121 @@ Each room can have an associated ambient audio loop — low-volume environmental
 One 60-second ambient loop per room, generated via Suno v4 ambient preset. Deferred to P2 — not blocking the P0/P1 visual pipeline.
 
 ---
+
+## PART 7 — VFX SHADER-TEXTURE ATLASES (CONSOLIDATED)
+
+### 7.0 — Purpose
+
+This part consolidates every texture atlas referenced throughout Parts 1–6 into a single commission list. Many atlases appear as "Bundle F" entries scattered across NPC sections; this list is the authoritative source for batched generation. Total atlas count: **~60 textures**.
+
+### 7.1 — Hologram atlases (Part 1A)
+
+All at 2048×2048 unless noted.
+
+| Atlas | Description | Primary use |
+|---|---|---|
+| `hologram/elara_scanlines.png` | Horizontal cyan scanline tile | Elara shader overlay |
+| `hologram/elara_rain-motes.png` | Cyan particle mote scatter, 180/tile | Elara shader overlay |
+| `hologram/elara_chromatic_aberration_mask.png` | Grayscale radial mask | Chromatic-aberration strength |
+| `hologram/elara_silhouette_edge.png` | Cyan rim glow with single inner scanline | Elara mesh edge |
+
+### 7.2 — Particle atlases (Part 1B + Part 2 protagonist tier)
+
+| Atlas | Size | Description | Used by |
+|---|---|---|---|
+| `particles/human_assembly-atom.png` | 512×512 | Red ember with directional streak | Human reveal VFX |
+| `particles/human_red-eye-ignition.png` | 1024×1024 | Radial red emissive burst | Human climax frame |
+| `particles/human_rim-shadow.png` | 2048×2048 | Warm-red-tinted shadow mask | Human scene rim |
+| `particles/human_silhouette-stencil.png` | 2048×2048 | Hard-edged silhouette cutout | Human particle target |
+| `particles/rock-break-shard.png` | 512×512 | Stone shard sprite sheet | Kael Phase 3 emergence |
+
+### 7.3 — Rarity atlases (Part 3.4 + Part 4.4)
+
+| Atlas | Size | Description |
+|---|---|---|
+| `rarity/common.png` | 2048×2048 | Flat dust overlay, subtractive roughness |
+| `rarity/uncommon.png` | 2048×2048 | Green seam-glow strip + leaf-mote sprite sheet |
+| `rarity/rare.png` | 2048×2048 | Blue seam-glow strip + drifting-mote sprite + inner-light radial |
+| `rarity/epic.png` | 2048×2048 | Violet seam-glow strip + sparkle-burst sprite + interior glow |
+| `rarity/legendary.png` | 2048×2048 | Gold-orange seam + gold-dust-trail + clear-coat normal detail |
+| `rarity/mythic.png` | 2048×2048 | Iridescent spectrum strip + reality-fracture sprite + oil-slick normal |
+| `rarity/relic.png` | 2048×2048 | Multi-layer (gold + blue + iridescent) packed into R/G/B channels |
+
+### 7.4 — NPC-specific VFX atlases (Part 2)
+
+Grouped by NPC. Each atlas ships at the size noted.
+
+**Locke (2B):** `locke_eyepatch_scan.png` (512×512) — red scan-line pattern, circular 400px zone with vertical scan-band.
+
+**Kael/Source (2C):** `source_void_fractures.png` (2048×2048) — crack network with cold-blue inner emissive.
+
+**Shadow Tongue (2E):** `shadow_tongue_fingertip_text.png` (1024×1024) — scattered violet glyph characters with directional streaks.
+
+**Architect (2F):** `architect_mask_cracks.png` (2048×2048) — mask seam cracks with violet-to-amber inner emissive.
+
+**CADES (2H):** `cades_static_noise.png`, `cades_scanlines.png`, `cades_tracking_bar.png`, `cades_chromatic_bleed.png` (each 2048×2048) — CRT broadcast overlays.
+
+**Collector (2I):** `collector_jar_shimmer.png` (512×512) — golden iridescent cloud in 380px circular jar region.
+
+**Degen (2J — REAL CANON):** `degen_living_tattoo_ink_red.png`, `degen_living_tattoo_ink_blue.png`, `degen_living_tattoo_glow_channel.png` (each 2048×2048) — tattoo layers + emissive mask.
+
+**Gamemaster (2L):** `gamemaster_goggle_L.png`, `gamemaster_goggle_R.png` (each 256×256), `gamemaster_temple_gears.png` (512×256), `gamemaster_hose_vapor.png` (128×128).
+
+**Matrikala (2M — placeholder):** `matrikala_coupling_glow.png` (512×512) — brass coupling with inner cyan glow.
+
+**Meme (2N):** `meme_chant_wave.png` (1024×1024) — radial concentric ring-waves, warm gold tinted.
+
+**Necromancer (2O):** `necromancer_eye_faces.png` (512×512) — ghostly faces overlay on milk-white base.
+
+**Palimpsest Host (2Q — placeholder):** `palimpsest_crawl.png` (2048×128) — horizontal abstract glyph-shape crawl strip.
+
+**Seer (2S — REAL CANON):** `seer_staff_crystal.png` (512×512), `seer_wing_edge_glow.png` (2048×1024), `seer_wing_feather_groups.png` (2048×1024) — staff crystal + wing overlays.
+
+**Warlord (2T):** `warlord_visor_shimmer.png` (1024×256) — narrow iridescent horizontal band.
+
+**Watcher (2U):** `watcher_third_eye_glow.png` (256×256), `watcher_mask_condensation.png` (512×256) — third-eye emissive + breath-through-mask patch.
+
+**Engineer/Prince (2V/W):** `engineer_goggle_lens.png` (512×256), `engineer_belt_instruments.png` (1024×256) — goggle emissive + belt gauge reference.
+
+### 7.5 — Seasonal ambient atlases (Part 4.2)
+
+All at 2048×2048:
+
+- `seasonal/spring_ambient.png` — pollen mote variants (4×4 grid)
+- `seasonal/summer_ambient.png` — heat-haze distortion normal map
+- `seasonal/autumn_ambient.png` — leaf sprite grid (4×4)
+- `seasonal/winter_ambient.png` — exhale frost puff sheet
+- `seasonal/christmasJuly_ambient.png` — candy-cane sparkle grid (4×4)
+- `seasonal/shadowConvergence_ambient.png` — violet tendril sprite sheet
+
+### 7.6 — Casino atlases (Part 5.4)
+
+Shared across all casino loops:
+
+- `casino/chip_edge_glint.png` (128×32) — gold edge-glint sprite
+- `casino/felt_wash_gradient.png` (2048×1024) — diagonal violet-to-amber tileable gradient
+- `casino/roulette_motion_blur.png` (512×512) — radial motion-blur overlay
+- `casino/slot_reel_symbols.png` (1024×256) — 8 abstract slot symbols in a strip
+
+### 7.7 — Faction rim-light shader data (Part 6 integration)
+
+Faction-specific lighting rigs applied to the scene when player is in that faction's context. Delivered as shader preset files (not textures), but listed here for completeness:
+
+- `faction/ICL_rim.preset` — warm white ceremonial rim with subtle gold-laurel emissive mask
+- `faction/authority_rim.preset` — cold cyan-to-violet gradient rim from back
+- `faction/source_rim.preset` — cold pale-blue fracture-emissive rim pattern
+- `faction/hierarchy_rim.preset` — violet corruption-edge rim with subtle glitch artifacts
+
+### 7.8 — Total atlas count estimate
+
+- Hologram: 4
+- Particles: 5
+- Rarity: 7 (including RELIC)
+- NPC-specific: ~32 atlases across 20 NPCs (ranging from single textures to 4-texture bundles)
+- Seasonal: 6
+- Casino: 4
+- Faction rim: 4 presets (not textures)
+
+**Total textures to commission: ~58 atlases.** Estimated 2-3 days of batched generation through Substance 3D Sampler + procedural authoring for geometric atlases.
+
+---
