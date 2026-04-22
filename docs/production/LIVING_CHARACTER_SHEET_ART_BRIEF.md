@@ -785,3 +785,81 @@ Corporate translation (charcoal-violet pinstripe suit, corporate floor backdrop,
 ```
 
 ---
+
+### 2F — THE ARCHITECT (ENTITY-TIER, STATUESQUE RIG)
+
+Canon anchors: entity-tier (not human-tier) — designer of the Panopticon and the player's Story Mode. Deep black hooded cloak absorbing light; full-face black metallic demon mask with fractal wing/flame ridges radiating from the forehead, narrow vertical bridge ending in a pointed beak-like lower jaw; piercing golden-amber glowing eyes through narrow slits — the ONLY warm light on him; silver/chrome fractal sigil pendant at the chest (smaller echo of the mask motif); pure void backdrop — no scene, no environment, HE lights the room.
+
+Reference: `apps/client/public/references/npcs/architect/REFERENCE.md`.
+
+**Critical rigging divergence from human NPCs:** The Architect is a STATUE rig, not a humanoid rig. No breathing. No blink. No hair. No mouth. No skin. His viseme timeline drives `maskVibration`, NOT mouth morphs. His "blink" is absent — the eyes are emission fields, not flesh. His only aliveness markers are sigil-pulse and hood-drift. This is DELIBERATE — he is architecturally distinct from every other character in the game.
+
+#### 2F.1 — Bundle A: Neutral bust
+
+> Three-quarter bust portrait of a tall humanoid figure, entirely concealed within a deep black hooded cloak (#050507, near-pure black, fabric absorbs light with only faint fold highlights at the peaks of the drape). The hood pulled fully up, casting the face into near-total shadow except for: a full-face black metallic demon mask (#1a1c20 gunmetal with deep fractal-sculpted surface detail), angular and sharply faceted. Mask design: wing-like or flame-like ridges radiate upward and outward from the forehead, sculpted in 3D relief, symmetrical. A narrow vertical ridge runs down the bridge of the nose and ends in a pointed beak-like lower jaw. The mask surface is faceted armor plating — multiple planes catching light at different angles. Piercing golden-amber glowing eyes (#e6b040 emissive, HDR bloom) visible through narrow horizontal eye-slits in the mask — these are the ONLY warm light source in the frame. At the chest, hanging on a fine chain: a silver/chrome fractal sigil pendant (#c0c4cc), a smaller crown/spike crest that mirrors the mask motif — like a miniature version of the mask worn as a medallion, with a subtle cool emissive pulse along its edges. Backdrop: PURE VOID. No scene. No environment. Only the figure and the glow emanating from him. Key light: the amber from his eye-slits bounces subtly onto the mask's cheekbone relief; the silver pendant casts a cool faint glow up onto the underside of the hood fabric. No external key, no fill, no rim — he IS the light. Mouth: absent (the mask has no mouth opening). Film grain. 4K. No rendered text.
+
+#### 2F.2 — Bundle B: Breathing loop (8 frames) — STATUE BASELINE
+
+> 8-frame static loop. **NO BREATHING. NO BLINK. NO HEAD MOTION.** The ONLY per-frame variation:
+> - Frames 1-8 subtle hood-drape drift: individual hood folds shift ±0.8px on a slow 8-second cycle (one full cycle across all 8 frames). Subliminal.
+> - Sigil pendant emissive pulse cycles across the 8 frames: intensity 0.6 → 0.8 → 1.0 → 0.8 → 0.6 → 0.4 → 0.6 → return to 0.6. Barely perceptible, but present — this is his "breathing" equivalent, unhurried and mechanical.
+> - Eye-slit amber intensity UNCHANGED across all 8 frames (baseline 0.8, HDR bloom stable).
+> 8 PNGs.
+
+#### 2F.3 — Bundle C: Blink triptych — NOT GENERATED
+
+> Skip. Architect does not blink. Runtime blink channel is unused for this rig. Deliver a single 3-panel "BLINK NOT USED" marker sheet so the pipeline asset inventory tool does not flag him as missing assets.
+
+#### 2F.4 — Bundle D: Viseme grid — NOT GENERATED (mask-vibration routing)
+
+> Skip traditional viseme plates. Instead, deliver a single **Mask Vibration Emissive Sheet**: 15 panels showing the mask surface with per-phoneme emissive hairline-crack glow patterns. The crack-glow patterns correspond to phoneme intensity: SIL = no cracks visible; strong-open vowels (AA, AO) = maximum crack spread with violet-amber bleed from the cracks; softer consonants = narrow crack-threads only. Crack glyph patterns are sculpted-fractal (following the mask's geometric ridges, not random), always symmetrical, always readable as "the voice is ringing a bell from inside." Same 15 phoneme labels as standard viseme set. Used as texture for the runtime `maskVibration` shader (NOT as morph targets on a mouth — the mask is rigid; only the emissive is animated). 4K.
+
+#### 2F.5 — Bundle E: Expressions (5 variants) — EYE-INTENSITY BASED
+
+> Architect's expressions are communicated entirely through eye-amber intensity, sigil pulse rate, and mask vibration baseline. 5 panels:
+> 1. SPEAKING — eye-amber 1.0 (25% above baseline), faint maskVibration crack-glow active at low amplitude, sigil pulse accelerated to 3s cycle.
+> 2. CONCERNED — eye-amber 0.9 (dimmed), sigil pulse slowed to 6s cycle, hood-drape subtly pulls forward 2px (contracts into himself).
+> 3. EMOTIONAL1 (AUTHORITY BEAT) — eye-amber 1.4, sigil pulse 2s, mask cracks visibly glow at 30% amplitude even without active phoneme — a declaration-of-authority idle. Reserved for judgment lines.
+> 4. EMOTIONAL2 (true-final-message) — rare: eye-amber 1.8 (overdriven, near white-hot center), sigil pulse accelerates to 1s, the mask surface shows the FIRST hairline fracture along a single cheekbone plane (not lit up yet — just a visible crack in the armor). Reserved for the Shadow-Tongue-exposure reveal.
+> 5. REVEALING (mask-breach) — one frame of the climactic beat: eye-amber at max 2.0, sigil pulse 0.5s, the mask shows a full fracture running from the left cheekbone to the lower jaw with violet-amber light leaking through the crack and a single tear of light running down. Suggests — does NOT confirm — that there is someone behind the mask. Reserved for the True Final Message reveal cinematic end-frame.
+> 4K. No rendered text.
+
+#### 2F.6 — Bundle F: Mask-crack emissive VFX overlay
+
+> **Output:** `apps/client/public/vfx-atlases/architect_mask_cracks.png` — 2048×2048, transparent.
+
+> A fracture-crack emissive texture mapped to the mask's surface, 2048×2048 transparent background. A network of thin hairline cracks traversing the mask's symmetrical ridges — crack paths follow the fractal-geometric sculpting (not random — the cracks run along the seams of the mask's armor plates). Each crack lined with a 1-3px emissive band in gradient from deep violet at the crack core (#7a3fb8) transitioning to amber (#e6b040) at the outermost 20% of the crack depth. Intensity brightest at the cheekbone regions, dimmer along the forehead ridges, absent at the nose bridge (which is structurally sound). Black/transparent mask outside the crack regions. Used as additive emissive overlay driven by `maskVibration: 0..1` (phoneme intensity) and `masterOverride` (gated by authority/reveal triggers).
+
+#### 2F.7 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_architect",
+  "shaderProgram": "EntityStatueRig",
+  "uniforms": {
+    "breathingPhase": null,
+    "blinkChannel": null,
+    "eyeAmber": 0.8,
+    "eyeAmberMax": 2.0,
+    "sigilPulseRate": 4.0,
+    "sigilPulseTexture": "additive_glow_preset",
+    "hoodDrift": 0.08,
+    "maskVibration": 0.0,
+    "maskCrackTexture": "vfx-atlases/architect_mask_cracks.png",
+    "voidLighting": true,
+    "sceneKillsExternalLights": true
+  },
+  "stateTriggers": {
+    "speaking": "maskVibration ramps with phoneme intensity; eyeAmber +0.2",
+    "authority": "eyeAmber=1.4; sigilPulseRate=2.0",
+    "trueFinalMessage": "playVideo:architect_mask_ignition.mp4 then eyeAmber=1.8",
+    "firstReveal": "eyeAmber ramps 0.0→2.0 over 3s; mask cracks ignite"
+  }
+}
+```
+
+#### 2F.8 — Veo 3.1 cinematic pointer
+
+- **CIN-ARCH-01:** 6s mask-ignition reveal. Start frame = default hooded-mask portrait at eye-amber baseline. End frame = mask fractured along cheekbone with a violet-amber light-tear running down. See Part 9 for full spec.
+
+---
