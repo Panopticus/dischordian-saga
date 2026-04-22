@@ -2230,3 +2230,96 @@ Four shared textures supporting the above loops:
 - `slot_reel_symbols`: 1024×256 strip of abstract slot symbols (moon, star, eye, chip, chalice, lion-head — no legible text, each 128×128).
 
 ---
+
+## PART 6 — CHARACTER-SHEET PARALLAX "ROOMS"
+
+### 6.0 — Overview
+
+Each character sheet is displayed against a parallaxed environmental backdrop — a "room" appropriate to the player's species × class × faction combination. This is the context that frames the character's 3D bust on the sheet. Without it the rig floats in grey void; with it, the character is PLACED in their world.
+
+Three-layer parallax per room: **background (far)** / **mid** / **foreground (near)**. Each layer moves at a different rate in response to mouse hover — creates depth without requiring full 3D scene rendering. Output format: static PNG layers at 2560×1440, scrolled with CSS transform at runtime.
+
+### 6.1 — Room generation matrix
+
+Rooms are keyed by **(species, class, faction)** but don't need every permutation as unique art. The actual generation matrix:
+
+- **4 species × 5 classes = 20 base rooms** (environment appropriate to what species+class the player picked).
+- **+ 4 faction override rooms** (Lions Club, Casino, Palimpsest Studio, Authority Hall) — swap the standard room when the player is actively operating in that faction context.
+
+**Total rooms: 24** — manageable commission, covers the space meaningfully.
+
+### 6.2 — 20 base rooms (species × class)
+
+#### Human
+
+1. **Human × Engineer** — An Ark workshop bay. Exposed pipework overhead, brass gauges on the wall, a cluttered workbench with hand tools. Warm tungsten lamp-light from the foreground. Cool institutional ambient from the background.
+2. **Human × Oracle** — A quiet observation chamber aboard the Ark. Large viewport looking onto a nebula. Scattered paper journals on a reading desk. Soft cool starlight from the viewport + warm lamp on the desk.
+3. **Human × Assassin** — A dimly-lit safe-house interior. Dark wood furniture, blackout curtains half-drawn, a single sharp weapon displayed on a wall mount. Cool moonlight through the curtains.
+4. **Human × Soldier** — A briefing room. Regulation furniture, map projections on one wall, a neat personal locker in the foreground. Hard clinical fluorescent light.
+5. **Human × Spy** — A multi-monitor surveillance booth. Banks of screens showing static and partial data, a single empty coffee cup in the foreground, a personal tracker device on the desk. Blue screen-glow dominant.
+
+#### Demagi
+
+6. **Demagi × Engineer** — A forge-chamber. Open flame-hearths in the background, anvil and smithing tools in the mid, a decorated ceremonial apron hanging near the foreground. Warm ember-orange dominant.
+7. **Demagi × Oracle** — An ember-temple. Low-burning offering bowls around a central dais, ritual markings on the walls. Warm firelight from all sides.
+8. **Demagi × Assassin** — A charcoal-walled shadow-temple. Black stone pillars, a single hooded silhouette-statue in the deep background, razor-thin incense smoke trails. Low amber light.
+9. **Demagi × Soldier** — A warrior's hall. Weapons racked ceremonially, a banner with flame-motif on one wall, armored mannequins in alcoves. Warm torch-light.
+10. **Demagi × Spy** — An ember-shrouded rooftop overlook at night. City lights far below in warm amber, rain-haze around the perimeter, a single warm lamp on a small side-table in the foreground. Warm-cool contrast.
+
+#### Quarchon
+
+11. **Quarchon × Engineer** — A translucent crystalline laboratory. Prismatic refraction surfaces catch light from multiple directions, delicate instruments suspended mid-air by dimensional tethers. Pale cyan-white dominant.
+12. **Quarchon × Oracle** — A phase-shift chamber. Reality bends subtly at the room's edges, walls appear to exist at multiple angles simultaneously. Pale violet ambient.
+13. **Quarchon × Assassin** — A fracture-room. The walls are broken into dimensional facets that don't quite line up, creating the sense of "no one place to hide but also no one place to be found." Desaturated grays.
+14. **Quarchon × Soldier** — A defense-protocol chamber. Tall crystalline columns acting as barriers/shields, a central strategic display table with 3D volumetric terrain hologram. Cool prismatic light.
+15. **Quarchon × Spy** — An observation chamber with walls that SHOW what the character is currently watching (render as abstract data-visualization patterns, not legible). Character is always surrounded by what they surveil.
+
+#### Ne-Yon
+
+16. **Ne-Yon × Engineer** — A massive ancient machine-hall with towering mechanical pillars holding up a vaulted ceiling. Cyan energy-cores embedded in the walls. Scale is larger than other species rooms — Ne-Yons are tall.
+17. **Ne-Yon × Oracle** — A ceremonial core-chamber. Central cyan energy well, ancient Ne-Yon runes etched into the walls, a ritual dais for core-reading. Cold cyan dominant.
+18. **Ne-Yon × Assassin** — A silent war-bunker. Machine-oil dark walls, a single active cyan status-light panel in the middle distance. Low light, heavy atmosphere.
+19. **Ne-Yon × Soldier** — A command war-machine hangar. Partial Ne-Yon war-machines in the background alcoves, a central standing area. Cyan core-light dominant.
+20. **Ne-Yon × Spy** — A signals-intercept chamber. Walls full of flickering data-panels showing Ne-Yon rune streams, a central listening-throne. Deep cyan ambient.
+
+### 6.3 — 4 faction-override rooms
+
+21. **Lions Club override** — White-marble columned hall, brass laurel motif, warm ceremonial amber light, subtle gold-laurel trim throughout. Overrides base room when player is operating in a Lions-Club-gated context.
+22. **Casino override** — Dark velvet lounge, violet-gold neon perimeter, distant bokeh of patrons. Overrides when player is in a casino-gated context.
+23. **Palimpsest Studio override** — Broadcast-studio set (matches the Palimpsest Host backdrop in Part 2Q), a crawl strip visible in the mid layer scrolling abstract glyphs. Overrides when Palimpsest episodes are actively running.
+24. **Authority Hall override** — The deep-perspective black-marble hall from Part 2G, six crystal coffins visible along the left wall, cold ambient. Overrides when the player is in an Authority-judgment context.
+
+### 6.4 — Per-room 3-layer parallax commission
+
+**Output path (per room):** `apps/client/public/rooms/{species}_{class}/{background,mid,foreground}.png` — each 2560×1440 PNG, foreground with transparent cutouts.
+
+**Background-layer prompt (runs once per room):**
+> Hyper-realistic environmental backdrop, 2560×1440, 16:9. [Room description from 6.2]. Render the FAR layer only — deep perspective elements, distant architecture, skybox / nebula / far lighting. Subject-less — this layer frames where the character bust will sit but does not contain the character. Moderate depth-of-field BLUR appropriate to a background plate. PBR photorealistic, volumetric atmospheric haze, film grain. 4K. No rendered text.
+
+**Mid-layer prompt (runs once per room):**
+> Same environment as the background layer for room [ROOM NAME]. Render the MID-DISTANCE elements — mid-depth props, mid-perspective architecture, surrounding atmosphere pieces. This layer sits ABOVE the background plate and BELOW the foreground. Moderate sharpness with subtle depth-of-field. Keep a central ~40% horizontal band OPEN/clear where the character will be placed — this band should contain only ambient atmosphere, no blocking objects. 4K. PNG with transparent regions where content shouldn't block. No rendered text.
+
+**Foreground-layer prompt (runs once per room):**
+> Same environment, FOREGROUND elements only. Render the NEAREST plane — framing edges, near props, close-focus items that surround but do not cover the character's bust region. This layer sits ABOVE the character (character in 3D renders in the middle). Sharp focus. Small particle-atmosphere elements appropriate to the room (dust motes for Human Engineer, ember particles for Demagi, prismatic refraction for Quarchon, cyan energy sparks for Ne-Yon). Large central cutout where the character's bust geometry will appear — render with full transparent alpha in that region. 4K. PNG with generous transparent cutout. No rendered text.
+
+### 6.5 — Parallax motion spec (runtime, no new art)
+
+When the character sheet is displayed, the three layers parallax on mouse move:
+
+- Background: −0.5% per degree of mouse offset (subtle)
+- Mid: 0% (anchored — this is the "stage")
+- Foreground: +1.0% per degree of mouse offset (pronounced)
+
+Creates the sense that the character is standing IN the room, not pasted onto it.
+
+### 6.6 — Ambient audio per room (optional, P2)
+
+Each room can have an associated ambient audio loop — low-volume environmental bed. Examples:
+- Human × Engineer: workshop hum + distant hammer strikes
+- Demagi × Oracle: crackling flame + distant chanting
+- Quarchon × Assassin: subtle phase-shift shimmer + silence
+- Ne-Yon × Soldier: deep mechanical pulse + core-hum
+
+One 60-second ambient loop per room, generated via Suno v4 ambient preset. Deferred to P2 — not blocking the P0/P1 visual pipeline.
+
+---
