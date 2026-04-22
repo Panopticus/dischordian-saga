@@ -643,3 +643,66 @@ Each phase gets its OWN 32-image asset bundle (Bundles A–E per Part 2.0). Refe
 - **CIN-KAEL-02:** 6s rock-break emergence loop (first in-game Source encounter). Start frame = closed stone crevice. End frame = Kael (Phase 3) standing framed by broken rock, stone shards mid-fall, cold blue fracture light spilling out from his body. See Part 9.
 
 ---
+
+### 2D — THE ANTIQUARIAN
+
+Canon anchors: older gentleman, late 50s–60s, weathered scholar; MAGNIFICENT long silver-white chest-length beard continuous with mustache (THE signature silhouette); silver-white hair tousled and brushed back; deep-set piercing blue-gray eyes, narrowed in evaluation; black velvet coat with gold baroque embroidery (curling filigree lapels, ornate pauldrons); white cravat/frilled jabot at throat; gold medallion buttons; warm candle-lit library backdrop with vaulted ceiling + stained glass upper-right + amber lamp glow.
+
+Reference: `apps/client/public/references/npcs/antiquarian/REFERENCE.md`. Existing matchup canon in `docs/production/SHIP_READY_ASSET_BIBLE.md` CIN-012 + CIN-040 reveal.
+
+**Critical rigging note:** The beard physically covers the mouth. Viseme reference plates render with the mustache digitally cleared so phoneme shapes read; the runtime rig adds a `beardPart: 0..1` morph target that parts the mustache on open-vowel visemes (AA, O, U) enough for the viseme to show through. Without this, lip-sync reads as "the beard is moving on its own."
+
+#### 2D.1 — Bundle A: Neutral bust
+
+> Three-quarter bust portrait of an older gentleman, late 50s to early 60s, weathered scholar's face, deep-set blue-gray eyes (#6b7a88) beneath pronounced brow ridges with a signature evaluative narrow. Piercing gaze direct to camera — not welcoming. Information must be earned with him. A magnificent long silver-white beard (#e4e8eb to #c8ccd2), flowing, well-groomed, reaching his mid-chest, continuous with a full mustache — the single most legible silhouette feature. Silver-white hair brushed back from the forehead, slightly tousled, medium length. Wearing a black velvet frock coat (#0a0b0d deep near-black velvet) with heavy gold baroque embroidery (#d4a04a) — curling filigree on the lapels, ornate shoulder pauldrons, gold medallion buttons running down the front, a single embroidered sigil at the left breast (abstract geometric — a book-and-key motif). White frilled silk cravat/jabot at the throat, starched, Victorian-formal. Backdrop: heavily defocused tall candle-lit library — vaulted ceiling implied in the upper bokeh, stained-glass window fragment catching colored light in the upper-right corner, warm amber lamp-glow dominant. Key light: tungsten amber from camera-left (lamp angle). Fill: cool stained-glass pale cyan from above. Mouth closed neutral behind the beard — lips visible only as a faint line through the mustache. Film grain. 4K. No rendered text.
+
+#### 2D.2 — Bundle B: Breathing loop (8 frames)
+
+> Same subject, 8-frame seamless breathing cycle. **Critical: the BEARD carries the breath, not the chest.** Chest scale 1.000 to 1.004 only (shallow — he is an older man, and the coat hides rise). The long beard drifts on subtle ambient air currents: individual beard strands shift ±3px at peak, the overall beard silhouette expanding/contracting almost imperceptibly as if breathing through it. Silver hair at the crown drifts ±0.8px. Coat UNCHANGED. Mouth UNCHANGED. 8 PNGs.
+
+#### 2D.3 — Bundle C: Blink triptych
+
+> 3 frames, standard (open / half / closed). The deep brow ridges cast a pronounced shadow across the CLOSED frame — his eyes "go dark" more than other characters. Preserve this as atmospheric detail. Eye catchlights sharp on OPEN.
+
+#### 2D.4 — Bundle D: Viseme grid (WITH beard-clear digital edit)
+
+> 15-panel viseme reference sheet of the Antiquarian's mouth region, tight crop from nose-tip to chin. **Critical modification:** digitally thin the mustache to ~40% of its canon volume in these reference plates so the lip shape reads cleanly in each viseme. The runtime rig drives the beard-part morph from the full-canon beard at idle toward these thinned plates during active speech. Same phoneme spec per Part 1A.2. Matched tungsten + stained-glass lighting. Consistent lip tone (pale neutral, slightly chapped — matching the older-man skin). 4K. No rendered text.
+
+#### 2D.5 — Bundle E: Expressions (5 variants)
+
+> 5-panel expression sheet. Panels:
+> 1. SPEAKING — mouth mid-syllable AH (beard parts visibly at center), head lifts 4°, eyes softer / less narrow.
+> 2. CONCERNED — brows pull together, deep furrow deepens, mouth tight behind beard, eyes search mid-distance (not direct).
+> 3. EMOTIONAL1 (evaluating) — one brow lifts 3°, a trace of amusement at the mouth corner visible through mustache, direct gaze.
+> 4. EMOTIONAL2 (remembering) — eyes unfocused, drift 8° to middle distance, mouth slightly open behind beard, the reading-focus state.
+> 5. REVEALING — head lifted, eyes direct with brow ridges RELAXED for the first time (unguarded), mouth open pre-speech, beard parts slightly. This is the rare "the Antiquarian has chosen to tell you the truth" frame. Reserved for the Year-One reveal event.
+> 4K. No rendered text.
+
+#### 2D.6 — Bundle F: Optional VFX overlay
+
+None required as a texture. Runtime behavior: the `readingFocus: 0..1` uniform drives the eye saccade pattern — `0.0` = direct locked gaze, `1.0` = middle-distance drift (small random targets every 1.8s). When Track D detects he's speaking, `readingFocus` auto-dips to 0 so the lock-on is dramatic. When idle and the player is not interacting, `readingFocus` rises to 0.6 (he's reading something offstage).
+
+#### 2D.7 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_antiquarian",
+  "shaderProgram": "BeardCarriedPortrait",
+  "uniforms": {
+    "beardPart": 0.0,
+    "beardPartMax": 0.8,
+    "beardDriftAmplitude": 3.0,
+    "hairDriftAmplitude": 0.8,
+    "readingFocus": 0.4,
+    "libraryAmberKey": "#d4a04a",
+    "stainedGlassFillIntensity": 0.35
+  },
+  "stateTriggers": {
+    "speaking": "beardPart ramps with viseme openness; readingFocus=0",
+    "idle": "readingFocus=0.6; beardPart=0",
+    "yearOneReveal": "expression=REVEALING; readingFocus=0; beardPart=0.4"
+  }
+}
+```
+
+---
