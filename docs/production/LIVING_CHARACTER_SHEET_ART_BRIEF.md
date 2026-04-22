@@ -1501,67 +1501,90 @@ Standard 15-panel sheet, child-scale mouth (~60% of adult openness). But on the 
 
 ---
 
-### 2O — THE NECROMANCER
+### 2O — THE NECROMANCER (REAL CANON — CYBERPUNK-PUNK PALE-UNDEAD ELF)
 
-Canon anchor: `apps/shared/characterVisualDNA.ts` (id: "necromancer"). Anomaly species, gaunt-ageless, ashen skin (#c4c0b8), long white hair that trails downward as if underwater, milk-white eyes with no pupils occasionally showing faces of the dead through them, sunken cheeks, death-mask porcelain stillness, burial-ink sigils on forehead. Funeral-black tattered robes. Floats low to the ground rather than walks.
+> **CANONICAL CORRECTION (2026-04-22):** This section REPLACES an earlier draft describing the Necromancer as "long-underwater-hair medusa figure floating above the ground in funeral robes." That draft was derived from outdated `characterVisualDNA.ts` and was wrong. Real canon (2026-04-22 user upload, image #3): the Necromancer is a **cyberpunk-punk pale-undead elf** — messy spiked white hair, pointed elf-like ears, RED-LENSED SUNGLASSES hiding the eyes, high-collar black-and-red jacket. The "pale undead" DNA survives; the aesthetic shifts from classical necromancer to punk-street-cyberpunk.
 
-Reference: `apps/client/public/references/npcs/necromancer/REFERENCE.md`.
+Reference: `apps/client/public/references/npcs/necromancer/front.png` (from 2026-04-22 upload).
 
-**Critical rigging note:** The Necromancer floats — no shoulder weight. In the bust frame, his shoulders sit higher than gravity would allow for a standing human. Breathing amplitude is near-zero (the dead don't breathe much); aliveness carried by hair-drift and eye-face overlays.
+**Critical rigging note:** The Necromancer's aliveness is carried by TWO signature tells:
+1. The red-lensed sunglasses pulse INTERNAL red emissive at irregular intervals — not constant glow, but occasional bright-flicker bursts when he sees the dead.
+2. His breathing is minimal (he is dead-adjacent), but the high jacket collar shifts subtly as the undead-cold air around him disturbs the fabric — not breath, an aura.
 
 #### 2O.1 — Bundle A: Neutral bust
 
-> Three-quarter bust portrait of a gaunt ageless figure, skin ashen pale with a faint greyish undertone (#c4c0b8), porcelain death-mask stillness — an unearthly smoothness as if the face is slightly too flawless. Sunken cheeks, hollow cheekbones cast soft shadow. Hair: long, straight, pure white (#f0ede8), shoulder-length, drifting DOWNWARD AS IF UNDERWATER — individual strands splay outward slightly as if suspended in a medium denser than air. Eyes: milk-white, NO pupils, just opaque white orbs with a faint luminous core. Forehead bears burial-ink sigils: three small geometric glyphs in deep black (#0a0a0a), horizontally spaced across the brow — funeral marks. Wearing funeral-black tattered robes (#1a1d1f deep charcoal, fabric frayed at the edges, multiple overlapping layers of torn cloth). Backdrop: defocused ancient crypt — pale violet void with faint drifting motes of ash, a distant suggestion of stone archways, no warm light. Shoulders sit unnaturally HIGH — he is not standing, he is suspended. Rim light: faint cool violet from behind, no warm fill. Mouth closed in porcelain stillness. Film grain. 4K. No rendered text.
+> Three-quarter bust portrait of an ageless-looking male figure, pale-almost-grey skin (#c8c4c0 with cool undertones, not sickly but not alive — a held-between quality), gaunt sharp cheekbones, narrow angular face. Hair: short-to-medium length, MESSY AND SPIKED WILD in an undone-punk style, pure white (#f4f0ec) with occasional strands at the temples streaked very faintly into silver — not styled, just wild-set. Ears: pointed ELF-LIKE extending ~4cm past the normal ear-tip position, flushed with a subtle RED TINT at the cartilage edges (the only warm color on his head — a faint hint the ears take in ambient red-light or signify something undead-ritual). Brows: thin, naturally dark-grey, furrowed slightly downward in a focused/appraising expression.
+>
+> **EYES HIDDEN BEHIND RED-LENSED SUNGLASSES:** a pair of small narrow wrap-around tactical-style sunglasses with FULL RED INTERIOR LENSES (#c41020 emissive tinted glass — you cannot see his actual eyes behind them, only the red glow of the lenses themselves). Frame is thin black wire (#1a1a1d). The red lens glow is sufficiently bright that a subtle warm-red rim-bounces light back onto his upper cheekbones. Mouth: thin pale lips (#b0a8a8) closed in composed neutral line, slight downturn at the corners — not angry, just unbothered-with-pleasantries.
+>
+> Wearing a HIGH-COLLAR BLACK JACKET with DEEP BLOOD-RED INNER LINING (outer shell #0a0b0d matte black with worn leathery texture, inner lining visible at the flipped-up collar and a V-section at the chest showing the red #5a0c0c silk-or-leather). Collar turned fully UP, reaching his jaw. Beneath the jacket: a black fitted shirt (#1a1a1d) with a thin silver chain necklace visible above the collar line, a small hexagonal pendant dangling from the chain (pewter-metal, simple — a cybernetic focus element, not ornate).
+>
+> Backdrop: desaturated dark-grey void (#3a3d42) with faint subtle vertical atmospheric haze — no crypt, no environment, just flat cyberpunk street-portrait background. Lighting: cool edge-fill from back-right (faint cyan suggestion, no actual neon visible), warm-red reflected bounce from his own sunglasses onto his cheeks. No key light — he sits in his own illumination more than the scene's. Film grain. 4K. No rendered text.
 
 #### 2O.2 — Bundle B: Breathing loop (8 frames)
 
-> Minimal chest motion (1.000 to 1.001 peak — nearly zero). The hair is the motion carrier: individual strands drift in slow suspended-medium motion, ±4px across the 8-frame cycle, with distinct wave patterns (strands move in slow sine waves). Robe layers drift subtly (±1px). Shoulders UNCHANGED (he is not standing). 8 PNGs.
+> Minimal chest motion (1.000 to 1.002 peak — he is dead-adjacent, breath is vestigial). The HIGH COLLAR of the jacket shifts subtly across the 8-frame cycle — the leather folds settle 1-2px as if cold undead-aura currents disturb the fabric (NOT synced to the chest breath — offset on a 4.5s independent cycle). The messy hair DRIFTS very subtly (±0.8px, random-jitter patterns, as if individual spikes are alive in their own tiny ways). The red sunglasses — see blink bundle below. 8 PNGs.
 
-#### 2O.3 — Bundle C: Blink triptych
+#### 2O.3 — Bundle C: Blink triptych + DEAD-SIGHT FLICKER variant
 
-> Standard 3 frames. BUT: every ~5 blinks, on a CLOSED frame, a faint FACE-OF-THE-DEAD texture overlays the closed eyelids — a suggestion of another person's features visible through his eyelids. Render this variant as a separate rare CLOSED file (`closed_face_variant.png`). 4 total PNGs for this bundle.
+> No traditional eyelid blink (eyes are hidden behind sunglasses). Instead, deliver 4 frames:
+> - **baseline:** sunglasses lenses at standard red-glow intensity (0.6)
+> - **half-dim:** lenses briefly dim to 0.3 intensity (he is processing data)
+> - **full-bright:** lenses briefly spike to 1.4 intensity (he is SEEING something — the dead)
+> - **dead-sight flicker (rare variant, every ~8 regular blinks):** for a single frame, the red lens tint disappears entirely and the BLACK LENS SHOWS A GHOSTLY SKULL SILHOUETTE inside the glass (as if the lenses are briefly transparent-to-the-dead-realm — the skull is seen from inside the sunglasses, projecting out). One frame only, then returns to baseline. Unsettling — audience catches it once and then looks for it.
 
 #### 2O.4 — Bundle D: Viseme grid
 
-> Standard 15-panel. Lips pale (#b0a8a8), almost colorless. Mouth movement is SLOW in runtime — viseme transitions at 60% standard speed. His speech is measured like a eulogy.
+> Standard 15-panel at 75% baseline openness. He speaks slowly, deliberately, like a man reading names from a long list. Lip color pale (#b0a8a8). Mouth movements are measured — runtime drives viseme transitions at 70% standard speed. Preserve the downturned corners baseline across all vowels (his mouth never quite commits to happy).
 
 #### 2O.5 — Bundle E: Expressions (5)
 
-> 1. SPEAKING — minimal movement, lips barely parted on consonants, only strong vowels open the mouth fully.
-> 2. CONCERNED — the burial-ink sigils on the forehead DARKEN 30% (he is focused on an imminent death).
-> 3. EMOTIONAL1 (welcoming-the-dead) — a gentle mortician's softening of the mouth, eyes luminous-core brightens, a single white hair strand floats OUT toward the camera rather than downward (a greeting).
-> 4. EMOTIONAL2 (grief) — the hair stops drifting and falls straight DOWN as gravity returns briefly, shoulders settle to human height. For one frame he is a mortal man grieving.
-> 5. REVEALING — the milk-white eyes part and show clear FACES of specific characters scrolling across the whites (abstract portrait silhouettes of ~5 known dead from the game's lore — keep them suggestive, not identifiable). Head bowed 8°, hair drifts upward toward the camera. This is the rare moment he speaks with the voices of the dead.
+> 1. SPEAKING — mouth opens minimally, lens-intensity modulates with phoneme emphasis (consonants dim, vowels brighten).
+> 2. CONCERNED — one lens DIMS fully to black while the other stays at baseline — asymmetric processing. The dead are SHOWING him something he doesn't want to see.
+> 3. EMOTIONAL1 (rites-performed) — lenses intensify to 1.2, subtle halo of faint red bleed from the edges of the glasses onto his temples, head tilts 3° forward (priestly bowing gesture). This is the mortician-in-his-element beat.
+> 4. EMOTIONAL2 (communion) — lens-glow drops to 0.2, mouth slightly parts, he appears to be LISTENING to something below the audible range. The dead are talking back. His ears (the pointed elf-ears) subtly flush deeper red. Reserved for the moment he channels another voice.
+> 5. REVEALING — he PULLS THE SUNGLASSES DOWN the bridge of his nose with one bare pale hand (fingers long, too-thin), lens angle tilts forward to briefly expose the EYES BENEATH: milk-white, no pupils, faintly luminous inner cores (the old canon DNA survives under the glasses). Direct gaze at camera. Mouth parts for a single spoken name. Reserved for the beat he speaks a name of the dead directly to the player. Sunglasses return to position afterwards. One frame, held, then released.
 
-#### 2O.6 — Bundle F: Eye-faces overlay
+#### 2O.6 — Bundle F: Sunglasses emissive + dead-sight skull overlay
 
-> **Output:** `apps/client/public/vfx-atlases/necromancer_eye_faces.png` — 512×512 transparent.
+> **Output:** `apps/client/public/vfx-atlases/necromancer_{sunglass_red,dead_sight_skull,milkwhite_eyes}.png`.
 
-> A subtle texture showing ghostly faces overlaid on a milk-white background. 3 to 5 very faint face silhouettes drifting across the texture, semi-transparent (10-25% opacity), desaturated. Used as scrolling overlay on the eye-whites driven by `deadFacesVisible: 0..1` uniform. Only used on REVEALING expression and occasionally on blink-closed.
+> - **sunglass_red.png** — 512×256 transparent. Two red radial emissive textures matching the lens positions — hot white-red core (#ffa0a0) fading through blood-red (#c41020) to transparent at the lens edges. Driven by `lensIntensity: 0..1.4` uniform. Can be independently driven left/right for asymmetric effects.
+> - **dead_sight_skull.png** — 512×256 transparent. Faint ghostly skull silhouette (pale white, ~40% opacity) sized and positioned to fit inside the lens frame. Renders only on the rare dead-sight-flicker blink variant.
+> - **milkwhite_eyes.png** — 512×256 transparent. The actual pupil-less milk-white eyes revealed during REVEALING when the sunglasses slide down. Faint luminous inner glow (#f0f0e8 subtle emissive).
 
 #### 2O.7 — Shader uniform block
 
 ```json
 {
   "rigId": "npc_necromancer",
-  "shaderProgram": "UndeathFloatingPortrait",
+  "shaderProgram": "CyberpunkUndeadPortrait",
   "uniforms": {
-    "hairGravityInverted": true,
-    "hairDriftAmplitude": 4.0,
-    "breathingPhase": "autoLoop:3.2s:amp=1.001",
-    "shoulderLiftHeight": 12,
-    "deadFacesVisible": 0.0,
-    "burialSigilDarkness": 0.4,
-    "eyeLuminousCore": 0.5,
-    "visemeSpeedMultiplier": 0.6
+    "lensIntensityLeft": 0.6,
+    "lensIntensityRight": 0.6,
+    "lensRedTexture": "vfx-atlases/necromancer_sunglass_red.png",
+    "deadSightSkullTexture": "vfx-atlases/necromancer_dead_sight_skull.png",
+    "deadSightActive": 0.0,
+    "sunglassesPosition": 1.0,
+    "milkwhiteEyesTexture": "vfx-atlases/necromancer_milkwhite_eyes.png",
+    "earRedFlush": 0.3,
+    "collarAuraCyclePeriod": 4.5,
+    "breathingPhase": "autoLoop:3.2s:amp=1.002",
+    "visemeSpeedMultiplier": 0.7
   },
   "stateTriggers": {
-    "welcomingTheDead": "hairGravityInverted toggles for 800ms (strand drifts toward camera)",
-    "grief": "hairGravityInverted=false; shoulderLiftHeight=0",
-    "revealing": "deadFacesVisible=1.0; head bowed"
+    "seeingTheDead": "lensIntensityLeft=1.4; lensIntensityRight=1.4 momentarily",
+    "asymmetricConcern": "lensIntensityLeft=0; lensIntensityRight=0.6 (or vice versa)",
+    "communion": "lensIntensities=0.2; earRedFlush=0.8; mouth parts listening",
+    "deadSightFlicker": "lensIntensities=0; deadSightActive=1 for 1 frame every ~8 blinks",
+    "revealing": "sunglassesPosition=0.3 (pushed down); milkwhite eyes exposed for held beat"
   }
 }
 ```
+
+#### 2O.8 — Canon DNA note
+
+The old `characterVisualDNA.ts` entry (ashen skin, milk-white pupil-less eyes, sunken cheeks, white hair) was partially right — the UNDEAD-pale skin, white hair, and pupil-less milk-white eyes are still canonical. They're just **hidden behind sunglasses** in the real canon, revealed only for the REVEALING beat. The "floats above the ground" / "burial-ink sigils on forehead" / "funeral-black tattered robes" beats from the old DNA entry are WRONG and should not appear anywhere in the 3D or 2D pipeline. Replace with the cyberpunk-punk jacket-and-glasses canon above.
 
 ---
 
