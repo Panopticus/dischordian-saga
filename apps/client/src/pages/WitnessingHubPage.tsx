@@ -1015,7 +1015,7 @@ const SPINE_ACT_PANELS: Record<
     ctas: [
       { href: "/act5-interlude", label: "Map / Interlude" },
       { href: "/army", label: "Army Recruitment" },
-      { href: "/fight", label: "Cades FPS" },
+      { href: "/cades-fps", label: "Cades FPS" },
     ],
     recruitmentLabel: "Army recruits",
     recruitmentThreshold: RECRUITMENT_THRESHOLDS.act6,
