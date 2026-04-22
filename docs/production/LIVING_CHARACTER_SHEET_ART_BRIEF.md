@@ -1627,63 +1627,79 @@ Standard 15-panel, mouth at 90% baseline openness (he speaks quietly, finally).
 
 ---
 
-### 2S — THE SEER
+### 2S — THE SEER (REAL CANON — HOODED BLUE-SKINNED ANGEL WITH LIVING STAFF)
 
-Canon anchor: `docs/production/act1-asset-build/prompts/matchups/seer-visit.txt` + `docs/production/ART_PRODUCTION_BIBLE.md` ("The Seer is FEMALE — beautiful blue-skinned woman, long black hair, hooded robe"). Indeterminate age (older than she looks), unbleached linen-cream robes with no institutional markings, long dark loose hair, serene-slightly-sad expression — the expression of a person remembering something that hasn't happened yet. A dark wooden staff as tall as a standing adult, subtly burnt at its lower third (memory, not prophecy).
+> **CANONICAL CORRECTION (2026-04-22):** This section REPLACES an earlier draft describing the Seer as "unbleached linen-cream robes, no wings, plain wooden staff with burnt lower third." That draft was wrong — derived from outdated bibles. Real canon (2026-04-22 user upload): she has massive feathered ANGEL WINGS, cool blue-skinned, long flowing black hair, glowing amber-orange eyes, dark hooded cloak and robes, and carries a LIVING WOODEN MAGICAL STAFF WITH A BLUE CRYSTAL AT THE TOP (NOT a flaming sword — user explicitly corrected this).
 
-Reference: `apps/client/public/references/npcs/seer/REFERENCE.md`.
+Canon anchors: hooded blue-skinned female angel-figure, pale cool-blue skin (#b0c4d4 with porcelain smoothness), long flowing jet-black hair spilling wildly past the shoulders, glowing amber-orange eyes (#f57a1c emissive, same family as Degen's but the Seer's are serene instead of predatory), dark hood pulled up over the crown with hair escaping, flowing dark charcoal-black robes/cloak with subtle black-leather skeletal-decorative belt at the waist (tiny bone-and-metal talisman chains), carrying a tall LIVING WOODEN STAFF with a luminous BLUE CRYSTAL at its top. Two large white-silver feathered wings spread behind her (wingspan wider than her shoulder-line by ~2×), feathers softly glowing at their tips with cool blue edge-light. Serene and slightly sad face — calm despite the wings.
 
-**Critical rigging note:** The Seer's aliveness tell is a "pre-echo" — her expressions sometimes PRE-RESPOND to what the player is about to do (e.g., she smiles softly 200ms before the player clicks a dialogue option). Implemented via a `precognitionLead: 0..400ms` uniform that lets the animation state lead the player's input.
+Reference: `apps/client/public/references/npcs/seer/front.png` (from 2026-04-22 upload).
+
+**Critical rigging notes:**
+1. The Seer's aliveness tell is "pre-echo" — expressions PRE-RESPOND to player input by 200ms via `precognitionLead` uniform (carried over from the earlier draft — that logic was correct, only the appearance was wrong).
+2. The staff is LIVING — wood visibly grows/creeps microscopically at runtime, with the top crystal pulsing on a slow 6s cycle.
+3. The wings are a SEPARATE motion channel from breath — they breathe independently at a slower 5.4s period (offset from chest), with feather-ruffle micro-motion on 7 feather-groups.
 
 #### 2S.1 — Bundle A: Neutral bust
 
-> Three-quarter bust portrait of a woman of indeterminate age (could read forty or seventy — canon is older than she looks), ethereal beautiful features, soft complexion with a COOL BLUE undertone (#b0c4d4 — subtle, not cartoonish; reads as "her people are adjacent to humans"). Long dark hair (near-black #1a1818) loose and flowing over one shoulder, unstyled, silken fall. Eyes: deep blue-grey (#4a5a6a) with an unusual inner stillness, soft-focused slightly beyond the camera — she is looking at where the viewer is ABOUT to be. Wearing plain traveler's robes in unbleached linen-cream (#e6dcc2) with NO institutional markings, a wide undyed flax sash loosely tied at the waist. Hands loosely clasped in her lap (not on the surface — she does not commit). Leaning against a chair to her subject-right, angled upright: a dark wooden staff tall as a standing adult (#3a2618 dark wood), worn smooth at the middle from a hand that has held it for decades, simple blunt carved sphere at the top (no ornament, no crystal, no metal). The staff's LOWER THIRD is subtly BURNT — charred, cracked, as if it has already lived through a fire that has not yet happened. Backdrop: defocused academic atrium columns, cyan institutional ambient, a pale sun-shaft from camera-right falling across the staff's burnt section and the chair beside her, illuminating the char in warm gold while leaving her face in the cool cyan. Palette: cyan #4ba3b5 ambient on her face, warm sun #f5d98a on the staff, unbleached cream #e6dcc2 robes, dark wood #3a2618. Film grain. 4K. No rendered text.
+> Three-quarter bust portrait of a hooded blue-skinned female angel-figure. Skin: cool pale blue (#b0c4d4 base with slightly deeper shadow pooling at the cheekbones, jaw, and neck hollow — unmistakably NOT human, but close enough to be legible as a woman). Ethereally beautiful features — high cheekbones, defined jawline, full dark lips (#5a3545), ethereal serene-slightly-sad expression. Eyes: amber-orange emissive (#f57a1c core with a hotter inner white-orange blaze), narrow focused gaze DIRECT at camera, piercing from the shadow of the hood. Dark eyebrows (#1a1818) arched slightly severe. Long jet-black hair (#0a0808) cascading in wild flowing locks — visible spilling out from the hood over both shoulders, some strands streaming to the subject's left as if caught in a subtle ethereal breeze, individual strands separating with specular highlights. Wearing a deep charcoal-black hood pulled fully UP over the crown of her head (#1a1a1d, soft woven fabric, slightly ragged inner hem visible). Dark charcoal-black robes (#151519) beneath the hood, flowing at the shoulders, the fabric slightly textured. Subtle dark leather skeletal-decorative belt/chains at the waist (render as thin dark leather straps with small pewter-metal skull talismans and bone-shaped beads hanging — gothic-priestess-adjacent, NOT overtly ornamental). Holding in her RIGHT hand (viewer's LEFT), held vertically in the foreground at frame-right edge: a TALL LIVING WOODEN STAFF — the shaft is naturally grown dark wood (#3a2618, living-bark texture with subtle visible veins, small knobs and small green moss-tips at joints), slightly curved near the top, with organic roots spiraling around the grip section. At the TOP of the staff: a luminous BLUE CRYSTAL (#4a8ad6 emissive core with a hotter cyan-white center, ~6cm diameter, irregular natural polygon faceting, pulsing softly, embedded in the wood as if grown into it). No flames, no burnt section. **Behind her, spread symmetrically: two large white-silver feathered ANGEL WINGS** (#f0f4f8 base feather color with cool-blue #a8c8e0 edge-glow along each feather's outer margin), wingspan extending well beyond her shoulders, individual feather-layers clearly readable, softly backlit from a cool blue source behind her — the wings appear partially luminous, as if the feathers themselves emit gentle light. Backdrop: atmospheric cool cyan-white void with faint mist; a soft radial backlight halo behind the wings gives them their glow. No environment, no columns, no academic atrium. Film grain. 4K. No rendered text.
 
-#### 2S.2 — Bundle B: Breathing loop (8 frames)
+#### 2S.2 — Bundle B: Breathing loop (8 frames) + independent wing cycle
 
-> Very slow breathing cycle — 4.8s full cycle (not 3.2s), amplitude 1.000 to 1.006. She breathes the way the ocean breathes. Hair drift ±1.2px slow. Robe folds UNCHANGED. Staff UNCHANGED (it doesn't notice her breath). 8 PNGs, but at 4.8s runtime period instead of standard 3.2s.
+> Slow chest breathing cycle — 4.8s full cycle, amplitude 1.000 to 1.006 (she breathes the way the ocean breathes). Chest rise subtle. Hair drift ±1.5px on slow sine wave independent of breath.
+> **Additional 7-frame independent WING cycle at 5.4s period** (deliver as separate `breathing/wings_01..07.png`): wings rise slowly 2-3% and settle, individual feather-groups ruffle at different offsets so the full wing doesn't pump uniformly. Runtime composites wings + chest as two separate layers with offset phase.
+> **Additional 6-frame STAFF-LIFE cycle at 6.0s period** (`breathing/staff_01..06.png`): the blue crystal at the staff-top pulses intensity 0.8 → 1.2 → 0.8, and microscopic curling tendrils at the wood's moss-tips drift ±0.5px. Runtime composites as third layer.
+> Total: 8 chest + 7 wing + 6 staff = 21 frames distributed across three loops.
 
 #### 2S.3 — Bundle C: Blink triptych
 
-Standard. On OPEN frame, a faint shimmer overlay across the eye-whites (the tell that the eyes are seeing something beyond the immediate frame). On CLOSED frame, the lower lashes are visibly WET (the eyes water from seeing too much).
+Standard 3 frames (open/half/closed). Amber-orange eye-emissive does NOT extinguish on closed — 30% glow visible through the eyelid, same backlit-skull effect as the Degen. On OPEN, a faint shimmer overlay on the eye-whites (she is seeing beyond the camera's plane).
 
 #### 2S.4 — Bundle D: Viseme grid
 
-Standard 15-panel, at 85% baseline openness — she speaks softly, as if each word has already been said before.
+Standard 15-panel at 85% baseline openness — she speaks softly, as if each word has already been said. Dark lips read with good contrast against the blue skin. Visemes preserve eye-glow across all 15 panels.
 
 #### 2S.5 — Bundle E: Expressions (5)
 
-> 1. SPEAKING — soft, mouth barely opens, eyes continue their pre-echo off-focus gaze.
-> 2. CONCERNED — she looks at you DIRECTLY for the first time in the rig (rare — her default is pre-echo); brows knit in present-moment worry. When she looks at you, she has stopped seeing ahead.
-> 3. EMOTIONAL1 (resignation) — the soft sadness deepens, one hand gently unclasping from the other in her lap, head tilts 3°. She has seen this ending and is at peace.
-> 4. EMOTIONAL2 (fire-memory) — her gaze drops briefly to the staff's burnt section, eyes wet. For one frame, the burnt section appears to glow faintly warm (the fire remembered as embers). Reserved for when the topic of the Prelude's staff-burn comes up.
-> 5. REVEALING — she lifts her hand from her lap and PLACES it on the staff (first contact with the prop in the rig), her grip settling into the worn smooth middle section. Mouth parts pre-sentence. Eyes DIRECT at the camera for one sustained beat. She has decided to tell you what she has seen.
+> 1. SPEAKING — mouth barely opens, eyes continue pre-echo off-focus gaze (gaze offset 8px from the camera plane — looking where the viewer is ABOUT to be).
+> 2. CONCERNED — she looks at you DIRECTLY for the first time in the rig (rare — her default is pre-echo). Brows knit in present-moment worry. Wings LOWER subtly — the feathers on the outer primaries droop 2° — concern is physical.
+> 3. EMOTIONAL1 (resignation) — head tilts 3°, hair cascades forward across one shoulder, eyes soft-sad direct. She has seen this ending and is at peace.
+> 4. EMOTIONAL2 (futures-glimpse) — the blue crystal at the staff-top BLAZES to 2.0× intensity for one frame; in the same frame the wings tense and rise slightly; eyes narrow in concentration. The crystal is a pre-cognition amplifier. Reserved for moments when she glimpses multiple futures at once.
+> 5. REVEALING — she raises the staff vertical, crystal alights 2.5× intensity, gaze pulls fully to camera (precognitionLead → 0), wings spread maximum. She has decided to tell you what she has seen. Both hands now on the staff.
+> 4K. No rendered text.
 
-#### 2S.6 — Bundle F: Staff-char ember overlay
+#### 2S.6 — Bundle F: Staff-crystal + wing-edge emissive overlays
 
-> **Output:** `apps/client/public/vfx-atlases/seer_staff_ember.png` — 512×512 transparent.
+> **Output:** `apps/client/public/vfx-atlases/seer_{staff_crystal,wing_edge_glow,wing_feather_groups}.png`.
 
-> A warm-amber emissive texture masked to a narrow vertical band (the staff's lower third silhouette). Ember-glow at 40% opacity, hot core at 20%, radial falloff to transparent at 80% edge. Used as animated overlay when the fire-memory is active. Subtle — barely visible without triggering.
+> - **staff_crystal:** 512×512 transparent. A luminous blue-cyan emissive radial texture sized and shaped to match the staff-top crystal silhouette (irregular natural faceted polygon ~380px wide). Hot white-cyan core (#eaf4ff) fading through cyan (#4a8ad6) to deep blue (#1a3d6e) at the crystal's outer edge, with visible internal fracture-lines glowing more intensely along crystal axes. Used as animated intensity-pulse overlay driven by `staffCrystalIntensity: 0..2.5`.
+> - **wing_edge_glow:** 2048×1024 transparent. Pair of soft cool-blue rim-glow textures matching the outer feather edges of both wings, 40% base opacity fading to transparent at the inner edge. Used as additive edge-light overlay on the wings — gives them the "backlit feathered angel" read.
+> - **wing_feather_groups:** a reference sheet showing the 7 distinct feather groupings (primaries, secondaries, coverts, etc.) color-coded so runtime can drive each group with independent ruffle animation.
 
 #### 2S.7 — Shader uniform block
 
 ```json
 {
   "rigId": "npc_seer",
-  "shaderProgram": "PrecognitionPortrait",
+  "shaderProgram": "WingedAngelPrecognitionPortrait",
   "uniforms": {
     "precognitionLead": 200,
-    "staffEmberIntensity": 0.0,
-    "staffEmberTexture": "vfx-atlases/seer_staff_ember.png",
-    "eyeShimmerAlways": 0.2,
     "gazeOffsetFromCamera": 8,
+    "staffCrystalIntensity": 1.0,
+    "staffCrystalTexture": "vfx-atlases/seer_staff_crystal.png",
+    "staffCrystalPulsePeriod": 6.0,
+    "wingEdgeGlow": 0.8,
+    "wingEdgeGlowTexture": "vfx-atlases/seer_wing_edge_glow.png",
+    "wingBreathPeriod": 5.4,
+    "eyeAmberEmissive": 1.0,
+    "eyeGlowThroughLids": 0.3,
     "breathingPeriod": 4.8,
     "breathingPhase": "autoLoop:4.8s:amp=1.006"
   },
   "stateTriggers": {
-    "directContact": "gazeOffsetFromCamera=0 (she looks AT you)",
-    "fireMemory": "staffEmberIntensity=0.6 for 2s",
-    "revealing": "hand placed on staff; precognitionLead=0 (she is fully present)"
+    "directContact": "gazeOffsetFromCamera=0",
+    "futuresGlimpse": "staffCrystalIntensity=2.0 for 1 frame; wings tense; eyes narrow",
+    "revealing": "staffCrystalIntensity=2.5; precognitionLead=0; wings max spread"
   }
 }
 ```
