@@ -971,8 +971,8 @@ const SPINE_ACT_PANELS: Record<
       { flag: "act4_prisoner_cell_complete", label: "Prisoner chapter cleared" },
     ],
     ctas: [
+      { href: "/act4-prisoner", label: "Prisoner Chapters" },
       { href: "/act4-match", label: "The Prisoner Match" },
-      { href: "/arena", label: "Collector's Arena" },
       { href: "/witnessing", label: "Hub" },
     ],
   },
