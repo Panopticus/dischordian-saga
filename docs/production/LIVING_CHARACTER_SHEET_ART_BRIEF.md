@@ -2170,3 +2170,63 @@ Rental logic already exists in `apps/shared/lionsClub.ts:canEquipRentalPiece` (r
 ```
 
 ---
+
+## PART 5 — CASINO COSMETIC IDLE LOOPS (KLING)
+
+### 5.0 — Overview
+
+Casino cosmetics are small VFX loops that play in the background of casino UI elements (table backdrops, chip animations, card-face reveals). Unlike character-sheet idle loops (Part 1A.5, 1B.5), these DO NOT contain a character — they are environmental ambient motion. Kling 2.0 is preferred for these because it excels at abstract continuous loops (fluid simulation, particles, light play).
+
+**Critical note after Degen canon correction:** The casino ENVIRONMENT (pit, VIP lounge, slot gallery) stays valid per `docs/production/CASINO_EXPANSION_ART_BIBLE.md`. What changes is any art that DEPICTED THE DEGEN personally — those pieces must be regenerated against Part 2J's blue-skinned warrior canon. This Part 5 is environmental-only and does NOT need to be regenerated for the Degen correction.
+
+### 5.1 — Required loops
+
+> **Output path:** `apps/client/public/videos/casino/{loopId}_idle_loop.mp4` — all at 1:1 or 16:9 as specified, 8-12 seconds, seamless loop.
+
+**Loop 1: CHIP_SPIN** (1:1, 6s seamless)
+- Content: a single stack of 5 casino chips (deep violet-black velvet chips with gold edge-stripe) spinning SLOWLY on a dark polished surface. Individual chips rotate at slightly different rates creating a hypnotic parallax. Gentle warm amber glow from below. No crowd, no environment, no character. Film grain. Pure loop ambient.
+- **Kling prompt:** "Hyper-realistic close-up of a stack of 5 casino chips — deep violet-black velvet chips with gold edge-stripes — slowly rotating on a dark obsidian polished table. Each chip rotates at a slightly different speed creating a soft parallax. Warm amber glow from below lights the chip edges. Dark bokeh background. Cinematic 4K. Seamless 6-second loop. No text, no chips falling or appearing. Pure meditative rotation."
+
+**Loop 2: CARD_FACE_REVEAL_SHIMMER** (1:1, 4s seamless)
+- Content: a single face-down card with a dark violet back gently rocking as if the universe is about to flip it. Card edges catch tiny glints of light. No actual flip occurs in the loop — loop ends with the card still face-down but slightly closer to flipping than at loop start. Subliminal promise.
+- **Kling prompt:** "Hyper-realistic single casino card, face-down with a deep violet patterned back, lying on dark obsidian surface. The card gently rocks 2° back and forth, catching gold light along its edges on each rock. 4-second seamless loop. No flip completes. Subtle anamorphic flare. Cinematic 4K. Meditative anticipation."
+
+**Loop 3: TABLE_FELT_WASH** (16:9, 10s seamless)
+- Content: a close-up of deep violet table felt texture with slow ambient light washing across it diagonally. Used as background on casino UI panels. Pure texture motion, no character, no objects.
+- **Kling prompt:** "Deep violet felt table surface in extreme close-up with slow diagonal light wash drifting across. Gentle amber-to-violet gradient washing from corner to corner over 10 seconds, seamless loop. Very soft, ambient, meditative background texture. No objects, no hands, no UI. Cinematic 4K."
+
+**Loop 4: BREATHING_COMPANION** (1:1, 8s seamless)
+- Content: a companion creature/pet in a casino-pit setting, standing idle next to an empty chair. Breathing softly, occasionally blinking. Used as ambient idle on companion-pet UI in casino areas.
+- **Kling prompt:** "Hyper-realistic digital casino companion creature — a small domesticated creature with a velvet-textured body and glowing amber eyes — standing idle next to an empty dark-wood high-backed chair. Breathing gently, occasionally blinking. Warm casino ambient light in the background (defocused). 8-second seamless loop. Cinematic 4K."
+
+**Loop 5: ROULETTE_WHEEL_SLOW** (16:9, 12s seamless)
+- Content: a roulette wheel spinning in slow motion, ball racing around but never landing. Visible continuous motion. Used as feature header on the main casino landing page.
+- **Kling prompt:** "Hyper-realistic top-down view of a luxurious casino roulette wheel spinning slowly — dark obsidian and gold construction — with a single small ivory ball racing in the opposite direction around the outer rim. The ball never lands. Wheel spins continuously. Warm amber light on gold accents. Volumetric casino haze in the background. 12-second seamless loop. Cinematic 4K. Absolute meditative hypnosis."
+
+### 5.2 — Additional supplementary loops (P1)
+
+**Loop 6: VIP_LOUNGE_AMBIENT** (16:9, 15s seamless) — intimate VIP lounge backdrop with softly undulating dark-matter walls (per `CASINO_EXPANSION_ART_BIBLE.md` CF-005). Used as background for VIP-level UI.
+
+**Loop 7: SLOT_MACHINE_REEL_IDLE** (1:1, 4s) — close-up of a slot machine reel at rest, symbols barely visible through the glass, light reflections moving slowly. Used as ambient in slot-machine UI.
+
+**Loop 8: CHIP_CASCADE_NEAR_MISS** (16:9, 3s one-shot, not loop) — a cascade of chips almost tipping over the edge of a stack, then settling. Plays as a "near-win" feedback animation when a bet is within 1 unit of a payout. One-shot play, not looped.
+
+### 5.3 — Casino Degen idle cinematic (regenerated from Part 2J canon)
+
+The existing CIN-013 discovery video (`apps/client/public/videos/entities/entity_99_degen.mp4`) was specced against the WRONG Degen canon. Replace with a new Kling-generated version using the real blue-demon canon:
+
+**DEGEN_IDLE_PIT** (1:1, 10s seamless) — Part 2J character specifically:
+- **Kling prompt:** "Hyper-realistic cinematic close-up of the Degen — a tall muscular blue-skinned demonic figure with bald head, pointed ears, glowing amber-orange eyes, red-and-blue swirling tribal tattoos on his arms, wearing a dark olive-drab military-cut sleeveless vest with brass buttons and a heavy silver chain necklace with a brass pocket-watch pendant. He stands behind a casino roulette pit, arms crossed, watching. The pocket-watch pendant at his chest swings gently as he breathes. The red-and-blue tattoo ink subtly pulses in counter-phase to his breathing. His amber eyes never blink. Deep teal-black casino ambient behind him with faint violet neon haze. 10-second seamless loop. Predatory stillness. Cinematic 4K. No text."
+
+### 5.4 — Shared casino VFX atlas
+
+> **Output:** `apps/client/public/vfx-atlases/casino/{chip_edge_glint,felt_wash_gradient,roulette_motion_blur,slot_reel_symbols}.png`.
+
+Four shared textures supporting the above loops:
+
+- `chip_edge_glint`: 128×32 sprite of a bright gold edge-glint reflection, used as additive overlay on chip edges during rotation.
+- `felt_wash_gradient`: 2048×1024 tileable diagonal gradient (violet-to-amber), animated via texture offset at runtime.
+- `roulette_motion_blur`: 512×512 radial motion-blur overlay used at the edge of the roulette wheel.
+- `slot_reel_symbols`: 1024×256 strip of abstract slot symbols (moon, star, eye, chip, chalice, lion-head — no legible text, each 128×128).
+
+---
