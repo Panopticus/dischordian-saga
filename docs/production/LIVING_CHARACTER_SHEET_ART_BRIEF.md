@@ -863,3 +863,126 @@ Reference: `apps/client/public/references/npcs/architect/REFERENCE.md`.
 - **CIN-ARCH-01:** 6s mask-ignition reveal. Start frame = default hooded-mask portrait at eye-amber baseline. End frame = mask fractured along cheekbone with a violet-amber light-tear running down. See Part 9 for full spec.
 
 ---
+
+### 2G — THE AUTHORITY
+
+Canon anchor: `docs/production/act1-asset-build/prompts/matchups/the-authority.txt` — The Authority has NO FACE because the Authority is not a person, it is the verdict. Deep-perspective hall shot with six crystal coffins (3 amber, 2 violet, 1 cyan), a barely-visible featureless silhouette on a shadowed dais at the back of the hall.
+
+**Critical divergence:** The Authority has NO bust portrait. He is a background silhouette that fills a hall — the player sits in the foreground chair. He doesn't lip-sync; he doesn't breathe; he doesn't blink. His "portrait" is the environment, and his voice issues from the featureless shape at the back. Track D routes his VO through an off-screen text-only subtitle channel with no facial animation.
+
+Reference: `apps/client/public/references/npcs/authority/REFERENCE.md`.
+
+#### 2G.1 — Bundle A (modified): Environmental portrait
+
+> Deep-perspective hall shot, 16:9 1920×1080. Camera at seated eye-level, foreground (lower third) is the back of a plain empty wooden chair facing away toward the depth of the hall. Left wall: six crystal coffins set into alcoves along the hall — three pale amber glowing at #d9a66a, two pale violet at #8b7fbf, one pale cyan at #4ba3b5 — all low saturation. Right wall: black marble (#1c1a1a) reflecting the coffin glow as faint vertical streaks. Floor: black marble stretching in deep perspective to a shallow dais at the far end under a stone archway. Above the arch in deep shadowed upper stone: the Authority's silhouette — a barely-visible darker shape against darker stone, readable only as a seated or standing outline, completely featureless (no face, no hands, no color, no reflective surface, no insignia, no indication of scale). Lit so faintly that the viewer's eye searches for it; first-pass reads as "empty hall with chair and coffins." Palette: #1c1a1a black marble dominant, #d9a66a amber, #8b7fbf violet, #4ba3b5 cyan (all desaturated), #6b4a2d warm wood on chair. No ambient warm lighting; no overhead lighting; no brass; no artificial color. Faint film grain. Volumetric cool air at ankle height, still. Cinematic 4K. No rendered text.
+
+#### 2G.2 — Bundles B, C, D — NOT GENERATED
+
+> Skip all three. Authority does not breathe, does not blink, does not have visemes. Deliver a single "AUTHORITY: NO MOTION BUNDLES" marker sheet for pipeline inventory. Runtime character-sheet presence = environmental portrait only.
+
+#### 2G.3 — Bundle E (modified): Verdict-state variants (5 environmental shots)
+
+> 5 variants of the same deep-perspective hall, each with a different lighting state representing the Authority's verdict mood:
+> 1. NEUTRAL — baseline (as Bundle A).
+> 2. LISTENING — one of the amber coffins glows 15% brighter; the silhouette upper-stone region very faintly darkens (+0.3 value shift) as if the shape has leaned forward an impossible distance.
+> 3. JUDGING — all three amber coffins pulse up 20%, the two violet coffins dim 10%; the silhouette is essentially invisible now (the hall is lit too brightly around it).
+> 4. VERDICT-GUILTY — the single cyan coffin flares to 2x baseline cyan intensity and washes the hall in pale cyan; the silhouette has visibly VANISHED (no shape at all in the upper stone — the verdict IS the light).
+> 5. VERDICT-ACQUITTED — all amber coffins synchronize to a warm glow, violet coffins warm toward amber, cyan coffin dims to near-black; the silhouette briefly reads as present and still — verdict is acceptance of silence.
+> 4K. No rendered text.
+
+#### 2G.4 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_authority",
+  "shaderProgram": "EnvironmentalPortrait",
+  "uniforms": {
+    "verdictState": "NEUTRAL | LISTENING | JUDGING | VERDICT-GUILTY | VERDICT-ACQUITTED",
+    "silhouetteVisibility": 0.15,
+    "coffinAmberIntensity": 1.0,
+    "coffinVioletIntensity": 1.0,
+    "coffinCyanIntensity": 1.0,
+    "hallAmbient": 0.2,
+    "breathingPhase": null,
+    "blinkChannel": null,
+    "visemeChannel": null
+  },
+  "stateTriggers": {
+    "speaking": "silhouetteVisibility jitters ±0.05 at phoneme peaks; no mouth",
+    "verdictPronounced": "verdictState ramps over 2s to target",
+    "idle": "coffin intensities slow-drift at 12s period"
+  }
+}
+```
+
+---
+
+### 2H — CADES
+
+Canon clarification: CADES is both an **acronym organization** in-fiction and a recurring on-screen NPC form — the Panopticon's internal signals/monitoring entity that surfaces as scattered broadcast moments. Existing client components (`CADESConspiracyBoard.tsx`, `CADESFeed.tsx`, `CADESClueBoard.tsx`, `CADESAmbientLines.tsx`) treat CADES as a glitchy CRT-broadcast presence, not a humanoid.
+
+**Critical rigging:** CADES has no body. His "portrait" is a corrupted CRT broadcast feed. Track D routes his VO through a CRT-distortion audio visualizer. No breathing, no blink, no visemes in the traditional sense — instead, the broadcast frame glitches more intensely on phoneme peaks.
+
+Reference: `apps/client/public/references/npcs/cades/REFERENCE.md`.
+
+#### 2H.1 — Bundle A (modified): CRT broadcast frame
+
+> A heavily glitched CRT monitor screen, 1024×1536 portrait orientation, filling a dark terminal chamber. The screen's content: a PARTIAL face — fragments of human facial features visible in unstable flicker, never resolving to a complete portrait. Eyes visible mid-screen (pale, unblinking, slightly wrong spacing), lower face fragmenting into static, upper forehead replaced by scrolling alphanumeric code rows. Color palette: phosphor green (#2dd45a) dominant for the face fragments, magenta (#e040fb) for chromatic-aberration bleed along edges, amber (#d4a04a) for urgent-alert highlights, deep black for CRT void between scan lines. Heavy horizontal scan-line texture across the entire frame (60% opacity). A single bright vertical tracking-bar slowly descending through the frame. Noise texture: analog VHS-grade static peppering the image at 15% density. In the corner of the broadcast frame: a timestamp ticker glitching between values (render as random corrupted numerals — never a stable readable time). Backdrop: a dark terminal chamber with faint console-lights bleeding around the edges of the monitor housing. The CRT monitor itself is a boxy steel-framed unit (#3a3d42), scratches visible. Film grain blended with CRT noise. 4K. No rendered text other than the glitching timestamp.
+
+#### 2H.2 — Bundles B, C — NOT GENERATED
+
+> Skip traditional breathing + blink. CADES instead uses a `glitchDensity` uniform on a continuous 0.0–0.3 idle loop; phoneme peaks spike it to 0.8 momentarily.
+
+#### 2H.3 — Bundle D (modified): 15 glitch-signature frames
+
+> A 15-panel reference sheet of the same CRT broadcast frame at different phoneme-driven glitch intensities. For each of the 15 viseme labels (SIL, AA, AE, AH, AO, etc.), render a corresponding frame where the broadcast distortion corresponds to mouth openness:
+> - SIL: baseline distortion (15% noise, calm scan-lines, readable partial face)
+> - Strong-open vowels (AA, AO, OW): max distortion (70% noise, face fragment completely dissolves into static, vertical tracking-bar accelerated, chromatic aberration doubled)
+> - Soft consonants (B_M_P, F_V): minimal distortion (20% noise, face fragment briefly fully resolves for a single frame — the viewer gets a split-second clear read of his actual face, which is NOT a human — it's a composite of dozens of faces averaged into one uncanny non-face).
+> The 15-panel sheet is effectively a distortion-intensity-vs-phoneme keyframe bank. Runtime crossfades between them based on Track D timeline. 4K.
+
+#### 2H.4 — Bundle E (modified): Broadcast-state variants (5)
+
+> 5 CRT frames corresponding to standard expression tags:
+> 1. SPEAKING — mid-glitch, partial face legible, tracking-bar active.
+> 2. CONCERNED — distortion calms briefly to 10% noise, face fragment momentarily stabilizes, scan-lines slow. Unsettling — a broadcast that has noticed something.
+> 3. EMOTIONAL1 (surveillance) — all four corners of the frame pulse with small red "REC" indicators (no text, just the color pattern suggesting it), broadcast feels outward-facing (watching).
+> 4. EMOTIONAL2 (signal-loss) — the face fragment FULLY dissolves into pure static, 100% noise, broadcast effectively gone, a single faint horizontal line visible at mid-screen (the signal trying to return).
+> 5. REVEALING — the broadcast briefly stabilizes for a single canonical frame: the full "composite-of-dozens-of-faces" non-face is visible in clean high-fidelity green phosphor, direct gaze to camera. Reserved for a specific plot-reveal beat — CADES showing you who's been watching all along.
+> 4K.
+
+#### 2H.5 — Bundle F: CRT glitch texture atlas
+
+> **Output:** `apps/client/public/vfx-atlases/cades_{static_noise,scanlines,tracking_bar,chromatic_bleed}.png` — each 2048×2048.
+
+> Four tiling textures:
+> - **STATIC_NOISE:** full-frame analog VHS-grade noise pattern, black-to-white grain, used as overlay.
+> - **SCANLINES:** horizontal scanline pattern, green phosphor tinted, standard tiling strip.
+> - **TRACKING_BAR:** a single vertical bright horizontal bar with soft falloff, used as moving overlay at y-offset.
+> - **CHROMATIC_BLEED:** R/G/B channel separation mask for edge fringing, radial gradient intensified at frame edges.
+
+#### 2H.6 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_cades",
+  "shaderProgram": "CRTBroadcastPortrait",
+  "uniforms": {
+    "glitchDensity": 0.15,
+    "staticNoiseTexture": "vfx-atlases/cades_static_noise.png",
+    "scanlineTexture": "vfx-atlases/cades_scanlines.png",
+    "trackingBarY": "auto:drift",
+    "chromaticBleed": 0.3,
+    "faceResolution": 0.4,
+    "phosphorColor": "#2dd45a",
+    "breathingPhase": null
+  },
+  "stateTriggers": {
+    "speaking": "glitchDensity ramps with phoneme intensity; faceResolution inversely",
+    "revealing": "glitchDensity=0; faceResolution=1.0 for 800ms hold",
+    "signalLoss": "glitchDensity=1.0; faceResolution=0"
+  }
+}
+```
+
+---
