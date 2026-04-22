@@ -1928,3 +1928,122 @@ Reference: `apps/client/public/references/npcs/engineer_prince/phase1_prince.png
 - **CIN-PRINCE-01:** 12s transformation from Prince → Engineer (mirrors Kael's transformation cinematic but simpler — 2 phases not 3). Start frame = young Prince in Celebration pageantry. End frame = Engineer at the burning-cityscape starfield with goggles down. Scrubs `princeToEngineerProgress` 0.0 → 1.0 over 12s with a mid-beat at 6s showing the transition (Celebration falls; he takes up the Engineer's mantle). See Part 9 for full spec.
 
 ---
+
+## PART 3 — INVENTOR'S SUITS 3D RE-COMMISSION
+
+### 3.0 — Pipeline overview
+
+The Inventor's Suits system ships today as 1,080 2D PNG slots (18 sets × 6 rarities × 10 slots, per `apps/shared/suitArtPrompts.ts:SUIT_SET_ROSTER`). For the living character sheet, each piece needs a rigged GLB with PBR textures that attaches to the player base-mesh sockets (Part 1C.6). Two-track pipeline:
+
+1. **Image-to-3D conversion** — take the existing 2D PNG (or re-commissioned version) through Meshy v5 / Tripo3D with the prompts below.
+2. **Substance 3D re-bake** — bake PBR texture set on the converted mesh (albedo/normal/roughness/metallic/emissive), re-using the original 2D color as albedo source where quality allows.
+
+### 3.1 — 18 suit sets (canonical roster from `SUIT_SET_ROSTER`)
+
+| # | Set ID | Name | Narrative archetype | Primary material | Signature VFX |
+|---|---|---|---|---|---|
+| 1 | `regalia-of-the-seeing-stylus` | Regalia of the Seeing Stylus | Oracle / scribe | Rich silk and ink-dark velvet | Floating stylus sigil trails |
+| 2 | `pressure-loom-harness` | Pressure-Loom Harness | Industrial engineer | Oiled canvas + brass gauges | Steam puffs at exhaust valves |
+| 3 | `black-crepe-weave` | Black-Crepe Weave | Mourner / shadow operative | Matte black crepe fabric | Subtle fabric-drift smoke trails |
+| 4 | `bulwark-of-the-eighth-column` | Bulwark of the Eighth Column | Heavy defender | Brass-bound ceramic plate | Structural glyph emissive on impact zones |
+| 5 | `low-profile-tailoring` | Low-Profile Tailoring | Infiltrator / spy | Dark fitted wool + leather | Near-invisible at rest; shimmer on motion |
+| 6 | `arcane-rune-regalia` | Arcane-Rune Regalia | Mystic | Runed midnight-blue cloth | Pulsing rune emissive along seams |
+| 7 | `clockwork-exoframe` | Clockwork Exoframe | Engineer / tinker | Exposed brass gears + leather | Visible turning cogs on joints |
+| 8 | `hybrid-vein-panoply` | Hybrid-Vein Panoply | Bio-tech hybrid | Bioluminescent vein-traced armor | Subdermal pulse flows |
+| 9 | `geomancers-stratum` | Geomancer's Stratum | Earth-element mystic | Stratified stone-layer plate | Dust sheds from joints on motion |
+| 10 | `ember-bellows-array` | Ember-Bellows Array | Fire-element engineer | Soot-blackened metal + heat vents | Ember embers flare at vents |
+| 11 | `tide-engine-carapace` | Tide-Engine Carapace | Water-element heavy | Tarnished verdigris brass | Subtle water-sheen ripple on plates |
+| 12 | `aetheric-dirigible-rig` | Aetheric Dirigible Rig | Air-element scout | Oilcloth + balloon-silk + brass | Faint lift-vapor trail |
+| 13 | `void-sextant-ensemble` | Void-Sextant Ensemble | Cosmic navigator | Deep-void velvet + silver-inlay | Starfield emissive on chest panel |
+| 14 | `chronometer-livery` | Chronometer Livery | Time-bound courier | Brass-buttoned long-coat | Clock-hand emissive on wrist |
+| 15 | `dicewrights-motley` | Dicewright's Motley | Casino operative | Jester-harlequin gold/violet | Rolling-die glyph trails |
+| 16 | `null-weaver-mantle` | Null-Weaver Mantle | Anomaly tier | Shadow-fabric (anti-light) | Inverse-light edge; reality-tear shimmer |
+| 17 | `the-mourners-coat` | The Mourner's Coat | Necromantic | Graveyard-black wool + white trim | Petal-drift shed on motion |
+| 18 | `the-first-chassis` | The First Chassis | Ne-Yon progenitor | Ancient weathered chrome | Cyan core glow; rune-etched plates |
+
+### 3.2 — Per-set 3D conversion prompt template (runs once per set × rarity × slot = 1080 passes)
+
+**Image-to-3D conversion prompt (paste with each 2D slot PNG into Meshy v5):**
+
+> Convert this 2D garment/prop concept art into a rigged 3D mesh suitable for attaching to a Mixamo-compatible humanoid skeleton at the `{SLOT}` socket. Preserve the silhouette exactly as drawn. Preserve the material palette exactly. Generate with PBR separation: base color / metallic / roughness / normal / emissive channels distinct. Output: .glb format, ≤12,000 triangles for standard slots (head / chest / shoulders / arms / legs / feet), ≤25,000 triangles for signature slots (weapon-primary / back). UV layout should match the cross-species UV template at `apps/client/public/rigs/player/UV_TEMPLATE.png`. Preserve emissive details (glow regions, rune work, vent glow) as a separate emissive channel — do NOT bake them into base color. Preserve specularity separation: metallic parts read as metallic; fabric parts read as dielectric. No environmental context — subject-only on transparent background equivalent.
+
+**Substance 3D re-bake directives (per converted GLB):**
+
+> Re-bake PBR maps at 2048² per slot (4096² for chest + weapon-primary). Source the base color from the original 2D concept art using Substance Sampler's photo-to-PBR pipeline. Extract height map for additional displacement detail on heavy fabrics and plate armor. Generate AO map from the mesh's own geometry. For emissive regions (glow seams, rune trails, core panels), hand-author a separate emissive channel keyed to the set's signature VFX description (Table 3.1). Export .ktx2 for WebGPU efficiency.
+
+### 3.3 — Rarity shader presets (6 tiers applied on top of base gear)
+
+Each of the 18 sets ships at 6 rarity tiers. Rarity is primarily a SHADER TREATMENT on the same base GLB — not a new geometry commission. Runtime picks the shader preset from the rarity flag on the piece.
+
+| Rarity | Color treatment | Emissive behavior | Particle VFX | Material quality | Runtime shader preset |
+|---|---|---|---|---|---|
+| **common** | Faithful to base 2D concept, slight desaturation (−10%) | None | None | Matte PBR, moderate roughness (0.7) | `rarity_common.preset` |
+| **uncommon** | Base color unchanged | Faint green edge-glow at seams (~6px, 20% intensity, #7dd87a) | None | Standard PBR (roughness 0.55) | `rarity_uncommon.preset` |
+| **rare** | Base color unchanged | Blue edge-glow at seams (40% intensity, #4a8ad6) | Rare light-mote drift (~5 motes/s) | Crisp PBR (roughness 0.45) | `rarity_rare.preset` |
+| **epic** | Base color saturation +15%, slight purple tint | Violet seam-glow (70%, #a555d6), internal soft light from within | Purple sparkle emission on motion | High-quality PBR (roughness 0.3) | `rarity_epic.preset` |
+| **legendary** | Base color full saturation + warm amber rim | Gold-orange seam-glow (100%, #f5a040) + ambient sparkle | Continuous gold dust trail on motion | Premium PBR + clear-coat | `rarity_legendary.preset` |
+| **mythic** | Base color plus iridescent shifting secondary | Full chromatic shifting emissive — rainbow cycle along seams on a 4s loop | Reality-fracture micro-particles (rare) | Hero-quality PBR + iridescent-film shader | `rarity_mythic.preset` |
+
+### 3.4 — Rarity shader texture atlases (shared across all sets)
+
+> **Output:** `apps/client/public/vfx-atlases/rarity/{common,uncommon,rare,epic,legendary,mythic}.png` — each 2048×2048.
+
+Six atlases, each combining the seam-glow color, particle sprite, and ambient-sparkle textures for that tier:
+
+**common:** Empty/minimal — a flat low-opacity dust overlay for wear-and-tear, used as subtractive roughness modulation.
+
+**uncommon:** A 128×512 seam-glow strip (green #7dd87a, soft gaussian) tileable along any mesh edge, plus a small 64px leaf-mote sprite sheet.
+
+**rare:** 128×512 blue seam-glow strip (#4a8ad6), a 64px drifting-mote sprite with streak-trail, and a subtle radial "inner-light" soft texture for garment interiors.
+
+**epic:** 256×512 violet seam-glow strip (#a555d6) with high emissive intensity, 64px sparkle-burst sprite sheet, and a radial interior-light texture that glows brighter in the center of large fabric sections.
+
+**legendary:** 256×512 gold-orange seam-glow strip (#f5a040) with warm bloom falloff, 128px gold-dust-trail sprite sheet with continuous emission pattern, plus a CLEAR-COAT normal detail texture for the premium surface finish.
+
+**mythic:** 512×512 iridescent seam strip cycling through the full visible spectrum (magenta → cyan → yellow → magenta, seamless loop over 4s), 128px reality-fracture sprite (a tiny crack in spacetime — hard-to-describe; think "a very small tear at the edge of possibility"), plus an iridescent-film oil-slick normal texture that reads different colors at different viewing angles.
+
+### 3.5 — Per-set 3D prompt overrides (exceptions requiring special handling)
+
+Most of the 1,080 pieces convert cleanly with the 3.2 generic prompt. Five sets require special attention:
+
+**`null-weaver-mantle` (anomaly tier):** The base 2D art shows "anti-light" fabric — shadows that shouldn't cast. In 3D this requires a CUSTOM SHADER, not standard PBR. Override: after conversion, pass the GLB through a second shader-setup step with material preset `anti_light_anomaly.preset` — which INVERTS lighting contribution (lit surfaces go dark, shadow surfaces go bright). Add `inverseLightingMask: 0..1` uniform. The effect should be SUBTLE — max 30% inversion at rarity common, scaling to 80% at mythic.
+
+**`hybrid-vein-panoply`:** The bio-luminescent veins need to PULSE on a 4.2s cycle (subdermal-flow simulation). After bake, add an emissive animation: the vein pattern brightens 1.0 → 1.4 → 1.0 over 4.2s, continuous. Use `veinPulsePhase` uniform.
+
+**`clockwork-exoframe`:** Exposed brass gears at the shoulders, elbows, and knees must ROTATE at runtime. After conversion, isolate the gear geometry as SEPARATE mesh children of the parent GLB so runtime can animate rotation transforms per-gear. 6 gears total (2 shoulder, 2 elbow, 2 knee) at different rotation rates.
+
+**`the-first-chassis`:** Ancient Ne-Yon progenitor. This set MUST feel older than any other set in the game. Override albedo baking: add intentional weathering (rust patches, micro-scratches, corrosion greening at joints) that goes BEYOND what's in the 2D art. Bake a secondary normal map with pitting and age-wear. Core-glow panel at the chest is non-negotiable — preserve at full intensity.
+
+**`void-sextant-ensemble`:** The chest panel shows an actual starfield as emissive. Do not bake this as static emissive. Instead, preserve the chest panel as a separate mesh region with a STARFIELD PROCEDURAL SHADER (`starfield_emissive.preset`) so the stars subtly drift and twinkle at runtime.
+
+### 3.6 — Asset ID grammar + per-piece output
+
+Total output per piece: one GLB + one 2048² PBR texture bundle (or 4096² for chest/weapon). Asset IDs follow Part 0.2:
+
+```
+gear_{setId}_{rarity}_{slot}
+
+Examples:
+gear_regalia-of-the-seeing-stylus_common_head
+gear_regalia-of-the-seeing-stylus_mythic_weapon-primary
+gear_the-first-chassis_legendary_chest
+```
+
+1,080 GLBs total (18 × 6 × 10). Can be batched 50 at a time through Meshy v5 API with the 3.2 prompt template, per-set prompt overrides applied as needed. Estimated ~22 batches over 2-3 days.
+
+### 3.7 — Starter gear (outside the 1080 — 4 species × 5 classes × 5 elements × 4 foundations)
+
+Starter loadouts (per `apps/shared/starterLoadout.ts`) produce 4 × 5 × 5 × 4 = **400 combinations**, but only 2 slots (baseMask + baseSuit) drive unique GLB generation. That's **800 starter GLBs** minimum (400 combos × 2 slots), implemented with a parametric base-mesh variant approach:
+
+- Base mask GLB library: per species (4) × per class (5) = **20 base mask meshes**, with element and foundation driving shader presets (not geometry)
+- Base suit GLB library: per species (4) × per class (5) = **20 base suit meshes**, with element/foundation driving shader color tints
+
+Total starter-gear GLBs: **40 meshes + parametric shader variant system** — not 800. Massive cost saving over fully enumerated generation.
+
+**Starter mask prompt template:**
+> Rigged 3D helm mesh representing the {class} archetype for species {species}. Silhouette matches the starter-mask reference in `apps/shared/starterLoadout.ts`. Base neutral shader ready for runtime re-tinting by element (5 options) and foundation (4 options). ≤10,000 triangles. Attach socket: head. Output .glb.
+
+**Starter suit prompt template:**
+> Rigged 3D body-suit mesh representing the {class} archetype for species {species}. Silhouette matches the starter-suit reference. Base neutral shader ready for runtime re-tinting by element (5 options) and foundation (4 options). Respect Ne-Yon species body proportions (+18% stature, broader shoulders) where applicable. ≤18,000 triangles. Attach sockets: chest + arms + legs. Output .glb.
+
+---
