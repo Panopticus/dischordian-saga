@@ -1171,64 +1171,93 @@ Standard 15-panel, natural asymmetry preserved across all frames (one mouth-corn
 
 ---
 
-### 2L — THE GAMEMASTER (PRE-SPLIT FORM)
+### 2L — THE GAMEMASTER (REAL CANON — CYBORG-SKULL RIG)
 
-Canon anchor: `docs/production/act1-asset-build/prompts/matchups/game-master-original.txt`. Thin man, early fifties, tailored Empire legal-black suit, thin black hair combed flat and receding, clean-shaven. **Single conventional pair of wire-rimmed spectacles** (pre-split — both lenses in one frame). Measured prosecutor neutrality. Hard clinical white panel light.
+> **CANONICAL CORRECTION (2026-04-22):** This section REPLACES an earlier draft describing the Gamemaster as "a thin pre-split man in conventional spectacles." That draft was wrong — derived from the matchup txt (which is a ONE-TIME flashback beat, not the default render). Real canon (2026-04-22 user upload): he is FULLY MECHANIZED. His head has been replaced with a cyborg skull. The "split" is not his glasses — his EYES are the split (two separate red circular goggle-eyepieces embedded in the skull). No human face remains by default.
 
-"Remember his face. This is the last time he is one person."
+Canon anchors: blue-painted metal skull with exposed gear mechanism at the temple, TWO large circular red mechanical goggle-eyepieces (brass-ringed, independently bright — each can pulse separately), hoses and pipes running from the lower jaw down into the clothing, blue military trench coat with brass buttons and a high pop-collar, chain-and-brass pendant assembly at the throat. No mouth that opens. No face skin. Fully inhuman.
 
-Reference: `apps/client/public/references/npcs/gamemaster/REFERENCE.md`.
+Reference: `apps/client/public/references/npcs/gamemaster/front.png` (from 2026-04-22 upload).
+
+**Critical rigging:** No visemes in the traditional sense. No blink. No breathing as chest-rise. All VO lip-sync routes to the TWO goggle-eyepieces as independent emissive channels (similar to Warlord's visor shimmer, but doubled — L and R can be driven asymmetrically). The gear mechanism at the temple turns a fraction of a cog on every consonant. Hoses in the neck pulse on inhale beats. No humanoid liveness markers.
 
 #### 2L.1 — Bundle A: Neutral bust
 
-> Three-quarter bust portrait of a thin man, early fifties, angular scholarly features, measured neutral expression — no hostility, no smugness, no warmth. The specific professional composure of a prosecutor who has decided the outcome long before procedure begins. Hair thin, black (#1c1a1d), combed flat, receding hairline at the temples. Clean-shaven, pale skin with slight unhealthy pallor. Eyes: dark brown (#2a2318), direct to camera, unhurried, unreadable. Wearing a tailored Empire legal-black suit (#0a0a0c matte obsidian wool, no lapel insignia, no tie) with a plain high-collared white shirt (#e8e8e8) buttoned fully to the throat. Wire-rimmed spectacles: thin slim dark silver frames (#a8a8ac), TWO LENSES IN ONE CONVENTIONAL FRAME — clear glass, eyes fully visible through them, not obscured. **Critical: single frame, not the later two-eyepiece Left/Right configuration.** Hands (if visible at edge of frame): flat, palms down, fingers unnaturally still. Backdrop: defocused institutional grey cell chamber, hard clinical white (#e8e8e8) panel-light cone from above cast hard down on face and hands, deep shadow (#2a2a2d) at the frame edges and on the suit. No brass, no warm light of any kind, no cyan — the only color temperature is the panel light's clinical white. Thin silver glint on the spectacle frames. Mouth closed, neutral, completely still. Film grain. 4K. No rendered text.
+> Three-quarter bust portrait of a fully mechanized figure. Head: a human-skull-shaped metal cranium painted weathered blue (#3a6a9a), with visible dents, scratches, and rivets across the dome. Pointed jaw and exposed metal teeth (not real teeth — machined grinning dentition, #8a8d92 gunmetal, held in a fixed skeletal neutral). NO skin anywhere — the entire head is machined armor plating. Around both eye sockets: large circular brass-and-steel GOGGLE-EYEPIECES (~8cm diameter each), brass-ringed with concentric gear-ring detail, interior lenses glowing deep RED (#c41020 emissive, hot core), surrounded by thin gear-teeth along the outer rim. The left goggle (viewer's left) and right goggle (viewer's right) are independently lit — on the neutral frame, both at baseline 0.7 intensity. Between and above the goggles on the forehead/temple: visible exposed gear-train mechanism — interlocking brass cogs (#b8752d brass, polished), fine chains, a small coiled spring, tiny dials. These mechanisms are STATIC in the neutral frame but will animate in motion bundles. The lower jaw area has thin flexible metal panels with visible articulation seams (implying it CAN move, but in a machined way — not lips). From the underside of the jaw and the back of the neck, several dark-gray flexible hoses (#2a2d32, ribbed industrial tubing, ~2cm diameter) run DOWNWARD, disappearing under the coat collar — a few visible hoses also enter the neck at the base of the skull, secured by small brass clamps. Wearing a deep-BLUE military trench coat (#1a3d6e, heavy wool, weathered), double-breasted with two rows of large brass buttons down the front, a high structured pop-collar turned fully up at the back of the neck, epaulettes at both shoulders with small brass pips. Underneath the coat's collar line: more visible hose-work and chain-and-brass pendant assembly — a cluster of 3-5 small brass gauges/keys on chains hanging at the throat, catching light. Backdrop: deep charcoal-teal void (#1a2a2d — bleak institutional), mild atmospheric haze, no identifiable environment. Lighting: cold cyan fill from camera-left grazing the skull dome; faint warm amber from below (boiler-glow implied offscreen, warming the hose region only). Red goggle emissive provides the primary warmth in frame. Film grain. 4K. No rendered text.
 
 #### 2L.2 — Bundle B: Breathing loop (8 frames)
 
-> Shallow breathing (1.000 to 1.003 peak — he is still, deliberate). Hands (if in frame) UNCHANGED across all 8 frames — they are unnaturally motionless. Hair UNCHANGED. Spectacles UNCHANGED. Only the chest/shoulders breathe minimally.
+> No CHEST breathing. Instead, 8-frame mechanical-inhale cycle:
+> - Frames 1-2: hoses at the neck CONSTRICT 1-2px as if drawing in
+> - Frames 3-4: hold (full inhalation)
+> - Frames 5-6: hoses EXHAUST — tiny puff of vapor visible at the joint where one neck-hose connects to the coat collar (faint 4-6px semi-transparent mist, warm grey-white, fading quickly)
+> - Frames 7-8: return to baseline, hoses relax
+> Additionally, the temple gear-train: one small cog rotates 45° across the 8-frame cycle (continuous). Goggle intensity unchanged across breathing cycle (goggles have their own channel). The skull never moves. 8 PNGs plus the vapor-puff visible on frames 5-6.
 
-#### 2L.3 — Bundle C: Blink triptych
+#### 2L.3 — Bundle C: Blink triptych — REPURPOSED AS IRIS-CONTRACT TRIPTYCH
 
-Standard, but with one subtle detail: on the HALF frame, the spectacles' lenses catch a hard highlight briefly (the overhead panel-light glints off the glass during the blink — the viewer's eye is drawn to the lenses for a split second, reinforcing "there are still two lenses here"). This is a foreshadowing tell for Act 2's split.
+Skip traditional blink. Instead, deliver 3 frames: OPEN (both goggle irises at full size), HALF (goggle irises contract to 60% diameter — mechanical iris-shutter contracts), CLOSED (goggle irises contract to 20% diameter — near pinpoint of red). Each goggle has independent "iris" animation — runtime can contract one at a time for asymmetric emphasis. Deliver as 3 PNGs + a 6th asymmetric-contract variant (left wide, right pinned) for rhetorical emphasis frames.
 
-#### 2L.4 — Bundle D: Viseme grid
+#### 2L.4 — Bundle D: Viseme grid — ROUTED TO GOGGLE-INTENSITY PATTERNS
 
-Standard 15-panel. Small measured mouth movements — his visemes read at ~70% of typical openness. He speaks economically.
+Skip traditional viseme plates. Deliver 15 reference frames where the two goggles display a specific red-emissive INTENSITY PATTERN per phoneme:
+- SIL: both goggles at baseline 0.7
+- Open vowels (AA, AO, OW): both goggles BLAZE to 1.6× intensity, a thin red rim-halo visible around each
+- Soft consonants (B_M_P, F_V): both goggles DIM to 0.3× briefly (a mechanical mouth-closing analog)
+- Fricative consonants (CH_SH, D_S_T): asymmetric — LEFT goggle ramps high while RIGHT stays low, or vice versa per runtime choice
+- Liquids (L, R): both goggles pulse at 2Hz micro-flicker during the phoneme duration
+Deliver as 15 reference frames plus a shader lookup JSON that maps phoneme → (leftIntensity, rightIntensity, flickerRate). Runtime routes the VO timeline through this lookup. 4K.
 
 #### 2L.5 — Bundle E: Expressions (5)
 
-> 1. SPEAKING — minimal mouth motion, eyes locked, head unmoving.
-> 2. CONCERNED — NOT genuine concern; the brows furrow with professional registration of a complication, nothing more.
-> 3. EMOTIONAL1 (procedural-pleased) — the faintest possible uptick at one mouth corner (2mm). Not a smile — a checkmark.
-> 4. EMOTIONAL2 (about-to-split) — a SINGLE reserved frame: the spectacles show a hairline vertical fracture running down the center of the frame between the two lenses. He has not noticed. The viewer does. Foreshadowing only — never played in Act 1, available for Act 2 transition moment.
-> 5. REVEALING — head tilts 3° in analytical curiosity, spectacles catch light fully (both lenses shine), a precise smile that tells the player they have been understood exactly and there is no escape. Reserved for his verdict beats.
+> 1. SPEAKING — goggles modulate per phoneme lookup; temple gear rotates continuously; minor asymmetric emphasis frames.
+> 2. CONCERNED — both goggles DIM to 0.4, temple gear STOPS turning for 600ms. The machine is registering a problem.
+> 3. EMOTIONAL1 (procedural-pleased) — the faintest flicker of a brighter inner core in BOTH goggles — 10% intensity spike held for 400ms. The machine's version of a checkmark.
+> 4. EMOTIONAL2 (dual-lock) — both goggle irises contract to 20% (pinpoints) simultaneously, temple gears reverse-spin for one frame, the hoses at the neck visibly TENSE. Absolute focus. Reserved for the verdict-pronouncement beat.
+> 5. REVEALING — one goggle (runtime chooses L or R) WIDENS to 1.2× diameter while the other stays at baseline — an optical pupil-dilate of targeted attention. Tilt the skull 3° toward the subject of the reveal. Reserved for his "I have understood you completely" beats.
 
-#### 2L.6 — Bundle F: Spectacle glint overlay
+#### 2L.6 — Bundle F: Goggle emissive + gear-temple overlays
 
-> **Output:** `apps/client/public/vfx-atlases/gamemaster_spectacle_glint.png` — 512×256, transparent.
+> **Output:** `apps/client/public/vfx-atlases/gamemaster_{goggle_L,goggle_R,temple_gears,hose_vapor}.png`.
 
-> Two rectangular bright-white glint patterns matching the spectacles' lens positions, soft gaussian falloff, pure white at center fading to transparent. Used as animated specular overlay triggered during blinks and at emphasis beats. When the lenses split in Act 2, this atlas gets paired with a split variant.
+> Four textures:
+> - **goggle_L / goggle_R:** 256×256 each, transparent. Concentric ring structure — outer brass gear-ring (static), inner red lens with gradient from hot-white-orange core (#ffd8a0) to deep red rim (#c41020), animatable at runtime for intensity + iris-contraction scaling. Left and Right separate to allow independent driving.
+> - **temple_gears:** 512×256 transparent overlay matching the gear-train position at the temple, rendered as 4 separate gear elements that can be independently rotated at runtime.
+> - **hose_vapor:** a small mist-puff sprite, 128×128 transparent, warm-grey semi-transparent gaussian, fades quickly; spawned on exhale frames 5-6.
 
 #### 2L.7 — Shader uniform block
 
 ```json
 {
-  "rigId": "npc_gamemaster_pre_split",
-  "shaderProgram": "ClinicalProcedurePortrait",
+  "rigId": "npc_gamemaster",
+  "shaderProgram": "CyborgSkullDualGoggleRig",
   "uniforms": {
-    "spectacleGlintIntensity": 0.3,
-    "spectacleSplitProgress": 0.0,
-    "clinicalWhiteKey": "#e8e8e8",
-    "handMotionLock": true,
-    "breathingPhase": "autoLoop:3.2s:amp=1.003"
+    "goggleLeftIntensity": 0.7,
+    "goggleRightIntensity": 0.7,
+    "goggleLeftIrisSize": 1.0,
+    "goggleRightIrisSize": 1.0,
+    "templeGearRate": 45.0,
+    "hoseVaporIntensity": 0.0,
+    "breathingPhase": "autoLoop:3.2s:mode=hoseConstrict",
+    "visemeChannel": "routeToDualGoggleLookup",
+    "blinkChannel": "routeToIrisContract"
   },
   "stateTriggers": {
-    "verdict": "spectacleGlintIntensity=1.0 for 1s",
-    "preActTwoForeshadow": "expression=EMOTIONAL2 (hairline fracture visible)",
-    "actTwoTransitionTrigger": "spectacleSplitProgress ramps 0.0→1.0 over cinematic"
+    "speaking": "both goggles modulate per phoneme lookup; temple gears continuous",
+    "dualLock": "both iris=0.2; templeGearRate reverse 1 frame; hoses tense",
+    "revealing": "one goggle iris=1.2; skull tilts 3°",
+    "proceduralPleased": "both intensity +0.1 for 400ms"
   }
 }
 ```
+
+#### 2L.8 — Lore note: Pre-mechanization flashback
+
+The "thin man in spectacles" described in `matchups/game-master-original.txt` is NOT his default render — it is a ONE-TIME Act 1 flashback showing who he was before mechanization. Treat the old prompt as a RESERVED flashback asset:
+- Keep it in the prompt library at `docs/production/act1-asset-build/prompts/matchups/game-master-original.txt`
+- Tag it as `gamemaster_phase1_flashback` in Part 9 cinematics manifest
+- The cyborg rig in 2L.1 above IS `gamemaster_phase2_mechanized` (the default).
+Add a `gamemasterMechanizationProgress: 0..1` uniform if a transition cinematic is wanted (similar to Kael's 3-phase rig). For Phase 1 canvas-texture work re-use the matchup prompt; for Phase 2 use the Bundle A spec above.
 
 ---
 
