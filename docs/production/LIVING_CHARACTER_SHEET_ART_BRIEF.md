@@ -1766,66 +1766,104 @@ Corey (2I's child-disciple-of-the-Collector) and Minnie stay as CHILD AVATARS of
 
 ---
 
-### 2R — THE PROGRAMMER (ANTIQUARIAN'S PRIOR IDENTITY)
+### 2R — THE PROGRAMMER (REAL CANON — YOUNG CYBERPUNK PHASE OF THE ANTIQUARIAN)
 
-Canon anchor: `docs/production/act1-asset-build/prompts/matchups/programmer.txt` + `antiquariansJournal.ts:662` — "I was the Programmer then, not yet the Antiquarian." Same person, earlier phase. Mid-forties, plain cold-weather travel clothing (no faction insignia), short greying-at-temples hair, trimmed salt-and-pepper beard, calm and final composure — the man who has already decided to lose.
+> **CANONICAL CORRECTION (2026-04-22):** Earlier draft described the Programmer as a "mid-forties man at a Nexon battlefield with ember-rust scarf and satchel." That was wrong — derived from outdated matchup txt. Real canon (user's 2026-04-22 image #2 upload, with explicit confirmation that Antiquarian + Programmer are the same person at different points in time): **The Programmer is the YOUNG cyberpunk phase of the Antiquarian.** Late twenties / early thirties, observing a Shibuya-style cyberpunk city from a high vantage, wearing brass-and-gold STEAMPUNK GOGGLES with red-pink emissive lenses (grid-pattern visible inside), a black FLAT CAP / NEWSBOY CAP, and a black high-collar jacket. Same person who later becomes the bearded scholar in the library (Part 2D).
 
-**Critical rigging note:** This is a TWO-PHASE rig like Kael (but simpler — just two states, not three). Phase 1 is the Programmer (mid-forties, modest, calm-and-final). Phase 2 is the Antiquarian (late 50s-60s, see Part 2D). Runtime blends via `antiquarianEmergenceProgress: 0..1`. Phase 1 is default for flashback beats; Phase 2 is present-day.
+**Critical rigging note:** Two-phase rig like Kael but simpler (2 states, not 3). Phase 1 = Programmer (this section, young cyberpunk observer). Phase 2 = Antiquarian (Part 2D, older scholar). Runtime blends via `antiquarianEmergenceProgress: 0..1`. Default for present-day = Phase 2. Default for flashback = Phase 1.
 
-Reference: `apps/client/public/references/npcs/programmer/REFERENCE.md`.
+**Visual continuity between phases (the same person, aged ~30 years):**
+- Same blue-grey eyes (Phase 1 sharper, Phase 2 deeper-set with more crow's-feet)
+- Same dark hair (Phase 1 fully dark, Phase 2 silver-and-dark MIXED — the dark of his youth still shows through)
+- Same dark eyebrows (Phase 1 and Phase 2 both have dark brows — they never grey)
+- Same thin angular face structure
+- Phase 1 = clean-shaven; Phase 2 = magnificent silver-white beard
+
+**Goggle parallel note (Engineer/Prince, Part 2V/W):** The Engineer (in his memoir mode) ALSO wears red steampunk goggles. Whether this is coincidence or a deliberate visual signal connecting the two characters (a shared tech tradition, an order, a mentor lineage) is left as a NARRATIVE EASTER EGG for writers to resolve later. Visually, the two characters' goggle systems can read as cousins (both red emissive, both brass-rimmed) without being identical.
+
+Reference: `apps/client/public/references/npcs/programmer/front.png` (from 2026-04-22 image #2 upload).
 
 #### 2R.1 — Bundle A: Neutral bust (Programmer phase)
 
-> Three-quarter bust portrait of a man in his mid-forties, temperate features, dark hair short and side-parted with grey streaking the temples, trimmed salt-and-pepper beard (kept neat). Eyes: dark warm brown (#2a1f1a), direct to camera, steady, warm but unbound — the specific composure of someone who has already made every decision that matters and is only waiting for the match to end. No grief, no fear. Wearing plain cold-weather travel clothing: a weather-worn dark-grey canvas coat (#6b6b65) buttoned to the throat, a simple coarse-knit wool scarf in muted ember-rust (#b85a1a) visible at the neck, fingerless work-gloves visible at the frame edges, NO FACTION INSIGNIA of any kind. Over his shoulder in the deep background: a canvas satchel half-packed resting on a chair, flap open with a rolled map and a small brass lockbox visible inside. A folded piece of thick paper peeks from his coat pocket (closed, creased — no rendered text). One hand flat on the surface-edge of the frame, fingers spread over a single face-up card in mid-play (card-face is stylized abstract, no rendered suit). Backdrop: defocused Nexon breach battlefield — a shattered amber-lit ruined parapet far behind, dust-brown #6b5a48 dominant, ember-orange #b85a1a rim light from distant city fires. Warm amber spotlight from camera-right falls across his face and the surface. Palette: dusky grey #6b6b65 (coat), ember-rust #b85a1a (scarf), brass #b8752d (satchel buckle), amber spotlight (face), dust-brown (backdrop). Film grain. 4K. No rendered text.
+> Three-quarter bust portrait of a YOUNG man, late 20s to early 30s, thin angular face, fair-medium pale skin (#d4c8b8) with cool undertones, clean-shaven (or extremely light stubble at most). Sharp jaw, defined cheekbones, narrow mouth set in a neutral observant line. Dark BROWN-BLACK hair (#1a1a1d) cut short, neatly cropped at the back and sides, slightly longer at the top — barely visible under a black FLAT CAP / NEWSBOY-STYLE CAP (#0a0b0d, soft fabric weave, slight curve to the brim, sitting tilted forward at a casual angle low over the brow). Dark eyebrows (#1a1a1d), full and slightly arched.
+>
+> **EYES HIDDEN BEHIND BRASS-AND-GOLD STEAMPUNK GOGGLES** — large round brass-rimmed lenses (#b8752d brass-and-gold metallic frames, ~4cm lens diameter each, with visible mechanical detail at the temple-mounts: small brass screws, articulation joints, a tiny brass-and-leather strap running back behind the head). The interior LENSES glow RED-PINK (#e85a8a emissive, hot inner core) with a visible internal GRID PATTERN — fine cross-hatched grid lines in a slightly brighter pink-red, creating a HUD/scope/data-overlay effect inside each lens. The lenses are sufficiently bright that a subtle pink rim-bounces light back onto his upper cheekbones. Goggles are clearly active TECHNOLOGY (data scopes), NOT decorative — he is reading the city through them.
+>
+> Wearing a black HIGH-COLLAR JACKET (#0a0b0d, structured with a stiff collar pop'd up at the back of his neck, simple matte-black fabric, contemporary cyberpunk-formal cut, visible button placket down the front). Beneath the jacket: a plain black collared shirt. A small gold pendant on a thin gold chain visible at the V-section of the jacket opening (small simple geometric charm — a hexagonal sigil, abstract). Single small black-or-gold stud earring in the visible right ear.
+>
+> Pose: standing on a high vantage point (rooftop, balcony, or elevated walkway implied — the camera is at his shoulder level looking past him to the city below). Body angled so his head is turned ~30° to the viewer's right, looking out over the city. He is OBSERVING.
+>
+> **Backdrop: SHIBUYA-AT-NIGHT CYBERPUNK MEGAPLAZA at depth.** Vast neon-lit city scene seen from above and slightly behind him — towering buildings covered in massive holographic billboards (blue, magenta, pink, green neon signage with bilingual abstract text — NOT legible, just stylized character-forms suggesting Asian-cyberpunk language), street-level crowds visible as tiny bokeh figures in a wide plaza far below, neon ground-level signage, atmospheric haze with neon-color volumetric scatter. The city is the WHOLE backdrop — half the frame. Lighting: cool magenta-pink ambient from the city below + warm yellow-amber from a nearby practical light + the red-pink glow from his own goggles bouncing onto his face. He is lit BY the city. Film grain. 4K. No rendered text.
 
 #### 2R.2 — Bundle B: Breathing loop (8 frames)
 
-> Measured chest cycle (1.000 to 1.005 peak — contained, calm). The folded paper in his coat pocket ripples subtly across the 8 frames (the wind from the battlefield is touching it). Satchel contents UNCHANGED. Card hand UNCHANGED — he holds his hand STILL with the intentional quiet of someone not playing to win.
+> Standard chest cycle (1.000 to 1.005 peak — measured, contained). The flat cap is RIGID, does not move with breath. The high jacket collar shifts ±1px subtly (fabric breathes lightly). The GOGGLE LENSES — see Bundle C below for blink-equivalent behavior. Hair UNCHANGED (covered by cap). Pendant chain at chest swings ±0.5px with breath. 8 PNGs.
 
-#### 2R.3 — Bundle C: Blink triptych
+#### 2R.3 — Bundle C: Blink triptych — REPURPOSED AS GOGGLE-LENS-SCAN PULSE
 
-Standard. CLOSED frame: eyes close with gentle finality — the slight wetness at the inner corners visible in profile, never quite tears.
+> No traditional eyelid blink (eyes hidden behind goggles). Instead, deliver 3 frames showing the goggle-lens grid pattern at three intensities:
+> - **baseline:** lens emissive at 0.7 with stable grid pattern visible
+> - **dim-scan:** lens emissive briefly drops to 0.4, grid pattern temporarily ENHANCES (more visible cross-hatches) — the goggles are processing fresh data
+> - **bright-pulse:** lens emissive briefly spikes to 1.2, grid pattern slightly DISTORTS / wave-flickers — he is registering something significant
+> Runtime fires the dim-scan / bright-pulse variants on a random 4-9s cycle (analogous to blink rate). Same NO-real-eyelid pattern as the Programmer's older self has under the open-eyed Antiquarian, but here the goggles do all the work.
 
 #### 2R.4 — Bundle D: Viseme grid
 
-Standard 15-panel, mouth at 90% baseline openness (he speaks quietly, finally).
+Standard 15-panel at 85% baseline openness — he speaks economically, observed-not-engaged, the cyberpunk-flâneur cadence. Lip color natural pale (#a89a8a). Preserve the cap and goggle line-of-frame across all 15 panels.
 
 #### 2R.5 — Bundle E: Expressions (5)
 
-> 1. SPEAKING — measured, soft, unhurried delivery.
-> 2. CONCERNED — a brief break of the composure; brows pull together, mouth tightens, eyes dart to the satchel for a second. Reminded of something he's leaving behind.
-> 3. EMOTIONAL1 (calm-final) — the default, at 110% intensity; mouth softens fully, eyes steady, the decision is made.
-> 4. EMOTIONAL2 (grief-forward) — rare, a single frame where his composure cracks fully: eyes wet, mouth trembling, jaw held tight. The cost of what he has decided.
-> 5. REVEALING — he lifts the folded paper from his pocket, holds it folded toward the camera (still closed — the content is never shown), eyes direct. This is the letter for the reader; the reveal is that it exists.
+> 1. SPEAKING — minimal mouth motion, goggle lens grid-pattern modulates with phoneme emphasis, head stays turned to the city.
+> 2. CONCERNED — both lens emissive dims to 0.3, grid pattern intensifies (he is concentrating), mouth tightens slightly. The city has shown him something he doesn't like.
+> 3. EMOTIONAL1 (observation-confirmed) — one lens briefly TILTS slightly forward at a different angle than the other (the goggles are mechanical-articulated, individual lens-housings can independently move) — a "scope-zoom" gesture. Lens emissive +0.2 for 600ms. He has spotted what he was looking for.
+> 4. EMOTIONAL2 (recognition-cost) — both lenses dim fully to 0.1 for one frame (the brightness drains out of the goggles), mouth tight, jaw clenches. He has recognized someone in the crowd below — and the recognition costs him something. Reserved.
+> 5. REVEALING — he LIFTS the goggles up onto the brim of his cap with both hands (the goggles are now resting on the front of the cap, lenses dim, real eyes EXPOSED for the first time): pale clear BLUE-GREY eyes (#6b7a88 — the same eye color as the Antiquarian in Phase 2), direct gaze at camera. Mouth opens for a single line. Reserved for the beat where the player learns who he becomes.
 
-#### 2R.6 — Bundle F: Antiquarian-emergence blend overlay
+#### 2R.6 — Bundle F: Steampunk-goggle emissive overlays
 
-> Not a standalone VFX; the blend target IS the Antiquarian's Bundle A (Part 2D). Runtime holds both Bundle A references in memory and linearly blends A→B on `antiquarianEmergenceProgress`. The two characters are canonically the same face aged ~15 years — the blend works naturally.
+> **Output:** `apps/client/public/vfx-atlases/programmer_{goggle_lens_red,goggle_grid_pattern,goggle_off_brim_pose}.png`.
+
+> - **goggle_lens_red.png** — 512×256 transparent. A pair of radial red-pink emissive textures matching the goggle lens positions (~256×256 per lens, 32px gap between them), hot white-pink core (#ffd0e0) fading through deep pink (#e85a8a) to transparent at the lens edges. Driven by `lensEmissive: 0..1.2` uniform. L/R can be independently driven for asymmetric scope-zoom moments.
+> - **goggle_grid_pattern.png** — 512×256 transparent. Fine cross-hatched grid lines for the inside of each lens (slightly brighter pink than the base lens emissive), tileable across the lens region. Driven by `gridPatternIntensity: 0..1` — modulates with phoneme emphasis and processing-pulse beats.
+> - **goggle_off_brim_pose.png** — 1024×512 transparent. The goggles in the LIFTED pose resting on the cap brim (rendered separately — used compositionally for the REVEALING frame).
 
 #### 2R.7 — Shader uniform block
 
 ```json
 {
   "rigId": "npc_programmer_antiquarian",
-  "shaderProgram": "PhaseBlendedPortrait",
+  "shaderProgram": "PhaseBlendedPortraitWithGoggles",
   "uniforms": {
     "antiquarianEmergenceProgress": 0.0,
     "phase1Bundle": "portraits2d/programmer/",
     "phase2Bundle": "portraits2d/antiquarian/",
     "blendDuration": 2.0,
+    "lensEmissiveLeft": 0.7,
+    "lensEmissiveRight": 0.7,
+    "lensRedTexture": "vfx-atlases/programmer_goggle_lens_red.png",
+    "gridPatternIntensity": 1.0,
+    "gridPatternTexture": "vfx-atlases/programmer_goggle_grid_pattern.png",
+    "gogglesPosition": "down",
     "breathingPhase": "autoLoop:3.2s:amp=1.005"
   },
   "stateTriggers": {
     "flashbackProgrammer": "antiquarianEmergenceProgress=0.0",
     "presentDayAntiquarian": "antiquarianEmergenceProgress=1.0",
-    "agingCinematic": "progress ramps 0.0→1.0 over 8s reveal"
+    "agingCinematic": "progress ramps 0.0→1.0 over 8s reveal",
+    "scopeZoom": "lensEmissiveLeft -= 0.0; lensEmissiveRight = 0.9; one lens tilts forward (mechanical articulation)",
+    "recognitionCost": "lensEmissiveLeft = 0.1; lensEmissiveRight = 0.1 for 1 frame (brightness drains)",
+    "revealing": "gogglesPosition='lifted_to_brim'; real blue-grey eyes exposed; goggle emissive=0"
+  },
+  "crossReference": {
+    "phase2": "Part 2D Antiquarian — same person aged ~30 years",
+    "goggleParallel": "Part 2V/W Engineer also wears red steampunk goggles; relationship between the two characters is a NARRATIVE EASTER EGG to be resolved later"
   }
 }
 ```
 
 #### 2R.8 — Veo 3.1 cinematic pointer
 
-- **CIN-PROG-01:** 8s aging cinematic. Start frame = Programmer mid-forties at the Nexon battlefield (Bundle A). End frame = Antiquarian mid-60s at his library lectern (Part 2D Bundle A). Scrubs `antiquarianEmergenceProgress` 0.0 → 1.0 over 8s. See Part 9.
+- **CIN-PROG-01:** 12s aging cinematic. Start frame = young Programmer with goggles down on the cyberpunk-Shibuya rooftop (Bundle A). End frame = elderly Antiquarian with white beard at his library lectern (Part 2D Bundle A). Scrubs `antiquarianEmergenceProgress` 0.0 → 1.0 over 12s. Mid-beat at 6s: the goggles LIFT briefly to reveal the young real eyes (matching the Antiquarian's blue-grey), then beard begins growing in, hair greys-but-not-fully (the dark stripes persist), the city behind dissolves into bookshelves. See Part 9 for full beat breakdown.
 
 ---
 
