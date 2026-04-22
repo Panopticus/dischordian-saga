@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_trade_act2" as CardDefinition["id"],
   name: "Trade Captain",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_trade_act2.webp",
+  art: assetUrl("art/cards/s1_reward_trade_act2.webp"),
   flavorText:
     "Her cargo manifest is classified. So is her kill count.",
   rulesVersion: "1.0.0",

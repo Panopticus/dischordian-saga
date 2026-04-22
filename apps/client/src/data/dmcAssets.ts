@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/assetUrl";
 /* ═══════════════════════════════════════════════════════
    DEAD MAN'S CIRCUIT — Game Assets
    
@@ -12,13 +13,13 @@
 /* ─── ENVIRONMENT ART (1920×1080 JPG) ─── */
 
 export const DMC_ENVIRONMENTS = {
-  trench:          "/art/dmc/environments/dmc_env_the-trench_1920x1080.jpg",
-  boneLane:        "/art/dmc/environments/dmc_env_bone-lane_1920x1080.jpg",
-  deadStraight:    "/art/dmc/environments/dmc_env_dead-straight_1920x1080.jpg",
-  speedConduit:    "/art/dmc/environments/dmc_env_speed-conduit_1920x1080.jpg",
-  nilmorgPlatform: "/art/dmc/environments/dmc_env_nilmorg-platform_1920x1080.jpg",
-  startingGrid:    "/art/dmc/environments/dmc_env_starting-grid_1920x1080.jpg",
-  cloneVat:        "/art/dmc/environments/dmc_env_clone-vat_1920x1080.jpg",
+  trench:          assetUrl("art/dmc/environments/dmc_env_the-trench_1920x1080.jpg"),
+  boneLane:        assetUrl("art/dmc/environments/dmc_env_bone-lane_1920x1080.jpg"),
+  deadStraight:    assetUrl("art/dmc/environments/dmc_env_dead-straight_1920x1080.jpg"),
+  speedConduit:    assetUrl("art/dmc/environments/dmc_env_speed-conduit_1920x1080.jpg"),
+  nilmorgPlatform: assetUrl("art/dmc/environments/dmc_env_nilmorg-platform_1920x1080.jpg"),
+  startingGrid:    assetUrl("art/dmc/environments/dmc_env_starting-grid_1920x1080.jpg"),
+  cloneVat:        assetUrl("art/dmc/environments/dmc_env_clone-vat_1920x1080.jpg"),
 } as const;
 
 /** Map environment keys to display names + usage context */
@@ -35,12 +36,12 @@ export const DMC_ENVIRONMENT_META: Record<keyof typeof DMC_ENVIRONMENTS, { title
 /* ─── MUSIC (MP3) ─── */
 
 export const DMC_MUSIC = {
-  terminalVelocity: "/music/dmc/dmc_music_terminal-velocity.mp3",
-  boneLane:         "/music/dmc/dmc_music_bone-lane.mp3",
-  nilmorgWatches:   "/music/dmc/dmc_music_nilmorg-watches.mp3",
-  signalLost:       "/music/dmc/dmc_music_signal-lost.mp3",
-  severancePrize:   "/music/dmc/dmc_music_severance-prize.mp3",
-  phaseThree:       "/music/dmc/dmc_music_phase-three.mp3",
+  terminalVelocity: assetUrl("music/dmc/dmc_music_terminal-velocity.mp3"),
+  boneLane:         assetUrl("music/dmc/dmc_music_bone-lane.mp3"),
+  nilmorgWatches:   assetUrl("music/dmc/dmc_music_nilmorg-watches.mp3"),
+  signalLost:       assetUrl("music/dmc/dmc_music_signal-lost.mp3"),
+  severancePrize:   assetUrl("music/dmc/dmc_music_severance-prize.mp3"),
+  phaseThree:       assetUrl("music/dmc/dmc_music_phase-three.mp3"),
 } as const;
 
 export const DMC_MUSIC_META: Record<keyof typeof DMC_MUSIC, { title: string; bpm: number | null; usage: string }> = {
@@ -55,21 +56,21 @@ export const DMC_MUSIC_META: Record<keyof typeof DMC_MUSIC, { title: string; bpm
 /* ─── CINEMATICS (MP4) ─── */
 
 export const DMC_CINEMATICS = {
-  circuitOpens:    "/videos/dmc/dmc_cin_circuit-opens.mp4",
-  cloneAwakening:  "/videos/dmc/dmc_cin_clone-awakening.mp4",
-  theRace:         "/videos/dmc/dmc_cin_the-race.mp4",
-  signalLost:      "/videos/dmc/dmc_cin_signal-lost.mp4",
-  severancePrize:  "/videos/dmc/dmc_cin_severance-prize.mp4",
-  nilmorgSpeaks:   "/videos/dmc/dmc_cin_nilmorg-speaks.mp4",
+  circuitOpens:    assetUrl("videos/dmc/dmc_cin_circuit-opens.mp4"),
+  cloneAwakening:  assetUrl("videos/dmc/dmc_cin_clone-awakening.mp4"),
+  theRace:         assetUrl("videos/dmc/dmc_cin_the-race.mp4"),
+  signalLost:      assetUrl("videos/dmc/dmc_cin_signal-lost.mp4"),
+  severancePrize:  assetUrl("videos/dmc/dmc_cin_severance-prize.mp4"),
+  nilmorgSpeaks:   assetUrl("videos/dmc/dmc_cin_nilmorg-speaks.mp4"),
 
   // V2 — Seedance 20 4K shots (2026-04-10)
-  cloneAwakeningV2: "/videos/dmc/dmc_cin_clone-awakening-v2.mp4",
-  raceGameplay:     "/videos/dmc/dmc_cin_race-gameplay.mp4",
-  raceTracking:     "/videos/dmc/dmc_cin_race-tracking.mp4",
-  severancePodium:  "/videos/dmc/dmc_cin_severance-podium.mp4",
-  signalLostV2:     "/videos/dmc/dmc_cin_signal-lost-v2.mp4",
-  nilmorgLipSync:   "/videos/dmc/dmc_cin_nilmorg-lipsync.mp4",
-  nilmorgChair:     "/videos/dmc/dmc_cin_nilmorg-chair.mp4",
+  cloneAwakeningV2: assetUrl("videos/dmc/dmc_cin_clone-awakening-v2.mp4"),
+  raceGameplay:     assetUrl("videos/dmc/dmc_cin_race-gameplay.mp4"),
+  raceTracking:     assetUrl("videos/dmc/dmc_cin_race-tracking.mp4"),
+  severancePodium:  assetUrl("videos/dmc/dmc_cin_severance-podium.mp4"),
+  signalLostV2:     assetUrl("videos/dmc/dmc_cin_signal-lost-v2.mp4"),
+  nilmorgLipSync:   assetUrl("videos/dmc/dmc_cin_nilmorg-lipsync.mp4"),
+  nilmorgChair:     assetUrl("videos/dmc/dmc_cin_nilmorg-chair.mp4"),
 } as const;
 
 export const DMC_CINEMATIC_META: Record<keyof typeof DMC_CINEMATICS, { title: string; duration: string; usage: string }> = {
@@ -92,20 +93,20 @@ export const DMC_CINEMATIC_META: Record<keyof typeof DMC_CINEMATICS, { title: st
 /* ─── CINEMATIC KEYFRAMES (PNG — start/end for Kling generation) ─── */
 
 export const DMC_KEYFRAMES = {
-  cin01: { start: "/art/dmc/keyframes/cin01_start.png", end: "/art/dmc/keyframes/cin01_end.png" },
-  cin02: { start: "/art/dmc/keyframes/cin02_start.png", end: "/art/dmc/keyframes/cin02_end.png" },
-  cin03: { start: "/art/dmc/keyframes/cin03_start.png", end: "/art/dmc/keyframes/cin03_end.png" },
-  cin04: { start: "/art/dmc/keyframes/cin04_start.png", end: "/art/dmc/keyframes/cin04_end.png" },
-  cin05: { start: "/art/dmc/keyframes/cin05_start.png", end: "/art/dmc/keyframes/cin05_end.png" },
-  cin06: { start: "/art/dmc/keyframes/cin06_start.png", end: "/art/dmc/keyframes/cin06_end.png" },
+  cin01: { start: assetUrl("art/dmc/keyframes/cin01_start.png"), end: assetUrl("art/dmc/keyframes/cin01_end.png") },
+  cin02: { start: assetUrl("art/dmc/keyframes/cin02_start.png"), end: assetUrl("art/dmc/keyframes/cin02_end.png") },
+  cin03: { start: assetUrl("art/dmc/keyframes/cin03_start.png"), end: assetUrl("art/dmc/keyframes/cin03_end.png") },
+  cin04: { start: assetUrl("art/dmc/keyframes/cin04_start.png"), end: assetUrl("art/dmc/keyframes/cin04_end.png") },
+  cin05: { start: assetUrl("art/dmc/keyframes/cin05_start.png"), end: assetUrl("art/dmc/keyframes/cin05_end.png") },
+  cin06: { start: assetUrl("art/dmc/keyframes/cin06_start.png"), end: assetUrl("art/dmc/keyframes/cin06_end.png") },
 } as const;
 
 /* ─── ASSET MANIFEST ─── */
 
 export const DMC_ASSET_MANIFEST = {
-  environments:  { count: 7,  format: "1920×1080 JPG", dir: "/art/dmc/environments/" },
-  music:         { count: 6,  format: "MP3",           dir: "/music/dmc/" },
-  cinematics:    { count: 6,  format: "MP4",           dir: "/videos/dmc/" },
-  keyframes:     { count: 12, format: "PNG",           dir: "/art/dmc/keyframes/" },
+  environments:  { count: 7,  format: "1920×1080 JPG", dir: assetUrl("art/dmc/environments/") },
+  music:         { count: 6,  format: "MP3",           dir: assetUrl("music/dmc/") },
+  cinematics:    { count: 6,  format: "MP4",           dir: assetUrl("videos/dmc/") },
+  keyframes:     { count: 12, format: "PNG",           dir: assetUrl("art/dmc/keyframes/") },
   total: 31,
 } as const;

@@ -19,6 +19,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_038" as CardDefinition["id"],
   name: "Chrono Blade",
@@ -29,7 +30,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 4, health: 3 },
   keywords: ["celerity"],
   abilities: [],
-  art: "/art/cards/s1_pack_038.webp",
+  art: assetUrl("art/cards/s1_pack_038.webp"),
   flavorText:
     "The first cut opens the wound. The second cut is already healing when you notice the third.",
   rulesVersion: "1.0.0",

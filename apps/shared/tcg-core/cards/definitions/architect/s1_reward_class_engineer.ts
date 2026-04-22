@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_class_engineer" as CardDefinition["id"],
   name: "Master Engineer",
@@ -51,7 +52,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_class_engineer.webp",
+  art: assetUrl("art/cards/s1_reward_class_engineer.webp"),
   flavorText:
     "The Engineer doesn't fight — she builds things that do.",
   rulesVersion: "1.0.0",

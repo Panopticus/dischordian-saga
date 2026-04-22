@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_071" as CardDefinition["id"],
   name: "Neural Parasite",
@@ -36,7 +37,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_071.webp",
+  art: assetUrl("art/cards/s1_char_071.webp"),
   flavorText:
     "It burrows through the ear canal and nests in the hippocampus. By then, you are already someone else.",
   rulesVersion: "1.0.0",

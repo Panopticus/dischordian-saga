@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_song_066" as CardDefinition["id"],
   name: "The Book of Daniel 2.0",
@@ -51,7 +52,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_song_066.webp",
+  art: assetUrl("art/cards/s1_song_066.webp"),
   flavorText:
     "The second edition rewrites prophecy as a weapon — shield in one hand, fire in the other.",
   rulesVersion: "1.0.0",

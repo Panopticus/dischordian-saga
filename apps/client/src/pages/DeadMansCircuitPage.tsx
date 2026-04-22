@@ -32,6 +32,7 @@ import { DMC_ENVIRONMENTS, DMC_MUSIC, DMC_CINEMATICS } from "@/data/dmcAssets";
 import { getNilmorgPortrait } from "@shared/nilmorgPortraits";
 import DeadMansCircuitCrewPicker from "@/components/crew/DeadMansCircuitCrewPicker";
 
+import { assetUrl } from "@/lib/assetUrl";
 type Phase = "lobby" | "racing" | "results";
 
 /** localStorage key for the player's 2-of-6 splice ability loadout. */
@@ -502,7 +503,7 @@ export default function DeadMansCircuitPage() {
         )}
         <iframe
           ref={iframeRef}
-          src="/games/circuit/index.html"
+          src={assetUrl("games/circuit/index.html")}
           className="w-full h-full absolute inset-0"
           style={{ border: "none", opacity: gameReady ? 1 : 0, transition: "opacity 0.5s" }}
           title="Dead Man's Circuit"

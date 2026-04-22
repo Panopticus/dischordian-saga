@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_072" as CardDefinition["id"],
   name: "Memetic Carrier",
@@ -29,7 +30,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_072.webp",
+  art: assetUrl("art/cards/s1_char_072.webp"),
   flavorText:
     "It does not spread through contact. It spreads through comprehension.",
   rulesVersion: "1.0.0",

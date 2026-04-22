@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_pet_spore_fungus_1" as CardDefinition["id"],
   name: "Spore Seedling",
@@ -45,7 +46,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_pet_spore_fungus_1.webp",
+  art: assetUrl("art/cards/s1_pack_pet_spore_fungus_1.webp"),
   flavorText:
     "Kill it and it spreads. Ignore it and it spreads. There is no good option.",
   rulesVersion: "1.0.0",

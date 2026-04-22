@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_103" as CardDefinition["id"],
   name: "Inception Ark Sentry",
@@ -51,7 +52,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_103.webp",
+  art: assetUrl("art/cards/s1_char_103.webp"),
   flavorText:
     "The Ark remembers every wavelength that has ever approached its hull. The sentries ensure none approach twice.",
   rulesVersion: "1.0.0",

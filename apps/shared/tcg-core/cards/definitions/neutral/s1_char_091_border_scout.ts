@@ -9,6 +9,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_091" as CardDefinition["id"],
   name: "Border Scout",
@@ -37,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_091.webp",
+  art: assetUrl("art/cards/s1_char_091.webp"),
   flavorText:
     "The borderlands belong to no faction — only to those quiet enough to survive them.",
   rulesVersion: "1.0.0",

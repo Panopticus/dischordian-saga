@@ -19,6 +19,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_014" as CardDefinition["id"],
   name: "Agent Zero, Reborn",
@@ -65,7 +66,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_014.webp",
+  art: assetUrl("art/cards/s1_pack_014.webp"),
   flavorText:
     "They buried the signal. They burned the frequency. They erased the name. None of it mattered.",
   rulesVersion: "1.0.0",

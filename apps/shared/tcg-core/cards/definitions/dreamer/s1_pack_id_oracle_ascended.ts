@@ -25,6 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_id_oracle_ascended" as CardDefinition["id"],
   name: "The Ascended Oracle",
@@ -62,7 +63,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_id_oracle_ascended.webp",
+  art: assetUrl("art/cards/s1_pack_id_oracle_ascended.webp"),
   flavorText:
     "The full prophecy realized. Every enemy frozen in the light of absolute foresight.",
   rulesVersion: "1.0.0",

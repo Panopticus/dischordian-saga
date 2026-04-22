@@ -25,6 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_109" as CardDefinition["id"],
   name: "The Enigma",
@@ -54,7 +55,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_109.webp",
+  art: assetUrl("art/cards/s1_char_109.webp"),
   flavorText:
     "She does not break the rules of probability. She is the exception that proves there are no rules.",
   rulesVersion: "1.0.0",

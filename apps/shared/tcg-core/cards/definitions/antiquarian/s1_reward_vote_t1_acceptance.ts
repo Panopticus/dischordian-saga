@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_vote_t1_acceptance" as CardDefinition["id"],
   name: "Time Capsule",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_vote_t1_acceptance.webp",
+  art: assetUrl("art/cards/s1_reward_vote_t1_acceptance.webp"),
   flavorText:
     "It survived the collapse of the Third Age. Your attack will not be what breaks it.",
   rulesVersion: "1.0.0",

@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_boss_collector" as CardDefinition["id"],
   name: "Collector's Trophy",
@@ -48,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_boss_collector.webp",
+  art: assetUrl("art/cards/s1_reward_boss_collector.webp"),
   flavorText:
     "He collected names, faces, histories. This trophy remembers them all — silently.",
   rulesVersion: "1.0.0",

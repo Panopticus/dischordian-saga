@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_eidolon_lux" as CardDefinition["id"],
   name: "Lux, the Light",
@@ -48,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_eidolon_lux.webp",
+  art: assetUrl("art/cards/s1_reward_eidolon_lux.webp"),
   flavorText:
     "In the deepest recursion of the Dreamer's sleep, a light persisted. It called itself Lux, and it refused to go out.",
   rulesVersion: "1.0.0",

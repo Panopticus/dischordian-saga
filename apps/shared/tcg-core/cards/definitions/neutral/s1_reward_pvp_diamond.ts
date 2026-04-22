@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_pvp_diamond" as CardDefinition["id"],
   name: "Arena Veteran",
@@ -49,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_pvp_diamond.webp",
+  art: assetUrl("art/cards/s1_reward_pvp_diamond.webp"),
   flavorText:
     "She doesn't flinch. She hasn't flinched since Silver rank. The arena burned that reflex out of her.",
   rulesVersion: "1.0.0",

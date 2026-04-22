@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_040" as CardDefinition["id"],
   name: "The Nomad",
@@ -77,7 +78,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_040.webp",
+  art: assetUrl("art/cards/s1_char_040.webp"),
   flavorText:
     "Always concealed beneath a hood and a mask, his true identity remains a mystery, with his past entirely classified. The ...",
   rulesVersion: "1.0.0",

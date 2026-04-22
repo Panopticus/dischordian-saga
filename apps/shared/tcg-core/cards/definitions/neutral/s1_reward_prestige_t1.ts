@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_prestige_t1" as CardDefinition["id"],
   name: "First Ascension",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_prestige_t1.webp",
+  art: assetUrl("art/cards/s1_reward_prestige_t1.webp"),
   flavorText:
     "The first step upward is the hardest. The shield proves you took it.",
   rulesVersion: "1.0.0",

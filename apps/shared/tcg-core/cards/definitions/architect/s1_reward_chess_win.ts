@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_chess_win" as CardDefinition["id"],
   name: "Grandmaster's Gambit",
@@ -49,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_chess_win.webp",
+  art: assetUrl("art/cards/s1_reward_chess_win.webp"),
   flavorText:
     "The Architect plays chess with civilizations. The Grandmaster learned from watching.",
   rulesVersion: "1.0.0",

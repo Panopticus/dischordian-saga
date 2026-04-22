@@ -18,6 +18,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_032" as CardDefinition["id"],
   name: "Market Crash",
@@ -43,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_032.webp",
+  art: assetUrl("art/cards/s1_pack_032.webp"),
   flavorText:
     "The market corrects itself. It does not care who is standing when it does.",
   rulesVersion: "1.0.0",

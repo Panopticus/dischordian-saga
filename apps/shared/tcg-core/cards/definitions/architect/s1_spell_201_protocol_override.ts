@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_201" as CardDefinition["id"],
   name: "Protocol Override",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_201.webp",
+  art: assetUrl("art/cards/s1_spell_201.webp"),
   flavorText:
     "For one glorious instant, the unit operates beyond its design parameters.",
   rulesVersion: "1.0.0",

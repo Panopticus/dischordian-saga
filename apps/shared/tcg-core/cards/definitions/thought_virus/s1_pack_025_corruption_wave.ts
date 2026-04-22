@@ -19,6 +19,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_025" as CardDefinition["id"],
   name: "Corruption Wave",
@@ -55,7 +56,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_025.webp",
+  art: assetUrl("art/cards/s1_pack_025.webp"),
   flavorText:
     "The wave does not discriminate. It consumes friend and foe alike. But the Virus always feeds on what remains.",
   rulesVersion: "1.0.0",

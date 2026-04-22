@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_217" as CardDefinition["id"],
   name: "Dream Weave",
@@ -36,7 +37,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_217.webp",
+  art: assetUrl("art/cards/s1_spell_217.webp"),
   flavorText:
     "She dreamed of an army. When she woke, they were already marching.",
   rulesVersion: "1.0.0",

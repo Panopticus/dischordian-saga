@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_118" as CardDefinition["id"],
   name: "Trade Enforcer",
@@ -45,7 +46,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_118.webp",
+  art: assetUrl("art/cards/s1_char_118.webp"),
   flavorText:
     "In New Babylon, murder is not a crime. It is a line item. The Enforcer simply ensures the ledger balances.",
   rulesVersion: "1.0.0",

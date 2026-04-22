@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_tower_wave50" as CardDefinition["id"],
   name: "Terminus Bulwark",
@@ -43,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_tower_wave50.webp",
+  art: assetUrl("art/cards/s1_reward_tower_wave50.webp"),
   flavorText:
     "Fifty waves broke against it. The fifty-first is still trying.",
   rulesVersion: "1.0.0",

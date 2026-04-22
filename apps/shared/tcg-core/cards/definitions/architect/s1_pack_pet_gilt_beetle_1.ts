@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_pet_gilt_beetle_1" as CardDefinition["id"],
   name: "Bronze Scarab",
@@ -33,7 +34,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 1, health: 3 },
   keywords: ["provoke"],
   abilities: [],
-  art: "/art/cards/s1_pack_pet_gilt_beetle_1.webp",
+  art: assetUrl("art/cards/s1_pack_pet_gilt_beetle_1.webp"),
   flavorText:
     "The Architect stamps its mark on everything — even its pets.",
   rulesVersion: "1.0.0",

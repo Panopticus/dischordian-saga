@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_vote_t1_defiance" as CardDefinition["id"],
   name: "Signal Booster",
@@ -50,7 +51,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_vote_t1_defiance.webp",
+  art: assetUrl("art/cards/s1_reward_vote_t1_defiance.webp"),
   flavorText:
     "Agent Zero's last frequency still carries. The Booster makes sure everyone hears it.",
   rulesVersion: "1.0.0",

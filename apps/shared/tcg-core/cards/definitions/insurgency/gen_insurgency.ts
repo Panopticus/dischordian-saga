@@ -18,6 +18,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "gen_insurgency" as CardDefinition["id"],
   name: "Agent Zero",
@@ -47,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/gen_insurgency.webp",
+  art: assetUrl("art/cards/gen_insurgency.webp"),
   flavorText:
     "Cameras cycle every 43 seconds. I have 31. The Collector wiped your memory. But not your instincts.",
   rulesVersion: "1.0.0",

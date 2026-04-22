@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_114" as CardDefinition["id"],
   name: "Viral Vector",
@@ -55,7 +56,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_114.webp",
+  art: assetUrl("art/cards/s1_char_114.webp"),
   flavorText:
     "Do not kill it. Do not touch it. Do not look at it too long. The infection reads your attention as an invitation.",
   rulesVersion: "1.0.0",

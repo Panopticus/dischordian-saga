@@ -16,6 +16,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_045" as CardDefinition["id"],
   name: "Universal Adapter",
@@ -36,7 +37,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_045.webp",
+  art: assetUrl("art/cards/s1_pack_045.webp"),
   flavorText:
     "It connects to any system, any faction, any purpose. Versatility is the only true currency.",
   rulesVersion: "1.0.0",

@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_casino_high_roller" as CardDefinition["id"],
   name: "High Roller",
@@ -49,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_casino_high_roller.webp",
+  art: assetUrl("art/cards/s1_reward_casino_high_roller.webp"),
   flavorText:
     "He walked into the Casino with nothing and walked out owning three city blocks. Then he went back in.",
   rulesVersion: "1.0.0",

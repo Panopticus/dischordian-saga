@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_syndicate_empire" as CardDefinition["id"],
   name: "Syndicate Overlord",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_syndicate_empire.webp",
+  art: assetUrl("art/cards/s1_reward_syndicate_empire.webp"),
   flavorText:
     "The fifth world fell without a shot. Its governor took one look at the Overlord's fleet and signed the treaty.",
   rulesVersion: "1.0.0",

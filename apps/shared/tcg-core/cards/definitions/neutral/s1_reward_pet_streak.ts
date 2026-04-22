@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_pet_streak" as CardDefinition["id"],
   name: "Battle-Hardened Companion",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_pet_streak.webp",
+  art: assetUrl("art/cards/s1_reward_pet_streak.webp"),
   flavorText:
     "It fits in your pocket. It has killed things that don't.",
   rulesVersion: "1.0.0",

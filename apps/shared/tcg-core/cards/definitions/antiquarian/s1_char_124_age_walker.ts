@@ -26,6 +26,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_124" as CardDefinition["id"],
   name: "Age Walker",
@@ -47,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_124.webp",
+  art: assetUrl("art/cards/s1_char_124.webp"),
   flavorText:
     "It was small when the first age began. By the third, armies feared it. By the seventh, they worshipped it.",
   rulesVersion: "1.0.0",

@@ -21,6 +21,7 @@
 import type { FactionNPCId } from "./factionNPCs";
 import type { PhysicsType } from "../engine/voidEngine";
 
+import { assetUrl } from "@/lib/assetUrl";
 /* ─── TYPES ─── */
 
 export type SpecimenId = "lux" | "cipher" | "flicker" | "gilt" | "spore" | "echo" | "glyph";
@@ -464,5 +465,5 @@ export const DEFAULT_SPECIMEN_COLLECTION: SpecimenCollection = {
 
 /** Returns the image path for a specimen at a given evolution stage */
 export function getSpecimenArtPath(id: string, stage: EvolutionStage): string {
-  return `/art/specimens/${id}-${stage}.png`;
+  return assetUrl(`art/specimens/${id}-${stage}.png`);
 }

@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_trade_act1" as CardDefinition["id"],
   name: "Trade Scout",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_trade_act1.webp",
+  art: assetUrl("art/cards/s1_reward_trade_act1.webp"),
   flavorText:
     "First contact. First contract. First profit.",
   rulesVersion: "1.0.0",

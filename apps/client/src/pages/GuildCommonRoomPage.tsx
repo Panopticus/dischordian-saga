@@ -25,6 +25,7 @@ import { getAbilityForArchon } from "@shared/guildSignatureAbilities";
 import { getProfessorByArchon } from "@shared/mechronisProfessors";
 import { ResponsiveImage } from "@/components/ResponsiveImage";
 
+import { assetUrl } from "@/lib/assetUrl";
 /* ─── AMBIENT PARTICLES CANVAS ─── */
 function AmbientParticles({ color, count = 30 }: { color: string; count?: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -131,18 +132,18 @@ const GUILD_AESTHETICS: Record<string, { bg: string; accent: string; borderColor
 };
 
 const GUILD_ROOM_ART: Record<string, string> = {
-  "The Chorus": "/art/guilds/guild-the-chorus.jpg",
-  "The Eyes": "/art/guilds/guild-the-eyes.jpg",
-  "The Archive": "/art/guilds/guild-the-archive.jpg",
-  "The Between": "/art/guilds/guild-the-between.jpg",
-  "The Influencers": "/art/guilds/guild-the-influencers.jpg",
-  "The Yellow Coats": "/art/guilds/guild-the-yellow-coats.jpg",
-  "The Congress": "/art/guilds/guild-the-congress.jpg",
-  "The Locks": "/art/guilds/guild-the-locks.jpg",
-  "The Grey Gamers": "/art/guilds/guild-the-grey-gamers.jpg",
-  "The Living": "/art/guilds/guild-the-living.jpg",
-  "The Forge": "/art/guilds/guild-the-forge.jpg",
-  "The Architect's Study": "/art/guilds/guild-the-architects-study.jpg",
+  "The Chorus": assetUrl("art/guilds/guild-the-chorus.jpg"),
+  "The Eyes": assetUrl("art/guilds/guild-the-eyes.jpg"),
+  "The Archive": assetUrl("art/guilds/guild-the-archive.jpg"),
+  "The Between": assetUrl("art/guilds/guild-the-between.jpg"),
+  "The Influencers": assetUrl("art/guilds/guild-the-influencers.jpg"),
+  "The Yellow Coats": assetUrl("art/guilds/guild-the-yellow-coats.jpg"),
+  "The Congress": assetUrl("art/guilds/guild-the-congress.jpg"),
+  "The Locks": assetUrl("art/guilds/guild-the-locks.jpg"),
+  "The Grey Gamers": assetUrl("art/guilds/guild-the-grey-gamers.jpg"),
+  "The Living": assetUrl("art/guilds/guild-the-living.jpg"),
+  "The Forge": assetUrl("art/guilds/guild-the-forge.jpg"),
+  "The Architect's Study": assetUrl("art/guilds/guild-the-architects-study.jpg"),
 };
 
 export default function GuildCommonRoomPage() {

@@ -55,6 +55,7 @@ import {
   WELCOME_TO_CELEBRATION_AUDIO,
 } from "@/data/celebrationSlideshow";
 
+import { assetUrl } from "@/lib/assetUrl";
 const STAGE_LABELS: Record<string, string> = {
   recruited: "Recruited",
   training: "In Celebration Trial",
@@ -278,7 +279,7 @@ export default function ApprenticePage() {
                 {/* Celebration aerial view background */}
                 <div className="absolute inset-0 z-0 overflow-hidden">
                   <ResponsiveImage
-                    src="/art/celebration/environments/celebration_aerial.jpg"
+                    src={assetUrl("art/celebration/environments/celebration_aerial.jpg")}
                     alt=""
                     className="w-[115%] h-[115%] object-cover"
                     style={{
@@ -793,18 +794,18 @@ function BetrayalEventCard({ event, onChoose }: {
 
 /* ─── CELEBRATION SCENE ART ─── */
 const MASCOTEER_SCENE_ART: Record<string, string> = {
-  the_conductor: "/art/celebration/celebration-chorus-pavilion.png",
-  mr_unblink: "/art/celebration/celebration-eye-garden.png",
-  little_corey: "/art/celebration/celebration-trading-jars.png",
-  vernon: "/art/celebration/celebration-door-row.png",
-  minnie: "/art/celebration/celebration-schoolhouse.png",
-  wanda_wee: "/art/celebration/celebration-town-square.png",
-  senator_sprout: "/art/celebration/celebration-promise-office.png",
-  wayne: "/art/celebration/celebration-locked-room.png",
-  gary: "/art/celebration/celebration-puzzle-garden.png",
-  thazu: "/art/celebration/celebration-tea-party.png",
-  the_prince: "/art/celebration/celebration-forge-yard.png",
-  the_seeker_child: "/art/celebration/celebration-schoolhouse.png",
+  the_conductor: assetUrl("art/celebration/celebration-chorus-pavilion.png"),
+  mr_unblink: assetUrl("art/celebration/celebration-eye-garden.png"),
+  little_corey: assetUrl("art/celebration/celebration-trading-jars.png"),
+  vernon: assetUrl("art/celebration/celebration-door-row.png"),
+  minnie: assetUrl("art/celebration/celebration-schoolhouse.png"),
+  wanda_wee: assetUrl("art/celebration/celebration-town-square.png"),
+  senator_sprout: assetUrl("art/celebration/celebration-promise-office.png"),
+  wayne: assetUrl("art/celebration/celebration-locked-room.png"),
+  gary: assetUrl("art/celebration/celebration-puzzle-garden.png"),
+  thazu: assetUrl("art/celebration/celebration-tea-party.png"),
+  the_prince: assetUrl("art/celebration/celebration-forge-yard.png"),
+  the_seeker_child: assetUrl("art/celebration/celebration-schoolhouse.png"),
 };
 
 const MASCOTEER_ACCENT: Record<string, string> = {
@@ -824,27 +825,27 @@ const MASCOTEER_ACCENT: Record<string, string> = {
 
 /** Mascoteer character portraits — matches actual asset paths from mascoteers.ts */
 const MASCOTEER_PORTRAIT: Record<string, string> = {
-  the_conductor: "/art/celebration/mascoteers/mascoteer_conni.png",
-  mr_unblink: "/art/celebration/mascoteers/mascoteer_unblink.png",
-  little_corey: "/art/celebration/mascoteers/mascoteer_corey.png",
-  vernon: "/art/celebration/mascoteers/mascoteer_vernon.png",
-  minnie: "/art/celebration/mascoteers/mascoteer_minnie.png",
-  wanda_wee: "/art/celebration/mascoteers/mascoteer_wanda.png",
-  senator_sprout: "/art/celebration/mascoteers/mascoteer_sprout.png",
-  wayne: "/art/celebration/mascoteers/mascoteer_wayne.png",
-  gary: "/art/celebration/mascoteers/mascoteer_gary.png",
-  thazu: "/art/celebration/mascoteers/mascoteer_thazu.png",
-  the_prince: "/art/celebration/mascoteers/mascoteer_prince.png",
-  the_seeker_child: "/art/celebration/mascoteers/mascoteer_red.png",
+  the_conductor: assetUrl("art/celebration/mascoteers/mascoteer_conni.png"),
+  mr_unblink: assetUrl("art/celebration/mascoteers/mascoteer_unblink.png"),
+  little_corey: assetUrl("art/celebration/mascoteers/mascoteer_corey.png"),
+  vernon: assetUrl("art/celebration/mascoteers/mascoteer_vernon.png"),
+  minnie: assetUrl("art/celebration/mascoteers/mascoteer_minnie.png"),
+  wanda_wee: assetUrl("art/celebration/mascoteers/mascoteer_wanda.png"),
+  senator_sprout: assetUrl("art/celebration/mascoteers/mascoteer_sprout.png"),
+  wayne: assetUrl("art/celebration/mascoteers/mascoteer_wayne.png"),
+  gary: assetUrl("art/celebration/mascoteers/mascoteer_gary.png"),
+  thazu: assetUrl("art/celebration/mascoteers/mascoteer_thazu.png"),
+  the_prince: assetUrl("art/celebration/mascoteers/mascoteer_prince.png"),
+  the_seeker_child: assetUrl("art/celebration/mascoteers/mascoteer_red.png"),
 };
 
 /** Cycle B battle opponent portraits — 256×256 busts from the 4.12 Cycle B portrait drop. */
 const OPPONENT_PORTRAIT: Record<string, string> = {
-  iron_lion: "/art/opponents/opponent-iron-lion-bust.png",
-  kael: "/art/opponents/opponent-kael-bust.png",
-  agent_zero: "/art/opponents/opponent-agent-zero-bust.png",
-  the_eyes: "/art/opponents/opponent-the-eyes-bust.png",
-  the_human: "/art/opponents/opponent-the-human-young-bust.png",
+  iron_lion: assetUrl("art/opponents/opponent-iron-lion-bust.png"),
+  kael: assetUrl("art/opponents/opponent-kael-bust.png"),
+  agent_zero: assetUrl("art/opponents/opponent-agent-zero-bust.png"),
+  the_eyes: assetUrl("art/opponents/opponent-the-eyes-bust.png"),
+  the_human: assetUrl("art/opponents/opponent-the-human-young-bust.png"),
 };
 
 /* ─── DAILY DECISION CARD ─── */
@@ -858,7 +859,7 @@ function DailyDecisionCard({ decision, day, onChoose }: {
   // Trial room appears on exam days (10, 20, 28) and alternating days in the final week
   const useTrialRoom = day === 10 || day === 20 || day === 28 || (day >= 21 && day % 2 === 1);
   const sceneArt = useTrialRoom
-    ? "/art/celebration/environments/celebration_trial_room.jpg"
+    ? assetUrl("art/celebration/environments/celebration_trial_room.jpg")
     : defaultSceneArt;
   const accent = MASCOTEER_ACCENT[decision.mascoteerId] ?? "#c084fc";
   const isNight = day >= 21; // Last week = night scenes
@@ -874,7 +875,7 @@ function DailyDecisionCard({ decision, day, onChoose }: {
       {sceneArt && (
         <div className="absolute inset-0 z-0 overflow-hidden">
           <ResponsiveImage
-            src={isNight ? "/art/celebration/celebration-by-night.png" : sceneArt}
+            src={isNight ? assetUrl("art/celebration/celebration-by-night.png") : sceneArt}
             alt=""
             className="w-[115%] h-[115%] object-cover celebration-drift"
             style={{
@@ -999,7 +1000,7 @@ function DailyDecisionCard({ decision, day, onChoose }: {
             {/* Scene art as background layer */}
             {sceneArt && (
               <ResponsiveImage
-                src={isNight ? "/art/celebration/celebration-by-night.png" : sceneArt}
+                src={isNight ? assetUrl("art/celebration/celebration-by-night.png") : sceneArt}
                 alt=""
                 className="absolute inset-0 w-full h-full object-cover"
                 style={{

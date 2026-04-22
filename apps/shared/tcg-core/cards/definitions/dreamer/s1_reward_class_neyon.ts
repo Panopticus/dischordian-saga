@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_class_neyon" as CardDefinition["id"],
   name: "Awakened Ne-Yon",
@@ -52,7 +53,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_class_neyon.webp",
+  art: assetUrl("art/cards/s1_reward_class_neyon.webp"),
   flavorText:
     "The Ne-Yon dreamed of a warrior who mastered every discipline. Then it opened its eyes, and the warrior was standing there.",
   rulesVersion: "1.0.0",

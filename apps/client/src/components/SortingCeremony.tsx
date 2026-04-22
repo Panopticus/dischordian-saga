@@ -16,6 +16,7 @@ import { MECHRONIS_GUILDS } from "@/game/loreData";
 import { SKILL_VOICES, type SkillId } from "@/game/innerVoices";
 import { ResponsiveImage } from "@/components/ResponsiveImage";
 
+import { assetUrl } from "@/lib/assetUrl";
 interface Props {
   /** The skill the player maxed — determines their Archon mentor */
   skillId: SkillId;
@@ -47,7 +48,7 @@ export default function SortingCeremony({ skillId, onComplete }: Props) {
         data-testid="sorting-ceremony"
       >
         {/* Mechronis Grand Hall background */}
-        <ResponsiveImage src="/art/mechronis/environments/mechronis_grand_hall.jpg" alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none" style={{ opacity: 0.2, filter: "brightness(0.4) saturate(1.2)" }} eager />
+        <ResponsiveImage src={assetUrl("art/mechronis/environments/mechronis_grand_hall.jpg")} alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none" style={{ opacity: 0.2, filter: "brightness(0.4) saturate(1.2)" }} eager />
         <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 30%, color-mix(in oklch, var(--bg-void) 85%, transparent) 100%)" }} />
         <div className="max-w-xl w-full text-center relative z-10">
           {/* Phase 1: arrival */}

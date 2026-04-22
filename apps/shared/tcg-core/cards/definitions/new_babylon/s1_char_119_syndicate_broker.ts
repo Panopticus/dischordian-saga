@@ -25,6 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_119" as CardDefinition["id"],
   name: "Syndicate Broker",
@@ -57,7 +58,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_119.webp",
+  art: assetUrl("art/cards/s1_char_119.webp"),
   flavorText:
     "Everything has a price in New Babylon. The Broker's gift is knowing exactly what yours is.",
   rulesVersion: "1.0.0",

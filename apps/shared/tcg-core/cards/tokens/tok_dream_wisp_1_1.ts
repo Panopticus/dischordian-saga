@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../index";
 
+import { assetUrl } from "../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "tok_dream_wisp_1_1" as CardDefinition["id"],
   name: "Dream Wisp",
@@ -18,7 +19,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 1, health: 1 },
   keywords: [],
   abilities: [],
-  art: "/art/cards/tok_dream_wisp_1_1.webp",
+  art: assetUrl("art/cards/tok_dream_wisp_1_1.webp"),
   flavorText:
     "Born between thoughts, gone before the next.",
   rulesVersion: "1.0.0",

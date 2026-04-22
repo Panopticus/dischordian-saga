@@ -11,6 +11,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const earth_01: CardDefinition = {
   id: "s1_elem_earth_01" as CardDefinition["id"],
   name: "Rooted Sentinel",
@@ -21,7 +22,7 @@ export const earth_01: CardDefinition = {
   baseStats: { power: 1, health: 5 },
   keywords: ["provoke"],
   abilities: [],
-  art: "/art/cards/element/s1_elem_earth_01.webp",
+  art: assetUrl("art/cards/element/s1_elem_earth_01.webp"),
   flavorText:
     "Provoke. The first earth element the Engineer catalogued was a man who had been standing in one spot for so long that the spot had started to belong to him.",
   rulesVersion: "1.0.0",
@@ -39,7 +40,7 @@ export const earth_02: CardDefinition = {
   baseStats: { power: 2, health: 6 },
   keywords: ["provoke", "forcefield"],
   abilities: [],
-  art: "/art/cards/element/s1_elem_earth_02.webp",
+  art: assetUrl("art/cards/element/s1_elem_earth_02.webp"),
   flavorText:
     "Provoke. Forcefield. Assembled from sheets of grey stone mined from a world that had decided it was done being a world.",
   rulesVersion: "1.0.0",
@@ -66,7 +67,7 @@ export const earth_03: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/element/s1_elem_earth_03.webp",
+  art: assetUrl("art/cards/element/s1_elem_earth_03.webp"),
   flavorText:
     "Heal your general for 5. A mountain vow is a promise made while holding a mountain in mind. Most of the mountain agrees.",
   rulesVersion: "1.0.0",
@@ -84,7 +85,7 @@ export const earth_04: CardDefinition = {
   baseStats: { power: 4, health: 9 },
   keywords: ["provoke", "forcefield"],
   abilities: [],
-  art: "/art/cards/element/s1_elem_earth_04.webp",
+  art: assetUrl("art/cards/element/s1_elem_earth_04.webp"),
   flavorText:
     "Provoke. Forcefield. Nine health. The Tectonic Warden is the oldest element on the board. Everything you try to do to him has been tried before by a glacier.",
   rulesVersion: "1.0.0",
@@ -102,7 +103,7 @@ export const earth_05: CardDefinition = {
   baseStats: { power: 5, health: 14 },
   keywords: ["provoke", "forcefield", "grow"],
   abilities: [],
-  art: "/art/cards/element/s1_elem_earth_05.webp",
+  art: assetUrl("art/cards/element/s1_elem_earth_05.webp"),
   flavorText:
     "Provoke. Forcefield. Grow. Fourteen health. Every turn, larger. The Sleeping Continent has not yet noticed this match. When he does, it will be because the match is over.",
   rulesVersion: "1.0.0",

@@ -26,6 +26,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_122" as CardDefinition["id"],
   name: "Timeline Splitter",
@@ -55,7 +56,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_122.webp",
+  art: assetUrl("art/cards/s1_char_122.webp"),
   flavorText:
     "You were never here. The Splitter does not argue this point — she simply makes it true.",
   rulesVersion: "1.0.0",

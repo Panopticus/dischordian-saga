@@ -18,6 +18,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_029" as CardDefinition["id"],
   name: "Hostile Takeover",
@@ -54,7 +55,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_029.webp",
+  art: assetUrl("art/cards/s1_pack_029.webp"),
   flavorText:
     "Locke smiled as he signed the order. The compensation was generous. The target was not expected to survive to collect it.",
   rulesVersion: "1.0.0",

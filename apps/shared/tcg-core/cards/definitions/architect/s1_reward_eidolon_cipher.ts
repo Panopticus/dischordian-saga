@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_eidolon_cipher" as CardDefinition["id"],
   name: "Cipher, Logic's Edge",
@@ -43,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_eidolon_cipher.webp",
+  art: assetUrl("art/cards/s1_reward_eidolon_cipher.webp"),
   flavorText:
     "Cipher does not think. Cipher computes. The distinction matters only to those who lose to it.",
   rulesVersion: "1.0.0",

@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import GameCard from "@/components/GameCard";
 
+import { assetUrl } from "@/lib/assetUrl";
 const PACK_TYPES = [
   {
     id: "standard" as const,
@@ -24,7 +25,7 @@ const PACK_TYPES = [
     borderColor: "void-border-error",
     bgColor: "void-bg-error",
     glowColor: "shadow-[0_0_20px_color-mix(in oklch, var(--energy-error) 20%, transparent)]",
-    artworkUrl: "/art/card-game/pack-genesis.png",
+    artworkUrl: assetUrl("art/card-game/pack-genesis.png"),
   },
   {
     id: "premium" as const,
@@ -38,7 +39,7 @@ const PACK_TYPES = [
     borderColor: "void-border",
     bgColor: "void-bg-sunk",
     glowColor: "shadow-[0_0_20px_rgba(249,115,22,0.2)]",
-    artworkUrl: "/art/card-game/pack-schism.png",
+    artworkUrl: assetUrl("art/card-game/pack-schism.png"),
   },
   {
     id: "infernal" as const,
@@ -52,7 +53,7 @@ const PACK_TYPES = [
     borderColor: "void-border",
     bgColor: "void-bg-sunk",
     glowColor: "shadow-[0_0_20px_color-mix(in oklch, var(--energy-accent) 30%, transparent)]",
-    artworkUrl: "/art/card-game/pack-convergence.png",
+    artworkUrl: assetUrl("art/card-game/pack-convergence.png"),
   },
 ];
 
@@ -142,7 +143,7 @@ export default function DemonPackPage() {
               <span className="font-mono text-[10px] void-text-error tracking-[0.3em]">HIERARCHY OF THE DAMNED</span>
             </div>
             <div className="flex items-center gap-3">
-              <img src="/art/logos/dischordia-card.png" alt="" className="h-8 object-contain opacity-80 hidden sm:block" />
+              <img src={assetUrl("art/logos/dischordia-card.png")} alt="" className="h-8 object-contain opacity-80 hidden sm:block" />
               <h1 className="font-display text-2xl sm:text-3xl font-black tracking-wider text-foreground">
                 DEMON <span className="void-text-error">CARD PACKS</span>
               </h1>
@@ -235,7 +236,7 @@ export default function DemonPackPage() {
               {/* Ceremony background */}
               <div className="absolute inset-0 -mx-6 overflow-hidden rounded-lg">
                 <img
-                  src="/art/card-game/card-pack-opening-ceremony.png"
+                  src={assetUrl("art/card-game/card-pack-opening-ceremony.png")}
                   alt=""
                   className="w-full h-full object-cover"
                   style={{ opacity: 0.35, filter: "brightness(0.5) saturate(1.2)" }}
@@ -297,7 +298,7 @@ export default function DemonPackPage() {
                   style={{ background: "radial-gradient(circle, color-mix(in oklch, var(--energy-error) 40%, transparent) 0%, transparent 70%)", filter: "blur(20px)" }}
                 />
                 <div className="w-36 h-48 rounded-xl border-2 void-border-error shadow-[0_0_60px_color-mix(in oklch, var(--energy-error) 40%, transparent)] relative overflow-hidden">
-                  <img src="/art/card-game/card-back-dischordia.png" alt="Pack" className="w-full h-full object-cover" />
+                  <img src={assetUrl("art/card-game/card-back-dischordia.png")} alt="Pack" className="w-full h-full object-cover" />
                   {/* Crack/energy effect */}
                   <motion.div
                     className="absolute inset-0"
@@ -336,7 +337,7 @@ export default function DemonPackPage() {
               <div className="relative">
                 {/* Ceremony bg behind cards too */}
                 <div className="absolute inset-0 -m-4 overflow-hidden rounded-lg -z-10">
-                  <img src="/art/card-game/card-pack-opening-ceremony.png" alt="" className="w-full h-full object-cover" style={{ opacity: 0.12, filter: "brightness(0.3)" }} />
+                  <img src={assetUrl("art/card-game/card-pack-opening-ceremony.png")} alt="" className="w-full h-full object-cover" style={{ opacity: 0.12, filter: "brightness(0.3)" }} />
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 justify-items-center">
@@ -388,7 +389,7 @@ export default function DemonPackPage() {
                           <GameCard card={card} size="sm" animated={false} />
                         ) : (
                           <div className="aspect-[2.5/3.5] rounded-lg overflow-hidden border void-border relative">
-                            <img src="/art/card-game/card-back-dischordia.png" alt="Unrevealed" className="w-full h-full object-cover" style={{ filter: "brightness(0.6)" }} />
+                            <img src={assetUrl("art/card-game/card-back-dischordia.png")} alt="Unrevealed" className="w-full h-full object-cover" style={{ filter: "brightness(0.6)" }} />
                             <motion.div
                               className="absolute inset-0"
                               animate={{ opacity: [0.2, 0.5, 0.2] }}

@@ -15,6 +15,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_201" as CardDefinition["id"],
   name: "Chronoguard Sentinel",
@@ -35,7 +36,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_201.webp",
+  art: assetUrl("art/cards/s1_char_201.webp"),
   flavorText:
     "It has stood here for a thousand years. It will stand here for a thousand more.",
   rulesVersion: "1.0.0",

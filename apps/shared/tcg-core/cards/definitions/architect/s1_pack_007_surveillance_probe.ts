@@ -16,6 +16,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_007" as CardDefinition["id"],
   name: "Surveillance Probe",
@@ -36,7 +37,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_007.webp",
+  art: assetUrl("art/cards/s1_pack_007.webp"),
   flavorText:
     "Its final transmission contained more intelligence than its entire operational lifespan.",
   rulesVersion: "1.0.0",

@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_trade_insurgency" as CardDefinition["id"],
   name: "Smuggler's Cache",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_trade_insurgency.webp",
+  art: assetUrl("art/cards/s1_reward_trade_insurgency.webp"),
   flavorText:
     "Every crate had a false bottom. Every false bottom had a frequency. Every frequency led to Agent Zero's ghost.",
   rulesVersion: "1.0.0",

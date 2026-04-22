@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_020" as CardDefinition["id"],
   name: "The Authority",
@@ -44,7 +45,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_020.webp",
+  art: assetUrl("art/cards/s1_char_020.webp"),
   flavorText:
     "Formed by merging the consciousnesses of six chosen citizens into a living computer, it was designed to govern New Babylon with absolute fairness.",
   rulesVersion: "1.0.0",

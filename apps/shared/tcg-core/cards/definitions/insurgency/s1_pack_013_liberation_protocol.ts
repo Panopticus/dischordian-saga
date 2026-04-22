@@ -17,6 +17,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_013" as CardDefinition["id"],
   name: "Liberation Protocol",
@@ -43,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_013.webp",
+  art: assetUrl("art/cards/s1_pack_013.webp"),
   flavorText:
     "They called it liberation. The enemy called it a vanishing act. Both were correct.",
   rulesVersion: "1.0.0",

@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_seed_chess" as CardDefinition["id"],
   name: "The Game Master's Challenge",
@@ -62,7 +63,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_seed_chess.webp",
+  art: assetUrl("art/cards/s1_pack_seed_chess.webp"),
   flavorText:
     "Every game is a test. Every test has a purpose only the Game Master understands.",
   rulesVersion: "1.0.0",

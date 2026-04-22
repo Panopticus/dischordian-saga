@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_casino_slots" as CardDefinition["id"],
   name: "Lucky Spinner",
@@ -49,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_casino_slots.webp",
+  art: assetUrl("art/cards/s1_reward_casino_slots.webp"),
   flavorText:
     "Three cherries. Three jackpots. Three enemies who wished they'd stayed in bed.",
   rulesVersion: "1.0.0",

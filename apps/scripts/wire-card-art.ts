@@ -45,6 +45,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
+import { assetUrl } from "../client/src/lib/assetUrl";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const ROOT = join(__dirname, "..", "..");
@@ -58,7 +59,7 @@ const MAPPING_OUT = join(
   ROOT,
   "apps/scripts/wire-card-art-mapping.json",
 );
-const PUBLIC_URL_PREFIX = "/art/cards";
+const PUBLIC_URL_PREFIX = assetUrl("art/cards");
 
 const MAX_DIMENSION = 1024;
 const WEBP_QUALITY = 82;

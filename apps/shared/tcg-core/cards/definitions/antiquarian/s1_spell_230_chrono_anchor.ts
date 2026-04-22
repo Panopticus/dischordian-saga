@@ -13,6 +13,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_230" as CardDefinition["id"],
   name: "Chrono Anchor",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_230.webp",
+  art: assetUrl("art/cards/s1_spell_230.webp"),
   flavorText:
     "The wound closes. Not because it healed, but because it never happened.",
   rulesVersion: "1.0.0",

@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_005" as CardDefinition["id"],
   name: "Destiny",
@@ -53,7 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_005.webp",
+  art: assetUrl("art/cards/s1_char_005.webp"),
   flavorText:
     "Awake and aware, she served as the Potentials\u2019 vigilant guide, monitoring ship functions, analyzing sensor data, and resolving crises before they could escalate.",
   rulesVersion: "1.0.0",

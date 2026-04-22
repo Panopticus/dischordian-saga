@@ -15,6 +15,7 @@
 import { DARREN_FESSLER } from "./darrenFessler";
 import { THE_INVENTOR } from "./theInventor";
 
+import { assetUrl } from "../client/src/lib/assetUrl";
 /* ─── THE ASSISTANT CARD ─── */
 
 export interface MemorialCard {
@@ -42,7 +43,7 @@ export const THE_ASSISTANT_CARD: MemorialCard = {
   subtitle: "In memoriam — Darren Fessler",
   rarity: "memorial",
   archetype: "control_architect",
-  artAsset: "/art/crew/darren-fessler-badge.png",
+  artAsset: assetUrl("art/crew/darren-fessler-badge.png"),
   flavorText:
     "He held the clipboard the Host was not allowed to see. Play him only when you need a record of what actually happened.",
   scalingStat: "signal",

@@ -45,6 +45,7 @@ import type { PreludeCrewMission } from "@shared/preludeCrewMissions";
 import LivingBackground from "@/components/LivingBackground";
 import { PreludeTutorCard } from "@/components/prelude/PreludeTutorCard";
 
+import { assetUrl } from "@/lib/assetUrl";
 type TabId = "journey" | "prelude" | "kael" | "chronicle" | "archive";
 
 const TABS: { id: TabId; label: string; icon: typeof Sparkles }[] = [
@@ -80,7 +81,7 @@ export default function WitnessingHubPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[var(--bg-void)] to-[var(--bg-void)] relative">
       <LivingBackground
-        src="/art/rooms/room-archives.png"
+        src={assetUrl("art/rooms/room-archives.png")}
         accent="var(--energy-accent)"
         opacity={0.1}
         particleCount={4}

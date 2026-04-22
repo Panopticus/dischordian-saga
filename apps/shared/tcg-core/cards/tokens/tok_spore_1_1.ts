@@ -9,6 +9,7 @@
  */
 import type { CardDefinition } from "../../index";
 
+import { assetUrl } from "../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "tok_spore_1_1" as CardDefinition["id"],
   name: "Spore",
@@ -30,7 +31,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/tok_spore_1_1.webp",
+  art: assetUrl("art/cards/tok_spore_1_1.webp"),
   flavorText:
     "It feeds on endings. Every death is a season of plenty.",
   rulesVersion: "1.0.0",

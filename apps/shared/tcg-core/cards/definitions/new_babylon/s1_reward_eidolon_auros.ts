@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_eidolon_auros" as CardDefinition["id"],
   name: "Auros, the Honor",
@@ -43,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_eidolon_auros.webp",
+  art: assetUrl("art/cards/s1_reward_eidolon_auros.webp"),
   flavorText:
     "He stands where others flee. Honor demands no less.",
   rulesVersion: "1.0.0",

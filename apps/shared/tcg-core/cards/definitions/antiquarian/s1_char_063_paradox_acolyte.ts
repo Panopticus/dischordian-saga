@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_063" as CardDefinition["id"],
   name: "Paradox Acolyte",
@@ -29,7 +30,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_063.webp",
+  art: assetUrl("art/cards/s1_char_063.webp"),
   flavorText:
     "She has died a hundred times and learned nothing from any of them.",
   rulesVersion: "1.0.0",

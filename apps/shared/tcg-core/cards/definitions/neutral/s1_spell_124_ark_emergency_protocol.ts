@@ -14,6 +14,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_124" as CardDefinition["id"],
   name: "Ark Emergency Protocol",
@@ -33,7 +34,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_124.webp",
+  art: assetUrl("art/cards/s1_spell_124.webp"),
   flavorText:
     "The Ark was built to endure the end of Ages. Its emergency systems still hum in the walls, waiting for someone desperate enough to ask.",
   rulesVersion: "1.0.0",

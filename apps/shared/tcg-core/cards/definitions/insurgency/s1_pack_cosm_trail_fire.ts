@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_cosm_trail_fire" as CardDefinition["id"],
   name: "Void Flame Runner",
@@ -62,7 +63,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_cosm_trail_fire.webp",
+  art: assetUrl("art/cards/s1_pack_cosm_trail_fire.webp"),
   flavorText:
     "She leaves fire in her wake. The Void taught her that.",
   rulesVersion: "1.0.0",

@@ -25,6 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_pet_gilt_beetle_3" as CardDefinition["id"],
   name: "Gilt Juggernaut",
@@ -46,7 +47,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_pet_gilt_beetle_3.webp",
+  art: assetUrl("art/cards/s1_pack_pet_gilt_beetle_3.webp"),
   flavorText:
     "It was built to outlast civilizations. So far, it has.",
   rulesVersion: "1.0.0",

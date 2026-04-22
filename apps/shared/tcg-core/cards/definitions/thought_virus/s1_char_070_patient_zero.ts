@@ -9,6 +9,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_070" as CardDefinition["id"],
   name: "Patient Zero",
@@ -48,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_070.webp",
+  art: assetUrl("art/cards/s1_char_070.webp"),
   flavorText:
     "The first mind to crack open and let the signal through. Every infection since has been an echo of that original scream.",
   rulesVersion: "1.0.0",

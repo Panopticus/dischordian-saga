@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_eidolon_echo" as CardDefinition["id"],
   name: "Echo, the Resonance",
@@ -43,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_eidolon_echo.webp",
+  art: assetUrl("art/cards/s1_reward_eidolon_echo.webp"),
   flavorText:
     "Every blow she strikes rings outward, mending what was broken.",
   rulesVersion: "1.0.0",

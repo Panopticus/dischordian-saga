@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_palimpsest_signal" as CardDefinition["id"],
   name: "Signal Bearer",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_palimpsest_signal.webp",
+  art: assetUrl("art/cards/s1_reward_palimpsest_signal.webp"),
   flavorText:
     "In a world of overwritten truths, the Signal Bearer remembers the original text.",
   rulesVersion: "1.0.0",

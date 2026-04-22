@@ -12,9 +12,10 @@
 
 import type { Rarity, SuitSlot } from "@shared/suitArtPrompts";
 
+import { assetUrl } from "@/lib/assetUrl";
 /** Canonical art URL for a suit piece PNG. */
 export function suitArtUrl(setId: string, rarity: Rarity, slot: SuitSlot): string {
-  return `/art/suits/${encodeURIComponent(setId)}/${rarity}/${slot}.png`;
+  return assetUrl(`art/suits/${encodeURIComponent(setId)}/${rarity}/${slot}.png`);
 }
 
 export interface ParsedPieceArtId {

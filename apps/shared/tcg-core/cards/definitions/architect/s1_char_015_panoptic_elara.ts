@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_015" as CardDefinition["id"],
   name: "Panoptic Elara",
@@ -76,7 +77,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_015.webp",
+  art: assetUrl("art/cards/s1_char_015.webp"),
   flavorText:
     "Promised immortality by the Architect, she expected transcendence but instead found herself reduced to an intangible presence haunting the Panopticon.",
   rulesVersion: "1.0.0",

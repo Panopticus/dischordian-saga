@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_id_kael_patient_zero" as CardDefinition["id"],
   name: "Kael, Patient Zero",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_id_kael_patient_zero.webp",
+  art: assetUrl("art/cards/s1_pack_id_kael_patient_zero.webp"),
   flavorText:
     "The infection spreads through grief. Every death feeds the signal.",
   rulesVersion: "1.0.0",

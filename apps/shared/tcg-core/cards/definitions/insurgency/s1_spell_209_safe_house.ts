@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_209" as CardDefinition["id"],
   name: "Safe House",
@@ -39,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_209.webp",
+  art: assetUrl("art/cards/s1_spell_209.webp"),
   flavorText:
     "Knock three times. Wait for the candle. Say the name they gave you when you first resisted.",
   rulesVersion: "1.0.0",

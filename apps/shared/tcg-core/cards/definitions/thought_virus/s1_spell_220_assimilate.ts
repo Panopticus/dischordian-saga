@@ -13,6 +13,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_220" as CardDefinition["id"],
   name: "Assimilate",
@@ -50,7 +51,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_220.webp",
+  art: assetUrl("art/cards/s1_spell_220.webp"),
   flavorText:
     "The host collapses. Something new rises from the remains, wearing a familiar face.",
   rulesVersion: "1.0.0",

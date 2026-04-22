@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_companion_all" as CardDefinition["id"],
   name: "Trusted Ally",
@@ -51,7 +52,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_companion_all.webp",
+  art: assetUrl("art/cards/s1_reward_companion_all.webp"),
   flavorText:
     "Every companion she ever bonded with left a mark. She carries them all into battle.",
   rulesVersion: "1.0.0",

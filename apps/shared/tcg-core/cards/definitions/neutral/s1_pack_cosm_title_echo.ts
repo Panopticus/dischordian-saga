@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_cosm_title_echo" as CardDefinition["id"],
   name: "Echo of the Fall",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_cosm_title_echo.webp",
+  art: assetUrl("art/cards/s1_pack_cosm_title_echo.webp"),
   flavorText:
     "The Fall echoes still. Listen closely and you can hear it.",
   rulesVersion: "1.0.0",

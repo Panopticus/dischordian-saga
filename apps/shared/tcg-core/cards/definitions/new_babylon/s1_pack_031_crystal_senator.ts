@@ -19,6 +19,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_031" as CardDefinition["id"],
   name: "Crystal Senator",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_031.webp",
+  art: assetUrl("art/cards/s1_pack_031.webp"),
   flavorText:
     "The Senator's shield is not magic. It is money — crystallized into a barrier no blade can afford to breach.",
   rulesVersion: "1.0.0",

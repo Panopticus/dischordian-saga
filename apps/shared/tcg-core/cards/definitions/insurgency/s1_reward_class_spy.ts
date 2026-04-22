@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_class_spy" as CardDefinition["id"],
   name: "Master Spy",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_class_spy.webp",
+  art: assetUrl("art/cards/s1_reward_class_spy.webp"),
   flavorText:
     "Every secret extracted is another weapon in the arsenal.",
   rulesVersion: "1.0.0",

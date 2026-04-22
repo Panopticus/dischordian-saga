@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_casino_vip" as CardDefinition["id"],
   name: "Casino Mogul",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_casino_vip.webp",
+  art: assetUrl("art/cards/s1_reward_casino_vip.webp"),
   flavorText:
     "The VIP table has no limits. Neither does she.",
   rulesVersion: "1.0.0",

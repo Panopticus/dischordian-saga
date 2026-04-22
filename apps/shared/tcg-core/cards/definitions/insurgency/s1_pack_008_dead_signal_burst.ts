@@ -18,6 +18,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_008" as CardDefinition["id"],
   name: "Dead Signal Burst",
@@ -62,7 +63,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_008.webp",
+  art: assetUrl("art/cards/s1_pack_008.webp"),
   flavorText:
     "The frequency was supposed to be extinct. It came back screaming.",
   rulesVersion: "1.0.0",

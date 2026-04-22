@@ -9,6 +9,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_093" as CardDefinition["id"],
   name: "Ironclad Veteran",
@@ -34,7 +35,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_093.webp",
+  art: assetUrl("art/cards/s1_char_093.webp"),
   flavorText:
     "He has buried allies under every banner. Now he fights only for the war itself — because it is the one thing that never abandoned him.",
   rulesVersion: "1.0.0",

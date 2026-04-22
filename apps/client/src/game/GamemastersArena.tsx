@@ -20,6 +20,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Radio, Trophy, Zap, X, Star, Clock, HelpCircle, Users, Skull } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 
+import { assetUrl } from "@/lib/assetUrl";
 /* ─── QUESTIONS ─── */
 interface Question { q: string; a: string[]; c: number; }
 
@@ -276,7 +277,7 @@ export default function GamemastersArena({ onComplete, onClose }: Props) {
   return (
     <div className="fixed inset-0 z-[60] bg-black flex flex-col overflow-hidden">
       {/* Coliseum background */}
-      <img src="/art/special-maps/special-gamemasters-coliseum.png" alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none" style={{ opacity: 0.15, filter: "brightness(0.35) saturate(0.8)" }} />
+      <img src={assetUrl("art/special-maps/special-gamemasters-coliseum.png")} alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none" style={{ opacity: 0.15, filter: "brightness(0.35) saturate(0.8)" }} />
       <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at center, transparent 40%, color-mix(in oklch, var(--bg-void) 80%, transparent) 100%)" }} />
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-2 border-b void-border-error bg-black/90">

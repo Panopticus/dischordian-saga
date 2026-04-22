@@ -9,6 +9,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_050" as CardDefinition["id"],
   name: "Warden Prime",
@@ -37,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_050.webp",
+  art: assetUrl("art/cards/s1_char_050.webp"),
   flavorText:
     "From the Central Spire, every whisper is heard, every shadow measured. The Warden does not sleep — the Warden is sleep denied to others.",
   rulesVersion: "1.0.0",

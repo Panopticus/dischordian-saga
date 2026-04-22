@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_crew_clone" as CardDefinition["id"],
   name: "Perfect Clone",
@@ -43,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_crew_clone.webp",
+  art: assetUrl("art/cards/s1_reward_crew_clone.webp"),
   flavorText:
     "The Architect's cloning bays produce flawless replicas. Death is merely a reboot.",
   rulesVersion: "1.0.0",

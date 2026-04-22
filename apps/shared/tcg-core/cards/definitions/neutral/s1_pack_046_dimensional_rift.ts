@@ -16,6 +16,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_046" as CardDefinition["id"],
   name: "Dimensional Rift",
@@ -53,7 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_046.webp",
+  art: assetUrl("art/cards/s1_pack_046.webp"),
   flavorText:
     "The rift opened for half a second. What came through took considerably longer to forget.",
   rulesVersion: "1.0.0",

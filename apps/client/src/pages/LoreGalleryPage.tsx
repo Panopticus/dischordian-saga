@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+import { assetUrl } from "@/lib/assetUrl";
 /* ─── ERA DEFINITIONS ─── */
 
 export interface LoreEra {
@@ -74,22 +75,22 @@ const ERA_MAP = Object.fromEntries(ERAS.map((e) => [e.id, e]));
 /* ─── ASSET PATHS ─── */
 
 const ERA_BACKGROUNDS: Record<string, string> = {
-  foundation: "/art/lore-gallery/era-backgrounds/foundation.jpg",
-  privacy: "/art/lore-gallery/era-backgrounds/privacy.jpg",
-  fall: "/art/lore-gallery/era-backgrounds/fall.jpg",
-  potentials: "/art/lore-gallery/era-backgrounds/potentials.jpg",
-  visions: "/art/lore-gallery/era-backgrounds/visions.jpg",
+  foundation: assetUrl("art/lore-gallery/era-backgrounds/foundation.jpg"),
+  privacy: assetUrl("art/lore-gallery/era-backgrounds/privacy.jpg"),
+  fall: assetUrl("art/lore-gallery/era-backgrounds/fall.jpg"),
+  potentials: assetUrl("art/lore-gallery/era-backgrounds/potentials.jpg"),
+  visions: assetUrl("art/lore-gallery/era-backgrounds/visions.jpg"),
 };
 
 const RARITY_FRAMES: Record<string, string> = {
-  common: "/art/lore-gallery/card-frames/common.png",
-  uncommon: "/art/lore-gallery/card-frames/uncommon.png",
-  rare: "/art/lore-gallery/card-frames/rare.png",
-  epic: "/art/lore-gallery/card-frames/epic.png",
-  legendary: "/art/lore-gallery/card-frames/legendary.png",
+  common: assetUrl("art/lore-gallery/card-frames/common.png"),
+  uncommon: assetUrl("art/lore-gallery/card-frames/uncommon.png"),
+  rare: assetUrl("art/lore-gallery/card-frames/rare.png"),
+  epic: assetUrl("art/lore-gallery/card-frames/epic.png"),
+  legendary: assetUrl("art/lore-gallery/card-frames/legendary.png"),
 };
 
-const LOCKED_OVERLAY = "/art/lore-gallery/overlays/locked-classified.png";
+const LOCKED_OVERLAY = assetUrl("art/lore-gallery/overlays/locked-classified.png");
 
 /* ─── LORE FRAGMENT ─── */
 

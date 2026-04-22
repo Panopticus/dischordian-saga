@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_lore_archivist" as CardDefinition["id"],
   name: "Knowledge Keeper",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_lore_archivist.webp",
+  art: assetUrl("art/cards/s1_reward_lore_archivist.webp"),
   flavorText:
     "She memorized every page of the lost archives. Her mind is the last library standing.",
   rulesVersion: "1.0.0",

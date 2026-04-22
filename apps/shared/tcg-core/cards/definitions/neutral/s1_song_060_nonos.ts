@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_song_060" as CardDefinition["id"],
   name: "N\u00D8NOS",
@@ -39,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_song_060.webp",
+  art: assetUrl("art/cards/s1_song_060.webp"),
   flavorText:
     "A N0NOS soul that can't be keyed. They can't watch what they can't see. — NØX manifesto",
   rulesVersion: "1.0.0",

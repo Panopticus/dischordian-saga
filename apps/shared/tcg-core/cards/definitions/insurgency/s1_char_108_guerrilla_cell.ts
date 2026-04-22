@@ -25,6 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_108" as CardDefinition["id"],
   name: "Guerrilla Cell",
@@ -47,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_108.webp",
+  art: assetUrl("art/cards/s1_char_108.webp"),
   flavorText:
     "The panopticon sees all directions but one. That is where they wait.",
   rulesVersion: "1.0.0",

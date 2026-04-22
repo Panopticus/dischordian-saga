@@ -25,6 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_033" as CardDefinition["id"],
   name: "The Human",
@@ -91,7 +92,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_033.webp",
+  art: assetUrl("art/cards/s1_char_033.webp"),
   flavorText:
     "After graduating from Mechronis Academy, he served for centuries as the Architect's most trusted agent, solving the univ...",
   rulesVersion: "1.0.0",

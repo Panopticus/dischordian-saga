@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/assetUrl";
 /* ═══════════════════════════════════════════════════════
    TITLE-SCREEN THEME RESOLVER
 
@@ -41,7 +42,7 @@ export interface TitleTheme {
 
 const PRELUDE_VOID: TitleTheme = {
   id: "preludeVoid",
-  artUrl: "/art/ui/title/preludeVoid.webp",
+  artUrl: assetUrl("art/ui/title/preludeVoid.webp"),
   palette: { void: "#010020", accent: "#33E2E6", warm: "#A078FF" },
   mood: "cool",
   label: "Prelude — Cryo Drift",
@@ -55,7 +56,7 @@ const UNAUTH: TitleTheme = {
 
 const HUMANITY_RISING: TitleTheme = {
   id: "humanityRising",
-  artUrl: "/art/ui/title/humanityRising.webp",
+  artUrl: assetUrl("art/ui/title/humanityRising.webp"),
   palette: { void: "#0a1810", accent: "#22C55E", warm: "#F59E0B" },
   mood: "warm",
   label: "Humanity Rising",
@@ -63,7 +64,7 @@ const HUMANITY_RISING: TitleTheme = {
 
 const MACHINE_ASCENDANT: TitleTheme = {
   id: "machineAscendant",
-  artUrl: "/art/ui/title/machineAscendant.webp",
+  artUrl: assetUrl("art/ui/title/machineAscendant.webp"),
   palette: { void: "#0d0405", accent: "#FF3C40", warm: "#C0C0C0", alarm: "#FF3C40" },
   mood: "alarm",
   label: "Machine Ascendant",
@@ -73,7 +74,7 @@ const MACHINE_ASCENDANT: TitleTheme = {
 
 const ACT_ONE: TitleTheme = {
   id: "actOne_kindergarten",
-  artUrl: "/art/ui/title/actOne_kindergarten.webp",
+  artUrl: assetUrl("art/ui/title/actOne_kindergarten.webp"),
   palette: { void: "#2a1410", accent: "#4BA3B5", warm: "#B5563C" },
   mood: "warm",
   label: "Act 1 — The Twelve Steps",
@@ -81,7 +82,7 @@ const ACT_ONE: TitleTheme = {
 
 const ACT_TWO: TitleTheme = {
   id: "actTwo_workshop",
-  artUrl: "/art/ui/title/actTwo_workshop.webp",
+  artUrl: assetUrl("art/ui/title/actTwo_workshop.webp"),
   palette: { void: "#0c0a14", accent: "#33E2E6", warm: "#F59E0B" },
   mood: "warm",
   label: "Act 2 — The Engineer's Bench",
@@ -89,7 +90,7 @@ const ACT_TWO: TitleTheme = {
 
 const ACT_THREE: TitleTheme = {
   id: "actThree_dossier",
-  artUrl: "/art/ui/title/actThree_dossier.webp",
+  artUrl: assetUrl("art/ui/title/actThree_dossier.webp"),
   palette: { void: "#100608", accent: "#FF3C40", warm: "#D4A574" },
   mood: "alarm",
   label: "Act 3 — Eyes in the Dark",
@@ -97,7 +98,7 @@ const ACT_THREE: TitleTheme = {
 
 const ACT_FOUR: TitleTheme = {
   id: "actFour_cell",
-  artUrl: "/art/ui/title/actFour_cell.webp",
+  artUrl: assetUrl("art/ui/title/actFour_cell.webp"),
   palette: { void: "#050608", accent: "#FF3C40", warm: "#E8F4F8" },
   mood: "alarm",
   label: "Act 4 — The Prisoner",
@@ -105,7 +106,7 @@ const ACT_FOUR: TitleTheme = {
 
 const ACT_FIVE: TitleTheme = {
   id: "actFive_terminus",
-  artUrl: "/art/ui/title/actFive_terminus.webp",
+  artUrl: assetUrl("art/ui/title/actFive_terminus.webp"),
   palette: { void: "#050010", accent: "#FF3C40", warm: "#F59E0B", alarm: "#22C55E" },
   mood: "transcendent",
   label: "Act 5 — The Reckoning",
@@ -113,7 +114,7 @@ const ACT_FIVE: TitleTheme = {
 
 const ACT_SIX: TitleTheme = {
   id: "actSix_archive",
-  artUrl: "/art/ui/title/actSix_archive.webp",
+  artUrl: assetUrl("art/ui/title/actSix_archive.webp"),
   palette: { void: "#010020", accent: "#33E2E6", warm: "#A078FF" },
   mood: "archive",
   label: "Act 6 — The Hidden Ledger",
@@ -121,7 +122,7 @@ const ACT_SIX: TitleTheme = {
 
 const ACT_SEVEN: TitleTheme = {
   id: "actSeven_singularity",
-  artUrl: "/art/ui/title/actSeven_singularity.webp",
+  artUrl: assetUrl("art/ui/title/actSeven_singularity.webp"),
   palette: { void: "#010020", accent: "#FFFFFF", warm: "#F59E0B", alarm: "#FF3C40" },
   mood: "transcendent",
   label: "Act 7 — The Reckoning's End",

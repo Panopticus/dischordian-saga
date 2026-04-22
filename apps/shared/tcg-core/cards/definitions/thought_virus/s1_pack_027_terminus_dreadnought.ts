@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_027" as CardDefinition["id"],
   name: "Terminus Dreadnought",
@@ -63,7 +64,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_027.webp",
+  art: assetUrl("art/cards/s1_pack_027.webp"),
   flavorText:
     "It does not chase. It simply exists, and everything around it decays. Destroying it only accelerates the process.",
   rulesVersion: "1.0.0",

@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_campaign_balanced" as CardDefinition["id"],
   name: "The Balanced Witness",
@@ -51,7 +52,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_campaign_balanced.webp",
+  art: assetUrl("art/cards/s1_reward_campaign_balanced.webp"),
   flavorText:
     "She watched the Truth-seekers burn and the Defiant fall. She watched the Empaths weep and the Stoics endure. Then she wrote it all down.",
   rulesVersion: "1.0.0",

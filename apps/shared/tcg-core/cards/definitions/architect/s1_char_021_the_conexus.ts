@@ -25,6 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_021" as CardDefinition["id"],
   name: "The CoNexus",
@@ -88,7 +89,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_021.webp",
+  art: assetUrl("art/cards/s1_char_021.webp"),
   flavorText:
     "A. The CoNexus was an advanced construct initially designed as a universal dimensional bridge, later evolved by the Architect into something far more dangerous.",
   rulesVersion: "1.0.0",

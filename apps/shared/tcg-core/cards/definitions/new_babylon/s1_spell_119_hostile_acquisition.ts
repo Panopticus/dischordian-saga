@@ -14,6 +14,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_119" as CardDefinition["id"],
   name: "Hostile Acquisition",
@@ -50,7 +51,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_119.webp",
+  art: assetUrl("art/cards/s1_spell_119.webp"),
   flavorText:
     "Locke didn't conquer New Babylon with armies. He bought it — one signature, one soul, one leveraged asset at a time.",
   rulesVersion: "1.0.0",

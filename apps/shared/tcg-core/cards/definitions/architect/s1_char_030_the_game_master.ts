@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_030" as CardDefinition["id"],
   name: "The Game Master",
@@ -90,7 +91,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_030.webp",
+  art: assetUrl("art/cards/s1_char_030.webp"),
   flavorText:
     "A. The Game Master was the tenth Archon created by the Architect in Year 550 A.A., manifesting either as a man with dark...",
   rulesVersion: "1.0.0",

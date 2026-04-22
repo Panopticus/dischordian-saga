@@ -82,9 +82,9 @@ async function objectMatches(
   localSize: number,
 ): Promise<boolean> {
   try {
-    const head = await client.send(
+    const head = (await client.send(
       new HeadObjectCommand({ Bucket: BUCKET, Key: key }),
-    );
+    )) as { ETag?: string; ContentLength?: number };
     const remoteEtag = head.ETag?.replace(/"/g, "") ?? "";
     const remoteSize = head.ContentLength ?? -1;
     return remoteEtag === localMd5 && remoteSize === localSize;

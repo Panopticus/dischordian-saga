@@ -17,6 +17,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "gen_architect" as CardDefinition["id"],
   name: "The Architect",
@@ -38,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/gen_architect.webp",
+  art: assetUrl("art/cards/gen_architect.webp"),
   flavorText:
     "Every corridor is yours. Every cage key is in your teeth. Every prophecy I stole is whispered back in the order I took them.",
   rulesVersion: "1.0.0",

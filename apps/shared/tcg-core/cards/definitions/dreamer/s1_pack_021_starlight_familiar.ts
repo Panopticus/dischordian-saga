@@ -18,6 +18,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_021" as CardDefinition["id"],
   name: "Starlight Familiar",
@@ -38,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_021.webp",
+  art: assetUrl("art/cards/s1_pack_021.webp"),
   flavorText:
     "It lived for the span of a single thought. But what a thought it was.",
   rulesVersion: "1.0.0",

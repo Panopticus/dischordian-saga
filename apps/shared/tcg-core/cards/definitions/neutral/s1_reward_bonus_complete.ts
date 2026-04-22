@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_bonus_complete" as CardDefinition["id"],
   name: "Objective Secured",
@@ -60,7 +61,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_bonus_complete.webp",
+  art: assetUrl("art/cards/s1_reward_bonus_complete.webp"),
   flavorText:
     "Twenty-five objectives. Twenty-five clean executions. The operative does not celebrate — she checks the next briefing.",
   rulesVersion: "1.0.0",

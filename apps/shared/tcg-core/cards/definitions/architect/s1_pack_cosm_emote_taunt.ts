@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_cosm_emote_taunt" as CardDefinition["id"],
   name: "Architect's Mockery",
@@ -52,7 +53,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_cosm_emote_taunt.webp",
+  art: assetUrl("art/cards/s1_pack_cosm_emote_taunt.webp"),
   flavorText:
     "The Architect does not fight. The Architect laughs.",
   rulesVersion: "1.0.0",

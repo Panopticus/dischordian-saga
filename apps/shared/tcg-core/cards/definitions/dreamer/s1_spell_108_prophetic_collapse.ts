@@ -15,6 +15,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_108" as CardDefinition["id"],
   name: "Prophetic Collapse",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_108.webp",
+  art: assetUrl("art/cards/s1_spell_108.webp"),
   flavorText:
     "She closed her eyes and saw every timeline converge. When she opened them, only one remained.",
   rulesVersion: "1.0.0",

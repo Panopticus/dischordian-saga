@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_cosm_ship_theme" as CardDefinition["id"],
   name: "Corrupted Ark Fragment",
@@ -50,7 +51,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_cosm_ship_theme.webp",
+  art: assetUrl("art/cards/s1_pack_cosm_ship_theme.webp"),
   flavorText:
     "A piece of the Ark, corrupted beyond recognition. It still remembers how to erase.",
   rulesVersion: "1.0.0",

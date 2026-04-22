@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_prestige_t7" as CardDefinition["id"],
   name: "Transcended One",
@@ -62,7 +63,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_prestige_t7.webp",
+  art: assetUrl("art/cards/s1_reward_prestige_t7.webp"),
   flavorText:
     "Seven cycles of death and rebirth. What remains is beyond mortal understanding.",
   rulesVersion: "1.0.0",

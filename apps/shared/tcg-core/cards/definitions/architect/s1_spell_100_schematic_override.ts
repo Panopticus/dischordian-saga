@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_100" as CardDefinition["id"],
   name: "Schematic Override",
@@ -38,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_100.webp",
+  art: assetUrl("art/cards/s1_spell_100.webp"),
   flavorText:
     "Every variable was accounted for in the original design. Your autonomy was never part of the equation.",
   rulesVersion: "1.0.0",

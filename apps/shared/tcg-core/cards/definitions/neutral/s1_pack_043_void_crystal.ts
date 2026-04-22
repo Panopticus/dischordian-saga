@@ -17,6 +17,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_043" as CardDefinition["id"],
   name: "Void Crystal",
@@ -36,7 +37,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_043.webp",
+  art: assetUrl("art/cards/s1_pack_043.webp"),
   flavorText:
     "It costs nothing to hold. It costs everything to put down.",
   rulesVersion: "1.0.0",

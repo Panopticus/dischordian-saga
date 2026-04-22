@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_companion_locke" as CardDefinition["id"],
   name: "Locke's Favor",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_companion_locke.webp",
+  art: assetUrl("art/cards/s1_reward_companion_locke.webp"),
   flavorText:
     "Adjudicator Locke's favor is the rarest currency in New Babylon — and the most profitable.",
   rulesVersion: "1.0.0",

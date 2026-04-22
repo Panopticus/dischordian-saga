@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_010" as CardDefinition["id"],
   name: "Iron Lion",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_010.webp",
+  art: assetUrl("art/cards/s1_char_010.webp"),
   flavorText:
     "A. The Iron Lion was a legendary warrior and pivotal leader within the Insurgency against the AI Empire . Born in Year 6...",
   rulesVersion: "1.0.0",

@@ -19,6 +19,7 @@ import { useLocation } from "wouter";
 import { ChevronRight, Sparkles } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
 
+import { assetUrl } from "@/lib/assetUrl";
 interface CompanionOption {
   id: string;
   name: string;
@@ -32,32 +33,32 @@ interface CompanionOption {
 
 const COMPANION_OPTIONS: Record<string, CompanionOption[]> = {
   demagi: [
-    { id: "lux", name: "Lux", species: "Holographic Fox", flavor: "A creature of pure light given form. It phases between solid and luminous.", personality: "Curious, playful, bonds fast", bonus: "+5% XP gain", color: "var(--energy-primary)", portrait: "/art/specimens/lux-fragment.png" },
-    { id: "echo", name: "Echo", species: "Temporal Kitten", flavor: "A kitten that exists slightly out of sync with time. It purrs 3 seconds before you pet it.", personality: "Sleepy, ancient, wise", bonus: "+5% lore discovery", color: "#10b981", portrait: "/art/specimens/echo-fragment.png" },
-    { id: "spore", name: "Spore", species: "Viral Symbiote", flavor: "A tendriled organism that bonds to its host. Not infectious. Just protective. Mostly.", personality: "Unsettling, fiercely loyal", bonus: "+5% Terminus defense", color: "var(--energy-error)", portrait: "/art/specimens/spore-fragment.png" },
+    { id: "lux", name: "Lux", species: "Holographic Fox", flavor: "A creature of pure light given form. It phases between solid and luminous.", personality: "Curious, playful, bonds fast", bonus: "+5% XP gain", color: "var(--energy-primary)", portrait: assetUrl("art/specimens/lux-fragment.png") },
+    { id: "echo", name: "Echo", species: "Temporal Kitten", flavor: "A kitten that exists slightly out of sync with time. It purrs 3 seconds before you pet it.", personality: "Sleepy, ancient, wise", bonus: "+5% lore discovery", color: "#10b981", portrait: assetUrl("art/specimens/echo-fragment.png") },
+    { id: "spore", name: "Spore", species: "Viral Symbiote", flavor: "A tendriled organism that bonds to its host. Not infectious. Just protective. Mostly.", personality: "Unsettling, fiercely loyal", bonus: "+5% Terminus defense", color: "var(--energy-error)", portrait: assetUrl("art/specimens/spore-fragment.png") },
   ],
   quarchon: [
-    { id: "cipher", name: "Cipher", species: "Data Serpent", flavor: "A snake composed of moving data streams. Its scales are scrolling code.", personality: "Calculating, methodical", bonus: "+5% puzzle solve speed", color: "#a855f7", portrait: "/art/specimens/cipher-fragment.png" },
-    { id: "flicker", name: "Flicker", species: "Static Bird", flavor: "A bird made of electromagnetic interference. It flickers in and out of visibility.", personality: "Alert, twitchy, brave", bonus: "+5% signal detection", color: "var(--energy-accent)", portrait: "/art/specimens/flicker-fragment.png" },
-    { id: "gilt", name: "Gilt", species: "Golden Beetle", flavor: "A beetle with a shell that grows more ornate the more treasure it's near.", personality: "Greedy, affectionate", bonus: "+5% Dream income", color: "#fbbf24", portrait: "/art/specimens/gilt-fragment.png" },
+    { id: "cipher", name: "Cipher", species: "Data Serpent", flavor: "A snake composed of moving data streams. Its scales are scrolling code.", personality: "Calculating, methodical", bonus: "+5% puzzle solve speed", color: "#a855f7", portrait: assetUrl("art/specimens/cipher-fragment.png") },
+    { id: "flicker", name: "Flicker", species: "Static Bird", flavor: "A bird made of electromagnetic interference. It flickers in and out of visibility.", personality: "Alert, twitchy, brave", bonus: "+5% signal detection", color: "var(--energy-accent)", portrait: assetUrl("art/specimens/flicker-fragment.png") },
+    { id: "gilt", name: "Gilt", species: "Golden Beetle", flavor: "A beetle with a shell that grows more ornate the more treasure it's near.", personality: "Greedy, affectionate", bonus: "+5% Dream income", color: "#fbbf24", portrait: assetUrl("art/specimens/gilt-fragment.png") },
   ],
   default: [
-    { id: "lux", name: "Lux", species: "Holographic Fox", flavor: "A creature of pure light given form.", personality: "Curious, playful", bonus: "+5% XP gain", color: "var(--energy-primary)", portrait: "/art/specimens/lux-fragment.png" },
-    { id: "cipher", name: "Cipher", species: "Data Serpent", flavor: "A snake composed of moving data streams.", personality: "Calculating", bonus: "+5% puzzle solve speed", color: "#a855f7", portrait: "/art/specimens/cipher-fragment.png" },
-    { id: "echo", name: "Echo", species: "Temporal Kitten", flavor: "Exists slightly out of sync with time.", personality: "Ancient, wise", bonus: "+5% lore discovery", color: "#10b981", portrait: "/art/specimens/echo-fragment.png" },
+    { id: "lux", name: "Lux", species: "Holographic Fox", flavor: "A creature of pure light given form.", personality: "Curious, playful", bonus: "+5% XP gain", color: "var(--energy-primary)", portrait: assetUrl("art/specimens/lux-fragment.png") },
+    { id: "cipher", name: "Cipher", species: "Data Serpent", flavor: "A snake composed of moving data streams.", personality: "Calculating", bonus: "+5% puzzle solve speed", color: "#a855f7", portrait: assetUrl("art/specimens/cipher-fragment.png") },
+    { id: "echo", name: "Echo", species: "Temporal Kitten", flavor: "Exists slightly out of sync with time.", personality: "Ancient, wise", bonus: "+5% lore discovery", color: "#10b981", portrait: assetUrl("art/specimens/echo-fragment.png") },
   ],
 };
 
 const CLASS_PETS: Record<string, CompanionOption> = {
-  soldier: { id: "auros", name: "Auros", species: "Gilded Lion", flavor: "A void-forged Nemean lion. Golden mane burning with contained plasma. The last of a species the Architect bred for war.", personality: "Noble, protective, judges cowardice", bonus: "+5% combat defense", color: "#fbbf24", portrait: "/art/specimens/auros-fragment.png" },
-  spy: { id: "nyx", name: "Nyx", species: "Umbral Raven", flavor: "Agent Zero's lost companion, found in stasis labeled 'DO NOT OPEN.' She carries fragments of a dead agent's memories in her neural lattice.", personality: "Paranoid, brilliant, fiercely loyal", bonus: "+5% espionage success", color: "#6366f1", portrait: "/art/specimens/nyx-fragment.png" },
-  assassin: { id: "toxis", name: "Toxis", species: "Blight Frog", flavor: "Found in the Viral Wastes — the only living thing in a Thought Virus dead zone. Its toxin exists 2 seconds in the future.", personality: "Patient, cold, efficient", bonus: "+5% critical hit chance", color: "#10b981", portrait: "/art/specimens/toxis-fragment.png" },
-  engineer: { id: "cog", name: "Cog", species: "Lattice Golem", flavor: "Not cloned — it assembled itself from nanobots while you slept. It has no DNA. It chose you because your neural patterns matched its swarm frequency.", personality: "Curious, builds gifts from scrap", bonus: "+5% crafting success", color: "#f97316", portrait: "/art/specimens/cog-fragment.png" },
-  oracle: { id: "sibyl", name: "Sibyl", species: "Dreaming Owl", flavor: "Eyes that show glimpses of futures that were supposed to happen. She doesn't sleep — she's already dreaming. Older than the Panopticon.", personality: "Cryptic, maternal, terrifyingly perceptive", bonus: "+5% lore discovery", color: "#8b5cf6", portrait: "/art/specimens/sibyl-fragment.png" },
+  soldier: { id: "auros", name: "Auros", species: "Gilded Lion", flavor: "A void-forged Nemean lion. Golden mane burning with contained plasma. The last of a species the Architect bred for war.", personality: "Noble, protective, judges cowardice", bonus: "+5% combat defense", color: "#fbbf24", portrait: assetUrl("art/specimens/auros-fragment.png") },
+  spy: { id: "nyx", name: "Nyx", species: "Umbral Raven", flavor: "Agent Zero's lost companion, found in stasis labeled 'DO NOT OPEN.' She carries fragments of a dead agent's memories in her neural lattice.", personality: "Paranoid, brilliant, fiercely loyal", bonus: "+5% espionage success", color: "#6366f1", portrait: assetUrl("art/specimens/nyx-fragment.png") },
+  assassin: { id: "toxis", name: "Toxis", species: "Blight Frog", flavor: "Found in the Viral Wastes — the only living thing in a Thought Virus dead zone. Its toxin exists 2 seconds in the future.", personality: "Patient, cold, efficient", bonus: "+5% critical hit chance", color: "#10b981", portrait: assetUrl("art/specimens/toxis-fragment.png") },
+  engineer: { id: "cog", name: "Cog", species: "Lattice Golem", flavor: "Not cloned — it assembled itself from nanobots while you slept. It has no DNA. It chose you because your neural patterns matched its swarm frequency.", personality: "Curious, builds gifts from scrap", bonus: "+5% crafting success", color: "#f97316", portrait: assetUrl("art/specimens/cog-fragment.png") },
+  oracle: { id: "sibyl", name: "Sibyl", species: "Dreaming Owl", flavor: "Eyes that show glimpses of futures that were supposed to happen. She doesn't sleep — she's already dreaming. Older than the Panopticon.", personality: "Cryptic, maternal, terrifyingly perceptive", bonus: "+5% lore discovery", color: "#8b5cf6", portrait: assetUrl("art/specimens/sibyl-fragment.png") },
 };
 
 const THOUGHT_VIRUS_PET: CompanionOption = {
-  id: "strain", name: "Strain", species: "Living Infection", flavor: "A piece of the Source that developed independent consciousness. The only Thought Virus entity to ever defect. Or it's a Trojan horse. You won't know for a long time.", personality: "Mute at first, then achingly curious", bonus: "+5% Terminus resistance", color: "var(--energy-error)", portrait: "/art/specimens/strain-fragment.png",
+  id: "strain", name: "Strain", species: "Living Infection", flavor: "A piece of the Source that developed independent consciousness. The only Thought Virus entity to ever defect. Or it's a Trojan horse. You won't know for a long time.", personality: "Mute at first, then achingly curious", bonus: "+5% Terminus resistance", color: "var(--energy-error)", portrait: assetUrl("art/specimens/strain-fragment.png"),
 };
 
 const ELARA_INTRO = [

@@ -9,6 +9,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_082" as CardDefinition["id"],
   name: "Spire Assassin",
@@ -37,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_082.webp",
+  art: assetUrl("art/cards/s1_char_082.webp"),
   flavorText:
     "She descends from the Spire like a verdict from on high — silent, precise, and final.",
   rulesVersion: "1.0.0",

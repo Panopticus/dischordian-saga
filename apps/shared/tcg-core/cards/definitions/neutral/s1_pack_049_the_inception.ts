@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_049" as CardDefinition["id"],
   name: "The Inception",
@@ -58,7 +59,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_049.webp",
+  art: assetUrl("art/cards/s1_pack_049.webp"),
   flavorText:
     "Before the Architect, before the Insurgency, before the Virus and the Dream — there was this. The moment everything began.",
   rulesVersion: "1.0.0",

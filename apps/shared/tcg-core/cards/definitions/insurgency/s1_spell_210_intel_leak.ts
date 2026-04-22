@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_210" as CardDefinition["id"],
   name: "Intel Leak",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_210.webp",
+  art: assetUrl("art/cards/s1_spell_210.webp"),
   flavorText:
     "Every wall has cracks. Every code has a key. The resistance finds both.",
   rulesVersion: "1.0.0",

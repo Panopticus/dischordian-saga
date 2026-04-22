@@ -25,6 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_id_human_archon" as CardDefinition["id"],
   name: "The Twelfth Archon",
@@ -53,7 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_id_human_archon.webp",
+  art: assetUrl("art/cards/s1_pack_id_human_archon.webp"),
   flavorText:
     "Imprisoned in substrate, the Twelfth Archon still commands. Even chains cannot silence authority.",
   rulesVersion: "1.0.0",

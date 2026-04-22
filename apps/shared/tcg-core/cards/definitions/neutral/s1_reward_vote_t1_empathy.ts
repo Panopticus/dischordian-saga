@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_vote_t1_empathy" as CardDefinition["id"],
   name: "Field Medic",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_vote_t1_empathy.webp",
+  art: assetUrl("art/cards/s1_reward_vote_t1_empathy.webp"),
   flavorText:
     "She carries a blade in one hand and a suture kit in the other. Both see equal use.",
   rulesVersion: "1.0.0",

@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_055" as CardDefinition["id"],
   name: "Thought Censor",
@@ -35,7 +36,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_055.webp",
+  art: assetUrl("art/cards/s1_char_055.webp"),
   flavorText:
     "She does not burn books. She burns the desire to read them.",
   rulesVersion: "1.0.0",

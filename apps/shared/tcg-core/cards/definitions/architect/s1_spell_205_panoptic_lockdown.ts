@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_205" as CardDefinition["id"],
   name: "Panoptic Lockdown",
@@ -39,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_205.webp",
+  art: assetUrl("art/cards/s1_spell_205.webp"),
   flavorText:
     "The Arena's walls contract. The ceiling descends. You are held in place by architecture itself.",
   rulesVersion: "1.0.0",

@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_casino_poker" as CardDefinition["id"],
   name: "Nebula Shark",
@@ -43,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_casino_poker.webp",
+  art: assetUrl("art/cards/s1_reward_casino_poker.webp"),
   flavorText:
     "She reads your hand before you've looked at it yourself.",
   rulesVersion: "1.0.0",

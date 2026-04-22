@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/assetUrl";
 /* ═══════════════════════════════════════════════════════
    SPRITE SHEET CONFIG — Fighter Animation Mapping
 
@@ -123,7 +124,7 @@ function buildAnimations(
 /* ─── HELPER — build a standard-pattern fighter entry ─── */
 
 function standardFighter(id: string): FighterSpriteData {
-  const base = `/art/fighters/${id}`;
+  const base = assetUrl(`art/fighters/${id}`);
   const idleMovement = `${base}/${id}_idle_movement.png`;
   const attacks      = `${base}/${id}_attacks_specials.png`;
   const reactions    = `${base}/${id}_reactions_victory.png`;
@@ -142,7 +143,7 @@ export const FIGHTER_SPRITE_SHEETS: Record<string, FighterSpriteData> = {
      1. ARCHITECT — unique sheet naming
      ════════════════════════════════════════════════════ */
   architect: (() => {
-    const base = "/art/fighters/architect";
+    const base = assetUrl("art/fighters/architect");
     const idleMovement   = `${base}/architect_idle_movement.png`;
     const attacks        = `${base}/architect_basic_attacks.png`;
     const reactions      = `${base}/architect_reactions_throws.png`;
@@ -166,7 +167,7 @@ export const FIGHTER_SPRITE_SHEETS: Record<string, FighterSpriteData> = {
      2. COLLECTOR — unique sheet naming
      ════════════════════════════════════════════════════ */
   collector: (() => {
-    const base = "/art/fighters/collector";
+    const base = assetUrl("art/fighters/collector");
     const idleMovement   = `${base}/collector_idle_movement.png`;
     const attacks        = `${base}/collector_basic_attacks.png`;
     const reactions      = `${base}/collector_reactions_victory_ko.png`;
@@ -183,7 +184,7 @@ export const FIGHTER_SPRITE_SHEETS: Record<string, FighterSpriteData> = {
      3. ENIGMA — unique sheet naming
      ════════════════════════════════════════════════════ */
   enigma: (() => {
-    const base = "/art/fighters/enigma";
+    const base = assetUrl("art/fighters/enigma");
     const idleMovement        = `${base}/enigma_idle_movement.png`;
     const attacks             = `${base}/enigma_basic_attacks.png`;
     const specialsReactions   = `${base}/enigma_specials_reactions_victory.png`;

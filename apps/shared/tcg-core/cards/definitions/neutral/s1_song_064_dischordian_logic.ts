@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_song_064" as CardDefinition["id"],
   name: "Dischordian Logic",
@@ -39,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_song_064.webp",
+  art: assetUrl("art/cards/s1_song_064.webp"),
   flavorText:
     "In the paradox engine of Dischord, contradictions are not errors — they are ammunition.",
   rulesVersion: "1.0.0",

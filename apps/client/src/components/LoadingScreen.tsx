@@ -12,14 +12,15 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { KineticText } from "@/components/void";
 import { useLoadingWithFallback } from "@/hooks/useLoadingProgress";
 
+import { assetUrl } from "@/lib/assetUrl";
 const LOADING_SCREENS = [
-  { id: "bridge", src: "/art/loading/loading-bridge.png", label: "INITIALIZING BRIDGE SYSTEMS", color: "var(--energy-primary)" },
-  { id: "combat", src: "/art/loading/loading-combat.png", label: "COMBAT SIMULATOR ONLINE", color: "var(--energy-error)" },
-  { id: "terminus", src: "/art/loading/loading-terminus.png", label: "TERMINUS DEFENSE GRID ACTIVE", color: "#a855f7" },
-  { id: "trade", src: "/art/loading/loading-trade.png", label: "CONNECTING TRADE NETWORK", color: "var(--energy-accent)" },
-  { id: "archives", src: "/art/loading/loading-archives.png", label: "INDEXING ARCHIVES", color: "#6366f1" },
-  { id: "matrix", src: "/art/loading/loading-matrix-of-dreams.png", label: "ENTERING THE MATRIX OF DREAMS", color: "#c084fc" },
-  { id: "celebration", src: "/art/loading/loading-celebration.png", label: "WELCOME TO CELEBRATION", color: "#f472b6" },
+  { id: "bridge", src: assetUrl("art/loading/loading-bridge.png"), label: "INITIALIZING BRIDGE SYSTEMS", color: "var(--energy-primary)" },
+  { id: "combat", src: assetUrl("art/loading/loading-combat.png"), label: "COMBAT SIMULATOR ONLINE", color: "var(--energy-error)" },
+  { id: "terminus", src: assetUrl("art/loading/loading-terminus.png"), label: "TERMINUS DEFENSE GRID ACTIVE", color: "#a855f7" },
+  { id: "trade", src: assetUrl("art/loading/loading-trade.png"), label: "CONNECTING TRADE NETWORK", color: "var(--energy-accent)" },
+  { id: "archives", src: assetUrl("art/loading/loading-archives.png"), label: "INDEXING ARCHIVES", color: "#6366f1" },
+  { id: "matrix", src: assetUrl("art/loading/loading-matrix-of-dreams.png"), label: "ENTERING THE MATRIX OF DREAMS", color: "#c084fc" },
+  { id: "celebration", src: assetUrl("art/loading/loading-celebration.png"), label: "WELCOME TO CELEBRATION", color: "#f472b6" },
 ];
 
 /** Map route prefixes to preferred loading screens */

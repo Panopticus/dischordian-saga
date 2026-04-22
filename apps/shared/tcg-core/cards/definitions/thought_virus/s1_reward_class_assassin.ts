@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_class_assassin" as CardDefinition["id"],
   name: "Master Assassin",
@@ -61,7 +62,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_class_assassin.webp",
+  art: assetUrl("art/cards/s1_reward_class_assassin.webp"),
   flavorText:
     "The kill is decided before the blade is drawn.",
   rulesVersion: "1.0.0",

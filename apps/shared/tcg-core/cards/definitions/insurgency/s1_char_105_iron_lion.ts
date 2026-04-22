@@ -27,6 +27,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_105" as CardDefinition["id"],
   name: "Iron Lion",
@@ -58,7 +59,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_105.webp",
+  art: assetUrl("art/cards/s1_char_105.webp"),
   flavorText:
     "He does not ask his soldiers to hold the line. He stands in front of it.",
   rulesVersion: "1.0.0",

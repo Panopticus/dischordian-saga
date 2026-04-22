@@ -50,26 +50,27 @@ import {
 const SEMESTER_LENGTH_LESSONS = 30;
 import type { SkillId } from "@/game/innerVoices";
 
+import { assetUrl } from "@/lib/assetUrl";
 /**
  * Per-professor classroom art — unique background per Archon.
  * Paths match NanoBanna2 prompt bible (CELEBRATION_MECHRONIS_ART_PROMPTS.md).
  * Falls back to generic mechronis_classroom.jpg until generated.
  */
 const CLASSROOM_ART: Record<string, string> = {
-  prof_conductor: "/art/classrooms/classroom-kanevas.jpg",
-  prof_watcher: "/art/classrooms/classroom-aoki.jpg",
-  prof_collector: "/art/classrooms/classroom-halverez.jpg",
-  prof_vortex: "/art/classrooms/classroom-orphic.jpg",
-  prof_meme: "/art/classrooms/classroom-mireille.jpg",
-  prof_warlord: "/art/classrooms/classroom-kasra.jpg",
-  prof_politician: "/art/classrooms/classroom-vellis.jpg",
-  prof_warden: "/art/classrooms/classroom-greenshaw.jpg",
-  prof_game_master: "/art/classrooms/classroom-vex.jpg",
-  prof_necromancer: "/art/classrooms/classroom-vasara.jpg",
-  prof_engineer: "/art/classrooms/classroom-vent.jpg",
-  prof_human: "/art/classrooms/classroom-proctor.jpg",
+  prof_conductor: assetUrl("art/classrooms/classroom-kanevas.jpg"),
+  prof_watcher: assetUrl("art/classrooms/classroom-aoki.jpg"),
+  prof_collector: assetUrl("art/classrooms/classroom-halverez.jpg"),
+  prof_vortex: assetUrl("art/classrooms/classroom-orphic.jpg"),
+  prof_meme: assetUrl("art/classrooms/classroom-mireille.jpg"),
+  prof_warlord: assetUrl("art/classrooms/classroom-kasra.jpg"),
+  prof_politician: assetUrl("art/classrooms/classroom-vellis.jpg"),
+  prof_warden: assetUrl("art/classrooms/classroom-greenshaw.jpg"),
+  prof_game_master: assetUrl("art/classrooms/classroom-vex.jpg"),
+  prof_necromancer: assetUrl("art/classrooms/classroom-vasara.jpg"),
+  prof_engineer: assetUrl("art/classrooms/classroom-vent.jpg"),
+  prof_human: assetUrl("art/classrooms/classroom-proctor.jpg"),
 };
-const CLASSROOM_FALLBACK = "/art/mechronis/environments/mechronis_classroom.jpg";
+const CLASSROOM_FALLBACK = assetUrl("art/mechronis/environments/mechronis_classroom.jpg");
 
 const GRADE_COLORS: Record<LessonGrade, string> = {
   fail: "void-text-error",
@@ -475,8 +476,8 @@ export default function MechronisAcademyPage() {
               : "classroom"}
             src={lastResult
               ? lastResult.grade === "distinction"
-                ? "/art/mechronis/environments/mechronis_graduation.jpg"
-                : "/art/mechronis/environments/mechronis_grand_hall.jpg"
+                ? assetUrl("art/mechronis/environments/mechronis_graduation.jpg")
+                : assetUrl("art/mechronis/environments/mechronis_grand_hall.jpg")
               : CLASSROOM_ART[professor?.id ?? ""] ?? CLASSROOM_FALLBACK}
             alt=""
             initial={{ opacity: 0 }}

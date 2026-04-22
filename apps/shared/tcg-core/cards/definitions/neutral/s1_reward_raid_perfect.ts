@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_raid_perfect" as CardDefinition["id"],
   name: "Unscathed Victor",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_raid_perfect.webp",
+  art: assetUrl("art/cards/s1_reward_raid_perfect.webp"),
   flavorText:
     "They asked how she survived the Colossus raid without a wound. She said she didn't survive — she won.",
   rulesVersion: "1.0.0",

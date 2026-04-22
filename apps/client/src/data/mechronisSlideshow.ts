@@ -12,60 +12,61 @@
    ═══════════════════════════════════════════════════════ */
 import type { SlideshowFrame } from "@/components/SongSlideshow";
 
+import { assetUrl } from "@/lib/assetUrl";
 export const TO_BE_THE_HUMAN_TITLE = "To Be the Human";
 
 export const TO_BE_THE_HUMAN_FRAMES: SlideshowFrame[] = [
   {
-    imageSrc: "/art/mechronis/environments/mechronis_grand_hall.jpg",
+    imageSrc: assetUrl("art/mechronis/environments/mechronis_grand_hall.jpg"),
     lyric: "Mechronis Academy. Orion Sector. Secret university hidden under planetary shields.",
     durationMs: 6000,
   },
   {
-    imageSrc: "/art/mechronis/environments/mechronis_grand_hall.jpg",
+    imageSrc: assetUrl("art/mechronis/environments/mechronis_grand_hall.jpg"),
     lyric: "He was the quiet one in our year",
     subtitle: "— The Human",
     durationMs: 5500,
   },
   {
-    imageSrc: "/art/mechronis/environments/mechronis_classroom.jpg",
+    imageSrc: assetUrl("art/mechronis/environments/mechronis_classroom.jpg"),
     lyric: "He'd show up late, build something impossible during class, and sleep through the lecture",
     durationMs: 6000,
   },
   {
-    imageSrc: "/art/mechronis/environments/mechronis_classroom.jpg",
+    imageSrc: assetUrl("art/mechronis/environments/mechronis_classroom.jpg"),
     lyric: "The Game Master loved him. The Game Master loved him more than he loved me.",
     subtitle: "— The Human",
     durationMs: 6500,
   },
   {
-    imageSrc: "/art/mechronis/environments/mechronis_classroom.jpg",
+    imageSrc: assetUrl("art/mechronis/environments/mechronis_classroom.jpg"),
     lyric: "That's not jealousy. That's a fact I carried for fifteen hundred years.",
     durationMs: 6000,
   },
   {
-    imageSrc: "/art/celebration/celebration-forge-yard.png",
+    imageSrc: assetUrl("art/celebration/celebration-forge-yard.png"),
     lyric: "He made me a compass that only pointed toward good coffee",
     subtitle: "The Engineer's workshop, remembered",
     durationMs: 5500,
   },
   {
-    imageSrc: "/art/celebration/celebration-puzzle-garden.png",
+    imageSrc: assetUrl("art/celebration/celebration-puzzle-garden.png"),
     lyric: "He told me he'd fix the galaxy by building it a better box to live in",
     durationMs: 6000,
   },
   {
-    imageSrc: "/art/mechronis/environments/mechronis_classroom.jpg",
+    imageSrc: assetUrl("art/mechronis/environments/mechronis_classroom.jpg"),
     lyric: "Then he vanished at the Battle of Nexon",
     durationMs: 5000,
   },
   {
-    imageSrc: "/art/mechronis/environments/mechronis_graduation.jpg",
+    imageSrc: assetUrl("art/mechronis/environments/mechronis_graduation.jpg"),
     lyric: "Graduation day at Mechronis. The class photo.",
     subtitle: "The Engineer at the edge, looking out of frame. Iron Lion — missing. The Seeker — center, looking at the Engineer.",
     durationMs: 8000,
   },
   {
-    imageSrc: "/art/mechronis/environments/mechronis_graduation.jpg",
+    imageSrc: assetUrl("art/mechronis/environments/mechronis_graduation.jpg"),
     lyric: "The Engineer is looking at the Seer, who is standing outside the frame with a staff.",
     subtitle: "Everyone is smiling except the ones who know.",
     durationMs: 8000,
@@ -77,4 +78,4 @@ export const TO_BE_THE_HUMAN_FRAMES: SlideshowFrame[] = [
  * Silently falls back to no-audio if the file is absent.
  */
 export const TO_BE_THE_HUMAN_AUDIO: string | undefined =
-  "/audio/music/mechronis/to-be-the-human.mp3";
+  assetUrl("audio/music/mechronis/to-be-the-human.mp3");

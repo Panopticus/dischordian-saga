@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const tv_alleg_t1: CardDefinition = {
   id: "s1_alleg_thought_virus_t1" as CardDefinition["id"],
   name: "Thought Virus Carrier",
@@ -18,7 +19,7 @@ export const tv_alleg_t1: CardDefinition = {
   baseStats: { power: 2, health: 3 },
   keywords: ["drain"],
   abilities: [],
-  art: "/art/cards/allegiance/s1_alleg_thought_virus_t1.webp",
+  art: assetUrl("art/cards/allegiance/s1_alleg_thought_virus_t1.webp"),
   flavorText:
     "Unlocked by playing 10 Thought Virus matches. Drain. The carrier does not know they are the carrier. That is, technically, the first symptom.",
   rulesVersion: "1.0.0",
@@ -36,7 +37,7 @@ export const tv_alleg_t2: CardDefinition = {
   baseStats: { power: 3, health: 4 },
   keywords: ["drain"],
   abilities: [],
-  art: "/art/cards/allegiance/s1_alleg_thought_virus_t2.webp",
+  art: assetUrl("art/cards/allegiance/s1_alleg_thought_virus_t2.webp"),
   flavorText:
     "Unlocked by playing 25 Thought Virus matches. Drain. The evangelist has started to tell other people about the good news, which is that the good news is incurable.",
   rulesVersion: "1.0.0",
@@ -54,7 +55,7 @@ export const tv_alleg_t3: CardDefinition = {
   baseStats: { power: 4, health: 5 },
   keywords: ["drain", "deathwatch"],
   abilities: [],
-  art: "/art/cards/allegiance/s1_alleg_thought_virus_t3.webp",
+  art: assetUrl("art/cards/allegiance/s1_alleg_thought_virus_t3.webp"),
   flavorText:
     "Unlocked by playing 50 Thought Virus matches. Drain. Deathwatch. A strain-keeper catalogs the mutations, most of which are improvements in the Virus's direction and all of which are getting worse in yours.",
   rulesVersion: "1.0.0",
@@ -72,7 +73,7 @@ export const tv_alleg_t4: CardDefinition = {
   baseStats: { power: 5, health: 5 },
   keywords: ["drain", "deathwatch"],
   abilities: [],
-  art: "/art/cards/allegiance/s1_alleg_thought_virus_t4.webp",
+  art: assetUrl("art/cards/allegiance/s1_alleg_thought_virus_t4.webp"),
   flavorText:
     "Unlocked by winning 10 Thought Virus matches. Drain. Deathwatch. A victorious vector is a person who stopped noticing they were the vector because the winning felt like theirs.",
   rulesVersion: "1.0.0",
@@ -90,7 +91,7 @@ export const tv_alleg_t5: CardDefinition = {
   baseStats: { power: 6, health: 6 },
   keywords: ["drain", "deathwatch", "forcefield"],
   abilities: [],
-  art: "/art/cards/allegiance/s1_alleg_thought_virus_t5.webp",
+  art: assetUrl("art/cards/allegiance/s1_alleg_thought_virus_t5.webp"),
   flavorText:
     "Unlocked by winning 50 Thought Virus matches. Drain. Deathwatch. Forcefield. The Prime Vessel has the Source's attention and is reluctant to describe what that feels like.",
   rulesVersion: "1.0.0",
@@ -118,7 +119,7 @@ export const tv_alleg_t6: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/allegiance/s1_alleg_thought_virus_t6.webp",
+  art: assetUrl("art/cards/allegiance/s1_alleg_thought_virus_t6.webp"),
   flavorText:
     "Unlocked by winning 100 Thought Virus matches. Drain. Deathwatch. Forcefield. On deploy, heal your general for 8. The Thought Virus Champion is the Source briefly personally interested in whether or not you intend to survive the game you are currently playing.",
   rulesVersion: "1.0.0",

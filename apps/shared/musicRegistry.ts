@@ -1,3 +1,4 @@
+import { assetUrl } from "../client/src/lib/assetUrl";
 /* ═══════════════════════════════════════════════════════
    MUSIC REGISTRY — Dischordia Songs + variant randomization
 
@@ -251,7 +252,7 @@ export function getMusicTrack(id: MusicTrackId): MusicTrackMeta {
 export function getMusicVariantUrl(id: MusicTrackId, variant: number): string {
   const track = getMusicTrack(id);
   const clamped = Math.max(1, Math.min(variant, track.variantCount));
-  return `/audio/music/${track.slug}/v${clamped}.mp3`;
+  return assetUrl(`audio/music/${track.slug}/v${clamped}.mp3`);
 }
 
 /**

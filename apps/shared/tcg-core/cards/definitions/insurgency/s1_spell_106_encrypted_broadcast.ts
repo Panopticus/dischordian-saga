@@ -14,6 +14,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_106" as CardDefinition["id"],
   name: "Encrypted Broadcast",
@@ -53,7 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_106.webp",
+  art: assetUrl("art/cards/s1_spell_106.webp"),
   flavorText:
     "Agent Zero's encryption keys were never recovered. The Insurgency uses them still — a dead woman's handshake that no firewall can parse.",
   rulesVersion: "1.0.0",

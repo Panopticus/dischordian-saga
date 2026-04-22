@@ -14,6 +14,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_107" as CardDefinition["id"],
   name: "Dead Frequency Jam",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_107.webp",
+  art: assetUrl("art/cards/s1_spell_107.webp"),
   flavorText:
     "The broadcast that killed Agent Zero was never meant for her allies. It was meant for everyone else.",
   rulesVersion: "1.0.0",

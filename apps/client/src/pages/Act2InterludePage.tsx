@@ -27,6 +27,7 @@ import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import { getActsSystemTutor } from "@shared/acts2to7SystemTutors";
 import LivingBackground from "@/components/LivingBackground";
 
+import { assetUrl } from "@/lib/assetUrl";
 type View = "intro" | "tutor" | "close";
 
 const HUMAN_COMMENTARY_1 =
@@ -78,7 +79,7 @@ export default function Act2InterludePage() {
   return (
     <div className="relative min-h-screen bg-stone-950 text-stone-100">
       <LivingBackground
-        src="/art/rooms/room-comms-relay.png"
+        src={assetUrl("art/rooms/room-comms-relay.png")}
         accent="rgba(99, 102, 241, 0.35)"
         opacity={0.08}
         particleCount={3}

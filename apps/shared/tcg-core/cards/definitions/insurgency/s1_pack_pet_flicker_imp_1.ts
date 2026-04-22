@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_pet_flicker_imp_1" as CardDefinition["id"],
   name: "Spark Imp",
@@ -33,7 +34,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 2, health: 1 },
   keywords: ["rush"],
   abilities: [],
-  art: "/art/cards/s1_pack_pet_flicker_imp_1.webp",
+  art: assetUrl("art/cards/s1_pack_pet_flicker_imp_1.webp"),
   flavorText:
     "It exists for exactly one brilliant, violent second.",
   rulesVersion: "1.0.0",

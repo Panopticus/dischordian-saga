@@ -123,3 +123,12 @@ package-lock.json
 # Generated art-prompt catalog dumps (regenerated from apps/shared/suitArtPrompts.ts)
 output/suit-art-prompts.json
 output/suit-art-prompts.txt
+
+# Large media assets — served from s3://dgrsart/cdn/client-public/ via
+# assetUrl() (apps/client/src/lib/assetUrl.ts). Kept locally for dev; not
+# bundled into the deploy snapshot.
+apps/client/public/art/
+apps/client/public/audio/
+apps/client/public/videos/
+apps/client/public/music/
+apps/client/public/games/

@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_trade_empire" as CardDefinition["id"],
   name: "Merchant's Fortune",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_trade_empire.webp",
+  art: assetUrl("art/cards/s1_reward_trade_empire.webp"),
   flavorText:
     "Adjudicar Locke once said that mana is just money by another name. He was not wrong.",
   rulesVersion: "1.0.0",

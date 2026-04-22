@@ -16,6 +16,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_010" as CardDefinition["id"],
   name: "Signal Repeater",
@@ -36,7 +37,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_010.webp",
+  art: assetUrl("art/cards/s1_pack_010.webp"),
   flavorText:
     "Destroy the tower. The broadcast has already been copied to a thousand receivers.",
   rulesVersion: "1.0.0",

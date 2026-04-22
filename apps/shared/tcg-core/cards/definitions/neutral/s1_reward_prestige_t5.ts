@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_prestige_t5" as CardDefinition["id"],
   name: "Quintessence Guardian",
@@ -52,7 +53,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_prestige_t5.webp",
+  art: assetUrl("art/cards/s1_reward_prestige_t5.webp"),
   flavorText:
     "Five ascensions forged a guardian that draws every blow and shields every ally.",
   rulesVersion: "1.0.0",

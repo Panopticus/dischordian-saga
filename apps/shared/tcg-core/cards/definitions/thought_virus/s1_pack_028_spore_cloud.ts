@@ -16,6 +16,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_028" as CardDefinition["id"],
   name: "Spore Cloud",
@@ -44,7 +45,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_028.webp",
+  art: assetUrl("art/cards/s1_pack_028.webp"),
   flavorText:
     "It drifted across the battlefield like a sigh. Warriors dropped their blades without knowing why.",
   rulesVersion: "1.0.0",

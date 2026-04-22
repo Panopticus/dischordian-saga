@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_casino_dice" as CardDefinition["id"],
   name: "Entropy Roll",
@@ -48,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_casino_dice.webp",
+  art: assetUrl("art/cards/s1_reward_casino_dice.webp"),
   flavorText:
     "Chaos doesn't choose sides. It just chooses.",
   rulesVersion: "1.0.0",

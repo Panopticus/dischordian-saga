@@ -13,6 +13,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_235" as CardDefinition["id"],
   name: "Age of Silence",
@@ -38,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_235.webp",
+  art: assetUrl("art/cards/s1_spell_235.webp"),
   flavorText:
     "Before the first word was spoken, there was the silence. The Antiquarian remembers it well.",
   rulesVersion: "1.0.0",

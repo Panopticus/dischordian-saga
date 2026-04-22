@@ -42,6 +42,7 @@ import {
 } from "@shared/act2Interlude";
 import LivingBackground from "@/components/LivingBackground";
 
+import { assetUrl } from "@/lib/assetUrl";
 /** Minimum chess Climb rank (highestClearedRank) required before the
  *  Left/Right Game Masters recognize the player in the Arena. The
  *  Climb is the teaching ground; the Arena is the rematch venue. */
@@ -129,7 +130,7 @@ export default function GameMastersArenaAct2Page() {
   return (
     <div className="relative min-h-screen bg-stone-950 text-stone-100">
       <LivingBackground
-        src="/art/rooms/room-game-masters-arena.png"
+        src={assetUrl("art/rooms/room-game-masters-arena.png")}
         accent={accent}
         opacity={0.12}
         particleCount={3}

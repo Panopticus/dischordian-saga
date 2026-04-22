@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_crew_sacrifice" as CardDefinition["id"],
   name: "The Sacrificed",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_crew_sacrifice.webp",
+  art: assetUrl("art/cards/s1_reward_crew_sacrifice.webp"),
   flavorText:
     "Sacrificed during the Outbreak. Her crew remembers.",
   rulesVersion: "1.0.0",

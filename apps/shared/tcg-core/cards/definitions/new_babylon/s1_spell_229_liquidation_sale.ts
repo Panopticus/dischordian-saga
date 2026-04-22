@@ -13,6 +13,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_229" as CardDefinition["id"],
   name: "Liquidation Sale",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_229.webp",
+  art: assetUrl("art/cards/s1_spell_229.webp"),
   flavorText:
     "Everything must go. Including the soldiers.",
   rulesVersion: "1.0.0",

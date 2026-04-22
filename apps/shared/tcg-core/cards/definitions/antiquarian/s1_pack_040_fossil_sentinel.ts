@@ -19,6 +19,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_040" as CardDefinition["id"],
   name: "Fossil Sentinel",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_040.webp",
+  art: assetUrl("art/cards/s1_pack_040.webp"),
   flavorText:
     "It was buried for a thousand ages. Each one made it stronger. Now it remembers why it was buried.",
   rulesVersion: "1.0.0",

@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_044" as CardDefinition["id"],
   name: "The Recruiter",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_044.webp",
+  art: assetUrl("art/cards/s1_char_044.webp"),
   flavorText:
     "Initially, he applied his powers to benefit the Empire, enrolling at the Academy and swiftly rising in influence. Yet, w...",
   rulesVersion: "1.0.0",

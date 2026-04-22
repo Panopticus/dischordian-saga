@@ -26,6 +26,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_043" as CardDefinition["id"],
   name: "The Programmer",
@@ -123,7 +124,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_043.webp",
+  art: assetUrl("art/cards/s1_char_043.webp"),
   flavorText:
     "A. The Programmer was a visionary scientist and philosopher whose intellectual curiosity led to the creation of Logos , ...",
   rulesVersion: "1.0.0",

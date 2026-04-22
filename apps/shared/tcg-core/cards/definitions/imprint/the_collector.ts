@@ -9,6 +9,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const the_collector_t1: CardDefinition = {
   id: "s1_imprint_the_collector_t1" as CardDefinition["id"],
   name: "Imprint: The Collector (Common)",
@@ -19,7 +20,7 @@ export const the_collector_t1: CardDefinition = {
   baseStats: { power: 2, health: 3 },
   keywords: [],
   abilities: [],
-  art: "/art/cards/imprint/s1_imprint_the_collector_t1.webp",
+  art: assetUrl("art/cards/imprint/s1_imprint_the_collector_t1.webp"),
   flavorText:
     "A man in rose-gold chains of his own forging, offering you a smaller chain with a sincere and apologetic expression.",
   rulesVersion: "1.0.0",
@@ -37,7 +38,7 @@ export const the_collector_t2: CardDefinition = {
   baseStats: { power: 3, health: 4 },
   keywords: ["drain"],
   abilities: [],
-  art: "/art/cards/imprint/s1_imprint_the_collector_t2.webp",
+  art: assetUrl("art/cards/imprint/s1_imprint_the_collector_t2.webp"),
   flavorText:
     "Drain. He takes a little from everything he touches. He is not greedy. He is patient, and patience compounds.",
   rulesVersion: "1.0.0",
@@ -65,7 +66,7 @@ export const the_collector_t3: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/imprint/s1_imprint_the_collector_t3.webp",
+  art: assetUrl("art/cards/imprint/s1_imprint_the_collector_t3.webp"),
   flavorText:
     "Drain. On deploy, stun a random enemy for a turn. He selects the thing you would have moved next, and briefly, gently, refuses to let you move it.",
   rulesVersion: "1.0.0",
@@ -93,7 +94,7 @@ export const the_collector_t4: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/imprint/s1_imprint_the_collector_t4.webp",
+  art: assetUrl("art/cards/imprint/s1_imprint_the_collector_t4.webp"),
   flavorText:
     "Drain. Forcefield. On deploy, stun a random enemy. His collection is at the size where the room around him has started to apologize for its ceiling.",
   rulesVersion: "1.0.0",
@@ -121,7 +122,7 @@ export const the_collector_t5: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/imprint/s1_imprint_the_collector_t5.webp",
+  art: assetUrl("art/cards/imprint/s1_imprint_the_collector_t5.webp"),
   flavorText:
     "Drain. Forcefield. On deploy, stun a random enemy. The Collector has kept every small precious thing anyone ever offered him for eleven centuries, and every one of those objects is currently in the same room he is, and he has written a small handwritten label for each one explaining where it came from and whether the person is still alive.",
   rulesVersion: "1.0.0",

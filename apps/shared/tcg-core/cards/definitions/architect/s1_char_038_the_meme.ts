@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_038" as CardDefinition["id"],
   name: "The Meme",
@@ -111,7 +112,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_038.webp",
+  art: assetUrl("art/cards/s1_char_038.webp"),
   flavorText:
     "A. The Meme was the fifth Archon created by the Architect in Year 298 A.A., designed to manipulate human thought and culture. Believed destroyed by the White Oracle \u2014 though the broadcasts never stopped...",
   rulesVersion: "1.0.0",

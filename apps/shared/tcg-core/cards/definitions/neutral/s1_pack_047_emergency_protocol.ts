@@ -16,6 +16,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_047" as CardDefinition["id"],
   name: "Emergency Protocol",
@@ -44,7 +45,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_047.webp",
+  art: assetUrl("art/cards/s1_pack_047.webp"),
   flavorText:
     "The protocol was designed for catastrophe. It activates in the space between the blow and the fall.",
   rulesVersion: "1.0.0",

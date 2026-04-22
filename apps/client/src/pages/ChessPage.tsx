@@ -27,6 +27,7 @@ import { AI_PRESETS } from "@/lib/stockfishWorker";
 import ChessCinematic from "@/components/ChessCinematic";
 import LivingBackground from "@/components/LivingBackground";
 
+import { assetUrl } from "@/lib/assetUrl";
 /* ─── TIER CONFIG ─── */
 const TIER_CONFIG: Record<string, { color: string; bg: string; border: string; label: string; icon: string; glow?: string }> = {
   bronze:      { color: "void-text-accent",  bg: "void-bg-sunk",  border: "void-border",  label: "Bronze",      icon: "🥉" },
@@ -919,7 +920,7 @@ export default function ChessPage() {
 
   return (
     <div className="min-h-screen grid-bg relative overflow-hidden">
-      <LivingBackground src="/art/chess/chess-holographic-board.png" accent="var(--energy-accent)" opacity={0.15} voidRoomKey="gamemasters_arena" particleCount={8} />
+      <LivingBackground src={assetUrl("art/chess/chess-holographic-board.png")} accent="var(--energy-accent)" opacity={0.15} voidRoomKey="gamemasters_arena" particleCount={8} />
       <div className="relative z-10">
       <AnimatePresence mode="wait">
         {/* ═══ MAIN MENU ═══ */}

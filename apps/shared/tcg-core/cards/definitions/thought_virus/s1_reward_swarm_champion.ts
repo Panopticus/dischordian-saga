@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_swarm_champion" as CardDefinition["id"],
   name: "Terminus Protocol",
@@ -47,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_swarm_champion.webp",
+  art: assetUrl("art/cards/s1_reward_swarm_champion.webp"),
   flavorText:
     "Fifty waves. Then silence. The Protocol does not distinguish between the infected and the merely unlucky.",
   rulesVersion: "1.0.0",

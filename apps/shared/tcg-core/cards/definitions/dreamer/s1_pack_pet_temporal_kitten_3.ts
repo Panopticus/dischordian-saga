@@ -26,6 +26,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_pet_temporal_kitten_3" as CardDefinition["id"],
   name: "Epoch Panther",
@@ -47,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_pet_temporal_kitten_3.webp",
+  art: assetUrl("art/cards/s1_pack_pet_temporal_kitten_3.webp"),
   flavorText:
     "It moves through time the way other creatures move through space — with terrifying, casual ease.",
   rulesVersion: "1.0.0",

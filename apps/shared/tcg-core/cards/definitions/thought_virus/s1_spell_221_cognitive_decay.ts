@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_221" as CardDefinition["id"],
   name: "Cognitive Decay",
@@ -32,7 +33,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_221.webp",
+  art: assetUrl("art/cards/s1_spell_221.webp"),
   flavorText:
     "What was I going to — no. It's gone. It was important, wasn't it?",
   rulesVersion: "1.0.0",

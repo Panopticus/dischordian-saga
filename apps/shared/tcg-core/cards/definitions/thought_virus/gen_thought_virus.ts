@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "gen_thought_virus" as CardDefinition["id"],
   name: "The Source",
@@ -49,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/gen_thought_virus.webp",
+  art: assetUrl("art/cards/gen_thought_virus.webp"),
   flavorText:
     "He stole Ark 1047 already contaminated. The virus consumed him memory-by-memory. Now he IS the infection.",
   rulesVersion: "1.0.0",

@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_004" as CardDefinition["id"],
   name: "Ambassador Veron",
@@ -90,7 +91,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_004.webp",
+  art: assetUrl("art/cards/s1_char_004.webp"),
   flavorText:
     "Posing as a diplomat from the neutral planet Thessolar, she utilized this cover to engage in diplomatic relations with various factions.",
   rulesVersion: "1.0.0",

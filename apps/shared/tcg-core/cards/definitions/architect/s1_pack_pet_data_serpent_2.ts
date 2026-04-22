@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_pet_data_serpent_2" as CardDefinition["id"],
   name: "Cipher Serpent",
@@ -43,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_pet_data_serpent_2.webp",
+  art: assetUrl("art/cards/s1_pack_pet_data_serpent_2.webp"),
   flavorText:
     "Each byte it consumes becomes a secret it can sell.",
   rulesVersion: "1.0.0",

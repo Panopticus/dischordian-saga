@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_song_070" as CardDefinition["id"],
   name: "Traces of Something Spiritual",
@@ -48,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_song_070.webp",
+  art: assetUrl("art/cards/s1_song_070.webp"),
   flavorText:
     "Not a ghost, not a god — something in between, lingering at the threshold of perception.",
   rulesVersion: "1.0.0",

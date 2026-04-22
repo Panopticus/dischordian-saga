@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_campaign_acceptance" as CardDefinition["id"],
   name: "Stoic Guardian",
@@ -45,7 +46,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_campaign_acceptance.webp",
+  art: assetUrl("art/cards/s1_reward_campaign_acceptance.webp"),
   flavorText:
     "The Antiquarian taught that time destroys all things. The Guardian simply asked: 'And what survives?'",
   rulesVersion: "1.0.0",

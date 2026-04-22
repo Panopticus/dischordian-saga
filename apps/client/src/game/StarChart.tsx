@@ -8,6 +8,7 @@
  */
 import { useRef, useEffect, useState, useCallback } from "react";
 
+import { assetUrl } from "@/lib/assetUrl";
 /* ═══ TYPES ═══ */
 interface Star {
   x: number; // 0-100 coordinate space
@@ -170,11 +171,11 @@ function getDailyConstellationTheme(): EpochConstellationTheme {
 
 /** Constellation reference art (shown on completion) */
 const CONSTELLATION_ART: Record<string, string> = {
-  "The Architect's Eye": "/art/constellations/constellation-architects-eye.png",
-  "Iron Lion's Shield": "/art/constellations/constellation-iron-lions-shield.png",
-  "The Dreamer's Spiral": "/art/constellations/constellation-dreamers-spiral.png",
-  "Kael's Chain": "/art/constellations/constellation-kaels-chain.png",
-  "The Two Witnesses": "/art/constellations/constellation-two-witnesses.png",
+  "The Architect's Eye": assetUrl("art/constellations/constellation-architects-eye.png"),
+  "Iron Lion's Shield": assetUrl("art/constellations/constellation-iron-lions-shield.png"),
+  "The Dreamer's Spiral": assetUrl("art/constellations/constellation-dreamers-spiral.png"),
+  "Kael's Chain": assetUrl("art/constellations/constellation-kaels-chain.png"),
+  "The Two Witnesses": assetUrl("art/constellations/constellation-two-witnesses.png"),
 };
 
 /** Pick today's constellation via daily rotation. */
@@ -428,7 +429,7 @@ export default function StarChart({ onComplete, onClose }: StarChartProps) {
       }}
     >
       {/* Background art */}
-      <img src="/art/minigames/minigame-star-chart.png" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.1, filter: "brightness(0.3)", pointerEvents: "none", zIndex: 0 }} />
+      <img src={assetUrl("art/minigames/minigame-star-chart.png")} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.1, filter: "brightness(0.3)", pointerEvents: "none", zIndex: 0 }} />
       {/* header */}
       <div
         style={{

@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_041" as CardDefinition["id"],
   name: "The Oracle",
@@ -69,7 +70,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_041.webp",
+  art: assetUrl("art/cards/s1_char_041.webp"),
   flavorText:
     "A. The Oracle was a revered figure within the Insurgency , known for his wisdom and prophetic insights that inspired res...",
   rulesVersion: "1.0.0",

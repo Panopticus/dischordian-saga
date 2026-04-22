@@ -18,6 +18,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_037" as CardDefinition["id"],
   name: "Era Guardian",
@@ -39,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_037.webp",
+  art: assetUrl("art/cards/s1_pack_037.webp"),
   flavorText:
     "It has guarded the threshold between ages for so long that time itself detours around it.",
   rulesVersion: "1.0.0",

@@ -13,6 +13,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_102" as CardDefinition["id"],
   name: "Arena Protocol",
@@ -45,7 +46,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_102.webp",
+  art: assetUrl("art/cards/s1_spell_102.webp"),
   flavorText:
     "The walls listen. The floor obeys. Every corridor and chamber is an extension of the Architect's will.",
   rulesVersion: "1.0.0",

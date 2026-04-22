@@ -15,6 +15,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_015" as CardDefinition["id"],
   name: "Probability Surge",
@@ -34,7 +35,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_015.webp",
+  art: assetUrl("art/cards/s1_pack_015.webp"),
   flavorText:
     "She did not see the future. She reached into the probability field and pulled out the one she wanted.",
   rulesVersion: "1.0.0",

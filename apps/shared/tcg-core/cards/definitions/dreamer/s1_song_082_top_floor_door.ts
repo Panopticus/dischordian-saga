@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_song_082" as CardDefinition["id"],
   name: "Top Floor Door",
@@ -47,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_song_082.webp",
+  art: assetUrl("art/cards/s1_song_082.webp"),
   flavorText:
     "Behind the last door at the top of the stairwell, the Dreamer found not answers but restoration.",
   rulesVersion: "1.0.0",

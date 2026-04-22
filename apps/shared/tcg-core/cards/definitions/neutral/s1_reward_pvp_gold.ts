@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_pvp_gold" as CardDefinition["id"],
   name: "Arena Champion",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_pvp_gold.webp",
+  art: assetUrl("art/cards/s1_reward_pvp_gold.webp"),
   flavorText:
     "The crowd chants her name before she draws her weapon. That is what Gold rank buys you.",
   rulesVersion: "1.0.0",

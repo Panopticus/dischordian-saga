@@ -13,6 +13,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_116" as CardDefinition["id"],
   name: "Blood Tax",
@@ -48,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_116.webp",
+  art: assetUrl("art/cards/s1_spell_116.webp"),
   flavorText:
     "Locke never flinches at the cost. He simply adds it to someone else's invoice.",
   rulesVersion: "1.0.0",

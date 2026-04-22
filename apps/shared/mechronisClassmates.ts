@@ -1,3 +1,4 @@
+import { assetUrl } from "../client/src/lib/assetUrl";
 /* ═══════════════════════════════════════════════════════
    MECHRONIS CLASSMATES — Recurring NPC Year-Mates
 
@@ -53,7 +54,7 @@ export const MECHRONIS_CLASSMATES: Classmate[] = [
     catchphrase: "I'll take your line. You don't mind, do you?",
     hiddenTruth:
       "Aria has memorized every classmate's failure by timbre. She can reproduce them on cue. She will, if asked by the Head.",
-    portrait: "/art/mechronis/classmates/aria-wen.png",
+    portrait: assetUrl("art/mechronis/classmates/aria-wen.png"),
   },
   {
     id: "classmate_benik_holt",
@@ -65,7 +66,7 @@ export const MECHRONIS_CLASSMATES: Classmate[] = [
     catchphrase: "We… we start together, yeah?",
     hiddenTruth:
       "Benik's stammer evaporates when he's alone. He keeps it on purpose, because he has seen what perfect voices get asked to do.",
-    portrait: "/art/mechronis/classmates/benik-holt.png",
+    portrait: assetUrl("art/mechronis/classmates/benik-holt.png"),
   },
 
   // ── House Umbra ──
@@ -79,7 +80,7 @@ export const MECHRONIS_CLASSMATES: Classmate[] = [
     catchphrase: "You looked up three times during my answer. Interesting.",
     hiddenTruth:
       "Tess is also keeping a second ledger, in ink no one at the Academy has taught her to mix. She has not decided whom to give it to.",
-    portrait: "/art/mechronis/classmates/tess-corvia.png",
+    portrait: assetUrl("art/mechronis/classmates/tess-corvia.png"),
   },
   {
     id: "classmate_ollen_mire",
@@ -91,7 +92,7 @@ export const MECHRONIS_CLASSMATES: Classmate[] = [
     catchphrase: "(his chair, politely, does not answer)",
     hiddenTruth:
       "Ollen is in the Archive. Not as a student. Curator Halverez gets a new artifact every week that has Ollen's handwriting on it.",
-    portrait: "/art/mechronis/classmates/ollen-mire.png",
+    portrait: assetUrl("art/mechronis/classmates/ollen-mire.png"),
   },
 
   // ── House Ironflight ──
@@ -105,7 +106,7 @@ export const MECHRONIS_CLASSMATES: Classmate[] = [
     catchphrase: "Bleed on your own time, first-year.",
     hiddenTruth:
       "Mara failed her first Resurrection Draft. Something came back with her. It reads Ironflight rosters over her shoulder at night.",
-    portrait: "/art/mechronis/classmates/mara-thorne.png",
+    portrait: assetUrl("art/mechronis/classmates/mara-thorne.png"),
   },
   {
     id: "classmate_ozen_kade",
@@ -117,7 +118,7 @@ export const MECHRONIS_CLASSMATES: Classmate[] = [
     catchphrase: "Hand me that. No, the other one. Yeah. Now don't look.",
     hiddenTruth:
       "Ozen is building something in the sub-basement of the Forge that cannot be graded. The Architect does not know. Yet.",
-    portrait: "/art/mechronis/classmates/ozen-kade.png",
+    portrait: assetUrl("art/mechronis/classmates/ozen-kade.png"),
   },
 
   // ── House Liminal ──
@@ -131,7 +132,7 @@ export const MECHRONIS_CLASSMATES: Classmate[] = [
     catchphrase: "Page forty-one, footnote eight. Read it before you argue.",
     hiddenTruth:
       "Juno is drafting the 42nd footnote. They have told no one. It reverses the other forty-one.",
-    portrait: "/art/mechronis/classmates/juno-reeve.png",
+    portrait: assetUrl("art/mechronis/classmates/juno-reeve.png"),
   },
   {
     id: "classmate_vessa_lark",
@@ -143,7 +144,7 @@ export const MECHRONIS_CLASSMATES: Classmate[] = [
     catchphrase: "If you tell, I'll take the door with me when I go.",
     hiddenTruth:
       "Vessa has found one of Orphic's seven doors. The one that leads out. She has not used it yet.",
-    portrait: "/art/mechronis/classmates/vessa-lark.png",
+    portrait: assetUrl("art/mechronis/classmates/vessa-lark.png"),
   },
 ];
 

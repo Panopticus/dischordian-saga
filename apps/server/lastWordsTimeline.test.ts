@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import * as fs from "fs";
 import * as path from "path";
+import { assetUrl } from "../client/src/lib/assetUrl";
 import {
   LAST_WORDS_SONG_DURATION_S,
   LAST_WORDS_SONG_URL,
@@ -98,7 +99,7 @@ describe("Last Words tease timeline — lookup helpers", () => {
   });
 
   it("slideImageUrl produces a tease-path public URL", () => {
-    expect(slideImageUrl(3)).toBe("/art/prelude/last-words-tease/slide-3.webp");
+    expect(slideImageUrl(3)).toBe(assetUrl("art/prelude/last-words-tease/slide-3.webp"));
   });
 });
 

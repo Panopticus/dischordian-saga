@@ -9,6 +9,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_058" as CardDefinition["id"],
   name: "Epoch Walker",
@@ -36,7 +37,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_058.webp",
+  art: assetUrl("art/cards/s1_char_058.webp"),
   flavorText:
     "He has already lived through the end of every age. Each death is merely a bookmark in a story he has read before.",
   rulesVersion: "1.0.0",

@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "gen_programmer" as CardDefinition["id"],
   name: "The Programmer",
@@ -34,7 +35,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 3, health: 22 },
   keywords: [],
   abilities: [],
-  art: "/art/cards/gen_programmer.webp",
+  art: assetUrl("art/cards/gen_programmer.webp"),
   flavorText:
     "I have done the arithmetic, and the arithmetic is very bad.",
   rulesVersion: "1.0.0",

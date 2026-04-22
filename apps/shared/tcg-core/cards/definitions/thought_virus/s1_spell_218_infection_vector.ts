@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_218" as CardDefinition["id"],
   name: "Infection Vector",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_218.webp",
+  art: assetUrl("art/cards/s1_spell_218.webp"),
   flavorText:
     "It starts as a whisper in the neurons. By tomorrow, the arm won't lift.",
   rulesVersion: "1.0.0",

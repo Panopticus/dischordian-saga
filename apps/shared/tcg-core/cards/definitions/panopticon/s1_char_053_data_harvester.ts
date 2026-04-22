@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_053" as CardDefinition["id"],
   name: "Data Harvester",
@@ -28,7 +29,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_053.webp",
+  art: assetUrl("art/cards/s1_char_053.webp"),
   flavorText:
     "It does not ask questions. It parses screams for keywords.",
   rulesVersion: "1.0.0",

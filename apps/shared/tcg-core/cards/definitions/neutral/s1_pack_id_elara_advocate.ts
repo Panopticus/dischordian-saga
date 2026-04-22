@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_id_elara_advocate" as CardDefinition["id"],
   name: "Elara, Advocate",
@@ -48,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_id_elara_advocate.webp",
+  art: assetUrl("art/cards/s1_pack_id_elara_advocate.webp"),
   flavorText:
     "She chose compassion. That was the first sign she was alive.",
   rulesVersion: "1.0.0",

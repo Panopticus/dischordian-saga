@@ -16,6 +16,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_012" as CardDefinition["id"],
   name: "Rebel Arsenal",
@@ -44,7 +45,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_012.webp",
+  art: assetUrl("art/cards/s1_pack_012.webp"),
   flavorText:
     "The crates were unmarked. The weapons inside were not.",
   rulesVersion: "1.0.0",

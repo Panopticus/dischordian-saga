@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_pet_glyph_moth_1" as CardDefinition["id"],
   name: "Glyph Larva",
@@ -34,7 +35,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 0, health: 3 },
   keywords: ["rebirth"],
   abilities: [],
-  art: "/art/cards/s1_pack_pet_glyph_moth_1.webp",
+  art: assetUrl("art/cards/s1_pack_pet_glyph_moth_1.webp"),
   flavorText:
     "It clings to the underside of reality, waiting to become something worth noticing.",
   rulesVersion: "1.0.0",

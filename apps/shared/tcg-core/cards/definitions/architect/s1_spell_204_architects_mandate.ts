@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_204" as CardDefinition["id"],
   name: "Architect's Mandate",
@@ -36,7 +37,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_204.webp",
+  art: assetUrl("art/cards/s1_spell_204.webp"),
   flavorText:
     "Two points of data. Two vectors of control. The Arena expands at the Architect's whim.",
   rulesVersion: "1.0.0",

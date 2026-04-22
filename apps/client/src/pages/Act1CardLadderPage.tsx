@@ -66,6 +66,7 @@ import {
 } from "@/game/duelyst/types";
 import LivingBackground from "@/components/LivingBackground";
 
+import { assetUrl } from "@/lib/assetUrl";
 type LadderView =
   | "ladder"
   | "matchup"
@@ -246,7 +247,7 @@ export default function Act1CardLadderPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[var(--bg-void)] to-[var(--bg-void)] relative">
       <LivingBackground
-        src="/art/rooms/room-archives.png"
+        src={assetUrl("art/rooms/room-archives.png")}
         accent="var(--energy-accent)"
         opacity={0.1}
         particleCount={4}

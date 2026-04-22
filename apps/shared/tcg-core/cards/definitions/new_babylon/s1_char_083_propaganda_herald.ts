@@ -9,6 +9,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_083" as CardDefinition["id"],
   name: "Propaganda Herald",
@@ -39,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_083.webp",
+  art: assetUrl("art/cards/s1_char_083.webp"),
   flavorText:
     "The truth is whatever the Spire says it is. He just makes it rhyme.",
   rulesVersion: "1.0.0",

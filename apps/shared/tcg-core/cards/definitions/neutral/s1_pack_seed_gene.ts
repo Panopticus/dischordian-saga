@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_seed_gene" as CardDefinition["id"],
   name: "Void-Touched Specimen",
@@ -55,7 +56,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_seed_gene.webp",
+  art: assetUrl("art/cards/s1_pack_seed_gene.webp"),
   flavorText:
     "It came back from the Void changed. Stronger. Wrong.",
   rulesVersion: "1.0.0",

@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "gen_authority" as CardDefinition["id"],
   name: "The Authority",
@@ -36,7 +37,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 0, health: 99 },
   keywords: [],
   abilities: [],
-  art: "/art/cards/gen_authority.webp",
+  art: assetUrl("art/cards/gen_authority.webp"),
   flavorText: "What do you say to the charges?",
   rulesVersion: "1.0.0",
 };

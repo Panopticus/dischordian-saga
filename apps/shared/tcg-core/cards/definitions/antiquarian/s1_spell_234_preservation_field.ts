@@ -13,6 +13,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_234" as CardDefinition["id"],
   name: "Preservation Field",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_234.webp",
+  art: assetUrl("art/cards/s1_spell_234.webp"),
   flavorText:
     "The field hums with deep time. Inside it, entropy is merely a suggestion.",
   rulesVersion: "1.0.0",

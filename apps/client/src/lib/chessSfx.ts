@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/assetUrl";
 /**
  * Chess SFX — one-shot audio on move / capture / check / mate.
  *
@@ -20,12 +21,12 @@ export type ChessSfxEvent =
   | "leak";
 
 const SFX_PATHS: Readonly<Record<ChessSfxEvent, string>> = Object.freeze({
-  move: "/audio/chess_sfx/move.mp3",
-  capture: "/audio/chess_sfx/capture.mp3",
-  check: "/audio/chess_sfx/check.mp3",
-  mate: "/audio/chess_sfx/mate.mp3",
-  mate_climb: "/audio/chess_sfx/mate_climb.mp3",
-  leak: "/audio/chess_sfx/leak.mp3",
+  move: assetUrl("audio/chess_sfx/move.mp3"),
+  capture: assetUrl("audio/chess_sfx/capture.mp3"),
+  check: assetUrl("audio/chess_sfx/check.mp3"),
+  mate: assetUrl("audio/chess_sfx/mate.mp3"),
+  mate_climb: assetUrl("audio/chess_sfx/mate_climb.mp3"),
+  leak: assetUrl("audio/chess_sfx/leak.mp3"),
 });
 
 const SFX_VOLUME: Readonly<Record<ChessSfxEvent, number>> = Object.freeze({

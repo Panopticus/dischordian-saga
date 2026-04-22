@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_campaign_empathy" as CardDefinition["id"],
   name: "Compassion Protocol",
@@ -47,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_campaign_empathy.webp",
+  art: assetUrl("art/cards/s1_reward_campaign_empathy.webp"),
   flavorText:
     "The Ark's oldest protocol had no military purpose. It simply healed what it could reach.",
   rulesVersion: "1.0.0",

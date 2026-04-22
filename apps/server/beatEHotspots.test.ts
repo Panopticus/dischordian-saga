@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { assetUrl } from "../client/src/lib/assetUrl";
 import {
   BEAT_E_HOTSPOTS,
   getAvailableBeatEHotspots,
@@ -50,7 +51,7 @@ describe("Beat E hotspots — structural invariants", () => {
   it("the diploma hotspot has a vfxOverlay (canonical ink-bloom)", () => {
     const diploma = BEAT_E_HOTSPOTS.find((h) => h.id === "diploma");
     expect(diploma?.vfxOverlay?.webmUrl).toBe(
-      "/art/vfx/prelude/diploma-ink-bloom.webm",
+      assetUrl("art/vfx/prelude/diploma-ink-bloom.webm"),
     );
   });
 

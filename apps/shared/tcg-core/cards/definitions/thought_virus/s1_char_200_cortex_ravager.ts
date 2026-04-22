@@ -14,6 +14,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_200" as CardDefinition["id"],
   name: "Cortex Ravager",
@@ -35,7 +36,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_200.webp",
+  art: assetUrl("art/cards/s1_char_200.webp"),
   flavorText:
     "It does not speak. It does not need to. Every blow is a sentence erased from your memory.",
   rulesVersion: "1.0.0",

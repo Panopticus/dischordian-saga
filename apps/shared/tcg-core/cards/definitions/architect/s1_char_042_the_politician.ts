@@ -17,6 +17,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_042" as CardDefinition["id"],
   name: "The Politician",
@@ -71,7 +72,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_042.webp",
+  art: assetUrl("art/cards/s1_char_042.webp"),
   flavorText:
     "A. The Politician was the seventh Archon created by the Architect on Day 15 of Ascension, Year 419 A.A., engineered to m...",
   rulesVersion: "1.0.0",

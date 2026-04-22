@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_id_kael_source" as CardDefinition["id"],
   name: "Kael, the Source",
@@ -50,7 +51,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_id_kael_source.webp",
+  art: assetUrl("art/cards/s1_pack_id_kael_source.webp"),
   flavorText:
     "There is no Kael anymore. There is only the signal.",
   rulesVersion: "1.0.0",

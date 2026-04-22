@@ -17,6 +17,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_046" as CardDefinition["id"],
   name: "The Seer",
@@ -71,7 +72,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_046.webp",
+  art: assetUrl("art/cards/s1_char_046.webp"),
   flavorText:
     "Unbound by allegiance, the Seer identifies opportunities and dangers, providing foresight that often shifts the balance ...",
   rulesVersion: "1.0.0",

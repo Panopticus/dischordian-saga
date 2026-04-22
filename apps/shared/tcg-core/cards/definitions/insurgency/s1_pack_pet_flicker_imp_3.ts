@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_pet_flicker_imp_3" as CardDefinition["id"],
   name: "Inferno Djinn",
@@ -53,7 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_pet_flicker_imp_3.webp",
+  art: assetUrl("art/cards/s1_pack_pet_flicker_imp_3.webp"),
   flavorText:
     "The Insurgency doesn't knock. It detonates.",
   rulesVersion: "1.0.0",

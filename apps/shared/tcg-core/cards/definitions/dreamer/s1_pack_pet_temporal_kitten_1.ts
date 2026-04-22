@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_pet_temporal_kitten_1" as CardDefinition["id"],
   name: "Chrono Kitten",
@@ -44,7 +45,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_pet_temporal_kitten_1.webp",
+  art: assetUrl("art/cards/s1_pack_pet_temporal_kitten_1.webp"),
   flavorText:
     "Nine lives, but it burns through them so fast you'd swear it only has one.",
   rulesVersion: "1.0.0",

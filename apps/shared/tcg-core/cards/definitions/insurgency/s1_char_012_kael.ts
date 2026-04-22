@@ -25,6 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_012" as CardDefinition["id"],
   name: "Kael",
@@ -103,7 +104,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_012.webp",
+  art: assetUrl("art/cards/s1_char_012.webp"),
   flavorText:
     "A prominent leader within the Insurgency, celebrated for his strategic genius and alliances with figures like Agent Zero and The Iron Lion.",
   rulesVersion: "1.0.0",

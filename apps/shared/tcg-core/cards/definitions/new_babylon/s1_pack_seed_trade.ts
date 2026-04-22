@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_seed_trade" as CardDefinition["id"],
   name: "Shadow Route Manifest",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_seed_trade.webp",
+  art: assetUrl("art/cards/s1_pack_seed_trade.webp"),
   flavorText:
     "The routes that don't appear on any chart are the ones that pay the most.",
   rulesVersion: "1.0.0",

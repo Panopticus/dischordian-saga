@@ -51,6 +51,7 @@ import { fireCrossGameBeat } from "@/lib/crossGameBeats";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import LivingBackground from "@/components/LivingBackground";
 
+import { assetUrl } from "@/lib/assetUrl";
 type MatchView = "resolving" | "matchup" | "battle" | "postmatch";
 
 function resolveOpponentFaction(o: ActNOpponent): string {
@@ -164,7 +165,7 @@ export default function Act4MatchPage() {
   return (
     <div className="relative min-h-screen bg-stone-950 text-stone-100">
       <LivingBackground
-        src="/art/rooms/room-bridge.png"
+        src={assetUrl("art/rooms/room-bridge.png")}
         accent="rgba(34, 211, 238, 0.35)"
         opacity={0.08}
         particleCount={3}

@@ -9,6 +9,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const fire_01: CardDefinition = {
   id: "s1_elem_fire_01" as CardDefinition["id"],
   name: "Ember Scout",
@@ -30,7 +31,7 @@ export const fire_01: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/element/s1_elem_fire_01.webp",
+  art: assetUrl("art/cards/element/s1_elem_fire_01.webp"),
   flavorText:
     "Rush on deploy. 3/1. An ember scout is a single candle on a long empty road. It does not last. It gets the door open.",
   rulesVersion: "1.0.0",
@@ -57,7 +58,7 @@ export const fire_02: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/element/s1_elem_fire_02.webp",
+  art: assetUrl("art/cards/element/s1_elem_fire_02.webp"),
   flavorText:
     "Deal 3 damage to the enemy general. A spark is a decision that stops being one the moment you let go of it.",
   rulesVersion: "1.0.0",
@@ -75,7 +76,7 @@ export const fire_03: CardDefinition = {
   baseStats: { power: 5, health: 2 },
   keywords: ["celerity"],
   abilities: [],
-  art: "/art/cards/element/s1_elem_fire_03.webp",
+  art: assetUrl("art/cards/element/s1_elem_fire_03.webp"),
   flavorText:
     "Celerity. 5/2. A blaze lancer strikes twice because the first strike has already used up half of her.",
   rulesVersion: "1.0.0",
@@ -102,7 +103,7 @@ export const fire_04: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/element/s1_elem_fire_04.webp",
+  art: assetUrl("art/cards/element/s1_elem_fire_04.webp"),
   flavorText:
     "Deal 6 damage to the enemy general. A conflagration is a fire that has stopped waiting for fuel and is now metabolizing context.",
   rulesVersion: "1.0.0",
@@ -120,7 +121,7 @@ export const fire_05: CardDefinition = {
   baseStats: { power: 8, health: 4 },
   keywords: ["rush", "celerity", "frenzy"],
   abilities: [],
-  art: "/art/cards/element/s1_elem_fire_05.webp",
+  art: assetUrl("art/cards/element/s1_elem_fire_05.webp"),
   flavorText:
     "Rush. Celerity. Frenzy. 8/4. The First Flame has been burning since before there were hands to warm by it, and it is very tired of not being used.",
   rulesVersion: "1.0.0",

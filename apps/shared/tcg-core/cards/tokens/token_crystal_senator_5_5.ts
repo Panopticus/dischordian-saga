@@ -10,6 +10,7 @@
  */
 import type { CardDefinition } from "../../index";
 
+import { assetUrl } from "../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "token_crystal_senator_5_5" as CardDefinition["id"],
   name: "Crystal Senator",
@@ -20,7 +21,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 5, health: 5 },
   keywords: [],
   abilities: [],
-  art: "/art/cards/token_crystal_senator_5_5.webp",
+  art: assetUrl("art/cards/token_crystal_senator_5_5.webp"),
   flavorText:
     "In New Babylon, power is not metaphorical. It crystallizes. It votes. It kills.",
   rulesVersion: "1.0.0",

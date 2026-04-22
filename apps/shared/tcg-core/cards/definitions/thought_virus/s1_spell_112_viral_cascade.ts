@@ -14,6 +14,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_112" as CardDefinition["id"],
   name: "Viral Cascade",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_112.webp",
+  art: assetUrl("art/cards/s1_spell_112.webp"),
   flavorText:
     "The Source does not kill. It simply reminds every cell in your body that it was always meant to stop.",
   rulesVersion: "1.0.0",

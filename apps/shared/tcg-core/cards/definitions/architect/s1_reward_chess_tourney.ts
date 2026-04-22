@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_chess_tourney" as CardDefinition["id"],
   name: "Calculated Checkmate",
@@ -48,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_chess_tourney.webp",
+  art: assetUrl("art/cards/s1_reward_chess_tourney.webp"),
   flavorText:
     "Checkmate in four. The opponent saw it in three. By then, it was already too late.",
   rulesVersion: "1.0.0",

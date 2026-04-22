@@ -18,6 +18,7 @@
 
 import { useEffect, useState } from "react";
 
+import { assetUrl } from "@/lib/assetUrl";
 export const FLICKER_DURATION_MS = 800;
 
 export interface SeerCardFlickerProps {
@@ -29,7 +30,7 @@ export interface SeerCardFlickerProps {
   candidateUrl?: string;
 }
 
-export const SEER_CARD_BACK_URL = "/art/card-game/card-back-seer.png";
+export const SEER_CARD_BACK_URL = assetUrl("art/card-game/card-back-seer.png");
 
 export function SeerCardFlicker({
   resolvedCardUrl,

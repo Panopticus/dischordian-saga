@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_companion_zero" as CardDefinition["id"],
   name: "Zero's Parting Gift",
@@ -63,7 +64,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_companion_zero.webp",
+  art: assetUrl("art/cards/s1_reward_companion_zero.webp"),
   flavorText:
     "Agent Zero always left something behind — a frequency, a signal, a reason to keep fighting.",
   rulesVersion: "1.0.0",

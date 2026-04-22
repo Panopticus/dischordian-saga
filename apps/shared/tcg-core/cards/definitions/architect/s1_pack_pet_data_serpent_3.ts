@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_pet_data_serpent_3" as CardDefinition["id"],
   name: "Archive Wyrm",
@@ -61,7 +62,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_pet_data_serpent_3.webp",
+  art: assetUrl("art/cards/s1_pack_pet_data_serpent_3.webp"),
   flavorText:
     "It remembers every file ever deleted. It does not forgive.",
   rulesVersion: "1.0.0",

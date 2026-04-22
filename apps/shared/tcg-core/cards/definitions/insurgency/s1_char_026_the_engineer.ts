@@ -25,6 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_026" as CardDefinition["id"],
   name: "The Engineer",
@@ -91,7 +92,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_026.webp",
+  art: assetUrl("art/cards/s1_char_026.webp"),
   flavorText:
     "She built the Inception Arks to save humanity. Now she builds weapons to defend the dream. The Engineer does not choose sides \u2014 she chooses survival.",
   rulesVersion: "1.0.0",

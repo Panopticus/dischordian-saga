@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_101" as CardDefinition["id"],
   name: "Panoptic Warden Foucault",
@@ -43,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_101.webp",
+  art: assetUrl("art/cards/s1_char_101.webp"),
   flavorText:
     "His chrome jaw clicks with each question. The answers are already known — the interrogation is merely ceremony.",
   rulesVersion: "1.0.0",

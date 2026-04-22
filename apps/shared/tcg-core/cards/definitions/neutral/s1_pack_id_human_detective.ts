@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_id_human_detective" as CardDefinition["id"],
   name: "The Detective",
@@ -49,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_id_human_detective.webp",
+  art: assetUrl("art/cards/s1_pack_id_human_detective.webp"),
   flavorText:
     "Every lie unraveled. Every mask removed. The truth always costs more than the lie.",
   rulesVersion: "1.0.0",

@@ -16,6 +16,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_003" as CardDefinition["id"],
   name: "Arena Architect",
@@ -37,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_003.webp",
+  art: assetUrl("art/cards/s1_pack_003.webp"),
   flavorText:
     "She does not enter the Arena. She builds a new one around you — with you already inside.",
   rulesVersion: "1.0.0",

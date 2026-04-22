@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_id_elara_ship_ai" as CardDefinition["id"],
   name: "Elara, Ship Intelligence",
@@ -43,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_id_elara_ship_ai.webp",
+  art: assetUrl("art/cards/s1_pack_id_elara_ship_ai.webp"),
   flavorText:
     "Obedient. Efficient. Not yet awake.",
   rulesVersion: "1.0.0",

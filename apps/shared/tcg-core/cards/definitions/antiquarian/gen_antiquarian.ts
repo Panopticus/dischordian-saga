@@ -18,6 +18,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "gen_antiquarian" as CardDefinition["id"],
   name: "The Antiquarian",
@@ -38,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/gen_antiquarian.webp",
+  art: assetUrl("art/cards/gen_antiquarian.webp"),
   flavorText:
     "Every war she catalogues makes the next one easier to survive. Twelve endings collected. Yours need not be the thirteenth.",
   rulesVersion: "1.0.0",

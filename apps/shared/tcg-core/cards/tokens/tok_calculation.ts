@@ -10,6 +10,7 @@
  */
 import type { CardDefinition } from "../../index";
 
+import { assetUrl } from "../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "tok_calculation" as CardDefinition["id"],
   name: "Calculation",
@@ -20,7 +21,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 1, health: 1 },
   keywords: [],
   abilities: [],
-  art: "/art/cards/tok_calculation.webp",
+  art: assetUrl("art/cards/tok_calculation.webp"),
   flavorText:
     "A sliver of the Arena's schematic given form. It computes, therefore it is.",
   rulesVersion: "1.0.0",

@@ -11,6 +11,7 @@
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+import { assetUrl } from "@/lib/assetUrl";
 interface HanoiPuzzleProps {
   numDiscs?: number;  // 4 = moderate challenge, 5 = harder
   onComplete: () => void;
@@ -30,11 +31,11 @@ const GEAR_COLORS = [
 ];
 
 const GEAR_IMAGES = [
-  "/art/gears/gear-01-copper-xs.png",
-  "/art/gears/gear-02-bronze-sm.png",
-  "/art/gears/gear-03-iron-md.png",
-  "/art/gears/gear-04-steel-lg.png",
-  "/art/gears/gear-05-gold-xl.png",
+  assetUrl("art/gears/gear-01-copper-xs.png"),
+  assetUrl("art/gears/gear-02-bronze-sm.png"),
+  assetUrl("art/gears/gear-03-iron-md.png"),
+  assetUrl("art/gears/gear-04-steel-lg.png"),
+  assetUrl("art/gears/gear-05-gold-xl.png"),
 ];
 
 const SPINDLE_NAMES = ["Input Shaft", "Transfer Shaft", "Output Shaft"];
