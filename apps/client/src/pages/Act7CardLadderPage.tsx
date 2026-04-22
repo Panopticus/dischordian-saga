@@ -46,11 +46,51 @@ import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import LivingBackground from "@/components/LivingBackground";
 
 import { assetUrl } from "@/lib/assetUrl";
-type LadderView = "ladder" | "matchup" | "battle" | "postmatch";
+type LadderView = "ladder" | "matchup" | "battle" | "postmatch" | "stance";
 
 function resolveOpponentFaction(o: ActNOpponent): string {
   return o.deckLeaning[0] ?? "neutral";
 }
+
+/**
+ * The four canonical final stances per ACT_7_FINAL_STANCE_FLAGS. Unlike
+ * Act 6, NO stance is required for the Act 7 gate to fire — canon is
+ * explicit that "silence is itself a stance." But the four flags exist
+ * for downstream UI (companion lines, prestige carryover narration), so
+ * the picker is offered after the Convergence Seat falls. Skipping it
+ * raises `act7_silence_stance` instead so the silence-is-a-stance branch
+ * has a flag of its own.
+ */
+const FINAL_STANCES: ReadonlyArray<{
+  flag:
+    | "act7_s1_humanity_path"
+    | "act7_s1_machine_path"
+    | "act7_s1_balance"
+    | "act7_s1_soldier_command";
+  label: string;
+  body: string;
+}> = [
+  {
+    flag: "act7_s1_humanity_path",
+    label: "Choose the Humanity path.",
+    body: "The Convergence asks what survives. You answer with names — every one of them, including the ones you couldn't save. The substrate listens. The Ark turns toward warmth.",
+  },
+  {
+    flag: "act7_s1_machine_path",
+    label: "Choose the Machine path.",
+    body: "You refuse the soft answer. The substrate is the ledger and the ledger does not lie. You tell the Convergence: the work is the work; finish it.",
+  },
+  {
+    flag: "act7_s1_balance",
+    label: "Choose Balance.",
+    body: "Neither side is fully wrong, and neither is fully yours. You hold the seat without taking it — a deliberate refusal of the binary the Watcher wanted you in.",
+  },
+  {
+    flag: "act7_s1_soldier_command",
+    label: "Take the Soldier's Command.",
+    body: "Someone has to give the orders the next cycle will inherit. You take the seat without ceremony, and you let the army see you do it.",
+  },
+];
 
 export default function Act7CardLadderPage() {
   const { wins, losses, defeatedOpponents, recordWin, recordLoss } =
@@ -152,11 +192,45 @@ export default function Act7CardLadderPage() {
     [currentOpponent, recordWin, recordLoss, setNarrativeFlag],
   );
 
+  const anyStanceTaken = useMemo(
+    () =>
+      FINAL_STANCES.some((s) => Boolean(gameState.narrativeFlags?.[s.flag])) ||
+      Boolean(gameState.narrativeFlags?.act7_silence_stance),
+    [gameState.narrativeFlags],
+  );
+
+  const handleStanceChosen = useCallback(
+    (flag: (typeof FINAL_STANCES)[number]["flag"]) => {
+      setNarrativeFlag(flag, true);
+      setNarrativeFlag("act7_stance_chosen", true);
+      fireCompanionComment(flag);
+      setView("ladder");
+    },
+    [setNarrativeFlag],
+  );
+
+  const handleSilenceChosen = useCallback(() => {
+    // Canon: "silence is itself a stance." Recorded as its own flag so
+    // downstream UI can distinguish "player declined to choose" from
+    // "stance not yet offered."
+    setNarrativeFlag("act7_silence_stance", true);
+    setNarrativeFlag("act7_stance_chosen", true);
+    fireCompanionComment("act7_silence_stance");
+    setView("ladder");
+  }, [setNarrativeFlag]);
+
   const handlePostMatchContinue = useCallback(() => {
+    const wasConvergenceWin =
+      postMatchResult?.opponent.id === "act7_the_convergence_seat" &&
+      postMatchResult.outcome === "win";
     setPostMatchResult(null);
     setTauntPhase(null);
-    setView("ladder");
-  }, []);
+    if (wasConvergenceWin && !anyStanceTaken) {
+      setView("stance");
+    } else {
+      setView("ladder");
+    }
+  }, [postMatchResult, anyStanceTaken]);
 
   const accent = "border-stone-400/50 text-stone-200";
   const subAccent = "text-stone-300/80";
@@ -266,6 +340,15 @@ export default function Act7CardLadderPage() {
                     The Ark is warm. The Array is on. Come back to the
                     bridge when you can.
                   </p>
+                  {!anyStanceTaken && (
+                    <button
+                      type="button"
+                      onClick={() => setView("stance")}
+                      className="mt-3 rounded border border-stone-400/60 bg-stone-900/40 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-stone-100 hover:bg-stone-800/60"
+                    >
+                      Choose your final stance
+                    </button>
+                  )}
                 </div>
               )}
             </motion.div>
@@ -395,6 +478,65 @@ export default function Act7CardLadderPage() {
                   Continue
                 </button>
               </div>
+            </motion.div>
+          )}
+
+          {view === "stance" && (
+            <motion.div
+              key="stance"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.35 }}
+              className="space-y-4"
+            >
+              <div className="rounded-md border border-stone-400/40 bg-stone-950/60 p-5">
+                <p className={`font-mono text-[10px] uppercase tracking-[0.3em] ${subAccent}`}>
+                  Act 7 · Final Stance
+                </p>
+                <p className="mt-2 font-serif text-[15px] italic text-stone-50">
+                  The seat is yours. So is the silence.
+                </p>
+                <p className="mt-3 font-serif text-[12px] leading-relaxed text-stone-200/80">
+                  The Convergence Seat is empty and the room is waiting.
+                  Choose a stance, or refuse to choose — either is the
+                  whole answer. The next cycle will inherit it.
+                </p>
+              </div>
+              <ul className="space-y-2">
+                {FINAL_STANCES.map((stance) => (
+                  <li key={stance.flag}>
+                    <button
+                      type="button"
+                      onClick={() => handleStanceChosen(stance.flag)}
+                      className="w-full rounded-md border border-stone-400/40 bg-stone-900/30 px-4 py-3 text-left hover:border-stone-200 hover:bg-stone-900/60"
+                    >
+                      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-stone-100">
+                        {stance.label}
+                      </p>
+                      <p className="mt-1 font-serif text-[12px] leading-relaxed italic text-stone-200/80">
+                        {stance.body}
+                      </p>
+                    </button>
+                  </li>
+                ))}
+                <li>
+                  <button
+                    type="button"
+                    onClick={handleSilenceChosen}
+                    className="w-full rounded-md border border-stone-500/30 bg-stone-950/40 px-4 py-3 text-left hover:border-stone-300 hover:bg-stone-900/40"
+                  >
+                    <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-stone-300">
+                      Refuse to choose. Hold the silence.
+                    </p>
+                    <p className="mt-1 font-serif text-[12px] leading-relaxed italic text-stone-300/70">
+                      The room is full of people who will speak for you.
+                      You let them. The cycle inherits the silence and
+                      makes of it what it makes.
+                    </p>
+                  </button>
+                </li>
+              </ul>
             </motion.div>
           )}
         </AnimatePresence>
