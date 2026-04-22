@@ -800,11 +800,13 @@ Corporate translation (charcoal-violet pinstripe suit, corporate floor backdrop,
 
 ---
 
-### 2F — THE ARCHITECT (ENTITY-TIER, STATUESQUE RIG)
+### 2F — THE ARCHITECT (ENTITY-TIER, STATUESQUE RIG) — CANON VALIDATED
+
+> **CANONICAL VALIDATION (2026-04-22):** User's 2026-04-22 image #3 upload (unlabeled in the message but contextually identifying as the Architect) confirms this canon almost exactly: dark hood, angular black-metallic demon-mask with sculpted flame/fractal ridges radiating from the forehead, piercing golden-amber eyes through narrow eye-slits, silver fractal sigil pendant at the chest mirroring the mask motif, dark void backdrop. Description below remains as-written — no rewrite needed. Treating as image-locked canon.
 
 Canon anchors: entity-tier (not human-tier) — designer of the Panopticon and the player's Story Mode. Deep black hooded cloak absorbing light; full-face black metallic demon mask with fractal wing/flame ridges radiating from the forehead, narrow vertical bridge ending in a pointed beak-like lower jaw; piercing golden-amber glowing eyes through narrow slits — the ONLY warm light on him; silver/chrome fractal sigil pendant at the chest (smaller echo of the mask motif); pure void backdrop — no scene, no environment, HE lights the room.
 
-Reference: `apps/client/public/references/npcs/architect/REFERENCE.md`.
+Reference: `apps/client/public/references/npcs/architect/front.png` (from 2026-04-22 image #3 upload).
 
 **Critical rigging divergence from human NPCs:** The Architect is a STATUE rig, not a humanoid rig. No breathing. No blink. No hair. No mouth. No skin. His viseme timeline drives `maskVibration`, NOT mouth morphs. His "blink" is absent — the eyes are emission fields, not flesh. His only aliveness markers are sigil-pulse and hood-drift. This is DELIBERATE — he is architecturally distinct from every other character in the game.
 
