@@ -1640,91 +1640,104 @@ Add to Part 9 cinematics audit list.
 
 ---
 
-### 2Q — PALIMPSEST HOST (REAL CANON — MEME-ARCHETYPE CHILD-ARCHON)
+### 2Q — THE MEME / THE PALIMPSEST (REAL CANON — TRUE FORM AS CORPORATE BROADCAST-ENTITY)
 
-> **CANONICAL CORRECTION (2026-04-22):** This section REPLACES an earlier placeholder draft describing the Palimpsest Host as a "composed 40s broadcast anchor in a navy blazer." That was wrong. Real canon (user direction): **The Palimpsest Host LOOKS LIKE THE MEME.** Same uncanny child-archon archetype as Minnie the Meme (Part 2N) — a seven-year-old's body with ancient Archon eyes, Disney-theme-park-souvenir-aesthetic accessory, honey-gold broadcast-era warmth. Where Minnie's signature is Mickey ears, Palimpsest's signature is her OWN themed accessory.
+> **CANONICAL CORRECTION (2026-04-22, second pass):** Two prior drafts of this section were wrong. The previous "child-archon with broadcast antennas" draft was also wrong — I over-corrected in the previous pass. REAL canon from user's second clarification: **The Meme and the Palimpsest are the SAME ENTITY, two titles.** The TRUE FORM of this entity (image #1 from user's 2026-04-22 upload batch) is an older corporate figure with a FLOATING HOLOGRAPHIC DISPLAY-FACE and black-and-chrome CYBERNETIC ROBOT HANDS. Minnie the Meme (Part 2N) is a CHILD AVATAR this entity wears when performing — she is a face, not the entity.
 
-#### 2Q.0 — Archetype note
+#### 2Q.0 — Canonical identity note (CRITICAL)
 
-Both Minnie (the Meme) and the Palimpsest Host are CHILD-ARCHONS in the same broadcast-era trope family. They are the same visual species of horror: ancient cosmic powers wearing the faces of children who LOVED the Celebration broadcast so much they became its liturgy. Minnie is the Archon of the Meme (seven-year-old girl with Mickey ears); Palimpsest is the Archon of the Broadcast Edit (seven-year-old-girl with a Palimpsest-themed accessory — see 2Q.1 below).
+The **Meme** and the **Palimpsest** are NOT two characters. They are one entity with two functional titles:
+- **"The Meme"** — the entity's viral-broadcast function (the chant, the contagion, the spreading meme). Its child avatar is Minnie (Part 2N), the seven-year-old girl with Mickey ears.
+- **"The Palimpsest"** — the entity's editing-reality function (the broadcast whose casualty crawl runs backwards; the rewriter of record). No child avatar — the Palimpsest appears in its TRUE FORM because editing requires the entity's full authority.
+- **Both are the same cosmic horror.** The Meme spreads. The Palimpsest edits. Minnie is the show's face; the corporate-holo-display figure is who writes and directs the show.
 
-Visual continuity: when Minnie and Palimpsest appear in the same scene (rare but plot-relevant), they should READ as siblings or classmates — same playground, same era, same nostalgic camera palette. The horror is that they could be anyone's children.
+When in-game dialogue references "the Meme," the voice may come from Minnie (child form) or from this true form (corporate form) depending on plot context. When it references "the Palimpsest," always the true form.
 
-#### 2Q.1 — Bundle A: Neutral bust
+#### 2Q.1 — Bundle A: Neutral bust (TRUE FORM)
 
-> Three-quarter bust portrait of a seven-year-old girl, sweet innocent face, fair skin with light freckles across the nose bridge, round cheeks. Medium-dark-brown hair styled in neat matching PIGTAILS with small bows at the base of each (the bows in pale cream or honey-gold ribbon, not rainbow — restrained broadcast aesthetic). Eyes: rich warm brown (#4a3828), LOCKED DIRECTLY AT CAMERA with the same uncanny adult certainty as Minnie the Meme — not shy, not cruel, just CERTAIN. Mouth closed with a faint practiced smile — the professional-child smile of someone who has been the host of SOMETHING since she was three.
+> Three-quarter bust portrait of an older man — looks mid-sixties — wearing an immaculately tailored DARK-CHARCOAL-BLACK CORPORATE SUIT (#0a0b0d, flat matte wool, sharp single-breasted jacket, high lapels), crisp white dress shirt (#f0ede8), thin black silk tie (#0a0a0a) knotted at the throat with a small dark patterned neck-cloth loosely tied above the tie collar (subtle, not flashy — the accessory of someone who needs to convey "executive"). Corporate executive profile: short silver-white hair (#c8ccd2) combed neatly back from the forehead, lined weathered face visible but AT A REMOVE — see below.
 >
-> **Signature accessory (her Mickey-ear-equivalent):** A pair of MINNIE-MOUSE-ADJACENT but distinctly different "broadcast bow" head accessories — instead of round felt Mickey ears on a band, she wears a black plastic headband with two TALL BROADCAST ANTENNA-SHAPED PROTRUSIONS rising ~8cm from the band (like little retro TV-antenna rabbit-ears), each antenna capped with a small round felt ball at the tip (in pale warm honey-gold #d9a66a). Distinctly Disney-theme-park-souvenir in spirit — cheap plastic, earnest wear — but broadcast-themed rather than mouse-themed. The antennas subtly pick up a nostalgic TV-broadcast signifier.
+> **CRITICAL VISUAL: His face is a FLOATING FLAT HOLOGRAPHIC DISPLAY.** Positioned exactly where a human face would be (filling the area from forehead-line to lower-jaw-line, extending ~25cm wide × 32cm tall), a rectangular RECTANGULAR HOLOGRAPHIC SCREEN floats free in the air, showing a high-resolution live video of his face (deeply lined eyes, weathered skin, neutral composed expression). The screen is OBVIOUSLY A SCREEN on close inspection — thin 1-2px luminous pale-blue edge-outline borders the rectangle (#a0c8e8 subtle emissive), occasional subliminal SCAN LINES very faintly cross the display at slow 8s intervals, and the entire screen FLOATS in front of his actual head, NOT attached. His actual head behind/within the screen would not be rendered — the screen occludes it. The illusion is that his face is a broadcast transmission. Looking past the edges of the screen, the neck and shoulders of his physical body ARE visible (the suit continues, the throat is visible below the screen, the shoulders are real), but the face — the face is signal.
 >
-> Wearing a plain pastel dress in soft cream (#e6dcc2) with a thin white lace collar trim, small ribbon detail at the waist. Both hands resting folded on a surface at lower-frame edge, posture rehearsed-ladylike (a little TOO rehearsed for her age).
+> **CRITICAL VISUAL: His HANDS are CYBERNETIC.** Where normal hands would be, both forearms terminate at the wrist into BLACK-AND-CHROME ARTICULATED MECHANICAL HANDS (#1a1d22 matte black knuckle-joints with polished #c0c4cc chrome fingertips and small brass #b8752d reinforcement rings at each finger-joint). The hands are elegantly-designed cybernetic — not crude prosthetics, more like high-end executive cyber-replacement. Fingers are articulated with visible segment joints. One hand (his right, viewer's left) is extended open-palm forward in a gesture of offering or invitation — the palm catching a soft blue-white light from above. The other hand (his left, viewer's right) rests on a dark wooden DESK in the lower-frame foreground, the black mechanical fingers splayed over a scatter of PAPERS (plain white papers with faint abstract glyph-markings — NOT legible text — and a small traditional-ink pen and inkwell at the desk corner, anachronistic against the cybernetics).
 >
-> Backdrop: defocused CHILDREN'S-SHOW STUDIO set — warm honey-gold (#d9a66a) ambient (the Celebration-broadcast palette), pastel-trim wallscaping in the mid-distance, a small defocused PUPPET or MASCOT figure watching from the deep background (off to one side, blurred enough that the viewer doesn't quite catch what kind of creature it is — implied but not resolved). Warm yellow window-sun key from camera-right like the other child-archon portraits (Minnie, Corey). Palette: honey-gold dominant, pastel cream accent, warm sunlight. Soft film grain. 4K. No rendered text.
+> Backdrop: dark executive office at night, heavy shadows, deep indigo-black atmosphere. A distant blurred window-rectangle of pale blue light (cool moon-simulation or holographic backlight) at upper right, small warm defocused light sources in the mid-distance suggesting other screens/practicals. The floor-to-ceiling feel is an editor's den, not a broadcast studio. Lighting: cool blue-white key from above-right (simulating the ambient light from his own holographic face), faint warm amber fill from below from the desk-lamp direction, deep black frame edges. Film grain. 4K. No rendered text.
 
 #### 2Q.2 — Bundle B: Breathing loop (8 frames) + REWIND variants
 
-> Standard child chest cycle (1.000 to 1.008 peak). **The ANTENNA HEADBAND is rigid — does NOT move with breath** (same rigidity tell as Minnie's Mickey ears). The small felt-ball antenna tips DO drift ±0.5px with subtle resonance, as if picking up a signal. Dress fabric UNCHANGED. Pigtails drift ±0.8px.
-> **BONUS: 4 additional REWIND frames** (`breathing/rewind_01..04.png`): same subject but all motion plays BACKWARD for that segment. Pigtails drift opposite direction, breath reverses (chest contracts instead of expands), the child's head jerks back 1° then forward again in a stutter-revert. These frames splice into the normal loop when narrative edits trigger — the broadcast is being rewritten in real time.
+> **Chest breathing** — shallow controlled (1.000 to 1.003 peak, corporate-still). The suit shoulders UNCHANGED across all 8 frames — structured tailoring locks the silhouette. Throat above the tie rises and falls slightly with breath (visible below the floating screen). The floating holographic SCREEN hovers at a constant position relative to his shoulders — as his shoulders rise 1-2px on inhale, the screen rises with them.
+> **Screen idle behavior:** across the 8 breathing frames, the screen's interior video shows MICRO-FLICKER artifacts (barely-visible 1-pixel jitter, chromatic-aberration bleed at the screen edges) on an irregular cycle. One frame in eight will show a brief scan-line sweep (frame 4 = scan halfway down the screen).
+> **Cybernetic hands** — the extended hand's fingers subtly flex ±1mm on the breath cycle (visible articulation). The desk hand UNCHANGED (resting).
+> **BONUS: 4 REWIND frames** (`breathing/rewind_01..04.png`): same subject but chest contracts instead of expanding, screen scan-lines reverse direction, papers on the desk appear to shift position slightly between frames. These splice in when the Palimpsest editing-function activates. 12 total PNGs.
 
-#### 2Q.3 — Bundle C: Blink triptych + REWIND-BLINK variant
+#### 2Q.3 — Bundle C: Blink triptych + SCREEN-GLITCH variant
 
-> Standard 3 frames. PLUS a rewind-blink variant: 3 additional frames where the blink plays BACKWARD (closed → half → open — eyes OPEN from a closed start). Child-creepy. 6 total PNGs.
+> Standard 3 frames (open / half / closed) — the FACE ON THE SCREEN blinks normally (this is a real video of his face, and videos can show blinking). BUT: the rectangular screen frame itself does not change. On each blink, the screen border-glow briefly intensifies (+20% luminance for 80ms mid-blink) — a subliminal "signal tick."
+> PLUS a 4th SCREEN-GLITCH BLINK variant: the face on the screen freezes in an UNEXPECTED expression for a single frame (a different expression than the one playing before and after), then continues. Runtime fires this rare variant every ~12-20 regular blinks. Unsettling — the broadcast is being edited live. 4 PNGs.
 
 #### 2Q.4 — Bundle D: Viseme grid
 
-> Standard 15-panel sheet with child-scale mouth (~65% of adult openness). Broadcast-ready enunciation — she is PROFESSIONALLY trained, every phoneme crisply articulated. On AA and OW specifically, the mouth opens a little WIDER than anatomically normal for a child this size (an Archon's cadence in a kid's throat — same trick as Minnie).
+> Standard 15-panel sheet — VISEMES RENDER ON THE SCREEN, not on a physical mouth. The screen's video shows the mouth-shape for each phoneme, projecting out to the viewer as pure signal. 15 panels at 100% standard openness (he is a broadcast entity; intelligibility is his function). 4K.
 
 #### 2Q.5 — Bundle E: Expressions (5)
 
-> 1. SPEAKING — broadcast-perfect child delivery, antenna tips subtly resonating with phoneme rhythm.
-> 2. CONCERNED — a practiced sympathetic child-pout; the brows pull together in a learned performance.
-> 3. EMOTIONAL1 (segment-transition) — broadest delighted child-grin, eyes bright, head tilts 2° in the "and now, something remarkable" cadence. The segment is changing.
-> 4. EMOTIONAL2 (edit-in-progress) — the face FROZEN mid-expression with one eye half-closed, a barely-perceptible double-exposure ghost of an ALTERNATE child-expression hovers 2px offset. The broadcast is being edited. The child appears to be TWO DIFFERENT CHILDREN briefly. Rare and horrifying.
-> 5. REVEALING (archon-visible) — one frame: the child's face stays child-shaped but her eyes go ADULT-KNOWING, direct, uncanny (same technique as Minnie's archon-reveal). The antennas on the headband briefly LENGTHEN 20% and emit a faint broadcast-interference static at their tips. Reserved for the beat where the Palimpsest Host admits what she is.
+> 1. SPEAKING — the screen-face delivers lines with crisp corporate broadcast cadence; cybernetic hands remain still, the open-palm hand subtly rotates to emphasize certain words (rotation driven per-phoneme by a custom emphasis track).
+> 2. CONCERNED — the screen-face's brows pull together in practiced sympathy; the screen-border emits a single faint red pulse (the broadcast is registering a data issue).
+> 3. EMOTIONAL1 (editorial-amusement) — the screen-face's lips curl into a thin knowing smile; the CYBERNETIC FINGERS of the desk hand tap once against the papers (a single decisive tap — he has decided something about what you just said).
+> 4. EMOTIONAL2 (edit-in-progress) — the screen-face FREEZES on a neutral expression while the ambient background continues to flicker. Both cybernetic hands subtly flex as if typing on an invisible keyboard, rearranging the papers on the desk with a precise shuffle. The desk papers briefly DISPLAY new abstract glyph-marks that weren't there before. The broadcast is being edited in real time. Rare and horrifying.
+> 5. REVEALING — the screen EXPANDS 20% in size briefly, the screen-face leans toward the camera as if pushing against the front glass, expression dropping into cold direct appraisal. Both cybernetic hands rise above the desk into frame — both palms facing the camera in a stop-gesture. He has decided the player should SEE WHO IS EDITING THEM. Reserved for the single beat the Palimpsest drops its corporate mask.
 
-#### 2Q.6 — Bundle F: Broadcast-crawl overlay + antenna-static overlay
+#### 2Q.6 — Bundle F: Screen-broadcast + cybernetic-hand overlays
 
-> **Output:** `apps/client/public/vfx-atlases/palimpsest_{crawl,antenna_static}.png`.
+> **Output:** `apps/client/public/vfx-atlases/palimpsest_{screen_border,scan_line,paper_glyphs,cyberhand_rings}.png`.
 
-> - **palimpsest_crawl.png** — 2048×128 transparent. Horizontal strip of abstract glyph-shape crawl text (NOT legible letters, stylized character-forms). Used as tiling overlay on the backdrop at bottom edge of frame. Scrolls left at 12px/s normally, REVERSES direction at 18px/s during edit-triggered beats.
-> - **palimpsest_antenna_static.png** — 256×256 transparent. A small sprite of broadcast-static interference (black-white noise with subtle chromatic bleed) used as overlay at the antenna tips during REVEALING — a burst of signal from the accessory.
+> - **screen_border.png** — 1024×1280 transparent. The luminous pale-blue rectangular edge-outline with subtle chromatic-aberration bleed, used as overlay around the screen-face region.
+> - **scan_line.png** — 1024×64 transparent. A single horizontal scan-line sweep sprite that travels top-to-bottom on the screen at slow intervals.
+> - **paper_glyphs.png** — 1024×512 transparent. Abstract glyph-markings for the desk papers, animatable so runtime can morph the glyphs during edit-in-progress beats.
+> - **cyberhand_rings.png** — 512×256 transparent. Specular-highlight sprites for the small brass reinforcement rings on the cybernetic fingers, catching light as the hands move.
 
 #### 2Q.7 — Shader uniform block
 
 ```json
 {
-  "rigId": "npc_palimpsest_host",
-  "shaderProgram": "ChildArchonBroadcastPortrait",
+  "rigId": "npc_meme_palimpsest_entity",
+  "shaderProgram": "CorporateBroadcastEntityPortrait",
   "uniforms": {
-    "crawlScrollSpeed": -12,
-    "crawlTexture": "vfx-atlases/palimpsest_crawl.png",
-    "antennaStaticIntensity": 0.0,
-    "antennaStaticTexture": "vfx-atlases/palimpsest_antenna_static.png",
-    "antennaLength": 1.0,
+    "screenBorderIntensity": 0.5,
+    "screenBorderTexture": "vfx-atlases/palimpsest_screen_border.png",
+    "screenVideoSrc": "runtime:dynamic_face_video",
+    "scanLinePeriod": 8.0,
+    "scanLineTexture": "vfx-atlases/palimpsest_scan_line.png",
+    "paperGlyphMorph": 0.0,
+    "paperGlyphTexture": "vfx-atlases/palimpsest_paper_glyphs.png",
+    "cyberHandRingIntensity": 0.6,
     "editInProgress": 0.0,
-    "rewindAmplitude": 0.0,
-    "ghostDoubleExposure": 0.0,
-    "archonEyesVisible": false,
-    "breathingPhase": "autoLoop:3.2s:amp=1.008",
-    "visemeScale": 0.65
+    "breathingPhase": "autoLoop:3.2s:amp=1.003",
+    "visemeChannel": "routeToScreenVideo"
   },
   "stateTriggers": {
-    "editTriggered": "crawlScrollSpeed=+18; rewindAmplitude=1.0 for 1.2s",
-    "castingRewindFrames": "swap breathing frames to rewind variants",
-    "archonReveal": "archonEyesVisible=true; antennaLength=1.2; antennaStaticIntensity=0.8 for 600ms"
+    "editorialAmusement": "desk hand taps once; screen-face smiles",
+    "editInProgress": "screen-face FREEZES; cyberhands flex typing; paperGlyphMorph ramps 0→1 over 800ms",
+    "revealing": "screen expands 20%; both cyberhands rise to stop-gesture; screen-face drops to cold appraisal",
+    "screenGlitchBlink": "face on screen shows unexpected expression for 1 frame every ~12-20 blinks"
+  },
+  "crossReference": {
+    "childAvatar": "npc_meme_minnie (Part 2N) — when the entity performs as the Meme, it wears Minnie's face",
+    "canonicalIdentity": "This entity is BOTH 'the Meme' and 'the Palimpsest' — same entity, two functional titles"
   }
 }
 ```
 
-#### 2Q.8 — Parallel arc with Minnie (2N)
+#### 2Q.8 — Minnie cross-reference (update to 2N)
 
-The Palimpsest Host + Minnie the Meme + Corey (the child-disciple of the Collector, 2I) form an implied trio of CHILD-ARCHON / CHILD-CULTIST figures. All three share:
-- Seven-year-old anatomy
-- Disney-theme-park-souvenir-aesthetic accessory (Mickey ears / broadcast antennas / Collector facemask)
-- Honey-gold Celebration-era lighting palette
-- Rigid accessory that does NOT move with breath
-- Archon-visible REVEALING frame (the adult-knowing eyes inside the child's face)
+Minnie the Meme (Part 2N) remains as-specified — she is the CHILD AVATAR this entity wears when performing the Meme function. Update the 2N shader block to reference this entity as the TRUE FORM (`parentEntity: npc_meme_palimpsest_entity`). Dialogue routing between 2N and 2Q:
+- Minnie-voiced lines → render 2N (child-archon)
+- Palimpsest-function lines (Loredex edits, broadcast rewrites) → render 2Q (true form)
+- Meme-function lines spoken with adult gravity → render 2Q
+- Meme-function lines spoken with child spread-the-chant energy → render 2N
+- Runtime decides by reading the line's VO manifest `presentation` field
 
-Narrative plant: in scenes where two or more of these children appear together, render them in the same HONEY-GOLD warm-studio lighting rig so the viewer gets the subliminal "these are children of the same broken era" read. The user-facing horror is that they're all dressed up for the same nostalgic party.
+Corey (2I's child-disciple-of-the-Collector) and Minnie stay as CHILD AVATARS of their respective entities. Trio-arc from the prior draft remains valid — the three children are AVATARS, not independent characters. The true horrors are the adults editing them.
 
 ---
 
