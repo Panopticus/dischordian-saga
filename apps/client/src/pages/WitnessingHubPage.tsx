@@ -1028,7 +1028,7 @@ const SPINE_ACT_PANELS: Record<
       { flag: "slideshow_act_6_confession_intro_complete", label: "Opener seen" },
       { flag: "act6_elara_confession_heard", label: "Elara's confession heard" },
       { flag: "act6_human_confession_heard", label: "Human's confession heard" },
-      { flag: "act6_confession_close", label: "Stance taken" },
+      { flag: "act6_stance_chosen", label: "Stance chosen" },
     ],
     ctas: [
       { href: "/act6-ladder", label: "Confession Ladder" },

@@ -46,11 +46,49 @@ import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import LivingBackground from "@/components/LivingBackground";
 
 import { assetUrl } from "@/lib/assetUrl";
-type LadderView = "ladder" | "matchup" | "battle" | "postmatch";
+type LadderView = "ladder" | "matchup" | "battle" | "postmatch" | "stance";
 
 function resolveOpponentFaction(o: ActNOpponent): string {
   return o.deckLeaning[0] ?? "neutral";
 }
+
+/**
+ * The four confession-close stances per Act 6 completion gate canon
+ * (ACT_6_CONFESSION_STANCE_FLAGS). Raising ANY one of these satisfies
+ * the stance requirement of the Act 6 gate. The player picks after the
+ * second confession (Detective in the Wall) — the gate never fires
+ * without a stance, so this picker is load-bearing for act progression.
+ */
+const CONFESSION_STANCES: ReadonlyArray<{
+  flag:
+    | "act6_confession_close_empathy"
+    | "act6_confession_close_challenge"
+    | "act6_confession_close_refusal"
+    | "act6_confession_close_reluctant_ally";
+  label: string;
+  body: string;
+}> = [
+  {
+    flag: "act6_confession_close_empathy",
+    label: "Sit with them in it.",
+    body: "You don't forgive them. You don't correct them. You let the grief be the grief, and you are still there when it is done.",
+  },
+  {
+    flag: "act6_confession_close_challenge",
+    label: "Answer the confession with a harder one.",
+    body: "If this is what honesty costs, you owe it back. You tell them the thing you hoped you'd never have to say out loud.",
+  },
+  {
+    flag: "act6_confession_close_refusal",
+    label: "Refuse the absolution they're asking for.",
+    body: "A confession is not a sentence you pass on someone else. You do not tell them it's all right. You tell them it is what it is, and it is theirs.",
+  },
+  {
+    flag: "act6_confession_close_reluctant_ally",
+    label: "Pick up the shift beside them.",
+    body: "There is more war coming. The confession is a door, not a finish line. You agree — without warmth, without distance — to keep walking.",
+  },
+];
 
 export default function Act6CardLadderPage() {
   const { wins, losses, defeatedOpponents, recordWin, recordLoss } =
@@ -133,11 +171,37 @@ export default function Act6CardLadderPage() {
     [currentOpponent, recordWin, recordLoss, setNarrativeFlag],
   );
 
+  const anyStanceTaken = useMemo(
+    () => CONFESSION_STANCES.some((s) => Boolean(gameState.narrativeFlags?.[s.flag])),
+    [gameState.narrativeFlags],
+  );
+
+  const handleStanceChosen = useCallback(
+    (flag: (typeof CONFESSION_STANCES)[number]["flag"]) => {
+      setNarrativeFlag(flag, true);
+      // Also raise a generic "a stance was chosen" meta-flag so UI surfaces
+      // that consume the Act 6 progress panel (the Witnessing Hub) don't
+      // each have to know the four specific stance-flag names. The gate
+      // itself still reads ACT_6_CONFESSION_STANCE_FLAGS (the four above).
+      setNarrativeFlag("act6_stance_chosen", true);
+      fireCompanionComment(flag);
+      setView("ladder");
+    },
+    [setNarrativeFlag],
+  );
+
   const handlePostMatchContinue = useCallback(() => {
+    const wasDetectiveWin =
+      postMatchResult?.opponent.id === "act6_the_detective_in_the_wall" &&
+      postMatchResult.outcome === "win";
     setPostMatchResult(null);
     setTauntPhase(null);
-    setView("ladder");
-  }, []);
+    if (wasDetectiveWin && !anyStanceTaken) {
+      setView("stance");
+    } else {
+      setView("ladder");
+    }
+  }, [postMatchResult, anyStanceTaken]);
 
   const accent = "border-amber-500/50 text-amber-200";
   const subAccent = "text-amber-300/80";
@@ -246,6 +310,15 @@ export default function Act6CardLadderPage() {
                     Two sacrifices, side by side. Neither apologised.
                     The Ark is warm. Return to the bridge when ready.
                   </p>
+                  {!anyStanceTaken && (
+                    <button
+                      type="button"
+                      onClick={() => setView("stance")}
+                      className="mt-3 rounded border border-amber-500/60 bg-amber-950/40 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-amber-100 hover:bg-amber-900/60"
+                    >
+                      Choose how to carry them
+                    </button>
+                  )}
                 </div>
               )}
             </motion.div>
@@ -375,6 +448,49 @@ export default function Act6CardLadderPage() {
                   Continue
                 </button>
               </div>
+            </motion.div>
+          )}
+
+          {view === "stance" && (
+            <motion.div
+              key="stance"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.35 }}
+              className="space-y-4"
+            >
+              <div className="rounded-md border border-amber-500/40 bg-stone-950/60 p-5">
+                <p className={`font-mono text-[10px] uppercase tracking-[0.3em] ${subAccent}`}>
+                  Act 6 · Close
+                </p>
+                <p className="mt-2 font-serif text-[15px] italic text-amber-50">
+                  Both confessions held. Choose how you carry them.
+                </p>
+                <p className="mt-3 font-serif text-[12px] leading-relaxed text-amber-100/80">
+                  The Ark is warm. Neither of them is asking to be saved. The
+                  only remaining question is what you do with the silence
+                  after.
+                </p>
+              </div>
+              <ul className="space-y-2">
+                {CONFESSION_STANCES.map((stance) => (
+                  <li key={stance.flag}>
+                    <button
+                      type="button"
+                      onClick={() => handleStanceChosen(stance.flag)}
+                      className="w-full rounded-md border border-amber-500/40 bg-amber-950/20 px-4 py-3 text-left hover:border-amber-400 hover:bg-amber-950/40"
+                    >
+                      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-amber-200">
+                        {stance.label}
+                      </p>
+                      <p className="mt-1 font-serif text-[12px] leading-relaxed italic text-amber-100/80">
+                        {stance.body}
+                      </p>
+                    </button>
+                  </li>
+                ))}
+              </ul>
             </motion.div>
           )}
         </AnimatePresence>
