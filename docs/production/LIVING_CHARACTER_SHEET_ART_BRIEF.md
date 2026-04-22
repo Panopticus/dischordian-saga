@@ -504,3 +504,45 @@ Reference: `apps/client/public/references/protagonists/agent_zero/REFERENCE.md` 
 None required. Agent Zero uses standard breathing + visemes + blink. Her aliveness is carried entirely by the windswept hair (which can be driven by a subtle motion overlay — shift the breathing-loop hair deltas to loop at 5.2s on a separate channel from the chest breath).
 
 ---
+
+### 2B — ADJUDICATOR LOCKE
+
+Canon anchors: purple hair in messy top-bun updo with loose bangs and rain-wet trailing strands; red glowing cyber-eyepatch over left eye (the signature — judgment-as-optical-device, subtle chain-strap running up into hair); right eye visible, pale, cold-judging; small cross-shaped piercing mark beneath visible eye; purple leather jacket, zippered, studded, lapels up; stacked gold chains at collar; two blue-eyed masked enforcer silhouettes flanking her in authority contexts (rendered as separate background meshes, not in bust). Confrontational-forward idle pose (she never leans away).
+
+Reference: `apps/client/public/references/npcs/locke/REFERENCE.md`.
+
+#### 2B.1 — Bundle A: Neutral bust
+
+> Three-quarter bust portrait of a woman, late twenties to early thirties, striking features, confrontational forward weight (shoulder pushed slightly toward camera — she does not lean away). Purple hair (#8b5cf6 base, #a78bfa highlights) in a messy top-bun updo — loose bangs falling across the forehead, ~4 strands hanging down past her jawline on the camera-left side, rain-wet and clumped together (wet-hair shader). Left eye fully covered by a circular cyber-monocle EYEPATCH — dark metallic frame (#1a1a1d gunmetal), embedded red scanner display inside the lens showing a faint red scan-line pattern (#e11d48, subtle emissive), a fine silver chain-strap running from the eyepatch frame UP into her hairline and disappearing into the bun. Right eye fully visible — pale cold iris (#b8c0c8, near-grey with blue undertone), direct unblinking gaze, dark eyeliner, kohl-smudged lower lid. Directly beneath the visible right eye: a small cross-shaped piercing/mark (a tiny metal cross ornament or a henna-style ink cross, artist's choice as long as it reads as a "crying cross" motif). Wearing a purple leather jacket (#6d3ba8, deep plum with specular highlights) zipped halfway up, studded lapels turned UP in an assertive collar, button detail visible. Beneath the jacket: stacked gold chain necklaces at the collarbone (3 chains of varying thickness, warm yellow gold #d4a04a). Black undershirt beneath the jacket, minimal crew-neck. Backdrop: heavy neon-rain cyberpunk bokeh — magenta #e040fb and cyan #06b6d4 sign-light bokeh, rain streaks barely legible, volumetric rain haze. Rim light: magenta from back-right, cool cyan fill from back-left (implied enforcer point-lights at 7 and 5 o'clock behind her). Mouth closed neutral with a faint downturn at the corners — assessing. Film grain. 4K. No rendered text.
+
+#### 2B.2 — Bundle B: Breathing loop (8 frames)
+
+> Same subject, same lighting, same pose, 8-frame seamless breathing cycle. Standard chest scale curve (1.000 at frames 1/8, 1.008 peak at frames 4–5). Hair strands on camera-left drift ±1.5px at peak (wet hair has lower drift amplitude than dry). Gold chains at collarbone shift 1px at peak inhalation. Jacket fabric unchanged. Eyepatch UNCHANGED (it's rigid metal). Backdrop UNCHANGED. 8 PNGs.
+
+#### 2B.3 — Bundle C: Blink triptych
+
+> 3 frames of same subject. OPEN: right eye fully open, pale iris and catchlight visible, eyelash sharp. HALF: right upper eyelid at 50% travel. CLOSED: right eye fully closed. LEFT EYE UNCHANGED in all three frames (it's behind the eyepatch — no visible lid). No other facial change. 3 PNGs.
+
+#### 2B.4 — Bundle D: Viseme grid
+
+> 15-panel viseme reference sheet of Adjudicator Locke's mouth region, tight crop nose-tip to chin. Same phoneme spec per Part 1A.2. Matched lighting, consistent lip tone (pale neutral, slightly matte — not glossy). 4K.
+
+#### 2B.5 — Bundle E: Expressions (5 variants)
+
+> 5-panel expression sheet, same canon elements. Panels:
+> 1. SPEAKING — mid-syllable AH open mouth, right eye locked, eyepatch scan accelerated (stronger red glow — driven by overlay, not this still).
+> 2. CONCERNED — brows pull together, mouth tight, right eye narrows 10%, head tilts FORWARD (not away — she advances when concerned).
+> 3. EMOTIONAL1 (judgment-pronounced) — chin slightly raised, lips pressed thin, right eye half-lidded in appraisal, a single deliberate exhale caught mid-breath. This is her "verdict delivered" frame.
+> 4. EMOTIONAL2 (vulnerable moment) — exceedingly rare; the right eye wets with a single catchlight tear suggestion, mouth slightly parted, the confrontational forward lean softens 4°. Reserved for a specific plot beat where she drops the adjudicator mask.
+> 5. REVEALING — she lifts the eyepatch 20% up onto her forehead (the metal frame visible at a higher angle, the LEFT EYE BENEATH briefly exposed for the first time — pale, ordinary, human, unaugmented). Mouth parted pre-line. This is the SINGLE frame where the eyepatch is not covering her left eye; reserve strictly for the one reveal beat.
+> 4K. No rendered text.
+
+#### 2B.6 — Bundle F: Eyepatch scan-sweep VFX overlay
+
+> **Output:** `apps/client/public/vfx-atlases/locke_eyepatch_scan.png` — 512×512, transparent.
+
+> A circular red scan-line pattern texture, 512×512, transparent background. Inside a 400px-diameter circular zone (the eyepatch lens area): fine horizontal scan-lines in red (#e11d48) at 60% opacity, 2px line width, 4px spacing, with a brighter 8px band traveling vertically at the center of the frame (the "scanning head") — render as one frame with the bright band at mid-travel (~50% through cycle). Faint HUD-ring etchings in fainter red around the circle perimeter: crosshairs, small tick marks every 30°, a single alphanumeric glyph cluster at the top (not legible text — decorative cipher). Outside the 400px lens circle: fully transparent. Additive blend at runtime.
+
+**Runtime behavior:** The scan-band animates vertically top↔bottom over a 2.8s loop at idle (slow). When Track D detects Locke is speaking, the loop accelerates to 0.9s period and the scan-line brightness boosts 1.6×. Eyepatch intensity uniform `scanActive: 0..1` drives both speed and brightness.
+
+---
