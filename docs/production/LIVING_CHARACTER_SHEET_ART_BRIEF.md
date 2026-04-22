@@ -2047,3 +2047,126 @@ Total starter-gear GLBs: **40 meshes + parametric shader variant system** — no
 > Rigged 3D body-suit mesh representing the {class} archetype for species {species}. Silhouette matches the starter-suit reference. Base neutral shader ready for runtime re-tinting by element (5 options) and foundation (4 options). Respect Ne-Yon species body proportions (+18% stature, broader shoulders) where applicable. ≤18,000 triangles. Attach sockets: chest + arms + legs. Output .glb.
 
 ---
+
+## PART 4 — LIONS CLUB CEREMONIAL + SEASONAL GEAR
+
+### 4.0 — Overview
+
+Source systems: `apps/shared/lionsClub.ts` (rental-suit faction), `apps/shared/christmasInJuly.ts` (seasonal event), LCIF donor trophies. Estimated ~170 pieces across the following tracks:
+
+- **Ceremonial set** — 10 pieces, the "signature" Lions Club regalia. Rental-gated via membership; materializes on equip, dissolves on rental expiry.
+- **Seasonal event sets** — ~160 pieces across 6 seasons (spring, summer, autumn, winter, Christmas-in-July, Shadow Convergence). Time-window gated via `eventWindow` middleware.
+- **LCIF donor trophies** — 3 pieces (Bronze / Silver / Gold), permanent account unlocks, relic-tier shader above mythic.
+
+### 4.1 — Ceremonial set (10 pieces, rental-gated)
+
+Slots match the Inventor's Suits slot roster: head, chest, shoulders, arms, gloves, belt, legs, feet, weapon-primary, back.
+
+**Narrative identity:** White ICL (Iron Clad Lions) parade regalia — the same material family as Kael's Phase 1 armor (Part 2C.1). Lions Club members equip this only during active membership; non-members see the slots as locked gold-laurel silhouette placeholders.
+
+**Base 3D commission prompt:**
+> Rigged 3D ceremonial armor piece — {SLOT} — for the Iron Clad Lions' Ceremonial regalia set. Material: white ceramic plate armor (#f0ede8) with polished brass ornamentation (#c4a040) at the joints and edges, faintly engraved ICL sigil work (small, not overt). Silhouette low-poly hero sci-fi (matching Kael Phase 1's armor geometry language). Preserve a chest-plate mounting position for a detachable ICL insignia (separate small mesh child). Output .glb at slot-appropriate triangle budgets (see Part 3.2). Sockets match player mesh.
+
+**Rental-state shaders (on top of the base GLB):**
+
+- **Pre-equip (locked, non-member):** Renders as a gold-laurel silhouette at 40% opacity with "MEMBERSHIP REQUIRED" tooltip on hover. Geometry simplified to silhouette-only mesh. Uniform: `rentalState = "locked"`.
+- **Materialization (just equipped):** 0.8s animation where the armor resolves from gold particle swarm into solid form. Similar to The Human's particle-assembly reveal but simpler and faster. Uniform: `rentalState = "materializing"; materializationProgress = 0..1`.
+- **Active (membership valid):** Full PBR render, faint warm gold rim-light around the edges (faction ambient). Uniform: `rentalState = "active"`.
+- **Grace period (membership expires within 72 hours):** Faint edge desaturation (−15%) with a subtle warning-pulse: the gold rim briefly dims every 6s. Uniform: `rentalState = "grace"; graceTimeRemaining = 0..72h`.
+- **Dissolution (just expired):** Reverse of materialization — 1.2s animation where the armor dissolves into gold particle swarm and vanishes. Uniform: `rentalState = "dissolving"; dissolveProgress = 0..1`. After this plays, slot returns to locked state.
+
+> **Output:** `apps/client/public/gear3d/lions-club/ceremonial/{slot}.glb` + `rental_materialization.preset` shader file.
+
+### 4.2 — Seasonal rental sets (six seasons × ~10 slots × 2-3 theme variants)
+
+Each season introduces ONE Ceremonial-derived variant set with the same 10 slots re-skinned to the season's palette and ambient VFX. User-facing "Seasonal tab" in the equip panel gates these behind `eventWindow` — outside the window, displayed with "Returns in {N} days" tooltip.
+
+**Per-season ambient VFX class (defines the season's signature seasonal "feel" when worn):**
+
+| Season | Palette | Ambient VFX class | Triggers |
+|---|---|---|---|
+| **spring** | Pale sage #b4c7a8, soft cream #e6dcc2, gentle magenta pollen accents | `PollenDrift` — scattered soft magenta pollen particles drift diagonally across the character, more dense near feet/ankles | Active while worn indoors or outdoors during spring window |
+| **summer** | Warm coral #e08266, bright saturated cyan #4ba3b5, gold trim | `HeatShimmer` — faint heat-haze distortion around the character's silhouette at 10% intensity | Active while worn |
+| **autumn** | Burnt-orange #c74a1a, oxblood #8a1818, deep amber #d4a04a | `FallingLeaves` — ~3 leaf-shaped particles per second drift downward past the character, warm autumn colors | Active while worn |
+| **winter** | Pale silver-blue #b0c4d4, deep navy #1a2d5a, snow-white trim | `BreathFrost` — warm-white visible exhale frost appears on every exhale breath, syncs with Track D viseme exhale phonemes | Syncs to VO timeline when speaking |
+| **christmasInJuly** | Candy-cane red-and-white stripes, gold, deep forest green | `PeppermintSparkle` — tiny red-and-white candy-cane sparkles emit from the cuffs and collar on motion | Active while worn |
+| **shadowConvergence** | Deep violet #3d1a5a, corruption-black, faint magenta seam accents | `VoidTendrils` — thin violet tendrils trace along the character's silhouette, appearing to wrap around them from outside the frame | Active while worn — the most visually aggressive of the seasons |
+
+**Per-season 3D commission prompt template (runs once per slot × season = 60 pieces):**
+
+> Rigged 3D seasonal-variant armor piece — {SLOT} — for the Iron Clad Lions' {SEASON} event collection. Start from the Ceremonial base geometry (4.1). Re-skin to the {SEASON} palette (per Table 4.2). Add season-appropriate silhouette modifications only where narratively justified (e.g., winter adds fur-lining at collar and cuffs; autumn adds wind-blown scarf accent at shoulder). Preserve the attachment sockets exactly. PBR textures should carry season ambient — winter fabric slightly frosted, summer slightly sun-faded, spring with subtle floral embroidery on trim. Output .glb + 2048² PBR bundle.
+
+**Ambient VFX atlases:** One shader preset per season, shared across all 10 slots of that season.
+
+> **Output:** `apps/client/public/vfx-atlases/seasonal/{spring,summer,autumn,winter,christmasJuly,shadowConvergence}_ambient.png` — each 2048×2048.
+
+For each season-ambient atlas, author a tiling texture plus sprite sheet matching the ambient VFX class:
+
+- `spring_ambient.png` — 4×4 grid of pollen mote variants (soft magenta gaussian blurs, 8-24px each)
+- `summer_ambient.png` — heat-haze distortion normal map (subtle shimmer offsets)
+- `autumn_ambient.png` — 4×4 grid of leaf sprites (varying fall colors, rotated angles)
+- `winter_ambient.png` — exhale frost puff sprite sheet (soft warm-white gaussians that fade quickly)
+- `christmasJuly_ambient.png` — 4×4 grid of candy-cane sparkle variants (red-white striped 8px sprites)
+- `shadowConvergence_ambient.png` — thin violet tendril sprite sheet (animated tendril segments, 32×128px each)
+
+### 4.3 — Event-specific sets (inside seasonal windows)
+
+Beyond the generic seasonal rentals, specific events introduce ONE-OFF pieces. Examples (from `apps/client/src/data/events/`):
+
+- **Shadow Convergence Mantle** — a single chest-slot override available only during the Shadow Convergence event window. 3D commission prompt: "A corrupted Ceremonial chest-plate, the pristine white ceramic now fractured with violet-black veins of void-corruption, violet emissive leaking from the fracture lines — as if the armor has been touched by Shadow Tongue. Preserve the ceremonial silhouette but add the fracture geometry as real displacement." Paired with a Veo 3.1 intro cinematic showing a ceremonial suit being corrupted.
+- **Christmas-in-July wheel prizes** — cosmetic accessories spawned from event wheel: santa-hat helm variant, candy-cane weapon skin, reindeer-antler head accessory. Each is a small add-on GLB that attaches to the head socket without replacing the currently-equipped helm. ~8-12 pieces per year.
+
+### 4.4 — LCIF donor trophies (3 pieces, permanent account unlocks, RELIC tier)
+
+These are the top-tier prestige pieces. Gated by real-world LCIF (Lions Clubs International Foundation) donation receipts, unlocked permanently across the account. Displayed in a dedicated Dreamer sidebar vignette, not in the standard equip panel (they're trophies, not gear).
+
+Three tiers: Bronze / Silver / Gold. Each is a single trophy GLB — not a wearable armor piece — displayed on a pedestal in the character-sheet sidebar.
+
+**RELIC shader tier (ABOVE mythic):**
+
+Adds one tier beyond the 6 standard rarities in Part 3.3. Relic treatment:
+- **Color:** base material + full iridescent-film interference (similar to mythic) + additional engraving-scroll shader. Fine engraved patterns SCROLL slowly across the metal surface (0.002 texture units/second) revealing commemorative text and LCIF sigils (abstract — not legible text).
+- **Emissive:** Multi-layered — primary gold-orange seam glow + secondary soft blue-white inner holographic overlay + tertiary chromatic iridescence on the outermost surface.
+- **Particle VFX:** Slow falling gold-dust particles around the trophy at all times, plus a rare "commemoration burst" every ~30s that emits a spiral of gold sparkles.
+
+> **Output:** `apps/client/public/vfx-atlases/rarity/relic.png` — 2048×2048 combining the three emissive layers as separate channels packed into R/G/B.
+
+**Per-tier 3D commission prompts:**
+
+- **BRONZE donor trophy:** "A small bronze Lions Clubs International sculptural trophy, ~15cm tall: a stylized lion head emerging from a rectangular plinth base, polished bronze (#cd7f32) with subtle patina at the recesses. Engraved commemorative inscription on the plinth (render as abstract scroll pattern, no legible text). Simple upright pose, cinematic lighting preserved in the PBR maps. Output .glb + 2048² PBR bundle."
+
+- **SILVER donor trophy:** "Same sculptural silhouette as Bronze but polished silver (#c0c0c0) with subtle tarnish lines, slightly larger (~18cm), more intricate plinth engraving work visible. Output .glb + 2048² PBR."
+
+- **GOLD donor trophy:** "Same silhouette but polished gold (#ffd700) with high-clarity reflections, ~22cm tall, hand-engraved floral scroll work wrapping the plinth, a single tiny inset gem at the lion's forehead (blue sapphire, small emissive). This is the apex prestige tier — commission at the highest material quality. Output .glb + 4096² PBR bundle."
+
+### 4.5 — Rental system integration (server-side, no new art required)
+
+Rental logic already exists in `apps/shared/lionsClub.ts:canEquipRentalPiece` (returns pass/fail + grace-period data). No server-side changes. The 3D gear pipeline only needs to respect the `rentalState` uniform described in 4.1 — pre-equip (locked silhouette), materialization animation, active, grace warning pulse, dissolution animation. All state transitions are purely visual on top of the same GLB.
+
+**State machine JSON (developer hand-off):**
+
+```json
+{
+  "rentalStateMachine": {
+    "states": ["locked", "materializing", "active", "grace", "dissolving"],
+    "transitions": {
+      "locked → materializing": "onEquip + membership valid",
+      "materializing → active": "materializationProgress = 1.0",
+      "active → grace": "membership expires within 72h",
+      "grace → active": "membership renewed",
+      "grace → dissolving": "membership expired",
+      "active → dissolving": "un-equipped",
+      "dissolving → locked": "dissolveProgress = 1.0"
+    },
+    "shaders": {
+      "locked": "gold_laurel_silhouette.preset",
+      "materializing": "rental_materialization.preset + base_gear_material",
+      "active": "base_gear_material + lions_rim_glow.preset",
+      "grace": "base_gear_material + lions_rim_glow_warning.preset",
+      "dissolving": "rental_dissolution.preset + base_gear_material"
+    }
+  }
+}
+```
+
+---
