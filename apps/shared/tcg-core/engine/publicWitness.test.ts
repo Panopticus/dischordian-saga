@@ -194,30 +194,34 @@ describe("publicWitness — public_delta override (§3 divergence)", () => {
   // than the full applyPublicWitnessPlay draft path — they confirm
   // the authoring contract that the four tuned Cycle C cards (§5.7
   // playable pool) actually diverge as intended.
-  it("Field Medic: private +1, public -2 (obstruction)", () => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { cardDef } = require("../cards/definitions/neutral/s1_char_088_field_medic.ts");
+  it("Field Medic: private +1, public -2 (obstruction)", async () => {
+    const { cardDef } = await import(
+      "../cards/definitions/neutral/s1_char_088_field_medic"
+    );
     expect(cardDef.verdict_delta).toBe(1);
     expect(cardDef.public_delta).toBe(-2);
   });
 
-  it("Hired Blade: private +1, public -2 (admission of violence)", () => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { cardDef } = require("../cards/definitions/neutral/s1_char_090_hired_blade.ts");
+  it("Hired Blade: private +1, public -2 (admission of violence)", async () => {
+    const { cardDef } = await import(
+      "../cards/definitions/neutral/s1_char_090_hired_blade"
+    );
     expect(cardDef.verdict_delta).toBe(1);
     expect(cardDef.public_delta).toBe(-2);
   });
 
-  it("Scrapyard Golem: alignment-but-stronger private +1, public +2", () => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { cardDef } = require("../cards/definitions/neutral/s1_char_087_scrapyard_golem.ts");
+  it("Scrapyard Golem: alignment-but-stronger private +1, public +2", async () => {
+    const { cardDef } = await import(
+      "../cards/definitions/neutral/s1_char_087_scrapyard_golem"
+    );
     expect(cardDef.verdict_delta).toBe(1);
     expect(cardDef.public_delta).toBe(2);
   });
 
-  it("Dischordian Logic: private +1, public -1 (paradox)", () => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { cardDef } = require("../cards/definitions/neutral/s1_spell_123_dischordian_logic.ts");
+  it("Dischordian Logic: private +1, public -1 (paradox)", async () => {
+    const { cardDef } = await import(
+      "../cards/definitions/neutral/s1_spell_123_dischordian_logic"
+    );
     expect(cardDef.verdict_delta).toBe(1);
     expect(cardDef.public_delta).toBe(-1);
   });
