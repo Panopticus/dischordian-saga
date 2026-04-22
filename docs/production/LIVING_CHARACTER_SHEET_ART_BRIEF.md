@@ -1334,3 +1334,121 @@ Standard 15-panel sheet, child-scale mouth (~60% of adult openness). But on the 
 ```
 
 ---
+
+### 2O — THE NECROMANCER
+
+Canon anchor: `apps/shared/characterVisualDNA.ts` (id: "necromancer"). Anomaly species, gaunt-ageless, ashen skin (#c4c0b8), long white hair that trails downward as if underwater, milk-white eyes with no pupils occasionally showing faces of the dead through them, sunken cheeks, death-mask porcelain stillness, burial-ink sigils on forehead. Funeral-black tattered robes. Floats low to the ground rather than walks.
+
+Reference: `apps/client/public/references/npcs/necromancer/REFERENCE.md`.
+
+**Critical rigging note:** The Necromancer floats — no shoulder weight. In the bust frame, his shoulders sit higher than gravity would allow for a standing human. Breathing amplitude is near-zero (the dead don't breathe much); aliveness carried by hair-drift and eye-face overlays.
+
+#### 2O.1 — Bundle A: Neutral bust
+
+> Three-quarter bust portrait of a gaunt ageless figure, skin ashen pale with a faint greyish undertone (#c4c0b8), porcelain death-mask stillness — an unearthly smoothness as if the face is slightly too flawless. Sunken cheeks, hollow cheekbones cast soft shadow. Hair: long, straight, pure white (#f0ede8), shoulder-length, drifting DOWNWARD AS IF UNDERWATER — individual strands splay outward slightly as if suspended in a medium denser than air. Eyes: milk-white, NO pupils, just opaque white orbs with a faint luminous core. Forehead bears burial-ink sigils: three small geometric glyphs in deep black (#0a0a0a), horizontally spaced across the brow — funeral marks. Wearing funeral-black tattered robes (#1a1d1f deep charcoal, fabric frayed at the edges, multiple overlapping layers of torn cloth). Backdrop: defocused ancient crypt — pale violet void with faint drifting motes of ash, a distant suggestion of stone archways, no warm light. Shoulders sit unnaturally HIGH — he is not standing, he is suspended. Rim light: faint cool violet from behind, no warm fill. Mouth closed in porcelain stillness. Film grain. 4K. No rendered text.
+
+#### 2O.2 — Bundle B: Breathing loop (8 frames)
+
+> Minimal chest motion (1.000 to 1.001 peak — nearly zero). The hair is the motion carrier: individual strands drift in slow suspended-medium motion, ±4px across the 8-frame cycle, with distinct wave patterns (strands move in slow sine waves). Robe layers drift subtly (±1px). Shoulders UNCHANGED (he is not standing). 8 PNGs.
+
+#### 2O.3 — Bundle C: Blink triptych
+
+> Standard 3 frames. BUT: every ~5 blinks, on a CLOSED frame, a faint FACE-OF-THE-DEAD texture overlays the closed eyelids — a suggestion of another person's features visible through his eyelids. Render this variant as a separate rare CLOSED file (`closed_face_variant.png`). 4 total PNGs for this bundle.
+
+#### 2O.4 — Bundle D: Viseme grid
+
+> Standard 15-panel. Lips pale (#b0a8a8), almost colorless. Mouth movement is SLOW in runtime — viseme transitions at 60% standard speed. His speech is measured like a eulogy.
+
+#### 2O.5 — Bundle E: Expressions (5)
+
+> 1. SPEAKING — minimal movement, lips barely parted on consonants, only strong vowels open the mouth fully.
+> 2. CONCERNED — the burial-ink sigils on the forehead DARKEN 30% (he is focused on an imminent death).
+> 3. EMOTIONAL1 (welcoming-the-dead) — a gentle mortician's softening of the mouth, eyes luminous-core brightens, a single white hair strand floats OUT toward the camera rather than downward (a greeting).
+> 4. EMOTIONAL2 (grief) — the hair stops drifting and falls straight DOWN as gravity returns briefly, shoulders settle to human height. For one frame he is a mortal man grieving.
+> 5. REVEALING — the milk-white eyes part and show clear FACES of specific characters scrolling across the whites (abstract portrait silhouettes of ~5 known dead from the game's lore — keep them suggestive, not identifiable). Head bowed 8°, hair drifts upward toward the camera. This is the rare moment he speaks with the voices of the dead.
+
+#### 2O.6 — Bundle F: Eye-faces overlay
+
+> **Output:** `apps/client/public/vfx-atlases/necromancer_eye_faces.png` — 512×512 transparent.
+
+> A subtle texture showing ghostly faces overlaid on a milk-white background. 3 to 5 very faint face silhouettes drifting across the texture, semi-transparent (10-25% opacity), desaturated. Used as scrolling overlay on the eye-whites driven by `deadFacesVisible: 0..1` uniform. Only used on REVEALING expression and occasionally on blink-closed.
+
+#### 2O.7 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_necromancer",
+  "shaderProgram": "UndeathFloatingPortrait",
+  "uniforms": {
+    "hairGravityInverted": true,
+    "hairDriftAmplitude": 4.0,
+    "breathingPhase": "autoLoop:3.2s:amp=1.001",
+    "shoulderLiftHeight": 12,
+    "deadFacesVisible": 0.0,
+    "burialSigilDarkness": 0.4,
+    "eyeLuminousCore": 0.5,
+    "visemeSpeedMultiplier": 0.6
+  },
+  "stateTriggers": {
+    "welcomingTheDead": "hairGravityInverted toggles for 800ms (strand drifts toward camera)",
+    "grief": "hairGravityInverted=false; shoulderLiftHeight=0",
+    "revealing": "deadFacesVisible=1.0; head bowed"
+  }
+}
+```
+
+---
+
+### 2P — NILMORG (DMC RACE-HOST)
+
+Canon anchor: `docs/production/SHIP_READY_ASSET_BIBLE.md` CIN-031/032. The Dead Man's Circuit kart-racing master of ceremonies. Theatrical carnival-barker with a microphone at a raised podium. Wide-brim race-flag-patterned coat, broadcast-ready showman. The prize IS the severance.
+
+Reference: `apps/client/public/references/npcs/nilmorg/REFERENCE.md`.
+
+#### 2P.1 — Bundle A: Neutral bust
+
+> Three-quarter bust portrait of a theatrical showman, mid-forties, olive-skinned, sharp wolfish features. Dark hair slicked back with a pronounced widow's peak, thin dark mustache with curled waxed ends. Eyes: amber (#d4a04a) with warm crinkle at the corners — performative delight. Wearing a wide-shouldered tailored coat in checkerboard black-and-white (race-flag pattern) (#0a0a0a and #f0ede8), cut long at the lapels, broad brass buttons down the front. Underneath: a deep-red silk shirt (#a81e1e) with a high Mandarin collar and a single thin gold chain visible above the collar. Holding a chromed microphone (#c0c4cc) to his mouth at chest level (mic-head visible in frame lower-right, cord trailing offscreen). Backdrop: defocused kart-racing starting line — hazard lights (red and yellow) flare in the lower bokeh, distant cheering-crowd silhouettes in the darkness, a massive holographic countdown glyph suspended above but defocused. Palette: warm-red-yellow race lighting dominant, cool-blue edge hints, checkerboard accent. Film grain, anamorphic flares. 4K. No rendered text.
+
+#### 2P.2 — Bundle B: Breathing loop (8 frames)
+
+> Elevated chest amplitude (1.000 to 1.011 peak — theatrical projection). Mustache curls shift subtly on exhale (curl tightens at peak, relaxes at valley). The microphone is held STEADY — it does not move with breath. Checkerboard coat catches different-frame highlights on the black cells.
+
+#### 2P.3 — Bundle C: Blink triptych
+
+Standard. His eyes crinkle fully at outer corners on HALF and CLOSED — a showman's blink is always half a grin.
+
+#### 2P.4 — Bundle D: Viseme grid
+
+Standard 15-panel, but at 130% of baseline openness (he is OVER-projecting for the crowd). On AA and OW visemes his mouth approaches impossible theatrical scale.
+
+#### 2P.5 — Bundle E: Expressions (5)
+
+> 1. SPEAKING — broad mouth, mustache curls pulled outward by the corners of the smile, mic at mouth.
+> 2. CONCERNED — eyebrows raised theatrically high (mock-concern, not real), mouth in an O of feigned worry. He doesn't do genuine concern.
+> 3. EMOTIONAL1 (showtime) — broadest grin, mouth wide, one arm extending offscreen-left (gesture implied). Crowd-rousing.
+> 4. EMOTIONAL2 (winner-crowned) — a gracious smile, eyes soft-warm, head tilted slightly in approval. The moment right before the prize-severs-the-winner reveal.
+> 5. REVEALING — he leans in toward camera, mic lowered from mouth, eyes sharpen from performative delight to cold assessment. The mask slips: he is NOT actually the showman. He is the Hierarchy's asset-converter. Reserved for post-race severance moment.
+
+#### 2P.6 — Bundle F: None required. His VFX is in the cinematics (Part 9).
+
+#### 2P.7 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_nilmorg",
+  "shaderProgram": "TheatricalShowmanPortrait",
+  "uniforms": {
+    "micAlwaysAtMouth": true,
+    "visemeScale": 1.3,
+    "mustacheCurlTightness": 0.5,
+    "raceLightingAmbient": "#d9a66a + #a81e1e + #0a0a0a checkerboard",
+    "breathingPhase": "autoLoop:3.2s:amp=1.011"
+  },
+  "stateTriggers": {
+    "showtime": "visemeScale=1.5; crowd noise ambient +20%",
+    "maskSlips": "visemeScale=0.8; mic lowered; eyes cold"
+  }
+}
+```
+
+---
