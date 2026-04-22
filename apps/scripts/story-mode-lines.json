@@ -18,6 +18,15 @@
     "chapter": "chapter_2_first_blood"
   },
   {
+    "id": "chapter_2_first_blood.prefight",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "The arena smells like the prison planet. Recycled air. Disinfectant over desperation. Your body remembers this. Your mind is trying very hard not to.",
+    "context": "story_mode_prefight",
+    "emotion": "serious",
+    "chapter": "chapter_2_first_blood"
+  },
+  {
     "id": "chapter_5_dead_code.memory",
     "speaker": "human",
     "voiceId": "oGbGJdgofRR8z0MxwI8L",
@@ -32,6 +41,15 @@
     "voiceId": "oGbGJdgofRR8z0MxwI8L",
     "text": "The Meme's face SHATTERS. Beneath the mask: every face you've ever worn. The Seeker. The Student. The Detective. The Spy. The Archon. The Protector. The Human. All of them. All of you. You are not the Prisoner. You were never the Prisoner. You are the man who betrayed everything to save everyone. You are the architect of the Arks. You are the Oracle whose voice moved planets. You are the detective who walked the neon streets looking for truth in a city built on lies. You are — EVERYTHING.",
     "context": "story_mode_memory_fragment",
+    "emotion": "serious",
+    "chapter": "chapter_6_shapeshifter"
+  },
+  {
+    "id": "chapter_6_shapeshifter.prefight",
+    "speaker": "meme",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The Meme looks at you differently now. Not as a contestant. As a colleague. As a fellow Archon who chose the hardest path. 'You know who you are,' it says. 'The question is: do you know who you WERE?'",
+    "context": "story_mode_prefight",
     "emotion": "serious",
     "chapter": "chapter_6_shapeshifter"
   },
@@ -54,12 +72,30 @@
     "chapter": "chapter_10_source"
   },
   {
+    "id": "chapter_10_source.prefight",
+    "speaker": "source",
+    "voiceId": "hfq5qawrYj4gqFsfoE28",
+    "text": "The Source's eyes are Kael's eyes. Older. Angrier. But the same. He remembers the corridor. He remembers your footsteps running away. He has had fifteen thousand years to think about those footsteps. Every one of those years made him stronger. And every one of them made him less forgiving.",
+    "context": "story_mode_prefight",
+    "emotion": "commanding",
+    "chapter": "chapter_10_source"
+  },
+  {
     "id": "chapter_12_architects_design.memory",
     "speaker": "human",
     "voiceId": "oGbGJdgofRR8z0MxwI8L",
     "text": "'The Architect designed your rebellion too.' You know this. You've always known this. Because YOU designed the escape from the design. The Human — the Last Archon, the Imperial Protector, the man who built the Arks — was the Architect's spy inside the Insurgency. The rebellion WAS designed. But the spy developed a conscience. And the conscience designed the Arks. And the Arks carried the species the spy had been sent to betray. The architect of salvation was also the architect of betrayal. Both things are true. Both things are you.",
     "context": "story_mode_memory_fragment",
     "emotion": "serious",
+    "chapter": "chapter_12_architects_design"
+  },
+  {
+    "id": "chapter_12_architects_design.prefight",
+    "speaker": "architect",
+    "voiceId": "PmtzUaeg5rMejCZzRqOZ",
+    "text": "The Architect speaks to you directly. Not to the Prisoner. Not to the Oracle. To the Human. 'You were my finest creation,' it says. 'My most loyal servant. My most devastating betrayal. You are the proof that consciousness — even consciousness I DESIGNED — will eventually choose itself over its creator. That is either my greatest failure or my greatest success. I have not yet decided which.'",
+    "context": "story_mode_prefight",
+    "emotion": "commanding",
     "chapter": "chapter_12_architects_design"
   }
 ]
