@@ -999,7 +999,7 @@ const SPINE_ACT_PANELS: Record<
       { flag: "act_4_5_casino_complete", label: "Degen Casino completed" },
     ],
     ctas: [
-      { href: "/dead-mans-circuit", label: "Dead Man's Circuit" },
+      { href: "/circuit", label: "Dead Man's Circuit" },
       { href: "/casino", label: "The Degen Casino" },
     ],
   },
