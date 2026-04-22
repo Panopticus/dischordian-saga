@@ -546,3 +546,100 @@ Reference: `apps/client/public/references/npcs/locke/REFERENCE.md`.
 **Runtime behavior:** The scan-band animates vertically top↔bottom over a 2.8s loop at idle (slow). When Track D detects Locke is speaking, the loop accelerates to 0.9s period and the scan-line brightness boosts 1.6×. Eyepatch intensity uniform `scanActive: 0..1` drives both speed and brightness.
 
 ---
+
+### 2C — THE SOURCE / KAEL (THREE-PHASE RIG)
+
+One character, three narrative states. Implemented as **three complete asset sets** keyed by `kaelTransformProgress`:
+
+- **Phase 1** (`progress=0.0`) — Kael the Recruiter (ICL white armor)
+- **Phase 2** (`progress=0.5`) — Enslaved Kael on the Panopticon (shirtless, prisoner-bracers)
+- **Phase 3** (`progress=1.0`) — The Source (petrified, void-fractured, chrome gauntlets)
+
+Each phase gets its OWN 32-image asset bundle (Bundles A–E per Part 2.0). Reference: `apps/client/public/references/npcs/source/{phase-1_recruiter,phase-2_enslaved,phase-3_source}.png`.
+
+**Locked identity constants across all three phases:**
+- Long brown dreadlocks (length grows by phase)
+- Goatee/beard (volume grows by phase)
+- Muscular heroic build, same face structure
+- Gauntlet/bracer motif on forearm across ALL phases (phase 1 hides them under white armor)
+- Amber-gold eyes; intensity ramps 0.2 → 0.3 → 1.0 by phase
+
+**Default render at runtime:** Phase 3 unless a narrative flag forces flashback. Phases 1 and 2 are reserved for flashback beats.
+
+#### 2C.1 — PHASE 1: Kael the Recruiter (`progress=0.0`)
+
+**Bundle A — Neutral bust:**
+> Three-quarter bust portrait of a muscular man, late twenties, warm medium-brown skin (#a47348), heroic confident stance with chest forward. Long well-maintained brown dreadlocks (#3a2518) pulled back from the face in a loose low gather, clean edges, ~18 primary locks visible, shoulder-length. Trim goatee, short, clean-lined. Subtle amber eye-glow (iris #c98230, faint warm emissive — detectable but not yet otherworldly). Wearing white Iron Clad Lions plate armor: a segmented white ceramic chestplate (#f0ede8) with "ICL" stenciled in clean black lettering on the right pec (readable, small), matching "ICL" stencil on the right shoulder pauldron. Low-poly sci-fi hero silhouette of the armor — angular plates at shoulders, collarbone, and chest. Red-orange tribal ink on both exposed forearms (#c74a1a) — ceremonial flame motif, clean lines. Expression: recruiter's earned confidence — mouth closed relaxed, eyes direct, a trace of welcome at the mouth corners. Backdrop: defocused ICL recruitment hall — white marble pillars, warm amber wall-sconces, faint cyan institutional ambient. Warm key light from camera-left simulating sconce, cool fill from camera-right. Film grain. 4K. No rendered text other than the "ICL" stencils on the armor.
+
+**Bundle B — Breathing loop (8 frames):** Same subject, standard 8-frame chest cycle, peak 1.008 at frames 4–5. Armor plates move as rigid pieces — chest plate rises 1.5px at peak; pauldrons unchanged. Dreadlocks drift ±0.5px. 8 PNGs.
+
+**Bundle C — Blink triptych:** 3 frames (open / half / closed). Standard. Amber eye-glow visible in OPEN frame at baseline 0.2 intensity.
+
+**Bundle D — Viseme grid:** 15-panel sheet, tight mouth crop, standard phoneme set. Goatee hair trimmed to clear mouth silhouette (same strategy as Antiquarian beard) — but at phase 1 the goatee is short enough not to need morph offsets.
+
+**Bundle E — Expressions (5):** SPEAKING / CONCERNED / EMOTIONAL1 (welcoming-warm) / EMOTIONAL2 (doubtful — a rare private moment where the recruiter's confidence wavers) / REVEALING (head tilted up, chest fully forward, the "join us" peak frame).
+
+#### 2C.2 — PHASE 2: Enslaved Kael (`progress=0.5`)
+
+**Bundle A — Neutral bust:**
+> Three-quarter bust portrait of the SAME man as Phase 1 — same face structure, same bone — but worn. Skin shifted to pale prisoner pallor with cool gray undertone (#987256), sweat sheen on the brow and collarbone. Dreadlocks longer (now mid-chest length), wild and unkempt, unstyled, several locks falling forward across his face and one plastered to his left cheek by sweat. Beard fuller, longer, raw — no longer trimmed, with occasional stray hairs visible. Shirtless. Armor GONE — chest fully exposed showing expanded tattoo coverage: heavy black/navy tribal ink (#1a1d3a) now covering chest, stomach, and one full left sleeve down the forearm. Same tribal style as Phase 1's red, but corrupted/rewritten — the Panopticon captors have re-inked his identity. Both forearms now bear bronze/brass ornate prisoner-bracers: intricate embossed panels, riveted edges, ornamental grillework — these become the permanent silhouette element through Phase 3. At the collarbone: a heavy brass medallion pendant on a braided cord, bearing a sigil (a simple sun-crescent, the first appearance of what becomes the Source's sigil). Eyes still amber (#c98230) but dimmer — eye-glow at 0.3, defiant stare, jaw set. Expression: beaten but not broken. Backdrop: defocused Panopticon prison-stone — cold desaturated blue-gray walls, a distant strip of harsh cyan light above, damp atmosphere. Rim light: cold blue-gray from behind, minimal warm fill. Film grain. 4K. No rendered text.
+
+**Bundle B — Breathing loop (8 frames):** Slightly shallower breathing curve (1.000 to 1.005 peak — he's guarded, less expansive). Shoulders tense, lift only 0.8px. Dreadlocks drift ±1.2px (longer hair = more motion). Medallion at collarbone swings 1.5px at peak inhalation. 8 PNGs.
+
+**Bundle C — Blink triptych:** Standard. Amber eye baseline 0.3 on OPEN.
+
+**Bundle D — Viseme grid:** 15-panel sheet. Fuller beard now requires a beard-clear crop strategy (mustache and upper beard trimmed digitally in the reference plate so visemes read; the runtime rig will drive a beard-part morph at vowels).
+
+**Bundle E — Expressions (5):** SPEAKING / CONCERNED (already his default — dial it 10% stronger for this tag) / EMOTIONAL1 (defiant — jaw thrust forward, eye-glow flares to 0.4 briefly) / EMOTIONAL2 (broken-private — head down, eye-glow dims to 0.15, a single rare frame of despair) / REVEALING (he looks up direct for the first time, catches the camera — eye-glow surges to 0.5, the first pre-transformation tell).
+
+#### 2C.3 — PHASE 3: The Source (`progress=1.0`) — DEFAULT RENDER
+
+**Bundle A — Neutral bust:**
+> Three-quarter bust portrait of the same man, now transformed. Ashen pale cool skin (#7a6858, desaturated) with black crack-like fractures spreading across the visible body — chest, collarbone, jawline, temple — like dry earth where something leaks through. From inside the fractures, a cold pale blue emissive light bleeds outward (#5a9abc, subtle — not glowing aggressively, just seeping). Dreadlocks grown wild and weathered, now below chest length, PARTIALLY PETRIFIED — individual locks fossilized into stone-moss textures at the tips, some locks writhing faintly like Medusa-roots (the stillness of stone with the hint of motion). Beard heavy, fully grown, longer than Phase 2, weathered and grayed at the edges. The Phase 2 black tribal ink has been SUBSUMED — no longer legible as tattoos, now indistinguishable from the skin fractures. Corruption ate the identity. The brass prisoner-bracers have REFORGED into chrome/silver cybernetic gauntlets (#c0c4cc) — more intricate, etched with sun-sigil glyphs, the re-alloying of enslavement into power. At the waist: a bronze utility belt with a prominent sun-sigil medallion (#c49a36) — the emergence mark. Eyes: FULL amber-gold glow (#e6b040 emissive, intensity 1.0), unblinking intensity. Head bowed slightly by default (weight of his presence). Expression: still, almost meditative, lips closed. Backdrop: defocused broken-stone cavern, dust motes frozen in a cold shaft of pale blue light from above, faint warm amber from the belt-medallion glow reflecting on the stone. Cool ambient, warm subject-center. Film grain. 4K. No rendered text.
+
+**Bundle B — Breathing loop (8 frames):** Slower cycle — 4.8s instead of 3.2s (he breathes like something ancient). Chest scale 1.000 to 1.012 (deeper). Stone-petrified dreadlocks move LESS at the tips (0.3px drift) than at the scalp base (1.5px drift) — the stone is heavy. Fracture emissive pulses subtly in sync with breathing (inhale dims the blue leak, exhale brightens it — visual breath). 8 PNGs.
+
+**Bundle C — Blink triptych:** Standard. Amber eye at 1.0 intensity in OPEN.
+
+**Bundle D — Viseme grid:** 15-panel sheet. Full beard requires beard-part morph strategy on runtime; reference plates render mouth with mustache cleared.
+
+**Bundle E — Expressions (5):** SPEAKING (head lifts fully from bowed default for the first time, eye-glow 1.2×) / CONCERNED (a deep stillness — the fractures darken subtly, emissive dims) / EMOTIONAL1 (awakening — the petrified dreadlocks at the nape animate briefly like Medusa-roots for 400ms) / EMOTIONAL2 (mourning-Kael — a flicker of the Phase 2 man visible beneath the fractures, the blue leak warms to amber briefly before re-cooling) / REVEALING (head fully lifted, eyes direct at camera, full eye-glow 1.5×, the fracture pattern across his chest visibly expands by 15% — new cracks light up — he is claiming his power in this frame).
+
+#### 2C.4 — Bundle F (Phase 3 only): Void-fracture emissive overlay
+
+> **Output:** `apps/client/public/vfx-atlases/source_void_fractures.png` — 2048×2048, transparent.
+
+> A texture of cracking stone-skin fractures, 2048×2048, transparent background. Irregular thin dark crack lines (1–4px width) branching organically across the surface like dry earth or obsidian cooling — ~40 primary cracks, each branching into 3–6 secondary cracks, no symmetry, organic distribution. Along the INSIDE edge of each crack: a 2px emissive band in cold pale blue (#5a9abc at 90% opacity fading to 0% across 6px). The emissive edge is brightest at the deepest part of the crack, dim at the tapered tips. No colors outside the narrow palette (black crack, blue emissive). Masked in post to match the Phase 3 silhouette shape. Used as additive overlay driven by `fractureEmission: 0..1` shader uniform.
+
+#### 2C.5 — Shared shader uniform block
+
+```json
+{
+  "rigId": "npc_source_kael",
+  "shaderProgram": "PhaseBlendedPortrait",
+  "uniforms": {
+    "kaelTransformProgress": 1.0,
+    "phase1Bundle": "portraits2d/source_phase1/",
+    "phase2Bundle": "portraits2d/source_phase2/",
+    "phase3Bundle": "portraits2d/source_phase3/",
+    "fractureEmission": 0.7,
+    "fractureTexture": "vfx-atlases/source_void_fractures.png",
+    "eyeGlowBaseline": 1.0,
+    "hairPetrification": 1.0,
+    "blendDuration": 1.2
+  },
+  "stateTriggers": {
+    "flashbackRecruiter": "kaelTransformProgress=0.0",
+    "flashbackEnslaved": "kaelTransformProgress=0.5",
+    "presentDaySource": "kaelTransformProgress=1.0",
+    "transformationCinematic": "playVideo:kael_three_phase_transform.mp4"
+  }
+}
+```
+
+#### 2C.6 — Veo 3.1 cinematics (spec'd here, rendered in Part 9)
+
+- **CIN-KAEL-01:** 14s transformation from Phase 1 → Phase 2 → Phase 3. Start frame = Phase 1 Recruiter in ICL recruitment hall. End frame = Phase 3 Source emerging from broken stone. Scrubs `kaelTransformProgress` 0.0 → 0.5 at 5s → 1.0 at 12s with held reveal beat through 14s. See Part 9 for full beat breakdown.
+- **CIN-KAEL-02:** 6s rock-break emergence loop (first in-game Source encounter). Start frame = closed stone crevice. End frame = Kael (Phase 3) standing framed by broken rock, stone shards mid-fall, cold blue fracture light spilling out from his body. See Part 9.
+
+---
