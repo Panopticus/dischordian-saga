@@ -1452,3 +1452,130 @@ Standard 15-panel, but at 130% of baseline openness (he is OVER-projecting for t
 ```
 
 ---
+
+### 2Q — PALIMPSEST HOST
+
+Canon anchor: the Palimpsest is an in-fiction episodic broadcast (game-mode `/palimpsest`) where the "casualty crawl runs backwards mid-broadcast." The Palimpsest Host is the broadcast-medium NPC who anchors each episode — a showrunner presenting from a broadcast studio set. Polished veneer, something fundamentally wrong beneath.
+
+Reference: `apps/client/public/references/npcs/palimpsest_host/REFERENCE.md`.
+
+**Critical rigging note:** The Palimpsest Host's broadcast frame subtly REWINDS when plot edits are in progress — background crawl text scrolls backward, fine detail deresolves, their own posture rewinds a micro-beat (head jerks back 1° then forward again in a stutter). This is the signature aliveness tell.
+
+#### 2Q.1 — Bundle A: Neutral bust
+
+> Three-quarter bust portrait of a composed broadcast host in their forties, ambiguous ethnicity (deliberately smoothed/generic — broadcast-appropriate), polished-camera-ready features. Hair: perfectly styled (slicked back for male presentation / neat chignon for female presentation — deliver BOTH variants, runtime picks one based on canon), artificial highlight sheen. Eyes: hazel (#8a6a3a), direct to camera, unwavering broadcast gaze. A tasteful earpiece visible in one ear (skin-tone silicone, subtle). Wearing a tailored broadcast-studio blazer in navy-charcoal (#2a2d3a) with crisp white inner collar, no tie (the open-collar anchor look), a small metallic lapel pin in brushed silver (no rendered logo — abstract geometric). Hands folded at the lower frame edge on a desktop surface. Backdrop: polished broadcast-studio set — deep indigo backdrop with a subtle large-scale logo silhouette (geometric, no legible text), soft warm key from camera-right, cool practicals along the wall, a holographic "crawl" strip running horizontally across the lower backdrop (scrolling abstract glyph shapes — NOT legible text). Lighting: broadcast-perfect three-point with warm key + cool fill + soft backlight rim. Mouth closed in a practiced neutral-ready expression — the mouth that has just finished one sentence and will start the next. Film grain, very subtle (broadcast cameras). 4K. No rendered text.
+
+#### 2Q.2 — Bundle B: Breathing loop (8 frames) + Rewind variants
+
+> Standard chest cycle (1.000 to 1.007 peak). Earpiece UNCHANGED. Backdrop crawl strip: across the 8 frames, the glyphs scroll LEFT normally. Hair UNCHANGED.
+> **BONUS: 4 additional REWIND frames** (deliver as `breathing/rewind_01..04.png`): same subject but the backdrop crawl scrolls RIGHT (backward), and the host's head is subtly rewound 1° on frames 1–2 then forward 1° on frames 3–4 (net-zero; it's a stutter-revert). These 4 frames splice into the normal loop when narrative edits trigger.
+
+#### 2Q.3 — Bundle C: Blink triptych + REWIND-BLINK variant
+
+> Standard 3 frames. PLUS a rewind-blink variant: 3 additional frames where the blink plays BACKWARD (closed → half → open). Used at edit-triggered moments. 6 total PNGs.
+
+#### 2Q.4 — Bundle D: Viseme grid
+
+Standard 15-panel. Broadcast-ready enunciation — crisp, over-articulated at ~110% of baseline openness. The host is PAID to be intelligible.
+
+#### 2Q.5 — Bundle E: Expressions (5)
+
+> 1. SPEAKING — broadcast-perfect delivery, mouth crisp, eyes locked.
+> 2. CONCERNED — a practiced sympathetic furrow; the brows pull together but the eyes stay bright. Performed empathy.
+> 3. EMOTIONAL1 (segment-transition) — a subtle knowing smile; head tilts 2°, eyebrow raises in the "and now, something remarkable" broadcaster cadence.
+> 4. EMOTIONAL2 (edit-in-progress) — the face FROZEN mid-expression with one eye half-closed and mouth slightly open, as if paused; a barely-perceptible double-exposure ghost of an ALTERNATE expression hovers 2px offset. The broadcast is being edited. Rare.
+> 5. REVEALING — direct gaze, the practiced neutral drops, the mouth forms a single sentence they were not supposed to say. One frame, no theatrics. The host has broken the broadcast.
+
+#### 2Q.6 — Bundle F: Broadcast-crawl overlay
+
+> **Output:** `apps/client/public/vfx-atlases/palimpsest_crawl.png` — 2048×128 (wide strip), transparent.
+
+> A horizontal strip texture of abstract glyph-shape crawl text (NOT legible letters — stylized character-like forms), 2048px wide x 128px tall, on transparent background. Characters alternate in two sizes (24px primary + 16px secondary) and drift on dark gradient backing. Used as tiling texture on the backdrop crawl strip, scrolling left at 12px/s normally, reversing direction and accelerating on edit triggers.
+
+#### 2Q.7 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_palimpsest_host",
+  "shaderProgram": "BroadcastHostPortrait",
+  "uniforms": {
+    "crawlScrollSpeed": -12,
+    "crawlTexture": "vfx-atlases/palimpsest_crawl.png",
+    "editInProgress": 0.0,
+    "rewindAmplitude": 0.0,
+    "ghostDoubleExposure": 0.0,
+    "breathingPhase": "autoLoop:3.2s:amp=1.007",
+    "broadcastKeyLight": 0.9
+  },
+  "stateTriggers": {
+    "editTriggered": "crawlScrollSpeed=+18; rewindAmplitude=1.0 for 1.2s",
+    "castingRewindFrames": "swap breathing frames to rewind variants",
+    "brokenBroadcast": "expression=REVEALING; editInProgress=1.0 held"
+  }
+}
+```
+
+---
+
+### 2R — THE PROGRAMMER (ANTIQUARIAN'S PRIOR IDENTITY)
+
+Canon anchor: `docs/production/act1-asset-build/prompts/matchups/programmer.txt` + `antiquariansJournal.ts:662` — "I was the Programmer then, not yet the Antiquarian." Same person, earlier phase. Mid-forties, plain cold-weather travel clothing (no faction insignia), short greying-at-temples hair, trimmed salt-and-pepper beard, calm and final composure — the man who has already decided to lose.
+
+**Critical rigging note:** This is a TWO-PHASE rig like Kael (but simpler — just two states, not three). Phase 1 is the Programmer (mid-forties, modest, calm-and-final). Phase 2 is the Antiquarian (late 50s-60s, see Part 2D). Runtime blends via `antiquarianEmergenceProgress: 0..1`. Phase 1 is default for flashback beats; Phase 2 is present-day.
+
+Reference: `apps/client/public/references/npcs/programmer/REFERENCE.md`.
+
+#### 2R.1 — Bundle A: Neutral bust (Programmer phase)
+
+> Three-quarter bust portrait of a man in his mid-forties, temperate features, dark hair short and side-parted with grey streaking the temples, trimmed salt-and-pepper beard (kept neat). Eyes: dark warm brown (#2a1f1a), direct to camera, steady, warm but unbound — the specific composure of someone who has already made every decision that matters and is only waiting for the match to end. No grief, no fear. Wearing plain cold-weather travel clothing: a weather-worn dark-grey canvas coat (#6b6b65) buttoned to the throat, a simple coarse-knit wool scarf in muted ember-rust (#b85a1a) visible at the neck, fingerless work-gloves visible at the frame edges, NO FACTION INSIGNIA of any kind. Over his shoulder in the deep background: a canvas satchel half-packed resting on a chair, flap open with a rolled map and a small brass lockbox visible inside. A folded piece of thick paper peeks from his coat pocket (closed, creased — no rendered text). One hand flat on the surface-edge of the frame, fingers spread over a single face-up card in mid-play (card-face is stylized abstract, no rendered suit). Backdrop: defocused Nexon breach battlefield — a shattered amber-lit ruined parapet far behind, dust-brown #6b5a48 dominant, ember-orange #b85a1a rim light from distant city fires. Warm amber spotlight from camera-right falls across his face and the surface. Palette: dusky grey #6b6b65 (coat), ember-rust #b85a1a (scarf), brass #b8752d (satchel buckle), amber spotlight (face), dust-brown (backdrop). Film grain. 4K. No rendered text.
+
+#### 2R.2 — Bundle B: Breathing loop (8 frames)
+
+> Measured chest cycle (1.000 to 1.005 peak — contained, calm). The folded paper in his coat pocket ripples subtly across the 8 frames (the wind from the battlefield is touching it). Satchel contents UNCHANGED. Card hand UNCHANGED — he holds his hand STILL with the intentional quiet of someone not playing to win.
+
+#### 2R.3 — Bundle C: Blink triptych
+
+Standard. CLOSED frame: eyes close with gentle finality — the slight wetness at the inner corners visible in profile, never quite tears.
+
+#### 2R.4 — Bundle D: Viseme grid
+
+Standard 15-panel, mouth at 90% baseline openness (he speaks quietly, finally).
+
+#### 2R.5 — Bundle E: Expressions (5)
+
+> 1. SPEAKING — measured, soft, unhurried delivery.
+> 2. CONCERNED — a brief break of the composure; brows pull together, mouth tightens, eyes dart to the satchel for a second. Reminded of something he's leaving behind.
+> 3. EMOTIONAL1 (calm-final) — the default, at 110% intensity; mouth softens fully, eyes steady, the decision is made.
+> 4. EMOTIONAL2 (grief-forward) — rare, a single frame where his composure cracks fully: eyes wet, mouth trembling, jaw held tight. The cost of what he has decided.
+> 5. REVEALING — he lifts the folded paper from his pocket, holds it folded toward the camera (still closed — the content is never shown), eyes direct. This is the letter for the reader; the reveal is that it exists.
+
+#### 2R.6 — Bundle F: Antiquarian-emergence blend overlay
+
+> Not a standalone VFX; the blend target IS the Antiquarian's Bundle A (Part 2D). Runtime holds both Bundle A references in memory and linearly blends A→B on `antiquarianEmergenceProgress`. The two characters are canonically the same face aged ~15 years — the blend works naturally.
+
+#### 2R.7 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_programmer_antiquarian",
+  "shaderProgram": "PhaseBlendedPortrait",
+  "uniforms": {
+    "antiquarianEmergenceProgress": 0.0,
+    "phase1Bundle": "portraits2d/programmer/",
+    "phase2Bundle": "portraits2d/antiquarian/",
+    "blendDuration": 2.0,
+    "breathingPhase": "autoLoop:3.2s:amp=1.005"
+  },
+  "stateTriggers": {
+    "flashbackProgrammer": "antiquarianEmergenceProgress=0.0",
+    "presentDayAntiquarian": "antiquarianEmergenceProgress=1.0",
+    "agingCinematic": "progress ramps 0.0→1.0 over 8s reveal"
+  }
+}
+```
+
+#### 2R.8 — Veo 3.1 cinematic pointer
+
+- **CIN-PROG-01:** 8s aging cinematic. Start frame = Programmer mid-forties at the Nexon battlefield (Bundle A). End frame = Antiquarian mid-60s at his library lectern (Part 2D Bundle A). Scrubs `antiquarianEmergenceProgress` 0.0 → 1.0 over 8s. See Part 9.
+
+---
