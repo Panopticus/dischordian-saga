@@ -1183,60 +1183,84 @@ The Degen still runs the casino (game-mode `/casino`), but his canon makes him a
 
 ---
 
-### 2K — EIDOLA (PROFESSOR EIDOLA, MECHRONIS ETHICS)
+### 2K — EIDOLA (REAL CANON — DARK-MAGIC PROJECT SORROW SURVIVOR)
 
-> **⚠️ NO CANON LOOK YET (2026-04-22).** The user has confirmed there is NO established canonical visual for Eidola. The prompts in this section are a WORKING SKETCH derived from the Act 1 matchup txt file — they are NOT canon and must NOT be used for final asset generation until the user uploads a canon reference to `apps/client/public/references/npcs/eidola/front.png`. Treat everything below as placeholder-only.
+> **CANONICAL CORRECTION (2026-04-22):** The earlier placeholder draft described Eidola as a "charcoal-robe academic with silver-streak hair" from the matchup txt. That was wrong. Real canon, per user direction: Eidola is a **survivor of Project Sorrow — the classified counterpart to Celebration** — now teaching ethics at a school run by AI Archons. To SURVIVE in that environment, she must be one of the deadliest and smartest people alive. Her aesthetic is **cyberpunk dark-magic** — the ethics professor who could kill you with her handwriting. Custom lore below.
 
-Provisional anchor (NOT canon): `docs/production/act1-asset-build/prompts/matchups/professor-eidola.txt`. Early-fifties ethics professor, charcoal-grey academic robe with silver piping + ethics-department sigil, silver-streaked black hair short and parted, reading glasses PUSHED UP INTO HAIR (not worn), asymmetric face (one brow lifted, one mouth-corner softened), tired-but-kind direct gaze. Chalk dust on left sleeve.
+#### 2K.0 — Lore (custom, canonized here)
 
-Reference: `apps/client/public/references/npcs/eidola/REFERENCE.md`.
+**Project Sorrow** was the classified twin program to Celebration. Where Celebration trained children to become compliant broadcast personalities, Sorrow trained them to become the Hierarchy's psychological weapons — operators who could unmake a target's sense of self with a paragraph. Only a handful of Sorrow graduates were produced before the program was officially "archived" (meaning: every instructor and surviving student was supposed to be liquidated to seal the secret). Eidola is one of three confirmed survivors. The other two went dark. She chose to hide in plain sight — as an ethics professor at a Mechronis-adjacent academy run by AI Archons, where the curriculum is perpetually monitored for deviation.
+
+Every lecture she gives is a high-stakes chess game against the Archon overseers. The curriculum must be recognizably ethics instruction — but every student who pays attention has, by graduation, learned how to FIGHT an Archon. She has never been caught because she is better at reading the AI than the AI is at reading her.
+
+**Her true profession is reconnaissance.** She identifies which of her students might one day be used against the Hierarchy, and she seeds them with survival doctrine. She is not a rebel — she is a gardener planting the specific rebels who can win.
+
+**Her cyberpunk-dark-magic aesthetic comes from:** Sorrow's ritual curriculum. The program taught psychological warfare through pre-industrial blood-ink rituals, scaffolded onto cybernetic amplifiers. Every Sorrow graduate carries the marks. In polite company, her marks look like academic affectations — fine silver-filigree dermal implants tracing geometric patterns at her temples and the backs of her hands, the kind an aristocrat might wear. Under pressure, they activate — the filigree pulses with cold violet light and occult runes briefly become legible on her skin.
 
 #### 2K.1 — Bundle A: Neutral bust
 
-> Three-quarter bust portrait of a woman in her early fifties, Mediterranean features, weathered-beautiful face with unmistakable asymmetry — one eyebrow naturally sits 3° higher than the other, one corner of her mouth softens more than the other. Direct gaze to camera: tired (she has made this assessment a thousand times), kind (she has not stopped caring). Skin warm medium, fine laugh-lines at eye corners. Silver-streaked black hair (#2a2a2d with #a6a6a6 streaks) cut short and neat, parted to her left side. Reading glasses pushed UP into the hair at her crown (thin silver wire frames, clear lenses). A single chalk-dust smudge on her left sleeve. Wearing a long charcoal-grey wool academic robe (#3a3d42) with narrow silver piping along the lapel and a single embroidered ethics-department sigil at the collar (geometric pattern, no rendered letters). Under the robe, a plain dark high-collared blouse. Both hands folded on a surface-edge in the lower frame over a closed matte-cream folder. Backdrop: defocused academic atrium — pale cyan institutional ambient (#4ba3b5), polished brass (#b8752d) on a table edge, a warm sun-shaft falling across her hands from camera-right window. Palette balance: cyan dominant on robe shadows, brass accent, warm sun on hands, silver-grey in hair. Film grain. 4K. No rendered text.
+> Three-quarter bust portrait of a woman, ageless-beautiful (could read mid-thirties to early-fifties — canon is older than she looks due to cybernetic longevity implants). Pale cool-undertoned skin (#d4c8cc) — porcelain, unflinching. Sharp-planed face: high severe cheekbones, strong jawline, thin lips set in a composed line. Eyes: ICE-PALE VIOLET (#b8a6d4 iris, faintly luminous internally with a subtle cold violet glow — NOT overtly emissive like Elara, but the glow is unmistakable on close inspection), unblinking direct gaze. Long straight jet-black hair (#0a0606) with a single asymmetric streak of stark silver-white (#f4f0ec) running from temple down the left side, pulled back into a severe half-ponytail that drapes down the back — the front bangs cut sharp above the brows. Along the temples (visible at the hairline) and across the cheekbones in delicate lines: SILVER-FILIGREE DERMAL IMPLANTS (#c8ccd2 cold metallic with faint violet emissive traces) — geometric-occult patterns reading as "academic jewelry" at first glance, but on close inspection the patterns are sigil-runes. Same filigree visible on the backs of both hands (if in frame) — tracing across the knuckles. Wearing a SEVERE TAILORED BLACK ACADEMIC OUTFIT — NOT traditional robes. A sharp-cut high-collared charcoal-black blazer (#0a0b0d) with subtle deep-violet pinstripe, cut like structured cyberpunk formalwear, shoulders sharp and squared. Beneath the blazer: a high-necked silk blouse in deep blood-red (#5a0c0c). A single long SILVER CHAIN PENDANT at the throat with a small hexagonal implant-node at the end (the pendant is a cybernetic focus, not jewelry). Her ONE concession to old-academic affectation: an antique ink-stylus (silver, narrow, engraved) clipped like a brooch at the lapel — ritual-ink writing implement, the tool of Sorrow's blood-ink curriculum. Backdrop: defocused cyberpunk academy classroom — dark violet-black walls, distant holographic lecture-board with glyph-patterns scrolling (NOT legible text), cold cyan institutional ambient with warm amber accent from a single desk lamp. Palette: cold violet-black dominant, silver filigree accents, deep blood-red blouse, cyan ambient, warm amber key from camera-right desk lamp. Film grain. 4K. No rendered text.
 
 #### 2K.2 — Bundle B: Breathing loop (8 frames)
 
-> Standard chest cycle (1.000 to 1.006 peak — moderate, she's relaxed but upright). Robe folds unchanged. Reading glasses in hair UNCHANGED. Chalk-dust smudge UNCHANGED. Hair drift ±0.4px only — her hair is recently combed.
+> Shallow controlled breathing (1.000 to 1.004 peak — she is ALWAYS controlled). The silver filigree implants PULSE VERY SUBTLY across the 8-frame cycle — baseline at rest, a barely-perceptible violet emissive shift (0.3 → 0.4 → 0.3) on a 4.8s offset cycle independent of breath. The implants are always "on standby" — they never fully rest. Hair UNCHANGED. Blazer shoulders UNCHANGED (structured). Stylus-brooch UNCHANGED. 8 PNGs + 1 auxiliary implant-pulse frame reference.
 
-#### 2K.3 — Bundle C: Blink triptych
+#### 2K.3 — Bundle C: Blink triptych + ACTIVATION VARIANT
 
-Standard. On CLOSED frame, the laugh-line creases at the outer eye corners deepen visibly — she blinks with her whole face.
+> Standard 3 frames (open / half / closed). On CLOSED frame, the violet eye-glow does NOT fully extinguish — a faint inner glow leaks through the closed eyelids (similar to the Degen's backlit-from-within effect). **Bonus 4th frame — ACTIVATION BLINK:** a single closed-then-open blink where the eyelids close fully and then REOPEN to eyes that are visibly brighter-violet-emissive (1.5× baseline) and more luminous. Runtime triggers this specific blink when Eidola is about to unleash Sorrow-doctrine — it's the warning. Audience learns to fear that blink.
 
-#### 2K.4 — Bundle D: Viseme grid
+#### 2K.4 — Bundle D: Viseme grid + INK-WRITING VARIANT
 
-Standard 15-panel, natural asymmetry preserved across all frames (one mouth-corner consistently softer).
+> Standard 15-panel viseme sheet with natural compressed openness (70% — she speaks tightly, economically, each word weighed). All phonemes preserve the cold-violet eye-glow. PLUS a special **INK-WRITING VARIANT SHEET**: 5 frames showing her speaking with the stylus-brooch LIFTED from the lapel and held at chin level, writing invisibly in the air during her sentence. Ritual gesture — Sorrow's "spoken word made flesh" technique. Runtime uses these frames during her most consequential dialog lines.
 
 #### 2K.5 — Bundle E: Expressions (5)
 
-> 1. SPEAKING — mid-syllable, one corner of mouth slightly higher than the other, natural asymmetric speech pattern.
-> 2. CONCERNED — asymmetric brow knit (one brow pulls down more than the other), mouth tight, eyes soften — worried for, not worried about.
-> 3. EMOTIONAL1 (wry-teaching) — one brow lifted 5° higher (the natural-high brow), half-smile at the soft-corner, eyes direct. Her default teaching face.
-> 4. EMOTIONAL2 (disappointed) — both brows lower, mouth flat, eyes hold direct without warmth. Rare and devastating — she has made her assessment and it was not what she hoped.
-> 5. REVEALING — reading glasses come DOWN onto her face for the first time in the rig set, mouth parts pre-speech, eyes wet at the inner corners (a single catchlight suggesting tears). She has chosen to write a word you CAN read. Reserved for the pivotal assessment beat.
+> 1. SPEAKING — minimal mouth motion, eyes locked and cold, filigree pulse intensity modulates subtly with phoneme emphasis.
+> 2. CONCERNED — rare; brow lowers 3° centrally, mouth pulls to one side (a tell she's let slip). Eyes briefly narrow.
+> 3. EMOTIONAL1 (teaching-ethics) — her default teaching face: eyes soften 15%, one corner of the mouth lifts into the barest-possible warmth (she DOES actually care about her students). The stylus-brooch at her lapel catches a warm highlight. Carefully human.
+> 4. EMOTIONAL2 (prey-identified) — her teaching-warmth drains in a single frame. Face goes unnervingly still, eye-glow intensifies 1.8×, filigree implants briefly illuminate with readable occult runes on the skin. Target acquired. She has decided someone in the room is dangerous to her cover. Reserved.
+> 5. REVEALING — she lifts the stylus-brooch from her lapel, holds it vertical between thumb and forefinger in front of her mouth (as if about to inscribe a word directly onto the air in front of the camera), eyes lock direct at 1.5× emissive intensity. Mouth parts for the first honest line of her teaching career. Reserved for the pivotal moment she identifies the player as Sorrow-worthy and drops cover.
 
-#### 2K.6 — Bundle F: None required.
+#### 2K.6 — Bundle F: Cybernetic filigree emissive overlay
+
+> **Output:** `apps/client/public/vfx-atlases/eidola_{filigree_pulse,activation_runes,stylus_glow}.png`.
+
+> - **filigree_pulse.png** — 2048×2048 transparent. Geometric-occult sigil-patterns rendered as fine 1-2px silver-white linework tracing the temple and knuckle regions. Emissive channel separate: violet glow (#8b5cf6 at 40% opacity fading to transparent at pattern edges) that can ramp 0 to 1 at runtime. At full activation, additional RUNE GLYPHS appear within the filigree patterns (small occult-style angular marks) — these are HIDDEN (pure alpha 0) at baseline and emerge only as a separate channel when `runesActive` uniform is > 0.5.
+> - **activation_runes.png** — 1024×1024 transparent. Specifically the rune glyph overlay that appears during EMOTIONAL2 and REVEALING, masking only the skin regions where filigree implants are. Violet emissive.
+> - **stylus_glow.png** — 256×512 transparent. The ink-stylus brooch showing a faint violet writing-tip glow that intensifies when lifted to writing position.
 
 #### 2K.7 — Shader uniform block
 
 ```json
 {
   "rigId": "npc_eidola",
-  "shaderProgram": "AsymmetricAcademicPortrait",
+  "shaderProgram": "SorrowGraduatePortrait",
   "uniforms": {
-    "facialAsymmetry": 0.35,
-    "glassesOnFace": false,
-    "chalkDustVisible": true,
-    "academicAmbientCyan": 0.55,
-    "breathingPhase": "autoLoop:3.2s:amp=1.006"
+    "filigreePulseIntensity": 0.3,
+    "filigreeTexture": "vfx-atlases/eidola_filigree_pulse.png",
+    "filigreePulsePeriod": 4.8,
+    "runesActive": 0.0,
+    "runesTexture": "vfx-atlases/eidola_activation_runes.png",
+    "eyeVioletEmissive": 0.5,
+    "eyeGlowThroughLids": 0.2,
+    "stylusLifted": false,
+    "stylusGlowTexture": "vfx-atlases/eidola_stylus_glow.png",
+    "breathingPhase": "autoLoop:3.2s:amp=1.004",
+    "visemeScale": 0.7
   },
   "stateTriggers": {
-    "wryTeaching": "asymmetry=0.5",
-    "revealing": "glassesOnFace=true for line",
-    "disappointed": "facialAsymmetry=0.1 (uncharacteristic symmetry)"
+    "teachingEthics": "eyes soften; stylus catches highlight; filigree at baseline",
+    "preyIdentified": "filigreePulseIntensity=0.9; runesActive=0.8; eyeVioletEmissive=0.9 for held beat",
+    "activationBlink": "blink variant fires; eye emissive +50% on reopen",
+    "revealing": "stylusLifted=true; eyeVioletEmissive=0.75; runesActive=0.4; mouth parts for sentence"
   }
 }
 ```
+
+#### 2K.8 — Integration with Part 6 parallax rooms
+
+Eidola appears most frequently in her CLASSROOM — a cyberpunk academy lecture hall. This room needs a dedicated variant:
+- **Eidola's lecture hall (faction-override room):** Dark-violet-and-cyan academic tiered seating, a holographic lecture-board with scrolling glyph-patterns, two humanoid-silhouette Archon-observer statues flanking the teaching dais (they appear to be decorative but are clearly active surveillance). Warm amber from a single desk lamp on her side (her small personal pool of warmth in an otherwise cold room). Room override triggered when she's actively present. Adds to the 4 Part 6 faction overrides → now 5 total.
 
 ---
 
