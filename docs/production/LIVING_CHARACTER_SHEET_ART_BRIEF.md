@@ -1118,7 +1118,9 @@ The Degen still runs the casino (game-mode `/casino`), but his canon makes him a
 
 ### 2K — EIDOLA (PROFESSOR EIDOLA, MECHRONIS ETHICS)
 
-Canon anchor: `docs/production/act1-asset-build/prompts/matchups/professor-eidola.txt`. Early-fifties ethics professor, charcoal-grey academic robe with silver piping + ethics-department sigil, silver-streaked black hair short and parted, reading glasses PUSHED UP INTO HAIR (not worn), asymmetric face (one brow lifted, one mouth-corner softened), tired-but-kind direct gaze. Chalk dust on left sleeve.
+> **⚠️ NO CANON LOOK YET (2026-04-22).** The user has confirmed there is NO established canonical visual for Eidola. The prompts in this section are a WORKING SKETCH derived from the Act 1 matchup txt file — they are NOT canon and must NOT be used for final asset generation until the user uploads a canon reference to `apps/client/public/references/npcs/eidola/front.png`. Treat everything below as placeholder-only.
+
+Provisional anchor (NOT canon): `docs/production/act1-asset-build/prompts/matchups/professor-eidola.txt`. Early-fifties ethics professor, charcoal-grey academic robe with silver piping + ethics-department sigil, silver-streaked black hair short and parted, reading glasses PUSHED UP INTO HAIR (not worn), asymmetric face (one brow lifted, one mouth-corner softened), tired-but-kind direct gaze. Chalk dust on left sleeve.
 
 Reference: `apps/client/public/references/npcs/eidola/REFERENCE.md`.
 
@@ -1263,7 +1265,9 @@ Add a `gamemasterMechanizationProgress: 0..1` uniform if a transition cinematic 
 
 ### 2M — MATRIKALA (PROFESSOR MATRIKALA, MECHRONIS REACTOR MENTOR)
 
-Canon anchor: `docs/production/act1-asset-build/prompts/matchups/professor-matrikala.txt`. Early sixties, workshop-mentor energy, oxide-red canvas coveralls (NOT the academic robe), sleeves rolled, short silver-grey hair, warm weathered face. Hands are the portrait's subject weight — knuckled, scarred, callused. Brass reactor coupling on the table as prop. She will teach you to hear the reactor hum.
+> **⚠️ NO CANON LOOK YET (2026-04-22).** The user has confirmed there is NO established canonical visual for Matrikala. The prompts below are a WORKING SKETCH derived from the Act 1 matchup txt file — they are NOT canon and must NOT be used for final asset generation until the user uploads a canon reference to `apps/client/public/references/npcs/matrikala/front.png`. Treat everything below as placeholder-only.
+
+Provisional anchor (NOT canon): `docs/production/act1-asset-build/prompts/matchups/professor-matrikala.txt`. Early sixties, workshop-mentor energy, oxide-red canvas coveralls (NOT the academic robe), sleeves rolled, short silver-grey hair, warm weathered face. Hands are the portrait's subject weight — knuckled, scarred, callused. Brass reactor coupling on the table as prop. She will teach you to hear the reactor hum.
 
 Reference: `apps/client/public/references/npcs/matrikala/REFERENCE.md`.
 
@@ -1496,7 +1500,9 @@ Standard 15-panel, but at 130% of baseline openness (he is OVER-projecting for t
 
 ### 2Q — PALIMPSEST HOST
 
-Canon anchor: the Palimpsest is an in-fiction episodic broadcast (game-mode `/palimpsest`) where the "casualty crawl runs backwards mid-broadcast." The Palimpsest Host is the broadcast-medium NPC who anchors each episode — a showrunner presenting from a broadcast studio set. Polished veneer, something fundamentally wrong beneath.
+> **⚠️ NO CANON LOOK YET (2026-04-22).** The user has confirmed there is NO established canonical visual for the Palimpsest Host. The prompts below are a WORKING SKETCH derived from the game-mode description (`/palimpsest` broadcast with reversed casualty crawl) — they are NOT canon and must NOT be used for final asset generation until the user uploads a canon reference to `apps/client/public/references/npcs/palimpsest_host/front.png`. Treat everything below as placeholder-only. The RIGGING behavior (backward-scrolling crawl, rewind breathing frames, edit-ghost overlay) is likely canon-compatible and can stay; the physical appearance is not locked.
+
+Provisional anchor (NOT canon): the Palimpsest is an in-fiction episodic broadcast (game-mode `/palimpsest`) where the "casualty crawl runs backwards mid-broadcast." The Palimpsest Host is the broadcast-medium NPC who anchors each episode — a showrunner presenting from a broadcast studio set. Polished veneer, something fundamentally wrong beneath.
 
 Reference: `apps/client/public/references/npcs/palimpsest_host/REFERENCE.md`.
 
