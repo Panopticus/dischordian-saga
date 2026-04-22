@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_pet_holo_fox_2" as CardDefinition["id"],
   name: "Spectral Fox",
@@ -43,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_pet_holo_fox_2.webp",
+  art: assetUrl("art/cards/s1_pack_pet_holo_fox_2.webp"),
   flavorText:
     "Between worlds, it learned to walk on light.",
   rulesVersion: "1.0.0",

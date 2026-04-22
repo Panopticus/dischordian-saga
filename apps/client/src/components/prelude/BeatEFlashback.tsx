@@ -27,6 +27,7 @@ import {
   type BeatEHotspotConfig,
 } from "./beatEHotspots";
 
+import { assetUrl } from "@/lib/assetUrl";
 export interface BeatEFlashbackProps {
   /** Called when the player signals they're done examining. */
   onComplete: () => void;
@@ -209,7 +210,7 @@ export function BeatEFlashback({
       {(phase === "entering" || phase === "active") && (
         <video
           key="film-damage"
-          src="/art/vfx/prelude/film-damage.webm"
+          src={assetUrl("art/vfx/prelude/film-damage.webm")}
           autoPlay
           loop
           muted

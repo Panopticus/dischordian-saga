@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_seasonal_s1" as CardDefinition["id"],
   name: "Season's End",
@@ -47,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_seasonal_s1.webp",
+  art: assetUrl("art/cards/s1_reward_seasonal_s1.webp"),
   flavorText:
     "The Saga does not end. It transforms. And those who endure the transformation are remade.",
   rulesVersion: "1.0.0",

@@ -19,6 +19,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "gen_new_babylon" as CardDefinition["id"],
   name: "Adjudicator Locke",
@@ -49,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/gen_new_babylon.webp",
+  art: assetUrl("art/cards/gen_new_babylon.webp"),
   flavorText:
     "Lost an eye in a deal that went wrong. Won't say which deal. Won't say which eye.",
   rulesVersion: "1.0.0",

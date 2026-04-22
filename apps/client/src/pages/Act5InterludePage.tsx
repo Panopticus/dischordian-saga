@@ -27,6 +27,7 @@ import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import { getActsSystemTutor } from "@shared/acts2to7SystemTutors";
 import LivingBackground from "@/components/LivingBackground";
 
+import { assetUrl } from "@/lib/assetUrl";
 type View = "intro" | "tutor" | "sectors" | "close";
 
 const KAEL_PREAMBLE = `[RECRUITER'S LOG — MASTER INDEX]
@@ -119,7 +120,7 @@ export default function Act5InterludePage() {
   return (
     <div className="relative min-h-screen bg-stone-950 text-stone-100">
       <LivingBackground
-        src="/art/rooms/room-war-room.png"
+        src={assetUrl("art/rooms/room-war-room.png")}
         accent="rgba(245, 158, 11, 0.32)"
         opacity={0.08}
         particleCount={3}

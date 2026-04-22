@@ -9,6 +9,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_085" as CardDefinition["id"],
   name: "Sector Warden",
@@ -29,7 +30,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_085.webp",
+  art: assetUrl("art/cards/s1_char_085.webp"),
   flavorText:
     "From the watchtower, every street is a firing lane. Every citizen, a potential target.",
   rulesVersion: "1.0.0",

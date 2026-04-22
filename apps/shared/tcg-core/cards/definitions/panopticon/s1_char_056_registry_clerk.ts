@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_056" as CardDefinition["id"],
   name: "Registry Clerk",
@@ -38,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_056.webp",
+  art: assetUrl("art/cards/s1_char_056.webp"),
   flavorText:
     "Every citizen has a file. Every file has a purpose. Every purpose serves the Spire.",
   rulesVersion: "1.0.0",

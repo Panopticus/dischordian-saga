@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_052" as CardDefinition["id"],
   name: "Compliance Officer",
@@ -30,7 +31,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_052.webp",
+  art: assetUrl("art/cards/s1_char_052.webp"),
   flavorText:
     "Obedience is not requested. It is extracted.",
   rulesVersion: "1.0.0",

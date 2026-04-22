@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_035" as CardDefinition["id"],
   name: "The Jailer",
@@ -44,7 +45,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_035.webp",
+  art: assetUrl("art/cards/s1_char_035.webp"),
   flavorText:
     "He began as the Oracle, a revered figure who journeyed to Thaloria and bested the Collector in a philosophical debate, c...",
   rulesVersion: "1.0.0",

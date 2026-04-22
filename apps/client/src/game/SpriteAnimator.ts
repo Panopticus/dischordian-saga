@@ -21,6 +21,7 @@ import {
   type SpriteSheetAnimation,
 } from "./spriteSheetConfig";
 
+import { assetUrl } from "@/lib/assetUrl";
 /** A single animation frame within a pose */
 export interface SpriteFrame {
   image: HTMLImageElement | OffscreenCanvas;
@@ -505,7 +506,7 @@ export function preloadFighterSheets(fighterId: string): Promise<void[]> {
   const data = FIGHTER_SPRITE_SHEETS[fighterId];
   if (!data) return Promise.resolve([]);
 
-  const basePath = `/art/fighters/${fighterId}/`;
+  const basePath = assetUrl(`art/fighters/${fighterId}/`);
   return Promise.all(
     data.sheets.map(
       (sheet) =>

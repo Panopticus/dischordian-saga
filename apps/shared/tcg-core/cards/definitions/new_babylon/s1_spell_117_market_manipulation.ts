@@ -14,6 +14,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_117" as CardDefinition["id"],
   name: "Market Manipulation",
@@ -33,7 +34,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_117.webp",
+  art: assetUrl("art/cards/s1_spell_117.webp"),
   flavorText:
     "The market obeyed Locke's whisper before it heard the shout. By the time the correction came, fortunes had already changed hands.",
   rulesVersion: "1.0.0",

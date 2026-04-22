@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/assetUrl";
 /* ═══════════════════════════════════════════════════════
    LAST WORDS TIMELINE — Prelude Tease (5 slides, 35s)
 
@@ -37,7 +38,7 @@ export const LAST_WORDS_SONG_DURATION_S = LAST_WORDS_TEASE_DURATION_S;
 
 /** Path to the tease MP3 (35s trim of the full song with fade-out). */
 export const LAST_WORDS_SONG_URL =
-  "/audio/music/song_last_words_prelude_tease.mp3";
+  assetUrl("audio/music/song_last_words_prelude_tease.mp3");
 
 /**
  * A single slide in the 5-slide tease sequence. The sequence
@@ -75,7 +76,7 @@ export const SLIDE_TIMELINE: readonly SlideAnchor[] = [
 
 /** Image URL for a specific tease slide on disk. */
 export function slideImageUrl(slide: number): string {
-  return `/art/prelude/last-words-tease/slide-${slide}.webp`;
+  return assetUrl(`art/prelude/last-words-tease/slide-${slide}.webp`);
 }
 
 /**

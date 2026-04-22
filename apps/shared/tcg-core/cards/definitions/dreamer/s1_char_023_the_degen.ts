@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_023" as CardDefinition["id"],
   name: "The Degen",
@@ -88,7 +89,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_023.webp",
+  art: assetUrl("art/cards/s1_char_023.webp"),
   flavorText:
     "Ne-Yon #8. The casino host pours your drink with hands that have shuffled the fates of civilizations. Through entropy and corruption, the Degen creates conditions in which the Ne-Yons can flourish.",
   rulesVersion: "1.0.0",

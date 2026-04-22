@@ -27,6 +27,7 @@ const DREAMER_PHILOSOPHY_LORE =
 
 import LivingBackground from "@/components/LivingBackground";
 
+import { assetUrl } from "@/lib/assetUrl";
 // ── Codex Entry Types ──
 
 interface CodexEntry {
@@ -554,15 +555,15 @@ const RARITY_BG: Record<string, string> = {
 };
 
 const CODEX_RARITY_FRAMES: Record<string, string> = {
-  common: "/art/lore-gallery/card-frames/common.png",
-  uncommon: "/art/lore-gallery/card-frames/uncommon.png",
-  rare: "/art/lore-gallery/card-frames/rare.png",
-  epic: "/art/lore-gallery/card-frames/epic.png",
-  legendary: "/art/lore-gallery/card-frames/legendary.png",
-  classified: "/art/lore-gallery/card-frames/legendary.png",
+  common: assetUrl("art/lore-gallery/card-frames/common.png"),
+  uncommon: assetUrl("art/lore-gallery/card-frames/uncommon.png"),
+  rare: assetUrl("art/lore-gallery/card-frames/rare.png"),
+  epic: assetUrl("art/lore-gallery/card-frames/epic.png"),
+  legendary: assetUrl("art/lore-gallery/card-frames/legendary.png"),
+  classified: assetUrl("art/lore-gallery/card-frames/legendary.png"),
 };
 
-const CODEX_LOCKED_OVERLAY = "/art/lore-gallery/overlays/locked-classified.png";
+const CODEX_LOCKED_OVERLAY = assetUrl("art/lore-gallery/overlays/locked-classified.png");
 
 export default function CodexPage() {
   const { stats } = useLoredex();

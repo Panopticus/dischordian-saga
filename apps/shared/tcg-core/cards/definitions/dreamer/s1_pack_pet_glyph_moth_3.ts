@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_pet_glyph_moth_3" as CardDefinition["id"],
   name: "Arcane Monarch",
@@ -52,7 +53,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_pet_glyph_moth_3.webp",
+  art: assetUrl("art/cards/s1_pack_pet_glyph_moth_3.webp"),
   flavorText:
     "When it spreads its wings, the battlefield remembers how to fight.",
   rulesVersion: "1.0.0",

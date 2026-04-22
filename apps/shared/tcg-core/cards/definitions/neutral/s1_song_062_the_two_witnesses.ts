@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_song_062" as CardDefinition["id"],
   name: "The Two Witnesses",
@@ -48,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_song_062.webp",
+  art: assetUrl("art/cards/s1_song_062.webp"),
   flavorText:
     "They speak in unison, and where their voices converge, the world fractures.",
   rulesVersion: "1.0.0",

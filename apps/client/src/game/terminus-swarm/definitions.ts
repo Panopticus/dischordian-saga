@@ -5,6 +5,7 @@
    ═══════════════════════════════════════════════════════ */
 import type { EnemyDef, TurretDef, WaveDef, MapDef, EnemyType, EnemySpecial } from "./types";
 
+import { assetUrl } from "@/lib/assetUrl";
 /* ─── TURRET DEFINITIONS ─── */
 
 export const TURRETS: Record<string, TurretDef> = {
@@ -441,7 +442,7 @@ export const MAPS: MapDef[] = [
       { x: 11, y: 7 }, { x: 11, y: 8 },
     ],
     lore: "The Inception Arks crashed on Terminus — the former Panopticon, the Architect's prison planet, now a rogue world drifting through the void. Every soul the Architect ever imprisoned is here. The Thought Virus turned them into the Swarm. This landing bay is all that stands between what remains of the Ark's systems and the rage of a planet full of the damned.",
-    backgroundImage: "/art/terminus/maps/map-landing-bay.jpg",
+    backgroundImage: assetUrl("art/terminus/maps/map-landing-bay.jpg"),
   },
   {
     name: "Ark #25 — Corridor B",
@@ -457,7 +458,7 @@ export const MAPS: MapDef[] = [
       { x: 16, y: 3 }, { x: 16, y: 4 },
     ],
     lore: "The interior corridors of the Ark are labyrinthine. The Swarm has burrowed through walls, creating new entry points.",
-    backgroundImage: "/art/terminus/maps/map-corridor-b.jpg",
+    backgroundImage: assetUrl("art/terminus/maps/map-corridor-b.jpg"),
   },
   {
     name: "Reactor Core",
@@ -487,7 +488,7 @@ export const MAPS: MapDef[] = [
       { x: 11, y: 12 }, { x: 12, y: 12 },
     ],
     lore: "The reactor core is the heart of the Ark. Four corridors lead to it — north flooded with coolant, east on fire, west crawling with Thought Virus, south the only clean approach. Lose the reactor, lose everything.",
-    backgroundImage: "/art/terminus/maps/map-reactor-core.png",
+    backgroundImage: assetUrl("art/terminus/maps/map-reactor-core.png"),
   },
   {
     name: "Terminus Surface",
@@ -515,7 +516,7 @@ export const MAPS: MapDef[] = [
       { x: 17, y: 10 }, { x: 17, y: 11 },
     ],
     lore: "The surface of Terminus itself. Toxic green sky, corrupted soil pulsing with viral circuitry. The Ark's hull has been breached. Wreckage creates natural chokepoints — use them or be overwhelmed. This is the last stand.",
-    backgroundImage: "/art/terminus/maps/map-terminus-surface.png",
+    backgroundImage: assetUrl("art/terminus/maps/map-terminus-surface.png"),
   },
 ];
 

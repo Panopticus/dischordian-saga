@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const quarchon_01: CardDefinition = {
   id: "s1_race_quarchon_01" as CardDefinition["id"],
   name: "Quarchon Latticework",
@@ -18,7 +19,7 @@ export const quarchon_01: CardDefinition = {
   baseStats: { power: 1, health: 4 },
   keywords: ["forcefield"],
   abilities: [],
-  art: "/art/cards/race/s1_race_quarchon_01.webp",
+  art: assetUrl("art/cards/race/s1_race_quarchon_01.webp"),
   flavorText:
     "Forcefield. A quarchon begins life as a lattice of intentions the Architect has not yet committed to. The forcefield is what he still reserves the right to.",
   rulesVersion: "1.0.0",
@@ -36,7 +37,7 @@ export const quarchon_02: CardDefinition = {
   baseStats: { power: 2, health: 5 },
   keywords: ["provoke", "grow"],
   abilities: [],
-  art: "/art/cards/race/s1_race_quarchon_02.webp",
+  art: assetUrl("art/cards/race/s1_race_quarchon_02.webp"),
   flavorText:
     "Provoke. Grow. Quarchon archivists remember by becoming denser. The older one is, the more it weighs, and the more room it takes up in any conversation that thinks it has finished.",
   rulesVersion: "1.0.0",
@@ -54,7 +55,7 @@ export const quarchon_03: CardDefinition = {
   baseStats: { power: 4, health: 10 },
   keywords: ["provoke", "forcefield", "grow"],
   abilities: [],
-  art: "/art/cards/race/s1_race_quarchon_03.webp",
+  art: assetUrl("art/cards/race/s1_race_quarchon_03.webp"),
   flavorText:
     "Provoke. Forcefield. Grow. Ten health, growing. The Crystal Senator is the Architect's only quarchon diplomat. He has been in session for 4,700 years. He has not yet finished his opening remarks.",
   rulesVersion: "1.0.0",

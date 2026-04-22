@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_219" as CardDefinition["id"],
   name: "Plague Wind",
@@ -38,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_219.webp",
+  art: assetUrl("art/cards/s1_spell_219.webp"),
   flavorText:
     "The wind carries more than dust. It carries the end of thought.",
   rulesVersion: "1.0.0",

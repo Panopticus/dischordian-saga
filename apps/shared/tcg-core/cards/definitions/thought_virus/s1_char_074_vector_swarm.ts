@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_074" as CardDefinition["id"],
   name: "Vector Swarm",
@@ -39,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_074.webp",
+  art: assetUrl("art/cards/s1_char_074.webp"),
   flavorText:
     "Kill it and it splits. Burn it and it drifts. Ignore it and you are already too late.",
   rulesVersion: "1.0.0",

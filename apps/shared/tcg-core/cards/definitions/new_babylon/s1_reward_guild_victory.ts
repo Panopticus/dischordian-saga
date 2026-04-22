@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_guild_victory" as CardDefinition["id"],
   name: "War Dividend",
@@ -50,7 +51,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_guild_victory.webp",
+  art: assetUrl("art/cards/s1_reward_guild_victory.webp"),
   flavorText:
     "The guild war ended. Locke's accountants moved in before the smoke cleared.",
   rulesVersion: "1.0.0",

@@ -27,6 +27,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_025" as CardDefinition["id"],
   name: "The Dreamer",
@@ -94,7 +95,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_025.webp",
+  art: assetUrl("art/cards/s1_char_025.webp"),
   flavorText:
     "Existing beyond time and space, the Dreamer shapes futures and scenarios that benefit the Ne-Yons. Aloof from galactic s...",
   rulesVersion: "1.0.0",

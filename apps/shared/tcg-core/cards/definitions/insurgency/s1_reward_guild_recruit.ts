@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_guild_recruit" as CardDefinition["id"],
   name: "Fresh Recruit",
@@ -53,7 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_guild_recruit.webp",
+  art: assetUrl("art/cards/s1_reward_guild_recruit.webp"),
   flavorText:
     "No training. No gear. Just anger and a willingness to die for the cause.",
   rulesVersion: "1.0.0",

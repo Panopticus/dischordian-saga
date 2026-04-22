@@ -17,6 +17,7 @@
 
 import princeVoManifest from "../../../../shared/princeVoManifest.json";
 
+import { assetUrl } from "@/lib/assetUrl";
 export interface BeatEHotspotConfig {
   /** Stable id, used for examined-state tracking. */
   id: string;
@@ -63,7 +64,7 @@ export const BEAT_E_HOTSPOTS: readonly BeatEHotspotConfig[] = [
     displayName: "Framed Diploma",
     position: { leftPct: 66, topPct: 42 },
     vfxOverlay: {
-      webmUrl: "/art/vfx/prelude/diploma-ink-bloom.webm",
+      webmUrl: assetUrl("art/vfx/prelude/diploma-ink-bloom.webm"),
       widthPx: 480,
       heightPx: 340,
     },

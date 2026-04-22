@@ -14,6 +14,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_118" as CardDefinition["id"],
   name: "Syndicate Contract",
@@ -53,7 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_118.webp",
+  art: assetUrl("art/cards/s1_spell_118.webp"),
   flavorText:
     "Sign here, in blood. The power is yours — for exactly as long as it takes to spend it.",
   rulesVersion: "1.0.0",

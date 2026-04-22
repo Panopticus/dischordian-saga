@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_013" as CardDefinition["id"],
   name: "Master of R\u2019lyeh",
@@ -76,7 +77,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_013.webp",
+  art: assetUrl("art/cards/s1_char_013.webp"),
   flavorText:
     "A. Era; current status unknown after the Fall of Reality The Master of R\u2019lyeh is an enigmatic and ancient entity of immense power.",
   rulesVersion: "1.0.0",

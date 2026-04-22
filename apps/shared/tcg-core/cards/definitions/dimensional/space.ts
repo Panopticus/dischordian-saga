@@ -9,6 +9,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const space_01: CardDefinition = {
   id: "s1_dim_space_01" as CardDefinition["id"],
   name: "Parallax Walker",
@@ -19,7 +20,7 @@ export const space_01: CardDefinition = {
   baseStats: { power: 3, health: 3 },
   keywords: ["airdrop"],
   abilities: [],
-  art: "/art/cards/dimension/s1_dim_space_01.webp",
+  art: assetUrl("art/cards/dimension/s1_dim_space_01.webp"),
   flavorText:
     "Airdrop. She does not walk to where she needs to be. The distance between where she was and where she needed to be agreed to close itself.",
   rulesVersion: "1.0.0",
@@ -37,7 +38,7 @@ export const space_02: CardDefinition = {
   baseStats: { power: 4, health: 4 },
   keywords: ["airdrop", "celerity"],
   abilities: [],
-  art: "/art/cards/dimension/s1_dim_space_02.webp",
+  art: assetUrl("art/cards/dimension/s1_dim_space_02.webp"),
   flavorText:
     "Airdrop. Celerity. The Folded Distance's attack is not a second attack. It is the same attack, delivered in two places, while the attacker apologizes in the third.",
   rulesVersion: "1.0.0",
@@ -66,7 +67,7 @@ export const space_03: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/dimension/s1_dim_space_03.webp",
+  art: assetUrl("art/cards/dimension/s1_dim_space_03.webp"),
   flavorText:
     "Airdrop. Celerity. Flying. Rush on deploy. The Cartographer of Elsewhere does not draw maps. He writes letters to places, and the places answer, and the answers are the maps.",
   rulesVersion: "1.0.0",

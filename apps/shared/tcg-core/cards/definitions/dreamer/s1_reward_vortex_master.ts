@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_vortex_master" as CardDefinition["id"],
   name: "Vortex Walker",
@@ -49,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_vortex_master.webp",
+  art: assetUrl("art/cards/s1_reward_vortex_master.webp"),
   flavorText:
     "Fifty incursions. Fifty seals. Now she does not close the vortex — she becomes it.",
   rulesVersion: "1.0.0",

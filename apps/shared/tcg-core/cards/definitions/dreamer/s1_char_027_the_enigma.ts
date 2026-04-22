@@ -27,6 +27,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_027" as CardDefinition["id"],
   name: "The Enigma",
@@ -125,7 +126,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_027.webp",
+  art: assetUrl("art/cards/s1_char_027.webp"),
   flavorText:
     "They played a crucial role in destroying the Warden alongside the White Oracle before the Fall of Reality .",
   rulesVersion: "1.0.0",

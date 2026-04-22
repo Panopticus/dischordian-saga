@@ -17,6 +17,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_026" as CardDefinition["id"],
   name: "Neural Hive",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_026.webp",
+  art: assetUrl("art/cards/s1_pack_026.webp"),
   flavorText:
     "Kill it. Please. But understand: every wound you inflict is a seed.",
   rulesVersion: "1.0.0",

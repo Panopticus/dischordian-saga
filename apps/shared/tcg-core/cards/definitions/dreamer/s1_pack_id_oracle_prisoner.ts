@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_id_oracle_prisoner" as CardDefinition["id"],
   name: "The Prisoner",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_id_oracle_prisoner.webp",
+  art: assetUrl("art/cards/s1_pack_id_oracle_prisoner.webp"),
   flavorText:
     "Memory erased. Identity stripped. Only the shield remains.",
   rulesVersion: "1.0.0",

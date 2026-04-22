@@ -13,6 +13,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_232" as CardDefinition["id"],
   name: "Fossil Record",
@@ -52,7 +53,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_232.webp",
+  art: assetUrl("art/cards/s1_spell_232.webp"),
   flavorText:
     "In the stone are the bones of what came before. In the bones is the blueprint of what comes next.",
   rulesVersion: "1.0.0",

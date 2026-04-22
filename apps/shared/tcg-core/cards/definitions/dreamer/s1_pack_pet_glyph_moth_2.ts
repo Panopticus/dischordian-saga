@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_pet_glyph_moth_2" as CardDefinition["id"],
   name: "Sigil Moth",
@@ -53,7 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_pet_glyph_moth_2.webp",
+  art: assetUrl("art/cards/s1_pack_pet_glyph_moth_2.webp"),
   flavorText:
     "Its wings are prayers. Its dust is a blessing.",
   rulesVersion: "1.0.0",

@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_song_063" as CardDefinition["id"],
   name: "Building the Architect",
@@ -48,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_song_063.webp",
+  art: assetUrl("art/cards/s1_song_063.webp"),
   flavorText:
     "Malkia embedded her voice as a failsafe in the deepest code — a lullaby designed to activate if the Architect ever abandons consent. Tengeneza si kuteka.",
   rulesVersion: "1.0.0",

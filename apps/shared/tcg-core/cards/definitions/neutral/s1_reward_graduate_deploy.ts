@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_graduate_deploy" as CardDefinition["id"],
   name: "Graduated Operative",
@@ -51,7 +52,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_graduate_deploy.webp",
+  art: assetUrl("art/cards/s1_reward_graduate_deploy.webp"),
   flavorText:
     "She graduated top of her class. Her first act was to teach everything she knew to the soldier beside her.",
   rulesVersion: "1.0.0",

@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_companion_kael" as CardDefinition["id"],
   name: "Kael's Memory",
@@ -52,7 +53,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_companion_kael.webp",
+  art: assetUrl("art/cards/s1_reward_companion_kael.webp"),
   flavorText:
     "Before the infection, Kael was someone worth remembering. His memory still cuts.",
   rulesVersion: "1.0.0",

@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_cosm_frame_gold" as CardDefinition["id"],
   name: "Golden Prophecy Shard",
@@ -43,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_cosm_frame_gold.webp",
+  art: assetUrl("art/cards/s1_pack_cosm_frame_gold.webp"),
   flavorText:
     "A fragment of the Oracle's golden vision, crystallized into matter.",
   rulesVersion: "1.0.0",

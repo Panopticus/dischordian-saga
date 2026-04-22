@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_song_065" as CardDefinition["id"],
   name: "Sixth Sense",
@@ -39,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_song_065.webp",
+  art: assetUrl("art/cards/s1_song_065.webp"),
   flavorText:
     "Some call it intuition, others call it premonition — the healed simply call it a second chance.",
   rulesVersion: "1.0.0",

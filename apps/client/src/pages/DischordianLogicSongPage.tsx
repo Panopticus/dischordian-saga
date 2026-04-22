@@ -25,8 +25,9 @@ import {
   type SongSlide,
 } from "@shared/tcg-core/story/dischordianLogicSong";
 
-const AUDIO_SRC = "/audio/songs/dischordian_logic.mp3";
-const SLIDE_ART_BASE = "/art/dischordian-logic";
+import { assetUrl } from "@/lib/assetUrl";
+const AUDIO_SRC = assetUrl("audio/songs/dischordian_logic.mp3");
+const SLIDE_ART_BASE = assetUrl("art/dischordian-logic");
 
 function SlideArt({ slide }: { slide: SongSlide }) {
   // If the art asset exists it will load; if not, the CSS

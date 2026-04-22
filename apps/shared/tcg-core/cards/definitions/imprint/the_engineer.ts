@@ -11,6 +11,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const the_engineer_t1: CardDefinition = {
   id: "s1_imprint_the_engineer_t1" as CardDefinition["id"],
   name: "Imprint: The Engineer (Common)",
@@ -21,7 +22,7 @@ export const the_engineer_t1: CardDefinition = {
   baseStats: { power: 1, health: 3 },
   keywords: [],
   abilities: [],
-  art: "/art/cards/imprint/s1_imprint_the_engineer_t1.webp",
+  art: assetUrl("art/cards/imprint/s1_imprint_the_engineer_t1.webp"),
   flavorText:
     "A man at a workbench in a room you cannot quite locate on the map. The goggles are too large. The goggles are always too large.",
   rulesVersion: "1.0.0",
@@ -49,7 +50,7 @@ export const the_engineer_t2: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/imprint/s1_imprint_the_engineer_t2.webp",
+  art: assetUrl("art/cards/imprint/s1_imprint_the_engineer_t2.webp"),
   flavorText:
     "On deploy, draw a card. He hands you the next tool before you realize you are going to need it.",
   rulesVersion: "1.0.0",
@@ -77,7 +78,7 @@ export const the_engineer_t3: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/imprint/s1_imprint_the_engineer_t3.webp",
+  art: assetUrl("art/cards/imprint/s1_imprint_the_engineer_t3.webp"),
   flavorText:
     "On deploy, draw two cards. He is already solving the next problem while the current one is still explaining itself.",
   rulesVersion: "1.0.0",
@@ -114,7 +115,7 @@ export const the_engineer_t4: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/imprint/s1_imprint_the_engineer_t4.webp",
+  art: assetUrl("art/cards/imprint/s1_imprint_the_engineer_t4.webp"),
   flavorText:
     "On deploy, draw 2 and refund 1 mana. Every invention pays for itself, or it is not yet an invention.",
   rulesVersion: "1.0.0",
@@ -151,7 +152,7 @@ export const the_engineer_t5: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/imprint/s1_imprint_the_engineer_t5.webp",
+  art: assetUrl("art/cards/imprint/s1_imprint_the_engineer_t5.webp"),
   flavorText:
     "On deploy, draw 3 and refund 2 mana. The Engineer built the first prototype deck the week the Oracle asked for a way to think about conflict without having to live it. The deck did not exist before him. He is the reason you are playing any of this.",
   rulesVersion: "1.0.0",

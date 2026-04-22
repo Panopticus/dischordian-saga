@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_065" as CardDefinition["id"],
   name: "Age-Ender",
@@ -36,7 +37,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_065.webp",
+  art: assetUrl("art/cards/s1_char_065.webp"),
   flavorText:
     "It does not destroy civilizations. It simply marks where one ends and silence begins.",
   rulesVersion: "1.0.0",

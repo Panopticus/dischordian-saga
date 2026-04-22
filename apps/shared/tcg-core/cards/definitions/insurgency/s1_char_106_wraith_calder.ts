@@ -25,6 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_106" as CardDefinition["id"],
   name: "Wraith Calder",
@@ -55,7 +56,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_106.webp",
+  art: assetUrl("art/cards/s1_char_106.webp"),
   flavorText:
     "Seven graves bear his name across seven battlefields. He has visited each one, and left them all.",
   rulesVersion: "1.0.0",

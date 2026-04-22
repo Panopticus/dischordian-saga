@@ -9,6 +9,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_087" as CardDefinition["id"],
   name: "Scrapyard Golem",
@@ -31,7 +32,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_087.webp",
+  art: assetUrl("art/cards/s1_char_087.webp"),
   flavorText:
     "It was built from the wreckage of a dozen machines, none of which were designed to kill. It learned that part on its own.",
   rulesVersion: "1.0.0",

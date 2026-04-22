@@ -40,6 +40,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
+import { assetUrl } from "../client/src/lib/assetUrl";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -363,7 +364,7 @@ async function main() {
         // Local dev URL — works for `pnpm dev` but must be replaced by
         // a real CDN URL before shipping. The manifest entry's value
         // still resolves in the game's audio loader for local play.
-        url = `/audio/${s3Folder}/${line.lineId}.mp3`;
+        url = assetUrl(`audio/${s3Folder}/${line.lineId}.mp3`);
       }
 
       manifest[line.lineId] = url;

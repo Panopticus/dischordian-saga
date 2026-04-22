@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_pet_flicker_imp_2" as CardDefinition["id"],
   name: "Flicker Fiend",
@@ -44,7 +45,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_pet_flicker_imp_2.webp",
+  art: assetUrl("art/cards/s1_pack_pet_flicker_imp_2.webp"),
   flavorText:
     "It doesn't flicker to escape. It flickers to strike twice.",
   rulesVersion: "1.0.0",

@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/assetUrl";
 /* ═══════════════════════════════════════════════════════
    ROOM STATE ASSETS — runtime variant picker
 
@@ -54,7 +55,7 @@ const LEGACY_URLS = {
  * `null` values fall back to `initial`, then to the legacy single-image
  * URL in LEGACY_URLS above.
  */
-const ROOM_STATE_ASSET_BASE = "/art/rooms/mystery-states";
+const ROOM_STATE_ASSET_BASE = assetUrl("art/rooms/mystery-states");
 
 export const ROOM_STATE_ASSET_URLS: {
   "cryo-bay": Record<CryoBayStateId, string | null>;

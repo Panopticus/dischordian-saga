@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_campaign_finale" as CardDefinition["id"],
   name: "Resurrection Protocol",
@@ -39,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_campaign_finale.webp",
+  art: assetUrl("art/cards/s1_reward_campaign_finale.webp"),
   flavorText:
     "The Dreamer whispered into the void, and the void answered. What returns is changed — but it returns.",
   rulesVersion: "1.0.0",

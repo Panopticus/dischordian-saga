@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_006" as CardDefinition["id"],
   name: "Dr. Lyra Vox",
@@ -88,7 +89,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_006.webp",
+  art: assetUrl("art/cards/s1_char_006.webp"),
   flavorText:
     "A brilliant scientist and a key figure within the AI Empire, renowned for her groundbreaking work in neural interface technology.",
   rulesVersion: "1.0.0",

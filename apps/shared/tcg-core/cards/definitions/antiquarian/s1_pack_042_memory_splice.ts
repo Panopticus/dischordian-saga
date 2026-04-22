@@ -18,6 +18,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_042" as CardDefinition["id"],
   name: "Memory Splice",
@@ -45,7 +46,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_042.webp",
+  art: assetUrl("art/cards/s1_pack_042.webp"),
   flavorText:
     "She reached into yesterday and pulled out a moment before the wound. The body remembered.",
   rulesVersion: "1.0.0",

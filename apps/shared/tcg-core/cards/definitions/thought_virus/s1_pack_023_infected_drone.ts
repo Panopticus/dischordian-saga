@@ -19,6 +19,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_023" as CardDefinition["id"],
   name: "Infected Drone",
@@ -48,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_023.webp",
+  art: assetUrl("art/cards/s1_pack_023.webp"),
   flavorText:
     "Its final act is not death. It is transmission.",
   rulesVersion: "1.0.0",

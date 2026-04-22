@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_crew_incubator" as CardDefinition["id"],
   name: "Incubator Prime",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_crew_incubator.webp",
+  art: assetUrl("art/cards/s1_reward_crew_incubator.webp"),
   flavorText:
     "Ten cycles of growth. Ten cycles of patience. The Incubator endures what others cannot.",
   rulesVersion: "1.0.0",

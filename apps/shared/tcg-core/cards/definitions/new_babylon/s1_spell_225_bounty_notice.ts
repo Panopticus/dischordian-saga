@@ -13,6 +13,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_225" as CardDefinition["id"],
   name: "Bounty Notice",
@@ -39,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_225.webp",
+  art: assetUrl("art/cards/s1_spell_225.webp"),
   flavorText:
     "The notice goes up at dawn. By noon, the work is done.",
   rulesVersion: "1.0.0",

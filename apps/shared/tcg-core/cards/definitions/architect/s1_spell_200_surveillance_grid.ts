@@ -13,6 +13,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_200" as CardDefinition["id"],
   name: "Surveillance Grid",
@@ -39,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_200.webp",
+  art: assetUrl("art/cards/s1_spell_200.webp"),
   flavorText:
     "Every lens in the grid turns at once. To be seen is to be struck.",
   rulesVersion: "1.0.0",

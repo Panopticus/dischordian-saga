@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_212" as CardDefinition["id"],
   name: "Lucid Clarity",
@@ -31,7 +32,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_212.webp",
+  art: assetUrl("art/cards/s1_spell_212.webp"),
   flavorText:
     "Close your eyes. What do you see? Everything.",
   rulesVersion: "1.0.0",

@@ -9,6 +9,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Radio, X, Share2 } from "lucide-react";
 
+import { assetUrl } from "@/lib/assetUrl";
 /* ═══ PROPS ═══ */
 interface SignalDecryptionProps {
   onComplete: (won: boolean, guesses: number) => void;
@@ -331,7 +332,7 @@ export default function SignalDecryption({ onComplete, onClose }: SignalDecrypti
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center void-bg-canvas px-4 py-6 text-white select-none overflow-hidden">
       {/* Background art */}
-      <img src="/art/minigames/minigame-signal-decryption.png" alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none" style={{ opacity: 0.12, filter: "brightness(0.35) saturate(0.7)" }} />
+      <img src={assetUrl("art/minigames/minigame-signal-decryption.png")} alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none" style={{ opacity: 0.12, filter: "brightness(0.35) saturate(0.7)" }} />
       <StaticNoise />
 
       {/* Header */}

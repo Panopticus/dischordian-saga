@@ -25,6 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_037" as CardDefinition["id"],
   name: "The Knowledge",
@@ -91,7 +92,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_037.webp",
+  art: assetUrl("art/cards/s1_char_037.webp"),
   flavorText:
     "By maintaining an equilibrium of enlightenment and ignorance, the Knowledge ensures the Ne-Yons remain indispensable to ...",
   rulesVersion: "1.0.0",

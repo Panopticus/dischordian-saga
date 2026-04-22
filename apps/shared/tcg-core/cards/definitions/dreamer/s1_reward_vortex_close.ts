@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_vortex_close" as CardDefinition["id"],
   name: "Vortex Seal",
@@ -48,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_vortex_close.webp",
+  art: assetUrl("art/cards/s1_reward_vortex_close.webp"),
   flavorText:
     "The rift screamed as it closed. The creature on the other side screamed louder.",
   rulesVersion: "1.0.0",

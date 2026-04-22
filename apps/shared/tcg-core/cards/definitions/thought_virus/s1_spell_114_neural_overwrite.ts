@@ -14,6 +14,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_114" as CardDefinition["id"],
   name: "Neural Overwrite",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_114.webp",
+  art: assetUrl("art/cards/s1_spell_114.webp"),
   flavorText:
     "The soldier's eyes went blank mid-sentence. When he spoke again, it was in the Source's voice, thanking them for the vessel.",
   rulesVersion: "1.0.0",

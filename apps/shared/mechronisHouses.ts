@@ -1,3 +1,4 @@
+import { assetUrl } from "../client/src/lib/assetUrl";
 /* ═══════════════════════════════════════════════════════
    MECHRONIS HOUSES — Sorting & House Cup
 
@@ -75,8 +76,8 @@ export const MECHRONIS_HOUSES: MechronisHouse[] = [
       "Resonance students are the Architect's voice-box. Half of them never speak in their own register again.",
     commonRoom:
       "A tiered amphitheatre with no proscenium. Every seat is a prompter. The walls hum at 432 Hz when the House is winning. When it loses, they whisper the names of every Resonance student who ever graded below the mean.",
-    commonRoomArt: "/art/mechronis/common-rooms/resonance.jpg",
-    ambientAudio: "/audio/ambient/mechronis/resonance.mp3",
+    commonRoomArt: assetUrl("art/mechronis/common-rooms/resonance.jpg"),
+    ambientAudio: assetUrl("audio/ambient/mechronis/resonance.mp3"),
   },
   {
     id: "house_umbra",
@@ -97,8 +98,8 @@ export const MECHRONIS_HOUSES: MechronisHouse[] = [
       "Umbra graduates own every other House's secrets. They carry them quietly to the Architect, which is why they walk so softly.",
     commonRoom:
       "A low-ceilinged reading room lit by green-shaded lamps. The bookcases are two-way mirrors. Cushions have the gentle depression of someone who was just sitting there. The fire never crackles — fireplaces leak information.",
-    commonRoomArt: "/art/mechronis/common-rooms/umbra.jpg",
-    ambientAudio: "/audio/ambient/mechronis/umbra.mp3",
+    commonRoomArt: assetUrl("art/mechronis/common-rooms/umbra.jpg"),
+    ambientAudio: assetUrl("audio/ambient/mechronis/umbra.mp3"),
   },
   {
     id: "house_ironflight",
@@ -119,8 +120,8 @@ export const MECHRONIS_HOUSES: MechronisHouse[] = [
       "Ironflight graduates come back from the dead on request. They bring less of themselves each time. The House pretends not to count.",
     commonRoom:
       "A long-hall with a running forge at one end and a running wake at the other. The sword rack is also the memorial. Students sharpen their blades on the whetstones of students who didn't come back.",
-    commonRoomArt: "/art/mechronis/common-rooms/ironflight.jpg",
-    ambientAudio: "/audio/ambient/mechronis/ironflight.mp3",
+    commonRoomArt: assetUrl("art/mechronis/common-rooms/ironflight.jpg"),
+    ambientAudio: assetUrl("audio/ambient/mechronis/ironflight.mp3"),
   },
   {
     id: "house_liminal",
@@ -141,8 +142,8 @@ export const MECHRONIS_HOUSES: MechronisHouse[] = [
       "Liminal graduates are the only ones who ever meet the Architect in person. The meeting happens inside a classroom door they cannot later locate on any map.",
     commonRoom:
       "A sitting room that reshuffles when no one is looking. The armchairs know who prefers them. The hearth rug is stitched from every lost-property scarf the House has ever failed to return. The door number on the common-room door is a different prime every morning.",
-    commonRoomArt: "/art/mechronis/common-rooms/liminal.jpg",
-    ambientAudio: "/audio/ambient/mechronis/liminal.mp3",
+    commonRoomArt: assetUrl("art/mechronis/common-rooms/liminal.jpg"),
+    ambientAudio: assetUrl("audio/ambient/mechronis/liminal.mp3"),
   },
 ];
 

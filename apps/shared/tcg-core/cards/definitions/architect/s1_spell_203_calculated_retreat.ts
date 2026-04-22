@@ -13,6 +13,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_203" as CardDefinition["id"],
   name: "Calculated Retreat",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_203.webp",
+  art: assetUrl("art/cards/s1_spell_203.webp"),
   flavorText:
     "Retreat is merely attack in the temporal dimension.",
   rulesVersion: "1.0.0",

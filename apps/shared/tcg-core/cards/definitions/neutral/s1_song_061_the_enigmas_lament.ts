@@ -32,6 +32,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_song_061" as CardDefinition["id"],
   name: "The Enigma's Lament",
@@ -60,7 +61,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_song_061.webp",
+  art: assetUrl("art/cards/s1_song_061.webp"),
   flavorText:
     "A haunting meditation on identity and loss, this song channels the voice of The Enigma, the mysterious entity whose true nature is never what it first seems.",
   rulesVersion: "1.0.0",

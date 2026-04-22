@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_boss_architect" as CardDefinition["id"],
   name: "Architect's Schematic",
@@ -55,7 +56,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_boss_architect.webp",
+  art: assetUrl("art/cards/s1_reward_boss_architect.webp"),
   flavorText:
     "The Architect fell, but his schematics survived. Every line is a command. Every command still works.",
   rulesVersion: "1.0.0",

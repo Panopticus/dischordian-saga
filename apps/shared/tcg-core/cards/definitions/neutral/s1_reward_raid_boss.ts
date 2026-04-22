@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_raid_boss" as CardDefinition["id"],
   name: "Raid Champion",
@@ -61,7 +62,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_raid_boss.webp",
+  art: assetUrl("art/cards/s1_reward_raid_boss.webp"),
   flavorText:
     "The boss fell. The Champion stood in the crater, grinning through the blood. Not all of it was hers.",
   rulesVersion: "1.0.0",

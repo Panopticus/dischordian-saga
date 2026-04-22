@@ -18,6 +18,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_song_079" as CardDefinition["id"],
   name: "Shades of Grey",
@@ -46,7 +47,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_song_079.webp",
+  art: assetUrl("art/cards/s1_song_079.webp"),
   flavorText:
     "Between black and white lies a spectrum of doubt — and within it, a fragile protection.",
   rulesVersion: "1.0.0",

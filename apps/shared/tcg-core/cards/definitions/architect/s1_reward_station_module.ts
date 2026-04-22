@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_station_module" as CardDefinition["id"],
   name: "Module Integration",
@@ -48,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_station_module.webp",
+  art: assetUrl("art/cards/s1_reward_station_module.webp"),
   flavorText:
     "Ten modules. Ten upgrades. The unit that walked in was adequate. The one that walked out was exceptional.",
   rulesVersion: "1.0.0",

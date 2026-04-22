@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_216" as CardDefinition["id"],
   name: "Oracle's Blessing",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_216.webp",
+  art: assetUrl("art/cards/s1_spell_216.webp"),
   flavorText:
     "The Oracle spoke a single syllable. The blade passed through like light through glass.",
   rulesVersion: "1.0.0",

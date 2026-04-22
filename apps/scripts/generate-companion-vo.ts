@@ -50,6 +50,7 @@ import { HUMAN_LINES } from "../shared/humanLines";
 import { LOCKED_DOOR_LINES } from "../shared/lockedDoorLines";
 import type { CompanionLine, CompanionSpeaker } from "../shared/companion";
 
+import { assetUrl } from "../client/src/lib/assetUrl";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -311,7 +312,7 @@ async function main() {
       const localPath = writeLocalFile(audio, line.speaker, line.voId);
       const url = HAS_AWS_CREDS
         ? await uploadToS3(audio, s3Key)
-        : `/audio/${line.speaker}/${line.voId}.mp3`;
+        : assetUrl(`audio/${line.speaker}/${line.voId}.mp3`);
       manifest[line.voId] = url;
       saveManifest(line.speaker, manifest);
       generated++;

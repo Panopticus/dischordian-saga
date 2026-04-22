@@ -9,6 +9,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_089" as CardDefinition["id"],
   name: "Courier Sprite",
@@ -30,7 +31,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_089.webp",
+  art: assetUrl("art/cards/s1_char_089.webp"),
   flavorText:
     "It carries messages no one else dares to deliver — and pays for it with its brief, bright life.",
   rulesVersion: "1.0.0",

@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_111" as CardDefinition["id"],
   name: "Vision Walker",
@@ -54,7 +55,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_111.webp",
+  art: assetUrl("art/cards/s1_char_111.webp"),
   flavorText:
     "To the untrained eye, she vanishes. To the Dreamer's eye, she simply takes a different path — one that was always there.",
   rulesVersion: "1.0.0",

@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_206" as CardDefinition["id"],
   name: "Supply Drop",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_206.webp",
+  art: assetUrl("art/cards/s1_spell_206.webp"),
   flavorText:
     "The resistance runs on hope and ammunition. This crate has both.",
   rulesVersion: "1.0.0",

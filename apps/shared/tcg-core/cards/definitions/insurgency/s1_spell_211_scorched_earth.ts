@@ -13,6 +13,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_211" as CardDefinition["id"],
   name: "Scorched Earth",
@@ -39,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_211.webp",
+  art: assetUrl("art/cards/s1_spell_211.webp"),
   flavorText:
     "The fire does not distinguish between friend and foe. Neither does desperation.",
   rulesVersion: "1.0.0",

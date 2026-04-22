@@ -11,6 +11,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const soldier_01: CardDefinition = {
   id: "s1_class_soldier_01" as CardDefinition["id"],
   name: "Line Recruit",
@@ -22,7 +23,7 @@ export const soldier_01: CardDefinition = {
   baseStats: { power: 3, health: 3 },
   keywords: [],
   abilities: [],
-  art: "/art/cards/class/s1_class_soldier_01.webp",
+  art: assetUrl("art/cards/class/s1_class_soldier_01.webp"),
   flavorText:
     "Three power, three health, two cost. There is no ability on the card. That is the ability.",
   rulesVersion: "1.0.0",
@@ -41,7 +42,7 @@ export const soldier_02: CardDefinition = {
   baseStats: { power: 2, health: 6 },
   keywords: ["provoke"],
   abilities: [],
-  art: "/art/cards/class/s1_class_soldier_02.webp",
+  art: assetUrl("art/cards/class/s1_class_soldier_02.webp"),
   flavorText:
     "Provoke. The soldier stands in front of the rest of the formation on purpose, every time, and expects the rest of the formation to know this is the deal.",
   rulesVersion: "1.0.0",
@@ -70,7 +71,7 @@ export const soldier_03: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/class/s1_class_soldier_03.webp",
+  art: assetUrl("art/cards/class/s1_class_soldier_03.webp"),
   flavorText:
     "Your general gains +2/+2 permanently. A rally is the sentence a commander gives to the room they cannot leave.",
   rulesVersion: "1.0.0",
@@ -100,7 +101,7 @@ export const soldier_04: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/class/s1_class_soldier_04.webp",
+  art: assetUrl("art/cards/class/s1_class_soldier_04.webp"),
   flavorText:
     "Provoke. Rush on deploy. The Iron Vanguard's formation doctrine is a single word repeated four times in the same sentence. The word is 'forward.'",
   rulesVersion: "1.0.0",
@@ -119,7 +120,7 @@ export const soldier_05: CardDefinition = {
   baseStats: { power: 7, health: 7 },
   keywords: ["provoke", "frenzy", "rebirth"],
   abilities: [],
-  art: "/art/cards/class/s1_class_soldier_05.webp",
+  art: assetUrl("art/cards/class/s1_class_soldier_05.webp"),
   flavorText:
     "Provoke. Frenzy. Rebirth. The last regiment standing is the one that did not know the war was officially over, and by the time anyone told them, the war unofficially was not.",
   rulesVersion: "1.0.0",

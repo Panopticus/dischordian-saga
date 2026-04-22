@@ -18,6 +18,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_017" as CardDefinition["id"],
   name: "Fate's Edge",
@@ -57,7 +58,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_017.webp",
+  art: assetUrl("art/cards/s1_pack_017.webp"),
   flavorText:
     "She saw the blade that would end her. She chose the timeline where it froze mid-swing.",
   rulesVersion: "1.0.0",

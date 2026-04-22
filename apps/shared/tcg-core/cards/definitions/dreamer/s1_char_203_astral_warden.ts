@@ -15,6 +15,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_203" as CardDefinition["id"],
   name: "Astral Warden",
@@ -35,7 +36,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_203.webp",
+  art: assetUrl("art/cards/s1_char_203.webp"),
   flavorText:
     "She stepped out of the dream carrying a shield of starlight and a secret meant only for you.",
   rulesVersion: "1.0.0",

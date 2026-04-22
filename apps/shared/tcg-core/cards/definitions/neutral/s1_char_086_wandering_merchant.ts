@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_086" as CardDefinition["id"],
   name: "Wandering Merchant",
@@ -38,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_086.webp",
+  art: assetUrl("art/cards/s1_char_086.webp"),
   flavorText:
     "He sells to all sides and swears allegiance to none. Coin is the only faction that never falls.",
   rulesVersion: "1.0.0",

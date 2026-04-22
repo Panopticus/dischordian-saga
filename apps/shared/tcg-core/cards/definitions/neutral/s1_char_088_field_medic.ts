@@ -9,6 +9,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_088" as CardDefinition["id"],
   name: "Field Medic",
@@ -29,7 +30,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_088.webp",
+  art: assetUrl("art/cards/s1_char_088.webp"),
   flavorText:
     "She does not ask which side you fight for. Only where it hurts.",
   rulesVersion: "1.0.0",

@@ -9,6 +9,7 @@
  */
 import type { CardDefinition } from "../../index";
 
+import { assetUrl } from "../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "token_wolf_2_2" as CardDefinition["id"],
   name: "Wolf",
@@ -19,7 +20,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 2, health: 2 },
   keywords: [],
   abilities: [],
-  art: "/art/cards/token_wolf_2_2.webp",
+  art: assetUrl("art/cards/token_wolf_2_2.webp"),
   flavorText: "A spectral wolf, bound by lunar magic to fight at its master's side.",
   rulesVersion: "1.0.0",
   trial_categories: ["defensive"] as const,

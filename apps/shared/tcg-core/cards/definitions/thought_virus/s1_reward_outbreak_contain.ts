@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_outbreak_contain" as CardDefinition["id"],
   name: "Quarantine Field",
@@ -47,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_outbreak_contain.webp",
+  art: assetUrl("art/cards/s1_reward_outbreak_contain.webp"),
   flavorText:
     "The quarantine zone expanded three times. Each time, fewer voices came from inside.",
   rulesVersion: "1.0.0",

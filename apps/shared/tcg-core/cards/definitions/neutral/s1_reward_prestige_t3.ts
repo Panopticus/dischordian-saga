@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_prestige_t3" as CardDefinition["id"],
   name: "Threefold Reborn",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_prestige_t3.webp",
+  art: assetUrl("art/cards/s1_reward_prestige_t3.webp"),
   flavorText:
     "Three deaths. Three rebirths. Each time, the eyes open knowing more.",
   rulesVersion: "1.0.0",

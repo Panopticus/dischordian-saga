@@ -13,6 +13,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_song_059" as CardDefinition["id"],
   name: "Lip Service",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_song_059.webp",
+  art: assetUrl("art/cards/s1_song_059.webp"),
   flavorText:
     "Words may be hollow, but the right incantation can turn them into a barrier no blade can breach.",
   rulesVersion: "1.0.0",

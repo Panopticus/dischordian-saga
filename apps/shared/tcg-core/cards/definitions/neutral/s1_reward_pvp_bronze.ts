@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_pvp_bronze" as CardDefinition["id"],
   name: "Arena Aspirant",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_pvp_bronze.webp",
+  art: assetUrl("art/cards/s1_reward_pvp_bronze.webp"),
   flavorText:
     "She entered the arena with nothing but a borrowed blade and a refusal to lose.",
   rulesVersion: "1.0.0",

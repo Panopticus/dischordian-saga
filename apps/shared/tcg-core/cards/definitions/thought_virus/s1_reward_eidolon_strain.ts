@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_eidolon_strain" as CardDefinition["id"],
   name: "Strain, the Redeemed",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_eidolon_strain.webp",
+  art: assetUrl("art/cards/s1_reward_eidolon_strain.webp"),
   flavorText:
     "It was a plague once. Now it grieves for every life it took. The grief makes it stronger — and that is its final cruelty.",
   rulesVersion: "1.0.0",

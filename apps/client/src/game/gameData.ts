@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/assetUrl";
 /* ═══════════════════════════════════════════════════════
    FALL OF REALITY — Fighting Game Data
    Character roster, stats, special abilities, arenas
@@ -800,7 +801,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0f172a 0%, #1c1917 40%, #1c1917 70%, #0f172a 100%)",
     floorColor: "#1c1917",
     ambientColor: "#f97316",
-    backgroundImage: "/art/dmc/environments/dmc_env_the-trench_1920x1080.jpg",
+    backgroundImage: assetUrl("art/dmc/environments/dmc_env_the-trench_1920x1080.jpg"),
   },
 ];
 

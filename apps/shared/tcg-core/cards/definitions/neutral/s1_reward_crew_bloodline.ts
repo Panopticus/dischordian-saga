@@ -25,6 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_crew_bloodline" as CardDefinition["id"],
   name: "Bloodline Inheritor",
@@ -53,7 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_crew_bloodline.webp",
+  art: assetUrl("art/cards/s1_reward_crew_bloodline.webp"),
   flavorText:
     "The bloodline runs deeper than code. Each generation carries the weight of those before it.",
   rulesVersion: "1.0.0",

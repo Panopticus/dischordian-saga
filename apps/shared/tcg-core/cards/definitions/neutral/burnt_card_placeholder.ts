@@ -25,6 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "burnt_card_placeholder" as CardDefinition["id"],
   name: "The Burnt Card",
@@ -35,7 +36,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 1, health: 1 },
   keywords: [],
   abilities: [],
-  art: "/art/cards/burnt_card_placeholder.webp",
+  art: assetUrl("art/cards/burnt_card_placeholder.webp"),
   flavorText:
     "You found her staff on the bench. Inside the staff was this card. You remembered before she taught you how.",
   rulesVersion: "1.0.0",

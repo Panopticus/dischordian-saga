@@ -19,6 +19,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_024" as CardDefinition["id"],
   name: "Plague Architect",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_024.webp",
+  art: assetUrl("art/cards/s1_pack_024.webp"),
   flavorText:
     "Every fallen soldier is a brick. Every scream is mortar. The cathedral rises.",
   rulesVersion: "1.0.0",

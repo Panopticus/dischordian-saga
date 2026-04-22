@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_cycle_light" as CardDefinition["id"],
   name: "Dawn Ascendant",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_cycle_light.webp",
+  art: assetUrl("art/cards/s1_reward_cycle_light.webp"),
   flavorText:
     "When the Cycle turns, the first light is always the coldest. But it is light nonetheless.",
   rulesVersion: "1.0.0",

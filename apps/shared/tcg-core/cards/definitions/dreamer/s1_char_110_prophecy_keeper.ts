@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_110" as CardDefinition["id"],
   name: "Prophecy Keeper",
@@ -45,7 +46,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_110.webp",
+  art: assetUrl("art/cards/s1_char_110.webp"),
   flavorText:
     "She reads the future not in tea leaves or stars but in the Living Universe's heartbeat. Each pulse is a chapter yet unwritten.",
   rulesVersion: "1.0.0",

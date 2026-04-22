@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_xmas_charity" as CardDefinition["id"],
   name: "Charitable Spirit",
@@ -48,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_xmas_charity.webp",
+  art: assetUrl("art/cards/s1_reward_xmas_charity.webp"),
   flavorText:
     "Kindness doesn't pick sides. That's what makes it kind.",
   rulesVersion: "1.0.0",

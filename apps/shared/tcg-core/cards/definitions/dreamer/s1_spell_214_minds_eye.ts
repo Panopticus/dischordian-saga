@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_214" as CardDefinition["id"],
   name: "Mind's Eye",
@@ -39,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_214.webp",
+  art: assetUrl("art/cards/s1_spell_214.webp"),
   flavorText:
     "She did not blink. She did not flinch. She simply thought, and it was done.",
   rulesVersion: "1.0.0",

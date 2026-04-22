@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_cycle_dark" as CardDefinition["id"],
   name: "Dusk Herald",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_cycle_dark.webp",
+  art: assetUrl("art/cards/s1_reward_cycle_dark.webp"),
   flavorText:
     "The light dies in stages. The Herald names each stage as it passes, like a priest reading last rites.",
   rulesVersion: "1.0.0",

@@ -18,6 +18,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_028" as CardDefinition["id"],
   name: "The Eyes",
@@ -61,7 +62,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_028.webp",
+  art: assetUrl("art/cards/s1_char_028.webp"),
   flavorText:
     "A. The Eyes was an elite agent created by the Watcher for the AI Empire , renowned for her unparalleled infiltration and...",
   rulesVersion: "1.0.0",

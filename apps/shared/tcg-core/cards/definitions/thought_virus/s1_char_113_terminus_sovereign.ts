@@ -26,6 +26,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_113" as CardDefinition["id"],
   name: "Terminus Sovereign",
@@ -54,7 +55,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_113.webp",
+  art: assetUrl("art/cards/s1_char_113.webp"),
   flavorText:
     "The first bowl is doubt. The second is fear. By the seventh, you have forgotten what it was to be whole.",
   rulesVersion: "1.0.0",

@@ -26,6 +26,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_061" as CardDefinition["id"],
   name: "Vex'Ahlia the Taskmaster",
@@ -47,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_061.webp",
+  art: assetUrl("art/cards/s1_char_061.webp"),
   flavorText:
     "COO of the Hierarchy. Commands the Blood Weave's armies across 17 dimensions simultaneously with six tireless arms.",
   rulesVersion: "1.0.0",

@@ -45,6 +45,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import LivingBackground from "@/components/LivingBackground";
 
+import { assetUrl } from "@/lib/assetUrl";
 type View = "briefing" | "running" | "complete";
 
 export default function VortexIncursionPage() {
@@ -158,7 +159,7 @@ export default function VortexIncursionPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-stone-950 to-[#050010] relative">
       <LivingBackground
-        src="/art/rooms/room-observation-deck.png"
+        src={assetUrl("art/rooms/room-observation-deck.png")}
         accent="#a78bfa"
         opacity={0.12}
         particleCount={5}

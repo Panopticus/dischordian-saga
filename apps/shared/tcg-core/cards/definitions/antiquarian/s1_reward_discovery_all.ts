@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_discovery_all" as CardDefinition["id"],
   name: "Complete Archive",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_discovery_all.webp",
+  art: assetUrl("art/cards/s1_reward_discovery_all.webp"),
   flavorText:
     "The complete record of everything that was, is, and will be. It fits in one spell. Barely.",
   rulesVersion: "1.0.0",

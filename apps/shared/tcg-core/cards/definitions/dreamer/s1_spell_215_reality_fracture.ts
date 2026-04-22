@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_215" as CardDefinition["id"],
   name: "Reality Fracture",
@@ -55,7 +56,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_215.webp",
+  art: assetUrl("art/cards/s1_spell_215.webp"),
   flavorText:
     "The crack runs through everything. On one side, nightmare. On the other, a gentle dawn.",
   rulesVersion: "1.0.0",

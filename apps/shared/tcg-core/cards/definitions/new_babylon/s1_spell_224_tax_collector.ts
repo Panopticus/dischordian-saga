@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_224" as CardDefinition["id"],
   name: "Tax Collector",
@@ -39,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_224.webp",
+  art: assetUrl("art/cards/s1_spell_224.webp"),
   flavorText:
     "Payment is due. The currency is flexible. The deadline is not.",
   rulesVersion: "1.0.0",

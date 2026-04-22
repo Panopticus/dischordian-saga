@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_palimpsest_noise" as CardDefinition["id"],
   name: "Noise Agent",
@@ -49,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_palimpsest_noise.webp",
+  art: assetUrl("art/cards/s1_reward_palimpsest_noise.webp"),
   flavorText:
     "She speaks in static. The words mean nothing. The damage is very real.",
   rulesVersion: "1.0.0",

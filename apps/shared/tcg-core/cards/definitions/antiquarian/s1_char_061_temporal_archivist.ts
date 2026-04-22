@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_097" as CardDefinition["id"],
   name: "Temporal Archivist",
@@ -29,7 +30,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_097.webp",
+  art: assetUrl("art/cards/s1_char_097.webp"),
   flavorText:
     "Every war she catalogues makes the next one easier to survive.",
   rulesVersion: "1.0.0",

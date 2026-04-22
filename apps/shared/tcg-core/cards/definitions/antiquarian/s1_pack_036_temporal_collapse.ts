@@ -18,6 +18,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_036" as CardDefinition["id"],
   name: "Temporal Collapse",
@@ -44,7 +45,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_036.webp",
+  art: assetUrl("art/cards/s1_pack_036.webp"),
   flavorText:
     "The Antiquarian closed the chapter. Every character returned to the page they came from.",
   rulesVersion: "1.0.0",

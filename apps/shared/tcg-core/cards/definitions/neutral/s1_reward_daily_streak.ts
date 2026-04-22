@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_daily_streak" as CardDefinition["id"],
   name: "Dedicated Operative",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_daily_streak.webp",
+  art: assetUrl("art/cards/s1_reward_daily_streak.webp"),
   flavorText:
     "Thirty consecutive days. No sick leave. No excuses. The streak is the mission.",
   rulesVersion: "1.0.0",

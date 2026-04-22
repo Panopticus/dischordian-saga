@@ -33,7 +33,8 @@ import { resolveTitleTheme } from "./title/themes";
 import type { AnnouncementAudience, AnnouncementRow } from "./title/types";
 import { useTransmissionIntercept } from "./title/useTransmissionIntercept";
 
-const OPENING_MUSIC_SRC = "/audio/music/main-menu/the-enigmas-lament.mp3";
+import { assetUrl } from "@/lib/assetUrl";
+const OPENING_MUSIC_SRC = assetUrl("audio/music/main-menu/the-enigmas-lament.mp3");
 const THRESHOLD_MS = 1500;
 
 interface TitlePageProps {
@@ -291,8 +292,8 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
           block degrades gracefully. Muted + playsInline + loop satisfies
           mobile autoplay policies. */}
       <video
-        src="/videos/title/ark-drift-loop.webm"
-        poster="/art/ui/title-bg.png"
+        src={assetUrl("videos/title/ark-drift-loop.webm")}
+        poster={assetUrl("art/ui/title-bg.png")}
         autoPlay
         muted
         loop
@@ -309,8 +310,8 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
           zIndex: 0,
         }}
       >
-        <source src="/videos/title/ark-drift-loop.webm" type="video/webm" />
-        <source src="/videos/title/ark-drift-loop.mp4" type="video/mp4" />
+        <source src={assetUrl("videos/title/ark-drift-loop.webm")} type="video/webm" />
+        <source src={assetUrl("videos/title/ark-drift-loop.mp4")} type="video/mp4" />
       </video>
 
       {/* F12 parallax far nebula — slow horizontal drift via scanline RAF
@@ -393,7 +394,7 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
       {/* Logo + state body */}
       <div style={{ position: "relative", zIndex: 3, textAlign: "center", padding: "2rem", maxWidth: "min(900px, 94vw)", marginLeft: "auto", marginRight: "auto" }}>
         <img
-          src="/art/logos/dischordian-saga.png"
+          src={assetUrl("art/logos/dischordian-saga.png")}
           alt=""
           style={{
             display: "block",

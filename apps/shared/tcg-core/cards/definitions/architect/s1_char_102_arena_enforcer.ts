@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_102" as CardDefinition["id"],
   name: "Arena Enforcer",
@@ -51,7 +52,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_102.webp",
+  art: assetUrl("art/cards/s1_char_102.webp"),
   flavorText:
     "Your rotation has arrived. There is no deferral. There is no appeal. Step into the Arena.",
   rulesVersion: "1.0.0",

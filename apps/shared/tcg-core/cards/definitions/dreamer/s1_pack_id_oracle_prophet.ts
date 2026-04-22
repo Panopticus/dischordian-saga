@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_id_oracle_prophet" as CardDefinition["id"],
   name: "The Oracle, Prophet",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_id_oracle_prophet.webp",
+  art: assetUrl("art/cards/s1_pack_id_oracle_prophet.webp"),
   flavorText:
     "The prophecy returns in fragments. Each piece burns brighter than the last.",
   rulesVersion: "1.0.0",

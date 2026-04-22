@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_pet_data_serpent_1" as CardDefinition["id"],
   name: "Data Hatchling",
@@ -44,7 +45,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_pet_data_serpent_1.webp",
+  art: assetUrl("art/cards/s1_pack_pet_data_serpent_1.webp"),
   flavorText:
     "Born from corrupted packet headers and the dreams of dead servers.",
   rulesVersion: "1.0.0",

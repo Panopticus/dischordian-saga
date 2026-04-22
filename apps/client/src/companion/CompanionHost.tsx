@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { stabilityBand, lightBand } from "@shared/companion";
 import { useCompanionScheduler } from "./useCompanionScheduler";
 
+import { assetUrl } from "@/lib/assetUrl";
 interface Props {
   /** Optional override for portrait size; defaults to "sm". */
   portraitSize?: "sm" | "md";
@@ -28,9 +29,9 @@ function portraitSrcFor(
   humanLight: number,
 ): string {
   if (speaker === "human") {
-    return `/art/portraits/human/human_${lightBand(humanLight)}.png`;
+    return assetUrl(`art/portraits/human/human_${lightBand(humanLight)}.png`);
   }
-  return `/art/portraits/elara/elara_${stabilityBand(elaraStability)}.png`;
+  return assetUrl(`art/portraits/elara/elara_${stabilityBand(elaraStability)}.png`);
 }
 
 export default function CompanionHost({ portraitSize = "sm" }: Props) {

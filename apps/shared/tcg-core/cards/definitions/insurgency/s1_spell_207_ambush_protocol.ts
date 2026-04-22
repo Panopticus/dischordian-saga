@@ -13,6 +13,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_207" as CardDefinition["id"],
   name: "Ambush Protocol",
@@ -52,7 +53,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_207.webp",
+  art: assetUrl("art/cards/s1_spell_207.webp"),
   flavorText:
     "They never see us coming. That is the point.",
   rulesVersion: "1.0.0",

@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_draft_winner" as CardDefinition["id"],
   name: "Draft Master",
@@ -53,7 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_draft_winner.webp",
+  art: assetUrl("art/cards/s1_reward_draft_winner.webp"),
   flavorText:
     "She builds winning decks from other people's leftovers.",
   rulesVersion: "1.0.0",

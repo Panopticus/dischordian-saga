@@ -29,6 +29,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { useTerminusPvP } from "./pvpClient";
 import type { TerminusGameState, TurretDef, GamePhase } from "./types";
 
+import { assetUrl } from "@/lib/assetUrl";
 type View = "intro" | "cinematic" | "puzzle" | "signal" | "map_select" | "playing" | "game_over" | "pvp_search" | "pvp_attack";
 
 const TURRET_LIST: TurretDef[] = Object.values(TURRETS);
@@ -47,39 +48,39 @@ const TURRET_ICONS: Record<string, typeof Shield> = {
 /* ─── SPRITE PATHS ─── */
 
 const ENEMY_SPRITES: Record<string, string> = {
-  undead_grub: "/art/terminus/enemies/undead-grub.png",
-  plague_ant: "/art/terminus/enemies/plague-ant.png",
-  infected_spore: "/art/terminus/enemies/infected-spore.png",
-  corrupt_mantis: "/art/terminus/enemies/corrupt-mantis.png",
-  rot_crawler: "/art/terminus/enemies/rot-crawler.png",
-  venom_wasp: "/art/terminus/enemies/venom-wasp.png",
-  bile_hulk: "/art/terminus/enemies/bile-hulk.png",
-  infected_reaper: "/art/terminus/enemies/infected-reaper.png",
-  neural_parasite: "/art/terminus/enemies/neural-parasite.png",
-  swarm_queen: "/art/terminus/enemies/swarm-queen.png",
-  hive_tyrant: "/art/terminus/enemies/hive-tyrant.png",
-  source_avatar: "/art/terminus/enemies/avatar-source.png",
+  undead_grub: assetUrl("art/terminus/enemies/undead-grub.png"),
+  plague_ant: assetUrl("art/terminus/enemies/plague-ant.png"),
+  infected_spore: assetUrl("art/terminus/enemies/infected-spore.png"),
+  corrupt_mantis: assetUrl("art/terminus/enemies/corrupt-mantis.png"),
+  rot_crawler: assetUrl("art/terminus/enemies/rot-crawler.png"),
+  venom_wasp: assetUrl("art/terminus/enemies/venom-wasp.png"),
+  bile_hulk: assetUrl("art/terminus/enemies/bile-hulk.png"),
+  infected_reaper: assetUrl("art/terminus/enemies/infected-reaper.png"),
+  neural_parasite: assetUrl("art/terminus/enemies/neural-parasite.png"),
+  swarm_queen: assetUrl("art/terminus/enemies/swarm-queen.png"),
+  hive_tyrant: assetUrl("art/terminus/enemies/hive-tyrant.png"),
+  source_avatar: assetUrl("art/terminus/enemies/avatar-source.png"),
 };
 
 const TURRET_SPRITES: Record<string, string> = {
-  pulse_cannon: "/art/terminus/turrets/pulse-cannon.png",
-  arc_emitter: "/art/terminus/turrets/arc-emitter.png",
-  cryo_array: "/art/terminus/turrets/cryo-array.png",
-  flame_projector: "/art/terminus/turrets/flame-projector.png",
-  missile_battery: "/art/terminus/turrets/missile-battery.png",
-  shield_pylon: "/art/terminus/turrets/shield-pylon.png",
-  emp_mine: "/art/terminus/turrets/emp-mine.png",
-  nanite_swarm: "/art/terminus/turrets/nanite-swarm.png",
+  pulse_cannon: assetUrl("art/terminus/turrets/pulse-cannon.png"),
+  arc_emitter: assetUrl("art/terminus/turrets/arc-emitter.png"),
+  cryo_array: assetUrl("art/terminus/turrets/cryo-array.png"),
+  flame_projector: assetUrl("art/terminus/turrets/flame-projector.png"),
+  missile_battery: assetUrl("art/terminus/turrets/missile-battery.png"),
+  shield_pylon: assetUrl("art/terminus/turrets/shield-pylon.png"),
+  emp_mine: assetUrl("art/terminus/turrets/emp-mine.png"),
+  nanite_swarm: assetUrl("art/terminus/turrets/nanite-swarm.png"),
 };
 
 /* ─── CINEMATIC VIDEOS ─── */
 
 const TERMINUS_CINEMATICS = {
-  comms_discovery: "/videos/game-modes/tower-defense/cin01_comms_room_discovery.mp4",
-  first_view: "/videos/game-modes/tower-defense/cin02_first_view_terminus.mp4",
-  hive_tyrant: "/videos/game-modes/tower-defense/cin03_hive_tyrant_intro.mp4",
-  source_reveal: "/videos/game-modes/tower-defense/cin04_source_reveal.mp4",
-  first_wave: "/videos/game-modes/tower-defense/cin05_first_wave_discovery.mp4",
+  comms_discovery: assetUrl("videos/game-modes/tower-defense/cin01_comms_room_discovery.mp4"),
+  first_view: assetUrl("videos/game-modes/tower-defense/cin02_first_view_terminus.mp4"),
+  hive_tyrant: assetUrl("videos/game-modes/tower-defense/cin03_hive_tyrant_intro.mp4"),
+  source_reveal: assetUrl("videos/game-modes/tower-defense/cin04_source_reveal.mp4"),
+  first_wave: assetUrl("videos/game-modes/tower-defense/cin05_first_wave_discovery.mp4"),
 };
 
 const TILE_SIZE = 40;
@@ -592,7 +593,7 @@ export default function TerminusSwarmPage() {
               autoPlay
               playsInline
               onEnded={skipCinematic}
-              poster={cinematicUrl.replace(/\.mp4$/, "").replace(/.*\/(cin\d+).*/, "/art/terminus/cinematics/$1_start.png")}
+              poster={cinematicUrl.replace(/\.mp4$/, "").replace(/.*\/(cin\d+).*/, assetUrl("art/terminus/cinematics/$1_start.png"))}
               className="w-full h-full object-contain"
             />
             <button
@@ -675,7 +676,7 @@ export default function TerminusSwarmPage() {
         {view === "map_select" && (
           <motion.div key="map" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
             className="p-6 max-w-2xl mx-auto">
-            <img src="/art/logos/terminus-swarm.png" alt="Terminus Swarm" className="h-10 object-contain mb-3 opacity-90" />
+            <img src={assetUrl("art/logos/terminus-swarm.png")} alt="Terminus Swarm" className="h-10 object-contain mb-3 opacity-90" />
 
             {/* League + stats bar */}
             <div className="flex items-center gap-3 mb-4 p-3 rounded-xl bg-white/5 border border-white/10">
@@ -703,7 +704,7 @@ export default function TerminusSwarmPage() {
             </div>
 
             <div className="flex items-center gap-3 mb-3">
-              <img src="/art/terminus/maps/terminus-planet.png" alt="Terminus" className="w-10 h-10 rounded-full border void-border-error shadow-[0_0_12px_color-mix(in oklch, var(--energy-error) 30%, transparent)]" />
+              <img src={assetUrl("art/terminus/maps/terminus-planet.png")} alt="Terminus" className="w-10 h-10 rounded-full border void-border-error shadow-[0_0_12px_color-mix(in oklch, var(--energy-error) 30%, transparent)]" />
               <p className="font-mono text-xs text-white/40">DEFEND — Choose a section of the crashed Ark</p>
             </div>
             <div className="space-y-2 mb-6">

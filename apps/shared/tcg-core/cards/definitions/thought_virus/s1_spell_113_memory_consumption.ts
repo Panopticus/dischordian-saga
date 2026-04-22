@@ -13,6 +13,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_113" as CardDefinition["id"],
   name: "Memory Consumption",
@@ -39,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_113.webp",
+  art: assetUrl("art/cards/s1_spell_113.webp"),
   flavorText:
     "It ate his name first, then his childhood. By the time it reached his fears, there was nothing left to be afraid.",
   rulesVersion: "1.0.0",

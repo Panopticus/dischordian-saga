@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/assetUrl";
 /* ═══════════════════════════════════════════════════════
    CASINO ART BIBLE — CDN Asset Map
 
@@ -150,7 +151,7 @@ export const CASINO_PROPS = {
  *  void crystal, bronze gear token, Architect's eye, Blood Weave tendril,
  *  holographic cherry, titanium bell, stamped gold bars, prismatic wild diamond. */
 export const CASINO_SLOT_ASSETS = {
-  symbolSpriteSheet: "/art/casino/slot-symbols-sprite-sheet.png",
+  symbolSpriteSheet: assetUrl("art/casino/slot-symbols-sprite-sheet.png"),
 } as const;
 
 /** Map VIP level name to chip image */

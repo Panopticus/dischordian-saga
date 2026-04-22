@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_107" as CardDefinition["id"],
   name: "Signal Operative",
@@ -44,7 +45,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_107.webp",
+  art: assetUrl("art/cards/s1_char_107.webp"),
   flavorText:
     "Kill the messenger. The message was sent three seconds before you arrived.",
   rulesVersion: "1.0.0",

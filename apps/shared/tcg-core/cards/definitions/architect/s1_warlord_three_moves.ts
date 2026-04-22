@@ -44,6 +44,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_warlord_three_moves" as CardDefinition["id"],
   name: "Three Moves",
@@ -53,7 +54,7 @@ export const cardDef: CardDefinition = {
   cost: 3,
   keywords: [],
   abilities: [],
-  art: "/art/cards/s1_warlord_three_moves.webp",
+  art: assetUrl("art/cards/s1_warlord_three_moves.webp"),
   flavorText:
     "I am going to win this war in three moves. This is not bragging. This is arithmetic.",
   rulesVersion: "1.0.0",

@@ -14,6 +14,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_109" as CardDefinition["id"],
   name: "Vision Cascade",
@@ -44,7 +45,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_109.webp",
+  art: assetUrl("art/cards/s1_spell_109.webp"),
   flavorText:
     "A thousand futures bloom in the Oracle's mind. She plucks the brightest and lets the rest wither.",
   rulesVersion: "1.0.0",

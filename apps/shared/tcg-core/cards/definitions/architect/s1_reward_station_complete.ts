@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_station_complete" as CardDefinition["id"],
   name: "Station Commander",
@@ -49,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_station_complete.webp",
+  art: assetUrl("art/cards/s1_reward_station_complete.webp"),
   flavorText:
     "The station's last module locked into place. The Commander looked out at the fleet and smiled. Now they were ready.",
   rulesVersion: "1.0.0",

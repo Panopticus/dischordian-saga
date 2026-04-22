@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_045" as CardDefinition["id"],
   name: "The Resurrectionist",
@@ -69,7 +70,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_045.webp",
+  art: assetUrl("art/cards/s1_char_045.webp"),
   flavorText:
     "By resurrecting key figures on both sides, they maintain a balance favorable to the Ne-Yons, ensuring no faction becomes...",
   rulesVersion: "1.0.0",

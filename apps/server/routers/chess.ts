@@ -49,7 +49,7 @@ const CHESS_OPPONENT_TO_IMPRINT_SLUG: Readonly<Record<string, string>> = {
  *  the matching path is enough for the FNORD-23 browser to play it.
  *  Captures work even before audio exists — the file path is stored
  *  as a promise. */
-const CHESS_TUTORIAL_AUDIO_BASE = "/audio/chess_tutorial";
+const CHESS_TUTORIAL_AUDIO_BASE = assetUrl("audio/chess_tutorial");
 
 /** Bulk-capture every chess tutorial voice cue into the player's
  *  memory resin bank. Called when the Celebration Teaching Set
@@ -97,6 +97,7 @@ import {
   type ChessPuzzle,
 } from "@shared/chessPuzzles";
 
+import { assetUrl } from "../../client/src/lib/assetUrl";
 // chess.js v1.4 — dynamic import to avoid ESM/CJS mismatch
 type ChessInstance = import("chess.js").Chess;
 let Chess: typeof import("chess.js").Chess;

@@ -31,6 +31,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_018" as CardDefinition["id"],
   name: "The Antiquarian",
@@ -97,7 +98,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_018_the_antiquarian.webp",
+  art: assetUrl("art/cards/s1_char_018_the_antiquarian.webp"),
   flavorText:
     "Throughout the cataclysm and the epochs that followed, he retreated into a hidden pocket dimension — a refuge woven from stolen time.",
   rulesVersion: "1.0.0",

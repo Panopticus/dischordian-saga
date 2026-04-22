@@ -19,6 +19,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_009" as CardDefinition["id"],
   name: "Covert Operative",
@@ -47,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_009.webp",
+  art: assetUrl("art/cards/s1_pack_009.webp"),
   flavorText:
     "By the time you hear the shot, she is already three sectors away.",
   rulesVersion: "1.0.0",

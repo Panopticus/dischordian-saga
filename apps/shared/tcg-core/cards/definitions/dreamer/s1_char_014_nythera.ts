@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_014" as CardDefinition["id"],
   name: "Nythera",
@@ -109,7 +110,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_014.webp",
+  art: assetUrl("art/cards/s1_char_014.webp"),
   flavorText:
     "Their essence is drawn from a dual heritage \u2014 Harvested DNA and Machine Code \u2014 meticulously preserved to ensure that, when the time came, they would awaken.",
   rulesVersion: "1.0.0",

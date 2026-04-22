@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_rpg_quest" as CardDefinition["id"],
   name: "Questmaster",
@@ -43,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_rpg_quest.webp",
+  art: assetUrl("art/cards/s1_reward_rpg_quest.webp"),
   flavorText:
     "Fifty quests. Fifty stories. All of them end with her still standing.",
   rulesVersion: "1.0.0",

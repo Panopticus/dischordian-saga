@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_cosm_armor_void" as CardDefinition["id"],
   name: "Void Sentinel",
@@ -52,7 +53,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_cosm_armor_void.webp",
+  art: assetUrl("art/cards/s1_pack_cosm_armor_void.webp"),
   flavorText:
     "The Void does not destroy. It shields those who surrender to it.",
   rulesVersion: "1.0.0",

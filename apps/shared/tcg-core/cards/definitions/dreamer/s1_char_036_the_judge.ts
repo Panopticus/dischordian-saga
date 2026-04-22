@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_036" as CardDefinition["id"],
   name: "The Judge",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_036.webp",
+  art: assetUrl("art/cards/s1_char_036.webp"),
   flavorText:
     "Deciding the fate of individuals, civilizations, and ideologies, the Judge is guided solely by their perception of balan...",
   rulesVersion: "1.0.0",

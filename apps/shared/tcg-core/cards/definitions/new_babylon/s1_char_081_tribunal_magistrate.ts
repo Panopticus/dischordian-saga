@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_081" as CardDefinition["id"],
   name: "Tribunal Magistrate",
@@ -36,7 +37,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_081.webp",
+  art: assetUrl("art/cards/s1_char_081.webp"),
   flavorText:
     "Her verdicts are absolute. Her sentences, irrevocable.",
   rulesVersion: "1.0.0",

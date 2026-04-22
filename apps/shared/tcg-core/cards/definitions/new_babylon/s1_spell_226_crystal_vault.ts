@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_226" as CardDefinition["id"],
   name: "Crystal Vault",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_226.webp",
+  art: assetUrl("art/cards/s1_spell_226.webp"),
   flavorText:
     "Behind crystal walls, value appreciates. Outside, everything depreciates.",
   rulesVersion: "1.0.0",

@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_100" as CardDefinition["id"],
   name: "The Collector",
@@ -52,7 +53,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_100.webp",
+  art: assetUrl("art/cards/s1_char_100.webp"),
   flavorText:
     "The Architect's hand reaches through the Collector. What was your name? It does not matter — you never had one.",
   rulesVersion: "1.0.0",

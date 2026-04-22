@@ -25,6 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_066" as CardDefinition["id"],
   name: "Fenra the Moon Tyrant",
@@ -47,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_066.webp",
+  art: assetUrl("art/cards/s1_char_066.webp"),
   flavorText:
     "Director of Operations. Coordinates Blood Weave logistics across 17 dimensions with lupine precision and ferocity.",
   rulesVersion: "1.0.0",

@@ -13,6 +13,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_103" as CardDefinition["id"],
   name: "Recursive Calibration",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_103.webp",
+  art: assetUrl("art/cards/s1_spell_103.webp"),
   flavorText:
     "Error detected in subsystem 7-Kappa. Initiating forced recalibration. Estimated downtime: one operational cycle.",
   rulesVersion: "1.0.0",

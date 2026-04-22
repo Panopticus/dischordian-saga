@@ -25,6 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_123" as CardDefinition["id"],
   name: "Relic Scholar",
@@ -47,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_123.webp",
+  art: assetUrl("art/cards/s1_char_123.webp"),
   flavorText:
     "The relic hums in her hands. A thousand years of silence, broken by the touch of someone who finally understands.",
   rulesVersion: "1.0.0",

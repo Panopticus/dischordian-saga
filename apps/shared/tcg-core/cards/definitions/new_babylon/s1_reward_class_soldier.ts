@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_class_soldier" as CardDefinition["id"],
   name: "Master Soldier",
@@ -43,7 +44,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_class_soldier.webp",
+  art: assetUrl("art/cards/s1_reward_class_soldier.webp"),
   flavorText:
     "New Babylon's finest don't ask for orders. They are the order.",
   rulesVersion: "1.0.0",

@@ -9,6 +9,7 @@ import { ChevronLeft, Globe, X } from "lucide-react";
 import LivingBackground from "@/components/LivingBackground";
 import ResponsiveImage from "@/components/ResponsiveImage";
 
+import { assetUrl } from "@/lib/assetUrl";
 interface Planet {
   id: string;
   name: string;
@@ -20,22 +21,22 @@ interface Planet {
 
 const PLANETS: Planet[] = [
   {
-    id: "violetta", name: "Violetta", image: "/art/planets/planet-violetta.png", color: "#c084fc",
+    id: "violetta", name: "Violetta", image: assetUrl("art/planets/planet-violetta.png"), color: "#c084fc",
     description: "The Voltari homeworld. A purple planet inside a living electrical storm. It has been broadcasting a signal for 2 million years. The storm is the language.",
     faction: "Voltari",
   },
   {
-    id: "terminus", name: "Terminus", image: "/art/planets/planet-terminus.png", color: "var(--energy-error)",
+    id: "terminus", name: "Terminus", image: assetUrl("art/planets/planet-terminus.png"), color: "var(--energy-error)",
     description: "The former Panopticon — the Architect's prison planet, broken free and drifting. Every soul the Architect ever imprisoned is here. At its center sits Kael, the self-proclaimed Sovereign. The Thought Virus turned them all into the Swarm.",
     faction: "The Source",
   },
   {
-    id: "castle-of-death", name: "Castle of Death", image: "/art/planets/planet-castle-of-death.png", color: "var(--energy-success)",
+    id: "castle-of-death", name: "Castle of Death", image: assetUrl("art/planets/planet-castle-of-death.png"), color: "var(--energy-success)",
     description: "The Necromancer's domain in the Matrix of Dreams, now potentially manifesting in reality. A gothic castle of black bone floating in white mist, surrounded by swirling souls. Death is not an ending here — it is a beginning.",
     faction: "The Necromancer",
   },
   {
-    id: "degens-casino", name: "The Degen's Casino", image: "/art/planets/planet-degens-casino.png", color: "var(--energy-accent)",
+    id: "degens-casino", name: "The Degen's Casino", image: assetUrl("art/planets/planet-degens-casino.png"), color: "var(--energy-accent)",
     description: "A lavish casino station on the edge of the Shield — the only open zone in Ne-Yon space. Neon signs in impossible languages, crystal chandeliers made of lightning. The Degen (Ne-Yon #8) — the only Ne-Yon in the known universe — runs the games. Entropy is the house specialty. Some say the station itself responds to his moods like an extension of his will.",
     faction: "The Degen (Ne-Yon #8)",
   },

@@ -26,6 +26,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_117" as CardDefinition["id"],
   name: "Senator Voss",
@@ -56,7 +57,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_117.webp",
+  art: assetUrl("art/cards/s1_char_117.webp"),
   flavorText:
     "The vote was unanimous. It always is, when the dissenters have already been recycled.",
   rulesVersion: "1.0.0",

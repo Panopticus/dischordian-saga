@@ -29,6 +29,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { assetUrl } from "@/lib/assetUrl";
 /** Primary Act 1 closing choice written to GameState. */
 export type Act1ClosingChoice = "accept" | "decline" | "deflect";
 
@@ -82,7 +83,7 @@ type Phase =
   | "title_card"
   | "done";
 
-const ANTIQ_VO_BASE = "/audio/antiquarian";
+const ANTIQ_VO_BASE = assetUrl("audio/antiquarian");
 
 /** Shared line ids (always play regardless of branch). */
 const SHARED_LINES = [

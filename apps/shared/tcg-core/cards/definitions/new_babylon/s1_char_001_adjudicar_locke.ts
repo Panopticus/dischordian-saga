@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_001" as CardDefinition["id"],
   name: "Adjudicar Locke",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_001.webp",
+  art: assetUrl("art/cards/s1_char_001.webp"),
   flavorText:
     "Known for her piercing intelligence and enigmatic presence, Locke is a controversial figure in the city's labyrinthine politics.",
   rulesVersion: "1.0.0",

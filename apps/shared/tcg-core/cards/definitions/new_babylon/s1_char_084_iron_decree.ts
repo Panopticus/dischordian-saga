@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_084" as CardDefinition["id"],
   name: "Iron Decree",
@@ -37,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_084.webp",
+  art: assetUrl("art/cards/s1_char_084.webp"),
   flavorText:
     "It does not enforce the law. It is the law — cast in iron and set loose upon the guilty.",
   rulesVersion: "1.0.0",

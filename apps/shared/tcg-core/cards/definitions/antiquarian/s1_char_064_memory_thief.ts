@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_064" as CardDefinition["id"],
   name: "Memory Thief",
@@ -28,7 +29,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_064.webp",
+  art: assetUrl("art/cards/s1_char_064.webp"),
   flavorText:
     "He takes only what you will not miss — until you reach for it and find nothing there.",
   rulesVersion: "1.0.0",

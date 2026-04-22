@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_039" as CardDefinition["id"],
   name: "The Necromancer",
@@ -71,7 +72,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_039.webp",
+  art: assetUrl("art/cards/s1_char_039.webp"),
   flavorText:
     "A. The Necromancer was the tenth Archon created by the Architect in Year 600 A.A., a dark elven magician with white s...",
   rulesVersion: "1.0.0",

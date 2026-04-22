@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_003" as CardDefinition["id"],
   name: "Akai Shi",
@@ -78,7 +79,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_003.webp",
+  art: assetUrl("art/cards/s1_char_003.webp"),
   flavorText:
     "A. Akai Shi was a revered member of the Potentials, a group of beings who emerged to restore balance in the universe after the Fall of Reality.",
   rulesVersion: "1.0.0",

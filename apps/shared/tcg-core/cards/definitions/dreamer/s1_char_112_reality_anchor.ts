@@ -26,6 +26,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_112" as CardDefinition["id"],
   name: "Reality Anchor",
@@ -48,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_112.webp",
+  art: assetUrl("art/cards/s1_char_112.webp"),
   flavorText:
     "In a world of shifting probabilities, certainty is the heaviest chain.",
   rulesVersion: "1.0.0",

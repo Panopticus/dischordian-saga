@@ -19,6 +19,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_034" as CardDefinition["id"],
   name: "Locke's Inner Circle",
@@ -49,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_034.webp",
+  art: assetUrl("art/cards/s1_pack_034.webp"),
   flavorText:
     "They do not rule New Babylon. They own it. And now they own whatever comes next.",
   rulesVersion: "1.0.0",

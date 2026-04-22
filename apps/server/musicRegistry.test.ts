@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import * as fs from "fs";
 import * as path from "path";
+import { assetUrl } from "../client/src/lib/assetUrl";
 import {
   MUSIC_TRACKS,
   getMusicTrack,
@@ -76,22 +77,22 @@ describe("Music registry — structural invariants", () => {
 describe("Music registry — URL building", () => {
   it("getMusicVariantUrl returns a valid public path", () => {
     const url = getMusicVariantUrl("main_menu", 1);
-    expect(url).toBe("/audio/music/main-menu/v1.mp3");
+    expect(url).toBe(assetUrl("audio/music/main-menu/v1.mp3"));
   });
 
   it("clamps variant index into valid range", () => {
-    expect(getMusicVariantUrl("main_menu", 0)).toBe("/audio/music/main-menu/v1.mp3");
+    expect(getMusicVariantUrl("main_menu", 0)).toBe(assetUrl("audio/music/main-menu/v1.mp3"));
     expect(getMusicVariantUrl("main_menu", 99)).toBe(
-      `/audio/music/main-menu/v${getMusicTrack("main_menu").variantCount}.mp3`,
+      assetUrl(`audio/music/main-menu/v${getMusicTrack("main_menu").variantCount}.mp3`),
     );
   });
 
   it("getAllMusicVariantUrls returns one url per variant", () => {
     const urls = getAllMusicVariantUrls("trade_combat");
     expect(urls.length).toBe(getMusicTrack("trade_combat").variantCount);
-    expect(urls[0]).toBe("/audio/music/trade-combat/v1.mp3");
+    expect(urls[0]).toBe(assetUrl("audio/music/trade-combat/v1.mp3"));
     expect(urls[urls.length - 1]).toBe(
-      `/audio/music/trade-combat/v${urls.length}.mp3`,
+      assetUrl(`audio/music/trade-combat/v${urls.length}.mp3`),
     );
   });
 
@@ -118,12 +119,12 @@ describe("Music registry — random variant selection", () => {
   it("seeded RNG produces deterministic output", () => {
     // rng returns exactly 0.5 → floor(0.5 * variantCount) + 1 = 2 for a 3-variant track
     const url = getRandomMusicVariant("main_menu", () => 0.5);
-    expect(url).toBe("/audio/music/main-menu/v2.mp3");
+    expect(url).toBe(assetUrl("audio/music/main-menu/v2.mp3"));
   });
 
   it("getRandomMusicVariantExcluding never returns the excluded url", () => {
     const trackId: MusicTrackId = "trade_combat"; // 4 variants
-    const last = "/audio/music/trade-combat/v2.mp3";
+    const last = assetUrl("audio/music/trade-combat/v2.mp3");
     // Try multiple rng values to confirm exclusion
     for (let i = 0; i < 10; i++) {
       const rngVal = i / 10;
@@ -134,7 +135,7 @@ describe("Music registry — random variant selection", () => {
 
   it("excluding-last behaves the same as regular when variantCount is 1", () => {
     const url = getRandomMusicVariantExcluding("lore_quiz", "/anything", () => 0.5);
-    expect(url).toBe("/audio/music/lore-quiz/v1.mp3");
+    expect(url).toBe(assetUrl("audio/music/lore-quiz/v1.mp3"));
   });
 
   it("all variants are reachable across many rng draws", () => {

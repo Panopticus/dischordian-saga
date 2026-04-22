@@ -9,6 +9,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_057" as CardDefinition["id"],
   name: "Blacksite Interrogator",
@@ -29,7 +30,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_057.webp",
+  art: assetUrl("art/cards/s1_char_057.webp"),
   flavorText:
     "The detainees never see her face. The files say she doesn't have one.",
   rulesVersion: "1.0.0",

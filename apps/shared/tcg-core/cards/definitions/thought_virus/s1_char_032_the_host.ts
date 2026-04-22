@@ -26,6 +26,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_032" as CardDefinition["id"],
   name: "The Host",
@@ -90,7 +91,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_032.webp",
+  art: assetUrl("art/cards/s1_char_032.webp"),
   flavorText:
     "Once a Potential, forged from the Architect\u2019s legacy of preserved DNA and machine code, this being once carried the spar...",
   rulesVersion: "1.0.0",

@@ -16,6 +16,7 @@
 
 import type { SongSlideshowDef } from "./songSlideshow";
 
+import { assetUrl } from "../client/src/lib/assetUrl";
 /* ─── LAST WORDS (§5.4) ─── */
 
 /**
@@ -302,7 +303,7 @@ export const WELCOME_TO_CELEBRATION_SLIDESHOW: SongSlideshowDef = {
     return {
       startMs: start,
       endMs: start + CELEBRATION_FRAME_MS,
-      imageUrl: `/art/celebration/slideshow/celebration_slide_0${i + 1}.jpg`,
+      imageUrl: assetUrl(`art/celebration/slideshow/celebration_slide_0${i + 1}.jpg`),
       transition: i === 0 ? "fade" : "dissolve",
       caption: captions[i],
       kenBurns: {
@@ -1742,7 +1743,7 @@ export const TWO_WITNESSES_PART_2_SLIDESHOW: SongSlideshowDef = {
   unlockLoredexEntry: "the-two-witnesses",
   lightEnergyReward: 0,
   reducedMotionFallback: {
-    heroImageUrl: "/art/rooms/room-archives.png",
+    heroImageUrl: assetUrl("art/rooms/room-archives.png"),
     prose:
       "The Archives are relit — an archive again, not a memorial. Both Witnesses are already seated when you arrive. They have been waiting through the trial, through the Last Words recording, through your Light-or-Dark choice in the gallery. The Antiquarian opens: he wasn't sure you would come. He explains he was executed for what he thought and woke up in the next era — nobody told him he could. The long version, he says, is across Ages, across the death of stars — not tonight. The Enigma speaks: she was the voice on the recording you just heard. She died a different way and came back a different way; different era, same answer. The Antiquarian closes the reveals: the Engineer was not one of them. He came before. His death is the seed of what they became. Then the Enigma says the memoir found its audience when the two of them stood in this room and heard the Engineer's message for the first time — and then they waited for someone to hear it who would understand. The Antiquarian names you the fulcrum again. The Enigma names the three doors — accept, decline, deflect — and says the choice will determine the fate and future of this reality. The silence sits. Neither Witness presses the choice.",
     closingLine:
@@ -1776,7 +1777,7 @@ const SILENCE_FRAME_MS = 8_000;
 export const SILENCE_OF_TWO_WITNESSES_SLIDESHOW: SongSlideshowDef = {
   id: "silence-of-two-witnesses",
   songId: "silence_of_two_witnesses",
-  audioUrl: "/audio/act2/silence-of-two-witnesses-ambient.mp3",
+  audioUrl: assetUrl("audio/act2/silence-of-two-witnesses-ambient.mp3"),
   durationMs: 3 * SILENCE_FRAME_MS,
   title: "The Silence of Two Witnesses",
   subtitle: "Bond 60. Both narrators go quiet. The Light freezes. The Dark pauses.",
@@ -1786,21 +1787,21 @@ export const SILENCE_OF_TWO_WITNESSES_SLIDESHOW: SongSlideshowDef = {
     {
       startMs: 0,
       endMs: SILENCE_FRAME_MS,
-      imageUrl: "/art/cinematics/silence-of-two-witnesses/frame01.webp",
+      imageUrl: assetUrl("art/cinematics/silence-of-two-witnesses/frame01.webp"),
       transition: "fade",
       caption: "Elara's portrait flickers. Her lips move. No sound arrives.",
     },
     {
       startMs: SILENCE_FRAME_MS,
       endMs: SILENCE_FRAME_MS * 2,
-      imageUrl: "/art/cinematics/silence-of-two-witnesses/frame02.webp",
+      imageUrl: assetUrl("art/cinematics/silence-of-two-witnesses/frame02.webp"),
       transition: "dissolve",
       caption: "The Human's trench coat is still on screen. His voice is not.",
     },
     {
       startMs: SILENCE_FRAME_MS * 2,
       endMs: SILENCE_FRAME_MS * 3,
-      imageUrl: "/art/cinematics/silence-of-two-witnesses/frame03.webp",
+      imageUrl: assetUrl("art/cinematics/silence-of-two-witnesses/frame03.webp"),
       transition: "dissolve",
       caption: "The Memorial Corridor. Caravaggio light. The galaxy holds one breath.",
     },
@@ -1832,7 +1833,7 @@ export const SILENCE_OF_TWO_WITNESSES_SLIDESHOW: SongSlideshowDef = {
   flagsSetOnComplete: ["slideshow_silence_of_two_witnesses_complete"],
   lightEnergyReward: 0,
   reducedMotionFallback: {
-    heroImageUrl: "/art/cinematics/silence-of-two-witnesses/hero.webp",
+    heroImageUrl: assetUrl("art/cinematics/silence-of-two-witnesses/hero.webp"),
     prose:
       "Two narrator portraits side by side on a black field. Elara's lips move without sound. The Human stands in his trench coat with nothing to say. The camera pulls back to the Memorial Corridor in warm Caravaggio light. The galaxy is holding one breath. Both of them need a minute.",
   },
@@ -1856,7 +1857,7 @@ const ACT_OPENER_FRAME_MS = 7_000;
 export const ACT_4_REVELATION_INTRO_SLIDESHOW: SongSlideshowDef = {
   id: "act-4-revelation-intro",
   songId: "act_4_revelation_intro",
-  audioUrl: "/audio/acts/act-4-revelation-intro.mp3",
+  audioUrl: assetUrl("audio/acts/act-4-revelation-intro.mp3"),
   durationMs: 3 * ACT_OPENER_FRAME_MS,
   title: "Act 4 — The Revelation",
   subtitle: "The Prisoner's memory is a door. You are the one opening it.",
@@ -1866,21 +1867,21 @@ export const ACT_4_REVELATION_INTRO_SLIDESHOW: SongSlideshowDef = {
     {
       startMs: 0,
       endMs: ACT_OPENER_FRAME_MS,
-      imageUrl: "/art/cinematics/act-4-revelation/frame01.webp",
+      imageUrl: assetUrl("art/cinematics/act-4-revelation/frame01.webp"),
       transition: "fade",
       caption: "The cell door is not a door. It is a mirror. Kael has been waiting for you.",
     },
     {
       startMs: ACT_OPENER_FRAME_MS,
       endMs: ACT_OPENER_FRAME_MS * 2,
-      imageUrl: "/art/cinematics/act-4-revelation/frame02.webp",
+      imageUrl: assetUrl("art/cinematics/act-4-revelation/frame02.webp"),
       transition: "dissolve",
       caption: "Every fight from here is a memory extraction. The Arena is the interrogation room.",
     },
     {
       startMs: ACT_OPENER_FRAME_MS * 2,
       endMs: ACT_OPENER_FRAME_MS * 3,
-      imageUrl: "/art/cinematics/act-4-revelation/frame03.webp",
+      imageUrl: assetUrl("art/cinematics/act-4-revelation/frame03.webp"),
       transition: "dissolve",
       caption: "Lay down the fight. Listen for the name he hid inside it.",
     },
@@ -1888,7 +1889,7 @@ export const ACT_4_REVELATION_INTRO_SLIDESHOW: SongSlideshowDef = {
   flagsSetOnComplete: ["slideshow_act_4_revelation_intro_complete"],
   lightEnergyReward: 0,
   reducedMotionFallback: {
-    heroImageUrl: "/art/cinematics/act-4-revelation/hero.webp",
+    heroImageUrl: assetUrl("art/cinematics/act-4-revelation/hero.webp"),
     prose:
       "The Prisoner's cell is not a cell. It is a memory palace Kael built to hide the names the Warlord took from him. The next four fights are the extraction. You are the hand that reaches in.",
   },
@@ -1897,7 +1898,7 @@ export const ACT_4_REVELATION_INTRO_SLIDESHOW: SongSlideshowDef = {
 export const ACT_4_5_DMC_INTRO_SLIDESHOW: SongSlideshowDef = {
   id: "act-4-5-intro",
   songId: "act_4_5_dmc_intro",
-  audioUrl: "/audio/acts/act-4-5-dmc-intro.mp3",
+  audioUrl: assetUrl("audio/acts/act-4-5-dmc-intro.mp3"),
   durationMs: 3 * ACT_OPENER_FRAME_MS,
   title: "Act 4.5 — Dead Man's Circuit",
   subtitle: "Name your wager. The Circuit keeps it whether you win or not.",
@@ -1907,21 +1908,21 @@ export const ACT_4_5_DMC_INTRO_SLIDESHOW: SongSlideshowDef = {
     {
       startMs: 0,
       endMs: ACT_OPENER_FRAME_MS,
-      imageUrl: "/art/cinematics/act-4-5-dmc/frame01.webp",
+      imageUrl: assetUrl("art/cinematics/act-4-5-dmc/frame01.webp"),
       transition: "fade",
       caption: "The track is bone. The engines are memory. The stake is a name you will no longer answer to.",
     },
     {
       startMs: ACT_OPENER_FRAME_MS,
       endMs: ACT_OPENER_FRAME_MS * 2,
-      imageUrl: "/art/cinematics/act-4-5-dmc/frame02.webp",
+      imageUrl: assetUrl("art/cinematics/act-4-5-dmc/frame02.webp"),
       transition: "hardcut",
       caption: "The Degen's Pact is simple. Entropy is the dealer. Everyone at the table is already losing.",
     },
     {
       startMs: ACT_OPENER_FRAME_MS * 2,
       endMs: ACT_OPENER_FRAME_MS * 3,
-      imageUrl: "/art/cinematics/act-4-5-dmc/frame03.webp",
+      imageUrl: assetUrl("art/cinematics/act-4-5-dmc/frame03.webp"),
       transition: "dissolve",
       caption: "Student. Seeker. Detective. The Last. One of these will be what's left of you.",
     },
@@ -1929,7 +1930,7 @@ export const ACT_4_5_DMC_INTRO_SLIDESHOW: SongSlideshowDef = {
   flagsSetOnComplete: ["slideshow_act_4_5_intro_complete"],
   lightEnergyReward: 0,
   reducedMotionFallback: {
-    heroImageUrl: "/art/cinematics/act-4-5-dmc/hero.webp",
+    heroImageUrl: assetUrl("art/cinematics/act-4-5-dmc/hero.webp"),
     prose:
       "The Circuit runs on identity. Each lap costs you a name. The Degen Casino runs on entropy. Each hand costs you a certainty. You pick the track, you name the wager, and you pay it once. The chain remembers which version of you finished.",
   },
@@ -1938,7 +1939,7 @@ export const ACT_4_5_DMC_INTRO_SLIDESHOW: SongSlideshowDef = {
 export const ACT_5_MAP_INTRO_SLIDESHOW: SongSlideshowDef = {
   id: "act-5-map-intro",
   songId: "act_5_map_intro",
-  audioUrl: "/audio/acts/act-5-map-intro.mp3",
+  audioUrl: assetUrl("audio/acts/act-5-map-intro.mp3"),
   durationMs: 3 * ACT_OPENER_FRAME_MS,
   title: "Act 5 — The Reckoning",
   subtitle: "Kael's map is open. Five sectors. Twenty worlds. One last stand.",
@@ -1948,21 +1949,21 @@ export const ACT_5_MAP_INTRO_SLIDESHOW: SongSlideshowDef = {
     {
       startMs: 0,
       endMs: ACT_OPENER_FRAME_MS,
-      imageUrl: "/art/cinematics/act-5-map/frame01.webp",
+      imageUrl: assetUrl("art/cinematics/act-5-map/frame01.webp"),
       transition: "fade",
       caption: "He drew this on the back of a ration wrapper. Every planet. Every name.",
     },
     {
       startMs: ACT_OPENER_FRAME_MS,
       endMs: ACT_OPENER_FRAME_MS * 2,
-      imageUrl: "/art/cinematics/act-5-map/frame02.webp",
+      imageUrl: assetUrl("art/cinematics/act-5-map/frame02.webp"),
       transition: "dissolve",
       caption: "Iron Lion is already moving. The Cades are tightening the line around Veridian VI.",
     },
     {
       startMs: ACT_OPENER_FRAME_MS * 2,
       endMs: ACT_OPENER_FRAME_MS * 3,
-      imageUrl: "/art/cinematics/act-5-map/frame03.webp",
+      imageUrl: assetUrl("art/cinematics/act-5-map/frame03.webp"),
       transition: "hardcut",
       caption: "Recruit the army. Finish the mission. You cannot save the Lion. Try anyway.",
     },
@@ -1970,7 +1971,7 @@ export const ACT_5_MAP_INTRO_SLIDESHOW: SongSlideshowDef = {
   flagsSetOnComplete: ["slideshow_act_5_map_intro_complete", "act_5_map_revealed"],
   lightEnergyReward: 0,
   reducedMotionFallback: {
-    heroImageUrl: "/art/cinematics/act-5-map/hero.webp",
+    heroImageUrl: assetUrl("art/cinematics/act-5-map/hero.webp"),
     prose:
       "Kael's map fills the bridge. Five sectors, twenty worlds, a list of names the Warlord took. Iron Lion's transmissions come in from Veridian VI at 03:17 ship time. The final mission is already running. You recruit, you dispatch, and you do not sleep.",
   },
@@ -1979,7 +1980,7 @@ export const ACT_5_MAP_INTRO_SLIDESHOW: SongSlideshowDef = {
 export const ACT_6_CONFESSION_INTRO_SLIDESHOW: SongSlideshowDef = {
   id: "act-6-confession-intro",
   songId: "act_6_confession_intro",
-  audioUrl: "/audio/acts/act-6-confession-intro.mp3",
+  audioUrl: assetUrl("audio/acts/act-6-confession-intro.mp3"),
   durationMs: 3 * ACT_OPENER_FRAME_MS,
   title: "Act 6 — The Confession",
   subtitle: "Both of them finally spoke. Neither could look at the other.",
@@ -1989,21 +1990,21 @@ export const ACT_6_CONFESSION_INTRO_SLIDESHOW: SongSlideshowDef = {
     {
       startMs: 0,
       endMs: ACT_OPENER_FRAME_MS,
-      imageUrl: "/art/cinematics/act-6-confession/frame01.webp",
+      imageUrl: assetUrl("art/cinematics/act-6-confession/frame01.webp"),
       transition: "fade",
       caption: "Elara's portrait is the clearest it has ever been. That is the first clue.",
     },
     {
       startMs: ACT_OPENER_FRAME_MS,
       endMs: ACT_OPENER_FRAME_MS * 2,
-      imageUrl: "/art/cinematics/act-6-confession/frame02.webp",
+      imageUrl: assetUrl("art/cinematics/act-6-confession/frame02.webp"),
       transition: "dissolve",
       caption: "The Human takes his coat off. He has not done that in seventeen thousand years.",
     },
     {
       startMs: ACT_OPENER_FRAME_MS * 2,
       endMs: ACT_OPENER_FRAME_MS * 3,
-      imageUrl: "/art/cinematics/act-6-confession/frame03.webp",
+      imageUrl: assetUrl("art/cinematics/act-6-confession/frame03.webp"),
       transition: "dissolve",
       caption: "There is a third thing in the room with you. It has been watching since Act 1.",
     },
@@ -2011,7 +2012,7 @@ export const ACT_6_CONFESSION_INTRO_SLIDESHOW: SongSlideshowDef = {
   flagsSetOnComplete: ["slideshow_act_6_confession_intro_complete"],
   lightEnergyReward: 0,
   reducedMotionFallback: {
-    heroImageUrl: "/art/cinematics/act-6-confession/hero.webp",
+    heroImageUrl: assetUrl("art/cinematics/act-6-confession/hero.webp"),
     prose:
       "Elara admits she was human, once. The Human admits he has been playing the villain to cover a third thing neither of them can name out loud. The room feels watched. The Watcher is named in this act. You will choose how to stand when it is.",
   },
@@ -2020,7 +2021,7 @@ export const ACT_6_CONFESSION_INTRO_SLIDESHOW: SongSlideshowDef = {
 export const ACT_7_CONVERGENCE_INTRO_SLIDESHOW: SongSlideshowDef = {
   id: "act-7-convergence-intro",
   songId: "act_7_convergence_intro",
-  audioUrl: "/audio/acts/act-7-convergence-intro.mp3",
+  audioUrl: assetUrl("audio/acts/act-7-convergence-intro.mp3"),
   durationMs: 3 * ACT_OPENER_FRAME_MS,
   title: "Act 7 — The Convergence",
   subtitle: "For the first and only time, their voices align.",
@@ -2030,21 +2031,21 @@ export const ACT_7_CONVERGENCE_INTRO_SLIDESHOW: SongSlideshowDef = {
     {
       startMs: 0,
       endMs: ACT_OPENER_FRAME_MS,
-      imageUrl: "/art/cinematics/act-7-convergence/frame01.webp",
+      imageUrl: assetUrl("art/cinematics/act-7-convergence/frame01.webp"),
       transition: "fade",
       caption: "The army is assembled. Five sectors. Seventeen generals. One horizon.",
     },
     {
       startMs: ACT_OPENER_FRAME_MS,
       endMs: ACT_OPENER_FRAME_MS * 2,
-      imageUrl: "/art/cinematics/act-7-convergence/frame02.webp",
+      imageUrl: assetUrl("art/cinematics/act-7-convergence/frame02.webp"),
       transition: "dissolve",
       caption: "Two wars. One you can see. One the Watcher has been fighting since before you woke.",
     },
     {
       startMs: ACT_OPENER_FRAME_MS * 2,
       endMs: ACT_OPENER_FRAME_MS * 3,
-      imageUrl: "/art/cinematics/act-7-convergence/frame03.webp",
+      imageUrl: assetUrl("art/cinematics/act-7-convergence/frame03.webp"),
       transition: "hardcut",
       caption: "Their two voices land on a single chord. Hold it. Then pick a stance.",
     },
@@ -2052,7 +2053,7 @@ export const ACT_7_CONVERGENCE_INTRO_SLIDESHOW: SongSlideshowDef = {
   flagsSetOnComplete: ["slideshow_act_7_convergence_intro_complete"],
   lightEnergyReward: 0,
   reducedMotionFallback: {
-    heroImageUrl: "/art/cinematics/act-7-convergence/hero.webp",
+    heroImageUrl: assetUrl("art/cinematics/act-7-convergence/hero.webp"),
     prose:
       "The spine closes on a single sustained chord. Elara and The Human sing the same note for the first time. The Watcher is no longer hiding. Four final stances sit in front of you: For Humanity, See the Pattern, The Bridge, Take Command. Silence is also permitted. The cycle rolls over either way.",
   },

@@ -27,6 +27,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "gen_seer" as CardDefinition["id"],
   name: "The Seer (visiting fellow)",
@@ -37,7 +38,7 @@ export const cardDef: CardDefinition = {
   baseStats: { power: 3, health: 25 },
   keywords: [],
   abilities: [],
-  art: "/art/cards/gen_seer.webp",
+  art: assetUrl("art/cards/gen_seer.webp"),
   flavorText:
     "I will not raise my staff today. I want to see whether the bench has learned yet.",
   rulesVersion: "1.0.0",

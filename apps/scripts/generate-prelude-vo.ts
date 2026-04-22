@@ -27,6 +27,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
+import { assetUrl } from "../client/src/lib/assetUrl";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -343,7 +344,7 @@ async function main() {
       const localPath = writeLocalFile(audio, line.voiceProfile, line.lineId);
       const url = HAS_AWS_CREDS
         ? await uploadToS3(audio, s3Key)
-        : `/audio/${s3Folder}/${line.lineId}.mp3`;
+        : assetUrl(`audio/${s3Folder}/${line.lineId}.mp3`);
 
       manifest[line.lineId] = url;
       console.log(` ✓ ${(audio.length / 1024).toFixed(0)}KB → ${localPath}`);

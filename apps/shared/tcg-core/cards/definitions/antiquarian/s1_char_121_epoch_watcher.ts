@@ -27,6 +27,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_121" as CardDefinition["id"],
   name: "Epoch Watcher",
@@ -48,7 +49,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_121.webp",
+  art: assetUrl("art/cards/s1_char_121.webp"),
   flavorText:
     "It has seen empires rise and fall a thousand times. Each wound is just another memory it has already forgotten.",
   rulesVersion: "1.0.0",

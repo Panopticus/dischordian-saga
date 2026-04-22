@@ -18,6 +18,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_song_084" as CardDefinition["id"],
   name: "Judgment Day",
@@ -46,7 +47,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_song_084.webp",
+  art: assetUrl("art/cards/s1_song_084.webp"),
   flavorText:
     "When the reckoning arrives, only the shielded will endure its verdict.",
   rulesVersion: "1.0.0",

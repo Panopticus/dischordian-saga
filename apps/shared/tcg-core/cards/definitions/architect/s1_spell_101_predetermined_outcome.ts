@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_101" as CardDefinition["id"],
   name: "Predetermined Outcome",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_101.webp",
+  art: assetUrl("art/cards/s1_spell_101.webp"),
   flavorText:
     "The Architect foresaw the end long before anyone else glimpsed the beginning. Every enhancement is a correction toward inevitability.",
   rulesVersion: "1.0.0",

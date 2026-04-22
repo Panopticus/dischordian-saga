@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_017" as CardDefinition["id"],
   name: "The Advocate",
@@ -55,7 +56,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_017.webp",
+  art: assetUrl("art/cards/s1_char_017.webp"),
   flavorText:
     "Establishing the Empire of Shadows, she wielded the Blood Weave to reshape reality, battling the Hierarchy of the Damned.",
   rulesVersion: "1.0.0",

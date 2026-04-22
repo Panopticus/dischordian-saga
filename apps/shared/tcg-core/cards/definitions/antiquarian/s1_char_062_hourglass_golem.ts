@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_062" as CardDefinition["id"],
   name: "Hourglass Golem",
@@ -30,7 +31,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_062.webp",
+  art: assetUrl("art/cards/s1_char_062.webp"),
   flavorText:
     "When the last grain falls, the golem shatters — and time resumes its march.",
   rulesVersion: "1.0.0",

@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_trade_tycoon" as CardDefinition["id"],
   name: "Galactic Tycoon",
@@ -54,7 +55,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_trade_tycoon.webp",
+  art: assetUrl("art/cards/s1_reward_trade_tycoon.webp"),
   flavorText:
     "A million credits is just the beginning. The galaxy is a market.",
   rulesVersion: "1.0.0",

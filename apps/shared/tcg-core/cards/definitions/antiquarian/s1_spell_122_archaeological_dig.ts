@@ -14,6 +14,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_122" as CardDefinition["id"],
   name: "Archaeological Dig",
@@ -44,7 +45,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_122.webp",
+  art: assetUrl("art/cards/s1_spell_122.webp"),
   flavorText:
     "Three Ages buried beneath the current one, each with its own truths. The Antiquarian keeps only what the next Age will need.",
   rulesVersion: "1.0.0",

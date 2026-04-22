@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_011" as CardDefinition["id"],
   name: "Jericho Jones",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_011.webp",
+  art: assetUrl("art/cards/s1_char_011.webp"),
   flavorText:
     "Known for his exceptional combat skills, tactical genius, and deep sense of loyalty, Jericho played a pivotal role in several key battles.",
   rulesVersion: "1.0.0",

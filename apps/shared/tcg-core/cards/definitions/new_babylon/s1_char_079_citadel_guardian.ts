@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_079" as CardDefinition["id"],
   name: "Citadel Guardian",
@@ -30,7 +31,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_079.webp",
+  art: assetUrl("art/cards/s1_char_079.webp"),
   flavorText:
     "The walls of New Babylon have never been breached. The guardians intend to keep it that way.",
   rulesVersion: "1.0.0",

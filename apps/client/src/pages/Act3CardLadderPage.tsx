@@ -52,6 +52,7 @@ import { fireCrossGameBeat } from "@/lib/crossGameBeats";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import LivingBackground from "@/components/LivingBackground";
 
+import { assetUrl } from "@/lib/assetUrl";
 type LadderView = "ladder" | "matchup" | "battle" | "postmatch";
 
 function resolveOpponentFaction(o: ActNOpponent): string {
@@ -156,7 +157,7 @@ export default function Act3CardLadderPage() {
   return (
     <div className="relative min-h-screen bg-stone-950 text-stone-100">
       <LivingBackground
-        src="/art/rooms/room-archives.png"
+        src={assetUrl("art/rooms/room-archives.png")}
         accent="rgba(168, 85, 247, 0.4)"
         opacity={0.08}
         particleCount={3}

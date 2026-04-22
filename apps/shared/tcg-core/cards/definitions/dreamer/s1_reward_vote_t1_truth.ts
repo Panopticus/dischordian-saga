@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_vote_t1_truth" as CardDefinition["id"],
   name: "Investigator's Lens",
@@ -50,7 +51,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_vote_t1_truth.webp",
+  art: assetUrl("art/cards/s1_reward_vote_t1_truth.webp"),
   flavorText:
     "Truth is a weapon. The Lens simply makes it easier to aim.",
   rulesVersion: "1.0.0",

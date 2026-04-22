@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_guild_officer" as CardDefinition["id"],
   name: "Guild Officer",
@@ -51,7 +52,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_guild_officer.webp",
+  art: assetUrl("art/cards/s1_reward_guild_officer.webp"),
   flavorText:
     "Rank carries weight. So does the armor she requisitions.",
   rulesVersion: "1.0.0",

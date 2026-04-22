@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_016" as CardDefinition["id"],
   name: "Senator Elara Voss",
@@ -76,7 +77,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_016.webp",
+  art: assetUrl("art/cards/s1_char_016.webp"),
   flavorText:
     "A.; fate following the Fall of Reality is unspecified Senator Elara Voss was a prominent political figure born on the planet Atarion.",
   rulesVersion: "1.0.0",

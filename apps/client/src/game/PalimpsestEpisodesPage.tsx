@@ -36,6 +36,7 @@ import { usePalimpsest } from "@/hooks/usePalimpsest";
 import { useGame } from "@/contexts/GameContext";
 import { EPISODE_11_COMPLETED_AT_KEY } from "@/game/humanRelationship";
 
+import { assetUrl } from "@/lib/assetUrl";
 type Phase = "lobby" | "broadcast" | "crawl" | "letter" | "funeral";
 
 /* ─── CASUALTY CRAWL ─── */
@@ -347,7 +348,7 @@ export default function PalimpsestEpisodesPage() {
           {/* Thaloria debate stage overlay on Episode 10 */}
           {selectedEpisode.useThaloriaStage && (
             <img
-              src="/art/special-maps/special-thaloria-debate-stage.png"
+              src={assetUrl("art/special-maps/special-thaloria-debate-stage.png")}
               alt=""
               aria-hidden
               className="fixed inset-0 w-full h-full object-cover z-[55] pointer-events-none"

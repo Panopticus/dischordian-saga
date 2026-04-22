@@ -20,6 +20,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_031" as CardDefinition["id"],
   name: "The Hierophant",
@@ -53,7 +54,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_031.webp",
+  art: assetUrl("art/cards/s1_char_031.webp"),
   flavorText:
     "A. The Hierophant is the esteemed spiritual leader of Thaloria, a planet renowned for its rich history and deep-rooted t...",
   rulesVersion: "1.0.0",

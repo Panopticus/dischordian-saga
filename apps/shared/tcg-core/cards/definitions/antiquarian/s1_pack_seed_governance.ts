@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_seed_governance" as CardDefinition["id"],
   name: "Antiquarian's Referendum",
@@ -51,7 +52,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_seed_governance.webp",
+  art: assetUrl("art/cards/s1_pack_seed_governance.webp"),
   flavorText:
     "The vote is called. The Archive opens. Democracy remembers what tyrants forget.",
   rulesVersion: "1.0.0",

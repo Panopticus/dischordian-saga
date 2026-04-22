@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_vote_t1_balanced" as CardDefinition["id"],
   name: "Neutral Observer",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_vote_t1_balanced.webp",
+  art: assetUrl("art/cards/s1_reward_vote_t1_balanced.webp"),
   flavorText:
     "She took no side in the vote. Somehow, both sides owed her favors afterward.",
   rulesVersion: "1.0.0",

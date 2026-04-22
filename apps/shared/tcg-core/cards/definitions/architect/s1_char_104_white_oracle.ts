@@ -26,6 +26,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_104" as CardDefinition["id"],
   name: "White Oracle",
@@ -65,7 +66,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_104.webp",
+  art: assetUrl("art/cards/s1_char_104.webp"),
   flavorText:
     "She speaks with the Oracle's voice, sees through the Oracle's eyes, and wears the Oracle's fate. But the words are the Architect's.",
   rulesVersion: "1.0.0",

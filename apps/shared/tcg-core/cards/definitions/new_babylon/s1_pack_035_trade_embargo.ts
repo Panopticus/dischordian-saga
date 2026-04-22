@@ -16,6 +16,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_035" as CardDefinition["id"],
   name: "Trade Embargo",
@@ -36,7 +37,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_035.webp",
+  art: assetUrl("art/cards/s1_pack_035.webp"),
   flavorText:
     "The trade routes closed overnight. By morning, entire strategies had starved.",
   rulesVersion: "1.0.0",

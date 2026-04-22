@@ -25,6 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_seed_fighter" as CardDefinition["id"],
   name: "Akai Shi, the Red Death",
@@ -56,7 +57,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_seed_fighter.webp",
+  art: assetUrl("art/cards/s1_pack_seed_fighter.webp"),
   flavorText:
     "The arena has a champion. The champion has no mercy.",
   rulesVersion: "1.0.0",

@@ -19,6 +19,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_020" as CardDefinition["id"],
   name: "Prophecy Incarnate",
@@ -65,7 +66,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_020.webp",
+  art: assetUrl("art/cards/s1_pack_020.webp"),
   flavorText:
     "The prophecy did not predict the end. It was the end — given a body and a voice that would not be silenced.",
   rulesVersion: "1.0.0",

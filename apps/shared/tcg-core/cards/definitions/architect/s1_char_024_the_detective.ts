@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_024" as CardDefinition["id"],
   name: "The Detective",
@@ -76,7 +77,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_024.webp",
+  art: assetUrl("art/cards/s1_char_024.webp"),
   flavorText:
     "A. The one known as the Detective began his journey as a curious and determined Seeker in the mysterious Project Celebration.",
   rulesVersion: "1.0.0",

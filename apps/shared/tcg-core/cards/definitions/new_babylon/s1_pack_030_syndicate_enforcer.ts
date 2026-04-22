@@ -17,6 +17,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_030" as CardDefinition["id"],
   name: "Syndicate Enforcer",
@@ -37,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_030.webp",
+  art: assetUrl("art/cards/s1_pack_030.webp"),
   flavorText:
     "He does not ask for payment. He takes it from the corpse's pockets. The Syndicate calls it 'efficiency.'",
   rulesVersion: "1.0.0",

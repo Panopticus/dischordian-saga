@@ -6,16 +6,17 @@
 import { describe, it, expect } from "vitest";
 import * as fs from "fs";
 import * as path from "path";
+import { assetUrl } from "@/lib/assetUrl";
 import { parseSuitPieceArtId, suitArtUrl } from "./suitArt";
 import { pieceId } from "@shared/suitSets";
 
 describe("suitArtUrl", () => {
   it("emits the canonical /art/suits/<set>/<rarity>/<slot>.png path", () => {
     expect(suitArtUrl("the-mourners-coat", "common", "chest")).toBe(
-      "/art/suits/the-mourners-coat/common/chest.png",
+      assetUrl("art/suits/the-mourners-coat/common/chest.png"),
     );
     expect(suitArtUrl("the-first-chassis", "legendary", "weapon-primary")).toBe(
-      "/art/suits/the-first-chassis/legendary/weapon-primary.png",
+      assetUrl("art/suits/the-first-chassis/legendary/weapon-primary.png"),
     );
   });
 
@@ -23,7 +24,7 @@ describe("suitArtUrl", () => {
     // Defensive — set ids in the roster are slug-safe today, but the
     // encoder protects us if anyone later adds a space or unusual char.
     expect(suitArtUrl("odd set", "rare", "head")).toBe(
-      "/art/suits/odd%20set/rare/head.png",
+      assetUrl("art/suits/odd%20set/rare/head.png"),
     );
   });
 });

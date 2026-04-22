@@ -21,6 +21,7 @@
 
 import type { ChannelDefinition, InstrumentalTrack } from "./fnord23";
 
+import { assetUrl } from "../../../client/src/lib/assetUrl";
 /* ═══════════════════════════════════════════════════════
    TRACKS
    Each entry matches the musicPrompt on a single Engineer's
@@ -36,7 +37,7 @@ export const OG_001_CELEBRATION_RAIN: InstrumentalTrack = {
   tempoBpm: 92,
   keySignature: "F minor",
   durationSeconds: 100,
-  filePath: "/audio/outergroove/og_001.mp3",
+  filePath: assetUrl("audio/outergroove/og_001.mp3"),
   defaultForLogId: "log_keyword_provoke",
   moodTags: ["cathedral-funk", "slow", "shoulder-roll", "lecture-friendly"],
 };
@@ -49,7 +50,7 @@ export const OG_003_FASTER_THAN_THOUGHT: InstrumentalTrack = {
   tempoBpm: 104,
   keySignature: "C Dorian",
   durationSeconds: 95,
-  filePath: "/audio/outergroove/og_003.mp3",
+  filePath: assetUrl("audio/outergroove/og_003.mp3"),
   defaultForLogId: "log_keyword_rush",
   moodTags: ["driving", "confident", "searching", "zero-g-funk"],
 };
@@ -62,7 +63,7 @@ export const OG_005_ONE_BITE_SHIELD: InstrumentalTrack = {
   tempoBpm: 88,
   keySignature: "E-flat minor",
   durationSeconds: 110,
-  filePath: "/audio/outergroove/og_005.mp3",
+  filePath: assetUrl("audio/outergroove/og_005.mp3"),
   defaultForLogId: "log_keyword_forcefield",
   moodTags: ["quiet-storm", "3am", "contemplative", "space-station-soul"],
 };
@@ -75,7 +76,7 @@ export const OG_007_DOUBLE_HEARTBEAT: InstrumentalTrack = {
   tempoBpm: 112,
   keySignature: "G Mixolydian",
   durationSeconds: 100,
-  filePath: "/audio/outergroove/og_007.mp3",
+  filePath: assetUrl("audio/outergroove/og_007.mp3"),
   defaultForLogId: "log_keyword_celerity",
   moodTags: ["hyperactive", "sign-o-the-times", "doubled", "cathedral-funk"],
 };
@@ -88,7 +89,7 @@ export const OG_009_THE_EGG: InstrumentalTrack = {
   tempoBpm: 76,
   keySignature: "B-flat minor",
   durationSeconds: 130,
-  filePath: "/audio/outergroove/og_009.mp3",
+  filePath: assetUrl("audio/outergroove/og_009.mp3"),
   defaultForLogId: "log_keyword_rebirth",
   moodTags: ["reverent", "lullaby", "funeral-cortege", "grieving-groove"],
 };
@@ -101,7 +102,7 @@ export const OG_011_PERMISSION_TO_BE_ANYWHERE: InstrumentalTrack = {
   tempoBpm: 96,
   keySignature: "A major",
   durationSeconds: 95,
-  filePath: "/audio/outergroove/og_011.mp3",
+  filePath: assetUrl("audio/outergroove/og_011.mp3"),
   defaultForLogId: "log_keyword_flying",
   moodTags: ["weightless", "buoyant", "optimistic", "zero-g-flute"],
 };
@@ -114,7 +115,7 @@ export const OG_013_THE_CLEAN_LINE: InstrumentalTrack = {
   tempoBpm: 84,
   keySignature: "D minor",
   durationSeconds: 115,
-  filePath: "/audio/outergroove/og_013.mp3",
+  filePath: assetUrl("audio/outergroove/og_013.mp3"),
   defaultForLogId: "log_keyword_ranged",
   moodTags: ["noir-jazz", "patient", "cool", "trumpet-dangerous"],
 };
@@ -127,7 +128,7 @@ export const OG_015_ONES_WHO_WATCH: InstrumentalTrack = {
   tempoBpm: 72,
   keySignature: "C-sharp minor",
   durationSeconds: 140,
-  filePath: "/audio/outergroove/og_015.mp3",
+  filePath: assetUrl("audio/outergroove/og_015.mp3"),
   defaultForLogId: "log_keyword_deathwatch",
   moodTags: ["trip-hop", "mournful", "heavy-gravity", "processed-choir"],
 };
@@ -140,7 +141,7 @@ export const OG_017_WRONG_ANGLE: InstrumentalTrack = {
   tempoBpm: 108,
   keySignature: "F-sharp minor",
   durationSeconds: 100,
-  filePath: "/audio/outergroove/og_017.mp3",
+  filePath: assetUrl("audio/outergroove/og_017.mp3"),
   defaultForLogId: "log_keyword_backstab",
   moodTags: ["stealth-funk", "shaft-groove", "bongo-bridge", "moving-quietly"],
 };
@@ -153,7 +154,7 @@ export const OG_019_TAX_ON_HURTING: InstrumentalTrack = {
   tempoBpm: 82,
   keySignature: "G minor",
   durationSeconds: 125,
-  filePath: "/audio/outergroove/og_019.mp3",
+  filePath: assetUrl("audio/outergroove/og_019.mp3"),
   defaultForLogId: "log_keyword_drain",
   moodTags: ["medicinal-soul", "slightly-guilty", "muted-trumpet", "clinic-funk"],
 };
@@ -187,7 +188,7 @@ export const OUTERGROOVE_CHANNEL: ChannelDefinition = {
     kind: "item_found",
     value: "fnord23",
   },
-  coverArtPath: "/audio/outergroove/cover.jpg",
+  coverArtPath: assetUrl("audio/outergroove/cover.jpg"),
 };
 
 /** Quick lookup by track id. */

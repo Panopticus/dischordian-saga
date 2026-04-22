@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_casino_pazaak" as CardDefinition["id"],
   name: "Pazaak Champion",
@@ -41,7 +42,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_casino_pazaak.webp",
+  art: assetUrl("art/cards/s1_reward_casino_pazaak.webp"),
   flavorText:
     "Twenty-one wins. Zero tells. Pure calculation.",
   rulesVersion: "1.0.0",

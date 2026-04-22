@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_051" as CardDefinition["id"],
   name: "Oculus Sentinel",
@@ -37,7 +38,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_051.webp",
+  art: assetUrl("art/cards/s1_char_051.webp"),
   flavorText:
     "Its glass eye never blinks. Its memory never falters. It was built to watch — and to remember.",
   rulesVersion: "1.0.0",

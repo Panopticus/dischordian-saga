@@ -17,6 +17,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_048" as CardDefinition["id"],
   name: "Elara's Final Gift",
@@ -54,7 +55,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_048.webp",
+  art: assetUrl("art/cards/s1_pack_048.webp"),
   flavorText:
     "She had one last thing to give. She gave it to everyone.",
   rulesVersion: "1.0.0",

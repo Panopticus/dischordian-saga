@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_companion_human" as CardDefinition["id"],
   name: "The Human's Trust",
@@ -54,7 +55,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_companion_human.webp",
+  art: assetUrl("art/cards/s1_reward_companion_human.webp"),
   flavorText:
     "The last organic Archon looked at you and saw something worth believing in. That is rarer than any algorithm.",
   rulesVersion: "1.0.0",

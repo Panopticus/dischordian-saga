@@ -19,6 +19,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_039" as CardDefinition["id"],
   name: "Age of Reckoning",
@@ -64,7 +65,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_039.webp",
+  art: assetUrl("art/cards/s1_pack_039.webp"),
   flavorText:
     "The old age crumbles. The new age mends what it can. The cycle continues.",
   rulesVersion: "1.0.0",

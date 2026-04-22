@@ -22,6 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_song_091" as CardDefinition["id"],
   name: "I Love War",
@@ -49,7 +50,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_song_091.webp",
+  art: assetUrl("art/cards/s1_song_091.webp"),
   flavorText:
     "The Warlord wore Vox's skin like a weapon. Agent Zero never saw the nanobots coming — war IS love to the Warlord, and this was an act of intimate conquest.",
   rulesVersion: "1.0.0",

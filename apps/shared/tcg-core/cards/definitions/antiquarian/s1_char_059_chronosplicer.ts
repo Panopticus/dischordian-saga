@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_059" as CardDefinition["id"],
   name: "Chronosplicer",
@@ -36,7 +37,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_059.webp",
+  art: assetUrl("art/cards/s1_char_059.webp"),
   flavorText:
     "She cuts time the way a surgeon cuts flesh — precisely, and without remorse.",
   rulesVersion: "1.0.0",

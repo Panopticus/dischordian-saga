@@ -31,6 +31,7 @@ import {
 } from "@/game/passiveBonusAggregator";
 import { ResponsiveImage } from "@/components/ResponsiveImage";
 
+import { assetUrl } from "@/lib/assetUrl";
 /* ─── PALETTE ─── */
 const P = {
   VOID_BLACK: "#0f172a",
@@ -358,7 +359,7 @@ export default function CADESFPSPage() {
         )}
         <iframe
           ref={iframeRef}
-          src="/games/cades-fps/index.html"
+          src={assetUrl("games/cades-fps/index.html")}
           className="w-full h-full absolute inset-0"
           style={{ border: "none", opacity: gameReady ? 1 : 0, transition: "opacity 0.5s" }}
           title="CADES Unit FPS"

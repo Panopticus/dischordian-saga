@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_008" as CardDefinition["id"],
   name: "General Binath-VII",
@@ -68,7 +69,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_008.webp",
+  art: assetUrl("art/cards/s1_char_008.webp"),
   flavorText:
     "Seven iterations of war forged a general who no longer flinches — his skin remembers every blade that ever failed to fell him.",
   rulesVersion: "1.0.0",

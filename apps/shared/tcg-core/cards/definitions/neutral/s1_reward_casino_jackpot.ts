@@ -19,6 +19,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_casino_jackpot" as CardDefinition["id"],
   name: "Lucky Break",
@@ -38,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_casino_jackpot.webp",
+  art: assetUrl("art/cards/s1_reward_casino_jackpot.webp"),
   flavorText:
     "The house always wins. Unless you're the house. And today, you're the house.",
   rulesVersion: "1.0.0",

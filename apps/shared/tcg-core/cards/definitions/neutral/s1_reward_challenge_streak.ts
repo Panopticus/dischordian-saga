@@ -23,6 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_challenge_streak" as CardDefinition["id"],
   name: "Honored Rival",
@@ -55,7 +56,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_challenge_streak.webp",
+  art: assetUrl("art/cards/s1_reward_challenge_streak.webp"),
   flavorText:
     "They fought ten times. After the tenth, they shook hands. Both were harder to kill for it.",
   rulesVersion: "1.0.0",

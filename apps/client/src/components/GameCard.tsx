@@ -6,6 +6,7 @@ import {
   ChevronRight, Crosshair
 } from "lucide-react";
 
+import { assetUrl } from "@/lib/assetUrl";
 interface CardData {
   id?: number;
   cardId: string;
@@ -184,7 +185,7 @@ export default function GameCard({
       {flipped ? (
         <div className="relative w-full h-full rounded-lg overflow-hidden border-2 void-border shadow-[0_0_15px_rgba(99,102,241,0.15)]">
           <img
-            src="/art/card-game/card-back-dischordia.png"
+            src={assetUrl("art/card-game/card-back-dischordia.png")}
             alt="Card Back"
             className="w-full h-full object-cover"
           />

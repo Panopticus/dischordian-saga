@@ -25,6 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_116" as CardDefinition["id"],
   name: "Neural Plague Carrier",
@@ -47,7 +48,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_116.webp",
+  art: assetUrl("art/cards/s1_char_116.webp"),
   flavorText:
     "It smiles when soldiers fall. Not from malice — the Virus has rewired joy to the frequency of dying screams.",
   rulesVersion: "1.0.0",

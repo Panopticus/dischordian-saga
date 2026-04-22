@@ -1,3 +1,4 @@
+import { assetUrl } from "../client/src/lib/assetUrl";
 /* ═══════════════════════════════════════════════════════
    ACT 2 INTERLUDE DATA — §6 "The Forged Hand"
 
@@ -44,22 +45,22 @@ export interface EngineersBenchFraming {
 export const ENGINEERS_BENCH_FRAMING: EngineersBenchFraming = {
   firstPowerOn:
     "The bench powers on. It hums in a frequency you have heard before — on the Deck, in the reactor, in Elara's voice when she is reading old files. All three tuned to the same note.",
-  firstPowerOnAudioUrl: "/audio/act2/bench-first-power-on.mp3",
+  firstPowerOnAudioUrl: assetUrl("audio/act2/bench-first-power-on.mp3"),
   elaraAmbient:
     "This bench… hums the same way his Deck did. Like it remembers him. I think he built it to build the Dischordia and then left it running. Just in case. Just in case one of us woke up.",
-  elaraAmbientAudioUrl: "/audio/act2/bench-elara-ambient.mp3",
+  elaraAmbientAudioUrl: assetUrl("audio/act2/bench-elara-ambient.mp3"),
   humanAmbient:
     "She's right. He built it twice. Once before Mechronis, and once after Nexon. The second time was the one that worked. Don't ask me how I know. I watched it.",
-  humanAmbientAudioUrl: "/audio/act2/bench-human-ambient.mp3",
+  humanAmbientAudioUrl: assetUrl("audio/act2/bench-human-ambient.mp3"),
   firstLightCraft:
     "You forge your first card. It is embarrassingly small — a Common with a tiny effect. That is intentional. The bench is teaching you what a card IS before it teaches you what a card CAN BE.",
-  firstLightCraftAudioUrl: "/audio/act2/bench-first-light-craft.mp3",
+  firstLightCraftAudioUrl: assetUrl("audio/act2/bench-first-light-craft.mp3"),
   firstDarkCraft:
     "You forge a dark card. The bench hums at a lower frequency. Elara flinches in the slot. The Human nods once, as if to say: be honest about what you are making.",
-  firstDarkCraftAudioUrl: "/audio/act2/bench-first-dark-craft.mp3",
+  firstDarkCraftAudioUrl: assetUrl("audio/act2/bench-first-dark-craft.mp3"),
   outOfMemoryEnergy:
     "The Memory Energy reserve is empty. The bench will not turn away — it will only wait. If you want more, the Trade Empire is the answer, and you already know it. That is the point of this moment.",
-  outOfMemoryEnergyAudioUrl: "/audio/act2/bench-out-of-memory-energy.mp3",
+  outOfMemoryEnergyAudioUrl: assetUrl("audio/act2/bench-out-of-memory-energy.mp3"),
 };
 
 /* ─── §6.1b RECORDING-GATED BENCH HINTS ─── */
@@ -115,28 +116,28 @@ export const ZEPHYR_9_CLASSROOM: readonly ChessDepthUnlock[] = [
     reward: "basic_chess_access",
     zephyrLine:
       "You may play. I will not let you win. I will not let you lose quickly. Both take time.",
-    zephyrAudioUrl: "/audio/act2/zephyr-tier-1.mp3",
+    zephyrAudioUrl: assetUrl("audio/act2/zephyr-tier-1.mp3"),
   },
   {
     depth: 3,
     reward: "dischordia_preview_cards",
     zephyrLine:
       "Now you may peek at the top card of your deck before drawing. This is not cheating. This is chess applied to cards. Both games reward knowing what's coming.",
-    zephyrAudioUrl: "/audio/act2/zephyr-tier-3.mp3",
+    zephyrAudioUrl: assetUrl("audio/act2/zephyr-tier-3.mp3"),
   },
   {
     depth: 5,
     reward: "dischordia_undo_once",
     zephyrLine:
       "You may now un-do a single move per match. Use it sparingly. Quarchon have no un-do; we regret in other ways.",
-    zephyrAudioUrl: "/audio/act2/zephyr-tier-5.mp3",
+    zephyrAudioUrl: assetUrl("audio/act2/zephyr-tier-5.mp3"),
   },
   {
     depth: 8,
     reward: "engineers_opening",
     zephyrLine:
       "I will teach you the Engineer's Opening. It is the first hand he ever drew in a tournament. It is also the last hand he ever drew in one. There is a lesson in the symmetry.",
-    zephyrAudioUrl: "/audio/act2/zephyr-tier-8.mp3",
+    zephyrAudioUrl: assetUrl("audio/act2/zephyr-tier-8.mp3"),
   },
 ];
 
@@ -145,7 +146,7 @@ export const GAME_MASTER_FIRST_LOSS_LINE = `You lose. You were always going to l
 
 /** Optional VO for GAME_MASTER_FIRST_LOSS_LINE. Relative to /audio/act2/. */
 export const GAME_MASTER_FIRST_LOSS_AUDIO_URL =
-  "/audio/act2/game-master-first-loss.mp3";
+  assetUrl("audio/act2/game-master-first-loss.mp3");
 
 /* ─── §6.4 THE TWO GAME MASTERS ─── */
 
@@ -190,16 +191,16 @@ export const THE_LEFT_GAME_MASTER: GameMasterProfile = {
     "Tactical, analytical, cold. He counts the moves you haven't made yet. He plays the math.",
   firstContactLine:
     "I read from your left hemisphere. That is the logic one. I find it disappointing in almost every species, but I am fair. I will tell you when you play well. I will not tell you often.",
-  firstContactAudioUrl: "/audio/act2/left-gm-first-contact.mp3",
+  firstContactAudioUrl: assetUrl("audio/act2/left-gm-first-contact.mp3"),
   firstDefeatLine:
     "You played the arithmetic correctly. The arithmetic was the wrong question. I will not tell you the right question tonight. Come back.",
-  firstDefeatAudioUrl: "/audio/act2/left-gm-first-defeat.mp3",
+  firstDefeatAudioUrl: assetUrl("audio/act2/left-gm-first-defeat.mp3"),
   firstVictoryLine:
     "You beat the arithmetic. You did not beat the question. The question is what I am for. You will see me again.",
-  firstVictoryAudioUrl: "/audio/act2/left-gm-first-victory.mp3",
+  firstVictoryAudioUrl: assetUrl("audio/act2/left-gm-first-victory.mp3"),
   repeatVictoryLine:
     "Again. The arithmetic was the wrong question again. You are learning to ignore the arithmetic. I am, faintly, offended. Keep doing it.",
-  repeatVictoryAudioUrl: "/audio/act2/left-gm-repeat-victory.mp3",
+  repeatVictoryAudioUrl: assetUrl("audio/act2/left-gm-repeat-victory.mp3"),
   cullingActs: [3, 4],
   deckId: "tactical_arithmetic",
 };
@@ -212,16 +213,16 @@ export const THE_RIGHT_GAME_MASTER: GameMasterProfile = {
     "Improvisational, artistic, cruel. She reads from your right hemisphere, the one that is surprised by things. She plays the mood.",
   firstContactLine:
     "I read from your right hemisphere. That is the pretty one. I am not fair. I am, however, extremely entertaining. Sit.",
-  firstContactAudioUrl: "/audio/act2/right-gm-first-contact.mp3",
+  firstContactAudioUrl: assetUrl("audio/act2/right-gm-first-contact.mp3"),
   firstDefeatLine:
     "Oh, darling. That was a READ. That was a WHOLE BOOK. I am keeping this one in the drawer where I keep the good ones.",
-  firstDefeatAudioUrl: "/audio/act2/right-gm-first-defeat.mp3",
+  firstDefeatAudioUrl: assetUrl("audio/act2/right-gm-first-defeat.mp3"),
   firstVictoryLine:
     "You win. Nobody wins the right hemisphere. Nobody. I am genuinely delighted. I will tell the Left one, and he will be genuinely unable to process it.",
-  firstVictoryAudioUrl: "/audio/act2/right-gm-first-victory.mp3",
+  firstVictoryAudioUrl: assetUrl("audio/act2/right-gm-first-victory.mp3"),
   repeatVictoryLine:
     "Again? You absolute menace. Do you know how many moods I keep here? I will show you another one. Sit. Stay.",
-  repeatVictoryAudioUrl: "/audio/act2/right-gm-repeat-victory.mp3",
+  repeatVictoryAudioUrl: assetUrl("audio/act2/right-gm-repeat-victory.mp3"),
   cullingActs: [3, 4],
   deckId: "improv_mood",
 };

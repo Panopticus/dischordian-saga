@@ -16,6 +16,7 @@ import { useGamification } from "@/contexts/GamificationContext";
 import LivingBackground from "@/components/LivingBackground";
 import { WitnessingWallPanel } from "@/components/WitnessingWallPanel";
 
+import { assetUrl } from "@/lib/assetUrl";
 // Trophy room themes
 const ROOM_THEMES = [
   {
@@ -119,7 +120,7 @@ export default function TrophyRoomPage() {
 
   return (
     <div className={`min-h-screen ${activeTheme.bg} transition-colors duration-700 relative overflow-hidden`}>
-      <LivingBackground src="/art/rooms/room-trophy-room.png" accent="var(--energy-accent)" opacity={0.15} particleCount={6} scanlines={false} />
+      <LivingBackground src={assetUrl("art/rooms/room-trophy-room.png")} accent="var(--energy-accent)" opacity={0.15} particleCount={6} scanlines={false} />
       <div className="relative z-10">
       {/* Header */}
       <div className="border-b border-border/20 bg-muted/50 backdrop-blur-sm">

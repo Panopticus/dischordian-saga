@@ -17,6 +17,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_005" as CardDefinition["id"],
   name: "Grand Design",
@@ -54,7 +55,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_005.webp",
+  art: assetUrl("art/cards/s1_pack_005.webp"),
   flavorText:
     "The blueprint was always there. You simply lacked the clearance to see it.",
   rulesVersion: "1.0.0",

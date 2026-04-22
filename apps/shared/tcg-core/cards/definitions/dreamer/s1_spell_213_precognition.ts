@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_spell_213" as CardDefinition["id"],
   name: "Precognition",
@@ -40,7 +41,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_spell_213.webp",
+  art: assetUrl("art/cards/s1_spell_213.webp"),
   flavorText:
     "She saw the blade three seconds before it fell. Three seconds was enough.",
   rulesVersion: "1.0.0",

@@ -12,6 +12,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_009" as CardDefinition["id"],
   name: "General Prometheus",
@@ -68,7 +69,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_009.webp",
+  art: assetUrl("art/cards/s1_char_009.webp"),
   flavorText:
     "He stole fire once — now he steals the moment between heartbeats, striking where no eye can follow.",
   rulesVersion: "1.0.0",

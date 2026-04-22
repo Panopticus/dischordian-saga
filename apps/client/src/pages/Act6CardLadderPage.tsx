@@ -45,6 +45,7 @@ import {
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import LivingBackground from "@/components/LivingBackground";
 
+import { assetUrl } from "@/lib/assetUrl";
 type LadderView = "ladder" | "matchup" | "battle" | "postmatch";
 
 function resolveOpponentFaction(o: ActNOpponent): string {
@@ -144,7 +145,7 @@ export default function Act6CardLadderPage() {
   return (
     <div className="relative min-h-screen bg-stone-950 text-stone-100">
       <LivingBackground
-        src="/art/rooms/room-archives.png"
+        src={assetUrl("art/rooms/room-archives.png")}
         accent="rgba(245, 158, 11, 0.4)"
         opacity={0.08}
         particleCount={3}

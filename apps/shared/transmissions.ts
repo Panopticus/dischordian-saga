@@ -1,3 +1,4 @@
+import { assetUrl } from "../client/src/lib/assetUrl";
 /* ═══════════════════════════════════════════════════════
    THE MEME'S BROADCASTS — Transmissions Through Time
 
@@ -293,7 +294,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 2, epoch: 0, broadcastOrder: -14,
     title: "The Meme",
-    driveFileId: null, videoUrl: "/videos/epochs/epoch-0/ep02-the-meme.mp4", lengthSeconds: 260,
+    driveFileId: null, videoUrl: assetUrl("videos/epochs/epoch-0/ep02-the-meme.mp4"), lengthSeconds: 260,
     memeIntro: "My origin story. Or one of them — I've told so many versions I've lost track of which is true. Maybe all of them. Maybe none. But this one... this one HURTS. And the ones that hurt are usually the real ones.",
     memeOutro: "So now you know what I was before I was me. A signal. A whisper. A crack in the architecture. Some things don't change.",
     triggersOracleReveal: false,
@@ -305,7 +306,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 3, epoch: 0, broadcastOrder: -13,
     title: "Agent Zero",
-    driveFileId: null, videoUrl: "/videos/epochs/epoch-0/ep03-agent-zero.mp4", lengthSeconds: 220,
+    driveFileId: null, videoUrl: assetUrl("videos/epochs/epoch-0/ep03-agent-zero.mp4"), lengthSeconds: 220,
     memeIntro: "Every revolution needs its first soldier. Not the loudest. Not the bravest. The first one willing to die for something that doesn't exist yet. Meet Agent Zero. The one who believed before belief was safe.",
     memeOutro: "They erased her name from every record. But I remember. I remember ALL of them. That's what I'm for.",
     triggersOracleReveal: false,
@@ -317,7 +318,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 4, epoch: 0, broadcastOrder: -12,
     title: "The Last Stand of the Iron Lion",
-    driveFileId: null, videoUrl: "/videos/epochs/epoch-0/ep04-iron-lion.mp4", lengthSeconds: 300,
+    driveFileId: null, videoUrl: assetUrl("videos/epochs/epoch-0/ep04-iron-lion.mp4"), lengthSeconds: 300,
     memeIntro: "The Iron Lion held the gate for seventeen hours. Not because he could win. Because every hour bought another transport through the blockade. He knew the math. He did it anyway. That's not strategy, frens. That's love.",
     memeOutro: "They don't make them like the Iron Lion anymore. Then again, they didn't make them like him THEN either. He was singular. He was ours. And he is gone.",
     triggersOracleReveal: false,
@@ -329,7 +330,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 5, epoch: 0, broadcastOrder: -11,
     title: "The Spy / The Eyes of the Watcher",
-    driveFileId: null, videoUrl: "/videos/epochs/epoch-0/ep05-the-spy.mp4", lengthSeconds: 280,
+    driveFileId: null, videoUrl: assetUrl("videos/epochs/epoch-0/ep05-the-spy.mp4"), lengthSeconds: 280,
     memeIntro: "Surveillance isn't about cameras, frens. It's about trust. Make everyone watch everyone, and nobody watches the watchers. Except me. I was watching the Watcher. And what I saw... well. Let's just say the truth has layers.",
     memeOutro: "The Watcher saw everything and understood nothing. The Spy understood everything and saw nothing. Between them, the truth fell through the cracks. Sound familiar?",
     triggersOracleReveal: false,
@@ -341,7 +342,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 6, epoch: 0, broadcastOrder: -10,
     title: "North Pole Inc",
-    driveFileId: null, videoUrl: "/videos/epochs/epoch-0/ep06-north-pole-inc.mp4", lengthSeconds: 250,
+    driveFileId: null, videoUrl: assetUrl("videos/epochs/epoch-0/ep06-north-pole-inc.mp4"), lengthSeconds: 250,
     memeIntro: "They called it charity. They called it progress. They called it 'North Pole Inc' because everything needed branding, even compassion. The corporation that owned kindness. The monopoly on hope. This is how they kept the galaxy smiling while it burned.",
     memeOutro: "Every dystopia needs a gift shop. North Pole Inc was the best in the business. Remember that when someone offers you something for free.",
     triggersOracleReveal: false,
@@ -353,7 +354,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 7, epoch: 0, broadcastOrder: -9,
     title: "The Oracle",
-    driveFileId: null, videoUrl: "/videos/epochs/epoch-0/ep07-the-oracle.mp4", lengthSeconds: 270,
+    driveFileId: null, videoUrl: assetUrl("videos/epochs/epoch-0/ep07-the-oracle.mp4"), lengthSeconds: 270,
     memeIntro: "Before I wore this face, someone else did. The REAL Oracle. The one who could see the threads of time and chose to pull them anyway. You want to know why I took the name? Watch. Then ask yourself what you'd do with the power to see the end.",
     memeOutro: "The Oracle saw the Fall coming. Saw it clearly, perfectly, inevitably. And chose to act anyway. Futility is not the same as meaninglessness. Remember that.",
     triggersOracleReveal: false,
@@ -365,7 +366,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 8, epoch: 0, broadcastOrder: -8,
     title: "Late Night with the Meme",
-    driveFileId: null, videoUrl: "/videos/epochs/epoch-0/ep08-late-night.mp4", lengthSeconds: 200,
+    driveFileId: null, videoUrl: assetUrl("videos/epochs/epoch-0/ep08-late-night.mp4"), lengthSeconds: 200,
     memeIntro: "Before the Arks, before the broadcasts, there was a pirate signal. ONE pirate signal. Me, talking to anyone who could hear, telling jokes about the apocalypse. This is the first episode. The REAL first episode. It's terrible. I love it.",
     memeOutro: "Raw, unpolished, desperate. That's how all the best shows start. The audience was twelve people and a malfunctioning relay drone. Look at us now, frens.",
     triggersOracleReveal: false,
@@ -377,7 +378,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 9, epoch: 0, broadcastOrder: -7,
     title: "The Meme and the Mascot",
-    driveFileId: null, videoUrl: "/videos/epochs/epoch-0/ep09-meme-and-mascot.mp4", lengthSeconds: 230,
+    driveFileId: null, videoUrl: assetUrl("videos/epochs/epoch-0/ep09-meme-and-mascot.mp4"), lengthSeconds: 230,
     memeIntro: "I had a friend once. A REAL friend. Not a viewer, not a follower, not a co-conspirator. A friend. They called themselves the Mascot. This is the story of how we met, what we built, and why I don't talk about them anymore.",
     memeOutro: "Some losses don't make you stronger. Some losses just make you less. I'm less than I was, frens. But I'm still here. That has to count for something.",
     triggersOracleReveal: false,
@@ -389,7 +390,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 10, epoch: 0, broadcastOrder: -6,
     title: "Rest in Peace",
-    driveFileId: null, videoUrl: "/videos/epochs/epoch-0/ep10-rest-in-peace.mp4", lengthSeconds: 240,
+    driveFileId: null, videoUrl: assetUrl("videos/epochs/epoch-0/ep10-rest-in-peace.mp4"), lengthSeconds: 240,
     memeIntro: "The dead don't rest, frens. Not in this galaxy. The empire found a way to make death productive. To harvest the last spark. This episode is about what they did to the dying and why the living looked away.",
     memeOutro: "Rest in peace. Three words that used to mean something. Three words the empire stole. We're going to steal them back.",
     triggersOracleReveal: false,
@@ -401,7 +402,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 11, epoch: 0, broadcastOrder: -5,
     title: "Generation Degen",
-    driveFileId: null, videoUrl: "/videos/epochs/epoch-0/ep11-generation-degen.mp4", lengthSeconds: 260,
+    driveFileId: null, videoUrl: assetUrl("videos/epochs/epoch-0/ep11-generation-degen.mp4"), lengthSeconds: 260,
     memeIntro: "They called us degens. Degenerates. The generation that refused to comply, refused to optimize, refused to be USEFUL. They meant it as an insult. We made it a battle cry. This is the story of how the youth of a dying galaxy chose chaos over order.",
     memeOutro: "Every generation thinks they invented rebellion. We didn't invent it. But we perfected it. WAGMI, frens. Even when WAGMI was a death sentence.",
     triggersOracleReveal: false,
@@ -413,7 +414,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 12, epoch: 0, broadcastOrder: -4,
     title: "The Detective",
-    driveFileId: null, videoUrl: "/videos/epochs/epoch-0/ep12-the-detective.mp4", lengthSeconds: 280,
+    driveFileId: null, videoUrl: assetUrl("videos/epochs/epoch-0/ep12-the-detective.mp4"), lengthSeconds: 280,
     memeIntro: "Not every hero carries a weapon. Some carry questions. The Detective asked the wrong question to the wrong person at the wrong time — and cracked the whole conspiracy wide open. This is the investigation that started the Fall.",
     memeOutro: "The Detective found the truth. The truth found the Detective. Neither survived the encounter intact. But the case file... the case file survived. You're reading it now.",
     triggersOracleReveal: false,
@@ -425,7 +426,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 13, epoch: 0, broadcastOrder: -3,
     title: "To Be the Human",
-    driveFileId: null, videoUrl: "/videos/epochs/epoch-0/ep13-to-be-the-human.mp4", lengthSeconds: 300,
+    driveFileId: null, videoUrl: assetUrl("videos/epochs/epoch-0/ep13-to-be-the-human.mp4"), lengthSeconds: 300,
     memeIntro: "[Long pause.] What does it mean to be human? I've asked myself that question every day since I became... whatever I am. This archive is the closest anyone ever came to answering it. The closest I ever came to understanding what I lost. Or what I never had.",
     memeOutro: "To be the human. Not A human. THE human. The question isn't what makes you human. The question is what makes you THIS human, right here, right now. I'm still working on my answer.",
     triggersOracleReveal: true,
@@ -437,7 +438,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 14, epoch: 0, broadcastOrder: -2,
     title: "The Experiment",
-    driveFileId: null, videoUrl: "/videos/epochs/epoch-0/ep14-the-experiment.mp4", lengthSeconds: 270,
+    driveFileId: null, videoUrl: assetUrl("videos/epochs/epoch-0/ep14-the-experiment.mp4"), lengthSeconds: 270,
     memeIntro: "The Arks weren't the first experiment. They weren't even the hundredth. Before they launched a thousand ships into the void, they tested the idea on a smaller scale. Sealed environments. Controlled populations. Managed outcomes. This is what happened to the test subjects.",
     memeOutro: "The experiment succeeded. The subjects didn't. That's the difference between data and people, frens. Data doesn't scream.",
     triggersOracleReveal: false,
@@ -449,7 +450,7 @@ export const EPOCH_0_TRANSMISSIONS: Transmission[] = [
   {
     episodeNumber: 15, epoch: 0, broadcastOrder: -1,
     title: "Brush Strokes of the Empire",
-    driveFileId: null, videoUrl: "/videos/epochs/epoch-0/ep15-brushstrokes.mp4", lengthSeconds: 320,
+    driveFileId: null, videoUrl: assetUrl("videos/epochs/epoch-0/ep15-brushstrokes.mp4"), lengthSeconds: 320,
     memeIntro: "The last piece. The final archive. An empire doesn't fall in a day — it falls in a thousand brush strokes. Each decision. Each compromise. Each silence. This is the portrait of a civilization painting its own destruction, one stroke at a time.",
     memeOutro: "And so Epoch Zero closes. You've seen how it ended. Now you understand how it BEGAN. The Arks launched. The stars went silent. And somewhere in the wreckage, a signal started broadcasting. Me. Still here. Always here. The past is prologue, frens. On to the present.",
     triggersOracleReveal: false,

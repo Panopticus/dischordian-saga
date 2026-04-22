@@ -8,6 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_073" as CardDefinition["id"],
   name: "Cognitive Blight",
@@ -38,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_073.webp",
+  art: assetUrl("art/cards/s1_char_073.webp"),
   flavorText:
     "It rewrites your beliefs one synapse at a time, until loyalty feels like a foreign language.",
   rulesVersion: "1.0.0",

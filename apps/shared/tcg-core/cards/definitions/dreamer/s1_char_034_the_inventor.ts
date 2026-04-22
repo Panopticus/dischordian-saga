@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_034" as CardDefinition["id"],
   name: "The Inventor",
@@ -90,7 +91,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_034.webp",
+  art: assetUrl("art/cards/s1_char_034.webp"),
   flavorText:
     "Driven by the Dreamer's visions, the Inventor crafts tools and innovations that can empower or undermine any faction, de...",
   rulesVersion: "1.0.0",

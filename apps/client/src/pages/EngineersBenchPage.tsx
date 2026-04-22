@@ -62,6 +62,7 @@ import {
 import MemoryEnergyBadge from "@/components/MemoryEnergyBadge";
 import LivingBackground from "@/components/LivingBackground";
 
+import { assetUrl } from "@/lib/assetUrl";
 type Modal =
   | { kind: "none" }
   | { kind: "firstPowerOn" }
@@ -312,7 +313,7 @@ export default function EngineersBenchPage() {
   return (
     <div className="relative min-h-screen bg-stone-950 text-stone-100">
       <LivingBackground
-        src="/art/rooms/room-engineers-bench.png"
+        src={assetUrl("art/rooms/room-engineers-bench.png")}
         accent={benchAccent}
         opacity={0.12}
         particleCount={4}

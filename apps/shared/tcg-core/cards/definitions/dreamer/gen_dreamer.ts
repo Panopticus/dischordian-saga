@@ -19,6 +19,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "gen_dreamer" as CardDefinition["id"],
   name: "The Oracle",
@@ -39,7 +40,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/gen_dreamer.webp",
+  art: assetUrl("art/cards/gen_dreamer.webp"),
   flavorText:
     "Before every fight you muttered: 'I've already seen this.' You don't remember saying it.",
   rulesVersion: "1.0.0",

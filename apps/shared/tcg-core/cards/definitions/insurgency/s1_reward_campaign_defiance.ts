@@ -21,6 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_campaign_defiance" as CardDefinition["id"],
   name: "Rebel's Conviction",
@@ -42,7 +43,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_reward_campaign_defiance.webp",
+  art: assetUrl("art/cards/s1_reward_campaign_defiance.webp"),
   flavorText:
     "They told her to wait for orders. She told them the Architect doesn't wait, so neither will she.",
   rulesVersion: "1.0.0",

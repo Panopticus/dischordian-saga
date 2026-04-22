@@ -24,6 +24,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_047" as CardDefinition["id"],
   name: "The Shadow Tongue",
@@ -78,7 +79,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_char_047.webp",
+  art: assetUrl("art/cards/s1_char_047.webp"),
   flavorText:
     "In Year 16,200 A.A., it escaped the infernal dominion of the Empire of Shadows\u2014one of the few horrors to slip its leash ...",
   rulesVersion: "1.0.0",

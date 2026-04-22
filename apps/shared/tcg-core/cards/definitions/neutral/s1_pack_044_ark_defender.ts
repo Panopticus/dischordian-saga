@@ -17,6 +17,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
+import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_044" as CardDefinition["id"],
   name: "Ark Defender",
@@ -38,7 +39,7 @@ export const cardDef: CardDefinition = {
       },
     },
   ],
-  art: "/art/cards/s1_pack_044.webp",
+  art: assetUrl("art/cards/s1_pack_044.webp"),
   flavorText:
     "The Ark's defenders were built without faction markings. They defend the ship, not the ideology.",
   rulesVersion: "1.0.0",

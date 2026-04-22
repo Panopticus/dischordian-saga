@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/assetUrl";
 /* ═══════════════════════════════════════════════════════
    ACT 1 CYCLE C WITNESSING — Full Last Words timeline
 
@@ -15,7 +16,7 @@ export const LAST_WORDS_FULL_DURATION_S = 246; // 4m06s
 
 /** Path to the full Last Words MP3 (not the Prelude tease). */
 export const LAST_WORDS_FULL_SONG_URL =
-  "/audio/music/song_last_words_prelude_full.mp3";
+  assetUrl("audio/music/song_last_words_prelude_full.mp3");
 
 export type WitnessingPhase =
   | "verse_one"
@@ -67,7 +68,7 @@ export const FULL_WITNESSING_SLIDES: readonly WitnessingSlide[] = [
 
 /** Image URL for a specific slide. */
 export function witnessingSlideImageUrl(slide: number): string {
-  return `/art/act1/last-words/slide-${slide}.webp`;
+  return assetUrl(`art/act1/last-words/slide-${slide}.webp`);
 }
 
 /** Return the slide that should be visible at the given time. */
