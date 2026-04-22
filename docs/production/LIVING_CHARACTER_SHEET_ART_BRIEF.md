@@ -706,3 +706,82 @@ None required as a texture. Runtime behavior: the `readingFocus: 0..1` uniform d
 ```
 
 ---
+
+### 2E — SHADOW TONGUE (CORPORATE-ADAPTED)
+
+Canon anchors (lore-locked from `apps/shared/characterVisualDNA.ts:147-164`):
+
+- Species: anomaly (NOT human — the suit is a performance)
+- Skin tone #221a2a (near-black undertone)
+- Hair resembles shadow fabric rather than hair — in corporate form, a slicked-back executive cut whose strands subtly flow like smoke when no one's looking directly
+- Violet slit-pupil eyes, slightly too large (the one thing the suit cannot disguise)
+- Mouth opens too wide when speaking — second row of teeth visible on revelatory lines only
+- Face rearranges subtly across frames — never exactly the same twice
+- Palette: #08020a near-black, #7a3fb8 deep violet, #c084fc bloom violet
+- NEVER DEPICT: consistent face across two panels, stillness, warm expression
+
+Corporate translation (charcoal-violet pinstripe suit, corporate floor backdrop, fingertip corrupted-text streams instead of bloody claws) authored earlier in planning. Reference: `apps/client/public/references/npcs/shadow_tongue/REFERENCE.md`.
+
+**Critical rigging note:** Shadow Tongue DOES NOT BREATHE. His chest is static in Bundle B. His only idle motion is blink (off-rhythm) and fingertip text drift (Bundle F overlay). This is what sells him as anomaly-in-a-suit — everyone else in the game breathes; he doesn't.
+
+#### 2E.1 — Bundle A: Neutral bust
+
+> Three-quarter bust portrait of a tall androgynous executive-presenting figure, skin tone near-black with a deep violet undertone (#221a2a). Hair slicked-back executive cut, deep black (#0a0609) — individual strands faintly flow like thin smoke at the ends when observed peripherally (render as the still canonical pose, knowing runtime will add subtle animation). Violet slit-pupil eyes (iris #7a3fb8 with #c084fc bloom around the slit-pupil), set slightly too large for the face — uncanny but subtle. Eye contact direct and unbreaking. Wearing an immaculately tailored three-piece charcoal-to-deep-violet pinstripe executive suit: the pinstripes subtly shift in tone from near-black base to deep violet accent lines (~3mm spacing), the fabric catches light with a silk-to-oil sheen transition. White dress shirt, high collar, fully buttoned. Deep violet silk tie (#6d3ba8) with a barely-legible CRT-scanline pattern woven into the silk at close inspection. Gold signet ring visible on the right pinky (the editor's pen mark). Corporate lanyard at the lapel with an ID badge reading "EDITOR" in clean Helvetica (this text IS rendered but should shimmer-flicker at runtime — for the still, render it crisp and legible as "EDITOR"). Hands resting symmetrically at chest level — fingertips pointed loosely toward camera, with a barely-visible faint violet mist trailing from the tips (this is the canon idle state of the text streams — Bundle F handles the full-intensity version). Backdrop: heavily defocused executive corner office at night — floor-to-ceiling glass, neon city grid reflecting in the glass creating rectilinear violet light patterns, a dark desk with an open bound volume (the Loredex) visible in the deep background, a floating violet cursor hovering over a name mid-edit. Recessed overhead lighting casts a sharp vertical shadow behind him that does NOT quite match where his body should cast it. Mouth closed, lips set in an almost-correct neutral — slightly too wide by 4% to feel wrong on close inspection. Film grain. 4K. No rendered text except the "EDITOR" lanyard.
+
+#### 2E.2 — Bundle B: Breathing loop (8 frames)
+
+> 8-frame static loop. **NO CHEST MOTION. NO SHOULDER MOTION. NO BREATHING.** The ONLY per-frame variation is a micro-geometric rearrangement of the face: frame 1 baseline, frame 2 cheekbone up 0.4px, frame 3 nose length +0.3px, frame 4 eye spacing +0.5px, frame 5 jaw width −0.3px, frame 6 back to near-baseline with chin offset, frame 7 upper-lip curve shifted 0.6px, frame 8 returns to frame 1 baseline. Each shift is SUBLIMINAL — audience shouldn't consciously notice, but the face feels wrong over time. Deliver as 8 PNGs; runtime cycles at 4.8s (slower than a breathing loop — he moves on anomaly-time).
+
+#### 2E.3 — Bundle C: Blink triptych + bonus frame
+
+> Standard 3 frames (open / half / closed) PLUS a 4th "NICTITATING" frame: eyes show a horizontal sideways eyelid sweep instead of vertical — a nictitating membrane flickering from the outer corner inward, eyes partially occluded by a faint translucent violet film. Runtime behavior: every ~6-7 normal blinks, one blink is the nictitating frame instead. Subliminal — audience notices without knowing why. 4 PNGs total.
+
+#### 2E.4 — Bundle D: Viseme grid + hyperextension variants
+
+> 30-panel viseme reference sheet (15 standard + 15 hyperextended duplicates). Standard 15 panels match Part 1A.2 phoneme spec at conservative openness — his "passing" visemes. The HYPEREXTENDED 15 panels push the O, U, AA, AE, AW visemes beyond human limits: jaw dropped further than anatomy allows, mouth corners retracted wider than cheek geometry should permit, a SECOND ROW OF TEETH visible in the back of the mouth cavity (small, sharp, inward-curving, humanoid-adjacent but clearly wrong) on the deepest vowels only. Consonant visemes (B_M_P, F_V, D_S_T) do NOT have hyperextended variants — his consonants always read human. Runtime opts into hyperextended viseme on a per-line basis via `hyperextendOnVowels: boolean` in the VO manifest. 4K. No rendered text.
+
+#### 2E.5 — Bundle E: Expressions (5 variants)
+
+> 5 panels:
+> 1. SPEAKING — mouth mid-AH at standard (not hyperextended) openness, violet eyes lock.
+> 2. CONCERNED — a deeply wrong expression: mouth corners lift as if smiling, but eyes narrow as if suspicious. The combination reads as "I am performing concern for you and we both know it."
+> 3. EMOTIONAL1 (amused) — a thin practiced smile that engages the mouth only, eyes unchanged direct. The smile does not reach the face.
+> 4. EMOTIONAL2 (caught) — one frame of the illusion cracking: face asymmetry spikes to 8% (beyond subliminal — the viewer sees something is WRONG), a single stray strand of smoke-hair visibly detaches from the slicked-back cut and drifts upward, the lanyard text briefly reads "HIERARCHY SVP" instead of "EDITOR." This is the anomaly caught mid-edit.
+> 5. REVEALING (second-teeth) — jaw hyperextended fully, mouth open wide enough to show both rows of teeth, violet eye-bloom intensity doubled. Face asymmetry at 10%. This is the lore-locked "I am the universe's editor" frame. Reserved strictly for specific revelatory lines — per-line opt-in via `revealSecondTeeth: boolean` VO manifest field.
+> 4K. No rendered text except the emotional2 lanyard shimmer.
+
+#### 2E.6 — Bundle F: Fingertip text-stream VFX overlay
+
+> **Output:** `apps/client/public/vfx-atlases/shadow_tongue_fingertip_text.png` — 1024×1024, transparent.
+
+> A particle-spawner reference sheet of corrupted text stream emissions, 1024×1024 transparent background. Contents: a scattered collection of ~120 small glowing violet glyph characters (#c084fc emissive) of varying opacity (20%-90%), scaled from 8px to 22px, rotated at random angles. Characters are drawn from a set that mixes: Latin letters, numerical digits, punctuation, and subtle glitch-corruption marks (zero-width combining glyphs, broken unicode artifacts). Each glyph has a faint directional streak behind it (4-12px, semi-transparent, same violet) suggesting motion. No complete readable words. Characters distribute organically, not gridded. Used as source atlas for a GPU particle system that spawns glyphs from the fingertip sockets of Shadow Tongue's hand rig, drifting upward and fading at ~2-3s per particle.
+
+**Runtime:** `fingertipTextIntensity: 0..1` drives particle spawn rate (0.1 idle → 0.8 mid-gesture → 1.0 on revelatory lines). Always on, never fully off — even at rest, faint mist trails.
+
+#### 2E.7 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_shadow_tongue",
+  "shaderProgram": "AnomalyPortrait",
+  "uniforms": {
+    "suitMaterialPhase": 0.3,
+    "facialInconsistency": 0.4,
+    "jawHyperextend": 0.0,
+    "secondRowTeeth": 0.0,
+    "fingertipTextIntensity": 0.1,
+    "eyeVioletEmissive": 0.3,
+    "hairSmokeDrift": 0.15,
+    "lanyardTextShimmer": "random:8s-14s peek for 200ms",
+    "breathingPhase": null
+  },
+  "stateTriggers": {
+    "speaking": "jawHyperextend=0 unless flagged; suitMaterialPhase=0.7; fingertipTextIntensity=0.8",
+    "speakingHyperextend": "jawHyperextend=1.0; facialInconsistency=0.8; suitMaterialPhase=1.0",
+    "revelatory": "secondRowTeeth=1.0; jawHyperextend=1.0; eyeVioletEmissive=0.6",
+    "idle": "no chest motion, nictitating blink every 6-7 regular blinks"
+  }
+}
+```
+
+---
