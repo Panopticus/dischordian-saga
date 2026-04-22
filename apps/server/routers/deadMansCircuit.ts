@@ -913,6 +913,37 @@ export const deadMansCircuitRouter = router({
         }
       }
 
+      // Act 4.5 Casino completion bridge — the canonical "completed
+      // the Degen Casino" event is claiming the_degens_wager side
+      // quest (win 5 casino games during a Circuit season). Raise
+      // `act_4_5_casino_complete` so the Act 4.5 completion gate in
+      // useNarrativeIntegration.ts fires. Written on claim (not on
+      // progress.completed) so the player's explicit take-the-reward
+      // action is what rolls the Degen's Pact forward.
+      if (input.questKey === "the_degens_wager") {
+        const [progressRow] = await db.select().from(userProgress)
+          .where(eq(userProgress.userId, ctx.user.id))
+          .limit(1);
+        const prevGameData = (progressRow?.gameData as Record<string, unknown> | null) ?? {};
+        const prevFlags = (typeof prevGameData.narrativeFlags === "object" && prevGameData.narrativeFlags !== null
+          ? prevGameData.narrativeFlags
+          : {}) as Record<string, boolean>;
+        if (!prevFlags.act_4_5_casino_complete) {
+          const newFlags = { ...prevFlags, act_4_5_casino_complete: true };
+          const newGameData = { ...prevGameData, narrativeFlags: newFlags };
+          if (progressRow) {
+            await db.update(userProgress)
+              .set({ gameData: newGameData })
+              .where(eq(userProgress.userId, ctx.user.id));
+          } else {
+            await db.insert(userProgress).values({
+              userId: ctx.user.id,
+              gameData: newGameData,
+            });
+          }
+        }
+      }
+
       return {
         success: true,
         questKey: input.questKey,
@@ -1050,6 +1081,12 @@ export const deadMansCircuitRouter = router({
           ...prevFlags,
           dead_mans_circuit_complete: true,
           player_identity_chain_authored: true,
+          // Act 4.5 completion gate reads the canonical
+          // `act_4_5_circuit_complete` name from
+          // apps/shared/actsFourFiveShells.ts DEAD_MANS_CIRCUIT_TRACKS.
+          // Write both names so the existing WITNESSING §10.1 flag
+          // stays for backwards compat AND the new gate fires.
+          act_4_5_circuit_complete: true,
         };
         const newGameData = { ...prevGameData, narrativeFlags: newFlags };
         if (progressRow) {
