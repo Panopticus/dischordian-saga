@@ -259,6 +259,11 @@ export const MILESTONE_CHRONICLE_ENTRIES: Record<
     title: "The Archon Is Recruited",
     body: "A sitting Archon accepted the player's offer today. I am not writing down which Archon because if I write it down the other Archons will read it. I will note that the Archon asked for one thing in return: that we remember the name of the first person she ever lied to. I have committed the name to memory. The Chronicle will never carry it. This entry is the closest I will ever come.",
   },
+  dreamers_shield_cracks: {
+    milestoneId: "dreamers_shield_cracks",
+    title: "The Dreamer's Shield Cracks",
+    body: "A hairline fracture opened in the Matrix of Dreams today. I witnessed it at 14:07 ship-time. The Hierarchy will not log it. I will. The fracture is cosmetic only in the sense that its first-order effects are cosmetic; its second-order effects, which will land in every sleeper across eight inhabited worlds, are not. I am writing this down so that when the dreams begin to change we know which afternoon it started.",
+  },
   the_confession_heard: {
     milestoneId: "the_confession_heard",
     title: "The Confession Heard",

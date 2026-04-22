@@ -80,8 +80,8 @@ export default function EngineersBenchPage() {
   } = useGame();
 
   const flags = state.narrativeFlags ?? {};
-  const memoryEnergy = state.memoryEnergy ?? 0;
-  const cap = getMemoryEnergyCap();
+  const localMemoryEnergy = state.memoryEnergy ?? 0;
+  const localCap = getMemoryEnergyCap();
   const chessDepth = state.chessDepth ?? 0;
 
   const tierNow = currentClassroomTier({ chessDepth, flags });
@@ -120,7 +120,21 @@ export default function EngineersBenchPage() {
   const dreamQuery = trpc.crafting.getDreamBalance.useQuery(undefined, {
     enabled: isAuthenticated,
   });
+  // Memory Energy — server-authoritative when signed in. Falls back to
+  // the local GameContext field for offline / pre-login play.
+  const memoryEnergyQuery = trpc.memoryEnergy.getBalance.useQuery(undefined, {
+    enabled: isAuthenticated,
+    staleTime: 10_000,
+  });
+  const memoryEnergyEarn = trpc.memoryEnergy.earn.useMutation();
+  const memoryEnergySpend = trpc.memoryEnergy.spend.useMutation();
   const utils = trpc.useUtils();
+
+  // Server-authoritative balance when signed in; client fallback otherwise.
+  // The server echoes the derived cap back so we don't need to compute it
+  // twice. Both paths end at the same shape: memoryEnergy + cap numbers.
+  const memoryEnergy = memoryEnergyQuery.data?.memoryEnergy ?? localMemoryEnergy;
+  const cap = memoryEnergyQuery.data?.cap ?? localCap;
 
   const skillLevels = useMemo<Record<CraftingSkillId, number>>(() => {
     const p = profileQuery.data;
@@ -195,9 +209,16 @@ export default function EngineersBenchPage() {
 
     setIsCrafting(true);
 
-    // Deduct Memory Energy immediately + record the craft in the
-    // client-side bag so `crafting_mastered` can fire against
-    // state.craftedItems.length.
+    // Memory Energy deduction:
+    //   - Signed in → server is authoritative via trpc.memoryEnergy.spend.
+    //     Local state is left untouched; the next getBalance query will
+    //     reconcile the UI. This prevents double-deducting.
+    //   - Offline → local craftItem deducts; the server reconciles on
+    //     next sign-in via initial getBalance seed.
+    // The client-side bag push for craftedItems is needed in BOTH paths
+    // because `crafting_mastered` (Act 2 gate) watches
+    // state.craftedItems.length regardless of auth state.
+    const spendCost = isAuthenticated ? 0 : cost;
     craftItem(
       selectedRecipe.id,
       selectedRecipe.materials,
@@ -206,8 +227,16 @@ export default function EngineersBenchPage() {
       selectedRecipe.xpGain,
       selectedRecipe.outputItemId,
       selectedRecipe.outputQuantity,
-      cost,
+      spendCost,
     );
+    if (isAuthenticated && cost > 0) {
+      memoryEnergySpend.mutate(
+        { amount: cost },
+        {
+          onSuccess: () => utils.memoryEnergy.getBalance.invalidate(),
+        },
+      );
+    }
 
     // First-light / first-dark framing hooks.
     if (selectedRecipe.alignment === "light" && !flags.first_light_craft_seen) {

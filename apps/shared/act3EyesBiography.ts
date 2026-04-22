@@ -166,6 +166,7 @@ export const INFILTRATION_PATHS: Record<FactionInfiltrationPath, InfiltrationPat
     commitFlag: "act3_hierarchy_committed",
     endingFlag: "act3_hierarchy_ending",
     milestoneFlag: "hierarchy_infiltration_complete",
+    livingUniverseEvent: "event_dreamers_shield_cracks",
   },
 };
 

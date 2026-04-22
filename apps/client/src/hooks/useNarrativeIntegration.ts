@@ -31,6 +31,7 @@ import {
   climbTierCompanionTrigger,
 } from "@shared/act2ClimbBridge";
 import { deriveAct2CompletionStatus } from "@shared/act2CompletionGate";
+import { deriveAct3CompletionStatus } from "@shared/act3CompletionGate";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import {
   PRELUDE_HANDOFF_TARGET_ACT,
@@ -703,10 +704,14 @@ export function useNarrativeIntegration() {
     if (state.narrativeFlags?.empire_archon_offer_accepted) {
       fireMilestone("the_archon_recruited");
     }
+    if (state.narrativeFlags?.hierarchy_infiltration_complete) {
+      fireMilestone("dreamers_shield_cracks");
+    }
   }, [
     state.narrativeFlags?.thaloria_cinematic_seen,
     state.narrativeFlags?.insurgency_infiltration_complete,
     state.narrativeFlags?.empire_archon_offer_accepted,
+    state.narrativeFlags?.hierarchy_infiltration_complete,
     fireMilestone,
   ]);
 
@@ -1093,6 +1098,28 @@ export function useNarrativeIntegration() {
       !state.narrativeFlags?.slideshow_i_am_the_eyes_that_watch_complete
     ) {
       setNarrativeFlag("act_3_starting", true);
+    }
+
+    // Witnessing §7 — Act 3 wrap. Fires act_3_complete + advances
+    // narrativeAct into 4 when the three §7 conditions are met:
+    //   - slideshow_i_am_the_eyes_that_watch_complete
+    //   - act3_kael_logs_unlocked (card ladder Warden defeated)
+    //   - ANY of the three infiltration-path ending flags
+    // See apps/shared/act3CompletionGate.ts for the pure evaluator.
+    const act3Gate = deriveAct3CompletionStatus({
+      narrativeAct: state.narrativeAct,
+      flags: state.narrativeFlags,
+    });
+    if (act3Gate.readyToFire) {
+      setNarrativeFlag("act_3_complete", true);
+      setNarrativeFlag("act_4_started", true);
+      if ((state.narrativeAct ?? 0) < 4) {
+        advanceNarrativeAct(4);
+      }
+      toast.info("Act 3 — The Offer", {
+        description:
+          "The paths converge. What waits in the Prisoner's cell has heard every choice you made.",
+      });
     }
 
     // Check terminus
