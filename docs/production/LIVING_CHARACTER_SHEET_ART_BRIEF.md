@@ -1844,3 +1844,87 @@ Reference source: `apps/client/public/references/npcs/watcher/front_monastic.png
 ```
 
 ---
+
+### 2V/2W — THE ENGINEER / THE PRINCE (SINGLE CHARACTER, TWO-PHASE RIG)
+
+> **CANONICAL NOTE (2026-04-22):** User confirmed these are ONE CHARACTER, NOT TWO. "The Prince IS the Engineer. He was the Prince of Celebration before assuming the title of Engineer." Implement as a two-phase rig blended via `princeToEngineerProgress: 0..1` uniform (same structural pattern as Kael's 3-phase rig and the Programmer → Antiquarian blend).
+
+- **Phase 1 (progress=0.0) — THE PRINCE OF CELEBRATION.** The character's earlier identity. Ceremonial royal-of-Celebration attire. Canon not yet uploaded — reference `docs/art-originals/celebration/mascoteers/mascoteer_prince_original.png` exists in the repo as a candidate source, subject to user confirmation.
+- **Phase 2 (progress=1.0) — THE ENGINEER (Memoir form).** Default render for present-day. Canon locked from the 2026-04-22 upload: Black man, short dreadlocks, dark beard, RED STEAMPUNK GOGGLES over the eyes (red lens emissive — eyes concealed behind them when down, goggles lift to forehead for "listening" mode), RED MILITARY-CUT WOOL COAT with brass buttons, white shirt beneath, utility belt stacked with brass gauges and chronometers, heroic upward tilt pose. Starfield + burning cityscape backdrop canon.
+
+Reference: `apps/client/public/references/npcs/engineer_prince/phase1_prince.png` (Prince — TBD) + `apps/client/public/references/npcs/engineer_prince/phase2_engineer.png` (Engineer — from 2026-04-22 upload).
+
+**Critical rigging notes:**
+1. Single mesh/face/body across both phases — costume, prop, and color-shader driven. Same man, different title.
+2. Engineer-phase goggles are a two-state prop: GOGGLES DOWN (red lens covers eyes, `memoirActive=1`) or GOGGLES UP (pushed onto forehead, eyes visible, `memoirActive=0`). The player learns that goggles-down = he is narrating the past; goggles-up = he is present with you.
+3. Brass gauges on the belt tick independently on a 1.7s clock cycle — his "heartbeat" tell regardless of phase.
+
+#### 2V/W.1 — Bundle A (Phase 2 ENGINEER — default)
+
+> Three-quarter bust portrait of a Black man in his late thirties, healthy dark brown skin (#4a2818), short well-kept dreadlocks (#1a1008) falling neatly past his jaw. Dark short-trimmed beard, neat mustache. Proud heroic upward chin-tilt (the camera is slightly BELOW his sightline — low-angle hero composition). RED STEAMPUNK GOGGLES covering his eyes: two large circular brass-rimmed lenses (#b8752d brass frames, ~5cm lens diameter each), interior glowing a deep blood-RED (#c41020 emissive, hot inner core — the eyes are completely concealed behind them by default), thick dark leather strap running around the back of the head visible at the temples. Wearing a RICH RED WOOL MILITARY-CUT COAT (#a81e1e rich wool, slightly weathered but cared-for) — double-breasted with two vertical rows of large brass buttons (#c4a040), high pop-collar turned up, fitted through the shoulders with structured epaulettes, a small brass medal/pin on the left chest (geometric abstract, no legible symbol). Beneath the coat: a crisp off-white shirt (#e8e0d0, slightly rumpled) with a dark muted-indigo neck-cloth loosely tied at the throat. Around the waist (visible at lower frame edge if the bust framing extends): a heavy UTILITY BELT in dark brown leather with multiple brass gauges, pocket watches, chronometers and small dials mounted to it (small brass instruments, cluttered with purpose). Backdrop: deep starfield (dark cosmic blue-black #060a1a with scattered small warm stars and distant nebula gas-clouds in violet-magenta), with a BURNING CITYSCAPE silhouetted in the lower third-right — distant spires, ember-orange fire-glow tinting the bottom third of the frame, smoke billowing upward. The two light sources implied: cool starlight from above-right, warm city-fire glow from below-left. Key light: warm amber-red from below-left (city fires) washing his lower jaw and red coat. Rim light: cool cyan-white from above (starlight) on the top of his dreadlocks and shoulder-line. Heroic determined expression, mouth closed neutral-firm. Film grain. 4K. No rendered text.
+
+#### 2V/W.2 — Bundle A-alt (Phase 2 ENGINEER — goggles up variant)
+
+> Same subject, same lighting, same backdrop, same costume — EXCEPT the red steampunk goggles are pushed UP onto the forehead (lenses now hovering above his eyebrows, straps still around his head). EYES NOW VISIBLE: dark warm brown (#3a1a0c), direct attentive gaze, slight crinkle at the outer corners (laugh-lines earned). Mouth still closed neutral. This alt-frame gets used when he is LISTENING in the present, rather than narrating. 1 PNG additional.
+
+#### 2V/W.3 — Bundle A (Phase 1 PRINCE — placeholder)
+
+> **⚠️ Canon NOT YET locked.** Use `docs/art-originals/celebration/mascoteers/mascoteer_prince_original.png` as CANDIDATE source material only. Working placeholder prompt:
+> Three-quarter bust portrait of the SAME man (same face, same bone structure, ~5-10 years younger — mid-twenties), dreadlocks slightly shorter, beard slightly lighter. Wearing CELEBRATION royal ceremonial attire: pastel warm-cream and honey-gold (#e6d8a8, #d9a66a) structured ceremonial vest or robe with small warm accents, no steampunk elements, no goggles, no red military coat. Clean ornament work at collar and cuffs. Youthful regal bearing, innocent of what's coming. Backdrop: warm honey-gold Celebration parade light, defocused crowd bokeh. Same face-mesh as Phase 2. USER CONFIRMATION REQUIRED before finalizing.
+
+#### 2V/W.4 — Bundle B: Breathing loop (8 frames, Phase 2 default)
+
+> Standard chest cycle (1.000 to 1.006 peak). Red coat structured — shoulders UNCHANGED. Dreadlocks drift ±0.6px. Brass utility-belt instruments: each gauge animates on its OWN 1.7s clock cycle — the second-hand of the largest visible chronometer advances 1px per frame. Small brass dials rotate micro-increments. This is his "heartbeat" tell. Red goggle lenses pulse SUBTLY — 0.9 to 1.1 intensity range on a 2.4s cycle, independent of breath (the memoir is actively recording). 8 PNGs.
+
+#### 2V/W.5 — Bundle C: Blink triptych (Phase 2 default)
+
+> Goggles DOWN: no visible eyelid blink (eyes concealed). Instead, the red goggle emissive INTENSIFIES briefly every ~5-9s (a "memoir write" pulse to 1.4× intensity for 140ms then return to baseline). Deliver as 3 frames showing the three intensity stops (baseline / pulse / recovery). Goggles UP (alt variant): standard 3-frame eyelid blink on the visible eyes. 6 PNGs total.
+
+#### 2V/W.6 — Bundle D: Viseme grid (15 panels)
+
+> Standard 15-panel mouth crop. Beard is short enough to not require a beard-part strategy. Lip tone medium neutral. 4K.
+
+#### 2V/W.7 — Bundle E: Expressions (5, Phase 2)
+
+> 1. SPEAKING — goggles DOWN (narrating memoir mode); mouth delivers lines; goggle intensity pulses at each phoneme emphasis.
+> 2. CONCERNED — brows barely visible below the goggle line; a single visible furrow; goggles dim to 0.5×.
+> 3. EMOTIONAL1 (heroic-resolve) — chin lifts further, chest forward, goggle intensity steady at 1.2×. His default.
+> 4. EMOTIONAL2 (grief-beneath-armor) — goggles LIFT partway (to mid-forehead — halfway between up and down); one visible eye catches moisture in the inner corner; mouth tight.
+> 5. REVEALING — goggles FULLY UP onto forehead; eyes direct at camera for the first time; his gaze is tired but clear. Mouth parts pre-line. The Engineer has chosen to speak without the memoir's distance.
+
+#### 2V/W.8 — Bundle F: Goggle emissive + belt-instrument overlays
+
+> **Output:** `apps/client/public/vfx-atlases/engineer_{goggle_lens,belt_instruments}.png`.
+> - **goggle_lens:** 512×256 transparent. Two circular red emissive radial textures matching the goggle lens positions, hot red (#ff4030) core to deep red (#8a1010) edge. Driven by `memoirActive: 0..1.4`.
+> - **belt_instruments:** 1024×256 transparent. Reference sheet showing each of the ~6 brass belt-mounted instruments (gauges, pocket watches, chronometers) as individually masked/ticking elements. Runtime drives each on its own independent clock cycle.
+
+#### 2V/W.9 — Shader uniform block
+
+```json
+{
+  "rigId": "npc_engineer_prince",
+  "shaderProgram": "PhaseBlendedHeroPortrait",
+  "uniforms": {
+    "princeToEngineerProgress": 1.0,
+    "phase1Bundle": "portraits2d/prince/",
+    "phase2Bundle": "portraits2d/engineer/",
+    "memoirActive": 1.0,
+    "gogglesPosition": "down",
+    "beltInstrumentsClock": "autoTick:1.7s",
+    "gogglePulsePeriod": 2.4,
+    "breathingPhase": "autoLoop:3.2s:amp=1.006"
+  },
+  "stateTriggers": {
+    "flashbackPrince": "princeToEngineerProgress=0.0",
+    "presentDayEngineerMemoirMode": "princeToEngineerProgress=1.0; gogglesPosition=down; memoirActive=1.0",
+    "presentDayEngineerListening": "princeToEngineerProgress=1.0; gogglesPosition=up; memoirActive=0.0",
+    "revealing": "gogglesPosition=up; memoirActive=0; eye contact direct"
+  }
+}
+```
+
+#### 2V/W.10 — Veo 3.1 cinematic pointer
+
+- **CIN-PRINCE-01:** 12s transformation from Prince → Engineer (mirrors Kael's transformation cinematic but simpler — 2 phases not 3). Start frame = young Prince in Celebration pageantry. End frame = Engineer at the burning-cityscape starfield with goggles down. Scrubs `princeToEngineerProgress` 0.0 → 1.0 over 12s with a mid-beat at 6s showing the transition (Celebration falls; he takes up the Engineer's mantle). See Part 9 for full spec.
+
+---
