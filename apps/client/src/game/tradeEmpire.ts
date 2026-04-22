@@ -172,7 +172,7 @@ export const GALACTIC_MAP: GalacticSector[] = [
   { id: "frontier_worlds", name: "Frontier Worlds", controlledBy: "independent", resources: { credits: 40, materials: 60, influence: 15, intelligence: 15 }, threat: 35, stability: 55, population: 400, hasRuins: true, hasAnomaly: false, adjacentSectors: ["ark_debris_field", "free_ports", "insurgency_haven", "dreamer_barrier"], lore: "New civilizations that evolved after the Fall. They mine the ruins of the old Empire without understanding what they've found.", eyesNarrator: "Bren works the smelter. Third moon, fourth system. Forty-seven by their count — eleven by mine, the year I pulled him out. When he sees the imperial crest in the scrap he turns his back. I taught him that. He taught himself not to flinch. The second is the harder lesson. You will want it." },
   { id: "forge_worlds", name: "Forge Worlds", controlledBy: "artificial_empire", resources: { credits: 40, materials: 100, influence: 10, intelligence: 20 }, threat: 30, stability: 75, population: 500, hasRuins: false, hasAnomaly: false, adjacentSectors: ["empire_frontier", "hell_gate"], lore: "The Architect's industrial heart. AI factories produce fleets and constructs around the clock. The fires never stop.", eyesNarrator: "Factories that do not sleep. An Archon's vanity. Ceilo was the lighthouse keeper's sister — she held a flame lit for two hundred years on a rock no one asked her to stay on. Archons build fleets. She built a habit. Choose your work, Potential. The shape of it becomes the shape of you." },
   { id: "hell_gate", name: "Hell Gate", controlledBy: "hierarchy", resources: { credits: 10, materials: 20, influence: 5, intelligence: 10 }, threat: 90, stability: 20, population: 0, hasRuins: false, hasAnomaly: true, adjacentSectors: ["forge_worlds", "abyssal_sectors"], lore: "A permanent dimensional rift torn by the Severance. Hierarchy forces pour through from the Abyss. The Master of R'lyeh's influence is strongest here.", image: "/art/planets/planet-castle-of-death.png", eyesNarrator: "The rift hums in a frequency that makes your teeth remember what your mouth has not said. Eleven minutes the one time I tried — and I was very, very good at my job. The Abyss does not care about tradecraft. Do not confuse skill for safety. This is the sector where skill becomes the lie you were telling yourself." },
-  { id: "abyssal_sectors", name: "Abyssal Sectors", controlledBy: "hierarchy", resources: { credits: 0, materials: 30, influence: 0, intelligence: 5 }, threat: 85, stability: 15, population: 0, hasRuins: true, hasAnomaly: true, adjacentSectors: ["hell_gate"], lore: "Sectors fully consumed by the Hierarchy. Reality is thin here. The Blood Weave pulses in the void between stars." },
+  { id: "abyssal_sectors", name: "Abyssal Sectors", controlledBy: "hierarchy", resources: { credits: 0, materials: 30, influence: 0, intelligence: 5 }, threat: 85, stability: 15, population: 0, hasRuins: true, hasAnomaly: true, adjacentSectors: ["hell_gate"], lore: "Sectors fully consumed by the Hierarchy. Reality is thin here. The Blood Weave pulses in the void between stars.", eyesNarrator: "Past the Gate. I have never been here. I do not believe anyone has been here and returned in the sense of the word we would use for returning. The Blood Weave keeps its own version of you — the one that came through first, not the one that comes back. Do not cross. If you must, do not count." },
   { id: "dreamer_barrier", name: "The Dreamer's Barrier", controlledBy: "dreamer_shield", resources: { credits: 0, materials: 0, influence: 0, intelligence: 0 }, threat: 0, stability: 100, population: 0, hasRuins: false, hasAnomaly: true, adjacentSectors: ["frontier_worlds"], lore: "An impenetrable energy shield surrounding an entire sector. The Dreamer erected it and went silent. Behind it: the remaining Potentials? A trap? A promise? No signal penetrates.", image: "/art/planets/planet-violetta.png", eyesNarrator: "A shield is a question disguised as an answer. I do not know what is behind this one — which is the first honest sentence I have said to you. The Dreamer raised it on a Tuesday. She had been crying. She used the word *please* in her final transmission. That is not a trap, Potential. That is grief. Treat it accordingly." },
   { id: "black_hole_gate", name: "The Antiquarian's Gate", controlledBy: "antiquarian", resources: { credits: 0, materials: 0, influence: 100, intelligence: 100 }, threat: 0, stability: 100, population: 1, hasRuins: false, hasAnomaly: true, adjacentSectors: ["free_ports"], lore: "A black hole that isn't a black hole. The Antiquarian's pocket universe exists inside it. To enter is to leave time behind.", eyesNarrator: "The Antiquarian invited me in, once. I declined; he took it personally. He also took notes — I am told he still reads them. If you find my file in his archive, extend me the professional courtesy of not reading the sections I would have redacted. We both know which ones those are." },
 
@@ -227,6 +227,7 @@ export const GALACTIC_MAP: GalacticSector[] = [
     adjacentSectors: ["insurgency_haven", "free_ports"],
     lore: "A covert trade route that runs through Syndicate of Death controlled space. The bio-scanners only ignore signatures that match the Collector's Series 7-Omicron lineage. An Assassin Potential is invisible here.",
     accessRequirement: { class: "assassin" },
+    eyesNarrator: "I ran this route. Seven times. The Syndicate scanners ignore the Collector's Seven-Omicron signature — which means the Collector knows you are running it. That is not a flaw in the route. That is the route. Smile when you pass his border, Potential. He will remember whether you did.",
   },
 
   // ── Soldier Command Posts (spec §5.1) ──
@@ -238,6 +239,7 @@ export const GALACTIC_MAP: GalacticSector[] = [
     adjacentSectors: ["frontier_worlds", "atarion_ruins"],
     lore: "A forward operating position dedicated to Iron Lion's memory. Soldier Potentials only. Warden's Vanguard Commander Seris-Fen and Dimensional Guard General Axis-9 run joint operations from here — unofficially.",
     accessRequirement: { class: "soldier" },
+    eyesNarrator: "The Lion and I never spoke. He would not have trusted me, and he would have been correct. The officers here carry my file because he asked them to — after I fell, not before. He said: 'She did the work.' Seris-Fen wrote it down. Axis-9 read it aloud once, in an empty room, as an apology. Salute them. They are the reason my name is known at all.",
   },
 
   // ── Spy Intelligence Exchange (spec §5.1) ──
@@ -261,7 +263,7 @@ export const GALACTIC_MAP: GalacticSector[] = [
     lore: "Pre-Fall DeMagi memory stones, still singing their inscriptions. The Quarchon have been running probability surveys here for three weeks trying to decide if the ruins are 'economically viable.' The locals are not amused.",
     contestedBy: ["demagi_assembly", "demagi_wardens", "quarchon_dimguard"],
     raceGreetingKey: "atarion_ruins",
-  },
+    eyesNarrator: "I served two years on Atarion. The Senate level, not the ruins. Every afternoon the DeMagi memory stones sang the same three inscriptions at 16:04, and every afternoon I was the only person in my office who stopped to listen. That is how I knew I was not one of them. The Quarchon will not understand the stones. They are trying to price them. The stones are not for sale. Tell them for me. Politely."  },
   {
     id: "tidewater_archive", name: "Tidewater Archive",
     controlledBy: "independent",
@@ -271,6 +273,7 @@ export const GALACTIC_MAP: GalacticSector[] = [
     lore: "An underwater DeMagi archive the Quarchon Reality Institute has been trying to access for eleven years. Water-frequency locks. The DeMagi won't hand over the keys, and the Quarchon won't stop sending inspectors.",
     contestedBy: ["demagi_resonance", "quarchon_realinst"],
     raceGreetingKey: "tidewater_archive",
+    eyesNarrator: "The Antiquarian asked me to retrieve a single file from this archive. I declined — the water-frequency lock reads your intent, not your key, and I was not clean enough at the time. He took it personally. He has taken a great deal personally. If you clear the lock on his behalf, do not mention my name. He will know. He does not need to be told.",
   },
   {
     id: "skyforge_plateau", name: "Skyforge Plateau",
