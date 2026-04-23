@@ -880,7 +880,9 @@ Reference: `apps/client/public/references/npcs/architect/front.png` (from 2026-0
 
 ---
 
-### 2G — THE AUTHORITY
+### 2G — THE AUTHORITY — VALIDATED (2026-04-22)
+
+> **VALIDATION PASS (post-commit):** Confirmed against the codebase. Authority has an active VO manifest (`apps/shared/authorityVoManifest.json` — taunts like `the_authority_taunt_early`, `the_authority_taunt_late`) and is wired as an Act 1 match opponent (`apps/client/src/components/act1/AuthorityPhaseBar.tsx`). The environmental-hall + barely-visible-silhouette canon in this section is consistent with existing usage — she SPEAKS (routed through the environmental-portrait hall's acoustics), but doesn't appear as a humanoid bust. No rewrite needed. Commissioning can proceed against this spec.
 
 Canon anchor: `docs/production/act1-asset-build/prompts/matchups/the-authority.txt` — The Authority has NO FACE because the Authority is not a person, it is the verdict. Deep-perspective hall shot with six crystal coffins (3 amber, 2 violet, 1 cyan), a barely-visible featureless silhouette on a shadowed dais at the back of the hall.
 
@@ -933,7 +935,22 @@ Reference: `apps/client/public/references/npcs/authority/REFERENCE.md`.
 
 ---
 
-### 2H — CADES
+### 2H — CADES — RETRACTED (2026-04-22, codebase-audit finding)
+
+> **⚠️ CANON RETRACTION:** This section described CADES as a "CRT-broadcast-frame NPC with glitched partial-face fragments." That was wrong — derived from seeing CADES UI components in the repo and assuming it was a character. Codebase audit confirms:
+> - `apps/client/src/pages/CodexPage.tsx:1163` defines CADES as **C.A.D.E.S. = Comprehensive Analysis & Defense Engagement System**
+> - `apps/client/src/pages/CADESFPSPage.tsx` — it's an FPS game-mode (Godot 4.3 iframe)
+> - The 4 UI components (`CADESFeed`, `CADESClueBoard`, `CADESConspiracyBoard`, `CADESAmbientLines`) are investigation / surveillance feed UI for the CADES mode, not a character portrait system
+> - CADES itself has no VO manifest; it is not an entity that speaks.
+>
+> **Action:** CADES is not an NPC. The 4 VFX atlases allocated to Part 2H in Part 7.4 (`cades_static_noise.png`, `cades_scanlines.png`, `cades_tracking_bar.png`, `cades_chromatic_bleed.png`) can be RE-PURPOSED as generic CRT-broadcast overlays — useful for the Palimpsest Host's broadcast-studio set (Part 2Q) and for the Warlord reveal's static-interference backdrop. Keep the atlases; drop the Part 2H NPC canon below. The prompts that follow are retained as reference-only for the reallocation, not as canon for a character that doesn't exist.
+>
+> The Iron Lion character WHO APPEARS inside the CADES FPS mode (per the `IRON_LION_CHANNEL_OPEN` postMessage in `CADESFPSPage.tsx:11`) is a separate NPC and falls outside this brief's 23-NPC roster.
+
+---
+
+**ORIGINAL PLACEHOLDER BELOW — retained for atlas re-purposing reference only. Not canon.**
+
 
 Canon clarification: CADES is both an **acronym organization** in-fiction and a recurring on-screen NPC form — the Panopticon's internal signals/monitoring entity that surfaces as scattered broadcast moments. Existing client components (`CADESConspiracyBoard.tsx`, `CADESFeed.tsx`, `CADESClueBoard.tsx`, `CADESAmbientLines.tsx`) treat CADES as a glitchy CRT-broadcast presence, not a humanoid.
 
@@ -3148,7 +3165,7 @@ Each primary cinematic requires: 1 Nano Banana 2 start frame + 1 Nano Banana 2 e
 |---|---|---|
 | Protagonist 3D rigs (Elara + Human busts + viseme/expression bundles) | ~80 assets | Parts 1A + 1B |
 | Player 3D base meshes (4 species × 2 sexes + Ne-Yon warmachine sub-variant) | 9 meshes + shader presets | Part 1C |
-| NPC 2D lip-sync bundles (23 characters × 32 images baseline + variants) | ~750 images | Part 2 |
+| NPC 2D lip-sync bundles (22 characters × 32 images baseline + variants; CADES retracted — see 10.4) | ~718 images | Part 2 |
 | Inventor's Suits 3D re-commission (18 sets × 6 rarities × 10 slots) | 1,080 GLBs | Part 3 |
 | Starter gear 3D base meshes (species × class base meshes) | 40 GLBs + shader variants | Part 3.7 |
 | Lions Club Ceremonial + Seasonal gear (10 ceremonial + ~160 seasonal + 3 donor trophies) | ~173 GLBs | Part 4 |
@@ -3157,7 +3174,7 @@ Each primary cinematic requires: 1 Nano Banana 2 start frame + 1 Nano Banana 2 e
 | VFX shader-texture atlases | ~58 atlases | Part 7 |
 | UI atmosphere sprites (rarity glyphs + slot frames + status icons + chrome + overlays) | ~122 sprites | Part 8 |
 | Veo 3.1 cinematics (11 primary + 3 audit regens) | 14 videos | Part 9 |
-| **GRAND TOTAL** | **~2,412 individual assets** | |
+| **GRAND TOTAL** | **~2,380 individual assets** (CADES retraction dropped 32 bundles) | |
 
 ### 10.1 — Commission phase ordering (P0 first, then P1, then P2)
 
@@ -3211,13 +3228,23 @@ This file has gone through multiple canonical correction passes as the user has 
 14. **The Antiquarian** (2026-04-22) — confirmed + refined (silver-and-dark mixed hair not pure silver; dark eyebrows never grey; open-neck shirt not cravat).
 15. **The Programmer** (2026-04-22) — young cyberpunk phase with steampunk goggles + flat cap on Shibuya rooftop (not middle-aged battlefield figure).
 16. **The Architect** (2026-04-22) — validated against user image #3; existing canon correct, no rewrite.
+17. **CADES** (2026-04-22, post-commit codebase audit) — RETRACTED from the NPC roster. CADES = Comprehensive Analysis & Defense Engagement System (a game-mode / FPS, per `CodexPage.tsx:1163`), not a character. Part 2H canon dropped; allocated VFX atlases re-purpose as generic CRT-broadcast overlays. Effective NPC count drops from 23 to 22. Grand total drops ~32 assets.
+18. **The Authority** (2026-04-22, post-commit codebase audit) — VALIDATED. VO manifest populated + Act 1 match opponent wiring confirmed. Environmental-hall + silhouette canon consistent with shipped code. No rewrite needed.
 
 ### 10.4 — Open questions (resolve before Phase 2 week 6)
 
-- [ ] Prince phase 1 canonical look (currently placeholder; final canon needed to regenerate CIN-PRINCE-01 start frame and Part 2V/W Phase 1 bundle)
-- [ ] The red-steampunk-goggles parallel between Engineer (Part 2V/W) and Programmer (Part 2R) — deliberate lineage/order, or coincidence? Narrative Easter egg flagged; writer decision pending.
-- [ ] Part 2G Authority + Part 2H CADES — non-humanoid environmental rigs; derived from bibles, not user-confirmed. Low risk of wrongness but worth validating before commissioning their VFX atlases.
-- [ ] CIN-WARLORD-REVEAL-01 plot beat timing — Act 2 or Act 3? Affects P1 vs P2 scheduling.
+- [ ] **Prince phase 1 canonical look** (currently placeholder; final canon needed to regenerate CIN-PRINCE-01 start frame and Part 2V/W Phase 1 bundle). Requires user upload; directory `apps/client/public/references/npcs/engineer_prince/phase1_prince.png` is scaffolded and ready to receive the asset.
+
+- [ ] **The red-steampunk-goggles parallel between Engineer (Part 2V/W) and Programmer (Part 2R)** — deliberate lineage/order, or coincidence? Narrative Easter egg flagged; writer decision pending. See Part 2R.0 which confirms Programmer & Antiquarian are the same person, so the goggles-link is more likely a conscious motif than a coincidence. Plausible lore: the goggles are a SIGNAL-INSIGHT tool developed by a specific technical order the Engineer and the Antiquarian both passed through. Recommend: writer confirms + adds a one-sentence lore note to either character's dialog tree.
+
+- [x] **Part 2G Authority — VALIDATED.** Codebase confirms VO manifest + Act 1 match opponent wiring. Environmental-hall + silhouette canon is consistent with shipped code. No rewrite needed. Commission against spec.
+
+- [x] **Part 2H CADES — RETRACTED.** Codebase audit (`CodexPage.tsx:1163`) reveals CADES = Comprehensive Analysis & Defense Engagement System — a game-mode / FPS, not an NPC. The 4 VFX atlases allocated to it re-purpose cleanly as generic CRT-broadcast overlays for Part 2Q Palimpsest Host + CIN-WARLORD-REVEAL-01 backdrop. Drop CADES from the 23-NPC roster; effective NPC count is now **22**.
+
+- [ ] **CIN-WARLORD-REVEAL-01 plot beat timing — Act 2 or Act 3?** Affects P1 vs P2 scheduling. Considerations:
+  - **Act 2 argument:** earlier reveal means the helm-off host-face + swarm-shimmer + in-her-own-voice beat lands while the player is still forming opinions of her; higher emotional impact. Requires the cinematic to be commissioned in the P1 wave (weeks 5-7 per the 10.1 roadmap).
+  - **Act 3 argument:** later reveal preserves the Warlord's "faceless executioner" silhouette longer — more mystery, more dread, more meaningful reveal payoff when it does land. Commission in the P2 wave (weeks 8-9).
+  - **Recommendation:** Act 3. The faceless-through-all-of-Act-1 design described in Part 2T works SPECIFICALLY because she stays unknown for most of the player's journey. Breaking the armor at Act 2 collapses that asset. Preserve the mystery; spend the reveal.
 
 ---
 
