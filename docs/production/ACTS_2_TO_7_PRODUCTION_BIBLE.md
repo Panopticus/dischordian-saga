@@ -547,7 +547,76 @@ All three infiltration cues share the 2-second opening drone so the audience hea
 
 > A subtle radial distortion texture that simulates looking INTO a mirror and seeing something that isn't quite in the room. Concentric soft-rings of slight chromatic-aberration (R/B split 2px at center, fading to 0 at the edges). A faint figure-silhouette embedded at the center at 8% opacity (Kael's silhouette shape — broad-shouldered, dreadlocked). Used as overlay on the `vfx_act4_prison_mirror_reflection` compositing surface — where the act-4 opener's prison mirror shows Kael even though he's not physically in the cell.
 
+### 3.2 — CIN-ACT4-OPENER — Act 4 opener (21s, P0)
+
+**Output:** `apps/client/public/videos/acts/act-4/cin_act4_opener.mp4` · 16:9 · 1920×1080
+
+"The Prisoner" opener. Prison cell + mirror where the observation window should be.
+
+**START FRAME:** Interior of a prison cell at night, 16:9. Dim blue emergency lighting from above-frame. Small cell: metal bunk on the right wall (empty), a single metal chair center, a full-length mirror mounted where the observation window would normally be (left wall). The mirror is CLEAN and the cell visible in its reflection — but the reflection is EMPTY (no Kael figure, no prison guard shape behind camera, just the cell). Palette: deep cool blue, metallic-grey, one cold-white light strip. Film grain.
+
+**END FRAME:** Same cell, same composition. The mirror now shows a FAINT FIGURE where the reflection was empty — Kael's silhouette (broad-shouldered, long dreadlocks, rendered per his Part 2C Phase 2 Enslaved canon but desaturated to mirror-tone). He is INSIDE the mirror, looking out at the camera. The cell itself remains empty — nobody on the bunk, nobody in the chair. The prison_mirror_reflection VFX atlas is applied at 100% intensity to the mirror surface. Film grain.
+
+**MOTION PROMPT:**
+
+> 21-second one-shot. Camera locked, no motion. Beats:
+> - 0.0-5.0s: start frame holds. Empty cell, empty mirror. The audience is supposed to note the odd emptiness.
+> - 5.0-9.0s: the blue cell-light FLICKERS once at 6.0s (150ms flicker). At 8.5s it flickers a second time, longer (400ms). The flickers are subtle disruptions.
+> - 9.0-13.0s: during a third flicker at 10.5s (1-second duration — the light is almost OUT for this window), Kael's figure resolves into the mirror. When the light comes back up, he is there. The audience catches it in peripheral vision; the cell itself is still empty.
+> - 13.0-17.0s: Kael holds in the mirror. His chest rises ONCE (a held breath). He does not break eye-contact with the camera.
+> - 17.0-20.0s: the prison_mirror_reflection radial distortion visibly activates — concentric chromatic rings expand outward from Kael's center through the mirror, as if the mirror surface is BENDING. Still no movement in the cell itself.
+> - 20.0-21.0s: held on end frame.
+> 24fps, deep cool-blue palette, film grain.
+
+**SUNO v4:** see mus_act4_opener in §3.7.
+
+### 3.3 — CIN-ACT4-PATH-{WILLING,DISCOVERY,BETRAYAL} — Revelation path cinematics (12s each, P0)
+
+Three sibling cinematics, branching on Act 1's `act1_path` flag. Each is the MOMENT the truth about The Human lands on the player. Shared framing device: The Human breaks protocol and shows his face to the player directly — the manner of showing is the branch.
+
+**Shared START FRAME (all three):** Close bust framing of The Human (per Living Character Sheet bible Part 1B canon), 1:1 square 2048×2048. He is in his standard red-eye-emissive pose, fedora at asymmetric tilt. But the CRT-scanline overlay is HEAVIER than standard (40% opacity), and the composition is lit colder than usual — cool cyan rim instead of warm red key. The feeling: he is BROADCASTING from somewhere he shouldn't be broadcasting from.
+
+**Shared setup prompt framework:** all three cinematics play at the same moment in game-flow, but the visual delivery of the revelation differs per path.
+
+**CIN-ACT4-PATH-WILLING — END FRAME:**
+
+> The Human has taken off his FEDORA and set it on a surface (implied — hat visible at lower-frame edge on a dark wooden shelf). Without the hat brim's shadow, both of his red-emissive eyes are FULLY exposed and glowing at 1.5× baseline intensity (his REVEALING expression per Part 1B.2). His face bears a weathered openness the audience hasn't seen before — the weight of a man who has chosen to tell the truth. CRT-scanline overlay drops from 40% to 15% (he is clearer now). Cool cyan rim warms to a cautious amber-cyan mix. Film grain.
+
+**MOTION PROMPT (Willing):** 12-second one-shot. Camera locked. Beats:
+- 0.0-3.0s: shared start frame holds. Heavy scanline, cold rim.
+- 3.0-5.0s: his left hand (not visible in frame, but gesture implied) lifts off-camera. At 4.0s his head tilts up 3° — the brim-shadow begins to lift from his right eye.
+- 5.0-7.0s: the fedora is visibly removed — lifted up and out of frame-top. Both eyes now fully exposed.
+- 7.0-10.0s: eye-emissive ramps from baseline 1.0 to 1.5× peak over 3 seconds. The cool cyan rim transitions to warm-cyan mix. Scanline overlay drops from 40% to 15%.
+- 10.0-12.0s: held on end frame. He has chosen to show the player his face.
+Palette: warming from cool-cyan to cyan-amber mix. Film grain.
+
+**CIN-ACT4-PATH-DISCOVERY — END FRAME:**
+
+> The Human's fedora is STILL ON, but the CRT-scanline overlay has PARTIALLY FAILED — large horizontal bands of the scanlines have dropped out, exposing his face in uneven strips. His eyes are at baseline intensity but his expression reads as UNGUARDED in a way he didn't choose — the player has seen through him, not been shown. One of his eyes (the left, visible one) is cast slightly downward now; he will not look at camera. Palette: colder overall, scanline-break bands at unpredictable positions. Film grain.
+
+**MOTION PROMPT (Discovery):** 12-second one-shot. Camera locked. Beats:
+- 0.0-3.0s: shared start frame — Human at baseline, heavy scanline.
+- 3.0-7.0s: across 4 seconds, three separate horizontal BANDS of scanline-breakage emerge at random y-positions (one at ~3.5s, one at 5.0s, one at 6.5s), each a 30-pixel vertical zone where the CRT overlay drops to 0 and The Human's skin is fully visible behind. The player is seeing through gaps in his veil.
+- 7.0-10.0s: held. The scanline-breakage bands persist. His left eye drifts downward — not looking at camera now.
+- 10.0-12.0s: end frame holds. He has been seen, not revealed.
+Palette: cold, fragmented. Film grain.
+
+**CIN-ACT4-PATH-BETRAYAL — END FRAME:**
+
+> The Human's fedora is still on. His eyes are at 2.0× intensity (overdriven, hot-red aggressive), staring directly at camera. Behind him, a second layer of VIOLET-MAGENTA GLITCH becomes visible overlaid on his CRT scanlines — the color of the Hierarchy corrupting the signal. Someone is WATCHING this transmission with him. His mouth is set in a line that is not calm; it is resigned. Film grain.
+
+**MOTION PROMPT (Betrayal):** 12-second one-shot. Camera locked. Beats:
+- 0.0-3.0s: shared start frame holds.
+- 3.0-6.0s: his eye-emissive ramps from 1.0 to 2.0× intensity over 3 seconds — he is STRAINING, barely containing the signal.
+- 6.0-9.0s: the VIOLET-MAGENTA second-layer glitch fades in over 3 seconds, reaching 40% opacity at 9.0s. The audience sees: he is being watched. His transmission is being listened to by someone else.
+- 9.0-11.0s: held. His mouth sets into a resigned line. The violet-magenta glitch pulses in-and-out at 2Hz (flickering interference).
+- 11.0-12.0s: held on end frame. The betrayal is not Kael's — it is his own, forced by the Hierarchy's presence in the channel.
+Palette: aggressive red + violet-magenta corruption + cold cyan rim. Film grain.
+
+**SUNO v4:** see mus_act4_path_{willing,discovery,betrayal} in §3.7 — three variants of the revelation cue.
+
 ---
+
 
 
 
