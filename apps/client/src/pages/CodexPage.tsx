@@ -26,6 +26,7 @@ const DREAMER_PHILOSOPHY_LORE =
   "Reality is not a machine to be optimized. It is a dream to be lived. Every mind is a universe. Every choice is sacred. We do not compute — we feel, we hope, we resist.";
 
 import LivingBackground from "@/components/LivingBackground";
+import GlitchFx from "@/components/GlitchFx";
 
 import { assetUrl } from "@/lib/assetUrl";
 // ── Codex Entry Types ──
@@ -696,7 +697,8 @@ export default function CodexPage() {
               key={entry.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className={`relative rounded-lg border ${isUnlocked ? rarityColor : "border-border/10 opacity-60"} ${rarityBg} overflow-hidden`}
+              className={`relative rounded-lg border ${isUnlocked ? rarityColor : "border-border/10 opacity-75 void-glitch void-glitch-lock"} ${rarityBg} overflow-hidden`}
+              style={!isUnlocked ? ({ ["--glitch-intensity" as string]: "0.8" } as React.CSSProperties) : undefined}
             >
               {/* Rarity card frame overlay */}
               {CODEX_RARITY_FRAMES[entry.rarity] && (
@@ -730,7 +732,17 @@ export default function CodexPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
                     <span className={`font-mono text-xs font-semibold ${isUnlocked ? "" : "text-muted-foreground/40"}`}>
-                      {isUnlocked ? entry.title : "█████████████"}
+                      {isUnlocked ? (
+                        entry.title
+                      ) : (
+                        // Locked titles get the animated block-redaction
+                        // sweep from GlitchFx. Far more intriguing than a
+                        // static ████ string — and the block count matches
+                        // the real title length so layout is stable.
+                        <GlitchFx variant="redact" redactText={entry.title}>
+                          {entry.title}
+                        </GlitchFx>
+                      )}
                     </span>
                     <span className={`font-mono text-[9px] ${catInfo.color} opacity-60`}>
                       {catInfo.name}
