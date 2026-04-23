@@ -517,6 +517,39 @@ All three infiltration cues share the 2-second opening drone so the audience hea
 
 ---
 
+## PART 3 — ACT 4 "THE PRISONER / THE REVELATION"
+
+### 3.0 — Narrative anchor
+
+**Trigger:** Level 5 or 3 completed game modes. Hub detects via `act_4_started` or `act_4_prisoner_cell_complete`.
+
+**Premise:** The truth about The Human emerges — one of three paths depending on Act 1 choice (Willing Disclosure / Discovery / Betrayal). Collector's Arena is REFRAMED as memory extraction from Kael. Four boss fights become Kael memories: The Cell, The Extraction, Warlord Rematch, White Oracle Meets. Army recruitment unlocks. Bond 80 = Memorial Corridor milestone (Two Witnesses Meet — Caravaggio light, player's judgment).
+
+**Source files:** `narrativeActs.ts:637-884` (ACT_4_THE_REVELATION full VO + dialog wheels), `actsFourFiveShells.ts:20-110` (§9 ACT_4_PRISONER_CHAPTERS — 4 chapters as Kael memories).
+
+**Cinematics in this part:** 9 — opener (21s), 3 path variants (Willing / Discovery / Betrayal, 12s each), Memorial Corridor (15s — the Bond 80 beat), 4 Kael extraction memories (6s each), Engineer Recording 6 "A Boy from Celebration" (12s).
+
+**VFX atlases:** 3 — Kael memory-palace fire-orange, Caravaggio light cone, prison-mirror reflection.
+
+**Music:** act-4 opener (21s), 3 path underscores, Memorial Corridor cue (the single most important music cue in the bible — first time the narrators' two themes converge), 4 extraction stingers, Recording 6 underscore (reuse §1.7).
+
+### 3.1 — VFX atlases (Act 4)
+
+**vfx_act4_kael_memory_palace** — `.../act-4/kael_memory_palace.png` · 2048×2048 transparent
+
+> Warm fire-orange atlas simulating a memory-palace visualization — slow-motion embers, half-burnt paper fragments drifting, architectural shapes of a childhood neighborhood rendered in orange-on-black line drawings at 30% opacity. Used as the inner-ring overlay during Kael extraction cinematics (the Collector's Arena reframe). Seamless on Y-axis for continuous upward drift. The fragments are DELIBERATELY not-quite-readable (hand-drawn building outlines, a child's chalk map, etc.) — they belong to Kael, not the player.
+
+**vfx_act4_caravaggio_light_cone** — `.../act-4/caravaggio_light_cone.png` · 1024×2048 transparent
+
+> A single angled cone of warm tungsten light falling from upper-left to lower-right, as if from a high window. The cone has soft-edged volumetric air inside it (visible dust motes in the beam) and a warm amber core (#d4a04a) at ~40% opacity fading to transparent at the edges. Used EXCLUSIVELY on CIN-ACT4-MEMORIAL-CORRIDOR. The Caravaggio reference is to the painter's dramatic chiaroscuro — a single diagonal light cone defining the entire composition's morality. The rest of the frame falls into deep shadow; this cone is what the audience judges by.
+
+**vfx_act4_prison_mirror_reflection** — `.../act-4/prison_mirror_reflection.png` · 1024×1024 transparent
+
+> A subtle radial distortion texture that simulates looking INTO a mirror and seeing something that isn't quite in the room. Concentric soft-rings of slight chromatic-aberration (R/B split 2px at center, fading to 0 at the edges). A faint figure-silhouette embedded at the center at 8% opacity (Kael's silhouette shape — broad-shouldered, dreadlocked). Used as overlay on the `vfx_act4_prison_mirror_reflection` compositing surface — where the act-4 opener's prison mirror shows Kael even though he's not physically in the cell.
+
+---
+
+
 
 
 
