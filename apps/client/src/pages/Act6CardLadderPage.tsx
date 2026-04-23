@@ -167,13 +167,23 @@ export default function Act6CardLadderPage() {
         if (currentOpponent.id === "act6_the_woman_she_was") {
           setNarrativeFlag("act6_elara_confession_heard", true);
           fireCompanionComment("act6_elara_confession_heard");
+          // Queue the full 5-line confession arc; the hook serialises
+          // them so the player hears Elara's whole beat in sequence.
           vo.speak("elara-confession-01");
+          vo.speak("elara-confession-02");
+          vo.speak("elara-confession-03");
+          vo.speak("elara-confession-04");
+          vo.speak("elara-confession-05");
         } else if (currentOpponent.id === "act6_the_detective_in_the_wall") {
           setNarrativeFlag("act6_human_confession_heard", true);
           setNarrativeFlag("act6_confession_close", true);
           fireCompanionComment("act6_human_confession_heard");
           fireCompanionComment("act6_confession_close");
           vo.speak("human-confession-01");
+          vo.speak("human-confession-02");
+          vo.speak("human-confession-03");
+          vo.speak("human-confession-04");
+          vo.speak("human-confession-05");
         }
       } else {
         recordLoss(currentOpponent.id);

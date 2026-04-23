@@ -20,7 +20,7 @@
    final Warden beat.
    ═══════════════════════════════════════════════════════ */
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "wouter";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -50,6 +50,7 @@ import {
 } from "@/components/act1/ActNOpponentTauntOverlay";
 import { fireCrossGameBeat } from "@/lib/crossGameBeats";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
+import { useActVO } from "@/hooks/useActVO";
 import LivingBackground from "@/components/LivingBackground";
 
 import { assetUrl } from "@/lib/assetUrl";
@@ -63,6 +64,20 @@ export default function Act3CardLadderPage() {
   const { wins, losses, defeatedOpponents, recordWin, recordLoss } =
     useAct3LadderStore();
   const { setNarrativeFlag, state: gameState } = useGame();
+  const vo = useActVO("3");
+
+  // Kael's opener triples land on first mount of the Act 3 ladder —
+  // one-shot per save, gated by act3_kael_opener_heard.
+  const kaelOpenerFiredRef = useRef(false);
+  useEffect(() => {
+    if (kaelOpenerFiredRef.current) return;
+    if (gameState.narrativeFlags?.act3_kael_opener_heard) return;
+    kaelOpenerFiredRef.current = true;
+    setNarrativeFlag("act3_kael_opener_heard", true);
+    vo.speak("kael-opener-01");
+    vo.speak("kael-opener-02");
+    vo.speak("kael-opener-03");
+  }, [gameState.narrativeFlags, setNarrativeFlag, vo]);
 
   const [view, setView] = useState<LadderView>("ladder");
   const [postMatchResult, setPostMatchResult] = useState<{
@@ -129,6 +144,9 @@ export default function Act3CardLadderPage() {
         );
         if (currentOpponent.actStep === 3) {
           setNarrativeFlag("act3_kael_logs_unlocked", true);
+          // Act 3 Kael-logs-unlocked voice beat (queued 01 → 02).
+          vo.speak("kael-logs-unlocked-01");
+          vo.speak("kael-logs-unlocked-02");
           // Tier 4D: clearing the Substrate Warden is the canonical
           // Vox correspondence thread opener.
           void fireCrossGameBeat("vox_correspondence_loredex_warden_passage");
@@ -142,7 +160,7 @@ export default function Act3CardLadderPage() {
       });
       setView("postmatch");
     },
-    [currentOpponent, recordWin, recordLoss, setNarrativeFlag],
+    [currentOpponent, recordWin, recordLoss, setNarrativeFlag, vo],
   );
 
   const handlePostMatchContinue = useCallback(() => {

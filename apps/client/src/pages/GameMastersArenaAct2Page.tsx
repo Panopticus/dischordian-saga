@@ -33,6 +33,7 @@ import { useGame } from "@/contexts/GameContext";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
+import { useActVO } from "@/hooks/useActVO";
 import { getActiveAct2GameMaster } from "@shared/witnessingRuntime";
 import {
   GAME_MASTER_FIRST_LOSS_LINE,
@@ -48,10 +49,18 @@ import { assetUrl } from "@/lib/assetUrl";
  *  Climb is the teaching ground; the Arena is the rematch venue. */
 const CLIMB_RANK_REQUIRED_FOR_ARENA = 1;
 
+/** Map canonical GameMasterProfile id → short suffix used in the
+ *  `act2-vo-lines.json` manifest (`left-gm-*` / `right-gm-*`). */
+const GM_VO_PREFIX: Record<string, "left-gm" | "right-gm"> = {
+  left_game_master: "left-gm",
+  right_game_master: "right-gm",
+};
+
 export default function GameMastersArenaAct2Page() {
   const { state, setNarrativeFlag } = useGame();
   const flags = state.narrativeFlags ?? {};
   const moralityScore = state.moralityScore ?? 0;
+  const vo = useActVO("2");
 
   const { isAuthenticated } = useAuth();
   const climbStateQ = trpc.chessClimb.getState.useQuery(undefined, {
@@ -76,8 +85,10 @@ export default function GameMastersArenaAct2Page() {
   useEffect(() => {
     if (activeGM && contactFlag && !hasContacted) {
       setNarrativeFlag(contactFlag, true);
+      const prefix = GM_VO_PREFIX[activeGM.id];
+      if (prefix) vo.speak(`${prefix}-first-contact`);
     }
-  }, [activeGM, contactFlag, hasContacted, setNarrativeFlag]);
+  }, [activeGM, contactFlag, hasContacted, setNarrativeFlag, vo]);
 
   const handleChessLoss = useCallback(() => {
     if (!activeGM) return;
@@ -88,17 +99,22 @@ export default function GameMastersArenaAct2Page() {
         description: GAME_MASTER_FIRST_LOSS_LINE,
         duration: 15000,
       });
+      // System-voiced shared first-loss beat.
+      vo.speak("game-master-first-loss");
     }
     toast.message(activeGM.name, {
       description: activeGM.firstDefeatLine,
       duration: 10000,
     });
-  }, [activeGM, flags.game_master_loss, setNarrativeFlag]);
+    const prefix = GM_VO_PREFIX[activeGM.id];
+    if (prefix) vo.speak(`${prefix}-first-defeat`);
+  }, [activeGM, flags.game_master_loss, setNarrativeFlag, vo]);
 
   const handleArenaWin = useCallback(() => {
     if (!activeGM) return;
     const defeatedFlag = `${activeGM.id}_defeated`;
     const firstWin = !flags[defeatedFlag];
+    const prefix = GM_VO_PREFIX[activeGM.id];
     if (firstWin) {
       setNarrativeFlag(defeatedFlag, true);
       setNarrativeFlag("game_master_defeated", true);
@@ -106,13 +122,15 @@ export default function GameMastersArenaAct2Page() {
         description: activeGM.firstVictoryLine,
         duration: 12000,
       });
+      if (prefix) vo.speak(`${prefix}-first-victory`);
     } else if (activeGM.repeatVictoryLine) {
       toast.message(activeGM.name, {
         description: activeGM.repeatVictoryLine,
         duration: 10000,
       });
+      if (prefix) vo.speak(`${prefix}-repeat-victory`);
     }
-  }, [activeGM, flags, setNarrativeFlag]);
+  }, [activeGM, flags, setNarrativeFlag, vo]);
 
   if (!climbGateMet) {
     return <ClimbGate climbRank={climbRank} loading={climbStateQ.isLoading} />;
