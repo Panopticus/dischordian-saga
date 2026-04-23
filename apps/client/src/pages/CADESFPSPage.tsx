@@ -25,6 +25,7 @@ import { CADESClueBoard } from "@/components/CADESClueBoard";
 import { CADESConspiracyBoard } from "@/components/CADESConspiracyBoard";
 import { OpenChannelEcho } from "@/components/OpenChannelEcho";
 import { toFpsSuitBonuses } from "@shared/suitAdapters/fps";
+import { useActVO } from "@/hooks/useActVO";
 import {
   getPassiveBonuses,
   type AggregatedBonus,
@@ -69,6 +70,19 @@ const voidPanel = "bg-white/[0.02] border border-white/10 rounded-xl backdrop-bl
 export default function CADESFPSPage() {
   const { user, isAuthenticated } = useAuth();
   const { state: gameState, setNarrativeFlag } = useGame();
+  const vo = useActVO("5");
+
+  /**
+   * Mapping of Godot iframe modes → canonical CADES_FPS_MISSIONS
+   * ids. M1 (Scout's Gambit) isn't directly selectable — it's the
+   * "any successful run" mission — so we play its VO alongside
+   * whichever mode the player actually chose.
+   */
+  const MODE_TO_MISSION_ID: Record<string, number> = {
+    ship_defense: 2,
+    historical_incursions: 5,
+    last_stand: 7,
+  };
 
   // §G.11 — CADES receives the player's current suit bonuses via the
   // CADES_CONFIG payload. Aggregator is read once per render; missing
@@ -162,6 +176,14 @@ export default function CADESFPSPage() {
           } else if (r.mode === "last_stand") {
             setNarrativeFlag("cades_m7_complete", true);
           }
+          // Iron Lion's debrief VO — M1 fires once per save on first
+          // successful return, mode-specific debrief fires every time.
+          if (!gameState.narrativeFlags?.cades_m1_debrief_heard) {
+            setNarrativeFlag("cades_m1_debrief_heard", true);
+            vo.speak("cades-m1-debrief");
+          }
+          const missionN = MODE_TO_MISSION_ID[r.mode];
+          if (missionN) vo.speak(`cades-m${missionN}-debrief`);
         }
       }
 
@@ -201,7 +223,35 @@ export default function CADESFPSPage() {
     setPhase("playing");
     setGameReady(false);
     setResult(null);
-  }, []);
+    // Iron Lion's mission-brief VO. M1 brief plays alongside the
+    // mode-specific brief so the Scout's Gambit thread gets its
+    // one-shot spoken kickoff on a fresh save.
+    if (!gameState.narrativeFlags?.cades_m1_brief_heard) {
+      setNarrativeFlag("cades_m1_brief_heard", true);
+      vo.speak("cades-m1-brief");
+    }
+    const missionN = MODE_TO_MISSION_ID[mode];
+    if (missionN) vo.speak(`cades-m${missionN}-brief`);
+  }, [gameState.narrativeFlags, setNarrativeFlag, vo]);
+
+  // Cades mission mid-line timer — the Godot iframe doesn't emit
+  // mid_tick events, so the mid VO fires on a best-effort 45-second
+  // timer after the player enters the playing phase. Canceled on
+  // phase/mode transitions so a mid-match exit doesn't leak a line
+  // into the next run. M1 mid plays once per save alongside the
+  // mode-specific mid.
+  useEffect(() => {
+    if (phase !== "playing" || !selectedMode) return;
+    const missionN = MODE_TO_MISSION_ID[selectedMode];
+    const timer = window.setTimeout(() => {
+      if (!gameState.narrativeFlags?.cades_m1_mid_heard) {
+        setNarrativeFlag("cades_m1_mid_heard", true);
+        vo.speak("cades-m1-mid");
+      }
+      if (missionN) vo.speak(`cades-m${missionN}-mid`);
+    }, 45_000);
+    return () => window.clearTimeout(timer);
+  }, [phase, selectedMode, gameState.narrativeFlags, setNarrativeFlag, vo]);
 
   // ─── NARRATIVE GATE — Act 5 (THE MAP) must be reached ───
   const unlocked = isCadesUnlocked({

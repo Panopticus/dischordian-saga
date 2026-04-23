@@ -15,6 +15,20 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Eye } from "lucide-react";
 import { GALACTIC_MAP, type Act3State } from "./tradeEmpire";
+import { useActVO } from "@/hooks/useActVO";
+
+/**
+ * Act 3 §2.1 Eyes whisper VO — only the 5 auxiliary-pass sectors have
+ * MP3s authored in `act3-vo-lines.json`. Other sectors render the
+ * whisper text silently.
+ */
+const EYES_WHISPER_VO_SECTORS = new Set<string>([
+  "abyssal_sectors",
+  "syndicate_route_prime",
+  "command_post_iron",
+  "atarion_ruins",
+  "tidewater_archive",
+]);
 
 interface Props {
   /** Currently selected sector id. Whisper triggers when this changes. */
@@ -44,6 +58,7 @@ export function isEyesNarratorUnlocked(
 export default function EyesNarratorWhisper({ selectedSectorId, narrativeFlags, act3State }: Props) {
   const [visibleLine, setVisibleLine] = useState<{ sectorId: string; line: string } | null>(null);
   const [lastShownPerSector, setLastShownPerSector] = useState<Record<string, number>>({});
+  const vo = useActVO("3");
 
   useEffect(() => {
     if (!selectedSectorId) return;
@@ -58,12 +73,15 @@ export default function EyesNarratorWhisper({ selectedSectorId, narrativeFlags, 
 
     setVisibleLine({ sectorId: selectedSectorId, line: sector.eyesNarrator });
     setLastShownPerSector(prev => ({ ...prev, [selectedSectorId]: now }));
+    if (EYES_WHISPER_VO_SECTORS.has(selectedSectorId)) {
+      vo.speak(`eyes-whisper-${selectedSectorId}`);
+    }
 
     const timer = setTimeout(() => {
       setVisibleLine(prev => (prev?.sectorId === selectedSectorId ? null : prev));
     }, DISPLAY_MS);
     return () => clearTimeout(timer);
-  }, [selectedSectorId, narrativeFlags, act3State, lastShownPerSector]);
+  }, [selectedSectorId, narrativeFlags, act3State, lastShownPerSector, vo]);
 
   return (
     <AnimatePresence>

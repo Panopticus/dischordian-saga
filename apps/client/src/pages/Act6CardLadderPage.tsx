@@ -14,7 +14,7 @@
        on Detective win.
    ═══════════════════════════════════════════════════════ */
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "wouter";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -44,6 +44,7 @@ import {
 } from "@/components/act1/ActNOpponentTauntOverlay";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import LivingBackground from "@/components/LivingBackground";
+import { useActVO } from "@/hooks/useActVO";
 
 import { assetUrl } from "@/lib/assetUrl";
 type LadderView = "ladder" | "matchup" | "battle" | "postmatch" | "stance";
@@ -94,6 +95,19 @@ export default function Act6CardLadderPage() {
   const { wins, losses, defeatedOpponents, recordWin, recordLoss } =
     useAct6LadderStore();
   const { setNarrativeFlag, state: gameState } = useGame();
+  const vo = useActVO("6");
+  // Prestige-replay meta: if the player ended the previous cycle with
+  // `act7_silence_stance`, Act 6's confession room plays a one-shot
+  // meta line on entry acknowledging the silence. Canon §6.1 optional.
+  const silenceMetaFiredRef = useRef(false);
+  useEffect(() => {
+    if (silenceMetaFiredRef.current) return;
+    if (!gameState.narrativeFlags?.act7_silence_stance) return;
+    if (gameState.narrativeFlags?.act6_silence_meta_heard) return;
+    silenceMetaFiredRef.current = true;
+    setNarrativeFlag("act6_silence_meta_heard", true);
+    vo.speak("silence-stance-meta");
+  }, [gameState.narrativeFlags, setNarrativeFlag, vo]);
 
   const [view, setView] = useState<LadderView>("ladder");
   const [postMatchResult, setPostMatchResult] = useState<{
@@ -153,11 +167,23 @@ export default function Act6CardLadderPage() {
         if (currentOpponent.id === "act6_the_woman_she_was") {
           setNarrativeFlag("act6_elara_confession_heard", true);
           fireCompanionComment("act6_elara_confession_heard");
+          // Queue the full 5-line confession arc; the hook serialises
+          // them so the player hears Elara's whole beat in sequence.
+          vo.speak("elara-confession-01");
+          vo.speak("elara-confession-02");
+          vo.speak("elara-confession-03");
+          vo.speak("elara-confession-04");
+          vo.speak("elara-confession-05");
         } else if (currentOpponent.id === "act6_the_detective_in_the_wall") {
           setNarrativeFlag("act6_human_confession_heard", true);
           setNarrativeFlag("act6_confession_close", true);
           fireCompanionComment("act6_human_confession_heard");
           fireCompanionComment("act6_confession_close");
+          vo.speak("human-confession-01");
+          vo.speak("human-confession-02");
+          vo.speak("human-confession-03");
+          vo.speak("human-confession-04");
+          vo.speak("human-confession-05");
         }
       } else {
         recordLoss(currentOpponent.id);
@@ -168,7 +194,7 @@ export default function Act6CardLadderPage() {
       });
       setView("postmatch");
     },
-    [currentOpponent, recordWin, recordLoss, setNarrativeFlag],
+    [currentOpponent, recordWin, recordLoss, setNarrativeFlag, vo],
   );
 
   const anyStanceTaken = useMemo(
@@ -185,9 +211,19 @@ export default function Act6CardLadderPage() {
       // itself still reads ACT_6_CONFESSION_STANCE_FLAGS (the four above).
       setNarrativeFlag("act6_stance_chosen", true);
       fireCompanionComment(flag);
+      const stanceLineId: Record<
+        (typeof CONFESSION_STANCES)[number]["flag"],
+        string
+      > = {
+        act6_confession_close_empathy: "stance-empathy",
+        act6_confession_close_challenge: "stance-challenge",
+        act6_confession_close_refusal: "stance-refusal",
+        act6_confession_close_reluctant_ally: "stance-reluctant-ally",
+      };
+      vo.speak(stanceLineId[flag]);
       setView("ladder");
     },
-    [setNarrativeFlag],
+    [setNarrativeFlag, vo],
   );
 
   const handlePostMatchContinue = useCallback(() => {

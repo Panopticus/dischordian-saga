@@ -44,6 +44,7 @@ import {
 import { fireCrossGameBeat } from "@/lib/crossGameBeats";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import LivingBackground from "@/components/LivingBackground";
+import { useActVO } from "@/hooks/useActVO";
 
 import { assetUrl } from "@/lib/assetUrl";
 type LadderView = "ladder" | "matchup" | "battle" | "postmatch" | "stance";
@@ -96,6 +97,7 @@ export default function Act7CardLadderPage() {
   const { wins, losses, defeatedOpponents, recordWin, recordLoss } =
     useAct7LadderStore();
   const { setNarrativeFlag, state: gameState } = useGame();
+  const vo = useActVO("7");
 
   const [view, setView] = useState<LadderView>("ladder");
   const [postMatchResult, setPostMatchResult] = useState<{
@@ -164,12 +166,16 @@ export default function Act7CardLadderPage() {
         if (currentOpponent.id === "act7_the_visible_war") {
           setNarrativeFlag("act7_visible_war_won", true);
           fireCompanionComment("act7_visible_war_won");
+          vo.speak("visible-war-win");
         } else if (currentOpponent.id === "act7_the_watcher_shadow") {
           // Tier 4D: clearing the Shadow without triggering the
           // Watcher's full attention is the canonical Watcher's Yawn
           // beat. Cades FPS + DMC each suppress one Watcher-related
           // side effect on this flag.
           void fireCrossGameBeat("the_watchers_yawn_loredex_shadow_defeated");
+          vo.speak("watcher-shadow-resolve");
+        } else if (currentOpponent.id === "act7_the_patient_zero_reborn") {
+          vo.speak("patient-zero-close");
         } else if (currentOpponent.id === "act7_the_convergence_seat") {
           setNarrativeFlag("act7_convergence_landing", true);
           setNarrativeFlag("act7_arc_closes", true);
@@ -179,6 +185,12 @@ export default function Act7CardLadderPage() {
           // Tier 4D: Act 7 callback closes the substrate handshake
           // thread. Only fires once — helper is idempotent.
           void fireCrossGameBeat("substrate_handshake_loredex_act7_callback");
+          vo.speak("convergence-landing-elara");
+          // Queued: Human's landing + dual closing chord. The hook
+          // queues follow-up lines behind the currently-playing one.
+          vo.speak("convergence-landing-human");
+          vo.speak("convergence-landing-dual");
+          vo.speak("arc-closes");
         }
       } else {
         recordLoss(currentOpponent.id);
@@ -189,7 +201,7 @@ export default function Act7CardLadderPage() {
       });
       setView("postmatch");
     },
-    [currentOpponent, recordWin, recordLoss, setNarrativeFlag],
+    [currentOpponent, recordWin, recordLoss, setNarrativeFlag, vo],
   );
 
   const anyStanceTaken = useMemo(
@@ -204,15 +216,25 @@ export default function Act7CardLadderPage() {
       setNarrativeFlag(flag, true);
       setNarrativeFlag("act7_stance_chosen", true);
       fireCompanionComment(flag);
+      const stanceLineId: Record<
+        (typeof FINAL_STANCES)[number]["flag"],
+        string
+      > = {
+        act7_s1_humanity_path: "final-stance-humanity",
+        act7_s1_machine_path: "final-stance-machine",
+        act7_s1_balance: "final-stance-balance",
+        act7_s1_soldier_command: "final-stance-command",
+      };
+      vo.speak(stanceLineId[flag]);
       setView("ladder");
     },
-    [setNarrativeFlag],
+    [setNarrativeFlag, vo],
   );
 
   const handleSilenceChosen = useCallback(() => {
     // Canon: "silence is itself a stance." Recorded as its own flag so
     // downstream UI can distinguish "player declined to choose" from
-    // "stance not yet offered."
+    // "stance not yet offered." No VO fires — the silence IS the VO.
     setNarrativeFlag("act7_silence_stance", true);
     setNarrativeFlag("act7_stance_chosen", true);
     fireCompanionComment("act7_silence_stance");

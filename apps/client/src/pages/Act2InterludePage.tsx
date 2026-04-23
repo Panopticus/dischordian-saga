@@ -24,6 +24,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, Ear, Play, X } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
+import { useActVO } from "@/hooks/useActVO";
 import { getActsSystemTutor } from "@shared/acts2to7SystemTutors";
 import LivingBackground from "@/components/LivingBackground";
 
@@ -41,6 +42,7 @@ const ELARA_RECOGNITION =
 
 export default function Act2InterludePage() {
   const { state: gameState, setNarrativeFlag } = useGame();
+  const vo = useActVO("2");
 
   const alreadyActivated = useMemo(
     () => gameState.narrativeFlags["act2_dual_signal_activated"] === true,
@@ -64,12 +66,18 @@ export default function Act2InterludePage() {
     if (!alreadyActivated) {
       setNarrativeFlag("act2_dual_signal_activated", true);
       fireCompanionComment("act2_dual_signal_activated");
+      // §1 · The Human's whisper intro plays first (queued so the two
+      // lines come in sequence), then §2 · Elara's recognition lands
+      // on top — matching the narrative beat in act2-vo-script.md.
+      vo.speak("human_commentary_1");
+      vo.speak("human_commentary_2");
+      vo.speak("elara_recognition");
       const t = window.setTimeout(() => {
         fireCompanionComment("act2_first_substrate_ping");
       }, 1500);
       return () => window.clearTimeout(t);
     }
-  }, [alreadyActivated, gameState.narrativeFlags, setNarrativeFlag]);
+  }, [alreadyActivated, gameState.narrativeFlags, setNarrativeFlag, vo]);
 
   const tutor = getActsSystemTutor("dual_channel");
 

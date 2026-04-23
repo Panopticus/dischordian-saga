@@ -13,6 +13,7 @@ import {
 import GalacticMap from "./GalacticMap";
 import { useGame } from "@/contexts/GameContext";
 import { dispatchVoiceWhisper } from "@/components/VoiceWhisper";
+import { useActVO } from "@/hooks/useActVO";
 import { getEquipmentGameBonuses } from "./equipmentState";
 import {
   GALACTIC_MAP, GALACTIC_FACTIONS, STARTER_MISSIONS,
@@ -238,6 +239,7 @@ function RoutesPanel({
 
 export default function TradeEmpirePage() {
   const { state: gameState, setNarrativeFlag } = useGame();
+  const vo = useActVO("3");
   const playerName = gameState.characterChoices?.name || "Captain";
   const [view, setView] = useState<View>("map");
   const [empire, setEmpire] = useState<EmpireState>(() => {
@@ -332,6 +334,21 @@ export default function TradeEmpirePage() {
 
   // ─── Act 3: choose a path on a faction arc ───
   const chooseArcPath = useCallback((factionId: Act3FactionId, path: FactionArcPath) => {
+    // §2.2 Act 3 pitch VO — when the player picks infiltration for one
+    // of the three canonical spine factions, Elara and The Human pitch
+    // the path (queued sequentially). Non-infiltration paths are quiet.
+    if (path === "infiltration") {
+      const pitchRoot: Record<string, string> = {
+        insurgency: "pitch-insurgency",
+        new_babylon: "pitch-empire",
+        hierarchy: "pitch-hierarchy",
+      };
+      const root = pitchRoot[factionId];
+      if (root) {
+        vo.speak(`${root}-elara`);
+        vo.speak(`${root}-human`);
+      }
+    }
     setEmpire(prev => {
       if (!prev.act3) return prev;
       const arc = prev.act3.arcs[factionId];
@@ -370,7 +387,7 @@ export default function TradeEmpirePage() {
       detail: ACT3_FACTION_ARCS[factionId].paths[path].summary,
       tone: path === "conquest" ? "dark" : path === "diplomacy" ? "light" : "neutral",
     });
-  }, [logEvent]);
+  }, [logEvent, vo]);
 
   // ─── Act 3: complete the current stage of a faction arc ───
   const completeArcStage = useCallback((factionId: Act3FactionId, stageId: string) => {
@@ -409,9 +426,17 @@ export default function TradeEmpirePage() {
       if (!canonPath) return prev;
       setNarrativeFlag(canonPath.endingFlag, true);
       setNarrativeFlag(canonPath.milestoneFlag, true);
+      // The Eyes acknowledges the player's committed path.
+      const commitLineId: Record<string, string> = {
+        insurgency: "eyes-commit-insurgency",
+        new_babylon: "eyes-commit-empire",
+        hierarchy: "eyes-commit-hierarchy",
+      };
+      const lineId = commitLineId[factionId];
+      if (lineId) vo.speak(lineId);
       return prev;
     });
-  }, [setNarrativeFlag]);
+  }, [setNarrativeFlag, vo]);
 
   // ─── Act 3: fail an in-progress arc (used by infiltration fail choices) ───
   // Some choices in the infiltration runner explicitly close the path — e.g.

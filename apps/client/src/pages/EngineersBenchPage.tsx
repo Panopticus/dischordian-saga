@@ -37,6 +37,7 @@ import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { useGame } from "@/contexts/GameContext";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
+import { useActVO } from "@/hooks/useActVO";
 import {
   CRAFTING_RECIPES,
   canCraftRecipe,
@@ -82,6 +83,7 @@ export default function EngineersBenchPage() {
 
   const flags = state.narrativeFlags ?? {};
   const localMemoryEnergy = state.memoryEnergy ?? 0;
+  const vo = useActVO("2");
   const localCap = getMemoryEnergyCap();
   const chessDepth = state.chessDepth ?? 0;
 
@@ -103,15 +105,18 @@ export default function EngineersBenchPage() {
   useEffect(() => {
     if (!flags.engineers_bench_powered_on) {
       setNarrativeFlag("engineers_bench_powered_on", true);
+      vo.speak("bench-first-power-on");
       // Queue the ambient lines a moment after the cinematic so the
       // first-power-on modal isn't fighting the toast queue for space.
       const t = window.setTimeout(() => {
         fireCompanionComment("bench_elara_ambient");
         fireCompanionComment("bench_human_ambient");
+        vo.speak("bench-elara-ambient");
+        vo.speak("bench-human-ambient");
       }, 4200);
       return () => window.clearTimeout(t);
     }
-  }, [flags.engineers_bench_powered_on, setNarrativeFlag]);
+  }, [flags.engineers_bench_powered_on, setNarrativeFlag, vo]);
 
   // Trpc: read authoritative crafting profile. We'll use this for the
   // server-authoritative craft mutation when the player is signed in.
@@ -200,6 +205,7 @@ export default function EngineersBenchPage() {
       setModal({ kind: "outOfEnergy", cost });
       if (!flags.out_of_memory_energy_line_seen) {
         setNarrativeFlag("out_of_memory_energy_line_seen", true);
+        vo.speak("bench-out-of-memory-energy");
       }
       return;
     }
@@ -243,6 +249,7 @@ export default function EngineersBenchPage() {
     if (selectedRecipe.alignment === "light" && !flags.first_light_craft_seen) {
       setNarrativeFlag("first_light_craft_seen", true);
       fireCompanionComment("first_light_craft");
+      vo.speak("bench-first-light-craft");
       setModal({ kind: "firstLightCraft" });
       if (isAuthenticated) {
         profileEventMutation.mutate({ source: "bench_craft:light_first" });
@@ -253,6 +260,7 @@ export default function EngineersBenchPage() {
     ) {
       setNarrativeFlag("first_dark_craft_seen", true);
       fireCompanionComment("first_dark_craft");
+      vo.speak("bench-first-dark-craft");
       setModal({ kind: "firstDarkCraft" });
       if (isAuthenticated) {
         profileEventMutation.mutate({ source: "bench_craft:dark_first" });
@@ -296,6 +304,8 @@ export default function EngineersBenchPage() {
     craftItem,
     craftMutation,
     setNarrativeFlag,
+    vo,
+    profileEventMutation,
   ]);
 
   const handleDevEarn = useCallback(() => {

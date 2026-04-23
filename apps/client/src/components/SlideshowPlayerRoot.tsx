@@ -12,7 +12,7 @@
    a slideshow and it just plays over whatever's rendered.
    ═══════════════════════════════════════════════════════ */
 
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import SongSlideshow from "./SongSlideshow";
 import { MatrixFrame } from "./MatrixFrame";
 import { useWitnessingStore } from "@/stores/witnessingStore";
@@ -23,12 +23,34 @@ import {
 } from "@/stores/memorableMomentsStore";
 import { getDynamicLionFrames } from "@shared/memorableMoments";
 import { useGame } from "@/contexts/GameContext";
+import { useActVO } from "@/hooks/useActVO";
 
 export function SlideshowPlayerRoot() {
   const active = useWitnessingStore((s) => s.activeSlideshow);
   const completeActive = useWitnessingStore((s) => s.completeActiveSlideshow);
   const moments = useMemorableMomentsStore((s) => s.moments);
   const { setNarrativeFlag, state: gameState } = useGame();
+  // §14.1 · Silence-of-Two-Witnesses parenthetical VO — two quiet
+  // voice-over beats (`silence-elara`, `silence-human`) that layer
+  // on top of the SILENCE_OF_TWO_WITNESSES_SLIDESHOW cinematic. The
+  // cinematic is mostly room tone + held breath; these are the only
+  // two voiced moments.
+  const act2Vo = useActVO("2");
+  const silenceVoFiredRef = useRef(false);
+
+  useEffect(() => {
+    if (!active) {
+      silenceVoFiredRef.current = false;
+      return;
+    }
+    if (active.def.id !== "silence-of-two-witnesses") return;
+    if (silenceVoFiredRef.current) return;
+    silenceVoFiredRef.current = true;
+    // Fire Elara's parenthetical first; the hook queues Human's right
+    // behind it so the two ride on the cinematic in order.
+    act2Vo.speak("silence-elara");
+    act2Vo.speak("silence-human");
+  }, [active, act2Vo]);
 
   // Appendix A.1 — once the player flips
   // matrix_is_slideshow_substrate, every slideshow becomes a
