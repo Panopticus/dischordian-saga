@@ -2148,3 +2148,23 @@ html.reduce-motion .ark-ambient-library-dust {
 html.reduce-motion .ark-ambient-library-shaft {
   opacity: 0.2;
 }
+
+/* ═══════════════════════════════════════════════════════
+   DUELYST HAND CARD — mouse-tilt on hover
+   The ParallaxHandCard wrapper sets --card-tilt-x/y from
+   the cursor position; this stylesheet rotates the inner
+   button through a 3D perspective. Amplitude scales with
+   --motion-intensity so the slider collapses it.
+   ═══════════════════════════════════════════════════════ */
+.duelyst-hand-card__button {
+  transform-style: preserve-3d;
+  transform:
+    rotateX(calc(var(--card-tilt-y, 0) * -8deg * var(--motion-intensity, 1)))
+    rotateY(calc(var(--card-tilt-x, 0) * 8deg * var(--motion-intensity, 1)))
+    translate3d(0, 0, 0);
+  transition: transform 80ms ease-out, border-color 150ms, background-color 150ms, box-shadow 150ms;
+  will-change: transform;
+}
+html.reduce-motion .duelyst-hand-card__button {
+  transform: none;
+}

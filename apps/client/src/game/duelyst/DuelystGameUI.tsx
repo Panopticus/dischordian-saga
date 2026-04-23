@@ -1790,10 +1790,10 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
             const playable = card.manaCost <= player.mana && phase === "playing" && gameState.currentPlayer === 0 && !locked;
             const isSelected = selectedCard === i;
             return (
+              <ParallaxHandCard key={`${card.id}-${i}`}>
               <button
-                key={`${card.id}-${i}`}
                 aria-label={locked ? `${card.name} — locked` : card.name}
-                className={`relative shrink-0 w-28 rounded-lg border-2 p-2 text-left transition-all ${
+                className={`duelyst-hand-card__button relative w-28 rounded-lg border-2 p-2 text-left transition-all ${
                   locked ? "void-border bg-white/[0.02] opacity-30 cursor-not-allowed" :
                   isSelected ? "border-white bg-white/10 -translate-y-2 shadow-lg" :
                   playable ? "border-white/20 bg-white/5 hover:border-white/40 hover:-translate-y-1" :
@@ -1824,6 +1824,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
                 {/* §5.5 lockout overlay — brass lock icon + dim wash */}
                 {locked && <CardLockOverlay />}
               </button>
+              </ParallaxHandCard>
             );
           })}
         </div>
@@ -1863,3 +1864,55 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
 }
 
 export default React.memo(DuelystGameUI);
+
+/* ═══════════════════════════════════════════════════════
+   PARALLAX HAND CARD — subtle mouse-tilt on hand cards
+
+   Thin wrapper around a hand-card button that tilts the
+   rendered card toward the cursor via a 3D perspective
+   transform. Tilt amplitude scales with --motion-intensity
+   so the slider collapses it cleanly; reduce-motion pins
+   the card flat. No RAF loop — we write directly to a CSS
+   custom property on mousemove and let the browser
+   compositor handle interpolation via the transform.
+   ═══════════════════════════════════════════════════════ */
+function ParallaxHandCard({ children }: { children: React.ReactNode }) {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const onMouseMove = (e: React.MouseEvent) => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    // Normalize cursor position within the card to -1..1 on both
+    // axes. We read --motion-intensity once per event so users on
+    // the slider get the correct amplitude without JS math here.
+    const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+    el.style.setProperty("--card-tilt-x", String(nx));
+    el.style.setProperty("--card-tilt-y", String(ny));
+  };
+
+  const onMouseLeave = () => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    el.style.setProperty("--card-tilt-x", "0");
+    el.style.setProperty("--card-tilt-y", "0");
+  };
+
+  return (
+    <div
+      ref={wrapperRef}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      className="duelyst-hand-card shrink-0"
+      style={{
+        perspective: "800px",
+        // Default "rest" values so the card sits flat when unhovered.
+        ["--card-tilt-x" as string]: "0",
+        ["--card-tilt-y" as string]: "0",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
