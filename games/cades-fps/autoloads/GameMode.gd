@@ -28,6 +28,16 @@ var current_scenario: String = ""
 # Shared
 var game_active: bool = false
 
+# Mission-specific modes (CADES_FPS_MISSIONS M3 / M4 / M6). Each is a
+# short narrative combat run routed through its own level scene that
+# posts a CADES_RESULT with the matching mode string when the player
+# completes (or exits) the arena. Per-mission kill / time counters live
+# here so both the level script + the React debrief can read them.
+var mission_kills: int = 0
+var mission_kills_required: int = 0
+var mission_time_elapsed: float = 0.0
+var mission_completed: bool = false
+
 func reset_for_mode(mode: String) -> void:
 	current_mode = mode
 	game_active = true
@@ -44,6 +54,18 @@ func reset_for_mode(mode: String) -> void:
 			thoughtborn_killed = 0
 		"historical_incursions":
 			game_masters_contact_level = 0
+		"void_corridor", "kaels_own", "vex_recruit":
+			mission_kills = 0
+			mission_time_elapsed = 0.0
+			mission_completed = false
+			# Kills required per mission — short narrative beats, not
+			# long combat tests. React side fires VO lines whether the
+			# player wins or loses, so these are more about pacing than
+			# challenge.
+			match mode:
+				"void_corridor": mission_kills_required = 6
+				"kaels_own":     mission_kills_required = 4
+				"vex_recruit":   mission_kills_required = 5
 
 func on_scenario_completed(scenario_id: String) -> void:
 	if scenario_id not in scenarios_completed:

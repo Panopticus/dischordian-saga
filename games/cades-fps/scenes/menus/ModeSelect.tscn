@@ -59,3 +59,15 @@ text = "SHIP DEFENSE — Inception Ark 1047 — Elara needs 25 minutes"
 [node name="BtnHistorical" type="Button" parent="VBox"]
 layout_mode = 2
 text = "HISTORICAL INCURSIONS — The Matrix of Dreams"
+
+[node name="BtnVoidCorridor" type="Button" parent="VBox"]
+layout_mode = 2
+text = "VOID CORRIDOR — M3 — Follow Agent Zero's signal"
+
+[node name="BtnKaelsOwn" type="Button" parent="VBox"]
+layout_mode = 2
+text = "KAEL'S OWN — M4 — The room at the end"
+
+[node name="BtnVexRecruit" type="Button" parent="VBox"]
+layout_mode = 2
+text = "VEX SOLÈNE — M6 — Accept the handshake"
