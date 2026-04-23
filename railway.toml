@@ -6,7 +6,13 @@ buildCommand = "pnpm install --frozen-lockfile && pnpm run build"
 nixPkgs = ["nodejs_22", "pnpm"]
 
 [deploy]
-startCommand = "pnpm start"
+# drizzle-kit migrate runs first so schema changes shipped with the code
+# apply before the server boots. It's idempotent — drizzle tracks which
+# migrations have been applied in `__drizzle_migrations` and skips
+# already-applied ones — so container restarts are cheap. If a migration
+# fails, the container never reaches `pnpm start` and Railway surfaces
+# the failure in the deploy log, which is the right failure mode.
+startCommand = "pnpm db:migrate:prod && pnpm start"
 healthcheckPath = "/"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 10
