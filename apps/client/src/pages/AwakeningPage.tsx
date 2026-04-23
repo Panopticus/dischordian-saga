@@ -4,6 +4,7 @@
    ═══════════════════════════════════════════════════════ */
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useGame, type AwakeningStep } from "@/contexts/GameContext";
+import AwakeningCharacterPreview from "@/pages/awakening/AwakeningCharacterPreview";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useSound } from "@/contexts/SoundContext";
 import { motion, AnimatePresence } from "framer-motion";
@@ -702,6 +703,13 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
 
   return (
     <div className="fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden" style={{ background: "#000" }} onClick={handleInitAudio}>
+      {/* Growing dossier card — accretes in the top-right as the
+          player answers species / class / element / alignment. Gives
+          them a live "look at who you're becoming" beat instead of
+          waiting for the post-awakening summary. pointer-events-none
+          so it never intercepts dialog clicks. */}
+      <AwakeningCharacterPreview choices={characterChoices} />
+
       {/* Background layer — prefers a Kling cinematic for the current
           awakening step (Bioware-style video backdrop), falling back to
           the state-aware Section F still render if no video URL has
