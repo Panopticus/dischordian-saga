@@ -2859,3 +2859,29 @@ Consolidates every Veo 3.1 / Seedance 2.0 motion clip referenced throughout Part
 
 ---
 
+### CIN-HUMAN-REVEAL — The Human's first-encounter particle assembly (15s one-shot, P0)
+
+**Output:** `apps/client/public/videos/character-sheet/protagonist_human_reveal.mp4` · **Aspect:** 1:1 square · **Resolution:** 2048×2048 · **Duration:** 15s one-shot (NOT a loop — plays once on first contact, then the idle 3D rig takes over)
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 1:1 square, 2048×2048. A near-empty dark frame. Deep charcoal-black background with a faint warm-red ambient haze filling the lower half of the frame. A sparse scatter of ~80 glowing red ember particles drift lazily through the composition, each a tiny warm red point with a faint directional streak. No figure visible yet — only the suggestion of atmosphere. A single more-concentrated cluster of ~15 particles hovers at roughly the center-lower-third, beginning to congregate. The background has extremely subtle CRT-scanline overlay at 15% opacity. Volumetric red haze in deep foreground. Film grain. 4K. No rendered text.
+
+**END FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 1:1 square, 2048×2048. Same frame composition as the start frame (same camera, same background haze). But now fully present: THE HUMAN, three-quarter bust framing, matching the front turnaround pose exactly — weathered face, dark brown beard, black fedora at asymmetric tilt (right side brim lower), rugged black high-collar coat. Both eyes now exposed and blazing at full red-emissive intensity — iris #b81a1a with hot white cores (#ffe0e0 catchlights), warm red light bouncing onto his cheekbones. His head is lifted, chin up slightly, eyes locked directly on camera. Mouth slightly parted — on the verge of speaking the first line. The lingering ~60 red ember particles that didn't resolve into his body still drift around his silhouette. Warm red rim light traces his outline fully. Background CRT-scanline overlay now at 25% opacity on him. Film grain. 4K. No rendered text.
+
+**VEO 3.1 MOTION PROMPT:**
+> 15-second one-shot reveal cinematic. Camera locked static, no dolly, no pan. Subject: The Human assembling from particles into solid form. Narrative beats with frame timings:
+> - **0.0–2.0s (stillness):** Ambient red ember particles drift lazily. Background has a subtle CRT-scanline sweep (one full vertical sweep in 2s). No figure yet — only atmosphere. Mood: patient anticipation.
+> - **2.0–4.0s (gathering):** Scattered particles accelerate inward, converging toward the center-frame silhouette-target. Particle count grows from 80 to 500 as new particles fade in from frame edges. They form a vague cloud at the shape of the figure-to-be. Subtle red atmospheric swell.
+> - **4.0–8.0s (resolution):** Particle count climbs to 2000, swarming along the silhouette-stencil target. Outline of The Human's body becomes readable — shoulder, hat crown, coat line. Particles at the edges transition from dot-particles into streaked micro-strokes, then into solid pixel-clusters. From 4s to 8s we scrub `revealProgress` from 0.0 to 0.85 — his body resolves from particulate to solid photoreal, but his EYES REMAIN DARK. Face visible (beard, mouth, hat brim) but the eye sockets are still two empty shadow-pits. **At 8.0s: body present, not yet "alive" — eyes are closed/absent.**
+> - **8.0–11.0s (held beat):** Body holds fully resolved. Chest rises once — his first breath, timed carefully. Red ambient particles thin to ~100. CRT-scanline sweep slows. Mood: silent. We are waiting for him. His body exists; his being does not yet.
+> - **11.0–12.8s (eye kindling):** Sub-surface warm red glow begins to build inside both eye sockets, from zero to mid-intensity over 1.8s. Barely perceptible at 11.0s, growing to visible (12.0s), bright (12.5s), full-intensity (12.8s). A quiet emissive swell.
+> - **12.8–13.0s (IGNITION):** One frame — at 12.9s the eyes snap to full red-emissive ignition. Hot white cores, aggressive red rays. A subtle audio-synced visual pulse — faint volumetric bloom ring emanates outward from the eyes across 8 frames. Cheekbones catch the red light for the first time. **This is the moment The Human is alive.**
+> - **13.0–14.0s (first breath of life):** Chin lifts 3°, eyes (now lit) saccade once across the camera — a recognition beat. He sees the player. Chest rises for a second breath, deeper. Hat brim shadow now shows the red light leaking onto his skin underneath.
+> - **14.0–15.0s (settle):** Body settles into the END FRAME pose. A residual ember particle drifts past his shoulder. Scanline sweep completes one final pass. Mouth parts slightly — he is about to say the first line. Hold on end frame for the final 8 frames (0.33s) to lock loop-out.
+> Cinematography: fixed camera, no motion. Motion is entirely in the subject, the particles, and the light. 24fps. Film grain preserved throughout. Warm red palette dominant.
+
+**Audio hand-off note:** Synced to the player's first VO line. Ignition moment (12.9s) lines up with a Suno-generated 1.2s low-string stinger. First-line VO begins at 14.5s — he finishes the cinematic exhaling, then speaks over the final settle. See `docs/production/vo-batches/act1-opponent-dialog__human.csv` for the first-line text.
+
+---
+
