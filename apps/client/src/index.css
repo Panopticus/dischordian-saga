@@ -1910,3 +1910,241 @@ html.reduce-motion .chess-arena-morality-wash {
 html.reduce-motion .vs-intro-shake {
   animation: none;
 }
+
+/* ═══════════════════════════════════════════════════════
+   ROOM AMBIENT LIFE — per-room keyframe families
+   See components/RoomAmbientLife.tsx for which rooms
+   consume which family. All families collapse cleanly
+   under html.reduce-motion.
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Cryo Bay: rising vapor + pod glass breath ─── */
+.ark-ambient-cryo-vapor {
+  position: absolute;
+  bottom: -6%;
+  border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+  background: radial-gradient(
+    ellipse at 50% 40%,
+    rgba(180, 220, 255, 0.35) 0%,
+    rgba(180, 220, 255, 0.10) 50%,
+    transparent 80%
+  );
+  filter: blur(2px);
+  opacity: 0;
+  animation-name: arkAmbientCryoVapor;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+@keyframes arkAmbientCryoVapor {
+  0%   { transform: translate3d(0, 0, 0) scale(0.8);  opacity: 0; }
+  15%  { opacity: calc(0.55 * var(--motion-intensity, 1)); }
+  80%  { opacity: calc(0.25 * var(--motion-intensity, 1)); }
+  100% { transform: translate3d(
+           calc(var(--motion-intensity, 1) * 14px),
+           -110%, 0) scale(1.25); opacity: 0; }
+}
+.ark-ambient-cryo-glow {
+  position: absolute;
+  left: 50%;
+  bottom: 20%;
+  width: 40vmin;
+  height: 20vmin;
+  transform: translate(-50%, 0);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(150, 230, 255, 0.12) 0%,
+    transparent 70%
+  );
+  animation: arkAmbientCryoBreathe
+    calc(6s / max(0.1, var(--motion-intensity, 1)))
+    ease-in-out infinite;
+}
+@keyframes arkAmbientCryoBreathe {
+  0%, 100% { opacity: 0.45; transform: translate(-50%, 0) scale(1); }
+  50%      { opacity: 0.85; transform: translate(-50%, 0) scale(1.06); }
+}
+
+/* ─── Bridge: star drift + HUD line-scan ─── */
+.ark-ambient-bridge-star {
+  position: absolute;
+  left: -4%;
+  background: rgba(220, 240, 255, 0.75);
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(220, 240, 255, 0.5);
+  opacity: 0;
+  animation-name: arkAmbientBridgeStar;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+@keyframes arkAmbientBridgeStar {
+  0%   { transform: translate3d(0, 0, 0);                          opacity: 0; }
+  10%  { opacity: calc(0.9 * var(--motion-intensity, 1)); }
+  90%  { opacity: calc(0.6 * var(--motion-intensity, 1)); }
+  100% { transform: translate3d(calc(108vw * var(--motion-intensity, 1)), 0, 0); opacity: 0; }
+}
+.ark-ambient-bridge-scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -10%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(51, 226, 230, 0.55) 50%,
+    transparent 100%
+  );
+  animation: arkAmbientBridgeScan
+    calc(8s / max(0.1, var(--motion-intensity, 1)))
+    ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+@keyframes arkAmbientBridgeScan {
+  0%, 100% { transform: translate3d(0, -10vh, 0); opacity: 0; }
+  40%      { transform: translate3d(0, 40vh, 0);  opacity: 0.6; }
+  60%      { transform: translate3d(0, 80vh, 0);  opacity: 0.4; }
+  80%      { transform: translate3d(0, 110vh, 0); opacity: 0; }
+}
+
+/* ─── Engineering: heat haze + sparks ─── */
+.ark-ambient-engineering-haze {
+  position: absolute;
+  inset: 40% 0 0 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 6px,
+    rgba(255, 140, 40, 0.04) 6px 7px
+  );
+  filter: blur(1px);
+  animation: arkAmbientEngineeringHaze
+    calc(3s / max(0.1, var(--motion-intensity, 1)))
+    ease-in-out infinite;
+}
+@keyframes arkAmbientEngineeringHaze {
+  0%, 100% { transform: translateY(0)      scaleY(1); opacity: 0.8; }
+  50%      { transform: translateY(-2px)   scaleY(1.03); opacity: 1; }
+}
+.ark-ambient-engineering-spark {
+  position: absolute;
+  top: 65%;
+  width: 2px;
+  height: 2px;
+  background: #FFA528;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #FF8C00, 0 0 16px #FF8C0080;
+  opacity: 0;
+  animation-name: arkAmbientEngineeringSpark;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+@keyframes arkAmbientEngineeringSpark {
+  0%, 85%  { transform: translate3d(0, 0, 0) scale(1);   opacity: 0; }
+  88%      { opacity: calc(0.9 * var(--motion-intensity, 1)); }
+  100%     { transform: translate3d(
+              calc(var(--motion-intensity, 1) * 40px),
+              calc(var(--motion-intensity, 1) * -24px),
+              0) scale(0.2); opacity: 0; }
+}
+
+/* ─── Medical Bay: diagnostic line + IV drip ─── */
+.ark-ambient-medical-scan {
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  top: 45%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 224, 85, 0.8) 50%,
+    transparent 100%
+  );
+  animation: arkAmbientMedicalScan
+    calc(2.8s / max(0.1, var(--motion-intensity, 1)))
+    cubic-bezier(0.3, 0, 0.7, 1) infinite;
+  mix-blend-mode: screen;
+}
+@keyframes arkAmbientMedicalScan {
+  0%   { transform: scaleX(0.3); opacity: 0; }
+  10%  { transform: scaleX(0.3); opacity: 1; }
+  45%  { transform: scaleX(1);   opacity: 0.6; }
+  50%  { transform: scaleX(1);   opacity: 0; }
+  100% { transform: scaleX(0.3); opacity: 0; }
+}
+.ark-ambient-medical-drip {
+  position: absolute;
+  right: 12%;
+  top: 22%;
+  width: 6px;
+  height: 6px;
+  background: #FF3C40;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #FF3C40aa;
+  animation: arkAmbientMedicalDrip
+    calc(4s / max(0.1, var(--motion-intensity, 1)))
+    ease-in-out infinite;
+}
+@keyframes arkAmbientMedicalDrip {
+  0%, 90%, 100% { opacity: 0.25; transform: scale(0.8); }
+  92%           { opacity: 1;    transform: scale(1.4); }
+  95%           { opacity: 0.6;  transform: scale(1); }
+}
+
+/* ─── Antiquarian Library: light-shaft + dust motes ─── */
+.ark-ambient-library-shaft {
+  position: absolute;
+  left: 60%;
+  top: -20%;
+  width: 30vmin;
+  height: 140%;
+  transform: rotate(12deg);
+  transform-origin: top center;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(255, 220, 120, 0.06) 30%,
+    rgba(255, 220, 120, 0.10) 60%,
+    transparent 100%
+  );
+  filter: blur(6px);
+  mix-blend-mode: screen;
+  opacity: calc(0.8 * var(--motion-intensity, 1));
+}
+.ark-ambient-library-dust {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 220, 150, 0.7);
+  box-shadow: 0 0 4px rgba(255, 220, 150, 0.4);
+  opacity: 0;
+  animation-name: arkAmbientLibraryDust;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+@keyframes arkAmbientLibraryDust {
+  0%, 100% { transform: translate3d(0, 0, 0);     opacity: 0; }
+  20%      { opacity: calc(0.7 * var(--motion-intensity, 1)); }
+  60%      { transform: translate3d(
+              calc(var(--motion-intensity, 1) * 8px),
+              calc(var(--motion-intensity, 1) * 30px),
+              0); opacity: 0.5; }
+  80%      { opacity: 0.3; }
+}
+
+/* Everything above collapses under reduce-motion. */
+html.reduce-motion .ark-ambient-cryo-vapor,
+html.reduce-motion .ark-ambient-cryo-glow,
+html.reduce-motion .ark-ambient-bridge-star,
+html.reduce-motion .ark-ambient-bridge-scan,
+html.reduce-motion .ark-ambient-engineering-haze,
+html.reduce-motion .ark-ambient-engineering-spark,
+html.reduce-motion .ark-ambient-medical-scan,
+html.reduce-motion .ark-ambient-medical-drip,
+html.reduce-motion .ark-ambient-library-dust {
+  animation: none;
+  opacity: 0;
+}
+html.reduce-motion .ark-ambient-library-shaft {
+  opacity: 0.2;
+}

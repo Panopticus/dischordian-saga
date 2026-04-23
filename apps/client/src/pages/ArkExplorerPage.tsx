@@ -16,6 +16,7 @@ import { generateDailyBrief, type RoomEvent } from "@/game/livingArk";
 import { processArkEvent, type ArkEventResult } from "@/game/arkEventHandler";
 import { useDailyBrief } from "@/hooks/useDailyBrief";
 import PageMeta from "@/components/PageMeta";
+import RoomAmbientLife from "@/components/RoomAmbientLife";
 import NPCDialog, { buildFirstContactScene, type NPCDialogScene, type NPCDialogChoice } from "@/components/NPCDialog";
 import type { FactionNPCId } from "@/game/factionNPCs";
 import { getAvailableBanter, type CompanionBanter } from "@/game/companionDeepening";
@@ -307,6 +308,14 @@ function RoomScene({
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{
         backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--energy-primary) 15%, transparent) 2px, color-mix(in oklch, var(--energy-primary) 15%, transparent) 4px)",
       }} />
+
+      {/* Per-room ambient life overlay — keyframed CSS-only particles
+          and sweeps themed per room (cryo vapor, bridge star drift,
+          engineering heat haze + sparks, medical diagnostic line +
+          IV drip, antiquarian library dust motes). Unknown rooms
+          render nothing so the default "image + scanlines" experience
+          is preserved. */}
+      <RoomAmbientLife roomId={room.id} />
 
       {/* Markers toggle moved to Settings page */}
 
