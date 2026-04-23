@@ -1775,3 +1775,20 @@ html.reduce-motion .ambient-skybox__nebula {
 html.captions-on .caption-label {
   display: inline-block;
 }
+
+/* ═══════════════════════════════════════════════════════
+   SETTINGS SEARCH FLASH — brief highlight on scroll-to
+   from SettingsSearchModal. One-shot 1.8s animation.
+   ═══════════════════════════════════════════════════════ */
+@keyframes settingsSearchFlash {
+  0%   { box-shadow: 0 0 0 0 color-mix(in oklch, var(--energy-primary) 40%, transparent); background-color: color-mix(in oklch, var(--energy-primary) 10%, transparent); }
+  60%  { box-shadow: 0 0 0 10px transparent; background-color: color-mix(in oklch, var(--energy-primary) 4%, transparent); }
+  100% { box-shadow: 0 0 0 0 transparent; background-color: transparent; }
+}
+.settings-search-flash {
+  animation: settingsSearchFlash 1.8s ease-out;
+  border-radius: 0.75rem;
+}
+html.reduce-motion .settings-search-flash {
+  animation: none;
+}
