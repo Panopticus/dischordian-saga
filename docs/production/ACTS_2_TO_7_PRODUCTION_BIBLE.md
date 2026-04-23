@@ -1068,6 +1068,100 @@ The first time the audience sees the Watcher's shape clearly — still at low op
 
 ---
 
+## PART 7 — ACT 7 "THE CONVERGENCE"
+
+### 7.0 — Narrative anchor
+
+**Trigger:** 15+ army recruitment missions completed.
+
+**Premise:** Army assembled. Two wars revealed: the visible (order vs. chaos) and the invisible (against the Watcher). For the first and only time, Elara and The Human's voices ALIGN — one sustained chord. Four final stances: FOR HUMANITY / SEE THE PATTERN / THE BRIDGE / TAKE COMMAND. All canon-safe — the choice affects dialog tone, not outcome. Final VO: *"I've been waiting a very long time to say that to someone."*
+
+**Source files:** `narrativeActs.ts:1152-1254` (ACT_7_THE_CONVERGENCE — army status + 4 paths + closing line, fully authored).
+
+**Cinematics in this part:** 7 — opener (21s), Two Wars Diagram (8s — visible war vs. invisible war), Voices Align (15s ★ THE moment), 4 stance variants (4-6s each).
+
+**VFX atlases:** 3 — army composite parallax (assembled factions across 5 sectors), voices-align chord ring (visual manifestation of the single sustained chord), invisible-war overlay (chalkboard-style diagram of the Watcher-threat).
+
+**Music:** opener (21s), two-wars transition stinger, voices-align sustained chord (the KEY cue of the entire bible — Elara's D-minor and Human's F-minor reconcile into a single resolved chord), 4 stance resolution cues.
+
+### 7.1 — VFX atlases (Act 7)
+
+**vfx_act7_army_composite_parallax** — `.../act-7/army_composite_parallax.png` · 3840×1080 (widescreen)
+
+> A wide aerial composite of the assembled army across five sectors. 5 horizontal bands representing the 5 sectors, with silhouettes of faction groupings in each: Insurgents (orange-red, battle-worn), Authority defectors (charcoal-black, uniformed), Dreamer's Shield survivors (pale cyan, ceremonial), Antiquarian scholars (gold, robed), Free Ports smugglers (mixed earth-tones). All facing the same direction. Composition: rendered as a single aerial composite, LOW DETAIL per figure (silhouettes not portraits — this is a WIDE shot of scale). Deliver at 3840×1080 for parallax-scrolling UI use. Film grain.
+
+**vfx_act7_voices_align_chord_ring** — `.../act-7/voices_align_chord_ring.png` · 2048×2048 transparent
+
+> A radial chromatic-gradient ring texture. Center: pure white bloom. Mid-band: a smooth gradient from Elara's cool-cyan (#4ba3b5, inner) through a neutral gold (#d4a04a, mid) to The Human's warm-red (#b81a1a, outer). Outer band: fades to transparent. The ring represents a SUSTAINED CHORD made visible — a single musical moment rendered as light. Used as overlay on the Voices Align cinematic at 100% intensity.
+
+**vfx_act7_invisible_war_overlay** — `.../act-7/invisible_war_overlay.png` · 2048×2048 transparent
+
+> A chalkboard-style diagram texture. Black background with white chalk lines drawing a battle-map: on the LEFT HALF faction boundaries labeled with abstract glyphs (Insurgency / Empire / Hierarchy / Dreamer / Free Ports — no legible text), on the RIGHT HALF a single shape labeled "WATCHER" in slightly different (reddish) chalk. Arrows drawn from the LEFT HALF's chaos toward the RIGHT HALF's shape — the audience now sees both wars at once. The narrators draw this on-screen; the viewer (player) sees the Watcher that narrators cannot. Used as background overlay on the Two Wars Diagram cinematic.
+
+### 7.2 — CIN-ACT7-OPENER — Act 7 opener (21s, P0)
+
+**Output:** `apps/client/public/videos/acts/act-7/cin_act7_opener.mp4` · 16:9 · 1920×1080 (or 3840×1080 widescreen)
+
+Per the existing `acts-4-through-7-asset-pipeline.md` Act 7 spec. Wide army-composite shot.
+
+**START FRAME:** Dark frame with a single warm amber PINPOINT of light at frame center (the only star in the void). Wide 16:9. Palette: deep black + single gold pinpoint. Film grain.
+
+**END FRAME:** The full `vfx_act7_army_composite_parallax` texture rendered at wide-shot — 5 faction bands stretched across the composition, all figures facing a common direction. The single warm pinpoint at frame-center is STILL there but now contextualized as the far-horizon target the army faces. Palette: full spectrum of faction colors balanced against the dark. Film grain.
+
+**MOTION PROMPT:**
+
+> 21-second one-shot. Camera slow pull-back from the pinpoint to the army composite. Beats:
+> - 0-4s: pinpoint held, nothing else visible.
+> - 4-12s: slow pull-back reveals the first faction band (Insurgency, closest — orange-red silhouettes). Over 8 seconds.
+> - 12-17s: additional faction bands reveal as the pull-back continues — Authority, Dreamer, Antiquarian, Free Ports, each entering frame at ~1-second intervals.
+> - 17-20s: full army composite visible. All bands facing the pinpoint.
+> - 20-21s: end held. The moment of assembly.
+> 24fps, full palette. Film grain.
+
+### 7.3 — CIN-ACT7-TWO-WARS-DIAGRAM — The invisible war revealed (8s, P1)
+
+**Output:** `.../act-7/cin_act7_two_wars_diagram.mp4` · 16:9 · 1920×1080
+
+Elara and The Human (both present in a single frame for the first time outside the Memorial Corridor) sketching a diagram on a blackboard. The left side shows factions — the visible war. The right side shows the Watcher — the invisible war.
+
+**START FRAME:** Blackboard in a dim room, 16:9. Blank chalkboard, Elara (photoreal per Part 6) standing at left with chalk in hand, The Human at right with chalk in hand. Both looking at the board. Palette: warm lamp-light, black board, white chalk. Film grain.
+
+**END FRAME:** Board now FULLY DRAWN with the `vfx_act7_invisible_war_overlay` diagram — faction boundaries on the left, Watcher shape on the right (in slightly-redder chalk), arrows connecting them. Both narrators have stepped back from the board, still holding chalk, looking at what they have drawn. Neither has drawn the Watcher — but neither seems surprised it's there. The audience realizes: they KNOW about it, they just cannot perceive it directly. Film grain.
+
+**MOTION PROMPT:** 8-second one-shot. Camera locked. Beats:
+- 0-2s: blank board, both narrators ready.
+- 2-5s: across 3 seconds, faction boundaries are drawn on the LEFT side — both narrators chalk in alternation, Elara drawing Dreamer/Authority lines while The Human draws Insurgency/Free Ports.
+- 5-6s: simultaneously, the Watcher shape APPEARS on the RIGHT side of the board — but NEITHER narrator draws it. It simply manifests in slightly-redder chalk.
+- 6-7s: both narrators look at the right side of the board. Neither is surprised.
+- 7-8s: they step back. End frame.
+Palette: warm chalkboard lamp-light. Film grain.
+
+### 7.4 — CIN-ACT7-VOICES-ALIGN — Single sustained chord (15s, P0) ★★ THE KEY BEAT
+
+**Output:** `.../act-7/cin_act7_voices_align.mp4` · 1:1 · 2048×2048
+
+The beat the player has been waiting for. For the first and only time in the spine, Elara and The Human's voices merge into a SINGLE SUSTAINED CHORD — their themes (D-minor and F-minor) reconcile into a unified resolution. Narratively: they speak one sentence TOGETHER. Visually: the `vfx_act7_voices_align_chord_ring` rings out as a visible manifestation of the chord.
+
+**START FRAME:** Close framing of both narrators' faces in side-by-side composition — Elara photoreal (post-Act-6 canon) on the left, The Human (Part 1B canon, red-emissive eyes at baseline) on the right. Both are in MID-SENTENCE, mouths slightly open. Between them at mid-frame: empty space — ~40% of the composition's width is just the space between them. Palette: warm amber lamp-light, both faces lit. Film grain.
+
+**END FRAME:** Same composition, but the SPACE between them now contains the `vfx_act7_voices_align_chord_ring` overlay at 100% intensity. The ring is a visible manifestation of the single sustained chord — cyan inner (Elara), gold mid (convergence), red outer (The Human), all present in ONE COMPOSITION. Both narrators' faces are now bathed in the ring's light — Elara warmed by the gold and red, The Human cooled by the gold and cyan. They look at each other across the chord. Film grain.
+
+**VEO 3.1 MOTION PROMPT:**
+
+> 15-second one-shot. Camera locked. This is the KEY beat of the entire bible. Narrative beats:
+> - 0-2s: start frame held. Both in mid-sentence, separate.
+> - 2-5s: both mouths move simultaneously — they speak the SAME SENTENCE in alignment. Their audio tracks lock to each other (audio hand-off) and the cinematic is silent, letting the score carry the weight.
+> - 5-9s: the `vfx_act7_voices_align_chord_ring` APPEARS in the center space between them — fades in from 0% to 50% opacity over 4 seconds. Center-bloom first, then mid-band cyan/gold/red emerges. Both narrators' faces are gradually lit by the ring.
+> - 9-11s: ring intensifies to 100%. Both narrators' mouths close simultaneously — the sentence is finished.
+> - 11-13s: ring holds at 100%. Narrators look at EACH OTHER for the first time in this cinematic — same gesture, same moment. Small mutual nod.
+> - 13-15s: end frame held. The chord rings on in the score underneath; the image is still. This is the first full resolution the game has allowed.
+> 24fps, warm amber lamp-light + full-spectrum chord-ring. Film grain.
+
+**SUNO v4:** see mus_act7_voices_align in §7.7 — THE key cue of the entire bible. Must render Elara's D-minor theme and The Human's F-minor theme as a CONVERGED CHORD — tonic D, major-third with both narrators' voices singing the shared resolution. 15-second sustained chord. This is the composition's emotional peak.
+
+---
+
+
 
 
 
