@@ -1159,7 +1159,78 @@ The beat the player has been waiting for. For the first and only time in the spi
 
 **SUNO v4:** see mus_act7_voices_align in §7.7 — THE key cue of the entire bible. Must render Elara's D-minor theme and The Human's F-minor theme as a CONVERGED CHORD — tonic D, major-third with both narrators' voices singing the shared resolution. 15-second sustained chord. This is the composition's emotional peak.
 
+### 7.5 — CIN-ACT7-STANCE-{HUMANITY,PATTERN,BRIDGE,COMMAND} — Final stance variants (4-6s each, P1)
+
+Four sibling cinematics that play when the player commits to their Act 7 final stance. All are canon-safe — the choice shapes dialog tone, not outcome. Shared framing: the player's final commitment rendered as a simple visual statement.
+
+**Shared START FRAME:** the end frame of CIN-ACT7-VOICES-ALIGN — both narrators in side-by-side composition, chord ring holding at 100% between them. This is the AFTERMATH.
+
+**CIN-ACT7-STANCE-HUMANITY — END FRAME:** the chord ring has SIMPLIFIED from cyan+gold+red gradient to PURE GOLD (the convergence color alone — humanity's warm center, neither narrator tint dominant). Elara and The Human are now looking at CAMERA (not each other). Both are warm-lit. Their expressions: resolute. Warm gold palette. Film grain.
+
+**MOTION (Humanity):** 5s one-shot. 0-2s chord ring transitions from full-spectrum to pure gold across 2s. 2-4s narrators turn from facing each other to facing camera. 4-5s end held. Warm gold dominant.
+
+**CIN-ACT7-STANCE-PATTERN — END FRAME:** the chord ring has COMPLEXIFIED — instead of simplifying, it has fractured into a fractal pattern of nested chord rings at different scales. Elara and The Human still look at each other, but their eyes now track along the pattern's lines. Their expressions: recognition of systems. Cool fractal palette with the original gold at the deepest center. Film grain.
+
+**MOTION (Pattern):** 5s one-shot. 0-2s chord ring begins to fracture — smaller rings emerge from within the main one, nesting recursively. 2-4s narrators' eyes track the pattern. 4-5s end held. Cool palette with deep gold center.
+
+**CIN-ACT7-STANCE-BRIDGE — END FRAME:** the chord ring has EXTENDED — stretching from the left side of the composition (Elara's cool cyan) to the right side (The Human's warm red) as a SPANNING BRIDGE rather than a ring. The narrators now both have one hand raised, reaching across the bridge toward each other (their hands meet in the mid-composition). Their expressions: commitment to connection. Full spectrum, linear. Film grain.
+
+**MOTION (Bridge):** 5s one-shot. 0-2s chord ring deforms from circular to linear span — an ARC stretching across the composition. 2-4s both narrators raise one hand; their hands meet in the middle of the bridge-arc. 4-5s end held. Full spectrum palette, bridge composition.
+
+**CIN-ACT7-STANCE-COMMAND — END FRAME:** the chord ring has CONTRACTED — from 100% opacity at full size down to a single intensely-bright small disc at the center of the composition. Both narrators have stepped FORWARD toward the audience (the player). Their expressions: focused authority. The small bright disc is a TARGET. Palette: deep shadow with one hot concentrated light. Film grain.
+
+**MOTION (Command):** 6s one-shot. 0-2s chord ring contracts to a small bright central disc. 2-4s both narrators step one pace forward. 4-6s end held. Palette contracts from full-spectrum to a single concentrated point.
+
+All four share the voices-align end-frame as their start — each represents a different interpretation of what to DO with the shared chord's resolution.
+
+### 7.6 — Closing line note
+
+After any of the 4 stance cinematics completes, the final VO line plays (per `narrativeActs.ts:1152-1254`): *"I've been waiting a very long time to say that to someone."*
+
+The delivery should be Elara and The Human's voices overlaid on top of each other — both speaking the same line, with their individual timbral differences still audible but aligned. This is a VO production note, not a new cinematic — the line plays over the black fade-out following the chosen stance.
+
+### 7.7 — Suno v4 music prompts (Act 7)
+
+**mus_act7_opener** — 21s
+
+> Suno v4 prompt: "Army-assembly reveal, 21 seconds. Opens with 4 seconds of silence — just distant wind. At 4s a single solo violin begins playing a simple melody in D-major (the army's theme, earnest and unadorned). At 12s a low brass ensemble joins below. At 17s a full orchestral swell fills the composition — the army revealed in full. Ends at 21s on a HELD major-7 chord — unresolved, hopeful, waiting. The sound of an army that has assembled and is not yet in motion."
+
+**mus_act7_two_wars_transition** — 8s
+
+> Suno v4 prompt: "8-second transition stinger. Opens with the Act 7 opener's army theme fading in (low brass holding a D-major chord) at 50% volume. At 3s, a COLD HIGH HARMONIC enters above — the Watcher's frequency from mus_act6_watcher_reveal. At 5s, the two coexist — the Watcher's frequency drifts in and out at uneven intervals as if the army's theme is trying to push it away. At 8s, held. Unresolved. The audience sees: both wars are real, both are happening at once."
+
+**mus_act7_voices_align** — 15s ★★ KEY CUE
+
+> Suno v4 prompt: "15-second SUSTAINED CHORD. This is the single most important music cue in Dischordian Saga. Elara's theme in D-minor and The Human's theme in F-minor CONVERGE into a single resolved chord. The arrangement:
+> - 0-2s: both themes begin SEPARATELY, just as they did in mus_act4_memorial_corridor (Elara D-minor cool-cyan strings + female vocal tonic, The Human F-minor warm-red brass + male vocal F). They are still in different keys.
+> - 2-5s: across 3 seconds, BOTH TRANSPOSE toward D-MAJOR. Elara's theme shifts from minor to major and brightens. The Human's theme shifts from F-minor to F-major while DESCENDING to D-major.
+> - 5-9s: both themes are now in D-MAJOR. They ARE the same chord now. Female vocal + male vocal singing the SAME tonic (D). Strings + brass playing the SAME major-3 (F-sharp).
+> - 9-13s: held. The chord RINGS. Full dynamic. This is the convergence.
+> - 13-15s: chord holds but begins very slowly to fade. Does NOT disappear by 15s — render the chord still ringing at 20% volume at 15s. The score continues INTO the stance cinematic that follows.
+> Render as ONE COMPOSITION. The transposition from minor-to-major across 2-5s is the entire emotional arc of the piece. This is the spine's resolution. Critical: the composition MUST thread both themes' tonal identities so that the audience recognizes them as they reconcile."
+
+**mus_act7_stance_humanity** — 5s
+
+> Suno v4 prompt: "5-second Humanity stance closer. Inherits the voices_align chord still ringing at 20%. Warm gold brass tone joins, simplifying the chord toward a single D-major triad. Confidence, heart, chosen commitment."
+
+**mus_act7_stance_pattern** — 5s
+
+> Suno v4 prompt: "5-second Pattern stance closer. Inherits the voices_align chord. Adds a fractal arrangement of plucked strings — same note pattern played at 4 different rates simultaneously (a visible temporal lattice). Cool intellect, recognition."
+
+**mus_act7_stance_bridge** — 5s
+
+> Suno v4 prompt: "5-second Bridge stance closer. Inherits the voices_align chord. Elara's D-major theme and The Human's D-major theme now alternate across the stereo field — left ear / right ear / left ear / right ear — but both on the same tonic. The bridge spans the listener's head. Connection."
+
+**mus_act7_stance_command** — 6s
+
+> Suno v4 prompt: "6-second Command stance closer. Inherits the voices_align chord but IMMEDIATELY contracts it — full orchestral chord compresses down to a single concentrated trumpet note over 2 seconds. At 2s the trumpet plays a single decisive phrase in D-major. At 5s held on resolved tonic. Focused authority, no ornament."
+
+**mus_act7_final_line_ambient** — ~3s
+
+> Suno v4 prompt: "3-second wordless closing ambient. A single low held cello note in D-major over which Elara's and The Human's shared-sentence VO plays ('I've been waiting a very long time to say that to someone'). The score does NOT compete with the voiceover — it is just a held note underneath. Ends on resolved tonic as the VO ends. Fade to silence over 1 second after the line lands."
+
 ---
+
 
 
 
