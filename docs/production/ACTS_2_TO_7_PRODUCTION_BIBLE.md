@@ -320,5 +320,86 @@ Third recording. The Engineer warns about what's watching the Ark.
 
 ---
 
+## PART 2 — ACT 3 "THE EYES IN THE DARK / THE OFFER"
+
+### 2.0 — Narrative anchor
+
+**Trigger:** Unlock 5 rooms on the Ark. Hub detects via `act_3_starting` or infiltration commit flags.
+
+**Premise:** The Human offers Kael's pre-Fall navigation logs. Player chooses how much to tell Elara. Trade Empire faction arcs unlock. The Eyes — a dead Insurgency agent whose biography surfaces across four Trade Empire hubs — becomes a ghost-presence. Three infiltration paths commit the player to Insurgency / Empire / Hierarchy.
+
+**Source files:** `narrativeActs.ts:506-619` (ACT_3_THE_OFFER), `act3EyesBiography.ts` (394 lines covering §7 biography + §7.3 infiltration paths + §8 Trade Empire improvements).
+
+**Cinematics in this part:** 7 — opener (21s), Thaloria Echo flashback (12s), Eyes Fall beat (14s), three infiltration commits (Insurgency / Empire / Hierarchy, 8s each), Engineer Recordings 4 + 5 (12s each, reuse underscore from §1.7).
+
+**VFX atlases:** 3 — Thaloria echo mist, infiltration choice beam, Eyes helmet-in-the-grass dust.
+
+**Music:** act-3 opener, Thaloria Echo underscore, Eyes Fall lament, per-infiltration-path stingers (3 variants).
+
+### 2.1 — VFX atlases (Act 3)
+
+**vfx_act3_thaloria_echo_mist** — `.../act-3/thaloria_echo_mist.png` · 2048×2048 transparent
+
+> A volumetric atmospheric mist texture in muted GREEN (#4a7a5a with #6a9a7a highlights), softly luminous — suggests bioluminescent forest air from Thaloria. Seamless tile. Internal slow drift pattern at ~4px/s. Occasional darker "shape-suggestion" pockets — faint silhouettes of broken columns, a helmet-shape at the edge of readability — embedded at 8% opacity. Used as atmospheric overlay on the Thaloria Echo cinematic + as ambient in Trade Empire hubs that surface Eyes biography beats. No rendered text.
+
+**vfx_act3_infiltration_choice_beam** — `.../act-3/infiltration_choice_beam.png` · 1024×2048 transparent
+
+> A vertical triptych of three light beams, each tinted with its faction color:
+> - Left beam: Insurgency orange-red (#c76a3a), textured with a faint static-transmission pattern (the Engineer's signal frequency)
+> - Middle beam: Empire magenta (#e040fb), smooth silk-like gradient (New Babylon's polish)
+> - Right beam: Hierarchy violet-black (#3d1a5a), with subtle corruption-flecks drifting inside (Shadow Tongue's editorial fingerprint)
+> Each beam stands ~900px tall × 250px wide, with 50px gap between. Used as background overlay on the infiltration-commit surface. Runtime highlights the player's chosen beam and dims the other two by 60%.
+
+**vfx_act3_eyes_helmet_dust** — `.../act-3/eyes_helmet_dust.png` · 512×512 transparent
+
+> Close-in texture of dust motes drifting over the surface of a partially-buried military helmet — metallic grey-green with slightly tarnished brass trim. Dust motes warm-yellow against the helmet's cool grey. Used as static backdrop element in Trade Empire hub surfaces where an Eyes biography beat is about to surface (mid-distance composition). Subtly animates (motes drift) at runtime via texture scroll.
+
+### 2.2 — CIN-ACT3-OPENER — Act 3 opener (21s, P0)
+
+**Output:** `apps/client/public/videos/acts/act-3/cin_act3_opener.mp4` · 16:9 · 1920×1080
+
+"The Helmet in the Grass" opener — the player's first glimpse of the Eyes' abandoned gear.
+
+**START FRAME:** Overgrown Thaloria meadow at dawn, 16:9. Wide shot of a field of tall green-blue grass gently moving in a low wind, mist at mid-distance rising off the ground. The frame is mostly empty composition — just the field and the horizon. Low-angle. Palette: muted green dominant, cool dawn-blue sky, no warm color except a faint distant orange horizon hint (sun not yet visible). Film grain. No rendered text.
+
+**END FRAME:** Same field, camera has pushed in slightly (~15% zoom). Now visible in the foreground mid-left: a WEATHERED MILITARY HELMET half-buried in the grass, tilted slightly, its visor cracked. Grass grows through the helmet's crest-holes. A tarnished brass IDENTITY TAG dangles from it, engraved with abstract glyphs (not legible). Mist now carries through the helmet. The camera angle is slightly lower — it tilts down 4° across the push-in, as if we have noticed what we're looking at. Palette: same muted green but with the brass of the tag catching a thin shaft of dawn light. Film grain.
+
+**MOTION PROMPT:**
+
+> 21-second one-shot. Very slow push-in (~15% zoom over 21s, linear) + 4° gentle tilt-down over the final 8 seconds. Beats:
+> - 0.0-6.0s: empty field holds. Grass moves gently, mist drifts. Almost no motion — the viewer is looking at nothing and doesn't yet know what they're supposed to see.
+> - 6.0-10.0s: the push-in begins (imperceptible at first — just ~3% zoom over 4 seconds).
+> - 10.0-14.0s: camera tilts down 2° and the grass in the mid-ground REVEALS a shape. At 12.0s the helmet is visible as a silhouette. At 14.0s it's fully resolved.
+> - 14.0-18.0s: continued slow push-in. Mist crosses through the helmet. The brass tag catches dawn light and flickers faintly (reflection shift).
+> - 18.0-21.0s: final frame holds. Camera tilt complete. Helmet centered lower-frame. The audience understands someone used to wear this.
+> 24fps, no camera shake, deliberate stillness. Film grain heavy.
+
+**SUNO v4:** see mus_act3_opener in §2.7.
+
+### 2.3 — CIN-ACT3-THALORIA-ECHO — Eyes biography flashback (12s, P0)
+
+**Output:** `.../act-3/cin_act3_thaloria_echo.mp4` · **Trigger:** "Thaloria Echo" milestone (bond-independent)
+
+The Eyes' moment at Thaloria, 17,000 years ago. Plays when the player first triggers the Thaloria beat in a Trade Empire hub.
+
+**START FRAME:** Same Thaloria field as the opener but LIT DIFFERENTLY — warm golden sunlight at ~4pm angle, NO mist. A figure in mid-frame: a woman in Insurgency field-armor (olive-drab canvas + tactical black-and-brass), her back to camera, looking at a distant horizon. Her helmet is in her LEFT HAND, held at hip level — the same helmet from the opener but uncracked, new. She has long dark hair in a field-braid. Palette: warm sunlight, olive-drab armor, green-gold grass. Film grain.
+
+**END FRAME:** Same woman, same composition, but IN MOTION — she has turned her head 30° toward the camera (not fully — we see her in profile but not her face directly). Her helmet is still in her hand. A faint second figure has appeared 20m behind her in the field, too distant to read features — just a silhouette. The silhouette is pointing back the way she came. Palette: the golden sunlight has shifted slightly warmer, approaching dusk. Film grain.
+
+**MOTION PROMPT:**
+
+> 12-second one-shot. Camera locked, no camera motion — all motion is in the subject. Beats:
+> - 0.0-3.0s: start frame holds. She is looking at the horizon. Breathing visible in the shoulder-line (her canvas armor moves with it).
+> - 3.0-5.0s: the second figure FADES IN 20m behind her over 2 seconds (visible as a silhouette, not detailed).
+> - 5.0-7.0s: she begins to turn her head toward the camera — slow, not alarmed, just noticing something. Completes 30° turn by 7.0s.
+> - 7.0-10.0s: she holds the profile-turn. The second figure behind her raises one arm, pointing back the way she came. She does not react.
+> - 10.0-12.0s: the sunlight warms toward dusk. The scene is dissolving into memory — not literally fading, but a subtle chromatic shift toward sepia. Final frame.
+> 24fps, warm golden palette, film grain. This is a MEMORY clip — warmer, softer than the opener's cool dawn.
+
+**SUNO v4:** see mus_act3_thaloria_echo in §2.7.
+
+---
+
+
 
 
