@@ -215,6 +215,32 @@
   --chart-3: #FF3C40;
   --chart-4: #A078FF;
   --chart-5: #00E055;
+
+  /* ── MOTION INTENSITY ──
+     Updated by settingsSync.ts (0..1). Consumers multiply parallax
+     offsets, shader sin() amplitudes, and particle velocities by this
+     value so the user's slider choice collapses everything uniformly.
+     reduceMotion forces this to 0 at the DOM-class level. */
+  --motion-intensity: 1;
+
+  /* ── AUDIO AMPLITUDE BUS ──
+     Written at ~60Hz by PlayerContext's AnalyserNode when audio is
+     playing AND .audio-reactive-off is not set. Default zero so any
+     `calc(var(--glow-base) * (1 + var(--audio-bass)))` works even
+     when there is no audio graph. Range 0..1 per band. */
+  --audio-bass: 0;
+  --audio-mid: 0;
+  --audio-treble: 0;
+  --audio-overall: 0;
+}
+
+/* When the user disables audio-reactivity, force the bus to zero so
+   consumers relying on the custom property (no JS required) collapse. */
+html.audio-reactive-off {
+  --audio-bass: 0 !important;
+  --audio-mid: 0 !important;
+  --audio-treble: 0 !important;
+  --audio-overall: 0 !important;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -1388,6 +1414,15 @@ html.reduce-motion .crt-scanlines::after {
 }
 html.reduce-motion .hover-lift:hover {
   transform: none !important;
+}
+/* Force the audio-amplitude bus to zero in reduce-motion so any
+   consumer computing `calc(... * var(--audio-bass))` is stable. */
+html.reduce-motion {
+  --motion-intensity: 0 !important;
+  --audio-bass: 0 !important;
+  --audio-mid: 0 !important;
+  --audio-treble: 0 !important;
+  --audio-overall: 0 !important;
 }
 
 /* ═══════════════════════════════════════════════════════

@@ -7,6 +7,15 @@ export const settingsSchema = z.object({
   dyslexiaFont: z.boolean().default(false),
   reduceGlow: z.boolean().default(false),
 
+  // Motion & FX — fine-grained control on top of reduceMotion.
+  // motionIntensity multiplies ambient-motion amplitude (parallax offsets,
+  // drift shaders, particle drift). 0 = fully still; 1 = full Void Energy.
+  // reduceMotion forces this to 0 regardless of slider value.
+  motionIntensity: z.number().min(0).max(1).default(1),
+  // Toggle for audio-reactive UI (logo glow pulses, vitals sync, visualizers).
+  // Off by default for the first boot so players opt in after hearing the music.
+  audioReactive: z.boolean().default(true),
+
   // Display
   fontSize: z.enum(["small", "medium", "large"]).default("medium"),
   theme: z.enum(["dark", "light"]).default("dark"),

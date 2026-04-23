@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useRef, useCallback, useEffect, type ReactNode } from "react";
 import type { LoredexEntry } from "./LoredexContext";
+import { publishAmplitude } from "../hooks/useAudioAmplitude";
 
 interface PlayerContextType {
   currentSong: LoredexEntry | null;
@@ -82,6 +83,10 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     const audio = new Audio();
     audio.volume = volume;
     audio.preload = "auto";
+    // Required for AnalyserNode to read samples from cross-origin audio
+    // (Loredex tracks live on a CDN). Setting this before any src assign
+    // ensures MediaElementSource gets clean PCM instead of silenced samples.
+    audio.crossOrigin = "anonymous";
 
     audio.addEventListener("timeupdate", () => {
       setCurrentTime(audio.currentTime);
@@ -103,12 +108,21 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
     audioRef.current = audio;
 
+    const amplitude = startAmplitudeDriver(audio);
+
     return () => {
+      amplitude.stop();
       audio.pause();
       audio.src = "";
       audio.removeAttribute("src");
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Resume the shared AudioContext on playSong — browsers require a user
+  // gesture; playSong is reached through a click, so this is the safe seam.
+  useEffect(() => {
+    if (isPlaying) resumeAudioContext();
+  }, [isPlaying]);
 
   const hasAudio = !!(currentSong?.audio_url);
 
@@ -188,4 +202,155 @@ export function usePlayer() {
   const ctx = useContext(PlayerContext);
   if (!ctx) throw new Error("usePlayer must be used within PlayerProvider");
   return ctx;
+}
+
+/* ═══════════════════════════════════════════════════════
+   AMPLITUDE DRIVER — Web Audio analyser + RAF pump.
+
+   A single AudioContext + MediaElementSource + AnalyserNode is
+   attached to the shared <audio> element. Each animation frame we
+   sample the FFT and time-domain data, bucket it into three bands,
+   compute overall RMS, and write the results to:
+
+     1. `publishAmplitude(...)` — React-facing bus consumed by
+        useAudioAmplitude().
+     2. Four CSS custom properties on <html> — `--audio-{bass,mid,
+        treble,overall}`. Cheap for any component to reference via
+        `calc(... * var(--audio-bass))` with zero React cost.
+
+   Respects `prefers-reduced-motion` and `.reduce-motion` /
+   `.audio-reactive-off` classes (we simply skip the write so the
+   CSS overrides keep the bus at zero).
+
+   Why a driver and not `useAudioAmplitude` managing its own RAF?
+   One RAF loop is O(1) regardless of consumer count, and we need
+   the analyser to exist even when no component is mounted (so the
+   CSS bus stays live for pure-CSS consumers like the Title logo).
+   ═══════════════════════════════════════════════════════ */
+
+let sharedAudioContext: AudioContext | null = null;
+let sharedAnalyser: AnalyserNode | null = null;
+let sharedSource: MediaElementAudioSourceNode | null = null;
+
+function resumeAudioContext(): void {
+  // Browsers start AudioContext suspended until a user gesture. This
+  // runs inside the isPlaying effect, which is always reached through
+  // a click/tap, so .resume() will succeed.
+  sharedAudioContext?.resume().catch(() => {});
+}
+
+type AmplitudeDriver = { stop: () => void };
+
+function startAmplitudeDriver(audio: HTMLAudioElement): AmplitudeDriver {
+  if (typeof window === "undefined") return { stop: () => {} };
+
+  let rafHandle = 0;
+  let freqBuf: Uint8Array<ArrayBuffer> | null = null;
+  let timeBuf: Uint8Array<ArrayBuffer> | null = null;
+  let bandSplits: { bassEnd: number; midEnd: number; binCount: number } | null = null;
+
+  function ensureGraph(): boolean {
+    if (sharedAnalyser && sharedAudioContext && sharedSource) return true;
+    try {
+      const Ctor: typeof AudioContext =
+        window.AudioContext || (window as any).webkitAudioContext;
+      if (!Ctor) return false;
+      sharedAudioContext = new Ctor();
+      sharedAnalyser = sharedAudioContext.createAnalyser();
+      sharedAnalyser.fftSize = 512;           // 256 frequency bins, low CPU
+      sharedAnalyser.smoothingTimeConstant = 0.7;
+      sharedSource = sharedAudioContext.createMediaElementSource(audio);
+      // Source → Analyser → Destination. Analyser is a pass-through;
+      // routing through it does not attenuate playback.
+      sharedSource.connect(sharedAnalyser);
+      sharedAnalyser.connect(sharedAudioContext.destination);
+      return true;
+    } catch (e) {
+      // If the audio element was already bound to a source (HMR reload)
+      // or the browser blocks MediaElementSource for this CORS config,
+      // fall back silently — playback continues, amplitude stays at 0.
+      console.warn("[Player] Audio analyser unavailable:", e);
+      sharedAnalyser = null;
+      return false;
+    }
+  }
+
+  function isReactiveEnabled(): boolean {
+    const root = document.documentElement;
+    if (root.classList.contains("reduce-motion")) return false;
+    if (root.classList.contains("audio-reactive-off")) return false;
+    // System preference is the final safety net for users who never
+    // opened our settings UI.
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return false;
+    return true;
+  }
+
+  function tick(): void {
+    rafHandle = requestAnimationFrame(tick);
+    if (!ensureGraph() || !sharedAnalyser) return;
+
+    const bins = sharedAnalyser.frequencyBinCount;
+    if (!freqBuf || freqBuf.length !== bins) {
+      // Allocate over a concrete ArrayBuffer so TS narrows to
+      // Uint8Array<ArrayBuffer> — WebAudio's typings require that
+      // exact parameterization.
+      freqBuf = new Uint8Array(new ArrayBuffer(bins));
+      timeBuf = new Uint8Array(new ArrayBuffer(bins));
+      // Convert band cutoffs (Hz) to bin indices. Nyquist = sampleRate / 2
+      // spans `bins` cells, so each bin covers (sampleRate / 2) / bins Hz.
+      const nyquist = (sharedAudioContext?.sampleRate ?? 48000) / 2;
+      const hzPerBin = nyquist / bins;
+      bandSplits = {
+        bassEnd: Math.max(1, Math.floor(250 / hzPerBin)),
+        midEnd: Math.max(2, Math.floor(4000 / hzPerBin)),
+        binCount: bins,
+      };
+    }
+
+    if (!isReactiveEnabled() || audio.paused) {
+      // Decay to zero rather than snapping — snaps look like a glitch.
+      publishAmplitude({ bass: 0, mid: 0, treble: 0, overall: 0 });
+      writeCssBus(0, 0, 0, 0);
+      return;
+    }
+
+    sharedAnalyser.getByteFrequencyData(freqBuf);
+    sharedAnalyser.getByteTimeDomainData(timeBuf!);
+
+    const { bassEnd, midEnd, binCount } = bandSplits!;
+    let bassSum = 0;
+    let midSum = 0;
+    let trebSum = 0;
+    for (let i = 0; i < bassEnd; i++) bassSum += freqBuf[i];
+    for (let i = bassEnd; i < midEnd; i++) midSum += freqBuf[i];
+    for (let i = midEnd; i < binCount; i++) trebSum += freqBuf[i];
+
+    const bass = bassSum / ((bassEnd || 1) * 255);
+    const mid = midSum / ((midEnd - bassEnd || 1) * 255);
+    const treble = trebSum / ((binCount - midEnd || 1) * 255);
+
+    // Time-domain RMS → loudness. Samples are unsigned 8-bit centered at 128.
+    let rmsSum = 0;
+    for (let i = 0; i < binCount; i++) {
+      const v = (timeBuf![i] - 128) / 128;
+      rmsSum += v * v;
+    }
+    const overall = Math.sqrt(rmsSum / binCount);
+
+    publishAmplitude({ bass, mid, treble, overall });
+    writeCssBus(bass, mid, treble, overall);
+  }
+
+  function writeCssBus(bass: number, mid: number, treble: number, overall: number): void {
+    const style = document.documentElement.style;
+    style.setProperty("--audio-bass", bass.toFixed(3));
+    style.setProperty("--audio-mid", mid.toFixed(3));
+    style.setProperty("--audio-treble", treble.toFixed(3));
+    style.setProperty("--audio-overall", overall.toFixed(3));
+  }
+
+  rafHandle = requestAnimationFrame(tick);
+  return {
+    stop: () => cancelAnimationFrame(rafHandle),
+  };
 }

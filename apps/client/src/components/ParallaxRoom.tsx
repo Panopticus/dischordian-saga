@@ -29,6 +29,7 @@ import {
   useCallback,
   type CSSProperties,
 } from "react";
+import { getMotionIntensity } from "../engine/motionIntensity";
 
 export interface ParallaxLayer {
   /** Image source URL */
@@ -118,11 +119,13 @@ export default function ParallaxRoom({
 
   // Apply transforms via CSS will-change for GPU compositing
   const applyTransforms = useCallback(() => {
-    if (isReducedMotion()) {
+    const intensity = getMotionIntensity();
+    if (isReducedMotion() || intensity === 0) {
       // Clear any existing transforms
       layerRefs.current.forEach((el) => {
         if (el) el.style.transform = "translate3d(0, 0, 0)";
       });
+      rafRef.current = requestAnimationFrame(applyTransforms);
       return;
     }
 
@@ -142,9 +145,11 @@ export default function ParallaxRoom({
       // Depth factor determines direction and magnitude
       // Positive depth: moves WITH the input (foreground parallax)
       // Negative depth: moves AGAINST the input (background inversion)
+      // Motion intensity scales the total swing so the user's slider
+      // collapses every parallax layer in the app uniformly.
       const factor = layer.depth;
-      const tx = x * factor * MAX_OFFSET;
-      const ty = y * factor * MAX_OFFSET;
+      const tx = x * factor * MAX_OFFSET * intensity;
+      const ty = y * factor * MAX_OFFSET * intensity;
 
       el.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
     });

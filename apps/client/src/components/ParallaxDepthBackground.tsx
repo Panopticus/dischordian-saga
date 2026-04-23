@@ -18,6 +18,7 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import vertexShader from "@/shaders/vertex.vert";
 import parallaxFrag from "@/shaders/parallaxDepth.frag";
+import { getMotionIntensity } from "@/engine/motionIntensity";
 
 interface ParallaxDepthBackgroundProps {
   colorUrl: string;
@@ -138,8 +139,16 @@ export default function ParallaxDepthBackground({
       mouseRef.current.x += (targetRef.current.x - mouseRef.current.x) * lerp;
       mouseRef.current.y += (targetRef.current.y - mouseRef.current.y) * lerp;
 
-      material.uniforms.u_mouse.value.set(mouseRef.current.x, mouseRef.current.y);
-      material.uniforms.u_time.value = reduceMotion ? 0 : clock.getElapsedTime();
+      // Motion intensity scales both the parallax offset and the
+      // ambient sin() drift the shader adds — slider at 0 = completely
+      // still image (matches reduceMotion behavior).
+      const intensityScale = reduceMotion ? 0 : getMotionIntensity();
+      material.uniforms.u_mouse.value.set(
+        mouseRef.current.x * intensityScale,
+        mouseRef.current.y * intensityScale,
+      );
+      material.uniforms.u_time.value =
+        reduceMotion || intensityScale === 0 ? 0 : clock.getElapsedTime() * intensityScale;
 
       renderer.render(scene, camera);
     };

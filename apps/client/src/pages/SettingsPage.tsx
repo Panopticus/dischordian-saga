@@ -500,10 +500,24 @@ export default function SettingsPage() {
           />
           <Toggle
             label="Reduce Motion"
-            description="Minimize animations and transitions"
+            description="Minimize animations and transitions (overrides Motion Intensity)"
             enabled={settings.reduceMotion}
             onChange={(v) => updateSetting("reduceMotion", v)}
             icon={SkipForward}
+          />
+          <VolumeSlider
+            label="MOTION INTENSITY"
+            icon={Sparkles}
+            value={settings.motionIntensity}
+            onChange={(v) => updateSetting("motionIntensity", v)}
+            disabled={settings.reduceMotion}
+          />
+          <Toggle
+            label="Audio-Reactive UI"
+            description="Logo glow, vitals, and visualizers pulse with the music"
+            enabled={settings.audioReactive}
+            onChange={(v) => updateSetting("audioReactive", v)}
+            icon={Music}
           />
           <Toggle
             label="Dyslexia-Friendly Font"
