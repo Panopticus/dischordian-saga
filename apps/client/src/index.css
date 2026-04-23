@@ -1870,3 +1870,22 @@ html.reduce-motion .duelyst-turn-banner::before {
   animation: none;
   background: color-mix(in oklch, var(--banner-accent, var(--neon-cyan)) 12%, transparent);
 }
+
+/* ═══════════════════════════════════════════════════════
+   CHESS ARENA MORALITY WASH — subtle breathing so the
+   Architect tier's overlay reads as "alive" rather than
+   a static tint. Zero cost when opacity is 0 (non-Architect).
+   ═══════════════════════════════════════════════════════ */
+.chess-arena-morality-wash {
+  animation: chessArenaMoralityBreathe
+    calc(10s / max(0.1, var(--motion-intensity, 1)))
+    ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes chessArenaMoralityBreathe {
+  0%, 100% { transform: scale(1);   }
+  50%      { transform: scale(1.05); }
+}
+html.reduce-motion .chess-arena-morality-wash {
+  animation: none;
+}
