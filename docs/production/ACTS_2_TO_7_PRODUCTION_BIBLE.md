@@ -868,7 +868,55 @@ Shared composition: a stylized star-map aerial view of a single sector with a ce
 
 **SUNO v4:** see mus_act5_bulb_dims + mus_act5_sector_wakes in §5.7.
 
+### 5.4 — CIN-ACT5-IRON-LION-FINAL — Veridian VI last stand (14s, P0) ★ KEY BEAT
+
+**Output:** `apps/client/public/videos/acts/act-5/cin_act5_iron_lion_final.mp4` · 16:9 · 1920×1080 · **Trigger:** `cades_m7_complete`
+
+Iron Lion's mandatory narrative death. He has been the player's command-voice through all 7 CADES FPS missions; in M7 he transmits his final broadcast from Veridian VI before being overrun. This cinematic plays after the M7 fight's mechanical completion. Second only to the Memorial Corridor in importance — where Memorial Corridor is dissonant tension, this is RESOLVED GRIEF.
+
+**START FRAME:** Iron Lion in silhouette on the bridge of a command ship, 16:9 1920×1080. Wide shot: broadcast antenna visible above him through the bridge canopy, a Cades approach visible through the forward viewport — ships approaching. He stands facing the viewport (back to camera). Red emergency lighting dominates the bridge. Palette: red emergency light + deep shadow + cool starlight through viewport. Film grain + faint `vfx_act5_iron_lion_broadcast_static` overlay at 15% opacity.
+
+**END FRAME:** Same bridge, same framing. Iron Lion has turned to face CAMERA (partial profile — he is not looking at camera, he is looking slightly past it, mid-broadcast). He is in his Living Character Sheet bible canonical form (to be authored in a future bible addendum; he is Iron Clad Lions faction, white ceremonial plate armor with ICL stenciling, per Kael Phase 1 material family). Behind him through the viewport: the approaching Cades are CLOSER, their details visible — angular gunmetal hulls with red eye-lights. He is speaking to the player one last time. His mouth moves silently (VO track handles audio). Broadcast_static overlay now at 70% intensity — the signal is dying. Film grain heavy.
+
+**VEO 3.1 MOTION PROMPT:**
+
+> 14-second one-shot. Camera locked. This is a DEATH cinematic shown as PRESENCE — Iron Lion is alive for all 14 seconds; his death happens after. Narrative beats:
+> - 0-3s: start frame holds. Iron Lion silhouette at viewport, Cades visible but distant. Red emergency light steady.
+> - 3-5s: the red emergency light begins to PULSE (1Hz) — alarm system behind the scenes. Cades have gotten closer in the viewport (subtle zoom effect on the approaching ships — not camera motion, just the ships advancing).
+> - 5-8s: Iron Lion TURNS to face camera over 3 seconds. Slow, deliberate. His face is revealed — his canonical Part-2-bible form (to be authored), battle-worn but composed. His mouth is already moving silently (he is already speaking; the cinematic has joined his broadcast mid-sentence).
+> - 8-11s: held on his face speaking. Broadcast_static overlay RAMPS from 15% to 70% over 3s. His face fragments visually as the signal degrades.
+> - 11-13s: at 12s, for a single frame, the image CUTS OUT entirely (black frame with ~60% static at 1/24 second duration). When the image returns at 12.042s, Iron Lion is still there, still speaking. At 13s the Cades explode through the viewport (distant detonation at small scale — the ship is hit).
+> - 13-14s: image TRANSITIONS to pure broadcast static at 100% for the final second — Iron Lion is gone, only signal remains.
+> 24fps, red emergency palette dominant, broadcast_static intensifies across the clip. Film grain heavy.
+
+**SUNO v4:** see mus_act5_iron_lion_final in §5.7 — a 14-second score that must thread triumph and mourning in the same piece. This is Iron Lion's theme completed for the first and last time.
+
+### 5.5 — CIN-ACT5-BRIDGE-OF-KAEL — Post-credits reveal (12s, P1)
+
+**Output:** `.../act-5/cin_act5_bridge_of_kael.mp4` · **Trigger:** `kael_questline_complete` + `returned_to_bridge_post_kael`
+
+Post-credits scene per §11.4 of `actsFourFiveShells.ts`. Fires ONCE when both flags align. The Engineer (in canonical Part 2V/W Phase 2 form, one final time) activates a console, a Dischordia card materializes from it, and delivers one final line. The card is the ENGINEER'S MEMORIAL CARD — collected permanently in the Trophy Room. Vex Solène (Agent Zero's real name) is revealed as a note inscribed on the back of the card.
+
+**START FRAME:** Empty bridge of the Ark's observation deck, 16:9. A console on a raised platform at frame center, inert. Cold ambient starlight through a wide viewport behind. No figure visible. Palette: deep cool-blue with faint warm amber bleed from the console's standby-light. Film grain.
+
+**END FRAME:** Console is now ACTIVE — the Engineer stands beside it in his full Part 2V/W Phase 2 canon (red coat, red goggles, utility belt with gauges). His goggles are UP on forehead (listening/present mode — the rare honest posture). He is looking at the camera. In the console's hologram beam floats a single DISCHORDIA CARD — its face shows a stylized image of the Engineer's workshop, back-face visible if rotated would show the inscription "Vex Solène" (render as abstract calligraphic mark — not legible text from the player's angle). Film grain, warm amber + cool starlight dual palette.
+
+**MOTION PROMPT:**
+
+> 12-second one-shot. Camera locked, no motion. Beats:
+> - 0-2s: inert console, empty bridge.
+> - 2-4s: the console ACTIVATES — small amber light warms on, a faint hum begins.
+> - 4-6s: the Engineer walks into frame from offscreen-right and stops beside the console. Per canonical rig — brass utility-belt gauges tick audibly (one-tap per 1.7s cycle).
+> - 6-8s: he reaches to the console. The hologram beam activates. A single Dischordia Card materializes in the beam over 2 seconds.
+> - 8-10s: he lifts his goggles from over-eyes to brim-of-cap (the listening/present gesture). His real eyes are now visible — tired but clear. He looks at camera directly.
+> - 10-11s: he speaks (silent in cinematic; VO overlays). One line.
+> - 11-12s: the card rotates 90° in the beam — the back-face inscription "Vex Solène" is briefly visible (abstract mark, not legible). End frame.
+> 24fps, warm amber + cool blue. Film grain. This is a gentle cinematic; no drama, just closure.
+
+**SUNO v4:** see mus_act5_bridge_of_kael in §5.7.
+
 ---
+
 
 
 
