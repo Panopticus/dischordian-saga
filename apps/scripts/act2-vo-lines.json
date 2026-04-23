@@ -182,7 +182,7 @@
   {
     "id": "right-gm-first-contact",
     "speaker": "game_master_right",
-    "voiceId": "TODO_RIGHT_GM_VOICE_ID",
+    "voiceId": "IPETV0e5tVE7Fjwi8XIC",
     "text": "I read from your right hemisphere. That is the pretty one. I am not fair. I am, however, extremely entertaining. Sit.",
     "context": "act2_right_gm_first_contact",
     "section": "§5 · The Game Masters",
@@ -192,7 +192,7 @@
   {
     "id": "right-gm-first-defeat",
     "speaker": "game_master_right",
-    "voiceId": "TODO_RIGHT_GM_VOICE_ID",
+    "voiceId": "IPETV0e5tVE7Fjwi8XIC",
     "text": "Oh, darling. That was a READ. That was a WHOLE BOOK. I am keeping this one in the drawer where I keep the good ones.",
     "context": "act2_right_gm_first_defeat",
     "section": "§5 · The Game Masters",
@@ -202,7 +202,7 @@
   {
     "id": "right-gm-first-victory",
     "speaker": "game_master_right",
-    "voiceId": "TODO_RIGHT_GM_VOICE_ID",
+    "voiceId": "IPETV0e5tVE7Fjwi8XIC",
     "text": "You win. Nobody wins the right hemisphere. Nobody. I am genuinely delighted. I will tell the Left one, and he will be genuinely unable to process it.",
     "context": "act2_right_gm_first_victory",
     "section": "§5 · The Game Masters",
@@ -212,7 +212,7 @@
   {
     "id": "right-gm-repeat-victory",
     "speaker": "game_master_right",
-    "voiceId": "TODO_RIGHT_GM_VOICE_ID",
+    "voiceId": "IPETV0e5tVE7Fjwi8XIC",
     "text": "Twice. Now that IS a storyline. I am writing notes about you. The notes are flattering. The flattery is part of the trap. Come back.",
     "context": "act2_right_gm_repeat_victory",
     "section": "§5 · The Game Masters",

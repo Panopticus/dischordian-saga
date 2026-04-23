@@ -184,16 +184,10 @@ pnpm tsx apps/scripts/generate-act-vo.ts --act 2 --skip-todo
 pnpm tsx apps/scripts/generate-act-vo.ts --act 2 --only §5
 ```
 
-### Voice IDs still needed
+### Voice IDs — all filled in
 
-4 of the 107 spine lines ship with `TODO_*` voice ID placeholders — all
-for the Right Game Master in Act 2 (no existing voice in the repo matches
-the "theatrical, cruel, female" register). Fill in
-`apps/scripts/act2-vo-lines.json` (find/replace is fine):
-
-| Placeholder                    | Character          | Presence            |
-|--------------------------------|--------------------|---------------------|
-| `TODO_RIGHT_GM_VOICE_ID`       | Right Game Master  | Act 2 (×4)          |
+All 107 spine lines have real ElevenLabs voice IDs. Run `pnpm vo:spine`
+to generate the full batch.
 
 Presets + direction live in
 `docs/production/ACTS_2_THROUGH_7_ASSET_BIBLE.md` §0 (voice registry).
@@ -206,6 +200,7 @@ Presets + direction live in
 | Kael Prisoner      | `4tTGaP2vBgPN3iYrFoxa`     | Act 4 (×8)                   |
 | The Eyes           | `Fu4ULyfBJO8Rl5TwP0ZB`     | Act 3 (×8), Act 7 (×1)       |
 | Vex Solène         | `F1waTCPWl7KpShIScYQs`     | Act 5 (×2) — reuses Agent Zero clone (per direction note: same actress, Vex's wry register) |
+| Right Game Master  | `IPETV0e5tVE7Fjwi8XIC`     | Act 2 (×4)                   |
 
 ### Existing voice IDs reused
 
