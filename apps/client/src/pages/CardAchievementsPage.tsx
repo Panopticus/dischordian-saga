@@ -242,7 +242,7 @@ export default function CardAchievementsPage() {
                 className={`border rounded-lg overflow-hidden transition-all ${
                   achievement.completed
                     ? "border-accent/30 bg-accent/5"
-                    : "border-border/20 bg-card/30"
+                    : "border-border/20 bg-card/30 void-glitch void-glitch-lock"
                 }`}
               >
                 <button

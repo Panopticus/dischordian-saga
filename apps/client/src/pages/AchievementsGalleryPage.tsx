@@ -19,6 +19,7 @@ import {
   type LoreAchievement,
 } from "@/data/loreAchievements";
 import { AGE_CATEGORIES, CONEXUS_GAMES, type Age } from "@/data/conexusGames";
+import GlitchFx from "@/components/GlitchFx";
 import { useGame } from "@/contexts/GameContext";
 
 import LivingBackground from "@/components/LivingBackground";
@@ -342,7 +343,7 @@ export default function AchievementsGalleryPage() {
                     className={`w-full text-left group rounded-lg border overflow-hidden transition-all hover-lift ${
                       earned
                         ? "void-border bg-card/50 void-border"
-                        : "border-border/20 bg-card/20 hover:border-border/40"
+                        : "border-border/20 bg-card/20 hover:border-border/40 void-glitch void-glitch-lock"
                     }`}
                   >
                     <div className="p-4">
@@ -370,7 +371,13 @@ export default function AchievementsGalleryPage() {
                           <h3 className={`font-display text-sm font-bold tracking-wide ${
                             earned ? "void-text-accent" : "text-muted-foreground/40"
                           }`}>
-                            {earned ? ach.title : "???"}
+                            {earned ? (
+                              ach.title
+                            ) : (
+                              <GlitchFx variant="redact" redactText={ach.title}>
+                                {ach.title}
+                              </GlitchFx>
+                            )}
                           </h3>
 
                           {/* Game name */}

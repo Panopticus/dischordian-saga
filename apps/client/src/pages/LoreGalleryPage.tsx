@@ -20,6 +20,7 @@ import {
   ScrollText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import GlitchFx from "@/components/GlitchFx";
 
 import { assetUrl } from "@/lib/assetUrl";
 /* ─── ERA DEFINITIONS ─── */
@@ -331,7 +332,7 @@ export default function LoreGalleryPage({ unlockedAchievements = new Set() }: Pr
                       ${
                         unlocked
                           ? "border-border/20 bg-card/30 cursor-pointer hover:bg-card/50"
-                          : "border-border/10 bg-card/10"
+                          : "border-border/10 bg-card/10 void-glitch void-glitch-lock"
                       }
                     `}
                   >
@@ -368,7 +369,13 @@ export default function LoreGalleryPage({ unlockedAchievements = new Set() }: Pr
                               unlocked ? "text-white" : "text-muted-foreground/30"
                             }`}
                           >
-                            {unlocked ? fragment.title : "???"}
+                            {unlocked ? (
+                              fragment.title
+                            ) : (
+                              <GlitchFx variant="redact" redactText={fragment.title}>
+                                {fragment.title}
+                              </GlitchFx>
+                            )}
                           </span>
                         </div>
                         <span

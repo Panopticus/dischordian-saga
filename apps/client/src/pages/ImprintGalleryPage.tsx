@@ -121,12 +121,19 @@ export default function ImprintGalleryPage() {
         {rows.map((row) => {
           const accent =
             FACTION_ACCENT[row.faction] ?? "border-border/30 bg-card/20";
+          // Rows where the player hasn't unlocked any imprint tier yet
+          // (highestTierUnlocked === 0) read as totally locked — give
+          // them the standard void-glitch-lock treatment so silhouettes
+          // still convey "unfamiliar figure" rather than blank card.
+          const isFullyLocked = row.highestTierUnlocked <= 0;
           return (
             <motion.div
               key={row.slug}
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              className={`rounded-lg border p-4 space-y-3 ${accent}`}
+              className={`rounded-lg border p-4 space-y-3 ${accent} ${
+                isFullyLocked ? "void-glitch void-glitch-lock" : ""
+              }`}
             >
               <div className="flex items-start justify-between gap-2">
                 <div>

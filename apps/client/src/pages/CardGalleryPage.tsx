@@ -215,11 +215,17 @@ function CardDisplay({ card, onClick, viewMode }: { card: FullCard; onClick: () 
     );
   }
 
+  // "Not yet owned" cards without discovered art read better as
+  // locked silhouettes than as blank icon tiles. void-glitch-lock
+  // gives the familiar grayscale + red scanline sweep so the card
+  // reads as "collectable, not yet acquired."
+  const isLockedCard = !card.owned && !card.imageUrl;
+
   return (
     <motion.div
       whileHover={{ scale: 1.05, y: -4 }}
       whileTap={{ scale: 0.98 }}
-      className={`relative rounded-lg border ${rarity.border} ${rarity.bg} overflow-hidden cursor-pointer group ${rarity.glow ? `shadow-lg ${rarity.glow}` : ""}`}
+      className={`relative rounded-lg border ${rarity.border} ${rarity.bg} overflow-hidden cursor-pointer group ${rarity.glow ? `shadow-lg ${rarity.glow}` : ""} ${isLockedCard ? "void-glitch void-glitch-lock" : ""}`}
       onClick={onClick}
     >
       <div className="aspect-[3/4] overflow-hidden relative">
