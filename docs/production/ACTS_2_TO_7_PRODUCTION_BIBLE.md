@@ -725,6 +725,81 @@ Sixth recording. The Engineer recounts his childhood in Celebration — the prog
 
 ---
 
+## PART 4 — ACT 4.5 "DEAD MAN'S CIRCUIT"
+
+### 4.0 — Narrative anchor
+
+**Trigger:** After Act 4. Hub detects via `act_4_5_started` or `act_4_5_circuit_complete`.
+
+**Premise:** Identity-as-wager racing + casino (Degen's Pact). The player's identity chain — Student → Seeker → Detective → The Last — is literally wagered at the track. Each race stakes a version of themselves; losing means that identity-stage becomes canon going forward, shaping Act 5-7 dialog.
+
+**Source files:** `actsFourFiveShells.ts:114-165` (§10 DEAD_MANS_CIRCUIT_TRACKS).
+
+**Cinematics in this part:** 2 — opener (21s), Identity Wager (8s; plays before each race to surface the stakes).
+
+**VFX atlases:** 2 — identity-chip etching texture, entropy-table glow.
+
+**Music:** opener (21s), identity-wager stinger (8s).
+
+### 4.1 — VFX atlases (Act 4.5)
+
+**vfx_act4_5_identity_chip_etching** — `.../act-4_5/identity_chip_etching.png` · 1024×1024 transparent
+
+> Close-in texture of a bone-and-brass casino chip with an abstract identity-glyph etched into its surface. The etching is fine — microscopic precision — and lit from within by a soft warm amber emissive along the glyph lines. No legible text. Four glyph variants: STUDENT (crossed quills), SEEKER (compass-rose), DETECTIVE (magnifying-lens ring), THE LAST (single vertical stroke). Deliver as one 2×2 grid sheet; slice into four individual chip sprites in post.
+
+**vfx_act4_5_entropy_table_glow** — `.../act-4_5/entropy_table_glow.png` · 2048×2048 transparent
+
+> Entropy-violet radial glow texture used as the Degen's casino table backdrop. Deep violet (#3a1a5a) center fading to near-black at the edges, with fine GOLD DUST motes drifting upward from the center at ~8px/s. Used as animated background overlay during the Identity Wager cinematic and at the casino UI surfaces.
+
+### 4.2 — CIN-ACT4_5-OPENER — Act 4.5 opener (21s, P1)
+
+**Output:** `apps/client/public/videos/acts/act-4_5/cin_act4_5_opener.mp4` · 16:9 · 1920×1080
+
+Racing + casino composite, per the existing `acts-4-through-7-asset-pipeline.md` Act 4.5 spec. Refined here with Veo 3.1 motion directives.
+
+**START FRAME:** Wide shot of a bone-and-chrome racetrack winding through a void-field. The track is rendered as skeletal white struts + polished chrome rails against cold starless black. One kart sits at the starting line — its driver helmet has no visor, just a blank NAME-TAG SLOT. Palette: bone-white + chrome + cold violet void. Film grain.
+
+**END FRAME:** Same track but the composition has ZOOMED OUT to reveal, in the background, the DEGEN'S CASINO TABLE — a circular table lit from below with entropy-violet glow (the vfx_act4_5_entropy_table_glow texture). On the table: 4 chips — STUDENT / SEEKER / DETECTIVE / THE LAST. A dealer in a dark hood whose hands are visible and whose face is not. Film grain.
+
+**MOTION PROMPT:** 21-second one-shot. Camera slow pull-back from starting line to full composite view. Beats:
+- 0-6s: held on start frame. Single kart at line, track extends into void.
+- 6-11s: slow pull-back begins. Track recedes, more of the void-field visible.
+- 11-16s: casino table REVEALED at the edge of the pull-back at 11s. Table fully visible by 16s.
+- 16-19s: one of the four chips (randomly — per-render variant if possible) LIFTS from the table and drifts toward camera for 3s, then settles back down at 19s. The chip briefly shows its etching.
+- 19-21s: end frame held — full composite visible.
+24fps, bone-white + entropy-violet dual palette. Film grain.
+
+### 4.3 — CIN-ACT4_5-IDENTITY-WAGER — Pre-race stake beat (8s, P1)
+
+**Output:** `.../act-4_5/cin_act4_5_identity_wager.mp4`
+
+Plays before each of the DMC races to surface which identity-chip is being wagered.
+
+**START FRAME:** Close-up of the Degen's casino table (Living Character Sheet Part 2J canon: blue-skinned demonic Ne-Yon, amber eye-glow, olive-drab vest, brass pocket-watch). His hands are visible, holding a single identity chip. Entropy-violet glow below. Film grain.
+
+**END FRAME:** The Degen has PLACED the chip face-up on the table. The chip's etching (one of the four glyphs) is now fully visible and glowing at 1.5× baseline. His amber eye-glow has intensified. One finger of his other hand TAPS the chip once (the "house-edge" gesture from his canonical rig). Film grain.
+
+**MOTION PROMPT:** 8-second one-shot. Camera locked, close on table. Beats:
+- 0-2s: start frame holds.
+- 2-4s: Degen rotates the chip in his fingers slowly.
+- 4-6s: he places the chip face-up on the table. The etching glows from 0 to 1.5× baseline over 2s.
+- 6-7s: finger tap on the chip — one decisive tock.
+- 7-8s: end held.
+Violet + amber palette. Film grain.
+
+### 4.4 — Suno v4 music prompts (Act 4.5)
+
+**mus_act4_5_opener** — 21s
+
+> Suno v4 prompt: "Identity-wager dual-space ambience. 21 seconds. Opens with 7 seconds of a racing engine warming up heard AT HALF VOLUME through a wall — mechanical purr, rising rpm. At 7s, a casino dealer's CARD-SHUFFLE sound enters at the same half-volume, overlaying the engine. Both heard as if from the next room. At 14s, entropy-violet synth wash enters — sustained, slowly descending. At 19s both mechanical sounds (engine + shuffle) drop out, leaving only the synth wash. Ends unresolved at 21s. Neutral, curious, doom-adjacent."
+
+**mus_act4_5_identity_wager** — 8s
+
+> Suno v4 prompt: "8-second pre-race identity-stake cue. Opens with a single deep piano note in D-minor. At 3s, a subtle violet synth pad enters below. At 5s, a bone-dry PERCUSSIVE TICK (a chip being placed on a table). At 6s another tick (the finger tap). At 7s a held cello note joins the synth pad. Ends on an unresolved suspension at 8s. Spare, weighted, formal. The sound of a contract being offered."
+
+---
+
+
 
 
 
