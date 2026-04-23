@@ -234,6 +234,25 @@ export default function CADESFPSPage() {
     if (missionN) vo.speak(`cades-m${missionN}-brief`);
   }, [gameState.narrativeFlags, setNarrativeFlag, vo]);
 
+  // Cades mission mid-line timer — the Godot iframe doesn't emit
+  // mid_tick events, so the mid VO fires on a best-effort 45-second
+  // timer after the player enters the playing phase. Canceled on
+  // phase/mode transitions so a mid-match exit doesn't leak a line
+  // into the next run. M1 mid plays once per save alongside the
+  // mode-specific mid.
+  useEffect(() => {
+    if (phase !== "playing" || !selectedMode) return;
+    const missionN = MODE_TO_MISSION_ID[selectedMode];
+    const timer = window.setTimeout(() => {
+      if (!gameState.narrativeFlags?.cades_m1_mid_heard) {
+        setNarrativeFlag("cades_m1_mid_heard", true);
+        vo.speak("cades-m1-mid");
+      }
+      if (missionN) vo.speak(`cades-m${missionN}-mid`);
+    }, 45_000);
+    return () => window.clearTimeout(timer);
+  }, [phase, selectedMode, gameState.narrativeFlags, setNarrativeFlag, vo]);
+
   // ─── NARRATIVE GATE — Act 5 (THE MAP) must be reached ───
   const unlocked = isCadesUnlocked({
     narrativeAct: gameState.narrativeAct ?? 0,

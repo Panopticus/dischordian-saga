@@ -973,6 +973,8 @@ interface SpineActFlagCheck {
 interface SpineActCta {
   href: string;
   label: string;
+  /** Optional gate: CTA only renders when this flag is set. */
+  requiresFlag?: string;
 }
 interface SpineActPanelConfig {
   title: string;
@@ -1028,6 +1030,7 @@ const SPINE_ACT_PANELS: Record<
       { href: "/act5-interlude", label: "Map / Interlude" },
       { href: "/army", label: "Army Recruitment" },
       { href: "/cades-fps", label: "Cades FPS" },
+      { href: "/bridge-of-kael", label: "Bridge of Kael", requiresFlag: "kael_questline_complete" },
     ],
     recruitmentLabel: "Army recruits",
     recruitmentThreshold: RECRUITMENT_THRESHOLDS.act6,
@@ -1132,20 +1135,28 @@ function SpineActPanel({
             </span>
           </div>
         )}
-      <div
-        className="grid gap-2"
-        style={{ gridTemplateColumns: `repeat(${config.ctas.length}, minmax(0, 1fr))` }}
-      >
-        {config.ctas.map((cta) => (
-          <Link
-            key={cta.href}
-            href={cta.href}
-            className="rounded border void-border-subtle void-bg-sunk px-3 py-2 text-center font-mono text-[10px] uppercase tracking-wider void-text-accent hover:void-bg-canvas"
+      {(() => {
+        const visibleCtas = config.ctas.filter(
+          (c) => !c.requiresFlag || Boolean(flags[c.requiresFlag]),
+        );
+        if (visibleCtas.length === 0) return null;
+        return (
+          <div
+            className="grid gap-2"
+            style={{ gridTemplateColumns: `repeat(${visibleCtas.length}, minmax(0, 1fr))` }}
           >
-            {cta.label}
-          </Link>
-        ))}
-      </div>
+            {visibleCtas.map((cta) => (
+              <Link
+                key={cta.href}
+                href={cta.href}
+                className="rounded border void-border-subtle void-bg-sunk px-3 py-2 text-center font-mono text-[10px] uppercase tracking-wider void-text-accent hover:void-bg-canvas"
+              >
+                {cta.label}
+              </Link>
+            ))}
+          </div>
+        );
+      })()}
     </section>
   );
 }
