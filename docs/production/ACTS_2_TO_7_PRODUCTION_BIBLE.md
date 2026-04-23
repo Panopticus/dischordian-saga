@@ -291,6 +291,34 @@ Third recording. The Engineer warns about what's watching the Ark.
 - 11-12s: recording dissolves, the SHAPE staying visible at 5% for an extra 0.3s after the Engineer has faded (it is NOT part of the recording; it was present in the room where the recording was MADE).
 24fps, blue-white dominant with violet-black glitch accents.
 
+### 1.7 — Suno v4 music prompts (Act 2)
+
+**mus_act2_opener** — `apps/client/public/audio/acts/act-2-intro.mp3` · 21s
+
+> Suno v4 prompt: "Quiet tungsten workshop ambience, 21 seconds. Low held cello note in D-minor under distant breathing. At 12 seconds, a single brass-filament string pluck enters — warm, close, like a tuning fork held against wood. At 17 seconds, a faint high-frequency scanline hum joins 5% below the main dynamic — the substrate signal arriving. Ends on a held quarter-rest, unresolved. Cinematic, intimate, patient. No percussion. No vocal."
+>
+> Mood tag: `workshop_quiet`, `substrate_introduction`, `patient_held`
+> Exported as: 21s mono MP3, normalized -14 LUFS
+
+**mus_act2_silence** — `apps/client/public/audio/acts/act-2-stingers/silence_of_two_witnesses.mp3` · 10s (but see note)
+
+> Suno v4 prompt: "2 seconds of a sustained two-voice vocal chord in D-minor (tenor + alto, wordless) held at a steady dynamic — then an ABRUPT CUT to absolute silence that holds for 8 seconds. The music MUST stop at 2 seconds, not fade. Cinematic weight in the silence itself. The chord before the cut should feel like it was about to resolve and was interrupted. Render the full 10 seconds including the 8 seconds of silence — we need them in the file."
+>
+> Critical rendering note: some Suno presets auto-trim silence at the end of a render. Either disable that behavior or manually extend the file in post (`ffmpeg -i in.mp3 -af "apad=pad_dur=8" out.mp3`). The 8-second trailing silence is the entire point of the cue.
+
+**mus_act2_bench_ambient_loop** — `.../act-2-stingers/bench_ambient_loop.mp3` · 60s seamless loop
+
+> Suno v4 prompt: "60-second seamless loop of a workshop bench humming — low mechanical purr with subtle tonal warmth. In the register of a bass clarinet playing a held note one octave below middle C, but with more harmonic complexity than a pure tone. Occasional faint metallic tick (a cog turning) at 17s, 34s, 51s — three times per loop, unevenly spaced. Ends identically to start for seamless loop. No melody. No progression. Just the sound of the Bench existing."
+>
+> Loop-point validation: `ffprobe duration` should read 60.0. Splice-test by concatenating to itself — no audible stitch.
+
+**mus_act2_engineer_recording_underscore** — `.../act-2-stingers/engineer_recording_underscore.mp3` · 12s (reusable across Recordings 2 + 3)
+
+> Suno v4 prompt: "12-second underscore for a holographic recording playback. Starts with 1.5 seconds of blue-white static (harmonic hiss in the upper-midrange, not noise), then a warm low piano chord enters at 1.5s, held and soft. The chord breathes — very slow swell up to 8.5s, then gradual release to 12.0s. Sparse. No melody. A single chord holding under a memory. Ends unresolved."
+>
+> Usage note: reused for both CIN-ACT2-ENGINEER-RECORDING-2 and -3. The GLITCH-BAND beats in Recording 3 don't need music to glitch with them — the contrast between unglitched music and glitched image IS the effect.
+
 ---
+
 
 
