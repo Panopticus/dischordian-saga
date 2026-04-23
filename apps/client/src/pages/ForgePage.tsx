@@ -20,6 +20,7 @@ import {
   getRecipesByCategory, getRecipesBySkill, canCraftRecipe, calculateSuccessRate,
   getMaterialById,
 } from "@/data/craftingData";
+import { EmptyForge } from "@/components/EmptyStates";
 
 /* ── ICON MAP ── */
 const CATEGORY_ICONS: Record<RecipeCategory, typeof Sword> = {
@@ -398,17 +399,21 @@ export default function ForgePage() {
               RECIPES ({filteredRecipes.length})
             </h3>
             <div className="space-y-1.5 max-h-[calc(100vh-200px)] overflow-y-auto pr-1">
-              {filteredRecipes.map(recipe => (
-                <RecipeCard
-                  key={recipe.id}
-                  recipe={recipe}
-                  skillLevels={skillLevels}
-                  materials={materials}
-                  dreamTokens={dreamTokens}
-                  onSelect={() => setSelectedRecipe(recipe)}
-                  isSelected={selectedRecipe?.id === recipe.id}
-                />
-              ))}
+              {filteredRecipes.length === 0 ? (
+                <EmptyForge className="my-8" />
+              ) : (
+                filteredRecipes.map(recipe => (
+                  <RecipeCard
+                    key={recipe.id}
+                    recipe={recipe}
+                    skillLevels={skillLevels}
+                    materials={materials}
+                    dreamTokens={dreamTokens}
+                    onSelect={() => setSelectedRecipe(recipe)}
+                    isSelected={selectedRecipe?.id === recipe.id}
+                  />
+                ))
+              )}
             </div>
           </div>
 

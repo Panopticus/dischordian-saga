@@ -11,6 +11,7 @@ import {
   Zap, Users, TrendingUp
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { EmptyLeaderboard } from "@/components/EmptyStates";
 
 type SortBy = "completion" | "battles" | "easterEggs" | "rooms";
 
@@ -146,13 +147,7 @@ export default function LeaderboardPage() {
           <div className="void-skeleton" style={{ width: 220, height: 10 }} />
         </div>
       ) : !entries || entries.length === 0 ? (
-        <div className="text-center py-20">
-          <Users size={40} className="mx-auto text-muted-foreground/30 mb-4" />
-          <p className="font-display text-lg text-muted-foreground">NO OPERATIVES RANKED YET</p>
-          <p className="font-mono text-xs text-muted-foreground/60 mt-2">
-            Complete the Awakening sequence and explore the Ark to appear on the leaderboard.
-          </p>
-        </div>
+        <EmptyLeaderboard className="my-12" />
       ) : (
         <div className="space-y-2">
           <AnimatePresence mode="popLayout">
