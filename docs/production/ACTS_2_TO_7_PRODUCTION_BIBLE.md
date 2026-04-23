@@ -615,7 +615,32 @@ Palette: aggressive red + violet-magenta corruption + cold cyan rim. Film grain.
 
 **SUNO v4:** see mus_act4_path_{willing,discovery,betrayal} in §3.7 — three variants of the revelation cue.
 
+### 3.4 — CIN-ACT4-MEMORIAL-CORRIDOR — Two Witnesses Meet (15s, P0) ★ KEY BEAT
+
+**Output:** `apps/client/public/videos/acts/act-4/cin_act4_memorial_corridor.mp4` · 16:9 · 1920×1080 · **Trigger:** Bond 80 milestone
+
+The single most important character-beat cinematic in the entire bible. For the first time Elara and The Human appear in the same frame at the same time — the Memorial Corridor is a long dark hall lit by a single Caravaggio-style diagonal light cone, and the two narrators stand at its edges looking at each other. The player stands in the light. This is the beat described in `witnessingIntegrations.ts` as "The Two Witnesses Meet" — a judgment scene where the player decides what to do with both of them.
+
+**START FRAME:** Interior of a long narrow corridor, 16:9 1920×1080. Deep-perspective framing — the corridor recedes into darkness at the end. Everything is in deep Caravaggio shadow (80% of the frame near-black). A single diagonal beam of warm tungsten light falls from upper-left to lower-right, crossing the corridor floor at mid-distance. In that light-beam's warmth, ELARA stands on the LEFT WALL's edge — in her Living Character Sheet Part 1A canon (pale cool-cyan skin, rain-wet hair, holographic faint translucency at the shoulders) but rendered SOLID here (not translucent) for the first time. She is looking toward the opposite wall. On the RIGHT WALL's edge, THE HUMAN stands — in his canonical Part 1B pose (black fedora at asymmetric tilt, red-emissive eyes). He is looking toward the left. Between them, IN THE LIGHT BEAM, stands the player (implied, empty spot — the camera is positioned at this empty spot; the audience IS the player here). Palette: deep shadow dominant, warm tungsten amber in the single beam. Film grain heavy.
+
+**END FRAME:** Same corridor, same composition. Both narrators have MOVED — Elara is now one step closer to the light beam (left foot has advanced into the warm light), The Human has removed his FEDORA (held in one hand at his side), his red-emissive eyes fully exposed. They are looking AT EACH OTHER across the beam, not at the player. Elara's expression: grief, recognition. The Human's expression: grief, recognition. Neither is speaking. The Caravaggio light cone is slightly brighter — the moment has been SEEN. Film grain preserved.
+
+**VEO 3.1 MOTION PROMPT:**
+
+> 15-second one-shot. Camera locked in the player-position, looking down the corridor. This is the most heavily composed cinematic in the bible and every beat matters. Narrative beats with frame timings:
+> - **0.0-2.0s (held start):** start frame holds. Both narrators in their canonical poses, looking toward each other through the player's space. Neither moves. The warmth of the single light beam is the only warmth in a very cold composition.
+> - **2.0-5.0s (Elara steps forward):** Elara's LEFT foot advances ~30cm into the light beam. Her face enters the warm tungsten and her pale-cyan skin is caught in the amber light for the first time in the game — she looks almost WARM. Her expression shifts from steady to grieving. She is recognizing The Human.
+> - **5.0-7.0s (Human removes hat):** The Human's right hand lifts toward his head. Over 2 seconds, he takes off the fedora. The gesture is deliberate, respectful. His red-emissive eyes become fully exposed. He holds the hat at his side.
+> - **7.0-10.0s (eye contact):** they look AT EACH OTHER across the light beam. Neither looks at the camera (the player). For the audience this is the first time these two characters have seen each other. Both are holding grief. The Caravaggio light slightly intensifies.
+> - **10.0-12.0s (held silence):** three full seconds of perfect stillness. Nobody moves. Nobody speaks. The audience is supposed to feel the weight of Bond 80 — everything in the player's relationship with both of them has led to this moment.
+> - **12.0-14.0s (subtle gesture):** Elara's head inclines 2° toward The Human. The Human's head inclines 2° toward Elara. Small, mutual. An acknowledgment.
+> - **14.0-15.0s (end held):** end frame. The audience has seen them meet. The player now chooses what to do next (dialog surface appears post-cinematic).
+> Cinematography: absolutely no camera motion. Focal length LOCKED. 24fps. Film grain HEAVY. Palette: deep Caravaggio shadow with the single warm tungsten beam — the reference is specifically Caravaggio's The Calling of Saint Matthew. The beam of light IS the narrative focus; everything else recedes.
+
+**SUNO v4:** see mus_act4_memorial_corridor in §3.7 — this is the first time Elara's theme and The Human's theme play in the same cue. They don't harmonize; they're in DIFFERENT KEYS simultaneously (Elara in D-minor, Human in F-minor) held as a dissonant-but-not-ugly tension throughout the 15 seconds. No resolution. The tension is the point.
+
 ---
+
 
 
 
