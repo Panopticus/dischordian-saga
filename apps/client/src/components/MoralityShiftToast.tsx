@@ -3,9 +3,10 @@
    by >= 5 points from a single action. Shows alignment
    direction with theme-matched colors and companion quote.
    ═══════════════════════════════════════════════════════ */
-import { useEffect, useState, useCallback, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState, useCallback } from "react";
+import { motion } from "framer-motion";
 import { Heart, Cpu, ArrowRight } from "lucide-react";
+import { ToastSlot } from "@/components/toast";
 
 /* ── Companion reaction quotes ── */
 const HUMANITY_QUOTES = [
@@ -48,7 +49,6 @@ export function dispatchMoralityShift(payload: MoralityShiftPayload) {
 
 export default function MoralityShiftToast() {
   const [current, setCurrent] = useState<MoralityShiftPayload | null>(null);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const dismiss = useCallback(() => {
     setCurrent(null);
@@ -64,54 +64,34 @@ export default function MoralityShiftToast() {
     return () => window.removeEventListener("morality-shift", handler);
   }, []);
 
-  // Auto-dismiss after 5 seconds
-  useEffect(() => {
-    if (current) {
-      if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(dismiss, 5000);
-    }
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, [current, dismiss]);
-
-  if (!current) return null;
-
-  const isHumanity = current.delta > 0;
-  const magnitude = Math.abs(current.delta);
-
-  // Theme colors — humanity = success axis, machine = error axis.
-  // Sourced from Void Energy's --energy-success / --energy-error so
-  // atmosphere + physics changes propagate automatically.
-  const color = isHumanity ? "var(--energy-success)" : "var(--energy-error)";
-  const bgGradient = isHumanity
-    ? "linear-gradient(135deg, color-mix(in oklch, var(--energy-success) 12%, transparent) 0%, color-mix(in oklch, var(--energy-primary) 6%, transparent) 100%)"
-    : "linear-gradient(135deg, color-mix(in oklch, var(--energy-error) 12%, transparent) 0%, color-mix(in oklch, var(--energy-error) 6%, transparent) 100%)";
+  const isHumanity = (current?.delta ?? 0) > 0;
+  const magnitude = Math.abs(current?.delta ?? 0);
+  // Humanity = success axis, Machine = error axis — sourced from Void
+  // Energy tokens so atmosphere + physics propagate automatically.
+  const tone: "success" | "error" = isHumanity ? "success" : "error";
   const directionLabel = isHumanity ? "Humanity" : "the Machine";
   const Icon = isHumanity ? Heart : Cpu;
-  const quote = pickRandom(isHumanity ? HUMANITY_QUOTES : MACHINE_QUOTES);
+  const quote = current
+    ? pickRandom(isHumanity ? HUMANITY_QUOTES : MACHINE_QUOTES)
+    : "";
+  // We need a raw color string for the few inline style cases that CSS
+  // variable pipelines can't handle (opacity-composed text-shadows).
+  const color = isHumanity ? "var(--energy-success)" : "var(--energy-error)";
 
   return (
-    <AnimatePresence>
-      <motion.div
-        key={`${current.delta}-${current.newScore}`}
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: 50 }}
-        transition={{ type: "spring", damping: 25, stiffness: 300 }}
-        className="fixed bottom-20 right-4 z-[9997] max-w-sm cursor-pointer"
-        onClick={dismiss}
-      >
-        <div
-          className="rounded-xl border backdrop-blur-md shadow-2xl"
-          style={{
-            padding: "var(--space-md)",
-            background: bgGradient,
-            borderColor: `color-mix(in oklch, ${color} 30%, transparent)`,
-            boxShadow: `0 0 var(--space-md) color-mix(in oklch, ${color} 15%, transparent)`,
-          }}
-        >
-          {/* Header */}
+    <ToastSlot
+      visible={!!current}
+      onDismiss={dismiss}
+      position="bottom-right"
+      tone={tone}
+      durationMs={5000}
+      maxWidth={400}
+      contentKey={current ? `${current.delta}-${current.newScore}` : undefined}
+      role="alert"
+      showCloseButton={false}
+    >
+      {current && (
+        <>
           <div className="flex items-center gap-2 mb-2">
             <motion.div
               animate={{ rotate: [0, 10, -10, 0] }}
@@ -130,7 +110,6 @@ export default function MoralityShiftToast() {
             </span>
           </div>
 
-          {/* Direction */}
           <div className="flex items-center gap-2 mb-3">
             <ArrowRight size={12} className="text-white/40" />
             <p className="font-display text-sm font-bold" style={{ color }}>
@@ -138,7 +117,6 @@ export default function MoralityShiftToast() {
             </p>
           </div>
 
-          {/* Companion quote */}
           <div className="pl-3 border-l-2" style={{ borderColor: `${color}40` }}>
             <p className="font-mono text-[11px] text-white/60 leading-relaxed italic">
               "{quote}"
@@ -148,7 +126,6 @@ export default function MoralityShiftToast() {
             </p>
           </div>
 
-          {/* Magnitude indicator */}
           {magnitude >= 10 && (
             <div className="mt-3 flex items-center gap-1.5">
               {Array.from({ length: Math.min(5, Math.floor(magnitude / 5)) }).map((_, i) => (
@@ -166,8 +143,8 @@ export default function MoralityShiftToast() {
               </span>
             </div>
           )}
-        </div>
-      </motion.div>
-    </AnimatePresence>
+        </>
+      )}
+    </ToastSlot>
   );
 }

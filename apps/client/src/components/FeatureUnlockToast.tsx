@@ -9,14 +9,12 @@
    new features one at a time, with narrative context.
    ═══════════════════════════════════════════════════════ */
 import { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, X } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
 import { FEATURE_ROADMAP, isFeatureUnlocked, FEATURE_CATEGORIES, type FeatureUnlock } from "@shared/featureRoadmap";
 import { getSessionDuration } from "@/lib/analytics";
-import { Z } from "@/lib/zIndex";
-import { VOID } from "@/engine/voidPresets";
 import { useElaraVO } from "@/hooks/useElaraVO";
+import { ToastSlot } from "@/components/toast";
 
 const STORAGE_KEY = "feature_unlocks_seen";
 
@@ -80,58 +78,53 @@ export default function FeatureUnlockToast() {
     }
   }, [current, queue, speak, preludeComplete]);
 
-  // Auto-dismiss after 8 seconds
-  useEffect(() => {
-    if (!current) return;
-    const timer = setTimeout(() => setCurrent(null), 8000);
-    return () => clearTimeout(timer);
-  }, [current]);
+  // Auto-dismiss handled by ToastSlot via durationMs.
 
-  if (!current) return null;
-
-  const category = FEATURE_CATEGORIES[current.category];
+  const category = current ? FEATURE_CATEGORIES[current.category] : null;
 
   return (
-    <AnimatePresence>
-      <motion.div
-        {...VOID.scaleIn()}
-        className={`fixed top-16 left-1/2 -translate-x-1/2 ${Z.DISCOVERY} max-w-md w-[90%]`}
-      >
-        <div
-          className="rounded-xl border backdrop-blur-md p-4 shadow-2xl"
-          style={{
-            background: `linear-gradient(135deg, color-mix(in oklch, var(--bg-void) 95%, transparent) 0%, ${category.color}15 100%)`,
-            borderColor: `${category.color}40`,
-            boxShadow: `0 0 40px ${category.color}30`,
-          }}
-        >
-          <div className="flex items-start gap-3">
-            <div
-              className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
-              style={{ background: `${category.color}20`, border: `1px solid ${category.color}40` }}
+    <ToastSlot
+      visible={!!current}
+      onDismiss={() => setCurrent(null)}
+      position="top-center"
+      tone="custom"
+      toneColor={category?.color}
+      durationMs={8000}
+      maxWidth={460}
+      contentKey={current?.featureId}
+    >
+      {current && category && (
+        <div className="flex items-start gap-3 pr-4">
+          <div
+            className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
+            style={{ background: `${category.color}20`, border: `1px solid ${category.color}40` }}
+          >
+            <Sparkles size={18} style={{ color: category.color }} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1">
+              <span
+                className="font-mono text-[9px] tracking-[0.3em]"
+                style={{ color: category.color }}
+              >
+                {category.icon} SYSTEM UNLOCKED
+              </span>
+            </div>
+            <p className="font-display text-sm font-bold text-white mb-1">
+              {current.name}
+            </p>
+            <p className="font-mono text-[10px] text-white/60 leading-relaxed mb-2">
+              {current.description}
+            </p>
+            <p
+              className="font-mono text-[10px] text-white/80 italic leading-relaxed border-l-2 pl-2"
+              style={{ borderColor: category.color }}
             >
-              <Sparkles size={18} style={{ color: category.color }} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="font-mono text-[9px] tracking-[0.3em]" style={{ color: category.color }}>
-                  {category.icon} SYSTEM UNLOCKED
-                </span>
-              </div>
-              <p className="font-display text-sm font-bold text-white mb-1">{current.name}</p>
-              <p className="font-mono text-[10px] text-white/60 leading-relaxed mb-2">
-                {current.description}
-              </p>
-              <p className="font-mono text-[10px] text-white/80 italic leading-relaxed border-l-2 pl-2" style={{ borderColor: category.color }}>
-                {current.unlockMessage}
-              </p>
-            </div>
-            <button onClick={() => setCurrent(null)} className="text-white/30 hover:text-white/60 shrink-0">
-              <X size={14} />
-            </button>
+              {current.unlockMessage}
+            </p>
           </div>
         </div>
-      </motion.div>
-    </AnimatePresence>
+      )}
+    </ToastSlot>
   );
 }
