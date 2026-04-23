@@ -2885,3 +2885,48 @@ Consolidates every Veo 3.1 / Seedance 2.0 motion clip referenced throughout Part
 
 ---
 
+### CIN-KAEL-01 — Kael three-phase transformation (14s one-shot, P0)
+
+**Output:** `apps/client/public/videos/character-sheet/kael_three_phase_transform.mp4` · **Aspect:** 16:9 · **Resolution:** 1920×1080
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9 1920×1080. Interior of an Iron Clad Lions recruitment hall — white marble pillars, warm amber wall-sconces, faint cyan institutional ambient. In the center of frame, Kael as THE RECRUITER (Phase 1): muscular man in his late twenties, warm medium-brown skin, long well-maintained brown dreadlocks pulled back cleanly, trim goatee, subtle amber eye-glow. Wearing white ICL plate armor with "ICL" stenciled in clean black lettering at the right pec and shoulder pauldron. Red-orange tribal ink visible on both exposed forearms (clean ceremonial flame motif). Stance: heroic confident chest-forward, one arm extended slightly in a recruiter's "join us" gesture. Warm amber key lighting from camera-left, cool cyan fill from right. Film grain. 4K. No rendered text other than the ICL stencils.
+
+**END FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9 1920×1080. Interior of a broken stone cavern — dust motes frozen in a cold shaft of pale blue light falling from above through a fractured ceiling crevice. Center of frame, Kael as THE SOURCE (Phase 3): same man as start frame but ASHEN-PALE, skin a cool desaturated grey covered in black crack-like fractures that leak cold pale-blue emissive light from within. Dreadlocks now wild and partially petrified — individual locks fossilized into stone-moss textures at the tips. Heavy full beard, gray-weathered at the edges. Tattoos subsumed and indistinguishable from the fractures. Chrome cybernetic gauntlets on both forearms (reforged from brass). Bronze sun-sigil belt medallion at the waist. FULL amber-gold eye glow. Head bowed slightly, shoulders squared into power. Cold ambient, warm subject-center. Film grain. 4K. No rendered text.
+
+**VEO 3.1 MOTION PROMPT:**
+> 14-second one-shot transformation cinematic. Camera slowly pushes in on Kael across the entire duration (very gentle dolly, 1.2% zoom total). Scrubs `kaelTransformProgress` 0.0 → 0.5 at 5s → 1.0 at 12s with held reveal beat through 14s. Narrative beats:
+> - **0.0–3.0s (Phase 1 idle):** Recruiter Kael stands composed, breathes once, eye-glow baseline 0.2, amber ICL-hall light. A single slow blink at 1.8s.
+> - **3.0–5.0s (Phase 1 → Phase 2 transition):** White ICL plate armor DISSOLVES from his body in small fragments drifting upward and fading, revealing bare skin beneath. Red-orange tribal forearm ink shifts to BLACK-NAVY — corruption moment. Dreadlocks lengthen and wildness creeps in. Skin tone desaturates toward prisoner-pallor. Bronze prisoner-bracers MATERIALIZE onto both forearms from an invisible source. The hall lighting drops cooler, ceremonial amber bleeds out, replaced by harsh cyan prison-stone ambient. Eye-glow dims from 0.2 to 0.3 (defiant rather than confident). At 5.0s: Enslaved Kael fully present, shirtless, tattoos black-navy across chest and stomach, wild unkempt longer dreads, brass medallion at collarbone.
+> - **5.0–7.0s (Phase 2 held beat):** Enslaved Kael holds for 2 seconds. Chest rises once (a guarded, shallow breath). Eyes defiant-fixed at camera. Mood: the weight of captivity. Lighting: harsh cyan from above, no warm fill.
+> - **7.0–12.0s (Phase 2 → Phase 3 transition — the longest and most dramatic beat):** The transformation accelerates. Black tribal ink on chest/stomach VISIBLY CRACKS — thin black fracture lines spread outward from the ink, extending onto the shoulders, neck, and jawline, CONTINUING across the forehead. Inside the fractures, cold pale-blue emissive light begins to bleed outward (scrub `fractureEmission` 0.0 → 0.7 over these 5 seconds). Skin tone shifts from pale prisoner-grey to ASHEN — desaturated cool grey. Dreadlocks at the tips begin to PETRIFY — stone-moss textures creep inward from the ends. Brass prisoner-bracers on his forearms REFORGE IN REAL-TIME — brass flows like liquid metal, re-alloying into CHROME cybernetic gauntlets (the embossing patterns remain similar but the material shifts). Bronze sun-sigil belt medallion rises from below the frame and locks into place at his waist. Amber eye-glow ramps from 0.3 to 1.0 at full intensity. The prison-stone backdrop DISSOLVES into a broken stone cavern — ceiling cracks open above him, cold pale-blue light pours down from the fractured crevice.
+> - **12.0–14.0s (Phase 3 held reveal):** The Source is fully present. Held beat, 2 seconds of stillness. He breathes once — deep, slow, the breath of something ancient. Fracture emissive pulses subtly with breath (inhale dims, exhale brightens). Petrified dreadlocks at the nape move briefly like Medusa-roots for 400ms then settle. Head remains slightly bowed. Audience meets the fully-realized Source.
+> Cinematography: slow ~1° push-in across entire 14s. 24fps. Film grain preserved. Palette shifts from warm-amber (Phase 1) → harsh-cyan (Phase 2) → cold-blue-with-warm-subject-glow (Phase 3).
+
+**Audio hand-off note:** Three-movement score — warm strings (0.0–5.0s), percussive cold bass drones (5.0–12.0s), unresolved sustained chord (12.0–14.0s). See Suno generation spec for Kael's theme.
+
+---
+
+### CIN-KAEL-02 — Source rock-break emergence (6s one-shot, P0)
+
+**Output:** `apps/client/public/videos/character-sheet/kael_source_emergence.mp4` · **Aspect:** 16:9 · **Resolution:** 1920×1080
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9 1920×1080. A solid wall of dark stone — cracked, weathered, ancient — filling the frame. Deep within the stone, near the center, a HAIRLINE FRACTURE runs vertically about 40cm tall, pulsing faintly with cold pale-blue light from within the crack. The crack is narrow enough that the viewer cannot see what is inside. Atmospheric dust motes frozen in a cold high-angle light source. Cavern ambient, desaturated cool palette. Film grain. 4K. No rendered text.
+
+**END FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9 1920×1080. The same cavern, but the stone wall has BROKEN OPEN — a ragged torso-sized opening where the hairline fracture was, stone shards falling mid-air as if caught in a freeze-frame of the break. Standing framed by the broken rock: Kael as THE SOURCE (matching Phase 3 canon exactly — ashen skin with black fractures leaking cold pale-blue emissive, partially petrified dreadlocks, full amber-gold eye glow, chrome gauntlets, bronze sun-sigil belt). His head is slowly lifting from a bowed default position. Around his body, cold pale-blue fracture-light spills outward from the new opening, throwing long blue-cast shadows across the surrounding stone. Dust and broken stone particles hang in the air mid-fall. Film grain. 4K. No rendered text.
+
+**VEO 3.1 MOTION PROMPT:**
+> 6-second one-shot rock-break emergence cinematic. Camera static, locked on the stone wall.
+> - **0.0–1.5s (anticipation):** The hairline fracture in the stone pulses faintly, slowly brightening. Cold pale-blue light inside the crack intensifies. A single low rumble (audio-synced beat) as the stone begins to strain.
+> - **1.5–3.0s (break):** The stone VIOLENTLY CRACKS OPEN — ragged torso-sized opening expands outward from the fracture with stone shards flying outward and falling. Inside the opening, the Source is visible standing — initially silhouetted against the cold blue interior light.
+> - **3.0–4.5s (emergence):** The cold blue light from behind him spills outward, illuminating the broken stone edges. His body details resolve — ashen skin, fractures, dreadlocks, chrome gauntlets — as the light catches him. His head remains bowed.
+> - **4.5–6.0s (reveal held):** His head SLOWLY LIFTS from the bowed position to look directly at the camera, full amber-gold eye glow engaging for the first time in the cinematic. Dust and stone particles still hanging in the air begin their slow downward fall. He has arrived.
+> Cinematography: locked static camera. Focal push only on final 1.5s — gentle rack focus from foreground stone-shards to his face. 24fps. Film grain heavy. Palette: cold blue + warm amber subject-glow.
+
+**Audio hand-off note:** Low rumble building (0.0–1.5s), sharp crack beat (1.5s), resonant bass sustain during emergence (1.5–4.5s), single sustained held note as his eyes engage camera (4.5–6.0s).
+
+---
+
