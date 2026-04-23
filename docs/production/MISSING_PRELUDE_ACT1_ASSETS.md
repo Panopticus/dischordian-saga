@@ -1,0 +1,1265 @@
+# Missing Prelude + Act 1 Assets — Veo 3.1 Prompt Pack
+
+Single consolidated audit of every cutscene, room, VFX, VO, and art asset
+across the **Prelude** (15 beats) and **Act 1** (3 cycles + finale) of
+Dischordian Saga. Every video row is framed as a **Veo 3.1** image-to-video
+render (start frame → end frame → motion prompt). Every still uses the
+same Nano Banana 2 shape. Every audio row cites its target loudness and
+output path.
+
+This doc is the **single artifact an operator should need**. The
+underlying prompt files in `docs/production/prelude-asset-build/` and
+`docs/production/act1-asset-build/` remain in place and canonical, but
+this file consolidates what is **actually missing** after triple-checking
+against `assets/intermediate/`, both CDNs, `apps/client/public/`, and
+the React component tree.
+
+---
+
+## 0. How to use this doc
+
+1. **Process INTERMEDIATE assets first.** Many "missing" rows in earlier
+   audits are actually already rendered and sitting in
+   `assets/intermediate/prelude/{rooms,cutscenes,vfx,audio}/`. These need
+   only format conversion (PNG→WebP, WAV→MP3 + loudnorm, MP4→WebM) and
+   placement at the canonical `apps/client/public/...` path before
+   upload via `apps/scripts/upload-public-to-s3.ts`. Zero new generations
+   required. See **§11 Processing Pipeline**.
+2. **Then render MISSING assets** using the Veo/Nano/ElevenLabs prompts
+   below, working beat-by-beat top-to-bottom. Each entry is
+   self-contained: start-frame prompt, end-frame prompt, motion prompt,
+   config block, output path, audio sync notes.
+3. **Stop after Part 1** if you only need the Prelude (playtest-unblock
+   tier). Part 2 is Act 1 and depends on Prelude rooms being wired.
+
+### 0.1 Tools in play
+
+| Asset type | Tool | Recipe doc |
+|---|---|---|
+| Still image (rooms, portraits, card art, VFX frames) | **Nano Banana 2** | `docs/production/commission-packages/examples/nano-banana-2_turnaround.md` |
+| Motion clip (cutscene, VFX webm) | **Veo 3.1** (image-to-video, start+end keyframe) | `docs/production/commission-packages/examples/veo-3.1_one-shot-cinematic.md` |
+| Voice line | **ElevenLabs** | per-character voice profile in `apps/shared/*VoManifest.json` |
+| Ambient bed / music | source WAV → `ffmpeg` MP3 + EBU R128 loudnorm | per-bed LUFS target listed inline |
+
+### 0.2 Asset status legend
+
+| Tag | Meaning | Operator action |
+|---|---|---|
+| `DONE-LOCAL` | Final file at canonical `apps/client/public/...` path | None |
+| `DONE-CDN-LEGACY` | Polished asset on `d2xsxph8kpxj0f.cloudfront.net`, wired in `InlineShipMap.tsx`/`ShipSchematicMap.tsx` but **missing from canonical local path** | Re-download from CDN and place at canonical path, OR regenerate, to satisfy `preludeReadiness.test.ts` and page-level `assetUrl()` loads |
+| `DONE-CDN-PRIMARY` | Final asset on `dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/...` (what `assetUrl()` resolves to) | None |
+| `DONE-CODE` | React / CSS / Three.js component; no media file required | None |
+| `DONE-S3-VO` | Voice line recorded and published to `dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/...` (manifest wired) | None |
+| `INTERMEDIATE` | Source / draft exists in `assets/intermediate/` — needs processing | Run pipeline per §11, then upload |
+| `MISSING` | No asset anywhere | Render per prompt below |
+
+### 0.3 Global style anchors
+
+- **Prelude palette**: deep space black `#010020` base, cyan `#22d3ee`
+  dominant, amber `#fbbf24` rare warm accent (Mess Hall service light,
+  Medical Bay transfer-array standby, Briefing Room chair rim-light only),
+  foxfire green `#00e676` for Engineering standby, purple-gold for the
+  Observation Deck nebula/rift.
+- **Act 1 Cycle A — Celebration/Kindergarten**: warm honey `#d9a66a`
+  dominant, dusty rose `#c98b8b`, actual sun through windows.
+- **Act 1 Cycle B — Mechronis Academy**: cool teal `#4ba3b5` dominant,
+  brass `#b8752d`, ONE reflected sun-shaft.
+- **Act 1 Cycle C — Nexon/Zenon/Authority**: dust-brown `#6b5a48` /
+  institutional grey `#55606e` / black marble `#1c1a1a` dominant, ember
+  `#e06a1a` accent, distant fires only.
+- **Global negative prompt (all stills)**: `rendered text, subtitle,
+  watermark, logo, stock photo, cartoon, anime, low quality, blurry,
+  flat lighting, UI chrome, HUD, menu, cel shading, painting,
+  illustration, double exposure, warped anatomy, extra fingers`.
+- **Image base resolution**: 1920×1080 for 16:9 rooms + cutscene
+  keyframes; 1536×2048 for 3:4 matchup portraits; 1024×1024 for card art.
+- **Video**: 24fps, 16:9, image-to-video with START + END keyframe.
+
+### 0.4 Canon hygiene — NEVER violate
+
+- **Engineer face**: never rendered. Always from behind, obscured, or
+  cropped above the shoulders. Applies to every beat and every cutscene.
+- **Vex Solene**: does not appear in Act 1. The Warlord's visor hides
+  her face; only iridescent shimmer at the visor lip is permitted.
+- **The Authority**: no face, no scale cue, no insignia, no reflective
+  surface. Silhouette against darker stone only.
+- **Oracle**: referenced, never shown.
+- **Game Master (pre-split)**: in `matchup-game-master-original` only,
+  render a **single pair** of wire-rimmed spectacles (two lenses in one
+  frame). NOT the Acts-2+ Left/Right twin-eyepiece configuration.
+- **Forbidden phrases anywhere in rendered text or handwriting**:
+  "1260 days", "Silence in Heaven", "Heart of Time",
+  "Privacy / Prophecy / Insurgency / Revelation Ages", "Daniel Cross",
+  "Malkia Ukweli".
+
+### 0.5 Veo 3.1 config template (every cutscene uses this)
+
+```
+Mode:       Image-to-video with start + end keyframe
+Duration:   per entry
+Aspect:     16:9
+Frame rate: 24fps
+Seed:       lock if Veo allows; same seed across iterations
+Start kf:   upload START FRAME PNG from _intermediate/
+End kf:     upload END FRAME PNG from _intermediate/
+Motion:     paste the VEO 3.1 motion prompt verbatim
+Audio:      render silent; runtime composites VO + ambient + music
+```
+
+### 0.6 Rendered-text exceptions (whitelist)
+
+The Prelude's "no rendered text" rule has **two** canonical exceptions
+that MUST be legible in-frame:
+
+1. **Beat F — Kael Contingency Memo** (§11.6 / `vfx_memo_holo_rise`):
+   three calligraphic-cyan bullets must be readable by the player.
+   Exact text in §1.F below.
+2. **Cycle A finale — "CELEBRATION"** (§6.1 / `welcome-to-celebration`):
+   the single word CELEBRATION inscribed on the ceremonial arch.
+
+Act 1 has **one additional whitelisted word**: "CELEBRATION" on the
+arch in the Cycle A finale end-frame. Everything else in Act 1 follows
+the no-rendered-text rule.
+
+---
+
+# PART 1 — PRELUDE (15 beats, ~16 minutes of cutscene)
+
+Prelude total runtime = 465s of short beats + ~490s of Beat J long-form
+≈ 16 minutes. 10 VO lines already recorded and live in S3.
+
+## §1.A  Beat A — Cryo Wake (35s)
+
+### §1.A.1 Cutscene — Veo 3.1
+
+**Output:** `apps/client/public/videos/prelude/prelude-beat-a-awakening.mp4`
+**Duration:** 35s @ 24fps, 16:9
+**Status:** MISSING
+**Bible:** `PRELUDE_SHIP_READY_BIBLE.md` §3
+**Source prompts:** `docs/production/prelude-asset-build/prompts/cutscenes/prelude-beat-a-awakening_{start_frame,end_frame,motion}.txt`
+
+**Dependencies (render these PNGs first via Nano Banana 2):**
+- Start frame: `assets/intermediate/prelude/cutscenes/prelude-beat-a-awakening_start.png`
+- End frame: `assets/intermediate/prelude/cutscenes/prelude-beat-a-awakening_end.png`
+
+**START FRAME prompt (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Extreme close-up from inside the cryo pod looking outward through the canopy glass. The glass is half-frosted; six-pointed frost crystals are still forming at the edges of frame in slow motion. The player's POV — we cannot see their face. Beyond the glass, blurred and dim, the curved gallery of Pod Chamber 47 (Ark 1047 cryo-bay) is just becoming visible: shapes of other pods softly glowing cyan `#22d3ee` in the background. Volumetric cryogas inside the pod is still settling. The pod's internal indicator lights (a vertical column of small cyan LEDs to the right of the canopy) are sequencing from dim to bright — three are lit, three are still dark. Shallow depth of field, focused on the inside of the canopy glass. Palette: deep space black `#010020`, cyan `#22d3ee`, white frost. Anamorphic flare on the brightest LED. Faint film grain. No text. No visible character. Cinematic 4K.
+
+**END FRAME prompt (Nano Banana 2):**
+> Same Pod Chamber 47, thirty-five seconds later. Wide establishing shot now from outside the open pod, camera at standing eye level looking down the gallery toward the far corridor archway. The pod is fully open, cryogas has dissipated to ankle-height drift. Center of frame, three meters from the open pod, **Elara's holographic avatar** stands materialized: a translucent female figure in flowing senatorial robes rendered in cyan `#22d3ee` scanlines, hands clasped in front of her, expression warm and uncertain. She is two meters tall, slightly taller than the player would be. The hologram emits soft cyan rim light onto the floor and the railings around her. Behind her, the eleven sealed pods continue their slow cyan breath-pulse. The first emergency floor strip nearest camera is hot at its leading edge — the breath-rhythm pulse is at peak. Volumetric fog at ankle height. Anamorphic lens flare from Elara's hologram. Film grain. Deep space black `#010020` base. No rendered text. Cinematic 4K composition. The framing must clearly show **five other pods on the near row, still sealed, still glowing** — they are the visual punchline of the cutscene and the script line in §3.5 must land on them.
+
+**VEO 3.1 motion prompt (image-to-video, start + end keyframe):**
+> Begin extreme close-up inside pod canopy as frost crystals retract and final LEDs sequence to bright. Beat at 4s: pod hatch hisses open with volumetric cryogas burst, camera pushes through the opening pod glass and out into the chamber. Beat at 12s: slow continuous pull-back along the gallery, revealing eleven sealed pods on either side, each gently breath-pulsing cyan. Beat at 22s: Elara hologram materializes center-frame in scanline wipe, soft bloom builds. Final 8s: hold on Elara, slow lateral camera drift right to lock the framing. 24fps. Reverent, fragile, just-born tone.
+
+**Veo 3.1 config:** Mode image-to-video start+end keyframe · Duration 35s · 16:9 · 24fps · camera: push-through + pull-back + lateral drift per motion.
+
+**Audio hand-off:**
+- VO `elara_beat_a_five_pods` @ ~24s — DONE-S3-VO →
+  `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/elara/elara_beat_a_five_pods.mp3`
+- Ambient bed: `ambient_neural_rig_hum` NOT used here (Medical Bay
+  bed); Beat A uses only reactive cryo-gas hiss + Elara hologram hum.
+  See §1.G Audio for the neural-rig bed.
+- Music cue: reverent low-strings bed, enters at ~22s on Elara
+  materialization. Suno or composer — not yet sourced.
+
+**Canon hygiene:** player's face never rendered (first-person POV
+start; over-shoulder/behind for end frame if any body is shown).
+
+### §1.A.2 Room art — Cryo Bay
+
+**Output (local):** `apps/client/public/art/rooms/room-cryo-bay.png` + `room-cryo-bay.webp`
+**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-cryo-bay_original.png`
+**Also on legacy CDN** (`DONE-CDN-LEGACY`):
+`https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/cryo-bay_2da49870.png`
+— wired in `apps/client/src/components/InlineShipMap.tsx:50`.
+**Also on legacy CDN (murder-mystery state-aware variants, 4 frames)** —
+see `docs/production/ASSET_URLS.md` "Cryo Bay / Medical Bay" section:
+`/art/rooms/mystery-states/cryo-bay_{initial,investigating,victim-identified,case-open-later}.webp`.
+
+**Action:** PNG→WebP convert the `_original.png`, drop both files at the
+canonical `art/rooms/` path, run `apps/scripts/upload-public-to-s3.ts`.
+Do NOT regenerate.
+
+**Reference prompt** (if regeneration is required for any reason — e.g.
+aspect-ratio repair):
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of Pod Chamber 47 aboard the cryo-bay deck of a 17,000-year-old generation ship called Ark 1047. The chamber is a long curved gallery with two facing rows of upright cryo-stasis pods — six pods per row, twelve total visible. The pods are tall vertical cylinders of brushed brass and obsidian glass, each with a faint warm cyan `#22d3ee` glow at the canopy where the occupant's face would be. Five pods on each row are sealed and softly luminous from within — sleeping, not empty, the cyan glow pulses at sub-1 Hz, you can almost hear them breathing. The sixth pod on the near side — center frame — is open: hatch lifted forty degrees, volumetric cryogas spilling out from the threshold and pooling at floor height in slow motion. The pod's interior is empty (the player just stepped out). Inside the open pod's rear wall, at approximately 50% left / 72% top in the composition, a small recessed stasis-HUD panel is still active — a twenty-centimeter square flush-mounted display with a faint cyan `#22d3ee` waveform scrolling slowly across it, rendered as abstract signal line-art only (no legible text, no numeric readouts), flickering intermittently as if carrying the last traces of the interference/whisper that woke the occupant. Floor is dark composite, scuffed bare to substrate at every walkway, dust drifting in low-angle starlight. Ceiling is unlit — only emergency floor strips along both walls and the cyan canopy glow of the eleven sealed pods illuminate the room. A single brass-and-bone railing runs the length of the gallery. At the far end of the chamber, a dark archway leads into the corridor. Ankle-height fog. Anamorphic lens flare from the open pod's cyan glow. Film grain. Deep space black `#010020` base. No rendered text. No people. No holograms. Dramatic cyan rim lighting on the open pod. Cinematic 4K composition, three-quarter wide shot, camera at standing eye level, looking down the gallery toward the corridor archway.
+
+### §1.A.3 VFX — Beat A
+
+| VFX | Status | File / Component | Notes |
+|---|---|---|---|
+| `vfx_cryo_frost_retreat` | INTERMEDIATE | `assets/intermediate/prelude/vfx/cryo-frost-retreat.mp4` | Convert MP4→WebM (VP9, alpha), place at `apps/client/public/art/vfx/prelude/cryo-frost-retreat.webm`. |
+| `vfx_pod_hatch_cryogas` | INTERMEDIATE | `assets/intermediate/prelude/vfx/pod-hatch-cryogas.mp4` | Same — MP4→WebM VP9, alpha. |
+| `vfx_hologram_materialize` | INTERMEDIATE | `assets/intermediate/prelude/vfx/hologram-materialize.mp4` | Same. Bible §18.3 marks this as shared across beats A, C, C.5, D, F, H. |
+
+### §1.A.4 VO — Beat A
+
+| Line ID | Speaker | Status | URL |
+|---|---|---|---|
+| `elara_beat_a_five_pods` | Elara | DONE-S3-VO | `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/elara/elara_beat_a_five_pods.mp3` |
+
+---
+
+## §1.A.5  Beat A.5 — Corridor First Steps (15s breath beat)
+
+### §1.A.5.1 Cutscene — Veo 3.1
+
+**Output:** `apps/client/public/videos/prelude/prelude-beat-a5-corridor.mp4`
+**Duration:** 15s @ 24fps, 16:9 · wordless
+**Status:** MISSING
+**Bible:** §4
+
+**Dependencies:**
+- Start PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-a5-corridor_start.png`
+- End PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-a5-corridor_end.png`
+
+**START FRAME prompt (Nano Banana 2):**
+> Identical composition to the §4.2 corridor still, but framed for the start of a moving camera: camera positioned at the corridor entrance (just past the cryo-bay archway), looking down the curving corridor. Cryogas residue trail visible at the very base of frame — the player has just stepped through. Both emergency floor strips at the same brightness (mid-pulse, neither at peak nor trough). All other elements identical: dust motes, dim cyan, no overhead light, worn handrails, fifteen meters of corridor curving out of view to the right. 16:9, 4K, deep space black `#010020` base. No text.
+
+**END FRAME prompt (Nano Banana 2):**
+> Camera has drifted forward fifteen meters along the corridor's gentle right-hand curve. The cryo-bay archway is no longer visible behind. Ahead, partially visible around the curve, is the closed engineering-bay door: a tall vertical iris-style hatch in worn brass with a single dim cyan status pip at center. The door is closed. The breath-pulse on the nearest emergency strip is at peak (hot leading edge, slightly brighter than start frame). Dust motes thicker in this region — they have settled in the lee of the door for centuries. Same palette, same grain, same fog. 16:9, 4K. No text, no people.
+
+**VEO 3.1 motion prompt:**
+> Slow continuous forward dolly along the corridor's gentle right-hand curve, eye level steady at hip height. No camera shake. Beat change at 6s: emergency strip pulse cycles from mid to peak (subtle global brightness shift, 12% increase). Beat change at 12s: engineering-bay door becomes visible around the curve, single cyan status pip ignites. Final 3s: hold on the closed door. Dust motes drift lazily across frame throughout. 24fps. Silent, contemplative, breathing.
+
+**Veo config:** 15s · 16:9 · 24fps · dolly forward, hip height, no shake.
+
+**Audio hand-off:** wordless beat. Ambient corridor wash only (no
+dedicated bed — reuse the ship's baseline hum layer from the reactive
+audio system).
+
+### §1.A.5.2 Room art — Corridor
+
+**Output:** `apps/client/public/art/rooms/room-corridor.png` + `.webp`
+**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-corridor_original.png`
+**Legacy CDN:** not wired in `InlineShipMap.tsx` (corridors are transitional, not map nodes).
+**Action:** PNG→WebP convert, place locally, upload to primary CDN.
+
+### §1.A.5.3 VFX — Beat A.5
+
+| VFX | Status | Notes |
+|---|---|---|
+| `vfx_breath_pulse_strip` | INTERMEDIATE | `assets/intermediate/prelude/vfx/breath-pulse-strip.mp4` — MP4→WebM VP9 alpha. Shared across every beat's floor-strip rendering per bible §18.3. |
+
+### §1.A.5.4 VO — Beat A.5
+
+None. Breath beat is wordless by design (Bible §4.5).
+
+---
+
+## §1.B  Beat B — Corridor / Escape (20s)
+
+### §1.B.1 Cutscene — Veo 3.1
+
+**Output:** `apps/client/public/videos/prelude/prelude-beat-b-escape.mp4`
+**Duration:** 20s @ 24fps, 16:9 · wordless motion, no VO
+**Status:** MISSING
+**Bible:** §5
+
+**Dependencies:**
+- Start PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-b-escape_start.png`
+- End PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-b-escape_end.png`
+
+**START FRAME prompt (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9, 4K. Close-up of the engineering-bay iris hatch, centered in frame, camera at eye level approximately 1.5 meters from the door surface. The hatch is a tall vertical brass-and-bone disc, two meters in diameter, with twelve radial petals meeting at a central hub. The hub bears a small recessed manual release wheel made of dark brass with knurled grip, and a single dim cyan `#22d3ee` status pip just below the wheel. Visible age: the central hub paint has been worn off completely, leaving polished brass underneath in a perfect circle the size of a human palm — millennia of hands have touched this exact spot. The petals themselves are matte and show fine concentric scoring from past iris cycles. Behind the door (to the left and right of the hatch frame), the corridor walls fall into shadow. Two emergency floor strips are visible at the very bottom of frame, breath-pulsing dim cyan at mid-cycle. The single status pip on the hub has just turned from dim cyan to **bright foxfire green `#00e676`** — the lock has just released. Volumetric fog at floor level. Anamorphic lens flare on the green pip. Film grain. Deep space black `#010020`. **No text. No people.** Cinematic 4K composition.
+
+**END FRAME prompt (Nano Banana 2):**
+> Same camera position twenty seconds later. The iris hatch is now **fully open** — the twelve brass-and-bone petals have rotated and retracted into the hatch frame, leaving a clean two-meter circular opening. Beyond the opening, the **engineering bay** is partially visible: a deep wide chamber dominated by the silhouette of the Engineer's workbench at the far end (a long industrial bench with hanging tool racks above it, currently dark and silent) and, in the foreground at floor level, **six dormant incubator pods** arranged in a semicircle facing the bench. The pods are hip-high, brass and obsidian glass, each canopy completely dark — not glowing yet. Cyan floor strips continue through the threshold and into the engineering bay, breath-pulsing at the same rhythm. A faint foxfire-green `#00e676` glow emanates from somewhere beyond the workbench (the bench's standby indicator). The hatch's hub status pip has now shifted from foxfire green to **steady cyan `#22d3ee`** — door is open, locked in open position. Volumetric fog spills slowly through the opening from the engineering bay (warmer-tinted, faintly green). Anamorphic flare from the pip and the distant green glow. Film grain. Deep space black base. **No text. No people. No holograms** (Elara appears in the next beat). Cinematic 4K composition.
+
+**VEO 3.1 motion prompt:**
+> Camera locked at eye level, no movement. Beat 0–3s: hold on closed iris, central pip glowing green. Beat at 3s: twelve petals begin synchronized rotation outward in slow mechanical opening, each petal disengaging with a half-second stagger so the iris peels back like a flower. Beat at 12s: iris fully retracted, warmer green-tinted fog spills through opening from engineering bay beyond. Beat at 16s: pip color shifts from foxfire green to steady cyan. Final 4s: hold on the open doorway and the dormant incubators in the distance. 24fps. Mechanical, reverent, anticipation building.
+
+**Veo config:** 20s · 16:9 · 24fps · camera locked.
+
+**Audio hand-off:** no VO. Ambient hum + iris-petal rotation SFX (runtime
+composite). Note: the bible allows a small Human reactive "breathe" cue
+around 14s from `cc_beat_c5_palm_frost` voice profile but NOT a line —
+that belongs to C.5.
+
+### §1.B.2 Room art — Engineering bay (appears through the iris)
+
+See §1.C.2 — the engineering bay end-frame depends on the
+`room-engineering.png` asset. No separate corridor room required (Beat B
+composite uses the corridor still end-frame from Beat A.5 as its
+background).
+
+### §1.B.3 VFX — Beat B
+
+| VFX | Status | Notes |
+|---|---|---|
+| `vfx_iris_hatch_open` | MISSING | Render per prompt below. 3s one-shot. |
+| `vfx_status_pip_color_shift` | DONE-CODE | `apps/client/src/components/prelude/vfx/effects/StatusPipShift.tsx` |
+
+**MISSING VFX — `vfx_iris_hatch_open` (Veo 3.1, 3s webm with alpha):**
+
+**Output:** `apps/client/public/art/vfx/prelude/iris-hatch-open.webm`
+**Format:** 1920×1080, VP9 WebM, alpha channel, 24fps, no audio, 3s
+**Source prompt:** `docs/production/prelude-asset-build/prompts/vfx/iris-hatch-open.txt`
+
+START FRAME (alpha):
+> TRANSPARENT BACKGROUND. Close-up of a twelve-petal mechanical iris hatch, centered on a dark matte-brass bulkhead aboard an ancient generation ship. The iris is in its CLOSED position — twelve triangular brass petals overlapping in a flower pattern, each petal approximately 30 degrees wide, forming a perfect circle 1.5 meters in diameter. Brushed brass `#a16207` with dark obsidian inlays at the petal seams. A faint cyan `#22d3ee` pilot light glows softly at the iris center where the petals meet. The iris is worn — scratches, carbon scoring, and light oxidation — seventeen millennia of disuse. No rendered text. Surface lighting from the cyan pilot light only. The iris fills the frame with ~10% dark margin around it. ONLY the iris is rendered; background is transparent alpha.
+
+END FRAME (alpha):
+> Same iris, 3 seconds later, fully OPEN. Twelve petals have rotated outward into the bulkhead's hidden recess, revealing a black void at the center. The pilot light has bloomed into a wider cyan `#22d3ee` ring around the rim of the opening, with anamorphic lens flare on the brightest points. Petal edges catch the cyan light on their inner surfaces as they sit retracted. The circular opening is approximately 1.4m diameter, slightly smaller than the iris footprint due to petal overlap in the recess. Background remains transparent alpha.
+
+MOTION (Veo 3.1):
+> At t=0s the iris is fully closed (start frame). At t=0.3s a brief cyan pulse brightens the pilot light as the mechanism engages. At t=0.5s all twelve petals begin rotating simultaneously — each petal pivots outward on its outer hinge, sliding into the bulkhead recess with a smooth mechanical curve. The rotation accelerates slightly past the midpoint (t=1.5s the iris is about 60% open) then decelerates as the petals reach their rest position in the recess. At t=2.6s the petals complete their rotation. The cyan bloom builds continuously from the center outward as the aperture widens, reaching peak brightness at t=2.8s when the opening is fully revealed. At t=3.0s the effect holds on the end frame. 24fps. Mechanical, precise, reverent — this iris has been waiting seventeen thousand years to open.
+
+### §1.B.4 VO — Beat B
+
+None. Cutscene is wordless mechanism sequence.
+
+---
+
+## §1.C  Beat C — Engineering / Crew Role Choice + Six Incubators (35s)
+
+### §1.C.1 Cutscene — Veo 3.1
+
+**Output:** `apps/client/public/videos/prelude/prelude-beat-c-crew-and-incubators.mp4`
+**Duration:** 35s @ 24fps, 16:9
+**Status:** MISSING
+**Bible:** §6
+
+**Dependencies:**
+- Start PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-c-crew-and-incubators_start.png`
+- End PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-c-crew-and-incubators_end.png`
+
+**START FRAME prompt:**
+> Identical composition to the §6.3 engineering still, but framed for the start of a moving camera: camera at the engineering-bay threshold (just inside the now-open iris from Beat B), looking down the central aisle toward the workbench. The six incubator pods are visible in the foreground semicircle. Elara's hologram is **just beginning to materialize** at the center of the semicircle, in the spotlight position — only the lower 30% of her form has scanline-wiped in, the rest is still resolving. The bench's foxfire-green standby pip is at full brightness. Volumetric fog, ankle height. 16:9, 4K, no text.
+
+**END FRAME prompt:**
+> Same engineering bay, thirty-five seconds later. Camera has drifted forward six meters along the central aisle and now rests at the heart of the incubator semicircle, looking past Elara's fully materialized hologram toward the workbench. **Elara is fully resolved** — translucent senatorial figure in cyan `#22d3ee` scanlines, hands open at her sides, expression watchful. Her gesture is subtle: one hand turned palm-up toward the six dormant incubator pods, as if presenting them. **The brass deck box on the workbench has its latch open** — only the latch, the lid is still closed. A single new visible detail on the bench: a **small holographic projection** has just bloomed above the recording rig: a low-fidelity 3D outline of the player's chosen starter crewmate (composite silhouette — render an ambiguous androgynous human-shaped wireframe, no facial features, no class signifier — the actual model will be substituted at runtime based on the player's choice). The wireframe is foxfire green. All six incubators remain dark and dormant. Volumetric fog has lifted slightly — the room is welcoming her. Anamorphic flare from the bench standby pip and Elara's hologram. Film grain, deep space black base. No text. Cinematic 4K composition.
+
+**VEO 3.1 motion prompt:**
+> Slow continuous forward dolly six meters down the engineering bay aisle, camera at standing eye level. Beat 0–6s: Elara hologram completes scanline-wipe materialization in the foreground arc, soft bloom builds. Beat at 12s: Elara turns her open palm toward the six dormant incubator pods in a presenting gesture as her line about Dr. Lyra Vox plays. Beat at 22s: brass deck box latch on workbench clicks open mechanically. Beat at 28s: low-fidelity foxfire-green wireframe of chosen crewmate blooms above the bench's recording rig. Final 7s: hold on the framing — Elara, six dark pods, lit bench, wireframe. 24fps. Reverent, careful, planting-a-seed tone.
+
+**Veo config:** 35s · 16:9 · 24fps · 6m forward dolly.
+
+**Audio hand-off:**
+- VO `elara_beat_c_six_incubators` @ ~12s — DONE-S3-VO →
+  `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/elara/elara_beat_c_six_incubators.mp3`
+- Ambient: engineering bay reactive audio — no dedicated bed.
+
+**Canon hygiene:** player crewmate wireframe at end-frame must be
+ambiguous (no gender, no class). Runtime substitutes the correct
+spritesheet.
+
+### §1.C.2 Room art — Engineering
+
+**Output:** `apps/client/public/art/rooms/room-engineering.png` + `.webp`
+**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-engineering_original.png`
+**Legacy CDN:** `https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/engineering_554605d2.png` (`DONE-CDN-LEGACY`)
+**Action:** PNG→WebP, drop at canonical path, upload.
+
+### §1.C.3 VFX — Beat C
+
+| VFX | Status | Notes |
+|---|---|---|
+| `vfx_incubator_pod_dormant_glow` | DONE-CODE | CSS animation on incubator pod sprites at runtime. |
+| `vfx_bench_standby_pip` | DONE-CODE | CSS pulse on foxfire-green pip. |
+| `vfx_role_wireframe_bloom` | MISSING | Render per prompt below. 2.5s one-shot WebM w/ alpha. |
+
+**MISSING VFX — `vfx_role_wireframe_bloom` (Veo 3.1, 2.5s):**
+
+**Output:** `apps/client/public/art/vfx/prelude/role-wireframe-bloom.webm`
+**Format:** 1920×1080, VP9 WebM, alpha channel, 24fps, no audio, 2.5s
+
+START FRAME (alpha):
+> TRANSPARENT BACKGROUND. Empty space where a crewmate hologram will materialize. Center of frame contains only the faintest cyan `#22d3ee` hint — a single pixel-width vertical line, barely visible, suggesting a projection axis. Height ~1.8m (human scale) but nothing rendered beyond that light seed. Background is fully transparent. No text. No visible room.
+
+END FRAME (alpha):
+> Fully materialized cyan `#22d3ee` wireframe hologram of a generic crewmate, 1.8m tall, standing in neutral pose. Hologram renders as thin glowing wireframe lines showing skeletal structure and silhouette outline — NOT solid-filled, NOT textured. Scanline effect runs vertically through the figure (thin horizontal cyan lines at 2% opacity). Soft cyan bloom surrounds the whole figure to ~2.2m diameter. Anamorphic lens flare on the head and shoulders. Floor contact point has a bright cyan ring at the hologram's feet, 40cm diameter. Background remains transparent alpha. No rendered text. No gender, no identifying features — this is a placeholder crew role slot, not a specific person.
+
+MOTION:
+> At t=0s only the seed line is visible. At t=0.3s the line pulses brighter and a cyan ground ring appears at the base. At t=0.5s wireframe structure begins scanning upward — vertical construction from feet to head, like a 3D printer building the figure. At t=1.5s the full wireframe silhouette is present but dim. At t=1.8s a soft bloom expands outward from the figure, filling in the scanlines and increasing brightness. At t=2.2s bloom peaks. At t=2.5s it settles into the steady end-frame state. 24fps. Ceremonial, reverent, revealing — like a sacred interface activating.
+
+### §1.C.4 VO — Beat C
+
+| Line ID | Speaker | Status | URL |
+|---|---|---|---|
+| `elara_beat_c_six_incubators` | Elara | DONE-S3-VO | `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/elara/elara_beat_c_six_incubators.mp3` |
+
+---
+
+## §1.C.5  Beat C.5 — Window / Human Palm Frost (20s · CRITICAL VFX)
+
+> Bible §7.6 flag: **"human-palm-frost is the single most important VFX
+> in the Prelude — get the hand shape right or the moment falls flat."**
+
+### §1.C.5.1 Cutscene — Veo 3.1
+
+**Output:** `apps/client/public/videos/prelude/prelude-beat-c5-window.mp4`
+**Duration:** 20s @ 24fps, 16:9
+**Status:** MISSING
+**Bible:** §7
+
+**Dependencies:**
+- Start PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-c5-window_start.png`
+- End PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-c5-window_end.png`
+
+**START FRAME prompt:**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the engineering bay's port-side wall, framed on **a tall rectangular viewport** approximately 1.2 meters wide and 2 meters tall, set into the matte-charcoal wall at standing height. The viewport glass is thick obsidian-tinted reinforced composite, slightly distorting the view. **Beyond the glass: deep space**, the Ark drifting through a broad starfield. The visible stars are scattered, dim, no nebula, no nearby planet — just the slow void. The Ark's outer hull plating is faintly visible at the bottom of the viewport (a curving brass-and-bone surface, weathered and pitted). **In front of the viewport, ten centimeters from the glass**, **Elara's hologram** stands with her back to the camera — translucent senatorial figure in cyan `#22d3ee` scanlines, hands at her sides, head tilted slightly upward as if looking at a particular distant star. The hologram bloom casts soft cyan rim light onto the viewport's frame. Camera is approximately three meters behind her, low three-quarter angle, framing both her silhouette and the starfield beyond. The engineering bay around the viewport is in shadow — only the cyan floor strips and Elara's hologram illuminate the scene. Volumetric fog at ankle height. Anamorphic lens flare on Elara's bloom and the brightest visible star. Film grain. Deep space black `#010020` base. **No rendered text. No other people. No other holograms.** Cinematic 4K composition. The mood is silent, intimate, contemplative — the player is supposed to want to stand next to her and not say anything.
+
+**END FRAME prompt:**
+> Same composition twenty seconds later. Camera has drifted forward two meters — Elara's silhouette is closer, the viewport more dominant. **A second presence has appeared in the scene** without entering it: across the viewport's reinforced glass, **at eye level on the inside surface of the glass**, a faint pattern of frost has formed in the shape of **a single open palm** — five fingers, slightly larger than human, pressed against the glass *from the player's side of the room*. There is no body attached to the palm. No figure. Just the frost-print, suggesting that something invisible is standing right next to the player and has just touched the window. Elara has not turned — she is still looking out at the stars, unaware. The palm-print is rendered in faint white frost on dark glass, very subtle but unmistakably hand-shaped. Same starfield beyond, same cyan rim from Elara, same fog, same grain. 16:9, 4K, no text. The reveal is **the palm-print** — that is The Human, becoming briefly visible to the player and only the player.
+
+**VEO 3.1 motion prompt:**
+> Slow continuous forward dolly two meters toward the viewport, camera at standing eye level, Elara's silhouette held in the right two-thirds of frame. No camera shake. Beat 0–8s: silent drift, dust motes catching cyan light. Beat at 9s: faint warm-white frost begins forming on the inside of the viewport glass at eye level, slowly resolving into the shape of an open palm over four seconds. Beat at 14s: palm-print fully formed, holds. Beat at 17s: The Human's voice begins (out of frame, no visual). Final 3s: hold on the palm-print and Elara's unaware silhouette. 24fps. Intimate, ancient, watching-from-just-beside-you tone.
+
+**Veo config:** 20s · 16:9 · 24fps · 2m forward dolly.
+
+**Audio hand-off:**
+- VO `human_beat_c5_first_breath` @ ~17s — DONE-S3-VO →
+  `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/human/human_beat_c5_first_breath.mp3`
+- Reactive: `cc_beat_c5_palm_frost` (Human-reactive whisper) →
+  `https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/reactive/cc_beat_c5_palm_frost.mp3`
+
+### §1.C.5.2 Room art — Engineering viewport
+
+Reuses `room-engineering.png` (the viewport is built into the bay's
+port-side wall). No separate room still required. See §1.C.2.
+
+### §1.C.5.3 VFX — Beat C.5
+
+| VFX | Status | Notes |
+|---|---|---|
+| `vfx_starfield_drift_viewport` | MISSING | 10s seamless loop, `starfield-drift.webm`. |
+| `vfx_human_palm_frost` | MISSING | **⚠ HIGHEST PRIORITY VFX IN PRELUDE** — 4s one-shot, `human-palm-frost.webm`. |
+
+**MISSING VFX — `vfx_starfield_drift_viewport` (Veo 3.1, 10s seamless loop):**
+
+**Output:** `apps/client/public/art/vfx/prelude/starfield-drift.webm`
+**Format:** 1920×1080, VP9 WebM, alpha channel, 24fps, no audio, seamless loop.
+
+START FRAME (alpha):
+> TRANSPARENT BACKGROUND. Parallax starfield panorama seen through a viewport — three distinct depth layers: FAR (tiny pinprick stars, ~200 points, white and pale blue at 15% opacity), MID (small-to-medium stars, ~80 points, white and gold at 40% opacity, with faint anamorphic flare on the brightest 5), and NEAR (large stars, ~20 points, bright white and amber at 80% opacity with lens-flare spikes). Distant gas-cloud nebula in the upper-right quadrant: deep violet `#1e1b4b` bleeding into near-black, with cyan `#22d3ee` gas filaments at 20% opacity. No stars are in rigid grid pattern — they must look naturally scattered. Deep space black elsewhere but as TRANSPARENT alpha (not actual black) so the viewport can composite over any background. No rendered text. No ship interior visible.
+
+END FRAME: IDENTICAL to start frame (seamless loop — pixel-perfect).
+
+MOTION:
+> Parallax drift: over 10 seconds the camera drifts slowly rightward. FAR layer shifts only 4 pixels. MID layer shifts 12 pixels. NEAR layer shifts 32 pixels. All motion is linear and steady — no acceleration, no tremble. At t=10s all layers have returned to the exact start position (the drift rolls over like a seamless panorama). Three bright NEAR-layer stars gently twinkle with sub-0.5 Hz opacity variation (±10%) on random offsets so no two twinkle in sync. The nebula is completely static — no internal motion. 24fps. Meditative, vast, patient.
+
+**MISSING VFX — `vfx_human_palm_frost` (Veo 3.1, 4s one-shot, CRITICAL):**
+
+**Output:** `apps/client/public/art/vfx/prelude/human-palm-frost.webm`
+**Format:** 1920×1080, VP9 WebM, alpha channel, 24fps, no audio, 4s.
+
+START FRAME (alpha):
+> TRANSPARENT BACKGROUND. Empty space centered for where frost will form. Very faint condensation — a diffuse irregular patch of pale cyan `#22d3ee` at 5% opacity, about 20cm × 25cm, suggesting the beginning of frost precipitation on glass. Six-pointed frost crystals are visible ONLY at the very edges of the patch (maybe 4 tiny crystals at <20% opacity), suggesting the formation is just starting. No recognizable shape yet — deliberately ambiguous. No text. No visible hand, no visible person.
+
+END FRAME (alpha):
+> Hyper-realistic frost pattern forming the UNMISTAKABLE OUTLINE AND INNER DETAIL OF AN OPEN HUMAN PALM PRESSED AGAINST GLASS from the other side. The frost covers a region approximately 18cm × 22cm. The shape must clearly read as a human left hand, fingers spread open, palm facing the viewer — five distinct fingers, thumb on the right side (viewer's right), palm curvature at the base, finger creases visible as concentrations of denser frost. Frost density is HIGHER in the negative space around where the hand is (fingers, palm show less frost — the warmth of the hand is melting the frost), and LOWER frost (darker, more transparent) in the actual hand silhouette. Six-pointed crystalline frost crystals at the perimeter and in the space BETWEEN the fingers, brightest cyan `#22d3ee` at the crystal tips. Frost color: cyan-white `#cffafe` with deep cyan shadows. The overall effect: you see the ghost of a human hand in the frost, unmistakable. NO rendered text. No actual hand visible — only the frost imprint of where the hand is. This is the canonical "someone is there on the other side" moment.
+
+MOTION:
+> At t=0s only faint condensation (start frame). At t=0.5s frost crystals begin forming from random seed points within the patch area, growing outward in six-pointed fractal patterns. At t=1.2s the density increases — more crystals, more opacity. At t=1.8s something subtle: the frost pattern BEGINS to suggest a shape — the player's eye catches finger outlines forming. At t=2.5s the hand silhouette is becoming undeniable. At t=3.2s the hand-shaped NEGATIVE SPACE (where warmth melts the frost) is fully visible — frost is dense around fingers, thinner in the palm region where body heat is highest. At t=3.8s the pattern settles into its final resolved state. At t=4.0s hold on the end frame. 24fps. Slow, tender, inexorable. The player should feel cold running down their spine as the shape resolves — this is The Human reaching for the player through 17,000 years of glass and cryosleep.
+
+### §1.C.5.4 VO — Beat C.5
+
+| Line ID | Speaker | Status | URL |
+|---|---|---|---|
+| `human_beat_c5_first_breath` | Human | DONE-S3-VO | `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/human/human_beat_c5_first_breath.mp3` |
+| `cc_beat_c5_palm_frost` | Human (reactive) | DONE-S3-VO | `https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/reactive/cc_beat_c5_palm_frost.mp3` |
+
+---
+
+## §1.D  Beat D — Cargo Bay / Trade Empire Seed + Locke Mission Board (30s)
+
+### §1.D.1 Cutscene — Veo 3.1
+
+**Output:** `apps/client/public/videos/prelude/prelude-beat-d-cargo-bay.mp4`
+**Duration:** 30s @ 24fps, 16:9
+**Status:** MISSING
+**Bible:** §8
+
+**Dependencies:**
+- Start PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-d-cargo-bay_start.png`
+- End PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-d-cargo-bay_end.png`
+
+**START FRAME prompt:**
+> Identical composition to the §8.3 cargo hold still, but framed for the start of a moving camera: camera positioned at the entrance from the engineering bay (right side of frame), looking diagonally across the cargo hold toward the mission board on the far left wall. The starlight shaft is dead center. Elara's hologram is **in mid-stride**, walking from the entrance toward the mission board, her translucent cyan form passing through the starlight shaft (the shaft passes harmlessly through her, no shadow). Camera at standing eye level, slight low angle to emphasize the chamber's height. 16:9, 4K, no text, deep space black base.
+
+**END FRAME prompt:**
+> Same cargo hold, thirty seconds later. Camera has dollied forward and slightly left, now positioned about four meters from the mission board, looking past Elara's hologram (who has stopped at the board's center, hand raised, palm-out toward one specific slate in the upper-left corner). The slate Elara is pointing to is the **17,000-year-old posting** — its cyan glow is now visibly more saturated than the other two active slates, drawing the eye. The other two active slates are still glowing faintly. The starlight shaft is now to the right of frame, partially out of view. The mission board occupies the left two-thirds of frame. Above Elara's pointing hand, a faint cyan **glyph projection** has bloomed in front of the slate — a small holographic icon (do not render specific shape) indicating the mission's still-open status. Volumetric fog, ankle height. Anamorphic flare on the highlighted slate. Film grain. Deep space black base. **No rendered text.** Cinematic 4K composition.
+
+**VEO 3.1 motion prompt:**
+> Slow continuous diagonal dolly from cargo entrance toward the left-wall mission board, camera at standing eye level. Beat 0–8s: Elara hologram walks ahead of camera, passing through the central starlight shaft (no shadow cast). Beat at 12s: Elara stops at mission board center, raises one open palm toward upper-left slate. Beat at 18s: highlighted slate's cyan glow saturates over four seconds, becoming visibly brighter than the other two active slates. Beat at 24s: small cyan holographic glyph blooms in front of the highlighted slate. Final 6s: hold on Elara, mission board, glowing slate. 24fps. Quiet, archeological, weight-of-time tone.
+
+**Veo config:** 30s · 16:9 · 24fps · diagonal dolly.
+
+**Audio hand-off:**
+- VO `elara_beat_d_17000_year_mission` @ ~12s — DONE-S3-VO →
+  `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/elara/elara_beat_d_17000_year_mission.mp3`
+- Reactive: `cc_beat_d_first_slate_human` (Human-reactive, fires on first
+  slate highlight) →
+  `https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/reactive/cc_beat_d_first_slate_human.mp3`
+
+### §1.D.2 Room art — Cargo Hold
+
+**Output:** `apps/client/public/art/rooms/room-cargo-hold.png` + `.webp`
+**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-cargo-hold_original.png`
+**Legacy CDN:** `https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/cargo-hold_9df574a9.png` (`DONE-CDN-LEGACY`)
+**Action:** PNG→WebP, canonical path, upload.
+
+### §1.D.3 VFX — Beat D
+
+| VFX | Status | Notes |
+|---|---|---|
+| `vfx_starlight_shaft_dust` | MISSING | 8s seamless loop. |
+| `vfx_mission_slate_glow` | DONE-CODE | `MissionSlateGlow.tsx` handles the saturation ramp at runtime. |
+| `vfx_mission_glyph_bloom` | MISSING | 1.5s one-shot. |
+
+**MISSING VFX — `vfx_starlight_shaft_dust` (Veo 3.1, 8s seamless loop):**
+
+**Output:** `apps/client/public/art/vfx/prelude/starlight-shaft-dust.webm`
+**Format:** 1920×1080, VP9 WebM, alpha channel, 24fps, no audio, seamless loop.
+
+START FRAME (alpha):
+> TRANSPARENT BACKGROUND. A single vertical column of pale cyan-white `#e0f2fe` volumetric light descending from the top of the frame to the bottom, approximately 80cm wide at the top narrowing to 60cm at the bottom (perspective taper). The shaft is luminous but semi-translucent — inside the shaft you can see ~40 tiny dust motes suspended and drifting upward through the beam, each mote is a white pinprick at 60-90% opacity with a faint bloom halo. Outside the shaft is fully transparent alpha. Shaft edges are soft (Gaussian blur, no hard line). Anamorphic horizontal flare where the shaft is widest at the top. Deep cyan accent at `#22d3ee` only on the brightest dust motes. No text.
+
+END FRAME: IDENTICAL to start frame (seamless loop).
+
+MOTION:
+> The shaft itself is static — no pulsing, no flicker. Inside the shaft, the ~40 dust motes drift UPWARD at varying slow speeds (3-12 px per second). As each mote reaches the top of the shaft it fades out over 0.5s. Simultaneously, new motes fade in at the bottom of the shaft. The mote count stays constant (~40) throughout. Very subtle horizontal drift (±2px random) on each mote simulates gentle air currents. At t=8s the system returns to the same configuration as t=0s (seamless loop — the motes you see at the end are in the same positions as the ones at the start). 24fps. Contemplative, ancient, reverent — the first natural light the ship has seen in millennia.
+
+**MISSING VFX — `vfx_mission_glyph_bloom` (Veo 3.1, 1.5s one-shot):**
+
+**Output:** `apps/client/public/art/vfx/prelude/mission-glyph-bloom.webm`
+**Format:** 1920×1080, VP9 WebM, alpha channel, 24fps, no audio, 1.5s.
+
+START FRAME (alpha):
+> TRANSPARENT BACKGROUND. Empty space where the glyph will bloom. A single cyan `#22d3ee` seed point at center, 2-pixel diameter, faintly glowing. Nothing else rendered. No text.
+
+END FRAME (alpha):
+> A small holographic cyan glyph, approximately 30cm × 30cm, rendered as thin cyan `#22d3ee` lines with soft bloom. The glyph is an abstract geometric sigil: concentric circles with radial marker lines (like a stylized compass rose), meaningful-looking but not legible as any specific language. Bloom halo surrounds the glyph to ~60cm diameter. Anamorphic horizontal flare across the glyph center. No rendered text. The glyph is a Trade Empire mission-posting marker — it should feel like a UI affordance, not a magical rune.
+
+MOTION:
+> At t=0s only the seed point. At t=0.15s the seed brightens and a scanning cyan line draws the outer circle clockwise in 0.4s. At t=0.55s a second scanning line draws the inner circle counter-clockwise in 0.3s. At t=0.85s the radial marker lines flash into existence simultaneously. At t=1.0s a soft bloom expands outward from the completed glyph, reaching full size at t=1.3s. At t=1.5s the effect holds on end frame. 24fps. Precise, informational, functional — a UI element, not a spell.
+
+### §1.D.4 VO — Beat D
+
+| Line ID | Speaker | Status | URL |
+|---|---|---|---|
+| `elara_beat_d_17000_year_mission` | Elara | DONE-S3-VO | `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/elara/elara_beat_d_17000_year_mission.mp3` |
+| `cc_beat_d_first_slate_human` | Human (reactive) | DONE-S3-VO | `https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/reactive/cc_beat_d_first_slate_human.mp3` |
+
+---
+
+## §1.D.5  Beat D.5 — Galley (25s breath beat)
+
+### §1.D.5.1 Cutscene — Veo 3.1
+
+**Output:** `apps/client/public/videos/prelude/prelude-beat-d5-galley.mp4`
+**Duration:** 25s @ 24fps, 16:9
+**Status:** MISSING
+**Bible:** §9
+
+**Dependencies:**
+- Start PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-d5-galley_start.png`
+- End PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-d5-galley_end.png`
+
+**START FRAME prompt:**
+> Identical to the §9.3 galley still, but framed for the start of a moving camera: camera at the galley doorway looking diagonally across the room toward the lone coffee mug on the counter. The framing emphasizes the mug as the natural focal point. Warm-amber pilot light on the stove visible. Dust motes barely moving. 16:9, 4K, no text.
+
+**END FRAME prompt:**
+> Same galley, twenty-five seconds later. Camera has dollied two meters forward and slightly right — the coffee mug now occupies the center-right of frame, much closer to the lens. **A faint warm-amber glow** from the stove's pilot light has subtly increased in intensity (5% brighter), and the mug's interior dark ring is now catching the warm light, looking almost like fresh coffee. **No other change** — the mug has not been touched, nothing has moved, no figure has appeared. Same dust, same pans, same stools. The shot is purely about the closer view of the mug and the slight warming of the pilot light. 16:9, 4K, no text.
+
+**VEO 3.1 motion prompt:**
+> Slow continuous forward dolly two meters and slight right pan, camera at standing eye level. No camera shake. Beat 0–8s: silent drift, dust motes barely moving in the still air. Beat at 9s: stove's amber pilot light brightens by 5% over four seconds — almost imperceptible. Beat at 14s: The Human's voice begins (out of frame, no visual). Final 5s: hold on the close shot of the lone coffee mug, warm amber on its rim. 24fps. Domestic, fragile, fond tone.
+
+**Veo config:** 25s · 16:9 · 24fps · 2m forward dolly + slight right pan.
+
+**Audio hand-off:**
+- VO `human_beat_d5_sandwich` @ ~14s — DONE-S3-VO →
+  `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/human/human_beat_d5_sandwich.mp3`
+
+### §1.D.5.2 Room art — Galley
+
+**Output:** `apps/client/public/art/rooms/room-galley.png` + `.webp`
+**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-galley_original.png`
+**Legacy CDN:** not wired (galley is not a map node in InlineShipMap).
+**Action:** PNG→WebP, canonical path, upload.
+
+### §1.D.5.3 VFX — Beat D.5
+
+| VFX | Status | Notes |
+|---|---|---|
+| `vfx_galley_pilot_warm` | DONE-CODE | `AmberGlow.tsx` component handles the 5% amber brightness ramp. |
+| `vfx_galley_steam_residue` | P1 / INTERMEDIATE-OPTIONAL | `docs/production/prelude-asset-build/prompts/vfx/galley-steam-residue.txt` — Bible §9.6 flags as "cut if it weakens realism". 6s seamless loop WebM alpha. Not in `assets/intermediate/` yet; render only if Beat D.5 needs extra atmosphere in playtest. |
+
+### §1.D.5.4 VO — Beat D.5
+
+| Line ID | Speaker | Status | URL |
+|---|---|---|---|
+| `human_beat_d5_sandwich` | Human | DONE-S3-VO | `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/human/human_beat_d5_sandwich.mp3` |
+
+---
+
+## §1.E  Beat E — Mess Hall / Prince's Archive (45s · complex 3-act beat)
+
+### §1.E.1 Cutscene — Veo 3.1
+
+**Output:** `apps/client/public/videos/prelude/prelude-beat-e-mess-hall-flashback.mp4`
+**Duration:** 45s @ 24fps, 16:9
+**Status:** MISSING
+**Bible:** §10
+
+This beat is the Prelude's most complex single-clip cutscene — 3 acts
+inside 45s with sepia-drain transitions and two holographic-Prince
+materializations. Recommend split-render: (a) render the three acts as
+separate 10s / 15s / 20s Veo clips, (b) composite + sepia in post. If
+Veo honors long motion-beat lists, try single render first.
+
+**Dependencies:**
+- Start PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-e-mess-hall-flashback_start.png`
+- End PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-e-mess-hall-flashback_end.png`
+- **Mid-frame A** (sepia Prince holding toy soldier at Archive shelf): render separately at `assets/intermediate/prelude/cutscenes/prelude-beat-e_mid-a.png`
+- **Mid-frame B** (young sepia Prince in front of diploma): render at `assets/intermediate/prelude/cutscenes/prelude-beat-e_mid-b.png`
+
+**START FRAME prompt:**
+> Identical composition to the §10.3 Mess Hall still, but framed for a camera just *inside* the entrance doorway, looking diagonally across the room with the central table dominating the lower right and the Archive shelf on the left wall just coming into frame. The framed diploma is partially visible in the upper-left corner. The plate-with-napkin on the far chair is visible. Warm-amber service light on the ceiling above the far end of the table. Full color (no sepia yet — the sepia drain is an in-motion effect). 16:9, 4K, no text.
+
+**END FRAME prompt:**
+> Full-color Mess Hall, sepia fully drained back to normal, both holograms gone. Camera has pulled back to a medium-wide shot of the Archive shelf, including the toy soldier, the still-dim strongbox (now the compositional focal point — faint cyan glow from its biometric lock), and the diploma mounted above. The plate-and-napkin on the far chair is visible on the right edge of frame. Warm-amber service light above the central table. The real Mess Hall — no holograms, no sepia, no flashback — but the player now knows what the room *contains*. Volumetric fog ankle height. Anamorphic lens flare on the strongbox's cyan lock. Film grain. Deep space black `#010020` base. 16:9, 4K, no text.
+
+**Mid Frame A prompt (sepia flashback 1 — holographic Prince holding toy soldier):**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the same §10.3 Mess Hall, but the whole image is treated with a yellow-brown sepia tone + faint film-damage overlay (flecks, scratches, slight tint shift toward warm sepia `#b0793a`). Camera is positioned at the Archive shelf's center bay, framing it as the subject. Holographic Prince stands beside the shelf: an older man in his late fifties, translucent sepia-toned hologram rendered in the same aesthetic as Elara but with warmer yellow-brown tones instead of cyan. He wears a Free Ports senatorial greatcoat, weathered. He is holding a small battered cast-metal child's toy soldier in his right hand at about chest height, turning it gently in his fingers as if remembering something. His expression is small, private, fond. Film-damage scratches cross the frame (subtle — suggest age, not destruction). Deep space black has been mostly replaced with warm brown. Volumetric fog at ankle height, slightly tinted amber. No rendered text. No people except the holographic Prince.
+
+**Mid Frame B prompt (sepia flashback 2 — younger Prince in front of diploma):**
+> Same sepia treatment as Mid Frame A. Camera has tracked up and left to the diploma mounted above the Archive shelf. Framing shows the diploma centered. In front of the diploma, approximately 40cm forward of the wall, a younger holographic Prince has materialized — mid-thirties version of the same man, translucent sepia hologram, wearing cleaner Free Ports academic robes (this is his graduation day). He stands in three-quarter view, the diploma visible as the clear subject behind him. His expression is proud but not smug — the private pride of a young man who has earned something his family didn't have. Film-damage scratches. Warm sepia palette throughout. Volumetric ankle fog, amber-tinted. 16:9, 4K, no rendered text on the diploma (the ink bloom effect is applied in motion, not the still).
+
+**VEO 3.1 motion prompt:**
+> Slow continuous camera work across three acts inside a 45-second runtime. **Act 1 (0–10s):** forward dolly from the doorway into the Mess Hall, full color, camera at standing eye level, diagonally revealing the central table, the one-chair-with-plate, and the left-wall Archive shelf. Dust motes drift in the amber service light. **Transition at 10s (3 seconds long):** sepia-drain from full color to yellow-brown tones. **Act 2 (10–25s):** camera is now at the Archive shelf's center bay. Holographic Prince materializes holding the toy soldier (use Mid Frame A as visual anchor). Film-damage overlay appears. At 14s the Prince begins speaking (audio triggers Prince VO line 1 from §10.5). The hologram holds the soldier, occasionally turning it in his hand, the gesture small and private. At 24s the line finishes. The hologram fades over 1 second. **Transition at 25s (sepia drains back to full color over 2 seconds).** **Act 3 (27–45s):** camera tracks up the left wall to frame the diploma. Second sepia-drain transition at 27s (3 seconds). Younger holographic Prince materializes in front of the diploma (use Mid Frame B). At 30s he begins speaking (audio triggers Prince VO line 2 from §10.5). At 34s a brief pale-gold ink bloom traces across the diploma's calligraphy (render as subtle glow, holds 2 seconds, fades). At 40s the line finishes. The hologram fades over 1 second. Sepia drains back to full color over 2 seconds. Camera pulls back slightly for the final 3 seconds to frame the Archive shelf including the dormant strongbox — the final shot is the sealed strongbox's cyan lock glow catching the player's eye as the cutscene ends. 24fps. Reverent, archaeological, private-memory tone.
+
+**Veo config:** 45s · 16:9 · 24fps · complex three-act with 2 sepia
+transitions + 2 Prince materializations. **Split-render recommendation:**
+render each act + each transition as a separate shorter clip; composite
+sepia/film-damage overlay in post; concatenate with `ffmpeg`.
+
+**Audio hand-off:**
+- VO `prince_beat_e_toy_soldier` @ ~14s — DONE-S3-VO →
+  `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/prince/prince_beat_e_toy_soldier.mp3`
+- VO `prince_beat_e_diploma` @ ~30s — DONE-S3-VO →
+  `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/prince/prince_beat_e_diploma.mp3`
+- Reactive: `cc_beat_e_flashback_complete` →
+  `https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/reactive/cc_beat_e_flashback_complete.mp3`
+
+**Canon hygiene:** the Prince's face CAN be rendered (unlike the
+Engineer). Both holograms are shown as translucent sepia-toned figures,
+NOT solid characters.
+
+### §1.E.2 Room art — Mess Hall
+
+**Output:** `apps/client/public/art/rooms/room-mess-hall.png` + `.webp`
+**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-mess-hall_original.png`
+**Legacy CDN:** not wired in InlineShipMap (mess hall isn't a map node in the current schematic UI).
+**Action:** PNG→WebP, canonical path, upload.
+
+### §1.E.3 VFX — Beat E
+
+| VFX | Status | Notes |
+|---|---|---|
+| `vfx_sepia_drain` | INTERMEDIATE | `assets/intermediate/prelude/vfx/sepia-drain.mp4` → MP4→WebM VP9 alpha. Full-screen overlay, shared with Beat J. Bible §18.1. |
+| `vfx_film_damage_overlay` | INTERMEDIATE | `assets/intermediate/prelude/vfx/film-damage-overlay.mp4` → MP4→WebM VP9 alpha. Full-screen overlay, shared with Beat J. |
+| `vfx_diploma_ink_bloom` | MISSING | 2s one-shot. Render per prompt below. |
+
+**MISSING VFX — `vfx_diploma_ink_bloom` (Veo 3.1, 2s):**
+
+**Output:** `apps/client/public/art/vfx/prelude/diploma-ink-bloom.webm`
+**Format:** 1920×1080, VP9 WebM, alpha channel, 24fps, no audio, 2s.
+
+START FRAME (alpha):
+> TRANSPARENT BACKGROUND. Empty space with a faint hint of calligraphic ink marks on a rectangular area approximately 40cm × 30cm (landscape, like a framed diploma). Ink is barely visible at 10% opacity — dark brown `#44403c` flowing script shapes, deliberately illegible. No rendered readable text.
+
+END FRAME (alpha):
+> Same 40cm × 30cm rectangular region with a pale-gold `#fde047` SOFT BLOOM tracing across the calligraphic ink. The ink itself remains at the same opacity — it's not getting brighter, the BLOOM is tracing along its pen strokes. The bloom creates a warm golden glow that follows every curve of the script, as if the ink is being illuminated from within by soft sunlight. Bloom intensity is strongest along horizontal script strokes. The text remains DELIBERATELY ILLEGIBLE — do not render actual words. Warm anamorphic flare on the widest bloom areas. No rendered readable text.
+
+MOTION:
+> At t=0s only faint ink visible. At t=0.2s a warm gold bloom seeds at the upper-left of the text area. The bloom expands along the ink strokes in a connected tracing motion, following the script as if reading it left-to-right, top-to-bottom. Path completes at t=1.6s when all strokes are bloomed. At t=1.8s the bloom settles to steady intensity. At t=2.0s holds on end frame. 24fps. Gentle, reverent, nostalgic — the memory of a credential that mattered once.
+
+### §1.E.4 VO — Beat E
+
+| Line ID | Speaker | Status | URL |
+|---|---|---|---|
+| `prince_beat_e_toy_soldier` | Prince | DONE-S3-VO | `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/prince/prince_beat_e_toy_soldier.mp3` |
+| `prince_beat_e_diploma` | Prince | DONE-S3-VO | `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/prince/prince_beat_e_diploma.mp3` |
+| `cc_beat_e_flashback_complete` | Human (reactive) | DONE-S3-VO | `https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/reactive/cc_beat_e_flashback_complete.mp3` |
+
+---
+
+## §1.F  Beat F — Briefing Room / Kael Contingency Memo (30s)
+
+> **Whitelisted rendered-text beat.** The Kael memo's three bullets
+> must be fully legible in the end frame and the VFX webm.
+
+### §1.F.1 Cutscene — Veo 3.1
+
+**Output:** `apps/client/public/videos/prelude/prelude-beat-f-briefing-room.mp4`
+**Duration:** 30s @ 24fps, 16:9
+**Status:** MISSING
+**Bible:** §11
+
+**Dependencies:**
+- Start PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-f-briefing-room_start.png`
+- End PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-f-briefing-room_end.png`
+
+**START FRAME prompt:**
+> Identical composition to the §11.3 Briefing Room still, but framed from just inside the entrance doorway, camera at standing eye level looking diagonally across the room with the central table in the lower-middle ground, the eight chairs arranged around it (the askew chair visible on the far side of the table), and both side-wall lockboxes visible in the mid-background. The left-wall lockbox's biometric lock is bright cyan, pulsing. The right-wall lockbox's door is already slightly ajar. The far-wall holo display is dark. Full color, no flashback treatment. 16:9, 4K, no text.
+
+**END FRAME prompt (rendered-text exception):**
+> Full front view of the Briefing Room's far wall, dominated by the holographic display now active and rendering the three-bullet **Kael Contingency Memo**. The display shows, in hand-written calligraphic cyan text, the three bullet points listed in §11.4 — fully legible and readable by the player as static text in the frame. The title "If Kael is taken — a memo from the Engineer" sits above the three bullets in the same hand. Below and to the left of the display, the right-wall lockbox is open, its interior dark and empty (the memo has risen out of it). In the left peripheral frame, Elara's hologram is visible standing silently, one arm lowered at her side, watching the player read. The central briefing table occupies the lower third of the frame with the eight chairs visible (the askew chair central). Full color. Cinematic 4K composition. **This is the one exception to the "no rendered text" rule** — the three memo bullets MUST be rendered legibly in the end frame because the player is meant to read them.
+>
+> The exact rendered bullets (verbatim from `memo-holo-rise.txt`):
+> - Contingency transfer protocol — see Locke
+> - Archives vault — bridge key pattern
+> - If I am not returning — Quinn
+
+**VEO 3.1 motion prompt:**
+> Slow continuous camera work across three acts and one silent beat inside a 30-second runtime. **Act 1 (0–5s):** forward dolly from the doorway into the Briefing Room, standing eye level, revealing the central table, eight chairs, both lockboxes, and the dark far-wall display. Dust motes drift in the dim cyan floor-strip light. **Act 2 (5–14s):** camera glides left to the left-wall lockbox. At 7s Elara's hologram materializes beside the lockbox. At 8s the biometric lock flashes once (three-frame brighter pulse) and the lockbox door slides open. At 9s the cyan data-slate is revealed inside. At 11s Elara speaks the `elara_beat_f_213_entries` line. At 13s the slate's pulse slows and settles. **Silent beat (14–20s):** camera dollies back to a wide shot of the briefing table, Elara's hologram remaining in left-frame beside the open lockbox. 6 seconds of held silence. The askew chair is centered in the composition. Music drops to a single low sustained cello note, barely audible. **Act 3 (20–30s):** camera glides right to the right-wall lockbox. At 21s its door swings open fully. At 22s a pale cyan holographic sheet rises out of the lockbox and projects onto the far-wall display, which wakes to bright cyan. At 23s the document title appears ("If Kael is taken — a memo from the Engineer"). At 24s the first bullet renders, fully legible. At 26s the second bullet renders. At 28s the third bullet renders. Camera holds on the display for the final 2 seconds. Elara remains silently in left peripheral frame. 24fps. Cold, measured, documentarian tone — this is the room where decisions were made, not where feelings were expressed.
+
+**Veo config:** 30s · 16:9 · 24fps · multi-act camera + two lockbox
+actuations + rendered-text composite. If Veo's typography rendering is
+weak, render the memo text as a pre-composed HUD card and composite
+over the Veo render in post.
+
+**Audio hand-off:**
+- VO `elara_beat_f_213_entries` @ ~11s — DONE-S3-VO →
+  `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/elara/elara_beat_f_213_entries.mp3`
+- Reactive: `cc_beat_f_lock_first_try` (Human, fires on left lockbox
+  pulse) →
+  `https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/reactive/cc_beat_f_lock_first_try.mp3`
+
+### §1.F.2 Room art — Briefing Room
+
+**Output:** `apps/client/public/art/rooms/room-briefing-room.png` + `.webp`
+**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-briefing-room_original.png`
+**Legacy CDN:** not in `InlineShipMap.tsx` hash list.
+**Action:** PNG→WebP, canonical path, upload.
+
+### §1.F.3 VFX — Beat F
+
+| VFX | Status | Notes |
+|---|---|---|
+| `vfx_lockbox_bio_recognize` | DONE-CODE | `BiometricLock.tsx` handles the left-lockbox pulse. |
+| `vfx_data_slate_glow` | DONE-CODE | `DataSlateGlow.tsx` handles the settle after the lockbox opens. |
+| `vfx_memo_holo_rise` | MISSING | 3.5s one-shot WebM w/ alpha. **Rendered-text exception — the three bullets must be legible.** |
+
+**MISSING VFX — `vfx_memo_holo_rise` (Veo 3.1, 3.5s, rendered-text allowed):**
+
+**Output:** `apps/client/public/art/vfx/prelude/memo-holo-rise.webm`
+**Format:** 1920×1080, VP9 WebM, alpha channel, 24fps, no audio, 3.5s.
+
+START FRAME (alpha):
+> TRANSPARENT BACKGROUND. The top of a brass lockbox visible at the bottom of the frame, showing its open lid at ~40° angle. A pale cyan `#22d3ee` glow emanates from the lockbox interior. No holographic sheet visible yet. No rendered text.
+
+END FRAME (alpha — RENDERED TEXT IS PERMITTED):
+> Same lockbox at the bottom of frame. Above it, floating at eye level, a rectangular holographic sheet, approximately 50cm wide × 70cm tall, rendered in pale cyan `#22d3ee` translucent glow. Three handwritten-calligraphic text bullets are rendered on the sheet in cyan script (rendered text permitted per §11.6):
+>
+>   • Contingency transfer protocol — see Locke
+>   • Archives vault — bridge key pattern
+>   • If I am not returning — Quinn
+>
+> Each bullet starts with a small dot glyph. Handwriting style: flowing, human, anxious. Text is fully legible but rendered with slight wobble like real handwriting. Soft cyan bloom around the whole sheet. Anamorphic flare at each bullet's starting dot. Scanlines visible on the hologram at 3% opacity.
+
+MOTION:
+> At t=0s only the lockbox glow. At t=0.2s a small cyan rectangle begins rising vertically out of the lockbox, 50cm wide, initially 5cm tall. It rises at moderate speed, growing in height as it ascends. By t=1.2s it's at eye level and 70cm tall. At t=1.4s a scanline wipe pass sweeps top-to-bottom across the sheet. At t=1.6s the first text bullet writes itself in cyan handwriting over 0.5s. At t=2.1s the second bullet writes (0.5s). At t=2.6s the third bullet writes (0.5s). At t=3.1s all three bullets glow slightly brighter as the sheet settles. At t=3.5s holds on end frame. 24fps. Revelatory, anxious, intimate — these are Kael's last instructions before she left.
+
+### §1.F.4 VO — Beat F
+
+| Line ID | Speaker | Status | URL |
+|---|---|---|---|
+| `elara_beat_f_213_entries` | Elara | DONE-S3-VO | `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/elara/elara_beat_f_213_entries.mp3` |
+| `cc_beat_f_lock_first_try` | Human (reactive) | DONE-S3-VO | `https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/reactive/cc_beat_f_lock_first_try.mp3` |
+
+---
+
+## §1.F.5  Beat F.5 — Empty Chair (90s · longest breath beat in Prelude)
+
+> Bible §12.5 flag: **"the slowest beat in the Prelude. Embrace it."**
+> 90 seconds of near-zero camera motion with a single subtle amber
+> rim-light rising then falling on the askew chair.
+
+### §1.F.5.1 Cutscene — Veo 3.1
+
+**Output:** `apps/client/public/videos/prelude/prelude-beat-f5-empty-chair.mp4`
+**Duration:** 90s @ 24fps, 16:9
+**Status:** MISSING
+**Bible:** §12
+
+**Split-render advised.** 90s is at or past Veo 3.1's comfortable
+single-clip length. Render as three 30s clips (hold → zoom+rim-build →
+VO+fade) and concatenate.
+
+**Dependencies:**
+- Start PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-f5-empty-chair_start.png`
+- End PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-f5-empty-chair_end.png`
+
+**START FRAME prompt:**
+> Medium-close shot of the askew eighth chair in the crew Briefing Room aboard Ark 1047. The chair is pushed back ~40cm from the central command table and angled slightly away. Dark brass leather upholstery, heavy construction, small cyan status indicator at the neck (dark). The other seven chairs are visible in soft focus in the background, tight to the table. The central table occupies the lower third of the frame, its surface dark and inert. The far-wall holographic display is visible in the deep background, powered off. No rim-light yet — the chair is lit only by cyan floor strips and faint cyan table glow. Dust motes in the air. Volumetric fog ankle height. Full color, no flashback treatment. 16:9, 4K, no text.
+
+**END FRAME prompt:**
+> Same shot as the mid frame, 30 seconds later. The rim-light has reached full intensity then begun fading back — the end frame shows the rim-light at ~20% intensity, clearly dimmer than the mid frame's 40%. The chair is almost cold again. The room is cold again. The composition is held. The mood is **the light has left, the words have been said, the chair is still the chair**. 16:9, 4K, no text.
+
+**VEO 3.1 motion prompt:**
+> Minimal motion across 90 seconds. **Act 1 (0–20s):** held medium-close shot of the askew eighth chair, no camera movement. Dust motes drift in dim cyan light. No audio change. **Act 2 (20–45s):** very slow continuous zoom-in toward the chair — less than 1 degree of FOV change per second, almost imperceptible. Dust motes continue. **Act 3 (45–73s):** zoom halts. Subtle warm-amber `#fbbf24` rim-light begins building along the chair's upper edge and left armrest, over 28 seconds, reaching maximum intensity at 73s. Directional rim-light only — the rest of the room stays cold cyan. No audio change during buildup. **Act 4 (73–87s):** at 73s the `human_beat_f5_empty_chair` VO line begins playing (see §12.5). Camera held, rim-light held at max intensity. At 87s the line ends. **Act 5 (87–90s):** rim-light fades back to zero over 3 seconds. Chair is cold again. Cutscene ends. 24fps. Still, patient, grief-adjacent. This is the slowest beat in the Prelude. Embrace it.
+
+**Veo config:** 90s total (split 30+30+30 if needed) · 16:9 · 24fps ·
+static camera with very slow zoom + rim-light ramp.
+
+**Audio hand-off:**
+- VO `human_beat_f5_empty_chair` @ 73s — DONE-S3-VO →
+  `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/human/human_beat_f5_empty_chair.mp3`
+
+### §1.F.5.2 Room art
+
+Reuses `room-briefing-room.png` from §1.F.2. No new still.
+
+### §1.F.5.3 VFX — Beat F.5
+
+| VFX | Status | Notes |
+|---|---|---|
+| `vfx_chair_rim_hot_edge` | DONE-CODE | `ChairRimHotEdge.tsx` handles the amber rim-light ramp. |
+
+### §1.F.5.4 VO — Beat F.5
+
+| Line ID | Speaker | Status | URL |
+|---|---|---|---|
+| `human_beat_f5_empty_chair` | Human | DONE-S3-VO | `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/human/human_beat_f5_empty_chair.mp3` |
+
+---
+
+## §1.G  Beat G — Medical Bay (25s · wordless)
+
+### §1.G.1 Cutscene — Veo 3.1
+
+**Output:** `apps/client/public/videos/prelude/prelude-beat-g-medical-bay.mp4`
+**Duration:** 25s @ 24fps, 16:9 · wordless
+**Status:** MISSING
+**Bible:** §13
+
+**Dependencies:**
+- Start PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-g-medical-bay_start.png`
+- End PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-g-medical-bay_end.png`
+
+**START FRAME prompt:**
+> Identical composition to the §13.3 Medical Bay still, framed from just inside the entrance doorway. The central surgical console is in the right-middle ground with the sterile tray of three syringes visible. The four med-pods are on the back wall (the faintly-active fourth pod's cyan glow softly visible). The neural-rig workstation is on the right wall with the hung headset. The locked transfer-array alcove is on the left wall, the amber standby light visible above the hatch. Full color. No camera movement yet — this is the still before the cutscene begins. 16:9, 4K, no text.
+
+**END FRAME prompt:**
+> Close shot of the locked transfer-array alcove on the left wall. The heavy armored hatch fills most of the frame, its engraved label visible but unreadable (no rendered text). Above the hatch, the single amber-yellow `#fbbf24` standby indicator is lit steady — the only warm color in the frame. The rest of the Medical Bay is visible in soft peripheral blur: the surgical console behind camera-right, the med-pods in deep background, the neural-rig workstation in the right edge. The amber light is the dominant focal point. The mood: **a locked door that has been waiting for the right person for seventeen thousand years, and the right person has not arrived yet.**
+
+**VEO 3.1 motion prompt:**
+> Slow continuous camera work across three acts inside a 25-second runtime. **Act 1 (0–10s):** diagonal dolly from the entrance doorway across the Medical Bay, passing the surgical console on the right and the neural-rig workstation on the left. Dust motes drift. Ambient neural-rig hum + transfer-array standby tone layered at ~55%. **Act 2 (10–17s):** camera slows and holds briefly on the sterile silver tray with the three empty syringes on the surgical console. Scorch arc visible in soft focus. 7 seconds of held shot. No VO. **Act 3 (17–25s):** camera glides left to the transfer-array alcove. At 20s the amber standby light becomes the dominant focal point. Camera holds on the amber light for the final 5 seconds. Fade to black at 25s. 24fps. Clinical, patient, environmental-storytelling tone.
+
+**Veo config:** 25s · 16:9 · 24fps · diagonal dolly + glide-left.
+
+**Audio hand-off:**
+- No VO this beat (wordless by design).
+- Ambient: **`ambient_neural_rig_hum`** layered at ~55% with
+  `ambient_transfer_array_standby`. Both are INTERMEDIATE WAVs — see
+  §11 Processing Pipeline for MP3 conversion + loudnorm (target:
+  -19 LUFS neural-rig, -20 LUFS transfer-array).
+
+### §1.G.2 Room art — Medical Bay
+
+**Output:** `apps/client/public/art/rooms/room-medical-bay.png` + `.webp`
+**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-medical-bay_original.png`
+**Legacy CDN:** `https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/medical-bay_f5c9cffe.png` (`DONE-CDN-LEGACY`)
+**Also on legacy CDN (state-aware variants, 4 frames)** — see
+`docs/production/ASSET_URLS.md` Medical Bay Section F:
+`/art/rooms/mystery-states/medical-bay_{initial,device-awakened,donated,refused}.webp`
+**Action:** PNG→WebP, canonical path, upload. Mystery-state variants
+are already co-located on the legacy CDN — no re-render needed, just
+confirm they're mirrored to the primary CDN.
+
+### §1.G.3 VFX — Beat G
+
+| VFX | Status | Notes |
+|---|---|---|
+| `vfx_med_pod_faint_pulse` | DONE-CODE | CSS `@keyframes` on fourth-pod sprite. |
+| `vfx_neural_rig_idle_hum_visual` | DONE-CODE | `CyanPulse.tsx` handles the soft cyan indicator pulse. |
+| `vfx_transfer_array_amber_standby` | DONE-CODE | `AmberGlow.tsx` handles the amber standby — steady, not pulsing. |
+
+### §1.G.4 VO — Beat G
+
+None. Wordless beat by bible design.
+
+### §1.G.5 Audio — ambient bed
+
+| Bed | Status | Source | Target LUFS | Canonical path |
+|---|---|---|---|---|
+| `ambient_neural_rig_hum` | INTERMEDIATE | `assets/intermediate/prelude/audio/ambient_neural_rig_hum.wav` | -19 LUFS | `apps/client/public/audio/ambient/prelude/ambient_neural_rig_hum.mp3` |
+| `ambient_transfer_array_standby` | INTERMEDIATE | `assets/intermediate/prelude/audio/ambient_transfer_array_standby.wav` | -20 LUFS | `apps/client/public/audio/ambient/prelude/ambient_transfer_array_standby.mp3` |
+
+**Processing:** see §11.
+
+---
+
+## §1.H  Beat H — Comms Array / Locke's First Message (25s)
+
+### §1.H.1 Cutscene — Veo 3.1
+
+**Output:** `apps/client/public/videos/prelude/prelude-beat-h-comms-array.mp4`
+**Duration:** 25s @ 24fps, 16:9
+**Status:** MISSING
+**Bible:** §14
+
+**Dependencies:**
+- Start PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-h-comms-array_start.png`
+- End PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-h-comms-array_end.png`
+
+**START FRAME prompt:**
+> Identical composition to the §14.3 Comms Array still, framed from just inside the entrance doorway. The central console dominates the middle-ground with its idle holographic field showing the cyan envelope glyph and the amber "1" counter floating above. Elara's translucent cyan hologram stands beside the console on the left side of frame, facing the console with her back three-quarters turned to the camera — she is waiting, not guiding. The signal intake matrix fills the back wall. The archival cart is in the right foreground. Full color, no text rendered. 16:9, 4K.
+
+**END FRAME prompt:**
+> Close-up three-quarter view of the message reader UI, the full Locke message body now fully rendered and held. The header strip shows "LOCKE" + glyph-timestamp, the separator line, and the full message body below. The final clause of the message is **highlighted subtly** — the last sentence has a slightly brighter cyan glow than the rest of the text, suggesting it has just been read/spoken. Elara's hologram is visible on the far left edge of frame, silent. The camera has tightened very slightly on the reader — less than 3% scale change from the mid frame. 16:9, 4K, message text rendered fully legibly.
+
+**VEO 3.1 motion prompt:**
+> Slow continuous camera work across four acts inside a 25-second runtime. **Act 1 (0–5s):** forward dolly from entrance doorway into the Comms Array, standing eye level. Elara's hologram is already standing beside the central console on the left, silent. The amber "1" counter above the holographic field is the visual focal point. **Act 2 (5–9s):** camera glides to three-quarter front view of the console. Holographic field expands from idle size (60cm) to reader size (90cm × 120cm) over 2 seconds. The envelope glyph unfolds into a full message reader UI pattern with the sender name "LOCKE" rendering legibly in the header strip. **Act 3 (9–24s):** at 9s the message body text renders all at once as a legible block. At 10s the `locke_beat_h_first_message` VO begins playing. Camera holds on the message reader for 14 seconds, giving the player time to both read the body and hear it spoken. **Act 4 (24–25s):** at 22s (during the VO's final clause) the camera tightens less than 3% scale on the message text, and the last sentence's cyan glow brightens subtly. At 24s the line ends. At 25s fade to black. 24fps. Businesslike, warm-on-the-surface, with one beat of subtle edge at the end.
+
+**Veo config:** 25s · 16:9 · 24fps · dolly + tight-in. The Locke message
+text is the de-facto third rendered-text exception — if Veo cannot
+render the message body legibly, produce the text as a pre-composed HUD
+card and composite over the render in post (same approach as Beat F's
+memo display).
+
+**Audio hand-off:**
+- VO `locke_beat_h_first_message` @ ~10s — DONE-S3-VO →
+  `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/locke/locke_beat_h_first_message.mp3`
+- Reactive: `cc_beat_h_inbox_first_open` (Human) →
+  `https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/reactive/cc_beat_h_inbox_first_open.mp3`
+
+### §1.H.2 Room art — Comms Array
+
+**Output:** `apps/client/public/art/rooms/room-comms-array.png` + `.webp`
+**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-comms-array_original.png`
+**Legacy CDN:** `https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/comms-array_cd8062dd.png` (`DONE-CDN-LEGACY`)
+**Action:** PNG→WebP, canonical path, upload.
+
+### §1.H.3 VFX — Beat H
+
+| VFX | Status | Notes |
+|---|---|---|
+| `vfx_signal_intake_lit_panel` | DONE-CODE | CSS on the matrix panel sprites. |
+| `vfx_inbox_envelope_unfold` | DONE-CODE | `InboxEnvelopeUnfold.tsx` |
+| `vfx_inbox_edge_sentence_bloom` | DONE-CODE | `InboxSentenceBloom.tsx` handles the final-clause brighten. |
+| `vfx_amber_counter_glyph` | DONE-CODE | `AmberCounterGlyph.tsx` |
+
+### §1.H.4 VO — Beat H
+
+| Line ID | Speaker | Status | URL |
+|---|---|---|---|
+| `locke_beat_h_first_message` | Locke | DONE-S3-VO | `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/locke/locke_beat_h_first_message.mp3` |
+| `cc_beat_h_inbox_first_open` | Human (reactive) | DONE-S3-VO | `https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/reactive/cc_beat_h_inbox_first_open.mp3` |
+
+---
+
+## §1.H.5  Beat H.5 — Memo Pile (20s · wordless breath beat)
+
+### §1.H.5.1 Cutscene — Veo 3.1
+
+**Output:** `apps/client/public/videos/prelude/prelude-beat-h5-memo-pile.mp4`
+**Duration:** 20s @ 24fps, 16:9 · wordless
+**Status:** MISSING
+**Bible:** §15
+
+**Dependencies:**
+- Start PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-h5-memo-pile_start.png`
+- End PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-h5-memo-pile_end.png`
+
+**START FRAME prompt:**
+> Interior of the Comms Array aboard Ark 1047, three-quarter view of the central console with the wheeled archival cart visible in the right foreground. Full cold-cyan palette. Elara's hologram is still present beside the console at the start of her fade, semi-translucent cyan scanlines, silent and nearly finished with the scene. The holographic message reader has already collapsed back toward its idle envelope-glyph state, with the amber counter slightly dimmer than Beat H. Six lit signal-intake panels glow on the back wall. The archival cart shows three shelves of memo slates, two faintly glowing cyan. Dust motes drift in thin cyan light. No rendered text except the abstract unreadable envelope-glyph suggestion. Cinematic 16:9, 4K, standing eye level, calm transitional framing.
+
+**END FRAME prompt:**
+> Close three-quarter view of the wheeled archival cart in the Comms Array, focused on the floor beside the cart's lower-right wheel. A single postcard-sized paper memo has come to rest on the floor, slightly yellowed with age, face blank with no legible text or glyphs. Two memo slates on the cart remain faintly glowing cyan on the middle and bottom shelves. Elara's hologram is gone. The central console is now peripheral and softly out of focus. Cyan emergency strips and the room's dim signal-panel light bathe the scene in cold archive light. Dust motes drift around the settled paper. Cinematic 16:9, 4K, quiet held composition, no rendered text.
+
+**VEO 3.1 motion prompt:**
+> Continuous camera work across three acts inside a 20-second runtime. **Act 1 (0–8s):** Elara's hologram fades from full opacity to zero over 2 seconds beside the central console. The Inbox UI on the holographic field shrinks back to its idle envelope-glyph state and the amber counter dims slightly. Camera begins a slow glide from the central console toward the wheeled archival cart in the right foreground. **Act 2 (8–14s):** camera arrives at the cart. The two faintly glowing memo slates on the middle and bottom shelves are visible. A single loose postcard-sized paper memo, slightly yellowed with age, begins drifting from the top shelf toward the floor over roughly 5 seconds in barely-moving ventilation air. No other motion. **Act 3 (14–20s):** the memo comes to rest beside the cart's lower-right wheel. Camera holds on the settled memo for the final 6 seconds as dust motes drift in cyan light, then fades to black. 24fps. Quiet, decompressive, archive-breath tone.
+
+**Veo config:** 20s · 16:9 · 24fps · slow glide + drifting paper.
+
+**Audio hand-off:** wordless. Ambient Comms Array wash continues.
+
+### §1.H.5.2 Room art
+
+Reuses `room-comms-array.png` from §1.H.2. No new still.
+
+### §1.H.5.3 VFX — Beat H.5
+
+| VFX | Status | Notes |
+|---|---|---|
+| `vfx_memo_paper_drift` | MISSING | 5s one-shot, per prompt below. |
+| `vfx_elara_fade_out` | DONE-CODE | `ElaraFadeOut.tsx` handles the 2s fade. |
+
+**MISSING VFX — `vfx_memo_paper_drift` (Veo 3.1, 5s one-shot):**
+
+**Output:** `apps/client/public/art/vfx/prelude/memo-paper-drift.webm`
+**Format:** 1920×1080, VP9 WebM, alpha channel, 24fps, no audio, 5s.
+
+START FRAME (alpha):
+> TRANSPARENT BACKGROUND. A single postcard-sized piece of paper (15cm × 10cm) at the TOP of the frame, tilted at ~15° with its top edge just leaving a shelf. The paper has faint handwritten marks on it but no legible text. Paper color is faded cream `#fef3c7` with soft shadow. No shelf or ship interior visible — only the paper. Background fully transparent.
+
+END FRAME (alpha):
+> Same paper at the BOTTOM of the frame, now resting flat on an invisible floor surface. The paper has rotated ~120° total during its descent (now tilted differently). No shelf visible. The paper is the only rendered element.
+
+MOTION:
+> At t=0s paper is at top-left area, tilted 15° (start frame). The paper slides off the shelf edge and begins falling. Physics: gravity (slow — this is in space, with only minimal ventilation airflow), slight horizontal drift (paper moves ~80px to the right over the descent), and rotation (paper tumbles gently, completing ~120° rotation total over the 5s descent). Motion curve: NOT a simple free-fall — the paper catches air, flutters, slows mid-descent at t=2s, drifts horizontally, then resumes falling. By t=4.7s the paper is just above the floor position. At t=4.8s soft touchdown, paper comes to rest at bottom of frame. At t=5.0s holds on end frame. 24fps. Quiet, melancholy, patient — like a leaf falling through still air. This paper has been on that shelf for 17,000 years.
+
+### §1.H.5.4 VO — Beat H.5
+
+None. Wordless breath beat.
+
+---
+
+## §1.I  Beat I — Bridge / Witnessing Hub Activate (40s · wordless · biggest visual transformation)
+
+> Bible §16.6 flag: "the biggest visual transformation in the Prelude."
+> Palette swings from full cold-cyan to full warm sodium-gold over
+> Acts 3–5 as the primary lights restore.
+
+### §1.I.1 Cutscene — Veo 3.1
+
+**Output:** `apps/client/public/videos/prelude/prelude-beat-i-bridge-witnessing-activate.mp4`
+**Duration:** 40s @ 24fps, 16:9 · wordless · contains HOLD-FOR-INPUT beat
+**Status:** MISSING
+**Bible:** §16
+
+Note: Veo 3.1 cannot render an indefinite "hold for player input" beat.
+Render the cutscene as two segments: **segment A** = pre-input (0–16s,
+ends on UI prompt fully faded up and Hub central well pulsing ready);
+**segment B** = post-input (16s→40s, begins on Hub hemisphere flare,
+through sodium-gold cascade, through held warmth, to dim-back fade).
+Runtime concatenates A → player input → B.
+
+**Dependencies:**
+- Start PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-i-bridge-witnessing-activate_start.png`
+- End PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-i-bridge-witnessing-activate_end.png`
+- Mid PNG (pre-input hold): render at `assets/intermediate/prelude/cutscenes/prelude-beat-i_mid.png` — Hub central well pulsing, "PRESS TO ACTIVATE" prompt faded up, Elara right hand raised.
+
+**START FRAME prompt:**
+> Cinematic still of the Bridge aboard Ark 1047, framed from the rear of the command crescent looking forward toward the panoramic viewport. Full cold-cyan palette consistent with every prior Prelude room: cyan floor strips, dormant cyan duty-station pips, dim cyan emergency lighting, and the faint cold light from the polarized panoramic viewport showing the debris graveyard in silhouette. The Witnessing Hub dominates the rear wall behind camera — its circular brass-and-cyan surface visible in the peripheral/background of the composition, central well dark, twelve radial spokes dark. The five duty stations of the command crescent are visible in the middle-ground (captain's chair centered, four flanking officer stations), all dark. Full color, no warm lights anywhere in frame. 16:9, 4K, no text.
+
+**END FRAME prompt:**
+> Full warm-sodium-gold Bridge. All five duty stations lit with amber-gold console illumination. Captain's chair armrests glowing. Panoramic viewport's polarization partially lifted, admitting more starlight from the debris graveyard outside. Witnessing Hub at rear wall fully active with cyan-white hemisphere. Elara's hologram still visible beside the Hub, hand lowered, silent. Dust motes drifting in warm gold light throughout. Anamorphic lens flares on the captain's chair, the brightest duty station, and the Hub's hemisphere. The Bridge is *alive*. This is the only frame in the Prelude where the Ark looks like the ship it used to be. 16:9, 4K, no text.
+
+**VEO 3.1 motion prompt (full 40s; split as noted above):**
+> Continuous camera work across six acts inside a 40-second runtime. **Act 1 (0–8s):** camera rises from below (suggesting ascent from the Comms Array exit hatch to the Bridge level), arriving at the rear of the command crescent, facing forward. Full cold cyan palette. Witnessing Hub dormant in peripheral view. **Act 2 (8–16s):** camera glides toward the Witnessing Hub on the rear wall. Elara's hologram materializes beside the Hub's central well at 10s. At 12s Elara raises her right hand in a slow offering gesture. At 14s UI "PRESS TO ACTIVATE" prompt fades up. At 16s cutscene HOLDS for player input (indefinite — does not auto-advance). **Act 3 (16–22s):** on input, Hub's central well flares bright. Hemispheric cyan-white bloom rises over 3 seconds to ~1.5m height. Twelve radial spokes light sequentially clockwise from 12 o'clock over 3 seconds. At 22s hemisphere at max intensity. **Act 4 (22–30s):** primary-light-restoration cascade begins. Wave of warm sodium-gold `#fde68a` light travels forward from the Hub toward the viewport over 4 seconds. Each duty station lights as the wave passes. Captain's chair lights at 26s. Viewport reached at 28s, polarization lifts partially. At 30s the Bridge is fully lit warm sodium-gold. **Act 5 (30–38s):** slow camera pan across the warmly-lit Bridge showing duty stations, captain's chair, viewport, and the still-active Hub. 8 seconds of held warmth. Ambient audio bed shifts to powered-systems mix. **Act 6 (38–40s):** primary lights dim back to cold cyan over 2 seconds. Witnessing Hub hemisphere remains active. Fade to black at 40s. 24fps. Reverent, awe-tinted, the biggest visual transformation in the Prelude.
+
+**Veo config:** split into 16s (segment A) + 24s (segment B). 16:9 ·
+24fps · camera rise → glide → flare → sodium-gold cascade → held
+warmth → dim back.
+
+**Audio hand-off:**
+- No VO this beat (wordless).
+- Reactive: `cc_beat_i_prep_human` (Human reactive, fires just before
+  hemisphere flare) →
+  `https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/reactive/cc_beat_i_prep_human.mp3`
+- Ambient bed: at 30s (sodium-gold fully on), shift to
+  `ambient_bridge_powered_systems_mix`. INTERMEDIATE WAV — see §11.
+  Target -18 LUFS.
+
+### §1.I.2 Room art — Bridge
+
+**Output:** `apps/client/public/art/rooms/room-bridge.png` + `.webp`
+**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-bridge_original.png`
+**Legacy CDN:** `https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/bridge_5da73f83.png` (`DONE-CDN-LEGACY`)
+**Also:** `apps/client/src/components/ResponsiveImage.tsx:16` references the local path `src="/art/rooms/room-bridge.png"` directly — this hard-coded path MUST be satisfied for the bridge component to render correctly.
+**Action:** PNG→WebP, canonical path, upload. Validate that `preludeReadiness.test.ts`'s bridge-existence assertion passes.
+
+### §1.I.3 VFX — Beat I
+
+| VFX | Status | Notes |
+|---|---|---|
+| `vfx_witnessing_hub_hemisphere_bloom` | DONE-CODE | `WitnessingHubBloom.tsx` |
+| `vfx_primary_lights_cascade` | DONE-CODE | `PrimaryLightsCascade.tsx` |
+| `vfx_viewport_polarization_lift` | DONE-CODE | `ViewportPolarization.tsx` |
+
+### §1.I.4 VO — Beat I
+
+None. Wordless beat.
+
+### §1.I.5 Audio — ambient bed
+
+| Bed | Status | Source | Target LUFS | Canonical path |
+|---|---|---|---|---|
+| `ambient_bridge_powered_systems_mix` | INTERMEDIATE | `assets/intermediate/prelude/audio/ambient_bridge_powered_systems_mix.wav` | -18 LUFS | `apps/client/public/audio/ambient/prelude/ambient_bridge_powered_systems_mix.mp3` |
+
+---
+
+## §1.J  Beat J — Archives + Two Witnesses Meet Part 1 (~8m10s)
+
+> **The Prelude's longest single beat.** Contains the full ~6m40s Log 5
+> playback (sepia Prince hologram inside the pedestal well), one full
+> second of absolute silence, and the *Last Words* intro + first chorus.
+> Ends on a Light/Dark choice pillar held indefinitely for player input.
+
+### §1.J.1 Cutscene — Veo 3.1 (split-render required)
+
+**Output:** `apps/client/public/videos/prelude/prelude-beat-j-archives.mp4`
+**Target total duration:** 490_000 ms ≈ 8m10s @ 24fps, 16:9
+**Status:** MISSING — 1 partial arrival clip already sitting in
+`assets/intermediate/prelude/cutscenes/prelude-beat-j-archives-arrival-clip.mp4`
+(Acts 1–2 only, ~30s). Use it as the first chunk; render the rest.
+**Bible:** §17
+
+**CRITICAL PRODUCTION NOTE.** Veo 3.1 is not designed for single 8-minute
+renders. Split the beat into discrete Veo clips and concatenate with
+`ffmpeg`. Recommended split (10 clips total):
+
+| # | Act | Window | Content | Clip duration |
+|---|---|---|---|---|
+| 1 | Act 1 | 0:00–0:15 | Entry + establishing; Enigma waiting | 15s |
+| 2 | Act 2 | 0:15–0:30 | Antiquarian enters; `antiq_fc_1`; Enigma nod | 15s |
+| 3 | Act 3 | 0:30–0:34 | Log 5 crystal flare → beam transfer → Prince holo materializes (sepia) | 4s |
+| 4 | Acts 4–5 | 0:34–2:00 | Log 5 Movements 1–2 — locked medium hold | 86s — split into 2×43s if needed |
+| 5 | Acts 6–7 | 2:00–5:00 | Log 5 Movements 3–4 — Antiquarian glance beat; Enigma hand-on-rim | 180s — split into 6×30s |
+| 6 | Act 8 | 5:00–7:14 | Log 5 Movement 5 + Protocols preflight | 134s — split into 5×≈27s |
+| 7 | Act 9 | 7:14–7:15 | Hard cut → Prince freeze → 1s absolute silence | 1s |
+| 8 | Act 10 | 7:15–8:05 | *Last Words* enters; Prince thaws; camera pull-back; warm-amber halo builds | 50s |
+| 9 | Act 10→11 | 7:58–8:05 | First chorus line triggers Light/Dark choice pillar fade-up | overlapped inside clip 8 |
+| 10 | Act 11 | 8:05 → player input | Held choice pillar; on resolution, chosen half brightens, other dims 2s, fade to black 8s with `Last Words` continuing over black | ≤indef |
+
+The 6m40s Log 5 core (clips 3–6) is the hardest to render because
+Veo has to hold a locked framing with minor contained-volume effects
+for long stretches. Consider compositing the sepia Prince hologram
+inside the pedestal well separately (static sepia still + sepia-drain
++ film-damage overlays from §1.E.3) and keying it over a Veo-rendered
+Archives hold shot.
+
+**Dependencies:**
+- Start PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-j-archives-two-witnesses_start.png`
+- End PNG: `assets/intermediate/prelude/cutscenes/prelude-beat-j-archives-two-witnesses_end.png`
+- Multiple inter-act keyframes per clip above — render as needed.
+
+**START FRAME prompt:**
+> Cinematic still of the Archives aboard Ark 1047, framed from just inside the entrance doorway. Full cold-cyan palette. The central pedestal with its inactive holo-projection well occupies the middle of the frame. The twelve archive plinths curve around the background; the Log 5 crystal on the far wall is visibly brighter than the other eleven, pulsing subtly. **The Enigma is visible** standing in the eleven-o'clock position relative to the pedestal, three-quarters back view to camera — render her as a woman in a dark traveling coat, a deep-purple scarf that catches the cyan light with a slight violet edge-glow, her hair pulled back, her hands clasped in front of her at waist level, her gaze fixed on the central pedestal. She is silent, still, and clearly *waiting*. The Antiquarian is NOT yet in frame (he enters in Act 2). The etched gold star-chart on the domed ceiling is visible but subtle. Through the entrance doorway (partially visible behind the camera's side), the distant amber transfer-array standby light from Beat G is a small warm point at the right edge of frame. 16:9, 4K, no text.
+
+**END FRAME prompt:**
+> Wide shot of the Archives with the **Light/Dark choice UI visible center-screen**. The UI is a vertical pale pillar approximately 2 meters tall, floating at standing eye level centered between the camera and the pedestal. The pillar is split vertically down its center line: the **left half is soft-gold `#fde68a`** (Light), the **right half is deep-violet `#1e1b4b`** (Dark). No text labels, no icons, no prompts. The Antiquarian is visible on the right side of the composition, the Enigma on the left, both watching the player, both silent. The central pedestal is still in frame behind the choice pillar, the Prince hologram is still gently glowing in real-color inside the well. Around the peripheral edges of the frame, the warm-amber halo from Act 10's buildup has reached full intensity — the Archives is held in a soft amber peripheral glow that does not touch the center of the frame (where the choice UI is) but frames the composition. *Last Words* is canonically audible (the first chorus line *"Freedom of thought is worth dying for"* has just been sung as the choice UI appeared). 16:9, 4K, no text on the choice UI, no text anywhere.
+
+**VEO 3.1 motion prompt (full — annotate per-clip when rendering):**
+> Continuous camera work across 11 acts and one indefinite choice-hold inside an ~8m10s runtime plus player-choice delay. **Act 1 (0:00–0:15):** camera rises from floor level at the Archives doorway and glides into the circular domed room, establishing the central pedestal, twelve archive plinths, the brighter Log 5 crystal on the far wall, and the Enigma already waiting at the eleven-o'clock position. Full cold-cyan palette. **Act 2 (0:15–0:30):** camera holds while the Antiquarian enters from behind the camera, crosses to the four-o'clock position opposite the Enigma, and delivers `antiq_fc_1`; at 0:27 he looks toward the Enigma and she nods once. **Act 3 (0:30–0:34):** the Log 5 crystal flares, a cyan beam traces to the pedestal well, and the small sepia Prince hologram materializes with sepia-drain and film-damage scoped only to the well volume. **Acts 4–8 (0:34–7:14):** Log 5's five movements play in full while the camera holds on a locked medium shot of the pedestal with both Witnesses flanking it. No cuts, pans, or zooms. The only room-scale motion is a brief Antiquarian glance toward the distant amber transfer-array light during Movement 3 and the Enigma raising her left hand to rest on the rim of the well during Movement 4. The contained Prince hologram scene changes between movements: Vortex console, engineering bench, galley counter, Kael farewell, Protocols preflight. **Act 9 (7:14–7:15):** Log 5 hard-cuts mid-syllable on "Back to the —"; the sepia Prince hologram freezes; one full second of absolute silence; no motion. **Act 10 (7:15–8:05):** `Last Words` enters. Over 4 seconds the Prince hologram thaws from sepia into real color, the Antiquarian takes one small step back, the Enigma lowers her hand, and the camera begins a very slow pull-back over the next 30 seconds while a warm-amber halo builds around the frame periphery. At 7:55 the first chorus begins; at approximately 7:58 the line "Freedom of thought is worth dying for" triggers the Light/Dark choice pillar to fade up. **Act 11 (8:05 → player resolution):** hold on the wordless gold/violet split choice pillar while music and visuals continue. On player input, the chosen half brightens, the other half dims, hold 2 seconds, then fade to black while `Last Words` continues for roughly 8 more seconds over black. 24fps. Reverent, grief-loaded, no extra camera movement beyond the specified holds and pull-back.
+
+**Veo config per clip:** 16:9 · 24fps · each clip locked-framing for the
+Log 5 body; start/end keyframes explicitly set for Acts 3, 9, 10, 11
+transitions. Clip 10 (Act 11) renders up to first ~10s of the held
+pillar; the runtime `Act1CycleCAuthorityWitnessing` component logic
+handles the indefinite hold and resolution fade.
+
+**Canon hygiene:**
+- The Antiquarian's face may be rendered.
+- The Enigma's face may be rendered (she is not Vex Solene).
+- The Prince hologram is sepia-toned until Act 10's thaw, then real
+  color.
+- No visible Engineer, no Human, no Oracle, no Authority in this beat.
+
+### §1.J.2 Room art — Archives
+
+**Output:** `apps/client/public/art/rooms/room-archives.png` + `.webp`
+**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-archives_original.png`
+**Legacy CDN:** `https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/archives_cb00ab0a.png` (`DONE-CDN-LEGACY`)
+**Action:** PNG→WebP, canonical path, upload. The Archives still is
+reused by `Act1CardLadderPage`, `Act6CardLadderPage`, and
+`WitnessingHubPage` via `assetUrl("art/rooms/room-archives.png")` —
+priority to get this file at the canonical path.
+
+---
+
+### §1.J.3 VFX — Beat J
+
+Beat J is VFX-heavy: 9 effects, mostly new renders or shared with other
+beats.
+
+| VFX | Status | Notes |
+|---|---|---|
+| `vfx_sepia_drain` | INTERMEDIATE | Reused from Beat E. `assets/intermediate/prelude/vfx/sepia-drain.mp4` → WebM. |
+| `vfx_film_damage_overlay` | INTERMEDIATE | Reused from Beat E. `assets/intermediate/prelude/vfx/film-damage-overlay.mp4` → WebM. |
+| `vfx_transfer_array_amber_standby` | DONE-CODE | Reused from Beat G. `AmberGlow.tsx` handles the distant amber point through the doorway. |
+| `vfx_log5_beam_transfer` | MISSING | 3s one-shot, per prompt below. |
+| `vfx_holo_pedestal_bloom` | MISSING | **3 deliverables** (activation 3s + steady-state 8s loop + base 3s) per prompt below. |
+| `vfx_memory_crystal_pulse` | DONE-CODE | `MemoryCrystalPulse.tsx` handles the twelve-crystal breath on the curved walls. |
+| `vfx_enigma_hand_on_rim` | MISSING | 2s subtle one-shot, per prompt below. |
+| `vfx_peripheral_warm_halo` | DONE-CODE | `PeripheralWarmHalo.tsx` handles the Act 10 amber halo buildup. |
+| `vfx_choice_pillar_light_dark_split` | DONE-CODE | `ChoicePillarLightDark.tsx` handles the Act 11 pillar + resolution. |
+
+**MISSING VFX — `vfx_log5_beam_transfer` (Veo 3.1, 3s one-shot):**
+
+**Output:** `apps/client/public/art/vfx/prelude/log5-beam-transfer.webm`
+**Format:** 1920×1080, VP9 WebM, alpha channel, 24fps, no audio, 3s.
+
+START FRAME (alpha):
+> TRANSPARENT BACKGROUND. A bright cyan `#22d3ee` crystalline point at the left side of frame (representing the Log 5 memory-crystal in its dormant position). Size: 3cm diameter. Bright anamorphic flare. On the right side of frame, a darker cyan point representing the central pedestal's projection well, ~6cm diameter but dim (pre-activation). No beam between them yet. No rendered text. No room interior visible.
+
+END FRAME (alpha):
+> Same two cyan points, but now connected by a CURVED cyan `#22d3ee` beam that arcs upward between them (curving over the top ~20% of the frame like a rainbow arc — the bible notes this path curves around the domed ceiling's star-chart). The beam is 8-12px wide, with soft outer bloom extending 30px. Core brightness: brilliant cyan-white `#e0f2fe`. Edge fade: soft gradient to transparent. Both endpoints are now brighter than start — the crystal is slightly dimmed (having transferred) and the pedestal well is now brightly glowing. Anamorphic horizontal flare across the whole beam.
+
+MOTION:
+> At t=0s both endpoints dim (start frame). At t=0.2s the left crystal flares brilliantly. At t=0.4s a cyan particle beam emerges from the crystal and begins tracing along the curved bezier path toward the pedestal. The beam head is a bright moving point (like a comet) that leaves a glowing trail behind it. At t=1.6s the beam head reaches the pedestal well — impact bloom. At t=1.8s the trail (full beam) is visible along the entire bezier arc at peak brightness. At t=2.3s the pedestal well brightens significantly as the transfer completes. At t=2.8s the beam begins to softly fade along the trail, but the pedestal well remains bright. At t=3.0s holds on end frame with beam visible but dimmer than peak. 24fps. Majestic, ceremonial, the moment of truth — Log 5 is being played.
+
+**MISSING VFX — `vfx_holo_pedestal_bloom` (3 deliverables):**
+
+**Output files:**
+1. `apps/client/public/art/vfx/prelude/holo-pedestal-bloom.webm` (base — 3s one-shot)
+2. `apps/client/public/art/vfx/prelude/holo-pedestal-bloom-activation.webm` (3s)
+3. `apps/client/public/art/vfx/prelude/holo-pedestal-bloom-steady_state.webm` (8s seamless loop)
+
+**All format:** 1920×1080, VP9 WebM, alpha channel, 24fps, no audio.
+
+**Part 1 — `holo-pedestal-bloom-activation.webm` (3s one-shot):**
+
+START FRAME: TRANSPARENT BACKGROUND. Centered: a dark cylindrical pedestal projection well at the bottom of frame, ~80cm diameter, dim. The well's rim has a faint cyan `#22d3ee` pilot glow. Nothing above the well. No text.
+
+END FRAME: Same pedestal with BRIGHT cyan rim-glow. Above the well, a volumetric cyan bloom rises to ~30cm height — a soft column of cyan light with a faint cylindrical shape suggesting a hologram is about to appear. The bloom is translucent, its brightness fading to ~40% at the top. Anamorphic lens flare across the brightest rim.
+
+MOTION: At t=0s dim pedestal. At t=0.3s cyan rim flashes brighter. At t=0.6s a bloom column begins rising out of the well, growing in height over 1.5s. At t=2.1s it reaches full 30cm height. At t=2.5s the bloom settles into its steady shape. At t=3.0s holds on end frame. 24fps. Sacred activation moment.
+
+**Part 2 — `holo-pedestal-bloom-steady_state.webm` (8s seamless loop):**
+
+START FRAME = END FRAME of activation (pedestal with bright rim + 30cm bloom column).
+END FRAME = IDENTICAL to start (seamless loop).
+MOTION: The bloom column breathes subtly — sub-0.5Hz alpha oscillation between 80% and 100% opacity. Rim glow matches the pulse. Dust-like motes inside the bloom drift gently upward. At t=8s the system has returned to the exact starting configuration.
+
+**Part 3 — `holo-pedestal-bloom.webm` (base):** identical to Part 1 (activation). Runtime plays this file when the variant system is disabled.
+
+**MISSING VFX — `vfx_enigma_hand_on_rim` (Veo 3.1, 2s subtle):**
+
+> Bible §17.6 flag: **"SUBTLE — the player should register that she
+> touched the rim, not that something magical happened."** Do NOT
+> over-design.
+
+**Output:** `apps/client/public/art/vfx/prelude/enigma-hand-on-rim.webm`
+**Format:** 1920×1080, VP9 WebM, alpha channel, 24fps, no audio, 2s.
+
+START FRAME (alpha):
+> TRANSPARENT BACKGROUND. A small localized cyan `#22d3ee` edge glow at the lower-left of frame, approximately 4cm × 3cm, representing where a hand rests on a pedestal rim. Glow is at 15% opacity. Very soft, barely noticeable. No hand or rim rendered — just the glow region.
+
+END FRAME (alpha):
+> Same glow region, now at 45% opacity — still subtle, but the player can see it. Cyan `#22d3ee` with the brightest intensity along a curved edge (following the rim shape). Soft bloom extends 15cm outward at 10% opacity. Anamorphic flare is minimal — this is an environmental ambient lighting cue, not a dramatic special effect.
+
+MOTION:
+> At t=0s 15% opacity glow (start). The glow intensifies smoothly from 15% to 45% over 1.8s in a single linear curve. The bloom halo grows outward in proportion. At t=2.0s holds on end frame. 24fps. VERY subtle. No flashes, no bursts. This should register subliminally — the player should feel the Enigma's presence more than see it.
+
+### §1.J.4 VO — Beat J
+
+| Line ID | Speaker | Status | URL |
+|---|---|---|---|
+| `antiq_fc_1` | Antiquarian | DONE-S3-VO | `https://dgrsvoices.s3.us-east-2.amazonaws.com/Prelude%20Voices/antiquarian/antiq_fc_1.mp3` |
+| `cc_beat_j_tease_start` | Human (reactive) | DONE-S3-VO | `https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/reactive/cc_beat_j_tease_start.mp3` |
+
+**Log 5 playback (Movements 1–5):** the Prince's ~6m40s Log 5 recording
+is a separate long-form VO asset. **Status to confirm** — Log 5 is not
+in the standard prelude-beat VO list above; it's owned by the
+canon-expansion pipeline (see `CANON_REV_7_ORACLE_VEX_EXPANSION.md`).
+If not yet recorded, it's a new long-form ElevenLabs render against the
+Prince voice profile, with per-movement scripts sourced from the Log 5
+script doc (not in `apps/shared/*VoManifest.json`).
+
+### §1.J.5 Song — *Last Words* (prelude cut)
+
+**Output:** `apps/client/public/audio/music/song_last_words_prelude_cut.mp3`
+**Status:** MISSING (or owned by canon-expansion pipeline — status TBD)
+**Canon:** `CANON_REV_7_ORACLE_VEX_EXPANSION.md §5.6.9`
+**Lyrics anchor:** first chorus line "Freedom of thought is worth dying for" triggers the Light/Dark choice UI at ~7:58 inside Beat J.
+
+Also used by Act 1 Cycle C finale `Act1CycleCAuthorityWitnessing.tsx`
+(§2.C.fin below) — same file, shared audio.
+
+---
