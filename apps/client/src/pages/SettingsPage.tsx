@@ -520,6 +520,35 @@ export default function SettingsPage() {
             icon={Music}
           />
           <Toggle
+            label="Captions"
+            description="Show speaker labels during voice-over lines for hearing-impaired play"
+            enabled={settings.captions}
+            onChange={(v) => updateSetting("captions", v)}
+            icon={Accessibility}
+          />
+          <div>
+            <div className="flex items-center gap-2 mb-1.5">
+              <Type size={13} className="text-muted-foreground/60" />
+              <p className="font-mono text-[10px] text-muted-foreground/70 tracking-wider flex-1">TYPEWRITER SPEED</p>
+              <span className="font-mono text-[10px] text-[var(--neon-cyan)] w-12 text-right">
+                {settings.typewriterSpeed === 0 ? "INSTANT" : `${settings.typewriterSpeed}ms`}
+              </span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-[9px] text-muted-foreground/35 shrink-0">FAST</span>
+              <input
+                type="range"
+                min={0}
+                max={60}
+                step={5}
+                value={settings.typewriterSpeed}
+                onChange={(e) => updateSetting("typewriterSpeed", parseFloat(e.target.value))}
+                className="flex-1 accent-[var(--neon-cyan)] h-1"
+              />
+              <span className="font-mono text-[9px] text-muted-foreground/35 shrink-0">SLOW</span>
+            </div>
+          </div>
+          <Toggle
             label="Dyslexia-Friendly Font"
             description="Use OpenDyslexic font for improved readability"
             enabled={settings.dyslexiaFont}

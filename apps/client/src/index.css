@@ -1762,3 +1762,16 @@ html.reduce-motion .ambient-skybox__nebula {
   animation: none;
   transform: none;
 }
+
+/* ═══════════════════════════════════════════════════════
+   CAPTIONS — Speaker labels for hearing-accessibility.
+   Rendered inline via `<span class="caption-label">`; hidden
+   by default, shown when the player has enabled captions
+   in Settings (applied via `html.captions-on`).
+   ═══════════════════════════════════════════════════════ */
+.caption-label {
+  display: none;
+}
+html.captions-on .caption-label {
+  display: inline-block;
+}

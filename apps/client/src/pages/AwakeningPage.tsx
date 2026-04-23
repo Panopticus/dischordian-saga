@@ -18,12 +18,31 @@ import { getAwakeningCinematic } from "@shared/awakeningCinematicPrompts";
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 
 /* ─── TYPEWRITER HOOK ─── */
+/**
+ * Resolve the effective typewriter speed. Respects the player's setting
+ * via --typewriter-speed-ms (inline on <html>, written by settingsSync),
+ * falls back to the caller's default if unset. A 0 value short-circuits
+ * to instant reveal — players who opted for "no typewriter" in settings
+ * see the full line immediately while narrative beats still fire.
+ */
+function resolveTypewriterSpeed(fallback: number): number {
+  if (typeof document === "undefined") return fallback;
+  const raw = document.documentElement.style.getPropertyValue("--typewriter-speed-ms").trim();
+  if (raw === "") return fallback;
+  const n = parseFloat(raw);
+  if (!Number.isFinite(n) || n < 0) return fallback;
+  return n;
+}
+
 function useTypewriter(text: string, speed = 30, enabled = true) {
   const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    if (!enabled) { setDisplayed(text); setDone(true); return; }
+    const effectiveSpeed = resolveTypewriterSpeed(speed);
+    // Treat 0ms as instant — the same code path the caller uses when
+    // `enabled` is false, keeping completion semantics consistent.
+    if (!enabled || effectiveSpeed === 0) { setDisplayed(text); setDone(true); return; }
     setDisplayed("");
     setDone(false);
     let i = 0;
@@ -35,7 +54,7 @@ function useTypewriter(text: string, speed = 30, enabled = true) {
         setDone(true);
         clearInterval(interval);
       }
-    }, speed);
+    }, effectiveSpeed);
     return () => clearInterval(interval);
   }, [text, speed, enabled]);
 
@@ -237,9 +256,23 @@ function ElaraDialogBox({
             backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--energy-primary) 10%, transparent) 2px, color-mix(in oklch, var(--energy-primary) 10%, transparent) 4px)",
           }} />
 
+          {/* Speaker-label caption. Rendered when the player has captions
+              turned on in settings (html.captions-on). Reinforces who is
+              speaking during VO playback — the dialog text IS the caption
+              for what Elara says, but the "[ ELARA ]" label answers the
+              "who" question for hearing-impaired first-run players. */}
+          <span
+            className="caption-label mb-2 font-mono text-[9px] tracking-[0.3em] text-[var(--neon-cyan)]/80"
+            aria-hidden
+          >
+            [ ELARA ]
+          </span>
+
           <p
             className="font-mono text-xs sm:text-base text-foreground leading-relaxed relative z-10 min-h-[2em] sm:min-h-[3em] break-words"
             style={{ wordBreak: "normal", overflowWrap: "break-word" }}
+            role="status"
+            aria-live="polite"
           >
             {displayed}
             {!done && <span className="inline-block w-2 h-4 bg-[var(--neon-cyan)] ml-1 animate-pulse" />}
