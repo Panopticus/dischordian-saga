@@ -136,3 +136,99 @@ Every Veo 3.1 cinematic in this bible ships with three artifacts:
 Act openers are 21s one-shots (per the existing `acts-4-through-7-asset-pipeline.md` spec). Mid-act cinematics run 6-15s. Post-credits beats are 12s. Music beds are sized to match.
 
 ---
+
+## PART 1 — ACT 2 "THE ENGINEER'S BENCH / THE WHISPER"
+
+### 1.0 — Narrative anchor
+
+**Trigger:** Complete first game-mode tutorial. Hub detects via `act_2_started` or `crafting_mastered`.
+
+**Premise:** The Human breaks protocol and begins offering commentary during gameplay. Three systems unlock: Crafting Bench, Chess depth progression (Zephyr-9 tiers 1/3/5/8), and the Two Game Masters (Left: tactical, Right: improvisational). Bond climbs toward 60 where the Silence of Two Witnesses milestone lands.
+
+**Source files:** `narrativeActs.ts:381-498` (ACT_2_THE_WHISPER), `act2Interlude.ts:20-186` (§6.2 Bench framing, §6.3 Zephyr classroom, §6.4 Game Masters), `docs/production/act2-vo-script.md` (30 VO lines).
+
+**Cinematics in this part:** 6 clips — opener (21s), Silence of Two Witnesses (10s), Left Game Master intro (6s), Right Game Master intro (6s), Engineer Recording 2 "The Prince's Truth" (12s), Engineer Recording 3 "Ghosts in the System" (12s).
+
+**VFX atlases:** 4 — substrate-layer overlay, bench-glow light/dark variants, chess-depth ring, silence-freeze grain.
+
+**Music:** act-2 opener bed (21s), silence stinger (8s), bench ambient loop (60s looping), Engineer Recording underscore (reused across recordings 2 + 3).
+
+### 1.1 — VFX atlases (Act 2)
+
+> Prepend Part 0.3 global style anchor to every prompt.
+
+**vfx_act2_substrate_layer** — `apps/client/public/vfx-atlases/acts/act-2/substrate_layer.png` · 2048×2048 transparent
+
+> Seamless tiling atlas texture representing the "substrate" underneath Elara's OS layer where The Human speaks. Fine horizontal scan-lines in deep teal-cyan (#1a5a78) at 40% opacity, ~3px line width, 7px spacing. Subtle 1px random vertical drift per line (lines not perfectly parallel — they drift like a signal below the surface). Overlaid with a 12% noise grain. Occasional brighter "transmission bursts" — small 15px horizontal streaks at ~5 randomized positions. Used as additive overlay over gameplay UI during The Human's Commentary lines. No rendered text.
+
+**vfx_act2_bench_glow_light** — `.../act-2/bench_glow_light.png` · 1024×1024 transparent
+
+> Warm amber radial glow texture (#d4a04a core fading to #7a5a20 edge) with soft gaussian falloff. Simulates the Bench humming in light-alignment state. Subtle brass-filament refraction pattern inside (very faint radial threads suggesting coiled copper). Driven by `benchAlignment: 'light'` uniform — intensity baseline 0.6. Used as overlay on `EngineersBenchPage.tsx` background when `flags.engineers_bench_powered_on && lightDarkAlignment === 'light'`.
+
+**vfx_act2_bench_glow_dark** — `.../act-2/bench_glow_dark.png` · 1024×1024 transparent
+
+> Same radial structure as the light variant but cool violet (#6a3a9a core fading to #3a1a6a edge). Slower refraction pattern — the filaments feel slightly submerged. Driven by same uniform with `benchAlignment: 'dark'`. Both variants are authored so they can cross-fade during alignment shifts; do NOT bake the alignment color into base color — keep emissive channel separate.
+
+**vfx_act2_chess_depth_ring** — `.../act-2/chess_depth_ring.png` · 1024×1024 transparent
+
+> Ring texture of 8 concentric annuli, each a different intensity of pale cyan (Zephyr-9's teaching color). Outermost ring = depth 1 (lightest, calm). Innermost ring = depth 8 (hot-blue, dense). Each ring emits a subtle pulsing glow at a rate inversely proportional to its depth — depth 1 slow, depth 8 fast. Used as overlay behind Zephyr-9 in the `ChessPage.tsx` sidebar, scaled to the player's current `chess_depth` flag (0-8).
+
+**vfx_act2_silence_freeze_grain** — `.../act-2/silence_freeze_grain.png` · 2048×2048
+
+> Heavy film-grain texture at 60% density, desaturated entirely to black-and-white with a subtle cold-gray tint. Used as full-frame overlay during the Silence of Two Witnesses milestone — when both narrators go silent and Light/Dark energy freezes, the WHOLE UI gets this grain applied for the 10-second cinematic duration. Slight vertical streak pattern suggests a held frame that is trying not to move.
+
+### 1.2 — CIN-ACT2-OPENER — Act 2 opener (21s, P0)
+
+**Output:** `apps/client/public/videos/acts/act-2/cin_act2_opener.mp4` · 16:9 · 1920×1080
+
+Builds on the existing slideshow spec in `acts-4-through-7-asset-pipeline.md` §Act 4 pattern but for Act 2: this is the first act-opener moment where the Bench is introduced and The Human's whisper-protocol breaks for the first time.
+
+**START FRAME (Nano Banana 2):**
+
+> Hyper-realistic cinematic still, 16:9 1920×1080. Interior of the Engineer's Bench workshop aboard the Ark — a cold, un-powered iron-and-brass workbench dominating the mid-frame, tools arranged with the precision of someone who planned their absence. Dust in slow columns of light from a single overhead skylight. On the bench: a half-assembled brass mechanism (a Dischordia card-press, partially visible), a worn leather apron folded neatly, a coffee mug left upside-down. Palette: cold institutional grey (#55606e) dominant, warm amber accent from the skylight (#d4a04a) catching brass edges, deep teal-cyan shadow in the corners. Film grain, volumetric dust beams. No rendered text.
+
+**END FRAME (Nano Banana 2):**
+
+> Same Bench, same camera. The Bench is now POWERED ON — subtle warm amber glow pulses from within the brass housing, one overhead rod-light has warmed from dim-cold-white to warm-tungsten. The half-assembled mechanism has moved 2cm (the hands that arranged it have not been visible, but it has changed position). A new object on the bench: a small folded scrap of paper with a single word handwritten (render as abstract calligraphic mark, not legible text). The dust columns now faintly glitter — as if something has entered the room without footfall. At the bottom of the frame, a subtle CYAN SUBSTRATE-SCANLINE overlay has appeared (The Human's signal arriving). Palette shifts: amber warmer, cyan scanline layer faintly visible. Film grain preserved. No rendered text.
+
+**VEO 3.1 MOTION PROMPT:**
+
+> 21-second one-shot cinematic. Camera locked static, no dolly, no pan. Narrative beats:
+> - 0.0–4.0s: held still, cold Bench, dust columns, Elara's narrator voice fades in underneath (audio hand-off; the cinematic itself is silent until the audio layer composites).
+> - 4.0–8.0s: a subtle warm light builds inside the brass housing from 0 to 30% intensity — the Bench is remembering it was ever ON.
+> - 8.0–12.0s: the overhead rod-light transitions from cold-white to warm-tungsten over 4 seconds. Dust columns shift in response. A single brass cog on the half-assembled mechanism rotates ~15° (no hand visible).
+> - 12.0–16.0s: the folded paper scrap APPEARS on the bench (fade-in, as if it was always there and we just now notice). Camera depth-of-field pulls fractionally toward it.
+> - 16.0–19.0s: the CYAN SUBSTRATE-SCANLINE overlay FADES IN at the bottom of the frame, rising 20% up the composition. The first visual indicator of The Human's signal arriving. Subtle.
+> - 19.0–21.0s: held on the end frame. Bench fully powered. Substrate visible. Room has been WOKEN.
+> 24fps, film grain preserved, no camera motion at any point.
+
+**SUNO v4 MUSIC BED:** see mus_act2_opener in §1.5.
+
+### 1.3 — CIN-ACT2-SILENCE — Silence of Two Witnesses (10s, P0)
+
+**Output:** `apps/client/public/videos/acts/act-2/cin_act2_silence_of_two_witnesses.mp4` · 16:9 · 1920×1080 · **Trigger:** Bond 60 milestone
+
+When both narrators fall silent simultaneously. Light/Dark energy freezes. The player hears their own breath for the first time since Act 1.
+
+**START FRAME (Nano Banana 2):**
+
+> Hyper-realistic cinematic still, 16:9 1920×1080. Current gameplay UI frozen — whatever surface the player was on when Bond hit 60, rendered in crisp detail but BLEACHED of color (60% desaturation), with a faint cold-grey cast. Two narrator portrait slots visible at upper-left and upper-right (Elara, The Human), both showing their subjects MID-SPEECH but frozen — mouth half-open, expression mid-emphasis. Film grain layer heavy. No rendered text.
+
+**END FRAME (Nano Banana 2):**
+
+> Same composition, held silence deepened. Both portraits' mouths have CLOSED — Elara now showing a slight downturn, The Human showing a slight upturn. Neither is speaking. The Light/Dark energy meter (if visible on that surface) is locked with a pale gold hairline around its entire border — the "frozen" visual. Heavy grain overlay (vfx_act2_silence_freeze_grain at full intensity). Palette: 80% desaturated, cold-grey cast. Film grain. No rendered text.
+
+**VEO 3.1 MOTION PROMPT:**
+
+> 10-second one-shot. Camera locked. Narrative beats:
+> - 0.0–2.0s: the bleached-UI start frame holds. Both portraits mid-speech, frozen.
+> - 2.0–4.0s: Elara's mouth closes gradually (3 frames of motion across 2 seconds). The Human's mouth closes on a different offset (starting 0.5s later, completing at 4.5s). The mouth-close-timing is deliberately NOT synced — they stop speaking at different moments, and we SEE that.
+> - 4.0–6.0s: held silence. Grain overlay intensifies from 40% to 80%.
+> - 6.0–8.0s: the Light/Dark meter's hairline golden frozen-border fades IN around its edges. Palette desaturates further.
+> - 8.0–10.0s: held on end frame. Pure silence. The longest silence the player has experienced. Film grain heaviest here.
+> 24fps. No camera motion. This is a STILLNESS cinematic.
+
+**SUNO v4 MUSIC BED:** see mus_act2_silence in §1.5. Critical: the music itself must END abruptly at 2.0s (mirroring the narrators falling silent), leaving 8 seconds of pure silence for the stillness to land.
+
+---
+
