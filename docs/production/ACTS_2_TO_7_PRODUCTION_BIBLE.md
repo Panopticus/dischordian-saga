@@ -639,7 +639,92 @@ The single most important character-beat cinematic in the entire bible. For the 
 
 **SUNO v4:** see mus_act4_memorial_corridor in §3.7 — this is the first time Elara's theme and The Human's theme play in the same cue. They don't harmonize; they're in DIFFERENT KEYS simultaneously (Elara in D-minor, Human in F-minor) held as a dissonant-but-not-ugly tension throughout the 15 seconds. No resolution. The tension is the point.
 
+### 3.5 — CIN-ACT4-KAEL-EXTRACTION-{1,2,3,4} — Collector's Arena memory reframe (6s each, P1)
+
+Four sibling cinematics that play BEFORE each of the §9 ACT_4_PRISONER_CHAPTERS boss fights. The Collector's Arena is reframed narratively as MEMORY EXTRACTION from Kael — each "boss fight" is actually the player pulling a specific memory out of Kael's mind.
+
+**Shared framing:** Kael (Part 2C Phase 2 Enslaved — shirtless, prisoner-bracers, brass medallion) is seated/bound in a dim clinical extraction chamber. Around him: warm fire-orange `vfx_act4_kael_memory_palace` overlay activates to visualize the memory being surfaced. Each chapter surfaces a different memory.
+
+**CIN-ACT4-KAEL-EXTRACTION-1 (The Cell)**
+
+- START FRAME: Kael bound in the chair, dim cool-clinical light, no memory-palace overlay yet.
+- END FRAME: vfx_act4_kael_memory_palace at 60% intensity forms a warm ring around him. Inside the ring, embers compose a faint CELL DOOR silhouette — the memory is of a PRISON CELL (not the Ark's, an earlier one from his enslavement). Kael's expression: braced.
+- MOTION: 0-1s held start. 1-3s memory-palace overlay activates and surfaces the cell-door silhouette over 2 seconds. 3-5s Kael's chest rises once — he is giving up the memory. 5-6s end held.
+
+**CIN-ACT4-KAEL-EXTRACTION-2 (The Extraction)**
+
+- START FRAME: same chamber, memory-palace overlay already partial (the previous memory still resolving).
+- END FRAME: memory-palace overlay reconfigures into a different pattern — embers compose a HAND reaching toward Kael's forehead. The memory is meta: a previous extraction BY someone else, before the player. Kael's expression: tired.
+- MOTION: 0-1s held start. 1-3s overlay shifts — cell-door shape dissolves, embers reform into a hand-shape. 3-5s Kael's head tilts away from the hand ~5°. 5-6s end held.
+
+**CIN-ACT4-KAEL-EXTRACTION-3 (Warlord Rematch)**
+
+- START FRAME: same chamber, memory-palace activated.
+- END FRAME: overlay forms a YELLOW-ARMORED WARLORD SILHOUETTE at the edge of the ring — Kael's memory of the Warlord before she was the host. The silhouette matches the Living Character Sheet bible Part 2T yellow-armor canon. Kael's expression: controlled rage.
+- MOTION: 0-1s held start. 1-3s warlord silhouette resolves over 2s. 3-5s Kael's jaw clenches visibly; fracture-tattoos (if visible) darken. 5-6s end held.
+
+**CIN-ACT4-KAEL-EXTRACTION-4 (White Oracle Meets)**
+
+- START FRAME: same chamber, memory-palace activated.
+- END FRAME: overlay forms a FIGURE-SILHOUETTE in flowing robes with a staff — the White Oracle (Kael's contact before his fall). The silhouette is luminous-white against the warm fire-orange ring. Kael's expression: grief + gratitude.
+- MOTION: 0-1s held start. 1-3s white-oracle silhouette forms from embers. 3-5s Kael closes his eyes briefly — this is the memory he did NOT want to give up. 5-6s end held.
+
+All four share the same composition + camera-lock; the VARIATION is entirely in the memory-palace overlay's ember patterns. Commission as one base plate (Kael in the chair) plus four END FRAME variants + one motion template.
+
+**SUNO v4:** see mus_act4_extraction_{1,2,3,4} in §3.7 — each is a 6s cue on a common harmonic foundation with distinct instrumentation per memory.
+
+### 3.6 — CIN-ACT4-ENGINEER-RECORDING-6 — "A Boy from Celebration" (12s, P1)
+
+**Output:** `.../act-4/cin_act4_engineer_recording_6.mp4` · **Trigger:** `engineer_recording_6_discovered` flag
+
+Sixth recording. The Engineer recounts his childhood in Celebration — the program before Sorrow.
+
+**START FRAME:** Same holographic rig as Recordings 2/3 from Part 1, inert beam.
+
+**END FRAME:** Engineer's hologram resolves in the beam — but FURTHER BACK than previous recordings, in his Phase 1 Prince form (cream-and-gold ceremonial attire, per Part 2V/W.3 canon). The blue-white hologram palette now tints warmer toward honey-gold — 30% amber mix. Behind him, embedded at 15% opacity: faint outlines of PARADE PENNANTS fluttering (Celebration iconography). He is YOUNGER in this recording — before everything. His expression: uncorrupted, earnest.
+
+**MOTION PROMPT:** 12-second one-shot. Camera locked.
+- 0-2s: inert rig.
+- 2-3s: beam activates with LESS static than Recordings 2-3 (this is an older recording, cleaner).
+- 3-6s: Prince Engineer assembles. The assembly particles are BRIGHTER than previous recordings — this memory is vivid. Honey-gold tint emerges over 3s.
+- 6-9s: parade pennants fade in behind him at 15% opacity over 3s.
+- 9-11s: he speaks (silent in cinematic). Pennants flutter gently.
+- 11-12s: dissolves. The pennants fade last — they linger 0.5s after he is gone.
+24fps, honey-gold + blue-white tint mix, film grain. Feels warmer than any previous Recording — this is the Engineer before the sorrow took him.
+
+### 3.7 — Suno v4 music prompts (Act 4)
+
+**mus_act4_opener** — `.../act-4-intro.mp3` · 21s
+
+> Suno v4 prompt: "Prison-cell night ambience, 21 seconds. Low ventilator drone underneath, held throughout. At 6 seconds a single metallic TICK (a cell light flickering or a pipe contracting in cool air). At 10.5 seconds, TWO seconds of near-silence — the ambient drone dips to 30% volume. From 12-17 seconds the drone returns and is joined by a distant low male humming — wordless, three slow notes in A-minor. Ends unresolved at 21 seconds. Cold, enclosed, watched. No percussion."
+
+**mus_act4_path_willing** — 12s
+
+> Suno v4 prompt: "12-second revelation cue — WILLING disclosure. Warm acoustic guitar fingerpicking in C-major opens at 0s. Layered at 4s with a single held female wordless vowel ('ah' on tonic). At 8s, low warm strings enter as grounding. Resolves on a major-6 chord at 11s. Hopeful in a grown-up way. The sound of the truth chosen freely."
+
+**mus_act4_path_discovery** — 12s
+
+> Suno v4 prompt: "12-second revelation cue — DISCOVERY. Same tonic starting note as mus_act4_path_willing but in A-minor. Opens with plucked harp (fragmented, unevenly spaced — notes like glimpses through gaps). Layered at 6s with a breathy flute playing a suspended-4th phrase. No resolution — ends on a held question. The sound of seeing through something."
+
+**mus_act4_path_betrayal** — 12s
+
+> Suno v4 prompt: "12-second revelation cue — BETRAYAL. Same tonic note but in D-minor. Opens with a single low piano cluster — dissonant, pressed-down. At 4s a distorted synth wash enters (cool, mechanical — the Hierarchy's signature). At 8s, the original acoustic motif from mus_act4_path_willing appears briefly at 30% volume, then is cut off by the distortion. Ends in grinding uncertainty. The sound of being overheard."
+
+**mus_act4_memorial_corridor** — 15s ★ KEY CUE
+
+> Suno v4 prompt: "15-second dual-theme cue for the Memorial Corridor. Elara's theme and The Human's theme play SIMULTANEOUSLY in DIFFERENT KEYS — Elara in D-minor (a cool-cyan string arrangement with breathy female vocal on tonic), The Human in F-minor (a warm-red low brass + held male vocal on F). Both begin at 0s. They do NOT harmonize. They do NOT resolve. The tension between them is HELD through all 15 seconds as a dissonant-but-not-ugly interval. At 10s a single low bell tolls once — neither theme acknowledges it. Ends on the same held dissonance it started on. 15 seconds of two people in a room who cannot harmonize but are nonetheless present to each other. No percussion. Critical: render the full 15s with the simultaneous layering intact."
+
+**mus_act4_extraction_1,2,3,4** — 6s each
+
+> Suno v4 base prompt (with per-memory instrumentation override): "6-second memory-extraction cue over a common foundation of low cello drone in D-minor. Per-memory instrumentation:
+> - Extraction 1 (The Cell): add a slow metronome tick (half-note quarters)
+> - Extraction 2 (The Extraction): add a breathy female wordless vowel on dominant
+> - Extraction 3 (Warlord Rematch): add low trombone note held
+> - Extraction 4 (White Oracle): add single high bell harmonic
+> Each variant shares the cello drone foundation; the added instrument reflects the memory's flavor. Each ends on the same unresolved drone. No percussion beyond the metronome in #1."
+
 ---
+
 
 
 
