@@ -1,5 +1,26 @@
 {
   "the_game_master_original_taunt_early": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster+Voices/act1_taunts/the_game_master_original_taunt_early.mp3",
   "the_game_master_original_taunt_late": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster+Voices/act1_taunts/the_game_master_original_taunt_late.mp3",
-  "the_game_master_original_taunt_mid": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster+Voices/act1_taunts/the_game_master_original_taunt_mid.mp3"
+  "the_game_master_original_taunt_mid": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster+Voices/act1_taunts/the_game_master_original_taunt_mid.mp3",
+  "vo_gm_climb_t0_pre_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t0_pre_01.mp3",
+  "vo_gm_climb_t0_pre_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t0_pre_02.mp3",
+  "vo_gm_climb_t0_post_win_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t0_post_win_01.mp3",
+  "vo_gm_climb_t0_post_win_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t0_post_win_02.mp3",
+  "vo_gm_climb_t0_post_loss_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t0_post_loss_01.mp3",
+  "vo_gm_climb_t1_pre_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t1_pre_01.mp3",
+  "vo_gm_climb_t1_pre_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t1_pre_02.mp3",
+  "vo_gm_climb_t1_post_win_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t1_post_win_01.mp3",
+  "vo_gm_climb_t1_post_loss_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t1_post_loss_01.mp3",
+  "vo_gm_climb_t1_post_loss_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t1_post_loss_02.mp3",
+  "vo_gm_climb_t2_pre_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t2_pre_01.mp3",
+  "vo_gm_climb_t2_pre_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t2_pre_02.mp3",
+  "vo_gm_climb_t2_post_win_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t2_post_win_01.mp3",
+  "vo_gm_climb_t2_post_win_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t2_post_win_02.mp3",
+  "vo_gm_climb_t2_post_loss_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t2_post_loss_01.mp3",
+  "vo_gm_climb_t3_pre_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t3_pre_01.mp3",
+  "vo_gm_climb_t3_pre_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t3_pre_02.mp3",
+  "vo_gm_climb_t3_post_win_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t3_post_win_01.mp3",
+  "vo_gm_climb_t3_post_win_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t3_post_win_02.mp3",
+  "vo_gm_climb_t3_post_loss_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t3_post_loss_01.mp3",
+  "vo_gm_climb_t3_post_loss_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_t3_post_loss_02.mp3"
 }
