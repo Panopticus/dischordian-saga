@@ -34,6 +34,8 @@ import {
   Crosshair, Move, Sparkles, BookOpen, MessageCircle,
 } from "lucide-react";
 import { ScreenReaderOnly, announce } from "@/components/a11y";
+import { motion, AnimatePresence } from "framer-motion";
+import KineticText from "@/components/void/KineticText";
 import { WarlordCountdownIndicator } from "@/components/match/WarlordCountdownIndicator";
 import { CardLockOverlay } from "@/components/match/CardLockOverlay";
 import { PlayRejectionToast } from "@/components/match/PlayRejectionToast";
@@ -1428,18 +1430,56 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         <PlayRejectionToast key={rejection.key} message={rejection.message} />
       )}
 
-      {/* Turn flash overlay */}
-      {turnFlash && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none animate-in fade-in zoom-in duration-300">
-          <div className="px-12 py-4 bg-black/80 backdrop-blur-md rounded-2xl border border-white/20">
-            <p className="font-display text-2xl sm:text-3xl tracking-[0.3em] text-white text-center" style={{
-              textShadow: turnFlash === "YOUR TURN" ? `0 0 var(--space-lg) ${factionColor}, 0 0 var(--space-2xl) ${factionColor}40` : `0 0 var(--space-lg) ${enemyColor}, 0 0 var(--space-2xl) ${enemyColor}40`,
-            }}>
-              {turnFlash}
-            </p>
-          </div>
-        </div>
-      )}
+      {/* Turn flash overlay — cinematic banner slide with KineticText
+          decode and a horizontal light-sweep behind the text. Fires on
+          mulligan, start-of-your-turn, and start-of-enemy-turn. Scales
+          with --motion-intensity; reduce-motion collapses to a plain
+          fade handled by AnimatePresence + the sweep's CSS rule. */}
+      <AnimatePresence>
+        {turnFlash && (
+          <motion.div
+            key={turnFlash}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none"
+          >
+            <motion.div
+              initial={{ x: turnFlash === "YOUR TURN" ? -120 : 120, opacity: 0, scale: 0.96 }}
+              animate={{ x: 0, opacity: 1, scale: 1 }}
+              exit={{ x: turnFlash === "YOUR TURN" ? 120 : -120, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 260, damping: 22 }}
+              className="relative px-12 py-4 bg-black/80 backdrop-blur-md rounded-2xl border border-white/20 overflow-hidden duelyst-turn-banner"
+              style={{
+                // Color the CSS custom prop the light-sweep reads from
+                // so the streak matches the active side's faction.
+                ["--banner-accent" as string]:
+                  turnFlash === "YOUR TURN" ? factionColor : enemyColor,
+              }}
+            >
+              <p
+                className="relative z-10 font-display text-2xl sm:text-3xl tracking-[0.3em] text-white text-center"
+                style={{
+                  textShadow:
+                    turnFlash === "YOUR TURN"
+                      ? `0 0 var(--space-lg) ${factionColor}, 0 0 var(--space-2xl) ${factionColor}40`
+                      : `0 0 var(--space-lg) ${enemyColor}, 0 0 var(--space-2xl) ${enemyColor}40`,
+                }}
+              >
+                <KineticText
+                  key={turnFlash}
+                  text={turnFlash}
+                  mode="decode"
+                  speed={35}
+                  showCursor={false}
+                  as="span"
+                />
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Tutorial overlay — Elara's guidance (BioWare-style: player-paced) */}
       {isTutorial && currentTutorialStep && (
@@ -1589,17 +1629,41 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
           })}
         </div>
 
-        {/* Mana crystals — large, glowing */}
+        {/* Mana crystals — filled orbs scale + glow-pulse with
+            --audio-bass so the HUD breathes with the soundtrack.
+            Spent mana (filled ≤ mana) and available mana (filled
+            within maxMana) read distinctly; unavailable slots stay
+            as faint wireframes. Transform scale is GPU-cheap. */}
         <div className="flex gap-1 flex-1 justify-center">
-          {Array.from({ length: 9 }, (_, i) => (
-            <div key={i} className={`w-5 h-5 rounded-full border-2 transition-all duration-300 ${
-              i < player.maxMana
-                ? i < player.mana
-                  ? "void-bg-sunk void-border shadow-[0_0_8px_color-mix(in oklch, var(--electric-blue) 60%, transparent)]"
-                  : "void-bg-sunk void-border"
-                : "bg-transparent border-white/5"
-            }`} />
-          ))}
+          {Array.from({ length: 9 }, (_, i) => {
+            const isActive = i < player.maxMana && i < player.mana;
+            const isMax = i < player.maxMana && i >= player.mana;
+            return (
+              <div
+                key={i}
+                className={`w-5 h-5 rounded-full border-2 transition-all duration-300 ${
+                  isActive
+                    ? "void-bg-sunk void-border"
+                    : isMax
+                      ? "void-bg-sunk void-border opacity-40"
+                      : "bg-transparent border-white/5"
+                }`}
+                style={
+                  isActive
+                    ? {
+                        // Scale pulses in step with the bass band;
+                        // boxShadow radius also widens on peaks. Both
+                        // calc() expressions fold to no-op when the
+                        // audio bus is zero (reduce-motion / no track).
+                        transform: "scale(calc(1 + var(--audio-bass, 0) * 0.18))",
+                        boxShadow:
+                          "0 0 calc(8px + var(--audio-bass, 0) * 14px) color-mix(in oklch, var(--electric-blue) 70%, transparent)",
+                      }
+                    : undefined
+                }
+              />
+            );
+          })}
         </div>
 
         {/* Action buttons */}
