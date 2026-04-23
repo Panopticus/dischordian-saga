@@ -1231,6 +1231,85 @@ The delivery should be Elara and The Human's voices overlaid on top of each othe
 
 ---
 
+## PART 8 — CONSOLIDATED SUNO v4 MUSIC MANIFEST
+
+Every music cue referenced across Parts 1-7. Grouped by act for batch-generation efficiency. 46 cues total.
+
+### 8.0 — Generation workflow
+
+1. Set Suno v4 preset: **"Cinematic — Orchestral + Electronic"** (or closest equivalent in current Suno interface)
+2. Duration: match the cue's duration EXACTLY (Suno v4 tends to over-generate — trim with `ffmpeg -t {duration}` post-render)
+3. Output: 48kHz stereo MP3, normalize to -14 LUFS (matches platform standard)
+4. For idle loops ≥ 30s: validate seamlessness by concatenating to self (`cat cue.mp3 cue.mp3 > test.mp3`) and checking no audible stitch at the loop point
+5. For dual-theme cues (Memorial Corridor, Voices Align): render in TWO PASSES — one for each theme — then mix in post at matched dynamic level
+
+### 8.1 — Master manifest
+
+| Cue ID | Duration | Act | Beat | Key | Instruments | Render difficulty |
+|---|---|---|---|---|---|---|
+| mus_act2_opener | 21s | 2 | Opener | D-minor | Cello, brass-filament, scanline hum | Easy |
+| mus_act2_silence | 10s | 2 | Bond 60 Silence | D-minor | Tenor+alto vocal chord | ★ Tricky (abrupt-cut) |
+| mus_act2_bench_ambient_loop | 60s | 2 | Bench idle | A-minor-ish | Bass-clarinet register hum, metallic tick | Medium (seamless loop) |
+| mus_act2_engineer_recording_underscore | 12s | 2-3 | Recordings 2,3,4,5 (reuse) | Unresolved | Static, warm piano chord | Easy |
+| mus_act3_opener | 21s | 3 | Opener | D-Dorian | Wind/grass, solo flute, distant bell | Easy |
+| mus_act3_thaloria_echo | 12s | 3 | Eyes bio flashback | A-major | Acoustic guitar, female hum | Easy |
+| mus_act3_eyes_fall | 14s | 3 | Eyes death | D-minor | Guitar → cello → high bell | ★ Tricky (frame-synced silence) |
+| mus_act3_infiltration_insurgency | 8s | 3 | Path commit | D-min → F-maj | Acoustic guitar + brass | Medium (shared opening) |
+| mus_act3_infiltration_empire | 8s | 3 | Path commit | D-min → maj7 | Lounge piano + brush drums | Medium (shared opening) |
+| mus_act3_infiltration_hierarchy | 8s | 3 | Path commit | D-minor | Church organ + violin harmonic | Medium (shared opening) |
+| mus_act4_opener | 21s | 4 | Opener | A-minor | Ventilator drone + male hum | Easy |
+| mus_act4_path_willing | 12s | 4 | Revelation | C-major | Guitar + female vocal + strings | Easy |
+| mus_act4_path_discovery | 12s | 4 | Revelation | A-minor | Harp + flute | Easy |
+| mus_act4_path_betrayal | 12s | 4 | Revelation | D-minor | Piano cluster + Hierarchy synth | Medium (distortion mix) |
+| **mus_act4_memorial_corridor** | **15s** | **4** | **★ Bond 80 Two Witnesses Meet** | **D-min + F-min DUAL** | **Strings+vocal // brass+vocal simultaneous** | **★★ Hard (dual-key render)** |
+| mus_act4_extraction_1 | 6s | 4 | Kael memory extraction 1 | D-minor | Cello drone + metronome | Easy |
+| mus_act4_extraction_2 | 6s | 4 | Kael memory extraction 2 | D-minor | Cello drone + female vowel | Easy |
+| mus_act4_extraction_3 | 6s | 4 | Kael memory extraction 3 | D-minor | Cello drone + low trombone | Easy |
+| mus_act4_extraction_4 | 6s | 4 | Kael memory extraction 4 | D-minor | Cello drone + high bell | Easy |
+| mus_act4_5_opener | 21s | 4.5 | DMC opener | Unresolved | Engine+shuffle through wall, violet synth | Medium |
+| mus_act4_5_identity_wager | 8s | 4.5 | Pre-race stake | D-minor | Piano + violet synth + ticks | Easy |
+| mus_act5_opener | 21s | 5 | Map reveal | A-minor | Breath + cello + bassoon | Medium |
+| mus_act5_bulb_dims | 8s | 5 | Vortex Advance | F-minor | Warm pad consumed by violet synth | Medium |
+| mus_act5_sector_wakes | 8s | 5 | Community reclamation | F-minor → major | Pad + golden brass + choir | ★ Hard (only fully-resolved cue) |
+| **mus_act5_iron_lion_final** | **14s** | **5** | **★ M7 death** | **D-major (→ min undertow)** | **Horn fanfare + cello counter** | **★★ Hard (triumph+mourning weave)** |
+| mus_act5_bridge_of_kael | 12s | 5 | Post-credits | G-major | Piano + tenor hum + harp glissando | Easy |
+| mus_act5_engineer_recording_7 | 12s | 5 | Final Recording | E-flat-minor | Two cellos (grieving duet) | Medium (UNIQUE — no reuse) |
+| mus_act6_opener | 21s | 6 | Three chairs | E-flat-major | Room-tone + cello + third breath | Easy |
+| mus_act6_elara_confession | 14s | 6 | Face resolve | D-minor | Strings with TIMBRAL transition | ★ Tricky (timbre-shift not note-shift) |
+| mus_act6_human_confession | 14s | 6 | Coat on chair | F-minor | Brass → solo trumpet → silence | Medium (instrumentation drop-outs) |
+| mus_act6_watcher_reveal | 8s | 6 | Watcher shape surfaces | No key | 40Hz subsonic + etherial harmonic | Medium (outside tonal palette) |
+| mus_act7_opener | 21s | 7 | Army reveal | D-major | Violin → brass → orchestral swell | Easy |
+| mus_act7_two_wars_transition | 8s | 7 | Invisible war revealed | D-maj + Watcher | Army theme + Watcher frequency | Medium |
+| **mus_act7_voices_align** | **15s** | **7** | **★★ Voices converge** | **D-min + F-min → D-MAJOR** | **Elara theme + Human theme CONVERGING** | **★★★ Hardest (spine's resolution)** |
+| mus_act7_stance_humanity | 5s | 7 | Stance closer | D-major | Warm gold brass → simplified triad | Easy |
+| mus_act7_stance_pattern | 5s | 7 | Stance closer | D-major fractal | Plucked strings at 4 rates | Medium |
+| mus_act7_stance_bridge | 5s | 7 | Stance closer | D-major | Stereo-alternating themes | Easy |
+| mus_act7_stance_command | 6s | 7 | Stance closer | D-major | Contract to solo trumpet | Easy |
+| mus_act7_final_line_ambient | 3s | 7 | Closing VO | D-major | Held cello tonic under VO | Easy |
+
+### 8.2 — Difficulty tier summary
+
+- **★★★ Hardest (1 cue):** `mus_act7_voices_align` — the spine's entire musical resolution. Requires simultaneous rendering of both narrators' themes converging to D-major.
+- **★★ Hard (2 cues):** `mus_act4_memorial_corridor` (dual-key dissonance held for 15s), `mus_act5_iron_lion_final` (triumph and mourning in the same composition with frame-synced silence).
+- **★ Tricky (4 cues):** `mus_act2_silence` (abrupt-cut to silence), `mus_act3_eyes_fall` (frame-synced silence), `mus_act5_sector_wakes` (only fully-resolved cue in bible), `mus_act6_elara_confession` (timbre-shift without note-shift).
+- **Medium (13 cues):** various technical considerations (seamless loops, distortion mixes, outside-tonal-palette, etc.)
+- **Easy (26 cues):** standard Suno v4 single-pass prompts
+
+**Total estimated music commission time:** ~3-5 working days assuming one Suno generator available. The 3 Hard cues (★★/★★★) will need multiple iterations each — budget 2-4 hours per hard cue vs. ~30 minutes per easy cue.
+
+### 8.3 — Theme reuse tracking
+
+Certain motifs recur across acts — commission these as STANDALONE motif files first, then reuse within the full cues:
+
+- **Elara's theme** (D-minor, cool-cyan strings + female vocal tonic): appears in Memorial Corridor + Voices Align. Render the 8-second core theme once; composite into both cues.
+- **The Human's theme** (F-minor, warm-red brass + male vocal F): same handling.
+- **Iron Lion's theme** (D-major horn fanfare): commission as a standalone from `mus_act5_iron_lion_final`'s first 3 seconds. Reuse in his memorial card audio + Trophy Room wall.
+- **Engineer recording underscore** (§1.7 mus_act2_engineer_recording_underscore): literally reused across Recordings 2, 3, 4, 5. Commission once.
+- **Watcher's frequency** (subsonic 40Hz + etherial harmonic, no key): appears in `mus_act6_watcher_reveal` and `mus_act7_two_wars_transition`. Render once, reuse.
+
+---
+
+
 
 
 
