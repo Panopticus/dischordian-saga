@@ -1,0 +1,242 @@
+[
+  {
+    "id": "cades-m1-brief",
+    "speaker": "iron_lion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Scout's Gambit, one through. Go quiet. Come back with your count. Don't engage unless the count is at zero and you are it. Cades out.",
+    "context": "act5_cades_m1_brief",
+    "section": "§5.1 · Cades M1 — Scout's Gambit",
+    "emotion": "military_clipped",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m1-mid",
+    "speaker": "iron_lion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Movement on the ridge. You've got ninety seconds before the next sweep. Use them.",
+    "context": "act5_cades_m1_mid",
+    "section": "§5.1 · Cades M1 — Scout's Gambit",
+    "emotion": "military_clipped",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m1-debrief",
+    "speaker": "iron_lion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "You came back. Count holds. Next brief at oh-six. Rest. You earned the rest.",
+    "context": "act5_cades_m1_debrief",
+    "section": "§5.1 · Cades M1 — Scout's Gambit",
+    "emotion": "military_clipped",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m2-brief",
+    "speaker": "iron_lion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Digital Onslaught. Hold the node. Sixty seconds, minimum. The math doesn't care about your feelings. The node does.",
+    "context": "act5_cades_m2_brief",
+    "section": "§5.1 · Cades M2 — Digital Onslaught",
+    "emotion": "military_clipped",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m2-mid",
+    "speaker": "iron_lion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Wave three incoming. They always send the good one on three. Dig in. Breathe. Hold.",
+    "context": "act5_cades_m2_mid",
+    "section": "§5.1 · Cades M2 — Digital Onslaught",
+    "emotion": "military_clipped",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m2-debrief",
+    "speaker": "iron_lion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Node secure. You held the line we said couldn't be held. The line disagrees. Noted.",
+    "context": "act5_cades_m2_debrief",
+    "section": "§5.1 · Cades M2 — Digital Onslaught",
+    "emotion": "military_clipped",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m3-brief",
+    "speaker": "iron_lion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Void Corridor. Agent Zero's signal is live at the far end. Follow her voice. Do not answer on open comms. She is — was — the best of us.",
+    "context": "act5_cades_m3_brief",
+    "section": "§5.1 · Cades M3 — Void Corridor",
+    "emotion": "military_clipped",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m3-mid",
+    "speaker": "agent_zero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Left corridor, third junction. Walk, don't run. They hunt on kinetics. You stop being a target the moment you stop being interesting. Don't be interesting.",
+    "context": "act5_cades_m3_mid",
+    "section": "§5.1 · Cades M3 — Void Corridor",
+    "emotion": "haunted_signal_static",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m3-debrief",
+    "speaker": "iron_lion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "You made it out. You heard her. That means you heard her — which means she is still broadcasting. That's more than I expected to report today.",
+    "context": "act5_cades_m3_debrief",
+    "section": "§5.1 · Cades M3 — Void Corridor",
+    "emotion": "military_clipped",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m4-brief",
+    "speaker": "iron_lion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Kael's Own. No intro music on this one. You deserve the briefing without the bravado. There is a room at the end of this mission. Kael has been in it for a very long time.",
+    "context": "act5_cades_m4_brief",
+    "section": "§5.1 · Cades M4 — Kael's Own",
+    "emotion": "military_clipped_quiet",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m4-mid",
+    "speaker": "engineer_recall",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "Right turn at the third door. Not because the left is dangerous — because the right is mine. I want you to see it. I haven't had a visitor in a long time.",
+    "context": "act5_cades_m4_mid",
+    "section": "§5.1 · Cades M4 — Kael's Own",
+    "emotion": "measured_tired",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m4-debrief",
+    "speaker": "iron_lion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "You saw what he left. He is — he was — a better man than I gave him credit for. I'll sign the revised report tomorrow. Tonight the record stays as you wrote it.",
+    "context": "act5_cades_m4_debrief",
+    "section": "§5.1 · Cades M4 — Kael's Own",
+    "emotion": "military_clipped_shaken",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m5-brief",
+    "speaker": "iron_lion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Operation Trojan Downfall. Joint assault. There will be a moment in this operation where the math breaks in our favor and we lose a squad anyway. I have to tell you that before we start. You will feel it. Keep moving afterward.",
+    "context": "act5_cades_m5_brief",
+    "section": "§5.1 · Cades M5 — Operation Trojan Downfall",
+    "emotion": "military_clipped_warning",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m5-mid",
+    "speaker": "iron_lion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "That's the one. Squad seven is gone. You will feel it. Stop if you need to. Start again when the feeling tells you to.",
+    "context": "act5_cades_m5_mid",
+    "section": "§5.1 · Cades M5 — Operation Trojan Downfall",
+    "emotion": "military_clipped_quiet",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m5-debrief",
+    "speaker": "iron_lion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Objective taken. Seven dead. I read the names aloud once a month. Next month I will read theirs. You are welcome to listen.",
+    "context": "act5_cades_m5_debrief",
+    "section": "§5.1 · Cades M5 — Operation Trojan Downfall",
+    "emotion": "military_clipped_quiet",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m6-brief",
+    "speaker": "iron_lion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "M-six. You're meeting someone I haven't talked about yet. Her name is Vex Solène. She was a diplomat before she was this. She will take over the comms after you shake her hand. Accept that handshake.",
+    "context": "act5_cades_m6_brief",
+    "section": "§5.1 · Cades M6 — Vex arrives",
+    "emotion": "military_clipped",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m6-mid",
+    "speaker": "vex_solene",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "I know what you came for. I know who sent you. I know which of my sentences you are recording. Hello. I'm glad it's you.",
+    "context": "act5_cades_m6_mid",
+    "section": "§5.1 · Cades M6 — Vex arrives",
+    "emotion": "wry_trailing",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m6-debrief",
+    "speaker": "vex_solene",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "The Lion has handed you off. Don't mourn the handoff. He's tired. I'm rested. Between the two of us we will keep getting you home. Get some sleep.",
+    "context": "act5_cades_m6_debrief",
+    "section": "§5.1 · Cades M6 — Vex arrives",
+    "emotion": "wry_trailing",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m7-brief",
+    "speaker": "iron_lion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Last Stand. I'll be brief. I have to be. I'm not going to lie to you about what this is. Hold the corridor while the cargo loads. I will not be loading with it.",
+    "context": "act5_cades_m7_brief",
+    "section": "§5.1 · Cades M7 — Iron Lion's Last Stand",
+    "emotion": "military_clipped_quiet",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m7-mid",
+    "speaker": "iron_lion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "If you see the wall, turn right. The left is where they flank. I love you all. Go.",
+    "context": "act5_cades_m7_mid",
+    "section": "§5.1 · Cades M7 — Iron Lion's Last Stand",
+    "emotion": "military_clipped_final",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "cades-m7-debrief",
+    "speaker": "engineer_recall",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "He turned right. He turned right so you could keep going. I will write him up in the record with the three words he would have wanted: he held the line. That is all.",
+    "context": "act5_cades_m7_debrief",
+    "section": "§5.1 · Cades M7 — Iron Lion's Last Stand",
+    "emotion": "measured_tired_grief",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "bridge-of-kael-1",
+    "speaker": "engineer_recall",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "The console wakes up. It hasn't seen a user in — a long count. Good morning. I'm still here. In the way you would expect me to still be here.",
+    "context": "act5_bridge_of_kael_1",
+    "section": "§5.1 · Act 5 Bridge of Kael post-credits",
+    "emotion": "tired_gentle",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "bridge-of-kael-2",
+    "speaker": "engineer_recall",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "The Dischordia card is on the deck now. Take it. It is the one I could not finish. You will finish it by not finishing it. Play it once. Then don't play it for a while. That's how the Engineer would have used it. That's how I used it too.",
+    "context": "act5_bridge_of_kael_2",
+    "section": "§5.1 · Act 5 Bridge of Kael post-credits",
+    "emotion": "tired_gentle",
+    "outputDir": "audio/act5"
+  },
+  {
+    "id": "bridge-of-kael-3",
+    "speaker": "engineer_recall",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "Thank you for coming back to the bridge. I will not be here the next time. Somebody else will. They will be kinder than I was. They will be worse at chess. They will be better at the rest.",
+    "context": "act5_bridge_of_kael_3",
+    "section": "§5.1 · Act 5 Bridge of Kael post-credits",
+    "emotion": "tired_gentle_final",
+    "outputDir": "audio/act5"
+  }
+]

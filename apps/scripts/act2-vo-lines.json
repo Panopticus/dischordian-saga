@@ -1,0 +1,282 @@
+[
+  {
+    "id": "human_commentary_1",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "I watched your tutorial. Elara's a good teacher. Patient. Thorough. But she only showed you one way to play. Every game on this Ark has two layers. The surface — what Elara teaches — and the substrate. The deeper mechanics. I'm not saying her way is wrong. I'm saying there's more.",
+    "context": "act2_human_whisper_intro",
+    "section": "§1 · The Human — Act 2 Whisper intro",
+    "emotion": "conspiratorial",
+    "outputDir": "vo/act2"
+  },
+  {
+    "id": "human_commentary_2",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "From now on, when you play, you might notice my signal in the background. Brief transmissions. Alternative strategies. A different voice. Think of it as a second opinion. From someone who sees the game from inside the walls.",
+    "context": "act2_human_whisper_intro",
+    "section": "§1 · The Human — Act 2 Whisper intro",
+    "emotion": "conspiratorial",
+    "outputDir": "vo/act2"
+  },
+  {
+    "id": "elara_recognition",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "I'm detecting substrate activity during your gameplay sessions. The Human's signal. They're commenting. On your performance. On my teaching. I can't block it. But I want you to know: I'm aware of it. And I'm watching. Don't let a voice in the walls tell you how to live your life.",
+    "context": "act2_elara_substrate_recognition",
+    "section": "§2 · Elara — Substrate Recognition",
+    "emotion": "measured_protective",
+    "outputDir": "vo/act2"
+  },
+  {
+    "id": "bench-first-power-on",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "The bench powers on. It hums in a frequency you have heard before — on the Deck, in the reactor, in Elara's voice when she is reading old files. All three tuned to the same note.",
+    "context": "act2_bench_first_power_on",
+    "section": "§3 · Engineer's Bench Framing",
+    "emotion": "quiet_wonder",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "bench-elara-ambient",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "This bench… hums the same way his Deck did. Like it remembers him. I think he built it to build the Dischordia and then left it running. Just in case. Just in case one of us woke up.",
+    "context": "act2_bench_ambient_elara",
+    "section": "§3 · Engineer's Bench Framing",
+    "emotion": "wistful",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "bench-human-ambient",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "She's right. He built it twice. Once before Mechronis, and once after Nexon. The second time was the one that worked. Don't ask me how I know. I watched it.",
+    "context": "act2_bench_ambient_human",
+    "section": "§3 · Engineer's Bench Framing",
+    "emotion": "conspiratorial_low",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "bench-first-light-craft",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "You forge your first card. It is embarrassingly small — a Common with a tiny effect. That is intentional. The bench is teaching you what a card IS before it teaches you what a card CAN BE.",
+    "context": "act2_bench_first_light_craft",
+    "section": "§3 · Engineer's Bench Framing",
+    "emotion": "neutral_dry",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "bench-first-dark-craft",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "You forge a dark card. The bench hums at a lower frequency. Elara flinches in the slot. The Human nods once, as if to say: be honest about what you are making.",
+    "context": "act2_bench_first_dark_craft",
+    "section": "§3 · Engineer's Bench Framing",
+    "emotion": "neutral_dry",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "bench-out-of-memory-energy",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The Memory Energy reserve is empty. The bench will not turn away — it will only wait. If you want more, the Trade Empire is the answer, and you already know it. That is the point of this moment.",
+    "context": "act2_bench_out_of_memory_energy",
+    "section": "§3 · Engineer's Bench Framing",
+    "emotion": "neutral_dry",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "zephyr-tier-1",
+    "speaker": "zephyr_9",
+    "voiceId": "KSh0G8kOAWOgMbf9FWEL",
+    "text": "You may play. I will not let you win. I will not let you lose quickly. Both take time.",
+    "context": "act2_zephyr_classroom_tier_1",
+    "section": "§4 · Zephyr-9's Classroom",
+    "emotion": "precise_mechanical",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "zephyr-tier-3",
+    "speaker": "zephyr_9",
+    "voiceId": "KSh0G8kOAWOgMbf9FWEL",
+    "text": "Now you may peek at the top card of your deck before drawing. This is not cheating. This is chess applied to cards. Both games reward knowing what's coming.",
+    "context": "act2_zephyr_classroom_tier_3",
+    "section": "§4 · Zephyr-9's Classroom",
+    "emotion": "precise_mechanical",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "zephyr-tier-5",
+    "speaker": "zephyr_9",
+    "voiceId": "KSh0G8kOAWOgMbf9FWEL",
+    "text": "You may now un-do a single move per match. Use it sparingly. Quarchon have no un-do; we regret in other ways.",
+    "context": "act2_zephyr_classroom_tier_5",
+    "section": "§4 · Zephyr-9's Classroom",
+    "emotion": "precise_mechanical",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "zephyr-tier-8",
+    "speaker": "zephyr_9",
+    "voiceId": "KSh0G8kOAWOgMbf9FWEL",
+    "text": "I will teach you the Engineer's Opening. It is the first hand he ever drew in a tournament. It is also the last hand he ever drew in one. There is a lesson in the symmetry.",
+    "context": "act2_zephyr_classroom_tier_8",
+    "section": "§4 · Zephyr-9's Classroom",
+    "emotion": "precise_mechanical",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "game-master-first-loss",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "You lose. You were always going to lose. The Game Masters are reading your moves from the Matrix of Dreams. They read them before you make them. The only way to beat a Game Master at chess is to beat a Game Master in the Arena. Ask Zephyr-9 how.",
+    "context": "act2_game_master_first_loss_system",
+    "section": "§5 · The Game Masters",
+    "emotion": "neutral_reveal",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "left-gm-first-contact",
+    "speaker": "game_master_left",
+    "voiceId": "BCJrrrZvds7k3qzM9nXU",
+    "text": "I read from your left hemisphere. That is the logic one. I find it disappointing in almost every species, but I am fair. I will tell you when you play well. I will not tell you often.",
+    "context": "act2_left_gm_first_contact",
+    "section": "§5 · The Game Masters",
+    "emotion": "measured_arithmetic",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "left-gm-first-defeat",
+    "speaker": "game_master_left",
+    "voiceId": "BCJrrrZvds7k3qzM9nXU",
+    "text": "You played the arithmetic correctly. The arithmetic was the wrong question. I will not tell you the right question tonight. Come back.",
+    "context": "act2_left_gm_first_defeat",
+    "section": "§5 · The Game Masters",
+    "emotion": "measured_arithmetic",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "left-gm-first-victory",
+    "speaker": "game_master_left",
+    "voiceId": "BCJrrrZvds7k3qzM9nXU",
+    "text": "You beat the arithmetic. You did not beat the question. The question is what I am for. You will see me again.",
+    "context": "act2_left_gm_first_victory",
+    "section": "§5 · The Game Masters",
+    "emotion": "measured_arithmetic",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "left-gm-repeat-victory",
+    "speaker": "game_master_left",
+    "voiceId": "BCJrrrZvds7k3qzM9nXU",
+    "text": "Again. Good. Repetition is the only teacher I respect. Come back tomorrow. I will be waiting in the same configuration.",
+    "context": "act2_left_gm_repeat_victory",
+    "section": "§5 · The Game Masters",
+    "emotion": "measured_arithmetic",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "right-gm-first-contact",
+    "speaker": "game_master_right",
+    "voiceId": "IPETV0e5tVE7Fjwi8XIC",
+    "text": "I read from your right hemisphere. That is the pretty one. I am not fair. I am, however, extremely entertaining. Sit.",
+    "context": "act2_right_gm_first_contact",
+    "section": "§5 · The Game Masters",
+    "emotion": "theatrical_cruel",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "right-gm-first-defeat",
+    "speaker": "game_master_right",
+    "voiceId": "IPETV0e5tVE7Fjwi8XIC",
+    "text": "Oh, darling. That was a READ. That was a WHOLE BOOK. I am keeping this one in the drawer where I keep the good ones.",
+    "context": "act2_right_gm_first_defeat",
+    "section": "§5 · The Game Masters",
+    "emotion": "theatrical_cruel",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "right-gm-first-victory",
+    "speaker": "game_master_right",
+    "voiceId": "IPETV0e5tVE7Fjwi8XIC",
+    "text": "You win. Nobody wins the right hemisphere. Nobody. I am genuinely delighted. I will tell the Left one, and he will be genuinely unable to process it.",
+    "context": "act2_right_gm_first_victory",
+    "section": "§5 · The Game Masters",
+    "emotion": "theatrical_cruel",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "right-gm-repeat-victory",
+    "speaker": "game_master_right",
+    "voiceId": "IPETV0e5tVE7Fjwi8XIC",
+    "text": "Twice. Now that IS a storyline. I am writing notes about you. The notes are flattering. The flattery is part of the trap. Come back.",
+    "context": "act2_right_gm_repeat_victory",
+    "section": "§5 · The Game Masters",
+    "emotion": "theatrical_cruel",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "silence-elara",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "She says nothing. Her portrait flickers but does not resolve into speech.",
+    "context": "act2_silence_of_two_witnesses_elara_parenthetical",
+    "section": "§6 · Silence of Two Witnesses",
+    "emotion": "whisper_heavy_reverb",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "silence-human",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "He says nothing either. His trench coat is still on screen; his voice is not.",
+    "context": "act2_silence_of_two_witnesses_human_parenthetical",
+    "section": "§6 · Silence of Two Witnesses",
+    "emotion": "whisper_heavy_reverb",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "climb-tier-0-won-elara",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "You took two games off the Game Master at Exhibition. That is not nothing. He smiles when he says you did. I am not sure the smile means what he wants us to think it means.",
+    "context": "act2_climb_tier_0_won_elara",
+    "section": "§7 · Chess Climb Tier Reactions",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "climb-tier-1-won-human",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Wagered tier, cleared. You paid the ELO and got it back with interest. The host on the clipboard is reading from a new page now. Watch his hands while he does it.",
+    "context": "act2_climb_tier_1_won_human",
+    "section": "§7 · Chess Climb Tier Reactions",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "climb-tier-2-won-elara",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "Hierarchy Table. You beat the demon with the clipboard. He will send you an Annotated Knight and forget to mention it is also a summons. Accept anyway. The note it comes with is the thing.",
+    "context": "act2_climb_tier_2_won_elara",
+    "section": "§7 · Chess Climb Tier Reactions",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act2"
+  },
+  {
+    "id": "climb-tier-3-won-human",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Labyrinth Wager. Mol'Garath was at the audience, and you did not flinch. The Engineer finished that maze once. You're the second. There is a conversation you are now allowed to have. Don't skip it.",
+    "context": "act2_climb_tier_3_won_human",
+    "section": "§7 · Chess Climb Tier Reactions",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act2"
+  }
+]
