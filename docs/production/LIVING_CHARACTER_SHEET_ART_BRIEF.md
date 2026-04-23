@@ -2930,3 +2930,50 @@ Consolidates every Veo 3.1 / Seedance 2.0 motion clip referenced throughout Part
 
 ---
 
+### CIN-ARCH-01 — Architect mask-ignition reveal (6s one-shot, P0)
+
+**Output:** `apps/client/public/videos/character-sheet/architect_mask_ignition.mp4` · **Aspect:** 1:1 square · **Resolution:** 2048×2048
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 1:1 square, 2048×2048. The Architect in default bust framing: tall hooded figure in deep black cloak, full-face black metallic demon mask with fractal wing/flame ridges at the forehead, piercing golden-amber eyes at baseline 0.8 intensity visible through narrow eye-slits, silver fractal sigil pendant at the chest pulsing softly. Pure void backdrop. Subject-lighting only — the amber eye-glow bounces on the mask cheekbones, the silver pendant casts a cool faint glow up onto the underside of the hood. Still, composed, authoritative. Film grain. 4K. No rendered text.
+
+**END FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 1:1 square, 2048×2048. Same Architect, same framing, same hood and cloak — but the MASK HAS FRACTURED. A hairline fracture now runs from the left cheekbone of the mask down to the lower jaw, with VIOLET-AMBER LIGHT LEAKING THROUGH the crack. A single thin tear of the same violet-amber light runs down from the crack (as if weeping inside-out light). Eye-amber at maximum 2.0 intensity — overdriven HDR bloom, near white-hot cores. Silver sigil pendant at the chest now pulsing rapidly at 1.0 intensity, with brief multi-layered inner glow hints (violet and amber secondary channels). Pure void backdrop unchanged. Held beat — he is exposed in a way he has never been before, but he is still here. Film grain. 4K. No rendered text.
+
+**VEO 3.1 MOTION PROMPT:**
+> 6-second one-shot mask-ignition reveal. Camera locked static, 1:1 square.
+> - **0.0–1.5s (statue baseline):** Architect stands composed at baseline. No breathing (statue rig). Eye-amber steady at 0.8. Sigil pendant pulses slowly at 4s period. Hood drape drifts subtly.
+> - **1.5–3.0s (internal pressure):** Maskvibration crack-glow begins — faint violet-amber hairlines activate inside the mask along the forehead ridges and cheekbone seams, brightening from 0 to 0.4. Eye-amber ramps from 0.8 to 1.2. Sigil pendant pulse accelerates to 2s period. Nothing else moves — only the emissive fields.
+> - **3.0–4.5s (fracture):** A single hairline crack BECOMES VISIBLE as a physical rupture on the mask surface — starting at the left cheekbone ridge and traveling downward toward the jawline over 1.5s. Violet-amber light bleeds out of the crack in real-time, brightening as the crack extends. Eye-amber continues ramping, now 1.5. Sigil pendant pulse at 1s period.
+> - **4.5–5.5s (tear emerges):** A single thin tear-drop of violet-amber light forms at the crack's midpoint and begins running DOWNWARD along the mask surface, leaving a faint residual trail. This is the weeping beat. Eye-amber hits maximum 2.0 on the tear-emergence frame. Sigil pulse rapid 0.5s period.
+> - **5.5–6.0s (held):** Everything freezes at the END FRAME pose. The tear has run ~3cm down the mask face, still glowing. The mask is permanently fractured now. Architect has not moved. He is still composed. But something has cracked through.
+> Cinematography: locked static camera, no motion. All motion is in the emissive fields and the single crack-fracture-tear. 24fps. Film grain preserved.
+
+**Audio hand-off note:** Bell-tone ring building slowly (0.0–3.0s), sharp crystal-crack beat at 3.0s, resonant sustain of a single note through 6.0s — the bell rung from inside has cracked the bell.
+
+---
+
+### CIN-PROG-01 — Programmer → Antiquarian aging (12s one-shot, P1)
+
+**Output:** `apps/client/public/videos/character-sheet/programmer_antiquarian_aging.mp4` · **Aspect:** 16:9 · **Resolution:** 1920×1080
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9 1920×1080. YOUNG Programmer (per Part 2R canon): late 20s / early 30s, thin angular pale-skin face, clean-shaven, dark short hair under a black FLAT CAP tilted forward at a casual angle low over the brow. Wearing BRASS-AND-GOLD STEAMPUNK GOGGLES with RED-PINK emissive lenses (grid pattern visible inside). Black high-collar jacket, small gold pendant on chain. Pose: standing on a high rooftop vantage, head turned 30° to viewer's right, looking out over a SHIBUYA-STYLE CYBERPUNK MEGAPLAZA at night — vast neon-lit buildings with massive holographic billboards (blue, magenta, pink, green signage), crowds visible as tiny bokeh below. Lit by magenta-pink city ambient from below + red-pink glow from his own goggles. Film grain. 4K. No rendered text.
+
+**END FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9 1920×1080. ELDERLY Antiquarian (per Part 2D refined canon): late 50s to early 60s, weathered-scholar face with deep lifelines, sun-aged warm tan complexion, MAGNIFICENT long silver-white chest-length beard continuous with mustache, silver-AND-DARK mixed shoulder-length hair brushed back (dark streaks at front/crown — same dark as the Programmer's youth), DARK brown-black eyebrows (never greyed), pale blue-grey eyes. Wearing a black velvet frock coat with heavy raised gold baroque embroidery at lapels and shoulders. Backdrop: defocused tall library with wooden bookshelves receding, a large arched stained-glass window upper-right bleeding warm amber light, warm tungsten lamp glow. Head turned 25° to viewer's right. Film grain. 4K. No rendered text.
+
+**VEO 3.1 MOTION PROMPT:**
+> 12-second one-shot aging cinematic. Camera gently dollies in ~5% over the full duration. Scrubs `antiquarianEmergenceProgress` 0.0 → 1.0 over 12s. Narrative beats:
+> - **0.0–2.0s (young Programmer idle):** Young him stands on the cyberpunk rooftop. Goggle grid-pattern pulses once (data registering). City neon reflects on his jaw. Cityscape bokeh slowly drifts.
+> - **2.0–3.5s (goggle lift):** With one hand, the young Programmer LIFTS THE GOGGLES up onto the brim of his cap — the lenses dim from 0.7 to 0 as they rise, and his REAL EYES are exposed for the first time in the cinematic: pale blue-grey (#6b7a88) — matching the Antiquarian's eyes exactly. Held beat at 3.0s: clear young blue-grey eyes direct at camera.
+> - **3.5–6.0s (environment dissolve):** The Shibuya cityscape behind him begins to DISSOLVE — buildings fade into vertical geometry, neon signs soften into warm amber glows, crowd bokeh scatters. In their place, tall WOODEN BOOKSHELVES fade in (same compositional position, different subject). City street dust motes transition to library dust motes. Magenta-pink ambient shifts to warm tungsten amber.
+> - **6.0–10.0s (aging):** His face ages in real-time. Skin tans and weathers — lifelines deepen, the youthful smoothness yields to a scholar's weather. Dark hair LENGTHENS to shoulder length and mostly greys (dark streaks persist at front and crown — deliberately NOT pure silver). Dark eyebrows remain UNCHANGED (never greying). Clean-shaven jaw sprouts the magnificent silver-white beard, growing from short stubble to full chest-length gradually. The flat cap lifts off his head and dissolves upward out of frame. The goggles resting on the cap-brim follow the cap and disappear.
+> - **10.0–11.5s (costume transition):** The black high-collar jacket reshapes into the black velvet frock coat — fabric grows thicker and richer, gold baroque embroidery materializes along the lapels and shoulders with curling filigree work. The small gold pendant at his chest remains (same pendant — it crossed both phases). The white collar shirt beneath simplifies from the cyberpunk-formal to the open-neck ruffled-silk of the elderly scholar.
+> - **11.5–12.0s (held reveal):** Fully aged Antiquarian in his library. Beard full. Hair silver-and-dark. Eyes still blue-grey and direct at camera. The same man, thirty years later. He has made it through.
+> Cinematography: slow ~5% dolly-in across full 12s. 24fps. Film grain. Palette shifts from cyberpunk-magenta-pink (Phase 1) to library-warm-amber (Phase 2) linearly across 3.5-10.0s.
+
+**Audio hand-off note:** Synth-bass cyberpunk loop (0.0–3.0s), transitional ambient hum (3.0–6.0s), warm cello line emerging (6.0–12.0s). The cello is the Antiquarian's recurring motif.
+
+---
+
