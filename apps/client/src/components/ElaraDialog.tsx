@@ -336,7 +336,7 @@ function getPageChoices(path: string): { greeting: string; choices: DialogChoice
 }
 
 export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } = {}) {
-  const { speak: speakElara } = useElaraVO();
+  const { speak: speakElara, audio: elaraAudio } = useElaraVO();
   const [isOpen, setIsOpen] = useState(false);
   const [history, setHistory] = useState<ChatMessage[]>([]);
   const [choices, setChoices] = useState<DialogChoice[]>([]);
@@ -552,7 +552,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
               {/* ── HEADER ── */}
               <div className="flex items-center gap-3 px-4 py-3 border-b border-[var(--glass-border)]"
                    style={{ background: "linear-gradient(180deg, color-mix(in srgb, var(--glass-base) 50%, transparent) 0%, var(--bg-overlay) 100%)" }}>
-                <HolographicElara size="sm" isSpeaking={isLoading} />
+                <HolographicElara size="sm" isSpeaking={isLoading} audio={elaraAudio} />
                 <div className="flex-1 ml-1">
                   <h3 className="font-display text-sm font-bold text-white tracking-wider">ELARA</h3>
                   <p className="font-mono text-[10px] text-[var(--neon-cyan)]/70 tracking-widest">ARK NAVIGATOR // LORE KEEPER</p>
