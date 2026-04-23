@@ -915,7 +915,55 @@ Post-credits scene per §11.4 of `actsFourFiveShells.ts`. Fires ONCE when both f
 
 **SUNO v4:** see mus_act5_bridge_of_kael in §5.7.
 
+### 5.6 — CIN-ACT5-ENGINEER-RECORDING-7 — "Prayers in Metal" (12s, P1)
+
+**Output:** `.../act-5/cin_act5_engineer_recording_7.mp4` · **Trigger:** `engineer_recording_7_discovered`
+
+Final Engineer Recording. The bleakest. Departs from Recordings 2-6's holographic-rig format — this one is a DAMAGED signal, recorded in the moment before everything ended.
+
+**START FRAME:** The standard holographic rig on the Bench, but BROKEN — visible scorch marks on the cylinder housing, the projector beam inert but JITTERING (faint blue-white flicker with no content). The Bench itself around the rig is also in disarray: scattered tools, a knocked-over coffee mug, a small dark stain on the floor. Palette: Bench-warm amber, but everything cooler and sadder than previous Recording settings. Film grain heavy.
+
+**END FRAME:** Beam is FULLY ACTIVE but HEAVILY corrupted — the Engineer's hologram is PARTIALLY PRESENT, with large sections missing (maybe 40% of his form is just absence). What IS visible: his face, his shoulders, and one hand. His hologram palette is mostly GREY (desaturated from blue-white) with occasional warm-amber flickers. His expression: the most exhausted he has ever been. Behind him, faintly embedded at 5% opacity: not a younger self, not a corrupted shape, just EMPTY ROOM. He is alone when he records this, and the Ark knows it. Film grain heavy.
+
+**MOTION PROMPT:**
+
+> 12-second one-shot. Camera locked. This is the last Recording — the Engineer's final words. Beats:
+> - 0-2s: damaged rig, jittering empty beam, disarray on Bench.
+> - 2-4s: beam STRUGGLES to activate — full static for 2s, failed attempts.
+> - 4-7s: Engineer's hologram resolves at only 60% completeness. Missing sections are random — shifting per frame as the signal degrades. Face is always present (he fought to make the face transmit); body is intermittent.
+> - 7-10s: he speaks silently. His hand occasionally reaches toward camera and is then missing for 1-2 frames before reappearing.
+> - 10-11s: recording BEGINS TO FAIL — static RAMPS from 20% to 80% over 1 second, the hologram is dissolving.
+> - 11-12s: beam cuts to pure blue-white static for 0.5s, then goes DARK. The rig sparks once and stills. End frame. He is gone.
+> 24fps, grey-dominant palette with rare warm-amber flicker. Film grain heavy. This is an ENDING cinematic.
+
+### 5.7 — Suno v4 music prompts (Act 5)
+
+**mus_act5_opener** — 21s
+
+> Suno v4 prompt: "Ration-wrapper-map ambience, 21 seconds. Opens with 7 seconds of near-silence — just a faint air-hiss and the sound of Kael's hoarse breath reading aloud (wordless — register only). At 7s a low held cello note enters in A-minor, sustained. At 14s a second low instrument joins (bassoon, held) — layered below the cello at a tritone interval. At 20s a single distant gunshot audio CRACK echoes once. Ends unresolved. Grief in a locked room."
+
+**mus_act5_bulb_dims** — 8s
+
+> Suno v4 prompt: "8-second consumption stinger. Opens with one held warm amber synth pad in F-minor. At 2s, a COLD violet synth begins to BLEED INTO the warm pad from the edges (stereo-wide panning), gradually dominating. At 5s the warm pad has been reduced to 30% while the violet is at 80%. Ends at 8s with the warm pad at 15%, nearly consumed. The sound of something being drained."
+
+**mus_act5_sector_wakes** — 8s
+
+> Suno v4 prompt: "8-second reclamation stinger. Paired counterpart to mus_act5_bulb_dims — shares harmonic foundation. Opens with a dim warm amber synth pad in F-minor. At 2s, a GOLDEN brass swell enters from below, slowly brightening. At 5s a small choir vowel joins on the major-3 (a single held 'ah'). At 8s the composition resolves on a major chord — the ONLY fully-resolved music cue in the entire bible. Hope, earned. The sound of something coming back."
+
+**mus_act5_iron_lion_final** — 14s ★ KEY CUE
+
+> Suno v4 prompt: "14-second score for Iron Lion's final broadcast. Must thread TRIUMPH and MOURNING in the same piece. Opens with Iron Lion's theme (horn fanfare in D-major, noble, held) at full dynamic for 3 seconds. At 3s, the horn BEGINS TO WAVER (pitch drifts slightly sharp then flat — the broadcast is failing). At 5s, the horn is joined by a low cello playing a MINOR-KEY counter-melody in D-minor — grief underneath the triumph. Both continue through 10s. At 11s, the cinematic CUTS TO BLACK for 1/24 second — render as a single beat of silence in the score (skip 0.042s at 11s). At 11.042s, both instruments RESUME. At 13s, they STOP ABRUPTLY (no decay). Static hiss fills 13-14s. Ends with single low mourning note on cello solo, unresolved. Critical: the horn theme is Iron Lion's SIGNATURE — render so it can be reused in his memorial card + Trophy Room wall."
+
+**mus_act5_bridge_of_kael** — 12s
+
+> Suno v4 prompt: "12-second post-credits closure cue. Opens with 2 seconds of silence, then a gentle piano chord in G-major. At 4s, a warm tenor hums wordlessly in octaves. At 8s, a single Dischordia-card-materialization sound (a soft harp glissando upward). At 10s, the tenor resolves onto the tonic and fades. Ends in silence at 12s. Gentle closure. No drama, just goodbye."
+
+**mus_act5_engineer_recording_7** — 12s (UNIQUE cue, no reuse)
+
+> Suno v4 prompt: "12-second score for Engineer's final recording. Opens with heavy broadcast static at 40% volume for 2 seconds — then the static SUDDENLY DROPS to 5% revealing a single solo cello playing a slow descending phrase in E-flat-minor. At 6s a second cello joins playing the same phrase a fifth below (grieving duet). At 10s, static RAMPS back from 5% to 80% across 1 second, drowning the cellos. At 11s, the beam cuts — render as sudden silence with only a faint room-hum. Ends at 12s. The bleakest cue in the bible. No reuse — this composition belongs to this moment only."
+
 ---
+
 
 
 
