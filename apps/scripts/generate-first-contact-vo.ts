@@ -157,16 +157,42 @@ async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
 }
 
 function mergeManifest(manifestPath: string, lineId: string, url: string): void {
+  // Sort-preserving merge: if the existing manifest is already sorted
+  // (most are), insert the new key in its alphabetical position so the
+  // diff is exactly +1 line. If it's NOT sorted, leave existing key
+  // order alone and append the new key at the end — preserves the
+  // author's intent and keeps diffs tight.
   let existing: Record<string, string> = {};
   if (fs.existsSync(manifestPath)) {
     existing = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
   }
-  existing[lineId] = url;
-  // Sort keys for deterministic diffs
-  const sorted = Object.fromEntries(
-    Object.entries(existing).sort(([a], [b]) => a.localeCompare(b)),
-  );
-  fs.writeFileSync(manifestPath, JSON.stringify(sorted, null, 2) + "\n");
+
+  const existingKeys = Object.keys(existing);
+  const isSorted =
+    existingKeys.length === 0 ||
+    existingKeys.every(
+      (k, i) => i === 0 || existingKeys[i - 1].localeCompare(k) <= 0,
+    );
+
+  let merged: Record<string, string>;
+  if (isSorted) {
+    // Insert new key in sorted position
+    merged = {};
+    let inserted = false;
+    for (const k of existingKeys) {
+      if (!inserted && lineId.localeCompare(k) < 0) {
+        merged[lineId] = url;
+        inserted = true;
+      }
+      merged[k] = k === lineId ? url : existing[k]; // existing entry wins on collision below
+    }
+    if (!inserted) merged[lineId] = url;
+  } else {
+    // Preserve existing order; new key appended at end
+    merged = { ...existing, [lineId]: url };
+  }
+
+  fs.writeFileSync(manifestPath, JSON.stringify(merged, null, 2) + "\n");
 }
 
 // ─── MAIN ───
@@ -190,6 +216,7 @@ async function main() {
   const errors: { npcId: string; error: string }[] = [];
   let generated = 0;
   let skipped = 0;
+  let attempted = 0; // counts both successes and errors so the progress prefix advances on every attempt
 
   for (const spec of FIRST_CONTACT_VO) {
     const npc = FACTION_NPCS[spec.npcId];
@@ -204,8 +231,9 @@ async function main() {
       continue;
     }
 
+    attempted++;
     try {
-      process.stdout.write(`[${generated + 1}/${FIRST_CONTACT_VO.length}] ${spec.npcId} (${spec.lineId})... `);
+      process.stdout.write(`[${attempted}/${FIRST_CONTACT_VO.length}] ${spec.npcId} (${spec.lineId})... `);
       const text = (spec.emotionPrefix ?? "") + npc.firstContact;
       const audio = await generateSpeech(text, spec.voiceId);
       const s3Key = `${spec.s3Prefix}/${spec.lineId}.mp3`;
