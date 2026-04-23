@@ -146,3 +146,96 @@ successful upload, so a re-run only sees the remainder.
 `--dry-run` runs entirely offline (no AWS SDK calls) and exits with
 status 1 if any line still needs uploading, 0 if everything is already
 CDN-form — suitable as a CI gate.
+
+---
+
+## Acts 2–7 spine (107 lines — added 2026-04-23)
+
+The seven-act spine closes with per-act VO batches covering bench/
+chess/Game-Masters (Act 2), Eyes whispers + infiltration pitches
+(Act 3), Prisoner chapters (Act 4), 20 Cades FPS missions + Bridge of
+Kael post-credits (Act 5), confession + 4 stance reactions (Act 6),
+and convergence + 5 final stances + prestige ceremony (Act 7).
+
+All six acts share a single generic generator
+(`apps/scripts/generate-act-vo.ts`) that takes `--act <N>` and loads
+`act<N>-vo-lines.json`. Per-act pnpm shortcuts:
+
+```bash
+pnpm vo:act2      # 28 lines
+pnpm vo:act3      # 19 lines
+pnpm vo:act4      # 8  lines
+pnpm vo:act5      # 24 lines
+pnpm vo:act6      # 15 lines
+pnpm vo:act7      # 13 lines
+pnpm vo:spine     # all six, sequentially
+```
+
+Standard flags (work on every act):
+
+```bash
+# Plan without calling ElevenLabs:
+pnpm tsx apps/scripts/generate-act-vo.ts --act 5 --dry-run
+
+# Skip lines whose voiceId is still TODO_*:
+pnpm tsx apps/scripts/generate-act-vo.ts --act 2 --skip-todo
+
+# Generate just one script section:
+pnpm tsx apps/scripts/generate-act-vo.ts --act 2 --only §5
+```
+
+### Voice IDs still needed
+
+27 of the 107 spine lines ship with `TODO_*` voice ID placeholders.
+Fill these in `apps/scripts/act<N>-vo-lines.json` (find/replace is
+fine — each placeholder appears multiple times):
+
+| Placeholder                    | Character          | Presence            |
+|--------------------------------|--------------------|---------------------|
+| `TODO_ZEPHYR_9_VOICE_ID`       | Zephyr-9           | Act 2 (×4)          |
+| `TODO_RIGHT_GM_VOICE_ID`       | Right Game Master  | Act 2 (×4)          |
+| `TODO_THE_EYES_VOICE_ID`       | The Eyes           | Act 3 (×8), Act 7 (×1) |
+| `TODO_KAEL_PRISONER_VOICE_ID`  | Kael Prisoner      | Act 4 (×8)          |
+| `TODO_VEX_SOLENE_VOICE_ID`     | Vex Solène         | Act 5 (×2)          |
+
+Presets + direction live in
+`docs/production/ACTS_2_THROUGH_7_ASSET_BIBLE.md` §0 (voice registry).
+
+### Existing voice IDs reused
+
+| Character / preset      | ElevenLabs ID              | Used in                                         |
+|-------------------------|----------------------------|-------------------------------------------------|
+| `elara` / EngineerZero  | `xMyNDrPFEtQN8iZtT7l2`     | all acts (including EngineerRecall Act 5)       |
+| `human` / TrenchCoat    | `oGbGJdgofRR8z0MxwI8L`     | all acts                                        |
+| `narrator` / neutral    | `VgFgBh5TnWeBhCBvCJ1E`     | Act 2/6/7 narrator lines                        |
+| `iron_lion`             | `UFc00HkV4yTNA1eMW99e`     | Act 5 Cades briefings + debriefs                |
+| `agent_zero`            | `F1waTCPWl7KpShIScYQs`     | Act 5 M3 Void Corridor                          |
+| `game_masters`          | `BCJrrrZvds7k3qzM9nXU`     | Act 2 Left Game Master                          |
+
+### Per-speaker voice_settings
+
+Baseline stability / similarity_boost / style tunings per preset are
+declared at the top of `generate-act-vo.ts` in `SPEAKER_SETTINGS`,
+with emotion-specific nudges in `EMOTION_NUDGES`. The generator
+composes base + nudge for each line and prepends a direction prefix
+(`*spoken warmly, unhurried...*`) so the TTS model gets both the
+tuning numbers and the creative direction.
+
+### Manifest layout
+
+Each act's manifest lands at `apps/shared/act<N>VoManifest.json`
+(Act 4.5 → `act4_5VoManifest.json`). Same shape as the existing
+speaker manifests — flat `{ [lineId]: url }` — so client code can
+read any manifest with the same loader.
+
+S3 layout: `s3://dgrsvoices/Act <N> Voices/<id>.mp3`.
+Local dev layout: `apps/client/public/<outputDir>/<id>.mp3` where
+`outputDir` is declared per-line (`audio/act2`, `vo/act6`, etc. to
+match the existing code's asset-path conventions).
+
+### Running from a machine with no S3 creds
+
+Unset `AWS_ACCESS_KEY_ID` + `AWS_SECRET_ACCESS_KEY` and the generator
+writes local MP3s only; the manifest gets dev-relative paths. Backfill
+to S3 later with `pnpm vo:s3-backfill` (when that script grows
+Acts 2-7 support; today it covers Prelude + Act 1 only).

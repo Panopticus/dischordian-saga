@@ -1,0 +1,192 @@
+[
+  {
+    "id": "eyes-whisper-abyssal_sectors",
+    "speaker": "the_eyes",
+    "voiceId": "TODO_THE_EYES_VOICE_ID",
+    "text": "You are in the Abyssal Sectors. The dark here was always dark. It is not mourning you. It is simply dark. Move quietly. The archives remember how quietly.",
+    "context": "act3_eyes_whisper_abyssal_sectors",
+    "section": "§2.1 · Eyes whispers — auxiliary sector pass",
+    "emotion": "cold_lower_register",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "eyes-whisper-syndicate_route_prime",
+    "speaker": "the_eyes",
+    "voiceId": "TODO_THE_EYES_VOICE_ID",
+    "text": "The Syndicate Route. They will offer you a clean ledger and a crooked map. Take the ledger. Burn the map. Tell them I said so. They will understand, or they will stop being Syndicate.",
+    "context": "act3_eyes_whisper_syndicate_route_prime",
+    "section": "§2.1 · Eyes whispers — auxiliary sector pass",
+    "emotion": "conspiratorial_close_mic",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "eyes-whisper-command_post_iron",
+    "speaker": "the_eyes",
+    "voiceId": "TODO_THE_EYES_VOICE_ID",
+    "text": "This is Iron Lion's command. Walk the perimeter before you speak. They have earned the walk. When you speak, speak less than you planned to. The iron ones hear the silences.",
+    "context": "act3_eyes_whisper_command_post_iron",
+    "section": "§2.1 · Eyes whispers — auxiliary sector pass",
+    "emotion": "respectful_no_irony",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "eyes-whisper-atarion_ruins",
+    "speaker": "the_eyes",
+    "voiceId": "TODO_THE_EYES_VOICE_ID",
+    "text": "Atarion. The first time I was human I was here. The second time I was human I was also here. The third time I came back was the last time I was human. It is a beautiful ruin. Let it be a ruin. It is still singing — just at a register no one left alive can hear.",
+    "context": "act3_eyes_whisper_atarion_ruins",
+    "section": "§2.1 · Eyes whispers — auxiliary sector pass",
+    "emotion": "nostalgic_slower",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "eyes-whisper-tidewater_archive",
+    "speaker": "the_eyes",
+    "voiceId": "TODO_THE_EYES_VOICE_ID",
+    "text": "Tidewater Archive. Third shelf. Ask for the Elara file. They will not give it to you. Ask anyway. The refusal is itself a signal.",
+    "context": "act3_eyes_whisper_tidewater_archive",
+    "section": "§2.1 · Eyes whispers — auxiliary sector pass",
+    "emotion": "dry_archival",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "kael-opener-01",
+    "speaker": "engineer_recall",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "They called me an archivist first. Then they called me an Engineer. They never once called me what I was. I built what I built so the record would outlive the names.",
+    "context": "act3_kael_opener_01",
+    "section": "§2.2 · Act 3 opener narration",
+    "emotion": "measured_tired",
+    "outputDir": "vo/act3"
+  },
+  {
+    "id": "kael-opener-02",
+    "speaker": "engineer_recall",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "You are in Act 3 now. This is the one where you are offered a role, and you will take one of them. There is no version of this that ends with you refusing every door. Choose the door you can live with.",
+    "context": "act3_kael_opener_02",
+    "section": "§2.2 · Act 3 opener narration",
+    "emotion": "measured_tired",
+    "outputDir": "vo/act3"
+  },
+  {
+    "id": "kael-opener-03",
+    "speaker": "engineer_recall",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "The Eyes will whisper. The three of them — Elara, the Human, and me — will not. We have nothing left to teach that a choice won't teach you faster.",
+    "context": "act3_kael_opener_03",
+    "section": "§2.2 · Act 3 opener narration",
+    "emotion": "measured_tired",
+    "outputDir": "vo/act3"
+  },
+  {
+    "id": "pitch-insurgency-elara",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "Insurgency is the path that says the Authority is the sickness. You won't fix it. You will help burn the parts that are already rotten and help the survivors build something smaller. Smaller is allowed to work. Large things — on this scale — never do.",
+    "context": "act3_pitch_insurgency_elara",
+    "section": "§2.2 · Act 3 opener narration",
+    "emotion": "protective_direct",
+    "outputDir": "vo/act3"
+  },
+  {
+    "id": "pitch-insurgency-human",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Insurgency is also the path that spends lives. Not many. Not unnecessarily. But some. You should know that before you pick it. The substrate will remember every one.",
+    "context": "act3_pitch_insurgency_human",
+    "section": "§2.2 · Act 3 opener narration",
+    "emotion": "level_cold",
+    "outputDir": "vo/act3"
+  },
+  {
+    "id": "pitch-empire-elara",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "Trade Empire is the path that treats power as leverage. You will not overthrow the Authority. You will make them need you. Once they need you, the price of the needing goes up. That is the trade.",
+    "context": "act3_pitch_empire_elara",
+    "section": "§2.2 · Act 3 opener narration",
+    "emotion": "protective_direct",
+    "outputDir": "vo/act3"
+  },
+  {
+    "id": "pitch-empire-human",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Trade Empire is also the path where you start to sound like them. Not because you're weak — because the vocabulary is the same and vocabulary shapes thought. Be careful who you copy for too long.",
+    "context": "act3_pitch_empire_human",
+    "section": "§2.2 · Act 3 opener narration",
+    "emotion": "level_cold",
+    "outputDir": "vo/act3"
+  },
+  {
+    "id": "pitch-hierarchy-elara",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "Hierarchy is the path that tells the truth inside the system. You will wear their badge. You will sign their paperwork. And you will rewrite it line by line, and nobody will notice the rewrite until it is already law.",
+    "context": "act3_pitch_hierarchy_elara",
+    "section": "§2.2 · Act 3 opener narration",
+    "emotion": "protective_direct",
+    "outputDir": "vo/act3"
+  },
+  {
+    "id": "pitch-hierarchy-human",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Hierarchy is also the path where you forget you ever wanted anything else. The uniform is comfortable. That is the entire trap. Wear it as a disguise, not as a home.",
+    "context": "act3_pitch_hierarchy_human",
+    "section": "§2.2 · Act 3 opener narration",
+    "emotion": "level_cold",
+    "outputDir": "vo/act3"
+  },
+  {
+    "id": "eyes-commit-insurgency",
+    "speaker": "the_eyes",
+    "voiceId": "TODO_THE_EYES_VOICE_ID",
+    "text": "You chose the Insurgency. I watched you choose it. Everything you do now, I will be there for. Not helping. Just — there. That is the deal.",
+    "context": "act3_eyes_commit_insurgency",
+    "section": "§2.2 · Act 3 eyes commit lines",
+    "emotion": "acknowledgement_warm_cold",
+    "outputDir": "vo/act3"
+  },
+  {
+    "id": "eyes-commit-empire",
+    "speaker": "the_eyes",
+    "voiceId": "TODO_THE_EYES_VOICE_ID",
+    "text": "You chose the Empire. Interesting choice. I will not tell you whether it was the right one. I will tell you, every quarter, whether you are still the one making the decisions.",
+    "context": "act3_eyes_commit_empire",
+    "section": "§2.2 · Act 3 eyes commit lines",
+    "emotion": "acknowledgement_warm_cold",
+    "outputDir": "vo/act3"
+  },
+  {
+    "id": "eyes-commit-hierarchy",
+    "speaker": "the_eyes",
+    "voiceId": "TODO_THE_EYES_VOICE_ID",
+    "text": "You chose Hierarchy. Bold. Boring. Possibly the right answer. I was a Hierarchy officer once, for a month. I kept the uniform. It still fits. Welcome.",
+    "context": "act3_eyes_commit_hierarchy",
+    "section": "§2.2 · Act 3 eyes commit lines",
+    "emotion": "acknowledgement_warm_cold",
+    "outputDir": "vo/act3"
+  },
+  {
+    "id": "kael-logs-unlocked-01",
+    "speaker": "engineer_recall",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "You beat the Warden. The Kael Logs are yours. I left them there. I knew somebody would reach them. I didn't know it would be you. Read them slowly. I was a worse writer than I was an Engineer.",
+    "context": "act3_kael_logs_unlocked_01",
+    "section": "§2.2 · Act 3 Kael logs discovery",
+    "emotion": "measured_tired",
+    "outputDir": "vo/act3"
+  },
+  {
+    "id": "kael-logs-unlocked-02",
+    "speaker": "engineer_recall",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "The first log is from the month I realized Elara would outlive me. The last log is from the day I found the Dischordia Cycle. Everything in between is a man arguing with himself about what a good ending looks like. You can skip around.",
+    "context": "act3_kael_logs_unlocked_02",
+    "section": "§2.2 · Act 3 Kael logs discovery",
+    "emotion": "measured_tired",
+    "outputDir": "vo/act3"
+  }
+]

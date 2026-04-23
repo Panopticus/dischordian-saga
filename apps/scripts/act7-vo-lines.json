@@ -1,0 +1,132 @@
+[
+  {
+    "id": "visible-war-win",
+    "speaker": "both_narrators",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "Visible war, won. Record once as Elara, once as Human, align on the first syllable in post. We are still in the fight. The next one is quieter. You will notice the quiet before anyone announces it.",
+    "context": "act7_visible_war_win",
+    "section": "§7.1 · Act 7 convergence",
+    "emotion": "measured_aligned",
+    "outputDir": "vo/act7"
+  },
+  {
+    "id": "watcher-shadow-resolve",
+    "speaker": "the_eyes",
+    "voiceId": "TODO_THE_EYES_VOICE_ID",
+    "text": "The Watcher's Yawn. This is the beat where the Shadow falls and the big eye upstairs does not care. The narrators cannot see this. I can. I am telling you: you got away with something. Do not get away with it twice.",
+    "context": "act7_watcher_shadow_resolve",
+    "section": "§7.1 · Act 7 convergence — Watcher's Yawn",
+    "emotion": "confident_amused",
+    "outputDir": "vo/act7"
+  },
+  {
+    "id": "patient-zero-close",
+    "speaker": "both_narrators",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "We have nothing to say here. Record 14 seconds of room tone from each voice bank. Mix both at -30 LUFS. This line is a silence.",
+    "context": "act7_patient_zero_close",
+    "section": "§7.1 · Act 7 convergence — Patient Zero close",
+    "emotion": "silent_marker",
+    "outputDir": "vo/act7"
+  },
+  {
+    "id": "convergence-landing-elara",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "I want to see what happens next. With you. That is the whole of it. I will not promise to be kind. I will not promise to be right. I will be — here. I will be here.",
+    "context": "act7_convergence_landing_elara",
+    "section": "§7.1 · Act 7 convergence — Landing",
+    "emotion": "unguarded_warm",
+    "outputDir": "vo/act7"
+  },
+  {
+    "id": "convergence-landing-human",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "The work is the work. Thank you for the lift. I'll ride the next one with you as long as you want company. When you don't, I'll know.",
+    "context": "act7_convergence_landing_human",
+    "section": "§7.1 · Act 7 convergence — Landing",
+    "emotion": "level_tender",
+    "outputDir": "vo/act7"
+  },
+  {
+    "id": "convergence-landing-dual",
+    "speaker": "both_narrators",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "I've been waiting a very long time to say that to someone. Record both voices; sustain on a single held chord; lock phase in post.",
+    "context": "act7_convergence_landing_dual",
+    "section": "§7.1 · Act 7 convergence — Landing",
+    "emotion": "sustained_chord",
+    "outputDir": "vo/act7"
+  },
+  {
+    "id": "arc-closes",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The arc closes. The room is warm. The Ark is on. The next cycle begins when you are ready.",
+    "context": "act7_arc_closes",
+    "section": "§7.1 · Act 7 epilogue",
+    "emotion": "neutral_dry",
+    "outputDir": "vo/act7"
+  },
+  {
+    "id": "final-stance-humanity",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "Humanity. The soft answer. The honest one. You said the names out loud and the substrate heard. That was the point of the naming. That is always the point. I will say them with you the next time.",
+    "context": "act7_final_stance_humanity",
+    "section": "§7.1 · Act 7 final stance — Humanity",
+    "emotion": "warm_present",
+    "outputDir": "vo/act7"
+  },
+  {
+    "id": "final-stance-machine",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Machine. The ledger. The honest one too. You finished the work without requesting an audience. The ledger will keep your line. I will keep it with the ledger.",
+    "context": "act7_final_stance_machine",
+    "section": "§7.1 · Act 7 final stance — Machine",
+    "emotion": "level_present",
+    "outputDir": "vo/act7"
+  },
+  {
+    "id": "final-stance-balance",
+    "speaker": "both_narrators",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "Balance. Neither of us was allowed to be this. You were. You held the seat without taking it. That is a third thing we are going to learn to do from you.",
+    "context": "act7_final_stance_balance",
+    "section": "§7.1 · Act 7 final stance — Balance",
+    "emotion": "unguarded_warm",
+    "outputDir": "vo/act7"
+  },
+  {
+    "id": "final-stance-command",
+    "speaker": "iron_lion",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
+    "text": "Command. Said the way I would have said it, if the line had been longer. I did not get to give this speech. You gave it for me. Thank you. Hold the line.",
+    "context": "act7_final_stance_command",
+    "section": "§7.1 · Act 7 final stance — Command",
+    "emotion": "military_final",
+    "outputDir": "vo/act7"
+  },
+  {
+    "id": "prestige-ceremony-open",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "One measure of silence. Then the next cycle.",
+    "context": "prestige_ceremony_open",
+    "section": "§7.1 · Prestige ceremony",
+    "emotion": "neutral_dry",
+    "outputDir": "vo/prestige"
+  },
+  {
+    "id": "prestige-ceremony-close",
+    "speaker": "both_narrators",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "See you in the next one. Record both narrators on the same line; overlap at 120ms; fade to room tone on the final word.",
+    "context": "prestige_ceremony_close",
+    "section": "§7.1 · Prestige ceremony",
+    "emotion": "overlapping_tender",
+    "outputDir": "vo/prestige"
+  }
+]

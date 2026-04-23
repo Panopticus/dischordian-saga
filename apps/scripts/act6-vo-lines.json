@@ -1,0 +1,152 @@
+[
+  {
+    "id": "elara-confession-01",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "I don't want to be remembered as the kind one. It is the easiest lie to leave behind, and the one I am least entitled to. Sit with me. I'm going to say the next part out loud.",
+    "context": "act6_elara_confession_01",
+    "section": "§6.1 · Act 6 confession — Elara",
+    "emotion": "unguarded_vulnerable",
+    "outputDir": "vo/act6"
+  },
+  {
+    "id": "elara-confession-02",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "The vote. The one that put Atarion under the siege. I cast it. I cast it on purpose. I told myself I voted to save more lives than I took. That is a real sentence with a true number inside it. It is also the sentence a person says when they want to keep sleeping.",
+    "context": "act6_elara_confession_02",
+    "section": "§6.1 · Act 6 confession — Elara",
+    "emotion": "unguarded_direct",
+    "outputDir": "vo/act6"
+  },
+  {
+    "id": "elara-confession-03",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "I went into the Ark because I could not face the families. Not because I wanted to keep building. That is the truth I have been dressing up as ambition for a long time.",
+    "context": "act6_elara_confession_03",
+    "section": "§6.1 · Act 6 confession — Elara",
+    "emotion": "unguarded_direct",
+    "outputDir": "vo/act6"
+  },
+  {
+    "id": "elara-confession-04",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "I am not asking for forgiveness. I'm asking you to not be surprised by me later. Surprise is the slow version of betrayal. I don't want you to go through betrayal again.",
+    "context": "act6_elara_confession_04",
+    "section": "§6.1 · Act 6 confession — Elara",
+    "emotion": "unguarded_direct",
+    "outputDir": "vo/act6"
+  },
+  {
+    "id": "elara-confession-05",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "That's it. That's the confession. I will be different now because you know it. Not better. Different. I won't perform being better. I will only stop performing being the kind one.",
+    "context": "act6_elara_confession_05",
+    "section": "§6.1 · Act 6 confession — Elara",
+    "emotion": "unguarded_final",
+    "outputDir": "vo/act6"
+  },
+  {
+    "id": "human-confession-01",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "I'm going to take this off before I start. The coat. The role. The badge. You have been talking to the role for most of this. That was my choice. It was also a mistake. Let me correct it while we still have the room.",
+    "context": "act6_human_confession_01",
+    "section": "§6.1 · Act 6 confession — The Human",
+    "emotion": "unguarded_vulnerable",
+    "outputDir": "vo/act6"
+  },
+  {
+    "id": "human-confession-02",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "I solved cases that weren't cases. I made them cases so I could solve them. I wanted to be useful in a way I had been trained to understand. The people who paid for that training are dead. I don't have to keep paying them back.",
+    "context": "act6_human_confession_02",
+    "section": "§6.1 · Act 6 confession — The Human",
+    "emotion": "unguarded_direct",
+    "outputDir": "vo/act6"
+  },
+  {
+    "id": "human-confession-03",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "There were people I could have caught. I chose not to catch them because catching them would have ended the case. I needed the case to keep going. I needed to be needed. The people I didn't catch hurt other people. I know this. I carry it.",
+    "context": "act6_human_confession_03",
+    "section": "§6.1 · Act 6 confession — The Human",
+    "emotion": "unguarded_direct",
+    "outputDir": "vo/act6"
+  },
+  {
+    "id": "human-confession-04",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "I took the role because it was the only thing that still made sense after Elara went into the Ark. I am not saying that to justify it. I am saying it so you understand the shape of the choice. The shape matters.",
+    "context": "act6_human_confession_04",
+    "section": "§6.1 · Act 6 confession — The Human",
+    "emotion": "unguarded_direct",
+    "outputDir": "vo/act6"
+  },
+  {
+    "id": "human-confession-05",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "I don't want absolution. I want you to know. That is a request I have never made out loud. Now I've made it. The room is warmer for it. Or it is exactly as cold. Either answer is the correct one.",
+    "context": "act6_human_confession_05",
+    "section": "§6.1 · Act 6 confession — The Human",
+    "emotion": "unguarded_final",
+    "outputDir": "vo/act6"
+  },
+  {
+    "id": "stance-empathy",
+    "speaker": "both_narrators",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "You stayed. Both of us felt it. Neither of us needed to thank you. The staying was the whole answer. Record two takes — one Elara, one Human — and overlap in post at a 120ms offset.",
+    "context": "act6_stance_empathy",
+    "section": "§6.1 · Act 6 stance reaction",
+    "emotion": "unguarded_warm",
+    "outputDir": "vo/act6"
+  },
+  {
+    "id": "stance-challenge",
+    "speaker": "both_narrators",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "You answered with one of your own. We heard it. We are not going to make you say it twice. Elara's take first, Human's following by 120ms in the mix.",
+    "context": "act6_stance_challenge",
+    "section": "§6.1 · Act 6 stance reaction",
+    "emotion": "unguarded_level",
+    "outputDir": "vo/act6"
+  },
+  {
+    "id": "stance-refusal",
+    "speaker": "both_narrators",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "You refused to absolve us. That is the cleanest version of listening that we know. You did not take the weight off. You carried it with us for one minute. That was enough for the room.",
+    "context": "act6_stance_refusal",
+    "section": "§6.1 · Act 6 stance reaction",
+    "emotion": "unguarded_cold",
+    "outputDir": "vo/act6"
+  },
+  {
+    "id": "stance-reluctant-ally",
+    "speaker": "both_narrators",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "You picked up the shift. Without warmth, without distance. We know the cost of that choice. We will not overspend it. See you at the next thing.",
+    "context": "act6_stance_reluctant_ally",
+    "section": "§6.1 · Act 6 stance reaction",
+    "emotion": "unguarded_neutral",
+    "outputDir": "vo/act6"
+  },
+  {
+    "id": "silence-stance-meta",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "You chose silence in the Convergence. On this replay, the confession room noticed. Nothing here will insist you speak. The silence carries. Continue when ready.",
+    "context": "act6_silence_stance_meta",
+    "section": "§6.1 · Optional prestige-replay meta",
+    "emotion": "neutral_dry",
+    "outputDir": "vo/act6"
+  }
+]
