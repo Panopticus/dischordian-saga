@@ -3094,3 +3094,47 @@ Consolidates every Veo 3.1 / Seedance 2.0 motion clip referenced throughout Part
 
 ---
 
+### 9.12 — Audit-flagged regenerations
+
+Three existing cinematics in the SHIP_READY_ASSET_BIBLE.md were specced against wrong canon and need replacement. They are not P0 blockers (game functions without them) but MUST be replaced before any public demo using those game-modes.
+
+#### CIN-013 Degen discovery — **DEPRECATE**
+
+- **Old output:** `apps/client/public/videos/entities/entity_99_degen.mp4`
+- **Status:** old canon (sequined carnival-barker showman) was WRONG per 2026-04-22 user correction. See Part 2J real canon.
+- **Action:** replace reference everywhere in `apps/client/src/components/DiscoveryVideoOverlay.tsx` and routing code to point at CIN-DEGEN-IDLE (above). Or if a longer discovery-intro variant is needed, commission a NEW 12s one-shot version of CIN-DEGEN-IDLE with start-frame wide-establish of the casino pit pulling in to the bust composition — use same Degen canon as Part 2J.
+
+#### CIN-031 DMC kart-line countdown — **REGENERATE**
+
+- **Old output:** `apps/client/public/videos/game-modes/dead-mans-circuit/kart_line_countdown.mp4`
+- **Old canon (wrong):** theatrical Nilmorg in checkerboard coat at a raised podium, microphone overhead, crowd silhouettes in darkness, countdown glyphs above.
+- **New canon (correct):** Nilmorg as the demon-executive from Part 2P — bald pale-skinned humanoid with yellow solid-eye-orbs in a dark charcoal corporate suit. Same starting-line kart setup, but Nilmorg is now doing contracting-signatory work instead of crowd-rousing.
+- **New start frame:** line of karts at a hazard-lit starting grid (unchanged from old), but the podium figure is Nilmorg in his demon-exec pose. He stands precisely still, both hands visible at chest level in his signature STEEPLED-PYRAMID FINGERTIPS gesture, yellow eye-orbs at baseline 1.0 intensity. No microphone. No theatrical grin. A stack of small ABSTRACT CONTRACT PAPERS rests on a podium-surface in front of him (small glyph-markings, not legible text). Industrial-boiler-room backdrop rim-lights from below.
+- **New end frame:** drivers materialize into karts, holographic countdown-glyph suspended overhead at "3/2/1" (same stylized abstract glyphs as original), hazard lights flare in unison at red. **Nilmorg has NOT MOVED.** Steepled fingers still precisely locked. Yellow eyes track straight ahead, unblinking. One of his cybernetic-ring fingers visibly TAPS ONCE against the contract papers on the podium as the countdown resolves. Cold executive precision where theatrics should be.
+- **New motion prompt:** same camera path as old (crane-down past podium to kart line), same countdown beats at 3s / 5s / 7s, but Nilmorg replaces the showman. At 9s: the finger tap on the contract papers instead of a theatrical "GO" shout. The racers are NOT being cheered on — they are being signed into the contract the race itself represents.
+- **Audio:** low subsonic hum + single sharp contract-tap percussive beat at 9s. No crowd noise (boiler room is empty of spectators).
+
+#### CIN-032 DMC severance trophy ceremony — **REGENERATE**
+
+- **Old output:** `apps/client/public/videos/game-modes/dead-mans-circuit/severance_trophy.mp4`
+- **Old canon (wrong):** theatrical Nilmorg handing a trophy with gracious smile; winner visibly severed as data-corona around them dissolves.
+- **New canon (correct):** Nilmorg demon-exec from Part 2P. Same severance-mechanic beat (winner being converted to Hierarchy asset), but Nilmorg delivers it in executive cold-precision rather than MC warmth.
+- **New start frame:** podium scene. Nilmorg stands to one side of the podium, steepled fingertips UNLOCKED from their default rest position (the pyramid gesture has OPENED by 3mm — his EMOTIONAL2 "contract-ready" pose from 2P.5). Winner stands on the podium, still in their racing suit, expression proud-about-to-drop. Yellow eye-orbs at 1.2 intensity — he is SEEING his acquisition.
+- **New end frame:** same data-corona-dissolve and Hierarchy-emblem-gain mechanic as old (winner being severed in real-time). Nilmorg has not moved except for: one cybernetic-ring finger now EXTENDED TOWARD the winner, thumb forming a precise L with the index (the "signed" gesture — contract finalized). Yellow eyes at 1.4. The racing-suit-to-Hierarchy-emblem transition happens on the winner as it did in the old cinematic — that mechanic is unchanged. What changed: the severance is delivered by the signatory, not the showman.
+- **New motion prompt:** same camera orbit as old (slow orbit around the podium). Beat at 3s: winner takes trophy. Beat at 5s: recognition-horror dawns. Beat at 7s: racing suit gains Hierarchy emblems. Beat at 9s: severance certificate completes overhead. Beat at 9.5s: **Nilmorg's index finger extends forward** (the contract-sign gesture) — this is the new beat replacing old gracious-smile moment. 24fps.
+- **Audio:** low subsonic rising sustain, clean cold-bell beat at 9.5s on the finger-extend. No crowd applause. "The prize IS the severance" tone intact.
+
+---
+
+### 9.13 — Part 9 asset count summary
+
+- **11 primary cinematics** — 4 loops (Elara 8s / Degen 10s / Lions template 0.8s / casino cosmetics from Part 5) + 7 one-shots (Human reveal 15s / Kael transform 14s / Kael emergence 6s / Architect ignition 6s / Programmer aging 12s / Prince→Engineer 12s / Warlord helm-retract 8s / Shadow teeth 4s)
+- **3 audit regenerations** (CIN-013, CIN-031, CIN-032) — regen against corrected canon
+- **Total runtime:** ~90 seconds of generated motion across the primary set; ~32 seconds of audit regens; ~55 seconds of casino cosmetics (Part 5) all in
+
+Each primary cinematic requires: 1 Nano Banana 2 start frame + 1 Nano Banana 2 end frame + 1 Veo 3.1 motion render (or Seedance 2.0 fallback). Plus optional Suno v4 music stingers for the reveal beats flagged above.
+
+**Estimated commission time:** 2-3 days for the 11 primary cinematics (batched start/end frame passes + Veo render passes), +1 day for the 3 regens, +1 day for iteration/approval. Total ~5 working days for the full Part 9 cinematics set.
+
+---
+
