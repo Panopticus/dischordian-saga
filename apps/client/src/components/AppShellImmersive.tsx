@@ -27,10 +27,12 @@ import {
   Map, Shield, ScrollText, Radio, X, Camera, Home,
 } from "lucide-react";
 import ShaderOverlay from "@/components/ShaderOverlay";
+import AmbientSkybox from "@/components/AmbientSkybox";
 import { trpc } from "@/lib/trpc";
 import { PhotoMode } from "@/components/PhotoMode";
 import CrewAmbientTicker from "@/components/crew/CrewAmbientTicker";
 import { motion, AnimatePresence } from "framer-motion";
+import { materialize } from "@/engine/voidMotion";
 import NotificationBell from "@/components/NotificationBell";
 import { ShipThemeOverlay } from "@/components/ShipThemeOverlay";
 import TransmissionDeck from "@/components/TransmissionDeck";
@@ -122,6 +124,11 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
     );
   }
 
+  // Immersive routes (Ark, Fight, Terminus) own their own background.
+  // Showing the skybox underneath would bleed through translucent
+  // layouts; suppress it for those routes.
+  const showSkybox = !isImmersive;
+
   return (
     <div className="min-h-screen flex flex-col relative">
       {/* ═══ SHADER OVERLAY — Corruption + morality post-processing ═══ */}
@@ -131,18 +138,29 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
         enabled={!isAwakening}
       />
 
-      {/* ═══ BACKGROUND ═══ */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <img
-          src={ARK_CONTROL_ROOM}
-          alt=""
-          className="w-full h-full object-cover opacity-[0.04]"
-          style={{ filter: "blur(2px) saturate(0.3)" }}
-        />
-        <div className="absolute inset-0" style={{
-          background: "radial-gradient(ellipse at 50% 30%, rgba(5,2,20,0.85) 0%, color-mix(in oklch, var(--bg-void) 98%, transparent) 70%)"
-        }} />
-      </div>
+      {/* ═══ AMBIENT SKYBOX — Persistent "you are in space" layer.
+          Replaces the faded Ark-control-room still, which read as a
+          random background image rather than a diegetic void. Routes
+          that own their own backdrop (Ark, Fight, Terminus) suppress
+          this via isImmersive. ═══ */}
+      {showSkybox && <AmbientSkybox />}
+
+      {/* Legacy cockpit tint — kept for the immersive routes so the
+          Ark-control-room still reads while Ark/Fight/Terminus paint
+          their own art on top. */}
+      {!showSkybox && (
+        <div className="fixed inset-0 z-0 pointer-events-none">
+          <img
+            src={ARK_CONTROL_ROOM}
+            alt=""
+            className="w-full h-full object-cover opacity-[0.04]"
+            style={{ filter: "blur(2px) saturate(0.3)" }}
+          />
+          <div className="absolute inset-0" style={{
+            background: "radial-gradient(ellipse at 50% 30%, rgba(5,2,20,0.85) 0%, color-mix(in oklch, var(--bg-void) 98%, transparent) 70%)"
+          }} />
+        </div>
+      )}
 
       <ShipThemeOverlay />
 
@@ -192,7 +210,12 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
         </div>
       )}
 
-      {/* ═══ MAIN CONTENT ═══ */}
+      {/* ═══ MAIN CONTENT ═══
+          AnimatePresence keyed by pathname gives every client-side
+          route change a cross-fade. Immersive routes own their own
+          transitions (Ark room crossfade, Fight intro) so we skip
+          the outer animation for them — otherwise their custom
+          cinematics double up with a generic fade. */}
       <main
         className="flex-1 relative z-10"
         style={{
@@ -201,7 +224,21 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
           transition: `padding var(--ve-transition-speed, 200ms) var(--ve-transition-ease, ease)`,
         }}
       >
-        {children}
+        {isImmersive ? (
+          children
+        ) : (
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={location}
+              {...materialize()}
+              // Exit is the inverse of materialize — kept inline so
+              // route unmounts don't fight mode="wait".
+              exit={{ opacity: 0, y: -8, scale: 0.98 }}
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
+        )}
       </main>
 
       {/* ═══ BOTTOM NAV BAR — The only persistent navigation ═══ */}

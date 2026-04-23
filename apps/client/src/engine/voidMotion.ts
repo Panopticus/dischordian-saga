@@ -24,6 +24,7 @@
 
 import { cubicBezier, type Easing } from "framer-motion";
 import type { PhysicsType } from "./voidEngine";
+import { getMotionIntensity } from "./motionIntensity";
 
 /* ─── PHYSICS DETECTION ─── */
 
@@ -42,11 +43,32 @@ export function getCurrentPhysics(): PhysicsType {
 
 const CUBIC_IN: Easing = cubicBezier(0.33, 0, 0.67, 1);
 
-const PHYSICS_TIMING: Record<PhysicsType, { base: number; fast: number; ease: Easing }> = {
+type PhysicsTiming = { base: number; fast: number; ease: Easing };
+
+const RAW_PHYSICS_TIMING: Record<PhysicsType, PhysicsTiming> = {
   glass: { base: 0.3, fast: 0.15, ease: cubicBezier(0.4, 0, 0.2, 1) },
   flat:  { base: 0.2, fast: 0.1,  ease: cubicBezier(0.25, 0.1, 0.25, 1) },
   retro: { base: 0,   fast: 0,    ease: cubicBezier(0, 0, 1, 1) },
 };
+
+/**
+ * Resolve physics timing scaled by the user's motion-intensity slider.
+ *
+ * Why scale entry durations and not just ambient motion? Because the
+ * "every page breathes" feel comes from consistent transition rhythms.
+ * At intensity 0.5 every fade-in is 50% shorter, which reads as snappier
+ * without feeling abrupt — matches what most AAA titles expose as a
+ * "UI animations" reduce toggle.
+ */
+function PHYSICS_TIMING(p: PhysicsType): PhysicsTiming {
+  const raw = RAW_PHYSICS_TIMING[p];
+  const scale = getMotionIntensity();
+  return {
+    base: raw.base * scale,
+    fast: raw.fast * scale,
+    ease: raw.ease,
+  };
+}
 
 /* ─── REDUCED MOTION ─── */
 
@@ -63,7 +85,7 @@ const prefersReducedMotion =
 
 export function materialize(physics?: PhysicsType) {
   const p = physics ?? getCurrentPhysics();
-  const t = PHYSICS_TIMING[p];
+  const t = PHYSICS_TIMING(p);
 
   if (prefersReducedMotion || p === "retro") {
     return {
@@ -101,7 +123,7 @@ export function materialize(physics?: PhysicsType) {
 
 export function dematerialize(physics?: PhysicsType) {
   const p = physics ?? getCurrentPhysics();
-  const t = PHYSICS_TIMING[p];
+  const t = PHYSICS_TIMING(p);
 
   if (prefersReducedMotion) {
     return {
@@ -144,7 +166,7 @@ export function dematerialize(physics?: PhysicsType) {
 
 export function emerge(physics?: PhysicsType) {
   const p = physics ?? getCurrentPhysics();
-  const t = PHYSICS_TIMING[p];
+  const t = PHYSICS_TIMING(p);
 
   if (prefersReducedMotion || p === "retro") {
     return {
@@ -186,7 +208,7 @@ export function emerge(physics?: PhysicsType) {
 
 export function dissolve(physics?: PhysicsType) {
   const p = physics ?? getCurrentPhysics();
-  const t = PHYSICS_TIMING[p];
+  const t = PHYSICS_TIMING(p);
 
   if (prefersReducedMotion) {
     return {
@@ -264,7 +286,7 @@ export function voidStagger(physics?: PhysicsType) {
 
 export function voidListItem(physics?: PhysicsType) {
   const p = physics ?? getCurrentPhysics();
-  const t = PHYSICS_TIMING[p];
+  const t = PHYSICS_TIMING(p);
 
   if (prefersReducedMotion || p === "retro") {
     return {

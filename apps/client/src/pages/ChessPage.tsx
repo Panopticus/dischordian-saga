@@ -22,6 +22,8 @@ import { Link } from "wouter";
 import { showBonusToast } from "@/components/BonusToast";
 import { customPieces } from "@/components/ChessPieces";
 import { getArenaForOpponent, ARENA_THEMES, type ArenaTheme } from "@/lib/chessAssets";
+import { useGame } from "@/contexts/GameContext";
+import { getMotionIntensity } from "@/engine/motionIntensity";
 import { useStockfish } from "@/hooks/useStockfish";
 import { AI_PRESETS } from "@/lib/stockfishWorker";
 import ChessCinematic from "@/components/ChessCinematic";
@@ -79,6 +81,7 @@ type GameView = "menu" | "character_select" | "cinematic" | "playing" | "multipl
 
 export default function ChessPage() {
   const { user, isAuthenticated } = useAuth();
+  const { state: gameState } = useGame();
   const [view, setView] = useState<GameView>("menu");
   const [selectedMode, setSelectedMode] = useState<"casual" | "ranked" | "story" | "game_master" | "multiplayer">("casual");
   const [selectedCharacter, setSelectedCharacter] = useState<string | null>(null);
@@ -1279,16 +1282,17 @@ export default function ChessPage() {
             exit={{ opacity: 0 }}
             className="relative min-h-screen"
           >
-            {/* Arena Background */}
-            <div className="absolute inset-0 z-0">
-              <img
-                src={arena.background}
-                alt={arena.name}
-                className="w-full h-full object-cover"
-                style={{ filter: "brightness(0.35) saturate(1.2)" }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80" />
-            </div>
+            {/* Arena Background — now hosts a subtle mouse-parallax
+                drift, an --audio-bass breathing layer on the vignette,
+                and (for the Architect tier) a morality-colored wash
+                that tints the arena toward crimson/chrome or green/
+                gold based on the player's current alignment. Keeps
+                the ChessBoard above it crisp. */}
+            <ChessArenaBackground
+              arena={arena}
+              isArchitect={aiTier === "the_architect"}
+              moralityScore={gameState?.moralityScore ?? 0}
+            />
 
             {/* Content Overlay */}
             <div className="relative z-10 p-4 sm:p-6">
@@ -2267,6 +2271,116 @@ export default function ChessPage() {
         )}
       </AnimatePresence>
       </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   CHESS ARENA BACKGROUND — parallax + morality wash
+
+   Two layers over the bare arena img+vignette the page used
+   before this commit:
+
+     1. Mouse-parallax drift on the arena photo. Amplitude
+        scaled by --motion-intensity and clamped to a very
+        small window (±8px) so the immersion doesn't fight
+        the player's tactical focus on the board above it.
+
+     2. Morality wash — active only for Architect-tier
+        opponents (the_source / game_master / the_architect),
+        where the cosmic-chess metaphor makes alignment the
+        whole point. Positive morality tints the overlay
+        with green+gold, negative with crimson+chrome.
+        moralityScore is expected on -100…+100 range; we
+        clamp before driving opacity.
+
+   Internally uses a RAF loop to lerp mouse → arena offset
+   (same tuning as ParallaxRoom). Cleans up on unmount.
+   ═══════════════════════════════════════════════════════ */
+function ChessArenaBackground({
+  arena,
+  isArchitect,
+  moralityScore,
+}: {
+  arena: ArenaTheme;
+  isArchitect: boolean;
+  moralityScore: number;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const targetRef = useRef({ x: 0, y: 0 });
+  const currentRef = useRef({ x: 0, y: 0 });
+  const rafRef = useRef<number>(0);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const img = imgRef.current;
+    if (!container || !img) return;
+    const onMouseMove = (e: MouseEvent) => {
+      const rect = container.getBoundingClientRect();
+      targetRef.current.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      targetRef.current.y = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+    };
+    const onMouseLeave = () => { targetRef.current = { x: 0, y: 0 }; };
+    container.addEventListener("mousemove", onMouseMove);
+    container.addEventListener("mouseleave", onMouseLeave);
+    const tick = () => {
+      const intensity = getMotionIntensity();
+      currentRef.current.x += (targetRef.current.x - currentRef.current.x) * 0.07;
+      currentRef.current.y += (targetRef.current.y - currentRef.current.y) * 0.07;
+      const MAX = 8;
+      const tx = currentRef.current.x * MAX * intensity;
+      const ty = currentRef.current.y * MAX * intensity;
+      img.style.transform = `scale(1.04) translate3d(${tx}px, ${ty}px, 0)`;
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      container.removeEventListener("mousemove", onMouseMove);
+      container.removeEventListener("mouseleave", onMouseLeave);
+    };
+  }, []);
+
+  // Wash palette — mirrors the dormant morality.frag's hex values
+  // so activating the shader later would be a clean upgrade, not a
+  // reinterpretation. Humanity = green primary, gold secondary.
+  // Machine = crimson primary, chrome secondary.
+  const normalized = Math.max(-1, Math.min(1, moralityScore / 100));
+  const washOpacity = isArchitect ? Math.abs(normalized) * 0.22 : 0;
+  const washColor =
+    normalized > 0
+      ? "color-mix(in oklch, #22C55E 60%, #F5BF24 40%)"
+      : "color-mix(in oklch, #DC2626 60%, #C0C0C0 40%)";
+
+  return (
+    <div ref={containerRef} className="absolute inset-0 z-0 overflow-hidden">
+      <img
+        ref={imgRef}
+        src={arena.background}
+        alt={arena.name}
+        className="w-full h-full object-cover"
+        style={{
+          filter: "brightness(0.35) saturate(1.2)",
+          transform: "scale(1.04)",
+          willChange: "transform",
+        }}
+      />
+      {/* Base vignette — unchanged from the original design so the
+          move-focus ergonomics don't shift. */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80" />
+      {/* Architect morality wash. Render at zero opacity when not
+          on that tier so turning it off costs nothing — no motion,
+          no layout. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none chess-arena-morality-wash"
+        style={{
+          background: `radial-gradient(ellipse at 50% 50%, ${washColor} 0%, transparent 70%)`,
+          opacity: washOpacity,
+          mixBlendMode: "screen",
+        }}
+      />
     </div>
   );
 }

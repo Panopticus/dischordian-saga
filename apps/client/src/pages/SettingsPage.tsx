@@ -6,7 +6,7 @@
  * reduce motion, dyslexia font, reduce glow), Game (skip tutorials, show hints,
  * difficulty), Account (login/logout, sync status, export save data).
  */
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useSound } from "@/contexts/SoundContext";
@@ -31,11 +31,12 @@ import {
   Type, Zap, ChevronDown, ChevronUp, User, LogOut, LogIn,
   Download, Cloud, CloudOff, Shield, Eye, EyeOff, Sparkles,
   Gauge, HelpCircle, SkipForward, MessageCircle, ExternalLink, Users,
-  Gift, Ticket
+  Gift, Ticket, Search
 } from "lucide-react";
 import { toast } from "sonner";
 
 import LivingBackground from "@/components/LivingBackground";
+import SettingsSearchModal from "@/pages/settings/SettingsSearchModal";
 
 /* ─── SETTINGS STORAGE (delegates to settingsSync) ─── */
 type AppSettings = GameSettings;
@@ -50,12 +51,33 @@ function saveSettings(settings: AppSettings) {
 }
 
 /* ─── SECTION COMPONENT ─── */
-function SettingsSection({ title, icon: Icon, children, defaultOpen = true }: {
+function SettingsSection({ title, icon: Icon, children, defaultOpen = true, anchor }: {
   title: string; icon: typeof Settings; children: React.ReactNode; defaultOpen?: boolean;
+  /** DOM id for scroll-to-section navigation (Cmd/Ctrl+K search). */
+  anchor?: string;
 }) {
   const [open, setOpen] = useState(defaultOpen);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  // The search modal dispatches `settings-section-focus` when a player
+  // picks a result. If our anchor matches, open ourselves so the user
+  // sees the row immediately rather than having to click the header.
+  useEffect(() => {
+    if (!anchor) return;
+    const handler = (e: Event) => {
+      const target = (e as CustomEvent<string>).detail;
+      if (target === anchor) setOpen(true);
+    };
+    window.addEventListener("settings-section-focus", handler);
+    return () => window.removeEventListener("settings-section-focus", handler);
+  }, [anchor]);
+
   return (
-    <div className="rounded-lg border border-border/50 bg-muted/15 overflow-hidden">
+    <div
+      ref={wrapperRef}
+      id={anchor}
+      className="rounded-lg border border-border/50 bg-muted/15 overflow-hidden"
+    >
       <button
         onClick={() => setOpen(!open)}
         className="flex items-center gap-2.5 px-5 py-3 border-b border-border/40 w-full hover:bg-muted/15 transition-colors"
@@ -204,7 +226,7 @@ function PromoCodeSection({ isAuthenticated }: { isAuthenticated: boolean }) {
   };
 
   return (
-    <SettingsSection title="Promo Codes" icon={Ticket}>
+    <SettingsSection title="Promo Codes" icon={Ticket} anchor="settings-promo">
       {!isAuthenticated ? (
         <p className="font-mono text-[10px] text-muted-foreground/60">
           Log in to redeem promo codes.
@@ -274,6 +296,21 @@ export default function SettingsPage() {
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [exporting, setExporting] = useState(false);
   const [cloudSyncStatus, setCloudSyncStatus] = useState<"idle" | "syncing" | "synced" | "error">("idle");
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  // Cmd/Ctrl+K opens the searchable settings index. Using Meta on mac and
+  // Ctrl elsewhere matches platform convention; the fallback handler also
+  // catches Ctrl on mac for users with external keyboards.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setSearchOpen((v) => !v);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   // Initialize sync manager with tRPC utils
   const utils = trpc.useUtils();
@@ -346,15 +383,31 @@ export default function SettingsPage() {
           }}>
           <Settings size={18} className="text-[var(--neon-cyan)]" />
         </div>
-        <div>
+        <div className="flex-1 min-w-0">
           <h1 className="font-display text-lg font-bold tracking-wider text-foreground">SHIP CONFIGURATION</h1>
           <p className="font-mono text-[10px] text-muted-foreground tracking-wider">System preferences, accessibility, and account</p>
         </div>
+        <button
+          type="button"
+          onClick={() => setSearchOpen(true)}
+          aria-label="Search settings (Cmd+K)"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-md border text-xs font-mono tracking-wider text-muted-foreground/70 hover:text-foreground hover:border-[var(--neon-cyan)]/40 transition-colors"
+          style={{
+            borderColor: "color-mix(in oklch, var(--energy-primary) 15%, transparent)",
+            background: "color-mix(in oklch, var(--bg-void) 50%, transparent)",
+          }}
+        >
+          <Search size={12} />
+          <span className="hidden sm:inline">Search</span>
+          <kbd className="hidden sm:inline font-mono text-[9px] px-1 py-0.5 rounded bg-muted/30 text-muted-foreground/60">⌘K</kbd>
+        </button>
       </div>
+
+      <SettingsSearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
 
       <div className="space-y-4">
         {/* ═══ APPEARANCE ═══ */}
-        <SettingsSection title="Appearance" icon={Palette}>
+        <SettingsSection title="Appearance" icon={Palette} anchor="settings-appearance">
           {/* Light/Dark Mode */}
           <OptionSelector
             label="MODE"
@@ -447,7 +500,7 @@ export default function SettingsPage() {
         </SettingsSection>
 
         {/* ═══ AUDIO ═══ */}
-        <SettingsSection title="Audio" icon={Volume2}>
+        <SettingsSection title="Audio" icon={Volume2} anchor="settings-audio">
           <Toggle
             label="Mute All Sounds"
             description="Disable all audio output"
@@ -490,7 +543,7 @@ export default function SettingsPage() {
         </SettingsSection>
 
         {/* ═══ ACCESSIBILITY ═══ */}
-        <SettingsSection title="Accessibility" icon={Accessibility}>
+        <SettingsSection title="Accessibility" icon={Accessibility} anchor="settings-accessibility">
           <Toggle
             label="High Contrast"
             description="Increase color contrast for better readability"
@@ -500,11 +553,54 @@ export default function SettingsPage() {
           />
           <Toggle
             label="Reduce Motion"
-            description="Minimize animations and transitions"
+            description="Minimize animations and transitions (overrides Motion Intensity)"
             enabled={settings.reduceMotion}
             onChange={(v) => updateSetting("reduceMotion", v)}
             icon={SkipForward}
           />
+          <VolumeSlider
+            label="MOTION INTENSITY"
+            icon={Sparkles}
+            value={settings.motionIntensity}
+            onChange={(v) => updateSetting("motionIntensity", v)}
+            disabled={settings.reduceMotion}
+          />
+          <Toggle
+            label="Audio-Reactive UI"
+            description="Logo glow, vitals, and visualizers pulse with the music"
+            enabled={settings.audioReactive}
+            onChange={(v) => updateSetting("audioReactive", v)}
+            icon={Music}
+          />
+          <Toggle
+            label="Captions"
+            description="Show speaker labels during voice-over lines for hearing-impaired play"
+            enabled={settings.captions}
+            onChange={(v) => updateSetting("captions", v)}
+            icon={Accessibility}
+          />
+          <div>
+            <div className="flex items-center gap-2 mb-1.5">
+              <Type size={13} className="text-muted-foreground/60" />
+              <p className="font-mono text-[10px] text-muted-foreground/70 tracking-wider flex-1">TYPEWRITER SPEED</p>
+              <span className="font-mono text-[10px] text-[var(--neon-cyan)] w-12 text-right">
+                {settings.typewriterSpeed === 0 ? "INSTANT" : `${settings.typewriterSpeed}ms`}
+              </span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-[9px] text-muted-foreground/35 shrink-0">FAST</span>
+              <input
+                type="range"
+                min={0}
+                max={60}
+                step={5}
+                value={settings.typewriterSpeed}
+                onChange={(e) => updateSetting("typewriterSpeed", parseFloat(e.target.value))}
+                className="flex-1 accent-[var(--neon-cyan)] h-1"
+              />
+              <span className="font-mono text-[9px] text-muted-foreground/35 shrink-0">SLOW</span>
+            </div>
+          </div>
           <Toggle
             label="Dyslexia-Friendly Font"
             description="Use OpenDyslexic font for improved readability"
@@ -522,7 +618,7 @@ export default function SettingsPage() {
         </SettingsSection>
 
         {/* ═══ GAME PREFERENCES ═══ */}
-        <SettingsSection title="Game Preferences" icon={Gamepad2}>
+        <SettingsSection title="Game Preferences" icon={Gamepad2} anchor="settings-game">
           <Toggle
             label="Skip Tutorials"
             description="Skip room tutorial dialogs on first entry"
@@ -610,7 +706,7 @@ export default function SettingsPage() {
         </SettingsSection>
 
         {/* ═══ ACCOUNT ═══ */}
-        <SettingsSection title="Account" icon={User}>
+        <SettingsSection title="Account" icon={User} anchor="settings-account">
           {/* Auth Status */}
           <div className="flex items-center justify-between py-2">
             <div className="flex items-center gap-2.5">
@@ -712,7 +808,7 @@ export default function SettingsPage() {
         <PromoCodeSection isAuthenticated={isAuthenticated} />
 
         {/* ═══ COMMUNITY ═══ */}
-        <SettingsSection title="Community" icon={Users}>
+        <SettingsSection title="Community" icon={Users} anchor="settings-community">
           <div className="space-y-3">
             <div className="p-3 rounded-lg border border-border/60 bg-gradient-to-br from-indigo-500/5 to-purple-500/5">
               <div className="flex items-start gap-3">

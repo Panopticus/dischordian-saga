@@ -48,6 +48,21 @@ function applySettingsToDOM(settings: GameSettings): void {
   root.classList.toggle("reduce-glow", settings.reduceGlow);
   root.classList.remove("font-size-small", "font-size-medium", "font-size-large");
   root.classList.add(`font-size-${settings.fontSize}`);
+
+  // Motion intensity → CSS custom property. Zero out when reduceMotion is on
+  // so every consumer that multiplies by --motion-intensity collapses cleanly.
+  const intensity = settings.reduceMotion ? 0 : settings.motionIntensity;
+  root.style.setProperty("--motion-intensity", String(intensity));
+
+  // Audio-reactive toggle → class on <html>. Consumers gate FX on :root:not(.audio-reactive-off).
+  root.classList.toggle("audio-reactive-off", !settings.audioReactive);
+
+  // Captions toggle + typewriter pacing. Both exposed at the :root level
+  // so downstream components can read them without threading props
+  // through providers. The class pattern matches reduce-motion so
+  // consumers already familiar with the convention pick it up.
+  root.classList.toggle("captions-on", settings.captions);
+  root.style.setProperty("--typewriter-speed-ms", String(settings.typewriterSpeed));
 }
 
 // ─── Debounced Server Sync ───

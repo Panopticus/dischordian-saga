@@ -20,6 +20,8 @@ import {
   ScrollText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import GlitchFx from "@/components/GlitchFx";
+import { GallerySearch, GalleryFilterChip, GalleryShell } from "@/components/gallery";
 
 import { assetUrl } from "@/lib/assetUrl";
 /* ─── ERA DEFINITIONS ─── */
@@ -233,48 +235,36 @@ export default function LoreGalleryPage({ unlockedAchievements = new Set() }: Pr
         />
       </div>
 
-      {/* Search + Filter */}
-      <div className="flex flex-col sm:flex-row gap-3">
-        {/* Search */}
-        <div className="relative flex-1">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="Search fragments..."
+      <GalleryShell
+        toolbar={
+          <GallerySearch
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 text-sm bg-card/30 border border-border/20 rounded-lg focus:outline-none focus:void-border placeholder:text-muted-foreground/40"
+            onChange={setSearchQuery}
+            placeholder="Search fragments..."
           />
-        </div>
-
-        {/* Era filter */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
-          <Filter size={14} className="text-muted-foreground shrink-0" />
-          <button
-            onClick={() => setSelectedEra(null)}
-            className={`px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider rounded-md border transition-colors shrink-0 ${
-              selectedEra === null
-                ? "void-border void-bg-sunk void-text-accent"
-                : "border-border/20 bg-card/20 text-muted-foreground hover:bg-card/40"
-            }`}
-          >
-            All
-          </button>
-          {ERAS.map((era) => (
-            <button
-              key={era.id}
-              onClick={() => setSelectedEra(era.id === selectedEra ? null : era.id)}
-              className={`px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider rounded-md border transition-colors shrink-0 ${
-                selectedEra === era.id
-                  ? "void-border void-bg-sunk void-text-accent"
-                  : "border-border/20 bg-card/20 text-muted-foreground hover:bg-card/40"
-              }`}
+        }
+        filters={
+          <>
+            <Filter size={14} className="text-muted-foreground shrink-0" />
+            <GalleryFilterChip
+              active={selectedEra === null}
+              onClick={() => setSelectedEra(null)}
             >
-              {era.icon} {era.name}
-            </button>
-          ))}
-        </div>
-      </div>
+              All
+            </GalleryFilterChip>
+            {ERAS.map((era) => (
+              <GalleryFilterChip
+                key={era.id}
+                active={selectedEra === era.id}
+                onClick={() => setSelectedEra(era.id === selectedEra ? null : era.id)}
+                leading={<span aria-hidden>{era.icon}</span>}
+              >
+                {era.name}
+              </GalleryFilterChip>
+            ))}
+          </>
+        }
+      >
 
       {/* Era sections */}
       {(selectedEra ? ERAS.filter((e) => e.id === selectedEra) : ERAS).map((era) => {
@@ -331,7 +321,7 @@ export default function LoreGalleryPage({ unlockedAchievements = new Set() }: Pr
                       ${
                         unlocked
                           ? "border-border/20 bg-card/30 cursor-pointer hover:bg-card/50"
-                          : "border-border/10 bg-card/10"
+                          : "border-border/10 bg-card/10 void-glitch void-glitch-lock"
                       }
                     `}
                   >
@@ -368,7 +358,13 @@ export default function LoreGalleryPage({ unlockedAchievements = new Set() }: Pr
                               unlocked ? "text-white" : "text-muted-foreground/30"
                             }`}
                           >
-                            {unlocked ? fragment.title : "???"}
+                            {unlocked ? (
+                              fragment.title
+                            ) : (
+                              <GlitchFx variant="redact" redactText={fragment.title}>
+                                {fragment.title}
+                              </GlitchFx>
+                            )}
                           </span>
                         </div>
                         <span
@@ -441,6 +437,7 @@ export default function LoreGalleryPage({ unlockedAchievements = new Set() }: Pr
           </p>
         </div>
       )}
+      </GalleryShell>
     </div>
   );
 }

@@ -29,6 +29,8 @@ import {
   ArrowLeftRight,
   GraduationCap,
   Crown,
+  Store,
+  Hammer,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { VOID } from "@/engine/voidPresets";
@@ -316,6 +318,32 @@ export function EmptyLeaderboard({ className, onAction }: EmptyStateProps) {
       description="Be the first to stake your claim on the leaderboard."
       className={className}
       onAction={onAction}
+    />
+  );
+}
+
+export function EmptyMarketplace({ className, onAction }: EmptyStateProps) {
+  return (
+    <EmptyStateShell
+      icon={<Store className="size-8" style={{ color: "var(--energy-primary)" }} />}
+      title="The stalls are empty. No listings match your filters."
+      description="Widen your search, check another tab, or post your own offering to the fleet."
+      actionLabel={onAction ? "Create Listing" : undefined}
+      onAction={onAction}
+      className={className}
+    />
+  );
+}
+
+export function EmptyForge({ className, onAction }: EmptyStateProps) {
+  return (
+    <EmptyStateShell
+      icon={<Hammer className="size-8" style={{ color: "var(--energy-primary)" }} />}
+      title="The forge is cold. No recipes available in this category."
+      description="Discover blueprints by exploring the Ark or completing quests — the anvil remembers."
+      actionLabel={onAction ? "Explore the Ark" : undefined}
+      onAction={onAction}
+      className={className}
     />
   );
 }

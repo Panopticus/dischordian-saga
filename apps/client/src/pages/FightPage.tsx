@@ -30,6 +30,7 @@ import {
   type FighterData, type ArenaData, type DifficultyLevel,
 } from "@/game/gameData";
 import FightArena2D from "@/game/FightArena2D";
+import KineticText from "@/components/void/KineticText";
 import { triggerFailureRevelation } from "@/lib/failureRevelations";
 import { mapDifficultyToFightAI, createDefaultPerformance, type PlayerPerformance } from "@shared/dynamicDifficulty";
 import { useLivingUniverse } from "@/hooks/useDailyBrief";
@@ -48,7 +49,7 @@ import PostBattleDialog from "@/components/PostBattleDialog";
 import { useSourceVO } from "@/hooks/useSourceVO";
 import { useNecromancerVO } from "@/hooks/useNecromancerVO";
 
-type Phase = "title" | "intro-video" | "lore" | "story" | "story-cutscene" | "story-dialogue" | "select" | "difficulty" | "arena" | "fighting" | "results" | "story-results";
+type Phase = "title" | "intro-video" | "lore" | "story" | "story-cutscene" | "story-dialogue" | "select" | "difficulty" | "arena" | "vs-intro" | "fighting" | "results" | "story-results";
 
 const COLLECTORS_ARENA_INTRO_VIDEO = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/collectors-arena-intro_c5e8c641.mp4";
 
@@ -153,7 +154,12 @@ export default function FightPage() {
 
   const startFight = useCallback(() => {
     if (!selectedPlayer || !selectedOpponent) return;
-    setPhase("fighting");
+    // Push through the VS intro phase first — it auto-advances to
+    // "fighting" once the 2.4s banner + portraits sequence completes.
+    // Direct-to-fighting path is preserved for the story-cutscene
+    // flow which has its own lead-in (see setPhase("fighting") at
+    // line 322 for the story branch).
+    setPhase("vs-intro");
   }, [selectedPlayer, selectedOpponent]);
 
   const startTraining = useCallback(() => {
@@ -1440,6 +1446,23 @@ export default function FightPage() {
     );
   }
 
+  /* ═══ VS INTRO ═══
+     Tekken / Street Fighter 6 caliber pre-fight banner. Split-diagonal
+     with both fighters' splash art, KineticText "VS", camera shake on
+     entry, auto-advances to "fighting" after 2.4s. Reduce-motion
+     collapses to a plain fade via framer-motion variants + the
+     no-shake branch below. */
+  if (phase === "vs-intro" && selectedPlayer && selectedOpponent) {
+    return (
+      <VsIntro
+        player={boostedPlayer ?? selectedPlayer}
+        opponent={selectedOpponent}
+        arena={selectedArena}
+        onComplete={() => setPhase("fighting")}
+      />
+    );
+  }
+
   /* ═══ FIGHTING ═══ */
   if (phase === "fighting" && selectedPlayer && selectedOpponent) {
     const isStoryFight = !!currentStoryChapter && !isTrainingMode;
@@ -1479,6 +1502,28 @@ export default function FightPage() {
     const ptGain = Math.round(basePt * nftMultiplier);
     const bonusPt = ptGain - basePt;
 
+    // Letter grade — derived from what the match actually reports
+    // (winner + perfect flag) × difficulty, since FightArena2D doesn't
+    // emit combo/damage data through onMatchEnd. Once/if it does, we
+    // widen this seam. For now: S for perfect victory on hard+, A for
+    // perfect victory on normal or regular on nightmare, B for regular
+    // victory, C for a competitive loss, D for a defeat.
+    const grade: { letter: string; color: string; label: string } = (() => {
+      const d = selectedDifficulty.id;
+      if (isVictory && matchResult.perfect && (d === "nightmare" || d === "hard"))
+        return { letter: "S", color: "var(--energy-premium)", label: "FLAWLESS ASCENSION" };
+      if (isVictory && matchResult.perfect)
+        return { letter: "A", color: "var(--energy-success)", label: "PERFECT VICTORY" };
+      if (isVictory && d === "nightmare")
+        return { letter: "A", color: "var(--energy-success)", label: "HIERARCHY TRIAL CLEARED" };
+      if (isVictory && d === "hard")
+        return { letter: "B+", color: "var(--energy-system)", label: "APEX PREDATOR DOWN" };
+      if (isVictory) return { letter: "B", color: "var(--energy-system)", label: "VICTORY" };
+      if (d === "nightmare" || d === "hard")
+        return { letter: "C", color: "var(--energy-accent)", label: "STANDING SKIRMISH" };
+      return { letter: "D", color: "var(--energy-error)", label: "DEFEAT" };
+    })();
+
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden"
         style={{ background: isVictory
@@ -1501,6 +1546,34 @@ export default function FightPage() {
               PERFECT VICTORY!
             </motion.div>
           )}
+
+          {/* Letter grade — the "rank" players chase on every match.
+              The spring punches the letter in with a one-shot scale
+              overshoot so the grade feels earned rather than assigned.
+              Computed above from (isVictory, perfect, difficulty). */}
+          <motion.div
+            initial={{ opacity: 0, scale: 1.8, rotate: -8 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ type: "spring", stiffness: 220, damping: 14, delay: 0.4 }}
+            className="inline-flex flex-col items-center mb-6"
+          >
+            <div
+              className="font-display text-6xl sm:text-7xl font-black tracking-widest"
+              style={{
+                color: grade.color,
+                textShadow: `0 0 30px ${grade.color}, 0 0 60px ${grade.color}80`,
+              }}
+              aria-label={`Grade ${grade.letter}`}
+            >
+              {grade.letter}
+            </div>
+            <p
+              className="font-mono text-[10px] tracking-[0.3em] mt-1 opacity-70"
+              style={{ color: grade.color }}
+            >
+              {grade.label}
+            </p>
+          </motion.div>
 
           {isVictory && (
             <div className="flex flex-wrap gap-3 justify-center mb-6">
@@ -1526,7 +1599,29 @@ export default function FightPage() {
             </div>
           )}
 
-          <div className="flex gap-3 justify-center">
+          <div className="flex flex-wrap gap-3 justify-center">
+            {/* Rematch — re-enters the VS intro with the same fighters
+                + arena + difficulty. Same-same-same by design; the
+                "I want a different matchup" path is NEW FIGHT. */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                setMatchResult(null);
+                setShowPostBattleDialog(true);
+                setPhase("vs-intro");
+              }}
+              className="px-6 py-2.5 rounded-lg font-mono text-sm transition-all"
+              style={{
+                background: `color-mix(in oklch, ${selectedArena?.ambientColor ?? "var(--energy-primary)"} 18%, transparent)`,
+                borderColor: `color-mix(in oklch, ${selectedArena?.ambientColor ?? "var(--energy-primary)"} 50%, transparent)`,
+                border: "1px solid",
+                color: selectedArena?.ambientColor ?? "var(--energy-primary)",
+                textShadow: `0 0 10px ${selectedArena?.ambientColor ?? "var(--energy-primary)"}70`,
+              }}
+            >
+              REMATCH
+            </motion.button>
             <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
               onClick={resetToSelect}
               className="px-6 py-2.5 rounded-lg bg-muted/50 border border-border text-white font-mono text-sm hover:bg-white/20 transition-all">
@@ -1582,7 +1677,7 @@ function FighterCard({ fighter, available, selected, onSelect, onHover, onLeave,
             ? "void-border-success ring-2 ring-cyan-400/30"
             : available
             ? "border-border hover:border-white/40"
-            : "border-border/60 opacity-60"
+            : "border-border/60 opacity-75 void-glitch void-glitch-lock"
         }`}
       >
         <img src={fighter.image} alt={fighter.name} className="w-full h-full object-cover" loading="lazy" />
@@ -1594,9 +1689,21 @@ function FighterCard({ fighter, available, selected, onSelect, onHover, onLeave,
         </div>
 
         {!available && (
-          <div className="absolute inset-0 bg-background/70 flex flex-col items-center justify-center">
-            <Lock size={14} className="text-muted-foreground/60 mb-1" />
-            <div className="font-mono text-[9px]" style={{ color: canAfford ? "var(--energy-success)" : "var(--energy-error)" }}>
+          // GlitchFx lock class above already grayscales + red-scanlines
+          // the portrait; this overlay adds the unlock cost + the lock
+          // icon on top. The "can afford" color gives an at-a-glance
+          // signal whether the player can redeem right now.
+          <div className="absolute inset-0 bg-background/55 flex flex-col items-center justify-center z-[1]">
+            <Lock size={14} className="text-muted-foreground/70 mb-1" />
+            <div
+              className="font-mono text-[9px] font-bold tracking-wider"
+              style={{
+                color: canAfford ? "var(--energy-success)" : "var(--energy-error)",
+                textShadow: canAfford
+                  ? "0 0 6px color-mix(in oklch, var(--energy-success) 60%, transparent)"
+                  : "0 0 6px color-mix(in oklch, var(--energy-error) 60%, transparent)",
+              }}
+            >
               {fighter.unlockCost} PTS
             </div>
           </div>
@@ -1888,5 +1995,154 @@ function StatBar({ label, value, max, icon, color, bonus }: { label: string; val
         {bonus && bonus > 0 && <span className="void-text-system">+{bonus}</span>}
       </div>
     </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   VS INTRO — Pre-fight cinematic banner
+
+   Two-panel split-diagonal composition with each fighter's
+   portrait framed by a faction-colored wedge. KineticText
+   decodes the "VS" in the seam; both portraits punch in
+   from opposite sides with a short camera-shake. Auto-
+   advances to the fighting phase after 2.4s.
+
+   Three motion ramps run in parallel on mount:
+     0.00s  player portrait enters from the left
+     0.15s  opponent portrait enters from the right
+     0.55s  VS glyph decodes in (KineticText)
+     0.85s  clash shake fires (40ms x/y jitter × 4)
+     2.40s  onComplete fires — phase → "fighting"
+
+   Reduce-motion: framer-motion's reduced-motion honor kicks
+   in via the outer AnimatePresence / variants; the shake
+   skips itself via a runtime check on --motion-intensity.
+   ═══════════════════════════════════════════════════════ */
+function VsIntro({
+  player,
+  opponent,
+  arena,
+  onComplete,
+}: {
+  player: FighterData;
+  opponent: FighterData;
+  arena: ArenaData | null;
+  onComplete: () => void;
+}) {
+  useEffect(() => {
+    const t = setTimeout(onComplete, 2400);
+    return () => clearTimeout(t);
+  }, [onComplete]);
+
+  // Clash shake: two rounds of tiny asymmetric nudges so the viewport
+  // feels the impact of the fighters meeting. We animate a CSS custom
+  // property on the root container; keyframe in stylesheet handles the
+  // actual transform so we're GPU-composited.
+  const [shake, setShake] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setShake(true), 850);
+    return () => clearTimeout(t);
+  }, []);
+
+  const arenaColor = arena?.ambientColor ?? "var(--energy-primary)";
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className={`fixed inset-0 z-[60] overflow-hidden bg-black ${shake ? "vs-intro-shake" : ""}`}
+    >
+      {/* Arena atmosphere wash behind both panels. */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `radial-gradient(ellipse at 50% 60%, ${arenaColor}25 0%, transparent 60%)`,
+        }}
+      />
+
+      {/* Player panel — slides in from left with a diagonal clip */}
+      <motion.div
+        initial={{ x: "-60%", opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 180, damping: 22 }}
+        className="absolute inset-y-0 left-0 w-[55%] overflow-hidden"
+        style={{
+          clipPath: "polygon(0 0, 100% 0, 78% 100%, 0 100%)",
+        }}
+      >
+        <img
+          src={player.image}
+          alt={player.name}
+          className="w-full h-full object-cover"
+          style={{ filter: "brightness(0.85) saturate(1.2)" }}
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-tr from-black/70 via-transparent to-transparent"
+        />
+        <div
+          className="absolute bottom-8 left-6 right-8"
+          style={{ color: player.color }}
+        >
+          <p className="font-mono text-[10px] tracking-[0.4em] opacity-70">CHALLENGER</p>
+          <h2
+            className="font-display text-3xl sm:text-5xl font-black tracking-wider mt-1"
+            style={{ textShadow: `0 0 20px ${player.color}80` }}
+          >
+            <KineticText text={player.name.toUpperCase()} mode="char" speed={30} showCursor={false} as="span" />
+          </h2>
+        </div>
+      </motion.div>
+
+      {/* Opponent panel — mirror from right */}
+      <motion.div
+        initial={{ x: "60%", opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 180, damping: 22, delay: 0.15 }}
+        className="absolute inset-y-0 right-0 w-[55%] overflow-hidden"
+        style={{
+          clipPath: "polygon(22% 0, 100% 0, 100% 100%, 0 100%)",
+        }}
+      >
+        <img
+          src={opponent.image}
+          alt={opponent.name}
+          className="w-full h-full object-cover"
+          style={{ filter: "brightness(0.85) saturate(1.2)" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-tl from-black/70 via-transparent to-transparent" />
+        <div
+          className="absolute bottom-8 right-6 left-8 text-right"
+          style={{ color: opponent.color }}
+        >
+          <p className="font-mono text-[10px] tracking-[0.4em] opacity-70">OPPONENT</p>
+          <h2
+            className="font-display text-3xl sm:text-5xl font-black tracking-wider mt-1"
+            style={{ textShadow: `0 0 20px ${opponent.color}80` }}
+          >
+            <KineticText text={opponent.name.toUpperCase()} mode="char" speed={30} showCursor={false} as="span" />
+          </h2>
+        </div>
+      </motion.div>
+
+      {/* VS glyph — seam between panels */}
+      <motion.div
+        initial={{ scale: 2, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 200, damping: 14, delay: 0.55 }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
+      >
+        <div
+          className="font-display text-6xl sm:text-8xl font-black tracking-widest"
+          style={{
+            color: arenaColor,
+            textShadow: `0 0 30px ${arenaColor}, 0 0 60px ${arenaColor}80, 0 0 90px ${arenaColor}40`,
+          }}
+        >
+          <KineticText text="VS" mode="decode" speed={80} showCursor={false} as="span" />
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }

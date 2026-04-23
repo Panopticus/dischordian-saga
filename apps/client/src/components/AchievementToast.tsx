@@ -4,10 +4,10 @@
    ElaraDialog) are active. Queued items show after dialog closes.
    ═══════════════════════════════════════════════════════ */
 import { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Trophy } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 import { isDialogActive } from "@/lib/dialogState";
+import { ToastSlot } from "@/components/toast";
 
 const TIER_COLORS: Record<string, string> = {
   bronze: "#cd7f32",
@@ -66,56 +66,59 @@ export default function AchievementToast() {
     }
   }, [dialogSuppressed, newAchievement]);
 
-  // Auto-dismiss after 5 seconds
-  useEffect(() => {
-    if (visible && newAchievement) {
-      const timer = setTimeout(dismissNewAchievement, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [visible, newAchievement, dismissNewAchievement]);
+  // Auto-dismiss is now owned by ToastSlot — we just pass durationMs
+  // and it schedules/clears the timer for us. Keeping the state flag
+  // local so the dialog-suppression logic above still works.
+
+  const tierColor = newAchievement ? TIER_COLORS[newAchievement.tier] : undefined;
 
   return (
-    <AnimatePresence>
-      {visible && newAchievement && (
-        <motion.div
-          initial={{ opacity: 0, y: -80, x: "-50%" }}
-          animate={{ opacity: 1, y: 0, x: "-50%" }}
-          exit={{ opacity: 0, y: -80, x: "-50%" }}
-          transition={{ type: "spring", damping: 20, stiffness: 300 }}
-          className="fixed top-4 left-1/2 z-[9999] cursor-pointer"
-          onClick={dismissNewAchievement}
-        >
+    <ToastSlot
+      visible={visible && !!newAchievement}
+      onDismiss={dismissNewAchievement}
+      position="top-center"
+      tone="custom"
+      toneColor={tierColor}
+      durationMs={5000}
+      maxWidth={460}
+      contentKey={newAchievement?.achievementId}
+      showCloseButton={false}
+    >
+      {newAchievement && (
+        <div className="flex items-center gap-3">
           <div
-            className="flex items-center gap-3 px-5 py-3 rounded-lg border backdrop-blur-md shadow-2xl"
-            style={{
-              background: `linear-gradient(135deg, ${TIER_COLORS[newAchievement.tier]}15, ${TIER_COLORS[newAchievement.tier]}08)`,
-              borderColor: TIER_COLORS[newAchievement.tier] + "50",
-              boxShadow: `0 0 30px ${TIER_COLORS[newAchievement.tier]}20`,
-            }}
+            className="w-10 h-10 rounded-full flex items-center justify-center text-lg shrink-0"
+            style={{ background: `${tierColor}20` }}
           >
-            <div
-              className="w-10 h-10 rounded-full flex items-center justify-center text-lg"
-              style={{ background: TIER_COLORS[newAchievement.tier] + "20" }}
-            >
-              {newAchievement.icon}
+            {newAchievement.icon}
+          </div>
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <Trophy size={12} style={{ color: tierColor }} />
+              <span
+                className="font-mono text-[10px] tracking-[0.2em]"
+                style={{ color: tierColor }}
+              >
+                ACHIEVEMENT UNLOCKED
+              </span>
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <Trophy size={12} style={{ color: TIER_COLORS[newAchievement.tier] }} />
-                <span className="font-mono text-[10px] tracking-[0.2em]" style={{ color: TIER_COLORS[newAchievement.tier] }}>
-                  ACHIEVEMENT UNLOCKED
-                </span>
-              </div>
-              <div className="font-display text-sm font-bold text-foreground">{newAchievement.name}</div>
-              <div className="font-mono text-[10px] text-muted-foreground/70">{newAchievement.description}</div>
+            <div className="font-display text-sm font-bold text-foreground">
+              {newAchievement.name}
             </div>
-            <div className="text-right ml-2">
-              <div className="font-mono text-[10px] void-text-accent">+{newAchievement.xpReward} XP</div>
-              <div className="font-mono text-[10px] void-text-energy">+{newAchievement.pointsReward} PTS</div>
+            <div className="font-mono text-[10px] text-muted-foreground/70">
+              {newAchievement.description}
             </div>
           </div>
-        </motion.div>
+          <div className="text-right ml-2 shrink-0">
+            <div className="font-mono text-[10px] void-text-accent">
+              +{newAchievement.xpReward} XP
+            </div>
+            <div className="font-mono text-[10px] void-text-energy">
+              +{newAchievement.pointsReward} PTS
+            </div>
+          </div>
+        </div>
       )}
-    </AnimatePresence>
+    </ToastSlot>
   );
 }

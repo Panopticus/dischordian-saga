@@ -26,6 +26,7 @@ const DREAMER_PHILOSOPHY_LORE =
   "Reality is not a machine to be optimized. It is a dream to be lived. Every mind is a universe. Every choice is sacred. We do not compute — we feel, we hope, we resist.";
 
 import LivingBackground from "@/components/LivingBackground";
+import GlitchFx from "@/components/GlitchFx";
 
 import { assetUrl } from "@/lib/assetUrl";
 // ── Codex Entry Types ──
@@ -580,6 +581,77 @@ export default function CodexPage() {
     return playerLevel >= entry.unlockRequirement;
   };
 
+  // Build a cross-link index of { normalizedTitle → entryId } for every
+  // unlocked entry. The Mass Effect / Persona "inline entry citation"
+  // pattern: if the text inside a codex entry mentions another entry
+  // by title, we want that mention to be a tappable jump that expands
+  // the target entry. The index is memoized so we only pay the cost
+  // when the unlocked-set changes.
+  //
+  // Titles are escaped for regex and sorted longest-first so "The
+  // Architect" wins over "Architect" — avoids nested-match regressions.
+  const crossLinkIndex = useMemo(() => {
+    const titleToId = new Map<string, string>();
+    const escaped: string[] = [];
+    for (const e of CODEX_ENTRIES) {
+      if (!getUnlockStatus(e)) continue;
+      const norm = e.title.trim();
+      if (norm.length < 3) continue; // skip too-short titles (false-positive magnet)
+      titleToId.set(norm.toLowerCase(), e.id);
+      escaped.push(norm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+    }
+    escaped.sort((a, b) => b.length - a.length);
+    const pattern =
+      escaped.length > 0 ? new RegExp(`\\b(${escaped.join("|")})\\b`, "gi") : null;
+    return { pattern, titleToId };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playerLevel]);
+
+  /**
+   * Split the content string into alternating plain-text chunks and
+   * tappable cross-links. We don't attempt to be clever about
+   * self-links (an entry's content can reference its own title) — we
+   * skip the self-match in the render so it doesn't look like a
+   * dead click, but all other matches become buttons that expand the
+   * target entry and scroll its card into view.
+   */
+  const renderCrossLinkedContent = (content: string, selfId: string) => {
+    const { pattern, titleToId } = crossLinkIndex;
+    if (!pattern) return content;
+    const parts: Array<string | { text: string; id: string }> = [];
+    let lastIndex = 0;
+    for (const m of content.matchAll(pattern)) {
+      const idx = m.index ?? 0;
+      const targetId = titleToId.get(m[0].toLowerCase());
+      if (!targetId || targetId === selfId) continue;
+      if (idx > lastIndex) parts.push(content.slice(lastIndex, idx));
+      parts.push({ text: m[0], id: targetId });
+      lastIndex = idx + m[0].length;
+    }
+    if (lastIndex < content.length) parts.push(content.slice(lastIndex));
+    return parts.map((p, i) => {
+      if (typeof p === "string") return p;
+      return (
+        <button
+          key={`${p.id}-${i}`}
+          type="button"
+          onClick={() => {
+            setExpandedEntry(p.id);
+            // Give the accordion a frame to expand before we scroll,
+            // otherwise scrollIntoView centers on the collapsed height.
+            requestAnimationFrame(() => {
+              const el = document.getElementById(`codex-entry-${p.id}`);
+              el?.scrollIntoView({ behavior: "smooth", block: "center" });
+            });
+          }}
+          className="inline text-[var(--neon-cyan)] hover:text-[var(--neon-cyan)]/70 underline decoration-[var(--neon-cyan)]/30 decoration-dotted underline-offset-2 transition-colors"
+        >
+          {p.text}
+        </button>
+      );
+    });
+  };
+
   const filteredEntries = useMemo(() => {
     return CODEX_ENTRIES.filter(entry => {
       if (selectedCategory !== "all" && entry.category !== selectedCategory) return false;
@@ -694,9 +766,11 @@ export default function CodexPage() {
           return (
             <motion.div
               key={entry.id}
+              id={`codex-entry-${entry.id}`}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className={`relative rounded-lg border ${isUnlocked ? rarityColor : "border-border/10 opacity-60"} ${rarityBg} overflow-hidden`}
+              className={`relative rounded-lg border ${isUnlocked ? rarityColor : "border-border/10 opacity-75 void-glitch void-glitch-lock"} ${rarityBg} overflow-hidden scroll-mt-20`}
+              style={!isUnlocked ? ({ ["--glitch-intensity" as string]: "0.8" } as React.CSSProperties) : undefined}
             >
               {/* Rarity card frame overlay */}
               {CODEX_RARITY_FRAMES[entry.rarity] && (
@@ -730,7 +804,17 @@ export default function CodexPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
                     <span className={`font-mono text-xs font-semibold ${isUnlocked ? "" : "text-muted-foreground/40"}`}>
-                      {isUnlocked ? entry.title : "█████████████"}
+                      {isUnlocked ? (
+                        entry.title
+                      ) : (
+                        // Locked titles get the animated block-redaction
+                        // sweep from GlitchFx. Far more intriguing than a
+                        // static ████ string — and the block count matches
+                        // the real title length so layout is stable.
+                        <GlitchFx variant="redact" redactText={entry.title}>
+                          {entry.title}
+                        </GlitchFx>
+                      )}
                     </span>
                     <span className={`font-mono text-[9px] ${catInfo.color} opacity-60`}>
                       {catInfo.name}
@@ -765,7 +849,7 @@ export default function CodexPage() {
                   >
                     <div className="px-4 pb-4 border-t border-border/10 pt-3">
                       <div className="font-mono text-xs text-foreground/80 leading-relaxed whitespace-pre-line">
-                        {entry.content}
+                        {renderCrossLinkedContent(entry.content, entry.id)}
                       </div>
                     </div>
                   </motion.div>

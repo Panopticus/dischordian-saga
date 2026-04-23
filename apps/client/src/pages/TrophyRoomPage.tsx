@@ -191,7 +191,7 @@ export default function TrophyRoomPage() {
                       activeTheme.id === theme.id
                         ? `${theme.accent} ring-1 ring-primary`
                         : `border-border/20 hover:border-border/40`
-                    } ${!theme.unlocked ? "opacity-40" : ""}`}
+                    } ${!theme.unlocked ? "void-glitch void-glitch-lock" : ""}`}
                   >
                     <div className={`w-full h-8 rounded mb-2 ${theme.bg}`} />
                     <p className="font-mono text-xs font-bold text-foreground">{theme.name}</p>

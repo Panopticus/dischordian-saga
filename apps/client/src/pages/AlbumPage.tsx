@@ -140,10 +140,24 @@ export default function AlbumPage() {
                   className="w-8 text-right shrink-0"
                 >
                   {isActive && isPlaying ? (
-                    <div className="flex items-center justify-center gap-0.5">
-                      <span className="w-0.5 h-3 bg-primary animate-pulse" />
-                      <span className="w-0.5 h-4 bg-primary animate-pulse" style={{ animationDelay: "0.15s" }} />
-                      <span className="w-0.5 h-2 bg-primary animate-pulse" style={{ animationDelay: "0.3s" }} />
+                    // Each bar's height is driven by one band of the live
+                    // audio analyser (PlayerContext writes --audio-bass/mid/
+                    // treble to <html>). When audio-reactivity is disabled
+                    // via settings, the CSS falls back to a subtle idle
+                    // pulse so the indicator still reads as "playing."
+                    <div className="flex items-end justify-center gap-0.5 h-4">
+                      <span
+                        className="w-0.5 bg-primary rounded-sm transition-[height] duration-[60ms] linear"
+                        style={{ height: "calc(6px + var(--audio-bass, 0) * 10px)" }}
+                      />
+                      <span
+                        className="w-0.5 bg-primary rounded-sm transition-[height] duration-[60ms] linear"
+                        style={{ height: "calc(8px + var(--audio-mid, 0) * 8px)" }}
+                      />
+                      <span
+                        className="w-0.5 bg-primary rounded-sm transition-[height] duration-[60ms] linear"
+                        style={{ height: "calc(4px + var(--audio-treble, 0) * 10px)" }}
+                      />
                     </div>
                   ) : (
                     <>

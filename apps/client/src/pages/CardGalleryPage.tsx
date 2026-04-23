@@ -10,6 +10,7 @@ import { getMaterialById } from "@/data/craftingData";
 import { toast } from "sonner";
 import { generateStarterDeck, type StarterCard } from "@/components/StarterDeckViewer";
 import { ROOM_EASTER_EGGS, getBonusCards } from "@/components/EasterEggs";
+import { GallerySearch } from "@/components/gallery";
 import { Link } from "wouter";
 import {
   Crown, Filter, Sparkles, Lock, ChevronLeft, Eye, Search,
@@ -215,11 +216,17 @@ function CardDisplay({ card, onClick, viewMode }: { card: FullCard; onClick: () 
     );
   }
 
+  // "Not yet owned" cards without discovered art read better as
+  // locked silhouettes than as blank icon tiles. void-glitch-lock
+  // gives the familiar grayscale + red scanline sweep so the card
+  // reads as "collectable, not yet acquired."
+  const isLockedCard = !card.owned && !card.imageUrl;
+
   return (
     <motion.div
       whileHover={{ scale: 1.05, y: -4 }}
       whileTap={{ scale: 0.98 }}
-      className={`relative rounded-lg border ${rarity.border} ${rarity.bg} overflow-hidden cursor-pointer group ${rarity.glow ? `shadow-lg ${rarity.glow}` : ""}`}
+      className={`relative rounded-lg border ${rarity.border} ${rarity.bg} overflow-hidden cursor-pointer group ${rarity.glow ? `shadow-lg ${rarity.glow}` : ""} ${isLockedCard ? "void-glitch void-glitch-lock" : ""}`}
       onClick={onClick}
     >
       <div className="aspect-[3/4] overflow-hidden relative">
@@ -717,26 +724,16 @@ export default function CardGalleryPage() {
             </div>
           </div>
 
-          {/* Search bar */}
-          <div className="relative mb-3">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground/50" />
-            <input
-              type="text"
+          {/* Search bar — migrated to the shared GallerySearch
+              primitive. Same focus-ring, same clear button, same
+              aria-labelling as the rest of the gallery surfaces. */}
+          <div className="mb-3">
+            <GallerySearch
               value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
+              onChange={setSearchQuery}
               placeholder="Search cards by name, ability, lore..."
-              className="w-full void-bg-canvas border void-border rounded-lg pl-9 pr-8 py-2 font-mono text-xs text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary/30 focus:border-primary/30"
             />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground/50 hover:text-foreground"
-              >
-                <X size={14} />
-              </button>
-            )}
           </div>
-
           {/* Rarity pills */}
           <div className="flex gap-1.5 mb-3 overflow-x-auto pb-1">
             <button

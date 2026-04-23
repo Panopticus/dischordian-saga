@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import season1Cards from "@/data/season1-cards.json";
 
 import LivingBackground from "@/components/LivingBackground";
+import { EmptyMarketplace } from "@/components/EmptyStates";
 
 type CardData = (typeof season1Cards)[number];
 
@@ -263,10 +264,7 @@ function BrowseTab() {
           <Loader2 className="animate-spin text-primary" size={24} />
         </div>
       ) : !data?.listings.length ? (
-        <div className="text-center py-12">
-          <Store size={32} className="mx-auto text-muted-foreground/30 mb-3" />
-          <p className="font-mono text-sm text-muted-foreground">No listings found</p>
-        </div>
+        <EmptyMarketplace className="my-12" />
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -606,10 +604,7 @@ function AuctionsTab() {
       {isLoading ? (
         <div className="flex justify-center py-12"><Loader2 className="animate-spin text-primary" size={24} /></div>
       ) : !data?.auctions.length ? (
-        <div className="text-center py-12">
-          <Gavel size={32} className="mx-auto text-muted-foreground/30 mb-3" />
-          <p className="font-mono text-sm text-muted-foreground">No active auctions</p>
-        </div>
+        <EmptyMarketplace className="my-12" />
       ) : (
         <div className="space-y-3">
           {data.auctions.map((auction) => {
@@ -748,10 +743,7 @@ function BuyOrdersTab() {
       {isLoading ? (
         <div className="flex justify-center py-12"><Loader2 className="animate-spin text-primary" size={24} /></div>
       ) : !data?.orders.length ? (
-        <div className="text-center py-12">
-          <ShoppingCart size={32} className="mx-auto text-muted-foreground/30 mb-3" />
-          <p className="font-mono text-sm text-muted-foreground">No active buy orders</p>
-        </div>
+        <EmptyMarketplace className="my-12" />
       ) : (
         <div className="space-y-2">
           {data.orders.map((order) => (

@@ -5,9 +5,8 @@
    a cinematic notification that fades in and out.
    ═══════════════════════════════════════════════════════ */
 import { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { VOID } from "@/engine/voidPresets";
 import { FACTION_NPCS, type FactionNPCId } from "@/game/factionNPCs";
+import { ToastSlot } from "@/components/toast";
 
 interface RememberData {
   npcId: FactionNPCId;
@@ -19,56 +18,66 @@ interface RememberData {
 export default function RememberThisToast() {
   const [current, setCurrent] = useState<RememberData | null>(null);
   const queueRef = useRef<RememberData[]>([]);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const gapTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
-  const showNext = useCallback(() => {
+  // Queue-drain loop. When ToastSlot's durationMs fires, it calls
+  // onDismiss which clears current; we then wait 500ms before promoting
+  // the next queued memory so successive "X will remember this" beats
+  // have breathing room instead of stacking.
+  const promoteNext = useCallback(() => {
     const next = queueRef.current.shift();
     if (!next) { setCurrent(null); return; }
     setCurrent(next);
-    timerRef.current = setTimeout(() => {
-      setCurrent(null);
-      setTimeout(showNext, 500);
-    }, 3500);
   }, []);
+
+  const dismiss = useCallback(() => {
+    setCurrent(null);
+    if (gapTimerRef.current) clearTimeout(gapTimerRef.current);
+    gapTimerRef.current = setTimeout(promoteNext, 500);
+  }, [promoteNext]);
 
   useEffect(() => {
     const handler = (e: Event) => {
       const detail = (e as CustomEvent).detail as RememberData;
       queueRef.current.push(detail);
-      if (!current) showNext();
+      if (!current) promoteNext();
     };
     window.addEventListener("npc-remember", handler);
     return () => {
       window.removeEventListener("npc-remember", handler);
-      if (timerRef.current) clearTimeout(timerRef.current);
+      if (gapTimerRef.current) clearTimeout(gapTimerRef.current);
     };
-  }, [current, showNext]);
+  }, [current, promoteNext]);
 
   const npc = current ? FACTION_NPCS[current.npcId] : null;
   const color = npc?.color || "#33e2e6";
 
   return (
-    <AnimatePresence>
+    <ToastSlot
+      visible={!!current}
+      onDismiss={dismiss}
+      position="top-center"
+      tone="custom"
+      toneColor={color}
+      durationMs={3500}
+      maxWidth={420}
+      contentKey={current ? `${current.npcId}-${current.text}` : undefined}
+      showCloseButton={false}
+    >
       {current && (
-        <motion.div
-          {...VOID.fadeUp()}
-          className="fixed top-16 left-1/2 -translate-x-1/2 z-[95] pointer-events-none"
-        >
-          <div className="flex items-center gap-3 px-6 py-3 rounded-lg"
-            style={{
-              background: `linear-gradient(135deg, rgba(0,0,0,0.9) 0%, ${color}08 100%)`,
-              border: `1px solid ${color}20`,
-              boxShadow: `0 0 30px ${color}10`,
-            }}>
-            <div className="w-1 h-8 rounded-full" style={{ backgroundColor: color }} />
-            <div>
-              <p className="font-mono text-sm tracking-wider" style={{ color }}>
-                {current.text}
-              </p>
-            </div>
-          </div>
-        </motion.div>
+        <div className="flex items-center gap-3">
+          <div
+            className="w-1 h-8 rounded-full shrink-0"
+            style={{ backgroundColor: color }}
+          />
+          <p
+            className="font-mono text-sm tracking-wider"
+            style={{ color }}
+          >
+            {current.text}
+          </p>
+        </div>
       )}
-    </AnimatePresence>
+    </ToastSlot>
   );
 }

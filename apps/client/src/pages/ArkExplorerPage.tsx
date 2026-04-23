@@ -16,6 +16,8 @@ import { generateDailyBrief, type RoomEvent } from "@/game/livingArk";
 import { processArkEvent, type ArkEventResult } from "@/game/arkEventHandler";
 import { useDailyBrief } from "@/hooks/useDailyBrief";
 import PageMeta from "@/components/PageMeta";
+import RoomAmbientLife from "@/components/RoomAmbientLife";
+import ArkFastTravelModal from "@/components/ArkFastTravelModal";
 import NPCDialog, { buildFirstContactScene, type NPCDialogScene, type NPCDialogChoice } from "@/components/NPCDialog";
 import type { FactionNPCId } from "@/game/factionNPCs";
 import { getAvailableBanter, type CompanionBanter } from "@/game/companionDeepening";
@@ -307,6 +309,14 @@ function RoomScene({
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{
         backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, color-mix(in oklch, var(--energy-primary) 15%, transparent) 2px, color-mix(in oklch, var(--energy-primary) 15%, transparent) 4px)",
       }} />
+
+      {/* Per-room ambient life overlay — keyframed CSS-only particles
+          and sweeps themed per room (cryo vapor, bridge star drift,
+          engineering heat haze + sparks, medical diagnostic line +
+          IV drip, antiquarian library dust motes). Unknown rooms
+          render nothing so the default "image + scanlines" experience
+          is preserved. */}
+      <RoomAmbientLife roomId={room.id} />
 
       {/* Markers toggle moved to Settings page */}
 
@@ -970,6 +980,27 @@ export default function ArkExplorerPage() {
     return set;
   }, [state.rooms]);
 
+  // Cmd/Ctrl+K opens the searchable fast-travel modal once the
+  // player has solved the nav-console puzzle. Gated behind
+  // fastTravelUnlocked so pre-puzzle players don't get a keyboard
+  // shortcut that exposes rooms they haven't earned yet.
+  const [fastTravelModalOpen, setFastTravelModalOpen] = useState(false);
+  useEffect(() => {
+    if (!fastTravelUnlocked) return;
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setFastTravelModalOpen((v) => !v);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [fastTravelUnlocked]);
+  const unlockedRoomDefs = useMemo(
+    () => ROOM_DEFINITIONS.filter((r) => unlockedRoomIds.has(r.id)),
+    [unlockedRoomIds],
+  );
+
   // Check if a room requires a puzzle to enter
   const roomNeedsPuzzle = useCallback((roomId: string): boolean => {
     const puzzle = ROOM_PUZZLES[roomId];
@@ -1566,6 +1597,24 @@ export default function ArkExplorerPage() {
           />
         )}
       </AnimatePresence>
+
+      {/* Fast Travel modal — Cmd/Ctrl+K. Only mounted when the
+          player has solved the nav-console puzzle; the keybind
+          effect above is gated on the same flag so pre-puzzle
+          players don't get a shortcut that reveals rooms they
+          haven't earned. */}
+      {fastTravelUnlocked && (
+        <ArkFastTravelModal
+          open={fastTravelModalOpen}
+          onClose={() => setFastTravelModalOpen(false)}
+          rooms={unlockedRoomDefs}
+          currentRoomId={state.currentRoomId}
+          onTravel={(roomId) => {
+            if (audioReady) playSFX("terminal_access");
+            navigateWithTransition(roomId);
+          }}
+        />
+      )}
 
       {/* Fast Travel Panel — only visible after solving the nav puzzle */}
       {fastTravelUnlocked && (

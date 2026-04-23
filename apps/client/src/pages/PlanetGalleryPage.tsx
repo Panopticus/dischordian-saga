@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, Globe, X } from "lucide-react";
 import LivingBackground from "@/components/LivingBackground";
 import ResponsiveImage from "@/components/ResponsiveImage";
+import GlitchFx from "@/components/GlitchFx";
 
 import { assetUrl } from "@/lib/assetUrl";
 interface Planet {
@@ -86,36 +87,52 @@ export default function PlanetGalleryPage() {
 
         {/* Planet grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {PLANETS.map((planet, i) => (
-            <motion.button
-              key={planet.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-              onClick={() => planet.image && setSelected(planet)}
-              className={`void-surface p-3 text-left group ${!planet.image ? "opacity-30 cursor-not-allowed" : ""}`}
-            >
-              {/* Planet image */}
-              <div className="aspect-square rounded-lg overflow-hidden mb-3 bg-black/50 flex items-center justify-center">
-                {planet.image ? (
-                  <ResponsiveImage
-                    src={planet.image}
-                    alt={planet.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                ) : (
-                  <Globe size={32} className="text-muted-foreground/20" />
+          {PLANETS.map((planet, i) => {
+            // Planets without art are narrative locks — they exist in
+            // the universe but their portraits haven't been revealed
+            // yet. Apply void-glitch-lock for the grayscale + red
+            // scanline sweep and redact the name so the silhouette
+            // reads as "known unknown" rather than "bug."
+            const isLocked = !planet.image;
+            return (
+              <motion.button
+                key={planet.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                onClick={() => planet.image && setSelected(planet)}
+                className={`void-surface p-3 text-left group ${
+                  isLocked ? "cursor-not-allowed void-glitch void-glitch-lock" : ""
+                }`}
+              >
+                {/* Planet image */}
+                <div className="aspect-square rounded-lg overflow-hidden mb-3 bg-black/50 flex items-center justify-center">
+                  {planet.image ? (
+                    <ResponsiveImage
+                      src={planet.image}
+                      alt={planet.name}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <Globe size={32} className="text-muted-foreground/20" />
+                  )}
+                </div>
+                {/* Planet name */}
+                <div className="font-display text-sm font-bold tracking-wider" style={{ color: planet.color }}>
+                  {isLocked ? (
+                    <GlitchFx variant="redact" redactText={planet.name}>
+                      {planet.name}
+                    </GlitchFx>
+                  ) : (
+                    planet.name
+                  )}
+                </div>
+                {planet.faction && (
+                  <div className="font-mono text-[8px] text-muted-foreground/50 mt-0.5">{planet.faction}</div>
                 )}
-              </div>
-              {/* Planet name */}
-              <div className="font-display text-sm font-bold tracking-wider" style={{ color: planet.color }}>
-                {planet.name}
-              </div>
-              {planet.faction && (
-                <div className="font-mono text-[8px] text-muted-foreground/50 mt-0.5">{planet.faction}</div>
-              )}
-            </motion.button>
-          ))}
+              </motion.button>
+            );
+          })}
         </div>
       </div>
 

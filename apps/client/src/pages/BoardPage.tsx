@@ -75,6 +75,12 @@ export default function BoardPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
   const [hoveredNode, setHoveredNode] = useState<Node | null>(null);
+  // Viewport-relative mouse coords for the hover tooltip overlay. The
+  // canvas-drawn labels are fine for at-a-glance IDing, but a rich
+  // tooltip answers "what is this?" without the player having to click
+  // through to the detail panel first — same pattern as Destiny 2's
+  // director map and the old Ghost-in-the-Shell net map.
+  const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number } | null>(null);
   const [zoom, setZoom] = useState(0.8);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -493,17 +499,26 @@ export default function BoardPage() {
       }
 
       // ── Label ──
-      const labelAlpha = dimmed ? 0.2 : isSelected || isHovered ? 1 : isConnected ? 0.8 : 0.6;
-      ctx.font = `${isSelected || isHovered ? "bold 11px" : "10px"} 'Source Code Pro', monospace`;
-      ctx.textAlign = "center";
+      // Adaptive labels: at low zoom the graph becomes a wall of
+      // overlapping text, so hide labels below 0.6× unless the node
+      // is selected, hovered, or directly connected to the focus.
+      // Destiny 2's director map uses the same pattern — only the
+      // "important-right-now" nodes are legible, everything else
+      // reads as silhouette until you zoom in or select.
+      const lowZoomHidden = zoom < 0.6 && !isSelected && !isHovered && !isConnected;
+      if (!lowZoomHidden) {
+        const labelAlpha = dimmed ? 0.2 : isSelected || isHovered ? 1 : isConnected ? 0.8 : 0.6;
+        ctx.font = `${isSelected || isHovered ? "bold 11px" : "10px"} 'Source Code Pro', monospace`;
+        ctx.textAlign = "center";
 
-      // Text shadow/glow for readability
-      if (!dimmed) {
-        ctx.fillStyle = `${typeColor.glow}${labelAlpha * 0.3})`;
-        ctx.fillText(n.name.length > 18 ? n.name.slice(0, 16) + "..." : n.name, n.x + 0.5, n.y + n.radius + 15.5);
+        // Text shadow/glow for readability
+        if (!dimmed) {
+          ctx.fillStyle = `${typeColor.glow}${labelAlpha * 0.3})`;
+          ctx.fillText(n.name.length > 18 ? n.name.slice(0, 16) + "..." : n.name, n.x + 0.5, n.y + n.radius + 15.5);
+        }
+        ctx.fillStyle = `color-mix(in oklch, var(--text-primary) calc((labelAlpha) * 100%), transparent)`;
+        ctx.fillText(n.name.length > 18 ? n.name.slice(0, 16) + "..." : n.name, n.x, n.y + n.radius + 15);
       }
-      ctx.fillStyle = `color-mix(in oklch, var(--text-primary) calc((labelAlpha) * 100%), transparent)`;
-      ctx.fillText(n.name.length > 18 ? n.name.slice(0, 16) + "..." : n.name, n.x, n.y + n.radius + 15);
 
       // Connection count badge for important nodes
       if (n.connCount >= 5 && !dimmed) {
@@ -560,10 +575,15 @@ export default function BoardPage() {
   };
 
   const findNodeAt = (mx: number, my: number) => {
+    // Expanded hit-radius pads the node by 14px so small nodes are
+    // reachable on mobile touch. The canvas-drawn label sits ~15px
+    // below each node so we intentionally stop short of it to avoid
+    // a label accidentally receiving a tap when the user meant to
+    // dismiss selection.
     return nodesRef.current.find((n) => {
       const dx = n.x - mx;
       const dy = n.y - my;
-      return Math.sqrt(dx * dx + dy * dy) < n.radius + 8;
+      return Math.sqrt(dx * dx + dy * dy) < n.radius + 14;
     });
   };
 
@@ -592,6 +612,13 @@ export default function BoardPage() {
       const { mx, my } = getCanvasCoords(e.clientX, e.clientY);
       const hovered = findNodeAt(mx, my);
       setHoveredNode(hovered || null);
+      // Cache the raw page coords so the DOM tooltip below can position
+      // itself relative to the mouse. We store viewport-relative so the
+      // tooltip layer can be `position: fixed` and skip re-projecting
+      // through pan/zoom every frame.
+      if (hovered) {
+        setTooltipPos({ x: e.clientX, y: e.clientY });
+      }
     }
   };
 
@@ -752,13 +779,46 @@ export default function BoardPage() {
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
-          onMouseLeave={() => { handleMouseUp(); setHoveredNode(null); }}
+          onMouseLeave={() => { handleMouseUp(); setHoveredNode(null); setTooltipPos(null); }}
           onWheel={handleWheel}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
           className="w-full h-full cursor-grab active:cursor-grabbing touch-none"
         />
+
+        {/* ═══ HOVER TOOLTIP ═══
+            Small DOM card that floats next to the mouse on hover.
+            Pointer-events-none so it never intercepts drag. Clamped
+            below so it never falls off the right edge / bottom of
+            the viewport; 16px offset puts it next to the cursor
+            without obscuring the node silhouette the player is
+            reading. On touch devices there's no hoveredNode so this
+            is silently no-op. */}
+        {hoveredNode && tooltipPos && hoveredNode.id !== selectedNode?.id && (
+          <div
+            className="fixed z-50 pointer-events-none max-w-[240px] rounded-md border backdrop-blur-sm px-3 py-2"
+            style={{
+              left: Math.min(tooltipPos.x + 16, window.innerWidth - 256),
+              top: Math.min(tooltipPos.y + 16, window.innerHeight - 120),
+              background: "color-mix(in oklch, var(--bg-void) 88%, transparent)",
+              borderColor: "color-mix(in oklch, var(--neon-cyan) 30%, transparent)",
+              boxShadow: "0 0 20px color-mix(in oklch, var(--neon-cyan) 14%, transparent)",
+            }}
+          >
+            <p className="font-mono text-[9px] tracking-[0.2em] text-[var(--neon-cyan)]/70 mb-0.5 uppercase">
+              {hoveredNode.type.replace(/_/g, " ")}
+            </p>
+            <p className="font-display text-sm font-bold text-foreground">
+              {hoveredNode.name}
+            </p>
+            {hoveredNode.connCount > 0 && (
+              <p className="font-mono text-[10px] text-muted-foreground/60 mt-1">
+                {hoveredNode.connCount} connection{hoveredNode.connCount === 1 ? "" : "s"}
+              </p>
+            )}
+          </div>
+        )}
 
         {/* ═══ SELECTED NODE PANEL ═══ */}
         <AnimatePresence>

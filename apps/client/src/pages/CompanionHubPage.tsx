@@ -16,6 +16,30 @@ import {
 import HolographicElara from "@/components/HolographicElara";
 import { Streamdown } from "streamdown";
 import CutsceneOverlay, { QUEST_CUTSCENES, type CutsceneData } from "@/components/CutsceneOverlay";
+import { AtmosphereScope } from "@/engine/AtmosphereScope";
+import LivingPortrait from "@/components/LivingPortrait";
+import CompanionTierCeremony from "@/components/CompanionTierCeremony";
+
+/**
+ * Affinity → atmosphere mapping. The same thresholds the exploration
+ * agent confirmed for getRelationshipTier live here, translated to
+ * VoidEngine theme ids so the palette warms as the relationship deepens.
+ *
+ * Cold (circuit_nexus) → Balanced (twilight_equilibrium) → Warm
+ * (industrial_accent) → Verdant → Golden → Aurora → Ascendant. The
+ * palette arc is intentionally one-way: there's no "darkening on
+ * betrayal" here because the data model doesn't support it, and we
+ * want the moment tier advances to _feel_ like a visible shift.
+ */
+function atmosphereForAffinity(affinity: number): string {
+  if (affinity >= 90) return "ascendant_light";
+  if (affinity >= 75) return "aurora_bloom";
+  if (affinity >= 60) return "golden_sanctuary";
+  if (affinity >= 40) return "verdant_growth";
+  if (affinity >= 20) return "industrial_accent";
+  if (affinity >= 5) return "twilight_equilibrium";
+  return "circuit_nexus";
+}
 import { COMPANION_GIFTS, calculateGiftXp, canCraftGift, getRarityColor, type CompanionGift } from "@/data/companionGifts";
 import CompanionBondPanel from "@/components/CompanionBondPanel";
 import { EmptyCompanions } from "@/components/EmptyStates";
@@ -292,6 +316,12 @@ export default function CompanionHubPage() {
   const isElara = selectedCompanion.id === "elara";
   const accentColor = isElara ? "cyan" : "red";
   const romanceActive = state.companionRomanceActive === selectedCompanion.id;
+  // Map affinity (0–100) to an atmosphere. Cold/clinical at low trust,
+  // warming through industrial → verdant → golden → aurora → ascendant
+  // as the companion becomes more soulbound. The scope is applied to
+  // just the tab body so only the "focused" pane picks up the palette —
+  // the roster view above stays neutral.
+  const companionAtmosphere = atmosphereForAffinity(level);
 
   return (
     <div className="min-h-screen p-4 sm:p-6 pb-24">
@@ -303,6 +333,11 @@ export default function CompanionHubPage() {
           onClose={() => setActiveCutscene(null)}
         />
       )}
+      {/* Tier-up ceremony — watches `level` for threshold crossings
+          (5/20/40/60/75/90) and plays a one-shot KineticText reveal
+          the first time the player crosses each. Self-seeds on first
+          render so re-opening the Hub at a high tier doesn't re-fire. */}
+      <CompanionTierCeremony level={level} companionName={selectedCompanion.name} />
       <div className="max-w-4xl mx-auto">
         {/* Back Button */}
         <button
@@ -419,7 +454,16 @@ export default function CompanionHubPage() {
           </div>
         </div>
 
-        {/* Tab Content */}
+        {/* Tab Content — wrapped in AtmosphereScope keyed by the
+            companion's current affinity tier. The palette warms as the
+            relationship deepens; when the player crosses a threshold
+            (e.g. Acquainted → Allied) the scope re-evaluates on next
+            render and the background transitions smoothly via Void
+            Energy's own CSS-var interpolation. */}
+        <AtmosphereScope
+          atmosphere={companionAtmosphere}
+          className="rounded-lg"
+        >
         <AnimatePresence mode="wait">
           {activeTab === "overview" && (
             <motion.div
@@ -429,6 +473,20 @@ export default function CompanionHubPage() {
               exit={{ opacity: 0, y: -10 }}
               className="space-y-4"
             >
+              {/* Living Portrait Chamber — only wired for companions
+                  we have art for. The Human uses the small-header
+                  stub until the full reveal; dropping a tilted
+                  particle chamber around a Lock icon would read as
+                  parody, not presence. */}
+              {isElara && (
+                <LivingPortrait
+                  npcId="elara"
+                  trustLevel={level}
+                  accentColor="var(--neon-cyan)"
+                  className="w-full max-w-[380px] aspect-square mx-auto"
+                />
+              )}
+
               {/* Personality Traits */}
               <div className="void-surface p-4">
                 <h3 className="font-display text-sm font-bold tracking-wider text-foreground mb-3 flex items-center gap-2">
@@ -922,6 +980,7 @@ export default function CompanionHubPage() {
             />
           )}
         </AnimatePresence>
+        </AtmosphereScope>
       </div>
     </div>
   );
@@ -1174,7 +1233,12 @@ function CompanionChatTab({
           </div>
         )}
 
-        {/* Dialog Choices */}
+        {/* Dialog Choices — each button now wears a category chip so
+            the player can read the "type of query" at-a-glance (like
+            Persona's Social Link reply previews). The category comes
+            back from the LLM's structured choice output and is the
+            same value passed to sendMessage() for pathing, so this is
+            truthful information, not decorative. */}
         {choices.length > 0 && !isTyping && (
           <div className={`p-3 border-t ${accentBorder} bg-card/5`}>
             <p className="font-mono text-[9px] text-muted-foreground/40 tracking-wider mb-2">SUGGESTED QUERIES</p>
@@ -1183,13 +1247,21 @@ function CompanionChatTab({
                 <button
                   key={choice.id}
                   onClick={() => handleChoiceClick(choice)}
-                  className={`px-2.5 py-1.5 rounded text-[10px] font-mono border transition-all hover:scale-[1.02] ${
+                  className={`group px-2.5 py-1.5 rounded text-[10px] font-mono border transition-all hover:scale-[1.02] flex items-center gap-2 ${
                     isElara
                       ? "void-border-success void-text-energy void-bg-success void-text-energy"
                       : "void-border-error void-text-error void-bg-error void-text-error"
                   }`}
                 >
-                  {choice.text}
+                  <span>{choice.text}</span>
+                  {choice.category && (
+                    <span
+                      className="text-[8px] tracking-widest uppercase opacity-60 group-hover:opacity-90 transition-opacity px-1 py-0.5 rounded border border-current/30"
+                      aria-label={`Category: ${choice.category}`}
+                    >
+                      {choice.category}
+                    </span>
+                  )}
                 </button>
               ))}
             </div>

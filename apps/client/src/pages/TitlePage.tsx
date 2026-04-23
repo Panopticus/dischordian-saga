@@ -21,6 +21,8 @@ import { motion } from "framer-motion";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { useGame } from "@/contexts/GameContext";
 import { trpc } from "@/lib/trpc";
+import GlitchFx from "@/components/GlitchFx";
+import KineticText from "@/components/void/KineticText";
 
 import { BroadcastPanel } from "./title/BroadcastPanel";
 import { BroadcastTicker } from "./title/BroadcastTicker";
@@ -44,13 +46,20 @@ interface TitlePageProps {
 }
 
 /**
- * F12 — diegetic boot overlay. Renders in the logo/CTA column as a
- * top-left HUD block that types on a short handshake narrative. Uses
- * framer-motion for the stagger because the file already imports it.
- * Disabled animation under prefers-reduced-motion (line appears
- * instantly instead of typing).
+ * Diegetic boot overlay. Renders in the logo/CTA column as a top-left
+ * HUD block that types on a short handshake narrative. The designation
+ * line uses KineticText decode so each glyph scrambles before resolving,
+ * matching the Loredex OS "incoming signal" feel.
+ *
+ * Boot is skippable once the player has opened the title before
+ * (`titleBootSeen` in localStorage). Pass `skipAnimation` from the
+ * parent to force-finish — useful for returning sessions where the
+ * player has already seen the handshake dozens of times.
+ *
+ * Respects prefers-reduced-motion via the KineticText hook; non-decode
+ * lines fall back to an instant reveal.
  */
-function DiegeticBootSequence() {
+function DiegeticBootSequence({ skipAnimation = false }: { skipAnimation?: boolean }) {
   const lines = [
     "CoNEXUS HANDSHAKE . . .",
     "LINK ESTABLISHED",
@@ -71,18 +80,34 @@ function DiegeticBootSequence() {
         lineHeight: 1.8,
       }}
     >
-      {lines.map((line, i) => (
-        <motion.div
-          key={line}
-          initial={{ opacity: 0, x: -4 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.5 + i * 0.6, duration: 0.3 }}
-          style={{ whiteSpace: "pre" }}
-        >
-          {"> "}
-          {line}
-        </motion.div>
-      ))}
+      {lines.map((line, i) => {
+        const delay = skipAnimation ? 0 : 0.5 + i * 0.6;
+        // The designation line gets the scramble-to-resolve treatment —
+        // it's the one "reveal" beat that earns the extra production value.
+        const isDecode = line.startsWith("ARK DESIGNATION");
+        return (
+          <motion.div
+            key={line}
+            initial={{ opacity: 0, x: -4 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay, duration: skipAnimation ? 0 : 0.3 }}
+            style={{ whiteSpace: "pre" }}
+          >
+            {"> "}
+            {isDecode && !skipAnimation ? (
+              <KineticText
+                text={line}
+                mode="decode"
+                speed={55}
+                showCursor={false}
+                style={{ color: "rgba(51, 226, 230, 0.95)" }}
+              />
+            ) : (
+              line
+            )}
+          </motion.div>
+        );
+      })}
     </div>
   );
 }
@@ -165,12 +190,33 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
     };
   }, []);
 
+  // Skip the boot-sequence typewriter for players who've been here
+  // before. The first time through, we want the full 3s of ceremony;
+  // every time after that, dropping the operator straight into the
+  // CTA is what AAA titles do ("press any button to continue" beat).
+  const [hasSeenBoot] = useState(() => {
+    try {
+      return localStorage.getItem("titleBootSeen") === "1";
+    } catch {
+      return false;
+    }
+  });
+
   /* ─── Stagger reveals + threshold gate ─── */
   useEffect(() => {
-    const t1 = setTimeout(() => setShowLoginStagger(true), 1200);
-    const t2 = setTimeout(() => setThresholdPassed(true), THRESHOLD_MS);
+    const bootDelay = hasSeenBoot ? 250 : 1200;
+    const thresholdDelay = hasSeenBoot ? 400 : THRESHOLD_MS;
+    const t1 = setTimeout(() => setShowLoginStagger(true), bootDelay);
+    const t2 = setTimeout(() => setThresholdPassed(true), thresholdDelay);
+    // Persist the flag on first successful mount so next time we
+    // collapse the whole ceremony.
+    try {
+      localStorage.setItem("titleBootSeen", "1");
+    } catch {
+      /* storage blocked — fine, we just ceremony every time */
+    }
     return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, []);
+  }, [hasSeenBoot]);
 
   /* ─── Periodic glitch on title ─── */
   useEffect(() => {
@@ -393,28 +439,45 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
 
       {/* Logo + state body */}
       <div style={{ position: "relative", zIndex: 3, textAlign: "center", padding: "2rem", maxWidth: "min(900px, 94vw)", marginLeft: "auto", marginRight: "auto" }}>
-        <img
-          src={assetUrl("art/logos/dischordian-saga.png")}
-          alt=""
-          style={{
-            display: "block",
-            maxWidth: "min(340px, 70vw)",
-            width: "auto",
-            height: "auto",
-            margin: "0 auto 0.5rem",
-            filter: `drop-shadow(0 0 30px ${toRgba(theme.palette.accent, 0.35)})`,
-          }}
-        />
+        {/* Logo with audio-reactive glow. The drop-shadow base radius is
+            30px; we add up to +24px driven by --audio-bass so the logo
+            breathes in time with the opening music. GlitchFx chroma
+            adds a subtle, continuous RGB split — the kind of tiny
+            production value that separates a web demo from a shipped
+            title. Both degrade cleanly under reduce-motion and when
+            audio-reactivity is disabled in settings. */}
+        <GlitchFx
+          variant="chroma"
+          intensity={0.45}
+          audioReactive
+          style={{ display: "block", margin: "0 auto 0.5rem" }}
+        >
+          <img
+            src={assetUrl("art/logos/dischordian-saga.png")}
+            alt=""
+            style={{
+              display: "block",
+              maxWidth: "min(340px, 70vw)",
+              width: "auto",
+              height: "auto",
+              filter: `drop-shadow(0 0 calc(30px + var(--audio-bass, 0) * 24px) ${toRgba(theme.palette.accent, 0.45)})`,
+              transition: "filter 60ms linear",
+            }}
+          />
+        </GlitchFx>
         {/* F12 — redundant title stack removed. The logo image (above)
             already carries "THE DISCHORDIAN SAGA"; showing it twice in
             large text was menu-flavored rather than legend-flavored.
             The space below the logo is now used for the diegetic boot
             sequence + the unauth CTA. */}
 
-        {/* Diegetic boot sequence (F12). Types on over ~3s. The
-            "ARK DESIGNATION: 1047" line is an intentional easter egg
-            that primes the Bridge puzzle for attentive players. */}
-        <DiegeticBootSequence />
+        {/* Diegetic boot sequence. Types on over ~3s the first time;
+            collapses to an instant reveal on return sessions so veterans
+            don't sit through the handshake every time they open the app.
+            The "ARK DESIGNATION: 1047" line is an intentional easter egg
+            that primes the Bridge puzzle for attentive players, and now
+            gets the KineticText scramble-to-resolve treatment. */}
+        <DiegeticBootSequence skipAnimation={hasSeenBoot} />
 
         {/* Body — one of three states */}
         {!isAuthenticated && (
