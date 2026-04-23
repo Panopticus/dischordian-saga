@@ -799,6 +799,39 @@ Violet + amber palette. Film grain.
 
 ---
 
+## PART 5 — ACT 5 "THE RECKONING / THE MAP"
+
+### 5.0 — Narrative anchor
+
+**Trigger:** After Act 4.5 / Act 4 resolution. Hub detects via `act_5_started`.
+
+**Premise:** Kael's five-sector map revealed. Army recruitment becomes primary gameplay loop. CADES FPS introduced — 7 missions, Iron Lion dies in M7 (mandatory narrative death). Veridian VI last stand. Bridge of Kael post-credits reveals Vex Solène (Agent Zero's name).
+
+**Source files:** `narrativeActs.ts:893-980` (ACT_5_THE_MAP), `actsFourFiveShells.ts:166-228` (§11.3 CADES_FPS_MISSIONS + §11.4 BRIDGE_OF_KAEL_POST_CREDITS).
+
+**Cinematics in this part:** 6 — opener (21s), Bulb Dims (8s — Vortex Advance trigger), Sector Wakes (8s — community reclamation), Iron Lion Final Broadcast (14s — M7 death beat), Bridge of Kael post-credits (12s), Engineer Recording 7 "Prayers in Metal" (12s — final recording, the bleakest).
+
+**VFX atlases:** 3 — Iron Lion broadcast static, vortex consumption edge, Kael map ink-on-ration-wrapper.
+
+**Music:** opener (21s), Bulb Dims + Sector Wakes counterpart stingers, Iron Lion final-broadcast score (the single most difficult cue — both triumph and mourning in the same 14 seconds), Bridge of Kael post-credits cue, Engineer Recording 7 score (the bleakest underscore, no reuse — this one needs a unique composition).
+
+### 5.1 — VFX atlases (Act 5)
+
+**vfx_act5_iron_lion_broadcast_static** — `.../act-5/iron_lion_broadcast_static.png` · 2048×2048
+
+> Heavy CRT/radio-broadcast static pattern, grey-warm tinted (slight orange undertone from fire). Seamless tile. Used as overlay during the Iron Lion Final Broadcast cinematic — intensifies across the clip as the signal fails. Heavier than the Palimpsest Host's crawl-strip; this is a SIGNAL DYING in real time. No rendered text.
+
+**vfx_act5_vortex_consumption_edge** — `.../act-5/vortex_consumption_edge.png` · 2048×2048 transparent
+
+> A deep-void encroaching-edge texture. Radial dark-violet-to-black gradient from any edge toward frame center, with subtle scattered "void-flecks" that appear to be consuming light. Used as overlay on the Bulb Dims cinematic + on game-mode UI surfaces during active Vortex Advance periods. No rendered text.
+
+**vfx_act5_kael_map_ink** — `.../act-5/kael_map_ink.png` · 2048×1024 transparent
+
+> Ration-wrapper-paper background (dim beige, creased, slightly translucent) with hand-scrawled KAEL HANDWRITING in low-light-red-flashlight ink. The handwriting lists 5 sectors and 20 worlds in dense columns — intentionally abstract glyph-marks, NOT legible text. Used as background overlay on the Act 5 opener + as atmospheric element in the War Room recruitment UI.
+
+---
+
+
 
 
 
