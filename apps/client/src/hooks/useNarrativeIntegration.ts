@@ -11,6 +11,7 @@
 
 import { useEffect, useCallback, useRef } from "react";
 import { useGame } from "@/contexts/GameContext";
+import { useActVO } from "@/hooks/useActVO";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -347,6 +348,10 @@ export function useNarrativeIntegration() {
     getNarratorBond,
     advanceNarrativeAct,
   } = useGame();
+  // Act 2 VO — Zephyr classroom tier-crossing teaching lines + Chess
+  // Climb tier-won companion reactions fire from the effect below.
+  // Lazy-loaded; hurts nothing for players not in Act 2.
+  const act2Vo = useActVO("2");
   const prevMoralityRef = useRef(state.moralityScore);
   const prevTrustRef = useRef<Record<string, number>>({});
   const prevRoomsRef = useRef<Set<string>>(new Set());
@@ -1043,6 +1048,16 @@ export function useNarrativeIntegration() {
           description: tier.zephyrLine,
           duration: 10000,
         });
+        // Zephyr-9 VO — only tiers 1, 3, 5, 8 have authored lines
+        // in `act2-vo-lines.json`; other depths are silent.
+        if (
+          tier.depth === 1 ||
+          tier.depth === 3 ||
+          tier.depth === 5 ||
+          tier.depth === 8
+        ) {
+          act2Vo.speak(`zephyr-tier-${tier.depth}`);
+        }
       }
     }
 
@@ -1052,6 +1067,14 @@ export function useNarrativeIntegration() {
     // (best-of-3) event, not a depth threshold; the voice is about
     // beating the Game Master, not about unlocking a Dischordia
     // mechanic. See companionComments.ts `chess_climb_tier_N_won`.
+    // Act 2 Chess Climb tier-won VO — alternates Elara / Human per
+    // tier as authored in `act2-vo-lines.json` §7.
+    const climbTierVoLine: Record<number, string> = {
+      0: "climb-tier-0-won-elara",
+      1: "climb-tier-1-won-human",
+      2: "climb-tier-2-won-elara",
+      3: "climb-tier-3-won-human",
+    };
     for (let r = 0; r <= climbRank; r += 1) {
       const clearedFlag = climbTierClearedFlag(r);
       const trigger = climbTierCompanionTrigger(r);
@@ -1059,6 +1082,8 @@ export function useNarrativeIntegration() {
       if (state.narrativeFlags?.[clearedFlag]) continue;
       setNarrativeFlag(clearedFlag, true);
       fireCompanionComment(trigger);
+      const voLineId = climbTierVoLine[r];
+      if (voLineId) act2Vo.speak(voLineId);
     }
 
     // §14.1 Silence of Two Witnesses — companion-comment dispatch.

@@ -24,7 +24,7 @@
 
    Route: /prestige-cycle (added to App.tsx).
    ═══════════════════════════════════════════════════════ */
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -37,11 +37,20 @@ import { toast } from "sonner";
 import { useGame } from "@/contexts/GameContext";
 import { PRESTIGE_CARRYOVER_RULES } from "@shared/actsFourFiveShells";
 import LivingBackground from "@/components/LivingBackground";
+import { useActVO } from "@/hooks/useActVO";
 
 export default function PrestigeCycleResetPage() {
   const { state, performPrestige } = useGame();
   const [, navigate] = useLocation();
   const [confirming, setConfirming] = useState(false);
+  // Prestige VO lives in Act 7's manifest (outputDir `vo/prestige`).
+  const vo = useActVO("7");
+
+  useEffect(() => {
+    // Fires once on mount. The manifest key lookup is a no-op when the
+    // MP3 hasn't landed yet, so local dev silently skips.
+    vo.speak("prestige-ceremony-open");
+  }, [vo]);
 
   const flags = state.narrativeFlags ?? {};
   const spineComplete =
@@ -52,6 +61,7 @@ export default function PrestigeCycleResetPage() {
   const handleConfirm = useCallback(() => {
     if (!spineComplete) return;
     performPrestige();
+    vo.speak("prestige-ceremony-close");
     toast.success(`Cycle ${nextPrestigeLevel} begins.`, {
       description:
         "The Ark resets. The Antiquarian remembers. Somewhere, a new Potential opens their eyes.",
@@ -60,7 +70,7 @@ export default function PrestigeCycleResetPage() {
     // Route the player back to the title / awakening so the new
     // Prelude playhead has a clean context.
     setTimeout(() => navigate("/title"), 1_500);
-  }, [spineComplete, performPrestige, nextPrestigeLevel, navigate]);
+  }, [spineComplete, performPrestige, nextPrestigeLevel, navigate, vo]);
 
   return (
     <div className="relative min-h-screen bg-stone-950 text-stone-100">

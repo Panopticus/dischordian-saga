@@ -14,7 +14,7 @@
        on Detective win.
    ═══════════════════════════════════════════════════════ */
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "wouter";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -96,6 +96,18 @@ export default function Act6CardLadderPage() {
     useAct6LadderStore();
   const { setNarrativeFlag, state: gameState } = useGame();
   const vo = useActVO("6");
+  // Prestige-replay meta: if the player ended the previous cycle with
+  // `act7_silence_stance`, Act 6's confession room plays a one-shot
+  // meta line on entry acknowledging the silence. Canon §6.1 optional.
+  const silenceMetaFiredRef = useRef(false);
+  useEffect(() => {
+    if (silenceMetaFiredRef.current) return;
+    if (!gameState.narrativeFlags?.act7_silence_stance) return;
+    if (gameState.narrativeFlags?.act6_silence_meta_heard) return;
+    silenceMetaFiredRef.current = true;
+    setNarrativeFlag("act6_silence_meta_heard", true);
+    vo.speak("silence-stance-meta");
+  }, [gameState.narrativeFlags, setNarrativeFlag, vo]);
 
   const [view, setView] = useState<LadderView>("ladder");
   const [postMatchResult, setPostMatchResult] = useState<{
