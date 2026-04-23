@@ -48,7 +48,13 @@ const P = {
 };
 
 type Phase = "select" | "playing" | "result";
-type CadesMode = "last_stand" | "ship_defense" | "historical_incursions";
+type CadesMode =
+  | "last_stand"
+  | "ship_defense"
+  | "historical_incursions"
+  | "void_corridor"
+  | "kaels_own"
+  | "vex_recruit";
 
 interface CadesResult {
   mode: string;
@@ -77,10 +83,17 @@ export default function CADESFPSPage() {
    * ids. M1 (Scout's Gambit) isn't directly selectable — it's the
    * "any successful run" mission — so we play its VO alongside
    * whichever mode the player actually chose.
+   *
+   * M3/M4/M6 modes land in the Godot project under
+   * games/cades-fps/scenes/levels/{VoidCorridor,KaelsOwn,VexRecruit}.tscn,
+   * each sending a CADES_RESULT with its mode string on completion.
    */
   const MODE_TO_MISSION_ID: Record<string, number> = {
     ship_defense: 2,
+    void_corridor: 3,
+    kaels_own: 4,
     historical_incursions: 5,
+    vex_recruit: 6,
     last_stand: 7,
   };
 
@@ -171,8 +184,14 @@ export default function CADESFPSPage() {
           setNarrativeFlag("cades_m1_complete", true);
           if (r.mode === "ship_defense") {
             setNarrativeFlag("cades_m2_complete", true);
+          } else if (r.mode === "void_corridor") {
+            setNarrativeFlag("cades_m3_complete", true);
+          } else if (r.mode === "kaels_own") {
+            setNarrativeFlag("cades_m4_complete", true);
           } else if (r.mode === "historical_incursions") {
             setNarrativeFlag("cades_m5_complete", true);
+          } else if (r.mode === "vex_recruit") {
+            setNarrativeFlag("cades_m6_complete", true);
           } else if (r.mode === "last_stand") {
             setNarrativeFlag("cades_m7_complete", true);
           }
