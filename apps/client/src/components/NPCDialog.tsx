@@ -17,6 +17,7 @@ import { FACTION_NPCS, type FactionNPCId, type FactionNPC } from "@/game/faction
 import { useGame } from "@/contexts/GameContext";
 import { GIFT_ITEMS, calculateGiftResult, type GiftItem, type NpcId, type GiftItemId } from "@/game/npcGifts";
 import { useNPCPhysics } from "@/engine/useVoidEngine";
+import { useDialogVO } from "@/hooks/useDialogVO";
 import { getNPCPortrait, getHumanRevealImage } from "@/game/npcPortraits";
 import { getAmbientReference } from "@/game/ambientStorytelling";
 import { getRelationshipState } from "@/game/npcRelationships";
@@ -120,6 +121,13 @@ export interface NPCDialogScene {
   choices: NPCDialogChoice[];
   /** Minimum trust required to see this scene */
   minTrust?: number;
+  /**
+   * Optional VO manifest line ID. When present and the NPC's VO
+   * manifest contains this entry, audio plays on dialog open and the
+   * portrait's "speaking" tells (expression, glow pulse, brightness)
+   * follow audio.onplay / audio.onended instead of the typewriter.
+   */
+  voLineId?: string;
 }
 
 /* ─── PROPS ─── */
@@ -177,6 +185,15 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
   const [kineticKey, setKineticKey] = useState(0); // force re-mount on scene change
   const textRef = useRef<HTMLDivElement>(null);
 
+  // ─── VO playback ───
+  // When the scene specifies a voLineId AND the NPC's VO manifest has
+  // it, audio plays on scene change and `vo.speaking` tracks actual
+  // playback state. Portrait "speaking" tells (expression, glow,
+  // brightness) follow audio when present, else fall back to isTyping.
+  const vo = useDialogVO(npcId);
+  const hasAudio = vo.hasVO && !!scene.voLineId;
+  const isSpeaking = hasAudio ? vo.speaking : isTyping;
+
   // ─── BioWare-style cinematic portrait ───
   // Expression shifts: speaking while typing, emotional on choice hover, neutral at rest
   const portrait = useMemo(() => getNPCPortrait(npc.id), [npc.id]);
@@ -186,22 +203,29 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
     if (!portrait) return null;
     // The Human uses progressive reveal before Trust 50
     if (npcId === "the_human" && trust < 50) return getHumanRevealImage(trust);
-    // While NPC is "talking", show speaking expression
-    if (isTyping) return portrait.expressions.speaking;
+    // Speaking expression follows actual audio when VO is present,
+    // typewriter otherwise — see isSpeaking above.
+    if (isSpeaking) return portrait.expressions.speaking;
     // Hovering a hostile/suspicious choice → emotional2 (tension)
     if (hoveredArchetype === "suspicious" || hoveredArchetype === "manipulative") return portrait.expressions.emotional2;
     // Hovering a compassionate/loyal choice → emotional1 (warmth)
     if (hoveredArchetype === "compassionate" || hoveredArchetype === "loyal") return portrait.expressions.emotional1;
     // At rest with choices visible → neutral
     return portrait.expressions.neutral;
-  }, [portrait, npcId, trust, isTyping, hoveredArchetype]);
+  }, [portrait, npcId, trust, isSpeaking, hoveredArchetype]);
 
-  // Reset state on scene change
+  // Reset state on scene change + trigger VO playback if available
   useEffect(() => {
     setIsTyping(true);
     setShowChoices(false);
     setKineticKey(k => k + 1);
-  }, [scene.text]);
+    if (hasAudio && scene.voLineId) {
+      vo.speak(scene.voLineId);
+    }
+    return () => {
+      if (hasAudio) vo.stop();
+    };
+  }, [scene.text, scene.voLineId, hasAudio, vo]);
 
   // Map NPC manifestation to a per-character kinetic effect
   const npcKineticEffect = useMemo((): NarrativeEffect => {
@@ -308,14 +332,14 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
                     className="w-full h-full object-cover object-top"
                     style={{
                       minHeight: "320px",
-                      filter: isTyping ? `brightness(1.1) drop-shadow(0 0 8px ${npc.color}40)` : "brightness(1)",
+                      filter: isSpeaking ? `brightness(1.1) drop-shadow(0 0 8px ${npc.color}40)` : "brightness(1)",
                       transition: "filter 0.4s ease",
                     }}
                   />
                 </AnimatePresence>
 
                 {/* Speaking glow pulse at bottom of portrait */}
-                {isTyping && (
+                {isSpeaking && (
                   <motion.div
                     animate={{ opacity: [0.3, 0.7, 0.3] }}
                     transition={{ duration: 1.2, repeat: Infinity }}
