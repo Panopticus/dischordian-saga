@@ -3045,3 +3045,28 @@ Consolidates every Veo 3.1 / Seedance 2.0 motion clip referenced throughout Part
 
 ---
 
+### CIN-DEGEN-IDLE — Degen casino pit idle (10s seamless loop, P1)
+
+**Output:** `apps/client/public/videos/casino/degen_idle_pit.mp4` · **Aspect:** 1:1 square · **Resolution:** 2048×2048 · **Use:** replaces the old CIN-013 sequined-showman Degen (audit-flagged). Plays on casino game-mode discovery screens and as ambient on the pit-boss UI panel.
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 1:1 square, 2048×2048. The Degen in close three-quarter bust (per Part 2J real canon): tall muscular blue-skinned demonic Ne-Yon figure, completely bald, pointed elf-like ears, glowing amber-orange eyes (#f57a1c emissive), red-and-blue swirling tribal tattoos across arms and neck. Wearing the olive-drab military-cut sleeveless vest with brass buttons, heavy silver chain necklaces at the throat with a brass pocket-watch pendant at mid-chest. Studded leather bracers on forearms. Pose: standing behind a dark-velvet casino roulette pit, arms crossed over his chest, watching. The pit edge is visible at the bottom of the frame with a single stack of violet-gold casino chips sitting on the rim. Backdrop: deep teal-black casino ambient with faint violet neon haze, defocused distant table silhouettes in mid-depth. Lighting: cool cyan rim from behind, warm amber from below (pit-lamp direction), the warm amber eye-glow lighting his cheekbones from within. Predatory stillness. Film grain. 4K. No rendered text.
+
+**END FRAME (Nano Banana 2) — identical to START for seamless loop:**
+> *(Same prompt as START FRAME — loop is designed to cycle. Breath, eye-glow, pendant-swing, and tattoo-pulse animations happen in the motion prompt only.)*
+
+**VEO 3.1 MOTION PROMPT:**
+> 10-second seamless loop. Camera locked, no motion. Subject Degen in close three-quarter bust, predatory still.
+> - **Continuous (0-10s):** Chest breathes at contained 3.2s cycle (1.000 to 1.006 peak — he is CONTAINED, not expansive). Pocket-watch pendant at his chest swings ±2px on a gentle pendulum arc synced to breath exhale — his signature idle tell.
+> - **Tattoo-pulse channel (5.8s offset cycle, independent of breath):** The red-and-blue swirling tribal ink on his arms and neck INTENSIFIES slightly (+15% emissive saturation) on exhale phase of its own 5.8s cycle, and settles on inhale phase. The two rhythms (breath 3.2s + ink 5.8s) deliberately DO NOT sync — creates an unsettling liveness where his body and his ink are breathing on different clocks.
+> - **2.8s:** Single slow blink — eyes close for 180ms (slower than standard). Amber eye-glow does NOT fully extinguish on closed eyelids (40% glow leaks through — he is backlit from inside his skull).
+> - **4.5s:** Head turns ~3° to the left, eyes briefly track something offscreen-left, head returns to baseline over 1.2s. No other movement. The implication: he just watched someone place a bet. He is the pit.
+> - **7.2s:** Second blink, same slow-180ms character.
+> - **9.0s:** One finger of one crossed arm taps the opposite bicep ONCE (a single decisive tap, the "house-edge" micro-tell from his Part 2J rig). Then stillness.
+> - **9.8-10.0s:** Frame position matches START for seamless loop.
+> Cinematography: locked static camera. 24fps. Film grain preserved. Loop-point match at frame 240.
+
+**Audio hand-off note:** Low subsonic ambient hum through entire loop (casino ambient — barely audible). Brass-pocket-watch tick-tock synced to breath exhales (very faint, barely perceptible). At 9.0s (the finger tap): single soft percussive tock audio beat.
+
+---
+
