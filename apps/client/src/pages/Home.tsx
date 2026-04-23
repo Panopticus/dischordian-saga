@@ -26,11 +26,19 @@ import { CorruptibleBio } from "@/components/CorruptibleBio";
 import { useLivingUniverse } from "@/hooks/useDailyBrief";
 
 /* ─── BOOT SEQUENCE ─── */
-function BootSequence({ onComplete }: { onComplete: () => void }) {
+function BootSequence({ onComplete, skipCeremony = false }: { onComplete: () => void; skipCeremony?: boolean }) {
   const [lines, setLines] = useState<string[]>([]);
-  const [phase, setPhase] = useState<"boot" | "scan" | "access">("boot");
+  // Returning visitors start straight at the "ACCESS GRANTED" flash —
+  // the full terminal spool is a first-visit cinematic, not a thing
+  // players want to sit through every session. 600ms total vs. 3.2s.
+  const [phase, setPhase] = useState<"boot" | "scan" | "access">(skipCeremony ? "access" : "boot");
 
   useEffect(() => {
+    if (skipCeremony) {
+      const t = setTimeout(onComplete, 500);
+      return () => clearTimeout(t);
+    }
+
     const bootLines = [
       "INTERCEPTING SIGNAL...",
       "BYPASSING ENCRYPTION LAYER 7...",
@@ -62,7 +70,7 @@ function BootSequence({ onComplete }: { onComplete: () => void }) {
       }
     }, 120);
     return () => { done = true; clearInterval(interval); };
-  }, [onComplete]);
+  }, [onComplete, skipCeremony]);
 
   return (
     <div className="fixed inset-0 z-[100] bg-background flex items-center justify-center">
@@ -529,14 +537,26 @@ function ArkExplorationCard() {
 export default function Home() {
   const { entries, stats, getEntry, getByAlbum, discoveryProgress, discoverEntry } = useLoredex();
   const gam = useGamification();
+  // Per-session flag keeps the current tab from replaying the boot; the
+  // localStorage flag below keeps returning visitors from sitting through
+  // the full 3.2s ceremony on every cold start. First-ever load still
+  // gets the full cinematic.
   const [booted, setBooted] = useState(() => {
     return sessionStorage.getItem("loredex_booted") === "true";
+  });
+  const [hasBootedBefore] = useState(() => {
+    try {
+      return localStorage.getItem("loredex_home_boot_seen") === "true";
+    } catch {
+      return false;
+    }
   });
   const [activeFilter, setActiveFilter] = useState<string>("all");
 
   const handleBootComplete = useCallback(() => {
     setBooted(true);
     sessionStorage.setItem("loredex_booted", "true");
+    try { localStorage.setItem("loredex_home_boot_seen", "true"); } catch { /* ignore */ }
   }, []);
 
   // Build the feed — mix of characters, locations, factions
@@ -585,7 +605,7 @@ export default function Home() {
 
   // Show boot sequence once per session
   if (!booted) {
-    return <BootSequence onComplete={handleBootComplete} />;
+    return <BootSequence onComplete={handleBootComplete} skipCeremony={hasBootedBefore} />;
   }
 
   return (

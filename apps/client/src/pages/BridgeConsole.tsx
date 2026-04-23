@@ -307,7 +307,12 @@ export default function BridgeConsole() {
         </div>
       )}
 
-      {/* ═══ SHIP STATUS ═══ */}
+      {/* ═══ SHIP STATUS ═══
+          Each stat number picks up a subtle text-shadow that brightens
+          with --audio-bass / mid / treble respectively. When audio is
+          playing the HUD breathes in time with the music; when silent
+          or with audio-reactivity disabled, the shadows collapse to a
+          static base and the panel reads as a normal HUD. */}
       <div className="px-4 mb-5">
         <div className="flex items-center gap-2 mb-3">
           <Ship size={10} className="text-white/20" />
@@ -315,15 +320,42 @@ export default function BridgeConsole() {
         </div>
         <div className="grid grid-cols-3 gap-2">
           <div className="p-2.5 rounded-lg void-surface">
-            <p className="font-display text-lg font-bold void-text-energy">{discoveredRooms}</p>
+            <p
+              className="font-display text-lg font-bold void-text-energy"
+              style={{
+                textShadow:
+                  "0 0 calc(6px + var(--audio-bass, 0) * 18px) color-mix(in oklch, var(--energy-primary) 70%, transparent)",
+                transition: "text-shadow 60ms linear",
+              }}
+            >
+              {discoveredRooms}
+            </p>
             <p className="font-mono text-[7px] text-white/20 tracking-wider">SECTORS</p>
           </div>
           <div className="p-2.5 void-surface">
-            <p className="font-display text-lg font-bold void-text-accent">{totalVisits}</p>
+            <p
+              className="font-display text-lg font-bold void-text-accent"
+              style={{
+                textShadow:
+                  "0 0 calc(6px + var(--audio-mid, 0) * 16px) color-mix(in oklch, var(--energy-accent) 65%, transparent)",
+                transition: "text-shadow 60ms linear",
+              }}
+            >
+              {totalVisits}
+            </p>
             <p className="font-mono text-[7px] text-white/20 tracking-wider">VISITS</p>
           </div>
           <div className="p-2.5 void-surface">
-            <p className="font-display text-lg font-bold void-text-system">{discoveredNPCs.length}</p>
+            <p
+              className="font-display text-lg font-bold void-text-system"
+              style={{
+                textShadow:
+                  "0 0 calc(6px + var(--audio-treble, 0) * 14px) color-mix(in oklch, var(--energy-system, var(--energy-primary)) 65%, transparent)",
+                transition: "text-shadow 60ms linear",
+              }}
+            >
+              {discoveredNPCs.length}
+            </p>
             <p className="font-mono text-[7px] text-white/20 tracking-wider">CONTACTS</p>
           </div>
         </div>
