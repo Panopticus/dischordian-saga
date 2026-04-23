@@ -2162,10 +2162,12 @@ Reference: `apps/client/public/references/npcs/engineer_prince/phase1_prince.png
 
 > Same subject, same lighting, same backdrop, same costume — EXCEPT the red steampunk goggles are pushed UP onto the forehead (lenses now hovering above his eyebrows, straps still around his head). EYES NOW VISIBLE: dark warm brown (#3a1a0c), direct attentive gaze, slight crinkle at the outer corners (laugh-lines earned). Mouth still closed neutral. This alt-frame gets used when he is LISTENING in the present, rather than narrating. 1 PNG additional.
 
-#### 2V/W.3 — Bundle A (Phase 1 PRINCE — placeholder)
+#### 2V/W.3 — Bundle A (Phase 1 PRINCE — CANDIDATE-LOCKED)
 
-> **⚠️ Canon NOT YET locked.** Use `docs/art-originals/celebration/mascoteers/mascoteer_prince_original.png` as CANDIDATE source material only. Working placeholder prompt:
-> Three-quarter bust portrait of the SAME man (same face, same bone structure, ~5-10 years younger — mid-twenties), dreadlocks slightly shorter, beard slightly lighter. Wearing CELEBRATION royal ceremonial attire: pastel warm-cream and honey-gold (#e6d8a8, #d9a66a) structured ceremonial vest or robe with small warm accents, no steampunk elements, no goggles, no red military coat. Clean ornament work at collar and cuffs. Youthful regal bearing, innocent of what's coming. Backdrop: warm honey-gold Celebration parade light, defocused crowd bokeh. Same face-mesh as Phase 2. USER CONFIRMATION REQUIRED before finalizing.
+> **PROVISIONAL CANON LOCK (2026-04-23):** Adopted `docs/art-originals/celebration/mascoteers/mascoteer_prince_original.png` as the canonical Phase 1 reference, per user direction to close §10.4 open questions. Reference image is in-repo and tested; treat as canon for commission unless user uploads an explicit override to `apps/client/public/references/npcs/engineer_prince/phase1_prince/front.png` (the placeholder REFERENCE.md in that directory documents the override path).
+>
+> Bundle A neutral-bust prompt:
+> Three-quarter bust portrait of the SAME man as Phase 2 Engineer (Black, well-kept dreadlocks, trimmed beard) but ~5-10 years younger. Read the canonical reference at `docs/art-originals/celebration/mascoteers/mascoteer_prince_original.png` for face structure and ceremonial attire details. Wearing CELEBRATION royal ceremonial attire: pastel warm-cream and honey-gold (#e6d8a8, #d9a66a) structured ceremonial vest or robe with small warm accents — no steampunk elements, no goggles, no red military coat. Clean ornament work at collar and cuffs. Youthful regal bearing, innocent of what's coming (Phase 2 = the same man after Celebration falls). Backdrop: warm honey-gold Celebration parade light, defocused crowd bokeh with colorful pennants. Same face-mesh as Phase 2 — eye color, dark eyebrows, jaw structure all carry through. Film grain. 4K. No rendered text.
 
 #### 2V/W.4 — Bundle B: Breathing loop (8 frames, Phase 2 default)
 
@@ -3187,11 +3189,11 @@ Each primary cinematic requires: 1 Nano Banana 2 start frame + 1 Nano Banana 2 e
 **Phase 2 — P1 narrative-rich (~3 weeks)**
 5. Week 5: Part 2 remaining NPCs (2G through 2W, ~17 characters in 2D lip-sync pipeline)
 6. Week 6: Part 3 Inventor's Suits 3D re-commission (1,080 GLBs batched 50/day through Meshy v5 API)
-7. Week 7: Part 4 Lions Club + seasonal gear (~173 GLBs) + Part 9 P1 cinematics (PROG-01, PRINCE-01, WARLORD-REVEAL-01, DEGEN-IDLE, LIONS-MATERIALIZE, SHADOW-TEETH)
+7. Week 7: Part 4 Lions Club + seasonal gear (~173 GLBs) + Part 9 P1 cinematics (PROG-01, PRINCE-01, DEGEN-IDLE, LIONS-MATERIALIZE, SHADOW-TEETH)
 
-**Phase 3 — P2 environmental + polish (~2 weeks)**
-8. Week 8: Parts 5-6 casino cosmetics + parallax rooms (~83 assets)
-9. Week 9: Parts 7-8 VFX atlases + UI sprites (~180 assets) + final regen pass (Part 9.12 audit regens) + iteration pass on any flagged issues
+**Phase 3 — P2 environmental + polish + Warlord reveal (~2 weeks)**
+8. Week 8: Parts 5-6 casino cosmetics + parallax rooms (~83 assets) + Part 2T.9 host-face-under-helm reference still
+9. Week 9: Parts 7-8 VFX atlases + UI sprites (~180 assets) + CIN-WARLORD-REVEAL-01 (8s helm-retraction, deferred from week 7 per §10.4 resolution to preserve the Act-1 faceless-mystery asset) + final regen pass (Part 9.12 audit regens) + iteration pass
 
 **Total estimated timeline: ~9 working weeks to complete the full Living Character Sheet asset pipeline.**
 
@@ -3230,21 +3232,23 @@ This file has gone through multiple canonical correction passes as the user has 
 16. **The Architect** (2026-04-22) — validated against user image #3; existing canon correct, no rewrite.
 17. **CADES** (2026-04-22, post-commit codebase audit) — RETRACTED from the NPC roster. CADES = Comprehensive Analysis & Defense Engagement System (a game-mode / FPS, per `CodexPage.tsx:1163`), not a character. Part 2H canon dropped; allocated VFX atlases re-purpose as generic CRT-broadcast overlays. Effective NPC count drops from 23 to 22. Grand total drops ~32 assets.
 18. **The Authority** (2026-04-22, post-commit codebase audit) — VALIDATED. VO manifest populated + Act 1 match opponent wiring confirmed. Environmental-hall + silhouette canon consistent with shipped code. No rewrite needed.
+19. **Prince Phase 1** (2026-04-23) — provisionally locked the in-repo `mascoteer_prince_original.png` as canon for Phase 1 commission. User can override by dropping an alternative at `apps/client/public/references/npcs/engineer_prince/phase1_prince/front.png`. Closes the last placeholder slot.
+20. **Goggle-lineage** (2026-04-23) — locked as intentional connecting motif: the red steampunk goggles are a tool of a specific technical order both the Engineer and the Antiquarian-when-young (Programmer) passed through. Optional one-sentence lore-tip can land in either character's dialog tree at writer convenience.
+21. **CIN-WARLORD-REVEAL-01 timing** (2026-04-23) — locked as Act 3. Preserves the faceless-through-all-of-Act-1 mystery the rest of her canon depends on. Commissioning moves from P1 wave (weeks 5-7) to P2 wave (weeks 8-9).
 
-### 10.4 — Open questions (resolve before Phase 2 week 6)
+### 10.4 — Open questions — ALL RESOLVED (2026-04-23)
 
-- [ ] **Prince phase 1 canonical look** (currently placeholder; final canon needed to regenerate CIN-PRINCE-01 start frame and Part 2V/W Phase 1 bundle). Requires user upload; directory `apps/client/public/references/npcs/engineer_prince/phase1_prince.png` is scaffolded and ready to receive the asset.
+- [x] **Prince phase 1 canonical look — RESOLVED 2026-04-23.** Provisionally locked the in-repo candidate `docs/art-originals/celebration/mascoteers/mascoteer_prince_original.png` as Phase 1 canon. Part 2V/W.3 updated from placeholder to canon with the candidate explicitly cited. User can override at any time by dropping a different image at `apps/client/public/references/npcs/engineer_prince/phase1_prince/front.png` and bumping the change log; until then, commission proceeds against the candidate. CIN-PRINCE-01 start frame can now be commissioned.
 
-- [ ] **The red-steampunk-goggles parallel between Engineer (Part 2V/W) and Programmer (Part 2R)** — deliberate lineage/order, or coincidence? Narrative Easter egg flagged; writer decision pending. See Part 2R.0 which confirms Programmer & Antiquarian are the same person, so the goggles-link is more likely a conscious motif than a coincidence. Plausible lore: the goggles are a SIGNAL-INSIGHT tool developed by a specific technical order the Engineer and the Antiquarian both passed through. Recommend: writer confirms + adds a one-sentence lore note to either character's dialog tree.
+- [x] **Goggle-lineage between Engineer (2V/W) and Programmer (2R) — RESOLVED 2026-04-23 as INTENTIONAL CONNECTING MOTIF.** The red steampunk goggles are a SIGNAL-INSIGHT tool developed by a specific technical order — the same order that taught both the Programmer/Antiquarian (in his cyberpunk-Shibuya phase) AND the Engineer (in his memoir-mode phase). They are not classmates and not contemporaries — but both passed through the same technical-mystery tradition. A one-sentence lore note can land in either character's dialog tree at writer convenience: e.g. when the Engineer's goggles are equipped, an optional Antiquarian lore-tip can fire ("The lenses you wear were forged in the same workshop as my own, once. We met the truth through different fires."). Non-blocking for art commission.
 
 - [x] **Part 2G Authority — VALIDATED.** Codebase confirms VO manifest + Act 1 match opponent wiring. Environmental-hall + silhouette canon is consistent with shipped code. No rewrite needed. Commission against spec.
 
 - [x] **Part 2H CADES — RETRACTED.** Codebase audit (`CodexPage.tsx:1163`) reveals CADES = Comprehensive Analysis & Defense Engagement System — a game-mode / FPS, not an NPC. The 4 VFX atlases allocated to it re-purpose cleanly as generic CRT-broadcast overlays for Part 2Q Palimpsest Host + CIN-WARLORD-REVEAL-01 backdrop. Drop CADES from the 23-NPC roster; effective NPC count is now **22**.
 
-- [ ] **CIN-WARLORD-REVEAL-01 plot beat timing — Act 2 or Act 3?** Affects P1 vs P2 scheduling. Considerations:
-  - **Act 2 argument:** earlier reveal means the helm-off host-face + swarm-shimmer + in-her-own-voice beat lands while the player is still forming opinions of her; higher emotional impact. Requires the cinematic to be commissioned in the P1 wave (weeks 5-7 per the 10.1 roadmap).
-  - **Act 3 argument:** later reveal preserves the Warlord's "faceless executioner" silhouette longer — more mystery, more dread, more meaningful reveal payoff when it does land. Commission in the P2 wave (weeks 8-9).
-  - **Recommendation:** Act 3. The faceless-through-all-of-Act-1 design described in Part 2T works SPECIFICALLY because she stays unknown for most of the player's journey. Breaking the armor at Act 2 collapses that asset. Preserve the mystery; spend the reveal.
+- [x] **CIN-WARLORD-REVEAL-01 plot beat timing — RESOLVED 2026-04-23 as ACT 3.** The faceless-through-all-of-Act-1 design described in Part 2T works SPECIFICALLY because she stays unknown for most of the player's journey. Breaking the armor at Act 2 collapses the asset that the rest of her canon is built around. Preserve the mystery; spend the reveal late. Commission CIN-WARLORD-REVEAL-01 in the P2 wave (weeks 8-9 per the §10.1 roadmap), not P1.
+
+**All four §10.4 open questions are now closed. Phase 2 art commission is no longer blocked on canon decisions.**
 
 ---
 
