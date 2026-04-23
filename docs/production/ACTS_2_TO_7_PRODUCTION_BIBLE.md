@@ -230,5 +230,67 @@ When both narrators fall silent simultaneously. Light/Dark energy freezes. The p
 
 **SUNO v4 MUSIC BED:** see mus_act2_silence in §1.5. Critical: the music itself must END abruptly at 2.0s (mirroring the narrators falling silent), leaving 8 seconds of pure silence for the stillness to land.
 
+### 1.4 — CIN-ACT2-GAMEMASTER-LEFT-INTRO (6s, P1) + CIN-ACT2-GAMEMASTER-RIGHT-INTRO (6s, P1)
+
+Two companion cinematics introducing the Two Game Masters (tactical vs. improvisational). Each fires ONCE when the player first encounters its Game Master at the Arena.
+
+**LEFT GAME MASTER — tactical**
+
+**START FRAME:** Empty tactical board on a dark mahogany table, 16:9 1920×1080. Overhead surgical-white light. Two chairs — one empty (far side, player POV), one occupied but figure visible only as silhouette edges (back-lit). Board pieces pre-arranged in a closed position that reads as "worked out in advance." Palette: cold clinical white dominant, deep mahogany accent, no warm color. Film grain. No rendered text.
+
+**END FRAME:** Same composition but the Left Game Master is now fully lit — a thin, angular figure in charcoal-black wool three-piece suit (no tie, high collar), pale skin, close-cropped grey hair, surgical-framed spectacles with rectangular lenses catching a single hot highlight. His hands are folded on the table beside the board. Expression: absolutely composed, a trace of impatience at the corners. Palette: same cold clinical tone but his skin and suit now carry sharp detail. Film grain.
+
+**MOTION PROMPT:** 6-second one-shot. Camera locked. Beats: 0-2s silhouette holds, 2-3s light ramp reveals him in focus, 3-5s he turns his head ONCE 5° toward the camera in a precise assessment (no other motion), 5-6s held on end frame. No spoken VO in the cinematic itself; his first line plays after on the dialog surface.
+
+**RIGHT GAME MASTER — improvisational**
+
+**START FRAME:** Same table but LIT DIFFERENTLY — warm amber side-light from a single angled lamp, the far chair occupied by silhouette that reads as energetic (posture slightly forward, hands gesturing mid-air frozen in a conversation already in progress). Board pieces scattered chaotically as if a game is mid-play. Warm amber dominant, deep shadow on the player-POV side. Film grain.
+
+**END FRAME:** Right Game Master in full light: shorter, warmer, dark hair unkempt, open-collar cotton shirt with sleeves rolled, no jacket, a pencil behind one ear and a half-drunk glass of tea on the table. Mid-GESTURE — one hand extended toward the board, mid-explanation. Expression: curious delighted engagement. Palette: warm amber, earth-tones, sepia-adjacent. Film grain.
+
+**MOTION PROMPT:** 6-second one-shot. Camera locked. Beats: 0-2s silhouette gesturing mid-air (his hand moves 3cm during this window — unlike the Left Master, he NEVER stops moving), 2-3s warm light shifts and he is revealed in full, 3-5s he picks up a pencil from behind his ear and taps it once against the board (pointing at a piece), 5-6s held on end frame. No spoken VO — dialog plays after.
+
+Both cinematics share palette-oppositional framing: Left = cold/still/tactical, Right = warm/moving/improvisational. When played back-to-back in the Arena intro they telegraph the binary the player is about to choose between.
+
+### 1.5 — CIN-ACT2-ENGINEER-RECORDING-2 — "The Prince's Truth" (12s, P1)
+
+**Output:** `apps/client/public/videos/acts/act-2/cin_act2_engineer_recording_2.mp4` · 16:9 · 1920×1080 · **Trigger:** `engineer_recording_2_discovered` flag
+
+Second of seven Engineer Recordings (see `engineerRecordings.ts`). The Engineer reveals he was the Prince of Celebration before the Fall.
+
+**START FRAME:** A small holographic playback rig sitting on the Bench — brass cylinder with a blue-white projector beam stretching upward 40cm into the air. The beam is inactive (hollow, just light). Composition: low angle looking up at the beam, Bench workbench in foreground, empty air above where the hologram will appear. Warm amber Bench-glow bleeding in from frame edges. Film grain.
+
+**END FRAME:** Same rig, beam now FILLED with the holographic recording: a half-resolved figure of the Engineer (same man as Part 2V/W in LIVING_CHARACTER_SHEET_ART_BRIEF.md Phase 2 — Black, short dreadlocks, trimmed beard, but rendered in cool blue-white holographic flicker rather than his canonical warm red palette — this is a RECORDING, not him). He is mid-gesture, one hand raised as if in the middle of a sentence. Behind him faintly: a ghostly echo-layer of his YOUNGER self (Phase 1 Prince) overlaid at 20% opacity, ceremonial cream-and-gold attire visible through the blue hologram — the past bleeding through the present at the moment he speaks about it. Film grain, chromatic aberration subtle at hologram edges.
+
+**MOTION PROMPT:** 12-second one-shot. Camera locked. Beats:
+- 0-2s: inert rig, empty beam, Bench quiet.
+- 2-3s: rig CLICKS on — blue-white beam fills with static for 1 second, scanning.
+- 3-6s: the Engineer figure resolves into the beam, starting from feet up to head. Particles of light compose him as he assembles (faster, more jittery version of The Human's particle-assembly reveal from Part 1B — this is memory, not resurrection, so the assembly feels staccato rather than solemn).
+- 6-9s: he holds, mid-gesture. Behind him the ghostly YOUNGER self fades in over 3 seconds, never fully resolved (20% peak opacity).
+- 9-11s: his mouth moves in silent-mode (he is speaking; the VO track handles the audio). Younger self is fully visible at 20% behind him.
+- 11-12s: recording DISSOLVES — both figures fade over 1 second back to empty blue beam.
+24fps, film grain, blue-white hologram palette dominant.
+
+### 1.6 — CIN-ACT2-ENGINEER-RECORDING-3 — "Ghosts in the System" (12s, P1)
+
+**Output:** `.../act-2/cin_act2_engineer_recording_3.mp4`
+
+Third recording. The Engineer warns about what's watching the Ark.
+
+**START FRAME:** Same rig, same Bench, beam inert.
+
+**END FRAME:** Same rig, beam now filled — but the Engineer's hologram is PARTIALLY CORRUPTED. Instead of the clean blue-white figure, bands of violet-black glitch-corruption cross his form at random heights (~15% of his body at any moment). The ghostly younger self is NOT visible here — only the main figure. Behind the holographic Engineer, faintly visible in the beam's deep layer: a SHAPE. Humanoid-adjacent but too-tall, with no face, hands at its sides. The viewer notices it on second-look. The Engineer's expression is guarded — he is aware of it and recording this anyway.
+
+**MOTION PROMPT:** 12-second one-shot. Camera locked. Beats:
+- 0-2s: inert rig.
+- 2-3s: beam activates with more static than Recording 2 — this recording is degraded.
+- 3-5s: Engineer resolves with intermittent violet-black glitch bands — he appears normally, then glitches through for 200ms, back, glitch, back, etc.
+- 5-8s: held on Engineer speaking (silent in cinematic). The SHAPE behind him fades in at 5-8% opacity over 3 seconds — barely visible. Audience-catches-it-or-doesn't.
+- 8-10s: the SHAPE behind Engineer INCREASES to 12% opacity for a single frame at 9.0s, then drops back. The audience subliminally registers "something was there."
+- 10-11s: Engineer turns his head 3° toward the SHAPE — acknowledgment.
+- 11-12s: recording dissolves, the SHAPE staying visible at 5% for an extra 0.3s after the Engineer has faded (it is NOT part of the recording; it was present in the room where the recording was MADE).
+24fps, blue-white dominant with violet-black glitch accents.
+
 ---
+
 
