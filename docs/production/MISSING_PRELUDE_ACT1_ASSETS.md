@@ -1263,3 +1263,216 @@ Also used by Act 1 Cycle C finale `Act1CycleCAuthorityWitnessing.tsx`
 (§2.C.fin below) — same file, shared audio.
 
 ---
+
+# PART 2 — ACT 1 (3 cycles + finale)
+
+Act 1 is structured as three **Cycles** (A / B / C) of ~3–5 matches each,
+each cycle ending in a **finale cutscene**. Unlike the Prelude, Act 1
+has a **small** set of Veo-eligible cutscenes — only the three cycle
+finales. Per-battle intros use static matchup-card portraits, not
+motion clips. The Authority tribunal (§18) uses the
+`Act1CycleCAuthorityWitnessing.tsx` slideshow wiring (already shipped,
+PR #89) driven by the *Last Words* song + prelude last-words slide
+WebPs — NOT a Veo render.
+
+### §2.pre  Cycle palettes (authoritative)
+
+| Cycle | Dominant | Accent | Warm source | Forbidden |
+|---|---|---|---|---|
+| A — Kindergarten of Gods / Celebration | `#d9a66a` honey gold | `#c98b8b` dusty rose | Actual sun through schoolroom windows | Cyan, deep space black, emergency lighting |
+| B — Mechronis Academy | `#4ba3b5` cool teal | `#b8752d` brass | ONE reflected sun-shaft | Ember orange, dust brown |
+| C — Nexon / Zenon / Authority | `#6b5a48` dust brown · `#55606e` institutional grey · `#1c1a1a` black marble | `#e06a1a` ember | Distant fires only | Warm sun, honey, dusty rose |
+
+---
+
+## §2.A  Cycle A — Kindergarten of Gods
+
+Celebration school year, §§3–6 of `ACT_1_SHIP_READY_BIBLE.md`. Three
+opponent matches (Minnie, Corey, Kanshi), one cycle-finale cutscene.
+
+### §2.A.1 Room — Kindergarten
+
+**Output:** `apps/client/public/art/rooms/room-kindergarten.png` + `.webp`
+**Status:** MISSING — not in `assets/intermediate/`, not on any CDN, not wired.
+**Aspect / res:** 16:9 / 1920×1080
+**Palette:** `#d9a66a #f5d98a #c98b8b #c66b3d #55606e`
+**Source prompt:** `docs/production/act1-asset-build/prompts/rooms/room-kindergarten.txt`
+
+**Nano Banana 2 prompt:**
+> Hyper-realistic cinematic still, 16:9, 4K. A small schoolroom in a turn-of-century village schoolhouse. Warm honey-oak floorboards, worn smooth at the walking line. Center of frame: a single low wooden card-table approximately child-height, flanked by four child-sized wooden chairs, the table surface a polished honey-oak with a faint chalk-smudge across one edge. Screen-left, a dark slate blackboard on a freestanding wooden frame, ghost marks of a thousand lessons erased. Screen-right, a panelled window-wall runs floor-to-ceiling with mullioned glass panes catching direct warm-yellow afternoon sunlight at a low angle, casting ten golden parallelograms across the floor and the card-table's surface. Motes of dust drift in the light beams. Low exposed wood-beam ceiling, no artificial light — only window sun lights the room. A small woven rug in dusty rose near the slate. No children visible. Palette: warm honey `#d9a66a`, sunlight yellow `#f5d98a`, dusty rose `#c98b8b`, terracotta `#c66b3d`, slate grey `#55606e`. Deliberately no cyan, no deep space black, no emergency lighting — this room is lit by an actual sun. Soft diffused light, shallow depth of field on the card-table's center. Soft film grain. Gentle anamorphic glow on the sun-panels. Cinematic 4K composition, three-quarter wide, camera at child-eye level looking slightly up at the card-table.
+
+### §2.A.2 Battlefield backdrops — Cycle A
+
+Per `docs/production/act1-asset-build/manifests/act1_art_prompts__battlefield.csv`,
+Cycle A has three time-of-day variants of the Celebration schoolyard
+used as post-match slideshow backdrops (NOT alternative room stills):
+
+| Asset ID | Output | Time of day | Status | Source |
+|---|---|---|---|---|
+| `bf_celebration_schoolyard_day10` | `apps/client/public/art/backdrops/act1/bf-celebration-schoolyard-day10.png` | Day 10 warm afternoon | MISSING | CSV row |
+| `bf_celebration_schoolyard_day20` | `apps/client/public/art/backdrops/act1/bf-celebration-schoolyard-day20.png` | Day 20, 4:30 PM deeper amber | MISSING | CSV row |
+| `bf_celebration_pavilion_day28` | `apps/client/public/art/backdrops/act1/bf-celebration-pavilion-day28.png` | Day 28, 6:30 PM graduation evening | MISSING | CSV row |
+
+Full prompts in the battlefield CSV — they follow the kindergarten
+palette with progressive sunset temperature shifts.
+
+### §2.A.3 Opponent portraits — Cycle A (3 matchup cards)
+
+All three are MISSING. Render as 3:4 matchup cards at 1536×2048.
+
+**§2.A.3.1 Little Meme (Minnie — Archon, child form, match 1):**
+
+**Output:** `apps/client/public/art/matchups/act1/little-meme.png` + `.webp`
+**Source:** `docs/production/act1-asset-build/prompts/matchups/little-meme.txt`
+
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card framing (subject fills upper two-thirds, lower third deliberately empty honey-oak card-table surface for UI text overlay). A seven-year-old boy seated at the wooden card-table in the §4.1 classroom, leaning forward on both elbows, chin tilted up. His face is open, hungry, and delighted — a child who has found a new toy and will not stop until he has taken it apart. He is mid-chant: lips parted in a repeating phrase, the mouth caught between syllables. His eyes are locked directly on camera (not shy, not cruel — certain). Simple pull-over tunic in dusty rose `#c98b8b` with rumpled sleeves. Short, messy, chestnut hair. One hand flat on the table, fingers splayed over an imaginary card; the other half-raised, pointing with index finger extended as if tracking something the viewer can't yet see. Lighting: warm-yellow window sun striping his left cheek and the card-table surface. Palette: honey `#d9a66a` dominant, dusty rose `#c98b8b` accent, warm sunlight `#f5d98a` on his skin. Background: softly defocused interior of the classroom — slate board, window panes, rug — bokeh only, the child is the subject. No rendered text. Soft film grain. Cinematic 4K. Not cute — this boy is certain. The chant is already viral.
+
+**§2.A.3.2 Little Collector (Corey — Archon, child form, match 2):**
+
+**Output:** `apps/client/public/art/matchups/act1/little-collector.png` + `.webp`
+**Source:** `docs/production/act1-asset-build/prompts/matchups/little-collector.txt`
+
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card framing. A seven-year-old boy kneeling on one of the §4.1 classroom chairs to get taller than the table, both hands clasped around a small glass mason jar held protectively at his chest. The jar is roughly the size of his clasped hands; its glass is smoky and fogged from the inside, a faint iridescent shimmer trapped behind the glass suggesting something is inside (do not render distinct creatures — the shimmer is ambiguous, captured emotions rather than animals). His expression is sweet, earnest, and wrong — the smile of a child who has already decided to keep something that isn't his. He is looking slightly off-camera, to the player's right, as if watching the next emotion before he collects it. Tidy little button-up shirt in soft sage green with the top button fastened, an overly-grown-up collar for his small frame. Hair parted to the side, neat, over-combed. Lighting: warm-yellow window sun from the same screen-right window as §4.1, catching the glass of the jar and making the trapped shimmer glow faintly golden. Palette: honey `#d9a66a`, sage green `#7ba67a`, sunlight `#f5d98a`, with a faint iridescent shimmer inside the jar glass (subtle — not overt magical effect). Background: softly defocused classroom. No rendered text. Cinematic 4K. He is not a bully; he is a hoarder in the making. The sweetness is the menace.
+
+**§2.A.3.3 Little Watcher (Kanshi Sha — Archon, child form, match 3, cycle finale opponent):**
+
+**Output:** `apps/client/public/art/matchups/act1/little-watcher.png` + `.webp`
+**Source:** `docs/production/act1-asset-build/prompts/matchups/little-watcher.txt`
+
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card framing. A seven-year-old girl seated very still at the §4.1 classroom card-table, hands folded in her lap, spine straight, shoulders level. Simple pale cream linen dress with subtle dusty-rose trim at the collar. Hair in a single dark braid down one shoulder. Held in her lap, barely catching the edge of frame, is a half-finished white porcelain mask — the upper half is smooth blank ceramic (covering where her eyes would be), the lower half trails into raw unfired grey clay that hasn't been shaped yet. She is not wearing the mask; she is holding it as if about to put it on. Her face is fully visible above the mask's upper edge — a perfectly composed little girl's face, eyes open, looking directly at the viewer with a soft, measured attention. No hostility, no fear, no curiosity — assessment. She has already decided what she sees. The lighting is late-afternoon through the §4.1 window, warm sun now angled lower and redder (approaching sunset temperature — first hint of the cycle finale's weight). The shadow of her head and the mask fall sharply across the honey-oak card-table surface in front of her, cast long. Palette: honey `#d9a66a`, cream `#e6dcc2`, dusty rose `#c98b8b` at her collar, white porcelain `#f7f3ee` for the mask, grey unfired clay `#b8b4a8` for the mask's lower unfinished half, warmer-toward-red sun `#f0b878` (warmer than §5.1.1/§5.1.2 — the sun is lower). Background: classroom defocused, slate board barely readable behind her. Cinematic 4K. She is recording you. The mask in her lap is for when she has seen enough to decide who she is being. No rendered text.
+
+---
+
+### §2.A.4 Card art — Cycle A (3 cards)
+
+All MISSING. 1024×1024 square, Nano Banana 2. Full composed prompts in
+`docs/production/act1-asset-build/manifests/act1_art_prompts__card_art.csv`
+(rows 2, 4, 6 — `card_art_countermelody`, `card_art_jar_wouldnt_close`,
+`card_art_first_card`).
+
+**§2.A.4.1 The Countermelody (A1 unlock — Common Neutral):**
+
+**Output:** `apps/client/public/art/cards/act1/card-art-countermelody.png` + `.webp`
+
+> *Global style anchor:* Hyper-realistic cinematic composition with a strong biographical quality — every frame should feel like it's been pulled from a recovered personal archive. Palette: warmer and more nostalgic than the Prelude's cold cyan; dominant warm gold `#fbbf24`, institutional steel grey, deep wood panelling, faint film-grain sepia undertone. Subjects rendered with the specificity of photographic portraiture. Film grain. Anamorphic lens flares where warm light meets composition edges. 1920×1080 / 16:9 / 4K. No rendered text unless explicitly flagged.
+>
+> Square card-art composition (1024×1024). A single tuning fork in the center of the frame, struck and vibrating — the vibration rendered as a faint soft halo of sound-wave concentric rings emanating outward. Brass body with warm-gold reflectivity, sitting upright on a worn dark-wood surface (the Celebration schoolyard card table). Background: out-of-focus warm-gold afternoon Day-10 schoolyard light, faint pink-gold parade banner bokeh. The fork's tone is canonically the OPPOSITE of Minnie's viral chant — render the sound rings as a quiet, organized, single-frequency wave (contrast with chaotic). NO PEOPLE. Lower-third of the frame is the worn wood surface, leaving room for the card's name banner. Faint film-grain sepia. The card is a Common Neutral; the composition should feel modest and earnest.
+
+**§2.A.4.2 The Jar That Wouldn't Close (A2 unlock — Rare Light):**
+
+**Output:** `apps/client/public/art/cards/act1/card-art-jar-wouldnt-close.png` + `.webp`
+
+> Square card-art composition (1024×1024). An amber glass jar — Corey's jar from §2.3 — center-frame, lid askew (NOT closed), a single warm-gold light beam escaping upward through the gap between lid and rim. The light beam carries a few small translucent coin-shapes drifting upward and out, each with a faint defocused face on its surface. The jar itself is half-full of similar coins, nestled at the bottom and giving off their own subdued amber inner-glow. The lid hovers approximately 1cm above the rim, frozen in the act of failing to seal. Background: out-of-focus 4:30 PM Day-20 schoolyard light, deeper amber than A1. The jar sits on the same worn dark-wood surface. Lower third clean for the card-name banner. The card is Rare Light; the visual hinge is the LID FAILING — Corey's jar canonically wouldn't close, and the spilled-light is the player's attention escaping back to them.
+
+**§2.A.4.3 The First Card (A3 unlock — Epic Light, Kanshi's gift regardless of win/loss):**
+
+**Output:** `apps/client/public/art/cards/act1/card-art-first-card.png` + `.webp`
+
+> Square card-art composition (1024×1024). A single small folded paper card, blank on both sides, held in the warm-lit palm of a child's hand at center-frame (the Engineer's seven-year-old hand from the §5.4 graduation handoff). The paper has a faint warm-gold inner glow seeping through its fibers — the canonical 'three random effects on play' rendered as latent potential rather than literal symbols. Around the card: faint film-grain sepia bokeh of the graduation pavilion at 6:30 PM evening light, soft-focus pillars in the background. The hand is small but steady, fingers slightly curled to cradle the paper. NO faces. NO rendered text on the paper. The card is Epic Light; the composition's emotional register is GIFT, not reward — Kanshi Sha gives this card whether the player wins or loses, and the prompt should communicate that giving rather than that earning.
+
+### §2.A.5 Cycle A Finale Cutscene — *Welcome to Celebration*
+
+**Output:** `apps/client/public/videos/act1/welcome-to-celebration.mp4`
+**Duration:** 40s (range 35–45s) @ 24fps, 16:9
+**Status:** MISSING — prompts already authored in
+`docs/production/act1-asset-build/prompts/cutscenes/welcome-to-celebration_{start_frame,end_frame,motion}.txt`
+**Bible:** `ACT_1_SHIP_READY_BIBLE.md` §6.1
+**Fires after:** `little_watcher` match resolves
+**Flags set:** `act1_cycle_a_complete`, `celebration_glimpse_shown`, `memoir_frame_acknowledged`
+
+**Dependencies:**
+- Start PNG: `assets/intermediate/act1/cutscenes/welcome-to-celebration_start.png`
+- End PNG: `assets/intermediate/act1/cutscenes/welcome-to-celebration_end.png`
+
+**START FRAME prompt (Nano Banana 2):**
+> Same §4.1 classroom, match complete. Wide shot from the empty seat opposite Little Watcher's chair (the player's POV, camera at child-eye level). Little Watcher sits exactly as in her matchup-card, hands in her lap, mask still not worn. The card-table between camera and her holds the final card play of the match — one card face-up on the player's side, one on hers, the played stacks intermixed. Warm late-afternoon sun has shifted another 15 minutes redder since the matchup card; the whole classroom is washed in amber. Dust motes thick in the light. Cinematic 4K. No rendered text.
+
+**END FRAME prompt (Nano Banana 2 — rendered-text exception "CELEBRATION"):**
+> Pull-back establishing shot of the same classroom but the walls have dissolved — the wooden panelling peels back at the edges of frame to reveal, behind the school, a towering gated structure in polished brass and black marble: an immense ceremonial arch inscribed with the single word CELEBRATION in formal Empire script (rendered in-frame is permitted here, this single word is the canonical reveal). Beyond the arch, hundreds of identical schoolchildren in cream linen are walking in orderly processional lines toward a brass-and-bone amphitheatre. The Celebration banner flies above — dusty rose on cream. The classroom sits at the foreground as a small, warmly-lit island against the vast ceremonial machinery beyond. Little Watcher is now wearing the mask; only her braid and the lower edge of her jaw are visible beneath the porcelain. She is no longer seated — she stands at the threshold of the dissolving classroom wall, facing the arch. Palette: classroom honey and rose in the foreground, deep brass `#b8752d` and black marble `#1c1a1a` beyond the arch, ceremonial dusty rose `#c98b8b` on the distant banners. Cinematic 4K. The juxtaposition is the point.
+
+**VEO 3.1 motion prompt:**
+> Open on start frame — card-table, Little Watcher seated, amber classroom. Hold 3s. Beat at 4s: Little Watcher's voiceover line lands ("I have watched sixteen versions of you already.") as her hand lifts the mask from her lap. Beat at 8s: she places the mask over her face in a single slow motion; the classroom's warm light begins to shimmer at the edges of frame. Beat at 14s: camera slowly pulls back through where the east wall was; the wall dissolves outward in a wipe of warm dust, revealing the Celebration arch in distant tableau. Beat at 22s: camera continues the pull-back, the classroom becomes small foreground against the vast brass Celebration machinery; hundreds of children in cream linen walk toward the amphitheatre in silent processional. Beat at 30s: hold on final composition. Little Watcher (masked) at the dissolved threshold. Final 5s: slow fade to honey-amber black. 24fps. Reverent, foreboding, a child's-eye-view of something much larger than a classroom.
+
+**Veo config:** 40s · 16:9 · 24fps · fixed child-eye-level POV pulling
+back through a dissolving wall. Note: the "CELEBRATION" arch text must
+render legibly — if Veo's typography is unreliable, composite the word
+over a generic brass-arch render in post.
+
+**Audio hand-off:**
+- VO `vo-little-watcher-sixteen-versions` @ ~4s — status: `prompted`
+  (NOT yet recorded). Output
+  `apps/client/public/audio/act1/little_watcher_sixteen_versions.mp3`,
+  duration 3.5s. Render via ElevenLabs against the `little_watcher`
+  voice profile. Source line: "I have watched sixteen versions of you
+  already."
+- No ambient bed; classroom sun + dust + processional footfall runtime
+  SFX only.
+
+---
+
+## §2.B  Cycle B — Mechronis Academy
+
+Mechronis academy years, §§7–12 of `ACT_1_SHIP_READY_BIBLE.md`. Five
+opponent matches (young Iron Lion / Kael / Agent Zero / Eyes / Seeker),
+one cycle-finale cutscene.
+
+### §2.B.1 Room — Mechronis Atrium
+
+**Output:** `apps/client/public/art/rooms/room-mechronis-atrium.png` + `.webp`
+**Status:** MISSING
+**Aspect / res:** 16:9 / 1920×1080
+**Palette:** `#4ba3b5 #b8752d #f5d98a`
+**Source prompt:** `docs/production/act1-asset-build/prompts/rooms/room-mechronis-atrium.txt`
+
+**Nano Banana 2 prompt:**
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of the central atrium of Mechronis Academy — a technical university carved from grey limestone and polished dark-basalt composite, soaring early-Empire institutional architecture. Rectangular hall, vaulted ceiling of exposed brass ribs and obsidian-glass skylight panes. Four tall narrow arched windows line the left wall, each two stories high, casting long shafts of warm late-morning sunlight across a polished basalt floor dulled by decades of student footfall. Center-frame: the public-match card-table — a single rectangular table of brass-clad oak with inlaid bone corner accents, polished to a soft matte sheen, four empty institutional chairs arranged around it (two facing two). Blank brass plaque on the table (no rendered text). Right wall: three tall brass doorways in shallow arched alcoves; above each, a small stone medallion carved with a faculty seal (generic geometric sigils, no rendered letters). Fluted unpainted stone columns between the doorways. At the far end, a raised dais with a second smaller card-table and a row of empty faculty chairs. Palette: cool institutional cyan `#4ba3b5` in shadowed recesses, polished brass `#b8752d` on door-frames and table edges, warm buttery sunlight `#f5d98a` in four hard parallelograms across the floor — the last visual echo of the §3.3 classroom warmth, deliberate and sparing. Volumetric fog pooled at ankle height, thin and dignified, catching the sun shafts as dust motes. Anamorphic lens flare on the brightest window's inner edge. Faint film grain. Cinematic 4K composition, three-quarter wide shot, camera at standing adult eye level, looking down the hall past the public card-table toward the dais. No rendered text, no visible people, no holograms. The room feels important. The room is about to be hostile. Today it is still just a school.
+
+### §2.B.2 Battlefield backdrops — Cycle B
+
+| Asset ID | Output | Status | Source |
+|---|---|---|---|
+| `bf_mechronis_classroom_standard` | `apps/client/public/art/backdrops/act1/bf-mechronis-classroom-standard.png` | MISSING | CSV row |
+| `bf_mechronis_common_room` | `apps/client/public/art/backdrops/act1/bf-mechronis-common-room.png` | MISSING | CSV row |
+
+Full prompts in `act1_art_prompts__battlefield.csv`.
+
+### §2.B.3 Opponent portraits — Cycle B (5 matchup cards)
+
+All MISSING. 3:4 / 1536×2048.
+
+**§2.B.3.1 Detective / Student (Young Iron Lion at 20):**
+
+**Output:** `apps/client/public/art/matchups/act1/detective-student.png` + `.webp`
+**Source:** `docs/production/act1-asset-build/prompts/matchups/detective-student.txt`
+
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card framing (subject fills upper two-thirds, lower third empty brass-clad card-table surface for UI overlay). A young man around twenty, seated at the §4.2 public card-table, leaning slightly forward with both forearms resting flat on the brass-inlaid oak. His face is open, warm, attentive — the specific attention of a person who is listening as hard as they are looking. Half-smile about to become a full smile if whatever you're about to say is worth it. Dark hair, short and side-parted, a little untidy at the crown. Clean-shaven. Eyes dark, lively, slightly amused. He wears the Mechronis student blazer — a tailored cyan-grey wool double-breasted jacket with two rows of brass buttons and a narrow Academy crest stitched onto the left breast (stylized geometric seal, no rendered letters). Under the blazer a plain white collared shirt, no tie. His hands are bare, fingers laced loosely on the table; no coffee cup, no notebook, no trench coat. One of the §4.2 window sun-shafts falls diagonally across his left shoulder and the table edge in front of him, warm yellow against the atrium's cyan tone. Palette: cyan institutional `#4ba3b5` on the blazer and background, brass `#b8752d` on his buttons and the table's edge, warm sunlight `#f5d98a` on his left side, dark hair `#2a1f1a`, white shirt collar `#f0eae0`. Background: softly defocused atrium columns and arched window, bokeh only. Cinematic 4K. He is the friend the Engineer almost kept. The warmth in his face is the entire cost of what's coming. No rendered text.
+
+**§2.B.3.2 Iron-Lion-Expelled (Young Kael / The Recruiter at 21):**
+
+**Output:** `apps/client/public/art/matchups/act1/iron-lion-expelled.png` + `.webp`
+**Source:** `docs/production/act1-asset-build/prompts/matchups/iron-lion-expelled.txt`
+
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card framing. A young man around twenty-one, standing beside the §4.2 public card-table rather than seated at it — one hand still resting on the chair-back he has just risen from, the other already pointing off-frame toward the atrium's brass doorways. His weight is on his front foot; he is mid-stride toward leaving. The posture is the story. His face is set — not angry, not sad, done. Jaw firm, eyes forward (not at camera — past camera, at the door). Close-cropped dark-auburn hair, slight beard starting at the jawline. He wears the Mechronis Academy uniform: same cut of cyan-grey blazer as the Detective but worn one button too loose at the collar, one sleeve rolled up to the elbow. The Academy crest on his left breast has been deliberately scratched through with a single diagonal mark (subtle — visible only on close inspection). Under the blazer, a plain work shirt in a warmer neutral grey. Bare forearm shows a faint pale scar running from wrist to inner elbow — the mark of someone who has worked with their hands, not just their mind. Lighting: the §4.2 atrium sun-shaft is behind him, rim-lighting his silhouette from the back; his face is lit only by the cyan institutional ambient. Palette: cyan `#4ba3b5` (dominant on his face and the foreground), brass `#b8752d` (blazer buttons, faint), warm sun `#f5d98a` (rim light behind him only), warm grey `#867b6d` (work shirt). Background: defocused atrium doorway, the brass door slightly ajar. Cinematic 4K. He is already halfway through the door. Whether he wins or loses this match, he walks out the same way. No rendered text.
+
+**§2.B.3.3 Professor Eidola (Young Agent Zero — ethics professor, assessment opponent):**
+
+**Output:** `apps/client/public/art/matchups/act1/professor-eidola.png` + `.webp`
+**Source:** `docs/production/act1-asset-build/prompts/matchups/professor-eidola.txt`
+
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card framing. A woman in her early fifties seated on the dais side of the §4.2 public card-table, upright, both hands folded on the table in front of her over a closed student report-card folder (do not render text on the folder; keep its surface matte-cream blank). She wears the Mechronis academic robe: a long charcoal-grey wool robe with a narrow silver piping along the lapel and a single embroidered ethics-department sigil at the collar (geometric pattern, no rendered letters). Under the robe, a plain dark high-collared blouse. Her hair is silver-streaked black, cut short and neat, parted to one side; a single stray chalk-dust mark on her left sleeve. Her face is the most asymmetric of any Cycle B portrait: one eyebrow slightly lifted, one corner of her mouth softened into something that isn't quite a smile. Eyes directly at camera, tired but kind — tired because she has made this assessment a thousand times, kind because she has not yet stopped caring. Reading glasses pushed up into her hair rather than worn. One sun-shaft from §4.2 falls across her hands and the folder, warm on the cool palette. Palette: cyan institutional `#4ba3b5` on the robe's shadowed folds and background, polished brass `#b8752d` on the table edge and a brass pen resting beside the folder, warm sun `#f5d98a` across her hands, silver-grey `#a6a6a6` in her hair, blank cream `#e6dcc2` on the closed folder. Background: defocused atrium columns, the empty faculty dais chairs behind her. Cinematic 4K. She is about to write a word she will not let you read. She has already chosen it. The question is whether you make her change it. No rendered text.
+
+**§2.B.3.4 Professor Matrikala (Young Eyes — engineering mentor):**
+
+**Output:** `apps/client/public/art/matchups/act1/professor-matrikala.png` + `.webp`
+**Source:** `docs/production/act1-asset-build/prompts/matchups/professor-matrikala.txt`
+
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card framing. A woman in her early sixties seated on the dais side of the §4.2 card-table but leaning forward, forearms on the brass-clad oak, body-language that of a workshop mentor rather than a formal examiner. She wears work coveralls (not the academic robe) in warm oxide-red canvas, sleeves rolled to the elbow, collar open. A single polished brass Academy pin holds the coverall's collar closed at the throat (faculty status in miniature). Her hands are the portrait's subject weight: bare, strong, knuckled, a web of fine scars and callus patterns that tell the story before her face does. On the table beside her elbow: a half-disassembled brass reactor coupling, its inner calibration ring partly exposed, a pair of fine needle-point calipers resting across it. The coupling is a musical instrument to her, half-open because she was mid-tune when the student sat down. Her face is weathered, warm, eyes bright and attentive — a professor who has spent her life teaching the same thing, and is still delighted every time a student finally hears it. Short silver-grey hair. Reading glasses on a brass chain around her neck, not worn. Lighting: the §4.2 sun-shaft falls full across the coupling and her hands, warm yellow on the brass and her skin — the hands and the work get the light, the face is lit by the atrium's cyan ambient. Palette: cyan `#4ba3b5` on background and her left side, oxide-red `#c66b3d` for the coveralls, polished brass `#b8752d` (the coupling, the pin, the table edge, the calipers), warm sun `#f5d98a` on her hands and the coupling, weathered skin with amber undertones. Background: defocused atrium faculty dais with a small rack of tools visible behind her (her workshop spilling into the formal room). Cinematic 4K. She will teach you to hear the reactor hum. The coupling is the lesson. The victory is not. No rendered text.
+
+**§2.B.3.5 Seer Visit (Cycle B finale opponent — the Seer's earlier visit to Mechronis):**
+
+**Output:** `apps/client/public/art/matchups/act1/seer-visit.png` + `.webp`
+**Source:** `docs/production/act1-asset-build/prompts/matchups/seer-visit.txt`
+
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card framing. A woman of indeterminate age (could be forty, could be seventy — the canon is that she is older than she looks) seated at the §4.2 public card-table on the visitor side (not on the faculty dais — she is a fellow, not faculty). She wears plain traveler's robes in unbleached linen-cream with no institutional markings — no Academy crest, no faculty sigil, no rank indicator. A wide undyed flax sash loosely tied at her waist. Her hair is long, dark, and loose over one shoulder. Her face is serene and slightly sad — composed, unhurried, watching the viewer with the specific attention of someone who already knows how this meeting ends. Eyes directly at camera, soft. Not smiling but not sad; the expression of a person remembering something that hasn't happened yet. Her hands are loosely clasped in her lap — not on the table. Leaning against the chair to her right, angled upright: a dark wooden staff, as tall as a standing adult, worn smooth at the middle from a hand that has held it for decades. The staff's head is a simple blunt carved sphere in the same dark wood; no ornament, no crystal, no metal. The staff is subtly burnt at its lower third — charred, cracked, as if it has already lived through the fire that consumes it in the Prelude's burnt-card crew mission seventeen thousand years from this moment. The portrait paints it as if the burn is memory, not prophecy. Lighting: the §4.2 sun-shafts fall just to one side of her, illuminating the staff's lower burnt third and the chair beside her, but leaving her face softly lit by the cyan ambient only. Palette: cyan `#4ba3b5` on her face and the background, warm sun `#f5d98a` on the staff (bright on the char, golden on the unburnt upper two-thirds), unbleached cream `#e6dcc2` on her robes, dark wood `#3a2618` on the staff. Background: defocused atrium columns. Cinematic 4K. She is looking at where the staff will end up. The player has already seen the charred fragment in Beat J's Archives — this is where the burn begins. No rendered text.
+
+---
