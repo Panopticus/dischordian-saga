@@ -964,6 +964,111 @@ Final Engineer Recording. The bleakest. Departs from Recordings 2-6's holographi
 
 ---
 
+## PART 6 — ACT 6 "THE CONFESSION"
+
+### 6.0 — Narrative anchor
+
+**Trigger:** 5+ army recruitment missions completed.
+
+**Premise:** Both narrators break. Elara confesses she was human — she sacrificed her humanity for immortality. The Human confesses he's been playing the villain deliberately to protect something unseen. The "Watcher" concept surfaces — something beyond Architect/Dreamer.
+
+**Source files:** `narrativeActs.ts:988-1144` (ACT_6_THE_CONFESSION — 2 confession sequences + 4 choice branches, fully authored with VO).
+
+**Cinematics in this part:** 4 — opener (21s), Elara Confession (14s — her face resolves in full resolution for first time), The Human Confession (14s — his fedora + coat + badge arrangement on a table), Watcher Reveal (8s — the new threat surfaces as a shape the narrators cannot see).
+
+**VFX atlases:** 2 — Elara face-resolve grain (transition from holographic-flicker to photoreal), Watcher shape stencil (the silhouette players see but narrators don't).
+
+**Music:** opener (21s), dual-confession score (Elara 14s + Human 14s — thematic counterparts), Watcher reveal stinger (8s — the first time the audience gets a MUSICAL hint of what's past the spine's outer edge).
+
+### 6.1 — VFX atlases (Act 6)
+
+**vfx_act6_elara_face_resolve_grain** — `.../act-6/elara_face_resolve_grain.png` · 2048×2048 transparent
+
+> A transitional texture that interpolates from HEAVY holographic scanline + particle-flicker overlay (the Elara players have seen all game) to CLEAN film-grain only (photorealistic portrait quality). Deliver as 5 intermediate stops at 0%, 25%, 50%, 75%, 100% resolution — runtime blends between them during Elara's confession. Used EXCLUSIVELY on her confession cinematic. When the player sees her face clearly, they have never seen her like this before.
+
+**vfx_act6_watcher_shape_stencil** — `.../act-6/watcher_shape_stencil.png` · 2048×2048 transparent
+
+> A humanoid-adjacent shape stencil at 8-15% opacity, intentionally blurry/low-detail — the Watcher is not a character, it is a CONCEPT the players begin to sense. Broad shoulders, no face, hands at sides. Taller than human proportions. Used as an overlay that fades in during specific dialogue moments throughout Act 6 — most players will see it and not register it. The Watcher is visible to the AUDIENCE but not to Elara or The Human. Use sparingly.
+
+### 6.2 — CIN-ACT6-OPENER — Act 6 opener (21s, P0)
+
+**Output:** `apps/client/public/videos/acts/act-6/cin_act6_opener.mp4`
+
+Three-chair composition, per the existing `acts-4-through-7-asset-pipeline.md` Act 6 spec.
+
+**START FRAME:** Empty interior room, 16:9. Simple wooden table at center. Three chairs around it — two facing the camera, one with its back to camera (far side). On the nearest chair's edge: Elara's holographic-tinted empty outline (subtle — 5% opacity, suggests she was there). On the middle chair: The Human's fedora + black coat draped over the back, his badge on the table. On the table also: two glasses of water, half-full. The far chair: empty, but one glass of water sits next to it — with a LIP MARK on the rim. Palette: warm amber room-light, cool shadow in corners. Film grain.
+
+**END FRAME:** Same room, same framing. Elara's holographic outline has RESOLVED (from 5% to 25% opacity — she is becoming more real). The Human's coat is still draped, fedora still on the chair back. But the third chair's glass — the one with the lip mark — has ROTATED ~2° on the table as if it had been set down differently during the 21 seconds. Someone was there. Film grain.
+
+**MOTION PROMPT:** 21-second one-shot. Camera locked. Beats: 0-5s start held. 5-12s Elara's outline gradually resolves from 5% to 25% opacity. 12-14s the third glass rotates 2° on the table (no hand visible). 14-18s warm amber room-light brightens 10%. 18-21s end held. 24fps, warm amber palette, film grain.
+
+### 6.3 — CIN-ACT6-ELARA-CONFESSION — Her face resolves for the first time (14s, P0)
+
+**Output:** `.../act-6/cin_act6_elara_confession.mp4` · 1:1 · 2048×2048
+
+Elara's confession. Her holographic tinting falls away across 14 seconds and the player sees her FACE — not her projection, not her ghost, her — for the first time in the entire game.
+
+**START FRAME:** Elara in her canonical Part 1A holographic bust framing. Heavy scanline + particle overlay, cool cyan hologram palette, translucent at shoulder-edges. She is mid-breath, about to speak. Eyes direct to camera. Film grain + `vfx_act6_elara_face_resolve_grain` at 0% resolve (full holographic).
+
+**END FRAME:** Same framing, same composition, same pose — but rendered CLEAN and PHOTOREAL. No scanlines. No particles. No translucency. Her skin is warm — the cool-cyan undertone she has had all game is GONE. Her hair is not rain-wet. Her eyes are the same blue but without emissive glow. She is a WOMAN — specifically — and the audience realizes what the game has been hiding. Expression: the weight of having been human and chosen otherwise. Film grain only; no special-effect overlays.
+
+**MOTION PROMPT:** 14-second one-shot. Camera locked. Beats:
+- 0-3s: start frame held. Full holographic Elara.
+- 3-10s: across 7 seconds, the `vfx_act6_elara_face_resolve_grain` blends from 0% to 100%. Scanlines fade, particles dissipate, cool-cyan undertone warms, translucency closes. She BECOMES photoreal.
+- 10-12s: she is fully photoreal. Her mouth moves (silent — VO overlays the confession).
+- 12-14s: end frame. She looks at camera directly.
+24fps, transition from cool-cyan holographic to warm photoreal. Film grain preserved.
+
+### 6.4 — CIN-ACT6-HUMAN-CONFESSION — Trench coat on a chair (14s, P0)
+
+**Output:** `.../act-6/cin_act6_human_confession.mp4` · 16:9 · 1920×1080
+
+The Human's confession, shown as an ABSENCE. His fedora, coat, and badge arranged on a chair + table — but he is not in the composition. He speaks from offscreen. The VO alone carries the confession; the visual is his things without him.
+
+**START FRAME:** Single wooden chair in warm amber room-light, 16:9. His FEDORA hangs on the chair back. His black high-collar coat is draped over the chair seat. His BADGE is on a small side-table to the right. A half-full glass of water sits next to the badge. No figure. Palette: warm amber, deep shadow behind, gold badge glint. Film grain.
+
+**END FRAME:** Same composition — but the CAMERA has subtly moved closer (the only Act 6 cinematic with camera motion, and it is a modest ~15% dolly-in across 14s). The badge is now in sharper focus. Next to the badge: a small folded PIECE OF PAPER that was not there at start frame (it has materialized during the 14s — a letter left behind by someone who couldn't stay to deliver it). The letter is folded; contents not visible. Film grain.
+
+**MOTION PROMPT:** 14-second one-shot. Camera very slow dolly-in (~15% zoom over 14s). Beats:
+- 0-4s: start frame, slow zoom begins.
+- 4-10s: continued zoom. Nothing visible changes in frame except the growing scale.
+- 10-11s: the folded letter APPEARS on the table (fade-in, no hand visible).
+- 11-14s: dolly-in completes, end frame held. The audience is left with the letter.
+24fps, warm amber palette, film grain. This is a confession shown as ABSENCE — the Human has left the room while still speaking.
+
+### 6.5 — CIN-ACT6-WATCHER-REVEAL — The shape surfaces (8s, P1)
+
+**Output:** `.../act-6/cin_act6_watcher_reveal.mp4` · 16:9 · 1920×1080 · **Trigger:** after Human Confession completes
+
+The first time the audience sees the Watcher's shape clearly — still at low opacity, still vague, but clearly THERE.
+
+**START FRAME:** The Human's chair + coat composition from §6.4. Empty room, no Watcher visible.
+
+**END FRAME:** Same composition — but in the DEEP BACKGROUND (~8m back, at the room's far wall), the `vfx_act6_watcher_shape_stencil` is visible at 18% opacity. Broad-shouldered, too tall, no face, hands at sides. It is STANDING THERE. The Human's things in the foreground are unchanged. The Watcher has been in the room with us. Palette same warm amber. Film grain.
+
+**MOTION PROMPT:** 8-second one-shot. Camera locked. Beats: 0-3s start held, room empty. 3-6s Watcher shape fades in across 3 seconds from 0% to 18% opacity — SLOW, so it reads as something emerging from the wall itself. 6-7s held. 7-8s end held — shape still there. Palette unchanged; the reveal is in the opacity ramp. Film grain.
+
+### 6.6 — Suno v4 music prompts (Act 6)
+
+**mus_act6_opener** — 21s
+
+> Suno v4 prompt: "Three-chairs-at-a-table ambience, 21 seconds. Opens with room-tone + distant wall-sounds (another room behind a wall, muffled — a conversation you cannot quite make out). At 8s a warm cello drone enters in E-flat-major. At 14s, a THIRD PRESENCE breathing enters underneath both — not loud, but audibly present. Breathing is slightly out-of-sync with any visible person would have. Ends on held drone + breath. Unguarded. The first honest silence of the spine."
+
+**mus_act6_elara_confession** — 14s
+
+> Suno v4 prompt: "14-second Elara confession score. Opens with Elara's theme in D-minor (cool-cyan strings + breathy female vocal tonic — the holographic motif she has carried through the spine). Across 7 seconds (3s-10s), the theme TRANSITIONS — string arrangement shifts from cool-cyan timbral palette to WARM earth-toned palette. Same notes, same key, but timbral warmth changes under it. At 10s the theme is FULLY WARM — she is a woman now, musically. At 12s a single high harmonic on violin enters above. Ends unresolved at 14s. The transition of her TIMBRE is the entire point. Render so the notes don't change but the warmth does."
+
+**mus_act6_human_confession** — 14s
+
+> Suno v4 prompt: "14-second Human confession score. Opens with The Human's theme in F-minor (warm-red low brass + held male vocal F — his signature). Across 14 seconds the theme slowly SIMPLIFIES — instruments drop out one at a time. At 4s the low brass cuts. At 8s the male vocal cuts. At 11s a single solo trumpet remains. At 13s the trumpet fades to silence. Ends on 1 second of pure silence at 14s. The confession is not bigger than him — it is smaller. Every instrument that was armor has been set down."
+
+**mus_act6_watcher_reveal** — 8s
+
+> Suno v4 prompt: "8-second stinger for the Watcher shape fading in. Opens with 3 seconds of silence. At 3s, a single SUB-SONIC low note enters below audible range (felt more than heard — around 40Hz, gentle) and holds. At 5s a high etherial harmonic joins one octave above middle C — it has NO KEY relationship to any previous theme. The Watcher is outside the spine's musical palette. At 7s both tones hold steady. Ends at 8s. Uncanny, not-of-this-world, patient. No percussion. No melody. Just presence."
+
+---
+
+
 
 
 
