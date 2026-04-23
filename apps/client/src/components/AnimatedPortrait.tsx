@@ -19,7 +19,9 @@ import {
   type NPCPortrait,
 } from "@/game/npcPortraits";
 import { FACTION_NPCS, type FactionNPCId } from "@/game/factionNPCs";
+import { getCharacterSprite } from "@/game/characterSprites";
 import { PortraitGlow } from "./PortraitGlow";
+import { SpriteCharacter } from "./SpriteCharacter";
 
 /* ─── REDUCED MOTION ─── */
 
@@ -125,6 +127,10 @@ interface AnimatedPortraitProps {
   expression?: keyof NPCPortrait["expressions"];
   /** Whether the NPC is currently talking — enables speaking effects */
   isSpeaking?: boolean;
+  /** Live VO audio element. When present and a sprite bundle exists for
+   *  this NPC, the portrait swaps to a sprite-driven talking head with
+   *  real-time lip sync. */
+  audio?: HTMLAudioElement | null;
   /** 0–100 trust level with the player */
   trustLevel?: number;
   /** Portrait crop size */
@@ -138,6 +144,7 @@ export function AnimatedPortrait({
   npcId,
   expression = "neutral",
   isSpeaking = false,
+  audio = null,
   trustLevel = 50,
   size = "bust",
   className = "",
@@ -145,6 +152,7 @@ export function AnimatedPortrait({
   ensureStyles();
 
   const portrait = useMemo(() => getNPCPortrait(npcId), [npcId]);
+  const sprite = useMemo(() => getCharacterSprite(npcId), [npcId]);
   const blinking = useBlink();
 
   // Look up faction info for glow coloring
@@ -199,12 +207,16 @@ export function AnimatedPortrait({
   if (prefersReducedMotion) {
     return (
       <div className={`relative overflow-hidden rounded-lg ${sizeClass} ${className}`}>
-        <img
-          src={imageUrl}
-          alt={portrait.name}
-          className="w-full h-full object-cover object-top"
-          style={{ filter: combinedFilter }}
-        />
+        {sprite && !isHumanPreReveal ? (
+          <SpriteCharacter npcId={npcId} audio={audio} isSpeaking={isSpeaking} />
+        ) : (
+          <img
+            src={imageUrl}
+            alt={portrait.name}
+            className="w-full h-full object-cover object-top"
+            style={{ filter: combinedFilter }}
+          />
+        )}
       </div>
     );
   }
@@ -235,29 +247,42 @@ export function AnimatedPortrait({
               animation: "portrait-drift 7s ease-in-out infinite",
             }}
           >
-            {/* ─── CROSSFADE IMAGE ─── */}
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={imageUrl}
-                src={imageUrl}
-                alt={portrait.name}
-                initial={{ opacity: 0 }}
-                animate={{
-                  opacity: 1,
-                  scale: showPop ? 1.02 : 1,
-                }}
-                exit={{ opacity: 0 }}
-                transition={{
-                  opacity: { duration: 0.35 },
-                  scale: { duration: 0.3, ease: "easeOut" },
-                }}
-                className="w-full h-full object-cover object-top"
-                style={{
-                  filter: combinedFilter,
-                  transition: "filter 0.4s ease",
-                }}
-              />
-            </AnimatePresence>
+            {/* ─── PORTRAIT BODY ─── */}
+            {/* Sprite-driven 2.5D talking head when a sprite bundle exists
+                AND we're not in the Human's pre-reveal stages (which still
+                use the static signal-static / signal-ghost / etc images).
+                Otherwise fall back to the 2D portrait crossfade. */}
+            {sprite && !isHumanPreReveal ? (
+              <div
+                className="w-full h-full"
+                style={{ filter: combinedFilter, transition: "filter 0.4s ease" }}
+              >
+                <SpriteCharacter npcId={npcId} audio={audio} isSpeaking={isSpeaking} />
+              </div>
+            ) : (
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={imageUrl}
+                  src={imageUrl}
+                  alt={portrait.name}
+                  initial={{ opacity: 0 }}
+                  animate={{
+                    opacity: 1,
+                    scale: showPop ? 1.02 : 1,
+                  }}
+                  exit={{ opacity: 0 }}
+                  transition={{
+                    opacity: { duration: 0.35 },
+                    scale: { duration: 0.3, ease: "easeOut" },
+                  }}
+                  className="w-full h-full object-cover object-top"
+                  style={{
+                    filter: combinedFilter,
+                    transition: "filter 0.4s ease",
+                  }}
+                />
+              </AnimatePresence>
+            )}
           </div>
         </div>
 

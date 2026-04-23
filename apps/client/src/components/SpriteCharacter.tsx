@@ -1,0 +1,196 @@
+/* ═══════════════════════════════════════════════════════
+   SPRITE CHARACTER — sprite-sheet driven talking head.
+
+   Walks one of the character's sheets (viseme / blink /
+   breathing) on each frame and shows the matching cell.
+
+   Lip sync uses wawa-lipsync to detect the dominant viseme
+   from the live HTMLAudioElement and pick the matching cell
+   from the viseme grid. When idle, the breathing loop plays
+   at low fps and a blink interrupts it every 3-7s.
+   ═══════════════════════════════════════════════════════ */
+
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { Lipsync } from "wawa-lipsync";
+import {
+  getCharacterSprite,
+  type CharacterSprite,
+  type SpriteSheet,
+  type WawaViseme,
+} from "@/game/characterSprites";
+
+interface SpriteCharacterProps {
+  npcId: string;
+  /** Live audio currently playing for this character; drives lip sync. */
+  audio?: HTMLAudioElement | null;
+  /** Whether the character is actively speaking (drives sheet selection). */
+  isSpeaking?: boolean;
+  className?: string;
+}
+
+const BLINK_INTERVAL_MIN = 3000;
+const BLINK_INTERVAL_MAX = 7000;
+const BLINK_DURATION_MS = 140;
+const BREATHING_FPS = 10;
+
+const prefersReducedMotion =
+  typeof matchMedia !== "undefined"
+    ? matchMedia("(prefers-reduced-motion: reduce)").matches
+    : false;
+
+/** Compute background-* CSS for showing one cell of a sheet inside the
+ *  container. The container's aspect ratio MUST match the cell aspect
+ *  for the cell to fill it without stretching. */
+function cellStyle(sheet: SpriteSheet, index: number): CSSProperties {
+  const col = index % sheet.cols;
+  const row = Math.floor(index / sheet.cols);
+  return {
+    backgroundImage: `url(${sheet.url})`,
+    backgroundSize: `${sheet.cols * 100}% ${sheet.rows * 100}%`,
+    backgroundPosition: sheet.cols === 1 && sheet.rows === 1
+      ? "center"
+      : `${(col / Math.max(1, sheet.cols - 1)) * 100}% ${(row / Math.max(1, sheet.rows - 1)) * 100}%`,
+    backgroundRepeat: "no-repeat",
+  };
+}
+
+export function SpriteCharacter({
+  npcId,
+  audio,
+  isSpeaking = false,
+  className = "",
+}: SpriteCharacterProps) {
+  const sprite = getCharacterSprite(npcId);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lipsyncRef = useRef<Lipsync | null>(null);
+  const lastConnectedRef = useRef<HTMLAudioElement | null>(null);
+
+  // Animation state — kept in refs to avoid re-rendering 60x/sec.
+  const stateRef = useRef<{
+    blinking: boolean;
+    breathFrame: number;
+    visemeCell: number;
+  }>({ blinking: false, breathFrame: 0, visemeCell: 0 });
+
+  // Force a re-render when the visible cell changes. Throttled — not every frame.
+  const [, setTick] = useState(0);
+
+  /* ─── Lip sync: connect / reconnect when the audio element changes ─── */
+  useEffect(() => {
+    if (!sprite?.viseme || !audio) return;
+
+    let lipsync = lipsyncRef.current;
+    if (!lipsync) {
+      lipsync = new Lipsync({ fftSize: 1024, historySize: 8 });
+      lipsyncRef.current = lipsync;
+    }
+
+    if (lastConnectedRef.current !== audio) {
+      try {
+        lipsync.connectAudio(audio);
+        lastConnectedRef.current = audio;
+      } catch {
+        // connectAudio fails if the audio source is cross-origin without
+        // CORS, or if it's already been connected to another AudioContext.
+        // Either way, lipsync silently degrades to "mouth stays at REST".
+      }
+    }
+  }, [audio, sprite?.viseme]);
+
+  /* ─── Animation loop ─── */
+  useEffect(() => {
+    if (!sprite) return;
+
+    let raf = 0;
+    let lastBreath = performance.now();
+
+    const tick = (now: number) => {
+      const s = stateRef.current;
+      let dirty = false;
+
+      if (isSpeaking && audio && sprite.viseme && lipsyncRef.current) {
+        // Drive viseme cell from live audio analysis.
+        try {
+          lipsyncRef.current.processAudio();
+          const v = lipsyncRef.current.viseme as WawaViseme;
+          const cell = sprite.viseme.map[v] ?? 0;
+          if (cell !== s.visemeCell) {
+            s.visemeCell = cell;
+            dirty = true;
+          }
+        } catch {
+          // ignore — keep current cell
+        }
+      } else if (!isSpeaking && sprite.breathing && !prefersReducedMotion) {
+        // Idle breathing cycle.
+        const dt = now - lastBreath;
+        if (dt > 1000 / BREATHING_FPS) {
+          lastBreath = now;
+          s.breathFrame = (s.breathFrame + 1) % (sprite.breathing.frames ?? sprite.breathing.cols * sprite.breathing.rows);
+          dirty = true;
+        }
+      } else if (s.visemeCell !== 0) {
+        // Settle mouth to REST when we stop speaking.
+        s.visemeCell = 0;
+        dirty = true;
+      }
+
+      if (dirty) setTick((t) => (t + 1) % 1024);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [sprite, audio, isSpeaking]);
+
+  /* ─── Idle blink scheduler (independent of animation loop) ─── */
+  useEffect(() => {
+    if (!sprite?.blink || prefersReducedMotion) return;
+    let timer: ReturnType<typeof setTimeout>;
+    const schedule = () => {
+      const delay = BLINK_INTERVAL_MIN + Math.random() * (BLINK_INTERVAL_MAX - BLINK_INTERVAL_MIN);
+      timer = setTimeout(() => {
+        stateRef.current.blinking = true;
+        setTick((t) => (t + 1) % 1024);
+        setTimeout(() => {
+          stateRef.current.blinking = false;
+          setTick((t) => (t + 1) % 1024);
+          schedule();
+        }, BLINK_DURATION_MS);
+      }, delay);
+    };
+    schedule();
+    return () => clearTimeout(timer);
+  }, [sprite?.blink]);
+
+  if (!sprite) return null;
+
+  const s = stateRef.current;
+
+  // Pick which sheet/cell to display this frame, in priority order:
+  //   1. Blink (briefly) — closed eye cell from the triptych
+  //   2. Speaking — viseme cell driven by lipsync
+  //   3. Idle breathing — current breath frame
+  //   4. Static bust
+  let style: CSSProperties;
+  if (s.blinking && sprite.blink) {
+    style = cellStyle(sprite.blink, 2); // closed-eye cell
+  } else if (isSpeaking && sprite.viseme) {
+    style = cellStyle(sprite.viseme, s.visemeCell);
+  } else if (sprite.breathing && !prefersReducedMotion) {
+    style = cellStyle(sprite.breathing, s.breathFrame);
+  } else {
+    style = { backgroundImage: `url(${sprite.bust})`, backgroundSize: "cover", backgroundPosition: "center top", backgroundRepeat: "no-repeat" };
+  }
+
+  return (
+    <div
+      ref={containerRef}
+      data-npc-sprite={sprite.id}
+      data-speaking={isSpeaking ? "true" : undefined}
+      className={`w-full h-full ${className}`}
+      style={style}
+    />
+  );
+}
+
+export default SpriteCharacter;

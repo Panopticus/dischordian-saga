@@ -1,0 +1,919 @@
+[
+  {
+    "rel": "elara/viseme.avif",
+    "src": "protagonists/elara_viseme_grid.png",
+    "w": 2048,
+    "h": 2048,
+    "bytes": 80773
+  },
+  {
+    "rel": "elara/expressions.avif",
+    "src": "protagonists/elara_expression_sheet.png",
+    "w": 2048,
+    "h": 2048,
+    "bytes": 136660
+  },
+  {
+    "rel": "elara/idle_hologram.avif",
+    "src": "protagonists/elara_idle_hologram.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 83535
+  },
+  {
+    "rel": "elara/front_turnaround.avif",
+    "src": "protagonists/elara_front_turnaround.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 107970
+  },
+  {
+    "rel": "elara/full_turnaround.avif",
+    "src": "protagonists/elara_full_turnaround.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 53832
+  },
+  {
+    "rel": "the_human/expressions.avif",
+    "src": "protagonists/human_expression_sheet.png",
+    "w": 2048,
+    "h": 2048,
+    "bytes": 115438
+  },
+  {
+    "rel": "the_human/front_turnaround.avif",
+    "src": "protagonists/human_front_turnaround.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 29907
+  },
+  {
+    "rel": "the_human/full_turnaround.avif",
+    "src": "protagonists/human_full_turnaround.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 43830
+  },
+  {
+    "rel": "the_human/reveal_start.avif",
+    "src": "protagonists/human_reveal_start.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 74493
+  },
+  {
+    "rel": "the_human/reveal_end.avif",
+    "src": "protagonists/human_reveal_end.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 87679
+  },
+  {
+    "rel": "agent_zero/bust.avif",
+    "src": "npcs/agent_zero_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 89540
+  },
+  {
+    "rel": "agent_zero/viseme.avif",
+    "src": "npcs/agent_zero/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 48623
+  },
+  {
+    "rel": "agent_zero/blink.avif",
+    "src": "npcs/agent_zero/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 122628
+  },
+  {
+    "rel": "agent_zero/breathing.avif",
+    "src": "npcs/agent_zero/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 125420
+  },
+  {
+    "rel": "agent_zero/expressions.avif",
+    "src": "npcs/agent_zero/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 92679
+  },
+  {
+    "rel": "adjudicator_locke/bust.avif",
+    "src": "npcs/adjudicator_locke_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 106206
+  },
+  {
+    "rel": "adjudicator_locke/viseme.avif",
+    "src": "npcs/adjudicator_locke/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 49241
+  },
+  {
+    "rel": "adjudicator_locke/blink.avif",
+    "src": "npcs/adjudicator_locke/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 97588
+  },
+  {
+    "rel": "adjudicator_locke/breathing.avif",
+    "src": "npcs/adjudicator_locke/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 119652
+  },
+  {
+    "rel": "adjudicator_locke/expressions.avif",
+    "src": "npcs/adjudicator_locke/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 107083
+  },
+  {
+    "rel": "the_antiquarian/bust.avif",
+    "src": "npcs/antiquarian_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 154733
+  },
+  {
+    "rel": "the_antiquarian/viseme.avif",
+    "src": "npcs/antiquarian/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 212855
+  },
+  {
+    "rel": "the_antiquarian/blink.avif",
+    "src": "npcs/antiquarian/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 193291
+  },
+  {
+    "rel": "the_antiquarian/breathing.avif",
+    "src": "npcs/antiquarian/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 112599
+  },
+  {
+    "rel": "the_antiquarian/expressions.avif",
+    "src": "npcs/antiquarian/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 120590
+  },
+  {
+    "rel": "the_source/bust.avif",
+    "src": "npcs/kael_source_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 170989
+  },
+  {
+    "rel": "the_source/viseme.avif",
+    "src": "npcs/kael_source/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 169015
+  },
+  {
+    "rel": "the_source/blink.avif",
+    "src": "npcs/kael_source/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 202585
+  },
+  {
+    "rel": "the_source/breathing.avif",
+    "src": "npcs/kael_source/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 121539
+  },
+  {
+    "rel": "the_source/expressions.avif",
+    "src": "npcs/kael_source/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 142613
+  },
+  {
+    "rel": "shadow_tongue/bust.avif",
+    "src": "npcs/shadow_tongue_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 67066
+  },
+  {
+    "rel": "shadow_tongue/viseme.avif",
+    "src": "npcs/shadow_tongue/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 111359
+  },
+  {
+    "rel": "shadow_tongue/blink.avif",
+    "src": "npcs/shadow_tongue/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 74222
+  },
+  {
+    "rel": "shadow_tongue/breathing.avif",
+    "src": "npcs/shadow_tongue/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 64320
+  },
+  {
+    "rel": "shadow_tongue/expressions.avif",
+    "src": "npcs/shadow_tongue/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 83216
+  },
+  {
+    "rel": "the_meme/bust.avif",
+    "src": "npcs/meme_palimpsest_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 29972
+  },
+  {
+    "rel": "the_meme/viseme.avif",
+    "src": "npcs/meme_palimpsest/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 123906
+  },
+  {
+    "rel": "the_meme/blink.avif",
+    "src": "npcs/meme_palimpsest/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 127419
+  },
+  {
+    "rel": "the_meme/breathing.avif",
+    "src": "npcs/meme_palimpsest/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 56686
+  },
+  {
+    "rel": "the_meme/expressions.avif",
+    "src": "npcs/meme_palimpsest/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 64348
+  },
+  {
+    "rel": "architect/bust.avif",
+    "src": "npcs/architect_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 44701
+  },
+  {
+    "rel": "architect/viseme.avif",
+    "src": "npcs/architect/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 70028
+  },
+  {
+    "rel": "architect/blink.avif",
+    "src": "npcs/architect/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 73770
+  },
+  {
+    "rel": "architect/breathing.avif",
+    "src": "npcs/architect/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 37834
+  },
+  {
+    "rel": "architect/expressions.avif",
+    "src": "npcs/architect/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 61965
+  },
+  {
+    "rel": "cades/bust.avif",
+    "src": "npcs/cades_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 109173
+  },
+  {
+    "rel": "cades/viseme.avif",
+    "src": "npcs/cades/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 151980
+  },
+  {
+    "rel": "cades/blink.avif",
+    "src": "npcs/cades/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 76853
+  },
+  {
+    "rel": "cades/breathing.avif",
+    "src": "npcs/cades/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 95912
+  },
+  {
+    "rel": "cades/expressions.avif",
+    "src": "npcs/cades/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 136758
+  },
+  {
+    "rel": "collector/bust.avif",
+    "src": "npcs/collector_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 92325
+  },
+  {
+    "rel": "collector/viseme.avif",
+    "src": "npcs/collector/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 46857
+  },
+  {
+    "rel": "collector/blink.avif",
+    "src": "npcs/collector/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 51684
+  },
+  {
+    "rel": "collector/breathing.avif",
+    "src": "npcs/collector/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 51638
+  },
+  {
+    "rel": "collector/expressions.avif",
+    "src": "npcs/collector/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 95948
+  },
+  {
+    "rel": "degen/bust.avif",
+    "src": "npcs/degen_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 87858
+  },
+  {
+    "rel": "degen/viseme.avif",
+    "src": "npcs/degen/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 105194
+  },
+  {
+    "rel": "degen/blink.avif",
+    "src": "npcs/degen/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 89958
+  },
+  {
+    "rel": "degen/breathing.avif",
+    "src": "npcs/degen/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 95614
+  },
+  {
+    "rel": "degen/expressions.avif",
+    "src": "npcs/degen/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 96264
+  },
+  {
+    "rel": "eidola/bust.avif",
+    "src": "npcs/eidola_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 40131
+  },
+  {
+    "rel": "eidola/viseme.avif",
+    "src": "npcs/eidola/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 58186
+  },
+  {
+    "rel": "eidola/blink.avif",
+    "src": "npcs/eidola/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 30373
+  },
+  {
+    "rel": "eidola/breathing.avif",
+    "src": "npcs/eidola/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 59576
+  },
+  {
+    "rel": "eidola/expressions.avif",
+    "src": "npcs/eidola/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 57515
+  },
+  {
+    "rel": "engineer/bust.avif",
+    "src": "npcs/engineer_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 109835
+  },
+  {
+    "rel": "engineer/viseme.avif",
+    "src": "npcs/engineer/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 132911
+  },
+  {
+    "rel": "engineer/blink.avif",
+    "src": "npcs/engineer/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 133819
+  },
+  {
+    "rel": "engineer/breathing.avif",
+    "src": "npcs/engineer/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 90172
+  },
+  {
+    "rel": "engineer/expressions.avif",
+    "src": "npcs/engineer/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 98456
+  },
+  {
+    "rel": "enigma/bust.avif",
+    "src": "npcs/enigma_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 74697
+  },
+  {
+    "rel": "enigma/viseme.avif",
+    "src": "npcs/enigma/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 63988
+  },
+  {
+    "rel": "enigma/blink.avif",
+    "src": "npcs/enigma/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 145484
+  },
+  {
+    "rel": "enigma/breathing.avif",
+    "src": "npcs/enigma/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 88572
+  },
+  {
+    "rel": "enigma/expressions.avif",
+    "src": "npcs/enigma/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 107884
+  },
+  {
+    "rel": "eyes/bust.avif",
+    "src": "npcs/eyes_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 79750
+  },
+  {
+    "rel": "eyes/viseme.avif",
+    "src": "npcs/eyes/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 60763
+  },
+  {
+    "rel": "eyes/blink.avif",
+    "src": "npcs/eyes/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 93701
+  },
+  {
+    "rel": "eyes/breathing.avif",
+    "src": "npcs/eyes/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 109746
+  },
+  {
+    "rel": "eyes/expressions.avif",
+    "src": "npcs/eyes/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 121165
+  },
+  {
+    "rel": "gamemaster/bust.avif",
+    "src": "npcs/gamemaster_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 105879
+  },
+  {
+    "rel": "gamemaster/viseme.avif",
+    "src": "npcs/gamemaster/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 174148
+  },
+  {
+    "rel": "gamemaster/blink.avif",
+    "src": "npcs/gamemaster/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 114698
+  },
+  {
+    "rel": "gamemaster/breathing.avif",
+    "src": "npcs/gamemaster/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 74954
+  },
+  {
+    "rel": "gamemaster/expressions.avif",
+    "src": "npcs/gamemaster/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 123639
+  },
+  {
+    "rel": "iron_lion/bust.avif",
+    "src": "npcs/iron_lion_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 94793
+  },
+  {
+    "rel": "iron_lion/viseme.avif",
+    "src": "npcs/iron_lion/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 150832
+  },
+  {
+    "rel": "iron_lion/blink.avif",
+    "src": "npcs/iron_lion/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 110915
+  },
+  {
+    "rel": "iron_lion/breathing.avif",
+    "src": "npcs/iron_lion/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 133210
+  },
+  {
+    "rel": "iron_lion/expressions.avif",
+    "src": "npcs/iron_lion/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 126466
+  },
+  {
+    "rel": "kael_recruiter/bust.avif",
+    "src": "npcs/kael_recruiter_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 118691
+  },
+  {
+    "rel": "kael_recruiter/viseme.avif",
+    "src": "npcs/kael_recruiter/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 144685
+  },
+  {
+    "rel": "kael_recruiter/blink.avif",
+    "src": "npcs/kael_recruiter/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 178612
+  },
+  {
+    "rel": "kael_recruiter/breathing.avif",
+    "src": "npcs/kael_recruiter/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 169796
+  },
+  {
+    "rel": "kael_recruiter/expressions.avif",
+    "src": "npcs/kael_recruiter/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 159165
+  },
+  {
+    "rel": "matrikala/bust.avif",
+    "src": "npcs/matrikala_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 69354
+  },
+  {
+    "rel": "matrikala/viseme.avif",
+    "src": "npcs/matrikala/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 122362
+  },
+  {
+    "rel": "matrikala/blink.avif",
+    "src": "npcs/matrikala/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 76590
+  },
+  {
+    "rel": "matrikala/breathing.avif",
+    "src": "npcs/matrikala/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 69638
+  },
+  {
+    "rel": "matrikala/expressions.avif",
+    "src": "npcs/matrikala/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 107426
+  },
+  {
+    "rel": "necromancer/bust.avif",
+    "src": "npcs/necromancer_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 80521
+  },
+  {
+    "rel": "necromancer/viseme.avif",
+    "src": "npcs/necromancer/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 67031
+  },
+  {
+    "rel": "necromancer/blink.avif",
+    "src": "npcs/necromancer/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 175941
+  },
+  {
+    "rel": "necromancer/breathing.avif",
+    "src": "npcs/necromancer/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 63153
+  },
+  {
+    "rel": "necromancer/expressions.avif",
+    "src": "npcs/necromancer/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 90921
+  },
+  {
+    "rel": "nilmorg/bust.avif",
+    "src": "npcs/nilmorg_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 44454
+  },
+  {
+    "rel": "nilmorg/viseme.avif",
+    "src": "npcs/nilmorg/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 81913
+  },
+  {
+    "rel": "nilmorg/blink.avif",
+    "src": "npcs/nilmorg/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 53926
+  },
+  {
+    "rel": "nilmorg/breathing.avif",
+    "src": "npcs/nilmorg/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 66380
+  },
+  {
+    "rel": "nilmorg/expressions.avif",
+    "src": "npcs/nilmorg/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 77261
+  },
+  {
+    "rel": "programmer/bust.avif",
+    "src": "npcs/programmer_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 65980
+  },
+  {
+    "rel": "programmer/viseme.avif",
+    "src": "npcs/programmer/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 51622
+  },
+  {
+    "rel": "programmer/blink.avif",
+    "src": "npcs/programmer/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 76614
+  },
+  {
+    "rel": "programmer/breathing.avif",
+    "src": "npcs/programmer/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 113225
+  },
+  {
+    "rel": "programmer/expressions.avif",
+    "src": "npcs/programmer/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 77883
+  },
+  {
+    "rel": "seer/bust.avif",
+    "src": "npcs/seer_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 97114
+  },
+  {
+    "rel": "seer/viseme.avif",
+    "src": "npcs/seer/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 45502
+  },
+  {
+    "rel": "seer/blink.avif",
+    "src": "npcs/seer/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 51893
+  },
+  {
+    "rel": "seer/breathing.avif",
+    "src": "npcs/seer/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 74977
+  },
+  {
+    "rel": "seer/expressions.avif",
+    "src": "npcs/seer/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 82600
+  },
+  {
+    "rel": "warlord/bust.avif",
+    "src": "npcs/warlord_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 106116
+  },
+  {
+    "rel": "warlord/viseme.avif",
+    "src": "npcs/warlord/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 66793
+  },
+  {
+    "rel": "warlord/blink.avif",
+    "src": "npcs/warlord/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 88824
+  },
+  {
+    "rel": "warlord/breathing.avif",
+    "src": "npcs/warlord/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 112238
+  },
+  {
+    "rel": "warlord/expressions.avif",
+    "src": "npcs/warlord/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 108226
+  },
+  {
+    "rel": "watcher/bust.avif",
+    "src": "npcs/watcher_bust.png",
+    "w": 1792,
+    "h": 2400,
+    "bytes": 54341
+  },
+  {
+    "rel": "watcher/viseme.avif",
+    "src": "npcs/watcher/viseme_grid.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 75446
+  },
+  {
+    "rel": "watcher/blink.avif",
+    "src": "npcs/watcher/blink_triptych.png",
+    "w": 2528,
+    "h": 1696,
+    "bytes": 70686
+  },
+  {
+    "rel": "watcher/breathing.avif",
+    "src": "npcs/watcher/breathing_loop.png",
+    "w": 3168,
+    "h": 1344,
+    "bytes": 55957
+  },
+  {
+    "rel": "watcher/expressions.avif",
+    "src": "npcs/watcher/expressions/expression_sheet.png",
+    "w": 2752,
+    "h": 1536,
+    "bytes": 66358
+  },
+  {
+    "rel": "conexus_authority/bust.avif",
+    "src": "npcs/conexus_authority.png",
+    "w": 2048,
+    "h": 2048,
+    "bytes": 198583
+  }
+]

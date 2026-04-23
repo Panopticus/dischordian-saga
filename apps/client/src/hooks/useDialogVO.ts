@@ -29,6 +29,10 @@ export interface DialogVO {
   stop: () => void;
   speaking: boolean;
   hasVO: boolean;
+  /** The currently-playing audio element, exposed so lipsync analysers
+   *  (wawa-lipsync) can connect to the live MediaElementSource. Null
+   *  when nothing has played yet for this hook instance. */
+  audio: HTMLAudioElement | null;
 }
 
 const NOOP: DialogVO = {
@@ -36,6 +40,7 @@ const NOOP: DialogVO = {
   stop: () => {},
   speaking: false,
   hasVO: false,
+  audio: null,
 };
 
 /**

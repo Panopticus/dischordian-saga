@@ -341,6 +341,7 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
                   npcId={npcId}
                   expression={activeExpressionKey}
                   isSpeaking={isSpeaking}
+                  audio={vo.audio}
                   trustLevel={trust}
                   size="full"
                 />

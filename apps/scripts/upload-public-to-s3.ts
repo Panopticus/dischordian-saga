@@ -23,7 +23,7 @@ const BUCKET = "dgrsart";
 const REGION = "us-east-2";
 const PREFIX = "cdn/client-public";
 const PUBLIC_ROOT = join(process.cwd(), "apps", "client", "public");
-const TRACKED_DIRS = ["art", "audio", "videos", "music", "games", "vo"] as const;
+const TRACKED_DIRS = ["art", "audio", "videos", "music", "games", "vo", "characters"] as const;
 const CONCURRENCY = 16;
 
 const CONTENT_TYPES: Record<string, string> = {

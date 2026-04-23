@@ -1,17 +1,20 @@
 /* ═══════════════════════════════════════════════════════
    ELARA VO HOOK — Plays Elara's voice lines
-   
+
    Loads audio from the VO manifest (S3/CDN URLs).
    Manages playback, queueing, and volume.
-   
+
+   The currently-playing HTMLAudioElement is exposed via
+   the `audio` field so consumers (lipsync) can connect a
+   Web Audio analyser to it. `crossOrigin = "anonymous"`
+   is required for AnalyserNode to read samples cross-origin.
+
    Usage:
-     const { speak, stop, speaking } = useElaraVO();
+     const { speak, stop, speaking, audio } = useElaraVO();
      speak("feature_unlock_companion_selection");
    ═══════════════════════════════════════════════════════ */
 import { useRef, useState, useCallback, useEffect } from "react";
 
-// The manifest maps line IDs to audio URLs
-// Populated after running the generation script
 let manifest: Record<string, string> | null = null;
 let manifestLoading = false;
 let manifestLoaded = false;
@@ -20,12 +23,10 @@ async function loadManifest() {
   if (manifestLoaded || manifestLoading) return;
   manifestLoading = true;
   try {
-    // Try to load from the shared manifest file
     const mod = await import("@shared/elaraVoManifest.json");
     manifest = mod.default || mod;
     manifestLoaded = true;
   } catch {
-    // Manifest not generated yet — VO disabled
     manifest = {};
     manifestLoaded = true;
   }
@@ -33,7 +34,7 @@ async function loadManifest() {
 }
 
 export function useElaraVO() {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
   const [speaking, setSpeaking] = useState(false);
   const queueRef = useRef<string[]>([]);
 
@@ -42,36 +43,39 @@ export function useElaraVO() {
   const speak = useCallback((lineId: string) => {
     if (!manifest || !manifest[lineId]) return;
 
-    // If already speaking, queue it
     if (speaking) {
       queueRef.current.push(lineId);
       return;
     }
 
-    const audio = new Audio(manifest[lineId]);
-    audioRef.current = audio;
-    audio.volume = 0.8;
+    const a = new Audio();
+    a.crossOrigin = "anonymous";
+    a.src = manifest[lineId];
+    a.volume = 0.8;
+    setAudio(a);
 
-    audio.onplay = () => setSpeaking(true);
-    audio.onended = () => {
+    a.onplay = () => setSpeaking(true);
+    a.onended = () => {
       setSpeaking(false);
-      // Play next in queue
       const next = queueRef.current.shift();
       if (next) speak(next);
     };
-    audio.onerror = () => setSpeaking(false);
+    a.onerror = () => setSpeaking(false);
 
-    audio.play().catch(() => setSpeaking(false));
+    a.play().catch(() => setSpeaking(false));
   }, [speaking]);
 
   const stop = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
+    if (audio) {
+      audio.pause();
+      setAudio(null);
     }
     queueRef.current = [];
     setSpeaking(false);
-  }, []);
+  }, [audio]);
 
-  return { speak, stop, speaking, hasVO: manifestLoaded && manifest !== null && Object.keys(manifest).length > 0 };
+  return {
+    speak, stop, speaking, audio,
+    hasVO: manifestLoaded && manifest !== null && Object.keys(manifest).length > 0,
+  };
 }

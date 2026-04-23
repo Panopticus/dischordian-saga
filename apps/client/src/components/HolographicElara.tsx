@@ -1,5 +1,7 @@
 import { useRef, useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { getCharacterSprite } from "@/game/characterSprites";
+import { SpriteCharacter } from "./SpriteCharacter";
 
 /* ─── CDN ASSETS ─── */
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_avatar_dark_hair_small_2fcb00b8.png";
@@ -17,6 +19,9 @@ const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159
 interface HolographicElaraProps {
   /** Whether Elara is currently "speaking" (triggers mouth/glow animation) */
   isSpeaking?: boolean;
+  /** Live VO audio element. When provided, the holo overlay renders the
+   *  sprite-driven Elara with viseme lip sync instead of the static avatar. */
+  audio?: HTMLAudioElement | null;
   /** Size variant */
   size?: "sm" | "md" | "lg";
   /** Optional video URL for Kling 3.0 generated hologram */
@@ -35,11 +40,13 @@ const SIZES = {
 
 export default function HolographicElara({
   isSpeaking = false,
+  audio = null,
   size = "md",
   videoUrl,
   visible = true,
   className = "",
 }: HolographicElaraProps) {
+  const elaraSprite = useMemo(() => getCharacterSprite("elara"), []);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animFrameRef = useRef<number>(0);
   const dims = SIZES[size];
@@ -161,7 +168,9 @@ export default function HolographicElara({
               transition: glitchActive ? "none" : "filter 0.1s",
             }}
           >
-            {/* Video or image */}
+            {/* Video, sprite-driven Elara, or static fallback. The sprite
+                path engages whenever Elara has a registered character bundle —
+                its viseme grid drives lip sync from the live VO audio. */}
             {videoUrl ? (
               <video
                 src={videoUrl}
@@ -175,6 +184,13 @@ export default function HolographicElara({
                   mixBlendMode: "screen",
                 }}
               />
+            ) : elaraSprite ? (
+              <div
+                className="w-full h-full"
+                style={{ filter: "brightness(1.1) contrast(1.1) saturate(0.8)" }}
+              >
+                <SpriteCharacter npcId="elara" audio={audio} isSpeaking={isSpeaking} />
+              </div>
             ) : (
               <img
                 src={ELARA_PORTRAIT}

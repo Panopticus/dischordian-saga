@@ -18,6 +18,8 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Radio, Skull, Terminal, Volume2, VolumeX } from "lucide-react";
+import { getCharacterSprite } from "@/game/characterSprites";
+import { SpriteCharacter } from "./SpriteCharacter";
 
 /* ─── TYPES ─── */
 export type TransmissionSpeaker = "elara" | "human" | "system" | "kael";
@@ -170,11 +172,15 @@ function TransmissionMessage({
   const [done, setDone] = useState(!isActive);
   const [voPlaying, setVoPlaying] = useState(false);
   const [voMuted, setVoMuted] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  // Stored in state (not a ref) so SpriteCharacter re-renders when the
+  // audio element swaps and the lipsync analyser can connect to the
+  // new MediaElementSource.
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const speed = message.typingSpeed ?? config.defaultSpeed;
   const isHuman = message.speaker === "human";
   const corruption = isHuman ? (message.corruptionLevel ?? 40) : 0;
+  const humanSprite = useMemo(() => (isHuman ? getCharacterSprite("the_human") : null), [isHuman]);
 
   // Clean text (without ~~markers~~) for length calculation
   const cleanText = message.text.replace(/~~/g, "");
@@ -183,15 +189,18 @@ function TransmissionMessage({
   // Start VO audio when message becomes active
   useEffect(() => {
     if (isActive && message.voUrl && !voMuted) {
-      const audio = new Audio(message.voUrl);
-      audio.volume = 0.8;
-      audioRef.current = audio;
-      audio.play().then(() => setVoPlaying(true)).catch(() => {/* autoplay blocked */});
-      audio.onended = () => setVoPlaying(false);
+      const a = new Audio();
+      a.crossOrigin = "anonymous";
+      a.src = message.voUrl;
+      a.volume = 0.8;
+      setAudio(a);
+      a.play().then(() => setVoPlaying(true)).catch(() => {/* autoplay blocked */});
+      a.onended = () => setVoPlaying(false);
       return () => {
-        audio.pause();
-        audio.currentTime = 0;
+        a.pause();
+        a.currentTime = 0;
         setVoPlaying(false);
+        setAudio(null);
       };
     }
   }, [isActive, message.voUrl, voMuted]);
@@ -243,18 +252,18 @@ function TransmissionMessage({
   const toggleVoMute = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     setVoMuted((m) => {
-      if (audioRef.current) {
+      if (audio) {
         if (!m) {
-          audioRef.current.pause();
+          audio.pause();
           setVoPlaying(false);
         } else {
-          audioRef.current.play().catch(() => {});
+          audio.play().catch(() => {});
           setVoPlaying(true);
         }
       }
       return !m;
     });
-  }, []);
+  }, [audio]);
 
   // Build the displayed text by mapping displayedLength back to the original text with markers
   const getDisplayedText = (): string => {
@@ -294,6 +303,18 @@ function TransmissionMessage({
       `}
       onClick={skipToEnd}
     >
+      {/* Sprite-driven Human avatar with viseme lipsync — only shown when
+          the bundle is registered for "the_human" and we're on the
+          Human's transmission. Sized to slot above the typed text. */}
+      {isHuman && humanSprite && (
+        <div className="flex items-start gap-3 mb-2">
+          <div className="w-20 h-28 rounded overflow-hidden shrink-0 border border-red-500/20 bg-black/30">
+            <SpriteCharacter npcId="the_human" audio={audio} isSpeaking={voPlaying || (isActive && !done)} />
+          </div>
+          <div className="flex-1" />
+        </div>
+      )}
+
       {/* Speaker Header */}
       {showHeader && (
         <div className={`flex items-center justify-between mb-2 ${compact ? "mb-1.5" : "mb-2.5"}`}>
