@@ -3070,3 +3070,27 @@ Consolidates every Veo 3.1 / Seedance 2.0 motion clip referenced throughout Part
 
 ---
 
+### CIN-LIONS-MATERIALIZE — Lions Club Ceremonial armor materialization (0.8s one-shot, P1)
+
+**Output:** `apps/client/public/videos/gear/lions_materialize_template.mp4` · **Aspect:** 1:1 square · **Resolution:** 1024×1024 · **Use:** plays each time a player with valid Lions Club membership equips a Ceremonial slot. Generic template — runtime composites the specific piece over the player's character-sheet mesh at the correct attach socket.
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 1:1 square, 1024×1024. A single equipment slot on a character sheet — dark neutral background. In the slot, a faint GOLD-LAUREL SILHOUETTE of the Ceremonial piece's shape (e.g., chest-plate silhouette for the chest slot), rendered at 40% opacity in warm gold (#d9a66a) on transparent backing. No solid armor yet — only the pre-equip placeholder. Film grain. 4K. No rendered text.
+
+**END FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 1:1 square, 1024×1024. The same slot, now showing the fully-rendered Ceremonial piece in solid PBR: white ICL ceramic plate armor (#f0ede8) with polished brass ornamentation (#c4a040) at the joints and edges, faint engraved ICL sigil work visible, full-opacity and sharp. A faint warm-gold rim light traces the edges of the piece (the Lions Club faction rim). Same dark neutral background. Film grain. 4K. No rendered text.
+
+**VEO 3.1 MOTION PROMPT:**
+> 0.8-second one-shot gear-materialization animation. Camera locked.
+> - **0.0–0.1s (gathering):** Warm gold particles (~300 of them) begin to spawn from the edges of the frame, drifting inward toward the gold-laurel silhouette target in the slot center. Baseline gold-laurel silhouette visible.
+> - **0.1–0.5s (coalescing):** Particles concentrate and begin forming the shape of the Ceremonial piece. Partial solid pixel-clusters appear along the silhouette edges. From 0.1-0.5s scrub `materializationProgress` from 0.0 → 0.8 — piece resolves from particulate toward solid PBR render but edges still shimmer.
+> - **0.5–0.7s (solidification):** Particle count drops from peak back to zero. The Ceremonial piece locks into full-solid PBR material. Warm-gold rim light ramps up on the edges from 0 to full Lions-faction rim intensity.
+> - **0.7–0.8s (settle + hold):** Held at end frame — piece is now fully equipped and active. Rim glow steady.
+> Cinematography: locked static camera, no motion. All motion is subject-internal. 60fps capture recommended to preserve particle detail. Film grain light.
+
+**Audio hand-off note:** Soft harp-pluck ascending from 0.0-0.3s, swelling into a warm brass chord that sustains at 0.5s through end. Synchronized to the solidification moment. UI may play an additional short "equip confirm" SFX layered on top.
+
+**Runtime note:** This video is a GENERIC TEMPLATE. The actual in-slot display uses shader-level materialization (per Part 4.1 rental-state machine) rather than playing this video literally — the video exists as a reference for tuning the shader timing and as a fallback for UI surfaces that can't render the shader. Runtime priority: shader-based materialization if supported, video fallback otherwise.
+
+---
+
