@@ -191,9 +191,20 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
   // it, audio plays on scene change and `vo.speaking` tracks actual
   // playback state. Portrait "speaking" tells (expression, glow,
   // brightness) follow audio when present, else fall back to isTyping.
+  //
+  // `audioWorked` is a sticky flag that flips true the first time
+  // vo.speaking becomes true in this scene. It stays true for the rest
+  // of the scene so that when audio ENDS we correctly stop showing
+  // speaking (isSpeaking = vo.speaking = false). If audio never starts
+  // (missing manifest entry, autoplay blocked, etc.), audioWorked stays
+  // false and we use the typewriter as the speaking proxy — no silent
+  // failure mode where the portrait just never animates.
   const vo = useDialogVO(npcId);
-  const hasAudio = vo.hasVO && !!scene.voLineId;
-  const isSpeaking = hasAudio ? vo.speaking : isTyping;
+  const [audioWorked, setAudioWorked] = useState(false);
+  useEffect(() => {
+    if (vo.speaking) setAudioWorked(true);
+  }, [vo.speaking]);
+  const isSpeaking = audioWorked ? vo.speaking : isTyping;
 
   // ─── BioWare-style cinematic portrait ───
   // Expression shifts: speaking while typing, emotional on choice hover, neutral at rest
@@ -211,18 +222,23 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
     return "neutral";
   }, [isSpeaking, hoveredArchetype]);
 
-  // Reset state on scene change + trigger VO playback if available
+  // Reset state on scene change + trigger VO playback if available.
+  // We always attempt speak() when a voLineId is present — the hook
+  // safely no-ops if the manifest is missing that entry. audioWorked
+  // resets per-scene so the first scene's successful playback doesn't
+  // lock later scenes without their own VO into audio-mode.
   useEffect(() => {
     setIsTyping(true);
     setShowChoices(false);
     setKineticKey(k => k + 1);
-    if (hasAudio && scene.voLineId) {
+    setAudioWorked(false);
+    if (scene.voLineId) {
       vo.speak(scene.voLineId);
     }
     return () => {
-      if (hasAudio) vo.stop();
+      vo.stop();
     };
-  }, [scene.text, scene.voLineId, hasAudio, vo]);
+  }, [scene.text, scene.voLineId, vo]);
 
   // Map NPC manifestation to a per-character kinetic effect
   const npcKineticEffect = useMemo((): NarrativeEffect => {
@@ -619,11 +635,33 @@ export function NPCDialogTrigger({ npcId, onClick, size = "sm" }: NPCDialogTrigg
 
 /* ─── HELPER: Build first-contact scene from NPC data ─── */
 
+/**
+ * Per-NPC voLineId used on first-contact dialog. Entries that exist
+ * today in the VO manifests will play audio immediately (audioWorked
+ * flips true, portrait speaking follows the audio). Entries that don't
+ * exist yet will no-op through vo.speak() — the dialog then falls back
+ * to typewriter-driven isSpeaking per NPCDialog's audioWorked logic.
+ *
+ * Naming convention for future VO generation: `{npcId}_first_contact`
+ * where npcId matches FactionNPCId, except for the two cases below
+ * where the existing manifest entry has a different stable key.
+ */
+const FIRST_CONTACT_VO_LINE: Record<FactionNPCId, string> = {
+  elara: "elara_first_contact",
+  the_human: "human_first_contact",
+  agent_zero: "agent_zero_first_contact",
+  adjudicator_locke: "locke_intro",           // existing
+  the_source: "source_first_contact",
+  the_antiquarian: "antiquarian_first_contact",
+  shadow_tongue: "st_first_contact",          // existing
+};
+
 export function buildFirstContactScene(npcId: FactionNPCId): NPCDialogScene {
   const npc = FACTION_NPCS[npcId];
   return {
     npcId,
     text: npc.firstContact,
+    voLineId: FIRST_CONTACT_VO_LINE[npcId],
     choices: [
       {
         id: `${npcId}_fc_listen`,
