@@ -1309,6 +1309,108 @@ Certain motifs recur across acts — commission these as STANDALONE motif files 
 
 ---
 
+## PART 9 — COMMISSION CSV + ROADMAP
+
+### 9.0 — Commission tracking
+
+Lives at `docs/production/commission-packages/acts-2-7-tranche.csv` (authored in the same session as this bible). Mirror format to `p0-tranche.csv` (per-row: asset_id, type, tool, prompt_ref, output_path, dependencies, status, notes) — grep-able + sortable + no build tooling required.
+
+The CSV is the OPERATIONAL surface; this bible is the canonical PROMPT source. Commissioning an asset means:
+1. Find its row in `acts-2-7-tranche.csv` by asset_id
+2. Follow `prompt_ref` (e.g. `§3.4 CIN-ACT4-MEMORIAL-CORRIDOR START FRAME`) back to this bible
+3. Copy the prompt block verbatim into the tool named in `tool` column
+4. Save output at `output_path`
+5. Update CSV status
+
+### 9.1 — Phase ordering (bible-relative)
+
+The Living Character Sheet P0 tranche (per `LIVING_CHARACTER_SHEET_ART_BRIEF.md` §10.1) comes FIRST — protagonist rigs + P0 NPC bundles. Acts 2-7 cinematics depend on that work: Elara must be photoreal-ready before CIN-ACT6-ELARA-CONFESSION can commission, The Human must exist as a rig before his Act 4 path variants can render, Kael's 3-phase canon must be locked before CIN-ACT4-KAEL-EXTRACTION-* can run.
+
+**Recommended dependency-respecting order:**
+
+| Tranche | Scope | Weeks | Depends on |
+|---|---|---|---|
+| **P0** (existing) | Living Character Sheet §10.1 weeks 1-4 | 4 | — (starts now) |
+| **Acts 2-7 Tier 1** | All 6 act OPENERS (21s each × 6 = 126s Veo) + 17 VFX atlases | 1 | P0 week 1 complete (protagonist rigs) |
+| **Acts 2-7 Tier 2** | Mid-act P0 cinematics: SILENCE, MEMORIAL-CORRIDOR, IRON-LION-FINAL, VOICES-ALIGN (the 4 KEY BEATS) | 2 | P0 weeks 2-3 complete + Elara photoreal-ready |
+| **Acts 2-7 Tier 3** | All remaining P1 cinematics (path variants, Engineer Recordings, stance variants, etc.) | 2 | Tier 2 reviewed |
+| **Acts 2-7 Tier 4** | Suno v4 music batch (40 cues, ~3-5 days) | 1 | Cinematics rendered (music is often iterated against picture) |
+
+**Total incremental time over Living Character Sheet P0:** ~6 weeks.
+
+**Total asset count for Acts 2-7 spine:**
+- 42 Veo 3.1 cinematics (with start + end frames + motion prompts = ~126 commissioned items)
+- 17 VFX atlases
+- 40 Suno v4 music cues
+- **Grand total: ~183 individual commission items** (excluding the reusable protagonist rigs from the Living Character Sheet bible)
+
+### 9.2 — Prompt-ref index
+
+Stable §section references to copy into the CSV's `prompt_ref` column:
+
+```
+ACT 2  — §1.1 VFX, §1.2 opener, §1.3 silence, §1.4 GM intros,
+         §1.5 Recording 2, §1.6 Recording 3, §1.7 music
+ACT 3  — §2.1 VFX, §2.2 opener, §2.3 Thaloria Echo, §2.4 Eyes Fall,
+         §2.5 infiltration trio, §2.6 Recordings 4-5, §2.7 music
+ACT 4  — §3.1 VFX, §3.2 opener, §3.3 path trio (Willing/Discovery/
+         Betrayal), §3.4 Memorial Corridor, §3.5 Kael extractions,
+         §3.6 Recording 6, §3.7 music
+ACT 4.5 — §4.1 VFX, §4.2 opener, §4.3 Identity Wager, §4.4 music
+ACT 5  — §5.1 VFX, §5.2 opener, §5.3 Bulb Dims + Sector Wakes,
+         §5.4 Iron Lion Final, §5.5 Bridge of Kael, §5.6 Recording 7,
+         §5.7 music
+ACT 6  — §6.1 VFX, §6.2 opener, §6.3 Elara Confession, §6.4 Human
+         Confession, §6.5 Watcher Reveal, §6.6 music
+ACT 7  — §7.1 VFX, §7.2 opener, §7.3 Two Wars Diagram, §7.4 Voices
+         Align, §7.5 stance quartet, §7.6 final line note, §7.7 music
+```
+
+### 9.3 — Outstanding decisions that don't block commission
+
+Flagging here for future reference but NOT blocking ANY commission in this bible:
+
+- **Iron Lion's full canonical visual form** — referenced in §5.4 as "to be authored in a future bible addendum; he is Iron Clad Lions faction, white ceremonial plate armor with ICL stenciling, per Kael Phase 1 material family." The addendum should be written before CIN-ACT5-IRON-LION-FINAL commissions its END FRAME. Derived from the Kael Phase 1 Recruiter canon as a starting point is sufficient.
+- **Vex Solène's canonical visual form** — referenced in §5.5 Bridge of Kael as "Agent Zero's real name." Bridge of Kael cinematic only needs the card-back inscription (abstract calligraphic mark, not legible), so her visual form is not blocking. When Acts-beyond-7 commission begins, she needs a full canon entry.
+- **The Watcher's canonical visual form** — intentionally kept abstract at shape-stencil level throughout Acts 6-7. If a future act reveals the Watcher visually, that addendum will override the stencil's restraint. Current intent: the Watcher stays VISUAL NEGATIVE SPACE through the spine.
+
+### 9.4 — File manifest (what was shipped in this bible)
+
+```
+docs/production/ACTS_2_TO_7_PRODUCTION_BIBLE.md
+  ├── Part 0 — Conventions + style anchors
+  ├── Part 1 — Act 2 (6 cinematics, 4 VFX, 4 music)
+  ├── Part 2 — Act 3 (7 cinematics, 3 VFX, 6 music)
+  ├── Part 3 — Act 4 (9 cinematics, 3 VFX, 10 music)
+  ├── Part 4 — Act 4.5 (2 cinematics, 2 VFX, 2 music)
+  ├── Part 5 — Act 5 (6 cinematics, 3 VFX, 6 music)
+  ├── Part 6 — Act 6 (4 cinematics, 2 VFX, 4 music)
+  ├── Part 7 — Act 7 (7 cinematics, 3 VFX, 8 music)
+  ├── Part 8 — Consolidated music manifest (40 cues — includes shared
+  │             underscore reuses beyond the act-count total)
+  └── Part 9 — Commission roadmap (this part)
+
+companion surface (next commit):
+docs/production/commission-packages/acts-2-7-tranche.csv
+  — 183-row manifest for tracking + batched commissioning
+```
+
+---
+
+## END OF ACTS 2-7 PRODUCTION BIBLE
+
+> Companion to `LIVING_CHARACTER_SHEET_ART_BRIEF.md`. That bible handled the character-facing infrastructure (rigs, viseme sheets, breathing baseline). This one handles the story-beat surface layer — what the player SEES at the game's dramatic pivots.
+>
+> Canonical mapping (per §0.4):
+> - Protagonist rigs + NPC lip-sync: `LIVING_CHARACTER_SHEET_ART_BRIEF.md`
+> - Gear (Inventor's Suits + Lions Club + Seasonal): same as above §3-5
+> - Story-beat cinematics + VFX + music: this file
+> - Per-beat dialog + VO: `narrativeActs.ts` (scene-level), `apps/shared/*VoManifest.json` (audio URLs)
+>
+> Updates to this file should bump the Part 9.4 file manifest and
+> emit a git commit with a `CANONICAL` tag where appropriate.
+
+
 
 
 
