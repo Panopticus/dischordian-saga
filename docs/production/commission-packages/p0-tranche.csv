@@ -1,0 +1,103 @@
+asset_id,type,tool,prompt_ref,output_path,dependencies,status,notes
+# ─── WEEK 1: PROTAGONIST 3D TIER (Elara + Human) ────────────────────────────
+elara_turnaround_front,still,nano-banana-2,§1A.1 FRONT,apps/client/public/references/3d-turnarounds/elara/front.png,,pending,
+elara_turnaround_3q_left,still,nano-banana-2,§1A.1 3/4 LEFT,apps/client/public/references/3d-turnarounds/elara/3q_left.png,elara_turnaround_front,pending,
+elara_turnaround_side_left,still,nano-banana-2,§1A.1 SIDE LEFT,apps/client/public/references/3d-turnarounds/elara/side_left.png,elara_turnaround_front,pending,
+elara_turnaround_back,still,nano-banana-2,§1A.1 BACK,apps/client/public/references/3d-turnarounds/elara/back.png,elara_turnaround_front,pending,
+elara_viseme_grid,still,nano-banana-2,§1A.2 grid prompt,apps/client/public/portraits2d/elara/visemes/_grid.png,elara_turnaround_front,pending,Slice into 15 individual phoneme plates per Part 1A.2 spec
+elara_expression_sheet,still,nano-banana-2,§1A.3,apps/client/public/portraits2d/elara/expressions/_sheet.png,elara_turnaround_front,pending,Slice into 5 panels (neutral/speaking/concerned/revealing/distressed)
+elara_atlas_scanlines,still,procedural,§1A.4 SCANLINES,apps/client/public/vfx-atlases/hologram/elara_scanlines.png,,pending,Procedural — Substance 3D or Photoshop
+elara_atlas_rain_motes,still,procedural,§1A.4 RAIN MOTES,apps/client/public/vfx-atlases/hologram/elara_rain-motes.png,,pending,Procedural — particle scatter
+elara_atlas_chromatic_mask,still,procedural,§1A.4 CHROMATIC ABERRATION MASK,apps/client/public/vfx-atlases/hologram/elara_chromatic_aberration_mask.png,,pending,Pure radial gradient
+elara_atlas_silhouette_edge,still,procedural,§1A.4 SILHOUETTE EDGE RIM,apps/client/public/vfx-atlases/hologram/elara_silhouette_edge.png,,pending,Soft cyan rim glow
+elara_3d_bust_glb,3d,meshy-v5,§1A.1 + §1A turnaround set,apps/client/public/rigs/protagonists/elara/bust.glb,elara_turnaround_front;elara_turnaround_3q_left;elara_turnaround_side_left;elara_turnaround_back,pending,Image-to-3D from 4-frame turnaround
+elara_viseme_morphs,3d,blender-bake,§1A.2 + §0.4 morph spec,apps/client/public/rigs/protagonists/elara/visemes/,elara_3d_bust_glb;elara_viseme_grid,pending,15 morph targets baked to .morphs.bin per Apple ARKit phoneme set
+human_turnaround_front,still,nano-banana-2,§1B.1 FRONT,apps/client/public/references/3d-turnarounds/human/front.png,,pending,
+human_turnaround_3q_left,still,nano-banana-2,§1B.1 3/4 LEFT,apps/client/public/references/3d-turnarounds/human/3q_left.png,human_turnaround_front,pending,
+human_turnaround_side_left,still,nano-banana-2,§1B.1 SIDE LEFT,apps/client/public/references/3d-turnarounds/human/side_left.png,human_turnaround_front,pending,
+human_turnaround_back,still,nano-banana-2,§1B.1 BACK,apps/client/public/references/3d-turnarounds/human/back.png,human_turnaround_front,pending,
+human_expression_sheet,still,nano-banana-2,§1B.2,apps/client/public/portraits2d/human/expressions/_sheet.png,human_turnaround_front,pending,5-panel slice
+human_viseme_grid,still,nano-banana-2,§1B.3,apps/client/public/portraits2d/human/visemes/_grid.png,human_turnaround_front,pending,15-panel slice with beard-clearance
+human_atlas_assembly_atom,still,procedural,§1B.4 ASSEMBLY-ATOM PARTICLE,apps/client/public/vfx-atlases/particles/human_assembly-atom.png,,pending,Single-particle sprite
+human_atlas_red_eye_ignition,still,nano-banana-2,§1B.4 RED-EYE IGNITION,apps/client/public/vfx-atlases/particles/human_red-eye-ignition.png,,pending,Radial burst
+human_atlas_rim_shadow,still,procedural,§1B.4 RIM-SHADOW,apps/client/public/vfx-atlases/particles/human_rim-shadow.png,,pending,Directional shadow mask
+human_atlas_silhouette_stencil,still,procedural,§1B.4 SILHOUETTE-STENCIL,apps/client/public/vfx-atlases/particles/human_silhouette-stencil.png,human_turnaround_front,pending,Hard-edged stencil from front turnaround
+human_3d_bust_glb,3d,meshy-v5,§1B.1 + turnaround set,apps/client/public/rigs/protagonists/human/bust.glb,human_turnaround_front;human_turnaround_3q_left;human_turnaround_side_left;human_turnaround_back,pending,
+human_viseme_morphs,3d,blender-bake,§1B.3 + §0.4 morph spec,apps/client/public/rigs/protagonists/human/visemes/,human_3d_bust_glb;human_viseme_grid,pending,
+# ─── WEEK 2: PLAYER 3D BASE MESHES (4 species × 2 sexes) ────────────────────
+player_human_m_turnaround,still,nano-banana-2,§1C.1 (MALE pass),apps/client/public/references/3d-turnarounds/player_human_m/_grid.png,,pending,4-frame sheet
+player_human_f_turnaround,still,nano-banana-2,§1C.1 (FEMALE pass),apps/client/public/references/3d-turnarounds/player_human_f/_grid.png,,pending,
+player_demagi_m_turnaround,still,nano-banana-2,§1C.2 (MALE pass),apps/client/public/references/3d-turnarounds/player_demagi_m/_grid.png,,pending,
+player_demagi_f_turnaround,still,nano-banana-2,§1C.2 (FEMALE pass),apps/client/public/references/3d-turnarounds/player_demagi_f/_grid.png,,pending,
+player_quarchon_m_turnaround,still,nano-banana-2,§1C.3 (MALE pass),apps/client/public/references/3d-turnarounds/player_quarchon_m/_grid.png,,pending,
+player_quarchon_f_turnaround,still,nano-banana-2,§1C.3 (FEMALE pass),apps/client/public/references/3d-turnarounds/player_quarchon_f/_grid.png,,pending,
+player_neyon_m_turnaround,still,nano-banana-2,§1C.4 (MALE pass),apps/client/public/references/3d-turnarounds/player_neyon_m/_grid.png,,pending,Blue-skinned humanoid base; warmachine sub-variant deferred to P1
+player_neyon_f_turnaround,still,nano-banana-2,§1C.4 (FEMALE pass),apps/client/public/references/3d-turnarounds/player_neyon_f/_grid.png,,pending,
+player_human_m_glb,3d,meshy-v5,§1C.1 + §1C.6,apps/client/public/rigs/player/human/m/body.glb,player_human_m_turnaround,pending,
+player_human_f_glb,3d,meshy-v5,§1C.1 + §1C.6,apps/client/public/rigs/player/human/f/body.glb,player_human_f_turnaround,pending,
+player_demagi_m_glb,3d,meshy-v5,§1C.2 + §1C.6,apps/client/public/rigs/player/demagi/m/body.glb,player_demagi_m_turnaround,pending,
+player_demagi_f_glb,3d,meshy-v5,§1C.2 + §1C.6,apps/client/public/rigs/player/demagi/f/body.glb,player_demagi_f_turnaround,pending,
+player_quarchon_m_glb,3d,meshy-v5,§1C.3 + §1C.6,apps/client/public/rigs/player/quarchon/m/body.glb,player_quarchon_m_turnaround,pending,
+player_quarchon_f_glb,3d,meshy-v5,§1C.3 + §1C.6,apps/client/public/rigs/player/quarchon/f/body.glb,player_quarchon_f_turnaround,pending,
+player_neyon_m_glb,3d,meshy-v5,§1C.4 + §1C.6,apps/client/public/rigs/player/neyon/m/body.glb,player_neyon_m_turnaround,pending,
+player_neyon_f_glb,3d,meshy-v5,§1C.4 + §1C.6,apps/client/public/rigs/player/neyon/f/body.glb,player_neyon_f_turnaround,pending,
+# ─── WEEK 3: SIX P0 NPCs (2D lip-sync bundles, ~32 images each) ─────────────
+agent_zero_neutral,still,nano-banana-2,§2A.1,apps/client/public/portraits2d/agent_zero/neutral.png,,pending,
+agent_zero_breathing_loop,still,nano-banana-2,§2A.2,apps/client/public/portraits2d/agent_zero/breathing/_strip.png,agent_zero_neutral,pending,8-frame strip — slice in post
+agent_zero_blink_triptych,still,nano-banana-2,§2A.3,apps/client/public/portraits2d/agent_zero/blink/_triptych.png,agent_zero_neutral,pending,3 frames
+agent_zero_viseme_grid,still,nano-banana-2,§2A.4,apps/client/public/portraits2d/agent_zero/visemes/_grid.png,agent_zero_neutral,pending,15-panel grid
+agent_zero_expression_sheet,still,nano-banana-2,§2A.5,apps/client/public/portraits2d/agent_zero/expressions/_sheet.png,agent_zero_neutral,pending,5 panels
+locke_neutral,still,nano-banana-2,§2B.1,apps/client/public/portraits2d/locke/neutral.png,,pending,
+locke_breathing_loop,still,nano-banana-2,§2B.2,apps/client/public/portraits2d/locke/breathing/_strip.png,locke_neutral,pending,
+locke_blink_triptych,still,nano-banana-2,§2B.3,apps/client/public/portraits2d/locke/blink/_triptych.png,locke_neutral,pending,Eyepatch covers left eye — only right eye blinks
+locke_viseme_grid,still,nano-banana-2,§2B.4,apps/client/public/portraits2d/locke/visemes/_grid.png,locke_neutral,pending,
+locke_expression_sheet,still,nano-banana-2,§2B.5,apps/client/public/portraits2d/locke/expressions/_sheet.png,locke_neutral,pending,
+locke_atlas_eyepatch_scan,still,procedural,§2B.6,apps/client/public/vfx-atlases/locke_eyepatch_scan.png,,pending,Circular red scan-line pattern
+kael_phase1_neutral,still,nano-banana-2,§2C.1 Phase 1 Bundle A,apps/client/public/portraits2d/source_phase1/neutral.png,,pending,Recruiter — ICL plate armor
+kael_phase1_breathing,still,nano-banana-2,§2C.1 Phase 1 Bundle B,apps/client/public/portraits2d/source_phase1/breathing/_strip.png,kael_phase1_neutral,pending,
+kael_phase1_blink,still,nano-banana-2,§2C.1 Phase 1 Bundle C,apps/client/public/portraits2d/source_phase1/blink/_triptych.png,kael_phase1_neutral,pending,
+kael_phase1_visemes,still,nano-banana-2,§2C.1 Phase 1 Bundle D,apps/client/public/portraits2d/source_phase1/visemes/_grid.png,kael_phase1_neutral,pending,
+kael_phase1_expressions,still,nano-banana-2,§2C.1 Phase 1 Bundle E,apps/client/public/portraits2d/source_phase1/expressions/_sheet.png,kael_phase1_neutral,pending,
+kael_phase2_neutral,still,nano-banana-2,§2C.2 Phase 2 Bundle A,apps/client/public/portraits2d/source_phase2/neutral.png,,pending,Enslaved — shirtless prisoner-bracers
+kael_phase2_breathing,still,nano-banana-2,§2C.2 Phase 2 Bundle B,apps/client/public/portraits2d/source_phase2/breathing/_strip.png,kael_phase2_neutral,pending,
+kael_phase2_blink,still,nano-banana-2,§2C.2 Phase 2 Bundle C,apps/client/public/portraits2d/source_phase2/blink/_triptych.png,kael_phase2_neutral,pending,
+kael_phase2_visemes,still,nano-banana-2,§2C.2 Phase 2 Bundle D,apps/client/public/portraits2d/source_phase2/visemes/_grid.png,kael_phase2_neutral,pending,Beard-clear digital edit
+kael_phase2_expressions,still,nano-banana-2,§2C.2 Phase 2 Bundle E,apps/client/public/portraits2d/source_phase2/expressions/_sheet.png,kael_phase2_neutral,pending,
+kael_phase3_neutral,still,nano-banana-2,§2C.3 Phase 3 Bundle A,apps/client/public/portraits2d/source_phase3/neutral.png,,pending,The Source — ashen + void-fractures (DEFAULT render)
+kael_phase3_breathing,still,nano-banana-2,§2C.3 Phase 3 Bundle B,apps/client/public/portraits2d/source_phase3/breathing/_strip.png,kael_phase3_neutral,pending,4.8s slow cycle
+kael_phase3_blink,still,nano-banana-2,§2C.3 Phase 3 Bundle C,apps/client/public/portraits2d/source_phase3/blink/_triptych.png,kael_phase3_neutral,pending,
+kael_phase3_visemes,still,nano-banana-2,§2C.3 Phase 3 Bundle D,apps/client/public/portraits2d/source_phase3/visemes/_grid.png,kael_phase3_neutral,pending,
+kael_phase3_expressions,still,nano-banana-2,§2C.3 Phase 3 Bundle E,apps/client/public/portraits2d/source_phase3/expressions/_sheet.png,kael_phase3_neutral,pending,
+kael_atlas_void_fractures,still,procedural,§2C.4,apps/client/public/vfx-atlases/source_void_fractures.png,,pending,Crack network with cold-blue inner emissive
+antiquarian_neutral,still,nano-banana-2,§2D.1,apps/client/public/portraits2d/antiquarian/neutral.png,,pending,Use 2026-04-22 image #1 as identity reference
+antiquarian_breathing,still,nano-banana-2,§2D.2,apps/client/public/portraits2d/antiquarian/breathing/_strip.png,antiquarian_neutral,pending,Beard-carried breath
+antiquarian_blink,still,nano-banana-2,§2D.3,apps/client/public/portraits2d/antiquarian/blink/_triptych.png,antiquarian_neutral,pending,
+antiquarian_visemes,still,nano-banana-2,§2D.4,apps/client/public/portraits2d/antiquarian/visemes/_grid.png,antiquarian_neutral,pending,Mustache thinned to 40% in reference plates
+antiquarian_expressions,still,nano-banana-2,§2D.5,apps/client/public/portraits2d/antiquarian/expressions/_sheet.png,antiquarian_neutral,pending,
+shadow_tongue_neutral,still,nano-banana-2,§2E.1,apps/client/public/portraits2d/shadow_tongue/neutral.png,,pending,
+shadow_tongue_breathing,still,nano-banana-2,§2E.2,apps/client/public/portraits2d/shadow_tongue/breathing/_strip.png,shadow_tongue_neutral,pending,NO chest motion — subliminal facial-geometry rearrangement only
+shadow_tongue_blink,still,nano-banana-2,§2E.3,apps/client/public/portraits2d/shadow_tongue/blink/_quartet.png,shadow_tongue_neutral,pending,3 standard + 1 nictitating variant
+shadow_tongue_visemes,still,nano-banana-2,§2E.4,apps/client/public/portraits2d/shadow_tongue/visemes/_grid.png,shadow_tongue_neutral,pending,15 standard + 15 hyperextended variants
+shadow_tongue_expressions,still,nano-banana-2,§2E.5,apps/client/public/portraits2d/shadow_tongue/expressions/_sheet.png,shadow_tongue_neutral,pending,
+shadow_tongue_atlas_text_stream,still,procedural,§2E.6,apps/client/public/vfx-atlases/shadow_tongue_fingertip_text.png,,pending,Violet glyph sprite atlas
+architect_neutral,still,nano-banana-2,§2F.1,apps/client/public/portraits2d/architect/neutral.png,,pending,Use 2026-04-22 image #3 as identity reference
+architect_breathing,still,nano-banana-2,§2F.2,apps/client/public/portraits2d/architect/breathing/_strip.png,architect_neutral,pending,Statue baseline — sigil pulse + hood drift only
+architect_blink,still,marker,§2F.3,apps/client/public/portraits2d/architect/blink/MARKER.txt,,pending,No blink — deliver marker file
+architect_visemes,still,nano-banana-2,§2F.4,apps/client/public/portraits2d/architect/visemes/_mask_vibration_sheet.png,architect_neutral,pending,15 mask-vibration emissive frames (no mouth)
+architect_expressions,still,nano-banana-2,§2F.5,apps/client/public/portraits2d/architect/expressions/_sheet.png,architect_neutral,pending,Eye-amber + sigil-pulse intensity-based
+architect_atlas_mask_cracks,still,procedural,§2F.6,apps/client/public/vfx-atlases/architect_mask_cracks.png,,pending,Hairline cracks with violet-amber inner emissive
+# ─── WEEK 4: FIVE P0 CINEMATICS ─────────────────────────────────────────────
+cin_elara_idle_start_frame,still,nano-banana-2,§9 CIN-ELARA-IDLE START FRAME,_intermediate/elara_idle_start.png,elara_turnaround_front,pending,Identical to END FRAME for seamless loop
+cin_elara_idle_motion,video,veo-3.1,§9 CIN-ELARA-IDLE MOTION PROMPT,apps/client/public/videos/character-sheet/protagonist_elara_idle_loop.mp4,cin_elara_idle_start_frame,pending,8s seamless loop
+cin_human_reveal_start_frame,still,nano-banana-2,§9 CIN-HUMAN-REVEAL START FRAME,_intermediate/human_reveal_start.png,,pending,Empty frame with red embers
+cin_human_reveal_end_frame,still,nano-banana-2,§9 CIN-HUMAN-REVEAL END FRAME,_intermediate/human_reveal_end.png,human_turnaround_front,pending,Full Human at red-eye-ignition pose
+cin_human_reveal_motion,video,veo-3.1,§9 CIN-HUMAN-REVEAL MOTION PROMPT,apps/client/public/videos/character-sheet/protagonist_human_reveal.mp4,cin_human_reveal_start_frame;cin_human_reveal_end_frame,pending,15s one-shot — synced to first VO line + Suno stinger at 12.9s
+cin_kael_01_start_frame,still,nano-banana-2,§9 CIN-KAEL-01 START FRAME,_intermediate/kael_transform_start.png,kael_phase1_neutral,pending,Phase 1 Recruiter in ICL hall
+cin_kael_01_end_frame,still,nano-banana-2,§9 CIN-KAEL-01 END FRAME,_intermediate/kael_transform_end.png,kael_phase3_neutral,pending,Phase 3 Source in stone cavern
+cin_kael_01_motion,video,veo-3.1,§9 CIN-KAEL-01 MOTION PROMPT,apps/client/public/videos/character-sheet/kael_three_phase_transform.mp4,cin_kael_01_start_frame;cin_kael_01_end_frame,pending,14s one-shot — three-movement score
+cin_kael_02_start_frame,still,nano-banana-2,§9 CIN-KAEL-02 START FRAME,_intermediate/kael_emergence_start.png,,pending,Hairline-fractured stone wall
+cin_kael_02_end_frame,still,nano-banana-2,§9 CIN-KAEL-02 END FRAME,_intermediate/kael_emergence_end.png,kael_phase3_neutral,pending,Source emerging from broken stone
+cin_kael_02_motion,video,veo-3.1,§9 CIN-KAEL-02 MOTION PROMPT,apps/client/public/videos/character-sheet/kael_source_emergence.mp4,cin_kael_02_start_frame;cin_kael_02_end_frame,pending,6s one-shot
+cin_arch_01_start_frame,still,nano-banana-2,§9 CIN-ARCH-01 START FRAME,_intermediate/architect_ignition_start.png,architect_neutral,pending,Architect at baseline 0.8 eye-amber
+cin_arch_01_end_frame,still,nano-banana-2,§9 CIN-ARCH-01 END FRAME,_intermediate/architect_ignition_end.png,architect_neutral,pending,Mask fractured with violet-amber light-tear
+cin_arch_01_motion,video,veo-3.1,§9 CIN-ARCH-01 MOTION PROMPT,apps/client/public/videos/character-sheet/architect_mask_ignition.mp4,cin_arch_01_start_frame;cin_arch_01_end_frame,pending,6s one-shot — bell-tone score
