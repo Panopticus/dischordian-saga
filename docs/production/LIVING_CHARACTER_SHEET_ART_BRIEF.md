@@ -2814,3 +2814,48 @@ When certain narrative/state events occur, a full-character-sheet overlay plays 
 **Total UI atmosphere: ~122 sprites.** Simple geometric work, ideal for batched generation via Midjourney v7 or SDXL with consistent prompt templates. Estimated 1-2 days.
 
 ---
+
+## PART 9 — VEO 3.1 CINEMATICS MANIFEST
+
+### 9.0 — Overview
+
+Consolidates every Veo 3.1 / Seedance 2.0 motion clip referenced throughout Parts 1–8. Each entry gives: **START FRAME** (Nano Banana 2 still), **END FRAME** (Nano Banana 2 still), and **MOTION PROMPT** (Veo 3.1 or Seedance 2.0 directive). Render workflow per SHIP_READY_ASSET_BIBLE.md §2 protocol: render start and end keyframes first in Nano Banana 2 at matching resolution, upload both as keyframes to Veo 3.1, paste motion prompt, render.
+
+**Total cinematics: 11 primary + 3 audit-flagged regenerations.**
+
+| ID | Title | Duration | Use | Priority |
+|---|---|---|---|---|
+| CIN-ELARA-IDLE | Elara holographic idle loop | 8s loop | Character-sheet default | P0 |
+| CIN-HUMAN-REVEAL | The Human's first-encounter particle assembly | 15s one-shot | First meeting | P0 |
+| CIN-KAEL-01 | Kael 3-phase transformation | 14s one-shot | Narrative climax | P0 |
+| CIN-KAEL-02 | Source rock-break emergence | 6s one-shot | First Source encounter | P0 |
+| CIN-ARCH-01 | Architect mask-ignition reveal | 6s one-shot | True Final Message reveal | P0 |
+| CIN-PROG-01 | Programmer → Antiquarian aging | 12s one-shot | Late-game reveal | P1 |
+| CIN-PRINCE-01 | Prince → Engineer transformation | 12s one-shot | Memoir origin beat | P1 |
+| CIN-WARLORD-REVEAL-01 | Warlord helm retraction + swarm reveal | 8s one-shot | Act 2/3 reveal | P1 |
+| CIN-SHADOW-TEETH | Shadow Tongue second-teeth reveal | 4s trigger | Revelatory dialog beat | P1 |
+| CIN-DEGEN-IDLE | Degen casino pit idle (NEW CANON) | 10s loop | Casino game-mode | P1 |
+| CIN-LIONS-MATERIALIZE | Lions Club armor materialization | 0.8s one-shot | Gear-equip animation | P1 |
+
+**Audit-flagged regenerations (existing cinematics wrong per new canon):**
+- CIN-013 (Degen discovery) — old sequined showman canon is WRONG; use CIN-DEGEN-IDLE instead
+- CIN-031 (DMC starting line) — old carnival-showman Nilmorg is WRONG; re-spec with demon-executive precision
+- CIN-032 (DMC severance ceremony) — same Nilmorg audit
+
+---
+
+### CIN-ELARA-IDLE — Elara holographic idle loop (8s seamless, P0)
+
+**Output:** `apps/client/public/videos/character-sheet/protagonist_elara_idle_loop.mp4` · **Aspect:** 1:1 square · **Resolution:** 2048×2048
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 1:1 square, 2048×2048. Elara, three-quarter bust framing, standing in a dimly lit ship corridor (blurred to heavy bokeh — cyan console lights at mid-distance, amber emergency strip far back). She is mid-breath, chest at neutral expansion. Rain-like cyan particles drift slowly downward through the air around her at low density — not environmental rain, an aesthetic artifact of her projection field. A few particles pass through her shoulder translucently. Her hair is damp, a single water droplet caught on the strand by her left temple. Eyes direct to camera, calm, luminous blue. Faint horizontal scanline at ~y=0.42 crosses her face (she is projected light). Pale cyan rim on her entire silhouette, slightly brighter on the left shoulder where a rim light sits. Mouth closed, neutral. Volumetric cyan haze in the foreground depth. Film grain. 4K. No rendered text.
+
+**END FRAME (Nano Banana 2) — identical to START for seamless loop:**
+> *(Same prompt as START FRAME — loop is designed to cycle. Breathing, blink, and particle motion happen in the motion prompt only.)*
+
+**VEO 3.1 MOTION PROMPT:**
+> 8-second seamless loop. Camera locked, no dolly. Subject Elara, three-quarter bust, breathing gently (chest rise at 0.0s, peak at 1.6s, release by 3.2s; second full cycle 3.2–6.4s; partial cycle 6.4–8.0s that matches start frame at loop point). Blink once at 2.1s (140ms total close-hold-open). Cyan particles drift downward continuously at ~12px/s, density steady. At 4.5s, a single scanline travels from forehead to chin over 600ms — subtle, not dramatic (she is ALWAYS scanlined; this one just stronger). At 6.0s, her eyes saccade 2° to the left and back over 400ms — she looks at something mid-distance, then returns. No mouth motion. No cinematic camera moves. Goal: she should feel like she's *there*, waiting, not performing. 24fps. Film grain preserved. Loop-point match at frame 192.
+
+---
+
