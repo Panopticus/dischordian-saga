@@ -150,7 +150,7 @@ export function shouldShowInfiltrationSelector(
   narrativeAct: number | undefined,
 ): boolean {
   if (!flags) return false;
-  if (Boolean(flags.act_3_complete)) return false;
+  if (flags.act_3_complete) return false;
   if (!flags.trade_empire_unlocked) return false;
   if ((narrativeAct ?? 0) < 3) return false;
   const progress = deriveInfiltrationProgress(flags);
