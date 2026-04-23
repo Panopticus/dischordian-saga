@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { GalleryFilterChip } from "@/components/gallery";
 
 const CATEGORY_ICONS: Record<string, any> = {
   combat: Swords,
@@ -177,32 +178,25 @@ export default function CardAchievementsPage() {
         </div>
       </div>
 
-      {/* Filters */}
+      {/* Filters — migrated to the shared GalleryFilterChip. */}
       <div className="flex flex-wrap items-center gap-2 mb-6">
-        <button
+        <GalleryFilterChip
+          active={filterCategory === "all"}
           onClick={() => setFilterCategory("all")}
-          className={`px-3 py-1.5 rounded-lg font-mono text-xs transition-all ${
-            filterCategory === "all"
-              ? "bg-primary/20 text-primary border border-primary/40"
-              : "bg-secondary/30 text-muted-foreground border border-transparent hover:bg-secondary/50"
-          }`}
         >
           ALL
-        </button>
+        </GalleryFilterChip>
         {categories.map((cat) => {
           const Icon = CATEGORY_ICONS[cat] || Star;
-          const color = CATEGORY_COLORS[cat] || "text-muted-foreground void-bg-canvas void-border";
           return (
-            <button
+            <GalleryFilterChip
               key={cat}
+              active={filterCategory === cat}
               onClick={() => setFilterCategory(cat)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-mono text-xs transition-all border ${
-                filterCategory === cat ? color : "bg-secondary/30 text-muted-foreground border-transparent hover:bg-secondary/50"
-              }`}
+              leading={<Icon size={12} />}
             >
-              <Icon size={12} />
               {cat.toUpperCase()}
-            </button>
+            </GalleryFilterChip>
           );
         })}
         <div className="ml-auto">
