@@ -465,7 +465,58 @@ Palette: violet void + gold-amber eye-slits + silver sigil flash. Film grain.
 
 **SUNO v4:** see mus_act3_infiltration_{insurgency,empire,hierarchy} in §2.7 — three variants sharing a motif-spine.
 
+### 2.6 — CIN-ACT3-ENGINEER-RECORDING-{4,5} — 12s each, P1
+
+Two more Engineer Recordings per `engineerRecordings.ts`:
+- Recording 4: "The Line That Was Crossed" — Engineer explains the moment Celebration became Sorrow
+- Recording 5: "Instructions for Theft" — Engineer explains how to steal something from the Hierarchy
+
+Both reuse the holographic-rig framing from §1.5/§1.6. Key differences per recording:
+
+**Recording 4 — "The Line That Was Crossed"**
+
+END FRAME addition to the base rig setup: the holographic Engineer is now rendered HALF in his standard blue-white hologram palette (left half of his body) and HALF in a WARM CELEBRATION HONEY-GOLD (right half of his body — his Phase 1 Prince palette bleeding into the playback). The split is clean down the midline, not a gradient. Behind him faintly: a wall of CROSSED-OUT NAMES (abstract calligraphic marks, not legible) at 15% opacity — the list of children Celebration took.
+
+Motion prompt: same 12s structure as Recording 2. At 6.0s the palette-split appears (Engineer was blue-white, then the right half warms to honey-gold over 1 second). At 9.0s the crossed-out names wall fades in behind him.
+
+**Recording 5 — "Instructions for Theft"**
+
+END FRAME: Engineer rendered standard blue-white, holding in one outstretched hand a HOLOGRAPHIC OBJECT — a small key-shape with abstract Hierarchy glyphs on it. The key itself is rendered in a different palette from the Engineer: deep VIOLET (#7a3fb8 — Hierarchy color). He is explaining something, mouth moving silently. Behind him in faint wall-pattern: a schematic/blueprint of a door or lock (abstract technical drawing at 10% opacity).
+
+Motion prompt: same 12s structure. At 4.0s the violet key materializes in his outstretched hand. At 8.0s the schematic fades in behind him. Engineer's violet key emits a subtle magnetic-field ripple effect suggesting it is valuable and dangerous.
+
+Both recordings use the same `mus_act2_engineer_recording_underscore` music from §1.7 — no new composition needed.
+
+### 2.7 — Suno v4 music prompts (Act 3)
+
+**mus_act3_opener** — `apps/client/public/audio/acts/act-3-intro.mp3` · 21s
+
+> Suno v4 prompt: "Overgrown-field dawn ambience, 21 seconds. Distant chorus of wind moving through tall grass (wind + grass + air, NOT voices — though the effect should feel almost-vocal). A very low solo flute enters at 10 seconds, playing a slow descending 3-note phrase in D-Dorian, unresolved. At 17 seconds, a single distant bell tolls once — far away, faint, like someone has died and no one knows yet. Ends on a held silence. No percussion. Patient, empty, elegiac."
+
+**mus_act3_thaloria_echo** — `.../act-3-stingers/thaloria_echo.mp3` · 12s
+
+> Suno v4 prompt: "12-second memory-flashback underscore. Warm acoustic guitar fingerpicking pattern in A-major, gentle and slightly hopeful — this was a good day. Layered with a soft female hummed vowel (no words, just held 'oo' on the tonic) that rises faintly at 5s and holds through the end. Ends on an unresolved suspended 4th chord. Nostalgic. Shows a warm scene that the audience already knows ends badly."
+
+**mus_act3_eyes_fall** — `.../act-3-stingers/eyes_fall.mp3` · 14s
+
+> Suno v4 prompt: "14-second death-as-absence cue. Opens with 3 seconds of the same warm acoustic fingerpicking from mus_act3_thaloria_echo — the memory is starting the same way. At 4 seconds the fingerpicking STOPS and is replaced by a low distant string drone in D-minor. At 7 seconds, a single frame of SILENCE (empty air for ~1/24 of a second — syncs to the visual WHITE FLASH). At 7.1 seconds a single low cello note enters, held until 12 seconds. At 12 seconds a faint high harmonic bell rings once and fades to silence by 14 seconds. The cue should feel like someone cut the song off mid-phrase. Elegiac, restrained, no climax."
+
+**mus_act3_infiltration_insurgency** — `.../act-3-stingers/infiltration_insurgency.mp3` · 8s
+
+> Suno v4 prompt: "8-second commitment cue for Insurgency path. Starts with 2 seconds of low drone (all three paths share this opening motif — D-minor, held). At 2 seconds the Insurgency variant enters: a single warm acoustic guitar playing a resolute ascending phrase in D-minor → F-major (hope inside the grief). Small brass ensemble swells at 5s and resolves by 8s. Warm, determined, homemade. The sound of a resistance in a safe-house."
+
+**mus_act3_infiltration_empire** — `.../act-3-stingers/infiltration_empire.mp3` · 8s
+
+> Suno v4 prompt: "8-second commitment cue for Empire path. Same 2-second shared opening drone. At 2 seconds: a polished lounge-piano phrase in D-minor, sophisticated and coldly-beautiful. Bass walks a slow descending line. Subtle jazz brush drums enter at 4s. Ends on a clean major-7 resolution at 8s — elegant, but vaguely untrustworthy. The sound of a deal in a nice room."
+
+**mus_act3_infiltration_hierarchy** — `.../act-3-stingers/infiltration_hierarchy.mp3` · 8s
+
+> Suno v4 prompt: "8-second commitment cue for Hierarchy path. Same 2-second shared opening drone. At 2 seconds: a single church-organ held chord in D-minor that swells in volume across 6 seconds without changing — the music gets louder, but nothing happens. At 8 seconds, a single high violin harmonic rings out and holds unresolved. No melody, no movement, just weight. The sound of a very patient authority acknowledging you."
+
+All three infiltration cues share the 2-second opening drone so the audience hears "this is the same choice-moment" before the faction-specific second half diverges.
+
 ---
+
 
 
 
