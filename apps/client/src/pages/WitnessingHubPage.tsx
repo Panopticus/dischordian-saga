@@ -540,9 +540,20 @@ function JourneyPanel({
             </p>
           </div>
         ) : (
-          <p className="font-serif text-[13px] void-text-dim">
-            No path committed. The three routes await you in Act 3.
-          </p>
+          <div>
+            <p className="font-serif text-[13px] void-text-dim">
+              No path committed. The three routes await you in Act 3.
+            </p>
+            {/* The infiltration path is committed inside Trade Empire —
+                without this CTA the Act 3 completion gate is silently
+                unreachable from the Hub (see audit BLOCKER 1). */}
+            <Link
+              href="/trade-empire"
+              className="mt-3 inline-flex items-center gap-2 rounded border void-border-accent void-bg-sunk px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider void-text-accent hover:void-bg-canvas"
+            >
+              Commit a path · Trade Empire
+            </Link>
+          </div>
         )}
       </section>
     </div>
@@ -1048,6 +1059,7 @@ const SPINE_ACT_PANELS: Record<
       { flag: "act7_visible_war_won", label: "Visible war won" },
       { flag: "act7_convergence_landing", label: "Convergence landed" },
       { flag: "act7_arc_closes", label: "Arc closes" },
+      { flag: "act7_stance_chosen", label: "Final stance taken (incl. silence)" },
     ],
     ctas: [
       { href: "/act7-ladder", label: "Convergence Ladder" },
