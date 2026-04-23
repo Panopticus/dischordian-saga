@@ -1582,7 +1582,7 @@ function FighterCard({ fighter, available, selected, onSelect, onHover, onLeave,
             ? "void-border-success ring-2 ring-cyan-400/30"
             : available
             ? "border-border hover:border-white/40"
-            : "border-border/60 opacity-60"
+            : "border-border/60 opacity-75 void-glitch void-glitch-lock"
         }`}
       >
         <img src={fighter.image} alt={fighter.name} className="w-full h-full object-cover" loading="lazy" />
@@ -1594,9 +1594,21 @@ function FighterCard({ fighter, available, selected, onSelect, onHover, onLeave,
         </div>
 
         {!available && (
-          <div className="absolute inset-0 bg-background/70 flex flex-col items-center justify-center">
-            <Lock size={14} className="text-muted-foreground/60 mb-1" />
-            <div className="font-mono text-[9px]" style={{ color: canAfford ? "var(--energy-success)" : "var(--energy-error)" }}>
+          // GlitchFx lock class above already grayscales + red-scanlines
+          // the portrait; this overlay adds the unlock cost + the lock
+          // icon on top. The "can afford" color gives an at-a-glance
+          // signal whether the player can redeem right now.
+          <div className="absolute inset-0 bg-background/55 flex flex-col items-center justify-center z-[1]">
+            <Lock size={14} className="text-muted-foreground/70 mb-1" />
+            <div
+              className="font-mono text-[9px] font-bold tracking-wider"
+              style={{
+                color: canAfford ? "var(--energy-success)" : "var(--energy-error)",
+                textShadow: canAfford
+                  ? "0 0 6px color-mix(in oklch, var(--energy-success) 60%, transparent)"
+                  : "0 0 6px color-mix(in oklch, var(--energy-error) 60%, transparent)",
+              }}
+            >
               {fighter.unlockCost} PTS
             </div>
           </div>
