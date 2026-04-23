@@ -162,7 +162,7 @@
   {
     "id": "cades-m6-mid",
     "speaker": "vex_solene",
-    "voiceId": "TODO_VEX_SOLENE_VOICE_ID",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
     "text": "I know what you came for. I know who sent you. I know which of my sentences you are recording. Hello. I'm glad it's you.",
     "context": "act5_cades_m6_mid",
     "section": "§5.1 · Cades M6 — Vex arrives",
@@ -172,7 +172,7 @@
   {
     "id": "cades-m6-debrief",
     "speaker": "vex_solene",
-    "voiceId": "TODO_VEX_SOLENE_VOICE_ID",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
     "text": "The Lion has handed you off. Don't mourn the handoff. He's tired. I'm rested. Between the two of us we will keep getting you home. Get some sleep.",
     "context": "act5_cades_m6_debrief",
     "section": "§5.1 · Cades M6 — Vex arrives",

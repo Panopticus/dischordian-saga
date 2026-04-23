@@ -2,7 +2,7 @@
   {
     "id": "prisoner-the_cell",
     "speaker": "kael_prisoner",
-    "voiceId": "TODO_KAEL_PRISONER_VOICE_ID",
+    "voiceId": "4tTGaP2vBgPN3iYrFoxa",
     "text": "You walked in. Good. They said you wouldn't. The cell is cold but the door is unlocked — it has always been. They want you to stay. The wanting is the lock. Let them want.",
     "context": "act4_prisoner_the_cell_opener",
     "section": "§3.1 · Act 4 Prisoner chapters",
@@ -12,7 +12,7 @@
   {
     "id": "prisoner-the_extraction",
     "speaker": "kael_prisoner",
-    "voiceId": "TODO_KAEL_PRISONER_VOICE_ID",
+    "voiceId": "4tTGaP2vBgPN3iYrFoxa",
     "text": "They called it an extraction. That word is an apology I refused to take. We didn't take anything from each other in that room. We gave. Whatever is left is yours now.",
     "context": "act4_prisoner_the_extraction_opener",
     "section": "§3.1 · Act 4 Prisoner chapters",
@@ -22,7 +22,7 @@
   {
     "id": "prisoner-the_warlord",
     "speaker": "kael_prisoner",
-    "voiceId": "TODO_KAEL_PRISONER_VOICE_ID",
+    "voiceId": "4tTGaP2vBgPN3iYrFoxa",
     "text": "The Warlord asks for the rematch. I decline. The Warlord asks again. I decline again. On the third ask she stops being the Warlord. That is the rematch. Nobody wrote it down.",
     "context": "act4_prisoner_the_warlord_opener",
     "section": "§3.1 · Act 4 Prisoner chapters",
@@ -32,7 +32,7 @@
   {
     "id": "prisoner-the_white_oracle",
     "speaker": "kael_prisoner",
-    "voiceId": "TODO_KAEL_PRISONER_VOICE_ID",
+    "voiceId": "4tTGaP2vBgPN3iYrFoxa",
     "text": "The White Oracle sees every outcome. She offers you the comfort of knowing. You decline. You did not come through seven acts of a life to be handed the last page. You came to write it.",
     "context": "act4_prisoner_the_white_oracle_opener",
     "section": "§3.1 · Act 4 Prisoner chapters",
@@ -42,7 +42,7 @@
   {
     "id": "extraction-the_cell",
     "speaker": "kael_prisoner",
-    "voiceId": "TODO_KAEL_PRISONER_VOICE_ID",
+    "voiceId": "4tTGaP2vBgPN3iYrFoxa",
     "text": "The cell door is still open. I didn't come with you. I couldn't — not yet. But the memory you extracted is mine, and I consent to it being yours. Keep it. Carry it gently.",
     "context": "act4_prisoner_the_cell_extraction",
     "section": "§3.1 · Act 4 Prisoner chapters",
@@ -52,7 +52,7 @@
   {
     "id": "extraction-the_extraction",
     "speaker": "kael_prisoner",
-    "voiceId": "TODO_KAEL_PRISONER_VOICE_ID",
+    "voiceId": "4tTGaP2vBgPN3iYrFoxa",
     "text": "They asked me if the procedure hurt. I told them it did. I told them it was supposed to. A memory that costs nothing is not one worth passing along. You will feel the cost. That is the receipt.",
     "context": "act4_prisoner_the_extraction_extraction",
     "section": "§3.1 · Act 4 Prisoner chapters",
@@ -62,7 +62,7 @@
   {
     "id": "extraction-the_warlord",
     "speaker": "kael_prisoner",
-    "voiceId": "TODO_KAEL_PRISONER_VOICE_ID",
+    "voiceId": "4tTGaP2vBgPN3iYrFoxa",
     "text": "The Warlord asked me, years after, what the third decline cost me. I told her: nothing I needed. She laughed in the way that people laugh when they were hoping to feel forgiven. I did not forgive her. I did sit with her.",
     "context": "act4_prisoner_the_warlord_extraction",
     "section": "§3.1 · Act 4 Prisoner chapters",
@@ -72,7 +72,7 @@
   {
     "id": "extraction-the_white_oracle",
     "speaker": "kael_prisoner",
-    "voiceId": "TODO_KAEL_PRISONER_VOICE_ID",
+    "voiceId": "4tTGaP2vBgPN3iYrFoxa",
     "text": "Lay down the fight. The fight was the extraction. There is no other ending. The Oracle told me this in the last conversation we had — she was wrong about it, but only by one line. Lay down the fight. Pick up the next one when you are ready.",
     "context": "act4_prisoner_the_white_oracle_extraction",
     "section": "§3.1 · Act 4 Prisoner chapters",

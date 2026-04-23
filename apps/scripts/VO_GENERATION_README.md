@@ -186,20 +186,26 @@ pnpm tsx apps/scripts/generate-act-vo.ts --act 2 --only §5
 
 ### Voice IDs still needed
 
-27 of the 107 spine lines ship with `TODO_*` voice ID placeholders.
-Fill these in `apps/scripts/act<N>-vo-lines.json` (find/replace is
-fine — each placeholder appears multiple times):
+4 of the 107 spine lines ship with `TODO_*` voice ID placeholders — all
+for the Right Game Master in Act 2 (no existing voice in the repo matches
+the "theatrical, cruel, female" register). Fill in
+`apps/scripts/act2-vo-lines.json` (find/replace is fine):
 
 | Placeholder                    | Character          | Presence            |
 |--------------------------------|--------------------|---------------------|
-| `TODO_ZEPHYR_9_VOICE_ID`       | Zephyr-9           | Act 2 (×4)          |
 | `TODO_RIGHT_GM_VOICE_ID`       | Right Game Master  | Act 2 (×4)          |
-| `TODO_THE_EYES_VOICE_ID`       | The Eyes           | Act 3 (×8), Act 7 (×1) |
-| `TODO_KAEL_PRISONER_VOICE_ID`  | Kael Prisoner      | Act 4 (×8)          |
-| `TODO_VEX_SOLENE_VOICE_ID`     | Vex Solène         | Act 5 (×2)          |
 
 Presets + direction live in
 `docs/production/ACTS_2_THROUGH_7_ASSET_BIBLE.md` §0 (voice registry).
+
+### Voice IDs filled in 2026-04-23
+
+| Character          | ElevenLabs ID              | Lines covered                |
+|--------------------|----------------------------|------------------------------|
+| Zephyr-9           | `KSh0G8kOAWOgMbf9FWEL`     | Act 2 (×4)                   |
+| Kael Prisoner      | `4tTGaP2vBgPN3iYrFoxa`     | Act 4 (×8)                   |
+| The Eyes           | `Fu4ULyfBJO8Rl5TwP0ZB`     | Act 3 (×8), Act 7 (×1)       |
+| Vex Solène         | `F1waTCPWl7KpShIScYQs`     | Act 5 (×2) — reuses Agent Zero clone (per direction note: same actress, Vex's wry register) |
 
 ### Existing voice IDs reused
 

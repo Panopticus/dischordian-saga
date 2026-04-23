@@ -92,7 +92,7 @@
   {
     "id": "zephyr-tier-1",
     "speaker": "zephyr_9",
-    "voiceId": "TODO_ZEPHYR_9_VOICE_ID",
+    "voiceId": "KSh0G8kOAWOgMbf9FWEL",
     "text": "You may play. I will not let you win. I will not let you lose quickly. Both take time.",
     "context": "act2_zephyr_classroom_tier_1",
     "section": "§4 · Zephyr-9's Classroom",
@@ -102,7 +102,7 @@
   {
     "id": "zephyr-tier-3",
     "speaker": "zephyr_9",
-    "voiceId": "TODO_ZEPHYR_9_VOICE_ID",
+    "voiceId": "KSh0G8kOAWOgMbf9FWEL",
     "text": "Now you may peek at the top card of your deck before drawing. This is not cheating. This is chess applied to cards. Both games reward knowing what's coming.",
     "context": "act2_zephyr_classroom_tier_3",
     "section": "§4 · Zephyr-9's Classroom",
@@ -112,7 +112,7 @@
   {
     "id": "zephyr-tier-5",
     "speaker": "zephyr_9",
-    "voiceId": "TODO_ZEPHYR_9_VOICE_ID",
+    "voiceId": "KSh0G8kOAWOgMbf9FWEL",
     "text": "You may now un-do a single move per match. Use it sparingly. Quarchon have no un-do; we regret in other ways.",
     "context": "act2_zephyr_classroom_tier_5",
     "section": "§4 · Zephyr-9's Classroom",
@@ -122,7 +122,7 @@
   {
     "id": "zephyr-tier-8",
     "speaker": "zephyr_9",
-    "voiceId": "TODO_ZEPHYR_9_VOICE_ID",
+    "voiceId": "KSh0G8kOAWOgMbf9FWEL",
     "text": "I will teach you the Engineer's Opening. It is the first hand he ever drew in a tournament. It is also the last hand he ever drew in one. There is a lesson in the symmetry.",
     "context": "act2_zephyr_classroom_tier_8",
     "section": "§4 · Zephyr-9's Classroom",

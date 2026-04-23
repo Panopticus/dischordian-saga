@@ -2,7 +2,7 @@
   {
     "id": "eyes-whisper-abyssal_sectors",
     "speaker": "the_eyes",
-    "voiceId": "TODO_THE_EYES_VOICE_ID",
+    "voiceId": "Fu4ULyfBJO8Rl5TwP0ZB",
     "text": "You are in the Abyssal Sectors. The dark here was always dark. It is not mourning you. It is simply dark. Move quietly. The archives remember how quietly.",
     "context": "act3_eyes_whisper_abyssal_sectors",
     "section": "§2.1 · Eyes whispers — auxiliary sector pass",
@@ -12,7 +12,7 @@
   {
     "id": "eyes-whisper-syndicate_route_prime",
     "speaker": "the_eyes",
-    "voiceId": "TODO_THE_EYES_VOICE_ID",
+    "voiceId": "Fu4ULyfBJO8Rl5TwP0ZB",
     "text": "The Syndicate Route. They will offer you a clean ledger and a crooked map. Take the ledger. Burn the map. Tell them I said so. They will understand, or they will stop being Syndicate.",
     "context": "act3_eyes_whisper_syndicate_route_prime",
     "section": "§2.1 · Eyes whispers — auxiliary sector pass",
@@ -22,7 +22,7 @@
   {
     "id": "eyes-whisper-command_post_iron",
     "speaker": "the_eyes",
-    "voiceId": "TODO_THE_EYES_VOICE_ID",
+    "voiceId": "Fu4ULyfBJO8Rl5TwP0ZB",
     "text": "This is Iron Lion's command. Walk the perimeter before you speak. They have earned the walk. When you speak, speak less than you planned to. The iron ones hear the silences.",
     "context": "act3_eyes_whisper_command_post_iron",
     "section": "§2.1 · Eyes whispers — auxiliary sector pass",
@@ -32,7 +32,7 @@
   {
     "id": "eyes-whisper-atarion_ruins",
     "speaker": "the_eyes",
-    "voiceId": "TODO_THE_EYES_VOICE_ID",
+    "voiceId": "Fu4ULyfBJO8Rl5TwP0ZB",
     "text": "Atarion. The first time I was human I was here. The second time I was human I was also here. The third time I came back was the last time I was human. It is a beautiful ruin. Let it be a ruin. It is still singing — just at a register no one left alive can hear.",
     "context": "act3_eyes_whisper_atarion_ruins",
     "section": "§2.1 · Eyes whispers — auxiliary sector pass",
@@ -42,7 +42,7 @@
   {
     "id": "eyes-whisper-tidewater_archive",
     "speaker": "the_eyes",
-    "voiceId": "TODO_THE_EYES_VOICE_ID",
+    "voiceId": "Fu4ULyfBJO8Rl5TwP0ZB",
     "text": "Tidewater Archive. Third shelf. Ask for the Elara file. They will not give it to you. Ask anyway. The refusal is itself a signal.",
     "context": "act3_eyes_whisper_tidewater_archive",
     "section": "§2.1 · Eyes whispers — auxiliary sector pass",
@@ -142,7 +142,7 @@
   {
     "id": "eyes-commit-insurgency",
     "speaker": "the_eyes",
-    "voiceId": "TODO_THE_EYES_VOICE_ID",
+    "voiceId": "Fu4ULyfBJO8Rl5TwP0ZB",
     "text": "You chose the Insurgency. I watched you choose it. Everything you do now, I will be there for. Not helping. Just — there. That is the deal.",
     "context": "act3_eyes_commit_insurgency",
     "section": "§2.2 · Act 3 eyes commit lines",
@@ -152,7 +152,7 @@
   {
     "id": "eyes-commit-empire",
     "speaker": "the_eyes",
-    "voiceId": "TODO_THE_EYES_VOICE_ID",
+    "voiceId": "Fu4ULyfBJO8Rl5TwP0ZB",
     "text": "You chose the Empire. Interesting choice. I will not tell you whether it was the right one. I will tell you, every quarter, whether you are still the one making the decisions.",
     "context": "act3_eyes_commit_empire",
     "section": "§2.2 · Act 3 eyes commit lines",
@@ -162,7 +162,7 @@
   {
     "id": "eyes-commit-hierarchy",
     "speaker": "the_eyes",
-    "voiceId": "TODO_THE_EYES_VOICE_ID",
+    "voiceId": "Fu4ULyfBJO8Rl5TwP0ZB",
     "text": "You chose Hierarchy. Bold. Boring. Possibly the right answer. I was a Hierarchy officer once, for a month. I kept the uniform. It still fits. Welcome.",
     "context": "act3_eyes_commit_hierarchy",
     "section": "§2.2 · Act 3 eyes commit lines",
