@@ -18,7 +18,8 @@ import { useGame } from "@/contexts/GameContext";
 import { GIFT_ITEMS, calculateGiftResult, type GiftItem, type NpcId, type GiftItemId } from "@/game/npcGifts";
 import { useNPCPhysics } from "@/engine/useVoidEngine";
 import { useDialogVO } from "@/hooks/useDialogVO";
-import { getNPCPortrait, getHumanRevealImage } from "@/game/npcPortraits";
+import { getNPCPortrait } from "@/game/npcPortraits";
+import { AnimatedPortrait } from "./AnimatedPortrait";
 import { getAmbientReference } from "@/game/ambientStorytelling";
 import { getRelationshipState } from "@/game/npcRelationships";
 import { getActiveVoices, SKILL_VOICES, type SkillId } from "@/game/innerVoices";
@@ -199,20 +200,16 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
   const portrait = useMemo(() => getNPCPortrait(npc.id), [npc.id]);
   const [hoveredArchetype, setHoveredArchetype] = useState<string | null>(null);
 
-  const activeExpression = useMemo(() => {
-    if (!portrait) return null;
-    // The Human uses progressive reveal before Trust 50
-    if (npcId === "the_human" && trust < 50) return getHumanRevealImage(trust);
-    // Speaking expression follows actual audio when VO is present,
-    // typewriter otherwise — see isSpeaking above.
-    if (isSpeaking) return portrait.expressions.speaking;
-    // Hovering a hostile/suspicious choice → emotional2 (tension)
-    if (hoveredArchetype === "suspicious" || hoveredArchetype === "manipulative") return portrait.expressions.emotional2;
-    // Hovering a compassionate/loyal choice → emotional1 (warmth)
-    if (hoveredArchetype === "compassionate" || hoveredArchetype === "loyal") return portrait.expressions.emotional1;
-    // At rest with choices visible → neutral
-    return portrait.expressions.neutral;
-  }, [portrait, npcId, trust, isSpeaking, hoveredArchetype]);
+  // Compute the active expression KEY. AnimatedPortrait handles The Human's
+  // progressive reveal internally — we just pass "neutral" and it overrides.
+  // Speaking follows actual audio when VO is present (see isSpeaking above),
+  // typewriter otherwise. Hover archetypes shift to emotional1 / emotional2.
+  const activeExpressionKey = useMemo<"neutral" | "speaking" | "emotional1" | "emotional2">(() => {
+    if (isSpeaking) return "speaking";
+    if (hoveredArchetype === "suspicious" || hoveredArchetype === "manipulative") return "emotional2";
+    if (hoveredArchetype === "compassionate" || hoveredArchetype === "loyal") return "emotional1";
+    return "neutral";
+  }, [isSpeaking, hoveredArchetype]);
 
   // Reset state on scene change + trigger VO playback if available
   useEffect(() => {
@@ -311,7 +308,12 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
           {/* ═══ BioWare-style layout: Portrait | Dialog ═══ */}
           <div className="flex">
             {/* ─── CINEMATIC PORTRAIT PANEL ─── */}
-            {activeExpression && (
+            {/* AnimatedPortrait owns: image + crossfade, breathing+drift, blink,
+                speaking-glow, trust-based filter, The Human progressive reveal
+                effects (CRT scanlines, interference sweep, glitch bars, stage
+                label), and the inner-frame shadow. We wrap it for the dialog's
+                column framing + faction-color background gradient. */}
+            {portrait && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.92 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -319,88 +321,13 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
                 className="hidden sm:block relative w-[200px] shrink-0 overflow-hidden"
                 style={{ background: `linear-gradient(180deg, ${npc.color}08 0%, transparent 40%, ${npc.color}05 100%)` }}
               >
-                {/* Portrait image with crossfade on expression change */}
-                <AnimatePresence mode="wait">
-                  <motion.img
-                    key={activeExpression}
-                    src={activeExpression}
-                    alt={npc.name}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.35 }}
-                    className="w-full h-full object-cover object-top"
-                    style={{
-                      minHeight: "320px",
-                      filter: isSpeaking ? `brightness(1.1) drop-shadow(0 0 8px ${npc.color}40)` : "brightness(1)",
-                      transition: "filter 0.4s ease",
-                    }}
-                  />
-                </AnimatePresence>
-
-                {/* Speaking glow pulse at bottom of portrait */}
-                {isSpeaking && (
-                  <motion.div
-                    animate={{ opacity: [0.3, 0.7, 0.3] }}
-                    transition={{ duration: 1.2, repeat: Infinity }}
-                    className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none"
-                    style={{
-                      background: `linear-gradient(0deg, ${npc.color}25 0%, transparent 100%)`,
-                    }}
-                  />
-                )}
-
-                {/* Manifestation-specific portrait frame */}
-                <div
-                  className="absolute inset-0 pointer-events-none"
-                  style={{
-                    boxShadow: `inset 0 0 30px ${npc.color}15, inset -1px 0 0 ${npc.color}20`,
-                  }}
+                <AnimatedPortrait
+                  npcId={npcId}
+                  expression={activeExpressionKey}
+                  isSpeaking={isSpeaking}
+                  trustLevel={trust}
+                  size="full"
                 />
-
-                {/* ── SUBSTRATE INTERFERENCE — The Human's reveal stages ── */}
-                {npcId === "the_human" && trust < 50 && (
-                  <>
-                    {/* CRT scanlines over the static image */}
-                    <div
-                      className="absolute inset-0 pointer-events-none z-10"
-                      style={{
-                        backgroundImage: "repeating-linear-gradient(0deg, transparent 0, transparent 2px, color-mix(in oklch, var(--energy-error) 7%, transparent) 2px, color-mix(in oklch, var(--energy-error) 7%, transparent) 4px)",
-                        mixBlendMode: "overlay",
-                      }}
-                    />
-                    {/* Red interference sweep — scans down the portrait */}
-                    <motion.div
-                      animate={{ top: ["-10%", "110%"] }}
-                      transition={{ duration: 2.5 + (trust / 20), repeat: Infinity, ease: "linear" }}
-                      className="absolute left-0 right-0 h-8 pointer-events-none z-10"
-                      style={{
-                        background: `linear-gradient(180deg, transparent 0%, color-mix(in oklch, var(--energy-error) calc((0.12 - trust * 0.002) * 100%), transparent) 40%, color-mix(in oklch, var(--energy-error) calc((0.12 - trust * 0.002) * 100%), transparent) 60%, transparent 100%)`,
-                      }}
-                    />
-                    {/* Random horizontal glitch bars — more frequent at low trust */}
-                    {trust < 30 && (
-                      <motion.div
-                        animate={{ opacity: [0, 1, 0], x: [0, -3, 2, 0] }}
-                        transition={{ duration: 0.15, repeat: Infinity, repeatDelay: 3 - (trust < 10 ? 0.5 : trust < 20 ? 1.5 : 2.3) }}
-                        className="absolute left-0 right-0 pointer-events-none z-10"
-                        style={{
-                          top: `${30 + Math.random() * 40}%`,
-                          height: `${trust < 10 ? 12 : 6}px`,
-                          background: `color-mix(in oklch, var(--energy-error) calc((trust < 10 ? 0.25 : 0.12) * 100%), transparent)`,
-                          mixBlendMode: "screen",
-                        }}
-                      />
-                    )}
-                    {/* Stage label overlay at bottom */}
-                    <div className="absolute bottom-0 left-0 right-0 p-2 z-20"
-                      style={{ background: "linear-gradient(0deg, color-mix(in oklch, var(--bg-void) 70%, transparent) 0%, transparent 100%)" }}>
-                      <p className="font-mono text-[7px] tracking-[0.3em] void-text-error text-center uppercase">
-                        {trust < 10 ? "SIGNAL STATIC" : trust < 20 ? "SIGNAL GHOST" : trust < 40 ? "SIGNAL FRAGMENT" : "SIGNAL CONVERGENCE"}
-                      </p>
-                    </div>
-                  </>
-                )}
               </motion.div>
             )}
 
