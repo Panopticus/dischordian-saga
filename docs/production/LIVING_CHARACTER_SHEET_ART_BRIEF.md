@@ -2977,3 +2977,49 @@ Consolidates every Veo 3.1 / Seedance 2.0 motion clip referenced throughout Part
 
 ---
 
+### CIN-PRINCE-01 — Prince → Engineer transformation (12s one-shot, P1)
+
+**Output:** `apps/client/public/videos/character-sheet/prince_engineer_transform.mp4` · **Aspect:** 16:9 · **Resolution:** 1920×1080
+
+**START FRAME (Nano Banana 2):**
+> ⚠️ **Canon not yet locked for Phase 1 (the Prince).** Working placeholder: hyper-realistic cinematic still, 16:9 1920×1080. Young man (same face as Phase 2 Engineer but ~5-10 years younger — Black, short dreadlocks, trimmed beard), wearing CELEBRATION royal ceremonial attire in pastel warm-cream and honey-gold — structured ceremonial vest or short robe with small warm accents, clean ornament work at collar and cuffs. Youthful regal bearing, innocent of what's coming. Backdrop: Celebration parade light — warm honey-gold ambient, defocused crowd bokeh with colorful pennants. Film grain. 4K. No rendered text. **REGENERATE this frame once user uploads definitive Prince canon.**
+
+**END FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9 1920×1080. The ENGINEER (Phase 2, per Part 2V/W canon): Black man in his late thirties, healthy dark brown skin, short well-kept dreadlocks past his jaw, dark short-trimmed beard. Proud heroic upward chin-tilt (low-angle hero composition). RED STEAMPUNK GOGGLES covering his eyes (brass-rimmed lenses glowing deep red). Wearing the rich red wool military-cut coat with double rows of brass buttons, high pop-collar turned up, structured epaulettes. Utility belt at waist stacked with brass gauges and chronometers. Backdrop: deep starfield + burning cityscape silhouetted in lower-third-right (distant spires, ember-orange fire-glow, smoke rising). Warm amber key from below-left (city fires), cool starlight rim from above. Heroic determined expression, mouth closed firm. Film grain. 4K. No rendered text.
+
+**VEO 3.1 MOTION PROMPT:**
+> 12-second one-shot transformation from royal Prince to memoir-bearing Engineer. Camera gently pulls back ~8% over the full duration (opposite direction from CIN-PROG-01's push-in — as he gains weight and wisdom, we give him more frame). Narrative beats:
+> - **0.0–2.5s (Celebration Prince idle):** Young Prince stands in the warm ceremonial hall. Pennants drift softly in the background bokeh. He smiles faintly — a young man who has not yet seen what's coming. Soft honey-gold light.
+> - **2.5–5.0s (Celebration fall):** The environment begins to DEGRADE. Honey-gold ambient cools toward the bottom of the frame (something catches fire offscreen). Pastel Celebration trim on his ceremonial vest darkens as the warm light recedes. His smile drops. Eyes go wide (the first thousand-yard-stare beat). Pennants in the background blow in a sudden wind, tearing. One of them catches fire mid-flight (off-focus, implied through warm glow spike).
+> - **5.0–7.5s (clothing transition):** The pastel ceremonial robe VISIBLY TRANSFORMS on his body — the cream-and-gold fabric desaturates and darkens toward deep wool red, the simple ornament work at the collar yields to a high military pop-collar, brass buttons materialize in a double row down the front, shoulder epaulettes build from small ceremonial piping into structured military weight. The short ornamental vest at his waist reshapes into the heavy utility belt with brass gauges appearing one at a time (first gauge materializes at 5.8s, tick-tick-tick the rest lock in through 7.5s).
+> - **7.5–9.5s (physical aging + goggles):** His face subtly matures — beard thickens, dreadlocks lengthen, eye-lines soften into the weary-earned look of the older Engineer. The red steampunk goggles fade onto his face from an invisible source, sliding down onto the bridge of his nose and settling into position — lenses light up from 0 to baseline emissive over 1.5 seconds. He is now the Engineer.
+> - **9.5–12.0s (reveal held):** Full Engineer present in full costume. The backdrop has shifted entirely — the Celebration hall is GONE, replaced by the cold starfield + burning cityscape below. Warm fire-key from below-left catches his red coat. He breathes once — deep, measured. Belt gauges tick once in unison. Held reveal.
+> Cinematography: slow ~8% dolly-back across full 12s. 24fps. Film grain. Palette shifts from honey-gold Celebration warmth (Phase 1) → cool starfield with ember-fire-glow (Phase 2).
+
+**Audio hand-off note:** Warm ceremonial choir (0.0-3.0s), dissonant fire-crackle + string-swell building (3.0-7.5s), mechanical gear-tick rhythm emerging (7.5-9.5s), sustained note (9.5-12s). Belt-gauge synchronized tick at 9.8s is the Engineer's "heartbeat" signature baked into the score.
+
+---
+
+### CIN-WARLORD-REVEAL-01 — Helm retraction + swarm reveal (8s one-shot, P1)
+
+**Output:** `apps/client/public/videos/character-sheet/warlord_helm_retract_swarm_reveal.mp4` · **Aspect:** 16:9 · **Resolution:** 1920×1080
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9 1920×1080. The Warlord in default fully-armored pose (per Part 2T canon): helm down, yellow hazard-saffron armor (#d4a04a) with gunmetal-black joint seams and polished brass rivets, full-face brass-rimmed visor with continuous horizontal scanning slit across eye level. Barely-visible iridescent shimmer inside the visor slit lower-edge. Stance: still, professional. One gauntleted hand resting on weapon hilt at hip. Backdrop: defocused Nexon breach battlefield — smoke columns, distant ember-orange city fires, faint cold cyan from emergency flares. Amber spotlight from camera-right on pauldron and upper visor. Film grain. 4K. No rendered text.
+
+**END FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 16:9 1920×1080. The Warlord, helm RETRACTED and gone. Exposed face visible for the first time (per Part 2T.9 canon): late-twenties woman, pale porcelain skin, long platinum-blonde hair flowing loose past shoulders (wild, slightly unkempt, strands across face), striking bright GREEN eyes, dark smudged eyeliner, blood-red lips slightly parted. Face-tattoos LEFT side only: intricate occult-tribal black ink on temple/cheekbone/eye-corner with sharp angular lines, scattered dots, two small black stars, ONE BLOOD-RED ASTERISK MARK at the cheekbone (the swarm-mark). Small black hexagonal earring at visible ear. Wearing the YELLOW HOODED CANVAS JACKET (now open at the chest where the armor chest-piece retracted), hood draped at the back of her head, blonde strands escaping. Black cybernetic armor plating still visible at shoulders and collarbone. **Around her green pupils, a faint iridescent Vex-shimmer is just barely visible** — the swarm is inside her, watching. The red asterisk tattoo on her cheekbone glows subtly with cold-iridescent under-light (the swarm's brand pulsing). Expression: guarded, sharp-eyed, NOT defeated. Same Nexon battlefield backdrop as start, overcast cold key. Film grain. 4K. No rendered text.
+
+**VEO 3.1 MOTION PROMPT:**
+> 8-second one-shot helm-retraction cinematic. Camera starts at standard Warlord framing and slowly dollies in ~10% over the full duration (this is an intimate reveal, not a pull-back).
+> - **0.0–1.5s (armored baseline):** Warlord stands still in full armor. Visor shimmer at baseline 0.25. Weapon hand on hip. Nothing moves except the subtle visor shimmer.
+> - **1.5–3.5s (helm retraction):** The full-face visor begins to PHYSICALLY RETRACT — individual plate segments slide upward and back into the helm's crown, and the helm's front-face retracts upward over her head, folding back along the skull into a half-crown configuration at the back of her head. The retraction is mechanical and deliberate (~2s total), accompanied by faint servo-whirs and a subtle exhaust of cooled air. As the helm retracts, her face is revealed from chin up — blonde hair first spills out at the jaw-line, then the lower face, then the eyes, finally the forehead. At 3.5s: helm fully retracted, hood of the yellow canvas jacket naturally falling into place at the back of her head.
+> - **3.5–5.0s (face resolution):** First clear view of her exposed face. Hair settles around her shoulders with weight and texture. Eyes close briefly (first real blink — the swarm has not let her blink in a long time), then open direct at camera. Blood-red lipstick catches the overcast key. Face-tattoos fully visible in the light.
+> - **5.0–6.5s (swarm signs emerge):** The subtle indicators of swarm-presence activate: around her green pupils, a faint iridescent Vex-shimmer layer becomes visible — the swarm is INSIDE her eyes but not controlling (yet/anymore). The BLOOD-RED ASTERISK tattoo on her cheekbone begins to glow with a cold-iridescent under-light that was not there moments ago — it PULSES ONCE with soft chromatic shimmer (pink → cyan → gold → violet traveling along the tattoo's lines over ~1 second), then settles to a faint residual glow.
+> - **6.5–8.0s (speech held):** Her lips part. She is about to deliver her first VO line in her OWN voice (not the visor-routed swarm-mediated voice the player has heard through Act 1). Held beat — the audience meets the woman behind the armor. Exhale visible. Hair drifts once in a cold wind. Screen holds.
+> Cinematography: gentle ~10% dolly-in across 8s — the camera leans toward her. 24fps. Film grain. Palette: overcast cold grey-green + warm yellow-jacket rim + iridescent swarm-mark pulse.
+
+**Audio hand-off note:** Mechanical servo-whir during retraction (1.5-3.5s), soft intake of breath audio beat at 3.5s (her first real breath), subtle chromatic-shimmer audio pulse synced to the asterisk glow at 5.5s, silent beat until 7.8s when audio begins her first-line VO prelude. This cinematic is deliberately silent-to-near-silent through most of its runtime — the sound of the swarm was the noise we've been hearing this whole time, and this is the first moment it isn't speaking for her.
+
+---
+
