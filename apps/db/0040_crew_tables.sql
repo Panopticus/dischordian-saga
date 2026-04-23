@@ -1,20 +1,3 @@
-CREATE TABLE `admin_approval_requests` (
-	`id` int AUTO_INCREMENT NOT NULL,
-	`requestedBy` int NOT NULL,
-	`action` varchar(64) NOT NULL,
-	`targetKey` varchar(128) NOT NULL,
-	`newValue` json,
-	`reason` text,
-	`status` enum('pending','executed','rejected') NOT NULL DEFAULT 'pending',
-	`approvals` json NOT NULL DEFAULT ('[]'),
-	`rejectedBy` int,
-	`rejectionReason` text,
-	`createdAt` timestamp NOT NULL DEFAULT (now()),
-	`executedAt` timestamp,
-	`rejectedAt` timestamp,
-	CONSTRAINT `admin_approval_requests_id` PRIMARY KEY(`id`)
-);
---> statement-breakpoint
 CREATE TABLE `crew_bloodlines` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`userId` int NOT NULL,
@@ -101,9 +84,6 @@ CREATE TABLE `crew_missions` (
 --> statement-breakpoint
 ALTER TABLE `notifications` MODIFY COLUMN `type` enum('trade_offer','trade_accepted','trade_declined','pvp_challenge','pvp_result','pvp_season_reward','auction_outbid','auction_won','auction_ended','market_sold','market_buy_filled','faction_war','guild_invite','guild_message','guild_war_victory','daily_reset','daily_login','quest_complete','weekly_quest','epoch_quest','achievement','battle_pass_reward','syndicate_quest','boss_mastery','seasonal_event','recruitment','system','feature_hint','lore_event','combat_achievement','streak_milestone','progression','crafting_achievement','npc_reaction','archetype_emergence','prestige_dialog','prestige_deferred_dialog','prestige_conditional_dialog','companion_prestige_gesture','meme_broadcast','prestige_complete','universe_event','companion_death','companion_resurrected','eidolon_evolved','pet_evolved','apprentice_sacrificed','crew_cloned','morality_threshold','morality_market_notice','content_discovery','deep_trust','daily_brief_complete','outbreak_completed','outbreak_component','battle_pass_tier_up') NOT NULL;--> statement-breakpoint
 ALTER TABLE `users` MODIFY COLUMN `role` enum('user','moderator','admin') NOT NULL DEFAULT 'user';--> statement-breakpoint
-CREATE INDEX `idx_admin_approval_status` ON `admin_approval_requests` (`status`);--> statement-breakpoint
-CREATE INDEX `idx_admin_approval_requested_by` ON `admin_approval_requests` (`requestedBy`);--> statement-breakpoint
-CREATE INDEX `idx_admin_approval_created_at` ON `admin_approval_requests` (`createdAt`);--> statement-breakpoint
 CREATE INDEX `idx_crew_bloodline_user` ON `crew_bloodlines` (`userId`);--> statement-breakpoint
 CREATE INDEX `idx_crew_pod_user` ON `crew_incubator_pods` (`userId`);--> statement-breakpoint
 CREATE INDEX `idx_crew_pod_status` ON `crew_incubator_pods` (`status`);--> statement-breakpoint
