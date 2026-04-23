@@ -376,23 +376,40 @@ async function main() {
       continue;
     }
     process.stdout.write(
-      `[${++generated + errors}/${candidates.length}] ${line.id} (${line.speaker})... `,
+      `[${generated + errors + 1}/${candidates.length}] ${line.id} (${line.speaker})... `,
     );
+    let localPath: string | undefined;
     try {
       const audio = await generateSpeech(line);
-      const localPath = writeLocalMp3(audio, line);
-      const url = HAS_AWS
-        ? await uploadToS3(audio, line.id, s3Prefix)
-        : localPath;
-      manifest[line.id] = url;
-      console.log(
-        `✓ ${(audio.length / 1024).toFixed(0)}KB ${HAS_AWS ? "→ S3" : "→ local"}`,
-      );
+      localPath = writeLocalMp3(audio, line);
+      // Persist the local URL FIRST so a subsequent S3 failure can't
+      // strand the just-generated MP3 — re-runs will then skip this line
+      // (manifest hit) instead of paying ElevenLabs again.
+      manifest[line.id] = localPath;
       writeFileSync(
         manifestPath,
         JSON.stringify(manifest, null, 2) + "\n",
         "utf8",
       );
+      if (HAS_AWS) {
+        try {
+          const url = await uploadToS3(audio, line.id, s3Prefix);
+          manifest[line.id] = url;
+          writeFileSync(
+            manifestPath,
+            JSON.stringify(manifest, null, 2) + "\n",
+            "utf8",
+          );
+          console.log(`✓ ${(audio.length / 1024).toFixed(0)}KB → S3`);
+        } catch (s3err) {
+          console.log(
+            `⚠ ${(audio.length / 1024).toFixed(0)}KB → local OK, S3 failed (${(s3err as Error).message.slice(0, 80)})`,
+          );
+        }
+      } else {
+        console.log(`✓ ${(audio.length / 1024).toFixed(0)}KB → local`);
+      }
+      generated++;
       await new Promise((r) => setTimeout(r, 150));
     } catch (err) {
       errors++;
@@ -405,7 +422,7 @@ async function main() {
   }
 
   console.log(`\n═══ COMPLETE ═══`);
-  console.log(`Generated:                       ${generated - errors}`);
+  console.log(`Generated:                       ${generated}`);
   console.log(`Skipped (manifest + TODO):       ${lines.length - candidates.length}`);
   console.log(`Errors:                          ${errors}`);
   console.log(`Manifest:                        ${manifestPath}`);
