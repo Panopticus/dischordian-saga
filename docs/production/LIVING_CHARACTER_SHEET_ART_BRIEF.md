@@ -3138,3 +3138,92 @@ Each primary cinematic requires: 1 Nano Banana 2 start frame + 1 Nano Banana 2 e
 
 ---
 
+## PART 10 — PRODUCTION ROADMAP + TOTAL ASSET ACCOUNTING
+
+> **THIS FILE IS THE SINGLE PRODUCTION BIBLE** for the Living Character Sheet initiative. Parts 1-9 above are the authoritative spec. Part 10 below is the ordered commission roadmap + total asset count so producers can plan the budget and sequencing.
+
+### 10.0 — Total asset count (grand sum)
+
+| Category | Count | Source |
+|---|---|---|
+| Protagonist 3D rigs (Elara + Human busts + viseme/expression bundles) | ~80 assets | Parts 1A + 1B |
+| Player 3D base meshes (4 species × 2 sexes + Ne-Yon warmachine sub-variant) | 9 meshes + shader presets | Part 1C |
+| NPC 2D lip-sync bundles (23 characters × 32 images baseline + variants) | ~750 images | Part 2 |
+| Inventor's Suits 3D re-commission (18 sets × 6 rarities × 10 slots) | 1,080 GLBs | Part 3 |
+| Starter gear 3D base meshes (species × class base meshes) | 40 GLBs + shader variants | Part 3.7 |
+| Lions Club Ceremonial + Seasonal gear (10 ceremonial + ~160 seasonal + 3 donor trophies) | ~173 GLBs | Part 4 |
+| Casino cosmetic idle loops | 8 loops | Part 5 |
+| Character-sheet parallax rooms (20 base + 4 faction + 1 Eidola lecture hall) | 75 PNGs (25 rooms × 3 layers) | Part 6 |
+| VFX shader-texture atlases | ~58 atlases | Part 7 |
+| UI atmosphere sprites (rarity glyphs + slot frames + status icons + chrome + overlays) | ~122 sprites | Part 8 |
+| Veo 3.1 cinematics (11 primary + 3 audit regens) | 14 videos | Part 9 |
+| **GRAND TOTAL** | **~2,412 individual assets** | |
+
+### 10.1 — Commission phase ordering (P0 first, then P1, then P2)
+
+**Phase 1 — P0 ship-blocking (~4 weeks)**
+1. Week 1: Part 1A + 1B protagonist rigs (Elara 3D + Human 3D + viseme sheets + reveal cinematic)
+2. Week 2: Part 1C player base meshes (8 meshes + Ne-Yon warmachine sub-variant)
+3. Week 3: Part 2 high-priority NPCs (2A Agent Zero + 2B Locke + 2C Kael + 2D Antiquarian + 2E Shadow Tongue + 2F Architect)
+4. Week 4: Part 9 P0 cinematics (CIN-ELARA-IDLE + CIN-HUMAN-REVEAL + CIN-KAEL-01 + CIN-KAEL-02 + CIN-ARCH-01)
+
+**Phase 2 — P1 narrative-rich (~3 weeks)**
+5. Week 5: Part 2 remaining NPCs (2G through 2W, ~17 characters in 2D lip-sync pipeline)
+6. Week 6: Part 3 Inventor's Suits 3D re-commission (1,080 GLBs batched 50/day through Meshy v5 API)
+7. Week 7: Part 4 Lions Club + seasonal gear (~173 GLBs) + Part 9 P1 cinematics (PROG-01, PRINCE-01, WARLORD-REVEAL-01, DEGEN-IDLE, LIONS-MATERIALIZE, SHADOW-TEETH)
+
+**Phase 3 — P2 environmental + polish (~2 weeks)**
+8. Week 8: Parts 5-6 casino cosmetics + parallax rooms (~83 assets)
+9. Week 9: Parts 7-8 VFX atlases + UI sprites (~180 assets) + final regen pass (Part 9.12 audit regens) + iteration pass on any flagged issues
+
+**Total estimated timeline: ~9 working weeks to complete the full Living Character Sheet asset pipeline.**
+
+### 10.2 — Ordered pre-commission checklist
+
+Before any asset generation begins, the following reference files MUST be authored and saved to `apps/client/public/references/`:
+
+- [ ] `protagonists/elara/front.png` + `protagonists/elara/REFERENCE.md`
+- [ ] `protagonists/human/front.png` + `protagonists/human/REFERENCE.md`
+- [ ] `npcs/{agent_zero,locke,source/phase-1,source/phase-2,source/phase-3,antiquarian,shadow_tongue,architect,authority,cades,collector,corey,degen,eidola,engineer_prince/phase-2,gamemaster,matrikala,meme_palimpsest_entity,minnie,necromancer,nilmorg,programmer,seer,warlord_armored,warlord_host_face,watcher}/front.png` + matching `REFERENCE.md` files
+- [ ] `3d-turnarounds/{species × sex}/front|3q_left|side_left|back.png` (×8 meshes × 4 views = 32 images)
+- [ ] `UV_TEMPLATE.png` for cross-species gear-fit reference
+- [ ] **⚠️ Still awaiting user upload:** Prince phase 1 (engineer_prince/phase-1.png) — placeholder currently in use; final canon upload will trigger regen of CIN-PRINCE-01 start frame
+
+Each REFERENCE.md must cite the Part 2 subsection that defines the character's canon + link to the canonical reference image + list any explicit DO-NOT-DEPICT constraints (e.g. Shadow Tongue's NEVER-BREATHE, Architect's NO-HAIR, Warlord's HELM-NEVER-REMOVED-OUTSIDE-CINEMATIC, etc.)
+
+### 10.3 — Change log / canon corrections applied
+
+This file has gone through multiple canonical correction passes as the user has confirmed real canon vs. outdated bible descriptions. Major corrections logged:
+
+1. **Ne-Yon species** (2026-04-22) — blue-skinned humanoids (not mechanical war-machines by default). Chrome war-machine demoted to sub-variant.
+2. **The Degen** (2026-04-22) — blue-skinned demonic warrior Ne-Yon (not genderfluid sequined carnival barker). Real canon image #2 from batch 1.
+3. **The Gamemaster** (2026-04-22) — fully-mechanized cyborg skull with dual red goggle-eyepieces (not thin prosecutor in spectacles; that's a flashback form).
+4. **The Seer** (2026-04-22) — winged blue-skinned angel with living wooden staff + blue crystal (not plain linen-robe + burnt wooden staff).
+5. **The Watcher** (2026-04-22) — corporate three-piece suit + white Covid mask + third eye (not monastic white robes).
+6. **Engineer + Prince** (2026-04-22) — MERGED as one two-phase character (Prince was the Engineer's earlier identity).
+7. **Collector + Corey** (2026-04-22) — SPLIT into two distinct characters (hooded entity in observation tank + child disciple wearing Collector facemask).
+8. **Eidola** (2026-04-22) — full lore rewrite as Project Sorrow survivor teaching ethics at AI-Archon school (cyberpunk dark-magic aesthetic).
+9. **Matrikala** (2026-04-22) — full lore rewrite as Celebration survivor with canonical burn scars + green-glass pendant.
+10. **Nilmorg** (2026-04-22) — bald pale demon in corporate suit with yellow solid-eye-orbs (not theatrical DMC kart-track checkerboard showman). Image #2 from batch 2.
+11. **Palimpsest Host / the Meme** (2026-04-22, two-pass) — SAME ENTITY as the Meme, true form is corporate holo-face cybernetic-hands executive. Minnie is a child avatar. Image #1 from batch 2.
+12. **The Necromancer** (2026-04-22) — cyberpunk-punk undead elf with red-lensed sunglasses (not Medusa-hair floating undead).
+13. **The Warlord** (2026-04-22) — yellow armor (not brass-dusky-chrome), helm stays down through Act 1, host-face-under-helm canonized as blonde tattooed punk woman for reveal cinematic.
+14. **The Antiquarian** (2026-04-22) — confirmed + refined (silver-and-dark mixed hair not pure silver; dark eyebrows never grey; open-neck shirt not cravat).
+15. **The Programmer** (2026-04-22) — young cyberpunk phase with steampunk goggles + flat cap on Shibuya rooftop (not middle-aged battlefield figure).
+16. **The Architect** (2026-04-22) — validated against user image #3; existing canon correct, no rewrite.
+
+### 10.4 — Open questions (resolve before Phase 2 week 6)
+
+- [ ] Prince phase 1 canonical look (currently placeholder; final canon needed to regenerate CIN-PRINCE-01 start frame and Part 2V/W Phase 1 bundle)
+- [ ] The red-steampunk-goggles parallel between Engineer (Part 2V/W) and Programmer (Part 2R) — deliberate lineage/order, or coincidence? Narrative Easter egg flagged; writer decision pending.
+- [ ] Part 2G Authority + Part 2H CADES — non-humanoid environmental rigs; derived from bibles, not user-confirmed. Low risk of wrongness but worth validating before commissioning their VFX atlases.
+- [ ] CIN-WARLORD-REVEAL-01 plot beat timing — Act 2 or Act 3? Affects P1 vs P2 scheduling.
+
+---
+
+## END OF PRODUCTION BIBLE
+
+> This document is the canonical art production bible for the Living Character Sheet initiative of Dischordian Saga. It supersedes scattered canon references in `docs/production/COMPLETE_ART_PROMPT_BIBLE.md`, `VISUAL_PRODUCTION_BIBLE.md`, `MISSING_ART_PROMPTS.md`, and the various act-specific asset builds — WHERE THOSE FILES CONFLICT WITH THIS ONE, THIS ONE WINS (per 2026-04-22 user canonical-correction passes).
+>
+> Updates to this file should trigger a bump to the 10.3 change log and a git commit with a `CANONICAL` tag in the message.
+
