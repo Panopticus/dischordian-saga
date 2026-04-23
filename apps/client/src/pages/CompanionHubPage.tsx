@@ -17,6 +17,8 @@ import HolographicElara from "@/components/HolographicElara";
 import { Streamdown } from "streamdown";
 import CutsceneOverlay, { QUEST_CUTSCENES, type CutsceneData } from "@/components/CutsceneOverlay";
 import { AtmosphereScope } from "@/engine/AtmosphereScope";
+import LivingPortrait from "@/components/LivingPortrait";
+import CompanionTierCeremony from "@/components/CompanionTierCeremony";
 
 /**
  * Affinity → atmosphere mapping. The same thresholds the exploration
@@ -331,6 +333,11 @@ export default function CompanionHubPage() {
           onClose={() => setActiveCutscene(null)}
         />
       )}
+      {/* Tier-up ceremony — watches `level` for threshold crossings
+          (5/20/40/60/75/90) and plays a one-shot KineticText reveal
+          the first time the player crosses each. Self-seeds on first
+          render so re-opening the Hub at a high tier doesn't re-fire. */}
+      <CompanionTierCeremony level={level} companionName={selectedCompanion.name} />
       <div className="max-w-4xl mx-auto">
         {/* Back Button */}
         <button
@@ -466,6 +473,20 @@ export default function CompanionHubPage() {
               exit={{ opacity: 0, y: -10 }}
               className="space-y-4"
             >
+              {/* Living Portrait Chamber — only wired for companions
+                  we have art for. The Human uses the small-header
+                  stub until the full reveal; dropping a tilted
+                  particle chamber around a Lock icon would read as
+                  parody, not presence. */}
+              {isElara && (
+                <LivingPortrait
+                  npcId="elara"
+                  trustLevel={level}
+                  accentColor="var(--neon-cyan)"
+                  className="w-full max-w-[380px] aspect-square mx-auto"
+                />
+              )}
+
               {/* Personality Traits */}
               <div className="void-surface p-4">
                 <h3 className="font-display text-sm font-bold tracking-wider text-foreground mb-3 flex items-center gap-2">
