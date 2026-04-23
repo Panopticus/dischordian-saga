@@ -398,7 +398,75 @@ The Eyes' moment at Thaloria, 17,000 years ago. Plays when the player first trig
 
 **SUNO v4:** see mus_act3_thaloria_echo in §2.7.
 
+### 2.4 — CIN-ACT3-EYES-FALL — The Eyes' death (14s, P0)
+
+**Output:** `.../act-3/cin_act3_eyes_fall.mp4` · **Trigger:** completion of the §7 EYES_BIOGRAPHY arc across Trade Empire hubs
+
+The beat the player has been assembling. Not shown explicitly — framed as an ABSENCE where the action should be.
+
+**START FRAME:** Night on Thaloria, same field as the opener + echo. Moonlight cool blue-white. Foreground: the helmet sitting intact on the grass, tag dangling, unbroken. Middle-ground: tall grass swaying in night-wind. Deep background: a faint warm orange glow along the horizon — a fire is starting somewhere not visible. Palette: cool moonlight dominant with distant warm-orange threat. Film grain.
+
+**END FRAME:** Same composition, same camera, same framing. But now: the helmet is CRACKED (visor split across the middle), the brass tag has been partially burnt black, the grass immediately around the helmet has been SCORCHED into a 2-meter circular black patch, and the distant warm-orange glow has become a RISING ORANGE WALL — a fire advancing toward the camera from 800m out. Film grain heavier. No sign of the woman. No body. Just what she left behind + what came for her.
+
+**MOTION PROMPT:**
+
+> 14-second one-shot. Camera locked, absolutely no camera motion. This cinematic is about the violence of things CHANGING in a frame that does not.
+> - 0.0-3.0s: start frame. Helmet intact. Grass swaying. Distant orange glow faint.
+> - 3.0-4.0s: the distant orange glow brightens 30% over 1 second. The grass on the horizon is visibly burning now.
+> - 4.0-7.0s: held. The fire advances (visually grows from a hairline to a 15% horizon-height band). The helmet and tag are UNCHANGED. The audience is supposed to feel the contradiction — something violent is happening in the frame and the foreground doesn't know.
+> - 7.0-8.0s: SINGLE FRAME of violence — for exactly 1/24 of a second (one frame at 24fps), the scene FLASHES white, blowing out the entire composition. Immediately cuts back.
+> - 8.0-11.0s: post-flash frame. Helmet NOW CRACKED (the visor splits during the flash frame — the viewer won't catch it on first pass; it just IS cracked now). Tag half-burnt. Circle of scorched grass around the helmet. The rising orange wall is now 40% horizon-height and advancing visibly.
+> - 11.0-14.0s: held. No recovery, no body, no person. Fire keeps advancing (visible 10cm growth over 3 seconds). The helmet sits in the center of its scorched circle like a relic. Final frame holds.
+> 24fps, cold moonlight + warm fire, film grain heavy. This is a DEATH cinematic shown as absence.
+
+**SUNO v4:** see mus_act3_eyes_fall in §2.7.
+
+### 2.5 — CIN-ACT3-INFILTRATION-{INSURGENCY,EMPIRE,HIERARCHY} — 8s each, P1
+
+Three sibling cinematics that play when the player commits to one of the three infiltration paths. Each shares a framing device — "the player enters a room" — but the room is unique to the path. All three use the `vfx_act3_infiltration_choice_beam.png` atlas as the initial setup shot.
+
+**Shared START FRAME (all three):** Dark threshold corridor, 16:9. Three vertical light beams visible in mid-distance (the infiltration_choice_beam atlas), each tinted its faction color. The player-POV (implied) stands at the near end. Palette: dark corridor with three color beams — orange-red + magenta + violet. Film grain.
+
+**CIN-ACT3-INFILTRATION-INSURGENCY — END FRAME:**
+
+> The player has stepped through the orange-red beam. Revealed: an Insurgency safe-house interior. Peeling painted walls in muted olive-drab, a wooden table with a disassembled radio on it, a chair with a canvas field-jacket draped over the back, and the ENGINEER (his recording-canonical Phase 2 form — dreadlocks, red coat, red goggles PUSHED UP onto forehead now so his eyes are visible) standing at the far end of the room. His eyes look DIRECTLY at camera. He lifts one gauntleted hand in a small hello-gesture. The other two beams (magenta + violet) are NO LONGER VISIBLE — only the orange-red remains as a faint edge-rim behind him. Film grain.
+
+**MOTION PROMPT (Insurgency):** 8-second one-shot. Camera locked. Beats:
+- 0.0-2.0s: shared start frame — three beams visible.
+- 2.0-3.5s: subtle walkthrough effect — the camera pushes forward through the orange-red beam (~12% zoom) while the other two beams dim to 15% and slide offscreen. The player has COMMITTED.
+- 3.5-6.0s: the safe-house resolves out of the orange-red glow. The Engineer is standing at the far end, initially in silhouette.
+- 6.0-7.5s: Engineer's silhouette resolves into his full form. His red goggles lift from eyes to forehead (the memoir-mode → listening-mode gesture, per Part 2V/W in the Living Character Sheet bible).
+- 7.5-8.0s: he raises his hand in a small hello. End frame holds.
+Palette: orange-red rim dominant, olive-drab safe-house fills, warm amber lamp accent. Film grain.
+
+**CIN-ACT3-INFILTRATION-EMPIRE — END FRAME:**
+
+> The player has stepped through the magenta beam. Revealed: a New Babylon negotiation parlor — polished black obsidian floor, magenta-neon accent wall with an abstract Trade Empire sigil (geometric, no legible letters), a low glass table, and ADJUDICATOR LOCKE (her Living Character Sheet Part 2B canon: purple hair top-bun, red cyber-eyepatch, purple leather jacket) seated on the far side of the table. She has a small glass of amber liquid in one hand. She is looking at the player with the eyepatch's red scan-line visibly active — processing them. Film grain.
+
+**MOTION PROMPT (Empire):** 8-second one-shot. Same camera pattern as Insurgency — forward-push through the magenta beam, other two beams slide off. Beats:
+- 0.0-2.0s: shared start frame.
+- 2.0-3.5s: push through magenta beam.
+- 3.5-6.0s: parlor resolves. Locke seated at the table, glass in hand.
+- 6.0-7.5s: she tilts her head 5° — the eyepatch scan-line VISIBLY accelerates from 2.8s period to 0.9s period (her canonical "she is speaking" tell, per Part 2B). She is assessing the player.
+- 7.5-8.0s: she raises the glass in a small toast-gesture. End frame.
+Palette: magenta-neon + obsidian black + amber liquor glint. Film grain.
+
+**CIN-ACT3-INFILTRATION-HIERARCHY — END FRAME:**
+
+> The player has stepped through the violet-black beam. Revealed: a void antechamber. No walls, no floor detail — just a polished black surface underfoot fading into violet void. THE ARCHITECT stands at the far end, per his Living Character Sheet Part 2F canon — black hooded cloak, black metallic demon mask with fractal ridges, golden-amber eye-slits blazing at 1.4× baseline (his authority-beat intensity). His silver fractal sigil pendant is visible at his chest, pulsing actively. He has NOT moved — but the audience feels he has been waiting for the player for a very long time. Film grain.
+
+**MOTION PROMPT (Hierarchy):** 8-second one-shot. Same forward-push pattern. Beats:
+- 0.0-2.0s: shared start frame.
+- 2.0-3.5s: push through violet beam.
+- 3.5-5.0s: void antechamber resolves. At 4.0s the Architect is visible as silhouette at frame center. At 5.0s his eye-amber ramps from 0 to 1.4 intensity.
+- 5.0-7.0s: Architect does NOT move. His sigil-pendant pulse accelerates from 4s period to 2s period.
+- 7.0-8.0s: a single thin hairline crack of violet-amber light appears at the top of his mask (foreshadowing his True Final Message reveal — a beat ~4-5 acts later). The crack fades to 0 over the final 0.5s. Audience-catches-it-or-doesn't. End frame.
+Palette: violet void + gold-amber eye-slits + silver sigil flash. Film grain.
+
+**SUNO v4:** see mus_act3_infiltration_{insurgency,empire,hierarchy} in §2.7 — three variants sharing a motif-spine.
+
 ---
+
 
 
 
