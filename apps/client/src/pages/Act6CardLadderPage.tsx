@@ -44,6 +44,7 @@ import {
 } from "@/components/act1/ActNOpponentTauntOverlay";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import LivingBackground from "@/components/LivingBackground";
+import { useActVO } from "@/hooks/useActVO";
 
 import { assetUrl } from "@/lib/assetUrl";
 type LadderView = "ladder" | "matchup" | "battle" | "postmatch" | "stance";
@@ -94,6 +95,7 @@ export default function Act6CardLadderPage() {
   const { wins, losses, defeatedOpponents, recordWin, recordLoss } =
     useAct6LadderStore();
   const { setNarrativeFlag, state: gameState } = useGame();
+  const vo = useActVO("6");
 
   const [view, setView] = useState<LadderView>("ladder");
   const [postMatchResult, setPostMatchResult] = useState<{
@@ -153,11 +155,13 @@ export default function Act6CardLadderPage() {
         if (currentOpponent.id === "act6_the_woman_she_was") {
           setNarrativeFlag("act6_elara_confession_heard", true);
           fireCompanionComment("act6_elara_confession_heard");
+          vo.speak("elara-confession-01");
         } else if (currentOpponent.id === "act6_the_detective_in_the_wall") {
           setNarrativeFlag("act6_human_confession_heard", true);
           setNarrativeFlag("act6_confession_close", true);
           fireCompanionComment("act6_human_confession_heard");
           fireCompanionComment("act6_confession_close");
+          vo.speak("human-confession-01");
         }
       } else {
         recordLoss(currentOpponent.id);
@@ -168,7 +172,7 @@ export default function Act6CardLadderPage() {
       });
       setView("postmatch");
     },
-    [currentOpponent, recordWin, recordLoss, setNarrativeFlag],
+    [currentOpponent, recordWin, recordLoss, setNarrativeFlag, vo],
   );
 
   const anyStanceTaken = useMemo(
@@ -185,9 +189,19 @@ export default function Act6CardLadderPage() {
       // itself still reads ACT_6_CONFESSION_STANCE_FLAGS (the four above).
       setNarrativeFlag("act6_stance_chosen", true);
       fireCompanionComment(flag);
+      const stanceLineId: Record<
+        (typeof CONFESSION_STANCES)[number]["flag"],
+        string
+      > = {
+        act6_confession_close_empathy: "stance-empathy",
+        act6_confession_close_challenge: "stance-challenge",
+        act6_confession_close_refusal: "stance-refusal",
+        act6_confession_close_reluctant_ally: "stance-reluctant-ally",
+      };
+      vo.speak(stanceLineId[flag]);
       setView("ladder");
     },
-    [setNarrativeFlag],
+    [setNarrativeFlag, vo],
   );
 
   const handlePostMatchContinue = useCallback(() => {

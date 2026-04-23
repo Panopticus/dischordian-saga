@@ -49,6 +49,7 @@ import {
   saveStoryProgress,
 } from "@/game/storyMode";
 import LivingBackground from "@/components/LivingBackground";
+import { useActVO } from "@/hooks/useActVO";
 
 type StanceId = "fight" | "listen" | "lay_down";
 
@@ -152,9 +153,24 @@ type Modal =
   | { kind: "prefight"; chapter: Act4PrisonerChapter }
   | { kind: "resolution"; chapter: Act4PrisonerChapter; stance: Stance };
 
+/**
+ * The act4-vo-lines.json manifest shipped with shorter chapter-id
+ * suffixes (`the_warlord`, `the_white_oracle`) than the canonical
+ * Act4PrisonerChapter["id"] values (`the_warlord_rematch`,
+ * `the_white_oracle_meets`). Map at the call site rather than
+ * re-generating the MP3s — they're already on S3.
+ */
+const CHAPTER_VO_SUFFIX: Record<Act4PrisonerChapter["id"], string> = {
+  the_cell: "the_cell",
+  the_extraction: "the_extraction",
+  the_warlord_rematch: "the_warlord",
+  the_white_oracle_meets: "the_white_oracle",
+};
+
 export default function Act4PrisonerStoryPage() {
   const { state, setNarrativeFlag } = useGame();
   const flags = state.narrativeFlags ?? {};
+  const vo = useActVO("4");
 
   const [progress, setProgress] = useState(DEFAULT_STORY_PROGRESS);
   const [modal, setModal] = useState<Modal>({ kind: "none" });
@@ -212,6 +228,7 @@ export default function Act4PrisonerStoryPage() {
       }
       if (!flags[chapter.completedFlag]) {
         setNarrativeFlag(chapter.completedFlag, true);
+        vo.speak(`extraction-${CHAPTER_VO_SUFFIX[chapter.id]}`);
         toast.success(`Act 4 · ${chapter.title}`, {
           description:
             "The memory is yours now. Another door in the Prisoner's cell quietly unlocks.",
@@ -220,7 +237,17 @@ export default function Act4PrisonerStoryPage() {
       }
       setModal({ kind: "resolution", chapter, stance });
     },
-    [flags, progress, setNarrativeFlag],
+    [flags, progress, setNarrativeFlag, vo],
+  );
+
+  // Prisoner opener line fires when a chapter's prefight modal opens —
+  // the moment the player commits to walking into the room.
+  const openPrefight = useCallback(
+    (chapter: Act4PrisonerChapter) => {
+      setModal({ kind: "prefight", chapter });
+      vo.speak(`prisoner-${CHAPTER_VO_SUFFIX[chapter.id]}`);
+    },
+    [vo],
   );
 
   return (
@@ -273,7 +300,7 @@ export default function Act4PrisonerStoryPage() {
                 <button
                   type="button"
                   disabled={!unlocked}
-                  onClick={() => setModal({ kind: "prefight", chapter })}
+                  onClick={() => openPrefight(chapter)}
                   data-testid={`prisoner-chapter-${chapter.id}`}
                   className={[
                     "w-full rounded-md border px-5 py-4 text-left transition-colors",
