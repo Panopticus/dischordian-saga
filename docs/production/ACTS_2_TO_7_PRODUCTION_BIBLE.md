@@ -829,7 +829,47 @@ Violet + amber palette. Film grain.
 
 > Ration-wrapper-paper background (dim beige, creased, slightly translucent) with hand-scrawled KAEL HANDWRITING in low-light-red-flashlight ink. The handwriting lists 5 sectors and 20 worlds in dense columns — intentionally abstract glyph-marks, NOT legible text. Used as background overlay on the Act 5 opener + as atmospheric element in the War Room recruitment UI.
 
+### 5.2 — CIN-ACT5-OPENER — Act 5 opener (21s, P0)
+
+**Output:** `apps/client/public/videos/acts/act-5/cin_act5_opener.mp4` · 16:9 · 1920×1080
+
+Builds on the existing `acts-4-through-7-asset-pipeline.md` Act 5 spec.
+
+**START FRAME:** Dim interior at night, 16:9. A ration wrapper on a scratched metal table, low red-flashlight illumination. The wrapper is flipped to its blank back-side, where a single pre-written word is faintly visible in pencil (render as abstract mark — not legible). Palette: near-black with red-flashlight warmth. Film grain heavy.
+
+**END FRAME:** Same wrapper, same table, but the wrapper is now COVERED in dense red-pencil handwriting — Kael's map (5 sectors, 20 worlds, per `vfx_act5_kael_map_ink` atlas). A faint outline of Iron Lion's silhouette is visible in a mirror surface at frame edge (he is watching from elsewhere). Palette: same red-flashlight palette, slightly warmer as if a second light has entered the frame. Film grain.
+
+**MOTION PROMPT:**
+
+> 21-second one-shot. Camera locked, close on the table. Beats:
+> - 0-5s: start frame holds — blank wrapper, single faint pencil mark.
+> - 5-15s: across 10 seconds, the handwriting APPEARS on the wrapper — not by a visible hand, but emerging line by line as if drawn by someone just off-camera. Each new line appears at roughly one-second intervals. The marks are scrawled, hasty, desperate. By 15s the wrapper is covered.
+> - 15-18s: the camera does NOT move, but the mirror at frame edge catches a reflection — Iron Lion's silhouette visible for 2s then gone.
+> - 18-21s: end frame holds. The map is complete. Somewhere else a gunshot echoes (audio hand-off).
+> 24fps, red-flashlight palette dominant. Film grain.
+
+**SUNO v4:** see mus_act5_opener in §5.7.
+
+### 5.3 — CIN-ACT5-BULB-DIMS (8s, P1) + CIN-ACT5-SECTOR-WAKES (8s, P1)
+
+Two counterpart cinematics that play when the Vortex Advance crosses its lit-sector ratio thresholds:
+- Bulb Dims: lit sectors fall below 20% — warning beat, community loses ground
+- Sector Wakes: community reclamation completes — celebration beat, community gains ground
+
+Shared composition: a stylized star-map aerial view of a single sector with a central BULB icon representing civilization status. Palette contrast: Bulb Dims = cold violet consumption encroaching, Sector Wakes = warm golden illumination spreading.
+
+**CIN-ACT5-BULB-DIMS — END FRAME:** star-map view with vortex_consumption_edge texture at 70% opacity encroaching from all edges. Central bulb dimmed to 20% of starting brightness. Surrounding star-points mostly dark. Cold violet dominant, slight warm amber hint at the bulb's last resistance. Film grain.
+
+**MOTION (Bulb Dims):** 8s. Camera locked. Beats: 0-2s map with healthy bright bulb. 2-6s vortex_consumption_edge fades in from 0 to 70% over 4s. 6-7s bulb dims from 100% to 20% brightness. 7-8s end held. Mood: the worst beat the player will ever see on a healthy sector.
+
+**CIN-ACT5-SECTOR-WAKES — END FRAME:** star-map same scale. Central bulb at 150% of starting brightness (overdriven with warm amber bloom). Surrounding star-points LIT — maybe 40% of them glowing. No vortex_consumption overlay. Warm golden dominant, hints of cyan hope around the periphery. Film grain.
+
+**MOTION (Sector Wakes):** 8s. Camera locked. Beats: 0-2s map with dim bulb + dark sector. 2-5s bulb brightens from 40% to 150% over 3s. 5-7s surrounding stars light up one-by-one. 7-8s end held. Mood: the best beat the player will ever see on a recovered sector. Paired with Bulb Dims — they use identical framing so the player feels the difference when they play.
+
+**SUNO v4:** see mus_act5_bulb_dims + mus_act5_sector_wakes in §5.7.
+
 ---
+
 
 
 
