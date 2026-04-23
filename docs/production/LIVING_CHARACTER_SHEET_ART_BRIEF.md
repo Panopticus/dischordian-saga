@@ -3023,3 +3023,25 @@ Consolidates every Veo 3.1 / Seedance 2.0 motion clip referenced throughout Part
 
 ---
 
+### CIN-SHADOW-TEETH — Shadow Tongue second-row-teeth reveal (4s trigger, P1)
+
+**Output:** `apps/client/public/videos/character-sheet/shadow_tongue_second_teeth.mp4` · **Aspect:** 1:1 square · **Resolution:** 2048×2048 · **Use:** plays on specific dialog lines flagged with `revealSecondTeeth: true` in the VO manifest (reserved for revelatory lines like "I am the universe's editor")
+
+**START FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 1:1 square, 2048×2048. Shadow Tongue in corporate bust framing (per Part 2E canon): tall androgynous executive-presenting figure, near-black violet-undertone skin, slicked-back black smoke-hair, violet slit-pupil eyes slightly too large, charcoal-to-violet pinstripe three-piece suit, deep violet silk tie with CRT-scanline pattern, "EDITOR" lanyard at lapel. Corporate night-office backdrop — floor-to-ceiling glass reflecting neon city grid, the Loredex volume visible on a dark desk in the deep background. Mouth CLOSED in the almost-correct neutral, slightly-too-wide-by-4% baseline. Fingertip violet text-glyph mist trailing at chest level. Film grain. 4K. No rendered text except the EDITOR lanyard.
+
+**END FRAME (Nano Banana 2):**
+> Hyper-realistic cinematic still, 1:1 square, 2048×2048. Same Shadow Tongue, same framing — but MOUTH FULLY OPEN in hyperextended configuration beyond human jaw range. Jaw dropped further than anatomically possible for a humanoid, mouth corners retracted wider than cheek geometry should allow. Inside the mouth cavity: TWO ROWS OF TEETH visible — the normal outer row, and a SECOND INNER ROW set deeper in the jaw (small, sharp, inward-curving, humanoid-adjacent but clearly wrong). Violet slit-pupil eyes have doubled in bloom intensity. Face asymmetry ramped up — cheekbones visibly offset by 8%, almost imperceptible but wrong. Fingertip violet text cascades at full intensity. Lanyard briefly reads "HIERARCHY SVP" instead of "EDITOR" (text shimmer caught at this frame). Film grain. 4K. Single rendered-text detail: "HIERARCHY SVP" on the lanyard (reserved text, only on this frame).
+
+**VEO 3.1 MOTION PROMPT:**
+> 4-second one-shot trigger cinematic. Camera locked static. This is a TIGHT BURST — the horror moment itself is ~1 second bracketed by setup and settle.
+> - **0.0–1.5s (composed baseline):** Shadow Tongue holds the closed-mouth neutral pose. Fingertip text streams at baseline. He is listening. Subliminal face-asymmetry cycle continues at baseline. Viewer watches, waiting for the line.
+> - **1.5–2.5s (jaw hyperextension):** The jaw OPENS — mouth opens progressively wider across 1.0 seconds, jaw dropping past anatomical human limit, cheeks pulling back wider than should be possible. Simultaneously: violet eye-glow ramps from 0.3 to 0.6 intensity. Face asymmetry spikes from baseline 0.4 to 0.8. The lanyard text begins to shimmer from "EDITOR" toward "HIERARCHY SVP."
+> - **2.5–3.0s (second-row reveal):** Held at maximum hyperextension. INSIDE THE MOUTH, the second inner row of teeth becomes visible — they don't appear via VFX, they are simply THERE inside a mouth that should not open this wide. Eye-bloom hits 0.6 maximum. Lanyard fully reads "HIERARCHY SVP" on one frame at 2.7s.
+> - **3.0–4.0s (settle):** Jaw returns to closed-neutral position over 1 second. Eye-bloom drops back to baseline 0.3. Face asymmetry drops back to baseline 0.4. Lanyard text shimmers back to "EDITOR." Fingertip text settles. Viewer is left uncertain whether they actually saw what they just saw. Final frame at 4.0s matches START FRAME composition almost exactly — the performance has been reset.
+> Cinematography: locked static camera, no motion. All motion is subject-internal. 24fps. Film grain preserved.
+
+**Audio hand-off note:** Sustained held note throughout (no musical movement — the music PAUSES on this beat while the VO line plays). The VO line itself (from the manifest) is timed to land on the hyperextension peak at 2.5s. A single sharp subsonic sub-bass hit at 1.5s (jaw-open beat), then silence under the voice.
+
+---
+
