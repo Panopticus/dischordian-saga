@@ -2168,3 +2168,37 @@ html.reduce-motion .ark-ambient-library-shaft {
 html.reduce-motion .duelyst-hand-card__button {
   transform: none;
 }
+
+/* ═══════════════════════════════════════════════════════
+   QUALITY TIER — CSS gates for low-power devices.
+   applyQualityTierToDOM() adds html.quality-low when the
+   runtime detection fires. Consumers below collapse their
+   per-element particle counts and disable the more
+   expensive keyframe chains.
+   ═══════════════════════════════════════════════════════ */
+html.quality-low .ambient-skybox__nebula {
+  /* Nebula glow is the single most expensive CSS layer on
+     the ambient skybox — 8s scale + blur animation. Drop it
+     on low tier and keep only the static star dust + void. */
+  animation: none !important;
+  opacity: 0 !important;
+}
+html.quality-low .ark-ambient-cryo-vapor:nth-child(n+8),
+html.quality-low .ark-ambient-bridge-star:nth-child(n+10),
+html.quality-low .ark-ambient-library-dust:nth-child(n+12) {
+  /* Thin out per-room particle counts on low tier — keep the
+     ambient vocabulary readable but drop roughly half the
+     span elements. :nth-child(n+8) hides everything from the
+     8th onward. */
+  display: none;
+}
+html.quality-low .living-portrait__glow,
+html.quality-low .living-portrait__particle {
+  animation: none !important;
+}
+html.quality-low .living-portrait__particle {
+  opacity: 0 !important;
+}
+html.quality-low .chess-arena-morality-wash {
+  animation: none !important;
+}
