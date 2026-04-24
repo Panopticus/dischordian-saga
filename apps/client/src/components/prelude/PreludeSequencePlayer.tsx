@@ -17,7 +17,7 @@
  * cutscene end via `beatHasInteraction` returning false.
  */
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   PRELUDE_BEATS,
@@ -34,7 +34,12 @@ import {
   usePreludeSequenceState,
   type UsePreludeSequenceStateOptions,
 } from "./usePreludeSequenceState";
-import { isBreathBeat } from "./preludeSequenceReducer";
+import { beatHasInteraction, isBreathBeat } from "./preludeSequenceReducer";
+import {
+  getPreludeCutsceneBookends,
+  getPreludeCutsceneVideo,
+  PRELUDE_MUSIC,
+} from "@/data/preludeAct1Deliverables";
 
 export interface PreludeSequencePlayerProps
   extends UsePreludeSequenceStateOptions {
@@ -66,8 +71,10 @@ function resolveRoomBackdrop(beat: PreludeBeat): string | null {
   return `/${parent.room.webp.replace(/^apps\/client\/public\//, "")}`;
 }
 
-/** Resolve the cutscene public URL from its manifest path. */
+/** Resolve the cutscene public URL — prefer delivered CDN video, fall back to Bible path. */
 function resolveCutsceneUrl(beat: PreludeBeat): string {
+  const delivered = getPreludeCutsceneVideo(beat.id);
+  if (delivered) return delivered;
   return `/${beat.cutscene.mp4.replace(/^apps\/client\/public\//, "")}`;
 }
 
@@ -103,6 +110,62 @@ export function PreludeSequencePlayer({
   const roomBackdrop = useMemo(() => resolveRoomBackdrop(beat), [beat]);
   const cutsceneUrl = useMemo(() => resolveCutsceneUrl(beat), [beat]);
   const activeEffects = useMemo(() => buildActiveEffects(beat), [beat]);
+  const bookends = useMemo(() => getPreludeCutsceneBookends(beat.id), [beat]);
+
+  /**
+   * Landing-still window — between a non-interactive beat's cutscene
+   * ending and the reducer advancing to the next beat, hold the end
+   * bookend on screen for 1.5s. The reducer advances directly from
+   * `cutscene` to the next beat's `cutscene` on `cutscene_ended` for
+   * non-interactive beats, so without this the transition is a hard
+   * cut. `interceptedCutsceneEnded` buffers that call.
+   */
+  const [showLandingBookend, setShowLandingBookend] = useState(false);
+  const landingTimerRef = useRef<number | null>(null);
+  const interceptedCutsceneEnded = () => {
+    // Interactive beats wait for interaction UI — fire immediately so
+    // the reducer moves to phase=completed and the UI component renders.
+    if (beatHasInteraction(beat)) {
+      cutsceneEnded();
+      return;
+    }
+    // No landing still available → fall through to the old behaviour.
+    if (!bookends) {
+      cutsceneEnded();
+      return;
+    }
+    setShowLandingBookend(true);
+    if (landingTimerRef.current) window.clearTimeout(landingTimerRef.current);
+    landingTimerRef.current = window.setTimeout(() => {
+      setShowLandingBookend(false);
+      cutsceneEnded();
+      landingTimerRef.current = null;
+    }, 1500);
+  };
+
+  // Reset landing bookend whenever we enter a new beat so stale state
+  // from a prior beat never leaks forward.
+  useEffect(() => {
+    setShowLandingBookend(false);
+    return () => {
+      if (landingTimerRef.current) {
+        window.clearTimeout(landingTimerRef.current);
+        landingTimerRef.current = null;
+      }
+    };
+  }, [beat.id]);
+
+  /**
+   * Prelude music bed — loops the Elara theme softly underneath every
+   * beat. Separate from cutscene audio so it survives scene changes.
+   * Kicks in on first user gesture (autoplay policy) via the <video>'s
+   * play which a browser already granted interaction for.
+   */
+  const bedRef = useRef<HTMLAudioElement | null>(null);
+  useEffect(() => {
+    if (!bedRef.current) return;
+    bedRef.current.volume = Math.max(0, Math.min(1, volume * 0.35));
+  }, [volume]);
 
   // Fire onBeatComplete externally once per beat transition
   const lastAnnouncedRef = useRef<string>("");
@@ -217,19 +280,48 @@ export function PreludeSequencePlayer({
       {/* Active VFX overlays for this beat */}
       <PreludeVfxOverlay activeEffects={activeEffects} />
 
+      {/* Cutscene opening bookend — painting fades in first, then the
+          video fades in on top as it starts to play. Keeps the scene
+          readable even if the video is slow to buffer. */}
+      <AnimatePresence>
+        {phase === "cutscene" && bookends && (
+          <motion.div
+            key={`bookend-start-${beat.id}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.0, ease: "easeOut" }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage: `url(${bookends.start.webp})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              zIndex: 8,
+            }}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Cutscene video */}
-      {phase === "cutscene" && (
+      {phase === "cutscene" && !showLandingBookend && (
         <motion.video
           key={`cutscene-${beat.id}`}
           ref={videoRef}
           src={cutsceneUrl}
           autoPlay
           playsInline
-          onEnded={cutsceneEnded}
+          onEnded={interceptedCutsceneEnded}
+          // If the delivered video 404s or fails to decode (e.g. in dev
+          // before the media pipeline has uploaded), don't strand the
+          // player on a black screen — treat the error as end-of-cutscene
+          // so the state machine advances. The bookend still remains
+          // visible, giving the beat a paced audio-drama feel.
+          onError={interceptedCutsceneEnded}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
           style={{
             position: "absolute",
             inset: 0,
@@ -240,6 +332,42 @@ export function PreludeSequencePlayer({
           }}
         />
       )}
+
+      {/* Cutscene landing bookend — held for 1.5s between a
+          non-interactive beat's cutscene ending and the reducer
+          advancing. Gives each transition a paced fade instead of
+          a hard cut. */}
+      <AnimatePresence>
+        {showLandingBookend && bookends && (
+          <motion.div
+            key={`bookend-end-${beat.id}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage: `url(${bookends.end.webp})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              zIndex: 9,
+            }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Looping Prelude music bed. `loop` + single mount at root so
+          the track survives beat transitions. `muted` fallback kept
+          off — volume is driven by the volume prop (× 0.35 for bed). */}
+      <audio
+        ref={bedRef}
+        src={PRELUDE_MUSIC.ambientShip}
+        autoPlay
+        loop
+        preload="auto"
+        aria-hidden="true"
+      />
 
       {/* Post-cutscene interaction (Beat J only today) */}
       {renderBeatInteraction()}
