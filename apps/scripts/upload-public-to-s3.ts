@@ -1,6 +1,6 @@
 /**
- * Upload apps/client/public/{art,audio,videos,music,games}/** to
- * s3://dgrsart/cdn/client-public/**. Must run before the asset-url
+ * Upload apps/client/public/{art,audio,videos,music,games,vo,characters,vfx-atlases}/**
+ * to s3://dgrsart/cdn/client-public/**. Must run before the asset-url
  * codemod; otherwise the deployed app will 404 on every media URL.
  *
  * Usage:
@@ -23,7 +23,7 @@ const BUCKET = "dgrsart";
 const REGION = "us-east-2";
 const PREFIX = "cdn/client-public";
 const PUBLIC_ROOT = join(process.cwd(), "apps", "client", "public");
-const TRACKED_DIRS = ["art", "audio", "videos", "music", "games", "vo", "characters"] as const;
+const TRACKED_DIRS = ["art", "audio", "videos", "music", "games", "vo", "characters", "vfx-atlases"] as const;
 const CONCURRENCY = 16;
 
 const CONTENT_TYPES: Record<string, string> = {
